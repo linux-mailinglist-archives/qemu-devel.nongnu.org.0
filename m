@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC37A1D352A
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:33:42 +0200 (CEST)
-Received: from localhost ([::1]:33348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAC101D3565
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:41:58 +0200 (CEST)
+Received: from localhost ([::1]:54228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZFrh-0003SE-9H
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:33:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52020)
+	id 1jZFzh-00043c-S2
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:41:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jZFpj-0001cJ-Pl
- for qemu-devel@nongnu.org; Thu, 14 May 2020 11:31:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44733
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jZFph-0002hY-Rl
- for qemu-devel@nongnu.org; Thu, 14 May 2020 11:31:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589470296;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PawMKXT3yUDmpgOrenVqnfNRcSxIo+BufxdLLcivY2k=;
- b=jFjwQEYDeGuTCT2IbOmHWxcSvFwZmd8bcAm1ZGekjXaNI1qDdsC8KaJRTZlSfIw+Ioafjp
- 7x4IbJF+yJ78c/r1puH7yAhqkI93yS4S15ySjDpNjinWZ872HJztfPDGZtJ7rgM4AfUcNb
- i9XQMQ7MbIs3GBYaDOI/keBXWAzvGZQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-UVZbLNZLOEa1QDfPv6X5BA-1; Thu, 14 May 2020 11:31:34 -0400
-X-MC-Unique: UVZbLNZLOEa1QDfPv6X5BA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F6FEEC1A2;
- Thu, 14 May 2020 15:31:33 +0000 (UTC)
-Received: from work-vm (ovpn-114-247.ams2.redhat.com [10.36.114.247])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 397855C220;
- Thu, 14 May 2020 15:31:32 +0000 (UTC)
-Date: Thu, 14 May 2020 16:31:29 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Li Feng <fengli@smartx.com>
-Subject: Re: kvm_buf_set_msrs: Assertion `ret == cpu->kvm_msr_buf->nmsrs'
- failed.
-Message-ID: <20200514153129.GP2787@work-vm>
-References: <CAHckoCymFfuVd=tKV-hk+PHn2fk6ydWjSxwKVorj9Qe5KV6nGQ@mail.gmail.com>
- <CAHckoCzWmN4oedOHMvR_TbbBcbYqSjg1fUr2RjJkh-iuZO-Jng@mail.gmail.com>
- <55b6466c-0769-6652-a237-c6bc18704064@redhat.com>
- <20200514125220.GJ2787@work-vm>
- <CAHckoCyegWG9yH_y6VjHhnghfHJD-Wq+EmOyRZE3EYguTOHfPw@mail.gmail.com>
- <20200514151600.GO2787@work-vm>
- <CAHckoCxc2XTA3ckU0sq-BmbZZFtfAY_GaEOW46XFzfZ2qXjeMQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jZFyl-00038T-6V
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 11:40:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jZFyj-00053e-V3
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 11:40:58 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jZFyh-0007Ko-Py
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 15:40:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B4B0D2E810A
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 15:40:55 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAHckoCxc2XTA3ckU0sq-BmbZZFtfAY_GaEOW46XFzfZ2qXjeMQ@mail.gmail.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 11:31:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 14 May 2020 15:31:49 -0000
+From: Richard Henderson <rth@twiddle.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: i386 linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: husseydevin laurent-vivier rth
+X-Launchpad-Bug-Reporter: easyaspi314 (husseydevin)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <158941344748.31408.6066832909673515633.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158947030987.31351.7177611672243491107.malone@chaenomeles.canonical.com>
+Subject: [Bug 1878501] Re: qemu-i386 does not define AT_SYSINFO
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 927c44a5a33502eae9bd39b8787cc78997412106
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 11:40:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,143 +73,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, vkuznets@redhat.com,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Reply-To: Bug 1878501 <1878501@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Li Feng (fengli@smartx.com) wrote:
-> Dr. David Alan Gilbert <dgilbert@redhat.com> 于2020年5月14日周四 下午11:16写道：
-> >
-> > * Li Feng (fengli@smartx.com) wrote:
-> > > EXSi CPU is : Intel(R) Xeon(R) CPU E5-2640 v3 @ 2.60GHz
-> > > This is my vm, I run qemu in it.
-> >
-> > Do you know what the real hardware is?
-> What information do you need? I could send it out.
-> The EXSi version: VMware ESXi, 6.5.0, 5969303
+We do not define AT_SYSINFO because we do not implement the vdso.
+All we have so far is the vsyscall page, which is not the same thing.
 
-VMWare is saying to the guest it's an E5-2640 v3; is that what
-your real CPU is?
+I've had patches for the vdso for a number of years; perhaps it's
+time to update and re-send that...
 
-Dave
+-- =
 
-> >
-> > Dave
-> >
-> > > (base) 20-05-14 15:32:50 root@31_216:~  lscpu
-> > > Architecture:          x86_64
-> > > CPU op-mode(s):        32-bit, 64-bit
-> > > Byte Order:            Little Endian
-> > > CPU(s):                16
-> > > On-line CPU(s) list:   0-15
-> > > Thread(s) per core:    1
-> > > Core(s) per socket:    1
-> > > Socket(s):             16
-> > > NUMA node(s):          1
-> > > Vendor ID:             GenuineIntel
-> > > CPU family:            6
-> > > Model:                 63
-> > > Model name:            Intel(R) Xeon(R) CPU E5-2640 v3 @ 2.60GHz
-> > > Stepping:              2
-> > > CPU MHz:               2599.998
-> > > BogoMIPS:              5199.99
-> > > Virtualization:        VT-x
-> > > Hypervisor vendor:     VMware
-> > > Virtualization type:   full
-> > > L1d cache:             32K
-> > > L1i cache:             32K
-> > > L2 cache:              256K
-> > > L3 cache:              20480K
-> > > NUMA node0 CPU(s):     0-15
-> > > Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep
-> > > mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall
-> > > nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology
-> > > tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 pcid
-> > > sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx
-> > > f16c rdrand hypervisor lahf_lm abm cpuid_fault invpcid_single
-> > > tpr_shadow vnmi ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2
-> > > invpcid xsaveopt arat
-> > >
-> > > Thanks,
-> > >
-> > > Feng Li
-> > >
-> > > Dr. David Alan Gilbert <dgilbert@redhat.com> 于2020年5月14日周四 下午8:52写道：
-> > > >
-> > > > * Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
-> > > > > Cc'ing David/Paolo in case they have a clue...
-> > > > >
-> > > > > On 5/14/20 1:27 PM, Li Feng wrote:
-> > > > > > Dear all,
-> > > > > >
-> > > > > > I have encountered a weird crash.
-> > > > > > I remember before a few days it works well and I rebase my code from upstream.
-> > > > > >
-> > > > > > This is the command:
-> > > > > > /root/qemu-master/x86_64-softmmu/qemu-system-x86_64 -enable-kvm
-> > > > > > -device virtio-balloon -cpu host -smp 4 -m 2G -drive
-> > > > > > file=/root/html/fedora-10g.img,format=raw,cache=none,aio=native,if=none,id=drive-virtio-disk1
-> > > > > > -device virtio-blk-pci,scsi=off,drive=drive-virtio-disk1,id=virtio-disk1,bootindex=1
-> > > > > > -device virtio-net,netdev=nw1,mac=00:11:22:EE:EE:10 -netdev
-> > > > > > tap,id=nw1,script=no,downscript=no,ifname=tap0 -serial mon:stdio
-> > > > > > -nographic -object
-> > > > > > memory-backend-file,id=mem0,size=2G,mem-path=/dev/hugepages,share=on
-> > > > > > -numa node,memdev=mem0 -vnc 0.0.0.0:100 -machine usb=on,nvdimm -device
-> > > > > > usb-tablet -monitor unix:///tmp/a.socket,server,nowait -device
-> > > > > > virtio-serial-pci,id=virtio-serial0,max_ports=16 -chardev
-> > > > > > socket,id=channel1,path=/tmp/helloworld1,server,nowait -device
-> > > > > > virtserialport,chardev=channel1,name=com.redhat.rhevm.vdsm1,bus=virtio-serial0.0,id=port1
-> > > > > > -qmp tcp:0.0.0.0:2234,server,nowait
-> > > > > > qemu-system-x86_64: error: failed to set MSR 0x48f to 0x7fefff00036dfb
-> > > > > > qemu-system-x86_64: /root/qemu-master/target/i386/kvm.c:2695:
-> > > > > > kvm_buf_set_msrs: Assertion `ret == cpu->kvm_msr_buf->nmsrs' failed.
-> > > >
-> > > > 48f is MSR_IA32_VMX_TRUE_EXIT_CTLS
-> > > > I've not got a note of seeing that one before.
-> > > >
-> > > > > > This is the commit record:
-> > > > > > *   c88f1ffc19 - (origin/master, origin/HEAD) Merge remote-tracking
-> > > > > > branch 'remotes/kevin/tags/for-upstream' into staging (3 days ago)
-> > > > > > <Peter Maydell>
-> > > > > > |\
-> > > > > > | * 47e0b38a13 - block: Drop unused .bdrv_has_zero_init_truncate (3
-> > > > > > days ago) <Eric Blake>
-> > > > > > | * dbc636e791 - vhdx: Rework truncation logic (3 days ago) <Eric Blake>
-> > > > > > | * bda4cdcbb9 - parallels: Rework truncation logic (3 days ago) <Eric Blake>
-> > > > > > | * be9c9404db - ssh: Support BDRV_REQ_ZERO_WRITE for truncate (3 days
-> > > > > > ago) <Eric Blake>
-> > > > > > | * fec00559e7 - sheepdog: Support BDRV_REQ_ZERO_WRITE for truncate (3
-> > > > > > days ago) <Eric Blake>
-> > > > > > | * 2f98910d5b - rbd: Support BDRV_REQ_ZERO_WRITE for truncate (3 days
-> > > > > > ago) <Eric Blake>
-> > > > > >
-> > > > > > I run this qemu in a VM base on EXSi.
-> > > > > >
-> > > > > > Does anyone have the same issue?
-> > > >
-> > > > cc'ing in Vitaly since he knows VMWare stuff.
-> > > >
-> > > > What's your host CPU?
-> > > >
-> > > > Dave
-> > > >
-> > > > > >
-> > > > > > Thanks,
-> > > > > >
-> > > > > > Feng Li
-> > > > > >
-> > > > >
-> > > > --
-> > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> > > >
-> > >
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> >
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878501
 
+Title:
+  qemu-i386 does not define AT_SYSINFO
+
+Status in QEMU:
+  New
+
+Bug description:
+  qemu-i386 does not define the AT_SYSINFO auxval when running i386
+  Linux binaries.
+
+  On most libcs, this is properly handled, but this is mandatory for the
+  i686 Bionic (Android) libc or it will segfault.
+
+  This is due to a blind assumption that getauxval(AT_SYSINFO) will
+  return a valid function pointer:
+
+  The code varies from version to version, but it looks like this:
+
+  void *__libc_sysinfo;
+  // mangled as _Z19__libc_init_sysinfov
+  void __libc_init_sysinfo() {
+    bool dummy;
+    // __bionic_getauxval =3D getauxval
+    __libc_sysinfo =3D reinterpret_cast<void *>(__bionic_getauxval(AT_SYSIN=
+FO, dummy));
+  }
+
+  A simple way to reproduce is to compile a basic C program against the
+  NDK:
+
+  int main(void) { return 0; }
+
+  $ i686-linux-android-clang -static empty.c -o empty
+  $ qemu-i386 -cpu max ./empty
+  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+  Segmentation fault
+
+  The place where it segfaults is misleading: It will, at least on the
+  current NDK, crash on __set_thread_area, this is due to it calling a
+  function pointer to __libc_sysinfo returned by __kernel_syscall.
+
+  QEMU 4.1.1 (aarch64)
+  Pixel 2 XL via Termux
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878501/+subscriptions
 
