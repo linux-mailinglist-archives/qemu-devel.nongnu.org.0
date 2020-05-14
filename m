@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5F11D26EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 08:01:02 +0200 (CEST)
-Received: from localhost ([::1]:53084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD8C1D274A
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 08:11:58 +0200 (CEST)
+Received: from localhost ([::1]:44368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ6vV-0001hX-9m
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 02:01:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36632)
+	id 1jZ765-0006ae-2P
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 02:11:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6ph-0005ty-4W
- for qemu-devel@nongnu.org; Thu, 14 May 2020 01:55:01 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52371
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pk-00063V-T4
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 01:55:04 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51630
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pg-0001k8-78
- for qemu-devel@nongnu.org; Thu, 14 May 2020 01:55:00 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pi-0001mj-Rl
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 01:55:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589435699;
+ s=mimecast20190719; t=1589435702;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uumDVo9FnEv61j8m5KShndosRNbqze6oP9Q3Z3/w+KU=;
- b=U4L8GZykgwxFi/ZbByDLLy+3wEcI98SYUq3HFGiZmlFFq61QXJ+d9hgFNDt3wT4bMokSnZ
- RB2ATg2jdWqBbR/H+cYciu+mhiBA1IULi8LmRAEH7wn+z2jBAY4R4G373ypTuMD/j86X/B
- 0v8q4udhOy5QzL7OczFVHfEC4iZ0EAI=
+ bh=lQgTC1NAlLzyKabzDAvHVB05mAI15cmOJ+EmihX/nkQ=;
+ b=gA5qrAYFr8Y60qdQXh+Pi4EkK1O9sdDKY/wVXl84UhS7bFCgK27Qor2787JeiW/HA3tOgm
+ v2cYduC5nwrHTmvb75wrBchUNc0DDIP4LwJ6IdxEEwzH6voSBBrEEGMlh/Si8GEL6y5hnx
+ 0Cge3tivohBQ1dvhEBUg4e/deBrXtIQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-r54TSQmtPPWggm9pg6Bk8w-1; Thu, 14 May 2020 01:54:56 -0400
-X-MC-Unique: r54TSQmtPPWggm9pg6Bk8w-1
+ us-mta-496-BEoKkuYpMfaWbFsVQezdLg-1; Thu, 14 May 2020 01:54:58 -0400
+X-MC-Unique: BEoKkuYpMfaWbFsVQezdLg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BE91BFC2;
- Thu, 14 May 2020 05:54:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E59401841958;
+ Thu, 14 May 2020 05:54:56 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-113-9.rdu2.redhat.com [10.10.113.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF9DE7D951;
- Thu, 14 May 2020 05:54:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 890C06A977;
+ Thu, 14 May 2020 05:54:55 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 26/32] python//machine.py: use qmp.command
-Date: Thu, 14 May 2020 01:53:57 -0400
-Message-Id: <20200514055403.18902-27-jsnow@redhat.com>
+Subject: [PATCH RFC 27/32] python//machine.py: Add _qmp access shim
+Date: Thu, 14 May 2020 01:53:58 -0400
+Message-Id: <20200514055403.18902-28-jsnow@redhat.com>
 In-Reply-To: <20200514055403.18902-1-jsnow@redhat.com>
 References: <20200514055403.18902-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -54,16 +54,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:46
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,71 +87,52 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-machine.py and qmp.py both do the same thing here; refactor machine.py
-to use qmp.py's functionality more directly.
+Like many other Optional[] types, it's not always a given that this
+object will be set. Wrap it in a type-shim that raises a meaningful
+error and will always return a concrete type.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/lib/machine.py | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+ python/qemu/lib/machine.py | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/python/qemu/lib/machine.py b/python/qemu/lib/machine.py
-index 61ee3a0e81..34e6b6f9e9 100644
+index 34e6b6f9e9..dfa8449b62 100644
 --- a/python/qemu/lib/machine.py
 +++ b/python/qemu/lib/machine.py
-@@ -25,6 +25,8 @@
- import socket
- import tempfile
- from typing import (
-+    Any,
-+    Dict,
-     List,
-     Optional,
-     Type,
-@@ -416,17 +418,23 @@ def set_qmp_monitor(self, enabled=True):
+@@ -117,7 +117,7 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
+         self._events = []
+         self._iolog = None
+         self._qmp_set = True   # Enable QMP monitor by default.
+-        self._qmp = None
++        self._qmp_connection: Optional[qmp.QEMUMonitorProtocol] = None
+         self._qemu_full_args = None
+         self._temp_dir = None
+         self._launched = False
+@@ -283,7 +283,7 @@ def _pre_launch(self):
+             if self._remove_monitor_sockfile:
+                 assert isinstance(self._monitor_address, str)
+                 self._remove_files.append(self._monitor_address)
+-            self._qmp = qmp.QEMUMonitorProtocol(
++            self._qmp_connection = qmp.QEMUMonitorProtocol(
+                 self._monitor_address,
+                 server=True,
+                 nickname=self._name
+@@ -416,7 +416,13 @@ def set_qmp_monitor(self, enabled=True):
+             self._qmp_set = True
+         else:
              self._qmp_set = False
-             self._qmp = None
+-            self._qmp = None
++            self._qmp_connection = None
++
++    @property
++    def _qmp(self) -> qmp.QEMUMonitorProtocol:
++        if self._qmp_connection is None:
++            raise QEMUMachineError("Attempt to access QMP with no connection")
++        return self._qmp_connection
  
--    def qmp(self, cmd, conv_keys=True, **args):
--        """
--        Invoke a QMP command and return the response dict
--        """
-+    @classmethod
-+    def _qmp_args(cls, _conv_keys: bool = True, **args: Any) -> Dict[str, Any]:
-         qmp_args = dict()
-         for key, value in args.items():
--            if conv_keys:
-+            if _conv_keys:
-                 qmp_args[key.replace('_', '-')] = value
-             else:
-                 qmp_args[key] = value
-+        return qmp_args
- 
-+    def qmp(self, cmd: str,
-+            conv_keys: bool = True,
-+            **args: Any) -> QMPMessage:
-+        """
-+        Invoke a QMP command and return the response dict
-+        """
-+        qmp_args = self._qmp_args(conv_keys, **args)
-         return self._qmp.cmd(cmd, args=qmp_args)
- 
-     def command(self, cmd, conv_keys=True, **args):
-@@ -435,12 +443,8 @@ def command(self, cmd, conv_keys=True, **args):
-         On success return the response dict.
-         On failure raise an exception.
-         """
--        reply = self.qmp(cmd, conv_keys, **args)
--        if reply is None:
--            raise qmp.QMPError("Monitor is closed")
--        if "error" in reply:
--            raise qmp.QMPResponseError(reply)
--        return reply["return"]
-+        qmp_args = self._qmp_args(conv_keys, **args)
-+        return self._qmp.command(cmd, **qmp_args)
- 
-     def get_qmp_event(self, wait=False):
-         """
+     @classmethod
+     def _qmp_args(cls, _conv_keys: bool = True, **args: Any) -> Dict[str, Any]:
 -- 
 2.21.1
 
