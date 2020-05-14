@@ -2,68 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795B11D26D2
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 07:52:49 +0200 (CEST)
-Received: from localhost ([::1]:49518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E3B1D26E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 07:57:15 +0200 (CEST)
+Received: from localhost ([::1]:35122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ6nY-0003C5-IK
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 01:52:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36230)
+	id 1jZ6rr-0002O0-1E
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 01:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jZ6mc-0002fN-S0
- for qemu-devel@nongnu.org; Thu, 14 May 2020 01:51:50 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35108
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6ov-0004G0-Qp
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48181
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jZ6mZ-0001C9-U1
- for qemu-devel@nongnu.org; Thu, 14 May 2020 01:51:50 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6ou-0001ZX-Q9
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589435506;
+ s=mimecast20190719; t=1589435652;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=f+1fgBg8t0GFK3u6tRmd8XDnrGJZ2cvKtu1R9XwEfu4=;
- b=Heq+IN4PBuc14f1QQ703PJXymeUh6n8d9sJSbFRXuFHReSWRH/V86gKvLFwlL5w2dp4u8o
- Hzvf3O32yFZAqBnr6gD8tw9FZgXncUYcZmT4KI8vuud/lwxbNHeJ4aZxPhAIX5MJBJ8utO
- ZNEcrn4AaOHRPMEdefwksAmB8PDc81w=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dH4ZXqAFuug2EBmy1VfGMeC26e+iQIpv36Jr8GdOoe4=;
+ b=cFYZvWFMX3TtOgekq9jongVIYogx9D4ZbpVs8PoeJKg8jn1je63H5TVHmXRMt0DRUWn2P4
+ xp/1BQ06qZgz5qFJkk2pm9rSeqT9wUY8S9JlLyGiCFrc2G9tVIUqz0ySxwZUdDUN6opKjM
+ gPrg6gdiZbqQE7SBqEyEkFyPkgrA2Uc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-lcrhdvX4PJ2IfyfhDPUotA-1; Thu, 14 May 2020 01:51:44 -0400
-X-MC-Unique: lcrhdvX4PJ2IfyfhDPUotA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-108-OzmykLznNey4zqYZOisEEA-1; Thu, 14 May 2020 01:54:07 -0400
+X-MC-Unique: OzmykLznNey4zqYZOisEEA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52E0380183C;
- Thu, 14 May 2020 05:51:43 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-132.ams2.redhat.com [10.36.112.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 74A7E1000320;
- Thu, 14 May 2020 05:51:29 +0000 (UTC)
-Subject: Re: [PATCH v5 08/15] acpi: move aml builder code for floppy device
-To: John Snow <jsnow@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20200507131640.14041-1-kraxel@redhat.com>
- <20200507131640.14041-9-kraxel@redhat.com>
- <2f7a76fe-9c38-1441-70cf-919dce82e4fe@redhat.com>
- <77355745-5c13-6579-871d-4a2c02fb7049@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <466f2ed8-2379-0259-9b33-4e1d2c5ced4c@redhat.com>
-Date: Thu, 14 May 2020 07:51:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB96B83DA41;
+ Thu, 14 May 2020 05:54:05 +0000 (UTC)
+Received: from probe.redhat.com (ovpn-113-9.rdu2.redhat.com [10.10.113.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64D077D959;
+ Thu, 14 May 2020 05:54:04 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH RFC 00/32] python/qemu: refactor as installable package
+Date: Thu, 14 May 2020 01:53:31 -0400
+Message-Id: <20200514055403.18902-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <77355745-5c13-6579-871d-4a2c02fb7049@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
@@ -71,8 +60,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,60 +74,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/05/2020 22.43, John Snow wrote:
-> 
-> 
-> On 5/7/20 10:05 AM, Philippe Mathieu-Daudé wrote:
->> +Hervé
->>
->> On 5/7/20 3:16 PM, Gerd Hoffmann wrote:
->>> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->>> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
->>> ---
->>>   hw/block/fdc.c       | 83 ++++++++++++++++++++++++++++++++++++++++++++
-> 
-> oh no...
-> 
->>>   hw/i386/acpi-build.c | 83 --------------------------------------------
->>>   stubs/cmos.c         |  7 ++++
->>>   stubs/Makefile.objs  |  1 +
->>>   4 files changed, 91 insertions(+), 83 deletions(-)
->>>   create mode 100644 stubs/cmos.c
->>>
->>> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
->>> index 9628cc171ef8..40faa088b5f7 100644
->>> --- a/hw/block/fdc.c
->>> +++ b/hw/block/fdc.c
->>> @@ -32,6 +32,8 @@
->>>   #include "qapi/error.h"
->>>   #include "qemu/error-report.h"
->>>   #include "qemu/timer.h"
->>> +#include "hw/i386/pc.h"
->>
->> I'd rather not see this target-specific header used in the generic
->> device model... The culprit seems cmos_get_fd_drive_type(). Is the value
->> really PC specific?
->>
->> Hervé, do you know if such info & RTC nvram layout is used in other arch?
->>
-> 
-> do we need pc-only floppy code somewhere to keep the makefile pure?
+Hey, I got lost on my way to the store and I accidentally got 32 patches
+that convert our python library into something that passes pylint,
+flake8, and mypy --strict.
 
-Yes, please put this into a separate file that only gets build if the
-corresponding CONFIG switches are set. That way you should also get
-along without that new stubs/cmos.c file.
+...So, a few things:
 
- Thomas
+1. This is just an RFC. The actual design of these libraries really
+needs adjusted to be more pythonic. In general this means less
+Optional[T] return types and raising more exceptions. This could be
+handled later, but we ought to address it before publishing, if we do.
+
+2. We still need to think carefully about how we package this, if we
+even want to package it, what the license on the top-level package
+should be, etc.
+
+3. We should consider how to version it. For now, I'm using a lockstep
+versioning.
+
+4. You can install this package using pip3 or python3 setup.py to a
+virtual environment or to your real one. From there, any python code in
+the QEMU tree that imports these modules will work with no sys.path
+hacking or custom PYTHONPATH exports.
+
+5. You don't have to install it, though. I left all of the usual hacks
+in place in the rest of the tree so that everything will just keep
+working exactly as-is for right now. It's just that you COULD install it.
+
+6. Here's a cool trick if you don't know about it yet:
+
+> cd qemu/python/qemu
+> pip3 install --user -e .
+
+This will install the package in "develop" mode, which installs a
+forwarder package. When you update your source tree, the installed
+package stays "up to date" with the most recent edits.
+
+Alright, have fun, stay safe!
+
+John Snow (32):
+  python/qemu: create qemu.lib module
+  scripts/qmp: Fix shebang and imports
+  python//machine.py: remove bare except
+  python/qemu/lib: delint, add pylintrc
+  python/qemu/lib: delint; add flake8 config
+  python/qemu: formalize as package
+  python/qemu: add README.rst
+  python/qemu: Add Pipfile
+  python/qemu: add pylint to Pipfile
+  python/qemu: Add flake8 to Pipfile
+  python/qemu/lib: remove Python2 style super() calls
+  python/qemu/lib: fix socket.makefile() typing
+  python/qemu/lib: Adjust traceback typing
+  python//qmp.py: use True/False for non/blocking modes
+  python//qmp.py: Define common types
+  python//qmp.py: re-absorb MonitorResponseError
+  python//qmp.py: Do not return None from cmd_obj
+  python//qmp.py: add casts to JSON deserialization
+  python//qmp.py: add QMPProtocolError
+  python//qmp.py: assert sockfile is not None
+  python//machine.py: remove logging configuration
+  python//machine.py: Fix monitor address typing
+  python//machine.py: reorder __init__
+  python//machine.py: Don't modify state in _base_args()
+  python//machine.py: Handle None events in event_wait
+  python//machine.py: use qmp.command
+  python//machine.py: Add _qmp access shim
+  python//machine.py: fix _popen access
+  python//qtest.py: Check before accessing _qtest
+  python/qemu/lib: make 'args' style arguments immutable
+  python/qemu: add mypy to Pipfile
+  python/qemu/lib: Add mypy type annotations
+
+ python/README.rst                         |   6 +
+ python/qemu/README.rst                    |   8 +
+ python/Pipfile                            |  14 +
+ python/Pipfile.lock                       | 187 +++++++++++++
+ python/qemu/__init__.py                   |  11 -
+ python/qemu/lib/.flake8                   |   2 +
+ python/qemu/lib/__init__.py               |  57 ++++
+ python/qemu/{ => lib}/accel.py            |  17 +-
+ python/qemu/{ => lib}/machine.py          | 320 +++++++++++++---------
+ python/qemu/lib/pylintrc                  |  58 ++++
+ python/qemu/{ => lib}/qmp.py              | 140 +++++++---
+ python/qemu/lib/qtest.py                  | 160 +++++++++++
+ python/qemu/qtest.py                      | 119 --------
+ python/setup.py                           |  50 ++++
+ scripts/device-crash-test                 |   2 +-
+ scripts/qmp/qemu-ga-client                |   2 +-
+ scripts/qmp/qmp                           |   4 +-
+ scripts/qmp/qmp-shell                     |   2 +-
+ scripts/qmp/qom-fuse                      |   4 +-
+ scripts/qmp/qom-get                       |   6 +-
+ scripts/qmp/qom-list                      |   4 +-
+ scripts/qmp/qom-set                       |   6 +-
+ scripts/qmp/qom-tree                      |   6 +-
+ scripts/render_block_graph.py             |   5 +-
+ scripts/simplebench/bench_block_job.py    |   4 +-
+ tests/acceptance/avocado_qemu/__init__.py |   2 +-
+ tests/acceptance/boot_linux.py            |   3 +-
+ tests/acceptance/virtio_check_params.py   |   2 +-
+ tests/acceptance/virtio_version.py        |   2 +-
+ tests/migration/guestperf/engine.py       |   2 +-
+ tests/qemu-iotests/235                    |   2 +-
+ tests/qemu-iotests/iotests.py             |   2 +-
+ tests/vm/basevm.py                        |   6 +-
+ 33 files changed, 881 insertions(+), 334 deletions(-)
+ create mode 100644 python/README.rst
+ create mode 100644 python/qemu/README.rst
+ create mode 100644 python/Pipfile
+ create mode 100644 python/Pipfile.lock
+ delete mode 100644 python/qemu/__init__.py
+ create mode 100644 python/qemu/lib/.flake8
+ create mode 100644 python/qemu/lib/__init__.py
+ rename python/qemu/{ => lib}/accel.py (86%)
+ rename python/qemu/{ => lib}/machine.py (67%)
+ create mode 100644 python/qemu/lib/pylintrc
+ rename python/qemu/{ => lib}/qmp.py (70%)
+ create mode 100644 python/qemu/lib/qtest.py
+ delete mode 100644 python/qemu/qtest.py
+ create mode 100755 python/setup.py
+
+-- 
+2.21.1
 
 
