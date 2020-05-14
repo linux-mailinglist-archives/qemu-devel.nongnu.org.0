@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AAF71D3F69
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 22:57:07 +0200 (CEST)
-Received: from localhost ([::1]:42922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B74C1D3F6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 22:58:32 +0200 (CEST)
+Received: from localhost ([::1]:48228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZKuf-0002ky-QC
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 16:57:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45380)
+	id 1jZKw3-0005op-3C
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 16:58:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=396c018a7=alistair.francis@wdc.com>)
- id 1jZKtF-0001tF-Ud; Thu, 14 May 2020 16:55:37 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:52770)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=396c018a7=alistair.francis@wdc.com>)
- id 1jZKtE-0005rX-Fy; Thu, 14 May 2020 16:55:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1589489737; x=1621025737;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=2HDd/C2UWnadtJ9ZSqd7xPDn/jXNijxuJWKSqqsdZKU=;
- b=owmy5G41oDAJgFcorltQLaT7n+YsyyBxcttN24NtjRMyqrVhpHnJ6+gl
- en/7OOS2mCOVFkZM7mNGDtkQkggWyVE5a3VuF0mRYowWMKt8hSKjC/RGP
- FT1RoOV0+MiR1o77pjrdFvZIXkRcHH/VXpYYKAFyUjjCV7hZDFeQWMmrc
- act0Mrrw6TqzinUHa9iqndHtlDlAypJD+vfasfeV/qUjFC3kVmVaV+qjE
- +bkDjZjZXBaxpOY8ikW96O9hQFiVgWqxR3GAsQynMGQgoleKMEvQER2IL
- retuvsrho8/sSykHOwcj2WY7qjI1I9CseLqGewPvVjJRh17ldiKPDbaxT g==;
-IronPort-SDR: VC7ZxqmZUDxyWlLvOQSrYwyz2pznHltx1EO9j1RTdN46OVkwxMZW8u3vvGBSel0sSa1XKq8tZJ
- YKL+qMdva2IykdGsKzB7U/DpeqYW/Z1kJ/26+TbL9wCOFYoFhkSscZtVrDnQuXMPMO3lTuGPms
- Bm7OwPJFgz0tNcrOQhRh2LNOQdrOUTserRr3TQtJjyAiuHbozoHlxPuOpdBCQ9d/h5Z1Nc1RAJ
- pRnAgMbGj4BaSbGVJnr5vB3BQv/ujLZ8YvIqgIB7tXhMEzlXeYRME4G/k963qHWfV4/ySy/lcB
- efY=
-X-IronPort-AV: E=Sophos;i="5.73,392,1583164800"; d="scan'208";a="142061443"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 15 May 2020 04:55:34 +0800
-IronPort-SDR: N49YgIYFQliNrVT0XfGTMH2iZ8AZWYyP+KZ3jBJVvagCSah1g0jzyt5RGy/jIA3WzcedR1eoNx
- w6MEdvZf3bDt8zSE4v8E3CXJAGUOC18to=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2020 13:45:45 -0700
-IronPort-SDR: ZT/kF2VWgLu0eBO8tNBKvHO2fy7vaLq35sCHTqIJ+V/bOWUmW1RN62Ty8Vx7nFsS0yD04YXNyy
- OlDcjNZDl2xQ==
-WDCIronportException: Internal
-Received: from 327gvz1.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.56.233])
- by uls-op-cesaip02.wdc.com with ESMTP; 14 May 2020 13:55:33 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v1 2/2] sifive_e: Support the revB machine
-Date: Thu, 14 May 2020 13:47:10 -0700
-Message-Id: <925bdcd2b3536014306a8800975fb63592fd051a.1589489213.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <da77b1e0a31f2f8fb18117b20a1493ab1ec0471f.1589489213.git.alistair.francis@wdc.com>
-References: <da77b1e0a31f2f8fb18117b20a1493ab1ec0471f.1589489213.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jZKuS-0003an-Ce
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 16:56:52 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44509)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jZKuQ-0006Dp-Cg
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 16:56:51 -0400
+Received: by mail-wr1-x444.google.com with SMTP id 50so459300wrc.11
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 13:56:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OR84j6vTyfY0H84yMrQ/BQLUOCn2Mr0ZLuCBdy/+wkU=;
+ b=jcExE9jFCtbRYJC6qZ7b8EPpVu4yznotAiz7dnnW/tiywdgWC7hl97WVbyRGdzpydj
+ GSlXAeAnk5KjPc8ciYk0SXLGLjVULRDl13zhBsLBL3dLhSWRnLj2h8WPMsRWqB0mB5IY
+ NTKKzrLVDN9DcQrs/76g674KtOyLmoHzpO72Adb2l7Uwu52N/mANHxDObv4GFKJh8Nt1
+ 4sVULU2XQXwalqhG7EnZsXPKyyDeBlgGHwi7JIvZk40uObozYH6SFFVsQkYHNobnwZfF
+ O/v8zCllCmYunNoBcCast0OQb3tlMHp9JhxnXSUAPeLWUpUDBxFt1oiD8DVQ+MoAZL5o
+ OE+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OR84j6vTyfY0H84yMrQ/BQLUOCn2Mr0ZLuCBdy/+wkU=;
+ b=Obz/xdeyDgsVxtv2bRB9df/iGy56/ssqanI6mxPfaSwI4/Nb1VJ1n02TX1rj5idTJz
+ jq9WKSLL3EBzVUDODiTE3q4f0y2OCORejjZJAtLNQCzrovV1ZOxQ/7Tfiio9zNrmk0uH
+ s+aiXSB2CjU4QzweraH2zcemRPHVonrBTiik92oAMFyDyDzcUnryCY6on0Lagwmsm5fI
+ 1AdJqxmGUfYuucDZd7dCQV+boBg9uJxt6IvKu179CLmSFz3B3HGthkxZltApL4mVjvuq
+ P5lplc63vXR916aeRzYqjbj/hEM2+pdc7XBP894FL05HG5OCmP3Ab9d9pYPuM0whYUaM
+ T6vA==
+X-Gm-Message-State: AOAM531vlo7RuZWqDy9xFCMxYCbrBQuuTy4Jsj3s0HREf8X8Mx2DOvfW
+ aeW5D3KCYMWr5kDqIVznUhKRg4ESjYruri19IAU=
+X-Google-Smtp-Source: ABdhPJymALh2Qe+BygbWKRX8T/Yy1hWYZxN89nutE7k9pvqZFG6Ch0vXrTLdE18vLZIr8b3xZ0nOrEGoba1WyZW8W1o=
+X-Received: by 2002:a5d:4b0f:: with SMTP id v15mr341480wrq.162.1589489808578; 
+ Thu, 14 May 2020 13:56:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.141;
- envelope-from=prvs=396c018a7=alistair.francis@wdc.com;
- helo=esa3.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 16:55:33
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
+References: <1586337380-25217-1-git-send-email-chenhc@lemote.com>
+ <1586337380-25217-3-git-send-email-chenhc@lemote.com>
+In-Reply-To: <1586337380-25217-3-git-send-email-chenhc@lemote.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Thu, 14 May 2020 22:56:33 +0200
+Message-ID: <CAHiYmc6=e8Ad+stdx4vFfZ5vkysiYo5Zkdiq3reLL=McvwDt3w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] MAINTAINERS: Add myself as fulong2e co-maintainer
+To: Huacai Chen <chenhc@lemote.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,84 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
+Cc: Huacai Chen <chenhuacai@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/riscv/sifive_e.c         | 35 +++++++++++++++++++++++++++++++----
- include/hw/riscv/sifive_e.h |  1 +
- 2 files changed, 32 insertions(+), 4 deletions(-)
+=D1=81=D1=80=D0=B5, 8. =D0=B0=D0=BF=D1=80 2020. =D1=83 11:08 Huacai Chen <c=
+henhc@lemote.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=
+=D0=BB=D0=B0:
+>
+> I submitted the MIPS/fulong2e support about ten years ago, and after
+> that I became a MIPS kernel developer. Last year, Philippe Mathieu-
+> Daud=C3=A9 asked me that whether I can be a reviewer of MIPS/fulong2e, an=
+d I
+> promised that I will do some QEMU work in the next year (i.e., 2020 and
+> later). I think now (and also in future) I can have some spare time, so
+> I can finally do some real work on QEMU/MIPS. And if possible, I hope I
+> can be a co-maintainer of MIPS/fulong2e.
+>
+> Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> ---
 
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 472a98970b..cb7818341b 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -98,10 +98,14 @@ static void riscv_sifive_e_init(MachineState *machine)
-         memmap[SIFIVE_E_DTIM].base, main_mem);
- 
-     /* Mask ROM reset vector */
--    uint32_t reset_vec[2] = {
--        0x204002b7,        /* 0x1000: lui     t0,0x20400 */
--        0x00028067,        /* 0x1004: jr      t0 */
--    };
-+    uint32_t reset_vec[2];
-+
-+    if (s->revb) {
-+        reset_vec[0] = 0x200102b7;        /* 0x1000: lui     t0,0x20010 */
-+    } else {
-+        reset_vec[0] = 0x204002b7;        /* 0x1000: lui     t0,0x20400 */
-+    }
-+    reset_vec[1] = 0x00028067;        /* 0x1004: jr      t0 */
- 
-     /* copy in the reset vector in little_endian byte order */
-     for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
-@@ -115,8 +119,31 @@ static void riscv_sifive_e_init(MachineState *machine)
-     }
- }
- 
-+static bool sifive_e_machine_get_revb(Object *obj, Error **errp)
-+{
-+    SiFiveEState *s = RISCV_E_MACHINE(obj);
-+
-+    return s->revb;
-+}
-+
-+static void sifive_e_machine_set_revb(Object *obj, bool value, Error **errp)
-+{
-+    SiFiveEState *s = RISCV_E_MACHINE(obj);
-+
-+    s->revb = value;
-+}
-+
- static void sifive_e_machine_instance_init(Object *obj)
- {
-+    SiFiveEState *s = RISCV_E_MACHINE(obj);
-+
-+    s->revb = false;
-+    object_property_add_bool(obj, "revb", sifive_e_machine_get_revb,
-+                             sifive_e_machine_set_revb, NULL);
-+    object_property_set_description(obj, "revb",
-+                                    "Set on to tell QEMU that it should model "
-+                                    "the revB HiFive1 board",
-+                                    NULL);
- }
- 
- static void sifive_e_machine_class_init(ObjectClass *oc, void *data)
-diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-index 414992119e..0d3cd07fcc 100644
---- a/include/hw/riscv/sifive_e.h
-+++ b/include/hw/riscv/sifive_e.h
-@@ -45,6 +45,7 @@ typedef struct SiFiveEState {
- 
-     /*< public >*/
-     SiFiveESoCState soc;
-+    bool revb;
- } SiFiveEState;
- 
- #define TYPE_RISCV_E_MACHINE MACHINE_TYPE_NAME("sifive_e")
--- 
-2.26.2
+Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 
+
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 642c8e0..3281ff2 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1073,6 +1073,7 @@ F: hw/mips/mips_r4k.c
+>  Fulong 2E
+>  M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>  M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+> +M: Huacai Chen <chenhc@lemote.com>
+>  S: Odd Fixes
+>  F: hw/mips/mips_fulong2e.c
+>  F: hw/isa/vt82c686.c
+> --
+> 2.7.0
+>
 
