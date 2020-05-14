@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6643A1D32C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:25:18 +0200 (CEST)
-Received: from localhost ([::1]:49680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BAD81D32B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:24:24 +0200 (CEST)
+Received: from localhost ([::1]:47692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZEnV-0006tw-Db
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:25:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38516)
+	id 1jZEmd-00065S-8t
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:24:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEcy-0007l0-Jl
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:25 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:36632)
+ id 1jZEd0-0007mL-4G
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:27 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:43233)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEcx-0003oV-SG
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:24 -0400
-Received: by mail-lj1-x241.google.com with SMTP id u15so3717717ljd.3
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:14:23 -0700 (PDT)
+ id 1jZEcz-0003oi-DJ
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:25 -0400
+Received: by mail-lj1-x244.google.com with SMTP id l19so3664604lje.10
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7FoM1+aW2rkN6WZGeGZa1NdTwyvt1XBX/M5a6guzNPc=;
- b=Z1rvc4d+iouPEPJFEGxRF7k5GZfcOjA7SOTurgq6CnZ39swZ8ibRCNr09ZmL9pywrz
- r+ne+HSrzZ1FKmp9ctJzlQoawp27d+fZgaRlOUSKtrxBEVmnnz0JGthzaMwztldS/6dA
- FFHOVnt4P8OJIZN1AM6EAaww2KR+b5cL1hsNhSdo77Eh1GD9dtm8X2dpSiX5eJk70wLt
- 6hOlpRS6NGe/9S/yCSjsrsA6a2FAkhO11XTnDjQ0oX3OTJ5uhOWSIIZjtSbWuZd09llU
- Eq8p3NyoAd62QQ2HbatVirjm4mB/7grbqRUCIYdPgRdKQ/CBIa/6i9IruxtejwGN/LUf
- 8l9g==
+ bh=hHXzvT0ne/aeVCxE+iMY7gU5VPnnGQChVHUMUTuz5KQ=;
+ b=iP3oBFQjQcoENgO8zf2xhHRlly1V2mMzMQM9Qq58k8I0L5lCK01QgJwtxvB5R0DCXH
+ aijXJv70S44d9uw7trn2bdDYWOvSjKlfomBDi7Yj/pU0jGtKzZ7GKaMriqWUoTIRLA0x
+ tuZ7OjNbNlgkcKWDbhmcettoCUfRjaogmBAPyZ9sgy2M35WIa95mmUecDM4wU70pYOeJ
+ ihXpVyS0a+xjcUn30NPtdRhF+C1DUhUFGnH1itPJVZ8X8MtH6L472TvTf21zsh0rDrdP
+ O8hTS48BrBpYnHQpryppFQxKZpTOa+p4cyLqmAZdzaIWvMxlXTCFASQZUXsg0ZSezi7f
+ hqvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7FoM1+aW2rkN6WZGeGZa1NdTwyvt1XBX/M5a6guzNPc=;
- b=m6doRPhgHmW2PR734eKiwwWqR7pnnirVtjDuw6BqSWKxTiFRZD2DLUBhJiEE0+wg3p
- C0XSIleGCcOiyzg0SltW8iHOHLA7eMU37fXmzXsCcAaGlDcoNxcrUax98rxnwXnYRLP/
- PPZLOCbPbHbPk6A3kwiZNT2KRbC+efRLOK2FocH+jbG0gfQ/maszdOwSrDOzy+Qtpw20
- sIb+zQehiTBAU041Svm7oTEFHs+TDP/2CPY+1SQDrIs0XxpJpoNPs3RS2174fGkp1tEB
- LJo20CFAnU7HDEkk430f7vUBHXoRH60mCUxBQ2WcUvg5Vf6gN2H7agMvv8NuYMb4fSO8
- xBgA==
-X-Gm-Message-State: AOAM532J1V12aGP5L6zw6EZg5WdwzhYovW2VJqWlA41PLTl25ERUAzZB
- 9R3cIZ3ztOgTbLHtAouNhcCXVVrdTGg=
-X-Google-Smtp-Source: ABdhPJwsVWycX4KYMrtnKmcyEfJjqyfbHirrVzs42xxW0oi48lPv8r7u7QNtREKle+NbFidKbZu1GA==
-X-Received: by 2002:a2e:9a54:: with SMTP id k20mr3092933ljj.265.1589465661589; 
- Thu, 14 May 2020 07:14:21 -0700 (PDT)
+ bh=hHXzvT0ne/aeVCxE+iMY7gU5VPnnGQChVHUMUTuz5KQ=;
+ b=aZuqZ1Klm+MmsxhOLPhsXbxFmFf2NKK0BoqfQsq0deC6Ad3cYWvgp0GHZcSzXhV1hH
+ jhdHFcqwomJ5n9/UvskUzlGSz90ju4Yenb/ZLDAzGyzgn+O/D122plpaZEO7Zbq3TtAp
+ jKDnZVZp2s0Nd7mGzdrRtKuYjcDB3h5rXhNxSk38RKPA6HWCGGSlc1w9EP7+ljCIdmQK
+ hpvkyMDm9brht2ka6YHk1yuzibv35BBxty3ore/MpOkO45/eKCs1UIPGW+sHbCESX4u2
+ CEH4Mn+DqbDCFYzNAkGczg5D81CUnfeflDs21utCQ9P09lkqCKPrTPsdc4MJK8ZSz8Mp
+ RioA==
+X-Gm-Message-State: AOAM530My/Q07SE024+4uwrO+D95wfjLtXz9UFdCiPHzkfRDsiI17biR
+ CdlTvpvPGz1RCGHVdUxtnYcDXujnc2A=
+X-Google-Smtp-Source: ABdhPJxFcWsTA2HP5+hC1Ms7pxBKavniROcQpahL3GUuMYzzFk4y5zcVelcSX3IBi3ilx72boJs1GQ==
+X-Received: by 2002:a2e:7508:: with SMTP id q8mr3045648ljc.234.1589465663341; 
+ Thu, 14 May 2020 07:14:23 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id z17sm1365436ljc.81.2020.05.14.07.14.20
+ by smtp.gmail.com with ESMTPSA id m15sm1561799lji.21.2020.05.14.07.14.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:14:20 -0700 (PDT)
+ Thu, 14 May 2020 07:14:22 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 13/14] target/microblaze: gdb: Fix incorrect SReg reporting
-Date: Thu, 14 May 2020 16:14:01 +0200
-Message-Id: <20200514141402.12498-14-edgar.iglesias@gmail.com>
+Subject: [PULL v1 14/14] target/microblaze: monitor: Increase the number of
+ registers reported
+Date: Thu, 14 May 2020 16:14:02 +0200
+Message-Id: <20200514141402.12498-15-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514141402.12498-1-edgar.iglesias@gmail.com>
 References: <20200514141402.12498-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::241;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x241.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::244;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 13
@@ -90,127 +91,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joe Komlodi <joe.komlodi@xilinx.com>
 
-SRegs used to be reported to GDB by iterating over the SRegs array,
-however we do not store them in an order that allows them to be
-reported to GDB in that way.
+Increase the number of registers reported to match GDB.
 
-To fix this, a simple map is used to map the register GDB wants to its
-location in the SRegs array.
+Registers that aren't modeled are reported as 0.
 
 Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-Id: <1589393329-223076-3-git-send-email-komlodi@xilinx.com>
+Message-Id: <1589393329-223076-4-git-send-email-komlodi@xilinx.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- target/microblaze/gdbstub.c | 59 ++++++++++++++++++++++++++++++-------
- 1 file changed, 49 insertions(+), 10 deletions(-)
+ target/microblaze/translate.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/target/microblaze/gdbstub.c b/target/microblaze/gdbstub.c
-index 54cc7857d1..73e8973597 100644
---- a/target/microblaze/gdbstub.c
-+++ b/target/microblaze/gdbstub.c
-@@ -25,6 +25,21 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
- {
-     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
-     CPUMBState *env = &cpu->env;
-+    /*
-+     * GDB expects SREGs in the following order:
-+     * PC, MSR, EAR, ESR, FSR, BTR, EDR, PID, ZPR, TLBX, TLBSX, TLBLO, TLBHI.
-+     * They aren't stored in this order, so make a map.
-+     * PID, ZPR, TLBx, TLBsx, TLBLO, and TLBHI aren't modeled, so we don't
-+     * map them to anything and return a value of 0 instead.
-+     */
-+    static const uint8_t sreg_map[6] = {
-+        SR_PC,
-+        SR_MSR,
-+        SR_EAR,
-+        SR_ESR,
-+        SR_FSR,
-+        SR_BTR
-+    };
+diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+index 8079724f32..f6ff2591c3 100644
+--- a/target/microblaze/translate.c
++++ b/target/microblaze/translate.c
+@@ -1789,9 +1789,11 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     qemu_fprintf(f, "IN: PC=%" PRIx64 " %s\n",
+                  env->sregs[SR_PC], lookup_symbol(env->sregs[SR_PC]));
+     qemu_fprintf(f, "rmsr=%" PRIx64 " resr=%" PRIx64 " rear=%" PRIx64 " "
+-                 "debug=%x imm=%x iflags=%x fsr=%" PRIx64 "\n",
++                 "debug=%x imm=%x iflags=%x fsr=%" PRIx64 " "
++                 "rbtr=%" PRIx64 "\n",
+                  env->sregs[SR_MSR], env->sregs[SR_ESR], env->sregs[SR_EAR],
+-                 env->debug, env->imm, env->iflags, env->sregs[SR_FSR]);
++                 env->debug, env->imm, env->iflags, env->sregs[SR_FSR],
++                 env->sregs[SR_BTR]);
+     qemu_fprintf(f, "btaken=%d btarget=%" PRIx64 " mode=%s(saved=%s) "
+                  "eip=%d ie=%d\n",
+                  env->btaken, env->btarget,
+@@ -1799,7 +1801,17 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+                  (env->sregs[SR_MSR] & MSR_UMS) ? "user" : "kernel",
+                  (bool)(env->sregs[SR_MSR] & MSR_EIP),
+                  (bool)(env->sregs[SR_MSR] & MSR_IE));
++    for (i = 0; i < 12; i++) {
++        qemu_fprintf(f, "rpvr%2.2d=%8.8x ", i, env->pvr.regs[i]);
++        if ((i + 1) % 4 == 0) {
++            qemu_fprintf(f, "\n");
++        }
++    }
  
-     /*
-      * GDB expects registers to be reported in this order:
-@@ -40,15 +55,16 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-         n -= 32;
-         switch (n) {
-         case 0 ... 5:
--            return gdb_get_reg32(mem_buf, env->sregs[n]);
-+            return gdb_get_reg32(mem_buf, env->sregs[sreg_map[n]]);
-         /* PVR12 is intentionally skipped */
-         case 6 ... 17:
-             n -= 6;
-             return gdb_get_reg32(mem_buf, env->pvr.regs[n]);
--        case 18 ... 24:
--            /* Add an offset of 6 to resume where we left off with SRegs */
--            n = n - 18 + 6;
--            return gdb_get_reg32(mem_buf, env->sregs[n]);
-+        case 18:
-+            return gdb_get_reg32(mem_buf, env->sregs[SR_EDR]);
-+        /* Other SRegs aren't modeled, so report a value of 0 */
-+        case 19 ... 24:
-+            return gdb_get_reg32(mem_buf, 0);
-         case 25:
-             return gdb_get_reg32(mem_buf, env->slr);
-         case 26:
-@@ -66,29 +82,52 @@ int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-     CPUMBState *env = &cpu->env;
-     uint32_t tmp;
- 
-+    /*
-+     * GDB expects SREGs in the following order:
-+     * PC, MSR, EAR, ESR, FSR, BTR, EDR, PID, ZPR, TLBX, TLBSX, TLBLO, TLBHI.
-+     * They aren't stored in this order, so make a map.
-+     * PID, ZPR, TLBx, TLBsx, TLBLO, and TLBHI aren't modeled, so we don't
-+     * map them to anything.
-+     */
-+    static const uint8_t sreg_map[6] = {
-+        SR_PC,
-+        SR_MSR,
-+        SR_EAR,
-+        SR_ESR,
-+        SR_FSR,
-+        SR_BTR
-+    };
-+
-     if (n > cc->gdb_num_core_regs) {
-         return 0;
-     }
- 
-     tmp = ldl_p(mem_buf);
- 
-+    /*
-+     * GDB expects registers to be reported in this order:
-+     * R0-R31
-+     * PC-BTR
-+     * PVR0-PVR11
-+     * EDR-TLBHI
-+     * SLR-SHR
-+     */
-     if (n < 32) {
-         env->regs[n] = tmp;
-     } else {
-         n -= 32;
-         switch (n) {
-         case 0 ... 5:
--            env->sregs[n] = tmp;
-+            env->sregs[sreg_map[n]] = tmp;
-             break;
-         /* PVR12 is intentionally skipped */
-         case 6 ... 17:
-             n -= 6;
-             env->pvr.regs[n] = tmp;
-             break;
--        case 18 ... 24:
--            /* Add an offset of 6 to resume where we left off with SRegs */
--            n = n - 18 + 6;
--            env->sregs[n] = tmp;
-+        /* Only EDR is modeled in these indeces, so ignore the rest */
-+        case 18:
-+            env->sregs[SR_EDR] = tmp;
-             break;
-         case 25:
-             env->slr = tmp;
++    /* Registers that aren't modeled are reported as 0 */
++    qemu_fprintf(f, "redr=%" PRIx64 " rpid=0 rzpr=0 rtlbx=0 rtlbsx=0 "
++                    "rtlblo=0 rtlbhi=0\n", env->sregs[SR_EDR]);
++    qemu_fprintf(f, "slr=%x shr=%x\n", env->slr, env->shr);
+     for (i = 0; i < 32; i++) {
+         qemu_fprintf(f, "r%2.2d=%8.8x ", i, env->regs[i]);
+         if ((i + 1) % 4 == 0)
 -- 
 2.20.1
 
