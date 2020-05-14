@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 542F11D333C
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:40:12 +0200 (CEST)
-Received: from localhost ([::1]:56852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F8D61D3334
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:39:10 +0200 (CEST)
+Received: from localhost ([::1]:52922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZF1v-000376-91
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:40:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39594)
+	id 1jZF0v-0001XK-7E
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:39:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZEkV-0003VE-Sv
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:14 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45764)
+ id 1jZEkV-0003Up-F9
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:11 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZEkR-0005l5-Ss
+ id 1jZEkT-0005lI-Oe
  for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:11 -0400
-Received: by mail-wr1-x443.google.com with SMTP id v12so4315520wrp.12
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:22:07 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id v12so4315595wrp.12
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:22:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=fnV23OpPxCoSIZpEIyS3Xorm1PSAB8juwD7uMO6vdoo=;
- b=HQY6ZRW/frko9i4nrT6ffiBsFjKcV3owfRlU3zWi/YPPSBrwTs2KIXhoFWfLdnYoMt
- 8UPUnUgjpocDR6PbjCWrDXASGRidzp7q4Da9DoDnUutYs7O0KoAAWLAIW7SKFoKhOgsh
- j2CuwUH6ufH1YBsHiQk6UtgdpbpPVIkgkRXoMRtvFmgRX2MJlbg2dPCQPJ7IyvMezLWl
- 34NUDEVrOOgG8UW5agjx76tBQP02f5g7q67demYAsDmEBmLSPelW3uFwI23gP9ejFfv4
- hn9qobuC3AbyVQZ6td8tquUYfqElWNA+BswFJtp58wllmwQo1FH6VYJ0MJdLUA76SE/V
- Pm7w==
+ bh=SakX2inMtJLZ1FmAb3OkCKDIGikkYphNK+yETDcbpHM=;
+ b=Qg/XkE4WGLewrDWtFkQebk9jTmBxTDNVP4+a3ES8lVcUPFMxg8j151NdiLhmfnvK2q
+ +DdQ40l1MUaoGQbIB9qPZIjVy0vGajCGPQAYJW5Rs4Z/uCorc8RaV+csgrWEUaEpMCUl
+ reH+oC4CNVhJuvaWBwWKCBteyxUro/y0DBJi/GKwnolj1JyO+l+nZT4Wei/wfezY9Ydp
+ B7zTNHrWfeIKJYIW00ysNuAzga8XvwBRX4c8qp+FoG/+gZOGASLkVwfJMYHjUdaPd8VG
+ ZyEd28DZWXutH7ij/14RzqHOwSaG9e8vSD2rdSFO4XzUykQq4s9DV8JSNOHP07zoZDar
+ bqvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fnV23OpPxCoSIZpEIyS3Xorm1PSAB8juwD7uMO6vdoo=;
- b=Y2o19xh/SWL5WeCbZujiDNXH4hqDVpfD+em2EQpAvDVdCmJIQwZ9XqjfKxp+HpnN+O
- bCZrCprr0lTSStFa2XcA5tApDnAfuGQux/MsJOo3LQbQooQFUOKxlggh02mSItr4x3G2
- uFf2Zri84kbW7Dj6k6SEJ+N0eYbIsneWade/M4LosXPPnIbqVNSMXE3acRDypPjN+aAv
- su+LckNMYTHr5zMBTX9vFwGQ9R9vU9tKFs3a0FVfP4M6gY9qaYU5PXwenA+hMvosNFxu
- +dufnBubNeQlBHQBKyxx9r2ytwofmt3086tAXOtBvu1Mc5nDYfZpjGz2pXDpLlAoP3Oh
- TFWw==
-X-Gm-Message-State: AOAM532jo9L+3yhIsV8By7Fw48hzw+okh5xVJ4uqk9U4qPJ7PnYNcP6D
- c8zs2bf/bMxqDqviifwMQvk3VhumnuN24g==
-X-Google-Smtp-Source: ABdhPJwlhyb9H2mHjp6qr+b6g+4GLqR36EDCRTz7FuptSx7pg2c4xrt4JqpcxWnGjxQj3Rs2x0N0eQ==
-X-Received: by 2002:adf:afdb:: with SMTP id y27mr5463944wrd.323.1589466126197; 
- Thu, 14 May 2020 07:22:06 -0700 (PDT)
+ bh=SakX2inMtJLZ1FmAb3OkCKDIGikkYphNK+yETDcbpHM=;
+ b=TrZ/W5LEGdg7SJ7WSVcN6/LFUjOAGFPQfFamdryLUL1zdYvILtjAsQ+7fg4mSjAZVd
+ Iyrt6lDDSon+69EmYGS4EsgKQWwly2SWewAywxqz6L6tRNrbgQezz1Vr0WHOKGCLi/fx
+ 3O/LIMHfTxH8xjjjJhQEpSEdvrlbEPSH/R6B1bQqnTLSR44YHUNT5EKc/VlRYgNyAMPh
+ GUbZWAplJ5FlP8gr8xa0xAUVUKA/OsFScPZBq0bKt0WK+vghbmVnMeo3AlMNBUYbYQWX
+ TMCxhUuPxzHmsd2rjR4xW7Fre0mOrtE8uvZcOz7jqFsJ/dfTO2axbDSUWXSxFSya/tez
+ OI7A==
+X-Gm-Message-State: AOAM533M0jnpTJR328xrhFSdhP3K5181yKx5bUENdYRksPW/W2TpZ49/
+ AzDcjeAZJLbppKJGMG4PM69KFyqG3e9bMg==
+X-Google-Smtp-Source: ABdhPJwl7pj4TAezAoDFxZn4KqdTWnjLAW+UDddobIcX7YJ0kARwlRKPpS/1Eu/pSLVAbjno/OG2CQ==
+X-Received: by 2002:a5d:514b:: with SMTP id u11mr6114251wrt.53.1589466127241; 
+ Thu, 14 May 2020 07:22:07 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 88sm4077443wrq.77.2020.05.14.07.22.04
+ by smtp.gmail.com with ESMTPSA id 88sm4077443wrq.77.2020.05.14.07.22.06
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:22:05 -0700 (PDT)
+ Thu, 14 May 2020 07:22:06 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/45] acpi: nvdimm: change NVDIMM_UUID_LE to a common macro
-Date: Thu, 14 May 2020 15:21:12 +0100
-Message-Id: <20200514142138.20875-20-peter.maydell@linaro.org>
+Subject: [PULL 20/45] hw/arm/virt: Introduce a RAS machine option
+Date: Thu, 14 May 2020 15:21:13 +0100
+Message-Id: <20200514142138.20875-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514142138.20875-1-peter.maydell@linaro.org>
 References: <20200514142138.20875-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,91 +90,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Dongjiu Geng <gengdongjiu@huawei.com>
 
-The little end UUID is used in many places, so make
-NVDIMM_UUID_LE to a common macro to convert the UUID
-to a little end array.
+RAS Virtualization feature is not supported now, so
+add a RAS machine option and disable it by default.
 
-Reviewed-by: Xiang Zheng <zhengxiang9@huawei.com>
-Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-Message-id: 20200512030609.19593-2-gengdongjiu@huawei.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-id: 20200512030609.19593-3-gengdongjiu@huawei.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/qemu/uuid.h | 27 +++++++++++++++++++++++++++
- hw/acpi/nvdimm.c    | 10 +++-------
- 2 files changed, 30 insertions(+), 7 deletions(-)
+ include/hw/arm/virt.h |  1 +
+ hw/arm/virt.c         | 23 +++++++++++++++++++++++
+ 2 files changed, 24 insertions(+)
 
-diff --git a/include/qemu/uuid.h b/include/qemu/uuid.h
-index 129c45f2c5e..9925febfa54 100644
---- a/include/qemu/uuid.h
-+++ b/include/qemu/uuid.h
-@@ -34,6 +34,33 @@ typedef struct {
-     };
- } QemuUUID;
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index 6d67ace76e1..31878ddc722 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -132,6 +132,7 @@ typedef struct {
+     bool highmem_ecam;
+     bool its;
+     bool virt;
++    bool ras;
+     OnOffAuto acpi;
+     VirtGICType gic_version;
+     VirtIOMMUType iommu;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 634db0cfe97..9e76fa7b01b 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1995,6 +1995,20 @@ static void virt_set_acpi(Object *obj, Visitor *v, const char *name,
+     visit_type_OnOffAuto(v, name, &vms->acpi, errp);
+ }
  
-+/**
-+ * UUID_LE - converts the fields of UUID to little-endian array,
-+ * each of parameters is the filed of UUID.
-+ *
-+ * @time_low: The low field of the timestamp
-+ * @time_mid: The middle field of the timestamp
-+ * @time_hi_and_version: The high field of the timestamp
-+ *                       multiplexed with the version number
-+ * @clock_seq_hi_and_reserved: The high field of the clock
-+ *                             sequence multiplexed with the variant
-+ * @clock_seq_low: The low field of the clock sequence
-+ * @node0: The spatially unique node0 identifier
-+ * @node1: The spatially unique node1 identifier
-+ * @node2: The spatially unique node2 identifier
-+ * @node3: The spatially unique node3 identifier
-+ * @node4: The spatially unique node4 identifier
-+ * @node5: The spatially unique node5 identifier
-+ */
-+#define UUID_LE(time_low, time_mid, time_hi_and_version,                    \
-+  clock_seq_hi_and_reserved, clock_seq_low, node0, node1, node2,            \
-+  node3, node4, node5)                                                      \
-+  { (time_low) & 0xff, ((time_low) >> 8) & 0xff, ((time_low) >> 16) & 0xff, \
-+    ((time_low) >> 24) & 0xff, (time_mid) & 0xff, ((time_mid) >> 8) & 0xff, \
-+    (time_hi_and_version) & 0xff, ((time_hi_and_version) >> 8) & 0xff,      \
-+    (clock_seq_hi_and_reserved), (clock_seq_low), (node0), (node1), (node2),\
-+    (node3), (node4), (node5) }
++static bool virt_get_ras(Object *obj, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(obj);
 +
- #define UUID_FMT "%02hhx%02hhx%02hhx%02hhx-" \
-                  "%02hhx%02hhx-%02hhx%02hhx-" \
-                  "%02hhx%02hhx-" \
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index fa7bf8b5075..9316d12b702 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -27,6 +27,7 @@
-  */
++    return vms->ras;
++}
++
++static void virt_set_ras(Object *obj, bool value, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++
++    vms->ras = value;
++}
++
+ static char *virt_get_gic_version(Object *obj, Error **errp)
+ {
+     VirtMachineState *vms = VIRT_MACHINE(obj);
+@@ -2327,6 +2341,15 @@ static void virt_instance_init(Object *obj)
+                                     "Valid values are none and smmuv3",
+                                     NULL);
  
- #include "qemu/osdep.h"
-+#include "qemu/uuid.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/aml-build.h"
- #include "hw/acpi/bios-linker-loader.h"
-@@ -34,18 +35,13 @@
- #include "hw/mem/nvdimm.h"
- #include "qemu/nvdimm-utils.h"
++    /* Default disallows RAS instantiation */
++    vms->ras = false;
++    object_property_add_bool(obj, "ras", virt_get_ras,
++                             virt_set_ras, NULL);
++    object_property_set_description(obj, "ras",
++                                    "Set on/off to enable/disable reporting host memory errors "
++                                    "to a KVM guest using ACPI and guest external abort exceptions",
++                                    NULL);
++
+     vms->irqmap = a15irqmap;
  
--#define NVDIMM_UUID_LE(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)             \
--   { (a) & 0xff, ((a) >> 8) & 0xff, ((a) >> 16) & 0xff, ((a) >> 24) & 0xff, \
--     (b) & 0xff, ((b) >> 8) & 0xff, (c) & 0xff, ((c) >> 8) & 0xff,          \
--     (d0), (d1), (d2), (d3), (d4), (d5), (d6), (d7) }
--
- /*
-  * define Byte Addressable Persistent Memory (PM) Region according to
-  * ACPI 6.0: 5.2.25.1 System Physical Address Range Structure.
-  */
- static const uint8_t nvdimm_nfit_spa_uuid[] =
--      NVDIMM_UUID_LE(0x66f0d379, 0xb4f3, 0x4074, 0xac, 0x43, 0x0d, 0x33,
--                     0x18, 0xb7, 0x8c, 0xdb);
-+      UUID_LE(0x66f0d379, 0xb4f3, 0x4074, 0xac, 0x43, 0x0d, 0x33,
-+              0x18, 0xb7, 0x8c, 0xdb);
- 
- /*
-  * NVDIMM Firmware Interface Table
+     virt_flash_create(vms);
 -- 
 2.20.1
 
