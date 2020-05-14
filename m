@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004231D34D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:18:31 +0200 (CEST)
-Received: from localhost ([::1]:37022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A56FE1D34EB
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:19:38 +0200 (CEST)
+Received: from localhost ([::1]:41320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZFd0-0005zP-1U
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:18:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47772)
+	id 1jZFe5-0000qM-OL
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:19:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jZFbf-0003wn-NA
- for qemu-devel@nongnu.org; Thu, 14 May 2020 11:17:07 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42745
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jZFbe-0002ca-Po
- for qemu-devel@nongnu.org; Thu, 14 May 2020 11:17:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589469425;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=ZdoSemO+CEcJZ8IM7vaGir0gUiR19EhUeUGylY0GoVU=;
- b=JwnMZoqtmP5wx82knoCbk46ZkGjzyhBSFgajj7ql7DcnqEeOyN5vY0sOtvEbqPwBbfm5SU
- wBBzq6CjNgy3owfT+R+gwYamQHEBhwYL3THj/4vWwPYlQ9ELxdIfLj65Ka5RF6CVYnIo+/
- IqXi1FLXMJwU8HW6/1INWwYrfuQJIJ8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-xMoGqGjNNQOsn3Gf3h3-jQ-1; Thu, 14 May 2020 11:17:02 -0400
-X-MC-Unique: xMoGqGjNNQOsn3Gf3h3-jQ-1
-Received: by mail-wr1-f72.google.com with SMTP id x8so1721801wrl.16
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 08:17:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jZFcN-0005hh-Ky
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 11:17:51 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:37541)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jZFcL-0002lD-SD
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 11:17:51 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id r25so24834455oij.4
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 08:17:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FYtiFn5hsdhRghFJZUw+0Ak8FyrvCYuKBT5Nok0qyBA=;
+ b=k+fe8ALGm2vn4zmIR8d/x9HVJQKV7YymgIb36aPLzHJCJLjr6aixZMgk0D3FtyKQPz
+ AEClD8DlXmiyxP1vG6AN+FAzCZXELgaEUMurceU/YlYkW+cDbxWhUffDGZY0plfSl69N
+ ukqf2pgH9ojOHZ5qTgEi2IAAVSUfBSIbeKvJidFsIAD+2Sel3KKrYx7C/mU1DUZai7N8
+ TeS69Rq29IMJMaLZqsCDKmJpbtfE/csWMIx3gxPwJbr1wK7MLHgf7dkn1jemgsisj2xQ
+ RXbc6lEwrIjYkWnX8AVd5mA6HWOQZ3PrdzOM+I01p+fP34Gu1JEHC4j99D0BVrl5yAzd
+ cFxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=ZdoSemO+CEcJZ8IM7vaGir0gUiR19EhUeUGylY0GoVU=;
- b=rPxpsfCjQ6ul6NFQtLxbi28zCc8NOycmIBtS/3aaONZUZL53iOjQNYqw7Yec0Q8w90
- vAdutMspzJoFL5P+qgFNx+jaPNDRkHloIlOW7s0G673oSKNo1AUKlWsQEStIKAq4zupn
- SPFe+ncysIv7brbHFr5ypFnxsB6rYCIUEuMM+AFJK2WcNVVKRnrPdnP/TluxsZjXLJ9z
- KKZriLExG1ZRbVSEY7NY0ZKLTnbmflI6pKZy3MXP6oWmjGJlr1b4PCJSeUeqXMjJUto3
- RbXP/OpiPDOgsxad1Gzr7Ir7yxuFitk9vgENn5rMzSA9LgEx2sF3EMgOIJKOaGYPetfv
- 0+2Q==
-X-Gm-Message-State: AOAM531x+DsQD4TMbRCmqktFtYAEA9HLmG0pj1t0peHWI/D74oecQbyY
- dynX2DC1TZHSAIj7FqN8iXOWXOJkgdsceASItQYQuqDsaRoQEaHSJ2Z6asBWhHBS/ymHZo0pZXO
- YSBMb0Y4rLB02QzE=
-X-Received: by 2002:a5d:414f:: with SMTP id c15mr6025606wrq.61.1589469421045; 
- Thu, 14 May 2020 08:17:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzAvCmOEMRJsZ/HRx1Sqe/Y/3PWekTh0cQ6tg2SJCCXH9lYM3H82/uayxMROdVro1k14nkJ7A==
-X-Received: by 2002:a5d:414f:: with SMTP id c15mr6025589wrq.61.1589469420831; 
- Thu, 14 May 2020 08:17:00 -0700 (PDT)
-Received: from redhat.com (bzq-79-179-68-225.red.bezeqint.net. [79.179.68.225])
- by smtp.gmail.com with ESMTPSA id 60sm4583208wrp.92.2020.05.14.08.16.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 08:17:00 -0700 (PDT)
-Date: Thu, 14 May 2020 11:16:58 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] msix: allow qword MSI-X table accesses
-Message-ID: <20200514151648.877882-1-mst@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FYtiFn5hsdhRghFJZUw+0Ak8FyrvCYuKBT5Nok0qyBA=;
+ b=gmJ0mUEEHsWt24cPPfNM1oIYwYpt2csjtfFRpvJ6kKZmMpv4IBBKgxlJ88FAtQ/pcM
+ kxctlT2Io2rT7wUnXvIkvmUUZZZiPMA7LGMkA1KvHC5D4uwpOXE9gpVUCGJcwtdV3ktr
+ xtkG2SOrOwZf+hrN0MFf0RUk9OUEsWHIrXL/dATCPN6FbEIfqL5iSJpuJNTW6WtMc9+C
+ eWp+YFU6gVqsPGOkrC9SZVgdVpH2awY26tY9qyixJO6xeKJFnB5FqM+AoRXLcxfg+mzD
+ 9kCDh0pQJ5mLx6gCgsuYc3E7LAS/1tERvggXJt3vj0foHgdIlkfhJ/X+g6E4UORYdHtK
+ VR3w==
+X-Gm-Message-State: AOAM533L5tjWWcImgGep+XYwtCBOAWOaSU5H/ISkPtLmlein4zGitcP0
+ Pfd+arEs/St7ED9EVKYRZrmW/nv5+NAD50594UiqJw==
+X-Google-Smtp-Source: ABdhPJwhEmFIqxZ9YEbzkO9kQue6sSrPM8Mq7npbTzLkNSHD59hin4fHBfJWQni3Gk7TOis8Wa2TqzFrFbUsH01Jvz8=
+X-Received: by 2002:aca:eb96:: with SMTP id j144mr1487784oih.48.1589469468254; 
+ Thu, 14 May 2020 08:17:48 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
-X-Mutt-Fcc: =sent
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+References: <20200514141402.12498-1-edgar.iglesias@gmail.com>
+In-Reply-To: <20200514141402.12498-1-edgar.iglesias@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 14 May 2020 16:17:37 +0100
+Message-ID: <CAFEAcA--MpxaXXZGqMZUC=pYwuRT-TD-tFEuB2kX=731xeMAnw@mail.gmail.com>
+Subject: Re: [PULL v1 00/14] Xilinx queue 2020-05-14
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x22f.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,52 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jusual@redhat.com
+Cc: Edgar Iglesias <edgar.iglesias@xilinx.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PCI spec says:
+On Thu, 14 May 2020 at 15:14, Edgar E. Iglesias
+<edgar.iglesias@gmail.com> wrote:
+>
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+>
+> The following changes since commit 035b448b84f3557206abc44d786c5d3db2638f7d:
+>
+>   Merge remote-tracking branch 'remotes/gkurz/tags/9p-next-2020-05-14' into staging (2020-05-14 10:58:30 +0100)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:edgarigl/qemu.git tags/edgar/xilinx-next-2020-05-14.for-upstream
+>
+> for you to fetch changes up to 2ead1b18ca1bbc41c09a82d980e1e5f53afa08eb:
+>
+>   target/microblaze: monitor: Increase the number of registers reported (2020-05-14 16:01:02 +0200)
+>
+> ----------------------------------------------------------------
+> Upstream
+>
+> ----------------------------------------------------------------
 
-For all accesses to MSI-X Table and MSI-X PBA fields, software must use
-aligned full DWORD or aligned full QWORD transactions; otherwise, the
-result is undefined.
 
-However, since MSI-X was converted to use memory API, QEMU
-started blocking qword transactions, only allowing DWORD
-ones. Guests do not seem to use QWORD accesses, but let's
-be spec compliant.
+Applied, thanks.
 
-Fixes: 95524ae8dc8f ("msix: convert to memory API")
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/pci/msix.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
-diff --git a/hw/pci/msix.c b/hw/pci/msix.c
-index 29187898f2..e6a5559038 100644
---- a/hw/pci/msix.c
-+++ b/hw/pci/msix.c
-@@ -199,6 +199,9 @@ static const MemoryRegionOps msix_table_mmio_ops = {
-     .endianness = DEVICE_LITTLE_ENDIAN,
-     .valid = {
-         .min_access_size = 4,
-+        .max_access_size = 8,
-+    },
-+    .impl = {
-         .max_access_size = 4,
-     },
- };
-@@ -227,6 +230,9 @@ static const MemoryRegionOps msix_pba_mmio_ops = {
-     .endianness = DEVICE_LITTLE_ENDIAN,
-     .valid = {
-         .min_access_size = 4,
-+        .max_access_size = 8,
-+    },
-+    .impl = {
-         .max_access_size = 4,
-     },
- };
--- 
-MST
-
+-- PMM
 
