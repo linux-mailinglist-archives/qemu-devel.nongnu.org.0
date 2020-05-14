@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207C31D3347
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:42:53 +0200 (CEST)
-Received: from localhost ([::1]:40284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F6C1D333B
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:40:03 +0200 (CEST)
+Received: from localhost ([::1]:56452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZF4W-00086J-1R
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:42:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39630)
+	id 1jZF1m-0002xJ-5v
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:40:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZEkc-0003Wt-PF
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:18 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38926)
+ id 1jZEke-0003XG-0m
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:20 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:34212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZEkZ-0005w2-6Q
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:18 -0400
-Received: by mail-wm1-x332.google.com with SMTP id w64so628510wmg.4
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:22:13 -0700 (PDT)
+ id 1jZEkZ-0005xs-7x
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:19 -0400
+Received: by mail-wm1-x329.google.com with SMTP id g14so14457283wme.1
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:22:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=WElA4C7QqPHgi5yCVB6e73Tx0Mqbzxjdbg2stZVJDhM=;
- b=dFiR1MogyIl92c2dVVGVz4qfXkMpCVOZZtn3GqKBuOQdDWx2sqHHW9rkwM1Nkgv78/
- ehEWBBJHMiM4AC8RfTBBwGNL52VIoLNhMpNZjiIJKgXTdmds1ij80zYmnkyMyzgqhYK0
- T3Sg/MQxSCjD5fvOLdvUj1G1rdxg5VGOIfXuVwHGP5GarKrWvYZeSPvwycfDdb+Qtu4j
- sSLnH49CXkw2VBWTs/BYrJT/ZPo59wj8BkGB1WG5nwrV7N1g/FxnzigfAL5o0FyCqziq
- uEt64rzn3KOO0GzCu1G7VHsP8o+Rc6xUWoPdTsRLmJZrpwVUDNfvaXbeTV7pq3tBqWAh
- vH3g==
+ bh=M+M0m07yKdOnD1CKuggGRFKn4wk3ZHndI4rU3fH7gtA=;
+ b=A3l6082Q+fddXBKThS1yO9AcsKEG/AY/zM/yv7q/iJrLVn19Nw/UWGfStfjmosB77b
+ kQnE+SkgmcplflFMHPrklZjFfdxe3N/IB0AgvycVw2BU6KEyrsdpeaNrjBZpOLtsCSLC
+ +LwY0YIApQiPTTScxKxNJoPg9LQE9YIphUFmVapjm9t00et3OSMvfDlIjgyh70IKsgTk
+ xymcvOmpBMzwYdjueMVHebHTnxWCWACNVef3bGSxcwiUElRNQE+DC9haRGIYgkGAhwFr
+ W67ra95rdtgtf+ossGKz+End6tJ9lgSj0ISEDziwaDAdHHbQxfcNgAmD3oZGXK1uee8F
+ w2uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WElA4C7QqPHgi5yCVB6e73Tx0Mqbzxjdbg2stZVJDhM=;
- b=RI8QVgMkVhbbdFqyT+TPZ9RxJ4xixfr9zy7mlZ69s86sqPWlceE9zjPg44o0f1Nk1j
- ub9u76Pz/8fk0iZb2UAQgn4fFBh5bhQuxP5L2VlCTj15ExUFsvc+bYEDFBGSM2GNuW4T
- EcP+iBONsRHCsmtgGqr5qKL2LMM0rcDy511mYbBDe5zTwAVsEDjLdQTbhprSQp7Cz3gA
- U8UFtNAq61WoKk5nObV7xIyVlCRa2lOgQzRoEHpdkQGY0Z6lA2zKs9o1EG7wVwfpBF3e
- E31EsgTOhaIWJfokJLaMr/c2y6Vy5F3cD6YVcAQUd5+qOjZZPvp/PO+K7mhJDLBK+hs0
- IOIQ==
-X-Gm-Message-State: AGi0PuZTk6i3JlaVtI8A275zRv45nBtFeRmmJH6O/LevSeQ4ld6x9WzF
- 6vT7wrQgASajOgwAZtsogvNntPK+l0+d0A==
-X-Google-Smtp-Source: APiQypLfeX9zP8ci4ec6o9axgS5P/6pqCAwBAvQ8VauYaWutT/fUeWd7vLGTJl1puovHFjLyArEV9A==
-X-Received: by 2002:a05:600c:218e:: with SMTP id
- e14mr51472731wme.140.1589466132174; 
- Thu, 14 May 2020 07:22:12 -0700 (PDT)
+ bh=M+M0m07yKdOnD1CKuggGRFKn4wk3ZHndI4rU3fH7gtA=;
+ b=M7Pdwe1jfDBDzihKg1m/j+HR3SA5aSm2fSZP77iRnSTNxFrelcpKwqRXexrP1LEVYm
+ bZVJpycJwKPuhZi+0C0cu68VYHGKCkUl8DfVot2E/+ayQehpErY1x1Cn+BhT239RRoHJ
+ 0doiQIUUDvRp1j29VOW2mZLL3w+5dQwYXaQeKFreLtWmpGWATU1Iq0DIGMPH4V/Uq/rh
+ XmyETzcyC8TP1aB+7papz34V7W74Jv54aeCOI2Onf0cLoiHVrQzP/jP29uQdROAcZL1F
+ FysGPdzJvYNV2oS4hJowE5H0eCF4JMIp+LP16qHVSVGns7hvC/GrDmUBMlKFB8OHTiA7
+ qavQ==
+X-Gm-Message-State: AGi0PuYZx2z9rmtX5PnI1Ke9e0LLg57hMY3ASuFhckX5J5EERn9WyO+R
+ Orixsd+XMFpQOCxcBC4S3HBewzoAl2Vjdg==
+X-Google-Smtp-Source: APiQypJ8FgMRIb8oLyuLbml7FMW+cs7+9CYa2D/BLHUbbgF3n9LmKQj8vS6lhLZ7sf+fjXuiMHhWug==
+X-Received: by 2002:a1c:1f16:: with SMTP id f22mr28563762wmf.46.1589466133418; 
+ Thu, 14 May 2020 07:22:13 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 88sm4077443wrq.77.2020.05.14.07.22.10
+ by smtp.gmail.com with ESMTPSA id 88sm4077443wrq.77.2020.05.14.07.22.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:22:11 -0700 (PDT)
+ Thu, 14 May 2020 07:22:12 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/45] ACPI: Record the Generic Error Status Block address
-Date: Thu, 14 May 2020 15:21:17 +0100
-Message-Id: <20200514142138.20875-25-peter.maydell@linaro.org>
+Subject: [PULL 25/45] KVM: Move hwpoison page related functions into kvm-all.c
+Date: Thu, 14 May 2020 15:21:18 +0100
+Message-Id: <20200514142138.20875-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514142138.20875-1-peter.maydell@linaro.org>
 References: <20200514142138.20875-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,158 +90,169 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Dongjiu Geng <gengdongjiu@huawei.com>
 
-Record the GHEB address via fw_cfg file, when recording
-a error to CPER, it will use this address to find out
-Generic Error Data Entries and write the error.
+kvm_hwpoison_page_add() and kvm_unpoison_all() will both
+be used by X86 and ARM platforms, so moving them into
+"accel/kvm/kvm-all.c" to avoid duplicate code.
 
-In order to avoid migration failure, make hardware
-error table address to a part of GED device instead
-of global variable, then this address will be migrated
-to target QEMU.
+For architectures that don't use the poison-list functionality
+the reset handler will harmlessly do nothing, so let's register
+the kvm_unpoison_all() function in the generic kvm_init() function.
 
-Acked-by: Xiang Zheng <zhengxiang9@huawei.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-id: 20200512030609.19593-7-gengdongjiu@huawei.com
+Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+Acked-by: Xiang Zheng <zhengxiang9@huawei.com>
+Message-id: 20200512030609.19593-8-gengdongjiu@huawei.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/acpi/generic_event_device.h |  2 ++
- include/hw/acpi/ghes.h                 |  6 ++++++
- hw/acpi/generic_event_device.c         | 19 +++++++++++++++++++
- hw/acpi/ghes.c                         | 14 ++++++++++++++
- hw/arm/virt-acpi-build.c               |  8 ++++++++
- 5 files changed, 49 insertions(+)
+ include/sysemu/kvm_int.h | 12 ++++++++++++
+ accel/kvm/kvm-all.c      | 36 ++++++++++++++++++++++++++++++++++++
+ target/i386/kvm.c        | 36 ------------------------------------
+ 3 files changed, 48 insertions(+), 36 deletions(-)
 
-diff --git a/include/hw/acpi/generic_event_device.h b/include/hw/acpi/generic_event_device.h
-index 9eb86ca4fd9..83917de0242 100644
---- a/include/hw/acpi/generic_event_device.h
-+++ b/include/hw/acpi/generic_event_device.h
-@@ -61,6 +61,7 @@
+diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
+index ac2d1f8b568..c660a70c51a 100644
+--- a/include/sysemu/kvm_int.h
++++ b/include/sysemu/kvm_int.h
+@@ -42,4 +42,16 @@ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
+                                   AddressSpace *as, int as_id);
  
- #include "hw/sysbus.h"
- #include "hw/acpi/memory_hotplug.h"
-+#include "hw/acpi/ghes.h"
- 
- #define ACPI_POWER_BUTTON_DEVICE "PWRB"
- 
-@@ -96,6 +97,7 @@ typedef struct AcpiGedState {
-     GEDState ged_state;
-     uint32_t ged_event_bitmap;
-     qemu_irq irq;
-+    AcpiGhesState ghes_state;
- } AcpiGedState;
- 
- void build_ged_aml(Aml *table, const char* name, HotplugHandler *hotplug_dev,
-diff --git a/include/hw/acpi/ghes.h b/include/hw/acpi/ghes.h
-index 18debd8cf7c..a3420fc9be8 100644
---- a/include/hw/acpi/ghes.h
-+++ b/include/hw/acpi/ghes.h
-@@ -62,6 +62,12 @@ enum {
-     ACPI_HEST_SRC_ID_RESERVED,
- };
- 
-+typedef struct AcpiGhesState {
-+    uint64_t ghes_addr_le;
-+} AcpiGhesState;
+ void kvm_set_max_memslot_size(hwaddr max_slot_size);
 +
- void build_ghes_error_table(GArray *hardware_errors, BIOSLinker *linker);
- void acpi_build_hest(GArray *table_data, BIOSLinker *linker);
-+void acpi_ghes_add_fw_cfg(AcpiGhesState *vms, FWCfgState *s,
-+                          GArray *hardware_errors);
++/**
++ * kvm_hwpoison_page_add:
++ *
++ * Parameters:
++ *  @ram_addr: the address in the RAM for the poisoned page
++ *
++ * Add a poisoned page to the list
++ *
++ * Return: None.
++ */
++void kvm_hwpoison_page_add(ram_addr_t ram_addr);
  #endif
-diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
-index 5d17f78a1e0..b1cbdd86b66 100644
---- a/hw/acpi/generic_event_device.c
-+++ b/hw/acpi/generic_event_device.c
-@@ -247,6 +247,24 @@ static const VMStateDescription vmstate_ged_state = {
-     }
- };
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 439a4efe526..36be11795d4 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -44,6 +44,7 @@
+ #include "qapi/visitor.h"
+ #include "qapi/qapi-types-common.h"
+ #include "qapi/qapi-visit-common.h"
++#include "sysemu/reset.h"
  
-+static bool ghes_needed(void *opaque)
-+{
-+    AcpiGedState *s = opaque;
-+    return s->ghes_state.ghes_addr_le;
-+}
-+
-+static const VMStateDescription vmstate_ghes_state = {
-+    .name = "acpi-ged/ghes",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = ghes_needed,
-+    .fields      = (VMStateField[]) {
-+        VMSTATE_STRUCT(ghes_state, AcpiGedState, 1,
-+                       vmstate_ghes_state, AcpiGhesState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static const VMStateDescription vmstate_acpi_ged = {
-     .name = "acpi-ged",
-     .version_id = 1,
-@@ -257,6 +275,7 @@ static const VMStateDescription vmstate_acpi_ged = {
-     },
-     .subsections = (const VMStateDescription * []) {
-         &vmstate_memhp_state,
-+        &vmstate_ghes_state,
-         NULL
-     }
- };
-diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
-index 091fd87094e..e74af23c366 100644
---- a/hw/acpi/ghes.c
-+++ b/hw/acpi/ghes.c
-@@ -24,6 +24,8 @@
- #include "hw/acpi/ghes.h"
- #include "hw/acpi/aml-build.h"
- #include "qemu/error-report.h"
-+#include "hw/acpi/generic_event_device.h"
-+#include "hw/nvram/fw_cfg.h"
+ #include "hw/boards.h"
  
- #define ACPI_GHES_ERRORS_FW_CFG_FILE        "etc/hardware_errors"
- #define ACPI_GHES_DATA_ADDR_FW_CFG_FILE     "etc/hardware_errors_addr"
-@@ -213,3 +215,15 @@ void acpi_build_hest(GArray *table_data, BIOSLinker *linker)
-     build_header(linker, table_data, (void *)(table_data->data + hest_start),
-         "HEST", table_data->len - hest_start, 1, NULL, NULL);
+@@ -883,6 +884,39 @@ int kvm_vm_check_extension(KVMState *s, unsigned int extension)
+     return ret;
  }
+ 
++typedef struct HWPoisonPage {
++    ram_addr_t ram_addr;
++    QLIST_ENTRY(HWPoisonPage) list;
++} HWPoisonPage;
 +
-+void acpi_ghes_add_fw_cfg(AcpiGhesState *ags, FWCfgState *s,
-+                          GArray *hardware_error)
++static QLIST_HEAD(, HWPoisonPage) hwpoison_page_list =
++    QLIST_HEAD_INITIALIZER(hwpoison_page_list);
++
++static void kvm_unpoison_all(void *param)
 +{
-+    /* Create a read-only fw_cfg file for GHES */
-+    fw_cfg_add_file(s, ACPI_GHES_ERRORS_FW_CFG_FILE, hardware_error->data,
-+                    hardware_error->len);
++    HWPoisonPage *page, *next_page;
 +
-+    /* Create a read-write fw_cfg file for Address */
-+    fw_cfg_add_file_callback(s, ACPI_GHES_DATA_ADDR_FW_CFG_FILE, NULL, NULL,
-+        NULL, &(ags->ghes_addr_le), sizeof(ags->ghes_addr_le), false);
-+}
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index ef94e034f6d..1b0a584c7b6 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -917,6 +917,7 @@ void virt_acpi_setup(VirtMachineState *vms)
- {
-     AcpiBuildTables tables;
-     AcpiBuildState *build_state;
-+    AcpiGedState *acpi_ged_state;
- 
-     if (!vms->fw_cfg) {
-         trace_virt_acpi_setup();
-@@ -947,6 +948,13 @@ void virt_acpi_setup(VirtMachineState *vms)
-     fw_cfg_add_file(vms->fw_cfg, ACPI_BUILD_TPMLOG_FILE, tables.tcpalog->data,
-                     acpi_data_len(tables.tcpalog));
- 
-+    if (vms->ras) {
-+        assert(vms->acpi_dev);
-+        acpi_ged_state = ACPI_GED(vms->acpi_dev);
-+        acpi_ghes_add_fw_cfg(&acpi_ged_state->ghes_state,
-+                             vms->fw_cfg, tables.hardware_errors);
++    QLIST_FOREACH_SAFE(page, &hwpoison_page_list, list, next_page) {
++        QLIST_REMOVE(page, list);
++        qemu_ram_remap(page->ram_addr, TARGET_PAGE_SIZE);
++        g_free(page);
 +    }
++}
 +
-     build_state->rsdp_mr = acpi_add_rom_blob(virt_acpi_build_update,
-                                              build_state, tables.rsdp,
-                                              ACPI_BUILD_RSDP_FILE, 0);
++void kvm_hwpoison_page_add(ram_addr_t ram_addr)
++{
++    HWPoisonPage *page;
++
++    QLIST_FOREACH(page, &hwpoison_page_list, list) {
++        if (page->ram_addr == ram_addr) {
++            return;
++        }
++    }
++    page = g_new(HWPoisonPage, 1);
++    page->ram_addr = ram_addr;
++    QLIST_INSERT_HEAD(&hwpoison_page_list, page, list);
++}
++
+ static uint32_t adjust_ioeventfd_endianness(uint32_t val, uint32_t size)
+ {
+ #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
+@@ -2085,6 +2119,8 @@ static int kvm_init(MachineState *ms)
+         s->kernel_irqchip_split = mc->default_kernel_irqchip_split ? ON_OFF_AUTO_ON : ON_OFF_AUTO_OFF;
+     }
+ 
++    qemu_register_reset(kvm_unpoison_all, NULL);
++
+     if (s->kernel_irqchip_allowed) {
+         kvm_irqchip_create(s);
+     }
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 4901c6dd747..34f838728dd 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -24,7 +24,6 @@
+ #include "sysemu/sysemu.h"
+ #include "sysemu/hw_accel.h"
+ #include "sysemu/kvm_int.h"
+-#include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "kvm_i386.h"
+ #include "hyperv.h"
+@@ -533,40 +532,6 @@ uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index)
+     }
+ }
+ 
+-
+-typedef struct HWPoisonPage {
+-    ram_addr_t ram_addr;
+-    QLIST_ENTRY(HWPoisonPage) list;
+-} HWPoisonPage;
+-
+-static QLIST_HEAD(, HWPoisonPage) hwpoison_page_list =
+-    QLIST_HEAD_INITIALIZER(hwpoison_page_list);
+-
+-static void kvm_unpoison_all(void *param)
+-{
+-    HWPoisonPage *page, *next_page;
+-
+-    QLIST_FOREACH_SAFE(page, &hwpoison_page_list, list, next_page) {
+-        QLIST_REMOVE(page, list);
+-        qemu_ram_remap(page->ram_addr, TARGET_PAGE_SIZE);
+-        g_free(page);
+-    }
+-}
+-
+-static void kvm_hwpoison_page_add(ram_addr_t ram_addr)
+-{
+-    HWPoisonPage *page;
+-
+-    QLIST_FOREACH(page, &hwpoison_page_list, list) {
+-        if (page->ram_addr == ram_addr) {
+-            return;
+-        }
+-    }
+-    page = g_new(HWPoisonPage, 1);
+-    page->ram_addr = ram_addr;
+-    QLIST_INSERT_HEAD(&hwpoison_page_list, page, list);
+-}
+-
+ static int kvm_get_mce_cap_supported(KVMState *s, uint64_t *mce_cap,
+                                      int *max_banks)
+ {
+@@ -2180,7 +2145,6 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+         fprintf(stderr, "e820_add_entry() table is full\n");
+         return ret;
+     }
+-    qemu_register_reset(kvm_unpoison_all, NULL);
+ 
+     shadow_mem = object_property_get_int(OBJECT(s), "kvm-shadow-mem", &error_abort);
+     if (shadow_mem != -1) {
 -- 
 2.20.1
 
