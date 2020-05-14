@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7629A1D34F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:22:26 +0200 (CEST)
-Received: from localhost ([::1]:49408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 958EA1D3559
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:40:07 +0200 (CEST)
+Received: from localhost ([::1]:49994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZFgn-0005BR-IT
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:22:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48282)
+	id 1jZFxu-00023U-Md
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:40:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jZFex-0002eT-2o
- for qemu-devel@nongnu.org; Thu, 14 May 2020 11:20:31 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44167
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jZFew-0003IS-6z
- for qemu-devel@nongnu.org; Thu, 14 May 2020 11:20:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589469628;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tDIXc0CCE1Ocf+J9K9gV4w4fLq+QlPigwwJGeIWaaAY=;
- b=X+1y4xEpu6EeDWneWoTsUdQbqXBTaSrNhDI2KvyE5w6ZyQ1sBovt+k8HNtBy0t+R+2AMHq
- bexmx25YEhHnnjxZ8A9VNNDs1zB/osJubz2Ijx38XEJEYDPxhxVflbfduEiUGmudTB4+jC
- X45RPNp/figDOYSv56g760xlgGGStZU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-UzWEHQOMOOyvDGc9Ipfffw-1; Thu, 14 May 2020 11:20:27 -0400
-X-MC-Unique: UzWEHQOMOOyvDGc9Ipfffw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0871319057A1;
- Thu, 14 May 2020 15:20:26 +0000 (UTC)
-Received: from gondolin (unknown [10.40.192.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB9BB5D9E8;
- Thu, 14 May 2020 15:20:24 +0000 (UTC)
-Date: Thu, 14 May 2020 17:20:21 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Jared Rossi <jrossi@linux.ibm.com>
-Subject: Re: [PATCH v2 1/1] vfio-ccw: allow non-prefetch ORBs
-Message-ID: <20200514172021.5a66bc56.cohuck@redhat.com>
-In-Reply-To: <20200512181535.18630-2-jrossi@linux.ibm.com>
-References: <20200512181535.18630-1-jrossi@linux.ibm.com>
- <20200512181535.18630-2-jrossi@linux.ibm.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jZFwk-0000lr-3v; Thu, 14 May 2020 11:38:54 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:44937)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jZFwj-0004Th-4v; Thu, 14 May 2020 11:38:53 -0400
+Received: by mail-il1-x144.google.com with SMTP id j3so3694106ilk.11;
+ Thu, 14 May 2020 08:38:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fRkLzUuK1FZmLm45b8Vqv/xhaBJhqQ2j7GRNauOGDLc=;
+ b=JSI6FTnnOlMmVjImQjbg4V3BhAD/bCR8Q9csVARXnM2U9Y7gFRYG0ltzQ1FpQQa7Tl
+ 9A9WgVxwxeGJ50BAh3WpY5Dt9GTNErLX2BQDDGAnaENDNs1NSrDvASGJD20iFpPW+Zj1
+ paTRyDo+w28uFxkUvSIhxIolt60OlGboUw7A3JDEXBcJcm5HAN/z9HhC47tTsFvcxlXW
+ L26q7qZUTJ+pr+V/4s8wEygFHjkUOWu9I3dXlaqt96tUOOHPsz9CYuBLx9mUChCybFFi
+ oOwvAamWvDEYC+e+xw7Ij4qsLyKWjwUEuviiS9gtKQ3aCkoSVy3GtYDLJVr6K9bh7kQs
+ Q9Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fRkLzUuK1FZmLm45b8Vqv/xhaBJhqQ2j7GRNauOGDLc=;
+ b=dlkcUAWB0vrP3tIim06VnyPoYAwtJRWUzmR64P8coB/inDlwWUCimE19yYMfDPy93t
+ TU/it3j316CANZBclVVyy7ADUu7HfytP86WXtvWiSyUN/ugjb3V3L0/1bL57KYNajf89
+ E43TF/sCXf7gBRERX7FPy8Nb4OZ0aUKgJ4VgibH7kg2dwGREtPNta7//b3/KQ6oA3FWG
+ SrWVT9dZoXhKJA3phEPr8VKoPFVfK34xZ/Mn6Wjj9dEA2jlpMrZPxQ2+NCgLvEyfnvSv
+ ooDAu3+gPg1SYvqC3JX4pHxJSkEV9YkV58y4WU3kj2DDKzdOjTlfivnLwWLJyz0l9I6e
+ 8FZQ==
+X-Gm-Message-State: AOAM533fx8Hub0tlMJQ209oB0UiVu4OMlE9n0PC6t+/PuNGjuUd1cDHp
+ AC5xwBdlSgzu+RoYMNszH8sB4qGld52IWgk1e2g=
+X-Google-Smtp-Source: ABdhPJxN7STwDFxKs+jSjglMVTl/5Wa6iH940lmBMESctDwOPAD3eijEz2QvTGfRi5IyPYR+S3ThDd2rpRGNdZcQT28=
+X-Received: by 2002:a92:de02:: with SMTP id x2mr5368257ilm.267.1589470731239; 
+ Thu, 14 May 2020 08:38:51 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <cover.1588878756.git.alistair.francis@wdc.com>
+ <dc10c6b220154fd448630ef7a790e5d7e59ab45a.1588878756.git.alistair.francis@wdc.com>
+ <CAEUhbmVMu4hov1WxafL9+8kET_Q_Q2hMi8JTnbKE78EhU4kaHQ@mail.gmail.com>
+In-Reply-To: <CAEUhbmVMu4hov1WxafL9+8kET_Q_Q2hMi8JTnbKE78EhU4kaHQ@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 14 May 2020 08:30:03 -0700
+Message-ID: <CAKmqyKP6khvkjPbYuth3cXgyS6Zed8S29tfwW1Yv_x1MmxG4sw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/9] riscv/boot: Add a missing header include
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,75 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Farman <farman@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 May 2020 14:15:35 -0400
-Jared Rossi <jrossi@linux.ibm.com> wrote:
+On Thu, May 14, 2020 at 8:34 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Fri, May 8, 2020 at 3:24 AM Alistair Francis
+> <alistair.francis@wdc.com> wrote:
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  include/hw/riscv/boot.h | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+> > index 474a940ad5..9daa98da08 100644
+> > --- a/include/hw/riscv/boot.h
+> > +++ b/include/hw/riscv/boot.h
+> > @@ -21,6 +21,7 @@
+> >  #define RISCV_BOOT_H
+> >
+> >  #include "exec/cpu-defs.h"
+> > +#include "hw/loader.h"
+>
+> Why is this needed? Currently this does not break build.
 
-> Remove the explicit prefetch check when using vfio-ccw devices.
-> This check does not trigger in practice as all Linux channel programs
-> are intended to use prefetch.
-> 
-> It is no longer required to force the PFCH flag when using vfio-ccw
-> devices.
+Currently every c file that includes boot.h also includes loader.h
+before it. Which is why the build works fine. We should be able to
+include just boot.h though so this is a small fixup to allow that.
 
-That's not quite true: Only kernels that include the currently-queued
-patch do not require it. Maybe
+Alistair
 
-"Newer Linux kernel versions do not require to force the PFCH flag with
-vfio-ccw devices anymore."
-
-?
-
-> 
-> Signed-off-by: Jared Rossi <jrossi@linux.ibm.com>
-> ---
->  hw/vfio/ccw.c | 13 +++----------
->  1 file changed, 3 insertions(+), 10 deletions(-)
-> 
-> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-> index 50cc2ec75c..e649377b68 100644
-> --- a/hw/vfio/ccw.c
-> +++ b/hw/vfio/ccw.c
-> @@ -74,16 +74,9 @@ static IOInstEnding vfio_ccw_handle_request(SubchDev *sch)
->      struct ccw_io_region *region = vcdev->io_region;
->      int ret;
->  
-> -    if (!(sch->orb.ctrl0 & ORB_CTRL0_MASK_PFCH)) {
-> -        if (!(vcdev->force_orb_pfch)) {
-> -            warn_once_pfch(vcdev, sch, "requires PFCH flag set");
-> -            sch_gen_unit_exception(sch);
-> -            css_inject_io_interrupt(sch);
-> -            return IOINST_CC_EXPECTED;
-> -        } else {
-> -            sch->orb.ctrl0 |= ORB_CTRL0_MASK_PFCH;
-> -            warn_once_pfch(vcdev, sch, "PFCH flag forced");
-> -        }
-> +    if (!(sch->orb.ctrl0 & ORB_CTRL0_MASK_PFCH) && vcdev->force_orb_pfch) {
-> +        sch->orb.ctrl0 |= ORB_CTRL0_MASK_PFCH;
-> +        warn_once_pfch(vcdev, sch, "PFCH flag forced");
->      }
->  
->      QEMU_BUILD_BUG_ON(sizeof(region->orb_area) != sizeof(ORB));
-
-Let me spell out what happens:
-- PFCH bit set -> no change
-- PFCH bit not set, but force_orb_pfch set -> no change
-- neither PFCH bit nor force_orb_pfch set:
-  - older kernels: QEMU makes the request, the kernel rejects it, guest
-    gets a unit exception (same result for the guest as before, only a
-    different code flow)
-  - newer kernels: QEMU makes the request, the kernel forwards the
-    request (logging a rate-limited warning); the result depends on
-    whether the guest actually tries to rewrite the channel program or
-    not
-
-I think that is what we want, and I think I'll queue this patch with
-the tweaked commit message, but I'd like a second opinion.
-
-(We should also deprecate force_orb_pfch in the future.)
-
+>
+> >
+> >  void riscv_find_and_load_firmware(MachineState *machine,
+> >                                    const char *default_machine_firmware,
+>
+> Regards,
+> Bin
 
