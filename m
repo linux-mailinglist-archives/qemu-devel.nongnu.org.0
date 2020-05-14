@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72391D3ED9
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 22:18:02 +0200 (CEST)
-Received: from localhost ([::1]:34340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8131D3ED8
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 22:17:59 +0200 (CEST)
+Received: from localhost ([::1]:33940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZKIr-0002Q3-O5
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 16:18:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37458)
+	id 1jZKIn-00027I-T9
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 16:17:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZKHG-000053-Lw
- for qemu-devel@nongnu.org; Thu, 14 May 2020 16:16:22 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38210
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZKHH-00005b-7F
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 16:16:23 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30899
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZKHE-0003Pe-QU
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZKHG-0003Pp-AZ
  for qemu-devel@nongnu.org; Thu, 14 May 2020 16:16:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589487379;
+ s=mimecast20190719; t=1589487381;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5c3JXTjLB0kcBxcEcgpTGmufc4S1PBThgc89jAYtQ44=;
- b=PePdEGubRDkM3Cbyd/0Qpinu1vGfRQRxTeDC3IUBldZjTgsNZlY8YvwpMUmCz6B2af1U2j
- 5xE5dbMbUa0WNhH2J+OZaoDlAb4gfItR8+TMhci+6Cosnmiu1Pt7EOaIAF6naCGco7bmuz
- m6QvFGpX7VJ0LmSPKbKTrTKaADaYPGs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wU46BlgvcQLkuaqVFhG7lCFPCEbjbRVCEudqcpB5gJw=;
+ b=IA2047b75nIuoLIqr021d5cHLwoRW3MgHuQK3UCJyTmgOnpD6DVdY+jUPhukBOLhcy93oC
+ I4ykTuwUsLmVDhLD/YbCGjCH41OloaVBcLZ21PG2KCraj/2OyyexdyhGEcloMjDekqKppT
+ PAIaaEoMO6L/lufQSub9kjcSGWCW0F4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-_iASAIZIPbuMTRX-QgP_ug-1; Thu, 14 May 2020 16:16:17 -0400
-X-MC-Unique: _iASAIZIPbuMTRX-QgP_ug-1
+ us-mta-139-4q27GxBUNzap7NfzdxHzJQ-1; Thu, 14 May 2020 16:16:19 -0400
+X-MC-Unique: 4q27GxBUNzap7NfzdxHzJQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98C9018FF660;
- Thu, 14 May 2020 20:16:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6ED16474;
+ Thu, 14 May 2020 20:16:18 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-119-184.rdu2.redhat.com [10.10.119.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A393F10013D9;
- Thu, 14 May 2020 20:16:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C226F10013D9;
+ Thu, 14 May 2020 20:16:17 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] iotests: enable logging prior to notrun() invocation
-Date: Thu, 14 May 2020 16:16:11 -0400
-Message-Id: <20200514201614.19941-1-jsnow@redhat.com>
+Subject: [PATCH 1/3] iotests: log messages from notrun()
+Date: Thu, 14 May 2020 16:16:12 -0400
+Message-Id: <20200514201614.19941-2-jsnow@redhat.com>
+In-Reply-To: <20200514201614.19941-1-jsnow@redhat.com>
+References: <20200514201614.19941-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -79,23 +82,45 @@ Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, you can take just patch 1. patches 2-3 admittedly don't do a whole
-heck of a lot, because I didn't realize that ./check discards *all*
-output from either stdout or stderr.
+Shift the logging initialization up to occur prior to validation checks,
+so that notrun() messages still get printed to console.
 
-The changes are tiny, though, and maybe still worth doing in the long
-run? Hm. They are archived on the list now, anyway.
+(Also, remove the "debugging messages active" message, because we don't
+need to see that hundreds of times per iotest suite run.)
 
---js
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ tests/qemu-iotests/iotests.py | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-John Snow (3):
-  iotests: log messages from notrun()
-  iotests: log to stderr instead of stdout
-  iotests: Categorize NOTRUN messages as INFO, not WARNING
-
- tests/qemu-iotests/iotests.py | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
-
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 6c0e781af7..1caa7812de 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -1168,18 +1168,17 @@ def execute_setup_common(supported_fmts: Sequence[str] = (),
+         sys.stderr.write('Please run this test via the "check" script\n')
+         sys.exit(os.EX_USAGE)
+ 
++    debug = '-d' in sys.argv
++    if debug:
++        sys.argv.remove('-d')
++    logging.basicConfig(level=(logging.DEBUG if debug else logging.WARN))
++
+     _verify_image_format(supported_fmts, unsupported_fmts)
+     _verify_protocol(supported_protocols, unsupported_protocols)
+     _verify_platform(supported=supported_platforms)
+     _verify_cache_mode(supported_cache_modes)
+     _verify_aio_mode(supported_aio_modes)
+ 
+-    debug = '-d' in sys.argv
+-    if debug:
+-        sys.argv.remove('-d')
+-    logging.basicConfig(level=(logging.DEBUG if debug else logging.WARN))
+-    logger.debug("iotests debugging messages active")
+-
+     return debug
+ 
+ def execute_test(*args, test_function=None, **kwargs):
 -- 
 2.21.1
 
