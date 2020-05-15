@@ -2,127 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6911D5625
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 18:35:24 +0200 (CEST)
-Received: from localhost ([::1]:51146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E231D5281
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:52:43 +0200 (CEST)
+Received: from localhost ([::1]:45120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZdIw-0003nh-P9
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 12:35:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45070)
+	id 1jZbha-0005w5-93
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:52:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1jZbcA-0007Dw-VW; Fri, 15 May 2020 10:47:07 -0400
-Received: from mail-dm6nam11on2052.outbound.protection.outlook.com
- ([40.107.223.52]:19009 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <figlesia@xilinx.com>)
- id 1jZbc9-0001VS-RC; Fri, 15 May 2020 10:47:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bZ1/ypWSRwDt/O+9WLDiW8XetwqzOU2RUh+NXXiCzIJ0Vkk2dT8ju9x6MvGe52k1wg0aILGO3SMThD/WaOIXQOQqvZZ7tGIQxpFyGkHfqQduasKa2Zl15tmom9co1K6v6ulEEwolqKBHeige/srw/HvetqyZJeRBSGbihGJSjwWEXdr5IM87DvYu0gA36iNodLLyEs6elRiQZU50SwVE5pCehJcOf4BiLX9WdQSjOx1AzqwQKY1BDuMxRfgwnQn+oXsVVeP7P61stufL7RqOgu+NSlNBQXAd+hgcBs5Vwax8ABJ74ZNKKBTGHsDmTHzE4rmWl3d3tb9P8tTxbGL26g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JaF4aErxZOLhHIZA99bNHgk3H840c/v7sjBrBE+7Dh8=;
- b=Hs9G6U9L4HPWu7QS173IRU9nTzXqwcz2pZXNA/xuLKsStbFJ0J3xZUIKbXBTzKyyFMHbstT4DW8sLWwzvUrlRBqVgOiKMbnhtTxpBjdlIFS/qvbgZvA83mOdP2Jv12UY+JJr0rs4jW7HeGbhZ3kw0T7q44lCrnofFaStQUlFl3majfjI7MgpBYoikpJu1ad1HQeTZpXiC/D3iG2XaVy6DF5kDDFNBPKV6tJdxlB6v5iD/dQcm+DkzeQS74tIt6xBbcjhxoPYkaAdyCQ9VwL2Ag7mgBSBIW+F7UBjhyr52uTtqsFuYBCoqob71bMQlCnPQr2V8UbPlND9pyBOYM5KOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JaF4aErxZOLhHIZA99bNHgk3H840c/v7sjBrBE+7Dh8=;
- b=jnYbX/qgu6E1aEfZ4T71VRW0GSykOzwhpFwauL1Q3mYfawDoCK28xoUhMnRiHMfE/CxEgl4fZ7NbVE+DUg7PVgKquIryv5HPWv2hkgDe3tmy22M7DePbflPA8JL0q+P+1bM0fihyv+OXHwqaLWEJjPaAuMPkBBJMN/2GthPWu2w=
-Received: from CY4PR1201CA0004.namprd12.prod.outlook.com
- (2603:10b6:910:16::14) by SN4PR0201MB3455.namprd02.prod.outlook.com
- (2603:10b6:803:48::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.20; Fri, 15 May
- 2020 14:47:02 +0000
-Received: from CY1NAM02FT043.eop-nam02.prod.protection.outlook.com
- (2603:10b6:910:16:cafe::c5) by CY4PR1201CA0004.outlook.office365.com
- (2603:10b6:910:16::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.25 via Frontend
- Transport; Fri, 15 May 2020 14:47:02 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT043.mail.protection.outlook.com (10.152.74.182) with Microsoft SMTP
- Server id 15.20.3000.19 via Frontend Transport; Fri, 15 May 2020 14:47:01
- +0000
-Received: from [149.199.38.66] (port=52798 helo=xsj-pvapsmtp01)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <francisco.iglesias@xilinx.com>)
- id 1jZbbl-0005As-7S; Fri, 15 May 2020 07:46:41 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <francisco.iglesias@xilinx.com>)
- id 1jZbc5-0007ox-IM; Fri, 15 May 2020 07:47:01 -0700
-Received: from xsj-pvapsmtp01 (mailhost.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 04FEkxk6029795; 
- Fri, 15 May 2020 07:46:59 -0700
-Received: from [10.23.123.155] (helo=debian)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <francisco.iglesias@xilinx.com>)
- id 1jZbc3-0007oX-E0; Fri, 15 May 2020 07:46:59 -0700
-Date: Fri, 15 May 2020 15:46:46 +0100
-From: Francisco Iglesias <francisco.iglesias@xilinx.com>
-To: Vikram Garhwal <fnu.vikram@xilinx.com>
-Subject: Re: [PATCH v4 2/4] xlnx-zynqmp: Connect Xilinx ZynqMP CAN controllers
-Message-ID: <20200515144645.whqbaho6cr734l25@debian>
-References: <1589314552-1375-1-git-send-email-fnu.vikram@xilinx.com>
- <1589314552-1375-3-git-send-email-fnu.vikram@xilinx.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbca-0007zW-B5
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:47:32 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33471
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbcZ-0001Yc-8I
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:47:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589554050;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=d3Qv84ZWmqRvwTBDXZ7C35cLjZDqrtNRUlv0KJPkTFw=;
+ b=PmtL+CtuTtdm7WKVRrChxck0o61QdPoZKpjfEPJYS8vz+JVZB9XFtnr8XHHNLO18sXbevz
+ kJQjijuU5R/bMKYzfxqJLYvrv5NAX3compta+VZeBL+ixnI7ufjxNUAKOddwaqfv+7e6Dy
+ 7C6TnU1bEPF/8LMvj7MFgATk/orR38g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-252-wuCw1eoRNkey7QYD2HKkSA-1; Fri, 15 May 2020 10:47:26 -0400
+X-MC-Unique: wuCw1eoRNkey7QYD2HKkSA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F41FDC26;
+ Fri, 15 May 2020 14:47:25 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-115-145.ams2.redhat.com
+ [10.36.115.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 46D755C6BD;
+ Fri, 15 May 2020 14:47:19 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 85A2B9D54; Fri, 15 May 2020 16:47:18 +0200 (CEST)
+Date: Fri, 15 May 2020 16:47:18 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v5 08/15] acpi: move aml builder code for floppy device
+Message-ID: <20200515144718.3m3b4onutdazpaah@sirius.home.kraxel.org>
+References: <20200507131640.14041-1-kraxel@redhat.com>
+ <20200507131640.14041-9-kraxel@redhat.com>
+ <2f7a76fe-9c38-1441-70cf-919dce82e4fe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <2f7a76fe-9c38-1441-70cf-919dce82e4fe@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-In-Reply-To: <1589314552-1375-3-git-send-email-fnu.vikram@xilinx.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFTY:;
- SFS:(376002)(39860400002)(346002)(396003)(136003)(46966005)(33716001)(26005)(4326008)(6862004)(47076004)(44832011)(6636002)(9686003)(336012)(478600001)(82740400003)(426003)(6666004)(70586007)(54906003)(9786002)(70206006)(316002)(356005)(82310400002)(81166007)(1076003)(5660300002)(186003)(8936002)(9576002)(2906002)(8676002);
- DIR:OUT; SFP:1101; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 680e04e0-034d-4872-8468-08d7f8ded3f0
-X-MS-TrafficTypeDiagnostic: SN4PR0201MB3455:
-X-Microsoft-Antispam-PRVS: <SN4PR0201MB3455CA7682BB88D48663DB48ADBD0@SN4PR0201MB3455.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:204;
-X-Forefront-PRVS: 04041A2886
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +Um+LhaigIeFeD8ZX6fHkzAevrkUZOoSoOE/mLVe7LRKfNeD4AWAjmysJay+0zGdj8ejlH6K7VZi9BpitEKgZNVcMEjEiknXjYs7jGRnT73VlUrefDPSzejfIBHNw7gkZMwya8v9bEjIhICyF2Nzh98cMoAbAVLxqLFJUywDysI9qjRXjrkLjRs5tjF4iyuIw4Jw+ZjeKsU4djaHsi0w82RTcCJmQkdDfMmuPPnZIzLztY91SHMVHBsK5+RVHXIytfXKYIV2SLp5eYrVCOa+vS9XetBAYWw9rZqwZM0hIIXQxk7or7dfR9i1y/eDtcYO7nDHUcJlDkm/7/Ak6D+ayyeBu/j7xx8Abhea7rK9SNhyohu3fxCkG4bv/0UcisUoy3fFgXC9gQLjZoXSAoDgwle/C25AAK4bm2TbGiRb1BQwJgyJ8m0qSZYBE0f++dF/HiF4E1fx+B6+YoeyOi7vgHquwa0rl29tvYQba15FGmgkGXdvsAf+QbgROoeApOV8MPlfn7M5uH/2wS+jxqbypA==
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2020 14:47:01.8317 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 680e04e0-034d-4872-8468-08d7f8ded3f0
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR0201MB3455
-Received-SPF: pass client-ip=40.107.223.52; envelope-from=figlesia@xilinx.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 10:47:04
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 15 May 2020 12:32:36 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -134,106 +83,262 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- "open list:Xilinx ZynqMP" <qemu-arm@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 12, 2020 at 01:15:50PM -0700, Vikram Garhwal wrote:
-> Connect CAN0 and CAN1 on the ZynqMP.
+> > +#include "hw/i386/pc.h"
 > 
-> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
+> I'd rather not see this target-specific header used in the generic device
+> model... The culprit seems cmos_get_fd_drive_type(). Is the value really PC
+> specific?
 
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+Given that the same value is used in acpi tables probably not really.
+cmos_get_fd_drive_type() hasn't any dependency on pc or cmos btw, we
+can simply move over the function to floppy.
 
-> ---
->  hw/arm/xlnx-zynqmp.c         | 26 ++++++++++++++++++++++++++
->  include/hw/arm/xlnx-zynqmp.h |  3 +++
->  2 files changed, 29 insertions(+)
 > 
-> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> index b84d153..e5f0d9f 100644
-> --- a/hw/arm/xlnx-zynqmp.c
-> +++ b/hw/arm/xlnx-zynqmp.c
-> @@ -81,6 +81,14 @@ static const int uart_intr[XLNX_ZYNQMP_NUM_UARTS] = {
->      21, 22,
->  };
->  
-> +static const uint64_t can_addr[XLNX_ZYNQMP_NUM_CAN] = {
-> +    0xFF060000, 0xFF070000,
-> +};
-> +
-> +static const int can_intr[XLNX_ZYNQMP_NUM_CAN] = {
-> +    23, 24,
-> +};
-> +
->  static const uint64_t sdhci_addr[XLNX_ZYNQMP_NUM_SDHCI] = {
->      0xFF160000, 0xFF170000,
->  };
-> @@ -254,6 +262,11 @@ static void xlnx_zynqmp_init(Object *obj)
->                                TYPE_CADENCE_UART);
->      }
->  
-> +    for (i = 0; i < XLNX_ZYNQMP_NUM_CAN; i++) {
-> +        sysbus_init_child_obj(obj, "can[*]", &s->can[i], sizeof(s->can[i]),
-> +                              TYPE_XLNX_ZYNQMP_CAN);
-> +    }
-> +
->      sysbus_init_child_obj(obj, "sata", &s->sata, sizeof(s->sata),
->                            TYPE_SYSBUS_AHCI);
->  
-> @@ -508,6 +521,19 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->                             gic_spi[uart_intr[i]]);
->      }
->  
-> +    for (i = 0; i < XLNX_ZYNQMP_NUM_CAN; i++) {
-> +        object_property_set_int(OBJECT(&s->can[i]), i, "ctrl-idx",
-> +                                &error_abort);
-> +        object_property_set_bool(OBJECT(&s->can[i]), true, "realized", &err);
-> +        if (err) {
-> +            error_propagate(errp, err);
-> +            return;
-> +        }
-> +        sysbus_mmio_map(SYS_BUS_DEVICE(&s->can[i]), 0, can_addr[i]);
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->can[i]), 0,
-> +                           gic_spi[can_intr[i]]);
-> +    }
-> +
->      object_property_set_int(OBJECT(&s->sata), SATA_NUM_PORTS, "num-ports",
->                              &error_abort);
->      object_property_set_bool(OBJECT(&s->sata), true, "realized", &err);
-> diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-> index 53076fa..5b32e98 100644
-> --- a/include/hw/arm/xlnx-zynqmp.h
-> +++ b/include/hw/arm/xlnx-zynqmp.h
-> @@ -22,6 +22,7 @@
->  #include "hw/intc/arm_gic.h"
->  #include "hw/net/cadence_gem.h"
->  #include "hw/char/cadence_uart.h"
-> +#include "hw/net/xlnx-zynqmp-can.h"
->  #include "hw/ide/ahci.h"
->  #include "hw/sd/sdhci.h"
->  #include "hw/ssi/xilinx_spips.h"
-> @@ -41,6 +42,7 @@
->  #define XLNX_ZYNQMP_NUM_RPU_CPUS 2
->  #define XLNX_ZYNQMP_NUM_GEMS 4
->  #define XLNX_ZYNQMP_NUM_UARTS 2
-> +#define XLNX_ZYNQMP_NUM_CAN 2
->  #define XLNX_ZYNQMP_NUM_SDHCI 2
->  #define XLNX_ZYNQMP_NUM_SPIS 2
->  #define XLNX_ZYNQMP_NUM_GDMA_CH 8
-> @@ -92,6 +94,7 @@ typedef struct XlnxZynqMPState {
->  
->      CadenceGEMState gem[XLNX_ZYNQMP_NUM_GEMS];
->      CadenceUARTState uart[XLNX_ZYNQMP_NUM_UARTS];
-> +    XlnxZynqMPCANState can[XLNX_ZYNQMP_NUM_CAN];
->      SysbusAHCIState sata;
->      SDHCIState sdhci[XLNX_ZYNQMP_NUM_SDHCI];
->      XilinxSPIPS spi[XLNX_ZYNQMP_NUM_SPIS];
-> -- 
-> 2.7.4
+> Hervé, do you know if such info & RTC nvram layout is used in other arch?
 > 
+> > +#include "hw/acpi/aml-build.h"
+> >   #include "hw/irq.h"
+> >   #include "hw/isa/isa.h"
+> >   #include "hw/qdev-properties.h"
+> > @@ -2765,6 +2767,85 @@ void isa_fdc_get_drive_max_chs(FloppyDriveType type,
+> >       (*maxc)--;
+> >   }
+> > +static Aml *build_fdinfo_aml(int idx, FloppyDriveType type)
+> > +{
+> > +    Aml *dev, *fdi;
+> > +    uint8_t maxc, maxh, maxs;
+> > +
+> > +    isa_fdc_get_drive_max_chs(type, &maxc, &maxh, &maxs);
+> > +
+> > +    dev = aml_device("FLP%c", 'A' + idx);
+> > +
+> > +    aml_append(dev, aml_name_decl("_ADR", aml_int(idx)));
+> > +
+> > +    fdi = aml_package(16);
+> > +    aml_append(fdi, aml_int(idx));  /* Drive Number */
+> > +    aml_append(fdi,
+> > +        aml_int(cmos_get_fd_drive_type(type)));  /* Device Type */
+> > +    /*
+> > +     * the values below are the limits of the drive, and are thus independent
+> > +     * of the inserted media
+> > +     */
+> > +    aml_append(fdi, aml_int(maxc));  /* Maximum Cylinder Number */
+> > +    aml_append(fdi, aml_int(maxs));  /* Maximum Sector Number */
+> > +    aml_append(fdi, aml_int(maxh));  /* Maximum Head Number */
+> > +    /*
+> > +     * SeaBIOS returns the below values for int 0x13 func 0x08 regardless of
+> > +     * the drive type, so shall we
+> > +     */
+> > +    aml_append(fdi, aml_int(0xAF));  /* disk_specify_1 */
+> > +    aml_append(fdi, aml_int(0x02));  /* disk_specify_2 */
+> > +    aml_append(fdi, aml_int(0x25));  /* disk_motor_wait */
+> > +    aml_append(fdi, aml_int(0x02));  /* disk_sector_siz */
+> > +    aml_append(fdi, aml_int(0x12));  /* disk_eot */
+> > +    aml_append(fdi, aml_int(0x1B));  /* disk_rw_gap */
+> > +    aml_append(fdi, aml_int(0xFF));  /* disk_dtl */
+> > +    aml_append(fdi, aml_int(0x6C));  /* disk_formt_gap */
+> > +    aml_append(fdi, aml_int(0xF6));  /* disk_fill */
+> > +    aml_append(fdi, aml_int(0x0F));  /* disk_head_sttl */
+> > +    aml_append(fdi, aml_int(0x08));  /* disk_motor_strt */
+> > +
+> > +    aml_append(dev, aml_name_decl("_FDI", fdi));
+> > +    return dev;
+> > +}
+> > +
+> > +static void fdc_isa_build_aml(ISADevice *isadev, Aml *scope)
+> > +{
+> > +    Aml *dev;
+> > +    Aml *crs;
+> > +    int i;
+> > +
+> > +#define ACPI_FDE_MAX_FD 4
+> > +    uint32_t fde_buf[5] = {
+> > +        0, 0, 0, 0,     /* presence of floppy drives #0 - #3 */
+> > +        cpu_to_le32(2)  /* tape presence (2 == never present) */
+> > +    };
+> > +
+> > +    crs = aml_resource_template();
+> > +    aml_append(crs, aml_io(AML_DECODE16, 0x03F2, 0x03F2, 0x00, 0x04));
+> > +    aml_append(crs, aml_io(AML_DECODE16, 0x03F7, 0x03F7, 0x00, 0x01));
+> > +    aml_append(crs, aml_irq_no_flags(6));
+> > +    aml_append(crs,
+> > +        aml_dma(AML_COMPATIBILITY, AML_NOTBUSMASTER, AML_TRANSFER8, 2));
+> > +
+> > +    dev = aml_device("FDC0");
+> > +    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0700")));
+> > +    aml_append(dev, aml_name_decl("_CRS", crs));
+> > +
+> > +    for (i = 0; i < MIN(MAX_FD, ACPI_FDE_MAX_FD); i++) {
+> > +        FloppyDriveType type = isa_fdc_get_drive_type(isadev, i);
+> > +
+> > +        if (type < FLOPPY_DRIVE_TYPE_NONE) {
+> > +            fde_buf[i] = cpu_to_le32(1);  /* drive present */
+> > +            aml_append(dev, build_fdinfo_aml(i, type));
+> > +        }
+> > +    }
+> > +    aml_append(dev, aml_name_decl("_FDE",
+> > +               aml_buffer(sizeof(fde_buf), (uint8_t *)fde_buf)));
+> > +
+> > +    aml_append(scope, dev);
+> > +}
+> > +
+> >   static const VMStateDescription vmstate_isa_fdc ={
+> >       .name = "fdc",
+> >       .version_id = 2,
+> > @@ -2798,11 +2879,13 @@ static Property isa_fdc_properties[] = {
+> >   static void isabus_fdc_class_init(ObjectClass *klass, void *data)
+> >   {
+> >       DeviceClass *dc = DEVICE_CLASS(klass);
+> > +    ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
+> >       dc->realize = isabus_fdc_realize;
+> >       dc->fw_name = "fdc";
+> >       dc->reset = fdctrl_external_reset_isa;
+> >       dc->vmsd = &vmstate_isa_fdc;
+> > +    isa->build_aml = fdc_isa_build_aml;
+> >       device_class_set_props(dc, isa_fdc_properties);
+> >       set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+> >   }
+> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > index 443db94deb5b..775936e28b9a 100644
+> > --- a/hw/i386/acpi-build.c
+> > +++ b/hw/i386/acpi-build.c
+> > @@ -1058,85 +1058,6 @@ static void build_hpet_aml(Aml *table)
+> >       aml_append(table, scope);
+> >   }
+> > -static Aml *build_fdinfo_aml(int idx, FloppyDriveType type)
+> > -{
+> > -    Aml *dev, *fdi;
+> > -    uint8_t maxc, maxh, maxs;
+> > -
+> > -    isa_fdc_get_drive_max_chs(type, &maxc, &maxh, &maxs);
+> > -
+> > -    dev = aml_device("FLP%c", 'A' + idx);
+> > -
+> > -    aml_append(dev, aml_name_decl("_ADR", aml_int(idx)));
+> > -
+> > -    fdi = aml_package(16);
+> > -    aml_append(fdi, aml_int(idx));  /* Drive Number */
+> > -    aml_append(fdi,
+> > -        aml_int(cmos_get_fd_drive_type(type)));  /* Device Type */
+> > -    /*
+> > -     * the values below are the limits of the drive, and are thus independent
+> > -     * of the inserted media
+> > -     */
+> > -    aml_append(fdi, aml_int(maxc));  /* Maximum Cylinder Number */
+> > -    aml_append(fdi, aml_int(maxs));  /* Maximum Sector Number */
+> > -    aml_append(fdi, aml_int(maxh));  /* Maximum Head Number */
+> > -    /*
+> > -     * SeaBIOS returns the below values for int 0x13 func 0x08 regardless of
+> > -     * the drive type, so shall we
+> > -     */
+> > -    aml_append(fdi, aml_int(0xAF));  /* disk_specify_1 */
+> > -    aml_append(fdi, aml_int(0x02));  /* disk_specify_2 */
+> > -    aml_append(fdi, aml_int(0x25));  /* disk_motor_wait */
+> > -    aml_append(fdi, aml_int(0x02));  /* disk_sector_siz */
+> > -    aml_append(fdi, aml_int(0x12));  /* disk_eot */
+> > -    aml_append(fdi, aml_int(0x1B));  /* disk_rw_gap */
+> > -    aml_append(fdi, aml_int(0xFF));  /* disk_dtl */
+> > -    aml_append(fdi, aml_int(0x6C));  /* disk_formt_gap */
+> > -    aml_append(fdi, aml_int(0xF6));  /* disk_fill */
+> > -    aml_append(fdi, aml_int(0x0F));  /* disk_head_sttl */
+> > -    aml_append(fdi, aml_int(0x08));  /* disk_motor_strt */
+> > -
+> > -    aml_append(dev, aml_name_decl("_FDI", fdi));
+> > -    return dev;
+> > -}
+> > -
+> > -static Aml *build_fdc_device_aml(ISADevice *fdc)
+> > -{
+> > -    int i;
+> > -    Aml *dev;
+> > -    Aml *crs;
+> > -
+> > -#define ACPI_FDE_MAX_FD 4
+> > -    uint32_t fde_buf[5] = {
+> > -        0, 0, 0, 0,     /* presence of floppy drives #0 - #3 */
+> > -        cpu_to_le32(2)  /* tape presence (2 == never present) */
+> > -    };
+> > -
+> > -    dev = aml_device("FDC0");
+> > -    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0700")));
+> > -
+> > -    crs = aml_resource_template();
+> > -    aml_append(crs, aml_io(AML_DECODE16, 0x03F2, 0x03F2, 0x00, 0x04));
+> > -    aml_append(crs, aml_io(AML_DECODE16, 0x03F7, 0x03F7, 0x00, 0x01));
+> > -    aml_append(crs, aml_irq_no_flags(6));
+> > -    aml_append(crs,
+> > -        aml_dma(AML_COMPATIBILITY, AML_NOTBUSMASTER, AML_TRANSFER8, 2));
+> > -    aml_append(dev, aml_name_decl("_CRS", crs));
+> > -
+> > -    for (i = 0; i < MIN(MAX_FD, ACPI_FDE_MAX_FD); i++) {
+> > -        FloppyDriveType type = isa_fdc_get_drive_type(fdc, i);
+> > -
+> > -        if (type < FLOPPY_DRIVE_TYPE_NONE) {
+> > -            fde_buf[i] = cpu_to_le32(1);  /* drive present */
+> > -            aml_append(dev, build_fdinfo_aml(i, type));
+> > -        }
+> > -    }
+> > -    aml_append(dev, aml_name_decl("_FDE",
+> > -               aml_buffer(sizeof(fde_buf), (uint8_t *)fde_buf)));
+> > -
+> > -    return dev;
+> > -}
+> > -
+> >   static Aml *build_kbd_device_aml(void)
+> >   {
+> >       Aml *dev;
+> > @@ -1175,7 +1096,6 @@ static Aml *build_mouse_device_aml(void)
+> >   static void build_isa_devices_aml(Aml *table)
+> >   {
+> > -    ISADevice *fdc = pc_find_fdc0();
+> >       bool ambiguous;
+> >       Aml *scope = aml_scope("_SB.PCI0.ISA");
+> > @@ -1183,9 +1103,6 @@ static void build_isa_devices_aml(Aml *table)
+> >       aml_append(scope, build_kbd_device_aml());
+> >       aml_append(scope, build_mouse_device_aml());
+> > -    if (fdc) {
+> > -        aml_append(scope, build_fdc_device_aml(fdc));
+> > -    }
+> >       if (ambiguous) {
+> >           error_report("Multiple ISA busses, unable to define IPMI ACPI data");
+> > diff --git a/stubs/cmos.c b/stubs/cmos.c
+> > new file mode 100644
+> > index 000000000000..416cbe4055ff
+> > --- /dev/null
+> > +++ b/stubs/cmos.c
+> > @@ -0,0 +1,7 @@
+> > +#include "qemu/osdep.h"
+> > +#include "hw/i386/pc.h"
+> > +
+> > +int cmos_get_fd_drive_type(FloppyDriveType fd0)
+> > +{
+> > +    return 0;
+> > +}
+> > diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+> > index 45be5dc0ed78..3cbe472d1c6c 100644
+> > --- a/stubs/Makefile.objs
+> > +++ b/stubs/Makefile.objs
+> > @@ -3,6 +3,7 @@ stub-obj-y += bdrv-next-monitor-owned.o
+> >   stub-obj-y += blk-commit-all.o
+> >   stub-obj-y += blockdev-close-all-bdrv-states.o
+> >   stub-obj-y += clock-warp.o
+> > +stub-obj-y += cmos.o
+> >   stub-obj-y += cpu-get-clock.o
+> >   stub-obj-y += cpu-get-icount.o
+> >   stub-obj-y += dump.o
+> > 
+> 
+
 
