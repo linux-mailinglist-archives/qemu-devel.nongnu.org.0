@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA7D1D561B
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 18:32:55 +0200 (CEST)
-Received: from localhost ([::1]:45938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9331D564F
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 18:40:49 +0200 (CEST)
+Received: from localhost ([::1]:35054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZdGY-0000nY-4I
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 12:32:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36372)
+	id 1jZdOC-00025j-6d
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 12:40:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZdEX-0007uW-4t
- for qemu-devel@nongnu.org; Fri, 15 May 2020 12:30:49 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48020
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZdEb-0007zY-W0
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 12:30:55 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23651
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZdEW-0001f7-5U
- for qemu-devel@nongnu.org; Fri, 15 May 2020 12:30:48 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZdEb-0001gv-99
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 12:30:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589560246;
+ s=mimecast20190719; t=1589560252;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DdrVeOAvahDTbY9HxGuu2s9MxsnHYSSwYIwchklt6RY=;
- b=Y9bdz97OPek8buC1rDSYpZSM1rmhDAzHkh4lKVMIyYsUdb057mn+ouSOlOIRwBkIk2ILLa
- 8YPKbM5PnnQZKxryfNXYjXUSPuw+NzcuSgoGA+n3UMdt2g+ZrV4NqB9ZlWMuyIPrY688J2
- 3FWhH0zrsMMmEIWiPmr0e3qL3CiWZzQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-mQxN0Vh0PC6S_o9R7SK3kw-1; Fri, 15 May 2020 12:30:45 -0400
-X-MC-Unique: mQxN0Vh0PC6S_o9R7SK3kw-1
-Received: by mail-wr1-f70.google.com with SMTP id r14so1429707wrw.8
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 09:30:45 -0700 (PDT)
+ bh=OktuFlpyEDCogWQETFKDEsXyn69UzB2tvuqAaVa6mdg=;
+ b=UUC7BqQUnWuUIkCjvwg9yMM2jvS5FY2wVaqRdfB7j03vK7WrfBJLXkv8jjetHQ1e8R+iNG
+ CKkR7hf7Yl4+MW54eWJ3SnR16GZqzFaUy+S+CGugRgC4NWvrp369Ua2ZRplrxRfWm1nZOe
+ dWN3qmuxcWSr7GGsHlO9E/JiupozzVY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-338-ZhQxhYeHOE2XJj1VhaK3UQ-1; Fri, 15 May 2020 12:30:49 -0400
+X-MC-Unique: ZhQxhYeHOE2XJj1VhaK3UQ-1
+Received: by mail-wm1-f71.google.com with SMTP id a67so1420500wme.6
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 09:30:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DdrVeOAvahDTbY9HxGuu2s9MxsnHYSSwYIwchklt6RY=;
- b=n4l7IaR02bCG1J9/RPMmfBkLbbnOrevtF70rhF/OllnCUoUplQxnE0N1TShQXXR6Ef
- 1hv5f0TCHh6qwpF/Sae9aJHykA7AEdPx5tCu8+XbaZ+P4YoGhLwbSSagLNFwzQIdNi95
- Jcmf483Itg3tAKUt7FFPLiSJlz48G2GfRG7qR60X+LnVqLMqJH5QVHT0SpbwTe3wnfuZ
- gH1AmL+U+93QyJEfb0Yia/P3dLcmnV4+qyKWGlBKUFaVR+aUFlur9dviObiLvarRBfTk
- g4CdJupSc4DUfQZdnzl8E1UOItZreiKeiRCQhnMzMwxf+PH7UynhuBdE2WneN5367wzI
- Xt0w==
-X-Gm-Message-State: AOAM531bncDvRyruhSa6YzKSXTy6jB4lp7T6T7PMFEQn7FoEXOE19YZu
- Et2XLtCd+McK8XepNOSynUv72CCQWG2ZPJqShIuoLgwd9vKfpQRfn4d/QohhqVtwR9QKd8XDR8D
- 5LAGPz4RPy9jeYHA=
-X-Received: by 2002:a5d:6504:: with SMTP id x4mr5568364wru.340.1589560242756; 
- Fri, 15 May 2020 09:30:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxOkueaxS8BIkrwHvvav0MY2tYgpt6eKemUiMQh74BAnyGEwrCbuV8Frj6wIbuhwwxFReJWYQ==
-X-Received: by 2002:a5d:6504:: with SMTP id x4mr5568337wru.340.1589560242560; 
- Fri, 15 May 2020 09:30:42 -0700 (PDT)
+ bh=OktuFlpyEDCogWQETFKDEsXyn69UzB2tvuqAaVa6mdg=;
+ b=XON4w/ruqqg4Zb4b+eI6Wa6AY2dE1eFkeCFqt5np9B+dqwTMgggSlagM5HXR2Ij9QB
+ +bZXBNZ+VizT19nxi+4tifiw261E0t5lPt41ARA4fCMzNDTL4OkSNniuD/bmZlo7gYDS
+ w7k9ttLOz9sjAWPaY0qMVz808MzHGv6F/PtYQVBN33d26Keyx12ext9UL2AGerRqUQvQ
+ gttuHuPPEAi2btzuRA4SQhQgtbCekalJL1qA2RI8QcP7zMAS/3JKaCv05730jhttviIp
+ NcaDIxqIkW9pV/g8NyQ1m2ZMa7s7mAVikGl6xDwmh/WPmr0fylefTNwWnLkxYU5XM0VQ
+ POfg==
+X-Gm-Message-State: AOAM531ENy6Z+p8O/bIxjzjkmOYmD5U1LSsUVK3W76MeZunOikrWKn6D
+ k1aTuFhl1VLAfcTDcJNBMHrNinNjzvsRu+J5kw5dOR68M6XX13IqXkv5YgxnDzHLvFzVEwRJphj
+ vDqijXRsNLlTtNg4=
+X-Received: by 2002:a05:600c:21c2:: with SMTP id
+ x2mr4880119wmj.148.1589560247914; 
+ Fri, 15 May 2020 09:30:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0kWYqIavdmRwwF41X+xixuw/Fo9G4vDFMRGQHnfV73iCzCUyPk5INn4I3I2kG3hh/P2Pm+Q==
+X-Received: by 2002:a05:600c:21c2:: with SMTP id
+ x2mr4880097wmj.148.1589560247761; 
+ Fri, 15 May 2020 09:30:47 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id q18sm4130744wmk.28.2020.05.15.09.30.41
+ by smtp.gmail.com with ESMTPSA id s8sm3836173wrt.69.2020.05.15.09.30.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 09:30:42 -0700 (PDT)
+ Fri, 15 May 2020 09:30:47 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/5] tests/vm: Remove flex/bison packages
-Date: Fri, 15 May 2020 18:30:26 +0200
-Message-Id: <20200515163029.12917-3-philmd@redhat.com>
+Subject: [PATCH v2 3/5] gitlab-ci: Remove flex/bison packages
+Date: Fri, 15 May 2020 18:30:27 +0200
+Message-Id: <20200515163029.12917-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200515163029.12917-1-philmd@redhat.com>
 References: <20200515163029.12917-1-philmd@redhat.com>
@@ -108,76 +110,22 @@ QEMU does not use flex/bison packages.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-v2: use 'does not', removed bison in OpenBSD VM (Claudio)
----
- tests/vm/fedora      | 1 -
- tests/vm/freebsd     | 1 -
- tests/vm/netbsd      | 1 -
- tests/vm/openbsd     | 1 -
- tests/vm/ubuntu.i386 | 2 +-
- 5 files changed, 1 insertion(+), 5 deletions(-)
+ .gitlab-ci.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/vm/fedora b/tests/vm/fedora
-index bd9c6cf295..a9195670f4 100755
---- a/tests/vm/fedora
-+++ b/tests/vm/fedora
-@@ -32,7 +32,6 @@ class FedoraVM(basevm.BaseVM):
-     pkgs = [
-         # tools
-         'git-core',
--        'flex', 'bison',
-         'gcc', 'binutils', 'make',
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index b889fb96b6..994774250f 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -4,7 +4,7 @@ include:
  
-         # perl
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 298967fe9c..f87db2b126 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -38,7 +38,6 @@ class FreeBSDVM(basevm.BaseVM):
-         "bash",
-         "gmake",
-         "gsed",
--        "flex", "bison",
+ before_script:
+  - apt-get update -qq
+- - apt-get install -y -qq flex bison libglib2.0-dev libpixman-1-dev genisoimage
++ - apt-get install -y -qq libglib2.0-dev libpixman-1-dev genisoimage
  
-         # libs: crypto
-         "gnutls",
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index b10c9d429d..cdac502dad 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -36,7 +36,6 @@ class NetBSDVM(basevm.BaseVM):
-         "bash",
-         "gmake",
-         "gsed",
--        "flex", "bison",
- 
-         # libs: crypto
-         "gnutls",
-diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-index 0b705f4945..13e7f9a6d5 100755
---- a/tests/vm/openbsd
-+++ b/tests/vm/openbsd
-@@ -35,7 +35,6 @@ class OpenBSDVM(basevm.BaseVM):
-         "bash",
-         "gmake",
-         "gsed",
--        "bison",
- 
-         # libs: usb
-         "libusb1",
-diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
-index 1570775335..24527cc78c 100755
---- a/tests/vm/ubuntu.i386
-+++ b/tests/vm/ubuntu.i386
-@@ -52,7 +52,7 @@ class UbuntuX86VM(basevm.BaseVM):
-         self.ssh_root_check("sed -ie s/^#\ deb-src/deb-src/g /etc/apt/sources.list")
-         self.ssh_root_check("apt-get update")
-         self.ssh_root_check("apt-get build-dep -y qemu")
--        self.ssh_root_check("apt-get install -y libfdt-dev flex bison language-pack-en")
-+        self.ssh_root_check("apt-get install -y libfdt-dev language-pack-en")
-         self.ssh_root("poweroff")
-         self.wait()
-         os.rename(img_tmp, img)
+ build-system1:
+  script:
 -- 
 2.21.3
 
