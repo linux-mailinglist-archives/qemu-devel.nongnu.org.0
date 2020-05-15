@@ -2,87 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A461D4F3D
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 15:27:08 +0200 (CEST)
-Received: from localhost ([::1]:47844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7151D4E88
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 15:12:14 +0200 (CEST)
+Received: from localhost ([::1]:34948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZaMl-0004Pm-8w
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 09:27:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48164)
+	id 1jZa8L-0000oC-SW
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 09:12:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jZa0Z-0003L9-78; Fri, 15 May 2020 09:04:11 -0400
-Received: from mout.web.de ([212.227.15.14]:35347)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jZa77-0007Z1-Jq
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 09:10:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jZa0X-0006w6-Fv; Fri, 15 May 2020 09:04:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1589547842;
- bh=MyMelhgH1XNf8vYPuQ0rDUiZxVUz+acV8VcCxXyVYU0=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=XimrtNTamWhW8qffZ0dubhMpgQOV3Mxg2DQSo66wOq/vAf1IPD0/TjAc4e2ZdxjsU
- JSmxmMTPCL9omtYartU0AoJNF+eeV+Xfs2OUJSPELNb22BC4tehNO63Qzb9MUaNPGV
- +QSqQUKhVt1miOEgxTItnxvc2MNDBSbCniGGLLKs=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([94.134.180.164]) by smtp.web.de (mrweb004
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0LsNpI-1j6xLd42Ke-0122Oq; Fri, 15
- May 2020 15:04:02 +0200
-Date: Fri, 15 May 2020 15:03:30 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Subject: Re: [PATCH 3/5] block/nbd.c: Add yank feature
-Message-ID: <20200515150330.5a6da104@luklap>
-In-Reply-To: <20200515102613.GI1300305@redhat.com>
-References: <cover.1589193717.git.lukasstraub2@web.de>
- <1e712fa7f08e4772c2a68197a851161bee51610f.1589193717.git.lukasstraub2@web.de>
- <20200511161909.GJ2811@work-vm> <20200511190524.3681e58c@luklap>
- <20200512085458.GE1191162@redhat.com>
- <20200515114818.25d9eb9c@luklap>
- <20200515100413.GG1300305@redhat.com>
- <20200515121447.60bbd80d@luklap>
- <20200515102613.GI1300305@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jZa72-0008WR-AS
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 09:10:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jZa6z-00012j-Si
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 13:10:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D83E52E8106
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 13:10:49 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/n0SS7W4RCdvvoM6GqtICd8z";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:em4ul1qtdT6/wCB+Tb39pWChQRRXizj/TAf0bU4SNoVNBJnPpZ/
- 3JoHfqv8Q6jwD6WNGwNIKaaER3QggHpUoyYnANCNUHUbHWd6hGk05OJXjWbyYwUntsPX6V0
- PdOlOZ4TQS2iC1XbDP3VBhBATuXeFoRQYjLbFiSdSW/Ghrw0U2kL2a3zY8ed869uFIIZMI7
- 11InFVKe2qSnzw/HNxumA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6og6bpGiKh0=:Kdb1KXYzIwbkooOhJjgHM4
- 5+ZeG9mVInq9IYfn0DSqGQ5E6jop1QT6UtMKF22qlvo6ZglWyR1245vxmXsLHDH/sDPHpOhCS
- nZeSs/QiFa+f7BQlJgKSdGCDa0rbY+QRfvbfC9oGzNujPyAp63BQVLLDY7UwIyN4V4fe5KXY6
- pXgFlU5TQ454E0Q//3Z+mT5DYR2vsbiDcRcQaRhd+9DRRA4r9beHeJOf4K55jsgxCoJ36+Cep
- tBvuA/xplvUVZI67iFeiJ11k1E3rGjg34RQGDrv96NBcx6aSKvxgzTuMBBp0RvsIWYrzL3raR
- GWbN7OMgfbEcK1eNXDqDefj7m8WwZgzdTVQD8kL42N+JH8aDebtBKztMEt9M5AGprf1Qg73VE
- 10qYwKkcTSDbacjZ+C5cUN2+nUCPJvg5fd0X59Cj3AH508Q0tGoptukTZE+W/h+73UpBTd3T6
- BCQV1P9b/sJH7YFCrfru3uBB3hAxp88e4yTPsMK+yKF/2nT+VRASR0Nd8U3nYM0A5ior9UH8n
- XOZ0BInAVb83H6GBUC8hXpEB6xxSli+EGZQjMtk77Cf3bNRDls5esqQU+Rgn/y8IHwEA0Mz5U
- SZLasraqW6+kXQB2jifDKq252CgB6LE1uWCrv7W1Nl4okaD1LvlYyyV1yqd0errvRhM/hLjd7
- 85VSyRtYj9KvmSxW6QZAY7a/QzCtW0yTJc40FL+QC4y0f9gx+/69BNtutGwsvZSWK0E3X5qp2
- JAQ8dZRgtBvcAd4FHxSAYGeOsY0S9VLlPls2Y4MQHofAEQwQ3gpKyKxWShJK1w9bkTTe6e6Vj
- vBx5yldQptPSYvasOMsgDl4D5TtXVv4SJofEIUVRufOkkUuri001SZx/yX1od9EqCFi41/kxI
- CuLRaXnshZJ0hJYOp05FB4VAGnAc732mGFN9mdxAGA8SylTrWOnmfDVvHqd0Xg3O2f8dSu4i2
- uRgE8kb62eyh7s7JtNDUkl3KAOOCn25DEqQ5vL6StkbtJm6bVzC4iQY+ZB6CkJ9VEirM2SOaN
- F5Y4WcAfIu/47RCWiHy9w0ILVP9jmyk/6CBfhLye7YfS5OYUHq650O3WVToCARcWuxsITk4IA
- EJax/PBiJpgupdORpBNKIQegEzyCMuHpGOW4o/olYcshV310P74/6f7rDEe3XBSDVe7sPD+oq
- Gu52ig9raXVoSJnbom49ASk6HnZCB98Pwx1FOHr9aaq50SPc1/m4kxAD851THDinsON8ZNPTg
- pOLl/VsY1cL5SgB5Q
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 07:11:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 15 May 2020 13:04:06 -0000
+From: Jan Klos <1856335@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger janklos
+X-Launchpad-Bug-Reporter: Damir (djdatte)
+X-Launchpad-Bug-Modifier: Jan Klos (janklos)
+References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
+Message-Id: <158954784628.22688.13180815967368048776.malone@gac.canonical.com>
+Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1f5d26f7d35f0eb7adfb1fe0799e6b326aa471c5
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 09:10:50
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,127 +72,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/n0SS7W4RCdvvoM6GqtICd8z
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+A workaround for Linux VMs is to disable CPUs (and setting their
+number/pinnings accordingly, e.g. every 4th (and 3rd for 3100) core is
+going to be 'dummy' and disabled system-wide) by e.g. echo 0 >
+/sys/devices/system/cpu/cpu3/online
 
-On Fri, 15 May 2020 11:26:13 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+No good workaround for Windows VMs exists, as far as I know - the best
+you can do is setting affinity to specific process(es) and avoid the
+'dummy' CPUs, but I am not aware of any possibility to disable specific
+CPUs (only limiting the overall number).
 
-> On Fri, May 15, 2020 at 12:14:47PM +0200, Lukas Straub wrote:
-> > On Fri, 15 May 2020 11:04:13 +0100
-> > Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> >  =20
-> > > On Fri, May 15, 2020 at 11:48:18AM +0200, Lukas Straub wrote: =20
-> > > > On Tue, 12 May 2020 09:54:58 +0100
-> > > > Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> > > >    =20
-> > > > > On Mon, May 11, 2020 at 07:05:24PM +0200, Lukas Straub wrote:   =
-=20
-> > > > > > On Mon, 11 May 2020 17:19:09 +0100
-> > > > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > > > > >      =20
-> > > > > > > * Lukas Straub (lukasstraub2@web.de) wrote:     =20
-> > > > > > > > Add yank option, pass it to the socket-channel and register=
- a yank
-> > > > > > > > function which sets s->state =3D NBD_CLIENT_QUIT. This is t=
-he same
-> > > > > > > > behaviour as if an error occured.
-> > > > > > > >=20
-> > > > > > > > Signed-off-by: Lukas Straub <lukasstraub2@web.de>       =20
-> > > > > > >      =20
-> > > > > > > > +static void nbd_yank(void *opaque)
-> > > > > > > > +{
-> > > > > > > > +    BlockDriverState *bs =3D opaque;
-> > > > > > > > +    BDRVNBDState *s =3D (BDRVNBDState *)bs->opaque;
-> > > > > > > > +
-> > > > > > > > +    atomic_set(&s->state, NBD_CLIENT_QUIT);       =20
-> > > > > > >=20
-> > > > > > > I think I was expecting a shutdown on the socket here - why d=
-oesn't it
-> > > > > > > have one?     =20
-> > > > > >=20
-> > > > > > For nbd, we register two yank functions: This one and we enable
-> > > > > > the yank feature on the qio channel (see function
-> > > > > > nbd_establish_connection below).     =20
-> > > > >=20
-> > > > > As mentioned on the earlier patch, I don't want to see any yank
-> > > > > code in the QIOChannel object directly. This nbd_yank function
-> > > > > can simply call the qio_channel_shutdown() function directly
-> > > > > and avoid need for modifying the QIOChannel object with yank
-> > > > > support.   =20
-> > > >=20
-> > > > Hi,
-> > > > Looking at it again, the problem is not with registering the yank f=
-unctions, but with tracking the lifetime of it. Suppose we add qio_channel_=
-shutdown to the yank_nbd function. Then we need to unregister it whenever t=
-he QIOChannel object is freed.
-> > > >=20
-> > > > In the code that would lead to the following constructs in a lot of=
- places:
-> > > >      if (local_err) {
-> > > >          yank_unregister_function(s->yank_name, yank_nbd, bs);
-> > > >          object_unref(OBJECT(sioc));
-> > > >          error_propagate(errp, local_err);
-> > > >          return NULL;
-> > > >      }   =20
-> > >=20
-> > > The nbd patch here already has a yank_unregister_function() so I'm
-> > > not seeing anything changes in that respect. The "yank_nbd" function
-> > > should check that the I/O channel is non-NULL before calling the
-> > > qio_channel_shutdown method. =20
-> >=20
-> > Hmm, but if object_unref frees the object, it doesn't set the
-> > pointer to NULL does it? =20
->=20
-> So set  "ioc =3D NULL" after calling object_unref. AFAICT, nbd already
-> does exactly this.
+-- =
 
-I see 3 options to do that in a thread-safe manner:
-1. Introduce a mutex here.
-2. Use atomics to check for NULL and increase the reference count at the sa=
-me time in yank_nbd so it isn't freed while calling qio_channel_shutdown on=
- it. (I'm unsure how to do that)
-3. Do it like it is currently done (but with the new subclass). We get thre=
-ad safety for free trough the mutex in yank.c.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856335
 
-I prefer option 3 :)
+Title:
+  Cache Layout wrong on many Zen Arch CPUs
 
-The subclass can live in yank.c. There'd have to be 2 yank functions again =
-but a comment in yank_nbd should suffice.
+Status in QEMU:
+  New
 
-Regards,
-Lukas Straub
+Bug description:
+  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
+  to always map Cache ass if it was an 4-Core per CCX CPU, which is
+  incorrect, and costs upwards 30% performance (more realistically 10%)
+  in L3 Cache Layout aware applications.
 
---Sig_/n0SS7W4RCdvvoM6GqtICd8z
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
 
------BEGIN PGP SIGNATURE-----
+  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
+/>
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl6+kyIACgkQNasLKJxd
-sljMuhAAk0OmHBpMs3IO1tqgYc2QJsBLax/jbrJtRhCPgsaFh/RIsul/2ScNrV2S
-bphY7FLNqMwQAmP3Xo6A62XUlhS1fBz9w9Jxg+8tQ9mRhM/4bK695hsPfut+aRxp
-Y0z6uKZJNfBFurkCACHx8w10gBiBX6qn1Es5Sgbm9i02nurRq9in9s2pN7ENQqIj
-yALfq/aBsq2+UGFx6E0K89yXzxJyRZbxcIaoV6BBj4zAio78LOklg+0MagUk+NUE
-A4/SkCFLT/6qNl/2iCI/qQlS+ItJuDn9gPoWY7f4q13HCRxgCzwT/zBWwxse4DjV
-pzzR31WGf1WbI8ByghYoOFWZmGNpJzvSIHNMSgvjX1wAFGshG1MUwCMU2AEB7zjK
-iIO/nRyrapM2p4/gdBlXsuOS2OBe2v6FHjWfuTQAqiqf4H93HXuM4WK6rrrmQ3JN
-6yEjwgGBXzvebT70BAR9O+vhFTANCtdWXceaMS551/CSJ/WTEz7wPUXQzKCLAkxn
-EKlImehrlO7LMhbcuCW9bYloun0d/DHSxX97cz0r7dRek/3A4uqV32Wqdinws8RA
-6jtTZXWj2xl9N02RKRASg0A+O8Av5bH4sIzsJImJ/ac4qeuRridqSj1KybS26y0O
-e7tStb0s6AwY5TblYmQ75phcYbYTmpQNI72bxB+hKJepp0rEyiE=
-=RGT1
------END PGP SIGNATURE-----
+  In windows, coreinfo reports correctly:
 
---Sig_/n0SS7W4RCdvvoM6GqtICd8z--
+  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+
+  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
+/>
+
+  in windows, coreinfo reports incorrectly:
+
+  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
+
+  With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter:
+  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+
+  The problem is that the dies are exposed differently than how AMD does
+  it natively, they are exposed to Windows as sockets, which means, that
+  if you are nto a business user, you can't ever have a machine with
+  more than two CCX (6 cores) as consumer versions of Windows only
+  supports two sockets. (Should this be reported as a separate bug?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
