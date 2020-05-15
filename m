@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B5D61D4963
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:22:20 +0200 (CEST)
-Received: from localhost ([::1]:44610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9AB81D4966
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:23:43 +0200 (CEST)
+Received: from localhost ([::1]:49746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZWXr-0001EW-F8
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:22:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34978)
+	id 1jZWZC-0003Lg-Q0
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:23:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWVN-0005Xi-An
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:19:45 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51650
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWVX-0005qo-CO
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:19:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49565
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWVL-0005Yq-Vc
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:19:45 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWVV-0005ar-VT
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:19:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589534383;
+ s=mimecast20190719; t=1589534393;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LF0tsEpR65YIc+luskV1kHZ6WOfSSsruPgdBzkTKH7s=;
- b=MnQIbDX81PCjg6ilJaph4w6u5ADP6mCGZzp2PuR0ZNZrOsZb+V4IgFrhkJDmVcJNrPPivs
- uZve6E1vk5gNSMxsKCh0WKcxWmd/xDQtDNFLjyhc3m/vW0q2ox0GRKFRjsuS719K77hbbU
- E+8rY4l1JQI8kacqDGC2sz5jTpSVMHc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-l4vp5rK7P5myWIo4t_8TTg-1; Fri, 15 May 2020 05:19:41 -0400
-X-MC-Unique: l4vp5rK7P5myWIo4t_8TTg-1
-Received: by mail-wr1-f70.google.com with SMTP id z5so866293wrt.17
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 02:19:41 -0700 (PDT)
+ bh=oppWO9uqXABY1yc2ERvzqgw+FDGJGsndHoPWBL1+Ex8=;
+ b=MKhme/IYJzqhm6CbMEBibXuygnQB0oVVgp/i9Zeo4hXTnCAg4Si5+JvrBruetuO6ejy6AH
+ SuIQ8YHfnvqQ5I2vIchV9kJ2oEM/9ucUf2CCmP4HB4Q+spjEAnQsw9sQ7/JoFXUtl36KG8
+ YE0Dr1IzSPFEI7+Ku2GZ9YbRZ/AyK9w=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-419-IlwiMWMMM1-Pup1enXH0Qw-1; Fri, 15 May 2020 05:19:51 -0400
+X-MC-Unique: IlwiMWMMM1-Pup1enXH0Qw-1
+Received: by mail-wr1-f71.google.com with SMTP id y7so872753wrd.12
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 02:19:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LF0tsEpR65YIc+luskV1kHZ6WOfSSsruPgdBzkTKH7s=;
- b=uNlPXZIMhYhkY2CT+xG0Kbz4ZNNQLFYisODPQABtUk6WvX1hC0aUWmjQ4vQqSKhd3/
- LTWDVhR8B1x9a4XX1fYsiWG7bafi01Iwkn+BLYczegNenCOMkPZTriEeEN0gCaZNJZoW
- x1+Z+LK3EiBpN4CGxp83kU7f1TvY3IIZ5FxCmpnool4tP9rSCov6dqIiH+qzjgCCRYcQ
- UQqW5e5cGRCZqZ0QPaW5DWPsAIJyYJlOh1X2ataPNZtSsitt3O+NCgV/b6tG2NkW40aN
- LsJXppG5SuSKpNL7xjma7+Js4/IVX+rdeR6PfH9O1/fwxS8YY9qKDL51I722blvVjA8p
- Gp1Q==
-X-Gm-Message-State: AOAM532WjZUGK5xq2N7b+2TAfq6cT56k27GkiLe3vlEb9QGnLoM+2Kkc
- R5btnX0xKPO7ga9bK7i/ysUeIhnBBk7PimfcS363rZowPUm1XoFBIPlpKMLsRarbcNwW/tDn7K6
- VKmARj08QLvpFbAw=
-X-Received: by 2002:a7b:cc84:: with SMTP id p4mr3150553wma.159.1589534380547; 
- Fri, 15 May 2020 02:19:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzLiq76g2NxXRpxdMzXZb6yLUfop6/o/xxODFq+49OENhv5SbJdjhDEoy93rEc+QuOAJ16e9A==
-X-Received: by 2002:a7b:cc84:: with SMTP id p4mr3150539wma.159.1589534380389; 
- Fri, 15 May 2020 02:19:40 -0700 (PDT)
+ bh=oppWO9uqXABY1yc2ERvzqgw+FDGJGsndHoPWBL1+Ex8=;
+ b=W6khaIwoAnNKjMU+xeWBaBtUx7NOwRafX9pZ2Owb9sdjeC8EN2d3FJGpPreouJV+vq
+ Zfpvcj1jBVcrZ67V6rMgn/ZjNivGAhJX9mn//zIvWG8zmXNdu/dgsne42gotHMbzb1J7
+ H5DMeKVqU3YsnYHrC1fL7jsIpTvhe5ETu/7ZzAhjgtVUHuWPzyQFFKH5cmK7UIUUTt2k
+ J759Ss7l2d2RUSwRtihXuLFamH7SeuhYsuhRGrBsrREYOGkd0bHpIHm31c45UIO6CRH7
+ +hn1vBx/ihfmXGPM4j38sSJH/PYUpiBCEHe7VESsh6gMwAS0/bQgPzAaGrQ+fA2vPygz
+ 3pug==
+X-Gm-Message-State: AOAM532cDgQCuMWwqmhH60IRKqJYTKwzW880Q0gr50H1pUI6wkxkJPPF
+ IKR3WDWOnaF87QYxouNY5CYadnVZyRlXo58YQVZ4MwxUUOZl2ltgUdOMloSykKiivy1xDrsnxvr
+ KrVpTDxlmif0GLuA=
+X-Received: by 2002:a1c:9e51:: with SMTP id h78mr3154202wme.177.1589534390435; 
+ Fri, 15 May 2020 02:19:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzLco0pWeL3yIn0rtov5zBpzlfd/V0HoMnf9mibAcSjvFtUAMgTeaXr/WMl87/cxoCkqVs56Q==
+X-Received: by 2002:a1c:9e51:: with SMTP id h78mr3154179wme.177.1589534390221; 
+ Fri, 15 May 2020 02:19:50 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id b14sm2689293wmb.18.2020.05.15.02.19.39
+ by smtp.gmail.com with ESMTPSA id n7sm2643021wro.94.2020.05.15.02.19.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 02:19:39 -0700 (PDT)
+ Fri, 15 May 2020 02:19:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/5] block/block: Document BlockSizes fields
-Date: Fri, 15 May 2020 11:19:22 +0200
-Message-Id: <20200515091924.14380-4-philmd@redhat.com>
+Subject: [PATCH v2 4/5] sysemu/block-backend: Document blk_read()/blk_pwrite()
+Date: Fri, 15 May 2020 11:19:23 +0200
+Message-Id: <20200515091924.14380-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200515091924.14380-1-philmd@redhat.com>
 References: <20200515091924.14380-1-philmd@redhat.com>
@@ -72,10 +72,10 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 22:56:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,35 +97,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As it is not obvious for a block neophyte what means
-the 'log' value, document it.
+The blk_read()/blk_pwrite() return value is not obvious,
+document it.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/block/block.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+v2: 's/ - /: /' (stefanha)
+---
+ include/sysemu/block-backend.h | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index 480e6b6837..6836876da1 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -86,8 +86,8 @@ typedef enum {
- } BdrvRequestFlags;
- 
- typedef struct BlockSizes {
--    uint32_t phys;
--    uint32_t log;
-+    uint32_t phys;  /* physical block size */
-+    uint32_t log;   /* logical block size */
- } BlockSizes;
- 
- typedef struct HDGeometry {
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+index 7996cb61bb..b693dfb8f0 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -155,7 +155,31 @@ BlockAIOCB *blk_aio_pwrite_zeroes(BlockBackend *blk, int64_t offset,
+                                   int bytes, BdrvRequestFlags flags,
+                                   BlockCompletionFunc *cb, void *opaque);
+ int blk_make_zero(BlockBackend *blk, BdrvRequestFlags flags);
++
++/**
++ * blk_pread:
++ *
++ * @blk: the block backend where the buffer content is going to be read from
++ * @offset: position in bytes to read at
++ * @buf: the data buffer
++ * @bytes: number of bytes to read
++ *
++ * Returns: the number of bytes read on success, or a negative errno otherwise.
++ */
+ int blk_pread(BlockBackend *blk, int64_t offset, void *buf, int bytes);
++
++/**
++ * blk_pwrite:
++ *
++ * @blk: the block backend where the buffer content is going to be written to
++ * @offset: position in bytes to write at
++ * @buf: the data buffer
++ * @bytes: number of bytes of @buf to write
++ * @flags: request flags
++ *
++ * Returns: the number of bytes consumed on success,
++ *          or a negative errno otherwise.
++ */
+ int blk_pwrite(BlockBackend *blk, int64_t offset, const void *buf, int bytes,
+                BdrvRequestFlags flags);
+ int64_t blk_getlength(BlockBackend *blk);
 -- 
 2.21.3
 
