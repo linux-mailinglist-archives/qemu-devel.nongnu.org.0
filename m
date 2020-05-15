@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51CF21D4965
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:23:32 +0200 (CEST)
-Received: from localhost ([::1]:49142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F2741D496B
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:24:45 +0200 (CEST)
+Received: from localhost ([::1]:53662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZWZ1-00035a-CX
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:23:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35290)
+	id 1jZWaC-0005E6-6f
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:24:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWXo-0001rF-6j
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:22:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56099
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWYs-0003pr-1Q
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:23:22 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21393
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWXm-0006Cc-CR
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:22:15 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWYn-0006N6-CP
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:23:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589534533;
+ s=mimecast20190719; t=1589534596;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TSv0SQjXJsdc5G9Tit8B+qnASXdTyC6JHtY3nm3DBZ8=;
- b=AJZsWGgctGcsGHkDFI0/xpa1lIYnBGzzmLuxjdyXe4PBVDZnga4qAwDK+0OlA/9Eb2mUQ1
- aAOZopi77UaTVNSleFVpU56BW7N950WhhAYMUfyaRH/L9VIMwOQbwxIvOqoLK8FFe3/DSI
- QkQiQwRClH+evfeUHTQd4Iep7U7NONI=
+ bh=J3wtmS8Fjy3NmqO5LIR7a9Ha2sEl/bGv/Gzbvotz5/k=;
+ b=MmrBBIYHLXV91DOfYGNq4+VcR+UafIUADYJqwPidCjXBrU1kdZo6G1I2Z/qexO+zrZMPhg
+ 6fUOeEGq1ch6JeKJU9mjVykgpexgh26oEYmMLJoUmG94SUHpDsJT2ihxVw4hs9xSqHWK+K
+ txcTJ3t3kDV+lDdmh97YWDxFqjEDfqg=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-vxpZOxmbPp6dfEte1vNKEQ-1; Fri, 15 May 2020 05:22:12 -0400
-X-MC-Unique: vxpZOxmbPp6dfEte1vNKEQ-1
-Received: by mail-wr1-f71.google.com with SMTP id z16so869398wrq.21
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 02:22:11 -0700 (PDT)
+ us-mta-208-OFH1UUdlMGibts7NYHDB2Q-1; Fri, 15 May 2020 05:23:15 -0400
+X-MC-Unique: OFH1UUdlMGibts7NYHDB2Q-1
+Received: by mail-wr1-f71.google.com with SMTP id z5so870763wrt.17
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 02:23:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=TSv0SQjXJsdc5G9Tit8B+qnASXdTyC6JHtY3nm3DBZ8=;
- b=EdlCOPteHWMH+mRxX6JMmVcr5LdRX6Pa3LMEfPon6axIprTx6sDfWl3q8mX5wUHDPz
- AmjEWh2c9sf9WU8QCgvp2fAqRC5Cj82kqdSpKwdMREsR0hsRW4UM4F4+x0zO0DTWY6gS
- Zo7X8abwgdyUwgmCga0/x8HCbs8nOhekNVX1WN5/CDuGi1m9ISS0RhtmojQv4Z3AUOEL
- CTx/CJRRe6wbBX7thI1gua/pkTFFz+dp2A9yQY+WEViH59Dt6LFmgX6tknz1Uhtl1nEI
- COuGLAC6BCrB/TzY7lT6MBDY9/+sHlRDsn3K36xBnZCQhwFb/Tn+GJ8TEEJE5FQORUwm
- /UnQ==
-X-Gm-Message-State: AOAM53109rjXSF7p4TNiaaLtbuVfFHFxacNHjCpmid4RAFxyDxKma+Ro
- sWQYAMxZT/aq1yDI+V68cTtWKY1m8uY/BTcZ0z6DpmthB7MaoIPFh2ZY7S1ZrUc4wWHP0NvFk8W
- ScyRZAQ9zC6A2WC9SbzIwMjZPPUuzb1c=
-X-Received: by 2002:adf:f40a:: with SMTP id g10mr3412669wro.117.1589534530764; 
- Fri, 15 May 2020 02:22:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyPL/6XM3VsMXSnCsFjb9AqIj6l4ETKOSxxn7VkIzIaG23XCB//niP5tA30C+e1W3ldsRnQpMUdvqnxq+7WbwA=
-X-Received: by 2002:adf:f40a:: with SMTP id g10mr3412649wro.117.1589534530500; 
- Fri, 15 May 2020 02:22:10 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=J3wtmS8Fjy3NmqO5LIR7a9Ha2sEl/bGv/Gzbvotz5/k=;
+ b=rt6Gb565tJBe7RX7UHkIlRan0b/JJXDLzhdgflej/NrX5ye7F5Q/XcGu0LffDvpRTm
+ bdrS6KnlfhgZX0ZOpZhsOb885lfS+Z+luvyjRG1VN6JbmpGV0XHwq8lVwHGCLqTjl656
+ LhI3TAocSjm7b06LPEbrUL2iNnUws4clkcI0AGKxzNTWn/fIoAjpLam/dgD2xLZSVxrD
+ pzji6zr5KYR2jC0+BdAeX2zdUg8Dw63K9mmdFCADPEoUm6jUiY7ZBT068cC0AG9goYtm
+ Q54V4bo5WR1PvWjZMn0aAegwS/qeDaK7coGlFpp1DJ26X9tAiqM7u47CnNIq5MtyCeUt
+ 9rWA==
+X-Gm-Message-State: AOAM531YAYE3Id57QsDMVpYf0yEPLAJUJgD2TvQ5w/32rVnrE6rNNzts
+ y6mMFzWiMvfgF2bAb4F9F+4zdajLTxeWiAqmYPFbySLyvK+xnDvtSv8SErEfXXqPmRLSGrF6id3
+ ggBCUvMcN5fnOvSs=
+X-Received: by 2002:a7b:c24b:: with SMTP id b11mr2939551wmj.101.1589534593644; 
+ Fri, 15 May 2020 02:23:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyp0lEzF/HrVljSBbw5K0TftRLZDhvpfRufob5Mu/GAvyxNt5VMlHgIgLrNutVsY91mIlg+OA==
+X-Received: by 2002:a7b:c24b:: with SMTP id b11mr2939526wmj.101.1589534593420; 
+ Fri, 15 May 2020 02:23:13 -0700 (PDT)
+Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id g9sm2725560wru.7.2020.05.15.02.23.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 May 2020 02:23:12 -0700 (PDT)
+Subject: Re: [PATCH 2/2] tests/vm: Remove flex/bison packages
+To: qemu-devel@nongnu.org
 References: <20200515083124.5536-1-philmd@redhat.com>
- <20200515083124.5536-2-philmd@redhat.com>
- <3fe3dc1e-8076-2a86-8c6e-a18b7f2f9952@suse.de>
-In-Reply-To: <3fe3dc1e-8076-2a86-8c6e-a18b7f2f9952@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Fri, 15 May 2020 11:21:59 +0200
-Message-ID: <CAP+75-WVBD_sH56kwj6nkAuW7gjBy__teQqucVL3fnFQZ2m-cQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] tests/docker: Remove flex/bison packages
-To: Claudio Fontana <cfontana@suse.de>
+ <20200515083124.5536-3-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0a92421f-7a77-2cf7-3bfb-1bc72e7f7137@redhat.com>
+Date: Fri, 15 May 2020 11:23:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200515083124.5536-3-philmd@redhat.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 23:27:07
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,175 +99,74 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 15, 2020 at 11:02 AM Claudio Fontana <cfontana@suse.de> wrote:
->
-> On 5/15/20 10:31 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > QEMU does use flex/bison packages.
-> >
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
-> Hi Philippe, "does" or "does not"?
+On 5/15/20 10:31 AM, Philippe Mathieu-Daudé wrote:
+> QEMU does use flex/bison packages.
 
-Err... does NOT :/
+"... does not use ..." (Thanks Claudio).
 
->
-> Ciao,
->
-> Claudio
->
-> > ---
-> >  tests/docker/dockerfiles/centos7.docker             | 2 --
-> >  tests/docker/dockerfiles/centos8.docker             | 2 --
-> >  tests/docker/dockerfiles/debian-xtensa-cross.docker | 2 --
-> >  tests/docker/dockerfiles/debian10.docker            | 2 --
-> >  tests/docker/dockerfiles/debian9.docker             | 2 --
-> >  tests/docker/dockerfiles/fedora.docker              | 2 --
-> >  tests/docker/dockerfiles/ubuntu.docker              | 2 +-
-> >  tests/docker/dockerfiles/ubuntu1804.docker          | 2 +-
-> >  8 files changed, 2 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/doc=
-kerfiles/centos7.docker
-> > index 9a2a2e515d..e197acdc3c 100644
-> > --- a/tests/docker/dockerfiles/centos7.docker
-> > +++ b/tests/docker/dockerfiles/centos7.docker
-> > @@ -5,13 +5,11 @@ RUN yum -y update
-> >
-> >  # Please keep this list sorted alphabetically
-> >  ENV PACKAGES \
-> > -    bison \
-> >      bzip2 \
-> >      bzip2-devel \
-> >      ccache \
-> >      csnappy-devel \
-> >      dbus-daemon \
-> > -    flex \
-> >      gcc-c++ \
-> >      gcc \
-> >      gettext \
-> > diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/doc=
-kerfiles/centos8.docker
-> > index bfa0d33c9c..9852c5b9ee 100644
-> > --- a/tests/docker/dockerfiles/centos8.docker
-> > +++ b/tests/docker/dockerfiles/centos8.docker
-> > @@ -3,11 +3,9 @@ FROM centos:8.1.1911
-> >  RUN dnf -y update
-> >  ENV PACKAGES \
-> >      SDL-devel \
-> > -    bison \
-> >      bzip2 \
-> >      bzip2-devel \
-> >      dbus-daemon \
-> > -    flex \
-> >      gcc \
-> >      gcc-c++ \
-> >      gettext \
-> > diff --git a/tests/docker/dockerfiles/debian-xtensa-cross.docker b/test=
-s/docker/dockerfiles/debian-xtensa-cross.docker
-> > index e6f93f65ee..beb73f46ba 100644
-> > --- a/tests/docker/dockerfiles/debian-xtensa-cross.docker
-> > +++ b/tests/docker/dockerfiles/debian-xtensa-cross.docker
-> > @@ -11,11 +11,9 @@ RUN apt-get update && \
-> >      DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata && \
-> >      DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
-> >      apt-get install -y --no-install-recommends \
-> > -        bison \
-> >          build-essential \
-> >          ca-certificates \
-> >          curl \
-> > -        flex \
-> >          gettext \
-> >          git \
-> >          python3-minimal
-> > diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/do=
-ckerfiles/debian10.docker
-> > index 0769700a41..bcdff04ddf 100644
-> > --- a/tests/docker/dockerfiles/debian10.docker
-> > +++ b/tests/docker/dockerfiles/debian10.docker
-> > @@ -18,12 +18,10 @@ RUN apt update && \
-> >      DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
-> >      apt install -y --no-install-recommends \
-> >          bc \
-> > -        bison \
-> >          build-essential \
-> >          ca-certificates \
-> >          clang \
-> >          dbus \
-> > -        flex \
-> >          gdb-multiarch \
-> >          gettext \
-> >          git \
-> > diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/doc=
-kerfiles/debian9.docker
-> > index 08cc970feb..0f0ebe530a 100644
-> > --- a/tests/docker/dockerfiles/debian9.docker
-> > +++ b/tests/docker/dockerfiles/debian9.docker
-> > @@ -18,11 +18,9 @@ RUN apt update && \
-> >      DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
-> >      apt install -y --no-install-recommends \
-> >          bc \
-> > -        bison \
-> >          build-essential \
-> >          ca-certificates \
-> >          clang \
-> > -        flex \
-> >          gdb-multiarch \
-> >          gettext \
-> >          git \
-> > diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dock=
-erfiles/fedora.docker
-> > index 179575ecaa..92b6e11c8a 100644
-> > --- a/tests/docker/dockerfiles/fedora.docker
-> > +++ b/tests/docker/dockerfiles/fedora.docker
-> > @@ -3,7 +3,6 @@ FROM fedora:30
-> >  # Please keep this list sorted alphabetically
-> >  ENV PACKAGES \
-> >      bc \
-> > -    bison \
-> >      brlapi-devel \
-> >      bzip2 \
-> >      bzip2-devel \
-> > @@ -13,7 +12,6 @@ ENV PACKAGES \
-> >      dbus-daemon \
-> >      device-mapper-multipath-devel \
-> >      findutils \
-> > -    flex \
-> >      gcc \
-> >      gcc-c++ \
-> >      gettext \
-> > diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dock=
-erfiles/ubuntu.docker
-> > index eeb3b22bf2..90ea6311c6 100644
-> > --- a/tests/docker/dockerfiles/ubuntu.docker
-> > +++ b/tests/docker/dockerfiles/ubuntu.docker
-> > @@ -10,7 +10,7 @@
-> >  #
-> >
-> >  FROM ubuntu:19.04
-> > -ENV PACKAGES flex bison \
-> > +ENV PACKAGES \
-> >      ccache \
-> >      clang \
-> >      dbus \
-> > diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/=
-dockerfiles/ubuntu1804.docker
-> > index f66b06f4cf..a10ea2850b 100644
-> > --- a/tests/docker/dockerfiles/ubuntu1804.docker
-> > +++ b/tests/docker/dockerfiles/ubuntu1804.docker
-> > @@ -1,5 +1,5 @@
-> >  FROM ubuntu:18.04
-> > -ENV PACKAGES flex bison \
-> > +ENV PACKAGES \
-> >      ccache \
-> >      clang \
-> >      gcc \
-> >
->
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   tests/vm/fedora      | 1 -
+>   tests/vm/freebsd     | 1 -
+>   tests/vm/netbsd      | 1 -
+>   tests/vm/ubuntu.i386 | 2 +-
+>   4 files changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/tests/vm/fedora b/tests/vm/fedora
+> index bd9c6cf295..a9195670f4 100755
+> --- a/tests/vm/fedora
+> +++ b/tests/vm/fedora
+> @@ -32,7 +32,6 @@ class FedoraVM(basevm.BaseVM):
+>       pkgs = [
+>           # tools
+>           'git-core',
+> -        'flex', 'bison',
+>           'gcc', 'binutils', 'make',
+>   
+>           # perl
+> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+> index 298967fe9c..f87db2b126 100755
+> --- a/tests/vm/freebsd
+> +++ b/tests/vm/freebsd
+> @@ -38,7 +38,6 @@ class FreeBSDVM(basevm.BaseVM):
+>           "bash",
+>           "gmake",
+>           "gsed",
+> -        "flex", "bison",
+>   
+>           # libs: crypto
+>           "gnutls",
+> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+> index b10c9d429d..cdac502dad 100755
+> --- a/tests/vm/netbsd
+> +++ b/tests/vm/netbsd
+> @@ -36,7 +36,6 @@ class NetBSDVM(basevm.BaseVM):
+>           "bash",
+>           "gmake",
+>           "gsed",
+> -        "flex", "bison",
+>   
+>           # libs: crypto
+>           "gnutls",
+> diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
+> index 1570775335..24527cc78c 100755
+> --- a/tests/vm/ubuntu.i386
+> +++ b/tests/vm/ubuntu.i386
+> @@ -52,7 +52,7 @@ class UbuntuX86VM(basevm.BaseVM):
+>           self.ssh_root_check("sed -ie s/^#\ deb-src/deb-src/g /etc/apt/sources.list")
+>           self.ssh_root_check("apt-get update")
+>           self.ssh_root_check("apt-get build-dep -y qemu")
+> -        self.ssh_root_check("apt-get install -y libfdt-dev flex bison language-pack-en")
+> +        self.ssh_root_check("apt-get install -y libfdt-dev language-pack-en")
+>           self.ssh_root("poweroff")
+>           self.wait()
+>           os.rename(img_tmp, img)
+> 
 
 
