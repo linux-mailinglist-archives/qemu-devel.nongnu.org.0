@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29CF91D4DEA
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 14:42:40 +0200 (CEST)
-Received: from localhost ([::1]:52598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D901D4DF4
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 14:45:02 +0200 (CEST)
+Received: from localhost ([::1]:32986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZZfi-00044H-Kl
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 08:42:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44882)
+	id 1jZZi1-0007Zg-FU
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 08:45:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jZZe4-00028Z-Hx; Fri, 15 May 2020 08:40:56 -0400
+ id 1jZZe5-0002Ar-Bn; Fri, 15 May 2020 08:40:57 -0400
 Received: from mail-eopbgr150102.outbound.protection.outlook.com
  ([40.107.15.102]:11310 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jZZe2-0008VJ-8h; Fri, 15 May 2020 08:40:55 -0400
+ id 1jZZe4-0008VJ-7K; Fri, 15 May 2020 08:40:57 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NjeByZFf7VKPe9IKiTIJrtnolm4EeMpQeFIPGE+GJAITGzPMj7l90j48V/nJga6vIQW++PLrRjcLtszkur+YWjnKWKncoaurkIBHQOpCGyCbz5AqSQ8gbZPrcpzh/Q1Gb52DpzGk2TlaA2g+lLq0zxXCNODDE18RFGzSYJFW+jjSpmeVzbeHh0NkwEOjpzXV+813WseGAAdL+xS+q+ZJnXcYtnacABKP5Rz6tSdlX3QBWCSK6qGSfWBZVHdtY8ec3+zMhdf9JMwr+mAMPmErRm6vADQ2yRV94Fu3YV8R1o6VzX0w6AOHASZhFgFRws2BSN126zX8uLWI6h7LnSQJ3w==
+ b=PnLuggn/DIDpc+Rc9MOCTDhQfU/VLN2fyyJwU72OObTE2/fwqE/m537v6hf/P3IMAuFNDmISCuyV4DNFZJxPe9ImI4/jX6BqJfLiJSkDn+SYPAoS5k1G1557UAAlO/g9cYz+KyyAsR6ZmBVotECWaWRt18PjVWVONIQY3hlT2gAb0OenQ1jR5uLWVCzpv59wBOH/aVelxx0ROSy+JrNBO+Vy+j6msq67NdL51JbLpOX6+BM+yJ0Ez+U0QNDR2yvDwdZMB5KV4uoynpkwOFIr5SNhmoq2VRl/t5JZg5bkE0hnOtwvfhhMY7z26VgX7oLuCJczBzx2MGstHFjhp9EMWw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MUaN9DoZA2ANuBSVz7UkfInKucGNe8SSEpGGDhFeThU=;
- b=lc5nu+8cpl6T3NLKs6jGzWbkASB8Swzr6qZGOwbCFJb3y1i+0cGi9ei0uCiZWQHIHaI6uLsQXHHZKJkPY3ppcBk5qdh5e2j4nhy21X6Q0rX3XBymjIr/7Rqmz7z4I8ASKtLjJ3AD1pvJDlB+a30std/BWsL9nNbQZBRBijDPcHkKSC+VEQjCC5NGgI3FE0EbNZz/KneVkqrRGIT+9jSdx+0OJhwA5D6VmF1qvAJ0jVTFyfIkQUJ7eOaZB4QznhHqoizNc/chQAUtRSLyThaJLlnAoGvHWvSJHtxmcpt0uAm2uiR+2FDHV8uJHoPdUDjyaXgTcOhramOWPdF4tvu5TQ==
+ bh=w8L1mEFwFjcRzqL8J+Te2vzHwB6npe2ycUNigAGbXEs=;
+ b=GxabazftCSiDihCsyxTj1Xgu2I2IAY2DXY2Y15n00b48y73FYwyYJoHLPt/4VsfyjCpeS3238UYCuG5W8n83mPDnr0fJ8Zb2B+nGHyt/DayoREGpjJBdWmlRqwekeQuE5AjZYGB0Yae6iK1a72q3QCyM/Euq4r71req3bGFx3rlz6Kr9msNdpRCTG/Hf8Fp38k5Rt7jxCdLrqmTJi41tpee8LziPaj9I/6ZChV3f+ZvdOaU3SN41wtOa2IX+smdoQKgDcChwjloKHYAU1nnxY3o7WoWgKVC81LNeh7YOt5HpoPAd9CDBk1tfHDWZ/8zkHrMFbn4E0PjWxienEjDb3Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MUaN9DoZA2ANuBSVz7UkfInKucGNe8SSEpGGDhFeThU=;
- b=npKH6t1wfvMKqwFydub70h+5TxMQK+UDyH4hT1uY2W4K0ZUtI6cqXhqsBN1UFjJ8u3pVGR1AYw8dOcy+LJ8rW6nUz1OjbuJHppu/UqDclEDl0Vq5tBY9Y9CI+pOAH+KmEf9zIBIYF1IJn/deyOK+53342/W3WMowkpJHBYmMmcg=
+ bh=w8L1mEFwFjcRzqL8J+Te2vzHwB6npe2ycUNigAGbXEs=;
+ b=AswDY8/sK5s2INExW55YFayYABj2IfRQfRbwl/NUVk3jnzMNckR7BVq71pI7ZTKm5u6NLChl9p1b/OVCqc6d6fCEPxeUI9UGmbA6nirG+vrvseuX0DWKt8fDxN94fcwmjud/qtLmu12EYtT82DNEPcpCJJxpr/cddb5mXl99Vrs=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5381.eurprd08.prod.outlook.com (2603:10a6:20b:105::23)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.26; Fri, 15 May
- 2020 12:40:50 +0000
+ 2020 12:40:51 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9%4]) with mapi id 15.20.3000.016; Fri, 15 May 2020
- 12:40:50 +0000
+ 12:40:51 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 0/7] fix migration with bitmaps and mirror
-Date: Fri, 15 May 2020 15:40:17 +0300
-Message-Id: <20200515124024.3491-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 1/7] block: Mark commit, mirror, blkreplay as filters
+Date: Fri, 15 May 2020 15:40:18 +0300
+Message-Id: <20200515124024.3491-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200515124024.3491-1-vsementsov@virtuozzo.com>
+References: <20200515124024.3491-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: AM0PR03CA0039.eurprd03.prod.outlook.com (2603:10a6:208::16)
@@ -60,32 +62,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.184) by
  AM0PR03CA0039.eurprd03.prod.outlook.com (2603:10a6:208::16) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3000.20 via Frontend Transport; Fri, 15 May 2020 12:40:49 +0000
+ 15.20.3000.20 via Frontend Transport; Fri, 15 May 2020 12:40:50 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.184]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a75674fa-6a12-48f3-ecad-08d7f8cd32bb
+X-MS-Office365-Filtering-Correlation-Id: 96c2e4c3-4935-482a-2806-08d7f8cd336c
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5381:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5381F971E36070EA643D63A0C1BD0@AM7PR08MB5381.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:23;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB53813DA1C8D818F630A98C28C1BD0@AM7PR08MB5381.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:33;
 X-Forefront-PRVS: 04041A2886
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Iu5+A97wXshr/crYkkvIngzNyRnIhEyO+2Gib0YTczzV0Kh/uq45mlcyj5rJYHLjRfgIhJrixHN5uZpCRqE88TLe1180r+G3KNbmyG10W7Hb1S6j8PIMBn+8M5G9aGCTsedyzFurLiBGeS0ZbdRXBYqxY/C1JtJjRwoltlI2MjOIX/+2hkU5AcqbmhFzYPVyZXGUM3ehhVYxJd2QBGQ1ShnTZfoBP+IkdMmX/61SRkXW/WAV7OnaRQspwxsmrED5RL6ihkBb4DLSe8sM4+MgHb9UcAvYBnI1o8Ty4G7EaK5v34Q8fnx1gvApyxnOFcm1UGpM9IjhVSR3kHXWTBIyCyf9/5mUAxzWkVBjbz39mpScxk+e9/wmusG1puyJmzys7rAwOxWxDCWuK3qdxvafzSGfwc+NmZjw20I6aZ6abSjrmn+J2BFZWfzphNDNqjfP
+X-Microsoft-Antispam-Message-Info: +rVcYCc0CoiCTK0KOZ6f0ie95GqBOy0ezZn42VxsUqn4j/Qugz4PZ26oxMXOszRLTgq2V0Xo7oqAi3Iu/jJfkmfN841VAG+HLOZVJ0l2GITa5WS49IF5qIYxLn7SSrZ+tiOBXGp5U+d4Lk4bFkvaHp5Gsf7PKW4rXrmREnJvKIrgqfA3lPl/S6N9RO/YX3gBTzk+VzLSr4oCu0QYDn7QcBvfSzPLS+R5bUgyQ+KkRuFv2VDtdaO+q7KdZQGfE8LumAa5g/cphX0TQIbH6h/WdDbbzaehDHRrFemcTYxtsQ8WsUjKATbJZomUjFzKAk2o0YDhNGtO6BaodVS2T9ZID+yJ6/Mt3t7MEwIlcJd8d9JuFKPXW2NLxylhx3jtcqOCxW8BLT1qZd5uClCc+7m/nAvVZEOzJ/L5Myu1z9Ho6QDNxpzjWnwbgpLFb2aBdgvt
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(4636009)(366004)(376002)(136003)(346002)(396003)(39840400004)(52116002)(6486002)(36756003)(8676002)(7416002)(8936002)(6916009)(478600001)(6666004)(86362001)(6512007)(4326008)(316002)(26005)(5660300002)(16526019)(186003)(6506007)(2616005)(2906002)(1076003)(956004)(66556008)(66946007)(66476007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 164VGg8Uz2pq/U9lVxJ9JmFjdy+ZQJuF3FbUEjFuqdmMUnq3Rml05TpQLPVb+U25Ihm+sYs0D6diQHXm8C4uIRW07LzNt74pM+FMKp2MrlUm4dXO+Kcg/U5So2pvfV0s/oabAKMc0m9YMtyxe+kad60w+GRwjbuyuXOWmsW0nSKOuS8nmIg+wvQFx5eEkGLfnyotLw7mF+k7l1jT+B7tFdDlSiy1ekIMPwe2uc4e5UEVVBULgki2jTt/q8p8Gx3CmQM/tdE6qxN2kwmBQ3jtPdDZLPKbNF2iv5zam1avHYcL0eOqf+bgVLaAEffhgRCXuswaFiW+9zQ+MX8bwcog9sEd7+bg/+MFmlBScjTtZzr8BZHDamUHXbfbSUcoix0LBYgjWeqfrAHKQpMxt3APklcdDQqAmY9xNwIsLS23Td/F3FdbiwMsd4frOjJTMs7lfHCbgBJVrxJFY0reelZN/TLZoetOyL0m34JjjItogucw6ZdemhJMMpziA+TL8ASC
+X-MS-Exchange-AntiSpam-MessageData: lO/EcPi7p9azvQUuFxzLaYkUn6KmvC15bwg0G7H0D59lR1VyWtbc5fNZTk5ZpZhd1R1SQHeX01RRjiBId4p3wHJCionhSKq5lUG4fUjyf4zyiaEpFVRNSU/xJzJszO5/jnf+Efxp4H7CKnhKTLIMagfs1GwEsvPvLkW7mfm/HVQNBowW5wmVLSS/3np0UyfQs707DN2vqSOkKAEoL+0LVJttVqHA308XC2VzJoCS0NldH1g+5Ho7VoBZFQS2eqp4uunjNiv6KJSkn49fn1y7i5fXue6QT3u+8xCG9iSyV69byuExxzFQ43ftI0J9+ViZ9hjdCrMb3iFs3Jlq+elx9lws6r03HgPn3kkwKipjr3m9tu317WLaJyh2pw8O7/5lMTsEgrJsdyZXg6rRDP7O2drTGWrSUHToiabxS5GKHE8lk/0uMojuXOOHilod1MhNa70U3GnLGqBf3/YbREGrge4WKNC3jP/EwktPPVhrL8lNq/WVPx4KxWKRB2TnXRp7
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a75674fa-6a12-48f3-ecad-08d7f8cd32bb
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2020 12:40:50.0838 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96c2e4c3-4935-482a-2806-08d7f8cd336c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2020 12:40:51.2378 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ab2TcjurwXQ+wMsvOFCkIL4vB36M5oBBbkbWPWBAx2fP+gM4m9wOJ+5EOhgEltdDWSjul/haQlDswKPAAx7BxOXPQvH+gSmm8/hYHTsXbCU=
+X-MS-Exchange-CrossTenant-UserPrincipalName: OAxxAU3l+lXUcE2biLv0fopK/Sy37ZD6bX2o76xsi7ddx8BquJAwEDxAy1dyNqL6fTe3w9i83zY6j7FSKlI9/ndGqpeGxWKDj1BnzPVFUDQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5381
 Received-SPF: pass client-ip=40.107.15.102;
  envelope-from=vsementsov@virtuozzo.com;
@@ -119,36 +121,56 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v3:
-01: updated, just taken from Kevin's block-tree
-02: fix grammar, add Eric's r-b
-03: add Eric's and Andrey's r-bs (Andrey's one comes from downstrem)
-04: update commit message a bit
-06-07: new
+From: Max Reitz <mreitz@redhat.com>
 
-Max Reitz (1):
-  block: Mark commit, mirror, blkreplay as filters
+The commit, mirror, and blkreplay block nodes are filters, so they should
+be marked as such.
 
-Vladimir Sementsov-Ogievskiy (6):
-  migration/block-dirty-bitmap: refactor init_dirty_bitmap_migration
-  block/dirty-bitmap: add bdrv_has_named_bitmaps helper
-  migration/block-dirty-bitmap: fix bitmaps pre-blockdev migration
-    during mirror job
-  iotests: 194: test also migration of dirty bitmap
-  migration/block-dirty-bitmap: add_bitmaps_to_list: check disk name
-    once
-  migration/block-dirty-bitmap: forbid migration by generated node-name
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/blkreplay.c | 1 +
+ block/commit.c    | 2 ++
+ block/mirror.c    | 2 ++
+ 3 files changed, 5 insertions(+)
 
- include/block/dirty-bitmap.h   |   1 +
- block/blkreplay.c              |   1 +
- block/commit.c                 |   2 +
- block/dirty-bitmap.c           |  13 ++++
- block/mirror.c                 |   2 +
- migration/block-dirty-bitmap.c | 126 ++++++++++++++++++++++++---------
- tests/qemu-iotests/194         |  14 ++--
- tests/qemu-iotests/194.out     |   6 ++
- 8 files changed, 127 insertions(+), 38 deletions(-)
-
+diff --git a/block/blkreplay.c b/block/blkreplay.c
+index c96ac8f4bc..131c9e8477 100644
+--- a/block/blkreplay.c
++++ b/block/blkreplay.c
+@@ -135,6 +135,7 @@ static int blkreplay_snapshot_goto(BlockDriverState *bs,
+ static BlockDriver bdrv_blkreplay = {
+     .format_name            = "blkreplay",
+     .instance_size          = 0,
++    .is_filter              = true,
+ 
+     .bdrv_open              = blkreplay_open,
+     .bdrv_child_perm        = bdrv_filter_default_perms,
+diff --git a/block/commit.c b/block/commit.c
+index 87f6096d90..445a28069b 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -240,6 +240,8 @@ static BlockDriver bdrv_commit_top = {
+     .bdrv_co_block_status       = bdrv_co_block_status_from_backing,
+     .bdrv_refresh_filename      = bdrv_commit_top_refresh_filename,
+     .bdrv_child_perm            = bdrv_commit_top_child_perm,
++
++    .is_filter                  = true,
+ };
+ 
+ void commit_start(const char *job_id, BlockDriverState *bs,
+diff --git a/block/mirror.c b/block/mirror.c
+index aca95c9bc9..b6de24bc3c 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1527,6 +1527,8 @@ static BlockDriver bdrv_mirror_top = {
+     .bdrv_co_block_status       = bdrv_co_block_status_from_backing,
+     .bdrv_refresh_filename      = bdrv_mirror_top_refresh_filename,
+     .bdrv_child_perm            = bdrv_mirror_top_child_perm,
++
++    .is_filter                  = true,
+ };
+ 
+ static BlockJob *mirror_start_job(
 -- 
 2.21.0
 
