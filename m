@@ -2,84 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724571D41FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 02:09:59 +0200 (CEST)
-Received: from localhost ([::1]:36996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B61F1D4341
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 03:55:23 +0200 (CEST)
+Received: from localhost ([::1]:33214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZNvK-0001Z6-4o
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 20:09:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39322)
+	id 1jZPZK-0006A2-6N
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 21:55:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nicolas@ndufresne.ca>)
- id 1jZNRI-0006YR-U7
- for qemu-devel@nongnu.org; Thu, 14 May 2020 19:38:56 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:34677)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nicolas@ndufresne.ca>)
- id 1jZNRH-0007PQ-7T
- for qemu-devel@nongnu.org; Thu, 14 May 2020 19:38:56 -0400
-Received: by mail-qk1-x741.google.com with SMTP id 190so793899qki.1
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 16:38:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=jbaw0/cMUjrfO1oPa3pk+E2eiJXTX1fTABBIaC6wiG0=;
- b=gvv/e0onhd4GR/067vRbxkw9u0RX/1J4zBNfS0YVKR0ggPZDdb/p6dM8f3H0bVo4VH
- jeKivWdZdR2xa7nvPk0XFBE5dMy89ktaFA+1ItwD8VWLdGUG94rIOi4q3kKrXwS0oDi+
- 2tJWiI2uljSZm4CnIMf3x7HHde1gxR3Rw3QAbfiJGE4/dj2Er+OnDiuPn8KH3EGsbKPt
- 6oAe4RRWnECJH3Rb0IT658gGfNf6FSPtjS8iZehOFwrvgdXKRL404ZeqClhqe3j9VQvP
- Qw0BuJy60hbwF2z8XPyAEin3p1Wq63PDsAMsz8CrKXVBzKYoqxugAfzEVNprCYJqTQMC
- McxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=jbaw0/cMUjrfO1oPa3pk+E2eiJXTX1fTABBIaC6wiG0=;
- b=nEZTm0iuuWe18X4Cnj3OQkux77BPbbweQP/QDY5td+fdHxG8grI0bMPyLfrrx9lEQH
- Es746iKsxD4mw6q1W36U5Pr9V2mh1jS3TP5PftWJfr4cx0ht+B2FHKQl7UorIeWml2nQ
- ynknTaF5TkiwHACY0zyqeRfQtt91fvw1Elu2rmghX0OU1ZOUY1NhkoT8PhtVCSY8hjff
- GvsymX9S/27x2Vep4mU8in2ulxxA01ZYnF/PtMSQmjeuJ0eLtN8b01vJmc++5M5wqu/D
- N1liub2sfWx162AQ6LriybkOs6S80ZZ+sxbpXqUauUz4cHGeCXdspGJu7lDqHJ60Zcly
- GpAw==
-X-Gm-Message-State: AOAM532aCf/q6j7fsOX6Ps93YsCVvdtjJQQqPmXhrHUSvzH7s+FxQqqQ
- lHVdJ5kd/M0LgQsBLKLIKCu2pQ==
-X-Google-Smtp-Source: ABdhPJy+L+4w17J7N+kp96fQxmIlAp+BUXSTQzD0+1cHnNL6jCVgbxsBjQgTpy5Gx9qSx5mYkB9Cww==
-X-Received: by 2002:a37:a917:: with SMTP id s23mr797338qke.443.1589499533668; 
- Thu, 14 May 2020 16:38:53 -0700 (PDT)
-Received: from nicolas-tpx395 ([192.222.193.21])
- by smtp.gmail.com with ESMTPSA id t130sm327724qka.14.2020.05.14.16.38.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 16:38:52 -0700 (PDT)
-Message-ID: <67e1ba850c5fbf84b09ec8266ab70dd08a10c2e3.camel@ndufresne.ca>
-Subject: Re: [virtio-dev] Re: Fwd: Qemu Support for Virtio Video V4L2 driver
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Keiichi Watanabe <keiichiw@chromium.org>, Dmitry Sepp
- <dmitry.sepp@opensynergy.com>
-Date: Thu, 14 May 2020 19:38:50 -0400
-In-Reply-To: <CAD90VcYeF7drbYNDiEioPBHcQcifqDYUia_CKqNLv_5VAMjPKw@mail.gmail.com>
-References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
- <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
- <CAK25hWM-hLdk=MSKgceumOUo9ZNBrrmM8qSe7MvTUAPGmur_HQ@mail.gmail.com>
- <2515515.r9knKAEANn@os-lin-dmo>
- <CAD90VcYeF7drbYNDiEioPBHcQcifqDYUia_CKqNLv_5VAMjPKw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.1 (3.36.1-1.fc32) 
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jZPXl-0005Ec-H2; Thu, 14 May 2020 21:53:45 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46007 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jZPXi-0001MY-0M; Thu, 14 May 2020 21:53:44 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49NWdj47plz9sT3; Fri, 15 May 2020 11:53:13 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1589507593;
+ bh=FLSavr2k+dPhn4Iws+dt37Fq2Ke/r20PWURrZZ69k/0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YFR8SBa/VyeTSNpHJ83SEmcSLQg5fdRswc7Pzy5BVcxXTmf+vTzDI2ZthO7DaIABQ
+ J/zP7QMsU8BLn5Mwg2yTc9MjMbBO2eM9AveYPBeRVEwBxM9zwK2PGB/buW2GsVKs2R
+ c3dOCS2+cbT+Oh/nqWybuBsYyh7FR58Bw8qrAkbs=
+Date: Fri, 15 May 2020 10:14:06 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [RFC 16/18] use errp for gmpo kvm_init
+Message-ID: <20200515001406.GF2183@umbus.fritz.box>
+References: <20200514064120.449050-1-david@gibson.dropbear.id.au>
+ <20200514064120.449050-17-david@gibson.dropbear.id.au>
+ <20200514170808.GS2787@work-vm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::741;
- envelope-from=nicolas@ndufresne.ca; helo=mail-qk1-x741.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="xnH/NIbSm9ew9GxF"
+Content-Disposition: inline
+In-Reply-To: <20200514170808.GS2787@work-vm>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 14 May 2020 20:08:40 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,193 +62,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
- virtio-dev@lists.oasis-open.org, Alex Lau <alexlau@chromium.org>,
- Kiran Pawar <Kiran.Pawar@opensynergy.com>,
- Alexandre Courbot <acourbot@chromium.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Tomasz Figa <tfiga@chromium.org>, Saket Sinha <saket.sinha89@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Hans Verkuil <hverkuil@xs4all.nl>,
- Emil Velikov <emil.velikov@collabora.com>, Pawel Osciak <posciak@chromium.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: brijesh.singh@amd.com, frankja@linux.ibm.com, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ mdroth@linux.vnet.ibm.com, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le lundi 11 mai 2020 à 20:49 +0900, Keiichi Watanabe a écrit :
-> Hi,
-> 
-> Thanks Saket for your feedback. As Dmitry mentioned, we're focusing on
-> video encoding and decoding, not camera. So, my reply was about how to
-> implement paravirtualized video codec devices.
-> 
-> On Mon, May 11, 2020 at 8:25 PM Dmitry Sepp <dmitry.sepp@opensynergy.com>
-> wrote:
-> > Hi Saket,
-> > 
-> > On Montag, 11. Mai 2020 13:05:53 CEST Saket Sinha wrote:
-> > > Hi Keiichi,
-> > > 
-> > > I do not support the approach of  QEMU implementation forwarding
-> > > requests to the host's vicodec module since  this can limit the scope
-> > > of the virtio-video device only for testing,
-> > 
-> > That was my understanding as well.
-> 
-> Not really because the API which the vicodec provides is V4L2 stateful
-> decoder interface [1], which are also used by other video drivers on
-> Linux.
-> The difference between vicodec and actual device drivers is that
-> vicodec performs decoding in the kernel space without using special
-> video devices. In other words, vicodec is a software decoder in kernel
-> space which provides the same interface with actual video drivers.
-> Thus, if the QEMU implementation can forward virtio-video requests to
-> vicodec, it can forward them to the actual V4L2 video decoder devices
-> as well and VM gets access to a paravirtualized video device.
-> 
-> The reason why we discussed vicodec in the previous thread was it'll
-> allow us to test the virtio-video driver without hardware requirement.
-> 
-> [1] https://www.kernel.org/doc/html/latest/media/uapi/v4l/dev-decoder.html
-> 
-> > > which instead can be used with multiple use cases such as -
-> > > 
-> > > 1. VM gets access to paravirtualized  camera devices which shares the
-> > > video frames input through actual HW camera attached to Host.
-> > 
-> > This use-case is out of the scope of virtio-video. Initially I had a plan to
-> > support capture-only streams like camera as well, but later the decision was
-> > made upstream that camera should be implemented as separate device type. We
-> > still plan to implement a simple frame capture capability as a downstream
-> > patch though.
-> > 
-> > > 2. If Host has multiple video devices (especially in ARM SOCs over
-> > > MIPI interfaces or USB), different VM can be started or hotplugged
-> > > with selective video streams from actual HW video devices.
-> > 
-> > We do support this in our device implementation. But spec in general has no
-> > requirements or instructions regarding this. And it is in fact flexible
-> > enough
-> > to provide abstraction on top of several HW devices.
-> > 
-> > > Also instead of using libraries like Gstreamer in Host userspace, they
-> > > can also be used inside the VM userspace after getting access to
-> > > paravirtualized HW camera devices .
-> 
-> Regarding Gstreamer, I intended this video decoding API [2]. If QEMU
-> can translate virtio-video requests to this API, we can easily support
-> multiple platforms.
-> I'm not sure how feasible it is though, as I have no experience of
-> using this API by myself...
 
-Not sure which API you aim exactly, but what one need to remember is that
-mapping virtio-video CODEC on top of VAAPI, V4L2 Stateless, NVDEC or other type
-of "stateless" CODEC is not trivial and can't be done without userspace. Notably
-because we don't want to do bitstream parsing in the kernel on the main CPU as
-security would otherwise be very hard to guaranty. The other driver using same
-API as virtio-video do bitstream parsing on a dedicated co-processor (through
-firmware blobs though).
+--xnH/NIbSm9ew9GxF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Having bridges between virtio-video, qemu and some abstraction library like
-FFMPEG or GStreamer is certainly the best solution if you want to virtualize any
-type of HW accelerated decoder or if you need to virtualized something
-proprietary (like NVDEC). Please shout if you need help.
+On Thu, May 14, 2020 at 06:09:46PM +0100, Dr. David Alan Gilbert wrote:
+> Dave:
+>   You've got some screwy mail headers here, the qemu-devel@nongnu.-rg is
+> the best one anmd the pair@us.redhat.com is weird as well.
 
-> 
-> [2] 
-> https://gstreamer.freedesktop.org/documentation/tutorials/playback/hardware-accelerated-video-decoding.html
-> 
-> Best regards,
-> Keiichi
-> 
-> > 
-> > Regarding the cameras, unfortunately same as above.
-> > 
-> > Best regards,
-> > Dmitry.
-> > 
-> > > Regards,
-> > > Saket Sinha
-> > > 
-> > > On Mon, May 11, 2020 at 12:20 PM Keiichi Watanabe <keiichiw@chromium.org>
-> > wrote:
-> > > > Hi Dmitry,
-> > > > 
-> > > > On Mon, May 11, 2020 at 6:40 PM Dmitry Sepp <dmitry.sepp@opensynergy.com
-> > > > >
-> > wrote:
-> > > > > Hi Saket and all,
-> > > > > 
-> > > > > As we are working with automotive platforms, unfortunately we don't
-> > > > > plan
-> > > > > any Qemu reference implementation so far.
-> > > > > 
-> > > > > Of course we are ready to support the community if any help is needed.
-> > > > > Is
-> > > > > there interest in support for the FWHT format only for testing purpose
-> > > > > or you want a full-featured implementation on the QEMU side?
-> > > > 
-> > > > I guess we don't need to implement the codec algorithm in QEMU.
-> > > > Rather, QEMU forwards virtio-video requests to the host video device
-> > > > or a software library such as GStreamer or ffmpeg.
-> > > > So, what we need to implement in QEMU is a kind of API translation,
-> > > > which shouldn't care about actual video formats so much.
-> > > > 
-> > > > Regarding the FWHT format discussed in the patch thread [1], in my
-> > > > understanding, Hans suggested to have QEMU implementation forwarding
-> > > > requests to the host's vicodec module [2].
-> > > > Then, we'll be able to test the virtio-video driver on QEMU on Linux
-> > > > even if the host Linux has no hardware video decoder.
-> > > > (Please correct me if I'm wrong.)
-> > > > 
-> > > > Let me add Hans and Linux media ML in CC.
-> > > > 
-> > > > [1]  https://patchwork.linuxtv.org/patch/61717/
-> > > > [2] https://lwn.net/Articles/760650/
-> > > > 
-> > > > Best regards,
-> > > > Keiichi
-> > > > 
-> > > > > Please note that the spec is not finalized yet and a major update is
-> > > > > now
-> > > > > discussed with upstream and the Chrome OS team, which is also
-> > > > > interested
-> > > > > and deeply involved in the process. The update mostly implies some
-> > > > > rewording and reorganization of data structures, but for sure will
-> > > > > require a driver rework.
-> > > > > 
-> > > > > Best regards,
-> > > > > Dmitry.
-> > > > > 
-> > > > > On Samstag, 9. Mai 2020 16:11:43 CEST Saket Sinha wrote:
-> > > > > > Hi,
-> > > > > > 
-> > > > > > As suggested on #qemu-devel IRC channel, I am including virtio-dev,
-> > > > > > Gerd and Michael to point in the right direction how to move forward
-> > > > > > with Qemu support for Virtio Video V4L2 driver
-> > > > > > posted in [1].
-> > > > > > 
-> > > > > > [1]: https://patchwork.linuxtv.org/patch/61717/
-> > > > > > 
-> > > > > > Regards,
-> > > > > > Saket Sinha
-> > > > > > 
-> > > > > > On Sat, May 9, 2020 at 1:09 AM Saket Sinha <saket.sinha89@gmail.com>
-> > wrote:
-> > > > > > > Hi ,
-> > > > > > > 
-> > > > > > > This is to inquire about Qemu support for Virtio Video V4L2 driver
-> > > > > > > posted in [1].
-> > > > > > > I am currently not aware of any upstream effort for Qemu reference
-> > > > > > > implementation and would like to discuss how to proceed with the
-> > > > > > > same.
-> > > > > > > 
-> > > > > > > [1]: https://patchwork.linuxtv.org/patch/61717/
-> > > > > > > 
-> > > > > > > Regards,
-> > > > > > > Saket Sinha
-> > > > > 
-> > > > > ---------------------------------------------------------------------
-> > > > > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
-> > > > > For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
+Yeah, apparently I forgot how to type when I entered my git-publish
+command line :/.
 
+>=20
+> * David Gibson (david@gibson.dropbear.id.au) wrote:
+> > ---
+> >  accel/kvm/kvm-all.c                    |  4 +++-
+> >  include/exec/guest-memory-protection.h |  2 +-
+> >  target/i386/sev.c                      | 32 +++++++++++++-------------
+> >  3 files changed, 20 insertions(+), 18 deletions(-)
+> >=20
+> > diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> > index 5451728425..392ab02867 100644
+> > --- a/accel/kvm/kvm-all.c
+> > +++ b/accel/kvm/kvm-all.c
+> > @@ -2045,9 +2045,11 @@ static int kvm_init(MachineState *ms)
+> >      if (ms->gmpo) {
+> >          GuestMemoryProtectionClass *gmpc =3D
+> >              GUEST_MEMORY_PROTECTION_GET_CLASS(ms->gmpo);
+> > +        Error *local_err =3D NULL;
+> > =20
+> > -        ret =3D gmpc->kvm_init(ms->gmpo);
+> > +        ret =3D gmpc->kvm_init(ms->gmpo, &local_err);
+> >          if (ret < 0) {
+> > +            error_report_err(local_err);
+> >              goto err;
+> >          }
+> >      }
+> > diff --git a/include/exec/guest-memory-protection.h b/include/exec/gues=
+t-memory-protection.h
+> > index 7d959b4910..2a88475136 100644
+> > --- a/include/exec/guest-memory-protection.h
+> > +++ b/include/exec/guest-memory-protection.h
+> > @@ -32,7 +32,7 @@ typedef struct GuestMemoryProtection GuestMemoryProte=
+ction;
+> >  typedef struct GuestMemoryProtectionClass {
+> >      InterfaceClass parent;
+> > =20
+> > -    int (*kvm_init)(GuestMemoryProtection *);
+> > +    int (*kvm_init)(GuestMemoryProtection *, Error **);
+> >      int (*encrypt_data)(GuestMemoryProtection *, uint8_t *, uint64_t);
+> >  } GuestMemoryProtectionClass;
+> > =20
+> > diff --git a/target/i386/sev.c b/target/i386/sev.c
+> > index 2051fae0c1..82f16b2f3b 100644
+> > --- a/target/i386/sev.c
+> > +++ b/target/i386/sev.c
+> > @@ -617,7 +617,7 @@ sev_vm_state_change(void *opaque, int running, RunS=
+tate state)
+> >      }
+> >  }
+> > =20
+> > -static int sev_kvm_init(GuestMemoryProtection *gmpo)
+> > +static int sev_kvm_init(GuestMemoryProtection *gmpo, Error **errp)
+> >  {
+> >      SevGuestState *sev =3D SEV_GUEST(gmpo);
+> >      char *devname;
+> > @@ -633,14 +633,14 @@ static int sev_kvm_init(GuestMemoryProtection *gm=
+po)
+> >      host_cbitpos =3D ebx & 0x3f;
+> > =20
+> >      if (host_cbitpos !=3D sev->cbitpos) {
+> > -        error_report("%s: cbitpos check failed, host '%d' requested '%=
+d'",
+> > -                     __func__, host_cbitpos, sev->cbitpos);
+> > +        error_setg(errp, "%s: cbitpos check failed, host '%d' requeste=
+d '%d'",
+> > +                   __func__, host_cbitpos, sev->cbitpos);
+> >          goto err;
+> >      }
+> > =20
+> >      if (sev->reduced_phys_bits < 1) {
+> > -        error_report("%s: reduced_phys_bits check failed, it should be=
+ >=3D1,"
+> > -                     " requested '%d'", __func__, sev->reduced_phys_bi=
+ts);
+> > +        error_setg(errp, "%s: reduced_phys_bits check failed, it shoul=
+d be >=3D1,"
+> > +                   " requested '%d'", __func__, sev->reduced_phys_bits=
+);
+> >          goto err;
+> >      }
+> > =20
+> > @@ -649,20 +649,20 @@ static int sev_kvm_init(GuestMemoryProtection *gm=
+po)
+> >      devname =3D object_property_get_str(OBJECT(sev), "sev-device", NUL=
+L);
+> >      sev->sev_fd =3D open(devname, O_RDWR);
+> >      if (sev->sev_fd < 0) {
+> > -        error_report("%s: Failed to open %s '%s'", __func__,
+> > -                     devname, strerror(errno));
+> > -    }
+> > -    g_free(devname);
+> > -    if (sev->sev_fd < 0) {
+> > +        g_free(devname);
+> > +        error_setg(errp, "%s: Failed to open %s '%s'", __func__,
+> > +                   devname, strerror(errno));
+> > +        g_free(devname);
+>=20
+> You seem to have double free'd devname - would g_autofree work here?
+>=20
+> other than that, looks OK to me.
+>=20
+> Dave
+>=20
+> >          goto err;
+> >      }
+> > +    g_free(devname);
+> > =20
+> >      ret =3D sev_platform_ioctl(sev->sev_fd, SEV_PLATFORM_STATUS, &stat=
+us,
+> >                               &fw_error);
+> >      if (ret) {
+> > -        error_report("%s: failed to get platform status ret=3D%d "
+> > -                     "fw_error=3D'%d: %s'", __func__, ret, fw_error,
+> > -                     fw_error_to_str(fw_error));
+> > +        error_setg(errp, "%s: failed to get platform status ret=3D%d "
+> > +                   "fw_error=3D'%d: %s'", __func__, ret, fw_error,
+> > +                   fw_error_to_str(fw_error));
+> >          goto err;
+> >      }
+> >      sev->build_id =3D status.build;
+> > @@ -672,14 +672,14 @@ static int sev_kvm_init(GuestMemoryProtection *gm=
+po)
+> >      trace_kvm_sev_init();
+> >      ret =3D sev_ioctl(sev->sev_fd, KVM_SEV_INIT, NULL, &fw_error);
+> >      if (ret) {
+> > -        error_report("%s: failed to initialize ret=3D%d fw_error=3D%d =
+'%s'",
+> > -                     __func__, ret, fw_error, fw_error_to_str(fw_error=
+));
+> > +        error_setg(errp, "%s: failed to initialize ret=3D%d fw_error=
+=3D%d '%s'",
+> > +                   __func__, ret, fw_error, fw_error_to_str(fw_error));
+> >          goto err;
+> >      }
+> > =20
+> >      ret =3D sev_launch_start(sev);
+> >      if (ret) {
+> > -        error_report("%s: failed to create encryption context", __func=
+__);
+> > +        error_setg(errp, "%s: failed to create encryption context", __=
+func__);
+> >          goto err;
+> >      }
+> > =20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--xnH/NIbSm9ew9GxF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl693soACgkQbDjKyiDZ
+s5JCbg/9GLsG4LhOE/SngRccOLYEj5CiJe9Ks9rgE8sadpscDWpvGnONin6rruwD
+pyKoXo7W89nnSFCPhVUf/uCBxicB7GaiseEs1Xe68ni/fHXQUFm/Oxla4yoCpguA
+xLTLYrqMT1lLfXE7pGfYhgN4UI6CBcAYkvspauPfIVNJZDanmP8DJdmwbBzzl5XS
+TSJrnSqqxnZPebWwCWA/CGsJ36I1hjeietTZLsV7tA04ajz8cIql3EYtgst8Bor1
+RHz396gkP6pqLcrYvtq2UdU4flO1g9JIE7XQf8MENyyP+C2PqLUYPCZ158nENvgJ
+9bEoJIXujne10vNFmzRuzZ1n4SQ1Au3WnH+MnqHh425o5eXgrwy1WfgLwENE/wYO
+GeH+VTQ1BHoEeTMXPaUxOr+p3jol5dYRLtrwrAaH7Ha10nfXLpXsUWdM1z9SSUoa
+0mCZVmnsIJa4Ror+OlhIGl83YkKb+m0bBUNG7A1J63adGmVbAWMkp5NtHeZ+Ho8T
+OWZX6IDFAYV70xYz5NBZAhY3HFqaLJ7c3czpE0HUkIUqAkr9nAhourPMtLTSz1SU
+3mgLFixTMmlKxQsP9t00FWfr9/x8WKZzy3yBJy81U4XGpsziUm4PTTRXqQMWFMFp
+knguUYn2Z6BqJhihuuO8lGlvi6ZzjT8j2z6xW4cI1nwXOVMuqD0=
+=37SX
+-----END PGP SIGNATURE-----
+
+--xnH/NIbSm9ew9GxF--
 
