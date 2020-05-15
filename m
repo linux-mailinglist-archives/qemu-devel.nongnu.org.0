@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A56E1D53F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:14:38 +0200 (CEST)
-Received: from localhost ([::1]:46042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C945A1D5358
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:11:38 +0200 (CEST)
+Received: from localhost ([::1]:34388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZc2n-000256-9U
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:14:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48558)
+	id 1jZbzt-0005Im-SZ
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:11:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbtH-0001A0-Jj
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:04:47 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47868
+ (Exim 4.90_1) (envelope-from <jtomko@redhat.com>) id 1jZby9-0003MU-3h
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:09:49 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26518
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbtF-0001CK-TH
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:04:47 -0400
+ (Exim 4.90_1) (envelope-from <jtomko@redhat.com>) id 1jZby8-0003g3-AE
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:09:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589555085;
+ s=mimecast20190719; t=1589555386;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=6aDju+U8YBKyDxdsHDTSAKTnZMEzEwA3xqrQ+Lm4JVM=;
- b=Nkx27qpZkUVcj8Q3md6+neidnkAWSgBKUnFbRIUTxS9v86+zTlGBn9Vzmz++8MkiJyKpmr
- jxzqTrERC7fXdyoitj5AZmit5nDlovJcCeA/AybyfD0j4I+PRXd4c5rVuFd0sS4/ml6D57
- irgK/s8xFnHtDnaTf1DV6ARVlQD6LLk=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5WhTMCSgQetjcqmeAkk2nkZ0Rv6tw23z91aheqnL+Ao=;
+ b=NNqTwDk+iGUaqY8HeYW+77iZDFeqoFVJz8Zs/iUvTgUs4aHqgMho/xr4Fwhm0UHyByKBdJ
+ 0gcIzB9blnSdtgYpcxOL7FtM2a3UWUPFmo57vs4gUXxeSU0vZ/SCSMJ8u6wyMQh0Anf6Sj
+ fiDVse3oK/a3GVPB8Tg7zHc5epyuSNI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-I66zeFrWM2ubLCDN_LiXYA-1; Fri, 15 May 2020 11:04:42 -0400
-X-MC-Unique: I66zeFrWM2ubLCDN_LiXYA-1
+ us-mta-355-2VID3QzdN5OrR6GsBbzyPQ-1; Fri, 15 May 2020 11:08:35 -0400
+X-MC-Unique: 2VID3QzdN5OrR6GsBbzyPQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CB84107ACCD;
- Fri, 15 May 2020 15:04:41 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-115-145.ams2.redhat.com
- [10.36.115.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6052E5D9C9;
- Fri, 15 May 2020 15:04:33 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 438159D73; Fri, 15 May 2020 17:04:22 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 16/16] acpi: q35: drop _SB.PCI0.ISA.LPCD opregion.
-Date: Fri, 15 May 2020 17:04:21 +0200
-Message-Id: <20200515150421.25479-17-kraxel@redhat.com>
-In-Reply-To: <20200515150421.25479-1-kraxel@redhat.com>
-References: <20200515150421.25479-1-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4BC080183C
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 15:08:34 +0000 (UTC)
+Received: from lpt (unknown [10.40.208.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B8D75D9D7;
+ Fri, 15 May 2020 15:08:27 +0000 (UTC)
+Date: Fri, 15 May 2020 17:08:23 +0200
+From: =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2 11/13] audio: deprecate -soundhw pcspk
+Message-ID: <20200515150823.GA738369@lpt>
+References: <20200515143528.13591-1-kraxel@redhat.com>
+ <20200515143528.13591-12-kraxel@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20200515143528.13591-12-kraxel@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=jtomko@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:39:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,54 +78,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Seems to be unused.
+--IJpNTDwzlM2Ie8A6
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
----
- hw/i386/acpi-build.c | 11 -----------
- 1 file changed, 11 deletions(-)
+On a Friday in 2020, Gerd Hoffmann wrote:
+>Add deprecation message to the audio init function.
+>
+>Factor out audio initialization and call that from
+>both audio init and realize, so setting audiodev via
+>-global is enough to properly initialize pcspk.
+>
+>Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>---
+> hw/audio/pcspk.c | 24 +++++++++++++++++++++---
+> 1 file changed, 21 insertions(+), 3 deletions(-)
+>
+>@@ -236,9 +245,18 @@ static const TypeInfo pcspk_info =3D {
+>     .class_init     =3D pcspk_class_initfn,
+> };
+>
+>+static int pcspk_audio_init_soundhw(ISABus *bus)
+>+{
+>+    PCSpkState *s =3D pcspk_state;
+>+
+>+    warn_report("'-soundhw pcspk' is deprecated, "
+>+                "please set a backend using '-global isa-pcspk.audiodev=
+=3D<name>' instead");
+>+    return pcspk_audio_init(s);
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index c1e63cce5e8e..1afb47b09ee9 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1417,7 +1417,6 @@ static void build_q35_isa_bridge(Aml *table)
- {
-     Aml *dev;
-     Aml *scope;
--    Aml *field;
- 
-     scope =  aml_scope("_SB.PCI0");
-     dev = aml_device("ISA");
-@@ -1427,16 +1426,6 @@ static void build_q35_isa_bridge(Aml *table)
-     aml_append(dev, aml_operation_region("PIRQ", AML_PCI_CONFIG,
-                                          aml_int(0x60), 0x0C));
- 
--    aml_append(dev, aml_operation_region("LPCD", AML_PCI_CONFIG,
--                                         aml_int(0x80), 0x02));
--    field = aml_field("LPCD", AML_ANY_ACC, AML_NOLOCK, AML_PRESERVE);
--    aml_append(field, aml_named_field("COMA", 3));
--    aml_append(field, aml_reserved_field(1));
--    aml_append(field, aml_named_field("COMB", 3));
--    aml_append(field, aml_reserved_field(1));
--    aml_append(field, aml_named_field("LPTD", 2));
--    aml_append(dev, field);
--
-     aml_append(scope, dev);
-     aml_append(table, scope);
- }
--- 
-2.18.4
+-soundhw pcspk is the only soundhw device present in libvirt git.
+
+Is there a way to probe for this change via QMP?
+
+Jano
+
+>+}
+>+
+> static void pcspk_register(void)
+> {
+>     type_register_static(&pcspk_info);
+>-    isa_register_soundhw("pcspk", "PC speaker", pcspk_audio_init);
+>+    isa_register_soundhw("pcspk", "PC speaker", pcspk_audio_init_soundhw)=
+;
+> }
+> type_init(pcspk_register)
+>--=20
+>2.18.4
+>
+
+--IJpNTDwzlM2Ie8A6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEQeJGMrnL0ADuclbP+YPwO/Mat50FAl6+sGQACgkQ+YPwO/Ma
+t53d9AgAmCVDuH6nF9kjLgLDUH8+RKWVjwdBd+zJtLv+TAghXqM7aMceWQjRw0b3
+spaq0wDYyzwoQ+rDGn48sJdxUqRz5S6BeB1Oa7/YGH1TPFO8TfUs0Vbcyy8DaxdQ
+w9EChvQe0SqQuw0GNSg1eEPImfbt0jpCmZDG9fCeX9u2YqIRUE2Hbs/zqh1BIW4D
+3jYjz+cfs+T7YKZNEw+nyx+Aa7wGNDdOb+6jY+b2LP0AE2wPTzztfCMsHutKhs+3
+Jh6y03NVoqnHtUpyxqAWIUzZHRMe9had1+MprPxkon7G706q63cd8vus9PFzo4ge
+0SSosXzLSiYUrOn5X4m6HLKr/R89Eg==
+=D3fa
+-----END PGP SIGNATURE-----
+
+--IJpNTDwzlM2Ie8A6--
 
 
