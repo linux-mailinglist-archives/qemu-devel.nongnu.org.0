@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0429A1D5655
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 18:42:04 +0200 (CEST)
-Received: from localhost ([::1]:37998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88AAE1D561D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 18:33:04 +0200 (CEST)
+Received: from localhost ([::1]:46374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZdPP-0003Wb-3L
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 12:42:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36402)
+	id 1jZdGh-0000yv-GY
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 12:33:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZdEf-000803-AG
- for qemu-devel@nongnu.org; Fri, 15 May 2020 12:30:59 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53323
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZdEk-00081l-E9
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 12:31:03 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50812
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZdEe-0001k6-Kv
- for qemu-devel@nongnu.org; Fri, 15 May 2020 12:30:57 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZdEj-0001lq-Ki
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 12:31:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589560256;
+ s=mimecast20190719; t=1589560260;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MlwAsFx7qZJhpUw9yV0U2104dkmNaPniQZ/O8ObnvZY=;
- b=hButAgq8OosvfIzmhX1tN+wlJu0IwiDsk3uJZWRmaTR7k1lnVIHVCfjyHAv5bBHurfwxC6
- 1DKW85vZS7/QG6lAaMIK/UaG4cpW3ySWXqTuoWZwChk/37T3lkMET1ZzItJzWqICxR9dfw
- uZvbaZvkdC4wrTkQI9PslBa9683hWNU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-4IfYEPh_NsCiuNWKk5T8LQ-1; Fri, 15 May 2020 12:30:54 -0400
-X-MC-Unique: 4IfYEPh_NsCiuNWKk5T8LQ-1
-Received: by mail-wm1-f69.google.com with SMTP id t82so1128960wmf.4
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 09:30:54 -0700 (PDT)
+ bh=dbk8MJIRW79uhAdI6bDQPktMUAYJE28woJU0yGXYF+Q=;
+ b=ewms1tD1I78z0cSaCORpPATAdcMXNWdhMzeZZftdsSJ6NRDFXR+o2EUxgKi5/lmRGFDTXW
+ A7V5VJkkHhWK/q9QoBNRJ5lwvzNGGg6QWQl0qBbthk/wwuQ1Y1KM1AMOeaXyEMgygWoE01
+ ZI+VoGvIlQPvChgxDjQz5RRFFHH9dfQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-C456Mcx7My6JKB3IR5uHbw-1; Fri, 15 May 2020 12:30:59 -0400
+X-MC-Unique: C456Mcx7My6JKB3IR5uHbw-1
+Received: by mail-wm1-f70.google.com with SMTP id l26so1228355wmh.3
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 09:30:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MlwAsFx7qZJhpUw9yV0U2104dkmNaPniQZ/O8ObnvZY=;
- b=lC2rkFLpPLYMKYN9X4pzP03XSiBs9t66yLTpf31O2prcq7jMd2Gxaoe/9bH6wO8Hfg
- NtallFNhpZV5r/x0HgNVs1qxKLe9L7lA9N0WOa6qA3Jj6xPstD0BBslMallSOHvjeAjH
- 9s5voPJkD1KsgFNuMz8kjXui5nlFsQmXrVz13/pERS7XmbvEHkKZ6VhLPxVr5KPUceSQ
- lNoWy8KQ3sDBVw/vStljQL8hwI7HTFXi4QPa8U6qkev+HOrmSiM5D3HfB051/W6FMD0l
- 3rCpkUG+ai9qVSCNY83D0dAg8KJdLFLp1kAsHUC0kv7s2XkVUk01nS0DaVRJyVM5BSye
- yMHA==
-X-Gm-Message-State: AOAM533I87Wy4E1sGmG6lO5UQ7Oo3njwrslU0xpo0JWOIAH4Ouu/7j4i
- ZLcSIz65kp3hefJt4iC0wf2OtGymeoe0K0OT/o6PlC+AzTeWLqkfvO4HO/UJ7iR/Sa3JioDTkbz
- YRkITouSJcTSXn9Y=
-X-Received: by 2002:a5d:604b:: with SMTP id j11mr5008234wrt.193.1589560252855; 
- Fri, 15 May 2020 09:30:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyYN3QMXAM+RElvusEhgJ3ndtHjnofJqsedjH96rWZ8jlGt1feyThWdofPDVTtgstn8J1ZBHA==
-X-Received: by 2002:a5d:604b:: with SMTP id j11mr5008217wrt.193.1589560252691; 
- Fri, 15 May 2020 09:30:52 -0700 (PDT)
+ bh=dbk8MJIRW79uhAdI6bDQPktMUAYJE28woJU0yGXYF+Q=;
+ b=MktE1cmyYJqTWMcCiu3TT5M//J8K1Vy320A0aiBl83dmY9jsj4neDsTpirh1Iv0lwf
+ 39EnEFYHSjcpkt7l7iytomnyP1GMhTZ6d95errMt3gWa9ranIojxEW+cc4ZnnWYy1fLz
+ F3/EDzpuYv8SD+Wet4E7MnveETH20YBcVTOPz31DAgQzy9XOF7XmahqsKXJOCW/MWIU4
+ xLOApXe/90G+indO6i4j5sDfjNYfdUOUgnSUFpMEN1Qh0o6fq9Mjtha1vFFf4icuIxn8
+ X345t+2y3rDM0nnCZV8ty89UmlcR5UoVafdhdE9erCuQJD/nsLqJ2YhAWL9YWLJY/77C
+ iyyA==
+X-Gm-Message-State: AOAM532D6ZfBRdu/Kzr4iulSin99jdeH6YYuomuwgOOrKuS+N9RA5ZeZ
+ pRtgjkOkOkOpFwlpFFFDZfQp63IiLOX857cMWLQzWZds74GhYxCk4FL5z4VA8kYHmxY249F60TZ
+ 8HqnTWBr69Lgf5Ik=
+X-Received: by 2002:a05:6000:1244:: with SMTP id
+ j4mr5236760wrx.189.1589560258017; 
+ Fri, 15 May 2020 09:30:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxrFZlLdKkYNX9ENKi5i7fXLovYpUDcOMfxajZvVJBF5qQNgg4vuZUmMeFtl8jCIed5HlgHXg==
+X-Received: by 2002:a05:6000:1244:: with SMTP id
+ j4mr5236728wrx.189.1589560257632; 
+ Fri, 15 May 2020 09:30:57 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id j2sm4373178wrp.47.2020.05.15.09.30.51
+ by smtp.gmail.com with ESMTPSA id c80sm4526706wme.15.2020.05.15.09.30.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 09:30:52 -0700 (PDT)
+ Fri, 15 May 2020 09:30:57 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/5] cirrus-ci: Remove flex/bison packages
-Date: Fri, 15 May 2020 18:30:28 +0200
-Message-Id: <20200515163029.12917-5-philmd@redhat.com>
+Subject: [PATCH v2 5/5] scripts/coverity-scan: Remove flex/bison packages
+Date: Fri, 15 May 2020 18:30:29 +0200
+Message-Id: <20200515163029.12917-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200515163029.12917-1-philmd@redhat.com>
 References: <20200515163029.12917-1-philmd@redhat.com>
@@ -72,10 +74,10 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:39:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -108,22 +110,29 @@ QEMU does not use flex/bison packages.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- .cirrus.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/coverity-scan/coverity-scan.docker | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index de0727cb09..ce7850a320 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -7,7 +7,7 @@ freebsd_12_task:
-     cpu: 8
-     memory: 8G
-   install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
--    bash bison curl cyrus-sasl git glib gmake gnutls gsed
-+    bash curl cyrus-sasl git glib gmake gnutls gsed
-     nettle perl5 pixman pkgconf png usbredir
-   script:
-     - mkdir build
+diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
+index a4f64d1283..ad4d64c0f8 100644
+--- a/scripts/coverity-scan/coverity-scan.docker
++++ b/scripts/coverity-scan/coverity-scan.docker
+@@ -19,7 +19,6 @@ FROM fedora:30
+ ENV PACKAGES \
+     alsa-lib-devel \
+     bc \
+-    bison \
+     brlapi-devel \
+     bzip2 \
+     bzip2-devel \
+@@ -30,7 +29,6 @@ ENV PACKAGES \
+     dbus-daemon \
+     device-mapper-multipath-devel \
+     findutils \
+-    flex \
+     gcc \
+     gcc-c++ \
+     gettext \
 -- 
 2.21.3
 
