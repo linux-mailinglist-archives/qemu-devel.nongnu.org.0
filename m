@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E221D5060
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:26:03 +0200 (CEST)
-Received: from localhost ([::1]:49126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FDC1D504F
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:24:21 +0200 (CEST)
+Received: from localhost ([::1]:42974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZbHm-0000Xx-3x
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:26:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34786)
+	id 1jZbG8-0006GI-Hb
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:24:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZbCz-0000ix-TR
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:21:05 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38142)
+ id 1jZbD2-0000qe-OM
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:21:08 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZbCy-0003sG-OU
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:21:05 -0400
-Received: by mail-wr1-x442.google.com with SMTP id e1so3772914wrt.5
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 07:21:04 -0700 (PDT)
+ id 1jZbD0-0003sZ-3n
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:21:08 -0400
+Received: by mail-wm1-x343.google.com with SMTP id n5so2889405wmd.0
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 07:21:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2YJwvw0U8SAAD/UpPFNsjDivgh2d1pwAU2NE+6DTu5Y=;
- b=vi1slfoeztNGNZ6vyb9td7BdpXMFohwqluyQB7JBMtlYW+unZ4McAgMzqXlwY1HpHI
- 1KoQKlx01C2TPdV8yr1SoitAe1+3tEUFu0lY9IG9zt0kgyiPupmyvfmpc3H7c7fg96qp
- nn7Qgg7NaERw9N+7USkjbDlDnAHQXsGHNj30Nbgf6dBGstcJ3Qxt4CxGzwopGB/JE7P7
- OitXplZgSxh7s8ua3r2BeMzO2xMER2qpKi+i/QZkGn+M1IsTq+z/ajD/mBciE05RuYlo
- zpDEP04FlfmjbKAsAJYMVP18vinhKb2uGEzV45TGFQ170YThyvukQva3cSPmmGA0GJ0D
- Re5w==
+ bh=x52pOoMber5KmhMhzO3xI4c0KAd3lEJy8+iCRYC1x2A=;
+ b=VtlPPzAih767yq3Y8RV70qVVoeaymVRKbvQOBxcT+/q79vdBjL7kaQcl7H49Yd4q7o
+ Z7ESJ4meGeaNdu60JFYrydg/VKQClAFZJCu0RDf0vVAdJK2UVXsGIh1ZuSabtQMgAV8N
+ qYCzL7a+U+S+ZINtHM2ZX2G/5YV2evDoj22lgG1nEfAjTKpP1Lg/adt4KQnYwS1mj6O6
+ Kq1A9ru1vDBgeHYN4n88i67ybaeEn9i787cjdP1k0TdGO5plB9hRQ+uVn8UbupfGZ72O
+ gUsuVskH7jpcw4gHDZWiMI9g8w7lcHfrQ7bJOu7yOFBXczjDaoL0WKB6YLRWfaeM6RWD
+ H5BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2YJwvw0U8SAAD/UpPFNsjDivgh2d1pwAU2NE+6DTu5Y=;
- b=Hnw+XBCJ5QVh92e4eW0s9fCtZmkmBAgniFpmdWfht+LAxpDGhkAjBAXNW95op+25hh
- LOci0CgZeCNH9Wv5Gt8QHvgkMtxlIFVwDJW0W+0LwPD2i52esRxK6v6e5NriaiePWG91
- F1eseqsZJU+5VGgLiT6wj6yGhmv5EznrTtEpG8IVKvb2zx07dWsNE9EgUlCDFQJgdDEi
- korFUqj1SFzhSZqNFw+xOk1BqWZoO9HUUkImKKD5VWmilBy5/j3k3AofG8IN5Cevch1C
- 5od5JsO9FciZBFmlreYgwMY8lGLL+Abt0RbSG3NUH72cpAdXDSohEd1/Pa1wbHcSnVtk
- qkHw==
-X-Gm-Message-State: AOAM532tNUx3SjzjO1jU9olIjZTGwMSMHuSlzI1mVPBZZ4ZPiJMbsyb5
- eLGUhrgG+a4ctgbNG8kkZuGGdQ==
-X-Google-Smtp-Source: ABdhPJydgcfhnHbIwx1fcPmedqQjVWuRYTReR6iOVZdMgugbfb28bTK/dz6IShKslx61TvqIYVAshQ==
-X-Received: by 2002:adf:dd01:: with SMTP id a1mr4460229wrm.224.1589552463301; 
- Fri, 15 May 2020 07:21:03 -0700 (PDT)
+ bh=x52pOoMber5KmhMhzO3xI4c0KAd3lEJy8+iCRYC1x2A=;
+ b=Ya3n3ecPeEPG11piQOh1iZGRMSDQslIacBsJj6TSCQOygJAwM+P4rRBsT+sXTw/fCO
+ 023Yswt08h7UyLWf91ETJgXf5zEQjbOQRDLn2D7vP6VxC+arPy/181oreIHv1e6IGxI+
+ xKxn26fl+X/3rG1keeO7jMhDd72w4OGBYVxYrND8PfU1Z/2Ce/erT54t3gOgnY70kY1G
+ wIMBOatDQfDJNO7efxFiBUSTTc920NxiqDSuVnILHaMZ6pg3LUXboSpFvb04kiKZExcw
+ E8NBQRw0EBbghIrGrAO/djpLJMJt+nCK/Cm/MARRPLWFHH6IPyOsg2YacJihPxbWAHpn
+ S47g==
+X-Gm-Message-State: AOAM530Z2dgATyQJ95OeMiZoOZdJ90EANW8IZW7fkArDQ4kpYvt086mT
+ DHdZxX7U5WV+0ZWR7wSOHu41nQ==
+X-Google-Smtp-Source: ABdhPJwz36FbbIwmvzbU47nskFvKHEn5CxiMkDYeDAaVD9cIa0BW3/4Ds4n3KpIv5i45nHzFBvmwFQ==
+X-Received: by 2002:a1c:7d93:: with SMTP id y141mr4417191wmc.34.1589552464513; 
+ Fri, 15 May 2020 07:21:04 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s14sm3738327wmh.18.2020.05.15.07.21.02
+ by smtp.gmail.com with ESMTPSA id s14sm3738327wmh.18.2020.05.15.07.21.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 07:21:02 -0700 (PDT)
+ Fri, 15 May 2020 07:21:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 04/10] target/arm: Convert Neon VSRA, VSRI, VRSHR,
- VRSRA 2-reg-shift insns to decodetree
-Date: Fri, 15 May 2020 15:20:50 +0100
-Message-Id: <20200515142056.21346-5-peter.maydell@linaro.org>
+Subject: [PATCH 05/10] target/arm: Convert VQSHLU,
+ VQSHL 2-reg-shift insns to decodetree
+Date: Fri, 15 May 2020 15:20:51 +0100
+Message-Id: <20200515142056.21346-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200515142056.21346-1-peter.maydell@linaro.org>
 References: <20200515142056.21346-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,179 +90,309 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the VSRA, VSRI, VRSHR, VRSRA 2-reg-shift insns to decodetree.
-(These are the last instructions in the group that are vectorized;
-the rest all require looping over each element.)
+Convert the VQSHLU and QVSHL 2-reg-shift insns to decodetree.
+These are the last of the simple shift-by-immediate insns.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/neon-dp.decode       | 63 +++++++++++++++++++++++++++++++++
- target/arm/translate-neon.inc.c |  7 ++++
- target/arm/translate.c          | 52 +++------------------------
- 3 files changed, 74 insertions(+), 48 deletions(-)
+ target/arm/neon-dp.decode       |  27 ++++++++
+ target/arm/translate-neon.inc.c | 108 +++++++++++++++++++++++++++++++
+ target/arm/translate.c          | 110 +-------------------------------
+ 3 files changed, 138 insertions(+), 107 deletions(-)
 
 diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
-index 648812395f1..3ed10d1524e 100644
+index 3ed10d1524e..6456b53a690 100644
 --- a/target/arm/neon-dp.decode
 +++ b/target/arm/neon-dp.decode
-@@ -233,6 +233,69 @@ VSHR_U_2sh       1111 001 1 1 . 01 ....     .... 0000 0 . . 1 .... \
- VSHR_U_2sh       1111 001 1 1 . 001 ...     .... 0000 0 . . 1 .... \
-                  @2reg_shift size=0 shift=%neon_rshift_i3
- 
-+VSRA_S_2sh       1111 001 0 1 .  ......     .... 0001 1 . . 1 .... \
-+                 @2reg_shift size=3 shift=%neon_rshift_i6
-+VSRA_S_2sh       1111 001 0 1 . 1 .....     .... 0001 0 . . 1 .... \
-+                 @2reg_shift size=2 shift=%neon_rshift_i5
-+VSRA_S_2sh       1111 001 0 1 . 01 ....     .... 0001 0 . . 1 .... \
-+                 @2reg_shift size=1 shift=%neon_rshift_i4
-+VSRA_S_2sh       1111 001 0 1 . 001 ...     .... 0001 0 . . 1 .... \
-+                 @2reg_shift size=0 shift=%neon_rshift_i3
+@@ -313,3 +313,30 @@ VSLI_2sh         1111 001 1 1 . 01 shift:4  .... 0101 0 . . 1 .... \
+                  @2reg_shift size=1
+ VSLI_2sh         1111 001 1 1 . 001 shift:3 .... 0101 0 . . 1 .... \
+                  @2reg_shift size=0
 +
-+VSRA_U_2sh       1111 001 1 1 .  ......     .... 0001 1 . . 1 .... \
-+                 @2reg_shift size=3 shift=%neon_rshift_i6
-+VSRA_U_2sh       1111 001 1 1 . 1 .....     .... 0001 0 . . 1 .... \
-+                 @2reg_shift size=2 shift=%neon_rshift_i5
-+VSRA_U_2sh       1111 001 1 1 . 01 ....     .... 0001 0 . . 1 .... \
-+                 @2reg_shift size=1 shift=%neon_rshift_i4
-+VSRA_U_2sh       1111 001 1 1 . 001 ...     .... 0001 0 . . 1 .... \
-+                 @2reg_shift size=0 shift=%neon_rshift_i3
++VQSHLU_64_2sh    1111 001 1 1 . shift:6     .... 0110 1 . . 1 .... \
++                 @2reg_shift size=3
++VQSHLU_2sh       1111 001 1 1 . 1 shift:5   .... 0110 0 . . 1 .... \
++                 @2reg_shift size=2
++VQSHLU_2sh       1111 001 1 1 . 01 shift:4  .... 0110 0 . . 1 .... \
++                 @2reg_shift size=1
++VQSHLU_2sh       1111 001 1 1 . 001 shift:3 .... 0110 0 . . 1 .... \
++                 @2reg_shift size=0
 +
-+VRSHR_S_2sh      1111 001 0 1 .  ......     .... 0010 1 . . 1 .... \
-+                 @2reg_shift size=3 shift=%neon_rshift_i6
-+VRSHR_S_2sh      1111 001 0 1 . 1 .....     .... 0010 0 . . 1 .... \
-+                 @2reg_shift size=2 shift=%neon_rshift_i5
-+VRSHR_S_2sh      1111 001 0 1 . 01 ....     .... 0010 0 . . 1 .... \
-+                 @2reg_shift size=1 shift=%neon_rshift_i4
-+VRSHR_S_2sh      1111 001 0 1 . 001 ...     .... 0010 0 . . 1 .... \
-+                 @2reg_shift size=0 shift=%neon_rshift_i3
++VQSHL_S_64_2sh   1111 001 0 1 . shift:6     .... 0111 1 . . 1 .... \
++                 @2reg_shift size=3
++VQSHL_S_2sh      1111 001 0 1 . 1 shift:5   .... 0111 0 . . 1 .... \
++                 @2reg_shift size=2
++VQSHL_S_2sh      1111 001 0 1 . 01 shift:4  .... 0111 0 . . 1 .... \
++                 @2reg_shift size=1
++VQSHL_S_2sh      1111 001 0 1 . 001 shift:3 .... 0111 0 . . 1 .... \
++                 @2reg_shift size=0
 +
-+VRSHR_U_2sh      1111 001 1 1 .  ......     .... 0010 1 . . 1 .... \
-+                 @2reg_shift size=3 shift=%neon_rshift_i6
-+VRSHR_U_2sh      1111 001 1 1 . 1 .....     .... 0010 0 . . 1 .... \
-+                 @2reg_shift size=2 shift=%neon_rshift_i5
-+VRSHR_U_2sh      1111 001 1 1 . 01 ....     .... 0010 0 . . 1 .... \
-+                 @2reg_shift size=1 shift=%neon_rshift_i4
-+VRSHR_U_2sh      1111 001 1 1 . 001 ...     .... 0010 0 . . 1 .... \
-+                 @2reg_shift size=0 shift=%neon_rshift_i3
-+
-+VRSRA_S_2sh      1111 001 0 1 .  ......     .... 0011 1 . . 1 .... \
-+                 @2reg_shift size=3 shift=%neon_rshift_i6
-+VRSRA_S_2sh      1111 001 0 1 . 1 .....     .... 0011 0 . . 1 .... \
-+                 @2reg_shift size=2 shift=%neon_rshift_i5
-+VRSRA_S_2sh      1111 001 0 1 . 01 ....     .... 0011 0 . . 1 .... \
-+                 @2reg_shift size=1 shift=%neon_rshift_i4
-+VRSRA_S_2sh      1111 001 0 1 . 001 ...     .... 0011 0 . . 1 .... \
-+                 @2reg_shift size=0 shift=%neon_rshift_i3
-+
-+VRSRA_U_2sh      1111 001 1 1 .  ......     .... 0011 1 . . 1 .... \
-+                 @2reg_shift size=3 shift=%neon_rshift_i6
-+VRSRA_U_2sh      1111 001 1 1 . 1 .....     .... 0011 0 . . 1 .... \
-+                 @2reg_shift size=2 shift=%neon_rshift_i5
-+VRSRA_U_2sh      1111 001 1 1 . 01 ....     .... 0011 0 . . 1 .... \
-+                 @2reg_shift size=1 shift=%neon_rshift_i4
-+VRSRA_U_2sh      1111 001 1 1 . 001 ...     .... 0011 0 . . 1 .... \
-+                 @2reg_shift size=0 shift=%neon_rshift_i3
-+
-+VSRI_2sh         1111 001 1 1 .  ......     .... 0100 1 . . 1 .... \
-+                 @2reg_shift size=3 shift=%neon_rshift_i6
-+VSRI_2sh         1111 001 1 1 . 1 .....     .... 0100 0 . . 1 .... \
-+                 @2reg_shift size=2 shift=%neon_rshift_i5
-+VSRI_2sh         1111 001 1 1 . 01 ....     .... 0100 0 . . 1 .... \
-+                 @2reg_shift size=1 shift=%neon_rshift_i4
-+VSRI_2sh         1111 001 1 1 . 001 ...     .... 0100 0 . . 1 .... \
-+                 @2reg_shift size=0 shift=%neon_rshift_i3
-+
- VSHL_2sh         1111 001 0 1 . shift:6     .... 0101 1 . . 1 .... \
-                  @2reg_shift size=3
- VSHL_2sh         1111 001 0 1 . 1 shift:5   .... 0101 0 . . 1 .... \
++VQSHL_U_64_2sh   1111 001 1 1 . shift:6     .... 0111 1 . . 1 .... \
++                 @2reg_shift size=3
++VQSHL_U_2sh      1111 001 1 1 . 1 shift:5   .... 0111 0 . . 1 .... \
++                 @2reg_shift size=2
++VQSHL_U_2sh      1111 001 1 1 . 01 shift:4  .... 0111 0 . . 1 .... \
++                 @2reg_shift size=1
++VQSHL_U_2sh      1111 001 1 1 . 001 shift:3 .... 0111 0 . . 1 .... \
++                 @2reg_shift size=0
 diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-index 0475696835f..f4d42683aea 100644
+index f4d42683aea..396db55565f 100644
 --- a/target/arm/translate-neon.inc.c
 +++ b/target/arm/translate-neon.inc.c
-@@ -1366,6 +1366,13 @@ static bool do_vector_2sh(DisasContext *s, arg_2reg_shift *a, GVecGen2iFn *fn)
- 
- DO_2SH(VSHL, tcg_gen_gvec_shli)
- DO_2SH(VSLI, gen_gvec_sli)
-+DO_2SH(VSRI, gen_gvec_sri)
-+DO_2SH(VSRA_S, gen_gvec_ssra)
-+DO_2SH(VSRA_U, gen_gvec_usra)
-+DO_2SH(VRSHR_S, gen_gvec_srshr)
-+DO_2SH(VRSHR_U, gen_gvec_urshr)
-+DO_2SH(VRSRA_S, gen_gvec_srsra)
-+DO_2SH(VRSRA_U, gen_gvec_ursra)
- 
- static bool trans_VSHR_S_2sh(DisasContext *s, arg_2reg_shift *a)
- {
+@@ -1396,3 +1396,111 @@ static bool trans_VSHR_U_2sh(DisasContext *s, arg_2reg_shift *a)
+         return do_vector_2sh(s, a, tcg_gen_gvec_shri);
+     }
+ }
++
++static bool do_2shift_env_64(DisasContext *s, arg_2reg_shift *a,
++                             NeonGenTwo64OpEnvFn *fn)
++{
++    /*
++     * 2-reg-and-shift operations, size == 3 case, where the
++     * function needs to be passed cpu_env.
++     */
++    TCGv_i64 constimm;
++    int pass;
++
++    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
++        return false;
++    }
++
++    /* UNDEF accesses to D16-D31 if they don't exist. */
++    if (!dc_isar_feature(aa32_simd_r32, s) &&
++        ((a->vd | a->vm) & 0x10)) {
++        return false;
++    }
++
++    if ((a->vm | a->vd) & a->q) {
++        return false;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    /*
++     * To avoid excessive duplication of ops we implement shift
++     * by immediate using the variable shift operations.
++     */
++    constimm = tcg_const_i64(dup_const(a->size, a->shift));
++
++    for (pass = 0; pass < a->q + 1; pass++) {
++        TCGv_i64 tmp = tcg_temp_new_i64();
++
++        neon_load_reg64(tmp, a->vm + pass);
++        fn(tmp, cpu_env, tmp, constimm);
++        neon_store_reg64(tmp, a->vd + pass);
++    }
++    tcg_temp_free_i64(constimm);
++    return true;
++}
++
++static bool do_2shift_env_32(DisasContext *s, arg_2reg_shift *a,
++                             NeonGenTwoOpEnvFn *fn)
++{
++    /*
++     * 2-reg-and-shift operations, size < 3 case, where the
++     * helper needs to be passed cpu_env.
++     */
++    TCGv_i32 constimm;
++    int pass;
++
++    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
++        return false;
++    }
++
++    /* UNDEF accesses to D16-D31 if they don't exist. */
++    if (!dc_isar_feature(aa32_simd_r32, s) &&
++        ((a->vd | a->vm) & 0x10)) {
++        return false;
++    }
++
++    if ((a->vm | a->vd) & a->q) {
++        return false;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    /*
++     * To avoid excessive duplication of ops we implement shift
++     * by immediate using the variable shift operations.
++     */
++    constimm = tcg_const_i32(dup_const(a->size, a->shift));
++
++    for (pass = 0; pass < (a->q ? 4 : 2); pass++) {
++        TCGv_i32 tmp = neon_load_reg(a->vm, pass);
++        fn(tmp, cpu_env, tmp, constimm);
++        neon_store_reg(a->vd, pass, tmp);
++    }
++    tcg_temp_free_i32(constimm);
++    return true;
++}
++
++#define DO_2SHIFT_ENV(INSN, FUNC)                                       \
++    static bool trans_##INSN##_64_2sh(DisasContext *s, arg_2reg_shift *a) \
++    {                                                                   \
++        return do_2shift_env_64(s, a, gen_helper_neon_##FUNC##64);      \
++    }                                                                   \
++    static bool trans_##INSN##_2sh(DisasContext *s, arg_2reg_shift *a)  \
++    {                                                                   \
++        static NeonGenTwoOpEnvFn * const fns[] = {                      \
++            gen_helper_neon_##FUNC##8,                                  \
++            gen_helper_neon_##FUNC##16,                                 \
++            gen_helper_neon_##FUNC##32,                                 \
++        };                                                              \
++        assert(a->size < ARRAY_SIZE(fns));                              \
++        return do_2shift_env_32(s, a, fns[a->size]);                    \
++    }
++
++DO_2SHIFT_ENV(VQSHLU, qshlu_s)
++DO_2SHIFT_ENV(VQSHL_U, qshl_u)
++DO_2SHIFT_ENV(VQSHL_S, qshl_s)
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index f2ccab1b21c..4a55986aad9 100644
+index 4a55986aad9..d711d39eb9d 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -5297,6 +5297,10 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+@@ -3011,29 +3011,6 @@ static inline void gen_neon_rsb(int size, TCGv_i32 t0, TCGv_i32 t1)
+     }
+ }
  
-             switch (op) {
-             case 0: /* VSHR */
-+            case 1: /* VSRA */
-+            case 2: /* VRSHR */
-+            case 3: /* VRSRA */
-+            case 4: /* VSRI */
+-#define GEN_NEON_INTEGER_OP_ENV(name) do { \
+-    switch ((size << 1) | u) { \
+-    case 0: \
+-        gen_helper_neon_##name##_s8(tmp, cpu_env, tmp, tmp2); \
+-        break; \
+-    case 1: \
+-        gen_helper_neon_##name##_u8(tmp, cpu_env, tmp, tmp2); \
+-        break; \
+-    case 2: \
+-        gen_helper_neon_##name##_s16(tmp, cpu_env, tmp, tmp2); \
+-        break; \
+-    case 3: \
+-        gen_helper_neon_##name##_u16(tmp, cpu_env, tmp, tmp2); \
+-        break; \
+-    case 4: \
+-        gen_helper_neon_##name##_s32(tmp, cpu_env, tmp, tmp2); \
+-        break; \
+-    case 5: \
+-        gen_helper_neon_##name##_u32(tmp, cpu_env, tmp, tmp2); \
+-        break; \
+-    default: return 1; \
+-    }} while (0)
+-
+ static TCGv_i32 neon_load_scratch(int scratch)
+ {
+     TCGv_i32 tmp = tcg_temp_new_i32();
+@@ -5252,7 +5229,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+     int size;
+     int shift;
+     int pass;
+-    int count;
+     int u;
+     int vec_size;
+     uint32_t imm;
+@@ -5302,6 +5278,8 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+             case 3: /* VRSRA */
+             case 4: /* VSRI */
              case 5: /* VSHL, VSLI */
++            case 6: /* VQSHLU */
++            case 7: /* VQSHL */
                  return 1; /* handled by decodetree */
              default:
-@@ -5330,54 +5334,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                     shift = shift - (1 << (size + 3));
-                 }
- 
--                switch (op) {
--                case 1:  /* VSRA */
--                    /* Right shift comes here negative.  */
--                    shift = -shift;
--                    if (u) {
--                        gen_gvec_usra(size, rd_ofs, rm_ofs, shift,
--                                      vec_size, vec_size);
--                    } else {
--                        gen_gvec_ssra(size, rd_ofs, rm_ofs, shift,
--                                      vec_size, vec_size);
--                    }
--                    return 0;
--
--                case 2: /* VRSHR */
--                    /* Right shift comes here negative.  */
--                    shift = -shift;
--                    if (u) {
--                        gen_gvec_urshr(size, rd_ofs, rm_ofs, shift,
--                                       vec_size, vec_size);
--                    } else {
--                        gen_gvec_srshr(size, rd_ofs, rm_ofs, shift,
--                                       vec_size, vec_size);
--                    }
--                    return 0;
--
--                case 3: /* VRSRA */
--                    /* Right shift comes here negative.  */
--                    shift = -shift;
--                    if (u) {
--                        gen_gvec_ursra(size, rd_ofs, rm_ofs, shift,
--                                       vec_size, vec_size);
--                    } else {
--                        gen_gvec_srsra(size, rd_ofs, rm_ofs, shift,
--                                       vec_size, vec_size);
--                    }
--                    return 0;
--
--                case 4: /* VSRI */
--                    if (!u) {
--                        return 1;
--                    }
--                    /* Right shift comes here negative.  */
--                    shift = -shift;
--                    gen_gvec_sri(size, rd_ofs, rm_ofs, shift,
--                                 vec_size, vec_size);
--                    return 0;
+                 break;
+@@ -5319,89 +5297,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                     size--;
+             }
+             shift = (insn >> 16) & ((1 << (3 + size)) - 1);
+-            if (op < 8) {
+-                /* Shift by immediate:
+-                   VSHR, VSRA, VRSHR, VRSRA, VSRI, VSHL, VQSHL, VQSHLU.  */
+-                if (q && ((rd | rm) & 1)) {
+-                    return 1;
+-                }
+-                if (!u && (op == 4 || op == 6)) {
+-                    return 1;
+-                }
+-                /* Right shifts are encoded as N - shift, where N is the
+-                   element size in bits.  */
+-                if (op <= 4) {
+-                    shift = shift - (1 << (size + 3));
 -                }
 -
-                 if (size == 3) {
-                     count = q + 1;
-                 } else {
+-                if (size == 3) {
+-                    count = q + 1;
+-                } else {
+-                    count = q ? 4: 2;
+-                }
+-
+-                /* To avoid excessive duplication of ops we implement shift
+-                 * by immediate using the variable shift operations.
+-                  */
+-                imm = dup_const(size, shift);
+-
+-                for (pass = 0; pass < count; pass++) {
+-                    if (size == 3) {
+-                        neon_load_reg64(cpu_V0, rm + pass);
+-                        tcg_gen_movi_i64(cpu_V1, imm);
+-                        switch (op) {
+-                        case 6: /* VQSHLU */
+-                            gen_helper_neon_qshlu_s64(cpu_V0, cpu_env,
+-                                                      cpu_V0, cpu_V1);
+-                            break;
+-                        case 7: /* VQSHL */
+-                            if (u) {
+-                                gen_helper_neon_qshl_u64(cpu_V0, cpu_env,
+-                                                         cpu_V0, cpu_V1);
+-                            } else {
+-                                gen_helper_neon_qshl_s64(cpu_V0, cpu_env,
+-                                                         cpu_V0, cpu_V1);
+-                            }
+-                            break;
+-                        default:
+-                            g_assert_not_reached();
+-                        }
+-                        neon_store_reg64(cpu_V0, rd + pass);
+-                    } else { /* size < 3 */
+-                        /* Operands in T0 and T1.  */
+-                        tmp = neon_load_reg(rm, pass);
+-                        tmp2 = tcg_temp_new_i32();
+-                        tcg_gen_movi_i32(tmp2, imm);
+-                        switch (op) {
+-                        case 6: /* VQSHLU */
+-                            switch (size) {
+-                            case 0:
+-                                gen_helper_neon_qshlu_s8(tmp, cpu_env,
+-                                                         tmp, tmp2);
+-                                break;
+-                            case 1:
+-                                gen_helper_neon_qshlu_s16(tmp, cpu_env,
+-                                                          tmp, tmp2);
+-                                break;
+-                            case 2:
+-                                gen_helper_neon_qshlu_s32(tmp, cpu_env,
+-                                                          tmp, tmp2);
+-                                break;
+-                            default:
+-                                abort();
+-                            }
+-                            break;
+-                        case 7: /* VQSHL */
+-                            GEN_NEON_INTEGER_OP_ENV(qshl);
+-                            break;
+-                        default:
+-                            g_assert_not_reached();
+-                        }
+-                        tcg_temp_free_i32(tmp2);
+-                        neon_store_reg(rd, pass, tmp);
+-                    }
+-                } /* for pass */
+-            } else if (op < 10) {
++            if (op < 10) {
+                 /* Shift by immediate and narrow:
+                    VSHRN, VRSHRN, VQSHRN, VQRSHRN.  */
+                 int input_unsigned = (op == 8) ? !u : u;
 -- 
 2.20.1
 
