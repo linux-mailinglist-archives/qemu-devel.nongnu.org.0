@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472761D5C97
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 00:58:55 +0200 (CEST)
-Received: from localhost ([::1]:42296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F40961D5C9C
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 01:00:37 +0200 (CEST)
+Received: from localhost ([::1]:44666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZjI6-0002P4-Cb
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 18:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55380)
+	id 1jZjJl-0003Os-1L
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 19:00:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jZjHM-0001yl-EP
- for qemu-devel@nongnu.org; Fri, 15 May 2020 18:58:08 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47784)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jZjIr-0002zO-Oa
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 18:59:41 -0400
+Received: from mx2.suse.de ([195.135.220.15]:48186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jZjHL-00080S-EQ
- for qemu-devel@nongnu.org; Fri, 15 May 2020 18:58:08 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jZjIq-00087V-SJ
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 18:59:41 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id D6113ACCC;
- Fri, 15 May 2020 22:58:08 +0000 (UTC)
-Subject: Re: [PATCH v2 1/5] tests/docker: Remove flex/bison packages
+ by mx2.suse.de (Postfix) with ESMTP id 87A35ABC2;
+ Fri, 15 May 2020 22:59:41 +0000 (UTC)
+Subject: Re: [PATCH v2 5/5] scripts/coverity-scan: Remove flex/bison packages
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200515163029.12917-1-philmd@redhat.com>
- <20200515163029.12917-2-philmd@redhat.com>
+ <20200515163029.12917-6-philmd@redhat.com>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <a31a0a52-94dd-c073-7cc9-9d1b9578e52d@suse.de>
-Date: Sat, 16 May 2020 00:58:05 +0200
+Message-ID: <d1d999c5-8a6b-93eb-edaf-96712d3eee25@suse.de>
+Date: Sat, 16 May 2020 00:59:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200515163029.12917-2-philmd@redhat.com>
+In-Reply-To: <20200515163029.12917-6-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -70,114 +70,22 @@ On 5/15/20 6:30 PM, Philippe Mathieu-Daudé wrote:
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
-> v2: use 'does not' (Claudio)
-> ---
->  tests/docker/dockerfiles/centos7.docker             | 2 --
->  tests/docker/dockerfiles/centos8.docker             | 2 --
->  tests/docker/dockerfiles/debian-xtensa-cross.docker | 2 --
->  tests/docker/dockerfiles/debian10.docker            | 2 --
->  tests/docker/dockerfiles/debian9.docker             | 2 --
->  tests/docker/dockerfiles/fedora.docker              | 2 --
->  tests/docker/dockerfiles/ubuntu.docker              | 2 +-
->  tests/docker/dockerfiles/ubuntu1804.docker          | 2 +-
->  8 files changed, 2 insertions(+), 14 deletions(-)
+>  scripts/coverity-scan/coverity-scan.docker | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
-> index 9a2a2e515d..e197acdc3c 100644
-> --- a/tests/docker/dockerfiles/centos7.docker
-> +++ b/tests/docker/dockerfiles/centos7.docker
-> @@ -5,13 +5,11 @@ RUN yum -y update
->  
->  # Please keep this list sorted alphabetically
+> diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
+> index a4f64d1283..ad4d64c0f8 100644
+> --- a/scripts/coverity-scan/coverity-scan.docker
+> +++ b/scripts/coverity-scan/coverity-scan.docker
+> @@ -19,7 +19,6 @@ FROM fedora:30
 >  ENV PACKAGES \
-> -    bison \
->      bzip2 \
->      bzip2-devel \
->      ccache \
->      csnappy-devel \
->      dbus-daemon \
-> -    flex \
->      gcc-c++ \
->      gcc \
->      gettext \
-> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-> index bfa0d33c9c..9852c5b9ee 100644
-> --- a/tests/docker/dockerfiles/centos8.docker
-> +++ b/tests/docker/dockerfiles/centos8.docker
-> @@ -3,11 +3,9 @@ FROM centos:8.1.1911
->  RUN dnf -y update
->  ENV PACKAGES \
->      SDL-devel \
-> -    bison \
->      bzip2 \
->      bzip2-devel \
->      dbus-daemon \
-> -    flex \
->      gcc \
->      gcc-c++ \
->      gettext \
-> diff --git a/tests/docker/dockerfiles/debian-xtensa-cross.docker b/tests/docker/dockerfiles/debian-xtensa-cross.docker
-> index e6f93f65ee..beb73f46ba 100644
-> --- a/tests/docker/dockerfiles/debian-xtensa-cross.docker
-> +++ b/tests/docker/dockerfiles/debian-xtensa-cross.docker
-> @@ -11,11 +11,9 @@ RUN apt-get update && \
->      DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
->      DEBIAN_FRONTEND=noninteractive eatmydata \
->      apt-get install -y --no-install-recommends \
-> -        bison \
->          build-essential \
->          ca-certificates \
->          curl \
-> -        flex \
->          gettext \
->          git \
->          python3-minimal
-> diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-> index 0769700a41..bcdff04ddf 100644
-> --- a/tests/docker/dockerfiles/debian10.docker
-> +++ b/tests/docker/dockerfiles/debian10.docker
-> @@ -18,12 +18,10 @@ RUN apt update && \
->      DEBIAN_FRONTEND=noninteractive eatmydata \
->      apt install -y --no-install-recommends \
->          bc \
-> -        bison \
->          build-essential \
->          ca-certificates \
->          clang \
->          dbus \
-> -        flex \
->          gdb-multiarch \
->          gettext \
->          git \
-> diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/dockerfiles/debian9.docker
-> index 08cc970feb..0f0ebe530a 100644
-> --- a/tests/docker/dockerfiles/debian9.docker
-> +++ b/tests/docker/dockerfiles/debian9.docker
-> @@ -18,11 +18,9 @@ RUN apt update && \
->      DEBIAN_FRONTEND=noninteractive eatmydata \
->      apt install -y --no-install-recommends \
->          bc \
-> -        bison \
->          build-essential \
->          ca-certificates \
->          clang \
-> -        flex \
->          gdb-multiarch \
->          gettext \
->          git \
-> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-> index 179575ecaa..92b6e11c8a 100644
-> --- a/tests/docker/dockerfiles/fedora.docker
-> +++ b/tests/docker/dockerfiles/fedora.docker
-> @@ -3,7 +3,6 @@ FROM fedora:30
->  # Please keep this list sorted alphabetically
->  ENV PACKAGES \
+>      alsa-lib-devel \
 >      bc \
 > -    bison \
 >      brlapi-devel \
 >      bzip2 \
 >      bzip2-devel \
-> @@ -13,7 +12,6 @@ ENV PACKAGES \
+> @@ -30,7 +29,6 @@ ENV PACKAGES \
 >      dbus-daemon \
 >      device-mapper-multipath-devel \
 >      findutils \
@@ -185,32 +93,7 @@ On 5/15/20 6:30 PM, Philippe Mathieu-Daudé wrote:
 >      gcc \
 >      gcc-c++ \
 >      gettext \
-> diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
-> index eeb3b22bf2..90ea6311c6 100644
-> --- a/tests/docker/dockerfiles/ubuntu.docker
-> +++ b/tests/docker/dockerfiles/ubuntu.docker
-> @@ -10,7 +10,7 @@
->  #
->  
->  FROM ubuntu:19.04
-> -ENV PACKAGES flex bison \
-> +ENV PACKAGES \
->      ccache \
->      clang \
->      dbus \
-> diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-> index f66b06f4cf..a10ea2850b 100644
-> --- a/tests/docker/dockerfiles/ubuntu1804.docker
-> +++ b/tests/docker/dockerfiles/ubuntu1804.docker
-> @@ -1,5 +1,5 @@
->  FROM ubuntu:18.04
-> -ENV PACKAGES flex bison \
-> +ENV PACKAGES \
->      ccache \
->      clang \
->      gcc \
 > 
-
 
 Reviewed-by: Claudio Fontana <cfontana@suse.de>
 
