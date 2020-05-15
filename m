@@ -2,58 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E821D5ED7
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 07:14:37 +0200 (CEST)
-Received: from localhost ([::1]:47448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA551D4F8C
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 15:51:41 +0200 (CEST)
+Received: from localhost ([::1]:41098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZp9f-0004VI-TN
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 01:14:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33766)
+	id 1jZakW-000397-C6
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 09:51:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jZp8V-0003bk-Fm; Sat, 16 May 2020 01:13:23 -0400
-Received: from ozlabs.org ([203.11.71.1]:57365)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jZp8T-0003Ay-1H; Sat, 16 May 2020 01:13:23 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49PD1w6mDcz9sTL; Sat, 16 May 2020 15:13:08 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1589605988;
- bh=VglAUnrHhp5oWI/Q1diT6NZWQAM5I8+eJY/ZhE7YTME=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ERrIuaINavmYYzTkzquqSAoBT1tF7bYFb/HB3lFYv4aAOw655s16D74JQsuJeK0qW
- 8vsZQDni0xu7Vt/fOGPTp0OtOzEVwK+m8/2YJEZWpz0wKC7vo75JLrm4N7E9aJVEuV
- QNtg3ZjFLqMeTfqhKE3lTKmX+Zh3ha2Leh1s/gYU=
-Date: Fri, 15 May 2020 23:39:13 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 0/6] target/ppc: Various clean-up and fixes for radix64
-Message-ID: <20200515133913.GI2183@umbus.fritz.box>
-References: <158941060199.240484.5620994992064687533.stgit@bahia.lan>
- <20200514065249.GC2183@umbus.fritz.box>
- <20200515085807.7315539a@bahia.lan>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jZajg-0002i0-Lt
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 09:50:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43432)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jZajf-0001jB-0B
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 09:50:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jZajb-00074E-Cy
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 13:50:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 19B472E810C
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 13:50:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="r21wuLfwIlf/vvzy"
-Content-Disposition: inline
-In-Reply-To: <20200515085807.7315539a@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 01:13:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 15 May 2020 13:41:05 -0000
+From: Damir <1856335@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger janklos
+X-Launchpad-Bug-Reporter: Damir (djdatte)
+X-Launchpad-Bug-Modifier: Damir (djdatte)
+References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
+Message-Id: <158955006597.22069.6146103818680677189.malone@gac.canonical.com>
+Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e687d572d8465b1df510a27e78f8af0efde86e90
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 09:10:50
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,58 +72,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Jan,
 
---r21wuLfwIlf/vvzy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Problem for me now is why does every config (I can figure out) now
+result in SMT on/L3 across all cores which is obviously never true on
+Zen except if you have only less than 4 cores, 8 cores should always
+result in 2 L3 Caches, and so should 16 Threads /w 8+SMT. This worked in
+my initial post.
 
-On Fri, May 15, 2020 at 08:58:07AM +0200, Greg Kurz wrote:
-> On Thu, 14 May 2020 16:52:49 +1000
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > On Thu, May 14, 2020 at 12:56:42AM +0200, Greg Kurz wrote:
-> > > First three patches of this series are simple cleanups. The other
-> > > ones fix some regressions introduced by Cedric's recent addition
-> > > of partition-scoped translation.
-> >=20
-> > Applied to ppc-for-5.1, thanks.
-> >=20
->=20
-> Could you please refresh your ppc-for-5.1 branch on github ?
+-- =
 
-Done.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856335
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Title:
+  Cache Layout wrong on many Zen Arch CPUs
 
---r21wuLfwIlf/vvzy
-Content-Type: application/pgp-signature; name="signature.asc"
+Status in QEMU:
+  New
 
------BEGIN PGP SIGNATURE-----
+Bug description:
+  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
+  to always map Cache ass if it was an 4-Core per CCX CPU, which is
+  incorrect, and costs upwards 30% performance (more realistically 10%)
+  in L3 Cache Layout aware applications.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6+m4AACgkQbDjKyiDZ
-s5K5txAAkvVCBk+ffdWECmq36c33E2DpFrUEmwekoBEu7UiUpevE4ia90rmyXkzL
-z9JGRw+uBphGylPVmhkpCuULAaU6Ic72vUUCE7nGfOE1w7bVB+5c/KDYCShJZzay
-ooojPdDFcfWzGA8726fIsmeBZ7+N3BZ7dWLjRk7bPhQsejgYcSqRdKIgODNPCkJo
-tY1iZbt1UV9rlebfVEm1cm79QWxLRwPT1+y1ThqzGCJYNfuEhpXK7k8TfmquGNEy
-nwDT2fu9rPpCJi4+hchinu7MtPUTS9ie0MUJyMzap49UuAL2ke1v769Nlln7pbx5
-vPAQn/rQuTsM4ssJyYzcz/wK9KrwdD93VL27k4auzPK6ZB1Ekqpwi/nxrtKT3B7X
-92INEfo8IZAPV4O8zjf3/LuvnHT7/JcdjB4UMu5WeIQeoh3tUNYrc9c6Z9rtgLfe
-11/gIUZI4uINtwjM/ErD9UZHkWJgE/XZfTx5mstX5byFHOsjg+yENiudW/LvdpA0
-sZ/3jrTGLeca7dIhn1eAHL6fhBXvOu2TMn24KsJTWYAesMQU/8lC9Bt9fA2Wwr/c
-cUSGsjepc9586c2nLgQLjAR7zBm9BAaDmplsnkRJG1P3S8LeGBWd1qtFu2WVWq5T
-JNgUUw0eJUKYnb1YKblpFh8t9YXUXyYiSq86a8cefAnbLJZnxWw=
-=ny5Y
------END PGP SIGNATURE-----
+  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
 
---r21wuLfwIlf/vvzy--
+  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
+/>
+
+  In windows, coreinfo reports correctly:
+
+  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+
+  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
+/>
+
+  in windows, coreinfo reports incorrectly:
+
+  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
+
+  With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter:
+  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+
+  The problem is that the dies are exposed differently than how AMD does
+  it natively, they are exposed to Windows as sockets, which means, that
+  if you are nto a business user, you can't ever have a machine with
+  more than two CCX (6 cores) as consumer versions of Windows only
+  supports two sockets. (Should this be reported as a separate bug?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
