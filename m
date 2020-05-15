@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26DBD1D4977
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:26:02 +0200 (CEST)
-Received: from localhost ([::1]:57890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D86C61D493A
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:16:32 +0200 (CEST)
+Received: from localhost ([::1]:58500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZWbR-00075j-8v
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:26:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35314)
+	id 1jZWSF-000297-DC
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jZWY0-0002BT-5C
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:22:28 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54788)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jZWXz-0006Fr-6u
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:22:27 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jZWXv-0004J4-Ib
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 09:22:23 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3F9CD2E8112
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 09:22:23 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jZWQb-00017m-75
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:14:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37613
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jZWQZ-0004G8-N7
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:14:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589534086;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=L6JJ54lBAMFIBTxj6OBPaunM/XZT/7oojEh9zbAMP2Q=;
+ b=H5QdNBgMxGi+L7v29y2kptBlAioDpdp7SCmcN+vjl8l7dfD/NPNctPupQY3RVvMXtnDQE3
+ r9LWat54l4cu2ZiQHr2MqwK2coSzsnXjhV0LteTp0bkhVB0roo1gC2R2r2LOQx9dO7+i55
+ 2NDPjxf5a9LETk6a2p70z07Zxc49d1A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-475-Teyrg5DzP_mQ2e9luVhILQ-1; Fri, 15 May 2020 05:14:44 -0400
+X-MC-Unique: Teyrg5DzP_mQ2e9luVhILQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE51B100CCD2;
+ Fri, 15 May 2020 09:14:43 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-42.ams2.redhat.com [10.36.113.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 83A407D973;
+ Fri, 15 May 2020 09:14:42 +0000 (UTC)
+Subject: Re: [PATCH 2/3] docs/s390x: document 3270
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20200505135025.14614-1-cohuck@redhat.com>
+ <20200505135025.14614-3-cohuck@redhat.com>
+ <4ea47ea1-04d5-3073-fef6-5af07f06a4d6@redhat.com>
+ <20200515110007.1676b17d.cohuck@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <b6acb966-16f2-605d-6d01-70f6085bfa79@redhat.com>
+Date: Fri, 15 May 2020 11:14:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 May 2020 09:11:56 -0000
-From: Christophe Lyon <christophe.lyon+launchpad@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange christophe-lyon laurent-vivier philmd
- pmaydell
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
-X-Launchpad-Bug-Modifier: Christophe Lyon (christophe-lyon)
-References: <158935359452.19393.4863679569975227091.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158953391644.31242.52755434070595542.malone@chaenomeles.canonical.com>
-Subject: [Bug 1878348] Re: --static build fails in v5.0 (since
- 5010cec2bc87dafab39b3913c8ca91f88df9c540)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e7a774bc40fae2fd6b6ad3a91eb5cec1ee346d89
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 04:30:58
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
- FORGED_GMAIL_RCVD=1, FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200515110007.1676b17d.cohuck@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 22:56:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,56 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878348 <1878348@bugs.launchpad.net>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Maybe --static should be ignored for system emulators and accepted for user=
--mode emulators?
-That would enable to have a single build, otherwise if we want both, we'd n=
-eed to configure & build QEMU twice.
+On 15/05/2020 11.00, Cornelia Huck wrote:
+> On Fri, 15 May 2020 09:29:42 +0200
+> Thomas Huth <thuth@redhat.com> wrote:
+> 
+>> On 05/05/2020 15.50, Cornelia Huck wrote:
+>>> Add some basic info how to use 3270 devices.
+>>>
+>>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+>>> ---
+>>>  docs/system/s390x/3270.rst   | 32 ++++++++++++++++++++++++++++++++
+>>>  docs/system/target-s390x.rst |  1 +
+>>>  2 files changed, 33 insertions(+)
+>>>  create mode 100644 docs/system/s390x/3270.rst
+>>>
+>>> diff --git a/docs/system/s390x/3270.rst b/docs/system/s390x/3270.rst
+>>> new file mode 100644
+>>> index 000000000000..e367a457e001
+>>> --- /dev/null
+>>> +++ b/docs/system/s390x/3270.rst
+>>> @@ -0,0 +1,32 @@
+>>> +3270 devices
+>>> +============
+>>> +
+>>> +With the aid of the ``x3270`` emulator, QEMU provides limited support
+>>> +for making a single 3270 device available to a guest. Note that this
+>>> +supports basic features only.  
+>>
+>> The first sentence sounds somewhat confusing. Maybe rather something like:
+>>
+>> QEMU can emulate a 3270 device attached to a guest, which then can be
+>> used with a program like ``x3270`` to get a traditional 3270 terminal
+>> for your guest.
+> 
+> But QEMU actually relies on x3270 (or a comparable program). It only
+> emulates the basic ccw plumbing; for the actual protocol (beyond
+> negotiating tn3270), it relies on the emulation done by x3270.
 
--- =
+Ok, makes sense now. Maybe something like:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878348
+QEMU provides the possibility to connect an external 3270 terminal
+emulator (like ``x3270``) to a guest?
 
-Title:
-  --static build fails in v5.0 (since
-  5010cec2bc87dafab39b3913c8ca91f88df9c540)
+ Thomas
 
-Status in QEMU:
-  New
-
-Bug description:
-  Hi,
-
-  Since commit 5010cec2bc87dafab39b3913c8ca91f88df9c540, building qemu
-  fails when configured with --static (eg ../configure --target-
-  list=3Dx86_64-softmmu,x86_64-linux-user --enable-debug --static).
-
-  On ubuntu 16.04, it fails to find -lffi and -lselinux.
-
-  After I apt-get install libffi-dev libselinux1-dev, the build still fails:
-  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_pre=
-_save':
-  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:29: undefine=
-d reference to `_TRACE_DBUS_VMSTATE_PRE_SAVE_DSTATE'
-  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_pos=
-t_load':
-  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:52: undefine=
-d reference to `_TRACE_DBUS_VMSTATE_POST_LOAD_DSTATE'
-  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_loa=
-ding':
-  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:75: undefine=
-d reference to `_TRACE_DBUS_VMSTATE_LOADING_DSTATE'
-  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_sav=
-ing':
-  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:98: undefine=
-d reference to `_TRACE_DBUS_VMSTATE_SAVING_DSTATE'
-  collect2: error: ld returned 1 exit status
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878348/+subscriptions
 
