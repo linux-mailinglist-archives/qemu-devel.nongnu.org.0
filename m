@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE72B1D4E57
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 15:02:48 +0200 (CEST)
-Received: from localhost ([::1]:50764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03161D4EF2
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 15:18:31 +0200 (CEST)
+Received: from localhost ([::1]:56852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZZzD-00008y-Q7
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 09:02:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45968)
+	id 1jZaEQ-0003un-NM
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 09:18:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjd-0003pB-DB
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25300
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjf-0003qR-BY
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:43 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46835
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjb-0002Ty-LP
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:40 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjd-0002Uc-Jr
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589546798;
+ s=mimecast20190719; t=1589546800;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KtpNI9TIpqyeC8eNPxlzs8E9Rtgz2FJ7kWU3lqald08=;
- b=JZWEhborc3l6ModitRrTf5TZXd2VdB3krYHjwzbxE1jFvabxBOxc1w5+CBk4jLLzxPph5y
- wLu0XuQGVbwem2MSL/bNgfjmHHkOxZMMaj8Ttet8FpBwz4Op3wur+WpqKCVQVU9UFLA439
- QPa16FLXNGkz8kp7QMn6sugY4DIwY9Y=
+ bh=IrAIxJcjh5A8J6Ib5EEpUk0UGIpNUfO0ZmICznK/aY8=;
+ b=EAFzGzjpwLEvnpkgzw8Bq+OCt6YgeXnYWn3+//lsQyZar0GI61DA5643TUIkPVqR1bv3Mv
+ 1sabmA5vQ5vQYSBtP7/VnGoKHWjgmNq7yi9ihYSDLnsXEk1CeC1Ed+4AP9lD5DAPq6yNBG
+ ehsjk84gBsxkxuUiy29j4IH/JdUe9ik=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-nMnhWcBuNjuiX8PLe-Zz-A-1; Fri, 15 May 2020 08:46:36 -0400
-X-MC-Unique: nMnhWcBuNjuiX8PLe-Zz-A-1
+ us-mta-479-cDxvFGNsN7iIoRS3RfisCw-1; Fri, 15 May 2020 08:46:38 -0400
+X-MC-Unique: cDxvFGNsN7iIoRS3RfisCw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6F138005AD;
- Fri, 15 May 2020 12:46:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 256DE474;
+ Fri, 15 May 2020 12:46:37 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-110.ams2.redhat.com
  [10.36.113.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DCD662E166;
- Fri, 15 May 2020 12:46:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C2AB2E024;
+ Fri, 15 May 2020 12:46:36 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 47/51] block/block-copy: Fix uninitialized variable in
- block_copy_task_entry
-Date: Fri, 15 May 2020 14:45:17 +0200
-Message-Id: <20200515124521.335403-48-kwolf@redhat.com>
+Subject: [PULL 48/51] block/block-copy: Simplify block_copy_do_copy()
+Date: Fri, 15 May 2020 14:45:18 +0200
+Message-Id: <20200515124521.335403-49-kwolf@redhat.com>
 In-Reply-To: <20200515124521.335403-1-kwolf@redhat.com>
 References: <20200515124521.335403-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,10 +55,10 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 23:27:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:39:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,35 +84,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Fix when building with -Os:
-
-    CC      block/block-copy.o
-  block/block-copy.c: In function ‘block_copy_task_entry’:
-  block/block-copy.c:428:38: error: ‘error_is_read’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-    428 |         t->call_state->error_is_read = error_is_read;
-        |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+block_copy_do_copy() is static, only used in block_copy_task_entry
+with the error_is_read argument set. No need to check for it,
+simplify.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200507121129.29760-2-philmd@redhat.com>
+Message-Id: <20200507121129.29760-3-philmd@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/block-copy.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/block-copy.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
 diff --git a/block/block-copy.c b/block/block-copy.c
-index 4713c8f2a3..7c7f7acbae 100644
+index 7c7f7acbae..bb8d0569f2 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -418,7 +418,7 @@ out:
- static coroutine_fn int block_copy_task_entry(AioTask *task)
- {
-     BlockCopyTask *t = container_of(task, BlockCopyTask, task);
--    bool error_is_read;
-+    bool error_is_read = false;
-     int ret;
+@@ -343,9 +343,7 @@ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
+                                     ~BDRV_REQ_WRITE_COMPRESSED);
+         if (ret < 0) {
+             trace_block_copy_write_zeroes_fail(s, offset, ret);
+-            if (error_is_read) {
+-                *error_is_read = false;
+-            }
++            *error_is_read = false;
+         }
+         return ret;
+     }
+@@ -393,9 +391,7 @@ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
+     ret = bdrv_co_pread(s->source, offset, nbytes, bounce_buffer, 0);
+     if (ret < 0) {
+         trace_block_copy_read_fail(s, offset, ret);
+-        if (error_is_read) {
+-            *error_is_read = true;
+-        }
++        *error_is_read = true;
+         goto out;
+     }
  
-     ret = block_copy_do_copy(t->s, t->offset, t->bytes, t->zeroes,
+@@ -403,9 +399,7 @@ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
+                          s->write_flags);
+     if (ret < 0) {
+         trace_block_copy_write_fail(s, offset, ret);
+-        if (error_is_read) {
+-            *error_is_read = false;
+-        }
++        *error_is_read = false;
+         goto out;
+     }
+ 
 -- 
 2.25.4
 
