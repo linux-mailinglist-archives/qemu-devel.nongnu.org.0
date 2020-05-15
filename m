@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63591D5C4D
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 00:22:32 +0200 (CEST)
-Received: from localhost ([::1]:58924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9637C1D5C6C
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 00:34:16 +0200 (CEST)
+Received: from localhost ([::1]:49858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZiit-0002hS-Fr
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 18:22:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51218)
+	id 1jZiuF-0003wH-81
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 18:34:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1jZihV-0000zA-UI; Fri, 15 May 2020 18:21:05 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9946
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1jZihU-0006hE-Cx; Fri, 15 May 2020 18:21:05 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04FM2VuF104155; Fri, 15 May 2020 18:21:03 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3119dhfe5r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 May 2020 18:21:03 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04FM3VBu108027;
- Fri, 15 May 2020 18:21:02 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3119dhfe5h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 May 2020 18:21:02 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04FMKGrq011088;
- Fri, 15 May 2020 22:21:02 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma03wdc.us.ibm.com with ESMTP id 3100ubtg21-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 May 2020 22:21:02 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 04FML1nd44302714
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 May 2020 22:21:01 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A5FBE112063;
- Fri, 15 May 2020 22:21:01 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 56167112061;
- Fri, 15 May 2020 22:21:01 +0000 (GMT)
-Received: from localhost.localdomain.com (unknown [9.85.146.125])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri, 15 May 2020 22:21:01 +0000 (GMT)
-From: Collin Walling <walling@linux.ibm.com>
-To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v2 8/8] s390: guest support for diagnose 0x318
-Date: Fri, 15 May 2020 18:20:32 -0400
-Message-Id: <20200515222032.18838-9-walling@linux.ibm.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200515222032.18838-1-walling@linux.ibm.com>
-References: <20200515222032.18838-1-walling@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1jZitN-0003QK-Q4
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 18:33:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38543
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1jZitL-0000pC-AR
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 18:33:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589581997;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pvO0+SUweMOQbt6DIFQy3La/lGGrDdpuUsqdJX5PnUk=;
+ b=OcjORhQfTk0k5s3dsDN2a0BgK4mrGql5pecRBoaCQ6nmhYziaR9tFbXe4Ro7qX4o3pPtNB
+ /IkiIy+qm1JOO4QX2nsz2HNOqE5f9wzL8p4smhsSLbzm14/zT4bx1hGnONvh09I7EMdGuE
+ iIVbE8dl3TOVWEIL7M2w8NLEjwMXOYY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-187-S85fgBBsMpSRAWjyaYatWw-1; Fri, 15 May 2020 18:33:13 -0400
+X-MC-Unique: S85fgBBsMpSRAWjyaYatWw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADABF80183C;
+ Fri, 15 May 2020 22:33:10 +0000 (UTC)
+Received: from w520.home (ovpn-112-50.phx2.redhat.com [10.3.112.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 428245D9C9;
+ Fri, 15 May 2020 22:33:08 +0000 (UTC)
+Date: Fri, 15 May 2020 16:33:07 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH Kernel v21 5/8] vfio iommu: Implementation of ioctl for
+ dirty pages tracking
+Message-ID: <20200515163307.72951dd2@w520.home>
+In-Reply-To: <1589577203-20640-6-git-send-email-kwankhede@nvidia.com>
+References: <1589577203-20640-1-git-send-email-kwankhede@nvidia.com>
+ <1589577203-20640-6-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
- definitions=2020-05-15_07:2020-05-15,
- 2020-05-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- mlxscore=0 spamscore=0 priorityscore=1501 cotscore=-2147483648
- adultscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
- impostorscore=0 malwarescore=0 clxscore=1015 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005150181
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=walling@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 18:21:01
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=207.211.31.120;
+ envelope-from=alex.williamson@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 18:33:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,387 +79,473 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
- cohuck@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com, mst@redhat.com,
- svens@linux.ibm.com, pbonzini@redhat.com, mihajlov@linux.ibm.com,
- rth@twiddle.net
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DIAGNOSE 0x318 (diag 318) allows the storage of diagnostic data that
-is collected by the firmware in the case of hardware/firmware service
-events.
+On Sat, 16 May 2020 02:43:20 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-The instruction is invoked in the Linux kernel and is handled,
-migrated, and reset (modified clear and load normal) by QEMU.
-KVM assists with the get/set of the relevent data via IOCTLs.
+> VFIO_IOMMU_DIRTY_PAGES ioctl performs three operations:
+> - Start dirty pages tracking while migration is active
+> - Stop dirty pages tracking.
+> - Get dirty pages bitmap. Its user space application's responsibility to
+>   copy content of dirty pages from source to destination during migration.
+> 
+> To prevent DoS attack, memory for bitmap is allocated per vfio_dma
+> structure. Bitmap size is calculated considering smallest supported page
+> size. Bitmap is allocated for all vfio_dmas when dirty logging is enabled
+> 
+> Bitmap is populated for already pinned pages when bitmap is allocated for
+> a vfio_dma with the smallest supported page size. Update bitmap from
+> pinning functions when tracking is enabled. When user application queries
+> bitmap, check if requested page size is same as page size used to
+> populated bitmap. If it is equal, copy bitmap, but if not equal, return
+> error.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> 
+> Fixed error reported by build bot by changing pgsize type from uint64_t
+> to size_t.
+> Reported-by: kbuild test robot <lkp@intel.com>
+> ---
+>  drivers/vfio/vfio_iommu_type1.c | 306 +++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 300 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+> index de17787ffece..8b8fe171f4c2 100644
+> --- a/drivers/vfio/vfio_iommu_type1.c
+> +++ b/drivers/vfio/vfio_iommu_type1.c
+> @@ -72,6 +72,7 @@ struct vfio_iommu {
+>  	uint64_t		pgsize_bitmap;
+>  	bool			v2;
+>  	bool			nesting;
+> +	bool			dirty_page_tracking;
+>  };
+>  
+>  struct vfio_domain {
+> @@ -92,6 +93,7 @@ struct vfio_dma {
+>  	bool			lock_cap;	/* capable(CAP_IPC_LOCK) */
+>  	struct task_struct	*task;
+>  	struct rb_root		pfn_list;	/* Ex-user pinned pfn list */
+> +	unsigned long		*bitmap;
+>  };
+>  
+>  struct vfio_group {
+> @@ -126,6 +128,19 @@ struct vfio_regions {
+>  #define IS_IOMMU_CAP_DOMAIN_IN_CONTAINER(iommu)	\
+>  					(!list_empty(&iommu->domain_list))
+>  
+> +#define DIRTY_BITMAP_BYTES(n)	(ALIGN(n, BITS_PER_TYPE(u64)) / BITS_PER_BYTE)
+> +
+> +/*
+> + * Input argument of number of bits to bitmap_set() is unsigned integer, which
+> + * further casts to signed integer for unaligned multi-bit operation,
+> + * __bitmap_set().
+> + * Then maximum bitmap size supported is 2^31 bits divided by 2^3 bits/byte,
+> + * that is 2^28 (256 MB) which maps to 2^31 * 2^12 = 2^43 (8TB) on 4K page
+> + * system.
+> + */
+> +#define DIRTY_BITMAP_PAGES_MAX	 ((u64)INT_MAX)
+> +#define DIRTY_BITMAP_SIZE_MAX	 DIRTY_BITMAP_BYTES(DIRTY_BITMAP_PAGES_MAX)
+> +
+>  static int put_pfn(unsigned long pfn, int prot);
+>  
+>  /*
+> @@ -176,6 +191,74 @@ static void vfio_unlink_dma(struct vfio_iommu *iommu, struct vfio_dma *old)
+>  	rb_erase(&old->node, &iommu->dma_list);
+>  }
+>  
+> +
+> +static int vfio_dma_bitmap_alloc(struct vfio_dma *dma, size_t pgsize)
+> +{
+> +	uint64_t npages = dma->size / pgsize;
+> +
+> +	if (npages > DIRTY_BITMAP_PAGES_MAX)
+> +		return -EINVAL;
+> +
+> +	dma->bitmap = kvzalloc(DIRTY_BITMAP_BYTES(npages), GFP_KERNEL);
+> +	if (!dma->bitmap)
+> +		return -ENOMEM;
+> +
+> +	return 0;
+> +}
+> +
+> +static void vfio_dma_bitmap_free(struct vfio_dma *dma)
+> +{
+> +	kfree(dma->bitmap);
+> +	dma->bitmap = NULL;
+> +}
+> +
+> +static void vfio_dma_populate_bitmap(struct vfio_dma *dma, size_t pgsize)
+> +{
+> +	struct rb_node *p;
+> +
+> +	for (p = rb_first(&dma->pfn_list); p; p = rb_next(p)) {
+> +		struct vfio_pfn *vpfn = rb_entry(p, struct vfio_pfn, node);
+> +
+> +		bitmap_set(dma->bitmap, (vpfn->iova - dma->iova) / pgsize, 1);
+> +	}
+> +}
+> +
+> +static int vfio_dma_bitmap_alloc_all(struct vfio_iommu *iommu, size_t pgsize)
+> +{
+> +	struct rb_node *n = rb_first(&iommu->dma_list);
+> +
+> +	for (; n; n = rb_next(n)) {
+> +		struct vfio_dma *dma = rb_entry(n, struct vfio_dma, node);
+> +		int ret;
+> +
+> +		ret = vfio_dma_bitmap_alloc(dma, pgsize);
+> +		if (ret) {
+> +			struct rb_node *p = rb_prev(n);
+> +
+> +			for (; p; p = rb_prev(p)) {
+> +				struct vfio_dma *dma = rb_entry(n,
+> +							struct vfio_dma, node);
+> +
+> +				vfio_dma_bitmap_free(dma);
+> +			}
+> +			return ret;
+> +		}
+> +		vfio_dma_populate_bitmap(dma, pgsize);
+> +	}
+> +	return 0;
+> +}
+> +
+> +static void vfio_dma_bitmap_free_all(struct vfio_iommu *iommu)
+> +{
+> +	struct rb_node *n = rb_first(&iommu->dma_list);
+> +
+> +	for (; n; n = rb_next(n)) {
+> +		struct vfio_dma *dma = rb_entry(n, struct vfio_dma, node);
+> +
+> +		vfio_dma_bitmap_free(dma);
+> +	}
+> +}
+> +
+>  /*
+>   * Helper Functions for host iova-pfn list
+>   */
+> @@ -568,6 +651,17 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
+>  			vfio_unpin_page_external(dma, iova, do_accounting);
+>  			goto pin_unwind;
+>  		}
+> +
+> +		if (iommu->dirty_page_tracking) {
+> +			unsigned long pgshift = __ffs(iommu->pgsize_bitmap);
+> +
+> +			/*
+> +			 * Bitmap populated with the smallest supported page
+> +			 * size
+> +			 */
+> +			bitmap_set(dma->bitmap,
+> +				   (iova - dma->iova) >> pgshift, 1);
+> +		}
+>  	}
+>  
+>  	ret = i;
+> @@ -802,6 +896,7 @@ static void vfio_remove_dma(struct vfio_iommu *iommu, struct vfio_dma *dma)
+>  	vfio_unmap_unpin(iommu, dma, true);
+>  	vfio_unlink_dma(iommu, dma);
+>  	put_task_struct(dma->task);
+> +	vfio_dma_bitmap_free(dma);
+>  	kfree(dma);
+>  	iommu->dma_avail++;
+>  }
+> @@ -829,6 +924,92 @@ static void vfio_pgsize_bitmap(struct vfio_iommu *iommu)
+>  	}
+>  }
+>  
+> +static int update_user_bitmap(u64 __user *bitmap, struct vfio_dma *dma,
+> +			      dma_addr_t base_iova, size_t pgsize)
+> +{
+> +	unsigned long pgshift = __ffs(pgsize);
+> +	unsigned long nbits = dma->size >> pgshift;
+> +	unsigned long bit_offset = (dma->iova - base_iova) >> pgshift;
+> +	unsigned long copy_offset = bit_offset / BITS_PER_LONG;
+> +	unsigned long shift = bit_offset % BITS_PER_LONG;
+> +	unsigned long leftover;
+> +
+> +	/* mark all pages dirty if all pages are pinned and mapped. */
+> +	if (dma->iommu_mapped)
+> +		bitmap_set(dma->bitmap, 0, dma->size >> pgshift);
+> +
+> +	if (shift) {
+> +		bitmap_shift_left(dma->bitmap, dma->bitmap, shift,
+> +				  nbits + shift);
+> +
+> +		if (copy_from_user(&leftover, (u64 *)bitmap + copy_offset,
+> +				   sizeof(leftover)))
+> +			return -EFAULT;
+> +
+> +		bitmap_or(dma->bitmap, dma->bitmap, &leftover, shift);
+> +	}
+> +
+> +	if (copy_to_user((u64 *)bitmap + copy_offset, dma->bitmap,
+> +			 DIRTY_BITMAP_BYTES(nbits + shift)))
+> +		return -EFAULT;
+> +
+> +	return 0;
+> +}
+> +
+> +static int vfio_iova_dirty_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
+> +				  dma_addr_t iova, size_t size, size_t pgsize)
+> +{
+> +	struct vfio_dma *dma;
+> +	unsigned long pgshift = __ffs(pgsize);
+> +	int ret;
+> +
+> +	/*
+> +	 * GET_BITMAP request must fully cover vfio_dma mappings.  Multiple
+> +	 * vfio_dma mappings may be clubbed by specifying large ranges, but
+> +	 * there must not be any previous mappings bisected by the range.
+> +	 * An error will be returned if these conditions are not met.
+> +	 */
+> +	dma = vfio_find_dma(iommu, iova, 1);
+> +	if (dma && dma->iova != iova)
+> +		return -EINVAL;
+> +
+> +	dma = vfio_find_dma(iommu, iova + size - 1, 0);
+> +	if (dma && dma->iova + dma->size != iova + size)
+> +		return -EINVAL;
+> +
+> +	dma = vfio_find_dma(iommu, iova, size);
+> +
+> +	while (dma && (dma->iova >= iova) &&
+> +		(dma->iova + dma->size <= iova + size)) {
 
-This feature depends on the Extended-Length SCCB (els) feature. If
-els is not present, then a warning will be printed and the SCLP bit
-that allows the Linux kernel to execute the instruction will not be
-set.
+Thanks for doing this!  Unfortunately I think I've mislead you :(
+But I think there was a bug here in the last version as well, so maybe
+it's all for the better ;)
 
-Availability of this instruction is determined by byte 134 (aka fac134)
-bit 0 of the SCLP Read Info block. This coincidentally expands into the
-space used for CPU entries, which means VMs running with the diag 318
-capability may not be able to read information regarding all CPUs
-unless the guest kernel supports an extended-length SCCB.
+vfio_find_dma() does not guarantee to find the first dma in the range
+(ie. the lowest iova), it only guarantees to find a dma in the range.
+Since we have a tree structure, as we descend the nodes we might find
+multiple nodes within the range.  vfio_find_dma() only returns the first
+occurrence it finds, so we can't assume that other matching nodes are
+next in the tree or that their iovas are greater than the iova of the
+node we found.
 
-This feature is not supported in protected virtualization mode.
+All the other use cases of vfio_find_dma() are looking for specific
+pages or boundaries or checking for the existence of a conflict or are
+removing all of the instances within the range, which is probably the
+example that was used in the v20 version of this patch, since it was
+quite similar to vfio_dma_do_unmap() but tried to adjust the size to
+get the next match rather than removing the entry.  That could
+potentially lead to an entire unexplored half of the tree making our
+bitmap incomplete.
 
-Signed-off-by: Collin Walling <walling@linux.ibm.com>
----
- hw/s390x/s390-virtio-ccw.c          | 45 +++++++++++++++++++++++++++++
- hw/s390x/sclp.c                     |  5 ++++
- include/hw/s390x/s390-virtio-ccw.h  |  1 +
- include/hw/s390x/sclp.h             |  3 ++
- target/s390x/cpu.c                  | 23 +++++++++++++++
- target/s390x/cpu.h                  |  4 +++
- target/s390x/cpu_features.h         |  1 +
- target/s390x/cpu_features_def.inc.h |  3 ++
- target/s390x/cpu_models.c           |  1 +
- target/s390x/gen-features.c         |  1 +
- target/s390x/kvm-stub.c             | 10 +++++++
- target/s390x/kvm.c                  | 40 +++++++++++++++++++++++++
- target/s390x/kvm_s390x.h            |  2 ++
- 13 files changed, 139 insertions(+)
+So I think my initial suggestion[1] on the previous version is probably
+the way we should go.  Sorry!  OTOH, it would have been a nasty bug to
+find later, it's a subtle semantic that's easy to overlook.  Thanks,
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 45292fb5a8..9cc5f4cede 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -242,6 +242,40 @@ static void s390_create_sclpconsole(const char *type, Chardev *chardev)
-     qdev_init_nofail(dev);
- }
- 
-+static int diag_318_post_load(void *opaque, int version_id)
-+{
-+    S390CcwMachineState *d = opaque;
-+
-+    s390_set_diag_318_info(d->diag_318_info);
-+    return 0;
-+}
-+
-+static int diag_318_pre_save(void *opaque)
-+{
-+    S390CcwMachineState *d = opaque;
-+
-+    s390_get_diag_318_info(&d->diag_318_info);
-+    return 0;
-+}
-+
-+static bool diag_318_needed(void *opaque)
-+{
-+    return s390_diag_318_is_allowed();
-+}
-+
-+const VMStateDescription vmstate_diag_318 = {
-+    .name = "vmstate_diag_318",
-+    .post_load = diag_318_post_load,
-+    .pre_save = diag_318_pre_save,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = diag_318_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(diag_318_info, S390CcwMachineState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static void ccw_init(MachineState *machine)
- {
-     int ret;
-@@ -299,6 +333,8 @@ static void ccw_init(MachineState *machine)
- 
-     /* init the TOD clock */
-     s390_init_tod();
-+
-+    vmstate_register(NULL, 0, &vmstate_diag_318, machine);
- }
- 
- static void s390_cpu_plug(HotplugHandler *hotplug_dev,
-@@ -404,6 +440,13 @@ static void s390_pv_prepare_reset(S390CcwMachineState *ms)
-     s390_pv_perf_clear_reset();
- }
- 
-+static void s390_diag_318_reset(void)
-+{
-+    if (s390_diag_318_is_allowed()) {
-+        s390_set_diag_318_info(0);
-+    }
-+}
-+
- static void s390_machine_reset(MachineState *machine)
- {
-     S390CcwMachineState *ms = S390_CCW_MACHINE(machine);
-@@ -440,6 +483,7 @@ static void s390_machine_reset(MachineState *machine)
-         subsystem_reset();
-         s390_crypto_reset();
-         s390_pv_prepare_reset(ms);
-+        s390_diag_318_reset();
-         CPU_FOREACH(t) {
-             run_on_cpu(t, s390_do_cpu_full_reset, RUN_ON_CPU_NULL);
-         }
-@@ -452,6 +496,7 @@ static void s390_machine_reset(MachineState *machine)
-          */
-         subsystem_reset();
-         s390_pv_prepare_reset(ms);
-+        s390_diag_318_reset();
-         CPU_FOREACH(t) {
-             if (t == cs) {
-                 continue;
-diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index bde4c5420e..b55fa955c8 100644
---- a/hw/s390x/sclp.c
-+++ b/hw/s390x/sclp.c
-@@ -152,6 +152,11 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
-     s390_get_feat_block(S390_FEAT_TYPE_SCLP_CONF_CHAR_EXT,
-                          read_info->conf_char_ext);
- 
-+    if (s390_has_feat(S390_FEAT_EXTENDED_LENGTH_SCCB)) {
-+        s390_get_feat_block(S390_FEAT_TYPE_SCLP_FAC134,
-+                            &read_info->fac134);
-+    }
-+
-     read_info->facilities = cpu_to_be64(SCLP_HAS_CPU_INFO |
-                                         SCLP_HAS_IOA_RECONFIG);
- 
-diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-index cd1dccc6e3..c9bf7b7096 100644
---- a/include/hw/s390x/s390-virtio-ccw.h
-+++ b/include/hw/s390x/s390-virtio-ccw.h
-@@ -30,6 +30,7 @@ typedef struct S390CcwMachineState {
-     bool dea_key_wrap;
-     bool pv;
-     uint8_t loadparm[8];
-+    uint64_t diag_318_info;
- } S390CcwMachineState;
- 
- typedef struct S390CcwMachineClass {
-diff --git a/include/hw/s390x/sclp.h b/include/hw/s390x/sclp.h
-index ef2d63eae9..ccb9f0a676 100644
---- a/include/hw/s390x/sclp.h
-+++ b/include/hw/s390x/sclp.h
-@@ -133,6 +133,9 @@ typedef struct ReadInfo {
-     uint16_t highest_cpu;
-     uint8_t  _reserved5[124 - 122];     /* 122-123 */
-     uint32_t hmfai;
-+    uint8_t  _reserved7[134 - 128];     /* 128-133 */
-+    uint8_t  fac134;
-+    uint8_t  _reserved8[144 - 135];     /* 135-143 */
-     struct CPUEntry entries[];
- } QEMU_PACKED ReadInfo;
- 
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index f2ccf0a06a..367a54c173 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -446,6 +446,29 @@ void s390_enable_css_support(S390CPU *cpu)
-         kvm_s390_enable_css_support(cpu);
-     }
- }
-+
-+void s390_get_diag_318_info(uint64_t *info)
-+{
-+    if (kvm_enabled()) {
-+        kvm_s390_get_diag_318_info(info);
-+    }
-+}
-+
-+void s390_set_diag_318_info(uint64_t info)
-+{
-+    if (kvm_enabled()) {
-+        kvm_s390_set_diag_318_info(info);
-+    }
-+}
-+
-+bool s390_diag_318_is_allowed(void)
-+{
-+    if (kvm_enabled()) {
-+        return s390_has_feat(S390_FEAT_DIAG_318) &&
-+               s390_has_feat(S390_FEAT_EXTENDED_LENGTH_SCCB);
-+    }
-+    return false;
-+}
- #endif
- 
- static gchar *s390_gdb_arch_name(CPUState *cs)
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 035427521c..205738999e 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -769,6 +769,10 @@ void s390_cmma_reset(void);
- void s390_enable_css_support(S390CPU *cpu);
- int s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t sch_id,
-                                 int vq, bool assign);
-+void s390_get_diag_318_info(uint64_t *info);
-+void s390_set_diag_318_info(uint64_t info);
-+bool s390_diag_318_is_allowed(void);
-+
- #ifndef CONFIG_USER_ONLY
- unsigned int s390_cpu_set_state(uint8_t cpu_state, S390CPU *cpu);
- #else
-diff --git a/target/s390x/cpu_features.h b/target/s390x/cpu_features.h
-index da695a8346..f74f7fc3a1 100644
---- a/target/s390x/cpu_features.h
-+++ b/target/s390x/cpu_features.h
-@@ -23,6 +23,7 @@ typedef enum {
-     S390_FEAT_TYPE_STFL,
-     S390_FEAT_TYPE_SCLP_CONF_CHAR,
-     S390_FEAT_TYPE_SCLP_CONF_CHAR_EXT,
-+    S390_FEAT_TYPE_SCLP_FAC134,
-     S390_FEAT_TYPE_SCLP_CPU,
-     S390_FEAT_TYPE_MISC,
-     S390_FEAT_TYPE_PLO,
-diff --git a/target/s390x/cpu_features_def.inc.h b/target/s390x/cpu_features_def.inc.h
-index 3548d65a69..8c5bbfa0ea 100644
---- a/target/s390x/cpu_features_def.inc.h
-+++ b/target/s390x/cpu_features_def.inc.h
-@@ -122,6 +122,9 @@ DEF_FEAT(SIE_CMMA, "cmma", SCLP_CONF_CHAR_EXT, 1, "SIE: Collaborative-memory-man
- DEF_FEAT(SIE_PFMFI, "pfmfi", SCLP_CONF_CHAR_EXT, 9, "SIE: PFMF interpretation facility")
- DEF_FEAT(SIE_IBS, "ibs", SCLP_CONF_CHAR_EXT, 10, "SIE: Interlock-and-broadcast-suppression facility")
- 
-+/* Features exposed via SCLP SCCB Facilities byte 134 (bit numbers relative to byte-134) */
-+DEF_FEAT(DIAG_318, "diag_318", SCLP_FAC134, 0, "Control program name and version codes")
-+
- /* Features exposed via SCLP CPU info. */
- DEF_FEAT(SIE_F2, "sief2", SCLP_CPU, 4, "SIE: interception format 2 (Virtual SIE)")
- DEF_FEAT(SIE_SKEY, "skey", SCLP_CPU, 5, "SIE: Storage-key facility")
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 7c32180269..1d8fc76f7b 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -827,6 +827,7 @@ static void check_consistency(const S390CPUModel *model)
-         { S390_FEAT_PTFF_STOE, S390_FEAT_MULTIPLE_EPOCH },
-         { S390_FEAT_PTFF_STOUE, S390_FEAT_MULTIPLE_EPOCH },
-         { S390_FEAT_AP_QUEUE_INTERRUPT_CONTROL, S390_FEAT_AP },
-+        { S390_FEAT_DIAG_318, S390_FEAT_EXTENDED_LENGTH_SCCB },
-     };
-     int i;
- 
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index 6857f657fb..a1f0a6f3c6 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -523,6 +523,7 @@ static uint16_t full_GEN12_GA1[] = {
-     S390_FEAT_AP_FACILITIES_TEST,
-     S390_FEAT_AP,
-     S390_FEAT_EXTENDED_LENGTH_SCCB,
-+    S390_FEAT_DIAG_318,
- };
- 
- static uint16_t full_GEN12_GA2[] = {
-diff --git a/target/s390x/kvm-stub.c b/target/s390x/kvm-stub.c
-index aa185017a2..bb5c0d770a 100644
---- a/target/s390x/kvm-stub.c
-+++ b/target/s390x/kvm-stub.c
-@@ -120,3 +120,13 @@ void kvm_s390_stop_interrupt(S390CPU *cpu)
- void kvm_s390_restart_interrupt(S390CPU *cpu)
- {
- }
-+
-+int kvm_s390_get_diag_318_info(uint64_t *info)
-+{
-+    return 0;
-+}
-+
-+int kvm_s390_set_diag_318_info(uint64_t info)
-+{
-+    return 0;
-+}
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index 380fb81822..5d7dc60c85 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -105,6 +105,7 @@
- 
- #define DIAG_TIMEREVENT                 0x288
- #define DIAG_IPL                        0x308
-+#define DIAG_SET_CONTROL_PROGRAM_CODES  0x318
- #define DIAG_KVM_HYPERCALL              0x500
- #define DIAG_KVM_BREAKPOINT             0x501
- 
-@@ -814,6 +815,28 @@ int kvm_s390_set_clock_ext(uint8_t tod_high, uint64_t tod_low)
-     return kvm_vm_ioctl(kvm_state, KVM_SET_DEVICE_ATTR, &attr);
- }
- 
-+int kvm_s390_get_diag_318_info(uint64_t *info)
-+{
-+    struct kvm_device_attr attr = {
-+        .group = KVM_S390_VM_MISC,
-+        .attr = KVM_S390_VM_MISC_DIAG_318,
-+        .addr = (uint64_t)info,
-+    };
-+
-+    return kvm_vm_ioctl(kvm_state, KVM_GET_DEVICE_ATTR, &attr);
-+}
-+
-+int kvm_s390_set_diag_318_info(uint64_t info)
-+{
-+    struct kvm_device_attr attr = {
-+        .group = KVM_S390_VM_MISC,
-+        .attr = KVM_S390_VM_MISC_DIAG_318,
-+        .addr = (uint64_t)&info,
-+    };
-+
-+    return kvm_vm_ioctl(kvm_state, KVM_SET_DEVICE_ATTR, &attr);
-+}
-+
- /**
-  * kvm_s390_mem_op:
-  * @addr:      the logical start address in guest memory
-@@ -1601,6 +1624,14 @@ static int handle_sw_breakpoint(S390CPU *cpu, struct kvm_run *run)
-     return -ENOENT;
- }
- 
-+static void kvm_handle_diag_318(struct kvm_run *run)
-+{
-+    uint64_t reg = (run->s390_sieic.ipa & 0x00f0) >> 4;
-+    uint64_t info = run->s.regs.gprs[reg];
-+
-+    kvm_s390_set_diag_318_info(info);
-+}
-+
- #define DIAG_KVM_CODE_MASK 0x000000000000ffff
- 
- static int handle_diag(S390CPU *cpu, struct kvm_run *run, uint32_t ipb)
-@@ -1620,6 +1651,9 @@ static int handle_diag(S390CPU *cpu, struct kvm_run *run, uint32_t ipb)
-     case DIAG_IPL:
-         kvm_handle_diag_308(cpu, run);
-         break;
-+    case DIAG_SET_CONTROL_PROGRAM_CODES:
-+        kvm_handle_diag_318(run);
-+        break;
-     case DIAG_KVM_HYPERCALL:
-         r = handle_hypercall(cpu, run);
-         break;
-@@ -2460,6 +2494,12 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
-     /* Extended-Length SCCB is handled entirely within QEMU */
-     set_bit(S390_FEAT_EXTENDED_LENGTH_SCCB, model->features);
- 
-+    /* Allow diag 0x318 iff KVM supported and not in PV mode */
-+    if (!s390_is_pv() && kvm_vm_check_attr(kvm_state,
-+        KVM_S390_VM_MISC, KVM_S390_VM_MISC_DIAG_318)) {
-+        set_bit(S390_FEAT_DIAG_318, model->features);
-+    }
-+
-     /* strip of features that are not part of the maximum model */
-     bitmap_and(model->features, model->features, model->def->full_feat,
-                S390_FEAT_MAX);
-diff --git a/target/s390x/kvm_s390x.h b/target/s390x/kvm_s390x.h
-index 6ab17c81b7..a9123b3821 100644
---- a/target/s390x/kvm_s390x.h
-+++ b/target/s390x/kvm_s390x.h
-@@ -32,6 +32,8 @@ int kvm_s390_get_clock(uint8_t *tod_high, uint64_t *tod_clock);
- int kvm_s390_get_clock_ext(uint8_t *tod_high, uint64_t *tod_clock);
- int kvm_s390_set_clock(uint8_t tod_high, uint64_t tod_clock);
- int kvm_s390_set_clock_ext(uint8_t tod_high, uint64_t tod_clock);
-+int kvm_s390_get_diag_318_info(uint64_t *info);
-+int kvm_s390_set_diag_318_info(uint64_t info);
- void kvm_s390_enable_css_support(S390CPU *cpu);
- int kvm_s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t sch,
-                                     int vq, bool assign);
--- 
-2.21.3
+Alex
+
+[1]https://lore.kernel.org/kvm/20200514212720.479cc3ba@x1.home/
+
+> +		struct rb_node *n;
+> +
+> +		ret = update_user_bitmap(bitmap, dma, iova, pgsize);
+> +		if (ret)
+> +			return ret;
+> +
+> +		/*
+> +		 * Re-populate bitmap to include all pinned pages which are
+> +		 * considered as dirty but exclude pages which are unpinned and
+> +		 * pages which are marked dirty by vfio_dma_rw()
+> +		 */
+> +		bitmap_clear(dma->bitmap, 0, dma->size >> pgshift);
+> +		vfio_dma_populate_bitmap(dma, pgsize);
+> +
+> +		n = rb_next(&dma->node);
+> +		dma = rb_entry(n, struct vfio_dma, node);
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int verify_bitmap_size(uint64_t npages, uint64_t bitmap_size)
+> +{
+> +	if (!npages || !bitmap_size || (bitmap_size > DIRTY_BITMAP_SIZE_MAX) ||
+> +	    (bitmap_size < DIRTY_BITMAP_BYTES(npages)))
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+>  static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+>  			     struct vfio_iommu_type1_dma_unmap *unmap)
+>  {
+> @@ -1046,7 +1227,7 @@ static int vfio_dma_do_map(struct vfio_iommu *iommu,
+>  	unsigned long vaddr = map->vaddr;
+>  	size_t size = map->size;
+>  	int ret = 0, prot = 0;
+> -	uint64_t mask;
+> +	size_t pgsize;
+>  	struct vfio_dma *dma;
+>  
+>  	/* Verify that none of our __u64 fields overflow */
+> @@ -1061,11 +1242,11 @@ static int vfio_dma_do_map(struct vfio_iommu *iommu,
+>  
+>  	mutex_lock(&iommu->lock);
+>  
+> -	mask = ((uint64_t)1 << __ffs(iommu->pgsize_bitmap)) - 1;
+> +	pgsize = (size_t)1 << __ffs(iommu->pgsize_bitmap);
+>  
+> -	WARN_ON(mask & PAGE_MASK);
+> +	WARN_ON((pgsize - 1) & PAGE_MASK);
+>  
+> -	if (!prot || !size || (size | iova | vaddr) & mask) {
+> +	if (!prot || !size || (size | iova | vaddr) & (pgsize - 1)) {
+>  		ret = -EINVAL;
+>  		goto out_unlock;
+>  	}
+> @@ -1142,6 +1323,12 @@ static int vfio_dma_do_map(struct vfio_iommu *iommu,
+>  	else
+>  		ret = vfio_pin_map_dma(iommu, dma, size);
+>  
+> +	if (!ret && iommu->dirty_page_tracking) {
+> +		ret = vfio_dma_bitmap_alloc(dma, pgsize);
+> +		if (ret)
+> +			vfio_remove_dma(iommu, dma);
+> +	}
+> +
+>  out_unlock:
+>  	mutex_unlock(&iommu->lock);
+>  	return ret;
+> @@ -2288,6 +2475,104 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
+>  
+>  		return copy_to_user((void __user *)arg, &unmap, minsz) ?
+>  			-EFAULT : 0;
+> +	} else if (cmd == VFIO_IOMMU_DIRTY_PAGES) {
+> +		struct vfio_iommu_type1_dirty_bitmap dirty;
+> +		uint32_t mask = VFIO_IOMMU_DIRTY_PAGES_FLAG_START |
+> +				VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP |
+> +				VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP;
+> +		int ret = 0;
+> +
+> +		if (!iommu->v2)
+> +			return -EACCES;
+> +
+> +		minsz = offsetofend(struct vfio_iommu_type1_dirty_bitmap,
+> +				    flags);
+> +
+> +		if (copy_from_user(&dirty, (void __user *)arg, minsz))
+> +			return -EFAULT;
+> +
+> +		if (dirty.argsz < minsz || dirty.flags & ~mask)
+> +			return -EINVAL;
+> +
+> +		/* only one flag should be set at a time */
+> +		if (__ffs(dirty.flags) != __fls(dirty.flags))
+> +			return -EINVAL;
+> +
+> +		if (dirty.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_START) {
+> +			size_t pgsize;
+> +
+> +			mutex_lock(&iommu->lock);
+> +			pgsize = 1 << __ffs(iommu->pgsize_bitmap);
+> +			if (!iommu->dirty_page_tracking) {
+> +				ret = vfio_dma_bitmap_alloc_all(iommu, pgsize);
+> +				if (!ret)
+> +					iommu->dirty_page_tracking = true;
+> +			}
+> +			mutex_unlock(&iommu->lock);
+> +			return ret;
+> +		} else if (dirty.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP) {
+> +			mutex_lock(&iommu->lock);
+> +			if (iommu->dirty_page_tracking) {
+> +				iommu->dirty_page_tracking = false;
+> +				vfio_dma_bitmap_free_all(iommu);
+> +			}
+> +			mutex_unlock(&iommu->lock);
+> +			return 0;
+> +		} else if (dirty.flags &
+> +				 VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP) {
+> +			struct vfio_iommu_type1_dirty_bitmap_get range;
+> +			unsigned long pgshift;
+> +			size_t data_size = dirty.argsz - minsz;
+> +			size_t iommu_pgsize;
+> +
+> +			if (!data_size || data_size < sizeof(range))
+> +				return -EINVAL;
+> +
+> +			if (copy_from_user(&range, (void __user *)(arg + minsz),
+> +					   sizeof(range)))
+> +				return -EFAULT;
+> +
+> +			if (range.iova + range.size < range.iova)
+> +				return -EINVAL;
+> +			if (!access_ok((void __user *)range.bitmap.data,
+> +				       range.bitmap.size))
+> +				return -EINVAL;
+> +
+> +			pgshift = __ffs(range.bitmap.pgsize);
+> +			ret = verify_bitmap_size(range.size >> pgshift,
+> +						 range.bitmap.size);
+> +			if (ret)
+> +				return ret;
+> +
+> +			mutex_lock(&iommu->lock);
+> +
+> +			iommu_pgsize = (size_t)1 << __ffs(iommu->pgsize_bitmap);
+> +
+> +			/* allow only smallest supported pgsize */
+> +			if (range.bitmap.pgsize != iommu_pgsize) {
+> +				ret = -EINVAL;
+> +				goto out_unlock;
+> +			}
+> +			if (range.iova & (iommu_pgsize - 1)) {
+> +				ret = -EINVAL;
+> +				goto out_unlock;
+> +			}
+> +			if (!range.size || range.size & (iommu_pgsize - 1)) {
+> +				ret = -EINVAL;
+> +				goto out_unlock;
+> +			}
+> +
+> +			if (iommu->dirty_page_tracking)
+> +				ret = vfio_iova_dirty_bitmap(range.bitmap.data,
+> +						iommu, range.iova, range.size,
+> +						range.bitmap.pgsize);
+> +			else
+> +				ret = -EINVAL;
+> +out_unlock:
+> +			mutex_unlock(&iommu->lock);
+> +
+> +			return ret;
+> +		}
+>  	}
+>  
+>  	return -ENOTTY;
+> @@ -2355,10 +2640,19 @@ static int vfio_iommu_type1_dma_rw_chunk(struct vfio_iommu *iommu,
+>  
+>  	vaddr = dma->vaddr + offset;
+>  
+> -	if (write)
+> +	if (write) {
+>  		*copied = copy_to_user((void __user *)vaddr, data,
+>  					 count) ? 0 : count;
+> -	else
+> +		if (*copied && iommu->dirty_page_tracking) {
+> +			unsigned long pgshift = __ffs(iommu->pgsize_bitmap);
+> +			/*
+> +			 * Bitmap populated with the smallest supported page
+> +			 * size
+> +			 */
+> +			bitmap_set(dma->bitmap, offset >> pgshift,
+> +				   *copied >> pgshift);
+> +		}
+> +	} else
+>  		*copied = copy_from_user(data, (void __user *)vaddr,
+>  					   count) ? 0 : count;
+>  	if (kthread)
 
 
