@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D048D1D59B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 21:11:40 +0200 (CEST)
-Received: from localhost ([::1]:60012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13251D5A67
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 21:53:32 +0200 (CEST)
+Received: from localhost ([::1]:40564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZfkB-0006u4-SY
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 15:11:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55904)
+	id 1jZgOi-0007KR-2G
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 15:53:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jZfb2-0001t7-F3
- for qemu-devel@nongnu.org; Fri, 15 May 2020 15:02:12 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:45492)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jZgNB-0005vp-KY; Fri, 15 May 2020 15:51:58 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:43103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jZfb0-0001qb-EN
- for qemu-devel@nongnu.org; Fri, 15 May 2020 15:02:12 -0400
-Received: by mail-pf1-x443.google.com with SMTP id z26so1278030pfk.12
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 12:02:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2mkOApOfyovlkCqZcQYL+u8RzltlLvSt3FtUuezPUhI=;
- b=O5lH1nBkVtOJYEIyNRjztqyF3fWvtE1dWrHocclWOAJgF12s5fQb3+33mhtX8lbMwY
- /WtEuj8TnQ5tT5oZ3dIb3bNL5pVWoSvavi80FwzfDNOm65Gf7hK/aaBJfVKdfGL1adFI
- DahGUQKRVO3hPhISUK0PlPjSxQ7iuJWuHCq6dA06tE3EN6q7Dq6elwYMOR5mGDr8xeMs
- YpouBLsmPrUuTf5CvA+N8B7JRj64C60GIIzjkRV1EisecMRUzINk2IqWpHvJ3pB0SO+V
- 6KxUkkxMNrj2otVP7sMVqcNy2S2oNy4aj06ZmqLbE2Mnxl4fDgb+9dZSXPSPH4vEpI2b
- VoLg==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jZgN9-0006jV-AE; Fri, 15 May 2020 15:51:57 -0400
+Received: by mail-io1-xd42.google.com with SMTP id h10so3993471iob.10;
+ Fri, 15 May 2020 12:51:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=MNmWg2t7KThVT+pKhitNSuNJd3D9L1f+N1L6AiQvDPI=;
+ b=Y13T5NW2U88CMWQwWA1KoR0AM6kANNjm9SwtABV4+aEXnXa5d7GsU1wWEIsTsES/P5
+ MYMEOGL20w8g9GnboEQi6OjJyR/XonnmF3E12+z+ptvN2u+itOQRVwuTd6ftcJ0dVFKn
+ AT4Wj1CUrGus/rZrVSRLmLX25YWKsYPpLb+3LQ1XXQWyp0qwmUnN82y2B4a9TbEDfPht
+ +p6nKbfmi3OUVDkGNXYyjMDO5bFy5FOQfneNgGUTXW9AYEc8v21Que72iH+YZlw6OR4N
+ PibInbqWhP0XnA2MC5UV8LnYRTdf54RRWcWJMFI/8XIKLSCmFyz1WEEEJMat9OsD+AhW
+ 3vKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2mkOApOfyovlkCqZcQYL+u8RzltlLvSt3FtUuezPUhI=;
- b=MCorgNRERtOewIGrc8/LvqYHZrizFLbe4pebMITK0i/6PpM4JpEW+GcSBoXb/xALap
- 1SNp1TrEA2aNIkOGzrRZ8azFneiX4oMN9bUsUJ0FO8q/cdGYeIJOD6ZRUmuvTU2Ynrta
- 9W/EHfpNk/cBECE/TIYiFuDz4SZGu8UH2gfJC04kmRFwvx3ExeCxXFo71WXAJHkS2Kff
- j0SZY4X9CKFGCydapkslIUx5Ii8DcLJKc2fSFeXdgQ+EM5WJvF5zEC2fo6kJ6US94QUj
- 1o7iW+KNgUEG0f4RYBIali6gz5poeeO0vhf27Lp9B8xPiqTRj/roQoBTsJDODFFgP8ys
- zVxA==
-X-Gm-Message-State: AOAM530r2kP0g8GpJhbMcPK1IGd+dhI+Yj4VbK24/tEg3/jzJQPe5jSy
- jbq4IRc5/5HbIhRIMlj3fyXoy7UO16s=
-X-Google-Smtp-Source: ABdhPJyqvY8sLyijzRDQW2mVem7l5Z2U6wgE4BDMYl9ZTR+MhNGpteyn4Xpj5lFAyWfQzeDquwzMuw==
-X-Received: by 2002:a62:68c1:: with SMTP id d184mr5307519pfc.138.1589569328261; 
- Fri, 15 May 2020 12:02:08 -0700 (PDT)
-Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
- [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id q21sm2485719pfg.131.2020.05.15.12.02.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 12:02:07 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 10/10] softfloat: Return bool from all classification
- predicates
-Date: Fri, 15 May 2020 12:01:53 -0700
-Message-Id: <20200515190153.6017-11-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200515190153.6017-1-richard.henderson@linaro.org>
-References: <20200515190153.6017-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=MNmWg2t7KThVT+pKhitNSuNJd3D9L1f+N1L6AiQvDPI=;
+ b=IqfWhBH3euYEvolChWUtAAmL/RbFvq5N/UehF1NfFddAT2jclFjDWbvX8aCYpo6ciJ
+ Yji/aP2pFKMYmJfF/ohYcxb98ZbGKaiY9SHxhrjUsyEFeekDjkDa+ofK3v3XqPj/u6ox
+ lN05FsddjwKZpLjHVZbDqaP7bHRpzmhUyN14+Skwt4HKuYsj05ZDU3ESteGgQfDOilBs
+ WbDA0hufexd0fDgk7HIJZEDk6dskZpdczCCgy4haxdOtwxGTT1M0ELLJayWnSY0t4rAc
+ UPP73LtyWG8tgdEZSncQk3gTzxV7YSBu6ZpeLF0WtwSOy8EC1tEodqeF8/OKhF1llk6N
+ 3ySw==
+X-Gm-Message-State: AOAM531LaOXvlOECDmoJpIKgQaiyjEVQfzozjty/gaHHL5KGn4DGsvpL
+ KTbXLL5AcXEimf+yDn47w60YrdNlacU9Q+vHQCw=
+X-Google-Smtp-Source: ABdhPJxwhYJvIlkb+94asoeaAkykxLDniZq8oefc7EEAr9e0Or6ynYqz3i5GPnFuCH6rTKR62gz++JmqIb/4fByQTiw=
+X-Received: by 2002:a6b:bf83:: with SMTP id p125mr4491555iof.118.1589572313830; 
+ Fri, 15 May 2020 12:51:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+References: <cover.1588878756.git.alistair.francis@wdc.com>
+ <44d0486b0fd156a756af544866dd7d19609b1aa6.1588878756.git.alistair.francis@wdc.com>
+ <01168f32-c21c-b9fd-cb9c-06511e28bd20@redhat.com>
+ <CAKmqyKMwdBmZ8kdi0xp0kJ1sPrWSGYZ304ZY8G+4xK9yYQ3VKg@mail.gmail.com>
+ <CAEUhbmWWdDQfj8XBkWzDXkNdvcvEic8K23NuCpNyQdfxM4TxOg@mail.gmail.com>
+In-Reply-To: <CAEUhbmWWdDQfj8XBkWzDXkNdvcvEic8K23NuCpNyQdfxM4TxOg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 15 May 2020 12:43:04 -0700
+Message-ID: <CAKmqyKMOTnc9YX9adMyrQ5NnFZY5EZgyYYA_+23_ryWOtV92pQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/9] target/riscv: Don't overwrite the reset vector
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -86,309 +83,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This includes *_is_any_nan, *_is_neg, *_is_inf, etc.
+On Thu, May 14, 2020 at 9:54 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Fri, May 15, 2020 at 5:51 AM Alistair Francis <alistair23@gmail.com> w=
+rote:
+> >
+> > On Thu, May 14, 2020 at 10:54 AM Philippe Mathieu-Daud=C3=A9
+> > <philmd@redhat.com> wrote:
+> > >
+> > > On 5/7/20 9:13 PM, Alistair Francis wrote:
+> > > > If the reset vector is set in the init function don't set it again =
+in
+> > > > realise.
+> > >
+> > > typo "realize".
+> >
+> > It's not a typo, just correct English :)
+> >
+> > I have changed it.
+> >
+> > >
+> > > >
+> > > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > > > ---
+> > > >   target/riscv/cpu.c | 20 +++++++++++---------
+> > > >   1 file changed, 11 insertions(+), 9 deletions(-)
+> > > >
+> > > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > > > index 059d71f2c7..8f837edf8d 100644
+> > > > --- a/target/riscv/cpu.c
+> > > > +++ b/target/riscv/cpu.c
+> > > > @@ -111,6 +111,14 @@ static void set_feature(CPURISCVState *env, in=
+t feature)
+> > > >       env->features |=3D (1ULL << feature);
+> > > >   }
+> > > >
+> > > > +static int get_resetvec(CPURISCVState *env)
+> > > > +{
+> > > > +#ifndef CONFIG_USER_ONLY
+> > > > +    return env->resetvec;
+> > > > +#endif
+> > > > +    return 0;
+> > >
+> > > Don't you get an error about double return? Maybe use #else?
+> >
+> > Apparently not, I have changed it though.
+> >
+> > Alistair
+> >
+> > >
+> > > > +}
+> > > > +
+> > > >   static void set_resetvec(CPURISCVState *env, int resetvec)
+> > > >   {
+> > > >   #ifndef CONFIG_USER_ONLY
+> > > > @@ -123,7 +131,6 @@ static void riscv_any_cpu_init(Object *obj)
+> > > >       CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+> > > >       set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RV=
+U);
+> > > >       set_priv_version(env, PRIV_VERSION_1_11_0);
+> > > > -    set_resetvec(env, DEFAULT_RSTVEC);
+> > > >   }
+> > > >
+> > > >   #if defined(TARGET_RISCV32)
+> > > > @@ -140,7 +147,6 @@ static void rv32gcsu_priv1_09_1_cpu_init(Object=
+ *obj)
+> > > >       CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+> > > >       set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVD | RVC | RVS =
+| RVU);
+> > > >       set_priv_version(env, PRIV_VERSION_1_09_1);
+> > > > -    set_resetvec(env, DEFAULT_RSTVEC);
+> > > >       set_feature(env, RISCV_FEATURE_MMU);
+> > > >       set_feature(env, RISCV_FEATURE_PMP);
+> > > >   }
+> > > > @@ -150,7 +156,6 @@ static void rv32gcsu_priv1_10_0_cpu_init(Object=
+ *obj)
+> > > >       CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+> > > >       set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVD | RVC | RVS =
+| RVU);
+> > > >       set_priv_version(env, PRIV_VERSION_1_10_0);
+> > > > -    set_resetvec(env, DEFAULT_RSTVEC);
+> > > >       set_feature(env, RISCV_FEATURE_MMU);
+> > > >       set_feature(env, RISCV_FEATURE_PMP);
+> > > >   }
+> > > > @@ -160,7 +165,6 @@ static void rv32imacu_nommu_cpu_init(Object *ob=
+j)
+> > > >       CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+> > > >       set_misa(env, RV32 | RVI | RVM | RVA | RVC | RVU);
+> > > >       set_priv_version(env, PRIV_VERSION_1_10_0);
+> > > > -    set_resetvec(env, DEFAULT_RSTVEC);
+> > > >       set_feature(env, RISCV_FEATURE_PMP);
+> > > >   }
+> > > >
+> > > > @@ -169,7 +173,6 @@ static void rv32imafcu_nommu_cpu_init(Object *o=
+bj)
+> > > >       CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+> > > >       set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVC | RVU);
+> > > >       set_priv_version(env, PRIV_VERSION_1_10_0);
+> > > > -    set_resetvec(env, DEFAULT_RSTVEC);
+> > > >       set_feature(env, RISCV_FEATURE_PMP);
+> > > >   }
+> > > >
+> > > > @@ -187,7 +190,6 @@ static void rv64gcsu_priv1_09_1_cpu_init(Object=
+ *obj)
+> > > >       CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+> > > >       set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVS =
+| RVU);
+> > > >       set_priv_version(env, PRIV_VERSION_1_09_1);
+> > > > -    set_resetvec(env, DEFAULT_RSTVEC);
+> > > >       set_feature(env, RISCV_FEATURE_MMU);
+> > > >       set_feature(env, RISCV_FEATURE_PMP);
+> > > >   }
+> > > > @@ -197,7 +199,6 @@ static void rv64gcsu_priv1_10_0_cpu_init(Object=
+ *obj)
+> > > >       CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+> > > >       set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVS =
+| RVU);
+> > > >       set_priv_version(env, PRIV_VERSION_1_10_0);
+> > > > -    set_resetvec(env, DEFAULT_RSTVEC);
+> > > >       set_feature(env, RISCV_FEATURE_MMU);
+> > > >       set_feature(env, RISCV_FEATURE_PMP);
+> > > >   }
+> > > > @@ -207,7 +208,6 @@ static void rv64imacu_nommu_cpu_init(Object *ob=
+j)
+> > > >       CPURISCVState *env =3D &RISCV_CPU(obj)->env;
+> > > >       set_misa(env, RV64 | RVI | RVM | RVA | RVC | RVU);
+> > > >       set_priv_version(env, PRIV_VERSION_1_10_0);
+> > > > -    set_resetvec(env, DEFAULT_RSTVEC);
+> > > >       set_feature(env, RISCV_FEATURE_PMP);
+> > > >   }
+> > > >
+> > > > @@ -399,7 +399,9 @@ static void riscv_cpu_realize(DeviceState *dev,=
+ Error **errp)
+> > > >       }
+> > > >
+> > > >       set_priv_version(env, priv_version);
+> > > > -    set_resetvec(env, DEFAULT_RSTVEC);
+> > > > +    if (!get_resetvec(env)) {
+>
+> What if we have a RISC-V CPU whose reset vector is at address 0?
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/fpu/softfloat.h        | 66 +++++++++++++++++-----------------
- fpu/softfloat-specialize.inc.c | 16 ++++-----
- 2 files changed, 41 insertions(+), 41 deletions(-)
+That won't work then. I think if that happens we could swap to a
+negative number.
 
-diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index 37217d9b9b..16ca697a73 100644
---- a/include/fpu/softfloat.h
-+++ b/include/fpu/softfloat.h
-@@ -235,31 +235,31 @@ float16 float16_sqrt(float16, float_status *status);
- FloatRelation float16_compare(float16, float16, float_status *status);
- FloatRelation float16_compare_quiet(float16, float16, float_status *status);
- 
--int float16_is_quiet_nan(float16, float_status *status);
--int float16_is_signaling_nan(float16, float_status *status);
-+bool float16_is_quiet_nan(float16, float_status *status);
-+bool float16_is_signaling_nan(float16, float_status *status);
- float16 float16_silence_nan(float16, float_status *status);
- 
--static inline int float16_is_any_nan(float16 a)
-+static inline bool float16_is_any_nan(float16 a)
- {
-     return ((float16_val(a) & ~0x8000) > 0x7c00);
- }
- 
--static inline int float16_is_neg(float16 a)
-+static inline bool float16_is_neg(float16 a)
- {
-     return float16_val(a) >> 15;
- }
- 
--static inline int float16_is_infinity(float16 a)
-+static inline bool float16_is_infinity(float16 a)
- {
-     return (float16_val(a) & 0x7fff) == 0x7c00;
- }
- 
--static inline int float16_is_zero(float16 a)
-+static inline bool float16_is_zero(float16 a)
- {
-     return (float16_val(a) & 0x7fff) == 0;
- }
- 
--static inline int float16_is_zero_or_denormal(float16 a)
-+static inline bool float16_is_zero_or_denormal(float16 a)
- {
-     return (float16_val(a) & 0x7c00) == 0;
- }
-@@ -351,8 +351,8 @@ float32 float32_minnum(float32, float32, float_status *status);
- float32 float32_maxnum(float32, float32, float_status *status);
- float32 float32_minnummag(float32, float32, float_status *status);
- float32 float32_maxnummag(float32, float32, float_status *status);
--int float32_is_quiet_nan(float32, float_status *status);
--int float32_is_signaling_nan(float32, float_status *status);
-+bool float32_is_quiet_nan(float32, float_status *status);
-+bool float32_is_signaling_nan(float32, float_status *status);
- float32 float32_silence_nan(float32, float_status *status);
- float32 float32_scalbn(float32, int, float_status *status);
- 
-@@ -372,27 +372,27 @@ static inline float32 float32_chs(float32 a)
-     return make_float32(float32_val(a) ^ 0x80000000);
- }
- 
--static inline int float32_is_infinity(float32 a)
-+static inline bool float32_is_infinity(float32 a)
- {
-     return (float32_val(a) & 0x7fffffff) == 0x7f800000;
- }
- 
--static inline int float32_is_neg(float32 a)
-+static inline bool float32_is_neg(float32 a)
- {
-     return float32_val(a) >> 31;
- }
- 
--static inline int float32_is_zero(float32 a)
-+static inline bool float32_is_zero(float32 a)
- {
-     return (float32_val(a) & 0x7fffffff) == 0;
- }
- 
--static inline int float32_is_any_nan(float32 a)
-+static inline bool float32_is_any_nan(float32 a)
- {
-     return ((float32_val(a) & ~(1 << 31)) > 0x7f800000UL);
- }
- 
--static inline int float32_is_zero_or_denormal(float32 a)
-+static inline bool float32_is_zero_or_denormal(float32 a)
- {
-     return (float32_val(a) & 0x7f800000) == 0;
- }
-@@ -540,8 +540,8 @@ float64 float64_minnum(float64, float64, float_status *status);
- float64 float64_maxnum(float64, float64, float_status *status);
- float64 float64_minnummag(float64, float64, float_status *status);
- float64 float64_maxnummag(float64, float64, float_status *status);
--int float64_is_quiet_nan(float64 a, float_status *status);
--int float64_is_signaling_nan(float64, float_status *status);
-+bool float64_is_quiet_nan(float64 a, float_status *status);
-+bool float64_is_signaling_nan(float64, float_status *status);
- float64 float64_silence_nan(float64, float_status *status);
- float64 float64_scalbn(float64, int, float_status *status);
- 
-@@ -561,27 +561,27 @@ static inline float64 float64_chs(float64 a)
-     return make_float64(float64_val(a) ^ 0x8000000000000000LL);
- }
- 
--static inline int float64_is_infinity(float64 a)
-+static inline bool float64_is_infinity(float64 a)
- {
-     return (float64_val(a) & 0x7fffffffffffffffLL ) == 0x7ff0000000000000LL;
- }
- 
--static inline int float64_is_neg(float64 a)
-+static inline bool float64_is_neg(float64 a)
- {
-     return float64_val(a) >> 63;
- }
- 
--static inline int float64_is_zero(float64 a)
-+static inline bool float64_is_zero(float64 a)
- {
-     return (float64_val(a) & 0x7fffffffffffffffLL) == 0;
- }
- 
--static inline int float64_is_any_nan(float64 a)
-+static inline bool float64_is_any_nan(float64 a)
- {
-     return ((float64_val(a) & ~(1ULL << 63)) > 0x7ff0000000000000ULL);
- }
- 
--static inline int float64_is_zero_or_denormal(float64 a)
-+static inline bool float64_is_zero_or_denormal(float64 a)
- {
-     return (float64_val(a) & 0x7ff0000000000000LL) == 0;
- }
-@@ -708,7 +708,7 @@ static inline floatx80 floatx80_chs(floatx80 a)
-     return a;
- }
- 
--static inline int floatx80_is_infinity(floatx80 a)
-+static inline bool floatx80_is_infinity(floatx80 a)
- {
- #if defined(TARGET_M68K)
-     return (a.high & 0x7fff) == floatx80_infinity.high && !(a.low << 1);
-@@ -718,22 +718,22 @@ static inline int floatx80_is_infinity(floatx80 a)
- #endif
- }
- 
--static inline int floatx80_is_neg(floatx80 a)
-+static inline bool floatx80_is_neg(floatx80 a)
- {
-     return a.high >> 15;
- }
- 
--static inline int floatx80_is_zero(floatx80 a)
-+static inline bool floatx80_is_zero(floatx80 a)
- {
-     return (a.high & 0x7fff) == 0 && a.low == 0;
- }
- 
--static inline int floatx80_is_zero_or_denormal(floatx80 a)
-+static inline bool floatx80_is_zero_or_denormal(floatx80 a)
- {
-     return (a.high & 0x7fff) == 0;
- }
- 
--static inline int floatx80_is_any_nan(floatx80 a)
-+static inline bool floatx80_is_any_nan(floatx80 a)
- {
-     return ((a.high & 0x7fff) == 0x7fff) && (a.low<<1);
- }
-@@ -936,8 +936,8 @@ float128 float128_rem(float128, float128, float_status *status);
- float128 float128_sqrt(float128, float_status *status);
- FloatRelation float128_compare(float128, float128, float_status *status);
- FloatRelation float128_compare_quiet(float128, float128, float_status *status);
--int float128_is_quiet_nan(float128, float_status *status);
--int float128_is_signaling_nan(float128, float_status *status);
-+bool float128_is_quiet_nan(float128, float_status *status);
-+bool float128_is_signaling_nan(float128, float_status *status);
- float128 float128_silence_nan(float128, float_status *status);
- float128 float128_scalbn(float128, int, float_status *status);
- 
-@@ -953,22 +953,22 @@ static inline float128 float128_chs(float128 a)
-     return a;
- }
- 
--static inline int float128_is_infinity(float128 a)
-+static inline bool float128_is_infinity(float128 a)
- {
-     return (a.high & 0x7fffffffffffffffLL) == 0x7fff000000000000LL && a.low == 0;
- }
- 
--static inline int float128_is_neg(float128 a)
-+static inline bool float128_is_neg(float128 a)
- {
-     return a.high >> 63;
- }
- 
--static inline int float128_is_zero(float128 a)
-+static inline bool float128_is_zero(float128 a)
- {
-     return (a.high & 0x7fffffffffffffffLL) == 0 && a.low == 0;
- }
- 
--static inline int float128_is_zero_or_denormal(float128 a)
-+static inline bool float128_is_zero_or_denormal(float128 a)
- {
-     return (a.high & 0x7fff000000000000LL) == 0;
- }
-@@ -983,7 +983,7 @@ static inline bool float128_is_denormal(float128 a)
-     return float128_is_zero_or_denormal(a) && !float128_is_zero(a);
- }
- 
--static inline int float128_is_any_nan(float128 a)
-+static inline bool float128_is_any_nan(float128 a)
- {
-     return ((a.high >> 48) & 0x7fff) == 0x7fff &&
-         ((a.low != 0) || ((a.high & 0xffffffffffffLL) != 0));
-diff --git a/fpu/softfloat-specialize.inc.c b/fpu/softfloat-specialize.inc.c
-index 025ee4f991..44f5b661f8 100644
---- a/fpu/softfloat-specialize.inc.c
-+++ b/fpu/softfloat-specialize.inc.c
-@@ -245,7 +245,7 @@ typedef struct {
- | NaN; otherwise returns 0.
- *----------------------------------------------------------------------------*/
- 
--int float16_is_quiet_nan(float16 a_, float_status *status)
-+bool float16_is_quiet_nan(float16 a_, float_status *status)
- {
- #ifdef NO_SIGNALING_NANS
-     return float16_is_any_nan(a_);
-@@ -264,7 +264,7 @@ int float16_is_quiet_nan(float16 a_, float_status *status)
- | NaN; otherwise returns 0.
- *----------------------------------------------------------------------------*/
- 
--int float16_is_signaling_nan(float16 a_, float_status *status)
-+bool float16_is_signaling_nan(float16 a_, float_status *status)
- {
- #ifdef NO_SIGNALING_NANS
-     return 0;
-@@ -283,7 +283,7 @@ int float16_is_signaling_nan(float16 a_, float_status *status)
- | NaN; otherwise returns 0.
- *----------------------------------------------------------------------------*/
- 
--int float32_is_quiet_nan(float32 a_, float_status *status)
-+bool float32_is_quiet_nan(float32 a_, float_status *status)
- {
- #ifdef NO_SIGNALING_NANS
-     return float32_is_any_nan(a_);
-@@ -302,7 +302,7 @@ int float32_is_quiet_nan(float32 a_, float_status *status)
- | NaN; otherwise returns 0.
- *----------------------------------------------------------------------------*/
- 
--int float32_is_signaling_nan(float32 a_, float_status *status)
-+bool float32_is_signaling_nan(float32 a_, float_status *status)
- {
- #ifdef NO_SIGNALING_NANS
-     return 0;
-@@ -637,7 +637,7 @@ static float32 propagateFloat32NaN(float32 a, float32 b, float_status *status)
- | NaN; otherwise returns 0.
- *----------------------------------------------------------------------------*/
- 
--int float64_is_quiet_nan(float64 a_, float_status *status)
-+bool float64_is_quiet_nan(float64 a_, float_status *status)
- {
- #ifdef NO_SIGNALING_NANS
-     return float64_is_any_nan(a_);
-@@ -657,7 +657,7 @@ int float64_is_quiet_nan(float64 a_, float_status *status)
- | NaN; otherwise returns 0.
- *----------------------------------------------------------------------------*/
- 
--int float64_is_signaling_nan(float64 a_, float_status *status)
-+bool float64_is_signaling_nan(float64 a_, float_status *status)
- {
- #ifdef NO_SIGNALING_NANS
-     return 0;
-@@ -939,7 +939,7 @@ floatx80 propagateFloatx80NaN(floatx80 a, floatx80 b, float_status *status)
- | NaN; otherwise returns 0.
- *----------------------------------------------------------------------------*/
- 
--int float128_is_quiet_nan(float128 a, float_status *status)
-+bool float128_is_quiet_nan(float128 a, float_status *status)
- {
- #ifdef NO_SIGNALING_NANS
-     return float128_is_any_nan(a);
-@@ -959,7 +959,7 @@ int float128_is_quiet_nan(float128 a, float_status *status)
- | signaling NaN; otherwise returns 0.
- *----------------------------------------------------------------------------*/
- 
--int float128_is_signaling_nan(float128 a, float_status *status)
-+bool float128_is_signaling_nan(float128 a, float_status *status)
- {
- #ifdef NO_SIGNALING_NANS
-     return 0;
--- 
-2.20.1
+Alistair
 
+>
+> > > > +        set_resetvec(env, DEFAULT_RSTVEC);
+> > > > +    }
+> > > >
+> > > >       if (cpu->cfg.mmu) {
+> > > >           set_feature(env, RISCV_FEATURE_MMU);
+> > > >
+>
+> Regards,
+> Bin
 
