@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FBF1D4912
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:08:04 +0200 (CEST)
-Received: from localhost ([::1]:40604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73FBB1D4926
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:11:18 +0200 (CEST)
+Received: from localhost ([::1]:51834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZWK3-0001Hb-Tu
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:08:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33114)
+	id 1jZWNB-0006lr-HN
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:11:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZWIw-0008Qx-Jc
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:06:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28811
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jZWJt-0001sp-Dd
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:07:53 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51458
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZWIu-0002OR-Oo
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:06:54 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jZWJs-0002bH-6C
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:07:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589533611;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1589533671;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sowM/9j+kZRiSKGXQzqV+PxmhTxns9/+DtpFll6HMhk=;
- b=SnnwY5t+LkMBusDRlvSKW3FxUncdspVFplsmLcQ4ReN/4FjlpjCrDsDMm1xkUTDBx4U4KA
- ko+BBKsr1Lnbo9HaVvjqArSaDlk/tjPSgTZaNj3eg68w8I6bPlAEYtOwdjGhjYiEf56mVP
- 3p9JJP7VSibsF5ChhY5mto8MMyISL7A=
+ bh=toinD8APpyYyt8XHgVoPf2uYY850fQma58DTX381JZ0=;
+ b=AzRDZqrGwuOpZLiB1OT1uKLopnDuPNlNu56N7UdGOq/Oa6iGMKqm+8Dmmqtvaan5wKEyCS
+ yqAO9XoP5unlnzWRyOqSIbCcvWmA2P25Ex54rBMMKvCvpduovRnFlipa/OPKkcLtnphJZw
+ 327YwC17DFDff9o+bZ5yYLVfWE0enhI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-4mrLz4OTOSuJS-3PO_cNxA-1; Fri, 15 May 2020 05:06:50 -0400
-X-MC-Unique: 4mrLz4OTOSuJS-3PO_cNxA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-159-USqnez2SPYuRTT4qBYlpJg-1; Fri, 15 May 2020 05:07:49 -0400
+X-MC-Unique: USqnez2SPYuRTT4qBYlpJg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3440C80183C;
- Fri, 15 May 2020 09:06:49 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-115-145.ams2.redhat.com
- [10.36.115.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C5C951001B2C;
- Fri, 15 May 2020 09:06:48 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E692116E16; Fri, 15 May 2020 11:06:47 +0200 (CEST)
-Date: Fri, 15 May 2020 11:06:47 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: proposal: deprecate -readconfig/-writeconfig
-Message-ID: <20200515090647.hpeok5f57cf2oos5@sirius.home.kraxel.org>
-References: <7599153e-89a2-9a86-16ad-4a3c6a107b18@redhat.com>
- <20200514085622.GB1280939@redhat.com>
- <56379563-c1f3-3270-f9ac-5bdd49b324aa@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EB111906802;
+ Fri, 15 May 2020 09:07:48 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 97ECB46;
+ Fri, 15 May 2020 09:07:39 +0000 (UTC)
+Date: Fri, 15 May 2020 10:07:36 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: xiaoqiang zhao <zxq_yx_007@163.com>
+Subject: Re: [PATCH v5 2/3] tests/util-sockets: add abstract unix socket cases
+Message-ID: <20200515090736.GD1300305@redhat.com>
+References: <20200515090608.5373-1-zxq_yx_007@163.com>
+ <20200515090608.5373-3-zxq_yx_007@163.com>
 MIME-Version: 1.0
-In-Reply-To: <56379563-c1f3-3270-f9ac-5bdd49b324aa@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200515090608.5373-3-zxq_yx_007@163.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 23:27:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:39:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,44 +83,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ armbru@redhat.com, kraxel@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
-
-> Sometimes I feel like a broken and impartial solution is really worse
-> than having none. If we don't truly support the read/write config
-> options, we shouldn't pretend that we do.
+On Fri, May 15, 2020 at 05:06:07PM +0800, xiaoqiang zhao wrote:
+> add cases to test tight and non-tight for abstract address type
 > 
-> Funneling users back to using the CLI is likely the better thing, even
-> with no replacement.
-> 
-> I realize this is a pretty hostile thing to do in general, though, but
-> it might truly be the kinder option to start simplifying and unifying
-> configuration, documentation, and support efforts.
-> 
-> We don't have to actually remove it right away, either.
+> Signed-off-by: xiaoqiang zhao <zxq_yx_007@163.com>
+> ---
+>  tests/test-util-sockets.c | 92 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 92 insertions(+)
 
-Removing doesn't buy us much as long as both cli and -readconfig are
-using QemuOpts as backend.  -readconfig itself isn't that much code
-after all, it is just an alternative way to feed QemuOpts.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-I see -readconfig getting into the way when moving from QemuOpts to
-something else (with proper tree support) though.
 
-> We can just start sounding the alarms that we're preparing to remove
-> it, and falling back to using the CLI would be a safe thing to do for
-> now.
-
-Yes, we should start sounding the alarms (aka deprecate it).  Not sure
-"fallback to cli" is a good recommendation though, I suspect that might
-not stay compatible either.
-
-take care,
-  Gerd
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
