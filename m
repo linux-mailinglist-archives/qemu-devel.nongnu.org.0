@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9931D4E72
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 15:07:07 +0200 (CEST)
-Received: from localhost ([::1]:40040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 378451D4E46
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 14:59:15 +0200 (CEST)
+Received: from localhost ([::1]:36934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZa3O-0007lW-3A
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 09:07:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45772)
+	id 1jZZvm-00029H-8H
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 08:59:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjF-0002zA-9G
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29764
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjC-0002sV-IV
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22893
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZj9-0002KT-47
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:16 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZj9-0002LK-Vg
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589546770;
+ s=mimecast20190719; t=1589546771;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NbJfsYfo07GaMxBwWalEQHpvwpMDYTD/7dFv2WLaHhQ=;
- b=QKhdvCtPQHP8NzXPfKTDk3uxyVCDx7uFrUwcxBsAq/+p5dtbbMLhpnxpto/TuXA4AEoqaJ
- MsypIyBajZDq2sHHKtsgHBHBQVt3WnAnKBT9+HdNENL2dAI0CHE3yWuD06V+maR3sllXkl
- u0COnEQ+pSmCnENJ4QhWtwXcKQeg+z0=
+ bh=zQUje6L++K+HCykTJZlsV1fOYXQaL1kXm8P3kuauhOk=;
+ b=T4cQsXthTPpRXsbHzMC4aYtSIvWTAX+A3XIlnegbWRSTno0pcuTcoN0g5v08u9t5ZteOHG
+ 1jd7zUsZCdUFIEHbq07UygnDtbBwqcQNaFzfT4ObUJoWExeq37UZ4hBF6Y/okDpYSdIZKp
+ ER/XiwAiNqhDG9eF/ZdBvxHPzFRtlhY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-MGC3ZNoHPOitsbqmGZPFsQ-1; Fri, 15 May 2020 08:46:07 -0400
-X-MC-Unique: MGC3ZNoHPOitsbqmGZPFsQ-1
+ us-mta-348-To8sZwWdM2a5n2HkH0-flA-1; Fri, 15 May 2020 08:46:08 -0400
+X-MC-Unique: To8sZwWdM2a5n2HkH0-flA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87078801503;
- Fri, 15 May 2020 12:46:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C959CA0BD7;
+ Fri, 15 May 2020 12:46:07 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-110.ams2.redhat.com
  [10.36.113.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8EFA12E024;
- Fri, 15 May 2020 12:46:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D0A262E024;
+ Fri, 15 May 2020 12:46:06 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 24/51] block: Unify bdrv_child_cb_attach()
-Date: Fri, 15 May 2020 14:44:54 +0200
-Message-Id: <20200515124521.335403-25-kwolf@redhat.com>
+Subject: [PULL 25/51] block: Unify bdrv_child_cb_detach()
+Date: Fri, 15 May 2020 14:44:55 +0200
+Message-Id: <20200515124521.335403-26-kwolf@redhat.com>
 In-Reply-To: <20200515124521.335403-1-kwolf@redhat.com>
 References: <20200515124521.335403-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -84,19 +84,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-Make bdrv_child_cb_attach() call bdrv_backing_attach() for children with
-a COW role (and drop the reverse call from bdrv_backing_attach()), so it
+Make bdrv_child_cb_detach() call bdrv_backing_detach() for children with
+a COW role (and drop the reverse call from bdrv_backing_detach()), so it
 can be used for any child (with a proper role set).
 
 Because so far no child has a proper role set, we need a temporary new
-callback for child_backing.attach that ensures bdrv_backing_attach() is
+callback for child_backing.detach that ensures bdrv_backing_detach() is
 called for all COW children that do not have their role set yet.
 
-(Also, move bdrv_child_cb_attach() down to group it with
-bdrv_inherited_options().)
+(Also, move bdrv_child_cb_detach() down to group it with
+bdrv_inherited_options() and bdrv_child_cb_attach().)
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200513110544.176672-13-mreitz@redhat.com>
+Message-Id: <20200513110544.176672-14-mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
@@ -104,67 +104,67 @@ Signed-off-by: Kevin Wolf <kwolf@redhat.com>
  1 file changed, 20 insertions(+), 7 deletions(-)
 
 diff --git a/block.c b/block.c
-index b3b978a092..755704a54c 100644
+index 755704a54c..f63417c06d 100644
 --- a/block.c
 +++ b/block.c
-@@ -84,6 +84,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
- static void bdrv_inherited_options(BdrvChildRole role, bool parent_is_format,
+@@ -85,6 +85,7 @@ static void bdrv_inherited_options(BdrvChildRole role, bool parent_is_format,
                                     int *child_flags, QDict *child_options,
                                     int parent_flags, QDict *parent_options);
-+static void bdrv_child_cb_attach(BdrvChild *child);
+ static void bdrv_child_cb_attach(BdrvChild *child);
++static void bdrv_child_cb_detach(BdrvChild *child);
  
  /* If non-zero, use only whitelisted block drivers */
  static int use_bdrv_whitelist;
-@@ -1099,12 +1100,6 @@ static void bdrv_child_cb_drained_end(BdrvChild *child,
+@@ -1100,12 +1101,6 @@ static void bdrv_child_cb_drained_end(BdrvChild *child,
      bdrv_drained_end_no_poll(bs, drained_end_counter);
  }
  
--static void bdrv_child_cb_attach(BdrvChild *child)
+-static void bdrv_child_cb_detach(BdrvChild *child)
 -{
 -    BlockDriverState *bs = child->opaque;
--    bdrv_apply_subtree_drain(child, bs);
+-    bdrv_unapply_subtree_drain(child, bs);
 -}
 -
- static void bdrv_child_cb_detach(BdrvChild *child)
+ static int bdrv_child_cb_inactivate(BdrvChild *child)
  {
      BlockDriverState *bs = child->opaque;
-@@ -1252,7 +1247,14 @@ static void bdrv_backing_attach(BdrvChild *c)
-                     parent->backing_blocker);
-     bdrv_op_unblock(backing_hd, BLOCK_OP_TYPE_BACKUP_TARGET,
-                     parent->backing_blocker);
+@@ -1266,7 +1261,14 @@ static void bdrv_backing_detach(BdrvChild *c)
+     bdrv_op_unblock_all(c->bs, parent->backing_blocker);
+     error_free(parent->backing_blocker);
+     parent->backing_blocker = NULL;
 +}
  
 +/* XXX: Will be removed along with child_backing */
-+static void bdrv_child_cb_attach_backing(BdrvChild *c)
++static void bdrv_child_cb_detach_backing(BdrvChild *c)
 +{
 +    if (!(c->role & BDRV_CHILD_COW)) {
-+        bdrv_backing_attach(c);
++        bdrv_backing_detach(c);
 +    }
-     bdrv_child_cb_attach(c);
+     bdrv_child_cb_detach(c);
  }
  
-@@ -1311,7 +1313,7 @@ static int bdrv_backing_update_filename(BdrvChild *c, BlockDriverState *base,
- const BdrvChildClass child_backing = {
+@@ -1314,7 +1316,7 @@ const BdrvChildClass child_backing = {
      .parent_is_bds   = true,
      .get_parent_desc = bdrv_child_get_parent_desc,
--    .attach          = bdrv_backing_attach,
-+    .attach          = bdrv_child_cb_attach_backing,
-     .detach          = bdrv_backing_detach,
+     .attach          = bdrv_child_cb_attach_backing,
+-    .detach          = bdrv_backing_detach,
++    .detach          = bdrv_child_cb_detach_backing,
      .inherit_options = bdrv_backing_options,
      .drained_begin   = bdrv_child_cb_drained_begin,
-@@ -1403,6 +1405,17 @@ static void bdrv_inherited_options(BdrvChildRole role, bool parent_is_format,
-     *child_flags = flags;
+     .drained_poll    = bdrv_child_cb_drained_poll,
+@@ -1416,6 +1418,17 @@ static void bdrv_child_cb_attach(BdrvChild *child)
+     bdrv_apply_subtree_drain(child, bs);
  }
  
-+static void bdrv_child_cb_attach(BdrvChild *child)
++static void bdrv_child_cb_detach(BdrvChild *child)
 +{
 +    BlockDriverState *bs = child->opaque;
 +
 +    if (child->role & BDRV_CHILD_COW) {
-+        bdrv_backing_attach(child);
++        bdrv_backing_detach(child);
 +    }
 +
-+    bdrv_apply_subtree_drain(child, bs);
++    bdrv_unapply_subtree_drain(child, bs);
 +}
 +
  static int bdrv_open_flags(BlockDriverState *bs, int flags)
