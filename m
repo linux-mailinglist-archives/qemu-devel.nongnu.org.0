@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7151D4E88
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 15:12:14 +0200 (CEST)
-Received: from localhost ([::1]:34948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40F111D4F36
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 15:26:46 +0200 (CEST)
+Received: from localhost ([::1]:49594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZa8L-0000oC-SW
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 09:12:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49198)
+	id 1jZaMO-0005HS-SA
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 09:26:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jZa77-0007Z1-Jq
- for qemu-devel@nongnu.org; Fri, 15 May 2020 09:10:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56308)
+ id 1jZaLQ-0004iA-E5
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 09:25:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jZa72-0008WR-AS
- for qemu-devel@nongnu.org; Fri, 15 May 2020 09:10:56 -0400
+ id 1jZaLO-0002tM-LI
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 09:25:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jZa6z-00012j-Si
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 13:10:49 +0000
+ id 1jZaLL-0002m9-Nj
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 13:25:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D83E52E8106
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 13:10:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AAC402E80E7
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 13:25:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 May 2020 13:04:06 -0000
-From: Jan Klos <1856335@bugs.launchpad.net>
+Date: Fri, 15 May 2020 13:18:47 -0000
+From: felix <1878915@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: floppy io-uring
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger janklos
-X-Launchpad-Bug-Reporter: Damir (djdatte)
-X-Launchpad-Bug-Modifier: Jan Klos (janklos)
-References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
-Message-Id: <158954784628.22688.13180815967368048776.malone@gac.canonical.com>
-Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Bug-Commenters: felix.von.s
+X-Launchpad-Bug-Reporter: felix (felix.von.s)
+X-Launchpad-Bug-Modifier: felix (felix.von.s)
+Message-Id: <158954872808.31513.13433748579796760766.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1878915] [NEW] util/fdmon-io_uring.c:95: get_sqe: Assertion `ret
+ > 1' failed.
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1f5d26f7d35f0eb7adfb1fe0799e6b326aa471c5
+X-Launchpad-Hash: f4f994827e19f62b36b8d82db621c8af8cf99479
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 09:10:50
@@ -72,76 +73,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
+Reply-To: Bug 1878915 <1878915@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A workaround for Linux VMs is to disable CPUs (and setting their
-number/pinnings accordingly, e.g. every 4th (and 3rd for 3100) core is
-going to be 'dummy' and disabled system-wide) by e.g. echo 0 >
-/sys/devices/system/cpu/cpu3/online
+Public bug reported:
 
-No good workaround for Windows VMs exists, as far as I know - the best
-you can do is setting affinity to specific process(es) and avoid the
-'dummy' CPUs, but I am not aware of any possibility to disable specific
-CPUs (only limiting the overall number).
+qemu 5.0.0, liburing1 0.6-3, Linux 5.6.0-1-686-pae (Debian)
+
+Stack trace:
+
+                Stack trace of thread 31002:
+                #0  0x00000000b7faf1cd __kernel_vsyscall (linux-gate.so.1 +=
+ 0x11cd)
+                #1  0x00000000b6c618e2 __libc_signal_restore_set (libc.so.6=
+ + 0x348e2)
+                #2  0x00000000b6c4a309 __GI_abort (libc.so.6 + 0x1d309)
+                #3  0x00000000b6c4a1d1 __assert_fail_base (libc.so.6 + 0x1d=
+1d1)
+                #4  0x00000000b6c59929 __GI___assert_fail (libc.so.6 + 0x2c=
+929)
+                #5  0x0000000000ba80be get_sqe (qemu-system-i386 + 0x6d00be)
+                #6  0x0000000000ba80cb add_poll_add_sqe (qemu-system-i386 +=
+ 0x6d00cb)
+                #7  0x0000000000ba820c fill_sq_ring (qemu-system-i386 + 0x6=
+d020c)
+                #8  0x0000000000ba7145 aio_poll (qemu-system-i386 + 0x6cf14=
+5)
+                #9  0x0000000000aede63 blk_prw (qemu-system-i386 + 0x615e63)
+                #10 0x0000000000aeef95 blk_pread (qemu-system-i386 + 0x616f=
+95)
+                #11 0x00000000008abbfa fdctrl_transfer_handler (qemu-system=
+-i386 + 0x3d3bfa)
+                #12 0x0000000000906c3d i8257_channel_run (qemu-system-i386 =
++ 0x42ec3d)
+                #13 0x00000000008ac119 fdctrl_start_transfer (qemu-system-i=
+386 + 0x3d4119)
+                #14 0x00000000008ab233 fdctrl_write_data (qemu-system-i386 =
++ 0x3d3233)
+                #15 0x0000000000708ae7 memory_region_write_accessor (qemu-s=
+ystem-i386 + 0x230ae7)
+                #16 0x00000000007059e1 access_with_adjusted_size (qemu-syst=
+em-i386 + 0x22d9e1)
+                #17 0x000000000070b931 memory_region_dispatch_write (qemu-s=
+ystem-i386 + 0x233931)
+                #18 0x00000000006a87a2 address_space_stb (qemu-system-i386 =
++ 0x1d07a2)
+                #19 0x0000000000829216 helper_outb (qemu-system-i386 + 0x35=
+1216)
+                #20 0x00000000b06d9fdc n/a (n/a + 0x0)
+
+Steps:
+
+0. qemu-img create -f raw fda.img 3840K
+1. mformat -i fda.img -n 48 -t 80 -h 2
+2. qemu-system-i386 -fda fda.img -hda freedos.qcow2
+3. Attempt to run 'dosfsck a:' in the guest
+
+According to hw/block/fdc.c, a 3840K image should result in a virtual
+floppy with a geometry of 48 sectors/track x 80 tracks x 2 sides.
+
+The assert seems bogus either way.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: floppy io-uring
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1856335
+https://bugs.launchpad.net/bugs/1878915
 
 Title:
-  Cache Layout wrong on many Zen Arch CPUs
+  util/fdmon-io_uring.c:95: get_sqe: Assertion `ret > 1' failed.
 
 Status in QEMU:
   New
 
 Bug description:
-  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
-  to always map Cache ass if it was an 4-Core per CCX CPU, which is
-  incorrect, and costs upwards 30% performance (more realistically 10%)
-  in L3 Cache Layout aware applications.
+  qemu 5.0.0, liburing1 0.6-3, Linux 5.6.0-1-686-pae (Debian)
 
-  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
+  Stack trace:
 
-  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
-  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
-  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
-  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
-/>
+                  Stack trace of thread 31002:
+                  #0  0x00000000b7faf1cd __kernel_vsyscall (linux-gate.so.1=
+ + 0x11cd)
+                  #1  0x00000000b6c618e2 __libc_signal_restore_set (libc.so=
+.6 + 0x348e2)
+                  #2  0x00000000b6c4a309 __GI_abort (libc.so.6 + 0x1d309)
+                  #3  0x00000000b6c4a1d1 __assert_fail_base (libc.so.6 + 0x=
+1d1d1)
+                  #4  0x00000000b6c59929 __GI___assert_fail (libc.so.6 + 0x=
+2c929)
+                  #5  0x0000000000ba80be get_sqe (qemu-system-i386 + 0x6d00=
+be)
+                  #6  0x0000000000ba80cb add_poll_add_sqe (qemu-system-i386=
+ + 0x6d00cb)
+                  #7  0x0000000000ba820c fill_sq_ring (qemu-system-i386 + 0=
+x6d020c)
+                  #8  0x0000000000ba7145 aio_poll (qemu-system-i386 + 0x6cf=
+145)
+                  #9  0x0000000000aede63 blk_prw (qemu-system-i386 + 0x615e=
+63)
+                  #10 0x0000000000aeef95 blk_pread (qemu-system-i386 + 0x61=
+6f95)
+                  #11 0x00000000008abbfa fdctrl_transfer_handler (qemu-syst=
+em-i386 + 0x3d3bfa)
+                  #12 0x0000000000906c3d i8257_channel_run (qemu-system-i38=
+6 + 0x42ec3d)
+                  #13 0x00000000008ac119 fdctrl_start_transfer (qemu-system=
+-i386 + 0x3d4119)
+                  #14 0x00000000008ab233 fdctrl_write_data (qemu-system-i38=
+6 + 0x3d3233)
+                  #15 0x0000000000708ae7 memory_region_write_accessor (qemu=
+-system-i386 + 0x230ae7)
+                  #16 0x00000000007059e1 access_with_adjusted_size (qemu-sy=
+stem-i386 + 0x22d9e1)
+                  #17 0x000000000070b931 memory_region_dispatch_write (qemu=
+-system-i386 + 0x233931)
+                  #18 0x00000000006a87a2 address_space_stb (qemu-system-i38=
+6 + 0x1d07a2)
+                  #19 0x0000000000829216 helper_outb (qemu-system-i386 + 0x=
+351216)
+                  #20 0x00000000b06d9fdc n/a (n/a + 0x0)
 
-  In windows, coreinfo reports correctly:
+  Steps:
 
-  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
-  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+  0. qemu-img create -f raw fda.img 3840K
+  1. mformat -i fda.img -n 48 -t 80 -h 2
+  2. qemu-system-i386 -fda fda.img -hda freedos.qcow2
+  3. Attempt to run 'dosfsck a:' in the guest
 
-  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+  According to hw/block/fdc.c, a 3840K image should result in a virtual
+  floppy with a geometry of 48 sectors/track x 80 tracks x 2 sides.
 
-  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
-  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
-  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
-  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
-/>
-
-  in windows, coreinfo reports incorrectly:
-
-  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
-  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
-
-  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
-
-  With newer Qemu there is a fix (that does behave correctly) in using the =
-dies parameter:
-  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
-
-  The problem is that the dies are exposed differently than how AMD does
-  it natively, they are exposed to Windows as sockets, which means, that
-  if you are nto a business user, you can't ever have a machine with
-  more than two CCX (6 cores) as consumer versions of Windows only
-  supports two sockets. (Should this be reported as a separate bug?)
+  The assert seems bogus either way.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1878915/+subscriptions
 
