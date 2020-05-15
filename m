@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86ABB1D5340
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:09:31 +0200 (CEST)
-Received: from localhost ([::1]:54598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A6C1D531F
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:06:26 +0200 (CEST)
+Received: from localhost ([::1]:38860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZbxq-0001le-KD
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:09:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48480)
+	id 1jZbur-0003VQ-Ti
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:06:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbt8-0000mA-F6
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:04:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56383
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbtB-0000tc-D9
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:04:41 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28163
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbt5-00018r-9b
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:04:38 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbt8-0001AP-Ua
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:04:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589555074;
+ s=mimecast20190719; t=1589555078;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=gBG7LrfwAL4cryPqRpV45mOpYU3w0HF0GbF0spNmgnM=;
- b=CobNjj3OPNXCKlGx1ssQQFfitvJv8s7aijbXE4VbULHLPQeYno8Cl1pPMgJgm2hchdt/fU
- 1OUDy9JXTgBYw6QkFKI8LiVwSatHsbTAXHyk1klDjYrNQNuTYvtqIv6rvHjw0Kh+OGDaYD
- coXH8RCfKkIFFwES3SqQH8l9qVEZ30M=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=foNkHA+57C8hCWs9pOB8vuBqZW3F3LtDqLJKbN856Hs=;
+ b=RAcvWRmv+F5o3ZJ1x9FCFJErynWUeanp2eahKZf9XIO+GxBA90LERq+WzwtMeoP4FQavNZ
+ gSv9QYbu+muvMWBJgyv8ydc5JjA0TYidWF0WffiiKURDkPLKu8R6eFCSjEA6EsJ3lDvlh4
+ d9j0uCwBLF8g+fH2R/a96rx0kKrkqoA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-erpIuB-2P2OqrCUiyXrq7g-1; Fri, 15 May 2020 11:04:32 -0400
-X-MC-Unique: erpIuB-2P2OqrCUiyXrq7g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-253-Yoemo9llOYaYLcfpb-p4_A-1; Fri, 15 May 2020 11:04:34 -0400
+X-MC-Unique: Yoemo9llOYaYLcfpb-p4_A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E78D1899536;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 415C8801503;
  Fri, 15 May 2020 15:04:31 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-115-145.ams2.redhat.com
  [10.36.115.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82D5B5C1D6;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7315960C05;
  Fri, 15 May 2020 15:04:22 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9CE3C9D55; Fri, 15 May 2020 17:04:21 +0200 (CEST)
+ id A78969D56; Fri, 15 May 2020 17:04:21 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 01/16] qtest: allow DSDT acpi table changes
-Date: Fri, 15 May 2020 17:04:06 +0200
-Message-Id: <20200515150421.25479-2-kraxel@redhat.com>
+Subject: [PATCH v6 02/16] acpi: move aml builder code for rtc device
+Date: Fri, 15 May 2020 17:04:07 +0200
+Message-Id: <20200515150421.25479-3-kraxel@redhat.com>
 In-Reply-To: <20200515150421.25479-1-kraxel@redhat.com>
 References: <20200515150421.25479-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 22:56:02
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:39:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,33 +91,95 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ hw/i386/acpi-build.c | 17 -----------------
+ hw/rtc/mc146818rtc.c | 22 ++++++++++++++++++++++
+ 2 files changed, 22 insertions(+), 17 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8bf4..6a052c50447a 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,18 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.numamem",
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 2e15f6848e7e..0bfa2dd23fcc 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1137,22 +1137,6 @@ static Aml *build_fdc_device_aml(ISADevice *fdc)
+     return dev;
+ }
+ 
+-static Aml *build_rtc_device_aml(void)
+-{
+-    Aml *dev;
+-    Aml *crs;
+-
+-    dev = aml_device("RTC");
+-    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0B00")));
+-    crs = aml_resource_template();
+-    aml_append(crs, aml_io(AML_DECODE16, 0x0070, 0x0070, 0x10, 0x02));
+-    aml_append(crs, aml_irq_no_flags(8));
+-    aml_append(crs, aml_io(AML_DECODE16, 0x0072, 0x0072, 0x02, 0x06));
+-    aml_append(dev, aml_name_decl("_CRS", crs));
+-
+-    return dev;
+-}
+-
+ static Aml *build_kbd_device_aml(void)
+ {
+     Aml *dev;
+@@ -1278,7 +1262,6 @@ static void build_isa_devices_aml(Aml *table)
+     Aml *scope = aml_scope("_SB.PCI0.ISA");
+     Object *obj = object_resolve_path_type("", TYPE_ISA_BUS, &ambiguous);
+ 
+-    aml_append(scope, build_rtc_device_aml());
+     aml_append(scope, build_kbd_device_aml());
+     aml_append(scope, build_mouse_device_aml());
+     if (fdc) {
+diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+index 9c30cbdcd76f..fe05a4488e43 100644
+--- a/hw/rtc/mc146818rtc.c
++++ b/hw/rtc/mc146818rtc.c
+@@ -27,6 +27,7 @@
+ #include "qemu/cutils.h"
+ #include "qemu/module.h"
+ #include "qemu/bcd.h"
++#include "hw/acpi/aml-build.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
+ #include "qemu/timer.h"
+@@ -1007,13 +1008,34 @@ static void rtc_resetdev(DeviceState *d)
+     }
+ }
+ 
++static void rtc_build_aml(ISADevice *isadev, Aml *scope)
++{
++    Aml *dev;
++    Aml *crs;
++
++    crs = aml_resource_template();
++    aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE, RTC_ISA_BASE,
++                           0x10, 0x02));
++    aml_append(crs, aml_irq_no_flags(RTC_ISA_IRQ));
++    aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE + 2, RTC_ISA_BASE + 2,
++                           0x02, 0x06));
++
++    dev = aml_device("RTC");
++    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0B00")));
++    aml_append(dev, aml_name_decl("_CRS", crs));
++
++    aml_append(scope, dev);
++}
++
+ static void rtc_class_initfn(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
++    ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
+ 
+     dc->realize = rtc_realizefn;
+     dc->reset = rtc_resetdev;
+     dc->vmsd = &vmstate_rtc;
++    isa->build_aml = rtc_build_aml;
+     device_class_set_props(dc, mc146818rtc_properties);
+ }
+ 
 -- 
 2.18.4
 
