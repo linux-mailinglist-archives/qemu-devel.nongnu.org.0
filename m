@@ -2,50 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708AD1D4338
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 03:47:47 +0200 (CEST)
-Received: from localhost ([::1]:57774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 635E51D4342
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 03:57:00 +0200 (CEST)
+Received: from localhost ([::1]:36856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZPRx-0001gv-Uj
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 21:47:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56356)
+	id 1jZPat-0007ph-FS
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 21:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhang.zhanghailiang@huawei.com>)
- id 1jZPQL-0001De-C0
- for qemu-devel@nongnu.org; Thu, 14 May 2020 21:46:05 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2463 helo=huawei.com)
+ id 1jZPXu-0005LW-TM
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 21:53:55 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2464 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhang.zhanghailiang@huawei.com>)
- id 1jZPQH-0000eQ-3p
- for qemu-devel@nongnu.org; Thu, 14 May 2020 21:46:04 -0400
-Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.56])
- by Forcepoint Email with ESMTP id 4F300955AC5EDF789CB7;
- Fri, 15 May 2020 09:45:53 +0800 (CST)
-Received: from dggeme758-chm.china.huawei.com (10.3.19.104) by
- DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Fri, 15 May 2020 09:45:53 +0800
+ id 1jZPXs-0002Br-Nt
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 21:53:54 -0400
+Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.55])
+ by Forcepoint Email with ESMTP id 56A93B4B24A8271EB811;
+ Fri, 15 May 2020 09:53:46 +0800 (CST)
+Received: from dggeme707-chm.china.huawei.com (10.1.199.103) by
+ DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Fri, 15 May 2020 09:53:45 +0800
 Received: from dggeme756-chm.china.huawei.com (10.3.19.102) by
- dggeme758-chm.china.huawei.com (10.3.19.104) with Microsoft SMTP Server
+ dggeme707-chm.china.huawei.com (10.1.199.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Fri, 15 May 2020 09:45:52 +0800
+ 15.1.1913.5; Fri, 15 May 2020 09:53:45 +0800
 Received: from dggeme756-chm.china.huawei.com ([10.6.80.68]) by
  dggeme756-chm.china.huawei.com ([10.6.80.68]) with mapi id 15.01.1913.007;
- Fri, 15 May 2020 09:45:52 +0800
+ Fri, 15 May 2020 09:53:45 +0800
 From: Zhanghailiang <zhang.zhanghailiang@huawei.com>
-To: Lukas Straub <lukasstraub2@web.de>
+To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
 Subject: RE: [PATCH 6/6] migration/colo.c: Move colo_notify_compares_event to
  the right place
 Thread-Topic: [PATCH 6/6] migration/colo.c: Move colo_notify_compares_event to
  the right place
-Thread-Index: AQHWJ4TiQj+MPkHLC0679rdb0mOVNainlUqg//+OKYCAAUAHIA==
-Date: Fri, 15 May 2020 01:45:52 +0000
-Message-ID: <4980bdc049ec41c5bb5995a0c8a9ffed@huawei.com>
+Thread-Index: AQHWJ4TiQj+MPkHLC0679rdb0mOVNaioaEFg
+Date: Fri, 15 May 2020 01:53:45 +0000
+Message-ID: <83f2527cd875414cb7529a210e87a4be@huawei.com>
 References: <cover.1589193382.git.lukasstraub2@web.de>
  <d4555dd5146a54518c4d9d4efd996b7c745c6687.1589193382.git.lukasstraub2@web.de>
- <f2ea9b8ff1824a09ae8837625d6ac3f5@huawei.com>
- <20200514163105.14d7b97d@luklap>
-In-Reply-To: <20200514163105.14d7b97d@luklap>
+In-Reply-To: <d4555dd5146a54518c4d9d4efd996b7c745c6687.1589193382.git.lukasstraub2@web.de>
 Accept-Language: zh-CN, en-US
 Content-Language: zh-CN
 X-MS-Has-Attach: 
@@ -77,112 +75,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Reviewed-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
+
 > -----Original Message-----
 > From: Lukas Straub [mailto:lukasstraub2@web.de]
-> Sent: Thursday, May 14, 2020 10:31 PM
-> To: Zhanghailiang <zhang.zhanghailiang@huawei.com>
-> Cc: qemu-devel <qemu-devel@nongnu.org>; Zhang Chen
-> <chen.zhang@intel.com>; Juan Quintela <quintela@redhat.com>; Dr. David
-> Alan Gilbert <dgilbert@redhat.com>
-> Subject: Re: [PATCH 6/6] migration/colo.c: Move
-> colo_notify_compares_event to the right place
+> Sent: Monday, May 11, 2020 7:11 PM
+> To: qemu-devel <qemu-devel@nongnu.org>
+> Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>; Juan Quintela
+> <quintela@redhat.com>; Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Subject: [PATCH 6/6] migration/colo.c: Move colo_notify_compares_event
+> to the right place
 >=20
-> On Thu, 14 May 2020 13:27:30 +0000
-> Zhanghailiang <zhang.zhanghailiang@huawei.com> wrote:
+> If the secondary has to failover during checkpointing, it still is in the=
+ old state
+> (i.e. different state than primary). Thus we can't expose the primary sta=
+te
+> until after the checkpoint is sent.
 >=20
-> > Cc: Zhang Chen <chen.zhang@intel.com>
-> >
-> > >
-> > > If the secondary has to failover during checkpointing, it still is
-> > > in the old state (i.e. different state than primary). Thus we can't
-> > > expose the primary state until after the checkpoint is sent.
-> > >
-> >
-> > Hmm, do you mean we should not flush the net packages to client
-> > connection until checkpointing Process almost success because it may fa=
-il
-> during checkpointing ?
+> This fixes sporadic connection reset of client connections during failove=
+r.
 >=20
-> No.
-> If the primary fails/crashes during checkpointing, the secondary is still=
- in
-> different state than the primary because it didn't receive the full check=
-point.
-> We can release the miscompared packets only after both primary and
-> secondary are in the same state.
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> ---
+>  migration/colo.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 >=20
-> Example:
-> 1. Client opens a TCP connection, sends SYN.
-> 2. Primary accepts the connection with SYN-ACK, but due to
-> nondeterministic execution the secondary is delayed.
-> 3. Checkpoint happens, primary releases the SYN-ACK packet but then
-> crashes while sending the checkpoint.
-> 4. The Secondary fails over. At this point it is still in the old state w=
-here it
-> hasn't sent the SYN-ACK packet.
-> 5. The client responds with ACK to the SYN-ACK packet.
-> 6. Because it doesn't know the connection, the secondary responds with RS=
-T,
-> connection reset.
+> diff --git a/migration/colo.c b/migration/colo.c index
+> a69782efc5..a3fc21e86e 100644
+> --- a/migration/colo.c
+> +++ b/migration/colo.c
+> @@ -430,12 +430,6 @@ static int
+> colo_do_checkpoint_transaction(MigrationState *s,
+>          goto out;
+>      }
 >=20
-
-Good example. For this patch, it is OK, I will add reviewed-by in your orig=
-in patch.
-
-
-> Regards,
-> Lukas Straub
->=20
-> > > This fixes sporadic connection reset of client connections during fai=
-lover.
-> > >
-> > > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> > > ---
-> > >  migration/colo.c | 12 ++++++------
-> > >  1 file changed, 6 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/migration/colo.c b/migration/colo.c index
-> > > a69782efc5..a3fc21e86e 100644
-> > > --- a/migration/colo.c
-> > > +++ b/migration/colo.c
-> > > @@ -430,12 +430,6 @@ static int
-> > > colo_do_checkpoint_transaction(MigrationState *s,
-> > >          goto out;
-> > >      }
-> > >
-> > > -    qemu_event_reset(&s->colo_checkpoint_event);
-> > > -    colo_notify_compares_event(NULL, COLO_EVENT_CHECKPOINT,
-> > > &local_err);
-> > > -    if (local_err) {
-> > > -        goto out;
-> > > -    }
-> > > -
-> > >      /* Disable block migration */
-> > >      migrate_set_block_enabled(false, &local_err);
-> > >      qemu_mutex_lock_iothread();
-> > > @@ -494,6 +488,12 @@ static int
-> > > colo_do_checkpoint_transaction(MigrationState *s,
-> > >          goto out;
-> > >      }
-> > >
-> > > +    qemu_event_reset(&s->colo_checkpoint_event);
-> > > +    colo_notify_compares_event(NULL, COLO_EVENT_CHECKPOINT,
-> > > &local_err);
-> > > +    if (local_err) {
-> > > +        goto out;
-> > > +    }
-> > > +
-> > >      colo_receive_check_message(s->rp_state.from_dst_file,
-> > >                         COLO_MESSAGE_VMSTATE_LOADED,
+> -    qemu_event_reset(&s->colo_checkpoint_event);
+> -    colo_notify_compares_event(NULL, COLO_EVENT_CHECKPOINT,
 > &local_err);
-> > >      if (local_err) {
-> > > --
-> > > 2.20.1
-
+> -    if (local_err) {
+> -        goto out;
+> -    }
+> -
+>      /* Disable block migration */
+>      migrate_set_block_enabled(false, &local_err);
+>      qemu_mutex_lock_iothread();
+> @@ -494,6 +488,12 @@ static int
+> colo_do_checkpoint_transaction(MigrationState *s,
+>          goto out;
+>      }
+>=20
+> +    qemu_event_reset(&s->colo_checkpoint_event);
+> +    colo_notify_compares_event(NULL, COLO_EVENT_CHECKPOINT,
+> &local_err);
+> +    if (local_err) {
+> +        goto out;
+> +    }
+> +
+>      colo_receive_check_message(s->rp_state.from_dst_file,
+>                         COLO_MESSAGE_VMSTATE_LOADED, &local_err);
+>      if (local_err) {
+> --
+> 2.20.1
 
