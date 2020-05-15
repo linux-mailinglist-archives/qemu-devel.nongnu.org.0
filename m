@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083891D50E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:38:01 +0200 (CEST)
-Received: from localhost ([::1]:49708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8CB1D50FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:39:58 +0200 (CEST)
+Received: from localhost ([::1]:58218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZbTM-0008Lg-2h
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:38:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41984)
+	id 1jZbVF-0003iR-4O
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:39:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbR9-0004Ee-VM
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40233
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbRB-0004H8-V5
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35172
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbR8-0007vg-Ak
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:43 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbRA-0007wE-QH
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589553340;
+ s=mimecast20190719; t=1589553344;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=37LvxLEStsPq8dQsyYA2FCR0LK/zZf/zIWI+ZIX2i1Q=;
- b=ZQUcvIS9ergfhn0EBsDIz8vBgtZk61TBclW4oQxaoqXhy1QdbBhgOjhHXF+qgH14IQ4dXC
- TUNGQmoQottjaXP/8RcYtempujliR1euX9/mLgUNSzpWjEXML86ovpTNi9JXBo+NZ+Jjlb
- kl5hy6Uym4Vf5X8GFHcgL3kmtgGrXU8=
+ bh=OmcZB/3f1J5kbTiAqV773hRmE+pXsUs3yHQfmUAD/cw=;
+ b=bHOPYYFTjrFhmOXxFivJaHOQ1u1esSxs9OuXdDk7T1pKStybN4YtqXQghzCuYcbd+Wzljg
+ L0kQmGxnRA7T1FFV6+yETK2ruFZPomQuCMdfP7eLqCwvLxAGuXnkc30qFoZAQoeGbWsjtG
+ STJ5chGtw0URpfB+cY29nx0F7nUoaQQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-GllhGMHRO0yZ13_QELF4Qg-1; Fri, 15 May 2020 10:35:38 -0400
-X-MC-Unique: GllhGMHRO0yZ13_QELF4Qg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-352-j0mp-hdoNM6Z14xENyJvWg-1; Fri, 15 May 2020 10:35:39 -0400
+X-MC-Unique: j0mp-hdoNM6Z14xENyJvWg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36D748018A6
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 14:35:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2BD9107ACCA
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 14:35:38 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-115-145.ams2.redhat.com
  [10.36.115.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D3F121024873;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 033265D9F1;
  Fri, 15 May 2020 14:35:29 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C7EC217477; Fri, 15 May 2020 16:35:28 +0200 (CEST)
+ id D21231750A; Fri, 15 May 2020 16:35:28 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/13] stubs: add isa_create_simple
-Date: Fri, 15 May 2020 16:35:16 +0200
-Message-Id: <20200515143528.13591-2-kraxel@redhat.com>
+Subject: [PATCH v2 02/13] stubs: add pci_create_simple
+Date: Fri, 15 May 2020 16:35:17 +0200
+Message-Id: <20200515143528.13591-3-kraxel@redhat.com>
 In-Reply-To: <20200515143528.13591-1-kraxel@redhat.com>
 References: <20200515143528.13591-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -92,36 +92,36 @@ Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- stubs/isa-bus.c     | 7 +++++++
+ stubs/pci-bus.c     | 7 +++++++
  stubs/Makefile.objs | 1 +
  2 files changed, 8 insertions(+)
- create mode 100644 stubs/isa-bus.c
+ create mode 100644 stubs/pci-bus.c
 
-diff --git a/stubs/isa-bus.c b/stubs/isa-bus.c
+diff --git a/stubs/pci-bus.c b/stubs/pci-bus.c
 new file mode 100644
-index 000000000000..522f448997d4
+index 000000000000..a8932fa93250
 --- /dev/null
-+++ b/stubs/isa-bus.c
++++ b/stubs/pci-bus.c
 @@ -0,0 +1,7 @@
 +#include "qemu/osdep.h"
-+#include "hw/isa/isa.h"
++#include "hw/pci/pci.h"
 +
-+ISADevice *isa_create_simple(ISABus *bus, const char *name)
++PCIDevice *pci_create_simple(PCIBus *bus, int devfn, const char *name)
 +{
 +    g_assert_not_reached();
 +}
 diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 45be5dc0ed78..c61ff38cc801 100644
+index c61ff38cc801..5e7f2b3f061e 100644
 --- a/stubs/Makefile.objs
 +++ b/stubs/Makefile.objs
-@@ -13,6 +13,7 @@ stub-obj-y += get-vm-name.o
- stub-obj-y += iothread.o
- stub-obj-y += iothread-lock.o
- stub-obj-y += is-daemonized.o
-+stub-obj-y += isa-bus.o
- stub-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
- stub-obj-$(CONFIG_LINUX_IO_URING) += io_uring.o
- stub-obj-y += machine-init-done.o
+@@ -40,6 +40,7 @@ stub-obj-y += target-get-monitor-def.o
+ stub-obj-y += vmgenid.o
+ stub-obj-y += xen-common.o
+ stub-obj-y += xen-hvm.o
++stub-obj-y += pci-bus.o
+ stub-obj-y += pci-host-piix.o
+ stub-obj-y += ram-block.o
+ stub-obj-y += ramfb.o
 -- 
 2.18.4
 
