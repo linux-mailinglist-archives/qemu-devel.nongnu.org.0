@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F7B1D57DF
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 19:29:43 +0200 (CEST)
-Received: from localhost ([::1]:33366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB051D57F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 19:31:27 +0200 (CEST)
+Received: from localhost ([::1]:39464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZe9W-0005LL-L9
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 13:29:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45140)
+	id 1jZeBC-00082z-8C
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 13:31:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jZe8S-0003Zt-IV
- for qemu-devel@nongnu.org; Fri, 15 May 2020 13:28:36 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41952)
+ id 1jZe8T-0003da-Hb
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 13:28:37 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jZe8R-00016a-OX
- for qemu-devel@nongnu.org; Fri, 15 May 2020 13:28:36 -0400
-Received: by mail-wr1-x441.google.com with SMTP id h17so4426555wrc.8
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 10:28:35 -0700 (PDT)
+ id 1jZe8S-00016h-JM
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 13:28:37 -0400
+Received: by mail-wm1-x344.google.com with SMTP id f134so3105251wmf.1
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 10:28:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mvfZ9b5X++pjGPlHODQLP+73HAFs/zH+An8fEoHT3r0=;
- b=IeIkiApfP6i+lGX3MJNMI4e/b36mNVFBzOue+cc6pwEx31lVWwqxADFGK8fSh27jiQ
- QPcgcv6qhwczA5pakRhLeWcrnZ/CQCcQ21l4qcDoUwXilNfqNT19+XlMj4Yo38gcPlDt
- DRovQ7jRJ+Ik4ToPWqkSawOcZT0bw4kqpAGQrvuxWtIPDow2QywmPTXWKutXuJ+BKZo3
- 0LZv8Kpdx7LHBiJpJit0HF/X6bBNGvXl7x895D6GSl35vNw/RBErMn8ZED7g+ZmNFiMJ
- OR3zw+kJMULqpM16KO7/bumHev9PV/Y2MXJw0CSy72BXkQTj/Q2iq8R2M4qcC7wpCGj3
- Y9xg==
+ bh=oAW6sgDCW3rYyrQQOtrgET+T55ELTqidNtOcxJc+4ts=;
+ b=KNaJlWa9a6GnBklC4PpfVmmUjSoXkRASJWRMaupy20+GdkDDtDnC8ybwV9Pn1BsizB
+ APR22yy4FshshFCpV6Tctl/vt1UfA7iDM2Wv0n7m9IvBm0SIvIVdov9gOacb5UKbKEfK
+ jS+Jq5+8HoqPGSjUsvsUaA1cjCj6HTolEgoWBeqjiLkGkEVsCs4VJoq/IJNRT8q25Dzp
+ kn/YD2UF3TEDbsGX34pnrLAw6RBf61oD+3M8jzLqNEYx50pVjFNgl9Mdn+4BtLsEI4qW
+ 5musrPLiu2TXnBcXnXek7LV/SS9Ww/i/wSo+iUO6m+YivLj/OWNfyjxcEJDciUt724K5
+ Fz5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mvfZ9b5X++pjGPlHODQLP+73HAFs/zH+An8fEoHT3r0=;
- b=IUuusz+9r1WoLu1QlLH+s78X8nq04mQMSMesDf0LUF1/65TAe0P7kPUojE3DG1NSlQ
- vSVrpjQqeFnm6VS8lisUQ7Eq1h/mMXCaQeCQxju/8d/vZgqohOumsKawj4fYzsQdimZg
- xL1WLjeF5NnEMkh1gM3z5KrN79nljt127cKSItLGIk4QH4+lMps1wfmbB31Z+5WLVKNR
- lYs8ezwORLUsjmWFb4EWuDSDi18lB91y4dda5LJzoAY/ej9C7ouTxoTYT5PQC5QEwHjz
- P1mcFYWZOtwSaNJl12PLW6EyBRy9Pqe+k1Kzti8uw4J3IuVKc27lt+jUAYzRbj1IptYb
- fC8Q==
-X-Gm-Message-State: AOAM531+VJju4TRC+ESlRBO9Y8dfA59kIRDstz+v3gPoT3E48d/iS3oM
- PpxiZFHV+JBVlXhfjUUVxJDiBq5y0OY=
-X-Google-Smtp-Source: ABdhPJwjorA+SUg5VRXOkorgGRrlK+QIT0kZIaKRdvIDyTtM9VmTOkAObxFtMtJm3DOSR176oYTxtQ==
-X-Received: by 2002:a5d:4041:: with SMTP id w1mr5355182wrp.245.1589563714314; 
- Fri, 15 May 2020 10:28:34 -0700 (PDT)
+ bh=oAW6sgDCW3rYyrQQOtrgET+T55ELTqidNtOcxJc+4ts=;
+ b=sUJrZz8xOoURhs2dtaO/aEon6NHeLL1rVIBD9s7+/M73UPPk35Zdve9zn9RJwb4PFr
+ L0atcbZ8W7Orkn8d8mg2zTTyuqTo/TvmIwMm4wDe052eQa/gLK71XAss/AH2Qb2A1I8F
+ LkezTBuhkz/E11TIwZiffVVBDRn7NpXyDCUQF6Lzb/MVFzx3xM/mZcDGgseDHxHsIlTj
+ R4VwD6DljcQxD4Wwi3IML4WxJl2HYyyMT5m33t86ZWBlqPaT25d38gssv1xLUzLmdJqk
+ KKXm0UNLtGunWXLVtvIUBi2+LCnPgUhIJPQrvuP8EyWZE4/AbD+eax3T0VwmCCPPRG77
+ A6mg==
+X-Gm-Message-State: AOAM532vJbCrmWEc+NwyUQfAALW4n26/zvpAWAA9LJtKlpkI5XXm4EUF
+ UcL3X18hG1hKGtnkuFBuj7oZjQ==
+X-Google-Smtp-Source: ABdhPJwlwl+yaIIPe6mzsSmv8As/CCF/BtKiwYx/SmQ/9zAwDCjz8vxt2Mdyqy50mwi/k1jQDLHW0g==
+X-Received: by 2002:a1c:6142:: with SMTP id v63mr4858146wmb.61.1589563715184; 
+ Fri, 15 May 2020 10:28:35 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o26sm4716722wro.83.2020.05.15.10.28.31
+ by smtp.gmail.com with ESMTPSA id w9sm5372491wrc.27.2020.05.15.10.28.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 15 May 2020 10:28:31 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4849E1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 613731FF8C;
  Fri, 15 May 2020 18:28:31 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 1/2] configure: add alternate binary for genisoimage
-Date: Fri, 15 May 2020 18:28:30 +0100
-Message-Id: <20200515172831.8439-2-alex.bennee@linaro.org>
+Subject: [PATCH  v1 2/2] tests/vm: pass --genisoimage to basevm script
+Date: Fri, 15 May 2020 18:28:31 +0100
+Message-Id: <20200515172831.8439-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200515172831.8439-1-alex.bennee@linaro.org>
 References: <20200515172831.8439-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,33 +88,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  robert.foley@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not all distros ship genisoimage which is a Debian fork from the
-original cdrtools. As the options are pretty much the same support it
-as a fallback binary.
+If we have an alternative to genisoimage we really need to tell the
+script about it as well so it can use it. It will still default to
+genisoimage in case it is run outside our build machinery.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/vm/Makefile.include |  1 +
+ tests/vm/basevm.py        | 16 ++++++++++------
+ 2 files changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/configure b/configure
-index 26084fc53ad..a574250524f 100755
---- a/configure
-+++ b/configure
-@@ -941,7 +941,7 @@ done
+diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+index 1bf9693d195..74ab522c55d 100644
+--- a/tests/vm/Makefile.include
++++ b/tests/vm/Makefile.include
+@@ -56,6 +56,7 @@ $(IMAGES_DIR)/%.img:	$(SRC_PATH)/tests/vm/% \
+ 	$(call quiet-command, \
+ 		$(PYTHON) $< \
+ 		$(if $(V)$(DEBUG), --debug) \
++		$(if $(GENISOIMAGE),--genisoimage $(GENISOIMAGE)) \
+ 		--image "$@" \
+ 		--force \
+ 		--build-image $@, \
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 756ccf7acae..a2d4054d72b 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -61,8 +61,9 @@ class BaseVM(object):
+     # 4 is arbitrary, but greater than 2,
+     # since we found we need to wait more than twice as long.
+     tcg_ssh_timeout_multiplier = 4
+-    def __init__(self, debug=False, vcpus=None):
++    def __init__(self, debug=False, vcpus=None, genisoimage=None):
+         self._guest = None
++        self._genisoimage = genisoimage
+         self._tmpdir = os.path.realpath(tempfile.mkdtemp(prefix="vm-test-",
+                                                          suffix=".tmp",
+                                                          dir="."))
+@@ -381,12 +382,12 @@ class BaseVM(object):
+             udata.writelines(["apt:\n",
+                               "  proxy: %s" % proxy])
+         udata.close()
+-        subprocess.check_call(["genisoimage", "-output", "cloud-init.iso",
++        subprocess.check_call([self._genisoimage, "-output", "cloud-init.iso",
+                                "-volid", "cidata", "-joliet", "-rock",
+                                "user-data", "meta-data"],
+-                               cwd=cidir,
+-                               stdin=self._devnull, stdout=self._stdout,
+-                               stderr=self._stdout)
++                              cwd=cidir,
++                              stdin=self._devnull, stdout=self._stdout,
++                              stderr=self._stdout)
  
- # Check for ancillary tools used in testing
- genisoimage=
--for binary in genisoimage
-+for binary in genisoimage mkisofs
- do
-     if has $binary
-     then
+         return os.path.join(cidir, "cloud-init.iso")
+ 
+@@ -424,6 +425,8 @@ def parse_args(vmcls):
+                       help="Interactively run command")
+     parser.add_option("--snapshot", "-s", action="store_true",
+                       help="run tests with a snapshot")
++    parser.add_option("--genisoimage", default="genisoimage",
++                      help="iso imaging tool")
+     parser.disable_interspersed_args()
+     return parser.parse_args()
+ 
+@@ -435,7 +438,8 @@ def main(vmcls):
+             return 1
+         logging.basicConfig(level=(logging.DEBUG if args.debug
+                                    else logging.WARN))
+-        vm = vmcls(debug=args.debug, vcpus=args.jobs)
++        vm = vmcls(debug=args.debug, vcpus=args.jobs,
++                   genisoimage=args.genisoimage)
+         if args.build_image:
+             if os.path.exists(args.image) and not args.force:
+                 sys.stderr.writelines(["Image file exists: %s\n" % args.image,
 -- 
 2.20.1
 
