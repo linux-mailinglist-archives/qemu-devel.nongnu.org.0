@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4351D5269
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:49:21 +0200 (CEST)
-Received: from localhost ([::1]:33564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD2F1D527A
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:51:57 +0200 (CEST)
+Received: from localhost ([::1]:42792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZbeK-0000y0-Ab
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:49:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44518)
+	id 1jZbgq-0004xB-OZ
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:51:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jZbZS-0002Pp-Hw
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:18 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40785)
+ id 1jZbZU-0002Qj-6c
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:22 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jZbZQ-0000yo-J2
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:18 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id e16so3843600wra.7
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 07:44:16 -0700 (PDT)
+ id 1jZbZR-0000z2-Lo
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:19 -0400
+Received: by mail-wm1-x332.google.com with SMTP id u16so2943717wmc.5
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 07:44:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=shIR+tStLvvJHR4Gop6YH3kVk2PMh0U4kUFwicdynrY=;
- b=v6Ihq+HMqawdA8xXa+LH7phlq10TP3+j0uU+vmjmsetX5aowjTMFnTUDJQ49Onn5TD
- S1o7SwlWhPXhyj/emZgC8CswixlHLC0q4zU7ov95tyaSyw+2m51LkvoIpadn7rwVpdUA
- AtaULYlIhoDP7D4ITZYdTuONU5/D8zyGXE87sByhHoqCNlnv1Cm+LhO0R+aElAZ+sCWt
- f7sFOLfaSylLEbNT/J6fsxze/NtExFNHXc0pU+jWaptUZjztJKwEEQLZu1nPMIibVaDK
- pMgF1GykwwL7RVJLHR/1ABwJufCGUaeNz1JCkMBOTSUo6Yi9VY3HztmOR/aj6MaMS9h0
- TWzA==
+ bh=KIk6ooatV8XnS7vaKVLS3g3ZtQSw6C7qVIF3uAG+cLk=;
+ b=ZfqpQNvNQ7UCoebosaHhnei3f3jwIMNf/xuQw6RgHEhcAoIZQZztgWjD5yS1Zq7opp
+ KJsVT7UHaC2tcsbCdJy73LodPZc1WTqsio9vmrku6AYzrzjDzs/8VdpRN8eu9LSl4KSG
+ 6Ctes9U4WKMOP8pyh8WSPQmFfr0XOq7iWkD/6Fydva9195SFMPy22IU4NVm/6IuwBJIU
+ 5FZa3BubkzHsnzuES0n0eYDaL75zyAazRoSED7GPafkGR5cDlPe8ODTR6aD5vaGMhk5z
+ WvLzoLF4mOvrmussYy62dNAxF9xevD85l0U1mvgJahJlfHNVzxx/gZe6TmzCiuOo+sTv
+ YLMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=shIR+tStLvvJHR4Gop6YH3kVk2PMh0U4kUFwicdynrY=;
- b=XE9eaAY4acPZhOUGxeXB6otK9QvYUti/4adiA//FJDOhEq4h6xIffy41NSk/CGxVt1
- Du2NmwdXVVHmBShlRooa1Y1Jf/Wvqk+0u074an6eMSsfJksbaxdfKkSlb050k9qBJR7s
- 6hqwCYNvbcPkdqoj2+qR/lEe45KNUL8MoeUHrQbKdW3t3HOp1ou3Va4yLFayl6AvmRfv
- d0Pm/KVtyWPEpM/Gu0eZ7KReX3VqFVwIbSoQdGEamoV8nK0NvwyguEYDTAhztClXyl2f
- PPiQHxyZCPMIrO6h+lIQC5eeBUfuu8HFcWX0wYTwgj/CB8C0WOipeVItnDMBPWuCWcBP
- cwjA==
-X-Gm-Message-State: AOAM530DznDzsmEr6CpnfNMqqs93gkd6eVlAzaXMWM3vgvjjiOPYAhhZ
- ZZcjPzfVocVYbULhQk6hvkoHSw==
-X-Google-Smtp-Source: ABdhPJxj5jpDbDsiw9I3it+o1VgEOfyvw5ZBdIisdVnWaJ3CMiRuiuNUftLzngevoeAfH8p2O5BCKA==
-X-Received: by 2002:a5d:5011:: with SMTP id e17mr5017213wrt.347.1589553855265; 
- Fri, 15 May 2020 07:44:15 -0700 (PDT)
+ bh=KIk6ooatV8XnS7vaKVLS3g3ZtQSw6C7qVIF3uAG+cLk=;
+ b=H5QUJRJcdBeQpDrvlnV3Y1vtY/E17ecATZ4DpTObF+ndkgehS/9Gcx6XtoVJlVdJ8A
+ 1xbegx0uztAbqGlKAosV6Cb8nCoQruv0qXUVCiHmHvqYjMLR1HxNvXrfHoH4/FNDkeY7
+ 4pVPjaDGEIadU1w8U/v1SuwWOTKN0W0pFmZ0A5avINTsYvvFXEP7uXZfQO0uH02Ktg2B
+ 49L7Swa68hCA++5RXAEHidHeF8KF6XPctqjoAqSAJBFwnNVOz3dv+dGw+VfXnCvUbt1G
+ 0Sch7Doi2NqQlP+7E2J/cFG7IK0TjP24puUoDD8BVR0W4KTxz7zygVvUtXTBGh+rpmxN
+ IPKg==
+X-Gm-Message-State: AOAM5327pYLysFENLrC2hISggYwoqSzfnsZoqhCayKBnsNmsQnEU6GLf
+ SXkclAFUp2kY47md5iLFPc6YIA==
+X-Google-Smtp-Source: ABdhPJzZDaEmCrekrr60OpFq0lc8iLixBisQK0dixcyGMKs41f7mz8jAaD8CdVbX+Dem09sls8LxMQ==
+X-Received: by 2002:a1c:4b02:: with SMTP id y2mr4154073wma.115.1589553856262; 
+ Fri, 15 May 2020 07:44:16 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b19sm4182142wmd.26.2020.05.15.07.44.08
+ by smtp.gmail.com with ESMTPSA id d6sm4583930wra.63.2020.05.15.07.44.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 15 May 2020 07:44:12 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B54DA1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id D0EC51FF93;
  Fri, 15 May 2020 15:44:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 06/13] accel/tcg: don't disable exec_tb trace events
-Date: Fri, 15 May 2020 15:43:58 +0100
-Message-Id: <20200515144405.20580-7-alex.bennee@linaro.org>
+Subject: [PULL v2 07/13] disas: include an optional note for the start of
+ disassembly
+Date: Fri, 15 May 2020 15:43:59 +0100
+Message-Id: <20200515144405.20580-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200515144405.20580-1-alex.bennee@linaro.org>
 References: <20200515144405.20580-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,32 +96,125 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I doubt the well predicted trace event check is particularly special in
-the grand context of TCG code execution.
+This will become useful shortly for providing more information about
+output assembly inline. While there fix up the indenting and code
+formatting in disas().
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200513175134.19619-8-alex.bennee@linaro.org>
 
-diff --git a/accel/tcg/trace-events b/accel/tcg/trace-events
-index 01852217a66..385b9f749b8 100644
---- a/accel/tcg/trace-events
-+++ b/accel/tcg/trace-events
-@@ -1,10 +1,10 @@
- # See docs/devel/tracing.txt for syntax documentation.
+Message-Id: <20200513175134.19619-9-alex.bennee@linaro.org>
+
+diff --git a/include/disas/disas.h b/include/disas/disas.h
+index 36c33f6f194..1b6e035e32d 100644
+--- a/include/disas/disas.h
++++ b/include/disas/disas.h
+@@ -7,7 +7,7 @@
+ #include "cpu.h"
  
--# TCG related tracing (mostly disabled by default)
-+# TCG related tracing
- # cpu-exec.c
--disable exec_tb(void *tb, uintptr_t pc) "tb:%p pc=0x%"PRIxPTR
--disable exec_tb_nocache(void *tb, uintptr_t pc) "tb:%p pc=0x%"PRIxPTR
--disable exec_tb_exit(void *last_tb, unsigned int flags) "tb:%p flags=0x%x"
-+exec_tb(void *tb, uintptr_t pc) "tb:%p pc=0x%"PRIxPTR
-+exec_tb_nocache(void *tb, uintptr_t pc) "tb:%p pc=0x%"PRIxPTR
-+exec_tb_exit(void *last_tb, unsigned int flags) "tb:%p flags=0x%x"
+ /* Disassemble this for me please... (debugging). */
+-void disas(FILE *out, void *code, unsigned long size);
++void disas(FILE *out, void *code, unsigned long size, const char *note);
+ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+                   target_ulong size);
  
- # translate-all.c
- translate_block(void *tb, uintptr_t pc, uint8_t *tb_code) "tb:%p, pc:0x%"PRIxPTR", tb_code:%p"
+diff --git a/include/exec/log.h b/include/exec/log.h
+index fcc7b9e00ba..3ed797c1c8c 100644
+--- a/include/exec/log.h
++++ b/include/exec/log.h
+@@ -56,13 +56,13 @@ static inline void log_target_disas(CPUState *cpu, target_ulong start,
+     rcu_read_unlock();
+ }
+ 
+-static inline void log_disas(void *code, unsigned long size)
++static inline void log_disas(void *code, unsigned long size, const char *note)
+ {
+     QemuLogFile *logfile;
+     rcu_read_lock();
+     logfile = atomic_rcu_read(&qemu_logfile);
+     if (logfile) {
+-        disas(logfile->fd, code, size);
++        disas(logfile->fd, code, size, note);
+     }
+     rcu_read_unlock();
+ }
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index e4f703a7e6d..cdf58bb420e 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1800,7 +1800,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+             size_t data_size = gen_code_size - code_size;
+             size_t i;
+ 
+-            log_disas(tb->tc.ptr, code_size);
++            log_disas(tb->tc.ptr, code_size, NULL);
+ 
+             for (i = 0; i < data_size; i += sizeof(tcg_target_ulong)) {
+                 if (sizeof(tcg_target_ulong) == 8) {
+@@ -1814,7 +1814,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+                 }
+             }
+         } else {
+-            log_disas(tb->tc.ptr, gen_code_size);
++            log_disas(tb->tc.ptr, gen_code_size, NULL);
+         }
+         qemu_log("\n");
+         qemu_log_flush();
+diff --git a/disas.c b/disas.c
+index 3937da61571..7e8692de301 100644
+--- a/disas.c
++++ b/disas.c
+@@ -586,7 +586,7 @@ char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size)
+ }
+ 
+ /* Disassemble this for me please... (debugging). */
+-void disas(FILE *out, void *code, unsigned long size)
++void disas(FILE *out, void *code, unsigned long size, const char *note)
+ {
+     uintptr_t pc;
+     int count;
+@@ -674,10 +674,16 @@ void disas(FILE *out, void *code, unsigned long size)
+     for (pc = (uintptr_t)code; size > 0; pc += count, size -= count) {
+         fprintf(out, "0x%08" PRIxPTR ":  ", pc);
+         count = print_insn(pc, &s.info);
+-	fprintf(out, "\n");
+-	if (count < 0)
+-	    break;
++        if (note) {
++            fprintf(out, "\t\t%s", note);
++            note = NULL;
++        }
++        fprintf(out, "\n");
++        if (count < 0) {
++            break;
++        }
+     }
++
+ }
+ 
+ /* Look up symbol for debugging purpose.  Returns "" if unknown. */
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index dd4b3d76844..a2268d9db0a 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -1092,7 +1092,7 @@ void tcg_prologue_init(TCGContext *s)
+             size_t data_size = prologue_size - code_size;
+             size_t i;
+ 
+-            log_disas(buf0, code_size);
++            log_disas(buf0, code_size, NULL);
+ 
+             for (i = 0; i < data_size; i += sizeof(tcg_target_ulong)) {
+                 if (sizeof(tcg_target_ulong) == 8) {
+@@ -1106,7 +1106,7 @@ void tcg_prologue_init(TCGContext *s)
+                 }
+             }
+         } else {
+-            log_disas(buf0, prologue_size);
++            log_disas(buf0, prologue_size, NULL);
+         }
+         qemu_log("\n");
+         qemu_log_flush();
 -- 
 2.20.1
 
