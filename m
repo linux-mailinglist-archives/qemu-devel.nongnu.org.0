@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB16C1D528D
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:53:25 +0200 (CEST)
-Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDD81D5243
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:46:28 +0200 (CEST)
+Received: from localhost ([::1]:50246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZbiG-00070f-OY
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:53:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44566)
+	id 1jZbbX-0004Tb-Hf
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:46:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jZbZX-0002Sm-Jo
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:24 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:54912)
+ id 1jZbZZ-0002TS-0Y
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:25 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jZbZW-000106-8o
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:22 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id h4so2581667wmb.4
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 07:44:21 -0700 (PDT)
+ id 1jZbZW-0000zt-8l
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:24 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id k13so1752012wrx.3
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 07:44:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+a2TvwRII2J7AoPGBoNpj53l/Ezc+QlB4IwOZgMmlqY=;
- b=if1+c6mFY3gjwptzcSIKYu57JQSJPsBtm2MSa1f5mOhsDDcOMRUO5DQO/Xa04vkEDE
- D9vm4MGzPns7zad2RecwqmUMhyYTLrRqlV6OxMhbEAolgHg48MrCM0+8JoBEqXVljKdS
- Aw9gdZg8zXOtkQw5fp2vZhU2iAhDFnFJLXReO4D09A2k5FcwAhPC8O0R39sPQPUtdkSM
- pmNo88+HPjGbMFO81Rn3iqImmXk8GMPixDJvyrh1e3RBCeMRP5ov6sW7RNneJWtMzL7U
- gALE11rnlV01ut2HJSLzhgzA6Ff40jyiKvh9dU5yJpmiOMdIjsYula/1671Py9mZR2Uf
- FsuQ==
+ bh=tQttWf6rj7Sr02MvNzPrzDKjaidbgt9rChCOOlqQ7tY=;
+ b=h3YvXUcey3SwVJH3uSvxflWNCFYtighn8umzhlgeM3Ygr38zm0QgbfA1BGEJ3syD3f
+ kVPGwNuKD/68h0A1g/tUyYIJaRJ1AooXFvTJ1GydvZqC8ijDm03Qa/Bj/5owMUxS2OD8
+ 7je+2tv+dwFbp+DG4Z+57+rH3KRYPnnxJHxLHmpatEQ3xUfKitX2bLMRyynof1Yec7Bo
+ VFbXDx9XFEmt2/Z+Itqz1VFcCyV/36SIulZa5X50WDwAwBNgPcs6/Y8jYMVP0qbC/EIA
+ Tss28nl0E3yKCTiYHJV8AeC58Ui7xVHd+Ks11+ygdr+O2F66rZjrZM/5jtj4htnPGgbc
+ xgwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+a2TvwRII2J7AoPGBoNpj53l/Ezc+QlB4IwOZgMmlqY=;
- b=Kdmt82YPPNtL4HmamauxUtJ0oUSWJjytn36GvRG2W4qH27yRrn4SNwrCNvsPbU7wgG
- wM3wSLAdy48IpFFOl0uTO5Z/YnrIUE0HiNlLIem9EotclOzGy1eKIpL1feuO1N4DZLMY
- epTpXRXNFs7aqYb3Xw/1EErx9wCcqvPNOXyWOmcpptvNhrc4ECtq7lm8reBmgIqGzW95
- QN+lcf+vRjw/Q5iBL5P+Up5i6aTQWlVfBPsLwZKt4kxoJEeVkiEUkCHFdEjnJmEIb3LJ
- zuR8Vv0L0rYA3hcJUEX6RzQazH5Kds/nf28rb+sMDmiTeP+cP8D3XB4oBZ4VmjGIuGL5
- phfw==
-X-Gm-Message-State: AOAM531jxu0SCwujh5t0WiYnDZWaHZm7izTsqv2R+EEi8Fn97GATaKZr
- 5yUMKrKf3mlZ0o3X5en5d4z5iA==
-X-Google-Smtp-Source: ABdhPJz+TqOIwyABF4FGW1pCKR9WxHx7jEVlbiWVb0f0lVMea9p2sRAgSXaW6XBUgrBBDcQytEp6Wg==
-X-Received: by 2002:a1c:b354:: with SMTP id c81mr4355499wmf.136.1589553860752; 
- Fri, 15 May 2020 07:44:20 -0700 (PDT)
+ bh=tQttWf6rj7Sr02MvNzPrzDKjaidbgt9rChCOOlqQ7tY=;
+ b=eh19SkChZ2rDIuU7egGOQ8IMU1oll2mrRqeBbnlRoXmKuEzpKYcl4UIZygJoAxjvau
+ dGftoBX5C/8iJvrq/GGT5glGi1/K4s/Nj1EdokKHOuF7lVvrVrqFMCQI+ZxMfBN9x4eU
+ wbk5B75s0VytaSPDgCsPXW2worHMRKgVC2a8B0JtvNVLf4lY0cPUiN/bRdSem5b5z5v1
+ gN/JDO5cGvmMqc5ag35LoQOhOd5uzXKEYXjDL4aIPDe1BXkorV4C4rRJ037BPKxEX5aK
+ fxj1vQfVxdUorldAbRPxBdu3B3+lIfm8ylNcG0AhAHi4zDQoDEsn87zmZXQCgCzL4JOy
+ PetA==
+X-Gm-Message-State: AOAM531tnITXCBbngRCsQL1gy6Knx1/exUVCQMEvDWHMd8J2xdYRIODm
+ Fkby5itvu5Rfc8rKOVkJfoGQcw==
+X-Google-Smtp-Source: ABdhPJyVhmEc2Q/Tzfh2spg3zVIWM7JglrPXz/y/+wZaI9lH9TVyADaJowLVIoe5eo3VJND+5TXnRA==
+X-Received: by 2002:adf:c414:: with SMTP id v20mr4447467wrf.379.1589553859815; 
+ Fri, 15 May 2020 07:44:19 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t7sm3982423wrq.39.2020.05.15.07.44.10
+ by smtp.gmail.com with ESMTPSA id m23sm3950760wmg.45.2020.05.15.07.44.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 15 May 2020 07:44:12 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1D6E61FF99;
+ by zen.linaroharston (Postfix) with ESMTP id 326A91FF9A;
  Fri, 15 May 2020 15:44:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 10/13] qemu/plugin: Trivial code movement
-Date: Fri, 15 May 2020 15:44:02 +0100
-Message-Id: <20200515144405.20580-11-alex.bennee@linaro.org>
+Subject: [PULL v2 11/13] qemu/plugin: Move !CONFIG_PLUGIN stubs altogether
+Date: Fri, 15 May 2020 15:44:03 +0100
+Message-Id: <20200515144405.20580-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200515144405.20580-1-alex.bennee@linaro.org>
 References: <20200515144405.20580-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,75 +88,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:Trivial patches" <qemu-trivial@nongnu.org>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel@nongnu.org, "Emilio G . Cota" <cota@braap.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: "Emilio G . Cota" <cota@braap.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Move the qemu_plugin_event enum declaration earlier.
-This will make the next commit easier to review.
+Simplify the ifdef'ry by moving all stubs together.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200510171119.20827-2-f4bug@amsat.org>
-Message-Id: <20200513173200.11830-2-alex.bennee@linaro.org>
+Message-Id: <20200510171119.20827-3-f4bug@amsat.org>
+Message-Id: <20200513173200.11830-3-alex.bennee@linaro.org>
 
 diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
-index 11687e8cdc3..e45f950fe36 100644
+index e45f950fe36..ab790ad105c 100644
 --- a/include/qemu/plugin.h
 +++ b/include/qemu/plugin.h
-@@ -13,6 +13,22 @@
- #include "qemu/queue.h"
- #include "qemu/option.h"
+@@ -46,22 +46,6 @@ static inline void qemu_plugin_add_opts(void)
  
-+/*
-+ * Events that plugins can subscribe to.
-+ */
-+enum qemu_plugin_event {
-+    QEMU_PLUGIN_EV_VCPU_INIT,
-+    QEMU_PLUGIN_EV_VCPU_EXIT,
-+    QEMU_PLUGIN_EV_VCPU_TB_TRANS,
-+    QEMU_PLUGIN_EV_VCPU_IDLE,
-+    QEMU_PLUGIN_EV_VCPU_RESUME,
-+    QEMU_PLUGIN_EV_VCPU_SYSCALL,
-+    QEMU_PLUGIN_EV_VCPU_SYSCALL_RET,
-+    QEMU_PLUGIN_EV_FLUSH,
-+    QEMU_PLUGIN_EV_ATEXIT,
-+    QEMU_PLUGIN_EV_MAX, /* total number of plugin events we support */
-+};
-+
- /*
-  * Option parsing/processing.
-  * Note that we can load an arbitrary number of plugins.
-@@ -47,22 +63,6 @@ static inline int qemu_plugin_load_list(QemuPluginList *head)
- }
- #endif /* !CONFIG_PLUGIN */
- 
--/*
-- * Events that plugins can subscribe to.
-- */
--enum qemu_plugin_event {
--    QEMU_PLUGIN_EV_VCPU_INIT,
--    QEMU_PLUGIN_EV_VCPU_EXIT,
--    QEMU_PLUGIN_EV_VCPU_TB_TRANS,
--    QEMU_PLUGIN_EV_VCPU_IDLE,
--    QEMU_PLUGIN_EV_VCPU_RESUME,
--    QEMU_PLUGIN_EV_VCPU_SYSCALL,
--    QEMU_PLUGIN_EV_VCPU_SYSCALL_RET,
--    QEMU_PLUGIN_EV_FLUSH,
--    QEMU_PLUGIN_EV_ATEXIT,
--    QEMU_PLUGIN_EV_MAX, /* total number of plugin events we support */
--};
+ void qemu_plugin_opt_parse(const char *optarg, QemuPluginList *head);
+ int qemu_plugin_load_list(QemuPluginList *head);
+-#else /* !CONFIG_PLUGIN */
+-static inline void qemu_plugin_add_opts(void)
+-{ }
 -
+-static inline void qemu_plugin_opt_parse(const char *optarg,
+-                                         QemuPluginList *head)
+-{
+-    error_report("plugin interface not enabled in this build");
+-    exit(1);
+-}
+-
+-static inline int qemu_plugin_load_list(QemuPluginList *head)
+-{
+-    return 0;
+-}
+-#endif /* !CONFIG_PLUGIN */
+ 
  union qemu_plugin_cb_sig {
      qemu_plugin_simple_cb_t          simple;
-     qemu_plugin_udata_cb_t           udata;
+@@ -182,8 +166,6 @@ struct qemu_plugin_insn *qemu_plugin_tb_insn_get(struct qemu_plugin_tb *tb)
+     return insn;
+ }
+ 
+-#ifdef CONFIG_PLUGIN
+-
+ void qemu_plugin_vcpu_init_hook(CPUState *cpu);
+ void qemu_plugin_vcpu_exit_hook(CPUState *cpu);
+ void qemu_plugin_tb_trans_cb(CPUState *cpu, struct qemu_plugin_tb *tb);
+@@ -207,6 +189,21 @@ void qemu_plugin_disable_mem_helpers(CPUState *cpu);
+ 
+ #else /* !CONFIG_PLUGIN */
+ 
++static inline void qemu_plugin_add_opts(void)
++{ }
++
++static inline void qemu_plugin_opt_parse(const char *optarg,
++                                         QemuPluginList *head)
++{
++    error_report("plugin interface not enabled in this build");
++    exit(1);
++}
++
++static inline int qemu_plugin_load_list(QemuPluginList *head)
++{
++    return 0;
++}
++
+ static inline void qemu_plugin_vcpu_init_hook(CPUState *cpu)
+ { }
+ 
 -- 
 2.20.1
 
