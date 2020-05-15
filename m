@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A761D5216
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:43:34 +0200 (CEST)
-Received: from localhost ([::1]:41184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADCD1D50E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:38:33 +0200 (CEST)
+Received: from localhost ([::1]:52410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZbYj-0000aX-Sn
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:43:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42032)
+	id 1jZbTs-0001IZ-Gb
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbRD-0004IE-So
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39850
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbRG-0004JS-Jt
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44362
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbRA-0007w3-Bf
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:47 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbRF-0007xP-AC
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589553343;
+ s=mimecast20190719; t=1589553348;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=ZuarwHpOQc0u30LFTFQMPNO3U8EShjSiKSnesAXqYBM=;
- b=SNIRnPBH6ZNyROMbJ/SZ5rVKHc9yqq2s8CSqG7EYD0VbKAOfyzOJnHoxWwwhEHltFd6CAJ
- fHdwnBqCV0Alc4+iyaRn09dCOk0n0UZvfFpazxmknAkt3xAlknQAv11pvwONlWjE3VgTAw
- sDVD1JRBswl02eMjrKTBBifjRzSE2WE=
+ references:references; bh=GZCiQ1XMKOML6r1OifdKYZRO7gqQ/zx4tGmS8eEVSj4=;
+ b=N5J81MR9eLQV5Gz4cKMBoK102KnEH1CWmYETKnHbYn/GP9BVUnH3uG0wAKqnMIAZVtQZqe
+ rwBbZxySOHae9NXU6WYCbFXviEXU/jk1GU03vX3lfJe2raD8GWXImkHVQTiheEm5KOhkvV
+ jmxMU9cmZU4hrnUc2hivOKaDo3zwafQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-yLV0kjklPhe4f6tA2SOo5g-1; Fri, 15 May 2020 10:35:41 -0400
-X-MC-Unique: yLV0kjklPhe4f6tA2SOo5g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-127-YMV64LQyMhGPTQlu8VEwRg-1; Fri, 15 May 2020 10:35:46 -0400
+X-MC-Unique: YMV64LQyMhGPTQlu8VEwRg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB0E11054F8F
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 14:35:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11C03EC1C1
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 14:35:46 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-115-145.ams2.redhat.com
  [10.36.115.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A2A55C661;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4A5378379;
  Fri, 15 May 2020 14:35:40 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 30F449D57; Fri, 15 May 2020 16:35:29 +0200 (CEST)
+ id 3983A9D58; Fri, 15 May 2020 16:35:29 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/13] audio: deprecate -soundhw pcspk
-Date: Fri, 15 May 2020 16:35:26 +0200
-Message-Id: <20200515143528.13591-12-kraxel@redhat.com>
+Subject: [PATCH v2 12/13] audio: add soundhw deprecation notice
+Date: Fri, 15 May 2020 16:35:27 +0200
+Message-Id: <20200515143528.13591-13-kraxel@redhat.com>
 In-Reply-To: <20200515143528.13591-1-kraxel@redhat.com>
 References: <20200515143528.13591-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -82,78 +82,31 @@ Cc: libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add deprecation message to the audio init function.
-
-Factor out audio initialization and call that from
-both audio init and realize, so setting audiodev via
--global is enough to properly initialize pcspk.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/audio/pcspk.c | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+ docs/system/deprecated.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/hw/audio/pcspk.c b/hw/audio/pcspk.c
-index c37a3878612e..ab290e686783 100644
---- a/hw/audio/pcspk.c
-+++ b/hw/audio/pcspk.c
-@@ -28,6 +28,7 @@
- #include "audio/audio.h"
- #include "qemu/module.h"
- #include "qemu/timer.h"
-+#include "qemu/error-report.h"
- #include "hw/timer/i8254.h"
- #include "migration/vmstate.h"
- #include "hw/audio/pcspk.h"
-@@ -112,11 +113,15 @@ static void pcspk_callback(void *opaque, int free)
-     }
- }
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 3142fac38658..7de1045b7e27 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -88,6 +88,15 @@ should specify an ``audiodev=`` property.  Additionally, when using
+ vnc, you should specify an ``audiodev=`` propery if you plan to
+ transmit audio through the VNC protocol.
  
--static int pcspk_audio_init(ISABus *bus)
-+static int pcspk_audio_init(PCSpkState *s)
- {
--    PCSpkState *s = pcspk_state;
-     struct audsettings as = {PCSPK_SAMPLE_RATE, 1, AUDIO_FORMAT_U8, 0};
- 
-+    if (s->voice) {
-+        /* already initialized */
-+        return 0;
-+    }
++Creating sound card devices using ``-soundhw`` (since 5.1)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 +
-     AUD_register_card(s_spk, &s->card);
- 
-     s->voice = AUD_open_out(&s->card, s->voice, s_spk, s, pcspk_callback, &as);
-@@ -185,6 +190,10 @@ static void pcspk_realizefn(DeviceState *dev, Error **errp)
- 
-     isa_register_ioport(isadev, &s->ioport, s->iobase);
- 
-+    if (s->card.state) {
-+        pcspk_audio_init(s);
-+    }
++Sound card devices should be created using ``-device`` instead.  The
++names are the same for most devices.  The exceptions are ``hda`` which
++needs two devices (``-device intel-hda --device hda-duplex``) and
++``pcspk`` which can be activated using ``-global
++pcspk.audiodev=<name>``.
 +
-     pcspk_state = s;
- }
+ ``-mon ...,control=readline,pretty=on|off`` (since 4.1)
+ '''''''''''''''''''''''''''''''''''''''''''''''''''''''
  
-@@ -236,9 +245,18 @@ static const TypeInfo pcspk_info = {
-     .class_init     = pcspk_class_initfn,
- };
- 
-+static int pcspk_audio_init_soundhw(ISABus *bus)
-+{
-+    PCSpkState *s = pcspk_state;
-+
-+    warn_report("'-soundhw pcspk' is deprecated, "
-+                "please set a backend using '-global isa-pcspk.audiodev=<name>' instead");
-+    return pcspk_audio_init(s);
-+}
-+
- static void pcspk_register(void)
- {
-     type_register_static(&pcspk_info);
--    isa_register_soundhw("pcspk", "PC speaker", pcspk_audio_init);
-+    isa_register_soundhw("pcspk", "PC speaker", pcspk_audio_init_soundhw);
- }
- type_init(pcspk_register)
 -- 
 2.18.4
 
