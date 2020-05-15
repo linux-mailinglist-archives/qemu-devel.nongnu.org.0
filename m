@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08EEC1D5974
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 20:49:10 +0200 (CEST)
-Received: from localhost ([::1]:45376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACFED1D597A
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 20:51:43 +0200 (CEST)
+Received: from localhost ([::1]:51310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZfOP-00012f-0l
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 14:49:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54012)
+	id 1jZfQs-0003fv-Nx
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 14:51:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jZfMo-000839-No
- for qemu-devel@nongnu.org; Fri, 15 May 2020 14:47:31 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:36588)
+ id 1jZfMq-00083o-Hb
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 14:47:33 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:46821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jZfMn-0005xs-QT
- for qemu-devel@nongnu.org; Fri, 15 May 2020 14:47:30 -0400
-Received: by mail-pg1-x542.google.com with SMTP id c75so393273pga.3
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 11:47:29 -0700 (PDT)
+ id 1jZfMp-0005zW-HB
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 14:47:32 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id p21so1386122pgm.13
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 11:47:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cMmDD1w5euAwfTOHzuv67r0X2MSI19HIQQ5/Y6AnMtU=;
- b=WMeP33kbglvSe6Z92DcVtJdWXUK7zTT51QmEKEhoOL/RppYemcNQR+0Mpm+NOfuftg
- +nV4DJfRT97m/sLsu6jjVNhGPQEmhHQS2xrCDhE57IYW/+VPEkCSEKsTRr5NlXAdlpDB
- H2ZeO0Z/kEmgcq2BHEdNFrAQxyzbJmLwTB2UoSbk4YDisE5CfXkLJORMQVxGBCIuTJ2V
- 8UNHWY2brM5m/ARpvQO1U/Cpn8YEhzR8xTjmx8Me7nI90RXE8to0PrWR/hN2rTyPUdwm
- lw/ijzK4+xJ202PTBWXVf1zm2Iz+M+bwv41+ho2PZB9WdE5mpVuBVmz8N7+5SLZLoANs
- BoYg==
+ bh=KgLFINBGEx2VLJ3Ma6VyMCd7VNjG3xrKYeKQiYwUVWY=;
+ b=YxjWsug9donkIqf6gR6bbyFweBlsgZAoObZ/oxq2s9S4acMulNJ0R1VZyCpM84Y7Ak
+ OQXMX/G/EbR1NHvreh8iH+7QmEfp/FSqC0+HDQuoyPypQmg4CeMPYQPEErY0PMvNHkXp
+ zxP9/7eCg5wSIKHw1prHMnRQiQpODHzYd8mW7BIqUQ7l27vzSPUCTYOFOD6nTqF5TxL6
+ iQ1LlGAb3wEhW6nqFToWESLsP3hjB0UwRWTjdF8TkpfESCPHX1lk+upsee84usJgeMRJ
+ jR7YFcZrow8A8TiiEhncxjcww05DO2efYBb/2+2oAWBhSvMu77RlgofSiG7/cn533WGf
+ N0Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cMmDD1w5euAwfTOHzuv67r0X2MSI19HIQQ5/Y6AnMtU=;
- b=q+jwCZtDkGTsWhic7hXSePpdcFm692j6VkUJpsohhgwygdUz74VwcCoKL318fGYvt4
- S0WRcDLPHfDA1LRIkOWWqVCXcEP9/YuMqMxmM2qnvUKFSAwX9rlirElpCSVTbXYrpY3z
- 1+kR8i7s7avdecUyyuBMB1PgGr3VtPY5mv+RhabuFmGlvMB4uE0ZQexcBJe5OVdezngv
- BwUZONodXRkJ9VP+zYzv4fCCRNbcc6YS9fRPKNge6UBSaqTiOIwUFH+xBLinbGEypUlO
- cyysuo0ZYgPOWh7i1TFn9xFl01k6dbmcsDHS3udQ/8R9tuMr6tZe1JBIoYWXrkr8zx0e
- oiEg==
-X-Gm-Message-State: AOAM531ZQ5KPSZeSn/1laRA2T7BK3c/mm1JcDq1BgLmbgIWkk4zASnqF
- e7uiGX4dylsjFtsAHt2QsG6zaMXAnfE=
-X-Google-Smtp-Source: ABdhPJzjjdrPb3MCpUKaDtqPhd9hscA0JHAB9t/D/iRAyv1gSgDzLeGHtN1BTn63lPdDCnRGBcc8pw==
-X-Received: by 2002:a62:754f:: with SMTP id q76mr5428030pfc.14.1589568447897; 
- Fri, 15 May 2020 11:47:27 -0700 (PDT)
+ bh=KgLFINBGEx2VLJ3Ma6VyMCd7VNjG3xrKYeKQiYwUVWY=;
+ b=GQdu3VFLr92+ZNGNzAx52tqrrIEqellZIziBByZRiSgBu1tjVfgLpoVteeYm+XHCcf
+ VLxJQo/ARVT5RNvEc0lTTibhJaFKUP1Sbeu4sYd6hy2+tTW8lYdSQyrLlRwG1OYLp6Ta
+ 7A257lX0DPD8HjanQSLkpcKBd9yd7LR493bBQRSdHePyBWWvGPDZjUWXtwcggz4JxhrQ
+ QA4RSG6aEMVmR44Q12WdUsqc1sCRXXQO5TJUKHd7y/ARcP/WolzXsbOY9AAAWp2x+CKa
+ DoVLb57gDznMqiLTOiXkJCafAqy6CIsdamE4EBOR57pp1MMkYwlg7iOK/CNY9AGLn8qQ
+ 6Sdw==
+X-Gm-Message-State: AOAM531tV9FXajhbLEAV53Daf5rfKqcR6OUl6RR08wpna9P9Fzyfl5cw
+ CH0IAGk6R9MjrNtU1t7wlABi+BsOrt8=
+X-Google-Smtp-Source: ABdhPJxwXnJ3uE0iM0axvWXnDZVSrX/DbRErXkkU8G5FTkUWR1DlegWEIK571cUdwsE10a6uQH4eTw==
+X-Received: by 2002:aa7:9f5a:: with SMTP id h26mr5236902pfr.281.1589568449160; 
+ Fri, 15 May 2020 11:47:29 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id u73sm2743630pfc.0.2020.05.15.11.47.26
+ by smtp.gmail.com with ESMTPSA id u73sm2743630pfc.0.2020.05.15.11.47.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 11:47:27 -0700 (PDT)
+ Fri, 15 May 2020 11:47:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/4] softfloat: fix floatx80 pseudo-denormal comparisons
-Date: Fri, 15 May 2020 11:47:21 -0700
-Message-Id: <20200515184722.31182-4-richard.henderson@linaro.org>
+Subject: [PULL 4/4] softfloat: fix floatx80 pseudo-denormal round to integer
+Date: Fri, 15 May 2020 11:47:22 -0700
+Message-Id: <20200515184722.31182-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200515184722.31182-1-richard.henderson@linaro.org>
 References: <20200515184722.31182-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,47 +91,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joseph Myers <joseph@codesourcery.com>
 
-The softfloat floatx80 comparisons fail to allow for pseudo-denormals,
-which should compare equal to corresponding values with biased
-exponent 1 rather than 0.  Add an adjustment for that case when
-comparing numbers with the same sign.
+The softfloat function floatx80_round_to_int incorrectly handles the
+case of a pseudo-denormal where only the high bit of the significand
+is set, ignoring that bit (treating the number as an exact zero)
+rather than treating the number as an alternative representation of
++/- 2^-16382 (which may round to +/- 1 depending on the rounding mode)
+as hardware does.  Fix this check (simplifying the code in the
+process).
 
 Signed-off-by: Joseph Myers <joseph@codesourcery.com>
-Message-Id: <alpine.DEB.2.21.2005042338470.22972@digraph.polyomino.org.uk>
+Message-Id: <alpine.DEB.2.21.2005042339420.22972@digraph.polyomino.org.uk>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c                            | 7 +++++++
- tests/tcg/i386/test-i386-pseudo-denormal.c | 4 ++++
- 2 files changed, 11 insertions(+)
+ fpu/softfloat.c                            |  2 +-
+ tests/tcg/i386/test-i386-pseudo-denormal.c | 10 ++++++++++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 6094d267b5..c57f72e3a6 100644
+index c57f72e3a6..a362bf89ca 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -7966,6 +7966,13 @@ static inline int floatx80_compare_internal(floatx80 a, floatx80 b,
-             return 1 - (2 * aSign);
+@@ -5741,7 +5741,7 @@ floatx80 floatx80_round_to_int(floatx80 a, float_status *status)
+     }
+     if ( aExp < 0x3FFF ) {
+         if (    ( aExp == 0 )
+-             && ( (uint64_t) ( extractFloatx80Frac( a )<<1 ) == 0 ) ) {
++             && ( (uint64_t) ( extractFloatx80Frac( a ) ) == 0 ) ) {
+             return a;
          }
-     } else {
-+        /* Normalize pseudo-denormals before comparison.  */
-+        if ((a.high & 0x7fff) == 0 && a.low & UINT64_C(0x8000000000000000)) {
-+            ++a.high;
-+        }
-+        if ((b.high & 0x7fff) == 0 && b.low & UINT64_C(0x8000000000000000)) {
-+            ++b.high;
-+        }
-         if (a.low == b.low && a.high == b.high) {
-             return float_relation_equal;
-         } else {
+         status->float_exception_flags |= float_flag_inexact;
 diff --git a/tests/tcg/i386/test-i386-pseudo-denormal.c b/tests/tcg/i386/test-i386-pseudo-denormal.c
-index cfa2a500b0..acf2b9cf03 100644
+index acf2b9cf03..00d510cf4a 100644
 --- a/tests/tcg/i386/test-i386-pseudo-denormal.c
 +++ b/tests/tcg/i386/test-i386-pseudo-denormal.c
-@@ -20,5 +20,9 @@ int main(void)
-         printf("FAIL: pseudo-denormal add\n");
+@@ -14,6 +14,7 @@ volatile long double ld_res;
+ 
+ int main(void)
+ {
++    short cw;
+     int ret = 0;
+     ld_res = ld_pseudo_m16382.ld + ld_pseudo_m16382.ld;
+     if (ld_res != 0x1p-16381L) {
+@@ -24,5 +25,14 @@ int main(void)
+         printf("FAIL: pseudo-denormal compare\n");
          ret = 1;
      }
-+    if (ld_pseudo_m16382.ld != 0x1p-16382L) {
-+        printf("FAIL: pseudo-denormal compare\n");
++    /* Set round-upward.  */
++    __asm__ volatile ("fnstcw %0" : "=m" (cw));
++    cw = (cw & ~0xc00) | 0x800;
++    __asm__ volatile ("fldcw %0" : : "m" (cw));
++    __asm__ ("frndint" : "=t" (ld_res) : "0" (ld_pseudo_m16382.ld));
++    if (ld_res != 1.0L) {
++        printf("FAIL: pseudo-denormal round-to-integer\n");
 +        ret = 1;
 +    }
      return ret;
