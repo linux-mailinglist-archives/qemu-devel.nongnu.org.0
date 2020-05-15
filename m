@@ -2,57 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C6C1D44CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 06:41:59 +0200 (CEST)
-Received: from localhost ([::1]:49292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A3211D449A
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 06:29:36 +0200 (CEST)
+Received: from localhost ([::1]:57508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZSAY-0003fo-PR
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 00:41:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41066)
+	id 1jZRyY-0000fy-TC
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 00:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jZS7Z-0007hG-Lk
- for qemu-devel@nongnu.org; Fri, 15 May 2020 00:38:53 -0400
-Received: from mga12.intel.com ([192.55.52.136]:45615)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jZS7Y-0007ba-SZ
- for qemu-devel@nongnu.org; Fri, 15 May 2020 00:38:53 -0400
-IronPort-SDR: 6uJ4RuuYXP6EPxfjVprHDOrraQl8bTfLtTcGM5oxp3syS+AifWobZeY3Rv3iZy8uXT1zHzdy81
- cIlEneFBf+iQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 May 2020 21:38:52 -0700
-IronPort-SDR: n09WbtQhRsoBAEGUiaJLXbb9LWzPvf/OHs/d38ePO15mz9yhF3tTgM0/OokPHh0Qijtteg8Gq1
- aOgFKGbRWlmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,394,1583222400"; d="scan'208";a="263069548"
-Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga003.jf.intel.com with ESMTP; 14 May 2020 21:38:50 -0700
-From: Zhang Chen <chen.zhang@intel.com >
-To: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH 3/3] migration/colo: Merge multi checkpoint request into one.
-Date: Fri, 15 May 2020 12:28:18 +0800
-Message-Id: <20200515042818.17908-4-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200515042818.17908-1-chen.zhang@intel.com>
-References: <20200515042818.17908-1-chen.zhang@intel.com>
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=chen.zhang@intel.com;
- helo=mga12.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:38:46
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, FROM_ADDR_WS=2.999,
- FROM_WSP_TRAIL=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jZRxn-000078-8A
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 00:28:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52737
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jZRxm-0003Wi-0O
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 00:28:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589516924;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AqpKq14fo3BXdA3kQMDNjyp39E1R8VaYEptt65UdptA=;
+ b=LICtr5Akoj4taNXfi7C4kTruJ1RfYeMjCF8JJrFS9jevO5Tjbe+5PqwZbatdtsap1sMn9L
+ 0zAsdcIt8El7TYDIrbInPRsxepWveXCOf2j1BmCnu+HJHFraF9Z5/MYUJbcohw3VbQGYwn
+ 1eYpI3iKv2Cv6hrgMbGytz3CLSgs9DI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-423-4Q_oNsJYM3ev5wN_Tbe0fg-1; Fri, 15 May 2020 00:28:41 -0400
+X-MC-Unique: 4Q_oNsJYM3ev5wN_Tbe0fg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE8E71005510;
+ Fri, 15 May 2020 04:28:39 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 73844620AF;
+ Fri, 15 May 2020 04:28:39 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0261611358BC; Fri, 15 May 2020 06:28:37 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: Questionable aspects of QEMU Error's design
+References: <87o8sblgto.fsf@dusky.pond.sub.org>
+ <87blo7heag.fsf@dusky.pond.sub.org>
+ <87blndey9c.fsf@dusky.pond.sub.org>
+ <3b9d53fd-bdd0-c15b-292c-c4952fa24dfd@virtuozzo.com>
+ <923ceeeb-1fc8-489e-a32d-4cebfa6eadae@virtuozzo.com>
+Date: Fri, 15 May 2020 06:28:37 +0200
+In-Reply-To: <923ceeeb-1fc8-489e-a32d-4cebfa6eadae@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Thu, 14 May 2020 10:59:47 +0300")
+Message-ID: <87y2ptstxm.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 22:56:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,65 +85,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
- Zhang Chen <zhangckid@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhang Chen <chen.zhang@intel.com>
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-When COLO guest occur issues, COLO-compare will catch lots of
-different network packet and trigger notification multi times,
-force periodic may happen at the same time. So this can be
-efficient merge checkpoint request within COLO_CHECKPOINT_INTERVAL.
+> 28.04.2020 08:20, Vladimir Sementsov-Ogievskiy wrote:
+>> 27.04.2020 18:36, Markus Armbruster wrote:
+>>> Markus Armbruster <armbru@redhat.com> writes:
+>>>
+>>>> Markus Armbruster <armbru@redhat.com> writes:
+>>>>
+>>>>> QEMU's Error was patterned after GLib's GError.=C2=A0 Differences inc=
+lude:
+>>>> [...]
+>>>>> * Return value conventions
+>>>>>
+>>>>> =C2=A0=C2=A0 Common: non-void functions return a distinct error value=
+ on failure
+>>>>> =C2=A0=C2=A0 when such a value can be defined.=C2=A0 Patterns:
+>>>>>
+>>>>> =C2=A0=C2=A0 - Functions returning non-null pointers on success retur=
+n null pointer
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 on failure.
+>>>>>
+>>>>> =C2=A0=C2=A0 - Functions returning non-negative integers on success r=
+eturn a
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 negative error code on failure.
+>>>>>
+>>>>> =C2=A0=C2=A0 Different: GLib discourages void functions, because thes=
+e lead to
+>>>>> =C2=A0=C2=A0 awkward error checking code.=C2=A0 We have tons of them,=
+ and tons of
+>>>>> =C2=A0=C2=A0 awkward error checking code:
+>>>>>
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 Error *err =3D NULL;
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 frobnicate(arg, &err);
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 if (err) {
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ... recover ...
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_propagate(errp=
+, err);
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>>
+>>>>> =C2=A0=C2=A0 instead of
+>>>>>
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 if (!frobnicate(arg, errp))
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ... recover ...
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>>
+>>>>> =C2=A0=C2=A0 Can also lead to pointless creation of Error objects.
+>>>>>
+>>>>> =C2=A0=C2=A0 I consider this a design mistake.=C2=A0 Can we still fix=
+ it?=C2=A0 We have more
+>>>>> =C2=A0=C2=A0 than 2000 void functions taking an Error ** parameter...
+>>>>>
+>>>>> =C2=A0=C2=A0 Transforming code that receives and checks for errors wi=
+th Coccinelle
+>>>>> =C2=A0=C2=A0 shouldn't be hard.=C2=A0 Transforming code that returns =
+errors seems more
+>>>>> =C2=A0=C2=A0 difficult.=C2=A0 We need to transform explicit and impli=
+cit return to
+>>>>> =C2=A0=C2=A0 either return true or return false, depending on what we=
+ did to the
+>>>>> =C2=A0=C2=A0 @errp parameter on the way to the return.=C2=A0 Hmm.
+>>>> [...]
+>>>>
+>>>> To figure out what functions with an Error ** parameter return, I used
+>>>> Coccinelle to find such function definitions and print the return type=
+s.
+>>>> Summary of results:
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0 2155 void
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 873 signed integer
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 494 pointer
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 153 bool
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 33 unsigned integer
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 6 enum
+>>>> =C2=A0=C2=A0=C2=A0 ---------------------
+>>>> =C2=A0=C2=A0=C2=A0 3714 total
+>>>>
+>>>> I then used Coccinelle to find checked calls of void functions (passin=
+g
+>>>> &error_fatal or &error_abort is not considered "checking" here).=C2=A0=
+ These
+>>>> calls become simpler if we make the functions return a useful value.=
+=C2=A0 I
+>>>> found a bit under 600 direct calls, and some 50 indirect calls.
+>>>>
+>>>> Most frequent direct calls:
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 127 object_property_set_bool
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 27 qemu_opts_absorb_qdict
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 16 visit_type_str
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 14 visit_type_int
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 10 visit_type_uint32
+>>>>
+>>>> Let's have a closer look at object_property_set() & friends.=C2=A0 Out=
+ of
+>>>> almost 1000 calls, some 150 are checked.=C2=A0 While I'm sure many of =
+the
+>>>> unchecked calls can't actually fail, I am concerned some unchecked cal=
+ls
+>>>> can.
+>>>>
+>>>> If we adopt the convention to return a value that indicates success /
+>>>> failure, we should consider converting object.h to it sooner rather th=
+an
+>>>> later.
+>>>>
+>>>> Please understand these are rough numbers from quick & dirty scripts.
+>>>
+>>> FYI, I'm working on converting QemuOpts, QAPI visitors and QOM.=C2=A0 I=
+ keep
+>>> running into bugs.=C2=A0 So far:
+>>>
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 [PATCH v2 for-5.1 0/9] qemu-option: Fix corner=
+ cases and clean up
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 [PATCH for-5.1 0/5] qobject: Minor spring clea=
+ning
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 [PATCH v2 00/14] Miscellaneous error handling =
+fixes
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 [PATCH 0/4] Subject: [PATCH 0/4] smbus: SPD fi=
+xes
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 [PATCH 0/3] fuzz: Probably there is a better w=
+ay to do this
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 [PATCH v2 00/15] qapi: Spring cleaning
+>>> =C2=A0=C2=A0=C2=A0=C2=A0 [PATCH 00/11] More miscellaneous error handlin=
+g fixes
+>>>
+>>> I got another one coming for QOM and qdev before I can post the
+>>> conversion.
+>>>
+>>> Vladimir, since the conversion will mess with error_propagate(), I'd
+>>> like to get it in before your auto-propagation work.
+>>>
+>>
+>> OK, just let me know when to regenerate the series, it's not hard.
+>>
+>
+> Hi! Is all that merged? Should I resend now?
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- migration/colo.c | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
-
-diff --git a/migration/colo.c b/migration/colo.c
-index d5bced22cb..e6a7d8c6e2 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -47,6 +47,9 @@ static COLOMode last_colo_mode;
- 
- #define COLO_BUFFER_BASE_SIZE (4 * 1024 * 1024)
- 
-+/* Default COLO_CHECKPOINT_INTERVAL is 1000 ms */
-+#define COLO_CHECKPOINT_INTERVAL 1000
-+
- bool migration_in_colo_state(void)
- {
-     MigrationState *s = migrate_get_current();
-@@ -651,13 +654,20 @@ out:
- void colo_checkpoint_notify(void *opaque)
- {
-     MigrationState *s = opaque;
--    int64_t next_notify_time;
-+    int64_t now = qemu_clock_get_ms(QEMU_CLOCK_HOST);
- 
--    qemu_sem_post(&s->colo_checkpoint_sem);
--    s->colo_checkpoint_time = qemu_clock_get_ms(QEMU_CLOCK_HOST);
--    next_notify_time = s->colo_checkpoint_time +
--                    s->parameters.x_checkpoint_delay;
--    timer_mod(s->colo_delay_timer, next_notify_time);
-+    /*
-+     * When COLO guest occur issues, COLO-compare will catch lots of
-+     * different network packet and trigger notification multi times,
-+     * force periodic may happen at the same time. So this can be
-+     * efficient merge checkpoint request within COLO_CHECKPOINT_INTERVAL.
-+     */
-+    if (now > s->colo_checkpoint_time + COLO_CHECKPOINT_INTERVAL) {
-+        qemu_sem_post(&s->colo_checkpoint_sem);
-+        timer_mod(s->colo_delay_timer, now +
-+                  s->parameters.x_checkpoint_delay);
-+        s->colo_checkpoint_time = now;
-+    }
- }
- 
- void migrate_start_colo_process(MigrationState *s)
--- 
-2.17.1
+I ran into many bugs and fell into a few rabbit holes.  I'm busy
+finishing and flushing the patches.
 
 
