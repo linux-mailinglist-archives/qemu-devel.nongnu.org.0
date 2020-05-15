@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F6F11D4E1C
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 14:51:58 +0200 (CEST)
-Received: from localhost ([::1]:60958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A4941D4E17
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 14:50:36 +0200 (CEST)
+Received: from localhost ([::1]:55402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZZoj-0004Fe-AR
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 08:51:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45480)
+	id 1jZZnP-0001uT-HB
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 08:50:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZih-0002JU-2n
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:45:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47692
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZif-0002F9-8X
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:45:41 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35204
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZif-000278-4x
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:45:42 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZie-00026r-AI
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:45:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589546740;
+ s=mimecast20190719; t=1589546739;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tCfxbEtQqZs5JrNHeQ27Uq5tlNIM45o4v+oWJ8/63g0=;
- b=OPML/uexAboaINJMdoTReN+3eVTwV4lT2HSmQvIOltGbMaY7vnelht7n1VsdTK65pAtMag
- 1IoaWdOJT6IAiT+48fhxGWSiH3/wSV55t+ASTOc8vraU2xynEDfuu4K01A+rnAQEsnV6Gl
- zgymgXYsN+pzSEdqztiJPIJOULzax6g=
+ bh=Fyi3nukATwLELbAJliwdhiY94zBfnD+xlptums6tQDk=;
+ b=UXMI/cQxgKKpBNTB7l7uNfxJSI7F1oUsJvLocwBq1E/CFgpk92FNqPhFx5Jp71TPA0kyF9
+ Yux8y8EapKFQv+A41lNzU2aO5xyuyg/E0QTFI/B0dub3FPKqg4B1UTQ3dzhcQoPTwcJyoa
+ KP9lR49Q6rtbZ3hYR+8WcwDRqYyVfvE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-GSGZH1FbNkWyx4jDjJqMfw-1; Fri, 15 May 2020 08:45:36 -0400
-X-MC-Unique: GSGZH1FbNkWyx4jDjJqMfw-1
+ us-mta-400-Pz34IHz2Od6nLof-l0qzpQ-1; Fri, 15 May 2020 08:45:37 -0400
+X-MC-Unique: Pz34IHz2Od6nLof-l0qzpQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1186819200C1;
- Fri, 15 May 2020 12:45:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 533C319200C2;
+ Fri, 15 May 2020 12:45:36 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-110.ams2.redhat.com
  [10.36.113.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 18A3C2E024;
- Fri, 15 May 2020 12:45:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5A79E2E024;
+ Fri, 15 May 2020 12:45:35 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 04/51] iotests: Mirror with different source/target size
-Date: Fri, 15 May 2020 14:44:34 +0200
-Message-Id: <20200515124521.335403-5-kwolf@redhat.com>
+Subject: [PULL 05/51] block/replication.c: Avoid cancelling the job twice
+Date: Fri, 15 May 2020 14:44:35 +0200
+Message-Id: <20200515124521.335403-6-kwolf@redhat.com>
 In-Reply-To: <20200515124521.335403-1-kwolf@redhat.com>
 References: <20200515124521.335403-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,17 +55,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 22:56:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,96 +82,36 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This tests that the mirror job catches situations where the target node
-has a different size than the source node. It must also forbid resize
-operations when the job is already running.
+From: Lukas Straub <lukasstraub2@web.de>
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200511135825.219437-5-kwolf@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+If qemu in colo secondary mode is stopped, it crashes because
+s->backup_job is canceled twice: First with job_cancel_sync_all()
+in qemu_cleanup() and then in replication_stop().
+
+Fix this by assigning NULL to s->backup_job when the job completes
+so replication_stop() and replication_do_checkpoint() won't touch
+the job.
+
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Message-Id: <20200511090801.7ed5d8f3@luklap>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/041     | 45 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/041.out |  4 ++--
- 2 files changed, 47 insertions(+), 2 deletions(-)
+ block/replication.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-index 1812dd8479..601c756117 100755
---- a/tests/qemu-iotests/041
-+++ b/tests/qemu-iotests/041
-@@ -240,6 +240,49 @@ class TestSingleBlockdev(TestSingleDrive):
-                              target=self.qmp_target)
-         self.assert_qmp(result, 'error/class', 'GenericError')
+diff --git a/block/replication.c b/block/replication.c
+index 971f0fe266..c03980a192 100644
+--- a/block/replication.c
++++ b/block/replication.c
+@@ -398,6 +398,8 @@ static void backup_job_cleanup(BlockDriverState *bs)
+     BDRVReplicationState *s = bs->opaque;
+     BlockDriverState *top_bs;
  
-+    def do_test_resize(self, device, node):
-+        def pre_finalize():
-+            if device:
-+                result = self.vm.qmp('block_resize', device=device, size=65536)
-+                self.assert_qmp(result, 'error/class', 'GenericError')
++    s->backup_job = NULL;
 +
-+            result = self.vm.qmp('block_resize', node_name=node, size=65536)
-+            self.assert_qmp(result, 'error/class', 'GenericError')
-+
-+        result = self.vm.qmp(self.qmp_cmd, job_id='job0', device='drive0',
-+                             sync='full', target=self.qmp_target,
-+                             auto_finalize=False, auto_dismiss=False)
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = self.vm.run_job('job0', auto_finalize=False,
-+                                 pre_finalize=pre_finalize)
-+        self.assertEqual(result, None)
-+
-+    def test_source_resize(self):
-+        self.do_test_resize('drive0', 'top')
-+
-+    def test_target_resize(self):
-+        self.do_test_resize(None, self.qmp_target)
-+
-+    def do_test_target_size(self, size):
-+        result = self.vm.qmp('block_resize', node_name=self.qmp_target,
-+                             size=size)
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = self.vm.qmp(self.qmp_cmd, job_id='job0',
-+                             device='drive0', sync='full', auto_dismiss=False,
-+                             target=self.qmp_target)
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = self.vm.run_job('job0')
-+        self.assertEqual(result, 'Source and target image have different sizes')
-+
-+    def test_small_target(self):
-+        self.do_test_target_size(self.image_len // 2)
-+
-+    def test_large_target(self):
-+        self.do_test_target_size(self.image_len * 2)
-+
-     test_large_cluster = None
-     test_image_not_found = None
-     test_small_buffer2 = None
-@@ -251,6 +294,8 @@ class TestSingleDriveZeroLength(TestSingleDrive):
- 
- class TestSingleBlockdevZeroLength(TestSingleBlockdev):
-     image_len = 0
-+    test_small_target = None
-+    test_large_target = None
- 
- class TestSingleDriveUnalignedLength(TestSingleDrive):
-     image_len = 1025 * 1024
-diff --git a/tests/qemu-iotests/041.out b/tests/qemu-iotests/041.out
-index 877b76fd31..53abe11d73 100644
---- a/tests/qemu-iotests/041.out
-+++ b/tests/qemu-iotests/041.out
-@@ -1,5 +1,5 @@
--..............................................................................................
-+........................................................................................................
- ----------------------------------------------------------------------
--Ran 94 tests
-+Ran 104 tests
- 
- OK
+     top_bs = bdrv_lookup_bs(s->top_id, s->top_id, NULL);
+     if (!top_bs) {
+         return;
 -- 
 2.25.4
 
