@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482B91D459A
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 08:10:15 +0200 (CEST)
-Received: from localhost ([::1]:59628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED4D1D45BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 08:17:48 +0200 (CEST)
+Received: from localhost ([::1]:53802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZTXy-00030l-9M
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 02:10:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55892)
+	id 1jZTfH-0006Wf-GL
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 02:17:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jZTST-00033v-MY
- for qemu-devel@nongnu.org; Fri, 15 May 2020 02:04:33 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27468
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jZTSX-0003Bs-Ld
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 02:04:37 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46741
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jZTSQ-0004Pz-M3
- for qemu-devel@nongnu.org; Fri, 15 May 2020 02:04:33 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jZTSU-0004S9-0e
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 02:04:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589522670;
+ s=mimecast20190719; t=1589522673;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2n8dS7sLGB2XScMEWJFeWyufIB0Czfl8qq3wbGLcuPc=;
- b=dx1aAAjYjbXZAsaAt/RGYTbx6RiI2u6HHYXgdMiP15qMOsLcnDqh3F8PsjT6FJx+ZxSCfN
- TK7SayhehU+E7fy9fEPY1CGh1KXZmJYBZVZYa5HsdR2YKLCBRxyDpUNlWysroS6MdCnD/T
- +RUPClJeggNI5laq07jajT5UXU/DcYI=
+ bh=EDutmp6QRXUlvxzC29vVl5P4mh9q50bv87FKPAKQfvM=;
+ b=hidp0BekzXPu2flCi9QOZtijzDT0bB3VPp1Re6r2FgMR1A9ouhwS9dcituzYqzLKYjil+X
+ OwYZAZMW5gfm0lTbrBZ93S39jGr80d50g/vr2It9MpLQ3HdHYeN7Tvk8R1Y4gy/0pB007v
+ s6XhXZ9fuUhnt3Jn/0qe/zIthiUJbEk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-68-RO575i-6M8SBr0GcpdlvaA-1; Fri, 15 May 2020 02:04:28 -0400
-X-MC-Unique: RO575i-6M8SBr0GcpdlvaA-1
+ us-mta-126-7mBFkkkvPyenjYcbqsF04A-1; Fri, 15 May 2020 02:04:31 -0400
+X-MC-Unique: 7mBFkkkvPyenjYcbqsF04A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 649A918FE880
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 06:04:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C2AABFD8;
+ Fri, 15 May 2020 06:04:30 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 34BD55EE0E;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 372926E719;
  Fri, 15 May 2020 06:04:27 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4171511358C4; Fri, 15 May 2020 08:04:24 +0200 (CEST)
+ id 459AC11358C5; Fri, 15 May 2020 08:04:24 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/21] tests/check-qom-proplist: Improve iterator coverage
-Date: Fri, 15 May 2020 08:04:11 +0200
-Message-Id: <20200515060424.18993-9-armbru@redhat.com>
+Subject: [PULL 09/21] s390x/cpumodel: Fix UI to CPU features pcc-cmac-{aes,
+ eaes}-256
+Date: Fri, 15 May 2020 08:04:12 +0200
+Message-Id: <20200515060424.18993-10-armbru@redhat.com>
 In-Reply-To: <20200515060424.18993-1-armbru@redhat.com>
 References: <20200515060424.18993-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -65,8 +66,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,124 +80,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com
+Cc: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ pbonzini@redhat.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tests' "qemu-dummy" device has only class properties.  Turn one of
-them into an instance property.  test_dummy_class_iterator() expects
-one fewer property than test_dummy_iterator().  Rewrite
-test_dummy_prop_iterator() to take expected properties as argument.
+Both s390_features[S390_FEAT_PCC_CMAC_AES_256].name and
+s390_features[S390_FEAT_PCC_CMAC_EAES_256].name is
+"pcc-cmac-eaes-256".  The former is obviously a pasto.
 
+Impact:
+
+* s390_feat_bitmap_to_ascii() misidentifies S390_FEAT_PCC_CMAC_AES_256
+  as "pcc-cmac-eaes-256".  Affects QMP commands query-cpu-definitions,
+  query-cpu-model-expansion, query-cpu-model-baseline,
+  query-cpu-model-comparison, and the error message when
+  s390_realize_cpu_model() fails in check_compatibility().
+
+* s390_cpu_list() also misidentifies it.  Affects -cpu help.
+
+* s390_cpu_model_register_props() creates CPU property
+  "pcc-cmac-eaes-256" twice.  The second one fails, but the error is
+  ignored (a later commit will change that).  Results in a single
+  property "pcc-cmac-eaes-256" with the description for
+  S390_FEAT_PCC_CMAC_AES_256, and no property for
+  S390_FEAT_PCC_CMAC_EAES_256.  CPU properties are visible in CLI -cpu
+  and -device, QMP & HMP device_add, QMP device-list-properties, and
+  QOM introspection.
+
+The two features are almost always used via their group msa4.  Such
+use is not affected by this bug.
+
+Fix by deleting the wayward 'e'.
+
+Fixes: 782417446279 ("s390x/cpumodel: introduce CPU features")
+Cc: Halil Pasic <pasic@linux.ibm.com>
+Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: qemu-s390x@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20200505152926.18877-9-armbru@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Tested-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-Id: <20200505152926.18877-10-armbru@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+[Lost paragraph in commit message restored, Fixes: tweaked]
 ---
- tests/check-qom-proplist.c | 51 +++++++++++++++++++-------------------
- 1 file changed, 26 insertions(+), 25 deletions(-)
+ target/s390x/cpu_features_def.inc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/check-qom-proplist.c b/tests/check-qom-proplist.c
-index a8b2958e6e..140d56439a 100644
---- a/tests/check-qom-proplist.c
-+++ b/tests/check-qom-proplist.c
-@@ -130,17 +130,18 @@ static void dummy_init(Object *obj)
-     object_property_add_bool(obj, "bv",
-                              dummy_get_bv,
-                              dummy_set_bv,
--                             &err);
-+                             NULL);
-+    /* duplicate: */
-+    object_property_add_str(obj, "sv",
-+                            dummy_get_sv,
-+                            dummy_set_sv,
-+                            &err);
-     error_free_or_abort(&err);
- }
- 
- 
- static void dummy_class_init(ObjectClass *cls, void *data)
- {
--    object_class_property_add_bool(cls, "bv",
--                                   dummy_get_bv,
--                                   dummy_set_bv,
--                                   NULL);
-     object_class_property_add_str(cls, "sv",
-                                   dummy_get_sv,
-                                   dummy_set_sv,
-@@ -520,34 +521,33 @@ static void test_dummy_getenum(void)
- }
- 
- 
--static void test_dummy_prop_iterator(ObjectPropertyIterator *iter)
-+static void test_dummy_prop_iterator(ObjectPropertyIterator *iter,
-+                                     const char *expected[], int n)
- {
--    bool seenbv = false, seensv = false, seenav = false, seentype = false;
-     ObjectProperty *prop;
-+    int i;
- 
-     while ((prop = object_property_iter_next(iter))) {
--        if (!seenbv && g_str_equal(prop->name, "bv")) {
--            seenbv = true;
--        } else if (!seensv && g_str_equal(prop->name, "sv")) {
--            seensv = true;
--        } else if (!seenav && g_str_equal(prop->name, "av")) {
--            seenav = true;
--        } else if (!seentype && g_str_equal(prop->name, "type")) {
--            /* This prop comes from the base Object class */
--            seentype = true;
--        } else {
--            g_printerr("Found prop '%s'\n", prop->name);
--            g_assert_not_reached();
-+        for (i = 0; i < n; i++) {
-+            if (!g_strcmp0(prop->name, expected[i])) {
-+                break;
-+            }
-         }
-+        g_assert(i < n);
-+        expected[i] = NULL;
-+    }
-+
-+    for (i = 0; i < n; i++) {
-+        g_assert(!expected[i]);
-     }
--    g_assert(seenbv);
--    g_assert(seenav);
--    g_assert(seensv);
--    g_assert(seentype);
- }
- 
- static void test_dummy_iterator(void)
- {
-+    const char *expected[] = {
-+        "type",                 /* inherited from TYPE_OBJECT */
-+        "sv", "av",             /* class properties */
-+        "bv"};                  /* instance property */
-     Object *parent = object_get_objects_root();
-     DummyObject *dobj = DUMMY_OBJECT(
-         object_new_with_props(TYPE_DUMMY,
-@@ -561,17 +561,18 @@ static void test_dummy_iterator(void)
-     ObjectPropertyIterator iter;
- 
-     object_property_iter_init(&iter, OBJECT(dobj));
--    test_dummy_prop_iterator(&iter);
-+    test_dummy_prop_iterator(&iter, expected, ARRAY_SIZE(expected));
-     object_unparent(OBJECT(dobj));
- }
- 
- static void test_dummy_class_iterator(void)
- {
-+    const char *expected[] = { "type", "av", "sv" };
-     ObjectPropertyIterator iter;
-     ObjectClass *klass = object_class_by_name(TYPE_DUMMY);
- 
-     object_class_property_iter_init(&iter, klass);
--    test_dummy_prop_iterator(&iter);
-+    test_dummy_prop_iterator(&iter, expected, ARRAY_SIZE(expected));
- }
- 
- static void test_dummy_delchild(void)
+diff --git a/target/s390x/cpu_features_def.inc.h b/target/s390x/cpu_features_def.inc.h
+index 60db28351d..5942f81f16 100644
+--- a/target/s390x/cpu_features_def.inc.h
++++ b/target/s390x/cpu_features_def.inc.h
+@@ -311,7 +311,7 @@ DEF_FEAT(PCC_CMAC_ETDEA_192, "pcc-cmac-etdea-128", PCC, 10, "PCC Compute-Last-Bl
+ DEF_FEAT(PCC_CMAC_TDEA, "pcc-cmac-etdea-192", PCC, 11, "PCC Compute-Last-Block-CMAC-Using-EncryptedTDEA-192")
+ DEF_FEAT(PCC_CMAC_AES_128, "pcc-cmac-aes-128", PCC, 18, "PCC Compute-Last-Block-CMAC-Using-AES-128")
+ DEF_FEAT(PCC_CMAC_AES_192, "pcc-cmac-aes-192", PCC, 19, "PCC Compute-Last-Block-CMAC-Using-AES-192")
+-DEF_FEAT(PCC_CMAC_AES_256, "pcc-cmac-eaes-256", PCC, 20, "PCC Compute-Last-Block-CMAC-Using-AES-256")
++DEF_FEAT(PCC_CMAC_AES_256, "pcc-cmac-aes-256", PCC, 20, "PCC Compute-Last-Block-CMAC-Using-AES-256")
+ DEF_FEAT(PCC_CMAC_EAES_128, "pcc-cmac-eaes-128", PCC, 26, "PCC Compute-Last-Block-CMAC-Using-Encrypted-AES-128")
+ DEF_FEAT(PCC_CMAC_EAES_192, "pcc-cmac-eaes-192", PCC, 27, "PCC Compute-Last-Block-CMAC-Using-Encrypted-AES-192")
+ DEF_FEAT(PCC_CMAC_EAES_256, "pcc-cmac-eaes-256", PCC, 28, "PCC Compute-Last-Block-CMAC-Using-Encrypted-AES-256")
 -- 
 2.21.1
 
