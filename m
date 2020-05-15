@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8350A1D532E
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:08:15 +0200 (CEST)
-Received: from localhost ([::1]:47348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A56E1D53F8
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:14:38 +0200 (CEST)
+Received: from localhost ([::1]:46042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZbwc-0006ya-Jk
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:08:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48520)
+	id 1jZc2n-000256-9U
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:14:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbtC-0000wM-HK
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:04:42 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60752
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbtH-0001A0-Jj
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:04:47 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47868
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbtB-0001B7-II
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:04:42 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbtF-0001CK-TH
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:04:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589555080;
+ s=mimecast20190719; t=1589555085;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=6Wen19v43k0kFxDDSBUtVMb/MiRgUVR+pg5IuCqCVcw=;
- b=VR69i/SwvaYnlG/OTJmBpWY4sFgjHdsnMYVvQlve/d/wdwZwOVIqU9ClJjjfKmewy8Gn2t
- Ae1qbzL6o+epndpXJXrBfxuWV0l4MdveGAC1gw2HDnNL6t+MgcJn1/fiugFCTbWkJdCdYR
- MRAFQKiHUEHVCAmrV+HZXTzpVMBChvg=
+ references:references; bh=6aDju+U8YBKyDxdsHDTSAKTnZMEzEwA3xqrQ+Lm4JVM=;
+ b=Nkx27qpZkUVcj8Q3md6+neidnkAWSgBKUnFbRIUTxS9v86+zTlGBn9Vzmz++8MkiJyKpmr
+ jxzqTrERC7fXdyoitj5AZmit5nDlovJcCeA/AybyfD0j4I+PRXd4c5rVuFd0sS4/ml6D57
+ irgK/s8xFnHtDnaTf1DV6ARVlQD6LLk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-yMuYhhE6O4CYGnksxGCwxw-1; Fri, 15 May 2020 11:04:34 -0400
-X-MC-Unique: yMuYhhE6O4CYGnksxGCwxw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-469-I66zeFrWM2ubLCDN_LiXYA-1; Fri, 15 May 2020 11:04:42 -0400
+X-MC-Unique: I66zeFrWM2ubLCDN_LiXYA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50FD78005AD;
- Fri, 15 May 2020 15:04:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CB84107ACCD;
+ Fri, 15 May 2020 15:04:41 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-115-145.ams2.redhat.com
  [10.36.115.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 026B4600F5;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6052E5D9C9;
  Fri, 15 May 2020 15:04:33 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3AA649D72; Fri, 15 May 2020 17:04:22 +0200 (CEST)
+ id 438159D73; Fri, 15 May 2020 17:04:22 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 15/16] acpi: drop build_piix4_pm()
-Date: Fri, 15 May 2020 17:04:20 +0200
-Message-Id: <20200515150421.25479-16-kraxel@redhat.com>
+Subject: [PATCH v6 16/16] acpi: q35: drop _SB.PCI0.ISA.LPCD opregion.
+Date: Fri, 15 May 2020 17:04:21 +0200
+Message-Id: <20200515150421.25479-17-kraxel@redhat.com>
 In-Reply-To: <20200515150421.25479-1-kraxel@redhat.com>
 References: <20200515150421.25479-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -86,48 +86,43 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The _SB.PCI0.PX13.P13C opregion (holds isa device enable bits)
-is not used any more, remove it from DSDT.
+Seems to be unused.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/acpi-build.c | 16 ----------------
- 1 file changed, 16 deletions(-)
+ hw/i386/acpi-build.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 765409a90eb6..c1e63cce5e8e 100644
+index c1e63cce5e8e..1afb47b09ee9 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -1441,21 +1441,6 @@ static void build_q35_isa_bridge(Aml *table)
-     aml_append(table, scope);
- }
- 
--static void build_piix4_pm(Aml *table)
--{
--    Aml *dev;
--    Aml *scope;
--
--    scope =  aml_scope("_SB.PCI0");
--    dev = aml_device("PX13");
--    aml_append(dev, aml_name_decl("_ADR", aml_int(0x00010003)));
--
--    aml_append(dev, aml_operation_region("P13C", AML_PCI_CONFIG,
--                                         aml_int(0x00), 0xff));
--    aml_append(scope, dev);
--    aml_append(table, scope);
--}
--
- static void build_piix4_isa_bridge(Aml *table)
+@@ -1417,7 +1417,6 @@ static void build_q35_isa_bridge(Aml *table)
  {
      Aml *dev;
-@@ -1607,7 +1592,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         aml_append(dsdt, sb_scope);
+     Aml *scope;
+-    Aml *field;
  
-         build_hpet_aml(dsdt);
--        build_piix4_pm(dsdt);
-         build_piix4_isa_bridge(dsdt);
-         build_isa_devices_aml(dsdt);
-         build_piix4_pci_hotplug(dsdt);
+     scope =  aml_scope("_SB.PCI0");
+     dev = aml_device("ISA");
+@@ -1427,16 +1426,6 @@ static void build_q35_isa_bridge(Aml *table)
+     aml_append(dev, aml_operation_region("PIRQ", AML_PCI_CONFIG,
+                                          aml_int(0x60), 0x0C));
+ 
+-    aml_append(dev, aml_operation_region("LPCD", AML_PCI_CONFIG,
+-                                         aml_int(0x80), 0x02));
+-    field = aml_field("LPCD", AML_ANY_ACC, AML_NOLOCK, AML_PRESERVE);
+-    aml_append(field, aml_named_field("COMA", 3));
+-    aml_append(field, aml_reserved_field(1));
+-    aml_append(field, aml_named_field("COMB", 3));
+-    aml_append(field, aml_reserved_field(1));
+-    aml_append(field, aml_named_field("LPTD", 2));
+-    aml_append(dev, field);
+-
+     aml_append(scope, dev);
+     aml_append(table, scope);
+ }
 -- 
 2.18.4
 
