@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B8CB1D50FA
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:39:58 +0200 (CEST)
-Received: from localhost ([::1]:58218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED3F1D50EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:38:33 +0200 (CEST)
+Received: from localhost ([::1]:52476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZbVF-0003iR-4O
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:39:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42016)
+	id 1jZbTs-0001KK-Hy
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbRB-0004H8-V5
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35172
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbRA-0004Fq-QG
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31507
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbRA-0007wE-QH
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:45 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbR9-0007vn-Gb
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589553344;
+ s=mimecast20190719; t=1589553342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OmcZB/3f1J5kbTiAqV773hRmE+pXsUs3yHQfmUAD/cw=;
- b=bHOPYYFTjrFhmOXxFivJaHOQ1u1esSxs9OuXdDk7T1pKStybN4YtqXQghzCuYcbd+Wzljg
- L0kQmGxnRA7T1FFV6+yETK2ruFZPomQuCMdfP7eLqCwvLxAGuXnkc30qFoZAQoeGbWsjtG
- STJ5chGtw0URpfB+cY29nx0F7nUoaQQ=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=zMOpcVUnJEc4LJFOQxqPXo76bEz8HhyTBI4AjEu4EkI=;
+ b=J8l1cTzKfDbJWtdlmQmNNOGsBpvEacTWt7fAMM5qV6S/FTjjAo8gPRqn7Sjaoc5aJKaT9x
+ Qu1Z82rLWMvdQ2+C+yQlyMoB350M4Z+Ih6xwdF6arkKwndDWTryNQ+OhO70TeF55k5RELe
+ c8Sm93F1kPyCkShv9UDipSdT6eA2PLs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-j0mp-hdoNM6Z14xENyJvWg-1; Fri, 15 May 2020 10:35:39 -0400
-X-MC-Unique: j0mp-hdoNM6Z14xENyJvWg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-27-DVSsHXd3NTG7CFJtGqdkYg-1; Fri, 15 May 2020 10:35:40 -0400
+X-MC-Unique: DVSsHXd3NTG7CFJtGqdkYg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2BD9107ACCA
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 14:35:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8722318FF66F
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 14:35:39 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-115-145.ams2.redhat.com
  [10.36.115.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 033265D9F1;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0326D5C241;
  Fri, 15 May 2020 14:35:29 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D21231750A; Fri, 15 May 2020 16:35:28 +0200 (CEST)
+ id DC28417538; Fri, 15 May 2020 16:35:28 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/13] stubs: add pci_create_simple
-Date: Fri, 15 May 2020 16:35:17 +0200
-Message-Id: <20200515143528.13591-3-kraxel@redhat.com>
+Subject: [PATCH v2 03/13] audio: add deprecated_register_soundhw
+Date: Fri, 15 May 2020 16:35:18 +0200
+Message-Id: <20200515143528.13591-4-kraxel@redhat.com>
 In-Reply-To: <20200515143528.13591-1-kraxel@redhat.com>
 References: <20200515143528.13591-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 23:27:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 22:56:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,42 +82,85 @@ Cc: libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Needed for -soundhw cleanup.
+Add helper function for -soundhw deprecation.  It can replace the
+simple init functions which just call {isa,pci}_create_simple()
+with a hardcoded type.  It also prints a deprecation message.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- stubs/pci-bus.c     | 7 +++++++
- stubs/Makefile.objs | 1 +
- 2 files changed, 8 insertions(+)
- create mode 100644 stubs/pci-bus.c
+ include/hw/audio/soundhw.h |  2 ++
+ hw/audio/soundhw.c         | 24 +++++++++++++++++++++++-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/stubs/pci-bus.c b/stubs/pci-bus.c
-new file mode 100644
-index 000000000000..a8932fa93250
---- /dev/null
-+++ b/stubs/pci-bus.c
-@@ -0,0 +1,7 @@
-+#include "qemu/osdep.h"
-+#include "hw/pci/pci.h"
-+
-+PCIDevice *pci_create_simple(PCIBus *bus, int devfn, const char *name)
+diff --git a/include/hw/audio/soundhw.h b/include/hw/audio/soundhw.h
+index c8eef8241846..f09a297854af 100644
+--- a/include/hw/audio/soundhw.h
++++ b/include/hw/audio/soundhw.h
+@@ -6,6 +6,8 @@ void isa_register_soundhw(const char *name, const char *descr,
+ 
+ void pci_register_soundhw(const char *name, const char *descr,
+                           int (*init_pci)(PCIBus *bus));
++void deprecated_register_soundhw(const char *name, const char *descr,
++                                 int isa, const char *typename);
+ 
+ void soundhw_init(void);
+ void select_soundhw(const char *optarg);
+diff --git a/hw/audio/soundhw.c b/hw/audio/soundhw.c
+index c750473c8f0c..173b674ff53a 100644
+--- a/hw/audio/soundhw.c
++++ b/hw/audio/soundhw.c
+@@ -22,6 +22,7 @@
+  * THE SOFTWARE.
+  */
+ #include "qemu/osdep.h"
++#include "qemu/option.h"
+ #include "qemu/help_option.h"
+ #include "qemu/error-report.h"
+ #include "qom/object.h"
+@@ -32,6 +33,7 @@
+ struct soundhw {
+     const char *name;
+     const char *descr;
++    const char *typename;
+     int enabled;
+     int isa;
+     union {
+@@ -65,6 +67,17 @@ void pci_register_soundhw(const char *name, const char *descr,
+     soundhw_count++;
+ }
+ 
++void deprecated_register_soundhw(const char *name, const char *descr,
++                                 int isa, const char *typename)
 +{
-+    g_assert_not_reached();
++    assert(soundhw_count < ARRAY_SIZE(soundhw) - 1);
++    soundhw[soundhw_count].name = name;
++    soundhw[soundhw_count].descr = descr;
++    soundhw[soundhw_count].isa = isa;
++    soundhw[soundhw_count].typename = typename;
++    soundhw_count++;
 +}
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index c61ff38cc801..5e7f2b3f061e 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -40,6 +40,7 @@ stub-obj-y += target-get-monitor-def.o
- stub-obj-y += vmgenid.o
- stub-obj-y += xen-common.o
- stub-obj-y += xen-hvm.o
-+stub-obj-y += pci-bus.o
- stub-obj-y += pci-host-piix.o
- stub-obj-y += ram-block.o
- stub-obj-y += ramfb.o
++
+ void select_soundhw(const char *optarg)
+ {
+     struct soundhw *c;
+@@ -136,7 +149,16 @@ void soundhw_init(void)
+ 
+     for (c = soundhw; c->name; ++c) {
+         if (c->enabled) {
+-            if (c->isa) {
++            if (c->typename) {
++                warn_report("'-soundhw %s' is deprecated, "
++                            "please use '-device %s' instead",
++                            c->name, c->typename);
++                if (c->isa) {
++                    isa_create_simple(isa_bus, c->typename);
++                } else {
++                    pci_create_simple(pci_bus, -1, c->typename);
++                }
++            } else if (c->isa) {
+                 if (!isa_bus) {
+                     error_report("ISA bus not available for %s", c->name);
+                     exit(1);
 -- 
 2.18.4
 
