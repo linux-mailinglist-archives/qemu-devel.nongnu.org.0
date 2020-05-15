@@ -2,69 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD3B1D4469
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 06:24:17 +0200 (CEST)
-Received: from localhost ([::1]:55196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF351D44B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 06:40:38 +0200 (CEST)
+Received: from localhost ([::1]:42838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZRtP-0006a5-Jb
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 00:24:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37106)
+	id 1jZS9F-0000KV-B8
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 00:40:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jZRrr-00068p-5v
- for qemu-devel@nongnu.org; Fri, 15 May 2020 00:22:39 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23511
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jZRrq-00011x-3w
- for qemu-devel@nongnu.org; Fri, 15 May 2020 00:22:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589516557;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rnGy+nbz/6ihpYM8xij3AfZs61Auhjg0iER1EhIdf0Q=;
- b=FrMoaC1oiY8BHsgMnh6OB4w2r1tJitYKgM6yYL2qlMOlrQNRII5g4gvz5tSumjJQBHd2yh
- /ObVzSpLMGeJXChMnVqcuR9YAZDlieTcArAlwGLS1153SwkcHNfBWebCGhO/2ccpd4pioj
- nEjESQgQowivO7FE4rdwHuJP6ymYoeI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-h_m7paTfMmWmUlrGenbyQA-1; Fri, 15 May 2020 00:22:34 -0400
-X-MC-Unique: h_m7paTfMmWmUlrGenbyQA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62F1C460;
- Fri, 15 May 2020 04:22:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1BB7B5D9D7;
- Fri, 15 May 2020 04:22:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9E11E11358BC; Fri, 15 May 2020 06:22:31 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] cpus: Fix botched configure_icount() error API violation
- fix
-Date: Fri, 15 May 2020 06:22:31 +0200
-Message-Id: <20200515042231.18201-1-armbru@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1jZS7Y-0007gx-EV
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 00:38:52 -0400
+Received: from mga12.intel.com ([192.55.52.136]:45609)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1jZS7W-0007aG-BO
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 00:38:51 -0400
+IronPort-SDR: AJ8ZoXQxqfHIBXP3ydrfkEX+Szdnr/YhitKN1pfowjZp3JWk/1691mTftHITeT+2Gw2JASYlmr
+ fBkImOyeRyGQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 May 2020 21:38:45 -0700
+IronPort-SDR: 0LtNTO6VouLRutqm4Nzoej3cegmsJlOOjmMOM+f2CTCSuBMw8kCI18+tLRBAI9Hp2zD1P36+hK
+ oBEF1JunDpDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,394,1583222400"; d="scan'208";a="263069529"
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+ by orsmga003.jf.intel.com with ESMTP; 14 May 2020 21:38:43 -0700
+From: Zhang Chen <chen.zhang@intel.com >
+To: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ qemu-dev <qemu-devel@nongnu.org>
+Subject: [PATCH  0/3] migration/colo: Optimize COLO framework code 
+Date: Fri, 15 May 2020 12:28:15 +0800
+Message-Id: <20200515042818.17908-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=chen.zhang@intel.com;
+ helo=mga12.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:38:46
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, FROM_ADDR_WS=2.999,
+ FROM_WSP_TRAIL=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,45 +64,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, philmd@redhat.com, peter.maydell@linaro.org
+Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
+ Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Before recent commit abc9bf69a66, configure_icount() returned early
-when option "shift" was absent: succeed when option "align" was also
-absent, else fail.
+From: Zhang Chen <chen.zhang@intel.com>
 
-Since then, it still errors out when only "align" is present, but
-continues when both are absent.  Crashes when examining the value of
-"shift" further.  Reproducer: -icount "".
+This series optimize some code of COLO, please review.
 
-Revert this erroneous part of the commit.
+Zhang Chen (3):
+  migration/colo: Optimize COLO boot code path
+  migration/colo: Update checkpoint time lately
+  migration/colo: Merge multi checkpoint request into one.
 
-Fixes: abc9bf69a66a11499a801ff545b8fe7adbb3a04c
-Fixes: Coverity CID 1428754
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- cpus.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ migration/colo.c      | 29 ++++++++++++++++++-----------
+ migration/migration.c | 17 ++++++++++-------
+ 2 files changed, 28 insertions(+), 18 deletions(-)
 
-diff --git a/cpus.c b/cpus.c
-index 5670c96bcf..ee906dd08f 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -803,8 +803,10 @@ void configure_icount(QemuOpts *opts, Error **errp)
-     bool align = qemu_opt_get_bool(opts, "align", false);
-     long time_shift = -1;
- 
--    if (!option && qemu_opt_get(opts, "align")) {
--        error_setg(errp, "Please specify shift option when using align");
-+    if (!option) {
-+        if (qemu_opt_get(opts, "align") != NULL) {
-+            error_setg(errp, "Please specify shift option when using align");
-+        }
-         return;
-     }
- 
 -- 
-2.21.1
+2.17.1
 
 
