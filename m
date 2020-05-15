@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208011D4F2A
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 15:21:12 +0200 (CEST)
-Received: from localhost ([::1]:38110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 935F51D4EDE
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 15:18:12 +0200 (CEST)
+Received: from localhost ([::1]:56664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZaH1-0007zL-7t
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 09:21:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46018)
+	id 1jZaE7-0003qC-3t
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 09:18:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZji-0003uN-MT
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30999
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjh-0003uI-Se
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:48 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44225
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjh-0002Vv-MQ
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:46 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjh-0002Vg-1U
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589546805;
+ s=mimecast20190719; t=1589546804;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k9fpAZ9rPjUPAuSh1dQ8aQhXcuqg8rM81ibln037tcE=;
- b=hHYZ11HbDaBwhJ6i12L4pMpCCldCehjj+n5nUKfAGOJUktALTiQy6BAk9dzJLsfL0pPQtR
- Ls8bBelw3Xodo/m+P1w3EAa/Z5Z3ewrOOsoqfDJAeu+QImOeCuJUdrRkSgSfus32jo4MwX
- sPUsm2No6MfSTOq06yhgPgFH26+x8wA=
+ bh=hwiHccn7lvl/1r6qMKiGeYIvBED9KWcgn7MSl576gJI=;
+ b=g/XuDCh0UeLmJRYNhwOHjmleUtprOwoz1JCX7Tbt70y1OdvDqs4VYzrJ9qpWtiapuqJBoX
+ i66pp+7ZL75qCEjS2D2wCulbMB31DeVRNzkNA60/eeLftO4IhMnFeS2OI52mS8oJ4ne7pr
+ 8M92H7nXWRJa6EPxNEvtP5wedud0j8M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-5I93L6TYPYiAlm9pND8fmA-1; Fri, 15 May 2020 08:46:40 -0400
-X-MC-Unique: 5I93L6TYPYiAlm9pND8fmA-1
+ us-mta-161-oheZTiRMO26wnlXoJ7fyCA-1; Fri, 15 May 2020 08:46:42 -0400
+X-MC-Unique: oheZTiRMO26wnlXoJ7fyCA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A859B107ACCD;
- Fri, 15 May 2020 12:46:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB34F8005AD;
+ Fri, 15 May 2020 12:46:40 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-110.ams2.redhat.com
  [10.36.113.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AEF202E047;
- Fri, 15 May 2020 12:46:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F145A2E024;
+ Fri, 15 May 2020 12:46:39 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 50/51] hw/ide/ahci: Log lost IRQs
-Date: Fri, 15 May 2020 14:45:20 +0200
-Message-Id: <20200515124521.335403-51-kwolf@redhat.com>
+Subject: [PULL 51/51] iotests/030: Reduce run time by unthrottling job earlier
+Date: Fri, 15 May 2020 14:45:21 +0200
+Message-Id: <20200515124521.335403-52-kwolf@redhat.com>
 In-Reply-To: <20200515124521.335403-1-kwolf@redhat.com>
 References: <20200515124521.335403-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 23:27:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:39:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,31 +82,45 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+test_overlapping_3() throttles its active commit job so it can be sure
+the job is still busy when it checks that you can't start a conflicting
+streaming job.
 
-One might find interesting to look at AHCI IRQs.
+However, it only sets the commit job back to full speed when it is
+ready, which takes a few seconds while it's throttled. We can already
+reset the limit after having checked that block-stream returns an error
+and save these seconds.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200504094858.5975-1-f4bug@amsat.org>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Acked-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20200513100025.33543-1-kwolf@redhat.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/ide/ahci.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qemu-iotests/030 | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-index 13d91e109a..fc82cbd5f1 100644
---- a/hw/ide/ahci.c
-+++ b/hw/ide/ahci.c
-@@ -1509,6 +1509,7 @@ static void ahci_cmd_done(IDEDMA *dma)
+diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+index 104e3cee1b..1cdd7e2999 100755
+--- a/tests/qemu-iotests/030
++++ b/tests/qemu-iotests/030
+@@ -354,14 +354,14 @@ class TestParallelOps(iotests.QMPTestCase):
+         self.assert_qmp(result, 'error/desc',
+             "Node 'node5' is busy: block device is in use by block job: commit")
  
- static void ahci_irq_set(void *opaque, int n, int level)
- {
-+    qemu_log_mask(LOG_UNIMP, "ahci: IRQ#%d level:%d\n", n, level);
- }
++        result = self.vm.qmp('block-job-set-speed', device='commit-drive0', speed=0)
++        self.assert_qmp(result, 'return', {})
++
+         event = self.vm.event_wait(name='BLOCK_JOB_READY')
+         self.assert_qmp(event, 'data/device', 'commit-drive0')
+         self.assert_qmp(event, 'data/type', 'commit')
+         self.assert_qmp_absent(event, 'data/error')
  
- static const IDEDMAOps ahci_dma_ops = {
+-        result = self.vm.qmp('block-job-set-speed', device='commit-drive0', speed=0)
+-        self.assert_qmp(result, 'return', {})
+-
+         result = self.vm.qmp('block-job-complete', device='commit-drive0')
+         self.assert_qmp(result, 'return', {})
+ 
 -- 
 2.25.4
 
