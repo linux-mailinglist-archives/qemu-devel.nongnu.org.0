@@ -2,70 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C945A1D5358
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:11:38 +0200 (CEST)
-Received: from localhost ([::1]:34388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5373E1D53E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:13:27 +0200 (CEST)
+Received: from localhost ([::1]:42700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZbzt-0005Im-SZ
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:11:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49474)
+	id 1jZc1e-0000bJ-EC
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:13:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jtomko@redhat.com>) id 1jZby9-0003MU-3h
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:09:49 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26518
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jtomko@redhat.com>) id 1jZby8-0003g3-AE
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:09:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589555386;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5WhTMCSgQetjcqmeAkk2nkZ0Rv6tw23z91aheqnL+Ao=;
- b=NNqTwDk+iGUaqY8HeYW+77iZDFeqoFVJz8Zs/iUvTgUs4aHqgMho/xr4Fwhm0UHyByKBdJ
- 0gcIzB9blnSdtgYpcxOL7FtM2a3UWUPFmo57vs4gUXxeSU0vZ/SCSMJ8u6wyMQh0Anf6Sj
- fiDVse3oK/a3GVPB8Tg7zHc5epyuSNI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-2VID3QzdN5OrR6GsBbzyPQ-1; Fri, 15 May 2020 11:08:35 -0400
-X-MC-Unique: 2VID3QzdN5OrR6GsBbzyPQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4BC080183C
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 15:08:34 +0000 (UTC)
-Received: from lpt (unknown [10.40.208.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B8D75D9D7;
- Fri, 15 May 2020 15:08:27 +0000 (UTC)
-Date: Fri, 15 May 2020 17:08:23 +0200
-From: =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 11/13] audio: deprecate -soundhw pcspk
-Message-ID: <20200515150823.GA738369@lpt>
-References: <20200515143528.13591-1-kraxel@redhat.com>
- <20200515143528.13591-12-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jZbzc-00060q-9h
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:11:20 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:57699)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jZbzZ-00050n-8f
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:11:19 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 04FFAa7G009758
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Fri, 15 May 2020 11:10:39 -0400
+Date: Fri, 15 May 2020 11:10:36 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 0/6] tests/fuzz: Review notes
+Message-ID: <20200515151036.e5h26s65fokygbvr@mozz.bu.edu>
+References: <20200514143433.18569-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200515143528.13591-12-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jtomko@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:39:12
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200514143433.18569-1-philmd@redhat.com>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 11:11:14
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,76 +57,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---IJpNTDwzlM2Ie8A6
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 200514 1634, Philippe Mathieu-Daudé wrote:
+> I took some code notes while testing Alex's toy.
+> Sending them as patches.
 
-On a Friday in 2020, Gerd Hoffmann wrote:
->Add deprecation message to the audio init function.
->
->Factor out audio initialization and call that from
->both audio init and realize, so setting audiodev via
->-global is enough to properly initialize pcspk.
->
->Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->---
-> hw/audio/pcspk.c | 24 +++++++++++++++++++++---
-> 1 file changed, 21 insertions(+), 3 deletions(-)
->
->@@ -236,9 +245,18 @@ static const TypeInfo pcspk_info =3D {
->     .class_init     =3D pcspk_class_initfn,
-> };
->
->+static int pcspk_audio_init_soundhw(ISABus *bus)
->+{
->+    PCSpkState *s =3D pcspk_state;
->+
->+    warn_report("'-soundhw pcspk' is deprecated, "
->+                "please set a backend using '-global isa-pcspk.audiodev=
-=3D<name>' instead");
->+    return pcspk_audio_init(s);
+Thank you for these! I'd send my review tags, if they weren't already
+pulled.
 
--soundhw pcspk is the only soundhw device present in libvirt git.
+> Alex, I had theses issues while building following
+> docs/devel/fuzzing.txt:
+> 
+>     CC      nbd/server.o
+>   nbd/server.c:1937:1: error: unused function 'glib_listautoptr_cleanup_NBDExtentArray' [-Werror,-Wunused-function]
+>   G_DEFINE_AUTOPTR_CLEANUP_FUNC(NBDExtentArray, nbd_extent_array_free);
+>   ^
+>   /usr/include/glib-2.0/glib/gmacros.h:462:22: note: expanded from macro 'G_DEFINE_AUTOPTR_CLEANUP_FUNC'
+>     static inline void _GLIB_AUTOPTR_LIST_FUNC_NAME(TypeName) (GList **_l) { g_list_free_full (*_l, (GDestroyNotify) func); } \
+>                        ^
+>   /usr/include/glib-2.0/glib/gmacros.h:443:48: note: expanded from macro '_GLIB_AUTOPTR_LIST_FUNC_NAME'
+>   #define _GLIB_AUTOPTR_LIST_FUNC_NAME(TypeName) glib_listautoptr_cleanup_##TypeName
+>                                                  ^
+> Solved by using './configure ... --extra-cflags=-Wno-unused-function'
 
-Is there a way to probe for this change via QMP?
+Interesting that this doesn't show up for standard builds. I'll have to
+look into this more.
 
-Jano
+>     LINK    i386-softmmu/qemu-fuzz-i386
+>   /usr/lib64/clang/9.0.1/lib/linux/libclang_rt.asan-aarch64.a(asan_interceptors_vfork.S.o): warning: common of `__interception::real_vfork' overridden by definition
+>   /usr/lib64/clang/9.0.1/lib/linux/libclang_rt.asan-aarch64.a(asan_interceptors.cc.o): warning: defined here
+> 
+> I simply ignore this warning.
 
->+}
->+
-> static void pcspk_register(void)
-> {
->     type_register_static(&pcspk_info);
->-    isa_register_soundhw("pcspk", "PC speaker", pcspk_audio_init);
->+    isa_register_soundhw("pcspk", "PC speaker", pcspk_audio_init_soundhw)=
-;
-> }
-> type_init(pcspk_register)
->--=20
->2.18.4
->
+Yes, I get the same warning with this:
 
---IJpNTDwzlM2Ie8A6
-Content-Type: application/pgp-signature; name="signature.asc"
+cat << EOF | clang-9 -Wl,--warn-common  -fsanitize=fuzzer,address -x c -
+#include <sys/types.h>
+#include <stdint.h>
+int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) { return 0; }
+EOF
 
------BEGIN PGP SIGNATURE-----
+Might report this to the LLVM/compiler-rt folks.
 
-iQEzBAEBCAAdFiEEQeJGMrnL0ADuclbP+YPwO/Mat50FAl6+sGQACgkQ+YPwO/Ma
-t53d9AgAmCVDuH6nF9kjLgLDUH8+RKWVjwdBd+zJtLv+TAghXqM7aMceWQjRw0b3
-spaq0wDYyzwoQ+rDGn48sJdxUqRz5S6BeB1Oa7/YGH1TPFO8TfUs0Vbcyy8DaxdQ
-w9EChvQe0SqQuw0GNSg1eEPImfbt0jpCmZDG9fCeX9u2YqIRUE2Hbs/zqh1BIW4D
-3jYjz+cfs+T7YKZNEw+nyx+Aa7wGNDdOb+6jY+b2LP0AE2wPTzztfCMsHutKhs+3
-Jh6y03NVoqnHtUpyxqAWIUzZHRMe9had1+MprPxkon7G706q63cd8vus9PFzo4ge
-0SSosXzLSiYUrOn5X4m6HLKr/R89Eg==
-=D3fa
------END PGP SIGNATURE-----
+> Alex, could you provide few more examples (in particular about
+> instantiating devices, or useful libfuzzer arguments)?
 
---IJpNTDwzlM2Ie8A6--
+Yes - I'll send this out with my next fuzzing patches.
 
+> Also, I suppose you are using a script to generate the bug reports:
+> 
+>   I can reproduce it in qemu 5.0 using:
+> 
+>   cat << EOF | qemu-system ...
+>   outl 0xcf8 ...
+>   outl 0xcfc ...
+>   ...
+>   EOF
+> 
+> Is this script available in the QEMU repository? I couldn't find it.
+
+Right now I just added some unbuffered writes to qtest.c. I'll try to
+find a clean way of doing this and I'll add a way to automatically
+convert a crashing input to qemu arguments + qtest command sequence.
+
+Thanks again!
+-Alex
+
+> Regards,
+> 
+> Phil.
+> 
+> Philippe Mathieu-Daudé (6):
+>   tests/fuzz/Makefile: Do not link code using unavailable devices
+>   Makefile: List fuzz targets in 'make help'
+>   tests/fuzz: Add missing space in test description
+>   tests/fuzz: Remove unuseful/unused typedefs
+>   tests/fuzz: Extract pciconfig_fuzz_qos() method
+>   tests/fuzz: Extract ioport_fuzz_qtest() method
+> 
+>  Makefile                          |  6 +++-
+>  tests/qtest/fuzz/i440fx_fuzz.c    | 47 ++++++++++++++++++++-----------
+>  tests/qtest/fuzz/Makefile.include |  6 ++--
+>  3 files changed, 38 insertions(+), 21 deletions(-)
+> 
+> -- 
+> 2.21.3
+> 
 
