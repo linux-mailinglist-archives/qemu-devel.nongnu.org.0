@@ -2,120 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955281D5449
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:22:20 +0200 (CEST)
-Received: from localhost ([::1]:39296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0281D542E
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:20:13 +0200 (CEST)
+Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZcAF-00057u-JI
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:22:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50602)
+	id 1jZc8C-0002UE-Me
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:20:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1jZc59-00075k-2G
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:17:03 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28519
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jZc6O-0000oE-V8
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:18:20 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43493
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1jZc57-0006DN-St
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:17:02 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jZc6O-0006Pp-3k
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:18:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589555820;
+ s=mimecast20190719; t=1589555899;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Jp7RxAPhdEaZHyQ1JL+y97B+w0ZGQoxKU0xSS9U5Y74=;
- b=aRXIQPWL/SPp3UCoFA7RSEHOhKXqGljVYASmDQ1hj/316qiIhdGFcqcYdHJpoNJPnvimT6
- U1pEWl5ued+2bxBMG2guAf6gp4rjvnxaG+dh3q4X4oEd26YwyEF5eBQH8tW4daVouuKSt9
- YeFVJURof8SO+gYSbyx/9HwDu6Bxs0g=
+ bh=JiXxCKLqaz7Zo+uin6cgPMPlAoaq0+9npzKM0Y7rkzM=;
+ b=g+ILRCp0uK28sQk0EDcI8uRpoobXq9IVDAkMmifksDRBJn5bNKKyVuTakojfZdqEQgh7z8
+ OfOAm4A4sSzqfN/21OIwFHiARooqsGnXlnXFYZvcHk3GMPtNDcWG0QyBnB2XspjbBCxfAF
+ qx4ejg3NF+KiBelTo2ETrDNOFpM6fMo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-4W66w61KPwm17QdLtjJVNw-1; Fri, 15 May 2020 11:16:55 -0400
-X-MC-Unique: 4W66w61KPwm17QdLtjJVNw-1
+ us-mta-313-EdeDVUmgOu-9kpWi8vFs1g-1; Fri, 15 May 2020 11:18:17 -0400
+X-MC-Unique: EdeDVUmgOu-9kpWi8vFs1g-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1E538005AD;
- Fri, 15 May 2020 15:16:53 +0000 (UTC)
-Received: from [10.36.113.205] (ovpn-113-205.ams2.redhat.com [10.36.113.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D16AC60C05;
- Fri, 15 May 2020 15:16:32 +0000 (UTC)
-Subject: Re: [RFC v3 4/6] qmp: add QMP command x-debug-virtio-queue-status
-To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
-References: <20200507114927.6733-1-lvivier@redhat.com>
- <20200507114927.6733-5-lvivier@redhat.com>
- <126aefa1-ec80-4006-36c2-c1ce0a8306bd@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
-Message-ID: <e9a92c29-162f-e2eb-0a6c-c1e08e99ffa7@redhat.com>
-Date: Fri, 15 May 2020 17:16:32 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 960331899530;
+ Fri, 15 May 2020 15:18:16 +0000 (UTC)
+Received: from [10.36.114.77] (ovpn-114-77.ams2.redhat.com [10.36.114.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB5E360C05;
+ Fri, 15 May 2020 15:18:11 +0000 (UTC)
+Subject: Re: [PATCH v1 17/17] virtio-pci: Send qapi events when the virtio-mem
+ size changes
+To: qemu-devel@nongnu.org
+References: <20200506094948.76388-1-david@redhat.com>
+ <20200506094948.76388-18-david@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <ff4c65a1-df35-8801-53f0-24f3aeda219c@redhat.com>
+Date: Fri, 15 May 2020 17:18:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <126aefa1-ec80-4006-36c2-c1ce0a8306bd@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200506094948.76388-18-david@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=lvivier@redhat.com;
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:39:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -138,80 +124,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Amit Shah <amit@kernel.org>,
- Max Reitz <mreitz@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-s390x@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/05/2020 04:57, Jason Wang wrote:
-> 
-> On 2020/5/7 下午7:49, Laurent Vivier wrote:
->> This new command shows internal status of a VirtQueue.
->> (vrings and indexes).
->>
->> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> 
-> 
-> It looks to me that packed virtqueue is not supported. It's better to
-> add them in the future.
 
-I agree, it's why the series still remains an "RFC".
+>  #endif /* QEMU_VIRTIO_MEM_PCI_H */
+> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+> index 88a99a0d90..eb5cf66855 100644
+> --- a/hw/virtio/virtio-mem.c
+> +++ b/hw/virtio/virtio-mem.c
+> @@ -491,7 +491,7 @@ static void virtio_mem_device_unrealize(DeviceState *dev, Error **errp)
+>      virtio_del_queue(vdev, 0);
+>      virtio_cleanup(vdev);
+>      g_free(vmem->bitmap);
+> -    ramblock_discard_set_required(false);
+> +    ram_block_discard_set_required(false);
 
-...
->> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
->> index 59bf6ef651a6..57552bf05014 100644
->> --- a/hw/virtio/virtio.c
->> +++ b/hw/virtio/virtio.c
->> @@ -3877,6 +3877,41 @@ static VirtIODevice *virtio_device_find(const
->> char *path)
->>       return NULL;
->>   }
->>   +VirtQueueStatus *qmp_x_debug_virtio_queue_status(const char *path,
->> +                                                 uint16_t queue,
->> Error **errp)
->> +{
->> +    VirtIODevice *vdev;
->> +    VirtQueueStatus *status;
->> +
->> +    vdev = virtio_device_find(path);
->> +    if (vdev == NULL) {
->> +        error_setg(errp, "Path %s is not a VirtIO device", path);
->> +        return NULL;
->> +    }
->> +
->> +    if (queue >= VIRTIO_QUEUE_MAX || !virtio_queue_get_num(vdev,
->> queue)) {
->> +        error_setg(errp, "Invalid virtqueue number %d", queue);
->> +        return NULL;
->> +    }
->> +
->> +    status = g_new0(VirtQueueStatus, 1);
->> +    status->queue_index = vdev->vq[queue].queue_index;
->> +    status->inuse = vdev->vq[queue].inuse;
->> +    status->vring_num = vdev->vq[queue].vring.num;
->> +    status->vring_num_default = vdev->vq[queue].vring.num_default;
->> +    status->vring_align = vdev->vq[queue].vring.align;
->> +    status->vring_desc = vdev->vq[queue].vring.desc;
->> +    status->vring_avail = vdev->vq[queue].vring.avail;
->> +    status->vring_used = vdev->vq[queue].vring.used;
->> +    status->last_avail_idx = vdev->vq[queue].last_avail_idx;
-> 
-> 
-> This might not be correct when vhost is used.
-> 
-> We may consider to sync last_avail_idx from vhost backends here?
+^ this belongs into patch #10.
 
-Yes, but I don't know how to do that. Where can I find the information?
 
+-- 
 Thanks,
-Laurent
+
+David / dhildenb
 
 
