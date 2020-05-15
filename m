@@ -2,49 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5373E1D53E5
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:13:27 +0200 (CEST)
-Received: from localhost ([::1]:42700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1151D540B
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:16:56 +0200 (CEST)
+Received: from localhost ([::1]:52560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZc1e-0000bJ-EC
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:13:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49694)
+	id 1jZc51-0005VU-4i
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:16:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jZbzc-00060q-9h
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:11:20 -0400
-Received: from relay64.bu.edu ([128.197.228.104]:57699)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jZbzZ-00050n-8f
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:11:19 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 04FFAa7G009758
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 15 May 2020 11:10:39 -0400
-Date: Fri, 15 May 2020 11:10:36 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 0/6] tests/fuzz: Review notes
-Message-ID: <20200515151036.e5h26s65fokygbvr@mozz.bu.edu>
-References: <20200514143433.18569-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jZc3d-0003tq-0X
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:15:29 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32733
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jZc3c-0005wr-1Y
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:15:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589555726;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DxpwPQ+za994t64Er474RJNIL+31FCT1/qWvAtAuH3M=;
+ b=OEUKNH5DXpJ8rwuqC4mmpm4MNs5vWrvebtz0JXjTJPr3U2GRCTU+5R/QXLH1Ucv3kP/sDU
+ X1iIyn3cISouewv5GL2ARe3gBtWm6FLtnUT2//sUiRzH07shyB7ODHYwTyIoQ2wIsKAGql
+ HwJrIQxyOS1RX2WhHQumIrv8rj4EJi4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-184-s1xMYdq5Nm-StiVRFEWLyQ-1; Fri, 15 May 2020 11:15:25 -0400
+X-MC-Unique: s1xMYdq5Nm-StiVRFEWLyQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24572474;
+ Fri, 15 May 2020 15:15:24 +0000 (UTC)
+Received: from localhost (ovpn-112-229.ams2.redhat.com [10.36.112.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB87E60C84;
+ Fri, 15 May 2020 15:15:23 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: qemu-s390x@nongnu.org
+Subject: [PATCH v2 0/3] s390x: improve documentation
+Date: Fri, 15 May 2020 17:15:15 +0200
+Message-Id: <20200515151518.83950-1-cohuck@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200514143433.18569-1-philmd@redhat.com>
-User-Agent: NeoMutt/20180716
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 11:11:14
-X-ACL-Warn: Detected OS   = Linux 2.6.x
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,95 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 200514 1634, Philippe Mathieu-Daudé wrote:
-> I took some code notes while testing Alex's toy.
-> Sending them as patches.
+The documentation for the s390x system emulation target still has quite
+a bit of room for improvement, so I started adding some device documentation.
 
-Thank you for these! I'd send my review tags, if they weren't already
-pulled.
+v1->v2:
+- css.rst: added example for cssid == 0 (Thomas)
+- css.rst: mention what the properties look like (Thomas)
+- css.rst: it's "channel subsystem image" (me)
+- 3270.rst: make introduction less confusing (Thomas)
+- 3270.rst: fix device name (Thomas)
+- 3270.rst: use unprivileged port (Thomas)
+- vfio-ccw.rst: add mdevctl example (Thomas)
+- vfio-ccw.rst: formatting tweaks (Thomas)
 
-> Alex, I had theses issues while building following
-> docs/devel/fuzzing.txt:
-> 
->     CC      nbd/server.o
->   nbd/server.c:1937:1: error: unused function 'glib_listautoptr_cleanup_NBDExtentArray' [-Werror,-Wunused-function]
->   G_DEFINE_AUTOPTR_CLEANUP_FUNC(NBDExtentArray, nbd_extent_array_free);
->   ^
->   /usr/include/glib-2.0/glib/gmacros.h:462:22: note: expanded from macro 'G_DEFINE_AUTOPTR_CLEANUP_FUNC'
->     static inline void _GLIB_AUTOPTR_LIST_FUNC_NAME(TypeName) (GList **_l) { g_list_free_full (*_l, (GDestroyNotify) func); } \
->                        ^
->   /usr/include/glib-2.0/glib/gmacros.h:443:48: note: expanded from macro '_GLIB_AUTOPTR_LIST_FUNC_NAME'
->   #define _GLIB_AUTOPTR_LIST_FUNC_NAME(TypeName) glib_listautoptr_cleanup_##TypeName
->                                                  ^
-> Solved by using './configure ... --extra-cflags=-Wno-unused-function'
+Cornelia Huck (3):
+  docs/s390x: document the virtual css
+  docs/s390x: document 3270
+  docs/s390x: document vfio-ccw
 
-Interesting that this doesn't show up for standard builds. I'll have to
-look into this more.
+ docs/system/s390x/3270.rst     | 32 +++++++++++++
+ docs/system/s390x/css.rst      | 86 ++++++++++++++++++++++++++++++++++
+ docs/system/s390x/vfio-ccw.rst | 72 ++++++++++++++++++++++++++++
+ docs/system/target-s390x.rst   |  3 ++
+ 4 files changed, 193 insertions(+)
+ create mode 100644 docs/system/s390x/3270.rst
+ create mode 100644 docs/system/s390x/css.rst
+ create mode 100644 docs/system/s390x/vfio-ccw.rst
 
->     LINK    i386-softmmu/qemu-fuzz-i386
->   /usr/lib64/clang/9.0.1/lib/linux/libclang_rt.asan-aarch64.a(asan_interceptors_vfork.S.o): warning: common of `__interception::real_vfork' overridden by definition
->   /usr/lib64/clang/9.0.1/lib/linux/libclang_rt.asan-aarch64.a(asan_interceptors.cc.o): warning: defined here
-> 
-> I simply ignore this warning.
+-- 
+2.25.4
 
-Yes, I get the same warning with this:
-
-cat << EOF | clang-9 -Wl,--warn-common  -fsanitize=fuzzer,address -x c -
-#include <sys/types.h>
-#include <stdint.h>
-int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) { return 0; }
-EOF
-
-Might report this to the LLVM/compiler-rt folks.
-
-> Alex, could you provide few more examples (in particular about
-> instantiating devices, or useful libfuzzer arguments)?
-
-Yes - I'll send this out with my next fuzzing patches.
-
-> Also, I suppose you are using a script to generate the bug reports:
-> 
->   I can reproduce it in qemu 5.0 using:
-> 
->   cat << EOF | qemu-system ...
->   outl 0xcf8 ...
->   outl 0xcfc ...
->   ...
->   EOF
-> 
-> Is this script available in the QEMU repository? I couldn't find it.
-
-Right now I just added some unbuffered writes to qtest.c. I'll try to
-find a clean way of doing this and I'll add a way to automatically
-convert a crashing input to qemu arguments + qtest command sequence.
-
-Thanks again!
--Alex
-
-> Regards,
-> 
-> Phil.
-> 
-> Philippe Mathieu-Daudé (6):
->   tests/fuzz/Makefile: Do not link code using unavailable devices
->   Makefile: List fuzz targets in 'make help'
->   tests/fuzz: Add missing space in test description
->   tests/fuzz: Remove unuseful/unused typedefs
->   tests/fuzz: Extract pciconfig_fuzz_qos() method
->   tests/fuzz: Extract ioport_fuzz_qtest() method
-> 
->  Makefile                          |  6 +++-
->  tests/qtest/fuzz/i440fx_fuzz.c    | 47 ++++++++++++++++++++-----------
->  tests/qtest/fuzz/Makefile.include |  6 ++--
->  3 files changed, 38 insertions(+), 21 deletions(-)
-> 
-> -- 
-> 2.21.3
-> 
 
