@@ -2,77 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9920E1D4CAA
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 13:34:35 +0200 (CEST)
-Received: from localhost ([::1]:53090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DBC1D4C8A
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 13:26:13 +0200 (CEST)
+Received: from localhost ([::1]:40962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZYbq-0006ho-NB
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 07:34:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57792)
+	id 1jZYTk-0008CA-Ek
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 07:26:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jZYNx-0001s2-EC
- for qemu-devel@nongnu.org; Fri, 15 May 2020 07:20:17 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37271)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jZYNw-0001lo-Gq
- for qemu-devel@nongnu.org; Fri, 15 May 2020 07:20:13 -0400
-Received: by mail-wm1-x341.google.com with SMTP id z72so2246502wmc.2
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 04:20:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=LakqsnOw1fCA9MrXwbf916YXPopabvmyCB0CB3Siu28=;
- b=Etu79MZdvTAjYzDSPOA/oDntJoYzM0lRgrXqE0Q4KmrYf8VDiI/Qssp3ZlVPgYMTfU
- yQnnw1qdmkr9f/6vF6lO2JM6OT1rWZgoPeHm7eTpZmFsIDriWlegddzHUjhD2ZW4Hgb+
- gdYIXx9GJTqAxFl4ZxzOjT6huV/wrOpyovVgDhxKOKymGZFnQT3wX9Z2liCKw+bMiLF6
- S2RLFejE63GCGiAdFh0FYsv/J99wcWaCHizOgZ7xn4WmOaHCmV+6zsjPXQu3Lh1WRGR4
- jdZMqLfvAsq7fySk8mJuj4809dd1hUYGlUkMIDzYKen0Pbfc/PxdmC//DSfn4PM2+PoY
- KAog==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jZYS5-0005Vy-AM
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 07:24:29 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35969
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jZYS3-0003zb-D1
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 07:24:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589541865;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tJqY+ijpUCAOAqx2fRVXuIfzlSitvU540jPbICSwG60=;
+ b=DeG/EvYIY8Q1M0XDzks6BUM3wKdpexfL9xom53F4ETyEk7ghTF/IdbHpNWNt1PR9GoXBhS
+ qIHKJrkgXvmS7GtvJ4ChYe5ehNFSmtrD+fUkimU6OSNfcUwIolRbJ94PqMZu3I/8XroL+r
+ WMkjzgXt01DFo5bScmwxqadXn2cJ+CY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-494-vagwkF_8OlKEVKFK-bZo0Q-1; Fri, 15 May 2020 07:24:24 -0400
+X-MC-Unique: vagwkF_8OlKEVKFK-bZo0Q-1
+Received: by mail-wm1-f71.google.com with SMTP id l21so1049415wmh.2
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 04:24:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LakqsnOw1fCA9MrXwbf916YXPopabvmyCB0CB3Siu28=;
- b=b8/4zM6IVnep2kpgd4DN6PcepAeb484wu0zNV4KQk27Mer9IA/zMsUwehwwncPPfic
- JFm9drqJlZ2KYgck2VxYX+ZnXq0eDTO5Wz1sEsO8rJEdmWh61mJGu1QXs2Jy7/WY1WU/
- xIzXKABPJHMEb0oaSlgFtleUPN1XREcZtYap3OtQ3+07WTRruge5rceRhAkyWUTeL9kz
- C0dB3loLkDZDStJrZYI2FUGOSo5SxfVwJzFHGr99VAiIXD0oTqAevq3eX3S5sDbmvjOl
- 58mplq/BBfvH2pJdFdCV0WkbLFR6u7/sqVAfmrVVEBEsDNd/yWChdJmRusV0xMJ3LdCu
- aziw==
-X-Gm-Message-State: AOAM533nrTzFMqylqkpoDLLQQa1kkF9owN0YehDjy/pzF6EtJ/FY/jeM
- k5tEEugMT/dCJw3rReYGWBu/aPghyqzomXXcrmk=
-X-Google-Smtp-Source: ABdhPJyRCrXTAbciMD6ETgZWeJL0CmSscvuEbHaf1tPoXgiupPWjucJN5yPfIpiMMpwHw/qK0y19N3EWhbrg+wm1Ob4=
-X-Received: by 2002:a1c:9a09:: with SMTP id c9mr3395888wme.159.1589541610767; 
- Fri, 15 May 2020 04:20:10 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tJqY+ijpUCAOAqx2fRVXuIfzlSitvU540jPbICSwG60=;
+ b=KEpGKcAUyPY6A4E4OWxROi5n9lHgVioTiXbUObIZMdIuY7mVNb+Uex3oQMECDTVx3/
+ hRQg4pWqplkfq/W7TrL0ebXb+mzvCB2ni1RVU8h0PyQE5ggC6uev1Ee7OEbsaPPRoaDM
+ MMPkYxGCjPVPUcGj69zLuD/W9EhUyBtuTV6ClruBcmTXGivuL/68cR7xEGLPpVE65a/X
+ JrGcO8yprmOYeR6hKisDSPrE0PUgGCPG9PhZ4DMlUBGJWq3lwYRXREi+Qlr8M1wOpDwp
+ 8LYyXYOpzKh+wECTHETBUPs4L695jtZcJFGPDsJ9GuFYgTjkouz++Lfie1aNqzF6uxu0
+ c+gw==
+X-Gm-Message-State: AOAM533D9r0FbYjn2UGXqp2CvswRqtm73512F+ZJDMwI+GYXtpHlXeEQ
+ Gjlwi3cLukKWjeFY881v8MFIET0yU2sW5tHf1czkMmaLCtlGC+BsOiNtdRkiMoBxXUhEhvty5+w
+ H060bZn7gdu55+cU=
+X-Received: by 2002:a05:6000:128b:: with SMTP id
+ f11mr3765425wrx.227.1589541862492; 
+ Fri, 15 May 2020 04:24:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzEW1dvLvDc8THADMKWZspXUuzno9pTwRK9tG6WTPgQ8T8GXGgIpmwjahsQMtQaOjPv8qaupA==
+X-Received: by 2002:a05:6000:128b:: with SMTP id
+ f11mr3764896wrx.227.1589541854683; 
+ Fri, 15 May 2020 04:24:14 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:60bb:f5bd:83ff:ec47?
+ ([2001:b07:6468:f312:60bb:f5bd:83ff:ec47])
+ by smtp.gmail.com with ESMTPSA id h20sm3110404wma.6.2020.05.15.04.24.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 May 2020 04:24:14 -0700 (PDT)
+Subject: Re: QEMU 5.1: Can we require each new device/machine to provided a
+ test?
+To: Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <CAAdtpL7gSqz+R5LfbvsuxeeCzf1K-omHSeYo2eTOFYaMS1bp6A@mail.gmail.com>
+ <96440c8b-7f38-8fc4-0e9c-07ad878211e2@redhat.com>
+ <20200515105118.zbslitc64hvjuhlt@sirius.home.kraxel.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <7b23e643-925e-105e-f7a3-886a21be422e@redhat.com>
+Date: Fri, 15 May 2020 13:24:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200514192047.5297-1-aleksandar.qemu.devel@gmail.com>
- <20200514192047.5297-18-aleksandar.qemu.devel@gmail.com>
- <87lfltr5vk.fsf@dusky.pond.sub.org>
- <CAHiYmc6qZQz8c3mmuvdDWP0uPtBi5K5ie06JOTEo-sy7tbJojg@mail.gmail.com>
- <CAFEAcA9J6-qoyqJyH9mxhfX6oNhq+DkeFmGbsPbVgi0jX+qMMw@mail.gmail.com>
-In-Reply-To: <CAFEAcA9J6-qoyqJyH9mxhfX6oNhq+DkeFmGbsPbVgi0jX+qMMw@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Fri, 15 May 2020 13:19:55 +0200
-Message-ID: <CAHiYmc6mpd2bRS9FuA0xmARNPC_9W0rZeixkDqKAdx_fiB_QNw@mail.gmail.com>
-Subject: Re: [PATCH v2 17/17] hw/mips: Convert Malta "ifdef 0"-ed code to
- comments
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20200515105118.zbslitc64hvjuhlt@sirius.home.kraxel.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,41 +104,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-discuss@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=D0=BF=D0=B5=D1=82, 15. =D0=BC=D0=B0=D1=98 2020. =D1=83 13:12 Peter Maydell=
- <peter.maydell@linaro.org> =D1=98=D0=B5
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> On Fri, 15 May 2020 at 12:07, Aleksandar Markovic
-> <aleksandar.qemu.devel@gmail.com> wrote:
-> > I understood your points. They make sense to me. In hindsight, in
-> > general, we shouldn't try just to silence checkpatch warnings (or, for
-> > that matter, compiler warnings as well), but try to resolve the root
-> > cause, the underlying issue, of the warning. In this case, creating
-> > tracepoints seems to be the right thing to do.
->
-> For this sort of "default case, guest accessed a bad register offset"
-> case, what I usually do is something like
->    qemu_log_mask(LOG_GUEST_ERROR, "malta_fpga_write: Bad register offset =
-0x"
->                  TARGET_FMT_lx "\n", addr);
->
-> That's a simpler change than adding tracepoints and matches how
-> we report this kind of guest-did-the-wrong-thing behaviour elsewhere.
->
+On 15/05/20 12:51, Gerd Hoffmann wrote:
+>> If a qtest is feasible, yes, I think we should require one for new
+>> devices.
+> qtest is not feasible, at least not for all kinds of devices.  You can't
+> talk to usb devices for example, and changing that effectively requires
+> writing uhci/ohci/ehci/xhci drivers so one can submit usb transfers in
+> qtest.
 
-Oh, great! I appreciate your remark and guidance very much!
+Yes, but that's just because no one has written a test for a USB device.
+ It would be completely feasible to plug USB into qgraph, the code for
+USB in SeaBIOS is 4.5 kLOC so that's more or less the ballpark of what
+you'd need.  You can then stimulate keyboard or mouse devices via
+chardev (-serial msmouse), or run SCSI tests for MSD and UAS.
 
-I am going to correct this patch in v3.
+Paolo
 
-Sincerely,
-Aleksandar
-
-> thanks
-> -- PMM
 
