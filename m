@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADCD1D50E8
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:38:33 +0200 (CEST)
-Received: from localhost ([::1]:52410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1501D50AB
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:37:12 +0200 (CEST)
+Received: from localhost ([::1]:45194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZbTs-0001IZ-Gb
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:38:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42052)
+	id 1jZbSZ-0006FC-Mh
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:37:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbRG-0004JS-Jt
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44362
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbRB-0004GS-Eb
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35754
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbRF-0007xP-AC
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:50 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbRA-0007w8-GR
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:35:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589553348;
+ s=mimecast20190719; t=1589553343;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=GZCiQ1XMKOML6r1OifdKYZRO7gqQ/zx4tGmS8eEVSj4=;
- b=N5J81MR9eLQV5Gz4cKMBoK102KnEH1CWmYETKnHbYn/GP9BVUnH3uG0wAKqnMIAZVtQZqe
- rwBbZxySOHae9NXU6WYCbFXviEXU/jk1GU03vX3lfJe2raD8GWXImkHVQTiheEm5KOhkvV
- jmxMU9cmZU4hrnUc2hivOKaDo3zwafQ=
+ references:references; bh=NmdaC9JHs/YHm3neHDthQeJiGoa6Z8QbY6Dv0VNSyec=;
+ b=h4On6/KEaOCuIH3MCeWbOcGf273VieFKZDPkfzdCYNQcXSrlUt2gRZLT7rJ7fnWE9yqJBM
+ 2dMrrberzJDReVFa+82RrvklR5CeYy3BlwQn+btUETZPytuiYIrYbQVu5dRp+62Q3Q+Q1K
+ N9qzfDshobfaSKr9p/drFW5bph5lSzs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-YMV64LQyMhGPTQlu8VEwRg-1; Fri, 15 May 2020 10:35:46 -0400
-X-MC-Unique: YMV64LQyMhGPTQlu8VEwRg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-251-QPZZY0L7MSq5ggmKsWv8jA-1; Fri, 15 May 2020 10:35:42 -0400
+X-MC-Unique: QPZZY0L7MSq5ggmKsWv8jA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11C03EC1C1
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 14:35:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 414D28018AB
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 14:35:41 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-115-145.ams2.redhat.com
  [10.36.115.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D4A5378379;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E6ED22E16D;
  Fri, 15 May 2020 14:35:40 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3983A9D58; Fri, 15 May 2020 16:35:29 +0200 (CEST)
+ id 43B349D59; Fri, 15 May 2020 16:35:29 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/13] audio: add soundhw deprecation notice
-Date: Fri, 15 May 2020 16:35:27 +0200
-Message-Id: <20200515143528.13591-13-kraxel@redhat.com>
+Subject: [PATCH v2 13/13] [RFC] audio: try use onboard audiodev for pcspk
+Date: Fri, 15 May 2020 16:35:28 +0200
+Message-Id: <20200515143528.13591-14-kraxel@redhat.com>
 In-Reply-To: <20200515143528.13591-1-kraxel@redhat.com>
 References: <20200515143528.13591-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -82,31 +82,51 @@ Cc: libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+New naming convention:  Use "onboard" audiodev for onboard audio
+devices, using "-audiodev pa,id=onboard" for example.
+
+This patchs implements it for pcspk, it will try to use "onboard" by
+default.  Setting another name using "-global pcspk.audiodev=<name>"
+continues to work.
+
+If we want go this route we should do the same for other onboard
+audio devices too (arm boards, ...).
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- docs/system/deprecated.rst | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/audio/pcspk.c           | 3 +++
+ docs/system/deprecated.rst | 4 ++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
+diff --git a/hw/audio/pcspk.c b/hw/audio/pcspk.c
+index ab290e686783..9a08e9d8e05b 100644
+--- a/hw/audio/pcspk.c
++++ b/hw/audio/pcspk.c
+@@ -190,6 +190,9 @@ static void pcspk_realizefn(DeviceState *dev, Error **errp)
+ 
+     isa_register_ioport(isadev, &s->ioport, s->iobase);
+ 
++    if (!s->card.state) {
++        s->card.state = audio_state_by_name("onboard");
++    }
+     if (s->card.state) {
+         pcspk_audio_init(s);
+     }
 diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 3142fac38658..7de1045b7e27 100644
+index 7de1045b7e27..34312fc0a963 100644
 --- a/docs/system/deprecated.rst
 +++ b/docs/system/deprecated.rst
-@@ -88,6 +88,15 @@ should specify an ``audiodev=`` property.  Additionally, when using
- vnc, you should specify an ``audiodev=`` propery if you plan to
- transmit audio through the VNC protocol.
+@@ -94,8 +94,8 @@ Creating sound card devices using ``-soundhw`` (since 5.1)
+ Sound card devices should be created using ``-device`` instead.  The
+ names are the same for most devices.  The exceptions are ``hda`` which
+ needs two devices (``-device intel-hda --device hda-duplex``) and
+-``pcspk`` which can be activated using ``-global
+-pcspk.audiodev=<name>``.
++``pcspk`` which can be activated by creating an audiodev named
++``onboard``.
  
-+Creating sound card devices using ``-soundhw`` (since 5.1)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Sound card devices should be created using ``-device`` instead.  The
-+names are the same for most devices.  The exceptions are ``hda`` which
-+needs two devices (``-device intel-hda --device hda-duplex``) and
-+``pcspk`` which can be activated using ``-global
-+pcspk.audiodev=<name>``.
-+
  ``-mon ...,control=readline,pretty=on|off`` (since 4.1)
  '''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
 -- 
 2.18.4
 
