@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73FBB1D4926
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:11:18 +0200 (CEST)
-Received: from localhost ([::1]:51834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26DBD1D4977
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:26:02 +0200 (CEST)
+Received: from localhost ([::1]:57890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZWNB-0006lr-HN
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:11:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33242)
+	id 1jZWbR-00075j-8v
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:26:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jZWJt-0001sp-Dd
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:07:53 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51458
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jZWJs-0002bH-6C
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:07:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589533671;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=toinD8APpyYyt8XHgVoPf2uYY850fQma58DTX381JZ0=;
- b=AzRDZqrGwuOpZLiB1OT1uKLopnDuPNlNu56N7UdGOq/Oa6iGMKqm+8Dmmqtvaan5wKEyCS
- yqAO9XoP5unlnzWRyOqSIbCcvWmA2P25Ex54rBMMKvCvpduovRnFlipa/OPKkcLtnphJZw
- 327YwC17DFDff9o+bZ5yYLVfWE0enhI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-USqnez2SPYuRTT4qBYlpJg-1; Fri, 15 May 2020 05:07:49 -0400
-X-MC-Unique: USqnez2SPYuRTT4qBYlpJg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EB111906802;
- Fri, 15 May 2020 09:07:48 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 97ECB46;
- Fri, 15 May 2020 09:07:39 +0000 (UTC)
-Date: Fri, 15 May 2020 10:07:36 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: xiaoqiang zhao <zxq_yx_007@163.com>
-Subject: Re: [PATCH v5 2/3] tests/util-sockets: add abstract unix socket cases
-Message-ID: <20200515090736.GD1300305@redhat.com>
-References: <20200515090608.5373-1-zxq_yx_007@163.com>
- <20200515090608.5373-3-zxq_yx_007@163.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jZWY0-0002BT-5C
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:22:28 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54788)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jZWXz-0006Fr-6u
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:22:27 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jZWXv-0004J4-Ib
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 09:22:23 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3F9CD2E8112
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 09:22:23 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200515090608.5373-3-zxq_yx_007@163.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:39:12
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 15 May 2020 09:11:56 -0000
+From: Christophe Lyon <christophe.lyon+launchpad@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange christophe-lyon laurent-vivier philmd
+ pmaydell
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Modifier: Christophe Lyon (christophe-lyon)
+References: <158935359452.19393.4863679569975227091.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158953391644.31242.52755434070595542.malone@chaenomeles.canonical.com>
+Subject: [Bug 1878348] Re: --static build fails in v5.0 (since
+ 5010cec2bc87dafab39b3913c8ca91f88df9c540)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e7a774bc40fae2fd6b6ad3a91eb5cec1ee346d89
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 04:30:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
+ FORGED_GMAIL_RCVD=1, FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,29 +75,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org,
- armbru@redhat.com, kraxel@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com
+Reply-To: Bug 1878348 <1878348@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 15, 2020 at 05:06:07PM +0800, xiaoqiang zhao wrote:
-> add cases to test tight and non-tight for abstract address type
-> 
-> Signed-off-by: xiaoqiang zhao <zxq_yx_007@163.com>
-> ---
->  tests/test-util-sockets.c | 92 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 92 insertions(+)
+Maybe --static should be ignored for system emulators and accepted for user=
+-mode emulators?
+That would enable to have a single build, otherwise if we want both, we'd n=
+eed to configure & build QEMU twice.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878348
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Title:
+  --static build fails in v5.0 (since
+  5010cec2bc87dafab39b3913c8ca91f88df9c540)
 
+Status in QEMU:
+  New
+
+Bug description:
+  Hi,
+
+  Since commit 5010cec2bc87dafab39b3913c8ca91f88df9c540, building qemu
+  fails when configured with --static (eg ../configure --target-
+  list=3Dx86_64-softmmu,x86_64-linux-user --enable-debug --static).
+
+  On ubuntu 16.04, it fails to find -lffi and -lselinux.
+
+  After I apt-get install libffi-dev libselinux1-dev, the build still fails:
+  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_pre=
+_save':
+  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:29: undefine=
+d reference to `_TRACE_DBUS_VMSTATE_PRE_SAVE_DSTATE'
+  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_pos=
+t_load':
+  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:52: undefine=
+d reference to `_TRACE_DBUS_VMSTATE_POST_LOAD_DSTATE'
+  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_loa=
+ding':
+  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:75: undefine=
+d reference to `_TRACE_DBUS_VMSTATE_LOADING_DSTATE'
+  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_sav=
+ing':
+  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:98: undefine=
+d reference to `_TRACE_DBUS_VMSTATE_SAVING_DSTATE'
+  collect2: error: ld returned 1 exit status
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878348/+subscriptions
 
