@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7CB61D543E
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:20:51 +0200 (CEST)
-Received: from localhost ([::1]:35858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 178991D540D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:17:06 +0200 (CEST)
+Received: from localhost ([::1]:53118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZc8p-00036Z-0O
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:20:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50306)
+	id 1jZc5B-0005pE-2p
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:17:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jZc3g-00042Y-Ic
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:15:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25282
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jZc3k-0004AV-1J
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:15:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56587
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jZc3f-0005xm-Mq
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:15:32 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jZc3i-0005za-FP
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:15:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589555730;
+ s=mimecast20190719; t=1589555733;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OAWpXPVrCEG5F/afepxStBicmskD8vkqj4cMNRvSFV8=;
- b=JzwBWA1uBkbzUuWsAzM5uvHnSPAiUi99ptRvRmjAXoQHIMyahuH8gYTJ1Tr9NCHk4J1U4s
- 8bC9rm4NLP/RBTKRIOn+Irep1GcZDS0ju5Da8ZmmZ4vmyvm8NwU+u6O0Rw3mYvwLPnKnJT
- gS4dJrIrtTy6nqfnlwnPj+bi5mQvJNY=
+ bh=6pddmoRnqZoHNeMB0r0PyY5bEn79vipDG8JOISd/tkc=;
+ b=HdyJytwuilSXYazWi6lzCdMm3YMh+5MFfWDcs4HZCXKhUVRkxHomos7WBUsDZRIU3TDa6z
+ JCZ27lrSgskjzbgyprSAepmaOCYQJr1r5q3mwpb0tE1d3tuFzs52VHXof/WkyPxFlVwOBo
+ YeXYQrwsT/4BXCBlOvKXKpWMqLUqcuc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-cBaukAU4N5iq8_j-Lmioqw-1; Fri, 15 May 2020 11:15:29 -0400
-X-MC-Unique: cBaukAU4N5iq8_j-Lmioqw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-145-sD3zGBhyOdOS50vKX5ha2Q-1; Fri, 15 May 2020 11:15:31 -0400
+X-MC-Unique: sD3zGBhyOdOS50vKX5ha2Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68E65800053;
- Fri, 15 May 2020 15:15:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBEF68735C8;
+ Fri, 15 May 2020 15:15:30 +0000 (UTC)
 Received: from localhost (ovpn-112-229.ams2.redhat.com [10.36.112.229])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BFDF2E17A;
- Fri, 15 May 2020 15:15:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 420E06E9E5;
+ Fri, 15 May 2020 15:15:30 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: qemu-s390x@nongnu.org
-Subject: [PATCH v2 2/3] docs/s390x: document 3270
-Date: Fri, 15 May 2020 17:15:17 +0200
-Message-Id: <20200515151518.83950-3-cohuck@redhat.com>
+Subject: [PATCH v2 3/3] docs/s390x: document vfio-ccw
+Date: Fri, 15 May 2020 17:15:18 +0200
+Message-Id: <20200515151518.83950-4-cohuck@redhat.com>
 In-Reply-To: <20200515151518.83950-1-cohuck@redhat.com>
 References: <20200515151518.83950-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 23:27:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 22:56:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,62 +82,102 @@ Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add some basic info how to use 3270 devices.
+Add a basic example for passing a dasd via vfio-ccw.
 
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- docs/system/s390x/3270.rst   | 32 ++++++++++++++++++++++++++++++++
- docs/system/target-s390x.rst |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 docs/system/s390x/3270.rst
+ docs/system/s390x/vfio-ccw.rst | 72 ++++++++++++++++++++++++++++++++++
+ docs/system/target-s390x.rst   |  1 +
+ 2 files changed, 73 insertions(+)
+ create mode 100644 docs/system/s390x/vfio-ccw.rst
 
-diff --git a/docs/system/s390x/3270.rst b/docs/system/s390x/3270.rst
+diff --git a/docs/system/s390x/vfio-ccw.rst b/docs/system/s390x/vfio-ccw.rst
 new file mode 100644
-index 000000000000..1774cdcadf01
+index 000000000000..4cfd22c3b789
 --- /dev/null
-+++ b/docs/system/s390x/3270.rst
-@@ -0,0 +1,32 @@
-+3270 devices
-+============
++++ b/docs/system/s390x/vfio-ccw.rst
+@@ -0,0 +1,72 @@
++Subchannel passthrough via vfio-ccw
++===================================
 +
-+QEMU supports connecting an external 3270 terminal emulator (such as
-+``x3270``) to make a single 3270 device available to a guest. Note that this
-+supports basic features only.
++vfio-ccw (based upon the mediated vfio device infrastructure) allows to
++make certain I/O subchannels and their devices available to a guest. The
++host will not interact with those subchannels/devices any more.
 +
-+To provide a 3270 device to a guest, create a ``x-terminal3270`` linked to
-+a ``tn3270`` chardev. The guest will see a 3270 channel device. In order
-+to actually be able to use it, attach the ``x3270`` emulator to the chardev.
++Note that while vfio-ccw should work with most non-QDIO devices, only ECKD
++DASDs have really been tested.
 +
 +Example configuration
 +---------------------
 +
-+* Add a ``tn3270`` chardev and a ``x-terminal3270`` to the QEMU command line::
++Step 1: configure the host device
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+    -chardev socket,id=char_0,host=0.0.0.0,port=2300,nowait,server,tn3270
-+    -device x-terminal3270,chardev=char_0,devno=fe.0.000a,id=terminal_0
++Note: it is recommended to use the ``mdevctl`` tool for this step.
 +
-+* Start the guest. In the guest, use ``chccwdev -e 0.0.000a`` to enable
-+  the device.
++To define the same device as configured below to be started
++automatically, use
 +
-+* On the host, start the ``x3270`` emulator::
++::
 +
-+    x3270 <host>:2300
++   [root@host ~]# driverctl -b css set-override 0.0.0313 vfio_ccw
++   [root@host ~]# mdevctl define -u 7e270a25-e163-4922-af60-757fc8ed48c6\
++                  -p 0.0.0313 -t vfio-ccw_io -a
 +
-+* In the guest, locate the 3270 device node under ``/dev/3270/`` (say,
-+  ``tty1``) and start a getty on it::
++If this is not possible or wanted, follow the manual procedure below.
 +
-+    systemctl start serial-getty@3270-tty1.service
++* Locate the subchannel for the device (in this example, ``0.0.2b09``)::
 +
-+This should get you an addtional tty for logging into the guest.
++    [root@host ~]# lscss | grep 0.0.2b09 | awk '{print $2}'
++    0.0.0313
++
++* Unbind the subchannel (in this example, ``0.0.0313``) from the standard
++  I/O subchannel driver and bind it to the vfio-ccw driver::
++
++    [root@host ~]# echo 0.0.0313 > /sys/bus/css/devices/0.0.0313/driver/unbind
++    [root@host ~]# echo 0.0.0313 > /sys/bus/css/drivers/vfio_ccw/bind
++
++* Create the mediated device (identified by a uuid)::
++
++    [root@host ~]# uuidgen
++    7e270a25-e163-4922-af60-757fc8ed48c6
++    [root@host ~]# echo "7e270a25-e163-4922-af60-757fc8ed48c6" > \
++    /sys/bus/css/devices/0.0.0313/mdev_supported_types/vfio_ccw-io/create
++
++Step 2: configure QEMU
++~~~~~~~~~~~~~~~~~~~~~~
++
++* Reference the created mediated device and (optionally) pick a device id to
++  be presented in the guest (here, ``fe.0.1234``, which will end up visible
++  in the guest as ``0.0.1234``::
++
++    -device vfio-ccw,devno=fe.0.1234,sysfsdev=\
++    /sys/bus/mdev/devices/7e270a25-e163-4922-af60-757fc8ed48c6
++
++* Start the guest. The device (here, ``0.0.1234``) should now be usable::
++
++    [root@guest ~]# lscss -d 0.0.1234
++    Device   Subchan.  DevType CU Type Use  PIM PAM POM  CHPIDs           
++    ----------------------------------------------------------------------
++    0.0.1234 0.0.0007  3390/0e 3990/e9      f0  f0  ff   1a2a3a0a 00000000
++    [root@guest ~]# chccwdev -e 0.0.1234
++    Setting device 0.0.1234 online
++    Done
++    [root@guest ~]# dmesg -t
++    (...)
++    dasd-eckd 0.0.1234: A channel path to the device has become operational
++    dasd-eckd 0.0.1234: New DASD 3390/0E (CU 3990/01) with 10017 cylinders, 15 heads, 224 sectors
++    dasd-eckd 0.0.1234: DASD with 4 KB/block, 7212240 KB total size, 48 KB/track, compatible disk layout
++    dasda:VOL1/  0X2B09: dasda1
 diff --git a/docs/system/target-s390x.rst b/docs/system/target-s390x.rst
-index 37ca032d98ef..2592a05303ef 100644
+index 2592a05303ef..644e404ef9fd 100644
 --- a/docs/system/target-s390x.rst
 +++ b/docs/system/target-s390x.rst
-@@ -24,6 +24,7 @@ or vfio-ap is also available.
- .. toctree::
+@@ -25,6 +25,7 @@ or vfio-ap is also available.
     s390x/vfio-ap
     s390x/css
-+   s390x/3270
+    s390x/3270
++   s390x/vfio-ccw
  
  Architectural features
  ======================
