@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9371D494C
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:20:52 +0200 (CEST)
-Received: from localhost ([::1]:38192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08351D4961
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:22:06 +0200 (CEST)
+Received: from localhost ([::1]:44286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZWWR-0006S3-36
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:20:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34922)
+	id 1jZWXd-00016M-Uf
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:22:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
- id 1jZWV8-00057a-32
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:19:30 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:40222)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pauldzim@gmail.com>)
- id 1jZWV7-0005VL-9x
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:19:29 -0400
-Received: by mail-il1-x143.google.com with SMTP id e8so1732445ilm.7
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 02:19:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IPRUKoDFj+/20efxoyq+4r2wIuVjT9tQ30twanJ1/Ak=;
- b=kKgEP3wuyAWnR4tLOtOCq1XwrD4iBQQ4BtvIBnYkFHmMF1+g/FZmqbHfgimBAEIhaA
- 98HJH8pYlo6zyBYTYl9ky5jVyfDx3PNw2h5CjsTBdR8cY6WLEGO3UnsTqByyPNH/cclq
- wgCdm81Wsh+1tvfZoLZyFowG9QUc++pvAf9hJ9Mc16yiByQZHcyKHL5EAzBRTjxhVBoY
- LUQWJp7Q1aRBbkUO6iinbwVeOCufP0TJjZ8VK7R5Em1PLS6qbyZ07T5yvavDOl7cyjVE
- vbMGKRfAFNzKnWA7MYRpCi/XjDGT5/do+vnEvBsTXYsRn42IEJHXcPG6U4FAxQbfc8cR
- /6nQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWVA-00058I-Gp
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:19:32 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38363
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWV7-0005VY-QH
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:19:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589534369;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Tip+VUiEmGbZgPR0PRl2/ts9k/XY7TW1haH7XVAasp8=;
+ b=He+C0G7jbALxdXTNr+CNhANMPcnNf+CSj+5LYvAOb1pIq8tZr583Y8et226zF76F/VT4wH
+ u1zjfLMGVVMv3XPfBWGtK4gR/xU9df/Bwy4rpWmsNwQntyLz5IT5Ii/g2pD5sijCXc73hl
+ 7Wetgr29qVW1baGkb/isUOrhiiy42bg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-424-oYIAzamBPtSu9fgXSArnYg-1; Fri, 15 May 2020 05:19:27 -0400
+X-MC-Unique: oYIAzamBPtSu9fgXSArnYg-1
+Received: by mail-wr1-f72.google.com with SMTP id l12so879915wrw.9
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 02:19:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IPRUKoDFj+/20efxoyq+4r2wIuVjT9tQ30twanJ1/Ak=;
- b=nOWo2N24eWGtiOH/31q2RREFyyZPgfQ4qhtd3ia2dGhNGhLPdR8p+JElClvekLL3H8
- 0SDuHGJ4BrCqSIIe4BIsc6FW5U9K06nsqf8+/QByNJUv33AAkhqsuZQF7BmRfy6MkWes
- RUkrHubVwtcVxu5NXTadfBkVe9OZvs3mNDJdJNYuKSCmQDuI+rod/LGJyG0BzVZV9JlA
- 27UM5SWDm5djOfgfODsIV0LdZtzfJ25fhhYezB/7plyTkdM2ysz8n4RF7glVDk4bdLbN
- aRZrWmk6h7oG5jtnDTl8WDo26E7ddX82/hdN/0cCMfA6OHOC2lX1Oox0LCqUr/uDFW05
- VN3w==
-X-Gm-Message-State: AOAM532S2yIwvYT6W8EvoB1pOi6ZBFUycHztlu02E4WTsuPyX6Zg42zN
- r2m1m2wH8Ftze5LVrYk8BX/96XtnoY+7MmjnGFM=
-X-Google-Smtp-Source: ABdhPJwkWhOAAsUZiX6lnH96KkBuYj9B2TCNb1ElgViC/zFU7RKIRljOE8/sy1/53g1LK5dnujehoEFsD31d3HhhU94=
-X-Received: by 2002:a05:6e02:2:: with SMTP id h2mr573264ilr.281.1589534367847; 
- Fri, 15 May 2020 02:19:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Tip+VUiEmGbZgPR0PRl2/ts9k/XY7TW1haH7XVAasp8=;
+ b=V+24SQyq8Ko8MU9eZ1P79W+q3Uui7SOwXLPc8KNnlGRBf0Sh9QR8PQgb/L8q2DTiW0
+ +MI7sEOPPZp3oZ4WPCA/GKzzScukGVCxNObIJ3J/6IB4dSz74ODcjxdDzFiS1Rexg/1M
+ eGXQmClIrqmzqqO3WlE6DKOsCZ1KS1FAbEOmLO+znvJLEq5hsYGqn1ANgGic/k83S2le
+ 6kZ8COmH4z+Er9Px5oAmO0D0Jobiefnf6PScLirKXoYpqPEssNNwHhtfK3WGShwvML5k
+ vFmPJ3A4ChzbpakCm62MLusCucQI2/bQRsDCvRX095Ho2fPqpGaknuLQgQ+dOfS6dRpP
+ DeJA==
+X-Gm-Message-State: AOAM5318x24IgCVNqe+SHLg3VGhB7K29XFfny4qJL9ijBjxYYTlNyZfl
+ YYr21D2JZSIGE1CJaYZRAaGTXvDoCfoSJD07C48LNIjevyLH9L9VX+zeSJwkPz4CPKRyKhhCTHk
+ Oi8ZopFMp2V5RZNk=
+X-Received: by 2002:a1c:7914:: with SMTP id l20mr2924609wme.120.1589534366005; 
+ Fri, 15 May 2020 02:19:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqHMuVy5nPhF09Ru+ZPqaInBig04JlQ8fR64hYJyubwsnJDWU0ZFuGEbsGqCNpsr2up0NcdQ==
+X-Received: by 2002:a1c:7914:: with SMTP id l20mr2924590wme.120.1589534365827; 
+ Fri, 15 May 2020 02:19:25 -0700 (PDT)
+Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id h188sm2886665wme.8.2020.05.15.02.19.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 May 2020 02:19:25 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/5] block: Documentation improvment
+Date: Fri, 15 May 2020 11:19:19 +0200
+Message-Id: <20200515091924.14380-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-References: <20200512064900.28554-1-pauldzim@gmail.com>
- <20200512064900.28554-2-pauldzim@gmail.com>
- <a2690592-fa76-4cd1-2cfb-2093c5ade4ce@amsat.org>
-In-Reply-To: <a2690592-fa76-4cd1-2cfb-2093c5ade4ce@amsat.org>
-From: Paul Zimmerman <pauldzim@gmail.com>
-Date: Fri, 15 May 2020 02:19:17 -0700
-Message-ID: <CADBGO78Zr=ykRczZj4+KeMyqSC93Yqew3yKt8Fx53+TkqPwYjA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/7] raspi: add BCM2835 SOC MPHI emulation
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="0000000000005a98aa05a5ac4f17"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=pauldzim@gmail.com; helo=mail-il1-x143.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,66 +92,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005a98aa05a5ac4f17
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+These patches contain documentation I wrote down while
+looking at the code.
 
-On Fri, May 15, 2020 at 1:10 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g>
-wrote:
+Supersedes: <20200504094641.4963-1-philmd@redhat.com>
 
-> On 5/12/20 8:48 AM, Paul Zimmerman wrote:
-> > Add BCM2835 SOC MPHI (Message-based Parallel Host Interface)
-> > emulation. It is very basic, only providing the FIQ interrupt
-> > needed to allow the dwc-otg USB host controller driver in the
-> > Raspbian kernel to function.
-> >
-> > Signed-off-by: Paul Zimmerman <pauldzim@gmail.com>
->
-> Acked-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
+Philippe Mathieu-Daudé (5):
+  qemu/osdep: Document qemu_memalign() and friends
+  qemu/bitmap: Document bitmap_new() returned pointer
+  block/block: Document BlockSizes fields
+  sysemu/block-backend: Document blk_read()/blk_pwrite()
+  sysemu/block-backend: Document blk_get_max_iov() returned value
 
-Thanks Felippe. Do you think you reviewed hcd-dwc2.c enough to give a
-reviewed-by or acked-by to it too?
+ include/block/block.h          |  8 ++++++--
+ include/qemu/bitmap.h          |  2 ++
+ include/qemu/osdep.h           |  3 +++
+ include/sysemu/block-backend.h | 27 +++++++++++++++++++++++++++
+ 4 files changed, 38 insertions(+), 2 deletions(-)
 
-Thanks,
-Paul
+-- 
+2.21.3
 
-
->
-
---0000000000005a98aa05a5ac4f17
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, May 15, 2020 at 1:10 AM Philippe Mathieu-Daud=C3=A9=
- &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex">On 5/12/20 8:48 AM, Paul Zimmerman wrot=
-e:<br>
-&gt; Add BCM2835 SOC MPHI (Message-based Parallel Host Interface)<br>
-&gt; emulation. It is very basic, only providing the FIQ interrupt<br>
-&gt; needed to allow the dwc-otg USB host controller driver in the<br>
-&gt; Raspbian kernel to function.<br>
-&gt; <br>
-&gt; Signed-off-by: Paul Zimmerman &lt;<a href=3D"mailto:pauldzim@gmail.com=
-" target=3D"_blank">pauldzim@gmail.com</a>&gt;<br>
-<br>
-Acked-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org=
-" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks Felippe. =
-Do you think you reviewed hcd-dwc2.c enough to give a reviewed-by or acked-=
-by to it too?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks,</d=
-iv><div dir=3D"auto">Paul</div><div dir=3D"auto"><br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex"><br></blockquote></div></div>
-
---0000000000005a98aa05a5ac4f17--
 
