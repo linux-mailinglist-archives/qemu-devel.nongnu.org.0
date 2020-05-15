@@ -2,70 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2FE1D5BF7
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 23:52:32 +0200 (CEST)
-Received: from localhost ([::1]:36016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C61101D5B51
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 23:17:54 +0200 (CEST)
+Received: from localhost ([::1]:59140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZiFr-0002m1-5L
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 17:52:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45876)
+	id 1jZhiL-0003cB-SG
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 17:17:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jZiB2-0004qp-Re
- for qemu-devel@nongnu.org; Fri, 15 May 2020 17:47:32 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:6180)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jZhfz-0001jP-CI; Fri, 15 May 2020 17:15:27 -0400
+Received: from mail-db8eur05on2100.outbound.protection.outlook.com
+ ([40.107.20.100]:45280 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jZiB1-0006HH-Ag
- for qemu-devel@nongnu.org; Fri, 15 May 2020 17:47:32 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ebf0de50000>; Fri, 15 May 2020 14:47:17 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Fri, 15 May 2020 14:47:29 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Fri, 15 May 2020 14:47:29 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 15 May
- 2020 21:47:29 +0000
-Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 15 May 2020 21:47:23 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH Kernel v21 8/8] vfio: Selective dirty page tracking if IOMMU
- backed device pins pages
-Date: Sat, 16 May 2020 02:43:23 +0530
-Message-ID: <1589577203-20640-9-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1589577203-20640-1-git-send-email-kwankhede@nvidia.com>
-References: <1589577203-20640-1-git-send-email-kwankhede@nvidia.com>
-X-NVConfidentiality: public
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jZhfw-0005Vf-JW; Fri, 15 May 2020 17:15:26 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gCJyXuuyBjG4cJw9wSyhWGJ8XeoDHHAoi3ak2auTcTfQPEf2oHAqeGCg9/hN4RhiUPIBL5mUPw5ZzXwuPp8vdsPHOQK2daZJdSCE6QkE0RhJr7/6kYrOxprPIfyx1KOhLu1IdFZuGfc362O7xIpPenm2CH8xRQCY30vY1XHQU4wgzNALXlZ5S6nU49BCg46focma5S7fd5SpLhQKmhy2wefv135nHQdLAEE8usLonoMZA69rkbYSJM3nSByXlH6SEw0puCV9Qr0i3t6m/8xAtQ/gQ7sPRGsu0QSMCNkR7fpThsv5H1K7dz3cE6d5PtL7j8Yh9vReTdp0ocMOUWjc1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GilkJu+QJc0f1mrnJfBw76rC1UYyIXg9o4zHLgateJk=;
+ b=iGI79eGaPp9D8zpGyVEf2kMYlaCRsjoo4objZZFEpDtrCHqeHDV+uWGOrpMdB7LbRf4oAgqrjlqlK72a7Xy8FAzlaSJILpmv0q8kM6CMlO3vUDO2r5NCwuc+FZJiJ7DaTFuWcI0yR1S5GefcdeD+4BmwPlITq9E411vIcSa9Uj2qzxuNlJYv6s47eV5Ceh8JWwNRXoA+r5S4cnpp/dBaRfZrIfzJD+hgOReillTYL5S4ujd5AtfyCF7EcpaWBpB21FOQM1sxmSYOzSu632WTr6A89BVqlDv3znCFmtczZ2DpF1y0mZICgh6bq+F/1CPZZZ7ZFl8ZaVt6JtYcZJJzNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GilkJu+QJc0f1mrnJfBw76rC1UYyIXg9o4zHLgateJk=;
+ b=d52uacKZQ2vnChT9fWCU551cWO6LBVrBYbozbkcO2k245TDiIcyCRTy6wLzl0mtpR4VZHJKaSIMn81GVfSg0Qi3OjNGeytcEx9dUN+i33ZQCGEBnKMFS2Q+ZIYfzfyYZ4VrKI1n/kfle/0MJGTxKONJAu3QAsBFR6ryo2h1Ha0U=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5478.eurprd08.prod.outlook.com (2603:10a6:20b:107::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.26; Fri, 15 May
+ 2020 21:15:18 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%4]) with mapi id 15.20.3000.022; Fri, 15 May 2020
+ 21:15:18 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v4 0/9] Rework iotests/check
+Date: Sat, 16 May 2020 00:14:56 +0300
+Message-Id: <20200515211505.3042-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM0PR03CA0051.eurprd03.prod.outlook.com (2603:10a6:208::28)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1589579237; bh=gs993fVeSoGv3/JS9TYTCUypJCzsJfhKx+V1g755yQ8=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- In-Reply-To:References:X-NVConfidentiality:MIME-Version:
- Content-Type;
- b=oyIsb4qT2Sg830TkGr2z7nxbt52IOU3fG32/T/mIiObwd0zbvwMNVZ8oZLa7oAdGq
- TSJg8XSuE+wL4RXjMB+fUa4QT3n2utT4p2EAzra0ScD1KeBNcQ95vnkhoS8ySASi56
- JsEYdy7S6QACq+sSTw2e4sajcViSqAB8K0Y0A9P5VDTQZ7vosrJJNOLL6KEuQ6jZme
- 6ejKiAmbKpy8LS1uxjTJ/9NrXNV1PQaoj5k1QMWPRk7HJNTEPfvUTeVqk4wtfJ+34v
- 6bHPyLon+LLI/6mBaHRKgJX++3yaAR9R5wQtxT7aSEtvxF0bRKiLhjiyObLh1ydrea
- Szn7jsyCkCJHw==
-Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
- helo=hqnvemgate26.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 17:46:35
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kvm.sw.ru (185.215.60.184) by
+ AM0PR03CA0051.eurprd03.prod.outlook.com (2603:10a6:208::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3000.20 via Frontend Transport; Fri, 15 May 2020 21:15:17 +0000
+X-Mailer: git-send-email 2.21.0
+X-Originating-IP: [185.215.60.184]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: eaf8df83-e9e5-4db8-bdf1-08d7f91511b8
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5478:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB547872BE064375A5B23B5116C1BD0@AM7PR08MB5478.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+X-Forefront-PRVS: 04041A2886
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GGRUCF1TmU9F3ue3hzPPg8hGzWIZ4AXNfOn/yAbp9SkAiNqIAH3loWWbo2wsS0B7jIpy773MamIJxH0Uyi/5hYdo5QcWrOwYx+kr4dfNU3DVPNTc3AkWZxBnXYY2rB40kIESVBzkeueRCLWeyg4ai1iltBofQfQ7+J6Y1/20OpQcVeOh+yj/vwmGJKO74Unkc1bXxHwIqzpZpWciVrTRsBZ3z+5iZZcUpnYL6ZZEu/4SfB6kGRzInMhhVHmoS3QRcdZy4lOyL1viDQK50PFX+mG918PNa020QnYPUeLk1T9OOBGxF4FYQ+D+CKTfUApFZaU7q/Zr5/75laNFANZpYw95td6NFa/yL8KjRY4IW3Q2QMYEEeQ43wbyDXG6wjWL0pIQ0t4CxVRL6zZJXgyAfzJnsvM86nAzY2wY/HQr2bYFA31Oz1q1FDvTJCJWmkn+
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(39840400004)(346002)(376002)(366004)(396003)(26005)(86362001)(6486002)(2906002)(6916009)(36756003)(8936002)(316002)(8676002)(66476007)(66946007)(1076003)(66556008)(956004)(52116002)(4326008)(186003)(16526019)(478600001)(6506007)(6666004)(6512007)(2616005)(5660300002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: sKC8FZquEFhR2VxGGr8W/QpG0AFq8G5hrtsTIr/C29j7+Hodiywmo50WU8I02/yhLMz1SPse3hGHtogljxUXsm81TalXJay9eQ5sb7Q2aFqZjx43sDIDNs0cUvrsrJzgkwR1G+pc5zbMPA+mXRv9Dg36ZdOCbOSsVFK1tAWVVofnUj86K6iCzh5pVuKdb2dIhCDc6Jmhx4OsJ7aJJ2WNTU7u0O+kCDfnQ9Z7PZQfFs8pOZHlaEdpYmCpQpGVcs8VjC6n6Z6YLbMQXzIwBsDgkAAGS+O+0exEQ6axxAkZNortAsFafAhDwQEDdRh9vn3q+An942I1JWvBejbydbmIE1ue1+gybfkpR2CewCfZ7Z1EYm12xipEyiR9qWlkhsXrkYdBec4r6Q28yey4uSpGphCOC3eDkEomDULDdYlOYC3zFmAlHW0qI65vPS1BwglKhjk/ge3/Si6MxSOdCMc+UTq5+FoiBz514udfyK7n+tQoO2wn5cSo0iJCY0Vf63Kb
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eaf8df83-e9e5-4db8-bdf1-08d7f91511b8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2020 21:15:18.7046 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HcEHofyv0NrsuHhoVU7Uv4LX2BxP57NOZ0ayjRbqQco8Dhfxg5nnHJGGbu0xXSSUJGib79obTdG1wRwnh35yXtphoKCQNbtQJ8wskss8+54=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5478
+Received-SPF: pass client-ip=40.107.20.100;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 17:15:19
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,334 +112,332 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- yan.y.zhao@intel.com, kvm@vger.kernel.org, eskultet@redhat.com,
- ziye.yang@intel.com, qemu-devel@nongnu.org, cohuck@redhat.com,
- shuangtai.tst@alibaba-inc.com, dgilbert@redhat.com, zhi.a.wang@intel.com,
- mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
- Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added a check such that only singleton IOMMU groups can pin pages.
-From the point when vendor driver pins any pages, consider IOMMU group
-dirty page scope to be limited to pinned pages.
+Hi all!
 
-To optimize to avoid walking list often, added flag
-pinned_page_dirty_scope to indicate if all of the vfio_groups for each
-vfio_domain in the domain_list dirty page scope is limited to pinned
-pages. This flag is updated on first pinned pages request for that IOMMU
-group and on attaching/detaching group.
+These series has 3 goals:
 
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Neo Jia <cjia@nvidia.com>
----
- drivers/vfio/vfio.c             |  13 +++--
- drivers/vfio/vfio_iommu_type1.c | 103 +++++++++++++++++++++++++++++++++++++---
- include/linux/vfio.h            |   4 +-
- 3 files changed, 109 insertions(+), 11 deletions(-)
+ - get rid of group file
+ - introduce human-readable names for tests
+ - rewrite check into python
 
-diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
-index 765e0e5d83ed..580099afeaff 100644
---- a/drivers/vfio/vfio.c
-+++ b/drivers/vfio/vfio.c
-@@ -85,6 +85,7 @@ struct vfio_group {
- 	atomic_t			opened;
- 	wait_queue_head_t		container_q;
- 	bool				noiommu;
-+	unsigned int			dev_counter;
- 	struct kvm			*kvm;
- 	struct blocking_notifier_head	notifier;
- };
-@@ -555,6 +556,7 @@ struct vfio_device *vfio_group_create_device(struct vfio_group *group,
- 
- 	mutex_lock(&group->device_lock);
- 	list_add(&device->group_next, &group->device_list);
-+	group->dev_counter++;
- 	mutex_unlock(&group->device_lock);
- 
- 	return device;
-@@ -567,6 +569,7 @@ static void vfio_device_release(struct kref *kref)
- 	struct vfio_group *group = device->group;
- 
- 	list_del(&device->group_next);
-+	group->dev_counter--;
- 	mutex_unlock(&group->device_lock);
- 
- 	dev_set_drvdata(device->dev, NULL);
-@@ -1945,6 +1948,9 @@ int vfio_pin_pages(struct device *dev, unsigned long *user_pfn, int npage,
- 	if (!group)
- 		return -ENODEV;
- 
-+	if (group->dev_counter > 1)
-+		return -EINVAL;
-+
- 	ret = vfio_group_add_container_user(group);
- 	if (ret)
- 		goto err_pin_pages;
-@@ -1952,7 +1958,8 @@ int vfio_pin_pages(struct device *dev, unsigned long *user_pfn, int npage,
- 	container = group->container;
- 	driver = container->iommu_driver;
- 	if (likely(driver && driver->ops->pin_pages))
--		ret = driver->ops->pin_pages(container->iommu_data, user_pfn,
-+		ret = driver->ops->pin_pages(container->iommu_data,
-+					     group->iommu_group, user_pfn,
- 					     npage, prot, phys_pfn);
- 	else
- 		ret = -ENOTTY;
-@@ -2050,8 +2057,8 @@ int vfio_group_pin_pages(struct vfio_group *group,
- 	driver = container->iommu_driver;
- 	if (likely(driver && driver->ops->pin_pages))
- 		ret = driver->ops->pin_pages(container->iommu_data,
--					     user_iova_pfn, npage,
--					     prot, phys_pfn);
-+					     group->iommu_group, user_iova_pfn,
-+					     npage, prot, phys_pfn);
- 	else
- 		ret = -ENOTTY;
- 
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index 5c8d20974a2a..05637b51e7c9 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -73,6 +73,7 @@ struct vfio_iommu {
- 	bool			v2;
- 	bool			nesting;
- 	bool			dirty_page_tracking;
-+	bool			pinned_page_dirty_scope;
- };
- 
- struct vfio_domain {
-@@ -100,6 +101,7 @@ struct vfio_group {
- 	struct iommu_group	*iommu_group;
- 	struct list_head	next;
- 	bool			mdev_group;	/* An mdev group */
-+	bool			pinned_page_dirty_scope;
- };
- 
- struct vfio_iova {
-@@ -143,6 +145,10 @@ struct vfio_regions {
- 
- static int put_pfn(unsigned long pfn, int prot);
- 
-+static struct vfio_group *vfio_iommu_find_iommu_group(struct vfio_iommu *iommu,
-+					       struct iommu_group *iommu_group);
-+
-+static void update_pinned_page_dirty_scope(struct vfio_iommu *iommu);
- /*
-  * This code handles mapping and unmapping of user data buffers
-  * into DMA'ble space using the IOMMU
-@@ -590,11 +596,13 @@ static int vfio_unpin_page_external(struct vfio_dma *dma, dma_addr_t iova,
- }
- 
- static int vfio_iommu_type1_pin_pages(void *iommu_data,
-+				      struct iommu_group *iommu_group,
- 				      unsigned long *user_pfn,
- 				      int npage, int prot,
- 				      unsigned long *phys_pfn)
- {
- 	struct vfio_iommu *iommu = iommu_data;
-+	struct vfio_group *group;
- 	int i, j, ret;
- 	unsigned long remote_vaddr;
- 	struct vfio_dma *dma;
-@@ -667,8 +675,14 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
- 				   (iova - dma->iova) >> pgshift, 1);
- 		}
- 	}
--
- 	ret = i;
-+
-+	group = vfio_iommu_find_iommu_group(iommu, iommu_group);
-+	if (!group->pinned_page_dirty_scope) {
-+		group->pinned_page_dirty_scope = true;
-+		update_pinned_page_dirty_scope(iommu);
-+	}
-+
- 	goto pin_done;
- 
- pin_unwind:
-@@ -928,8 +942,9 @@ static void vfio_pgsize_bitmap(struct vfio_iommu *iommu)
- 	}
- }
- 
--static int update_user_bitmap(u64 __user *bitmap, struct vfio_dma *dma,
--			      dma_addr_t base_iova, size_t pgsize)
-+static int update_user_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
-+			      struct vfio_dma *dma, dma_addr_t base_iova,
-+			      size_t pgsize)
- {
- 	unsigned long pgshift = __ffs(pgsize);
- 	unsigned long nbits = dma->size >> pgshift;
-@@ -938,8 +953,11 @@ static int update_user_bitmap(u64 __user *bitmap, struct vfio_dma *dma,
- 	unsigned long shift = bit_offset % BITS_PER_LONG;
- 	unsigned long leftover;
- 
--	/* mark all pages dirty if all pages are pinned and mapped. */
--	if (dma->iommu_mapped)
-+	/*
-+	 * mark all pages dirty if any IOMMU capable device is not able
-+	 * to report dirty pages and all pages are pinned and mapped.
-+	 */
-+	if (!iommu->pinned_page_dirty_scope && dma->iommu_mapped)
- 		bitmap_set(dma->bitmap, 0, dma->size >> pgshift);
- 
- 	if (shift) {
-@@ -987,7 +1005,7 @@ static int vfio_iova_dirty_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
- 		(dma->iova + dma->size <= iova + size)) {
- 		struct rb_node *n;
- 
--		ret = update_user_bitmap(bitmap, dma, iova, pgsize);
-+		ret = update_user_bitmap(bitmap, iommu, dma, iova, pgsize);
- 		if (ret)
- 			return ret;
- 
-@@ -1136,7 +1154,7 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
- 		}
- 
- 		if (unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) {
--			ret = update_user_bitmap(bitmap->data, dma,
-+			ret = update_user_bitmap(bitmap->data, iommu, dma,
- 						 unmap->iova, pgsize);
- 			if (ret)
- 				break;
-@@ -1488,6 +1506,51 @@ static struct vfio_group *find_iommu_group(struct vfio_domain *domain,
- 	return NULL;
- }
- 
-+static struct vfio_group *vfio_iommu_find_iommu_group(struct vfio_iommu *iommu,
-+					       struct iommu_group *iommu_group)
-+{
-+	struct vfio_domain *domain;
-+	struct vfio_group *group = NULL;
-+
-+	list_for_each_entry(domain, &iommu->domain_list, next) {
-+		group = find_iommu_group(domain, iommu_group);
-+		if (group)
-+			return group;
-+	}
-+
-+	if (iommu->external_domain)
-+		group = find_iommu_group(iommu->external_domain, iommu_group);
-+
-+	return group;
-+}
-+
-+static void update_pinned_page_dirty_scope(struct vfio_iommu *iommu)
-+{
-+	struct vfio_domain *domain;
-+	struct vfio_group *group;
-+
-+	list_for_each_entry(domain, &iommu->domain_list, next) {
-+		list_for_each_entry(group, &domain->group_list, next) {
-+			if (!group->pinned_page_dirty_scope) {
-+				iommu->pinned_page_dirty_scope = false;
-+				return;
-+			}
-+		}
-+	}
-+
-+	if (iommu->external_domain) {
-+		domain = iommu->external_domain;
-+		list_for_each_entry(group, &domain->group_list, next) {
-+			if (!group->pinned_page_dirty_scope) {
-+				iommu->pinned_page_dirty_scope = false;
-+				return;
-+			}
-+		}
-+	}
-+
-+	iommu->pinned_page_dirty_scope = true;
-+}
-+
- static bool vfio_iommu_has_sw_msi(struct list_head *group_resv_regions,
- 				  phys_addr_t *base)
- {
-@@ -1895,6 +1958,16 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- 
- 			list_add(&group->next,
- 				 &iommu->external_domain->group_list);
-+			/*
-+			 * Non-iommu backed group cannot dirty memory directly,
-+			 * it can only use interfaces that provide dirty
-+			 * tracking.
-+			 * The iommu scope can only be promoted with the
-+			 * addition of a dirty tracking group.
-+			 */
-+			group->pinned_page_dirty_scope = true;
-+			if (!iommu->pinned_page_dirty_scope)
-+				update_pinned_page_dirty_scope(iommu);
- 			mutex_unlock(&iommu->lock);
- 
- 			return 0;
-@@ -2018,6 +2091,13 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- done:
- 	/* Delete the old one and insert new iova list */
- 	vfio_iommu_iova_insert_copy(iommu, &iova_copy);
-+
-+	/*
-+	 * An iommu backed group can dirty memory directly and therefore
-+	 * demotes the iommu scope until it declares itself dirty tracking
-+	 * capable via the page pinning interface.
-+	 */
-+	iommu->pinned_page_dirty_scope = false;
- 	mutex_unlock(&iommu->lock);
- 	vfio_iommu_resv_free(&group_resv_regions);
- 
-@@ -2170,6 +2250,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 	struct vfio_iommu *iommu = iommu_data;
- 	struct vfio_domain *domain;
- 	struct vfio_group *group;
-+	bool update_dirty_scope = false;
- 	LIST_HEAD(iova_copy);
- 
- 	mutex_lock(&iommu->lock);
-@@ -2177,6 +2258,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 	if (iommu->external_domain) {
- 		group = find_iommu_group(iommu->external_domain, iommu_group);
- 		if (group) {
-+			update_dirty_scope = !group->pinned_page_dirty_scope;
- 			list_del(&group->next);
- 			kfree(group);
- 
-@@ -2206,6 +2288,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 			continue;
- 
- 		vfio_iommu_detach_group(domain, group);
-+		update_dirty_scope = !group->pinned_page_dirty_scope;
- 		list_del(&group->next);
- 		kfree(group);
- 		/*
-@@ -2237,6 +2320,12 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 		vfio_iommu_iova_free(&iova_copy);
- 
- detach_group_done:
-+	/*
-+	 * Removal of a group without dirty tracking may allow the iommu scope
-+	 * to be promoted.
-+	 */
-+	if (update_dirty_scope)
-+		update_pinned_page_dirty_scope(iommu);
- 	mutex_unlock(&iommu->lock);
- }
- 
-diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-index 5d92ee15d098..38d3c6a8dc7e 100644
---- a/include/linux/vfio.h
-+++ b/include/linux/vfio.h
-@@ -76,7 +76,9 @@ struct vfio_iommu_driver_ops {
- 					struct iommu_group *group);
- 	void		(*detach_group)(void *iommu_data,
- 					struct iommu_group *group);
--	int		(*pin_pages)(void *iommu_data, unsigned long *user_pfn,
-+	int		(*pin_pages)(void *iommu_data,
-+				     struct iommu_group *group,
-+				     unsigned long *user_pfn,
- 				     int npage, int prot,
- 				     unsigned long *phys_pfn);
- 	int		(*unpin_pages)(void *iommu_data,
+v4:
+   - human readable tests in  ..qemu-iotests/tests subdirectory
+   - add --start-from argument for findtests
+   - add type hinting
+
+Vladimir Sementsov-Ogievskiy (9):
+  iotests/277: use dot slash for nbd-fault-injector.py running
+  iotests: fix some whitespaces in test output files
+  iotests/283: make executable
+  iotests: define group in each iotest
+  iotests: add findtests.py
+  iotests: add testenv.py
+  iotests: add testrunner.py
+  iotests: rewrite check into python
+  iotests: rename and move 169 and 199 tests
+
+ docs/devel/testing.rst                        |  50 +-
+ tests/qemu-iotests/001                        |   1 +
+ tests/qemu-iotests/002                        |   1 +
+ tests/qemu-iotests/003                        |   1 +
+ tests/qemu-iotests/004                        |   1 +
+ tests/qemu-iotests/005                        |   1 +
+ tests/qemu-iotests/007                        |   1 +
+ tests/qemu-iotests/008                        |   1 +
+ tests/qemu-iotests/009                        |   1 +
+ tests/qemu-iotests/010                        |   1 +
+ tests/qemu-iotests/011                        |   1 +
+ tests/qemu-iotests/012                        |   1 +
+ tests/qemu-iotests/013                        |   1 +
+ tests/qemu-iotests/014                        |   1 +
+ tests/qemu-iotests/015                        |   1 +
+ tests/qemu-iotests/017                        |   1 +
+ tests/qemu-iotests/018                        |   1 +
+ tests/qemu-iotests/019                        |   1 +
+ tests/qemu-iotests/020                        |   1 +
+ tests/qemu-iotests/021                        |   1 +
+ tests/qemu-iotests/022                        |   1 +
+ tests/qemu-iotests/023                        |   1 +
+ tests/qemu-iotests/024                        |   1 +
+ tests/qemu-iotests/025                        |   1 +
+ tests/qemu-iotests/026                        |   1 +
+ tests/qemu-iotests/027                        |   1 +
+ tests/qemu-iotests/028                        |   1 +
+ tests/qemu-iotests/029                        |   1 +
+ tests/qemu-iotests/030                        |   1 +
+ tests/qemu-iotests/031                        |   1 +
+ tests/qemu-iotests/032                        |   1 +
+ tests/qemu-iotests/033                        |   1 +
+ tests/qemu-iotests/034                        |   1 +
+ tests/qemu-iotests/035                        |   1 +
+ tests/qemu-iotests/036                        |   1 +
+ tests/qemu-iotests/037                        |   1 +
+ tests/qemu-iotests/038                        |   1 +
+ tests/qemu-iotests/039                        |   1 +
+ tests/qemu-iotests/040                        |   1 +
+ tests/qemu-iotests/041                        |   1 +
+ tests/qemu-iotests/042                        |   1 +
+ tests/qemu-iotests/043                        |   1 +
+ tests/qemu-iotests/044                        |   1 +
+ tests/qemu-iotests/045                        |   1 +
+ tests/qemu-iotests/046                        |   1 +
+ tests/qemu-iotests/047                        |   1 +
+ tests/qemu-iotests/048                        |   1 +
+ tests/qemu-iotests/049                        |   1 +
+ tests/qemu-iotests/050                        |   1 +
+ tests/qemu-iotests/051                        |   1 +
+ tests/qemu-iotests/052                        |   1 +
+ tests/qemu-iotests/053                        |   1 +
+ tests/qemu-iotests/054                        |   1 +
+ tests/qemu-iotests/055                        |   1 +
+ tests/qemu-iotests/056                        |   1 +
+ tests/qemu-iotests/057                        |   1 +
+ tests/qemu-iotests/058                        |   1 +
+ tests/qemu-iotests/059                        |   1 +
+ tests/qemu-iotests/060                        |   1 +
+ tests/qemu-iotests/061                        |   1 +
+ tests/qemu-iotests/062                        |   1 +
+ tests/qemu-iotests/063                        |   1 +
+ tests/qemu-iotests/064                        |   1 +
+ tests/qemu-iotests/065                        |   1 +
+ tests/qemu-iotests/066                        |   1 +
+ tests/qemu-iotests/067                        |   1 +
+ tests/qemu-iotests/068                        |   1 +
+ tests/qemu-iotests/069                        |   1 +
+ tests/qemu-iotests/070                        |   1 +
+ tests/qemu-iotests/071                        |   1 +
+ tests/qemu-iotests/072                        |   1 +
+ tests/qemu-iotests/073                        |   1 +
+ tests/qemu-iotests/074                        |   1 +
+ tests/qemu-iotests/075                        |   1 +
+ tests/qemu-iotests/076                        |   1 +
+ tests/qemu-iotests/077                        |   1 +
+ tests/qemu-iotests/078                        |   1 +
+ tests/qemu-iotests/079                        |   1 +
+ tests/qemu-iotests/080                        |   1 +
+ tests/qemu-iotests/081                        |   1 +
+ tests/qemu-iotests/082                        |   1 +
+ tests/qemu-iotests/083                        |   1 +
+ tests/qemu-iotests/084                        |   1 +
+ tests/qemu-iotests/085                        |   1 +
+ tests/qemu-iotests/086                        |   1 +
+ tests/qemu-iotests/087                        |   1 +
+ tests/qemu-iotests/088                        |   1 +
+ tests/qemu-iotests/089                        |   1 +
+ tests/qemu-iotests/090                        |   1 +
+ tests/qemu-iotests/091                        |   1 +
+ tests/qemu-iotests/092                        |   1 +
+ tests/qemu-iotests/093                        |   1 +
+ tests/qemu-iotests/094                        |   1 +
+ tests/qemu-iotests/095                        |   1 +
+ tests/qemu-iotests/096                        |   1 +
+ tests/qemu-iotests/097                        |   1 +
+ tests/qemu-iotests/098                        |   1 +
+ tests/qemu-iotests/099                        |   1 +
+ tests/qemu-iotests/101                        |   1 +
+ tests/qemu-iotests/102                        |   1 +
+ tests/qemu-iotests/103                        |   1 +
+ tests/qemu-iotests/104                        |   1 +
+ tests/qemu-iotests/105                        |   1 +
+ tests/qemu-iotests/106                        |   1 +
+ tests/qemu-iotests/107                        |   1 +
+ tests/qemu-iotests/108                        |   1 +
+ tests/qemu-iotests/109                        |   1 +
+ tests/qemu-iotests/110                        |   1 +
+ tests/qemu-iotests/111                        |   1 +
+ tests/qemu-iotests/112                        |   1 +
+ tests/qemu-iotests/113                        |   1 +
+ tests/qemu-iotests/114                        |   1 +
+ tests/qemu-iotests/115                        |   1 +
+ tests/qemu-iotests/116                        |   1 +
+ tests/qemu-iotests/117                        |   1 +
+ tests/qemu-iotests/118                        |   1 +
+ tests/qemu-iotests/119                        |   1 +
+ tests/qemu-iotests/120                        |   1 +
+ tests/qemu-iotests/121                        |   1 +
+ tests/qemu-iotests/122                        |   1 +
+ tests/qemu-iotests/123                        |   1 +
+ tests/qemu-iotests/124                        |   1 +
+ tests/qemu-iotests/125                        |   1 +
+ tests/qemu-iotests/126                        |   1 +
+ tests/qemu-iotests/127                        |   1 +
+ tests/qemu-iotests/128                        |   1 +
+ tests/qemu-iotests/129                        |   1 +
+ tests/qemu-iotests/130                        |   1 +
+ tests/qemu-iotests/131                        |   1 +
+ tests/qemu-iotests/132                        |   1 +
+ tests/qemu-iotests/133                        |   1 +
+ tests/qemu-iotests/134                        |   1 +
+ tests/qemu-iotests/135                        |   1 +
+ tests/qemu-iotests/136                        |   1 +
+ tests/qemu-iotests/137                        |   1 +
+ tests/qemu-iotests/138                        |   1 +
+ tests/qemu-iotests/139                        |   1 +
+ tests/qemu-iotests/140                        |   1 +
+ tests/qemu-iotests/141                        |   1 +
+ tests/qemu-iotests/143                        |   1 +
+ tests/qemu-iotests/144                        |   1 +
+ tests/qemu-iotests/145                        |   1 +
+ tests/qemu-iotests/146                        |   1 +
+ tests/qemu-iotests/147                        |   1 +
+ tests/qemu-iotests/148                        |   1 +
+ tests/qemu-iotests/149                        |   1 +
+ tests/qemu-iotests/150                        |   1 +
+ tests/qemu-iotests/151                        |   1 +
+ tests/qemu-iotests/152                        |   1 +
+ tests/qemu-iotests/153                        |   1 +
+ tests/qemu-iotests/154                        |   1 +
+ tests/qemu-iotests/155                        |   1 +
+ tests/qemu-iotests/156                        |   1 +
+ tests/qemu-iotests/157                        |   1 +
+ tests/qemu-iotests/158                        |   1 +
+ tests/qemu-iotests/159                        |   1 +
+ tests/qemu-iotests/160                        |   1 +
+ tests/qemu-iotests/161                        |   1 +
+ tests/qemu-iotests/162                        |   1 +
+ tests/qemu-iotests/163                        |   1 +
+ tests/qemu-iotests/165                        |   1 +
+ tests/qemu-iotests/170                        |   1 +
+ tests/qemu-iotests/171                        |   1 +
+ tests/qemu-iotests/172                        |   1 +
+ tests/qemu-iotests/173                        |   1 +
+ tests/qemu-iotests/174                        |   1 +
+ tests/qemu-iotests/175                        |   1 +
+ tests/qemu-iotests/175.out                    |   2 +-
+ tests/qemu-iotests/176                        |   1 +
+ tests/qemu-iotests/177                        |   1 +
+ tests/qemu-iotests/178                        |   1 +
+ tests/qemu-iotests/179                        |   1 +
+ tests/qemu-iotests/181                        |   1 +
+ tests/qemu-iotests/182                        |   1 +
+ tests/qemu-iotests/183                        |   1 +
+ tests/qemu-iotests/184                        |   1 +
+ tests/qemu-iotests/185                        |   1 +
+ tests/qemu-iotests/186                        |   1 +
+ tests/qemu-iotests/187                        |   1 +
+ tests/qemu-iotests/188                        |   1 +
+ tests/qemu-iotests/189                        |   1 +
+ tests/qemu-iotests/190                        |   1 +
+ tests/qemu-iotests/191                        |   1 +
+ tests/qemu-iotests/192                        |   1 +
+ tests/qemu-iotests/194                        |   1 +
+ tests/qemu-iotests/195                        |   1 +
+ tests/qemu-iotests/196                        |   1 +
+ tests/qemu-iotests/197                        |   1 +
+ tests/qemu-iotests/198                        |   1 +
+ tests/qemu-iotests/200                        |   1 +
+ tests/qemu-iotests/201                        |   1 +
+ tests/qemu-iotests/202                        |   1 +
+ tests/qemu-iotests/203                        |   1 +
+ tests/qemu-iotests/204                        |   1 +
+ tests/qemu-iotests/205                        |   1 +
+ tests/qemu-iotests/206                        |   1 +
+ tests/qemu-iotests/207                        |   1 +
+ tests/qemu-iotests/208                        |   1 +
+ tests/qemu-iotests/209                        |   1 +
+ tests/qemu-iotests/210                        |   1 +
+ tests/qemu-iotests/211                        |   1 +
+ tests/qemu-iotests/212                        |   1 +
+ tests/qemu-iotests/213                        |   1 +
+ tests/qemu-iotests/214                        |   1 +
+ tests/qemu-iotests/215                        |   1 +
+ tests/qemu-iotests/216                        |   1 +
+ tests/qemu-iotests/217                        |   1 +
+ tests/qemu-iotests/218                        |   1 +
+ tests/qemu-iotests/219                        |   1 +
+ tests/qemu-iotests/220                        |   1 +
+ tests/qemu-iotests/221                        |   1 +
+ tests/qemu-iotests/222                        |   1 +
+ tests/qemu-iotests/223                        |   1 +
+ tests/qemu-iotests/224                        |   1 +
+ tests/qemu-iotests/225                        |   1 +
+ tests/qemu-iotests/226                        |   1 +
+ tests/qemu-iotests/227                        |   1 +
+ tests/qemu-iotests/228                        |   1 +
+ tests/qemu-iotests/229                        |   1 +
+ tests/qemu-iotests/231                        |   1 +
+ tests/qemu-iotests/232                        |   1 +
+ tests/qemu-iotests/233                        |   1 +
+ tests/qemu-iotests/234                        |   1 +
+ tests/qemu-iotests/235                        |   1 +
+ tests/qemu-iotests/236                        |   1 +
+ tests/qemu-iotests/237                        |   1 +
+ tests/qemu-iotests/238                        |   1 +
+ tests/qemu-iotests/239                        |   1 +
+ tests/qemu-iotests/240                        |   1 +
+ tests/qemu-iotests/241                        |   1 +
+ tests/qemu-iotests/242                        |   1 +
+ tests/qemu-iotests/243                        |   1 +
+ tests/qemu-iotests/244                        |   1 +
+ tests/qemu-iotests/245                        |   1 +
+ tests/qemu-iotests/246                        |   1 +
+ tests/qemu-iotests/247                        |   1 +
+ tests/qemu-iotests/248                        |   1 +
+ tests/qemu-iotests/249                        |   1 +
+ tests/qemu-iotests/250                        |   1 +
+ tests/qemu-iotests/251                        |   1 +
+ tests/qemu-iotests/252                        |   1 +
+ tests/qemu-iotests/253                        |   1 +
+ tests/qemu-iotests/254                        |   1 +
+ tests/qemu-iotests/255                        |   1 +
+ tests/qemu-iotests/256                        |   1 +
+ tests/qemu-iotests/257                        |   1 +
+ tests/qemu-iotests/258                        |   1 +
+ tests/qemu-iotests/259                        |   1 +
+ tests/qemu-iotests/260                        |   1 +
+ tests/qemu-iotests/261                        |   1 +
+ tests/qemu-iotests/262                        |   1 +
+ tests/qemu-iotests/263                        |   1 +
+ tests/qemu-iotests/264                        |   1 +
+ tests/qemu-iotests/265                        |   1 +
+ tests/qemu-iotests/266                        |   1 +
+ tests/qemu-iotests/267                        |   1 +
+ tests/qemu-iotests/267.out                    |  48 +-
+ tests/qemu-iotests/268                        |   1 +
+ tests/qemu-iotests/270                        |   1 +
+ tests/qemu-iotests/272                        |   1 +
+ tests/qemu-iotests/273                        |   1 +
+ tests/qemu-iotests/274                        |   1 +
+ tests/qemu-iotests/277                        |   3 +-
+ tests/qemu-iotests/279                        |   1 +
+ tests/qemu-iotests/280                        |   1 +
+ tests/qemu-iotests/281                        |   1 +
+ tests/qemu-iotests/282                        |   1 +
+ tests/qemu-iotests/283                        |   1 +
+ tests/qemu-iotests/284                        |   1 +
+ tests/qemu-iotests/286                        |   1 +
+ tests/qemu-iotests/287                        |   1 +
+ tests/qemu-iotests/287.out                    |  10 +-
+ tests/qemu-iotests/288                        |   1 +
+ tests/qemu-iotests/289                        |   1 +
+ tests/qemu-iotests/290                        |   1 +
+ tests/qemu-iotests/292                        |   1 +
+ tests/qemu-iotests/check                      | 983 +-----------------
+ tests/qemu-iotests/findtests.py               | 229 ++++
+ tests/qemu-iotests/group                      | 302 ------
+ tests/qemu-iotests/testenv.py                 | 325 ++++++
+ tests/qemu-iotests/testrunner.py              | 351 +++++++
+ .../migrate-bitmaps-postcopy-test}            |   1 +
+ .../migrate-bitmaps-postcopy-test.out}        |   0
+ .../{169 => tests/migrate-bitmaps-test}       |   1 +
+ .../migrate-bitmaps-test.out}                 |   0
+ 285 files changed, 1287 insertions(+), 1289 deletions(-)
+ mode change 100644 => 100755 tests/qemu-iotests/283
+ create mode 100755 tests/qemu-iotests/findtests.py
+ delete mode 100644 tests/qemu-iotests/group
+ create mode 100755 tests/qemu-iotests/testenv.py
+ create mode 100644 tests/qemu-iotests/testrunner.py
+ rename tests/qemu-iotests/{199 => tests/migrate-bitmaps-postcopy-test} (99%)
+ rename tests/qemu-iotests/{199.out => tests/migrate-bitmaps-postcopy-test.out} (100%)
+ rename tests/qemu-iotests/{169 => tests/migrate-bitmaps-test} (99%)
+ rename tests/qemu-iotests/{169.out => tests/migrate-bitmaps-test.out} (100%)
+
 -- 
-2.7.0
+2.21.0
 
 
