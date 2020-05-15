@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729FA1D4A6C
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 12:06:23 +0200 (CEST)
-Received: from localhost ([::1]:55336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 880741D4A5F
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 12:04:13 +0200 (CEST)
+Received: from localhost ([::1]:49386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZXEU-0006Ih-IP
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 06:06:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43340)
+	id 1jZXCO-00033H-3N
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 06:04:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jZXA9-0001KG-8X
- for qemu-devel@nongnu.org; Fri, 15 May 2020 06:01:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54757
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jZXB1-0002AF-Dz
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 06:02:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37718
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jZXA6-0006l6-O6
- for qemu-devel@nongnu.org; Fri, 15 May 2020 06:01:52 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jZXB0-0006xb-M3
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 06:02:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589536908;
+ s=mimecast20190719; t=1589536965;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=bTeCTGlmh/Dp4Gi8hbaNwFnuBpD45q2MR6XmJ7j/PRQ=;
- b=J9Q+0oT5sfLbuQx2u2UF1sRo97yOc/EoNRh6vyhzy8f5YH0hkt/Kuc9tUpGwLd2hGD4Geq
- j2xr8oJ339lSMp6MexikD4G85Zn2xvnhF7oH9BpVXSBHvyvJ2NZoN4166WZfwAd6RQsJxW
- 9OEHLCtEX+yr3vkqvP1dtZvcT2Y+IuM=
+ in-reply-to:in-reply-to:references:references;
+ bh=mhB5rU2yYfbAQtLiTAc/XbKUc7Cvw2G8m9y4Or2c6U8=;
+ b=MlnHj2IAdsgLymCa6bQmc3r/JNrjI3/0lijoh2+EDKvjUzJl80dQqjCcEl/mq0crSiqlmT
+ BXaaqHFW3aCbIRs327hWC8uD3oWVmqI5C79TeZ0xK7XFkNEwc61Cxksb75J7oy3ISncPPO
+ bxfZGsa9arNMtqVoftZ1BzhtByTn+I4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-qtWwUGgZP2y-22zpaw9nvg-1; Fri, 15 May 2020 06:01:46 -0400
-X-MC-Unique: qtWwUGgZP2y-22zpaw9nvg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-501-KLCkQBnZOXGvFYt4S3Tn4g-1; Fri, 15 May 2020 06:02:43 -0400
+X-MC-Unique: KLCkQBnZOXGvFYt4S3Tn4g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8AE58015CE;
- Fri, 15 May 2020 10:01:45 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-42.ams2.redhat.com [10.36.113.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D2CE1059583;
- Fri, 15 May 2020 10:01:43 +0000 (UTC)
-Subject: Re: [PATCH 2/3] docs/s390x: document 3270
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20200505135025.14614-1-cohuck@redhat.com>
- <20200505135025.14614-3-cohuck@redhat.com>
- <4ea47ea1-04d5-3073-fef6-5af07f06a4d6@redhat.com>
- <20200515110007.1676b17d.cohuck@redhat.com>
- <b6acb966-16f2-605d-6d01-70f6085bfa79@redhat.com>
- <20200515114511.2ac852f3.cohuck@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <d266a6a4-09c6-ee70-2d7c-f01dc0468cf5@redhat.com>
-Date: Fri, 15 May 2020 12:01:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C71B107ACF6
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 10:02:42 +0000 (UTC)
+Received: from localhost (ovpn-114-37.ams2.redhat.com [10.36.114.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF1292E05F;
+ Fri, 15 May 2020 10:02:41 +0000 (UTC)
+Date: Fri, 15 May 2020 11:02:40 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] trace/simple: Fix unauthorized enable
+Message-ID: <20200515100240.GC355503@stefanha-x1.localdomain>
+References: <20200515070021.20811-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200515114511.2ac852f3.cohuck@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200515070021.20811-1-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1ccMZA6j1vT5UqiK"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 23:27:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 22:56:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,68 +79,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/05/2020 11.45, Cornelia Huck wrote:
-> On Fri, 15 May 2020 11:14:40 +0200
-> Thomas Huth <thuth@redhat.com> wrote:
-> 
->> On 15/05/2020 11.00, Cornelia Huck wrote:
->>> On Fri, 15 May 2020 09:29:42 +0200
->>> Thomas Huth <thuth@redhat.com> wrote:
->>>   
->>>> On 05/05/2020 15.50, Cornelia Huck wrote:  
->>>>> Add some basic info how to use 3270 devices.
->>>>>
->>>>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
->>>>> ---
->>>>>  docs/system/s390x/3270.rst   | 32 ++++++++++++++++++++++++++++++++
->>>>>  docs/system/target-s390x.rst |  1 +
->>>>>  2 files changed, 33 insertions(+)
->>>>>  create mode 100644 docs/system/s390x/3270.rst
->>>>>
->>>>> diff --git a/docs/system/s390x/3270.rst b/docs/system/s390x/3270.rst
->>>>> new file mode 100644
->>>>> index 000000000000..e367a457e001
->>>>> --- /dev/null
->>>>> +++ b/docs/system/s390x/3270.rst
->>>>> @@ -0,0 +1,32 @@
->>>>> +3270 devices
->>>>> +============
->>>>> +
->>>>> +With the aid of the ``x3270`` emulator, QEMU provides limited support
->>>>> +for making a single 3270 device available to a guest. Note that this
->>>>> +supports basic features only.    
->>>>
->>>> The first sentence sounds somewhat confusing. Maybe rather something like:
->>>>
->>>> QEMU can emulate a 3270 device attached to a guest, which then can be
->>>> used with a program like ``x3270`` to get a traditional 3270 terminal
->>>> for your guest.  
->>>
->>> But QEMU actually relies on x3270 (or a comparable program). It only
->>> emulates the basic ccw plumbing; for the actual protocol (beyond
->>> negotiating tn3270), it relies on the emulation done by x3270.  
->>
->> Ok, makes sense now. Maybe something like:
->>
->> QEMU provides the possibility to connect an external 3270 terminal
->> emulator (like ``x3270``) to a guest?
-> 
-> Hm...
-> 
-> "QEMU supports connecting an external 3270 terminal emulator (such as
-> ``x3270``) to make a single 3270 device available to a guest. Note that
-> this supports basic features only."
-> 
-> ?
+--1ccMZA6j1vT5UqiK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, that sounds good!
+On Fri, May 15, 2020 at 09:00:21AM +0200, Markus Armbruster wrote:
+> diff --git a/trace/simple.c b/trace/simple.c
+> index fc7106ec49..906391538f 100644
+> --- a/trace/simple.c
+> +++ b/trace/simple.c
+> @@ -302,10 +302,10 @@ static int st_write_event_mapping(void)
+>      return 0;
+>  }
+> =20
+> -void st_set_trace_file_enabled(bool enable)
+> +bool st_set_trace_file_enabled(bool enable)
+>  {
+>      if (enable =3D=3D !!trace_fp) {
+> -        return; /* no change */
+> +        return enable;          /* no change */
+>      }
+> =20
+>      /* Halt trace writeout */
+> @@ -323,14 +323,14 @@ void st_set_trace_file_enabled(bool enable)
+> =20
+>          trace_fp =3D fopen(trace_file_name, "wb");
+>          if (!trace_fp) {
+> -            return;
+> +            return !enable;
+>          }
+> =20
+>          if (fwrite(&header, sizeof header, 1, trace_fp) !=3D 1 ||
+>              st_write_event_mapping() < 0) {
+>              fclose(trace_fp);
+>              trace_fp =3D NULL;
+> -            return;
+> +            return !enable;
+>          }
+> =20
+>          /* Resume trace writeout */
+> @@ -340,6 +340,7 @@ void st_set_trace_file_enabled(bool enable)
+>          fclose(trace_fp);
+>          trace_fp =3D NULL;
+>      }
+> +    return !enable;
+>  }
 
- Thanks,
-  Thomas
+The meaning of the return value confuses me. Is it the previous value
+(even when the function fails)?  Please document the meaning.
 
+The code might be easier to understand like this:
+
+  bool st_set_trace_file_enabled(bool enable)
+  {
+      bool was_enabled =3D trace_fp;
+
+      if (enable =3D=3D was_enabled) {
+          return was_enabled;      /* no change */
+      }
+
+      ...
+
+      return was_enabled;
+  }
+
+Now it is not necessary to remember that !enable is the previous value
+because we would have already returned if the value was unchanged.
+
+Stefan
+
+--1ccMZA6j1vT5UqiK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6+aMAACgkQnKSrs4Gr
+c8hQvgf+OL/aKSyyxdnfbU+1VaP65BJ2/aeBWgd6tk721bp/E1vVhCO8hNzD5jdJ
+pahi6zeD+LZb2SK7N18nVWenuxrDXTXxoIKNTgLrxsekCA/nC9m78dHvqKiLR7Db
+s3mGS4tpgZM/1fF80j/+cz1rsSmwf9Do6+qwOuwAZiDd7j0xs8EHqgAf9ws7MVrl
+rcXQIuwlCKjO0lTtsoyZPwqsZ7/EFgHUNLSpYnl+DUbxyrri7B5mOjtkVldGPc7H
+PCOM1ScfpPXKV571MIZA6YS+rrXlYfPqCXdHEuobey6fm8s/jfE87gSptTtgwJ7u
+zA7zfwznBKVHvfkIrXHvqiG5a4ipWw==
+=ajdW
+-----END PGP SIGNATURE-----
+
+--1ccMZA6j1vT5UqiK--
 
 
