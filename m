@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD2F1D527A
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:51:57 +0200 (CEST)
-Received: from localhost ([::1]:42792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557B91D5274
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:50:46 +0200 (CEST)
+Received: from localhost ([::1]:38420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZbgq-0004xB-OZ
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:51:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44530)
+	id 1jZbfh-000332-C9
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jZbZU-0002Qj-6c
+ id 1jZbZU-0002Qk-9P
  for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:22 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40624)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jZbZR-0000z2-Lo
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:19 -0400
-Received: by mail-wm1-x332.google.com with SMTP id u16so2943717wmc.5
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 07:44:17 -0700 (PDT)
+ id 1jZbZT-0000zD-0p
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:20 -0400
+Received: by mail-wr1-x434.google.com with SMTP id v12so3800570wrp.12
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 07:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KIk6ooatV8XnS7vaKVLS3g3ZtQSw6C7qVIF3uAG+cLk=;
- b=ZfqpQNvNQ7UCoebosaHhnei3f3jwIMNf/xuQw6RgHEhcAoIZQZztgWjD5yS1Zq7opp
- KJsVT7UHaC2tcsbCdJy73LodPZc1WTqsio9vmrku6AYzrzjDzs/8VdpRN8eu9LSl4KSG
- 6Ctes9U4WKMOP8pyh8WSPQmFfr0XOq7iWkD/6Fydva9195SFMPy22IU4NVm/6IuwBJIU
- 5FZa3BubkzHsnzuES0n0eYDaL75zyAazRoSED7GPafkGR5cDlPe8ODTR6aD5vaGMhk5z
- WvLzoLF4mOvrmussYy62dNAxF9xevD85l0U1mvgJahJlfHNVzxx/gZe6TmzCiuOo+sTv
- YLMw==
+ bh=nJshK4Gmxn9NtKVYQkApWjq7ip9+eMHY3X093/AxgHA=;
+ b=w685uZIuhvpWnqw5ymPY9UXQaJCskyBrSZhLrhHbDYBNOAo/gt9I6kxVROzPe7co8I
+ Zq9ES3UJAyu3phgtUqQwwXkdDUp1dXCGiFPf6DbN2tAtGsbLr//J0iPJVe/fDZ1Wl6xK
+ 9EcHJ6LOwwHmL+mgI7i9Kp5GMYqW/08yn7FKKyeUqPkfpMQIYqoGRbv6xi+4ScGDOOcF
+ fbH2GA43WVelP/rS0XpvVgso4jjqO6VUBCPA/QoUcXeOHXnsvOM8cXrs2kpB3cvfURNU
+ gZHIF5jbBCZOeiQWiQYlHDo4Chu5PVWikXAICZ1e4uvxgNEUrIlgi6OzV322tfroSt7B
+ 5jVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KIk6ooatV8XnS7vaKVLS3g3ZtQSw6C7qVIF3uAG+cLk=;
- b=H5QUJRJcdBeQpDrvlnV3Y1vtY/E17ecATZ4DpTObF+ndkgehS/9Gcx6XtoVJlVdJ8A
- 1xbegx0uztAbqGlKAosV6Cb8nCoQruv0qXUVCiHmHvqYjMLR1HxNvXrfHoH4/FNDkeY7
- 4pVPjaDGEIadU1w8U/v1SuwWOTKN0W0pFmZ0A5avINTsYvvFXEP7uXZfQO0uH02Ktg2B
- 49L7Swa68hCA++5RXAEHidHeF8KF6XPctqjoAqSAJBFwnNVOz3dv+dGw+VfXnCvUbt1G
- 0Sch7Doi2NqQlP+7E2J/cFG7IK0TjP24puUoDD8BVR0W4KTxz7zygVvUtXTBGh+rpmxN
- IPKg==
-X-Gm-Message-State: AOAM5327pYLysFENLrC2hISggYwoqSzfnsZoqhCayKBnsNmsQnEU6GLf
- SXkclAFUp2kY47md5iLFPc6YIA==
-X-Google-Smtp-Source: ABdhPJzZDaEmCrekrr60OpFq0lc8iLixBisQK0dixcyGMKs41f7mz8jAaD8CdVbX+Dem09sls8LxMQ==
-X-Received: by 2002:a1c:4b02:: with SMTP id y2mr4154073wma.115.1589553856262; 
- Fri, 15 May 2020 07:44:16 -0700 (PDT)
+ bh=nJshK4Gmxn9NtKVYQkApWjq7ip9+eMHY3X093/AxgHA=;
+ b=VIRuHmhZDgKAgLK1dIThKhI8ceOYX7pUn2xJP0sXFSQJYRx5NGEKk2fxCVwXB7svPS
+ uQv5NWvRj6bbt4w+byILmXoMXZsmTgNVRkJU7d85aTUH2cVFLL5SNLAnvOiXzlMGUREI
+ /4ZiWFoKJOKDcSAZQ+LE5Fejyv7LJpptsyWgT4BrjH+PDdOOg+W2Iyy4E7R9iKe43Cex
+ qP6099vYAwcuH+0pGfZPOCQsmjQIO0helSSy1IcmN+2omiB72GPaw/4Ozb88USOstP/0
+ rLZB7QI3IjcH/feU9/ORyTGh9vspWDJY6u8AggSvXotVu3cRON0HB3gDdcRfjU8xdnV+
+ y2pA==
+X-Gm-Message-State: AOAM530qciOB1C7K3N3oqE5q0pu1RZ1OrV8HgOgbOTh7nfk1aTAZ4JgU
+ cnWA4ay5jKOoB1gI+onX0c8hClJ7wU8=
+X-Google-Smtp-Source: ABdhPJxUWqe+IwaPKJnMLWJyLO9dhlRmWo+es3/SrO6AFoz7RGfzIiKaHEHUOtFmEj5Lo5b8OMupAQ==
+X-Received: by 2002:adf:d089:: with SMTP id y9mr4592371wrh.26.1589553857656;
+ Fri, 15 May 2020 07:44:17 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d6sm4583930wra.63.2020.05.15.07.44.09
+ by smtp.gmail.com with ESMTPSA id x17sm3872693wrp.71.2020.05.15.07.44.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 15 May 2020 07:44:12 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D0EC51FF93;
+ by zen.linaroharston (Postfix) with ESMTP id E696F1FF96;
  Fri, 15 May 2020 15:44:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 07/13] disas: include an optional note for the start of
- disassembly
-Date: Fri, 15 May 2020 15:43:59 +0100
-Message-Id: <20200515144405.20580-8-alex.bennee@linaro.org>
+Subject: [PULL v2 08/13] disas: add optional note support to cap_disas
+Date: Fri, 15 May 2020 15:44:00 +0100
+Message-Id: <20200515144405.20580-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200515144405.20580-1-alex.bennee@linaro.org>
 References: <20200515144405.20580-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,131 +89,101 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will become useful shortly for providing more information about
-output assembly inline. While there fix up the indenting and code
-formatting in disas().
+Include support for outputting a note at the top of a chunk of
+disassembly to capstone as well.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Message-Id: <20200513175134.19619-9-alex.bennee@linaro.org>
+Message-Id: <20200513175134.19619-10-alex.bennee@linaro.org>
 
-diff --git a/include/disas/disas.h b/include/disas/disas.h
-index 36c33f6f194..1b6e035e32d 100644
---- a/include/disas/disas.h
-+++ b/include/disas/disas.h
-@@ -7,7 +7,7 @@
- #include "cpu.h"
- 
- /* Disassemble this for me please... (debugging). */
--void disas(FILE *out, void *code, unsigned long size);
-+void disas(FILE *out, void *code, unsigned long size, const char *note);
- void target_disas(FILE *out, CPUState *cpu, target_ulong code,
-                   target_ulong size);
- 
-diff --git a/include/exec/log.h b/include/exec/log.h
-index fcc7b9e00ba..3ed797c1c8c 100644
---- a/include/exec/log.h
-+++ b/include/exec/log.h
-@@ -56,13 +56,13 @@ static inline void log_target_disas(CPUState *cpu, target_ulong start,
-     rcu_read_unlock();
- }
- 
--static inline void log_disas(void *code, unsigned long size)
-+static inline void log_disas(void *code, unsigned long size, const char *note)
- {
-     QemuLogFile *logfile;
-     rcu_read_lock();
-     logfile = atomic_rcu_read(&qemu_logfile);
-     if (logfile) {
--        disas(logfile->fd, code, size);
-+        disas(logfile->fd, code, size, note);
-     }
-     rcu_read_unlock();
- }
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index e4f703a7e6d..cdf58bb420e 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1800,7 +1800,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-             size_t data_size = gen_code_size - code_size;
-             size_t i;
- 
--            log_disas(tb->tc.ptr, code_size);
-+            log_disas(tb->tc.ptr, code_size, NULL);
- 
-             for (i = 0; i < data_size; i += sizeof(tcg_target_ulong)) {
-                 if (sizeof(tcg_target_ulong) == 8) {
-@@ -1814,7 +1814,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-                 }
-             }
-         } else {
--            log_disas(tb->tc.ptr, gen_code_size);
-+            log_disas(tb->tc.ptr, gen_code_size, NULL);
-         }
-         qemu_log("\n");
-         qemu_log_flush();
 diff --git a/disas.c b/disas.c
-index 3937da61571..7e8692de301 100644
+index 7e8692de301..45285d3f63f 100644
 --- a/disas.c
 +++ b/disas.c
-@@ -586,7 +586,7 @@ char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size)
- }
- 
- /* Disassemble this for me please... (debugging). */
--void disas(FILE *out, void *code, unsigned long size)
-+void disas(FILE *out, void *code, unsigned long size, const char *note)
- {
-     uintptr_t pc;
-     int count;
-@@ -674,10 +674,16 @@ void disas(FILE *out, void *code, unsigned long size)
-     for (pc = (uintptr_t)code; size > 0; pc += count, size -= count) {
-         fprintf(out, "0x%08" PRIxPTR ":  ", pc);
-         count = print_insn(pc, &s.info);
--	fprintf(out, "\n");
--	if (count < 0)
--	    break;
-+        if (note) {
-+            fprintf(out, "\t\t%s", note);
-+            note = NULL;
-+        }
-+        fprintf(out, "\n");
-+        if (count < 0) {
-+            break;
-+        }
+@@ -260,7 +260,8 @@ static void cap_dump_insn_units(disassemble_info *info, cs_insn *insn,
      }
-+
  }
  
- /* Look up symbol for debugging purpose.  Returns "" if unknown. */
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index dd4b3d76844..a2268d9db0a 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -1092,7 +1092,7 @@ void tcg_prologue_init(TCGContext *s)
-             size_t data_size = prologue_size - code_size;
-             size_t i;
+-static void cap_dump_insn(disassemble_info *info, cs_insn *insn)
++static void cap_dump_insn(disassemble_info *info, cs_insn *insn,
++                          const char *note)
+ {
+     fprintf_function print = info->fprintf_func;
+     int i, n, split;
+@@ -281,7 +282,11 @@ static void cap_dump_insn(disassemble_info *info, cs_insn *insn)
+     }
  
--            log_disas(buf0, code_size);
-+            log_disas(buf0, code_size, NULL);
+     /* Print the actual instruction.  */
+-    print(info->stream, "  %-8s %s\n", insn->mnemonic, insn->op_str);
++    print(info->stream, "  %-8s %s", insn->mnemonic, insn->op_str);
++    if (note) {
++        print(info->stream, "\t\t%s", note);
++    }
++    print(info->stream, "\n");
  
-             for (i = 0; i < data_size; i += sizeof(tcg_target_ulong)) {
-                 if (sizeof(tcg_target_ulong) == 8) {
-@@ -1106,7 +1106,7 @@ void tcg_prologue_init(TCGContext *s)
-                 }
-             }
-         } else {
--            log_disas(buf0, prologue_size);
-+            log_disas(buf0, prologue_size, NULL);
+     /* Dump any remaining part of the insn on subsequent lines.  */
+     for (i = split; i < n; i += split) {
+@@ -313,7 +318,7 @@ static bool cap_disas_target(disassemble_info *info, uint64_t pc, size_t size)
+         size -= tsize;
+ 
+         while (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
+-           cap_dump_insn(info, insn);
++            cap_dump_insn(info, insn, NULL);
          }
-         qemu_log("\n");
-         qemu_log_flush();
+ 
+         /* If the target memory is not consumed, go back for more... */
+@@ -342,7 +347,8 @@ static bool cap_disas_target(disassemble_info *info, uint64_t pc, size_t size)
+ }
+ 
+ /* Disassemble SIZE bytes at CODE for the host.  */
+-static bool cap_disas_host(disassemble_info *info, void *code, size_t size)
++static bool cap_disas_host(disassemble_info *info, void *code, size_t size,
++                           const char *note)
+ {
+     csh handle;
+     const uint8_t *cbuf;
+@@ -358,7 +364,8 @@ static bool cap_disas_host(disassemble_info *info, void *code, size_t size)
+     pc = (uintptr_t)code;
+ 
+     while (cs_disasm_iter(handle, &cbuf, &size, &pc, insn)) {
+-       cap_dump_insn(info, insn);
++        cap_dump_insn(info, insn, note);
++        note = NULL;
+     }
+     if (size != 0) {
+         (*info->fprintf_func)(info->stream,
+@@ -402,7 +409,7 @@ static bool cap_disas_monitor(disassemble_info *info, uint64_t pc, int count)
+         csize += tsize;
+ 
+         if (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
+-            cap_dump_insn(info, insn);
++            cap_dump_insn(info, insn, NULL);
+             if (--count <= 0) {
+                 break;
+             }
+@@ -416,7 +423,7 @@ static bool cap_disas_monitor(disassemble_info *info, uint64_t pc, int count)
+ #endif /* !CONFIG_USER_ONLY */
+ #else
+ # define cap_disas_target(i, p, s)  false
+-# define cap_disas_host(i, p, s)  false
++# define cap_disas_host(i, p, s, n)  false
+ # define cap_disas_monitor(i, p, c)  false
+ # define cap_disas_plugin(i, p, c) false
+ #endif /* CONFIG_CAPSTONE */
+@@ -664,7 +671,7 @@ void disas(FILE *out, void *code, unsigned long size, const char *note)
+     print_insn = print_insn_hppa;
+ #endif
+ 
+-    if (s.info.cap_arch >= 0 && cap_disas_host(&s.info, code, size)) {
++    if (s.info.cap_arch >= 0 && cap_disas_host(&s.info, code, size, note)) {
+         return;
+     }
+ 
 -- 
 2.20.1
 
