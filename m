@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6250C1D4E2F
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 14:55:10 +0200 (CEST)
-Received: from localhost ([::1]:46686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A46F1D4E26
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 14:54:30 +0200 (CEST)
+Received: from localhost ([::1]:43078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZZrp-00020K-Bu
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 08:55:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45514)
+	id 1jZZrB-0000YB-44
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 08:54:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZil-0002QP-0z
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:45:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23510
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZip-0002Xc-Vx
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:45:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53011
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZij-00027z-EV
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:45:46 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZim-00029J-FU
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:45:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589546744;
+ s=mimecast20190719; t=1589546747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oBF7fCfMe5jbzsXW//h34ma+BN+TM4yPDi0NoZ45ZdM=;
- b=OS+4hVugmsi4wnTx+hbQUj589kHlzSIDwVFJhJWeUlWX+0jZQSArVoELFPzbH2seeD9RnY
- rAuwlil93jtNCYN9mGXxMKEzqnrY4f5DJzSG1ZknAJGTddpsZCyoh1aZJtOCdumABBENGB
- ++jDWrSYPZQY4CL6yRxwAH5gh7DWX0U=
+ bh=gLP1vSf5gjXtk+qahPllKtJXXNWmS0u8AqefUbRbHVY=;
+ b=HkiO9jDSzUeH7YK1eXexSbCGst6Qb+dl6k47YOoapblJGUj2GiB6tDRkvUPknk08KYmiEd
+ 54K23/IwDMbiJKPr6mzGYPmjsafIQSd5zCsSvFfR4/E5B2sKFekaa2twFO6FqeQC5wU+c3
+ l7wIOeQxpS70kR2Sx7bHp/8H5ptD21w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-Wpcmy6lTOZOXnvqqbKhAAw-1; Fri, 15 May 2020 08:45:42 -0400
-X-MC-Unique: Wpcmy6lTOZOXnvqqbKhAAw-1
+ us-mta-509-9SQ6hxL7N0qNk5AK1D8naA-1; Fri, 15 May 2020 08:45:43 -0400
+X-MC-Unique: 9SQ6hxL7N0qNk5AK1D8naA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69030835B41;
- Fri, 15 May 2020 12:45:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADD8019200C2;
+ Fri, 15 May 2020 12:45:42 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-110.ams2.redhat.com
  [10.36.113.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7005F2E024;
- Fri, 15 May 2020 12:45:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B2CBB2E16F;
+ Fri, 15 May 2020 12:45:41 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/51] block: Add blk_make_empty()
-Date: Fri, 15 May 2020 14:44:39 +0200
-Message-Id: <20200515124521.335403-10-kwolf@redhat.com>
+Subject: [PULL 10/51] block: Use blk_make_empty() after commits
+Date: Fri, 15 May 2020 14:44:40 +0200
+Message-Id: <20200515124521.335403-11-kwolf@redhat.com>
 In-Reply-To: <20200515124521.335403-1-kwolf@redhat.com>
 References: <20200515124521.335403-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,10 +55,10 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 23:27:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 22:56:02
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,48 +84,132 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-Two callers of BlockDriver.bdrv_make_empty() remain that should not call
-this method directly.  Both do not have access to a BdrvChild, but they
-can use a BlockBackend, so we add this function that lets them use it.
+bdrv_commit() already has a BlockBackend pointing to the BDS that we
+want to empty, it just has the wrong permissions.
+
+qemu-img commit has no BlockBackend pointing to the old backing file
+yet, but introducing one is simple.
+
+After this commit, bdrv_make_empty() is the only remaining caller of
+BlockDriver.bdrv_make_empty().
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200429141126.85159-4-mreitz@redhat.com>
+Message-Id: <20200429141126.85159-5-mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
+[kwolf: Fixed up reference output for 098]
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/sysemu/block-backend.h |  2 ++
- block/block-backend.c          | 10 ++++++++++
- 2 files changed, 12 insertions(+)
+ block/commit.c             | 16 +++++++++-------
+ qemu-img.c                 | 19 ++++++++++++++-----
+ tests/qemu-iotests/098.out |  8 ++++----
+ 3 files changed, 27 insertions(+), 16 deletions(-)
 
-diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
-index 0917663d89..8203d7f6f9 100644
---- a/include/sysemu/block-backend.h
-+++ b/include/sysemu/block-backend.h
-@@ -266,4 +266,6 @@ int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
+diff --git a/block/commit.c b/block/commit.c
+index 87f6096d90..ba60fb7955 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -414,7 +414,9 @@ int bdrv_commit(BlockDriverState *bs)
+     }
  
- const BdrvChild *blk_root(BlockBackend *blk);
+     ctx = bdrv_get_aio_context(bs);
+-    src = blk_new(ctx, BLK_PERM_CONSISTENT_READ, BLK_PERM_ALL);
++    /* WRITE_UNCHANGED is required for bdrv_make_empty() */
++    src = blk_new(ctx, BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED,
++                  BLK_PERM_ALL);
+     backing = blk_new(ctx, BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM_ALL);
  
-+int blk_make_empty(BlockBackend *blk, Error **errp);
+     ret = blk_insert_bs(src, bs, &local_err);
+@@ -492,14 +494,14 @@ int bdrv_commit(BlockDriverState *bs)
+         }
+     }
+ 
+-    if (drv->bdrv_make_empty) {
+-        ret = drv->bdrv_make_empty(bs);
+-        if (ret < 0) {
+-            goto ro_cleanup;
+-        }
+-        blk_flush(src);
++    ret = blk_make_empty(src, NULL);
++    /* Ignore -ENOTSUP */
++    if (ret < 0 && ret != -ENOTSUP) {
++        goto ro_cleanup;
+     }
+ 
++    blk_flush(src);
 +
- #endif
-diff --git a/block/block-backend.c b/block/block-backend.c
-index f4944861fa..47bd56244d 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2402,3 +2402,13 @@ const BdrvChild *blk_root(BlockBackend *blk)
- {
-     return blk->root;
- }
+     /*
+      * Make sure all data we wrote to the backing device is actually
+      * stable on disk.
+diff --git a/qemu-img.c b/qemu-img.c
+index 6a4327aaba..f1795c788c 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -1104,11 +1104,20 @@ static int img_commit(int argc, char **argv)
+         goto unref_backing;
+     }
+ 
+-    if (!drop && bs->drv->bdrv_make_empty) {
+-        ret = bs->drv->bdrv_make_empty(bs);
+-        if (ret) {
+-            error_setg_errno(&local_err, -ret, "Could not empty %s",
+-                             filename);
++    if (!drop) {
++        BlockBackend *old_backing_blk;
 +
-+int blk_make_empty(BlockBackend *blk, Error **errp)
-+{
-+    if (!blk_is_available(blk)) {
-+        error_setg(errp, "No medium inserted");
-+        return -ENOMEDIUM;
-+    }
-+
-+    return bdrv_make_empty(blk->root, errp);
-+}
++        old_backing_blk = blk_new_with_bs(bs, BLK_PERM_WRITE, BLK_PERM_ALL,
++                                          &local_err);
++        if (!old_backing_blk) {
++            goto unref_backing;
++        }
++        ret = blk_make_empty(old_backing_blk, &local_err);
++        blk_unref(old_backing_blk);
++        if (ret == -ENOTSUP) {
++            error_free(local_err);
++            local_err = NULL;
++        } else if (ret < 0) {
+             goto unref_backing;
+         }
+     }
+diff --git a/tests/qemu-iotests/098.out b/tests/qemu-iotests/098.out
+index 7634d0e8b0..23cf371f53 100644
+--- a/tests/qemu-iotests/098.out
++++ b/tests/qemu-iotests/098.out
+@@ -6,7 +6,7 @@ Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 backing_file=TEST_DIR/t.IMGFMT.base
+ wrote 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-qemu-img: Could not empty blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: Input/output error
++qemu-img: Failed to empty blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: Input/output error
+ No errors were found on the image.
+ 
+ === empty_image_prepare ===
+@@ -15,7 +15,7 @@ Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 backing_file=TEST_DIR/t.IMGFMT.base
+ wrote 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-qemu-img: Could not empty blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: Input/output error
++qemu-img: Failed to empty blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: Input/output error
+ Leaked cluster 4 refcount=1 reference=0
+ Leaked cluster 5 refcount=1 reference=0
+ Repairing cluster 4 refcount=1 reference=0
+@@ -28,7 +28,7 @@ Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 backing_file=TEST_DIR/t.IMGFMT.base
+ wrote 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-qemu-img: Could not empty blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: Input/output error
++qemu-img: Failed to empty blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: Input/output error
+ ERROR cluster 0 refcount=0 reference=1
+ ERROR cluster 1 refcount=0 reference=1
+ ERROR cluster 3 refcount=0 reference=1
+@@ -42,7 +42,7 @@ Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 backing_file=TEST_DIR/t.IMGFMT.base
+ wrote 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-qemu-img: Could not empty blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: Input/output error
++qemu-img: Failed to empty blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: Input/output error
+ ERROR cluster 0 refcount=0 reference=1
+ ERROR cluster 1 refcount=0 reference=1
+ ERROR cluster 3 refcount=0 reference=1
 -- 
 2.25.4
 
