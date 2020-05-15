@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3B81D4E7F
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 15:10:03 +0200 (CEST)
-Received: from localhost ([::1]:53688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DF291D4E50
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 15:01:53 +0200 (CEST)
+Received: from localhost ([::1]:46932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZa6E-0004uY-9y
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 09:10:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45744)
+	id 1jZZyK-0006rg-37
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 09:01:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjD-0002vW-O8
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:15 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41867
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjE-0002xF-GI
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41518
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjB-0002Li-4m
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:15 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjC-0002MD-8x
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589546772;
+ s=mimecast20190719; t=1589546773;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=exmpVgQdn1BPIsIvyOs3f+hoWImPMi+7oYKNGj+Heao=;
- b=Fk2nGxxDi5Jh2HWXhE3lOK3I1yCXSjE3EWI9E/9J1gsgWQnjhb+1p+m7mmhU/+MkyjMQOX
- LrBgUWHYARw5r946Rn/LaaY+DXDDF6QhZO8hjrWu7jmlnWv4xmhxZOI8L8aNPRWi2N+eLW
- HGIGOvZSLE63WOMhoM/fk0jwNYF1ZoY=
+ bh=sm/qRcwDPq4vdnCh5mJncEVjAOLyTL0JGlAiJzBzdqA=;
+ b=dwWzEQlRyjexaduquJ2+ji1W+SamMKewmChvTuCj+BXF+MZjZ/02TtlsC04+ChS2262Fsv
+ pCQDXh8RDJAoB7G0yIOMteUQ4zKgXMmbJt2/enS0Yr3fpat9b7Bf3lgiEudml7tM5I7kHX
+ qZ8VO+uCTwnARJISQY9MgW/ugQnSR0Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-wHxyvcgvMFedikEP6aL6_w-1; Fri, 15 May 2020 08:46:10 -0400
-X-MC-Unique: wHxyvcgvMFedikEP6aL6_w-1
+ us-mta-474-WyGEG8dIOZ-be9N8EBvE8A-1; Fri, 15 May 2020 08:46:11 -0400
+X-MC-Unique: WyGEG8dIOZ-be9N8EBvE8A-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 170AC8005AD;
- Fri, 15 May 2020 12:46:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5936C108BD15;
+ Fri, 15 May 2020 12:46:10 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-110.ams2.redhat.com
  [10.36.113.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E8EB2E024;
- Fri, 15 May 2020 12:46:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 60AE42E16D;
+ Fri, 15 May 2020 12:46:09 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 26/51] block: Add child_of_bds
-Date: Fri, 15 May 2020 14:44:56 +0200
-Message-Id: <20200515124521.335403-27-kwolf@redhat.com>
+Subject: [PULL 27/51] block: Distinguish paths in *_format_default_perms
+Date: Fri, 15 May 2020 14:44:57 +0200
+Message-Id: <20200515124521.335403-28-kwolf@redhat.com>
 In-Reply-To: <20200515124521.335403-1-kwolf@redhat.com>
 References: <20200515124521.335403-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 23:27:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,68 +84,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-Any current user of child_file, child_format, and child_backing can and
-should use this generic BdrvChildClass instead, as it can handle all of
-these cases.  However, to be able to do so, the users must pass the
-appropriate BdrvChildRole when the child is created/attached.  (The
-following commits will take care of that.)
+bdrv_format_default_perms() has one code path for backing files, and one
+for storage files.  We want to pull them out into their own functions,
+so make sure they are completely distinct before so the next patches
+will be a bit cleaner.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200513110544.176672-15-mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200513110544.176672-16-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block_int.h |  1 +
- block.c                   | 24 ++++++++++++++++++++++++
- 2 files changed, 25 insertions(+)
+ block.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 6245d8a18d..54df821d61 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -740,6 +740,7 @@ struct BdrvChildClass {
-     void (*set_aio_ctx)(BdrvChild *child, AioContext *ctx, GSList **ignore);
- };
- 
-+extern const BdrvChildClass child_of_bds;
- extern const BdrvChildClass child_file;
- extern const BdrvChildClass child_format;
- extern const BdrvChildClass child_backing;
 diff --git a/block.c b/block.c
-index f63417c06d..be9bfa9d46 100644
+index be9bfa9d46..b3e7ae70c7 100644
 --- a/block.c
 +++ b/block.c
-@@ -1429,6 +1429,30 @@ static void bdrv_child_cb_detach(BdrvChild *child)
-     bdrv_unapply_subtree_drain(child, bs);
+@@ -2497,6 +2497,13 @@ void bdrv_format_default_perms(BlockDriverState *bs, BdrvChild *c,
+             perm |= BLK_PERM_CONSISTENT_READ;
+         }
+         shared &= ~(BLK_PERM_WRITE | BLK_PERM_RESIZE);
++
++        if (bs->open_flags & BDRV_O_INACTIVE) {
++            shared |= BLK_PERM_WRITE | BLK_PERM_RESIZE;
++        }
++
++        *nperm = perm;
++        *nshared = shared;
+     } else {
+         /* We want consistent read from backing files if the parent needs it.
+          * No other operations are performed on backing files. */
+@@ -2513,14 +2520,14 @@ void bdrv_format_default_perms(BlockDriverState *bs, BdrvChild *c,
+ 
+         shared |= BLK_PERM_CONSISTENT_READ | BLK_PERM_GRAPH_MOD |
+                   BLK_PERM_WRITE_UNCHANGED;
+-    }
+ 
+-    if (bs->open_flags & BDRV_O_INACTIVE) {
+-        shared |= BLK_PERM_WRITE | BLK_PERM_RESIZE;
+-    }
++        if (bs->open_flags & BDRV_O_INACTIVE) {
++            shared |= BLK_PERM_WRITE | BLK_PERM_RESIZE;
++        }
+ 
+-    *nperm = perm;
+-    *nshared = shared;
++        *nperm = perm;
++        *nshared = shared;
++    }
  }
  
-+static int bdrv_child_cb_update_filename(BdrvChild *c, BlockDriverState *base,
-+                                         const char *filename, Error **errp)
-+{
-+    if (c->role & BDRV_CHILD_COW) {
-+        return bdrv_backing_update_filename(c, base, filename, errp);
-+    }
-+    return 0;
-+}
-+
-+const BdrvChildClass child_of_bds = {
-+    .parent_is_bds   = true,
-+    .get_parent_desc = bdrv_child_get_parent_desc,
-+    .inherit_options = bdrv_inherited_options,
-+    .drained_begin   = bdrv_child_cb_drained_begin,
-+    .drained_poll    = bdrv_child_cb_drained_poll,
-+    .drained_end     = bdrv_child_cb_drained_end,
-+    .attach          = bdrv_child_cb_attach,
-+    .detach          = bdrv_child_cb_detach,
-+    .inactivate      = bdrv_child_cb_inactivate,
-+    .can_set_aio_ctx = bdrv_child_cb_can_set_aio_ctx,
-+    .set_aio_ctx     = bdrv_child_cb_set_aio_ctx,
-+    .update_filename = bdrv_child_cb_update_filename,
-+};
-+
- static int bdrv_open_flags(BlockDriverState *bs, int flags)
- {
-     int open_flags = flags;
+ uint64_t bdrv_qapi_perm_to_blk_perm(BlockPermission qapi_perm)
 -- 
 2.25.4
 
