@@ -2,48 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A054A1D57DA
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 19:29:02 +0200 (CEST)
-Received: from localhost ([::1]:58362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713371D57E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 19:30:15 +0200 (CEST)
+Received: from localhost ([::1]:35342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZe8r-0003Zq-Mm
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 13:29:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45042)
+	id 1jZeA2-0006J5-FV
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 13:30:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani.sinha@ani-sinha1.localdomain>)
- id 1jZe7l-0002bt-N9
- for qemu-devel@nongnu.org; Fri, 15 May 2020 13:27:53 -0400
-Received: from [192.146.154.243] (port=18672 helo=mcp01.nutanix.com)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ani.sinha@ani-sinha1.localdomain>)
- id 1jZe7k-0000zm-J5
- for qemu-devel@nongnu.org; Fri, 15 May 2020 13:27:53 -0400
-Received: from ani-sinha1.localdomain (ani-sinha1.dev.nutanix.com
- [10.41.71.199])
- by mcp01.nutanix.com (Postfix) with ESMTP id F41251018F82;
- Fri, 15 May 2020 17:27:51 +0000 (UTC)
-Received: by ani-sinha1.localdomain (Postfix, from userid 16671)
- id F15A86BCD; Fri, 15 May 2020 17:27:51 +0000 (UTC)
-From: Ani Sinha <ani.sinha@nutanix.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jZe8R-0003XU-R1
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 13:28:35 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40439)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jZe8Q-00016Q-QS
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 13:28:35 -0400
+Received: by mail-wr1-x444.google.com with SMTP id e16so4436097wra.7
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 10:28:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JtGgRfJwV4eXh8Inmo5o/BeREd5Y2ML3c0rFf6Dyjzs=;
+ b=qfT8HiU5QrNl2Pp59CtaHRNYq1vieR7QgVd5L3uvo1axQ2dh7i8VCXD09k6Kl4HTQo
+ oBxkgcetCIrPFj485A2rQLlCeZa4jSbU9RdR9frkC2b+mzRJ5Jc+TSGNb9VzBZAUyj6P
+ 1H+7reVkH/c+BcMtwnhYyVQAJNjR6fyRyrIbat/jhXqMGtwd3tIavnKAm//lNf35/26U
+ GFV3WwoW/A73Tdnnc+tffjdH4S+FUKxcwfKbeoloL8ASoF4mPCUYLY83NWoG71MLBdWP
+ S9WvFwowgRa57IkrEUVWPZXaXgTElcZMOetUOHwmHyAsKnOo+s4DV4KC5U09Zjaxxpgh
+ s2XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JtGgRfJwV4eXh8Inmo5o/BeREd5Y2ML3c0rFf6Dyjzs=;
+ b=jzmrHSdB69QozfV/ujQFxb9NPnzJdefteM2Z3Tw1VFfO2rGMrAVAXqnjwhu0vNJd5F
+ bB3t7rzKm94I1SwU6wDGnMynrfVli1CGHNmWa993peyMf3QwXsOrVLpuz9b87Wb59hC5
+ s8RQS4HoReuBuBSlQXoYAhlXLrutL9tx7D4jWCxCOPyrt4Sh48sZpHnEJql6jJ9bXcN3
+ MFxEH+chu+ZouWA6Bezoia5Q4Q+H1tqBPwY3pXorBjDDZ3umwTRIK4zDMOOi6DvvVEQC
+ Jd+5jtilpuskD/YiHux7FS9L15MwolfMn29Z8tuRceQjXQQne3ixmO6BCdGUbdbh8UlO
+ WvxA==
+X-Gm-Message-State: AOAM530bkSvNUQi5Liwkfb65UP4TFDqSKASkvUeSq1kw1NMD0M/dyOGW
+ 3ZM7ym9XmOVvYjXqKk2Z6KmlTQ==
+X-Google-Smtp-Source: ABdhPJweY6SbuWOs/Pu72jpgJMNDUnF1IFseHXVfGVZAqlxUyoicQmtkJKmujQ0DHpFf9551esKbZQ==
+X-Received: by 2002:adf:a1d7:: with SMTP id v23mr5363550wrv.155.1589563713227; 
+ Fri, 15 May 2020 10:28:33 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id m1sm5131287wrx.44.2020.05.15.10.28.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 May 2020 10:28:31 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 34F441FF7E;
+ Fri, 15 May 2020 18:28:31 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V2] Add a new PIIX option to control global PCI hot-plugging
-Date: Fri, 15 May 2020 17:27:30 +0000
-Message-Id: <1589563650-70820-2-git-send-email-ani.sinha@nutanix.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1589563650-70820-1-git-send-email-ani.sinha@nutanix.com>
-References: <[PATCH] Add a new PIIX option to control global PCI hot-plugging>
- <1589563650-70820-1-git-send-email-ani.sinha@nutanix.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 192.146.154.243 (failed)
-Received-SPF: none client-ip=192.146.154.243;
- envelope-from=ani.sinha@ani-sinha1.localdomain; helo=mcp01.nutanix.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 13:27:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NO_DNS_FOR_FROM=0.001, RDNS_NONE=0.793,
+Subject: [PATCH  v1 0/2] some fixes for genisoimage usage
+Date: Fri, 15 May 2020 18:28:29 +0100
+Message-Id: <20200515172831.8439-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,200 +86,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani.sinha@nutanix.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, ani@anisinha.ca,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ robert.foley@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A new option "acpi-pci-hotplug" is introduced for PIIX which will
-globally disable hot-plugging of both hot plugged and
-cold plugged PCI devices. This will prevent
-hot-plugging and hot un-plugging of devices from within Windows based
-guests using system tray.
+Hi Robert,
 
-The patch has been tested on Windows 2016.
+Here are a couple of patches you might want to add to the start of
+your vm build series that deal with the fact genisoimage might not
+exist or have a different name.
 
-Signed-off-by: Ani Sinha <ani.sinha@nutanix.com>
----
- hw/acpi/piix4.c      | 18 ++++++++++++------
- hw/i386/acpi-build.c | 46 ++++++++++++++++++++++++++++++----------------
- 2 files changed, 42 insertions(+), 22 deletions(-)
+Alex Bennée (2):
+  configure: add alternate binary for genisoimage
+  tests/vm: pass --genisoimage to basevm script
 
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 964d6f5..91b7e86 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -78,6 +78,7 @@ typedef struct PIIX4PMState {
- 
-     AcpiPciHpState acpi_pci_hotplug;
-     bool use_acpi_pci_hotplug;
-+    bool use_acpi_hotplug_bridge;
- 
-     uint8_t disable_s3;
-     uint8_t disable_s4;
-@@ -207,13 +208,13 @@ static const VMStateDescription vmstate_pci_status = {
- static bool vmstate_test_use_acpi_pci_hotplug(void *opaque, int version_id)
- {
-     PIIX4PMState *s = opaque;
--    return s->use_acpi_pci_hotplug;
-+    return s->use_acpi_hotplug_bridge;
- }
- 
- static bool vmstate_test_no_use_acpi_pci_hotplug(void *opaque, int version_id)
- {
-     PIIX4PMState *s = opaque;
--    return !s->use_acpi_pci_hotplug;
-+    return !s->use_acpi_hotplug_bridge;
- }
- 
- static bool vmstate_test_use_memhp(void *opaque)
-@@ -505,7 +506,10 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
- 
-     piix4_acpi_system_hot_add_init(pci_address_space_io(dev),
-                                    pci_get_bus(dev), s);
--    qbus_set_hotplug_handler(BUS(pci_get_bus(dev)), OBJECT(s), &error_abort);
-+    if (s->use_acpi_pci_hotplug) {
-+        qbus_set_hotplug_handler(BUS(pci_get_bus(dev)),
-+                                 OBJECT(s), &error_abort);
-+    }
- 
-     piix4_pm_add_propeties(s);
- }
-@@ -528,7 +532,7 @@ I2CBus *piix4_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
-     s->smi_irq = smi_irq;
-     s->smm_enabled = smm_enabled;
-     if (xen_enabled()) {
--        s->use_acpi_pci_hotplug = false;
-+        s->use_acpi_hotplug_bridge = false;
-     }
- 
-     qdev_init_nofail(dev);
-@@ -593,7 +597,7 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
-     memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
- 
-     acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
--                    s->use_acpi_pci_hotplug);
-+                    s->use_acpi_hotplug_bridge);
- 
-     s->cpu_hotplug_legacy = true;
-     object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
-@@ -631,8 +635,10 @@ static Property piix4_pm_properties[] = {
-     DEFINE_PROP_UINT8(ACPI_PM_PROP_S3_DISABLED, PIIX4PMState, disable_s3, 0),
-     DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_DISABLED, PIIX4PMState, disable_s4, 0),
-     DEFINE_PROP_UINT8(ACPI_PM_PROP_S4_VAL, PIIX4PMState, s4_val, 2),
--    DEFINE_PROP_BOOL("acpi-pci-hotplug-with-bridge-support", PIIX4PMState,
-+    DEFINE_PROP_BOOL("acpi-pci-hotplug", PIIX4PMState,
-                      use_acpi_pci_hotplug, true),
-+    DEFINE_PROP_BOOL("acpi-pci-hotplug-with-bridge-support", PIIX4PMState,
-+                     use_acpi_hotplug_bridge, true),
-     DEFINE_PROP_BOOL("memory-hotplug-support", PIIX4PMState,
-                      acpi_memory_hotplug.is_enabled, true),
-     DEFINE_PROP_END_OF_LIST(),
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 2e15f68..1737378 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -96,6 +96,7 @@ typedef struct AcpiPmInfo {
-     bool s3_disabled;
-     bool s4_disabled;
-     bool pcihp_bridge_en;
-+    bool acpi_pcihp_en;
-     uint8_t s4_val;
-     AcpiFadtData fadt;
-     uint16_t cpu_hp_io_base;
-@@ -246,6 +247,9 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-     pm->pcihp_bridge_en =
-         object_property_get_bool(obj, "acpi-pci-hotplug-with-bridge-support",
-                                  NULL);
-+    pm->acpi_pcihp_en =
-+        object_property_get_bool(obj, "acpi-pci-hotplug",
-+                                 NULL);
- }
- 
- static void acpi_get_misc_info(AcpiMiscInfo *info)
-@@ -457,7 +461,8 @@ static void build_append_pcihp_notify_entry(Aml *method, int slot)
- }
- 
- static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
--                                         bool pcihp_bridge_en)
-+                                         bool pcihp_bridge_en,
-+                                         bool acpi_pcihp_en)
- {
-     Aml *dev, *notify_method = NULL, *method;
-     QObject *bsel;
-@@ -481,18 +486,25 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-         bool bridge_in_acpi;
- 
-         if (!pdev) {
--            if (bsel) { /* add hotplug slots for non present devices */
--                dev = aml_device("S%.02X", PCI_DEVFN(slot, 0));
--                aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
--                aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16)));
--                method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
--                aml_append(method,
--                    aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
--                );
--                aml_append(dev, method);
--                aml_append(parent_scope, dev);
--
--                build_append_pcihp_notify_entry(notify_method, slot);
-+            if (bsel) {
-+                /*
-+                 * add hotplug slots for non present devices when
-+                 * acpi hotplug is enabled.
-+                 */
-+                if (acpi_pcihp_en) {
-+                    dev = aml_device("S%.02X", PCI_DEVFN(slot, 0));
-+                    aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
-+                    aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16)));
-+                    method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
-+                    aml_append(method,
-+                               aml_call2("PCEJ", aml_name("BSEL"),
-+                                         aml_name("_SUN"))
-+                        );
-+                    aml_append(dev, method);
-+                    aml_append(parent_scope, dev);
-+
-+                    build_append_pcihp_notify_entry(notify_method, slot);
-+                }
-             }
-             continue;
-         }
-@@ -539,7 +551,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-             method = aml_method("_S3D", 0, AML_NOTSERIALIZED);
-             aml_append(method, aml_return(aml_int(s3d)));
-             aml_append(dev, method);
--        } else if (hotplug_enabled_dev) {
-+        } else if (hotplug_enabled_dev && acpi_pcihp_en) {
-             /* add _SUN/_EJ0 to make slot hotpluggable  */
-             aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
- 
-@@ -559,7 +571,8 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-              */
-             PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(pdev));
- 
--            build_append_pci_bus_devices(dev, sec_bus, pcihp_bridge_en);
-+            build_append_pci_bus_devices(dev, sec_bus, pcihp_bridge_en,
-+                                         acpi_pcihp_en);
-         }
-         /* slot descriptor has been composed, add it into parent context */
-         aml_append(parent_scope, dev);
-@@ -2197,7 +2210,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         if (bus) {
-             Aml *scope = aml_scope("PCI0");
-             /* Scan all PCI buses. Generate tables to support hotplug. */
--            build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en);
-+            build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en,
-+                                         pm->acpi_pcihp_en);
- 
-             if (TPM_IS_TIS_ISA(tpm)) {
-                 if (misc->tpm_version == TPM_VERSION_2_0) {
+ configure                 |  2 +-
+ tests/vm/Makefile.include |  1 +
+ tests/vm/basevm.py        | 16 ++++++++++------
+ 3 files changed, 12 insertions(+), 7 deletions(-)
+
 -- 
-1.9.4
+2.20.1
 
 
