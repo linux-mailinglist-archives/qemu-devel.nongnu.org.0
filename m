@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 944441D4DFB
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 14:45:40 +0200 (CEST)
-Received: from localhost ([::1]:35694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A83FC1D4E08
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 14:48:19 +0200 (CEST)
+Received: from localhost ([::1]:44666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZZid-0000Vb-Eo
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 08:45:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44914)
+	id 1jZZlC-0005Cb-JG
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 08:48:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jZZeD-0002PX-DA; Fri, 15 May 2020 08:41:05 -0400
+ id 1jZZeE-0002UN-Sy; Fri, 15 May 2020 08:41:06 -0400
 Received: from mail-eopbgr150102.outbound.protection.outlook.com
  ([40.107.15.102]:11310 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jZZeC-0008VJ-AW; Fri, 15 May 2020 08:41:05 -0400
+ id 1jZZeD-0008VJ-VS; Fri, 15 May 2020 08:41:06 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=clAKot/fn4znR6Gk7K7XqgqT2WxEGMfnWN+5if1YIFUXTTMR008DsPmRRTpGHEmLidqyncU8FWqq5BZ0uHtOJMAaGsZLObM29zI7OGx9VOPW2lIOhQfTEjLA36GIYNgKkXajVBw25Yk0nzTPZPqxVvnkoqWvHj9gOXqPKl/lj4qQ7MVy7SBkN5Ff/pW3mlP84SA9Zf3Fy17RRG+YgqyL5gK5yy13rwML/vD+vxv6ZHRKHTS2WbNnDGfVrt7aXcrlqMMHEE8yX9uO1LStgoztttAMNXGu9N6hBBNbvZielV8xAGJx3YtM1v8to2NhuF6QSLuUlnjMJ86jliFOJkXNsw==
+ b=Uo+Y7/dLEtZAbHZoFOoi72qFFzJJ/lZLqOxTOjiZ+3uMVV21n2vH6mN7mGqUWcICz4S/lrSHNgGAViWq9cg2xKythx5Poxi+clQ07oBas17YYAT06BtU2UmlMWIK7BURgsz5G7OjyTPXciQvbC2cvewy+9cKMux9dU4OYHB3NtXLE+IOc/z5OGHOMRSjhxNBNChanPhkLL4V0/gF8D+Byv4ikZMKYOZU/4vQ5OgTZyyrvugGROQcgx3WOSFCBr+AEiKfW8/2ttJgy/vmiorRPRnyxFBb90O12uidpcR4ncOyazRKp69mGBP/wp6VR9H9B+NZJtj6lSMizoQ+ycGa3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KoR51FPmK9iPU+aqvkBnJNpHY102FTaddia2Fp3H8sg=;
- b=dVCh6MlTqAxYUz9VX9YtgKuhU2eKj6yVPOIlu4do/Dtn9LvR1PBjNjvRXDYHUB82lDXm/cG0If0Ke1qlWJlM2YiNgsbEwQ2xk+B5P6Y1KIx0iQr+/Yc0//OQmidWfQ5ifLE6KjwXD7mhO8rYU1MYJ9f78Efyl/i4KVSquyIKi+Yw/x9Keqnt6P2PlijCCiZLIK+clqIwd6w2lZgqm+aN8V7EHXwrehzPTL9eiuX5V/MjRm1myjo5QO/SqYPcSvlqi6HvU6Xq9MnZ3+6uGLQ8MFSK2tpilKBsbePuJwjtEF3Nj6ITYAweRWnE/h7jB7bUO3zr7ePFjxjDT60/ymOgZg==
+ bh=ZSB2hKNLczbYc9ZqKMwDegweqQ1vr9FoUCy1i1/yrhY=;
+ b=Y8MTdplWyJ9E58i+nqTR4yLhHE57Rd6c3jsnYevnBm3mgzAAInjdwx393F8vpbF/fUYVfPQNdaw5GpOCstTCIYcAKuf4FxxN9FdlLPSuh3arzrRGvYtfsnCGu1KpoLc8RCkvbXRBalQwq3XZ+BzkkC6+ikXfEhcU3Jazg4LvjuNesNFG+O1EohPfTeQsuv3IZziPCgQSlYKlhDfSJqA+5/eDT1HT6+ILVXXz99IDyDRZah6rTx60YHrZlJZOfYSn4Yu0wcMfYRBeDEoBu5BbGTb+5C38tpXz/S1Im+yK1/a19zI7L8dG+0z38KU+Mt/E0YAvN/oos1qAMZLgh97skA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KoR51FPmK9iPU+aqvkBnJNpHY102FTaddia2Fp3H8sg=;
- b=ALjeddDgW3WqoEcI9/F3BWmz56seqWlBq0bHnmCqL2y9+TSW/R5UuOeVOxI0EgwNGSJ2DhNUnvLVLdC0DqHRnI9lgg/LoiwyB71n/imUVbZapTy0Br0ueOEEP9b8hXR68EZnoBXxcByl8VWEuJkJx0mvQDP5DII51NUIljFUmAo=
+ bh=ZSB2hKNLczbYc9ZqKMwDegweqQ1vr9FoUCy1i1/yrhY=;
+ b=nMSCjOk5Tg+RI2Mf9cH+6u0Jn5+1xDl1t1hbbQNB8aWTnU09e8pDyVQ8RxEqwwlsKFZsppmilKR7Xfpo8tCjyrJURX9cJlPoX9SYo7f7okfNw0lM1mhbw6Z0nOXpWF4CkiOK9oJKcL0X76l37t65tNBuqFxiiGJoYkk/NH38W6U=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5381.eurprd08.prod.outlook.com (2603:10a6:20b:105::23)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.26; Fri, 15 May
- 2020 12:40:58 +0000
+ 2020 12:40:59 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9%4]) with mapi id 15.20.3000.016; Fri, 15 May 2020
- 12:40:58 +0000
+ 12:40:59 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 6/7] migration/block-dirty-bitmap: add_bitmaps_to_list:
- check disk name once
-Date: Fri, 15 May 2020 15:40:23 +0300
-Message-Id: <20200515124024.3491-7-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 7/7] migration/block-dirty-bitmap: forbid migration by
+ generated node-name
+Date: Fri, 15 May 2020 15:40:24 +0300
+Message-Id: <20200515124024.3491-8-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200515124024.3491-1-vsementsov@virtuozzo.com>
 References: <20200515124024.3491-1-vsementsov@virtuozzo.com>
@@ -63,32 +63,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.184) by
  AM0PR03CA0039.eurprd03.prod.outlook.com (2603:10a6:208::16) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3000.20 via Frontend Transport; Fri, 15 May 2020 12:40:56 +0000
+ 15.20.3000.20 via Frontend Transport; Fri, 15 May 2020 12:40:58 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.184]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9f47c8cc-88dd-42e7-e23c-08d7f8cd376c
+X-MS-Office365-Filtering-Correlation-Id: 40384dc3-e3ee-432d-8281-08d7f8cd3828
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5381:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5381ADD30CA1D6B83F6211BFC1BD0@AM7PR08MB5381.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5381C5F2798949C78EB5A123C1BD0@AM7PR08MB5381.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:15;
 X-Forefront-PRVS: 04041A2886
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +YiIjw5L03lr/ah5BESd1h09Xai7Nnmrw8u+7HMRCaLZrXxSPxDN8aX084vWuQixgBbexyaIXP1YdEoUVwP1+YDpNFzyFh+CSTIEi1mndf2hjWRoqgCT94ERA0/xgTC9FZKAhWMGn3fow8Lss8pSGdBdJ46Diuwi4uXlrNhp3NWKpaBIv4ZcYDa8ILArWR/8K1X+iSO5fwN+iTBUXUbvdzSGIwdAqP7WWW8C0t5DOxeZtQDrcUv9DOfNtknvC3s2nPz84b8HacW/v7Hx7Yg28gbUcN/CqMzCZkEC+CTKM5lonFQDV9D6HxZO7GIAs1RP15A7WpN+/Tx5dbXcpsW5sgwoFAsWHWQpJwTJE9ZQaFbfp6/lCZcJpr2ciX8VksyigyUyNjojKcOtOeZ3QovMeX4YUsNHbQSpiDF7mSA2UcnMPDtKTjigKCLm6Nu3qRfig6bP8GF+MA3WyFBHIezw+ty1O0zpuKc4eDjs0dRiZXY=
+X-Microsoft-Antispam-Message-Info: AUAgAEGaz9voBAd7c+WiVBi59q/g9HKmxhZaFka8AxrGtnodN4USYXXKKbCutG/z8tE3d+xGRchbehr4GX1tcsA1AJpVFYpeb6CXMd+EDeBUxOXi4WWw6m6MmRABriYpB3GtHvjVoxsjC32Mv1vLdyloPc7twbZu2FRAM1jb71ubrHc9+E6wsYJJZF5aueJlG1/6TQCcnLrc+byXn9sQ+H1+y3SpUCpWAJV9ZDhf8wh2RLWcySspATquvORVAZM+HPpPa76iVtVTDdKb6/c1Pk514JvJEmBxwndUrXGAp7BSUIOorMRlIZ+dLOR/LLUbGvo8Pe72l1T2cIB8CsORborx96bWktfz9I+6ZXvebP14iyWs7vbpfV7CuUCfPfapSbziwi3TNnCcCWy4tQkJmtiJ2SoH794vMWOeKRgyKZ1YU266xluU5PC9LCmXj9nj+1TcV1Qu3ak/+watjhuwDWCx5+J5Kl9J3FlRQCi00W0=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(366004)(376002)(136003)(346002)(396003)(39840400004)(52116002)(6486002)(36756003)(8676002)(7416002)(8936002)(6916009)(478600001)(6666004)(86362001)(6512007)(4326008)(316002)(107886003)(26005)(5660300002)(16526019)(186003)(6506007)(2616005)(2906002)(1076003)(956004)(66556008)(66946007)(66476007)(14143004);
+ SFS:(4636009)(366004)(376002)(136003)(346002)(396003)(39840400004)(52116002)(6486002)(36756003)(8676002)(7416002)(8936002)(6916009)(478600001)(6666004)(86362001)(6512007)(4326008)(316002)(107886003)(26005)(5660300002)(16526019)(186003)(6506007)(4744005)(2616005)(2906002)(1076003)(956004)(66556008)(66946007)(66476007)(14143004);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: jUMBTK63BFYIXV65bYMkLNo5e0eG08k7xfBZqIKUxdXurQKK5xwctadptwwF53RvUV6gNSm98SDM7+DlP3VMy4R36JftHxxJj3QGq+PsX2RJce1R8ZmUdFZywleItUaN7pmvz/gKuqqqWNTlGwINtzjtL3HNgh6dUBW7OcC6w9YihFBxHiZfULOu9A07gxuHs2r5hslbUpQnzwrLcIXbExNXz2EpRaEk2vhxCwh9te/ITNsvKbK1hANLrt60ll4BOyOWQlw2sI2kYADDJh/o0tZ1ZeL2uCohzqVTqlXgn7gSp6f7+PDzZeAHdae/FKFgPcG3Tjy34ca7D1mvms2ao8TXZHOHjTjm5uIUtKZIs2WAXrIxRVzC83YBQ4DrxGYkiQSmTgFzBSfNYXrc9VjClNu3/u6lAUymvrLp0qbBIgxG+bxLUp5THnepPXFEvqX+KT+kZswR2WqnREpYFnw81wxziRSQSG5twzSYVrUlOME=
+X-MS-Exchange-AntiSpam-MessageData: j4dCfSXhzIXKSGG5CbbQ8KFUbnCF9q3aseQdDhkHiRx7qaAbzwCttfrqN79gN3yaWOSdubUxad2MP8MRSt6rFOGUvK09dknXFkNz8KP5uOghHvBYrkCuV4+E1VwEBZtCHZI40D30v95M+sUywiU0+qNLKi2/ZShyuGpRDNDojGmi3novMjLLGVotR8FOFiYPHeC0xybR4ZdPOiCRd22ZFWENuS6aNfXKmC5A9Sdg2g8HjzHRz+bTN43uIBU4JT4LqAxoSgSQ6Gonwhl3xhdCsDo8Lc7jeG0ihMd3Ug4vCdhYIUENvhjHnel4ngo11JH9TSNsSzi6NIpuWaLOgIKpkHxjxHLdzICYslJwlnd4ur4i9j7/jfRk5kYmr+oARHRErFSM5qPTolVFnlf7WHcYptBJn4BNRgPCGRO02AV8h5CpjnazNJisgJOqx4k897yKgbGd7seap+U4D4z5eDdRJdVO2Qz+KtsdfI+++SC0LFc=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f47c8cc-88dd-42e7-e23c-08d7f8cd376c
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2020 12:40:57.9286 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40384dc3-e3ee-432d-8281-08d7f8cd3828
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2020 12:40:59.1930 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xD3K89714+YIrSJ/ROwJWzEUFkP4J0fyWDOFrYb6Go4mK5mBX6lJ/RZ6+c585aW7X22DJTL4b046nK8m6kpJpedJp9EJJEVb/LA2mZZ1d+I=
+X-MS-Exchange-CrossTenant-UserPrincipalName: ghieIhwabVWeVtyJKO0IrIVC7Z7a7qiTAWL2k3e9S1j42ypkMOgfMr1d1+d7CBPCB6S4KprbQGE0Tdbg0FKaasHMT8X8cNsKA4rdXvcILBs=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5381
 Received-SPF: pass client-ip=40.107.15.102;
  envelope-from=vsementsov@virtuozzo.com;
@@ -123,45 +123,36 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+It actually never worked with libvirt, as auto-generated names are
+different on source and destination.
+
+It's unsafe and useless to migrate by auto-generated node-names, so
+let's forbid it.
+
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- migration/block-dirty-bitmap.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ migration/block-dirty-bitmap.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 5d3a7d2b07..e0e081ce60 100644
+index e0e081ce60..f5744c35e6 100644
 --- a/migration/block-dirty-bitmap.c
 +++ b/migration/block-dirty-bitmap.c
-@@ -274,17 +274,22 @@ static int add_bitmaps_to_list(BlockDriverState *bs, const char *bs_name)
-     DirtyBitmapMigBitmapState *dbms;
-     Error *local_err = NULL;
+@@ -285,6 +285,13 @@ static int add_bitmaps_to_list(BlockDriverState *bs, const char *bs_name)
+         return -1;
+     }
  
-+    bitmap = bdrv_dirty_bitmap_first(bs);
-+    if (!bitmap) {
-+        return 0;
-+    }
-+
-+    if (!bs_name || strcmp(bs_name, "") == 0) {
-+        error_report("Found bitmap '%s' in unnamed node %p. It can't "
-+                     "be migrated", bdrv_dirty_bitmap_name(bitmap), bs);
++    if (bs_name[0] == '#') {
++        error_report("Found bitmap '%s' in a node with auto-generated "
++                     "name: %s. It can't be migrated",
++                     bdrv_dirty_bitmap_name(bitmap), bs_name);
 +        return -1;
 +    }
 +
      FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
          if (!bdrv_dirty_bitmap_name(bitmap)) {
              continue;
-         }
- 
--        if (!bs_name || strcmp(bs_name, "") == 0) {
--            error_report("Found bitmap '%s' in unnamed node %p. It can't "
--                         "be migrated", bdrv_dirty_bitmap_name(bitmap), bs);
--            return -1;
--        }
--
-         if (bdrv_dirty_bitmap_check(bitmap, BDRV_BITMAP_DEFAULT, &local_err)) {
-             error_report_err(local_err);
-             return -1;
 -- 
 2.21.0
 
