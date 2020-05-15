@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73941D5C5D
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 00:25:54 +0200 (CEST)
-Received: from localhost ([::1]:43828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A47311D5C54
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 00:23:56 +0200 (CEST)
+Received: from localhost ([::1]:37084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZim9-000803-QQ
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 18:25:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51232)
+	id 1jZikF-0005GF-Mk
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 18:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1jZihX-00011i-EZ; Fri, 15 May 2020 18:21:07 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47892
- helo=mx0a-001b2d01.pphosted.com)
+ id 1jZihW-0000zF-1i; Fri, 15 May 2020 18:21:06 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:19308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1jZihU-0006h9-RS; Fri, 15 May 2020 18:21:07 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04FM6RYt059750; Fri, 15 May 2020 18:21:03 -0400
+ id 1jZihU-0006h8-Dx; Fri, 15 May 2020 18:21:05 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04FM23v1094441; Fri, 15 May 2020 18:21:03 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3120r0ma48-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3111wjg7cf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 15 May 2020 18:21:02 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04FM7mVN062537;
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04FML2Vl145117;
  Fri, 15 May 2020 18:21:02 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3120r0ma42-1
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3111wjg7c8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 15 May 2020 18:21:02 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04FMKjTm013149;
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04FMKHci000676;
  Fri, 15 May 2020 22:21:01 GMT
 Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma01dal.us.ibm.com with ESMTP id 3100uc92bt-1
+ [9.57.198.24]) by ppma03dal.us.ibm.com with ESMTP id 3100uc92c1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 15 May 2020 22:21:01 +0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
  [9.57.199.109])
  by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 04FML0Cn47448440
+ 04FML0CS47448442
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 15 May 2020 22:21:00 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 988AC112061;
+ by IMSVA (Postfix) with ESMTP id CE7D7112064;
  Fri, 15 May 2020 22:21:00 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5CCD1112063;
+ by IMSVA (Postfix) with ESMTP id 9E3DE112062;
  Fri, 15 May 2020 22:21:00 +0000 (GMT)
 Received: from localhost.localdomain.com (unknown [9.85.146.125])
  by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
  Fri, 15 May 2020 22:21:00 +0000 (GMT)
 From: Collin Walling <walling@linux.ibm.com>
 To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v2 4/8] s390/sclp: read sccb from mem based on sccb length
-Date: Fri, 15 May 2020 18:20:28 -0400
-Message-Id: <20200515222032.18838-5-walling@linux.ibm.com>
+Subject: [PATCH v2 5/8] s390/sclp: use cpu offset to locate cpu entries
+Date: Fri, 15 May 2020 18:20:29 -0400
+Message-Id: <20200515222032.18838-6-walling@linux.ibm.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200515222032.18838-1-walling@linux.ibm.com>
 References: <20200515222032.18838-1-walling@linux.ibm.com>
@@ -70,15 +69,14 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
  definitions=2020-05-15_07:2020-05-15,
  2020-05-15 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- lowpriorityscore=0 cotscore=-2147483648 phishscore=0 adultscore=0
- clxscore=1015 mlxscore=0 bulkscore=0 priorityscore=1501 spamscore=0
- mlxlogscore=999 suspectscore=0 impostorscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005150181
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=walling@linux.ibm.com;
+ phishscore=0 clxscore=1015
+ cotscore=-2147483648 priorityscore=1501 impostorscore=0 bulkscore=0
+ adultscore=0 spamscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ mlxscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2005150181
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=walling@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 18:21:01
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 18:21:02
 X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -105,70 +103,42 @@ Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The header contains the actual length of the SCCB. Instead of using a
-static 4K size, let's allow for a variable size determined by the value
-set in the header. The proper checks are already in place to ensure the
-SCCB length is sufficent to store a full response and that the length
-does not cross any explicitly-set boundaries.
+The start of the CPU entry region in the Read SCP Info response data is
+denoted by the offset_cpu field. As such, QEMU needs to begin creating
+entries at this address. Note that the length of the Read SCP Info data
+(data_len) denotes the same value as the cpu offset.
+
+This is in preparation of when Read SCP Info inevitably introduces new
+bytes that push the start of the CPUEntry field further away.
+
+Read CPU Info is unlikely to ever change, so let's not bother
+accounting for the offset there.
 
 Signed-off-by: Collin Walling <walling@linux.ibm.com>
 ---
- hw/s390x/sclp.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ hw/s390x/sclp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index 987699e3c4..5d6e98ae64 100644
+index 5d6e98ae64..755f5f3fab 100644
 --- a/hw/s390x/sclp.c
 +++ b/hw/s390x/sclp.c
-@@ -256,9 +256,8 @@ int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
-     SCLPDevice *sclp = get_sclp_device();
-     SCLPDeviceClass *sclp_c = SCLP_GET_CLASS(sclp);
-     SCCB work_sccb;
--    hwaddr sccb_len = sizeof(SCCB);
+@@ -113,13 +113,14 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
+     int rnsize, rnmax;
+     IplParameterBlock *ipib = s390_ipl_get_iplb();
+     int data_len = get_read_scp_info_data_len();
++    CPUEntry *entries_start = (void *)sccb + data_len;
  
--    s390_cpu_pv_mem_read(env_archcpu(env), 0, &work_sccb, sccb_len);
-+    s390_cpu_pv_mem_read(env_archcpu(env), 0, &work_sccb, sizeof(SCCBHeader));
- 
-     if (!sclp_command_code_valid(code)) {
-         work_sccb.h.response_code = cpu_to_be16(SCLP_RC_INVALID_SCLP_COMMAND);
-@@ -269,6 +268,9 @@ int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
-         goto out_write;
+     if (!sccb_has_sufficient_len(sccb, machine->possible_cpus->len, data_len)) {
+         return;
      }
  
-+    s390_cpu_pv_mem_read(env_archcpu(env), 0, &work_sccb,
-+                         be16_to_cpu(work_sccb.h.length));
-+
-     sclp_c->execute(sclp, &work_sccb, code);
- out_write:
-     s390_cpu_pv_mem_write(env_archcpu(env), 0, &work_sccb,
-@@ -283,8 +285,6 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
-     SCLPDeviceClass *sclp_c = SCLP_GET_CLASS(sclp);
-     SCCB work_sccb;
- 
--    hwaddr sccb_len = sizeof(SCCB);
--
-     /* first some basic checks on program checks */
-     if (env->psw.mask & PSW_MASK_PSTATE) {
-         return -PGM_PRIVILEGED;
-@@ -302,7 +302,7 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
-      * from playing dirty tricks by modifying the memory content after
-      * the host has checked the values
-      */
--    cpu_physical_memory_read(sccb, &work_sccb, sccb_len);
-+    cpu_physical_memory_read(sccb, &work_sccb, sizeof(SCCBHeader));
- 
-     /* Valid sccb sizes */
-     if (be16_to_cpu(work_sccb.h.length) < sizeof(SCCBHeader)) {
-@@ -318,6 +318,9 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
-         goto out_write;
-     }
- 
-+    /* the header contains the actual length of the sccb */
-+    cpu_physical_memory_read(sccb, &work_sccb, be16_to_cpu(work_sccb.h.length));
-+
-     sclp_c->execute(sclp, &work_sccb, code);
- out_write:
-     cpu_physical_memory_write(sccb, &work_sccb,
+     /* CPU information */
+-    prepare_cpu_entries(machine, read_info->entries, &cpu_count);
++    prepare_cpu_entries(machine, entries_start, &cpu_count);
+     read_info->entries_cpu = cpu_to_be16(cpu_count);
+     read_info->offset_cpu = cpu_to_be16(data_len);
+     read_info->highest_cpu = cpu_to_be16(machine->smp.max_cpus - 1);
 -- 
 2.21.3
 
