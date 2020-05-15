@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0DC1D4C41
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 13:16:36 +0200 (CEST)
-Received: from localhost ([::1]:47672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D62D31D4C43
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 13:16:46 +0200 (CEST)
+Received: from localhost ([::1]:47846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZYKR-0004kc-Ep
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 07:16:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55814)
+	id 1jZYKb-0004pD-L7
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 07:16:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jZYFs-0001iP-E4
- for qemu-devel@nongnu.org; Fri, 15 May 2020 07:11:52 -0400
-Received: from mout.web.de ([212.227.15.14]:54817)
+ id 1jZYFx-0001k0-Ug
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 07:11:57 -0400
+Received: from mout.web.de ([212.227.17.12]:45535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jZYFr-0008Dy-75
- for qemu-devel@nongnu.org; Fri, 15 May 2020 07:11:52 -0400
+ id 1jZYFw-0008EZ-TU
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 07:11:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1589541095;
- bh=6wKFvILC/i7tZeoYXB6gsC5xpQEL7/lU5BhuowIrN0o=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=n0a9+qe+0pZhUG0e8+W9gk2Z8/uSU53a03tSEJ3WDY9QZ/T2blGshkGTeEQ5i1U2a
- AuY71Zs4RoklFy11LMNFIi1QY4mRo1+QtD/Ik10T7NizOiJgsFP0795OaZstJMG0cx
- sihrxLZvHHp092ATpeW+5LoU/VftIvJA1dDBp4e8=
+ s=dbaedf251592; t=1589541100;
+ bh=V8Ro8PCn+awct1ifQ7K17SdfEaWVDnw4fl1+hJCAEU0=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=brbWciR+gwN+EtGsRqLvfv+KYpyupVDNlJAn5fWby/RuZwefC1ciUiZ1YfF26mf93
+ NPl72WGnnOgJS+4pVGMyksdSw5/q5fLHjP5gc1WZnWu/15AYNTcEjtiC+mABREG4kt
+ 2lpWyiLelLJSzfozjQI8xAElmtq024voOMKpvy/0=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([94.134.180.164]) by smtp.web.de (mrweb002
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MeBZO-1jioRN1K0M-00Ps3z; Fri, 15
- May 2020 13:11:35 +0200
-Date: Fri, 15 May 2020 13:11:18 +0200
+Received: from luklap ([94.134.180.164]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1M59jC-1jYSK73Nqe-001DJe; Fri, 15
+ May 2020 13:11:39 +0200
+Date: Fri, 15 May 2020 13:11:38 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v5 0/6] colo-compare bugfixes
-Message-ID: <cover.1589540787.git.lukasstraub2@web.de>
+Subject: [PATCH v5 1/6] net/colo-compare.c: Create event_bh with the right
+ AioContext
+Message-ID: <b5be719bf9c438ad4dafdc2fdb4ed87159065e6b.1589540787.git.lukasstraub2@web.de>
+In-Reply-To: <cover.1589540787.git.lukasstraub2@web.de>
+References: <cover.1589540787.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/f4EwakdEjLo+1jmxXnUr6TA";
+Content-Type: multipart/signed; boundary="Sig_/0VZdIhnMt.95UK.BCFwRk63";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:53y1AI+ODEegrAfskT3B5l18/EuawRnGSqI0mYjHNAYUKT6fkYF
- tTCzDxFyisyJ7FFbrh+Lqi6FCbinBujh2R7ZC0o9E/1Qt2Qy0GLEDqrrCxSkyKjJOIN/Bei
- R0WQSAmvFamjchvG+hralA2HLodqHNmnIEnaz+B3CyS02MOqiSoVZSFgPXPPYeoIajek3BU
- KzYKLGmCxIBWZK+1q24Tg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7CdXT/oRDVg=:Ae99K1ylYWNzXssUHvKKyf
- kWSLbyUskXmEWLyWyMQG8wVqUNs+g2kOTsdXWHXzIE3QXd28ZfG9tkx4QwVPmLKMpLJ16Q5Vk
- cjJXuDVnUL+btzSAJIlHTRlfKh6fSRscnrp7i5S72SvdyCuqb7ekUNCYEr0da97WZP+oJyChC
- G6zCrR6zCvfi51I5/XFzDzWiLt64CV6B4bLL5fxt5N6cqcIwQJrO9sWQ8xosqNHaLfYoK+8ns
- xaqY54Fn1BaJbKoQ+V9DOUZJ7CWA83H3XoRfYqKvtyKQ3I4RWocJESY9auJjBfAs+y5eH+sJX
- UK1/UK+FVZngbtx5+RGu5k2Wwhu2iz0ocGktU7oPKryXzEfzZvr/P+Nq2PyjA8zflhpN4KkgL
- 4EcK9AUAQyhxnSjJ8bbJXiIajYPcD7+dcE1BRVBY32VeblxhPbWUDSCrvnn33Z2ZeSR6nKI39
- stvTsYiKaOyYMZP3CbFUtATkJg5lHyqv0vV+EUf/Uej8axa7Pn203HsurLEvGZ12CpHxUZUcw
- DDnorG6PlyObcsPRiq/IWROvy8EHz5mvj9MZ+j+913kWO68QVeNNTVYN6DTvWoGqYAosb5DWl
- hADukRB4TeWtj55tXlgQ59r4FtpNXIpS3cvPMp7qY2LGK3iaSlg9VSmd2KgUfcAwTC+om+Zte
- ND67Yf0QGN8TBAWnnXjtljMQ/JtOck6LAWYfoRliNFkeDUHNJZNjtoRh3KTC2Y2XzCPRPz7TY
- TDHHoPCso8lqSaO6inigF1JL6Cw60k9j7nCe9934i6WNVT1vKqz1yvBfJ9wzvXpF4nibo5AUd
- nn0l8YJBu1a2uNkirqY3iqtTgoDfCASus48+xPEu5V4+EMWMFoyp3R0/9cjKGJk0UhU56tTRt
- QqBsMawD+19MHRAg8s3BbW5NJyD6YWdwMFoqq24aLOVekz4u+Jbs+xglnOELLG/rGQWlHrwcV
- rjKlvdUOIpIZe75Lwkd+wDLQZJe3ZLGcIJRZEi9GKJtoqHGnIKwY2lAmdDqFez3lA/0Loj4sq
- CMjvGnlcbH7ssIMn6U52M6f9EN/iTUC2Fv3B62otHQkBMw2oOckqKNNkY8z8vfkRCwtZrrpz5
- I0nIKE3kTrUMDZig0uXa0uKsbhkhjJHQ9ezslq46hAVv8Bk0tI+aPDB7y/wNRTNaRI3UoZWch
- 7C1pk0WDmOWd1THphYCQwEr0CYOT0k50Y67hxo4muHJx6sqXVz/L3igY0YMOzyWSVATTp8mQn
- MLp0r43oZ8JSzcuOO
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:UaxdX+O290qLgsa8UWIDFt/lMcbTzHlpvbL0edd/IFhzpw4v/1d
+ SORb9A9UL/KTQ6rxE6Go7XXpKFjtk1aOm/oxsQN/jP89JkqzETx9/OwOaq7WJwlxhQ8IEQZ
+ Lmh59fHCpzjijH/dUet0pKhVyOB7JVduIA5/A/NrbdlyGy8zhwnusKh0AQ7NP7+VZ+jKmpt
+ dUxQ8Ks1l/YnEuTyHtfVg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TAbGL+UbG44=:OtnPRtzapNhuLA15sfnaxC
+ /O3tv15JhxB8Rb5pVnthvS22YQH8fmzkNGSwTphdq2TCRn257NwMkhdpSDrm8FQP27mGrj3sL
+ PV02w0novpyyyb9qLixgmYQYemZHf/W0GavCLIc1IZKb/oC0uoYX3MB4KeyJYkrWn5zjtDDKW
+ 32++zTAPHBaaqDPXFYqZTMrK2f2MvpaV89wEPa4DAl2IF9nnbqteIZgf1p0JKIQH7KLRyFpSh
+ 4zPuAVrHVw6WcyHyFXLyiP/vGsqFNSRGSjU3aA7/RjGv7XwzXzB7U/49UzCrnPCiOJjlTcFDx
+ F1FQgTZHzwJWq6u/RZvc07V+pLEA4lR8bGSShUu6qoE9HMh/h1mBNJMsHE2y0S8W/elgrW6Rq
+ 4vmgF4qx7Wafh2rCdybT7c3FCQ7Gpg5VV/DkK2vx8R4/9uZ8njGqVcu+JPCuageJTvEE5nQnG
+ T2+qjVumFT20RywgsJAt9QzsY2ZE6A6taB/ELc/CV8scRBcSqDKIzdfVEQxBRxiWczCjXHmgc
+ vm/mxScoqF0WLsNcsic2e289EfpAYCEcTzLu+fUvfstBo9bTKZU6e1ezzh8bCEindQbo+nAps
+ O1qrU5KLJXPaA3MTM7du3/YAIHqJvKT1yJhdtDlTKEUDn2uHNEeb52h9Mcyykyo8NXjHQXgfn
+ mzJd5mWjIY540ycJlHt43op4KgiXYhRhrKUcRlbILAjk6JJzAoKdG/EyPW2/VIS/JRfai/fS6
+ 0hh1wWun0oK1w7KOZzNA4oaC4z8qw7/1ctEwxdDNMqY1wu2TSvC/O/mTkGAN4kakaKFphX8Bh
+ qjZscL+TXC+pxAq/3j5CWBPF2P2kybFghu4VC0z9uJuUJ9puXcCFlmkXGdd4UkTg1joD2sPnI
+ BD5n8fS+u/XI5zhjxo4+WnRDKKL23EbWb3Eo9PAHQujBJs0wTK41RideqYFPuTLu6jY6jeCzn
+ 6GEi60ALhcIh62pO7Eol5vQQCnyIqLCqa8aS8Ciqupxpk9EKn/4+AR0oa+gEKlx3iguaHp60o
+ ZUvcnEQP1jVsBTY/MoI921S7IInBvltqrX/3hSmWGhuhS9Zqi0z5tvm1Vz8uo4Lf0FOzAESdz
+ HD5Tu9iUckEvpmu3IPPlEEq5LmuuX60GJ8OKxNaBmVNUMndaXlYTpya08oYh6e898oW33YNct
+ R3RAu76TXYawB6FHbIRreUk9T5BLlqNtgsqyRZRvIoMzFyI7GVLr564w0VD9oJnd7nINhQoHn
+ f42cL/CLZyyttMVIf
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 07:11:49
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 07:11:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -24
 X-Spam_score: -2.5
@@ -71,7 +74,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,73 +94,72 @@ Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/f4EwakdEjLo+1jmxXnUr6TA
+--Sig_/0VZdIhnMt.95UK.BCFwRk63
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hello Everyone,
-Here are fixes for bugs that I found in my tests.
+qemu_bh_new will set the bh to be executed in the main
+loop. This causes crashes as colo_compare_handle_event assumes
+that it has exclusive access the queues, which are also
+concurrently accessed in the iothread.
 
-Regards,
-Lukas Straub
+Create the bh with the AioContext of the iothread to fulfill
+these assumptions and fix the crashes. This is safe, because
+the bh already takes the appropriate locks.
 
-Version changes:
-v5:
- -initialize and use notify_sendco only if notify_dev is set
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+Reviewed-by: Derek Su <dereksu@qnap.com>
+Tested-by: Derek Su <dereksu@qnap.com>
+---
+ net/colo-compare.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-v4:
- -fix potential deadlock with notify_remote_frame
- -avoid malloc and memcpy in many cases
-
-v3:
- -fix checkpatch.pl error
-
-v2:
- -better wording
- -fix performance-regression in patch 3 "net/colo-compare.c: Fix deadlock i=
-n compare_chr_send"
- -add more bugfixes
-
-
-Lukas Straub (6):
-  net/colo-compare.c: Create event_bh with the right AioContext
-  chardev/char.c: Use qemu_co_sleep_ns if in coroutine
-  net/colo-compare.c: Fix deadlock in compare_chr_send
-  net/colo-compare.c: Only hexdump packets if tracing is enabled
-  net/colo-compare.c, softmmu/vl.c: Check that colo-compare is active
-  net/colo-compare.c: Correct ordering in complete and finalize
-
- chardev/char.c     |   7 +-
- net/colo-compare.c | 254 ++++++++++++++++++++++++++++++++++-----------
- net/colo-compare.h |   1 +
- net/colo.c         |   7 ++
- net/colo.h         |   1 +
- softmmu/vl.c       |   2 +
- 6 files changed, 209 insertions(+), 63 deletions(-)
-
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index 10c0239f9d..1de4220fe2 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -890,6 +890,7 @@ static void colo_compare_handle_event(void *opaque)
+=20
+ static void colo_compare_iothread(CompareState *s)
+ {
++    AioContext *ctx =3D iothread_get_aio_context(s->iothread);
+     object_ref(OBJECT(s->iothread));
+     s->worker_context =3D iothread_get_g_main_context(s->iothread);
+=20
+@@ -906,7 +907,7 @@ static void colo_compare_iothread(CompareState *s)
+     }
+=20
+     colo_compare_timer_init(s);
+-    s->event_bh =3D qemu_bh_new(colo_compare_handle_event, s);
++    s->event_bh =3D aio_bh_new(ctx, colo_compare_handle_event, s);
+ }
+=20
+ static char *compare_get_pri_indev(Object *obj, Error **errp)
 --=20
 2.20.1
 
---Sig_/f4EwakdEjLo+1jmxXnUr6TA
+
+--Sig_/0VZdIhnMt.95UK.BCFwRk63
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl6+eNYACgkQNasLKJxd
-slisyRAAlJfYH0VOAgX3gc2ddiYlS29PZOjxYUTew6yx8qKbq9021xtpHH9c0Ugl
-243pC66bOEF3vJTphJvfL/ggl80x9wA3EVFbFZ7/23OU5uiX1a4njftr+Y4Ey2s5
-qn84HrlX8yVewmeumR5NDDPsNKFirSrvEh1eOpZffVrGRSWTv0OjfaOhdumAz/bU
-6XccIU0GQmMvu7WlonJ6UARkj1W7vN69fWNmMeKhu2ejA1R7aPGTbxg6RwjVI2ie
-KLRDQ9YjEmyoR4/waSs2XLJpahaua534Es396oGjxh2cf67Hv96TZDGgxu6niqMF
-bCv1CifmaoPPAVqZDMDkC4VwI4iOMyXRLPzNiqXZQ1KFpJNLwsUiPKlrV20GJN/+
-n5ign5CPIsCtOKboT1ugl1rdt571gd0rPgGG5my1IBaDNmzRC9nq5QPLulFmH/nZ
-ygbrobTrEhNmMfqq5MVa2cGaINUg7cgmAJNyXFsEpo6wQXwDKbdFcty3Uy5BYOwX
-wI41OpvN+81NN0fDaus+71jaOdcEKZJv/FEydg1d9Nn0/BkIoHI+HtoMpfTK2nMy
-85YdcUgGlELDY2HpYRPfp8jvzvvu0QZDmblrHhDLVsz9mV7jtJOr45gLWgl3H+/U
-KHfc+aLlthkdlh4LPjLJUfEvVeR6TSyVd7HmR7MSc80Yb5EndM4=
-=miHH
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl6+eOoACgkQNasLKJxd
+slgFKw/+LM70aV3IsdsopQgCnEbEVoeE0BwDRLBOwCs6u2JiQLo81KDQcc6cxWgS
+LSQD3SSDis9YpSwgAdtpmMykFuuDgfXfonNbHdX2G3F4NScnaozORCmHBj8eoc9N
+0xgNgwm306hx3AUtv8mdupyDqcNLWng1mO3oNiUs3042xyCNpzXPIFjRkmWJmE2S
+WfalMeLGl124Vi//cifPpyJwbqq3X5SUoJXLt68ICh8VAvDLQG1xeS4vhIGQfTOW
+/H+UwLXci7bY675hZXJbiowZyvjxXX8d0VRra+0P8z5QlbV1QtxbOQ6yDTVo0cdv
+BMYd8F2Rdokqzqc4CjZJr0Zu0LT3NmEZ4qaZost2y0g2DfFYzq/eyGGgS+7I1P7R
+PAsE8LkRD39xx7OaWgvDTItK7ZStquvhOJ2KMaAST2VVfp9rlylFrJgUJdGs5YeI
+IptpgwiNilk78WCLx/fJkBizNbCKc39cMPHShLNo0JricbnPKeiUj2oS900334Qa
+oB6BRnv00ar1PuUpmkno5fT7FY0vOQt0RoNwMUNC1ofRmeEYNWrfPFR0gKeI76hF
+AhXMaWiwHBCrkUqqaVZbeNoLKEABWOUBbXQZxkhrG4KZuoSBNC1N9Z6mfFBCbCnt
+Lqxqp6JhIZprLjVusGaZrJ0x3N0waPECKGqqhb+WwxA0cusXZE8=
+=OwRi
 -----END PGP SIGNATURE-----
 
---Sig_/f4EwakdEjLo+1jmxXnUr6TA--
+--Sig_/0VZdIhnMt.95UK.BCFwRk63--
 
