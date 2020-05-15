@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B19141D4970
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:25:09 +0200 (CEST)
-Received: from localhost ([::1]:55500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51CF21D4965
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:23:32 +0200 (CEST)
+Received: from localhost ([::1]:49142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZWaa-0005zR-Qh
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:25:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35008)
+	id 1jZWZ1-00035a-CX
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:23:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWVd-0005wJ-HY
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:20:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51488
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWXo-0001rF-6j
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:22:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56099
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWVb-0005bd-Ec
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:20:00 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWXm-0006Cc-CR
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:22:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589534398;
+ s=mimecast20190719; t=1589534533;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vb8q8zQaBSYsdnfCJN6XZiKEXfcSXXKGGn1WabOTPgg=;
- b=gqQnlZiCWmOOKH2ep5linOLWFPGhLwNVGHZWJnpbFVWkBSeCSAXccGFbl+O3+mR3zGKedu
- qPQW05Xi/ZMA0DF+xrx5KRVYsvDaX1yrCNm/YS6xJPo2M3n8q7TeaXQrcLKD2eUIObyvxQ
- 0n1j9qW4tqdluLEOphy7FZ28oQfua1g=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-lUs7a7QGN4O0cSuFdicydQ-1; Fri, 15 May 2020 05:19:56 -0400
-X-MC-Unique: lUs7a7QGN4O0cSuFdicydQ-1
-Received: by mail-wr1-f72.google.com with SMTP id 37so886842wrc.4
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 02:19:56 -0700 (PDT)
+ bh=TSv0SQjXJsdc5G9Tit8B+qnASXdTyC6JHtY3nm3DBZ8=;
+ b=AJZsWGgctGcsGHkDFI0/xpa1lIYnBGzzmLuxjdyXe4PBVDZnga4qAwDK+0OlA/9Eb2mUQ1
+ aAOZopi77UaTVNSleFVpU56BW7N950WhhAYMUfyaRH/L9VIMwOQbwxIvOqoLK8FFe3/DSI
+ QkQiQwRClH+evfeUHTQd4Iep7U7NONI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-490-vxpZOxmbPp6dfEte1vNKEQ-1; Fri, 15 May 2020 05:22:12 -0400
+X-MC-Unique: vxpZOxmbPp6dfEte1vNKEQ-1
+Received: by mail-wr1-f71.google.com with SMTP id z16so869398wrq.21
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 02:22:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vb8q8zQaBSYsdnfCJN6XZiKEXfcSXXKGGn1WabOTPgg=;
- b=LF+uJncCbsChCZrDZC58qjd4flsazTA5OEX45tyQMY23D8Snoy70erUU9pygFhXpb0
- Y5oWtoY6zJeOVsYI/CgWgu6LYu1+XfURoJv9FOufqKUOPblrXg4fXsYX+vLJQd6Ddf04
- jZIEvThSOxYUodrowaydRUEPDLP3Nm2OP3yINPtg0qcXQzb0j+xL6jcAt2jFFUh8FIFf
- y+orCb0MZn/Cw5YmDONh6QiTrxj8OjEJHWpE7PhJX2CkFsKyMVH1blMce70ba8WScac5
- n4ajyzwMHy5OaSAR8R3ujy/0hYDPGzWFewZ/y4eMsaVgl6jtPpONLrnIA2sTjQPrvy06
- tzDg==
-X-Gm-Message-State: AOAM532n/qu7OZ97ToWCNJ+J+qrGno+0XVNGlIGeaW1/cEm9Yj5gGezi
- JdrXAgN26vOiRnOHpXQ9xqscNlZsmeiMHcb1pffLKgnzYPE6uNVdPlVDN45eZ8TFNwrZz8U32Ir
- QJl5u3F0UvJ/EMG8=
-X-Received: by 2002:adf:e449:: with SMTP id t9mr3213542wrm.108.1589534395521; 
- Fri, 15 May 2020 02:19:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy/KRuEOOdAykHM+bwA5nWSjKrb13F5jW566HzDaVXU9gp+2KPshci5KrauElkZXtDX3ST4Fw==
-X-Received: by 2002:adf:e449:: with SMTP id t9mr3213525wrm.108.1589534395300; 
- Fri, 15 May 2020 02:19:55 -0700 (PDT)
-Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id u10sm2648032wmc.31.2020.05.15.02.19.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 02:19:54 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/5] sysemu/block-backend: Document blk_get_max_iov()
- returned value
-Date: Fri, 15 May 2020 11:19:24 +0200
-Message-Id: <20200515091924.14380-6-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200515091924.14380-1-philmd@redhat.com>
-References: <20200515091924.14380-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TSv0SQjXJsdc5G9Tit8B+qnASXdTyC6JHtY3nm3DBZ8=;
+ b=EdlCOPteHWMH+mRxX6JMmVcr5LdRX6Pa3LMEfPon6axIprTx6sDfWl3q8mX5wUHDPz
+ AmjEWh2c9sf9WU8QCgvp2fAqRC5Cj82kqdSpKwdMREsR0hsRW4UM4F4+x0zO0DTWY6gS
+ Zo7X8abwgdyUwgmCga0/x8HCbs8nOhekNVX1WN5/CDuGi1m9ISS0RhtmojQv4Z3AUOEL
+ CTx/CJRRe6wbBX7thI1gua/pkTFFz+dp2A9yQY+WEViH59Dt6LFmgX6tknz1Uhtl1nEI
+ COuGLAC6BCrB/TzY7lT6MBDY9/+sHlRDsn3K36xBnZCQhwFb/Tn+GJ8TEEJE5FQORUwm
+ /UnQ==
+X-Gm-Message-State: AOAM53109rjXSF7p4TNiaaLtbuVfFHFxacNHjCpmid4RAFxyDxKma+Ro
+ sWQYAMxZT/aq1yDI+V68cTtWKY1m8uY/BTcZ0z6DpmthB7MaoIPFh2ZY7S1ZrUc4wWHP0NvFk8W
+ ScyRZAQ9zC6A2WC9SbzIwMjZPPUuzb1c=
+X-Received: by 2002:adf:f40a:: with SMTP id g10mr3412669wro.117.1589534530764; 
+ Fri, 15 May 2020 02:22:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyPL/6XM3VsMXSnCsFjb9AqIj6l4ETKOSxxn7VkIzIaG23XCB//niP5tA30C+e1W3ldsRnQpMUdvqnxq+7WbwA=
+X-Received: by 2002:adf:f40a:: with SMTP id g10mr3412649wro.117.1589534530500; 
+ Fri, 15 May 2020 02:22:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200515083124.5536-1-philmd@redhat.com>
+ <20200515083124.5536-2-philmd@redhat.com>
+ <3fe3dc1e-8076-2a86-8c6e-a18b7f2f9952@suse.de>
+In-Reply-To: <3fe3dc1e-8076-2a86-8c6e-a18b7f2f9952@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Fri, 15 May 2020 11:21:59 +0200
+Message-ID: <CAP+75-WVBD_sH56kwj6nkAuW7gjBy__teQqucVL3fnFQZ2m-cQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] tests/docker: Remove flex/bison packages
+To: Claudio Fontana <cfontana@suse.de>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 23:27:07
@@ -82,8 +76,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,30 +90,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/sysemu/block-backend.h | 1 +
- 1 file changed, 1 insertion(+)
+On Fri, May 15, 2020 at 11:02 AM Claudio Fontana <cfontana@suse.de> wrote:
+>
+> On 5/15/20 10:31 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > QEMU does use flex/bison packages.
+> >
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>
+> Hi Philippe, "does" or "does not"?
 
-diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
-index b693dfb8f0..7b12563c65 100644
---- a/include/sysemu/block-backend.h
-+++ b/include/sysemu/block-backend.h
-@@ -227,6 +227,7 @@ void blk_eject(BlockBackend *blk, bool eject_flag);
- int blk_get_flags(BlockBackend *blk);
- uint32_t blk_get_request_alignment(BlockBackend *blk);
- uint32_t blk_get_max_transfer(BlockBackend *blk);
-+/* Returns the maximum number of iovec elements */
- int blk_get_max_iov(BlockBackend *blk);
- void blk_set_guest_block_size(BlockBackend *blk, int align);
- /* callers must free the returned pointer with qemu_vfree() */
--- 
-2.21.3
+Err... does NOT :/
+
+>
+> Ciao,
+>
+> Claudio
+>
+> > ---
+> >  tests/docker/dockerfiles/centos7.docker             | 2 --
+> >  tests/docker/dockerfiles/centos8.docker             | 2 --
+> >  tests/docker/dockerfiles/debian-xtensa-cross.docker | 2 --
+> >  tests/docker/dockerfiles/debian10.docker            | 2 --
+> >  tests/docker/dockerfiles/debian9.docker             | 2 --
+> >  tests/docker/dockerfiles/fedora.docker              | 2 --
+> >  tests/docker/dockerfiles/ubuntu.docker              | 2 +-
+> >  tests/docker/dockerfiles/ubuntu1804.docker          | 2 +-
+> >  8 files changed, 2 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/doc=
+kerfiles/centos7.docker
+> > index 9a2a2e515d..e197acdc3c 100644
+> > --- a/tests/docker/dockerfiles/centos7.docker
+> > +++ b/tests/docker/dockerfiles/centos7.docker
+> > @@ -5,13 +5,11 @@ RUN yum -y update
+> >
+> >  # Please keep this list sorted alphabetically
+> >  ENV PACKAGES \
+> > -    bison \
+> >      bzip2 \
+> >      bzip2-devel \
+> >      ccache \
+> >      csnappy-devel \
+> >      dbus-daemon \
+> > -    flex \
+> >      gcc-c++ \
+> >      gcc \
+> >      gettext \
+> > diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/doc=
+kerfiles/centos8.docker
+> > index bfa0d33c9c..9852c5b9ee 100644
+> > --- a/tests/docker/dockerfiles/centos8.docker
+> > +++ b/tests/docker/dockerfiles/centos8.docker
+> > @@ -3,11 +3,9 @@ FROM centos:8.1.1911
+> >  RUN dnf -y update
+> >  ENV PACKAGES \
+> >      SDL-devel \
+> > -    bison \
+> >      bzip2 \
+> >      bzip2-devel \
+> >      dbus-daemon \
+> > -    flex \
+> >      gcc \
+> >      gcc-c++ \
+> >      gettext \
+> > diff --git a/tests/docker/dockerfiles/debian-xtensa-cross.docker b/test=
+s/docker/dockerfiles/debian-xtensa-cross.docker
+> > index e6f93f65ee..beb73f46ba 100644
+> > --- a/tests/docker/dockerfiles/debian-xtensa-cross.docker
+> > +++ b/tests/docker/dockerfiles/debian-xtensa-cross.docker
+> > @@ -11,11 +11,9 @@ RUN apt-get update && \
+> >      DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata && \
+> >      DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+> >      apt-get install -y --no-install-recommends \
+> > -        bison \
+> >          build-essential \
+> >          ca-certificates \
+> >          curl \
+> > -        flex \
+> >          gettext \
+> >          git \
+> >          python3-minimal
+> > diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/do=
+ckerfiles/debian10.docker
+> > index 0769700a41..bcdff04ddf 100644
+> > --- a/tests/docker/dockerfiles/debian10.docker
+> > +++ b/tests/docker/dockerfiles/debian10.docker
+> > @@ -18,12 +18,10 @@ RUN apt update && \
+> >      DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+> >      apt install -y --no-install-recommends \
+> >          bc \
+> > -        bison \
+> >          build-essential \
+> >          ca-certificates \
+> >          clang \
+> >          dbus \
+> > -        flex \
+> >          gdb-multiarch \
+> >          gettext \
+> >          git \
+> > diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/doc=
+kerfiles/debian9.docker
+> > index 08cc970feb..0f0ebe530a 100644
+> > --- a/tests/docker/dockerfiles/debian9.docker
+> > +++ b/tests/docker/dockerfiles/debian9.docker
+> > @@ -18,11 +18,9 @@ RUN apt update && \
+> >      DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+> >      apt install -y --no-install-recommends \
+> >          bc \
+> > -        bison \
+> >          build-essential \
+> >          ca-certificates \
+> >          clang \
+> > -        flex \
+> >          gdb-multiarch \
+> >          gettext \
+> >          git \
+> > diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dock=
+erfiles/fedora.docker
+> > index 179575ecaa..92b6e11c8a 100644
+> > --- a/tests/docker/dockerfiles/fedora.docker
+> > +++ b/tests/docker/dockerfiles/fedora.docker
+> > @@ -3,7 +3,6 @@ FROM fedora:30
+> >  # Please keep this list sorted alphabetically
+> >  ENV PACKAGES \
+> >      bc \
+> > -    bison \
+> >      brlapi-devel \
+> >      bzip2 \
+> >      bzip2-devel \
+> > @@ -13,7 +12,6 @@ ENV PACKAGES \
+> >      dbus-daemon \
+> >      device-mapper-multipath-devel \
+> >      findutils \
+> > -    flex \
+> >      gcc \
+> >      gcc-c++ \
+> >      gettext \
+> > diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dock=
+erfiles/ubuntu.docker
+> > index eeb3b22bf2..90ea6311c6 100644
+> > --- a/tests/docker/dockerfiles/ubuntu.docker
+> > +++ b/tests/docker/dockerfiles/ubuntu.docker
+> > @@ -10,7 +10,7 @@
+> >  #
+> >
+> >  FROM ubuntu:19.04
+> > -ENV PACKAGES flex bison \
+> > +ENV PACKAGES \
+> >      ccache \
+> >      clang \
+> >      dbus \
+> > diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/=
+dockerfiles/ubuntu1804.docker
+> > index f66b06f4cf..a10ea2850b 100644
+> > --- a/tests/docker/dockerfiles/ubuntu1804.docker
+> > +++ b/tests/docker/dockerfiles/ubuntu1804.docker
+> > @@ -1,5 +1,5 @@
+> >  FROM ubuntu:18.04
+> > -ENV PACKAGES flex bison \
+> > +ENV PACKAGES \
+> >      ccache \
+> >      clang \
+> >      gcc \
+> >
+>
 
 
