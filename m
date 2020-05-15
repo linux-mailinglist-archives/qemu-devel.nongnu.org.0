@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE521D4C82
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 13:22:39 +0200 (CEST)
-Received: from localhost ([::1]:58994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A841D4C33
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 13:14:06 +0200 (CEST)
+Received: from localhost ([::1]:45712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZYQH-0002MS-Ua
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 07:22:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55912)
+	id 1jZYI1-0003vT-1s
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 07:14:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jZYGH-0001yb-HD
- for qemu-devel@nongnu.org; Fri, 15 May 2020 07:12:17 -0400
-Received: from mout.web.de ([212.227.15.4]:36617)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jZYGG-0008IY-IV
- for qemu-devel@nongnu.org; Fri, 15 May 2020 07:12:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1589541118;
- bh=BYrK+knR+D/cawytbYf3E0l4+H25EAb667xb1e3Ktog=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=eZ6lwOBvZ0B7ozoEWD1Hqx58pzQR3T/YD6T1xK62WBauU9E5tN0xLnXlXZ+rc6oI8
- gXA72p+xwr2O5hCuNlglzNuDupt3hsys2G/JI65ZkIF943Qm6SiSqF8q9BC4wXRY9d
- CTEBMzWnxrP4W9H+2N6puJhQLVDZfWMMxDZVM5DA=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([94.134.180.164]) by smtp.web.de (mrweb001
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0M2Mq4-1jGvPO1gLE-00s2PJ; Fri, 15
- May 2020 13:11:58 +0200
-Date: Fri, 15 May 2020 13:11:57 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v5 6/6] net/colo-compare.c: Correct ordering in complete and
- finalize
-Message-ID: <be21a738172716ca50e0e9f02d9bdae941d30b82.1589540787.git.lukasstraub2@web.de>
-In-Reply-To: <cover.1589540787.git.lukasstraub2@web.de>
-References: <cover.1589540787.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jZYH0-0002ut-NL
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 07:13:02 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33391)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jZYGy-0008Nw-HO
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 07:13:01 -0400
+Received: by mail-ot1-x341.google.com with SMTP id v17so1614761ote.0
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 04:12:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CDJM7KgiCVism3OxTRKw4oxYwiN9Lu0WrNShMLWRS4I=;
+ b=wr2x4d3PAH+CfGmtEgIbmkmDqm1hZeiNP7tM9JFuVfZHwSSLNZGWYZ2/ioq8TH1cwy
+ vVVxckPd9oJbOEo5yJXvgcNxV9FmfHdgCS8gSDnaxkO77FLzQDy5RHDsSjIfZYtvcRKH
+ hqqgCAD1j3qX4wB0LmJgmnHOWm0qgavC8gKbQziF7b33xJu2HlmA6NdHn/y14fCrzwe+
+ 21ydgBrReMSXOTedO+FwC3/Qjb00aEv9GcUrVQ8XRhD+vnVxtIcFZX8DLFT+c4ipFPzr
+ 4paGMVVhq/LgrAK+cmF3nk6O+EetR01dhL8g4nhdjeUQgXsHycTBvb6Be/U37Te6Ev46
+ DMmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CDJM7KgiCVism3OxTRKw4oxYwiN9Lu0WrNShMLWRS4I=;
+ b=RJAob7VRfetgv95UiqPFjNOwHQyruhteM1vo6BQJgBIUnnWdCcvlmQ2Cr89r2+ObpL
+ IOu7buVv6LYf5+D/+S+LAJbsXp96QsokNapJ1/ghF7ARGQtJ+75xou+7L07IQ6ExDAoQ
+ jCQ9VamCOmV2hEJ+JKrmOyzKEYD2SLRoqt2gXf7G1of+Pb4Vk/cChneWmgVYCJ+80jql
+ FpGxYz5+dcdT6HLMJpDbV+pYAKEQdQrLnbUR+SHOUrKcv1RLrfdN8Qk+lh9Ia7TOHwij
+ hO/PHRgdc/FkgSpFbpA9D4oKZ2VwJMCWZXVXpPIkEbZ9XYrFb5PIX+1AOutBICleYP7s
+ 1yiA==
+X-Gm-Message-State: AOAM530aBPZt6ZnutN6qOPCuIv0VlU+cszTWBdAQyjMEmQaN3QLfdpC6
+ RbaFq+UzY9Hr82NELlslL+XUNH9JkfbTXPg5n7uwgA==
+X-Google-Smtp-Source: ABdhPJycV1yJD1wbqFhWWsPaddNjI50+lM8hSeRF2c6woCtuPFdElwm6ViAUnztH4KihUBoE67NwDZUDBkARVyEgmaI=
+X-Received: by 2002:a9d:398b:: with SMTP id y11mr1019815otb.135.1589541178920; 
+ Fri, 15 May 2020 04:12:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/VpVauuQZ4vDdG6L7i8E8bHp";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:FQ+36GBUVENmTy3GC2bdyjjbghZ/xJ5un8p2CYuUY3xrySLu9H2
- JLOUgXryGD/XOIZUEC/7ILqEllRgo2FEXd/QM+hB/TSECLrf/l3FbiEPDfkCIBZ2kuG8zNn
- FkMy9IyQu6DCrulXhvUNeNn8Uo6IsjlSZJflBJEP8urkvtvxEyQwMvn4XNX7P7ru5/XL0y5
- a4tXTEY1xSbiAVTTz355w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zBsY1PSxvXE=:SSvs3vrwi/ycdYa0uaDrUy
- jncR8wC7jB6acd+w0iWbPQH1ukeI+HdkqRviAd1sLTHCA3maQHHhw9FDyRbFPa5hAGrK8BhH7
- KeD0TrdS7gvG9Y1KSwHp8S7jk26TZghv3U34k13++SdRVCaeLx6NhTICp8M0VSzzGPW/e6LDH
- Byovfv0ckgMWcMikyruyryjbs7lJy6F9LA76m7R8/I+zWn2BSh3V9a3LHX8+ntP77NkYezTXS
- uw+whDYw7dwhLomN4q5rSy1u7esVhhRo+lE/PuNwIYDgonTe3Qjey+2oYwOc9WkkXyVKmEuwW
- 3+BDkGWNhuTcAUezfNYjH6lWf9LGHYNRSatZoslMNWQMsr99JNB3NYfqzsPdN1DEj8zrcCGy6
- NIYHg849d2woV+UKuVdQ0ZL1p8MfBOW905qLLOWDMgit0JteGai1qfEyshw8KXROTAByfFhPY
- qj+Q0nPqwNla/AzDF9sOLIY5c6DkHS6SnRy0LlD1obGb7fY23DsivMcBvUaqlyqKOMa2OzQpU
- n3/fRCRE6usTySyKwWfhhrwugEaa8NkzE4rRvLpcoxHnKB+pteE9CXiCQRSZrdejCp2RxONt2
- gKuQg8qQuDnYA0pW3jjp67Ilkans03o5JdQ7/4yE1i3jdcfl2xDl+rSDqDHAK3zbYTjdnO4n1
- FUMeIHlGYQWhtVY0cqXYsKPmmeyrjivrwEtfkJxJhWNZttBnFv7mkA7ZlDrtikdx76mwYnzGi
- zrPu7A3bKbs16ZyBrfY8WriHifeV0LKGeVxb3VpUPssDykKzoP2LRodQ4CcsKyKmy3nZPfC0g
- i+4P4Zn49GVlrIXV9Ybgde5q4wQVGM7Eq7+7R3R2Rr1I/yOYow6DdatcMBKFKuD81gVN+WRcR
- MkRP5XB7rZzeEWUbYM3MQ9xUIysHS5tLaLJNP+nMrlvtpy81h0AozSLhJtlAcKUyT0NtTsn7e
- immjGDdatlV93FUkRTpRtrWk3Yr2kvdQgK9+zBk3MeArCare78tiRwb+4mPCcC3Is8ilT6bX2
- RpRSpOjubCn2P/tYwSRcYh0PaUhiMP3Mb/u87RJBq/iC8ukZ3abRlPG2FLyQnEvm+iL2BJnA2
- HnfhwR7L/8wUk7byrK2p+AxucqSAxflBrDw8IIni5CFL1YUdkfnTKnZIiiguOg6x5a0Li0mV9
- hRGTQF90xLMU3Hi0IZXrsVTuM/EeNn63hXl1K6VbYkG19tCxV0W10I92Ufg5E7RusOMnG3DSa
- FKHXS4UaAOmhN+ueA
-Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 07:12:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+References: <20200514192047.5297-1-aleksandar.qemu.devel@gmail.com>
+ <20200514192047.5297-18-aleksandar.qemu.devel@gmail.com>
+ <87lfltr5vk.fsf@dusky.pond.sub.org>
+ <CAHiYmc6qZQz8c3mmuvdDWP0uPtBi5K5ie06JOTEo-sy7tbJojg@mail.gmail.com>
+In-Reply-To: <CAHiYmc6qZQz8c3mmuvdDWP0uPtBi5K5ie06JOTEo-sy7tbJojg@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 15 May 2020 12:12:47 +0100
+Message-ID: <CAFEAcA9J6-qoyqJyH9mxhfX6oNhq+DkeFmGbsPbVgi0jX+qMMw@mail.gmail.com>
+Subject: Re: [PATCH v2 17/17] hw/mips: Convert Malta "ifdef 0"-ed code to
+ comments
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,129 +82,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/VpVauuQZ4vDdG6L7i8E8bHp
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Fri, 15 May 2020 at 12:07, Aleksandar Markovic
+<aleksandar.qemu.devel@gmail.com> wrote:
+> I understood your points. They make sense to me. In hindsight, in
+> general, we shouldn't try just to silence checkpatch warnings (or, for
+> that matter, compiler warnings as well), but try to resolve the root
+> cause, the underlying issue, of the warning. In this case, creating
+> tracepoints seems to be the right thing to do.
 
-In colo_compare_complete, insert CompareState into net_compares
-only after everything has been initialized.
-In colo_compare_finalize, remove CompareState from net_compares
-before anything is deinitialized.
+For this sort of "default case, guest accessed a bad register offset"
+case, what I usually do is something like
+   qemu_log_mask(LOG_GUEST_ERROR, "malta_fpga_write: Bad register offset 0x"
+                 TARGET_FMT_lx "\n", addr);
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
----
- net/colo-compare.c | 45 +++++++++++++++++++++++----------------------
- 1 file changed, 23 insertions(+), 22 deletions(-)
+That's a simpler change than adding tracepoints and matches how
+we report this kind of guest-did-the-wrong-thing behaviour elsewhere.
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 7205fdac29..fddc955229 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -1283,15 +1283,6 @@ static void colo_compare_complete(UserCreatable *uc,=
- Error **errp)
-                            s->vnet_hdr);
-     }
-=20
--    qemu_mutex_lock(&colo_compare_mutex);
--    if (!colo_compare_active) {
--        qemu_mutex_init(&event_mtx);
--        qemu_cond_init(&event_complete_cond);
--        colo_compare_active =3D true;
--    }
--    QTAILQ_INSERT_TAIL(&net_compares, s, next);
--    qemu_mutex_unlock(&colo_compare_mutex);
--
-     s->out_sendco.s =3D s;
-     s->out_sendco.chr =3D &s->chr_out;
-     s->out_sendco.notify_remote_frame =3D false;
-@@ -1314,6 +1305,16 @@ static void colo_compare_complete(UserCreatable *uc,=
- Error **errp)
-                                                       connection_destroy);
-=20
-     colo_compare_iothread(s);
-+
-+    qemu_mutex_lock(&colo_compare_mutex);
-+    if (!colo_compare_active) {
-+        qemu_mutex_init(&event_mtx);
-+        qemu_cond_init(&event_complete_cond);
-+        colo_compare_active =3D true;
-+    }
-+    QTAILQ_INSERT_TAIL(&net_compares, s, next);
-+    qemu_mutex_unlock(&colo_compare_mutex);
-+
-     return;
- }
-=20
-@@ -1386,19 +1387,6 @@ static void colo_compare_finalize(Object *obj)
-     CompareState *s =3D COLO_COMPARE(obj);
-     CompareState *tmp =3D NULL;
-=20
--    qemu_chr_fe_deinit(&s->chr_pri_in, false);
--    qemu_chr_fe_deinit(&s->chr_sec_in, false);
--    qemu_chr_fe_deinit(&s->chr_out, false);
--    if (s->notify_dev) {
--        qemu_chr_fe_deinit(&s->chr_notify_dev, false);
--    }
--
--    if (s->iothread) {
--        colo_compare_timer_del(s);
--    }
--
--    qemu_bh_delete(s->event_bh);
--
-     qemu_mutex_lock(&colo_compare_mutex);
-     QTAILQ_FOREACH(tmp, &net_compares, next) {
-         if (tmp =3D=3D s) {
-@@ -1413,6 +1401,19 @@ static void colo_compare_finalize(Object *obj)
-     }
-     qemu_mutex_unlock(&colo_compare_mutex);
-=20
-+    qemu_chr_fe_deinit(&s->chr_pri_in, false);
-+    qemu_chr_fe_deinit(&s->chr_sec_in, false);
-+    qemu_chr_fe_deinit(&s->chr_out, false);
-+    if (s->notify_dev) {
-+        qemu_chr_fe_deinit(&s->chr_notify_dev, false);
-+    }
-+
-+    if (s->iothread) {
-+        colo_compare_timer_del(s);
-+    }
-+
-+    qemu_bh_delete(s->event_bh);
-+
-     AioContext *ctx =3D iothread_get_aio_context(s->iothread);
-     aio_context_acquire(ctx);
-     AIO_WAIT_WHILE(ctx, !s->out_sendco.done);
---=20
-2.20.1
-
---Sig_/VpVauuQZ4vDdG6L7i8E8bHp
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl6+eP0ACgkQNasLKJxd
-slgmUhAAgtVdo9xQ3mMl/VkxVNKKllwC3s+XScyMpVfs9+mzERALtO5IYKCz5st8
-78kwxLcEH+Mhhm5ck5faXx+q47jBRDClXu9y/hpCpVnaZPzRNn4pSwuE/Zzi6xo9
-nV5/5IHNzdfUDA26ZXDx3/gpJjSMUDlsKhgzYMM/cCTR79RMfG7x/jBNZz0+3yTs
-uH8mvtG4375fnGLZ38NH7CgC9vFPAFvMS+OcUpRhKSSl8XwepyuRv9LQZjg/HoL8
-sa1J8YMwvkP+kA0Ajr++N52XTwB7+gPJ7uGcdYKCVRZmGHoDgGms9oJ1F4jLJIFa
-niOWBu7wJgRUqvP+pkVmK0eghfnnXqQQSEae3XFi2ar4XxzRyCIQB16T2cRXoOap
-/QC6Y/qsjvSaQSPQz0epA/gxnwkQXVenUPtfNJl5WcER9/Vsbyr6VNi6huYKt72P
-6HUjhvqSpzuykg0x/T7c62CunmfS2zg2utL8QcxW2DMBQm0VhMEj32aktF59R3cS
-yl/wBCmZHrCkNL3CyUmmC1JDgcRsB3s5VuxMm9B70K5PTK5oC83STc4MwrbLbQyx
-Q4L1qJ28/mfHuq0k/kqJTxblKFvqhJEMAaRP3uzx9gkdqyqcmhbwr5DeZ742wQbt
-/SloXoesrLUxoHyBmnkb5cFS3/9A/ldi+oIbUCMRS7liPFh6Ee4=
-=YloQ
------END PGP SIGNATURE-----
-
---Sig_/VpVauuQZ4vDdG6L7i8E8bHp--
+thanks
+-- PMM
 
