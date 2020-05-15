@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC5C1D531B
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:06:11 +0200 (CEST)
-Received: from localhost ([::1]:37498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59751D5362
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 17:11:51 +0200 (CEST)
+Received: from localhost ([::1]:35564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZbub-0002wG-Tc
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:06:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48466)
+	id 1jZc06-0005rc-O0
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 11:11:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbt7-0000lU-7b
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:04:37 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23991
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbtB-0000tu-Ii
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:04:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35279
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbt6-000194-Bm
- for qemu-devel@nongnu.org; Fri, 15 May 2020 11:04:36 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jZbt6-00019C-Qq
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 11:04:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1589555075;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t+HSgCdANQseRNhPVBx7JZu3Nv1cjEufB0L0lkDYe7c=;
- b=ce237SXCAc670ofr9UeHVP9WjpfYuxZA/fDFQogSa+7151Tv8nOryXgt7NvLq9BCOd2hdH
- uaYbT+BhgVXDeUDbUnl9XYMv6zJDMJpuJxWHkSHxjuswh/voSgiAIhA0GNw2QtSxkwqbyK
- obiM6Tx3yT1iM/xKMXLWseY/T8f40/U=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=g0tlu34e1zJO02dbJDq50QAUnYAGnoUM8wVM/lvheGo=;
+ b=ML09hdEeFT8qcpzWt5LANv03kIqBAlqilYXXGqOD31l0knlI9c0hHintnGoO+51vD/Qkw3
+ QNX8wBN/XNe8s1yDbOuDZCY5V61FcfTU3YJ9LaP6P6K1uCSUAW2MSBBTVbanIP+NvTQKb5
+ 8FrBT0mtJVLz5F441lZkunrRzDS7CUU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-eM5V3JMfNxO6azaYsYON0w-1; Fri, 15 May 2020 11:04:33 -0400
-X-MC-Unique: eM5V3JMfNxO6azaYsYON0w-1
+ us-mta-26-fdXcECDENHCc631vpUZNBg-1; Fri, 15 May 2020 11:04:33 -0400
+X-MC-Unique: fdXcECDENHCc631vpUZNBg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1BE51009445;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4C1A1899534;
  Fri, 15 May 2020 15:04:32 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-115-145.ams2.redhat.com
  [10.36.115.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4EEC060C05;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5472E61982;
  Fri, 15 May 2020 15:04:32 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 28F619D6A; Fri, 15 May 2020 17:04:22 +0200 (CEST)
+ id 31DB89D71; Fri, 15 May 2020 17:04:22 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 13/16] acpi: simplify build_isa_devices_aml()
-Date: Fri, 15 May 2020 17:04:18 +0200
-Message-Id: <20200515150421.25479-14-kraxel@redhat.com>
+Subject: [PATCH v6 14/16] acpi: drop serial/parallel enable bits from dsdt
+Date: Fri, 15 May 2020 17:04:19 +0200
+Message-Id: <20200515150421.25479-15-kraxel@redhat.com>
 In-Reply-To: <20200515150421.25479-1-kraxel@redhat.com>
 References: <20200515150421.25479-1-kraxel@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 23:27:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -90,44 +86,63 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-x86 machines can have a single ISA bus only.
+The _STA methods for COM+LPT used to reference them,
+but that isn't the case any more.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/i386/acpi-build.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ hw/i386/acpi-build.c | 23 -----------------------
+ 1 file changed, 23 deletions(-)
 
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index cb3913d2ee76..1922868f3401 100644
+index 1922868f3401..765409a90eb6 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -1061,19 +1061,14 @@ static void build_hpet_aml(Aml *table)
- static void build_isa_devices_aml(Aml *table)
- {
-     bool ambiguous;
+@@ -1437,15 +1437,6 @@ static void build_q35_isa_bridge(Aml *table)
+     aml_append(field, aml_named_field("LPTD", 2));
+     aml_append(dev, field);
+ 
+-    aml_append(dev, aml_operation_region("LPCE", AML_PCI_CONFIG,
+-                                         aml_int(0x82), 0x02));
+-    /* enable bits */
+-    field = aml_field("LPCE", AML_ANY_ACC, AML_NOLOCK, AML_PRESERVE);
+-    aml_append(field, aml_named_field("CAEN", 1));
+-    aml_append(field, aml_named_field("CBEN", 1));
+-    aml_append(field, aml_named_field("LPEN", 1));
+-    aml_append(dev, field);
 -
--    Aml *scope = aml_scope("_SB.PCI0.ISA");
-     Object *obj = object_resolve_path_type("", TYPE_ISA_BUS, &ambiguous);
-+    Aml *scope;
- 
--    if (ambiguous) {
--        error_report("Multiple ISA busses, unable to define IPMI ACPI data");
--    } else if (!obj) {
--        error_report("No ISA bus, unable to define IPMI ACPI data");
--    } else {
--        build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
--        isa_build_aml(ISA_BUS(obj), scope);
--    }
-+    assert(obj && !ambiguous);
- 
-+    scope = aml_scope("_SB.PCI0.ISA");
-+    build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
-+    isa_build_aml(ISA_BUS(obj), scope);
+     aml_append(scope, dev);
      aml_append(table, scope);
  }
+@@ -1469,7 +1460,6 @@ static void build_piix4_isa_bridge(Aml *table)
+ {
+     Aml *dev;
+     Aml *scope;
+-    Aml *field;
  
+     scope =  aml_scope("_SB.PCI0");
+     dev = aml_device("ISA");
+@@ -1478,19 +1468,6 @@ static void build_piix4_isa_bridge(Aml *table)
+     /* PIIX PCI to ISA irq remapping */
+     aml_append(dev, aml_operation_region("P40C", AML_PCI_CONFIG,
+                                          aml_int(0x60), 0x04));
+-    /* enable bits */
+-    field = aml_field("^PX13.P13C", AML_ANY_ACC, AML_NOLOCK, AML_PRESERVE);
+-    /* Offset(0x5f),, 7, */
+-    aml_append(field, aml_reserved_field(0x2f8));
+-    aml_append(field, aml_reserved_field(7));
+-    aml_append(field, aml_named_field("LPEN", 1));
+-    /* Offset(0x67),, 3, */
+-    aml_append(field, aml_reserved_field(0x38));
+-    aml_append(field, aml_reserved_field(3));
+-    aml_append(field, aml_named_field("CAEN", 1));
+-    aml_append(field, aml_reserved_field(3));
+-    aml_append(field, aml_named_field("CBEN", 1));
+-    aml_append(dev, field);
+ 
+     aml_append(scope, dev);
+     aml_append(table, scope);
 -- 
 2.18.4
 
