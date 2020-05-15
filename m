@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DEF31D581E
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 19:38:51 +0200 (CEST)
-Received: from localhost ([::1]:55852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 688091D583C
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 19:44:41 +0200 (CEST)
+Received: from localhost ([::1]:34010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZeIM-0007UE-IO
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 13:38:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46398)
+	id 1jZeO0-00034K-GQ
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 13:44:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jZeHO-0006g5-AU
- for qemu-devel@nongnu.org; Fri, 15 May 2020 13:37:50 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60656
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jZeNF-0002ZS-Gh
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 13:43:53 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30805
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jZeHN-00032q-HQ
- for qemu-devel@nongnu.org; Fri, 15 May 2020 13:37:50 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jZeND-0005hQ-NM
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 13:43:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589564268;
+ s=mimecast20190719; t=1589564630;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qD7gbekDdtO+rodzhjO+LFEUcT+WVSH04hnXSW7Va+c=;
- b=goc1g/tVuXuYaDFynTR9u6iuCBZZ5PQGo/29nr7FXWw6cGpmECr5gqNeonc9Y0w3FufOTt
- x7vSla71wENcNljZUY69fA17z80/vXdhXHrk5WbO3hqhkBxFahL49ljTlluq/4yavFTVAf
- 9YKPco1XrGqhY3Z9FN6hxmi8Seq8BxY=
+ bh=sS4YSPeWZNwrAUDTBbRtFLGf/O92oqrhULsyrQdACrM=;
+ b=X9oEn+plPRzDgXhg6VCRhyf/6+DRPZfANZyE6wV8UYLBQIWqqap0YXktdtkGvIO9UF+bvs
+ EZDnPOd5x8kbrA18nGjGJhUn7NAaIB3KYBWElXBcbSOwxU+kmdTx1tpj8gfV/OZiFyuYx0
+ VHmV2EH8V9OkKeNMjxsBccs2feb/Vzw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-us6fbw4HNXu7uvw5-tLJ1w-1; Fri, 15 May 2020 13:37:46 -0400
-X-MC-Unique: us6fbw4HNXu7uvw5-tLJ1w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-129-7hf7a0MqP-SjqESyCnQbgQ-1; Fri, 15 May 2020 13:43:48 -0400
+X-MC-Unique: 7hf7a0MqP-SjqESyCnQbgQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E20941005510;
- Fri, 15 May 2020 17:37:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2308C1B18BC1;
+ Fri, 15 May 2020 17:43:47 +0000 (UTC)
 Received: from [10.3.114.84] (ovpn-114-84.phx2.redhat.com [10.3.114.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B0A539E;
- Fri, 15 May 2020 17:37:39 +0000 (UTC)
-Subject: Re: [PATCH v4 3/3] qemu-options: updates for abstract unix sockets
-To: xiaoqiang zhao <zxq_yx_007@163.com>, qemu-devel@nongnu.org
-References: <20200515043235.32189-1-zxq_yx_007@163.com>
- <20200515043235.32189-4-zxq_yx_007@163.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B6EDD60BF1;
+ Fri, 15 May 2020 17:43:46 +0000 (UTC)
+Subject: Re: [PATCH v2 4/5] sysemu/block-backend: Document
+ blk_read()/blk_pwrite()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200515091924.14380-1-philmd@redhat.com>
+ <20200515091924.14380-5-philmd@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <df4fe148-90af-771d-641e-0579e2049cc3@redhat.com>
-Date: Fri, 15 May 2020 12:37:39 -0500
+Message-ID: <3fe181eb-c24a-e87a-23e4-33b36aec7134@redhat.com>
+Date: Fri, 15 May 2020 12:43:41 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200515043235.32189-4-zxq_yx_007@163.com>
+In-Reply-To: <20200515091924.14380-5-philmd@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:39:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,38 +84,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, berrange@redhat.com,
- armbru@redhat.com, kraxel@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/14/20 11:32 PM, xiaoqiang zhao wrote:
-> add options documents changes for -chardev
+On 5/15/20 4:19 AM, Philippe Mathieu-Daudé wrote:
+> The blk_read()/blk_pwrite() return value is not obvious,
+
+s/read/pread/ here and in the subject
+
+> document it.
 > 
-> Signed-off-by: xiaoqiang zhao <zxq_yx_007@163.com>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->   qemu-options.hx | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
 
-I'd suggest listing 'abstract' before 'tight', since 'tight' only 
-matters for abstract.  I also have grammar suggestions:
+> +/**
+> + * blk_pread:
+> + *
+> + * @blk: the block backend where the buffer content is going to be read from
+> + * @offset: position in bytes to read at
+> + * @buf: the data buffer
+> + * @bytes: number of bytes to read
+> + *
+> + * Returns: the number of bytes read on success, or a negative errno otherwise.
+> + */
+>   int blk_pread(BlockBackend *blk, int64_t offset, void *buf, int bytes);
 
-> -    ``unix options: path=path``
-> +    ``unix options: path=path[,tight=on|off][,abstract=on|off]``
->           ``path`` specifies the local path of the unix socket. ``path``
->           is required.
-> +	``tight`` whether to set @addrlen to the minimal string length,
-> +        or the maximum sun_path length. defaults to true. ``tight`` is
-> +        optional.
-> +	``abstract`` whether use abstract address. defaults to false.
-> +	``abstract`` is optional.
+"the number of bytes read" is ambiguous - it sounds too much like the 
+read() syscall where short reads are successful.  But blk_pread() never 
+does short reads, on success, the result is exactly 'bytes'.
 
-``abstract`` specifies the use of the abstract socket namespace, rather 
-than the filesystem.  Optional, defaults to false.
-``tight`` sets the socket length of abstract sockets to their minimum, 
-rather than the full sun_path length.  Optional, defaults to true.
+> +
+> +/**
+> + * blk_pwrite:
+> + *
+> + * @blk: the block backend where the buffer content is going to be written to
+> + * @offset: position in bytes to write at
+> + * @buf: the data buffer
+> + * @bytes: number of bytes of @buf to write
+> + * @flags: request flags
+> + *
+> + * Returns: the number of bytes consumed on success,
+
+Ditto - we don't support short writes, so on success, it is always 'bytes'.
+
+> + *          or a negative errno otherwise.
+> + */
+>   int blk_pwrite(BlockBackend *blk, int64_t offset, const void *buf, int bytes,
+>                  BdrvRequestFlags flags);
+>   int64_t blk_getlength(BlockBackend *blk);
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
