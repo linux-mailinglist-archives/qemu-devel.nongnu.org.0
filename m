@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57F81D5275
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:51:12 +0200 (CEST)
-Received: from localhost ([::1]:39998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB16C1D528D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 16:53:25 +0200 (CEST)
+Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZbg7-0003np-W8
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:51:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44540)
+	id 1jZbiG-00070f-OY
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 10:53:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jZbZV-0002Qt-5V
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:22 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:36942)
+ id 1jZbZX-0002Sm-Jo
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:24 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:54912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jZbZU-0000zK-BB
- for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:20 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id z72so2963545wmc.2
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 07:44:19 -0700 (PDT)
+ id 1jZbZW-000106-8o
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 10:44:22 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id h4so2581667wmb.4
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 07:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NDEc+9+kZ2Q3/E6kQh66WfIBSt6HPjYYbPv1ArIk0sg=;
- b=cM+oCqVY+A15dg+aq9QHooynfIT+ojxkuGKe+xiNpZf8uzD5ogo3LsPU+aJ+UlLPqb
- 38EJPyjAzIEkFJibQM06boqrZvTaANnF9Tnkw/Jb54xrwNz3v2oFum3KZhvik6mDHuCL
- pRoOpACSbCMcNINL5l10jMfbScuBUCEcwIm81xPsxX+MiWkMqSHXBB8mQKf8EwI0YBPU
- BfPTPvqCXEMdIHZDZMY2GZsPBro8azBI8MUY59AGkmOpupMc9E6rqNyi/RlA1cJQ2FEM
- J63iD5JeDUzJ/rmhtaNMpx0+1aT8Y1ZQj8MWKSYQnLC2wSg7umeXCTSqsYDEekFz8z8j
- aNiA==
+ bh=+a2TvwRII2J7AoPGBoNpj53l/Ezc+QlB4IwOZgMmlqY=;
+ b=if1+c6mFY3gjwptzcSIKYu57JQSJPsBtm2MSa1f5mOhsDDcOMRUO5DQO/Xa04vkEDE
+ D9vm4MGzPns7zad2RecwqmUMhyYTLrRqlV6OxMhbEAolgHg48MrCM0+8JoBEqXVljKdS
+ Aw9gdZg8zXOtkQw5fp2vZhU2iAhDFnFJLXReO4D09A2k5FcwAhPC8O0R39sPQPUtdkSM
+ pmNo88+HPjGbMFO81Rn3iqImmXk8GMPixDJvyrh1e3RBCeMRP5ov6sW7RNneJWtMzL7U
+ gALE11rnlV01ut2HJSLzhgzA6Ff40jyiKvh9dU5yJpmiOMdIjsYula/1671Py9mZR2Uf
+ FsuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NDEc+9+kZ2Q3/E6kQh66WfIBSt6HPjYYbPv1ArIk0sg=;
- b=aDaKPRnq/rs3+46NlRDxx5qA/riwVXufWevfXISaga+s99lLdq/p4Rp0g4waEbhjB5
- 2Z0D8xFm4M6JU7Bv+ewWHYW3B2Ov0qYp6PKaTXJuDR/hzsYakcWLlw4dE8Wi4R0yMHh8
- bDGAFr+QMh9TL+2vKZHTvJhwrx7u5Sm0qU5Krbs1mGqF/QGMqC3bbgWq7geVHcNDngKi
- XUrL2t9tdel+csJiK86WIxBjJssK6A89fEmD44zEvhIgeO1cvAuembe7DL/az5ybJkOg
- sxhqRBgpUvUa2SKWl7DMmeA8fiOGiozwD8bCukFkZus+xlupuxvZkGSz/9azAur+Ch2Y
- ZnWA==
-X-Gm-Message-State: AOAM5307lEdO9Fst0VQUGhZGlurQKX+8JwVCm3nI3vw9whPaPAyNic/0
- 46qqfxAzBuFoKZVEboj5cr6V0Q==
-X-Google-Smtp-Source: ABdhPJzLOrf416i2Gt25liPsCHrcV0VN98GCHRoDLfTY15Fc72FYjztEYEvxRyJKzmhgHs4yOy0Tjg==
-X-Received: by 2002:a7b:c84b:: with SMTP id c11mr4258054wml.19.1589553858874; 
- Fri, 15 May 2020 07:44:18 -0700 (PDT)
+ bh=+a2TvwRII2J7AoPGBoNpj53l/Ezc+QlB4IwOZgMmlqY=;
+ b=Kdmt82YPPNtL4HmamauxUtJ0oUSWJjytn36GvRG2W4qH27yRrn4SNwrCNvsPbU7wgG
+ wM3wSLAdy48IpFFOl0uTO5Z/YnrIUE0HiNlLIem9EotclOzGy1eKIpL1feuO1N4DZLMY
+ epTpXRXNFs7aqYb3Xw/1EErx9wCcqvPNOXyWOmcpptvNhrc4ECtq7lm8reBmgIqGzW95
+ QN+lcf+vRjw/Q5iBL5P+Up5i6aTQWlVfBPsLwZKt4kxoJEeVkiEUkCHFdEjnJmEIb3LJ
+ zuR8Vv0L0rYA3hcJUEX6RzQazH5Kds/nf28rb+sMDmiTeP+cP8D3XB4oBZ4VmjGIuGL5
+ phfw==
+X-Gm-Message-State: AOAM531jxu0SCwujh5t0WiYnDZWaHZm7izTsqv2R+EEi8Fn97GATaKZr
+ 5yUMKrKf3mlZ0o3X5en5d4z5iA==
+X-Google-Smtp-Source: ABdhPJz+TqOIwyABF4FGW1pCKR9WxHx7jEVlbiWVb0f0lVMea9p2sRAgSXaW6XBUgrBBDcQytEp6Wg==
+X-Received: by 2002:a1c:b354:: with SMTP id c81mr4355499wmf.136.1589553860752; 
+ Fri, 15 May 2020 07:44:20 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d6sm4584006wra.63.2020.05.15.07.44.10
+ by smtp.gmail.com with ESMTPSA id t7sm3982423wrq.39.2020.05.15.07.44.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 15 May 2020 07:44:12 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 06B951FF98;
+ by zen.linaroharston (Postfix) with ESMTP id 1D6E61FF99;
  Fri, 15 May 2020 15:44:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 09/13] translate-all: include guest address in out_asm output
-Date: Fri, 15 May 2020 15:44:01 +0100
-Message-Id: <20200515144405.20580-10-alex.bennee@linaro.org>
+Subject: [PULL v2 10/13] qemu/plugin: Trivial code movement
+Date: Fri, 15 May 2020 15:44:02 +0100
+Message-Id: <20200515144405.20580-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200515144405.20580-1-alex.bennee@linaro.org>
 References: <20200515144405.20580-1-alex.bennee@linaro.org>
@@ -88,85 +88,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: "open list:Trivial patches" <qemu-trivial@nongnu.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org, "Emilio G . Cota" <cota@braap.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already have information about where each guest instructions
-representation starts stored in the tcg_ctx->gen_insn_data so we can
-rectify the PC for faults. We can re-use this information to annotate
-the out_asm output with guest instruction address which makes it a bit
-easier to work out where you are especially with longer blocks. A
-minor wrinkle is that some instructions get optimised away so we have
-to scan forward until we find some actual generated code.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+Move the qemu_plugin_event enum declaration earlier.
+This will make the next commit easier to review.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200510171119.20827-2-f4bug@amsat.org>
+Message-Id: <20200513173200.11830-2-alex.bennee@linaro.org>
 
-Message-Id: <20200513175134.19619-11-alex.bennee@linaro.org>
-
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index cdf58bb420e..42ce1dfcff7 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1794,14 +1794,43 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM) &&
-         qemu_log_in_addr_range(tb->pc)) {
-         FILE *logfile = qemu_log_lock();
-+        int code_size, data_size = 0;
-+        g_autoptr(GString) note = g_string_new("[tb header & initial instruction]");
-+        size_t chunk_start = 0;
-+        int insn = 0;
-         qemu_log("OUT: [size=%d]\n", gen_code_size);
-         if (tcg_ctx->data_gen_ptr) {
--            size_t code_size = tcg_ctx->data_gen_ptr - tb->tc.ptr;
--            size_t data_size = gen_code_size - code_size;
--            size_t i;
-+            code_size = tcg_ctx->data_gen_ptr - tb->tc.ptr;
-+            data_size = gen_code_size - code_size;
-+        } else {
-+            code_size = gen_code_size;
-+        }
+diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
+index 11687e8cdc3..e45f950fe36 100644
+--- a/include/qemu/plugin.h
++++ b/include/qemu/plugin.h
+@@ -13,6 +13,22 @@
+ #include "qemu/queue.h"
+ #include "qemu/option.h"
  
--            log_disas(tb->tc.ptr, code_size, NULL);
-+        /* Dump header and the first instruction */
-+        chunk_start = tcg_ctx->gen_insn_end_off[insn];
-+        log_disas(tb->tc.ptr, chunk_start, note->str);
- 
-+        /*
-+         * Dump each instruction chunk, wrapping up empty chunks into
-+         * the next instruction. The whole array is offset so the
-+         * first entry is the beginning of the 2nd instruction.
-+         */
-+        while (insn <= tb->icount && chunk_start < code_size) {
-+            size_t chunk_end = tcg_ctx->gen_insn_end_off[insn];
-+            if (chunk_end > chunk_start) {
-+                g_string_printf(note, "[guest addr: " TARGET_FMT_lx "]",
-+                                tcg_ctx->gen_insn_data[insn][0]);
-+                log_disas(tb->tc.ptr + chunk_start, chunk_end - chunk_start,
-+                          note->str);
-+                chunk_start = chunk_end;
-+            }
-+            insn++;
-+        }
++/*
++ * Events that plugins can subscribe to.
++ */
++enum qemu_plugin_event {
++    QEMU_PLUGIN_EV_VCPU_INIT,
++    QEMU_PLUGIN_EV_VCPU_EXIT,
++    QEMU_PLUGIN_EV_VCPU_TB_TRANS,
++    QEMU_PLUGIN_EV_VCPU_IDLE,
++    QEMU_PLUGIN_EV_VCPU_RESUME,
++    QEMU_PLUGIN_EV_VCPU_SYSCALL,
++    QEMU_PLUGIN_EV_VCPU_SYSCALL_RET,
++    QEMU_PLUGIN_EV_FLUSH,
++    QEMU_PLUGIN_EV_ATEXIT,
++    QEMU_PLUGIN_EV_MAX, /* total number of plugin events we support */
++};
 +
-+        /* Finally dump any data we may have after the block */
-+        if (data_size) {
-+            int i;
-+            qemu_log("  data: [size=%d]\n", data_size);
-             for (i = 0; i < data_size; i += sizeof(tcg_target_ulong)) {
-                 if (sizeof(tcg_target_ulong) == 8) {
-                     qemu_log("0x%08" PRIxPTR ":  .quad  0x%016" PRIx64 "\n",
-@@ -1813,8 +1842,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-                              *(uint32_t *)(tcg_ctx->data_gen_ptr + i));
-                 }
-             }
--        } else {
--            log_disas(tb->tc.ptr, gen_code_size, NULL);
-         }
-         qemu_log("\n");
-         qemu_log_flush();
+ /*
+  * Option parsing/processing.
+  * Note that we can load an arbitrary number of plugins.
+@@ -47,22 +63,6 @@ static inline int qemu_plugin_load_list(QemuPluginList *head)
+ }
+ #endif /* !CONFIG_PLUGIN */
+ 
+-/*
+- * Events that plugins can subscribe to.
+- */
+-enum qemu_plugin_event {
+-    QEMU_PLUGIN_EV_VCPU_INIT,
+-    QEMU_PLUGIN_EV_VCPU_EXIT,
+-    QEMU_PLUGIN_EV_VCPU_TB_TRANS,
+-    QEMU_PLUGIN_EV_VCPU_IDLE,
+-    QEMU_PLUGIN_EV_VCPU_RESUME,
+-    QEMU_PLUGIN_EV_VCPU_SYSCALL,
+-    QEMU_PLUGIN_EV_VCPU_SYSCALL_RET,
+-    QEMU_PLUGIN_EV_FLUSH,
+-    QEMU_PLUGIN_EV_ATEXIT,
+-    QEMU_PLUGIN_EV_MAX, /* total number of plugin events we support */
+-};
+-
+ union qemu_plugin_cb_sig {
+     qemu_plugin_simple_cb_t          simple;
+     qemu_plugin_udata_cb_t           udata;
 -- 
 2.20.1
 
