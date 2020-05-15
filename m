@@ -2,90 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D191D490E
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:06:54 +0200 (CEST)
-Received: from localhost ([::1]:36236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 448EC1D491A
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:09:39 +0200 (CEST)
+Received: from localhost ([::1]:47120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZWIv-0007uH-W0
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:06:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32942)
+	id 1jZWLa-0004Zm-1F
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:09:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWHo-00071N-O1
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:05:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58263
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWHn-00027U-Sn
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:05:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589533542;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vLs7D00WQoY84ERVb/0Cm7IeiJVHNOoAofknN04FgX8=;
- b=iljRr3xNqRVvfbGM3eVA5k4NYexED8EFxo4g4ObpPAyDsyzaPRy0Dnl3Ozd6mLw37zvHfz
- BKAHbi0r+MAuJp9wuTbvwDxZgr01PZl1SaBd0r83MzRtkgZpD9PdMRnyElgn+W1FOhqYO8
- VtLtpgpmHjPpq2tvrsK/PVZ0yAiD2rE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-CyikWZF6O9-Tlbmo9242ug-1; Fri, 15 May 2020 05:05:41 -0400
-X-MC-Unique: CyikWZF6O9-Tlbmo9242ug-1
-Received: by mail-wm1-f72.google.com with SMTP id x11so680058wmc.9
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 02:05:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vLs7D00WQoY84ERVb/0Cm7IeiJVHNOoAofknN04FgX8=;
- b=bc7I+AJ7XB0NQ4u6aDQ2RHJLht7LDZAq7LptAOTZ/1YxwCxe1uKVklllpC2h1L4BR1
- fWwTrA8FEmfz4xAln3p5ccN+PrgPjOTApHrYLD3AdlmxBsXcGPNGcbi2Adbnhzk4GtHn
- gkPEcbLmR2zyDNBlcMZvYwX5YDaxxh0aqNpyp/lS12ZL8eakVHpqesnkIjkpqUqhSy+v
- htOHIOIAMePLxQe0ENBj5TO9SuuQf8KNGPkMS7PcBXwvBOx4hc258RIeIUODBZR16YFx
- Xr4/QCaIDr+zemeWDnOkCZyv1V3FErgCHkh4KTCqdplllCacOtf2peeuvgSg/pbgmspY
- fRLw==
-X-Gm-Message-State: AOAM532FsNVhlEQWX7wtVThMjXCGLP3BuEt2Bn5NkZNVj6LBBAbIKb01
- hnoY3TfDohC+szxLAcSQxiZ3g1gi5Qv3kNUckNDl2z7u1pKiu6QyF2pd6s/jUE6FFYeuLe7tT03
- cOrLxNoNDBUMFPKc=
-X-Received: by 2002:adf:e9d2:: with SMTP id l18mr3160068wrn.34.1589533540207; 
- Fri, 15 May 2020 02:05:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxZk5B8bxsDZe9J64N+702MXklb/vxc8NV2NJON2jDsSyBnsd5aHQ7q8O2swP9ZoL8lYVyrHg==
-X-Received: by 2002:adf:e9d2:: with SMTP id l18mr3160045wrn.34.1589533539926; 
- Fri, 15 May 2020 02:05:39 -0700 (PDT)
-Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id q5sm2828326wra.36.2020.05.15.02.05.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 May 2020 02:05:39 -0700 (PDT)
-Subject: Re: [PATCH 0/5] docs/system: Document some arm board models
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200507151819.28444-1-peter.maydell@linaro.org>
- <CAFEAcA_p1x6S10yswHgOkMd=KrxcTGh9TD47+k1LRKM0xy5x+Q@mail.gmail.com>
- <567755c6-3bb1-b16e-af26-431dec4616ba@redhat.com>
- <CAFEAcA-67uGcwSu7mJ+w26xYqpTm4C0t3Yrr8gWCsA1VtHeaLg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <49f4fc6f-329b-9afc-92db-c59dd1ce67ea@redhat.com>
-Date: Fri, 15 May 2020 11:05:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <zxq_yx_007@163.com>)
+ id 1jZWIh-00084t-Gx
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:06:39 -0400
+Received: from mail-m973.mail.163.com ([123.126.97.3]:56402)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <zxq_yx_007@163.com>)
+ id 1jZWId-0002LB-7N
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:06:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=rLxF3
+ 181KA43VpDsqwpjEml0S0zkCEdTt1OyW0Kt6bY=; b=SZyrP5/vj9s7fW6os32G1
+ A5fJkmxckRsCpo1GsGyke5ZhDirRRLYQVyuwqgFNm2CsTVrpPwduJBb8f0Y79liC
+ 0FgtdqayWZZupDCUq0n/7psjeAq5KgZw/BbMZsQ9/7kXFDfy6Er2CdTL20ZG1vVM
+ zFbrZvQCysp5wBV4ZREoqI=
+Received: from localhost.localdomain (unknown [114.240.93.195])
+ by smtp3 (Coremail) with SMTP id G9xpCgBnt5uKW75eMHSGBQ--.172S2;
+ Fri, 15 May 2020 17:06:24 +0800 (CST)
+From: xiaoqiang zhao <zxq_yx_007@163.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/3] qemu-sockets: add abstract UNIX domain socket support
+Date: Fri, 15 May 2020 17:06:05 +0800
+Message-Id: <20200515090608.5373-1-zxq_yx_007@163.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-67uGcwSu7mJ+w26xYqpTm4C0t3Yrr8gWCsA1VtHeaLg@mail.gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 22:56:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-CM-TRANSID: G9xpCgBnt5uKW75eMHSGBQ--.172S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7GFyxJFW8Kw43tr1kCF1Dtrb_yoW3Arc_Xr
+ y0k3s5KrW2ya1rCas5CrnxJFW7Cr40gF1vqF1UtrWkGw1rZr98trs8Ar17Kw1UJFyfWF17
+ X3s7Gr93A342gjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU1H7KDUUUUU==
+X-Originating-IP: [114.240.93.195]
+X-CM-SenderInfo: 520ts5t0bqili6rwjhhfrp/xtbBEBAlxlUMRFTpTAAAsP
+Received-SPF: pass client-ip=123.126.97.3; envelope-from=zxq_yx_007@163.com;
+ helo=mail-m973.mail.163.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 05:06:29
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -100,52 +68,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, berrange@redhat.com,
+ armbru@redhat.com, kraxel@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/15/20 10:51 AM, Peter Maydell wrote:
-> On Fri, 15 May 2020 at 09:03, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->> However I'd rather see the board documentation in the source code, and
->> extract it when building. It'd be harder to miss updating the
->> documentation when modifying the code.
-> 
-> I definitely agree in principle; but for the moment at least
-> we can have some documentation...
+qemu does not support abstract UNIX domain
+socket address. Add this ability to make qemu handy
+when abstract address is needed.
 
-Yes, thank you very much for this effort!
+Changes since v4:
+* fix typo and coding style problems
 
-> 
->> Another way (rather than using external program to extract from source
->> code) can be to add a method/field to MachineClass, and once a build is
->> finished, we could run 'qemu-system-arch -M gendoc' which go thru all
->> machines and display the documentation properly formatted.
-> 
-> The documentation needs to include all machines, not just
-> the ones that got compiled into a particular binary, so
-> I'm not sure this will work. I also would prefer it if
-> we avoided having the docs build depend on doing a full
-> binary build -- places like readthedocs will just do a docs
-> build by invoking Sphinx directly, and we'd like the machine
-> docs to be visible there.
+v3 -> v4: 
+* rebase on master
+* refine qapi document statement
+* use random names to avoid name clash in unit test
 
-Sphinx consumes docs/system/$arch/$machine.rst files committed to the 
-repository, and we don't need to build various qemu-system-arch to 
-generate the documentation.
+Xiaoqiang Zhao (3):
+  qemu-sockets: add abstract UNIX domain socket support
+  tests/util-sockets: add abstract unix socket cases
+  qemu-options: updates for abstract unix sockets
 
-If you work on a particular board, you might end up only building its 
-corresponding qemu-system-ARCH. Maybe we can add an extra-pass once a 
-binary is linked, and re-generate the docs/system/ARCH/$machine.rst 
-files, so if you modified a board and its documentation placeholder in 
-the code, when commiting your code change, you also have to commit the 
-rst changes.
+ chardev/char-socket.c     |  4 ++
+ chardev/char.c            |  7 +++
+ qapi/sockets.json         |  8 +++-
+ qemu-options.hx           |  9 +++-
+ tests/test-util-sockets.c | 92 +++++++++++++++++++++++++++++++++++++++
+ util/qemu-sockets.c       | 39 ++++++++++++++---
+ 6 files changed, 149 insertions(+), 10 deletions(-)
 
-Just brainstorming an idea for now ;)
-
-> 
-> thanks
-> -- PMM
-> 
+-- 
+2.17.1
 
 
