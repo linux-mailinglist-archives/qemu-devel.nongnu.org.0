@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534231D4E09
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 14:48:20 +0200 (CEST)
-Received: from localhost ([::1]:44708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CDE81D4E1F
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 14:52:52 +0200 (CEST)
+Received: from localhost ([::1]:36078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZZlD-0005DV-AK
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 08:48:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45418)
+	id 1jZZpb-0005c4-99
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 08:52:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZiZ-000227-29
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:45:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37561
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZid-0002AJ-3u
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:45:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49150
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZiX-00025D-JC
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:45:34 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZiZ-00025b-CA
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:45:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589546732;
+ s=mimecast20190719; t=1589546734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=PkZGM/HH2X/PJnEIjsROxTpDvxRJpOZkuk4Qbe7lMYI=;
- b=ZnKQzU0gyZCJUurqcsywVJtGvhK9tyOrjlxAQVUsTDNJaO9okmYz6pxcfNjC1JD+AhrM0L
- tiuU4f6d1XMQAuLHIpUISWchUHITXtZFyRbotyw6ald/tOyiZfVR/7j4GDLxw9sjdTt1tT
- 1k2Dwz0Ylv5WB/kzTVw7r0sNEweIiMA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EXPHia+QY6PWIiHlRICaayf4bn1MBVx2ww07ykyxOSM=;
+ b=OSWhddbfI2Ty4JAlkdR3vAC75bwqx65QGJL0SEZCJweoK7Um86Q7Rnlj132fFF+LIuqki6
+ 8zf+DzEuhMQMBSYLY9NE64oU2iroeY5fN3slsF++GgZ2iQ8tSG3eOYDO4iAyXKRNZUsp5e
+ Fj/oilVgw5nLLHKRSdsCbwSXvitQ+0s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-RJlTob9rN7izi62WBCbvcQ-1; Fri, 15 May 2020 08:45:30 -0400
-X-MC-Unique: RJlTob9rN7izi62WBCbvcQ-1
+ us-mta-348-V9et0d0FNU6yIqU36aZEVQ-1; Fri, 15 May 2020 08:45:32 -0400
+X-MC-Unique: V9et0d0FNU6yIqU36aZEVQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5192107ACCA;
- Fri, 15 May 2020 12:45:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CBD1835B42;
+ Fri, 15 May 2020 12:45:31 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-110.ams2.redhat.com
  [10.36.113.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9D3F2E16B;
- Fri, 15 May 2020 12:45:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C8F92E16F;
+ Fri, 15 May 2020 12:45:29 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 00/51] Block layer patches
-Date: Fri, 15 May 2020 14:44:30 +0200
-Message-Id: <20200515124521.335403-1-kwolf@redhat.com>
+Subject: [PULL 01/51] iotests/109: Don't mirror with mismatched size
+Date: Fri, 15 May 2020 14:44:31 +0200
+Message-Id: <20200515124521.335403-2-kwolf@redhat.com>
+In-Reply-To: <20200515124521.335403-1-kwolf@redhat.com>
+References: <20200515124521.335403-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 22:56:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 23:27:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,146 +82,374 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 013a18edbbc59cdad019100c7d03c0494642b74c:
+This patch makes the raw image the same size as the file in a different
+format that is mirrored as raw to it to avoid errors when mirror starts
+to enforce that source and target are the same size.
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200514' into staging (2020-05-14 16:17:55 +0100)
+We check only that the first 512 bytes are zeroed (instead of 64k)
+because some image formats create image files that are smaller than 64k,
+so trying to read 64k would result in I/O errors. Apart from this, 512
+is more appropriate anyway because the raw format driver protects
+specifically the first 512 bytes.
 
-are available in the Git repository at:
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20200511135825.219437-2-kwolf@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ tests/qemu-iotests/109           | 10 ++---
+ tests/qemu-iotests/109.out       | 74 +++++++++++++-------------------
+ tests/qemu-iotests/common.filter |  5 +++
+ 3 files changed, 41 insertions(+), 48 deletions(-)
 
-  git://repo.or.cz/qemu/kevin.git tags/for-upstream
-
-for you to fetch changes up to 7d8f21a650e562270f5ed5341134c9c2c39dc5e8:
-
-  iotests/030: Reduce run time by unthrottling job earlier (2020-05-15 14:12:34 +0200)
-
-----------------------------------------------------------------
-Block layer patches:
-
-- Introduce real BdrvChildRole
-- blk/bdrv_make_empty() functions instead of calling callbacks directly
-- mirror: Make sure that source and target size match
-- block-copy: Fix uninitialized variable
-- block/replication: Avoid cancelling the job twice
-- ahci: Log lost IRQs
-- iotests: Run pylint and mypy in a testcase
-- iotests: log messages from notrun()
-
-----------------------------------------------------------------
-John Snow (1):
-      iotests: log messages from notrun()
-
-Kevin Wolf (8):
-      iotests/109: Don't mirror with mismatched size
-      iotests/229: Use blkdebug to inject an error
-      mirror: Make sure that source and target size match
-      iotests: Mirror with different source/target size
-      iotests: Fix incomplete type declarations
-      iotests: Run pylint and mypy in a testcase
-      replication: Avoid blk_make_empty() on read-only child
-      iotests/030: Reduce run time by unthrottling job earlier
-
-Lukas Straub (1):
-      block/replication.c: Avoid cancelling the job twice
-
-Max Reitz (38):
-      block: Add bdrv_make_empty()
-      block: Add blk_make_empty()
-      block: Use blk_make_empty() after commits
-      block: Use bdrv_make_empty() where possible
-      block: Mark commit, mirror, blkreplay as filters
-      block: Add BlockDriver.is_format
-      block: Rename BdrvChildRole to BdrvChildClass
-      block: Add BdrvChildRole and BdrvChildRoleBits
-      block: Add BdrvChildRole to BdrvChild
-      block: Pass BdrvChildRole to bdrv_child_perm()
-      block: Pass BdrvChildRole to .inherit_options()
-      block: Pass parent_is_format to .inherit_options()
-      block: Rename bdrv_inherited_options()
-      block: Add generic bdrv_inherited_options()
-      block: Use bdrv_inherited_options()
-      block: Unify bdrv_child_cb_attach()
-      block: Unify bdrv_child_cb_detach()
-      block: Add child_of_bds
-      block: Distinguish paths in *_format_default_perms
-      block: Pull out bdrv_default_perms_for_cow()
-      block: Pull out bdrv_default_perms_for_storage()
-      block: Relax *perms_for_storage for data children
-      block: Add bdrv_default_perms()
-      raw-format: Split raw_read_options()
-      block: Switch child_format users to child_of_bds
-      block: Drop child_format
-      block: Make backing files child_of_bds children
-      block: Drop child_backing
-      block: Make format drivers use child_of_bds
-      block: Make filter drivers use child_of_bds
-      block: Use child_of_bds in remaining places
-      tests: Use child_of_bds instead of child_file
-      block: Use bdrv_default_perms()
-      block: Make bdrv_filter_default_perms() static
-      block: Drop bdrv_format_default_perms()
-      block: Drop child_file
-      block: Pass BdrvChildRole in remaining cases
-      block: Drop @child_class from bdrv_child_perm()
-
-Philippe Mathieu-Daudé (3):
-      block/block-copy: Fix uninitialized variable in block_copy_task_entry
-      block/block-copy: Simplify block_copy_do_copy()
-      hw/ide/ahci: Log lost IRQs
-
- include/block/block.h            |  65 ++++-
- include/block/block_int.h        |  57 ++--
- include/sysemu/block-backend.h   |   2 +
- block.c                          | 601 ++++++++++++++++++++++++---------------
- block/backup-top.c               |  11 +-
- block/blkdebug.c                 |  10 +-
- block/blklogwrites.c             |  16 +-
- block/blkreplay.c                |   8 +-
- block/blkverify.c                |  10 +-
- block/block-backend.c            |  30 +-
- block/block-copy.c               |  14 +-
- block/bochs.c                    |   7 +-
- block/cloop.c                    |   7 +-
- block/commit.c                   |  20 +-
- block/copy-on-read.c             |   7 +-
- block/crypto.c                   |   8 +-
- block/dmg.c                      |   7 +-
- block/filter-compress.c          |   7 +-
- block/io.c                       |  22 +-
- block/mirror.c                   |  25 +-
- block/parallels.c                |   7 +-
- block/qcow.c                     |   7 +-
- block/qcow2.c                    |  20 +-
- block/qed.c                      |   7 +-
- block/quorum.c                   |   8 +-
- block/raw-format.c               | 128 +++++----
- block/replication.c              |  23 +-
- block/throttle.c                 |   7 +-
- block/vdi.c                      |   7 +-
- block/vhdx.c                     |   7 +-
- block/vmdk.c                     |  23 +-
- block/vpc.c                      |   7 +-
- block/vvfat.c                    |  17 +-
- blockjob.c                       |   7 +-
- hw/ide/ahci.c                    |   1 +
- qemu-img.c                       |  19 +-
- tests/test-bdrv-drain.c          |  72 +++--
- tests/test-bdrv-graph-mod.c      |  10 +-
- tests/test-block-iothread.c      |  17 +-
- tests/qemu-iotests/iotests.py    |  19 +-
- tests/qemu-iotests/030           |   6 +-
- tests/qemu-iotests/041           |  45 +++
- tests/qemu-iotests/041.out       |   4 +-
- tests/qemu-iotests/098.out       |   8 +-
- tests/qemu-iotests/109           |  10 +-
- tests/qemu-iotests/109.out       |  74 ++---
- tests/qemu-iotests/229           |  15 +-
- tests/qemu-iotests/229.out       |   6 +-
- tests/qemu-iotests/297           |  44 +++
- tests/qemu-iotests/297.out       |   3 +
- tests/qemu-iotests/common.filter |   5 +
- tests/qemu-iotests/group         |   1 +
- 52 files changed, 995 insertions(+), 573 deletions(-)
- create mode 100755 tests/qemu-iotests/297
- create mode 100644 tests/qemu-iotests/297.out
+diff --git a/tests/qemu-iotests/109 b/tests/qemu-iotests/109
+index 5bc2e9b001..3ffeaf3c55 100755
+--- a/tests/qemu-iotests/109
++++ b/tests/qemu-iotests/109
+@@ -77,14 +77,14 @@ for fmt in qcow qcow2 qed vdi vmdk vpc; do
+     echo "=== Writing a $fmt header into raw ==="
+     echo
+ 
+-    _make_test_img 64M
+     TEST_IMG="$TEST_IMG.src" IMGFMT=$fmt _make_test_img 64M
++    _make_test_img $(du -b "$TEST_IMG.src" | cut -f1) | _filter_img_create_size
+ 
+     # This first test should fail: The image format was probed, we may not
+     # write an image header at the start of the image
+     run_qemu "$TEST_IMG" "$TEST_IMG.src" "" "BLOCK_JOB_ERROR" |
+         _filter_block_job_len
+-    $QEMU_IO -c 'read -P 0 0 64k' "$TEST_IMG" | _filter_qemu_io
++    $QEMU_IO -c 'read -P 0 0 512' "$TEST_IMG" | _filter_qemu_io
+ 
+ 
+     # When raw was explicitly specified, the same must succeed
+@@ -103,12 +103,12 @@ for sample_img in empty.bochs iotest-dirtylog-10G-4M.vhdx parallels-v1 \
+ 
+     # Can't use _use_sample_img because that isn't designed to be used multiple
+     # times and it overwrites $TEST_IMG (both breaks cleanup)
+-    _make_test_img 64M
+     bzcat "$SAMPLE_IMG_DIR/$sample_img.bz2" > "$TEST_IMG.src"
++    _make_test_img $(du -b "$TEST_IMG.src" | cut -f1) | _filter_img_create_size
+ 
+     run_qemu "$TEST_IMG" "$TEST_IMG.src" "" "BLOCK_JOB_ERROR" |
+         _filter_block_job_offset | _filter_block_job_len
+-    $QEMU_IO -c 'read -P 0 0 64k' "$TEST_IMG" | _filter_qemu_io
++    $QEMU_IO -c 'read -P 0 0 512' "$TEST_IMG" | _filter_qemu_io
+ 
+     run_qemu "$TEST_IMG" "$TEST_IMG.src" "'format': 'raw'," "BLOCK_JOB_READY"
+     $QEMU_IMG compare -f raw -F raw "$TEST_IMG" "$TEST_IMG.src"
+@@ -119,8 +119,8 @@ echo "=== Write legitimate MBR into raw ==="
+ echo
+ 
+ for sample_img in grub_mbr.raw; do
+-    _make_test_img 64M
+     bzcat "$SAMPLE_IMG_DIR/$sample_img.bz2" > "$TEST_IMG.src"
++    _make_test_img $(du -b "$TEST_IMG.src" | cut -f1) | _filter_img_create_size
+ 
+     run_qemu "$TEST_IMG" "$TEST_IMG.src" "" "BLOCK_JOB_READY"
+     $QEMU_IMG compare -f raw -F raw "$TEST_IMG" "$TEST_IMG.src"
+diff --git a/tests/qemu-iotests/109.out b/tests/qemu-iotests/109.out
+index 884f65f18d..ad739df46c 100644
+--- a/tests/qemu-iotests/109.out
++++ b/tests/qemu-iotests/109.out
+@@ -2,8 +2,8 @@ QA output created by 109
+ 
+ === Writing a qcow header into raw ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.raw.src', fmt=IMGFMT size=67108864
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -23,8 +23,8 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
+ {"execute":"quit"}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+-read 65536/65536 bytes at offset 0
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 512/512 bytes at offset 0
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -43,13 +43,12 @@ read 65536/65536 bytes at offset 0
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "src", "len": 1024, "offset": 1024, "speed": 0, "type": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "src"}}
+-Warning: Image size mismatch!
+ Images are identical.
+ 
+ === Writing a qcow2 header into raw ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.raw.src', fmt=IMGFMT size=67108864
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -69,8 +68,8 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
+ {"execute":"quit"}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+-read 65536/65536 bytes at offset 0
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 512/512 bytes at offset 0
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -89,13 +88,12 @@ read 65536/65536 bytes at offset 0
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "src", "len": 197120, "offset": 197120, "speed": 0, "type": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "src"}}
+-Warning: Image size mismatch!
+ Images are identical.
+ 
+ === Writing a qed header into raw ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.raw.src', fmt=IMGFMT size=67108864
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -115,8 +113,8 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
+ {"execute":"quit"}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+-read 65536/65536 bytes at offset 0
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 512/512 bytes at offset 0
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -135,13 +133,12 @@ read 65536/65536 bytes at offset 0
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "src", "len": 327680, "offset": 327680, "speed": 0, "type": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "src"}}
+-Warning: Image size mismatch!
+ Images are identical.
+ 
+ === Writing a vdi header into raw ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.raw.src', fmt=IMGFMT size=67108864
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -161,8 +158,8 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
+ {"execute":"quit"}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+-read 65536/65536 bytes at offset 0
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 512/512 bytes at offset 0
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -181,13 +178,12 @@ read 65536/65536 bytes at offset 0
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "src", "len": 1024, "offset": 1024, "speed": 0, "type": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "src"}}
+-Warning: Image size mismatch!
+ Images are identical.
+ 
+ === Writing a vmdk header into raw ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.raw.src', fmt=IMGFMT size=67108864
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -207,8 +203,8 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
+ {"execute":"quit"}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+-read 65536/65536 bytes at offset 0
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 512/512 bytes at offset 0
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -227,13 +223,12 @@ read 65536/65536 bytes at offset 0
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "src", "len": 65536, "offset": 65536, "speed": 0, "type": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "src"}}
+-Warning: Image size mismatch!
+ Images are identical.
+ 
+ === Writing a vpc header into raw ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.raw.src', fmt=IMGFMT size=67108864
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -253,8 +248,8 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
+ {"execute":"quit"}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+-read 65536/65536 bytes at offset 0
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 512/512 bytes at offset 0
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -273,12 +268,11 @@ read 65536/65536 bytes at offset 0
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "src", "len": 2560, "offset": 2560, "speed": 0, "type": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "src"}}
+-Warning: Image size mismatch!
+ Images are identical.
+ 
+ === Copying sample image empty.bochs into raw ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -298,8 +292,8 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
+ {"execute":"quit"}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+-read 65536/65536 bytes at offset 0
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 512/512 bytes at offset 0
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -318,12 +312,11 @@ read 65536/65536 bytes at offset 0
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "src", "len": 2560, "offset": 2560, "speed": 0, "type": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "src"}}
+-Warning: Image size mismatch!
+ Images are identical.
+ 
+ === Copying sample image iotest-dirtylog-10G-4M.vhdx into raw ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -343,8 +336,8 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
+ {"execute":"quit"}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+-read 65536/65536 bytes at offset 0
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 512/512 bytes at offset 0
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -363,12 +356,11 @@ read 65536/65536 bytes at offset 0
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "src", "len": 31457280, "offset": 31457280, "speed": 0, "type": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "src"}}
+-Warning: Image size mismatch!
+ Images are identical.
+ 
+ === Copying sample image parallels-v1 into raw ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -388,8 +380,8 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
+ {"execute":"quit"}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+-read 65536/65536 bytes at offset 0
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 512/512 bytes at offset 0
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -408,12 +400,11 @@ read 65536/65536 bytes at offset 0
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "src", "len": 327680, "offset": 327680, "speed": 0, "type": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "src"}}
+-Warning: Image size mismatch!
+ Images are identical.
+ 
+ === Copying sample image simple-pattern.cloop into raw ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -433,8 +424,8 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
+ {"execute":"quit"}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+-read 65536/65536 bytes at offset 0
+-64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 512/512 bytes at offset 0
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -453,12 +444,11 @@ read 65536/65536 bytes at offset 0
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "src", "len": 2048, "offset": 2048, "speed": 0, "type": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "src"}}
+-Warning: Image size mismatch!
+ Images are identical.
+ 
+ === Write legitimate MBR into raw ===
+ 
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ {'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
+@@ -480,7 +470,6 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "src", "len": 512, "offset": 512, "speed": 0, "type": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "src"}}
+-Warning: Image size mismatch!
+ Images are identical.
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+@@ -500,6 +489,5 @@ Images are identical.
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "src", "len": 512, "offset": 512, "speed": 0, "type": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "src"}}
+-Warning: Image size mismatch!
+ Images are identical.
+ *** done
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
+index 279e0bbb0d..03e4f71808 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -156,6 +156,11 @@ _filter_img_create()
+         -e "s# compression_type=[a-zA-Z0-9]\\+##g"
+ }
+ 
++_filter_img_create_size()
++{
++    $SED -e "s# size=[0-9]\\+# size=SIZE#g"
++}
++
+ _filter_img_info()
+ {
+     if [[ "$1" == "--format-specific" ]]; then
+-- 
+2.25.4
 
 
