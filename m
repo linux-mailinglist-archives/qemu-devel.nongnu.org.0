@@ -2,94 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E0D1D4ABF
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 12:21:25 +0200 (CEST)
-Received: from localhost ([::1]:50262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A378F1D4AD4
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 12:24:53 +0200 (CEST)
+Received: from localhost ([::1]:60166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZXT2-0002FZ-42
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 06:21:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46832)
+	id 1jZXWO-0007Dx-MX
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 06:24:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jZXRc-0000xI-CN
- for qemu-devel@nongnu.org; Fri, 15 May 2020 06:19:56 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57505
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jZXRX-0003oQ-5T
- for qemu-devel@nongnu.org; Fri, 15 May 2020 06:19:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589537987;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PMdj3LbWPHy5RZNzGbB8v2dJn+w2xsNtqytsLpv7AHE=;
- b=d8CZb7EVckHw48QYzQWlbxQZc8XXoVvhT/nQFpXc9rnj+5yDTdDY2clyv1ETZvxDV9MHAQ
- jqHbgWSDC7Xw779b8gDfc9oNqVS+UBsquiOhEdmHoo1YmWv0QotvI1KkjOc6Bob9n7Saji
- ndb1V1lLqOCxnU3ar88yYdl+Da+jfOw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-QBRE3m0uPMGtzpgM_SMbvg-1; Fri, 15 May 2020 06:19:46 -0400
-X-MC-Unique: QBRE3m0uPMGtzpgM_SMbvg-1
-Received: by mail-wm1-f72.google.com with SMTP id n66so963294wme.4
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 03:19:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jZXV4-00061C-II
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 06:23:30 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:44489)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jZXV3-0005As-Js
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 06:23:30 -0400
+Received: by mail-ot1-x344.google.com with SMTP id j4so1470041otr.11
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 03:23:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=I+CVRVNoW6KiRzqyNKlO+Y9DXrgjEYbM8n9WCNzSQAw=;
+ b=CwKN1W3qrJJ2mYq9rICOdl3QWYXeLY4i6/AfG+ggRxMMe2m9TkqIhR/Q25pUViYBF5
+ 82VdByNWZlUSgx+xZ5Lru3NVIE7q9ZZkYK5T2FbM1Ah7Eqp8FU2NSxNRrcQ+5T6/w95H
+ R7egQcI44zNHLo1ou8h4cxX6SeiA+RYyi1iyjeR7WMtlMykZ0f0xo1hvLZ3gFAosiC9i
+ z46l/cIHnMWr/G/m0SG7vPX4jwysS1Zf9bA4JIEobjvofWUFDVbMm4e4DNepvfh18/ZS
+ F4igSp9NQR/akkRye5ZbIhmrMgoeroj7P2Mbwb6HuloSGCKvOlfVV0+YdgEQT8SCsBQI
+ r2Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PMdj3LbWPHy5RZNzGbB8v2dJn+w2xsNtqytsLpv7AHE=;
- b=HhCEEiPWfQjnWQCmLUj64aWA89gQbkcVTcboR/0IW99RAnSqC1d3bOm7OyDo2GoyHl
- s4UL1JLKgW2B8HRHakKNAuHrod0VJIYoDAGGjFD9P9X3XQoWVpCYBLeAXljW7R2ri7hr
- rZyYSnQ6nXX5RwhDWYhQVhpczkV3L7rFPnE3lXrhouIyH6q+Ts0eRFGIedUf6XzCj1So
- +TbmD2HWF16+cTsaz/+LZtpvpwk/zbXKycpF6xQjBZ9JjZOib0EF8K3WBNsHtzm+RUnj
- PzRA6N8mzX8oTXpGIehnuTEJyWj4ciiu6jUcOifwAkcPeUUsOoNO/kyeDXEQA6W/+Oql
- YSPw==
-X-Gm-Message-State: AOAM531D4ESdjpCkeE8+2UfHp+aDmbMG/YGoQaa7nbX+m4FE/y4Int+Y
- lLXs9wlhrMzDOAEmNiZgaDdd2zkKs4mLZ5W1DiNm7Pu/T7rh66p19BWPaX9yUzPUklQUkHyU7Wh
- IGYhp0jmgqMIk0ME=
-X-Received: by 2002:a1c:1f16:: with SMTP id f22mr3197440wmf.46.1589537985050; 
- Fri, 15 May 2020 03:19:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwK7L+zii0hhGbtXOTGgO4kyfTPg/GrxhNUsfNqUpx1TUHl+S70sAAfbFfXjR2PGFGIr0jqKA==
-X-Received: by 2002:a1c:1f16:: with SMTP id f22mr3197404wmf.46.1589537984630; 
- Fri, 15 May 2020 03:19:44 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:60bb:f5bd:83ff:ec47?
- ([2001:b07:6468:f312:60bb:f5bd:83ff:ec47])
- by smtp.gmail.com with ESMTPSA id t4sm3427522wri.54.2020.05.15.03.19.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 May 2020 03:19:44 -0700 (PDT)
-Subject: Re: proposal: deprecate -readconfig/-writeconfig
-To: Markus Armbruster <armbru@redhat.com>
-References: <7599153e-89a2-9a86-16ad-4a3c6a107b18@redhat.com>
- <20200514085622.GB1280939@redhat.com>
- <1287b3b8-9fd0-04d5-1dd2-66b695dace5d@redhat.com>
- <877dxdspyk.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <70499ef0-83a2-b7f2-f69c-fbb3760cf27d@redhat.com>
-Date: Fri, 15 May 2020 12:19:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=I+CVRVNoW6KiRzqyNKlO+Y9DXrgjEYbM8n9WCNzSQAw=;
+ b=MvydghrKe7Aw8ln1p/1ZI7Fzk2sAMf06eaoIpB6eJZ8nykON83fBqPbSfCXOle4vHd
+ U7MAjuUJIybq0uMbTdqugDCE8SMT96KnzKbV9Zt2n6HsNFPBZ5PmU9Vf9gDxCsDizMih
+ rac+jwMUGp5VxSWpvuDn8Z1Ggn3AxtaGcuSodKYHcsfHouY0FXPxNGOctibBJyplRwyv
+ twz6fyK9xxdOTlGyi54ShCYCZ/pIY28NJvjnh1dVtQhQ6tabeEMcN0TQMP3fqDnnTHF7
+ 7EV2NghqBxX+N7iD/A9FG+jmfSorI7mAkLYiKe+TLOv6bx1VkQTClp9CBMNXvGK9tJbs
+ 0a+A==
+X-Gm-Message-State: AOAM531ltEJqk0yOJVLimKkMSQT0HK0GssKZ0XpIoFKo9r41hzTbNTbZ
+ 9P6je/gMTZwbhuI9L6DO6EZUoHK2DJv+1FJjV0KtIA==
+X-Google-Smtp-Source: ABdhPJy5feyswCTvztcIA+bGuGLgQrA4p37xfYKzEza1d/mIkXkQcQkN4UrS2p1bSvCRjcP3+gNsVWoXR587z5v62pA=
+X-Received: by 2002:a05:6830:1e4e:: with SMTP id
+ e14mr1677156otj.91.1589538208134; 
+ Fri, 15 May 2020 03:23:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <877dxdspyk.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+References: <20200507151819.28444-1-peter.maydell@linaro.org>
+ <CAFEAcA_p1x6S10yswHgOkMd=KrxcTGh9TD47+k1LRKM0xy5x+Q@mail.gmail.com>
+ <567755c6-3bb1-b16e-af26-431dec4616ba@redhat.com>
+ <CAFEAcA-67uGcwSu7mJ+w26xYqpTm4C0t3Yrr8gWCsA1VtHeaLg@mail.gmail.com>
+ <49f4fc6f-329b-9afc-92db-c59dd1ce67ea@redhat.com>
+In-Reply-To: <49f4fc6f-329b-9afc-92db-c59dd1ce67ea@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 15 May 2020 11:23:17 +0100
+Message-ID: <CAFEAcA93bQOh12CPS8xp9Qc45YrPTVSLo6yQ6raQ0WitHR184A@mail.gmail.com>
+Subject: Re: [PATCH 0/5] docs/system: Document some arm board models
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,43 +85,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/05/20 07:54, Markus Armbruster wrote:
->> I don't see QemuOpts going away anytime soon, but I do see more QMP/QAPI
->> and less command line in the future as far as management tools are
->> concerned.  QemuOpts and HMP will remain for direct usage, for the
->> foreseeable future.
-> 
-> I'd prefer not to have two separate configuration infrastructures.
+On Fri, 15 May 2020 at 10:05, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+> Sphinx consumes docs/system/$arch/$machine.rst files committed to the
+> repository, and we don't need to build various qemu-system-arch to
+> generate the documentation.
+>
+> If you work on a particular board, you might end up only building its
+> corresponding qemu-system-ARCH. Maybe we can add an extra-pass once a
+> binary is linked, and re-generate the docs/system/ARCH/$machine.rst
+> files, so if you modified a board and its documentation placeholder in
+> the code, when commiting your code change, you also have to commit the
+> rst changes.
 
-We already have two, since the introduction of preconfig state.  The
-question is more how to unify the code that implements them, than how to
-reduce them to one.
+I'm not a huge fan of committing generated files to source control...
+I think I'd prefer an approach that worked via some kind of
+kerneldoc comments that we pull out and parse using the Sphinx
+plugin we have for that. (There's more complication than that
+but roughly I think that would be the kind of approach I'd like
+to see.)
 
-For example, I can imagine (and have even discussed informally with John
-Snow) a patch series that starts by adding a new preconfig command:
-
-{ 'execute': 'set-argv', 'arguments': { 'argv': [ '-m', '2048'] } }
-
-and progressively adds more preconfig commands until Libvirt can
-reasonably configure a VM without set-argv.
-
-An example implementation would be to special case chardev-add,
-object-add etc. to stash their arguments in a QAPI struct in preconfig
-mode, and the same for -chardev and -object.  Then the big ugly setup
-code in main() would walk these structs instead of QemuOpts.  Bingo: you
-have a QAPI-representable machine config.  It may not be the nicest one
-(see the problems you raised in the past about chardev-add not using the
-latest and greatest QAPI features) but I would love to see a proof of
-concept for this.
-
-Thanks,
-
-Paolo
-
+thanks
+-- PMM
 
