@@ -2,90 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F2741D496B
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:24:45 +0200 (CEST)
-Received: from localhost ([::1]:53662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A741D49A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:31:29 +0200 (CEST)
+Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZWaC-0005E6-6f
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35412)
+	id 1jZWgh-0002Ik-TH
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:31:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWYs-0003pr-1Q
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:23:22 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21393
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZWYn-0006N6-CP
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:23:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589534596;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J3wtmS8Fjy3NmqO5LIR7a9Ha2sEl/bGv/Gzbvotz5/k=;
- b=MmrBBIYHLXV91DOfYGNq4+VcR+UafIUADYJqwPidCjXBrU1kdZo6G1I2Z/qexO+zrZMPhg
- 6fUOeEGq1ch6JeKJU9mjVykgpexgh26oEYmMLJoUmG94SUHpDsJT2ihxVw4hs9xSqHWK+K
- txcTJ3t3kDV+lDdmh97YWDxFqjEDfqg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-OFH1UUdlMGibts7NYHDB2Q-1; Fri, 15 May 2020 05:23:15 -0400
-X-MC-Unique: OFH1UUdlMGibts7NYHDB2Q-1
-Received: by mail-wr1-f71.google.com with SMTP id z5so870763wrt.17
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 02:23:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=J3wtmS8Fjy3NmqO5LIR7a9Ha2sEl/bGv/Gzbvotz5/k=;
- b=rt6Gb565tJBe7RX7UHkIlRan0b/JJXDLzhdgflej/NrX5ye7F5Q/XcGu0LffDvpRTm
- bdrS6KnlfhgZX0ZOpZhsOb885lfS+Z+luvyjRG1VN6JbmpGV0XHwq8lVwHGCLqTjl656
- LhI3TAocSjm7b06LPEbrUL2iNnUws4clkcI0AGKxzNTWn/fIoAjpLam/dgD2xLZSVxrD
- pzji6zr5KYR2jC0+BdAeX2zdUg8Dw63K9mmdFCADPEoUm6jUiY7ZBT068cC0AG9goYtm
- Q54V4bo5WR1PvWjZMn0aAegwS/qeDaK7coGlFpp1DJ26X9tAiqM7u47CnNIq5MtyCeUt
- 9rWA==
-X-Gm-Message-State: AOAM531YAYE3Id57QsDMVpYf0yEPLAJUJgD2TvQ5w/32rVnrE6rNNzts
- y6mMFzWiMvfgF2bAb4F9F+4zdajLTxeWiAqmYPFbySLyvK+xnDvtSv8SErEfXXqPmRLSGrF6id3
- ggBCUvMcN5fnOvSs=
-X-Received: by 2002:a7b:c24b:: with SMTP id b11mr2939551wmj.101.1589534593644; 
- Fri, 15 May 2020 02:23:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyp0lEzF/HrVljSBbw5K0TftRLZDhvpfRufob5Mu/GAvyxNt5VMlHgIgLrNutVsY91mIlg+OA==
-X-Received: by 2002:a7b:c24b:: with SMTP id b11mr2939526wmj.101.1589534593420; 
- Fri, 15 May 2020 02:23:13 -0700 (PDT)
-Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id g9sm2725560wru.7.2020.05.15.02.23.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 May 2020 02:23:12 -0700 (PDT)
-Subject: Re: [PATCH 2/2] tests/vm: Remove flex/bison packages
-To: qemu-devel@nongnu.org
-References: <20200515083124.5536-1-philmd@redhat.com>
- <20200515083124.5536-3-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0a92421f-7a77-2cf7-3bfb-1bc72e7f7137@redhat.com>
-Date: Fri, 15 May 2020 11:23:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jZWfY-0001mR-Em
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:30:16 -0400
+Received: from 1.mo68.mail-out.ovh.net ([46.105.41.146]:57198)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jZWfX-00080c-As
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 05:30:16 -0400
+Received: from player797.ha.ovh.net (unknown [10.108.57.153])
+ by mo68.mail-out.ovh.net (Postfix) with ESMTP id BF5E21674F5
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 11:30:11 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player797.ha.ovh.net (Postfix) with ESMTPSA id C2C3EE583884;
+ Fri, 15 May 2020 09:30:06 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R00191b856b3-507f-429d-b427-045d68677aaa,1FE7B88794C3EA072CE4CC6A392C038E50AC8F7C)
+ smtp.auth=groug@kaod.org
+Date: Fri, 15 May 2020 11:30:02 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 0/1] virtio-9pfs: don't truncate response
+Message-ID: <20200515113002.785303e7@bahia.lan>
+In-Reply-To: <cover.1589481482.git.qemu_oss@crudebyte.com>
+References: <cover.1589481482.git.qemu_oss@crudebyte.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200515083124.5536-3-philmd@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 6999438247582406976
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrleekgdduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuedvtefgfeeukeekgeeukefhueekheetffevledvfeevvdfgveethfeghfevhfenucffohhmrghinheplhgruhhntghhphgrugdrnhgvthenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeeljedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=46.105.41.146; envelope-from=groug@kaod.org;
+ helo=1.mo68.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 05:30:12
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,75 +64,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Claudio Fontana <cfontana@suse.de>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Anthony Perard <anthony.perard@citrix.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-devel@nongnu.org,
+ Paul Durrant <paul@xen.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/15/20 10:31 AM, Philippe Mathieu-Daudé wrote:
-> QEMU does use flex/bison packages.
+On Thu, 14 May 2020 20:38:02 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-"... does not use ..." (Thanks Claudio).
+> The following patch reverts
+> SHA-1 16724a173049ac29c7b5ade741da93a0f46edff for the virtio backend.
+> 
+> Greg, it is intended as a quick fix for
+> https://bugs.launchpad.net/bugs/1877688 at least for virtio, for the
+> case the appropriate fix on Xen side might still take a while. Because
+> this bug is too serious to let it rest for too long.
+> 
+> In case Stefano comes up with a fix for Xen soon, you might just ignore
+> this patch and just revert SHA-1 16724a173049ac29c7b5ade741da93a0f46edff
+> entirely instead of course.
+> 
 
+Stefano said he could come up with a fix in a few days, so I'll just
+wait for now. If nothing happens in, say, two weeks, please ping me
+and I'll merge this patch.
+
+> Christian Schoenebeck (1):
+>   virtio-9pfs: don't truncate response
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->   tests/vm/fedora      | 1 -
->   tests/vm/freebsd     | 1 -
->   tests/vm/netbsd      | 1 -
->   tests/vm/ubuntu.i386 | 2 +-
->   4 files changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/tests/vm/fedora b/tests/vm/fedora
-> index bd9c6cf295..a9195670f4 100755
-> --- a/tests/vm/fedora
-> +++ b/tests/vm/fedora
-> @@ -32,7 +32,6 @@ class FedoraVM(basevm.BaseVM):
->       pkgs = [
->           # tools
->           'git-core',
-> -        'flex', 'bison',
->           'gcc', 'binutils', 'make',
->   
->           # perl
-> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-> index 298967fe9c..f87db2b126 100755
-> --- a/tests/vm/freebsd
-> +++ b/tests/vm/freebsd
-> @@ -38,7 +38,6 @@ class FreeBSDVM(basevm.BaseVM):
->           "bash",
->           "gmake",
->           "gsed",
-> -        "flex", "bison",
->   
->           # libs: crypto
->           "gnutls",
-> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-> index b10c9d429d..cdac502dad 100755
-> --- a/tests/vm/netbsd
-> +++ b/tests/vm/netbsd
-> @@ -36,7 +36,6 @@ class NetBSDVM(basevm.BaseVM):
->           "bash",
->           "gmake",
->           "gsed",
-> -        "flex", "bison",
->   
->           # libs: crypto
->           "gnutls",
-> diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
-> index 1570775335..24527cc78c 100755
-> --- a/tests/vm/ubuntu.i386
-> +++ b/tests/vm/ubuntu.i386
-> @@ -52,7 +52,7 @@ class UbuntuX86VM(basevm.BaseVM):
->           self.ssh_root_check("sed -ie s/^#\ deb-src/deb-src/g /etc/apt/sources.list")
->           self.ssh_root_check("apt-get update")
->           self.ssh_root_check("apt-get build-dep -y qemu")
-> -        self.ssh_root_check("apt-get install -y libfdt-dev flex bison language-pack-en")
-> +        self.ssh_root_check("apt-get install -y libfdt-dev language-pack-en")
->           self.ssh_root("poweroff")
->           self.wait()
->           os.rename(img_tmp, img)
+>  hw/9pfs/virtio-9p-device.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
 > 
 
 
