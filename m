@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88AAE1D561D
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 18:33:04 +0200 (CEST)
-Received: from localhost ([::1]:46374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FEFF1D565B
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 18:42:14 +0200 (CEST)
+Received: from localhost ([::1]:38556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZdGh-0000yv-GY
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 12:33:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36410)
+	id 1jZdPZ-0003ls-Fx
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 12:42:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZdEk-00081l-E9
- for qemu-devel@nongnu.org; Fri, 15 May 2020 12:31:03 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50812
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZdOT-0002qt-88
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 12:41:05 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57043
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZdEj-0001lq-Ki
- for qemu-devel@nongnu.org; Fri, 15 May 2020 12:31:02 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZdOR-00067W-KR
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 12:41:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589560260;
+ s=mimecast20190719; t=1589560862;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dbk8MJIRW79uhAdI6bDQPktMUAYJE28woJU0yGXYF+Q=;
- b=ewms1tD1I78z0cSaCORpPATAdcMXNWdhMzeZZftdsSJ6NRDFXR+o2EUxgKi5/lmRGFDTXW
- A7V5VJkkHhWK/q9QoBNRJ5lwvzNGGg6QWQl0qBbthk/wwuQ1Y1KM1AMOeaXyEMgygWoE01
- ZI+VoGvIlQPvChgxDjQz5RRFFHH9dfQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-C456Mcx7My6JKB3IR5uHbw-1; Fri, 15 May 2020 12:30:59 -0400
-X-MC-Unique: C456Mcx7My6JKB3IR5uHbw-1
-Received: by mail-wm1-f70.google.com with SMTP id l26so1228355wmh.3
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 09:30:59 -0700 (PDT)
+ bh=t0jc6kvrG1qb0t2FDy4CQvHWnlvkF27saPyypDMkG+Y=;
+ b=BnI+GsAN4k/A0Ho8WdUT43MIQe0AlshqUUk6G1jpKtIPMwHeWGoKkhQUw/oOKmtOmSMhOQ
+ Q91TWKMBFBa8rdbHCxa03DzRSBaVjReGTuBBLNSWFyDlhy5zQcTYQF500AYEZye+RbGttP
+ HxdE85AatmZbgfTCWiOFotaXQRrHj2c=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-25-san9x72OMr603LDofE5xIg-1; Fri, 15 May 2020 12:41:00 -0400
+X-MC-Unique: san9x72OMr603LDofE5xIg-1
+Received: by mail-wm1-f71.google.com with SMTP id 23so1425621wma.8
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 09:41:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dbk8MJIRW79uhAdI6bDQPktMUAYJE28woJU0yGXYF+Q=;
- b=MktE1cmyYJqTWMcCiu3TT5M//J8K1Vy320A0aiBl83dmY9jsj4neDsTpirh1Iv0lwf
- 39EnEFYHSjcpkt7l7iytomnyP1GMhTZ6d95errMt3gWa9ranIojxEW+cc4ZnnWYy1fLz
- F3/EDzpuYv8SD+Wet4E7MnveETH20YBcVTOPz31DAgQzy9XOF7XmahqsKXJOCW/MWIU4
- xLOApXe/90G+indO6i4j5sDfjNYfdUOUgnSUFpMEN1Qh0o6fq9Mjtha1vFFf4icuIxn8
- X345t+2y3rDM0nnCZV8ty89UmlcR5UoVafdhdE9erCuQJD/nsLqJ2YhAWL9YWLJY/77C
- iyyA==
-X-Gm-Message-State: AOAM532D6ZfBRdu/Kzr4iulSin99jdeH6YYuomuwgOOrKuS+N9RA5ZeZ
- pRtgjkOkOkOpFwlpFFFDZfQp63IiLOX857cMWLQzWZds74GhYxCk4FL5z4VA8kYHmxY249F60TZ
- 8HqnTWBr69Lgf5Ik=
-X-Received: by 2002:a05:6000:1244:: with SMTP id
- j4mr5236760wrx.189.1589560258017; 
- Fri, 15 May 2020 09:30:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxrFZlLdKkYNX9ENKi5i7fXLovYpUDcOMfxajZvVJBF5qQNgg4vuZUmMeFtl8jCIed5HlgHXg==
-X-Received: by 2002:a05:6000:1244:: with SMTP id
- j4mr5236728wrx.189.1589560257632; 
- Fri, 15 May 2020 09:30:57 -0700 (PDT)
-Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=t0jc6kvrG1qb0t2FDy4CQvHWnlvkF27saPyypDMkG+Y=;
+ b=rCh/w8pRu9NczMkKj32nbP0eiH/L1GPZ8bteZo0Mde8nKUT5q0D5n+q0QIzl4xgkFg
+ dnBh6P9A9nhBIixUxOuYGIy+KOaklQz3ywDW67izpeLnVJIkvmY8CwK6W8pds6wIDKka
+ vMI7EsP+Hqm4dvUQK4cRwCMEM6Xii1y202KVvTN0SC25Ocu4ekERfOZXyWhGhG8P0aNm
+ WUDqk8HxbJjIumn0gkry/MoglqTZ4KQ7saqV+sWcNrSMYhAmY6G2v5Agt21/NmOfnsqm
+ lM4smwM8Q5vTDZz6GGt8Vb3iqyHgPD23QcJN2MQlMkLF6tawotfhfLeKj/g/lYYJNHRJ
+ fYeg==
+X-Gm-Message-State: AOAM530XxPLeQlrN955nKMh6ed/xKIf8/UnnlS5D8lVaCsxl1cGBcNz3
+ uPwoeabbdDZosrBG74BUlfPZLAoL32te6zXtPPBn9SeikJYMTPmk15pf8SmgoudEwYJpzDAq3rS
+ ssZnWodzSpKLjLLk=
+X-Received: by 2002:a5d:480d:: with SMTP id l13mr5072777wrq.49.1589560859203; 
+ Fri, 15 May 2020 09:40:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxNmIBc2Ju0ZVqEpGO6fPRBOzdzzjDwF/jtP3DO+PrRlfVV1ukecKIT5RI2DEaK4xYV2j+IkA==
+X-Received: by 2002:a5d:480d:: with SMTP id l13mr5072753wrq.49.1589560858962; 
+ Fri, 15 May 2020 09:40:58 -0700 (PDT)
+Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id c80sm4526706wme.15.2020.05.15.09.30.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 09:30:57 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/5] scripts/coverity-scan: Remove flex/bison packages
-Date: Fri, 15 May 2020 18:30:29 +0200
-Message-Id: <20200515163029.12917-6-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200515163029.12917-1-philmd@redhat.com>
-References: <20200515163029.12917-1-philmd@redhat.com>
+ by smtp.gmail.com with ESMTPSA id n9sm4416453wrv.43.2020.05.15.09.40.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 May 2020 09:40:58 -0700 (PDT)
+Subject: Re: [PATCH 0/6] tests/fuzz: Review notes
+To: Alexander Bulekov <alxndr@bu.edu>
+References: <20200514143433.18569-1-philmd@redhat.com>
+ <20200515151036.e5h26s65fokygbvr@mozz.bu.edu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d4344cda-4e0a-1e55-b984-4190be2398a5@redhat.com>
+Date: Fri, 15 May 2020 18:40:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200515151036.e5h26s65fokygbvr@mozz.bu.edu>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -97,43 +98,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU does not use flex/bison packages.
+On 5/15/20 5:10 PM, Alexander Bulekov wrote:
+> On 200514 1634, Philippe Mathieu-Daudé wrote:
+>> I took some code notes while testing Alex's toy.
+>> Sending them as patches.
+> 
+> Thank you for these! I'd send my review tags, if they weren't already
+> pulled.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- scripts/coverity-scan/coverity-scan.docker | 2 --
- 1 file changed, 2 deletions(-)
+The series is queued but not pulled. Review tags are always welcome, and 
+maintainers might add them after-queue before-pull when they have time.
 
-diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
-index a4f64d1283..ad4d64c0f8 100644
---- a/scripts/coverity-scan/coverity-scan.docker
-+++ b/scripts/coverity-scan/coverity-scan.docker
-@@ -19,7 +19,6 @@ FROM fedora:30
- ENV PACKAGES \
-     alsa-lib-devel \
-     bc \
--    bison \
-     brlapi-devel \
-     bzip2 \
-     bzip2-devel \
-@@ -30,7 +29,6 @@ ENV PACKAGES \
-     dbus-daemon \
-     device-mapper-multipath-devel \
-     findutils \
--    flex \
-     gcc \
-     gcc-c++ \
-     gettext \
--- 
-2.21.3
+> 
+>> Alex, I had theses issues while building following
+>> docs/devel/fuzzing.txt:
+>>
+>>      CC      nbd/server.o
+>>    nbd/server.c:1937:1: error: unused function 'glib_listautoptr_cleanup_NBDExtentArray' [-Werror,-Wunused-function]
+>>    G_DEFINE_AUTOPTR_CLEANUP_FUNC(NBDExtentArray, nbd_extent_array_free);
+>>    ^
+>>    /usr/include/glib-2.0/glib/gmacros.h:462:22: note: expanded from macro 'G_DEFINE_AUTOPTR_CLEANUP_FUNC'
+>>      static inline void _GLIB_AUTOPTR_LIST_FUNC_NAME(TypeName) (GList **_l) { g_list_free_full (*_l, (GDestroyNotify) func); } \
+>>                         ^
+>>    /usr/include/glib-2.0/glib/gmacros.h:443:48: note: expanded from macro '_GLIB_AUTOPTR_LIST_FUNC_NAME'
+>>    #define _GLIB_AUTOPTR_LIST_FUNC_NAME(TypeName) glib_listautoptr_cleanup_##TypeName
+>>                                                   ^
+>> Solved by using './configure ... --extra-cflags=-Wno-unused-function'
+> 
+> Interesting that this doesn't show up for standard builds. I'll have to
+> look into this more.
+
+I don't think it is related to your work.
+
+> 
+>>      LINK    i386-softmmu/qemu-fuzz-i386
+>>    /usr/lib64/clang/9.0.1/lib/linux/libclang_rt.asan-aarch64.a(asan_interceptors_vfork.S.o): warning: common of `__interception::real_vfork' overridden by definition
+>>    /usr/lib64/clang/9.0.1/lib/linux/libclang_rt.asan-aarch64.a(asan_interceptors.cc.o): warning: defined here
+>>
+>> I simply ignore this warning.
+> 
+> Yes, I get the same warning with this:
+> 
+> cat << EOF | clang-9 -Wl,--warn-common  -fsanitize=fuzzer,address -x c -
+> #include <sys/types.h>
+> #include <stdint.h>
+> int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) { return 0; }
+> EOF
+> 
+> Might report this to the LLVM/compiler-rt folks.
+> 
+>> Alex, could you provide few more examples (in particular about
+>> instantiating devices, or useful libfuzzer arguments)?
+> 
+> Yes - I'll send this out with my next fuzzing patches.
+> 
+>> Also, I suppose you are using a script to generate the bug reports:
+>>
+>>    I can reproduce it in qemu 5.0 using:
+>>
+>>    cat << EOF | qemu-system ...
+>>    outl 0xcf8 ...
+>>    outl 0xcfc ...
+>>    ...
+>>    EOF
+>>
+>> Is this script available in the QEMU repository? I couldn't find it.
+> 
+> Right now I just added some unbuffered writes to qtest.c. I'll try to
+> find a clean way of doing this and I'll add a way to automatically
+> convert a crashing input to qemu arguments + qtest command sequence.
+> 
+> Thanks again!
+
+You are welcomed, waiting for your following series :)
+
+> -Alex
+> 
+>> Regards,
+>>
+>> Phil.
+>>
+>> Philippe Mathieu-Daudé (6):
+>>    tests/fuzz/Makefile: Do not link code using unavailable devices
+>>    Makefile: List fuzz targets in 'make help'
+>>    tests/fuzz: Add missing space in test description
+>>    tests/fuzz: Remove unuseful/unused typedefs
+>>    tests/fuzz: Extract pciconfig_fuzz_qos() method
+>>    tests/fuzz: Extract ioport_fuzz_qtest() method
+>>
+>>   Makefile                          |  6 +++-
+>>   tests/qtest/fuzz/i440fx_fuzz.c    | 47 ++++++++++++++++++++-----------
+>>   tests/qtest/fuzz/Makefile.include |  6 ++--
+>>   3 files changed, 38 insertions(+), 21 deletions(-)
+>>
+>> -- 
+>> 2.21.3
+>>
+> 
 
 
