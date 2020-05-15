@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B021D44B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 06:35:12 +0200 (CEST)
-Received: from localhost ([::1]:60706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C2C81D44B8
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 06:41:13 +0200 (CEST)
+Received: from localhost ([::1]:45468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZS3z-0003Wb-8P
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 00:35:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39590)
+	id 1jZS9o-0001fc-GU
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 00:41:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zxq_yx_007@163.com>)
- id 1jZS2l-0002fU-Ea
- for qemu-devel@nongnu.org; Fri, 15 May 2020 00:33:57 -0400
-Received: from mail-m975.mail.163.com ([123.126.97.5]:40222)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <zxq_yx_007@163.com>)
- id 1jZS2j-0005Rs-1T
- for qemu-devel@nongnu.org; Fri, 15 May 2020 00:33:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=/NcvS
- o1vK7M28qvvpL0Qua7NUSmc+hQjegBGuU0seYQ=; b=WgW/yQ53kY3DDf8ph0ZSp
- UIy277xq33CPjq72XofsWSLqiYdBfy1n/9NcCNZ2cIDyLeMv/PO/4cnvHxGM17r6
- wrp/6sQl2H/ZW1UkwMf/Ju5W4kjzIyxuAoIZ5MYNTcacx3kidnHa9tJA0wKCDb6C
- AXQSiQOAYA+q48Zyu9/I84=
-Received: from localhost.localdomain (unknown [114.240.93.195])
- by smtp5 (Coremail) with SMTP id HdxpCgA3zWVtG75ezKxrBQ--.333S5;
- Fri, 15 May 2020 12:33:36 +0800 (CST)
-From: xiaoqiang zhao <zxq_yx_007@163.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/3] qemu-options: updates for abstract unix sockets
-Date: Fri, 15 May 2020 12:32:35 +0800
-Message-Id: <20200515043235.32189-4-zxq_yx_007@163.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200515043235.32189-1-zxq_yx_007@163.com>
-References: <20200515043235.32189-1-zxq_yx_007@163.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jZS7z-0008If-PR
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 00:39:19 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50263
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jZS7y-0007it-UG
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 00:39:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589517554;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OKJR3XWl1FD5yBYTcoQ2dBjNcY31o5w0McSpi+jkOug=;
+ b=XvMj7qjbsdMLyUITpJNmPh/3qiusP+q3OWLjYbI/QcMRwSWgmiFfybZYgaoB7OUWh8EAH6
+ cjcrl42zgBTpoK01KVVvUBteCKdhLhEfCwRn2W/n4agGla7+s4HG4hG2FI6vFeS55C0D52
+ p0Pd7wdj5lcGdKCTsw0He5O+ueek/6Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-4tGOUR7dN4mlE7aK9dqnnQ-1; Fri, 15 May 2020 00:39:10 -0400
+X-MC-Unique: 4tGOUR7dN4mlE7aK9dqnnQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3776460;
+ Fri, 15 May 2020 04:39:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7AD5360BE2;
+ Fri, 15 May 2020 04:38:59 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 082E611358BC; Fri, 15 May 2020 06:38:58 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v3 2/3] various: Remove unnecessary OBJECT() cast
+References: <20200512070020.22782-1-f4bug@amsat.org>
+ <20200512070020.22782-3-f4bug@amsat.org>
+Date: Fri, 15 May 2020 06:38:57 +0200
+In-Reply-To: <20200512070020.22782-3-f4bug@amsat.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 12 May 2020 09:00:19
+ +0200")
+Message-ID: <87r1vlstge.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: HdxpCgA3zWVtG75ezKxrBQ--.333S5
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tw45Ary5Zr4rZF4ftrWUArb_yoW8Cr48pr
- 90gas8t348J3WFvrsrG3W8tryFkw4kXrs7G3y3Ww1kta9rW398ta4UKw15X34UArs7XFya
- vF90yryjvF4Yy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jEVbkUUUUU=
-X-Originating-IP: [114.240.93.195]
-X-CM-SenderInfo: 520ts5t0bqili6rwjhhfrp/1tbiqAAlxlc7PMjargAAsn
-Received-SPF: pass client-ip=123.126.97.5; envelope-from=zxq_yx_007@163.com;
- helo=mail-m975.mail.163.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:33:39
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:39:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,50 +83,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, berrange@redhat.com,
- armbru@redhat.com, kraxel@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Joel Stanley <joel@jms.id.au>, Anthony Perard <anthony.perard@citrix.com>,
+ xen-devel@lists.xenproject.org, Richard Henderson <rth@twiddle.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Corey Minyard <minyard@acm.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org,
+ John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Cornelia Huck <cohuck@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Corey Minyard <cminyard@mvista.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-add options documents changes for -chardev
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-Signed-off-by: xiaoqiang zhao <zxq_yx_007@163.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
----
- qemu-options.hx | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+> The OBJECT() macro is defined as:
+>
+>   #define OBJECT(obj) ((Object *)(obj))
+>
+> Remove the unnecessary OBJECT() casts when we already know the
+> pointer is of Object type.
+>
+> Patch created mechanically using spatch with this script:
+>
+>   @@
+>   typedef Object;
+>   Object *o;
+>   @@
+>   -   OBJECT(o)
+>   +   o
+>
+> Acked-by: Cornelia Huck <cohuck@redhat.com>
+> Acked-by: Corey Minyard <cminyard@mvista.com>
+> Acked-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index e2dca8a4e9..e63cc1b4b4 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2938,7 +2938,7 @@ DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
-     "         [,server][,nowait][,telnet][,websocket][,reconnect=seconds][,mux=on|off]\n"
-     "         [,logfile=PATH][,logappend=on|off][,tls-creds=ID][,tls-authz=ID] (tcp)\n"
-     "-chardev socket,id=id,path=path[,server][,nowait][,telnet][,websocket][,reconnect=seconds]\n"
--    "         [,mux=on|off][,logfile=PATH][,logappend=on|off] (unix)\n"
-+    "         [,mux=on|off][,logfile=PATH][,logappend=on|off][,tight=on|off][,abstract=on|off] (unix)\n"
-     "-chardev udp,id=id[,host=host],port=port[,localaddr=localaddr]\n"
-     "         [,localport=localport][,ipv4][,ipv6][,mux=on|off]\n"
-     "         [,logfile=PATH][,logappend=on|off]\n"
-@@ -3105,9 +3105,14 @@ The available backends are:
- 
-         ``nodelay`` disables the Nagle algorithm.
- 
--    ``unix options: path=path``
-+    ``unix options: path=path[,tight=on|off][,abstract=on|off]``
-         ``path`` specifies the local path of the unix socket. ``path``
-         is required.
-+	``tight`` whether to set @addrlen to the minimal string length,
-+        or the maximum sun_path length. defaults to true. ``tight`` is
-+        optional.
-+	``abstract`` whether use abstract address. defaults to false.
-+	``abstract`` is optional.
- 
- ``-chardev udp,id=id[,host=host],port=port[,localaddr=localaddr][,localport=localport][,ipv4][,ipv6]``
-     Sends all traffic from the guest to a remote host over UDP.
--- 
-2.17.1
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
