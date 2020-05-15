@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318A71D4E78
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 15:08:15 +0200 (CEST)
-Received: from localhost ([::1]:45226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9981E1D4E0A
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 14:48:29 +0200 (CEST)
+Received: from localhost ([::1]:45644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZa4U-0001R4-5T
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 09:08:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45804)
+	id 1jZZlM-0005bE-IR
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 08:48:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjK-0003BS-A2
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:22 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48138
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jZZiK-0001bv-Qc
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:45:20 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39454
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZZjH-0002O3-F5
- for qemu-devel@nongnu.org; Fri, 15 May 2020 08:46:21 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jZZiI-0001y5-Tw
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 08:45:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589546778;
+ s=mimecast20190719; t=1589546717;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U9+KdOV9yTQVEKgc0FKwq52v6OMnOO74fOmEyKdES9I=;
- b=JMCwHWFKpH9v7f1i84IOzZiZe9ExDJbmv3shJIDVcFct/yT3Qv8Yku/q6zN9jFW9alWxug
- 99VkmOX0/VldTfHJHN09QoOn32BVPvqEWybASgvmN690WePf6n43ohuO8ZP4PLvEDDR4xZ
- IlxQ+qjKKBJ8Ry2q2a89G7nEUZ7h7DI=
+ bh=H87g0Tj+TOSKAiDl3QcQhSylCj8jOchmaFTlfTy2Rvk=;
+ b=DikEfFCQwqLxwV/LeFroS2tLCf0YGQI+gBHgY9d+syXYdvEiea8Gtnut55uYYKzU4BHNXY
+ AVIGsTNl8+HIy5dJlslKziPdWzbgxclTq9KTwVYOPU5y+O1i5rw8YLKxhaUYfkjKwTa/Ub
+ 4sXpF5zASwYDrJ7uyfubiVIbAsVG1oc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-0mXkFcOJP1-DosiQRkm7zw-1; Fri, 15 May 2020 08:46:16 -0400
-X-MC-Unique: 0mXkFcOJP1-DosiQRkm7zw-1
+ us-mta-8-bBH6pIYQNVWvADNZeh7MPA-1; Fri, 15 May 2020 08:45:13 -0400
+X-MC-Unique: bBH6pIYQNVWvADNZeh7MPA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74BF98018A7;
- Fri, 15 May 2020 12:46:15 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-113-110.ams2.redhat.com
- [10.36.113.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A7D02E166;
- Fri, 15 May 2020 12:46:14 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 31/51] block: Add bdrv_default_perms()
-Date: Fri, 15 May 2020 14:45:01 +0200
-Message-Id: <20200515124521.335403-32-kwolf@redhat.com>
-In-Reply-To: <20200515124521.335403-1-kwolf@redhat.com>
-References: <20200515124521.335403-1-kwolf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28D5F19200DD;
+ Fri, 15 May 2020 12:45:12 +0000 (UTC)
+Received: from work-vm (ovpn-114-149.ams2.redhat.com [10.36.114.149])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DA5E2E16D;
+ Fri, 15 May 2020 12:45:03 +0000 (UTC)
+Date: Fri, 15 May 2020 13:45:01 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1 07/17] migration/rdma: Use
+ ram_block_discard_set_broken()
+Message-ID: <20200515124501.GE2954@work-vm>
+References: <20200506094948.76388-1-david@redhat.com>
+ <20200506094948.76388-8-david@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200506094948.76388-8-david@redhat.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:39:12
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 00:07:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ T_HK_NAME_DR=0.01 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,101 +79,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+* David Hildenbrand (david@redhat.com) wrote:
+> RDMA will pin all guest memory (as documented in docs/rdma.txt). We want
+> to mark RAM block discards to be broken - however, to keep it simple
+> use ram_block_discard_is_required() instead of inhibiting.
 
-This callback can be used by BDSs that use child_of_bds with the
-appropriate BdrvChildRole for their children.
+Should this be dependent on whether rdma->pin_all is set?
+Even with !pin_all some will be pinned at any given time
+(when it's registered with the rdma stack).
 
-Also, make bdrv_format_default_perms() use it for child_of_bds children
-(just a temporary solution until we can drop bdrv_format_default_perms()
-altogether).
+Dave
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200513110544.176672-20-mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- include/block/block_int.h | 11 +++++++++++
- block.c                   | 32 ++++++++++++++++++++++++++++++++
- 2 files changed, 43 insertions(+)
-
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 54df821d61..3a9dda9be7 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1288,6 +1288,17 @@ void bdrv_format_default_perms(BlockDriverState *bs, BdrvChild *c,
- bool bdrv_recurse_can_replace(BlockDriverState *bs,
-                               BlockDriverState *to_replace);
- 
-+/*
-+ * Default implementation for BlockDriver.bdrv_child_perm() that can
-+ * be used by block filters and image formats, as long as they use the
-+ * child_of_bds child class and set an appropriate BdrvChildRole.
-+ */
-+void bdrv_default_perms(BlockDriverState *bs, BdrvChild *c,
-+                        const BdrvChildClass *child_class, BdrvChildRole role,
-+                        BlockReopenQueue *reopen_queue,
-+                        uint64_t perm, uint64_t shared,
-+                        uint64_t *nperm, uint64_t *nshared);
-+
- /*
-  * Default implementation for drivers to pass bdrv_co_block_status() to
-  * their file.
-diff --git a/block.c b/block.c
-index 5ff6cbd796..088727fdbe 100644
---- a/block.c
-+++ b/block.c
-@@ -2596,6 +2596,13 @@ void bdrv_format_default_perms(BlockDriverState *bs, BdrvChild *c,
-                                uint64_t *nperm, uint64_t *nshared)
- {
-     bool backing = (child_class == &child_backing);
-+
-+    if (child_class == &child_of_bds) {
-+        bdrv_default_perms(bs, c, child_class, role, reopen_queue,
-+                           perm, shared, nperm, nshared);
-+        return;
-+    }
-+
-     assert(child_class == &child_backing || child_class == &child_file);
- 
-     if (!backing) {
-@@ -2607,6 +2614,31 @@ void bdrv_format_default_perms(BlockDriverState *bs, BdrvChild *c,
-     }
- }
- 
-+void bdrv_default_perms(BlockDriverState *bs, BdrvChild *c,
-+                        const BdrvChildClass *child_class, BdrvChildRole role,
-+                        BlockReopenQueue *reopen_queue,
-+                        uint64_t perm, uint64_t shared,
-+                        uint64_t *nperm, uint64_t *nshared)
-+{
-+    assert(child_class == &child_of_bds);
-+
-+    if (role & BDRV_CHILD_FILTERED) {
-+        assert(!(role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA |
-+                         BDRV_CHILD_COW)));
-+        bdrv_filter_default_perms(bs, c, child_class, role, reopen_queue,
-+                                  perm, shared, nperm, nshared);
-+    } else if (role & BDRV_CHILD_COW) {
-+        assert(!(role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA)));
-+        bdrv_default_perms_for_cow(bs, c, child_class, role, reopen_queue,
-+                                   perm, shared, nperm, nshared);
-+    } else if (role & (BDRV_CHILD_METADATA | BDRV_CHILD_DATA)) {
-+        bdrv_default_perms_for_storage(bs, c, child_class, role, reopen_queue,
-+                                       perm, shared, nperm, nshared);
-+    } else {
-+        g_assert_not_reached();
-+    }
-+}
-+
- uint64_t bdrv_qapi_perm_to_blk_perm(BlockPermission qapi_perm)
- {
-     static const uint64_t permissions[] = {
--- 
-2.25.4
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  migration/rdma.c | 18 ++++++++++++++++--
+>  1 file changed, 16 insertions(+), 2 deletions(-)
+> 
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index f61587891b..029adbb950 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -29,6 +29,7 @@
+>  #include "qemu/sockets.h"
+>  #include "qemu/bitmap.h"
+>  #include "qemu/coroutine.h"
+> +#include "exec/memory.h"
+>  #include <sys/socket.h>
+>  #include <netdb.h>
+>  #include <arpa/inet.h>
+> @@ -4017,8 +4018,14 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+>      Error *local_err = NULL;
+>  
+>      trace_rdma_start_incoming_migration();
+> -    rdma = qemu_rdma_data_init(host_port, &local_err);
+>  
+> +    /* Avoid ram_block_discard_set_broken(), cannot change during migration. */
+> +    if (ram_block_discard_is_required()) {
+> +        error_setg(errp, "RDMA: cannot set discarding of RAM broken");
+> +        return;
+> +    }
+> +
+> +    rdma = qemu_rdma_data_init(host_port, &local_err);
+>      if (rdma == NULL) {
+>          goto err;
+>      }
+> @@ -4064,10 +4071,17 @@ void rdma_start_outgoing_migration(void *opaque,
+>                              const char *host_port, Error **errp)
+>  {
+>      MigrationState *s = opaque;
+> -    RDMAContext *rdma = qemu_rdma_data_init(host_port, errp);
+>      RDMAContext *rdma_return_path = NULL;
+> +    RDMAContext *rdma;
+>      int ret = 0;
+>  
+> +    /* Avoid ram_block_discard_set_broken(), cannot change during migration. */
+> +    if (ram_block_discard_is_required()) {
+> +        error_setg(errp, "RDMA: cannot set discarding of RAM broken");
+> +        return;
+> +    }
+> +
+> +    rdma = qemu_rdma_data_init(host_port, errp);
+>      if (rdma == NULL) {
+>          goto err;
+>      }
+> -- 
+> 2.25.3
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
