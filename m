@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480131D48FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 11:03:09 +0200 (CEST)
-Received: from localhost ([::1]:55632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA621D48D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 10:52:28 +0200 (CEST)
+Received: from localhost ([::1]:57360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZWFI-0003Lz-Am
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 05:03:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60390)
+	id 1jZW4x-0006lT-Ug
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 04:52:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jZWDi-0002CW-L9
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:01:30 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33402)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jZWDh-0000In-De
- for qemu-devel@nongnu.org; Fri, 15 May 2020 05:01:30 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jZWDe-0002Ne-5k
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 09:01:26 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7E9262E810A
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 09:01:25 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jZW4E-0006Lz-Co
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 04:51:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54474
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jZW4D-0004kf-DE
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 04:51:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589532700;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GObPfDjQ2ihLN6kiGyfn/3ObOefGCwhkD6WNYXVH588=;
+ b=Pef4zBQHGLPwhd9ohPcp/8L9KTSDsfTIfN8nokfiJ9rdG2zBNjXzfGaAYY5+Mep4/5Yrra
+ 0JBagY2BysLQ7sgzvaIHZOCnvbvyrDMowTyplShzObPy4okPZnIVBdttiFqQFYmXKOqIQx
+ Uj7v0tMKGwAEaEFxPG5jXr69049XTZI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-440-WbbLMCvtP2KAq2_J9HXc1Q-1; Fri, 15 May 2020 04:51:38 -0400
+X-MC-Unique: WbbLMCvtP2KAq2_J9HXc1Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 365C3835B74;
+ Fri, 15 May 2020 08:51:37 +0000 (UTC)
+Received: from gondolin (ovpn-112-229.ams2.redhat.com [10.36.112.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 54EC682A0A;
+ Fri, 15 May 2020 08:51:36 +0000 (UTC)
+Date: Fri, 15 May 2020 10:51:33 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/3] docs/s390x: document the virtual css
+Message-ID: <20200515105133.12ffb2be.cohuck@redhat.com>
+In-Reply-To: <7876d0f3-7bb9-38b9-6675-94ba6bd47a1a@redhat.com>
+References: <20200505135025.14614-1-cohuck@redhat.com>
+ <20200505135025.14614-2-cohuck@redhat.com>
+ <7876d0f3-7bb9-38b9-6675-94ba6bd47a1a@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 May 2020 08:48:53 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1878348@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange christophe-lyon laurent-vivier philmd
- pmaydell
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <158935359452.19393.4863679569975227091.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158953253307.31625.13760027279797418905.malone@chaenomeles.canonical.com>
-Subject: [Bug 1878348] Re: --static build fails in v5.0 (since
- 5010cec2bc87dafab39b3913c8ca91f88df9c540)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 42ac6ee138775e277561a08ba3ce2dd21a274f76
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 04:30:58
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 23:27:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,56 +80,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878348 <1878348@bugs.launchpad.net>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the record, previous attempt to fix:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg624142.html
-and identical conclusion:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg624164.html
+On Fri, 15 May 2020 09:04:13 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
--- =
+> On 05/05/2020 15.50, Cornelia Huck wrote:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878348
+> > +Examples
+> > +--------
+> > +
+> > +* a virtio-net device, cssid/ssid/devno automatically assigned::
+> > +
+> > +    -device virtio-net-ccw
+> > +
+> > +  In a Linux guest (without default devices and no other devices specified
+> > +  prior to this one), this will show up as ``0.0.0000`` under subchannel
+> > +  ``0.0.0000``.  
+> 
+> Maybe mention the QEMU side again, e.g. that when you run "info qtree"
+> in the HMP monitor, you see the device with dev_id = "fe.0.0000".
 
-Title:
-  --static build fails in v5.0 (since
-  5010cec2bc87dafab39b3913c8ca91f88df9c540)
+Yes, that's a good idea.
 
-Status in QEMU:
-  New
+> 
+> > +* a virtio-rng device in subchannel set ``0``::
+> > +
+> > +    -device virtio-rng-ccw,devno=fe.0.0042
+> > +
+> > +  If added to the same Linux guest as above, it would show up as ``0.0.0042``
+> > +  under subchannel ``0.0.0001``.  
+> 
+> Does "same" matter here? Otherwise, maybe just say "to a Linux guest" ?
 
-Bug description:
-  Hi,
+I wanted to provide the subchannel number in my examples as well. As
+QEMU always picks the first free one (and you cannot specify it
+manually), I wanted to make the examples build upon each other.
 
-  Since commit 5010cec2bc87dafab39b3913c8ca91f88df9c540, building qemu
-  fails when configured with --static (eg ../configure --target-
-  list=3Dx86_64-softmmu,x86_64-linux-user --enable-debug --static).
+> 
+> > +* a virtio-gpu device in subchannel set ``2``::
+> > +
+> > +    -device virtio-gpu-ccw,devno=fe.2.1111
+> > +
+> > +  If added to the same Linux guest as above, it would show up as ``0.2.1111``
+> > +  under subchannel ``0.2.0000``.  
+> 
+> Dito.
 
-  On ubuntu 16.04, it fails to find -lffi and -lselinux.
+dito :)
 
-  After I apt-get install libffi-dev libselinux1-dev, the build still fails:
-  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_pre=
-_save':
-  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:29: undefine=
-d reference to `_TRACE_DBUS_VMSTATE_PRE_SAVE_DSTATE'
-  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_pos=
-t_load':
-  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:52: undefine=
-d reference to `_TRACE_DBUS_VMSTATE_POST_LOAD_DSTATE'
-  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_loa=
-ding':
-  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:75: undefine=
-d reference to `_TRACE_DBUS_VMSTATE_LOADING_DSTATE'
-  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_sav=
-ing':
-  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:98: undefine=
-d reference to `_TRACE_DBUS_VMSTATE_SAVING_DSTATE'
-  collect2: error: ld returned 1 exit status
+> 
+> > +* a virtio-mouse device in a non-standard channel subsystem::
+> > +
+> > +    -device virtio-mouse-ccw,devno=2.0.2222
+> > +
+> > +  This would not show up in a standard Linux guest.  
+> 
+> Ok ... and what happens if you use devno=0.0.1234 ? Will that then show
+> up under fe.0.1234 in the guest??
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878348/+subscriptions
+That won't show up in the guest, either -- do you think I should add an
+example for that as well?
+
 
