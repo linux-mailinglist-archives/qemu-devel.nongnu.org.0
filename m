@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDEE1D4DEF
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 14:43:14 +0200 (CEST)
-Received: from localhost ([::1]:54608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7476A1D4DF8
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 14:45:30 +0200 (CEST)
+Received: from localhost ([::1]:35004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZZgH-0004t3-Um
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 08:43:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44902)
+	id 1jZZiT-00006N-Dx
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 08:45:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jZZe9-0002JC-Lk; Fri, 15 May 2020 08:41:01 -0400
+ id 1jZZeB-0002LN-P3; Fri, 15 May 2020 08:41:03 -0400
 Received: from mail-eopbgr150102.outbound.protection.outlook.com
  ([40.107.15.102]:11310 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jZZe8-0008VJ-NB; Fri, 15 May 2020 08:41:01 -0400
+ id 1jZZeA-0008VJ-5h; Fri, 15 May 2020 08:41:03 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XG5rfqtWFwh+zLMNNPhW2dyWQmAX7mvNKAbdXqWAC8n0GM+yxyC/yNDuMdTb6xYfAWNIc+9e0PWKMNualHmIN0tOgsEbO81RJE3IcZE4EcpUHpYHePwzmX7A47NdUrgm0oAB1pQzRDPfjigOlWovovjLZZU4W0rvWKAmgjN2tio3vUpDQEzjyl4P8vum3tyK0/TKznW0PMzPKvBbW5rTBgwGFyUepCDe4u3LE5Ni1d14wQg2ykOCrH2MfVCtzBX2LJ5GuhPhmYudqpmsATL4SlJDXtsny5N6iMPgRNlEDFgbe0Wkl34NWzZA/UHIlfNJiBV9R6pi1DPKzPv+EDE8PQ==
+ b=HiAK3fT/t66DKsWRpzpMZJDAkSwRTsRj20g9tvc/Cv18Q8V474+UUOPbTHHxZaQBVsxXM4x3z1a/c8LpDHRP9/KX6oDhC1MNOsHh+jJyfCfr4szmMpP3ktnAOfxQQgw9/fVQsPr7T5QN+eYC/gNua/DslGPMDnCpIqbxDhM0inwwrq2JcAn52uRGaPfw4LLi0zKL4e1tQ2guLSFTmwDMhJtR2UqBojzaSOaMVOaNIe5uSqfaPJNHGA1eMgzXPyzbqAJ58/4rgFDcBCqgJAbDXT6la8CD7ZS9LfxtnClheeXbXZf9Co8C38Ds/Pxb5av9+KY0FZkOEB/Cq8uT5UHZgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gmc/XpWgSeGM+jz+wZTMIXDkI4JbzA56RY4ag+n3NG8=;
- b=DZoLJTWkHuMj68EZG5rnMlUPu4icSpIXxzYkZ2hb0AH8+F+9ueCKX+AA1Ul5F3rJkBjD0NiWKBXGZlHC/i/tOPmzCe0eDPaKWpvwK1+xvE1DnlwJ833SvWRxG8Jg7w5TsANeebVyQcTNOpfbiLOPgZu7v808RxSmZQ0Onmb2N0VVGAGD5ZLRp+5MgMUxWooDGsZSN1vY/7CwkDeDbQtl8O68RNEGYg41SsqH+qu0qYD+d/+iue1FM9nrsfdweP/D1IikasK/CwcmUTDkSjtSKgnY6VgNsY/TxU0Vx1UdqzFH1XRrmw87ihKuOYvTSmFLFQHYaQDPzJd3vlKbdG6+1w==
+ bh=pkZGicmZkEkWBSrAs6IV5fxCC8gFscTRY0mZLskPr+A=;
+ b=hfhwqP9g9gcwISBGU7Ouik1ZlOMMwPD8lC+61Fteswq17efbwcNX6MDTZolaLpBmA2ICgPZaKljQUyOM3DHF1EWt9JbwJNc4y81+yPBRt/5ku7eJnVfALDTDMgniYNOQ14j+3TtKJ752q6rlek9jI+3Ghtj6rhAAUYkqMkLmF2LLyd/amg2Z7l3eT4GjnKAHcfwxtBLF/jNGLDZivHpJcczvfjZaEvMrnEfSrjxW0o7d22ZkRCIzH5pl7agVCiQ8Vu4WcS1EtqPV9sZ0J2v5LkNJuxPWfvyUJSp1e0Ql2gRIUio29vF4ahFdGjRkaNOzZ+QMJu5oCemu1YGayV/vqA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gmc/XpWgSeGM+jz+wZTMIXDkI4JbzA56RY4ag+n3NG8=;
- b=DJrGsh8S9l96Dm+HkFjqFbkoOGgMA7SxuSZF267x52DKqzBa4mh2dy9SsLmjW2ZNN3N8ALy2mNsLX/RGJtRPv19J3eKOsEjHFtL0dSlwDtFzOidpTDBacwZc+fNkKoDHF+w8tSSdnEOh7zIQRM5U0uhCVa9dIotoV3s2hmod/Ok=
+ bh=pkZGicmZkEkWBSrAs6IV5fxCC8gFscTRY0mZLskPr+A=;
+ b=PT2C4ZVT1zTGYnvZ6/Ps4rJ0pOzuan3st44sCe0R05E0/Own+IDqEaoWOHM5EA9ki2ttqWfayCGMq/r5txQagzjeUmfZJDr9GnxgWKS1WcWhzF70yLtebPRu2SfHjQinPtV44JmQzdGX+4ki6fEuK6qi3+i6Q5kz1CUVzo3MtUo=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5381.eurprd08.prod.outlook.com (2603:10a6:20b:105::23)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.26; Fri, 15 May
- 2020 12:40:55 +0000
+ 2020 12:40:56 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9%4]) with mapi id 15.20.3000.016; Fri, 15 May 2020
- 12:40:55 +0000
+ 12:40:56 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 4/7] migration/block-dirty-bitmap: fix bitmaps pre-blockdev
- migration during mirror job
-Date: Fri, 15 May 2020 15:40:21 +0300
-Message-Id: <20200515124024.3491-5-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 5/7] iotests: 194: test also migration of dirty bitmap
+Date: Fri, 15 May 2020 15:40:22 +0300
+Message-Id: <20200515124024.3491-6-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200515124024.3491-1-vsementsov@virtuozzo.com>
 References: <20200515124024.3491-1-vsementsov@virtuozzo.com>
@@ -63,32 +62,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.184) by
  AM0PR03CA0039.eurprd03.prod.outlook.com (2603:10a6:208::16) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3000.20 via Frontend Transport; Fri, 15 May 2020 12:40:54 +0000
+ 15.20.3000.20 via Frontend Transport; Fri, 15 May 2020 12:40:55 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.184]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 07a8ec2d-ce50-4bff-dc42-08d7f8cd35fb
+X-MS-Office365-Filtering-Correlation-Id: 6e152baf-9163-411e-bd06-08d7f8cd36af
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5381:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB53819899C9C3C55FE49A89DEC1BD0@AM7PR08MB5381.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5381DB163701382E4A75032CC1BD0@AM7PR08MB5381.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1227;
 X-Forefront-PRVS: 04041A2886
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HWq/8mbXRXBnfV5qVB/GtWeL7sm+jlqcnwdo10rTCyqtdbIjrGAqoEy2yatUR2h+cZhnrfCaowzEp1VT2lth/WHjITLpWQrK+SLnMpEbrckEAhQwpsZRfMlYVC/Lja4tZDPhPiOYFLjp3tK2JR7xo1sUPwAFyNxd3dXe+XelguIqy5gVmsYOB26ozqbCFQIetKInvlggvVCQs7RSo06tiQeNBVFK3skMS0Xz7daccJ7VlEuUpD2Tcc4uKyXJd50XkOYECHfjKPrnqeTMau/xltv3l+uVaOnuVHBXO4+sZM65dhKthugEtWjvZu7E8iUQza5e/wGeTFTiKy6p50dHs87U7hv8OVFhI3Q7HWEKpsvWs4zWiz8y3B+8scic9esRySsPhvAhhHFc4Z6z6vDm35K/pukGExYEjgs7FbKm6i4vn+iByf/sImMVTVpgOhswO8b/9sJw0tyTbnMjnYk0SjRIWLz5eOg//jq+JRH5j4Qg8pGsxjXlHfv/4VnPgUrWDB/E3Gf/QN6CHrcR9PJcBzXKDrYhB4dkkLRmcqHUH061P9mZPO8kdAqDCxmy3Q4i
+X-Microsoft-Antispam-Message-Info: UsbvVEDHbFuYRlOlS0cE71lDq3y8CvnPKDWFFqikQsE7zC0y/iY9/BrvAQfzDnMzp7z+4F9e86UvB5rnZcp52JAlfe04Ct0Hmbgaeed6JG6QrYsk911rKSz4EIr5NPzHrZkI0BCO8tOw6mISOcB9zrk80QGrDl9oIfrS69pD7kbWS6mrZvNXwUzv4W3+hdrK9o06iR76FaASRIgpJ04tVVHgqsNHGBmc9IErbIXs8CLsFGCiPoM4YdrcwZB//dPE/v6v7ClGHmEdpFiMZWIhVPSuq6GdkfZVAF+/O8nIwxNlmXrQY+5N/rtrqahko8nPVJMtnlwYjUpWyE/xd66Xdgij1YsIMbm/CzN1R70DZ9OVU0b1OjdxxHL+HEbYbfjjCJjA/YNTBMK8HErxSRy89aClXAQCjLzH6KtpMf9T0lxHpLSCSRonoCuK3TqjKiysPyIwbYtLHWZziycN9JCX85IO/UvYWZyBcrnRhy9szmn7AMV81/Bj3YiP8G9xH555
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(366004)(376002)(136003)(346002)(396003)(39840400004)(52116002)(6486002)(36756003)(8676002)(7416002)(8936002)(6916009)(478600001)(6666004)(86362001)(966005)(6512007)(4326008)(316002)(26005)(5660300002)(16526019)(186003)(6506007)(2616005)(2906002)(1076003)(956004)(66556008)(66946007)(66476007)(14143004);
+ SFS:(4636009)(366004)(376002)(136003)(346002)(396003)(39840400004)(52116002)(6486002)(36756003)(8676002)(7416002)(8936002)(6916009)(478600001)(6666004)(86362001)(6512007)(4326008)(316002)(26005)(5660300002)(16526019)(186003)(6506007)(2616005)(2906002)(1076003)(956004)(66556008)(66946007)(66476007)(14143004);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: is1iqEDcgcdldWI/OKNWrGtI6YJOEf/tVSvQYpPbwulnf8Ts+TKslUBES/LrSSltCzNLjx2HxlrblQqH+ojnKLCPH7PH1Hr+I4ZnvRyGR1wXW9JRbc1QpPoAKO3KCOfXAuZOcyIWo5H9y0hOollqTCyYFqyf1x0TgxOksEH0BHzRtBka2ZWsYZ+68gJZTMvfwZmkAOfniiX+OGGnGIv0fKjVIsXZjgVnvkaLKTxG6PgfPMKZcdncJ7N0KMwk4Pbk1HWfSwd5KpWa84Z42OOVgY7Cy8nVY1ILnThYJsAPMcGpvQV2x4VLgyD6+5tWKBJKYphucbCUfP3b7HMEdLR+2ZapdntjF2excQr4yAFW092r1pU42eiMIaxRLuZ2+apTo+7VcpBMko+R35MrDkg8s9QZr0V8BWKSieeT0D9bbevLUtoY3Ss5D9sOa/+Op8eQwwfDHwgHUlUCkKn+wIKedO65FGEGyg1Tf+CkoEgrMBw=
+X-MS-Exchange-AntiSpam-MessageData: +tRW/FVFtnI8N5zOKHc8p0rc0pyuy3jLyqjyHieNhgcMLLp62+70BIS4hZyzoqek9UPr9mkdNO/tSP/j8JsqnJOJgAyOi+dQIsZBSYm/iNajiPk2FGlyQ+xSpYiGRfzWYDclLblOUHbgNj/SqdjPC7cpPBOSJHf0AteZdPUTuf3GsD3vARScMAd9CEBZJUnrPcR8f7v8h1olmYawwzBylqPq9FUeBSo2jqJlwdBZhwy8tf4Y9x2BN80RU3QFOXihuXOlviliuY8KduISMJ/d/VnFFrmEL6WZOvfH4BULHFtGM0ofYLQXA4x5JlbCMgRzKZZ2SZd4KMyLF6f50cYBcduPeznl6MAjtehpfSwe6ccdInG2b7EOOioXYACaGtWD8E35fVDoLDpKCOD4JHI0HFvx8766U5PpEx6C9ZRwySA2ytmsf6fRKWhKeIvbFWWlXu3q44FB/TbKLBDeHey3WwmgvQGicPpy7uX5hJDdTSo=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07a8ec2d-ce50-4bff-dc42-08d7f8cd35fb
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2020 12:40:55.5290 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e152baf-9163-411e-bd06-08d7f8cd36af
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2020 12:40:56.7238 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G8TQsqBNgbNz6UUQLFo1IquRzoX+vm2YZ++5xGFszKRbcsnVcbI5y3EnU6nYvpntpZUgZNTpjioMsyf9CBLihlZMudVQas8kvjT0rfNFKXM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: HpyEOUTaIVwd81FKYUZqDWuxLiaV2cecbr8hAarDkHYjj4kwDOl35FA03TlFmBmUS7jMw965xdO4kjVVSj9W86sYrks9ghV/HN0UGaTfFTo=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5381
 Received-SPF: pass client-ip=40.107.15.102;
  envelope-from=vsementsov@virtuozzo.com;
@@ -122,108 +121,79 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Important thing for bitmap migration is to select destination block
-node to obtain the migrated bitmap.
+Test that dirty bitmap migration works when we deal with mirror.
 
-Prepatch, on source we use bdrv_get_device_or_node_name() to identify
-the node, and on target we do bdrv_lookup_bs.
-bdrv_get_device_or_node_name() returns blk name only for direct
-children of blk. So, bitmaps of direct children of blks are migrated by
-blk name and others - by node name.
-
-Old libvirt is unprepared to bitmap migration by node-name,
-node-names are mostly auto-generated. So actually only migration by blk
-name works for it.
-
-Newer libvirt will use new interface (which will be added soon) to
-specify node-mapping for bitmaps migration explicitly. Still, let's
-improve the current behavior a bit.
-
-Now, consider classic libvirt migrations assisted by mirror block job:
-mirror block job inserts filter, so our source is not a direct child of
-blk, and bitmaps are migrated by node-names. And this just don't work
-with auto-generated node names
-
-Let's fix it by allowing use blk-name even if some implicit filters are
-inserted.
-
-Note2: we, of course, can't skip filters and use blk name to migrate
-bitmaps in filtered node by blk name for this blk if these filters have
-named bitmaps which should be migrated.
-
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1652424
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- migration/block-dirty-bitmap.c | 39 +++++++++++++++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/194     | 14 ++++++++++----
+ tests/qemu-iotests/194.out |  6 ++++++
+ 2 files changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 7e93718086..5d3a7d2b07 100644
---- a/migration/block-dirty-bitmap.c
-+++ b/migration/block-dirty-bitmap.c
-@@ -319,14 +319,48 @@ static int init_dirty_bitmap_migration(void)
- {
-     BlockDriverState *bs;
-     DirtyBitmapMigBitmapState *dbms;
-+    GHashTable *handled_by_blk = g_hash_table_new(NULL, NULL);
-+    BlockBackend *blk;
+diff --git a/tests/qemu-iotests/194 b/tests/qemu-iotests/194
+index 8b1f720af4..3fad7c6c1a 100755
+--- a/tests/qemu-iotests/194
++++ b/tests/qemu-iotests/194
+@@ -42,6 +42,8 @@ with iotests.FilePath('source.img') as source_img_path, \
+             .add_incoming('unix:{0}'.format(migration_sock_path))
+             .launch())
  
-     dirty_bitmap_mig_state.bulk_completed = false;
-     dirty_bitmap_mig_state.prev_bs = NULL;
-     dirty_bitmap_mig_state.prev_bitmap = NULL;
-     dirty_bitmap_mig_state.no_bitmaps = false;
++    source_vm.qmp_log('block-dirty-bitmap-add', node='drive0', name='bitmap0')
++
+     iotests.log('Launching NBD server on destination...')
+     iotests.log(dest_vm.qmp('nbd-server-start', addr={'type': 'unix', 'data': {'path': nbd_sock_path}}))
+     iotests.log(dest_vm.qmp('nbd-server-add', device='drive0', writable=True))
+@@ -61,12 +63,14 @@ with iotests.FilePath('source.img') as source_img_path, \
+                 filters=[iotests.filter_qmp_event])
  
-+    /*
-+     * Use blockdevice name for direct (or filtered) children of named block
-+     * backends.
-+     */
-+    for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
-+        const char *name = blk_name(blk);
-+
-+        if (!name || strcmp(name, "") == 0) {
-+            continue;
-+        }
-+
-+        bs = blk_bs(blk);
-+
-+        /* Skip filters without bitmaos */
-+        while (bs && bs->drv && bs->drv->is_filter &&
-+               !bdrv_has_named_bitmaps(bs))
-+        {
-+            bs = bs->backing->bs ?: bs->file->bs;
-+        }
-+
-+        if (bs && bs->drv && !bs->drv->is_filter) {
-+            if (add_bitmaps_to_list(bs, name)) {
-+                goto fail;
-+            }
-+            g_hash_table_add(handled_by_blk, bs);
-+        }
-+    }
-+
-     for (bs = bdrv_next_all_states(NULL); bs; bs = bdrv_next_all_states(bs)) {
--        if (add_bitmaps_to_list(bs, bdrv_get_device_or_node_name(bs))) {
-+        if (g_hash_table_contains(handled_by_blk, bs)) {
-+            continue;
-+        }
-+
-+        if (add_bitmaps_to_list(bs, bdrv_get_node_name(bs))) {
-             goto fail;
-         }
-     }
-@@ -340,9 +374,12 @@ static int init_dirty_bitmap_migration(void)
-         dirty_bitmap_mig_state.no_bitmaps = true;
-     }
+     iotests.log('Starting migration...')
+-    source_vm.qmp('migrate-set-capabilities',
+-                  capabilities=[{'capability': 'events', 'state': True}])
+-    dest_vm.qmp('migrate-set-capabilities',
+-                capabilities=[{'capability': 'events', 'state': True}])
++    capabilities = [{'capability': 'events', 'state': True},
++                    {'capability': 'dirty-bitmaps', 'state': True}]
++    source_vm.qmp('migrate-set-capabilities', capabilities=capabilities)
++    dest_vm.qmp('migrate-set-capabilities', capabilities=capabilities)
+     iotests.log(source_vm.qmp('migrate', uri='unix:{0}'.format(migration_sock_path)))
  
-+    g_hash_table_destroy(handled_by_blk);
++    source_vm.qmp_log('migrate-start-postcopy')
 +
-     return 0;
- 
- fail:
-+    g_hash_table_destroy(handled_by_blk);
-     dirty_bitmap_mig_cleanup();
- 
-     return -1;
+     while True:
+         event1 = source_vm.event_wait('MIGRATION')
+         iotests.log(event1, filters=[iotests.filter_qmp_event])
+@@ -82,3 +86,5 @@ with iotests.FilePath('source.img') as source_img_path, \
+             iotests.log('Stopping the NBD server on destination...')
+             iotests.log(dest_vm.qmp('nbd-server-stop'))
+             break
++
++    iotests.log(source_vm.qmp('query-block')['return'][0]['dirty-bitmaps'])
+diff --git a/tests/qemu-iotests/194.out b/tests/qemu-iotests/194.out
+index 71857853fb..dd60dcc14f 100644
+--- a/tests/qemu-iotests/194.out
++++ b/tests/qemu-iotests/194.out
+@@ -1,4 +1,6 @@
+ Launching VMs...
++{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap0", "node": "drive0"}}
++{"return": {}}
+ Launching NBD server on destination...
+ {"return": {}}
+ {"return": {}}
+@@ -8,11 +10,15 @@ Waiting for `drive-mirror` to complete...
+ {"data": {"device": "mirror-job0", "len": 1073741824, "offset": 1073741824, "speed": 0, "type": "mirror"}, "event": "BLOCK_JOB_READY", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ Starting migration...
+ {"return": {}}
++{"execute": "migrate-start-postcopy", "arguments": {}}
++{"return": {}}
+ {"data": {"status": "setup"}, "event": "MIGRATION", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ {"data": {"status": "active"}, "event": "MIGRATION", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
++{"data": {"status": "postcopy-active"}, "event": "MIGRATION", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ {"data": {"status": "completed"}, "event": "MIGRATION", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ Gracefully ending the `drive-mirror` job on source...
+ {"return": {}}
+ {"data": {"device": "mirror-job0", "len": 1073741824, "offset": 1073741824, "speed": 0, "type": "mirror"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ Stopping the NBD server on destination...
+ {"return": {}}
++[{"busy": false, "count": 0, "granularity": 65536, "name": "bitmap0", "persistent": false, "recording": true, "status": "active"}]
 -- 
 2.21.0
 
