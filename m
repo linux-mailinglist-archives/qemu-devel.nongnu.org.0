@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B351D633E
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 19:50:20 +0200 (CEST)
-Received: from localhost ([::1]:58320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B67B1D6345
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 19:52:37 +0200 (CEST)
+Received: from localhost ([::1]:38882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ja0x1-0000WW-CF
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 13:50:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52174)
+	id 1ja0zE-00046g-Dx
+	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 13:52:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1ja0tS-00031S-OJ
- for qemu-devel@nongnu.org; Sat, 16 May 2020 13:46:38 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:41646)
+ id 1ja0tU-00035f-62
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 13:46:40 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:36334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1ja0tR-0008Mw-VX
- for qemu-devel@nongnu.org; Sat, 16 May 2020 13:46:38 -0400
-Received: by mail-lf1-x142.google.com with SMTP id a9so4491356lfb.8
- for <qemu-devel@nongnu.org>; Sat, 16 May 2020 10:46:37 -0700 (PDT)
+ id 1ja0tT-0008N4-Db
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 13:46:39 -0400
+Received: by mail-lj1-x241.google.com with SMTP id u15so5579498ljd.3
+ for <qemu-devel@nongnu.org>; Sat, 16 May 2020 10:46:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NfiyJnH8f+NZGQdRmwsMGxjYlt1H1kJMr2qydSKKkTI=;
- b=m11vrFTyF3Rag2/bhIJJDa/sH3MTxr1GdspRCvcwYOzxNKR7hTiaqGhR5fxXpaasZl
- 87ommVzeC0cuVEKj0/JiEbftDaMnj/dLFT54EvXp+9k8aq5bjIHfaraP5dNg4wFal0Mv
- YUuBELopYP71ebAun0Mygvj2LDTnIdmHC2ct6V1/MdFsfRhYlZeEzbE7Kwlzco9bO1PB
- Kx58bBObtTPvl0P+7L5/tE25baxHq90Gpdz1ICq6mOOK9CW22yIMS+RjPSLydzCjUyZJ
- 4b1/7Ii+yAsIeyQTFfgToVFHphcRIZQC4qfqddtusMCQRWucMhNcJ0C0Ow0zFap49rLC
- A5pQ==
+ bh=cbkkh7kOu27EfvNkT8gehafOtZOmXDYce6iol7ZHVX4=;
+ b=oohv+YQ8i/aXQ3weakqSgCAN8UftX4y2AIs7m2UWvcpanAze5lTGJCRaUvfNpti0GE
+ QjwL+GRYYm3huyckWYf5MuI1y7zZNv892BD1pWoeMGeBmNXzv1Pt6eiVDWCMWVnQblDR
+ C8WVtRe42n1DD0HNtlvwQPzvrMhWY7i6wYbR4EXoh+/vRzKQKTPC+tIOzGPA0eINB5Vb
+ eCyLlL81j4zLvVfaFO6LYpx9vZFe1Yx3Hq63X/PnNgN0AdP1MnyZ+hftmErsxnSK+0at
+ +4+kflOL/jqtgXR/BAPd1aNZaSkVZPLwBtQ/6p1sdpIXei+ifPD4N7M1vC3PvMve2GY9
+ Oeig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NfiyJnH8f+NZGQdRmwsMGxjYlt1H1kJMr2qydSKKkTI=;
- b=AwrJtkhAvEPCIo0VpIlT+9mIPArc7LlspboKdmEIOpNUAy/sCUCL4mGXRX4PxRzn/y
- bB70jiTf6lty2PKE7y8rLw/WNKDyvDFa7mOSgvqsN5c6SkWm0IebQJ1Wo1JhWbtwplEq
- Imao+yQzwySNDJXXQKv+8pBa/hif0O8hrcVYRtxMB8L8SRTTUs4Luo76HWdQHH/LT/Od
- SCzJ+1+QmEJQRKXAlXFtHDGrM77yW+3qK8ZITsame64G8CWCf9KRTfYc+cyJRexGAzXX
- x0vhv83dAd9jAEY3ODzb8G2dC/PoINyui5fqvZm+m9IZGxxDzhKUjTbiQXHujkqNnz0g
- 6I6A==
-X-Gm-Message-State: AOAM531p0hc7NzeIx9NCklWNNTs3VbW/69tQ8jjtsplwFbLNTnJjtMQO
- lHOuA9RIGngCYKmQWr7GzdUyqgjZv9w=
-X-Google-Smtp-Source: ABdhPJwM0D4XgQAIzDj8YF1W5yvIeu1yFAR2MKnW/Ix7lF384+TbGRcqNDF1T/FHrnqryd2zBBSXCA==
-X-Received: by 2002:a19:70d:: with SMTP id 13mr6242954lfh.60.1589651196347;
- Sat, 16 May 2020 10:46:36 -0700 (PDT)
+ bh=cbkkh7kOu27EfvNkT8gehafOtZOmXDYce6iol7ZHVX4=;
+ b=lQVjUielKbKHElleGPJMudAW1xqx2tAxxwUOJb7OTNzpU5Vccqh+JsaCBNLJWwE8B4
+ K0ftXy1DFQjPOIDdHXZiNFUae9oH7c0Lu4Ec/L8lG5Two10kzD5JOmlwj3mGAb0q0iPp
+ P5vcXsFeMcCAHkUn6MFVXcvbWngzorfYpjvjOLoEBO87kPVK4GiJCQUdAsBpaa0T74NI
+ RAiMv/8dx3HIHIdVKkmhAkulT5BunrNIVkLEZtL17iWBwekoKMex/HVYV13Jw1lz5zzc
+ +NeNGnatcc/nPRfxEXaRyng4qIT0uMwEFnBDoalOhCgSmyQFZhoCEgZ8Ru9Y6eh1gvHI
+ zDfg==
+X-Gm-Message-State: AOAM533g8BKytikEy2WFx2sixNCJuaA+nYgby9tIeLFZ+/3PFzcmGFtB
+ rp8BjuKQoshDaCcuApbDXjppz3tjYe8=
+X-Google-Smtp-Source: ABdhPJyyPuH3F+wFWiLET/rPQnRXAPecomPmtylyQFZGfNdmQcialiVAKNmaJpa85lirVe6W6wmhLA==
+X-Received: by 2002:a2e:8347:: with SMTP id l7mr6020720ljh.243.1589651197830; 
+ Sat, 16 May 2020 10:46:37 -0700 (PDT)
 Received: from localhost.localdomain ([109.245.227.98])
- by smtp.gmail.com with ESMTPSA id i1sm3024759lja.3.2020.05.16.10.46.35
+ by smtp.gmail.com with ESMTPSA id i1sm3024759lja.3.2020.05.16.10.46.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 May 2020 10:46:35 -0700 (PDT)
+ Sat, 16 May 2020 10:46:37 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/18] target/mips: fpu: Demacro MADD.<D|S|PS>
-Date: Sat, 16 May 2020 19:45:36 +0200
-Message-Id: <20200516174548.7631-7-aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH v3 07/18] target/mips: fpu: Demacro MSUB.<D|S|PS>
+Date: Sat, 16 May 2020 19:45:37 +0200
+Message-Id: <20200516174548.7631-8-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200516174548.7631-1-aleksandar.qemu.devel@gmail.com>
 References: <20200516174548.7631-1-aleksandar.qemu.devel@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::142;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lf1-x142.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lj1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,44 +93,46 @@ callgrind, etc. to better display involved source code.
 
 Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 ---
- target/mips/fpu_helper.c | 41 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 40 insertions(+), 1 deletion(-)
+ target/mips/fpu_helper.c | 40 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 1 deletion(-)
 
 diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
-index a3a39681f8..c070081cbc 100644
+index c070081cbc..e37fc4075d 100644
 --- a/target/mips/fpu_helper.c
 +++ b/target/mips/fpu_helper.c
-@@ -1495,12 +1495,51 @@ uint64_t helper_float_ ## name ## _ps(CPUMIPSState *env,             \
+@@ -1495,7 +1495,6 @@ uint64_t helper_float_ ## name ## _ps(CPUMIPSState *env,             \
      update_fcr31(env, GETPC());                                      \
      return ((uint64_t)fsth0 << 32) | fst0;                           \
  }
--FLOAT_FMA(madd, 0)
- FLOAT_FMA(msub, float_muladd_negate_c)
+-FLOAT_FMA(msub, float_muladd_negate_c)
  FLOAT_FMA(nmadd, float_muladd_negate_result)
  FLOAT_FMA(nmsub, float_muladd_negate_result | float_muladd_negate_c)
  #undef FLOAT_FMA
+@@ -1539,6 +1538,45 @@ uint64_t helper_float_madd_ps(CPUMIPSState *env, uint64_t fdt0,
+     return ((uint64_t)fsth0 << 32) | fstl0;
+ }
  
-+uint64_t helper_float_madd_d(CPUMIPSState *env, uint64_t fst0,
++uint64_t helper_float_msub_d(CPUMIPSState *env, uint64_t fst0,
 +                             uint64_t fst1, uint64_t fst2)
 +{
 +    fst0 = float64_mul(fst0, fst1, &env->active_fpu.fp_status);
-+    fst0 = float64_add(fst0, fst2, &env->active_fpu.fp_status);
++    fst0 = float64_sub(fst0, fst2, &env->active_fpu.fp_status);
 +
 +    update_fcr31(env, GETPC());
 +    return fst0;
 +}
 +
-+uint32_t helper_float_madd_s(CPUMIPSState *env, uint32_t fst0,
++uint32_t helper_float_msub_s(CPUMIPSState *env, uint32_t fst0,
 +                             uint32_t fst1, uint32_t fst2)
 +{
 +    fst0 = float32_mul(fst0, fst1, &env->active_fpu.fp_status);
-+    fst0 = float32_add(fst0, fst2, &env->active_fpu.fp_status);
++    fst0 = float32_sub(fst0, fst2, &env->active_fpu.fp_status);
 +
 +    update_fcr31(env, GETPC());
 +    return fst0;
 +}
 +
-+uint64_t helper_float_madd_ps(CPUMIPSState *env, uint64_t fdt0,
++uint64_t helper_float_msub_ps(CPUMIPSState *env, uint64_t fdt0,
 +                              uint64_t fdt1, uint64_t fdt2)
 +{
 +    uint32_t fstl0 = fdt0 & 0XFFFFFFFF;
@@ -141,18 +143,17 @@ index a3a39681f8..c070081cbc 100644
 +    uint32_t fsth2 = fdt2 >> 32;
 +
 +    fstl0 = float32_mul(fstl0, fstl1, &env->active_fpu.fp_status);
-+    fstl0 = float32_add(fstl0, fstl2, &env->active_fpu.fp_status);
++    fstl0 = float32_sub(fstl0, fstl2, &env->active_fpu.fp_status);
 +    fsth0 = float32_mul(fsth0, fsth1, &env->active_fpu.fp_status);
-+    fsth0 = float32_add(fsth0, fsth2, &env->active_fpu.fp_status);
++    fsth0 = float32_sub(fsth0, fsth2, &env->active_fpu.fp_status);
 +
 +    update_fcr31(env, GETPC());
 +    return ((uint64_t)fsth0 << 32) | fstl0;
 +}
 +
-+
+ 
  #define FLOAT_FMADDSUB(name, bits, muladd_arg)                          \
  uint ## bits ## _t helper_float_ ## name(CPUMIPSState *env,             \
-                                          uint ## bits ## _t fs,         \
 -- 
 2.20.1
 
