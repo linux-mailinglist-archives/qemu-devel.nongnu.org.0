@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2761D5F69
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 09:27:16 +0200 (CEST)
-Received: from localhost ([::1]:40252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CFA41D5FB6
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 10:30:44 +0200 (CEST)
+Received: from localhost ([::1]:34462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZrE3-0006Wg-Ku
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 03:27:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44574)
+	id 1jZsDT-0004nl-2l
+	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 04:30:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jZr7m-0006gU-7c
- for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:46 -0400
-Received: from mailout08.t-online.de ([194.25.134.20]:38510)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jZr7k-0004OR-SX
- for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:45 -0400
-Received: from fwd16.aul.t-online.de (fwd16.aul.t-online.de [172.20.26.243])
- by mailout08.t-online.de (Postfix) with SMTP id 4D02B41C0B4B;
- Sat, 16 May 2020 09:20:43 +0200 (CEST)
-Received: from linpower.localnet
- (ZkibeoZfrhRJLRV-A3NarHt0Or7r3MoQMYMz5Lek4GH4v1pX3gaYc5EEeHTZTEsgWi@[46.86.59.135])
- by fwd16.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1jZr7h-3KJu7c0; Sat, 16 May 2020 09:20:41 +0200
-Received: by linpower.localnet (Postfix, from userid 1000)
- id EEF6E2006D9; Sat, 16 May 2020 09:20:14 +0200 (CEST)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v2 11/11] ui: increase min required GTK version to 3.22.0
-Date: Sat, 16 May 2020 09:20:14 +0200
-Message-Id: <20200516072014.7766-11-vr_qemu@t-online.de>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <bea1a22a-1fb4-b49b-c089-e0a5c5cf55cd@t-online.de>
-References: <bea1a22a-1fb4-b49b-c089-e0a5c5cf55cd@t-online.de>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jZsCb-0004DI-GR; Sat, 16 May 2020 04:29:49 -0400
+Resent-Date: Sat, 16 May 2020 04:29:49 -0400
+Resent-Message-Id: <E1jZsCb-0004DI-GR@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21398)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jZsCZ-0006GK-SN; Sat, 16 May 2020 04:29:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1589617766; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Ys0rGXWNJZMZHJKvHcN9cr/5akj6qbdTh4sc+6CzPMrtgRQOSIBHjeBhJEbX5A8k14XA28XCRGh80IrnTZiqYEswMAQeBx5Nb6GiRooW4iUNc0TDLL6G6xkvFLpeSR+gETKiGBO4IR/kAC0R8F6sZpYaYJUQW9oNHqSRNqplu7U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1589617766;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=DjJr4v9gIVXllfOBzHiNzBTok5T2DQkadVFzpwxoMpw=; 
+ b=Ensuji0IY/TnRqWKJIFtWgd6NoUJx68m7x0001Kx58BR3M6Pqqx+gCqG7zJh+SDQOT98xDr7hY+H9lOF11QJ6VXaxHbv4vj6OlHSihvar8ShaFjDrIuFs7RYSbpoyBZQrb68hPp9DvNp0cjurnW5Wkpvsg/N+9kVehudRAoEH0o=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1589617764883266.97711975474;
+ Sat, 16 May 2020 01:29:24 -0700 (PDT)
+Message-ID: <158961776278.15373.15563171252292830868@45ef0f9c86ae>
+In-Reply-To: <20200515150421.25479-1-kraxel@redhat.com>
+Subject: Re: [PATCH v6 00/16] acpi: i386 tweaks
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ID: ZkibeoZfrhRJLRV-A3NarHt0Or7r3MoQMYMz5Lek4GH4v1pX3gaYc5EEeHTZTEsgWi
-X-TOI-EXPURGATEID: 150726::1589613641-00007FCB-39028EDF/0/0 CLEAN NORMAL
-X-TOI-MSGID: a3e70252-ac42-4572-be14-a1e34c3baaf6
-Received-SPF: none client-ip=194.25.134.20;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout08.t-online.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 03:20:19
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kraxel@redhat.com
+Date: Sat, 16 May 2020 01:29:24 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 23:45:34
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,233 +67,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, kwolf@redhat.com, thuth@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, mst@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, marcandre.lureau@redhat.com, kraxel@redhat.com,
+ pbonzini@redhat.com, imammedo@redhat.com, jsnow@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based on a mail on the qemu-devel mailing list at
-https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg02909.html
-and some internet research the GTK3 versions on supported
-platforms are:
-
-    RHEL-7.4: 3.22.10
-    RHEL-7.5: 3.22.26
-    Debian (Stretch): 3.22.11
-    Debian (Buster): 3.24.5
-    OpenBSD (Ports): 3.22.30
-    FreeBSD (Ports): 3.22.29
-    OpenSUSE Leap 15: 3.22.30
-    SLE12-SP2: Unknown
-    SLE15: 3.22.30
-    Ubuntu (Bionic): 3.22.30
-    Ubuntu (Focal): 3.24.18
-    macOS (Homebrew): 3.22.30
-
-This justifies increasing the minimum required GTK version in
-QEMU to 3.22.0.
-
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
----
- configure |  2 +-
- ui/gtk.c  | 91 +++++--------------------------------------------------
- 2 files changed, 9 insertions(+), 84 deletions(-)
-
-diff --git a/configure b/configure
-index 26084fc53a..2fc05c4465 100755
---- a/configure
-+++ b/configure
-@@ -2897,7 +2897,7 @@ fi
- if test "$gtk" != "no"; then
-     gtkpackage="gtk+-3.0"
-     gtkx11package="gtk+-x11-3.0"
--    gtkversion="3.14.0"
-+    gtkversion="3.22.0"
-     if $pkg_config --exists "$gtkpackage >= $gtkversion"; then
-         gtk_cflags=$($pkg_config --cflags $gtkpackage)
-         gtk_libs=$($pkg_config --libs $gtkpackage)
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 68a5b901c7..d4b49bd7da 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -490,12 +490,7 @@ static void gd_refresh(DisplayChangeListener *dcl)
- 
- static GdkDevice *gd_get_pointer(GdkDisplay *dpy)
- {
--#if GTK_CHECK_VERSION(3, 20, 0)
-     return gdk_seat_get_pointer(gdk_display_get_default_seat(dpy));
--#else
--    return gdk_device_manager_get_client_pointer(
--        gdk_display_get_device_manager(dpy));
--#endif
- }
- 
- static void gd_mouse_set(DisplayChangeListener *dcl,
-@@ -877,27 +872,18 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
- 
-     if (!qemu_input_is_absolute() && s->ptr_owner == vc) {
-         GdkScreen *screen = gtk_widget_get_screen(vc->gfx.drawing_area);
-+        GdkDisplay *dpy = gtk_widget_get_display(widget);
-+        GdkWindow *win = gtk_widget_get_window(widget);
-+        GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
-+        GdkRectangle geometry;
-         int screen_width, screen_height;
- 
-         int x = (int)motion->x_root;
-         int y = (int)motion->y_root;
- 
--#if GTK_CHECK_VERSION(3, 22, 0)
--        {
--            GdkDisplay *dpy = gtk_widget_get_display(widget);
--            GdkWindow *win = gtk_widget_get_window(widget);
--            GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
--            GdkRectangle geometry;
--            gdk_monitor_get_geometry(monitor, &geometry);
--            screen_width = geometry.width;
--            screen_height = geometry.height;
--        }
--#else
--        {
--            screen_width = gdk_screen_get_width(screen);
--            screen_height = gdk_screen_get_height(screen);
--        }
--#endif
-+        gdk_monitor_get_geometry(monitor, &geometry);
-+        screen_width = geometry.width;
-+        screen_height = geometry.height;
- 
-         /* In relative mode check to see if client pointer hit
-          * one of the screen edges, and if so move it back by
-@@ -1026,13 +1012,8 @@ static const guint16 *gd_get_keymap(size_t *maplen)
- #ifdef GDK_WINDOWING_WIN32
-     if (GDK_IS_WIN32_DISPLAY(dpy)) {
-         trace_gd_keymap_windowing("win32");
--#if GTK_CHECK_VERSION(3, 22, 0)
-         *maplen = qemu_input_map_atset1_to_qcode_len;
-         return qemu_input_map_atset1_to_qcode;
--#else
--        *maplen = qemu_input_map_win32_to_qcode_len;
--        return qemu_input_map_win32_to_qcode;
--#endif
-     }
- #endif
- 
-@@ -1080,7 +1061,7 @@ static int gd_map_keycode(int scancode)
- 
- static int gd_get_keycode(GdkEventKey *key)
- {
--#if defined G_OS_WIN32 && GTK_CHECK_VERSION(3, 22, 0)
-+#ifdef G_OS_WIN32
-     int scancode = gdk_event_get_scancode((GdkEvent *)key);
- 
-     /* translate Windows native scancodes to atset1 keycodes */
-@@ -1437,7 +1418,6 @@ static void gd_menu_zoom_fit(GtkMenuItem *item, void *opaque)
-     gd_update_full_redraw(vc);
- }
- 
--#if GTK_CHECK_VERSION(3, 20, 0)
- static void gd_grab_update(VirtualConsole *vc, bool kbd, bool ptr)
- {
-     GdkDisplay *display = gtk_widget_get_display(vc->gfx.drawing_area);
-@@ -1461,32 +1441,6 @@ static void gd_grab_update(VirtualConsole *vc, bool kbd, bool ptr)
-         gdk_seat_ungrab(seat);
-     }
- }
--#else
--static void gd_grab_devices(VirtualConsole *vc, bool grab,
--                            GdkInputSource source, GdkEventMask mask,
--                            GdkCursor *cursor)
--{
--    GdkDisplay *display = gtk_widget_get_display(vc->gfx.drawing_area);
--    GdkDeviceManager *mgr = gdk_display_get_device_manager(display);
--    GList *devs = gdk_device_manager_list_devices(mgr, GDK_DEVICE_TYPE_MASTER);
--    GList *tmp = devs;
--
--    for (tmp = devs; tmp; tmp = tmp->next) {
--        GdkDevice *dev = tmp->data;
--        if (gdk_device_get_source(dev) != source) {
--            continue;
--        }
--        if (grab) {
--            GdkWindow *win = gtk_widget_get_window(vc->gfx.drawing_area);
--            gdk_device_grab(dev, win, GDK_OWNERSHIP_NONE, FALSE,
--                            mask, cursor, GDK_CURRENT_TIME);
--        } else {
--            gdk_device_ungrab(dev, GDK_CURRENT_TIME);
--        }
--    }
--    g_list_free(devs);
--}
--#endif
- 
- static void gd_grab_keyboard(VirtualConsole *vc, const char *reason)
- {
-@@ -1499,13 +1453,7 @@ static void gd_grab_keyboard(VirtualConsole *vc, const char *reason)
-     }
- 
-     win32_kbd_set_grab(true);
--#if GTK_CHECK_VERSION(3, 20, 0)
-     gd_grab_update(vc, true, vc->s->ptr_owner == vc);
--#else
--    gd_grab_devices(vc, true, GDK_SOURCE_KEYBOARD,
--                   GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK,
--                   NULL);
--#endif
-     vc->s->kbd_owner = vc;
-     gd_update_caption(vc->s);
-     trace_gd_grab(vc->label, "kbd", reason);
-@@ -1521,11 +1469,7 @@ static void gd_ungrab_keyboard(GtkDisplayState *s)
-     s->kbd_owner = NULL;
- 
-     win32_kbd_set_grab(false);
--#if GTK_CHECK_VERSION(3, 20, 0)
-     gd_grab_update(vc, false, vc->s->ptr_owner == vc);
--#else
--    gd_grab_devices(vc, false, GDK_SOURCE_KEYBOARD, 0, NULL);
--#endif
-     gd_update_caption(s);
-     trace_gd_ungrab(vc->label, "kbd");
- }
-@@ -1542,21 +1486,9 @@ static void gd_grab_pointer(VirtualConsole *vc, const char *reason)
-         }
-     }
- 
--#if GTK_CHECK_VERSION(3, 20, 0)
-     gd_grab_update(vc, vc->s->kbd_owner == vc, true);
-     gdk_device_get_position(gd_get_pointer(display),
-                             NULL, &vc->s->grab_x_root, &vc->s->grab_y_root);
--#else
--    gd_grab_devices(vc, true, GDK_SOURCE_MOUSE,
--                    GDK_POINTER_MOTION_MASK |
--                    GDK_BUTTON_PRESS_MASK |
--                    GDK_BUTTON_RELEASE_MASK |
--                    GDK_BUTTON_MOTION_MASK |
--                    GDK_SCROLL_MASK,
--                    vc->s->null_cursor);
--    gdk_device_get_position(gd_get_pointer(display),
--                            NULL, &vc->s->grab_x_root, &vc->s->grab_y_root);
--#endif
-     vc->s->ptr_owner = vc;
-     gd_update_caption(vc->s);
-     trace_gd_grab(vc->label, "ptr", reason);
-@@ -1573,17 +1505,10 @@ static void gd_ungrab_pointer(GtkDisplayState *s)
-     s->ptr_owner = NULL;
- 
-     display = gtk_widget_get_display(vc->gfx.drawing_area);
--#if GTK_CHECK_VERSION(3, 20, 0)
-     gd_grab_update(vc, vc->s->kbd_owner == vc, false);
-     gdk_device_warp(gd_get_pointer(display),
-                     gtk_widget_get_screen(vc->gfx.drawing_area),
-                     vc->s->grab_x_root, vc->s->grab_y_root);
--#else
--    gd_grab_devices(vc, false, GDK_SOURCE_MOUSE, 0, NULL);
--    gdk_device_warp(gd_get_pointer(display),
--                    gtk_widget_get_screen(vc->gfx.drawing_area),
--                    vc->s->grab_x_root, vc->s->grab_y_root);
--#endif
-     gd_update_caption(s);
-     trace_gd_ungrab(vc->label, "ptr");
- }
--- 
-2.26.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUxNTE1MDQyMS4yNTQ3
+OS0xLWtyYXhlbEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpNZXNzYWdlLWlkOiAyMDIwMDUxNTE1MDQyMS4yNTQ3OS0xLWtyYXhlbEByZWRo
+YXQuY29tClN1YmplY3Q6IFtQQVRDSCB2NiAwMC8xNl0gYWNwaTogaTM4NiB0d2Vha3MKVHlwZTog
+c2VyaWVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFy
+c2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVu
+YW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZp
+ZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5w
+bCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKU3dpdGNoZWQgdG8g
+YSBuZXcgYnJhbmNoICd0ZXN0Jwo2OWZmMmI5IGFjcGk6IHEzNTogZHJvcCBfU0IuUENJMC5JU0Eu
+TFBDRCBvcHJlZ2lvbi4KMGU2MDhlMSBhY3BpOiBkcm9wIGJ1aWxkX3BpaXg0X3BtKCkKNzliYjQx
+ZiBhY3BpOiBkcm9wIHNlcmlhbC9wYXJhbGxlbCBlbmFibGUgYml0cyBmcm9tIGRzZHQKM2Q0ODNl
+MSBhY3BpOiBzaW1wbGlmeSBidWlsZF9pc2FfZGV2aWNlc19hbWwoKQpjOWRiMzVlIGFjcGk6IGZh
+Y3RvciBvdXQgZndfY2ZnX2FkZF9hY3BpX2RzZHQoKQo0ZDBjNWJhIGFjcGk6IG1vdmUgYW1sIGJ1
+aWxkZXIgY29kZSBmb3IgaTgwNDIgKGtiZCttb3VzZSkgZGV2aWNlCmRiOWE1ZmEgZmxvcHB5OiBt
+b3ZlIGNtb3NfZ2V0X2ZkX2RyaXZlX3R5cGUoKSBmcm9tIHBjCjNkOTlhNGQgZmxvcHB5OiBtYWtl
+IGlzYV9mZGNfZ2V0X2RyaXZlX21heF9jaHMgc3RhdGljCjUwZWMzODMgYWNwaTogbW92ZSBhbWwg
+YnVpbGRlciBjb2RlIGZvciBmbG9wcHkgZGV2aWNlCmNhNTg1YzAgYWNwaTogbW92ZSBhbWwgYnVp
+bGRlciBjb2RlIGZvciBwYXJhbGxlbCBkZXZpY2UKZGI0MzhkMCBhY3BpOiBwYXJhbGxlbDogZG9u
+J3QgdXNlIF9TVEEgbWV0aG9kCjZhNTU1MGQgYWNwaTogbW92ZSBhbWwgYnVpbGRlciBjb2RlIGZv
+ciBzZXJpYWwgZGV2aWNlCjU4NWQzMDggYWNwaTogc2VyaWFsOiBkb24ndCB1c2UgX1NUQSBtZXRo
+b2QKNjM5MGRjYiBhY3BpOiBydGM6IHVzZSBhIHNpbmdsZSBjcnMgcmFuZ2UKNzMwZWRhNyBhY3Bp
+OiBtb3ZlIGFtbCBidWlsZGVyIGNvZGUgZm9yIHJ0YyBkZXZpY2UKMGY1OGRmYSBxdGVzdDogYWxs
+b3cgRFNEVCBhY3BpIHRhYmxlIGNoYW5nZXMKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTYgQ2hl
+Y2tpbmcgY29tbWl0IDBmNThkZmFmMDNkMiAocXRlc3Q6IGFsbG93IERTRFQgYWNwaSB0YWJsZSBj
+aGFuZ2VzKQoyLzE2IENoZWNraW5nIGNvbW1pdCA3MzBlZGE3NWYzMmYgKGFjcGk6IG1vdmUgYW1s
+IGJ1aWxkZXIgY29kZSBmb3IgcnRjIGRldmljZSkKMy8xNiBDaGVja2luZyBjb21taXQgNjM5MGRj
+YmM3NjA2IChhY3BpOiBydGM6IHVzZSBhIHNpbmdsZSBjcnMgcmFuZ2UpCjQvMTYgQ2hlY2tpbmcg
+Y29tbWl0IDU4NWQzMDhiNWE3MyAoYWNwaTogc2VyaWFsOiBkb24ndCB1c2UgX1NUQSBtZXRob2Qp
+CjUvMTYgQ2hlY2tpbmcgY29tbWl0IDZhNTU1MGQ2MTA2OSAoYWNwaTogbW92ZSBhbWwgYnVpbGRl
+ciBjb2RlIGZvciBzZXJpYWwgZGV2aWNlKQo2LzE2IENoZWNraW5nIGNvbW1pdCBkYjQzOGQwOTQ2
+ODQgKGFjcGk6IHBhcmFsbGVsOiBkb24ndCB1c2UgX1NUQSBtZXRob2QpCjcvMTYgQ2hlY2tpbmcg
+Y29tbWl0IGNhNTg1YzA3YzMzOCAoYWNwaTogbW92ZSBhbWwgYnVpbGRlciBjb2RlIGZvciBwYXJh
+bGxlbCBkZXZpY2UpCjgvMTYgQ2hlY2tpbmcgY29tbWl0IDUwZWMzODMwODdmMSAoYWNwaTogbW92
+ZSBhbWwgYnVpbGRlciBjb2RlIGZvciBmbG9wcHkgZGV2aWNlKQpXQVJOSU5HOiBhZGRlZCwgbW92
+ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMy
+NDU6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAy
+MjEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggOC8xNiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
+ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
+IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo5
+LzE2IENoZWNraW5nIGNvbW1pdCAzZDk5YTRkYWU3MTYgKGZsb3BweTogbWFrZSBpc2FfZmRjX2dl
+dF9kcml2ZV9tYXhfY2hzIHN0YXRpYykKMTAvMTYgQ2hlY2tpbmcgY29tbWl0IGRiOWE1ZmEwMGZh
+MyAoZmxvcHB5OiBtb3ZlIGNtb3NfZ2V0X2ZkX2RyaXZlX3R5cGUoKSBmcm9tIHBjKQpFUlJPUjog
+TWlzc2luZyBTaWduZWQtb2ZmLWJ5OiBsaW5lKHMpCgp0b3RhbDogMSBlcnJvcnMsIDAgd2Fybmlu
+Z3MsIDgyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEwLzE2IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
+YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
+ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
+UlMuCgoxMS8xNiBDaGVja2luZyBjb21taXQgNGQwYzViYWI2ZGFlIChhY3BpOiBtb3ZlIGFtbCBi
+dWlsZGVyIGNvZGUgZm9yIGk4MDQyIChrYmQrbW91c2UpIGRldmljZSkKMTIvMTYgQ2hlY2tpbmcg
+Y29tbWl0IGM5ZGIzNWViMmM3MyAoYWNwaTogZmFjdG9yIG91dCBmd19jZmdfYWRkX2FjcGlfZHNk
+dCgpKQoxMy8xNiBDaGVja2luZyBjb21taXQgM2Q0ODNlMTgxMGM3IChhY3BpOiBzaW1wbGlmeSBi
+dWlsZF9pc2FfZGV2aWNlc19hbWwoKSkKMTQvMTYgQ2hlY2tpbmcgY29tbWl0IDc5YmI0MWY3MDFm
+MyAoYWNwaTogZHJvcCBzZXJpYWwvcGFyYWxsZWwgZW5hYmxlIGJpdHMgZnJvbSBkc2R0KQoxNS8x
+NiBDaGVja2luZyBjb21taXQgMGU2MDhlMTg5ODAwIChhY3BpOiBkcm9wIGJ1aWxkX3BpaXg0X3Bt
+KCkpCjE2LzE2IENoZWNraW5nIGNvbW1pdCA2OWZmMmI5MWM4NmIgKGFjcGk6IHEzNTogZHJvcCBf
+U0IuUENJMC5JU0EuTFBDRCBvcHJlZ2lvbi4pCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21t
+YW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
+dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNTE1MTUwNDIxLjI1NDc5LTEta3JheGVsQHJlZGhh
+dC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0
+ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFz
+ZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
