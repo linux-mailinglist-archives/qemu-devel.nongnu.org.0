@@ -2,60 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8741D5EEF
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 07:47:24 +0200 (CEST)
-Received: from localhost ([::1]:36980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7E491D5F33
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 08:41:32 +0200 (CEST)
+Received: from localhost ([::1]:53818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZpfP-0001eh-0w
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 01:47:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36742)
+	id 1jZqVn-0003ul-Pw
+	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 02:41:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jZpeT-0000yK-H5
- for qemu-devel@nongnu.org; Sat, 16 May 2020 01:46:25 -0400
-Resent-Date: Sat, 16 May 2020 01:46:25 -0400
-Resent-Message-Id: <E1jZpeT-0000yK-H5@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21329)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jZpeR-0003iT-Mk
- for qemu-devel@nongnu.org; Sat, 16 May 2020 01:46:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1589607976; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=cbxj6EVPkWLrz5yhyqNZszVB2C675bmyFL5tJFGbQkYQsP8x3BPd9ojfqr17DCR1qhBgIbbvEbyKy7LwjiGJUGwIJrB97FC7Yz8yUbgujBA0PBv8yaewFcevusVY3ZUkbt/aj53AdHFJWGlfk2wRK03hzE8NE8E59lfmXLpvKvY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1589607976;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=jyOu2Wt1Ct1eQy6iA45loFxb5pp+yEgRNmnsyovPaJI=; 
- b=j5nso7zl97SMGvBX8LmkvEXag3A7WY0NggtOtlUWY0EjSlPPDcsmNR+eJZnoQdquBEIuwT7gQluvPay1+Nhu3AV1UGUxRT2VctV6TzZsv3EfAhD5DRvMMgrFKQ4AScyJ0bcu7s2rgSzloiEunT/zyWev32FOWza6o5dOc6qY+SY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1589607974692187.7087919499328;
- Fri, 15 May 2020 22:46:14 -0700 (PDT)
-Message-ID: <158960797362.9380.12829446074514510512@45ef0f9c86ae>
-In-Reply-To: <20200515184722.31182-1-richard.henderson@linaro.org>
-Subject: Re: [PULL 0/4] softfloat patch queue
+ (Exim 4.90_1) (envelope-from <prvs=398f0481b=Anup.Patel@wdc.com>)
+ id 1jZqSh-0000Ki-Of; Sat, 16 May 2020 02:38:19 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:22597)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=398f0481b=Anup.Patel@wdc.com>)
+ id 1jZqSf-0001Um-Ig; Sat, 16 May 2020 02:38:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1589611098; x=1621147098;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=/wgu4JZlHzbbok9+1Rjpt1sEYUrRqwuvEf+j4Dsb9+c=;
+ b=Qn7/oPN/SksmQNLABhpvgbwBoStCQYtJNN55HXQrtYme9sxyGnXDFFTz
+ 83qxdRDcusJQPaZW6s3Z3ZrdrUhNI3Eb55cx8brVdbgQU7mPNV7p3drHW
+ lSSWSyeV9DEqoElBQO4FNpOQpFK/hBBYSfTkG7yMaMZ1ciE/NRFjIHcqX
+ ysv+YvnB7QJAiixebENQadFvO7MssMPSZujWVcWQZ3XJLp8fxQVdmVFO0
+ tqlw19rncIRTRB20ENmZUqBi1Rrj4nJh6zEfpKKo5QQsEGY5KRVb3p0NM
+ 43n2qv8KVVevC25YGmPsyLeQkMADbdaXCGqa9A02xNPoD9nz/MV/fbAaG A==;
+IronPort-SDR: uK0kUY8ECj9fPn82PHMq8DBfMevXaJagbGTDcVGNWdQhBchTjrw4Jkvx/iQrrQR+5hp3PJWV0p
+ zKJSel+xGj2WJSHhjGV4ufYjh82H28Z4RG4vxWSVZG7YWjNS05pVijf+JE3R/8a9ElwO1qAfNG
+ NVM4MYQjgZj31M0ujvZyKBQOLEkM4ch05/7C7lXYkhpqJIty3IH0P8hL6zHY0x10DCdPNBGmKl
+ icJEYEDvFfbj8sMbkFEj9K7fKqtrtn79R7C5vGiMR9V7mbC8w4IR9tT1LvgP63AMRFrlNoa/q7
+ oWM=
+X-IronPort-AV: E=Sophos;i="5.73,398,1583164800"; d="scan'208";a="240555168"
+Received: from mail-sn1nam04lp2053.outbound.protection.outlook.com (HELO
+ NAM04-SN1-obe.outbound.protection.outlook.com) ([104.47.44.53])
+ by ob1.hgst.iphmx.com with ESMTP; 16 May 2020 14:38:12 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RhQzHyIsnPafYgXTac3PZBklys2Vi0ESWP84rEJz8UAvCtoBtTogI1yqbTV6UyLfXycjUFYX9bwWMQWY4wTSkAcLVJ/Pn+s/SmU4TWEHAmsFomQfA98gILfNlE/giG9BTwI2qfYgSEsvxv9FVp9VewRug/jDEQmH4IwPacskdIV5954usbQfB1qtbMYMuRql6ZWLaLaHKMVS+6REOlI9z/Fc3ZOWCioq+tuHL8cFS3sSBegnaQhi6X7Wdb0GVNhqjyNbVacfnmCqriGvwEcd6HBcWp2JY1pWZ6DMcs0EIDm8J0MJnJIiPW9ZMrQZIykYoVnZcWEh6PesSd9tJCPFzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JKijAsFdMppQE2eeB0wGxXujYQP743duev/UvZu2hNw=;
+ b=PTVAl2Qmep67Z0xiM7oJtFjGHTfYL+HTa061Y1hugXcUvNJ7uD9netG3PQ8Ws88Zm1g+rqf8lL3AFLJB/+knfkfQU7qnpfQBUTdxRbzBaJScnZj3Xv75dHdCpgPQEmOY7WbG5rwy3uWAegoxjzf02ANC1aqSM0RwUR1kN9ownpB4bbt63ncGRAWILRprnnLA1nTzVMU7C3ehZo79QsR0AjL1TFc93bfpz+JD1n6dnFl5cFUdTX/AdG7e1CW2LoF7EIHmp9jCFix8AA+j1e19L2t79SM4WQW+4kooCtH2BdQOb+WC70hHALdOxLVqUyFajDdrdF2elilDOsZ0Sf8xfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JKijAsFdMppQE2eeB0wGxXujYQP743duev/UvZu2hNw=;
+ b=yAee/jsiBLXQRVtccMxZu/8As2/7GnwpoBKN+V2GP59sycz8jKCAnkh1v3jYV/vWguY0Nn9njhHz6PpCw3BOkX4gimVhJEt64nrk3FI53+nVPmg1kGVCEmxqRujVXHxtwy0xa4GF4fqky4F6UyaAODps9hp1NmpnCA18NELFaCQ=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=wdc.com;
+Received: from DM6PR04MB6201.namprd04.prod.outlook.com (2603:10b6:5:127::32)
+ by DM6PR04MB4539.namprd04.prod.outlook.com (2603:10b6:5:2c::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.26; Sat, 16 May
+ 2020 06:38:09 +0000
+Received: from DM6PR04MB6201.namprd04.prod.outlook.com
+ ([fe80::f8b3:c124:482b:52e0]) by DM6PR04MB6201.namprd04.prod.outlook.com
+ ([fe80::f8b3:c124:482b:52e0%5]) with mapi id 15.20.2979.033; Sat, 16 May 2020
+ 06:38:09 +0000
+From: Anup Patel <anup.patel@wdc.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
+Subject: [PATCH 0/4] RISC-V multi-socket support
+Date: Sat, 16 May 2020 12:07:42 +0530
+Message-Id: <20200516063746.18296-1-anup.patel@wdc.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MAXPR01CA0109.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:5d::27) To DM6PR04MB6201.namprd04.prod.outlook.com
+ (2603:10b6:5:127::32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Fri, 15 May 2020 22:46:14 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 23:45:34
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from wdc.com (49.207.60.36) by
+ MAXPR01CA0109.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:5d::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3000.25 via Frontend Transport; Sat, 16 May 2020 06:38:05 +0000
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [49.207.60.36]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: b2a62b2b-fc6b-4166-c74c-08d7f963b2d3
+X-MS-TrafficTypeDiagnostic: DM6PR04MB4539:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR04MB4539B87498BF4A1D1D04E8DE8DBA0@DM6PR04MB4539.namprd04.prod.outlook.com>
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Oob-TLC-OOBClassifiers: OLM:2201;
+X-Forefront-PRVS: 040513D301
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Lcgbk5T/57UuR0XKJz/9wgOADO7DAwEDuwacUMdG/eDut4vvihCWdG2s6mKYnXHAjgeangD8XyahrWhYVGfqkUP4BK9Ixi1ZCYaW0mK2mVhuW8kcc3zJrn5GCgFNR1e2fHsWhs6g5ElUQRhsnXjQ0s9M5mOUxDPn3Z3ky3Ayobo2QXRajPkWoQ7kMLmY+N30po2XMPv5fspbL4XUbZHCKAkdEqVOKKb5FLO16r9i86fPIMam0BBwW9RuUXczdYFQA4k5M9v1B9ko6InVx+3W81LqEl/CT+4sF/FECXURfaKxC1rEd/gdf0FGZZ1w+gIe0so32oIxUzHdNtUopzisE/PKcYTuG6LopCM6v7AornAAqS1V5OL2nKYtM9o8Xp+amqcUZorsNEJgvQb6GQ9FZJJ+vAiuUKbthLP2GeAbvfuft7AZRk6KQd8uMb9UspA97sKLFC97jdF4FtVlCyo1Scac+XNsficSmZ0QmPPYCxAx/SeMJQqbaD4ly+GQoOHmrBzyloATgA7L42SHsx4z/Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR04MB6201.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(346002)(376002)(366004)(39860400002)(136003)(6666004)(1006002)(2906002)(8676002)(36756003)(8936002)(966005)(44832011)(26005)(54906003)(86362001)(7696005)(52116002)(55236004)(110136005)(1076003)(16526019)(186003)(316002)(5660300002)(66946007)(8886007)(55016002)(66476007)(66556008)(478600001)(956004)(4326008)(2616005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: cM6lSpGgNUfzlWmErxsaJ3yIjQn9mUvR5KENMrpMGA3a4sz6FsdNWcMe+auv+TjXbMBJBBzRf66Iz+UkJ+sSLPFcLPIko67IpSeXDcVdLBAFBUHYCoJu3od8Qc6NpJo2hI+RAGRrSk3gFnCoCV1pkGd64C1z1gSinCxFT6naVYDL+mb0DqfGIECpOw8e1IIroBRdUFq9/lJLQy5Vu2IJ39zLz7oUyb6nCsYRxrGhDDYqyRs9igGrHgVvfYmW58MwhNeMhToQ8OJC1ILcFBFBdcxJOeIKDrXG8H2BC6+EhKSMEqf4KgPnO0uskiYmgTXDi6s3RUU5mZND2B3tgr7QCtUKO0nfzqzSMryMFNumS1Xc6EnHC2skznDqNfaDUV8+K/SdrY7tPIM61Y9Gnvv3LWpFkQ9kLhie7Uo3du7K7p5apMjha20ZiOlReQL0if33/PmMrNxrT4Fn+NcuUvrYAdabbJoWrrZxf+JwHojIr6M=
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2a62b2b-fc6b-4166-c74c-08d7f963b2d3
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2020 06:38:09.5065 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: g6Qw4yamhFBrypEdB4wat3bTWG9WSssZpXLCjsVCJxMWnBpqhZlULbWCGIC/EqIUjzF6qpWynzlNk2FtQ6BKOg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB4539
+Received-SPF: pass client-ip=68.232.143.124;
+ envelope-from=prvs=398f0481b=Anup.Patel@wdc.com; helo=esa2.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 02:38:11
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,99 +135,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org, Anup Patel <anup@brainfault.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUxNTE4NDcyMi4zMTE4
-Mi0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
-bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
-b3IKbW9yZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMjAwNTE1MTg0NzIyLjMxMTgyLTEt
-cmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTdWJqZWN0OiBbUFVMTCAwLzRdIHNvZnRmbG9h
-dCBwYXRjaCBxdWV1ZQpUeXBlOiBzZXJpZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEv
-YmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29u
-ZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJl
-bmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4v
-c2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBF
-TkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0
-CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAtIFt0YWcgdXBk
-YXRlXSAgICAgIHBhdGNoZXcvMjAyMDA1MTUxOTAxNTMuNjAxNy0xLXJpY2hhcmQuaGVuZGVyc29u
-QGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIwMDUxNTE5MDE1My42MDE3LTEtcmljaGFyZC5oZW5k
-ZXJzb25AbGluYXJvLm9yZwpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjM2ZWZkMDQg
-c29mdGZsb2F0OiBmaXggZmxvYXR4ODAgcHNldWRvLWRlbm9ybWFsIHJvdW5kIHRvIGludGVnZXIK
-NGMyZTg4MCBzb2Z0ZmxvYXQ6IGZpeCBmbG9hdHg4MCBwc2V1ZG8tZGVub3JtYWwgY29tcGFyaXNv
-bnMKMDEzZmI0ZCBzb2Z0ZmxvYXQ6IGZpeCBmbG9hdHg4MCBwc2V1ZG8tZGVub3JtYWwgYWRkaXRp
-b24gLyBzdWJ0cmFjdGlvbgpmMWE5NmY1IHNvZnRmbG9hdDogc2lsZW5jZSBzTmFOIGZvciBjb252
-ZXJzaW9ucyB0by9mcm9tIGZsb2F0eDgwCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzQgQ2hlY2tp
-bmcgY29tbWl0IGYxYTk2ZjUxMjJiOCAoc29mdGZsb2F0OiBzaWxlbmNlIHNOYU4gZm9yIGNvbnZl
-cnNpb25zIHRvL2Zyb20gZmxvYXR4ODApCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVk
-IGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzg4OiAKbmV3IGZpbGUg
-bW9kZSAxMDA2NDQKCkVSUk9SOiBVc2Ugb2Ygdm9sYXRpbGUgaXMgdXN1YWxseSB3cm9uZywgcGxl
-YXNlIGFkZCBhIGNvbW1lbnQKIzk4OiBGSUxFOiB0ZXN0cy90Y2cvaTM4Ni90ZXN0LWkzODYtc25h
-bi1jb252ZXJ0LmM6NjoKK3ZvbGF0aWxlIGZsb2F0IGZfcmVzOwoKRVJST1I6IFVzZSBvZiB2b2xh
-dGlsZSBpcyB1c3VhbGx5IHdyb25nLCBwbGVhc2UgYWRkIGEgY29tbWVudAojOTk6IEZJTEU6IHRl
-c3RzL3RjZy9pMzg2L3Rlc3QtaTM4Ni1zbmFuLWNvbnZlcnQuYzo3Ogordm9sYXRpbGUgZG91Ymxl
-IGRfcmVzOwoKRVJST1I6IFVzZSBvZiB2b2xhdGlsZSBpcyB1c3VhbGx5IHdyb25nLCBwbGVhc2Ug
-YWRkIGEgY29tbWVudAojMTAwOiBGSUxFOiB0ZXN0cy90Y2cvaTM4Ni90ZXN0LWkzODYtc25hbi1j
-b252ZXJ0LmM6ODoKK3ZvbGF0aWxlIGxvbmcgZG91YmxlIGxkX3JlczsKCkVSUk9SOiBVc2Ugb2Yg
-dm9sYXRpbGUgaXMgdXN1YWxseSB3cm9uZywgcGxlYXNlIGFkZCBhIGNvbW1lbnQKIzEwMjogRklM
-RTogdGVzdHMvdGNnL2kzODYvdGVzdC1pMzg2LXNuYW4tY29udmVydC5jOjEwOgordm9sYXRpbGUg
-ZmxvYXQgZl9zbmFuID0gX19idWlsdGluX25hbnNmKCIiKTsKCkVSUk9SOiBVc2Ugb2Ygdm9sYXRp
-bGUgaXMgdXN1YWxseSB3cm9uZywgcGxlYXNlIGFkZCBhIGNvbW1lbnQKIzEwMzogRklMRTogdGVz
-dHMvdGNnL2kzODYvdGVzdC1pMzg2LXNuYW4tY29udmVydC5jOjExOgordm9sYXRpbGUgZG91Ymxl
-IGRfc25hbiA9IF9fYnVpbHRpbl9uYW5zKCIiKTsKCkVSUk9SOiBVc2Ugb2Ygdm9sYXRpbGUgaXMg
-dXN1YWxseSB3cm9uZywgcGxlYXNlIGFkZCBhIGNvbW1lbnQKIzEwNDogRklMRTogdGVzdHMvdGNn
-L2kzODYvdGVzdC1pMzg2LXNuYW4tY29udmVydC5jOjEyOgordm9sYXRpbGUgbG9uZyBkb3VibGUg
-bGRfc25hbiA9IF9fYnVpbHRpbl9uYW5zbCgiIik7Cgp0b3RhbDogNiBlcnJvcnMsIDEgd2Fybmlu
-Z3MsIDEyMyBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
-c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
-cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
-Uy4KCjIvNCBDaGVja2luZyBjb21taXQgMDEzZmI0ZGY1ZjFiIChzb2Z0ZmxvYXQ6IGZpeCBmbG9h
-dHg4MCBwc2V1ZG8tZGVub3JtYWwgYWRkaXRpb24gLyBzdWJ0cmFjdGlvbikKV0FSTklORzogQmxv
-Y2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzI5OiBGSUxF
-OiBmcHUvc29mdGZsb2F0LmM6NTg3MDoKKyAgICAgICAgICAgICAgICAvKiBBdCBsZWFzdCBvbmUg
-b2YgdGhlIHZhbHVlcyBpcyBhIHBzZXVkby1kZW5vcm1hbCwKCldBUk5JTkc6IEJsb2NrIGNvbW1l
-bnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojMzA6IEZJTEU6IGZwdS9z
-b2Z0ZmxvYXQuYzo1ODcxOgorICAgICAgICAgICAgICAgICAqIGFuZCB0aGVyZSBpcyBhIGNhcnJ5
-IG91dCBvZiB0aGUgcmVzdWx0LiAgKi8KCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVk
-IGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzM4OiAKbmV3IGZpbGUg
-bW9kZSAxMDA2NDQKCkVSUk9SOiBVc2Ugb2Ygdm9sYXRpbGUgaXMgdXN1YWxseSB3cm9uZywgcGxl
-YXNlIGFkZCBhIGNvbW1lbnQKIzUzOiBGSUxFOiB0ZXN0cy90Y2cvaTM4Ni90ZXN0LWkzODYtcHNl
-dWRvLWRlbm9ybWFsLmM6MTE6Cit2b2xhdGlsZSB1bmlvbiB1IGxkX3BzZXVkb19tMTYzODIgPSB7
-IC5zID0geyBVSU5UNjRfQygxKSA8PCA2MywgMCB9IH07CgpFUlJPUjogVXNlIG9mIHZvbGF0aWxl
-IGlzIHVzdWFsbHkgd3JvbmcsIHBsZWFzZSBhZGQgYSBjb21tZW50CiM1NTogRklMRTogdGVzdHMv
-dGNnL2kzODYvdGVzdC1pMzg2LXBzZXVkby1kZW5vcm1hbC5jOjEzOgordm9sYXRpbGUgbG9uZyBk
-b3VibGUgbGRfcmVzOwoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnLScgKGN0
-eDpWeFYpCiM2MTogRklMRTogdGVzdHMvdGNnL2kzODYvdGVzdC1pMzg2LXBzZXVkby1kZW5vcm1h
-bC5jOjE5OgorICAgIGlmIChsZF9yZXMgIT0gMHgxcC0xNjM4MUwpIHsKICAgICAgICAgICAgICAg
-ICAgICAgICBeCgp0b3RhbDogMyBlcnJvcnMsIDMgd2FybmluZ3MsIDM2IGxpbmVzIGNoZWNrZWQK
-ClBhdGNoIDIvNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
-dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
-YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy80IENoZWNraW5nIGNvbW1p
-dCA0YzJlODgwN2ZkMWYgKHNvZnRmbG9hdDogZml4IGZsb2F0eDgwIHBzZXVkby1kZW5vcm1hbCBj
-b21wYXJpc29ucykKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnLScgKGN0eDpW
-eFYpCiM0MzogRklMRTogdGVzdHMvdGNnL2kzODYvdGVzdC1pMzg2LXBzZXVkby1kZW5vcm1hbC5j
-OjIzOgorICAgIGlmIChsZF9wc2V1ZG9fbTE2MzgyLmxkICE9IDB4MXAtMTYzODJMKSB7CiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJu
-aW5ncywgMjIgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy80IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
-YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
-ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
-UlMuCgo0LzQgQ2hlY2tpbmcgY29tbWl0IDM2ZWZkMDRlOWM3YiAoc29mdGZsb2F0OiBmaXggZmxv
-YXR4ODAgcHNldWRvLWRlbm9ybWFsIHJvdW5kIHRvIGludGVnZXIpCkVSUk9SOiBzcGFjZSBwcm9o
-aWJpdGVkIGFmdGVyIHRoYXQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzI5OiBGSUxFOiBmcHUvc29m
-dGZsb2F0LmM6NTc0NDoKKyAgICAgICAgICAgICAmJiAoICh1aW50NjRfdCkgKCBleHRyYWN0Rmxv
-YXR4ODBGcmFjKCBhICkgKSA9PSAwICkgKSB7CgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBiZWZv
-cmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzI5OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6
-NTc0NDoKKyAgICAgICAgICAgICAmJiAoICh1aW50NjRfdCkgKCBleHRyYWN0RmxvYXR4ODBGcmFj
-KCBhICkgKSA9PSAwICkgKSB7Cgp0b3RhbDogMiBlcnJvcnMsIDAgd2FybmluZ3MsIDI5IGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDQvNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBV
-VCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxv
-ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA1MTUxODQ3MjIu
-MzExODItMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRjaC8/
-dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
-dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
-dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+This series adds multi-socket support for RISC-V virt machine and
+RISC-V spike machine. The multi-socket support will help us improve
+various RISC-V operating systems, firmwares, and bootloader to
+support RISC-V NUMA systems.
+
+These patch can be found in riscv_multi_socket_v1 branch at:
+https://github.com/avpatel/qemu.git
+
+To try this patches, we will need:
+1. OpenSBI multi-PLIC and multi-CLINT support which can be found in
+   multi_plic_clint_v1 branch at:
+   https://github.com/avpatel/opensbi.git
+2. Linux multi-PLIC improvements support which can be found in
+   plic_imp_v1 branch at:
+   https://github.com/avpatel/linux.git
+
+Anup Patel (4):
+  hw/riscv: Allow creating multiple instances of CLINT
+  hw/riscv: spike: Allow creating multiple sockets
+  hw/riscv: Allow creating multiple instances of PLIC
+  hw/riscv: virt: Allow creating multiple sockets
+
+ hw/riscv/sifive_clint.c         |  20 +-
+ hw/riscv/sifive_e.c             |   4 +-
+ hw/riscv/sifive_plic.c          |  24 +-
+ hw/riscv/sifive_u.c             |   4 +-
+ hw/riscv/spike.c                | 210 ++++++++------
+ hw/riscv/virt.c                 | 495 ++++++++++++++++++--------------
+ include/hw/riscv/sifive_clint.h |   7 +-
+ include/hw/riscv/sifive_plic.h  |  12 +-
+ include/hw/riscv/spike.h        |   8 +-
+ include/hw/riscv/virt.h         |  12 +-
+ 10 files changed, 458 insertions(+), 338 deletions(-)
+
+-- 
+2.25.1
+
 
