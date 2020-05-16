@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE641D5F6D
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 09:30:11 +0200 (CEST)
-Received: from localhost ([::1]:44826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C18021D5F64
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 09:23:52 +0200 (CEST)
+Received: from localhost ([::1]:59886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZrGs-0000DK-3D
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 03:30:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44558)
+	id 1jZrAl-0002VO-Ra
+	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 03:23:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jZr7i-0006Z3-0M
- for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:42 -0400
-Received: from mailout06.t-online.de ([194.25.134.19]:34122)
+ id 1jZr7Z-0006NG-S6
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:33 -0400
+Received: from mailout11.t-online.de ([194.25.134.85]:48316)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jZr7g-0004Nb-Ua
- for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:41 -0400
-Received: from fwd28.aul.t-online.de (fwd28.aul.t-online.de [172.20.26.133])
- by mailout06.t-online.de (Postfix) with SMTP id 46B9C4187212;
- Sat, 16 May 2020 09:20:39 +0200 (CEST)
+ id 1jZr7Y-0004GN-Pw
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:33 -0400
+Received: from fwd03.aul.t-online.de (fwd03.aul.t-online.de [172.20.27.148])
+ by mailout11.t-online.de (Postfix) with SMTP id 1865F42483DF;
+ Sat, 16 May 2020 09:20:31 +0200 (CEST)
 Received: from linpower.localnet
- (XjkBvUZGYhKLaWOscxl-JkxPerUhMl9z8CVN-k1YICE+wipz6U45wfbZLHXP6TAQDl@[46.86.59.135])
- by fwd28.t-online.de
+ (GvvlOoZQrhfs8+AKif4hik7fVDK0Hdarq7dTi69tYSGCHeqPUyYNACuCz+wxAS8gKf@[46.86.59.135])
+ by fwd03.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1jZr7R-3heaQK0; Sat, 16 May 2020 09:20:25 +0200
+ esmtp id 1jZr7U-0v2Xzs0; Sat, 16 May 2020 09:20:28 +0200
 Received: by linpower.localnet (Postfix, from userid 1000)
- id E18272006D3; Sat, 16 May 2020 09:20:14 +0200 (CEST)
+ id E3D462006D4; Sat, 16 May 2020 09:20:14 +0200 (CEST)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v2 05/11] ui/gtk: remove unused variable ignore_keys
-Date: Sat, 16 May 2020 09:20:08 +0200
-Message-Id: <20200516072014.7766-5-vr_qemu@t-online.de>
+Subject: [PATCH v2 06/11] ui/sdl2: fix handling of AltGr key on Windows
+Date: Sat, 16 May 2020 09:20:09 +0200
+Message-Id: <20200516072014.7766-6-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <bea1a22a-1fb4-b49b-c089-e0a5c5cf55cd@t-online.de>
 References: <bea1a22a-1fb4-b49b-c089-e0a5c5cf55cd@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: XjkBvUZGYhKLaWOscxl-JkxPerUhMl9z8CVN-k1YICE+wipz6U45wfbZLHXP6TAQDl
-X-TOI-EXPURGATEID: 150726::1589613625-000183D0-81724907/0/0 CLEAN NORMAL
-X-TOI-MSGID: 10fd7cad-d1a6-4c99-ba2a-d7fc2bb9007e
-Received-SPF: none client-ip=194.25.134.19;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout06.t-online.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 03:20:39
+X-ID: GvvlOoZQrhfs8+AKif4hik7fVDK0Hdarq7dTi69tYSGCHeqPUyYNACuCz+wxAS8gKf
+X-TOI-EXPURGATEID: 150726::1589613628-0001711A-C6CB7F71/0/0 CLEAN NORMAL
+X-TOI-MSGID: 9f8f44f4-95c7-4c8b-995a-5fee8e618491
+Received-SPF: none client-ip=194.25.134.85;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout11.t-online.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 03:20:31
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,53 +71,84 @@ Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the removal of GTK2 code in commit 89d85cde75 the code
-around ignore_keys is unused. See commit 1a01716a30 "gtk: Avoid
-accel key leakage into guest on console switch" why it was only
-needed for GTK2.
+Wire up the keyboard hooking code on Windows to fix the AltGr
+key and improve keyboard grabbing.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- ui/gtk.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ ui/sdl2.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 0e9503a0d1..354dd90e18 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -168,8 +168,6 @@ struct GtkDisplayState {
+diff --git a/ui/sdl2.c b/ui/sdl2.c
+index 61c7956da3..79c1ea29d2 100644
+--- a/ui/sdl2.c
++++ b/ui/sdl2.c
+@@ -30,6 +30,7 @@
+ #include "ui/sdl2.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
++#include "ui/win32-kbd-hook.h"
  
-     bool external_pause_update;
- 
--    bool ignore_keys;
--
-     DisplayOptions *opts;
- };
- 
-@@ -1095,14 +1093,8 @@ static gboolean gd_text_key_down(GtkWidget *widget,
- static gboolean gd_key_event(GtkWidget *widget, GdkEventKey *key, void *opaque)
- {
-     VirtualConsole *vc = opaque;
--    GtkDisplayState *s = vc->s;
-     int qcode;
- 
--    if (s->ignore_keys) {
--        s->ignore_keys = (key->type == GDK_KEY_PRESS);
--        return TRUE;
--    }
--
- #ifdef WIN32
-     /* on windows, we ought to ignore the reserved key event? */
-     if (key->hardware_keycode == 0xff)
-@@ -1204,7 +1196,6 @@ static void gd_menu_switch_vc(GtkMenuItem *item, void *opaque)
-         gtk_notebook_set_current_page(nb, page);
-         gtk_widget_grab_focus(vc->focus);
+ static int sdl2_num_outputs;
+ static struct sdl2_console *sdl2_console;
+@@ -220,6 +221,7 @@ static void sdl_grab_start(struct sdl2_console *scon)
      }
--    s->ignore_keys = false;
+     SDL_SetWindowGrab(scon->real_window, SDL_TRUE);
+     gui_grab = 1;
++    win32_kbd_set_grab(true);
+     sdl_update_caption(scon);
  }
  
- static void gd_accel_switch_vc(void *opaque)
+@@ -227,6 +229,7 @@ static void sdl_grab_end(struct sdl2_console *scon)
+ {
+     SDL_SetWindowGrab(scon->real_window, SDL_FALSE);
+     gui_grab = 0;
++    win32_kbd_set_grab(false);
+     sdl_show_cursor(scon);
+     sdl_update_caption(scon);
+ }
+@@ -325,6 +328,19 @@ static int get_mod_state(void)
+     }
+ }
+ 
++static void *sdl2_win32_get_hwnd(struct sdl2_console *scon)
++{
++#ifdef CONFIG_WIN32
++    SDL_SysWMinfo info;
++
++    SDL_VERSION(&info.version);
++    if (SDL_GetWindowWMInfo(scon->real_window, &info)) {
++        return info.info.win.window;
++    }
++#endif
++    return NULL;
++}
++
+ static void handle_keydown(SDL_Event *ev)
+ {
+     int win;
+@@ -544,6 +560,11 @@ static void handle_windowevent(SDL_Event *ev)
+         sdl2_redraw(scon);
+         break;
+     case SDL_WINDOWEVENT_FOCUS_GAINED:
++        win32_kbd_set_grab(gui_grab);
++        if (qemu_console_is_graphic(scon->dcl.con)) {
++            win32_kbd_set_window(sdl2_win32_get_hwnd(scon));
++        }
++        /* fall through */
+     case SDL_WINDOWEVENT_ENTER:
+         if (!gui_grab && (qemu_input_is_absolute() || absolute_enabled)) {
+             absolute_mouse_grab(scon);
+@@ -558,6 +579,9 @@ static void handle_windowevent(SDL_Event *ev)
+         scon->ignore_hotkeys = get_mod_state();
+         break;
+     case SDL_WINDOWEVENT_FOCUS_LOST:
++        if (qemu_console_is_graphic(scon->dcl.con)) {
++            win32_kbd_set_window(NULL);
++        }
+         if (gui_grab && !gui_fullscreen) {
+             sdl_grab_end(scon);
+         }
 -- 
 2.26.1
 
