@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D275D1D5F68
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 09:26:13 +0200 (CEST)
-Received: from localhost ([::1]:38438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8507A1D5F5E
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 09:22:17 +0200 (CEST)
+Received: from localhost ([::1]:53622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZrD2-0005iJ-T4
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 03:26:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44534)
+	id 1jZr9E-00082O-Ic
+	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 03:22:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jZr7d-0006Sq-GT
- for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:37 -0400
-Received: from mailout05.t-online.de ([194.25.134.82]:59254)
+ id 1jZr7k-0006dN-Bc
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:44 -0400
+Received: from mailout05.t-online.de ([194.25.134.82]:59344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jZr7b-0004K9-TS
- for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:37 -0400
-Received: from fwd31.aul.t-online.de (fwd31.aul.t-online.de [172.20.26.136])
- by mailout05.t-online.de (Postfix) with SMTP id 49121422CA1B;
- Sat, 16 May 2020 09:20:34 +0200 (CEST)
+ id 1jZr7j-0004OG-IS
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:44 -0400
+Received: from fwd15.aul.t-online.de (fwd15.aul.t-online.de [172.20.27.63])
+ by mailout05.t-online.de (Postfix) with SMTP id 430B94256FBE;
+ Sat, 16 May 2020 09:20:42 +0200 (CEST)
 Received: from linpower.localnet
- (XRhwluZb8h3xAQ65s6dKIwe8ZvUaXd3mQrHbvFuV2e+fg2uw7pVUEa1CoyddCw6QHQ@[46.86.59.135])
- by fwd31.t-online.de
+ (rxbYWkZJohSfXEj1YysZVWE7KVlwz6DStV+gnzxVfnzcrSOU5mBS1XsEnNrgt4PZfU@[46.86.59.135])
+ by fwd15.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1jZr7W-3NNMoq0; Sat, 16 May 2020 09:20:30 +0200
+ esmtp id 1jZr7Z-19h5aS0; Sat, 16 May 2020 09:20:33 +0200
 Received: by linpower.localnet (Postfix, from userid 1000)
- id E60372006D5; Sat, 16 May 2020 09:20:14 +0200 (CEST)
+ id E83582006D6; Sat, 16 May 2020 09:20:14 +0200 (CEST)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v2 07/11] ui/sdl2: start in full screen with grab enabled
-Date: Sat, 16 May 2020 09:20:10 +0200
-Message-Id: <20200516072014.7766-7-vr_qemu@t-online.de>
+Subject: [PATCH v2 08/11] ui/sdl2-input: use trace-events to debug key events
+Date: Sat, 16 May 2020 09:20:11 +0200
+Message-Id: <20200516072014.7766-8-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <bea1a22a-1fb4-b49b-c089-e0a5c5cf55cd@t-online.de>
 References: <bea1a22a-1fb4-b49b-c089-e0a5c5cf55cd@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: XRhwluZb8h3xAQ65s6dKIwe8ZvUaXd3mQrHbvFuV2e+fg2uw7pVUEa1CoyddCw6QHQ
-X-TOI-EXPURGATEID: 150726::1589613630-0000B630-61FD851A/0/0 CLEAN NORMAL
-X-TOI-MSGID: de3dc480-66c3-43e3-9be4-f7d3451767b2
+X-ID: rxbYWkZJohSfXEj1YysZVWE7KVlwz6DStV+gnzxVfnzcrSOU5mBS1XsEnNrgt4PZfU
+X-TOI-EXPURGATEID: 150726::1589613633-00012849-77775E67/0/0 CLEAN NORMAL
+X-TOI-MSGID: e3487884-49c7-42f0-95e3-66ef4babfda0
 Received-SPF: none client-ip=194.25.134.82;
  envelope-from=volker.ruemelin@t-online.de; helo=mailout05.t-online.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 03:20:34
@@ -71,43 +71,48 @@ Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU with SDL 1.2 display used to enable keyboard and mouse grab-
-bing when started in full screen. The SDL 2.0 code tries to do
-the same but fails to enable grabbing because sdl_grab_start(0)
-returns early. To do it's work the sdl_grab_start() function
-needs a pointer to a sdl2_console structure.
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- ui/sdl2.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ ui/sdl2-input.c | 3 +++
+ ui/trace-events | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/ui/sdl2.c b/ui/sdl2.c
-index 79c1ea29d2..b23a8f0a8e 100644
---- a/ui/sdl2.c
-+++ b/ui/sdl2.c
-@@ -881,17 +881,16 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
-         SDL_SetWindowIcon(sdl2_console[0].real_window, icon);
+diff --git a/ui/sdl2-input.c b/ui/sdl2-input.c
+index 1f9fe831b3..f068382209 100644
+--- a/ui/sdl2-input.c
++++ b/ui/sdl2-input.c
+@@ -27,6 +27,7 @@
+ #include "ui/console.h"
+ #include "ui/input.h"
+ #include "ui/sdl2.h"
++#include "trace.h"
+ 
+ void sdl2_process_key(struct sdl2_console *scon,
+                       SDL_KeyboardEvent *ev)
+@@ -38,6 +39,8 @@ void sdl2_process_key(struct sdl2_console *scon,
+         return;
      }
+     qcode = qemu_input_map_usb_to_qcode[ev->keysym.scancode];
++    trace_sdl2_process_key(ev->keysym.scancode, qcode,
++                           ev->type == SDL_KEYDOWN ? "down" : "up");
+     qkbd_state_key_event(scon->kbd, qcode, ev->type == SDL_KEYDOWN);
  
--    gui_grab = 0;
--    if (gui_fullscreen) {
--        sdl_grab_start(0);
--    }
--
-     mouse_mode_notifier.notify = sdl_mouse_mode_change;
-     qemu_add_mouse_mode_change_notifier(&mouse_mode_notifier);
+     if (!qemu_console_is_graphic(con)) {
+diff --git a/ui/trace-events b/ui/trace-events
+index 0dcda393c1..5367fd3f16 100644
+--- a/ui/trace-events
++++ b/ui/trace-events
+@@ -75,6 +75,9 @@ input_event_abs(int conidx, const char *axis, int value) "con %d, axis %s, value
+ input_event_sync(void) ""
+ input_mouse_mode(int absolute) "absolute %d"
  
-     sdl_cursor_hidden = SDL_CreateCursor(&data, &data, 8, 1, 0, 0);
-     sdl_cursor_normal = SDL_GetCursor();
- 
-+    if (gui_fullscreen) {
-+        sdl_grab_start(&sdl2_console[0]);
-+    }
++# sdl2-input.c
++sdl2_process_key(int sdl_scancode, int qcode, const char *action) "translated SDL scancode %d to QKeyCode %d (%s)"
 +
-     atexit(sdl_cleanup);
- }
- 
+ # spice-display.c
+ qemu_spice_add_memslot(int qid, uint32_t slot_id, unsigned long virt_start, unsigned long virt_end, int async) "%d %u: host virt 0x%lx - 0x%lx async=%d"
+ qemu_spice_del_memslot(int qid, uint32_t gid, uint32_t slot_id) "%d gid=%u sid=%u"
 -- 
 2.26.1
 
