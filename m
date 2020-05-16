@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF7571D5EEB
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 07:31:53 +0200 (CEST)
-Received: from localhost ([::1]:57866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844831D5EED
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 07:33:02 +0200 (CEST)
+Received: from localhost ([::1]:60024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZpQO-0003eS-QZ
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 01:31:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35730)
+	id 1jZpRV-0004g1-Ki
+	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 01:33:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jZpPZ-00039r-Ax
- for qemu-devel@nongnu.org; Sat, 16 May 2020 01:31:01 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50537)
+ id 1jZpQl-0004CO-Ng
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 01:32:15 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jZpPX-0000rp-W6
- for qemu-devel@nongnu.org; Sat, 16 May 2020 01:31:01 -0400
-Received: by mail-wm1-x342.google.com with SMTP id m12so4205429wmc.0
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 22:30:59 -0700 (PDT)
+ id 1jZpQk-000110-UC
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 01:32:15 -0400
+Received: by mail-wr1-x444.google.com with SMTP id h17so5748174wrc.8
+ for <qemu-devel@nongnu.org>; Fri, 15 May 2020 22:32:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=J5EbXzwd2hfU39x+PRIB6Qpav55VbEdPRUJ0holWlJo=;
- b=lrALG24xmCZ8zSNpqizYBq+IPWYOf7swFkU8tVvZ+7vXnrMSK4MgUbUt4FlpK/244S
- 5FZgs6X8L1m6vP6FE/OBtlXyv2d8XPDAXyBQ3Rh6EbkqF9sAtmN4y4PCMP/iJsVlNIgd
- kRrTvA2xVp/Pso1yHDEcuwM2VfOOACWD3P6otJyQph4LK1ElRjeEWWcBKWizcrEu243e
- g9WGu2D4GjRbXVygfwqwBYT7XRqSs5VJPlT37CY8RCCcycHpi/XrXlXCRrJ/yHdfADqr
- D2RM5oDk1UGGjxiZPVRXnvOBtVNf8uPOyqsmNaO5CNTCLhRTX6SExm+DXIQsU/V1pQw+
- P78A==
+ bh=mjv0baDWgjqOcCjt+uB1JBccHb6zHIVjpH3BzamjgIU=;
+ b=K1kxfLDCHNU0YxfRdJTzF8Ezlbnn5Jb/6wLpH5hk3tGN0DO1GgfbEl7J5d0EjK9rJZ
+ lD6cODdPcUEtEYDQLYZ9ALFLJyeh+oSJfqbyjXhKpkN+9WiwO/VjyOlhdUOxjXk07jvH
+ 5LFgYRHhra9KsYpVaQstAkkPEhNUbnoSSD2cnKYAPadNCeaAVQPyXTu4aPR+3oSXLf0k
+ C7q+WFj9LrXMTNzElHmrJ12dsdv6R/Z9r5xbz8hbARdKGu5SyaXXZJJHngjrVMY/VxLM
+ zonSH3922bDNPC2woByDkA4BPhw063IV4tkvspxDWcDUHAlnbKKqWrT6LRm3KtcDSnLv
+ gFkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=J5EbXzwd2hfU39x+PRIB6Qpav55VbEdPRUJ0holWlJo=;
- b=j5Yc9WzgXzYaGjO7zrNoZeiKDmfrHWBwLo2W7ZsLAGj+Ggc+E2WkBd+Q8yIt51KAli
- zrpQL8KUWVZzs2hiIi/rQmjVejZRMSwJ9bKjto3bFRAhS6G54tXdFgA0xpTmqOtTjpno
- wOzwILWf8kEjP+Up6G53oySD97Peru3MunICzw0ufy0UKQ8BEzrteNMwGR6Udcp9mPOP
- eXxjRH0vVPHwZGWv7AnF875wPaZYYrWZKWCxY/03yZHKLuhC+jZCdXngIoU1/Mp2TUEK
- XSvnwLLNARbgj1AAhpfF26F6QJyz5M+pumdwx5y7sKoXego/gE+cy0abQIUvGpaad6B2
- apyg==
-X-Gm-Message-State: AOAM5305ubwmSypjA8Ql5X/oPmqSSxs5UTbkS0sX8uqJygH9xDvCBNql
- iZJW2ptNkLv6WME+JobII9E=
-X-Google-Smtp-Source: ABdhPJx+XsApgWA2Z0aHUzdzMhY7hxEl2gt6z1iV8oTQ329ijarIt6boc4S+C62JS2ocxy/T0yIaWQ==
-X-Received: by 2002:a1c:e4c1:: with SMTP id b184mr7785833wmh.4.1589607057900; 
- Fri, 15 May 2020 22:30:57 -0700 (PDT)
+ bh=mjv0baDWgjqOcCjt+uB1JBccHb6zHIVjpH3BzamjgIU=;
+ b=g6L4hvdRvSsGsijGkyRzgE6Dg3JLrK1mjG8Cbjeb+gohR42Sfkq5zWGfxWO/BDUSv4
+ 9P6scZ4LnlLhWhYsqSJnOCsVCGquekuBDgwOQNqIpJ6UVqjHSI5OPEj64AI0W8pxKUAx
+ Md7qkjZ9tRZqim7nZsldGJGj9OimsOJj4Rib9R6aycErd9KwkNtzzAD6YzblqxHSbw+p
+ JvgdCKKTtc3j8YrBOVG6o0DBHhX9ks1a1nCjBZytESd3IVUahi+Ma+EprWL5FRASweIH
+ 3dK5s+7859Ep1LhV/S/ppIpZ2RrYAEd3Y6HgFZQ0e33cP5YzhpDn9bH+GWTAwfh5ZBQ6
+ BzUA==
+X-Gm-Message-State: AOAM533tMba7KQLvtWJ44peAFceyIb0brDxbrR2VFA6HBjwa1WLOPd2m
+ Kvc/tFxHMbYm3UeB3vJ7kUA=
+X-Google-Smtp-Source: ABdhPJzTRfU2PQLt/qcGAIz56Ydlw7U5fvEk8n2oX5UlY4qIX/Yy+gxWSW3S2pCK6SBCGxmLXnBYkw==
+X-Received: by 2002:a5d:6750:: with SMTP id l16mr7966348wrw.295.1589607133605; 
+ Fri, 15 May 2020 22:32:13 -0700 (PDT)
 Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id w15sm6386051wrl.73.2020.05.15.22.30.56
+ by smtp.gmail.com with ESMTPSA id c80sm6706157wme.15.2020.05.15.22.32.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 May 2020 22:30:57 -0700 (PDT)
-Subject: Re: [PATCH 04/10] softfloat: Name rounding mode enum
+ Fri, 15 May 2020 22:32:12 -0700 (PDT)
+Subject: Re: [PATCH 05/10] softfloat: Name compare relation enum
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20200515190153.6017-1-richard.henderson@linaro.org>
- <20200515190153.6017-5-richard.henderson@linaro.org>
+ <20200515190153.6017-6-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <36cab9e3-906e-8579-3867-73768dff1e79@amsat.org>
-Date: Sat, 16 May 2020 07:30:56 +0200
+Message-ID: <debf80c9-318f-ad10-f86f-709610a0e2a2@amsat.org>
+Date: Sat, 16 May 2020 07:32:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200515190153.6017-5-richard.henderson@linaro.org>
+In-Reply-To: <20200515190153.6017-6-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -96,64 +96,43 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/15/20 9:01 PM, Richard Henderson wrote:
-> Give the previously unnamed enum a typedef name.  Use the packed
-> attribute so that we do not affect the layout of the float_status
-> struct.  Use it in the prototypes of relevant functions.
-> 
-> Adjust switch statements as necessary to avoid compiler warnings.
+> Give the previously unnamed enum a typedef name.  Use it in the
+> prototypes of compare functions.  Use it to hold the results
+> of the compare functions.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   include/fpu/softfloat-helpers.h |  5 +--
->   include/fpu/softfloat-types.h   |  6 ++--
->   include/fpu/softfloat.h         | 39 +++++++++++-----------
->   fpu/softfloat.c                 | 57 ++++++++++++++++++++-------------
->   target/arm/vfp_helper.c         |  4 +--
->   target/m68k/fpu_helper.c        |  6 ++--
->   6 files changed, 66 insertions(+), 51 deletions(-)
+>   include/fpu/softfloat.h         | 25 +++++++++++----------
+>   target/i386/ops_sse.h           |  8 +++----
+>   fpu/softfloat.c                 | 40 ++++++++++++++++++---------------
+>   target/arm/vfp_helper.c         |  2 +-
+>   target/hppa/op_helper.c         |  7 +++---
+>   target/i386/fpu_helper.c        |  8 +++----
+>   target/openrisc/fpu_helper.c    |  4 ++--
+>   target/ppc/int_helper.c         | 13 ++++++-----
+>   target/s390x/fpu_helper.c       | 22 +++++++++---------
+>   target/sparc/fop_helper.c       |  4 ++--
+>   target/unicore32/ucf64_helper.c |  6 ++---
+>   target/xtensa/fpu_helper.c      |  6 ++---
+>   12 files changed, 75 insertions(+), 70 deletions(-)
 > 
-> diff --git a/include/fpu/softfloat-helpers.h b/include/fpu/softfloat-helpers.h
-> index 40d32a6d5d..735ed6b653 100644
-> --- a/include/fpu/softfloat-helpers.h
-> +++ b/include/fpu/softfloat-helpers.h
-> @@ -58,7 +58,8 @@ static inline void set_float_detect_tininess(bool val, float_status *status)
->       status->tininess_before_rounding = val;
->   }
->   
-> -static inline void set_float_rounding_mode(int val, float_status *status)
-> +static inline void set_float_rounding_mode(FloatRoundMode val,
-> +                                           float_status *status)
->   {
->       status->float_rounding_mode = val;
->   }
-> @@ -99,7 +100,7 @@ static inline bool get_float_detect_tininess(float_status *status)
->       return status->tininess_before_rounding;
->   }
->   
-> -static inline int get_float_rounding_mode(float_status *status)
-> +static inline FloatRoundMode get_float_rounding_mode(float_status *status)
->   {
->       return status->float_rounding_mode;
->   }
-> diff --git a/include/fpu/softfloat-types.h b/include/fpu/softfloat-types.h
-> index 874ddd9f93..7680193ebc 100644
-> --- a/include/fpu/softfloat-types.h
-> +++ b/include/fpu/softfloat-types.h
-> @@ -123,7 +123,7 @@ typedef struct {
->    *Software IEC/IEEE floating-point rounding mode.
->    */
->   
+> diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+> index ca75f764aa..7f84235122 100644
+> --- a/include/fpu/softfloat.h
+> +++ b/include/fpu/softfloat.h
+> @@ -85,12 +85,13 @@ this code that are retained.
+>   /*----------------------------------------------------------------------------
+>   | Software IEC/IEEE floating-point ordering relations
+>   *----------------------------------------------------------------------------*/
 > -enum {
-> +typedef enum __attribute__((__packed__)) {
->       float_round_nearest_even = 0,
->       float_round_down         = 1,
->       float_round_up           = 2,
-> @@ -131,7 +131,7 @@ enum {
->       float_round_ties_away    = 4,
->       /* Not an IEEE rounding mode: round to the closest odd mantissa value */
->       float_round_to_odd       = 5,
+> +
+> +typedef enum {
+>       float_relation_less      = -1,
+>       float_relation_equal     =  0,
+>       float_relation_greater   =  1,
+>       float_relation_unordered =  2
 > -};
-> +} FloatRoundMode;
+> +} FloatRelation;
 [...]
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
