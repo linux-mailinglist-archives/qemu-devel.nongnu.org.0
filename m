@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC9F1D634A
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 19:56:02 +0200 (CEST)
-Received: from localhost ([::1]:52868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B890B1D6360
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 19:59:36 +0200 (CEST)
+Received: from localhost ([::1]:35222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ja12X-0001q4-B7
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 13:56:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52228)
+	id 1ja15z-0006U9-QG
+	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 13:59:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1ja0th-0003e8-LK
- for qemu-devel@nongnu.org; Sat, 16 May 2020 13:46:53 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:42720)
+ id 1ja0tl-0003mH-7I
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 13:46:57 -0400
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:43993)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1ja0tg-0008U3-SU
- for qemu-devel@nongnu.org; Sat, 16 May 2020 13:46:53 -0400
-Received: by mail-lj1-x242.google.com with SMTP id d21so5549058ljg.9
- for <qemu-devel@nongnu.org>; Sat, 16 May 2020 10:46:52 -0700 (PDT)
+ id 1ja0ti-0008Uw-29
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 13:46:56 -0400
+Received: by mail-lj1-x22f.google.com with SMTP id l19so5561545lje.10
+ for <qemu-devel@nongnu.org>; Sat, 16 May 2020 10:46:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Z0afUpJkkx4R4jVR4cPPKTN2hxXL/in4qcliTU46vwU=;
- b=Mrln+NknN+SZ//9QLihyIXBZUiDHGUu5KJOEG0jJFCPlxKY3IOrHZwi6CyrbW6xpPS
- 9+UFExdtBwS49h4PC8H0jrI4k/oukOfHns46JIivlYHzuLyJgVT64DZqY3/Kxwp6bjb6
- 3VzVYPvA3h1UYScPGVayID27m5+w6Q0+9QE7ttP84HWKAq+zvUKAqj5hutDVyNTpJPsK
- KrELbujF48QIoJtRO/Orkmy+7VBsKq2kqDotf2NYZL7ul1aLGu1sqD2/YAbwkd9tlkul
- PLucTN5I06etLnmPmqSUwoT1QIpbmK2DZn6dxEU1aH0MN+Wv5nszr8pKOFXMsNo9pXEx
- m7YA==
+ bh=O8xcy6488n578YO1tPRl/n3OdZSASWRU/1vD5lfdolk=;
+ b=parlbEuyTAjiWXmpUJSfEFRXNMOmi5xVxjmr5IRzn/G/JSfjtH42fTIr3PvlLn4PeF
+ RPH9JsMiASytXOp37vBidMV2FkrjkKZlxrSarGNi7gnU35Jj4W2hX9Hsj78gLOFjxvg5
+ 0+pNyg/98DdKJxHKUYDN4cuC6Nh3d+4VDBbh1DS7e6UBa4tOxbuoTSdNFd8aWdvhTiox
+ 9qT5NUxfyilXpsH6mYoAamto/j5tyl9PTdjw0/iwEoHJv/fQUkJynWKBn442/b/AJvRz
+ AuJqjQYzwNGfFVWMd6z/LJ9RZwNkQlmF6Fym4c72/BJYUlyN1dQE6Oa+3/Ohp7rGrOSM
+ no2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Z0afUpJkkx4R4jVR4cPPKTN2hxXL/in4qcliTU46vwU=;
- b=BiI0ILkdL9XpJFPqPXk2JS0zEmMNk9GDpJSDGJtn+eFglfvjuFEiLPAeCvBmUP4FUs
- mdXQ4l1uYV3GlTvesPcxoXc7ThLFSzanT1aSMNWjoyYPViCpR6GP1PYclW5kKKSYDMgH
- WNjrg1DNZi6lgPoJLbooLtl8VLQL0Duvxd8dv3Ysc2DgsXD9tVdubXm3v4vCYN0MC0Fq
- F+ZCilBANn/Yh2iy0nh+8u66wNTy/yF3guS/ZsFv9j6b8Jz2w8mrsT0ivjtKxVrAeh2m
- CpKA+WLKFcYzb9sl5nn4uQ/DsKQXzF4jWCdwDp2vKlwcO1Oe6EaLt0w1LA601l3l8QCN
- yJOA==
-X-Gm-Message-State: AOAM5310w8/uW1axsZCz4NdhPfgYdoZwIyIZdMVQ8ZZbzDZ7GpaecVKp
- tDP3AukqKI5Q+EFrqCdnD05xZ1aSUvY=
-X-Google-Smtp-Source: ABdhPJxz17uT9howp6KHJ4HZrw0YH8vXJtNO0o0ixfzwGf+WWvCIssLT6hIIwOcD5ah9XFggM3VuZg==
-X-Received: by 2002:a2e:878b:: with SMTP id n11mr5670764lji.196.1589651211016; 
- Sat, 16 May 2020 10:46:51 -0700 (PDT)
+ bh=O8xcy6488n578YO1tPRl/n3OdZSASWRU/1vD5lfdolk=;
+ b=E4DErkZ+JXiyNAgWJ7PHdHhCdq0Y9KHACnoU6A7WrM1Pe7jvhgVCk0FjqbwexXrI0b
+ VtN+uxmUNFydzDNWYyZQeM8W3oHVQ8pi7qW/aa9sjIpXJ+dXELkvytXUFFrkvDbItivU
+ sQ2adkf4hLN01YNMfmxyx1yyR/VGOdFmZrN8YCg481f2qm3mnqu/OrJzpx/hO6CzfOih
+ GnLujR9qAXToa/eQuJJoqUP9veWviEFBqj/mH44Dwum7SklIZ700F9StoaIuqWn0XX/F
+ OdnULtniubzcoaZzONCucceLIrTwZ6lDqjxcEsTY+OVpQ6AzXVOwggS51PDO3UJAWDp6
+ WNtQ==
+X-Gm-Message-State: AOAM530VC/ms3MLKXcI8sPO0FwVePOuKgnKr6rERtUam+CXN3stFOKw8
+ 2cVVYpSTu+pxuKGabURBdmxrdP1/oBw=
+X-Google-Smtp-Source: ABdhPJwRRHcqeETqr+0mJDzd6G3KbuKDTS3/ZiBvKfrw4cjciGgbKeLLMW7qzi0OHq30KL5wRNq2Fg==
+X-Received: by 2002:a2e:8107:: with SMTP id d7mr931976ljg.158.1589651212270;
+ Sat, 16 May 2020 10:46:52 -0700 (PDT)
 Received: from localhost.localdomain ([109.245.227.98])
- by smtp.gmail.com with ESMTPSA id i1sm3024759lja.3.2020.05.16.10.46.49
+ by smtp.gmail.com with ESMTPSA id i1sm3024759lja.3.2020.05.16.10.46.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 May 2020 10:46:50 -0700 (PDT)
+ Sat, 16 May 2020 10:46:51 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/18] hw/mips: Add some logging for bad register offset
- cases
-Date: Sat, 16 May 2020 19:45:47 +0200
-Message-Id: <20200516174548.7631-18-aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH v3 18/18] MAINTAINERS: Change Aleksandar Rikalo's email address
+Date: Sat, 16 May 2020 19:45:48 +0200
+Message-Id: <20200516174548.7631-19-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200516174548.7631-1-aleksandar.qemu.devel@gmail.com>
 References: <20200516174548.7631-1-aleksandar.qemu.devel@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::242;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lj1-x242.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lj1-x22f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,52 +86,91 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: aleksandar.rikalo@rt-rk.com,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Log the cases where a guest attempts read or write using bad
-register offset.
+Aleksandar Rikalo want to use a different email address
+from now on.
 
 Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-CC: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/mips_malta.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ .mailmap    |  3 ++-
+ MAINTAINERS | 12 ++++++------
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index e4c4de1b4e..88869b828e 100644
---- a/hw/mips/mips_malta.c
-+++ b/hw/mips/mips_malta.c
-@@ -427,10 +427,9 @@ static uint64_t malta_fpga_read(void *opaque, hwaddr addr,
-         break;
+diff --git a/.mailmap b/.mailmap
+index 6412067bde..e3628c7a66 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -42,7 +42,8 @@ Justin Terry (VM) <juterry@microsoft.com> Justin Terry (VM) via Qemu-devel <qemu
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@mips.com>
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@imgtec.com>
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <amarkovic@wavecomp.com>
+-Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com> <arikalo@wavecomp.com>
++Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
++Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
+ James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
+ Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1f84e3ae2c..8d5562c5c7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -212,7 +212,7 @@ F: disas/microblaze.c
+ MIPS TCG CPUs
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: target/mips/
+ F: default-configs/*mips*
+@@ -1041,7 +1041,7 @@ MIPS Machines
+ -------------
+ Jazz
+ M: Hervé Poussineau <hpoussin@reactos.org>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: hw/mips/mips_jazz.c
+ F: hw/display/jazz_led.c
+@@ -1062,7 +1062,7 @@ F: tests/acceptance/machine_mips_malta.py
  
-     default:
--#if 0
--        printf("malta_fpga_read: Bad register offset 0x" TARGET_FMT_lx "\n",
--               addr);
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "malta_fpga_read: Bad register offset 0x"
-+                      TARGET_FMT_lx "\n", addr);
-         break;
-     }
-     return val;
-@@ -515,10 +514,9 @@ static void malta_fpga_write(void *opaque, hwaddr addr,
-         break;
+ Mipssim
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Odd Fixes
+ F: hw/mips/mips_mipssim.c
+ F: hw/net/mipsnet.c
+@@ -1070,7 +1070,7 @@ F: hw/net/mipsnet.c
+ R4000
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Obsolete
+ F: hw/mips/mips_r4k.c
  
-     default:
--#if 0
--        printf("malta_fpga_write: Bad register offset 0x" TARGET_FMT_lx "\n",
--               addr);
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "malta_fpga_write: Bad register offset 0x"
-+                      TARGET_FMT_lx "\n", addr);
-         break;
-     }
- }
+@@ -1085,7 +1085,7 @@ F: include/hw/isa/vt82c686.h
+ 
+ Boston
+ M: Paul Burton <pburton@wavecomp.com>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: hw/core/loader-fit.c
+ F: hw/mips/boston.c
+@@ -2582,7 +2582,7 @@ F: disas/i386.c
+ MIPS TCG target
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: tcg/mips/
+ 
 -- 
 2.20.1
 
