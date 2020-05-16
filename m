@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3561F1D5E1A
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 05:17:21 +0200 (CEST)
-Received: from localhost ([::1]:49374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E50441D5E18
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 05:15:53 +0200 (CEST)
+Received: from localhost ([::1]:45042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZnKC-0005Jy-6K
-	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 23:17:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47308)
+	id 1jZnIm-00034o-VJ
+	for lists+qemu-devel@lfdr.de; Fri, 15 May 2020 23:15:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zxq_yx_007@163.com>)
- id 1jZnHB-0001nT-Vk
- for qemu-devel@nongnu.org; Fri, 15 May 2020 23:14:14 -0400
-Received: from mail-m975.mail.163.com ([123.126.97.5]:47800)
+ id 1jZnHC-0001nm-VV
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 23:14:15 -0400
+Received: from mail-m975.mail.163.com ([123.126.97.5]:47804)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <zxq_yx_007@163.com>)
- id 1jZnH6-0006YG-7v
- for qemu-devel@nongnu.org; Fri, 15 May 2020 23:14:13 -0400
+ id 1jZnH6-0006YF-E1
+ for qemu-devel@nongnu.org; Fri, 15 May 2020 23:14:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=hCZgK
- GmM3go38h6F82LI+M5LNCX0f560o8WdTIqIJRE=; b=aytXVXQgCtTIqEgKc/F+d
- +BXsK3jyP5HttkbxBwl9lPKJSFVL+v/UtLn0BuCZtqbH3Jk9gwBkiPdWrrGWjtqV
- eQihP6aozJ3WFWaho3d864VdL2t0BUpNUbS2qQu91gGKIKEOYO/pOxvVmMuvHTGn
- BKxiNrYaXQsy5VdnwwT47g=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=ARwOF
+ WwGoEST4bDFAMhg9fjPavitdnXh7TxDzLc0OgM=; b=nl6hMOIqFChu0vRmG26ul
+ pqpM/yJ2DnVqF4KCTPyy1BVyMdRJz8U5B08/l2SW/tIsmDdGxe6MF+C66MaFxzev
+ NaUwO/07kdaga1k+rIM5Y6ZN0jlXCoSaeqYa1GgrE0bOzmETjlcYQW4S27xz55NI
+ 7R/JNpjEDmbuGRptIhs9IQ=
 Received: from localhost.localdomain (unknown [114.240.93.195])
- by smtp5 (Coremail) with SMTP id HdxpCgC3FwRcWr9eLYq7AA--.563S4;
+ by smtp5 (Coremail) with SMTP id HdxpCgC3FwRcWr9eLYq7AA--.563S5;
  Sat, 16 May 2020 11:13:58 +0800 (CST)
 From: xiaoqiang zhao <zxq_yx_007@163.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 2/3] tests/util-sockets: add abstract unix socket cases
-Date: Sat, 16 May 2020 11:13:26 +0800
-Message-Id: <20200516031327.15305-3-zxq_yx_007@163.com>
+Subject: [PATCH v6 3/3] qemu-options: updates for abstract unix sockets
+Date: Sat, 16 May 2020 11:13:27 +0800
+Message-Id: <20200516031327.15305-4-zxq_yx_007@163.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200516031327.15305-1-zxq_yx_007@163.com>
 References: <20200516031327.15305-1-zxq_yx_007@163.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: HdxpCgC3FwRcWr9eLYq7AA--.563S4
-X-Coremail-Antispam: 1Uf129KBjvJXoWxZw48GryUCw18JryUtw1fJFb_yoW5Wr1rpF
- yfKa45Kr4rAFsF9w43JayDJF1fGrnYvw4Yy3s3Awn8Ar4DKw1YqFsYyFyUtr17JrW8Jw4S
- 9FnI9F10g39xtaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jNtxDUUUUU=
+X-CM-TRANSID: HdxpCgC3FwRcWr9eLYq7AA--.563S5
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tw45AryfWrWDGry8tF43Jrb_yoW8CrWfpr
+ 9YkF9xt34kJ3WFvrsrt3WDKr4rKw1kXFs7G39xuw1kKa9rW398ta4UKw15Z34UArs7WryS
+ vFWFkry2vF4Yy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07b0txDUUUUU=
 X-Originating-IP: [114.240.93.195]
-X-CM-SenderInfo: 520ts5t0bqili6rwjhhfrp/1tbiFhYmxl44Kn2AiAAAsZ
+X-CM-SenderInfo: 520ts5t0bqili6rwjhhfrp/xtbB0hYmxlUMWJZqSQAAsQ
 Received-SPF: pass client-ip=123.126.97.5; envelope-from=zxq_yx_007@163.com;
  helo=mail-m975.mail.163.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 23:02:07
@@ -76,124 +76,42 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-add cases to test tight and non-tight for abstract address type
+add options documents changes for -chardev
 
 Signed-off-by: xiaoqiang zhao <zxq_yx_007@163.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/test-util-sockets.c | 92 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 92 insertions(+)
+ qemu-options.hx | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
-index 5fd947c7bf..2ca1e99f17 100644
---- a/tests/test-util-sockets.c
-+++ b/tests/test-util-sockets.c
-@@ -227,6 +227,93 @@ static void test_socket_fd_pass_num_nocli(void)
-     g_free(addr.u.fd.str);
- }
+diff --git a/qemu-options.hx b/qemu-options.hx
+index e2dca8a4e9..4ee7e6c772 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2938,7 +2938,7 @@ DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
+     "         [,server][,nowait][,telnet][,websocket][,reconnect=seconds][,mux=on|off]\n"
+     "         [,logfile=PATH][,logappend=on|off][,tls-creds=ID][,tls-authz=ID] (tcp)\n"
+     "-chardev socket,id=id,path=path[,server][,nowait][,telnet][,websocket][,reconnect=seconds]\n"
+-    "         [,mux=on|off][,logfile=PATH][,logappend=on|off] (unix)\n"
++    "         [,mux=on|off][,logfile=PATH][,logappend=on|off][,abstract=on|off][,tight=on|off] (unix)\n"
+     "-chardev udp,id=id[,host=host],port=port[,localaddr=localaddr]\n"
+     "         [,localport=localport][,ipv4][,ipv6][,mux=on|off]\n"
+     "         [,logfile=PATH][,logappend=on|off]\n"
+@@ -3105,9 +3105,13 @@ The available backends are:
  
-+#ifdef __linux__
-+static gchar *abstract_sock_name;
-+
-+static gpointer unix_server_thread_func(gpointer user_data)
-+{
-+    SocketAddress addr;
-+    Error *err = NULL;
-+    int fd = -1;
-+    int connfd = -1;
-+    struct sockaddr_un un;
-+    socklen_t len = sizeof(un);
-+
-+    addr.type = SOCKET_ADDRESS_TYPE_UNIX;
-+    addr.u.q_unix.path = abstract_sock_name;
-+    addr.u.q_unix.tight = user_data != NULL;
-+    addr.u.q_unix.abstract = true;
-+
-+    fd = socket_listen(&addr, 1, &err);
-+    g_assert_cmpint(fd, >=, 0);
-+    g_assert(fd_is_socket(fd));
-+
-+    connfd = accept(fd, (struct sockaddr *)&un, &len);
-+    g_assert_cmpint(connfd, !=, -1);
-+
-+    close(fd);
-+
-+    return NULL;
-+}
-+
-+static gpointer unix_client_thread_func(gpointer user_data)
-+{
-+    SocketAddress addr;
-+    Error *err = NULL;
-+    int fd = -1;
-+
-+    addr.type = SOCKET_ADDRESS_TYPE_UNIX;
-+    addr.u.q_unix.path = abstract_sock_name;
-+    addr.u.q_unix.tight = user_data != NULL;
-+    addr.u.q_unix.abstract = true;
-+
-+    fd = socket_connect(&addr, &err);
-+
-+    g_assert_cmpint(fd, >=, 0);
-+
-+    close(fd);
-+
-+    return NULL;
-+}
-+
-+static void test_socket_unix_abstract_good(void)
-+{
-+    GRand *r = g_rand_new();
-+
-+    abstract_sock_name = g_strdup_printf("unix-%d-%d", getpid(),
-+                                         g_rand_int_range(r, 100, 1000));
-+
-+    /* non tight socklen serv and cli */
-+    GThread *serv = g_thread_new("abstract_unix_server",
-+                                 unix_server_thread_func,
-+                                 NULL);
-+
-+    sleep(1);
-+
-+    GThread *cli = g_thread_new("abstract_unix_client",
-+                                unix_client_thread_func,
-+                                NULL);
-+
-+    g_thread_join(cli);
-+    g_thread_join(serv);
-+
-+    /* tight socklen serv and cli */
-+    serv = g_thread_new("abstract_unix_server",
-+                        unix_server_thread_func,
-+                        (gpointer)1);
-+
-+    sleep(1);
-+
-+    cli = g_thread_new("abstract_unix_client",
-+                       unix_client_thread_func,
-+                       (gpointer)1);
-+
-+    g_thread_join(cli);
-+    g_thread_join(serv);
-+
-+    g_free(abstract_sock_name);
-+}
-+#endif
+         ``nodelay`` disables the Nagle algorithm.
  
- int main(int argc, char **argv)
- {
-@@ -265,6 +352,11 @@ int main(int argc, char **argv)
-                         test_socket_fd_pass_num_nocli);
-     }
+-    ``unix options: path=path``
++    ``unix options: path=path[,abstract=on|off][,tight=on|off]``
+         ``path`` specifies the local path of the unix socket. ``path``
+         is required.
++	``abstract`` specifies the use of the abstract socket namespace,
++        rather than the filesystem.  Optional, defaults to false.
++	``tight`` sets the socket length of abstract sockets to their minimum,
++        rather than the full sun_path length.  Optional, defaults to true.
  
-+#ifdef __linux__
-+    g_test_add_func("/util/socket/unix-abstract/good",
-+                    test_socket_unix_abstract_good);
-+#endif
-+
- end:
-     return g_test_run();
- }
+ ``-chardev udp,id=id[,host=host],port=port[,localaddr=localaddr][,localport=localport][,ipv4][,ipv6]``
+     Sends all traffic from the guest to a remote host over UDP.
 -- 
 2.17.1
 
