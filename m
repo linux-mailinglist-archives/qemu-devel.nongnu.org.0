@@ -2,59 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B29E11D5F35
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 08:42:49 +0200 (CEST)
-Received: from localhost ([::1]:58504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09E01D5F5B
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 09:19:44 +0200 (CEST)
+Received: from localhost ([::1]:48728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZqX2-0006NY-Ph
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 02:42:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41306)
+	id 1jZr6l-0005fj-Bk
+	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 03:19:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jZqVh-0005BL-8U; Sat, 16 May 2020 02:41:26 -0400
-Resent-Date: Sat, 16 May 2020 02:41:25 -0400
-Resent-Message-Id: <E1jZqVh-0005BL-8U@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21339)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jZqVb-0002dX-SP; Sat, 16 May 2020 02:41:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1589611264; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=BB/NyTrbS8Lx2SIgiemNjAaHjw9rF3ghUAdC8i7vc1KX5ZjAH+qkiglHvCJ+OoU39WriwjO8LCjGigDXlVNFJLmYB1mNf8vw5STAVbFKXOZQndHGLKT8rPLUV5Bjk8x+uJuLit5C1uY62OxprL0ICZAIJyTFucsnPuRbMadDAI0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1589611264;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=SqDcPeT8h6mAu/FJPTpwLr+gwDYc35TWznK8QMsUwMI=; 
- b=Qj5Q9oioW91duk3LPE6fWPzQvr7rRWfMrqkj2r/sf7rZZTO2q3A97T+/eXjdacMKBBCe0/HAGrqwqh3RxJ/W4va4bOjth5bdPrFvhUCDLncBNg9piR+uPaOSqFNlxBXHLLq85ca6xRNC5IeFFL1DjUE855rpfTPtgXT4hR6e14Q=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1589611261729690.0011734193398;
- Fri, 15 May 2020 23:41:01 -0700 (PDT)
-Message-ID: <158961125979.14027.17199612590911195654@45ef0f9c86ae>
-In-Reply-To: <20200515222032.18838-1-walling@linux.ibm.com>
-Subject: Re: [PATCH v2 0/8] s390: Extended-Length SCCB & DIAGNOSE 0x318
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1jZr64-0005El-6j
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 03:19:00 -0400
+Received: from mailout07.t-online.de ([194.25.134.83]:57312)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1jZr62-0003sp-VS
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 03:18:59 -0400
+Received: from fwd11.aul.t-online.de (fwd11.aul.t-online.de [172.20.27.152])
+ by mailout07.t-online.de (Postfix) with SMTP id 903B94261B62;
+ Sat, 16 May 2020 09:18:54 +0200 (CEST)
+Received: from [192.168.211.200]
+ (Ee3yXGZBghK5s3VakbBTCwA+h5l8MDDMShLzinEb9KqxrVp-wGhHuPAPe9aksDFZZf@[46.86.59.135])
+ by fwd11.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1jZr5y-0Sjbs00; Sat, 16 May 2020 09:18:54 +0200
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Subject: [PATCH v2 00/11] Patches for ui/gtk and ui/sdl
+To: Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>
+Message-ID: <bea1a22a-1fb4-b49b-c089-e0a5c5cf55cd@t-online.de>
+Date: Sat, 16 May 2020 09:18:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: walling@linux.ibm.com
-Date: Fri, 15 May 2020 23:41:01 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/15 23:45:34
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ID: Ee3yXGZBghK5s3VakbBTCwA+h5l8MDDMShLzinEb9KqxrVp-wGhHuPAPe9aksDFZZf
+X-TOI-EXPURGATEID: 150726::1589613534-0000FD5D-85DC67AC/0/0 CLEAN NORMAL
+X-TOI-MSGID: fa2d16d8-a779-4c59-992a-1fbea668ac79
+Received-SPF: none client-ip=194.25.134.83; envelope-from=vr_qemu@t-online.de;
+ helo=mailout07.t-online.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 03:18:54
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H2=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,78 +65,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
- cohuck@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mst@redhat.com,
- svens@linux.ibm.com, pbonzini@redhat.com, mihajlov@linux.ibm.com,
- rth@twiddle.net
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUxNTIyMjAzMi4xODgz
-OC0xLXdhbGxpbmdAbGludXguaWJtLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
-YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
-IGluZm9ybWF0aW9uOgoKTWVzc2FnZS1pZDogMjAyMDA1MTUyMjIwMzIuMTg4MzgtMS13YWxsaW5n
-QGxpbnV4LmlibS5jb20KU3ViamVjdDogW1BBVENIIHYyIDAvOF0gczM5MDogRXh0ZW5kZWQtTGVu
-Z3RoIFNDQ0IgJiBESUFHTk9TRSAweDMxOApUeXBlOiBzZXJpZXMKCj09PSBURVNUIFNDUklQVCBC
-RUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4
-aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1s
-b2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0g
-aGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBU
-RVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0
-NGJkODg4NzEzMzg0ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZjhjYjgyMSBzMzkw
-OiBndWVzdCBzdXBwb3J0IGZvciBkaWFnbm9zZSAweDMxOAo2Yjg3YzU5IHMzOTAva3ZtOiBoZWFk
-ZXIgc3luYyBmb3IgZGlhZzMxOAphZjA2NjI3IHMzOTAvc2NscDogYWRkIGV4dGVuZGVkLWxlbmd0
-aCBzY2NiIHN1cHBvcnQgZm9yIGt2bSBndWVzdAozOWI4NDhjIHMzOTAvc2NscDogdXNlIGNwdSBv
-ZmZzZXQgdG8gbG9jYXRlIGNwdSBlbnRyaWVzCjFkZDhlMDIgczM5MC9zY2xwOiByZWFkIHNjY2Ig
-ZnJvbSBtZW0gYmFzZWQgb24gc2NjYiBsZW5ndGgKYWFkOTU2ZCBzMzkwL3NjbHA6IHJld29yayBz
-Y2xwIGJvdW5kYXJ5IGFuZCBsZW5ndGggY2hlY2tzCjQyOGIxZTQgczM5MC9zY2xwOiBjaGVjayBz
-Y2NiIGxlbiBiZWZvcmUgZmlsbGluZyBpbiBkYXRhCjg1MGUxYjggczM5MC9zY2xwOiBnZXQgbWFj
-aGluZSBvbmNlIGR1cmluZyByZWFkIHNjcC9jcHUgaW5mbwoKPT09IE9VVFBVVCBCRUdJTiA9PT0K
-MS84IENoZWNraW5nIGNvbW1pdCA4NTBlMWI4ODcyOWYgKHMzOTAvc2NscDogZ2V0IG1hY2hpbmUg
-b25jZSBkdXJpbmcgcmVhZCBzY3AvY3B1IGluZm8pCjIvOCBDaGVja2luZyBjb21taXQgNDI4YjFl
-NDZlMDE2IChzMzkwL3NjbHA6IGNoZWNrIHNjY2IgbGVuIGJlZm9yZSBmaWxsaW5nIGluIGRhdGEp
-CldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyMzogRklMRTogaHcvczM5MHgvc2Ns
-cC5jOjc4OgorICAgIGlmIChiZTE2X3RvX2NwdShzY2NiLT5oLmxlbmd0aCkgPCAoc2l6ZW9mKFJl
-YWRJbmZvKSArIGNwdV9jb3VudCAqIHNpemVvZihDUFVFbnRyeSkpKSB7CgpFUlJPUjogbGluZSBv
-dmVyIDkwIGNoYXJhY3RlcnMKIzQ4OiBGSUxFOiBody9zMzkweC9zY2xwLmM6MTM3OgorICAgIGlm
-IChiZTE2X3RvX2NwdShzY2NiLT5oLmxlbmd0aCkgPCAoc2l6ZW9mKFJlYWRDcHVJbmZvKSArIGNw
-dV9jb3VudCAqIHNpemVvZihDUFVFbnRyeSkpKSB7Cgp0b3RhbDogMSBlcnJvcnMsIDEgd2Fybmlu
-Z3MsIDQ1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
-ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
-b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
-LgoKMy84IENoZWNraW5nIGNvbW1pdCBhYWQ5NTZkNWFjOTIgKHMzOTAvc2NscDogcmV3b3JrIHNj
-bHAgYm91bmRhcnkgYW5kIGxlbmd0aCBjaGVja3MpCjQvOCBDaGVja2luZyBjb21taXQgMWRkOGUw
-MmFmN2IyIChzMzkwL3NjbHA6IHJlYWQgc2NjYiBmcm9tIG1lbSBiYXNlZCBvbiBzY2NiIGxlbmd0
-aCkKNS84IENoZWNraW5nIGNvbW1pdCAzOWI4NDhjM2JlMTUgKHMzOTAvc2NscDogdXNlIGNwdSBv
-ZmZzZXQgdG8gbG9jYXRlIGNwdSBlbnRyaWVzKQo2LzggQ2hlY2tpbmcgY29tbWl0IGFmMDY2Mjdj
-YzVmYiAoczM5MC9zY2xwOiBhZGQgZXh0ZW5kZWQtbGVuZ3RoIHNjY2Igc3VwcG9ydCBmb3Iga3Zt
-IGd1ZXN0KQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojOTE6IEZJTEU6IGh3L3Mz
-OTB4L3NjbHAuYzoxMzc6CisgICAgICAgIHdhcm5fcmVwb3J0KCJpbnN1ZmZpY2llbnQgc2NjYiBz
-aXplIHRvIHN0b3JlIGZ1bGwgcmVhZCBzY3AgaW5mbyByZXNwb25zZSIpOwoKV0FSTklORzogbGlu
-ZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzExNTogRklMRTogdGFyZ2V0L3MzOTB4L2NwdV9mZWF0dXJl
-c19kZWYuaW5jLmg6MTAwOgorREVGX0ZFQVQoRVhURU5ERURfTEVOR1RIX1NDQ0IsICJlbHMiLCBT
-VEZMLCAxNDAsICJFeHRlbmRlZC1sZW5ndGggU0NDQiBmYWNpbGl0eSIpCgp0b3RhbDogMCBlcnJv
-cnMsIDIgd2FybmluZ3MsIDc2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvOCBoYXMgc3R5bGUgcHJv
-YmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBw
-b3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGlu
-IE1BSU5UQUlORVJTLgo3LzggQ2hlY2tpbmcgY29tbWl0IDZiODdjNTk5Mjc2OCAoczM5MC9rdm06
-IGhlYWRlciBzeW5jIGZvciBkaWFnMzE4KQo4LzggQ2hlY2tpbmcgY29tbWl0IGY4Y2I4MjExMzRh
-NyAoczM5MDogZ3Vlc3Qgc3VwcG9ydCBmb3IgZGlhZ25vc2UgMHgzMTgpCkVSUk9SOiBsaW5lIG92
-ZXIgOTAgY2hhcmFjdGVycwojMjI2OiBGSUxFOiB0YXJnZXQvczM5MHgvY3B1X2ZlYXR1cmVzX2Rl
-Zi5pbmMuaDoxMjU6CisvKiBGZWF0dXJlcyBleHBvc2VkIHZpYSBTQ0xQIFNDQ0IgRmFjaWxpdGll
-cyBieXRlIDEzNCAoYml0IG51bWJlcnMgcmVsYXRpdmUgdG8gYnl0ZS0xMzQpICovCgpXQVJOSU5H
-OiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjI3OiBGSUxFOiB0YXJnZXQvczM5MHgvY3B1X2Zl
-YXR1cmVzX2RlZi5pbmMuaDoxMjY6CitERUZfRkVBVChESUFHXzMxOCwgImRpYWdfMzE4IiwgU0NM
-UF9GQUMxMzQsIDAsICJDb250cm9sIHByb2dyYW0gbmFtZSBhbmQgdmVyc2lvbiBjb2RlcyIpCgp0
-b3RhbDogMSBlcnJvcnMsIDEgd2FybmluZ3MsIDI2MiBsaW5lcyBjaGVja2VkCgpQYXRjaCA4Lzgg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21t
-YW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
-dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNTE1MjIyMDMyLjE4ODM4LTEtd2FsbGluZ0BsaW51
-eC5pYm0uY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2Vu
-ZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQ
-bGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+It's rather difficult to test qemu patches in guests on Windows with important keys missing. These patches mainly fix the guest keyboard on Windows.
+
+With best regards,
+Volker
+
+v2:
+- ui/win32-kbd-hook: handle AltGr in a hook procedure
+  The boilerplate now mentions where the code comes from.
+  Stub functions added for non Windows platforms.
+
+- ui/gtk: fix handling of AltGr key on Windows
+- ui/sdl2: fix handling of AltGr key on Windows
+  Nearly all #ifdefs were removed.
+
+- ui/gkt: release all keys on grab-broken-event
+  Comment added.
+
+- ui/gtk: remove unused variable ignore_keys
+- ui/sdl2: start in full screen with grab enabled
+- ui/gtk: don't pass on win keys without keyboard grab
+  Improved commit message.
+
+- ui: increase min required GTK version to 3.22.0
+  New patch. Slightly different compared to Daniel's suggestion.
+
+Volker Rümelin (11):
+  ui/win32-kbd-hook: handle AltGr in a hook procedure
+  ui/gtk: fix handling of AltGr key on Windows
+  ui/gkt: release all keys on grab-broken-event
+  ui/gtk: remove unused code
+  ui/gtk: remove unused variable ignore_keys
+  ui/sdl2: fix handling of AltGr key on Windows
+  ui/sdl2: start in full screen with grab enabled
+  ui/sdl2-input: use trace-events to debug key events
+  ui/gtk: don't pass on win keys without keyboard grab
+  ui/gtk: use native keyboard scancodes on Windows
+  ui: increase min required GTK version to 3.22.0
+
+ configure                   |   2 +-
+ include/ui/win32-kbd-hook.h |  14 +++
+ stubs/Makefile.objs         |   1 +
+ stubs/win32-kbd-hook.c      |  18 ++++
+ ui/Makefile.objs            |   3 +
+ ui/gtk.c                    | 194 +++++++++++++++++-------------------
+ ui/sdl2-input.c             |   3 +
+ ui/sdl2.c                   |  33 +++++-
+ ui/trace-events             |   3 +
+ ui/win32-kbd-hook.c         | 102 +++++++++++++++++++
+ 10 files changed, 264 insertions(+), 109 deletions(-)
+ create mode 100644 include/ui/win32-kbd-hook.h
+ create mode 100644 stubs/win32-kbd-hook.c
+ create mode 100644 ui/win32-kbd-hook.c
+
+-- 
+2.26.1
+
 
