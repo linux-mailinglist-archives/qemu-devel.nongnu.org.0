@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 805ED1D5E8A
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 06:13:46 +0200 (CEST)
-Received: from localhost ([::1]:45970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1761D5EDF
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 07:20:18 +0200 (CEST)
+Received: from localhost ([::1]:50890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZoCn-0003Xu-2O
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 00:13:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53504)
+	id 1jZpFB-0006Z4-Na
+	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 01:20:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jZoBo-0002kr-IE
- for qemu-devel@nongnu.org; Sat, 16 May 2020 00:12:44 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:43251)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jZpEG-0005zl-Be; Sat, 16 May 2020 01:19:20 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jZoBl-000341-Tt
- for qemu-devel@nongnu.org; Sat, 16 May 2020 00:12:44 -0400
-Received: by mail-pl1-x641.google.com with SMTP id k22so1738824pls.10
- for <qemu-devel@nongnu.org>; Fri, 15 May 2020 21:12:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jZpEE-0004lr-3i; Sat, 16 May 2020 01:19:19 -0400
+Received: by mail-wm1-x343.google.com with SMTP id n18so409883wmj.5;
+ Fri, 15 May 2020 22:19:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZDKRidBIC85qhIE/mm8bhXDBJw4FDy1it2kQO0M3tLU=;
- b=rPyqbEfxzphncRuD58gLnYXZrshpk5d5NAKlcfjktRCfrPie+KzCYs6iIEXWaxym7b
- 4xFmyv+FUkqbNI+LgqAsUvOxKmYC4NjxTrS+18tKEs0LGWxtF2xH85XpnnG+9IEQ0AXo
- z4uMs8q51o8ixucIpsgEsdNNBRmhad+yoPsr4XEUUJ0pIEShhg5HV1Zeb5Y09dj1guVR
- KvRNh8ljovte0nQAZrv33+JZFK/AimPKbYOpzwg+OTKZPBfSL9DqA4f1JnZZRMJ0pdUx
- lK5bdQmI9WJU4uk4RlcUqdtfjRzEpsORL+LT/YhtNFu6FtUKARxC7eY5WGTDfJuXc65p
- /S9w==
+ bh=G7+PzDFZT7BSCXwDo8JVay4mYNjka/hIHExTbrAwud4=;
+ b=heRrp1qEKmkOyKWfuFSp86/OuIqorj6BgalL5RYh+QVXqX7bD2tPMZPB4WvHPMhWgJ
+ GLnlMMh6GbiAYq9/MX9QcwpT5tl0gyU1hCfSJdUMlvlm/KJc47lvXIKT1DeqSR5Z6UKv
+ J7ofAQJPFtqXJjqTxbDW7OZf7EpOHTkoh2AHHFTe7aom8Fx/qPDGCURYyWIDyEKb/U66
+ KRGWrYCh9Ob4o+bRUEUX4DsfpIEjASUnB/wVqDU/O5yAWj6nsCzwwRRHDlR37Cvo7NpY
+ sMF9uK/dSjiNISMV+Uf6+wrYzQ/kwrLEZyYAo15H3cQp1BUNR+NfyGhxjs9lf02n+CHP
+ imdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ZDKRidBIC85qhIE/mm8bhXDBJw4FDy1it2kQO0M3tLU=;
- b=c41RlWMhai6t51zS+WCaBCuh+Di5RJUwRo35jUQtbFTvc5lRoYAcTLsxomAvCTczqq
- ammBOvXuoO5xOi+p0+SzRlKaRMdC+4lr01/iisJXvGA7tguzrUQzCajVUfoJvvCb1dhR
- R/rmLgm/tAkTBxRlcaDqHdvaV8ATJY1ycYvwZb+WK+qVSX7iZZQukiMGhkWlR5Z3Zc5P
- d/PlFmAHM/t1bk/vTm9gFb9eKSUGAF+20ZHp4Vz75lHIZEH/ssdwQsx6n1vXstBoctuw
- jJYPTFiiQzAo9x0dnevVyAkM5+BJmGVj6F0EqdtcoA8f3IsQ+zkj/wRP+JU11Z52rUxH
- adRQ==
-X-Gm-Message-State: AOAM5312Q8lLCtQC3yIzKOjLlfqjMzG+f7r/voFvzzYoeNrFKwdZIEmC
- /VCrQpNI7jBbxs7TXw9AYMjEmw==
-X-Google-Smtp-Source: ABdhPJywXK8WV7Xe0acmFavEOud9EpZKYOSDTmjL+YZ/G1uqdzyUvC6/jjqRGmu0mx/EnGJj4VAO4w==
-X-Received: by 2002:a17:902:6f0f:: with SMTP id
- w15mr5734373plk.191.1589602360109; 
- Fri, 15 May 2020 21:12:40 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id l6sm3121033pfl.128.2020.05.15.21.12.38
+ bh=G7+PzDFZT7BSCXwDo8JVay4mYNjka/hIHExTbrAwud4=;
+ b=LLA5NZnKN2duEMqv6PPdpDB2ctOF/k7MXN9dPS9ZKiCyyMNkAuCR7Tu7nWmbLws+q0
+ WZZOFd/K+MFmH1V+oWuuCKoWSV+D+L3+VFIPRgju+0hiZk36fh6GpWN2lqW1hkGA+euR
+ O2XF1X7izW0p+AnxgdDvLicNWzM2+/uAdqR2rWOL+FJbdfpy51fkRWE0pNctdb2NJXyQ
+ H0Q6RtszhK2HJ2o0XrM11IoERHGDS91pcr+N0sypwtlyQKYqhZeozkOCa3JPog0Eyzce
+ auhv7DbQavGQ1Diao6AP7go3SOKXGVQf0NWPKbGofhhawoHq6n6i5z/08iGQaIZ4j0Ec
+ MCMQ==
+X-Gm-Message-State: AOAM530wY8MWvHRcEg7PUUk1FXOht76fMq3dtUXphSm5PTbF8WNGkP4Z
+ kdK+daiJ8AfL8gXnWtHqvWc=
+X-Google-Smtp-Source: ABdhPJw4TcKC+ObFD1r/WQsKWUmJQdzOQNLfl33CvIYYu2oaLSISRDf+i2H3Vcn1KjPLXQElMMSJ8A==
+X-Received: by 2002:a1c:a74a:: with SMTP id q71mr7488146wme.23.1589606356438; 
+ Fri, 15 May 2020 22:19:16 -0700 (PDT)
+Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id g10sm6235298wrx.4.2020.05.15.22.19.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 May 2020 21:12:39 -0700 (PDT)
-Subject: Re: [PATCH] linux-user/arm: Reset CPSR_E when entering a signal
- handler
-To: Peter Maydell <peter.maydell@linaro.org>,
- Amanieu d'Antras <amanieu@gmail.com>
-References: <20200507202429.1643202-1-amanieu@gmail.com>
- <CAFEAcA-n8-pOcwovsS1Z3T4AMa1Nueo2yik9zX5H16QAHeE05A@mail.gmail.com>
- <CA+y5pbSueV8HQKQEZnBS4DvOvMDXUY7HMaODNhY7v-fKkJJPYw@mail.gmail.com>
- <CAFEAcA8etD+V3KrCFwvqfDuZ0x4_cW-RN423WG13iVpJBRvq4g@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <47fd7f16-a7ed-e3ee-9a97-b2b21f43e7b7@linaro.org>
-Date: Fri, 15 May 2020 21:12:36 -0700
+ Fri, 15 May 2020 22:19:15 -0700 (PDT)
+Subject: Re: [PATCH] target/arm: Allow user-mode code to write CPSR.E via MSR
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Randy Yates <yates@ieee.org>
+References: <20200515185026.30080-1-peter.maydell@linaro.org>
+ <327074ea-2c2f-ad45-b53f-1c4dcb69f9bf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <8c049fb3-7122-3ac5-e7bd-0c905bd459e4@amsat.org>
+Date: Sat, 16 May 2020 07:19:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8etD+V3KrCFwvqfDuZ0x4_cW-RN423WG13iVpJBRvq4g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <327074ea-2c2f-ad45-b53f-1c4dcb69f9bf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -94,29 +91,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/15/20 2:25 PM, Peter Maydell wrote:
->> You also need to call arm_rebuild_hflags() after modifying CPSR_E
->> otherwise the change doesn't take effect.
+On 5/15/20 11:26 PM, Richard Henderson wrote:
+> On 5/15/20 11:50 AM, Peter Maydell wrote:
+>> Using the MSR instruction to write to CPSR.E is deprecated, but it is
+>> required to work from any mode including unprivileged code.  We were
+>> incorrectly forbidding usermode code from writing it because
+>> CPSR_USER did not include the CPSR_E bit.
+>>
+>> We use CPSR_USER in only three places:
+>>   * as the mask of what to allow userspace MSR to write to CPSR
+>>   * when deciding what bits a linux-user signal-return should be
+>>     able to write from the sigcontext structure
+>>   * in target_user_copy_regs() when we set up the initial
+>>     registers for the linux-user process
+>>
+>> In the first two cases not being able to update CPSR.E is a
+>> bug, and in the third case it doesn't matter because CPSR.E
+>> is always 0 there. So we can fix both bugs by adding CPSR_E
+>> to CPSR_EXEC.
 > 
-> Hmm. I was expecting cpsr_write() to take care of that if we
-> updated a cpsr flag that was in the hflags, but it looks like
-> the rebuild_hflags() is in the HELPER() wrapper but not in
-> cpsr_write() itself. Richard, does anything go wrong if
-> cpsr_write() proper does the hflags rebuild ?
+> Wrong variable in description here.
 
-We wind up rebuilding hflags multiple times, is all.
+Indeed CPSR_EXEC -> CPSR_USER typo.
 
-Most of the time we call cpsr_write we also do something else that also
-requires a rebuild.  So we do it once after all updates.
+> 
+> Otherwise,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> 
+> r~
+> 
+>>
+>> (The recommended way to change CPSR.E is to use the 'SETEND'
+>> instruction, which we do correctly allow from usermode code.)
+>>
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>> ---
+>> Bug reported on IRC.
 
-We could probably rearrange code such that the cpsr_write is last, and then
-sink the rebuild.  But I don't know if that's clearer, hiding the side effect.
+Similar to commit a1ecb4381829d7:
 
+Reported-by: Randy Yates <yates@ieee.org>
 
-r~
+> Quick-and-dirty test case at:
+>>   https://people.linaro.org/~peter.maydell/msr-setend.c
+>>
+>>   target/arm/cpu.h | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+>> index 5d995368d4f..677584e5da0 100644
+>> --- a/target/arm/cpu.h
+>> +++ b/target/arm/cpu.h
+>> @@ -1230,7 +1230,7 @@ void pmu_init(ARMCPU *cpu);
+>>   #define CACHED_CPSR_BITS (CPSR_T | CPSR_AIF | CPSR_GE | CPSR_IT | CPSR_Q \
+>>       | CPSR_NZCV)
+>>   /* Bits writable in user mode.  */
+>> -#define CPSR_USER (CPSR_NZCV | CPSR_Q | CPSR_GE)
+>> +#define CPSR_USER (CPSR_NZCV | CPSR_Q | CPSR_GE | CPSR_E)
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+>>   /* Execution state bits.  MRS read as zero, MSR writes ignored.  */
+>>   #define CPSR_EXEC (CPSR_T | CPSR_IT | CPSR_J | CPSR_IL)
+>>   
+>>
+> 
+> 
+
 
