@@ -2,54 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F7331D620A
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 17:30:49 +0200 (CEST)
-Received: from localhost ([::1]:45388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BABD1D619E
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 16:49:18 +0200 (CEST)
+Received: from localhost ([::1]:59552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZylz-0000ir-QM
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 11:30:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32786)
+	id 1jZy7p-00006S-EZ
+	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 10:49:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.lavaud@protonmail.com>)
- id 1jZy7E-0008B9-3L
- for qemu-devel@nongnu.org; Sat, 16 May 2020 10:48:40 -0400
-Received: from mail-40134.protonmail.ch ([185.70.40.134]:34673)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jZy6t-0007rj-39
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 10:48:19 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:33979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.lavaud@protonmail.com>)
- id 1jZy7B-0001j5-Og
- for qemu-devel@nongnu.org; Sat, 16 May 2020 10:48:39 -0400
-Date: Sat, 16 May 2020 14:42:47 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1589640174;
- bh=SsCpBDNAIQ3v58OWvOEydwcu9WNsco8XmUdn2Sorlog=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=C5Hc9nzIDKi47Sgh/tqylfT/uAjELSSXjSfzQlPtxDNKnqlV2BF70A3BawNEccWpB
- 4cZOvTfGlK7u6Cp5H+WF2QTnw+nHjpmTl9RbpOPicUKGvNBXKyTB1wYJrfXxoaIRDv
- F6gSkkPuZthvsN/HLO1Y+lcBN/xn/lsXCeT2PeYg=
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-Subject: Patch to fix missing Exec field in qemu.desktop
-Message-ID: <zrVSyE1D2Xtxcr723wTf2sJRtM0IPuBRH0S-Gyx2XsvooDqbMYhqrK_aVk3AZM8RkjyOzYKWQH3VrnWDjwVUspDJHYUKXOyLZEZlvAzz6Ww=@protonmail.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jZy6r-0001as-TM
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 10:48:18 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 04GElEfm031138
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Sat, 16 May 2020 10:47:18 -0400
+Date: Sat, 16 May 2020 10:47:14 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH] ati-vga: Do not allow unaligned access via index register
+Message-ID: <20200516144706.zz54mgs7k7anq3cj@mozz.bu.edu>
+References: <20200516132352.39E9374594E@zero.eik.bme.hu>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature";
- micalg=pgp-sha256;
- boundary="---------------------b60704120c712c8953f031f4042c4404";
- charset=UTF-8
-Received-SPF: pass client-ip=185.70.40.134;
- envelope-from=victor.lavaud@protonmail.com; helo=mail-40134.protonmail.ch
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 10:42:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200516132352.39E9374594E@zero.eik.bme.hu>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 10:48:17
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 16 May 2020 11:29:20 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,119 +57,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Victor Lavaud <victor.lavaud@protonmail.com>, Victor Lavaud <victor.lavaud@protonmail.com>
-From: Victor Lavaud via <qemu-devel@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
------------------------b60704120c712c8953f031f4042c4404
-Content-Type: multipart/mixed;boundary=---------------------5c8d758721f74f3fcee08b6133b9dea2
+On 200516 1513, BALATON Zoltan wrote:
+> According to docs bits 1 and 0 of MM_INDEX are hard coded to 0 so
+> unaligned access via this register should not be possible.
+> This also fixes problems reported in bug #1878134.
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
 
------------------------5c8d758721f74f3fcee08b6133b9dea2
-Content-Type: multipart/alternative;boundary=---------------------4f0d7dc96b6a713bd2eb1cca549316f4
+Hi Zoltan,
+I applied this patch and confirmed that I cannot reproduce the crash in #1878134
+Thanks!
 
------------------------4f0d7dc96b6a713bd2eb1cca549316f4
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;charset=utf-8
+Acked-by: Alexander Bulekov <alxndr@bu.edu>
 
-
-
-
-Sent with ProtonMail Secure Email.
-
-
------------------------4f0d7dc96b6a713bd2eb1cca549316f4
-Content-Type: multipart/related;boundary=---------------------5d95b9c6d1cd288cbde1fa0773d162a6
-
------------------------5d95b9c6d1cd288cbde1fa0773d162a6
-Content-Type: text/html;charset=utf-8
-Content-Transfer-Encoding: base64
-
-PGRpdj48YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdiBjbGFzcz0icHJvdG9ubWFpbF9zaWdu
-YXR1cmVfYmxvY2siPjxkaXYgY2xhc3M9InByb3Rvbm1haWxfc2lnbmF0dXJlX2Jsb2NrLXVzZXIg
-cHJvdG9ubWFpbF9zaWduYXR1cmVfYmxvY2stZW1wdHkiPjxicj48L2Rpdj48ZGl2IGNsYXNzPSJw
-cm90b25tYWlsX3NpZ25hdHVyZV9ibG9jay1wcm90b24iPlNlbnQgd2l0aCA8YSBocmVmPSJodHRw
-czovL3Byb3Rvbm1haWwuY29tIiB0YXJnZXQ9Il9ibGFuayI+UHJvdG9uTWFpbDwvYT4gU2VjdXJl
-IEVtYWlsLjxicj48L2Rpdj48L2Rpdj4=
------------------------5d95b9c6d1cd288cbde1fa0773d162a6--
-
------------------------4f0d7dc96b6a713bd2eb1cca549316f4--
-
------------------------5c8d758721f74f3fcee08b6133b9dea2
-Content-Type: text/x-patch; filename="fix-exec-field-in-qemu-desktop.patch"; name="fix-exec-field-in-qemu-desktop.patch"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="fix-exec-field-in-qemu-desktop.patch"; name="fix-exec-field-in-qemu-desktop.patch"
-
-RnJvbSAyMDdhMWEzNGFjY2RjNWI1NjNkMjk0ODQyOTI4MjlhNDE5M2MzNWY4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBWaWN0b3IgTGF2YXVkIDx2aWN0b3IubGF2YXVkQGdtYWlsLmNv
-bT4KRGF0ZTogU2F0LCAxNiBNYXkgMjAyMCAxNjozMzowMCArMDIwMApTdWJqZWN0OiBbUEFUQ0hd
-IEZpeCBtaXNzaW5nIEV4ZWMgZmllbGQgaW4gcWVtdS5kZXNrdG9wCgpTaWduZWQtb2ZmLWJ5OiBW
-aWN0b3IgTGF2YXVkIDx2aWN0b3IubGF2YXVkQHBtLm1lPgotLS0KIHVpL3FlbXUuZGVza3RvcCB8
-IDEgKwogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvdWkvcWVt
-dS5kZXNrdG9wIGIvdWkvcWVtdS5kZXNrdG9wCmluZGV4IDIwZjA5ZjU2YmUuLjFiOWYwMmEwY2Mg
-MTAwNjQ0Ci0tLSBhL3VpL3FlbXUuZGVza3RvcAorKysgYi91aS9xZW11LmRlc2t0b3AKQEAgLTYs
-MyArNiw0IEBAIFR5cGU9QXBwbGljYXRpb24KIFRlcm1pbmFsPWZhbHNlCiBLZXl3b3Jkcz1FbXVs
-YXRvcnM7VmlydHVhbGl6YXRpb247S1ZNOwogTm9EaXNwbGF5PXRydWUKK0V4ZWM9cWVtdQotLSAK
-Mi4yNi4yCgo=
------------------------5c8d758721f74f3fcee08b6133b9dea2
-Content-Type: application/pgp-keys; filename="publickey - victor.lavaud@protonmail.com - 0x54FBFBBD.asc"; name="publickey - victor.lavaud@protonmail.com - 0x54FBFBBD.asc"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="publickey - victor.lavaud@protonmail.com - 0x54FBFBBD.asc"; name="publickey - victor.lavaud@protonmail.com - 0x54FBFBBD.asc"
-
-LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tDQpWZXJzaW9uOiBPcGVuUEdQLmpz
-IHY0LjEwLjENCkNvbW1lbnQ6IGh0dHBzOi8vb3BlbnBncGpzLm9yZw0KDQp4c0JOQkZ3dWIxTUJD
-QURjVlhTU0JhZHUrOHNxMExvbitlSXdXcHVZUGt6NFcxVUxqMTMyUHdzUGIxNjUNClE2OU5yVUF6
-R2ljak1zclgwNUpzS2lhdThzUW9oVkY1U01saUJ5T1JDelBiSGFWK0ZXNWEvRnBWRHNDZg0KaUFw
-RWxLT2Q5QVZLcURveHpJYW82NVhDUnVFVG1jN2FDQWk1ZDJTV3Y1akNNZEpNdUhlR20rbTRoaW9z
-DQpPaW0reFpCdzFnQ3F4TVdvTUFCeXAwTmxsSmliUHBIR2hYd2o4RzF4UUM2N2hYY3Vuc1QyQjFN
-OEFDY3kNCk9kd2s0RUkrRHh6cVk1L0c0ZmlwMmpHZVJiVFM0UUFEQkZXMnhNNi8xQUp6V0ZoM0pQ
-UU9md2Zwc2ZETA0KaWJsRHFFMzlDMm15dldWWnltR05NZWlJZVJmaGZrN3ZxbkpFRDlPZEh6QWZB
-RkUwd2lSK0liYVRBQkVCDQpBQUhOUFNKMmFXTjBiM0l1YkdGMllYVmtRSEJ5YjNSdmJtMWhhV3d1
-WTI5dElpQThkbWxqZEc5eUxteGgNCmRtRjFaRUJ3Y205MGIyNXRZV2xzTG1OdmJUN0N3SFVFRUFF
-SUFCOEZBbHd1YjFNR0N3a0hDQU1DQkJVSQ0KQ2dJREZnSUJBaGtCQWhzREFoNEJBQW9KRUp3VlJ4
-eFVqdThlSERNSCtnTmhKL3ROeG0zdHViTk0wVEpODQpNR0Rrbm1qM0huVlNaUldVTWsyUzRnTmJj
-QnV6eXcyVlUzVm1xaFVLNUR6RVdLaDJrU25yR2xmV3JGTkcNCnJCZEg2UERrZ3p4bUxUbnhYNE5n
-cFVQM1l6Q3dLaW42V2dZdUNJTDd4ZnRVVnRoYkpQemZ4c2FhYy9vQQ0KaVphTjhGZmdZbTlJc2NX
-TGxxaFUycnZ3dEpuZW50endjU2ZwOGN4SE1aVjhwdVBxOExIVHFpd3haTTZDDQppZENYMEhRWjZs
-Rzk4REhRdC9Ed21kNlk0SnIycU9Lekw0Qytad0FyeTk3dXdKbWxvS1F2eTB0WnRrNCsNCmRjRnhB
-MDc2b1pNSTBSbjdkZVJ4ejNybzJId3VCZW5aTFJTajl6Tk1ReHNVTXRTUkUrclZJejRGTDdRRg0K
-V1ZNKzBqMEVLbjJjYzdaQWZ6bmI5elBPd0UwRVhDNXZVd0VJQUxsVm9MYXgxRUN0UDBtdDI2UTRV
-QytEDQpxazJrcVFCMDcwVzZCQjdNdEhiM2p4OHZ1WEFyUm1CTWIvTlpaQU5BV09mekU0dG9xdGFz
-RmhZTy9ra28NCjVybi9ZRHVCc0FqOXJXRjRRUHBKWWo2U2M5anBLZWI2NkZCL1p0N0VsbzBOWTFE
-QmFldEwwNmMyZDE1ZA0KcVJ0cFUySnprbE81ZUI1UUI0aFpYTWZFd0NkbUo4d2NoWlhpdjhXSS9Y
-eG4zRVhSbGw5OEplbk9ObjBtDQp2K1FKV3QzbGZJV0pQY09kVHFwT0RCdGlFdlJNTDB3RFZHVjRW
-cWtmU3BSWi9CMVgxM0RQZ1hodkVXaGMNCkVhVlp2QTd0VjU1YkxKTURGcmNhZnFXWmp1VFNaUGIz
-Z2FLc2lFbDBwa3lWNVRCNjFDZXU3aDhBOThQMA0KYmgwZU5EQU1WdGllQmZCWjVWY0FFUUVBQWNM
-QVh3UVlBUWdBQ1FVQ1hDNXZVd0liREFBS0NSQ2NGVWNjDQpWSTd2SGtBekNBRExjNHpGL21Hc2th
-SFZ2MFFocm1JU2NpaGlGTFpCYno1ZWI0anV0RkwySlJTVVZWMHANCnRmb01TcjVqS3RlYUN0Q1FQ
-MzNwbGRERjVNNXNrdm9tRnNUMEpvR0M1T0RIMXY1alcrUXhNUzJjL1lVdA0KVjNTWDVtclZxYmt6
-OVRxZytKK0w1YlI0YU0weVNzN3pOQlJxTnduQmFNSTNLdHNUOCs2T2paY0tsWStqDQovVDBpdUp6
-VWJLWE9jaHBaWWdCVGJHYVIxV0dNMFVaRXRwNjVIV0ZYbUNEaWJyUnkzN0pXS0VIV2tmZkENCjJk
-L2dBOGNqNzJkNHU1RnVoMXFDSVVydWk4MjNMUnQ4WTViNjF2RzZzVERpQ0tzL216czBQSWJHaWlM
-Ng0KNW1nQ1BXbE5zcGhVVng2Q3pLRjF5WEphcGtlb3d0NTEvNndxRzVrYVkweitJSFZ4UzZJSg0K
-PUVzYmoNCi0tLS0tRU5EIFBHUCBQVUJMSUMgS0VZIEJMT0NLLS0tLS0NCg==
------------------------5c8d758721f74f3fcee08b6133b9dea2--
-
------------------------b60704120c712c8953f031f4042c4404
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wsBcBAEBCAAGBQJev/vlAAoJEJwVRxxUju8eE5EIAIjyyiEGbcwqd7brXwJa
-pp43dSl2ccFRaW+9/kPUAUMQJcbTdaceYHt9tdiGbHqxweWUhxyD+mWM9itG
-HiGQWNvKAlU5npb5rya8oMFBC09xOAeJbtjmGzaHobrM5/9laG3nX1P0ijpR
-B1mUqvWI7uD3r0K5fcxcz6r2fe87UnIKgN6qSYPzi3fuIW3Qw4/92JBWzX3p
-qwTV5BJer27MRsm8+7QlLGA/Smab8jnEFtHMOokuD7gQta0RXyQpO+aF7K18
-BaZwmNbbhZqyLFIpfzLCiqqlJ9qCXIMSAxVqSOB468bc5gMS627ZcdG92TzL
-Kce8GD+Y82aDnK4YF6TGA9Y=
-=MSm5
------END PGP SIGNATURE-----
-
-
------------------------b60704120c712c8953f031f4042c4404--
-
+>  hw/display/ati.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/display/ati.c b/hw/display/ati.c
+> index f4c4542751..2ee23173b2 100644
+> --- a/hw/display/ati.c
+> +++ b/hw/display/ati.c
+> @@ -531,7 +531,7 @@ static void ati_mm_write(void *opaque, hwaddr addr,
+>      }
+>      switch (addr) {
+>      case MM_INDEX:
+> -        s->regs.mm_index = data;
+> +        s->regs.mm_index = data & ~3;
+>          break;
+>      case MM_DATA ... MM_DATA + 3:
+>          /* indexed access to regs or memory */
+> -- 
+> 2.21.3
+> 
+> 
 
