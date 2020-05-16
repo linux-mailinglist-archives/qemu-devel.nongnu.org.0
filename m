@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41FB21D5F66
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 09:25:21 +0200 (CEST)
-Received: from localhost ([::1]:35954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2761D5F69
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 09:27:16 +0200 (CEST)
+Received: from localhost ([::1]:40252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZrCC-0004X0-CA
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 03:25:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44560)
+	id 1jZrE3-0006Wg-Ku
+	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 03:27:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jZr7i-0006a5-HA
- for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:42 -0400
-Received: from mailout07.t-online.de ([194.25.134.83]:59154)
+ id 1jZr7m-0006gU-7c
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:46 -0400
+Received: from mailout08.t-online.de ([194.25.134.20]:38510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jZr7h-0004Nf-7F
- for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:42 -0400
-Received: from fwd39.aul.t-online.de (fwd39.aul.t-online.de [172.20.27.138])
- by mailout07.t-online.de (Postfix) with SMTP id 9F8DE420692C;
- Sat, 16 May 2020 09:20:39 +0200 (CEST)
+ id 1jZr7k-0004OR-SX
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:45 -0400
+Received: from fwd16.aul.t-online.de (fwd16.aul.t-online.de [172.20.26.243])
+ by mailout08.t-online.de (Postfix) with SMTP id 4D02B41C0B4B;
+ Sat, 16 May 2020 09:20:43 +0200 (CEST)
 Received: from linpower.localnet
- (bpYICQZCght86CknVnQWgw8WyqUA8opTP+Dw2ik1CyDftB26UCfJFeDwEj6ahXwgod@[46.86.59.135])
- by fwd39.t-online.de
+ (ZkibeoZfrhRJLRV-A3NarHt0Or7r3MoQMYMz5Lek4GH4v1pX3gaYc5EEeHTZTEsgWi@[46.86.59.135])
+ by fwd16.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1jZr7e-15STse0; Sat, 16 May 2020 09:20:38 +0200
+ esmtp id 1jZr7h-3KJu7c0; Sat, 16 May 2020 09:20:41 +0200
 Received: by linpower.localnet (Postfix, from userid 1000)
- id ECA452006D8; Sat, 16 May 2020 09:20:14 +0200 (CEST)
+ id EEF6E2006D9; Sat, 16 May 2020 09:20:14 +0200 (CEST)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v2 10/11] ui/gtk: use native keyboard scancodes on Windows
-Date: Sat, 16 May 2020 09:20:13 +0200
-Message-Id: <20200516072014.7766-10-vr_qemu@t-online.de>
+Subject: [PATCH v2 11/11] ui: increase min required GTK version to 3.22.0
+Date: Sat, 16 May 2020 09:20:14 +0200
+Message-Id: <20200516072014.7766-11-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <bea1a22a-1fb4-b49b-c089-e0a5c5cf55cd@t-online.de>
 References: <bea1a22a-1fb4-b49b-c089-e0a5c5cf55cd@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: bpYICQZCght86CknVnQWgw8WyqUA8opTP+Dw2ik1CyDftB26UCfJFeDwEj6ahXwgod
-X-TOI-EXPURGATEID: 150726::1589613638-0001727C-B22A38CE/0/0 CLEAN NORMAL
-X-TOI-MSGID: 4747b318-5c33-4e05-b98e-396a1d2cdb52
-Received-SPF: none client-ip=194.25.134.83;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout07.t-online.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 03:18:54
+X-ID: ZkibeoZfrhRJLRV-A3NarHt0Or7r3MoQMYMz5Lek4GH4v1pX3gaYc5EEeHTZTEsgWi
+X-TOI-EXPURGATEID: 150726::1589613641-00007FCB-39028EDF/0/0 CLEAN NORMAL
+X-TOI-MSGID: a3e70252-ac42-4572-be14-a1e34c3baaf6
+Received-SPF: none client-ip=194.25.134.20;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout08.t-online.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 03:20:19
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,94 +72,228 @@ Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since GTK 3.22 the function gdk_event_get_scancode() is
-available. On Windows this function returns keyboard scancodes
-and some extended flags. These raw keyboard scancodes are much
-better suited for this use case than the half-cooked win32
-virtual-key codes because scancodes report the key position on
-the keyboard and the positions are independent of national
-language settings.
+Based on a mail on the qemu-devel mailing list at
+https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg02909.html
+and some internet research the GTK3 versions on supported
+platforms are:
+
+    RHEL-7.4: 3.22.10
+    RHEL-7.5: 3.22.26
+    Debian (Stretch): 3.22.11
+    Debian (Buster): 3.24.5
+    OpenBSD (Ports): 3.22.30
+    FreeBSD (Ports): 3.22.29
+    OpenSUSE Leap 15: 3.22.30
+    SLE12-SP2: Unknown
+    SLE15: 3.22.30
+    Ubuntu (Bionic): 3.22.30
+    Ubuntu (Focal): 3.24.18
+    macOS (Homebrew): 3.22.30
+
+This justifies increasing the minimum required GTK version in
+QEMU to 3.22.0.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- ui/gtk.c | 33 +++++++++++++++++++++++++++++----
- 1 file changed, 29 insertions(+), 4 deletions(-)
+ configure |  2 +-
+ ui/gtk.c  | 91 +++++--------------------------------------------------
+ 2 files changed, 9 insertions(+), 84 deletions(-)
 
+diff --git a/configure b/configure
+index 26084fc53a..2fc05c4465 100755
+--- a/configure
++++ b/configure
+@@ -2897,7 +2897,7 @@ fi
+ if test "$gtk" != "no"; then
+     gtkpackage="gtk+-3.0"
+     gtkx11package="gtk+-x11-3.0"
+-    gtkversion="3.14.0"
++    gtkversion="3.22.0"
+     if $pkg_config --exists "$gtkpackage >= $gtkversion"; then
+         gtk_cflags=$($pkg_config --cflags $gtkpackage)
+         gtk_libs=$($pkg_config --libs $gtkpackage)
 diff --git a/ui/gtk.c b/ui/gtk.c
-index 1d51e14bb5..68a5b901c7 100644
+index 68a5b901c7..d4b49bd7da 100644
 --- a/ui/gtk.c
 +++ b/ui/gtk.c
-@@ -1026,8 +1026,13 @@ static const guint16 *gd_get_keymap(size_t *maplen)
+@@ -490,12 +490,7 @@ static void gd_refresh(DisplayChangeListener *dcl)
+ 
+ static GdkDevice *gd_get_pointer(GdkDisplay *dpy)
+ {
+-#if GTK_CHECK_VERSION(3, 20, 0)
+     return gdk_seat_get_pointer(gdk_display_get_default_seat(dpy));
+-#else
+-    return gdk_device_manager_get_client_pointer(
+-        gdk_display_get_device_manager(dpy));
+-#endif
+ }
+ 
+ static void gd_mouse_set(DisplayChangeListener *dcl,
+@@ -877,27 +872,18 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
+ 
+     if (!qemu_input_is_absolute() && s->ptr_owner == vc) {
+         GdkScreen *screen = gtk_widget_get_screen(vc->gfx.drawing_area);
++        GdkDisplay *dpy = gtk_widget_get_display(widget);
++        GdkWindow *win = gtk_widget_get_window(widget);
++        GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
++        GdkRectangle geometry;
+         int screen_width, screen_height;
+ 
+         int x = (int)motion->x_root;
+         int y = (int)motion->y_root;
+ 
+-#if GTK_CHECK_VERSION(3, 22, 0)
+-        {
+-            GdkDisplay *dpy = gtk_widget_get_display(widget);
+-            GdkWindow *win = gtk_widget_get_window(widget);
+-            GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
+-            GdkRectangle geometry;
+-            gdk_monitor_get_geometry(monitor, &geometry);
+-            screen_width = geometry.width;
+-            screen_height = geometry.height;
+-        }
+-#else
+-        {
+-            screen_width = gdk_screen_get_width(screen);
+-            screen_height = gdk_screen_get_height(screen);
+-        }
+-#endif
++        gdk_monitor_get_geometry(monitor, &geometry);
++        screen_width = geometry.width;
++        screen_height = geometry.height;
+ 
+         /* In relative mode check to see if client pointer hit
+          * one of the screen edges, and if so move it back by
+@@ -1026,13 +1012,8 @@ static const guint16 *gd_get_keymap(size_t *maplen)
  #ifdef GDK_WINDOWING_WIN32
      if (GDK_IS_WIN32_DISPLAY(dpy)) {
          trace_gd_keymap_windowing("win32");
-+#if GTK_CHECK_VERSION(3, 22, 0)
-+        *maplen = qemu_input_map_atset1_to_qcode_len;
-+        return qemu_input_map_atset1_to_qcode;
-+#else
-         *maplen = qemu_input_map_win32_to_qcode_len;
-         return qemu_input_map_win32_to_qcode;
-+#endif
+-#if GTK_CHECK_VERSION(3, 22, 0)
+         *maplen = qemu_input_map_atset1_to_qcode_len;
+         return qemu_input_map_atset1_to_qcode;
+-#else
+-        *maplen = qemu_input_map_win32_to_qcode_len;
+-        return qemu_input_map_win32_to_qcode;
+-#endif
      }
  #endif
  
-@@ -1073,6 +1078,25 @@ static int gd_map_keycode(int scancode)
-     return keycode_map[scancode];
+@@ -1080,7 +1061,7 @@ static int gd_map_keycode(int scancode)
+ 
+ static int gd_get_keycode(GdkEventKey *key)
+ {
+-#if defined G_OS_WIN32 && GTK_CHECK_VERSION(3, 22, 0)
++#ifdef G_OS_WIN32
+     int scancode = gdk_event_get_scancode((GdkEvent *)key);
+ 
+     /* translate Windows native scancodes to atset1 keycodes */
+@@ -1437,7 +1418,6 @@ static void gd_menu_zoom_fit(GtkMenuItem *item, void *opaque)
+     gd_update_full_redraw(vc);
  }
  
-+static int gd_get_keycode(GdkEventKey *key)
-+{
-+#if defined G_OS_WIN32 && GTK_CHECK_VERSION(3, 22, 0)
-+    int scancode = gdk_event_get_scancode((GdkEvent *)key);
-+
-+    /* translate Windows native scancodes to atset1 keycodes */
-+    switch (scancode & (KF_EXTENDED | 0xff)) {
-+    case 0x145:     /* NUMLOCK */
-+        return scancode & 0xff;
-+    }
-+
-+    return scancode & KF_EXTENDED ?
-+        0xe000 | (scancode & 0xff) : scancode & 0xff;
-+
-+#else
-+    return key->hardware_keycode;
-+#endif
-+}
-+
- static gboolean gd_text_key_down(GtkWidget *widget,
-                                  GdkEventKey *key, void *opaque)
+-#if GTK_CHECK_VERSION(3, 20, 0)
+ static void gd_grab_update(VirtualConsole *vc, bool kbd, bool ptr)
  {
-@@ -1084,7 +1108,7 @@ static gboolean gd_text_key_down(GtkWidget *widget,
-     } else if (key->length) {
-         kbd_put_string_console(con, key->string, key->length);
-     } else {
--        int qcode = gd_map_keycode(key->hardware_keycode);
-+        int qcode = gd_map_keycode(gd_get_keycode(key));
-         kbd_put_qcode_console(con, qcode, false);
+     GdkDisplay *display = gtk_widget_get_display(vc->gfx.drawing_area);
+@@ -1461,32 +1441,6 @@ static void gd_grab_update(VirtualConsole *vc, bool kbd, bool ptr)
+         gdk_seat_ungrab(seat);
      }
-     return TRUE;
-@@ -1093,7 +1117,7 @@ static gboolean gd_text_key_down(GtkWidget *widget,
- static gboolean gd_key_event(GtkWidget *widget, GdkEventKey *key, void *opaque)
- {
-     VirtualConsole *vc = opaque;
--    int qcode;
-+    int keycode, qcode;
+ }
+-#else
+-static void gd_grab_devices(VirtualConsole *vc, bool grab,
+-                            GdkInputSource source, GdkEventMask mask,
+-                            GdkCursor *cursor)
+-{
+-    GdkDisplay *display = gtk_widget_get_display(vc->gfx.drawing_area);
+-    GdkDeviceManager *mgr = gdk_display_get_device_manager(display);
+-    GList *devs = gdk_device_manager_list_devices(mgr, GDK_DEVICE_TYPE_MASTER);
+-    GList *tmp = devs;
+-
+-    for (tmp = devs; tmp; tmp = tmp->next) {
+-        GdkDevice *dev = tmp->data;
+-        if (gdk_device_get_source(dev) != source) {
+-            continue;
+-        }
+-        if (grab) {
+-            GdkWindow *win = gtk_widget_get_window(vc->gfx.drawing_area);
+-            gdk_device_grab(dev, win, GDK_OWNERSHIP_NONE, FALSE,
+-                            mask, cursor, GDK_CURRENT_TIME);
+-        } else {
+-            gdk_device_ungrab(dev, GDK_CURRENT_TIME);
+-        }
+-    }
+-    g_list_free(devs);
+-}
+-#endif
  
- #ifdef G_OS_WIN32
-     /* on windows, we ought to ignore the reserved key event? */
-@@ -1121,9 +1145,10 @@ static gboolean gd_key_event(GtkWidget *widget, GdkEventKey *key, void *opaque)
-         return TRUE;
+ static void gd_grab_keyboard(VirtualConsole *vc, const char *reason)
+ {
+@@ -1499,13 +1453,7 @@ static void gd_grab_keyboard(VirtualConsole *vc, const char *reason)
      }
  
--    qcode = gd_map_keycode(key->hardware_keycode);
-+    keycode = gd_get_keycode(key);
-+    qcode = gd_map_keycode(keycode);
+     win32_kbd_set_grab(true);
+-#if GTK_CHECK_VERSION(3, 20, 0)
+     gd_grab_update(vc, true, vc->s->ptr_owner == vc);
+-#else
+-    gd_grab_devices(vc, true, GDK_SOURCE_KEYBOARD,
+-                   GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK,
+-                   NULL);
+-#endif
+     vc->s->kbd_owner = vc;
+     gd_update_caption(vc->s);
+     trace_gd_grab(vc->label, "kbd", reason);
+@@ -1521,11 +1469,7 @@ static void gd_ungrab_keyboard(GtkDisplayState *s)
+     s->kbd_owner = NULL;
  
--    trace_gd_key_event(vc->label, key->hardware_keycode, qcode,
-+    trace_gd_key_event(vc->label, keycode, qcode,
-                        (key->type == GDK_KEY_PRESS) ? "down" : "up");
+     win32_kbd_set_grab(false);
+-#if GTK_CHECK_VERSION(3, 20, 0)
+     gd_grab_update(vc, false, vc->s->ptr_owner == vc);
+-#else
+-    gd_grab_devices(vc, false, GDK_SOURCE_KEYBOARD, 0, NULL);
+-#endif
+     gd_update_caption(s);
+     trace_gd_ungrab(vc->label, "kbd");
+ }
+@@ -1542,21 +1486,9 @@ static void gd_grab_pointer(VirtualConsole *vc, const char *reason)
+         }
+     }
  
-     qkbd_state_key_event(vc->gfx.kbd, qcode,
+-#if GTK_CHECK_VERSION(3, 20, 0)
+     gd_grab_update(vc, vc->s->kbd_owner == vc, true);
+     gdk_device_get_position(gd_get_pointer(display),
+                             NULL, &vc->s->grab_x_root, &vc->s->grab_y_root);
+-#else
+-    gd_grab_devices(vc, true, GDK_SOURCE_MOUSE,
+-                    GDK_POINTER_MOTION_MASK |
+-                    GDK_BUTTON_PRESS_MASK |
+-                    GDK_BUTTON_RELEASE_MASK |
+-                    GDK_BUTTON_MOTION_MASK |
+-                    GDK_SCROLL_MASK,
+-                    vc->s->null_cursor);
+-    gdk_device_get_position(gd_get_pointer(display),
+-                            NULL, &vc->s->grab_x_root, &vc->s->grab_y_root);
+-#endif
+     vc->s->ptr_owner = vc;
+     gd_update_caption(vc->s);
+     trace_gd_grab(vc->label, "ptr", reason);
+@@ -1573,17 +1505,10 @@ static void gd_ungrab_pointer(GtkDisplayState *s)
+     s->ptr_owner = NULL;
+ 
+     display = gtk_widget_get_display(vc->gfx.drawing_area);
+-#if GTK_CHECK_VERSION(3, 20, 0)
+     gd_grab_update(vc, vc->s->kbd_owner == vc, false);
+     gdk_device_warp(gd_get_pointer(display),
+                     gtk_widget_get_screen(vc->gfx.drawing_area),
+                     vc->s->grab_x_root, vc->s->grab_y_root);
+-#else
+-    gd_grab_devices(vc, false, GDK_SOURCE_MOUSE, 0, NULL);
+-    gdk_device_warp(gd_get_pointer(display),
+-                    gtk_widget_get_screen(vc->gfx.drawing_area),
+-                    vc->s->grab_x_root, vc->s->grab_y_root);
+-#endif
+     gd_update_caption(s);
+     trace_gd_ungrab(vc->label, "ptr");
+ }
 -- 
 2.26.1
 
