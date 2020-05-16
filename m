@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D061D5F6A
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 09:28:24 +0200 (CEST)
-Received: from localhost ([::1]:42620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41FB21D5F66
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 09:25:21 +0200 (CEST)
+Received: from localhost ([::1]:35954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZrF9-0007Uw-OI
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 03:28:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44552)
+	id 1jZrCC-0004X0-CA
+	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 03:25:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jZr7h-0006YN-Fw
- for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:41 -0400
-Received: from mailout02.t-online.de ([194.25.134.17]:47618)
+ id 1jZr7i-0006a5-HA
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:42 -0400
+Received: from mailout07.t-online.de ([194.25.134.83]:59154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jZr7g-0004NX-MO
- for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:41 -0400
-Received: from fwd29.aul.t-online.de (fwd29.aul.t-online.de [172.20.26.134])
- by mailout02.t-online.de (Postfix) with SMTP id 1990C41E6CEA;
+ id 1jZr7h-0004Nf-7F
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:42 -0400
+Received: from fwd39.aul.t-online.de (fwd39.aul.t-online.de [172.20.27.138])
+ by mailout07.t-online.de (Postfix) with SMTP id 9F8DE420692C;
  Sat, 16 May 2020 09:20:39 +0200 (CEST)
 Received: from linpower.localnet
- (SaLBbkZAwhrltt+wOYB-fpP9UHHzDdPY6trQjCngInVPk9-iqKBRxMFp+wNjOqOgLp@[46.86.59.135])
- by fwd29.t-online.de
+ (bpYICQZCght86CknVnQWgw8WyqUA8opTP+Dw2ik1CyDftB26UCfJFeDwEj6ahXwgod@[46.86.59.135])
+ by fwd39.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1jZr7c-4FpbIu0; Sat, 16 May 2020 09:20:36 +0200
+ esmtp id 1jZr7e-15STse0; Sat, 16 May 2020 09:20:38 +0200
 Received: by linpower.localnet (Postfix, from userid 1000)
- id EA48B2006D7; Sat, 16 May 2020 09:20:14 +0200 (CEST)
+ id ECA452006D8; Sat, 16 May 2020 09:20:14 +0200 (CEST)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v2 09/11] ui/gtk: don't pass on win keys without keyboard grab
-Date: Sat, 16 May 2020 09:20:12 +0200
-Message-Id: <20200516072014.7766-9-vr_qemu@t-online.de>
+Subject: [PATCH v2 10/11] ui/gtk: use native keyboard scancodes on Windows
+Date: Sat, 16 May 2020 09:20:13 +0200
+Message-Id: <20200516072014.7766-10-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <bea1a22a-1fb4-b49b-c089-e0a5c5cf55cd@t-online.de>
 References: <bea1a22a-1fb4-b49b-c089-e0a5c5cf55cd@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: SaLBbkZAwhrltt+wOYB-fpP9UHHzDdPY6trQjCngInVPk9-iqKBRxMFp+wNjOqOgLp
-X-TOI-EXPURGATEID: 150726::1589613636-0001455D-ED96F503/0/0 CLEAN NORMAL
-X-TOI-MSGID: 5ec51592-d7f4-4455-8790-64db3a7d2044
-Received-SPF: none client-ip=194.25.134.17;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout02.t-online.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 03:20:30
+X-ID: bpYICQZCght86CknVnQWgw8WyqUA8opTP+Dw2ik1CyDftB26UCfJFeDwEj6ahXwgod
+X-TOI-EXPURGATEID: 150726::1589613638-0001727C-B22A38CE/0/0 CLEAN NORMAL
+X-TOI-MSGID: 4747b318-5c33-4e05-b98e-396a1d2cdb52
+Received-SPF: none client-ip=194.25.134.83;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout07.t-online.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 03:18:54
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H2=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,41 +71,94 @@ Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Without keyboard grab Windows currently handles the two win keys
-and the key events are also sent to the guest. This is undesir-
-able. Only one program should handle key events. This patch ap-
-plies commit c68f74b02e "win32: do not handle win keys when the
-keyboard is not grabbed" from project spice-gtk to ui/gtk.c to
-fix this problem.
+Since GTK 3.22 the function gdk_event_get_scancode() is
+available. On Windows this function returns keyboard scancodes
+and some extended flags. These raw keyboard scancodes are much
+better suited for this use case than the half-cooked win32
+virtual-key codes because scancodes report the key position on
+the keyboard and the positions are independent of national
+language settings.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- ui/gtk.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ ui/gtk.c | 33 +++++++++++++++++++++++++++++----
+ 1 file changed, 29 insertions(+), 4 deletions(-)
 
 diff --git a/ui/gtk.c b/ui/gtk.c
-index 354dd90e18..1d51e14bb5 100644
+index 1d51e14bb5..68a5b901c7 100644
 --- a/ui/gtk.c
 +++ b/ui/gtk.c
-@@ -1095,10 +1095,17 @@ static gboolean gd_key_event(GtkWidget *widget, GdkEventKey *key, void *opaque)
-     VirtualConsole *vc = opaque;
-     int qcode;
- 
--#ifdef WIN32
-+#ifdef G_OS_WIN32
-     /* on windows, we ought to ignore the reserved key event? */
-     if (key->hardware_keycode == 0xff)
-         return false;
-+
-+    if (!vc->s->kbd_owner) {
-+        if (key->hardware_keycode == VK_LWIN ||
-+            key->hardware_keycode == VK_RWIN) {
-+            return FALSE;
-+        }
-+    }
+@@ -1026,8 +1026,13 @@ static const guint16 *gd_get_keymap(size_t *maplen)
+ #ifdef GDK_WINDOWING_WIN32
+     if (GDK_IS_WIN32_DISPLAY(dpy)) {
+         trace_gd_keymap_windowing("win32");
++#if GTK_CHECK_VERSION(3, 22, 0)
++        *maplen = qemu_input_map_atset1_to_qcode_len;
++        return qemu_input_map_atset1_to_qcode;
++#else
+         *maplen = qemu_input_map_win32_to_qcode_len;
+         return qemu_input_map_win32_to_qcode;
++#endif
+     }
  #endif
  
-     if (key->keyval == GDK_KEY_Pause
+@@ -1073,6 +1078,25 @@ static int gd_map_keycode(int scancode)
+     return keycode_map[scancode];
+ }
+ 
++static int gd_get_keycode(GdkEventKey *key)
++{
++#if defined G_OS_WIN32 && GTK_CHECK_VERSION(3, 22, 0)
++    int scancode = gdk_event_get_scancode((GdkEvent *)key);
++
++    /* translate Windows native scancodes to atset1 keycodes */
++    switch (scancode & (KF_EXTENDED | 0xff)) {
++    case 0x145:     /* NUMLOCK */
++        return scancode & 0xff;
++    }
++
++    return scancode & KF_EXTENDED ?
++        0xe000 | (scancode & 0xff) : scancode & 0xff;
++
++#else
++    return key->hardware_keycode;
++#endif
++}
++
+ static gboolean gd_text_key_down(GtkWidget *widget,
+                                  GdkEventKey *key, void *opaque)
+ {
+@@ -1084,7 +1108,7 @@ static gboolean gd_text_key_down(GtkWidget *widget,
+     } else if (key->length) {
+         kbd_put_string_console(con, key->string, key->length);
+     } else {
+-        int qcode = gd_map_keycode(key->hardware_keycode);
++        int qcode = gd_map_keycode(gd_get_keycode(key));
+         kbd_put_qcode_console(con, qcode, false);
+     }
+     return TRUE;
+@@ -1093,7 +1117,7 @@ static gboolean gd_text_key_down(GtkWidget *widget,
+ static gboolean gd_key_event(GtkWidget *widget, GdkEventKey *key, void *opaque)
+ {
+     VirtualConsole *vc = opaque;
+-    int qcode;
++    int keycode, qcode;
+ 
+ #ifdef G_OS_WIN32
+     /* on windows, we ought to ignore the reserved key event? */
+@@ -1121,9 +1145,10 @@ static gboolean gd_key_event(GtkWidget *widget, GdkEventKey *key, void *opaque)
+         return TRUE;
+     }
+ 
+-    qcode = gd_map_keycode(key->hardware_keycode);
++    keycode = gd_get_keycode(key);
++    qcode = gd_map_keycode(keycode);
+ 
+-    trace_gd_key_event(vc->label, key->hardware_keycode, qcode,
++    trace_gd_key_event(vc->label, keycode, qcode,
+                        (key->type == GDK_KEY_PRESS) ? "down" : "up");
+ 
+     qkbd_state_key_event(vc->gfx.kbd, qcode,
 -- 
 2.26.1
 
