@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C781D5F65
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 09:24:53 +0200 (CEST)
-Received: from localhost ([::1]:34166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E38D1D5F62
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 May 2020 09:23:20 +0200 (CEST)
+Received: from localhost ([::1]:58166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZrBk-0003fs-B6
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 03:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44514)
+	id 1jZrAF-0001iK-MJ
+	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 03:23:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jZr7Z-0006Mx-Mr
- for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:33 -0400
-Received: from mailout02.t-online.de ([194.25.134.17]:46926)
+ id 1jZr7Y-0006Ki-5d
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:32 -0400
+Received: from mailout10.t-online.de ([194.25.134.21]:53926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jZr7Y-0004GL-IT
- for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:33 -0400
-Received: from fwd29.aul.t-online.de (fwd29.aul.t-online.de [172.20.26.134])
- by mailout02.t-online.de (Postfix) with SMTP id D206841C69C1;
- Sat, 16 May 2020 09:20:30 +0200 (CEST)
+ id 1jZr7X-0004FI-5o
+ for qemu-devel@nongnu.org; Sat, 16 May 2020 03:20:31 -0400
+Received: from fwd04.aul.t-online.de (fwd04.aul.t-online.de [172.20.26.149])
+ by mailout10.t-online.de (Postfix) with SMTP id 8354241DC6E1;
+ Sat, 16 May 2020 09:20:29 +0200 (CEST)
 Received: from linpower.localnet
- (STFAzGZfghEGdU8d2YYGkRtMvL3KieeF5PsbyYkvcVbM2kVjY5aUBH2HgUXK0IXgUj@[46.86.59.135])
- by fwd29.t-online.de
+ (SmGOveZXghCfq5ciE08tKYkxvUDt3RWgAKckgONvd9zRUZUx4gniADGMbpsk4-2gx+@[46.86.59.135])
+ by fwd04.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1jZr7M-3rmvB20; Sat, 16 May 2020 09:20:20 +0200
+ esmtp id 1jZr7P-2XDqiW0; Sat, 16 May 2020 09:20:23 +0200
 Received: by linpower.localnet (Postfix, from userid 1000)
- id DD1542006D1; Sat, 16 May 2020 09:20:14 +0200 (CEST)
+ id DF3952006D2; Sat, 16 May 2020 09:20:14 +0200 (CEST)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v2 03/11] ui/gkt: release all keys on grab-broken-event
-Date: Sat, 16 May 2020 09:20:06 +0200
-Message-Id: <20200516072014.7766-3-vr_qemu@t-online.de>
+Subject: [PATCH v2 04/11] ui/gtk: remove unused code
+Date: Sat, 16 May 2020 09:20:07 +0200
+Message-Id: <20200516072014.7766-4-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <bea1a22a-1fb4-b49b-c089-e0a5c5cf55cd@t-online.de>
 References: <bea1a22a-1fb4-b49b-c089-e0a5c5cf55cd@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: STFAzGZfghEGdU8d2YYGkRtMvL3KieeF5PsbyYkvcVbM2kVjY5aUBH2HgUXK0IXgUj
-X-TOI-EXPURGATEID: 150726::1589613620-0001455D-92F6E522/0/0 CLEAN NORMAL
-X-TOI-MSGID: a67a97c5-942b-4d25-8c49-14bcb8b79084
-Received-SPF: none client-ip=194.25.134.17;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout02.t-online.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 03:20:30
+X-ID: SmGOveZXghCfq5ciE08tKYkxvUDt3RWgAKckgONvd9zRUZUx4gniADGMbpsk4-2gx+
+X-TOI-EXPURGATEID: 150726::1589613623-00016E58-9E72D121/0/0 CLEAN NORMAL
+X-TOI-MSGID: 27034aa1-e75f-4407-9312-ea9c0e9d1e92
+Received-SPF: none client-ip=194.25.134.21;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout10.t-online.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/16 03:20:29
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9,
+ RCVD_IN_DNSWL_NONE=-0.0001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,55 +71,35 @@ Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no way to grab the Ctrl-Alt-Del key combination on
-Windows. This key combination will leave all three keys in a
-stuck condition. This patch uses the grab-broken-event to
-release the keys.
+This code was last used before commit 2ec78706d1 "ui: convert
+GTK and SDL1 frontends to keycodemapdb".
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- ui/gtk.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ ui/gtk.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
 diff --git a/ui/gtk.c b/ui/gtk.c
-index a0b10a1403..655b26de38 100644
+index 655b26de38..0e9503a0d1 100644
 --- a/ui/gtk.c
 +++ b/ui/gtk.c
-@@ -1142,6 +1142,25 @@ static gboolean gd_key_event(GtkWidget *widget, GdkEventKey *key, void *opaque)
-     return TRUE;
- }
+@@ -112,15 +112,6 @@
+ # define VTE_CHECK_VERSION(a, b, c) 0
+ #endif
  
-+static gboolean gd_grab_broken_event(GtkWidget *widget,
-+                                     GdkEventGrabBroken *event, void *opaque)
-+{
-+#ifdef CONFIG_WIN32
-+    /*
-+     * On Windows the Ctrl-Alt-Del key combination can't be grabbed. This
-+     * key combination leaves all three keys in a stuck condition. We use
-+     * the grab-broken-event to release all keys.
-+     */
-+    if (event->keyboard) {
-+        VirtualConsole *vc = opaque;
-+        GtkDisplayState *s = vc->s;
-+
-+        gtk_release_modifiers(s);
-+    }
-+#endif
-+    return TRUE;
-+}
-+
- static gboolean gd_event(GtkWidget *widget, GdkEvent *event, void *opaque)
- {
-     if (event->type == GDK_MOTION_NOTIFY) {
-@@ -1910,6 +1929,8 @@ static void gd_connect_vc_gfx_signals(VirtualConsole *vc)
-                          G_CALLBACK(gd_focus_out_event), vc);
-         g_signal_connect(vc->gfx.drawing_area, "configure-event",
-                          G_CALLBACK(gd_configure), vc);
-+        g_signal_connect(vc->gfx.drawing_area, "grab-broken-event",
-+                         G_CALLBACK(gd_grab_broken_event), vc);
-     } else {
-         g_signal_connect(vc->gfx.drawing_area, "key-press-event",
-                          G_CALLBACK(gd_text_key_down), vc);
+-/* Some older mingw versions lack this constant or have
+- * it conditionally defined */
+-#ifdef _WIN32
+-# ifndef MAPVK_VK_TO_VSC
+-#  define MAPVK_VK_TO_VSC 0
+-# endif
+-#endif
+-
+-
+ #define HOTKEY_MODIFIERS        (GDK_CONTROL_MASK | GDK_MOD1_MASK)
+ 
+ static const guint16 *keycode_map;
 -- 
 2.26.1
 
