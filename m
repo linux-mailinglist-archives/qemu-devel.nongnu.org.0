@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015B21D66DE
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 May 2020 11:27:07 +0200 (CEST)
-Received: from localhost ([::1]:33422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 653C91D66E1
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 May 2020 11:28:22 +0200 (CEST)
+Received: from localhost ([::1]:40994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaFZa-0001Ma-2k
-	for lists+qemu-devel@lfdr.de; Sun, 17 May 2020 05:27:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36714)
+	id 1jaFan-0004Le-Dy
+	for lists+qemu-devel@lfdr.de; Sun, 17 May 2020 05:28:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jaFX7-0004OU-Rg
- for qemu-devel@nongnu.org; Sun, 17 May 2020 05:24:33 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:35234)
+ id 1jaFX8-0004P3-4W
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 05:24:34 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:45701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jaFX5-0001oY-B3
+ id 1jaFX6-0001oe-8K
  for qemu-devel@nongnu.org; Sun, 17 May 2020 05:24:33 -0400
-Received: by mail-lf1-x142.google.com with SMTP id 82so5410456lfh.2
- for <qemu-devel@nongnu.org>; Sun, 17 May 2020 02:24:30 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id h4so6610694ljg.12
+ for <qemu-devel@nongnu.org>; Sun, 17 May 2020 02:24:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=y+crpwaRbz+NuIRuZ2Ykd3V1TrXmhpx6yRUQr18fFhI=;
- b=F7BspipOSEGzE/ofO/51uncWB5CsqZ1GOflLsUlXccQE83AFVLHeiJ43rzoYjdd3VH
- h0gm8+AfXz+79jMi8DD/f4od7l5epwGTSHC0N36Nd+zwWiayiY7eDFcvATHLWJ0m6Q/A
- z5y2WljKOQndY5wkx72/hvG37up9kDi+XsdgZih91phvr+Mv1Ejabd12u4IabdpgCDtP
- IHA+mzJee3KJdafqALEOhpKDD/Uu6jKBUK9bnQNnyKeJcxJ9qveBSZrs6ZfYNVMcoLGp
- KEGqExPV8V7ldiwllzzwDqBgl93Xys+tySxeYNCP+FH2e6HCLXrQL5AcWwrGMFPhes9T
- jLWQ==
+ bh=lJgCSZt5mHFIRGTCzDEMalJcIzhFOtdVx1BtWwULXEk=;
+ b=CFVd6PontEqbELKqDoBl54WJWW4OQbfNagJQcckHI/21L/u8bRONARD9mvXjarXmjV
+ AKHw2lTgPoOOU7eHTwU2Bn5AmvV5T9lcoTq3btOSxo5KO9F/7gGd8hVp8XDIKQ2kulIH
+ +qMRPHTvQ/bjjkPm5vvEkZXa+jOHQ65frhZQuAKq/+WXGrN407+WiFso2CTZpf5srqlx
+ Goo5vIeH74vsA0vXGd4cnV2Y05YCMBi2Dg0+F3wDISgXiESwSRFnnH8Qp2NbemucgFEC
+ Sc6dyi4WoGA4Vhc/6ahkTGp+w9L/uwicQMKEtBifVDW8btD+DjC7kLzG4o4NChVlbn5t
+ xWTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=y+crpwaRbz+NuIRuZ2Ykd3V1TrXmhpx6yRUQr18fFhI=;
- b=ofK5uIx9YNzzqkac1ce6oIkePFHq5xH4brccIdmivzr2XSO4zrJPOkwmeDviGymXIj
- e+6nJrqU7we3D76t/3PlpNWmPH34ElRegkQUBE2hnApJTvCJEaoq8DtwKP5IE9VCw58C
- KE7bpLH/HgrCOYVYtLZu0eC4F05cIKqsnqGEQP0V8oy9xGOGzbnAbfk+XrkG5ObYTCBY
- oDGQnTtGESHT3QUutxVUbo3bVVwS6PKEcPg0jUclloHBgZ5jOZ25/meDTTfsM+d4lceW
- sJqm9raZQXbrk6GOTl6sTAu03RhZreAdj69KWqwGtrte7etYDZv5tZyw4sqayZ71ZXuK
- w9ng==
-X-Gm-Message-State: AOAM53244ysh8QZOdt5lsTUSIaiZztDXACabulejq7hSljkK1lviAmWk
- TRwOzpJZPeZjlMdA0J3dnsZm5IvFX5k=
-X-Google-Smtp-Source: ABdhPJxXIXnkIpGVGhonE0i/D49lsCpOGN/9C3OwCybGfZpBuay0Dtjn7IuJXaBcWpAHT9guguP6Tw==
-X-Received: by 2002:ac2:55b2:: with SMTP id y18mr820120lfg.55.1589707469712;
- Sun, 17 May 2020 02:24:29 -0700 (PDT)
+ bh=lJgCSZt5mHFIRGTCzDEMalJcIzhFOtdVx1BtWwULXEk=;
+ b=h1Yiccp7sdP6AclTiNClBQGxVVuviqGAvJROr1G4aTKwf5fLvvS1NnEDCoqftG1yA2
+ yBge5mW5zzhu5Fabv8a3StG9Qn/kAbIsuRRF1Dz+6bCUvQgt7kbEsNt4igml9gufQTaw
+ e/cX+2JqZFxAG3gfhLsooQw7u3N1UK5cSlu8D5KWPACQmVaLg7PqNZW81jO8X5vJcDu7
+ j6BxgKJSEsTsO81+/aq7pzLHxjV5zodQ76wOjtvKU3l+JKXSh5PfgaU80NyjdTC7Oogc
+ bvsnYgWQPAs0ATTHHEmR/S8IXpRP8c2foKnV69qz/66CATaYX5GIqic3BvNzITMdxAkI
+ BxEA==
+X-Gm-Message-State: AOAM531Zt9NpX33gLn/Pz83JmoP6u5bb2ueC4U8DEyNfZDGARUFlGPg0
+ aMTfFvImyjBRy34Iy5JQ2HpZS2KPhg4=
+X-Google-Smtp-Source: ABdhPJynvweKo6U5WCEqyUyMF7v/nFgPHCguvsG4XJZqM0HD8SgStioq8hYsvj79cW4njkcAusHzRA==
+X-Received: by 2002:a2e:3e15:: with SMTP id l21mr6044098lja.250.1589707470723; 
+ Sun, 17 May 2020 02:24:30 -0700 (PDT)
 Received: from localhost.localdomain ([109.245.227.98])
- by smtp.gmail.com with ESMTPSA id l2sm3872138ljg.89.2020.05.17.02.24.28
+ by smtp.gmail.com with ESMTPSA id l2sm3872138ljg.89.2020.05.17.02.24.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 May 2020 02:24:29 -0700 (PDT)
+ Sun, 17 May 2020 02:24:30 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 13/19] target/mips: fpu: Demacro RINT.<D|S>
-Date: Sun, 17 May 2020 11:23:51 +0200
-Message-Id: <20200517092357.1469-14-aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH v4 14/19] target/mips: fpu: Remove now unused FLOAT_RINT macro
+Date: Sun, 17 May 2020 11:23:52 +0200
+Message-Id: <20200517092357.1469-15-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200517092357.1469-1-aleksandar.qemu.devel@gmail.com>
 References: <20200517092357.1469-1-aleksandar.qemu.devel@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::142;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lf1-x142.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lj1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,47 +88,37 @@ Cc: aleksandar.rikalo@syrmia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is just a cosmetic change to enable tools like gcov, gdb,
-callgrind, etc. to better display involved source code.
+After demacroing RINT.<D|S>, this macro is not needed anymore.
 
 Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 ---
- target/mips/fpu_helper.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ target/mips/fpu_helper.c | 13 -------------
+ 1 file changed, 13 deletions(-)
 
 diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
-index e227e53f70..dae1331f23 100644
+index dae1331f23..56ba49104e 100644
 --- a/target/mips/fpu_helper.c
 +++ b/target/mips/fpu_helper.c
-@@ -1113,10 +1113,26 @@ uint ## bits ## _t helper_float_ ## name(CPUMIPSState *env,                 \
-     return fdret;                                                           \
+@@ -1102,19 +1102,6 @@ uint64_t helper_float_rsqrt1_ps(CPUMIPSState *env, uint64_t fdt0)
+     return ((uint64_t)fsth2 << 32) | fst2;
  }
  
--FLOAT_RINT(rint_s, 32)
--FLOAT_RINT(rint_d, 64)
- #undef FLOAT_RINT
- 
-+uint64_t helper_float_rint_d(CPUMIPSState *env, uint64_t fs)
-+{
-+    uint64_t fdret;
-+
-+    fdret = float64_round_to_int(fs, &env->active_fpu.fp_status);
-+    update_fcr31(env, GETPC());
-+    return fdret;
-+}
-+
-+uint32_t helper_float_rint_s(CPUMIPSState *env, uint32_t fs)
-+{
-+    uint32_t fdret;
-+
-+    fdret = float32_round_to_int(fs, &env->active_fpu.fp_status);
-+    update_fcr31(env, GETPC());
-+    return fdret;
-+}
-+
- #define FLOAT_CLASS_SIGNALING_NAN      0x001
- #define FLOAT_CLASS_QUIET_NAN          0x002
- #define FLOAT_CLASS_NEGATIVE_INFINITY  0x004
+-#define FLOAT_RINT(name, bits)                                              \
+-uint ## bits ## _t helper_float_ ## name(CPUMIPSState *env,                 \
+-                                         uint ## bits ## _t fs)             \
+-{                                                                           \
+-    uint ## bits ## _t fdret;                                               \
+-                                                                            \
+-    fdret = float ## bits ## _round_to_int(fs, &env->active_fpu.fp_status); \
+-    update_fcr31(env, GETPC());                                             \
+-    return fdret;                                                           \
+-}
+-
+-#undef FLOAT_RINT
+-
+ uint64_t helper_float_rint_d(CPUMIPSState *env, uint64_t fs)
+ {
+     uint64_t fdret;
 -- 
 2.20.1
 
