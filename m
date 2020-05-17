@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A0E1D6CF1
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 May 2020 22:48:27 +0200 (CEST)
-Received: from localhost ([::1]:33024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 454FD1D6DDB
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 00:33:28 +0200 (CEST)
+Received: from localhost ([::1]:32936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaQCw-0003nc-5y
-	for lists+qemu-devel@lfdr.de; Sun, 17 May 2020 16:48:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54228)
+	id 1jaRqY-00034N-M8
+	for lists+qemu-devel@lfdr.de; Sun, 17 May 2020 18:33:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jaQAJ-0003BC-DP
- for qemu-devel@nongnu.org; Sun, 17 May 2020 16:45:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47020)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1jaRIi-0001wd-Mj
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 17:58:33 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:53442)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jaQAG-0004X6-Uh
- for qemu-devel@nongnu.org; Sun, 17 May 2020 16:45:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jaQAD-0006QM-Q9
- for <qemu-devel@nongnu.org>; Sun, 17 May 2020 20:45:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BBBAC2E8048
- for <qemu-devel@nongnu.org>; Sun, 17 May 2020 20:45:37 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 17 May 2020 20:36:46 -0000
-From: Paul Zimmerman <1772165@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1jaRIh-0005hb-WD
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 17:58:28 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id ci21so707962pjb.3
+ for <qemu-devel@nongnu.org>; Sun, 17 May 2020 14:58:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8lGupcyVEI2tEhLkMg5o8wW4qEBwuroiKNS3ExpoDL4=;
+ b=ZFyS69XdKIodGXIJBS7ulJ6XqYB8J2aINJRzxD0D7vtBdKphNZktFS8r91ImHB2Vvf
+ OPsxlR+FM5DZKPXCs3y1qcZcb0VvjIDxaa60kL6OrsHZaYjGSrKUZK8Dyn1g2DeXVx9Z
+ Mm0jfdd4fb/IEmIelorR8Mj8IfUHNGbbWqLHGVmc8ffhT/Uvhl1HqFy8XfJH2LQAQRCd
+ NFArdDrMIAL3Nbi0Q8G3JyIVb7FsCc9u/VcFdXlyT4OBycSpouRUCK/HzxW08fzCZsep
+ 6znBrAuWhtnyMfkIODL1ID6l792ZVipGpHJ+oFCN2edvGpWYIlpUb3A+o6ZrBJQuNFzR
+ TB+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8lGupcyVEI2tEhLkMg5o8wW4qEBwuroiKNS3ExpoDL4=;
+ b=CqkC/l46Vrodle7tAQpwa3xef39BKSUrv/1I+Id5pAW54LseKITu5BZ/44Oj35EtuW
+ 1bYuvjdKNqxmv1pk4A6b5zePl/J4iPd+G7IAAk/N9z0W/+G8g9oA1FQxER5o5ufU2tV9
+ rwqe7x7AiCbN6SM/M6dYcPtjMnC4cu+irKQZVuDq8dHZdjRa0h4m0Mq/VHjOUPdm3oKW
+ TXfEJDxNkXoen6axkV5yh6UI9SCZt5NM5vpY3V2Y33dvzVmnGDNd0N+g23VtuhAvXgXd
+ 35hZPktvl0h+udWAfCI6Mu+HSzUytLy4iFfjZ6eQOXky7ICyYyk1Pg4iFtWNyS+1C3To
+ Yb3g==
+X-Gm-Message-State: AOAM531Gy6KkYHc0xnj1jB/cd87JfXHYbSvJtofKDIl/59NHcFIwqQ8i
+ vJqQLPtxwSUGAnKiqBeoiAGebmLm
+X-Google-Smtp-Source: ABdhPJwEy9PJ9PRdywtNTRR3zkWeylwlozWa7z8Q00cO+1xrkCXATsGtXfj8yncAdm4V8Boir/sPnQ==
+X-Received: by 2002:a17:90b:4398:: with SMTP id
+ in24mr6244621pjb.152.1589752705121; 
+ Sun, 17 May 2020 14:58:25 -0700 (PDT)
+Received: from octofox.hsd1.ca.comcast.net
+ ([2601:641:400:e00:ed54:ef93:7dc5:e673])
+ by smtp.gmail.com with ESMTPSA id h14sm6670139pjc.46.2020.05.17.14.58.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 17 May 2020 14:58:24 -0700 (PDT)
+From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Wishlist;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm usb
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aditya-govardhan andrew-pennebaker clemd davbac
- dougrabson kraxel-redhat pauldzim pmaydell vortelf weberkai
-X-Launchpad-Bug-Reporter: George (vortelf)
-X-Launchpad-Bug-Modifier: Paul Zimmerman (pauldzim)
-References: <152673688616.9061.7617411809661975686.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158974780626.17285.13064005808932797841.malone@soybean.canonical.com>
-Subject: [Bug 1772165] Re: arm raspi2/raspi3 emulation has no USB support
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b0402e7873a682be74ebe0893f9feda6d174c51e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 16:24:30
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Subject: [PATCH 0/2] target/xtensa: fix simcall for newer hardware
+Date: Sun, 17 May 2020 14:58:12 -0700
+Message-Id: <20200517215814.19623-1-jcmvbkbc@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x1041.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,58 +84,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1772165 <1772165@bugs.launchpad.net>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Have you seen the patch series I have posted on the qemu-devel mailing
-list? "[PATCH v5 0/7] dwc-hsotg (aka dwc2) USB host controller emulation."
-If you could test that and give your 'tested-by', it could help get the
-patch series accepted. That would require you to download the latest Qemu
-source code, apply the patches, and build it yourself.
+Hello,
 
--- =
+this series fixes simcall opcode behavior on the recent xtensa cores
+making it nop rather than illegal instruction when semihosting is
+disabled.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1772165
+Max Filippov (2):
+  target/xtensa: fetch HW version from configuration overlay
+  target/xtensa: fix simcall for newer hardware
 
-Title:
-  arm raspi2/raspi3 emulation has no USB support
+ target/xtensa/cpu.h          | 1 +
+ target/xtensa/overlay_tool.h | 8 +++++---
+ target/xtensa/translate.c    | 9 ++++++---
+ 3 files changed, 12 insertions(+), 6 deletions(-)
 
-Status in QEMU:
-  Confirmed
+-- 
+2.20.1
 
-Bug description:
-  Using Qemu 2.12.0 on ArchLinux.
-
-  Trying to emulate arm device with `qemu-system-arm` and attach usb
-  device for unput using
-
-  ` -usb -device usb-host,bus=3D001,vendorid=3D0x1d6b,productid=3D0x0002 `
-
-  # lsusb returns
-
-  Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
-  Bus 001 Device 014: ID 13d3:3487 IMC Networks =
-
-  Bus 001 Device 004: ID 0457:11af Silicon Integrated Systems Corp. =
-
-  Bus 001 Device 003: ID 0bda:57e6 Realtek Semiconductor Corp. =
-
-  Bus 001 Device 002: ID 0bda:0129 Realtek Semiconductor Corp. RTS5129 Card=
- Reader Controller
-  Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
-
-  # qemu returns
-  qemu-system-arm: -device usb-host,bus=3D001,vendorid=3D0x1d6b,productid=
-=3D0x0002: Bus '001' not found
-
-  =
-
-  Tried with connecting external usb keyboard but that didn't seem to work =
-either.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1772165/+subscriptions
 
