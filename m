@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B221D6DC5
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 00:09:10 +0200 (CEST)
-Received: from localhost ([::1]:48030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2931D6E13
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 01:31:50 +0200 (CEST)
+Received: from localhost ([::1]:57086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaRT2-0003ip-T5
-	for lists+qemu-devel@lfdr.de; Sun, 17 May 2020 18:09:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33884)
+	id 1jaSl1-0001Bw-WF
+	for lists+qemu-devel@lfdr.de; Sun, 17 May 2020 19:31:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jaRIn-0001wt-9n
- for qemu-devel@nongnu.org; Sun, 17 May 2020 17:58:33 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:35991)
+ (Exim 4.90_1) (envelope-from <agrecascino123@gmail.com>)
+ id 1jaSLa-0007a2-6w
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 19:05:35 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:34446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jaRIj-0005iJ-FR
- for qemu-devel@nongnu.org; Sun, 17 May 2020 17:58:29 -0400
-Received: by mail-pl1-x641.google.com with SMTP id f15so3396275plr.3
- for <qemu-devel@nongnu.org>; Sun, 17 May 2020 14:58:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <agrecascino123@gmail.com>)
+ id 1jaSLV-0005S2-0C
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 19:05:29 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id 190so8464724qki.1
+ for <qemu-devel@nongnu.org>; Sun, 17 May 2020 16:05:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GuKQ1OZpzNXkTUoxhwG03FMhbt3mmT8xFQUFvn4BBPI=;
- b=I09d9MZ9lto32k2IMHynP085zNmSWLdiO2KzA0dTqvngSalq9WWsZVDxmhYReiree5
- Z4cTgzMi0A7VfHSqiTC8kpV7o0gIY5tTeODHCzYOeB7S7cAreQpgvHHlsqJYINdqhZQT
- aF2wGkVYaFE4MpVX9l/Nt/kKug0T3lwPqvKSlKmzLeYRhm+v67lKVqqa5gRIDOO45v3H
- U1DWG1rPitFEHkKqnJS+IgJJeIJL9Yh9jUfAdXx9N4CtDhStElKrAaM2tha+ACrsTofx
- Lfzmo2fNuMQ8cJoS9UTxRKipAYgEV8E4+neByrKJif+n37qHxM6CJbQavfv+WlrQfIRe
- YUZg==
+ h=to:from:subject:message-id:date:user-agent:mime-version
+ :content-transfer-encoding:content-language;
+ bh=dlMCA2GrxTJy0Uo8MeufI/IHN/yWy8B3dbbxHc58vNc=;
+ b=rA5L+mc1e20oRRe6R5rPDP5G7mSegzWJEbNobl4EufdNhCD7l6vGrdI6tSzSClpA6l
+ F1LeG6nTUl1wu0xjp4iwQH0Gll1LMqarcPbFyfVMdQb6PkWZiGKrjrPAmyDJLbvIzBDT
+ wEMW/u1c9byAeJqw08zkS6IrRytt+0AufjWpYdz1ysChvhgqYNOOoV1j6V2BlT4OZzkD
+ so9T1S0CXXpjGLtAVYmQnWTnUY0kJWGplyXf/dxDKe2V3M9k0zl8xsO2rRVyhzLykbMk
+ WtgdDwD+FO6AOUIlnsh2pKAPsUx4SDW2tfDXlpy7n2ADTky7VvvAoUjSUg9XKKXsEZ7A
+ E/kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GuKQ1OZpzNXkTUoxhwG03FMhbt3mmT8xFQUFvn4BBPI=;
- b=OgTS31t5Of+rgfVri03SKftrUEweSfOD3yJPpqRQ+ERVRsIK0uSA0PPQ8+47p3328Z
- 12qt1IUa6G/ePm95PDZaaZ1RFEumEq03bO1rFOFxCNa9kQzzlUQbDD3OBg4EgiMVYC6Q
- lL7YJzKIpbX/3TSpUPO5OviyUlaAF2qxaLVcMqCwTsadRneVJ0Jp8vwdQ/zta3nsI79/
- wa5Isl4aY34jQ1etWa6jyMrPS3yWWj3CHny+ejn3W/JNf6eTHAXCs3VpS5/MxfGg6aWm
- nrJh3rGrFRRZvD+Zu5owcFz2fZeZgOupLvjQ7axoXX7r/Lq0YwQb+3lhIvQHGa9jCa2d
- vq2Q==
-X-Gm-Message-State: AOAM531oHPZ4cWs7yIkzceTiOUA1ASZr84Mm7FXsSlK/xLSabmwao7qf
- uTsaJDOUI1m0UCX6DirVTiIsA2Mk
-X-Google-Smtp-Source: ABdhPJz4uzJgQPiwVRUL8S5r4MfgE2RV9kmjjRvsOaSZfDw2lqqBAP0DNSi0ie6oi/RjZ315YzLNXg==
-X-Received: by 2002:a17:90a:248a:: with SMTP id
- i10mr16839706pje.174.1589752707411; 
- Sun, 17 May 2020 14:58:27 -0700 (PDT)
-Received: from octofox.hsd1.ca.comcast.net
- ([2601:641:400:e00:ed54:ef93:7dc5:e673])
- by smtp.gmail.com with ESMTPSA id h14sm6670139pjc.46.2020.05.17.14.58.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 May 2020 14:58:26 -0700 (PDT)
-From: Max Filippov <jcmvbkbc@gmail.com>
+ h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+ :mime-version:content-transfer-encoding:content-language;
+ bh=dlMCA2GrxTJy0Uo8MeufI/IHN/yWy8B3dbbxHc58vNc=;
+ b=fC6Mg0Q08KHE0ZGSdWegToIryCzoU9zm34OdsoOC9oAgVkZTfvZUq9Tvia8srNyYJB
+ zyyogR1nCCLNcW3FUQTkag1qSHn0DDekubIebZ3bdGLMPAUL5QuoFreQCZ+82GAHgeBx
+ G1kaXfWBIGk8nH++6kwJ4wTzW0n5gbhHozMhTjmfENI9iRl8L2DQv2jYQysXAlGnmM/5
+ gzpA8f02A4yPnlTMpc/b4hXyMKcO6OVFkaTZaBl02MEAZ5Veri+Ge+78JYqVjHb6pfSN
+ hkQ4PsSI7a7vHs3SgEpMxwg6AmSm/d8agGLRWN0BpuaCxa4E5kezR2VlnFK2qp/FsAQV
+ T7uA==
+X-Gm-Message-State: AOAM5336LdDbpCTzNYGGD1YIw8+SAWp0R+zXNH4Kl84ElyZBZJh8t+3r
+ QI6Sjxhw04agBYmBDvKQJ3RnVQ==
+X-Google-Smtp-Source: ABdhPJxihfeuwjoVKQQWsqOxon3+0WLJK9Oivnwldc7Ti5ONwMaqS14YSzucLjUSoJOhxWraa6hhwg==
+X-Received: by 2002:a05:620a:6bc:: with SMTP id
+ i28mr13512873qkh.330.1589756719315; 
+ Sun, 17 May 2020 16:05:19 -0700 (PDT)
+Received: from ?IPv6:2600:1700:3c90:1b60:59ed:1669:f53f:1f0e?
+ ([2600:1700:3c90:1b60:59ed:1669:f53f:1f0e])
+ by smtp.gmail.com with ESMTPSA id g26sm7574475qtk.76.2020.05.17.16.05.18
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 17 May 2020 16:05:18 -0700 (PDT)
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] target/xtensa: fix simcall for newer hardware
-Date: Sun, 17 May 2020 14:58:14 -0700
-Message-Id: <20200517215814.19623-3-jcmvbkbc@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200517215814.19623-1-jcmvbkbc@gmail.com>
-References: <20200517215814.19623-1-jcmvbkbc@gmail.com>
+From: "Catherine A. Frederick" <agrecascino123@gmail.com>
+Subject: [RFC] Various questions about TCG implementation, DRM patches dealing
+ with pointers over guest-host barrier.
+Message-ID: <9d75f1f6-3440-8dec-9266-4841362844d0@gmail.com>
+Date: Sun, 17 May 2020 19:05:17 -0400
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x641.google.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=agrecascino123@gmail.com; helo=mail-qk1-x72e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -15
-X-Spam_score: -1.6
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,47 +89,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After Xtensa release RE.2 simcall opcode has become nop for the
-hardware instead of illegal instruction.
+Hi, I've been patching TCG for my own purposes recently and I was 
+wondering a few things. That being:
 
-Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
----
- target/xtensa/translate.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+- Is the TCG backend expected to handle bad cases for instructions? I 
+was wondering as I found a situation where a very large shift constant 
+reaches the backend and causes an illegal instruction to be generated. 
+Is the frontend expected to clean this up, or is the backend supposed to 
+be able to deal with these? I currently patched the bug via clipping the 
+shift constant between 0 and 64.
 
-diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index 546d2fa2facf..4bc15252c8a5 100644
---- a/target/xtensa/translate.c
-+++ b/target/xtensa/translate.c
-@@ -2367,9 +2367,10 @@ static bool test_ill_simcall(DisasContext *dc, const OpcodeArg arg[],
- #ifdef CONFIG_USER_ONLY
-     bool ill = true;
- #else
--    bool ill = !semihosting_enabled();
-+    /* Between RE.2 and RE.3 simcall opcode's become nop for the hardware. */
-+    bool ill = dc->config->hw_version <= 250002 && !semihosting_enabled();
- #endif
--    if (ill) {
-+    if (ill || !semihosting_enabled()) {
-         qemu_log_mask(LOG_GUEST_ERROR, "SIMCALL but semihosting is disabled\n");
-     }
-     return ill;
-@@ -2379,7 +2380,9 @@ static void translate_simcall(DisasContext *dc, const OpcodeArg arg[],
-                               const uint32_t par[])
- {
- #ifndef CONFIG_USER_ONLY
--    gen_helper_simcall(cpu_env);
-+    if (semihosting_enabled()) {
-+        gen_helper_simcall(cpu_env);
-+    }
- #endif
- }
- 
--- 
-2.20.1
+- I've been implementing an instruction scheduler(list scheduler, with 
+priority given to most successors) for TCG and currently if I replace 
+instructions in s->ops(the TCG context) I get a crash later in 
+tcg_reg_alloc_op, even if the instruction stream is identical. Is there 
+anything else I need to move when I do this?
+
+- Is insn_start necessary to have in order(and what does it do?)? These 
+currently are serializing instructions in my scheduler and significantly 
+limit my reordering as they create lots of dependencies every few 
+instructions.
+
+- Is it "okay" to use g2h and h2g directly in code in syscall.c? 
+Currently it seems like TYPE_PTRVOID doesn't do this conversion, and as 
+such, most of the calls made over the guest-host barrier made by DRM 
+seem to fail spectacularly across bittedness lines. I think a more ideal 
+solution would be implementing types that do this automatically, so I 
+don't have to deal with the difference in struct size using macros, but 
+in the short term I don't really have another option.
+
+My last email didn't seem to reach you all, but here's to hoping this 
+one does. Thanks!
 
 
