@@ -2,67 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C731D657A
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 May 2020 05:48:20 +0200 (CEST)
-Received: from localhost ([::1]:49232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F070E1D6676
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 May 2020 09:40:52 +0200 (CEST)
+Received: from localhost ([::1]:40414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaAHi-0008MP-PT
-	for lists+qemu-devel@lfdr.de; Sat, 16 May 2020 23:48:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43382)
+	id 1jaDul-0000TP-IT
+	for lists+qemu-devel@lfdr.de; Sun, 17 May 2020 03:40:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.guo.simon@gmail.com>)
- id 1jaAGm-0007ws-1a
- for qemu-devel@nongnu.org; Sat, 16 May 2020 23:47:20 -0400
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:42475)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wei.guo.simon@gmail.com>)
- id 1jaAGl-0007sY-79
- for qemu-devel@nongnu.org; Sat, 16 May 2020 23:47:19 -0400
-Received: by mail-il1-x12c.google.com with SMTP id t12so6542034ile.9
- for <qemu-devel@nongnu.org>; Sat, 16 May 2020 20:47:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=dqGQ7M2dCAQ5p+35xxg7WUHWM1qPuOIAs36/6csMUjQ=;
- b=MuY7PHBK3RlWGzJNx8C4jT2vVXvEMn80vV4eP6dDi1Pvv4Rd0mv3rX11fuCdcRou7t
- zHW2UiKEWT5kFVx/g/wI9JQQzW0iG6T53TbCtSFa7HhMHhXMTxcG8QXmzgGKS9g2611x
- jg0msvgugR0aw4iBceZU2+mXGoc/GC7RlvMwhCHUjC+kWXKl3Os+pGuZuef1k8vYmeDG
- C7dRPsxyv+xWIJh/a2tSWtImYuwZGp6D99g/rs4IFAU04f7eLGYlqr9xZc+hAaLDjI7H
- 9MwB2XlKHQAzJeqeRil0hjFqC92+mb12wK8oYwXi/VuZgCaT7oG7njA+RO76vwe3a7v4
- Ya2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=dqGQ7M2dCAQ5p+35xxg7WUHWM1qPuOIAs36/6csMUjQ=;
- b=NOINjH3yJjvXijixWeSe2WKDsLjUPPwVnJpeCrkOcNkfXuIj3bSS8GfyquxxUqx8y7
- sAfRF1a0q4nS0xFTrgxgTusDcNvxn0Hd3hztSLCltkyfE0QSCYokmO8le0NY9Vp4ZJV+
- oNzmsl7Fc5+g1lHhW5tikxritmqzsquDMD1H3Xm8M5NQKSuzGDC4JuzO7XsF8E1smxtd
- MSnGapu4yx6qxnS98R4ZX3QvdzrO33KqAuYmmXaeI9wHSHNGEWPtobKALku8BjbbTzFU
- iwOEkx46fbOFjWXWU7h+3EBh24V3W4qUHgEjba6Mxw03+D7pS7Y/ONJR4Tzcx/PMjqeW
- aTog==
-X-Gm-Message-State: AOAM532dxHY4CpkIS/nEsvOTR7GjYCr+9zDHigCR1KwJkXHMm+2xM3tu
- QMtOITYnBb5ZAQX8BF2EriE0X55SvTkxqqmxMJ97Ng==
-X-Google-Smtp-Source: ABdhPJw5x0AEgkl0zS7TbqSdAxQN3uf0Hx2aH3PJcVdok7gm1HKtRxBtcQWI5SdStVwHukOCx3YMDf1PbC5G4xDJzGM=
-X-Received: by 2002:a92:8d4c:: with SMTP id s73mr10268123ild.93.1589687237093; 
- Sat, 16 May 2020 20:47:17 -0700 (PDT)
-MIME-Version: 1.0
-From: Simon <wei.guo.simon@gmail.com>
-Date: Sun, 17 May 2020 11:47:06 +0800
-Message-ID: <CAB3_kSXU1FUMuTD1ibo88hV0ja+PCmFTCB+JX6dXWoNORR-EYQ@mail.gmail.com>
-Subject: Does memory hotplug work when VFIO device already attached
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1jaDti-0008MZ-G2
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 03:39:46 -0400
+Received: from mail-eopbgr750045.outbound.protection.outlook.com
+ ([40.107.75.45]:34786 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1jaDtg-0003qt-LH
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 03:39:45 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SCV1goiQwlS80qK+SP4irzXhp72tp/Fez19CkG/Ld8A1Q4l30bVgvR35r7pEPlBnKMIio7HUDhOVI50C4k+mf/BB87dzAiFI+3QWwV9ZZJTl7BcrnKw3nsElmBzcgvf+LpgItR4pmgLwvMkjS2vbp7vWOCsFU8b/1SB9WsaTE+uIu4S6QeSx9375Lwn2luVYi/aC/FtkZYbJ6Qz/FsP2S8vsqoxeMtolJy1yeY94moXLszE/tNbk8NE963VMeBAYwhT2pySo5RhlhpEsfIkw6v+EmJyteGBkQQYda/kXm4z7Sp1dbx+J2iUj7tAbL9DR/seyr/bOr7r7Fk50T9mv9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RiCcL/Hg8yWcfh8bIGxvbWWYtPqf76NgqMPGQ3aCMqM=;
+ b=X3nzMMEVEv69MZnYojAD3m+RGkLyyzsr3deAXfl+/HplVgTWAltGgYh0bs53Xbs4xVIp4X1yC0YgD6s6X+yFxJ5jB0DzHtFjMzoxCfAl/aW7jS+VMwrCuPJODz3VwG9WMk/pDCgP2I/JvhSUxFsDI47Vx9l8q0QOiqWQNg5ZMwioxUyUzuKp2u90VQOyO9nZ4BRYmGxe7ZlMfDKrbuUhvVWUWEpnXN4M2KQpSm9dGymLuIU6FelgaoDR46Nlg1JOH0IPLH+/2e8ALNo5LP7e9YCWL/ftnpDrn3EsfFRJiRxSK51i+it+WaDP2/HkPreqIKyKXLUDfKV8v6kgMfEu8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RiCcL/Hg8yWcfh8bIGxvbWWYtPqf76NgqMPGQ3aCMqM=;
+ b=VZa17BPBYyDshLsaR7nyeP1Tzge0oUBAMdJkCsw4ML6sE9S1h7Yuo7tPUPJI5riT1mqQr2hlwozc1X2uBB1RgEC8y25ubDc+PUtL7RP6ooAJgvRJkcu41jPCWL7JZleiYPxgAC0lnsIj9koBtzjSueJgi/tb8mHN3Tc/pP7O2og=
+Received: from SN6PR04CA0105.namprd04.prod.outlook.com (2603:10b6:805:f2::46)
+ by BYAPR02MB4424.namprd02.prod.outlook.com (2603:10b6:a03:57::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.27; Sun, 17 May
+ 2020 07:24:36 +0000
+Received: from SN1NAM02FT042.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:805:f2:cafe::fb) by SN6PR04CA0105.outlook.office365.com
+ (2603:10b6:805:f2::46) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.20 via Frontend
+ Transport; Sun, 17 May 2020 07:24:36 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT042.mail.protection.outlook.com (10.152.73.149) with Microsoft SMTP
+ Server id 15.20.3000.19 via Frontend Transport; Sun, 17 May 2020 07:24:35
+ +0000
+Received: from [149.199.38.66] (port=37084 helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <fnu.vikram@xilinx.com>) id 1jaDef-0002Ed-0H
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 00:24:13 -0700
+Received: from [127.0.0.1] (helo=localhost)
+ by xsj-pvapsmtp01 with smtp (Exim 4.63)
+ (envelope-from <fnu.vikram@xilinx.com>) id 1jaDf1-0002cx-Jm
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 00:24:35 -0700
+Received: from xsj-pvapsmtp01 (xsj-smtp1.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 04H7OW9q020356; 
+ Sun, 17 May 2020 00:24:32 -0700
+Received: from [172.19.2.115] (helo=xsjfnuv50.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <fnu.vikram@xilinx.com>)
+ id 1jaDey-0002ct-0V; Sun, 17 May 2020 00:24:32 -0700
+From: Vikram Garhwal <fnu.vikram@xilinx.com>
 To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000122f6405a5cfe7c4"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
- envelope-from=wei.guo.simon@gmail.com; helo=mail-il1-x12c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Subject: [PATCH v5 0/4] Introduce Xilinx ZynqMP CAN controller
+Date: Sun, 17 May 2020 00:24:00 -0700
+Message-Id: <1589700245-142782-1-git-send-email-fnu.vikram@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(136003)(39850400004)(396003)(346002)(376002)(46966005)(36756003)(70586007)(70206006)(6666004)(7696005)(186003)(26005)(2616005)(5660300002)(336012)(426003)(8936002)(8676002)(9786002)(82740400003)(47076004)(82310400002)(356005)(81166007)(316002)(107886003)(478600001)(6916009)(4326008)(2906002);
+ DIR:OUT; SFP:1101; 
+X-MS-PublicTrafficType: Email
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: b3cf0526-25c0-44a1-12de-08d7fa335a27
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4424:
+X-Microsoft-Antispam-PRVS: <BYAPR02MB4424A26ABB37702489010D8ABCBB0@BYAPR02MB4424.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Forefront-PRVS: 040655413E
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GfM60szjqSwEMrEX+4GiahP2423IAL/jpojX9KCl1aE+6iQaBFieasv97LaurVRuBPEmOIrywwuEw2FhtztIDhph6nxv0bNtEpdVhzDoGzOoOskF9+MBej8wGik5wl8FzVAmNHhhlo83DeFvzS5roUuPaqgCsC4RWU2i4+XuysCfdNhgBeuWPhLGiJq7Rre8GRU00CMy8qYMGzQpzC97Y4kMIfvfdArnfSYAiTNZ7qVFB+3EvX001o9gz5xjwpCJ63BnX/xC0qFqpsAPY+VP9QhJDdVhB4cxuck59cH56Pqv3A+BDkZk9Zf0GXXD5zmnL9lRCNhGrSz1E8393az3tY36+pkfQivhkS6GBWE0DH6mInXlRRk1lzkFpO4zhfuod0sLzVIXmHxJ+dhX4uxmPwLl+2yb2q/PRTUFvRBjTum9mmNA2/wSzRYlJ/m3Rff9q8IAnAwFCnK16KZvLsNDjIRrpoKRvEBXxEC4UPbzJ7kdAjRzVrsliteV43ukjSC7h8/bkuN6w+f7PVPDsz0ZLg==
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2020 07:24:35.8970 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3cf0526-25c0-44a1-12de-08d7fa335a27
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4424
+Received-SPF: pass client-ip=40.107.75.45; envelope-from=fnuv@xilinx.com;
+ helo=NAM02-BL2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 03:39:42
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,43 +129,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: francisco.iglesias@xilinx.com, Vikram Garhwal <fnu.vikram@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000122f6405a5cfe7c4
-Content-Type: text/plain; charset="UTF-8"
+ Example for single CAN:
+      -object can-bus,id=canbus0 \
+      -global driver=xlnx.zynqmp-can,property=canbus0,value=canbus0 \
+      -object can-host-socketcan,id=socketcan0,if=vcan0,canbus=canbus0
 
-Hi,
+ Example for connecting both CAN:
+      -object can-bus,id=canbus0 -object can-bus,id=canbus1 \
+      -global driver=xlnx.zynqmp-can,property=canbus0,value=canbus0 \
+      -global driver=xlnx.zynqmp-can,property=canbus1,value=canbus1 \
+      -object can-host-socketcan,id=socketcan0,if=vcan0,canbus=canbus0 \
+      -object can-host-socketcan,id=socketcan1,if=vcan0,canbus=canbus1
 
-I am trying do memory hotplug(add new memory DIMM)  in an VM attached with
-VFIO device (host running with 4.9 kernel). What I observed is weird:
-If my original VM is 10G (already occupies 10G RSS at host), and hotplug
-add 30G DIMM to qemu,  the RSS of qemu keeps growing until nearly 39G and
-suddenly drops down to 10G or ever lower. Then the RSS grows again towards
-40G. The free of host keeps decreasing and it triggers OOM at last.
+Changelog:
 
-My question is: is this scenario valid and ever supported? (maybe some bugs
-in my environment).  Is there any known problem to Qemu memory hotplug
-(attached VFIO device)?
+v4 -> v5:
+    Add XlnxZynqMPCAN controller id to debug messages.
+    Drop parameter errp of object_property_add().
+    Add formatting related suggestions.
 
-Thanks,
-- Simon
+v3 -> v4:
+    Correct formatting issues.
 
---000000000000122f6405a5cfe7c4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v2 -> v3:
+    Rectify the build issue.
+    Rearrange the patch order.
 
-<div dir=3D"ltr">Hi,<div><br></div><div>I am trying do memory hotplug(add n=
-ew memory DIMM)=C2=A0 in an VM attached with VFIO device (host running with=
- 4.9 kernel). What I observed is weird:</div><div>If my original VM is 10G =
-(already occupies 10G RSS at host), and hotplug add 30G DIMM to qemu,=C2=A0=
- the RSS of qemu keeps growing until nearly 39G and suddenly drops down to =
-10G or ever lower. Then the RSS grows again towards 40G. The free of host k=
-eeps decreasing and it triggers OOM at last.</div><div><br></div><div>My qu=
-estion is: is this scenario valid and ever supported? (maybe some bugs in m=
-y environment).=C2=A0 Is there any known problem to Qemu memory hotplug (at=
-tached VFIO device)?</div><div><br></div><div>Thanks,</div><div>- Simon</di=
-v></div>
+v1 -> v2:
+    Rename the CAN device state and address code style issues.
+    Connect the CAN device to Xlnx-ZCU102 board.
+    Add maintainer entry.
+    Add QTEST for the CAN device.
 
---000000000000122f6405a5cfe7c4--
+Vikram Garhwal (4):
+  hw/net/can: Introduce Xilinx ZynqMP CAN controller
+  xlnx-zynqmp: Connect Xilinx ZynqMP CAN controllers
+  tests/qtest: Introduce tests for Xilinx ZynqMP CAN controller
+  MAINTAINERS: Add maintainer entry for Xilinx ZynqMP CAN controller
+
+ MAINTAINERS                      |    8 +
+ hw/arm/xlnx-zynqmp.c             |   26 +
+ hw/net/can/Makefile.objs         |    1 +
+ hw/net/can/xlnx-zynqmp-can.c     | 1116 ++++++++++++++++++++++++++++++++++++++
+ include/hw/arm/xlnx-zynqmp.h     |    3 +
+ include/hw/net/xlnx-zynqmp-can.h |   75 +++
+ tests/qtest/Makefile.include     |    2 +
+ tests/qtest/xlnx-can-test.c      |  367 +++++++++++++
+ 8 files changed, 1598 insertions(+)
+ create mode 100644 hw/net/can/xlnx-zynqmp-can.c
+ create mode 100644 include/hw/net/xlnx-zynqmp-can.h
+ create mode 100644 tests/qtest/xlnx-can-test.c
+
+--
+2.7.4
+
 
