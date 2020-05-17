@@ -2,49 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3265F1D67C3
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 May 2020 13:32:18 +0200 (CEST)
-Received: from localhost ([::1]:60034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D461D67CD
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 May 2020 13:40:10 +0200 (CEST)
+Received: from localhost ([::1]:41168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaHWj-0001CR-85
-	for lists+qemu-devel@lfdr.de; Sun, 17 May 2020 07:32:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48144)
+	id 1jaHeK-0005l7-Ko
+	for lists+qemu-devel@lfdr.de; Sun, 17 May 2020 07:40:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jaHV4-0000TK-49
- for qemu-devel@nongnu.org; Sun, 17 May 2020 07:30:35 -0400
-Received: from mx2.suse.de ([195.135.220.15]:49662)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jaHV2-0007v7-N9
- for qemu-devel@nongnu.org; Sun, 17 May 2020 07:30:33 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 0B58DAE70;
- Sun, 17 May 2020 11:30:31 +0000 (UTC)
-To: qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Subject: sharing intention for developing per-target, dynamically loadable
- accelerator modules
-Message-ID: <1b5c9fee-6574-ddf4-b2d0-aa12e6fc9c84@suse.de>
-Date: Sun, 17 May 2020 13:30:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jaHcR-0004Vi-9p
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 07:38:11 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37998)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jaHcQ-0001Gx-0g
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 07:38:10 -0400
+Received: by mail-wr1-x444.google.com with SMTP id e1so8485067wrt.5
+ for <qemu-devel@nongnu.org>; Sun, 17 May 2020 04:38:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iZQKN0pc0b5g9xhtt8kSxwYDHXfpHBXNle9DvZFVGfQ=;
+ b=o3cBZ5qk9pdkKQ5WVQQil+MGMJdsMQzoYZpV/ChFMZnlbBvjF2QC3TeXAS42Ohg20b
+ GBh90hE29AToauGiqHMcilr1KVU6QQBe62WmKxxNr9V6DP215O5xcUpinUQwcwlTQYCo
+ 3j83zuaeg6BMUA0sFCwxbrbdy7WKhwi6Dc7OngfglxG+LzUgiiKfue+NVffbYICJrMxh
+ TiSnk5H24EvJZN90Sp9WMw5hsdAydslSDqnQQFhAXOR0zjXLD8RInaxP0k7VwUZJd3xs
+ zZIphl0LPV95yXWXksqxEMhkCvx56W566MB2LKXPMezRVM1//Xzx6UDBSlkU8TfntpLn
+ aizQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=iZQKN0pc0b5g9xhtt8kSxwYDHXfpHBXNle9DvZFVGfQ=;
+ b=TV2IIgY6hFnVbkvjl4gr0dfstdiWpIlGnUfTR66IChtIC5aKTcxwbYmkBZJu32aFtB
+ fbhBKPB020f4/PZaRXZWhPnPKyGWiTbxipzcG3NzJrH8EmzyNSEj3WWPtHsvAu4Bxn7d
+ av9qrvw0ZBlqVok/acK6QI5ncCIFkAVarMciaNvgcValie60mLAp11G32Az1vebWhIRf
+ yz+byzU5rDc1KIqpggs+oMuOT8LUyt2f0YcmSbjLrE873solAlhpzqraWCkzwQnwSIOO
+ HA4stQEamvLnRPsfYFSqrqnnts8G/5+0RRrjIzaiX/i+wnoaT8tJSEeRHb79Q6ZB6/rr
+ 4VMw==
+X-Gm-Message-State: AOAM532yUqI13gH5ZPcL8mHOC+PtyfnzYu9kOEHD5xDdvCVNX7hyjoKo
+ xTnBlUZmb3//5UIisrC6m3XwJXMXXqk=
+X-Google-Smtp-Source: ABdhPJywbQGLtOFM51FMTgcuro+RGUxLPXdtGlsRU1eszeV1IPclrdIGqd5kcWsDQsBFha4fzRoTZg==
+X-Received: by 2002:adf:fa47:: with SMTP id y7mr13290977wrr.337.1589715488443; 
+ Sun, 17 May 2020 04:38:08 -0700 (PDT)
+Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id u10sm11660451wmc.31.2020.05.17.04.38.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 17 May 2020 04:38:07 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/2] exec: Fix (too) short device accesses
+Date: Sun, 17 May 2020 13:38:02 +0200
+Message-Id: <20200517113804.9063-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 07:30:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,63 +86,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, Tony Nguyen <tony.nguyen@bt.com>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>, Julia Suvorova <jusual@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Peter Xu <peterx@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello all,
+Something noticed while debugging Alexander's bug report
+"Hang with high CPU usage in sdhci_data_transfer":
+https://bugs.launchpad.net/qemu/+bug/1878054
 
-my intention would be to develop per-target, dynamically loadable accelerator modules.
+The flatview ignores the MemoryRegion minimum access size.
 
-This would allow to distribute a single QEMU base binary, and then provide accelerators as optional additional binary packages to install,
-with the first separate optional package being TCG.
+It seems related to a similar issue Julia had with PCI
+devices.
 
-CONFIG_TCG would become 'm' as a result, but then also CONFIG_KVM, CONFIG_HAX, CONFIG_WHPX, CONFIG_HVF.
+Not sure it is safe enough, have performance penalties
+and so on, so RFC.
 
-Here are some elements that seem to be needed:
+Philippe Mathieu-Daudé (2):
+  exec: Let memory_access_size() consider minimum valid access size
+  exec: Do not let flatview_read/write_continue do (too) short accesses
 
-1 - The module CONFIG_MODULE part of the build system would need some extension to add per-target modules. I have some tentative results that shows that this is possible (but a bit clunky atm).
-    There is some existing instability in the existing Makefile infrastructure of modules that shows up when trying to extend it.
-
-2 - new "accelerator drivers" seems to be needed, either in addition or as additional functionality inside the current AccelState.
-
-3 - for target/i386 in particular, there is some refactoring work needed to split even more different unrelated bits and pieces.
-    dependencies of hw/i386 machine stuff with accelerator-specific stuff are also painful.
-
-4 - CPU Arch Classes could be extended with per-accelerator methods. Initial fooling around shows it should probably work.
-    One alternative would be trying to play with the dynamic linker (weak symbols, creative use of dlsym etc), but I have not sorted out the details of this option.
-
-5 - cputlb, in particular tlb_flush and friends is a separate problem since it is not part of the cpuclass. Should it be?
-
-6 - a painpoint is represented by the fact that in USER mode, the accel class is not applied, which causes a lot of uncleanliness all around
-    (tcg_allowed outside of the AccelClass).
-
-7 - I have not really thought about the KConfig aspects because I am not super-familiar
-
-8 - cpus.c needs some good splitting
-
-... more things to find out and think about ...
-
-Overall, I think that the activity has the potential to provide benefits overall beyond the actual goal, in the form of cleanups, leaner configurations,
-minor fixes, maybe improving the CONFIG_MODULE instabilities if any etc.
-
-As an example, the first activity I would plan to submit as RFC is point 8 above,
-there is the split between cpus.c and cpus-tcg.c that results in lots of TCG-specific code being removed from non-tcg builds (using CONFIG_TCG).
-
-One thing that should be kept in check is any performance impact of the changes, in particular for point 4, hot paths should probably avoid going through too many pointer indirections.
-
-Does anybody share similar goals? Any major obstacle or blocker that would put the feasibility into question?
-Any suggestion on any of this? In particular point 4 and 5 come to mind, as well as some better understanding of the reasons behind 6, or even suggestions on how to best to 2.
-
-Anyway, I will continue to work on the first RFC for some smaller initial steps and hopefully have something to submit soon.
-
-Ciao ciao,
-
-Claudio
+ exec.c | 42 +++++++++++++++++++++++++++++++-----------
+ 1 file changed, 31 insertions(+), 11 deletions(-)
 
 -- 
-Claudio Fontana
-Engineering Manager Virtualization, SUSE Labs Core
+2.21.3
 
-SUSE Software Solutions Italy Srl
 
