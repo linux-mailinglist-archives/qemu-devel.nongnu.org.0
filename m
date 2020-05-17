@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E735B1D67B8
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 May 2020 13:27:00 +0200 (CEST)
-Received: from localhost ([::1]:56760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E46451D67C4
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 May 2020 13:32:48 +0200 (CEST)
+Received: from localhost ([::1]:60598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaHRb-0007oI-Fc
-	for lists+qemu-devel@lfdr.de; Sun, 17 May 2020 07:26:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47864)
+	id 1jaHXD-0001QD-Ro
+	for lists+qemu-devel@lfdr.de; Sun, 17 May 2020 07:32:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jaHQQ-00074l-6v
- for qemu-devel@nongnu.org; Sun, 17 May 2020 07:25:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55242)
+ id 1jaHVR-0000a8-5H
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 07:30:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jaHQO-0006O9-VI
- for qemu-devel@nongnu.org; Sun, 17 May 2020 07:25:45 -0400
+ id 1jaHVQ-0008Nj-8r
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 07:30:56 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jaHQL-0005Xb-2o
- for <qemu-devel@nongnu.org>; Sun, 17 May 2020 11:25:41 +0000
+ id 1jaHVN-0005wX-JW
+ for <qemu-devel@nongnu.org>; Sun, 17 May 2020 11:30:53 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0C91D2E80E7
- for <qemu-devel@nongnu.org>; Sun, 17 May 2020 11:25:41 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 59D452E810E
+ for <qemu-devel@nongnu.org>; Sun, 17 May 2020 11:30:53 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 17 May 2020 11:15:50 -0000
+Date: Sun, 17 May 2020 11:25:41 -0000
 From: Jan Klos <1856335@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger janklos
 X-Launchpad-Bug-Reporter: Damir (djdatte)
 X-Launchpad-Bug-Modifier: Jan Klos (janklos)
 References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
-Message-Id: <158971415072.22897.16303582021252899317.malone@gac.canonical.com>
+Message-Id: <158971474131.23185.9265338361868580750.malone@gac.canonical.com>
 Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -49,7 +49,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 55409860d84b0d7c797b478f24d77d38f6767432
+X-Launchpad-Hash: ba494315dafa97c3f59bcd169ff8e7b9df3a7756
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 06:50:40
@@ -76,111 +76,61 @@ Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No, creating artificial NUMA nodes is, simply put, never a good solution
-for CPUs that operate as a single NUMA node - which is the case for all
-Zen2 CPUs (except maybe EPYCs? not sure about those).
+Damir:
+Hm, must be some misconfiguration, then. My config for Linux VMs to utilize=
+ 3 out of the 4 CCXs. Important parts of the libvirt domain XML:
 
-You may workaround the L3 issue that way, but hit many new bugs/problems
-by introducing multiple NUMA nodes, _especially_ on Windows VMs, because
-that OS has crappy NUMA handling and multitude of bugs related to it -
-which was one of the major reasons why even Zen2 Threadrippers are now
-single NUMA node (e.g. https://www.servethehome.com/wp-
-content/uploads/2019/11/AMD-Ryzen-Threadripper-3960X-Topology.png ).
+  <vcpu placement=3D"static">24</vcpu>
+  <iothreads>1</iothreads>
+  <cputune>
+    <vcpupin vcpu=3D"0" cpuset=3D"3"/>
+    <vcpupin vcpu=3D"1" cpuset=3D"15"/>
+    <vcpupin vcpu=3D"2" cpuset=3D"4"/>
+    <vcpupin vcpu=3D"3" cpuset=3D"16"/>
+    <vcpupin vcpu=3D"4" cpuset=3D"5"/>
+    <vcpupin vcpu=3D"5" cpuset=3D"17"/>
+    <vcpupin vcpu=3D"6" cpuset=3D"0,12"/>
+    <vcpupin vcpu=3D"7" cpuset=3D"0,12"/>
+    <vcpupin vcpu=3D"8" cpuset=3D"6"/>
+    <vcpupin vcpu=3D"9" cpuset=3D"18"/>
+    <vcpupin vcpu=3D"10" cpuset=3D"7"/>
+    <vcpupin vcpu=3D"11" cpuset=3D"19"/>
+    <vcpupin vcpu=3D"12" cpuset=3D"8"/>
+    <vcpupin vcpu=3D"13" cpuset=3D"20"/>
+    <vcpupin vcpu=3D"14" cpuset=3D"0,12"/>
+    <vcpupin vcpu=3D"15" cpuset=3D"0,12"/>
+    <vcpupin vcpu=3D"16" cpuset=3D"9"/>
+    <vcpupin vcpu=3D"17" cpuset=3D"21"/>
+    <vcpupin vcpu=3D"18" cpuset=3D"10"/>
+    <vcpupin vcpu=3D"19" cpuset=3D"22"/>
+    <vcpupin vcpu=3D"20" cpuset=3D"11"/>
+    <vcpupin vcpu=3D"21" cpuset=3D"23"/>
+    <vcpupin vcpu=3D"22" cpuset=3D"0,12"/>
+    <vcpupin vcpu=3D"23" cpuset=3D"0,12"/>
+    <emulatorpin cpuset=3D"1,13"/>
+    <iothreadpin iothread=3D"1" cpuset=3D"2,14"/>
+  </cputune>
+  <os>
+    <type arch=3D"x86_64" machine=3D"pc-q35-5.0">hvm</type>
+    <loader readonly=3D"yes" type=3D"pflash">/usr/share/ovmf/x64/OVMF_CODE.=
+fd</loader>
+    <nvram>/var/lib/libvirt/qemu/nvram/ccxtest-clone_VARS.fd</nvram>
+  </os>
+.
+.
+.
+  <qemu:commandline>
+    <qemu:arg value=3D"-cpu"/>
+    <qemu:arg value=3D"host,topoext=3Don,hv-time,hv-relaxed,hv-vapic,hv-spi=
+nlocks=3D0x1fff,host-cache-info=3Don,-amd-stibp"/>
+  </qemu:commandline>
 
-The host CPU architecture should be replicated as closely as possible on
-the VM and for Zen2 CPUs with 4 cores per CCX, _this already works
-perfectly_ - there are no problems on
-3300X/3700(X)/3800X/3950X/3970X/3990X.
-
-There is, unfortunately, no way to customize/specify the "disabled" CPU
-cores in QEMU, and therefore no way to emulate 1 NUMA node + L3 cache
-per 2/3 cores - only to passthrough the cache config from host, which is
-unfortunately not done correctly for CPUs with disabled cores (but
-again, works perfectly for CPUs with all 4 cores enabled per CCX).
-
-lscpu:
-Architecture:                    x86_64
-CPU op-mode(s):                  32-bit, 64-bit
-Byte Order:                      Little Endian
-Address sizes:                   43 bits physical, 48 bits virtual
-CPU(s):                          24
-On-line CPU(s) list:             0-23
-Thread(s) per core:              2
-Core(s) per socket:              12
-Socket(s):                       1
-NUMA node(s):                    1
-Vendor ID:                       AuthenticAMD
-CPU family:                      23
-Model:                           113
-Model name:                      AMD Ryzen 9 3900X 12-Core Processor
-Stepping:                        0
-Frequency boost:                 enabled
-CPU MHz:                         2972.127
-CPU max MHz:                     3800.0000
-CPU min MHz:                     2200.0000
-BogoMIPS:                        7602.55
-Virtualization:                  AMD-V
-L1d cache:                       384 KiB
-L1i cache:                       384 KiB
-L2 cache:                        6 MiB
-L3 cache:                        64 MiB
-NUMA node0 CPU(s):               0-23
-Vulnerability Itlb multihit:     Not affected
-Vulnerability L1tf:              Not affected
-Vulnerability Mds:               Not affected
-Vulnerability Meltdown:          Not affected
-Vulnerability Spec store bypass: Mitigation; Speculative Store Bypass disab=
-led via prctl and seccomp
-Vulnerability Spectre v1:        Mitigation; usercopy/swapgs barriers and _=
-_user pointer sanitization
-Vulnerability Spectre v2:        Mitigation; Full AMD retpoline, IBPB condi=
-tional, STIBP conditional, RSB filling
-Vulnerability Tsx async abort:   Not affected
-Flags:                           fpu vme de pse tsc msr pae mce cx8 apic se=
-p mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxex=
-t fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl nonsto
-                                 p_tsc cpuid extd_apicid aperfmperf pni pcl=
-mulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c=
- rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a mi
-                                 salignsse 3dnowprefetch osvw ibs skinit wd=
-t tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 c=
-dp_l3 hw_pstate sme ssbd mba sev ibpb stibp vmmcall fsgsbase b
-                                 mi1 avx2 smep bmi2 cqm rdt_a rdseed adx sm=
-ap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_=
-llc cqm_mbm_total cqm_mbm_local clzero irperf xsaveerptr rdpru
-                                  wbnoinvd arat npt lbrv svm_lock nrip_save=
- tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avi=
-c v_vmsave_vmload vgif umip rdpid overflow_recov succor smca
-
-
-But the important thing has already been posted here in previous comments -=
- notice the skipped core ids belonging to the disabled cores:
-
-virsh capabilities | grep "cpu id":
-<cpu id=3D'0' socket_id=3D'0' core_id=3D'0' siblings=3D'0,12'/>
-<cpu id=3D'1' socket_id=3D'0' core_id=3D'1' siblings=3D'1,13'/>
-<cpu id=3D'2' socket_id=3D'0' core_id=3D'2' siblings=3D'2,14'/>
-<cpu id=3D'3' socket_id=3D'0' core_id=3D'4' siblings=3D'3,15'/>
-<cpu id=3D'4' socket_id=3D'0' core_id=3D'5' siblings=3D'4,16'/>
-<cpu id=3D'5' socket_id=3D'0' core_id=3D'6' siblings=3D'5,17'/>
-<cpu id=3D'6' socket_id=3D'0' core_id=3D'8' siblings=3D'6,18'/>
-<cpu id=3D'7' socket_id=3D'0' core_id=3D'9' siblings=3D'7,19'/>
-<cpu id=3D'8' socket_id=3D'0' core_id=3D'10' siblings=3D'8,20'/>
-<cpu id=3D'9' socket_id=3D'0' core_id=3D'12' siblings=3D'9,21'/>
-<cpu id=3D'10' socket_id=3D'0' core_id=3D'13' siblings=3D'10,22'/>
-<cpu id=3D'11' socket_id=3D'0' core_id=3D'14' siblings=3D'11,23'/>
-<cpu id=3D'12' socket_id=3D'0' core_id=3D'0' siblings=3D'0,12'/>
-<cpu id=3D'13' socket_id=3D'0' core_id=3D'1' siblings=3D'1,13'/>
-<cpu id=3D'14' socket_id=3D'0' core_id=3D'2' siblings=3D'2,14'/>
-<cpu id=3D'15' socket_id=3D'0' core_id=3D'4' siblings=3D'3,15'/>
-<cpu id=3D'16' socket_id=3D'0' core_id=3D'5' siblings=3D'4,16'/>
-<cpu id=3D'17' socket_id=3D'0' core_id=3D'6' siblings=3D'5,17'/>
-<cpu id=3D'18' socket_id=3D'0' core_id=3D'8' siblings=3D'6,18'/>
-<cpu id=3D'19' socket_id=3D'0' core_id=3D'9' siblings=3D'7,19'/>
-<cpu id=3D'20' socket_id=3D'0' core_id=3D'10' siblings=3D'8,20'/>
-<cpu id=3D'21' socket_id=3D'0' core_id=3D'12' siblings=3D'9,21'/>
-<cpu id=3D'22' socket_id=3D'0' core_id=3D'13' siblings=3D'10,22'/>
-<cpu id=3D'23' socket_id=3D'0' core_id=3D'14' siblings=3D'11,23'/>
+The CPUs with cpuset=3D"0,12" are disabled once booted. The host-cache-
+info=3Don is the part that makes sure that the cache config is passed to
+the VM (but unfortunately does not take disabled cores into account,
+which results in incorrect config). The qemu:commandline is added
+because I need to add -amd-stibp, otherwise I wouldn't be able to boot.
+This overrides most parts in the <cpu> XML part.
 
 -- =
 
