@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B7C51D6772
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 May 2020 12:42:04 +0200 (CEST)
-Received: from localhost ([::1]:56954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A7F1D678D
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 May 2020 13:03:12 +0200 (CEST)
+Received: from localhost ([::1]:38596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaGk7-000742-4o
-	for lists+qemu-devel@lfdr.de; Sun, 17 May 2020 06:42:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43102)
+	id 1jaH4Z-0005g0-Ah
+	for lists+qemu-devel@lfdr.de; Sun, 17 May 2020 07:03:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jaGj5-0006ZA-Mg
- for qemu-devel@nongnu.org; Sun, 17 May 2020 06:40:59 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39019)
+ id 1jaH3J-0005Dd-P4
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 07:01:53 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jaGj4-0004h4-Oe
- for qemu-devel@nongnu.org; Sun, 17 May 2020 06:40:59 -0400
-Received: by mail-wm1-x343.google.com with SMTP id w64so7097098wmg.4
- for <qemu-devel@nongnu.org>; Sun, 17 May 2020 03:40:58 -0700 (PDT)
+ id 1jaH3J-0008Qf-5P
+ for qemu-devel@nongnu.org; Sun, 17 May 2020 07:01:53 -0400
+Received: by mail-wm1-x344.google.com with SMTP id u188so7138388wmu.1
+ for <qemu-devel@nongnu.org>; Sun, 17 May 2020 04:01:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=pst2zp0eKOrywVfbdKsYdZOlXMDj3OXEeJAX6wXY/gw=;
- b=GnTrH2b9C2Zq0ff8Yut1VUFFNuR+z8BJ3uKWNmkgRawVbGtjSj7Pt81Ztx9MSN15w+
- JUNyrnsf3S9cEvm/iBg5PI6q1JeJUtSB2MR4LzdWTHD8hLQHHMghtJDEfp68HZkc50m4
- sB6su+e9qOYvuJLPRR5WtnBaQfGh4Yv/xyMU8U0w+jqjYY5QG5dTz0kF8dyAbe97zMUW
- g69GfzxSAJtSOJKG2yxCr7N5i1Atu4A+6rXxTOZPPWyEq/U2DnfL4NH7S6fOGYTR3xQy
- DDxydN5qJLT+lGgLObQ1zeDhxXRd7sMI2+Qt7YAFyG0n4qfaBZLxR98W8A8KmMo2LwB8
- l+VA==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1ma5SumKUNDEJVOb5KgJtWRxqkwLlG4JchYblVLKuoc=;
+ b=f2t9ayDxpYcM2d+tpBwxfrQnGhW2JQfBA1xSuTBOCgAms+l0QQN+4aA3ypcjWesa9X
+ x8uqXJQrLpnMZMU/5h01b83h3SSzEyfoEP/qGvn+qVvIkJcnd8A0jW5kRiFxsH1ivhf4
+ 1MRUXehJh3b+NvMNgpYUc9tE/+7XUrZ19/XrVK1lSiWm4icqcWgu3ur0uVmiUGs6OAio
+ bikzCrwL0llqLtJSiSr3wJf8vCp7c6y2AR9MXS68IgZ6o7VbU3mHznlPifSiPxA+8XCq
+ FMvmH0LEKcpB/KMQdDuyXZM7zUiluGJmZVFg/tX4MtRY1XAABAtXIKWLSyad2lbmtcub
+ ZkCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pst2zp0eKOrywVfbdKsYdZOlXMDj3OXEeJAX6wXY/gw=;
- b=TCpvOG+AZ9x92TdW+BxY92V1azBKYFUCMjvN2870/1uYsxeZxHxM4SvqiWukLWhcDF
- N1wfrJxxf7ga5B3dY5YlhRhJFXpvM0cMGGXoRdo4FpUxesh3+HpZDobb+63ZlqHdF8Yb
- 5Cy1d3SYW0V/tU/c5xlkM7cKKzFQnH1avKdI01O9QGn8+9GLWC3YsO/deuJe/IZl9qwD
- TRvzdz3XSdL0ZnmVot4dNrPLj2M5b+3EU+PUSsKqunUlU1hLKdhnCy/ZLosStYDclLen
- 0rQyQn4zA/yGgirfPymMuZamFcRf4o7EugZippHy/RhvQsYpzhhP0OLfBqSZ65DZEYZV
- HOcQ==
-X-Gm-Message-State: AOAM533UQhu01Eb4tCLNIOToxuHMwpWP9hMh+YHPrqDaHyTgK8BuRMr/
- z/i5bUBWmFgzI/E+DjA/VGc=
-X-Google-Smtp-Source: ABdhPJzwX87niNmzZ5SXAi+cd2MSc4sacKGiTZU0xCZv5/Q2s1xHewjOsqtNCFe5uD5Mha890zR+Rw==
-X-Received: by 2002:a05:600c:2c0c:: with SMTP id
- q12mr13302781wmg.36.1589712057467; 
- Sun, 17 May 2020 03:40:57 -0700 (PDT)
-Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=1ma5SumKUNDEJVOb5KgJtWRxqkwLlG4JchYblVLKuoc=;
+ b=jXY8wqVOYX+bW/z/6mL6/Ugiq0FIbe/NxQD4YVNfvUc4M1/bfw0JP3zKTmWSEFTeqY
+ umUqPYGB1ZDHfwhp1Q3tq/hcPfLeqXBoiZHs0l0cTlbaywgYyfxZAn3SmMyBpo3zuvEv
+ NfA3QxCS8/du0e18DhWXJT2FgaqW0Vf66S2ZbkgVvOTjzjYWBVYgjuwks5wkuJqCKde+
+ HyqlhV9qFXCfw3T2+8dNcNIGQqHINFjkBTIc1OoAHo7QwXdW7SVg70RmFRh+v35Y6D8W
+ uxmzjQ5ubQjXMPJ54AzO+aL9LDZV1n96io2Hhw5rv85fg3E+TVJe63m928YVVFcGFaG6
+ 1q+A==
+X-Gm-Message-State: AOAM531oXl6XFTvzxmB4yh0SmvvWRwSIZVswk63Ke1Gde3s0k2tVe5lw
+ 0F8hhium9PztO8Xrnwnl6nF+Sibe8mo=
+X-Google-Smtp-Source: ABdhPJz1lo3uM5NkD7qDzn6Y/1/p17V4YfYImUd7pAvbCbB8sYpsTyGJPvWkTwaWTzdW34QKkuxQMQ==
+X-Received: by 2002:a1c:32c5:: with SMTP id y188mr14794773wmy.16.1589713311511; 
+ Sun, 17 May 2020 04:01:51 -0700 (PDT)
+Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id 5sm11646731wmd.19.2020.05.17.03.40.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 17 May 2020 03:40:56 -0700 (PDT)
-Subject: Re: [PATCH] ati-vga: Do not allow unaligned access via index register
-To: BALATON Zoltan <balaton@eik.bme.hu>, Alexander Bulekov <alxndr@bu.edu>
-References: <20200516132352.39E9374594E@zero.eik.bme.hu>
- <20200516144706.zz54mgs7k7anq3cj@mozz.bu.edu>
- <alpine.BSF.2.22.395.2005161730460.69993@zero.eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <16020f02-5fe3-a7d9-ca30-759a2ba69307@amsat.org>
-Date: Sun, 17 May 2020 12:40:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ by smtp.gmail.com with ESMTPSA id q17sm12149608wmk.36.2020.05.17.04.01.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 17 May 2020 04:01:50 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/i386: Fix OUTL debug output
+Date: Sun, 17 May 2020 13:01:47 +0200
+Message-Id: <20200517110147.26026-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <alpine.BSF.2.22.395.2005161730460.69993@zero.eik.bme.hu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -93,116 +86,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/16/20 5:33 PM, BALATON Zoltan wrote:
-> On Sat, 16 May 2020, Alexander Bulekov wrote:
->> On 200516 1513, BALATON Zoltan wrote:
->>> According to docs bits 1 and 0 of MM_INDEX are hard coded to 0 so
->>> unaligned access via this register should not be possible.
->>> This also fixes problems reported in bug #1878134.
->>>
->>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>> ---
->>
->> Hi Zoltan,
->> I applied this patch and confirmed that I cannot reproduce the crash 
->> in #1878134
->> Thanks!
->>
->> Acked-by: Alexander Bulekov <alxndr@bu.edu>
-> 
-> Thanks, so that should be Tested-by I think but I don't care much about 
-> tags so whatever works for me.
+Fix OUTL instructions incorrectly displayed as OUTW.
 
-'Acked-by' means as a Fuzzer maintainer, Alexander checked your patch 
-and is happy that another maintainer (usually Gerd for hw/display/, as 
-ati.c doesn't have particular maintainer) takes this patch.
-
-You are right, if Alexander tested your patch, he also should add:
-Tested-by: Alexander Bulekov <alxndr@bu.edu>
-
-If a developer review your patch and agree the logic matches the 
-description and doesn't introduce new regressions, he might reply with a 
-'Reviewed-by' tag.
-
-Note than tags are not trophies for the patch author, but are helpful 
-for distributions such Debian/Fedora/NetBSD/... when they backport 
-particular patches fixing bugs, before new QEMU (stable) version is 
-released.
-
-Also they are useful in history in case a developer/maintainer goes MIA, 
-there is still others to contact.
-
-Finally, there is a tag documented for bug fixes:
-https://wiki.qemu.org/Contribute/SubmitAPatch#Write_a_meaningful_commit_message
-
-If your patch addresses a bug in a public bug tracker, please add a line 
-with "Buglink: <URL-of-the-bug>" there, too.
-
-Buglink: https://bugs.launchpad.net/qemu/+bug/1878134
-
-Now, looking at your device implementation, it seems
-
-1/ The device isn't supposed to have 64-bit accesses
-
-So this might be a more generic fix to Alexander issue:
-
--- >8 --
-@@ -879,6 +879,7 @@ static void ati_mm_write(void *opaque, hwaddr addr,
-  static const MemoryRegionOps ati_mm_ops = {
-      .read = ati_mm_read,
-      .write = ati_mm_write,
-+    .valid.max_access_size = 4,
-      .endianness = DEVICE_LITTLE_ENDIAN,
-  };
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
+ target/i386/misc_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-2/ All the registers are 32-bit aligned
-
-So you can simplify the implementation by letting 
-access_with_adjusted_size() handle the 8/16-bit accesses by using:
-
-@@ -879,6 +879,8 @@ static void ati_mm_write(void *opaque, hwaddr addr,
-  static const MemoryRegionOps ati_mm_ops = {
-      .read = ati_mm_read,
-      .write = ati_mm_write,
-+    .min.min_access_size = 4,
-      .endianness = DEVICE_LITTLE_ENDIAN,
-  };
-
-Regards,
-
-Phil.
-
-> 
-> Regards,
-> BALATON Zoltan
-> 
->>>  hw/display/ati.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/hw/display/ati.c b/hw/display/ati.c
->>> index f4c4542751..2ee23173b2 100644
->>> --- a/hw/display/ati.c
->>> +++ b/hw/display/ati.c
->>> @@ -531,7 +531,7 @@ static void ati_mm_write(void *opaque, hwaddr addr,
->>>      }
->>>      switch (addr) {
->>>      case MM_INDEX:
->>> -        s->regs.mm_index = data;
->>> +        s->regs.mm_index = data & ~3;
->>>          break;
->>>      case MM_DATA ... MM_DATA + 3:
->>>          /* indexed access to regs or memory */
->>> -- 
->>> 2.21.3
->>>
->>>
->>
->>
-> 
+diff --git a/target/i386/misc_helper.c b/target/i386/misc_helper.c
+index 7d61221024..b6b1d41b14 100644
+--- a/target/i386/misc_helper.c
++++ b/target/i386/misc_helper.c
+@@ -70,7 +70,7 @@ target_ulong helper_inw(CPUX86State *env, uint32_t port)
+ void helper_outl(CPUX86State *env, uint32_t port, uint32_t data)
+ {
+ #ifdef CONFIG_USER_ONLY
+-    fprintf(stderr, "outw: port=0x%04x, data=%08x\n", port, data);
++    fprintf(stderr, "outl: port=0x%04x, data=%08x\n", port, data);
+ #else
+     address_space_stl(&address_space_io, port, data,
+                       cpu_get_mem_attrs(env), NULL);
+-- 
+2.21.3
 
 
