@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0621D7EB1
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:37:39 +0200 (CEST)
-Received: from localhost ([::1]:59240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3067C1D7ED5
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:43:42 +0200 (CEST)
+Received: from localhost ([::1]:55422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jailm-0004aw-Ta
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58736)
+	id 1jaird-0006SL-9o
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:43:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jaigo-0005LU-55
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:32:30 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57583
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jaign-0003I0-83
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:32:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589819548;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2DaVhlUUMzLKCmXvrlPg1FK7qEoUxfS7ou598eeRodQ=;
- b=WpBIZIMQ8/QMicW0OA8rQPdYFldl9KJMuHI4QdT8YwqTtUiPhB2jA0pQfdWRmvslEPEiXg
- vjfgj6MJPMiHoIxiOwRfck/IhbjIY0eYqWdtoSGE18iu+2uZeFStsqQtBt5kqKJktg38ji
- dvfiQ5doV06jFYiLRAOlDk9kWaQpvIM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-nZMhFrT7MP6RjvcBdaSVxQ-1; Mon, 18 May 2020 12:32:25 -0400
-X-MC-Unique: nZMhFrT7MP6RjvcBdaSVxQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89A8A1B18BC1;
- Mon, 18 May 2020 16:32:24 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2CCB65D9DC;
- Mon, 18 May 2020 16:32:24 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 6/6] iotests: Enhance 223 to cover qemu-img map improvements
-Date: Mon, 18 May 2020 11:32:18 -0500
-Message-Id: <20200518163218.649412-7-eblake@redhat.com>
-In-Reply-To: <20200518163218.649412-1-eblake@redhat.com>
-References: <20200518163218.649412-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jaijQ-0000oL-Pv
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:35:12 -0400
+Received: from 8.mo177.mail-out.ovh.net ([46.105.61.98]:56069)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jaijP-0004GS-FR
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:35:12 -0400
+Received: from player694.ha.ovh.net (unknown [10.108.57.18])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id 336F813148D
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 18:35:09 +0200 (CEST)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player694.ha.ovh.net (Postfix) with ESMTPSA id 9CFCD12675EAA;
+ Mon, 18 May 2020 16:35:01 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R003f4d9a749-ae72-4d6c-b92f-c371044073bb,2E2A9519E3FAC9D985F861812C9F86F7BE89492F)
+ smtp.auth=clg@kaod.org
+Subject: Re: [PATCH 16/24] ppc/pnv: Put "*-pnv-chip" and "pnv-xive" on the
+ main system bus
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200518050408.4579-1-armbru@redhat.com>
+ <20200518050408.4579-17-armbru@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <5abeb1b9-16d4-2984-720f-2f0d776ec19e@kaod.org>
+Date: Mon, 18 May 2020 18:34:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200518050408.4579-17-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:51:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Ovh-Tracer-Id: 13347824871068306259
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedruddthedguddtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfeffvddtudegieefudeugffhjefgieegieegleettdehgfeiieevueeihfegfefgnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=46.105.61.98; envelope-from=clg@kaod.org;
+ helo=8.mo177.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 12:35:09
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,62 +68,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-ppc@nongnu.org, pbonzini@redhat.com, berrange@redhat.com,
+ ehabkost@redhat.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since qemu-img map + x-dirty-bitmap remains the easiest way to read
-persistent bitmaps at the moment, it makes a reasonable place to add
-coverage to ensure we do not regress on the just-added parameters to
-qemu-img map.
+On 5/18/20 7:04 AM, Markus Armbruster wrote:
+> pnv_init() creates "power10_v1.0-pnv-chip", "power8_v2.0-pnv-chip",
+> "power8e_v2.1-pnv-chip", "power8nvl_v1.0-pnv-chip", or
+> "power9_v2.0-pnv-chip" sysbus devices in a way that leaves them
+> unplugged.
+> 
+> pnv_chip_power9_instance_init() creates a "pnv-xive" sysbus device in
+> a way that leaves it unplugged.
+> 
+> Create them the common way that puts them into the main system bus.
+> Affects machines powernv8, powernv9, and powernv10.  Visible in "info
+> qtree".  Here's the change for powernv9:
+> 
+>      bus: main-system-bus
+>        type System
+>     +  dev: power9_v2.0-pnv-chip, id ""
+>     +    chip-id = 0 (0x0)
+>     +    ram-start = 0 (0x0)
+>     +    ram-size = 1879048192 (0x70000000)
+>     +    nr-cores = 1 (0x1)
+>     +    cores-mask = 72057594037927935 (0xffffffffffffff)
+>     +    nr-threads = 1 (0x1)
+>     +    num-phbs = 6 (0x6)
+>     +    mmio 000603fc00000000/0000000400000000
+>     [...]
+>     +  dev: pnv-xive, id ""
+>     +    ic-bar = 1692157036462080 (0x6030203100000)
+>     +    vc-bar = 1689949371891712 (0x6010000000000)
+>     +    pc-bar = 1690499127705600 (0x6018000000000)
+>     +    tm-bar = 1692157036986368 (0x6030203180000)
+> 
+> Cc: "Cédric Le Goater" <clg@kaod.org>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: qemu-ppc@nongnu.org
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  hw/ppc/pnv.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index da637822f9..8d4fc8109a 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -818,7 +818,7 @@ static void pnv_init(MachineState *machine)
+>      pnv->chips = g_new0(PnvChip *, pnv->num_chips);
+>      for (i = 0; i < pnv->num_chips; i++) {
+>          char chip_name[32];
+> -        Object *chip = object_new(chip_typename);
+> +        Object *chip = OBJECT(qdev_create(NULL, chip_typename));
+>  
+>          pnv->chips[i] = PNV_CHIP(chip);
+>  
+> @@ -1317,8 +1317,8 @@ static void pnv_chip_power9_instance_init(Object *obj)
+>      PnvChipClass *pcc = PNV_CHIP_GET_CLASS(obj);
+>      int i;
+>  
+> -    object_initialize_child(obj, "xive", &chip9->xive, sizeof(chip9->xive),
+> -                            TYPE_PNV_XIVE, &error_abort, NULL);
+> +    sysbus_init_child_obj(obj, "xive", &chip9->xive, sizeof(chip9->xive),
+> +                          TYPE_PNV_XIVE);
+>      object_property_add_alias(obj, "xive-fabric", OBJECT(&chip9->xive),
+>                                "xive-fabric");
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200513181455.295267-1-eblake@redhat.com>
----
- tests/qemu-iotests/223     | 6 ++++--
- tests/qemu-iotests/223.out | 3 ++-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+OK. But why only XIVE and not all sub-devices of the PnvChip device ? 
 
-diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
-index 56fbc5fb09a0..d68bc3cb6f1a 100755
---- a/tests/qemu-iotests/223
-+++ b/tests/qemu-iotests/223
-@@ -2,7 +2,7 @@
- #
- # Test reading dirty bitmap over NBD
- #
--# Copyright (C) 2018-2019 Red Hat, Inc.
-+# Copyright (C) 2018-2020 Red Hat, Inc.
- #
- # This program is free software; you can redistribute it and/or modify
- # it under the terms of the GNU General Public License as published by
-@@ -206,7 +206,9 @@ $QEMU_IMG map --output=json --image-opts \
+Shouldn't they be initialized in the same way, calling sysbus_init_child_obj ? 
 
- nbd_server_start_unix_socket -f $IMGFMT -B b2 "$TEST_IMG"
- IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
--$QEMU_IMG map --output=json --image-opts \
-+$QEMU_IMG map --output=json --image-opts --max-length=12345 \
-+  "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
-+$QEMU_IMG map --output=json --image-opts --start-offset=12345 \
-   "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
+Thanks,
 
- # success, all done
-diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
-index 80c0cf65095b..e1eaaedb55b3 100644
---- a/tests/qemu-iotests/223.out
-+++ b/tests/qemu-iotests/223.out
-@@ -201,6 +201,7 @@ read 2097152/2097152 bytes at offset 2097152
- { "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
- [{ "start": 0, "length": 512, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 512, "length": 512, "depth": 0, "zero": false, "data": false},
--{ "start": 1024, "length": 2096128, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 1024, "length": 11321, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
-+[{ "start": 12345, "length": 2084807, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
- *** done
--- 
-2.26.2
+C.
+ 
 
 
