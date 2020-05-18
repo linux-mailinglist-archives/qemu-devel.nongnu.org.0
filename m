@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770A51D7ECD
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:43:12 +0200 (CEST)
-Received: from localhost ([::1]:53004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF8B1D7F43
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:54:06 +0200 (CEST)
+Received: from localhost ([::1]:34634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jair9-0005Rr-GU
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:43:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60390)
+	id 1jaj1h-0004tB-Hc
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:54:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jaipp-0003fS-1N
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:41:49 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26968
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jaipn-0005z4-73
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:41:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589820105;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=F8x/Or79eUGZzxg2NT3ITlidoCyTM9Gqp7csyZu+Uww=;
- b=U9k6h+LzxWgqThAwD1emtY4ikw03HIj2GV0D94mI0bwCG93Wfj4G5OHmcysg8VlH2W5/UM
- xfgXYjFdIrHsJXlxNMz/cyqK9xx9M23CF8LcSB2wm8uCB+q6fuZjzJWVOX270+Myyj12Zc
- X055Ndr/cZOPrZ9l9UkpgpXFdrx0W5A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-jBm2gjiwOGizgPMMTCfUKA-1; Mon, 18 May 2020 12:41:40 -0400
-X-MC-Unique: jBm2gjiwOGizgPMMTCfUKA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6C1A107ACCA;
- Mon, 18 May 2020 16:41:39 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-242.ams2.redhat.com [10.36.112.242])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 049CD60C05;
- Mon, 18 May 2020 16:41:37 +0000 (UTC)
-Subject: Re: [PATCH 13/24] ppc4xx: Drop redundant device realization
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200518050408.4579-1-armbru@redhat.com>
- <20200518050408.4579-14-armbru@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <9d121910-67c2-c3d7-aa59-42b427edbe4a@redhat.com>
-Date: Mon, 18 May 2020 18:41:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jaiyR-0000lX-7f; Mon, 18 May 2020 12:50:43 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:46411)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jaiyP-0000p9-Up; Mon, 18 May 2020 12:50:42 -0400
+Received: by mail-io1-xd44.google.com with SMTP id j8so11282638iog.13;
+ Mon, 18 May 2020 09:50:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=o8vEbrpZlcHQLGBuKlpKAF+lAa1iujf52jGiLw5n6l0=;
+ b=qIdnZBDYuX6GveeKiUKZdJAUvExOJJ9Y8FFVTOA1Uef996vuVt5gQCu6jFaBukmrdE
+ 7zlm/8/bCEAaGWFiyImVEs76OqwPfnUMXS8qQSI/136okrbBo5gT1SBBdMAOzte/en8x
+ a58sNfR0tyJrMAhwPslxx5Bm6A3ZxrZIfckVgmc/CkaUiZTx1VifFDp+KMzRZ45QDGLe
+ lKYpnAjJIRKXI+vggnikvE9IwIX2R3waE1CzV7lp2hma+mKw/RfjOsdo9wWZxI6si3SO
+ wtUIgeuCNLOgbdZl+oPvFb8p5BzhZeeuioC1MXMJQkZXKVdEPMBNhJPwMgfRdMaCve/h
+ mvYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=o8vEbrpZlcHQLGBuKlpKAF+lAa1iujf52jGiLw5n6l0=;
+ b=PAFZfC6EgSpiDg8FV8DvMp8+ErNH7nh/3qcZZN30KfiuH8fhY8rqSVex/V82c7Kt4b
+ x+P1vmBMn73Gk+UqpgfgrHhmXzapuuy9si3VGH642aTgGhvJRs9c5xANsEMz8YE0lb1u
+ frzgy0hSlRgl94s0UQ3mOypYv/C0jNjyd7b5a5IvP46SwFvNgDLcCpcH+Pbo0kqtxQj5
+ 8NFdcEvDTzybWAgWoDdpyu4E6BBRqJeqmliO3MQ5Y6HGoznMyR9UnE8iPa3rBU7KFXK7
+ SuJnEnU6Rx3DpTKCBw0Xu/NYZZN2VOwqqBQKN+tN4DVLL94J97M/0JDn9cA651bZKI2t
+ tBRA==
+X-Gm-Message-State: AOAM530SsH3MTS4nYkENxU+TzHE9wB4Ry0NmsGcSQ5WqBYehWzj3ECRZ
+ rRUe/E8hh9A6EB8YRS+8tWaewlUtgAqpTNCyUEg=
+X-Google-Smtp-Source: ABdhPJwlvnjxqHJxT3Np3bKxL4Eljct3vqufMgRWI9WB67gzzAWw0OUXc71x9GEBfuL5NsqFLKoTk68Gb3qzsnJg9Vo=
+X-Received: by 2002:a5d:9604:: with SMTP id w4mr15654795iol.105.1589820640032; 
+ Mon, 18 May 2020 09:50:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200518050408.4579-14-armbru@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:52:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+References: <20200518140309.5220-1-f4bug@amsat.org>
+ <20200518140309.5220-2-f4bug@amsat.org>
+In-Reply-To: <20200518140309.5220-2-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 18 May 2020 09:41:47 -0700
+Message-ID: <CAKmqyKO7S1Pe7nMN2Tg3V0ptmPEhhvvhGEs9ecrxbB4BusKeJA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] hw/arm/integratorcp: Replace hw_error() by
+ qemu_log_mask()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -82,41 +81,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, pbonzini@redhat.com, berrange@redhat.com,
- ehabkost@redhat.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/05/2020 07.03, Markus Armbruster wrote:
-> object_property_set_bool(OBJECT(dev), true, "realized", ...) right
-> after qdev_init_nofail(dev) does nothing, because qdev_init_nofail()
-> already realizes.  Drop.
-> 
-> Cc: BALATON Zoltan <balaton@eik.bme.hu>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On Mon, May 18, 2020 at 7:03 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> hw_error() calls exit(). This a bit overkill when we can log
+> the accesses as unimplemented or guest error.
+>
+> When fuzzing the devices, we don't want the whole process to
+> exit. Replace some hw_error() calls by qemu_log_mask().
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->  hw/ppc/ppc440_uc.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-> index b30e093cbb..dc318c7aa7 100644
-> --- a/hw/ppc/ppc440_uc.c
-> +++ b/hw/ppc/ppc440_uc.c
-> @@ -1370,12 +1370,10 @@ void ppc460ex_pcie_init(CPUPPCState *env)
->      dev = qdev_create(NULL, TYPE_PPC460EX_PCIE_HOST);
->      qdev_prop_set_int32(dev, "dcrn-base", DCRN_PCIE0_BASE);
->      qdev_init_nofail(dev);
-> -    object_property_set_bool(OBJECT(dev), true, "realized", NULL);
->      ppc460ex_pcie_register_dcrs(PPC460EX_PCIE_HOST(dev), env);
->  
->      dev = qdev_create(NULL, TYPE_PPC460EX_PCIE_HOST);
->      qdev_prop_set_int32(dev, "dcrn-base", DCRN_PCIE1_BASE);
->      qdev_init_nofail(dev);
-> -    object_property_set_bool(OBJECT(dev), true, "realized", NULL);
->      ppc460ex_pcie_register_dcrs(PPC460EX_PCIE_HOST(dev), env);
+>  hw/arm/integratorcp.c | 23 +++++++++++++++--------
+>  1 file changed, 15 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/arm/integratorcp.c b/hw/arm/integratorcp.c
+> index 6d69010d06..5fb54e5aa7 100644
+> --- a/hw/arm/integratorcp.c
+> +++ b/hw/arm/integratorcp.c
+> @@ -20,6 +20,7 @@
+>  #include "exec/address-spaces.h"
+>  #include "sysemu/runstate.h"
+>  #include "sysemu/sysemu.h"
+> +#include "qemu/log.h"
+>  #include "qemu/error-report.h"
+>  #include "hw/char/pl011.h"
+>  #include "hw/hw.h"
+> @@ -144,8 +145,9 @@ static uint64_t integratorcm_read(void *opaque, hwadd=
+r offset,
+>          /* ??? Voltage control unimplemented.  */
+>          return 0;
+>      default:
+> -        hw_error("integratorcm_read: Unimplemented offset 0x%x\n",
+> -                 (int)offset);
+> +        qemu_log_mask(LOG_UNIMP,
+> +                      "%s: Unimplemented offset 0x%" HWADDR_PRIX "\n",
+> +                      __func__, offset);
+>          return 0;
+>      }
 >  }
-> 
-
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-
+> @@ -252,8 +254,9 @@ static void integratorcm_write(void *opaque, hwaddr o=
+ffset,
+>          /* ??? Voltage control unimplemented.  */
+>          break;
+>      default:
+> -        hw_error("integratorcm_write: Unimplemented offset 0x%x\n",
+> -                 (int)offset);
+> +        qemu_log_mask(LOG_UNIMP,
+> +                      "%s: Unimplemented offset 0x%" HWADDR_PRIX "\n",
+> +                      __func__, offset);
+>          break;
+>      }
+>  }
+> @@ -394,7 +397,8 @@ static uint64_t icp_pic_read(void *opaque, hwaddr off=
+set,
+>      case 5: /* INT_SOFTCLR */
+>      case 11: /* FRQ_ENABLECLR */
+>      default:
+> -        printf ("icp_pic_read: Bad register offset 0x%x\n", (int)offset)=
+;
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX =
+"\n",
+> +                      __func__, offset);
+>          return 0;
+>      }
+>  }
+> @@ -430,7 +434,8 @@ static void icp_pic_write(void *opaque, hwaddr offset=
+,
+>      case 8: /* FRQ_STATUS */
+>      case 9: /* FRQ_RAWSTAT */
+>      default:
+> -        printf ("icp_pic_write: Bad register offset 0x%x\n", (int)offset=
+);
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX =
+"\n",
+> +                      __func__, offset);
+>          return;
+>      }
+>      icp_pic_update(s);
+> @@ -504,7 +509,8 @@ static uint64_t icp_control_read(void *opaque, hwaddr=
+ offset,
+>      case 3: /* CP_DECODE */
+>          return 0x11;
+>      default:
+> -        hw_error("icp_control_read: Bad offset %x\n", (int)offset);
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX =
+"\n",
+> +                      __func__, offset);
+>          return 0;
+>      }
+>  }
+> @@ -524,7 +530,8 @@ static void icp_control_write(void *opaque, hwaddr of=
+fset,
+>          /* Nothing interesting implemented yet.  */
+>          break;
+>      default:
+> -        hw_error("icp_control_write: Bad offset %x\n", (int)offset);
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX =
+"\n",
+> +                      __func__, offset);
+>      }
+>  }
+>
+> --
+> 2.21.3
+>
+>
 
