@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A117B1D89FB
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 23:23:30 +0200 (CEST)
-Received: from localhost ([::1]:40004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 432A01D8A34
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 23:45:56 +0200 (CEST)
+Received: from localhost ([::1]:59748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1janEP-0001EQ-6Z
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 17:23:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37512)
+	id 1jana6-0002x7-Pw
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 17:45:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1janDI-0000n8-Rr
- for qemu-devel@nongnu.org; Mon, 18 May 2020 17:22:22 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36120)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1janDI-0005UJ-5C
- for qemu-devel@nongnu.org; Mon, 18 May 2020 17:22:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589836939;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IkK71Gq+Bu7lhGENbaurdAcE8yt6gEPQ8HiSG1ntfhI=;
- b=H2ur7v9tf9WYdGrYLDt+zpchFnyxJYrXXv1tqyn8DKOZBMDORR36WGN6RLlaPtUbNTD6sO
- IaPRoBT2q3zcu9bvK0pDRDb9mZ6VGH09vqpG3qsgHk0EmQxln9PUWxJ+MZ1C0OMLTx/LyK
- SVNJxp/NONe+KKsm6LRglN1QpUP4I4Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-hNbEy4_IMFG-jVZ5rUEsYg-1; Mon, 18 May 2020 17:22:15 -0400
-X-MC-Unique: hNbEy4_IMFG-jVZ5rUEsYg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A2CA80B71E;
- Mon, 18 May 2020 21:22:14 +0000 (UTC)
-Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B50EB79583;
- Mon, 18 May 2020 21:22:10 +0000 (UTC)
-Subject: Re: [PATCH RFC v2 5/5] iotests: add 287 for
- block-dirty-bitmap-populate
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20200514034922.24834-1-jsnow@redhat.com>
- <20200514034922.24834-6-jsnow@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <ed800a34-ccfc-e4af-7565-36eeefb44868@redhat.com>
-Date: Mon, 18 May 2020 16:22:08 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <20200514034922.24834-6-jsnow@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 16:37:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <arbab@linux.ibm.com>)
+ id 1janYl-0001tJ-Bk; Mon, 18 May 2020 17:44:31 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9228
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <arbab@linux.ibm.com>)
+ id 1janYj-0002cA-UI; Mon, 18 May 2020 17:44:31 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04ILVG8g036705; Mon, 18 May 2020 17:44:22 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 312c63r1ty-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 May 2020 17:44:22 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04ILeIK4008145;
+ Mon, 18 May 2020 21:44:21 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma03dal.us.ibm.com with ESMTP id 313wgqu8vr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 May 2020 21:44:21 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 04ILiLgn46793084
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 18 May 2020 21:44:21 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 01341AC060;
+ Mon, 18 May 2020 21:44:21 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 802A0AC05B;
+ Mon, 18 May 2020 21:44:20 +0000 (GMT)
+Received: from arbab-laptop.localdomain (unknown [9.65.195.60])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with SMTP;
+ Mon, 18 May 2020 21:44:20 +0000 (GMT)
+Received: by arbab-laptop.localdomain (Postfix, from userid 152845)
+ id 92C0C465431; Mon, 18 May 2020 16:44:18 -0500 (CDT)
+From: Reza Arbab <arbab@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH v2 1/2] spapr: Add associativity reference point count to
+ machine info
+Date: Mon, 18 May 2020 16:44:17 -0500
+Message-Id: <20200518214418.18248-1-arbab@linux.ibm.com>
+X-Mailer: git-send-email 2.18.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
+ definitions=2020-05-18_06:2020-05-15,
+ 2020-05-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ malwarescore=0 suspectscore=2 mlxlogscore=999 cotscore=-2147483648
+ spamscore=0 priorityscore=1501 bulkscore=0 adultscore=0 phishscore=0
+ mlxscore=0 lowpriorityscore=0 clxscore=1015 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005180181
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=arbab@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 17:44:26
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,53 +91,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- vsementsov@virtuozzo.com, Cleber Rosa <crosa@redhat.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Daniel Henrique Barboza <danielhb@linux.ibm.com>,
+ Leonardo Augusto Guimaraes Garcia <lagarcia@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/20 10:49 PM, John Snow wrote:
-> Give block-dirty-bitmap-populate a workout.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   tests/qemu-iotests/287     |  242 ++
->   tests/qemu-iotests/287.out | 4544 ++++++++++++++++++++++++++++++++++++
+Make the number of NUMA associativity reference points a
+machine-specific value, using the currently assumed default (two
+reference points). This preps the next patch to conditionally change it.
 
-Sheesh, that output file is a workout indeed.
+Signed-off-by: Reza Arbab <arbab@linux.ibm.com>
+---
+ hw/ppc/spapr.c         | 6 +++++-
+ include/hw/ppc/spapr.h | 1 +
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
->   tests/qemu-iotests/group   |    1 +
->   3 files changed, 4787 insertions(+)
->   create mode 100755 tests/qemu-iotests/287
->   create mode 100644 tests/qemu-iotests/287.out
-
-287 has been created in the meantime (commit dd488fc1c00); we'll have to 
-rebase.  (Vladimir's series to rename iotests to something sensible 
-instead of three digits may help...)
-
-> +
-> +class Drive:
-> +    def __init__(self, path, vm):
-> +        self.path = path
-> +        self.vm = vm
-> +        self.fmt = None
-> +        self.size = None
-> +        self.node = None
-> +
-> +    def img_create(self, fmt, size):
-> +        self.fmt = fmt
-> +        self.size = size
-> +        iotests.qemu_img_create('-f', self.fmt, self.path, str(self.size))
-
-Are we creating images with backing files anywhere in this test?  Should 
-we be?  (The question of what is allocated in the top layer is more 
-interesting to answer when there is a backing layer)
-
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index c18eab0a2305..88b4a1f17716 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -889,10 +889,12 @@ static int spapr_dt_rng(void *fdt)
+ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+ {
+     MachineState *ms = MACHINE(spapr);
++    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(ms);
+     int rtas;
+     GString *hypertas = g_string_sized_new(256);
+     GString *qemu_hypertas = g_string_sized_new(256);
+     uint32_t refpoints[] = { cpu_to_be32(0x4), cpu_to_be32(0x4) };
++    uint32_t nr_refpoints;
+     uint64_t max_device_addr = MACHINE(spapr)->device_memory->base +
+         memory_region_size(&MACHINE(spapr)->device_memory->mr);
+     uint32_t lrdr_capacity[] = {
+@@ -944,8 +946,9 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+                      qemu_hypertas->str, qemu_hypertas->len));
+     g_string_free(qemu_hypertas, TRUE);
+ 
++    nr_refpoints = MIN(smc->nr_assoc_refpoints, ARRAY_SIZE(refpoints));
+     _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
+-                     refpoints, sizeof(refpoints)));
++                     refpoints, nr_refpoints * sizeof(uint32_t)));
+ 
+     _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
+                      maxdomains, sizeof(maxdomains)));
+@@ -4541,6 +4544,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+     smc->linux_pci_probe = true;
+     smc->smp_threads_vsmt = true;
+     smc->nr_xirqs = SPAPR_NR_XIRQS;
++    smc->nr_assoc_refpoints = 2;
+     xfc->match_nvt = spapr_match_nvt;
+ }
+ 
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index e579eaf28c05..abaf9a92adc0 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -129,6 +129,7 @@ struct SpaprMachineClass {
+     bool linux_pci_probe;
+     bool smp_threads_vsmt; /* set VSMT to smp_threads by default */
+     hwaddr rma_limit;          /* clamp the RMA to this size */
++    uint32_t nr_assoc_refpoints;
+ 
+     void (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
+                           uint64_t *buid, hwaddr *pio, 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.18.2
 
 
