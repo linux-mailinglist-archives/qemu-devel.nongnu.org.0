@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E00B1D7463
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 11:53:25 +0200 (CEST)
-Received: from localhost ([::1]:34148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9707C1D7470
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 11:53:48 +0200 (CEST)
+Received: from localhost ([::1]:36412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jacSa-0004YC-Lc
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 05:53:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55292)
+	id 1jacSx-0005SS-Ng
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 05:53:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jacRL-000302-UG; Mon, 18 May 2020 05:52:07 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:40294)
+ id 1jacRN-00031p-Eq; Mon, 18 May 2020 05:52:09 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jacRL-00016w-CO; Mon, 18 May 2020 05:52:07 -0400
-Received: by mail-wm1-x333.google.com with SMTP id n18so5324710wmj.5;
- Mon, 18 May 2020 02:52:06 -0700 (PDT)
+ id 1jacRM-000178-QH; Mon, 18 May 2020 05:52:09 -0400
+Received: by mail-wm1-x343.google.com with SMTP id z72so9602943wmc.2;
+ Mon, 18 May 2020 02:52:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WvhO0XD3doXCMQ8rMKnn7mvCal5MZcCXsSjroK8mK+I=;
- b=d2UWzEgc8cVSkySrFiLuj7Dov2JtYTEcKnj5CSeqb8hvzCF1JgVXG2Ma5u7eUuu1fQ
- UwAEgheDs4KvjbZWbrcgP/MfOPyHF3qRb4pIGywu8HtUQu/OLgoUV6qkXxwxnG4ZTLf5
- NIf6+QzNG9O2jgbr/OlqWD3hfq368uEyo9qUDoiozjfpgpjudgSsScmRLfg/uNnC2Z50
- zFeMRDhOy/wfHwk6VIpaJnMpuG5sT9uR4Ri0vcDwUD3tDo93KRgONv87jdTP5v6vpsem
- crTE+FAyia0PmxmO38thTI5D4G6qCco+S8yS4Qic4T9wxt6Q0Yqap01jbVZZr4m2kQIf
- G7rQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=evhhH7dZopCrkDO4cvbqtNz/8xpqFu/oQnLDI6akZY4=;
+ b=BltFr66ADNQznZZyq4/l1R0U72yNemjpeqXd0ESKvgCpvpc80ABMBsnRzCsK8JKBgh
+ /zumwl9cowaht4/Mx3sHkWLlHvauWfR/A4hQfIrqBoLy2Nx+cqEogwoKpF5XkAogMV43
+ r39WEkJXcO2z0lST1TY/yOum54HQlkFWV8Q/+T08mlc9LpAGRg/3kPActfPprwakVq7L
+ JnfjIS8I3VDISU0xmT7vwhw/vgfjaWKwA1//GzuaVVB7UtFWabivDyc/ktt67du4gQlX
+ gpjvdklz4IjTWvOFBX6B9dwKQjAww5XBXRxcF1k9VDZoasqFqmOvduzaQaZbbHQkgIe4
+ OgAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=WvhO0XD3doXCMQ8rMKnn7mvCal5MZcCXsSjroK8mK+I=;
- b=ItMK92yIzMN9LxPSDn9zpZ8fni/hKLMJIAtX+0uyo4qTXDjJ2jVO36UR7715eOM5ly
- BT97vcnqr1ROWN5c5muuH1O1GySPRlIzB/j8OCfdvEP8CIzwS42FKfj9HhwEZK7eY+/j
- QMhQVipGPjSpgmog5ReeKtrxmZM5k1ELWSgF5Ksu4f642cXmx5D+nQ8Bcgn4+Y+uRrfu
- KfF9/n5Pd4/PZKq7lzgAVtTDCJiOyXGxNqcDc1QbVkn2QjTxWyeU59Dihddab4I1nUfC
- bc1TbHSGhW+rwZsYjHPWy7eYz0addXzxvltkFOoXkUuBXCYR0N1y0W7SxkLlQcIloZ4i
- ZSIA==
-X-Gm-Message-State: AOAM533C0XOQftokTtac27PS+gNltVpP4ZBKOzSHHXEXjNmQoqKmZHJz
- Be6uJ8TDY/T/R+BHsv2dAMGg6Pbg+OM=
-X-Google-Smtp-Source: ABdhPJw60BZSNh4jvBOluni5EHk5+3HaVE7TitnRZRQqPEubLuXG+CGiucGxVp3HPuzBF2of/xVtKg==
-X-Received: by 2002:a1c:3bc5:: with SMTP id i188mr18483971wma.90.1589795525481; 
- Mon, 18 May 2020 02:52:05 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=evhhH7dZopCrkDO4cvbqtNz/8xpqFu/oQnLDI6akZY4=;
+ b=HmFzhhphJWbN7Gi9VTOU/59Vrw7dW8oApX98vV/9066vOFCvT+dxzzjdghkLVhci7z
+ ylep1Roc8l3NJzYciz9PuGjZbZYUpoxHrcG4AU6xHk2VhfZs9tJ1xjCHr41e/DkJcHmD
+ SdZIZurqwObtDOdM/S1lbBmywMXvYkM5/XyKW4U8SDJ7w8vUZznhEqb7U7ARZekoecHb
+ y7Pr8yeYBg9Of7I0pc9fKS2fatVbmHIzNtx0JMWyitmweLgZnImDCcNud7ntsx9N9Sy4
+ RIOOF/YkilhOniINxZ4qXAh0aq0Y6ldqWw49sKs+ha+7lro4AZiDscBOCnTYdlbJIOwU
+ G9gg==
+X-Gm-Message-State: AOAM530nbFHVJhCVVvFgrwTgGeItpXZC2S8XEFC8SHci+zVBOJ3IRjVx
+ 3KmQs/4Sn8T/dHy4TwJhj3Wl9qTqdL8=
+X-Google-Smtp-Source: ABdhPJwgC94yI4QFQsBvrvxU+YHPAMnxNWCzzGs32hDuo9rrI7LPahztEZfd6ykHQmlxLtMeCF3R6g==
+X-Received: by 2002:a05:600c:280b:: with SMTP id
+ m11mr17712702wmb.115.1589795526794; 
+ Mon, 18 May 2020 02:52:06 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id r9sm5453542wra.52.2020.05.18.02.52.04
+ by smtp.gmail.com with ESMTPSA id r9sm5453542wra.52.2020.05.18.02.52.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 02:52:04 -0700 (PDT)
+ Mon, 18 May 2020 02:52:06 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] hw/arm: Replace hw_error() by qemu_log_mask()
-Date: Mon, 18 May 2020 11:51:59 +0200
-Message-Id: <20200518095203.1013-1-f4bug@amsat.org>
+Subject: [PATCH 1/4] hw/arm/integratorcp: Replace hw_error() by qemu_log_mask()
+Date: Mon, 18 May 2020 11:52:00 +0200
+Message-Id: <20200518095203.1013-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200518095203.1013-1-f4bug@amsat.org>
+References: <20200518095203.1013-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,25 +97,93 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+hw_error() calls exit(). This a bit overkill when we can log
+the accesses as unimplemented or guest error.
+
 When fuzzing the devices, we don't want the whole process to
-exit calling hw_error().
-Replace these calls by qemu_log_mask LOG_GUEST_ERROR/LOG_UNIMP
-when possible.
+exit. Replace some hw_error() calls by qemu_log_mask().
 
-Philippe Mathieu-Daudé (4):
-  hw/arm/integratorcp: Replace hw_error() by qemu_log_mask()
-  hw/arm/pxa2xx: Replace hw_error() by qemu_log_mask()
-  hw/char/xilinx_uartlite: Replace hw_error() by qemu_log_mask()
-  hw/timer/exynos4210_mct: Replace hw_error() by qemu_log_mask()
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/arm/integratorcp.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
- hw/arm/integratorcp.c     | 23 +++++++++++++++--------
- hw/arm/pxa2xx_gpio.c      |  7 ++++---
- hw/char/xilinx_uartlite.c |  5 +++--
- hw/display/pxa2xx_lcd.c   |  8 +++++---
- hw/dma/pxa2xx_dma.c       | 14 +++++++++-----
- hw/timer/exynos4210_mct.c | 10 ++++------
- 6 files changed, 40 insertions(+), 27 deletions(-)
-
+diff --git a/hw/arm/integratorcp.c b/hw/arm/integratorcp.c
+index 6d69010d06..5fb54e5aa7 100644
+--- a/hw/arm/integratorcp.c
++++ b/hw/arm/integratorcp.c
+@@ -20,6 +20,7 @@
+ #include "exec/address-spaces.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
++#include "qemu/log.h"
+ #include "qemu/error-report.h"
+ #include "hw/char/pl011.h"
+ #include "hw/hw.h"
+@@ -144,8 +145,9 @@ static uint64_t integratorcm_read(void *opaque, hwaddr offset,
+         /* ??? Voltage control unimplemented.  */
+         return 0;
+     default:
+-        hw_error("integratorcm_read: Unimplemented offset 0x%x\n",
+-                 (int)offset);
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: Unimplemented offset 0x%" HWADDR_PRIX "\n",
++                      __func__, offset);
+         return 0;
+     }
+ }
+@@ -252,8 +254,9 @@ static void integratorcm_write(void *opaque, hwaddr offset,
+         /* ??? Voltage control unimplemented.  */
+         break;
+     default:
+-        hw_error("integratorcm_write: Unimplemented offset 0x%x\n",
+-                 (int)offset);
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: Unimplemented offset 0x%" HWADDR_PRIX "\n",
++                      __func__, offset);
+         break;
+     }
+ }
+@@ -394,7 +397,8 @@ static uint64_t icp_pic_read(void *opaque, hwaddr offset,
+     case 5: /* INT_SOFTCLR */
+     case 11: /* FRQ_ENABLECLR */
+     default:
+-        printf ("icp_pic_read: Bad register offset 0x%x\n", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
++                      __func__, offset);
+         return 0;
+     }
+ }
+@@ -430,7 +434,8 @@ static void icp_pic_write(void *opaque, hwaddr offset,
+     case 8: /* FRQ_STATUS */
+     case 9: /* FRQ_RAWSTAT */
+     default:
+-        printf ("icp_pic_write: Bad register offset 0x%x\n", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
++                      __func__, offset);
+         return;
+     }
+     icp_pic_update(s);
+@@ -504,7 +509,8 @@ static uint64_t icp_control_read(void *opaque, hwaddr offset,
+     case 3: /* CP_DECODE */
+         return 0x11;
+     default:
+-        hw_error("icp_control_read: Bad offset %x\n", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
++                      __func__, offset);
+         return 0;
+     }
+ }
+@@ -524,7 +530,8 @@ static void icp_control_write(void *opaque, hwaddr offset,
+         /* Nothing interesting implemented yet.  */
+         break;
+     default:
+-        hw_error("icp_control_write: Bad offset %x\n", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
++                      __func__, offset);
+     }
+ }
+ 
 -- 
 2.21.3
 
