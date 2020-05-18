@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B7B51D8912
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 22:25:36 +0200 (CEST)
-Received: from localhost ([::1]:34622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 685881D88ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 22:14:02 +0200 (CEST)
+Received: from localhost ([::1]:54868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jamKN-0001cG-D8
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 16:25:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58674)
+	id 1jam9B-0002ot-GO
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 16:14:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jam5z-0006nB-KX
- for qemu-devel@nongnu.org; Mon, 18 May 2020 16:10:43 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:42459)
+ id 1jam62-0006qe-HB
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 16:10:46 -0400
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:34497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jam5y-0002MX-LZ
- for qemu-devel@nongnu.org; Mon, 18 May 2020 16:10:43 -0400
-Received: by mail-lj1-x241.google.com with SMTP id d21so11231169ljg.9
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 13:10:42 -0700 (PDT)
+ id 1jam5z-0002Me-RL
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 16:10:46 -0400
+Received: by mail-lj1-x233.google.com with SMTP id b6so11272302ljj.1
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 13:10:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cPuU8XqF+WMyN6udIulgxqgBxWZp8WI7wIWPM0gVVZQ=;
- b=pXoJRev8ZtnfFIXJQvBOSSdqRq9w2UFg3R0V8ABxYRVWoDTid6ib0a/wzZKg/TOkcT
- hdxOPMB1yrfNfn0xcR33+lHHpIN4KQog0MUiTGlMYkUt7gctOWgckzW3U7zy8rG0KnyJ
- fsHwuiHS8bN94uu51gMgjUhAuhRz0GsUavVGSlqZgmJqukIoowr6/J8YvlE8+0MRiKJK
- jsX1/q+GpCjOM2n11J7xPpD8vK6B32nPuULBLG40iRwfwLoXQv6eYlY5G7x1+pftz+n7
- mj/bNNvMgwW/y3rYWODHnDJwSJaqyxmws/OMaVcCylylwMLj3QAtmWQZUq4cVRUepGJt
- c++Q==
+ bh=2ITjMgpxMDXhLrKll92k92Sf+OWlp5gufeGg5gaD7lw=;
+ b=j6v75whnuJqK/2ASV1CHUvszMryncVFmACiap3Y0aKjIe3lt+Ez3wG7IDK378YjQle
+ axRaBpAgv3gAU1kIgBpC4pW4xCFHnFG6hQ0IaYbJ34xW6D22l7S7sX6MH8/hFj85JdoG
+ QAnRAWg8LCQmfVn7p5c3yrZ8SHuzLPcFkTHugIScL6ta75u2Q1wJ2qBohGMfgLYCciEm
+ 9jnsYg47xTFlRwO1EtCMgR/jY4E0jXlRvfI11kXQ9ZppcOOm3W1jv7PnbSIocwfQxpgM
+ mpNqQCxD4JOol9q0M5zO6dhqyeI66tYDlma7ow6ThtzI/Tc/XZe93wn1/NWxNk07/POd
+ 0q/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cPuU8XqF+WMyN6udIulgxqgBxWZp8WI7wIWPM0gVVZQ=;
- b=jnDBMcl+vOBoBs2s1aL4H7NkRcoGLGovfQhetPUvxN9ZimSo0IHZe4dMMZo4k2fhXR
- SD1MOV6W7KskWor4ZP0k7NHwUTl/t3nav0taaFScbmgLMN1P8xnJ3cSq14itRDFEPvVu
- LzDjLDbECTeLeryap5pgliHGQEK0ATZ5utasBJ3ujyZx0qGiHsFWvf9gjN0Ex3SbI+UN
- I5WbN9yQpPLB7HBhVBL7Uh0s+jIAUdsnc8/+Gw7V/DzBWuRuMW0nItT93c8as394n12O
- OiRy6IFhxYgRv8uk6ZtvkuXALBfuBVEJ2KvKWDLigm5/MlKc/UoC4/TOFjXMx1BGQKNi
- c8uA==
-X-Gm-Message-State: AOAM5330IYSYfabTOHhOTz8s/mf0KcFtN0fhYSFWciaNAIsSV0W52fKH
- 39rirXNBZssHyJ0YJZAuktwBdtUbE7A=
-X-Google-Smtp-Source: ABdhPJxfp0x22ZkrASJfC6VQNmFUYFgf4nlEMC21MbKcDD2f8x9lt3q/i7Uog56lAUVhwi6J5ssofw==
-X-Received: by 2002:a05:651c:545:: with SMTP id
- q5mr11798003ljp.57.1589832640846; 
- Mon, 18 May 2020 13:10:40 -0700 (PDT)
+ bh=2ITjMgpxMDXhLrKll92k92Sf+OWlp5gufeGg5gaD7lw=;
+ b=rKggNYExS8NvAuWvHXxdbDHuiusJW/TBGEsijD86rqlzUsQvW6Lk+WD450PnPPyRkg
+ rCnSKGdFVHOTVXlIXS6FZ38hpACmHeZ9BiqXwl6SOCsvdKxcFlN57spSPhVRjL6b+M5A
+ mgcu/ceptE6+PmZMDlD7jQBnr6vMPNh0fy65SQDaHX6oumt87ixseOPsld+NMrYjJszf
+ t3hsTd4len8rjq94VOGO0NEWRPn2pd6JOCLsZwU/f2OcUT5/L3im+a4N04bZ8jXNViP5
+ RO15bLzcxRC5UbNwfHxZpylDe3jWLCbrpiVrW8s6rI2FwsJgIDAhLK8ZGmkYj82igMtN
+ iLAQ==
+X-Gm-Message-State: AOAM533YlNy27w04BOk+j75lhPEZ2qRJJdaTDkjp/Rb0KmqxhwtvwoEC
+ LAGUb/NHrwiy8OPjhh03buRI+I2wuWY=
+X-Google-Smtp-Source: ABdhPJwY2pYp+jjbX5P8nKg+EM011pCB7QwU+gkfVWfEidPUmnDSuN2pil9uQAigKbXvhU0jALCbVA==
+X-Received: by 2002:a2e:980d:: with SMTP id a13mr11563120ljj.277.1589832642040; 
+ Mon, 18 May 2020 13:10:42 -0700 (PDT)
 Received: from localhost.localdomain ([109.245.227.98])
- by smtp.gmail.com with ESMTPSA id c78sm8700591lfd.63.2020.05.18.13.10.39
+ by smtp.gmail.com with ESMTPSA id c78sm8700591lfd.63.2020.05.18.13.10.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 13:10:40 -0700 (PDT)
+ Mon, 18 May 2020 13:10:41 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 16/21] target/mips: fpu: Refactor conversion from ieee to
- mips exception flags
-Date: Mon, 18 May 2020 22:09:15 +0200
-Message-Id: <20200518200920.17344-17-aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH v6 17/21] MAINTAINERS: Change Aleksandar Rikalo's email address
+Date: Mon, 18 May 2020 22:09:16 +0200
+Message-Id: <20200518200920.17344-18-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200518200920.17344-1-aleksandar.qemu.devel@gmail.com>
 References: <20200518200920.17344-1-aleksandar.qemu.devel@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::241;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lj1-x241.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::233;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lj1-x233.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 12
@@ -87,258 +86,95 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: aleksandar.rikalo@syrmia.com,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The original coversion function is used for regular and MSA floating
-point instructions handling. Since there are some nuanced differences
-between regular and MSA floating point exception handling, provide two
-instances of the conversion function, rather than just a single common
-one. Inline both instances of this function instances for the sake of
-performance. Improve variable naming in surrounding code for clarity.
+Aleksandar Rikalo wants to use a different email address from
+now on.
 
 Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 ---
- target/mips/fpu_helper.c | 55 +++++++++++++++-------------
- target/mips/internal.h   |  1 -
- target/mips/msa_helper.c | 77 +++++++++++++++++++++++++++-------------
- 3 files changed, 82 insertions(+), 51 deletions(-)
+ .mailmap    |  3 ++-
+ MAINTAINERS | 12 ++++++------
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
-index dbb8ca5692..7a3a61cab3 100644
---- a/target/mips/fpu_helper.c
-+++ b/target/mips/fpu_helper.c
-@@ -189,43 +189,48 @@ void helper_ctc1(CPUMIPSState *env, target_ulong arg1, uint32_t fs, uint32_t rt)
-     }
- }
+diff --git a/.mailmap b/.mailmap
+index 6412067bde..e3628c7a66 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -42,7 +42,8 @@ Justin Terry (VM) <juterry@microsoft.com> Justin Terry (VM) via Qemu-devel <qemu
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@mips.com>
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@imgtec.com>
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <amarkovic@wavecomp.com>
+-Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com> <arikalo@wavecomp.com>
++Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
++Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
+ James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
+ Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1f84e3ae2c..8d5562c5c7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -212,7 +212,7 @@ F: disas/microblaze.c
+ MIPS TCG CPUs
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: target/mips/
+ F: default-configs/*mips*
+@@ -1041,7 +1041,7 @@ MIPS Machines
+ -------------
+ Jazz
+ M: Hervé Poussineau <hpoussin@reactos.org>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: hw/mips/mips_jazz.c
+ F: hw/display/jazz_led.c
+@@ -1062,7 +1062,7 @@ F: tests/acceptance/machine_mips_malta.py
  
--int ieee_ex_to_mips(int xcpt)
-+static inline int ieee_to_mips_xcpt(int ieee_xcpt)
- {
--    int ret = 0;
--    if (xcpt) {
--        if (xcpt & float_flag_invalid) {
--            ret |= FP_INVALID;
--        }
--        if (xcpt & float_flag_overflow) {
--            ret |= FP_OVERFLOW;
--        }
--        if (xcpt & float_flag_underflow) {
--            ret |= FP_UNDERFLOW;
--        }
--        if (xcpt & float_flag_divbyzero) {
--            ret |= FP_DIV0;
--        }
--        if (xcpt & float_flag_inexact) {
--            ret |= FP_INEXACT;
--        }
-+    int mips_xcpt = 0;
-+
-+    if (ieee_xcpt & float_flag_invalid) {
-+        mips_xcpt |= FP_INVALID;
-+    }
-+    if (ieee_xcpt & float_flag_overflow) {
-+        mips_xcpt |= FP_OVERFLOW;
-     }
--    return ret;
-+    if (ieee_xcpt & float_flag_underflow) {
-+        mips_xcpt |= FP_UNDERFLOW;
-+    }
-+    if (ieee_xcpt & float_flag_divbyzero) {
-+        mips_xcpt |= FP_DIV0;
-+    }
-+    if (ieee_xcpt & float_flag_inexact) {
-+        mips_xcpt |= FP_INEXACT;
-+    }
-+
-+    return mips_xcpt;
- }
+ Mipssim
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Odd Fixes
+ F: hw/mips/mips_mipssim.c
+ F: hw/net/mipsnet.c
+@@ -1070,7 +1070,7 @@ F: hw/net/mipsnet.c
+ R4000
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Obsolete
+ F: hw/mips/mips_r4k.c
  
- static inline void update_fcr31(CPUMIPSState *env, uintptr_t pc)
- {
--    int tmp = ieee_ex_to_mips(get_float_exception_flags(
--                                  &env->active_fpu.fp_status));
-+    int ieee_exception_flags = get_float_exception_flags(
-+                                   &env->active_fpu.fp_status);
-+    int mips_exception_flags = 0;
-+
-+    if (ieee_exception_flags) {
-+        mips_exception_flags = ieee_to_mips_xcpt(ieee_exception_flags);
-+    }
+@@ -1085,7 +1085,7 @@ F: include/hw/isa/vt82c686.h
  
--    SET_FP_CAUSE(env->active_fpu.fcr31, tmp);
-+    SET_FP_CAUSE(env->active_fpu.fcr31, mips_exception_flags);
+ Boston
+ M: Paul Burton <pburton@wavecomp.com>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: hw/core/loader-fit.c
+ F: hw/mips/boston.c
+@@ -2582,7 +2582,7 @@ F: disas/i386.c
+ MIPS TCG target
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: tcg/mips/
  
--    if (tmp) {
-+    if (mips_exception_flags)  {
-         set_float_exception_flags(0, &env->active_fpu.fp_status);
- 
--        if (GET_FP_ENABLE(env->active_fpu.fcr31) & tmp) {
-+        if (GET_FP_ENABLE(env->active_fpu.fcr31) & mips_exception_flags) {
-             do_raise_exception(env, EXCP_FPE, pc);
-         } else {
--            UPDATE_FP_FLAGS(env->active_fpu.fcr31, tmp);
-+            UPDATE_FP_FLAGS(env->active_fpu.fcr31, mips_exception_flags);
-         }
-     }
- }
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 1bf274b3ef..684356e309 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -224,7 +224,6 @@ uint32_t float_class_s(uint32_t arg, float_status *fst);
- uint64_t float_class_d(uint64_t arg, float_status *fst);
- 
- extern unsigned int ieee_rm[];
--int ieee_ex_to_mips(int xcpt);
- void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
- 
- static inline void restore_rounding_mode(CPUMIPSState *env)
-diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-index 4065cfe4f7..c520405929 100644
---- a/target/mips/msa_helper.c
-+++ b/target/mips/msa_helper.c
-@@ -5419,54 +5419,81 @@ static inline void check_msacsr_cause(CPUMIPSState *env, uintptr_t retaddr)
- #define CLEAR_IS_INEXACT   2
- #define RECIPROCAL_INEXACT 4
- 
--static inline int update_msacsr(CPUMIPSState *env, int action, int denormal)
-+
-+static inline int ieee_to_mips_xcpt_msa(int ieee_xcpt)
- {
--    int ieee_ex;
-+    int mips_xcpt = 0;
- 
--    int c;
-+    if (ieee_xcpt & float_flag_invalid) {
-+        mips_xcpt |= FP_INVALID;
-+    }
-+    if (ieee_xcpt & float_flag_overflow) {
-+        mips_xcpt |= FP_OVERFLOW;
-+    }
-+    if (ieee_xcpt & float_flag_underflow) {
-+        mips_xcpt |= FP_UNDERFLOW;
-+    }
-+    if (ieee_xcpt & float_flag_divbyzero) {
-+        mips_xcpt |= FP_DIV0;
-+    }
-+    if (ieee_xcpt & float_flag_inexact) {
-+        mips_xcpt |= FP_INEXACT;
-+    }
-+
-+    return mips_xcpt;
-+}
-+
-+static inline int update_msacsr(CPUMIPSState *env, int action, int denormal)
-+{
-+    int ieee_exception_flags;
-+    int mips_exception_flags = 0;
-     int cause;
-     int enable;
- 
--    ieee_ex = get_float_exception_flags(&env->active_tc.msa_fp_status);
-+    ieee_exception_flags = get_float_exception_flags(
-+                               &env->active_tc.msa_fp_status);
- 
-     /* QEMU softfloat does not signal all underflow cases */
-     if (denormal) {
--        ieee_ex |= float_flag_underflow;
-+        ieee_exception_flags |= float_flag_underflow;
-+    }
-+    if (ieee_exception_flags) {
-+        mips_exception_flags = ieee_to_mips_xcpt_msa(ieee_exception_flags);
-     }
--
--    c = ieee_ex_to_mips(ieee_ex);
-     enable = GET_FP_ENABLE(env->active_tc.msacsr) | FP_UNIMPLEMENTED;
- 
-     /* Set Inexact (I) when flushing inputs to zero */
--    if ((ieee_ex & float_flag_input_denormal) &&
-+    if ((ieee_exception_flags & float_flag_input_denormal) &&
-             (env->active_tc.msacsr & MSACSR_FS_MASK) != 0) {
-         if (action & CLEAR_IS_INEXACT) {
--            c &= ~FP_INEXACT;
-+            mips_exception_flags &= ~FP_INEXACT;
-         } else {
--            c |=  FP_INEXACT;
-+            mips_exception_flags |= FP_INEXACT;
-         }
-     }
- 
-     /* Set Inexact (I) and Underflow (U) when flushing outputs to zero */
--    if ((ieee_ex & float_flag_output_denormal) &&
-+    if ((ieee_exception_flags & float_flag_output_denormal) &&
-             (env->active_tc.msacsr & MSACSR_FS_MASK) != 0) {
--        c |= FP_INEXACT;
-+        mips_exception_flags |= FP_INEXACT;
-         if (action & CLEAR_FS_UNDERFLOW) {
--            c &= ~FP_UNDERFLOW;
-+            mips_exception_flags &= ~FP_UNDERFLOW;
-         } else {
--            c |=  FP_UNDERFLOW;
-+            mips_exception_flags |= FP_UNDERFLOW;
-         }
-     }
- 
-     /* Set Inexact (I) when Overflow (O) is not enabled */
--    if ((c & FP_OVERFLOW) != 0 && (enable & FP_OVERFLOW) == 0) {
--        c |= FP_INEXACT;
-+    if ((mips_exception_flags & FP_OVERFLOW) != 0 &&
-+           (enable & FP_OVERFLOW) == 0) {
-+        mips_exception_flags |= FP_INEXACT;
-     }
- 
-     /* Clear Exact Underflow when Underflow (U) is not enabled */
--    if ((c & FP_UNDERFLOW) != 0 && (enable & FP_UNDERFLOW) == 0 &&
--            (c & FP_INEXACT) == 0) {
--        c &= ~FP_UNDERFLOW;
-+    if ((mips_exception_flags & FP_UNDERFLOW) != 0 &&
-+           (enable & FP_UNDERFLOW) == 0 &&
-+           (mips_exception_flags & FP_INEXACT) == 0) {
-+        mips_exception_flags &= ~FP_UNDERFLOW;
-     }
- 
-     /*
-@@ -5474,11 +5501,11 @@ static inline int update_msacsr(CPUMIPSState *env, int action, int denormal)
-      * divide by zero
-      */
-     if ((action & RECIPROCAL_INEXACT) &&
--            (c & (FP_INVALID | FP_DIV0)) == 0) {
--        c = FP_INEXACT;
-+            (mips_exception_flags & (FP_INVALID | FP_DIV0)) == 0) {
-+        mips_exception_flags = FP_INEXACT;
-     }
- 
--    cause = c & enable;    /* all current enabled exceptions */
-+    cause = mips_exception_flags & enable; /* all current enabled exceptions */
- 
-     if (cause == 0) {
-         /*
-@@ -5486,7 +5513,7 @@ static inline int update_msacsr(CPUMIPSState *env, int action, int denormal)
-          * with all current exceptions
-          */
-         SET_FP_CAUSE(env->active_tc.msacsr,
--                (GET_FP_CAUSE(env->active_tc.msacsr) | c));
-+            (GET_FP_CAUSE(env->active_tc.msacsr) | mips_exception_flags));
-     } else {
-         /* Current exceptions are enabled */
-         if ((env->active_tc.msacsr & MSACSR_NX_MASK) == 0) {
-@@ -5495,11 +5522,11 @@ static inline int update_msacsr(CPUMIPSState *env, int action, int denormal)
-              * with all enabled exceptions
-              */
-             SET_FP_CAUSE(env->active_tc.msacsr,
--                    (GET_FP_CAUSE(env->active_tc.msacsr) | c));
-+                (GET_FP_CAUSE(env->active_tc.msacsr) | mips_exception_flags));
-         }
-     }
- 
--    return c;
-+    return mips_exception_flags;
- }
- 
- static inline int get_enabled_exceptions(const CPUMIPSState *env, int c)
 -- 
 2.20.1
 
