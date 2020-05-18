@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BCF51D728E
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 10:11:00 +0200 (CEST)
-Received: from localhost ([::1]:42094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05131D72DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 10:22:45 +0200 (CEST)
+Received: from localhost ([::1]:55682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaarS-0008S8-8s
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 04:10:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43986)
+	id 1jab2q-0006bS-Nu
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 04:22:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
- id 1jaaqc-0007zq-Pv
- for qemu-devel@nongnu.org; Mon, 18 May 2020 04:10:06 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44548)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jab1v-0005jE-Ir
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 04:21:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
- id 1jaaqb-00086z-Jq
- for qemu-devel@nongnu.org; Mon, 18 May 2020 04:10:06 -0400
-Received: by mail-wr1-x442.google.com with SMTP id 50so10617581wrc.11
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 01:10:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=adacore-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZNyb+dguNOMxY24/maASO8tIdV71stYKYtoOe8VB3RQ=;
- b=qSN1at90+TSKlv6Hc1Ga81mc2vec5PoJG+6l0S7xJFGVeqpeoK2z+/tv8pZ5hJxX1P
- iNxZYKSmfefYSrKVgcc5ixfly7/94Ywn6w4Jom/O3/xDmWovvlAZp/6VZVE3PQXLREw2
- QEpmVk4BjtlIpnscgtsqrecUa8gPx873YLJ1DOSIeSAzAWeCxrrno1gGGuH3l+48d8Zy
- 0wxla+G5j52trD0PiLM/FXOqLXycqn6d9lVbL/wxnSEAcEa3NnrKV+cVLAbN03iieWoH
- 4rz9mrz2MAu68WF/yr7oWrqKwCIW14nLbVnHRuq+GcL6Xt/M5JMpj4hr9zR9+baU3WMq
- Zscw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZNyb+dguNOMxY24/maASO8tIdV71stYKYtoOe8VB3RQ=;
- b=XJVB1+LgsJhhe0G8WIrRFyoMJDO/jubTZdTA9IULkJlzDBOE7fqJK7AMRImakPqyAn
- FRKhtdpV2EcsMiPFVEMsC89t9gZ3aVq6gKyRAHdSKEf9XGBCeP3anp//pS+iJDYUWEb/
- 0y4GO99lvw82FO6DXxCRGdcr/whJ8R1O/s0G46lMAdYIFZ6g3859CFkYRaBI+rX60rRW
- IiG5NYWoxfaL2w1D4bdoJEBEwvlN1Dc9Jl6oDxDR1hZdwnYkEWhi0U1HCmaOjJ/JYVGX
- pmZJISTygkA9aIhqezMV0v7VUFKJ716GgeNWeKr4yCVrDd791FOLaNDQKHQyOZsRA4Xa
- D5Nw==
-X-Gm-Message-State: AOAM532x2DGWW8aqdxfL0HyL4OtnGxp1ICyUG4XO3FDAIOWTHgm8zYnb
- 4gFtUjyxqS04G7nDR8PABqtbzQ==
-X-Google-Smtp-Source: ABdhPJwRgYajHnF5mx3YLB/MFsprkJHbkAeXrhYA7M0MjhwSAPRTBm16YonvCF4FbC17nvB9PMJADg==
-X-Received: by 2002:a5d:526f:: with SMTP id l15mr18134088wrc.367.1589789403382; 
- Mon, 18 May 2020 01:10:03 -0700 (PDT)
-Received: from linux.home ([2a01:cb19:867e:2100:7eef:23e0:9210:3e8])
- by smtp.gmail.com with ESMTPSA id q9sm15012711wmb.34.2020.05.18.01.09.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 May 2020 01:10:00 -0700 (PDT)
-Subject: Re: [PATCH 21/24] sparc/leon3: Fix to put grlib,* devices on sysbus
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200518050408.4579-1-armbru@redhat.com>
- <20200518050408.4579-22-armbru@redhat.com>
-From: Fred Konrad <konrad@adacore.com>
-Message-ID: <3481fdff-e2e2-df1c-78df-bc290962d818@adacore.com>
-Date: Mon, 18 May 2020 10:09:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jab1u-000386-G7
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 04:21:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jab1q-0004DO-49
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 08:21:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AB86B2E818D
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 08:21:31 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200518050408.4579-22-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=konrad@adacore.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 18 May 2020 08:13:27 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1837094@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: slirp
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd samuel-thibault
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <156347205992.30489.16276823737610194084.malonedeb@soybean.canonical.com>
+Message-Id: <158978960770.22208.17657857732858908573.malone@wampee.canonical.com>
+Subject: [Bug 1837094] Re: UndefinedBehaviorSanitizer crash around
+ slirp::ip_reass()
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: c561542a5f127bcef8ce47d364a0cf06fd418ddb
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 04:21:44
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,62 +77,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Fabien Chouteau <chouteau@adacore.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, pbonzini@redhat.com,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Reply-To: Bug 1837094 <1837094@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I apologize for not understanding this bug was a security issue, and not
+insisting on it.
 
+It has been fixed in SLiRP by "Fix use-afte-free in ip_reass() (CVE-2020-19=
+83)":
+https://gitlab.freedesktop.org/slirp/libslirp/commit/9bd6c591
 
-Le 5/18/20 à 7:04 AM, Markus Armbruster a écrit :
-> leon3_generic_hw_init() creates a "grlib,ahbpnp" and a "grlib,apbpnp"
-> sysbus device in a way that leaves them unplugged.
-> 
-> Create them the common way that puts them into the main system bus.
-> Affects machine leon3_generic.  Visible in "info qtree":
-> 
->       bus: main-system-bus
->         type System
->      +  dev: grlib,ahbpnp, id ""
->      +    mmio 00000000fffff000/0000000000001000
->      +  dev: grlib,apbpnp, id ""
->      +    mmio 00000000800ff000/0000000000001000
->         dev: grlib,irqmp, id ""
-> 
-> Cc: Fabien Chouteau <chouteau@adacore.com>
-> Cc: KONRAD Frederic <frederic.konrad@adacore.com>
-> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Cc: Artyom Tarasenko <atar4qemu@gmail.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->   hw/sparc/leon3.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
-> index 8f024dab7b..3facb8c2ae 100644
-> --- a/hw/sparc/leon3.c
-> +++ b/hw/sparc/leon3.c
-> @@ -213,14 +213,14 @@ static void leon3_generic_hw_init(MachineState *machine)
->       reset_info->sp    = LEON3_RAM_OFFSET + ram_size;
->       qemu_register_reset(main_cpu_reset, reset_info);
->   
-> -    ahb_pnp = GRLIB_AHB_PNP(object_new(TYPE_GRLIB_AHB_PNP));
-> +    ahb_pnp = GRLIB_AHB_PNP(qdev_create(NULL, TYPE_GRLIB_AHB_PNP));
->       object_property_set_bool(OBJECT(ahb_pnp), true, "realized", &error_fatal);
->       sysbus_mmio_map(SYS_BUS_DEVICE(ahb_pnp), 0, LEON3_AHB_PNP_OFFSET);
->       grlib_ahb_pnp_add_entry(ahb_pnp, 0, 0, GRLIB_VENDOR_GAISLER,
->                               GRLIB_LEON3_DEV, GRLIB_AHB_MASTER,
->                               GRLIB_CPU_AREA);
->   
-> -    apb_pnp = GRLIB_APB_PNP(object_new(TYPE_GRLIB_APB_PNP));
-> +    apb_pnp = GRLIB_APB_PNP(qdev_create(NULL, TYPE_GRLIB_APB_PNP));
->       object_property_set_bool(OBJECT(apb_pnp), true, "realized", &error_fatal);
->       sysbus_mmio_map(SYS_BUS_DEVICE(apb_pnp), 0, LEON3_APB_PNP_OFFSET);
->       grlib_ahb_pnp_add_entry(ahb_pnp, LEON3_APB_PNP_OFFSET, 0xFFF,
-> 
+And in QEMU by commit 7769c23774 "slirp: update to fix CVE-2020-1983".
 
-Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2020-1983
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1837094
+
+Title:
+  UndefinedBehaviorSanitizer crash around slirp::ip_reass()
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  tag: v4.1.0-rc1
+
+  ./configure --enable-sanitizers --extra-cflags=3D-O1
+
+  =3D=3D26130=3D=3DERROR: UndefinedBehaviorSanitizer: SEGV on unknown addre=
+ss 0x000000000008 (pc 0x0000561ad346d588 bp 0x7fff6ee9f940 sp 0x7fff6ee9f8e=
+8 T26130)
+  =3D=3D26130=3D=3DThe signal is caused by a WRITE memory access.
+  =3D=3D26130=3D=3DHint: address points to the zero page.
+  =C2=A0=C2=A0=C2=A0=C2=A0#0 0x0000561ad346d587 in ip_deq() at slirp/src/ip=
+_input.c:411:55
+  =C2=A0=C2=A0=C2=A0=C2=A0#1 0x0000561ad346cffb in ip_reass() at slirp/src/=
+ip_input.c:304:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#2 0x0000561ad346cb6f in ip_input() at slirp/src/=
+ip_input.c:184:18
+
+  I only had access to the last packet which isn't the culprit, I'm now
+  seeing how to log the network traffic of the guest to provide more
+  useful information.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1837094/+subscriptions
 
