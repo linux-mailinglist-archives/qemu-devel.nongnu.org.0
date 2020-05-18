@@ -2,76 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD8C1D7E82
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:30:21 +0200 (CEST)
-Received: from localhost ([::1]:37038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739821D7EB8
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:39:20 +0200 (CEST)
+Received: from localhost ([::1]:38154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaiei-0003Ns-Ta
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:30:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58090)
+	id 1jainP-0007Wj-6B
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:39:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jaide-0002SP-QO
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:29:14 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:39782)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jaidd-0002S2-Eo
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:29:14 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id w64so166064wmg.4
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 09:29:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oqwd7xOkTr10CCzSsW3fU0ZklZqmukQsONlL8X8yYEM=;
- b=o4fE8vItFrG+xGEOTJnHI2OA/FaR9tW286cUXTASvsi8gQ04QfhF4lC2ATNAkSfvcV
- tle8nXij5l0U8IDNIBxZc8wDUodMjYl3Kc9aCRJ0lOQTtGl7dQWMlkRWl8VPJ7GqA+ly
- EDcmh2OoeovRddW1aqGiejsnzgrYS4KDFQJZRSeRxQz+oVCFokdxWhoUlgUPdLEKmgEg
- RFzOfN9Ksz9l4Hhk996ucFLFyml2gYEAaHCznR5MLylBXSw9V408FvBgzOSJtBXAlWL5
- z2TYonYOyVOetVKfi9NUaUA8Fq3EoV/UfcK2rGKT1QmZXBcUQDkcx8AFjg2EC4ibgKrs
- VAtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oqwd7xOkTr10CCzSsW3fU0ZklZqmukQsONlL8X8yYEM=;
- b=Wo4G2uUfRIxs40Ic1XMhPtJ9/ilOzPfRNMY0/+7xUDK7I95eOcv0CGvJaFOdcDSoLl
- 4w6zJEp01aFkgyz0Sa15Z0/+3twNmrfQfsNPk2W6SdF9Slr4/27xwocaZGHb8nu3vYAN
- XfXCjgurnThByyUgGE+k6UCmuh/0DpYsUlKutEBhkano+g004I3ujteh34q9VVQfFg12
- fWrQR8+Jq8zG2Uoj1vF0fQeRGAsYF9HYneiTMEBTMpn//852FPKbpJEQNR1q3n1DCqav
- 7gkDrzWvvsf7P1pK51GHKvz2HIh216VBOh+4fccvGXszPA9ozh9rL7QBYtiq6uAH6Mab
- D2hQ==
-X-Gm-Message-State: AOAM5319+onuLwizAeNI08MrrvND00MCJGwTx0EjyLNOqthK3KeCymRb
- IE2CkrGkCg0krBNik4Ux3wJZQA==
-X-Google-Smtp-Source: ABdhPJw0VptM4NSwg8IXAHbmelETtIIgTqhMp/YCUdCCb8c3XOs9jyN1SMJs5GVij/J3SsKy06u2CA==
-X-Received: by 2002:a1c:6706:: with SMTP id b6mr222097wmc.54.1589819351918;
- Mon, 18 May 2020 09:29:11 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q2sm16732400wrx.60.2020.05.18.09.29.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 09:29:10 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2FC291FF7E;
- Mon, 18 May 2020 17:29:10 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jaigo-0005MS-J1
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:32:30 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35143
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jaigk-0003Eh-QD
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:32:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589819545;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=71MK90g4HIc3XBYYifEVROYuYlnS85PxlcI+K0emV+E=;
+ b=Uofa+IaQ9PxzSFAnJTqzqPmoXAu8amUdqWSr7p6sj1SP0LuwczgjTnxdIGO8xTGmSRS0Wv
+ 65QwvBZZop0f0NEeteZpXaG2DAvDKxghpCOAmyLi2So1QpBzq+m1kuiqF2Lt+Kusxq146i
+ IY+G+nY1BMycGw4Lg7nOopTpMKe3tMg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-241-3xL3apKxNeyOE6p9TGyf7A-1; Mon, 18 May 2020 12:32:21 -0400
+X-MC-Unique: 3xL3apKxNeyOE6p9TGyf7A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7643F81CBE1
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 16:32:20 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-112-88.phx2.redhat.com [10.3.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 462DC5D9DC
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 16:32:20 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] tests/tcg: fix invocation of the memory record/replay tests
-Date: Mon, 18 May 2020 17:29:03 +0100
-Message-Id: <20200518162903.883-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+Subject: [PULL 0/6] NBD patches for 2020-05-18
+Date: Mon, 18 May 2020 11:32:12 -0500
+Message-Id: <20200518163218.649412-1-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:52:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -86,38 +74,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm not sure when this broke but we should use EXTRA_RUNS for
-"virtual" tests which are not generated from the binary names.
+The following changes since commit debe78ce14bf8f8940c2bdf3ef387505e9e035a9:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+  Merge remote-tracking branch 'remotes/rth/tags/pull-fpu-20200515' into staging (2020-05-15 19:51:16 +0100)
 
----
-v2
-  - keep the PHONY's for the benefit of output
----
- tests/tcg/aarch64/Makefile.softmmu-target | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the Git repository at:
 
-diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
-index 71f72cfbe34..1057a8ac498 100644
---- a/tests/tcg/aarch64/Makefile.softmmu-target
-+++ b/tests/tcg/aarch64/Makefile.softmmu-target
-@@ -61,7 +61,7 @@ run-memory-replay: memory-replay run-memory-record
- 	   	  $(QEMU_OPTS) memory, \
- 	  "$< on $(TARGET_NAME)")
- 
--EXTRA_TESTS+=memory-record memory-replay
-+EXTRA_RUNS+=run-memory-replay
- 
- ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_3),)
- pauth-3: CFLAGS += -march=armv8.3-a
+  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2020-05-18
+
+for you to fetch changes up to d8154b0945f795177511ea0e2212bd5c749fe84c:
+
+  iotests: Enhance 223 to cover qemu-img map improvements (2020-05-18 11:02:05 -0500)
+
+We've got a couple of first-time contributors included in this one :)
+
+----------------------------------------------------------------
+nbd patches for 2020-05-20
+
+- fix stranded fd in 'qemu-nbd -c /dev/nbd0'
+- add 'qemu-img map --start-offset --max-length' options
+
+----------------------------------------------------------------
+Eric Blake (1):
+      iotests: Enhance 223 to cover qemu-img map improvements
+
+Eyal Moscovici (4):
+      qemu_img: add cvtnum_full to print error reports
+      qemu-img: validate image length in img_map
+      qemu-img: refactor dump_map_entry JSON format output
+      qemu-img: Add --start-offset and --max-length to map
+
+Raphael Pour (1):
+      qemu-nbd: Close inherited stderr
+
+ docs/tools/qemu-img.rst    |   2 +-
+ qemu-img.c                 | 113 +++++++++++++++++++++++++++------------------
+ qemu-nbd.c                 |   6 ++-
+ qemu-img-cmds.hx           |   4 +-
+ tests/qemu-iotests/049.out |   8 ++--
+ tests/qemu-iotests/223     |   6 ++-
+ tests/qemu-iotests/223.out |   3 +-
+ 7 files changed, 85 insertions(+), 57 deletions(-)
+
 -- 
-2.20.1
+2.26.2
 
 
