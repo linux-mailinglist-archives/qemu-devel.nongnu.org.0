@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07B8C1D89B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 22:59:19 +0200 (CEST)
-Received: from localhost ([::1]:43338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9426C1D89C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 23:06:31 +0200 (CEST)
+Received: from localhost ([::1]:55716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jamr0-0005e4-2E
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 16:59:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35308)
+	id 1jamxy-0002uH-CY
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 17:06:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jampZ-0004N0-Ce
- for qemu-devel@nongnu.org; Mon, 18 May 2020 16:57:50 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51419
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jamw7-0002PZ-Du
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 17:04:35 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26515
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jampY-0007Sm-Hy
- for qemu-devel@nongnu.org; Mon, 18 May 2020 16:57:49 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jamvy-0000wJ-Iw
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 17:04:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589835467;
+ s=mimecast20190719; t=1589835863;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5FWCUOXFfM74kP1zoJr6PxLN+1gd9w5JXqLKgNpxRdE=;
- b=HS65qHc1cEdlYKfxXPND6dDAQcbQclGsGQBxG3N9Vbw39zlZ9IORGgOHjqsITlFA0LMTYz
- lbuTDwVGzbzEMvjGE16gV5LZhUKh2PSgk9uBxrJrREHqjNF7Zy6WIJEfggNjZNUIRKvOzg
- qRKyJJYWde7Z5UvY+3ImCZVHMDIyP7c=
+ bh=pw3snzyj9L7WiQMOf+g2kEsGJzWA4XnFWN4NO6/YfDM=;
+ b=NioiI9oHibjWUPAsGRSEo6B8793Mo+sbTr1j2F384SsLKuUUxvwA++wTFj8JF8ReLcJ7hX
+ Lo8fEqp1Yd0p8L4G2/9VleDs0rHoLrY+du6NJl45BSaI3d2X3cJOPoFRiSvRS/t1wwlr+A
+ 8Np9yfzJNjHxfSrhP7y8VZcOW9ty0D0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-YeTh37o7M8y43tqO2s1I0g-1; Mon, 18 May 2020 16:57:45 -0400
-X-MC-Unique: YeTh37o7M8y43tqO2s1I0g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-464-0ai88izJNEy8E4S-E1i-IQ-1; Mon, 18 May 2020 17:04:21 -0400
+X-MC-Unique: 0ai88izJNEy8E4S-E1i-IQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9956EC1A4;
- Mon, 18 May 2020 20:57:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E80C1800D42
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 21:04:20 +0000 (UTC)
 Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 327C4100164D;
- Mon, 18 May 2020 20:57:44 +0000 (UTC)
-Subject: Re: [PATCH RFC v2 2/5] blockdev: combine DriveBackupState and
- BlockdevBackupState
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20200514034922.24834-1-jsnow@redhat.com>
- <20200514034922.24834-3-jsnow@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D93C6EA19;
+ Mon, 18 May 2020 21:04:20 +0000 (UTC)
+Subject: Re: [PATCH not-for-merge 2/5] qom: Make "info qom-tree" show children
+ sorted
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200518051945.8621-1-armbru@redhat.com>
+ <20200518051945.8621-3-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <88e3bb16-8f67-cd00-a1ae-6b6fd4341d71@redhat.com>
-Date: Mon, 18 May 2020 15:57:43 -0500
+Message-ID: <c6eae4be-7d00-bc47-f5a0-4a5977136ac0@redhat.com>
+Date: Mon, 18 May 2020 16:04:19 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200514034922.24834-3-jsnow@redhat.com>
+In-Reply-To: <20200518051945.8621-3-armbru@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
@@ -83,39 +83,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- vsementsov@virtuozzo.com, Cleber Rosa <crosa@redhat.com>
+Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/20 10:49 PM, John Snow wrote:
-> They have the same fields -- rename it BlockJobState.
+On 5/18/20 12:19 AM, Markus Armbruster wrote:
+> "info qom-tree" prints children in unstable order.  This is a pain
+> when diffing output for different versions to find change.  Print it
+> sorted.
 
-This says BlockJobState...
+Yes, this does seem reasonable to include even without the rest of the 
+series.
 
 > 
-> Signed-off-by: John Snow <jsnow@redhat.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   blockdev.c | 30 ++++++++++++------------------
->   1 file changed, 12 insertions(+), 18 deletions(-)
+>   qom/qom-hmp-cmds.c | 40 +++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 39 insertions(+), 1 deletion(-)
 > 
-> diff --git a/blockdev.c b/blockdev.c
-> index b3c840ec03..d3e8a6ca22 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -1702,11 +1702,11 @@ static void external_snapshot_clean(BlkActionState *common)
->       aio_context_release(aio_context);
+> diff --git a/qom/qom-hmp-cmds.c b/qom/qom-hmp-cmds.c
+> index 4a61ee1b8c..cf0af8f6b5 100644
+> --- a/qom/qom-hmp-cmds.c
+> +++ b/qom/qom-hmp-cmds.c
+> @@ -78,6 +78,35 @@ static int print_qom_composition_child(Object *obj, void *opaque)
+>       return 0;
 >   }
 >   
-> -typedef struct DriveBackupState {
-> +typedef struct BlockJobActionState {
+> +static int qom_composition_compare(const void *a, const void *b, void *ignore)
+> +{
+> +    Object *obja = (void *)a, *objb = (void *)b;
 
-...but this does not.  I'm assuming it is just a typo in the commit message?
+Casting away const...
 
-Otherwise,
-Reviewed-by: Eric Blake <eblake@redhat.com>
+> +    const char *namea, *nameb;
+> +
+> +    if (obja == object_get_root()) {
+> +        namea = g_strdup("");
+> +    } else {
+> +        namea = object_get_canonical_path_component(obja);
+
+...should we instead improve object_get_canonical_path_component to work 
+with 'const Object *'?
+
+> +    }
+> +
+> +    if (objb == object_get_root()) {
+> +        nameb = g_strdup("");
+> +    } else {
+> +        nameb = object_get_canonical_path_component(objb);
+> +    }
+> +
+> +
+> +    return strcmp(namea, nameb);
+
+Why the two blank lines?  This leaks namea and/or nameb if either object 
+is the object root.  Should you instead use g_strcmp0 here, with namea/b 
+set to NULL instead of g_strdup("") above?
+
+
+> @@ -105,7 +134,16 @@ static void print_qom_composition(Monitor *mon, Object *obj, int indent)
+>       monitor_printf(mon, "%*s/%s (%s)\n", indent, "", name,
+>                      object_get_typename(obj));
+>       g_free(name);
+> -    object_child_foreach(obj, print_qom_composition_child, &s);
+> +
+> +    GQueue children;
+> +    Object *child;
+
+Mid-function declarations - I assume you'd clean this up if we want this 
+for real?
+
+> +    g_queue_init(&children);
+> +    object_child_foreach(obj, insert_qom_composition_child, &children);
+> +    while ((child = g_queue_pop_head(&children))) {
+> +        print_qom_composition(mon, child, indent + 2);
+> +    }
+> +    (void)s;
+> +    (void)print_qom_composition_child;
+
+Also, this looks like leftover debugger aids?
+
+>   }
+>   
+>   void hmp_info_qom_tree(Monitor *mon, const QDict *dict)
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
