@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A743C1D7C5B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 17:07:41 +0200 (CEST)
-Received: from localhost ([::1]:52826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 215041D7C8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 17:18:44 +0200 (CEST)
+Received: from localhost ([::1]:50626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jahMi-0003zl-6t
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 11:07:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46600)
+	id 1jahXP-00070C-7X
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 11:18:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras.c@gmail.com>)
- id 1jahKf-0001RL-8l
- for qemu-devel@nongnu.org; Mon, 18 May 2020 11:05:33 -0400
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:45737)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leobras.c@gmail.com>)
- id 1jahKd-0003R6-N7
- for qemu-devel@nongnu.org; Mon, 18 May 2020 11:05:32 -0400
-Received: by mail-qt1-x842.google.com with SMTP id n22so5856805qtv.12
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 08:05:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:organization:user-agent
- :mime-version:content-transfer-encoding;
- bh=v9HQDyixOEy8PN4aXkSXCo75jYMSqaydCTELag9mOxo=;
- b=Qql1VEpsbWUo2PmS7wpf8snI7E9WXZwuWrfKyNEodCAE7aQD9S86VASokyYx+EWTNU
- weRUVHHyfhjUZSmL1/1xJ64SFCp3Ls08U9gaB39qeGK/wrJ0TucxaecKqBolnlh5qDgR
- WaA2HtS/S0YcfGx04+A0VUWaSuXtBtYlvVLjkPsHaLg+SEnjJbO9UettBQZxlNJvVYQz
- lo1ryaVP41TlquMsN5uF2dRb2FnVTK6qN8MDCsZANxQabf7z1QKFBqYAAev/7iyHIwrN
- fCuBlurj8KUqwzXRQA5j4kZcmuz1dakcYDY+kVI4KUbfVDts2l5+gn7Hce8NEHSTHlOL
- VEmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:organization
- :user-agent:mime-version:content-transfer-encoding;
- bh=v9HQDyixOEy8PN4aXkSXCo75jYMSqaydCTELag9mOxo=;
- b=NJ0eyDvEWGO5pW2V8YK9qivsokK1i3YgfnnxZMANcpGzoMtiFdH119Mob/Y99rkjLU
- 3/4FPPyTzTs755GqAeUofI/vtNxdPX1frt84oLGUxDPSMbjSTu0PIz0Cvt6NZ1ycDbLn
- AljrwPkod7ePnFt6JqYaEpGLPyR5vqsf6ImAB92PfbGWjs2cuRaKkmQPGYeIgMNFdBYd
- FdB2WBJrAQSHLcSN37hBE3va1Y/91U9dECMrv8uWG/F+f0e9O3rZnAH+psZWXCOrk9Qa
- LZlOuhOU5QcDFzPG4HwQJp3S0vMFFbmyGoobrPLz1xpyuQ4Ka3Wp9AcyIpGSXt9wqrHb
- 1fQg==
-X-Gm-Message-State: AOAM530tAj1cPbv1PZwg5lNLlrfmK4uJl9QGuHMl92rxktGFa82rb3iu
- 3wAN9BGiV9Qw//XFsSTMTW8=
-X-Google-Smtp-Source: ABdhPJxYp4ix/BlkuKEKGns5Irv0mR1bVhWMaopZj0y83V5FMwy16X2/MrfviE7ywWjKoc99qRh8/A==
-X-Received: by 2002:ac8:555a:: with SMTP id o26mr16752839qtr.190.1589814330283; 
- Mon, 18 May 2020 08:05:30 -0700 (PDT)
-Received: from LeoBras (177-131-65-239.dynamic.desktop.com.br.
- [177.131.65.239])
- by smtp.gmail.com with ESMTPSA id d4sm3303267qkc.21.2020.05.18.08.05.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 08:05:29 -0700 (PDT)
-Message-ID: <8f5ae1658103b71b09555d3ab499edaf3f36a15d.camel@gmail.com>
-Subject: [RESEND PATCH 1/1] vfio/nvlink: Remove exec permission to avoid
- SELinux AVCs
-From: Leonardo Bras <leobras.c@gmail.com>
-To: Alex Williamson <alex.williamson@redhat.com>, Alexey Kardashevskiy
- <aik@ozlabs.ru>
-Date: Mon, 18 May 2020 12:05:24 -0300
-Organization: IBM
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jahS6-0008Cx-Rn
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 11:13:14 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36812
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jahS2-0005xR-Jp
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 11:13:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589814789;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=246y12I/y/V9fq4L+8F5aEP2hcwAYyxONoIADS74hnA=;
+ b=UhgwGa7hyNKrHvOR0uLLaOkIJ99vzjJLDameD6O7QJQ/QimuU0RXT/mJyFkjUdP5Yx0qPC
+ oFvyRUIHkUmEJoiWZmHUuGQUNyAxGvbb4S5JbBXjP0asExCwlKBfOzrvKlKZPXrvsEEqXW
+ c+sYsJS8NxwmE6AW3COE0jgXgZevuLg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-0QID5U24NJSQCZ-qtLR45Q-1; Mon, 18 May 2020 11:13:06 -0400
+X-MC-Unique: 0QID5U24NJSQCZ-qtLR45Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00C951853B06;
+ Mon, 18 May 2020 15:13:05 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
+ [10.36.113.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A850C649A9;
+ Mon, 18 May 2020 15:12:56 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 7B44E17444; Mon, 18 May 2020 17:12:55 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/8] Vga 20200518 patches
+Date: Mon, 18 May 2020 17:12:47 +0200
+Message-Id: <20200518151255.10785-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::842;
- envelope-from=leobras.c@gmail.com; helo=mail-qt1-x842.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:52:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -87,60 +77,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras.c@gmail.com>, qemu-devel@nongnu.org,
- dgibson@redhat.com
+Cc: Thomas Huth <huth@tuxfamily.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If SELinux is setup without 'execmem' permission for qemu, all mmap
-with (PROT_WRITE | PROT_EXEC) will fail and print a warning in
-SELinux log.
+The following changes since commit debe78ce14bf8f8940c2bdf3ef387505e9e035a9=
+:
 
-If "nvlink2-mr" memory allocation fails (fist diff), it will cause
-guest NUMA nodes to not be correctly configured (V100 memory will
-not be visible for guest, nor its NUMA nodes).
+  Merge remote-tracking branch 'remotes/rth/tags/pull-fpu-20200515' into st=
+aging (2020-05-15 19:51:16 +0100)
 
-Not having 'execmem' permission is intesting for virtual machines to
-avoid buffer-overflow based attacks, and it's adopted in distros
-like RHEL.
+are available in the Git repository at:
 
-So, removing the PROT_EXEC flag seems the right thing to do.
+  git://git.kraxel.org/qemu tags/vga-20200518-pull-request
 
-Browsing some other code that mmaps memory for usage with
-memory_region_init_ram_device_ptr, I could notice it's usual to
-not have PROT_EXEC (only PROT_READ | PROT_WRITE), so it should be
-no problem around this.
+for you to fetch changes up to 3fcf15df0073a76d37e2816597771d4c9763e413:
 
-Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
-Reviewed-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+  ramfb: fix size calculation (2020-05-18 15:43:51 +0200)
 
----
-- Alexey's review is here: https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg00006.html
+----------------------------------------------------------------
+vga: ati-vga bugfix, ramfb cleanups and fixes.
 
- hw/vfio/pci-quirks.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+----------------------------------------------------------------
 
-diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
-index 2d348f8237..124d4f57e1 100644
---- a/hw/vfio/pci-quirks.c
-+++ b/hw/vfio/pci-quirks.c
-@@ -1620,7 +1620,7 @@ int vfio_pci_nvidia_v100_ram_init(VFIOPCIDevice *vdev, Error **errp)
-     }
-     cap = (void *) hdr;
- 
--    p = mmap(NULL, nv2reg->size, PROT_READ | PROT_WRITE | PROT_EXEC,
-+    p = mmap(NULL, nv2reg->size, PROT_READ | PROT_WRITE,
-              MAP_SHARED, vdev->vbasedev.fd, nv2reg->offset);
-     if (p == MAP_FAILED) {
-         ret = -errno;
-@@ -1680,7 +1680,7 @@ int vfio_pci_nvlink2_init(VFIOPCIDevice *vdev, Error **errp)
- 
-     /* Some NVLink bridges may not have assigned ATSD */
-     if (atsdreg->size) {
--        p = mmap(NULL, atsdreg->size, PROT_READ | PROT_WRITE | PROT_EXEC,
-+        p = mmap(NULL, atsdreg->size, PROT_READ | PROT_WRITE,
-                  MAP_SHARED, vdev->vbasedev.fd, atsdreg->offset);
-         if (p == MAP_FAILED) {
-             ret = -errno;
+BALATON Zoltan (1):
+  ati-vga: Do not allow unaligned access via index register
+
+Gerd Hoffmann (6):
+  Revert "hw/display/ramfb: initialize fw-config space with xres/ yres"
+  Revert "hw/display/ramfb: lock guest resolution after it's set"
+  ramfb: drop leftover debug message
+  ramfb: don't update RAMFBState on errors
+  ramfb: add sanity checks to ramfb_create_display_surface
+  ramfb: fix size calculation
+
+Philippe Mathieu-Daud=C3=A9 (1):
+  hw/display: Include local 'framebuffer.h'
+
+ include/hw/display/ramfb.h    |  2 +-
+ hw/display/artist.c           |  2 +-
+ hw/display/ati.c              |  2 +-
+ hw/display/next-fb.c          |  2 +-
+ hw/display/ramfb-standalone.c | 12 +-----
+ hw/display/ramfb.c            | 77 +++++++++++++----------------------
+ hw/vfio/display.c             |  4 +-
+ stubs/ramfb.c                 |  2 +-
+ 8 files changed, 37 insertions(+), 66 deletions(-)
+
+--=20
+2.18.4
 
 
