@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57791D7307
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 10:34:13 +0200 (CEST)
-Received: from localhost ([::1]:40528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA241D7304
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 10:32:55 +0200 (CEST)
+Received: from localhost ([::1]:36304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jabDw-0004sy-Uu
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 04:34:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45882)
+	id 1jabCg-00036D-Sg
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 04:32:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jabBO-00027i-OU
+ id 1jabBN-00027f-Tw
  for qemu-devel@nongnu.org; Mon, 18 May 2020 04:31:37 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54866)
+Received: from indium.canonical.com ([91.189.90.7]:54856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jabBM-0005kM-O2
- for qemu-devel@nongnu.org; Mon, 18 May 2020 04:31:34 -0400
+ id 1jabBM-0005kL-Oz
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 04:31:33 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jabBJ-0006oC-LJ
+ id 1jabBJ-0006qQ-BQ
  for <qemu-devel@nongnu.org>; Mon, 18 May 2020 08:31:29 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 601302E8119
+ by loganberry.canonical.com (Postfix) with ESMTP id 13FD02E814C
  for <qemu-devel@nongnu.org>; Mon, 18 May 2020 08:31:27 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 18 May 2020 08:18:14 -0000
-From: Thomas Huth <1874676@bugs.launchpad.net>
+Date: Mon, 18 May 2020 08:18:34 -0000
+From: Thomas Huth <1874678@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist;
- assignee=philmd@redhat.com; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
@@ -42,16 +41,16 @@ X-Launchpad-Bug-Commenters: philmd
 X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158772214298.26171.14045550676291595233.malonedeb@soybean.canonical.com>
-Message-Id: <158978989538.31351.6061808256357018609.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1874676] Re: [Feature request] MDIO bus
+References: <158772236083.23646.1538920873771593848.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158978991546.22318.12872130459398139462.launchpad@wampee.canonical.com>
+Subject: [Bug 1874678] Re: [Feature request] python-qemu package
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 677435044622683dab6dc312dc1a2f51b2d0814b
+X-Launchpad-Hash: 68ee454a83362f7f5845f056bc846060d073d01c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 04:21:44
@@ -74,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1874676 <1874676@bugs.launchpad.net>
+Reply-To: Bug 1874678 <1874678@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,22 +84,20 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1874676
+https://bugs.launchpad.net/bugs/1874678
 
 Title:
-  [Feature request] MDIO bus
+  [Feature request] python-qemu package
 
 Status in QEMU:
   New
 
 Bug description:
-  Various network devices open-code a MDIO bus with a dedicated PHY.
-  Introduce a new MDIO subsystem to
-  - reuse various duplicated components
-  - be able to interchange PHYs
-  - have common tracing
-  - use libqos to test all the PHYs from different NICs
+  It would be useful to have the python/qemu/ files published as a
+  Python pip package, so users from distribution can also use the QEMU
+  python methods (in particular for testing) without having to clone the
+  full repository.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1874676/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1874678/+subscriptions
 
