@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E4A1D899F
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 22:57:38 +0200 (CEST)
-Received: from localhost ([::1]:37008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B8C1D89B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 22:59:19 +0200 (CEST)
+Received: from localhost ([::1]:43338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jampN-00032r-Ez
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 16:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35142)
+	id 1jamr0-0005e4-2E
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 16:59:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jamo7-0001fP-6V
- for qemu-devel@nongnu.org; Mon, 18 May 2020 16:56:19 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58724
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jamo5-0006yV-Hv
- for qemu-devel@nongnu.org; Mon, 18 May 2020 16:56:18 -0400
-Received: from host109-156-104-24.range109-156.btcentralplus.com
- ([109.156.104.24] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jamoC-0003cv-86; Mon, 18 May 2020 21:56:24 +0100
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200518051945.8621-1-armbru@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <6058b1d7-53c2-adc1-9cc0-f6cbd85d2e48@ilande.co.uk>
-Date: Mon, 18 May 2020 21:56:12 +0100
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jampZ-0004N0-Ce
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 16:57:50 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51419
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jampY-0007Sm-Hy
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 16:57:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589835467;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5FWCUOXFfM74kP1zoJr6PxLN+1gd9w5JXqLKgNpxRdE=;
+ b=HS65qHc1cEdlYKfxXPND6dDAQcbQclGsGQBxG3N9Vbw39zlZ9IORGgOHjqsITlFA0LMTYz
+ lbuTDwVGzbzEMvjGE16gV5LZhUKh2PSgk9uBxrJrREHqjNF7Zy6WIJEfggNjZNUIRKvOzg
+ qRKyJJYWde7Z5UvY+3ImCZVHMDIyP7c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-YeTh37o7M8y43tqO2s1I0g-1; Mon, 18 May 2020 16:57:45 -0400
+X-MC-Unique: YeTh37o7M8y43tqO2s1I0g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9956EC1A4;
+ Mon, 18 May 2020 20:57:44 +0000 (UTC)
+Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 327C4100164D;
+ Mon, 18 May 2020 20:57:44 +0000 (UTC)
+Subject: Re: [PATCH RFC v2 2/5] blockdev: combine DriveBackupState and
+ BlockdevBackupState
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20200514034922.24834-1-jsnow@redhat.com>
+ <20200514034922.24834-3-jsnow@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <88e3bb16-8f67-cd00-a1ae-6b6fd4341d71@redhat.com>
+Date: Mon, 18 May 2020 15:57:43 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200518051945.8621-1-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200514034922.24834-3-jsnow@redhat.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 109.156.104.24
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH not-for-merge 0/5] Instrumentation for "Fixes around
- device realization"
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 23:32:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,73 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, pkrempa@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ vsementsov@virtuozzo.com, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/05/2020 06:19, Markus Armbruster wrote:
+On 5/13/20 10:49 PM, John Snow wrote:
+> They have the same fields -- rename it BlockJobState.
 
-> This is the instrumentation mentioned in "[PATCH 00/24] Fixes around
-> device realization".
+This says BlockJobState...
+
 > 
-> PATCH 2/5 might have value on its own.  You tell me.
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   blockdev.c | 30 ++++++++++++------------------
+>   1 file changed, 12 insertions(+), 18 deletions(-)
 > 
-> Shell script to smoke-test all machines:
-> 
-> #!/bin/sh
-> success=0
-> fail=0
-> ulimit -c 0
-> git-describe --dirty --match v\*
-> git-log --oneline -1
-> for i in bld/*-softmmu
-> do
->     t=${i%-softmmu}
->     t=${t##*/}
->     q=$i/qemu-system-$t
->     echo "= $t ="
-> 
->     for m in `$q -M help | sed -n '/(alias of/d;2,$s/ .*//p'`
->     do
-> 	echo "== $m =="
-> 	echo -e 'info qom-tree\ninfo qtree\nq' | $q -S -accel qtest -display none -L smoke-mon-roms -M $m -monitor stdio
-> 	if [ $? -eq 0 ]
-> 	then echo "*** Success: $m ***"; let success++
-> 	else echo "*** Fail: $m"; let fail++
-> 	fi
->     done
-> done
-> echo $success succeeded, $fail failed
-> 
-> 
-> Markus Armbruster (5):
->   qom: Instrument to detect missed realize
->   qom: Make "info qom-tree" show children sorted
->   qdev: Make "info qtree" show child devices sorted by QOM path
->   qdev: Instrument to detect missed QOM parenting
->   qdev: Instrument to detect bus mismatch
-> 
->  hw/core/qdev.c     | 17 ++++++++++++++++
->  qdev-monitor.c     | 32 ++++++++++++++++++++++++++++-
->  qom/qom-hmp-cmds.c | 51 +++++++++++++++++++++++++++++++++++++++++++++-
->  3 files changed, 98 insertions(+), 2 deletions(-)
+> diff --git a/blockdev.c b/blockdev.c
+> index b3c840ec03..d3e8a6ca22 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+> @@ -1702,11 +1702,11 @@ static void external_snapshot_clean(BlkActionState *common)
+>       aio_context_release(aio_context);
+>   }
+>   
+> -typedef struct DriveBackupState {
+> +typedef struct BlockJobActionState {
 
-Thanks for sharing these patches! I certainly think that they have value and after a
-quick read through I'm thinking:
+...but this does not.  I'm assuming it is just a typo in the commit message?
 
-- Patch 1 I assume is no longer needed once you previous series is merged
+Otherwise,
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-- Patches 2 & 3 would be really useful at the start of your previous series (as
-someone who has gone crossed-eyed enough trying to spot these differences, this is
-really helpful)
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-- Patches 4 and 5 are good sanity checks for developers but I'm wondering what is the
-extent of work that needs to be done? Could existing failures be whitelisted with the
-aim of removal which would then at least prevent new devices being added that aren't
-correct?
-
-
-ATB,
-
-Mark.
 
