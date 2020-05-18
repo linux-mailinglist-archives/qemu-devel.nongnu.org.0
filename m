@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B7611D860C
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 20:23:01 +0200 (CEST)
-Received: from localhost ([::1]:49534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 399631D8743
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 20:32:32 +0200 (CEST)
+Received: from localhost ([::1]:35610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jakPj-0007hI-Ua
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 14:22:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45834)
+	id 1jakYx-0005tV-AP
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 14:32:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1jakO0-0006a6-7P
- for qemu-devel@nongnu.org; Mon, 18 May 2020 14:21:12 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30300
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1jakNx-00007A-AX
- for qemu-devel@nongnu.org; Mon, 18 May 2020 14:21:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589826066;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+1bn3fD2IeMKENfeObZ50zokb2W4wxaQfxuaXKJwXbo=;
- b=azvNmURLLHtz/Dy+5BM8So+KSVG77Uw6uEv9fNlKIh2dCMqvA5rigDZgfTSQZAZ25TKZSG
- 0UhoguWCH31kKrfWvrHOwH6MsEa/rMCLJo2HGXuIKFPLW3PxGlXn693wTu1hlH43gr8E74
- iW1FpsJGrLUTLHXj7LPvXKaFKyCt710=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-CAEG2ws-PTaA_Fnjwb-HKQ-1; Mon, 18 May 2020 14:21:03 -0400
-X-MC-Unique: CAEG2ws-PTaA_Fnjwb-HKQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B222C19057B0;
- Mon, 18 May 2020 18:21:01 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AB64C5D9DC;
- Mon, 18 May 2020 18:20:59 +0000 (UTC)
-Date: Mon, 18 May 2020 20:20:56 +0200
-From: Peter Krempa <pkrempa@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [RFC v2] migration: Add migrate-set-bitmap-node-mapping
-Message-ID: <20200518182056.GD2995787@angien.pipo.sk>
-References: <20200513145610.1484567-1-mreitz@redhat.com>
- <20200518162648.GC2995787@angien.pipo.sk>
- <de0ee410-d5bd-f59a-6e20-0c10ccd54ccb@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jakXQ-000522-03
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 14:30:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42442)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jakXO-0002Uy-0S
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 14:30:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jakXM-0001Wn-0P
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 18:30:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BB7F52E8079
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 18:30:51 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <de0ee410-d5bd-f59a-6e20-0c10ccd54ccb@virtuozzo.com>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pkrempa@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:52:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 18 May 2020 18:21:25 -0000
+From: Babu Moger <1856335@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger janklos
+X-Launchpad-Bug-Reporter: Damir (djdatte)
+X-Launchpad-Bug-Modifier: Babu Moger (babumoger)
+References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
+Message-Id: <158982608580.21624.5071074408452875270.malone@wampee.canonical.com>
+Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ead6e524f7c895d267deb29750995d6e3aa1fa07
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 13:40:54
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,61 +72,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Nikolay Shirokovskiy <nshirokovskiy@virtuozzo.com>,
- Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 18, 2020 at 20:52:32 +0300, Vladimir Sementsov-Ogievskiy wrote:
-> [add Nikolay]
-> 
-> 18.05.2020 19:26, Peter Krempa wrote:
-> > On Wed, May 13, 2020 at 16:56:10 +0200, Max Reitz wrote:
+Sieger, I am not an expert on XML. So, I dont know. Qemu probably cannot
+handle disabled cores. I am still trying to learn more about this
+problem.
 
-[...]
+-- =
 
-> > Is there any difference of handling of persistent and non-persistent
-> > bitmaps? Specifically I'm curious what's the correct approach to do the
-> > shared storage migration case when the source and destination image is
-> > the same one. Should we also instruct to migrate the active ones? or are
-> > they migrated by writing them to the image and reloading them?
-> 
-> About migration of persistent bitmaps with shared storage: both variants are possible:
-> 
-> 1. if you do nothing (i.e. not enable bitmaps migration capability), persistent bitmaps are stored on inactivation of source Qemu and loaded on activation of target Qemu
-> 
-> 2. if you enable bitmap migration capability, then bitmaps are _NOT_ stored, they migrate through migration channel
-> 
-> The difference is in downtime: if we have a lot of bitmap data (big disks, small bitmap granularity, a lot of bitmaps) and/or slow shared storage, then with [1] downtime will increase, as we'll have to store all bitmaps to the disk and load them during migration downtime. With [2] bitmaps migrate in postcopy time, when target is already running, so downtime is not increased.
-> 
-> So, in general [2] is better, and I think we should always use it, not making extra difference between shared and non-shared migration.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856335
 
-Thanks for the explanation! What about the inactive bitmaps though? Are
-they treated the same when opened? Should we consider them for migration
-through the migration stream?
+Title:
+  Cache Layout wrong on many Zen Arch CPUs
 
-> 
-> ==
-> 
-> And in this way, no difference between persistent and non-persistent bitmaps migration, let's always migrate them by postcopy [and we go this way (I hope ;) in Virtuozzo]
+Status in QEMU:
+  New
 
-Yeah, that's probably going to be what libvirt does as well.
+Bug description:
+  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
+  to always map Cache ass if it was an 4-Core per CCX CPU, which is
+  incorrect, and costs upwards 30% performance (more realistically 10%)
+  in L3 Cache Layout aware applications.
 
+  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
 
-> > > +# @migrate-set-bitmap-node-mapping:
-> > 
-> > qemu-5.0 deprecated a bunch of migrate-set- specific commands in favor
-> > of migrate-set-parameters. Is it worth/necessary to add a new command
-> > here?
-> 
-> Hmm probably, we should include mapping into MigrateSetParameters structure?
+  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
+/>
 
-IMO yes. I think it also conveniently sidesteps some of the issues that
-were discussed in the other threads regarding addition/multiple calls
-etc. The mapping will be set at once and any other invocation sets a new
-mapping and that's it. Setting nothing will clear the mapping.
+  In windows, coreinfo reports correctly:
 
+  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+
+  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
+/>
+
+  in windows, coreinfo reports incorrectly:
+
+  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
+
+  With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter:
+  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+
+  The problem is that the dies are exposed differently than how AMD does
+  it natively, they are exposed to Windows as sockets, which means, that
+  if you are nto a business user, you can't ever have a machine with
+  more than two CCX (6 cores) as consumer versions of Windows only
+  supports two sockets. (Should this be reported as a separate bug?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
