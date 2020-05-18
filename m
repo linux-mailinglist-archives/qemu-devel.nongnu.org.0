@@ -2,88 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD171D73D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 11:22:04 +0200 (CEST)
-Received: from localhost ([::1]:55316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CBC51D73DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 11:22:55 +0200 (CEST)
+Received: from localhost ([::1]:59466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jabyF-0004aM-OR
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 05:22:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52102)
+	id 1jabz4-0006Ee-Js
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 05:22:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jabwp-0003LU-O9
- for qemu-devel@nongnu.org; Mon, 18 May 2020 05:20:36 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44196
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jabwo-00014X-Qv
- for qemu-devel@nongnu.org; Mon, 18 May 2020 05:20:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589793633;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=26tLFnlPLiAEWSiHegUZMo+1itJ4wSaQMYZeBdznfVI=;
- b=DPQC681bUFOio4+GIpAs0t+bU1NSwOrfujp3oaL3x66G9qgdIzMRx0F4xty/JbMu0k2I5X
- Nxo3LTEHn3H2koT0q16+3er2oRpDglD9nwXEnZDKwYUUYET4sppDxSTK6ZUSKaunJouucM
- ruNdu44zvs++Cen4N+NP4N3ZZmF++mI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-7-FLMoCcP4ixdWfbKeAerw-1; Mon, 18 May 2020 05:20:31 -0400
-X-MC-Unique: 7-FLMoCcP4ixdWfbKeAerw-1
-Received: by mail-wm1-f70.google.com with SMTP id o8so2057408wmd.0
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 02:20:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <geert.uytterhoeven@gmail.com>)
+ id 1jabxX-0004Tg-J4
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 05:21:19 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:46870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <geert.uytterhoeven@gmail.com>)
+ id 1jabxV-0001L8-VK
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 05:21:19 -0400
+Received: by mail-ot1-f65.google.com with SMTP id g25so1728298otp.13
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 02:21:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=26tLFnlPLiAEWSiHegUZMo+1itJ4wSaQMYZeBdznfVI=;
- b=KPqXrYHuSeMYUvs1pie0X9+T/SaWOS2Rd8rXov0rt9YaWJTOeNjr/vaOw7w2Ao/DJg
- 3Z6mA2zR1yScdp2suOPQyLmbUs0F4hIK87z9v51VQDt4M5EoPFx9ad1ULgab1kt7X4YD
- vGRFLK1Wxk7CiU00qdXdAiyyK6zCwHtXoVP5EH3T+NhoZghuQlUCWWR9+WOnzDQ+/Rdi
- 4yAjQ25R4CGVSG72JzEu3O6zy/ekE/XcJmSINX+xtnL7azG18STq/KKKmPAb4zNk/Ps2
- 7bT+E3ZDLY6HAJl6b2uXN0dhVarBxz2MAtp0LWtZHjimpGraX6Gv4GAz7zCmMZQ0zgmO
- ouuQ==
-X-Gm-Message-State: AOAM532mrrD0jjnCWmDkoZbuhL3TgwYuVlx22sQwgdRS0b/3CMZwXGfw
- 0JOR/iAgVrqWA8cyMnUAkYSNrK9OUL+reAm2lXRdmpp1+tjm/sRrQuUgu1Zhfxu6D3tf1ATyVRx
- 0p2s2AEJql9/lHkA=
-X-Received: by 2002:a1c:9cca:: with SMTP id f193mr17979935wme.71.1589793630741; 
- Mon, 18 May 2020 02:20:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzqFjlq/wh617Shg1D+p5f9g64z31sAvpKmryzx600bWn+60XrY6cvnFaXB3DdaSniYmijVBg==
-X-Received: by 2002:a1c:9cca:: with SMTP id f193mr17979921wme.71.1589793630559; 
- Mon, 18 May 2020 02:20:30 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id x6sm15118331wrv.57.2020.05.18.02.20.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 May 2020 02:20:30 -0700 (PDT)
-Subject: Re: [PATCH v1 0/3] virtio-balloon: free page hinting fixes
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20200518083704.52646-1-david@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ed47036d-5224-9493-5d15-a2a464f5050a@redhat.com>
-Date: Mon, 18 May 2020 11:20:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kAa2psThKQ7YN1P9hrBIVOheMSQY5tyl7YTngLsSf9s=;
+ b=rpHkTJB+qWdtaa0OXcHV2PMN23LVRWmSUXQJbOxm9dOCNgeIgtkHJTO9jixi2iZjL8
+ MF7BtHro4155Y27BY8RATAJRSbi1xMgiVIkvxWEb2mz1Y2YZhGrhP1Nl4lxqPkp8wBWK
+ 8JZ9AFdeKqX2gyvbib9K+HN5HtZ9jYMmMKgnrwukkGdz/HDSQGa0xzUOHgDdL3hNURQz
+ wEwahx0wx83qgOJsVXORUrUShBKIoQOwnNb7/Q1d1jHCI/5OaEaBu8s5Nq7x6qQ7JdMK
+ IzKsCCm0UQuOMox0UfJuFSSIZzaGOfQXG9hnXIJePtcXWw4+lMSpo8oX9F5L+UFWMxUw
+ 9a/A==
+X-Gm-Message-State: AOAM530R9pJQy5Qduvdp7ZUDncqtOlmqCHG9znZgCwayAfgfLudWpP90
+ 6rzKYPOVZnadIf4A5HNIJ1P7bSIMLiTCEFexXVw=
+X-Google-Smtp-Source: ABdhPJy/jYVzr4UFhMG3XsAuCDffsP6l/ymaV+byoPvr3DO7/Hr0St2Gcq6sQ6SCaJT6ercVH1Hg1rifAgCbjYjrD3Q=
+X-Received: by 2002:a9d:7e92:: with SMTP id m18mr11298557otp.145.1589793676622; 
+ Mon, 18 May 2020 02:21:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200518083704.52646-1-david@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:52:27
+References: <20200511145257.22970-1-geert+renesas@glider.be>
+ <CACRpkdaz34Bc_EzcXKMEVCCCUt82_c2+t4X6YSLW2b59oi+9gA@mail.gmail.com>
+In-Reply-To: <CACRpkdaz34Bc_EzcXKMEVCCCUt82_c2+t4X6YSLW2b59oi+9gA@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 18 May 2020 11:20:59 +0200
+Message-ID: <CAMuHMdUtNVfAnQODjWaDo_+ncFBwq=cNLMt=hsMqiVbqx-1XVg@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] gpio: Add GPIO Aggregator
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=209.85.210.65;
+ envelope-from=geert.uytterhoeven@gmail.com; helo=mail-ot1-f65.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 05:21:16
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,29 +71,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Wei Wang <wei.w.wang@intel.com>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
- Alexander Duyck <alexander.duyck@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <marc.zyngier@arm.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Harish Jenny K N <harish_kandiga@mentor.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <graf@amazon.com>,
+ Eugeniu Rosca <erosca@de.adit-jv.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/18/20 10:37 AM, David Hildenbrand wrote:
-> Some fixes for VIRTIO_BALLOON_F_FREE_PAGE_HINT. First issue was reported by
-> Alexander Bulekov [1], the other ones were discovered by me when digging
-> into the details.
-> 
-> [1] https://lkml.kernel.org/r/20200511044121.eihns2tdimdzgi4i@mozz.bu.edu
-> 
-> David Hildenbrand (3):
->    virtio-balloon: fix free page hinting without an iothread
->    virtio-balloon: fix free page hinting check on unrealize
->    virtio-balloon: unref the iothread when unrealizing
-> 
->   hw/virtio/virtio-balloon.c | 38 ++++++++++++++++++++------------------
->   1 file changed, 20 insertions(+), 18 deletions(-)
-> 
+Hi Linus,
 
-All this series deserves a 'Cc: qemu-stable@nongnu.org' tag, right?
+On Mon, May 18, 2020 at 10:17 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> I have queued this v7 patch set in an immutable branch for testing and also
+> merged to my "devel" branch for testing.
+>
+> If all goes well it also hits linux-next soon.
 
+Thank a lot!
+
+Back to the QEMU side...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
