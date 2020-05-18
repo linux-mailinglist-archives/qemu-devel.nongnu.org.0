@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B75E1D7D8F
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 17:56:43 +0200 (CEST)
-Received: from localhost ([::1]:47604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E171D7D9C
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 17:58:15 +0200 (CEST)
+Received: from localhost ([::1]:54884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jai8A-0000e7-90
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 11:56:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52612)
+	id 1jai9e-0003eF-Vg
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 11:58:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jai4q-00035E-Or; Mon, 18 May 2020 11:53:16 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39934)
+ id 1jai4r-00037m-Ho; Mon, 18 May 2020 11:53:17 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jai4p-00005Q-Qm; Mon, 18 May 2020 11:53:16 -0400
-Received: by mail-wm1-x344.google.com with SMTP id w64so16421wmg.4;
+ id 1jai4q-00005l-O8; Mon, 18 May 2020 11:53:17 -0400
+Received: by mail-wm1-x342.google.com with SMTP id z72so32918wmc.2;
  Mon, 18 May 2020 08:53:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bB9pDUjiIlea3U386GXuZY1NOAMaybVFycH+ZuoRiV0=;
- b=nurR+oeqvO38IlVAvYjrxVv0j0dklv6u3yVTDJ9MjtfJGYrgNsKLWs7v/EuSfT1Fyw
- 0hekQj/tWlRwGvIoHSlzW9AuZtciTPQcEplw1Pk8G6K0Hbrx+YNLGqJqwsJiwTdGA5Ne
- v9/csSObyWiXDO8tXRQFSARTVgrKmme1B4xlK6G65N3bOCs9+um2jRul25Bre3/UOTza
- OGPqc/K941siuivQI1Wp+Y4WrR+at7LjrzQjI27bJrNP8FSbQYpiJjFPWWuWesiUuFfw
- ukETX0f+LCej7jAyGWg6NyrNnHEv4M8WOryfTbHiRYhmsQGp7mnvZiMDjtMW3y6pEggr
- wGSA==
+ bh=YgUO7urc8a2H2l0AjA6/YcXX+FHCC3nhZ10cz3IJGT0=;
+ b=IOBfw97bri/HK4rNN8hBH3fS/bLjGzm8A0H/8IkZ8BNpXTH5MWOLMb3YVIeMZKbemA
+ 3ANvreACUxm3uKFDJZEe4MA+7GDtRxgdRAvLMjOBMc7JlM5setDqR+rAAjGrhOViOGZF
+ 2Wqfu4cYar/pwmzsrnDNSa2HYymGPUjbGygmgHP6rSFAaV7KZ4Aj7Zf8fLfG4mjSdzoj
+ O0xMbKFIM8aKXXnAyWz+2OWRz7ivmrJrmm2ilOqTEom06SGkiN9a0F3K1QeVvnWoTdEt
+ L9ra6YC/35hRflgOsBpof5I6H7BbRnEo+uNLoC00Y9tDyfK0lemm9ge5tj8eq1k8Vg70
+ hyyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=bB9pDUjiIlea3U386GXuZY1NOAMaybVFycH+ZuoRiV0=;
- b=WlHbe+mo0ZyXgyxAuHxGxytWvHLKTCfimFvrizz/3t1QpNWNIpfkzTZQGO4kBCA72l
- 72jyV28SJHFeO/8nPaCtH4HYkf7kV9DfYBWZmxg09JH1mE+4N+4bQjQG4uxxy7IarcNv
- 8Itku3gFx/Oq9aLrI13ONJvtrOtGKO4w+5vDiXHiGHeAcZzwybZgCTSqeO2SG7ZO368A
- hKgcvaMwFGbievygCU9OfDFcig+S3gMZawdwduCwFH+8WMhMaGR6/8H+zCMAxDWEEVWU
- wDxaa3UAQtdPscqX9CpSO95FEuBUqMzqzGGxFtJbmVsHNvThEsOZ43xOk3ZmIbo92Mtw
- TeEA==
-X-Gm-Message-State: AOAM532JFbHD+DQIWxHeSLZjLSPVp9mCn2JwRNg9sxFwnZ6aJ5FymaHA
- 2eKToqB7FBjpwzCGoKdVb/hlra7jW2M=
-X-Google-Smtp-Source: ABdhPJyfeaVjxI8bi3kpjnvht2g384iEYsz/UxrYeBJJDMzC5vFKDJec5j+2beg6JCmhPLXHZGmWsA==
-X-Received: by 2002:a1c:6884:: with SMTP id
- d126mr20131549wmc.179.1589817193623; 
- Mon, 18 May 2020 08:53:13 -0700 (PDT)
+ bh=YgUO7urc8a2H2l0AjA6/YcXX+FHCC3nhZ10cz3IJGT0=;
+ b=UzYfulLDKakKYiCKJDekG3GwUxyRJTRwUIsxadnAnl5wETx+j2LbnJ31pdSS8YCog4
+ AkVSOst2BQYsLGKHk8O1Dc2IDHPedYGsveoABrnOEzqthETAqWTKSxtuenoW4HZD1K0/
+ GXuCII8KiWI4axtw2zhJgp0DGgGew/0+Z/iQeJyuZV1OcYZoo8Od3iSHAPXLFHVCPIRD
+ RugRDY3lcze75ZAp7+DdwY0pcfJjJKyoK0f5XQ2dnBXBoG4sy3ulOq6ShhvRMqPnuV0G
+ Iu2Ii804OZRQ8GeioKY/Hn9wCm1AmVLTtGZeSGOVw1KPx/ustNkZhQiU+6LYXqWnV8bj
+ cCNQ==
+X-Gm-Message-State: AOAM53088fCRomxqjHHrq2pL0OxUDNzIAp7xZBCbbFGtQewC1nU2QYiH
+ MhH+Vo52aB6ncJ4Se3QqjUqLF8YDSYA=
+X-Google-Smtp-Source: ABdhPJyG3gmRwNj2wCtQakz1KaSpc4CoE3n4quosHaeNbq9NCRoNUZ4NxGqjRfI4JksaALSu8mA24w==
+X-Received: by 2002:a1c:4cb:: with SMTP id 194mr42967wme.124.1589817194856;
+ Mon, 18 May 2020 08:53:14 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id 7sm17647462wra.50.2020.05.18.08.53.12
+ by smtp.gmail.com with ESMTPSA id 7sm17647462wra.50.2020.05.18.08.53.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 08:53:12 -0700 (PDT)
+ Mon, 18 May 2020 08:53:14 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/7] disas: Let disas::read_memory() handler return EIO on
- error
-Date: Mon, 18 May 2020 17:53:04 +0200
-Message-Id: <20200518155308.15851-4-f4bug@amsat.org>
+Subject: [PATCH v2 4/7] hw/elf_ops: Do not ignore write failures when loading
+ ELF
+Date: Mon, 18 May 2020 17:53:05 +0200
+Message-Id: <20200518155308.15851-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200518155308.15851-1-f4bug@amsat.org>
 References: <20200518155308.15851-1-f4bug@amsat.org>
@@ -64,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -95,48 +94,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both cpu_memory_rw_debug() and address_space_read() return
-an error on failed transaction. Check the returned value,
-and return EIO in case of error.
+Do not ignore the MemTxResult error type returned by
+address_space_write().
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- disas.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ include/hw/elf_ops.h | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/disas.c b/disas.c
-index 45285d3f63..c1397d3933 100644
---- a/disas.c
-+++ b/disas.c
-@@ -39,9 +39,11 @@ target_read_memory (bfd_vma memaddr,
-                     struct disassemble_info *info)
- {
-     CPUDebug *s = container_of(info, CPUDebug, info);
-+    int r;
- 
--    cpu_memory_rw_debug(s->cpu, memaddr, myaddr, length, 0);
--    return 0;
-+    r = cpu_memory_rw_debug(s->cpu, memaddr, myaddr, length, 0);
+diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
+index 398a4a2c85..6fdff3dced 100644
+--- a/include/hw/elf_ops.h
++++ b/include/hw/elf_ops.h
+@@ -553,9 +553,14 @@ static int glue(load_elf, SZ)(const char *name, int fd,
+                     rom_add_elf_program(label, mapped_file, data, file_size,
+                                         mem_size, addr, as);
+                 } else {
+-                    address_space_write(as ? as : &address_space_memory,
+-                                        addr, MEMTXATTRS_UNSPECIFIED,
+-                                        data, file_size);
++                    MemTxResult res;
 +
-+    return r ? EIO : 0;
- }
++                    res = address_space_write(as ? as : &address_space_memory,
++                                              addr, MEMTXATTRS_UNSPECIFIED,
++                                              data, file_size);
++                    if (res != MEMTX_OK) {
++                        goto fail;
++                    }
+                 }
+             }
  
- /* Print an error message.  We can assume that this is in response to
-@@ -718,10 +720,11 @@ physical_read_memory(bfd_vma memaddr, bfd_byte *myaddr, int length,
-                      struct disassemble_info *info)
- {
-     CPUDebug *s = container_of(info, CPUDebug, info);
-+    MemTxResult res;
- 
--    address_space_read(s->cpu->as, memaddr, MEMTXATTRS_UNSPECIFIED,
--                       myaddr, length);
--    return 0;
-+    res = address_space_read(s->cpu->as, memaddr, MEMTXATTRS_UNSPECIFIED,
-+                             myaddr, length);
-+    return res == MEMTX_OK ? 0 : EIO;
- }
- 
- /* Disassembler for the monitor.  */
 -- 
 2.21.3
 
