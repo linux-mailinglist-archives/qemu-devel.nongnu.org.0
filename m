@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20EFE1D7DF2
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:09:44 +0200 (CEST)
-Received: from localhost ([::1]:42728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3091D7DFE
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:11:43 +0200 (CEST)
+Received: from localhost ([::1]:50854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaiKl-0006HD-7n
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:09:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54744)
+	id 1jaiMg-0001Pn-30
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:11:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jaiIg-0003gB-SJ
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:07:34 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41872)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jaiJg-0005k7-5S
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:08:36 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:35826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jaiIf-0005DG-Gw
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:07:34 -0400
-Received: by mail-wr1-x444.google.com with SMTP id h17so12495931wrc.8
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 09:07:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jaiJf-0005Tt-5b
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:08:35 -0400
+Received: by mail-ot1-x343.google.com with SMTP id 69so3930426otv.2
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 09:08:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=hvJjkvu0hFdbDOkrhSU4rue+dHtMD/GZv8fiFE3vp3U=;
- b=CzV7M0IljdHb3MUcbXVcibVXofKuoPlM6P6PjSMn4TAkNhk3mEhUklJXmaPQO4ceMi
- 9OyrmN/yUNvhUNhXT8GmOevDqlztQGJC4ZPfoY4pP3OHjEJ/xZo8znLr4lUSjwxAkMuZ
- Oa56bh23feAl+Ve3/N8ROaHyGOFZVK+0hRmzvNPtaylg41YteovoM7BEsGXrk07rK914
- z8+wA0ouYDtwp550RnRUPGdYxD3x/LSWbFB5Ep4yG9KzTg34zENUb1nde/PP6ZY2pqqi
- L2nelekp+x8lu/bomaxVYp8kedN5dzVJIg9fGwITsEO8xywRJIRwtpenqc7DyoE2cJtK
- iUQg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=aEvHPXNLYXl7vuRStaAwfAn8MfOBGgU0vV6HazBxAbQ=;
+ b=kZmaULcUCuC5rGz5m3brTjaDP9cEzdfKcaeMbPHGQi55NYO859kdMylN7xaj/ag/bv
+ SreSZqJEUMFVpQ4KJaDU7lvW3SbOr8FS0g1dYWTyRM8Hd/aQeQ4yLQLg3Z+PzBicRxuY
+ O2vLG7K+AfvV2wYisVqz3Mipw7AE+NdIxrQHSc9tQ6QYfdCcMgvONyfPTx/kbx6pk4rk
+ qxAMCyhbgvUu2To7RfjfpHc0yOm3/7CUHXjoLAzJ3SO0m1PIax1mk23pgxzuxEH1z/v2
+ 1Ox09rG2WRS/gMxa23xMj7MEPuMCo1/LaeBAbqpWIEQ7kdhaU+LSQSfUXOoFhijijwXv
+ vNgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=hvJjkvu0hFdbDOkrhSU4rue+dHtMD/GZv8fiFE3vp3U=;
- b=gjmtAWdt2+06/G+5aYQOluNto6oXlxWAp+6MEqI0QSPkkfcXrCMh6NSy72TsCVee3G
- +c5XbbViPAilGiCDVZUmK5OLgRSGZX7ZqNRk79R+TKTSZ/2SHV/ccfaBlI+GDF0IARev
- AKfXF4k686bta3pJyJdiVWcN+2ayQ4vyYM8q1BjkUaJC9W/PNkYVTkbJa8fiFNHsyWBh
- yc7J0M7oFnnIVRRiyGH2Wb2esWh4mZv99x1hhHKu2IyD+GGEex+fzLsvc25/aV1AKRLe
- dDTZqqCMAfxiOWuDxUMXgbNDqGZ1QlSa3HvkjoMNdzsMajS/iqfuHC4qmZLXsKXD+t3o
- r25w==
-X-Gm-Message-State: AOAM532FfOuFr2qiLssZTo4bJQD5KXGo24jvWoWCrmb2BMxbQXnivi5w
- JsNVi3nAyqxDFhBfJyu/uV5wRw==
-X-Google-Smtp-Source: ABdhPJwv2dLz5cId7BRgj3XrZitflsOqN6KfORXSiASLy6vn4OCY3QSc00QdFDsNE8wy/HFUpyeK/Q==
-X-Received: by 2002:a5d:5106:: with SMTP id s6mr20105022wrt.267.1589818051888; 
- Mon, 18 May 2020 09:07:31 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d1sm17609499wrc.26.2020.05.18.09.07.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 09:07:30 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9BCB01FF7E;
- Mon, 18 May 2020 17:07:29 +0100 (BST)
-References: <158823999490.29783.7079486043043163164.stgit@pasha-ThinkPad-X280>
-User-agent: mu4e 1.4.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
-Subject: Re: [PATCH] replay: implement fair mutex
-In-reply-to: <158823999490.29783.7079486043043163164.stgit@pasha-ThinkPad-X280>
-Date: Mon, 18 May 2020 17:07:29 +0100
-Message-ID: <87tv0djkfy.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=aEvHPXNLYXl7vuRStaAwfAn8MfOBGgU0vV6HazBxAbQ=;
+ b=XnHexPep7ThjUeboPeV6//pdQo+/pXwr5vJmQWPM3jhazwOQDyLrr/mybXMAQM0y3R
+ JlD/BeKCze3f8qjJGuimG//saueFg6ZNxkahVSSi41/vDVTKs44sH7QIskWqz6c4LFCq
+ m2vO++ELBp8A9zv+ei8Xbxc5LJ4HWvKT7ap4VuB72FPfGopSymgGfRilYMMf37+k5sEM
+ 29jvmx5/E79jvmHonGyJDeYvnAgd0FdW6TX8ShbCial4l4ITB+gdB63Yf5hWmbE5wxeB
+ TRjTm5rM74wO4pWwPs/2sBW7STQmKgGK/wlID8J2b1yhnKFF3aPzfNOhQfV/2CvJK732
+ ZXEw==
+X-Gm-Message-State: AOAM530Q5wU6KAIV4ek3ERGKjskQ/96rv+vL+joMb+P6MnC31IIJoAz8
+ WhVxoBFzn/yc+qZQWSxr7fkZz0y9WdTZ0mP3s+1gSQ==
+X-Google-Smtp-Source: ABdhPJwo0upBYcPDEgUURdtzlsWlu2s/qUyQPm4kW0AOC8ogKFYxePsDhlyOFfo/jy+43bZTEUQWm2oqBZY0DQ5pv1w=
+X-Received: by 2002:a9d:b82:: with SMTP id 2mr12243999oth.221.1589818113522;
+ Mon, 18 May 2020 09:08:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20200518155308.15851-1-f4bug@amsat.org>
+ <20200518155308.15851-6-f4bug@amsat.org>
+In-Reply-To: <20200518155308.15851-6-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 18 May 2020 17:08:22 +0100
+Message-ID: <CAFEAcA-rmLFZy5oKB_-Mg5MgWV+=V1rJJcLVi_Bp_jMbivcJxw@mail.gmail.com>
+Subject: Re: [PATCH v2 5/7] hw/arm/boot: Abort if set_kernel_args() fails
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,91 +81,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, dovgaluk@ispras.ru, qemu-devel@nongnu.org,
- pavel.dovgaluk@ispras.ru
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, kvm-devel <kvm@vger.kernel.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com> writes:
-
-> In record/replay icount mode main loop thread and vCPU thread
-> do not perform simultaneously. They take replay mutex to synchronize
-> the actions. Sometimes vCPU thread waits for locking the mutex for
-> very long time, because main loop releases the mutex and takes it
-> back again.
-
-Where in the main loop do we keep bouncing the mutex like this? Surely
-that is the problem we should fix?
-
-> Standard qemu mutex do not provide the ordering
-> capabilities.
+On Mon, 18 May 2020 at 16:53, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> This patch adds a "queue" for replay mutex. Therefore thread ordering
-> becomes more "fair". Threads are executed in the same order as
-> they are trying to take the mutex.
+> If a address_space_write() fails while calling
+> set_kernel_args(), the guest kernel will boot
+> using crap data. Avoid that by aborting if this
+> ever occurs.
 >
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-> ---
->  replay/replay-internal.c |   15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
->
-> diff --git a/replay/replay-internal.c b/replay/replay-internal.c
-> index eba8246aae..2e8a3e947a 100644
-> --- a/replay/replay-internal.c
-> +++ b/replay/replay-internal.c
-> @@ -22,6 +22,9 @@
->     It also protects replay events queue which stores events to be
->     written or read to the log. */
->  static QemuMutex lock;
-> +/* Condition and queue for fair ordering of mutex lock requests. */
-> +static QemuCond mutex_cond;
-> +static unsigned long mutex_head, mutex_tail;
->=20=20
->  /* File for replay writing */
->  static bool write_error;
-> @@ -197,9 +200,10 @@ static __thread bool replay_locked;
->  void replay_mutex_init(void)
->  {
->      qemu_mutex_init(&lock);
-> +    qemu_cond_init(&mutex_cond);
->      /* Hold the mutex while we start-up */
-> -    qemu_mutex_lock(&lock);
->      replay_locked =3D true;
-> +    ++mutex_tail;
->  }
->=20=20
->  bool replay_mutex_locked(void)
-> @@ -211,10 +215,16 @@ bool replay_mutex_locked(void)
->  void replay_mutex_lock(void)
->  {
->      if (replay_mode !=3D REPLAY_MODE_NONE) {
-> +        unsigned long id;
->          g_assert(!qemu_mutex_iothread_locked());
->          g_assert(!replay_mutex_locked());
->          qemu_mutex_lock(&lock);
-> +        id =3D mutex_tail++;
-> +        while (id !=3D mutex_head) {
-> +            qemu_cond_wait(&mutex_cond, &lock);
-> +        }
->          replay_locked =3D true;
-> +        qemu_mutex_unlock(&lock);
->      }
->  }
->=20=20
-> @@ -222,7 +232,10 @@ void replay_mutex_unlock(void)
->  {
->      if (replay_mode !=3D REPLAY_MODE_NONE) {
->          g_assert(replay_mutex_locked());
-> +        qemu_mutex_lock(&lock);
-> +        ++mutex_head;
->          replay_locked =3D false;
-> +        qemu_cond_broadcast(&mutex_cond);
->          qemu_mutex_unlock(&lock);
->      }
->  }
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
+I think it's reasonable to make these be fatal, but I think we
+shouldn't just assert() but instead make set_kernel_arg()
+and set_kernel_args_old() return a success/failure indication,
+and report failures to the user as fatal errors.
 
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
