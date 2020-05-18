@@ -2,56 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775B51D788B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 14:26:53 +0200 (CEST)
-Received: from localhost ([::1]:37086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6861D78B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 14:34:58 +0200 (CEST)
+Received: from localhost ([::1]:60254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaer6-0003i4-Gx
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 08:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48856)
+	id 1jaeyv-0005K2-Fd
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 08:34:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jaeow-00021d-0D
- for qemu-devel@nongnu.org; Mon, 18 May 2020 08:24:38 -0400
-Received: from 13.mo1.mail-out.ovh.net ([178.33.253.128]:57410)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jaeot-0007i7-GD
- for qemu-devel@nongnu.org; Mon, 18 May 2020 08:24:37 -0400
-Received: from player688.ha.ovh.net (unknown [10.110.171.49])
- by mo1.mail-out.ovh.net (Postfix) with ESMTP id 0C5BE1C16CE
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 14:24:32 +0200 (CEST)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player688.ha.ovh.net (Postfix) with ESMTPSA id CE9B512635C4A;
- Mon, 18 May 2020 12:24:10 +0000 (UTC)
-Subject: Re: [PATCH 05/24] aspeed: Don't create unwanted "cortex-a7-arm-cpu"
- devices
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200518050408.4579-1-armbru@redhat.com>
- <20200518050408.4579-6-armbru@redhat.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <fbd7151f-159f-7568-77cb-7ce86f4948ba@kaod.org>
-Date: Mon, 18 May 2020 14:24:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jaexh-0004VS-Gy
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 08:33:41 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:35422)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jaexg-0001Cr-EE
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 08:33:41 -0400
+Received: by mail-oi1-x244.google.com with SMTP id o7so8816712oif.2
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 05:33:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=j8twICL20wBYfNSmXVxxJlz/7cs3MAitDiVHLFGOHlM=;
+ b=HEJsGqyQ7isfzZ48gNhbSsDKW61fWE0ft+NlUZRLsp2LcVwd0QRo3LwQgHlRuQSUuv
+ ol9v4rw7V+4+DQmH/BrI5qh1dNin8ZOEghxoAy70yd9tLH3w6/ckQV3JfWqI/L45Yldw
+ W90hiDJQrbz2nrWl9D2DWc95J+a3Z/wpsQYDbJ4ftklOjmfEVmJ8/dveNvx9FiS2Wo1F
+ ukAedt9QOo3JVJwvZBY41PtyCHR0b8TljAuE1mitu75aMEoUKGXx4ZiJfnPPYryFKHW1
+ 1NTg0WSFIm23kbKIxFi1Q0QEcZP+1ey4bVcqk1cunctOdv66IQH5EnCeiGccWkbnSYmE
+ Nylg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=j8twICL20wBYfNSmXVxxJlz/7cs3MAitDiVHLFGOHlM=;
+ b=ZVgLAegMsKCfZNHdp2RHRqULX1OqYk80RHZAd+vsU+vTKwMYSnkUqPtvmRnGd1d791
+ 54JmUJagcgjLn9SjmQ7uJ6N9fajylTc9h3CvDVjPgRlwAH3wubG6CRirFN25ZTc6ir35
+ YHh4PBdsX1x8oRS18iT55lqJsza7n/1bY3KIFFpOkqkppCX+UiN2WAerZRRCjPOuI92G
+ v+BIFbwiPSA/IyJJlvzKv4WKeKXBy4ByTt204cxq/EDaOtYFyBFnIMFCgmxUYw8aix33
+ ErJ9u5bNaqRWXBa74xeTE6D7TGUUDTBfnq0Ybib6FgtysoDWYGRHk9aVwMr1dlJM4YHg
+ adCQ==
+X-Gm-Message-State: AOAM5323ZvhHluxmslfhtYE5aEZeM3frQzZQUqoUMQY0YXjZ25xgtbWD
+ sQL2EwbQ7uKcjhjVP7i68IWSqVtRdLsXEZ+Bdw2dWg==
+X-Google-Smtp-Source: ABdhPJzUIAcpcBrPtGladKc34ZBDmwEFyhVzr9DLXdRTRlcAiiI/2XlBdYLrPim5hR/Muvu+lKe3VE9IVwfGpRCBTK8=
+X-Received: by 2002:aca:eb96:: with SMTP id j144mr9913368oih.48.1589805219040; 
+ Mon, 18 May 2020 05:33:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200518050408.4579-6-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 9115285646275480496
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedruddthedghedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefffdvtddugeeifeduuefghfejgfeigeeigeeltedthefgieeiveeuiefhgeefgfenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=178.33.253.128; envelope-from=clg@kaod.org;
- helo=13.mo1.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 08:24:33
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+References: <20200517164817.5371-1-f4bug@amsat.org>
+ <CAFEAcA81dq=DZO-ao80j6saWutsBD8Lka+0M_Lu77e44BdO5Tw@mail.gmail.com>
+ <9ee5e925-284a-9d5f-4890-b1d35eee9d7b@amsat.org>
+In-Reply-To: <9ee5e925-284a-9d5f-4890-b1d35eee9d7b@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 18 May 2020 13:33:28 +0100
+Message-ID: <CAFEAcA819P2w9xqXNsYmFruXv8i9TLS3QKGsO9+ywp64eC=MrQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] exec/memory: Enforce checking MemTxResult values
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,75 +82,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com,
- ehabkost@redhat.com, Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, pbonzini@redhat.com
+Cc: Tony Nguyen <tony.nguyen@bt.com>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/18/20 7:03 AM, Markus Armbruster wrote:
-> The number of CPUs is controlled by property "num-cpus".
-> aspeed_soc_ast2600_init() creates the maximum supported number.
-> aspeed_soc_ast2600_realize() realizes only the wanted number.  Works,
-> although it leaves unrealized devices hanging around in the QOM
-> composition tree.  Affects machines ast2600-evb and tacoma-bmc.
-> 
-> Make the init functions create only the wanted ones.  Visible in "info
-> qom-tree"; here's the change for ast2600-evb:
-> 
->      /machine (ast2600-evb-machine)
->        [...]
->        /soc (ast2600-a1)
->          [...]
->          /cpu[0] (cortex-a7-arm-cpu)
->            /unnamed-gpio-in[0] (irq)
->            /unnamed-gpio-in[1] (irq)
->            /unnamed-gpio-in[2] (irq)
->            /unnamed-gpio-in[3] (irq)
->     -    /cpu[1] (cortex-a7-arm-cpu)
->     -      /unnamed-gpio-in[0] (irq)
->     -      /unnamed-gpio-in[1] (irq)
->     -      /unnamed-gpio-in[2] (irq)
->     -      /unnamed-gpio-in[3] (irq)
->          /ehci[0] (platform-ehci-usb)
-> 
-> Cc: "Cédric Le Goater" <clg@kaod.org>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: qemu-arm@nongnu.org
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On Mon, 18 May 2020 at 12:20, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+> On 5/18/20 11:46 AM, Peter Maydell wrote:
+> > Not necessarily a bad idea, but don't we have an awful
+> > lot of places that ignore the result that we'd need
+> > to fix first?
+>
+> Yes, there are various places to fix. I wanted to have a preview first,
+> and not start working on this if it is later rejected. Most of the cases
+> are hardware specific and require studying each hardware behavior.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Well, patches that fix "we should check and handle errors but
+we don't" bugs are pretty uncontroversial.
 
-Joel, Andrew,
+How ugly does the code for "call the function and deliberately ignore
+the result in a way that doesn't trigger the warning" look ? Assuming
+it's reasonably straightforward to write code for a device that
+really does ignore the transaction status then I don't think that
+there would be a problem with adding the warn-unused-result attributes,
+if and when we got all the existing instances fixed.
 
-Shouldn't we enforce a default/min/max number of CPUs of 2 for the AST2600 ? 
-That's the SoC definition. The fact it is configurable in the Aspeed model
-was nice to have during bringup but we are now done.  
+The other part of this is really just priorities: it seems
+likely that a lot of the places which ignore the return code
+are going to be in devices which we don't care strongly
+about, so if fixing them all is going to take a long time
+because we have to look up the details of dozens of obscure
+bits of hardware, then maybe there's more important cleanup
+we might prefer to do first. It depends a bit on whether
+there are 30 of these callsites, or 3...
 
-Thanks,
-
-C.
-
-> ---
->  hw/arm/aspeed_ast2600.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-> index 0a6a77dd54..6ffa587a7f 100644
-> --- a/hw/arm/aspeed_ast2600.c
-> +++ b/hw/arm/aspeed_ast2600.c
-> @@ -287,6 +287,9 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
->              return;
->          }
->      }
-> +    for (; i < sc->num_cpus; i++) {
-> +        object_unparent(OBJECT(&s->cpu[i]));
-> +    }
->  
->      /* A7MPCORE */
->      object_property_set_int(OBJECT(&s->a7mpcore), s->num_cpus, "num-cpu",
-> 
-
+thanks
+-- PMM
 
