@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0AD41D7DA8
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:00:02 +0200 (CEST)
-Received: from localhost ([::1]:35082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 683881D7D90
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 17:56:59 +0200 (CEST)
+Received: from localhost ([::1]:49386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaiBN-00077p-JF
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:00:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52622)
+	id 1jai8Q-0001Od-C0
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 11:56:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jai4s-0003BJ-Og; Mon, 18 May 2020 11:53:18 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53828)
+ id 1jai4u-0003Gi-Mq; Mon, 18 May 2020 11:53:20 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jai4r-00006S-Uh; Mon, 18 May 2020 11:53:18 -0400
-Received: by mail-wm1-x342.google.com with SMTP id k12so20927wmj.3;
- Mon, 18 May 2020 08:53:17 -0700 (PDT)
+ id 1jai4t-00006f-A7; Mon, 18 May 2020 11:53:20 -0400
+Received: by mail-wr1-x443.google.com with SMTP id i15so12425723wrx.10;
+ Mon, 18 May 2020 08:53:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AnPjL1oCKd4/b0PMNN6nSj2GzQNIyIXoJD4PkkEccRM=;
- b=Flh1kB0guv4yAbKeDYrp5crvlMR5ihhTkgC4sUeRwuaqgo7GD0MKjJWTUa6Hw2L8xS
- CIsyCqO5AvcZ8OwqPdLT8OmZa/ij6U5deh3S8uaWtf/VidtkoeX+VHIABeeardCArTHX
- XNSnRdTy+EpyBchdo7vAMIvPG9o1VFjX+MkOHh1KL+C8pX1vZ0yVTp7rYBokW9sBGV7p
- uaLB7O6eaQG+1utdhsPZlItO485bABIknYR8tYuO+twhZvT1wOLhGP6aF/ija6iTfvyZ
- QkiXHLZ+FGIYWRNLOIOko72PY6W/2aVr6hJAQD/zFfc6NyNFkhqADfHmd5GIQxeXeG49
- +otg==
+ bh=MwRjIJKrjZvOQLKRDS7bp2j+HXuefv0dlJUo1+WtTjQ=;
+ b=egYB1VpdfFdcLU33RJfphrswTKxeIP4BjafZIjlthVmO7DNr1l7McScI+IvtmLndG9
+ WjD9LpiJcPgoH1MQBUkML5lgSFY7x3NaGka7xlkROcXaUy0M0SBcrXd5T4VzdZLNz/tc
+ JPL6wSS5HtdO9ff8Wg6X7bJESUkg8Ef8SEfUZKgdpq2BBN6kuw95k/w84PQl6K2QTuQC
+ IfkMkWm7skqibMMRLPYi373AjZVNZgP9ah9kIfJgJMlSEaP6vC7XibL1zckb5Buz9xo2
+ NTkPmJYYngauoD6KSjjGbIr3/BaenDgDt52tGVYYC0VdUp9L+LhUZnZUisxS9bM1br6K
+ NHqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=AnPjL1oCKd4/b0PMNN6nSj2GzQNIyIXoJD4PkkEccRM=;
- b=SnddOz38SngJwdoBAbwWbehQvMLxqtvxOeVIIoMmaflu9hLQDieyNIcVeoNyHyNQKt
- PZuBgIx2dx2XCdf0i3wgW7zNhcAtpHYnmgDTJuUyi6wIMPfeKz/ArtCgpRZuRzsAmAk8
- RhkTAIY4fk70QELvgV3fbIbaxouFdDWCc2j4ZnOAZbXh/13VzEzrvDX4cmWNvpzpDyQM
- Zhu1b3KN2NCeuOpgpNo3Oi/bV41t7jtO6lqR+yNSb6ZwHwQYagXKFyLUyHWS+yx0QaHG
- lunAQwG0rwvtKCTGOgD9tbLLEngPB0l03GCrsJ/jNqMJt3YjfinIabAypjU5QlXCYjUe
- WXRw==
-X-Gm-Message-State: AOAM532YjEGDH1y49Y9AhgWjM88zvO9gQJvF8OOktLe2OFEQM6A5qxhx
- glGxwb5Zo29u3GCZVH8SDXPWiXlIPVs=
-X-Google-Smtp-Source: ABdhPJz/PtyrwAQIbRp4mpLoU+mt0aZlERs2l79lSNvZZ5pevIUK5/V9XwfG5nxxlERMi6Y3l+3eOA==
-X-Received: by 2002:a1c:3187:: with SMTP id x129mr24994wmx.27.1589817196118;
- Mon, 18 May 2020 08:53:16 -0700 (PDT)
+ bh=MwRjIJKrjZvOQLKRDS7bp2j+HXuefv0dlJUo1+WtTjQ=;
+ b=OVhAN4A7VXJCGXmqnREoWY1LvSbuojT9QzZn6Y9fcxA19BnN9ziPb3lxzrVvT8iYWM
+ 3ae2YPRD+5wHbkI5ahZjcRIN48r52ySMCnHxJCvn2goOWyVgK42KhonVwGXqDofzOYNs
+ 8cMGrF3qTXJMVPFM1aW+A6UFcjucqgK+V10bD3zBtPAdOll9R61eh22h7LeYx/S3pApP
+ aYYK+t7cRmoGgVNvkH47oMiwxhF8e2YmDJsTBLl3wPyax863+PKWK+tqvFua+zvdiWo4
+ bha864oieXXP31hd0TYgYd6zs5mmng0J66S0A9oRGRPpq5biVZ2NAQaJ11KqWe8oY8m8
+ M+jw==
+X-Gm-Message-State: AOAM533rn9X8wOIXaj5rEwJkcBEwC+MzCbYSuNeBbKVKAlU/WEf44KzS
+ KRR8Rwd6EsZ/BIgfYdLM/NB8pDW6Pq4=
+X-Google-Smtp-Source: ABdhPJz1bQDAMP2DFoPgL6gHBe6UaVxFp/cuSu6npvqkdthflrPa4uaDYx8RUUQurNbZEJssxkBzSA==
+X-Received: by 2002:a5d:6144:: with SMTP id y4mr21050664wrt.185.1589817197210; 
+ Mon, 18 May 2020 08:53:17 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id 7sm17647462wra.50.2020.05.18.08.53.15
+ by smtp.gmail.com with ESMTPSA id 7sm17647462wra.50.2020.05.18.08.53.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 08:53:15 -0700 (PDT)
+ Mon, 18 May 2020 08:53:16 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/7] hw/arm/boot: Abort if set_kernel_args() fails
-Date: Mon, 18 May 2020 17:53:06 +0200
-Message-Id: <20200518155308.15851-6-f4bug@amsat.org>
+Subject: [RFC PATCH v2 6/7] accel/kvm: Let KVM_EXIT_MMIO return error
+Date: Mon, 18 May 2020 17:53:07 +0200
+Message-Id: <20200518155308.15851-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200518155308.15851-1-f4bug@amsat.org>
 References: <20200518155308.15851-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -93,81 +93,47 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a address_space_write() fails while calling
-set_kernel_args(), the guest kernel will boot
-using crap data. Avoid that by aborting if this
-ever occurs.
+Give the hypervisor a possibility to catch any error
+occuring during KVM_EXIT_MMIO.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/boot.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+RFC because maybe we simply want to ignore this error instead
+---
+ accel/kvm/kvm-all.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index fef4072db1..7cc271034c 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -291,7 +291,8 @@ static inline bool have_dtb(const struct arm_boot_info *info)
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index d06cc04079..8dbcb8fda3 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -2357,6 +2357,7 @@ int kvm_cpu_exec(CPUState *cpu)
  
- #define WRITE_WORD(p, value) do { \
-     address_space_stl_notdirty(as, p, value, \
--                               MEMTXATTRS_UNSPECIFIED, NULL);  \
-+                               MEMTXATTRS_UNSPECIFIED, &result); \
-+    assert(result == MEMTX_OK); \
-     p += 4;                       \
- } while (0)
+     do {
+         MemTxAttrs attrs;
++        MemTxResult res;
  
-@@ -300,6 +301,7 @@ static void set_kernel_args(const struct arm_boot_info *info, AddressSpace *as)
-     int initrd_size = info->initrd_size;
-     hwaddr base = info->loader_start;
-     hwaddr p;
-+    MemTxResult result;
- 
-     p = base + KERNEL_ARGS_ADDR;
-     /* ATAG_CORE */
-@@ -326,8 +328,9 @@ static void set_kernel_args(const struct arm_boot_info *info, AddressSpace *as)
-         int cmdline_size;
- 
-         cmdline_size = strlen(info->kernel_cmdline);
--        address_space_write(as, p + 8, MEMTXATTRS_UNSPECIFIED,
--                            info->kernel_cmdline, cmdline_size + 1);
-+        result = address_space_write(as, p + 8, MEMTXATTRS_UNSPECIFIED,
-+                                     info->kernel_cmdline, cmdline_size + 1);
-+        assert(result == MEMTX_OK);
-         cmdline_size = (cmdline_size >> 2) + 1;
-         WRITE_WORD(p, cmdline_size + 2);
-         WRITE_WORD(p, 0x54410009);
-@@ -341,8 +344,9 @@ static void set_kernel_args(const struct arm_boot_info *info, AddressSpace *as)
-         atag_board_len = (info->atag_board(info, atag_board_buf) + 3) & ~3;
-         WRITE_WORD(p, (atag_board_len + 8) >> 2);
-         WRITE_WORD(p, 0x414f4d50);
--        address_space_write(as, p, MEMTXATTRS_UNSPECIFIED,
--                            atag_board_buf, atag_board_len);
-+        result = address_space_write(as, p, MEMTXATTRS_UNSPECIFIED,
-+                                     atag_board_buf, atag_board_len);
-+        assert(result == MEMTX_OK);
-         p += atag_board_len;
-     }
-     /* ATAG_END */
-@@ -357,6 +361,7 @@ static void set_kernel_args_old(const struct arm_boot_info *info,
-     const char *s;
-     int initrd_size = info->initrd_size;
-     hwaddr base = info->loader_start;
-+    MemTxResult result;
- 
-     /* see linux/include/asm-arm/setup.h */
-     p = base + KERNEL_ARGS_ADDR;
-@@ -419,7 +424,9 @@ static void set_kernel_args_old(const struct arm_boot_info *info,
-     }
-     s = info->kernel_cmdline;
-     if (s) {
--        address_space_write(as, p, MEMTXATTRS_UNSPECIFIED, s, strlen(s) + 1);
-+        result = address_space_write(as, p, MEMTXATTRS_UNSPECIFIED,
-+                                     s, strlen(s) + 1);
-+        assert(result == MEMTX_OK);
-     } else {
-         WRITE_WORD(p, 0);
-     }
+         if (cpu->vcpu_dirty) {
+             kvm_arch_put_registers(cpu, KVM_PUT_RUNTIME_STATE);
+@@ -2429,12 +2430,12 @@ int kvm_cpu_exec(CPUState *cpu)
+         case KVM_EXIT_MMIO:
+             DPRINTF("handle_mmio\n");
+             /* Called outside BQL */
+-            address_space_rw(&address_space_memory,
+-                             run->mmio.phys_addr, attrs,
+-                             run->mmio.data,
+-                             run->mmio.len,
+-                             run->mmio.is_write);
+-            ret = 0;
++            res = address_space_rw(&address_space_memory,
++                                   run->mmio.phys_addr, attrs,
++                                   run->mmio.data,
++                                   run->mmio.len,
++                                   run->mmio.is_write);
++            ret = res == MEMTX_OK ? 0 : -1;
+             break;
+         case KVM_EXIT_IRQ_WINDOW_OPEN:
+             DPRINTF("irq_window_open\n");
 -- 
 2.21.3
 
