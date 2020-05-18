@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0B01D807E
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 19:40:26 +0200 (CEST)
-Received: from localhost ([::1]:56230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D59FD1D8146
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 19:46:39 +0200 (CEST)
+Received: from localhost ([::1]:39792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jajkX-0000Yx-CK
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 13:40:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39692)
+	id 1jajqY-0005oO-Nq
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 13:46:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jajjG-0007k2-QO
- for qemu-devel@nongnu.org; Mon, 18 May 2020 13:39:06 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38888)
+ id 1jajpQ-0005DN-KG; Mon, 18 May 2020 13:45:28 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jajjG-0004X2-0B
- for qemu-devel@nongnu.org; Mon, 18 May 2020 13:39:06 -0400
-Received: by mail-wr1-x444.google.com with SMTP id e1so12865884wrt.5
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 10:39:05 -0700 (PDT)
+ id 1jajpP-0005vW-Nb; Mon, 18 May 2020 13:45:28 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id i15so12832155wrx.10;
+ Mon, 18 May 2020 10:45:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4mITdIfMQ7bHXg5T1QUErHhGg6bW7G+Gk8pW8N0qX2c=;
- b=DEaVVPebzVyWPdHgXpjUo5u3fJpbXq8Nlm5nIIFLQ96ZPwvPNQHSZoPc1WxR2LmjTE
- G+HWrOrLYlZ1h9ibRwHAD2xueBGPnOI+sI+Lg+KVdkWWT/+HvY17r7NYynrH7r+x3/19
- km4cVp51Fln7EDiMTjHjW/BIdQuXiw7V80Vnb3nobrsbmQtKDfoqImYKkE83r22/BHaJ
- 21OyGSn3WxJQ669MahJPdOMJCxZlBeq+ZqSzIiFO/5I62hkppK1d07UxVKruQ5SpU9pB
- 0RItgmIBnqr8fH5z2yWKaBnfrojwtB5yakhEMn9chLOvrkR7+WDPuVifbMBamtmx57wv
- z46w==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KcHC4TGOyn67sXBgQOlG94ry2lcg1ivHtGfLFBgEwsw=;
+ b=dXMhyZvGPMXX/wvsjvPG+AeThYtMsyyf2cgQMqrwQeAo1fH/BjVTK0DbwyFZ9REZsA
+ 5vczL3EqXzsH50epnVhgitCbPSq1quDCiBKw3KeksjKg3xJhqMQObY94JuHDO+jnvzzd
+ kjbZqOe9+fonoNCzsWNWsP1AKn1rryikfWb+3+zHMHjwiAOlJrpuAunKlnBpQwAathgZ
+ OEtP7ULnIBBlH3grmagfoQF3PRsLW6Az6uHmX62dlBhQgI+fAsRkcsEaRR/wHRCALl7l
+ sKVcIAggrXLnkWY6uny3NtViQS6/O2ZcQo/UlRmb5e5gjp4S9z3qSJ9UPFwhpXKItWq7
+ 7wkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4mITdIfMQ7bHXg5T1QUErHhGg6bW7G+Gk8pW8N0qX2c=;
- b=dmQL8j4uyiRZfqtDZJsyRE0KwYS4H/kxjaqUPpIPuGG6xFxVJl98b9n0ehzHRwtf/g
- K8mPU0vSn55m2qL2tH935Ik3DWff9lAQlVnk9bAA5/ptzLqU8rqBlfprTjUCEimRlgXV
- ND9DSScpGf4ptNvFyULoscMCPoPsZfHJnoEXdO309quJU94WHKv86YkwBl56rXQUXJPz
- 227B/OmiMIMvUX0bi0PnURC7HybRGcWhvbl8X4Caq3s+Sq4ZVxLdhBOP8o/qcPl26dVN
- pIxP8dL45qFY+F/vGTjY8N+CNMOQYIbOGWo56Vt0Y199ra79Bt51gqpHoLu0dJuPl0Uz
- LKqg==
-X-Gm-Message-State: AOAM530WZZltPZBvMbeHpXuzjkI4mYOWruVEQeMrc+k+Tq2VPSoP/4br
- Ud0ywSYhlwsM/3aYZoNrUgdTIKl49tQ=
-X-Google-Smtp-Source: ABdhPJw0q60IcJkWEQNNQsPJE4AmYt9hPAHT02IkDBI4DYtbaGRXrnnAevu54hvAZVLjnJUlb/DFiA==
-X-Received: by 2002:adf:dc86:: with SMTP id r6mr20226032wrj.45.1589823544205; 
- Mon, 18 May 2020 10:39:04 -0700 (PDT)
+ :mime-version:content-transfer-encoding;
+ bh=KcHC4TGOyn67sXBgQOlG94ry2lcg1ivHtGfLFBgEwsw=;
+ b=F7oMKObQvFK6d32NmiZGXhblwrnuQyFeJ5dPqX06HTSmI5Lfm/YqnaI+VFkXcMFgnT
+ ch4u4HrIeIu4YDY2KLckKJozxwy3GviHtW31XbD108e4eP21ls2WaMVJqvDymTyeIstQ
+ hrs9On1ADurv/TIJ17i2YaMr/gE5uCKwtOzc7cRCMkbHAIJXNtRCmkf1xtJL+Hv/QC0V
+ SBQzZJIeq/iz36kVufXWg8ZPb5qoG6lb+IBsHIE+gMkjEvkKQiXT6UMs8xE45KKkuw1t
+ +Uc2WX70pLU0H/jNeW8Yl5oo888RESnZpu/wz+HEJ9T6Lz9paOXzB9B25G0Oz5YvIkHJ
+ WdRg==
+X-Gm-Message-State: AOAM530pzEa6Y6eom3rZ0Zf2ue2PkODSr0a7OdLDSC0wOSRFt9EpTN81
+ k5EQn8+rsLEpZY79JkdU2eY4i0EXdxM=
+X-Google-Smtp-Source: ABdhPJwMUOugnIkuzsAUUfJHrUVbmlxTW7bNta0O8b4OwBSmJC1zb3JoFk/Be0Os9ObYi1tm5drtWA==
+X-Received: by 2002:a5d:5088:: with SMTP id a8mr18803568wrt.216.1589823925569; 
+ Mon, 18 May 2020 10:45:25 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id k13sm271113wmj.40.2020.05.18.10.39.02
+ by smtp.gmail.com with ESMTPSA id x24sm18465304wrd.51.2020.05.18.10.45.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 10:39:03 -0700 (PDT)
+ Mon, 18 May 2020 10:45:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] hw/m68k/mcf52xx: Replace hw_error() by qemu_log_mask()
-Date: Mon, 18 May 2020 19:38:59 +0200
-Message-Id: <20200518173859.16520-3-f4bug@amsat.org>
+Subject: [PATCH v2] hw/display/edid: Add missing 'qdev-properties.h' header
+Date: Mon, 18 May 2020 19:45:23 +0200
+Message-Id: <20200518174523.18076-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200518173859.16520-1-f4bug@amsat.org>
-References: <20200518173859.16520-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -88,194 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Thomas Huth <huth@tuxfamily.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-trivial@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hw_error() calls exit(). This a bit overkill when we can log
-the accesses as unimplemented or guest error.
+When trying to consume the DEFINE_EDID_PROPERTIES() macro
+by including "hw/display/edid.h", we get this build failure:
 
-When fuzzing the devices, we don't want the whole process to
-exit. Replace some hw_error() calls by qemu_log_mask().
+  include/hw/display/edid.h:24:5: error: implicit declaration of
+  function ‘DEFINE_PROP_UINT32’ [-Werror=implicit-function-declaration]
+     24 |     DEFINE_PROP_UINT32("xres", _state, _edid_info.prefx, 0),    \
+        |     ^~~~~~~~~~~~~~~~~~
+
+Headers should be self-contained, and one shouldn't have to
+dig to find the missing headers.
+In this case "hw/qdev-properties.h" is missing. Add it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/m68k/mcf5206.c  | 10 +++++++---
- hw/m68k/mcf5208.c  | 16 ++++++++++------
- hw/m68k/mcf_intc.c | 10 +++++++---
- hw/net/mcf_fec.c   |  9 ++++++---
- 4 files changed, 30 insertions(+), 15 deletions(-)
+Since v1: reworded description (rth)
 
-diff --git a/hw/m68k/mcf5206.c b/hw/m68k/mcf5206.c
-index 45f44c43f0..eebd16bb7a 100644
---- a/hw/m68k/mcf5206.c
-+++ b/hw/m68k/mcf5206.c
-@@ -8,6 +8,7 @@
+Supersedes: <20200504082003.16298-1-f4bug@amsat.org>
+---
+ include/hw/display/edid.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/include/hw/display/edid.h b/include/hw/display/edid.h
+index ff99dc0a05..23371ee82c 100644
+--- a/include/hw/display/edid.h
++++ b/include/hw/display/edid.h
+@@ -2,6 +2,7 @@
+ #define EDID_H
  
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
-+#include "qemu/log.h"
- #include "cpu.h"
- #include "hw/hw.h"
- #include "hw/irq.h"
-@@ -225,7 +226,8 @@ static void m5206_mbar_update(m5206_mbar_state *s)
-                 break;
-             default:
-                 /* Unknown vector.  */
--                error_report("Unhandled vector for IRQ %d", irq);
-+                qemu_log_mask(LOG_UNIMP, "%s: Unhandled vector for IRQ %d\n",
-+                              __func__, irq);
-                 vector = 0xf;
-                 break;
-             }
-@@ -306,7 +308,8 @@ static uint64_t m5206_mbar_read(m5206_mbar_state *s,
-     case 0x170: return s->uivr[0];
-     case 0x1b0: return s->uivr[1];
-     }
--    hw_error("Bad MBAR read offset 0x%x", offset);
-+    qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad MBAR offset 0x%x\n",
-+                  __func__, offset);
-     return 0;
- }
+ #include "qom/object.h"
++#include "hw/qdev-properties.h"
  
-@@ -360,7 +363,8 @@ static void m5206_mbar_write(m5206_mbar_state *s, uint16_t offset,
-         s->uivr[1] = value;
-         break;
-     default:
--        hw_error("Bad MBAR write offset 0x%x", offset);
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad MBAR offset 0x%x\n",
-+                      __func__, offset);
-         break;
-     }
- }
-diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
-index b84c152ce3..108623b4ad 100644
---- a/hw/m68k/mcf5208.c
-+++ b/hw/m68k/mcf5208.c
-@@ -9,10 +9,10 @@
- #include "qemu/osdep.h"
- #include "qemu/units.h"
- #include "qemu/error-report.h"
-+#include "qemu/log.h"
- #include "qapi/error.h"
- #include "qemu-common.h"
- #include "cpu.h"
--#include "hw/hw.h"
- #include "hw/irq.h"
- #include "hw/m68k/mcf.h"
- #include "hw/m68k/mcf_fec.h"
-@@ -111,8 +111,9 @@ static void m5208_timer_write(void *opaque, hwaddr offset,
-     case 4:
-         break;
-     default:
--        hw_error("m5208_timer_write: Bad offset 0x%x\n", (int)offset);
--        break;
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" PRIx64 "\n",
-+                      __func__, offset);
-+        return;
-     }
-     m5208_timer_update(s);
- }
-@@ -136,7 +137,8 @@ static uint64_t m5208_timer_read(void *opaque, hwaddr addr,
-     case 4:
-         return ptimer_get_count(s->timer);
-     default:
--        hw_error("m5208_timer_read: Bad offset 0x%x\n", (int)addr);
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
-+                      __func__, addr);
-         return 0;
-     }
- }
-@@ -164,7 +166,8 @@ static uint64_t m5208_sys_read(void *opaque, hwaddr addr,
-         return 0;
- 
-     default:
--        hw_error("m5208_sys_read: Bad offset 0x%x\n", (int)addr);
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
-+                      __func__, addr);
-         return 0;
-     }
- }
-@@ -172,7 +175,8 @@ static uint64_t m5208_sys_read(void *opaque, hwaddr addr,
- static void m5208_sys_write(void *opaque, hwaddr addr,
-                             uint64_t value, unsigned size)
- {
--    hw_error("m5208_sys_write: Bad offset 0x%x\n", (int)addr);
-+    qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
-+                  __func__, addr);
- }
- 
- static const MemoryRegionOps m5208_sys_ops = {
-diff --git a/hw/m68k/mcf_intc.c b/hw/m68k/mcf_intc.c
-index d9e03a06ab..bc20742d9a 100644
---- a/hw/m68k/mcf_intc.c
-+++ b/hw/m68k/mcf_intc.c
-@@ -8,6 +8,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/module.h"
-+#include "qemu/log.h"
- #include "cpu.h"
- #include "hw/hw.h"
- #include "hw/irq.h"
-@@ -80,7 +81,9 @@ static uint64_t mcf_intc_read(void *opaque, hwaddr addr,
-     case 0xe1: case 0xe2: case 0xe3: case 0xe4:
-     case 0xe5: case 0xe6: case 0xe7:
-         /* LnIACK */
--        hw_error("mcf_intc_read: LnIACK not implemented\n");
-+        qemu_log_mask(LOG_UNIMP, "%s: LnIACK not implemented (offset 0x%02x)\n",
-+                      __func__, offset);
-+        /* fallthru */
-     default:
-         return 0;
-     }
-@@ -127,8 +130,9 @@ static void mcf_intc_write(void *opaque, hwaddr addr,
-         }
-         break;
-     default:
--        hw_error("mcf_intc_write: Bad write offset %d\n", offset);
--        break;
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%02x\n",
-+                      __func__, offset);
-+        return;
-     }
-     mcf_intc_update(s);
- }
-diff --git a/hw/net/mcf_fec.c b/hw/net/mcf_fec.c
-index 9327ac8a30..281345862c 100644
---- a/hw/net/mcf_fec.c
-+++ b/hw/net/mcf_fec.c
-@@ -7,7 +7,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "hw/hw.h"
-+#include "qemu/log.h"
- #include "hw/irq.h"
- #include "net/net.h"
- #include "qemu/module.h"
-@@ -392,7 +392,8 @@ static uint64_t mcf_fec_read(void *opaque, hwaddr addr,
-     case 0x188: return s->emrbr;
-     case 0x200 ... 0x2e0: return s->mib[(addr & 0x1ff) / 4];
-     default:
--        hw_error("mcf_fec_read: Bad address 0x%x\n", (int)addr);
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad address 0x%" HWADDR_PRIX "\n",
-+                      __func__, addr);
-         return 0;
-     }
- }
-@@ -492,7 +493,9 @@ static void mcf_fec_write(void *opaque, hwaddr addr,
-         s->mib[(addr & 0x1ff) / 4] = value;
-         break;
-     default:
--        hw_error("mcf_fec_write Bad address 0x%x\n", (int)addr);
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad address 0x%" HWADDR_PRIX "\n",
-+                      __func__, addr);
-+        return;
-     }
-     mcf_fec_update(s);
- }
+ typedef struct qemu_edid_info {
+     const char *vendor; /* http://www.uefi.org/pnp_id_list */
 -- 
 2.21.3
 
