@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06E301D7D80
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 17:54:54 +0200 (CEST)
-Received: from localhost ([::1]:37956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D29C1D7D84
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 17:55:00 +0200 (CEST)
+Received: from localhost ([::1]:38658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jai6O-00059L-VR
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 11:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52586)
+	id 1jai6V-0005Qk-MZ
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 11:54:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jai4n-0002y7-3v; Mon, 18 May 2020 11:53:13 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37535)
+ id 1jai4p-00031x-Dd; Mon, 18 May 2020 11:53:15 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jai4m-0008Um-4a; Mon, 18 May 2020 11:53:12 -0400
-Received: by mail-wm1-x341.google.com with SMTP id z72so32643wmc.2;
- Mon, 18 May 2020 08:53:11 -0700 (PDT)
+ id 1jai4n-000050-5c; Mon, 18 May 2020 11:53:15 -0400
+Received: by mail-wm1-x342.google.com with SMTP id k12so20655wmj.3;
+ Mon, 18 May 2020 08:53:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=W0NZH996mfqrH/xeDmImG2NwLarasbVlVoAElHsd8sQ=;
- b=tLXmLd86dVALrDyfRBSDM7xGyBzx8PJJWlY3i38vW6q9/Pq2n5mt3ItbF9uZKtViWL
- 5wjAhT45r111vXSVIQUuwkb/+pC4BmSqWADibN6q3Locg2JVINUoZqSROZBnySBdcKu2
- o7icrgMjNdj41GvG+1h7CXICRijZyk9PCqmL73xjibtIUlwr5m8fU954ESI+FigCiT6C
- bs8ilZH4spkBeWmS9qFncwqfwwrAdAuMAk77e2TsE5z07YnW6/jjk8LqIzgX5aLh8Lf3
- 32nm7cFpyxPY9VYf1Y8EuTeXM0FeWyXQRN+cYia6fpPx0obBb5QsL6e2VcrOwfrxbO5A
- rQTw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=WSFyr6f19aP4N4MMJJARifgNu7cVe5tnytMgFa4vhLY=;
+ b=kCSqrZiBJYfTvK6U7vz3nNDXw8i72uTGkX8UjayRNSx1b87A6HZyN0RCp9RgEzIN0G
+ qWNlCkhAfu32BYTwCLRdc01DpTLebfKGRZENxPGloToarBft+JLovARNHt3Zm5JpiOFb
+ VAmXclSfNHTPsASzzd+5Vo/Ib/iqvhUsdfDPO8VIutjrO5t7FrU6hlXCXcT5h2jVueTR
+ s/m9n5HsKERdFsQ7+K4XiY/S9K6T8aned4oF9+6DsGouHBcACygZhGM0HhzemufQ8c0m
+ 1SMjBI0ljkR3A+dajrtCahHCwr35VD8FFfX24g9to1COczOsGSx8MST9/AnK7B7azqah
+ +gGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=W0NZH996mfqrH/xeDmImG2NwLarasbVlVoAElHsd8sQ=;
- b=N59ieeDvlkbI2wRu3Xh7M0H+XLAtvnzvgUrCwcD/9QedorWAYZvGUuLRGlqm9HTx+x
- YdUWChS2MY02nHMTJbXELHt3mT5QaqTqXMg6mT+JBuqIZwkNCV+2rDaOHMnyq0wMlbWB
- L/TyXM8iZAyOmJUdHYHaXb1k8BQPf84lvsnyLweMnRP6lJpSw2EBQYqgi1izXpo0EALh
- J10PniDXLNRrSbAsO7jxMkYso0iJI494XRV8MVbyoxfewg+1y8ienAPA2zQemsmzivOm
- DZy2kAcUe8gyu5bkQ2ECHn1ahLAyMQyIKsGeqQoSLQA7RfHh4hbqEHGcp56heDOwAc3f
- rk6g==
-X-Gm-Message-State: AOAM533nRauENzjgJYhiOjyC/sEs8PkOFZEki5xsbjNuD4sRj0WnzDVn
- KYUGkuJ+5dsSLhLsSfbmC35xHi6dm5w=
-X-Google-Smtp-Source: ABdhPJwFfUufdYrC8E/cFB2xycdYjZB2Yu69MdjITV5JZ/mrnUeCukTsqIzH1kqKOnPbmTGUwxINOQ==
-X-Received: by 2002:a7b:c948:: with SMTP id i8mr41508wml.138.1589817189954;
- Mon, 18 May 2020 08:53:09 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=WSFyr6f19aP4N4MMJJARifgNu7cVe5tnytMgFa4vhLY=;
+ b=IyqvI/YZLqxQPn8Qh5cqL6AKWJ1tEd6ydygB8L0Ho6QmyGNh1EmTIhYLJ9ZdUDh1Uw
+ Q7Sh9OsLZtEUnb9xOdqvcT3qyRwCd5OGWe+PYhB7KGRBNK3wSDoO+M0U0NE1KBiErS9e
+ UFji4QXFnXXCoCB5v69ca3ws0neZQ3YZhIZ32Mc6gicsVLFg6Ar48AifxGRE3mlH4FNS
+ POWZSreS94CsHT1nWbqUr3qR2YItc98a4NYfZVAJFQQ52b8DN9q7nJeBtCZthTFZMaFz
+ U6Qv4BdhK7ZRzgHWJFeoLq+Pe395q5cDZuFyK42iM3uvGh8qbEWksY+YVSA0o+V1f/tp
+ sYZg==
+X-Gm-Message-State: AOAM532ONNXtLkJ53AomqufL97VllhP27sH7lrypSD/xfmqMGAbOTG4O
+ ObCJBfxPRERQSaNPCum1ydXr8ZhoNko=
+X-Google-Smtp-Source: ABdhPJwFmlOQ4JYI++JR9ixqC4zYUF4jca3lwFeihkNHUxT11OuH2+k/On4eJQV74FyKNuuQu/d9Dg==
+X-Received: by 2002:a7b:cf15:: with SMTP id l21mr32568wmg.172.1589817191110;
+ Mon, 18 May 2020 08:53:11 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id 7sm17647462wra.50.2020.05.18.08.53.08
+ by smtp.gmail.com with ESMTPSA id 7sm17647462wra.50.2020.05.18.08.53.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 08:53:09 -0700 (PDT)
+ Mon, 18 May 2020 08:53:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/7] exec/memory: Enforce checking MemTxResult values
-Date: Mon, 18 May 2020 17:53:01 +0200
-Message-Id: <20200518155308.15851-1-f4bug@amsat.org>
+Subject: [PATCH v2 1/7] exec: Let address_space_read/write_cached() propagate
+ MemTxResult
+Date: Mon, 18 May 2020 17:53:02 +0200
+Message-Id: <20200518155308.15851-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200518155308.15851-1-f4bug@amsat.org>
+References: <20200518155308.15851-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -91,34 +94,120 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Various places ignore the MemTxResult indicator of
-transaction failed. Fix the easy places.
-The rest are the DMA devices, which require deeper
-analysis.
+Both address_space_read_cached_slow() and
+address_space_write_cached_slow() return a MemTxResult type.
+Do not discard it, return it to the caller.
 
-Since v1:
-- Dropped "exec/memory: Emit warning when MemTxResult is ignored"
-  https://www.mail-archive.com/qemu-devel@nongnu.org/msg704180.html
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/exec/memory.h | 19 +++++++++++--------
+ exec.c                | 16 ++++++++--------
+ 2 files changed, 19 insertions(+), 16 deletions(-)
 
-Philippe Mathieu-Daudé (7):
-  exec: Let address_space_read/write_cached() propagate MemTxResult
-  exec: Propagate cpu_memory_rw_debug() error
-  disas: Let disas::read_memory() handler return EIO on error
-  hw/elf_ops: Do not ignore write failures when loading ELF
-  hw/arm/boot: Abort if set_kernel_args() fails
-  accel/kvm: Let KVM_EXIT_MMIO return error
-  hw/core/loader: Assert loading ROM regions succeeds at reset
-
- include/exec/cpu-all.h |  1 +
- include/exec/memory.h  | 19 +++++++++++--------
- include/hw/elf_ops.h   | 11 ++++++++---
- accel/kvm/kvm-all.c    | 13 +++++++------
- disas.c                | 13 ++++++++-----
- exec.c                 | 28 ++++++++++++++++------------
- hw/arm/boot.c          | 19 +++++++++++++------
- hw/core/loader.c       |  8 ++++++--
- 8 files changed, 70 insertions(+), 42 deletions(-)
-
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index e000bd2f97..5e8c009169 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2343,10 +2343,11 @@ void *qemu_map_ram_ptr(RAMBlock *ram_block, ram_addr_t addr);
+ 
+ /* Internal functions, part of the implementation of address_space_read_cached
+  * and address_space_write_cached.  */
+-void address_space_read_cached_slow(MemoryRegionCache *cache,
+-                                    hwaddr addr, void *buf, hwaddr len);
+-void address_space_write_cached_slow(MemoryRegionCache *cache,
+-                                     hwaddr addr, const void *buf, hwaddr len);
++MemTxResult address_space_read_cached_slow(MemoryRegionCache *cache,
++                                           hwaddr addr, void *buf, hwaddr len);
++MemTxResult address_space_write_cached_slow(MemoryRegionCache *cache,
++                                            hwaddr addr, const void *buf,
++                                            hwaddr len);
+ 
+ static inline bool memory_access_is_direct(MemoryRegion *mr, bool is_write)
+ {
+@@ -2411,15 +2412,16 @@ MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
+  * @buf: buffer with the data transferred
+  * @len: length of the data transferred
+  */
+-static inline void
++static inline MemTxResult
+ address_space_read_cached(MemoryRegionCache *cache, hwaddr addr,
+                           void *buf, hwaddr len)
+ {
+     assert(addr < cache->len && len <= cache->len - addr);
+     if (likely(cache->ptr)) {
+         memcpy(buf, cache->ptr + addr, len);
++        return MEMTX_OK;
+     } else {
+-        address_space_read_cached_slow(cache, addr, buf, len);
++        return address_space_read_cached_slow(cache, addr, buf, len);
+     }
+ }
+ 
+@@ -2431,15 +2433,16 @@ address_space_read_cached(MemoryRegionCache *cache, hwaddr addr,
+  * @buf: buffer with the data transferred
+  * @len: length of the data transferred
+  */
+-static inline void
++static inline MemTxResult
+ address_space_write_cached(MemoryRegionCache *cache, hwaddr addr,
+                            const void *buf, hwaddr len)
+ {
+     assert(addr < cache->len && len <= cache->len - addr);
+     if (likely(cache->ptr)) {
+         memcpy(cache->ptr + addr, buf, len);
++        return MEMTX_OK;
+     } else {
+-        address_space_write_cached_slow(cache, addr, buf, len);
++        return address_space_write_cached_slow(cache, addr, buf, len);
+     }
+ }
+ 
+diff --git a/exec.c b/exec.c
+index 5162f0d12f..877b51cc5c 100644
+--- a/exec.c
++++ b/exec.c
+@@ -3716,7 +3716,7 @@ static inline MemoryRegion *address_space_translate_cached(
+ /* Called from RCU critical section. address_space_read_cached uses this
+  * out of line function when the target is an MMIO or IOMMU region.
+  */
+-void
++MemTxResult
+ address_space_read_cached_slow(MemoryRegionCache *cache, hwaddr addr,
+                                    void *buf, hwaddr len)
+ {
+@@ -3726,15 +3726,15 @@ address_space_read_cached_slow(MemoryRegionCache *cache, hwaddr addr,
+     l = len;
+     mr = address_space_translate_cached(cache, addr, &addr1, &l, false,
+                                         MEMTXATTRS_UNSPECIFIED);
+-    flatview_read_continue(cache->fv,
+-                           addr, MEMTXATTRS_UNSPECIFIED, buf, len,
+-                           addr1, l, mr);
++    return flatview_read_continue(cache->fv,
++                                  addr, MEMTXATTRS_UNSPECIFIED, buf, len,
++                                  addr1, l, mr);
+ }
+ 
+ /* Called from RCU critical section. address_space_write_cached uses this
+  * out of line function when the target is an MMIO or IOMMU region.
+  */
+-void
++MemTxResult
+ address_space_write_cached_slow(MemoryRegionCache *cache, hwaddr addr,
+                                     const void *buf, hwaddr len)
+ {
+@@ -3744,9 +3744,9 @@ address_space_write_cached_slow(MemoryRegionCache *cache, hwaddr addr,
+     l = len;
+     mr = address_space_translate_cached(cache, addr, &addr1, &l, true,
+                                         MEMTXATTRS_UNSPECIFIED);
+-    flatview_write_continue(cache->fv,
+-                            addr, MEMTXATTRS_UNSPECIFIED, buf, len,
+-                            addr1, l, mr);
++    return flatview_write_continue(cache->fv,
++                                   addr, MEMTXATTRS_UNSPECIFIED, buf, len,
++                                   addr1, l, mr);
+ }
+ 
+ #define ARG1_DECL                MemoryRegionCache *cache
 -- 
 2.21.3
 
