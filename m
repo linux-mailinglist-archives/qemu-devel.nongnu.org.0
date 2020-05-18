@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255AC1D714B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 08:52:24 +0200 (CEST)
-Received: from localhost ([::1]:49414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2642E1D714E
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 08:52:44 +0200 (CEST)
+Received: from localhost ([::1]:51374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaZdO-0003T8-JI
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 02:52:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33426)
+	id 1jaZdj-0004FA-4G
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 02:52:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jaZZM-000574-7I
- for qemu-devel@nongnu.org; Mon, 18 May 2020 02:48:12 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13544)
+ id 1jaZZT-0005On-La
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 02:48:19 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jaZZK-0004J0-Sw
- for qemu-devel@nongnu.org; Mon, 18 May 2020 02:48:11 -0400
+ id 1jaZZS-0004LN-Hm
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 02:48:19 -0400
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
  hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ec22f9d0000>; Sun, 17 May 2020 23:47:57 -0700
+ id <B5ec22fa40007>; Sun, 17 May 2020 23:48:05 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate101.nvidia.com (PGP Universal service);
- Sun, 17 May 2020 23:48:09 -0700
+ Sun, 17 May 2020 23:48:17 -0700
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Sun, 17 May 2020 23:48:09 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 18 May
- 2020 06:48:09 +0000
+ by hqpgpgate101.nvidia.com on Sun, 17 May 2020 23:48:17 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 18 May
+ 2020 06:48:16 +0000
 Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 18 May 2020 06:48:01 +0000
+ Transport; Mon, 18 May 2020 06:48:09 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH QEMU v22 10/18] vfio: Add load state functions to
- SaveVMHandlers
-Date: Mon, 18 May 2020 11:43:10 +0530
-Message-ID: <1589782398-24406-11-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH QEMU v22 11/18] iommu: add callback to get address limit IOMMU
+ supports
+Date: Mon, 18 May 2020 11:43:11 +0530
+Message-ID: <1589782398-24406-12-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1589782398-24406-1-git-send-email-kwankhede@nvidia.com>
 References: <1589782398-24406-1-git-send-email-kwankhede@nvidia.com>
@@ -46,16 +46,16 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1589784477; bh=sIj9tru59xmphZkEJM40MP+ahmyGyz2+AnzoCBMrJ7I=;
+ t=1589784485; bh=O9XV7D5FxmOFBmprNRbpwsU4to7+MGZBhc9zVXWkdKk=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:X-NVConfidentiality:MIME-Version:
  Content-Type;
- b=d8+gmZZAsssU7hFGb5iVYl7nWdH9wJm6k0EuQSYQ1+O+ZeZbRBS6GdwG/RAXbAiRz
- C/P0ZpQUusgW+h1DsrACkdnWMOKUiYrqP6rNIDWLVj22u/Ul/asSrlfSlNmahJzh49
- 7TSViLjUhAIyjtwxsddWLSkrXbayXM4PMVbqQ7hPWIJ88Q7lGfMctZPNC4PD16MHc3
- L2EXtc1eQt9K32/FBBFEvSTkLzSFlmkAxeZapM4lYlSkrAavQpCTVAf3BodCiU5to3
- wTDb8cphu1dugyVy8YmEx5xZ/wyTFPg1nk0CcGcKKxoJjS73ogEv5l9m/2RyhqwRWu
- k7r+58uLJ8P5g==
+ b=EfJ0uFejm1F+7pVUB8dNQnRVloB2Urha9kIEDiHDH/VUy06gxvpLfMn/ok67oyu5G
+ 3pFtATroGOqqy33b1DWWMozFTqjfUDMjvwWiNRD2GNjlQtNrlqtj8x7gpcc8acKXd4
+ sKjK9WnnrZsCHBShaDk8w3ImwTUXPqg4Fdt1WLPiPf62xc+ZdAfMDeyhF23LBgPIhw
+ oJSgQK+Npeo5mptCpxW7G5djbatEZYQUYpkHvfLHWDGueCGAZDThkhki/068BS1CSR
+ ZRORy2xGeLMiQ88Tlxr+X/xYlvB9td460KpHj9U2sawdYTfnhNo+VvxT23m+qE8YlR
+ yeMV4pseWYSlg==
 Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
  helo=hqnvemgate26.nvidia.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 02:30:17
@@ -89,238 +89,100 @@ Cc: cohuck@redhat.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sequence  during _RESUMING device state:
-While data for this device is available, repeat below steps:
-a. read data_offset from where user application should write data.
-b. write data of data_size to migration region from data_offset.
-c. write data_size which indicates vendor driver that data is written in
-   staging buffer.
-
-For user, data is opaque. User should write data in the same order as
-received.
+Add optional method to get address limit IOMMU supports
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Neo Jia <cjia@nvidia.com>
 ---
- hw/vfio/migration.c  | 180 +++++++++++++++++++++++++++++++++++++++++++++++++++
- hw/vfio/trace-events |   3 +
- 2 files changed, 183 insertions(+)
+ hw/i386/intel_iommu.c |  9 +++++++++
+ include/exec/memory.h | 18 ++++++++++++++++++
+ memory.c              | 11 +++++++++++
+ 3 files changed, 38 insertions(+)
 
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index d90bd2296afd..b9bbe38e539c 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -270,6 +270,33 @@ static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
-     return qemu_file_get_error(f);
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index df7ad254ac15..d0b88c20c31e 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -3577,6 +3577,14 @@ static void vtd_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
+     return;
  }
  
-+static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
++static hwaddr vtd_iommu_get_address_limit(IOMMUMemoryRegion *iommu_mr)
 +{
-+    VFIODevice *vbasedev = opaque;
-+    uint64_t data;
++    VTDAddressSpace *vtd_as = container_of(iommu_mr, VTDAddressSpace, iommu);
++    IntelIOMMUState *s = vtd_as->iommu_state;
 +
-+    if (vbasedev->ops && vbasedev->ops->vfio_load_config) {
-+        int ret;
-+
-+        ret = vbasedev->ops->vfio_load_config(vbasedev, f);
-+        if (ret) {
-+            error_report("%s: Failed to load device config space",
-+                         vbasedev->name);
-+            return ret;
-+        }
-+    }
-+
-+    data = qemu_get_be64(f);
-+    if (data != VFIO_MIG_FLAG_END_OF_STATE) {
-+        error_report("%s: Failed loading device config space, "
-+                     "end flag incorrect 0x%"PRIx64, vbasedev->name, data);
-+        return -EINVAL;
-+    }
-+
-+    trace_vfio_load_device_config_state(vbasedev->name);
-+    return qemu_file_get_error(f);
++    return VTD_ADDRESS_SIZE(s->aw_bits) - 1;
 +}
 +
- /* ---------------------------------------------------------------------- */
- 
- static int vfio_save_setup(QEMUFile *f, void *opaque)
-@@ -439,12 +466,165 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
-     return ret;
+ /* Do the initialization. It will also be called when reset, so pay
+  * attention when adding new initialization stuff.
+  */
+@@ -3878,6 +3886,7 @@ static void vtd_iommu_memory_region_class_init(ObjectClass *klass,
+     imrc->translate = vtd_iommu_translate;
+     imrc->notify_flag_changed = vtd_iommu_notify_flag_changed;
+     imrc->replay = vtd_iommu_replay;
++    imrc->get_address_limit = vtd_iommu_get_address_limit;
  }
  
-+static int vfio_load_setup(QEMUFile *f, void *opaque)
-+{
-+    VFIODevice *vbasedev = opaque;
-+    VFIOMigration *migration = vbasedev->migration;
-+    int ret = 0;
+ static const TypeInfo vtd_iommu_memory_region_info = {
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index e000bd2f97b2..2d0cbd46d2a6 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -355,6 +355,16 @@ typedef struct IOMMUMemoryRegionClass {
+      * @iommu: the IOMMUMemoryRegion
+      */
+     int (*num_indexes)(IOMMUMemoryRegion *iommu);
 +
-+    if (migration->region.mmaps) {
-+        ret = vfio_region_mmap(&migration->region);
-+        if (ret) {
-+            error_report("%s: Failed to mmap VFIO migration region %d: %s",
-+                         vbasedev->name, migration->region.nr,
-+                         strerror(-ret));
-+            return ret;
-+        }
++    /*
++     * Return address limit this IOMMU supports.
++     *
++     * Optional method: if this method is not provided, then
++     * memory_region_iommu_get_address_limit() will return 0.
++     *
++     * @iommu: the IOMMUMemoryRegion
++     */
++    hwaddr (*get_address_limit)(IOMMUMemoryRegion *iommu);
+ } IOMMUMemoryRegionClass;
+ 
+ typedef struct CoalescedMemoryRange CoalescedMemoryRange;
+@@ -1364,6 +1374,14 @@ int memory_region_iommu_attrs_to_index(IOMMUMemoryRegion *iommu_mr,
+ int memory_region_iommu_num_indexes(IOMMUMemoryRegion *iommu_mr);
+ 
+ /**
++ * memory_region_iommu_get_address_limit : return the maximum address limit
++ * that this IOMMU supports.
++ *
++ * @iommu_mr: the memory region
++ */
++hwaddr memory_region_iommu_get_address_limit(IOMMUMemoryRegion *iommu_mr);
++
++/**
+  * memory_region_name: get a memory region's name
+  *
+  * Returns the string that was used to initialize the memory region.
+diff --git a/memory.c b/memory.c
+index 601b74990620..52f1a4cd37f0 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1887,6 +1887,17 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
+     }
+ }
+ 
++hwaddr memory_region_iommu_get_address_limit(IOMMUMemoryRegion *iommu_mr)
++{
++    IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
++
++    if (imrc->get_address_limit) {
++        return imrc->get_address_limit(iommu_mr);
 +    }
 +
-+    ret = vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_MASK,
-+                                   VFIO_DEVICE_STATE_RESUMING);
-+    if (ret) {
-+        error_report("%s: Failed to set state RESUMING", vbasedev->name);
-+    }
-+    return ret;
-+}
-+
-+static int vfio_load_cleanup(void *opaque)
-+{
-+    vfio_save_cleanup(opaque);
 +    return 0;
 +}
 +
-+static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
-+{
-+    VFIODevice *vbasedev = opaque;
-+    VFIOMigration *migration = vbasedev->migration;
-+    int ret = 0;
-+    uint64_t data, data_size;
-+
-+    data = qemu_get_be64(f);
-+    while (data != VFIO_MIG_FLAG_END_OF_STATE) {
-+
-+        trace_vfio_load_state(vbasedev->name, data);
-+
-+        switch (data) {
-+        case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
-+        {
-+            ret = vfio_load_device_config_state(f, opaque);
-+            if (ret) {
-+                return ret;
-+            }
-+            break;
-+        }
-+        case VFIO_MIG_FLAG_DEV_SETUP_STATE:
-+        {
-+            data = qemu_get_be64(f);
-+            if (data == VFIO_MIG_FLAG_END_OF_STATE) {
-+                return ret;
-+            } else {
-+                error_report("%s: SETUP STATE: EOS not found 0x%"PRIx64,
-+                             vbasedev->name, data);
-+                return -EINVAL;
-+            }
-+            break;
-+        }
-+        case VFIO_MIG_FLAG_DEV_DATA_STATE:
-+        {
-+            VFIORegion *region = &migration->region;
-+            void *buf = NULL;
-+            bool buffer_mmaped = false;
-+            uint64_t data_offset = 0;
-+
-+            data_size = qemu_get_be64(f);
-+            if (data_size == 0) {
-+                break;
-+            }
-+
-+            ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
-+                        region->fd_offset +
-+                        offsetof(struct vfio_device_migration_info,
-+                        data_offset));
-+            if (ret != sizeof(data_offset)) {
-+                error_report("%s:Failed to get migration buffer data offset %d",
-+                             vbasedev->name, ret);
-+                return -EINVAL;
-+            }
-+
-+            if (region->mmaps) {
-+                buf = find_data_region(region, data_offset, data_size);
-+            }
-+
-+            buffer_mmaped = (buf != NULL) ? true : false;
-+
-+            if (!buffer_mmaped) {
-+                buf = g_try_malloc0(data_size);
-+                if (!buf) {
-+                    error_report("%s: Error allocating buffer ", __func__);
-+                    return -ENOMEM;
-+                }
-+            }
-+
-+            qemu_get_buffer(f, buf, data_size);
-+
-+            if (!buffer_mmaped) {
-+                ret = pwrite(vbasedev->fd, buf, data_size,
-+                             region->fd_offset + data_offset);
-+                g_free(buf);
-+
-+                if (ret != data_size) {
-+                    error_report("%s: Failed to set migration buffer %d",
-+                                 vbasedev->name, ret);
-+                    return -EINVAL;
-+                }
-+            }
-+
-+            ret = pwrite(vbasedev->fd, &data_size, sizeof(data_size),
-+                         region->fd_offset +
-+                       offsetof(struct vfio_device_migration_info, data_size));
-+            if (ret != sizeof(data_size)) {
-+                error_report("%s: Failed to set migration buffer data size %d",
-+                             vbasedev->name, ret);
-+                if (!buffer_mmaped) {
-+                    g_free(buf);
-+                }
-+                return -EINVAL;
-+            }
-+
-+            trace_vfio_load_state_device_data(vbasedev->name, data_offset,
-+                                              data_size);
-+            break;
-+        }
-+
-+        default:
-+            error_report("%s: Unknown tag 0x%"PRIx64, vbasedev->name, data);
-+            return -EINVAL;
-+        }
-+
-+        ret = qemu_file_get_error(f);
-+        if (ret) {
-+            return ret;
-+        }
-+
-+        data = qemu_get_be64(f);
-+        ret = qemu_file_get_error(f);
-+        if (ret) {
-+            return ret;
-+        }
-+    }
-+
-+    return ret;
-+}
-+
- static SaveVMHandlers savevm_vfio_handlers = {
-     .save_setup = vfio_save_setup,
-     .save_cleanup = vfio_save_cleanup,
-     .save_live_pending = vfio_save_pending,
-     .save_live_iterate = vfio_save_iterate,
-     .save_live_complete_precopy = vfio_save_complete_precopy,
-+    .load_setup = vfio_load_setup,
-+    .load_cleanup = vfio_load_cleanup,
-+    .load_state = vfio_load_state,
- };
- 
- /* ---------------------------------------------------------------------- */
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 9a1c5e17d97f..4a4bd3ba9a2a 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -157,3 +157,6 @@ vfio_save_device_config_state(const char *name) " (%s)"
- vfio_save_pending(const char *name, uint64_t precopy, uint64_t postcopy, uint64_t compatible) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64" compatible 0x%"PRIx64
- vfio_save_iterate(const char *name, int data_size) " (%s) data_size %d"
- vfio_save_complete_precopy(const char *name) " (%s)"
-+vfio_load_device_config_state(const char *name) " (%s)"
-+vfio_load_state(const char *name, uint64_t data) " (%s) data 0x%"PRIx64
-+vfio_load_state_device_data(const char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
+ void memory_region_unregister_iommu_notifier(MemoryRegion *mr,
+                                              IOMMUNotifier *n)
+ {
 -- 
 2.7.0
 
