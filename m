@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C9F1D715A
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 08:55:41 +0200 (CEST)
-Received: from localhost ([::1]:38104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F04B1D715E
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 08:56:13 +0200 (CEST)
+Received: from localhost ([::1]:41398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaZga-0001uE-Hn
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 02:55:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33606)
+	id 1jaZh6-0003Kv-Je
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 02:56:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jaZaG-00072P-9E
- for qemu-devel@nongnu.org; Mon, 18 May 2020 02:49:08 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17282)
+ id 1jaZaM-0007Hf-1p
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 02:49:14 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jaZaF-0004P8-8r
- for qemu-devel@nongnu.org; Mon, 18 May 2020 02:49:07 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ec22f520000>; Sun, 17 May 2020 23:46:42 -0700
+ id 1jaZaK-0004Pi-R0
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 02:49:13 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5ec22fdb0000>; Sun, 17 May 2020 23:48:59 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Sun, 17 May 2020 23:49:03 -0700
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Sun, 17 May 2020 23:49:11 -0700
 X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Sun, 17 May 2020 23:49:03 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 18 May
- 2020 06:49:03 +0000
+ by hqpgpgate101.nvidia.com on Sun, 17 May 2020 23:49:11 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 18 May
+ 2020 06:49:11 +0000
 Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 18 May 2020 06:48:56 +0000
+ Transport; Mon, 18 May 2020 06:49:03 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH QEMU v22 17/18] vfio: Make vfio-pci device migration capable
-Date: Mon, 18 May 2020 11:43:17 +0530
-Message-ID: <1589782398-24406-18-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH QEMU v22 18/18] qapi: Add VFIO devices migration stats in
+ Migration stats
+Date: Mon, 18 May 2020 11:43:18 +0530
+Message-ID: <1589782398-24406-19-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1589782398-24406-1-git-send-email-kwankhede@nvidia.com>
 References: <1589782398-24406-1-git-send-email-kwankhede@nvidia.com>
@@ -45,19 +46,19 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1589784403; bh=z0PSDeputvXJXySDJxuR8FmmrNqXTfzG9yDNabO0jgo=;
+ t=1589784539; bh=6pqgP0A94Lycn4YxUIV8rIw7Vy32cyS8Bm905ntbsEo=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:X-NVConfidentiality:MIME-Version:
  Content-Type;
- b=M1QnuoR7LlthacpJyaQs80SM3jIpPbzQG/Q5Pid43wMRixsXzq8fjvKPxMxGrEkIA
- LP8x/Qt8u2e/BqvYo0W2zzCwSNchlqNg7F5OJ4U8/sAIUq3wj2T2WHc9HQy8wgFTK/
- /se5zm9+OtVTxE88E//FsXjjeO51YEGV1i9f28VZMkh6j+X1ysWwkvofP7WAdTrNKN
- FOR65FeziG8pVy3hw7LqRE7mM29h+3ZIYZAcFu9uDvpwGGwUu8s3fxl5aoGZtatZEf
- dkpXaV1PicpT5ckobRniz3rwjIMz68nkFgkbAVjjDA6+Jyr0Qbl+Ck8mKWWAvb6h1q
- WryEf645Pm6Wg==
-Received-SPF: pass client-ip=216.228.121.143;
- envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 02:29:50
+ b=gjHkJE685Zzs/PD3XWj96aPe4VNbOHW+sFRjQ/L/lb8oJQwWPzgzGZxy9jYozCq/6
+ xiNidvfEJyisFEbLB/wyQzJ8rBwdVp5uWerekGuEeTLnl5c4VZF1rYKGsVel7OvrAH
+ 8HLy8kte5w+AkzILmXNVCwE+gRSxZwAj5Sxstr08qv5DXsu/bojzyk3X7R6qaF40uu
+ UxwoLZAUVKiiqa5mtFzU3fM7lN82KfVbnFNVSQE3L1uzEgaFWcnwsZqETPZNQSTV/8
+ z4vlSOt1gTeW6S7qk/eDaxmwpOYReQE5kkhzOdu+/X9cI9dV8COza2zzcmN+E1uLJX
+ Li8bvA9kCkUKA==
+Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate26.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 02:30:17
 X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
 X-Spam_score_int: -70
 X-Spam_score: -7.1
@@ -88,107 +89,215 @@ Cc: cohuck@redhat.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If device is not failover primary device call vfio_migration_probe()
-and vfio_migration_finalize() functions for vfio-pci device to enable
-migration for vfio PCI device which support migration.
-Removed vfio_pci_vmstate structure.
-Removed migration blocker from VFIO PCI device specific structure and use
-migration blocker from generic structure of  VFIO device.
+Added amount of bytes transferred to the target VM by all VFIO devices
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Neo Jia <cjia@nvidia.com>
 ---
- hw/vfio/pci.c | 32 +++++++++++---------------------
- hw/vfio/pci.h |  1 -
- 2 files changed, 11 insertions(+), 22 deletions(-)
+ hw/vfio/common.c            | 20 ++++++++++++++++++++
+ hw/vfio/migration.c         | 10 +++++++++-
+ include/qemu/vfio-helpers.h |  3 +++
+ migration/migration.c       | 12 ++++++++++++
+ monitor/hmp-cmds.c          |  6 ++++++
+ qapi/migration.json         | 19 ++++++++++++++++++-
+ 6 files changed, 68 insertions(+), 2 deletions(-)
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 36b1e08f84d8..70ab0e4623b8 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -2916,22 +2916,11 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-         return;
-     }
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 9b29de654c7f..3e2ae742575e 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -40,6 +40,7 @@
+ #include "trace.h"
+ #include "qapi/error.h"
+ #include "migration/migration.h"
++#include "qemu/vfio-helpers.h"
  
--    if (!pdev->failover_pair_id) {
--        error_setg(&vdev->migration_blocker,
--                "VFIO device doesn't support migration");
--        ret = migrate_add_blocker(vdev->migration_blocker, &err);
--        if (ret) {
--            error_propagate(errp, err);
--            error_free(vdev->migration_blocker);
--            vdev->migration_blocker = NULL;
--            return;
--        }
--    }
--
-     vdev->vbasedev.name = g_path_get_basename(vdev->vbasedev.sysfsdev);
-     vdev->vbasedev.ops = &vfio_pci_ops;
-     vdev->vbasedev.type = VFIO_DEVICE_TYPE_PCI;
-     vdev->vbasedev.dev = DEVICE(vdev);
-+    vdev->vbasedev.device_state = 0;
+ VFIOGroupList vfio_group_list =
+     QLIST_HEAD_INITIALIZER(vfio_group_list);
+@@ -293,6 +294,25 @@ const MemoryRegionOps vfio_region_ops = {
+  * Device state interfaces
+  */
  
-     tmp = g_strdup_printf("%s/iommu_group", vdev->vbasedev.sysfsdev);
-     len = readlink(tmp, group_path, sizeof(group_path));
-@@ -3195,6 +3184,14 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-         }
-     }
- 
-+    if (!pdev->failover_pair_id) {
-+        ret = vfio_migration_probe(&vdev->vbasedev, errp);
-+        if (ret) {
-+            error_report("%s: Failed to setup for migration",
-+                         vdev->vbasedev.name);
-+        }
++bool vfio_mig_active(void)
++{
++    VFIOGroup *group;
++    VFIODevice *vbasedev;
++
++    if (QLIST_EMPTY(&vfio_group_list)) {
++        return false;
 +    }
 +
-     vfio_register_err_notifier(vdev);
-     vfio_register_req_notifier(vdev);
-     vfio_setup_resetfn_quirk(vdev);
-@@ -3209,11 +3206,6 @@ out_teardown:
-     vfio_bars_exit(vdev);
- error:
-     error_prepend(errp, VFIO_MSG_PREFIX, vdev->vbasedev.name);
--    if (vdev->migration_blocker) {
--        migrate_del_blocker(vdev->migration_blocker);
--        error_free(vdev->migration_blocker);
--        vdev->migration_blocker = NULL;
--    }
- }
- 
- static void vfio_instance_finalize(Object *obj)
-@@ -3225,10 +3217,7 @@ static void vfio_instance_finalize(Object *obj)
-     vfio_bars_finalize(vdev);
-     g_free(vdev->emulated_config_bits);
-     g_free(vdev->rom);
--    if (vdev->migration_blocker) {
--        migrate_del_blocker(vdev->migration_blocker);
--        error_free(vdev->migration_blocker);
--    }
++    QLIST_FOREACH(group, &vfio_group_list, next) {
++        QLIST_FOREACH(vbasedev, &group->device_list, next) {
++            if (vbasedev->migration_blocker) {
++                return false;
++            }
++        }
++    }
++    return true;
++}
 +
-     /*
-      * XXX Leaking igd_opregion is not an oversight, we can't remove the
-      * fw_cfg entry therefore leaking this allocation seems like the safest
-@@ -3256,6 +3245,7 @@ static void vfio_exitfn(PCIDevice *pdev)
+ static bool vfio_devices_are_stopped_and_saving(void)
+ {
+     VFIOGroup *group;
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+index 7729c90782bd..2eef38fe5c65 100644
+--- a/hw/vfio/migration.c
++++ b/hw/vfio/migration.c
+@@ -26,7 +26,7 @@
+ #include "exec/ram_addr.h"
+ #include "pci.h"
+ #include "trace.h"
+-
++#include "qemu/vfio-helpers.h"
+ /*
+  * Flags used as delimiter:
+  * 0xffffffff => MSB 32-bit all 1s
+@@ -38,6 +38,8 @@
+ #define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
+ #define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
+ 
++static int64_t bytes_transferred;
++
+ static void vfio_migration_region_exit(VFIODevice *vbasedev)
+ {
+     VFIOMigration *migration = vbasedev->migration;
+@@ -229,6 +231,7 @@ static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev)
+         return ret;
      }
-     vfio_teardown_msi(vdev);
-     vfio_bars_exit(vdev);
-+    vfio_migration_finalize(&vdev->vbasedev);
+ 
++    bytes_transferred += data_size;
+     return data_size;
  }
  
- static void vfio_pci_reset(DeviceState *dev)
-diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index 0da7a20a7ec2..b148c937ef72 100644
---- a/hw/vfio/pci.h
-+++ b/hw/vfio/pci.h
-@@ -168,7 +168,6 @@ typedef struct VFIOPCIDevice {
-     bool no_vfio_ioeventfd;
-     bool enable_ramfb;
-     VFIODisplay *dpy;
--    Error *migration_blocker;
-     Notifier irqchip_change_notifier;
- } VFIOPCIDevice;
+@@ -744,6 +747,11 @@ static int vfio_migration_init(VFIODevice *vbasedev,
  
+ /* ---------------------------------------------------------------------- */
+ 
++int64_t vfio_mig_bytes_transferred(void)
++{
++    return bytes_transferred;
++}
++
+ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
+ {
+     struct vfio_region_info *info;
+diff --git a/include/qemu/vfio-helpers.h b/include/qemu/vfio-helpers.h
+index 1f057c2b9e40..26a7df0767b1 100644
+--- a/include/qemu/vfio-helpers.h
++++ b/include/qemu/vfio-helpers.h
+@@ -29,4 +29,7 @@ void qemu_vfio_pci_unmap_bar(QEMUVFIOState *s, int index, void *bar,
+ int qemu_vfio_pci_init_irq(QEMUVFIOState *s, EventNotifier *e,
+                            int irq_type, Error **errp);
+ 
++bool vfio_mig_active(void);
++int64_t vfio_mig_bytes_transferred(void);
++
+ #endif
+diff --git a/migration/migration.c b/migration/migration.c
+index 187ac0410c2d..9d763447261c 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -54,6 +54,7 @@
+ #include "net/announce.h"
+ #include "qemu/queue.h"
+ #include "multifd.h"
++#include "qemu/vfio-helpers.h"
+ 
+ #define MAX_THROTTLE  (32 << 20)      /* Migration transfer speed throttling */
+ 
+@@ -967,6 +968,15 @@ static void populate_disk_info(MigrationInfo *info)
+     }
+ }
+ 
++static void populate_vfio_info(MigrationInfo *info)
++{
++    if (vfio_mig_active()) {
++        info->has_vfio = true;
++        info->vfio = g_malloc0(sizeof(*info->vfio));
++        info->vfio->bytes = vfio_mig_bytes_transferred();
++    }
++}
++
+ static void fill_source_migration_info(MigrationInfo *info)
+ {
+     MigrationState *s = migrate_get_current();
+@@ -992,6 +1002,7 @@ static void fill_source_migration_info(MigrationInfo *info)
+         populate_time_info(info, s);
+         populate_ram_info(info, s);
+         populate_disk_info(info);
++        populate_vfio_info(info);
+         break;
+     case MIGRATION_STATUS_COLO:
+         info->has_status = true;
+@@ -1000,6 +1011,7 @@ static void fill_source_migration_info(MigrationInfo *info)
+     case MIGRATION_STATUS_COMPLETED:
+         populate_time_info(info, s);
+         populate_ram_info(info, s);
++        populate_vfio_info(info);
+         break;
+     case MIGRATION_STATUS_FAILED:
+         info->has_status = true;
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 7f6e982dc834..d04bc042f2fe 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -353,6 +353,12 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+         }
+         monitor_printf(mon, "]\n");
+     }
++
++    if (info->has_vfio) {
++        monitor_printf(mon, "vfio device bytes: %" PRIu64 " kbytes\n",
++                       info->vfio->bytes >> 10);
++    }
++
+     qapi_free_MigrationInfo(info);
+ }
+ 
+diff --git a/qapi/migration.json b/qapi/migration.json
+index eca2981d0a33..22548bfff1d2 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -144,6 +144,18 @@
+             'active', 'postcopy-active', 'postcopy-paused',
+             'postcopy-recover', 'completed', 'failed', 'colo',
+             'pre-switchover', 'device', 'wait-unplug' ] }
++##
++# @VfioStats:
++#
++# Detailed VFIO devices migration statistics
++#
++# @bytes: amount of bytes transferred to the target VM by VFIO devices
++#
++# Since: 5.1
++#
++##
++{ 'struct': 'VfioStats',
++  'data': {'bytes': 'int' } }
+ 
+ ##
+ # @MigrationInfo:
+@@ -205,6 +217,10 @@
+ #
+ # @socket-address: Only used for tcp, to know what the real port is (Since 4.0)
+ #
++# @vfio: @VfioStats containing detailed VFIO devices migration statistics,
++#        only returned if VFIO device is present, migration is supported by all
++#         VFIO devices and status is 'active' or 'completed' (since 5.1)
++#
+ # Since: 0.14.0
+ ##
+ { 'struct': 'MigrationInfo',
+@@ -220,7 +236,8 @@
+            '*postcopy-blocktime' : 'uint32',
+            '*postcopy-vcpu-blocktime': ['uint32'],
+            '*compression': 'CompressionStats',
+-           '*socket-address': ['SocketAddress'] } }
++           '*socket-address': ['SocketAddress'],
++           '*vfio': 'VfioStats' } }
+ 
+ ##
+ # @query-migrate:
 -- 
 2.7.0
 
