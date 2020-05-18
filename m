@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631311D7543
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 12:33:46 +0200 (CEST)
-Received: from localhost ([::1]:59690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E681D7559
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 12:39:53 +0200 (CEST)
+Received: from localhost ([::1]:34698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jad5d-000488-Fq
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 06:33:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60716)
+	id 1jadBY-0005zO-64
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 06:39:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jad4P-0003NJ-AP; Mon, 18 May 2020 06:32:29 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:20995)
+ id 1jadAl-0005RI-TJ; Mon, 18 May 2020 06:39:03 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:57185)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jad4O-0002Vs-DL; Mon, 18 May 2020 06:32:29 -0400
+ id 1jadAk-0005d7-W4; Mon, 18 May 2020 06:39:03 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 0A12D74633D;
- Mon, 18 May 2020 12:32:27 +0200 (CEST)
+ by localhost (Postfix) with SMTP id C224E74633F;
+ Mon, 18 May 2020 12:39:00 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id CB4D274632B; Mon, 18 May 2020 12:32:26 +0200 (CEST)
+ id 8E0CE746333; Mon, 18 May 2020 12:39:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id C9C58746331;
- Mon, 18 May 2020 12:32:26 +0200 (CEST)
-Date: Mon, 18 May 2020 12:32:26 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 8CAC874633E;
+ Mon, 18 May 2020 12:39:00 +0200 (CEST)
+Date: Mon, 18 May 2020 12:39:00 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: Markus Armbruster <armbru@redhat.com>
 Subject: Re: [PATCH 18/24] display/sm501 display/ati: Fix to realize "i2c-ddc"
 In-Reply-To: <20200518050408.4579-19-armbru@redhat.com>
-Message-ID: <alpine.BSF.2.22.395.2005181228030.5961@zero.eik.bme.hu>
+Message-ID: <alpine.BSF.2.22.395.2005181238010.5961@zero.eik.bme.hu>
 References: <20200518050408.4579-1-armbru@redhat.com>
  <20200518050408.4579-19-armbru@redhat.com>
 User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-2031475873-1589797946=:5961"
+Content-Type: multipart/mixed; boundary="3866299591-63554047-1589798340=:5961"
 X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 06:39:01
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,7 +69,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-2031475873-1589797946=:5961
+--3866299591-63554047-1589798340=:5961
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
@@ -82,19 +81,7 @@ On Mon, 18 May 2020, Markus Armbruster wrote:
 > I wonder how this ever worked.  If the "device becomes real only on
 > realize" thing actually works, then we've always been missing the
 > device, yet nobody noticed.
-
-No idea why it worked but guests can read EDID info fine with or without 
-this patch, so
-
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
-
-Maybe device is created and working after init as it has nothing special 
-to do at realize (it doesn't even have a realize method) so all realize 
-would do is to link it in qtree?
-
-Regards,
-BALATON Zoltan
-
+>
 > Fix by realizing it right away.  Visible in "info qom-tree"; here's
 > the change for sam460ex:
 >
@@ -109,6 +96,10 @@ BALATON Zoltan
 >
 > Fixes: 4a1f253adb45ac6019971193d5077c4d5d55886a
 > Fixes: 4a1f253adb45ac6019971193d5077c4d5d55886a
+
+One of these is probably meant to be c82c7336de58876862e6b4dccbda29e9240fd388
+although I'm not sure having a Fixes tag makes sense for this commit.
+
 > Cc: BALATON Zoltan <balaton@eik.bme.hu>
 > Cc: qemu-ppc@nongnu.org
 > Cc: Magnus Damm <magnus.damm@gmail.com>
@@ -145,5 +136,5 @@ BALATON Zoltan
 >     /* mmio */
 >     memory_region_init(&s->mmio_region, OBJECT(dev), "sm501.mmio", MMIO_SIZE);
 >
---3866299591-2031475873-1589797946=:5961--
+--3866299591-63554047-1589798340=:5961--
 
