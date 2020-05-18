@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2926C1D701C
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:07:52 +0200 (CEST)
-Received: from localhost ([::1]:47644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31401D7036
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:14:43 +0200 (CEST)
+Received: from localhost ([::1]:48988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaY0F-0005iq-5O
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:07:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49178)
+	id 1jaY6s-00012j-Uj
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:14:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwn-0008MG-KA
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30654
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwp-0008PS-Ee
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57359
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwl-0004Jr-Kp
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:17 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwl-0004Jk-5e
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1589778254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eXVMvm1PxSB5tcsPFS9fnNgDrjSKRPK4CNQ0NUGIpCA=;
- b=EGhWge9BRo+X/7iaGeiK580FPPLYJoxHLLGSzdr4UYUooSEpyntMA40u2Rv9xS+e/2A4wT
- Epv13FOnJd8GUkQAD2MZusIuW65mErGheRzKf1qvoDpK6XRuxkqdW0KJHUGHBqk+9+W5np
- mODS3zUXmwiBDtDV9p04ELLTHfqG4Dw=
+ bh=dTynOku05k030QBAXzjtmPBoO1zSrlKNW32vohlg27w=;
+ b=QAjsgSNk4zgKAcy2R/EWg6C2anJfAqDZuwoQIkpmyx5rxFkDFg5Bz3XN8Pn7GPoNgSE1Nj
+ Lamk2lljx7KrEuPlGLdbQ9QXd/xPifdmrMzP5hhTzertDBQ5eG/ZVX83Pd+Umel6DPR3qt
+ WR2LqCGf7RMUmO3J/Kyypa4Y4O9JN2s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-MaCBv4BTPiqywP1AHwcE_w-1; Mon, 18 May 2020 01:04:11 -0400
-X-MC-Unique: MaCBv4BTPiqywP1AHwcE_w-1
+ us-mta-278-ESUCu2i9PI2aTMHpNAz1oQ-1; Mon, 18 May 2020 01:04:11 -0400
+X-MC-Unique: ESUCu2i9PI2aTMHpNAz1oQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB7051005512;
- Mon, 18 May 2020 05:04:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EE9F1800706;
+ Mon, 18 May 2020 05:04:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B8DDC5F7EA;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 984958208F;
  Mon, 18 May 2020 05:04:09 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1829911358BD; Mon, 18 May 2020 07:04:08 +0200 (CEST)
+ id 1B52F11358BE; Mon, 18 May 2020 07:04:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/24] arm/stm32f405: Fix realization of "stm32f2xx-adc"
- devices
-Date: Mon, 18 May 2020 07:03:45 +0200
-Message-Id: <20200518050408.4579-2-armbru@redhat.com>
+Subject: [PATCH 02/24] display/xlnx_dp: Fix to realize "i2c-ddc" and
+ "aux-to-i2c-bridge"
+Date: Mon, 18 May 2020 07:03:46 +0200
+Message-Id: <20200518050408.4579-3-armbru@redhat.com>
 In-Reply-To: <20200518050408.4579-1-armbru@redhat.com>
 References: <20200518050408.4579-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -83,93 +83,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com,
  ehabkost@redhat.com, Alistair Francis <alistair@alistair23.me>,
- qemu-arm@nongnu.org, pbonzini@redhat.com
+ qemu-arm@nongnu.org, pbonzini@redhat.com,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ KONRAD Frederic <fred.konrad@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-stm32f405_soc_initfn() creates six such devices, but
-stm32f405_soc_realize() realizes only one.  Affects machine
-netduinoplus2.
+xlnx_dp_init() creates these two devices, but they're never realized.
+Affects machine xlnx-zcu102.
 
 I wonder how this ever worked.  If the "device becomes real only on
-realize" thing actually works, then we've always been missing five of
-six such devices, yet nobody noticed.
+realize" thing actually works, then we've always been missing these
+two devices, yet nobody noticed.
 
-Fix stm32f405_soc_realize() to realize all six.  Visible in "info
-qtree":
+Fix by realizing them in xlnx_dp_realize().
 
-     bus: main-system-bus
-       type System
-       dev: stm32f405-soc, id ""
-         cpu-type = "cortex-m4-arm-cpu"
-       dev: stm32f2xx-adc, id ""
-         gpio-out "sysbus-irq" 1
-    -    mmio ffffffffffffffff/00000000000000ff
-    +    mmio 0000000040012000/00000000000000ff
-       dev: stm32f2xx-adc, id ""
-         gpio-out "sysbus-irq" 1
-    -    mmio ffffffffffffffff/00000000000000ff
-    +    mmio 0000000040012000/00000000000000ff
-       dev: stm32f2xx-adc, id ""
-         gpio-out "sysbus-irq" 1
-    -    mmio ffffffffffffffff/00000000000000ff
-    +    mmio 0000000040012000/00000000000000ff
-       dev: stm32f2xx-adc, id ""
-         gpio-out "sysbus-irq" 1
-    -    mmio ffffffffffffffff/00000000000000ff
-    +    mmio 0000000040012000/00000000000000ff
-       dev: stm32f2xx-adc, id ""
-         gpio-out "sysbus-irq" 1
-         mmio 0000000040012000/00000000000000ff
-       dev: stm32f2xx-adc, id ""
-         gpio-out "sysbus-irq" 1
-    -    mmio ffffffffffffffff/00000000000000ff
-    +    mmio 0000000040012000/00000000000000ff
-       dev: armv7m, id ""
-
-The mmio addresses look suspicious.
-
-Fixes: 529fc5fd3e18ace8f739afd02dc0953354f39442
+Fixes: 58ac482a66de09a7590f705e53fc6a3fb8a055e8
+Cc: KONRAD Frederic <fred.konrad@greensocs.com>
 Cc: Alistair Francis <alistair@alistair23.me>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-arm@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/arm/stm32f405_soc.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ hw/display/xlnx_dp.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/arm/stm32f405_soc.c b/hw/arm/stm32f405_soc.c
-index 4f10ce6176..4649502711 100644
---- a/hw/arm/stm32f405_soc.c
-+++ b/hw/arm/stm32f405_soc.c
-@@ -185,16 +185,18 @@ static void stm32f405_soc_realize(DeviceState *dev_soc, Error **errp)
-     qdev_connect_gpio_out(DEVICE(&s->adc_irqs), 0,
-                           qdev_get_gpio_in(armv7m, ADC_IRQ));
+diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
+index 3e5fb44e06..bdc229a51e 100644
+--- a/hw/display/xlnx_dp.c
++++ b/hw/display/xlnx_dp.c
+@@ -1264,9 +1264,13 @@ static void xlnx_dp_realize(DeviceState *dev, Error **errp)
+     DisplaySurface *surface;
+     struct audsettings as;
  
--    dev = DEVICE(&(s->adc[i]));
--    object_property_set_bool(OBJECT(&s->adc[i]), true, "realized", &err);
--    if (err != NULL) {
--        error_propagate(errp, err);
--        return;
-+    for (i = 0; i < STM_NUM_ADCS; i++) {
-+        dev = DEVICE(&(s->adc[i]));
-+        object_property_set_bool(OBJECT(&s->adc[i]), true, "realized", &err);
-+        if (err != NULL) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-+        busdev = SYS_BUS_DEVICE(dev);
-+        sysbus_mmio_map(busdev, 0, ADC_ADDR);
-+        sysbus_connect_irq(busdev, 0,
-+                           qdev_get_gpio_in(DEVICE(&s->adc_irqs), i));
-     }
--    busdev = SYS_BUS_DEVICE(dev);
--    sysbus_mmio_map(busdev, 0, ADC_ADDR);
--    sysbus_connect_irq(busdev, 0,
--                       qdev_get_gpio_in(DEVICE(&s->adc_irqs), i));
++    qdev_init_nofail(DEVICE(s->aux_bus->bridge));
++
+     qdev_init_nofail(DEVICE(s->dpcd));
+     aux_map_slave(AUX_SLAVE(s->dpcd), 0x0000);
  
-     /* SPI devices */
-     for (i = 0; i < STM_NUM_SPIS; i++) {
++    qdev_init_nofail(DEVICE(s->edid));
++
+     s->console = graphic_console_init(dev, 0, &xlnx_dp_gfx_ops, s);
+     surface = qemu_console_surface(s->console);
+     xlnx_dpdma_set_host_data_location(s->dpdma, DP_GRAPHIC_DMA_CHANNEL,
 -- 
 2.21.1
 
