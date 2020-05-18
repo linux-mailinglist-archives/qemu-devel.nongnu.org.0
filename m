@@ -2,73 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2459F1D7F42
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:54:04 +0200 (CEST)
-Received: from localhost ([::1]:34632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A14D31D7F6F
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:59:50 +0200 (CEST)
+Received: from localhost ([::1]:56100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaj1f-0004t6-7H
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:54:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33750)
+	id 1jaj7F-0005bI-Nc
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:59:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jaj07-0003CW-To; Mon, 18 May 2020 12:52:27 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:41284)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jaj07-0001Bg-2a; Mon, 18 May 2020 12:52:27 -0400
-Received: by mail-io1-xd41.google.com with SMTP id o5so11307101iow.8;
- Mon, 18 May 2020 09:52:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=FL2bHRaaG9r+wra0bobdI896edL3rD2JAUT9hR2ri1c=;
- b=NIaFB93N7HtAFkbWPPu4Rsc9k8oVnJwZ3pcwVwpqaXPqwKOw8oKxyayrsN/uUmk0bX
- tSbiJWWJEo2RK0I6tL3V2vBaqaY9NILBocUu7efhl1JJQe2H0vPvLlyYOtLogFFu72cn
- P1tEk6slNejPPzwjbigJzVeQGp9us7VQOhhmIVewJp13XbFT7UC+lD+EskHHYyPrEOQb
- Hbw4mRNENPpe7h3P1ytQLLlLRMEMROoy6Q57OmdgQ+5Nl+vBWw3keUn8CqK1xSYYhego
- M6BKPGdcXTn5LWYrIG3e9Oq+RQKcYxSDc7qe6PEfLshkSDtKcn69EAfNw2ozicY04xpU
- gpNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=FL2bHRaaG9r+wra0bobdI896edL3rD2JAUT9hR2ri1c=;
- b=HWgkY+GplbQtgjsdOyUVKBoeHHMW5MkgTiTIJYY0J6GBWiNgKHwc8bswatMbTO2vLJ
- L3NYxdNN1/xgA8cakztU8YYTAkf8qQeGs05IES8l9C1GPo8HQ8XtR0JHFNTMyTAoMrpe
- xhF6D7a7JDQ5Sr6t/1xDA33FHomwzkKYKpLI/roBv7/OncATaZ8Aakz4Ik29zdXOBef+
- aun2/f45Bem5/zOxpk5g2bLGeeldzWJRJQZvZhQHxneHEDikMUtN3YUDIkoa/QSI6v24
- zFhQWLp/iI+frag01HXESt/eT9iJzIYqLV6LRpWAaEWl8VxIovwRPDDbUZtCiBP82eha
- 0iFw==
-X-Gm-Message-State: AOAM53385mnsY1Av0/cYGgv1AU0KbuowgVzxfw1uYLWKUiUghuIJFMV5
- FfCl2l7vBaGCjoidqrIB5+5/NSjbTDPxGxfVe4A=
-X-Google-Smtp-Source: ABdhPJzP+9K7J3lllepHbJayAToiMQ2PvoH/qf3VF3fv0G/FOkCdzcoBBrN7tmLTwHXuoCOzvmzXrBxKDRjqFseTIn4=
-X-Received: by 2002:a6b:6a13:: with SMTP id x19mr15067205iog.175.1589820745585; 
- Mon, 18 May 2020 09:52:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200518140309.5220-1-f4bug@amsat.org>
- <20200518140309.5220-4-f4bug@amsat.org>
-In-Reply-To: <20200518140309.5220-4-f4bug@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 18 May 2020 09:43:34 -0700
-Message-ID: <CAKmqyKPubMjc3gRLDaYRJ+=4TqUuzAhtNHyNxC+WPMs5SA7zsQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] hw/char/xilinx_uartlite: Replace hw_error() by
- qemu_log_mask()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1jaitJ-0001IZ-Gz; Mon, 18 May 2020 12:45:25 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54438
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1jaitE-0007ia-4E; Mon, 18 May 2020 12:45:25 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04IGVE5M157015; Mon, 18 May 2020 12:45:17 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 31293u3yeq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 May 2020 12:45:17 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04IGZCq9168959;
+ Mon, 18 May 2020 12:45:17 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 31293u3yde-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 May 2020 12:45:17 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04IGeFqe025841;
+ Mon, 18 May 2020 16:43:45 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04fra.de.ibm.com with ESMTP id 313wne01gf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 May 2020 16:43:45 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 04IGgUAw53477880
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 18 May 2020 16:42:30 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CA461A4060;
+ Mon, 18 May 2020 16:43:42 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 69229A405B;
+ Mon, 18 May 2020 16:43:42 +0000 (GMT)
+Received: from oc3016276355.ibm.com (unknown [9.145.158.244])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 18 May 2020 16:43:42 +0000 (GMT)
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Subject: [PATCH v3 0/1] s390x: css: pong, channel subsystem test device
+Date: Mon, 18 May 2020 18:43:40 +0200
+Message-Id: <1589820221-23538-1-git-send-email-pmorel@linux.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
+ definitions=2020-05-18_06:2020-05-15,
+ 2020-05-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0
+ mlxlogscore=999 mlxscore=0 malwarescore=0 bulkscore=0 impostorscore=0
+ priorityscore=1501 suspectscore=1 adultscore=0 lowpriorityscore=0
+ cotscore=-2147483648 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2005180136
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 10:31:16
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,63 +94,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
+ cohuck@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 18, 2020 at 7:04 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> hw_error() calls exit(). This a bit overkill when we can log
-> the accesses as unimplemented or guest error.
->
-> When fuzzing the devices, we don't want the whole process to
-> exit. Replace some hw_error() calls by qemu_log_mask().
->
-> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+This patch series presents a device to test the channel subsystem.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Currently the pong device does the following:
+- on PONG_WRITE requests:
+  read the CCW buffer, expect a string with an integer in the buffer.
+  store the integer in a variable initialy initialized to zero.
 
-Alistair
+- on PONG_READ requests:
+  Store the value of the variable + 1 as a string in a buffer
+  send back the buffer
 
-> ---
->  hw/char/xilinx_uartlite.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/char/xilinx_uartlite.c b/hw/char/xilinx_uartlite.c
-> index c6512285d7..ae4ccd00c7 100644
-> --- a/hw/char/xilinx_uartlite.c
-> +++ b/hw/char/xilinx_uartlite.c
-> @@ -23,7 +23,7 @@
->   */
->
->  #include "qemu/osdep.h"
-> -#include "hw/hw.h"
-> +#include "qemu/log.h"
->  #include "hw/irq.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/sysbus.h"
-> @@ -135,7 +135,8 @@ uart_write(void *opaque, hwaddr addr,
->      switch (addr)
->      {
->          case R_STATUS:
-> -            hw_error("write to UART STATUS?\n");
-> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: write to UART STATUS\n",
-> +                          __func__);
->              break;
->
->          case R_CTRL:
-> --
-> 2.21.3
->
->
+- defines a Control Unit property of type CCW_PONG_CU_TYPE
+  for the guest to recognize the PONG device when using a
+  SENSE_ID command.
+
+Pierre Morel (1):
+  s390x: css: pong, channel subsystem test device
+
+ default-configs/s390x-softmmu.mak |   1 +
+ hw/s390x/Kconfig                  |   3 +
+ hw/s390x/Makefile.objs            |   1 +
+ hw/s390x/ccw-pong.c               | 134 ++++++++++++++++++++++++++++++
+ include/hw/s390x/pong.h           |  48 +++++++++++
+ 5 files changed, 187 insertions(+)
+ create mode 100644 hw/s390x/ccw-pong.c
+ create mode 100644 include/hw/s390x/pong.h
+
+-- 
+2.25.1
+
+
+
+Changelog:
+
+from v2 to v3
+- rebase to devel
+- use device_class_set_props()
+
+from v1 to v2
+- use ccw_dstream_xxx_buf (Connie)
+- adding a cu_type property
+- testing the ccw.count
+- conditional compiling for TEST_DEVICES (Connie, Thomas)
+- suppress the device categorie (Connie ?)
+- adding write callback and some funny protocol
+
 
