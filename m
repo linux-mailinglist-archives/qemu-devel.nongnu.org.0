@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FDBB1D7F17
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:49:36 +0200 (CEST)
-Received: from localhost ([::1]:45856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A85931D7F3D
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:53:36 +0200 (CEST)
+Received: from localhost ([::1]:32990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaixL-00065k-FF
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:49:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60218)
+	id 1jaj1D-0004EP-MZ
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jaip7-00027l-97
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:41:05 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:42784)
+ id 1jaipA-0002DA-6R
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:41:08 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:41386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jaip6-0005rH-A8
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:41:04 -0400
-Received: by mail-pl1-x642.google.com with SMTP id k19so4440130pll.9
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 09:41:03 -0700 (PDT)
+ id 1jaip8-0005ry-AR
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:41:07 -0400
+Received: by mail-pg1-x544.google.com with SMTP id r10so5085943pgv.8
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 09:41:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=z/u2gGUYvwpC8sb/rqLeX8kHv104pan4Dnbe4hQpH4A=;
- b=I14a1WbnGlHu8xISviWfGDFF/LvZVLn6s7gKLC63sw8bpfRtHKks98Le1odBnra35W
- 7iqhjfY3cOk3Ew61Nu7s2hAOcpO11LEdQDOcqFpChJf3E4PGWEKtDZ6c8vr3Pg7kjkMk
- Hdzpstf6qYItl5QAlLnakEwcqtLW9KvJHjLVq8idfyy3jycUl/S1Jqyn0zZlJjTyzDZI
- nBr6ByKIWB17i+bKT0tJtP6xQpR9T/dOyD75lLDB+DoeF1+zHt5QyN8/Ty1GAWWZAFT8
- zldko/x1v8bPXu2B/N/c/mGF5+4u0g10Lqc53RCNtlMJ2N+Ws/eXauzlaDZhs3SdRG1x
- TQvQ==
+ bh=MPJKFuko3o4wPQ/LQBUVo3W7uSIJWuyYbNATR0QRJU4=;
+ b=Rdr/B7ZI/okB7UoaMC0ANOO8pcLb4y2+yJb4AZ8lHDtbc1vZ6Ydynhd1w0//6u3z78
+ tvQWjGkAl4i+4nLGwjgWmdOzLlb1jsRzVCNN25MaIasUxPETksYb+LDD9p78FlWTxI+t
+ jnh4C6BSeulQVABfCyUvCfOEMk3wI0aI77udHiAv/OeS366KVUvYQcz88ecUDWjE3DMe
+ C8lkZpx1UzfLZNRDjfl6B0YctF8rQy09zHS4iuwL0WDQ1Vzsm3UObH6XFlRjVmrTN8WG
+ xh3uW/+DPSWUCAnOecFjmJssnA79cGFzrUFs1Znwqs04iCeXgN5oJfOAyGOOSdJFkaSS
+ n8yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=z/u2gGUYvwpC8sb/rqLeX8kHv104pan4Dnbe4hQpH4A=;
- b=XSrglVFTuH0msLayoOCXSRbRBkmSlUTy/3CF+IqpQNTdcm/BjEDlELiz/RDD9u3PS8
- g69MnQPqTDDGHdGjyDEYa6q5R1Jkl3GOITQtqLKLBuKyMdLgI5JOby+SXBosIidhTsC5
- QeYgC4KsjCuD5aZcWRGlclMbChNZZxQn73FhTsyT026WTBOYQAAnQPGCNoNT/SDj4xPK
- jYZ+lczYv7TNuOQ3kNxwDzpl0kfJD+hNy8Mu2lNfLOEaXl23ppSCi0ivwcLzRj8mTFtq
- 5L3S7PrUgiwfEWNiwmJQ4Xek7BEdGOzkCs1hjU7HbUYIrjLK+am1qVbU/ZMv0NgyHFnC
- qxJg==
-X-Gm-Message-State: AOAM532oPCqjdO09YEvrZyYiMdLhliUMih3e3V/VKSLzmumgolTAdL/T
- M0JgWF/6+kIZJptUF7RdCItgMkBiVWo=
-X-Google-Smtp-Source: ABdhPJy6AaIPJE6uXvnmYrIYQRlYrUgrTkShssYhzAjxLUh7vXsbA4VWMRIlGz7OLvBf52OntUwbww==
-X-Received: by 2002:a17:902:502:: with SMTP id
- 2mr12036921plf.134.1589820062371; 
- Mon, 18 May 2020 09:41:02 -0700 (PDT)
+ bh=MPJKFuko3o4wPQ/LQBUVo3W7uSIJWuyYbNATR0QRJU4=;
+ b=H8l3A60tTXPHXYaTT85iT5SdQONtut8iqyzuMtEI4hLxrjCP9Gu2nr7u2LDonSw0IA
+ U9D7uKuB1kX1ZySzm3r6V6funDr21bB6W/jvf6UXoLPZX/lhGiaFtSLOtVcVl+LffxBo
+ VEqrFXVVAyKJ2LcfLFycxo1G+uBlKuUrW6TPtPWxnmL3rkn6f1IijyNlQIAN0ar9UG57
+ 5O36KcyBmx3i44NA5D2m+tOwCBDx3fHl+gGGj7iIlkfFQbH9Y9T76Bq51eKYSeyxfIlZ
+ jSE6t+cPi27mI7SzNAcbKXj8vzefjxF2Inw4hgg991dVXMT4rbh6niHiGaHZ9UZjjDDC
+ Y1+A==
+X-Gm-Message-State: AOAM530wiHry6pAeuSKHbuCU/pbTngK2gDrDQngn++buTgNaaC88EjAX
+ YdxduRPpGjzjuF71tpfqnA8nLNw7B7g=
+X-Google-Smtp-Source: ABdhPJxPJet6MvjTYXfJlV53qIyCERGwJtOesZp2bAT+EWwAhT2pADLLcNxpvdlAMXdbbLJDLZcjYw==
+X-Received: by 2002:aa7:939c:: with SMTP id t28mr17528853pfe.38.1589820063706; 
+ Mon, 18 May 2020 09:41:03 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id x132sm5790610pfd.214.2020.05.18.09.41.01
+ by smtp.gmail.com with ESMTPSA id x132sm5790610pfd.214.2020.05.18.09.41.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 09:41:01 -0700 (PDT)
+ Mon, 18 May 2020 09:41:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/8] decodetree: Allow group covering the entire insn space
-Date: Mon, 18 May 2020 09:40:49 -0700
-Message-Id: <20200518164052.18689-6-richard.henderson@linaro.org>
+Subject: [PATCH 6/8] decodetree: Move semantic propagation into classes
+Date: Mon, 18 May 2020 09:40:50 -0700
+Message-Id: <20200518164052.18689-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200518164052.18689-1-richard.henderson@linaro.org>
 References: <20200518164052.18689-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,79 +89,638 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an edge case for sure, but the logic that disallowed
-this case was faulty.  Further, a few fixes scattered about
-can allow this to work.
+Create ExcMultiPattern to hold an set of non-overlapping patterns.
+The body of build_tree, prop_format become member functions on this
+class.  Add minimal member functions to Pattern and MultiPattern
+to allow recusion through the tree.
+
+Move the bulk of build_incmulti_pattern to prop_masks and prop_width
+in MultiPattern, since we will need this for both kinds of containers.
+Only perform prop_width for variablewidth.
+
+Remove global patterns variable, and pass down container object into
+parse_file from main.
+
+No functional change in all of this.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- ...est1.decode => succ_pattern_group_nest2.decode} |  2 +-
- scripts/decodetree.py                              | 14 +++++++++++---
- 2 files changed, 12 insertions(+), 4 deletions(-)
- rename tests/decode/{err_pattern_group_nest1.decode => succ_pattern_group_nest2.decode} (85%)
+ scripts/decodetree.py | 464 +++++++++++++++++++++++-------------------
+ 1 file changed, 253 insertions(+), 211 deletions(-)
 
-diff --git a/tests/decode/err_pattern_group_nest1.decode b/tests/decode/succ_pattern_group_nest2.decode
-similarity index 85%
-rename from tests/decode/err_pattern_group_nest1.decode
-rename to tests/decode/succ_pattern_group_nest2.decode
-index 92e971c3c5..8d5ab4b2d3 100644
---- a/tests/decode/err_pattern_group_nest1.decode
-+++ b/tests/decode/succ_pattern_group_nest2.decode
-@@ -6,7 +6,7 @@
- %sub3 16:8
- %sub4 24:8
- 
--# Groups with no overlap are supposed to fail
-+# Group with complete overlap of the two patterns
- {
-   top  00000000 00000000 00000000 00000000
-   sub4 ........ ........ ........ ........ %sub1 %sub2 %sub3 %sub4
 diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-index ea313bcdea..3307c74c30 100755
+index 3307c74c30..0ba01e049c 100755
 --- a/scripts/decodetree.py
 +++ b/scripts/decodetree.py
-@@ -124,6 +124,7 @@ def is_pow2(x):
+@@ -31,7 +31,6 @@ variablewidth = False
+ fields = {}
+ arguments = {}
+ formats = {}
+-patterns = []
+ allpatterns = []
+ anyextern = False
  
- def ctz(x):
-     """Return the number of times 2 factors into X."""
-+    assert x != 0
-     r = 0
-     while ((x >> r) & 1) == 0:
-         r += 1
-@@ -131,6 +132,8 @@ def ctz(x):
- 
- 
- def is_contiguous(bits):
-+    if bits == 0:
-+        return -1
-     shift = ctz(bits)
-     if is_pow2((bits >> shift) + 1):
-         return shift
-@@ -793,9 +796,8 @@ def build_incmulti_pattern(lineno, pats):
-             error(lineno, 'width mismatch in patterns within braces')
- 
-     repeat = True
--    while repeat:
--        if fixedmask == 0:
--            error(lineno, 'no overlap in patterns within braces')
-+    fixedbits = 0
-+    while repeat and fixedmask != 0:
-         fixedbits = None
-         for p in pats:
-             thisbits = p.fixedbits & fixedmask
-@@ -978,6 +980,12 @@ def build_tree(pats, outerbits, outermask):
-         innermask &= i.fixedmask
- 
-     if innermask == 0:
-+        # Edge condition: One pattern covers the entire insnmask
-+        if len(pats) == 1:
-+            t = Tree(outermask, innermask)
-+            t.subs.append((0, pats[0]))
-+            return t
+@@ -371,16 +370,27 @@ class Pattern(General):
+             output(ind, 'u.f_', arg, '.', n, ' = ', f.str_extract(), ';\n')
+         output(ind, 'if (', translate_prefix, '_', self.name,
+                '(ctx, &u.f_', arg, ')) return true;\n')
 +
-         text = 'overlapping patterns:'
-         for p in pats:
-             text += '\n' + p.file + ':' + str(p.lineno) + ': ' + str(p)
++    # Normal patterns do not have children.
++    def build_tree(self):
++        return
++    def prop_masks(self):
++        return
++    def prop_format(self):
++        return
++    def prop_width(self):
++        return
++
+ # end Pattern
+ 
+ 
+ class MultiPattern(General):
+     """Class representing a set of instruction patterns"""
+ 
+-    def __init__(self, lineno, pats):
++    def __init__(self, lineno):
+         self.file = input_file
+         self.lineno = lineno
+-        self.pats = pats
++        self.pats = []
+         self.base = None
+         self.fixedbits = 0
+         self.fixedmask = 0
+@@ -396,22 +406,63 @@ class MultiPattern(General):
+     def output_decl(self):
+         for p in self.pats:
+             p.output_decl()
++
++    def prop_masks(self):
++        global insnmask
++
++        fixedmask = insnmask
++        undefmask = insnmask
++
++        # Collect fixedmask/undefmask for all of the children.
++        for p in self.pats:
++            p.prop_masks()
++            fixedmask &= p.fixedmask
++            undefmask &= p.undefmask
++
++        # Widen fixedmask until all fixedbits match
++        repeat = True
++        fixedbits = 0
++        while repeat and fixedmask != 0:
++            fixedbits = None
++            for p in self.pats:
++                thisbits = p.fixedbits & fixedmask
++                if fixedbits is None:
++                    fixedbits = thisbits
++                elif fixedbits != thisbits:
++                    fixedmask &= ~(fixedbits ^ thisbits)
++                    break
++            else:
++                repeat = False
++
++        self.fixedbits = fixedbits
++        self.fixedmask = fixedmask
++        self.undefmask = undefmask
++
++    def build_tree(self):
++        for p in self.pats:
++            p.build_tree()
++
++    def prop_format(self):
++        for p in self.pats:
++            p.build_tree()
++
++    def prop_width(self):
++        width = None
++        for p in self.pats:
++            p.prop_width()
++            if width is None:
++                width = p.width
++            elif width != p.width:
++                error_with_file(self.file, self.lineno,
++                                'width mismatch in patterns within braces')
++        self.width = width
++
+ # end MultiPattern
+ 
+ 
+ class IncMultiPattern(MultiPattern):
+     """Class representing an overlapping set of instruction patterns"""
+ 
+-    def __init__(self, lineno, pats, fixb, fixm, udfm, w):
+-        self.file = input_file
+-        self.lineno = lineno
+-        self.pats = pats
+-        self.base = None
+-        self.fixedbits = fixb
+-        self.fixedmask = fixm
+-        self.undefmask = udfm
+-        self.width = w
+-
+     def output_code(self, i, extracted, outerbits, outermask):
+         global translate_prefix
+         ind = str_indent(i)
+@@ -431,6 +482,153 @@ class IncMultiPattern(MultiPattern):
+ #end IncMultiPattern
+ 
+ 
++class Tree:
++    """Class representing a node in a decode tree"""
++
++    def __init__(self, fm, tm):
++        self.fixedmask = fm
++        self.thismask = tm
++        self.subs = []
++        self.base = None
++
++    def str1(self, i):
++        ind = str_indent(i)
++        r = '{0}{1:08x}'.format(ind, self.fixedmask)
++        if self.format:
++            r += ' ' + self.format.name
++        r += ' [\n'
++        for (b, s) in self.subs:
++            r += '{0}  {1:08x}:\n'.format(ind, b)
++            r += s.str1(i + 4) + '\n'
++        r += ind + ']'
++        return r
++
++    def __str__(self):
++        return self.str1(0)
++
++    def output_code(self, i, extracted, outerbits, outermask):
++        ind = str_indent(i)
++
++        # If we identified all nodes below have the same format,
++        # extract the fields now.
++        if not extracted and self.base:
++            output(ind, self.base.extract_name(),
++                   '(ctx, &u.f_', self.base.base.name, ', insn);\n')
++            extracted = True
++
++        # Attempt to aid the compiler in producing compact switch statements.
++        # If the bits in the mask are contiguous, extract them.
++        sh = is_contiguous(self.thismask)
++        if sh > 0:
++            # Propagate SH down into the local functions.
++            def str_switch(b, sh=sh):
++                return '(insn >> {0}) & 0x{1:x}'.format(sh, b >> sh)
++
++            def str_case(b, sh=sh):
++                return '0x{0:x}'.format(b >> sh)
++        else:
++            def str_switch(b):
++                return 'insn & 0x{0:08x}'.format(b)
++
++            def str_case(b):
++                return '0x{0:08x}'.format(b)
++
++        output(ind, 'switch (', str_switch(self.thismask), ') {\n')
++        for b, s in sorted(self.subs):
++            assert (self.thismask & ~s.fixedmask) == 0
++            innermask = outermask | self.thismask
++            innerbits = outerbits | b
++            output(ind, 'case ', str_case(b), ':\n')
++            output(ind, '    /* ',
++                   str_match_bits(innerbits, innermask), ' */\n')
++            s.output_code(i + 4, extracted, innerbits, innermask)
++            output(ind, '    return false;\n')
++        output(ind, '}\n')
++# end Tree
++
++
++class ExcMultiPattern(MultiPattern):
++    """Class representing a non-overlapping set of instruction patterns"""
++
++    def output_code(self, i, extracted, outerbits, outermask):
++        # Defer everything to our decomposed Tree node
++        self.tree.output_code(i, extracted, outerbits, outermask)
++
++    @staticmethod
++    def __build_tree(pats, outerbits, outermask):
++        # Find the intersection of all remaining fixedmask.
++        innermask = ~outermask & insnmask
++        for i in pats:
++            innermask &= i.fixedmask
++
++        if innermask == 0:
++            # Edge condition: One pattern covers the entire insnmask
++            if len(pats) == 1:
++                t = Tree(outermask, innermask)
++                t.subs.append((0, pats[0]))
++                return t
++
++            text = 'overlapping patterns:'
++            for p in pats:
++                text += '\n' + p.file + ':' + str(p.lineno) + ': ' + str(p)
++            error_with_file(pats[0].file, pats[0].lineno, text)
++
++        fullmask = outermask | innermask
++
++        # Sort each element of pats into the bin selected by the mask.
++        bins = {}
++        for i in pats:
++            fb = i.fixedbits & innermask
++            if fb in bins:
++                bins[fb].append(i)
++            else:
++                bins[fb] = [i]
++
++        # We must recurse if any bin has more than one element or if
++        # the single element in the bin has not been fully matched.
++        t = Tree(fullmask, innermask)
++
++        for b, l in bins.items():
++            s = l[0]
++            if len(l) > 1 or s.fixedmask & ~fullmask != 0:
++                s = ExcMultiPattern.__build_tree(l, b | outerbits, fullmask)
++            t.subs.append((b, s))
++
++        return t
++
++    def build_tree(self):
++        super().prop_format()
++        self.tree = self.__build_tree(self.pats, self.fixedbits,
++                                      self.fixedmask)
++
++    @staticmethod
++    def __prop_format(tree):
++        """Propagate Format objects into the decode tree"""
++
++        # Depth first search.
++        for (b, s) in tree.subs:
++            if isinstance(s, Tree):
++                ExcMultiPattern.__prop_format(s)
++
++        # If all entries in SUBS have the same format, then
++        # propagate that into the tree.
++        f = None
++        for (b, s) in tree.subs:
++            if f is None:
++                f = s.base
++                if f is None:
++                    return
++            if f is not s.base:
++                return
++        tree.base = f
++
++    def prop_format(self):
++        super().prop_format()
++        self.__prop_format(self.tree)
++
++# end ExcMultiPattern
++
++
+ def parse_field(lineno, name, toks):
+     """Parse one instruction field from TOKS at LINENO"""
+     global fields
+@@ -587,18 +785,19 @@ def infer_format(arg, fieldmask, flds, width):
+ # end infer_format
+ 
+ 
+-def parse_generic(lineno, is_format, name, toks):
++def parse_generic(lineno, parent_pat, name, toks):
+     """Parse one instruction format from TOKS at LINENO"""
+     global fields
+     global arguments
+     global formats
+-    global patterns
+     global allpatterns
+     global re_ident
+     global insnwidth
+     global insnmask
+     global variablewidth
+ 
++    is_format = parent_pat is None
++
+     fixedmask = 0
+     fixedbits = 0
+     undefmask = 0
+@@ -749,7 +948,7 @@ def parse_generic(lineno, is_format, name, toks):
+                 error(lineno, 'field {0} not initialized'.format(f))
+         pat = Pattern(name, lineno, fmt, fixedbits, fixedmask,
+                       undefmask, fieldmask, flds, width)
+-        patterns.append(pat)
++        parent_pat.pats.append(pat)
+         allpatterns.append(pat)
+ 
+     # Validate the masks that we have assembled.
+@@ -769,61 +968,16 @@ def parse_generic(lineno, is_format, name, toks):
+                           .format(allbits ^ insnmask))
+ # end parse_general
+ 
+-def build_incmulti_pattern(lineno, pats):
+-    """Validate the Patterns going into a IncMultiPattern."""
+-    global patterns
+-    global insnmask
+ 
+-    if len(pats) < 2:
+-        error(lineno, 'less than two patterns within braces')
+-
+-    fixedmask = insnmask
+-    undefmask = insnmask
+-
+-    # Collect fixed/undefmask for all of the children.
+-    # Move the defining lineno back to that of the first child.
+-    for p in pats:
+-        fixedmask &= p.fixedmask
+-        undefmask &= p.undefmask
+-        if p.lineno < lineno:
+-            lineno = p.lineno
+-
+-    width = None
+-    for p in pats:
+-        if width is None:
+-            width = p.width
+-        elif width != p.width:
+-            error(lineno, 'width mismatch in patterns within braces')
+-
+-    repeat = True
+-    fixedbits = 0
+-    while repeat and fixedmask != 0:
+-        fixedbits = None
+-        for p in pats:
+-            thisbits = p.fixedbits & fixedmask
+-            if fixedbits is None:
+-                fixedbits = thisbits
+-            elif fixedbits != thisbits:
+-                fixedmask &= ~(fixedbits ^ thisbits)
+-                break
+-        else:
+-            repeat = False
+-
+-    mp = IncMultiPattern(lineno, pats, fixedbits, fixedmask, undefmask, width)
+-    patterns.append(mp)
+-# end build_incmulti_pattern
+-
+-def parse_file(f):
++def parse_file(f, parent_pat):
+     """Parse all of the patterns within a file"""
+ 
+-    global patterns
+-
+     # Read all of the lines of the file.  Concatenate lines
+     # ending in backslash; discard empty lines and comments.
+     toks = []
+     lineno = 0
+     nesting = 0
+-    saved_pats = []
++    nesting_pats = []
+ 
+     for line in f:
+         lineno += 1
+@@ -868,16 +1022,20 @@ def parse_file(f):
+ 
+         # End nesting?
+         if name == '}':
+-            if nesting == 0:
+-                error(start_lineno, 'mismatched close brace')
+             if len(toks) != 0:
+                 error(start_lineno, 'extra tokens after close brace')
++            if len(parent_pat.pats) < 2:
++                error(lineno, 'less than two patterns within braces')
++
++            try:
++                parent_pat = nesting_pats.pop()
++            except:
++                error(lineno, 'mismatched close brace')
++
+             nesting -= 2
+             if indent != nesting:
+-                error(start_lineno, 'indentation ', indent, ' != ', nesting)
+-            pats = patterns
+-            patterns = saved_pats.pop()
+-            build_incmulti_pattern(lineno, pats)
++                error(lineno, 'indentation ', indent, ' != ', nesting)
++
+             toks = []
+             continue
+ 
+@@ -889,8 +1047,12 @@ def parse_file(f):
+         if name == '{':
+             if len(toks) != 0:
+                 error(start_lineno, 'extra tokens after open brace')
+-            saved_pats.append(patterns)
+-            patterns = []
++
++            nested_pat = IncMultiPattern(start_lineno)
++            parent_pat.pats.append(nested_pat)
++            nesting_pats.append(parent_pat)
++            parent_pat = nested_pat
++
+             nesting += 2
+             toks = []
+             continue
+@@ -901,121 +1063,13 @@ def parse_file(f):
+         elif name[0] == '&':
+             parse_arguments(start_lineno, name[1:], toks)
+         elif name[0] == '@':
+-            parse_generic(start_lineno, True, name[1:], toks)
++            parse_generic(start_lineno, None, name[1:], toks)
+         else:
+-            parse_generic(start_lineno, False, name, toks)
++            parse_generic(start_lineno, parent_pat, name, toks)
+         toks = []
+ # end parse_file
+ 
+ 
+-class Tree:
+-    """Class representing a node in a decode tree"""
+-
+-    def __init__(self, fm, tm):
+-        self.fixedmask = fm
+-        self.thismask = tm
+-        self.subs = []
+-        self.base = None
+-
+-    def str1(self, i):
+-        ind = str_indent(i)
+-        r = '{0}{1:08x}'.format(ind, self.fixedmask)
+-        if self.format:
+-            r += ' ' + self.format.name
+-        r += ' [\n'
+-        for (b, s) in self.subs:
+-            r += '{0}  {1:08x}:\n'.format(ind, b)
+-            r += s.str1(i + 4) + '\n'
+-        r += ind + ']'
+-        return r
+-
+-    def __str__(self):
+-        return self.str1(0)
+-
+-    def output_code(self, i, extracted, outerbits, outermask):
+-        ind = str_indent(i)
+-
+-        # If we identified all nodes below have the same format,
+-        # extract the fields now.
+-        if not extracted and self.base:
+-            output(ind, self.base.extract_name(),
+-                   '(ctx, &u.f_', self.base.base.name, ', insn);\n')
+-            extracted = True
+-
+-        # Attempt to aid the compiler in producing compact switch statements.
+-        # If the bits in the mask are contiguous, extract them.
+-        sh = is_contiguous(self.thismask)
+-        if sh > 0:
+-            # Propagate SH down into the local functions.
+-            def str_switch(b, sh=sh):
+-                return '(insn >> {0}) & 0x{1:x}'.format(sh, b >> sh)
+-
+-            def str_case(b, sh=sh):
+-                return '0x{0:x}'.format(b >> sh)
+-        else:
+-            def str_switch(b):
+-                return 'insn & 0x{0:08x}'.format(b)
+-
+-            def str_case(b):
+-                return '0x{0:08x}'.format(b)
+-
+-        output(ind, 'switch (', str_switch(self.thismask), ') {\n')
+-        for b, s in sorted(self.subs):
+-            assert (self.thismask & ~s.fixedmask) == 0
+-            innermask = outermask | self.thismask
+-            innerbits = outerbits | b
+-            output(ind, 'case ', str_case(b), ':\n')
+-            output(ind, '    /* ',
+-                   str_match_bits(innerbits, innermask), ' */\n')
+-            s.output_code(i + 4, extracted, innerbits, innermask)
+-            output(ind, '    return false;\n')
+-        output(ind, '}\n')
+-# end Tree
+-
+-
+-def build_tree(pats, outerbits, outermask):
+-    # Find the intersection of all remaining fixedmask.
+-    innermask = ~outermask & insnmask
+-    for i in pats:
+-        innermask &= i.fixedmask
+-
+-    if innermask == 0:
+-        # Edge condition: One pattern covers the entire insnmask
+-        if len(pats) == 1:
+-            t = Tree(outermask, innermask)
+-            t.subs.append((0, pats[0]))
+-            return t
+-
+-        text = 'overlapping patterns:'
+-        for p in pats:
+-            text += '\n' + p.file + ':' + str(p.lineno) + ': ' + str(p)
+-        error_with_file(pats[0].file, pats[0].lineno, text)
+-
+-    fullmask = outermask | innermask
+-
+-    # Sort each element of pats into the bin selected by the mask.
+-    bins = {}
+-    for i in pats:
+-        fb = i.fixedbits & innermask
+-        if fb in bins:
+-            bins[fb].append(i)
+-        else:
+-            bins[fb] = [i]
+-
+-    # We must recurse if any bin has more than one element or if
+-    # the single element in the bin has not been fully matched.
+-    t = Tree(fullmask, innermask)
+-
+-    for b, l in bins.items():
+-        s = l[0]
+-        if len(l) > 1 or s.fixedmask & ~fullmask != 0:
+-            s = build_tree(l, b | outerbits, fullmask)
+-        t.subs.append((b, s))
+-
+-    return t
+-# end build_tree
+-
+-
+ class SizeTree:
+     """Class representing a node in a size decode tree"""
+ 
+@@ -1157,28 +1211,6 @@ def build_size_tree(pats, width, outerbits, outermask):
+ # end build_size_tree
+ 
+ 
+-def prop_format(tree):
+-    """Propagate Format objects into the decode tree"""
+-
+-    # Depth first search.
+-    for (b, s) in tree.subs:
+-        if isinstance(s, Tree):
+-            prop_format(s)
+-
+-    # If all entries in SUBS have the same format, then
+-    # propagate that into the tree.
+-    f = None
+-    for (b, s) in tree.subs:
+-        if f is None:
+-            f = s.base
+-            if f is None:
+-                return
+-        if f is not s.base:
+-            return
+-    tree.base = f
+-# end prop_format
+-
+-
+ def prop_size(tree):
+     """Propagate minimum widths up the decode size tree"""
+ 
+@@ -1199,7 +1231,6 @@ def prop_size(tree):
+ def main():
+     global arguments
+     global formats
+-    global patterns
+     global allpatterns
+     global translate_scope
+     global translate_prefix
+@@ -1246,18 +1277,29 @@ def main():
+ 
+     if len(args) < 1:
+         error(0, 'missing input file')
++
++    toppat = ExcMultiPattern(0)
++
+     for filename in args:
+         input_file = filename
+         f = open(filename, 'r')
+-        parse_file(f)
++        parse_file(f, toppat)
+         f.close()
+ 
+-    if variablewidth:
+-        stree = build_size_tree(patterns, 8, 0, 0)
+-        prop_size(stree)
++    # We do not want to compute masks for toppat, because those masks
++    # are used as a starting point for build_tree.  For toppat, we must
++    # insist that decode begins from naught.
++    for i in toppat.pats:
++        i.prop_masks()
+ 
+-    dtree = build_tree(patterns, 0, 0)
+-    prop_format(dtree)
++    toppat.build_tree()
++    toppat.prop_format()
++
++    if variablewidth:
++        for i in toppat.pats:
++            i.prop_width()
++        stree = build_size_tree(toppat.pats, 8, 0, 0)
++        prop_size(stree)
+ 
+     if output_file:
+         output_fd = open(output_file, 'w')
+@@ -1316,7 +1358,7 @@ def main():
+             f = arguments[n]
+             output(i4, i4, f.struct_name(), ' f_', f.name, ';\n')
+         output(i4, '} u;\n\n')
+-        dtree.output_code(4, False, 0, 0)
++        toppat.output_code(4, False, 0, 0)
+ 
+     output(i4, 'return false;\n')
+     output('}\n')
 -- 
 2.20.1
 
