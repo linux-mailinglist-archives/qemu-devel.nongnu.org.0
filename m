@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCB41D701F
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:08:37 +0200 (CEST)
-Received: from localhost ([::1]:52152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50ADC1D7048
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:20:20 +0200 (CEST)
+Received: from localhost ([::1]:60400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaY0y-0007Wq-9c
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:08:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49272)
+	id 1jaYCJ-000671-C0
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:20:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwu-0000DJ-RN
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:24 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59669
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXws-00006S-Hb
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:22 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58636
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwp-0004NL-9U
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:24 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwo-0004NF-VR
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1589778258;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lVJABTHqDjEOYxKEc1EKWKTlkF5He+2BOTdJVrP8bcs=;
- b=f0G7RD4ppoukTgrRj+ZylxG4q9WKZbfTLa61Ebskkd0TeMxHV5tGKsG6hXOaKo1INKL8bZ
- T1+Uow0asfDseIADhlpylHR41hJOJEp/DnrqcDySPHUSOpoTZXXZA7d/9I30CImivaVhFe
- p1T0JZL6BVBDP1amP2eM7wENV47Hwhk=
+ bh=P94U20LYuAeV1P/fzoOqSMl+y60Cy8yJ6i9oCIIMJ/U=;
+ b=XK0Rl0tjMoP4vuZ5VDWoJ8V9TCqUZ6MXQcA0RDTNcqeltXZs3i1NZXqtCqW7ZVUiDydjze
+ LFwD8Nj8/tVDAdUqIOK0FH9PHcYEMWswbioiQaF+chAS6+kyBvwFn+cP4A93Y5I+HLpfrj
+ sXy247y7Lu4a8j5O6uptJsokRy3XBGA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-XQL1WfbDP6Of9tEapURBlw-1; Mon, 18 May 2020 01:04:14 -0400
-X-MC-Unique: XQL1WfbDP6Of9tEapURBlw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-174-BjDC9FgVOuGH-m2qu1p6qQ-1; Mon, 18 May 2020 01:04:14 -0400
+X-MC-Unique: BjDC9FgVOuGH-m2qu1p6qQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69603EC1A9;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79B09872FF2;
  Mon, 18 May 2020 05:04:13 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 029CD1001B2B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 31F978208F;
  Mon, 18 May 2020 05:04:13 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6CE0F11358D1; Mon, 18 May 2020 07:04:08 +0200 (CEST)
+ id 72A3D11358D2; Mon, 18 May 2020 07:04:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 20/24] riscv: Fix type of SiFive[EU]SocState, member parent_obj
-Date: Mon, 18 May 2020 07:04:04 +0200
-Message-Id: <20200518050408.4579-21-armbru@redhat.com>
+Subject: [PATCH 21/24] sparc/leon3: Fix to put grlib,* devices on sysbus
+Date: Mon, 18 May 2020 07:04:05 +0200
+Message-Id: <20200518050408.4579-22-armbru@redhat.com>
 In-Reply-To: <20200518050408.4579-1-armbru@redhat.com>
 References: <20200518050408.4579-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:52:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 23:32:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,56 +81,57 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: berrange@redhat.com, ehabkost@redhat.com,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
- pbonzini@redhat.com, Palmer Dabbelt <palmer@dabbelt.com>
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>, pbonzini@redhat.com,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Device "riscv.sifive.e.soc" is a direct subtype of TYPE_DEVICE, but
-its instance struct SiFiveESoCState's member @parent_obj is
-SysBusDevice instead of DeviceState.  Correct that.
+leon3_generic_hw_init() creates a "grlib,ahbpnp" and a "grlib,apbpnp"
+sysbus device in a way that leaves them unplugged.
 
-Same for "riscv.sifive.u.soc"'s instance struct SiFiveUSoCState.
+Create them the common way that puts them into the main system bus.
+Affects machine leon3_generic.  Visible in "info qtree":
 
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Cc: qemu-riscv@nongnu.org
+     bus: main-system-bus
+       type System
+    +  dev: grlib,ahbpnp, id ""
+    +    mmio 00000000fffff000/0000000000001000
+    +  dev: grlib,apbpnp, id ""
+    +    mmio 00000000800ff000/0000000000001000
+       dev: grlib,irqmp, id ""
+
+Cc: Fabien Chouteau <chouteau@adacore.com>
+Cc: KONRAD Frederic <frederic.konrad@adacore.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Artyom Tarasenko <atar4qemu@gmail.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/hw/riscv/sifive_e.h | 2 +-
- include/hw/riscv/sifive_u.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/sparc/leon3.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-index 25ce7aa9d5..f05644df7c 100644
---- a/include/hw/riscv/sifive_e.h
-+++ b/include/hw/riscv/sifive_e.h
-@@ -29,7 +29,7 @@
+diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
+index 8f024dab7b..3facb8c2ae 100644
+--- a/hw/sparc/leon3.c
++++ b/hw/sparc/leon3.c
+@@ -213,14 +213,14 @@ static void leon3_generic_hw_init(MachineState *machine)
+     reset_info->sp    = LEON3_RAM_OFFSET + ram_size;
+     qemu_register_reset(main_cpu_reset, reset_info);
  
- typedef struct SiFiveESoCState {
-     /*< private >*/
--    SysBusDevice parent_obj;
-+    DeviceState parent_obj;
+-    ahb_pnp = GRLIB_AHB_PNP(object_new(TYPE_GRLIB_AHB_PNP));
++    ahb_pnp = GRLIB_AHB_PNP(qdev_create(NULL, TYPE_GRLIB_AHB_PNP));
+     object_property_set_bool(OBJECT(ahb_pnp), true, "realized", &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(ahb_pnp), 0, LEON3_AHB_PNP_OFFSET);
+     grlib_ahb_pnp_add_entry(ahb_pnp, 0, 0, GRLIB_VENDOR_GAISLER,
+                             GRLIB_LEON3_DEV, GRLIB_AHB_MASTER,
+                             GRLIB_CPU_AREA);
  
-     /*< public >*/
-     RISCVHartArrayState cpus;
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 16c297ec5f..5f62cf5f85 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -31,7 +31,7 @@
- 
- typedef struct SiFiveUSoCState {
-     /*< private >*/
--    SysBusDevice parent_obj;
-+    DeviceState parent_obj;
- 
-     /*< public >*/
-     CPUClusterState e_cluster;
+-    apb_pnp = GRLIB_APB_PNP(object_new(TYPE_GRLIB_APB_PNP));
++    apb_pnp = GRLIB_APB_PNP(qdev_create(NULL, TYPE_GRLIB_APB_PNP));
+     object_property_set_bool(OBJECT(apb_pnp), true, "realized", &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(apb_pnp), 0, LEON3_APB_PNP_OFFSET);
+     grlib_ahb_pnp_add_entry(ahb_pnp, LEON3_APB_PNP_OFFSET, 0xFFF,
 -- 
 2.21.1
 
