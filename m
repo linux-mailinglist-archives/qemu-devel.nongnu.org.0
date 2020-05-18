@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BF51D89BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 23:01:35 +0200 (CEST)
-Received: from localhost ([::1]:50256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E4A1D899F
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 22:57:38 +0200 (CEST)
+Received: from localhost ([::1]:37008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jamtC-0000Jg-Mi
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 17:01:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35062)
+	id 1jampN-00032r-Ez
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 16:57:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jamnA-00008n-Hx
- for qemu-devel@nongnu.org; Mon, 18 May 2020 16:55:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28695
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jamn7-0006g7-3G
- for qemu-devel@nongnu.org; Mon, 18 May 2020 16:55:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589835316;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ot3XdvYodfHL2kjBM8Pln1VM6ToHATRIvSQB9FZkB60=;
- b=cFB00PILGg7nPglycM1NDkqG5vxCXgka7m1RYlM6o/Nex0MIvNSXCM4NwREYE2pBWlADOP
- g1eygaY/cr+fYJ+Gda6f2WvY0z8taF0oR6KJCEJH0HtmIjbHdleQeo1arV7EOGdgrSDW8d
- GvMnEO37sva0InyCZ//7VgzgmN/L3+0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-GgJE291tOVaad8D35tg2IQ-1; Mon, 18 May 2020 16:55:09 -0400
-X-MC-Unique: GgJE291tOVaad8D35tg2IQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4A1583DC0F;
- Mon, 18 May 2020 20:55:08 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C383079594;
- Mon, 18 May 2020 20:55:07 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 7/7] qemu-img: Add bitmap sub-command
-Date: Mon, 18 May 2020 15:54:48 -0500
-Message-Id: <20200518205448.690566-8-eblake@redhat.com>
-In-Reply-To: <20200518205448.690566-1-eblake@redhat.com>
-References: <20200518205448.690566-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jamo7-0001fP-6V
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 16:56:19 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58724
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jamo5-0006yV-Hv
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 16:56:18 -0400
+Received: from host109-156-104-24.range109-156.btcentralplus.com
+ ([109.156.104.24] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jamoC-0003cv-86; Mon, 18 May 2020 21:56:24 +0100
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200518051945.8621-1-armbru@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <6058b1d7-53c2-adc1-9cc0-f6cbd85d2e48@ilande.co.uk>
+Date: Mon, 18 May 2020 21:56:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200518051945.8621-1-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 00:53:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-SA-Exim-Connect-IP: 109.156.104.24
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH not-for-merge 0/5] Instrumentation for "Fixes around
+ device realization"
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,381 +90,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Include actions for --add, --remove, --clear, --enable, --disable, and
---merge (note that --clear is a bit of fluff, because the same can be
-accomplished by removing a bitmap and then adding a new one in its
-place, but it matches what QMP commands exist).  Listing is omitted,
-because it does not require a bitmap name and because it was already
-possible with 'qemu-img info'.  A single command line can play one or
-more bitmap commands in sequence on the same bitmap name (although all
-added bitmaps share the same granularity, and and all merged bitmaps
-come from the same source file).  Merge defaults to other bitmaps in
-the primary image, but can also be told to merge bitmaps from a
-distinct image.
+On 18/05/2020 06:19, Markus Armbruster wrote:
 
-While this supports --image-opts for the file being modified, I did
-not think it worth the extra complexity to support that for the source
-file in a cross-file merges.  Likewise, I chose to have --merge only
-take a single source rather than following the QMP support for
-multiple merges in one go (although you can still use more than one
---merge in the command line); in part because qemu-img is offline and
-therefore atomicity is not an issue.
+> This is the instrumentation mentioned in "[PATCH 00/24] Fixes around
+> device realization".
+> 
+> PATCH 2/5 might have value on its own.  You tell me.
+> 
+> Shell script to smoke-test all machines:
+> 
+> #!/bin/sh
+> success=0
+> fail=0
+> ulimit -c 0
+> git-describe --dirty --match v\*
+> git-log --oneline -1
+> for i in bld/*-softmmu
+> do
+>     t=${i%-softmmu}
+>     t=${t##*/}
+>     q=$i/qemu-system-$t
+>     echo "= $t ="
+> 
+>     for m in `$q -M help | sed -n '/(alias of/d;2,$s/ .*//p'`
+>     do
+> 	echo "== $m =="
+> 	echo -e 'info qom-tree\ninfo qtree\nq' | $q -S -accel qtest -display none -L smoke-mon-roms -M $m -monitor stdio
+> 	if [ $? -eq 0 ]
+> 	then echo "*** Success: $m ***"; let success++
+> 	else echo "*** Fail: $m"; let fail++
+> 	fi
+>     done
+> done
+> echo $success succeeded, $fail failed
+> 
+> 
+> Markus Armbruster (5):
+>   qom: Instrument to detect missed realize
+>   qom: Make "info qom-tree" show children sorted
+>   qdev: Make "info qtree" show child devices sorted by QOM path
+>   qdev: Instrument to detect missed QOM parenting
+>   qdev: Instrument to detect bus mismatch
+> 
+>  hw/core/qdev.c     | 17 ++++++++++++++++
+>  qdev-monitor.c     | 32 ++++++++++++++++++++++++++++-
+>  qom/qom-hmp-cmds.c | 51 +++++++++++++++++++++++++++++++++++++++++++++-
+>  3 files changed, 98 insertions(+), 2 deletions(-)
 
-Upcoming patches will add iotest coverage of these commands while
-also testing other features.
+Thanks for sharing these patches! I certainly think that they have value and after a
+quick read through I'm thinking:
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200513011648.166876-7-eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- docs/tools/qemu-img.rst |  24 ++++
- qemu-img.c              | 249 ++++++++++++++++++++++++++++++++++++++++
- qemu-img-cmds.hx        |   7 ++
- 3 files changed, 280 insertions(+)
+- Patch 1 I assume is no longer needed once you previous series is merged
 
-diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-index 7d08c48d308f..219483cec279 100644
---- a/docs/tools/qemu-img.rst
-+++ b/docs/tools/qemu-img.rst
-@@ -281,6 +281,30 @@ Command description:
-   For write tests, by default a buffer filled with zeros is written. This can be
-   overridden with a pattern byte specified by *PATTERN*.
+- Patches 2 & 3 would be really useful at the start of your previous series (as
+someone who has gone crossed-eyed enough trying to spot these differences, this is
+really helpful)
 
-+.. option:: bitmap (--merge SOURCE | --add | --remove | --clear | --enable | --disable)... [-b SOURCE_FILE [-F SOURCE_FMT]] [-g GRANULARITY] [--object OBJECTDEF] [--image-opts | -f FMT] FILENAME BITMAP
-+
-+  Perform one or more modifications of the persistent bitmap *BITMAP*
-+  in the disk image *FILENAME*.  The various modifications are:
-+
-+  ``--add`` to create *BITMAP*, enabled to record future edits.
-+
-+  ``--remove`` to remove *BITMAP*.
-+
-+  ``--clear`` to clear *BITMAP*.
-+
-+  ``--enable`` to change *BITMAP* to start recording future edits.
-+
-+  ``--disable`` to change *BITMAP* to stop recording future edits.
-+
-+  ``--merge`` to merge the contents of *SOURCE_BITMAP* into *BITMAP*.
-+
-+  Additional options include ``-g`` which sets a non-default
-+  *GRANULARITY* for ``--add``, and ``-b`` and ``-F`` which select an
-+  alternative source file for all *SOURCE* bitmaps used by
-+  ``--merge``.
-+
-+  To see what bitmaps are present in an image, use ``qemu-img info``.
-+
- .. option:: check [--object OBJECTDEF] [--image-opts] [-q] [-f FMT] [--output=OFMT] [-r [leaks | all]] [-T SRC_CACHE] [-U] FILENAME
+- Patches 4 and 5 are good sanity checks for developers but I'm wondering what is the
+extent of work that needs to be done? Could existing failures be whitelisted with the
+aim of removal which would then at least prevent new devices being added that aren't
+correct?
 
-   Perform a consistency check on the disk image *FILENAME*. The command can
-diff --git a/qemu-img.c b/qemu-img.c
-index b6e8af9202a5..f940137cb0e5 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -28,6 +28,7 @@
- #include "qemu-common.h"
- #include "qemu-version.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-commands-block-core.h"
- #include "qapi/qapi-visit-block-core.h"
- #include "qapi/qobject-output-visitor.h"
- #include "qapi/qmp/qjson.h"
-@@ -71,6 +72,12 @@ enum {
-     OPTION_SHRINK = 266,
-     OPTION_SALVAGE = 267,
-     OPTION_TARGET_IS_ZERO = 268,
-+    OPTION_ADD = 269,
-+    OPTION_REMOVE = 270,
-+    OPTION_CLEAR = 271,
-+    OPTION_ENABLE = 272,
-+    OPTION_DISABLE = 273,
-+    OPTION_MERGE = 274,
- };
 
- typedef enum OutputFormat {
-@@ -169,6 +176,14 @@ static void QEMU_NORETURN help(void)
-            "  '-n' skips the target volume creation (useful if the volume is created\n"
-            "       prior to running qemu-img)\n"
-            "\n"
-+           "Parameters to bitmap subcommand:\n"
-+           "  'bitmap' is the name of the bitmap to manipulate, through one or more\n"
-+           "       actions from '--add', '--remove', '--clear', '--enable', '--disable',\n"
-+           "       or '--merge source'\n"
-+           "  '-g granularity' sets the granularity for '--add' actions\n"
-+           "  '-b source' and '-F src_fmt' tell '--merge' actions to find the source\n"
-+           "       bitmaps from an alternative file\n"
-+           "\n"
-            "Parameters to check subcommand:\n"
-            "  '-r' tries to repair any inconsistencies that are found during the check.\n"
-            "       '-r leaks' repairs only cluster leaks, whereas '-r all' fixes all\n"
-@@ -4461,6 +4476,240 @@ out:
-     return 0;
- }
+ATB,
 
-+enum ImgBitmapAct {
-+    BITMAP_ADD,
-+    BITMAP_REMOVE,
-+    BITMAP_CLEAR,
-+    BITMAP_ENABLE,
-+    BITMAP_DISABLE,
-+    BITMAP_MERGE,
-+};
-+typedef struct ImgBitmapAction {
-+    enum ImgBitmapAct act;
-+    const char *src; /* only used for merge */
-+    QSIMPLEQ_ENTRY(ImgBitmapAction) next;
-+} ImgBitmapAction;
-+
-+static int img_bitmap(int argc, char **argv)
-+{
-+    Error *err = NULL;
-+    int c, ret = 1;
-+    QemuOpts *opts = NULL;
-+    const char *fmt = NULL, *src_fmt = NULL, *src_filename = NULL;
-+    const char *filename, *bitmap;
-+    BlockBackend *blk = NULL, *src = NULL;
-+    BlockDriverState *bs = NULL, *src_bs = NULL;
-+    bool image_opts = false;
-+    int64_t granularity = 0;
-+    bool add = false, merge = false;
-+    QSIMPLEQ_HEAD(, ImgBitmapAction) actions;
-+    ImgBitmapAction *act, *act_next;
-+    const char *op;
-+
-+    QSIMPLEQ_INIT(&actions);
-+
-+    for (;;) {
-+        static const struct option long_options[] = {
-+            {"help", no_argument, 0, 'h'},
-+            {"object", required_argument, 0, OPTION_OBJECT},
-+            {"image-opts", no_argument, 0, OPTION_IMAGE_OPTS},
-+            {"add", no_argument, 0, OPTION_ADD},
-+            {"remove", no_argument, 0, OPTION_REMOVE},
-+            {"clear", no_argument, 0, OPTION_CLEAR},
-+            {"enable", no_argument, 0, OPTION_ENABLE},
-+            {"disable", no_argument, 0, OPTION_DISABLE},
-+            {"merge", required_argument, 0, OPTION_MERGE},
-+            {"granularity", required_argument, 0, 'g'},
-+            {"source-file", required_argument, 0, 'b'},
-+            {"source-format", required_argument, 0, 'F'},
-+            {0, 0, 0, 0}
-+        };
-+        c = getopt_long(argc, argv, ":b:f:F:g:h", long_options, NULL);
-+        if (c == -1) {
-+            break;
-+        }
-+
-+        switch (c) {
-+        case ':':
-+            missing_argument(argv[optind - 1]);
-+            break;
-+        case '?':
-+            unrecognized_option(argv[optind - 1]);
-+            break;
-+        case 'h':
-+            help();
-+            break;
-+        case 'b':
-+            src_filename = optarg;
-+            break;
-+        case 'f':
-+            fmt = optarg;
-+            break;
-+        case 'F':
-+            src_fmt = optarg;
-+            break;
-+        case 'g':
-+            granularity = cvtnum(optarg);
-+            if (granularity < 0) {
-+                error_report("Invalid granularity specified");
-+                return 1;
-+            }
-+            break;
-+        case OPTION_ADD:
-+            act = g_new0(ImgBitmapAction, 1);
-+            act->act = BITMAP_ADD;
-+            QSIMPLEQ_INSERT_TAIL(&actions, act, next);
-+            add = true;
-+            break;
-+        case OPTION_REMOVE:
-+            act = g_new0(ImgBitmapAction, 1);
-+            act->act = BITMAP_REMOVE;
-+            QSIMPLEQ_INSERT_TAIL(&actions, act, next);
-+            break;
-+        case OPTION_CLEAR:
-+            act = g_new0(ImgBitmapAction, 1);
-+            act->act = BITMAP_CLEAR;
-+            QSIMPLEQ_INSERT_TAIL(&actions, act, next);
-+            break;
-+        case OPTION_ENABLE:
-+            act = g_new0(ImgBitmapAction, 1);
-+            act->act = BITMAP_ENABLE;
-+            QSIMPLEQ_INSERT_TAIL(&actions, act, next);
-+            break;
-+        case OPTION_DISABLE:
-+            act = g_new0(ImgBitmapAction, 1);
-+            act->act = BITMAP_DISABLE;
-+            QSIMPLEQ_INSERT_TAIL(&actions, act, next);
-+            break;
-+        case OPTION_MERGE:
-+            act = g_new0(ImgBitmapAction, 1);
-+            act->act = BITMAP_MERGE;
-+            act->src = optarg;
-+            QSIMPLEQ_INSERT_TAIL(&actions, act, next);
-+            merge = true;
-+            break;
-+        case OPTION_OBJECT:
-+            opts = qemu_opts_parse_noisily(&qemu_object_opts, optarg, true);
-+            if (!opts) {
-+                goto out;
-+            }
-+            break;
-+        case OPTION_IMAGE_OPTS:
-+            image_opts = true;
-+            break;
-+        }
-+    }
-+
-+    if (qemu_opts_foreach(&qemu_object_opts,
-+                          user_creatable_add_opts_foreach,
-+                          qemu_img_object_print_help, &error_fatal)) {
-+        goto out;
-+    }
-+
-+    if (QSIMPLEQ_EMPTY(&actions)) {
-+        error_report("Need at least one of --add, --remove, --clear, "
-+                     "--enable, --disable, or --merge");
-+        goto out;
-+    }
-+
-+    if (granularity && !add) {
-+        error_report("granularity only supported with --add");
-+        goto out;
-+    }
-+    if (src_fmt && !src_filename) {
-+        error_report("-F only supported with -b");
-+        goto out;
-+    }
-+    if (src_filename && !merge) {
-+        error_report("Merge bitmap source file only supported with "
-+                     "--merge");
-+        goto out;
-+    }
-+
-+    if (optind != argc - 2) {
-+        error_report("Expecting filename and bitmap name");
-+        goto out;
-+    }
-+
-+    filename = argv[optind];
-+    bitmap = argv[optind + 1];
-+
-+    blk = img_open(image_opts, filename, fmt, BDRV_O_RDWR, false, false,
-+                   false);
-+    if (!blk) {
-+        goto out;
-+    }
-+    bs = blk_bs(blk);
-+    if (src_filename) {
-+        src = img_open(false, src_filename, src_fmt, 0, false, false, false);
-+        if (!src) {
-+            goto out;
-+        }
-+        src_bs = blk_bs(src);
-+    } else {
-+        src_bs = bs;
-+    }
-+
-+    QSIMPLEQ_FOREACH_SAFE(act, &actions, next, act_next) {
-+        switch (act->act) {
-+        case BITMAP_ADD:
-+            qmp_block_dirty_bitmap_add(bs->node_name, bitmap,
-+                                       !!granularity, granularity, true, true,
-+                                       false, false, &err);
-+            op = "add";
-+            break;
-+        case BITMAP_REMOVE:
-+            qmp_block_dirty_bitmap_remove(bs->node_name, bitmap, &err);
-+            op = "remove";
-+            break;
-+        case BITMAP_CLEAR:
-+            qmp_block_dirty_bitmap_clear(bs->node_name, bitmap, &err);
-+            op = "clear";
-+            break;
-+        case BITMAP_ENABLE:
-+            qmp_block_dirty_bitmap_enable(bs->node_name, bitmap, &err);
-+            op = "enable";
-+            break;
-+        case BITMAP_DISABLE:
-+            qmp_block_dirty_bitmap_disable(bs->node_name, bitmap, &err);
-+            op = "disable";
-+            break;
-+        case BITMAP_MERGE: {
-+            BlockDirtyBitmapMergeSource *merge_src;
-+            BlockDirtyBitmapMergeSourceList *list;
-+
-+            merge_src = g_new0(BlockDirtyBitmapMergeSource, 1);
-+            merge_src->type = QTYPE_QDICT;
-+            merge_src->u.external.node = g_strdup(src_bs->node_name);
-+            merge_src->u.external.name = g_strdup(act->src);
-+            list = g_new0(BlockDirtyBitmapMergeSourceList, 1);
-+            list->value = merge_src;
-+            qmp_block_dirty_bitmap_merge(bs->node_name, bitmap, list, &err);
-+            qapi_free_BlockDirtyBitmapMergeSourceList(list);
-+            op = "merge";
-+            break;
-+        }
-+        default:
-+            g_assert_not_reached();
-+        }
-+
-+        if (err) {
-+            error_reportf_err(err, "Operation %s on bitmap %s failed: ",
-+                              op, bitmap);
-+            goto out;
-+        }
-+        g_free(act);
-+    }
-+
-+    ret = 0;
-+
-+ out:
-+    blk_unref(src);
-+    blk_unref(blk);
-+    qemu_opts_del(opts);
-+    return ret;
-+}
-+
- #define C_BS      01
- #define C_COUNT   02
- #define C_IF      04
-diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index e0886437b1f2..011688245668 100644
---- a/qemu-img-cmds.hx
-+++ b/qemu-img-cmds.hx
-@@ -20,6 +20,13 @@ DEF("bench", img_bench,
- SRST
- .. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=FLUSH_INTERVAL] [-i AIO] [-n] [--no-drain] [-o OFFSET] [--pattern=PATTERN] [-q] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
- ERST
-+
-+DEF("bitmap", img_bitmap,
-+    "bitmap (--merge SOURCE | --add | --remove | --clear | --enable | --disable)... [-b source_file [-F source_fmt]] [-g granularity] [--object objectdef] [--image-opts | -f fmt] filename bitmap")
-+SRST
-+.. option:: bitmap (--merge SOURCE | --add | --remove | --clear | --enable | --disable)... [-b SOURCE_FILE [-F SOURCE_FMT]] [-g GRANULARITY] [--object OBJECTDEF] [--image-opts | -f FMT] FILENAME BITMAP
-+ERST
-+
- DEF("check", img_check,
-     "check [--object objectdef] [--image-opts] [-q] [-f fmt] [--output=ofmt] [-r [leaks | all]] [-T src_cache] [-U] filename")
- SRST
--- 
-2.26.2
-
+Mark.
 
