@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87E11D890E
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 22:23:43 +0200 (CEST)
-Received: from localhost ([::1]:55568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F40CC1D88F4
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 22:16:19 +0200 (CEST)
+Received: from localhost ([::1]:34372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jamIY-0006ts-Rv
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 16:23:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58642)
+	id 1jamBP-00067U-3N
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 16:16:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jam5s-0006TE-SE
- for qemu-devel@nongnu.org; Mon, 18 May 2020 16:10:36 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:41351)
+ id 1jam5u-0006YY-A9
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 16:10:38 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:36365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jam5s-0002K5-0v
- for qemu-devel@nongnu.org; Mon, 18 May 2020 16:10:36 -0400
-Received: by mail-lj1-x242.google.com with SMTP id v16so7206442ljc.8
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 13:10:35 -0700 (PDT)
+ id 1jam5t-0002KQ-1b
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 16:10:37 -0400
+Received: by mail-lf1-x142.google.com with SMTP id c21so9207848lfb.3
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 13:10:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b/SGzR0VfdaMngvwcIJ4Z6wJcDUJ7yTUrhHwIwtU8Nc=;
- b=D6kniwh8xzrSKL0hsbbZLQ5MEnoS6v6ytwbD1Pj2IL5NKHw3yPTxRIGQLzZYmey/uu
- YjCF9+CnVEv+zJSpwRTGfeFLk7bYCVH2sLHg1uujEhN3zMFGw9L5aGEmoE4dEZoQgFWO
- Uhnwyt6Plz2vA7uCpNF6piKIzMBFlLvf12unGRbN6BNs8hVaFXYEXvRnKomm1N052bmi
- K47WeP6m9eNyGMubhCbYbHg77XI6CVe/+peexvgtqaRd1wBKihwTMe5TYzNaXqmEdsMm
- T4bp2Poc4tAFnBxz+/EZiLPQVKxuF82wob0ovyRwZf3VuO0sf/17xlPVbk6eQKwgtsjV
- cCPA==
+ bh=7DTiRZYqiOEJbT1KL7IFIXdClbFolr0SKEXu5py2ATU=;
+ b=UUjeiVyCpaZdD8g8M80+E5jiy5CeaVt4zONTLZAMtWAR2FwEE7hB21FJnPcqJS2+DL
+ bBupD4dI36B1Rra2Ieogl+vzDpgYoqcoOYQkrC0Lqe89F6/149wSAO86vRcXQMm2ZORS
+ GIKnXw8oPNv4bD+8EwAqC42om84kYFVjT+Hi/ytGy5UshLkKmig3PDS/n+jSBybj/SNE
+ dVUgnWHY5PBxGFpx1isHtmudzKtDi7dlZ4UsJOAoCTGUOTNaKyI4qQMoZO2baGhdw8nl
+ ANtM0ShLTisizWYwdv2bLNdJDTRtJv0hJ7OX1vQNtNlK5Erqf5wJhrQ+RjUSahrUMo2E
+ 1CuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b/SGzR0VfdaMngvwcIJ4Z6wJcDUJ7yTUrhHwIwtU8Nc=;
- b=LiPEoq091KfFGe2lWlaFyl4dgO2VQCzlDdHLG9suOK9hcFYhpWA89wUIKXAse36dKE
- TIsJZQvfroO4rQKlPmRZrwKbmmAFos2KzgvPOjjCfteWSkPkPBPEhYyQyYqgly5PSOcg
- ODSNCT3e6RIS5BuhdDOnPIXIGyDZJHJBVKdUfU4v4W5TrGDE2rAhEaZQ+FtJILEDwSZp
- 2AtkIiOoTM/RxZ9oXXW7E4oqsVV8Xb3DPTijIPgAmzobfRoESoXhaGLuVq83deJVBSIT
- o5t2lGaLJDgcUfHogUrc1QYZlR9DWbKB/H9eM29Uzn4KxZGxuc+kxpyUTztdGF4olWf5
- gKOQ==
-X-Gm-Message-State: AOAM531YCKc6esh5iHCL1AuB1yl/zc7dDbS/z4BME5sfBRzDQBZuWwhs
- gr2lcpWK58iaUmn82163H33ypOSpQE4=
-X-Google-Smtp-Source: ABdhPJx+hRZhxj/bra7KFNmSC8MsA3iasABVPkdLIRyQ8FKNPKiRgVqKs6bNlsWfMueeO4YFAHXdqQ==
-X-Received: by 2002:a2e:9586:: with SMTP id w6mr8496225ljh.274.1589832634239; 
- Mon, 18 May 2020 13:10:34 -0700 (PDT)
+ bh=7DTiRZYqiOEJbT1KL7IFIXdClbFolr0SKEXu5py2ATU=;
+ b=CngxqJF2XLZsCrfyF2iXPEP4Jk7t9/Ix9XyaRSoSO9DzLYQxV8hUQ1CKa9vCIMm7je
+ hWfKzEXN18TUUFdcusWWPttqkTSNuSCVYV8AWQ2oPE82SuYv+bep1HTBUY+0tjWGrJ61
+ J+DD+DXkA6soWhjCBteThDYR7gj0/kaCSEB7kHs66f+DiDFo3wi4vn7p4YEY6zRj7wR7
+ 5rohYP8T+aiTbBG64qDegTeNa791QVDWeW4rKqllqAMUCoKmc8cq4Mh+HEaueJ6/fM0a
+ jsi9utQ2uYx8zqzmbINpSGrbKuqWAm9vqJLpb+hANJsga60B11BpO89W5yOkYhOLFCZm
+ Nz0w==
+X-Gm-Message-State: AOAM533XIOFcdUXcYjEvgMIh2NkLBAJjKvv+upL78/KwJVhrmCoytPoI
+ Q8nOJbi4MlQVBytWOWeIoPxD2VsU6Io=
+X-Google-Smtp-Source: ABdhPJzXrKgrboohMmlj3t73fp9qBInn3cp+iPZz0W7cVDRBz4mlTHygRAdfZIjI4VnLmGeqjpuNGg==
+X-Received: by 2002:ac2:5106:: with SMTP id q6mr13109692lfb.59.1589832635272; 
+ Mon, 18 May 2020 13:10:35 -0700 (PDT)
 Received: from localhost.localdomain ([109.245.227.98])
- by smtp.gmail.com with ESMTPSA id c78sm8700591lfd.63.2020.05.18.13.10.33
+ by smtp.gmail.com with ESMTPSA id c78sm8700591lfd.63.2020.05.18.13.10.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 13:10:33 -0700 (PDT)
+ Mon, 18 May 2020 13:10:34 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 10/21] target/mips: fpu: Remove now unused UNFUSED_FMA and
- FLOAT_FMA macros
-Date: Mon, 18 May 2020 22:09:09 +0200
-Message-Id: <20200518200920.17344-11-aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH v6 11/21] target/mips: fpu: Demacro CLASS.<D|S>
+Date: Mon, 18 May 2020 22:09:10 +0200
+Message-Id: <20200518200920.17344-12-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200518200920.17344-1-aleksandar.qemu.devel@gmail.com>
 References: <20200518200920.17344-1-aleksandar.qemu.devel@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::242;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lj1-x242.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::142;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lf1-x142.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 12
@@ -90,76 +89,98 @@ Cc: aleksandar.rikalo@syrmia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After demacroing <MADD|MSUB|NMADD|NMSUB>.<D|S|PS>, these macros
-are not needed anymore.
+This is just a cosmetic change to enable tools like gcov, gdb,
+callgrind, etc. to better display involved source code.
 
 Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
 Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 ---
- target/mips/fpu_helper.c | 50 ----------------------------------------
- 1 file changed, 50 deletions(-)
+ target/mips/fpu_helper.c | 70 ++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 68 insertions(+), 2 deletions(-)
 
 diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
-index 927bac24ac..e8e50e4bc0 100644
+index e8e50e4bc0..b3903f5357 100644
 --- a/target/mips/fpu_helper.c
 +++ b/target/mips/fpu_helper.c
-@@ -1446,56 +1446,6 @@ FLOAT_MINMAX(mina_d, 64, minnummag)
- #undef FLOAT_MINMAX
+@@ -1165,10 +1165,76 @@ uint ## bits ## _t helper_float_ ## name(CPUMIPSState *env,          \
+     return float_ ## name(arg, &env->active_fpu.fp_status);          \
+ }
  
- /* ternary operations */
--#define UNFUSED_FMA(prefix, a, b, c, flags)                          \
--{                                                                    \
--    a = prefix##_mul(a, b, &env->active_fpu.fp_status);              \
--    if ((flags) & float_muladd_negate_c) {                           \
--        a = prefix##_sub(a, c, &env->active_fpu.fp_status);          \
--    } else {                                                         \
--        a = prefix##_add(a, c, &env->active_fpu.fp_status);          \
--    }                                                                \
--    if ((flags) & float_muladd_negate_result) {                      \
--        a = prefix##_chs(a);                                         \
--    }                                                                \
--}
--
--/* FMA based operations */
--#define FLOAT_FMA(name, type)                                        \
--uint64_t helper_float_ ## name ## _d(CPUMIPSState *env,              \
--                                     uint64_t fdt0, uint64_t fdt1,   \
--                                     uint64_t fdt2)                  \
--{                                                                    \
--    UNFUSED_FMA(float64, fdt0, fdt1, fdt2, type);                    \
--    update_fcr31(env, GETPC());                                      \
--    return fdt0;                                                     \
--}                                                                    \
--                                                                     \
--uint32_t helper_float_ ## name ## _s(CPUMIPSState *env,              \
--                                     uint32_t fst0, uint32_t fst1,   \
--                                     uint32_t fst2)                  \
--{                                                                    \
--    UNFUSED_FMA(float32, fst0, fst1, fst2, type);                    \
--    update_fcr31(env, GETPC());                                      \
--    return fst0;                                                     \
--}                                                                    \
--                                                                     \
--uint64_t helper_float_ ## name ## _ps(CPUMIPSState *env,             \
--                                      uint64_t fdt0, uint64_t fdt1,  \
--                                      uint64_t fdt2)                 \
--{                                                                    \
--    uint32_t fst0 = fdt0 & 0XFFFFFFFF;                               \
--    uint32_t fsth0 = fdt0 >> 32;                                     \
--    uint32_t fst1 = fdt1 & 0XFFFFFFFF;                               \
--    uint32_t fsth1 = fdt1 >> 32;                                     \
--    uint32_t fst2 = fdt2 & 0XFFFFFFFF;                               \
--    uint32_t fsth2 = fdt2 >> 32;                                     \
--                                                                     \
--    UNFUSED_FMA(float32, fst0, fst1, fst2, type);                    \
--    UNFUSED_FMA(float32, fsth0, fsth1, fsth2, type);                 \
--    update_fcr31(env, GETPC());                                      \
--    return ((uint64_t)fsth0 << 32) | fst0;                           \
--}
--#undef FLOAT_FMA
+-FLOAT_CLASS(class_s, 32)
+-FLOAT_CLASS(class_d, 64)
+ #undef FLOAT_CLASS
  
- uint64_t helper_float_madd_d(CPUMIPSState *env, uint64_t fst0,
-                              uint64_t fst1, uint64_t fst2)
++uint64_t float_class_d(uint64_t arg, float_status *status)
++{
++    if (float64_is_signaling_nan(arg, status)) {
++        return FLOAT_CLASS_SIGNALING_NAN;
++    } else if (float64_is_quiet_nan(arg, status)) {
++        return FLOAT_CLASS_QUIET_NAN;
++    } else if (float64_is_neg(arg)) {
++        if (float64_is_infinity(arg)) {
++            return FLOAT_CLASS_NEGATIVE_INFINITY;
++        } else if (float64_is_zero(arg)) {
++            return FLOAT_CLASS_NEGATIVE_ZERO;
++        } else if (float64_is_zero_or_denormal(arg)) {
++            return FLOAT_CLASS_NEGATIVE_SUBNORMAL;
++        } else {
++            return FLOAT_CLASS_NEGATIVE_NORMAL;
++        }
++    } else {
++        if (float64_is_infinity(arg)) {
++            return FLOAT_CLASS_POSITIVE_INFINITY;
++        } else if (float64_is_zero(arg)) {
++            return FLOAT_CLASS_POSITIVE_ZERO;
++        } else if (float64_is_zero_or_denormal(arg)) {
++            return FLOAT_CLASS_POSITIVE_SUBNORMAL;
++        } else {
++            return FLOAT_CLASS_POSITIVE_NORMAL;
++        }
++    }
++}
++
++uint64_t helper_float_class_d(CPUMIPSState *env, uint64_t arg)
++{
++    return float_class_d(arg, &env->active_fpu.fp_status);
++}
++
++uint32_t float_class_s(uint32_t arg, float_status *status)
++{
++    if (float32_is_signaling_nan(arg, status)) {
++        return FLOAT_CLASS_SIGNALING_NAN;
++    } else if (float32_is_quiet_nan(arg, status)) {
++        return FLOAT_CLASS_QUIET_NAN;
++    } else if (float32_is_neg(arg)) {
++        if (float32_is_infinity(arg)) {
++            return FLOAT_CLASS_NEGATIVE_INFINITY;
++        } else if (float32_is_zero(arg)) {
++            return FLOAT_CLASS_NEGATIVE_ZERO;
++        } else if (float32_is_zero_or_denormal(arg)) {
++            return FLOAT_CLASS_NEGATIVE_SUBNORMAL;
++        } else {
++            return FLOAT_CLASS_NEGATIVE_NORMAL;
++        }
++    } else {
++        if (float32_is_infinity(arg)) {
++            return FLOAT_CLASS_POSITIVE_INFINITY;
++        } else if (float32_is_zero(arg)) {
++            return FLOAT_CLASS_POSITIVE_ZERO;
++        } else if (float32_is_zero_or_denormal(arg)) {
++            return FLOAT_CLASS_POSITIVE_SUBNORMAL;
++        } else {
++            return FLOAT_CLASS_POSITIVE_NORMAL;
++        }
++    }
++}
++
++uint32_t helper_float_class_s(CPUMIPSState *env, uint32_t arg)
++{
++    return float_class_s(arg, &env->active_fpu.fp_status);
++}
++
+ /* binary operations */
+ 
+ uint64_t helper_float_add_d(CPUMIPSState *env,
 -- 
 2.20.1
 
