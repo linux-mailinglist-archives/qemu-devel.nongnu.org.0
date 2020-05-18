@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7AC21D7313
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 10:38:43 +0200 (CEST)
-Received: from localhost ([::1]:50864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 336DF1D7318
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 10:39:54 +0200 (CEST)
+Received: from localhost ([::1]:57342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jabII-00016F-RQ
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 04:38:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46492)
+	id 1jabJR-0003mG-96
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 04:39:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jabH0-0008Sx-GJ
- for qemu-devel@nongnu.org; Mon, 18 May 2020 04:37:22 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27748
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jabH5-00006o-B8
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 04:37:27 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42907
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jabGy-0006XW-39
- for qemu-devel@nongnu.org; Mon, 18 May 2020 04:37:21 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jabH3-0006Xt-9c
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 04:37:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589791039;
+ s=mimecast20190719; t=1589791043;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eFiNzqKUj9HdAKWL3/7nvK9e59GqJrgLob/Psphcl9E=;
- b=RJVtsEs6iu+pbSlizMxVu9uw42g0S/TCJSC+xorqNIJ97/VNYQ9tEBc8BcPTZ9k3+4sIbC
- uweXW93LWvASl7VxPJCIhEuv8zwuOjm6nr1WDl2g2eZwqZQqFPFWdiAftRWGhXi8RdRp9q
- wdGdhvxnOqH0ikjdARBXYGzmhnYz7mQ=
+ bh=UHLGpi1rVoXagqCHAByg9QF6iRSu84rymFCriCx8HmA=;
+ b=KWgbKVfQlrwCeS1kZ3U4f33MnuFKpI7PuP3v/bP529K8KxdWssyvakDguUxtrL5smfKHyK
+ HYI+/AudU/nBIh1nr13WZTIrgI4hnFHkbmd8Z0/O051yP4Zh6d8GDzFKZ6l2qNu4jstQfw
+ 59tsjHRwnkqmk7VBU5LA8YD2kotnaNc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-ZcRIzBcEPg2dqOUgLwDlWA-1; Mon, 18 May 2020 04:37:17 -0400
-X-MC-Unique: ZcRIzBcEPg2dqOUgLwDlWA-1
+ us-mta-40-ESk-HH-0NhWX8-NB7pXC3A-1; Mon, 18 May 2020 04:37:19 -0400
+X-MC-Unique: ESk-HH-0NhWX8-NB7pXC3A-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 702C21B18BC0;
- Mon, 18 May 2020 08:37:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F9CB1B2C99D;
+ Mon, 18 May 2020 08:37:18 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-224.ams2.redhat.com [10.36.113.224])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D86A25C1B2;
- Mon, 18 May 2020 08:37:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C090C5C1B2;
+ Mon, 18 May 2020 08:37:16 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/3] virtio-balloon: fix free page hinting without an
- iothread
-Date: Mon, 18 May 2020 10:37:02 +0200
-Message-Id: <20200518083704.52646-2-david@redhat.com>
+Subject: [PATCH v1 2/3] virtio-balloon: fix free page hinting check on
+ unrealize
+Date: Mon, 18 May 2020 10:37:03 +0200
+Message-Id: <20200518083704.52646-3-david@redhat.com>
 In-Reply-To: <20200518083704.52646-1-david@redhat.com>
 References: <20200518083704.52646-1-david@redhat.com>
 MIME-Version: 1.0
@@ -55,10 +55,10 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:52:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 23:32:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,106 +78,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Alexander Duyck <alexander.duyck@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
- Wei Wang <wei.w.wang@intel.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Wei Wang <wei.w.wang@intel.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Alexander Duyck <alexander.duyck@gmail.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In case we don't have an iothread, we mark the feature as abscent but
-still add the queue. 'free_page_bh' remains set to NULL.
-
-qemu-system-i386 \
-        -M microvm \
-        -nographic \
-        -device virtio-balloon-device,free-page-hint=true \
-        -nographic \
-        -display none \
-        -monitor none \
-        -serial none \
-        -qtest stdio
-
-Doing a "write 0xc0000e30 0x24
-0x030000000300000003000000030000000300000003000000030000000300000003000000"
-
-We will trigger a SEGFAULT. Let's move the check and bail out.
-
-While at it, move the static initializations to instance_initialize().
+Checking against guest features is wrong. We allocated data structures
+based on host features. We can rely on "free_page_bh" as an indicator
+whether to un-do stuff instead.
 
 Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
 Cc: Wei Wang <wei.w.wang@intel.com>
 Cc: Michael S. Tsirkin <mst@redhat.com>
 Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
 Cc: Alexander Duyck <alexander.duyck@gmail.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/virtio/virtio-balloon.c | 35 ++++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+ hw/virtio/virtio-balloon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 065cd450f1..dc3b1067ab 100644
+index dc3b1067ab..a4fcf2d777 100644
 --- a/hw/virtio/virtio-balloon.c
 +++ b/hw/virtio/virtio-balloon.c
-@@ -789,6 +789,13 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
+@@ -818,7 +818,7 @@ static void virtio_balloon_device_unrealize(DeviceState *dev)
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VirtIOBalloon *s = VIRTIO_BALLOON(dev);
  
-+    if (virtio_has_feature(s->host_features,
-+        VIRTIO_BALLOON_F_FREE_PAGE_HINT) && !s->iothread) {
-+        error_setg(errp, "'free-page-hint' requires 'iothread' to be set");
-+        virtio_cleanup(vdev);
-+        return;
-+    }
-+
-     s->ivq = virtio_add_queue(vdev, 128, virtio_balloon_handle_output);
-     s->dvq = virtio_add_queue(vdev, 128, virtio_balloon_handle_output);
-     s->svq = virtio_add_queue(vdev, 128, virtio_balloon_receive_stats);
-@@ -797,24 +804,11 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
-                            VIRTIO_BALLOON_F_FREE_PAGE_HINT)) {
-         s->free_page_vq = virtio_add_queue(vdev, VIRTQUEUE_MAX_SIZE,
-                                            virtio_balloon_handle_free_page_vq);
--        s->free_page_report_status = FREE_PAGE_REPORT_S_STOP;
--        s->free_page_report_cmd_id =
--                           VIRTIO_BALLOON_FREE_PAGE_REPORT_CMD_ID_MIN;
--        s->free_page_report_notify.notify =
--                                       virtio_balloon_free_page_report_notify;
-         precopy_add_notifier(&s->free_page_report_notify);
--        if (s->iothread) {
--            object_ref(OBJECT(s->iothread));
--            s->free_page_bh = aio_bh_new(iothread_get_aio_context(s->iothread),
--                                       virtio_ballloon_get_free_page_hints, s);
--            qemu_mutex_init(&s->free_page_lock);
--            qemu_cond_init(&s->free_page_cond);
--            s->block_iothread = false;
--        } else {
--            /* Simply disable this feature if the iothread wasn't created. */
--            s->host_features &= ~(1 << VIRTIO_BALLOON_F_FREE_PAGE_HINT);
--            virtio_error(vdev, "iothread is missing");
--        }
-+
-+        object_ref(OBJECT(s->iothread));
-+        s->free_page_bh = aio_bh_new(iothread_get_aio_context(s->iothread),
-+                                     virtio_ballloon_get_free_page_hints, s);
-     }
-     reset_stats(s);
- }
-@@ -892,6 +886,13 @@ static void virtio_balloon_instance_init(Object *obj)
- {
-     VirtIOBalloon *s = VIRTIO_BALLOON(obj);
- 
-+    qemu_mutex_init(&s->free_page_lock);
-+    qemu_cond_init(&s->free_page_cond);
-+    s->free_page_report_status = FREE_PAGE_REPORT_S_STOP;
-+    s->free_page_report_cmd_id = VIRTIO_BALLOON_FREE_PAGE_REPORT_CMD_ID_MIN;
-+    s->free_page_report_notify.notify = virtio_balloon_free_page_report_notify;
-+    s->block_iothread = false;
-+
-     object_property_add(obj, "guest-stats", "guest statistics",
-                         balloon_stats_get_all, NULL, NULL, s);
- 
+-    if (virtio_balloon_free_page_support(s)) {
++    if (s->free_page_bh) {
+         qemu_bh_delete(s->free_page_bh);
+         virtio_balloon_free_page_stop(s);
+         precopy_remove_notifier(&s->free_page_report_notify);
 -- 
 2.25.4
 
