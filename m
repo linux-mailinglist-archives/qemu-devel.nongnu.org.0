@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F33D21D88A9
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 21:59:35 +0200 (CEST)
-Received: from localhost ([::1]:35886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 485F61D8883
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 21:53:53 +0200 (CEST)
+Received: from localhost ([::1]:43138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jalvD-0002RK-2p
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 15:59:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56180)
+	id 1jalpg-000297-C1
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 15:53:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jaler-000392-DL
- for qemu-devel@nongnu.org; Mon, 18 May 2020 15:42:42 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:44391)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jalfN-0003u6-LP
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 15:43:13 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:45590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jaleq-0004ea-LF
- for qemu-devel@nongnu.org; Mon, 18 May 2020 15:42:41 -0400
-Received: by mail-lf1-x144.google.com with SMTP id w15so1790521lfe.11
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 12:42:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=16A5CwI2EnCxArSchxjBGvCjmT9+XlV8j9LlMxMq0GU=;
- b=nDCq0QlxF64TGbe+i8iUAm22ImkMXPf02rPhsyDjqrgVTpqi6zqeYapK3LbHKoANP2
- DdfouF1spoEbsr+VTOBCo/gL9HN9NpyBUHue6LAF3JsYPJqQa+Jesv76+BNLxN+g+2/P
- Vl4ZILcfkKWZwsjACgZJf59wh4qrbXAA9y+P1JBYxPKK4pA+X/9wCWza+YzJem24JORc
- 9snXpXTXwWV+QUkNMc7YIDPNOpYU2k4MlgBPrfbe1cwzYpIMx7Vhd9qv9NHGVgZKRrqZ
- ot6ULLlwscGmJ/kXST1Xeue9pCLfefE7xQbObsxWKB6zNRVA1bt5nBIAHqjbijjpeowS
- rCJw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jalfM-0004uw-Hn
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 15:43:13 -0400
+Received: by mail-pl1-x633.google.com with SMTP id u22so4643006plq.12
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 12:43:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WjBsVqmqsW61rukNgTjlzeCpjl3qN8eIkL3edsWl7aE=;
+ b=umZ3hOPftmXq4ROZS0ZULsDCmyV/OzLSIhJfV38TIJk7bSt1WSzQ4qbhCNVpkE29bu
+ 1+iMfvyg4DzhK9RiZaItRo8WjG4NC7l0UDFC8OTfAQFpcJhKPq/1zCJwIk3ZoV63nNXE
+ qAplIewPCnpue74Vt0Uzm1HmphS86gKCc9bDyEdPX9/iMy2uwAUl1Ah+m3j87diLwjih
+ DzjYE2E6RBK3E+4nx4stWMya8zOX1Bs/eD1uaTCXBWiHlT7aHFe0e9KMv6t9S/7sZSBl
+ Vdm7KHU/fLQ7gRdUu39EzaD/XHC9Ip2HuIKpEYxdyvAQG0c16wHcy3HhQsUY7AGlhxKK
+ urkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=16A5CwI2EnCxArSchxjBGvCjmT9+XlV8j9LlMxMq0GU=;
- b=rQmmzZmaMS4MPa5ujPpLzchpA2CcL9h4AyMA2CL0qEzKP3Z8l2vMheRKZ2a0kfI/ei
- G+FzvBtrxIha+NF6Jo8QFiuBx4J18i/l5es38cBBtwObULmlkKpI0CEfWNXMEH/iJkQp
- CzX6OqpnkhNvtkVagYHRLe7raSqBegYKn1D/BINKiJffZ9thzH2SPin/lBfP6dXK/4um
- o1hpsfKQ4U2PgFfKwB34Rbz/b1DFQUK0x71NXX84cqQw6ORO4KlpYvWJI96LFCT4V2IV
- mcFx+61Y7ffNIs/BwxSN9sV+b6WVViq9+n+zgcp/8zfAZQgsf/9PoF0G1FecmlAM6S/U
- i5jQ==
-X-Gm-Message-State: AOAM530FHQB1MyYk/gSEpJSBcitH/Wd6KgD8D2+GOsokixlzKbDUBkEQ
- 8+3hpBfHmaRlF0vRI36hepYF/EXMZVc=
-X-Google-Smtp-Source: ABdhPJzfWPV9HxQ6rd3cFBj/EFh0JCkxsoWJsRIGENIu4EehFHsl4wox9zumHlfs9h6WiZzw2mQH0g==
-X-Received: by 2002:ac2:4823:: with SMTP id 3mr12567630lft.194.1589830958972; 
- Mon, 18 May 2020 12:42:38 -0700 (PDT)
-Received: from localhost.localdomain ([109.245.227.98])
- by smtp.gmail.com with ESMTPSA id r15sm7593128lfp.34.2020.05.18.12.42.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 12:42:38 -0700 (PDT)
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 22/22] hw/mips: Rename malta/mipssim/r4k/jazz files in
- hw/mips
-Date: Mon, 18 May 2020 21:41:49 +0200
-Message-Id: <20200518194149.16281-23-aleksandar.qemu.devel@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200518194149.16281-1-aleksandar.qemu.devel@gmail.com>
-References: <20200518194149.16281-1-aleksandar.qemu.devel@gmail.com>
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WjBsVqmqsW61rukNgTjlzeCpjl3qN8eIkL3edsWl7aE=;
+ b=cUpFGu6pPw2Xg4/JXjS3UprWluAFUPD74Fka0CqYiwAumgB5d0PLVRZatnuSugmUlw
+ GCbVrXNQl4UrmXTJCZKRMLKgizuUbsnB4L7f6881UPfC7gKQAnIThKksf7hxZHbDF89r
+ VrFhhQc/bL8J74hskL0uehx5LcNk5R7+T6YwjdtTgtr8+vEI1GeUdsW/BRA4Jvt8IlF4
+ SAlzCeGsDmzI0FtCZ/BUpbLGpa20n1ezgd+E03Qfa1ehAch/UPhvb4ObG+7TjzjFVjef
+ HXOw7tofjzDmML+GsQcxflcjuI+MRYOmVpcCCrZoE/GFkI+qgFD3tbWq+SAw8uRRsSvX
+ 4Xwg==
+X-Gm-Message-State: AOAM530G3xyBoN6jHnHNH2i8sBZs2OZo2qGaOiSNOdQh/eoE7IlRmbmy
+ qJSmxpK0RIkBCTQ8oG8HSwBayQ==
+X-Google-Smtp-Source: ABdhPJwKGYQDRXmIZtX8Pppbxs9vniUN5NFNSwdEA+MsdUaFPp5JAnhIsVcKcqDPBIXYfy+/tV0/3w==
+X-Received: by 2002:a17:902:9693:: with SMTP id
+ n19mr17923807plp.277.1589830990985; 
+ Mon, 18 May 2020 12:43:10 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id q18sm2509898pgt.74.2020.05.18.12.43.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 May 2020 12:43:09 -0700 (PDT)
+Subject: Re: [RISU 0/9] risu cleanups and improvements
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200513180953.20376-1-richard.henderson@linaro.org>
+ <CAFEAcA_xBwNPWFd3w36JnuBsZSKb+q-aWXHfrLe1Rb-29eXpjQ@mail.gmail.com>
+ <3cf98ff2-8256-eb3a-7ae0-3eeb1b27c331@linaro.org>
+Message-ID: <4781e63a-0150-fc5e-46cc-5d4cdfa7880c@linaro.org>
+Date: Mon, 18 May 2020 12:43:07 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::144;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lf1-x144.google.com
+In-Reply-To: <3cf98ff2-8256-eb3a-7ae0-3eeb1b27c331@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_PASS=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,115 +91,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@syrmia.com,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Machine file names should not have prefix "mips_".
+On 5/18/20 12:33 PM, Richard Henderson wrote:
+> On 5/18/20 11:39 AM, Peter Maydell wrote:
+>> Richard: if you feed an old trace file to the new risu, what
+>> error message does it give?
+> 
+> Bah, it should have generated an error vs the magic number, but doesn't -- it
+> silently exits with success.  Alex, expect a v2.
 
-Fuloong2e machine source file will be handled in a separate patch,
-to avoid conflicts. That patch is pending integration into the
-main tree.
+Double bah.  Typo in git checkout, so I didn't actually switch branches for the
+test.  It does print an error, but not a useful one:
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
----
- MAINTAINERS                           | 9 ++++-----
- hw/mips/Makefile.objs                 | 8 ++++----
- hw/mips/{mips_jazz.c => jazz.c}       | 0
- hw/mips/{mips_malta.c => malta.c}     | 0
- hw/mips/{mips_mipssim.c => mipssim.c} | 0
- hw/mips/{mips_r4k.c => r4k.c}         | 0
- 6 files changed, 8 insertions(+), 9 deletions(-)
- rename hw/mips/{mips_jazz.c => jazz.c} (100%)
- rename hw/mips/{mips_malta.c => malta.c} (100%)
- rename hw/mips/{mips_mipssim.c => mipssim.c} (100%)
- rename hw/mips/{mips_r4k.c => r4k.c} (100%)
+match status...
+mismatch on regs!
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8d5562c5c7..883d15c9d7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11,7 +11,6 @@ consult qemu-devel and not any specific individual privately.
- 
- Descriptions of section entries:
- 
--	M: Mail patches to: FullName <address@domain>
- 	   Maintainers are looking after a certain area and must be CCed on
- 	   patches. They are considered the main contact point.
- 	R: Designated reviewer: FullName <address@domain>
-@@ -1043,7 +1042,7 @@ Jazz
- M: Hervé Poussineau <hpoussin@reactos.org>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
--F: hw/mips/mips_jazz.c
-+F: hw/mips/jazz.c
- F: hw/display/jazz_led.c
- F: hw/dma/rc4030.c
- 
-@@ -1054,7 +1053,7 @@ R: Aurelien Jarno <aurelien@aurel32.net>
- S: Maintained
- F: hw/isa/piix4.c
- F: hw/acpi/piix4.c
--F: hw/mips/mips_malta.c
-+F: hw/mips/malta.c
- F: hw/mips/gt64xxx_pci.c
- F: include/hw/southbridge/piix.h
- F: tests/acceptance/linux_ssh_mips_malta.py
-@@ -1064,7 +1063,7 @@ Mipssim
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Odd Fixes
--F: hw/mips/mips_mipssim.c
-+F: hw/mips/mipssim.c
- F: hw/net/mipsnet.c
- 
- R4000
-@@ -1072,7 +1071,7 @@ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
- R: Aurelien Jarno <aurelien@aurel32.net>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Obsolete
--F: hw/mips/mips_r4k.c
-+F: hw/mips/r4k.c
- 
- Fulong 2E
- M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-diff --git a/hw/mips/Makefile.objs b/hw/mips/Makefile.objs
-index 525809af07..1d767ed9a8 100644
---- a/hw/mips/Makefile.objs
-+++ b/hw/mips/Makefile.objs
-@@ -1,8 +1,8 @@
- obj-y += addr.o mips_int.o
--obj-$(CONFIG_R4K) += mips_r4k.o
--obj-$(CONFIG_MALTA) += gt64xxx_pci.o mips_malta.o
--obj-$(CONFIG_MIPSSIM) += mips_mipssim.o
--obj-$(CONFIG_JAZZ) += mips_jazz.o
-+obj-$(CONFIG_R4K) += r4k.o
-+obj-$(CONFIG_MALTA) += gt64xxx_pci.o malta.o
-+obj-$(CONFIG_MIPSSIM) += mipssim.o
-+obj-$(CONFIG_JAZZ) += jazz.o
- obj-$(CONFIG_FULONG) += mips_fulong2e.o
- obj-$(CONFIG_MIPS_CPS) += cps.o
- obj-$(CONFIG_MIPS_BOSTON) += boston.o
-diff --git a/hw/mips/mips_jazz.c b/hw/mips/jazz.c
-similarity index 100%
-rename from hw/mips/mips_jazz.c
-rename to hw/mips/jazz.c
-diff --git a/hw/mips/mips_malta.c b/hw/mips/malta.c
-similarity index 100%
-rename from hw/mips/mips_malta.c
-rename to hw/mips/malta.c
-diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mipssim.c
-similarity index 100%
-rename from hw/mips/mips_mipssim.c
-rename to hw/mips/mipssim.c
-diff --git a/hw/mips/mips_r4k.c b/hw/mips/r4k.c
-similarity index 100%
-rename from hw/mips/mips_r4k.c
-rename to hw/mips/r4k.c
--- 
-2.20.1
+I'll improve this.
+
+
+r~
 
 
