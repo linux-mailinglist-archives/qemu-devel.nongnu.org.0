@@ -2,54 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88BF41D8742
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 20:32:15 +0200 (CEST)
-Received: from localhost ([::1]:34848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973B61D875E
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 20:36:14 +0200 (CEST)
+Received: from localhost ([::1]:42286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jakYg-0005Zl-HY
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 14:32:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46874)
+	id 1jakcX-0000bU-5u
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 14:36:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jakW9-0003rr-Lh
- for qemu-devel@nongnu.org; Mon, 18 May 2020 14:29:37 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35552
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jakaI-0007gg-91
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 14:33:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59181
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jakW8-0002AB-J8
- for qemu-devel@nongnu.org; Mon, 18 May 2020 14:29:37 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jakaG-0002n5-TB
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 14:33:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589826575;
+ s=mimecast20190719; t=1589826830;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jphj2dMAfQQJWrb3KuvL7X2ziq13McgUsuSEoijhZV8=;
- b=Fs0KdgG1DcRmxRnjFK6ftZ7W2Ghpc/wI9AESbz58EKqxtfV5xWb1h48eRFMTMo53gJmB14
- jBOqDd+PKTZnJlVNR+K9p1tgn7hyQNKL1MMwZXWaRZaXYlG06iZ4Q6jWhejwRns9JupWn1
- HOb64v+XcMDMQ0X45TF+9zy0g5ywXhk=
+ bh=EgXae5wUsGkja3ZzklHcc6UcJVbwaZfUgM02pJqNSCQ=;
+ b=C51gLK17Six7BJQGwVrYiiJ7jwXD7/pJsqtTcPT0joKDGO/GcWCTuM8TgYE+Ee6YLecqc5
+ 8OleCx0EUX0AGmmxDQvWSK9WjEI3/dxTH5Sjeo11oD6+gqJeW/HOSosAVDTgTgd0MmciWm
+ B4TRoBy8PVkAVcT6gzAvaLIGTp6K+LE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-Q4LlTMdgNKWICYsqpyz-WQ-1; Mon, 18 May 2020 14:29:26 -0400
-X-MC-Unique: Q4LlTMdgNKWICYsqpyz-WQ-1
+ us-mta-353-UwNKzXCJP7KYccb-FzcCVw-1; Mon, 18 May 2020 14:33:46 -0400
+X-MC-Unique: UwNKzXCJP7KYccb-FzcCVw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BB2C107ACCD;
- Mon, 18 May 2020 18:29:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA6068014D7;
+ Mon, 18 May 2020 18:33:45 +0000 (UTC)
 Received: from [10.10.118.232] (ovpn-118-232.rdu2.redhat.com [10.10.118.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 895DC10013D9;
- Mon, 18 May 2020 18:29:23 +0000 (UTC)
-Subject: Re: [PATCH v10 14/14] iotests: use python logging for iotests.log()
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A66A10013D9;
+ Mon, 18 May 2020 18:33:45 +0000 (UTC)
+Subject: Re: [PATCH 0/3] iotests: enable logging prior to notrun() invocation
 To: Kevin Wolf <kwolf@redhat.com>
-References: <20200331000014.11581-1-jsnow@redhat.com>
- <20200331000014.11581-15-jsnow@redhat.com>
- <20200331134446.GF7030@linux.fritz.box>
- <1a38728b-aa4b-f3e4-c3ad-1a2b8d2e9269@redhat.com>
- <20200514100623.GB5518@linux.fritz.box>
- <e9190eb8-637d-9e79-a1ee-02f783675025@redhat.com>
- <20200515090312.GC93011@linux.fritz.box>
+References: <20200514201614.19941-1-jsnow@redhat.com>
+ <20200515095733.GE93011@linux.fritz.box>
 From: John Snow <jsnow@redhat.com>
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
@@ -125,29 +120,29 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <c8df45f7-e38a-8837-f4d3-7d94976b9d8f@redhat.com>
-Date: Mon, 18 May 2020 14:29:22 -0400
+Message-ID: <afb2eb67-469d-f562-66e9-f2e5bebed8fa@redhat.com>
+Date: Mon, 18 May 2020 14:33:44 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200515090312.GC93011@linux.fritz.box>
+In-Reply-To: <20200515095733.GE93011@linux.fritz.box>
 Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 23:32:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 00:53:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -160,149 +155,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, qemu-block@nongnu.org, armbru@redhat.com,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, philmd@redhat.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 5/15/20 5:03 AM, Kevin Wolf wrote:
-> Am 14.05.2020 um 21:54 hat John Snow geschrieben:
->>
->>
->> On 5/14/20 6:06 AM, Kevin Wolf wrote:
->>> Am 14.05.2020 um 08:24 hat John Snow geschrieben:
->>>> On 3/31/20 9:44 AM, Kevin Wolf wrote:
->>>>> Am 31.03.2020 um 02:00 hat John Snow geschrieben:
->>>>>> We can turn logging on/off globally instead of per-function.
->>>>>>
->>>>>> Remove use_log from run_job, and use python logging to turn on
->>>>>> diffable output when we run through a script entry point.
->>>>>>
->>>>>> iotest 245 changes output order due to buffering reasons.
->>>>>>
->>>>>>
->>>>>> An extended note on python logging:
->>>>>>
->>>>>> A NullHandler is added to `qemu.iotests` to stop output from being
->>>>>> generated if this code is used as a library without configuring logging.
->>>>>> A NullHandler is only needed at the root, so a duplicate handler is not
->>>>>> needed for `qemu.iotests.diff_io`.
->>>>>>
->>>>>> When logging is not configured, messages at the 'WARNING' levels or
->>>>>> above are printed with default settings. The NullHandler stops this from
->>>>>> occurring, which is considered good hygiene for code used as a library.
->>>>>>
->>>>>> See https://docs.python.org/3/howto/logging.html#library-config
->>>>>>
->>>>>> When logging is actually enabled (always at the behest of an explicit
->>>>>> call by a client script), a root logger is implicitly created at the
->>>>>> root, which allows messages to propagate upwards and be handled/emitted
->>>>>> from the root logger with default settings.
->>>>>>
->>>>>> When we want iotest logging, we attach a handler to the
->>>>>> qemu.iotests.diff_io logger and disable propagation to avoid possible
->>>>>> double-printing.
->>>>>>
->>>>>> For more information on python logging infrastructure, I highly
->>>>>> recommend downloading the pip package `logging_tree`, which provides
->>>>>> convenient visualizations of the hierarchical logging configuration
->>>>>> under different circumstances.
->>>>>>
->>>>>> See https://pypi.org/project/logging_tree/ for more information.
->>>>>>
->>>>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>>>> Reviewed-by: Max Reitz <mreitz@redhat.com>
->>>>>
->>>>> Should we enable logger if -d is given?
->>>>>
->>>>> Previously we had:
->>>>>
->>>>> $ ./check -d -T -raw 281
->>>>> [...]
->>>>> 281 not run: not suitable for this image format: raw
->>>>> 281      not run    [15:39:03] [15:39:04]                    not suitable for this image format: raw
->>>>> Not run: 281
->>>>>
->>>>> After this series, the first line of output from notrun() is missing.
->>>>> Not that I think it's important to have the line, but as long as we
->>>>> bother to call logger.warning(), I thought that maybe we want to be able
->>>>> to actually see the effect of it somehwere?
->>>>>
->>>>> Kevin
->>>>>
->>>>
->>>> Uh, okay. So this is weirder than I thought it was going to be!
->>>>
->>>> So, if you move the debug configuration up above the _verify calls,
->>>> you'll see the message printed out to the debug stream:
->>>>
->>>> DEBUG:qemu.iotests:iotests debugging messages active
->>>> WARNING:qemu.iotests:281 not run: not suitable for this image format: raw
->>>>
->>>> ...but if you omit the `-d` flag, the message vanishes into a black
->>>> hole. Did it always work like that ...?
->>>
->>> Yes, this is how it used to work. It's a result of ./check only printing
->>> the test output with -d, and such log messages are basically just test
->>> output.
->>>
->>> And I think it's exactly what we want: Without -d, you want only the
->>> summary, i.e. a single line that says "pass", "fail" or "notrun",
->>> potentially with a small note at the end of the line, but that's it.
->>
->> OK, maybe. So I guess what happens here is that if you don't use -d, the
->> output gets redirected to file, and that file is summarily deleted.
->>
->> Your phrase "but as long as we bother to call logger.warning(), I
->> thought that maybe we want to be able to actually see the effect of it
->> somewhere" stuck with me -- I think you're right.
+On 5/15/20 5:57 AM, Kevin Wolf wrote:
+> Am 14.05.2020 um 22:16 hat John Snow geschrieben:
+>> Hi, you can take just patch 1.
 > 
-> Yes, and I still think the same, but "somewhere" includes -d for me. I
-> just wouldn't want it to be effectively dead code that doesn't have an
-> effect no matter what options you use.
+> Thanks, I'm doing that now.
 > 
->> I kind of do expect that if I call a function called warning() that it's
->> gonna do some damage. principle of least surprise, etc.
->>
->> So two things:
->>
->> (1) Maybe the iotest logger ought to always use stderr, and we should
->> see any calls to warning() or error() even when debugging is off.
+>> patches 2-3 admittedly don't do a whole heck of a lot, because I
+>> didn't realize that ./check discards *all* output from either stdout
+>> or stderr.
 > 
-> Even stderr is considered test output. This is not an accident, but we
-> actually want to test that we get error messages. So this wouldn't
-> change the visible result.
+> It doesn't discard it, but it compares it to the reference output and
+> prints a diff if it's non-empty.
 > 
 
-I learned this after I wrote this idea and went to go implement it.
-Makes sense, if we want to compare stderr messages to known failure
-cases. Oops.
+notrun cases do effectively discard that output, though. I guess that's
+fine if it gets logged as output otherwise.
 
-> Maybe what we should do is print a small notice "warnings/errors were
-> logged" at the end of the line like we do for notrun, so you know you
-> should rerun the test with -d?
+> At least for bash scripts, stderr contains important test output. Not
+> sure what the *_log() functions in iotests.py do, maybe they redirect
+> the stderr output from tools to stdout.
 > 
-> But anyway, why would we ever get error() with a test that passes?
+>> The changes are tiny, though, and maybe still worth doing in the long
+>> run? Hm. They are archived on the list now, anyway.
 > 
-
-Bad tests? :)
-
->> (2) These skip notifications are not warnings, they are informational
->> and can be disabled when `-d` is omitted. (Especially because they are
->> represented through another channel.)
->>
->> (I'll send the fixup for the simpler thing first, and you can take or
->> leave the second thing.)
-> 
-> I would be perfectly happy with just a fix that makes the messages
-> appear again with -d.
-> 
-> Kevin
+> We can still take these patches for a later pull request if you think we
+> should, though I'm not sure if they are useful given how things actually
+> work. I don't have a strong opinion either way (except that I don't want
+> to see more than a single line per test without -d, but these patches
+> don't try to do this even though you wrote them under the assumption
+> that this is how things work).
 > 
 
-Yup, just wanted to take a look at it and give it proper consideration.
-Patch 1/3 from that series ought to do the trick all by itself.
+Nah, it's fine. Bigger fish to fry. Thanks!
 
 
