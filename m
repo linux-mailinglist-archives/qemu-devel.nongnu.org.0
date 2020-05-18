@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A99961D7EC6
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:42:01 +0200 (CEST)
-Received: from localhost ([::1]:47284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3962E1D7F01
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:45:55 +0200 (CEST)
+Received: from localhost ([::1]:32940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaiq0-000354-HX
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:42:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60138)
+	id 1jaitk-0000Xv-En
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:45:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jaioz-0001v2-Rr
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:40:57 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:33718)
+ id 1jaip0-0001wB-Lh
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:40:58 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:36861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jaioy-0005p7-Kn
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:40:57 -0400
-Received: by mail-pl1-x643.google.com with SMTP id t7so4462068plr.0
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 09:40:55 -0700 (PDT)
+ id 1jaioz-0005pH-Kg
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:40:58 -0400
+Received: by mail-pl1-x630.google.com with SMTP id f15so4451133plr.3
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 09:40:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zs8yQ4sTIGdE2TSYasYP9UgCnUVG+62C46arKRLiiYE=;
- b=j2jj0o3WKR5jD8P8TsSzr4d3rsG6opZ8SQKxtu1rNy5LPzpvH7sVVZ/UY3Wmev5m9p
- 9UKxNyjdT6u17lvo5ehMfuVZi9tuTexm2rm+J2KCMdq844gdLJ+l3IBj3aqApT2C45GK
- p8jrAkWQHXaTCBQ8t4cVBBw/y14C3ZLsOM6fqcd0Tb0KJiN1zXB/4BH1ewQdDQhMf0zq
- QjW7tpAlgMU3Fu1+NS7Van5BDDr567g2ap1vtCASFftb7S5F9yN/8ElOkfZRj3qY3XQe
- 5AyPleSCO47U6ITQjrLrWJiQtVH00apiKi+ozJpFqkQYwBwKP+qGYZYSQFlLx/sZKrE5
- Uhmg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uFTRRQZQW7zKIC58JAMoD76cKh/Xgd23HtxsN8e+2Qk=;
+ b=BN6CrBuU1DRAEwPUwW5flubL4z1nKZQ9L5ZB+miR0mfZ9zyNi3WpsQhKOhc7tl6jJ+
+ qZlIKK1Vwe1JLQJCtkvVCxAbqCMCm1VdVcV7vQemfaokSSJQEG60EUxIMJhxlmysVP/x
+ E1KEaYXfYsFm9jQExDtslSPn6R12iI6Rm9iJk3CF2AUplAiqcheD8uuFROnOFvHrdeYt
+ BsGlrBQ2rM4lwp0ayNXwmj52XvB3iqxj4eBkANgrBXWdI8n7ZvIdeLEyu2+++OtvzVkA
+ ZIutUpJFGIpotVWYnitksSKQjZMhfOp+/OvHaC4hOSOLtuEBfVh4lZnU6DVlNbEFEIeC
+ ETnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zs8yQ4sTIGdE2TSYasYP9UgCnUVG+62C46arKRLiiYE=;
- b=ZETSsK8hOmdGMbuK6Gs9P/2SeOLgbzMYVnoKwYjpOmBdcIfGsxkCgiL9gnsZL8dT+g
- qGOKwktYsZaRhTg7L89lRVx95fQXnTS9uZnjQLoconKRu59GGsyA0m08M3SLFd5mvv9a
- UULTl2Ilx+MZgI/yYthxOEzZr+uzCCkpBW1kYHCZ1JOPY84OuMplEPwdILYTsBwaaCdC
- Q0ZFXRsQoyF0o+n3BF2tLmDASNC6mCcdGr8mRtwbrc3t0eCKn+Gj5Gy3xkwn2YhNfjD9
- AQvIuYyckJU0lTsG/nHdQIkVjhVrkuTGlZP07XMc84p5PGVM4VYr3BUcAWMhFC5bSK60
- aaHg==
-X-Gm-Message-State: AOAM533LBLCP64v+9s9hVwvF+kDMFuxWrpz5W1Om91uXh2ju0bang4Fr
- i2JvjoNsvoQuLm/tAkuwZa9yj/JmyEo=
-X-Google-Smtp-Source: ABdhPJwaA4Fd4QH/3TMJj08NLyApc7fI+1/Fy4p7AW6ZXVP63IxkJ5UhZGLiU5BU7YMi3k74jPyKGg==
-X-Received: by 2002:a17:902:a713:: with SMTP id
- w19mr15883238plq.296.1589820054168; 
- Mon, 18 May 2020 09:40:54 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=uFTRRQZQW7zKIC58JAMoD76cKh/Xgd23HtxsN8e+2Qk=;
+ b=VXtrc8Fmqi0cZ1CP5Ew1EULcCBMqMetbrP6AHPDetUfQ6mTBOKdw4jCASmMYDfNVUb
+ 5KwRL4AN8yhuY3h3LQspk6PimdHPcQn2OgUjhRC0D76QCuVXPz4vXlR3KkXE3ycMUql0
+ Yoez5gxVQKTEuAD74YVlmdAm2/QlR3Hl4/YBzA4lf6kAvo7syE2JM/Bk8T+nXFp1ED7e
+ wkN2H2KnueAM+TsLUq1YBQq1ABQIpT8BmfJyIb+FfG/CQfqbM9lr1Juu1L4hOtr0hiNA
+ r8cBeP1JzOQl0D6jscAzK51kdxn3o4u39YTUMgWpZoCrQ0MpX8phWV1fzB5/un9unwA1
+ Jizg==
+X-Gm-Message-State: AOAM532OMBxHXoVYTTKrNB5jSjWQmTKgeDi9T3hxYZf7ZtVzDfmvl/Vd
+ rDsNH0PcIU4hdpB0ngTAmu/opCrbqhc=
+X-Google-Smtp-Source: ABdhPJxuvDc/OGdYTXzl1bkX6q3cHugxdzrF/UVGZSOivxc+94gDcMqyOIo559rW5z7KFtLyma+emQ==
+X-Received: by 2002:a17:90a:8c01:: with SMTP id
+ a1mr255381pjo.127.1589820055721; 
+ Mon, 18 May 2020 09:40:55 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id x132sm5790610pfd.214.2020.05.18.09.40.52
+ by smtp.gmail.com with ESMTPSA id x132sm5790610pfd.214.2020.05.18.09.40.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 09:40:53 -0700 (PDT)
+ Mon, 18 May 2020 09:40:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/8] decodetree: Add non-overlapping groups
-Date: Mon, 18 May 2020 09:40:44 -0700
-Message-Id: <20200518164052.18689-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/8] decodetree: Remove python 3.4 check
+Date: Mon, 18 May 2020 09:40:45 -0700
+Message-Id: <20200518164052.18689-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200518164052.18689-1-richard.henderson@linaro.org>
+References: <20200518164052.18689-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,34 +90,101 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a feature that Peter requested for completing the
-neon decodetree conversion.
+We are now guaranteed python 3.5 or later.
 
-I ought to write some more test cases for this, but the change to
-t32.decode proves it is minimally functional.  I'm undecided if I
-should add errors for useless nesting of these within other non-
-overlapping groups.  While useless, it's likely still functional.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ scripts/decodetree.py | 25 +++++++++----------------
+ 1 file changed, 9 insertions(+), 16 deletions(-)
 
-
-r~
-
-
-Richard Henderson (8):
-  decodetree: Remove python 3.4 check
-  decodetree: Tidy error_with_file
-  decodetree: Rename MultiPattern to IncMultiPattern
-  decodetree: Split out MultiPattern from IncMultiPattern
-  decodetree: Allow group covering the entire insn space
-  decodetree: Move semantic propagation into classes
-  decodetree: Implement non-overlapping groups
-  target/arm: Use a non-overlapping group for misc control
-
- target/arm/t32.decode                         |   4 +-
- ...decode => succ_pattern_group_nest2.decode} |   2 +-
- scripts/decodetree.py                         | 539 ++++++++++--------
- 3 files changed, 307 insertions(+), 238 deletions(-)
- rename tests/decode/{err_pattern_group_nest1.decode => succ_pattern_group_nest2.decode} (85%)
-
+diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+index 46ab917807..f9d204aa36 100755
+--- a/scripts/decodetree.py
++++ b/scripts/decodetree.py
+@@ -75,13 +75,6 @@ def output(*args):
+         output_fd.write(a)
+ 
+ 
+-if sys.version_info >= (3, 4):
+-    re_fullmatch = re.fullmatch
+-else:
+-    def re_fullmatch(pat, str):
+-        return re.match('^' + pat + '$', str)
+-
+-
+ def output_autogen():
+     output('/* This file is autogenerated by scripts/decodetree.py.  */\n\n')
+ 
+@@ -428,18 +421,18 @@ def parse_field(lineno, name, toks):
+     width = 0
+     func = None
+     for t in toks:
+-        if re_fullmatch('!function=' + re_ident, t):
++        if re.fullmatch('!function=' + re_ident, t):
+             if func:
+                 error(lineno, 'duplicate function')
+             func = t.split('=')
+             func = func[1]
+             continue
+ 
+-        if re_fullmatch('[0-9]+:s[0-9]+', t):
++        if re.fullmatch('[0-9]+:s[0-9]+', t):
+             # Signed field extract
+             subtoks = t.split(':s')
+             sign = True
+-        elif re_fullmatch('[0-9]+:[0-9]+', t):
++        elif re.fullmatch('[0-9]+:[0-9]+', t):
+             # Unsigned field extract
+             subtoks = t.split(':')
+             sign = False
+@@ -488,11 +481,11 @@ def parse_arguments(lineno, name, toks):
+     flds = []
+     extern = False
+     for t in toks:
+-        if re_fullmatch('!extern', t):
++        if re.fullmatch('!extern', t):
+             extern = True
+             anyextern = True
+             continue
+-        if not re_fullmatch(re_ident, t):
++        if not re.fullmatch(re_ident, t):
+             error(lineno, 'invalid argument set token "{0}"'.format(t))
+         if t in flds:
+             error(lineno, 'duplicate argument "{0}"'.format(t))
+@@ -621,13 +614,13 @@ def parse_generic(lineno, is_format, name, toks):
+             continue
+ 
+         # 'Foo=%Bar' imports a field with a different name.
+-        if re_fullmatch(re_ident + '=%' + re_ident, t):
++        if re.fullmatch(re_ident + '=%' + re_ident, t):
+             (fname, iname) = t.split('=%')
+             flds = add_field_byname(lineno, flds, fname, iname)
+             continue
+ 
+         # 'Foo=number' sets an argument field to a constant value
+-        if re_fullmatch(re_ident + '=[+-]?[0-9]+', t):
++        if re.fullmatch(re_ident + '=[+-]?[0-9]+', t):
+             (fname, value) = t.split('=')
+             value = int(value)
+             flds = add_field(lineno, flds, fname, ConstField(value))
+@@ -635,7 +628,7 @@ def parse_generic(lineno, is_format, name, toks):
+ 
+         # Pattern of 0s, 1s, dots and dashes indicate required zeros,
+         # required ones, or dont-cares.
+-        if re_fullmatch('[01.-]+', t):
++        if re.fullmatch('[01.-]+', t):
+             shift = len(t)
+             fms = t.replace('0', '1')
+             fms = fms.replace('.', '0')
+@@ -652,7 +645,7 @@ def parse_generic(lineno, is_format, name, toks):
+             fixedmask = (fixedmask << shift) | fms
+             undefmask = (undefmask << shift) | ubm
+         # Otherwise, fieldname:fieldwidth
+-        elif re_fullmatch(re_ident + ':s?[0-9]+', t):
++        elif re.fullmatch(re_ident + ':s?[0-9]+', t):
+             (fname, flen) = t.split(':')
+             sign = False
+             if flen[0] == 's':
 -- 
 2.20.1
 
