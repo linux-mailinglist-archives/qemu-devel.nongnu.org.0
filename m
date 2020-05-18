@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F401D7039
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:15:42 +0200 (CEST)
-Received: from localhost ([::1]:51414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E631D7055
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:23:29 +0200 (CEST)
+Received: from localhost ([::1]:47796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaY7p-00025Y-IZ
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:15:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49226)
+	id 1jaYFM-0004Gh-Ic
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:23:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwp-0008Qd-TI
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:19 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50480
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaYBt-0006Fb-2C
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:19:53 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58998
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwm-0004M3-Pm
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:19 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaYBr-0007IV-1K
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:19:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589778256;
+ s=mimecast20190719; t=1589779189;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R5E6uW3t84il5PgRddNK0eX2QICClvdmWrIitYIgusE=;
- b=WjfiDAHc5CqfkcX1VSZf29vUAWXuQxYMffYNFT15Hci3302FWPXgc1khWMWh2vJeaevO4b
- do9Il3ZBvA4J8eDfEW3wz1sW4CbDpgewj72SCnUIrUIubmKChOSba+ae6f7WfxLXhQQhGU
- 8H9VHfNTsnj/vMQ9oc9N/FG3blvKXWk=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=slnwgKwIJv0fQSqbSeCI0vaZXv9a7OVuNa0sUhwg+rU=;
+ b=Y7BXiIZ1TarL0+6jr3fDTK9eWyQeT1mIqWCPbQkYYc4tHZQFeSV/M2kFklQCrCEN3MQ/DE
+ bE1NdweQDnbACA57lnxX7e/NzTTd8UB68NUu60ZE8u0F+XNtZ6DAcCdxuqjFkC8HF4N0L5
+ bj2NaAZ6uDJknheBBJ5TJItTUa59Z28=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-rGikMu1cPNWD6X9AkDMFQA-1; Mon, 18 May 2020 01:04:14 -0400
-X-MC-Unique: rGikMu1cPNWD6X9AkDMFQA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-499-BdV0naTCMweabbHDSpwLJw-1; Mon, 18 May 2020 01:19:47 -0400
+X-MC-Unique: BdV0naTCMweabbHDSpwLJw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0BDC872FF4
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 05:04:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DC481005510
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 05:19:47 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F1845D9DC;
- Mon, 18 May 2020 05:04:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E1A2A82A0B;
+ Mon, 18 May 2020 05:19:46 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 85D2E11358D5; Mon, 18 May 2020 07:04:08 +0200 (CEST)
+ id 5B9D911358BC; Mon, 18 May 2020 07:19:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 24/24] qdev: Assert onboard devices all get realized properly
-Date: Mon, 18 May 2020 07:04:08 +0200
-Message-Id: <20200518050408.4579-25-armbru@redhat.com>
-In-Reply-To: <20200518050408.4579-1-armbru@redhat.com>
-References: <20200518050408.4579-1-armbru@redhat.com>
+Subject: [PATCH not-for-merge 0/5] Instrumentation for "Fixes around device
+ realization"
+Date: Mon, 18 May 2020 07:19:40 +0200
+Message-Id: <20200518051945.8621-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -84,47 +82,51 @@ Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This would have caught some of the bugs I just fixed.
+This is the instrumentation mentioned in "[PATCH 00/24] Fixes around
+device realization".
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- hw/core/qdev.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+PATCH 2/5 might have value on its own.  You tell me.
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 0df995eb94..fe2dea8968 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -429,6 +429,19 @@ void qdev_init_nofail(DeviceState *dev)
-     object_unref(OBJECT(dev));
- }
- 
-+static int qdev_assert_realized_properly(Object *obj, void *opaque)
-+{
-+    DeviceState *dev = DEVICE(object_dynamic_cast(obj, TYPE_DEVICE));
-+    DeviceClass *dc;
-+
-+    if (dev) {
-+        dc = DEVICE_GET_CLASS(dev);
-+        assert(dev->realized);
-+        assert(dev->parent_bus || !dc->bus_type);
-+    }
-+    return 0;
-+}
-+
- void qdev_machine_creation_done(void)
- {
-     /*
-@@ -436,6 +449,9 @@ void qdev_machine_creation_done(void)
-      * only create hotpluggable devices
-      */
-     qdev_hotplug = true;
-+
-+    object_child_foreach_recursive(object_get_root(),
-+                                   qdev_assert_realized_properly, NULL);
- }
- 
- bool qdev_machine_modified(void)
+Shell script to smoke-test all machines:
+
+#!/bin/sh
+success=0
+fail=0
+ulimit -c 0
+git-describe --dirty --match v\*
+git-log --oneline -1
+for i in bld/*-softmmu
+do
+    t=${i%-softmmu}
+    t=${t##*/}
+    q=$i/qemu-system-$t
+    echo "= $t ="
+
+    for m in `$q -M help | sed -n '/(alias of/d;2,$s/ .*//p'`
+    do
+	echo "== $m =="
+	echo -e 'info qom-tree\ninfo qtree\nq' | $q -S -accel qtest -display none -L smoke-mon-roms -M $m -monitor stdio
+	if [ $? -eq 0 ]
+	then echo "*** Success: $m ***"; let success++
+	else echo "*** Fail: $m"; let fail++
+	fi
+    done
+done
+echo $success succeeded, $fail failed
+
+
+Markus Armbruster (5):
+  qom: Instrument to detect missed realize
+  qom: Make "info qom-tree" show children sorted
+  qdev: Make "info qtree" show child devices sorted by QOM path
+  qdev: Instrument to detect missed QOM parenting
+  qdev: Instrument to detect bus mismatch
+
+ hw/core/qdev.c     | 17 ++++++++++++++++
+ qdev-monitor.c     | 32 ++++++++++++++++++++++++++++-
+ qom/qom-hmp-cmds.c | 51 +++++++++++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 98 insertions(+), 2 deletions(-)
+
 -- 
 2.21.1
 
