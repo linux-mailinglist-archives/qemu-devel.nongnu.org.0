@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E58A1D7E13
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:14:24 +0200 (CEST)
-Received: from localhost ([::1]:60556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 003721D7E1C
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:16:15 +0200 (CEST)
+Received: from localhost ([::1]:38826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaiPH-0005Vi-C3
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:14:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55414)
+	id 1jaiR5-0008Ox-2S
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:16:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jaiOC-00046k-0b
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:13:16 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37907)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jaiPI-0006W3-1M
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:14:24 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jaiOA-0006NL-7D
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:13:15 -0400
-Received: by mail-ot1-x344.google.com with SMTP id w22so8522919otp.5
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 09:13:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jaiPF-0006ar-NX
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:14:23 -0400
+Received: by mail-wr1-x443.google.com with SMTP id v12so12500310wrp.12
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 09:14:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Xt6gu4+eaQuMJFPwT8oV6k+iEiCGWPUTkC6kwPqJGp8=;
- b=Ing49XgJjmRpKG+8PpjhHETinpEQfqhJbzvsMEn9umd1V3HgL5tP6PEUtuBvcWB3SI
- +9uA4tPXHT7EnE1vN3ivWU/DZpx7Qk+Rs5r4znx/3DmozXrClPVQrkrcnz9yF2xcJH8J
- nIlp8/Z1ABLwiI290Oxz11zINpBXDK7LF9mYAu5vHY0Xutadp6mO5y2xRvNzxuN2KvhS
- Lo+tmb5EiNEIIl26pFQ/kt7Ys2IbwrxN2nfXwvKH1VuUhCMUznhG6Zo+zMPkKvtwZK1T
- lAC/9cgTSH/zn3civHv+3WOy3zd7xg1pFORtoQ0swX3b4yny1RHkm4/g1Cbe8tNN3dVf
- Kl6Q==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=14EgnQXdDLU6UwJteERXQ0fKaVmPe5bjR0oM2Xdh7xw=;
+ b=iDN3LTryQTw9m8EQf4JTn+VGcvgnSjZ9WlxIfAfBF+FlVPgNfm6LikVAtZJPW1KdIc
+ 7OxFf6e5cFiFXGheZENUQ1Y+K7iPL7GcWXkJPCvn6eIam7aY3tl5Mncl9hWAQ7JPs4tK
+ ujIyDGj1P9SMkgqrqMS6mjwU03QqEBpDusMn2ozCpA/N1sB4bBwfCtA1XvnMgbPN7ZmH
+ bEwySpm0pIKTeoekeXKHnk06Ey9iGdWDUDUrMgTVlXw7nA9VJaPd0n0kH+8sGgKymhiZ
+ 58FtGfbN9EdaRuUhevGAIFwRSVQ7j//tNiKFey7Qk65anWFNhqQmESDfyTmzBWSxcXnP
+ 2+wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Xt6gu4+eaQuMJFPwT8oV6k+iEiCGWPUTkC6kwPqJGp8=;
- b=p9+4AWfdnaOWjbdC1TQ5fgHVHCY1ny6df210qNSO6lsDg19M7SJdGlm/UT3UD5exK2
- nyvmLSdiyWJkscgcnAXS+S2gHvtlTqiw+lw055RBOg1mrmx89wP1JBDowiFGpH4Tkmt+
- GoObCxmbjQ1Kh1ghbGVCIGvkqJhU+h8kaLeOfc8lEbg2Pk8nSMnJ+hu/SClIDpjm8VOO
- Z0bJX6KZwfJCFffMBFC7Q4eQUXjxt4EUp0Knj4+ihsZ6J4RIXWE0GiDZr9MXKYnzt3zr
- vY6RNfN+TKTEoO4blkO5NaZxnjS5aEUZTvWem0wvZKvngue7jy3J4vPXxzsjz8UHEBjP
- tD9g==
-X-Gm-Message-State: AOAM5331Q0rkclwXquvSflcomz/6mZFjpYBKxZqvueOxT82CUMS86q4F
- SNlb2b9ptBFLmS6f2wALuT1BmtyjNIcTd0ixAtmfJw==
-X-Google-Smtp-Source: ABdhPJzycwB3eF621Wb5qHnjYXqy1Q85+6JHhC9Ug0G4CJd+tHxYjIL1E+HGUeQZzWyHGmF/hPYvS7lg5wMLiNOa94M=
-X-Received: by 2002:a9d:b82:: with SMTP id 2mr12261051oth.221.1589818393131;
- Mon, 18 May 2020 09:13:13 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=14EgnQXdDLU6UwJteERXQ0fKaVmPe5bjR0oM2Xdh7xw=;
+ b=F/dSzTfIooTtlCkeg8FZ2TgW2XerzMVgVDS2680M6EPZrXDUFH/v/AR1S57AvzL6uR
+ iaZZ776IZj87CurQpkww9Qf14NQ5vAu6isdjEe/GJS1ONruMwh6AgzHpTxPCx4IlwqPC
+ Q6JogyUwmanS3lmLgIGNR3HKyN07HMbjXmVFSH39P0qqR9ZVz8dwIKLKnl45+KsP8SkY
+ NL8oi/ezdtj7Xx/Rz7BfF6QXvpR3eChO2cMT3TuG7yFDYUzyDCw0VqeGBrkCvSt3CQtZ
+ mckyM4KEzKLBluRmudvbI13c4GNDyr6pnAs3COyUGqqZgQRW6+dE+Ri5i3akZpPZZzHO
+ vlxw==
+X-Gm-Message-State: AOAM533jLfiKeaLe0QvcogT4FykoT5LgXKW8smYg49+W+dU2akCpDtia
+ ByBD0r8vbhs7GCSEuzGfITSqQQ==
+X-Google-Smtp-Source: ABdhPJwnTVp6SRCT+Bvpp7CW3q/J5ppBT7E8TWgCloUi/LSbfD+g+XSRJSfraWrP4sGAuNMLB8X+gw==
+X-Received: by 2002:adf:e5c8:: with SMTP id a8mr19965873wrn.335.1589818460274; 
+ Mon, 18 May 2020 09:14:20 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f5sm17512051wro.18.2020.05.18.09.14.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 May 2020 09:14:19 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8ACF71FF7E;
+ Mon, 18 May 2020 17:14:18 +0100 (BST)
+References: <158875154623.957.4036561733593052357.stgit@pasha-ThinkPad-X280>
+User-agent: mu4e 1.4.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
+Subject: Re: [PATCH] icount: fix shift=auto for record/replay
+In-reply-to: <158875154623.957.4036561733593052357.stgit@pasha-ThinkPad-X280>
+Date: Mon, 18 May 2020 17:14:18 +0100
+Message-ID: <87r1vhjk4l.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200518155308.15851-1-f4bug@amsat.org>
- <20200518155308.15851-2-f4bug@amsat.org>
-In-Reply-To: <20200518155308.15851-2-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 18 May 2020 17:13:01 +0100
-Message-ID: <CAFEAcA8XdUMyQfXWMjr5cqc8+p8k_ECv8WpeOoE_mtDNAJENJQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] exec: Let address_space_read/write_cached()
- propagate MemTxResult
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,27 +88,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, kvm-devel <kvm@vger.kernel.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: pbonzini@redhat.com, dovgaluk@ispras.ru, qemu-devel@nongnu.org,
+ pavel.dovgaluk@ispras.ru, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 May 2020 at 16:53, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+
+Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com> writes:
+
+> This patch fixes shift=3Dauto when record/replay is enabled.
+> Now user does not need to guess the best shift value.
 >
-> Both address_space_read_cached_slow() and
-> address_space_write_cached_slow() return a MemTxResult type.
-> Do not discard it, return it to the caller.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 > ---
->  include/exec/memory.h | 19 +++++++++++--------
->  exec.c                | 16 ++++++++--------
->  2 files changed, 19 insertions(+), 16 deletions(-)
+>  cpus.c |    4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/cpus.c b/cpus.c
+> index 5670c96bcf..dfb9f4717f 100644
+> --- a/cpus.c
+> +++ b/cpus.c
+> @@ -379,7 +379,8 @@ static void icount_adjust(void)
+>=20=20
+>      seqlock_write_lock(&timers_state.vm_clock_seqlock,
+>                         &timers_state.vm_clock_lock);
+> -    cur_time =3D cpu_get_clock_locked();
+> +    cur_time =3D REPLAY_CLOCK_LOCKED(REPLAY_CLOCK_VIRTUAL_RT,
+> +                                   cpu_get_clock_locked());
+>      cur_icount =3D cpu_get_icount_locked();
+>=20=20
+>      delta =3D cur_icount - cur_time;
+> @@ -685,6 +686,7 @@ static const VMStateDescription icount_vmstate_timers=
+ =3D {
+>      .fields =3D (VMStateField[]) {
+>          VMSTATE_INT64(qemu_icount_bias, TimersState),
+>          VMSTATE_INT64(qemu_icount, TimersState),
+> +        VMSTATE_INT16(icount_time_shift, TimersState),
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Surely we should be bumping .version_id/.minimum_version_id here so we
+error out gracefully. No recordings pre this change would work right?
 
-thanks
--- PMM
+>          VMSTATE_END_OF_LIST()
+>      },
+>      .subsections =3D (const VMStateDescription*[]) {
+
+
+--=20
+Alex Benn=C3=A9e
 
