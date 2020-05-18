@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6181D75B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 12:59:20 +0200 (CEST)
-Received: from localhost ([::1]:33022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98CF11D75C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 13:01:15 +0200 (CEST)
+Received: from localhost ([::1]:35676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jadUN-0001b3-Sa
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 06:59:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36884)
+	id 1jadWE-0002hE-MO
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 07:01:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovgaluk@ispras.ru>)
- id 1jadTN-0000ix-Fe
- for qemu-devel@nongnu.org; Mon, 18 May 2020 06:58:17 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:48860)
+ id 1jadTR-0000ox-Pf
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 06:58:21 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:48878)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dovgaluk@ispras.ru>) id 1jadTL-0002K0-Nm
- for qemu-devel@nongnu.org; Mon, 18 May 2020 06:58:17 -0400
+ (envelope-from <dovgaluk@ispras.ru>) id 1jadTQ-0002Nu-Nt
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 06:58:21 -0400
 Received: from [192.168.0.183] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 079CBCD464;
- Mon, 18 May 2020 13:58:10 +0300 (MSK)
-Subject: Re: [PATCH] icount: fix shift=auto for record/replay
+ by mail.ispras.ru (Postfix) with ESMTPSA id CA204CD469;
+ Mon, 18 May 2020 13:58:19 +0300 (MSK)
+Subject: Re: [PATCH] replay: synchronize on every virtual timer callback
 To: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>, qemu-devel@nongnu.org
-References: <158875154623.957.4036561733593052357.stgit@pasha-ThinkPad-X280>
+References: <158875304273.3986.105601155554744438.stgit@pasha-ThinkPad-X280>
 From: Pavel Dovgalyuk <dovgaluk@ispras.ru>
-Message-ID: <323b0733-07a5-b7fc-9781-2a33e5338a02@ispras.ru>
-Date: Mon, 18 May 2020 13:58:10 +0300
+Message-ID: <b1c20314-83d5-b4f1-218e-230e6cf2914a@ispras.ru>
+Date: Mon, 18 May 2020 13:58:19 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <158875154623.957.4036561733593052357.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <158875304273.3986.105601155554744438.stgit@pasha-ThinkPad-X280>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -55,43 +55,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, pavel.dovgaluk@ispras.ru, rth@twiddle.net
+Cc: pbonzini@redhat.com, pavel.dovgaluk@ispras.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 ping
 
 
-On 06.05.2020 10:52, Pavel Dovgalyuk wrote:
-> This patch fixes shift=auto when record/replay is enabled.
-> Now user does not need to guess the best shift value.
+On 06.05.2020 11:17, Pavel Dovgalyuk wrote:
+> Sometimes virtual timer callbacks depend on order
+> of virtual timer processing and warping of virtual clock.
+> Therefore every callback should be logged to make replay deterministic.
+> This patch creates a checkpoint before every virtual timer callback.
+> With these checkpoints virtual timers processing and clock warping
+> events order is completely deterministic.
 >
 > Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 > ---
->   cpus.c |    4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+>   util/qemu-timer.c |    5 +++++
+>   1 file changed, 5 insertions(+)
 >
-> diff --git a/cpus.c b/cpus.c
-> index 5670c96bcf..dfb9f4717f 100644
-> --- a/cpus.c
-> +++ b/cpus.c
-> @@ -379,7 +379,8 @@ static void icount_adjust(void)
+> diff --git a/util/qemu-timer.c b/util/qemu-timer.c
+> index d548d3c1ad..47833f338f 100644
+> --- a/util/qemu-timer.c
+> +++ b/util/qemu-timer.c
+> @@ -588,6 +588,11 @@ bool timerlist_run_timers(QEMUTimerList *timer_list)
+>           qemu_mutex_lock(&timer_list->active_timers_lock);
 >   
->       seqlock_write_lock(&timers_state.vm_clock_seqlock,
->                          &timers_state.vm_clock_lock);
-> -    cur_time = cpu_get_clock_locked();
-> +    cur_time = REPLAY_CLOCK_LOCKED(REPLAY_CLOCK_VIRTUAL_RT,
-> +                                   cpu_get_clock_locked());
->       cur_icount = cpu_get_icount_locked();
+>           progress = true;
+> +        /*
+> +         * Callback may insert new checkpoints, therefore add new checkpoint
+> +         * for the virtual timers.
+> +         */
+> +        need_replay_checkpoint = timer_list->clock->type == QEMU_CLOCK_VIRTUAL;
+>       }
+>       qemu_mutex_unlock(&timer_list->active_timers_lock);
 >   
->       delta = cur_icount - cur_time;
-> @@ -685,6 +686,7 @@ static const VMStateDescription icount_vmstate_timers = {
->       .fields = (VMStateField[]) {
->           VMSTATE_INT64(qemu_icount_bias, TimersState),
->           VMSTATE_INT64(qemu_icount, TimersState),
-> +        VMSTATE_INT16(icount_time_shift, TimersState),
->           VMSTATE_END_OF_LIST()
->       },
->       .subsections = (const VMStateDescription*[]) {
 >
 
