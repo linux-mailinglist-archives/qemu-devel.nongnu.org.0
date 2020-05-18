@@ -2,71 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7D81D70F9
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 08:29:51 +0200 (CEST)
-Received: from localhost ([::1]:34246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 791301D7165
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 08:58:59 +0200 (CEST)
+Received: from localhost ([::1]:50204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaZHa-0001Al-FL
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 02:29:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59438)
+	id 1jaZjm-000729-JL
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 02:58:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jaZGd-0000SG-8g
- for qemu-devel@nongnu.org; Mon, 18 May 2020 02:28:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37640
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jaZGc-0007An-JH
- for qemu-devel@nongnu.org; Mon, 18 May 2020 02:28:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589783329;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dpQ447hZ/yyq5m4WZtHf6MWW4Jbv9ayz/Hgwn4K25rs=;
- b=dahX/a61pcBdOp3nS0YVnwtiuaJowWxbSfpMZo7j7wwUOfnR9YWTm0AhB7FjnsoO3tOP6+
- xeq4QqrAID5abyiEBiVBFCYax+2KvEW6ho/jylfD09mIe8AC+ItLSYZyE+ogpjAwO15ZYl
- 7obImnRXjo+vpu5pbVsoUovfrDMNylM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-7tHNxdOBMbGi9njM26p50A-1; Mon, 18 May 2020 02:28:48 -0400
-X-MC-Unique: 7tHNxdOBMbGi9njM26p50A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3099B107ACCA;
- Mon, 18 May 2020 06:28:47 +0000 (UTC)
-Received: from gondolin (ovpn-113-28.ams2.redhat.com [10.36.113.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F6EE385;
- Mon, 18 May 2020 06:28:46 +0000 (UTC)
-Date: Mon, 18 May 2020 08:28:43 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 1/3] docs/s390x: document the virtual css
-Message-ID: <20200518082843.4f5deaf4.cohuck@redhat.com>
-In-Reply-To: <df4ae06b-5401-c0f3-415e-89dc9cdefc67@redhat.com>
-References: <20200515151518.83950-1-cohuck@redhat.com>
- <20200515151518.83950-2-cohuck@redhat.com>
- <df4ae06b-5401-c0f3-415e-89dc9cdefc67@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jaZha-0004sS-PQ; Mon, 18 May 2020 02:56:42 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:41231)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jaZhY-00073z-7x; Mon, 18 May 2020 02:56:42 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49QVDC3PqXz9sTM; Mon, 18 May 2020 16:56:27 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1589784987;
+ bh=R7UVpPR2KQeqoDFP+JeYr94f7uqII0ciRLjxpn+6Gqk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=n5UGTENXnmM4HY4qJMzmefnYSMyKJhFRmo78EVeNzCK4PCuqrrWG8QUF4SHTBy10J
+ kgQ+aYAlLfqeVMPyBQLPLHkASkdqPTNGcb4YQaTHsZ0t6FjrpTHmjA6beijHhZ5cFF
+ 2QXre7fAICusJfGUlmN027O7dqZiVPyHhRhgisR0=
+Date: Mon, 18 May 2020 16:41:09 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 12/24] MAINTAINERS: Make section PowerNV cover
+ pci-host/pnv* as well
+Message-ID: <20200518064109.GA49185@umbus.fritz.box>
+References: <20200518050408.4579-1-armbru@redhat.com>
+ <20200518050408.4579-13-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:51:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="r5Pyd7+fXNt84Ff3"
+Content-Disposition: inline
+In-Reply-To: <20200518050408.4579-13-armbru@redhat.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,35 +62,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: berrange@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 17 May 2020 19:39:24 +0200
-Thomas Huth <thuth@redhat.com> wrote:
 
-> On 15/05/2020 17.15, Cornelia Huck wrote:
-> > Add some hints about "devno" rules.
-> > 
-> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> > ---
-> >  docs/system/s390x/css.rst    | 86 ++++++++++++++++++++++++++++++++++++
-> >  docs/system/target-s390x.rst |  1 +
-> >  2 files changed, 87 insertions(+)
-> >  create mode 100644 docs/system/s390x/css.rst  
-> [...]
-> > +if the guest OS does not enable MCSS-E (which is true of all  
-> supported guest
-> 
-> Maybe s/true of/true for/ ? Not sure, your English is normally better
-> than mine ;-)
+--r5Pyd7+fXNt84Ff3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-"for" is better :)
+On Mon, May 18, 2020 at 07:03:56AM +0200, Markus Armbruster wrote:
+> Cc: C=E9dric Le Goater <clg@kaod.org>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: qemu-ppc@nongnu.org
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-> 
-> Anyway,
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
-Thanks!
+> ---
+>  MAINTAINERS | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 47ef3139e6..074dc7f023 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1207,7 +1207,9 @@ S: Maintained
+>  F: hw/ppc/pnv*
+>  F: hw/intc/pnv*
+>  F: hw/intc/xics_pnv.c
+> +F: hw/pci-host/pnv*
+>  F: include/hw/ppc/pnv*
+> +F: include/hw/pci-host/pnv*
+>  F: pc-bios/skiboot.lid
+>  F: tests/qtest/pnv*
+> =20
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--r5Pyd7+fXNt84Ff3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7CLgIACgkQbDjKyiDZ
+s5Jwug/+I+LR4HXBDciDgvXywXRCqd23WcgppaLg++n5R6R4Ioa5qv2lKMh6Cuf+
+PBpCYdxPfQ8bxTHAbgDPMCADWQR5Evm28/I5Zjw1Sj3UB8lE/Hn4YUekkWtgYlJQ
+1O7co89ZQip2Un8e8fJL5+p2faq6vOBr0zkNy6JhcBd9zPQOErnN7G5EomDnazbV
+0VIhd9/Z/s3ePYhhVqei4MDOLjtKrB7WRiiR8rf32VDuaLIqdXFtUsxoFR6Rsr/D
+zboelyc/w8zz8lrU2ZX2oS/djq7QPG66BZXQPv9wCdnITGbpBE2zyA8Nbn7upeHK
+ZVHjbTVfJBGtRQOE37AJ7NdBwiZLdXheBrRUPqQvmnCMOGawXLk/JQdIXWH9E/k7
++xX0jq+4p8xTVglkmJ1hSoGZ0JHEEq6iaO1HbSXiiBrfDLJGZYhtVq58E3RK3ktY
+uxGdmz++3Aj472Dc/iG4t8A/VDQKG7R5NJSC9Fiis4fFtFsywIUx5o5JkYWDQVG4
+heGjjdROodtf0OBX+WdtG+VVp/Q0Cdo3sLJ6OgD+geQdWWbeNnbMpCDCfi38YHG4
+y5+wIyM1lycA9uGU8RDsw95Yz/9lT2AQp+yV38Rjshrs1NUp0dsVPf4wrBfADn8V
+NSkriLgNWJuKXNJgUWcswhygBNs9czzz4EXqnOhU6ioI1u57zaE=
+=8B3Y
+-----END PGP SIGNATURE-----
+
+--r5Pyd7+fXNt84Ff3--
 
