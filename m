@@ -2,110 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3801D8849
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 21:39:39 +0200 (CEST)
-Received: from localhost ([::1]:52876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C0F1D886F
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 21:45:57 +0200 (CEST)
+Received: from localhost ([::1]:41608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jalbu-0007kE-Tb
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 15:39:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55534)
+	id 1jali0-0006hE-JH
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 15:45:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jalal-0006t5-SD; Mon, 18 May 2020 15:38:27 -0400
-Received: from mail-eopbgr150117.outbound.protection.outlook.com
- ([40.107.15.117]:52238 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jalaj-00036I-Ot; Mon, 18 May 2020 15:38:26 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PSruu5JXsLAZsXUCyMseuAkvlmCMm5d1JlQ48ZT89ui4R3H4umsO6ZjGj97Gz8BymChTG4XEp7zVELmeC62oKV+Htz3X7FQNDEkR1xuW5RLoDQVgtA7Cd/WqZ9qL+LkaSJ0/ClpervzBR4X7Amo7buZO40LCLURwnPipPOsBdhh+GXmDZPoyKCL5XjiVlToM+N5lNCX7gV3ZzQd2nIF7uxMFBfPKJICWCXxE3lz071+oG8C/F2BaFRuTGGTZtP3UOatqilFSH33PeDp1qUq4ZJTRqkQC9MjpCrjSuiisg8CtNfzsQproJjFLxQBOmtQdyADAAZ8G/ob4S8PjqcMQ7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3O5TDXEE61T6/nrj/p8v5y4C70AhOGaDtjlWQjXad5g=;
- b=GiAKRHMUcMAuOVFqz8qJ4WeMi3d6SUAlf/ys++rNweyTgwqyMIUymbpEGm8j3guAauUcbTrB+TZElmERrhs49pGVfWH/FOUnaYPpM4SGhWVHwHv1BgSp2APqwb5NBYwhCnflOBKBW67kYwe/XSjg4758b4iSpiUAZeYwmdwVZlpdHL7RXAMVhTcDpBz8EqfeLJNWSKk/FGruwco0vVquDsnRkBsKFl6ch7WjrxLPV0Mm7LMr0z+sTTVCSz6HVSKN6wqFa16INSi241YcTIBzRUp8NC6q8XPWsClbL9ovu9J54eF4LG8z7Wk0xRpTTcXL92lZ1BBy3JtmhY+YXnmxqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3O5TDXEE61T6/nrj/p8v5y4C70AhOGaDtjlWQjXad5g=;
- b=KgYSLkfajGmNsXXm16+ivIq3WXeSGqZjT0RuDPxyVXhl7sQQdYV12Ag7UfEAhR8JX7nBXtCP0YsZbeRAj1g+OX0t4B90vyuj/8qQK1wUtMsJ7wZAI+n6sdVMleCMP1AhTM8ZFhzB+doVtNUss4V+sgWUfDosCF+7exTkiqNKEZs=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5430.eurprd08.prod.outlook.com (2603:10a6:20b:106::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.27; Mon, 18 May
- 2020 19:38:22 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%4]) with mapi id 15.20.3000.034; Mon, 18 May 2020
- 19:38:22 +0000
-Subject: Re: [PATCH v4 6/9] qemu-img: Add bitmap sub-command
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200513011648.166876-1-eblake@redhat.com>
- <20200513011648.166876-7-eblake@redhat.com>
- <92016f3f-a7c1-5384-5968-b89de5f01ecb@virtuozzo.com>
- <54ab6b66-d22d-820b-f4ad-2859f856de92@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <29b1eb6e-a60c-d4a5-dace-042746d15f5b@virtuozzo.com>
-Date: Mon, 18 May 2020 22:38:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-In-Reply-To: <54ab6b66-d22d-820b-f4ad-2859f856de92@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM0PR01CA0153.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:aa::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jaleL-0002Jh-QB
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 15:42:09 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:39400)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jaleL-0004Pb-60
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 15:42:09 -0400
+Received: by mail-lf1-x142.google.com with SMTP id h26so9159067lfg.6
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 12:42:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RNwaBalSq7hVemOS6/MpEJ85P0luwo/qn8uoV+N9FFs=;
+ b=QFLIzDPHlZl49qDdOprl/2WKv0B9+qomdG/O3hWFwN9Oe0y488B+bqsz6tavLYrhDk
+ XtAjsbpaqGwCm9Ey63TwZCbm3H6snTlBDSxtOSIaGvNh6ZTWWZMg+JM8vgBh06ubx1o5
+ 4bpuTlNmpXszgyMqTllQPnRejYFn+XHpcXsXOdZZchF+3sS7J4wpq3itPoIm4+HHPDND
+ CEPuybiC1xfSrsale1cPi3fuhP4hewI8l4dC6J5I4PzuZGs1/oTRuCci9upi95Q6VG5f
+ uI1Lv3woD5/doXPtYWXIRPqYn+sR/e2qiJwgFbJiQGg/E+swiabLYtynpoxnJuurNfYf
+ DVBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RNwaBalSq7hVemOS6/MpEJ85P0luwo/qn8uoV+N9FFs=;
+ b=bjucniVDSBsBRBbFLe56aOcJPcnzQl1Q1xDNpbWQJIhSO0td9Xr0SQiBmZ1uvTF+Yc
+ u06TGJKYnR7i5p0B71ztWwMV8GGjPsg3VQT2AQ1mIpSaWq2GFfcmMCw4AO5JJIXVMFpT
+ Tp6DtK3lOnPqA9G+Ejsbh1TQsgDSjwRp0rU0ZmseEOPqU0al8/rFhntAWdSnZ/c/TY09
+ 1l4BFXXQeATHCcv57+0l9EMHuSQNC7QlOfHQphOUHGNJqKG9s0Ux6yXprjNWlnxQqmu5
+ c5AahjGS2ye2WwAgZODC/Vjgha//cZuf5pT4RoQ0MvV+BllTNkoPG9duYE6pJnnS8aG5
+ qH4g==
+X-Gm-Message-State: AOAM530M4JPak8ek0SAKUUGnHgsZS7c+luknuddua82EHyBzfp77KT9T
+ sy1oDkguNrkH8UQoJq7/CQSuMyKJANA=
+X-Google-Smtp-Source: ABdhPJzT0oWHguKIE4hdzSFza7r1HgPjXc9mlftoLk7/W/jMH2uJJ0HkWB7rjGsfhVM6AIJVsaQzSg==
+X-Received: by 2002:ac2:58d0:: with SMTP id u16mr12509585lfo.114.1589830926782; 
+ Mon, 18 May 2020 12:42:06 -0700 (PDT)
+Received: from localhost.localdomain ([109.245.227.98])
+ by smtp.gmail.com with ESMTPSA id r15sm7593128lfp.34.2020.05.18.12.42.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 May 2020 12:42:06 -0700 (PDT)
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/22] target/mips: MSA,
+ FPU and other cleanups and improvements
+Date: Mon, 18 May 2020 21:41:27 +0200
+Message-Id: <20200518194149.16281-1-aleksandar.qemu.devel@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.187) by
- AM0PR01CA0153.eurprd01.prod.exchangelabs.com (2603:10a6:208:aa::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.20 via Frontend
- Transport; Mon, 18 May 2020 19:38:21 +0000
-X-Originating-IP: [185.215.60.187]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3a9404b2-95c1-460d-feb8-08d7fb63062a
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5430:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5430D1EB5E10AA0C57D5CC15C1B80@AM7PR08MB5430.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
-X-Forefront-PRVS: 04073E895A
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sT7KziPnUcURHJk0sFJ5rktJgaU+d+k/ToX0HqN5zLcLaBr9ZarlNtsbACMKdNXG4eYYWraCAq3F4L+C2sBmYyxTVrJOK2jPGTcVSQFd4/V6gbFupn1hYDkD3b6jpyzSzEulNTZbAJHxDZcTyb4Jkh9IJ99uS/wp90V6aQpw/qzvhtRIPX/WN4rGB4p7WoQYft4vSoZjX9Dq25NV59TYU+pJfaKhKNKAzS45jTV4HhDENtUe6BaIiyXaY9Q3ePIL7QbVp7CI19l2xcpvar7HNdLy1CGFyoVYjybUpk3oJVkFoMxpDQrT48oI+Jbk43SKhDddKJrsHioZ+dBFebmiogXjpq3V8eqj10WVJSP97LD36p1LPpBBDdNnSso7TSDQ07mPMdaDj/D1/cfa5EtqPPJIbTm5ScF0DcoJc8N3ZBlyQzowb/9HAOeRR91DLAt7x+BI00XzvBUpbP5DFBAkNHroSb9j2ef3E7a2j+RcuGSzmXB7muUjH8voJ2IyplsQ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(39840400004)(366004)(346002)(136003)(396003)(52116002)(31686004)(16526019)(186003)(26005)(8676002)(2906002)(66946007)(53546011)(8936002)(2616005)(956004)(6486002)(36756003)(316002)(31696002)(66556008)(5660300002)(86362001)(16576012)(478600001)(4326008)(66476007)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 0+tRJ5kLs2yRN6w3nN4wYUgIhvUpQ9WzDVrNI4yC/aOXC1x/sdwA7ce7ByYNkJqWjkJkHll2BfSbYp2t/YeGQ/PhchvmPxXI1Vf6eVYs3YjMcaB7IToL28nr6jNG29PE/DpgDnexjJFFxAArEBxMHhuwLOFRJLPHu3gkB8lMXn1Pkdlm1AQI87QNZYFWJ3JGtZR03l5Gl63Ip2X4EzDsslQo0OS9dOp54rlBQXUZXA6CkiduS5VkrGIqRCzQie4qDO5t9X95OBMo+E1N7FGC68jn5wgjTx5Q9p2Nd7dWQ4zT3SaHIi418LFJ8qFBRtmHY8h/5g726eD6PojlhKW8xmdl/5TjOvwvciq+4GkShjG/O1CPM/E/WLxaAMZM8eWGyCT6CRzF5k3EesEDb+5JHG0k/3RdjXMsvQI/JSFkuqtBqwexCUi3qAlz5htEfCVSEoW4hkquoJy5hft89UDxHeoYS0DPcahlpWOdi+8mp1P0+Qd+yo0PKtfd1oRxEJMV
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a9404b2-95c1-460d-feb8-08d7fb63062a
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2020 19:38:22.1343 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m63tZiHMozt0WergfRcjd1BFTBwkwbKx2Ys1MKcS+sdnZuz3v7CZcOLMGkrB6jrjizQzIsCXoy5lmMGpRCy9k05k3p2IqVqv06aKqNm+4u8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5430
-Received-SPF: pass client-ip=40.107.15.117;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-DB5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 15:38:23
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::142;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lf1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,162 +83,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, nsoffer@redhat.com, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: aleksandar.rikalo@syrmia.com,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-18.05.2020 22:07, Eric Blake wrote:
-> On 5/18/20 6:42 AM, Vladimir Sementsov-Ogievskiy wrote:
->> 13.05.2020 04:16, Eric Blake wrote:
->>> Include actions for --add, --remove, --clear, --enable, --disable, and
->>> --merge (note that --clear is a bit of fluff, because the same can be
->>> accomplished by removing a bitmap and then adding a new one in its
->>> place, but it matches what QMP commands exist).  Listing is omitted,
->>> because it does not require a bitmap name and because it was already
->>> possible with 'qemu-img info'.  A single command line can play one or
->>> more bitmap commands in sequence on the same bitmap name (although all
->>> added bitmaps share the same granularity, and and all merged bitmaps
->>> come from the same source file).  Merge defaults to other bitmaps in
->>> the primary image, but can also be told to merge bitmaps from a
->>> distinct image.
->>>
->>> While this supports --image-opts for the file being modified, I did
->>> not think it worth the extra complexity to support that for the source
->>> file in a cross-file merges.  Likewise, I chose to have --merge only
->>> take a single source rather than following the QMP support for
->>> multiple merges in one go (although you can still use more than one
->>> --merge in the command line); in part because qemu-img is offline and
->>> therefore atomicity is not an issue.
->>>
-> 
->>> +
->>> +    blk = img_open(image_opts, filename, fmt, BDRV_O_RDWR, false, false,
->>> +                   false);
->>
->> fit in one line
-> 
-> That line would be exactly 80; I tend to wrap at 79 or earlier rather than exactly on 80.
-> 
->>
->>> +    if (!blk) {
->>> +        goto out;
->>> +    }
->>> +    bs = blk_bs(blk);
->>> +    if (src_filename) {
->>> +        src = img_open(NULL, src_filename, src_fmt, 0, false, false,
->>> +                       false);
->>
->> s/NULL/false/
-> 
-> D'oh.  And yet it still compiles.  Fixing.
-> 
->>
->> also, fit in one line
-> 
-> Yes, this one's shorter.  Fixing.
-> 
-> 
->>> +
->>> +        if (err) {
->>> +            error_reportf_err(err, "Operation %s on bitmap %s failed",
->>
->> s/failed/failed: /
->>
->>> +                              op, bitmap);
->>> +            ret = -1;
->>
->> dead assignment: you never set ret after first initialization to -1.
-> 
-> Fixing both.
-> 
->>
->>> +            goto out;
->>> +        }
->>> +        g_free(act);
->>> +    }
->>> +
->>> +    ret = 0;
->>> +
->>> + out:
->>> +    blk_unref(src);
->>> +    blk_unref(blk);
->>> +    qemu_opts_del(opts);
->>> +    if (ret) {
->>> +        return 1;
->>> +    }
->>> +    return 0;
->>
->> Hmm, as it's the only usage of ret, you may initialize it to 1 at function start, and here just "return ret;"
-> 
-> Yep, done.
-> 
->>> +DEF("bitmap", img_bitmap,
->>> +    "bitmap (--merge SOURCE | --add | --remove | --clear | --enable | --disable)... [-b source_file [-F source_fmt]] [-g granularity] [--object objectdef] [--image-opts | -f fmt] filename bitmap")
->>> +SRST
->>> +.. option:: bitmap (--merge SOURCE | --add | --remove | --clear | --enable | --disable)... [-b SOURCE_FILE [-F SOURCE_FMT]] [-g GRANULARITY] [--object OBJECTDEF] [--image-opts | -f FMT] FILENAME BITMAP
->>
->> Not about this patch, but it's a pity that we have triple duplications (triplications ?) of such lines..
-> 
-> Yes, it is annoying.  But as you say, it's a cleanup for another day, for someone who is interested.
-> 
->>
->> With at least s/NULL/false/ and s/failed/failed: / (or with all my tiny suggestions):
->> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> 
-> Thanks; squashing in:
-> 
-> diff --git i/qemu-img.c w/qemu-img.c
-> index 8c99e68ba8aa..f940137cb0e5 100644
-> --- i/qemu-img.c
-> +++ w/qemu-img.c
-> @@ -4493,7 +4493,7 @@ typedef struct ImgBitmapAction {
->   static int img_bitmap(int argc, char **argv)
->   {
->       Error *err = NULL;
-> -    int c, ret = -1;
-> +    int c, ret = 1;
->       QemuOpts *opts = NULL;
->       const char *fmt = NULL, *src_fmt = NULL, *src_filename = NULL;
->       const char *filename, *bitmap;
-> @@ -4641,8 +4641,7 @@ static int img_bitmap(int argc, char **argv)
->       }
->       bs = blk_bs(blk);
->       if (src_filename) {
-> -        src = img_open(NULL, src_filename, src_fmt, 0, false, false,
-> -                       false);
-> +        src = img_open(false, src_filename, src_fmt, 0, false, false, false);
->           if (!src) {
->               goto out;
->           }
-> @@ -4695,9 +4694,8 @@ static int img_bitmap(int argc, char **argv)
->           }
-> 
->           if (err) {
-> -            error_reportf_err(err, "Operation %s on bitmap %s failed",
-> +            error_reportf_err(err, "Operation %s on bitmap %s failed: ",
->                                 op, bitmap);
-> -            ret = -1;
->               goto out;
->           }
->           g_free(act);
-> @@ -4709,10 +4707,7 @@ static int img_bitmap(int argc, char **argv)
->       blk_unref(src);
->       blk_unref(blk);
->       qemu_opts_del(opts);
-> -    if (ret) {
-> -        return 1;
-> -    }
-> -    return 0;
-> +    return ret;
->   }
-> 
->   #define C_BS      01
-> 
+This series contains some pathces that split heprers in msa_helper.c.
+It will make easier for debugging tools to display involved source
+code, and also introduces some modest performance improvements gains
+for all involved MSA instructions.
 
-Great, keep my r-b with this.
+Also, this series contains mostly cosmetic FPU cleanups aimed to make
+source code recognition easier for tools like gdb, gcov, calgrind,
+and others.
+
+There is also a patch that refactors conversion from ieee to mips
+fp exception flags. This refactoring will improve the performance
+of almost all fp-related mips instructions, albait very modestly
+(less that one percent).
+
+There is a patch that introduces some logging in mips_malta.c.
+
+There is a patch on change of Aleksandar Rikalo's email.
+
+Finally, there is a patch on renaming some files in hw/mips folder.
+
+v4->v5:
+
+  - corrected some spelling and style mistakes in commit messages
+  - added changing MAINTAINERS too while renaming files
+  - added two patches on splitting helpers in msa_helper.c
+
+v3->v4:
+
+  - corrected some spelling and style mistakes in commit messages
+  - added a patch on renaming some files in hw/mips
+
+v2->v3:
+
+  - changed Malta patch to perform logging
+  - added change of Aleksandar Rikalo's email
+
+v1->v2:
+
+  - added more demacroing
+Aleksandar Markovic (21):
+  target/mips: fpu: Demacro ADD.<D|S|PS>
+  target/mips: fpu: Demacro SUB.<D|S|PS>
+  target/mips: fpu: Demacro MUL.<D|S|PS>
+  target/mips: fpu: Demacro DIV.<D|S|PS>
+  target/mips: fpu: Remove now unused macro FLOAT_BINOP
+  target/mips: fpu: Demacro MADD.<D|S|PS>
+  target/mips: fpu: Demacro MSUB.<D|S|PS>
+  target/mips: fpu: Demacro NMADD.<D|S|PS>
+  target/mips: fpu: Demacro NMSUB.<D|S|PS>
+  target/mips: fpu: Remove now unused UNFUSED_FMA and FLOAT_FMA macros
+  target/mips: fpu: Demacro CLASS.<D|S>
+  target/mips: fpu: Remove now unused FLOAT_CLASS macro
+  target/mips: fpu: Demacro RINT.<D|S>
+  target/mips: fpu: Remove now unused FLOAT_RINT macro
+  target/mips: fpu: Name better paired-single variables
+  target/mips: fpu: Refactor conversion from ieee to mips exception
+    flags
+  MAINTAINERS: Change Aleksandar Rikalo's email address
+  target/mips: msa: Split helpers for MADDV.<B|H|W|D>
+  target/mips: msa: Split helpers for MSUBV.<B|H|W|D>
+  hw/mips: Add some logging for bad register offset cases
+  hw/mips: Rename malta/mipssim/r4k/jazz files in hw/mips
+
+Jafar Abdi (1):
+  hw/tpm: fix usage of bool in tpm-tis.c
 
 -- 
-Best regards,
-Vladimir
+2.20.1
+
 
