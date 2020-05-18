@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A16A1D7E15
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:15:23 +0200 (CEST)
-Received: from localhost ([::1]:35576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFEF1D7E10
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:14:03 +0200 (CEST)
+Received: from localhost ([::1]:59140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaiQE-0006vQ-MP
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:15:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55330)
+	id 1jaiOw-0004wD-MU
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:14:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jaiNE-000335-Pe
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:12:16 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:39572)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jaiND-0006Hv-0A
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:12:16 -0400
-Received: by mail-oi1-x243.google.com with SMTP id s198so9459384oie.6
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 09:12:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=BPSGc1YOAbwiDqGSIPUq/PBsbDFhhz8vXhf0ZS70vnA=;
- b=x8oz22uumUoP6A+CO8dA0XbrRX4DdTY7++0C960rhAkQL2bAmiDeWn+k9dqlQx8vil
- QjF56wGpVk39pfx8nwVkKxFVEawv5sscJ6b1bmbuxrOZx9dShf4cTORkwiJj12Ap8Uv1
- ILQGhn5zxKW/QFP5Ia7FB2r2/sWd8OyItfveA825sCZ2wmgJG/Bu9FyjK85ehN48sWrp
- WWgub6JxfJ14Hiwr3X4tCVWj7iIkzfnvytYnVkOXlCtlx4E2VlqwHp4FakUMEbaYghxF
- ZNEVeJFzBG2t+MW/nUPCezcPI5HZ+U9LGkXkhXlioPQcSl8pXJdChfOYM4cRUtLo9xwF
- HAGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=BPSGc1YOAbwiDqGSIPUq/PBsbDFhhz8vXhf0ZS70vnA=;
- b=AvTuZeGBVc7X9vyYlO81wr5iD7czy9QQ8nW0sZJO3NSJRU/Xec++5lXpSQJ3myubc0
- PXRY4Pv/P6jKzbhikE2gVlNMcaTbwttMmWpxjltCYZQcYeUpG3C3PHKcrj7bAkwtHTfx
- rd1Kg8GkJzPeqmruzIAOPzyAnX8p506TO1WniqEIW1pnrWzXLirOOu33Y7TGLlHrhkRJ
- E2LGSBe4ba0DozHBdGDNb0ww8nXFdtZXp/IUT6ShjX/27U3qOsXNSAqZY2fZNCAx7Ret
- asbY4sEVf10q6i9Cj0bvEoB0QN8I2fDHPJP7DyvjaVh7HRnPmMLfsr3PJ4eOvOdZ7G49
- a/Zw==
-X-Gm-Message-State: AOAM533faBSc0Wl6C+NY82ZN8pANPfRtdu7WcZZxc9vT6Qzi2uTm3hjI
- PmRTAr28wNt+h1nIQHgBgzmxZG3o3Ksc8jHChedDEw==
-X-Google-Smtp-Source: ABdhPJwVPkvmnyBFGfSqQO36dYU4yQaoMbq8NJKMnZxBnOljQTUxrKffpT9sNkKNu0DVXBGl/i/3CwmM9KVFbSqsw8I=
-X-Received: by 2002:aca:895:: with SMTP id 143mr66214oii.163.1589818333787;
- Mon, 18 May 2020 09:12:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jaiNk-0003VD-9c
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:12:48 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23970
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jaiNh-0006LP-Ag
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:12:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589818363;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=AIWWR1JhR9kL7pKOeK+aGbOQhUtb8Frp+dZMzQAhE8Y=;
+ b=gAoAeKC5bqzE+OS82h/jomd1smQQ4jCmI0fNzxCj1BOkVECuO1kiFjX3M+1SAgca1ivMpP
+ kyqdV3MbSw1WQZhGQ71oTKKqUk4FlMZq20NVPKdCdAbNUM5u5m+soCN1Qiw8Iw5egoDci3
+ 7d6ZxvqHg4CsZElbt8PBzlsC+L53PlA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-202-DOKphBMEPMGGwQ6ViWu42Q-1; Mon, 18 May 2020 12:12:41 -0400
+X-MC-Unique: DOKphBMEPMGGwQ6ViWu42Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A25F8015CE;
+ Mon, 18 May 2020 16:12:40 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-242.ams2.redhat.com [10.36.112.242])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 08C707958D;
+ Mon, 18 May 2020 16:12:37 +0000 (UTC)
+Subject: Re: [PATCH v4 9/9] iotests: rename and move 169 and 199 tests
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200515211505.3042-1-vsementsov@virtuozzo.com>
+ <20200515211505.3042-10-vsementsov@virtuozzo.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <6ad020e7-ed54-5bc8-0c70-9776dab903ac@redhat.com>
+Date: Mon, 18 May 2020 18:12:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200518155308.15851-1-f4bug@amsat.org>
- <20200518155308.15851-8-f4bug@amsat.org>
-In-Reply-To: <20200518155308.15851-8-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 18 May 2020 17:12:02 +0100
-Message-ID: <CAFEAcA97bYXyN-GSXUk_OetroaHFExXFwYH1bhexHwRW0+NEVw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 7/7] hw/core/loader: Assert loading ROM regions
- succeeds at reset
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20200515211505.3042-10-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 23:32:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,53 +83,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, kvm-devel <kvm@vger.kernel.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 May 2020 at 16:53, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> If we are unable to load a blob in a ROM region, we should not
-> ignore it and let the machine boot.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On 15/05/2020 23.15, Vladimir Sementsov-Ogievskiy wrote:
+> Rename bitmaps migration tests and move them to tests subdirectory to
+> demonstrate new human-friendly test naming.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
-> RFC: Maybe more polite with user to use hw_error()?
-> ---
->  hw/core/loader.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/core/loader.c b/hw/core/loader.c
-> index 8bbb1797a4..4e046388b4 100644
-> --- a/hw/core/loader.c
-> +++ b/hw/core/loader.c
-> @@ -1146,8 +1146,12 @@ static void rom_reset(void *unused)
->              void *host =3D memory_region_get_ram_ptr(rom->mr);
->              memcpy(host, rom->data, rom->datasize);
->          } else {
-> -            address_space_write_rom(rom->as, rom->addr, MEMTXATTRS_UNSPE=
-CIFIED,
-> -                                    rom->data, rom->datasize);
-> +            MemTxResult res;
-> +
-> +            res =3D address_space_write_rom(rom->as, rom->addr,
-> +                                          MEMTXATTRS_UNSPECIFIED,
-> +                                          rom->data, rom->datasize);
-> +            assert(res =3D=3D MEMTX_OK);
+>  tests/qemu-iotests/{199 => tests/migrate-bitmaps-postcopy-test}   | 0
+>  .../{199.out => tests/migrate-bitmaps-postcopy-test.out}          | 0
+>  tests/qemu-iotests/{169 => tests/migrate-bitmaps-test}            | 0
+>  tests/qemu-iotests/{169.out => tests/migrate-bitmaps-test.out}    | 0
+>  4 files changed, 0 insertions(+), 0 deletions(-)
+>  rename tests/qemu-iotests/{199 => tests/migrate-bitmaps-postcopy-test} (100%)
+>  rename tests/qemu-iotests/{199.out => tests/migrate-bitmaps-postcopy-test.out} (100%)
+>  rename tests/qemu-iotests/{169 => tests/migrate-bitmaps-test} (100%)
+>  rename tests/qemu-iotests/{169.out => tests/migrate-bitmaps-test.out} (100%)
+> 
+> diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+> similarity index 100%
+> rename from tests/qemu-iotests/199
+> rename to tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+> diff --git a/tests/qemu-iotests/199.out b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test.out
+> similarity index 100%
+> rename from tests/qemu-iotests/199.out
+> rename to tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test.out
+> diff --git a/tests/qemu-iotests/169 b/tests/qemu-iotests/tests/migrate-bitmaps-test
+> similarity index 100%
+> rename from tests/qemu-iotests/169
+> rename to tests/qemu-iotests/tests/migrate-bitmaps-test
+> diff --git a/tests/qemu-iotests/169.out b/tests/qemu-iotests/tests/migrate-bitmaps-test.out
+> similarity index 100%
+> rename from tests/qemu-iotests/169.out
+> rename to tests/qemu-iotests/tests/migrate-bitmaps-test.out
 
-We shouln't assert(), because this is easy for a user to trigger
-by loading an ELF file that's been linked to the wrong address.
-Something helpful that ideally includes the name of the ELF file
-and perhaps the address might be nice.
+I like the idea ... but the path name + file names get now quite long.
+While you're at it, what about renaming the "qemu-iotests" directory to
+just "iotests" or even just "io" now?
 
-(But overall I'm a bit wary of this and other patches in the series
-just because they add checks that were previously not there, and
-I'm not sure whether users might be accidentally relying on
-the continues-anyway behaviour.)
+ Thomas
 
-thanks
--- PMM
 
