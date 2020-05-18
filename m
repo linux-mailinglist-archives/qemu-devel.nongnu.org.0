@@ -2,102 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18DE31D8032
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 19:33:56 +0200 (CEST)
-Received: from localhost ([::1]:42918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDFF91D80BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 19:41:59 +0200 (CEST)
+Received: from localhost ([::1]:34206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jajeF-0003IP-5A
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 13:33:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39010)
+	id 1jajm2-0003FI-S9
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 13:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1jajch-0001iM-0e; Mon, 18 May 2020 13:32:19 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63588)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1jajcf-0003kK-Bt; Mon, 18 May 2020 13:32:18 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04IH574j140374; Mon, 18 May 2020 13:32:15 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 312c8n8kds-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 May 2020 13:32:15 -0400
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04IH5GJi141138;
- Mon, 18 May 2020 13:32:15 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 312c8n8kdc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 May 2020 13:32:14 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04IHUBB2002115;
- Mon, 18 May 2020 17:32:14 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma03dal.us.ibm.com with ESMTP id 313wgqrtwt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 May 2020 17:32:13 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 04IHVCWA59310374
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 18 May 2020 17:31:12 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4C2846E056;
- Mon, 18 May 2020 17:31:12 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 59BD76E04E;
- Mon, 18 May 2020 17:31:11 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.85.206.55])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Mon, 18 May 2020 17:31:11 +0000 (GMT)
-Subject: Re: [PATCH v2 2/8] s390/sclp: check sccb len before filling in data
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-References: <20200515222032.18838-1-walling@linux.ibm.com>
- <20200515222032.18838-3-walling@linux.ibm.com>
- <292a440b-d147-e94a-2c00-49a2fa3659b1@redhat.com>
- <8924d502-711f-a8ca-14ba-3fe21a5249f4@linux.ibm.com>
- <d3fe4493-c35a-4e88-045a-ea769231d9b8@redhat.com>
-From: Collin Walling <walling@linux.ibm.com>
-Message-ID: <b7361e6f-0e11-edb2-d2aa-8d6381176c52@linux.ibm.com>
-Date: Mon, 18 May 2020 13:31:10 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jajl2-0002ma-SR
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 13:40:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52768)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jajl1-00050N-Mm
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 13:40:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jajkz-0000hH-Dc
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 17:40:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 63E3E2E802D
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 17:40:53 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <d3fe4493-c35a-4e88-045a-ea769231d9b8@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
- definitions=2020-05-18_06:2020-05-15,
- 2020-05-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0
- impostorscore=0 spamscore=0 malwarescore=0 adultscore=0 mlxlogscore=999
- priorityscore=1501 clxscore=1015 mlxscore=0 suspectscore=0
- lowpriorityscore=0 cotscore=-2147483648 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005180143
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=walling@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 13:32:15
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 18 May 2020 17:32:34 -0000
+From: Heiko Sieger <1856335@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger janklos
+X-Launchpad-Bug-Reporter: Damir (djdatte)
+X-Launchpad-Bug-Modifier: Heiko Sieger (h-sieger)
+References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
+Message-Id: <158982315486.22526.17319715034542018533.malone@wampee.canonical.com>
+Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 32d48d007cf17304bb5c5be672b894d0197a91a7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 13:40:54
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -106,61 +72,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, frankja@linux.ibm.com, mst@redhat.com, cohuck@redhat.com,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, svens@linux.ibm.com,
- pbonzini@redhat.com, mihajlov@linux.ibm.com, rth@twiddle.net
+Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/18/20 11:43 AM, David Hildenbrand wrote:
-> On 18.05.20 16:32, Collin Walling wrote:
->> On 5/18/20 7:46 AM, David Hildenbrand wrote:
->>> On 16.05.20 00:20, Collin Walling wrote:
->>>> The SCCB must be checked for a sufficient length before it is filled
->>>> with any data. If the length is insufficient, then the SCLP command
->>>> is suppressed and the proper response code is set in the SCCB header.
->>>>
->>>> Fixes: 832be0d8a3bb ("s390x: sclp: Report insufficient SCCB length")
->>>> Signed-off-by: Collin Walling <walling@linux.ibm.com>
->>>> ---
->>>>  hw/s390x/sclp.c | 22 ++++++++++------------
->>>>  1 file changed, 10 insertions(+), 12 deletions(-)
->>>>
->>>> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
->>>> index 61e2e2839c..2bd618515e 100644
->>>> --- a/hw/s390x/sclp.c
->>>> +++ b/hw/s390x/sclp.c
->>>> @@ -75,6 +75,11 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
->>>>      int rnsize, rnmax;
->>>>      IplParameterBlock *ipib = s390_ipl_get_iplb();
->>>>  
->>>> +    if (be16_to_cpu(sccb->h.length) < (sizeof(ReadInfo) + cpu_count * sizeof(CPUEntry))) {
->>>> +        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
->>>> +        return;
->>>> +    }
->>>> +
->>>
->>> (replied to v1 by mistake)
->>>
->>> Lines too long.
->>>
->>> Please run scripts/checkpatch.pl before submitting.
->>>
->>
->> I do. The changes in this patch are replaced by the #3. I opted to be
->> sloppy here for ease of readability.
->>
->> But if it's truly an issue I can clean it up for next round.
-> 
-> No good reason to be sloppy and make checkpatch (+ David) complain ;)
-> 
-> 
+"The CPUs with cpuset=3D"0,12" are disabled once booted. The host-cache-
+info=3Don is the part that makes sure that the cache config is passed to
+the VM (but unfortunately does not take disabled cores into account,
+which results in incorrect config). The qemu:commandline is added
+because I need to add -amd-stibp, otherwise I wouldn't be able to boot.
+This overrides most parts in the <cpu> XML part."
 
-Fair enough. I'll make the fix!
+Is there a XML equivalent for host-cache-info=3Don ?
 
--- 
-Regards,
-Collin
+Will that work with model EPYC-IBPB as well?
 
-Stay safe and stay healthy
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856335
+
+Title:
+  Cache Layout wrong on many Zen Arch CPUs
+
+Status in QEMU:
+  New
+
+Bug description:
+  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
+  to always map Cache ass if it was an 4-Core per CCX CPU, which is
+  incorrect, and costs upwards 30% performance (more realistically 10%)
+  in L3 Cache Layout aware applications.
+
+  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
+
+  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
+/>
+
+  In windows, coreinfo reports correctly:
+
+  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+
+  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
+/>
+
+  in windows, coreinfo reports incorrectly:
+
+  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
+
+  With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter:
+  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+
+  The problem is that the dies are exposed differently than how AMD does
+  it natively, they are exposed to Windows as sockets, which means, that
+  if you are nto a business user, you can't ever have a machine with
+  more than two CCX (6 cores) as consumer versions of Windows only
+  supports two sockets. (Should this be reported as a separate bug?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
