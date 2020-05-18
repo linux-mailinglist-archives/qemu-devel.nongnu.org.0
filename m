@@ -2,33 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26AD21D7DEE
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:09:01 +0200 (CEST)
-Received: from localhost ([::1]:39854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EABBF1D7DF4
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:10:44 +0200 (CEST)
+Received: from localhost ([::1]:46382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaiK4-00051A-1B
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:09:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54278)
+	id 1jaiLk-0007u9-0z
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:10:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jaiEd-0005O4-Uv
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:03:23 -0400
-Received: from mx2.suse.de ([195.135.220.15]:37142)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jaiEe-0005Oq-AF
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:03:24 -0400
+Received: from mx2.suse.de ([195.135.220.15]:37156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jaiEd-0003RA-4P
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jaiEd-0003RC-DT
  for qemu-devel@nongnu.org; Mon, 18 May 2020 12:03:23 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 8B0ECB01F;
+ by mx2.suse.de (Postfix) with ESMTP id D9B2DB04C;
  Mon, 18 May 2020 16:03:24 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: David Gibson <david@gibson.dropbear.id.au>,
  Peter Maydell <peter.maydell@linaro.org>,
  Philippe Mathieu-Daude <philmd@redhat.com>
-Subject: [PATCH v5 0/2] Makefile: libfdt: build only the strict necessary
-Date: Mon, 18 May 2020 18:03:17 +0200
-Message-Id: <20200518160319.18861-1-cfontana@suse.de>
+Subject: [PATCH v5 1/2] Makefile: dtc: update, build the libfdt target
+Date: Mon, 18 May 2020 18:03:18 +0200
+Message-Id: <20200518160319.18861-2-cfontana@suse.de>
 X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20200518160319.18861-1-cfontana@suse.de>
+References: <20200518160319.18861-1-cfontana@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 01:30:24
@@ -57,60 +62,72 @@ Cc: Markus Armbruster <armbru@redhat.com>, Claudio Fontana <cfontana@suse.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v4 -> v5:
+dtc submodule update, now call the libfdt target from the new
+dtc Makefile, which has been changed to not require bison, flex, etc.
+This removes warnings during the build.
 
-* include the dtc submodule update commit in the 1/2 patch
+scripts/ symlink and tests directory creation are not necessary,
+and neither is calling the clean rule explicitly.
 
-v3 -> v4: NB! only useful when updating to latest dtc (not in QEMU yet)
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ Makefile  | 10 +++++-----
+ configure |  1 -
+ dtc       |  2 +-
+ 3 files changed, 6 insertions(+), 7 deletions(-)
 
-* changed the approach to leverage new upstream dtc Makefile,
-  needs dtc submodule update to include upstream dtc commit
-  85e5d839847af54efab170f2b1331b2a6421e647.
-
-* LIBFDT_srcdir does not exist anymore in upstream dtc: it is also
-  not used anymore.
-
-* LIBFDT_lib: need to avoid building libfdt.so at least for now, so pass as
-  empty to avoid building the .so. This is to avoid breaking existing
-  trees with objects already compiled without -fPIC.
-
-* clean: no need to make dtc clean target, every artifact is captured by
-  global clean rule
-
-v2 -> v3:
-
-* changed into a 2 patch series; in the second patch we remove the old
-  compatibility gunks that were meant for removal some time after 4.1.
-
-* renamed the libfdt PHONY rule to dtc/all, with the intent to make
-  existing working trees forward and backward compatible across the change.
-
-v1 -> v2:
-
-* fix error generated when running UNCHECKED_GOALS without prior configure,
-  for example during make docker-image-fedora. Without configure, DSOSUF is
-  empty, and the module pattern rule in rules.mak that uses this variable
-  can match too much; provide a default in the Makefile to avoid it.
-
-* only attempt to build the archive when there is a non-empty list of objects.
-  This could be done in general for the %.a: pattern in rules.mak, but maybe
-  there are valid reasons to build an empty .a?
-
-* removed some intermediate variables that did not add much value
-  (LIBFDT_srcdir, LIBFDT_archive)
-
-Tested locally with 3 VPATH configurations (no-, VPATH, VPATH in src subdir),
-and with docker-image-fedora, docker-test-debug@fedora that failed before.
-
-Claudio Fontana (2):
-  Makefile: libfdt: build only the strict necessary
-  Makefile: remove old compatibility gunks
-
- Makefile  | 32 ++++++++++++++++----------------
- configure |  6 +-----
- rules.mak |  2 ++
- 3 files changed, 19 insertions(+), 21 deletions(-)
-
+diff --git a/Makefile b/Makefile
+index 34275f57c9..36a6454295 100644
+--- a/Makefile
++++ b/Makefile
+@@ -526,13 +526,14 @@ $(SOFTMMU_FUZZ_RULES): $(edk2-decompressed)
+ $(TARGET_DIRS_RULES):
+ 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" $(notdir $@),)
+ 
+-DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_srcdir=$(SRC_PATH)/dtc/libfdt
++# LIBFDT_lib="": avoid breaking existing trees with objects requiring -fPIC
++DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_lib=""
+ DTC_CFLAGS=$(CFLAGS) $(QEMU_CFLAGS)
+-DTC_CPPFLAGS=-I$(BUILD_DIR)/dtc -I$(SRC_PATH)/dtc -I$(SRC_PATH)/dtc/libfdt
++DTC_CPPFLAGS=-I$(SRC_PATH)/dtc/libfdt
+ 
+ .PHONY: dtc/all
+-dtc/all: .git-submodule-status dtc/libfdt dtc/tests
+-	$(call quiet-command,$(MAKE) $(DTC_MAKE_ARGS) CPPFLAGS="$(DTC_CPPFLAGS)" CFLAGS="$(DTC_CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)" ARFLAGS="$(ARFLAGS)" CC="$(CC)" AR="$(AR)" LD="$(LD)" $(SUBDIR_MAKEFLAGS) libfdt/libfdt.a,)
++dtc/all: .git-submodule-status dtc/libfdt
++	$(call quiet-command,$(MAKE) $(DTC_MAKE_ARGS) CPPFLAGS="$(DTC_CPPFLAGS)" CFLAGS="$(DTC_CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)" ARFLAGS="$(ARFLAGS)" CC="$(CC)" AR="$(AR)" LD="$(LD)" $(SUBDIR_MAKEFLAGS) libfdt,)
+ 
+ dtc/%: .git-submodule-status
+ 	@mkdir -p $@
+@@ -820,7 +821,6 @@ distclean: clean
+ 	rm -rf $$d || exit 1 ; \
+         done
+ 	rm -Rf .sdk
+-	if test -f dtc/version_gen.h; then $(MAKE) $(DTC_MAKE_ARGS) clean; fi
+ 
+ KEYMAPS=da     en-gb  et  fr     fr-ch  is  lt  no  pt-br  sv \
+ ar      de     en-us  fi  fr-be  hr     it  lv  nl         pl  ru     th \
+diff --git a/configure b/configure
+index 26084fc53a..069ce34611 100755
+--- a/configure
++++ b/configure
+@@ -4281,7 +4281,6 @@ EOF
+           mkdir -p dtc
+           if [ "$pwd_is_source_path" != "y" ] ; then
+               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+-              symlink "$source_path/dtc/scripts" "dtc/scripts"
+           fi
+           fdt_cflags="-I\$(SRC_PATH)/dtc/libfdt"
+           fdt_ldflags="-L\$(BUILD_DIR)/dtc/libfdt"
+diff --git a/dtc b/dtc
+index 88f18909db..85e5d83984 160000
+--- a/dtc
++++ b/dtc
+@@ -1 +1 @@
+-Subproject commit 88f18909db731a627456f26d779445f84e449536
++Subproject commit 85e5d839847af54efab170f2b1331b2a6421e647
 -- 
 2.16.4
 
