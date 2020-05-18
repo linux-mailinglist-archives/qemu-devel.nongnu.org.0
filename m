@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8651D7FA3
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 19:06:47 +0200 (CEST)
-Received: from localhost ([::1]:47170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281101D7F6B
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:59:37 +0200 (CEST)
+Received: from localhost ([::1]:54876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jajDz-0005Jt-2Q
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 13:06:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33864)
+	id 1jaj72-000557-75
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:59:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jaj1d-00063u-4x
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:54:02 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35306)
+ id 1jaj3f-0000Pt-UJ
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:56:08 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jaj1c-0001H2-Bx
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:54:00 -0400
-Received: by mail-wm1-x341.google.com with SMTP id n5so292726wmd.0
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 09:54:00 -0700 (PDT)
+ id 1jaj3f-0001lD-9F
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:56:07 -0400
+Received: by mail-wr1-x442.google.com with SMTP id y3so12747151wrt.1
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 09:56:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qSmmpZnsauG5YEoNHbAj68iUIKh8foHcKQfd+rX2W/w=;
- b=OkGqIbsQP62duMvusVw0rMCreq/ic2phesVD6+NM0K1P9q7k8ELyuDmObXSMIIX7eB
- dLd4fiwAsCSp2kggDzFcuQWW+P21eFcZ4R2y0wAD8QiqbbDo6so7xzn7UIlhXba65Ekj
- 1Dagj4xt2zSf/tu0wkhUF/tSIKAnoEzSXHLWr/PVgT35+qoGcdzDPvYEeDVzkTvFP7EB
- UrcCtVe94PlWL092FiYjxkU2XR9o6Su6qid6g8P9Nb6VK9YIL4my3U9Z8MVYzGYiQzCj
- nEirJRZGTYnm33vgBfGA4RnAl+FkGHbaQj+d1uUDEf60JHZeelnYu4RWeCDjsUSgN20X
- 6srw==
+ bh=kP5CpLK7roVxCfLoRGfkxLQzXkbWexOk3kGLUrfq3R4=;
+ b=N1kNfx53/aPNen6ixHzakXzwTUFr8HE7sEM3nv8Ss8bWSsIPMaxZbH8qGGLyVQY04U
+ /q9YMgtwbnmtSVrikFZZMSjrNt+L8x5dzBuCcxBprhc8AkhiSUUSEIvf71cB6dPtwnXj
+ TTIhRr5UJeqYdO6uE47iitCNSLXOM1Kj2MHdy+KAp6daQpdVg7S1c4uV3eQr1nO4Xzib
+ dqprdXZZvZ2j/065cue5/FfIQ/w7/TS9QUZ13aE+BOIq5QipjGQ+6sIwtEkZ7K7Qyhu3
+ MQIk591wFbuq3V28OmPiQrQY6xbOY5nfYHljWfGrY9/xNIsqdnh7u36ssnaRfCsc+emM
+ 05jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=qSmmpZnsauG5YEoNHbAj68iUIKh8foHcKQfd+rX2W/w=;
- b=hs/kd5KdnIVC8d3fXt7zSNQK3iR2S0ORZrs6RI7HcCeez5+3ajKDoxNY1qLaad2/qK
- MzF/2SiGT7uTFIJuFRQ+wVBA8YlOc2HbawQUTz27br4n1sKilS5ZE6WYH4TT8c+I3VuG
- DnxahzjzsEVMRXYTjY+Rnt4R4IXbV+yhkALiTceiIruHwBhtNMIR7CAxnmeBArnZuEmR
- /GNlqVk1nAhmEE6k+P91Ky39j2mkC9IYtxntDYKmvRkA32IMRWg2Tb+YSr0SAVZ9akws
- gCwcUoySH4PZYZtHKJdd6D+mIau4bSPi9bB1zB5oeptjvBsnEQDR5z2I0CCLttJ4J3j9
- omog==
-X-Gm-Message-State: AOAM531/y52Hr7CuJl45/liB2YrXSEec7WV8SyNyPccl9+C3U40RFmSF
- 4zUiqYIUljci5XfVwY+fz50=
-X-Google-Smtp-Source: ABdhPJy5XsLRQKuxaRlx6nhGZfDuerty0cczsoP/kHomHECdtrhFCV5ie7/P9y4DRyEdoSGeS6YVpQ==
-X-Received: by 2002:a1c:a912:: with SMTP id s18mr292876wme.55.1589820838376;
- Mon, 18 May 2020 09:53:58 -0700 (PDT)
+ bh=kP5CpLK7roVxCfLoRGfkxLQzXkbWexOk3kGLUrfq3R4=;
+ b=AfZj/R1dUL7pKkEsykWytUpzQ9sz2Z7dkFup9LsoJBgnek/xhA2nXHIoqorFtkUCHl
+ wotEG38X6ZOEvIWLEeMCpu7a8y5hKB5Cu8PCq2s9y78ZAZApg2VV57JhNVyHedOBGyoO
+ d5LctPM3aHplHzFMAlr1kw6gBKsIb56XeTwh2NmhudAERoO0dQ686oltF9Frqnpm38Fr
+ N7qcGKfXUeTH7FcaRMnYlPWN5MklI5nVPF1zhvMFLofWhCh3BdFbwPBoXs3ZpAVJJbUP
+ 01kNAGx/aBsENzgWgBSg0w7jBv8zNgdXVkBO6YgKKvNurNX/MsnX8EFEo1TeSAs/zrgL
+ CX5Q==
+X-Gm-Message-State: AOAM532Sjn1qEQvbA/ix8mKuFoveHblU2Vw6Hy5r2dOeZg9ieJJr6jds
+ WnVVNB0ngdNXk3417oi9B0c=
+X-Google-Smtp-Source: ABdhPJz8VUp1ORsBLMpZG3v+MzhcxmkpxdhI/+CrNzkp2+I18k9/w/X1jOdMexTpEqLPc2c/D9KSgQ==
+X-Received: by 2002:adf:f4c4:: with SMTP id h4mr21217577wrp.142.1589820965797; 
+ Mon, 18 May 2020 09:56:05 -0700 (PDT)
 Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id k5sm16607688wrx.16.2020.05.18.09.53.56
+ by smtp.gmail.com with ESMTPSA id e7sm18056924wrp.0.2020.05.18.09.56.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 May 2020 09:53:57 -0700 (PDT)
-Subject: Re: [PATCH 7/8] decodetree: Implement non-overlapping groups
+ Mon, 18 May 2020 09:56:04 -0700 (PDT)
+Subject: Re: [PATCH 8/8] target/arm: Use a non-overlapping group for misc
+ control
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20200518164052.18689-1-richard.henderson@linaro.org>
- <20200518164052.18689-8-richard.henderson@linaro.org>
+ <20200518164052.18689-9-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6b235434-07e5-1830-3ee5-8f18bed00a47@amsat.org>
-Date: Mon, 18 May 2020 18:53:56 +0200
+Message-ID: <4a578b8c-bfcc-59ac-fc0a-af5947e0c114@amsat.org>
+Date: Mon, 18 May 2020 18:56:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200518164052.18689-8-richard.henderson@linaro.org>
+In-Reply-To: <20200518164052.18689-9-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -96,75 +97,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/18/20 6:40 PM, Richard Henderson wrote:
-> Intended to be nested within overlapping groups.
-> 
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   scripts/decodetree.py | 21 ++++++++++++++-------
->   1 file changed, 14 insertions(+), 7 deletions(-)
-> 
-> diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-> index 0ba01e049c..a9739f671d 100755
-> --- a/scripts/decodetree.py
-> +++ b/scripts/decodetree.py
-> @@ -1021,21 +1021,22 @@ def parse_file(f, parent_pat):
->           del toks[0]
->   
->           # End nesting?
-> -        if name == '}':
-> +        if name == '}' or name == ']':
->               if len(toks) != 0:
->                   error(start_lineno, 'extra tokens after close brace')
->               if len(parent_pat.pats) < 2:
->                   error(lineno, 'less than two patterns within braces')
->   
-> +            # Make sure { } and [ ] nest properly.
-> +            if (name == '}') != isinstance(parent_pat, IncMultiPattern):
-> +                error(lineno, 'mismatched close brace')
-> +
->               try:
->                   parent_pat = nesting_pats.pop()
->               except:
-> -                error(lineno, 'mismatched close brace')
-> +                error(lineno, 'extra close brace')
->   
->               nesting -= 2
-> -            if indent != nesting:
-> -                error(lineno, 'indentation ', indent, ' != ', nesting)
-> -
->               toks = []
->               continue
->   
-> @@ -1044,11 +1045,14 @@ def parse_file(f, parent_pat):
->               error(start_lineno, 'indentation ', indent, ' != ', nesting)
->   
->           # Start nesting?
-> -        if name == '{':
-> +        if name == '{' or name == '[':
->               if len(toks) != 0:
->                   error(start_lineno, 'extra tokens after open brace')
->   
-> -            nested_pat = IncMultiPattern(start_lineno)
-> +            if name == '{':
-> +                nested_pat = IncMultiPattern(start_lineno)
-> +            else:
-> +                nested_pat = ExcMultiPattern(start_lineno)
->               parent_pat.pats.append(nested_pat)
->               nesting_pats.append(parent_pat)
->               parent_pat = nested_pat
-> @@ -1067,6 +1071,9 @@ def parse_file(f, parent_pat):
->           else:
->               parse_generic(start_lineno, parent_pat, name, toks)
->           toks = []
-> +
-> +    if nesting != 0:
-> +        error(lineno, 'missing close brace')
->   # end parse_file
->   
->   
-> 
+> This sub-group in the t32 deocode are mutually exclusive.
+
+"The miscellaneous control instructions are mutually exclusive within 
+the t32 decode sub-group."?
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/arm/t32.decode | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/arm/t32.decode b/target/arm/t32.decode
+> index c63082fc9c..c21a988f97 100644
+> --- a/target/arm/t32.decode
+> +++ b/target/arm/t32.decode
+> @@ -312,13 +312,13 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
+>                    &cps
+>   
+>       # Miscellaneous control
+> -    {
+> +    [
+>         CLREX      1111 0011 1011 1111 1000 1111 0010 1111
+>         DSB        1111 0011 1011 1111 1000 1111 0100 ----
+>         DMB        1111 0011 1011 1111 1000 1111 0101 ----
+>         ISB        1111 0011 1011 1111 1000 1111 0110 ----
+>         SB         1111 0011 1011 1111 1000 1111 0111 0000
+> -    }
+> +    ]
+>   
+>       # Note that the v7m insn overlaps both the normal and banked insn.
+>       {
+> 
 
