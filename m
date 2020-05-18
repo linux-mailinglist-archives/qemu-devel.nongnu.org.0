@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B3A1D7D6C
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 17:53:13 +0200 (CEST)
-Received: from localhost ([::1]:58804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6A1D1D7D85
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 17:55:01 +0200 (CEST)
+Received: from localhost ([::1]:38828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jai4m-0001yr-SG
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 11:53:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52468)
+	id 1jai6W-0005V1-Lu
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 11:55:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jai3d-0000hK-3B
- for qemu-devel@nongnu.org; Mon, 18 May 2020 11:52:01 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:41840)
+ id 1jai4Y-0002Vu-JS
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 11:52:58 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:37632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jai3c-00085T-Bj
- for qemu-devel@nongnu.org; Mon, 18 May 2020 11:52:00 -0400
-Received: by mail-ot1-x335.google.com with SMTP id 63so8437648oto.8
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 08:51:59 -0700 (PDT)
+ id 1jai4X-0008Ki-Hf
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 11:52:58 -0400
+Received: by mail-oi1-x241.google.com with SMTP id r25so9386869oij.4
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 08:52:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gog7LbqPLJlQIGcKTtldEJY+yyEyl5mUoBn9cpg2lvM=;
- b=hT+q/9gwp/cDao2svfD7TbOD8oKd1ALjrb3HdDqNkmvPg4WL4QLNm2RaqtiD7xPFGz
- JObmb/ZHxdxhhXZJahX9X3p05ySE28DOTu3xuG/xv/Vo8iRUxU2WPLnz9cVvvLYzENVI
- nByADin9b0Fa2KZP8gGQaTMTgOEUEOgWAKb2ZTOxbJqywcqFDG8Hzi5I+06pFHBUwPGc
- ubANQ1JTwaX05z9QByxQkM3MRMg8K1S3AL1ev0IQwI77i4JVWTVo8lvlYM9C0E+ZfRFm
- 9arNnsqeICTr0LJvoYoVGOjeoWgm7FULnDyi6pNadABPhA8BXe+qahg6HtaxN45f0FCs
- 4WmA==
+ :cc; bh=FHGbHiL/9TfNFj+9b0fADCs3SxAbpuuNL8CUpJ60wfU=;
+ b=bDl5CqI9EcwhUJaxu7JmbLxpagXx1iHBupca1k3cytZZwCpeFYap4cYw7A+zZTBV7N
+ 4Dk8h2LGznFT/mqiB+lzX9BcglkEu8vaMNG41gRzXutKzn1uLRs4DB2riD3bvakPH5Cu
+ ZcLVpT1NI4xzjl3VLhtMzN7hIa77BvMANVUldngToUaEtsjTjtCFW/1RLqqg2YuJVzCh
+ q6C/iRKF5L5roylXHAVQEjA4ITRFYqbfHOnexewmmV4Fgp0o/J5MU7Y06Tq4Q5A+8DMS
+ lE+h0w8+8Q5pDH5BLl1Y+iA4KwwzksN+DLFkIOo/8Kk9Z7t2y7QR9+8zPMrUSLeUpMbv
+ wfzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=gog7LbqPLJlQIGcKTtldEJY+yyEyl5mUoBn9cpg2lvM=;
- b=gK5VZ4+BWGhi10r88vJI/ODKceBZ3bA0TKZ1bGKwPpGk4jKnVtOtp1tB5tccW/2mUX
- zFhnq/t0pBY5gVYfoRSF0hqeL8brdsghVbluLxPWJQ+90C653xJ/C+9tg0bXDPRK5edp
- gtaksYqUpjGw7ysnyxW66Qc9ejNenV0wp0bgmB2XWMOcGlozjdR2Nd5kVPoXA37JN3Fv
- J4QUDwF+LOyyezO7NVPmIWRIlwXrQr3HM+De0++UI2Y1dC78WANCZ05+AJWF2dThU0Sk
- inBJF0HKuIbP4Oer5/XW+zxN/EB32QxnY8qNehcheKtXCMQVdIQyONDYiuz31fyofgDm
- 8S8g==
-X-Gm-Message-State: AOAM530zSocq8M5Pnm/5eL+JEr02bMXz6XzW2Ggs1Dyoss3NQzTneTRP
- hZZrts7Zltmis/q6j7sYAAE//g8l4pPXTiJqLoeBBA==
-X-Google-Smtp-Source: ABdhPJwfxxTaX5LQiCeY9+ltARQG5XOFNvZdbmXHMuJCF+p8RHk3sq6uNkg2pyEPdj0usWe1Ag2k/GRlJvik6tFFYhU=
-X-Received: by 2002:a05:6830:158b:: with SMTP id
- i11mr3219775otr.135.1589817118904; 
- Mon, 18 May 2020 08:51:58 -0700 (PDT)
+ bh=FHGbHiL/9TfNFj+9b0fADCs3SxAbpuuNL8CUpJ60wfU=;
+ b=CjyBxVx2bvNDB9NEEW1J2ruOFVMA+zUXu85dvO1GhxowNvgGgrh793buZCg5gOXcbS
+ uSXbcI1aCgHuf2Rw3N/8XdSLcpgqQDIAU+xpNsBdUy9wLrIBKq19t4dVhUWE12FxGDOt
+ aKhOR8yB1g7u2muv+fTCuUVX7sUdOSXqPnJx8b8Hd82pq3F9fFn23f5qVoh6rI4dBaEy
+ CyrwxYAQXoZxxJ/UzNbtQzwId2GYqDAcdmHI7/aawbAR4IMucZWU8pKr5tEOMMxrDTuL
+ xibpyr7XDOR/xltU/qHd2vEi539haNUzYbUZE5vWaArpOcIINi3ArjeNU8/c3fxMvfXf
+ +lUA==
+X-Gm-Message-State: AOAM531SD/PhNvBU9u3Kic9qdhVO33wMqWX04y3LvqR3fsiaLIXXAWxb
+ FW5gUlYVbpGeN/wDMgc4qiW78n72123rAp4vV1Uvyg==
+X-Google-Smtp-Source: ABdhPJxhOz8rCZLmPd0MvTLPtLXenUXjWakPb0QTRAdAj8K5yYhl2pGBK2K2pi/PXlo9O5d03O5ZEyTykd/meJ6NUiw=
+X-Received: by 2002:a54:400c:: with SMTP id x12mr20306oie.146.1589817176244;
+ Mon, 18 May 2020 08:52:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200513180953.20376-1-richard.henderson@linaro.org>
- <20200513180953.20376-3-richard.henderson@linaro.org>
-In-Reply-To: <20200513180953.20376-3-richard.henderson@linaro.org>
+ <20200513180953.20376-4-richard.henderson@linaro.org>
+In-Reply-To: <20200513180953.20376-4-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 18 May 2020 16:51:47 +0100
-Message-ID: <CAFEAcA8XhiDpVDzg2z7JadA98uecG=hbVaJhJiR0wZy=FgERaA@mail.gmail.com>
-Subject: Re: [RISU 2/9] Unify master_fd and apprentice_fd to comm_fd
+Date: Mon, 18 May 2020 16:52:45 +0100
+Message-ID: <CAFEAcA-PL7zxXYkD_KXyBzOFrCVnFKxkubAHec_xCdVgDeje_g@mail.gmail.com>
+Subject: Re: [RISU 3/9] Hoist trace file opening
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x335.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,14 +87,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, 13 May 2020 at 19:09, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Any one invocation cannot be both master and apprentice.
-> Let's use only one variable for the file descriptor.
->
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  risu.c | 40 ++++++++++++++++++++--------------------
->  1 file changed, 20 insertions(+), 20 deletions(-)
+>  risu.c | 37 +++++++++++++++++--------------------
+>  1 file changed, 17 insertions(+), 20 deletions(-)
+>
+> diff --git a/risu.c b/risu.c
+> index 059348f..1c66885 100644
+> --- a/risu.c
+> +++ b/risu.c
+> @@ -363,6 +363,21 @@ int main(int argc, char **argv)
+>          }
+>      }
+>
+> +    if (trace) {
+> +        if (strcmp(trace_fn, "-") == 0) {
+> +            comm_fd = ismaster ? STDOUT_FILENO : STDIN_FILENO;
+> +        } else {
+> +            if (ismaster) {
+> +                comm_fd = open(trace_fn, O_WRONLY | O_CREAT, S_IRWXU);
+> +            } else {
+> +                comm_fd = open(trace_fn, O_RDONLY);
+> +            }
+> +#ifdef HAVE_ZLIB
+> +            gz_trace_file = gzdopen(comm_fd, ismaster ? "wb9" : "rb");
+> +#endif
+> +        }
+> +    }
 
+Looking at later patches in the series I see the rationale.
+We should really be error-checking the opens here, but that's
+a preexisting bug.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
