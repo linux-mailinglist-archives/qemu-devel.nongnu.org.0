@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5EB1D7F08
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:47:27 +0200 (CEST)
-Received: from localhost ([::1]:39040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14AFC1D7ED3
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:43:39 +0200 (CEST)
+Received: from localhost ([::1]:55032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaivG-0003Fx-9z
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:47:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60174)
+	id 1jaira-0006I7-5x
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:43:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jaip2-0001yt-Ak
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:41:00 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:50989)
+ id 1jaip3-000212-CR
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:41:01 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:34692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jaip1-0005pj-73
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:41:00 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id nu7so84693pjb.0
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 09:40:58 -0700 (PDT)
+ id 1jaip2-0005pw-GJ
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:41:01 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id g11so4453983plp.1
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 09:41:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=23ujhSNHwAa6m2PV/44zvOLpUgf1M+P1yqoPvCdPMfY=;
- b=e9Cv00AaKl1LCY9WqohCEiRKz1OrlndQHn+JPCOweENat+0toMfJxMg5CumlBmXvxd
- hUC5RLplZiB4EFPPexZIsv4hDojSJ4qlB9ftV6GfWwFoDRiUVhmvl+qdtm6AYXLYJjq7
- KpVTeE1YzZ8qjM0/Bc2c65CcZivBPJjcjzD+WDBSdkpxuaAfgVo23oFfeGDixC/IE18i
- DZo9w+zKUrVx4LpWtv33/Cx2WwNTIEutYFiTV6lSJPYPTtjgDMa4K8BDXNpVIrZP6nOf
- kOHE/EEXo/shb/yBgMVWrnT3aDSbu89DDsRmjzF3oylNXcUs7Peb9SWesRKARk+YVr86
- wIbQ==
+ bh=mRcK8czV/oom/pkIx79cPTpR+Nhj4Hg+rOsk6vM94j4=;
+ b=cNbsIj9eglGL5hwv9PKqKn/U1sEOD3nRLjBRyV0j8hserxzrN3sLVX3BM3R+jJRLX3
+ eVCpcWHep/pXovhC84H+1dLpsjkChFKlXNUuBLpqMzidhMXrXC24XX65QDSQqQkx4yE7
+ VJdPUkUjFR1AMzYVd1DJCBCU3+hhH1heQTZ443oFqQVNuZ57aHon2+nTIL3VVuYL+kI1
+ ETVQpuV/EgNFIbDzwM1V/30RV/53hlAQ1xH4Cl9csYFt/b+/K2jDXP1WRNmOLImkYur/
+ OT9oKQ3fiolNVgQ7iSB4+ODMBi2UVOYX5esqWjZmkgxEIBLAJld9QUqE5xCK+Zi3o8kn
+ u2lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=23ujhSNHwAa6m2PV/44zvOLpUgf1M+P1yqoPvCdPMfY=;
- b=RnuL0hFz+PvkwrtkgHpSWlcL+bScrQeDTDylQr+ZlcfLPHO/NPRNRp7oBU6fh3D+eZ
- InO34UgW3mFZyCWjVMxDlhNdFD9Eve42M9pD5WMHm8PqplVkNDWaoD5BmR61V6J9A69e
- vbFs3otgcoxmkzAl1iCpaGbWH3ekXMGTeGdNY0aun1Gi6LP7nboOOTs6qdawOlvT6JEH
- NzNTQVECu7n+QfgpdyyvuxG0oeJCILRXPKA5+ZPcX1OnDSeKZ/G2z3pVlRBptc3UkSUV
- 0rx2O06GzwosMGi98M7fwpYc9bLSZYQXYhKZc/AmNKUVvXgHtlG2McNjpJTgLyBXoosJ
- oAXQ==
-X-Gm-Message-State: AOAM531cygHL5pooGbkgknDOPVushe1//3I1NirWmX9xb0GVEDWykFEM
- aVY9kpT6RB0BnZaY3fiD/dUBL9s2jcw=
-X-Google-Smtp-Source: ABdhPJyV4aVyh8kLIouKAbUVdQbIZS7R9friQa7pJTK0HlWF3K2n9Fi7xx/ZcVQkh4sb1qYQJxPGSg==
-X-Received: by 2002:a17:902:6949:: with SMTP id
- k9mr17288565plt.47.1589820057328; 
- Mon, 18 May 2020 09:40:57 -0700 (PDT)
+ bh=mRcK8czV/oom/pkIx79cPTpR+Nhj4Hg+rOsk6vM94j4=;
+ b=rpRpBqtv5Y6JWPF6pvMeDfKz7VpHOhQ3FdKVcYFFQJtDnyJ9DMNd7r+vO1jd1hX/fx
+ 92XRpEp07+083JpawjgkesFqrN1ahcBKe+DmFzfJgCvAxyHkKIvSI1GAOhAyDJ0purIY
+ 6DmLB5Vkv9x1FKAcd7FCNsDbsXL5XXMNN6h5kbQeElgtPxrn4pNwrQNw1xSMPOJe1OTo
+ 6yU/Zj31STWKW0Cj4HD+xSZHLPfSc7PBOZzLwZ1Ovh4s/PBu4eGJsaU1ZTYLVtd0/c8f
+ ijxFMnjhR4dYhtziyihD6foWyiaQ0d3ueIi2VXABj1hQ+Y6pBqGKnMDsQaIHFBW4qu87
+ gQFw==
+X-Gm-Message-State: AOAM5319HVo2tIFgAb8sUsNSsv2P0ozTZZjc5R0WJ9p5+VxukyFjYWOG
+ HeyZyvfHhMVnK/faCQG5MIQZOYx/c+c=
+X-Google-Smtp-Source: ABdhPJyPHWxMOxYfyRF+BHa8WEmZOSrv9LDtSAXdNWqV971szryGbNrxyNZDGHeO8a0SM7liM+4AzQ==
+X-Received: by 2002:a17:90a:a402:: with SMTP id y2mr291192pjp.24.1589820058605; 
+ Mon, 18 May 2020 09:40:58 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id x132sm5790610pfd.214.2020.05.18.09.40.55
+ by smtp.gmail.com with ESMTPSA id x132sm5790610pfd.214.2020.05.18.09.40.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 09:40:56 -0700 (PDT)
+ Mon, 18 May 2020 09:40:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/8] decodetree: Tidy error_with_file
-Date: Mon, 18 May 2020 09:40:46 -0700
-Message-Id: <20200518164052.18689-3-richard.henderson@linaro.org>
+Subject: [PATCH 3/8] decodetree: Rename MultiPattern to IncMultiPattern
+Date: Mon, 18 May 2020 09:40:47 -0700
+Message-Id: <20200518164052.18689-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200518164052.18689-1-richard.henderson@linaro.org>
 References: <20200518164052.18689-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,55 +89,68 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use proper varargs to print the arguments.
+Name the current node for "inclusive" multi-pattern, in
+preparation for adding a node for "exclusive" multi-pattern.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- scripts/decodetree.py | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ scripts/decodetree.py | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-index f9d204aa36..b559db3086 100755
+index b559db3086..7af6b3056d 100755
 --- a/scripts/decodetree.py
 +++ b/scripts/decodetree.py
-@@ -51,23 +51,27 @@ def error_with_file(file, lineno, *args):
-     global output_file
-     global output_fd
+@@ -371,7 +371,7 @@ class Pattern(General):
+ # end Pattern
  
-+    prefix = ''
-+    if file:
-+        prefix += '{0}:'.format(file)
-     if lineno:
--        r = '{0}:{1}: error:'.format(file, lineno)
--    elif input_file:
--        r = '{0}: error:'.format(file)
--    else:
--        r = 'error:'
--    for a in args:
--        r += ' ' + str(a)
--    r += '\n'
--    sys.stderr.write(r)
-+        prefix += '{0}:'.format(lineno)
-+    if prefix:
-+        prefix += ' '
-+    print(prefix, end='error: ', file=sys.stderr)
-+    print(*args, file=sys.stderr)
-+
-     if output_file and output_fd:
-         output_fd.close()
-         os.remove(output_file)
-     exit(1)
-+# end error_with_file
-+
  
- def error(lineno, *args):
--    error_with_file(input_file, lineno, args)
-+    error_with_file(input_file, lineno, *args)
-+# end error
-+
+-class MultiPattern(General):
++class IncMultiPattern(General):
+     """Class representing an overlapping set of instruction patterns"""
  
- def output(*args):
-     global output_fd
+     def __init__(self, lineno, pats, fixb, fixm, udfm, w):
+@@ -410,7 +410,7 @@ class MultiPattern(General):
+                 output(ind, '}\n')
+             else:
+                 p.output_code(i, extracted, p.fixedbits, p.fixedmask)
+-#end MultiPattern
++#end IncMultiPattern
+ 
+ 
+ def parse_field(lineno, name, toks):
+@@ -751,8 +751,8 @@ def parse_generic(lineno, is_format, name, toks):
+                           .format(allbits ^ insnmask))
+ # end parse_general
+ 
+-def build_multi_pattern(lineno, pats):
+-    """Validate the Patterns going into a MultiPattern."""
++def build_incmulti_pattern(lineno, pats):
++    """Validate the Patterns going into a IncMultiPattern."""
+     global patterns
+     global insnmask
+ 
+@@ -792,9 +792,9 @@ def build_multi_pattern(lineno, pats):
+         else:
+             repeat = False
+ 
+-    mp = MultiPattern(lineno, pats, fixedbits, fixedmask, undefmask, width)
++    mp = IncMultiPattern(lineno, pats, fixedbits, fixedmask, undefmask, width)
+     patterns.append(mp)
+-# end build_multi_pattern
++# end build_incmulti_pattern
+ 
+ def parse_file(f):
+     """Parse all of the patterns within a file"""
+@@ -860,7 +860,7 @@ def parse_file(f):
+                 error(start_lineno, 'indentation ', indent, ' != ', nesting)
+             pats = patterns
+             patterns = saved_pats.pop()
+-            build_multi_pattern(lineno, pats)
++            build_incmulti_pattern(lineno, pats)
+             toks = []
+             continue
+ 
 -- 
 2.20.1
 
