@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4878F1D7FBC
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 19:10:45 +0200 (CEST)
-Received: from localhost ([::1]:34884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 031B01D7FA4
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 19:06:51 +0200 (CEST)
+Received: from localhost ([::1]:47388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jajHo-0003Kr-Cg
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 13:10:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35526)
+	id 1jajE2-0005PA-1f
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 13:06:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jajCM-0003M6-1z; Mon, 18 May 2020 13:05:06 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:41483)
+ id 1jajDA-0004PU-HW; Mon, 18 May 2020 13:05:56 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:40659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jajCL-0004W4-0e; Mon, 18 May 2020 13:05:05 -0400
-Received: by mail-io1-xd42.google.com with SMTP id o5so11361548iow.8;
- Mon, 18 May 2020 10:05:04 -0700 (PDT)
+ id 1jajD9-0004nI-H5; Mon, 18 May 2020 13:05:56 -0400
+Received: by mail-io1-xd44.google.com with SMTP id s10so11397608iog.7;
+ Mon, 18 May 2020 10:05:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9gaT2qzA0EcvTGr2l5yw/rsZT6fOlXWQUdgJOrhUF2I=;
- b=KJhXbjBorbaGGgmm7NzV/987bi5PCnxwO8OEnbuL2Rx8PeLU0LiEwpumLwxSuLNIXw
- apfMe+1Yc40v3kzHkJeCVWgdJ00MabCUceLD0wCikUHL6up3qfz4/8kli+dJBXpkZ2MU
- d1LUvT+5GIOPYaA9fgzOFPLB8PETj/BINbV7mjjXIxdRs157QiPgyAes00p7m7liEMZ+
- hsqmbfmXjcSr2xwwhzcIL82bzA1iCGYyf0Lj/v2McqQmhPr31E0c/K9IYXIit+FS4TSZ
- ahO7+J5yCHc8N34hh0xd09FHnXHZu8T5kOZGHobQ5PJ/NoEjR/kqUDK6j4aXaE6AuArj
- lUZA==
+ :cc; bh=L9k9qYuhzCDCbujEXRqKRvNubN+vICoc9TrmsvH+2XI=;
+ b=u4b7yMlNu/3nLLw5nUE0jELTTuZi4Kw8l8cQVjwPM8JFj0PPUPfoiKr1Ao3sPCjVe+
+ qd9brfWjp6XM2yTwd/rC5HtyyhgC9fotubwM3mXJv389xKDEqcKgnczDagwdr74n4XAQ
+ nuyWbTlXJlGNk5QDWq7wwUZP8fBKBGxlyLbsvySWu71PPoDjcB78ZDnH5+mxlZ1iSNYl
+ VE2Zd+1g/rMoVs2at1alwypFA7Om/oFaAbZUAKTZOGU7dfcNrGzX1CKwEz1Cp2hkqJ7Z
+ fWJNQBZdHfiItrkNKuldc1M1erVk7AaLBdLEUFQDmPcg1Eb8F4HQiC+pxbfIx/XIwgew
+ DqWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=9gaT2qzA0EcvTGr2l5yw/rsZT6fOlXWQUdgJOrhUF2I=;
- b=b4bG45HmdPUx4eTsll1fsi8O38zxRA5kQtPyUM+pfVRIt05wfyprLNK45CvGdB2Wbn
- ovT8cN4YozHQA6tSqlovCtWL1I2t5VFT1y18pam4D8wUdmZ+wfz/v6gSQqTgf99JAJum
- uuWPaAdELqX1bcZgpWqPHz21JnDf+fJ2KS+gzw9TUbbH0GQkWK1KwF03bG/yaGHBAAWF
- dXGhWOF2bshwgJhABwaeYUYQMQQypGUTYFgWIICd7NUQj9IFxCjG3rZktFBgS8gIRGIY
- utiWVmIHiczBpgaIjSwx+p7myz/nNX8uFW87G6ouSPCQiPZVyWKl0FSIYPeiRiHqs772
- Qs+w==
-X-Gm-Message-State: AOAM532mTJLZEAOzFwCATeWxw4enG1z3uChw/Cy9FBdqSCDADo7cbgKT
- 5L/TNbPVRu8znxvy7BCyxF6H4UjUokWLzh4fxd4=
-X-Google-Smtp-Source: ABdhPJx8iMSLdqKjkLDnfxjRV+qkTK11L0xlD9KXVT0UdPrnh3RWrix65wPRHWkxlZDTnAKWCcheu1VEdB6yIHO5O6M=
-X-Received: by 2002:a6b:bf83:: with SMTP id
- p125mr15402529iof.118.1589821503626; 
- Mon, 18 May 2020 10:05:03 -0700 (PDT)
+ bh=L9k9qYuhzCDCbujEXRqKRvNubN+vICoc9TrmsvH+2XI=;
+ b=T79Ix6EZKrN3wrIeUR/MbzJhqAPuWsG8Y9mEmi3yOkk6j7GXvHyRqoLPHbFiWb9A8r
+ T+NZpO+U7inYiU+AJRazOtxDnZNeg0FOxklFmsJxNNZLBzGajvtek+Iasx9XZm8fGuK/
+ dTSkgrKyaJ4T7aAJ6YOTKlmDbSq+hXl//AruA3eUvs83Ar+dl6DlqViwhsaw5HOvUA8x
+ Ye9YswqLsZwdHLIUCf/FHuFZIT47FxKqW+9r20VxEZkfYKdKH6zTPx4ihjTMx8akbqG1
+ sJMVIjAjDcpzmIBt7nTYMVE6NZ93LCbAU906rMZXSGH1nwkPLQj26v2izLAxyrf4wmb5
+ CzRw==
+X-Gm-Message-State: AOAM533EIwB9rTFzQDhj8iLGHkNxeqQPKhsGveTMEgyjbKUde+yms8ZU
+ GzW0xv4pibi5NsiAnIO8VFZ7QSPNHCls4sM5xK0=
+X-Google-Smtp-Source: ABdhPJz9z6gReMqlby+93jEq1NWHDxnb9TK/LD8Ud1d7hWGoBk6NSW8MxDX+5/PfgRdWO+Up0y13wBSbYnhwYZMR1Uc=
+X-Received: by 2002:a02:a118:: with SMTP id f24mr17089184jag.8.1589821553988; 
+ Mon, 18 May 2020 10:05:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200518050408.4579-1-armbru@redhat.com>
- <20200518050408.4579-3-armbru@redhat.com>
-In-Reply-To: <20200518050408.4579-3-armbru@redhat.com>
+ <20200518050408.4579-21-armbru@redhat.com>
+In-Reply-To: <20200518050408.4579-21-armbru@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 18 May 2020 09:56:11 -0700
-Message-ID: <CAKmqyKPdGc_akCv00NLnVyaRPTeikcGg_JP-7+LWVRA4CbGqcg@mail.gmail.com>
-Subject: Re: [PATCH 02/24] display/xlnx_dp: Fix to realize "i2c-ddc" and
- "aux-to-i2c-bridge"
+Date: Mon, 18 May 2020 09:57:02 -0700
+Message-ID: <CAKmqyKON3YWJNGiN_xpM4z8x_WSa1kMbNE-gZectExboiCtqYQ@mail.gmail.com>
+Subject: Re: [PATCH 20/24] riscv: Fix type of SiFive[EU]SocState,
+ member parent_obj
 To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -80,34 +79,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- KONRAD Frederic <fred.konrad@greensocs.com>
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 17, 2020 at 10:14 PM Markus Armbruster <armbru@redhat.com> wrote:
+On Sun, May 17, 2020 at 10:07 PM Markus Armbruster <armbru@redhat.com> wrote:
 >
-> xlnx_dp_init() creates these two devices, but they're never realized.
-> Affects machine xlnx-zcu102.
+> Device "riscv.sifive.e.soc" is a direct subtype of TYPE_DEVICE, but
+> its instance struct SiFiveESoCState's member @parent_obj is
+> SysBusDevice instead of DeviceState.  Correct that.
 >
-> I wonder how this ever worked.  If the "device becomes real only on
-> realize" thing actually works, then we've always been missing these
-> two devices, yet nobody noticed.
+> Same for "riscv.sifive.u.soc"'s instance struct SiFiveUSoCState.
 >
-> Fix by realizing them in xlnx_dp_realize().
->
-> Fixes: 58ac482a66de09a7590f705e53fc6a3fb8a055e8
-> Cc: KONRAD Frederic <fred.konrad@greensocs.com>
-> Cc: Alistair Francis <alistair@alistair23.me>
-> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: qemu-arm@nongnu.org
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> Cc: Alistair Francis <Alistair.Francis@wdc.com>
+> Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>
+> Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+> Cc: qemu-riscv@nongnu.org
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
@@ -115,27 +111,36 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/display/xlnx_dp.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  include/hw/riscv/sifive_e.h | 2 +-
+>  include/hw/riscv/sifive_u.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-> index 3e5fb44e06..bdc229a51e 100644
-> --- a/hw/display/xlnx_dp.c
-> +++ b/hw/display/xlnx_dp.c
-> @@ -1264,9 +1264,13 @@ static void xlnx_dp_realize(DeviceState *dev, Error **errp)
->      DisplaySurface *surface;
->      struct audsettings as;
+> diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
+> index 25ce7aa9d5..f05644df7c 100644
+> --- a/include/hw/riscv/sifive_e.h
+> +++ b/include/hw/riscv/sifive_e.h
+> @@ -29,7 +29,7 @@
 >
-> +    qdev_init_nofail(DEVICE(s->aux_bus->bridge));
-> +
->      qdev_init_nofail(DEVICE(s->dpcd));
->      aux_map_slave(AUX_SLAVE(s->dpcd), 0x0000);
+>  typedef struct SiFiveESoCState {
+>      /*< private >*/
+> -    SysBusDevice parent_obj;
+> +    DeviceState parent_obj;
 >
-> +    qdev_init_nofail(DEVICE(s->edid));
-> +
->      s->console = graphic_console_init(dev, 0, &xlnx_dp_gfx_ops, s);
->      surface = qemu_console_surface(s->console);
->      xlnx_dpdma_set_host_data_location(s->dpdma, DP_GRAPHIC_DMA_CHANNEL,
+>      /*< public >*/
+>      RISCVHartArrayState cpus;
+> diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+> index 16c297ec5f..5f62cf5f85 100644
+> --- a/include/hw/riscv/sifive_u.h
+> +++ b/include/hw/riscv/sifive_u.h
+> @@ -31,7 +31,7 @@
+>
+>  typedef struct SiFiveUSoCState {
+>      /*< private >*/
+> -    SysBusDevice parent_obj;
+> +    DeviceState parent_obj;
+>
+>      /*< public >*/
+>      CPUClusterState e_cluster;
 > --
 > 2.21.1
 >
