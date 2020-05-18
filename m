@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8816C1D7EA6
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:36:07 +0200 (CEST)
-Received: from localhost ([::1]:50842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0621D7EB1
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:37:39 +0200 (CEST)
+Received: from localhost ([::1]:59240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaikI-0001Cu-GP
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:36:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58728)
+	id 1jailm-0004aw-Ta
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:37:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jaign-0005Ja-Kj
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:32:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24065
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jaigo-0005LU-55
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:32:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57583
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jaigm-0003HE-97
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jaign-0003I0-83
  for qemu-devel@nongnu.org; Mon, 18 May 2020 12:32:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589819547;
+ s=mimecast20190719; t=1589819548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s0aF8eppS+yvsU4EEHPHYd94QaqK4y//bjVQKPx5j1g=;
- b=J2qTwHaJ6k5PZECvg3XMdfVSqteR5w8WdJ7zgsEkgi0EaZ6VWI4Ion3nJju8NY7Nw1veib
- mTya/bcAk/XXaG2dN4FtO6bYr6TE6ikDC4URoBNOgbr+ALPaWaVlBAoufI0ICWKzcz2Ao8
- Xwt4kjI5pGyMl2UcImQeJLOJ5HIpilo=
+ bh=2DaVhlUUMzLKCmXvrlPg1FK7qEoUxfS7ou598eeRodQ=;
+ b=WpBIZIMQ8/QMicW0OA8rQPdYFldl9KJMuHI4QdT8YwqTtUiPhB2jA0pQfdWRmvslEPEiXg
+ vjfgj6MJPMiHoIxiOwRfck/IhbjIY0eYqWdtoSGE18iu+2uZeFStsqQtBt5kqKJktg38ji
+ dvfiQ5doV06jFYiLRAOlDk9kWaQpvIM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-owRo0MjtP2yk7Dtjy80DOA-1; Mon, 18 May 2020 12:32:25 -0400
-X-MC-Unique: owRo0MjtP2yk7Dtjy80DOA-1
+ us-mta-454-nZMhFrT7MP6RjvcBdaSVxQ-1; Mon, 18 May 2020 12:32:25 -0400
+X-MC-Unique: nZMhFrT7MP6RjvcBdaSVxQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2443EC1A0;
- Mon, 18 May 2020 16:32:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89A8A1B18BC1;
+ Mon, 18 May 2020 16:32:24 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6858E5D9DC;
- Mon, 18 May 2020 16:32:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2CCB65D9DC;
+ Mon, 18 May 2020 16:32:24 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/6] qemu-img: Add --start-offset and --max-length to map
-Date: Mon, 18 May 2020 11:32:17 -0500
-Message-Id: <20200518163218.649412-6-eblake@redhat.com>
+Subject: [PULL 6/6] iotests: Enhance 223 to cover qemu-img map improvements
+Date: Mon, 18 May 2020 11:32:18 -0500
+Message-Id: <20200518163218.649412-7-eblake@redhat.com>
 In-Reply-To: <20200518163218.649412-1-eblake@redhat.com>
 References: <20200518163218.649412-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -54,17 +54,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 00:53:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:51:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,121 +77,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eyal Moscovici <eyal.moscovici@oracle.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
  "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Yoav Elnekave <yoav.elnekave@oracle.com>
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eyal Moscovici <eyal.moscovici@oracle.com>
+Since qemu-img map + x-dirty-bitmap remains the easiest way to read
+persistent bitmaps at the moment, it makes a reasonable place to add
+coverage to ensure we do not regress on the just-added parameters to
+qemu-img map.
 
-The mapping operation of large disks especially ones stored over a
-long chain of QCOW2 files can take a long time to finish.
-Additionally when mapping fails there was no way recover by
-restarting the mapping from the failed location.
-
-The new options, --start-offset and --max-length allows the user to
-divide these type of map operations into shorter independent tasks.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Acked-by: Mark Kanda <mark.kanda@oracle.com>
-Co-developed-by: Yoav Elnekave <yoav.elnekave@oracle.com>
-Signed-off-by: Yoav Elnekave <yoav.elnekave@oracle.com>
-Signed-off-by: Eyal Moscovici <eyal.moscovici@oracle.com>
-Message-Id: <20200513133629.18508-5-eyal.moscovici@oracle.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200513181455.295267-1-eblake@redhat.com>
 ---
- docs/tools/qemu-img.rst |  2 +-
- qemu-img.c              | 22 +++++++++++++++++++++-
- qemu-img-cmds.hx        |  4 ++--
- 3 files changed, 24 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/223     | 6 ++++--
+ tests/qemu-iotests/223.out | 3 ++-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-index 0080f83a76c9..f4ffe528ea83 100644
---- a/docs/tools/qemu-img.rst
-+++ b/docs/tools/qemu-img.rst
-@@ -519,7 +519,7 @@ Command description:
-     ``ImageInfoSpecific*`` QAPI object (e.g. ``ImageInfoSpecificQCow2``
-     for qcow2 images).
+diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
+index 56fbc5fb09a0..d68bc3cb6f1a 100755
+--- a/tests/qemu-iotests/223
++++ b/tests/qemu-iotests/223
+@@ -2,7 +2,7 @@
+ #
+ # Test reading dirty bitmap over NBD
+ #
+-# Copyright (C) 2018-2019 Red Hat, Inc.
++# Copyright (C) 2018-2020 Red Hat, Inc.
+ #
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -206,7 +206,9 @@ $QEMU_IMG map --output=json --image-opts \
 
--.. option:: map [--object OBJECTDEF] [--image-opts] [-f FMT] [--output=OFMT] [-U] FILENAME
-+.. option:: map [--object OBJECTDEF] [--image-opts] [-f FMT] [--start-offset=OFFSET] [--max-length=LEN] [--output=OFMT] [-U] FILENAME
+ nbd_server_start_unix_socket -f $IMGFMT -B b2 "$TEST_IMG"
+ IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
+-$QEMU_IMG map --output=json --image-opts \
++$QEMU_IMG map --output=json --image-opts --max-length=12345 \
++  "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
++$QEMU_IMG map --output=json --image-opts --start-offset=12345 \
+   "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
 
-   Dump the metadata of image *FILENAME* and its backing file chain.
-   In particular, this commands dumps the allocation state of every sector
-diff --git a/qemu-img.c b/qemu-img.c
-index 4aa9414aba6f..947bf8b34b3d 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -3009,6 +3009,8 @@ static int img_map(int argc, char **argv)
-     int ret = 0;
-     bool image_opts = false;
-     bool force_share = false;
-+    int64_t start_offset = 0;
-+    int64_t max_length = -1;
-
-     fmt = NULL;
-     output = NULL;
-@@ -3021,9 +3023,11 @@ static int img_map(int argc, char **argv)
-             {"object", required_argument, 0, OPTION_OBJECT},
-             {"image-opts", no_argument, 0, OPTION_IMAGE_OPTS},
-             {"force-share", no_argument, 0, 'U'},
-+            {"start-offset", required_argument, 0, 's'},
-+            {"max-length", required_argument, 0, 'l'},
-             {0, 0, 0, 0}
-         };
--        c = getopt_long(argc, argv, ":f:hU",
-+        c = getopt_long(argc, argv, ":f:s:l:hU",
-                         long_options, &option_index);
-         if (c == -1) {
-             break;
-@@ -3047,6 +3051,18 @@ static int img_map(int argc, char **argv)
-         case OPTION_OUTPUT:
-             output = optarg;
-             break;
-+        case 's':
-+            start_offset = cvtnum("start offset", optarg);
-+            if (start_offset < 0) {
-+                return 1;
-+            }
-+            break;
-+        case 'l':
-+            max_length = cvtnum("max length", optarg);
-+            if (max_length < 0) {
-+                return 1;
-+            }
-+            break;
-         case OPTION_OBJECT: {
-             QemuOpts *opts;
-             opts = qemu_opts_parse_noisily(&qemu_object_opts,
-@@ -3097,7 +3113,11 @@ static int img_map(int argc, char **argv)
-         error_report("Failed to get size for '%s'", filename);
-         return 1;
-     }
-+    if (max_length != -1) {
-+        length = MIN(start_offset + max_length, length);
-+    }
-
-+    curr.start = start_offset;
-     while (curr.start + curr.length < length) {
-         int64_t offset = curr.start + curr.length;
-         int64_t n;
-diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index c9c54de1df40..35f832816f96 100644
---- a/qemu-img-cmds.hx
-+++ b/qemu-img-cmds.hx
-@@ -63,9 +63,9 @@ SRST
- ERST
-
- DEF("map", img_map,
--    "map [--object objectdef] [--image-opts] [-f fmt] [--output=ofmt] [-U] filename")
-+    "map [--object objectdef] [--image-opts] [-f fmt] [--start-offset=offset] [--max-length=len] [--output=ofmt] [-U] filename")
- SRST
--.. option:: map [--object OBJECTDEF] [--image-opts] [-f FMT] [--output=OFMT] [-U] FILENAME
-+.. option:: map [--object OBJECTDEF] [--image-opts] [-f FMT] [--start-offset=OFFSET] [--max-length=LEN] [--output=OFMT] [-U] FILENAME
- ERST
-
- DEF("measure", img_measure,
+ # success, all done
+diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
+index 80c0cf65095b..e1eaaedb55b3 100644
+--- a/tests/qemu-iotests/223.out
++++ b/tests/qemu-iotests/223.out
+@@ -201,6 +201,7 @@ read 2097152/2097152 bytes at offset 2097152
+ { "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
+ [{ "start": 0, "length": 512, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
+ { "start": 512, "length": 512, "depth": 0, "zero": false, "data": false},
+-{ "start": 1024, "length": 2096128, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
++{ "start": 1024, "length": 11321, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
++[{ "start": 12345, "length": 2084807, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
+ { "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
+ *** done
 -- 
 2.26.2
 
