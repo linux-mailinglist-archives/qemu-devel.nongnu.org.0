@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F4C11D701D
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:07:54 +0200 (CEST)
-Received: from localhost ([::1]:47844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1DA1D7041
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:18:06 +0200 (CEST)
+Received: from localhost ([::1]:56136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaY0H-0005nw-HA
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:07:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49202)
+	id 1jaYA9-0004KA-S5
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:18:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwo-0008OG-PI
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:18 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31703
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwr-0008VT-OA
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28694
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwm-0004Kl-57
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:18 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwo-0004Me-2N
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589778255;
+ s=mimecast20190719; t=1589778257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J68hb3oY3uxJJFxvtt209MJvIgPE7+RPkdffT+KVHEM=;
- b=D6USTbt1H12L1qwQkrSCmWB93+L9g1yAIZzjRwefznfMxHzwXmRljAHW3ecwwWPtuQqwZY
- T7LQonry0Rrb0wBV1UuUmI5yRTGk1BQGn6KTCqf9G7xP0aiMMaHla/E56HAkNbwoZ9f8Qb
- E33mJ9xhZQO/J2rtqTvTKzcW8t/mUy4=
+ bh=UsAv/bgnHykNzduPwvkuhFwRe3NU9ni7q/NMPUd4MVw=;
+ b=Fjfn+XEV9eqz4yB0DPH1CS6TBuPUKGBfYTVW7ARSa2dItOkujO5j2JDVmuprztvCuQ90uC
+ pqvYPYwZXiSWH5PB7moHXl9jix7mikFbsdJUd9Ejwpw4zbJxMvjxTLIqldTfPFr9XtCvqd
+ DPGPuX7R2rrQ1UGaYV3Ew4saocuHZ24=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-25-udPoWdWzPpeWuK9bqSJDTQ-1; Mon, 18 May 2020 01:04:13 -0400
-X-MC-Unique: udPoWdWzPpeWuK9bqSJDTQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-203-80zTJOd5PGW50U9P0ir-Dw-1; Mon, 18 May 2020 01:04:13 -0400
+X-MC-Unique: 80zTJOd5PGW50U9P0ir-Dw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE6A7107ACCA;
- Mon, 18 May 2020 05:04:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A34A1054F90;
+ Mon, 18 May 2020 05:04:12 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D0D78206B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 186355D9E2;
  Mon, 18 May 2020 05:04:11 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3BE8811358C8; Mon, 18 May 2020 07:04:08 +0200 (CEST)
+ id 3F46C11358CA; Mon, 18 May 2020 07:04:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/24] MAINTAINERS: Make section PowerNV cover pci-host/pnv*
- as well
-Date: Mon, 18 May 2020 07:03:56 +0200
-Message-Id: <20200518050408.4579-13-armbru@redhat.com>
+Subject: [PATCH 13/24] ppc4xx: Drop redundant device realization
+Date: Mon, 18 May 2020 07:03:57 +0200
+Message-Id: <20200518050408.4579-14-armbru@redhat.com>
 In-Reply-To: <20200518050408.4579-1-armbru@redhat.com>
 References: <20200518050408.4579-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:52:27
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 00:53:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,34 +80,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, pbonzini@redhat.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Cédric Le Goater <clg@kaod.org>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: qemu-ppc@nongnu.org
+object_property_set_bool(OBJECT(dev), true, "realized", ...) right
+after qdev_init_nofail(dev) does nothing, because qdev_init_nofail()
+already realizes.  Drop.
+
+Cc: BALATON Zoltan <balaton@eik.bme.hu>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/ppc/ppc440_uc.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 47ef3139e6..074dc7f023 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1207,7 +1207,9 @@ S: Maintained
- F: hw/ppc/pnv*
- F: hw/intc/pnv*
- F: hw/intc/xics_pnv.c
-+F: hw/pci-host/pnv*
- F: include/hw/ppc/pnv*
-+F: include/hw/pci-host/pnv*
- F: pc-bios/skiboot.lid
- F: tests/qtest/pnv*
+diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
+index b30e093cbb..dc318c7aa7 100644
+--- a/hw/ppc/ppc440_uc.c
++++ b/hw/ppc/ppc440_uc.c
+@@ -1370,12 +1370,10 @@ void ppc460ex_pcie_init(CPUPPCState *env)
+     dev = qdev_create(NULL, TYPE_PPC460EX_PCIE_HOST);
+     qdev_prop_set_int32(dev, "dcrn-base", DCRN_PCIE0_BASE);
+     qdev_init_nofail(dev);
+-    object_property_set_bool(OBJECT(dev), true, "realized", NULL);
+     ppc460ex_pcie_register_dcrs(PPC460EX_PCIE_HOST(dev), env);
  
+     dev = qdev_create(NULL, TYPE_PPC460EX_PCIE_HOST);
+     qdev_prop_set_int32(dev, "dcrn-base", DCRN_PCIE1_BASE);
+     qdev_init_nofail(dev);
+-    object_property_set_bool(OBJECT(dev), true, "realized", NULL);
+     ppc460ex_pcie_register_dcrs(PPC460EX_PCIE_HOST(dev), env);
+ }
 -- 
 2.21.1
 
