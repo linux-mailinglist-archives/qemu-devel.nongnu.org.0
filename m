@@ -2,96 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E2C1D7CB8
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 17:21:41 +0200 (CEST)
-Received: from localhost ([::1]:55226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7EC11D7CBD
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 17:22:46 +0200 (CEST)
+Received: from localhost ([::1]:60160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jahaG-0000V1-AT
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 11:21:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47850)
+	id 1jahbJ-0002i6-M2
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 11:22:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1jahU4-0003UO-IA; Mon, 18 May 2020 11:15:16 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38396)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1jahU2-0006JK-VT; Mon, 18 May 2020 11:15:16 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04IF77Ao032431; Mon, 18 May 2020 11:15:12 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 312cayd9w1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 May 2020 11:15:12 -0400
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04IF7Bkv032979;
- Mon, 18 May 2020 11:15:12 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 312cayd9v9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 May 2020 11:15:12 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04IFC8ap019085;
- Mon, 18 May 2020 15:15:10 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma02wdc.us.ibm.com with ESMTP id 3127t60hcy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 May 2020 15:15:10 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 04IFF8jq28836196
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 18 May 2020 15:15:08 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 626D76E052;
- Mon, 18 May 2020 15:15:09 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4ED4B6E04E;
- Mon, 18 May 2020 15:15:08 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.85.206.55])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Mon, 18 May 2020 15:15:08 +0000 (GMT)
-Subject: Re: [PATCH v2 3/8] s390/sclp: rework sclp boundary and length checks
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-References: <20200515222032.18838-1-walling@linux.ibm.com>
- <20200515222032.18838-4-walling@linux.ibm.com>
- <2fcd0d94-12c7-e3b8-d6a6-3c512ae25150@linux.ibm.com>
-From: Collin Walling <walling@linux.ibm.com>
-Message-ID: <e8dd0421-0db6-ff92-43af-6fd082d76e7e@linux.ibm.com>
-Date: Mon, 18 May 2020 11:15:07 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1jahZd-00019x-Jh
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 11:21:01 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:39709)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1jahZX-0007Z9-OS
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 11:21:01 -0400
+Received: by mail-io1-xd43.google.com with SMTP id x5so10992962ioh.6
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 08:20:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=9q4LK0XRB0Ghx4ryV9qmNo+1EdRVWpIWprHfbttb5oc=;
+ b=OSlL20ipClK+NCUMfqvVVr3/RWwRcFbE5vfOFnt9MNLUywVL5/AzYylkargw94ja0B
+ eDZM3rLplEAvuqEXRoYJhoY4rj5V/alblHMoJs/8EQsfj5SZXNDMKArmp8H1r3d0ww7v
+ z0cOouF72ZS6rlfAysciFjzbLEq7W+oDedqvlSsYACcOWXyIFvfPxQoaXO/yjEj8jAme
+ XTaZyX1P4TY+D4w6LDQN3afXU1DjqLnSBtY0/zbWtSw1UFvzMYtpnscJd1WdGJitz/WP
+ 3gpeqpzTw+WskPgw+Q+7KZjPi/u7Pq/km/IVjfVu7oM7EeuwZkI8SUwd80rEutqcDqvb
+ ffRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=9q4LK0XRB0Ghx4ryV9qmNo+1EdRVWpIWprHfbttb5oc=;
+ b=LW2xJ8TVUqiuwZM4Z+W6ErTKozlJt++5TTZn3X8OFHTxnSbsVlH4tF3nkYx/lCCF7R
+ RMqgDA5cBPfmHW7wemPLL00kR5R/YipwZBuqXPUK3jD3j+HbZE/ScW2ycJS1FLghhCW+
+ ivNkN0KKD3uLlMtNQKksoAlloNMPnaIjA1URoFwWS/N9s9QKFHvCaKpLFX2Hy1MugIne
+ yEbuQWHV0f+o8Yqi8ttdKdC3HIbnsEzIaQLJ9tpuFIWxlC8+XRI0Ykf3gRW6NgEuTpYf
+ Rd3LtFRnROR6lOAzlntMgQQltgk1BSSOb4yoW/75TaqJrQnrJu37lTUvVEJAuiQXNman
+ XdYw==
+X-Gm-Message-State: AOAM530Nqn5ANtQrx5ryH4dRg3ALJTBN9b+2iPslCdhT/fON60vd387I
+ H6GtWPScD0MUpn9vC9mji+nvjcJpG+ArGML2msw=
+X-Google-Smtp-Source: ABdhPJwumebLY+MNG9GT4NtBmJ3yEvXaSyGAD8ibhdSZVtvi87TEaTa4QO8H07+VA/ku/A8J1gKUL7CPjMQluYExjQA=
+X-Received: by 2002:a02:90cd:: with SMTP id c13mr16049211jag.83.1589815254446; 
+ Mon, 18 May 2020 08:20:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2fcd0d94-12c7-e3b8-d6a6-3c512ae25150@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
- definitions=2020-05-18_06:2020-05-15,
- 2020-05-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- lowpriorityscore=0 mlxscore=0 suspectscore=0 spamscore=0 impostorscore=0
- malwarescore=0 adultscore=0 bulkscore=0 clxscore=1015 mlxlogscore=999
- priorityscore=1501 cotscore=-2147483648 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005180129
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=walling@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 11:15:13
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20200518083704.52646-1-david@redhat.com>
+ <20200518083704.52646-3-david@redhat.com>
+In-Reply-To: <20200518083704.52646-3-david@redhat.com>
+From: Alexander Duyck <alexander.duyck@gmail.com>
+Date: Mon, 18 May 2020 08:20:43 -0700
+Message-ID: <CAKgT0UcimHW0fUyQRrEVeUHowkOudDAD6KM+-2MmBbn_fs8K8w@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] virtio-balloon: fix free page hinting check on
+ unrealize
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alexander.duyck@gmail.com; helo=mail-io1-xd43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,205 +82,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, mst@redhat.com, cohuck@redhat.com, david@redhat.com,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, svens@linux.ibm.com,
- pbonzini@redhat.com, mihajlov@linux.ibm.com, rth@twiddle.net
+Cc: Wei Wang <wei.w.wang@intel.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/18/20 4:50 AM, Janosch Frank wrote:
-> On 5/16/20 12:20 AM, Collin Walling wrote:
->> Rework the SCLP boundary check to account for different SCLP commands
->> (eventually) allowing different boundary sizes.
->>
->> Move the length check code into a separate function, and introduce a
->> new function to determine the length of the read SCP data (i.e. the size
->> from the start of the struct to where the CPU entries should begin).
->>
->> Signed-off-by: Collin Walling <walling@linux.ibm.com>
->> ---
->>  hw/s390x/sclp.c | 57 ++++++++++++++++++++++++++++++++++++++++++-------
->>  1 file changed, 49 insertions(+), 8 deletions(-)
->>
->> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
->> index 2bd618515e..987699e3c4 100644
->> --- a/hw/s390x/sclp.c
->> +++ b/hw/s390x/sclp.c
->> @@ -49,6 +49,34 @@ static inline bool sclp_command_code_valid(uint32_t code)
->>      return false;
->>  }
->>  
->> +static bool sccb_has_valid_boundary(uint64_t sccb_addr, uint32_t code,
->> +                                    SCCBHeader *header)
->> +{
->> +    uint64_t current_len = sccb_addr + be16_to_cpu(header->length);
->> +    uint64_t allowed_len = (sccb_addr & PAGE_MASK) + PAGE_SIZE;
-> 
-> Those are addresses not length indications and the names should reflect
-> that.
+On Mon, May 18, 2020 at 1:37 AM David Hildenbrand <david@redhat.com> wrote:
+>
+> Checking against guest features is wrong. We allocated data structures
+> based on host features. We can rely on "free_page_bh" as an indicator
+> whether to un-do stuff instead.
+>
+> Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
+> Cc: Wei Wang <wei.w.wang@intel.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Cc: Alexander Duyck <alexander.duyck@gmail.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  hw/virtio/virtio-balloon.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> index dc3b1067ab..a4fcf2d777 100644
+> --- a/hw/virtio/virtio-balloon.c
+> +++ b/hw/virtio/virtio-balloon.c
+> @@ -818,7 +818,7 @@ static void virtio_balloon_device_unrealize(DeviceSta=
+te *dev)
+>      VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
+>      VirtIOBalloon *s =3D VIRTIO_BALLOON(dev);
+>
+> -    if (virtio_balloon_free_page_support(s)) {
+> +    if (s->free_page_bh) {
+>          qemu_bh_delete(s->free_page_bh);
+>          virtio_balloon_free_page_stop(s);
+>          precopy_remove_notifier(&s->free_page_report_notify);
 
-True
+Would it make sense to apply the same change to
+virtio_balloon_device_reset and virtio_balloon_set_status? At least in
+the case of virtio_balloon_set_status it seems like you could possibly
+exploit it somehow as clearing the feature in the guest will prevent
+the toggling of the block_iothread value.
 
-> Also don't we need to use PAGE_SIZE - 1?
-> 
-
-Technically we need to -1 on both sides since length denotes the size of
-the sccb in bytes, not the max address.
-
-How about this:
-
-s/current_len/sccb_max_addr
-s/allowed_len/sccb_boundary
-
--1 to sccb_max_addr
-
-Change the check to: sccb_max_addr < sccb_boundary
-
-?
-
-> I'm still trying to wake up, so take this with a grain of salt.
-> 
-
-No worries. I appreciate the review nonetheless :)
-
->> +
->> +    switch (code & SCLP_CMD_CODE_MASK) {
->> +    default:
->> +        if (current_len <= allowed_len) {
->> +            return true;
->> +        }
->> +    }
->> +    header->response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
->> +    return false;
->> +}
->> +
->> +/* Calculates sufficient SCCB length to store a full Read SCP/CPU response */
->> +static bool sccb_has_sufficient_len(SCCB *sccb, int num_cpus, int data_len)
->> +{
->> +    int required_len = data_len + num_cpus * sizeof(CPUEntry);
->> +
->> +    if (be16_to_cpu(sccb->h.length) < required_len) {
->> +        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
->> +        return false;
->> +    }
->> +    return true;
->> +}
-> 
-> Hm, from the function name alone I'd not have expected it to also set
-> the response code.
-> 
-
-It also sets the required length in the header for an extended-length
-sccb. Perhaps this function name doesn't hold up well.
-
-Does sccb_check_sufficient_len make more sense?
-
-I think the same could be said of the boundary check function, which
-also sets the response code.
-
-What about setting the response code outside the function, similar to
-what sclp_comand_code_valid does?
-
->> +
->>  static void prepare_cpu_entries(MachineState *ms, CPUEntry *entry, int *count)
->>  {
->>      uint8_t features[SCCB_CPU_FEATURE_LEN] = { 0 };
->> @@ -66,6 +94,16 @@ static void prepare_cpu_entries(MachineState *ms, CPUEntry *entry, int *count)
->>      }
->>  }
->>  
->> +/*
->> + * The data length denotes the start of the struct to where the first
->> + * CPU entry is to be allocated. This value also denotes the offset_cpu
->> + * field.
->> + */
->> +static int get_read_scp_info_data_len(void)
->> +{
->> +    return offsetof(ReadInfo, entries);
->> +}
-> 
-> Not sure what the policy for this is, but maybe this can go into a
-> header file?
-> David and Conny will surely make that clear to me :)
-> 
-
-Not sure either. If anything it might be a good candidate for an inline
-function.
-
->> +
->>  /* Provide information about the configuration, CPUs and storage */
->>  static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
->>  {
->> @@ -74,16 +112,16 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
->>      int cpu_count;
->>      int rnsize, rnmax;
->>      IplParameterBlock *ipib = s390_ipl_get_iplb();
->> +    int data_len = get_read_scp_info_data_len();
->>  
->> -    if (be16_to_cpu(sccb->h.length) < (sizeof(ReadInfo) + cpu_count * sizeof(CPUEntry))) {
->> -        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
->> +    if (!sccb_has_sufficient_len(sccb, machine->possible_cpus->len, data_len)) {
->>          return;
->>      }
->>  
->>      /* CPU information */
->>      prepare_cpu_entries(machine, read_info->entries, &cpu_count);
->>      read_info->entries_cpu = cpu_to_be16(cpu_count);
->> -    read_info->offset_cpu = cpu_to_be16(offsetof(ReadInfo, entries));
->> +    read_info->offset_cpu = cpu_to_be16(data_len);
->>      read_info->highest_cpu = cpu_to_be16(machine->smp.max_cpus - 1);
->>  
->>      read_info->ibc_val = cpu_to_be32(s390_get_ibc_val());
->> @@ -132,16 +170,16 @@ static void sclp_read_cpu_info(SCLPDevice *sclp, SCCB *sccb)
->>  {
->>      MachineState *machine = MACHINE(qdev_get_machine());
->>      ReadCpuInfo *cpu_info = (ReadCpuInfo *) sccb;
->> +    int data_len = offsetof(ReadCpuInfo, entries);
->>      int cpu_count;
->>  
->> -    if (be16_to_cpu(sccb->h.length) < (sizeof(ReadCpuInfo) + cpu_count * sizeof(CPUEntry))) {
->> -        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
->> +    if (!sccb_has_sufficient_len(sccb, machine->possible_cpus->len, data_len)) {
->>          return;
->>      }
->>  
->>      prepare_cpu_entries(machine, cpu_info->entries, &cpu_count);
->>      cpu_info->nr_configured = cpu_to_be16(cpu_count);
->> -    cpu_info->offset_configured = cpu_to_be16(offsetof(ReadCpuInfo, entries));
->> +    cpu_info->offset_configured = cpu_to_be16(data_len);
->>      cpu_info->nr_standby = cpu_to_be16(0);
->>  
->>      /* The standby offset is 16-byte for each CPU */
->> @@ -227,6 +265,10 @@ int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
->>          goto out_write;
->>      }
->>  
->> +    if (!sccb_has_valid_boundary(sccb, code, &work_sccb.h)) {
->> +        goto out_write;
->> +    }
->> +
->>      sclp_c->execute(sclp, &work_sccb, code);
->>  out_write:
->>      s390_cpu_pv_mem_write(env_archcpu(env), 0, &work_sccb,
->> @@ -272,8 +314,7 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
->>          goto out_write;
->>      }
->>  
->> -    if ((sccb + be16_to_cpu(work_sccb.h.length)) > ((sccb & PAGE_MASK) + PAGE_SIZE)) {
->> -        work_sccb.h.response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
->> +    if (!sccb_has_valid_boundary(sccb, code, &work_sccb.h)) {
->>          goto out_write;
->>      }
->>  
->>
-> 
-> 
-
-
--- 
---
-Regards,
-Collin
-
-Stay safe and stay healthy
+Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
 
