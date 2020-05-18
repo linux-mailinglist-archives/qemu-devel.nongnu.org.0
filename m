@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236B81D702E
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:11:43 +0200 (CEST)
-Received: from localhost ([::1]:39564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 255D31D7015
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:06:05 +0200 (CEST)
+Received: from localhost ([::1]:39266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaY3y-0005XZ-6R
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:11:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49248)
+	id 1jaXyW-0002Q5-5M
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:06:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXws-00005V-8i
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32365
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwo-0008NP-Ev
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:18 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38074
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwo-0004Mz-Jj
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:21 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwm-0004KU-54
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589778257;
+ s=mimecast20190719; t=1589778255;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Yy3PIImVsbXqEhIo2STPg20+OkvHlpicStcv34m1EmQ=;
- b=ffqY7gXgp6zNtI0SQuhppthmYo0iCAi1uKQY8ZJOj53uRvClsiHS1z/Yhmo7R66P8r0OoQ
- 7+xzd7Qj9zPnHmaIcqPlhSnV4xuhDUegpnYjaHCxJ/sns2IQ1ZkKTHMLfYuYhJtjygajPC
- QiICEQUtTkeDrISJRu6LaCkjCCWhxaM=
+ bh=Bg7NXxiDlEIOS/MbUrg1kB3Gx2ztYbFLRI2y5bCpkPQ=;
+ b=Vq9rUDsXCDEUWKNM5XzYRw1DNvZB+Y+0QxEAGGTp6gZRjkgWyziCuEI7ymuqhReM5Uj3EC
+ etQxZfZGfbufRAvc8kwZpy3BcE28Xt/z3MnhoJNY8PJ7SJQhg8tLVBYKImMArCwHvqqDNR
+ SO/ocWUk3UO0LSbee/Ei3MaBBmqNBI0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-JeayjZhHOJ61gwgW2v5kzQ-1; Mon, 18 May 2020 01:04:13 -0400
-X-MC-Unique: JeayjZhHOJ61gwgW2v5kzQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-483-nE9e42ErOLGuXHESuSiWjg-1; Mon, 18 May 2020 01:04:13 -0400
+X-MC-Unique: nE9e42ErOLGuXHESuSiWjg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 592F8872FEB;
- Mon, 18 May 2020 05:04:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4528A474;
+ Mon, 18 May 2020 05:04:12 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2926A600E5;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 31F535C1C8;
  Mon, 18 May 2020 05:04:11 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 285DE11358C2; Mon, 18 May 2020 07:04:08 +0200 (CEST)
+ id 2BB4311358C3; Mon, 18 May 2020 07:04:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/24] armv7m: Bury unwanted "ARM,bitband-memory" devices
-Date: Mon, 18 May 2020 07:03:50 +0200
-Message-Id: <20200518050408.4579-7-armbru@redhat.com>
+Subject: [PATCH 07/24] auxbus: Fix aux-to-i2c-bridge to be a subtype of
+ aux-slave
+Date: Mon, 18 May 2020 07:03:51 +0200
+Message-Id: <20200518050408.4579-8-armbru@redhat.com>
 In-Reply-To: <20200518050408.4579-1-armbru@redhat.com>
 References: <20200518050408.4579-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:51:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:52:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,64 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-arm@nongnu.org, berrange@redhat.com,
- ehabkost@redhat.com, Peter Maydell <peter.maydell@linaro.org>
+Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ KONRAD Frederic <fred.konrad@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These devices are optional, and enabled by property "enable-bitband".
-armv7m_instance_init() creates them unconditionally, because the
-property has not been set then.  armv7m_realize() realizes them only
-when the property is true.  Works, although it leaves unrealized
-devices hanging around in the QOM composition tree.  Affects machines
-microbit, mps2-an505, mps2-an521, musca-a, and musca-b1.
+We plug aux-to-i2c-bridge into the aux-bus, even though its
+DeviceClass member bus_type is null, not TYPE_AUX_BUS.  Fix that by
+deriving it from TYPE_AUX_SLAVE instead of TYPE_DEVICE.
 
-Bury the unwanted devices by making armv7m_realize() unparent them.
-Visible in "info qom-tree"; here's the change for microbit:
-
-     /machine (microbit-machine)
-       /microbit.twi (microbit.i2c)
-         /microbit.twi[0] (qemu:memory-region)
-       /nrf51 (nrf51-soc)
-         /armv6m (armv7m)
-           /armv7m-container[0] (qemu:memory-region)
-    -      /bitband[0] (ARM,bitband-memory)
-    -        /bitband[0] (qemu:memory-region)
-    -      /bitband[1] (ARM,bitband-memory)
-    -        /bitband[0] (qemu:memory-region)
-           /cpu (cortex-m0-arm-cpu)
-
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
+Cc: KONRAD Frederic <fred.konrad@greensocs.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/arm/armv7m.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/misc/auxbus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index 7da57f56d3..f930619f53 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -245,8 +245,8 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
-     memory_region_add_subregion(&s->container, 0xe000e000,
-                                 sysbus_mmio_get_region(sbd, 0));
+diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
+index f8e7b97971..5e4794f0ac 100644
+--- a/hw/misc/auxbus.c
++++ b/hw/misc/auxbus.c
+@@ -244,7 +244,7 @@ static inline I2CBus *aux_bridge_get_i2c_bus(AUXTOI2CState *bridge)
  
--    if (s->enable_bitband) {
--        for (i = 0; i < ARRAY_SIZE(s->bitband); i++) {
-+    for (i = 0; i < ARRAY_SIZE(s->bitband); i++) {
-+        if (s->enable_bitband) {
-             Object *obj = OBJECT(&s->bitband[i]);
-             SysBusDevice *sbd = SYS_BUS_DEVICE(&s->bitband[i]);
- 
-@@ -265,6 +265,8 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
- 
-             memory_region_add_subregion(&s->container, bitband_output_addr[i],
-                                         sysbus_mmio_get_region(sbd, 0));
-+        } else {
-+            object_unparent(OBJECT(&s->bitband[i]));
-         }
-     }
- }
+ static const TypeInfo aux_to_i2c_type_info = {
+     .name = TYPE_AUXTOI2C,
+-    .parent = TYPE_DEVICE,
++    .parent = TYPE_AUX_SLAVE,
+     .class_init = aux_bridge_class_init,
+     .instance_size = sizeof(AUXTOI2CState),
+     .instance_init = aux_bridge_init
 -- 
 2.21.1
 
