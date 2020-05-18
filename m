@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E171D7D9C
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 17:58:15 +0200 (CEST)
-Received: from localhost ([::1]:54884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0AD41D7DA8
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:00:02 +0200 (CEST)
+Received: from localhost ([::1]:35082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jai9e-0003eF-Vg
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 11:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52616)
+	id 1jaiBN-00077p-JF
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:00:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jai4r-00037m-Ho; Mon, 18 May 2020 11:53:17 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37537)
+ id 1jai4s-0003BJ-Og; Mon, 18 May 2020 11:53:18 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jai4q-00005l-O8; Mon, 18 May 2020 11:53:17 -0400
-Received: by mail-wm1-x342.google.com with SMTP id z72so32918wmc.2;
- Mon, 18 May 2020 08:53:15 -0700 (PDT)
+ id 1jai4r-00006S-Uh; Mon, 18 May 2020 11:53:18 -0400
+Received: by mail-wm1-x342.google.com with SMTP id k12so20927wmj.3;
+ Mon, 18 May 2020 08:53:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YgUO7urc8a2H2l0AjA6/YcXX+FHCC3nhZ10cz3IJGT0=;
- b=IOBfw97bri/HK4rNN8hBH3fS/bLjGzm8A0H/8IkZ8BNpXTH5MWOLMb3YVIeMZKbemA
- 3ANvreACUxm3uKFDJZEe4MA+7GDtRxgdRAvLMjOBMc7JlM5setDqR+rAAjGrhOViOGZF
- 2Wqfu4cYar/pwmzsrnDNSa2HYymGPUjbGygmgHP6rSFAaV7KZ4Aj7Zf8fLfG4mjSdzoj
- O0xMbKFIM8aKXXnAyWz+2OWRz7ivmrJrmm2ilOqTEom06SGkiN9a0F3K1QeVvnWoTdEt
- L9ra6YC/35hRflgOsBpof5I6H7BbRnEo+uNLoC00Y9tDyfK0lemm9ge5tj8eq1k8Vg70
- hyyQ==
+ bh=AnPjL1oCKd4/b0PMNN6nSj2GzQNIyIXoJD4PkkEccRM=;
+ b=Flh1kB0guv4yAbKeDYrp5crvlMR5ihhTkgC4sUeRwuaqgo7GD0MKjJWTUa6Hw2L8xS
+ CIsyCqO5AvcZ8OwqPdLT8OmZa/ij6U5deh3S8uaWtf/VidtkoeX+VHIABeeardCArTHX
+ XNSnRdTy+EpyBchdo7vAMIvPG9o1VFjX+MkOHh1KL+C8pX1vZ0yVTp7rYBokW9sBGV7p
+ uaLB7O6eaQG+1utdhsPZlItO485bABIknYR8tYuO+twhZvT1wOLhGP6aF/ija6iTfvyZ
+ QkiXHLZ+FGIYWRNLOIOko72PY6W/2aVr6hJAQD/zFfc6NyNFkhqADfHmd5GIQxeXeG49
+ +otg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=YgUO7urc8a2H2l0AjA6/YcXX+FHCC3nhZ10cz3IJGT0=;
- b=UzYfulLDKakKYiCKJDekG3GwUxyRJTRwUIsxadnAnl5wETx+j2LbnJ31pdSS8YCog4
- AkVSOst2BQYsLGKHk8O1Dc2IDHPedYGsveoABrnOEzqthETAqWTKSxtuenoW4HZD1K0/
- GXuCII8KiWI4axtw2zhJgp0DGgGew/0+Z/iQeJyuZV1OcYZoo8Od3iSHAPXLFHVCPIRD
- RugRDY3lcze75ZAp7+DdwY0pcfJjJKyoK0f5XQ2dnBXBoG4sy3ulOq6ShhvRMqPnuV0G
- Iu2Ii804OZRQ8GeioKY/Hn9wCm1AmVLTtGZeSGOVw1KPx/ustNkZhQiU+6LYXqWnV8bj
- cCNQ==
-X-Gm-Message-State: AOAM53088fCRomxqjHHrq2pL0OxUDNzIAp7xZBCbbFGtQewC1nU2QYiH
- MhH+Vo52aB6ncJ4Se3QqjUqLF8YDSYA=
-X-Google-Smtp-Source: ABdhPJyG3gmRwNj2wCtQakz1KaSpc4CoE3n4quosHaeNbq9NCRoNUZ4NxGqjRfI4JksaALSu8mA24w==
-X-Received: by 2002:a1c:4cb:: with SMTP id 194mr42967wme.124.1589817194856;
- Mon, 18 May 2020 08:53:14 -0700 (PDT)
+ bh=AnPjL1oCKd4/b0PMNN6nSj2GzQNIyIXoJD4PkkEccRM=;
+ b=SnddOz38SngJwdoBAbwWbehQvMLxqtvxOeVIIoMmaflu9hLQDieyNIcVeoNyHyNQKt
+ PZuBgIx2dx2XCdf0i3wgW7zNhcAtpHYnmgDTJuUyi6wIMPfeKz/ArtCgpRZuRzsAmAk8
+ RhkTAIY4fk70QELvgV3fbIbaxouFdDWCc2j4ZnOAZbXh/13VzEzrvDX4cmWNvpzpDyQM
+ Zhu1b3KN2NCeuOpgpNo3Oi/bV41t7jtO6lqR+yNSb6ZwHwQYagXKFyLUyHWS+yx0QaHG
+ lunAQwG0rwvtKCTGOgD9tbLLEngPB0l03GCrsJ/jNqMJt3YjfinIabAypjU5QlXCYjUe
+ WXRw==
+X-Gm-Message-State: AOAM532YjEGDH1y49Y9AhgWjM88zvO9gQJvF8OOktLe2OFEQM6A5qxhx
+ glGxwb5Zo29u3GCZVH8SDXPWiXlIPVs=
+X-Google-Smtp-Source: ABdhPJz/PtyrwAQIbRp4mpLoU+mt0aZlERs2l79lSNvZZ5pevIUK5/V9XwfG5nxxlERMi6Y3l+3eOA==
+X-Received: by 2002:a1c:3187:: with SMTP id x129mr24994wmx.27.1589817196118;
+ Mon, 18 May 2020 08:53:16 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id 7sm17647462wra.50.2020.05.18.08.53.13
+ by smtp.gmail.com with ESMTPSA id 7sm17647462wra.50.2020.05.18.08.53.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 08:53:14 -0700 (PDT)
+ Mon, 18 May 2020 08:53:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/7] hw/elf_ops: Do not ignore write failures when loading
- ELF
-Date: Mon, 18 May 2020 17:53:05 +0200
-Message-Id: <20200518155308.15851-5-f4bug@amsat.org>
+Subject: [PATCH v2 5/7] hw/arm/boot: Abort if set_kernel_args() fails
+Date: Mon, 18 May 2020 17:53:06 +0200
+Message-Id: <20200518155308.15851-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200518155308.15851-1-f4bug@amsat.org>
 References: <20200518155308.15851-1-f4bug@amsat.org>
@@ -94,36 +93,81 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not ignore the MemTxResult error type returned by
-address_space_write().
+If a address_space_write() fails while calling
+set_kernel_args(), the guest kernel will boot
+using crap data. Avoid that by aborting if this
+ever occurs.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/elf_ops.h | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ hw/arm/boot.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-index 398a4a2c85..6fdff3dced 100644
---- a/include/hw/elf_ops.h
-+++ b/include/hw/elf_ops.h
-@@ -553,9 +553,14 @@ static int glue(load_elf, SZ)(const char *name, int fd,
-                     rom_add_elf_program(label, mapped_file, data, file_size,
-                                         mem_size, addr, as);
-                 } else {
--                    address_space_write(as ? as : &address_space_memory,
--                                        addr, MEMTXATTRS_UNSPECIFIED,
--                                        data, file_size);
-+                    MemTxResult res;
-+
-+                    res = address_space_write(as ? as : &address_space_memory,
-+                                              addr, MEMTXATTRS_UNSPECIFIED,
-+                                              data, file_size);
-+                    if (res != MEMTX_OK) {
-+                        goto fail;
-+                    }
-                 }
-             }
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index fef4072db1..7cc271034c 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -291,7 +291,8 @@ static inline bool have_dtb(const struct arm_boot_info *info)
  
+ #define WRITE_WORD(p, value) do { \
+     address_space_stl_notdirty(as, p, value, \
+-                               MEMTXATTRS_UNSPECIFIED, NULL);  \
++                               MEMTXATTRS_UNSPECIFIED, &result); \
++    assert(result == MEMTX_OK); \
+     p += 4;                       \
+ } while (0)
+ 
+@@ -300,6 +301,7 @@ static void set_kernel_args(const struct arm_boot_info *info, AddressSpace *as)
+     int initrd_size = info->initrd_size;
+     hwaddr base = info->loader_start;
+     hwaddr p;
++    MemTxResult result;
+ 
+     p = base + KERNEL_ARGS_ADDR;
+     /* ATAG_CORE */
+@@ -326,8 +328,9 @@ static void set_kernel_args(const struct arm_boot_info *info, AddressSpace *as)
+         int cmdline_size;
+ 
+         cmdline_size = strlen(info->kernel_cmdline);
+-        address_space_write(as, p + 8, MEMTXATTRS_UNSPECIFIED,
+-                            info->kernel_cmdline, cmdline_size + 1);
++        result = address_space_write(as, p + 8, MEMTXATTRS_UNSPECIFIED,
++                                     info->kernel_cmdline, cmdline_size + 1);
++        assert(result == MEMTX_OK);
+         cmdline_size = (cmdline_size >> 2) + 1;
+         WRITE_WORD(p, cmdline_size + 2);
+         WRITE_WORD(p, 0x54410009);
+@@ -341,8 +344,9 @@ static void set_kernel_args(const struct arm_boot_info *info, AddressSpace *as)
+         atag_board_len = (info->atag_board(info, atag_board_buf) + 3) & ~3;
+         WRITE_WORD(p, (atag_board_len + 8) >> 2);
+         WRITE_WORD(p, 0x414f4d50);
+-        address_space_write(as, p, MEMTXATTRS_UNSPECIFIED,
+-                            atag_board_buf, atag_board_len);
++        result = address_space_write(as, p, MEMTXATTRS_UNSPECIFIED,
++                                     atag_board_buf, atag_board_len);
++        assert(result == MEMTX_OK);
+         p += atag_board_len;
+     }
+     /* ATAG_END */
+@@ -357,6 +361,7 @@ static void set_kernel_args_old(const struct arm_boot_info *info,
+     const char *s;
+     int initrd_size = info->initrd_size;
+     hwaddr base = info->loader_start;
++    MemTxResult result;
+ 
+     /* see linux/include/asm-arm/setup.h */
+     p = base + KERNEL_ARGS_ADDR;
+@@ -419,7 +424,9 @@ static void set_kernel_args_old(const struct arm_boot_info *info,
+     }
+     s = info->kernel_cmdline;
+     if (s) {
+-        address_space_write(as, p, MEMTXATTRS_UNSPECIFIED, s, strlen(s) + 1);
++        result = address_space_write(as, p, MEMTXATTRS_UNSPECIFIED,
++                                     s, strlen(s) + 1);
++        assert(result == MEMTX_OK);
+     } else {
+         WRITE_WORD(p, 0);
+     }
 -- 
 2.21.3
 
