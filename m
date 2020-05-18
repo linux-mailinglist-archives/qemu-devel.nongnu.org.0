@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CDBE1D7013
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:05:55 +0200 (CEST)
-Received: from localhost ([::1]:38198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEFC1D702B
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:10:31 +0200 (CEST)
+Received: from localhost ([::1]:34482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaXyM-0001yJ-5o
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:05:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49128)
+	id 1jaY2o-0003RY-NV
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:10:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwl-0008Kn-Jv
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:15 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37338
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwo-0008NI-9Y
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33917
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwj-0004JV-WE
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:15 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwl-0004KA-Sy
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589778252;
+ s=mimecast20190719; t=1589778255;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xRs+DjLR3Y4rVR+MfxAtvurXdFDZgeO6io8w2miIdIQ=;
- b=eYd/3LF1bYUnkWLHp4Lz1KB3MA1GZ5z3/+9TbgH1gYEFS8qzwyMxDyhE4ro3qzCCnkb2EF
- 1q09iEeYI57RP43Y0nHpW9F/jtTk+JRyuXYzDddERqjSRTfA+unAo8QT4HsNyN6484WtSy
- HeEP+MhSoMJLwtvFEp5B34ULyiwNML4=
+ bh=Bq/vFGJHbHphE0awvKup1uIh4VSJsjPyfBqgWMSJ2I8=;
+ b=W75rXim2K4G2p3noIi1atRVqQFMrZOnL8ln5ZI1CqHL9+Ocs/uhZxvXinyaslxT22Vmlda
+ 8SDnAPpRQCO0usF7SQdE8hHkgGdbY56D/nX2tv617YwXwmyyY6r2m0DnyCPVRLa/wkx8O3
+ KavLcVcZHaT+qVPG0vawbinbRlSmssw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-2y-88NA9NP-feCjgufqn3w-1; Mon, 18 May 2020 01:04:10 -0400
-X-MC-Unique: 2y-88NA9NP-feCjgufqn3w-1
+ us-mta-416-by4MJa-nOs-HiWC9z31mng-1; Mon, 18 May 2020 01:04:11 -0400
+X-MC-Unique: by4MJa-nOs-HiWC9z31mng-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD9CD872FE0;
- Mon, 18 May 2020 05:04:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08CA2107ACCD;
+ Mon, 18 May 2020 05:04:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F9F3600E5;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FF7279587;
  Mon, 18 May 2020 05:04:09 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1EA3811358BF; Mon, 18 May 2020 07:04:08 +0200 (CEST)
+ id 21D8111358C0; Mon, 18 May 2020 07:04:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/24] sd/pxa2xx_mmci: Fix to realize "pxa2xx-mmci" device
-Date: Mon, 18 May 2020 07:03:47 +0200
-Message-Id: <20200518050408.4579-4-armbru@redhat.com>
+Subject: [PATCH 04/24] aspeed: Don't create unwanted "ftgmac100",
+ "aspeed-mmi" devices
+Date: Mon, 18 May 2020 07:03:48 +0200
+Message-Id: <20200518050408.4579-5-armbru@redhat.com>
 In-Reply-To: <20200518050408.4579-1-armbru@redhat.com>
 References: <20200518050408.4579-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:52:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:51:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,51 +82,81 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com,
- ehabkost@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com
+ ehabkost@redhat.com, Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, pbonzini@redhat.com,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pxa2xx_mmci_init() creates a "pxa2xx-mmci" device, but neglects to
-realize it.  Affects machines akita, borzoi, connex, mainstone, spitz,
-terrier, tosa, verdex, and z2.
+These devices are optional, and controlled by @nb_nics.
+aspeed_soc_ast2600_init() and aspeed_soc_init() create the maximum
+supported number.  aspeed_soc_ast2600_realize() and
+aspeed_soc_realize() realize only the wanted number.  Works, although
+it can leave unrealized devices hanging around in the QOM composition
+tree.  Affects machines ast2500-evb, ast2600-evb, palmetto-bmc,
+romulus-bmc, swift-bmc, tacoma-bmc, and witherspoon-bmc.
 
-I wonder how this ever worked.  If the "device becomes real only on
-realize" thing actually works, then we've always been missing the
-device, yet nobody noticed.
+Make the init functions create only the wanted ones.  Visible in "info
+qom-tree"; here's the change for ast2600-evb:
 
-Fix by realizing it right away.  Visible in "info qom-tree"; here's
-the change for akita:
-
-     /machine (akita-machine)
+     /machine (ast2600-evb-machine)
        [...]
-       /unattached (container)
+       /soc (ast2600-a1)
          [...]
-    +    /device[5] (pxa2xx-mmci)
-    +      /pxa2xx-mmci[0] (qemu:memory-region)
-    +      /sd-bus (pxa2xx-mmci-bus)
-         [rest of device[*] renumbered...]
+         /ftgmac100[0] (ftgmac100)
+           /ftgmac100[0] (qemu:memory-region)
+    -    /ftgmac100[1] (ftgmac100)
+    -    /ftgmac100[2] (ftgmac100)
+    -    /ftgmac100[3] (ftgmac100)
+         /gpio (aspeed.gpio-ast2600)
+         [...]
+         /mii[0] (aspeed-mmi)
+           /aspeed-mmi[0] (qemu:memory-region)
+    -    /mii[1] (aspeed-mmi)
+    -    /mii[2] (aspeed-mmi)
+    -    /mii[3] (aspeed-mmi)
+         /rtc (aspeed.rtc)
 
-Fixes: 7a9468c92517e19037bfe2272f64f5dadaf9db15
-Cc: Andrzej Zaborowski <balrogg@gmail.com>
+I'm not sure creating @nb_nics devices makes sense.  How many does the
+physical chip provide?
+
+Cc: "Cédric Le Goater" <clg@kaod.org>
 Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>
+Cc: Joel Stanley <joel@jms.id.au>
 Cc: qemu-arm@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/sd/pxa2xx_mmci.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/arm/aspeed_ast2600.c | 2 +-
+ hw/arm/aspeed_soc.c     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/sd/pxa2xx_mmci.c b/hw/sd/pxa2xx_mmci.c
-index 8f9ab0ec16..6a80181bc9 100644
---- a/hw/sd/pxa2xx_mmci.c
-+++ b/hw/sd/pxa2xx_mmci.c
-@@ -492,6 +492,7 @@ PXA2xxMMCIState *pxa2xx_mmci_init(MemoryRegion *sysmem,
-     sysbus_connect_irq(sbd, 0, irq);
-     qdev_connect_gpio_out_named(dev, "rx-dma", 0, rx_dma);
-     qdev_connect_gpio_out_named(dev, "tx-dma", 0, tx_dma);
-+    qdev_init_nofail(dev);
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index 71a0acfe26..0a6a77dd54 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -188,7 +188,7 @@ static void aspeed_soc_ast2600_init(Object *obj)
+                               sizeof(s->wdt[i]), typename);
+     }
  
-     /* Create and plug in the sd card */
-     carddev = qdev_create(qdev_get_child_bus(dev, "sd-bus"), TYPE_SD_CARD);
+-    for (i = 0; i < sc->macs_num; i++) {
++    for (i = 0; i < nb_nics && i < sc->macs_num; i++) {
+         sysbus_init_child_obj(obj, "ftgmac100[*]", OBJECT(&s->ftgmac100[i]),
+                               sizeof(s->ftgmac100[i]), TYPE_FTGMAC100);
+ 
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index cf6b6dd116..7ca860392a 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -203,7 +203,7 @@ static void aspeed_soc_init(Object *obj)
+                               sizeof(s->wdt[i]), typename);
+     }
+ 
+-    for (i = 0; i < sc->macs_num; i++) {
++    for (i = 0; i < nb_nics && i < sc->macs_num; i++) {
+         sysbus_init_child_obj(obj, "ftgmac100[*]", OBJECT(&s->ftgmac100[i]),
+                               sizeof(s->ftgmac100[i]), TYPE_FTGMAC100);
+     }
 -- 
 2.21.1
 
