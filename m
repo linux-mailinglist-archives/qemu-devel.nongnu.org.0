@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8731D704B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:21:16 +0200 (CEST)
-Received: from localhost ([::1]:36548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3005C1D7052
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:22:52 +0200 (CEST)
+Received: from localhost ([::1]:44152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaYDD-000841-F6
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:21:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50496)
+	id 1jaYEl-0002nI-8s
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:22:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaYBs-0006E4-3a
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:19:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24638
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaYBt-0006Fv-8W
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:19:53 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20144
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaYBr-0007IZ-1y
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:19:51 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaYBr-0007It-Gn
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:19:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1589779190;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rW3lzp5teMyOOF8llXJU1AeolVT1AcaWTvY7gDedRfo=;
- b=PsBMqItIfJtKnIRtBCgnyL1bz89G83Nn9Q/6gXUTZgrEgq4TXOgw0HTMUMHaMcxXVqZJyd
- 6NdSRydfMDdZ1qVUHsV2X7UkeIRg5G6eYHrE8Xf4X/hDEhB7VkJuZtIHn1HrN+JH1rFeHm
- lewvnEXYMc+ydnOSiRv97j5jJ2T6h1Y=
+ bh=pl+UCiGWsmgOqH6TPA15ReEJptIY3N02HvxxwvL94as=;
+ b=FQY3R+gn5/ozJABb85Hf7ltpF5HBT12Yn5oFkYVPeQ61ktQZJiWfd8HZbwvbD59AMen5yn
+ GwXHuhbSTHm4ayB52YCMdmepXTgYm4pPURvlo2LREX2WeMGx+XNMbphmdIrdhs0tub/huD
+ 2WfmiD4GDnK4POkbbIdo/B/eQVqs2oo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-GvDnmRLzO6qwtllefLXyxA-1; Mon, 18 May 2020 01:19:48 -0400
-X-MC-Unique: GvDnmRLzO6qwtllefLXyxA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-149-9pAs8xkwN0iyIUc_w8-OHQ-1; Mon, 18 May 2020 01:19:49 -0400
+X-MC-Unique: 9pAs8xkwN0iyIUc_w8-OHQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2873880058A
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 05:19:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9040518FE860
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 05:19:48 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB7C71A922;
- Mon, 18 May 2020 05:19:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E2DE600E5;
+ Mon, 18 May 2020 05:19:48 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 675C011358C0; Mon, 18 May 2020 07:19:45 +0200 (CEST)
+ id 6A90811358C1; Mon, 18 May 2020 07:19:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH not-for-merge 4/5] qdev: Instrument to detect missed QOM
- parenting
-Date: Mon, 18 May 2020 07:19:44 +0200
-Message-Id: <20200518051945.8621-5-armbru@redhat.com>
+Subject: [PATCH not-for-merge 5/5] qdev: Instrument to detect bus mismatch
+Date: Mon, 18 May 2020 07:19:45 +0200
+Message-Id: <20200518051945.8621-6-armbru@redhat.com>
 In-Reply-To: <20200518051945.8621-1-armbru@redhat.com>
 References: <20200518051945.8621-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 00:53:04
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:52:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,24 +86,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qdev-monitor.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/core/qdev.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 07f78e9f5d..ec4e134ff7 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -801,6 +801,10 @@ static void qbus_print(Monitor *mon, BusState *bus, int indent)
-         struct qbus_child *qc = children->data;
-         DeviceState *dev = qc->dev;
-         GSList *next = children->next;
-+        if (!qc->qom_path) {
-+            printf("### no qom path: %s, id \"%s\"\n",
-+                   object_get_typename(OBJECT(dev)), dev->id ? dev->id : "");
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 9e5538aeae..936ef3988a 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -98,6 +98,23 @@ void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
+ {
+     BusState *old_parent_bus = dev->parent_bus;
+ 
++    DeviceClass *dc = DEVICE_GET_CLASS(dev);
++    if (bus) {
++        BusClass *bc;
++        for (bc = BUS_GET_CLASS(bus);
++             bc;
++             bc = (BusClass *)object_class_dynamic_cast(object_class_get_parent(OBJECT_CLASS(bc)), TYPE_BUS)) {
++            if (!g_strcmp0(dc->bus_type, object_class_get_name(OBJECT_CLASS(bc)))) {
++                break;
++            }
 +        }
-         qdev_print(mon, dev, indent);
-         g_free(qc->qom_path);
-         g_free(qc);
++        if (!bc) {
++            printf("### bus mismatch %s is %s plugged into %s\n",
++                   object_get_typename(OBJECT(dev)), dc->bus_type,
++                   object_class_get_name(OBJECT_CLASS(BUS_GET_CLASS(bus))));
++        }
++    }
++
+     if (old_parent_bus) {
+         trace_qdev_update_parent_bus(dev, object_get_typename(OBJECT(dev)),
+             old_parent_bus, object_get_typename(OBJECT(old_parent_bus)),
 -- 
 2.21.1
 
