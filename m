@@ -2,88 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152E81D7F00
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:45:53 +0200 (CEST)
-Received: from localhost ([::1]:32984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3EF1D7F9D
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 19:05:41 +0200 (CEST)
+Received: from localhost ([::1]:42548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaiti-0000Yw-IO
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:45:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60644)
+	id 1jajCu-0003KL-JG
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 13:05:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1jairo-0007c5-Er; Mon, 18 May 2020 12:43:52 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35934
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1jairn-0006xt-2H; Mon, 18 May 2020 12:43:51 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04IGXmsr126142; Mon, 18 May 2020 12:43:48 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 312c229ac2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 May 2020 12:43:48 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04IGhlOP154777;
- Mon, 18 May 2020 12:43:48 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 312c229abj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 May 2020 12:43:47 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04IGhKMY009884;
- Mon, 18 May 2020 16:43:46 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma01fra.de.ibm.com with ESMTP id 313x4mr014-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 18 May 2020 16:43:46 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 04IGhhJI62390518
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 18 May 2020 16:43:43 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 55F4BA4062;
- Mon, 18 May 2020 16:43:43 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DE0F6A405B;
- Mon, 18 May 2020 16:43:42 +0000 (GMT)
-Received: from oc3016276355.ibm.com (unknown [9.145.158.244])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 18 May 2020 16:43:42 +0000 (GMT)
-From: Pierre Morel <pmorel@linux.ibm.com>
-To: qemu-s390x@nongnu.org
-Subject: [PATCH v3 1/1] s390x: css: pong, channel subsystem test device
-Date: Mon, 18 May 2020 18:43:41 +0200
-Message-Id: <1589820221-23538-2-git-send-email-pmorel@linux.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1589820221-23538-1-git-send-email-pmorel@linux.ibm.com>
-References: <1589820221-23538-1-git-send-email-pmorel@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
- definitions=2020-05-18_06:2020-05-15,
- 2020-05-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0
- cotscore=-2147483648 lowpriorityscore=0 adultscore=0 malwarescore=0
- mlxlogscore=999 priorityscore=1501 mlxscore=0 spamscore=0 suspectscore=3
- phishscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2005180136
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 10:31:16
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jaj15-0005Bw-7f; Mon, 18 May 2020 12:53:27 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:46450)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jaj14-0001FN-B5; Mon, 18 May 2020 12:53:26 -0400
+Received: by mail-io1-xd42.google.com with SMTP id j8so11293837iog.13;
+ Mon, 18 May 2020 09:53:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=i1QfDnXLF3pdgsHDH6l70vgoP0qLzQyf5+UWG7s+x5w=;
+ b=Uf2uGQaIhD+W6YvwxSt0CWRoiieWL0EqVuZ+Fj1Esuib6hV1c9NBZrSJMLaaNmG2nW
+ //GPWZOj993fGPZp0ivvAPDFMevIVULOCU+TxuHo6651XKqF/QPgk2Vmrqaya6w7AIUq
+ DcN1R9k/oMCN4uFIJuU9fxETj/2KcJtJLLCAKQOm75LcXtqYX8TgjD+QK6WcYLU4GVa8
+ You0IQkVun9fs+KoZLwlgDadL5rF/O1TlKnRu4isSFWCRiXqP/W9szt43ahLHFZR7QWV
+ Pbt1JTvIZCx8xxvstCiHArrJocCU0X/k4gy+10o+ATreFXcw1VTxxuXGbVvdMsShrTl5
+ 2dew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=i1QfDnXLF3pdgsHDH6l70vgoP0qLzQyf5+UWG7s+x5w=;
+ b=XLI3j1FMAKTe6VuB9wIWPDBMOM99MmaohLNbV88dMN/rQTSGgyJ2ukjsoS/SoMaese
+ EQcbyOabUXo3buxwvARWQJNkk0lvZamKMj7nkSMOyo91TodupOfj6/28/J7J/dOcumte
+ pJZ8npsWttovtVG1DVUqr1TkbHw1+YT7d7NLTWSPkmwOz6Z0FD4nOUpSk881cDO3lx7Q
+ wIfbG78lFjQoJ05J24AxBmqWoo/3YYTssBpDXH3WJxpulekNudynL8SHAz7B36BSLQS8
+ pcZnKsV/I8pp1+oEkmXtQhyym21+QUuu4Ae0jkepmuVOPQnfrMpa9+Nw0dnor7wFxOxa
+ lRGA==
+X-Gm-Message-State: AOAM532YDzxDjsOL0CNeHZKKaMIGzLd8h1uAT2rpsVIgnQ7SnUPLCC27
+ aWG+LbxcFFQ49kZAB+AjsYvcu1aj45+PEkxXwZ0=
+X-Google-Smtp-Source: ABdhPJy4wYDtwsKIyu3uVb/W5VW7YaOBtoSn8VF/zHoiu9G3TBygxjuok/Cl4WLK7a41uGZOWpo0bVNKUe8BmnO0H2Y=
+X-Received: by 2002:a6b:dc11:: with SMTP id s17mr15582879ioc.42.1589820804960; 
+ Mon, 18 May 2020 09:53:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200518140309.5220-1-f4bug@amsat.org>
+ <20200518140309.5220-5-f4bug@amsat.org>
+In-Reply-To: <20200518140309.5220-5-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 18 May 2020 09:44:33 -0700
+Message-ID: <CAKmqyKONqrqs+4AyyA86zL35Jw3bKU44BCy7ZhmHb7XTj+Z0zA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] hw/timer/exynos4210_mct: Replace hw_error() by
+ qemu_log_mask()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,260 +81,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
- cohuck@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- borntraeger@de.ibm.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a test device for channel subsystem.
-Most of the CSS instructions are handled by the common code.
+On Mon, May 18, 2020 at 7:05 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> hw_error() calls exit(). This a bit overkill when we can log
+> the accesses as unimplemented or guest error.
+>
+> When fuzzing the devices, we don't want the whole process to
+> exit. Replace some hw_error() calls by qemu_log_mask().
+>
+> Per the datasheet "Exynos 4412 RISC Microprocessor Rev 1.00"
+> Chapter 25 "Multi Core Timer (MCT)" figure 1 and table 4,
+> the default value on the APB bus is 0.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-The PONG_READ and PONG_WRITE CCW commands allow to test the
-SSCH instruction with both read and write commands.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-It is also possible to define the Control Unit type
-with the cu_type property.
-Currently only the kvm-unit-test css test uses the PONG device.
+Alistair
 
-Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
----
- default-configs/s390x-softmmu.mak |   1 +
- hw/s390x/Kconfig                  |   3 +
- hw/s390x/Makefile.objs            |   1 +
- hw/s390x/ccw-pong.c               | 134 ++++++++++++++++++++++++++++++
- include/hw/s390x/pong.h           |  48 +++++++++++
- 5 files changed, 187 insertions(+)
- create mode 100644 hw/s390x/ccw-pong.c
- create mode 100644 include/hw/s390x/pong.h
-
-diff --git a/default-configs/s390x-softmmu.mak b/default-configs/s390x-softmmu.mak
-index f2287a133f..72711912cd 100644
---- a/default-configs/s390x-softmmu.mak
-+++ b/default-configs/s390x-softmmu.mak
-@@ -7,6 +7,7 @@
- #CONFIG_VFIO_CCW=n
- #CONFIG_VIRTIO_PCI=n
- #CONFIG_WDT_DIAG288=n
-+#CONFIG_CCW_TESTDEV=n
- 
- # Boards:
- #
-diff --git a/hw/s390x/Kconfig b/hw/s390x/Kconfig
-index 5e7d8a2bae..041ede333e 100644
---- a/hw/s390x/Kconfig
-+++ b/hw/s390x/Kconfig
-@@ -10,3 +10,6 @@ config S390_CCW_VIRTIO
-     select SCLPCONSOLE
-     select VIRTIO_CCW
-     select MSI_NONBROKEN
-+
-+config CCW_TESTDEV
-+    default y if TEST_DEVICES
-diff --git a/hw/s390x/Makefile.objs b/hw/s390x/Makefile.objs
-index 568bab9711..f839e28fb6 100644
---- a/hw/s390x/Makefile.objs
-+++ b/hw/s390x/Makefile.objs
-@@ -35,3 +35,4 @@ obj-$(CONFIG_KVM) += pv.o
- obj-y += s390-ccw.o
- obj-y += ap-device.o
- obj-y += ap-bridge.o
-+obj-y += ccw-pong.o
-diff --git a/hw/s390x/ccw-pong.c b/hw/s390x/ccw-pong.c
-new file mode 100644
-index 0000000000..292124721d
---- /dev/null
-+++ b/hw/s390x/ccw-pong.c
-@@ -0,0 +1,134 @@
-+/*
-+ * CCW PING-PONG
-+ *
-+ * Copyright 2019 IBM Corp.
-+ * Author(s): Pierre Morel <pmorel@linux.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at
-+ * your option) any later version. See the COPYING file in the top-level
-+ * directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/module.h"
-+#include "cpu.h"
-+#include "exec/address-spaces.h"
-+#include "hw/s390x/css.h"
-+#include "hw/s390x/css-bridge.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/s390x/pong.h"
-+
-+#define PONG_BUF_SIZE 0x1000
-+static char buf[PONG_BUF_SIZE];
-+
-+static int pong_ccw_cb(SubchDev *sch, CCW1 ccw)
-+{
-+    int rc = 0;
-+    static int value;
-+    int len;
-+
-+    len = (ccw.count > PONG_BUF_SIZE) ? PONG_BUF_SIZE : ccw.count;
-+    switch (ccw.cmd_code) {
-+    case PONG_WRITE:
-+        rc = ccw_dstream_read_buf(&sch->cds, buf, len);
-+        value = atol(buf);
-+        break;
-+    case PONG_READ:
-+        sprintf(buf, "%08x", value + 1);
-+        rc = ccw_dstream_write_buf(&sch->cds, buf, len);
-+        break;
-+    default:
-+        rc = -ENOSYS;
-+        break;
-+    }
-+
-+    sch->curr_status.scsw.count = ccw_dstream_residual_count(&sch->cds);
-+
-+    if (rc == -EIO) {
-+        /* I/O error, specific devices generate specific conditions */
-+        SCHIB *schib = &sch->curr_status;
-+
-+        sch->curr_status.scsw.dstat = SCSW_DSTAT_UNIT_CHECK;
-+        sch->sense_data[0] = 0x40;    /* intervention-req */
-+        schib->scsw.ctrl &= ~SCSW_ACTL_START_PEND;
-+        schib->scsw.ctrl &= ~SCSW_CTRL_MASK_STCTL;
-+        schib->scsw.ctrl |= SCSW_STCTL_PRIMARY | SCSW_STCTL_SECONDARY |
-+                   SCSW_STCTL_ALERT | SCSW_STCTL_STATUS_PEND;
-+    }
-+    return rc;
-+}
-+
-+static void pong_ccw_realize(DeviceState *ds, Error **errp)
-+{
-+    uint16_t chpid;
-+    CcwPONGDevice *dev = CCW_PONG(ds);
-+    CcwDevice *cdev = CCW_DEVICE(ds);
-+    CCWDeviceClass *cdk = CCW_DEVICE_GET_CLASS(cdev);
-+    SubchDev *sch;
-+    Error *err = NULL;
-+
-+    sch = css_create_sch(cdev->devno, errp);
-+    if (!sch) {
-+        return;
-+    }
-+
-+    sch->driver_data = dev;
-+    cdev->sch = sch;
-+    chpid = css_find_free_chpid(sch->cssid);
-+
-+    if (chpid > MAX_CHPID) {
-+        error_setg(&err, "No available chpid to use.");
-+        goto out_err;
-+    }
-+
-+    sch->id.reserved = 0xff;
-+    sch->id.cu_type = dev->cu_type;
-+    css_sch_build_virtual_schib(sch, (uint8_t)chpid, CCW_PONG_CHPID_TYPE);
-+    sch->do_subchannel_work = do_subchannel_work_virtual;
-+    sch->ccw_cb = pong_ccw_cb;
-+
-+    cdk->realize(cdev, &err);
-+    if (err) {
-+        goto out_err;
-+    }
-+
-+    css_reset_sch(sch);
-+    return;
-+
-+out_err:
-+    error_propagate(errp, err);
-+    css_subch_assign(sch->cssid, sch->ssid, sch->schid, sch->devno, NULL);
-+    cdev->sch = NULL;
-+    g_free(sch);
-+}
-+
-+static Property pong_ccw_properties[] = {
-+    DEFINE_PROP_UINT16("cu_type", CcwPONGDevice, cu_type, CCW_PONG_CU_TYPE),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void pong_ccw_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    device_class_set_props(dc, pong_ccw_properties);
-+    dc->bus_type = TYPE_VIRTUAL_CSS_BUS;
-+    dc->realize = pong_ccw_realize;
-+    dc->hotpluggable = false;
-+}
-+
-+static const TypeInfo pong_ccw_info = {
-+    .name = TYPE_CCW_PONG,
-+    .parent = TYPE_CCW_DEVICE,
-+    .instance_size = sizeof(CcwPONGDevice),
-+    .class_init = pong_ccw_class_init,
-+    .class_size = sizeof(CcwPONGClass),
-+};
-+
-+static void pong_ccw_register(void)
-+{
-+    type_register_static(&pong_ccw_info);
-+}
-+
-+type_init(pong_ccw_register)
-diff --git a/include/hw/s390x/pong.h b/include/hw/s390x/pong.h
-new file mode 100644
-index 0000000000..b14af7ca86
---- /dev/null
-+++ b/include/hw/s390x/pong.h
-@@ -0,0 +1,48 @@
-+/*
-+ *  ccw-attached PONG definitions
-+ *
-+ * Copyright 2019 IBM Corp.
-+ * Author(s): Pierre Morel <pmorel@linux.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at
-+ * your option) any later version. See the COPYING file in the top-level
-+ * directory.
-+ */
-+
-+#ifndef HW_S390X_PONG_CCW_H
-+#define HW_S390X_PONG_CCW_H
-+
-+#include "hw/sysbus.h"
-+#include "hw/s390x/css.h"
-+#include "hw/s390x/ccw-device.h"
-+
-+#define CCW_PONG_CU_TYPE    0xc0ca
-+#define CCW_PONG_CHPID_TYPE 0xd0
-+
-+#define TYPE_CCW_PONG "ccw-pong"
-+
-+/* Local Channel Commands */
-+#define PONG_WRITE 0x21         /* Write */
-+#define PONG_READ  0x22         /* Read buffer */
-+
-+#define CCW_PONG(obj) \
-+     OBJECT_CHECK(CcwPONGDevice, (obj), TYPE_CCW_PONG)
-+#define CCW_PONG_CLASS(klass) \
-+     OBJECT_CLASS_CHECK(CcwPONGClass, (klass), TYPE_CCW_PONG)
-+#define CCW_PONG_GET_CLASS(obj) \
-+     OBJECT_GET_CLASS(CcwPONGClass, (obj), TYPE_CCW_PONG)
-+
-+typedef struct CcwPONGDevice {
-+    CcwDevice parent_obj;
-+    uint16_t cu_type;
-+} CcwPONGDevice;
-+
-+typedef struct CcwPONGClass {
-+    CCWDeviceClass parent_class;
-+
-+    void (*init)(CcwPONGDevice *, Error **);
-+    int (*read_payload)(CcwPONGDevice *);
-+    int (*write_payload)(CcwPONGDevice *, uint8_t);
-+} CcwPONGClass;
-+
-+#endif
--- 
-2.25.1
-
+> ---
+> v2: Fixes -Wsometimes-uninitialized:
+>
+> hw/timer/exynos4210_mct.c:1158:5: error: variable 'value' is used uniniti=
+alized whenever switch default is taken [-Werror,-Wsometimes-uninitialized]
+>     default:
+>     ^~~~~~~
+> hw/timer/exynos4210_mct.c:1163:12: note: uninitialized use occurs here
+>     return value;
+>            ^~~~~
+> hw/timer/exynos4210_mct.c:1063:19: note: initialize the variable 'value' =
+to silence this warning
+>     uint32_t value;
+>                   ^
+>                    =3D 0
+> ---
+>  hw/timer/exynos4210_mct.c | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
+>
+> diff --git a/hw/timer/exynos4210_mct.c b/hw/timer/exynos4210_mct.c
+> index 570cf7075b..29a4b10676 100644
+> --- a/hw/timer/exynos4210_mct.c
+> +++ b/hw/timer/exynos4210_mct.c
+> @@ -54,7 +54,6 @@
+>
+>  #include "qemu/osdep.h"
+>  #include "qemu/log.h"
+> -#include "hw/hw.h"
+>  #include "hw/sysbus.h"
+>  #include "migration/vmstate.h"
+>  #include "qemu/timer.h"
+> @@ -62,7 +61,6 @@
+>  #include "hw/ptimer.h"
+>
+>  #include "hw/arm/exynos4210.h"
+> -#include "hw/hw.h"
+>  #include "hw/irq.h"
+>
+>  //#define DEBUG_MCT
+> @@ -1062,7 +1060,7 @@ static uint64_t exynos4210_mct_read(void *opaque, h=
+waddr offset,
+>      int index;
+>      int shift;
+>      uint64_t count;
+> -    uint32_t value;
+> +    uint32_t value =3D 0;
+>      int lt_i;
+>
+>      switch (offset) {
+> @@ -1158,8 +1156,8 @@ static uint64_t exynos4210_mct_read(void *opaque, h=
+waddr offset,
+>          break;
+>
+>      default:
+> -        hw_error("exynos4210.mct: bad read offset "
+> -                TARGET_FMT_plx "\n", offset);
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX =
+"\n",
+> +                      __func__, offset);
+>          break;
+>      }
+>      return value;
+> @@ -1484,8 +1482,8 @@ static void exynos4210_mct_write(void *opaque, hwad=
+dr offset,
+>          break;
+>
+>      default:
+> -        hw_error("exynos4210.mct: bad write offset "
+> -                TARGET_FMT_plx "\n", offset);
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX =
+"\n",
+> +                      __func__, offset);
+>          break;
+>      }
+>  }
+> --
+> 2.21.3
+>
+>
 
