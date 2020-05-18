@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59CC11D7DEC
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:08:36 +0200 (CEST)
-Received: from localhost ([::1]:38448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B0D1D7DED
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 18:08:38 +0200 (CEST)
+Received: from localhost ([::1]:38582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaiJf-0004Ru-CJ
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54118)
+	id 1jaiJh-0004VC-KL
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 12:08:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jaiDt-0003jZ-Sn
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:02:37 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36690)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jaiDw-0003p3-30
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:02:40 -0400
+Received: from mx2.suse.de ([195.135.220.15]:36714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jaiDs-000329-RE
- for qemu-devel@nongnu.org; Mon, 18 May 2020 12:02:37 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jaiDv-00032p-8J
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 12:02:39 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id C0965AF7F;
- Mon, 18 May 2020 16:02:37 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id AA841AF68;
+ Mon, 18 May 2020 16:02:40 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: David Gibson <david@gibson.dropbear.id.au>,
  Peter Maydell <peter.maydell@linaro.org>,
  Philippe Mathieu-Daude <philmd@redhat.com>
-Subject: [PATCH v5 1/2] Makefile: dtc: update, build the libfdt target
-Date: Mon, 18 May 2020 18:02:26 +0200
-Message-Id: <20200518160227.18767-2-cfontana@suse.de>
+Subject: [PATCH v5 2/2] Makefile: remove old compatibility gunks
+Date: Mon, 18 May 2020 18:02:27 +0200
+Message-Id: <20200518160227.18767-3-cfontana@suse.de>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20200518160227.18767-1-cfontana@suse.de>
 References: <20200518160227.18767-1-cfontana@suse.de>
@@ -62,72 +62,31 @@ Cc: Markus Armbruster <armbru@redhat.com>, Claudio Fontana <cfontana@suse.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-dtc submodule update, now call the libfdt target from the new
-dtc Makefile, which has been changed to not require bison, flex, etc.
-This removes warnings during the build.
-
-scripts/ symlink and tests directory creation are not necessary,
-and neither is calling the clean rule explicitly.
-
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- Makefile  | 10 +++++-----
- configure |  1 -
- dtc       |  2 +-
- 3 files changed, 6 insertions(+), 7 deletions(-)
+ Makefile | 6 ------
+ 1 file changed, 6 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 34275f57c9..36a6454295 100644
+index 36a6454295..2873d59ea2 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -526,13 +526,14 @@ $(SOFTMMU_FUZZ_RULES): $(edk2-decompressed)
- $(TARGET_DIRS_RULES):
- 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" $(notdir $@),)
+@@ -562,12 +562,6 @@ slirp/all: .git-submodule-status
+ 		CC="$(CC)" AR="$(AR)" 	LD="$(LD)" RANLIB="$(RANLIB)"	\
+ 		CFLAGS="$(QEMU_CFLAGS) $(CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)")
  
--DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_srcdir=$(SRC_PATH)/dtc/libfdt
-+# LIBFDT_lib="": avoid breaking existing trees with objects requiring -fPIC
-+DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_lib=""
- DTC_CFLAGS=$(CFLAGS) $(QEMU_CFLAGS)
--DTC_CPPFLAGS=-I$(BUILD_DIR)/dtc -I$(SRC_PATH)/dtc -I$(SRC_PATH)/dtc/libfdt
-+DTC_CPPFLAGS=-I$(SRC_PATH)/dtc/libfdt
+-# Compatibility gunk to keep make working across the rename of targets
+-# for recursion, to be removed some time after 4.1.
+-subdir-dtc: dtc/all
+-subdir-capstone: capstone/all
+-subdir-slirp: slirp/all
+-
+ $(filter %/all, $(TARGET_DIRS_RULES)): libqemuutil.a $(common-obj-y) \
+ 	$(qom-obj-y)
  
- .PHONY: dtc/all
--dtc/all: .git-submodule-status dtc/libfdt dtc/tests
--	$(call quiet-command,$(MAKE) $(DTC_MAKE_ARGS) CPPFLAGS="$(DTC_CPPFLAGS)" CFLAGS="$(DTC_CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)" ARFLAGS="$(ARFLAGS)" CC="$(CC)" AR="$(AR)" LD="$(LD)" $(SUBDIR_MAKEFLAGS) libfdt/libfdt.a,)
-+dtc/all: .git-submodule-status dtc/libfdt
-+	$(call quiet-command,$(MAKE) $(DTC_MAKE_ARGS) CPPFLAGS="$(DTC_CPPFLAGS)" CFLAGS="$(DTC_CFLAGS)" LDFLAGS="$(QEMU_LDFLAGS)" ARFLAGS="$(ARFLAGS)" CC="$(CC)" AR="$(AR)" LD="$(LD)" $(SUBDIR_MAKEFLAGS) libfdt,)
- 
- dtc/%: .git-submodule-status
- 	@mkdir -p $@
-@@ -820,7 +821,6 @@ distclean: clean
- 	rm -rf $$d || exit 1 ; \
-         done
- 	rm -Rf .sdk
--	if test -f dtc/version_gen.h; then $(MAKE) $(DTC_MAKE_ARGS) clean; fi
- 
- KEYMAPS=da     en-gb  et  fr     fr-ch  is  lt  no  pt-br  sv \
- ar      de     en-us  fi  fr-be  hr     it  lv  nl         pl  ru     th \
-diff --git a/configure b/configure
-index 26084fc53a..069ce34611 100755
---- a/configure
-+++ b/configure
-@@ -4281,7 +4281,6 @@ EOF
-           mkdir -p dtc
-           if [ "$pwd_is_source_path" != "y" ] ; then
-               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
--              symlink "$source_path/dtc/scripts" "dtc/scripts"
-           fi
-           fdt_cflags="-I\$(SRC_PATH)/dtc/libfdt"
-           fdt_ldflags="-L\$(BUILD_DIR)/dtc/libfdt"
-diff --git a/dtc b/dtc
-index 88f18909db..85e5d83984 160000
---- a/dtc
-+++ b/dtc
-@@ -1 +1 @@
--Subproject commit 88f18909db731a627456f26d779445f84e449536
-+Subproject commit 85e5d839847af54efab170f2b1331b2a6421e647
 -- 
 2.16.4
 
