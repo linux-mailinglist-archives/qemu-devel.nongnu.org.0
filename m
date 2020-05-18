@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61ADD1D74B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 12:06:50 +0200 (CEST)
-Received: from localhost ([::1]:58154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D59FB1D7451
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 11:48:03 +0200 (CEST)
+Received: from localhost ([::1]:52300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jacfZ-0006a0-G3
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 06:06:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57164)
+	id 1jacNO-0008Qz-V3
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 05:48:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jaceV-0006Ay-6f
- for qemu-devel@nongnu.org; Mon, 18 May 2020 06:05:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39114)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jacML-000809-Cz
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 05:46:58 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:36741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jaceU-0004hZ-6g
- for qemu-devel@nongnu.org; Mon, 18 May 2020 06:05:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jaceS-0003Xg-ET
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 10:05:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3EFC82E810C
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 10:05:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jacMJ-0000J4-Iz
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 05:46:56 -0400
+Received: by mail-ot1-x341.google.com with SMTP id h7so536463otr.3
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 02:46:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4fukAjjrG/5UUqO35Dd8pc9CP9vI64P/1FixCOxjnDM=;
+ b=zw3R6zpeWlRK3/H6fl6VdnBYSk9ItdHrMs3oZys9CRw8cOdqvulMmrm1DSSDxApnMi
+ bGWWcotwBe/qHA7PghGUOyNxMhK48IVMewSZEX4kkAmMy5gjV9AFFFn45l0rAgQZixbt
+ Pq9L5SGrgHixD7SjBbKCyiCqTxSPvMw8wDvVArtah1RyglamTAmfWkSSEkTXrC4k35Yr
+ Zak8QQK+dECg4mU06nnD+50CSBc5TjqVF1oqtbMglEh7KtZtjFjWpVupVS/jOKfTTm8/
+ +OJB0si+Q17rIpo+U32DfVeFeTcvu2oe39kOsnp9PApycZByjudZmnfd0yo1MZqpcvhc
+ qr9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4fukAjjrG/5UUqO35Dd8pc9CP9vI64P/1FixCOxjnDM=;
+ b=Uk8ZJXvIxKwuNFlgv+aV+447g5nJfAap5Ar30HtvNfNWUvnG725HpF8Fygn38LDbsb
+ q3Y14mxHkJh89xZ0WBzHVIejzN9DDYKmgvj6kfPTg42VAle/4+1zg8oo6qJZ5+SYd5Vf
+ MHOhN2tXX9FS7CFnAo79BmljPToZiuTmptTaLswoXmMuqMz7cgsRkUfWM5QWLmnYyRJJ
+ lTHLof+yE/pqfnVW0dTTgMvFH9HDo/xHXOrvgL1gVPBrL+OUAttLrIAeZXjoDdFz/0zN
+ RVsCN3JQ7gLVaZTNMaZ6ImqLDgw/llV5l5UJwMFZNb/wUGksDlC3tgAMtUsmVhOkoObM
+ LnqA==
+X-Gm-Message-State: AOAM532a2bQS3uZkxe4gZA8zWsOKh1U+oHtdN0QpsaLTcKOIOGR+jE5U
+ FdIeyEUBAhr7XAS0S+RKvohKFKtX/ttn69a9YibZ0w==
+X-Google-Smtp-Source: ABdhPJyBencYClQbyqo1ak7wArPus1nhSHjOdHoYsLhzky4lhja0++xwCHNr7CuY22PFDoG9DFEISHxtfOHgywumTG8=
+X-Received: by 2002:a05:6830:158b:: with SMTP id
+ i11mr2020424otr.135.1589795213754; 
+ Mon, 18 May 2020 02:46:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20200517164817.5371-1-f4bug@amsat.org>
+In-Reply-To: <20200517164817.5371-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 18 May 2020 10:46:42 +0100
+Message-ID: <CAFEAcA81dq=DZO-ao80j6saWutsBD8Lka+0M_Lu77e44BdO5Tw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] exec/memory: Enforce checking MemTxResult values
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 18 May 2020 09:45:57 -0000
-From: Sergey Nizovtsev <1502613@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Wishlist;
- assignee=snizovtsev@gmail.com; 
-X-Launchpad-Bug-Tags: battery management power virtual
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kranebrain naftaly-avadiaev philmd snizovtsev
- wolfgangandreas
-X-Launchpad-Bug-Reporter: Wolfgang Andreas (wolfgangandreas)
-X-Launchpad-Bug-Modifier: Sergey Nizovtsev (snizovtsev)
-References: <20151004131253.1871.94138.malonedeb@wampee.canonical.com>
-Message-Id: <158979515798.31408.9092174617247412677.malone@chaenomeles.canonical.com>
-Subject: [Bug 1502613] Re: [Feature Request] Battery Status / Virtual Battery
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2faa3a0c6e6c1fb3f9c1410dcde297351a600c8a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 04:21:44
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,50 +81,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1502613 <1502613@bugs.launchpad.net>
+Cc: Tony Nguyen <tony.nguyen@bt.com>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mizz,
+On Sun, 17 May 2020 at 17:48, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Various places ignore the MemTxResult indicator of
+> transaction failed. Some cases might be justified
+> (DMA?) while other are probably bugs. To avoid
+> ignoring transaction errors, suggestion is to mark
+> functions returning MemTxResult with
+> warn_unused_result attribute.
 
-I'm worked on it and got a working draft on pre-5.0 codebase. It can
-react on QMP property changes to trigger ACPI events on x86 and arm-
-virt.
+Not necessarily a bad idea, but don't we have an awful
+lot of places that ignore the result that we'd need
+to fix first?
 
-However i've stuck on frontend/backend split. Keep calm, i'm still
-working on the task and will complete this soon.
-
-Philippe, thanks for advice!
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1502613
-
-Title:
-  [Feature Request] Battery Status / Virtual Battery
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  When using virtualization on notebooks heavily then virtual machines
-  do not realize that they're running on a notebook device causing high
-  power consumption because they're not switching into a optimized
-  "laptop mode". This leads to the circumstance that they are trying to
-  do things like defragmentation / virtus scan / etc. while the host is
-  still running on batteries.
-
-  So it would be great if QEMU / KVM would have support for emulating
-  "Virtual Batteries" to guests causing them to enable power-saving
-  options like disabling specific services / devices / file operations
-  automatically by OS.
-
-  Optionally a great feature would be to set virtual battery's status
-  manually. For example: Current charge rate / charging / discharging /
-  ...
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1502613/+subscriptions
+thanks
+-- PMM
 
