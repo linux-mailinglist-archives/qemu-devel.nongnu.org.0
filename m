@@ -2,71 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE261D72DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 10:21:43 +0200 (CEST)
-Received: from localhost ([::1]:51752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93E51D7308
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 10:34:38 +0200 (CEST)
+Received: from localhost ([::1]:41658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jab1q-0004zV-OT
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 04:21:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44990)
+	id 1jabEL-0005Ke-T7
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 04:34:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linus.walleij@linaro.org>)
- id 1jab0a-0003oO-Th
- for qemu-devel@nongnu.org; Mon, 18 May 2020 04:20:24 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:35569)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <linus.walleij@linaro.org>)
- id 1jab0Z-0002rj-CB
- for qemu-devel@nongnu.org; Mon, 18 May 2020 04:20:24 -0400
-Received: by mail-lj1-x243.google.com with SMTP id g4so8841732ljl.2
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 01:20:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cWBQhzz5kxNoR9BFp0TP6Ch5JEPPhK+boe7luhQX8WE=;
- b=lzCxMPImw8Rt7qwkKQvXvs4yHXPUCBcSFgZgVKQ1O//DYIZLFdU0vSKui/Goai4MKT
- xzGOdXpFC6fBYraQ5/bglOKFm4zvdR+GQlFCVvUpk2HQXfwDAcFh1u70fVOJ6VXLasU+
- yjC4ArpFTAt05MznUJpxxFnr4qaGbzevmpirg+pnHZQf3hyxYA50KaYPvFy8M4Ix9Vsw
- 7CmNiCNqtZExlHmmBkup0WtdyjuF+RwTNb9qxejk1O74cyIWT47Mx0yUrBpBhB0w0N/p
- 7DpB2eYveOkZ4EyHcs+xZJHU8763ij0ME6GnBRSzZ8iCJ3Xg9989Oe0v34IPE6J4mp6U
- wGAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cWBQhzz5kxNoR9BFp0TP6Ch5JEPPhK+boe7luhQX8WE=;
- b=f0AkH8AFI6+i8e9IPdtZ9nlXLj6FUMGUfIg3MBVRQckR/S51WjX+YgAUTf8LeAM+3n
- qDVK3ycDZypuBfJpyfY8RZLiqJDFuHmNhqSS+VreE3Wnx3MF5H9EkmdycNU96STGZ+RB
- 5M7SiQ0kTKx0woVXBH6N8rfjIv43w7f65lAxHMXPuio4TI1dVwl3lmsFIH9z26SpjPVW
- Ucc6J86d8oBKUmqbK0By0woqoOt60Pfha5WYGPAAxj3TPC6lcefSlzJrcanNH1NK2ZV9
- VOqcdXKh6H7ipEMr2HB75b5ji6KND32Xy1bfNTSSQ6EkabQpCsgCUqIJuTbLRcD46WUn
- WJeA==
-X-Gm-Message-State: AOAM531tGayCINy2Cdu8TuJKjPMm+sbWO4f5ZtJ7NHvCRJ8ol52JkRUW
- IQQHaKEMFsaFGLphNguDDdNdkkyWtsHqdcgxPmwRRg==
-X-Google-Smtp-Source: ABdhPJy23lR0seQjYixD1vitkrbudfUoFZ0cFs0uEBn+vezhL4JCCG9kC3sBTizi/2x2WCOoPPUTf8nffzPSq1nM6JE=
-X-Received: by 2002:a2e:a209:: with SMTP id h9mr10157090ljm.39.1589790021698; 
- Mon, 18 May 2020 01:20:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200511145257.22970-1-geert+renesas@glider.be>
- <20200511145257.22970-4-geert+renesas@glider.be>
-In-Reply-To: <20200511145257.22970-4-geert+renesas@glider.be>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 18 May 2020 10:20:10 +0200
-Message-ID: <CACRpkdaqSQ4++mhR03pqi0i=uhSyf51WhtE5VOobGNEcMmf09g@mail.gmail.com>
-Subject: Re: [PATCH v7 3/6] gpiolib: Add support for GPIO lookup by line name
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=linus.walleij@linaro.org; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jabDA-0004HL-U4
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 04:33:24 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30787
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jabD9-0005v6-NY
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 04:33:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589790801;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type;
+ bh=xgGz94sVb4d0ezexUgevgjLRHz035twUg3/hSMAyx78=;
+ b=FRxZTVMaEEazb4dTcXQbFKBimbCHxoLv8wkl15dhvisaSqzPX5C6ecaTrEzoBVnVBvv+fN
+ beijL0G3yC/asLsnijiuqqLrhdmGy6ffHFreEmBZ2TqkGHkAC77XHnj85HZecSwgNHIRAg
+ ViQM0LHicZMIEX5+c/5LJXOY9VkrvZg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-xUC71YBxMbWxsr8k-0Yt4A-1; Mon, 18 May 2020 04:33:20 -0400
+X-MC-Unique: xUC71YBxMbWxsr8k-0Yt4A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CF57835B41;
+ Mon, 18 May 2020 08:33:19 +0000 (UTC)
+Received: from thuth.com (ovpn-112-182.ams2.redhat.com [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 629CA64441;
+ Mon, 18 May 2020 08:33:18 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH] travis.yml: Use clang++ in the Clang tests
+Date: Mon, 18 May 2020 10:33:15 +0200
+Message-Id: <20200518083316.25065-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:51:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,56 +71,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
- Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <marc.zyngier@arm.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Christoffer Dall <christoffer.dall@arm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Harish Jenny K N <harish_kandiga@mentor.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <graf@amazon.com>,
- Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 11, 2020 at 4:53 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+Our configure script does not look for clang++ automatically, so we
+should use --cxx=clang++ to make sure that we test our C++ code with
+Clang, too. And while we're at it, also use --host-cc=clang here
+to avoid that we use the normal "cc" as host C compiler.
 
-> Currently a GPIO lookup table can only refer to a specific GPIO by a
-> tuple, consisting of a GPIO controller label and a GPIO offset inside
-> the controller.
->
-> However, a GPIO may also carry a line name, defined by DT or ACPI.
-> If present, the line name is the most use-centric way to refer to a
-> GPIO.  Hence add support for looking up GPIOs by line name.
-> Note that there is no guarantee that GPIO line names are globally
-> unique, so this will use the first match found.
->
-> Implement this by reusing the existing gpiod_lookup infrastructure.
-> Rename gpiod_lookup.chip_label to gpiod_lookup.key, to make it clear
-> that this field can have two meanings, and update the kerneldoc and
-> GPIO_LOOKUP*() macros.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> ---
-> v7:
->   - Document non-uniqueness of line names,
->   - Rebase on top of commit a0b66a73785ccc8f ("gpio: Rename variable in
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .travis.yml | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-This is likely the most controversial patch of this series but since
-noone seems to be especially upset, I think I just accept this
-heuristic.
+diff --git a/.travis.yml b/.travis.yml
+index 1ec8a7b465..564be50a3c 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -205,14 +205,15 @@ jobs:
+     # Test with Clang for compile portability (Travis uses clang-5.0)
+     - name: "Clang (user)"
+       env:
+-        - CONFIG="--disable-system"
++        - CONFIG="--disable-system --host-cc=clang --cxx=clang++"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-clang-default"
+       compiler: clang
+ 
+ 
+     - name: "Clang (main-softmmu)"
+       env:
+-        - CONFIG="--target-list=${MAIN_SOFTMMU_TARGETS} "
++        - CONFIG="--target-list=${MAIN_SOFTMMU_TARGETS}
++                  --host-cc=clang --cxx=clang++"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-clang-sanitize"
+       compiler: clang
+       before_script:
+@@ -222,7 +223,8 @@ jobs:
+ 
+     - name: "Clang (other-softmmu)"
+       env:
+-        - CONFIG="--disable-user --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
++        - CONFIG="--disable-user --target-list-exclude=${MAIN_SOFTMMU_TARGETS}
++                  --host-cc=clang --cxx=clang++"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-clang-default"
+       compiler: clang
+ 
+-- 
+2.18.1
 
-It is pretty clearly cut I think, and fits very well with the
-aggregator use case, which is an important one.
-
-Yours,
-Linus Walleij
 
