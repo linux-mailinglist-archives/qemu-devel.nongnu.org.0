@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852771D7022
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:09:19 +0200 (CEST)
-Received: from localhost ([::1]:57168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA461D7018
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 07:06:41 +0200 (CEST)
+Received: from localhost ([::1]:42532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jaY1e-0001EL-Jm
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:09:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49232)
+	id 1jaXz6-0003hu-7m
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 01:06:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwq-0008SJ-Jp
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49104
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwt-0000A6-Og
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51472
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXwn-0004Lp-3R
- for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:20 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jaXws-0004Og-GB
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 01:04:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589778255;
+ s=mimecast20190719; t=1589778261;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m8JJv8K4KGYmo0R3+OjES4UjC3PSxppyqDh+UB0efcc=;
- b=ZG606/s+3gHQuV7LbXidzzrVwAhi3VQvEhCTxj0p9lJukODoQ6Ssy6fXCG1X28n9FRQAoG
- NrbAedr51rP+AREVEXREOn4/qGPQSIu47o0alV++/9EWTnSH8xjQZBEXERANEku3k92anS
- roNYRdWSmKXciJDV46ZIlZGrS+gvD+c=
+ bh=t4O5dU6OXScPqqUWYQSyYlMZ+HtADWQ8rEMv7vhvyQI=;
+ b=Kfq81pOmVXTy24fMWOgkhewL9XEM+Yr9/9Tn9GoypYlZysKiE366BZHznI3ud0PCP3eJe6
+ /MjOKszluWqB8Xb6R73tCrBsFXWhtIxDFYY7Z9PpHXd4CRwFCAD7x+7pW61/Pt6bruojjf
+ DfCSctiiGkEKXvPeiV1z7IOBBvz0Pjk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-IRy8805bNKODnk2qb8UeBg-1; Mon, 18 May 2020 01:04:13 -0400
-X-MC-Unique: IRy8805bNKODnk2qb8UeBg-1
+ us-mta-117-CWtNukdVOO6sZWFhOa3X2Q-1; Mon, 18 May 2020 01:04:13 -0400
+X-MC-Unique: CWtNukdVOO6sZWFhOa3X2Q-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C693F872FE4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D112EEC1A6;
  Mon, 18 May 2020 05:04:12 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 958C079587;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FC1B79589;
  Mon, 18 May 2020 05:04:12 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4ECCE11358CC; Mon, 18 May 2020 07:04:08 +0200 (CEST)
+ id 5496111358CD; Mon, 18 May 2020 07:04:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/24] macio: Fix macio-bus to be a subtype of System bus
-Date: Mon, 18 May 2020 07:03:59 +0200
-Message-Id: <20200518050408.4579-16-armbru@redhat.com>
+Subject: [PATCH 16/24] ppc/pnv: Put "*-pnv-chip" and "pnv-xive" on the main
+ system bus
+Date: Mon, 18 May 2020 07:04:00 +0200
+Message-Id: <20200518050408.4579-17-armbru@redhat.com>
 In-Reply-To: <20200518050408.4579-1-armbru@redhat.com>
 References: <20200518050408.4579-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -80,38 +81,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org,
- pbonzini@redhat.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: berrange@redhat.com, ehabkost@redhat.com, qemu-ppc@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, pbonzini@redhat.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The devices we plug into the macio-bus are all sysbus devices
-(DeviceClass member bus_type is TYPE_SYSTEM_BUS), but macio-bus does
-not derive from TYPE_SYSTEM_BUS.  Fix that.
+pnv_init() creates "power10_v1.0-pnv-chip", "power8_v2.0-pnv-chip",
+"power8e_v2.1-pnv-chip", "power8nvl_v1.0-pnv-chip", or
+"power9_v2.0-pnv-chip" sysbus devices in a way that leaves them
+unplugged.
 
-"info qtree" now shows the devices' mmio ranges, as it should
+pnv_chip_power9_instance_init() creates a "pnv-xive" sysbus device in
+a way that leaves it unplugged.
 
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Create them the common way that puts them into the main system bus.
+Affects machines powernv8, powernv9, and powernv10.  Visible in "info
+qtree".  Here's the change for powernv9:
+
+     bus: main-system-bus
+       type System
+    +  dev: power9_v2.0-pnv-chip, id ""
+    +    chip-id = 0 (0x0)
+    +    ram-start = 0 (0x0)
+    +    ram-size = 1879048192 (0x70000000)
+    +    nr-cores = 1 (0x1)
+    +    cores-mask = 72057594037927935 (0xffffffffffffff)
+    +    nr-threads = 1 (0x1)
+    +    num-phbs = 6 (0x6)
+    +    mmio 000603fc00000000/0000000400000000
+    [...]
+    +  dev: pnv-xive, id ""
+    +    ic-bar = 1692157036462080 (0x6030203100000)
+    +    vc-bar = 1689949371891712 (0x6010000000000)
+    +    pc-bar = 1690499127705600 (0x6018000000000)
+    +    tm-bar = 1692157036986368 (0x6030203180000)
+
+Cc: "Cédric Le Goater" <clg@kaod.org>
 Cc: David Gibson <david@gibson.dropbear.id.au>
 Cc: qemu-ppc@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/misc/macio/macio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/ppc/pnv.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index ebc96cc8f6..53a9fd5696 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -492,7 +492,7 @@ static void macio_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index da637822f9..8d4fc8109a 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -818,7 +818,7 @@ static void pnv_init(MachineState *machine)
+     pnv->chips = g_new0(PnvChip *, pnv->num_chips);
+     for (i = 0; i < pnv->num_chips; i++) {
+         char chip_name[32];
+-        Object *chip = object_new(chip_typename);
++        Object *chip = OBJECT(qdev_create(NULL, chip_typename));
  
- static const TypeInfo macio_bus_info = {
-     .name = TYPE_MACIO_BUS,
--    .parent = TYPE_BUS,
-+    .parent = TYPE_SYSTEM_BUS,
-     .instance_size = sizeof(MacIOBusState),
- };
+         pnv->chips[i] = PNV_CHIP(chip);
+ 
+@@ -1317,8 +1317,8 @@ static void pnv_chip_power9_instance_init(Object *obj)
+     PnvChipClass *pcc = PNV_CHIP_GET_CLASS(obj);
+     int i;
+ 
+-    object_initialize_child(obj, "xive", &chip9->xive, sizeof(chip9->xive),
+-                            TYPE_PNV_XIVE, &error_abort, NULL);
++    sysbus_init_child_obj(obj, "xive", &chip9->xive, sizeof(chip9->xive),
++                          TYPE_PNV_XIVE);
+     object_property_add_alias(obj, "xive-fabric", OBJECT(&chip9->xive),
+                               "xive-fabric");
  
 -- 
 2.21.1
