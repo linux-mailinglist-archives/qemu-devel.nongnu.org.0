@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C181D7D93
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 17:57:10 +0200 (CEST)
-Received: from localhost ([::1]:50466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B42F1D7DA0
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 17:58:55 +0200 (CEST)
+Received: from localhost ([::1]:58164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jai8b-0001qC-HY
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 11:57:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52634)
+	id 1jaiAH-00050J-CC
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 11:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jai4v-0003J9-GK; Mon, 18 May 2020 11:53:21 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39964)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jai5U-00049g-6Z
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 11:53:56 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:42891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jai4u-00007U-9n; Mon, 18 May 2020 11:53:21 -0400
-Received: by mail-wm1-x343.google.com with SMTP id n18so9383wmj.5;
- Mon, 18 May 2020 08:53:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cD0HVhIueot6xPtNOGreyU0JTmhLcSi0Ka6Qp1Nps5Q=;
- b=UzUkQrcnedIIS0eyBH/lUMfwWEMl0dN7u8jvYptYKbxkrDH/d7z9FHA5lgbVk4b94O
- 9YAsA3AZn2b3y23TJXdtQz1KIUNf5Kvipq/cnwubNhPTe53nxW24cMT50ESHX3H4/wcQ
- izcXRSOCK5zCoYLLjt/KGEQqmZ2xpp7fgYwN6WliyF/fNgU4etLfxeZKj8Dfe4i9Q/Sr
- k+accbUYJeyeAfmxcwQTfyKvG3PYOmsnm3vdHwfVqIiDFu1ZpptTbNsUCxJf+JeIb1C8
- vxCoLsu7zynaFKgFBWTWnh3KBOoSK1a7SAlaqYJ94LEYAqcFAYBIpjyYkeJlDWSWQwVo
- QmvA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jai5T-0000CT-B3
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 11:53:55 -0400
+Received: by mail-oi1-x241.google.com with SMTP id l6so3505150oic.9
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 08:53:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0Rb6a9OPTQfJpHlc1CG4uedHUCEuT+PZYr3btHlYQhE=;
+ b=Di4ETJRO5q5f8bBE35pvXw/jjtjjOj5kXsC8bhXm9n3IQBPP3hSFqAnyN1Yq/+RvDo
+ BqI05Vbq/2b6fTUbMgkjQdsOzBEDZbUmfocSUwbL561/Kqt9PtBlaluWZsxLqNS9O3Zk
+ g0bJ0+xzvPxQgHkB41Avu/Gu6kcXmQV6U8sSWqq6Pcktic8cH6lp4FnBC+mqcOKV/3jQ
+ pqb22zTSylFa+2zof4GGkYco+h7FZrz4Nfuh02LJndSAXEKn2T5v5WyDfaDi+XsaY893
+ doA+CIB6cRym6sS/vG+s5GJ05NH+LJkm/oKros37oj2gvU9QSOqAJ70UwD4E4xdTDHGc
+ MW4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cD0HVhIueot6xPtNOGreyU0JTmhLcSi0Ka6Qp1Nps5Q=;
- b=ZUbOPjUqQNlwjH4troZcuUdjD5JjPfPqD6tfF4GWwHJGJh2xfl3aeTBatOGTGKt0NY
- 8Y8OSDkMg9VpUXfNgOA2S31UEsgCuHJNwjOQD4eSsx07SHtves701fCoB/9j+eXrbVTO
- e/pfVjOz21AknA7aFsMq4SKCcVjrI4q5/JZP72THD7LJVwg0cwXigTPdfybIChvJIto1
- hJb1CSH1hEQmhq8Xy4Hvi5mW1Ra8x75hjU81WaN41vyYpDjiWc3zofL8cMWaiopVjfRN
- su8vf7bfl2DyG5QIz2NsB1Afn0qn+Iv+2BP4V13XCXYw/i4dMGUqJe+SA+pPCw84h+mc
- HdgA==
-X-Gm-Message-State: AOAM53056N05FalAtvQFRsF+VQOn2lGeGySpKZfiXG3Bj+s/pXEa2nrv
- wfK2fSiBdUmPrihKRA3ukntZt60whUY=
-X-Google-Smtp-Source: ABdhPJzPg4xQnJ1fbHB57rgtpUNAn887oqh+iTpxfl6MyQ6sTjdHGtlxSB7D9n1FDS3I8jeo+FDEwA==
-X-Received: by 2002:a1c:7e03:: with SMTP id z3mr52303wmc.88.1589817198412;
- Mon, 18 May 2020 08:53:18 -0700 (PDT)
-Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id 7sm17647462wra.50.2020.05.18.08.53.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 08:53:17 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 7/7] hw/core/loader: Assert loading ROM regions
- succeeds at reset
-Date: Mon, 18 May 2020 17:53:08 +0200
-Message-Id: <20200518155308.15851-8-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200518155308.15851-1-f4bug@amsat.org>
-References: <20200518155308.15851-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0Rb6a9OPTQfJpHlc1CG4uedHUCEuT+PZYr3btHlYQhE=;
+ b=Pf/0WVp7kPYesDhuOt7ZZC3gdepSo864kxMrzlfD3hSJEpSZtJSRicnauz2+ypqhhI
+ ee2tyM+MLxyOmSPjQlkPgFU+TQbgAKkts/KmcPp7hAU74gecVzzcC/bR0tXooANoe14p
+ r9Il1hJyr8fnNhJlJh6T68C8uH/x2UHSBMVMujIeM8ZTWteyRBA10YnnAZYGbq9ocV6d
+ YyPE/uQ8Af72jzIsDxBK3z0LObxhLlBbrSmLQk2gsTWHJ0mbQde4tNkcbhJMZd3rGtwy
+ F0ULgk6dHujtNKghHEeW4vYfjb6cr5YIDVAC3oOu1I51sYRwOnC+oplq3qvsQTAXI7Fl
+ 4Dow==
+X-Gm-Message-State: AOAM531tDNHCZTY05uHjvfxl0u5HHG3ibxH9rzDKFWpLTMHnWlCLgdtA
+ RYO45OkvGcpLV4QcX1YQB4V2nxQ1ua8Ed8z6LGF1pH6v
+X-Google-Smtp-Source: ABdhPJwVKAsnPjJ3YGlhbLTvqtmEgFDz42Lunrn4vZkG7iuNcWQEttXlhhWgcJisI3w2fczJpkSYGothWGaWwEpTz3c=
+X-Received: by 2002:a54:400c:: with SMTP id x12mr22444oie.146.1589817234388;
+ Mon, 18 May 2020 08:53:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+References: <20200513180953.20376-1-richard.henderson@linaro.org>
+ <20200513180953.20376-5-richard.henderson@linaro.org>
+In-Reply-To: <20200513180953.20376-5-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 18 May 2020 16:53:42 +0100
+Message-ID: <CAFEAcA_2OOnajZ7xHC0FuZzeNj5GiwLpV-bWCtX-tKpihiwKLg@mail.gmail.com>
+Subject: Re: [RISU 4/9] Adjust tracefile open for write
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -87,43 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we are unable to load a blob in a ROM region, we should not
-ignore it and let the machine boot.
+On Wed, 13 May 2020 at 19:10, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Truncate the new output file.  Rely on umask to remove
+> group+other file permissions, if desired.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  risu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/risu.c b/risu.c
+> index 1c66885..f404d8f 100644
+> --- a/risu.c
+> +++ b/risu.c
+> @@ -368,7 +368,7 @@ int main(int argc, char **argv)
+>              comm_fd = ismaster ? STDOUT_FILENO : STDIN_FILENO;
+>          } else {
+>              if (ismaster) {
+> -                comm_fd = open(trace_fn, O_WRONLY | O_CREAT, S_IRWXU);
+> +                comm_fd = open(trace_fn, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+>              } else {
+>                  comm_fd = open(trace_fn, O_RDONLY);
+>              }
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-RFC: Maybe more polite with user to use hw_error()?
----
- hw/core/loader.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+I dunno why we were giving it execute permissions...
 
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index 8bbb1797a4..4e046388b4 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
-@@ -1146,8 +1146,12 @@ static void rom_reset(void *unused)
-             void *host = memory_region_get_ram_ptr(rom->mr);
-             memcpy(host, rom->data, rom->datasize);
-         } else {
--            address_space_write_rom(rom->as, rom->addr, MEMTXATTRS_UNSPECIFIED,
--                                    rom->data, rom->datasize);
-+            MemTxResult res;
-+
-+            res = address_space_write_rom(rom->as, rom->addr,
-+                                          MEMTXATTRS_UNSPECIFIED,
-+                                          rom->data, rom->datasize);
-+            assert(res == MEMTX_OK);
-         }
-         if (rom->isrom) {
-             /* rom needs to be written only once */
--- 
-2.21.3
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
+-- PMM
 
