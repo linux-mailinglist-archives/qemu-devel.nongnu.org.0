@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184511D835F
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 20:04:42 +0200 (CEST)
-Received: from localhost ([::1]:33756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6AFB1D831F
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 May 2020 20:03:11 +0200 (CEST)
+Received: from localhost ([::1]:58646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jak81-0007k1-6J
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 14:04:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43394)
+	id 1jak6Y-0006Jj-GK
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 14:03:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jak4h-0005Bb-BC
- for qemu-devel@nongnu.org; Mon, 18 May 2020 14:01:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27872
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jak4v-0005PH-9Z
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 14:01:29 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33790
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jak4g-00033j-9x
- for qemu-devel@nongnu.org; Mon, 18 May 2020 14:01:15 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jak4u-00036K-1H
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 14:01:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589824873;
+ s=mimecast20190719; t=1589824886;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=49tYsxIzzACQzUjPEMtptE4ywZ48RR5MimwNRO4Z8aM=;
- b=GgiHm0/ZlroQLAsZjnbCawrhuIfbUvhNXIrT3Uhj18JBFNyx2Qe5XjySAB2g3m5DP5i7ix
- I3PyeT+Z+/65f8gYaGDeNdQozGfTjidAVf3rPFEz895c0nGaJjuSpLip4CThcAvThPE5UB
- sRd4DGg9hpFgIYKr22lDDfT5Eiunz4A=
+ references:references; bh=F1c+oilfDsSd/2cwkS5kVulDw/AxgAERhejaQ3GHa+0=;
+ b=edqZwDW9CvjSBnZGWxgerTA21ReAOOJ4RIfzpbQR8y2tX3N35PZGmWOTIADV6Dn4VLI7k6
+ rhBv23AgjSIupZeDufQU+2B1DOErx+cmZgsKB9T47uqGDH7XCAUymwce2ArVEsCRfyuwGg
+ l7PiBnmNKiYbEug+iwbTBLR8DaPDIEw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-33UsVXUCPm6EIefVrc_Wtw-1; Mon, 18 May 2020 14:01:09 -0400
-X-MC-Unique: 33UsVXUCPm6EIefVrc_Wtw-1
+ us-mta-269-bb1anneAOi6ocpVjo3Byjg-1; Mon, 18 May 2020 14:01:10 -0400
+X-MC-Unique: bb1anneAOi6ocpVjo3Byjg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A268108BD0D
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 18:01:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F34CA1800D42
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 18:01:09 +0000 (UTC)
 Received: from thuth.com (ovpn-112-242.ams2.redhat.com [10.36.112.242])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1902C1001B2C;
- Mon, 18 May 2020 18:01:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4CB410013D9;
+ Mon, 18 May 2020 18:01:08 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Jason Wang <jasowang@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 1/2] net: Drop the legacy "name" parameter from the -net
- option
-Date: Mon, 18 May 2020 20:01:02 +0200
-Message-Id: <20200518180103.32484-2-thuth@redhat.com>
+Subject: [PATCH v3 2/2] net: Drop the NetLegacy structure,
+ always use Netdev instead
+Date: Mon, 18 May 2020 20:01:03 +0200
+Message-Id: <20200518180103.32484-3-thuth@redhat.com>
 In-Reply-To: <20200518180103.32484-1-thuth@redhat.com>
 References: <20200518180103.32484-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:51:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/17 22:52:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,110 +79,217 @@ Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's been deprecated since QEMU v3.1, so it's time to finally
-remove it. The "id" parameter can simply be used instead.
+Now that the "name" parameter is gone, there is hardly any difference
+between NetLegacy and Netdev anymore, so we can drop NetLegacy and always
+use Netdev to simplify the code quite a bit.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+The only two differences that were really left between Netdev and NetLegacy:
+
+1) NetLegacy does not allow a "hubport" type. We can continue to block
+   this with a simple check in net_client_init1() for this type.
+
+2) The "id" parameter was optional in NetLegacy (and an internal id
+   was chosen via assign_name() during initialization), but it is mandatory
+   for Netdev. To avoid that the visitor code bails out here, we have to
+   add an internal id to the QemuOpts already earlier now.
+
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- docs/system/deprecated.rst | 15 +++++++++------
- net/net.c                  | 10 +---------
- qapi/net.json              |  3 ---
- 3 files changed, 10 insertions(+), 18 deletions(-)
+ Note: I did not rename the "is_netdev" parameter of the function (as
+ Eric suggested) - you really have to think of "-netdev" vs. "-net"
+ here and not about "Netdev" vs. "NetLegacy". But if this "is_netdev"
+ thing still confuses us in the future, we can still rename it with an
+ additional follow-up patch later instead.
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 3142fac386..1b87c8f0db 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -47,12 +47,6 @@ The 'file' driver for drives is no longer appropriate for character or host
- devices and will only accept regular files (S_IFREG). The correct driver
- for these file types is 'host_cdrom' or 'host_device' as appropriate.
- 
--``-net ...,name=``\ *name* (since 3.1)
--''''''''''''''''''''''''''''''''''''''
--
--The ``name`` parameter of the ``-net`` option is a synonym
--for the ``id`` parameter, which should now be used instead.
--
- ``-smp`` (invalid topologies) (since 3.1)
- '''''''''''''''''''''''''''''''''''''''''
- 
-@@ -470,6 +464,15 @@ What follows is a record of recently removed, formerly deprecated
- features that serves as a record for users who have encountered
- trouble after a recent upgrade.
- 
-+System emulator command line arguments
-+--------------------------------------
-+
-+``-net ...,name=``\ *name* (removed in 5.1)
-+'''''''''''''''''''''''''''''''''''''''''''
-+
-+The ``name`` parameter of the ``-net`` option was a synonym
-+for the ``id`` parameter, which should now be used instead.
-+
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
- 
+ net/net.c     | 77 +++++++++------------------------------------------
+ qapi/net.json | 46 ------------------------------
+ 2 files changed, 13 insertions(+), 110 deletions(-)
+
 diff --git a/net/net.c b/net/net.c
-index 38778e831d..a24da66e66 100644
+index a24da66e66..d4cc5bd73e 100644
 --- a/net/net.c
 +++ b/net/net.c
-@@ -969,12 +969,10 @@ static int net_client_init1(const void *object, bool is_netdev, Error **errp)
+@@ -965,15 +965,11 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+ };
+ 
+ 
+-static int net_client_init1(const void *object, bool is_netdev, Error **errp)
++static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
  {
-     Netdev legacy = {0};
-     const Netdev *netdev;
--    const char *name;
+-    Netdev legacy = {0};
+-    const Netdev *netdev;
      NetClientState *peer = NULL;
  
      if (is_netdev) {
-         netdev = object;
--        name = netdev->id;
- 
+-        netdev = object;
+-
          if (netdev->type == NET_CLIENT_DRIVER_NIC ||
              !net_client_init_fun[netdev->type]) {
-@@ -987,12 +985,6 @@ static int net_client_init1(const void *object, bool is_netdev, Error **errp)
-         const NetLegacyOptions *opts = net->opts;
-         legacy.id = net->id;
-         netdev = &legacy;
--        /* missing optional values have been initialized to "all bits zero" */
--        name = net->has_id ? net->id : net->name;
+             error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "type",
+@@ -981,56 +977,11 @@ static int net_client_init1(const void *object, bool is_netdev, Error **errp)
+             return -1;
+         }
+     } else {
+-        const NetLegacy *net = object;
+-        const NetLegacyOptions *opts = net->opts;
+-        legacy.id = net->id;
+-        netdev = &legacy;
 -
--        if (net->has_name) {
--            warn_report("The 'name' parameter is deprecated, use 'id' instead");
--        }
+-        /* Map the old options to the new flat type */
+-        switch (opts->type) {
+-        case NET_LEGACY_OPTIONS_TYPE_NONE:
++        if (netdev->type == NET_CLIENT_DRIVER_NONE) {
+             return 0; /* nothing to do */
+-        case NET_LEGACY_OPTIONS_TYPE_NIC:
+-            legacy.type = NET_CLIENT_DRIVER_NIC;
+-            legacy.u.nic = opts->u.nic;
+-            break;
+-        case NET_LEGACY_OPTIONS_TYPE_USER:
+-            legacy.type = NET_CLIENT_DRIVER_USER;
+-            legacy.u.user = opts->u.user;
+-            break;
+-        case NET_LEGACY_OPTIONS_TYPE_TAP:
+-            legacy.type = NET_CLIENT_DRIVER_TAP;
+-            legacy.u.tap = opts->u.tap;
+-            break;
+-        case NET_LEGACY_OPTIONS_TYPE_L2TPV3:
+-            legacy.type = NET_CLIENT_DRIVER_L2TPV3;
+-            legacy.u.l2tpv3 = opts->u.l2tpv3;
+-            break;
+-        case NET_LEGACY_OPTIONS_TYPE_SOCKET:
+-            legacy.type = NET_CLIENT_DRIVER_SOCKET;
+-            legacy.u.socket = opts->u.socket;
+-            break;
+-        case NET_LEGACY_OPTIONS_TYPE_VDE:
+-            legacy.type = NET_CLIENT_DRIVER_VDE;
+-            legacy.u.vde = opts->u.vde;
+-            break;
+-        case NET_LEGACY_OPTIONS_TYPE_BRIDGE:
+-            legacy.type = NET_CLIENT_DRIVER_BRIDGE;
+-            legacy.u.bridge = opts->u.bridge;
+-            break;
+-        case NET_LEGACY_OPTIONS_TYPE_NETMAP:
+-            legacy.type = NET_CLIENT_DRIVER_NETMAP;
+-            legacy.u.netmap = opts->u.netmap;
+-            break;
+-        case NET_LEGACY_OPTIONS_TYPE_VHOST_USER:
+-            legacy.type = NET_CLIENT_DRIVER_VHOST_USER;
+-            legacy.u.vhost_user = opts->u.vhost_user;
+-            break;
+-        default:
+-            abort();
+         }
+-
+-        if (!net_client_init_fun[netdev->type]) {
++        if (netdev->type == NET_CLIENT_DRIVER_HUBPORT ||
++            !net_client_init_fun[netdev->type]) {
+             error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "type",
+                        "a net backend type (maybe it is not compiled "
+                        "into this binary)");
+@@ -1039,7 +990,7 @@ static int net_client_init1(const void *object, bool is_netdev, Error **errp)
  
-         /* Map the old options to the new flat type */
-         switch (opts->type) {
-@@ -1052,7 +1044,7 @@ static int net_client_init1(const void *object, bool is_netdev, Error **errp)
+         /* Do not add to a hub if it's a nic with a netdev= parameter. */
+         if (netdev->type != NET_CLIENT_DRIVER_NIC ||
+-            !opts->u.nic.has_netdev) {
++            !netdev->u.nic.has_netdev) {
+             peer = net_hub_add_port(0, NULL, NULL);
+         }
+     }
+@@ -1100,7 +1051,7 @@ static void show_netdevs(void)
+ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
+ {
+     gchar **substrings = NULL;
+-    void *object = NULL;
++    Netdev *object = NULL;
+     Error *err = NULL;
+     int ret = -1;
+     Visitor *v = opts_visitor_new(opts);
+@@ -1143,21 +1094,19 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
          }
      }
  
--    if (net_client_init_fun[netdev->type](netdev, name, peer, errp) < 0) {
-+    if (net_client_init_fun[netdev->type](netdev, netdev->id, peer, errp) < 0) {
-         /* FIXME drop when all init functions store an Error */
-         if (errp && !*errp) {
-             error_setg(errp, QERR_DEVICE_INIT_FAILED,
+-    if (is_netdev) {
+-        visit_type_Netdev(v, NULL, (Netdev **)&object, &err);
+-    } else {
+-        visit_type_NetLegacy(v, NULL, (NetLegacy **)&object, &err);
++    /* Create an ID for -net if the user did not specify one */
++    if (!is_netdev && !qemu_opts_id(opts)) {
++        static int idx;
++        qemu_opts_set_id(opts, g_strdup_printf("__org.qemu.net%i", idx++));
+     }
+ 
++    visit_type_Netdev(v, NULL, &object, &err);
++
+     if (!err) {
+         ret = net_client_init1(object, is_netdev, &err);
+     }
+ 
+-    if (is_netdev) {
+-        qapi_free_Netdev(object);
+-    } else {
+-        qapi_free_NetLegacy(object);
+-    }
++    qapi_free_Netdev(object);
+ 
+ out:
+     error_propagate(errp, err);
 diff --git a/qapi/net.json b/qapi/net.json
-index cebb1b52e3..fc7c95f6d8 100644
+index fc7c95f6d8..9244c9af56 100644
 --- a/qapi/net.json
 +++ b/qapi/net.json
-@@ -474,8 +474,6 @@
- #
- # @id: identifier for monitor commands
- #
--# @name: identifier for monitor commands, ignored if @id is present
--#
- # @opts: device type specific properties (legacy)
- #
- # Since: 1.2
-@@ -483,7 +481,6 @@
- { 'struct': 'NetLegacy',
-   'data': {
-     '*id':   'str',
--    '*name': 'str',
-     'opts':  'NetLegacyOptions' } }
+@@ -467,52 +467,6 @@
+     'netmap':   'NetdevNetmapOptions',
+     'vhost-user': 'NetdevVhostUserOptions' } }
  
+-##
+-# @NetLegacy:
+-#
+-# Captures the configuration of a network device; legacy.
+-#
+-# @id: identifier for monitor commands
+-#
+-# @opts: device type specific properties (legacy)
+-#
+-# Since: 1.2
+-##
+-{ 'struct': 'NetLegacy',
+-  'data': {
+-    '*id':   'str',
+-    'opts':  'NetLegacyOptions' } }
+-
+-##
+-# @NetLegacyOptionsType:
+-#
+-# Since: 1.2
+-##
+-{ 'enum': 'NetLegacyOptionsType',
+-  'data': ['none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+-           'bridge', 'netmap', 'vhost-user'] }
+-
+-##
+-# @NetLegacyOptions:
+-#
+-# Like Netdev, but for use only by the legacy command line options
+-#
+-# Since: 1.2
+-##
+-{ 'union': 'NetLegacyOptions',
+-  'base': { 'type': 'NetLegacyOptionsType' },
+-  'discriminator': 'type',
+-  'data': {
+-    'nic':      'NetLegacyNicOptions',
+-    'user':     'NetdevUserOptions',
+-    'tap':      'NetdevTapOptions',
+-    'l2tpv3':   'NetdevL2TPv3Options',
+-    'socket':   'NetdevSocketOptions',
+-    'vde':      'NetdevVdeOptions',
+-    'bridge':   'NetdevBridgeOptions',
+-    'netmap':   'NetdevNetmapOptions',
+-    'vhost-user': 'NetdevVhostUserOptions' } }
+-
  ##
+ # @NetFilterDirection:
+ #
 -- 
 2.18.1
 
