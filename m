@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30EAB1D9F7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:29:21 +0200 (CEST)
-Received: from localhost ([::1]:39032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06CB31D9F87
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:31:22 +0200 (CEST)
+Received: from localhost ([::1]:44416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb6zQ-0001o4-6z
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:29:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41884)
+	id 1jb71N-0004Et-47
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:31:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jb6u8-00020h-U3
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:23:52 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59339
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jb6u3-0000H4-Od
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:23:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589912627;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qQxhzkHnAklO3xlJCYrDvR3Lpxd85JN/EtaRMzTsUK0=;
- b=B2Os+bWirkIk1BK/OPhnefnHWGRBk1n+vJSzLA6unbVY6+1rrXWLFTb2MjAMkXebzTxrh9
- rU6XHo1TTfpTRmWr+eqETgonR2YBjOB4rp3Wd4LobzdI6Un/v+TUFl5XysbZQqII63/P5i
- 8/X8XEkqu9og0DdkCXs7pP3cgQ/rA4I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-BF9AGZQMOcq4usfjydkNlA-1; Tue, 19 May 2020 14:23:41 -0400
-X-MC-Unique: BF9AGZQMOcq4usfjydkNlA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EA0B39343;
- Tue, 19 May 2020 18:23:40 +0000 (UTC)
-Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D07210016EB;
- Tue, 19 May 2020 18:23:39 +0000 (UTC)
-Subject: Re: [PULL v2 7/7] qemu-img: Add bitmap sub-command
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-References: <20200519161840.810320-1-eblake@redhat.com>
- <20200519161840.810320-8-eblake@redhat.com>
- <9171373f-3761-ca77-3e3b-f7dbeaf84590@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <af9095ed-e47a-2414-c074-54e752377209@redhat.com>
-Date: Tue, 19 May 2020 13:23:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jb6up-00035b-5x
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 14:24:35 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52990)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jb6uk-0000MR-47
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 14:24:34 -0400
+Received: by mail-wm1-x344.google.com with SMTP id z4so241734wmi.2
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 11:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=eNlKWpRqRb5z2hrqCd8+bNrjugM3z5Req+rwJsCMrfk=;
+ b=JbuRjPtUdaj4hEJjvjTQhCpWKXsFJq/+zvtRK0yWVy5qT6E0zFBkzw2GrqK/2gneYi
+ 3Dx0EUePmmuLpK4cuXbGjcWjERuSTrgzpRN9OZGff5fyuXxE9tcHcsseZzDSTt4kXCjC
+ sZkv0bm5BfcnVQw4ZnBuNrH4B/POjkWnOfhRfPA4QRVME3EMCLPsz5qExh8C6r1UtnWn
+ JyQ/+ATUA0Y5fV6jwQGAaiNwgEaq6AHTBsoZRjYuS+L7w9vJekqeMBDvq0j730sg3aMv
+ wYRh9aDNlAgh3ES74CkA41H3QZEmMgTUUQnA3KVMr8CmOi8ArgqvpM9g1ySFgibuhgds
+ HkMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=eNlKWpRqRb5z2hrqCd8+bNrjugM3z5Req+rwJsCMrfk=;
+ b=RbaF3/8qtw7zLNE/PzXbsjxeJY0/sUSroLpXA4wRdburPA5k3e0ISvZDnJ42alm0WO
+ mqgaPsvO4R8n93zKjKnZyKHkud4ih+gOyWzdG1o2a8AB9SjiWHPuo+NxBbNONwG3sbpA
+ Gwv56b85so/oDOIuAiGU8jV06GVrPuYXa+U91M2fmYPa1KgLNtyXGA9EszUK4oNqU2sR
+ Xz4BnbCXRzljXd0ysvpECnvb1Twn+PYlQQK1mMwPb91dVcI8zY9TuFAes90PD17OL/G/
+ /iUMQb/hyM6YLGbt8Gq0C/9mXHtOdVq7kOyzVmb2BpN1nG6GBNlps+exOKBEHtYGDjC4
+ weRw==
+X-Gm-Message-State: AOAM530LItu4ptzZOzDOnIWYRdrs23JRfDDjS1saFIiwdR4b+2aXJ3CC
+ /wkhalpbHqUiFcg70ja1c5911g==
+X-Google-Smtp-Source: ABdhPJxLQ+dALkN58Bh1n6CrcLdVdlpW6L3LmoUZeYdN9OS1L8LPdUJ6cZhq+RTGRXFcYf7vnRti7w==
+X-Received: by 2002:a1c:5685:: with SMTP id k127mr766398wmb.50.1589912668039; 
+ Tue, 19 May 2020 11:24:28 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id e5sm270333wro.3.2020.05.19.11.24.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 May 2020 11:24:26 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1C6031FF7E;
+ Tue, 19 May 2020 19:24:26 +0100 (BST)
+References: <20200519025355.4420-1-richard.henderson@linaro.org>
+ <20200519025355.4420-5-richard.henderson@linaro.org>
+User-agent: mu4e 1.4.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [RISU v2 04/17] Adjust tracefile open for write
+In-reply-to: <20200519025355.4420-5-richard.henderson@linaro.org>
+Date: Tue, 19 May 2020 19:24:26 +0100
+Message-ID: <87367viy05.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <9171373f-3761-ca77-3e3b-f7dbeaf84590@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:19:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -83,45 +89,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/19/20 12:52 PM, Eric Blake wrote:
-> On 5/19/20 11:18 AM, Eric Blake wrote:
->> Include actions for --add, --remove, --clear, --enable, --disable, and
->> --merge (note that --clear is a bit of fluff, because the same can be
-> 
->> +        case 'g':
->> +            granularity = cvtnum(optarg);
->> +            if (granularity < 0) {
->> +                error_report("Invalid granularity specified");
->> +                return 1;
->> +            }
-> 
-> Phooey. I forgot to commit my changes before creating the tag. v3 pull 
-> request coming up :(
 
-For the record, I've now made it harder for myself to repeat this 
-mistake, by doing:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-$ cat > .git/hooks/sendemail-validate <<\EOF
-#!/bin/sh
-git diff-files --quiet --ignore-submodules -- ||
-   { echo "You have unstaged changes."; exit 1; }
-git diff-index --cached --quiet HEAD --ignore-submodules -- ||
-   { echo "Your index contains uncommitted changes."; exit 1; }
-$ chmod +x .git/hooks/sendemail-validate
+> Truncate the new output file.  Rely on umask to remove
+> group+other file permissions, if desired.
+>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-[thanks to John Snow for advice on IRC]
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+> ---
+>  risu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/risu.c b/risu.c
+> index 1c66885..f404d8f 100644
+> --- a/risu.c
+> +++ b/risu.c
+> @@ -368,7 +368,7 @@ int main(int argc, char **argv)
+>              comm_fd =3D ismaster ? STDOUT_FILENO : STDIN_FILENO;
+>          } else {
+>              if (ismaster) {
+> -                comm_fd =3D open(trace_fn, O_WRONLY | O_CREAT, S_IRWXU);
+> +                comm_fd =3D open(trace_fn, O_WRONLY | O_CREAT | O_TRUNC,=
+ 0666);
+>              } else {
+>                  comm_fd =3D open(trace_fn, O_RDONLY);
+>              }
 
+
+--=20
+Alex Benn=C3=A9e
 
