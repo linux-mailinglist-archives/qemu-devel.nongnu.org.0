@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 538881DA24C
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 22:13:56 +0200 (CEST)
-Received: from localhost ([::1]:56778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA491DA24B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 22:13:55 +0200 (CEST)
+Received: from localhost ([::1]:56694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb8cd-00067e-Bi
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 16:13:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57670)
+	id 1jb8cc-00065Y-ES
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 16:13:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jb8bc-0004ID-RI
- for qemu-devel@nongnu.org; Tue, 19 May 2020 16:12:52 -0400
+ id 1jb8bd-0004IS-Je
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 16:12:53 -0400
 Received: from mga01.intel.com ([192.55.52.88]:59955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jb8bb-0008AC-5e
- for qemu-devel@nongnu.org; Tue, 19 May 2020 16:12:52 -0400
-IronPort-SDR: 0hm3AdbTxl3XmxBZlR46GsLEEjcqnhawBTZcdSb8gexwNI8Zfv7f4jesonn7bUENE+oFAf6BEw
- QWwCl55MKuJw==
+ id 1jb8bc-0008AC-PD
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 16:12:53 -0400
+IronPort-SDR: fsjux6kQ6VpNYbrz4fBy506jAvONh0qzAXyoTRTDccVDCdT95Rvqb+rTopIoOW/otLEsS2C8mB
+ L8vr1PLTDGxg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2020 13:12:43 -0700
-IronPort-SDR: /O8ihuVvd0Zif/L5CtRmO3ZX3+Fs2KGB43L+AvoUHvVSBvR5gc+boxKMzCLiPmBrVtvbPN/r21
- jDKJulJ6FMGw==
+ 19 May 2020 13:12:45 -0700
+IronPort-SDR: gXOo+YwpUIYKjsUDViQBdisDVbWvrDOHO8fMpgkqgrE9SiEiPyI6vucXU6ADiyPXfAVLDhu0ju
+ 3Vx4sYIXMFnw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="268007852"
+X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="268007856"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga006.jf.intel.com with ESMTP; 19 May 2020 13:12:41 -0700
+ by orsmga006.jf.intel.com with ESMTP; 19 May 2020 13:12:43 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: Jason Wang <jasowang@redhat.com>
-Subject: [PATCH 2/7] net/colo-compare.c: Create event_bh with the right
- AioContext
-Date: Wed, 20 May 2020 04:02:02 +0800
-Message-Id: <20200519200207.17773-3-chen.zhang@intel.com>
+Subject: [PATCH 3/7] chardev/char.c: Use qemu_co_sleep_ns if in coroutine
+Date: Wed, 20 May 2020 04:02:03 +0800
+Message-Id: <20200519200207.17773-4-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200519200207.17773-1-chen.zhang@intel.com>
 References: <20200519200207.17773-1-chen.zhang@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.88; envelope-from=chen.zhang@intel.com;
  helo=mga01.intel.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 16:12:40
@@ -71,45 +73,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lukas Straub <lukasstraub2@web.de>
 
-qemu_bh_new will set the bh to be executed in the main
-loop. This causes crashes as colo_compare_handle_event assumes
-that it has exclusive access the queues, which are also
-concurrently accessed in the iothread.
-
-Create the bh with the AioContext of the iothread to fulfill
-these assumptions and fix the crashes. This is safe, because
-the bh already takes the appropriate locks.
+This will be needed in the next patch.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Derek Su <dereksu@qnap.com>
-Tested-by: Derek Su <dereksu@qnap.com>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/colo-compare.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ chardev/char.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 56d8976537..2edfa31f6a 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -897,6 +897,7 @@ static void colo_compare_handle_event(void *opaque)
+diff --git a/chardev/char.c b/chardev/char.c
+index 0196e2887b..4c58ea1836 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -38,6 +38,7 @@
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+ #include "qemu/id.h"
++#include "qemu/coroutine.h"
  
- static void colo_compare_iothread(CompareState *s)
- {
-+    AioContext *ctx = iothread_get_aio_context(s->iothread);
-     object_ref(OBJECT(s->iothread));
-     s->worker_context = iothread_get_g_main_context(s->iothread);
+ #include "chardev/char-mux.h"
  
-@@ -913,7 +914,7 @@ static void colo_compare_iothread(CompareState *s)
-     }
+@@ -119,7 +120,11 @@ static int qemu_chr_write_buffer(Chardev *s,
+     retry:
+         res = cc->chr_write(s, buf + *offset, len - *offset);
+         if (res < 0 && errno == EAGAIN && write_all) {
+-            g_usleep(100);
++            if (qemu_in_coroutine()) {
++                qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, 100000);
++            } else {
++                g_usleep(100);
++            }
+             goto retry;
+         }
  
-     colo_compare_timer_init(s);
--    s->event_bh = qemu_bh_new(colo_compare_handle_event, s);
-+    s->event_bh = aio_bh_new(ctx, colo_compare_handle_event, s);
- }
- 
- static char *compare_get_pri_indev(Object *obj, Error **errp)
 -- 
 2.17.1
 
