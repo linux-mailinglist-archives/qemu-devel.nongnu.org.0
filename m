@@ -2,89 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A9F1D9576
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 13:43:24 +0200 (CEST)
-Received: from localhost ([::1]:55846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E851D95AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 13:51:56 +0200 (CEST)
+Received: from localhost ([::1]:60916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb0eZ-0002bJ-IU
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 07:43:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46068)
+	id 1jb0mp-0005kC-Fi
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 07:51:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jb0dT-0001hF-58
- for qemu-devel@nongnu.org; Tue, 19 May 2020 07:42:15 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32750
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb0la-0004xI-1q
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 07:50:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30814
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jb0dS-0001Ld-AC
- for qemu-devel@nongnu.org; Tue, 19 May 2020 07:42:14 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb0lZ-0003QL-8Q
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 07:50:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589888532;
+ s=mimecast20190719; t=1589889036;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Yaysbhkhicn1Ru1ZEMMVMvi0BgSX4QtdKWZN/r/+Ous=;
- b=GUc0zPwrgTZ/aX13EwOP6a1+iHJ/J0fCM/4Zdld1CRRAhU84YP9Uv+wb/33PKJcykhVpZa
- 1sg+R7LxnymaNvTjm2c9ZuVzUCbnpnbDR36eqW0ghRleOT27a4SDGjiF5GKfZ3loHTIXo3
- dM4qK0G/1QSxNr0V0kXTHWaGyvCmT9Q=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-tQenrL1POjiJq9-lQhKL2w-1; Tue, 19 May 2020 07:42:11 -0400
-X-MC-Unique: tQenrL1POjiJq9-lQhKL2w-1
-Received: by mail-wm1-f70.google.com with SMTP id a206so875645wmh.6
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 04:42:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Yaysbhkhicn1Ru1ZEMMVMvi0BgSX4QtdKWZN/r/+Ous=;
- b=rtmRG3B8zzlSYcn/Hki1bYGftYrIzWVHLjo1fljuLaklRUs5QVknIAjNCO/cUtFveG
- mXbcPnuJS/0Q7R3fOW5JP7axgkDjv0f9hkvdQqveRsjszsyhdEfEgrTp0Ggmk6NXLqb4
- oWecyZy9wpumr1LCWWc9+OMHwv+Uji4VtiRiCFoOWIA5nVQYbJcxh4iAE5KlOlpijjB7
- uZ8JjrZX4gIEH3TFxPGj+Fyn5+Iky4Xshm60g/fpCh+rYMs1KEZznvcfMyMyILOZObMa
- t4nelWze9A/hH2bYxn3z7mjzl7pnEqLSsu4Mo99NEKTa3ypdZee12uNG3PslJpMrt7+y
- lCUw==
-X-Gm-Message-State: AOAM533GCsv1G8JLQjT/fqZ96XMO5csD3w0C6FtzkWYJE3QmRn3hM/Hz
- Y4GTptsHZNeLYxso7iYcxDE4Z91AVo2dlzc8zdd96flqvwqnr6c2guZbI6x1LetK37sOOFKkb6d
- AdzccQhjeF7Qdfvw=
-X-Received: by 2002:a05:6000:110b:: with SMTP id
- z11mr26742850wrw.16.1589888530068; 
- Tue, 19 May 2020 04:42:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyKidhxAGXTqNm6asekwimbwv6A1vuhnnKHVtfTdRdzY4fZBvNm+6ovHplBN55Lg4o7wVmt5A==
-X-Received: by 2002:a05:6000:110b:: with SMTP id
- z11mr26742825wrw.16.1589888529830; 
- Tue, 19 May 2020 04:42:09 -0700 (PDT)
-Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id r11sm21625621wro.15.2020.05.19.04.42.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 May 2020 04:42:09 -0700 (PDT)
-Subject: Re: [PATCH 04/24] aspeed: Don't create unwanted "ftgmac100",
- "aspeed-mmi" devices
-To: Markus Armbruster <armbru@redhat.com>, Andrew Jeffery <andrew@aj.id.au>
+ bh=sxB0GrX6KEmTQiJjO1uFt6MvN5k+I7+bxPpLV7o0pQc=;
+ b=fvrbrecFbrUHuHOpV15tJ/UNRTIXcEoYbsCimAX75yRDqXnP3i/annK6cLNgMTlaYjoqlN
+ 9fgZyTTVrd93PoWoCbNPGdqKkgbO8vbsoZ6iaKd/usHqLAtLF6u+BgNjkCYBwqRAXN/cHx
+ 5Na5kIOZ1sIfvbga3LsHczvOhGMtDrY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-328-hiCrpsuINUyzonftCdqJ-A-1; Tue, 19 May 2020 07:50:32 -0400
+X-MC-Unique: hiCrpsuINUyzonftCdqJ-A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36C7F8018AD;
+ Tue, 19 May 2020 11:50:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
+ [10.36.112.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DEF6982E73;
+ Tue, 19 May 2020 11:50:28 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 155CD11358BC; Tue, 19 May 2020 13:50:27 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 11/24] pnv/phb4: Bury unwanted "pnv-phb4-pec-stack" devices
 References: <20200518050408.4579-1-armbru@redhat.com>
- <20200518050408.4579-5-armbru@redhat.com>
- <9fc4a6e2-fa90-ba62-91cf-e22eb3ef4cdc@kaod.org>
- <eb1b203d-44ba-4b89-b96b-4e7bf993ac67@www.fastmail.com>
- <87v9ks5vg7.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9cfcba4e-1237-8eb9-7c83-490729f082fe@redhat.com>
-Date: Tue, 19 May 2020 13:42:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ <20200518050408.4579-12-armbru@redhat.com>
+ <defe5561-72b8-45a5-96b1-296df438fe38@kaod.org>
+Date: Tue, 19 May 2020 13:50:27 +0200
+In-Reply-To: <defe5561-72b8-45a5-96b1-296df438fe38@kaod.org>
+ (=?utf-8?Q?=22C=C3=A9dric?= Le
+ Goater"'s message of "Tue, 19 May 2020 10:16:05 +0200")
+Message-ID: <87imgs2lfg.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <87v9ks5vg7.fsf@dusky.pond.sub.org>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 00:34:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:56:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -104,77 +85,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>,
- Cameron Esfahani via <qemu-devel@nongnu.org>, qemu-arm@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Joel Stanley <joel@jms.id.au>
+Cc: berrange@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/19/20 7:45 AM, Markus Armbruster wrote:
-> "Andrew Jeffery" <andrew@aj.id.au> writes:
-> 
->> On Mon, 18 May 2020, at 21:49, Cédric Le Goater wrote:
->>> On 5/18/20 7:03 AM, Markus Armbruster wrote:
->>>> These devices are optional, and controlled by @nb_nics.
->>>> aspeed_soc_ast2600_init() and aspeed_soc_init() create the maximum
->>>> supported number.  aspeed_soc_ast2600_realize() and
->>>> aspeed_soc_realize() realize only the wanted number.  Works, although
->>>> it can leave unrealized devices hanging around in the QOM composition
->>>> tree.  Affects machines ast2500-evb, ast2600-evb, palmetto-bmc,
->>>> romulus-bmc, swift-bmc, tacoma-bmc, and witherspoon-bmc.
->>>>
->>>> Make the init functions create only the wanted ones.  Visible in "info
->>>> qom-tree"; here's the change for ast2600-evb:
->>>>
->>>>       /machine (ast2600-evb-machine)
->>>>         [...]
->>>>         /soc (ast2600-a1)
->>>>           [...]
->>>>           /ftgmac100[0] (ftgmac100)
->>>>             /ftgmac100[0] (qemu:memory-region)
->>>>      -    /ftgmac100[1] (ftgmac100)
->>>>      -    /ftgmac100[2] (ftgmac100)
->>>>      -    /ftgmac100[3] (ftgmac100)
->>>>           /gpio (aspeed.gpio-ast2600)
->>>>           [...]
->>>>           /mii[0] (aspeed-mmi)
->>>>             /aspeed-mmi[0] (qemu:memory-region)
->>>>      -    /mii[1] (aspeed-mmi)
->>>>      -    /mii[2] (aspeed-mmi)
->>>>      -    /mii[3] (aspeed-mmi)
->>>>           /rtc (aspeed.rtc)
->>>>
->>>> I'm not sure creating @nb_nics devices makes sense.  How many does the
->>>> physical chip provide?
->>>
->>> The AST2400, AST2500 SoC have 2 macs and the AST2600 has 4. Each machine
->>> define the one it uses, generally MAC0 but the tacoma board uses MAC3.
->>>
->>> Shouldn't the model reflect the real address space independently from
->>> the NIC backends defined on the command line ?
+C=C3=A9dric Le Goater <clg@kaod.org> writes:
 
-If the SoC has N ftgmac100 peripherals, you need to mmio-map the N 
-instances, else your guest will get MEMTX_DECODE_ERROR trying to access 
-it, regardless command line NIC plugged.
+> On 5/18/20 7:03 AM, Markus Armbruster wrote:
+>> The number of stacks is controlled by property "num-stacks".
+>> pnv_pec_instance_init() creates the maximum supported number, because
+>> the property has not been set then.  pnv_pec_realize() realizes only
+>> the wanted number.  Works, although it can leave unrealized devices
+>> hanging around in the QOM composition tree.  Affects machine powernv9.
+>
+> I have used this pattern in many models. Is there a better one ?
 
->>
->> That's my feeling too, though I'm not sure what to make of the unrealised devices
->> in the QOM tree. Does it matter? It hasn't bothered me.
-> 
-> Depending on what the initialization code does, unrealized devices can
-> be anything from a little wasted memory to open bear trap.  I don't
-> really expect the latter extreme in the code, as I expect bear traps to
-> quickly catch the developer that set them.
-> 
-> I guess the unrealized devices cleaned up in this patch did no actual
-> harm.
-> 
-> Still, it's an unhealthy state, and that's why I clean it up.  "[PATCH
-> 24/24] qdev: Assert onboard devices all get realized properly" should
-> ensure we stay clean.
-> 
-> 
+The pattern is just fine, we just need to unparent any devices that turn
+out to be unwanted.
+
+Of course, when we already know what's wanted at instance_init time,
+there's no reason for creating more.
 
 
