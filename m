@@ -2,83 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E81681D9BA4
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:48:51 +0200 (CEST)
-Received: from localhost ([::1]:52926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6901D9BB1
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:51:17 +0200 (CEST)
+Received: from localhost ([::1]:59238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb4U6-0007r6-ER
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:48:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52472)
+	id 1jb4WT-0002Cd-0L
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:51:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jb4T6-0006k0-2c
- for qemu-devel@nongnu.org; Tue, 19 May 2020 11:47:48 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:36223)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jb4T5-0007zi-1e
- for qemu-devel@nongnu.org; Tue, 19 May 2020 11:47:47 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id q24so1623474pjd.1
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 08:47:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4tJuNsa1CrgbchWLOyDwISv6NSHiYDEyQYcOKTxUj6w=;
- b=RR3aBnupSkJ+sHuA+Tkq9M/FJ2ubP8KR/A+6yMn4IRoNeljIwEeHi1eQooJY5yJvwr
- clEXBxdURbGef7orZ9swA5ZAr/Wv0yHJvYwXgLS4JbnzjnT6Nx05msoTNUhzvql1PRDf
- OlR8pZod2HCwadkod05/opyfT5Zsrwz8sPx1/H7SP+I4KtHAhHnN1fUXVPzF+MniTsGA
- iIpqVRG+wjJKOrT5w0W2dN9KqN/FS0VeZXKvcQkxUqlY0y0NhQ/+wANpj0dNx4Z/85g+
- RVoh0kMOP/3Wwr547z//nLA4RCxwe6Jr3eXGBtHY+ie5sS1g1JUkdF/h972TmHblyGRn
- Bbqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4tJuNsa1CrgbchWLOyDwISv6NSHiYDEyQYcOKTxUj6w=;
- b=B6Ntr/iH5jduGGds189Su6GdgouNzLWwBiePw9g6d43i1ntHjihTMNZg3HXCo2ZA7k
- qMM1GNEyAYoV8OUlJE8AKFgrIN2rceV8Pxg883G+/rbAFcTL/Dc89EcO8X4BVm3vNO3D
- WWO80aH4WvK5XwwKFhfHUABUCI2sw310RGpLJ9XozMTrd91NtXvLK/RE04LddxR73iwm
- P9Q297YkqY6GDV8QIHmAroNWo7Kb8Tpi0egGVTaCyUcCfwJ2Vc1/L0muwNbu4Aqz7YWV
- 5COVxQnwfou18aNL6uUMQBaUdUdNJ+gUiV733KnHMA1ObE6YhkbNjMJA5MlmKbm5wFcj
- zZQg==
-X-Gm-Message-State: AOAM530lCg/96EGzTZd8+14xDwkKSWOH0afl4K5bYRdi3eOuDetccJ9J
- WtXZgXKnxU4Y/D4HudihozQgaT7vqEw=
-X-Google-Smtp-Source: ABdhPJwOUsGkkv/3IrwJmb8oMI0wsetjBJxJygAWHQyQ4t8WjD57BRvYJwQylso+opzP1x1XHf1dZQ==
-X-Received: by 2002:a17:902:760b:: with SMTP id
- k11mr140118pll.19.1589903265063; 
- Tue, 19 May 2020 08:47:45 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id gd1sm26601pjb.14.2020.05.19.08.47.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 May 2020 08:47:44 -0700 (PDT)
-Subject: Re: [PATCH 10/10] softfloat: Return bool from all classification
- predicates
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200515190153.6017-1-richard.henderson@linaro.org>
- <20200515190153.6017-11-richard.henderson@linaro.org>
- <87k118i6be.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <aa0cb6fc-df2e-3578-827f-96152a9f2c23@linaro.org>
-Date: Tue, 19 May 2020 08:47:42 -0700
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jb4UB-00009c-FJ; Tue, 19 May 2020 11:48:55 -0400
+Received: from mail-db8eur05on2112.outbound.protection.outlook.com
+ ([40.107.20.112]:63298 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jb4U8-0008CJ-DZ; Tue, 19 May 2020 11:48:54 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Py8MICCYQkZWEXoshZ1e2U383SDgm/sWBd7oKIbHYD8yslZy4QSRJ0/sDC1QhnIrtpzsQNTiBtNuXfRkGFOG6cb9lkja5DQUfGzi1EmWZ/EQO3zh51HTX/SCrEJHqmT0Edbc8aQbFg6CshDbppfciS+nhhcTW5mLsa9fLerm+AqK2F+H/UZs0njvQBjv/BLZ2bTUZ4I3Ar228bNEyWdsddkXJ/a81b8yTQieopmMqJ/H9OLqlyKBeLa2LYM31jBN1HOD+OTIdYRmbSzu5MW2o+eFBbK3lQcDX3OISEYPb2ejLz27qK/a+9tiRscB7vn3VuPVLzqfHZ4vtI8FTkbtmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZBMD2dcBSsreywBi0MKU+RRmMLLc9+6fQdwCeqZDgIE=;
+ b=T77XD2v9jleOxZlt9UU1duDOVKG+r4sfHW63IGvNgrJh6xOEcMhqTXdt9ldfYQH0n+oeEJaTl5+pLK4cUSITTXemqk32bZSXrvmkGBnEnZpHJk0el0I7HfvF4VC47u4xz7+CE4ewqwCJiiTczXnefwZTvtuKou6TAxmCT5ItGCoSfW2rIH95oTvkUQUsgmG50CLbP9K4eRE1jqvOsz+CpsafHqEk9tMMD3BnJXeZNDKYa6pl96pEPOmFzyMWKx4q/1igJDV+xtaHpJ/AEKhZinml0OXnuw5Llu5cIDjbMQVryiDD9kuSbR6Kb8XMdzVZv4czXzR6xdNZkvGlN9upSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZBMD2dcBSsreywBi0MKU+RRmMLLc9+6fQdwCeqZDgIE=;
+ b=QBFwXnLFshWJZRcT++Yjz9fK8PQOOMwIqPm3njKXbPueCp+9zoYcI1r6MgPdZ1b8vj9wdWaDpbJodejfPtFlj8HEEXL+k+eX4CnYizkOtUNzePpl9CMpdNbLWuA5FVHARaCyxG6sSrZDxgAhDAMjkuVzC4dFlTuTVHq3wd5JCrI=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5429.eurprd08.prod.outlook.com (2603:10a6:20b:107::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.26; Tue, 19 May
+ 2020 15:48:45 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%4]) with mapi id 15.20.3000.034; Tue, 19 May 2020
+ 15:48:45 +0000
+Subject: Re: [RFC PATCH 0/3] block: Synchronous bdrv_*() from coroutine in
+ different AioContext
+To: Kevin Wolf <kwolf@redhat.com>, Denis Plotnikov <dplotnikov@virtuozzo.com>
+References: <20200512144318.181049-1-kwolf@redhat.com>
+ <6d78bc78-0c44-d703-6f9f-e048ea34fdd9@proxmox.com>
+ <20200514142606.GH5518@linux.fritz.box>
+ <285ba39f-9ee6-e089-13f7-a98ea0a84866@virtuozzo.com>
+ <548700ea-78db-fabc-d1eb-6d89af39ece3@virtuozzo.com>
+ <20200519141858.GN7652@linux.fritz.box>
+ <dfed81f7-9806-9aaf-459f-13f786b67e0a@virtuozzo.com>
+ <20200519152959.GP7652@linux.fritz.box>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <b10dddf4-8889-c9e2-74db-d620e4fa5ca7@virtuozzo.com>
+Date: Tue, 19 May 2020 18:48:42 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <87k118i6be.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
+ Thunderbird/68.8.0
+In-Reply-To: <20200519152959.GP7652@linux.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM3PR04CA0139.eurprd04.prod.outlook.com (2603:10a6:207::23)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.178) by
+ AM3PR04CA0139.eurprd04.prod.outlook.com (2603:10a6:207::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3000.20 via Frontend Transport; Tue, 19 May 2020 15:48:44 +0000
+X-Originating-IP: [185.215.60.178]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 97173f56-0c3d-4d28-6d24-08d7fc0c1cd1
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5429:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54298E2B908E55B827413A09C1B90@AM7PR08MB5429.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 040866B734
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tlxJgcJSXgmLZRqMz3GsbL1Wztye6bIT0AEWP8izrKaLH71ORSUoICArZBBbbJiYbVu5fn55GInF8+iLHffD3fnZtYP2lQzztV4JNuBY7B4McgfyrLBXyTmZIlZHKgY6ARnGaUrgF1knasCwXj/MfFGFmLyazd0v+EeKB/w0FJDS5vbzwE9G6ihfvXrtHf1dCvAfvWVIsxADKxCzOKGIuE42aRV5Dx8LKR+/MkxAan9JIJx2yxcynKJ7E/xrf3jNfBovhAgKCgxIQvESfyQb4CvgCL5mjNoNBj9mBJFa43qsiWLaQYyNF/j5c6nlLl9yzzASXIjGTgA1+4eElohpvTJMNBiMGdnEtEyxThAyZFWp5ATsryl7rLIu7FxunxFJcMCQaBhcohzfhAiSVhEyn/c2GdSaGzLhzGkbvFD357RQrh7qD9k1YWRuyW1JnDSmDr3VaE4m7T0vjQJbHCqRxCiDMdvazLlA9BjWzGYrZ9lKWyh6n9pYI+98389EeusiKCUtjc56XczPtJXTZtNrZsLPd1zkyo6/dSRfZRJggi/kCN+iramGkUfSp9T10xzbKBHixTobtvwqFUbJ5l3SzA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(86362001)(2906002)(26005)(52116002)(966005)(16526019)(186003)(110136005)(31696002)(956004)(31686004)(66946007)(498600001)(66556008)(66476007)(6636002)(6486002)(4326008)(16576012)(5660300002)(53546011)(8936002)(8676002)(2616005)(36756003)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: v5s6iSHRSdg59k8bLTYq21IyNa4r8+rLhBFMZTe3fjJVA2WVxx9gvtJ3tEGGyVIWuPS7kSt4iixjokakAhRNk2ujS68PTujBVEfYQ8lZHtq1Q8Tnw4pn5vzjdCaYnD1LVL14VCIj/8NA9jkazpqLwaUIqbwbDBUger+EGj0//k6AG6EpOHVE3jrCF3XwxjpOA62qsIOZiAHEura1T8w5l8xDzcz3yyFjyGJ+2uzxJaRuPiHrilIizDCwrmxmCzKYBotznG2AeSOATM6/dWwekdqdndkUutjHRmWSJNg443mx8E11faPryMP7EUD00CML67bwIUl/tY0exDlzz4Liza4W8pTTCjLtjI8hlDL3hEt9yxQFawTpuHyGmt/vowBH7H5tbYBKPjqs8p8iN8q5vCsP9tSdB6nHBxIsMIVQyv4+MQ7hZjx0gFerV/38Kj1HcZGY8La6wUlEJaO5QAIJAp24tmQI1Di324LGYC3KhTwioBtIT1G2I82r4irdZ6G3
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97173f56-0c3d-4d28-6d24-08d7fc0c1cd1
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2020 15:48:45.1071 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0XRC8EKjTN6GK7+Vn6gLVTCsM9Ub5NwJBGOTmbak7IMrg+r0jiPevWkE6lGON5oVJE4N0B5McdypsooDr0juKHBLj9GSi4z29slzUBFFX1Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5429
+Received-SPF: pass client-ip=40.107.20.112;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 11:48:50
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,28 +123,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, s.reiter@proxmox.com,
+ armbru@redhat.com, mreitz@redhat.com, stefanha@redhat.com,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/19/20 3:10 AM, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> This includes *_is_any_nan, *_is_neg, *_is_inf, etc.
+19.05.2020 18:29, Kevin Wolf wrote:
+> Am 19.05.2020 um 17:05 hat Denis Plotnikov geschrieben:
+>> On 19.05.2020 17:18, Kevin Wolf wrote:
+>>> Am 19.05.2020 um 15:54 hat Denis Plotnikov geschrieben:
+>>>>
+>>>> On 19.05.2020 15:32, Vladimir Sementsov-Ogievskiy wrote:
+>>>>> 14.05.2020 17:26, Kevin Wolf wrote:
+>>>>>> Am 14.05.2020 um 15:21 hat Thomas Lamprecht geschrieben:
+>>>>>>> On 5/12/20 4:43 PM, Kevin Wolf wrote:
+>>>>>>>> Stefan (Reiter), after looking a bit closer at this, I think
+>>>>>>>> there is no
+>>>>>>>> bug in QEMU, but the bug is in your coroutine code that calls block
+>>>>>>>> layer functions without moving into the right AioContext first. I've
+>>>>>>>> written this series anyway as it potentially makes the life of callers
+>>>>>>>> easier and would probably make your buggy code correct.
+>>>>>>>> However, it doesn't feel right to commit something like
+>>>>>>>> patch 2 without
+>>>>>>>> having a user for it. Is there a reason why you can't upstream your
+>>>>>>>> async snapshot code?
+>>>>>>> I mean I understand what you mean, but it would make the
+>>>>>>> interface IMO so
+>>>>>>> much easier to use, if one wants to explicit schedule it
+>>>>>>> beforehand they
+>>>>>>> can still do. But that would open the way for two styles doing
+>>>>>>> things, not
+>>>>>>> sure if this would seen as bad. The assert about from patch 3/3
+>>>>>>> would be
+>>>>>>> already really helping a lot, though.
+>>>>>> I think patches 1 and 3 are good to be committed either way if people
+>>>>>> think they are useful. They make sense without the async snapshot code.
+>>>>>>
+>>>>>> My concern with the interface in patch 2 is both that it could give
+>>>>>> people a false sense of security and that it would be tempting to write
+>>>>>> inefficient code.
+>>>>>>
+>>>>>> Usually, you won't have just a single call into the block layer for a
+>>>>>> given block node, but you'll perform multiple operations. Switching to
+>>>>>> the target context once rather than switching back and forth in every
+>>>>>> operation is obviously more efficient.
+>>>>>>
+>>>>>> But chances are that even if one of these function is bdrv_flush(),
+>>>>>> which now works correctly from a different thread, you might need
+>>>>>> another function that doesn't implement the same magic. So you always
+>>>>>> need to be aware which functions support cross-context calls which
+>>>>>> ones don't.
+>>>>>>
+>>>>>> I feel we'd see a few bugs related to this.
+>>>>>>
+>>>>>>> Regarding upstreaming, there was some historical attempt to upstream it
+>>>>>>> from Dietmar, but in the time frame of ~ 8 to 10 years ago or so.
+>>>>>>> I'm not quite sure why it didn't went through then, I see if I can get
+>>>>>>> some time searching the mailing list archive.
+>>>>>>>
+>>>>>>> We'd be naturally open and glad to upstream it, what it effectively
+>>>>>>> allow us to do is to not block the VM to much during snapshoting it
+>>>>>>> live.
+>>>>>> Yes, there is no doubt that this is useful functionality. There has been
+>>>>>> talk about this every now and then, but I don't think we ever got to a
+>>>>>> point where it actually could be implemented.
+>>>>>>
+>>>>>> Vladimir, I seem to remember you (or someone else from your team?) were
+>>>>>> interested in async snapshots as well a while ago?
+>>>>> Den is working on this (add him to CC)
+>>>> Yes, I was working on that.
+>>>>
+>>>> What I've done can be found here:
+>>>> https://github.com/denis-plotnikov/qemu/commits/bgs_uffd
+>>>>
+>>>> The idea was to save a snapshot (state+ram) asynchronously to a separate
+>>>> (raw) file using the existing infrastructure.
+>>>> The goal of that was to reduce the VM downtime on snapshot.
+>>>>
+>>>> We decided to postpone this work until "userfaultfd write protected mode"
+>>>> wasn't in the linux mainstream.
+>>>> Now, userfaultfd-wp is merged to linux. So we have plans to continue this
+>>>> work.
+>>>>
+>>>> According to the saving the "internal" snapshot to qcow2 I still have a
+>>>> question. May be this is the right place and time to ask.
+>>>>
+>>>> If I remember correctly, in qcow2 the snapshot is stored at the end of
+>>>> the address space of the current block-placement-table.
+>>> Yes. Basically the way snapshots with VM state work is that you write
+>>> the VM state to some offset after the end of the virtual disk, when the
+>>> VM state is completely written you snapshot the current state (including
+>>> both content of the virtual disk and VM state) and finally discard the
+>>> VM state again in the active L1 table.
+>>>
+>>>> We switch to the new block-placement-table after the snapshot storing
+>>>> is complete. In case of sync snapshot, we should switch the table
+>>>> before the snapshot is written, another words, we should be able to
+>>>> preallocate the the space for the snapshot and keep a link to the
+>>>> space until snapshot writing is completed.
+>>> I don't see a fundamental difference between sync and async in this
+>>> respect. Why can't you write the VM state to the current L1 table first
+>>> like we usually do?
 >>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> I'm not quite sure I understand the point.
+>> Let's see all the picture of async snapshot: our goal is to minimize a VM
+>> downtime during the snapshot.
+>> When we do async snapshot we save vmstate except RAM when a VM is stopped
+>> using the current L1 table (further initial L1 table). Then, we want the VM
+>> start running
+>> and write RAM content. At this time all RAM is write-protected.
+>> We unprotect each RAM page once it has been written.
 > 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> Oh, I see, you're basically doing something like postcopy migration. I
+> was assuming it was more like regular live migration, except that you
+> would overwrite updated RAM blocks instead of appending them.
 > 
-> As an aside do you think we'll see any benefit from rolling up the
-> classifications with the decomposed versions? I would hope the compiler
-> could drop the stuff it doesn't need but I guess we loose the ability to
-> inline in the target helpers?
+> I can see your requirement then.
+> 
+>> All those RAM pages should go to the snapshot using the initial L1 table.
+>> Since the VM is running, it may want to write new disk blocks,
+>> so we need to use a NEW L1 table to provide this ability. (Am I correct so
+>> far?)
+>> Thus, if I understand correctly, we need to use two L1 tables: the initial
+>> one to store RAM pages
+>> to the vmstate and the new one to allow disk writings.
+>>
+>> May be I can't see a better way to achieve that. Please, correct me if I'm
+>> wrong.
+> 
+> I guess I could imagine a different, though probably not better way: We
+> could internally have a separate low-level operation that moves the VM
+> state from the active layer to an already existing disk snapshot. Then
+> you would snapshot the disk and start writing the VM to the active
+> layer, and when the VM state write has completed you move it into the
+> snapshot.
+> 
+> The other options is doing what you suggested. There is nothing in the
+> qcow2 on-disk format that would prevent this, but we would have to
+> extend the qcow2 driver to allow I/O to inactive L1 tables. This sounds
+> like a non-trivial amount of code changes, though it would potentially
+> enable more use cases we never implemented ((read-only) access to
+> internal snapshots as block nodes, so you could e.g. use block jobs to
+> export a snapshot).
 
-I think these classification macros are simple enough that we'd lose if we
-tried to merge it with the decompose stuff.
+Or export a snapshot through NBD.
+
+Still, I have one more idea, probably we already discussed it?
+Honestly, I don't like the fact that we store vmstate into guest-data space. After EOF, invisible, but still..
+
+Maybe, it would be good to make a qcow2 extension for storing vmstate separately? So snapshot metadata will include two more fields: vmstate_offset and vmstate_length (hmm, actually we already have the second one), which will be allocated as normal qcow2 metadata? Or we can add one-two levels of layered allocation if needed, but keep it separate from L1/L2 tables for guest clusters.
 
 
-r~
+-- 
+Best regards,
+Vladimir
 
