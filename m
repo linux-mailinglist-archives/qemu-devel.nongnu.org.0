@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C921D9B63
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:34:53 +0200 (CEST)
-Received: from localhost ([::1]:40412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE3E1D9B2E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:30:20 +0200 (CEST)
+Received: from localhost ([::1]:53216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb4GZ-0006dR-Rj
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:34:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47336)
+	id 1jb4CB-0008VN-2Z
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:30:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jb3y8-0001v5-AN
- for qemu-devel@nongnu.org; Tue, 19 May 2020 11:15:48 -0400
-Received: from mail-oo1-xc2f.google.com ([2607:f8b0:4864:20::c2f]:37090)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jb43Y-0005bZ-OD
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 11:21:24 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:38855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jb3y5-0000Di-54
- for qemu-devel@nongnu.org; Tue, 19 May 2020 11:15:47 -0400
-Received: by mail-oo1-xc2f.google.com with SMTP id r12so25948ool.4
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 08:15:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jb43X-0001Hw-2b
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 11:21:24 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id t40so1582052pjb.3
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 08:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vyn95KK1NMQspYmTv8auTi7KSHfmGwhOAo8wBZBidRA=;
- b=uOz40HL0kuqb11x39XRKMHNGXMYUfGT5fAZn4PtQag+hwfaYTHeY8nL03+YSxT3t3P
- iktTylQB/1XVwt0EQj/CcW/2Q3apsGTuJhvpzTUwJA6EGG/VQalxbZimOPMBoEMCLLct
- aOQdCTdvgZZSX4FxMrU6C8J6INH7K/CkS/1eUStcSy5qSNTNbfs89xUhGF3LVFD3LIkp
- t+hSEYdvQVxHIVrayXz0OLI77ItZw01+rHs0lYm8y5alpi/MvwqfS2zPrl5cTzVKuIzC
- jyzP5vGU4u1X/jV6K+6HxSD9zGkHCR6kNETdrV6zJhnddLkq3LA4+qzv7htuIP/OHdDu
- Mbcw==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=ekV9LOn45uEl+E8BDFIUMuZv1J5gOmEIjpzRNluTkUM=;
+ b=mM0V5zU36vLlfLmcpkZSffXhm86r6jXSSlN2a8wXn1wqbvHrs/+k6f3iCvZkOqCUPh
+ Ianv1NwcmIc+3m8aIwzzpqxorJcBEr3F+Ntyatkp4/z+3mSfH1psaJ9wem65ITxyIvDU
+ gVaUNzbl+KYoqQENLv5Cj9jKX7WsdjvAl+bTChSykecpkekKHJUCV+ZCgghZ7GkF5+V0
+ iRhVi6TzKAZyz9cWuCsHEFANYUzzj195PgRe4ts6QqerzIL/pTAZVmB8aGAPCIWzAY80
+ ptudNhEsZjvcFlBDr0WQTpJdnRuj4On74Bnd/ErP8qM1VMwab1hWwMvzK60857APxc3h
+ BZCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vyn95KK1NMQspYmTv8auTi7KSHfmGwhOAo8wBZBidRA=;
- b=t89Hc8QRtZKLigigaoIqylbPh3Gc6SR6lgxv3U4OpDjxmnY8+AfqcFamKu5pyjoePh
- NcD1rg4OggFnLHZ45/keAtTr0OIjtR6PcHX/+KcNRPoOPl9MUq5yO4eVymiiXmp0tfV2
- ZiTM+lo8pR5K1riRNTgo47ly03AlrsW1/CUnlt8RJ5rdlg41ytkM1FwrJgpGMIpADmyb
- sgYNtgD0NdT7ufisZqUlcPOVVv8Uo/mOiDp4Gw+2xIhnlYRn6Lb8g+mcnH5KIbLgm/VE
- RrdewK2R4irVQyriJ1ZjhllsGQ1wf+taGs/13FcllFstMCUcMo+UCQiVjRCOgIQvMFws
- bU6w==
-X-Gm-Message-State: AOAM531+AjhsUvNZdT67zMifHS6Nx1WCV0bQDfgUSNl4sn5SK9Ym9bH+
- MWZ0uBkGIwj3hx2A/6hN4icf6pBbSbxxKqHZ+YxD6A==
-X-Google-Smtp-Source: ABdhPJzZ9b94NRgDWY4kdTR/XBu8vgsJKhQTtO76t2lgMGrdTU3ozBH7PlKsaR7H9U0Zp0Q0meyLNuG+hp8nEhjYLgc=
-X-Received: by 2002:a4a:3556:: with SMTP id w22mr16977354oog.20.1589901343680; 
- Tue, 19 May 2020 08:15:43 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ekV9LOn45uEl+E8BDFIUMuZv1J5gOmEIjpzRNluTkUM=;
+ b=Aw7gr099HdPOrV6zCMK9po/+fIa+AQg4Zv5eBjlpJtbPq6aRYjwFnYLEmehGXjGdNl
+ umYx8yy0DAuGsL2vhy0S+Y9XqFo932FFflfUFAGMKgn2zMgl7wmaquVyUyGXPk2lW6xm
+ PqCKEEnnB17kqavA/qzxeUQoSFkc4yhfG9y50KFg4B1oZzkliXjUxiTAH+T5NLSTKMr2
+ gfDKZEoxZzzQ21j+NLm+3Q7lHqfuN55WMeSy/ewWEV/x0X3U4wCVhgPZ7Py/NgmnheMW
+ aN8fNSYjR9vkSBmVoeTMCaPcQDbTJQjfzPk04qm5YXCLhwBWxy0OUuczGIMdrXkF+0bI
+ /IKg==
+X-Gm-Message-State: AOAM532X34AM8wVMWyjQKcxwe8U3ra9PBIPWK85nHiAg3qUHqXaujZkL
+ 2DCPpkatEKqe7dNh6+AXwoY3XEo+2RE=
+X-Google-Smtp-Source: ABdhPJxURQFVbxV5E4/D1W9nFEl9P0IDrZb/T4b7z0sKgFJ77WHlpk829sjMlKAVatOL547GvOcRww==
+X-Received: by 2002:a17:90a:4497:: with SMTP id t23mr97534pjg.88.1589901679045; 
+ Tue, 19 May 2020 08:21:19 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id i2sm10352158pgb.14.2020.05.19.08.21.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 May 2020 08:21:18 -0700 (PDT)
+Subject: Re: [PATCH RISU] arm.risu, thumb.risu: Add v8.2 DP and FHM insns
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200518154719.18562-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8d939086-a431-0922-4623-88cb517993f1@linaro.org>
+Date: Tue, 19 May 2020 08:21:16 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200519080054.146495-1-stefanha@redhat.com>
-In-Reply-To: <20200519080054.146495-1-stefanha@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 May 2020 16:15:32 +0100
-Message-ID: <CAFEAcA_fwbJ162ziqtApS=6Om3xMiTFfHM-i6wfcSApuLs8UFg@mail.gmail.com>
-Subject: Re: [PULL 0/8] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc2f.google.com
+In-Reply-To: <20200518154719.18562-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,40 +89,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Stefan Weil <sw@weilnetz.de>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 May 2020 at 09:01, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> The following changes since commit 013a18edbbc59cdad019100c7d03c0494642b74c:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-2020051=
-> 4' into staging (2020-05-14 16:17:55 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/stefanha/qemu.git tags/block-pull-request
->
-> for you to fetch changes up to ba607ca8bff4d2c2062902f8355657c865ac7c29:
->
->   aio-posix: disable fdmon-io_uring when GSource is used (2020-05-18 18:16:00=
->  +0100)
->
-> ----------------------------------------------------------------
-> Pull request
+On 5/18/20 8:47 AM, Peter Maydell wrote:
+> Add coverage for the v8.2 DP and v8.2 FHM insns in the Neon extension
+> space.  (We already had the v8.1 VQRDMLAH/VQRDLSH and the v8.3
+> VCADD/VCMLA, so this brings the risu coverage into line with what
+> QEMU has implemented so far.)
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> I added these patterns as part of testing for the first part
+> of the Neon decodetree conversion and forgot I'd never sent out the
+> risu patch for review.
+> 
+>  arm.risu   | 18 ++++++++++++++++++
+>  thumb.risu | 18 ++++++++++++++++++
+>  2 files changed, 36 insertions(+)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+Sorry I didn't submit these myself February last year.  I still have them
+sitting in a separate .risu file that I used for testing originally.
 
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
-
--- PMM
+t~
 
