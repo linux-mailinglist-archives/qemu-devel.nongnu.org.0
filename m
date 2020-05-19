@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CB31D9F87
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:31:22 +0200 (CEST)
-Received: from localhost ([::1]:44416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 573551D9F69
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:26:26 +0200 (CEST)
+Received: from localhost ([::1]:54856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb71N-0004Et-47
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:31:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42010)
+	id 1jb6wZ-0004qW-Or
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:26:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jb6up-00035b-5x
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:24:35 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52990)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jb6uv-0003G3-DC
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 14:24:41 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:50669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jb6uk-0000MR-47
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:24:34 -0400
-Received: by mail-wm1-x344.google.com with SMTP id z4so241734wmi.2
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 11:24:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jb6uo-0000Mr-Uw
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 14:24:41 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id nu7so56302pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 11:24:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=eNlKWpRqRb5z2hrqCd8+bNrjugM3z5Req+rwJsCMrfk=;
- b=JbuRjPtUdaj4hEJjvjTQhCpWKXsFJq/+zvtRK0yWVy5qT6E0zFBkzw2GrqK/2gneYi
- 3Dx0EUePmmuLpK4cuXbGjcWjERuSTrgzpRN9OZGff5fyuXxE9tcHcsseZzDSTt4kXCjC
- sZkv0bm5BfcnVQw4ZnBuNrH4B/POjkWnOfhRfPA4QRVME3EMCLPsz5qExh8C6r1UtnWn
- JyQ/+ATUA0Y5fV6jwQGAaiNwgEaq6AHTBsoZRjYuS+L7w9vJekqeMBDvq0j730sg3aMv
- wYRh9aDNlAgh3ES74CkA41H3QZEmMgTUUQnA3KVMr8CmOi8ArgqvpM9g1ySFgibuhgds
- HkMw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=HyXzx429zRXdub+45prHC1R5bNg0TUEB0xLij2OIMHU=;
+ b=Rv1z+amA16vd3R1T/Rz/Cpoic4bSPjTEz2slD7JuE+DZCsvCLQd4EOSrL+qmsMCj71
+ ZwyWJCq0gzzTb8S8thyGMEUXc67bRjQ/O7DaiVSRBHPLmbFl8fV/Khgyfdok1e3AWEDB
+ 6v1ARTSRNqTOi1c0sXwOYrp6ReXTs0mniuGMr1vkWfAtvBnlIRKezdD/Kk7gXfTDooh8
+ MuPi4Mq43xHAXQGt0yNUoI4sdi09hchhasbUUzAR7UeKF7nE14p/bY0PwtMJaMP7Tzsq
+ /728HsTjjG1spFyRKcjFkhvVf/x8C1/BNQfMAQ91jljQSqHLEeS6FIskmtkJARRCS0bu
+ +IOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=eNlKWpRqRb5z2hrqCd8+bNrjugM3z5Req+rwJsCMrfk=;
- b=RbaF3/8qtw7zLNE/PzXbsjxeJY0/sUSroLpXA4wRdburPA5k3e0ISvZDnJ42alm0WO
- mqgaPsvO4R8n93zKjKnZyKHkud4ih+gOyWzdG1o2a8AB9SjiWHPuo+NxBbNONwG3sbpA
- Gwv56b85so/oDOIuAiGU8jV06GVrPuYXa+U91M2fmYPa1KgLNtyXGA9EszUK4oNqU2sR
- Xz4BnbCXRzljXd0ysvpECnvb1Twn+PYlQQK1mMwPb91dVcI8zY9TuFAes90PD17OL/G/
- /iUMQb/hyM6YLGbt8Gq0C/9mXHtOdVq7kOyzVmb2BpN1nG6GBNlps+exOKBEHtYGDjC4
- weRw==
-X-Gm-Message-State: AOAM530LItu4ptzZOzDOnIWYRdrs23JRfDDjS1saFIiwdR4b+2aXJ3CC
- /wkhalpbHqUiFcg70ja1c5911g==
-X-Google-Smtp-Source: ABdhPJxLQ+dALkN58Bh1n6CrcLdVdlpW6L3LmoUZeYdN9OS1L8LPdUJ6cZhq+RTGRXFcYf7vnRti7w==
-X-Received: by 2002:a1c:5685:: with SMTP id k127mr766398wmb.50.1589912668039; 
- Tue, 19 May 2020 11:24:28 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e5sm270333wro.3.2020.05.19.11.24.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 May 2020 11:24:26 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1C6031FF7E;
- Tue, 19 May 2020 19:24:26 +0100 (BST)
-References: <20200519025355.4420-1-richard.henderson@linaro.org>
- <20200519025355.4420-5-richard.henderson@linaro.org>
-User-agent: mu4e 1.4.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [RISU v2 04/17] Adjust tracefile open for write
-In-reply-to: <20200519025355.4420-5-richard.henderson@linaro.org>
-Date: Tue, 19 May 2020 19:24:26 +0100
-Message-ID: <87367viy05.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HyXzx429zRXdub+45prHC1R5bNg0TUEB0xLij2OIMHU=;
+ b=l9f0nB+0lhV75pcC9urgBnUl05wacJzKsjFTxG/Uvk4mUDQCWDsqO9ZVciw2a3FmZY
+ qv/U3CiTgUlvCrnpDrE6nvtvrMbURbWElXEcV0w1524vcyipaqi9xzbhriUda7RkhLt2
+ 32pH06d1ExyV0tizm6c2yJrh5H011aJcySbWnVwMaUJSbUgNOieSgcwLslHKbtbJl0SV
+ 3YnWAyB+u2S4JvS9diP++mAzVUAGUyzYXHcRqU7VWnlToxmeYPOv/DNv6adRVVMRQXKE
+ O509ngJ+nsJ7VI0ZqH14wO25DcSvchbmfY8IbXrBVwt5JXPwPkhuTkF7QvnDAMpn26QL
+ gBvg==
+X-Gm-Message-State: AOAM530EqU3m7Wp0MHfO+nJZIPMyIthpPPETryVXMMTT0EDOTv739Gdk
+ l+BaI84F/SLrsegXfhXz/qRjvQ==
+X-Google-Smtp-Source: ABdhPJxwEHR7iidWzcyhJJ4Rn3Z/Gd8Ezz6UWhYTiSKNjAmfInFxAVVA0npYYduaM/IWRFNkhefW+Q==
+X-Received: by 2002:a17:90b:30cf:: with SMTP id
+ hi15mr868198pjb.209.1589912671896; 
+ Tue, 19 May 2020 11:24:31 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id i10sm150295pfa.166.2020.05.19.11.24.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 May 2020 11:24:30 -0700 (PDT)
+Subject: Re: [PATCH 2/2] target/i386: fix IEEE x87 floating-point exception
+ raising
+To: Joseph Myers <joseph@codesourcery.com>
+References: <alpine.DEB.2.21.2005152117400.3469@digraph.polyomino.org.uk>
+ <alpine.DEB.2.21.2005152120280.3469@digraph.polyomino.org.uk>
+ <5dd2d81c-cedd-7835-6b3c-7e089254dc95@linaro.org>
+ <alpine.DEB.2.21.2005191757210.10766@digraph.polyomino.org.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <76d7fa28-5dd9-3af4-f663-d251bbdbf4f4@linaro.org>
+Date: Tue, 19 May 2020 11:24:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <alpine.DEB.2.21.2005191757210.10766@digraph.polyomino.org.uk>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,41 +93,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/19/20 11:12 AM, Joseph Myers wrote:
+> On Tue, 19 May 2020, Richard Henderson wrote:
+> 
+>> To retain the hard float fast path, we need to leave float_flag_invalid set
+>> when the accrued exception bit is set.  To me this suggests keep all of the
+>> FPUS_* bits in fp_status and only convert to FPUS_* when we read the fp status
+>> word.
+> 
+> There is no hard float fast path that I can see for floatx80.  The issue 
+> of the fast path might be relevant for fixing SSE exception handling 
+> (which has some similar issues to x87), but not for floatx80.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Oops, yes.  Wasn't thinking for a moment.
 
-> Truncate the new output file.  Rely on umask to remove
-> group+other file permissions, if desired.
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Note that another bug in the x87 emulation is the lack of setting C1 for 
+> most instructions with inexact results based on the direction of rounding 
+> (which will require a new feature to be added to the softfloat code to 
+> record that information so the x87 emulation can use it).
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Wow, I don't believe I ever knew about that detail.
 
-> ---
->  risu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/risu.c b/risu.c
-> index 1c66885..f404d8f 100644
-> --- a/risu.c
-> +++ b/risu.c
-> @@ -368,7 +368,7 @@ int main(int argc, char **argv)
->              comm_fd =3D ismaster ? STDOUT_FILENO : STDIN_FILENO;
->          } else {
->              if (ismaster) {
-> -                comm_fd =3D open(trace_fn, O_WRONLY | O_CREAT, S_IRWXU);
-> +                comm_fd =3D open(trace_fn, O_WRONLY | O_CREAT | O_TRUNC,=
- 0666);
->              } else {
->                  comm_fd =3D open(trace_fn, O_RDONLY);
->              }
+This looks similar to the indication that PPC gives (and qemu does not
+implement) in FPSCR.FR ("The last instruction incremented the fraction during
+rounding").
+
+I guess it's not quite the same -- ppc indicates the fraction was incremented,
+while x87 indicates that the value rounded up.  Which could be computed from
+(fraction incremented) ^ sign, I suppose.
 
 
---=20
-Alex Benn=C3=A9e
+r~
 
