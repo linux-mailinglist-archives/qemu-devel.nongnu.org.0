@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4821DA495
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 00:30:10 +0200 (CEST)
-Received: from localhost ([::1]:57344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A82411DA46E
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 00:23:18 +0200 (CEST)
+Received: from localhost ([::1]:49976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbAkT-0006zW-BU
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 18:30:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44754)
+	id 1jbAdp-0002Xe-87
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 18:23:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jbAjX-0006RP-Bb; Tue, 19 May 2020 18:29:11 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:34847)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jbAjW-0002SQ-AJ; Tue, 19 May 2020 18:29:11 -0400
-Received: by mail-io1-xd41.google.com with SMTP id 79so1015938iou.2;
- Tue, 19 May 2020 15:29:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=l1doeUOGFgBSzvlVpQkD9kEmwRWQv9uyq48LXCg2Xzw=;
- b=VAkoZc2E1LLQg6yTaOlK/N6DT3YhKOP5UVJKWGq6VKBQXvXnL+fiPsaDUt2X7kH1fZ
- 8ABN6U0PO3KB1V06dWcr4YBWOKXVKZ1PDedM3O32gzQMZYKxVxowHrz3g8VYGYb84PJh
- 5QX5g94B/F0rUEn1euP3GLBLjlhr5KrLB316Ctjg8XG/M99XaBnONNRO1ZQ2baFxEHmX
- wM1rwQDoH6U+WKWx292NMfJk6qZ1w7eczupeI9ENEjY1E50bdBuSHpwY8WIzIKpH8Wf8
- 9hEwfMmSU9NvBYcRJvY5SzLN9SubzGHu8CdrK7eCA3iIRQB3mW97elCDFel8AidOAX7/
- Zhkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=l1doeUOGFgBSzvlVpQkD9kEmwRWQv9uyq48LXCg2Xzw=;
- b=lBwW+oqCnqINYoXscIJST5xstBA8uykLRAUbGfD+j10vo5EjiRMKlut3uunMjRBGtc
- aCHkY2nVxFe7mWhfcjaVkfhku/bbXijbL1KqJN4NKusObkfxA4fASG9sjAFt9548AGIm
- D0u8x9xvlbKRP1wStHFLibMS42caQVBzxo0EL0asJnnV6hf1GDeZo3cWrzdPE5bGZXNU
- p//eHTlay97YXFse4z3632997ksYOLn2zu5SDy1aXVC7doJjXgpPc5rEHnP1illASO6a
- bIN2dKIpGpEW08KykwofbwfqmJNSsTK+r1mt+O9yHUka0SiiULh8430LCiScGscFz8Vo
- cIFQ==
-X-Gm-Message-State: AOAM531OL7C7ZcmqTy2awHQjO8RWoMT99fFk622r/6h+kZpt/kQBjD9f
- 0h8VElWYTjjofpdCTnM+IkcQZ0h8chYM2YmmRnw=
-X-Google-Smtp-Source: ABdhPJxNc1buRW2pwxuiuJ3i6KAxISUuSRFL4OzwjNPfVm7q6bX90phQO/Gu3NpGDnIk8HIH0jjPQCGvjwYoAx9dpWM=
-X-Received: by 2002:a6b:5c14:: with SMTP id z20mr1115418ioh.176.1589927348963; 
- Tue, 19 May 2020 15:29:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jbAd9-00028I-KR
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 18:22:35 -0400
+Resent-Date: Tue, 19 May 2020 18:22:35 -0400
+Resent-Message-Id: <E1jbAd9-00028I-KR@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21310)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jbAd7-0000E2-Vr
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 18:22:35 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1589926946; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=SYwMBOCFHNgDq11kr+hyq1OOyxqbxlEehXLXUkALzm8xGACkmmjvwJXMp7JQJB0lXEE82ed7e6D2tmg33O5InIH2EZwUx9GptVcQP1Zds4ajwtKhfwBfgXN9j7OpZFrqoxgViPw6gyy0ulDTx+CnjDM85DsQEARb1HNkT5WCEqk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1589926946;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=1dFtOz+G200GQd7Pkha0FusdZeRtCDPUB1Oj3XEEo0c=; 
+ b=e8YJ+dMI/ujbRvbJh63vjp+D9wxDqfSWP/eevaKQV611rsZzivhM1+/cnXjx1Pq/ejpg4z5Ycj2+Ew75ZDP68fwpf6c1CBxCDi7XjZl5Q1KFZ6NhwmG6nUCarIA3M20axgxr1x3VdaB/82nt0x0vdNLzXNi9FJ+nmMt8YM0HSGY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1589926944879560.0843097176003;
+ Tue, 19 May 2020 15:22:24 -0700 (PDT)
+Message-ID: <158992694389.19297.552338994928135181@45ef0f9c86ae>
+In-Reply-To: <20200519164957.26920-1-richard.henderson@linaro.org>
+Subject: Re: [PULL 00/10] softfloat misc cleanups
 MIME-Version: 1.0
-References: <20200518050408.4579-1-armbru@redhat.com>
- <20200518050408.4579-2-armbru@redhat.com>
- <CAKmqyKOun2FyT+JR8cyrP9eQn9xFDAppFb4W12ym-TPGt9h7Hg@mail.gmail.com>
- <87d0707bri.fsf@dusky.pond.sub.org>
-In-Reply-To: <87d0707bri.fsf@dusky.pond.sub.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 19 May 2020 15:20:15 -0700
-Message-ID: <CAKmqyKM3oOLfAxupqfabrj_epQCCE_YbwnkU4cRd5mtg8+7_yg@mail.gmail.com>
-Subject: Re: [PATCH 01/24] arm/stm32f405: Fix realization of "stm32f2xx-adc"
- devices
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: richard.henderson@linaro.org
+Date: Tue, 19 May 2020 15:22:24 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 17:30:22
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,95 +69,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 18, 2020 at 10:08 PM Markus Armbruster <armbru@redhat.com> wrote:
->
-> Alistair Francis <alistair23@gmail.com> writes:
->
-> > On Sun, May 17, 2020 at 10:06 PM Markus Armbruster <armbru@redhat.com> wrote:
-> >>
-> >> stm32f405_soc_initfn() creates six such devices, but
-> >> stm32f405_soc_realize() realizes only one.  Affects machine
-> >> netduinoplus2.
-> >>
-> >> I wonder how this ever worked.  If the "device becomes real only on
-> >> realize" thing actually works, then we've always been missing five of
-> >> six such devices, yet nobody noticed.
-> >
-> > I must have just been testing the first ADC.
-> >
-> >>
-> >> Fix stm32f405_soc_realize() to realize all six.  Visible in "info
-> >> qtree":
-> >>
-> >>      bus: main-system-bus
-> >>        type System
-> >>        dev: stm32f405-soc, id ""
-> >>          cpu-type = "cortex-m4-arm-cpu"
-> >>        dev: stm32f2xx-adc, id ""
-> >>          gpio-out "sysbus-irq" 1
-> >>     -    mmio ffffffffffffffff/00000000000000ff
-> >>     +    mmio 0000000040012000/00000000000000ff
-> >>        dev: stm32f2xx-adc, id ""
-> >>          gpio-out "sysbus-irq" 1
-> >>     -    mmio ffffffffffffffff/00000000000000ff
-> >>     +    mmio 0000000040012000/00000000000000ff
-> >>        dev: stm32f2xx-adc, id ""
-> >>          gpio-out "sysbus-irq" 1
-> >>     -    mmio ffffffffffffffff/00000000000000ff
-> >>     +    mmio 0000000040012000/00000000000000ff
-> >>        dev: stm32f2xx-adc, id ""
-> >>          gpio-out "sysbus-irq" 1
-> >>     -    mmio ffffffffffffffff/00000000000000ff
-> >>     +    mmio 0000000040012000/00000000000000ff
-> >>        dev: stm32f2xx-adc, id ""
-> >>          gpio-out "sysbus-irq" 1
-> >>          mmio 0000000040012000/00000000000000ff
-> >>        dev: stm32f2xx-adc, id ""
-> >>          gpio-out "sysbus-irq" 1
-> >>     -    mmio ffffffffffffffff/00000000000000ff
-> >>     +    mmio 0000000040012000/00000000000000ff
-> >>        dev: armv7m, id ""
-> >>
-> >> The mmio addresses look suspicious.
-> >
-> > Good catch, thanks :)
->
-> I'd love to squash in corrections, but I don't know the correct
-> addresses.  Can you help?
-
-Yep, thanks for squashing it in.
-
-The three addresses are:
-
-0x40012000
-0x40012100
-0x40012200
-
-and they all share interrupt number 18.
-
-Let me know if you want me to do it.
-
-Alistair
-
->
-> >>
-> >> Fixes: 529fc5fd3e18ace8f739afd02dc0953354f39442
-> >> Cc: Alistair Francis <alistair@alistair23.me>
-> >> Cc: Peter Maydell <peter.maydell@linaro.org>
-> >> Cc: qemu-arm@nongnu.org
-> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> >
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->
-> Thanks!
->
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUxOTE2NDk1Ny4yNjky
+MC0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
+bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
+b3IKbW9yZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMjAwNTE5MTY0OTU3LjI2OTIwLTEt
+cmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTdWJqZWN0OiBbUFVMTCAwMC8xMF0gc29mdGZs
+b2F0IG1pc2MgY2xlYW51cHMKVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09
+CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0
+IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
+Zi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3Jh
+bQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJ
+UFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcx
+MzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFn
+IHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAwNTE1MTcwODA0LjU3MDctMS1waGlsbWRAcmVkaGF0
+LmNvbSAtPiBwYXRjaGV3LzIwMjAwNTE1MTcwODA0LjU3MDctMS1waGlsbWRAcmVkaGF0LmNvbQog
+LSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAwNTE2MDYzNzQ2LjE4Mjk2LTEtYW51cC5w
+YXRlbEB3ZGMuY29tIC0+IHBhdGNoZXcvMjAyMDA1MTYwNjM3NDYuMTgyOTYtMS1hbnVwLnBhdGVs
+QHdkYy5jb20KICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy9jb3Zlci4xNTg5OTIzNzg1Lmdp
+dC5hbGlzdGFpci5mcmFuY2lzQHdkYy5jb20gLT4gcGF0Y2hldy9jb3Zlci4xNTg5OTIzNzg1Lmdp
+dC5hbGlzdGFpci5mcmFuY2lzQHdkYy5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0
+JwpjNzRlNTFkIHNvZnRmbG9hdDogUmV0dXJuIGJvb2wgZnJvbSBhbGwgY2xhc3NpZmljYXRpb24g
+cHJlZGljYXRlcwo3OTZkYTE0IHNvZnRmbG9hdDogSW5saW5lIGZsb2F0eDgwIGNvbXBhcmUgc3Bl
+Y2lhbGl6YXRpb25zCmYzMTk3ZDMgc29mdGZsb2F0OiBJbmxpbmUgZmxvYXQxMjggY29tcGFyZSBz
+cGVjaWFsaXphdGlvbnMKYzRlMDZhYiBzb2Z0ZmxvYXQ6IElubGluZSBmbG9hdDY0IGNvbXBhcmUg
+c3BlY2lhbGl6YXRpb25zCjY1YWRjYWUgc29mdGZsb2F0OiBJbmxpbmUgZmxvYXQzMiBjb21wYXJl
+IHNwZWNpYWxpemF0aW9ucwo0YWZiMDRlIHNvZnRmbG9hdDogTmFtZSBjb21wYXJlIHJlbGF0aW9u
+IGVudW0KNTM4M2U1ZSBzb2Z0ZmxvYXQ6IE5hbWUgcm91bmRpbmcgbW9kZSBlbnVtCmFmOWU3ZmQg
+c29mdGZsb2F0OiBDaGFuZ2UgdGluaW5lc3NfYmVmb3JlX3JvdW5kaW5nIHRvIGJvb2wKODc2ZGRm
+OCBzb2Z0ZmxvYXQ6IFJlcGxhY2UgZmxhZyB3aXRoIGJvb2wKODAyZDdhNyBzb2Z0ZmxvYXQ6IFVz
+ZSBwb3N0IHRlc3QgZm9yIGZsb2F0Tl9tdWwKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTAgQ2hl
+Y2tpbmcgY29tbWl0IDgwMmQ3YTczYTE4YiAoc29mdGZsb2F0OiBVc2UgcG9zdCB0ZXN0IGZvciBm
+bG9hdE5fbXVsKQoyLzEwIENoZWNraW5nIGNvbW1pdCA4NzZkZGY4ZjgzY2UgKHNvZnRmbG9hdDog
+UmVwbGFjZSBmbGFnIHdpdGggYm9vbCkKMy8xMCBDaGVja2luZyBjb21taXQgYWY5ZTdmZGZkYWVk
+IChzb2Z0ZmxvYXQ6IENoYW5nZSB0aW5pbmVzc19iZWZvcmVfcm91bmRpbmcgdG8gYm9vbCkKRVJS
+T1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiM2
+ODogRklMRTogZnB1L3NvZnRmbG9hdC5jOjM4Nzc6CisgICAgICAgICAgICAgICAgICB8fCAoekV4
+cCA8IDAgKQoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxNDMgbGluZXMgY2hlY2tlZAoK
+UGF0Y2ggMy8xMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
+dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
+YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNC8xMCBDaGVja2luZyBjb21t
+aXQgNTM4M2U1ZWNmMWUzIChzb2Z0ZmxvYXQ6IE5hbWUgcm91bmRpbmcgbW9kZSBlbnVtKQo1LzEw
+IENoZWNraW5nIGNvbW1pdCA0YWZiMDRlNDJjMjEgKHNvZnRmbG9hdDogTmFtZSBjb21wYXJlIHJl
+bGF0aW9uIGVudW0pCjYvMTAgQ2hlY2tpbmcgY29tbWl0IDY1YWRjYWU2YTI5MCAoc29mdGZsb2F0
+OiBJbmxpbmUgZmxvYXQzMiBjb21wYXJlIHNwZWNpYWxpemF0aW9ucykKNy8xMCBDaGVja2luZyBj
+b21taXQgYzRlMDZhYmM0YzA5IChzb2Z0ZmxvYXQ6IElubGluZSBmbG9hdDY0IGNvbXBhcmUgc3Bl
+Y2lhbGl6YXRpb25zKQo4LzEwIENoZWNraW5nIGNvbW1pdCBmMzE5N2QzYWQ4ODQgKHNvZnRmbG9h
+dDogSW5saW5lIGZsb2F0MTI4IGNvbXBhcmUgc3BlY2lhbGl6YXRpb25zKQo5LzEwIENoZWNraW5n
+IGNvbW1pdCA3OTZkYTE0OWI3MjEgKHNvZnRmbG9hdDogSW5saW5lIGZsb2F0eDgwIGNvbXBhcmUg
+c3BlY2lhbGl6YXRpb25zKQoxMC8xMCBDaGVja2luZyBjb21taXQgYzc0ZTUxZDBlZDBkIChzb2Z0
+ZmxvYXQ6IFJldHVybiBib29sIGZyb20gYWxsIGNsYXNzaWZpY2F0aW9uIHByZWRpY2F0ZXMpCj09
+PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUg
+ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNTE5
+MTY0OTU3LjI2OTIwLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNr
+cGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5
+IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFj
+ayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
