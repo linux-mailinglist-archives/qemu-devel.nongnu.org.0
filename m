@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 891F51D9F6A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:26:31 +0200 (CEST)
-Received: from localhost ([::1]:55720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7ED1D9F7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:29:16 +0200 (CEST)
+Received: from localhost ([::1]:38686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb6wg-0005Gm-IJ
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:26:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42074)
+	id 1jb6zM-0001fh-0F
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:29:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jb6v9-0003Zy-3S
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:24:55 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:34072)
+ id 1jb6va-0004fH-SI
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 14:25:22 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jb6v8-0000Pb-CF
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:24:54 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id y3so520601wrt.1
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 11:24:53 -0700 (PDT)
+ id 1jb6va-0000Yq-2R
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 14:25:22 -0400
+Received: by mail-wm1-x336.google.com with SMTP id u1so238772wmn.3
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 11:25:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=qIo38bHHhcBYwkssXcVXAeJmkACO285h1O7RJlm3CpM=;
- b=VakNV4zgAvO+kLc5t42ZLiCh7QiBF21xMRSt/ME4pfAH4NCf2OuVDT2i3tEBoZGHSW
- qLl1U/JKrXFvBe611gUHt49DnQWbrdSL5px7XRR4+isVSjc/bFG3YC8VqyJHSh523xKc
- FoU6EnQSBYKlXOJqJd/gU6IZJlV59VTcHh4GXL9aiD8b8Du5nb7gtJsflVffzk8tEzMO
- aYdRXJjG5+xq9hju4QLUUF6jjYZir6ajvRxebO3fvFSNd7OJyohC2QUlLI+ndoQVCnRT
- S0ruMZV6CtDWKI/9QHa3gYr+6G3S9ZZE5IdqAh4gKSND8BaZDIb1XnXIRapSoIQks6yZ
- Cg3g==
+ bh=bcmMEMNagdP2OTgvAabIzSLwLOLR3y1X9CbKyhfzvA8=;
+ b=CYb/XmF9XwSDF56TdqKK2DrGWShwdGCR3735lOlEbs/RcX6wUjf1d8sCL08TqrcRZJ
+ hQ/lulOP22NbsYmycTV2XLdguGLGXNAW0irCfBziPFjB6yh+qWgSIgY8zKzcvMF4Sib+
+ zZyKGd3Pe9/h42tkdTRiJn6fKUh21XG75oUIrpGhukilEhTSvY9m4bPJpbRS7vzkjTG5
+ 9LMUJPUywjAXmWKbu5nVs4dXsUeRr/nZm62E50CVVscRvn2vJhoC4Dh9yWzmMNpwr8c/
+ mMaFUNjbURUSzWnRdRa1qHWTcikYC5FZeyVSHn/8F3upF3MSbjsbdKtX6FCc2Fe3gTUv
+ C6pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=qIo38bHHhcBYwkssXcVXAeJmkACO285h1O7RJlm3CpM=;
- b=MGTjFy8y1Oj/wHkE92J6nrpIDJLpRAQV0qCx65gi9GsSB1Vj6+XNsWL0D6crGBz4QE
- SrULGKQRsT0WU1j9kRpzy8RYz8Ta1Nsvi3ifQTTs1Q8sIn5j/38UPsKzDjvppOi4zjpg
- g0fdOfrKGw7AqciBrBKCG6oawHWdv5x/g7+HaIyouo7D3FGwcwpFQOHUPcrLbMVgyEcy
- WjvdSoVD81q6fjGTAD6x/dOiFWdM/VvEAfuHnIaTQjeWI5ZiSAuxfvS/EuAGVSWITJt8
- ni19IGAJMvYLu2Zec3UhjXNYMeaMx2hf/AR8ojQudGXhQAsDyABIRkfzCoNbOXcriJtp
- igmQ==
-X-Gm-Message-State: AOAM531nRmf4b14RPmMYwjXAn9Wi9stGMSIn21JcMaxP+1Pd5mCjpe6P
- o6iBa8SMfRnaLRXdsk/pQsPkPw==
-X-Google-Smtp-Source: ABdhPJyNTM3FniIkjPVxy3oXJCPHZJ2EjXK40JwUmavwoyRJHw6N6St3Rr/x5mbENPHD1a1DZp5W/Q==
-X-Received: by 2002:adf:f4c4:: with SMTP id h4mr232176wrp.142.1589912692700;
- Tue, 19 May 2020 11:24:52 -0700 (PDT)
+ bh=bcmMEMNagdP2OTgvAabIzSLwLOLR3y1X9CbKyhfzvA8=;
+ b=Zac+m+sk34gKPcUQXojSiBxDUL8iVZrxhqgmKnKm/U1E/lM2ACIrbt++QEOvFUspyu
+ m4Q6fPkl53gHCLg9xomoHry5kWSbljzwlbg7Il5dVGYXNQE7QdiroDKyEvNWNSxmwPVF
+ MyZu70XR+7TWYAn3HefPjZJ1HMUXYIQSWzL1l34KJ7d+FLPAiiUKFp5Y43fERRSPp9mX
+ S9ZQFmjSF2MUQ78UULO5gXvwy0RbSW7Xp8ajBErODqsgUSeP+FN32DMAa0zmcnY9qpUO
+ Cc6klKJ9qgRxLANaZC7uS8xKAEuALitKrBRJjUExCn0CRFUI5354mmDIB/lQOIm/iEn2
+ glNQ==
+X-Gm-Message-State: AOAM531pH8lN3wYbmt0fWVu3dgr3esXXPFhnVwS9TDW3yc81ArMu1xqP
+ 4Pa72nOKNddlhdoN9dq9ctdH1ZEU/88=
+X-Google-Smtp-Source: ABdhPJyjgXMcIEytJjLmE2elXDxTGR3mgGc8QmG9QglnHtlj0tvb8jKDu2lWBMNw2LcLbmtRvZoomw==
+X-Received: by 2002:a1c:38c3:: with SMTP id f186mr729603wma.137.1589912720604; 
+ Tue, 19 May 2020 11:25:20 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e7sm300119wrp.0.2020.05.19.11.24.51
+ by smtp.gmail.com with ESMTPSA id 18sm528880wmj.19.2020.05.19.11.25.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 May 2020 11:24:51 -0700 (PDT)
+ Tue, 19 May 2020 11:25:19 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E37771FF7E;
- Tue, 19 May 2020 19:24:50 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id BC10D1FF7E;
+ Tue, 19 May 2020 19:25:17 +0100 (BST)
 References: <20200519025355.4420-1-richard.henderson@linaro.org>
- <20200519025355.4420-6-richard.henderson@linaro.org>
+ <20200519025355.4420-7-richard.henderson@linaro.org>
 User-agent: mu4e 1.4.6; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [RISU v2 05/17] Use EXIT_FAILURE, EXIT_SUCCESS
-In-reply-to: <20200519025355.4420-6-richard.henderson@linaro.org>
-Date: Tue, 19 May 2020 19:24:50 +0100
-Message-ID: <87zha3hjf1.fsf@linaro.org>
+Subject: Re: [RISU v2 06/17] Make some risu.c symbols static
+In-reply-to: <20200519025355.4420-7-richard.henderson@linaro.org>
+Date: Tue, 19 May 2020 19:25:17 +0100
+Message-ID: <87wo57hjea.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -96,10 +96,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Some of the time we exit via the return value from main.
-> This can make it easier to tell what it is we're returning.
+> These are unused in other translation units.
 >
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
