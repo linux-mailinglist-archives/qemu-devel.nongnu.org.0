@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A3A81D9652
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 14:29:35 +0200 (CEST)
-Received: from localhost ([::1]:55006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281631D9649
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 14:28:30 +0200 (CEST)
+Received: from localhost ([::1]:49294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb1NG-0005qd-48
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 08:29:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51680)
+	id 1jb1MD-0003Gn-4B
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 08:28:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
- id 1jb1JX-0008VE-0O
+ id 1jb1JW-0008VD-RW
  for qemu-devel@nongnu.org; Tue, 19 May 2020 08:25:44 -0400
-Received: from o1.dev.nutanix.com ([198.21.4.205]:57584)
+Received: from o1.dev.nutanix.com ([198.21.4.205]:46099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
- id 1jb1JT-00035a-FE
- for qemu-devel@nongnu.org; Tue, 19 May 2020 08:25:42 -0400
+ id 1jb1JT-00035k-Fr
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 08:25:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
- h=from:subject:in-reply-to:references:mime-version:to:cc:content-type:
+ h=from:subject:in-reply-to:references:to:cc:content-type:
  content-transfer-encoding;
- s=smtpapi; bh=ccHzPH5sg0Dc3fvsiqU4j0sMftJdLCmzySqyTNwtnZE=;
- b=VIwlpxXf4YOPscWY8fiZWpcLmrFINDsio09SD6svyYwwkLBuZGSKOz1+J0qs2xYgeEyo
- F8iLeNVc2BrMc7+7IlOQO/WB8+AkrD26mVldiocMPwkQO2QQBLE1pA8rX+gviBI5TdE1XN
- 1xesanbI+ol5OYQ4rycngLFQ74dtRnzJQ=
-Received: by filterdrecv-p3iad2-8ddf98858-285bn with SMTP id
- filterdrecv-p3iad2-8ddf98858-285bn-19-5EC3D03D-2B
- 2020-05-19 12:25:33.59275178 +0000 UTC m=+4706290.191184755
+ s=smtpapi; bh=i0Twq+cLmun0AL87TLF4mDFKdDwGhNZq/HRRt7ALzsI=;
+ b=xSeisfZHsaoj5Hx4HvnAUbmQN4cQCXfZ+rmvu+OD9Xrk0zyOSRiNI4wCF6Q17jIh5uM1
+ CHWxBK9uWhUN5BKmIFGRAEicQPHfv6TRyG/l6XX4m7OkuBgccFC+IyWJy2uHJO+4D/Z5T2
+ 9vJDVKju0cO57jyDyptUbvysLQhpgqeIQ=
+Received: by filterdrecv-p3iad2-8ddf98858-szfkb with SMTP id
+ filterdrecv-p3iad2-8ddf98858-szfkb-20-5EC3D040-77
+ 2020-05-19 12:25:37.007463432 +0000 UTC m=+4706285.824587008
 Received: from localhost.localdomain.com (unknown)
  by ismtpd0002p1lon1.sendgrid.net (SG) with ESMTP
- id ZF90LAL5QFGAz_sHgy8FHg Tue, 19 May 2020 12:25:33.130 +0000 (UTC)
+ id nqOupbdiSEyD2eX35KzFyw Tue, 19 May 2020 12:25:36.751 +0000 (UTC)
 From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: [PATCH v3 04/10] Transmit vhost-user memory regions individually
-Date: Tue, 19 May 2020 12:25:33 +0000 (UTC)
-Message-Id: <1588473683-27067-5-git-send-email-raphael.norwitz@nutanix.com>
+Subject: [PATCH v3 05/10] Lift max memory slots limit imposed by vhost-user
+Date: Tue, 19 May 2020 12:25:37 +0000 (UTC)
+Message-Id: <1588473683-27067-6-git-send-email-raphael.norwitz@nutanix.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1588473683-27067-1-git-send-email-raphael.norwitz@nutanix.com>
 References: <1588473683-27067-1-git-send-email-raphael.norwitz@nutanix.com>
-MIME-Version: 1.0
 X-SG-EID: =?us-ascii?Q?YCLURHX+pjNDm1i7d69iKyMnQi=2FdvWah9veFa8nllaoUC0ScIWrCgiaWGu43Vg?=
- =?us-ascii?Q?xFdB4istXUBpN9H93OJgc8zVv1yMmJe5tLurTe2?=
- =?us-ascii?Q?InvQ9nZQ6q387wUVn0X22P5S=2FVlIgKfZyxgvEFi?=
- =?us-ascii?Q?qRK9Al=2F+sul+UcZUcHAmWhxiuGF6Olq9I5v+O2H?=
- =?us-ascii?Q?LMh2N0oPkyDROM9zygbbNAEs13wo2KdulVProRp?=
- =?us-ascii?Q?gDRd4bh4l3F2glq1AuCfIBRz92w7aMFctrmhGsg?=
- =?us-ascii?Q?Ch1b1vHwL88DOcRhgF+Gw=3D=3D?=
+ =?us-ascii?Q?xFdB4istXUBpN9H93OJgc8zfb9oaW8Dn6ChLkDu?=
+ =?us-ascii?Q?Ff6vD766A4JqCMd+JugyKPxO7KypFYsp1RqPXzW?=
+ =?us-ascii?Q?a7lBu0P1bVtWg9NQfoxmt4YaetEOiebleSNKL8V?=
+ =?us-ascii?Q?u9Eat9C+IvLpCXxYiH+3GAZ6DJrfPc+SOgXmsBP?=
+ =?us-ascii?Q?hSzeYp+1lglInhr40nNusXJ=2FhWs8ZurvVTK2rNs?=
+ =?us-ascii?Q?PMBWa3mSCYlWPh3wYPYNw=3D=3D?=
 To: qemu-devel@nongnu.org, mst@redhat.com, marcandre.lureau@redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=198.21.4.205;
  envelope-from=bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net;
  helo=o1.dev.nutanix.com
@@ -78,662 +77,234 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Turschmid <peter.turschm@nutanix.com>, raphael.s.norwitz@gmail.com,
- marcandre.lureau@gmail.com, Swapnil Ingle <swapnil.ingle@nutanix.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+ marcandre.lureau@gmail.com, Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With this change, when the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
-protocol feature has been negotiated, Qemu no longer sends the backend
-all the memory regions in a single message. Rather, when the memory
-tables are set or updated, a series of VHOST_USER_ADD_MEM_REG and
-VHOST_USER_REM_MEM_REG messages are sent to transmit the regions to map
-and/or unmap instead of sending send all the regions in one fixed size
-VHOST_USER_SET_MEM_TABLE message.
+Historically, sending all memory regions to vhost-user backends in a
+single message imposed a limitation on the number of times memory
+could be hot-added to a VM with a vhost-user device. Now that backends
+which support the VHOST_USER_PROTOCOL_F_CONFIGURE_SLOTS send memory
+regions individually, we no longer need to impose this limitation on
+devices which support this feature.
 
-The vhost_user struct maintains a shadow state of the VM’s memory
-regions. When the memory tables are modified, the
-vhost_user_set_mem_table() function compares the new device memory state
-to the shadow state and only sends regions which need to be unmapped or
-mapped in. The regions which must be unmapped are sent first, followed
-by the new regions to be mapped in. After all the messages have been
-sent, the shadow state is set to the current virtual device state.
+With this change, VMs with a vhost-user device which supports the
+VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS can support a configurable
+number of memory slots, up to the maximum allowed by the target
+platform.
 
 Existing backends which do not support
 VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS are unaffected.
 
 Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Signed-off-by: Swapnil Ingle <swapnil.ingle@nutanix.com>
 Signed-off-by: Peter Turschmid <peter.turschm@nutanix.com>
 Suggested-by: Mike Cui <cui@nutanix.com>
 ---
- docs/interop/vhost-user.rst |  33 ++-
- hw/virtio/vhost-user.c      | 507 +++++++++++++++++++++++++++++++++++++-------
- 2 files changed, 466 insertions(+), 74 deletions(-)
+ docs/interop/vhost-user.rst |  7 +++---
+ hw/virtio/vhost-user.c      | 56 ++++++++++++++++++++++++++++++---------------
+ 2 files changed, 40 insertions(+), 23 deletions(-)
 
 diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index b3cf5c3..037eefa 100644
+index 037eefa..688b7c6 100644
 --- a/docs/interop/vhost-user.rst
 +++ b/docs/interop/vhost-user.rst
-@@ -1276,8 +1276,37 @@ Master message types
-   QEMU to expose to the guest. At this point, the value returned
-   by the backend will be capped at the maximum number of ram slots
-   which can be supported by vhost-user. Currently that limit is set
--  at VHOST_USER_MAX_RAM_SLOTS = 8 because of underlying protocol
--  limitations.
-+  at VHOST_USER_MAX_RAM_SLOTS = 8.
-+
-+``VHOST_USER_ADD_MEM_REG``
-+  :id: 37
-+  :equivalent ioctl: N/A
-+  :slave payload: memory region
-+
-+  When the ``VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS`` protocol
-+  feature has been successfully negotiated, this message is submitted
-+  by the master to the slave. The message payload contains a memory
-+  region descriptor struct, describing a region of guest memory which
-+  the slave device must map in. When the
-+  ``VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS`` protocol feature has
-+  been successfully negotiated, along with the
-+  ``VHOST_USER_REM_MEM_REG`` message, this message is used to set and
-+  update the memory tables of the slave device.
-+
-+``VHOST_USER_REM_MEM_REG``
-+  :id: 38
-+  :equivalent ioctl: N/A
-+  :slave payload: memory region
-+
-+  When the ``VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS`` protocol
-+  feature has been successfully negotiated, this message is submitted
-+  by the master to the slave. The message payload contains a memory
-+  region descriptor struct, describing a region of guest memory which
-+  the slave device must unmap. When the
-+  ``VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS`` protocol feature has
-+  been successfully negotiated, along with the
-+  ``VHOST_USER_ADD_MEM_REG`` message, this message is used to set and
-+  update the memory tables of the slave device.
+@@ -1273,10 +1273,9 @@ Master message types
+   feature has been successfully negotiated, this message is submitted
+   by master to the slave. The slave should return the message with a
+   u64 payload containing the maximum number of memory slots for
+-  QEMU to expose to the guest. At this point, the value returned
+-  by the backend will be capped at the maximum number of ram slots
+-  which can be supported by vhost-user. Currently that limit is set
+-  at VHOST_USER_MAX_RAM_SLOTS = 8.
++  QEMU to expose to the guest. The value returned by the backend
++  will be capped at the maximum number of ram slots which can be
++  supported by the target platform.
  
- Slave message types
- -------------------
+ ``VHOST_USER_ADD_MEM_REG``
+   :id: 37
 diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 15406a7..4af8476 100644
+index 4af8476..270a96d 100644
 --- a/hw/virtio/vhost-user.c
 +++ b/hw/virtio/vhost-user.c
-@@ -104,6 +104,8 @@ typedef enum VhostUserRequest {
-     VHOST_USER_RESET_DEVICE = 34,
-     /* Message number 35 reserved for VHOST_USER_VRING_KICK. */
-     VHOST_USER_GET_MAX_MEM_SLOTS = 36,
-+    VHOST_USER_ADD_MEM_REG = 37,
-+    VHOST_USER_REM_MEM_REG = 38,
-     VHOST_USER_MAX
- } VhostUserRequest;
+@@ -35,11 +35,29 @@
+ #include <linux/userfaultfd.h>
+ #endif
  
-@@ -128,6 +130,11 @@ typedef struct VhostUserMemory {
-     VhostUserMemoryRegion regions[VHOST_MEMORY_MAX_NREGIONS];
+-#define VHOST_MEMORY_MAX_NREGIONS    8
++#define VHOST_MEMORY_BASELINE_NREGIONS    8
+ #define VHOST_USER_F_PROTOCOL_FEATURES 30
+ #define VHOST_USER_SLAVE_MAX_FDS     8
+ 
+ /*
++ * Set maximum number of RAM slots supported to
++ * the maximum number supported by the target
++ * hardware plaform.
++ */
++#if defined(TARGET_X86) || defined(TARGET_X86_64) || \
++    defined(TARGET_ARM) || defined(TARGET_ARM_64)
++#include "hw/acpi/acpi.h"
++#define VHOST_USER_MAX_RAM_SLOTS ACPI_MAX_RAM_SLOTS
++
++#elif defined(TARGET_PPC) || defined(TARGET_PPC_64)
++#include "hw/ppc/spapr.h"
++#define VHOST_USER_MAX_RAM_SLOTS SPAPR_MAX_RAM_SLOTS
++
++#else
++#define VHOST_USER_MAX_RAM_SLOTS 512
++#endif
++
++/*
+  * Maximum size of virtio device config space
+  */
+ #define VHOST_USER_MAX_CONFIG_SIZE 256
+@@ -127,7 +145,7 @@ typedef struct VhostUserMemoryRegion {
+ typedef struct VhostUserMemory {
+     uint32_t nregions;
+     uint32_t padding;
+-    VhostUserMemoryRegion regions[VHOST_MEMORY_MAX_NREGIONS];
++    VhostUserMemoryRegion regions[VHOST_MEMORY_BASELINE_NREGIONS];
  } VhostUserMemory;
  
-+typedef struct VhostUserMemRegMsg {
-+    uint32_t padding;
-+    VhostUserMemoryRegion region;
-+} VhostUserMemRegMsg;
-+
- typedef struct VhostUserLog {
-     uint64_t mmap_size;
-     uint64_t mmap_offset;
-@@ -186,6 +193,7 @@ typedef union {
-         struct vhost_vring_state state;
-         struct vhost_vring_addr addr;
-         VhostUserMemory memory;
-+        VhostUserMemRegMsg mem_reg;
-         VhostUserLog log;
-         struct vhost_iotlb_msg iotlb;
-         VhostUserConfig config;
-@@ -226,6 +234,16 @@ struct vhost_user {
+ typedef struct VhostUserMemRegMsg {
+@@ -222,7 +240,7 @@ struct vhost_user {
+     int slave_fd;
+     NotifierWithReturn postcopy_notifier;
+     struct PostCopyFD  postcopy_fd;
+-    uint64_t           postcopy_client_bases[VHOST_MEMORY_MAX_NREGIONS];
++    uint64_t           postcopy_client_bases[VHOST_USER_MAX_RAM_SLOTS];
+     /* Length of the region_rb and region_rb_offset arrays */
+     size_t             region_rb_len;
+     /* RAMBlock associated with a given region */
+@@ -237,7 +255,7 @@ struct vhost_user {
  
-     /* True once we've entered postcopy_listen */
-     bool               postcopy_listen;
-+
-+    /* Our current regions */
-+    int num_shadow_regions;
-+    struct vhost_memory_region shadow_regions[VHOST_MEMORY_MAX_NREGIONS];
-+};
-+
-+struct scrub_regions {
-+    struct vhost_memory_region *region;
-+    int reg_idx;
-+    int fd_idx;
+     /* Our current regions */
+     int num_shadow_regions;
+-    struct vhost_memory_region shadow_regions[VHOST_MEMORY_MAX_NREGIONS];
++    struct vhost_memory_region shadow_regions[VHOST_USER_MAX_RAM_SLOTS];
  };
  
- static bool ioeventfd_enabled(void)
-@@ -488,8 +506,329 @@ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
-     return 1;
- }
- 
-+static inline bool reg_equal(struct vhost_memory_region *shadow_reg,
-+                             struct vhost_memory_region *vdev_reg)
-+{
-+    return shadow_reg->guest_phys_addr == vdev_reg->guest_phys_addr &&
-+        shadow_reg->userspace_addr == vdev_reg->userspace_addr &&
-+        shadow_reg->memory_size == vdev_reg->memory_size;
-+}
-+
-+static void scrub_shadow_regions(struct vhost_dev *dev,
-+                                 struct scrub_regions *add_reg,
-+                                 int *nr_add_reg,
-+                                 struct scrub_regions *rem_reg,
-+                                 int *nr_rem_reg, uint64_t *shadow_pcb,
-+                                 bool track_ramblocks)
-+{
-+    struct vhost_user *u = dev->opaque;
-+    bool found[VHOST_MEMORY_MAX_NREGIONS] = {};
-+    struct vhost_memory_region *reg, *shadow_reg;
-+    int i, j, fd, add_idx = 0, rm_idx = 0, fd_num = 0;
-+    ram_addr_t offset;
-+    MemoryRegion *mr;
-+    bool matching;
-+
-+    /*
-+     * Find memory regions present in our shadow state which are not in
-+     * the device's current memory state.
-+     *
-+     * Mark regions in both the shadow and device state as "found".
-+     */
-+    for (i = 0; i < u->num_shadow_regions; i++) {
-+        shadow_reg = &u->shadow_regions[i];
-+        matching = false;
-+
-+        for (j = 0; j < dev->mem->nregions; j++) {
-+            reg = &dev->mem->regions[j];
-+
-+            mr = vhost_user_get_mr_data(reg->userspace_addr, &offset, &fd);
-+
-+            if (reg_equal(shadow_reg, reg)) {
-+                matching = true;
-+                found[j] = true;
-+                if (track_ramblocks) {
-+                    /*
-+                     * Reset postcopy client bases, region_rb, and
-+                     * region_rb_offset in case regions are removed.
-+                     */
-+                    if (fd > 0) {
-+                        u->region_rb_offset[j] = offset;
-+                        u->region_rb[j] = mr->ram_block;
-+                        shadow_pcb[j] = u->postcopy_client_bases[i];
-+                    } else {
-+                        u->region_rb_offset[j] = 0;
-+                        u->region_rb[j] = NULL;
-+                    }
-+                }
-+                break;
-+            }
-+        }
-+
-+        /*
-+         * If the region was not found in the current device memory state
-+         * create an entry for it in the removed list.
-+         */
-+        if (!matching) {
-+            rem_reg[rm_idx].region = shadow_reg;
-+            rem_reg[rm_idx++].reg_idx = i;
-+        }
-+    }
-+
-+    /*
-+     * For regions not marked "found", create entries in the added list.
-+     *
-+     * Note their indexes in the device memory state and the indexes of their
-+     * file descriptors.
-+     */
-+    for (i = 0; i < dev->mem->nregions; i++) {
-+        reg = &dev->mem->regions[i];
-+        mr = vhost_user_get_mr_data(reg->userspace_addr, &offset, &fd);
-+        if (fd > 0) {
-+            ++fd_num;
-+        }
-+
-+        /*
-+         * If the region was in both the shadow and device state we don't
-+         * need to send a VHOST_USER_ADD_MEM_REG message for it.
-+         */
-+        if (found[i]) {
-+            continue;
-+        }
-+
-+        add_reg[add_idx].region = reg;
-+        add_reg[add_idx].reg_idx = i;
-+        add_reg[add_idx++].fd_idx = fd_num;
-+    }
-+    *nr_rem_reg = rm_idx;
-+    *nr_add_reg = add_idx;
-+
-+    return;
-+}
-+
-+static int send_remove_regions(struct vhost_dev *dev,
-+                               struct scrub_regions *remove_reg,
-+                               int nr_rem_reg, VhostUserMsg *msg,
-+                               bool reply_supported)
-+{
-+    struct vhost_user *u = dev->opaque;
-+    struct vhost_memory_region *shadow_reg;
-+    int i, fd, shadow_reg_idx, ret;
-+    ram_addr_t offset;
-+
-+    /*
-+     * The regions in remove_reg appear in the same order they do in the
-+     * shadow table. Therefore we can minimize memory copies by iterating
-+     * through remove_reg backwards.
-+     */
-+    for (i = nr_rem_reg - 1; i >= 0; i--) {
-+        shadow_reg = remove_reg[i].region;
-+        shadow_reg_idx = remove_reg[i].reg_idx;
-+
-+        vhost_user_get_mr_data(shadow_reg->userspace_addr, &offset, &fd);
-+
-+        if (fd > 0) {
-+            msg->hdr.request = VHOST_USER_REM_MEM_REG;
-+            vhost_user_fill_msg_region(&msg->payload.mem_reg.region,
-+                                       shadow_reg);
-+
-+            if (vhost_user_write(dev, msg, &fd, 1) < 0) {
-+                return -1;
-+            }
-+
-+            if (reply_supported) {
-+                ret = process_message_reply(dev, msg);
-+                if (ret) {
-+                    return ret;
-+                }
-+            }
-+        }
-+
-+        /*
-+         * At this point we know the backend has unmapped the region. It is now
-+         * safe to remove it from the shadow table.
-+         */
-+        memmove(&u->shadow_regions[shadow_reg_idx],
-+                &u->shadow_regions[shadow_reg_idx + 1],
-+                sizeof(struct vhost_memory_region) *
-+                (u->num_shadow_regions - shadow_reg_idx));
-+        u->num_shadow_regions--;
-+    }
-+
-+    return 0;
-+}
-+
-+static int send_add_regions(struct vhost_dev *dev,
-+                            struct scrub_regions *add_reg, int nr_add_reg,
-+                            VhostUserMsg *msg, uint64_t *shadow_pcb,
-+                            bool reply_supported, bool track_ramblocks)
-+{
-+    struct vhost_user *u = dev->opaque;
-+    int i, fd, ret, reg_idx, reg_fd_idx;
-+    struct vhost_memory_region *reg;
-+    MemoryRegion *mr;
-+    ram_addr_t offset;
-+    VhostUserMsg msg_reply;
-+
-+    for (i = 0; i < nr_add_reg; i++) {
-+        reg = add_reg[i].region;
-+        reg_idx = add_reg[i].reg_idx;
-+        reg_fd_idx = add_reg[i].fd_idx;
-+
-+        mr = vhost_user_get_mr_data(reg->userspace_addr, &offset, &fd);
-+
-+        if (fd > 0) {
-+            if (track_ramblocks) {
-+                trace_vhost_user_set_mem_table_withfd(reg_fd_idx, mr->name,
-+                                                      reg->memory_size,
-+                                                      reg->guest_phys_addr,
-+                                                      reg->userspace_addr,
-+                                                      offset);
-+                u->region_rb_offset[reg_idx] = offset;
-+                u->region_rb[reg_idx] = mr->ram_block;
-+            }
-+            msg->hdr.request = VHOST_USER_ADD_MEM_REG;
-+            vhost_user_fill_msg_region(&msg->payload.mem_reg.region, reg);
-+            msg->payload.mem_reg.region.mmap_offset = offset;
-+
-+            if (vhost_user_write(dev, msg, &fd, 1) < 0) {
-+                return -1;
-+            }
-+
-+            if (track_ramblocks) {
-+                uint64_t reply_gpa;
-+
-+                if (vhost_user_read(dev, &msg_reply) < 0) {
-+                    return -1;
-+                }
-+
-+                reply_gpa = msg_reply.payload.mem_reg.region.guest_phys_addr;
-+
-+                if (msg_reply.hdr.request != VHOST_USER_ADD_MEM_REG) {
-+                    error_report("%s: Received unexpected msg type."
-+                                 "Expected %d received %d", __func__,
-+                                 VHOST_USER_ADD_MEM_REG,
-+                                 msg_reply.hdr.request);
-+                    return -1;
-+                }
-+
-+                /*
-+                 * We're using the same structure, just reusing one of the
-+                 * fields, so it should be the same size.
-+                 */
-+                if (msg_reply.hdr.size != msg->hdr.size) {
-+                    error_report("%s: Unexpected size for postcopy reply "
-+                                 "%d vs %d", __func__, msg_reply.hdr.size,
-+                                 msg->hdr.size);
-+                    return -1;
-+                }
-+
-+                /* Get the postcopy client base from the backend's reply. */
-+                if (reply_gpa == dev->mem->regions[reg_idx].guest_phys_addr) {
-+                    shadow_pcb[reg_idx] =
-+                        msg_reply.payload.mem_reg.region.userspace_addr;
-+                    trace_vhost_user_set_mem_table_postcopy(
-+                        msg_reply.payload.mem_reg.region.userspace_addr,
-+                        msg->payload.mem_reg.region.userspace_addr,
-+                        reg_fd_idx, reg_idx);
-+                } else {
-+                    error_report("%s: invalid postcopy reply for region. "
-+                                 "Got guest physical address %lX, expected "
-+                                 "%lX", __func__, reply_gpa,
-+                                 dev->mem->regions[reg_idx].guest_phys_addr);
-+                    return -1;
-+                }
-+            } else if (reply_supported) {
-+                ret = process_message_reply(dev, msg);
-+                if (ret) {
-+                    return ret;
-+                }
-+            }
-+        } else if (track_ramblocks) {
-+            u->region_rb_offset[reg_idx] = 0;
-+            u->region_rb[reg_idx] = NULL;
-+        }
-+
-+        /*
-+         * At this point, we know the backend has mapped in the new
-+         * region, if the region has a valid file descriptor.
-+         *
-+         * The region should now be added to the shadow table.
-+         */
-+        u->shadow_regions[u->num_shadow_regions].guest_phys_addr =
-+            reg->guest_phys_addr;
-+        u->shadow_regions[u->num_shadow_regions].userspace_addr =
-+            reg->userspace_addr;
-+        u->shadow_regions[u->num_shadow_regions].memory_size =
-+            reg->memory_size;
-+        u->num_shadow_regions++;
-+    }
-+
-+    return 0;
-+}
-+
-+static int vhost_user_add_remove_regions(struct vhost_dev *dev,
-+                                         VhostUserMsg *msg,
-+                                         bool reply_supported,
-+                                         bool track_ramblocks)
-+{
-+    struct vhost_user *u = dev->opaque;
-+    struct scrub_regions add_reg[VHOST_MEMORY_MAX_NREGIONS];
-+    struct scrub_regions rem_reg[VHOST_MEMORY_MAX_NREGIONS];
-+    uint64_t shadow_pcb[VHOST_MEMORY_MAX_NREGIONS] = {};
-+    int nr_add_reg, nr_rem_reg;
-+
-+    msg->hdr.size = sizeof(msg->payload.mem_reg.padding) +
-+        sizeof(VhostUserMemoryRegion);
-+
-+    /* Find the regions which need to be removed or added. */
-+    scrub_shadow_regions(dev, add_reg, &nr_add_reg, rem_reg, &nr_rem_reg,
-+                         shadow_pcb, track_ramblocks);
-+
-+    if (nr_rem_reg && send_remove_regions(dev, rem_reg, nr_rem_reg, msg,
-+                reply_supported) < 0)
-+    {
-+        goto err;
-+    }
-+
-+    if (nr_add_reg && send_add_regions(dev, add_reg, nr_add_reg, msg,
-+                shadow_pcb, reply_supported, track_ramblocks) < 0)
-+    {
-+        goto err;
-+    }
-+
-+    if (track_ramblocks) {
-+        memcpy(u->postcopy_client_bases, shadow_pcb,
-+               sizeof(uint64_t) * VHOST_MEMORY_MAX_NREGIONS);
-+        /*
-+         * Now we've registered this with the postcopy code, we ack to the
-+         * client, because now we're in the position to be able to deal with
-+         * any faults it generates.
-+         */
-+        /* TODO: Use this for failure cases as well with a bad value. */
-+        msg->hdr.size = sizeof(msg->payload.u64);
-+        msg->payload.u64 = 0; /* OK */
-+
-+        if (vhost_user_write(dev, msg, NULL, 0) < 0) {
-+            return -1;
-+        }
-+    }
-+
-+    return 0;
-+
-+err:
-+    if (track_ramblocks) {
-+        memcpy(u->postcopy_client_bases, shadow_pcb,
-+               sizeof(uint64_t) * VHOST_MEMORY_MAX_NREGIONS);
-+    }
-+
-+    return -1;
-+}
-+
- static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
--                                             struct vhost_memory *mem)
-+                                             struct vhost_memory *mem,
-+                                             bool reply_supported,
-+                                             bool config_mem_slots)
+ struct scrub_regions {
+@@ -392,7 +410,7 @@ int vhost_user_gpu_set_socket(struct vhost_dev *dev, int fd)
+ static int vhost_user_set_log_base(struct vhost_dev *dev, uint64_t base,
+                                    struct vhost_log *log)
+ {
+-    int fds[VHOST_MEMORY_MAX_NREGIONS];
++    int fds[VHOST_USER_MAX_RAM_SLOTS];
+     size_t fd_num = 0;
+     bool shmfd = virtio_has_feature(dev->protocol_features,
+                                     VHOST_USER_PROTOCOL_F_LOG_SHMFD);
+@@ -469,7 +487,7 @@ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
+         mr = vhost_user_get_mr_data(reg->userspace_addr, &offset, &fd);
+         if (fd > 0) {
+             if (track_ramblocks) {
+-                assert(*fd_num < VHOST_MEMORY_MAX_NREGIONS);
++                assert(*fd_num < VHOST_MEMORY_BASELINE_NREGIONS);
+                 trace_vhost_user_set_mem_table_withfd(*fd_num, mr->name,
+                                                       reg->memory_size,
+                                                       reg->guest_phys_addr,
+@@ -477,7 +495,7 @@ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
+                                                       offset);
+                 u->region_rb_offset[i] = offset;
+                 u->region_rb[i] = mr->ram_block;
+-            } else if (*fd_num == VHOST_MEMORY_MAX_NREGIONS) {
++            } else if (*fd_num == VHOST_MEMORY_BASELINE_NREGIONS) {
+                 error_report("Failed preparing vhost-user memory table msg");
+                 return -1;
+             }
+@@ -522,7 +540,7 @@ static void scrub_shadow_regions(struct vhost_dev *dev,
+                                  bool track_ramblocks)
  {
      struct vhost_user *u = dev->opaque;
-     int fds[VHOST_MEMORY_MAX_NREGIONS];
-@@ -512,71 +851,84 @@ static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
-         u->region_rb_len = dev->mem->nregions;
+-    bool found[VHOST_MEMORY_MAX_NREGIONS] = {};
++    bool found[VHOST_USER_MAX_RAM_SLOTS] = {};
+     struct vhost_memory_region *reg, *shadow_reg;
+     int i, j, fd, add_idx = 0, rm_idx = 0, fd_num = 0;
+     ram_addr_t offset;
+@@ -773,9 +791,9 @@ static int vhost_user_add_remove_regions(struct vhost_dev *dev,
+                                          bool track_ramblocks)
+ {
+     struct vhost_user *u = dev->opaque;
+-    struct scrub_regions add_reg[VHOST_MEMORY_MAX_NREGIONS];
+-    struct scrub_regions rem_reg[VHOST_MEMORY_MAX_NREGIONS];
+-    uint64_t shadow_pcb[VHOST_MEMORY_MAX_NREGIONS] = {};
++    struct scrub_regions add_reg[VHOST_USER_MAX_RAM_SLOTS];
++    struct scrub_regions rem_reg[VHOST_USER_MAX_RAM_SLOTS];
++    uint64_t shadow_pcb[VHOST_USER_MAX_RAM_SLOTS] = {};
+     int nr_add_reg, nr_rem_reg;
+ 
+     msg->hdr.size = sizeof(msg->payload.mem_reg.padding) +
+@@ -799,7 +817,7 @@ static int vhost_user_add_remove_regions(struct vhost_dev *dev,
+ 
+     if (track_ramblocks) {
+         memcpy(u->postcopy_client_bases, shadow_pcb,
+-               sizeof(uint64_t) * VHOST_MEMORY_MAX_NREGIONS);
++               sizeof(uint64_t) * VHOST_USER_MAX_RAM_SLOTS);
+         /*
+          * Now we've registered this with the postcopy code, we ack to the
+          * client, because now we're in the position to be able to deal with
+@@ -819,7 +837,7 @@ static int vhost_user_add_remove_regions(struct vhost_dev *dev,
+ err:
+     if (track_ramblocks) {
+         memcpy(u->postcopy_client_bases, shadow_pcb,
+-               sizeof(uint64_t) * VHOST_MEMORY_MAX_NREGIONS);
++               sizeof(uint64_t) * VHOST_USER_MAX_RAM_SLOTS);
      }
  
--    if (vhost_user_fill_set_mem_table_msg(u, dev, &msg, fds, &fd_num,
-+    if (config_mem_slots) {
-+        if (vhost_user_add_remove_regions(dev, &msg, reply_supported,
-                                           true) < 0) {
--        return -1;
--    }
-+            return -1;
-+        }
-+    } else {
-+        if (vhost_user_fill_set_mem_table_msg(u, dev, &msg, fds, &fd_num,
-+                                              true) < 0) {
-+            return -1;
-+        }
- 
--    if (vhost_user_write(dev, &msg, fds, fd_num) < 0) {
--        return -1;
--    }
-+        if (vhost_user_write(dev, &msg, fds, fd_num) < 0) {
-+            return -1;
-+        }
- 
--    if (vhost_user_read(dev, &msg_reply) < 0) {
--        return -1;
--    }
-+        if (vhost_user_read(dev, &msg_reply) < 0) {
-+            return -1;
-+        }
- 
--    if (msg_reply.hdr.request != VHOST_USER_SET_MEM_TABLE) {
--        error_report("%s: Received unexpected msg type."
--                     "Expected %d received %d", __func__,
--                     VHOST_USER_SET_MEM_TABLE, msg_reply.hdr.request);
--        return -1;
--    }
--    /* We're using the same structure, just reusing one of the
--     * fields, so it should be the same size.
--     */
--    if (msg_reply.hdr.size != msg.hdr.size) {
--        error_report("%s: Unexpected size for postcopy reply "
--                     "%d vs %d", __func__, msg_reply.hdr.size, msg.hdr.size);
--        return -1;
--    }
--
--    memset(u->postcopy_client_bases, 0,
--           sizeof(uint64_t) * VHOST_MEMORY_MAX_NREGIONS);
--
--    /* They're in the same order as the regions that were sent
--     * but some of the regions were skipped (above) if they
--     * didn't have fd's
--    */
--    for (msg_i = 0, region_i = 0;
--         region_i < dev->mem->nregions;
--        region_i++) {
--        if (msg_i < fd_num &&
--            msg_reply.payload.memory.regions[msg_i].guest_phys_addr ==
--            dev->mem->regions[region_i].guest_phys_addr) {
--            u->postcopy_client_bases[region_i] =
--                msg_reply.payload.memory.regions[msg_i].userspace_addr;
--            trace_vhost_user_set_mem_table_postcopy(
--                msg_reply.payload.memory.regions[msg_i].userspace_addr,
--                msg.payload.memory.regions[msg_i].userspace_addr,
--                msg_i, region_i);
--            msg_i++;
-+        if (msg_reply.hdr.request != VHOST_USER_SET_MEM_TABLE) {
-+            error_report("%s: Received unexpected msg type."
-+                         "Expected %d received %d", __func__,
-+                         VHOST_USER_SET_MEM_TABLE, msg_reply.hdr.request);
-+            return -1;
-+        }
-+
-+        /*
-+         * We're using the same structure, just reusing one of the
-+         * fields, so it should be the same size.
-+         */
-+        if (msg_reply.hdr.size != msg.hdr.size) {
-+            error_report("%s: Unexpected size for postcopy reply "
-+                         "%d vs %d", __func__, msg_reply.hdr.size,
-+                         msg.hdr.size);
-+            return -1;
-+        }
-+
-+        memset(u->postcopy_client_bases, 0,
-+               sizeof(uint64_t) * VHOST_MEMORY_MAX_NREGIONS);
-+
-+        /*
-+         * They're in the same order as the regions that were sent
-+         * but some of the regions were skipped (above) if they
-+         * didn't have fd's
-+         */
-+        for (msg_i = 0, region_i = 0;
-+             region_i < dev->mem->nregions;
-+             region_i++) {
-+            if (msg_i < fd_num &&
-+                msg_reply.payload.memory.regions[msg_i].guest_phys_addr ==
-+                dev->mem->regions[region_i].guest_phys_addr) {
-+                u->postcopy_client_bases[region_i] =
-+                    msg_reply.payload.memory.regions[msg_i].userspace_addr;
-+                trace_vhost_user_set_mem_table_postcopy(
-+                    msg_reply.payload.memory.regions[msg_i].userspace_addr,
-+                    msg.payload.memory.regions[msg_i].userspace_addr,
-+                    msg_i, region_i);
-+                msg_i++;
-+            }
-+        }
-+        if (msg_i != fd_num) {
-+            error_report("%s: postcopy reply not fully consumed "
-+                         "%d vs %zd",
-+                         __func__, msg_i, fd_num);
-+            return -1;
-+        }
-+
-+        /*
-+         * Now we've registered this with the postcopy code, we ack to the
-+         * client, because now we're in the position to be able to deal
-+         * with any faults it generates.
-+         */
-+        /* TODO: Use this for failure cases as well with a bad value. */
-+        msg.hdr.size = sizeof(msg.payload.u64);
-+        msg.payload.u64 = 0; /* OK */
-+        if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
-+            return -1;
+     return -1;
+@@ -831,7 +849,7 @@ static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
+                                              bool config_mem_slots)
+ {
+     struct vhost_user *u = dev->opaque;
+-    int fds[VHOST_MEMORY_MAX_NREGIONS];
++    int fds[VHOST_MEMORY_BASELINE_NREGIONS];
+     size_t fd_num = 0;
+     VhostUserMsg msg_reply;
+     int region_i, msg_i;
+@@ -889,7 +907,7 @@ static int vhost_user_set_mem_table_postcopy(struct vhost_dev *dev,
          }
--    }
--    if (msg_i != fd_num) {
--        error_report("%s: postcopy reply not fully consumed "
--                     "%d vs %zd",
--                     __func__, msg_i, fd_num);
--        return -1;
--    }
--    /* Now we've registered this with the postcopy code, we ack to the client,
--     * because now we're in the position to be able to deal with any faults
--     * it generates.
--     */
--    /* TODO: Use this for failure cases as well with a bad value */
--    msg.hdr.size = sizeof(msg.payload.u64);
--    msg.payload.u64 = 0; /* OK */
--    if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
--        return -1;
-     }
  
-     return 0;
-@@ -591,12 +943,17 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
+         memset(u->postcopy_client_bases, 0,
+-               sizeof(uint64_t) * VHOST_MEMORY_MAX_NREGIONS);
++               sizeof(uint64_t) * VHOST_USER_MAX_RAM_SLOTS);
+ 
+         /*
+          * They're in the same order as the regions that were sent
+@@ -938,7 +956,7 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
+                                     struct vhost_memory *mem)
+ {
+     struct vhost_user *u = dev->opaque;
+-    int fds[VHOST_MEMORY_MAX_NREGIONS];
++    int fds[VHOST_MEMORY_BASELINE_NREGIONS];
+     size_t fd_num = 0;
      bool do_postcopy = u->postcopy_listen && u->postcopy_fd.handler;
      bool reply_supported = virtio_has_feature(dev->protocol_features,
-                                               VHOST_USER_PROTOCOL_F_REPLY_ACK);
-+    bool config_mem_slots =
-+        virtio_has_feature(dev->protocol_features,
-+                           VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS);
- 
-     if (do_postcopy) {
--        /* Postcopy has enough differences that it's best done in it's own
-+        /*
-+         * Postcopy has enough differences that it's best done in it's own
-          * version
-          */
--        return vhost_user_set_mem_table_postcopy(dev, mem);
-+        return vhost_user_set_mem_table_postcopy(dev, mem, reply_supported,
-+                                                 config_mem_slots);
-     }
- 
+@@ -1145,7 +1163,7 @@ static int vhost_set_vring_file(struct vhost_dev *dev,
+                                 VhostUserRequest request,
+                                 struct vhost_vring_file *file)
+ {
+-    int fds[VHOST_MEMORY_MAX_NREGIONS];
++    int fds[VHOST_USER_MAX_RAM_SLOTS];
+     size_t fd_num = 0;
      VhostUserMsg msg = {
-@@ -607,17 +964,23 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
-         msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+         .hdr.request = request,
+@@ -1841,7 +1859,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque)
+         /* get max memory regions if backend supports configurable RAM slots */
+         if (!virtio_has_feature(dev->protocol_features,
+                                 VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS)) {
+-            u->user->memory_slots = VHOST_MEMORY_MAX_NREGIONS;
++            u->user->memory_slots = VHOST_MEMORY_BASELINE_NREGIONS;
+         } else {
+             err = vhost_user_get_max_memslots(dev, &ram_slots);
+             if (err < 0) {
+@@ -1856,7 +1874,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque)
+                 return -1;
+             }
+ 
+-            u->user->memory_slots = MIN(ram_slots, VHOST_MEMORY_MAX_NREGIONS);
++            u->user->memory_slots = MIN(ram_slots, VHOST_USER_MAX_RAM_SLOTS);
+         }
      }
  
--    if (vhost_user_fill_set_mem_table_msg(u, dev, &msg, fds, &fd_num,
-+    if (config_mem_slots) {
-+        if (vhost_user_add_remove_regions(dev, &msg, reply_supported,
-                                           false) < 0) {
--        return -1;
--    }
--
--    if (vhost_user_write(dev, &msg, fds, fd_num) < 0) {
--        return -1;
--    }
-+            return -1;
-+        }
-+    } else {
-+        if (vhost_user_fill_set_mem_table_msg(u, dev, &msg, fds, &fd_num,
-+                                              false) < 0) {
-+            return -1;
-+        }
-+        if (vhost_user_write(dev, &msg, fds, fd_num) < 0) {
-+            return -1;
-+        }
- 
--    if (reply_supported) {
--        return process_message_reply(dev, &msg);
-+        if (reply_supported) {
-+            return process_message_reply(dev, &msg);
-+        }
-     }
- 
-     return 0;
 -- 
 1.8.3.1
 
