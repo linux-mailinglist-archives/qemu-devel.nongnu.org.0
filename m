@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26EBB1D9AD4
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:11:26 +0200 (CEST)
-Received: from localhost ([::1]:60246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EEC01D9AF1
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:15:08 +0200 (CEST)
+Received: from localhost ([::1]:48016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb3tt-0007Hs-6Q
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:11:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45086)
+	id 1jb3xT-0007AU-Bq
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:15:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3fA-0001b4-Oy
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3fA-0001aj-L2
  for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:12 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57427
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40416
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f3-0003Wn-91
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f3-0003Wj-5R
  for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1589900163;
@@ -24,42 +24,41 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jiCAW4AuwADcV0vSs2s4AlDAJ9nPkwi0DrgyT9skYbU=;
- b=dv3ED8MY54kYyZfQtUWekv7cfHM/+IgnYbs2LCC5l9JWTXiV0oKJwWpXNEnqtFd+kB+GY1
- s7r9vb84powcwhIPCMw9JwAGVfy0m/NJZPMamebE9+Iaxd2wHtO9OMr3kYbQH1w+ys+J+/
- 7gLi1kdnRCKllidz1j67bPC0VwpuZpM=
+ bh=A+zKMySlk4YZIJ/O1n57ROOJ5c8QQPrDl/sS9HNk9hw=;
+ b=g0Sf7nXa0HZ10Jr2KYlqAAnbbwJ68Lj+RRdTsfHttGfGyDa5TQyWLxZLEXIbg66Vt40r7H
+ LuG2EWZX36hzCNu9S4V4zrWwFVn5X7aN5TC3vw4t47RcJlVvjjSuDxXSJg/7LoMeV7AWJH
+ 3wOqA+AxVEM+n2pYLo//y2oOBP6YLqg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-0zp2TzLFPI6jTwSGX_kcGQ-1; Tue, 19 May 2020 10:56:01 -0400
-X-MC-Unique: 0zp2TzLFPI6jTwSGX_kcGQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-18-mPjkXBFQNCuVgoI_BbJUsw-1; Tue, 19 May 2020 10:56:01 -0400
+X-MC-Unique: mPjkXBFQNCuVgoI_BbJUsw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3BC7464
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDE7E1855A03
  for <qemu-devel@nongnu.org>; Tue, 19 May 2020 14:56:00 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A3FE45C1D0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BCCF66442A;
  Tue, 19 May 2020 14:56:00 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 658CE113522D; Tue, 19 May 2020 16:55:52 +0200 (CEST)
+ id 68C09113522E; Tue, 19 May 2020 16:55:52 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 48/55] sysbus: Convert qdev_set_parent_bus() use with
- Coccinelle, part 4
-Date: Tue, 19 May 2020 16:55:44 +0200
-Message-Id: <20200519145551.22836-49-armbru@redhat.com>
+Subject: [PATCH 49/55] sysbus: sysbus_init_child_obj() is now unused, drop
+Date: Tue, 19 May 2020 16:55:45 +0200
+Message-Id: <20200519145551.22836-50-armbru@redhat.com>
 In-Reply-To: <20200519145551.22836-1-armbru@redhat.com>
 References: <20200519145551.22836-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:19:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
@@ -85,73 +84,59 @@ Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is still the same transformation as in the previous commits, but
-here the sysbus_init_child_obj() and its matching realize in are in
-separate files.  Fortunately, there's just one realize left to
-convert.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/arm/aspeed_ast2600.c | 9 ++++-----
- hw/arm/aspeed_soc.c     | 4 ++--
- hw/sd/aspeed_sdhci.c    | 2 +-
- 3 files changed, 7 insertions(+), 8 deletions(-)
+ include/hw/sysbus.h | 17 -----------------
+ hw/core/sysbus.c    |  8 --------
+ 2 files changed, 25 deletions(-)
 
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index a38b66de46..d7a063fd5a 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -200,9 +200,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
+diff --git a/include/hw/sysbus.h b/include/hw/sysbus.h
+index 606095ba35..da9f85c58c 100644
+--- a/include/hw/sysbus.h
++++ b/include/hw/sysbus.h
+@@ -93,23 +93,6 @@ MemoryRegion *sysbus_address_space(SysBusDevice *dev);
+ bool sysbus_realize(SysBusDevice *dev, Error **errp);
+ bool sysbus_realize_and_unref(SysBusDevice *dev, Error **errp);
  
-     /* Init sd card slot class here so that they're under the correct parent */
-     for (i = 0; i < ASPEED_SDHCI_NUM_SLOTS; ++i) {
--        sysbus_init_child_obj(obj, "sd-controller.sdhci[*]",
--                              &s->sdhci.slots[i],
--                              sizeof(s->sdhci.slots[i]), TYPE_SYSBUS_SDHCI);
-+        object_initialize_child(obj, "sd-controller.sdhci[*]",
-+                                &s->sdhci.slots[i], TYPE_SYSBUS_SDHCI);
-     }
+-/**
+- * sysbus_init_child_obj:
+- * @parent: The parent object
+- * @childname: Used as name of the "child<>" property in the parent
+- * @child: A pointer to the memory to be used for the object.
+- * @childsize: The maximum size available at @child for the object.
+- * @childtype: The name of the type of the object to instantiate.
+- *
+- * This function will initialize an object and attach it to the main system
+- * bus. The memory for the object should have already been allocated. The
+- * object will then be added as child to the given parent. The returned object
+- * has a reference count of 1 (for the "child<...>" property from the parent),
+- * so the object will be finalized automatically when the parent gets removed.
+- */
+-void sysbus_init_child_obj(Object *parent, const char *childname, void *child,
+-                           size_t childsize, const char *childtype);
+-
+ /* Call func for every dynamically created sysbus device in the system */
+ void foreach_dynamic_sysbus_device(FindSysbusDeviceFunc *func, void *opaque);
  
-     object_initialize_child(obj, "emmc-controller", &s->emmc,
-@@ -210,8 +209,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
- 
-     object_property_set_int(OBJECT(&s->emmc), 1, "num-slots", &error_abort);
- 
--    sysbus_init_child_obj(obj, "emmc-controller.sdhci",
--                          &s->emmc.slots[0], sizeof(s->emmc.slots[0]), TYPE_SYSBUS_SDHCI);
-+    object_initialize_child(obj, "emmc-controller.sdhci", &s->emmc.slots[0],
-+                            TYPE_SYSBUS_SDHCI);
+diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
+index 1220298e8f..70239b7e7d 100644
+--- a/hw/core/sysbus.c
++++ b/hw/core/sysbus.c
+@@ -355,14 +355,6 @@ BusState *sysbus_get_default(void)
+     return main_system_bus;
  }
  
- /*
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 175b220c97..9760b501c0 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -208,8 +208,8 @@ static void aspeed_soc_init(Object *obj)
- 
-     /* Init sd card slot class here so that they're under the correct parent */
-     for (i = 0; i < ASPEED_SDHCI_NUM_SLOTS; ++i) {
--        sysbus_init_child_obj(obj, "sdhci[*]", &s->sdhci.slots[i],
--                              sizeof(s->sdhci.slots[i]), TYPE_SYSBUS_SDHCI);
-+        object_initialize_child(obj, "sdhci[*]", &s->sdhci.slots[i],
-+                                TYPE_SYSBUS_SDHCI);
-     }
- }
- 
-diff --git a/hw/sd/aspeed_sdhci.c b/hw/sd/aspeed_sdhci.c
-index 6a039a1d2f..538d3bad3d 100644
---- a/hw/sd/aspeed_sdhci.c
-+++ b/hw/sd/aspeed_sdhci.c
-@@ -145,7 +145,7 @@ static void aspeed_sdhci_realize(DeviceState *dev, Error **errp)
-             return;
-         }
- 
--        object_property_set_bool(sdhci_slot, true, "realized", &err);
-+        sysbus_realize(sbd_slot, &err);
-         if (err) {
-             error_propagate(errp, err);
-             return;
+-void sysbus_init_child_obj(Object *parent, const char *childname, void *child,
+-                           size_t childsize, const char *childtype)
+-{
+-    object_initialize_child_with_props(parent, childname, child, childsize,
+-                                       childtype, &error_abort, NULL);
+-    qdev_set_parent_bus(DEVICE(child), sysbus_get_default());
+-}
+-
+ static void sysbus_register_types(void)
+ {
+     type_register_static(&system_bus_info);
 -- 
 2.21.1
 
