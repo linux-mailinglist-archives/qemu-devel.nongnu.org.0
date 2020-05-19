@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF0BA1D9DA5
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 19:14:34 +0200 (CEST)
-Received: from localhost ([::1]:49586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4D51D9DA0
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 19:13:22 +0200 (CEST)
+Received: from localhost ([::1]:43132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb5p3-0006xh-QU
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 13:14:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34112)
+	id 1jb5ns-0004JI-MC
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 13:13:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jb5mS-0002mG-2u
+ id 1jb5mS-0002mE-2m
  for qemu-devel@nongnu.org; Tue, 19 May 2020 13:11:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56833
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24942
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jb5mR-0002Ss-7b
+ id 1jb5mR-0002Sr-59
  for qemu-devel@nongnu.org; Tue, 19 May 2020 13:11:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589908310;
+ s=mimecast20190719; t=1589908309;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=O9LXJ6jm8JE9UNEKl3DOYcno5mV/ygzy8yQu2DFqXYM=;
- b=NYnC+b1sbEfOzbtD1JWOhBqDICP2zwPK+V4D3RofuO1ISzriqmGOh1R2s2oDVrHfu52mox
- qgDjdKVeLAqqcjHxs6Uhb0lAguB0g0Kx4pZLQF6b6sczCvjmaBXdtAr7dKQF1AGWmonSSM
- e8M523CoA/3CSLCNtrjAsmQ2hMdlljo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QqQP2gEWiHT1RhvkO6A6rp0yPTnbuodhCHyBJ6H7YKQ=;
+ b=RyegRFRkOHxneAmOZH2kxbbC7ggeAjhGG2GL9QaBuDCrJspE4aEsu/5YLHCp4aZARNDWRD
+ EWWlJfbVcIfEdNEuRteqOkbiK3t6Hk0/kz+OfsuCCYBSOaT7mRg4GbTvOOLhYKSGb8mJVS
+ fOq531XMB9jw/maLXykyVfqZrnjZB34=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-aLS5Hp4sN5aFIb4DtGff7Q-1; Tue, 19 May 2020 13:11:46 -0400
-X-MC-Unique: aLS5Hp4sN5aFIb4DtGff7Q-1
+ us-mta-2-6ArE6UUoOj-WBPTaYoCVug-1; Tue, 19 May 2020 13:11:47 -0400
+X-MC-Unique: 6ArE6UUoOj-WBPTaYoCVug-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81D1B464;
- Tue, 19 May 2020 17:11:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08D7A57093;
+ Tue, 19 May 2020 17:11:46 +0000 (UTC)
 Received: from localhost (ovpn-114-215.ams2.redhat.com [10.36.114.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2BF8B50F54;
- Tue, 19 May 2020 17:11:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 94E3A50F54;
+ Tue, 19 May 2020 17:11:45 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/7] block/nvme: support nested aio_poll()
-Date: Tue, 19 May 2020 18:11:31 +0100
-Message-Id: <20200519171138.201667-1-stefanha@redhat.com>
+Subject: [PATCH 1/7] block/nvme: poll queues without q->lock
+Date: Tue, 19 May 2020 18:11:32 +0100
+Message-Id: <20200519171138.201667-2-stefanha@redhat.com>
+In-Reply-To: <20200519171138.201667-1-stefanha@redhat.com>
+References: <20200519171138.201667-1-stefanha@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: base64
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:56:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,21 +86,25 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhpcyBzZXJpZXMgYWxsb3dzIGFpb19wb2xsKCkgdG8gd29yayBmcm9tIEkvTyByZXF1ZXN0IGNv
-bXBsZXRpb24gY2FsbGJhY2tzLg0KUUVNVSBibG9jayBkcml2ZXJzIGFyZSBzdXBwb3NlZCB0byBz
-dXBwb3J0IHRoaXMgYmVjYXVzZSBzb21lIGNvZGUgcGF0aHMgcmVseSBvbg0KdGhpcyBiZWhhdmlv
-ci4NCg0KVGhlcmUgd2FzIG5vIG1lYXN1cmFibGUgcGVyZm9ybWFuY2UgZGlmZmVyZW5jZSB3aXRo
-IG5lc3RlZCBhaW9fcG9sbCgpIHN1cHBvcnQuDQoNClRoaXMgcGF0Y2ggc2VyaWVzIGFsc28gY29u
-dGFpbnMgY2xlYW51cHMgdGhhdCBJIG1hZGUgd2hpbGUgZXhhbWluaW5nIGFuZA0KYmVuY2htYXJr
-aW5nIHRoZSBjb2RlLg0KDQpTdGVmYW4gSGFqbm9jemkgKDcpOg0KICBibG9jay9udm1lOiBwb2xs
-IHF1ZXVlcyB3aXRob3V0IHEtPmxvY2sNCiAgYmxvY2svbnZtZTogZHJvcCB0YXV0b2xvZ291cyBh
-c3NlcnRpb24NCiAgYmxvY2svbnZtZTogZG9uJ3QgYWNjZXNzIENRRSBhZnRlciBtb3ZpbmcgY3Eu
-aGVhZA0KICBibG9jay9udm1lOiBzd2l0Y2ggdG8gYSBOVk1lUmVxdWVzdCBmcmVlbGlzdA0KICBi
-bG9jay9udm1lOiBjbGFyaWZ5IHRoYXQgZnJlZV9yZXFfcXVldWUgaXMgcHJvdGVjdGVkIGJ5IHEt
-PmxvY2sNCiAgYmxvY2svbnZtZToga2VlcCBCRFJWTlZNZVN0YXRlIHBvaW50ZXIgaW4gTlZNZVF1
-ZXVlUGFpcg0KICBibG9jay9udm1lOiBzdXBwb3J0IG5lc3RlZCBhaW9fcG9sbCgpDQoNCiBibG9j
-ay9udm1lLmMgICAgICAgfCAyMjAgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0t
-LS0tLS0tLS0tDQogYmxvY2svdHJhY2UtZXZlbnRzIHwgICAyICstDQogMiBmaWxlcyBjaGFuZ2Vk
-LCAxNjAgaW5zZXJ0aW9ucygrKSwgNjIgZGVsZXRpb25zKC0pDQoNCi0tIA0KMi4yNS4zDQoNCg==
+QSBsb3Qgb2YgQ1BVIHRpbWUgaXMgc3BlbnQgc2ltcGx5IGxvY2tpbmcvdW5sb2NraW5nIHEtPmxv
+Y2sgZHVyaW5nCnBvbGxpbmcuIENoZWNrIGZvciBjb21wbGV0aW9uIG91dHNpZGUgdGhlIGxvY2sg
+dG8gbWFrZSBxLT5sb2NrIGRpc2FwcGVhcgpmcm9tIHRoZSBwcm9maWxlLgoKU2lnbmVkLW9mZi1i
+eTogU3RlZmFuIEhham5vY3ppIDxzdGVmYW5oYUByZWRoYXQuY29tPgotLS0KIGJsb2NrL252bWUu
+YyB8IDEyICsrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKykKCmRp
+ZmYgLS1naXQgYS9ibG9jay9udm1lLmMgYi9ibG9jay9udm1lLmMKaW5kZXggZWIyZjU0ZGQ5ZC4u
+N2ViNDUxMjY2NiAxMDA2NDQKLS0tIGEvYmxvY2svbnZtZS5jCisrKyBiL2Jsb2NrL252bWUuYwpA
+QCAtNTEyLDYgKzUxMiwxOCBAQCBzdGF0aWMgYm9vbCBudm1lX3BvbGxfcXVldWVzKEJEUlZOVk1l
+U3RhdGUgKnMpCiAKICAgICBmb3IgKGkgPSAwOyBpIDwgcy0+bnJfcXVldWVzOyBpKyspIHsKICAg
+ICAgICAgTlZNZVF1ZXVlUGFpciAqcSA9IHMtPnF1ZXVlc1tpXTsKKyAgICAgICAgY29uc3Qgc2l6
+ZV90IGNxZV9vZmZzZXQgPSBxLT5jcS5oZWFkICogTlZNRV9DUV9FTlRSWV9CWVRFUzsKKyAgICAg
+ICAgTnZtZUNxZSAqY3FlID0gKE52bWVDcWUgKikmcS0+Y3EucXVldWVbY3FlX29mZnNldF07CisK
+KyAgICAgICAgLyoKKyAgICAgICAgICogcS0+bG9jayBpc24ndCBuZWVkZWQgZm9yIGNoZWNraW5n
+IGNvbXBsZXRpb24gYmVjYXVzZQorICAgICAgICAgKiBudm1lX3Byb2Nlc3NfY29tcGxldGlvbigp
+IG9ubHkgcnVucyBpbiB0aGUgZXZlbnQgbG9vcCB0aHJlYWQgYW5kCisgICAgICAgICAqIGNhbm5v
+dCByYWNlIHdpdGggaXRzZWxmLgorICAgICAgICAgKi8KKyAgICAgICAgaWYgKChsZTE2X3RvX2Nw
+dShjcWUtPnN0YXR1cykgJiAweDEpID09IHEtPmNxX3BoYXNlKSB7CisgICAgICAgICAgICBjb250
+aW51ZTsKKyAgICAgICAgfQorCiAgICAgICAgIHFlbXVfbXV0ZXhfbG9jaygmcS0+bG9jayk7CiAg
+ICAgICAgIHdoaWxlIChudm1lX3Byb2Nlc3NfY29tcGxldGlvbihzLCBxKSkgewogICAgICAgICAg
+ICAgLyogS2VlcCBwb2xsaW5nICovCi0tIAoyLjI1LjMKCg==
 
 
