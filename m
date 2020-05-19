@@ -2,63 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F8D1D9EEC
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:13:07 +0200 (CEST)
-Received: from localhost ([::1]:59308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 717AF1D9F40
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:23:57 +0200 (CEST)
+Received: from localhost ([::1]:48014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb6ji-0001lr-5k
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:13:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40618)
+	id 1jb6uC-0001f1-Hv
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jb6j1-0001AO-KF
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:12:23 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:24610)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jb6iz-0006Mm-H9
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:12:22 -0400
-IronPort-SDR: ZQVkg2LtKIMs/ZrHu6H+5LGrgmasOOGamtCxqrznvILaFNq0C63G1QAJCfeFXN169mb5w+ZfMy
- GeHvd4zRBbMPZ4CgW5Q/gotwctY+z2h0bsfAKySGZnZteOkF3z6AvlQ3eE59mxXaBOdnFpp1lx
- fyZ1TtJOg34fS1fLjJPdyXSuo3BkC2me329dLkr6DGvo/x106EY6A9UpratcfnV3YZfI6PdcBd
- YZbl4p1EfcCy8X8mRib9Vum4BvbsYBWwUZf6FM0xDiB/PE32fixV3/tXiReJ5QUqXDAf8NBaFy
- bEU=
-X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="51037230"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
- by esa1.mentor.iphmx.com with ESMTP; 19 May 2020 10:12:16 -0800
-IronPort-SDR: md2OD808l7fNf6vhcQBJsxb5ys1fGKH0/ph0hG8LJHnz4rGzrfousXVKxZkwnkt8S4NAqOIXOc
- Cthan4yrkW3CgfPAWllfha4sFmseuba4GUABxsgkpCN5aFb1MTKf0TO0oly5tDvBQT4T/VrSzb
- 43fyVVdcRdHPHlqdQgkZiZw8tmecvGkOkXcQXRb1kByX0GyU4i9KnY27VSQB0NeGcck1frcRDN
- XeoCHdP39wEyut1QHHkKLGojSwnz8iUM4A+hTEnPqOaf9awaFrEbUa2mdoE2tKc9PS4tHBiR7i
- Bys=
-Date: Tue, 19 May 2020 18:12:10 +0000
-From: Joseph Myers <joseph@codesourcery.com>
-X-X-Sender: jsm28@digraph.polyomino.org.uk
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 2/2] target/i386: fix IEEE x87 floating-point exception
- raising
-In-Reply-To: <5dd2d81c-cedd-7835-6b3c-7e089254dc95@linaro.org>
-Message-ID: <alpine.DEB.2.21.2005191757210.10766@digraph.polyomino.org.uk>
-References: <alpine.DEB.2.21.2005152117400.3469@digraph.polyomino.org.uk>
- <alpine.DEB.2.21.2005152120280.3469@digraph.polyomino.org.uk>
- <5dd2d81c-cedd-7835-6b3c-7e089254dc95@linaro.org>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jb6rE-0005g3-2N
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 14:20:52 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52885
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jb6rB-0008S6-CJ
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 14:20:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589912445;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zefoBQJ3bZCdL/Z6bGZikdRcluKryyDYLAe/Y2/+1H4=;
+ b=DoaWbe3o/18BZz2saxPOjsEKZvIgJ7o78/9WMkHfJqa1LXUnYkg2WiIxBvwus0TO9Zpo85
+ jwsPBpnz6T3wbWBSobrNdkeFIzxY2ZsJMEYUWuQQydO4DDamaBs/R8ozZa0yAacYL7vnRN
+ Qs7vs7d+02Y1DSt2e9gB94EU6MYfc64=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-221-QrurZtoqMT2RibE32a0lZg-1; Tue, 19 May 2020 14:20:29 -0400
+X-MC-Unique: QrurZtoqMT2RibE32a0lZg-1
+Received: by mail-wr1-f69.google.com with SMTP id z16so185142wrq.21
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 11:20:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zefoBQJ3bZCdL/Z6bGZikdRcluKryyDYLAe/Y2/+1H4=;
+ b=GlzftQqdQNaQsqrmxfmuyVcniLC3sRLnFFF7YBKPMDggdsNpoqvIZiAIo9ZBtZXLpt
+ /bsU0aqRy6GE8YbHVvzf7/HYPx4WKEf8CkAKK+4BGcyGGjusGgQVXEOwN/IMQT0qcCMM
+ /gKBHYUZKgGkXzhhwAAb8khkQV69OOqYGDCrs0Fv1S0iS6T0r5MABZrUbqit+kmQcb4T
+ RFfd4UhvBYw8/9yVzGLgxjbFaK4CB/ukhVT//jYafxa9MHCDP5ty+OgXOsblmkv2yfRQ
+ CBpDGzlkpeVEKKGBHPhL7gZoWyv5eKGjBNk+c6AMqCmIl/aYDopmif/671bu5PCMtgR1
+ cSLA==
+X-Gm-Message-State: AOAM533jsAn5tu1zIECxd6XWrfbq/JABSgdkRRchaetIAr5KehqoQV9p
+ 0cJ6KCHVI0JU7iZLDhMW75nA8fZ82VRqJRJ+S2jFSevZEDDW2bv4KjG/HMY2yTzVt0HajsrQfrP
+ to3ePh5ykck4knog=
+X-Received: by 2002:a5d:40c2:: with SMTP id b2mr174271wrq.13.1589912428237;
+ Tue, 19 May 2020 11:20:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzKuKFwwxKpkfVYF7Hq9AT4RB1a+mjykLQo4WK7DtzZJ3XrbRASvhdINzVRO6ma5UeZelSKSA==
+X-Received: by 2002:a5d:40c2:: with SMTP id b2mr174234wrq.13.1589912427927;
+ Tue, 19 May 2020 11:20:27 -0700 (PDT)
+Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id a14sm500133wme.21.2020.05.19.11.20.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 May 2020 11:20:27 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 0/5] fw_cfg: Add FW_CFG_DATA_GENERATOR;
+ crypto: Add tls-cipher-suites
+Date: Tue, 19 May 2020 20:20:19 +0200
+Message-Id: <20200519182024.14638-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) To
- svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
-Received-SPF: pass client-ip=68.232.129.153;
- envelope-from=joseph_myers@mentor.com; helo=esa1.mentor.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 14:12:17
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 00:34:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,44 +93,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com,
- rth@twiddle.net
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 May 2020, Richard Henderson wrote:
+Hi,
 
-> To retain the hard float fast path, we need to leave float_flag_invalid set
-> when the accrued exception bit is set.  To me this suggests keep all of the
-> FPUS_* bits in fp_status and only convert to FPUS_* when we read the fp status
-> word.
+This series has two parts:
 
-There is no hard float fast path that I can see for floatx80.  The issue 
-of the fast path might be relevant for fixing SSE exception handling 
-(which has some similar issues to x87), but not for floatx80.
+- First we add the ability to QOM objects to produce data
+  consumable by the fw_cfg device,
 
-Note that another bug in the x87 emulation is the lack of setting C1 for 
-most instructions with inexact results based on the direction of rounding 
-(which will require a new feature to be added to the softfloat code to 
-record that information so the x87 emulation can use it).
+- Then we add the tls-cipher-suites object, and let it
+  implement the FW_CFG_DATA_GENERATOR interface.
 
-> When it comes to raising unmasked exceptions... I have a couple of thoughts.
+This is required by EDK2 'HTTPS Boot' feature [*] to tell
+the guest which TLS ciphers it can use.
 
-I expect some code will be needed in each individual instruction 
-implementation, and probably extra softfloat code, to handle unmasked 
-exceptions.  Some exceptions, when unmasked, should result in instructions 
-not popping inputs from the stack and not updating destinations.  The 
-softfloat case needs to provide information about the exact underflow case 
-that targets can use when that exception is set to trap.  x87 overflow and 
-underflow, when unmasked and with a register destination, are supposed to 
-compute and store a result with a biased exponent for use by the trap 
-handler.  The code will also need to know exactly which instructions 
-should result in a trap handler being called rather than only doing it for 
-fwait.  Stack underflow and overflow need to be checked for, regardless of 
-exception masking.  (There are other issues relating to trapped exception 
-handling as well, but that's a summary of the main ones I've noticed.)
+[*]: https://github.com/tianocore/edk2/blob/master/OvmfPkg/README
+
+Since v5:
+- Complete rewrite after chatting with Daniel Berrangé
+Since v4:
+- Addressed Laszlo comments (see patch#1 description)
+Since v3:
+- Addressed Markus' comments (do not care about heap)
+Since v2:
+- Split of
+Since v1:
+- Addressed Michael and Laszlo comments.
+
+Please review,
+
+Phil.
+
+v5: https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg04525.html
+v4: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg04300.html
+v3: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg02965.html
+v2: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg02522.html
+v1: https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg01598.html
+Supersedes: <20190620122132.10075-1-philmd@redhat.com>
+
+Philippe Mathieu-Daudé (5):
+  hw/nvram/fw_cfg: Add the FW_CFG_DATA_GENERATOR interface
+  softmmu/vl: Let -fw_cfg option take a 'blob_id' argument
+  softmmu/vl: Allow -fw_cfg 'blob_id' option to set any file pathname
+  crypto: Add tls-cipher-suites object
+  crypto/tls-cipher-suites: Product fw_cfg consumable blob
+
+ include/crypto/tls-cipher-suites.h |  39 ++++++++
+ include/hw/nvram/fw_cfg.h          |  49 ++++++++++
+ crypto/tls-cipher-suites.c         | 152 +++++++++++++++++++++++++++++
+ hw/nvram/fw_cfg.c                  |  30 ++++++
+ softmmu/vl.c                       |  19 +++-
+ crypto/Makefile.objs               |   1 +
+ 6 files changed, 285 insertions(+), 5 deletions(-)
+ create mode 100644 include/crypto/tls-cipher-suites.h
+ create mode 100644 crypto/tls-cipher-suites.c
 
 -- 
-Joseph S. Myers
-joseph@codesourcery.com
+2.21.3
+
 
