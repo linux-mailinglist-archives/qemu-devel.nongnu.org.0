@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23CF1D9B7B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:41:43 +0200 (CEST)
-Received: from localhost ([::1]:40906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F4D1D9B67
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:36:55 +0200 (CEST)
+Received: from localhost ([::1]:46928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb4NC-000292-Si
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49138)
+	id 1jb4IP-00014B-0x
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:36:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jb4CI-0001BO-P2
- for qemu-devel@nongnu.org; Tue, 19 May 2020 11:30:26 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24276
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jb4HC-0007yi-58
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 11:35:30 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28699
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jb4CH-0003WL-6s
- for qemu-devel@nongnu.org; Tue, 19 May 2020 11:30:26 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jb4HA-0004Rj-EX
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 11:35:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589902222;
+ s=mimecast20190719; t=1589902526;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X+67JuJTexPLa+fWen04abpPjVQ+DjdYjfH0h3LtSBc=;
- b=Qoz+t3MNQPxeDdaWn/I4AojONTbSFAr+JLkLgxuMeU2aE19BaDVvDcSjqZfv9AU9k4lHjM
- kymPqf2BsMRu0ajs0lY4GO8V+lRJy3RYY4tVpr2Lz+5zo2MTHMWTL4/Cf84vqVn5/CCIhZ
- RvFeIXmJlmX4krIxzTZ3AolaK8bGjVU=
+ bh=Tdh7I/F1KCzk31L6f8YhMKl++fAO0z5EMARL1BVk2HI=;
+ b=Te9oupdfxV24rZWDe4AotHajWaKQg1I8fgvwBD8gk/FlD39VzwUY5r5ga382NdyeZiA1s2
+ tmOmsdRaRanUEcYJvx3oZEb9BZjkgDbNnRXBBCTySmSP61LYfkO+DACMCge4/Fs6W3jg3S
+ NPE081BgSe3TBKn5FF0uuAXEQzOHRoU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-wbTo795ZNYS3YCA1hL8EhQ-1; Tue, 19 May 2020 11:30:10 -0400
-X-MC-Unique: wbTo795ZNYS3YCA1hL8EhQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-202-fbSBmljbN6OXLkWFYRCrSg-1; Tue, 19 May 2020 11:35:22 -0400
+X-MC-Unique: fbSBmljbN6OXLkWFYRCrSg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 931E71005512;
- Tue, 19 May 2020 15:30:09 +0000 (UTC)
-Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F8756F7F5;
- Tue, 19 May 2020 15:30:09 +0000 (UTC)
-Subject: Re: [PULL 0/7] bitmaps patches for 2020-05-18
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200518205448.690566-1-eblake@redhat.com>
- <CAFEAcA_PtAO_Nm+ZhU5juRM3+C69JQ3GSnyt8TiVVEjgF0XXkQ@mail.gmail.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <356993c6-4038-14a8-1121-d92a20b313b4@redhat.com>
-Date: Tue, 19 May 2020 10:30:08 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD98B1B18BC0;
+ Tue, 19 May 2020 15:35:19 +0000 (UTC)
+Received: from gondolin (ovpn-112-229.ams2.redhat.com [10.36.112.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C55586ACE6;
+ Tue, 19 May 2020 15:35:09 +0000 (UTC)
+Date: Tue, 19 May 2020 17:35:07 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH Kernel v20 4/8] vfio iommu: Add ioctl definition for
+ dirty pages tracking
+Message-ID: <20200519173507.3cd131dd.cohuck@redhat.com>
+In-Reply-To: <bdb9c1d3-e673-5bb1-aced-f7443f4dfe58@nvidia.com>
+References: <1589488667-9683-1-git-send-email-kwankhede@nvidia.com>
+ <1589488667-9683-5-git-send-email-kwankhede@nvidia.com>
+ <20200515125916.78723321.cohuck@redhat.com>
+ <bdb9c1d3-e673-5bb1-aced-f7443f4dfe58@nvidia.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_PtAO_Nm+ZhU5juRM3+C69JQ3GSnyt8TiVVEjgF0XXkQ@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:19:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
@@ -82,45 +80,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: kevin.tian@intel.com, yi.l.liu@intel.com, cjia@nvidia.com,
+ kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, Zhengxiao.zx@Alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, dgilbert@redhat.com, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ alex.williamson@redhat.com, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/19/20 7:42 AM, Peter Maydell wrote:
-> On Mon, 18 May 2020 at 21:55, Eric Blake <eblake@redhat.com> wrote:
->>
->> The following changes since commit a28c9c8c9fc42484efe1bf5a77affe842e54e38b:
->>
->>    Merge remote-tracking branch 'remotes/kraxel/tags/vga-20200518-pull-request' into staging (2020-05-18 16:37:09 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://repo.or.cz/qemu/ericb.git tags/pull-bitmaps-2020-05-18
->>
->> for you to fetch changes up to 6660c3a69c668ff98e2a86bca0b1301648ff4b02:
->>
->>    qemu-img: Add bitmap sub-command (2020-05-18 15:32:56 -0500)
->>
->> ----------------------------------------------------------------
->> bitmaps patches for 2020-05-18
->>
->> - update bitmaps maintainers
->> - add 'qemu-img bitmap' subcommand
-> 
-> Hi; this fails to compile:
-> 
-> /home/petmay01/linaro/qemu-for-merges/qemu-img.c: In function ‘img_bitmap’:
-> /home/petmay01/linaro/qemu-for-merges/qemu-img.c:4593:27: error: too
-> few arguments to function ‘cvtnum’
->               granularity = cvtnum(optarg);
->                             ^~~~~~
+On Fri, 15 May 2020 23:05:24 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-Semantic conflict with my NBD queue that got merged first. Will post v2 
-pull request shortly.
+> On 5/15/2020 4:29 PM, Cornelia Huck wrote:
+> > On Fri, 15 May 2020 02:07:43 +0530
+> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> >   
+> >> IOMMU container maintains a list of all pages pinned by vfio_pin_pages API.
+> >> All pages pinned by vendor driver through this API should be considered as
+> >> dirty during migration. When container consists of IOMMU capable device and
+> >> all pages are pinned and mapped, then all pages are marked dirty.
+> >> Added support to start/stop dirtied pages tracking and to get bitmap of all
+> >> dirtied pages for requested IO virtual address range.
+> >>
+> >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> >> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> >> ---
+> >>   include/uapi/linux/vfio.h | 55 +++++++++++++++++++++++++++++++++++++++++++++++
+> >>   1 file changed, 55 insertions(+)
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+(...)
+
+> >> + * When IOCTL is called with VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP flag set,
+> >> + * IOCTL returns dirty pages bitmap for IOMMU container during migration for
+> >> + * given IOVA range.  
+> > 
+> > "Calling the IOCTL with VFIO_IOMMU_DIRTY_PAGES_GET_BITMAP returns the
+> > dirty pages bitmap for the IOMMU container for a given IOVA range." ?
+> > 
+> > Q: How does this interact with the two other operations? I imagine
+> > getting an empty bitmap before _START   
+> 
+> No, if dirty page tracking is not started, get_bitmap IOCTL will fail 
+> with -EINVAL.
+> 
+> > and a bitmap-in-progress between
+> > _START and _STOP. > After _STOP, will subsequent calls always give the
+> > same bitmap?
+> >  
+> 
+> No, return -EINVAL.
+
+Maybe add
+
+"If the IOCTL has not yet been called with
+VFIO_IOMMU_DIRTY_PAGES_FLAG_START, or if it has been called with
+VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP, calling it with
+VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP will return -EINVAL." ?
+
+> 
+> 
+> >> User must provide data[] as the structure
+> >> + * vfio_iommu_type1_dirty_bitmap_get through which user provides IOVA range and
+> >> + * pgsize.  
+> > 
+> > "The user must specify the IOVA range and the pgsize through the
+> > vfio_iommu_type1_dirty_bitmap_get structure in the data[] portion."
+> > 
+> > ?
+> >   
+> >> This interface supports to get bitmap of smallest supported pgsize
+> >> + * only and can be modified in future to get bitmap of specified pgsize.  
+> > 
+> > That's a current restriction? How can the user find out whether it has
+> > been lifted (or, more generally, find out which pgsize values are
+> > supported)?  
+> 
+> Migration capability is added to IOMMU info chain. That gives supported 
+> pgsize bitmap by IOMMU driver.
+
+Add that info?
+
+"The supported pgsize values for this interface are reported via the
+migration capability in the IOMMU info chain."
+
+> 
+> >   
+> >> + * User must allocate memory for bitmap, zero the bitmap memory  and set size
+> >> + * of allocated memory in bitmap.size field.  
+> > 
+> > "The user must provide a zeroed memory area for the bitmap memory and
+> > specify its size in bitmap.size."
+> > 
+> > ?
+> >   
+> >> One bit is used to represent one
+> >> + * page consecutively starting from iova offset. User should provide page size
+> >> + * in bitmap.pgsize field.  
+> > 
+> > s/User/The user/
+> > 
+> > Is that the 'pgsize' the comment above talks about?
+> >   
+> 
+> By specifying pgsize here user can ask for bitmap of specific pgsize.
+
+"The user should provide the page size for the bitmap in the
+bitmap.pgsize field." ?
+
+> 
+> >> Bit set in bitmap indicates page at that offset from
+> >> + * iova is dirty.  
+> > 
+> > "A bit set in the bitmap indicates that the page at that offset from
+> > iova is dirty." ?
+> >   
+> >> Caller must set argsz including size of structure
+> >> + * vfio_iommu_type1_dirty_bitmap_get.  
+> > 
+> > s/Caller/The caller/
+> > 
+> > Does argz also include the size of the bitmap?  
+> 
+> No.
+
+"The caller must set argsz to a value including the size of stuct
+vfio_io_type1_dirty_bitmap_get, but excluding the size of the actual
+bitmap." ?
 
 
