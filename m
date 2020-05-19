@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD73A1D964D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 14:29:01 +0200 (CEST)
-Received: from localhost ([::1]:52824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30221D9656
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 14:31:30 +0200 (CEST)
+Received: from localhost ([::1]:33198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb1Mi-0004oY-TS
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 08:29:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51684)
+	id 1jb1P7-000066-Ob
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 08:31:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
- id 1jb1Ja-00005F-7S
- for qemu-devel@nongnu.org; Tue, 19 May 2020 08:25:46 -0400
-Received: from o1.dev.nutanix.com ([198.21.4.205]:37010)
+ id 1jb1Jc-00007i-Q5
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 08:25:48 -0400
+Received: from o1.dev.nutanix.com ([198.21.4.205]:4900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
- id 1jb1JY-00038O-Lc
- for qemu-devel@nongnu.org; Tue, 19 May 2020 08:25:45 -0400
+ id 1jb1Ja-0003A7-KC
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 08:25:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
  h=from:subject:in-reply-to:references:to:cc:content-type:
  content-transfer-encoding;
- s=smtpapi; bh=ch/5JdiTmKgvL+Uvq0cHRGXtmNKqcmujc8lt8mLXMF4=;
- b=LwrYJoZLndOaENL74G/+sJJeuAVlN0ibbaJaXlnQoderZhxGUS2aobwborqNtU/XRIlP
- MDXt+y+I+dEMmY7b+ePoKnMh/1hPxT9FX1gIW9RBq6Se/SImummrNETqKKCcw4m3V8rnpS
- Y0FE2vwLgNaaDAjnt74zd2upIwFh9TAyM=
-Received: by filterdrecv-p3iad2-8ddf98858-mlrf4 with SMTP id
- filterdrecv-p3iad2-8ddf98858-mlrf4-17-5EC3D045-31
- 2020-05-19 12:25:41.600499812 +0000 UTC m=+4706289.349009473
+ s=smtpapi; bh=90KP3EWUzYVQheSsrDuXWYxs8cTzEfUWVMG7tdurO8M=;
+ b=js7Qt+IM2gsSyvrf6oBTonq0/OVWBBBPPZoWkH6UgVW6zXf4Tw87BTlINM1+uUkToG1J
+ tsgGpztBEodwD/Xa+ZqyQeTW24EYTeGoDIru6XDwvjvrwK8LHYDd8L9ztgoY3BF+G6R02H
+ FuulaGxWTANFN5/PaysDGnxA1wmPXy+hE=
+Received: by filterdrecv-p3iad2-8ddf98858-285bn with SMTP id
+ filterdrecv-p3iad2-8ddf98858-285bn-19-5EC3D048-34
+ 2020-05-19 12:25:44.519383699 +0000 UTC m=+4706301.117816697
 Received: from localhost.localdomain.com (unknown)
  by ismtpd0002p1lon1.sendgrid.net (SG) with ESMTP
- id pmoYwUktQe-OK3lDLJGMqg Tue, 19 May 2020 12:25:41.321 +0000 (UTC)
+ id G680gN3wQ9W3_f_jVtNxnQ Tue, 19 May 2020 12:25:44.195 +0000 (UTC)
 From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: [PATCH v3 06/10] Refactor out libvhost-user fault generation logic
-Date: Tue, 19 May 2020 12:25:41 +0000 (UTC)
-Message-Id: <1588473683-27067-7-git-send-email-raphael.norwitz@nutanix.com>
+Subject: [PATCH v3 07/10] Support ram slot configuration in libvhost-user
+Date: Tue, 19 May 2020 12:25:44 +0000 (UTC)
+Message-Id: <1588473683-27067-8-git-send-email-raphael.norwitz@nutanix.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1588473683-27067-1-git-send-email-raphael.norwitz@nutanix.com>
 References: <1588473683-27067-1-git-send-email-raphael.norwitz@nutanix.com>
 X-SG-EID: =?us-ascii?Q?YCLURHX+pjNDm1i7d69iKyMnQi=2FdvWah9veFa8nllaoUC0ScIWrCgiaWGu43Vg?=
- =?us-ascii?Q?xFdB4istXUBpN9H93OJgc8zcHs6ANfyz+yj7wQh?=
- =?us-ascii?Q?8uN2B1ngVHR9BoF3GXkiOVpe7YhVBycgTqGFCX0?=
- =?us-ascii?Q?ildLNMkTFuwuqNSJCzzzYq6OMyVEjEEKonlPcfd?=
- =?us-ascii?Q?jjwSn5=2F3fhRWEWp29KjCAWC=2FzaGRB=2FfWZwgqIEV?=
- =?us-ascii?Q?+nz4RBgAwynjAgZRYj4Taf1ucVkjvNiGISvwvZ6?=
- =?us-ascii?Q?X20Exladh46=2FF6M7wi18A=3D=3D?=
+ =?us-ascii?Q?xFdB4istXUBpN9H93OJgc8zZAOlOQ5K2aYmNCGV?=
+ =?us-ascii?Q?cgrofc9=2F0eECZ2Gf+YHBzQF+WfrGUAbOYLFMlQt?=
+ =?us-ascii?Q?GMTyM9eCwQkqdvHQB8hLpNIbLtD0OrySWOUtwpl?=
+ =?us-ascii?Q?K=2FsrryN1twq=2Fxi+4BKIcfgWcq4EuG0nSUqTxcsb?=
+ =?us-ascii?Q?Zrw9Vc9h3ixycTLtgyR8B9ZHQxLVCjg+H0ps7QR?=
+ =?us-ascii?Q?aueeFAk7qW7PsYYoWPFhA=3D=3D?=
 To: qemu-devel@nongnu.org, mst@redhat.com, marcandre.lureau@redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -81,185 +81,79 @@ Cc: raphael.s.norwitz@gmail.com, marcandre.lureau@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In libvhost-user, the incoming postcopy migration path for setting the
-backend's memory tables has become convolued. In particular, moving the
-logic which starts generating faults, having received the final ACK from
-qemu can be moved to a separate function. This simplifies the code
-substantially.
+The VHOST_USER_GET_MAX_MEM_SLOTS message allows a vhost-user backend to
+specify a maximum number of ram slots it is willing to support. This
+change adds support for libvhost-user to process this message. For now
+the backend will reply with 8 as the maximum number of regions
+supported.
 
-This logic will also be needed by the postcopy path once the
-VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS feature is supported.
+libvhost-user does not yet support the vhost-user protocol feature
+VHOST_USER_PROTOCOL_F_CONFIGIRE_MEM_SLOTS, so qemu should never
+send the VHOST_USER_GET_MAX_MEM_SLOTS message. Therefore this new
+functionality is not currently used.
 
 Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 ---
- contrib/libvhost-user/libvhost-user.c | 147 ++++++++++++++++++----------------
- 1 file changed, 79 insertions(+), 68 deletions(-)
+ contrib/libvhost-user/libvhost-user.c | 19 +++++++++++++++++++
+ contrib/libvhost-user/libvhost-user.h |  1 +
+ 2 files changed, 20 insertions(+)
 
 diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index 3bca996..cccfa22 100644
+index cccfa22..9f039b7 100644
 --- a/contrib/libvhost-user/libvhost-user.c
 +++ b/contrib/libvhost-user/libvhost-user.c
-@@ -584,6 +584,84 @@ map_ring(VuDev *dev, VuVirtq *vq)
- }
- 
- static bool
-+generate_faults(VuDev *dev) {
-+    int i;
-+    for (i = 0; i < dev->nregions; i++) {
-+        VuDevRegion *dev_region = &dev->regions[i];
-+        int ret;
-+#ifdef UFFDIO_REGISTER
-+        /*
-+         * We should already have an open ufd. Mark each memory
-+         * range as ufd.
-+         * Discard any mapping we have here; note I can't use MADV_REMOVE
-+         * or fallocate to make the hole since I don't want to lose
-+         * data that's already arrived in the shared process.
-+         * TODO: How to do hugepage
-+         */
-+        ret = madvise((void *)(uintptr_t)dev_region->mmap_addr,
-+                      dev_region->size + dev_region->mmap_offset,
-+                      MADV_DONTNEED);
-+        if (ret) {
-+            fprintf(stderr,
-+                    "%s: Failed to madvise(DONTNEED) region %d: %s\n",
-+                    __func__, i, strerror(errno));
-+        }
-+        /*
-+         * Turn off transparent hugepages so we dont get lose wakeups
-+         * in neighbouring pages.
-+         * TODO: Turn this backon later.
-+         */
-+        ret = madvise((void *)(uintptr_t)dev_region->mmap_addr,
-+                      dev_region->size + dev_region->mmap_offset,
-+                      MADV_NOHUGEPAGE);
-+        if (ret) {
-+            /*
-+             * Note: This can happen legally on kernels that are configured
-+             * without madvise'able hugepages
-+             */
-+            fprintf(stderr,
-+                    "%s: Failed to madvise(NOHUGEPAGE) region %d: %s\n",
-+                    __func__, i, strerror(errno));
-+        }
-+        struct uffdio_register reg_struct;
-+        reg_struct.range.start = (uintptr_t)dev_region->mmap_addr;
-+        reg_struct.range.len = dev_region->size + dev_region->mmap_offset;
-+        reg_struct.mode = UFFDIO_REGISTER_MODE_MISSING;
-+
-+        if (ioctl(dev->postcopy_ufd, UFFDIO_REGISTER, &reg_struct)) {
-+            vu_panic(dev, "%s: Failed to userfault region %d "
-+                          "@%p + size:%zx offset: %zx: (ufd=%d)%s\n",
-+                     __func__, i,
-+                     dev_region->mmap_addr,
-+                     dev_region->size, dev_region->mmap_offset,
-+                     dev->postcopy_ufd, strerror(errno));
-+            return false;
-+        }
-+        if (!(reg_struct.ioctls & ((__u64)1 << _UFFDIO_COPY))) {
-+            vu_panic(dev, "%s Region (%d) doesn't support COPY",
-+                     __func__, i);
-+            return false;
-+        }
-+        DPRINT("%s: region %d: Registered userfault for %"
-+               PRIx64 " + %" PRIx64 "\n", __func__, i,
-+               (uint64_t)reg_struct.range.start,
-+               (uint64_t)reg_struct.range.len);
-+        /* Now it's registered we can let the client at it */
-+        if (mprotect((void *)(uintptr_t)dev_region->mmap_addr,
-+                     dev_region->size + dev_region->mmap_offset,
-+                     PROT_READ | PROT_WRITE)) {
-+            vu_panic(dev, "failed to mprotect region %d for postcopy (%s)",
-+                     i, strerror(errno));
-+            return false;
-+        }
-+        /* TODO: Stash 'zero' support flags somewhere */
-+#endif
-+    }
-+
-+    return true;
-+}
-+
-+static bool
- vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserMsg *vmsg)
- {
-     int i;
-@@ -655,74 +733,7 @@ vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserMsg *vmsg)
-     }
- 
-     /* OK, now we can go and register the memory and generate faults */
--    for (i = 0; i < dev->nregions; i++) {
--        VuDevRegion *dev_region = &dev->regions[i];
--        int ret;
--#ifdef UFFDIO_REGISTER
--        /* We should already have an open ufd. Mark each memory
--         * range as ufd.
--         * Discard any mapping we have here; note I can't use MADV_REMOVE
--         * or fallocate to make the hole since I don't want to lose
--         * data that's already arrived in the shared process.
--         * TODO: How to do hugepage
--         */
--        ret = madvise((void *)(uintptr_t)dev_region->mmap_addr,
--                      dev_region->size + dev_region->mmap_offset,
--                      MADV_DONTNEED);
--        if (ret) {
--            fprintf(stderr,
--                    "%s: Failed to madvise(DONTNEED) region %d: %s\n",
--                    __func__, i, strerror(errno));
--        }
--        /* Turn off transparent hugepages so we dont get lose wakeups
--         * in neighbouring pages.
--         * TODO: Turn this backon later.
--         */
--        ret = madvise((void *)(uintptr_t)dev_region->mmap_addr,
--                      dev_region->size + dev_region->mmap_offset,
--                      MADV_NOHUGEPAGE);
--        if (ret) {
--            /* Note: This can happen legally on kernels that are configured
--             * without madvise'able hugepages
--             */
--            fprintf(stderr,
--                    "%s: Failed to madvise(NOHUGEPAGE) region %d: %s\n",
--                    __func__, i, strerror(errno));
--        }
--        struct uffdio_register reg_struct;
--        reg_struct.range.start = (uintptr_t)dev_region->mmap_addr;
--        reg_struct.range.len = dev_region->size + dev_region->mmap_offset;
--        reg_struct.mode = UFFDIO_REGISTER_MODE_MISSING;
--
--        if (ioctl(dev->postcopy_ufd, UFFDIO_REGISTER, &reg_struct)) {
--            vu_panic(dev, "%s: Failed to userfault region %d "
--                          "@%p + size:%zx offset: %zx: (ufd=%d)%s\n",
--                     __func__, i,
--                     dev_region->mmap_addr,
--                     dev_region->size, dev_region->mmap_offset,
--                     dev->postcopy_ufd, strerror(errno));
--            return false;
--        }
--        if (!(reg_struct.ioctls & ((__u64)1 << _UFFDIO_COPY))) {
--            vu_panic(dev, "%s Region (%d) doesn't support COPY",
--                     __func__, i);
--            return false;
--        }
--        DPRINT("%s: region %d: Registered userfault for %"
--               PRIx64 " + %" PRIx64 "\n", __func__, i,
--               (uint64_t)reg_struct.range.start,
--               (uint64_t)reg_struct.range.len);
--        /* Now it's registered we can let the client at it */
--        if (mprotect((void *)(uintptr_t)dev_region->mmap_addr,
--                     dev_region->size + dev_region->mmap_offset,
--                     PROT_READ | PROT_WRITE)) {
--            vu_panic(dev, "failed to mprotect region %d for postcopy (%s)",
--                     i, strerror(errno));
--            return false;
--        }
--        /* TODO: Stash 'zero' support flags somewhere */
--#endif
--    }
-+    (void)generate_faults(dev);
- 
+@@ -137,6 +137,7 @@ vu_request_to_string(unsigned int req)
+         REQ(VHOST_USER_SET_INFLIGHT_FD),
+         REQ(VHOST_USER_GPU_SET_SOCKET),
+         REQ(VHOST_USER_VRING_KICK),
++        REQ(VHOST_USER_GET_MAX_MEM_SLOTS),
+         REQ(VHOST_USER_MAX),
+     };
+ #undef REQ
+@@ -1565,6 +1566,22 @@ vu_handle_vring_kick(VuDev *dev, VhostUserMsg *vmsg)
      return false;
  }
+ 
++static bool vu_handle_get_max_memslots(VuDev *dev, VhostUserMsg *vmsg)
++{
++    vmsg->flags = VHOST_USER_REPLY_MASK | VHOST_USER_VERSION;
++    vmsg->size  = sizeof(vmsg->payload.u64);
++    vmsg->payload.u64 = VHOST_MEMORY_MAX_NREGIONS;
++    vmsg->fd_num = 0;
++
++    if (!vu_message_write(dev, dev->sock, vmsg)) {
++        vu_panic(dev, "Failed to send max ram slots: %s\n", strerror(errno));
++    }
++
++    DPRINT("u64: 0x%016"PRIx64"\n", (uint64_t) VHOST_MEMORY_MAX_NREGIONS);
++
++    return false;
++}
++
+ static bool
+ vu_process_message(VuDev *dev, VhostUserMsg *vmsg)
+ {
+@@ -1649,6 +1666,8 @@ vu_process_message(VuDev *dev, VhostUserMsg *vmsg)
+         return vu_set_inflight_fd(dev, vmsg);
+     case VHOST_USER_VRING_KICK:
+         return vu_handle_vring_kick(dev, vmsg);
++    case VHOST_USER_GET_MAX_MEM_SLOTS:
++        return vu_handle_get_max_memslots(dev, vmsg);
+     default:
+         vmsg_close_fds(vmsg);
+         vu_panic(dev, "Unhandled request: %d", vmsg->request);
+diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
+index f30394f..88ef40d 100644
+--- a/contrib/libvhost-user/libvhost-user.h
++++ b/contrib/libvhost-user/libvhost-user.h
+@@ -97,6 +97,7 @@ typedef enum VhostUserRequest {
+     VHOST_USER_SET_INFLIGHT_FD = 32,
+     VHOST_USER_GPU_SET_SOCKET = 33,
+     VHOST_USER_VRING_KICK = 35,
++    VHOST_USER_GET_MAX_MEM_SLOTS = 36,
+     VHOST_USER_MAX
+ } VhostUserRequest;
+ 
 -- 
 1.8.3.1
 
