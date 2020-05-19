@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B6ED1DA413
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 23:50:42 +0200 (CEST)
-Received: from localhost ([::1]:53838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E621DA418
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 23:51:48 +0200 (CEST)
+Received: from localhost ([::1]:57846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbA8H-00034O-3U
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 17:50:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39342)
+	id 1jbA9L-0004o5-Ep
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 17:51:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jbA0J-0000IV-H0
- for qemu-devel@nongnu.org; Tue, 19 May 2020 17:42:27 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33903)
+ id 1jbA23-0003Bk-JG
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 17:44:15 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:40664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jbA0H-0000T9-RI
- for qemu-devel@nongnu.org; Tue, 19 May 2020 17:42:27 -0400
-Received: by mail-pf1-x441.google.com with SMTP id x15so528194pfa.1
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 14:42:25 -0700 (PDT)
+ id 1jbA22-0000qW-F0
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 17:44:15 -0400
+Received: by mail-pg1-x543.google.com with SMTP id j21so425360pgb.7
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 14:44:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nw6O/vTT+E8Mxtuq9SAx4g0rj9wiZLc+1sIiGwNLVkA=;
- b=R0aa1j7WkOY2GiiHQX+/mXzmvb7PlqA7REwJ59dpfjz0wH2HVMoyX9Z0ndpUXuHK+Q
- /KWjZVitCqxCcveFVsyxWV/sYCuTwTijV4RL0JGZw0XPgKjWOIk9VSRBh85osFWB+J3l
- VEW0UhmXn8xZjsfK5tcyIClZCOuoWjOk7wfU90bTbt7qKEqmgAOa77runt4l+R/G7DjO
- wMcjHx4kk5DG2nnI5DTJJ315ZiO9WjO454KIehB4oV1uxZHA8X+PNwX0RkayewQP9NxS
- rRzQZfo1I5kYj7kBiNKCFK4uKoR+szMThqGoiMiQ6+lE45SnogQFl+oZUYcCqbxT5RVQ
- IPsw==
+ bh=9QcMFgsFvzqpgsVcZKpwWLbbm/tGcQLwiZS5izOUzYE=;
+ b=vd9MBlZtV+8wTXdpyza/bAuEjRjZYzHCAB8h81RBR/znISaOjbHq4Bh7dQBkBcl8H8
+ LtWYqnj3+U2OBkvWxECfrIzcpergK7GFxDlqNDRghvJesCwi/Jl3Ji8CP7VgYvuQaeyY
+ AaKbkCGSQRbjktlZU/KExpExN4J3wrBZIBZ68WhhJ+oZHiNomMmjewRZPDSjZJJO+kCH
+ zmFaDwyb4yn3ZYGQMit8nC/pO2ncvP97ZtGFdNoof8p5jrmKyGmBVtGHZVYqF3ekm9EJ
+ Youi9H6HnO5RK9icMjuXJ8pQJTUkxNaBCYkJLphFSEKHc4P7XNPrZHtDGwvMth5gUKvT
+ UKPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nw6O/vTT+E8Mxtuq9SAx4g0rj9wiZLc+1sIiGwNLVkA=;
- b=qD/ra91tzlYzftvqm4TRlrqwA1hW8dlLpXvNbMFkj0Q6L55yqQ/8NbJ+PbtDx+OGFr
- dvVwVWtGu+072LXpCc5W4wsFc3q1eX1b0vpIsVbV+Dvz9qZD+moeT3HyucrlfgYU7fH7
- 9gWP5lyoVlm9cNk3UdQRA3laOiezFy3ibkjQN1wUv6zWs7+z6944WPuuVrnPCM8vwpK6
- cK8Anh7Re5LZAc02u3E/d6InZl/JHybMZchs++EUj6KjSI7Q6u+C3en4IYC0Iw3kvP2s
- vr2PA+FWZuRLwZFxm4hc6LQCScljrKEtPa/xb2DdD2YfL9fKr8agsdWhog6DHbCYzArb
- NaDA==
-X-Gm-Message-State: AOAM5327K80xYQ/t7YGkOs/rwL7/fkPOm9+1G6H7xBK8gcGEByiXAtrS
- Awl9GXEWDt9xUCmManm5KH96RA==
-X-Google-Smtp-Source: ABdhPJxnavV4hRyjr6rJbh9w41mz0XHfZeDzrjVDcsA4BK6TEInttraXpc0uqBFmOxNqZ+dmpunDBw==
-X-Received: by 2002:a65:614b:: with SMTP id o11mr1059106pgv.443.1589924544588; 
- Tue, 19 May 2020 14:42:24 -0700 (PDT)
+ bh=9QcMFgsFvzqpgsVcZKpwWLbbm/tGcQLwiZS5izOUzYE=;
+ b=HocKhkqD6UZOem2jBiYpqY8lHxRO/GmmtzCVqrnmZz6TU8Vk5rkng3Z484Gy6MUk/i
+ JYwE6VVIYTvXsAocTFgq4RrpmKRGaXZ/O6IU4aGNzzJ4Cj/af54BwXf7AqnQo2sqenoM
+ 8Co6XbJrMPnzEdSG1AoKIduvIk43IvGUxlMDNX+dtRxDfMu9sNx/8NCvQdc+hweqqDpB
+ PHlG+ItBRSvT8yRCM3POqywvg4kv74EN87FwzYd8kzOUHTDznw/AOPKvNag5kC8Ysx+R
+ NUqeqKHwcFAjjplyb9yuwD1onW77XP2t6Md34FHH8K/vTEBQhTkUS00TJ4G5fTylKSbJ
+ /k9A==
+X-Gm-Message-State: AOAM532q28w/kl026rEU5vegoa2tDzU1jV9U1zOTGqdThpKqbNIhAdsv
+ 8WHRyshF8zLF/rMfUfvPWJA4gw==
+X-Google-Smtp-Source: ABdhPJxMz3+ZBlNd7xQLhdXPca2Mk3IOo3Ssmjn+oEFlna4w+C+N6H/Qi078VtaJAl/Mn2IE8U9k2w==
+X-Received: by 2002:a63:e14d:: with SMTP id h13mr1080448pgk.321.1589924652927; 
+ Tue, 19 May 2020 14:44:12 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id s102sm379040pjb.57.2020.05.19.14.42.23
+ by smtp.gmail.com with ESMTPSA id l192sm355847pfd.169.2020.05.19.14.44.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 May 2020 14:42:23 -0700 (PDT)
-Subject: Re: [PATCH v2 09/10] Makefile: Allow target-specific optional Kconfig
+ Tue, 19 May 2020 14:44:12 -0700 (PDT)
+Subject: Re: [PATCH v2 10/10] hw/semihosting: Make the feature depend of TCG, 
+ and allow to disable it
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200515170804.5707-1-philmd@redhat.com>
- <20200515170804.5707-10-philmd@redhat.com>
+ <20200515170804.5707-11-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <81f9e132-1709-e67b-9cac-8d7707ad47e3@linaro.org>
-Date: Tue, 19 May 2020 14:42:21 -0700
+Message-ID: <a67da86e-8486-9fea-ae1c-db65bf5c4acc@linaro.org>
+Date: Tue, 19 May 2020 14:44:10 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200515170804.5707-10-philmd@redhat.com>
+In-Reply-To: <20200515170804.5707-11-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -107,15 +108,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/15/20 10:08 AM, Philippe Mathieu-Daudé wrote:
-> Allow use of target-specific Kconfig file.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  Makefile | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> +++ b/hw/semihosting/Kconfig
+> @@ -1,3 +1,5 @@
+>  
+> +# default is 'n'
+>  config SEMIHOSTING
+> -       bool
+> +    bool
+> +    depends on TCG
+> diff --git a/target/arm/Kconfig b/target/arm/Kconfig
+> new file mode 100644
+> index 0000000000..3224cac4ad
+> --- /dev/null
+> +++ b/target/arm/Kconfig
+> @@ -0,0 +1,2 @@
+> +config SEMIHOSTING
+> +    default y if TCG
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Do you really have to duplicate the TCG condition?
+
 
 r~
-
 
