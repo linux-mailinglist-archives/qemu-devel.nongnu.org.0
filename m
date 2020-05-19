@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB5191DA36A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 23:21:11 +0200 (CEST)
-Received: from localhost ([::1]:39040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB631DA347
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 23:14:26 +0200 (CEST)
+Received: from localhost ([::1]:54152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb9fi-00035b-Sb
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 17:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37210)
+	id 1jb9ZB-0005Mc-2m
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 17:14:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jb9eY-00028a-4k
- for qemu-devel@nongnu.org; Tue, 19 May 2020 17:19:58 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:36433)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jb9eX-0004U8-Aj
- for qemu-devel@nongnu.org; Tue, 19 May 2020 17:19:57 -0400
-Received: by mail-io1-xd42.google.com with SMTP id c16so825698iol.3
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 14:19:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=635MI2UsXHJuzWzjh3AwSkAkPl4uiFsySNmohbmCuds=;
- b=O5WOO2tdIKWc9Fgty0u5tu8viJYV226PPcCnC1w8pWLMZB5eITWT1b50N/Fukh/MOe
- TuY5C5Gimc/UfzhZvcMsjnZUavp5BpA0ceJxK3AfHIXFWA/eZX33+lOdUJ8KpPlACOG/
- Ut5KhgZ5gfA2JF6zxRHQfso1TkNFMLlV5XlQc8K0/Npo5Txi3AUminloEgprK3EN3TG1
- P30aE5SLPuXeqrhOh6E7P1JchITbSNYx6Ym5CGKmq/HkVZziOima/rWiISE/NPc+mQhL
- N+uoX5p4LuwkY2iCGiOMDGO3Q+3Vj8bqoZ1hLfcaCKdYIX8XLcXBNzFFtmozlTcGJWb5
- Pvww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=635MI2UsXHJuzWzjh3AwSkAkPl4uiFsySNmohbmCuds=;
- b=fFiykx6KiQ05LigkvctiD/8WjWLtZkaJ3JwDNdEz7lppPmj3GGuYhi4v9i3YnRBOXf
- yY3GcgN+toT7ip6B50cOqNrdxnN/XjlYESijb83DjyQ9MhvJ7M4vrEE5kGKJ4OFcM+ZB
- vCOfCwxs4LrH4jCBWoI/A2xslolJiWucdCqznuEx5IrXtGCgXQWyQODuIHTlBLp2XAM8
- MokAr0bq81frgOHxogdj47GTZB876NOV77WzIPu7NbI33HWn6yYcNaPigbU9V7+EuhZd
- ktqn4+2smmO8A/Ejw6fXbjrGp/l8ugbURUXYpTfKPOeO9b8JRCv7zD3R9OWoHK9yjQwN
- CKvA==
-X-Gm-Message-State: AOAM530dSod34Mp3rM3NfKdLesuaZJ4Mk3BsZNr30pEUhzwW9IseVftf
- s0ZdDx24J2mhmsgUt0LHnSXhas2Rvb63XVjk6XSaEuLU
-X-Google-Smtp-Source: ABdhPJxFUc5v3zyQZpJu929zjnO5zzNQIwqS/OoNVsoveEvuzTjxPg42zf6gXPmahaftyNqP8g9JiQjT5k8k0Wyd2aI=
-X-Received: by 2002:a6b:dc11:: with SMTP id s17mr929388ioc.42.1589923196262;
- Tue, 19 May 2020 14:19:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jb9YP-0004lX-8m
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 17:13:37 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48817
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jb9YO-0003Lt-EF
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 17:13:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589922815;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Op/MI+WEDGhRGpLa7qcmJDDcXeOtGL+P9rd2Ph1HZ34=;
+ b=LW5NrEZxw40JC1dwOs+2jNDQ2Z6NRT3kou6NUTn+5M15TQrQwEPkTYmaUI80Hh8CJ/vnNl
+ NhHutQ1dUKyzsduVhAE7d7WlDpIdnjA1FRx5O+QUu65gyHQUzZ4mxXZ2VJK4OChUqfU4xv
+ dTRCqTdedwH43XRjLg0uMD1f+w61G4A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-462-izbndxQaOrS7t3HqxxxJtg-1; Tue, 19 May 2020 17:13:25 -0400
+X-MC-Unique: izbndxQaOrS7t3HqxxxJtg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67D2318FE860;
+ Tue, 19 May 2020 21:13:24 +0000 (UTC)
+Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ED11F101F6D8;
+ Tue, 19 May 2020 21:13:20 +0000 (UTC)
+Subject: Re: [PATCH v2 5/5] iotests: add commit top->base cases to 274
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200519195501.29071-1-vsementsov@virtuozzo.com>
+ <20200519195501.29071-6-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <b8b80d2b-492b-4121-a6eb-8a26aa0c70d4@redhat.com>
+Date: Tue, 19 May 2020 16:13:20 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200519145551.22836-1-armbru@redhat.com>
- <20200519145551.22836-25-armbru@redhat.com>
-In-Reply-To: <20200519145551.22836-25-armbru@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 19 May 2020 14:11:03 -0700
-Message-ID: <CAKmqyKPpNMdOGjmAdfyHBSYbNx3si35a_iqufCMm3EPzgw8CdA@mail.gmail.com>
-Subject: Re: [PATCH 24/55] ssi: ssi_create_slave_no_init() is now unused, drop
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+In-Reply-To: <20200519195501.29071-6-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:19:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,58 +83,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-devel@nongnu.org, mreitz@redhat.com,
+ stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 19, 2020 at 8:06 AM Markus Armbruster <armbru@redhat.com> wrote:
->
-> Cc: Alistair Francis <alistair@alistair23.me>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 5/19/20 2:55 PM, Vladimir Sementsov-Ogievskiy wrote:
+> These cases are fixed by previous patches around block_status and
+> is_allocated.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  include/hw/ssi/ssi.h | 1 -
->  hw/ssi/ssi.c         | 5 -----
->  2 files changed, 6 deletions(-)
->
-> diff --git a/include/hw/ssi/ssi.h b/include/hw/ssi/ssi.h
-> index 1725b13c32..93f2b8b0be 100644
-> --- a/include/hw/ssi/ssi.h
-> +++ b/include/hw/ssi/ssi.h
-> @@ -79,7 +79,6 @@ extern const VMStateDescription vmstate_ssi_slave;
->  }
->
->  DeviceState *ssi_create_slave(SSIBus *bus, const char *name);
-> -DeviceState *ssi_create_slave_no_init(SSIBus *bus, const char *name);
->
->  /* Master interface.  */
->  SSIBus *ssi_create_bus(DeviceState *parent, const char *name);
-> diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
-> index 58e7d904db..67b48c31cd 100644
-> --- a/hw/ssi/ssi.c
-> +++ b/hw/ssi/ssi.c
-> @@ -90,11 +90,6 @@ static const TypeInfo ssi_slave_info = {
->      .abstract = true,
->  };
->
-> -DeviceState *ssi_create_slave_no_init(SSIBus *bus, const char *name)
-> -{
-> -    return qdev_create(BUS(bus), name);
-> -}
-> -
->  DeviceState *ssi_create_slave(SSIBus *bus, const char *name)
->  {
->      DeviceState *dev = qdev_new(name);
-> --
-> 2.21.1
->
->
+>   tests/qemu-iotests/274     | 20 ++++++++++++
+>   tests/qemu-iotests/274.out | 65 ++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 85 insertions(+)
+
+Okay, so this test fails when applied in isolation without the rest of 
+your series.
+
+> 
+> diff --git a/tests/qemu-iotests/274 b/tests/qemu-iotests/274
+> index 5d1bf34dff..e910455f13 100755
+> --- a/tests/qemu-iotests/274
+> +++ b/tests/qemu-iotests/274
+> @@ -115,6 +115,26 @@ with iotests.FilePath('base') as base, \
+>       iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, mid)
+>       iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), mid)
+>   
+> +    iotests.log('=== Testing qemu-img commit (top -> base) ===')
+> +
+> +    create_chain()
+> +    iotests.qemu_img_log('commit', '-b', base, top)
+> +    iotests.img_info_log(base)
+> +    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, base)
+> +    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), base)
+
+So if I understand it, we are going from:
+
+base    11111111
+mid     ----
+top     --------
+guest   11110000
+
+and we want to go to:
+
+base    11110000
+
+except that we are not properly writing the zeroes into base, because we 
+grabbed the wrong status, ending up with:
+
+base    11111111
+
+The status of top from 1M onwards is unallocated, and if we were to 
+commit to just mid, Kevin's truncate fixes solve that (we now zero out 
+the tail of mid as part of resizing it to be large enough).  But you are 
+instead skipping mid, and committing all the way to base.  So we need 
+_something_ that can tell qemu-img commit that even though the region 
+1m-2m is unallocated in top, we must behave as though the status of mid 
+reports it as allocated (because when reading beyond EOF in mid, we DO 
+read zero).  Since the data is allocated not in top, but acts as though 
+it was allocated in mid, which is above base, then the commit operation 
+has to do something to preserve that allocation.
+
+Okay, you've convinced me we have a bug.  However, I'm still not sold 
+that patches 1 and 4 are quite the right fix.  Going back to the 
+original setup, unpatched qemu.git head reports:
+
+$ ./qemu-img map --output=json top.qcow2
+[{ "start": 0, "length": 1048576, "depth": 2, "zero": false, "data": 
+true, "offset": 327680},
+{ "start": 1048576, "length": 1048576, "depth": 0, "zero": true, "data": 
+false}]
+
+I think what we really want is:
+
+[{ "start": 0, "length": 1048576, "depth": 2, "zero": false, "data": 
+true, "offset": 327680},
+{ "start": 1048576, "length": 1048576, "depth": 1, "zero": true, "data": 
+false}]
+
+because then we would be _accurately_ reporting that the zeroes that we 
+read from 1m-2m come _because_ we read from mid (beyond EOF), which is 
+different from our current answer that the zeroes come from top (they 
+don't, because top deferred to mid).  If we fix up qemu-img map output 
+to correctly report zeroes beyond EOF from the correct layer, will that 
+also fix up the bug we are seeing in qemu-img commit?
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
