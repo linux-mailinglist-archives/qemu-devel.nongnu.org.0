@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 688251D9AB8
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:08:03 +0200 (CEST)
-Received: from localhost ([::1]:44586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 560281D9AE6
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:13:26 +0200 (CEST)
+Received: from localhost ([::1]:40224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb3qc-00006X-Fv
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:08:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45002)
+	id 1jb3vp-0002Y9-Bw
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:13:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f3-0001Ge-KW
- for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:05 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33396
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3fB-0001cF-6p
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:13 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37155
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f0-0003VZ-PS
- for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:04 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f3-0003Wr-Ak
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589900161;
+ s=mimecast20190719; t=1589900163;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3K6m13NrK/cEGeNl3XodiOEjJ6gLhHCbur68afUVtf8=;
- b=MtUKkaI6WpORqZ4k27IJ3NjHXvDUoNAog9MwL5dOxpTeo1ACiW+mcygQmakOg0QoA76PCX
- TcuGjaL1A+q0eSp6kixMhootzP1mOjauYfwHlXoN+yVBPjV1JkrvU3uXNsQIdZY1y8rIXs
- SAV3uJYItKKTvI5AoGz+ZtGVeKe3ndA=
+ bh=hj6sAUl+pCC8R/obrzbWm80TkXBdX8Ft963mPgCo7eY=;
+ b=Z07sAH5R8dm6tmkFP8VhsYhjAEgZoEatAwEUxBQUAZgtlT+JADygSeiPoXqSJ23GYwZqkO
+ QXXd7kGmBgH0Z2nbOHItygcof6Rj6YQOjw+LHJrL7ndJk3Mipo7Tu19k/5I3n6+KR+NoEY
+ 6/I5QjIKAftQp2tfrxZjiUH/lGfMHT8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-DGAccEU1MMiIaItx-NJCzA-1; Tue, 19 May 2020 10:56:00 -0400
-X-MC-Unique: DGAccEU1MMiIaItx-NJCzA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-301-9MgMM3FHPOe-iQDIKD3_pA-1; Tue, 19 May 2020 10:56:02 -0400
+X-MC-Unique: 9MgMM3FHPOe-iQDIKD3_pA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E29EE81CBE3;
- Tue, 19 May 2020 14:55:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5E4E1009622
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 14:55:59 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B160F50F54;
- Tue, 19 May 2020 14:55:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 38EB65D9C5;
+ Tue, 19 May 2020 14:55:59 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 39BD71135221; Tue, 19 May 2020 16:55:52 +0200 (CEST)
+ id 3D2E01135222; Tue, 19 May 2020 16:55:52 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 36/55] macio: Eliminate macio_init_child_obj()
-Date: Tue, 19 May 2020 16:55:32 +0200
-Message-Id: <20200519145551.22836-37-armbru@redhat.com>
+Subject: [PATCH 37/55] sysbus: Drop useless OBJECT() in
+ sysbus_init_child_obj() calls
+Date: Tue, 19 May 2020 16:55:33 +0200
+Message-Id: <20200519145551.22836-38-armbru@redhat.com>
 In-Reply-To: <20200519145551.22836-1-armbru@redhat.com>
 References: <20200519145551.22836-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -67,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,106 +81,296 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- berrange@redhat.com, ehabkost@redhat.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-macio_init_child_obj() has become a trivial wrapper around
-object_initialize_child_with_props().  Eliminate it, since the general
-convenience wrapper object_initialize_child() is just as convenient
-already.
+OBJECT(child) expands to ((Object *)(child)).  sysbus_init_child_obj()
+parameter @child is void *.  Pass child instead of OBJECT(child).
 
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/misc/macio/macio.c | 30 +++++++++---------------------
- 1 file changed, 9 insertions(+), 21 deletions(-)
+ hw/arm/allwinner-a10.c  |  4 ++--
+ hw/arm/aspeed_ast2600.c | 40 +++++++++++++++++-----------------------
+ hw/arm/aspeed_soc.c     | 35 +++++++++++++++--------------------
+ hw/arm/nrf51_soc.c      |  2 +-
+ hw/mips/boston.c        |  4 ++--
+ hw/mips/mips_malta.c    |  2 +-
+ 6 files changed, 38 insertions(+), 49 deletions(-)
 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index 1a07ca2ca5..8ba7af073c 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -94,14 +94,6 @@ static void macio_bar_setup(MacIOState *s)
-     macio_escc_legacy_setup(s);
+diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
+index 49c51463e1..64449416de 100644
+--- a/hw/arm/allwinner-a10.c
++++ b/hw/arm/allwinner-a10.c
+@@ -59,9 +59,9 @@ static void aw_a10_init(Object *obj)
+         int i;
+ 
+         for (i = 0; i < AW_A10_NUM_USB; i++) {
+-            sysbus_init_child_obj(obj, "ehci[*]", OBJECT(&s->ehci[i]),
++            sysbus_init_child_obj(obj, "ehci[*]", &s->ehci[i],
+                                   sizeof(s->ehci[i]), TYPE_PLATFORM_EHCI);
+-            sysbus_init_child_obj(obj, "ohci[*]", OBJECT(&s->ohci[i]),
++            sysbus_init_child_obj(obj, "ohci[*]", &s->ohci[i],
+                                   sizeof(s->ohci[i]), TYPE_SYSBUS_OHCI);
+         }
+     }
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index c97a125bab..ec9bde5898 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -131,8 +131,7 @@ static void aspeed_soc_ast2600_init(Object *obj)
+     }
+ 
+     snprintf(typename, sizeof(typename), "aspeed.scu-%s", socname);
+-    sysbus_init_child_obj(obj, "scu", OBJECT(&s->scu), sizeof(s->scu),
+-                          typename);
++    sysbus_init_child_obj(obj, "scu", &s->scu, sizeof(s->scu), typename);
+     qdev_prop_set_uint32(DEVICE(&s->scu), "silicon-rev",
+                          sc->silicon_rev);
+     object_property_add_alias(obj, "hw-strap1", OBJECT(&s->scu),
+@@ -145,36 +144,33 @@ static void aspeed_soc_ast2600_init(Object *obj)
+     sysbus_init_child_obj(obj, "a7mpcore", &s->a7mpcore,
+                           sizeof(s->a7mpcore), TYPE_A15MPCORE_PRIV);
+ 
+-    sysbus_init_child_obj(obj, "rtc", OBJECT(&s->rtc), sizeof(s->rtc),
++    sysbus_init_child_obj(obj, "rtc", &s->rtc, sizeof(s->rtc),
+                           TYPE_ASPEED_RTC);
+ 
+     snprintf(typename, sizeof(typename), "aspeed.timer-%s", socname);
+-    sysbus_init_child_obj(obj, "timerctrl", OBJECT(&s->timerctrl),
++    sysbus_init_child_obj(obj, "timerctrl", &s->timerctrl,
+                           sizeof(s->timerctrl), typename);
+ 
+     snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
+-    sysbus_init_child_obj(obj, "i2c", OBJECT(&s->i2c), sizeof(s->i2c),
+-                          typename);
++    sysbus_init_child_obj(obj, "i2c", &s->i2c, sizeof(s->i2c), typename);
+ 
+     snprintf(typename, sizeof(typename), "aspeed.fmc-%s", socname);
+-    sysbus_init_child_obj(obj, "fmc", OBJECT(&s->fmc), sizeof(s->fmc),
+-                          typename);
++    sysbus_init_child_obj(obj, "fmc", &s->fmc, sizeof(s->fmc), typename);
+     object_property_add_alias(obj, "num-cs", OBJECT(&s->fmc), "num-cs");
+ 
+     for (i = 0; i < sc->spis_num; i++) {
+         snprintf(typename, sizeof(typename), "aspeed.spi%d-%s", i + 1, socname);
+-        sysbus_init_child_obj(obj, "spi[*]", OBJECT(&s->spi[i]),
++        sysbus_init_child_obj(obj, "spi[*]", &s->spi[i],
+                               sizeof(s->spi[i]), typename);
+     }
+ 
+     for (i = 0; i < sc->ehcis_num; i++) {
+-        sysbus_init_child_obj(obj, "ehci[*]", OBJECT(&s->ehci[i]),
++        sysbus_init_child_obj(obj, "ehci[*]", &s->ehci[i],
+                               sizeof(s->ehci[i]), TYPE_PLATFORM_EHCI);
+     }
+ 
+     snprintf(typename, sizeof(typename), "aspeed.sdmc-%s", socname);
+-    sysbus_init_child_obj(obj, "sdmc", OBJECT(&s->sdmc), sizeof(s->sdmc),
+-                          typename);
++    sysbus_init_child_obj(obj, "sdmc", &s->sdmc, sizeof(s->sdmc), typename);
+     object_property_add_alias(obj, "ram-size", OBJECT(&s->sdmc),
+                               "ram-size");
+     object_property_add_alias(obj, "max-ram-size", OBJECT(&s->sdmc),
+@@ -182,30 +178,29 @@ static void aspeed_soc_ast2600_init(Object *obj)
+ 
+     for (i = 0; i < sc->wdts_num; i++) {
+         snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
+-        sysbus_init_child_obj(obj, "wdt[*]", OBJECT(&s->wdt[i]),
++        sysbus_init_child_obj(obj, "wdt[*]", &s->wdt[i],
+                               sizeof(s->wdt[i]), typename);
+     }
+ 
+     for (i = 0; i < nb_nics && i < sc->macs_num; i++) {
+-        sysbus_init_child_obj(obj, "ftgmac100[*]", OBJECT(&s->ftgmac100[i]),
++        sysbus_init_child_obj(obj, "ftgmac100[*]", &s->ftgmac100[i],
+                               sizeof(s->ftgmac100[i]), TYPE_FTGMAC100);
+ 
+         sysbus_init_child_obj(obj, "mii[*]", &s->mii[i], sizeof(s->mii[i]),
+                               TYPE_ASPEED_MII);
+     }
+ 
+-    sysbus_init_child_obj(obj, "xdma", OBJECT(&s->xdma), sizeof(s->xdma),
++    sysbus_init_child_obj(obj, "xdma", &s->xdma, sizeof(s->xdma),
+                           TYPE_ASPEED_XDMA);
+ 
+     snprintf(typename, sizeof(typename), "aspeed.gpio-%s", socname);
+-    sysbus_init_child_obj(obj, "gpio", OBJECT(&s->gpio), sizeof(s->gpio),
+-                          typename);
++    sysbus_init_child_obj(obj, "gpio", &s->gpio, sizeof(s->gpio), typename);
+ 
+     snprintf(typename, sizeof(typename), "aspeed.gpio-%s-1_8v", socname);
+-    sysbus_init_child_obj(obj, "gpio_1_8v", OBJECT(&s->gpio_1_8v),
++    sysbus_init_child_obj(obj, "gpio_1_8v", &s->gpio_1_8v,
+                           sizeof(s->gpio_1_8v), typename);
+ 
+-    sysbus_init_child_obj(obj, "sd-controller", OBJECT(&s->sdhci),
++    sysbus_init_child_obj(obj, "sd-controller", &s->sdhci,
+                           sizeof(s->sdhci), TYPE_ASPEED_SDHCI);
+ 
+     object_property_set_int(OBJECT(&s->sdhci), 2, "num-slots", &error_abort);
+@@ -213,18 +208,17 @@ static void aspeed_soc_ast2600_init(Object *obj)
+     /* Init sd card slot class here so that they're under the correct parent */
+     for (i = 0; i < ASPEED_SDHCI_NUM_SLOTS; ++i) {
+         sysbus_init_child_obj(obj, "sd-controller.sdhci[*]",
+-                              OBJECT(&s->sdhci.slots[i]),
++                              &s->sdhci.slots[i],
+                               sizeof(s->sdhci.slots[i]), TYPE_SYSBUS_SDHCI);
+     }
+ 
+-    sysbus_init_child_obj(obj, "emmc-controller", OBJECT(&s->emmc),
++    sysbus_init_child_obj(obj, "emmc-controller", &s->emmc,
+                           sizeof(s->emmc), TYPE_ASPEED_SDHCI);
+ 
+     object_property_set_int(OBJECT(&s->emmc), 1, "num-slots", &error_abort);
+ 
+     sysbus_init_child_obj(obj, "emmc-controller.sdhci",
+-                          OBJECT(&s->emmc.slots[0]), sizeof(s->emmc.slots[0]),
+-                          TYPE_SYSBUS_SDHCI);
++                          &s->emmc.slots[0], sizeof(s->emmc.slots[0]), TYPE_SYSBUS_SDHCI);
  }
  
--static void macio_init_child_obj(MacIOState *s, const char *childname,
--                                 void *child, size_t childsize,
--                                 const char *childtype)
--{
--    object_initialize_child_with_props(OBJECT(s), childname, child, childsize,
--                                       childtype, &error_abort, NULL);
--}
--
- static void macio_common_realize(PCIDevice *d, Error **errp)
+ /*
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index bc241c567c..1e434a10ea 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -146,8 +146,7 @@ static void aspeed_soc_init(Object *obj)
+     }
+ 
+     snprintf(typename, sizeof(typename), "aspeed.scu-%s", socname);
+-    sysbus_init_child_obj(obj, "scu", OBJECT(&s->scu), sizeof(s->scu),
+-                          typename);
++    sysbus_init_child_obj(obj, "scu", &s->scu, sizeof(s->scu), typename);
+     qdev_prop_set_uint32(DEVICE(&s->scu), "silicon-rev",
+                          sc->silicon_rev);
+     object_property_add_alias(obj, "hw-strap1", OBJECT(&s->scu),
+@@ -157,39 +156,36 @@ static void aspeed_soc_init(Object *obj)
+     object_property_add_alias(obj, "hw-prot-key", OBJECT(&s->scu),
+                               "hw-prot-key");
+ 
+-    sysbus_init_child_obj(obj, "vic", OBJECT(&s->vic), sizeof(s->vic),
++    sysbus_init_child_obj(obj, "vic", &s->vic, sizeof(s->vic),
+                           TYPE_ASPEED_VIC);
+ 
+-    sysbus_init_child_obj(obj, "rtc", OBJECT(&s->rtc), sizeof(s->rtc),
++    sysbus_init_child_obj(obj, "rtc", &s->rtc, sizeof(s->rtc),
+                           TYPE_ASPEED_RTC);
+ 
+     snprintf(typename, sizeof(typename), "aspeed.timer-%s", socname);
+-    sysbus_init_child_obj(obj, "timerctrl", OBJECT(&s->timerctrl),
++    sysbus_init_child_obj(obj, "timerctrl", &s->timerctrl,
+                           sizeof(s->timerctrl), typename);
+ 
+     snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
+-    sysbus_init_child_obj(obj, "i2c", OBJECT(&s->i2c), sizeof(s->i2c),
+-                          typename);
++    sysbus_init_child_obj(obj, "i2c", &s->i2c, sizeof(s->i2c), typename);
+ 
+     snprintf(typename, sizeof(typename), "aspeed.fmc-%s", socname);
+-    sysbus_init_child_obj(obj, "fmc", OBJECT(&s->fmc), sizeof(s->fmc),
+-                          typename);
++    sysbus_init_child_obj(obj, "fmc", &s->fmc, sizeof(s->fmc), typename);
+     object_property_add_alias(obj, "num-cs", OBJECT(&s->fmc), "num-cs");
+ 
+     for (i = 0; i < sc->spis_num; i++) {
+         snprintf(typename, sizeof(typename), "aspeed.spi%d-%s", i + 1, socname);
+-        sysbus_init_child_obj(obj, "spi[*]", OBJECT(&s->spi[i]),
++        sysbus_init_child_obj(obj, "spi[*]", &s->spi[i],
+                               sizeof(s->spi[i]), typename);
+     }
+ 
+     for (i = 0; i < sc->ehcis_num; i++) {
+-        sysbus_init_child_obj(obj, "ehci[*]", OBJECT(&s->ehci[i]),
++        sysbus_init_child_obj(obj, "ehci[*]", &s->ehci[i],
+                               sizeof(s->ehci[i]), TYPE_PLATFORM_EHCI);
+     }
+ 
+     snprintf(typename, sizeof(typename), "aspeed.sdmc-%s", socname);
+-    sysbus_init_child_obj(obj, "sdmc", OBJECT(&s->sdmc), sizeof(s->sdmc),
+-                          typename);
++    sysbus_init_child_obj(obj, "sdmc", &s->sdmc, sizeof(s->sdmc), typename);
+     object_property_add_alias(obj, "ram-size", OBJECT(&s->sdmc),
+                               "ram-size");
+     object_property_add_alias(obj, "max-ram-size", OBJECT(&s->sdmc),
+@@ -197,30 +193,29 @@ static void aspeed_soc_init(Object *obj)
+ 
+     for (i = 0; i < sc->wdts_num; i++) {
+         snprintf(typename, sizeof(typename), "aspeed.wdt-%s", socname);
+-        sysbus_init_child_obj(obj, "wdt[*]", OBJECT(&s->wdt[i]),
++        sysbus_init_child_obj(obj, "wdt[*]", &s->wdt[i],
+                               sizeof(s->wdt[i]), typename);
+     }
+ 
+     for (i = 0; i < nb_nics && i < sc->macs_num; i++) {
+-        sysbus_init_child_obj(obj, "ftgmac100[*]", OBJECT(&s->ftgmac100[i]),
++        sysbus_init_child_obj(obj, "ftgmac100[*]", &s->ftgmac100[i],
+                               sizeof(s->ftgmac100[i]), TYPE_FTGMAC100);
+     }
+ 
+-    sysbus_init_child_obj(obj, "xdma", OBJECT(&s->xdma), sizeof(s->xdma),
++    sysbus_init_child_obj(obj, "xdma", &s->xdma, sizeof(s->xdma),
+                           TYPE_ASPEED_XDMA);
+ 
+     snprintf(typename, sizeof(typename), "aspeed.gpio-%s", socname);
+-    sysbus_init_child_obj(obj, "gpio", OBJECT(&s->gpio), sizeof(s->gpio),
+-                          typename);
++    sysbus_init_child_obj(obj, "gpio", &s->gpio, sizeof(s->gpio), typename);
+ 
+-    sysbus_init_child_obj(obj, "sdc", OBJECT(&s->sdhci), sizeof(s->sdhci),
++    sysbus_init_child_obj(obj, "sdc", &s->sdhci, sizeof(s->sdhci),
+                           TYPE_ASPEED_SDHCI);
+ 
+     object_property_set_int(OBJECT(&s->sdhci), 2, "num-slots", &error_abort);
+ 
+     /* Init sd card slot class here so that they're under the correct parent */
+     for (i = 0; i < ASPEED_SDHCI_NUM_SLOTS; ++i) {
+-        sysbus_init_child_obj(obj, "sdhci[*]", OBJECT(&s->sdhci.slots[i]),
++        sysbus_init_child_obj(obj, "sdhci[*]", &s->sdhci.slots[i],
+                               sizeof(s->sdhci.slots[i]), TYPE_SYSBUS_SDHCI);
+     }
+ }
+diff --git a/hw/arm/nrf51_soc.c b/hw/arm/nrf51_soc.c
+index fe126581e4..c278827b09 100644
+--- a/hw/arm/nrf51_soc.c
++++ b/hw/arm/nrf51_soc.c
+@@ -189,7 +189,7 @@ static void nrf51_soc_init(Object *obj)
+ 
+     memory_region_init(&s->container, obj, "nrf51-container", UINT64_MAX);
+ 
+-    sysbus_init_child_obj(OBJECT(s), "armv6m", OBJECT(&s->cpu), sizeof(s->cpu),
++    sysbus_init_child_obj(OBJECT(s), "armv6m", &s->cpu, sizeof(s->cpu),
+                           TYPE_ARMV7M);
+     qdev_prop_set_string(DEVICE(&s->cpu), "cpu-type",
+                          ARM_CPU_TYPE_NAME("cortex-m0"));
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index c534efe2b5..8172b769a1 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -455,8 +455,8 @@ static void boston_mach_init(MachineState *machine)
+ 
+     is_64b = cpu_supports_isa(machine->cpu_type, ISA_MIPS64);
+ 
+-    sysbus_init_child_obj(OBJECT(machine), "cps", OBJECT(&s->cps),
+-                          sizeof(s->cps), TYPE_MIPS_CPS);
++    sysbus_init_child_obj(OBJECT(machine), "cps", &s->cps, sizeof(s->cps),
++                          TYPE_MIPS_CPS);
+     object_property_set_str(OBJECT(&s->cps), machine->cpu_type, "cpu-type",
+                             &err);
+     object_property_set_int(OBJECT(&s->cps), machine->smp.cpus, "num-vp", &err);
+diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
+index 1355d22c01..4bef3bd768 100644
+--- a/hw/mips/mips_malta.c
++++ b/hw/mips/mips_malta.c
+@@ -1187,7 +1187,7 @@ static void create_cps(MachineState *ms, MaltaState *s,
  {
-     MacIOState *s = MACIO(d);
-@@ -218,13 +210,12 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
-     }
- }
+     Error *err = NULL;
  
--static void macio_init_ide(MacIOState *s, MACIOIDEState *ide, size_t ide_size,
--                           int index)
-+static void macio_init_ide(MacIOState *s, MACIOIDEState *ide, int index)
- {
-     gchar *name = g_strdup_printf("ide[%i]", index);
-     uint32_t addr = 0x1f000 + ((index + 1) * 0x1000);
- 
--    macio_init_child_obj(s, name, ide, ide_size, TYPE_MACIO_IDE);
-+    object_initialize_child(OBJECT(s), name, ide, TYPE_MACIO_IDE);
-     qdev_prop_set_uint32(DEVICE(ide), "addr", addr);
-     memory_region_add_subregion(&s->bar, addr, &ide->mem);
-     g_free(name);
-@@ -242,16 +233,15 @@ static void macio_oldworld_init(Object *obj)
-                              qdev_prop_allow_set_link_before_realize,
-                              0);
- 
--    macio_init_child_obj(s, "cuda", &s->cuda, sizeof(s->cuda), TYPE_CUDA);
-+    object_initialize_child(OBJECT(s), "cuda", &s->cuda, TYPE_CUDA);
- 
--    macio_init_child_obj(s, "nvram", &os->nvram, sizeof(os->nvram),
--                         TYPE_MACIO_NVRAM);
-+    object_initialize_child(OBJECT(s), "nvram", &os->nvram, TYPE_MACIO_NVRAM);
-     dev = DEVICE(&os->nvram);
-     qdev_prop_set_uint32(dev, "size", 0x2000);
-     qdev_prop_set_uint32(dev, "it_shift", 4);
- 
-     for (i = 0; i < 2; i++) {
--        macio_init_ide(s, &os->ide[i], sizeof(os->ide[i]), i);
-+        macio_init_ide(s, &os->ide[i], i);
-     }
- }
- 
-@@ -396,11 +386,10 @@ static void macio_newworld_init(Object *obj)
-                              qdev_prop_allow_set_link_before_realize,
-                              0);
- 
--    macio_init_child_obj(s, "gpio", &ns->gpio, sizeof(ns->gpio),
--                         TYPE_MACIO_GPIO);
-+    object_initialize_child(OBJECT(s), "gpio", &ns->gpio, TYPE_MACIO_GPIO);
- 
-     for (i = 0; i < 2; i++) {
--        macio_init_ide(s, &ns->ide[i], sizeof(ns->ide[i]), i);
-+        macio_init_ide(s, &ns->ide[i], i);
-     }
- }
- 
-@@ -413,10 +402,9 @@ static void macio_instance_init(Object *obj)
-     qbus_create_inplace(&s->macio_bus, sizeof(s->macio_bus), TYPE_MACIO_BUS,
-                         DEVICE(obj), "macio.0");
- 
--    macio_init_child_obj(s, "dbdma", &s->dbdma, sizeof(s->dbdma),
--                         TYPE_MAC_DBDMA);
-+    object_initialize_child(OBJECT(s), "dbdma", &s->dbdma, TYPE_MAC_DBDMA);
- 
--    macio_init_child_obj(s, "escc", &s->escc, sizeof(s->escc), TYPE_ESCC);
-+    object_initialize_child(OBJECT(s), "escc", &s->escc, TYPE_ESCC);
- }
- 
- static const VMStateDescription vmstate_macio_oldworld = {
+-    sysbus_init_child_obj(OBJECT(s), "cps", OBJECT(&s->cps), sizeof(s->cps),
++    sysbus_init_child_obj(OBJECT(s), "cps", &s->cps, sizeof(s->cps),
+                           TYPE_MIPS_CPS);
+     object_property_set_str(OBJECT(&s->cps), ms->cpu_type, "cpu-type", &err);
+     object_property_set_int(OBJECT(&s->cps), ms->smp.cpus, "num-vp", &err);
 -- 
 2.21.1
 
