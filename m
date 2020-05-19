@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFB41D9E5A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 19:59:03 +0200 (CEST)
-Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FDF51D9E58
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 19:58:25 +0200 (CEST)
+Received: from localhost ([::1]:42200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb6W6-0002Jn-DP
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 13:59:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38810)
+	id 1jb6VU-0000oP-KZ
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 13:58:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <msys.mizuma@gmail.com>)
- id 1jb6UB-0007sm-S8; Tue, 19 May 2020 13:57:04 -0400
-Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:34520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <msys.mizuma@gmail.com>)
- id 1jb6UB-0003Xd-0i; Tue, 19 May 2020 13:57:03 -0400
-Received: by mail-qk1-x729.google.com with SMTP id 190so466691qki.1;
- Tue, 19 May 2020 10:57:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:mime-version:content-disposition;
- bh=kUL4Nduzd7bupnllpb1j3UOQ+bnNnM5lDHE/TuVMEVg=;
- b=I/2M/s7ipND2YQKWJbmyaOjLGXfK9Bf8FlfWVLAdv8+1nPgkREplu7g0jRRFwL055B
- 1RGOVwI8WZUX+ajJRPdZcUxuVHHsnbwg6HuDAdY/rj85FbHg/Y4XSnTbQ4uKfX4L1pep
- /2ks/x9IzSmUSj8ZBZ68CwPDO6/UfkwDX+xmbeKSRU/PN/t+swqKaGpLH+LnBu4ux+W0
- YwO1uHQUbfDUkoQaC8KQcakl/lUYxGVhtKnD3PXW1WYLNqAnHJUAfer7AAca4fIrrTr5
- yLHxWkQCTxbd50qCSsj7FsknVQwI25cgazbOEEME3lCLgH37mrlZhn0GnCAwi/v+abN+
- AEQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:mime-version
- :content-disposition;
- bh=kUL4Nduzd7bupnllpb1j3UOQ+bnNnM5lDHE/TuVMEVg=;
- b=Q46i8WXg1KO6JlO5Pv8QFUJILAAZkb4MFTwLMtLIsuMLWOev4qvjcRUG4/p0egcrgn
- 3HMeXNvHXvI39hZYyxB34xEseDyyVf2PMedJGz012QNPpzYCSpX3T4ofl0mupDXAP74N
- 8SSJPMR+hk1teMAaOcplEMAXLjowR7uMNZ4+z1D1AOLk+KV7YQYziJ3HKgHecX+sIlec
- wih4nqbYbt+3F4zdaou44ZTZ5DZ92fniOcoYQuuA+UOYs1lzuLJghKpHr1ieJmg378Iw
- 4L5Bi2IKi+w1rAn9VynyqPoI4IKhM5Mujpuv+ECgTvpYBQO2qxxyQTJDGFYA/WVA+XOM
- o5pQ==
-X-Gm-Message-State: AOAM532DAmuoV4MaPqD4qOtBlfXjHY/7M+HMF/7oqBxqiJPAss/73Ru5
- IStrSHoGxy7tmtf4nidQbUmVzkE=
-X-Google-Smtp-Source: ABdhPJyWJm42+2FedJ0JI3KowC3dII+/YEmESBo2WZOAhSn9z6VKHQw5o5wAmlBEws5XwJwgH6igbQ==
-X-Received: by 2002:a37:db11:: with SMTP id e17mr593415qki.336.1589911021187; 
- Tue, 19 May 2020 10:57:01 -0700 (PDT)
-Received: from gabell
- (209-6-122-159.s2973.c3-0.arl-cbr1.sbo-arl.ma.cable.rcncustomer.com.
- [209.6.122.159])
- by smtp.gmail.com with ESMTPSA id z19sm340548qtz.81.2020.05.19.10.57.00
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 19 May 2020 10:57:00 -0700 (PDT)
-Date: Tue, 19 May 2020 13:56:59 -0400
-From: Masayoshi Mizuma <msys.mizuma@gmail.com>
-To: qemu-devel@nongnu.org, qemu-block@nongnu.org
-Subject: Question: How do I discard any changes for the device which is set
- by blockdev option?
-Message-ID: <20200519175659.4poxgjmp4xoufl7h@gabell>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jb6UR-00088a-6y
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 13:57:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52540
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jb6UQ-0003YI-6B
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 13:57:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589911037;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sLazx+ez6Tem4n61+s/H+BTJfYFqKriO0sYUsQ4WyrM=;
+ b=Hn2rVmO2FfbDR/uJNdxohu2CM40AeKOX+77Pg/iMIbjBtmaYejJeQSzxR2zI8LiW8LxTsf
+ nGFlSYJJ5/ZoIg08gR+Jv4w7AxP3EfIVduQYuVkCj9ic7dfkmv0KhZcPEJMMSw8GS/1AiS
+ VBn/f/sxUc7vQ3Pqbfi5LkAoISvfDys=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-253-Ulu0qxelMVqpMOpnK5LC4g-1; Tue, 19 May 2020 13:57:13 -0400
+X-MC-Unique: Ulu0qxelMVqpMOpnK5LC4g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A66F18FE868
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 17:57:12 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-112-88.phx2.redhat.com [10.3.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A5125C1BB
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 17:57:11 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v3 0/7] bitmaps patches for 2020-05-18
+Date: Tue, 19 May 2020 12:57:00 -0500
+Message-Id: <20200519175707.815782-1-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
- envelope-from=msys.mizuma@gmail.com; helo=mail-qk1-x729.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 09:19:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,36 +77,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+The following changes since commit f2465433b43fb87766d79f42191607dac4aed5b4:
 
-I would like to discard any changes while the qemu guest OS is done.
-I can do that with snapshot and drive option.
-However, snapshot option doesn't work for the device which set by
-blockdev option like as:
+  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2020-05-19 13:42:58 +0100)
 
-$QEMU --enable-kvm \
-      -m 1024 \
-      -nographic \
-      -serial mon:stdio \
-      -blockdev driver=file,node-name=mydisk,filename=/mnt/fedora.qcow2 \
-      -blockdev driver=qcow2,node-name=vda,file=mydisk \
-      -device virtio-blk-pci,drive=vda,bootindex=1 \
-      -snapshot
+are available in the Git repository at:
 
-I would like to use blockdev option to set the device because
-libvirt uses blockdev option for disk element.
+  https://repo.or.cz/qemu/ericb.git tags/pull-bitmaps-2020-05-18-v3
 
-If there's no way to do so, does that make sense to get available
-snapshot option to blockdev as well? If that makes sense, I'll try to
-implement that.
+for you to fetch changes up to 3b51ab4bf0f49a01cc2db7b954e0669e081719b5:
 
-As for qcow2, I think we can do such things to use qemu-img snapshot
-command, for example save the original image and restore the image
-after the qemu guest OS is shutdowned. However, it may be complecated
-for user. I would like the simple way like as snapshot/drive option...
+  qemu-img: Add bitmap sub-command (2020-05-19 12:53:22 -0500)
 
-If I'm missing something, let me know.
+v3: actually commit the cvtnum changes that I thought were in v2
+v2: resolve semantic conflict with commit 43d589b0, only sending changed patch
 
-Thanks!
-Masa
+----------------------------------------------------------------
+bitmaps patches for 2020-05-18
+
+- update bitmaps maintainers
+- add 'qemu-img bitmap' subcommand
+
+----------------------------------------------------------------
+Eric Blake (7):
+      bitmaps: Update maintainer
+      docs: Sort sections on qemu-img subcommand parameters
+      qemu-img: Fix stale comments on doc location
+      block: Make it easier to learn which BDS support bitmaps
+      blockdev: Promote several bitmap functions to non-static
+      blockdev: Split off basic bitmap operations for qemu-img
+      qemu-img: Add bitmap sub-command
+
+ docs/tools/qemu-img.rst         |  72 ++++++---
+ Makefile.objs                   |   3 +-
+ block/qcow2.h                   |   1 +
+ include/block/block_int.h       |  13 ++
+ include/block/dirty-bitmap.h    |   1 +
+ block/dirty-bitmap.c            |   9 ++
+ block/monitor/bitmap-qmp-cmds.c | 321 ++++++++++++++++++++++++++++++++++++++++
+ block/qcow2-bitmap.c            |   7 +
+ block/qcow2.c                   |   2 +
+ blockdev.c                      | 303 +------------------------------------
+ qemu-img.c                      | 250 ++++++++++++++++++++++++++++++-
+ MAINTAINERS                     |   8 +-
+ block/monitor/Makefile.objs     |   1 +
+ qemu-img-cmds.hx                |   9 +-
+ 14 files changed, 671 insertions(+), 329 deletions(-)
+ create mode 100644 block/monitor/bitmap-qmp-cmds.c
+
+-- 
+2.26.2
+
 
