@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D0A1D9A7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 16:57:28 +0200 (CEST)
-Received: from localhost ([::1]:49578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F971D9A8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:00:32 +0200 (CEST)
+Received: from localhost ([::1]:36346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb3gN-00036o-Uu
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 10:57:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44894)
+	id 1jb3jL-0001F2-C3
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:00:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3ew-00010O-NI
- for qemu-devel@nongnu.org; Tue, 19 May 2020 10:55:58 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28024
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3ex-00011t-BB
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 10:55:59 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30690
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3ev-0003SP-M5
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3ew-0003Tc-FC
  for qemu-devel@nongnu.org; Tue, 19 May 2020 10:55:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589900156;
+ s=mimecast20190719; t=1589900157;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s+ldjACFEXXv7eEPlhFCaENmeb+oK6w3X/3XHPATsaY=;
- b=YKM9YHf3oq+giF4qVr0oivqB2ifn/RoWcQ79nfvE6O2jfTpDpfWM9SLlWKxxZ3FF9PiA+m
- cNzP8hhD2S8OIrT4yGhF6FC2BWuXWyCysfmZMWQQ046SjZDBQ7+fKTLDXM50WHlGba8Hgn
- PsQbFPI9yop6scrz55EnRTTc0XM0bp8=
+ bh=EPdfzh9iPmGPapCS63eEK/WjS/+7d1SZUvn8eYLfk9k=;
+ b=EpX2zC9k+k3izeqa4x3dTP0IpJneHRlPShpojkGAzW8NN/2omUeEy0ZRoZlhCNOR+Z7tte
+ E3OsN1Lj67xawwWz+A9BrX4USAkzKDikgmX9KMj7h3nN4pLzMCW62mFQkEV2urPAqWczRw
+ vL+NrPn6HvwJskdSYMssyN2iIACqgq8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-3hXdl6yJNKW-DvbcFqDW2Q-1; Tue, 19 May 2020 10:55:54 -0400
-X-MC-Unique: 3hXdl6yJNKW-DvbcFqDW2Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-207-NwrjrGxvOAeY4T0ICcteBg-1; Tue, 19 May 2020 10:55:55 -0400
+X-MC-Unique: NwrjrGxvOAeY4T0ICcteBg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C3851009613
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 14:55:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D234F1800D42
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 14:55:54 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BC3E6ACE7;
- Tue, 19 May 2020 14:55:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A1EF56E71C;
+ Tue, 19 May 2020 14:55:54 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BCCDA11358C0; Tue, 19 May 2020 16:55:51 +0200 (CEST)
+ id BFF6C11358C1; Tue, 19 May 2020 16:55:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/55] qdev: Put qdev_new() to use with Coccinelle
-Date: Tue, 19 May 2020 16:55:00 +0200
-Message-Id: <20200519145551.22836-5-armbru@redhat.com>
+Subject: [PATCH 05/55] qdev: Convert to qbus_realize(), qbus_unrealize()
+Date: Tue, 19 May 2020 16:55:01 +0200
+Message-Id: <20200519145551.22836-6-armbru@redhat.com>
 In-Reply-To: <20200519145551.22836-1-armbru@redhat.com>
 References: <20200519145551.22836-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:19:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 00:34:39
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,60 +84,64 @@ Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's start simple and put qdev_new() to use.  Coccinelle script:
-
-    @ depends on !(file in "hw/core/qdev.c")@
-    expression type_name;
-    @@
-    -    DEVICE(object_new(type_name))
-    +    qdev_new(type_name)
+I'm going to convert device realization to qdev_realize() with the
+help of Coccinelle.  Convert bus realization to qbus_realize() first,
+to get it out of Coccinelle's way.  Readability improves.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/block/nand.c  | 2 +-
- hw/misc/auxbus.c | 2 +-
- qdev-monitor.c   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ hw/core/qdev.c | 10 +++-------
+ hw/pci/pci.c   |  2 +-
+ 2 files changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/hw/block/nand.c b/hw/block/nand.c
-index bba89688ba..cdf3429ce6 100644
---- a/hw/block/nand.c
-+++ b/hw/block/nand.c
-@@ -644,7 +644,7 @@ DeviceState *nand_init(BlockBackend *blk, int manf_id, int chip_id)
-     if (nand_flash_ids[chip_id].size == 0) {
-         hw_error("%s: Unsupported NAND chip ID.\n", __func__);
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 82deeb7841..0f4adac865 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -1028,9 +1028,7 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
+         resettable_state_clear(&dev->reset);
+ 
+         QLIST_FOREACH(bus, &dev->child_bus, sibling) {
+-            object_property_set_bool(OBJECT(bus), true, "realized",
+-                                         &local_err);
+-            if (local_err != NULL) {
++            if (!qbus_realize(bus, errp)) {
+                 goto child_realize_fail;
+             }
+         }
+@@ -1055,8 +1053,7 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
+ 
+     } else if (!value && dev->realized) {
+         QLIST_FOREACH(bus, &dev->child_bus, sibling) {
+-            object_property_set_bool(OBJECT(bus), false, "realized",
+-                                     &error_abort);
++            qbus_unrealize(bus);
+         }
+         if (qdev_get_vmsd(dev)) {
+             vmstate_unregister(VMSTATE_IF(dev), qdev_get_vmsd(dev), dev);
+@@ -1074,8 +1071,7 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
+ 
+ child_realize_fail:
+     QLIST_FOREACH(bus, &dev->child_bus, sibling) {
+-        object_property_set_bool(OBJECT(bus), false, "realized",
+-                                 &error_abort);
++        qbus_unrealize(bus);
      }
--    dev = DEVICE(object_new(TYPE_NAND));
-+    dev = qdev_new(TYPE_NAND);
-     qdev_prop_set_uint8(dev, "manufacturer_id", manf_id);
-     qdev_prop_set_uint8(dev, "chip_id", chip_id);
-     if (blk) {
-diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
-index 5e4794f0ac..7fb020086f 100644
---- a/hw/misc/auxbus.c
-+++ b/hw/misc/auxbus.c
-@@ -273,7 +273,7 @@ DeviceState *aux_create_slave(AUXBus *bus, const char *type)
+ 
+     if (qdev_get_vmsd(dev)) {
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 70c66965f5..6947c741c3 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -456,7 +456,7 @@ void pci_root_bus_cleanup(PCIBus *bus)
  {
-     DeviceState *dev;
+     pci_bus_uninit(bus);
+     /* the caller of the unplug hotplug handler will delete this device */
+-    object_property_set_bool(OBJECT(bus), false, "realized", &error_abort);
++    qbus_unrealize(BUS(bus));
+ }
  
--    dev = DEVICE(object_new(type));
-+    dev = qdev_new(type);
-     assert(dev);
-     qdev_set_parent_bus(dev, &bus->qbus);
-     return dev;
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 07f78e9f5d..bbbbf3d907 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -652,7 +652,7 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
-     }
- 
-     /* create device */
--    dev = DEVICE(object_new(driver));
-+    dev = qdev_new(driver);
- 
-     /* Check whether the hotplug is allowed by the machine */
-     if (qdev_hotplug && !qdev_hotplug_allowed(dev, &err)) {
+ void pci_bus_irqs(PCIBus *bus, pci_set_irq_fn set_irq, pci_map_irq_fn map_irq,
 -- 
 2.21.1
 
