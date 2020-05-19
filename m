@@ -2,106 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E67421D9E12
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 19:41:46 +0200 (CEST)
-Received: from localhost ([::1]:52282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D061D9E19
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 19:44:22 +0200 (CEST)
+Received: from localhost ([::1]:56854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb6FN-0007rw-GF
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 13:41:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37588)
+	id 1jb6Ht-0001Qn-An
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 13:44:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jb6EJ-0007NZ-Ma; Tue, 19 May 2020 13:40:39 -0400
-Received: from mail-eopbgr80100.outbound.protection.outlook.com
- ([40.107.8.100]:2695 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jb6EH-00082q-Bb; Tue, 19 May 2020 13:40:38 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AQlYOaDOrb4yo/h+5WFckOE/qsjj7Mu8V5+yOITX+UP59UGTaSZcrwnFqAYde8aWtjndTReaEr1Sbo2PVAx9oLYERvyjfgv80tc4UlXqVasAX42uYtrtX14MMEfg8VdQkSFrbZD9DL8f1/cW50+bxxYpj5G3bdeHqa/RibTZzqd0Vrp0Fm56EKokyNPj7/u85ClJkPOqB4GUbcTDIGpVeSXwFcTHpYq98wt+SbMWTJ8UGWKXTGZDqo9poLSk8JW5JLqMZDSzQmr1ibyDaHoMtYYSEFPikuUGpPrpzYKoe3UxyPt3EZiKcHP/WBprGWNnwmxxmeB/oVU7ZGPfA51dLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R6jeHvZwz+nvhN4ixmprUtVbBWdmEmBoVFjpcqEuZ3w=;
- b=JfZLYEvY5X91vnV9+pAUv9nL4cxAj7wWBNvJzsiOH+KhA7isukGpyz598L68LHbt94IHyoU6rwOKUd6k8oSLVuMwvnSTS9/HQf8YXfEASAlNETI1Q6maRLO83yQtQOVPyq9z/qO+jLVjMKTGZIISAGG8FDBZDsUq4fvmnuZu6agNywoarXoDOaMvIEy9amElGtFlJf0IeQUr16D7S+4/0KrusGVXTpO8nlkNnRx48JEgH/pAUX1VwsiCjfQXxkOWSorv7/qhT1fmAo6/httXVkBIbELwlwcM2bWh6aeYj1ANZWGYldX0HkOJXTc89kh9E1DtldBhLd6Lx3sb4kbR0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R6jeHvZwz+nvhN4ixmprUtVbBWdmEmBoVFjpcqEuZ3w=;
- b=es1SCa+jeSrqhxCqQRpLhPnu+NiWei9EYOL1IGpXqomyAMoSuUL6fnYoc3CvWvDrV12gxzwyzpta1n77FSzC+QzoeV4atHdEhQAwYPzIQeo89ebJ1MoqGMda8cqU+j0fhlbsScFfo8URhAPDeWWLQqSKeTfsSbzKmNtUXJHTND8=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5430.eurprd08.prod.outlook.com (2603:10a6:20b:106::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.27; Tue, 19 May
- 2020 17:40:33 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%4]) with mapi id 15.20.3000.034; Tue, 19 May 2020
- 17:40:33 +0000
-Subject: Re: [PATCH v2 0/9] drop unallocated_blocks_are_zero
-To: qemu-block@nongnu.org
-References: <20200507084800.20596-1-vsementsov@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <1f485616-819c-8089-bc25-1ad697d8972d@virtuozzo.com>
-Date: Tue, 19 May 2020 20:40:30 +0300
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jb6HB-000119-Cr
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 13:43:37 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:35863)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jb6H9-0001Bk-SS
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 13:43:36 -0400
+Received: by mail-pl1-x636.google.com with SMTP id f15so198479plr.3
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 10:43:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=poACR17MVikTs5fpU3p4xsxE+gb3UkqPFepf79AqaaA=;
+ b=HkWLnePSygAHmEO/B4SqFr/nof7GwJpjovP8ds/tJh+pF9rkKR/4CCz0Awn4GdnZu/
+ CLEuVy23L71V3AwEOriBcLWI4FiMCOP8+22VQvRWzY/QQ1fhZ+uqrBODn8VLq9Z+ocxD
+ SY0k9W4NFZLnRZf+jBfnYwlhbXYlZx5dSlwbAX8VI9IMTwp+DQrBtwxeFDxd2LyzOFwE
+ 34SFzX3dKxUJ1vfIYJQ/00ZQP2SMFPAkYWZxyOZ+htiM34DiBNTIxP5CEbCAHUJL5gXi
+ bvE6wPD+aZlPttO5Lqq6PIWi8FqgQs7dMWxgxtah/OdtfaPWzO0RR+0qLPJe0t6m4FNn
+ lWDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=poACR17MVikTs5fpU3p4xsxE+gb3UkqPFepf79AqaaA=;
+ b=s6ctuH+RiP0WP+qPkSAOr+7uM4dJjVsyE9iqU6DTGoBEFW7pq5znngd7yrPMpxs3dN
+ Q6WoJlUInvmzGKvndffpXz8OC0BzMT4dy+UFZP3a311nAtvCBFYppdsYKuyrbHcuHtHP
+ gztszVchgBnMRSbGJlftT47AmSupcmdrK/A1R0c3SYzRbwjummHE1jOKCLHXB5Tm394r
+ 69//m50pTHnWuGe5+UIM50Vu0qxFHNJUC8jtqlhtEd1UfekMWd65DFbnY+Izy25aS4YT
+ M7N2EfqE0VU/yWopfaBqwtxJ4HMVDfzSPTcT72EwJdJk/myI38ZKdVG4X2zXrhmy+W45
+ zU9Q==
+X-Gm-Message-State: AOAM532PNiNSVH34XoMD+dytzoUQU7k1bzVoBg/3SDm1GN5aHWbN7mtN
+ /XWvUfdPlQxiFiuf73aHA2W1lQ==
+X-Google-Smtp-Source: ABdhPJyV5rzapqlk2KA8oTGAWH5E+YDJuajUtDleTu7Uyixg1Gyk6j2RCHmN35s370UsKpKJ6xhEHA==
+X-Received: by 2002:a17:90a:6a0f:: with SMTP id
+ t15mr675201pjj.121.1589910213753; 
+ Tue, 19 May 2020 10:43:33 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id 27sm181294pjc.41.2020.05.19.10.43.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 May 2020 10:43:32 -0700 (PDT)
+Subject: Re: [PATCH 2/2] target/i386: fix IEEE x87 floating-point exception
+ raising
+To: Joseph Myers <joseph@codesourcery.com>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, rth@twiddle.net, ehabkost@redhat.com
+References: <alpine.DEB.2.21.2005152117400.3469@digraph.polyomino.org.uk>
+ <alpine.DEB.2.21.2005152120280.3469@digraph.polyomino.org.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <5dd2d81c-cedd-7835-6b3c-7e089254dc95@linaro.org>
+Date: Tue, 19 May 2020 10:43:31 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-In-Reply-To: <20200507084800.20596-1-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <alpine.DEB.2.21.2005152120280.3469@digraph.polyomino.org.uk>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR04CA0042.eurprd04.prod.outlook.com
- (2603:10a6:208:1::19) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.178) by
- AM0PR04CA0042.eurprd04.prod.outlook.com (2603:10a6:208:1::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3021.23 via Frontend Transport; Tue, 19 May 2020 17:40:32 +0000
-X-Originating-IP: [185.215.60.178]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 10a6c1dd-25df-4bae-1111-08d7fc1bbb53
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5430:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5430AA3306AC2E1196766F5EC1B90@AM7PR08MB5430.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1775;
-X-Forefront-PRVS: 040866B734
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1d7ziWgsO+6TvdJpQO+BZ2+LeJAS7UnB33FRHYI11F6/0/UBDH7mQ2XX06xiHpnw9FNywDrCuU37CZIcBayZ9c0DoYva4ieldEjO9WsA4AypYALPZ0yNnOdMyLENouttxiBUvuTCYFA7VjW5ob8hy2O8YHxJnxiGWKwLzUybZKOlRlMVzonwxGJUkFraKRvrN1tU+5u++MtqxCSgccEKcAj01xuRz0dF8r3y1S/YKMtogTsDrgR3hgGc7fX49H38jam9cy3pVQnIENlD2za1EmHolcKuG92I1o4sWS6YLZVOfer9sWuJDOHprwN8hIuQPHyZozcwyS76+4E2IrR+j0uB8rLUrunYmmFni6Fub+nI3uvgFJveAEKWU9pL1thm6xni+pwECEj3iuK08H3eOnQZDlz16o9pf8RPsMhnGEjQBOddFzSnszqgMyo+t8pWxa0azCejTZ7aEyRgCIc1byptZrH87M4NsfLUr32yfdN3fxxE1SW4YT6Not2PRbfStupxYrhOUUBejZzdOqcVFPSZXGDhkmhTSC7Y231oCTwL6vtETiPimPoSnAzzBjQ3dEbKcL5KPLCcG8lDczR9zQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(136003)(366004)(346002)(39830400003)(376002)(5660300002)(66556008)(966005)(107886003)(316002)(2616005)(956004)(66946007)(8936002)(31696002)(36756003)(6486002)(4326008)(478600001)(66476007)(6916009)(16576012)(7416002)(86362001)(26005)(186003)(16526019)(31686004)(52116002)(8676002)(2906002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: LUzZguewanEiSZL53vpvZM15yCzyyfp9WofThr2xqRhOFWw3bf5AyXzHO5mRbVbvHvAtPsKirhpcSe6QGEjh5DfMUAlEM1LqejdrPiTq+TmANmNQu6Xg3W6qzQHeBqw6xezeptsJmLylX+3/d1+tmeWvyHUkyNlBSRLLsdid52Tor1kntueaMOPvBq6PN6a8mHabebVWEewfefspwKYDv+a3IVXzgJnic3n1LIQiXa5s43wBimi0wNlLcTMp0gsXrd7vUw1PSkOXsuCV4i2uPcmkacB1Hy+Sl5gggqczeRxk/TAc8NNNHbSNRHBb/yN/JH23L+jc8KuXESTIbZH0P37+mbyUiBwq4EJJPgWrzVyIcCF9PK2cggFsHXVH2Qhmov8xuugW2FpptehqMgbhk1lbt9Am3k6r4osnIN55EwrkkabpS/PLDm/w5x9Nm2bNFy5YofMZtcIC/Wl72nfBaqprJ8yYjjjXhU6PUQledzPjFBivHQkUk5ov5VjlLGmY
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10a6c1dd-25df-4bae-1111-08d7fc1bbb53
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2020 17:40:33.4578 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3ehuo0NJFOs11qDi/ezlPCJZWqLz4ALEd1yD//LYKE3sUnzI8vtU8qQEF7vvoHlx6Jm8SBe+MznKFq4ishyU2BsiuTUV9XinUf3xaKJXU4c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5430
-Received-SPF: pass client-ip=40.107.8.100;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 13:40:34
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,68 +92,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, stefanha@redhat.com, codyprime@gmail.com,
- sw@weilnetz.de, pl@kamp.de, qemu-devel@nongnu.org, mreitz@redhat.com,
- ronniesahlberg@gmail.com, den@openvz.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping
+On 5/15/20 2:21 PM, Joseph Myers wrote:
+> +    uint8_t new_flags = get_float_exception_flags(&env->fp_status);
+> +    float_raise(old_flags, &env->fp_status);
+> +    fpu_set_exception(env,
+> +                      ((new_flags & float_flag_invalid ? FPUS_IE : 0) |
+> +                       (new_flags & float_flag_divbyzero ? FPUS_ZE : 0) |
+> +                       (new_flags & float_flag_overflow ? FPUS_OE : 0) |
+> +                       (new_flags & float_flag_underflow ? FPUS_UE : 0) |
+> +                       (new_flags & float_flag_inexact ? FPUS_PE : 0) |
+> +                       (new_flags & float_flag_input_denormal ? FPUS_DE : 0)));
+> +}
 
-The whole series reviewed by Eric, with only one grammar fix needed in 02 commit message (and possible drop of ret2, up to maintainer).
+This is not ideal from the point of view of interacting with softfloat's
+deferral to host hard float.
 
-07.05.2020 11:47, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
-> 
-> v2 (by Eric's review):
-> 
-> 01: moved to the start of the series, add Eric's r-b
-> 02: new
-> 03-04: improve commit message
-> 05: add Eric's r-b
-> 06-08: improve commit message a bit, add Eric's r-b
-> 09: typos and wording, rebase on 02
-> 
-> 
-> This is first step to block-status refactoring, and solves most simple
-> problem mentioned in my investigation of block-status described in
-> the thread "backing chain & block status & filters":
->    https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg04706.html
-> 
-> 
-> unallocated_blocks_are_zero doesn't simplify all the logic about
-> block-status, and happily it's not needed, as shown by the following
-> patches. So, let's get rid of it.
-> 
-> Vladimir Sementsov-Ogievskiy (9):
->    qemu-img: convert: don't use unallocated_blocks_are_zero
->    block: inline bdrv_unallocated_blocks_are_zero()
->    block/vdi: return ZERO block-status when appropriate
->    block/vpc: return ZERO block-status when appropriate
->    block/crypto: drop unallocated_blocks_are_zero
->    block/iscsi: drop unallocated_blocks_are_zero
->    block/file-posix: drop unallocated_blocks_are_zero
->    block/vhdx: drop unallocated_blocks_are_zero
->    block: drop unallocated_blocks_are_zero
-> 
->   include/block/block.h     |  6 ------
->   include/block/block_int.h | 12 +++++++++++-
->   block.c                   | 15 ---------------
->   block/crypto.c            |  1 -
->   block/file-posix.c        |  3 ---
->   block/io.c                |  8 ++++----
->   block/iscsi.c             |  1 -
->   block/qcow2.c             |  1 -
->   block/qed.c               |  1 -
->   block/vdi.c               |  3 +--
->   block/vhdx.c              |  3 ---
->   block/vpc.c               |  3 +--
->   qemu-img.c                |  4 +---
->   13 files changed, 18 insertions(+), 43 deletions(-)
-> 
+I know you're working toward raising unmasked exceptions, but I think we will
+want to handle that in a different way.
+
+To retain the hard float fast path, we need to leave float_flag_invalid set
+when the accrued exception bit is set.  To me this suggests keep all of the
+FPUS_* bits in fp_status and only convert to FPUS_* when we read the fp status
+word.
+
+When it comes to raising unmasked exceptions... I have a couple of thoughts.
+
+(1) Enhance softfloat to record the exceptions raised for the previous
+operation, separate from the accrued exceptions.
+
+This gets into trouble vs float_flag_invalid though, because we can't compute
+that through the hard-float fast path.  And without knowing that
+float_flag_invalid is currently irrelevant, we can't use the fast path at all.
+
+This might still help in some places (though not here), so it might still be
+worth exploring.
+
+(2) In save_exception_flags, only zero the bits for which we have unmasked
+exceptions.  In the normal case this would be none of them, which solves the
+fast-path problem above.
+
+To simplify this at runtime, I would suggest pre-computing a softfloat mask of
+unmasked exceptions when we change the fp control word.
 
 
--- 
-Best regards,
-Vladimir
+r~
 
