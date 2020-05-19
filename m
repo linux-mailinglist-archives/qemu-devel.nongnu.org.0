@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09DA1D9B02
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:21:28 +0200 (CEST)
-Received: from localhost ([::1]:51844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF651D9B14
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:26:23 +0200 (CEST)
+Received: from localhost ([::1]:39702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb43b-0004Vw-Uy
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:21:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45192)
+	id 1jb48L-0002sY-TU
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:26:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jb3fb-0002dw-HE
- for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:39 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52220
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jb3fZ-0003cO-9E
- for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589900196;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g7sznRWAeMw8hCddLs8RkqgjbvLii3Oxy6wCtC0neHk=;
- b=GbFllE/KC2Boo1ip1miUiwS0plzz1UUzM979vgHLrL17YzUfyvDm0OWzy8Zl+rHBewtB4V
- H9Ti93EeAxjno80b4rICJbakb/FihHacM38nnVYqnKeRUt/4AI46zIooa8F4OzsytdyACx
- uDSrb3lJsLNAws8GtbJ6qEfuWgBoI3w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-8WcL7Xx6MNqNgpFtgtn_Bg-1; Tue, 19 May 2020 10:56:34 -0400
-X-MC-Unique: 8WcL7Xx6MNqNgpFtgtn_Bg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C599A1005510;
- Tue, 19 May 2020 14:56:33 +0000 (UTC)
-Received: from gondolin (ovpn-112-229.ams2.redhat.com [10.36.112.229])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E41A360BEC;
- Tue, 19 May 2020 14:56:32 +0000 (UTC)
-Date: Tue, 19 May 2020 16:56:30 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v3] docs/s390x: document vfio-ccw
-Message-ID: <20200519165630.4631bca0.cohuck@redhat.com>
-In-Reply-To: <73ebd9a0-f173-efed-c9b1-1ec30ead90b3@redhat.com>
-References: <20200518075522.97643-1-cohuck@redhat.com>
- <73ebd9a0-f173-efed-c9b1-1ec30ead90b3@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jb3kJ-0004oX-Gg
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 11:01:31 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:38716)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jb3kG-0004Pr-GR
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 11:01:31 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id t40so1558805pjb.3
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 08:01:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8WpkpWs8V86Gc8gc77N2XQWTpffdKfWcfxHGbhsMmCc=;
+ b=mMRxRrAE4XvnMSqwO2ocdQ1cwhs50eUlpW7oVyzheg9zfDPBBzrIz0xRm5eNNOKkS3
+ VledJpczhTgTWGMjo2VMMwC7uoZRgZyDI95WnY+UklkXcPCNM7R7vuNwnVtf7oEeNXqQ
+ VaQi/Q71v5qpj48RYWQanQOVwNpjSHBJpsYxdlX5ONy3VqokDx48oePEYfmclBNGNg1f
+ vZuyxQ9SJg2SCnP6dCO2Qia18eR47m98EgFQhMY9htjoeglDLUeyR1H4rScs1VUsY3pk
+ nIeQd4eSHUatm6R45lJpmYpGjwlaX0IxugTM5aVgNkJPNsqcgTc2y3AJVsiSFuKT+7dF
+ ooHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8WpkpWs8V86Gc8gc77N2XQWTpffdKfWcfxHGbhsMmCc=;
+ b=sazpmTxOEAdsw9kzhfhPNjz1iwWTP+sJpFqw7h0T6bk9Gp8ZXH6euBOqXpd99DvEWB
+ PeZU+O6uTouYI+588bXT5DipJPL4dEUVAB9dd+1zzAlBjWzKHthhcOGSpFqnpV79Zyb7
+ E9B87kZopvsp6+tLdlufxqjboYLb384ErVkD4Mpwmf36uJMRrVltvVvIQdBONqshuqX4
+ 2PoRf/pO9oLysF3hu1QggvZixc0gfjTBw5lTq6n9n6+9asoeSl4Umb4VXAAagb/KMo4g
+ a/Pc69LPDZPqbtt99ielBcRgsf6ujYw2herQKs3vu5dDKFkhnFEv5v/QnIAnLzdY413U
+ MXVQ==
+X-Gm-Message-State: AOAM531uXpuTVF90bYGdd5TcKnbKXAosfxDxF4NMFODpX73GaWCZT9un
+ 2lI087vGVUQG2W4ZenZfPASBSQ==
+X-Google-Smtp-Source: ABdhPJwv4MJ+N6Aq41h3IchD6VNwXiFguhGnL9aazbDEW9fjcoVoxSIs92aiNoYu0g5XBIXFLTdO/A==
+X-Received: by 2002:a17:90a:d598:: with SMTP id
+ v24mr5095316pju.167.1589900485507; 
+ Tue, 19 May 2020 08:01:25 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id b29sm108691pff.176.2020.05.19.08.01.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 May 2020 08:01:23 -0700 (PDT)
+Subject: Re: [PATCH v2] target/arm: Allow user-mode code to write CPSR.E via
+ MSR
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200518142801.20503-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <dd4cbf09-8f6d-8034-661b-ffa4195e56d7@linaro.org>
+Date: Tue, 19 May 2020 08:01:21 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200518142801.20503-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 00:34:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,77 +91,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: Riku Voipio <riku.voipio@iki.fi>, Amanieu d'Antras <amanieu@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 May 2020 15:19:21 +0200
-Thomas Huth <thuth@redhat.com> wrote:
-
-> On 18/05/2020 09.55, Cornelia Huck wrote:
-> > Add a basic example for passing a dasd via vfio-ccw.
-> > 
-> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> > ---
-> > 
-> > v2->v3: moved uuid generation (Thomas)
-> > 
-> > ---
-> >  docs/system/s390x/vfio-ccw.rst | 77 ++++++++++++++++++++++++++++++++++
-> >  docs/system/target-s390x.rst   |  1 +
-> >  2 files changed, 78 insertions(+)
-> >  create mode 100644 docs/system/s390x/vfio-ccw.rst
-> > 
-> > diff --git a/docs/system/s390x/vfio-ccw.rst b/docs/system/s390x/vfio-ccw.rst
-> > new file mode 100644
-> > index 000000000000..fff23d9afff7
-> > --- /dev/null
-> > +++ b/docs/system/s390x/vfio-ccw.rst
-> > @@ -0,0 +1,77 @@
-> > +Subchannel passthrough via vfio-ccw
-> > +===================================
-> > +
-> > +vfio-ccw (based upon the mediated vfio device infrastructure) allows to
-> > +make certain I/O subchannels and their devices available to a guest. The
-> > +host will not interact with those subchannels/devices any more.
-> > +
-> > +Note that while vfio-ccw should work with most non-QDIO devices, only ECKD
-> > +DASDs have really been tested.
-> > +
-> > +Example configuration
-> > +---------------------
-> > +
-> > +Step 1: configure the host device
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +As every mdev is identified by a uuid, the first step is to obtain one::
-> > +
-> > +  [root@host ~]# uuidgen
-> > +  7e270a25-e163-4922-af60-757fc8ed48c6
-> > +
-> > +Note: it is recommended to use the ``mdevctl`` tool for actually configuring
-> > +the host device.
-> > +
-> > +To define the same device as configured below to be started
-> > +automatically, use
-> > +
-> > +::
-> > +
-> > +   [root@host ~]# driverctl -b css set-override 0.0.0313 vfio_ccw
-> > +   [root@host ~]# mdevctl define -u 7e270a25-e163-4922-af60-757fc8ed48c6\  
+On 5/18/20 7:28 AM, Peter Maydell wrote:
+> Using the MSR instruction to write to CPSR.E is deprecated, but it is
+> required to work from any mode including unprivileged code.  We were
+> incorrectly forbidding usermode code from writing it because
+> CPSR_USER did not include the CPSR_E bit.
 > 
-> Maybe add a space before the backslash?
+> We use CPSR_USER in only three places:
+>  * as the mask of what to allow userspace MSR to write to CPSR
+>  * when deciding what bits a linux-user signal-return should be
+>    able to write from the sigcontext structure
+>  * in target_user_copy_regs() when we set up the initial
+>    registers for the linux-user process
 > 
-> > +                  -p 0.0.0313 -t vfio-ccw_io -a
-> > +
-> > +If using ``mdevctl``  is not possible or wanted, follow the manual procedure
-> > +below.  
+> In the first two cases not being able to update CPSR.E is a bug, and
+> in the third case it doesn't matter because CPSR.E is always 0 there.
+> So we can fix both bugs by adding CPSR_E to CPSR_USER.
 > 
-> Nit: Doubled whitespaces after mdevctl. With that fixed:
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Because the cpsr_write() in restore_sigcontext() is now changing
+> a CPSR bit which is cached in hflags, we need to add an
+> arm_rebuild_hflags() call there; the callsite in
+> target_user_copy_regs() was already rebuilding hflags for other
+> reasons.
+> 
+> (The recommended way to change CPSR.E is to use the 'SETEND'
+> instruction, which we do correctly allow from usermode code.)
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> v2 changes:
+>  * fixed wrong variable name in commit message
+>  * added arm_rebuild_hflags() call in restore_sigcontext()
+> ---
+>  target/arm/cpu.h        | 2 +-
+>  linux-user/arm/signal.c | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 
-Thanks!
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Fixed the nits and queued to s390-next.
 
+r~
 
