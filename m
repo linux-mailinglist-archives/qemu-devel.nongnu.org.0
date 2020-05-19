@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 746B81D97D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 15:32:15 +0200 (CEST)
-Received: from localhost ([::1]:45946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 944341D97D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 15:33:55 +0200 (CEST)
+Received: from localhost ([::1]:52544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb2Lu-0005Jq-Hd
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 09:32:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60348)
+	id 1jb2NV-0000KF-He
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 09:33:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jb2Gr-0005AG-0z
- for qemu-devel@nongnu.org; Tue, 19 May 2020 09:27:01 -0400
-Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:40350)
+ id 1jb2Gs-0005Ct-0v
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 09:27:02 -0400
+Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:39964)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jb2Gp-0008ME-U1
- for qemu-devel@nongnu.org; Tue, 19 May 2020 09:27:00 -0400
-Received: by mail-qt1-x82c.google.com with SMTP id c24so11058798qtw.7
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 06:26:59 -0700 (PDT)
+ id 1jb2Gr-0008N2-32
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 09:27:01 -0400
+Received: by mail-qk1-x72f.google.com with SMTP id g185so14929224qke.7
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 06:27:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=4sMxAz28g5gcYIqvgKVS64F3VofSYZDUiJ7JASBbeAA=;
- b=EVXA9Ivx+mjrJ7iazp6AqhDKOQ8Pbum+IMrJfzwDdXiCnGBV1ayGY/umU1BZ+p1nfB
- sr6KZ+4ovo/QS07909yV0dghOrfn9FAxSooUEEwdtANFh/GdZ7Itnmk7Wy7WwODvosvC
- O3K3MFTt45XpG31je+mPyWmu8vSVRd7cgg07gKxUqp5acLsXJA3sasIrl/Ag5zbp648r
- yDUtajEtQ0LGruaLtpHPIS0ZnqeJp/RKGHgmaQagkacjAShnQKMlnqt+26qRTo0PMeLN
- fUQLEKmQY/2bi9/+WfIYAI1JppWpIjDpDvj0A3Trd9a2dEsJCElNwAYNJdNs2SV9nPNF
- 0cig==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=5HieQNcS49Ddl5x13c1tlfdvYUU3jAT4qZ90zyOAgeo=;
+ b=gGDlxSp2v75NrIPWM5D3XVLcOukIGQXHq7jfkPYa/r5m/dFii5nx9AA5MNV+d+oibK
+ C5P+3TQs7SAxy77yabNMjmIS957d/52IcjbqMik7KdZunAspp3PXMMhao3sOvWjGXmrP
+ Q5TwozpjXYIqM43wozOdjFTGNEFC2ivU6V1zxUJw9NH0q7uVxUkqCt+tJIIYxe2B9wad
+ xtc9ZQYz+HJGWm9buC87hNu4fPNk1vpbzbGlzoJMBUml6xrLpcBCSQIB0jZUpzf+Yksb
+ FwPUjsC6MuvNiCssYSMGeWrV3cP7CgaUUQtVltovYJfyhIWnmxTFe0bczpAh23bspE66
+ ux+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=4sMxAz28g5gcYIqvgKVS64F3VofSYZDUiJ7JASBbeAA=;
- b=s3GKxQtMlWEXon5K79p5Lw2t1Kxr1yAxNTgCDChix1UzuVoP7HyV0JLZtEf7mrNDBW
- XGkPDhXAcyiITvs+eRlRHk+XDQS+I5sIYU2voaaWFW1b+aWzJSajrM2jWXNqgpqBqwzS
- wkxKISiwFjtxOY0Ujhvc5oTArWTwd+BdXpOyc/Ay0JhClpWKMRAmWjn4P3a6xlR86ihJ
- dKzNnF/wIZDhPRsYaUDe40asuNEjvJk8+cxDzSez3EJT9iu0UAR8BxdPp/wYGDVZSV+n
- Dxf3ekEMJklz7AFx4LEpUwUnAzIaIJyQacEZQPfZv9rYLNGUv5XgCrmBuPKSD34fi/fd
- 4T2w==
-X-Gm-Message-State: AOAM530N2cA+a63KI4hNBYyOilwkz+eUK5VYhF2ulHOiCOLcWQQDpyww
- /V8lqL6b4ziQnSML7C3BkUR/c2GA37bC6Q==
-X-Google-Smtp-Source: ABdhPJwQDzn+XtBcn+fyO4jJed95gdr4AA2tGqXx/o9AcXv+KMMqFvcbHoNSNSnwATjToJdYEL3wvQ==
-X-Received: by 2002:ac8:345a:: with SMTP id v26mr22122355qtb.253.1589894818620; 
- Tue, 19 May 2020 06:26:58 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=5HieQNcS49Ddl5x13c1tlfdvYUU3jAT4qZ90zyOAgeo=;
+ b=HWyDOHdRqAq23EcaXdmX5MZePxw88xdxgq3LxwlMKOb4CjX3/TuntTB0qjsv64qiVN
+ GtWPOp09wEbr/A8SP6KFCYBP86elAjPCB7DqrDNKdpdIB9RcUBuas5Udq951ko60kslH
+ eVZn4Cw43OQBo4l7tB8Z3JJJVEKLCV/oDhPTRWBQR3yomFaLF8zbJ/LqE6PaLbSB+EDd
+ qMZ8X+EtXW04AvbT/8xwat2H6Bc/hBoQP9bxKdSwzezalWwyn47/S0FGQOlyJ7PrKb/A
+ iU36nv+POd/xsEZ8AFdLvt3eu/+LHM07r6fL1S/KoDNNgJwpLiN92hCtP55DKmwJwp0g
+ zfow==
+X-Gm-Message-State: AOAM530t0JX5vaWbPIUIAFsLxZ1m6jS1W0BfG2k0XmukhgThqglcSrPO
+ 5RSd1u1X6Sbhd+tNx+MLYRQom/vgdYWocA==
+X-Google-Smtp-Source: ABdhPJzRJQ17qSgOseMDZMOuyxaa2KbC3HjtQgfd8pfkm0+iViSKwqWcRqvO0N/sr0F0xWJzfWYkEA==
+X-Received: by 2002:a05:620a:319:: with SMTP id
+ s25mr20266873qkm.25.1589894819866; 
+ Tue, 19 May 2020 06:26:59 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:dd6a:8c63:cd9d:ad15])
- by smtp.gmail.com with ESMTPSA id d74sm3482136qke.100.2020.05.19.06.26.57
+ by smtp.gmail.com with ESMTPSA id d74sm3482136qke.100.2020.05.19.06.26.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 May 2020 06:26:57 -0700 (PDT)
+ Tue, 19 May 2020 06:26:59 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 07/12] tests/vm: Add ability to select QEMU from current
- build.
-Date: Tue, 19 May 2020 09:22:54 -0400
-Message-Id: <20200519132259.405-8-robert.foley@linaro.org>
+Subject: [PATCH v7 08/12] tests/vm: allow wait_ssh() to specify command
+Date: Tue, 19 May 2020 09:22:55 -0400
+Message-Id: <20200519132259.405-9-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200519132259.405-1-robert.foley@linaro.org>
 References: <20200519132259.405-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=robert.foley@linaro.org; helo=mail-qt1-x82c.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=robert.foley@linaro.org; helo=mail-qk1-x72f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,116 +92,51 @@ Cc: philmd@redhat.com, alex.bennee@linaro.org, robert.foley@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added a new special variable QEMU_LOCAL=1, which
-will indicate to take the QEMU binary from the current
-build.
+This allows for waiting for completion of arbitrary commands.
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/vm/Makefile.include |  4 ++++
- tests/vm/basevm.py        | 25 ++++++++++++++++++++++---
- 2 files changed, 26 insertions(+), 3 deletions(-)
+ tests/vm/basevm.py | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index e22c391a2a..83a33b1044 100644
---- a/tests/vm/Makefile.include
-+++ b/tests/vm/Makefile.include
-@@ -41,6 +41,7 @@ endif
- 	@echo "    J=[0..9]*            	 - Override the -jN parameter for make commands"
- 	@echo "    DEBUG=1              	 - Enable verbose output on host and interactive debugging"
- 	@echo "    V=1				 - Enable verbose ouput on host and guest commands"
-+	@echo "    QEMU_LOCAL=1                 - Use QEMU binary local to this build."
- 	@echo "    QEMU=/path/to/qemu		 - Change path to QEMU binary"
- 	@echo "    QEMU_IMG=/path/to/qemu-img	 - Change path to qemu-img tool"
- ifeq ($(PYTHON_YAML),yes)
-@@ -63,6 +64,7 @@ $(IMAGES_DIR)/%.img:	$(SRC_PATH)/tests/vm/% \
- 		$(PYTHON) $< \
- 		$(if $(V)$(DEBUG), --debug) \
- 		$(if $(GENISOIMAGE),--genisoimage $(GENISOIMAGE)) \
-+		--build-path $(BUILD_DIR)\
- 		--image "$@" \
- 		--force \
- 		--build-image $@, \
-@@ -77,6 +79,7 @@ vm-build-%: $(IMAGES_DIR)/%.img
- 		$(if $(DEBUG), --interactive) \
- 		$(if $(J),--jobs $(J)) \
- 		$(if $(V),--verbose) \
-+		--build-path $(BUILD_DIR)\
- 		--image "$<" \
- 		$(if $(BUILD_TARGET),--build-target $(BUILD_TARGET)) \
- 		--snapshot \
-@@ -98,6 +101,7 @@ vm-boot-ssh-%: $(IMAGES_DIR)/%.img
- 		$(PYTHON) $(SRC_PATH)/tests/vm/$* \
- 		$(if $(J),--jobs $(J)) \
- 		$(if $(V)$(DEBUG), --debug) \
-+		--build-path $(BUILD_DIR)\
- 		--image "$<" \
- 		--interactive \
- 		false, \
 diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 0bc1bad839..d717b967ca 100644
+index d717b967ca..b610581d1b 100644
 --- a/tests/vm/basevm.py
 +++ b/tests/vm/basevm.py
-@@ -89,6 +89,7 @@ class BaseVM(object):
-     def __init__(self, args, config=None):
-         self._guest = None
-         self._genisoimage = args.genisoimage
-+        self._build_path = args.build_path
-         # Allow input config to override defaults.
-         self._config = DEFAULT_CONFIG.copy()
-         if config != None:
-@@ -273,15 +274,15 @@ class BaseVM(object):
-         args = self._args + boot_params.split(' ')
-         args += self._data_args + extra_args + self._config['extra_args']
-         logging.debug("QEMU args: %s", " ".join(args))
--        qemu_bin = os.environ.get("QEMU", "qemu-system-" + self.arch)
--        guest = QEMUMachine(binary=qemu_bin, args=args)
-+        qemu_path = get_qemu_path(self.arch, self._build_path)
-+        guest = QEMUMachine(binary=qemu_path, args=args)
-         guest.set_machine(self._config['machine'])
-         guest.set_console()
-         try:
-             guest.launch()
-         except:
-             logging.error("Failed to launch QEMU, command line:")
--            logging.error(" ".join([qemu_bin] + args))
-+            logging.error(" ".join([qemu_path] + args))
-             logging.error("Log:")
-             logging.error(guest.get_log())
-             logging.error("QEMU version >= 2.10 is required")
-@@ -480,6 +481,22 @@ class BaseVM(object):
-                               stderr=self._stdout)
-         return os.path.join(cidir, "cloud-init.iso")
+@@ -409,24 +409,24 @@ class BaseVM(object):
+     def print_step(self, text):
+         sys.stderr.write("### %s ...\n" % text)
  
-+def get_qemu_path(arch, build_path=None):
-+    """Fetch the path to the qemu binary."""
-+    qemu_local = os.environ.get("QEMU_LOCAL", 0)
-+    # If QEMU environment variable set, it takes precedence
-+    if "QEMU" in os.environ:
-+        qemu_path = os.environ["QEMU"]
-+    elif qemu_local:
-+        if not build_path:
-+            raise Exception("--build-path option required with QEMU_LOCAL")
-+        qemu_path = os.path.join(build_path, arch + "-softmmu")
-+        qemu_path = os.path.join(qemu_path, "qemu-system-" + arch)
-+    else:
-+        # Default is to use system path for qemu.
-+        qemu_path = "qemu-system-" + arch
-+    return qemu_path
-+
- def parse_config(config, args):
-     """ Parse yaml config and populate our config structure.
-         The yaml config allows the user to override the
-@@ -554,6 +571,8 @@ def parse_args(vmcls):
-     parser.add_option("--config", "-c", default=None,
-                       help="Provide config yaml for configuration. "\
-                            "See config_example.yaml for example.")
-+    parser.add_option("--build-path", default=None,
-+                      help="Path of build directory. ")
-     parser.disable_interspersed_args()
-     return parser.parse_args()
+-    def wait_ssh(self, wait_root=False, seconds=300):
++    def wait_ssh(self, wait_root=False, seconds=300, cmd="exit 0"):
+         # Allow more time for VM to boot under TCG.
+         if not kvm_available(self.arch):
+             seconds *= self.tcg_ssh_timeout_multiplier
+         starttime = datetime.datetime.now()
+         endtime = starttime + datetime.timedelta(seconds=seconds)
+-        guest_up = False
++        cmd_success = False
+         while datetime.datetime.now() < endtime:
+-            if wait_root and self.ssh_root("exit 0") == 0:
+-                guest_up = True
++            if wait_root and self.ssh_root(cmd) == 0:
++                cmd_success = True
+                 break
+-            elif self.ssh("exit 0") == 0:
+-                guest_up = True
++            elif self.ssh(cmd) == 0:
++                cmd_success = True
+                 break
+             seconds = (endtime - datetime.datetime.now()).total_seconds()
+             logging.debug("%ds before timeout", seconds)
+             time.sleep(1)
+-        if not guest_up:
++        if not cmd_success:
+             raise Exception("Timeout while waiting for guest ssh")
  
+     def shutdown(self):
 -- 
 2.17.1
 
