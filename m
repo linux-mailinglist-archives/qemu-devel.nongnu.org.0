@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5C41D9EAB
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:02:28 +0200 (CEST)
-Received: from localhost ([::1]:52382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326591D9D0D
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 18:42:04 +0200 (CEST)
+Received: from localhost ([::1]:40210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb6ZP-0005Vh-UY
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39496)
+	id 1jb5Ja-0007T9-NI
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 12:42:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jb6YK-0004kY-DK
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:01:21 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jb6YG-0004C5-Rf
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:01:19 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jb5Rv-0004fT-My
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 16:50:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A9D022E8075
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 16:50:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jb5In-000729-V8
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 12:41:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54360
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jb5Il-0004Mu-Kb
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 12:41:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589906469;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vs9RR+f0f+ZLomLB4oyhtCogs8uNqHMxfl8dr8+axfI=;
+ b=fEVB3UkR+aW/ZMdUHGbUAPnL1O8nDSdLaP/7ZxMBRYBZYugeyJ1JZ1FlkrDwciRkh0Fh8D
+ lAyEPaxAmrCtLhmj8geyBMImHnSKn36Wrpeuv9JmyOXKj1+B+EYoUIa5+Nnfs8YL49Xhd1
+ svucD9fgJF4Sz6ATUOc8MFYNducNkAc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-143-xQKu9ZVaP-yoIhtkEoFVZw-1; Tue, 19 May 2020 12:41:01 -0400
+X-MC-Unique: xQKu9ZVaP-yoIhtkEoFVZw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C01C8005AA;
+ Tue, 19 May 2020 16:41:00 +0000 (UTC)
+Received: from localhost (ovpn-115-92.phx2.redhat.com [10.3.115.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE068797E9;
+ Tue, 19 May 2020 16:40:59 +0000 (UTC)
+Date: Tue, 19 May 2020 12:40:58 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 0/1] machine queue, 2020-05-13
+Message-ID: <20200519164058.GK577771@habkost.net>
+References: <20200513140057.576234-1-ehabkost@redhat.com>
+ <20200513142255.GA577771@habkost.net>
+ <CAFEAcA-6SO-OFKnYqJ+mq_OT=W-k1CPe1cigzY7mbkqJAtLgTA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 19 May 2020 16:40:51 -0000
-From: Alexander Bulekov <1879531@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-Message-Id: <158990645210.17233.17999678627149634965.malonedeb@soybean.canonical.com>
-Subject: [Bug 1879531] [NEW] Stack-overflow in _eth_get_rss_ex_dst_addr
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c5d9700c52fd6b254c0741804d2aab7151bc7332
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 13:40:53
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAFEAcA-6SO-OFKnYqJ+mq_OT=W-k1CPe1cigzY7mbkqJAtLgTA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bCsyhTFzCvuiizWE"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 09:19:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,363 +81,310 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1879531 <1879531@bugs.launchpad.net>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+--bCsyhTFzCvuiizWE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
-While fuzzing, I found a 1-byte stack-overflow (read) through the
-e1000e. =
+On Thu, May 14, 2020 at 10:58:16AM +0100, Peter Maydell wrote:
+> On Wed, 13 May 2020 at 15:23, Eduardo Habkost <ehabkost@redhat.com> wrote=
+:
+> >
+> > Peter, note that my PGP key had expired 2 weeks ago, so you'll
+> > probably see a few signature check warnings.
+>=20
+> I couldn't find your updated key on the keyservers -- which
+> server did you upload it to?
 
+I have pushed it to the server my gpg version defaults to:
+hkp://hkps.pool.sks-keyservers.net.  I assumed would feed other
+keyservers.
 
-=3D=3D10318=3D=3DERROR: AddressSanitizer: stack-buffer-overflow on address =
-0x7ffdb76c16c2 at pc 0x55594f1a69e1 bp 0x7ffdb76c15a0 sp 0x7ffdb76c1598
-READ of size 1 at 0x7ffdb76c16c2 thread T0
-    #0 0x55594f1a69e0 in _eth_get_rss_ex_dst_addr /home/alxndr/Development/=
-qemu/net/eth.c:410:17
-    #1 0x55594f1a39da in eth_parse_ipv6_hdr /home/alxndr/Development/qemu/n=
-et/eth.c:532:17
-    #2 0x55594ebc34f2 in net_tx_pkt_parse_headers /home/alxndr/Development/=
-qemu/hw/net/net_tx_pkt.c:228:14
-    #3 0x55594ebc2149 in net_tx_pkt_parse /home/alxndr/Development/qemu/hw/=
-net/net_tx_pkt.c:273:9
-    #4 0x55594ec1ba76 in e1000e_process_tx_desc /home/alxndr/Development/qe=
-mu/hw/net/e1000e_core.c:737:29
-    #5 0x55594ec1aea4 in e1000e_start_xmit /home/alxndr/Development/qemu/hw=
-/net/e1000e_core.c:934:9
-    #6 0x55594ec0e70e in e1000e_set_tdt /home/alxndr/Development/qemu/hw/ne=
-t/e1000e_core.c:2451:9
-    #7 0x55594ebec435 in e1000e_core_write /home/alxndr/Development/qemu/hw=
-/net/e1000e_core.c:3261:9
-    #8 0x55594ebdf11b in e1000e_mmio_write /home/alxndr/Development/qemu/hw=
-/net/e1000e.c:109:5
-    #9 0x55594dfd98b1 in memory_region_write_accessor /home/alxndr/Developm=
-ent/qemu/memory.c:483:5
-    #10 0x55594dfd9211 in access_with_adjusted_size /home/alxndr/Developmen=
-t/qemu/memory.c:544:18
-    #11 0x55594dfd7c30 in memory_region_dispatch_write /home/alxndr/Develop=
-ment/qemu/memory.c:1476:16
-    #12 0x55594dde24b8 in flatview_write_continue /home/alxndr/Development/=
-qemu/exec.c:3137:23
-    #13 0x55594ddd12dc in flatview_write /home/alxndr/Development/qemu/exec=
-.c:3177:14
-    #14 0x55594ddd0dec in address_space_write /home/alxndr/Development/qemu=
-/exec.c:3268:18
-    #15 0x55594dfcdbdc in qtest_process_command /home/alxndr/Development/qe=
-mu/qtest.c:567:9
-    #16 0x55594dfc3700 in qtest_process_inbuf /home/alxndr/Development/qemu=
-/qtest.c:710:9
-    #17 0x55594dfc2cc8 in qtest_read /home/alxndr/Development/qemu/qtest.c:=
-722:5
-    #18 0x55594f74b259 in qemu_chr_be_write_impl /home/alxndr/Development/q=
-emu/chardev/char.c:183:9
-    #19 0x55594f74b3ee in qemu_chr_be_write /home/alxndr/Development/qemu/c=
-hardev/char.c:195:9
-    #20 0x55594f7556fc in fd_chr_read /home/alxndr/Development/qemu/chardev=
-/char-fd.c:68:9
-    #21 0x55594f7ea488 in qio_channel_fd_source_dispatch /home/alxndr/Devel=
-opment/qemu/io/channel-watch.c:84:12
-    #22 0x7f43f6c1d897 in g_main_context_dispatch (/usr/lib/x86_64-linux-gn=
-u/libglib-2.0.so.0+0x4e897)
-    #23 0x55594f9dea5d in glib_pollfds_poll /home/alxndr/Development/qemu/u=
-til/main-loop.c:219:9
-    #24 0x55594f9dd1d7 in os_host_main_loop_wait /home/alxndr/Development/q=
-emu/util/main-loop.c:242:5
-    #25 0x55594f9dcd6e in main_loop_wait /home/alxndr/Development/qemu/util=
-/main-loop.c:518:11
-    #26 0x55594e44cd01 in qemu_main_loop /home/alxndr/Development/qemu/soft=
-mmu/vl.c:1664:9
-    #27 0x55594f803c21 in main /home/alxndr/Development/qemu/softmmu/main.c=
-:49:5
-    #28 0x7f43f57b4e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.30/=
-csu/../csu/libc-start.c:308:16
-    #29 0x55594dd03889 in _start (/home/alxndr/Development/qemu/build/i386-=
-softmmu/qemu-system-i386+0xdbd889)
-
-Address 0x7ffdb76c16c2 is located in stack of thread T0 at offset 34 in fra=
-me
-    #0 0x55594f1a303f in eth_parse_ipv6_hdr /home/alxndr/Development/qemu/n=
-et/eth.c:486
-
-  This frame has 1 object(s):
-    [32, 34) 'ext_hdr' (line 487) <=3D=3D Memory access at offset 34 overfl=
-ows this variable
-HINT: this may be a false positive if your program uses some custom stack u=
-nwind mechanism, swapcontext or vfork
-      (longjmp and C++ exceptions *are* supported)
-SUMMARY: AddressSanitizer: stack-buffer-overflow /home/alxndr/Development/q=
-emu/net/eth.c:410:17 in _eth_get_rss_ex_dst_addr
-Shadow bytes around the buggy address:
-  0x100036ed0280: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100036ed0290: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100036ed02a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100036ed02b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100036ed02c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-=3D>0x100036ed02d0: 00 00 00 00 f1 f1 f1 f1[02]f3 f3 f3 00 00 00 00
-  0x100036ed02e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100036ed02f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100036ed0300: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100036ed0310: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  0x100036ed0320: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-Shadow byte legend (one shadow byte represents 8 application bytes):
-  Addressable:           00
-  Partially addressable: 01 02 03 04 05 06 07
-  Heap left redzone:       fa
-  Freed heap region:       fd
-  Stack left redzone:      f1
-  Stack mid redzone:       f2
-  Stack right redzone:     f3
-  Stack after return:      f5
-  Stack use after scope:   f8
-  Global redzone:          f9
-  Global init order:       f6
-  Poisoned by user:        f7
-  Container overflow:      fc
-  Array cookie:            ac
-  Intra object redzone:    bb
-  ASan internal:           fe
-  Left alloca redzone:     ca
-  Right alloca redzone:    cb
-  Shadow gap:              cc
-=3D=3D10318=3D=3DABORTING
-
-I can reproduce it in qemu 5.0 built with address sanitizer using:
-
-cat << EOF | ./qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -mo=
-nitor none -serial none -nographic
-outl 0xcf8 0x80001010
-outl 0xcfc 0xe1020000
-outl 0xcf8 0x80001014
-outl 0xcf8 0x80001004
-outw 0xcfc 0x7
-outl 0xcf8 0x800010a2
-write 0x25 0x2b 0x86dd1900ff5df747002bfc90dd1900ff5df747002bfc9add1900ff5df=
-747002bfca4dd1900ff5df747002b
-write 0xe1020030 0x409 0x190002e100000000350908077cdd190002e100000000350912=
-077cdd190002e10000000035091c077cdd190002e100000000350926077cdd190002e100000=
-000350930077cdd190002e10000000035093a077cdd190002e100000000350944077cdd1900=
-02e10000000035094e077cdd190002e100000000350958077cdd190002e1000000003509620=
-77cdd190002e10000000035096c077cdd190002e100000000350976077cdd190002e1000000=
-00350980077cdd190002e10000000035098a077cdd190002e100000000350994077cdd19000=
-2e10000000035099e077cdd190002e1000000003509a8077cdd190002e1000000003509b207=
-7cdd190002e1000000003509bc077cdd190002e1000000003509c6077cdd190002e10000000=
-03509d0077cdd190002e1000000003509da077cdd190002e1000000003509e4077cdd190002=
-e1000000003509ee077cdd190002e1000000003509f8077cdd190002e100000000350902077=
-cdd190002e10000000035090c077cdd190002e100000000350916077cdd190002e100000000=
-350920077cdd190002e10000000035092a077cdd190002e100000000350934077cdd190002e=
-10000000035093e077cdd190002e100000000350948077cdd190002e100000000350952077c=
-dd190002e10000000035095c077cdd190002e100000000350966077cdd190002e1000000003=
-50970077cdd190002e10000000035097a077cdd190002e100000000350984077cdd190002e1=
-0000000035098e077cdd190002e100000000350998077cdd190002e1000000003509a2077cd=
-d190002e1000000003509ac077cdd190002e1000000003509b6077cdd190002e10000000035=
-09c0077cdd190002e1000000003509ca077cdd190002e1000000003509d4077cdd190002e10=
-00000003509de077cdd190002e1000000003509e8077cdd190002e1000000003509f2077cdd=
-190002e1000000003509fc077cdd190002e100000000350906077cdd190002e100000000350=
-910077cdd190002e10000000035091a077cdd190002e100000000350924077cdd190002e100=
-00000035092e077cdd190002e100000000350938077cdd190002e100000000350942077cdd1=
-90002e10000000035094c077cdd190002e100000000350956077cdd190002e1000000003509=
-60077cdd190002e10000000035096a077cdd190002e100000000350974077cdd190002e1000=
-0000035097e077cdd190002e100000000350988077cdd190002e100000000350992077cdd19=
-0002e10000000035099c077cdd190002e1000000003509a6077cdd190002e1000000003509b=
-0077cdd190002e1000000003509ba077cdd190002e1000000003509c4077cdd190002e10000=
-00003509ce077cdd190002e1000000003509d8077cdd190002e1000000003509e2
-EOF
-
-Also attaching these commands. They can be executed with
-./qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -monitor none -s=
-erial none -nographic < attachment
-
-Let me know if I can provide any further info.
--Alex
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "attachment"
-   https://bugs.launchpad.net/bugs/1879531/+attachment/5374219/+files/attac=
-hment
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1879531
-
-Title:
-  Stack-overflow in _eth_get_rss_ex_dst_addr
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-  While fuzzing, I found a 1-byte stack-overflow (read) through the
-  e1000e. =
+I have now manually published the updated key on keys.gnupg.net,
+pgp.mit.edu, and I'm including it below:
 
 
-  =3D=3D10318=3D=3DERROR: AddressSanitizer: stack-buffer-overflow on addres=
-s 0x7ffdb76c16c2 at pc 0x55594f1a69e1 bp 0x7ffdb76c15a0 sp 0x7ffdb76c1598
-  READ of size 1 at 0x7ffdb76c16c2 thread T0
-      #0 0x55594f1a69e0 in _eth_get_rss_ex_dst_addr /home/alxndr/Developmen=
-t/qemu/net/eth.c:410:17
-      #1 0x55594f1a39da in eth_parse_ipv6_hdr /home/alxndr/Development/qemu=
-/net/eth.c:532:17
-      #2 0x55594ebc34f2 in net_tx_pkt_parse_headers /home/alxndr/Developmen=
-t/qemu/hw/net/net_tx_pkt.c:228:14
-      #3 0x55594ebc2149 in net_tx_pkt_parse /home/alxndr/Development/qemu/h=
-w/net/net_tx_pkt.c:273:9
-      #4 0x55594ec1ba76 in e1000e_process_tx_desc /home/alxndr/Development/=
-qemu/hw/net/e1000e_core.c:737:29
-      #5 0x55594ec1aea4 in e1000e_start_xmit /home/alxndr/Development/qemu/=
-hw/net/e1000e_core.c:934:9
-      #6 0x55594ec0e70e in e1000e_set_tdt /home/alxndr/Development/qemu/hw/=
-net/e1000e_core.c:2451:9
-      #7 0x55594ebec435 in e1000e_core_write /home/alxndr/Development/qemu/=
-hw/net/e1000e_core.c:3261:9
-      #8 0x55594ebdf11b in e1000e_mmio_write /home/alxndr/Development/qemu/=
-hw/net/e1000e.c:109:5
-      #9 0x55594dfd98b1 in memory_region_write_accessor /home/alxndr/Develo=
-pment/qemu/memory.c:483:5
-      #10 0x55594dfd9211 in access_with_adjusted_size /home/alxndr/Developm=
-ent/qemu/memory.c:544:18
-      #11 0x55594dfd7c30 in memory_region_dispatch_write /home/alxndr/Devel=
-opment/qemu/memory.c:1476:16
-      #12 0x55594dde24b8 in flatview_write_continue /home/alxndr/Developmen=
-t/qemu/exec.c:3137:23
-      #13 0x55594ddd12dc in flatview_write /home/alxndr/Development/qemu/ex=
-ec.c:3177:14
-      #14 0x55594ddd0dec in address_space_write /home/alxndr/Development/qe=
-mu/exec.c:3268:18
-      #15 0x55594dfcdbdc in qtest_process_command /home/alxndr/Development/=
-qemu/qtest.c:567:9
-      #16 0x55594dfc3700 in qtest_process_inbuf /home/alxndr/Development/qe=
-mu/qtest.c:710:9
-      #17 0x55594dfc2cc8 in qtest_read /home/alxndr/Development/qemu/qtest.=
-c:722:5
-      #18 0x55594f74b259 in qemu_chr_be_write_impl /home/alxndr/Development=
-/qemu/chardev/char.c:183:9
-      #19 0x55594f74b3ee in qemu_chr_be_write /home/alxndr/Development/qemu=
-/chardev/char.c:195:9
-      #20 0x55594f7556fc in fd_chr_read /home/alxndr/Development/qemu/chard=
-ev/char-fd.c:68:9
-      #21 0x55594f7ea488 in qio_channel_fd_source_dispatch /home/alxndr/Dev=
-elopment/qemu/io/channel-watch.c:84:12
-      #22 0x7f43f6c1d897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x4e897)
-      #23 0x55594f9dea5d in glib_pollfds_poll /home/alxndr/Development/qemu=
-/util/main-loop.c:219:9
-      #24 0x55594f9dd1d7 in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/util/main-loop.c:242:5
-      #25 0x55594f9dcd6e in main_loop_wait /home/alxndr/Development/qemu/ut=
-il/main-loop.c:518:11
-      #26 0x55594e44cd01 in qemu_main_loop /home/alxndr/Development/qemu/so=
-ftmmu/vl.c:1664:9
-      #27 0x55594f803c21 in main /home/alxndr/Development/qemu/softmmu/main=
-.c:49:5
-      #28 0x7f43f57b4e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
-0/csu/../csu/libc-start.c:308:16
-      #29 0x55594dd03889 in _start (/home/alxndr/Development/qemu/build/i38=
-6-softmmu/qemu-system-i386+0xdbd889)
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-  Address 0x7ffdb76c16c2 is located in stack of thread T0 at offset 34 in f=
-rame
-      #0 0x55594f1a303f in eth_parse_ipv6_hdr /home/alxndr/Development/qemu=
-/net/eth.c:486
+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
+DQwb/9wJbA=3D=3D
+=3DoaU8
+-----END PGP PUBLIC KEY BLOCK-----
 
-    This frame has 1 object(s):
-      [32, 34) 'ext_hdr' (line 487) <=3D=3D Memory access at offset 34 over=
-flows this variable
-  HINT: this may be a false positive if your program uses some custom stack=
- unwind mechanism, swapcontext or vfork
-        (longjmp and C++ exceptions *are* supported)
-  SUMMARY: AddressSanitizer: stack-buffer-overflow /home/alxndr/Development=
-/qemu/net/eth.c:410:17 in _eth_get_rss_ex_dst_addr
-  Shadow bytes around the buggy address:
-    0x100036ed0280: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-    0x100036ed0290: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-    0x100036ed02a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-    0x100036ed02b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-    0x100036ed02c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  =3D>0x100036ed02d0: 00 00 00 00 f1 f1 f1 f1[02]f3 f3 f3 00 00 00 00
-    0x100036ed02e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-    0x100036ed02f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-    0x100036ed0300: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-    0x100036ed0310: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-    0x100036ed0320: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  Shadow byte legend (one shadow byte represents 8 application bytes):
-    Addressable:           00
-    Partially addressable: 01 02 03 04 05 06 07
-    Heap left redzone:       fa
-    Freed heap region:       fd
-    Stack left redzone:      f1
-    Stack mid redzone:       f2
-    Stack right redzone:     f3
-    Stack after return:      f5
-    Stack use after scope:   f8
-    Global redzone:          f9
-    Global init order:       f6
-    Poisoned by user:        f7
-    Container overflow:      fc
-    Array cookie:            ac
-    Intra object redzone:    bb
-    ASan internal:           fe
-    Left alloca redzone:     ca
-    Right alloca redzone:    cb
-    Shadow gap:              cc
-  =3D=3D10318=3D=3DABORTING
+--=20
+Eduardo
 
-  I can reproduce it in qemu 5.0 built with address sanitizer using:
+--bCsyhTFzCvuiizWE
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  cat << EOF | ./qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -=
-monitor none -serial none -nographic
-  outl 0xcf8 0x80001010
-  outl 0xcfc 0xe1020000
-  outl 0xcf8 0x80001014
-  outl 0xcf8 0x80001004
-  outw 0xcfc 0x7
-  outl 0xcf8 0x800010a2
-  write 0x25 0x2b 0x86dd1900ff5df747002bfc90dd1900ff5df747002bfc9add1900ff5=
-df747002bfca4dd1900ff5df747002b
-  write 0xe1020030 0x409 0x190002e100000000350908077cdd190002e1000000003509=
-12077cdd190002e10000000035091c077cdd190002e100000000350926077cdd190002e1000=
-00000350930077cdd190002e10000000035093a077cdd190002e100000000350944077cdd19=
-0002e10000000035094e077cdd190002e100000000350958077cdd190002e10000000035096=
-2077cdd190002e10000000035096c077cdd190002e100000000350976077cdd190002e10000=
-0000350980077cdd190002e10000000035098a077cdd190002e100000000350994077cdd190=
-002e10000000035099e077cdd190002e1000000003509a8077cdd190002e1000000003509b2=
-077cdd190002e1000000003509bc077cdd190002e1000000003509c6077cdd190002e100000=
-0003509d0077cdd190002e1000000003509da077cdd190002e1000000003509e4077cdd1900=
-02e1000000003509ee077cdd190002e1000000003509f8077cdd190002e1000000003509020=
-77cdd190002e10000000035090c077cdd190002e100000000350916077cdd190002e1000000=
-00350920077cdd190002e10000000035092a077cdd190002e100000000350934077cdd19000=
-2e10000000035093e077cdd190002e100000000350948077cdd190002e10000000035095207=
-7cdd190002e10000000035095c077cdd190002e100000000350966077cdd190002e10000000=
-0350970077cdd190002e10000000035097a077cdd190002e100000000350984077cdd190002=
-e10000000035098e077cdd190002e100000000350998077cdd190002e1000000003509a2077=
-cdd190002e1000000003509ac077cdd190002e1000000003509b6077cdd190002e100000000=
-3509c0077cdd190002e1000000003509ca077cdd190002e1000000003509d4077cdd190002e=
-1000000003509de077cdd190002e1000000003509e8077cdd190002e1000000003509f2077c=
-dd190002e1000000003509fc077cdd190002e100000000350906077cdd190002e1000000003=
-50910077cdd190002e10000000035091a077cdd190002e100000000350924077cdd190002e1=
-0000000035092e077cdd190002e100000000350938077cdd190002e100000000350942077cd=
-d190002e10000000035094c077cdd190002e100000000350956077cdd190002e10000000035=
-0960077cdd190002e10000000035096a077cdd190002e100000000350974077cdd190002e10=
-000000035097e077cdd190002e100000000350988077cdd190002e100000000350992077cdd=
-190002e10000000035099c077cdd190002e1000000003509a6077cdd190002e100000000350=
-9b0077cdd190002e1000000003509ba077cdd190002e1000000003509c4077cdd190002e100=
-0000003509ce077cdd190002e1000000003509d8077cdd190002e1000000003509e2
-  EOF
+-----BEGIN PGP SIGNATURE-----
 
-  Also attaching these commands. They can be executed with
-  ./qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -monitor none =
--serial none -nographic < attachment
+iQIzBAEBCAAdFiEEWjIv1avE09usz9GqKAeTb5hNxaYFAl7EDBYACgkQKAeTb5hN
+xaaQqw//V+6nJX59kDP1lg3uRDo+eDcae5CiBlEIbQJ9Wur8aTn2LydHx/0oFcmp
+a/rzlgtHOG2+uXCDmyLwty7JNiMjoQdb6Js6bQYrgxGIc5cn/hWaXTjBSDXsRpfz
+LE6fmaUI3+I2rKYQpdnl4AkKwmzIG4cxGxLESks/KigS1blxUkb7cGDbKywIW2R1
+i8K4I2xGiWRBiYCeKQ43+MmyVLkYEjQaESMblyRky2RAWgeqfnRIA8VOBIZX97fZ
+b1lfg+J06Csq89qiEt0wmZ3BOCThk5zOqGlquKKRq3fvyPl+KeA2iv2dT13+YwWK
+ZQ+hL8tcj5KsizfEahGMpyWmadamJeXTBmA9vphREbil9ZapGiSkP1TDOV0MnZ4p
+ZcbPy2Zul7SdD6PQsKxWZwhUVtpNrioXbmeTsGwnK9H6Y8W5aZK3fOk3FrbHQ53h
+AhhTPTD6z3JUCHwBFholgmUfCHHV+FRU2nXZwIeUXrCAMFCIc4NNOhTr8ftYIiKc
+JpiBYZIYPxspGTlTD2M0yg9eT/VpW9jjnjsPbnOEAuAZpU1Pvum66ctWWvRyVl9u
+MJZ44SW43PGEaV3ain8K/MZ6j4FIO7AVkIiTr/TJBNwNuPbfHCuk2wD3YVkVHJzs
+H3xItTID8E7/FT+xKg/9FRAPOXYgD2kX4kvsmRO49AFnSLTxiwo=
+=vjKD
+-----END PGP SIGNATURE-----
 
-  Let me know if I can provide any further info.
-  -Alex
+--bCsyhTFzCvuiizWE--
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1879531/+subscriptions
 
