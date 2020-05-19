@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A82411DA46E
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 00:23:18 +0200 (CEST)
-Received: from localhost ([::1]:49976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B81F1DA4A1
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 00:35:41 +0200 (CEST)
+Received: from localhost ([::1]:33226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbAdp-0002Xe-87
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 18:23:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43764)
+	id 1jbApn-00014C-OX
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 18:35:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jbAd9-00028I-KR
- for qemu-devel@nongnu.org; Tue, 19 May 2020 18:22:35 -0400
-Resent-Date: Tue, 19 May 2020 18:22:35 -0400
-Resent-Message-Id: <E1jbAd9-00028I-KR@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21310)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jbAoU-0000Qw-9k
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 18:34:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45042
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jbAd7-0000E2-Vr
- for qemu-devel@nongnu.org; Tue, 19 May 2020 18:22:35 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1589926946; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=SYwMBOCFHNgDq11kr+hyq1OOyxqbxlEehXLXUkALzm8xGACkmmjvwJXMp7JQJB0lXEE82ed7e6D2tmg33O5InIH2EZwUx9GptVcQP1Zds4ajwtKhfwBfgXN9j7OpZFrqoxgViPw6gyy0ulDTx+CnjDM85DsQEARb1HNkT5WCEqk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1589926946;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=1dFtOz+G200GQd7Pkha0FusdZeRtCDPUB1Oj3XEEo0c=; 
- b=e8YJ+dMI/ujbRvbJh63vjp+D9wxDqfSWP/eevaKQV611rsZzivhM1+/cnXjx1Pq/ejpg4z5Ycj2+Ew75ZDP68fwpf6c1CBxCDi7XjZl5Q1KFZ6NhwmG6nUCarIA3M20axgxr1x3VdaB/82nt0x0vdNLzXNi9FJ+nmMt8YM0HSGY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1589926944879560.0843097176003;
- Tue, 19 May 2020 15:22:24 -0700 (PDT)
-Message-ID: <158992694389.19297.552338994928135181@45ef0f9c86ae>
-In-Reply-To: <20200519164957.26920-1-richard.henderson@linaro.org>
-Subject: Re: [PULL 00/10] softfloat misc cleanups
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jbAoS-0003KS-Lr
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 18:34:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589927654;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VSQt5zrBXPb8MlRG1BSrSMsBUljxJd6PegZURfudjbg=;
+ b=Tj9eQUNKQWgKlvO1PYQiZLV+rKrTRVpAzwWB+o8otF+7xurxIRJwGRs4uaOGFPv1A2YnjK
+ UOa22r8JGqpg/aTXi8BW6sJWZIjk87vET9VmkFXiBObV3mzJnmbzyKFoWGW9d0vdIR0QYM
+ OhrQsyR/7SWhwunTRHTPVkT2edsTs4k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-446-SrIhMD-eO26U0JUSwEHXdg-1; Tue, 19 May 2020 18:34:13 -0400
+X-MC-Unique: SrIhMD-eO26U0JUSwEHXdg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A2301B18BC1
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 22:34:12 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-149.ams2.redhat.com
+ [10.36.114.149])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B28D65C1BB;
+ Tue, 19 May 2020 22:34:07 +0000 (UTC)
+Subject: Re: [PATCH v6 2/5] softmmu/vl: Let -fw_cfg option take a 'blob_id'
+ argument
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200519182024.14638-1-philmd@redhat.com>
+ <20200519182024.14638-3-philmd@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <ce1f0c80-f26b-40de-6d5b-2dc8f92fcfa2@redhat.com>
+Date: Wed, 20 May 2020 00:34:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Tue, 19 May 2020 15:22:24 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 17:30:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200519182024.14638-3-philmd@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=lersek@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:56:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,64 +84,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "=?UTF-8?Q?Daniel_P._Berrang=c3=a9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUxOTE2NDk1Ny4yNjky
-MC0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
-bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
-b3IKbW9yZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMjAwNTE5MTY0OTU3LjI2OTIwLTEt
-cmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTdWJqZWN0OiBbUFVMTCAwMC8xMF0gc29mdGZs
-b2F0IG1pc2MgY2xlYW51cHMKVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09
-CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
-Zi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3Jh
-bQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJ
-UFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcx
-MzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFn
-IHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAwNTE1MTcwODA0LjU3MDctMS1waGlsbWRAcmVkaGF0
-LmNvbSAtPiBwYXRjaGV3LzIwMjAwNTE1MTcwODA0LjU3MDctMS1waGlsbWRAcmVkaGF0LmNvbQog
-LSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAwNTE2MDYzNzQ2LjE4Mjk2LTEtYW51cC5w
-YXRlbEB3ZGMuY29tIC0+IHBhdGNoZXcvMjAyMDA1MTYwNjM3NDYuMTgyOTYtMS1hbnVwLnBhdGVs
-QHdkYy5jb20KICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy9jb3Zlci4xNTg5OTIzNzg1Lmdp
-dC5hbGlzdGFpci5mcmFuY2lzQHdkYy5jb20gLT4gcGF0Y2hldy9jb3Zlci4xNTg5OTIzNzg1Lmdp
-dC5hbGlzdGFpci5mcmFuY2lzQHdkYy5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0
-JwpjNzRlNTFkIHNvZnRmbG9hdDogUmV0dXJuIGJvb2wgZnJvbSBhbGwgY2xhc3NpZmljYXRpb24g
-cHJlZGljYXRlcwo3OTZkYTE0IHNvZnRmbG9hdDogSW5saW5lIGZsb2F0eDgwIGNvbXBhcmUgc3Bl
-Y2lhbGl6YXRpb25zCmYzMTk3ZDMgc29mdGZsb2F0OiBJbmxpbmUgZmxvYXQxMjggY29tcGFyZSBz
-cGVjaWFsaXphdGlvbnMKYzRlMDZhYiBzb2Z0ZmxvYXQ6IElubGluZSBmbG9hdDY0IGNvbXBhcmUg
-c3BlY2lhbGl6YXRpb25zCjY1YWRjYWUgc29mdGZsb2F0OiBJbmxpbmUgZmxvYXQzMiBjb21wYXJl
-IHNwZWNpYWxpemF0aW9ucwo0YWZiMDRlIHNvZnRmbG9hdDogTmFtZSBjb21wYXJlIHJlbGF0aW9u
-IGVudW0KNTM4M2U1ZSBzb2Z0ZmxvYXQ6IE5hbWUgcm91bmRpbmcgbW9kZSBlbnVtCmFmOWU3ZmQg
-c29mdGZsb2F0OiBDaGFuZ2UgdGluaW5lc3NfYmVmb3JlX3JvdW5kaW5nIHRvIGJvb2wKODc2ZGRm
-OCBzb2Z0ZmxvYXQ6IFJlcGxhY2UgZmxhZyB3aXRoIGJvb2wKODAyZDdhNyBzb2Z0ZmxvYXQ6IFVz
-ZSBwb3N0IHRlc3QgZm9yIGZsb2F0Tl9tdWwKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTAgQ2hl
-Y2tpbmcgY29tbWl0IDgwMmQ3YTczYTE4YiAoc29mdGZsb2F0OiBVc2UgcG9zdCB0ZXN0IGZvciBm
-bG9hdE5fbXVsKQoyLzEwIENoZWNraW5nIGNvbW1pdCA4NzZkZGY4ZjgzY2UgKHNvZnRmbG9hdDog
-UmVwbGFjZSBmbGFnIHdpdGggYm9vbCkKMy8xMCBDaGVja2luZyBjb21taXQgYWY5ZTdmZGZkYWVk
-IChzb2Z0ZmxvYXQ6IENoYW5nZSB0aW5pbmVzc19iZWZvcmVfcm91bmRpbmcgdG8gYm9vbCkKRVJS
-T1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQgY2xvc2UgcGFyZW50aGVzaXMgJyknCiM2
-ODogRklMRTogZnB1L3NvZnRmbG9hdC5jOjM4Nzc6CisgICAgICAgICAgICAgICAgICB8fCAoekV4
-cCA8IDAgKQoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxNDMgbGluZXMgY2hlY2tlZAoK
-UGF0Y2ggMy8xMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
-dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
-YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNC8xMCBDaGVja2luZyBjb21t
-aXQgNTM4M2U1ZWNmMWUzIChzb2Z0ZmxvYXQ6IE5hbWUgcm91bmRpbmcgbW9kZSBlbnVtKQo1LzEw
-IENoZWNraW5nIGNvbW1pdCA0YWZiMDRlNDJjMjEgKHNvZnRmbG9hdDogTmFtZSBjb21wYXJlIHJl
-bGF0aW9uIGVudW0pCjYvMTAgQ2hlY2tpbmcgY29tbWl0IDY1YWRjYWU2YTI5MCAoc29mdGZsb2F0
-OiBJbmxpbmUgZmxvYXQzMiBjb21wYXJlIHNwZWNpYWxpemF0aW9ucykKNy8xMCBDaGVja2luZyBj
-b21taXQgYzRlMDZhYmM0YzA5IChzb2Z0ZmxvYXQ6IElubGluZSBmbG9hdDY0IGNvbXBhcmUgc3Bl
-Y2lhbGl6YXRpb25zKQo4LzEwIENoZWNraW5nIGNvbW1pdCBmMzE5N2QzYWQ4ODQgKHNvZnRmbG9h
-dDogSW5saW5lIGZsb2F0MTI4IGNvbXBhcmUgc3BlY2lhbGl6YXRpb25zKQo5LzEwIENoZWNraW5n
-IGNvbW1pdCA3OTZkYTE0OWI3MjEgKHNvZnRmbG9hdDogSW5saW5lIGZsb2F0eDgwIGNvbXBhcmUg
-c3BlY2lhbGl6YXRpb25zKQoxMC8xMCBDaGVja2luZyBjb21taXQgYzc0ZTUxZDBlZDBkIChzb2Z0
-ZmxvYXQ6IFJldHVybiBib29sIGZyb20gYWxsIGNsYXNzaWZpY2F0aW9uIHByZWRpY2F0ZXMpCj09
-PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUg
-ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNTE5
-MTY0OTU3LjI2OTIwLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNr
-cGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5
-IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFj
-ayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On 05/19/20 20:20, Philippe Mathieu-Daudé wrote:
+> The 'blob_id' argument refers to a QOM object able to produce
+> data consumable by the fw_cfg device. The producer object must
+> implement the FW_CFG_DATA_GENERATOR interface.
+
+OK, this answers my OBJECT_CHECK() question under patch #1 (in the
+negative -- an assert would be wrong).
+
+>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  softmmu/vl.c | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
+>
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index ae5451bc23..f76c53ad2e 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -489,6 +489,10 @@ static QemuOptsList qemu_fw_cfg_opts = {
+>              .name = "string",
+>              .type = QEMU_OPT_STRING,
+>              .help = "Sets content of the blob to be inserted from a string",
+> +        }, {
+> +            .name = "blob_id",
+> +            .type = QEMU_OPT_STRING,
+> +            .help = "Sets id of the object generating fw_cfg blob to be used",
+>          },
+>          { /* end of list */ }
+>      },
+> @@ -2020,7 +2024,7 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
+>  {
+>      gchar *buf;
+>      size_t size;
+> -    const char *name, *file, *str;
+> +    const char *name, *file, *str, *blob_id;
+>      FWCfgState *fw_cfg = (FWCfgState *) opaque;
+>
+>      if (fw_cfg == NULL) {
+> @@ -2030,14 +2034,17 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
+>      name = qemu_opt_get(opts, "name");
+>      file = qemu_opt_get(opts, "file");
+>      str = qemu_opt_get(opts, "string");
+> +    blob_id = qemu_opt_get(opts, "blob_id");
+>
+>      /* we need name and either a file or the content string */
+
+(1) Please update this comment. If the option is given, we need the
+name, and exactly one of: file, content string, blob_id.
+
+> -    if (!(nonempty_str(name) && (nonempty_str(file) || nonempty_str(str)))) {
+> +    if (!(nonempty_str(name)
+> +          && (nonempty_str(file) || nonempty_str(str) || nonempty_str(blob_id)))
+> +         ) {
+>          error_setg(errp, "invalid argument(s)");
+>          return -1;
+>      }
+
+(2) Coding style: does QEMU keep operators on the left or on the right
+when breaking subconditions to new lines? (I vaguely recall "to the
+right", but I could be wrong... Well, "hw/nvram/fw_cfg.c" has at least 7
+examples of the operator being on the right.)
+
+> -    if (nonempty_str(file) && nonempty_str(str)) {
+> -        error_setg(errp, "file and string are mutually exclusive");
+> +    if (nonempty_str(file) && nonempty_str(str) && nonempty_str(blob_id)) {
+> +        error_setg(errp, "file, string and blob_id are mutually exclusive");
+>          return -1;
+>      }
+
+(3) I believe this catches only when all three of name/string/blob_id
+are given. But we should continue catching "two given".
+
+How about reworking both "if"s, *and* the comment at (1) at the same
+time, into:
+
+    if (!nonempty_str(name) ||
+        nonempty_str(file) + nonempty_str(str) + nonempty_str(blob_id) != 1) {
+        error_setg(errp, "name, plus exactly one of file, string and blob_id, "
+                   "are needed");
+        return -1;
+    }
+
+(Regarding the addition, nonempty_str() returns a "bool", which is a
+macro to _Bool, which is promoted to "int" or "unsigned int".)
+
+>      if (strlen(name) > FW_CFG_MAX_FILE_PATH - 1) {
+> @@ -2052,6 +2059,8 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
+>      if (nonempty_str(str)) {
+>          size = strlen(str); /* NUL terminator NOT included in fw_cfg blob */
+>          buf = g_memdup(str, size);
+> +    } else if (nonempty_str(blob_id)) {
+> +        return fw_cfg_add_from_generator(fw_cfg, name, blob_id, errp);
+>      } else {
+>          GError *err = NULL;
+>          if (!g_file_get_contents(file, &buf, &size, &err)) {
+>
+
+(4) The "-fw_cfg" command line option is documented in both the qemu(1)
+manual, and the "docs/specs/fw_cfg.txt" file.
+
+I think we may have to update those. In particular I mean *where* the
+option is documented (in both texts).
+
+In the manual, "-fw_cfg" is currently under "Debug/Expert options", but
+that will no longer apply (I think?) after this series.
+
+Similarly, in "docs/specs/fw_cfg.txt", the section is called "Externally
+Provided Items" -- but that might not be strictly true any more either.
+
+Maybe leave the current "-fw_cfg" mentions in peace, and document
+"-fw_cfg blob_id=..." separately (in different docs sections)? The
+"fw_cfg generators" concept could deserve dedicated sections.
+
+Sorry that I can't make a good concrete suggestion. :(
+
+Thanks,
+Laszlo
+
 
