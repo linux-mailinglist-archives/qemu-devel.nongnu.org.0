@@ -2,87 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B349C1D9DEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 19:31:12 +0200 (CEST)
-Received: from localhost ([::1]:45134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25A11D9E15
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 19:42:53 +0200 (CEST)
+Received: from localhost ([::1]:54466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb659-00036R-A4
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 13:31:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36388)
+	id 1jb6GT-0000ND-0U
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 13:42:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nicolas@ndufresne.ca>)
- id 1jb63i-0001In-B8
- for qemu-devel@nongnu.org; Tue, 19 May 2020 13:29:43 -0400
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:44852)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jb6Eb-0007fZ-63
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 13:40:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nicolas@ndufresne.ca>)
- id 1jb63f-0006Fz-8F
- for qemu-devel@nongnu.org; Tue, 19 May 2020 13:29:41 -0400
-Received: by mail-qt1-x844.google.com with SMTP id d7so216353qtn.11
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 10:29:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=wkAQrt/QZ02YfB0Dlvt6hkvv0K9Gt8A3M2LmM+q+IYc=;
- b=n+OsgAYn6ku0Pc2ck7u0bL9hFV8sjFkFcV57lIKqgh9bcoOMz1PWnTir5mqhWeqvbI
- hXXPsPe59N3DA0+863kjIFZcQlU/8x4gSIcSjF71GlOaVVbsPBYb8BCoJBxH0LNzY5Jb
- fDK7RyOYHtnT+bsoz6VrydwL4KMMDAl5Tymh1ynXIp71+DeG4xCzui41AK4SRp6r3p2N
- xg/M8oGpxtHu2RKpQbSJvT91/7o7NPC555ACPVk1KnelaWOieUu2UJFiJWLEHz6YHukL
- oADRQ3FyqQlljmsXUREOjnsJsoR5i9pTQxmvLKBLUjVyZRFky2YZiZ1LTo4GFMCSWG2J
- 6WzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=wkAQrt/QZ02YfB0Dlvt6hkvv0K9Gt8A3M2LmM+q+IYc=;
- b=MU2KSV6itHuNE4oo1TjxRZ2VypJqddFrV7rQW6PUQJrbBOdCYdKg5w9WAfJQauCZKI
- f3QpA8eCFbEstda/LwCAk4mTncX7sJBFYwmAerbGoSwBeB1pjeIaxHcbIxx4imiLlcBa
- JMN6lyNXV6xQbgfyenfE3L+YR4Ey6qHZcXNhNodqMiD4niQqo5pc08ZmYWbJfYv3NdYP
- TBMZkIgLFrK4Ki+Lf0r9J3w1THVNsE+1GCB1wikPOBIj9EYvdQzJly3LiZrsKc9uZ60Q
- pFaRdO+jPVbcYmmKXTQHvj1mDBWtXk+MMWkQhB/GKMfM0nrOcFoSO3ONySDZi4yS5Yab
- qJUg==
-X-Gm-Message-State: AOAM5339MXAHVq6hO8HzJ51Qu1ku6L8hlzLnVUzNuYwK+eCWRWL/LX6X
- YylJ9B2hyn85HoevaokP1hDK4g==
-X-Google-Smtp-Source: ABdhPJyG/+SPtbPU7sgZkWnIlc7Q8EUY+74vFhMeoDGz0YrICiPi+rzcx78sEKbplJvjubXnHYZjeg==
-X-Received: by 2002:ac8:5504:: with SMTP id j4mr851837qtq.383.1589909377528;
- Tue, 19 May 2020 10:29:37 -0700 (PDT)
-Received: from skullcanyon ([192.222.193.21])
- by smtp.gmail.com with ESMTPSA id 4sm111319qky.130.2020.05.19.10.29.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 May 2020 10:29:36 -0700 (PDT)
-Message-ID: <92ac2db087ccf8fae853284ecc8bdf187e292097.camel@ndufresne.ca>
-Subject: Re: [virtio-dev] Re: Fwd: Qemu Support for Virtio Video V4L2 driver
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Keiichi Watanabe <keiichiw@chromium.org>
-Date: Tue, 19 May 2020 13:29:35 -0400
-In-Reply-To: <CAD90VcaqE7PsLV=-xwWHXkct61wsiAuOCH78aLGSObfX9LqGsw@mail.gmail.com>
-References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
- <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
- <CAK25hWM-hLdk=MSKgceumOUo9ZNBrrmM8qSe7MvTUAPGmur_HQ@mail.gmail.com>
- <2515515.r9knKAEANn@os-lin-dmo>
- <CAD90VcYeF7drbYNDiEioPBHcQcifqDYUia_CKqNLv_5VAMjPKw@mail.gmail.com>
- <67e1ba850c5fbf84b09ec8266ab70dd08a10c2e3.camel@ndufresne.ca>
- <CAD90VcaqE7PsLV=-xwWHXkct61wsiAuOCH78aLGSObfX9LqGsw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jb6EZ-0008ER-Oe
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 13:40:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jb6EX-0006Wz-Gb
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 17:40:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 74F642E806D
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 17:40:53 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::844;
- envelope-from=nicolas@ndufresne.ca; helo=mail-qt1-x844.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 19 May 2020 17:32:01 -0000
+From: Alexander Bulekov <1879531@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+References: <158990645210.17233.17999678627149634965.malonedeb@soybean.canonical.com>
+Message-Id: <158990952181.22267.942585334462535418.malone@wampee.canonical.com>
+Subject: [Bug 1879531] Re: Stack-overflow in _eth_get_rss_ex_dst_addr
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 26a90d4bacb59d342cf5234268936cb25f5b6a9b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 13:40:53
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,274 +72,223 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
- virtio-dev@lists.oasis-open.org, Alex Lau <alexlau@chromium.org>,
- Kiran Pawar <Kiran.Pawar@opensynergy.com>,
- Alexandre Courbot <acourbot@chromium.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Tomasz Figa <tfiga@chromium.org>, Saket Sinha <saket.sinha89@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Hans Verkuil <hverkuil@xs4all.nl>,
- Dmitry Sepp <dmitry.sepp@opensynergy.com>,
- Emil Velikov <emil.velikov@collabora.com>, Pawel Osciak <posciak@chromium.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Reply-To: Bug 1879531 <1879531@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le mardi 19 mai 2020 à 17:37 +0900, Keiichi Watanabe a écrit :
-> Hi Nicolas,
-> 
-> On Fri, May 15, 2020 at 8:38 AM Nicolas Dufresne <
-> nicolas@ndufresne.ca
-> > wrote:
-> > Le lundi 11 mai 2020 à 20:49 +0900, Keiichi Watanabe a écrit :
-> > > Hi,
-> > > 
-> > > Thanks Saket for your feedback. As Dmitry mentioned, we're focusing on
-> > > video encoding and decoding, not camera. So, my reply was about how to
-> > > implement paravirtualized video codec devices.
-> > > 
-> > > On Mon, May 11, 2020 at 8:25 PM Dmitry Sepp <
-> > > dmitry.sepp@opensynergy.com
-> > > >
-> > > wrote:
-> > > > Hi Saket,
-> > > > 
-> > > > On Montag, 11. Mai 2020 13:05:53 CEST Saket Sinha wrote:
-> > > > > Hi Keiichi,
-> > > > > 
-> > > > > I do not support the approach of  QEMU implementation forwarding
-> > > > > requests to the host's vicodec module since  this can limit the scope
-> > > > > of the virtio-video device only for testing,
-> > > > 
-> > > > That was my understanding as well.
-> > > 
-> > > Not really because the API which the vicodec provides is V4L2 stateful
-> > > decoder interface [1], which are also used by other video drivers on
-> > > Linux.
-> > > The difference between vicodec and actual device drivers is that
-> > > vicodec performs decoding in the kernel space without using special
-> > > video devices. In other words, vicodec is a software decoder in kernel
-> > > space which provides the same interface with actual video drivers.
-> > > Thus, if the QEMU implementation can forward virtio-video requests to
-> > > vicodec, it can forward them to the actual V4L2 video decoder devices
-> > > as well and VM gets access to a paravirtualized video device.
-> > > 
-> > > The reason why we discussed vicodec in the previous thread was it'll
-> > > allow us to test the virtio-video driver without hardware requirement.
-> > > 
-> > > [1] 
-> > > https://www.kernel.org/doc/html/latest/media/uapi/v4l/dev-decoder.html
-> > > 
-> > > 
-> > > > > which instead can be used with multiple use cases such as -
-> > > > > 
-> > > > > 1. VM gets access to paravirtualized  camera devices which shares the
-> > > > > video frames input through actual HW camera attached to Host.
-> > > > 
-> > > > This use-case is out of the scope of virtio-video. Initially I had a plan to
-> > > > support capture-only streams like camera as well, but later the decision was
-> > > > made upstream that camera should be implemented as separate device type. We
-> > > > still plan to implement a simple frame capture capability as a downstream
-> > > > patch though.
-> > > > 
-> > > > > 2. If Host has multiple video devices (especially in ARM SOCs over
-> > > > > MIPI interfaces or USB), different VM can be started or hotplugged
-> > > > > with selective video streams from actual HW video devices.
-> > > > 
-> > > > We do support this in our device implementation. But spec in general has no
-> > > > requirements or instructions regarding this. And it is in fact flexible
-> > > > enough
-> > > > to provide abstraction on top of several HW devices.
-> > > > 
-> > > > > Also instead of using libraries like Gstreamer in Host userspace, they
-> > > > > can also be used inside the VM userspace after getting access to
-> > > > > paravirtualized HW camera devices .
-> > > 
-> > > Regarding Gstreamer, I intended this video decoding API [2]. If QEMU
-> > > can translate virtio-video requests to this API, we can easily support
-> > > multiple platforms.
-> > > I'm not sure how feasible it is though, as I have no experience of
-> > > using this API by myself...
-> > 
-> > Not sure which API you aim exactly, but what one need to remember is that
-> > mapping virtio-video CODEC on top of VAAPI, V4L2 Stateless, NVDEC or other type
-> > of "stateless" CODEC is not trivial and can't be done without userspace. Notably
-> > because we don't want to do bitstream parsing in the kernel on the main CPU as
-> > security would otherwise be very hard to guaranty. The other driver using same
-> > API as virtio-video do bitstream parsing on a dedicated co-processor (through
-> > firmware blobs though).
-> > 
-> > Having bridges between virtio-video, qemu and some abstraction library like
-> > FFMPEG or GStreamer is certainly the best solution if you want to virtualize any
-> > type of HW accelerated decoder or if you need to virtualized something
-> > proprietary (like NVDEC). Please shout if you need help.
-> > 
-> 
-> Yeah, I meant we should map virtio-video commands to a set of
-> abstracted userspace APIs to avoid having many platform-dependent code
-> in QEMU.
-> This is the same with what we implemented in crosvm, a VMM on
-> ChromiumOS. Crosvm's video device translates virtio-video commands
-> into our own video decoding APIs [1, 2] which supports VAAPI, V4L2
-> stateful and V4L2 stateless. Unfortunately, since our library is
-> highly depending on Chrome, we cannot reuse this for QEMU.
-> 
-> So, I agree that using FFMPEG or GStreamer is a good idea. Probably,
-> APIs in my previous link weren't for this purpose.
-> Nicolas, do you know any good references for FFMPEG or GStreamer's
-> abstracted video decoding APIs? Then, I may be able to think about how
-> virtio-video protocols can be mapped to them.
+>From Prasad:
 
-The FFMpeg API for libavcodec can be found here:
 
-  http://git.videolan.org/?p=ffmpeg.git;a=blob;f=libavcodec/avcodec.h
+=C2=A0struct ip6_ext_hdr {
+ uint8_t ip6r_nxt; /* next header */
+ uint8_t ip6r_len; /* length in units of 8 octets */
+};
+struct ip6_ext_hdr_routing {
+ uint8_t nxt;
+ uint8_t len;
+ uint8_t rtype;
+ uint8_t segleft;
+ uint8_t rsvd[4];
+};
+=C2=A0Yes, it looks like because 'struct ip6_ext_hdr' type stack variable's=
+ address is assigned to
+'struct ip6_ext_hdr_routine' type pointer. And such a pointer is accessing =
+'->rtype' variable,
+which is not present in 'struct ip6_ext_hdr'.
 
-GStreamer does not really have such a low level CODEC API. So while
-it's possible to use it (Wine project uses it for it's parsers as an
-example, and Firefox use to have CODEC support wrapping GStreamer
-CODEC), there will not be any one-to-one mapping. GStreamer is often
-chosen as it's LGPL code does not carry directly any patented
-implementation. It instead rely on plugins, which maybe provided as
-third party, allowing to distribute your project while giving uses the
-option to install potentially non-free technologies.
+=C2=A0diff --git a/include/net/eth.h b/include/net/eth.h
+index 7f45c678e7..38f2d52bcd 100644
+--- a/include/net/eth.h
++++ b/include/net/eth.h
+@@ -129,6 +129,7 @@ typedef struct ip6_pseudo_header {
+ struct ip6_ext_hdr {
+ uint8_t ip6r_nxt; /* next header */
+ uint8_t ip6r_len; /* length in units of 8 octets */
++ uint32_t padding;
+ };
+=C2=A0Above patch should help. It is okay to send this report upstream. Tha=
+nk you.
+--
+Prasad J Pandit / Red Hat Product Security Team
 
-But overall, I can describe GStreamer API for CODEC wrapping (pipeline
-less) as:
+-- =
 
-  - Push GstCaps describing the stream format
-  - Push bitstream buffer on sink pad
-  - When ready, buffers will be pushed through the push function 
-    callback on src pad
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1879531
 
-Of course nothing prevent adding something like the vda abstraction in
-qemu and make this multi-backend capable.
+Title:
+  Stack-overflow in _eth_get_rss_ex_dst_addr
 
-> 
-> [1] libvda's C interface:
-> https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/arc/vm/libvda/libvda_decode.h
-> 
-> [2] libvda's Rust interface:
-> https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/arc/vm/libvda/rust/
-> 
-> 
-> Best regards,
-> Keiichi
-> 
-> > > [2]
-> > > https://gstreamer.freedesktop.org/documentation/tutorials/playback/hardware-accelerated-video-decoding.html
-> > > 
-> > > 
-> > > Best regards,
-> > > Keiichi
-> > > 
-> > > > Regarding the cameras, unfortunately same as above.
-> > > > 
-> > > > Best regards,
-> > > > Dmitry.
-> > > > 
-> > > > > Regards,
-> > > > > Saket Sinha
-> > > > > 
-> > > > > On Mon, May 11, 2020 at 12:20 PM Keiichi Watanabe <
-> > > > > keiichiw@chromium.org
-> > > > > >
-> > > > 
-> > > > wrote:
-> > > > > > Hi Dmitry,
-> > > > > > 
-> > > > > > On Mon, May 11, 2020 at 6:40 PM Dmitry Sepp <
-> > > > > > dmitry.sepp@opensynergy.com
-> > > > > > 
-> > > > 
-> > > > wrote:
-> > > > > > > Hi Saket and all,
-> > > > > > > 
-> > > > > > > As we are working with automotive platforms, unfortunately we don't
-> > > > > > > plan
-> > > > > > > any Qemu reference implementation so far.
-> > > > > > > 
-> > > > > > > Of course we are ready to support the community if any help is needed.
-> > > > > > > Is
-> > > > > > > there interest in support for the FWHT format only for testing purpose
-> > > > > > > or you want a full-featured implementation on the QEMU side?
-> > > > > > 
-> > > > > > I guess we don't need to implement the codec algorithm in QEMU.
-> > > > > > Rather, QEMU forwards virtio-video requests to the host video device
-> > > > > > or a software library such as GStreamer or ffmpeg.
-> > > > > > So, what we need to implement in QEMU is a kind of API translation,
-> > > > > > which shouldn't care about actual video formats so much.
-> > > > > > 
-> > > > > > Regarding the FWHT format discussed in the patch thread [1], in my
-> > > > > > understanding, Hans suggested to have QEMU implementation forwarding
-> > > > > > requests to the host's vicodec module [2].
-> > > > > > Then, we'll be able to test the virtio-video driver on QEMU on Linux
-> > > > > > even if the host Linux has no hardware video decoder.
-> > > > > > (Please correct me if I'm wrong.)
-> > > > > > 
-> > > > > > Let me add Hans and Linux media ML in CC.
-> > > > > > 
-> > > > > > [1]  
-> > > > > > https://patchwork.linuxtv.org/patch/61717/
-> > > > > > 
-> > > > > > [2] 
-> > > > > > https://lwn.net/Articles/760650/
-> > > > > > 
-> > > > > > 
-> > > > > > Best regards,
-> > > > > > Keiichi
-> > > > > > 
-> > > > > > > Please note that the spec is not finalized yet and a major update is
-> > > > > > > now
-> > > > > > > discussed with upstream and the Chrome OS team, which is also
-> > > > > > > interested
-> > > > > > > and deeply involved in the process. The update mostly implies some
-> > > > > > > rewording and reorganization of data structures, but for sure will
-> > > > > > > require a driver rework.
-> > > > > > > 
-> > > > > > > Best regards,
-> > > > > > > Dmitry.
-> > > > > > > 
-> > > > > > > On Samstag, 9. Mai 2020 16:11:43 CEST Saket Sinha wrote:
-> > > > > > > > Hi,
-> > > > > > > > 
-> > > > > > > > As suggested on #qemu-devel IRC channel, I am including virtio-dev,
-> > > > > > > > Gerd and Michael to point in the right direction how to move forward
-> > > > > > > > with Qemu support for Virtio Video V4L2 driver
-> > > > > > > > posted in [1].
-> > > > > > > > 
-> > > > > > > > [1]: 
-> > > > > > > > https://patchwork.linuxtv.org/patch/61717/
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > > > Regards,
-> > > > > > > > Saket Sinha
-> > > > > > > > 
-> > > > > > > > On Sat, May 9, 2020 at 1:09 AM Saket Sinha <
-> > > > > > > > saket.sinha89@gmail.com
-> > > > > > > > >
-> > > > 
-> > > > wrote:
-> > > > > > > > > Hi ,
-> > > > > > > > > 
-> > > > > > > > > This is to inquire about Qemu support for Virtio Video V4L2 driver
-> > > > > > > > > posted in [1].
-> > > > > > > > > I am currently not aware of any upstream effort for Qemu reference
-> > > > > > > > > implementation and would like to discuss how to proceed with the
-> > > > > > > > > same.
-> > > > > > > > > 
-> > > > > > > > > [1]: 
-> > > > > > > > > https://patchwork.linuxtv.org/patch/61717/
-> > > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > Regards,
-> > > > > > > > > Saket Sinha
-> > > > > > > 
-> > > > > > > ---------------------------------------------------------------------
-> > > > > > > To unsubscribe, e-mail: 
-> > > > > > > virtio-dev-unsubscribe@lists.oasis-open.org
-> > > > > > > 
-> > > > > > > For additional commands, e-mail: 
-> > > > > > > virtio-dev-help@lists.oasis-open.org
-> > > > > > > 
+Status in QEMU:
+  New
 
+Bug description:
+  Hello,
+  While fuzzing, I found a 1-byte stack-overflow (read) through the
+  e1000e. =
+
+
+  =3D=3D10318=3D=3DERROR: AddressSanitizer: stack-buffer-overflow on addres=
+s 0x7ffdb76c16c2 at pc 0x55594f1a69e1 bp 0x7ffdb76c15a0 sp 0x7ffdb76c1598
+  READ of size 1 at 0x7ffdb76c16c2 thread T0
+      #0 0x55594f1a69e0 in _eth_get_rss_ex_dst_addr /home/alxndr/Developmen=
+t/qemu/net/eth.c:410:17
+      #1 0x55594f1a39da in eth_parse_ipv6_hdr /home/alxndr/Development/qemu=
+/net/eth.c:532:17
+      #2 0x55594ebc34f2 in net_tx_pkt_parse_headers /home/alxndr/Developmen=
+t/qemu/hw/net/net_tx_pkt.c:228:14
+      #3 0x55594ebc2149 in net_tx_pkt_parse /home/alxndr/Development/qemu/h=
+w/net/net_tx_pkt.c:273:9
+      #4 0x55594ec1ba76 in e1000e_process_tx_desc /home/alxndr/Development/=
+qemu/hw/net/e1000e_core.c:737:29
+      #5 0x55594ec1aea4 in e1000e_start_xmit /home/alxndr/Development/qemu/=
+hw/net/e1000e_core.c:934:9
+      #6 0x55594ec0e70e in e1000e_set_tdt /home/alxndr/Development/qemu/hw/=
+net/e1000e_core.c:2451:9
+      #7 0x55594ebec435 in e1000e_core_write /home/alxndr/Development/qemu/=
+hw/net/e1000e_core.c:3261:9
+      #8 0x55594ebdf11b in e1000e_mmio_write /home/alxndr/Development/qemu/=
+hw/net/e1000e.c:109:5
+      #9 0x55594dfd98b1 in memory_region_write_accessor /home/alxndr/Develo=
+pment/qemu/memory.c:483:5
+      #10 0x55594dfd9211 in access_with_adjusted_size /home/alxndr/Developm=
+ent/qemu/memory.c:544:18
+      #11 0x55594dfd7c30 in memory_region_dispatch_write /home/alxndr/Devel=
+opment/qemu/memory.c:1476:16
+      #12 0x55594dde24b8 in flatview_write_continue /home/alxndr/Developmen=
+t/qemu/exec.c:3137:23
+      #13 0x55594ddd12dc in flatview_write /home/alxndr/Development/qemu/ex=
+ec.c:3177:14
+      #14 0x55594ddd0dec in address_space_write /home/alxndr/Development/qe=
+mu/exec.c:3268:18
+      #15 0x55594dfcdbdc in qtest_process_command /home/alxndr/Development/=
+qemu/qtest.c:567:9
+      #16 0x55594dfc3700 in qtest_process_inbuf /home/alxndr/Development/qe=
+mu/qtest.c:710:9
+      #17 0x55594dfc2cc8 in qtest_read /home/alxndr/Development/qemu/qtest.=
+c:722:5
+      #18 0x55594f74b259 in qemu_chr_be_write_impl /home/alxndr/Development=
+/qemu/chardev/char.c:183:9
+      #19 0x55594f74b3ee in qemu_chr_be_write /home/alxndr/Development/qemu=
+/chardev/char.c:195:9
+      #20 0x55594f7556fc in fd_chr_read /home/alxndr/Development/qemu/chard=
+ev/char-fd.c:68:9
+      #21 0x55594f7ea488 in qio_channel_fd_source_dispatch /home/alxndr/Dev=
+elopment/qemu/io/channel-watch.c:84:12
+      #22 0x7f43f6c1d897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x4e897)
+      #23 0x55594f9dea5d in glib_pollfds_poll /home/alxndr/Development/qemu=
+/util/main-loop.c:219:9
+      #24 0x55594f9dd1d7 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/util/main-loop.c:242:5
+      #25 0x55594f9dcd6e in main_loop_wait /home/alxndr/Development/qemu/ut=
+il/main-loop.c:518:11
+      #26 0x55594e44cd01 in qemu_main_loop /home/alxndr/Development/qemu/so=
+ftmmu/vl.c:1664:9
+      #27 0x55594f803c21 in main /home/alxndr/Development/qemu/softmmu/main=
+.c:49:5
+      #28 0x7f43f57b4e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
+0/csu/../csu/libc-start.c:308:16
+      #29 0x55594dd03889 in _start (/home/alxndr/Development/qemu/build/i38=
+6-softmmu/qemu-system-i386+0xdbd889)
+
+  Address 0x7ffdb76c16c2 is located in stack of thread T0 at offset 34 in f=
+rame
+      #0 0x55594f1a303f in eth_parse_ipv6_hdr /home/alxndr/Development/qemu=
+/net/eth.c:486
+
+    This frame has 1 object(s):
+      [32, 34) 'ext_hdr' (line 487) <=3D=3D Memory access at offset 34 over=
+flows this variable
+  HINT: this may be a false positive if your program uses some custom stack=
+ unwind mechanism, swapcontext or vfork
+        (longjmp and C++ exceptions *are* supported)
+  SUMMARY: AddressSanitizer: stack-buffer-overflow /home/alxndr/Development=
+/qemu/net/eth.c:410:17 in _eth_get_rss_ex_dst_addr
+  Shadow bytes around the buggy address:
+    0x100036ed0280: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed0290: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed02a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed02b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed02c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  =3D>0x100036ed02d0: 00 00 00 00 f1 f1 f1 f1[02]f3 f3 f3 00 00 00 00
+    0x100036ed02e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed02f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed0300: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed0310: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed0320: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  Shadow byte legend (one shadow byte represents 8 application bytes):
+    Addressable:           00
+    Partially addressable: 01 02 03 04 05 06 07
+    Heap left redzone:       fa
+    Freed heap region:       fd
+    Stack left redzone:      f1
+    Stack mid redzone:       f2
+    Stack right redzone:     f3
+    Stack after return:      f5
+    Stack use after scope:   f8
+    Global redzone:          f9
+    Global init order:       f6
+    Poisoned by user:        f7
+    Container overflow:      fc
+    Array cookie:            ac
+    Intra object redzone:    bb
+    ASan internal:           fe
+    Left alloca redzone:     ca
+    Right alloca redzone:    cb
+    Shadow gap:              cc
+  =3D=3D10318=3D=3DABORTING
+
+  I can reproduce it in qemu 5.0 built with address sanitizer using:
+
+  cat << EOF | ./qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -=
+monitor none -serial none -nographic
+  outl 0xcf8 0x80001010
+  outl 0xcfc 0xe1020000
+  outl 0xcf8 0x80001014
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
+  outl 0xcf8 0x800010a2
+  write 0x25 0x2b 0x86dd1900ff5df747002bfc90dd1900ff5df747002bfc9add1900ff5=
+df747002bfca4dd1900ff5df747002b
+  write 0xe1020030 0x409 0x190002e100000000350908077cdd190002e1000000003509=
+12077cdd190002e10000000035091c077cdd190002e100000000350926077cdd190002e1000=
+00000350930077cdd190002e10000000035093a077cdd190002e100000000350944077cdd19=
+0002e10000000035094e077cdd190002e100000000350958077cdd190002e10000000035096=
+2077cdd190002e10000000035096c077cdd190002e100000000350976077cdd190002e10000=
+0000350980077cdd190002e10000000035098a077cdd190002e100000000350994077cdd190=
+002e10000000035099e077cdd190002e1000000003509a8077cdd190002e1000000003509b2=
+077cdd190002e1000000003509bc077cdd190002e1000000003509c6077cdd190002e100000=
+0003509d0077cdd190002e1000000003509da077cdd190002e1000000003509e4077cdd1900=
+02e1000000003509ee077cdd190002e1000000003509f8077cdd190002e1000000003509020=
+77cdd190002e10000000035090c077cdd190002e100000000350916077cdd190002e1000000=
+00350920077cdd190002e10000000035092a077cdd190002e100000000350934077cdd19000=
+2e10000000035093e077cdd190002e100000000350948077cdd190002e10000000035095207=
+7cdd190002e10000000035095c077cdd190002e100000000350966077cdd190002e10000000=
+0350970077cdd190002e10000000035097a077cdd190002e100000000350984077cdd190002=
+e10000000035098e077cdd190002e100000000350998077cdd190002e1000000003509a2077=
+cdd190002e1000000003509ac077cdd190002e1000000003509b6077cdd190002e100000000=
+3509c0077cdd190002e1000000003509ca077cdd190002e1000000003509d4077cdd190002e=
+1000000003509de077cdd190002e1000000003509e8077cdd190002e1000000003509f2077c=
+dd190002e1000000003509fc077cdd190002e100000000350906077cdd190002e1000000003=
+50910077cdd190002e10000000035091a077cdd190002e100000000350924077cdd190002e1=
+0000000035092e077cdd190002e100000000350938077cdd190002e100000000350942077cd=
+d190002e10000000035094c077cdd190002e100000000350956077cdd190002e10000000035=
+0960077cdd190002e10000000035096a077cdd190002e100000000350974077cdd190002e10=
+000000035097e077cdd190002e100000000350988077cdd190002e100000000350992077cdd=
+190002e10000000035099c077cdd190002e1000000003509a6077cdd190002e100000000350=
+9b0077cdd190002e1000000003509ba077cdd190002e1000000003509c4077cdd190002e100=
+0000003509ce077cdd190002e1000000003509d8077cdd190002e1000000003509e2
+  EOF
+
+  Also attaching these commands. They can be executed with
+  ./qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -monitor none =
+-serial none -nographic < attachment
+
+  Let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1879531/+subscriptions
 
