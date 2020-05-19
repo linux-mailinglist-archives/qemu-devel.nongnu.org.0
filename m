@@ -2,82 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D7C01D9C00
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 18:07:42 +0200 (CEST)
-Received: from localhost ([::1]:36422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E20C91D9C5B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 18:20:07 +0200 (CEST)
+Received: from localhost ([::1]:56608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb4mL-0005Tm-3Q
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 12:07:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54780)
+	id 1jb4yM-0006Fn-56
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 12:20:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jb4ku-0004EQ-JU
- for qemu-devel@nongnu.org; Tue, 19 May 2020 12:06:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46607
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jb4xD-0005RP-9r
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 12:18:55 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37139
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jb4ks-0003yp-4i
- for qemu-devel@nongnu.org; Tue, 19 May 2020 12:06:11 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jb4xB-0007Qo-Nz
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 12:18:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589904368;
+ s=mimecast20190719; t=1589905132;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ft1k8/+vu4KGhG0o6dVIMdOUyQRkdME+4P+QzrN5Apc=;
- b=TgS5hO2jzzFTgSjM2nIC0Kl2XM3YmGehc0p/o8LAmtvYjQRhbPyO7Ljh/ZcUWM53xBxcGy
- E6+rfKzTeL96/mY33awUi2HEdOn7FsiVzkp78Nji3wBGT9KfoGSjQH0noShDvpKk7U70NQ
- 3LHcCBIX2PVM+XqwH71UIj4mpx5M2+U=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EfPBe9jgBP0pqgXlBohTg8uYZ7e/2e8myUXi4/u+SWk=;
+ b=Wc3OmZa+nHPjPh29z9VqHFWu5cNoobv+LNc5ocYdkBYRJHe6sAl6r+AQ3S5DyuqGH7GiaD
+ vpw7V2VYIHdyR3esT3ReCeQtbUUOWVBGe8SwzUi645Rd4FvPxyIaYv2U5Z1WRogRaLSLHY
+ wAgQ298F6hRKXXi0pXNDviaRCt1fdqQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-uGdQ0E5DMUK48tNpd1MBeA-1; Tue, 19 May 2020 12:06:06 -0400
-X-MC-Unique: uGdQ0E5DMUK48tNpd1MBeA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-389-G6jDYzM1NIS0VcFRy7bUJA-1; Tue, 19 May 2020 12:18:48 -0400
+X-MC-Unique: G6jDYzM1NIS0VcFRy7bUJA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEB3B18FE860;
- Tue, 19 May 2020 16:06:04 +0000 (UTC)
-Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F6F56F430;
- Tue, 19 May 2020 16:06:01 +0000 (UTC)
-Subject: Re: [RFC PATCH 0/3] block: Synchronous bdrv_*() from coroutine in
- different AioContext
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Kevin Wolf <kwolf@redhat.com>, Denis Plotnikov <dplotnikov@virtuozzo.com>
-References: <20200512144318.181049-1-kwolf@redhat.com>
- <6d78bc78-0c44-d703-6f9f-e048ea34fdd9@proxmox.com>
- <20200514142606.GH5518@linux.fritz.box>
- <285ba39f-9ee6-e089-13f7-a98ea0a84866@virtuozzo.com>
- <548700ea-78db-fabc-d1eb-6d89af39ece3@virtuozzo.com>
- <20200519141858.GN7652@linux.fritz.box>
- <dfed81f7-9806-9aaf-459f-13f786b67e0a@virtuozzo.com>
- <20200519152959.GP7652@linux.fritz.box>
- <b10dddf4-8889-c9e2-74db-d620e4fa5ca7@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34838464
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 16:18:47 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-112-88.phx2.redhat.com [10.3.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 024E61001B07
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 16:18:46 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <8f454324-2edc-076f-c413-04c74ffaf6b9@redhat.com>
-Date: Tue, 19 May 2020 11:06:00 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 0/7] bitmaps patches for 2020-05-18
+Date: Tue, 19 May 2020 11:18:33 -0500
+Message-Id: <20200519161840.810320-1-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <b10dddf4-8889-c9e2-74db-d620e4fa5ca7@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 09:19:26
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 00:34:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,75 +74,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, armbru@redhat.com, s.reiter@proxmox.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/19/20 10:48 AM, Vladimir Sementsov-Ogievskiy wrote:
+The following changes since commit f2465433b43fb87766d79f42191607dac4aed5b4:
 
->> The other options is doing what you suggested. There is nothing in the
->> qcow2 on-disk format that would prevent this, but we would have to
->> extend the qcow2 driver to allow I/O to inactive L1 tables. This sounds
->> like a non-trivial amount of code changes, though it would potentially
->> enable more use cases we never implemented ((read-only) access to
->> internal snapshots as block nodes, so you could e.g. use block jobs to
->> export a snapshot).
-> 
-> Or export a snapshot through NBD.
-> 
-> Still, I have one more idea, probably we already discussed it?
-> Honestly, I don't like the fact that we store vmstate into guest-data 
-> space. After EOF, invisible, but still..
-> 
-> Maybe, it would be good to make a qcow2 extension for storing vmstate 
-> separately?
+  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2020-05-19 13:42:58 +0100)
 
-The existing location of internal snapshots IS already stored separately 
-from guest-data space, precisely because it is beyond EOF.
+are available in the Git repository at:
 
-> So snapshot metadata will include two more fields: 
-> vmstate_offset and vmstate_length (hmm, actually we already have the 
-> second one), which will be allocated as normal qcow2 metadata?
+  https://repo.or.cz/qemu/ericb.git tags/pull-bitmaps-2020-05-18-v2
 
-How will adding redundant fields help?  Both fields are already present 
-in the snapshot table of v3 images (even if indirectly) by virtue of:
+for you to fetch changes up to d4d42c8202261ec770bef614220742af9dfe3d81:
 
-         32 - 35:    Size of the VM state in bytes. 0 if no VM state is 
-saved.
-                     If there is VM state, it starts at the first cluster
-                     described by first L1 table entry that doesn't 
-describe a
-                     regular guest cluster (i.e. VM state is stored like 
-guest
-                     disk content, except that it is stored at offsets 
-that are
-                     larger than the virtual disk presented to the guest)
+  qemu-img: Add bitmap sub-command (2020-05-19 10:41:34 -0500)
 
-                     Byte 40 - 47:   Size of the VM state in bytes. 0 if 
-no VM
-                                     state is saved. If this field is 
-present,
-                                     the 32-bit value in bytes 32-35 is 
-ignored.
+v2: resolve semantic conflict with commit 43d589b0, only sending changed patch
 
-                     Byte 48 - 55:   Virtual disk size of the snapshot 
-in bytes
+----------------------------------------------------------------
+bitmaps patches for 2020-05-18
 
-which gives you both the 64-bit size (in order to compute the last 
-cluster accessible to the guest, and thus the next cluster available to 
-the vmstate beyond EOF) and the 64-bit length of that vmstate.
+- update bitmaps maintainers
+- add 'qemu-img bitmap' subcommand
 
-> Or we can 
-> add one-two levels of layered allocation if needed, but keep it separate 
-> from L1/L2 tables for guest clusters.
-> 
-> 
+----------------------------------------------------------------
+Eric Blake (7):
+      bitmaps: Update maintainer
+      docs: Sort sections on qemu-img subcommand parameters
+      qemu-img: Fix stale comments on doc location
+      block: Make it easier to learn which BDS support bitmaps
+      blockdev: Promote several bitmap functions to non-static
+      blockdev: Split off basic bitmap operations for qemu-img
+      qemu-img: Add bitmap sub-command
+
+ docs/tools/qemu-img.rst         |  72 ++++++---
+ Makefile.objs                   |   3 +-
+ block/qcow2.h                   |   1 +
+ include/block/block_int.h       |  13 ++
+ include/block/dirty-bitmap.h    |   1 +
+ block/dirty-bitmap.c            |   9 ++
+ block/monitor/bitmap-qmp-cmds.c | 321 ++++++++++++++++++++++++++++++++++++++++
+ block/qcow2-bitmap.c            |   7 +
+ block/qcow2.c                   |   2 +
+ blockdev.c                      | 303 +------------------------------------
+ qemu-img.c                      | 251 ++++++++++++++++++++++++++++++-
+ MAINTAINERS                     |   8 +-
+ block/monitor/Makefile.objs     |   1 +
+ qemu-img-cmds.hx                |   9 +-
+ 14 files changed, 672 insertions(+), 329 deletions(-)
+ create mode 100644 block/monitor/bitmap-qmp-cmds.c
+
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.26.2
 
 
