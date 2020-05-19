@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8803E1DA24D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 22:13:56 +0200 (CEST)
-Received: from localhost ([::1]:56790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 828DD1DA256
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 22:15:30 +0200 (CEST)
+Received: from localhost ([::1]:36010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb8cd-000683-K7
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 16:13:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57672)
+	id 1jb8e9-0000u7-J5
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 16:15:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jb8bc-0004IG-TI
- for qemu-devel@nongnu.org; Tue, 19 May 2020 16:12:52 -0400
-Received: from mga01.intel.com ([192.55.52.88]:59949)
+ id 1jb8bd-0004IU-Od
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 16:12:53 -0400
+Received: from mga01.intel.com ([192.55.52.88]:59953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jb8bb-00089z-90
- for qemu-devel@nongnu.org; Tue, 19 May 2020 16:12:52 -0400
-IronPort-SDR: YUCtJlXt6hOmYP2ZdU0XhbNqltjSBuSt4RPKhiWdKGUglgsUIGPqkQhx1PAONtWkJ6SwKOjwSh
- mWCue7cPvpNg==
+ id 1jb8bb-0008A4-5Y
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 16:12:53 -0400
+IronPort-SDR: Gp6nnldeXh6r8jPza6AqWbmR1BXCpvbLEZZ7WhNZeGKkbzZrTIYDxZQq7KZj+vZHfbuT3+ptLw
+ Hk51QXL5jtOg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2020 13:12:40 -0700
-IronPort-SDR: IHqP5eng41vaKlPqmdJTvWHwuBmlDArm4AmjjBcSD1bJc3kuUZn7g440DtFvyaHbXbvkez2F/a
- YyVlTgYH2aiw==
+ 19 May 2020 13:12:41 -0700
+IronPort-SDR: eURwQ2jobUMr1Zo13R+OU67a/bYp6TzS2BwsiZ/o5uKZ6dcrJeRxqmeVaPpqe68IqqhKEarg9w
+ lrLBEPLB4nPg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="268007838"
+X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="268007846"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga006.jf.intel.com with ESMTP; 19 May 2020 13:12:38 -0700
+ by orsmga006.jf.intel.com with ESMTP; 19 May 2020 13:12:39 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: Jason Wang <jasowang@redhat.com>
-Subject: [PATCH 0/7] Latest COLO tree queued patches
-Date: Wed, 20 May 2020 04:02:00 +0800
-Message-Id: <20200519200207.17773-1-chen.zhang@intel.com>
+Subject: [PATCH 1/7] colo-compare: Fix memory leak in packet_enqueue()
+Date: Wed, 20 May 2020 04:02:01 +0800
+Message-Id: <20200519200207.17773-2-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200519200207.17773-1-chen.zhang@intel.com>
+References: <20200519200207.17773-1-chen.zhang@intel.com>
 Received-SPF: pass client-ip=192.55.52.88; envelope-from=chen.zhang@intel.com;
  helo=mga01.intel.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 16:12:40
@@ -61,37 +63,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, qemu-dev <qemu-devel@nongnu.org>,
- Zhang Chen <zhangckid@gmail.com>
+Cc: Derek Su <dereksu@qnap.com>, Zhang Chen <chen.zhang@intel.com>,
+ qemu-dev <qemu-devel@nongnu.org>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhang Chen <chen.zhang@intel.com>
+From: Derek Su <dereksu@qnap.com>
 
-Hi Jason, this series include latest COLO related patches.
-I have finish basic test and review.
-If no other comments, please check and merge this series.
+The patch is to fix the "pkt" memory leak in packet_enqueue().
+The allocated "pkt" needs to be freed if the colo compare
+primary or secondary queue is too big.
 
-Derek Su (1):
-  colo-compare: Fix memory leak in packet_enqueue()
+Replace the error_report of full queue with a trace event.
 
-Lukas Straub (6):
-  net/colo-compare.c: Create event_bh with the right AioContext
-  chardev/char.c: Use qemu_co_sleep_ns if in coroutine
-  net/colo-compare.c: Fix deadlock in compare_chr_send
-  net/colo-compare.c: Only hexdump packets if tracing is enabled
-  net/colo-compare.c, softmmu/vl.c: Check that colo-compare is active
-  net/colo-compare.c: Correct ordering in complete and finalize
+Signed-off-by: Derek Su <dereksu@qnap.com>
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+---
+ net/colo-compare.c | 23 +++++++++++++++--------
+ net/trace-events   |  1 +
+ 2 files changed, 16 insertions(+), 8 deletions(-)
 
- chardev/char.c     |   7 +-
- net/colo-compare.c | 277 +++++++++++++++++++++++++++++++++------------
- net/colo-compare.h |   1 +
- net/colo.c         |   7 ++
- net/colo.h         |   1 +
- net/trace-events   |   1 +
- softmmu/vl.c       |   2 +
- 7 files changed, 225 insertions(+), 71 deletions(-)
-
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index c07e7c1c09..56d8976537 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -122,6 +122,10 @@ enum {
+     SECONDARY_IN,
+ };
+ 
++static const char *colo_mode[] = {
++    [PRIMARY_IN] = "primary",
++    [SECONDARY_IN] = "secondary",
++};
+ 
+ static int compare_chr_send(CompareState *s,
+                             const uint8_t *buf,
+@@ -217,6 +221,7 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
+     ConnectionKey key;
+     Packet *pkt = NULL;
+     Connection *conn;
++    int ret;
+ 
+     if (mode == PRIMARY_IN) {
+         pkt = packet_new(s->pri_rs.buf,
+@@ -245,16 +250,18 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
+     }
+ 
+     if (mode == PRIMARY_IN) {
+-        if (!colo_insert_packet(&conn->primary_list, pkt, &conn->pack)) {
+-            error_report("colo compare primary queue size too big,"
+-                         "drop packet");
+-        }
++        ret = colo_insert_packet(&conn->primary_list, pkt, &conn->pack);
+     } else {
+-        if (!colo_insert_packet(&conn->secondary_list, pkt, &conn->sack)) {
+-            error_report("colo compare secondary queue size too big,"
+-                         "drop packet");
+-        }
++        ret = colo_insert_packet(&conn->secondary_list, pkt, &conn->sack);
+     }
++
++    if (!ret) {
++        trace_colo_compare_drop_packet(colo_mode[mode],
++            "queue size too big, drop packet");
++        packet_destroy(pkt, NULL);
++        pkt = NULL;
++    }
++
+     *con = conn;
+ 
+     return 0;
+diff --git a/net/trace-events b/net/trace-events
+index 02c13fd0ba..fa49c71533 100644
+--- a/net/trace-events
++++ b/net/trace-events
+@@ -12,6 +12,7 @@ colo_proxy_main(const char *chr) ": %s"
+ 
+ # colo-compare.c
+ colo_compare_main(const char *chr) ": %s"
++colo_compare_drop_packet(const char *queue, const char *chr) ": %s: %s"
+ colo_compare_udp_miscompare(const char *sta, int size) ": %s = %d"
+ colo_compare_icmp_miscompare(const char *sta, int size) ": %s = %d"
+ colo_compare_ip_info(int psize, const char *sta, const char *stb, int ssize, const char *stc, const char *std) "ppkt size = %d, ip_src = %s, ip_dst = %s, spkt size = %d, ip_src = %s, ip_dst = %s"
 -- 
 2.17.1
 
