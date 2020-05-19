@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A8D71D9D34
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 18:51:59 +0200 (CEST)
-Received: from localhost ([::1]:56458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F26291D9D46
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 18:55:26 +0200 (CEST)
+Received: from localhost ([::1]:42860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb5TC-0006XZ-5Z
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 12:51:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59638)
+	id 1jb5WY-0005HU-19
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 12:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jb5RQ-0004gb-Sw
- for qemu-devel@nongnu.org; Tue, 19 May 2020 12:50:08 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:36818)
+ id 1jb5RS-0004j2-TF
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 12:50:10 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:34358)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jb5RO-0006DP-IN
- for qemu-devel@nongnu.org; Tue, 19 May 2020 12:50:08 -0400
-Received: by mail-pf1-x435.google.com with SMTP id z1so185928pfn.3
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 09:50:06 -0700 (PDT)
+ id 1jb5RR-0006EY-3j
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 12:50:10 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id d3so140453pln.1
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 09:50:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PCmqWRwoeQAvE87APi5hhUVbKMEOrTBeCc5Dp8TlOV8=;
- b=lXgkkvCEDiOxOzqa9nqiLGnoy0RJchcAmruLkohGQwJ4bqD48eK4GMyAdyCfbK15qB
- 9oNuX4b2dFMln5jSJGzKbEMTHEHnFfG+di9cNNimpV8t5Rjga26OnvWDV3/1OoU80thn
- xwI7VIlIDfzu+dV/Ngays0XbdPFZtqjUMLN+uiBjoiRLGSzS9poN5aHCCynJzKVmT7+3
- PMLWZDTVdaYvAcsP547Kg6eXsMTeWwimYCCGOjmBC0DlrVJD3IglnyOFi+FOpZNIaPhW
- xTPs6qSQAT0qfTawXFlhFZfmBJcghjW9Naybzv7uLklcfNHc5/ZAfbGGaUKKdpdnznLO
- 95yg==
+ bh=pB8Li1rrdwo7LUTDQl4UoTwHVbWAT2TxDwcY0GqzKTg=;
+ b=NG9BIGo2jUxMaK9c/yYQI802bIVURk4rAEmc0RLH/1R6gYdQOsB5nJkexvSy2jd4GM
+ Npj3wWvRYl8brt+mUoRHrNpFWNSkChUcK54blDAm50sQwzLup5drgPsGgc6ZbiUb4+//
+ fIZeTsWut/rKNgUnsYCXrigark/yEoZm0dzhgKMHozjmDofVrc7NMViXBQpjmdH+5uAw
+ PxO+z7Urt4rJIEOtDmiN3OX73peC39HT4hE9JsyamTxIRx5JalRYGvo2Ln8JKlPIQhPk
+ /gomYJECVMi5Fz/Y95i9TpcO2Oe5kQcTJWk2DX0oPs1wEaaOj717KGvV5IcTkg1FEys9
+ ZmcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PCmqWRwoeQAvE87APi5hhUVbKMEOrTBeCc5Dp8TlOV8=;
- b=nOSRcL1W4IWNw8ENynVzzwzCY93mirAjgWgTmEZLKhSoWuu4Ufe9ZgNk5p/3DoqsBt
- 3qIIiSxaHgpszLXtIoRgdNtwQ62HkpYyQEcYyo31kjsTCLYzWJRSBFSFwpmYFNRp2THC
- W1GGi/NGUus0rKDTcWZD8zWtG06Rt3XYD+EWvSFhtTOu+690S15h/iK1h0zu0FsKkFbj
- Jju060CHKREc4zRuJoUQ7aCJa5TVE0zTq78jbSjr4m6hWH9f4dWAB5hRqm/J2BWKziQg
- LeU4syqUrcq0Z3qzcMysuoAScc8yrF7+ivfwNIk/zxxymh23vDDxcFwze65G12uDlKWI
- Zz+w==
-X-Gm-Message-State: AOAM532/0SlrrG5gjpY8cYElo/byjxSjyAd8W44+LsqnLUnnOPRfmAJM
- nYFnYRyfknHRrS+OoZbL+jy2VlDi0VI=
-X-Google-Smtp-Source: ABdhPJxG5wevGxHhG+XN8NlCEHIBIUVILNe4vOFrMchCOMwf79p1VRuvuk690aZFHDwQArqVN9WzGA==
-X-Received: by 2002:a63:5717:: with SMTP id l23mr91724pgb.217.1589907004704;
- Tue, 19 May 2020 09:50:04 -0700 (PDT)
+ bh=pB8Li1rrdwo7LUTDQl4UoTwHVbWAT2TxDwcY0GqzKTg=;
+ b=NU3QHa7Sz9PFbzoia/x5I6UOn4zdJstE+BiR9B3wMjU9AHlrKHCozcZD3sTwS8RXI6
+ iC73azjGYpVcLoYGE0cmfnJfUofnbUmlw2fM2vIY3MzctT6Kxio+OxbXOnxDSFfyFnN9
+ 5ElEbI5dmCD5jLv6vNAX+V1io2I3AmHBZZDqQmIYV2gXttulA1X9s2uJkhg2QGNz3Rpu
+ oo7vQ3JmP7OG3486Y9TOdfY0EVR1N1QMaLgVSDP7rJQNhpzsq8nQGK1WxPS2A4fbENUA
+ IjPxL6b49Kv8XdMiQ97ZGQdnLshjq1Y2SN6bqGo3ziZicoccjdUOtD3+ClqbL+XbSrnV
+ GtGw==
+X-Gm-Message-State: AOAM530Hn1w5SeXkcGaeSV5mNz9u+k8FRk7STS+kZ4sK4bd9Fy3gaSqc
+ AJhk8e87HQENi7/PgE3F8JlL6dM5BsE=
+X-Google-Smtp-Source: ABdhPJxaeWmXwF4jO9Tl5QvDSZVcwQpG+yVkAA1gqe+cucPV3mpqLAYFjyKLPA3TtZDGE8ck6puFeg==
+X-Received: by 2002:a17:90a:3ad1:: with SMTP id
+ b75mr494601pjc.216.1589907006115; 
+ Tue, 19 May 2020 09:50:06 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id gx21sm96685pjb.47.2020.05.19.09.50.03
+ by smtp.gmail.com with ESMTPSA id gx21sm96685pjb.47.2020.05.19.09.50.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 May 2020 09:50:04 -0700 (PDT)
+ Tue, 19 May 2020 09:50:05 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/10] softfloat: Name rounding mode enum
-Date: Tue, 19 May 2020 09:49:51 -0700
-Message-Id: <20200519164957.26920-5-richard.henderson@linaro.org>
+Subject: [PULL 05/10] softfloat: Name compare relation enum
+Date: Tue, 19 May 2020 09:49:52 -0700
+Message-Id: <20200519164957.26920-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200519164957.26920-1-richard.henderson@linaro.org>
 References: <20200519164957.26920-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,423 +93,560 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Give the previously unnamed enum a typedef name.  Use the packed
-attribute so that we do not affect the layout of the float_status
-struct.  Use it in the prototypes of relevant functions.
-
-Adjust switch statements as necessary to avoid compiler warnings.
+Give the previously unnamed enum a typedef name.  Use it in the
+prototypes of compare functions.  Use it to hold the results
+of the compare functions.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/fpu/softfloat-helpers.h |  5 +--
- include/fpu/softfloat-types.h   |  6 ++--
- include/fpu/softfloat.h         | 39 +++++++++++-----------
- fpu/softfloat.c                 | 57 ++++++++++++++++++++-------------
- target/arm/vfp_helper.c         |  4 +--
- target/m68k/fpu_helper.c        |  6 ++--
- 6 files changed, 66 insertions(+), 51 deletions(-)
+ include/fpu/softfloat.h         | 25 +++++++++++----------
+ target/i386/ops_sse.h           |  8 +++----
+ fpu/softfloat.c                 | 40 ++++++++++++++++++---------------
+ target/arm/vfp_helper.c         |  2 +-
+ target/hppa/op_helper.c         |  7 +++---
+ target/i386/fpu_helper.c        |  8 +++----
+ target/openrisc/fpu_helper.c    |  4 ++--
+ target/ppc/int_helper.c         | 13 ++++++-----
+ target/s390x/fpu_helper.c       | 22 +++++++++---------
+ target/sparc/fop_helper.c       |  4 ++--
+ target/unicore32/ucf64_helper.c |  6 ++---
+ target/xtensa/fpu_helper.c      |  6 ++---
+ 12 files changed, 75 insertions(+), 70 deletions(-)
 
-diff --git a/include/fpu/softfloat-helpers.h b/include/fpu/softfloat-helpers.h
-index 40d32a6d5d..735ed6b653 100644
---- a/include/fpu/softfloat-helpers.h
-+++ b/include/fpu/softfloat-helpers.h
-@@ -58,7 +58,8 @@ static inline void set_float_detect_tininess(bool val, float_status *status)
-     status->tininess_before_rounding = val;
- }
- 
--static inline void set_float_rounding_mode(int val, float_status *status)
-+static inline void set_float_rounding_mode(FloatRoundMode val,
-+                                           float_status *status)
- {
-     status->float_rounding_mode = val;
- }
-@@ -99,7 +100,7 @@ static inline bool get_float_detect_tininess(float_status *status)
-     return status->tininess_before_rounding;
- }
- 
--static inline int get_float_rounding_mode(float_status *status)
-+static inline FloatRoundMode get_float_rounding_mode(float_status *status)
- {
-     return status->float_rounding_mode;
- }
-diff --git a/include/fpu/softfloat-types.h b/include/fpu/softfloat-types.h
-index 874ddd9f93..7680193ebc 100644
---- a/include/fpu/softfloat-types.h
-+++ b/include/fpu/softfloat-types.h
-@@ -123,7 +123,7 @@ typedef struct {
-  *Software IEC/IEEE floating-point rounding mode.
-  */
- 
--enum {
-+typedef enum __attribute__((__packed__)) {
-     float_round_nearest_even = 0,
-     float_round_down         = 1,
-     float_round_up           = 2,
-@@ -131,7 +131,7 @@ enum {
-     float_round_ties_away    = 4,
-     /* Not an IEEE rounding mode: round to the closest odd mantissa value */
-     float_round_to_odd       = 5,
--};
-+} FloatRoundMode;
- 
- /*
-  * Software IEC/IEEE floating-point exception flags.
-@@ -156,7 +156,7 @@ enum {
-  */
- 
- typedef struct float_status {
--    signed char float_rounding_mode;
-+    FloatRoundMode float_rounding_mode;
-     uint8_t     float_exception_flags;
-     signed char floatx80_rounding_precision;
-     bool tininess_before_rounding;
 diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
-index 3f588da7c7..ca75f764aa 100644
+index ca75f764aa..7f84235122 100644
 --- a/include/fpu/softfloat.h
 +++ b/include/fpu/softfloat.h
-@@ -186,9 +186,9 @@ float32 float16_to_float32(float16, bool ieee, float_status *status);
- float16 float64_to_float16(float64 a, bool ieee, float_status *status);
- float64 float16_to_float64(float16 a, bool ieee, float_status *status);
- 
--int16_t float16_to_int16_scalbn(float16, int, int, float_status *status);
--int32_t float16_to_int32_scalbn(float16, int, int, float_status *status);
--int64_t float16_to_int64_scalbn(float16, int, int, float_status *status);
-+int16_t float16_to_int16_scalbn(float16, FloatRoundMode, int, float_status *);
-+int32_t float16_to_int32_scalbn(float16, FloatRoundMode, int, float_status *);
-+int64_t float16_to_int64_scalbn(float16, FloatRoundMode, int, float_status *);
- 
- int16_t float16_to_int16(float16, float_status *status);
- int32_t float16_to_int32(float16, float_status *status);
-@@ -198,9 +198,12 @@ int16_t float16_to_int16_round_to_zero(float16, float_status *status);
- int32_t float16_to_int32_round_to_zero(float16, float_status *status);
- int64_t float16_to_int64_round_to_zero(float16, float_status *status);
- 
--uint16_t float16_to_uint16_scalbn(float16 a, int, int, float_status *status);
--uint32_t float16_to_uint32_scalbn(float16 a, int, int, float_status *status);
--uint64_t float16_to_uint64_scalbn(float16 a, int, int, float_status *status);
-+uint16_t float16_to_uint16_scalbn(float16 a, FloatRoundMode,
-+                                  int, float_status *status);
-+uint32_t float16_to_uint32_scalbn(float16 a, FloatRoundMode,
-+                                  int, float_status *status);
-+uint64_t float16_to_uint64_scalbn(float16 a, FloatRoundMode,
-+                                  int, float_status *status);
- 
- uint16_t float16_to_uint16(float16 a, float_status *status);
- uint32_t float16_to_uint32(float16 a, float_status *status);
-@@ -298,9 +301,9 @@ float16 float16_default_nan(float_status *status);
- | Software IEC/IEEE single-precision conversion routines.
+@@ -85,12 +85,13 @@ this code that are retained.
+ /*----------------------------------------------------------------------------
+ | Software IEC/IEEE floating-point ordering relations
  *----------------------------------------------------------------------------*/
+-enum {
++
++typedef enum {
+     float_relation_less      = -1,
+     float_relation_equal     =  0,
+     float_relation_greater   =  1,
+     float_relation_unordered =  2
+-};
++} FloatRelation;
  
--int16_t float32_to_int16_scalbn(float32, int, int, float_status *status);
--int32_t float32_to_int32_scalbn(float32, int, int, float_status *status);
--int64_t float32_to_int64_scalbn(float32, int, int, float_status *status);
-+int16_t float32_to_int16_scalbn(float32, FloatRoundMode, int, float_status *);
-+int32_t float32_to_int32_scalbn(float32, FloatRoundMode, int, float_status *);
-+int64_t float32_to_int64_scalbn(float32, FloatRoundMode, int, float_status *);
+ #include "fpu/softfloat-types.h"
+ #include "fpu/softfloat-helpers.h"
+@@ -231,8 +232,8 @@ float16 float16_maxnum(float16, float16, float_status *status);
+ float16 float16_minnummag(float16, float16, float_status *status);
+ float16 float16_maxnummag(float16, float16, float_status *status);
+ float16 float16_sqrt(float16, float_status *status);
+-int float16_compare(float16, float16, float_status *status);
+-int float16_compare_quiet(float16, float16, float_status *status);
++FloatRelation float16_compare(float16, float16, float_status *status);
++FloatRelation float16_compare_quiet(float16, float16, float_status *status);
  
- int16_t float32_to_int16(float32, float_status *status);
- int32_t float32_to_int32(float32, float_status *status);
-@@ -310,9 +313,9 @@ int16_t float32_to_int16_round_to_zero(float32, float_status *status);
- int32_t float32_to_int32_round_to_zero(float32, float_status *status);
- int64_t float32_to_int64_round_to_zero(float32, float_status *status);
+ int float16_is_quiet_nan(float16, float_status *status);
+ int float16_is_signaling_nan(float16, float_status *status);
+@@ -350,8 +351,8 @@ int float32_eq_quiet(float32, float32, float_status *status);
+ int float32_le_quiet(float32, float32, float_status *status);
+ int float32_lt_quiet(float32, float32, float_status *status);
+ int float32_unordered_quiet(float32, float32, float_status *status);
+-int float32_compare(float32, float32, float_status *status);
+-int float32_compare_quiet(float32, float32, float_status *status);
++FloatRelation float32_compare(float32, float32, float_status *status);
++FloatRelation float32_compare_quiet(float32, float32, float_status *status);
+ float32 float32_min(float32, float32, float_status *status);
+ float32 float32_max(float32, float32, float_status *status);
+ float32 float32_minnum(float32, float32, float_status *status);
+@@ -506,8 +507,8 @@ int float64_eq_quiet(float64, float64, float_status *status);
+ int float64_le_quiet(float64, float64, float_status *status);
+ int float64_lt_quiet(float64, float64, float_status *status);
+ int float64_unordered_quiet(float64, float64, float_status *status);
+-int float64_compare(float64, float64, float_status *status);
+-int float64_compare_quiet(float64, float64, float_status *status);
++FloatRelation float64_compare(float64, float64, float_status *status);
++FloatRelation float64_compare_quiet(float64, float64, float_status *status);
+ float64 float64_min(float64, float64, float_status *status);
+ float64 float64_max(float64, float64, float_status *status);
+ float64 float64_minnum(float64, float64, float_status *status);
+@@ -630,8 +631,8 @@ int floatx80_eq_quiet(floatx80, floatx80, float_status *status);
+ int floatx80_le_quiet(floatx80, floatx80, float_status *status);
+ int floatx80_lt_quiet(floatx80, floatx80, float_status *status);
+ int floatx80_unordered_quiet(floatx80, floatx80, float_status *status);
+-int floatx80_compare(floatx80, floatx80, float_status *status);
+-int floatx80_compare_quiet(floatx80, floatx80, float_status *status);
++FloatRelation floatx80_compare(floatx80, floatx80, float_status *status);
++FloatRelation floatx80_compare_quiet(floatx80, floatx80, float_status *status);
+ int floatx80_is_quiet_nan(floatx80, float_status *status);
+ int floatx80_is_signaling_nan(floatx80, float_status *status);
+ floatx80 floatx80_silence_nan(floatx80, float_status *status);
+@@ -842,8 +843,8 @@ int float128_eq_quiet(float128, float128, float_status *status);
+ int float128_le_quiet(float128, float128, float_status *status);
+ int float128_lt_quiet(float128, float128, float_status *status);
+ int float128_unordered_quiet(float128, float128, float_status *status);
+-int float128_compare(float128, float128, float_status *status);
+-int float128_compare_quiet(float128, float128, float_status *status);
++FloatRelation float128_compare(float128, float128, float_status *status);
++FloatRelation float128_compare_quiet(float128, float128, float_status *status);
+ int float128_is_quiet_nan(float128, float_status *status);
+ int float128_is_signaling_nan(float128, float_status *status);
+ float128 float128_silence_nan(float128, float_status *status);
+diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
+index ec1ec745d0..4658768de2 100644
+--- a/target/i386/ops_sse.h
++++ b/target/i386/ops_sse.h
+@@ -1031,7 +1031,7 @@ static const int comis_eflags[4] = {CC_C, CC_Z, 0, CC_Z | CC_P | CC_C};
  
--uint16_t float32_to_uint16_scalbn(float32, int, int, float_status *status);
--uint32_t float32_to_uint32_scalbn(float32, int, int, float_status *status);
--uint64_t float32_to_uint64_scalbn(float32, int, int, float_status *status);
-+uint16_t float32_to_uint16_scalbn(float32, FloatRoundMode, int, float_status *);
-+uint32_t float32_to_uint32_scalbn(float32, FloatRoundMode, int, float_status *);
-+uint64_t float32_to_uint64_scalbn(float32, FloatRoundMode, int, float_status *);
+ void helper_ucomiss(CPUX86State *env, Reg *d, Reg *s)
+ {
+-    int ret;
++    FloatRelation ret;
+     float32 s0, s1;
  
- uint16_t float32_to_uint16(float32, float_status *status);
- uint32_t float32_to_uint32(float32, float_status *status);
-@@ -455,9 +458,9 @@ float32 float32_default_nan(float_status *status);
- | Software IEC/IEEE double-precision conversion routines.
- *----------------------------------------------------------------------------*/
+     s0 = d->ZMM_S(0);
+@@ -1042,7 +1042,7 @@ void helper_ucomiss(CPUX86State *env, Reg *d, Reg *s)
  
--int16_t float64_to_int16_scalbn(float64, int, int, float_status *status);
--int32_t float64_to_int32_scalbn(float64, int, int, float_status *status);
--int64_t float64_to_int64_scalbn(float64, int, int, float_status *status);
-+int16_t float64_to_int16_scalbn(float64, FloatRoundMode, int, float_status *);
-+int32_t float64_to_int32_scalbn(float64, FloatRoundMode, int, float_status *);
-+int64_t float64_to_int64_scalbn(float64, FloatRoundMode, int, float_status *);
+ void helper_comiss(CPUX86State *env, Reg *d, Reg *s)
+ {
+-    int ret;
++    FloatRelation ret;
+     float32 s0, s1;
  
- int16_t float64_to_int16(float64, float_status *status);
- int32_t float64_to_int32(float64, float_status *status);
-@@ -467,9 +470,9 @@ int16_t float64_to_int16_round_to_zero(float64, float_status *status);
- int32_t float64_to_int32_round_to_zero(float64, float_status *status);
- int64_t float64_to_int64_round_to_zero(float64, float_status *status);
+     s0 = d->ZMM_S(0);
+@@ -1053,7 +1053,7 @@ void helper_comiss(CPUX86State *env, Reg *d, Reg *s)
  
--uint16_t float64_to_uint16_scalbn(float64, int, int, float_status *status);
--uint32_t float64_to_uint32_scalbn(float64, int, int, float_status *status);
--uint64_t float64_to_uint64_scalbn(float64, int, int, float_status *status);
-+uint16_t float64_to_uint16_scalbn(float64, FloatRoundMode, int, float_status *);
-+uint32_t float64_to_uint32_scalbn(float64, FloatRoundMode, int, float_status *);
-+uint64_t float64_to_uint64_scalbn(float64, FloatRoundMode, int, float_status *);
+ void helper_ucomisd(CPUX86State *env, Reg *d, Reg *s)
+ {
+-    int ret;
++    FloatRelation ret;
+     float64 d0, d1;
  
- uint16_t float64_to_uint16(float64, float_status *status);
- uint32_t float64_to_uint32(float64, float_status *status);
+     d0 = d->ZMM_D(0);
+@@ -1064,7 +1064,7 @@ void helper_ucomisd(CPUX86State *env, Reg *d, Reg *s)
+ 
+ void helper_comisd(CPUX86State *env, Reg *d, Reg *s)
+ {
+-    int ret;
++    FloatRelation ret;
+     float64 d0, d1;
+ 
+     d0 = d->ZMM_D(0);
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 65d457a548..93d8a03de6 100644
+index 93d8a03de6..60b9ae5f05 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -759,6 +759,8 @@ static FloatParts round_canonical(FloatParts p, float_status *s,
-                 case float_round_to_odd:
-                     inc = frac & frac_lsb ? 0 : round_mask;
-                     break;
-+                default:
-+                    break;
-                 }
-                 flags |= float_flag_inexact;
-                 frac += inc;
-@@ -1928,7 +1930,7 @@ float32 float64_to_float32(float64 a, float_status *s)
-  * Arithmetic.
-  */
+@@ -2848,8 +2848,8 @@ MINMAX(64, maxnummag, false, true, true)
+ #undef MINMAX
  
--static FloatParts round_to_int(FloatParts a, int rmode,
-+static FloatParts round_to_int(FloatParts a, FloatRoundMode rmode,
-                                int scale, float_status *s)
+ /* Floating point compare */
+-static int compare_floats(FloatParts a, FloatParts b, bool is_quiet,
+-                          float_status *s)
++static FloatRelation compare_floats(FloatParts a, FloatParts b, bool is_quiet,
++                                    float_status *s)
  {
-     switch (a.cls) {
-@@ -2061,8 +2063,8 @@ float64 float64_round_to_int(float64 a, float_status *s)
-  * is returned.
- */
+     if (is_nan(a.cls) || is_nan(b.cls)) {
+         if (!is_quiet ||
+@@ -2920,17 +2920,17 @@ COMPARE(soft_f64_compare, QEMU_SOFTFLOAT_ATTR, 64)
  
--static int64_t round_to_int_and_pack(FloatParts in, int rmode, int scale,
--                                     int64_t min, int64_t max,
-+static int64_t round_to_int_and_pack(FloatParts in, FloatRoundMode rmode,
-+                                     int scale, int64_t min, int64_t max,
-                                      float_status *s)
+ #undef COMPARE
+ 
+-int float16_compare(float16 a, float16 b, float_status *s)
++FloatRelation float16_compare(float16 a, float16 b, float_status *s)
  {
-     uint64_t r;
-@@ -2107,63 +2109,63 @@ static int64_t round_to_int_and_pack(FloatParts in, int rmode, int scale,
+     return soft_f16_compare(a, b, false, s);
+ }
+ 
+-int float16_compare_quiet(float16 a, float16 b, float_status *s)
++FloatRelation float16_compare_quiet(float16 a, float16 b, float_status *s)
+ {
+     return soft_f16_compare(a, b, true, s);
+ }
+ 
+-static int QEMU_FLATTEN
++static FloatRelation QEMU_FLATTEN
+ f32_compare(float32 xa, float32 xb, bool is_quiet, float_status *s)
+ {
+     union_float32 ua, ub;
+@@ -2959,17 +2959,17 @@ f32_compare(float32 xa, float32 xb, bool is_quiet, float_status *s)
+     return soft_f32_compare(ua.s, ub.s, is_quiet, s);
+ }
+ 
+-int float32_compare(float32 a, float32 b, float_status *s)
++FloatRelation float32_compare(float32 a, float32 b, float_status *s)
+ {
+     return f32_compare(a, b, false, s);
+ }
+ 
+-int float32_compare_quiet(float32 a, float32 b, float_status *s)
++FloatRelation float32_compare_quiet(float32 a, float32 b, float_status *s)
+ {
+     return f32_compare(a, b, true, s);
+ }
+ 
+-static int QEMU_FLATTEN
++static FloatRelation QEMU_FLATTEN
+ f64_compare(float64 xa, float64 xb, bool is_quiet, float_status *s)
+ {
+     union_float64 ua, ub;
+@@ -2998,12 +2998,12 @@ f64_compare(float64 xa, float64 xb, bool is_quiet, float_status *s)
+     return soft_f64_compare(ua.s, ub.s, is_quiet, s);
+ }
+ 
+-int float64_compare(float64 a, float64 b, float_status *s)
++FloatRelation float64_compare(float64 a, float64 b, float_status *s)
+ {
+     return f64_compare(a, b, false, s);
+ }
+ 
+-int float64_compare_quiet(float64 a, float64 b, float_status *s)
++FloatRelation float64_compare_quiet(float64 a, float64 b, float_status *s)
+ {
+     return f64_compare(a, b, true, s);
+ }
+@@ -7892,8 +7892,9 @@ int float128_unordered_quiet(float128 a, float128 b, float_status *status)
+     return 0;
+ }
+ 
+-static inline int floatx80_compare_internal(floatx80 a, floatx80 b,
+-                                            int is_quiet, float_status *status)
++static inline FloatRelation
++floatx80_compare_internal(floatx80 a, floatx80 b, bool is_quiet,
++                          float_status *status)
+ {
+     bool aSign, bSign;
+ 
+@@ -7939,18 +7940,20 @@ static inline int floatx80_compare_internal(floatx80 a, floatx80 b,
      }
  }
  
--int16_t float16_to_int16_scalbn(float16 a, int rmode, int scale,
-+int16_t float16_to_int16_scalbn(float16 a, FloatRoundMode rmode, int scale,
-                                 float_status *s)
+-int floatx80_compare(floatx80 a, floatx80 b, float_status *status)
++FloatRelation floatx80_compare(floatx80 a, floatx80 b, float_status *status)
  {
-     return round_to_int_and_pack(float16_unpack_canonical(a, s),
-                                  rmode, scale, INT16_MIN, INT16_MAX, s);
+     return floatx80_compare_internal(a, b, 0, status);
  }
  
--int32_t float16_to_int32_scalbn(float16 a, int rmode, int scale,
-+int32_t float16_to_int32_scalbn(float16 a, FloatRoundMode rmode, int scale,
-                                 float_status *s)
+-int floatx80_compare_quiet(floatx80 a, floatx80 b, float_status *status)
++FloatRelation floatx80_compare_quiet(floatx80 a, floatx80 b,
++                                     float_status *status)
  {
-     return round_to_int_and_pack(float16_unpack_canonical(a, s),
-                                  rmode, scale, INT32_MIN, INT32_MAX, s);
+     return floatx80_compare_internal(a, b, 1, status);
  }
  
--int64_t float16_to_int64_scalbn(float16 a, int rmode, int scale,
-+int64_t float16_to_int64_scalbn(float16 a, FloatRoundMode rmode, int scale,
-                                 float_status *s)
+-static inline int float128_compare_internal(float128 a, float128 b,
+-                                            int is_quiet, float_status *status)
++static inline FloatRelation
++float128_compare_internal(float128 a, float128 b, bool is_quiet,
++                          float_status *status)
  {
-     return round_to_int_and_pack(float16_unpack_canonical(a, s),
-                                  rmode, scale, INT64_MIN, INT64_MAX, s);
- }
+     bool aSign, bSign;
  
--int16_t float32_to_int16_scalbn(float32 a, int rmode, int scale,
-+int16_t float32_to_int16_scalbn(float32 a, FloatRoundMode rmode, int scale,
-                                 float_status *s)
- {
-     return round_to_int_and_pack(float32_unpack_canonical(a, s),
-                                  rmode, scale, INT16_MIN, INT16_MAX, s);
- }
- 
--int32_t float32_to_int32_scalbn(float32 a, int rmode, int scale,
-+int32_t float32_to_int32_scalbn(float32 a, FloatRoundMode rmode, int scale,
-                                 float_status *s)
- {
-     return round_to_int_and_pack(float32_unpack_canonical(a, s),
-                                  rmode, scale, INT32_MIN, INT32_MAX, s);
- }
- 
--int64_t float32_to_int64_scalbn(float32 a, int rmode, int scale,
-+int64_t float32_to_int64_scalbn(float32 a, FloatRoundMode rmode, int scale,
-                                 float_status *s)
- {
-     return round_to_int_and_pack(float32_unpack_canonical(a, s),
-                                  rmode, scale, INT64_MIN, INT64_MAX, s);
- }
- 
--int16_t float64_to_int16_scalbn(float64 a, int rmode, int scale,
-+int16_t float64_to_int16_scalbn(float64 a, FloatRoundMode rmode, int scale,
-                                 float_status *s)
- {
-     return round_to_int_and_pack(float64_unpack_canonical(a, s),
-                                  rmode, scale, INT16_MIN, INT16_MAX, s);
- }
- 
--int32_t float64_to_int32_scalbn(float64 a, int rmode, int scale,
-+int32_t float64_to_int32_scalbn(float64 a, FloatRoundMode rmode, int scale,
-                                 float_status *s)
- {
-     return round_to_int_and_pack(float64_unpack_canonical(a, s),
-                                  rmode, scale, INT32_MIN, INT32_MAX, s);
- }
- 
--int64_t float64_to_int64_scalbn(float64 a, int rmode, int scale,
-+int64_t float64_to_int64_scalbn(float64 a, FloatRoundMode rmode, int scale,
-                                 float_status *s)
- {
-     return round_to_int_and_pack(float64_unpack_canonical(a, s),
-@@ -2273,8 +2275,9 @@ int64_t float64_to_int64_round_to_zero(float64 a, float_status *s)
-  *  flag.
-  */
- 
--static uint64_t round_to_uint_and_pack(FloatParts in, int rmode, int scale,
--                                       uint64_t max, float_status *s)
-+static uint64_t round_to_uint_and_pack(FloatParts in, FloatRoundMode rmode,
-+                                       int scale, uint64_t max,
-+                                       float_status *s)
- {
-     int orig_flags = get_float_exception_flags(s);
-     FloatParts p = round_to_int(in, rmode, scale, s);
-@@ -2319,63 +2322,63 @@ static uint64_t round_to_uint_and_pack(FloatParts in, int rmode, int scale,
+@@ -7983,12 +7986,13 @@ static inline int float128_compare_internal(float128 a, float128 b,
      }
  }
  
--uint16_t float16_to_uint16_scalbn(float16 a, int rmode, int scale,
-+uint16_t float16_to_uint16_scalbn(float16 a, FloatRoundMode rmode, int scale,
-                                   float_status *s)
+-int float128_compare(float128 a, float128 b, float_status *status)
++FloatRelation float128_compare(float128 a, float128 b, float_status *status)
  {
-     return round_to_uint_and_pack(float16_unpack_canonical(a, s),
-                                   rmode, scale, UINT16_MAX, s);
+     return float128_compare_internal(a, b, 0, status);
  }
  
--uint32_t float16_to_uint32_scalbn(float16 a, int rmode, int scale,
-+uint32_t float16_to_uint32_scalbn(float16 a, FloatRoundMode rmode, int scale,
-                                   float_status *s)
+-int float128_compare_quiet(float128 a, float128 b, float_status *status)
++FloatRelation float128_compare_quiet(float128 a, float128 b,
++                                     float_status *status)
  {
-     return round_to_uint_and_pack(float16_unpack_canonical(a, s),
-                                   rmode, scale, UINT32_MAX, s);
+     return float128_compare_internal(a, b, 1, status);
  }
- 
--uint64_t float16_to_uint64_scalbn(float16 a, int rmode, int scale,
-+uint64_t float16_to_uint64_scalbn(float16 a, FloatRoundMode rmode, int scale,
-                                   float_status *s)
- {
-     return round_to_uint_and_pack(float16_unpack_canonical(a, s),
-                                   rmode, scale, UINT64_MAX, s);
- }
- 
--uint16_t float32_to_uint16_scalbn(float32 a, int rmode, int scale,
-+uint16_t float32_to_uint16_scalbn(float32 a, FloatRoundMode rmode, int scale,
-                                   float_status *s)
- {
-     return round_to_uint_and_pack(float32_unpack_canonical(a, s),
-                                   rmode, scale, UINT16_MAX, s);
- }
- 
--uint32_t float32_to_uint32_scalbn(float32 a, int rmode, int scale,
-+uint32_t float32_to_uint32_scalbn(float32 a, FloatRoundMode rmode, int scale,
-                                   float_status *s)
- {
-     return round_to_uint_and_pack(float32_unpack_canonical(a, s),
-                                   rmode, scale, UINT32_MAX, s);
- }
- 
--uint64_t float32_to_uint64_scalbn(float32 a, int rmode, int scale,
-+uint64_t float32_to_uint64_scalbn(float32 a, FloatRoundMode rmode, int scale,
-                                   float_status *s)
- {
-     return round_to_uint_and_pack(float32_unpack_canonical(a, s),
-                                   rmode, scale, UINT64_MAX, s);
- }
- 
--uint16_t float64_to_uint16_scalbn(float64 a, int rmode, int scale,
-+uint16_t float64_to_uint16_scalbn(float64 a, FloatRoundMode rmode, int scale,
-                                   float_status *s)
- {
-     return round_to_uint_and_pack(float64_unpack_canonical(a, s),
-                                   rmode, scale, UINT16_MAX, s);
- }
- 
--uint32_t float64_to_uint32_scalbn(float64 a, int rmode, int scale,
-+uint32_t float64_to_uint32_scalbn(float64 a, FloatRoundMode rmode, int scale,
-                                   float_status *s)
- {
-     return round_to_uint_and_pack(float64_unpack_canonical(a, s),
-                                   rmode, scale, UINT32_MAX, s);
- }
- 
--uint64_t float64_to_uint64_scalbn(float64 a, int rmode, int scale,
-+uint64_t float64_to_uint64_scalbn(float64 a, FloatRoundMode rmode, int scale,
-                                   float_status *s)
- {
-     return round_to_uint_and_pack(float64_unpack_canonical(a, s),
-@@ -5715,6 +5718,11 @@ floatx80 floatx80_round_to_int(floatx80 a, float_status *status)
-             return
-                   aSign ? packFloatx80( 1, 0, 0 )
-                 : packFloatx80( 0, 0x3FFF, UINT64_C(0x8000000000000000));
-+
-+        case float_round_to_zero:
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
-         return packFloatx80( aSign, 0, 0 );
-     }
-@@ -7047,6 +7055,9 @@ float128 float128_round_to_int(float128 a, float_status *status)
- 
-             case float_round_to_odd:
-                 return packFloat128(aSign, 0x3FFF, 0, 0);
-+
-+            case float_round_to_zero:
-+                break;
-             }
-             return packFloat128( aSign, 0, 0, 0 );
-         }
 diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 42625747d1..0920694764 100644
+index 0920694764..60dcd4bf14 100644
 --- a/target/arm/vfp_helper.c
 +++ b/target/arm/vfp_helper.c
-@@ -697,9 +697,9 @@ static bool round_to_inf(float_status *fpst, bool sign_bit)
-         return sign_bit;
-     case float_round_to_zero: /* Round to Zero */
-         return false;
-+    default:
-+        g_assert_not_reached();
-     }
--
--    g_assert_not_reached();
+@@ -281,7 +281,7 @@ float64 VFP_HELPER(sqrt, d)(float64 a, CPUARMState *env)
+     return float64_sqrt(a, &env->vfp.fp_status);
  }
  
- uint32_t HELPER(recpe_f16)(uint32_t input, void *fpstp)
-diff --git a/target/m68k/fpu_helper.c b/target/m68k/fpu_helper.c
-index 4137542ec0..36e6c704d1 100644
---- a/target/m68k/fpu_helper.c
-+++ b/target/m68k/fpu_helper.c
-@@ -149,7 +149,7 @@ void cpu_m68k_set_fpcr(CPUM68KState *env, uint32_t val)
- 
- void HELPER(fitrunc)(CPUM68KState *env, FPReg *res, FPReg *val)
+-static void softfloat_to_vfp_compare(CPUARMState *env, int cmp)
++static void softfloat_to_vfp_compare(CPUARMState *env, FloatRelation cmp)
  {
--    int rounding_mode = get_float_rounding_mode(&env->fp_status);
-+    FloatRoundMode rounding_mode = get_float_rounding_mode(&env->fp_status);
-     set_float_rounding_mode(float_round_to_zero, &env->fp_status);
-     res->d = floatx80_round_to_int(val->d, &env->fp_status);
-     set_float_rounding_mode(rounding_mode, &env->fp_status);
-@@ -300,7 +300,7 @@ void HELPER(fdmul)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
+     uint32_t flags;
+     switch (cmp) {
+diff --git a/target/hppa/op_helper.c b/target/hppa/op_helper.c
+index 7823706e9c..5685e303ab 100644
+--- a/target/hppa/op_helper.c
++++ b/target/hppa/op_helper.c
+@@ -523,7 +523,8 @@ uint64_t HELPER(fcnv_t_d_udw)(CPUHPPAState *env, float64 arg)
+     return ret;
+ }
  
- void HELPER(fsglmul)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
+-static void update_fr0_cmp(CPUHPPAState *env, uint32_t y, uint32_t c, int r)
++static void update_fr0_cmp(CPUHPPAState *env, uint32_t y,
++                           uint32_t c, FloatRelation r)
  {
--    int rounding_mode = get_float_rounding_mode(&env->fp_status);
-+    FloatRoundMode rounding_mode = get_float_rounding_mode(&env->fp_status);
-     floatx80 a, b;
+     uint32_t shadow = env->fr0_shadow;
  
-     PREC_BEGIN(32);
-@@ -333,7 +333,7 @@ void HELPER(fddiv)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
- 
- void HELPER(fsgldiv)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
+@@ -565,7 +566,7 @@ static void update_fr0_cmp(CPUHPPAState *env, uint32_t y, uint32_t c, int r)
+ void HELPER(fcmp_s)(CPUHPPAState *env, float32 a, float32 b,
+                     uint32_t y, uint32_t c)
  {
--    int rounding_mode = get_float_rounding_mode(&env->fp_status);
-+    FloatRoundMode rounding_mode = get_float_rounding_mode(&env->fp_status);
-     floatx80 a, b;
+-    int r;
++    FloatRelation r;
+     if (c & 1) {
+         r = float32_compare(a, b, &env->fp_status);
+     } else {
+@@ -578,7 +579,7 @@ void HELPER(fcmp_s)(CPUHPPAState *env, float32 a, float32 b,
+ void HELPER(fcmp_d)(CPUHPPAState *env, float64 a, float64 b,
+                     uint32_t y, uint32_t c)
+ {
+-    int r;
++    FloatRelation r;
+     if (c & 1) {
+         r = float64_compare(a, b, &env->fp_status);
+     } else {
+diff --git a/target/i386/fpu_helper.c b/target/i386/fpu_helper.c
+index 792a128a6d..b34fa784eb 100644
+--- a/target/i386/fpu_helper.c
++++ b/target/i386/fpu_helper.c
+@@ -420,7 +420,7 @@ static const int fcom_ccval[4] = {0x0100, 0x4000, 0x0000, 0x4500};
  
-     PREC_BEGIN(32);
+ void helper_fcom_ST0_FT0(CPUX86State *env)
+ {
+-    int ret;
++    FloatRelation ret;
+ 
+     ret = floatx80_compare(ST0, FT0, &env->fp_status);
+     env->fpus = (env->fpus & ~0x4500) | fcom_ccval[ret + 1];
+@@ -428,7 +428,7 @@ void helper_fcom_ST0_FT0(CPUX86State *env)
+ 
+ void helper_fucom_ST0_FT0(CPUX86State *env)
+ {
+-    int ret;
++    FloatRelation ret;
+ 
+     ret = floatx80_compare_quiet(ST0, FT0, &env->fp_status);
+     env->fpus = (env->fpus & ~0x4500) | fcom_ccval[ret + 1];
+@@ -439,7 +439,7 @@ static const int fcomi_ccval[4] = {CC_C, CC_Z, 0, CC_Z | CC_P | CC_C};
+ void helper_fcomi_ST0_FT0(CPUX86State *env)
+ {
+     int eflags;
+-    int ret;
++    FloatRelation ret;
+ 
+     ret = floatx80_compare(ST0, FT0, &env->fp_status);
+     eflags = cpu_cc_compute_all(env, CC_OP);
+@@ -450,7 +450,7 @@ void helper_fcomi_ST0_FT0(CPUX86State *env)
+ void helper_fucomi_ST0_FT0(CPUX86State *env)
+ {
+     int eflags;
+-    int ret;
++    FloatRelation ret;
+ 
+     ret = floatx80_compare_quiet(ST0, FT0, &env->fp_status);
+     eflags = cpu_cc_compute_all(env, CC_OP);
+diff --git a/target/openrisc/fpu_helper.c b/target/openrisc/fpu_helper.c
+index 6f75ea0505..f9e34fa2cc 100644
+--- a/target/openrisc/fpu_helper.c
++++ b/target/openrisc/fpu_helper.c
+@@ -155,13 +155,13 @@ FLOAT_CMP(un, unordered_quiet)
+ target_ulong helper_float_ ## name ## _d(CPUOpenRISCState *env,           \
+                                          uint64_t fdt0, uint64_t fdt1)    \
+ {                                                                         \
+-    int r = float64_compare_quiet(fdt0, fdt1, &env->fp_status);           \
++    FloatRelation r = float64_compare_quiet(fdt0, fdt1, &env->fp_status); \
+     return expr;                                                          \
+ }                                                                         \
+ target_ulong helper_float_ ## name ## _s(CPUOpenRISCState *env,           \
+                                          uint32_t fdt0, uint32_t fdt1)    \
+ {                                                                         \
+-    int r = float32_compare_quiet(fdt0, fdt1, &env->fp_status);           \
++    FloatRelation r = float32_compare_quiet(fdt0, fdt1, &env->fp_status); \
+     return expr;                                                          \
+ }
+ 
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 6d238b989d..be53cd6f68 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -770,8 +770,9 @@ VCMPNE(w, u32, uint32_t, 0)
+                                                                         \
+         for (i = 0; i < ARRAY_SIZE(r->f32); i++) {                      \
+             uint32_t result;                                            \
+-            int rel = float32_compare_quiet(a->f32[i], b->f32[i],       \
+-                                            &env->vec_status);          \
++            FloatRelation rel =                                         \
++                float32_compare_quiet(a->f32[i], b->f32[i],             \
++                                      &env->vec_status);                \
+             if (rel == float_relation_unordered) {                      \
+                 result = 0;                                             \
+             } else if (rel compare order) {                             \
+@@ -803,15 +804,15 @@ static inline void vcmpbfp_internal(CPUPPCState *env, ppc_avr_t *r,
+     int all_in = 0;
+ 
+     for (i = 0; i < ARRAY_SIZE(r->f32); i++) {
+-        int le_rel = float32_compare_quiet(a->f32[i], b->f32[i],
+-                                           &env->vec_status);
++        FloatRelation le_rel = float32_compare_quiet(a->f32[i], b->f32[i],
++                                                     &env->vec_status);
+         if (le_rel == float_relation_unordered) {
+             r->u32[i] = 0xc0000000;
+             all_in = 1;
+         } else {
+             float32 bneg = float32_chs(b->f32[i]);
+-            int ge_rel = float32_compare_quiet(a->f32[i], bneg,
+-                                               &env->vec_status);
++            FloatRelation ge_rel = float32_compare_quiet(a->f32[i], bneg,
++                                                         &env->vec_status);
+             int le = le_rel != float_relation_greater;
+             int ge = ge_rel != float_relation_less;
+ 
+diff --git a/target/s390x/fpu_helper.c b/target/s390x/fpu_helper.c
+index 8bb9f54fd0..f155bc048c 100644
+--- a/target/s390x/fpu_helper.c
++++ b/target/s390x/fpu_helper.c
+@@ -112,7 +112,7 @@ static void handle_exceptions(CPUS390XState *env, bool XxC, uintptr_t retaddr)
+     }
+ }
+ 
+-int float_comp_to_cc(CPUS390XState *env, int float_compare)
++int float_comp_to_cc(CPUS390XState *env, FloatRelation float_compare)
+ {
+     switch (float_compare) {
+     case float_relation_equal:
+@@ -368,7 +368,7 @@ uint64_t HELPER(lexb)(CPUS390XState *env, uint64_t ah, uint64_t al,
+ /* 32-bit FP compare */
+ uint32_t HELPER(ceb)(CPUS390XState *env, uint64_t f1, uint64_t f2)
+ {
+-    int cmp = float32_compare_quiet(f1, f2, &env->fpu_status);
++    FloatRelation cmp = float32_compare_quiet(f1, f2, &env->fpu_status);
+     handle_exceptions(env, false, GETPC());
+     return float_comp_to_cc(env, cmp);
+ }
+@@ -376,7 +376,7 @@ uint32_t HELPER(ceb)(CPUS390XState *env, uint64_t f1, uint64_t f2)
+ /* 64-bit FP compare */
+ uint32_t HELPER(cdb)(CPUS390XState *env, uint64_t f1, uint64_t f2)
+ {
+-    int cmp = float64_compare_quiet(f1, f2, &env->fpu_status);
++    FloatRelation cmp = float64_compare_quiet(f1, f2, &env->fpu_status);
+     handle_exceptions(env, false, GETPC());
+     return float_comp_to_cc(env, cmp);
+ }
+@@ -385,9 +385,9 @@ uint32_t HELPER(cdb)(CPUS390XState *env, uint64_t f1, uint64_t f2)
+ uint32_t HELPER(cxb)(CPUS390XState *env, uint64_t ah, uint64_t al,
+                      uint64_t bh, uint64_t bl)
+ {
+-    int cmp = float128_compare_quiet(make_float128(ah, al),
+-                                     make_float128(bh, bl),
+-                                     &env->fpu_status);
++    FloatRelation cmp = float128_compare_quiet(make_float128(ah, al),
++                                               make_float128(bh, bl),
++                                               &env->fpu_status);
+     handle_exceptions(env, false, GETPC());
+     return float_comp_to_cc(env, cmp);
+ }
+@@ -675,7 +675,7 @@ uint64_t HELPER(fixb)(CPUS390XState *env, uint64_t ah, uint64_t al,
+ /* 32-bit FP compare and signal */
+ uint32_t HELPER(keb)(CPUS390XState *env, uint64_t f1, uint64_t f2)
+ {
+-    int cmp = float32_compare(f1, f2, &env->fpu_status);
++    FloatRelation cmp = float32_compare(f1, f2, &env->fpu_status);
+     handle_exceptions(env, false, GETPC());
+     return float_comp_to_cc(env, cmp);
+ }
+@@ -683,7 +683,7 @@ uint32_t HELPER(keb)(CPUS390XState *env, uint64_t f1, uint64_t f2)
+ /* 64-bit FP compare and signal */
+ uint32_t HELPER(kdb)(CPUS390XState *env, uint64_t f1, uint64_t f2)
+ {
+-    int cmp = float64_compare(f1, f2, &env->fpu_status);
++    FloatRelation cmp = float64_compare(f1, f2, &env->fpu_status);
+     handle_exceptions(env, false, GETPC());
+     return float_comp_to_cc(env, cmp);
+ }
+@@ -692,9 +692,9 @@ uint32_t HELPER(kdb)(CPUS390XState *env, uint64_t f1, uint64_t f2)
+ uint32_t HELPER(kxb)(CPUS390XState *env, uint64_t ah, uint64_t al,
+                      uint64_t bh, uint64_t bl)
+ {
+-    int cmp = float128_compare(make_float128(ah, al),
+-                               make_float128(bh, bl),
+-                               &env->fpu_status);
++    FloatRelation cmp = float128_compare(make_float128(ah, al),
++                                         make_float128(bh, bl),
++                                         &env->fpu_status);
+     handle_exceptions(env, false, GETPC());
+     return float_comp_to_cc(env, cmp);
+ }
+diff --git a/target/sparc/fop_helper.c b/target/sparc/fop_helper.c
+index 9eb9b75718..e6dd3fc313 100644
+--- a/target/sparc/fop_helper.c
++++ b/target/sparc/fop_helper.c
+@@ -264,7 +264,7 @@ void helper_fsqrtq(CPUSPARCState *env)
+ #define GEN_FCMP(name, size, reg1, reg2, FS, E)                         \
+     target_ulong glue(helper_, name) (CPUSPARCState *env)               \
+     {                                                                   \
+-        int ret;                                                        \
++        FloatRelation ret;                                              \
+         target_ulong fsr;                                               \
+         if (E) {                                                        \
+             ret = glue(size, _compare)(reg1, reg2, &env->fp_status);    \
+@@ -295,7 +295,7 @@ void helper_fsqrtq(CPUSPARCState *env)
+ #define GEN_FCMP_T(name, size, FS, E)                                   \
+     target_ulong glue(helper_, name)(CPUSPARCState *env, size src1, size src2)\
+     {                                                                   \
+-        int ret;                                                        \
++        FloatRelation ret;                                              \
+         target_ulong fsr;                                               \
+         if (E) {                                                        \
+             ret = glue(size, _compare)(src1, src2, &env->fp_status);    \
+diff --git a/target/unicore32/ucf64_helper.c b/target/unicore32/ucf64_helper.c
+index e078e84437..12a91900f6 100644
+--- a/target/unicore32/ucf64_helper.c
++++ b/target/unicore32/ucf64_helper.c
+@@ -174,8 +174,7 @@ float64 HELPER(ucf64_absd)(float64 a)
+ void HELPER(ucf64_cmps)(float32 a, float32 b, uint32_t c,
+         CPUUniCore32State *env)
+ {
+-    int flag;
+-    flag = float32_compare_quiet(a, b, &env->ucf64.fp_status);
++    FloatRelation flag = float32_compare_quiet(a, b, &env->ucf64.fp_status);
+     env->CF = 0;
+     switch (c & 0x7) {
+     case 0: /* F */
+@@ -223,8 +222,7 @@ void HELPER(ucf64_cmps)(float32 a, float32 b, uint32_t c,
+ void HELPER(ucf64_cmpd)(float64 a, float64 b, uint32_t c,
+         CPUUniCore32State *env)
+ {
+-    int flag;
+-    flag = float64_compare_quiet(a, b, &env->ucf64.fp_status);
++    FloatRelation flag = float64_compare_quiet(a, b, &env->ucf64.fp_status);
+     env->CF = 0;
+     switch (c & 0x7) {
+     case 0: /* F */
+diff --git a/target/xtensa/fpu_helper.c b/target/xtensa/fpu_helper.c
+index f8bbb6cdd8..87487293f9 100644
+--- a/target/xtensa/fpu_helper.c
++++ b/target/xtensa/fpu_helper.c
+@@ -139,7 +139,7 @@ void HELPER(oeq_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
+ 
+ void HELPER(ueq_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
+ {
+-    int v = float32_compare_quiet(a, b, &env->fp_status);
++    FloatRelation v = float32_compare_quiet(a, b, &env->fp_status);
+     set_br(env, v == float_relation_equal || v == float_relation_unordered, br);
+ }
+ 
+@@ -150,7 +150,7 @@ void HELPER(olt_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
+ 
+ void HELPER(ult_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
+ {
+-    int v = float32_compare_quiet(a, b, &env->fp_status);
++    FloatRelation v = float32_compare_quiet(a, b, &env->fp_status);
+     set_br(env, v == float_relation_less || v == float_relation_unordered, br);
+ }
+ 
+@@ -161,6 +161,6 @@ void HELPER(ole_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
+ 
+ void HELPER(ule_s)(CPUXtensaState *env, uint32_t br, float32 a, float32 b)
+ {
+-    int v = float32_compare_quiet(a, b, &env->fp_status);
++    FloatRelation v = float32_compare_quiet(a, b, &env->fp_status);
+     set_br(env, v != float_relation_greater, br);
+ }
 -- 
 2.20.1
 
