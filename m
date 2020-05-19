@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B471D93C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 11:48:22 +0200 (CEST)
-Received: from localhost ([::1]:46910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE83C1D9368
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 11:36:32 +0200 (CEST)
+Received: from localhost ([::1]:52542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jayrF-0007mq-7j
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 05:48:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33810)
+	id 1jayfn-0005oz-9p
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 05:36:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jayqT-0007J6-P2
- for qemu-devel@nongnu.org; Tue, 19 May 2020 05:47:33 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48988)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jayqS-0001Yu-MW
- for qemu-devel@nongnu.org; Tue, 19 May 2020 05:47:33 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jayqN-0001HO-JZ
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 09:47:27 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E69CB2E832C
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 09:47:04 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jayf8-0005Pt-1f
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 05:35:50 -0400
+Received: from 10.mo7.mail-out.ovh.net ([178.33.250.56]:53303)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jayf6-0007gU-UB
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 05:35:49 -0400
+Received: from player789.ha.ovh.net (unknown [10.110.208.131])
+ by mo7.mail-out.ovh.net (Postfix) with ESMTP id 412A91654DE
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 11:35:46 +0200 (CEST)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player789.ha.ovh.net (Postfix) with ESMTPSA id 1825F1289D8FE;
+ Tue, 19 May 2020 09:35:35 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G0056ebaf816-57fe-41d9-80f3-70ed41fbb63f,3DCE2E61E2D7C1BA27EF92566E0C35A5904F621F)
+ smtp.auth=clg@kaod.org
+Subject: Re: [PATCH 05/24] aspeed: Don't create unwanted "cortex-a7-arm-cpu"
+ devices
+To: Markus Armbruster <armbru@redhat.com>, Joel Stanley <joel@jms.id.au>
+References: <20200518050408.4579-1-armbru@redhat.com>
+ <20200518050408.4579-6-armbru@redhat.com>
+ <fbd7151f-159f-7568-77cb-7ce86f4948ba@kaod.org>
+ <CACPK8Xf+Qf0BkOiDWj_wKXT-yF+2N0Ton01Nq7Xm5yie+fqqwA@mail.gmail.com>
+ <87r1vg5vep.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <802f4237-8e2b-e322-a7ba-24ec33d7b99d@kaod.org>
+Date: Tue, 19 May 2020 11:35:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 19 May 2020 09:34:38 -0000
-From: Jan Klos <1856335@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger janklos
-X-Launchpad-Bug-Reporter: Damir (djdatte)
-X-Launchpad-Bug-Modifier: Jan Klos (janklos)
-References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
-Message-Id: <158988087898.23291.14311773758881795090.malone@gac.canonical.com>
-Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 6e0761913539098be8c065b4c9d1255f31e7f37f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 05:47:29
+In-Reply-To: <87r1vg5vep.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 12137482472405240782
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedruddtjedgudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefffdvtddugeeifeduuefghfejgfeigeeigeeltedthefgieeiveeuiefhgeefgfenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=178.33.250.56; envelope-from=clg@kaod.org;
+ helo=10.mo7.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 05:35:46
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,76 +71,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-<cache mode=3D"passthrough"/>
+On 5/19/20 7:46 AM, Markus Armbruster wrote:
+> Joel Stanley <joel@jms.id.au> writes:
+> 
+>> On Mon, 18 May 2020 at 12:24, Cédric Le Goater <clg@kaod.org> wrote:
+>>>
+>>> On 5/18/20 7:03 AM, Markus Armbruster wrote:
+>>>> The number of CPUs is controlled by property "num-cpus".
+>>>> aspeed_soc_ast2600_init() creates the maximum supported number.
+>>>> aspeed_soc_ast2600_realize() realizes only the wanted number.  Works,
+>>>> although it leaves unrealized devices hanging around in the QOM
+>>>> composition tree.  Affects machines ast2600-evb and tacoma-bmc.
+>>>>
+>>>> Make the init functions create only the wanted ones.  Visible in "info
+>>>> qom-tree"; here's the change for ast2600-evb:
+>>>>
+>>>>      /machine (ast2600-evb-machine)
+>>>>        [...]
+>>>>        /soc (ast2600-a1)
+>>>>          [...]
+>>>>          /cpu[0] (cortex-a7-arm-cpu)
+>>>>            /unnamed-gpio-in[0] (irq)
+>>>>            /unnamed-gpio-in[1] (irq)
+>>>>            /unnamed-gpio-in[2] (irq)
+>>>>            /unnamed-gpio-in[3] (irq)
+>>>>     -    /cpu[1] (cortex-a7-arm-cpu)
+>>>>     -      /unnamed-gpio-in[0] (irq)
+>>>>     -      /unnamed-gpio-in[1] (irq)
+>>>>     -      /unnamed-gpio-in[2] (irq)
+>>>>     -      /unnamed-gpio-in[3] (irq)
+>>>>          /ehci[0] (platform-ehci-usb)
+>>>>
+>>>> Cc: "Cédric Le Goater" <clg@kaod.org>
+>>>> Cc: Peter Maydell <peter.maydell@linaro.org>
+>>>> Cc: Andrew Jeffery <andrew@aj.id.au>
+>>>> Cc: Joel Stanley <joel@jms.id.au>
+>>>> Cc: qemu-arm@nongnu.org
+>>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>>
+>>> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+>>>
+>>> Joel, Andrew,
+>>>
+>>> Shouldn't we enforce a default/min/max number of CPUs of 2 for the AST2600 ?
+>>> That's the SoC definition. The fact it is configurable in the Aspeed model
+>>> was nice to have during bringup but we are now done.
+>>
+>> Agreed, we want there to always be two CPUs for the 2600.
+> 
+> Follow-up patch welcome!
 
-adds "host-cache-info=3Don,l3-cache=3Doff"
+I just sent a patch on this topic.
 
-to the qemu -cpu args
+C.
+ 
 
-I believe l3-cache=3Doff is useless with host-cache-info=3Don
-
-So <cache mode=3D"passthrough"/> should do what you want.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1856335
-
-Title:
-  Cache Layout wrong on many Zen Arch CPUs
-
-Status in QEMU:
-  New
-
-Bug description:
-  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
-  to always map Cache ass if it was an 4-Core per CCX CPU, which is
-  incorrect, and costs upwards 30% performance (more realistically 10%)
-  in L3 Cache Layout aware applications.
-
-  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
-
-  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
-  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
-  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
-  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
-/>
-
-  In windows, coreinfo reports correctly:
-
-  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
-  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
-
-  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
-
-  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
-  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
-  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
-  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
-/>
-
-  in windows, coreinfo reports incorrectly:
-
-  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
-  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
-
-  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
-
-  With newer Qemu there is a fix (that does behave correctly) in using the =
-dies parameter:
-  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
-
-  The problem is that the dies are exposed differently than how AMD does
-  it natively, they are exposed to Windows as sockets, which means, that
-  if you are nto a business user, you can't ever have a machine with
-  more than two CCX (6 cores) as consumer versions of Windows only
-  supports two sockets. (Should this be reported as a separate bug?)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
