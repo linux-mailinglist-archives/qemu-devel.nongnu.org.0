@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD471D9AF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:15:12 +0200 (CEST)
-Received: from localhost ([::1]:49036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3CF1D9AAA
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:05:43 +0200 (CEST)
+Received: from localhost ([::1]:33820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb3xX-0007eU-Df
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:15:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45090)
+	id 1jb3oM-0003rn-J5
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:05:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3fB-0001cw-FC
- for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:13 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33421
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f5-0001Mh-Uo
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60551
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f3-0003XK-Ho
- for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:12 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f1-0003Vj-3S
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589900164;
+ s=mimecast20190719; t=1589900162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Lj3KOOJtaFVthnsO6OrWcjh8L5w92NajkqHDdWdbNd8=;
- b=B/9l0RjFXgOoJZLAEwRVwYohD8d3RfmqvU1bOzITeNeEtZfJJOW++dqpTEnUbdIzLCFPzL
- IIziAi39rfuFRI16eRT2v56AUhaf9RGrgQ/07/haZUk2ysZ9EAKJlcrjEtgjgbHsEp5cp/
- T2b50WPXPq4k3mlb8D7KbQp2WihkNPQ=
+ bh=wVoWTPaqL9+qnrwFOU/2iC3lMhqsOOIOIM9Lx0KhIo0=;
+ b=E9bwKlniTP4Mgws4zwhNRjIRlV73BwZcXkE2JQLRIWDfvycK904HQzrCuQ520ExmE2VAST
+ ZCYy1WhpIS7viHrniU4KZrrnmntykDpBBGAeDHtHE8A5f5gSyg7/N5HoZbsQzlxd/wG4Pd
+ kkVSGo7reuONU5y0Y01cZzAPnHDWzAI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-K4RdZogZNhWVAxICKKMMxA-1; Tue, 19 May 2020 10:56:00 -0400
-X-MC-Unique: K4RdZogZNhWVAxICKKMMxA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-356-xMmeMShJOI2K24kr_pbuLQ-1; Tue, 19 May 2020 10:56:00 -0400
+X-MC-Unique: xMmeMShJOI2K24kr_pbuLQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6875D835B45;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D4AA1009628;
  Tue, 19 May 2020 14:55:59 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 499F010023A6;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BE7B61980;
  Tue, 19 May 2020 14:55:56 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E63B011358CC; Tue, 19 May 2020 16:55:51 +0200 (CEST)
+ id E972311358CD; Tue, 19 May 2020 16:55:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/55] pci: Convert uses of pci_create() etc. manually
-Date: Tue, 19 May 2020 16:55:11 +0200
-Message-Id: <20200519145551.22836-16-armbru@redhat.com>
+Subject: [PATCH 16/55] pci: pci_create(),
+ pci_create_multifunction() are now unused, drop
+Date: Tue, 19 May 2020 16:55:12 +0200
+Message-Id: <20200519145551.22836-17-armbru@redhat.com>
 In-Reply-To: <20200519145551.22836-1-armbru@redhat.com>
 References: <20200519145551.22836-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 00:34:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:56:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,53 +86,65 @@ Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Same transformation as in the previous commit.  Manual, because
-convincing Coccinelle to transform these cases is not worthwhile.
-
 Cc: Michael S. Tsirkin <mst@redhat.com>
 Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/sparc64/sun4u.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ include/hw/pci/pci.h |  3 ---
+ hw/pci/pci.c         | 16 ----------------
+ 2 files changed, 19 deletions(-)
 
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index 6f29a013ca..0b898d6e3d 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -635,24 +635,28 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
-     memset(&macaddr, 0, sizeof(MACAddr));
-     onboard_nic = false;
-     for (i = 0; i < nb_nics; i++) {
-+        PCIBus *bus;
-         nd = &nd_table[i];
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 66f8ba519b..a4e9c33416 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -717,12 +717,9 @@ PCIDevice *pci_new_multifunction(int devfn, bool multifunction,
+ PCIDevice *pci_new(int devfn, const char *name);
+ bool pci_realize_and_unref(PCIDevice *dev, PCIBus *bus, Error **errp);
  
-         if (!nd->model || strcmp(nd->model, "sunhme") == 0) {
-             if (!onboard_nic) {
--                pci_dev = pci_create_multifunction(pci_busA, PCI_DEVFN(1, 1),
-+                pci_dev = pci_new_multifunction(PCI_DEVFN(1, 1),
-                                                    true, "sunhme");
-+                bus = pci_busA;
-                 memcpy(&macaddr, &nd->macaddr.a, sizeof(MACAddr));
-                 onboard_nic = true;
-             } else {
--                pci_dev = pci_create(pci_busB, -1, "sunhme");
-+                pci_dev = pci_new(-1, "sunhme");
-+                bus = pci_busB;
-             }
-         } else {
--            pci_dev = pci_create(pci_busB, -1, nd->model);
-+            pci_dev = pci_new(-1, nd->model);
-+            bus = pci_busB;
-         }
+-PCIDevice *pci_create_multifunction(PCIBus *bus, int devfn, bool multifunction,
+-                                    const char *name);
+ PCIDevice *pci_create_simple_multifunction(PCIBus *bus, int devfn,
+                                            bool multifunction,
+                                            const char *name);
+-PCIDevice *pci_create(PCIBus *bus, int devfn, const char *name);
+ PCIDevice *pci_create_simple(PCIBus *bus, int devfn, const char *name);
  
-         dev = &pci_dev->qdev;
-         qdev_set_nic_properties(dev, nd);
--        qdev_init_nofail(dev);
-+        pci_realize_and_unref(pci_dev, bus, &error_fatal);
-     }
+ void lsi53c8xx_handle_legacy_cmdline(DeviceState *lsi_dev);
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index ab8b71fe72..aaffbd7f94 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2168,17 +2168,6 @@ bool pci_realize_and_unref(PCIDevice *dev, PCIBus *bus, Error **errp)
+     return qdev_realize_and_unref(&dev->qdev, &bus->qbus, errp);
+ }
  
-     /* If we don't have an onboard NIC, grab a default MAC address so that
+-PCIDevice *pci_create_multifunction(PCIBus *bus, int devfn, bool multifunction,
+-                                    const char *name)
+-{
+-    DeviceState *dev;
+-
+-    dev = qdev_create(&bus->qbus, name);
+-    qdev_prop_set_int32(dev, "addr", devfn);
+-    qdev_prop_set_bit(dev, "multifunction", multifunction);
+-    return PCI_DEVICE(dev);
+-}
+-
+ PCIDevice *pci_create_simple_multifunction(PCIBus *bus, int devfn,
+                                            bool multifunction,
+                                            const char *name)
+@@ -2188,11 +2177,6 @@ PCIDevice *pci_create_simple_multifunction(PCIBus *bus, int devfn,
+     return dev;
+ }
+ 
+-PCIDevice *pci_create(PCIBus *bus, int devfn, const char *name)
+-{
+-    return pci_create_multifunction(bus, devfn, false, name);
+-}
+-
+ PCIDevice *pci_create_simple(PCIBus *bus, int devfn, const char *name)
+ {
+     return pci_create_simple_multifunction(bus, devfn, false, name);
 -- 
 2.21.1
 
