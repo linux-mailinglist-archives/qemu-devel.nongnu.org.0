@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213F51D8DDF
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 04:56:47 +0200 (CEST)
-Received: from localhost ([::1]:38734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 507E31D8DD4
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 04:55:23 +0200 (CEST)
+Received: from localhost ([::1]:58628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jasQw-0001mX-4w
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 22:56:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46794)
+	id 1jasPa-0006ow-Ak
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 22:55:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jasOK-00059U-CB
- for qemu-devel@nongnu.org; Mon, 18 May 2020 22:54:04 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:50920)
+ id 1jasOL-0005Ay-84
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 22:54:05 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:40259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jasOJ-0002Om-Hg
+ id 1jasOK-0002P8-F1
  for qemu-devel@nongnu.org; Mon, 18 May 2020 22:54:04 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id nu7so706497pjb.0
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 19:54:03 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id ci23so711346pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 18 May 2020 19:54:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l8CNEpbNSwxuY2Dqho2U2FL6h85cata1jdT1yHJcAt8=;
- b=QDzPjGjL4SM/hI5CHVYRhL25SSqtD7Z6l1jBJfKKHP5eMfGT0+Jf/9mX4vk5p8IL5R
- Re+sn4zVEOD4gtWMrIblWf+pUc+ddMXvSDlK8ktO7tCy3+fXmHpw9/X7WHTQKxJtPVgU
- +rIGkvC55aMVO3Ccy9QELodleKol4Yb1p6ztHScA/zZ9JCDUqxhsyxSklqPvIU2QTnbf
- s79nJ9CYr1BSXWb7covF+V0HGDo4e5AvMddeBaHW7ozm1lUG1zMujhszqx4BLBc/T+W7
- s+F1qP/H78fLh5g9KvSSfI4hoVhfa2Ty2Zzas1/eDUCDuEd3MjmgPV71RpSlYHsyz7YE
- q1NQ==
+ bh=AybC5+AFZZgiZxEHJk4RYMN+nVSUkMOWZVM2DrgRF3s=;
+ b=a4ZpaKdtnrsEGdVV9NMwg1AbtI8gOOs15h1CpoxTxPcFMAkYM/ASf10OXVcapBRh39
+ 28frS27EVYX14eg7dKcYqL5oqiOuFBnEcsaSn0HblL3CzzLbWX8Lf+3/+hO3MPrhhVFJ
+ XGVY21SJPw6q0sMHhiHv7wxiTCZWS4CKrVi9PB11g09hprqLx5Ed5YJtcVHWJ35e4TIe
+ PwsQDcMsPyz/f7LK8UBOwDotKSVrQT4LCJ2x7EJHfGt69imPPT98oonmft5CaaiDAKLI
+ gVMY6yI+3FnzjGRI1ig5ZVsQEbjIYNjJ7TfdpeAsx1UHv/kAlj2yrjMhCwpOtDS4Yivy
+ jJ6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l8CNEpbNSwxuY2Dqho2U2FL6h85cata1jdT1yHJcAt8=;
- b=qImDlZV72BHZT4cY8sc4o8fJ1XtpAKetak8BKOyTjkBa3FT1qWd1B0yJ+lTCj3DGcv
- PJ9tDJMqUFUp3nAyTEuw3ZkpgHj1oX+Ns9s2GirueDMcBLBPnHfgpyJ9auj3TI3oVnsB
- wT9pbKTT5ubTO1eaFA/S3UhfAdCQZmJJU/dAiXllCdayB4QkhiT1bYsX/i97h98sDziI
- DaxUHKffJQT01Rmh8Zyh1Sx6yQeZWi9HOVrFb8hksCi5nfc8f+JJzBvldRBM3EkGwXvs
- w34to5W+sJIutp6V0KW74anWk3RXIvoimtBTlkh+VqX35Xb2hFU0TM/hNMzuJDxf3PNF
- Is7g==
-X-Gm-Message-State: AOAM5308ANTc9yd66ClVQbLRvaGFXUr1bwwG8OU9W5biAk8IZ+3q/zzH
- RCPl2Qh2ld/k50xn35xSgPiAVFZBxXk=
-X-Google-Smtp-Source: ABdhPJx0Kpxtx5v069Q4bl55gYxOSQoo1aIPDsSygPvXCwbX7nZxmq1uihl+/zS2DjSDtQ/k0F9inQ==
-X-Received: by 2002:a17:90b:789:: with SMTP id
- l9mr2564325pjz.111.1589856841627; 
- Mon, 18 May 2020 19:54:01 -0700 (PDT)
+ bh=AybC5+AFZZgiZxEHJk4RYMN+nVSUkMOWZVM2DrgRF3s=;
+ b=aR4b489cfUFrulnNodmUWN9hJ49pZ8RUYS5gagZViUR4klk5wpCtGtR8PrwGNjY+xp
+ YCFbyLNr81jBOiWqSOn1W2Ctr3tXavYn+gLELEfIyg13MC67CjvHXdPfcjxh4urmWh2r
+ NTOjMz5kyLDox4f2EB/mRi9OjxVKK9n8eRYZ9EQraxyy+c1VfJipdtpc7+bXJbPzs1nH
+ 48SL/pwndToA2uDiE/5MSqh/XFGo1WAFtD6MB2MBbFemotyRSo6EcFntLz9Ckw+HMkCo
+ x1qf1gcVKuYn7DrEjRL1TwxzlpBjfAVbd43rLM7ZI8QvQYy87NoBVwrP0TvnY5wkrxln
+ XqgQ==
+X-Gm-Message-State: AOAM532VGfcPIoWxTbQ23kj/2YD740kB7dZYLZtdMs+6BwGfE2z9K5GX
+ 8BNwoeG0k5683in7fyzJUcFefTtsOZk=
+X-Google-Smtp-Source: ABdhPJwPSLbiaUY8kvYo3aaOP8u+M6bjvMfEq73jTzSAHfqB7oe8+9qL1h7hNlvwRyoJIxA4a51ihQ==
+X-Received: by 2002:a17:90a:1464:: with SMTP id
+ j91mr2765954pja.87.1589856842794; 
+ Mon, 18 May 2020 19:54:02 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id a2sm8772418pgh.57.2020.05.18.19.54.00
+ by smtp.gmail.com with ESMTPSA id a2sm8772418pgh.57.2020.05.18.19.54.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 19:54:00 -0700 (PDT)
+ Mon, 18 May 2020 19:54:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RISU v2 03/17] Hoist trace file opening
-Date: Mon, 18 May 2020 19:53:41 -0700
-Message-Id: <20200519025355.4420-4-richard.henderson@linaro.org>
+Subject: [RISU v2 04/17] Adjust tracefile open for write
+Date: Mon, 18 May 2020 19:53:42 -0700
+Message-Id: <20200519025355.4420-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200519025355.4420-1-richard.henderson@linaro.org>
 References: <20200519025355.4420-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,74 +90,28 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will want to share this code with --dump.
+Truncate the new output file.  Rely on umask to remove
+group+other file permissions, if desired.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- risu.c | 37 +++++++++++++++++--------------------
- 1 file changed, 17 insertions(+), 20 deletions(-)
+ risu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/risu.c b/risu.c
-index 059348f..1c66885 100644
+index 1c66885..f404d8f 100644
 --- a/risu.c
 +++ b/risu.c
-@@ -363,6 +363,21 @@ int main(int argc, char **argv)
-         }
-     }
- 
-+    if (trace) {
-+        if (strcmp(trace_fn, "-") == 0) {
-+            comm_fd = ismaster ? STDOUT_FILENO : STDIN_FILENO;
-+        } else {
-+            if (ismaster) {
-+                comm_fd = open(trace_fn, O_WRONLY | O_CREAT, S_IRWXU);
-+            } else {
-+                comm_fd = open(trace_fn, O_RDONLY);
-+            }
-+#ifdef HAVE_ZLIB
-+            gz_trace_file = gzdopen(comm_fd, ismaster ? "wb9" : "rb");
-+#endif
-+        }
-+    }
-+
-     imgfile = argv[optind];
-     if (!imgfile) {
-         fprintf(stderr, "Error: must specify image file name\n\n");
-@@ -373,31 +388,13 @@ int main(int argc, char **argv)
-     load_image(imgfile);
- 
-     if (ismaster) {
--        if (trace) {
--            if (strcmp(trace_fn, "-") == 0) {
--                comm_fd = STDOUT_FILENO;
--            } else {
+@@ -368,7 +368,7 @@ int main(int argc, char **argv)
+             comm_fd = ismaster ? STDOUT_FILENO : STDIN_FILENO;
+         } else {
+             if (ismaster) {
 -                comm_fd = open(trace_fn, O_WRONLY | O_CREAT, S_IRWXU);
--#ifdef HAVE_ZLIB
--                gz_trace_file = gzdopen(comm_fd, "wb9");
--#endif
--            }
--        } else {
-+        if (!trace) {
-             fprintf(stderr, "master port %d\n", port);
-             comm_fd = master_connect(port);
-         }
-         return master();
-     } else {
--        if (trace) {
--            if (strcmp(trace_fn, "-") == 0) {
--                comm_fd = STDIN_FILENO;
--            } else {
--                comm_fd = open(trace_fn, O_RDONLY);
--#ifdef HAVE_ZLIB
--                gz_trace_file = gzdopen(comm_fd, "rb");
--#endif
--            }
--        } else {
-+        if (!trace) {
-             fprintf(stderr, "apprentice host %s port %d\n", hostname, port);
-             comm_fd = apprentice_connect(hostname, port);
-         }
++                comm_fd = open(trace_fn, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+             } else {
+                 comm_fd = open(trace_fn, O_RDONLY);
+             }
 -- 
 2.20.1
 
