@@ -2,73 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A561D9E54
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 19:57:46 +0200 (CEST)
-Received: from localhost ([::1]:39526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC4E1D9E5C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:00:08 +0200 (CEST)
+Received: from localhost ([::1]:48390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb6Ur-0008Ak-VY
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 13:57:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38788)
+	id 1jb6X9-0003kb-N1
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:00:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jb6Tx-0007fu-4t
- for qemu-devel@nongnu.org; Tue, 19 May 2020 13:56:49 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35912
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jb6Tw-0003Vt-1F
- for qemu-devel@nongnu.org; Tue, 19 May 2020 13:56:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589911007;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XV9XKJQ/EfP2DbKrTpT1bjMJaQ+Oy0Cp9GNi3uPr1bg=;
- b=bYTETkkaMjQmIAS56/HTUziPQJNSvc2ZfSyPCOzjeCucZWtN6loveDdaIbTDl73Zj4KiEs
- +y5jjGDYDcHihB7uc602+QR1GJKElEqOZ/WtGz8bVjN1roWlrYD0yh8r83K1+9WyXjkylM
- cP8AQ1wTiKWxF4vXDGf1jP9aGnTgi1w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-MuojkxAuOcOmdcLfafnZKg-1; Tue, 19 May 2020 13:56:35 -0400
-X-MC-Unique: MuojkxAuOcOmdcLfafnZKg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7634107ACF5;
- Tue, 19 May 2020 17:56:32 +0000 (UTC)
-Received: from work-vm (ovpn-114-247.ams2.redhat.com [10.36.114.247])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F3E038A;
- Tue, 19 May 2020 17:56:22 +0000 (UTC)
-Date: Tue, 19 May 2020 18:56:20 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH QEMU v22 10/18] vfio: Add load state functions to
- SaveVMHandlers
-Message-ID: <20200519175620.GK2798@work-vm>
-References: <1589782398-24406-1-git-send-email-kwankhede@nvidia.com>
- <1589782398-24406-11-git-send-email-kwankhede@nvidia.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jb6UK-0007yg-Jr; Tue, 19 May 2020 13:57:12 -0400
+Received: from mail-eopbgr70125.outbound.protection.outlook.com
+ ([40.107.7.125]:55350 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jb6UG-0003Xn-Na; Tue, 19 May 2020 13:57:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bw2hEVbYhze6NMNu3KH8bjPFtyyUbP7SglK/BOBFHVplFPkDqcH4xG4b/eKc41GuNLP/8nmuPwUxknilzaQa0CT3U/ZvL4MKhhy3xCp660iT2OkSIukS9tVKlAX9lLc80y9st2d2HCP73egIJc75z9hWxeXarjODpbaEkN/xUjTkkki46vBVkbkL6ubJ28ZsvaF1e5u6ioJQuN1BhPpcA1cED7eKe+hOdpnFFKvVLHUZiJRpZFtmSMZi+x7Pv82Ilxbq2nMYVbgW9HpGhlNw0IV+YFK/X82t0F6V8jLEzOPVSZXW383Oj0U3IfD9yPP+Mg1F2pFSXQo0F54S9vIr0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ybhzGZmCtgC5mZNxaoeyyYhIvcxtr18D1fr1n3vEiEc=;
+ b=lGmb2GDP9w/e1vPF8VL+ao5XyjnX5h2bxK4d2/yO/+zdlBu+bk8RUaH2IOoOGzvpZS89TtWHjMTPI1dkVBVfI2IzfZXQqdqvL45vltORsoITB7iy8UeDKsoSZFVnGNMQwSvH8nEP2+OxPK1GZg7wq1FD/f/9RAxolyEz4Un89l/sHW9U0fnDfuE/jE8uZlIAHBpUfI9qU0x7wK02jgMJfjmUcbRc8J+1VcFCTv6nPHzGYGCWximj2rSVunZsJJ3D++xRPOH5wAAePUhs7azBABzGHilGLS4zg2zI1aYTfQDUI7Hg7XRQpD2f2rp+YVZmn7gkCffD9KyqnuIpytw41g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ybhzGZmCtgC5mZNxaoeyyYhIvcxtr18D1fr1n3vEiEc=;
+ b=mYvxsz6IiuhFizoCrXxIt6riN+nbpzKtNysb4DKLyT62C8dciP6WRzMYniyHIbYO6D2JRt3Y/cDgSPBJUObAG2t2zitMbZ6hEm+IGeWqf+WfzRqptjgMICUaj2Z2ZP9Zns+gcr2JTs1cyjxcVz2Tw50q4rJO3iOad/gCt6CZV5I=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5478.eurprd08.prod.outlook.com (2603:10a6:20b:107::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.26; Tue, 19 May
+ 2020 17:57:04 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%4]) with mapi id 15.20.3000.034; Tue, 19 May 2020
+ 17:57:04 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2] block: Factor out bdrv_run_co()
+Date: Tue, 19 May 2020 20:56:50 +0300
+Message-Id: <20200519175650.31506-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AM0PR03CA0033.eurprd03.prod.outlook.com
+ (2603:10a6:208:14::46) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <1589782398-24406-11-git-send-email-kwankhede@nvidia.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:19:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.178) by
+ AM0PR03CA0033.eurprd03.prod.outlook.com (2603:10a6:208:14::46) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3000.25 via Frontend Transport; Tue, 19 May 2020 17:57:03 +0000
+X-Mailer: git-send-email 2.21.0
+X-Originating-IP: [185.215.60.178]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: eb12d581-56d7-4a5f-c0a4-08d7fc1e0a02
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5478:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5478722E3AE08533A278FF5DC1B90@AM7PR08MB5478.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2201;
+X-Forefront-PRVS: 040866B734
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bLJvoINyI2QlvkiudQ7HRAl+3sa+mKeyYuoqBXYD2hs11gGgoc9eLy9IsHGqGno57812E1eSuzArc8JpD6+S4wMUn0kdYU4Wcf6JlJMkgSXDA+Pg3VeeObTqMDH3bzmxG3YS7dchYgTXfcaL6uyd9Gz/8uBHI7YNvAoEwr3eB6MN7PzDcVjC+1tnrKgvUDlsQwiGuU7O01VgO+Fat1F25EJ5BCQQqMQLBI/vAHYKGViBig4GIfbpGf212sAGBnFvLhalB3XoELkF72mEy7BqxWlXXFfNFwgwu/4+6ZJCXmG49kBjZkOmlXPaIh+to8bxnYtDie+i42khA5HsTTFsBtkGbivPVPDDzTKAXIuhuDAyboQZC+DWQsHFn+Brn45VAOj82ZuCfSxuVczo4A6PSjeMOMG8uCnyI906Ti7oLz5+oWKI5YgOQTww5sl/imBzxTAbXX4aD7JoANBXX37LHzTl/Ql+NWfz561F0BLMjrWQ2dKHquLCaJqcTY86hiX7
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(376002)(346002)(396003)(366004)(39830400003)(52116002)(26005)(6666004)(6512007)(6486002)(186003)(5660300002)(6506007)(16526019)(69590400007)(2616005)(956004)(1076003)(86362001)(478600001)(2906002)(316002)(66556008)(6916009)(66946007)(107886003)(36756003)(66476007)(8676002)(8936002)(4326008);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: bgLLSaq88VaQI1uKxvvh/X6AakPc5T+cVs0K64NBOuOHhPfTeY32rDeAF8qlhmQK6lBIAmTPDU3CLJRMDd1z0lT8Goi/pIydTp6Vqo80ppdhk4Eqw7J3fM7aNWdRQtFNgKrVk7N5CDbOWV9S3iytD8iQgm4OJ+BJa5maSPOyyDuwLP0emkpIq/5Rkye8qckNGyyqq2ZEynuW2GS6jRxOdzt9myjQQkO17//7xQoDKwPSjI4XerDJsVXfM99NPuRKOovTocuerBC9vc3Dm2Fw/FMk/zn5EZrICJl5TL3mkP1jyNPUzDiKuApCufArtExBKbq1+faTc6gxrEXxCQgAdvnNUgH3gp0GlgwiimRifLoNaYyvG2bkzR1UOi5qTbFQOmQDM0JWe1uUc2IO5YsmoRvYIdkmR9TqACeZWSuRLxeCuruksSeCeokqXE4mo5xneuZdNZMUqftzvV5zi4fC4pN6fbsXKcXOTv9Cdda9S2OFRTBuqrpTPPy1SfYoxcKa
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb12d581-56d7-4a5f-c0a4-08d7fc1e0a02
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2020 17:57:04.6262 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kA8sW3ioJplBCaoivfjtNB8yzfWlcvBdtmB5tYDdkakcRzzOW/CTwyLYglMD/W0p3pfgQ6HANiIbxNV678WM95RHUaChnOfCAc04MHsDTaA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5478
+Received-SPF: pass client-ip=40.107.7.125;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 13:57:05
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,269 +112,390 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
- Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
- yan.y.zhao@intel.com, alex.williamson@redhat.com, changpeng.liu@intel.com,
- eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
- pbonzini@redhat.com
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Kirti Wankhede (kwankhede@nvidia.com) wrote:
-> Sequence  during _RESUMING device state:
-> While data for this device is available, repeat below steps:
-> a. read data_offset from where user application should write data.
-> b. write data of data_size to migration region from data_offset.
-> c. write data_size which indicates vendor driver that data is written in
->    staging buffer.
-> 
-> For user, data is opaque. User should write data in the same order as
-> received.
-> 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
+We have a few bdrv_*() functions that can either spawn a new coroutine
+and wait for it with BDRV_POLL_WHILE() or use a fastpath if they are
+alreeady running in a coroutine. All of them duplicate basically the
+same code.
 
-I think you've fixed up some of my comments from last time, still one or
-two:
+Factor the common code into a new function bdrv_run_co().
 
-> ---
->  hw/vfio/migration.c  | 180 +++++++++++++++++++++++++++++++++++++++++++++++++++
->  hw/vfio/trace-events |   3 +
->  2 files changed, 183 insertions(+)
-> 
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index d90bd2296afd..b9bbe38e539c 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -270,6 +270,33 @@ static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
->      return qemu_file_get_error(f);
->  }
->  
-> +static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    uint64_t data;
-> +
-> +    if (vbasedev->ops && vbasedev->ops->vfio_load_config) {
-> +        int ret;
-> +
-> +        ret = vbasedev->ops->vfio_load_config(vbasedev, f);
-> +        if (ret) {
-> +            error_report("%s: Failed to load device config space",
-> +                         vbasedev->name);
-> +            return ret;
-> +        }
-> +    }
-> +
-> +    data = qemu_get_be64(f);
-> +    if (data != VFIO_MIG_FLAG_END_OF_STATE) {
-> +        error_report("%s: Failed loading device config space, "
-> +                     "end flag incorrect 0x%"PRIx64, vbasedev->name, data);
-> +        return -EINVAL;
-> +    }
-> +
-> +    trace_vfio_load_device_config_state(vbasedev->name);
-> +    return qemu_file_get_error(f);
-> +}
-> +
->  /* ---------------------------------------------------------------------- */
->  
->  static int vfio_save_setup(QEMUFile *f, void *opaque)
-> @@ -439,12 +466,165 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
->      return ret;
->  }
->  
-> +static int vfio_load_setup(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    int ret = 0;
-> +
-> +    if (migration->region.mmaps) {
-> +        ret = vfio_region_mmap(&migration->region);
-> +        if (ret) {
-> +            error_report("%s: Failed to mmap VFIO migration region %d: %s",
-> +                         vbasedev->name, migration->region.nr,
-> +                         strerror(-ret));
-> +            return ret;
-> +        }
-> +    }
-> +
-> +    ret = vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_MASK,
-> +                                   VFIO_DEVICE_STATE_RESUMING);
-> +    if (ret) {
-> +        error_report("%s: Failed to set state RESUMING", vbasedev->name);
-> +    }
-> +    return ret;
-> +}
-> +
-> +static int vfio_load_cleanup(void *opaque)
-> +{
-> +    vfio_save_cleanup(opaque);
-> +    return 0;
-> +}
-> +
-> +static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    int ret = 0;
-> +    uint64_t data, data_size;
-> +
-> +    data = qemu_get_be64(f);
-> +    while (data != VFIO_MIG_FLAG_END_OF_STATE) {
-> +
-> +        trace_vfio_load_state(vbasedev->name, data);
-> +
-> +        switch (data) {
-> +        case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
-> +        {
-> +            ret = vfio_load_device_config_state(f, opaque);
-> +            if (ret) {
-> +                return ret;
-> +            }
-> +            break;
-> +        }
-> +        case VFIO_MIG_FLAG_DEV_SETUP_STATE:
-> +        {
-> +            data = qemu_get_be64(f);
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+   [Factor out bdrv_run_co_entry too]
+---
 
-I think I asked last time why you didn't let this drop through and do
-the check for END_OF_STATE on the next iteration; I guess you're trying
-to insist that SETUP_STATE be empty - just add a comment so it's
-obvious.
+Hi!
 
-> +            if (data == VFIO_MIG_FLAG_END_OF_STATE) {
-> +                return ret;
-> +            } else {
-> +                error_report("%s: SETUP STATE: EOS not found 0x%"PRIx64,
-> +                             vbasedev->name, data);
-> +                return -EINVAL;
-> +            }
-> +            break;
-> +        }
-> +        case VFIO_MIG_FLAG_DEV_DATA_STATE:
-> +        {
-> +            VFIORegion *region = &migration->region;
-> +            void *buf = NULL;
-> +            bool buffer_mmaped = false;
-> +            uint64_t data_offset = 0;
-> +
-> +            data_size = qemu_get_be64(f);
-> +            if (data_size == 0) {
-> +                break;
-> +            }
+I'm a bit lost on rebasing "block/io: safer inc/dec in_flight sections"
+(is it needed or not?), so, I decided to send just this one patch:
 
-Can we do any more validation on data_size that's read off the line?
+I suggest to go a bit further, and refactor that bdrv_run_co don't need
+additional *ret argument neither NOT_DONE logic.
 
-Dave
+ block/io.c | 191 ++++++++++++++++++++---------------------------------
+ 1 file changed, 70 insertions(+), 121 deletions(-)
 
-> +            ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
-> +                        region->fd_offset +
-> +                        offsetof(struct vfio_device_migration_info,
-> +                        data_offset));
-> +            if (ret != sizeof(data_offset)) {
-> +                error_report("%s:Failed to get migration buffer data offset %d",
-> +                             vbasedev->name, ret);
-> +                return -EINVAL;
-> +            }
-> +
-> +            if (region->mmaps) {
-> +                buf = find_data_region(region, data_offset, data_size);
-> +            }
-> +
-> +            buffer_mmaped = (buf != NULL) ? true : false;
-> +
-> +            if (!buffer_mmaped) {
-> +                buf = g_try_malloc0(data_size);
-> +                if (!buf) {
-> +                    error_report("%s: Error allocating buffer ", __func__);
-> +                    return -ENOMEM;
-> +                }
-> +            }
-> +
-> +            qemu_get_buffer(f, buf, data_size);
-> +
-> +            if (!buffer_mmaped) {
-> +                ret = pwrite(vbasedev->fd, buf, data_size,
-> +                             region->fd_offset + data_offset);
-> +                g_free(buf);
-> +
-> +                if (ret != data_size) {
-> +                    error_report("%s: Failed to set migration buffer %d",
-> +                                 vbasedev->name, ret);
-> +                    return -EINVAL;
-> +                }
-> +            }
-> +
-> +            ret = pwrite(vbasedev->fd, &data_size, sizeof(data_size),
-> +                         region->fd_offset +
-> +                       offsetof(struct vfio_device_migration_info, data_size));
-> +            if (ret != sizeof(data_size)) {
-> +                error_report("%s: Failed to set migration buffer data size %d",
-> +                             vbasedev->name, ret);
-> +                if (!buffer_mmaped) {
-> +                    g_free(buf);
-> +                }
-> +                return -EINVAL;
-> +            }
-> +
-> +            trace_vfio_load_state_device_data(vbasedev->name, data_offset,
-> +                                              data_size);
-> +            break;
-> +        }
-> +
-> +        default:
-> +            error_report("%s: Unknown tag 0x%"PRIx64, vbasedev->name, data);
-> +            return -EINVAL;
-> +        }
-> +
-> +        ret = qemu_file_get_error(f);
-> +        if (ret) {
-> +            return ret;
-> +        }
-> +
-> +        data = qemu_get_be64(f);
-> +        ret = qemu_file_get_error(f);
-> +        if (ret) {
-> +            return ret;
-> +        }
-> +    }
-> +
-> +    return ret;
-> +}
-> +
->  static SaveVMHandlers savevm_vfio_handlers = {
->      .save_setup = vfio_save_setup,
->      .save_cleanup = vfio_save_cleanup,
->      .save_live_pending = vfio_save_pending,
->      .save_live_iterate = vfio_save_iterate,
->      .save_live_complete_precopy = vfio_save_complete_precopy,
-> +    .load_setup = vfio_load_setup,
-> +    .load_cleanup = vfio_load_cleanup,
-> +    .load_state = vfio_load_state,
->  };
->  
->  /* ---------------------------------------------------------------------- */
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index 9a1c5e17d97f..4a4bd3ba9a2a 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -157,3 +157,6 @@ vfio_save_device_config_state(const char *name) " (%s)"
->  vfio_save_pending(const char *name, uint64_t precopy, uint64_t postcopy, uint64_t compatible) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64" compatible 0x%"PRIx64
->  vfio_save_iterate(const char *name, int data_size) " (%s) data_size %d"
->  vfio_save_complete_precopy(const char *name) " (%s)"
-> +vfio_load_device_config_state(const char *name) " (%s)"
-> +vfio_load_state(const char *name, uint64_t data) " (%s) data 0x%"PRIx64
-> +vfio_load_state_device_data(const char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
-> -- 
-> 2.7.0
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+diff --git a/block/io.c b/block/io.c
+index 121ce17a49..794eebbd0c 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -35,8 +35,6 @@
+ #include "qemu/main-loop.h"
+ #include "sysemu/replay.h"
+ 
+-#define NOT_DONE 0x7fffffff /* used while emulated sync operation in progress */
+-
+ /* Maximum bounce buffer for copy-on-read and write zeroes, in bytes */
+ #define MAX_BOUNCE_BUFFER (32768 << BDRV_SECTOR_BITS)
+ 
+@@ -891,29 +889,61 @@ static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
+     return 0;
+ }
+ 
++typedef int coroutine_fn BdrvRequestEntry(void *opaque);
++typedef struct BdrvRunCo {
++    BdrvRequestEntry *entry;
++    void *opaque;
++    int ret;
++    bool done;
++} BdrvRunCo;
++
++static void coroutine_fn bdrv_run_co_entry(void *opaque)
++{
++    BdrvRunCo *arg = opaque;
++
++    arg->ret = arg->entry(arg->opaque);
++    arg->done = true;
++    aio_wait_kick();
++}
++
++static int bdrv_run_co(BlockDriverState *bs, BdrvRequestEntry *entry,
++                       void *opaque)
++{
++    if (qemu_in_coroutine()) {
++        /* Fast-path if already in coroutine context */
++        return entry(opaque);
++    } else {
++        BdrvRunCo s = { .entry = entry, .opaque = opaque };
++
++        bdrv_coroutine_enter(bs, qemu_coroutine_create(bdrv_run_co_entry, &s));
++
++        BDRV_POLL_WHILE(bs, !s.done);
++
++        return s.ret;
++    }
++}
++
+ typedef struct RwCo {
+     BdrvChild *child;
+     int64_t offset;
+     QEMUIOVector *qiov;
+     bool is_write;
+-    int ret;
+     BdrvRequestFlags flags;
+ } RwCo;
+ 
+-static void coroutine_fn bdrv_rw_co_entry(void *opaque)
++static int coroutine_fn bdrv_rw_co_entry(void *opaque)
+ {
+     RwCo *rwco = opaque;
+ 
+     if (!rwco->is_write) {
+-        rwco->ret = bdrv_co_preadv(rwco->child, rwco->offset,
+-                                   rwco->qiov->size, rwco->qiov,
+-                                   rwco->flags);
++        return bdrv_co_preadv(rwco->child, rwco->offset,
++                              rwco->qiov->size, rwco->qiov,
++                              rwco->flags);
+     } else {
+-        rwco->ret = bdrv_co_pwritev(rwco->child, rwco->offset,
+-                                    rwco->qiov->size, rwco->qiov,
+-                                    rwco->flags);
++        return bdrv_co_pwritev(rwco->child, rwco->offset,
++                               rwco->qiov->size, rwco->qiov,
++                               rwco->flags);
+     }
+-    aio_wait_kick();
+ }
+ 
+ /*
+@@ -923,25 +953,15 @@ static int bdrv_prwv_co(BdrvChild *child, int64_t offset,
+                         QEMUIOVector *qiov, bool is_write,
+                         BdrvRequestFlags flags)
+ {
+-    Coroutine *co;
+     RwCo rwco = {
+         .child = child,
+         .offset = offset,
+         .qiov = qiov,
+         .is_write = is_write,
+-        .ret = NOT_DONE,
+         .flags = flags,
+     };
+ 
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_rw_co_entry(&rwco);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_rw_co_entry, &rwco);
+-        bdrv_coroutine_enter(child->bs, co);
+-        BDRV_POLL_WHILE(child->bs, rwco.ret == NOT_DONE);
+-    }
+-    return rwco.ret;
++    return bdrv_run_co(child->bs, bdrv_rw_co_entry, &rwco);
+ }
+ 
+ int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
+@@ -2229,8 +2249,6 @@ typedef struct BdrvCoBlockStatusData {
+     int64_t *pnum;
+     int64_t *map;
+     BlockDriverState **file;
+-    int ret;
+-    bool done;
+ } BdrvCoBlockStatusData;
+ 
+ int coroutine_fn bdrv_co_block_status_from_file(BlockDriverState *bs,
+@@ -2484,16 +2502,14 @@ static int coroutine_fn bdrv_co_block_status_above(BlockDriverState *bs,
+ }
+ 
+ /* Coroutine wrapper for bdrv_block_status_above() */
+-static void coroutine_fn bdrv_block_status_above_co_entry(void *opaque)
++static int coroutine_fn bdrv_block_status_above_co_entry(void *opaque)
+ {
+     BdrvCoBlockStatusData *data = opaque;
+ 
+-    data->ret = bdrv_co_block_status_above(data->bs, data->base,
+-                                           data->want_zero,
+-                                           data->offset, data->bytes,
+-                                           data->pnum, data->map, data->file);
+-    data->done = true;
+-    aio_wait_kick();
++    return bdrv_co_block_status_above(data->bs, data->base,
++                                      data->want_zero,
++                                      data->offset, data->bytes,
++                                      data->pnum, data->map, data->file);
+ }
+ 
+ /*
+@@ -2508,7 +2524,6 @@ static int bdrv_common_block_status_above(BlockDriverState *bs,
+                                           int64_t *map,
+                                           BlockDriverState **file)
+ {
+-    Coroutine *co;
+     BdrvCoBlockStatusData data = {
+         .bs = bs,
+         .base = base,
+@@ -2518,18 +2533,9 @@ static int bdrv_common_block_status_above(BlockDriverState *bs,
+         .pnum = pnum,
+         .map = map,
+         .file = file,
+-        .done = false,
+     };
+ 
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_block_status_above_co_entry(&data);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_block_status_above_co_entry, &data);
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, !data.done);
+-    }
+-    return data.ret;
++    return bdrv_run_co(bs, bdrv_block_status_above_co_entry, &data);
+ }
+ 
+ int bdrv_block_status_above(BlockDriverState *bs, BlockDriverState *base,
+@@ -2630,7 +2636,6 @@ typedef struct BdrvVmstateCo {
+     QEMUIOVector        *qiov;
+     int64_t             pos;
+     bool                is_read;
+-    int                 ret;
+ } BdrvVmstateCo;
+ 
+ static int coroutine_fn
+@@ -2658,33 +2663,25 @@ bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
+     return ret;
+ }
+ 
+-static void coroutine_fn bdrv_co_rw_vmstate_entry(void *opaque)
++static int coroutine_fn bdrv_co_rw_vmstate_entry(void *opaque)
+ {
+     BdrvVmstateCo *co = opaque;
+-    co->ret = bdrv_co_rw_vmstate(co->bs, co->qiov, co->pos, co->is_read);
+-    aio_wait_kick();
++
++    return bdrv_co_rw_vmstate(co->bs, co->qiov, co->pos, co->is_read);
+ }
+ 
+ static inline int
+ bdrv_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
+                 bool is_read)
+ {
+-    if (qemu_in_coroutine()) {
+-        return bdrv_co_rw_vmstate(bs, qiov, pos, is_read);
+-    } else {
+-        BdrvVmstateCo data = {
+-            .bs         = bs,
+-            .qiov       = qiov,
+-            .pos        = pos,
+-            .is_read    = is_read,
+-            .ret        = -EINPROGRESS,
+-        };
+-        Coroutine *co = qemu_coroutine_create(bdrv_co_rw_vmstate_entry, &data);
++    BdrvVmstateCo data = {
++        .bs         = bs,
++        .qiov       = qiov,
++        .pos        = pos,
++        .is_read    = is_read,
++    };
+ 
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, data.ret == -EINPROGRESS);
+-        return data.ret;
+-    }
++    return bdrv_run_co(bs, bdrv_co_rw_vmstate_entry, &data);
+ }
+ 
+ int bdrv_save_vmstate(BlockDriverState *bs, const uint8_t *buf,
+@@ -2762,18 +2759,9 @@ void bdrv_aio_cancel_async(BlockAIOCB *acb)
+ /**************************************************************/
+ /* Coroutine block device emulation */
+ 
+-typedef struct FlushCo {
+-    BlockDriverState *bs;
+-    int ret;
+-} FlushCo;
+-
+-
+-static void coroutine_fn bdrv_flush_co_entry(void *opaque)
++static int coroutine_fn bdrv_flush_co_entry(void *opaque)
+ {
+-    FlushCo *rwco = opaque;
+-
+-    rwco->ret = bdrv_co_flush(rwco->bs);
+-    aio_wait_kick();
++    return bdrv_co_flush(opaque);
+ }
+ 
+ int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
+@@ -2890,36 +2878,20 @@ early_exit:
+ 
+ int bdrv_flush(BlockDriverState *bs)
+ {
+-    Coroutine *co;
+-    FlushCo flush_co = {
+-        .bs = bs,
+-        .ret = NOT_DONE,
+-    };
+-
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_flush_co_entry(&flush_co);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_flush_co_entry, &flush_co);
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, flush_co.ret == NOT_DONE);
+-    }
+-
+-    return flush_co.ret;
++    return bdrv_run_co(bs, bdrv_flush_co_entry, bs);
+ }
+ 
+ typedef struct DiscardCo {
+     BdrvChild *child;
+     int64_t offset;
+     int64_t bytes;
+-    int ret;
+ } DiscardCo;
+-static void coroutine_fn bdrv_pdiscard_co_entry(void *opaque)
++
++static int coroutine_fn bdrv_pdiscard_co_entry(void *opaque)
+ {
+     DiscardCo *rwco = opaque;
+ 
+-    rwco->ret = bdrv_co_pdiscard(rwco->child, rwco->offset, rwco->bytes);
+-    aio_wait_kick();
++    return bdrv_co_pdiscard(rwco->child, rwco->offset, rwco->bytes);
+ }
+ 
+ int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
+@@ -3038,24 +3010,13 @@ out:
+ 
+ int bdrv_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes)
+ {
+-    Coroutine *co;
+     DiscardCo rwco = {
+         .child = child,
+         .offset = offset,
+         .bytes = bytes,
+-        .ret = NOT_DONE,
+     };
+ 
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_pdiscard_co_entry(&rwco);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_pdiscard_co_entry, &rwco);
+-        bdrv_coroutine_enter(child->bs, co);
+-        BDRV_POLL_WHILE(child->bs, rwco.ret == NOT_DONE);
+-    }
+-
+-    return rwco.ret;
++    return bdrv_run_co(child->bs, bdrv_pdiscard_co_entry, &rwco);
+ }
+ 
+ int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf)
+@@ -3463,21 +3424,19 @@ typedef struct TruncateCo {
+     PreallocMode prealloc;
+     BdrvRequestFlags flags;
+     Error **errp;
+-    int ret;
+ } TruncateCo;
+ 
+-static void coroutine_fn bdrv_truncate_co_entry(void *opaque)
++static int coroutine_fn bdrv_truncate_co_entry(void *opaque)
+ {
+     TruncateCo *tco = opaque;
+-    tco->ret = bdrv_co_truncate(tco->child, tco->offset, tco->exact,
+-                                tco->prealloc, tco->flags, tco->errp);
+-    aio_wait_kick();
++
++    return bdrv_co_truncate(tco->child, tco->offset, tco->exact,
++                            tco->prealloc, tco->flags, tco->errp);
+ }
+ 
+ int bdrv_truncate(BdrvChild *child, int64_t offset, bool exact,
+                   PreallocMode prealloc, BdrvRequestFlags flags, Error **errp)
+ {
+-    Coroutine *co;
+     TruncateCo tco = {
+         .child      = child,
+         .offset     = offset,
+@@ -3485,17 +3444,7 @@ int bdrv_truncate(BdrvChild *child, int64_t offset, bool exact,
+         .prealloc   = prealloc,
+         .flags      = flags,
+         .errp       = errp,
+-        .ret        = NOT_DONE,
+     };
+ 
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_truncate_co_entry(&tco);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_truncate_co_entry, &tco);
+-        bdrv_coroutine_enter(child->bs, co);
+-        BDRV_POLL_WHILE(child->bs, tco.ret == NOT_DONE);
+-    }
+-
+-    return tco.ret;
++    return bdrv_run_co(child->bs, bdrv_truncate_co_entry, &tco);
+ }
+-- 
+2.21.0
 
 
