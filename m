@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A443A1DA002
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:52:35 +0200 (CEST)
-Received: from localhost ([::1]:50368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5A71DA014
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:58:02 +0200 (CEST)
+Received: from localhost ([::1]:60022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb7Lt-000565-6s
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49120)
+	id 1jb7RA-0001oK-Ib
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:58:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jb7LA-0004da-L4
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:51:48 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:42524)
+ id 1jb7Q2-0000F1-1V
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 14:56:50 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:40450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jb7L9-0007oO-FW
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:51:48 -0400
-Received: by mail-pl1-x643.google.com with SMTP id k19so253553pll.9
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 11:51:46 -0700 (PDT)
+ id 1jb7Q0-0000D8-QX
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 14:56:49 -0400
+Received: by mail-pg1-x541.google.com with SMTP id j21so247833pgb.7
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 11:56:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nBBPffgVKLIkxJLraiw3rpKYl3hitk0dPuLLq1AlijI=;
- b=uzUP7PpBTbqO9uKW5I9lMI1wWQcO+pM2PiYX0PGVOYVgtks66a+mTBNb8xQkN5NvQf
- KJEJjy+SRWfldN1QMpMuE+tsl86PnTMR/w8SdgRiKW6eyrFM59UScf8bnQyGKUInlWwN
- I64fWrHSfCqtaP+CcH/YUHsKyaB1b0zVxKhRtJ1QYSu+ie0WjY/SdoCU0H4IkUcFLhu3
- xCYLgXOCa4jGzht7NWlpRZho7fGku9aceBQxlYGMQTzE9ePHQ8IaBZCs3vIvoVAfv38z
- opHeVYLZT0cjLuhevLlcE4ZwoSyGUj1AMaRGWvChoVrN7kK1HYj4vo9geIrBcxPSFsy+
- sG5w==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0++PSJWAhvVdjcv1UMNeF1TncHXGzO24IGv/wi2vUaQ=;
+ b=scGBCWH5vl+RE2zFYNAPZxIQ43E5jvY25bc8R8QYSZD2HiUV04mmtBP2ueVF2MWPTi
+ GBsGKc6PsghagZkIx1tRT74jIGpJHgy+M5dGUlpw6iZ7XmC8fFjjHQt2uaxrLyZNUP5w
+ gl1n6QlC9M89SXCRKRdsWQiL7JvT0crhbkNYMDhb4cHVAWIjJNlOQhaeRFe4Cal/lvTc
+ mwnTC3UhWU1uovNqKio2NoJGoAAX5D3EHROEjgsHt4vO7T7mOPPFiCmAiqew7+eQA+l9
+ Fs8M3HEyD5mtCJSAgv1VhYhVOhw7pjQkDNBkpY9sN2x+9FiMiS1yN1N5G1CWPN8CqhrD
+ C8+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=nBBPffgVKLIkxJLraiw3rpKYl3hitk0dPuLLq1AlijI=;
- b=tPe+i2G0pfdOpicgdSjbbSnC26NN1we2z6Y13l3x/vHF6281+/I98OPgZmRVUtMabB
- 81u4FU6u724D3WGdQtY/bYlNz1sZ/0qtngnWWgfQzDawQXbQmAgpZA/xuEVqJoGL7vbS
- 7Bn11kCWW1HtH5ETDX97x8MVRIPol/7OdKNhxew7cxvrP2spgXTZ0ZceQNh6pkcI0P8j
- hLqOmwGqWYMT8TNgTcuX5RAKXMyhBDwIGwW2wMQOS/P51riQHwsICTMnt6MP8oOtIyDQ
- lhH12C6wqYdZhxsQDKVmVCYrsDtjXqteg464cgYkKCy+6iLcW4FduGJqittG5STmpqZr
- DoQQ==
-X-Gm-Message-State: AOAM532iUuzIJaSNLa2fV3KSe2F/8gSCJwqs6Wa23riRJoK+FbA+3+Jv
- shlRwU7GzDAKeguqgCcBIQxzug==
-X-Google-Smtp-Source: ABdhPJxZKFwDQhw1Pxp9n7n6EHbuU0LSBUFHaeYWyku7Xkr+aKt+SF36lvnEnQBnuuH2UivVB3tzPg==
-X-Received: by 2002:a17:90a:6581:: with SMTP id
- k1mr1049043pjj.118.1589914306078; 
- Tue, 19 May 2020 11:51:46 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id l4sm156762pgo.92.2020.05.19.11.51.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 May 2020 11:51:45 -0700 (PDT)
-Subject: Re: [PATCH 0/2] Update use_goto_tb() in hppa and rx targets
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200519162144.10831-1-ahmedkhaledkaraman@gmail.com>
- <a0f3967f-e125-d888-bc6d-44414edbfd5b@linaro.org> <87r1vfhisb.fsf@linaro.org>
+ bh=0++PSJWAhvVdjcv1UMNeF1TncHXGzO24IGv/wi2vUaQ=;
+ b=KrJ2nAA5lAntdmZOkd4lWxpAa8ttkK8yGh5V6mGLXWxp6cFzx+wZxhBI9hMixvEy7q
+ Yvkma1k7OVXXzQmMyOXD8g+TiFzVzxMbtqO9YcQLAtQFZU3XW28I5qkO+Wr/3Mf1J4LD
+ zzsx5ER9DL6jAGqM56e3LWx+RRc8LCREWKn0xLQW3Vz4uvofygA/GxGwOvr5i+Tt1cPq
+ B/HzIpiGjQH1MNYQk1YUeVIJa90W0L/R5V3f0ujZpFdHQoxBlgaK42YkU8rK1dW/xiXW
+ JPUH1SDmk7ynDFnY77wl6XMAIUkTkxlgKG0pfSOtNzaNv/34OSF6Tev3qI9LZiRFhQt8
+ RyMQ==
+X-Gm-Message-State: AOAM532woQS2b7UbM6QPyVeEkeAUcj4KBMifGzqy+lRMysCl8uvrGO5G
+ Diq0jYSaTuyzufa9ArpBVXy4RnQPWfU=
+X-Google-Smtp-Source: ABdhPJykochRdBBym0j3JOxSG7R8lovi2HnR3mHc90C6+DTmsWyElFP50eN4sz5otYBCRALql1D/jw==
+X-Received: by 2002:a65:5287:: with SMTP id y7mr605055pgp.86.1589914606622;
+ Tue, 19 May 2020 11:56:46 -0700 (PDT)
+Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
+ [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id b5sm237658pju.50.2020.05.19.11.56.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 May 2020 11:56:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b02cee0d-3fb3-ee9c-90bb-4d9419249028@linaro.org>
-Date: Tue, 19 May 2020 11:51:43 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] linux-user: mmap/mprotect prot values
+Date: Tue, 19 May 2020 11:56:43 -0700
+Message-Id: <20200519185645.3915-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <87r1vfhisb.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,35 +83,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ysato@users.sourceforge.jp, qemu-devel@nongnu.org,
- Ahmed Karaman <ahmedkhaledkaraman@gmail.com>, aleksandar.qemu.devel@gmail.com,
- stefanha@redhat.com, rth@twiddle.net
+Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/19/20 11:38 AM, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> On 5/19/20 9:21 AM, Ahmed Karaman wrote:
->>> The issue arose because the page crossings check in use_goto_tb()
->>> function is required only in the system mode. Checking it in both modes
->>> causes an unnecessary overhead in the user mode.
->>
->> It is not only required in system mode.
->>
->> You can see failures in user-mode if you modify executable pages, or change
->> their permissions with mmap.  Such as if the guest program contains a
->> JIT.
-> 
-> If we kept better track couldn't we just tb_flush() if a new +x region
-> gets mmaped? I guess that would be sub-optimal compared to having a
-> translation cache per mmap region.
-> 
-
-Yes, this could definitely be improved.  Noticing changes to PROT_EXEC via
-mprotect, for one.
+The new validation hook will give me a place to add extra
+hooks to handle BTI and MTE.  But in the meantime, we can
+adjust the host page protections to make PROT_EXEC reliable.
 
 
 r~
+
+
+Richard Henderson (2):
+  linux-user: Validate mmap/mprotect prot value
+  linux-user: Adjust guest page protection for the host
+
+ linux-user/mmap.c | 110 ++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 77 insertions(+), 33 deletions(-)
+
+-- 
+2.20.1
+
 
