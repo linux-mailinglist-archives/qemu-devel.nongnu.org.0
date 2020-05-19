@@ -2,94 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C121D9B87
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:43:30 +0200 (CEST)
-Received: from localhost ([::1]:44646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAEBD1D9BA9
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:50:04 +0200 (CEST)
+Received: from localhost ([::1]:56304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb4Ov-0004BL-9w
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:43:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51724)
+	id 1jb4VI-0000qZ-21
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:50:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jb4Nt-0003X4-7C
- for qemu-devel@nongnu.org; Tue, 19 May 2020 11:42:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47241
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jb4Nr-00069b-EP
- for qemu-devel@nongnu.org; Tue, 19 May 2020 11:42:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589902942;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eKaFaxgBXG8cBP6OWLi2MESfoOmpbhjRqqIUaY05UUI=;
- b=b/YZrjvRq+c7JoOk/QLxOwzLrX0kEmf2B2t1vNwItgnuxoqTSvNVgxCB0ikqWetp8SfNBP
- Nxl29LUukePpM/4prp9ek0ARWxxYzBzJOAtwgmQamX/SlYi3gZtAPjbNVIFxZFHOWrHowD
- E2AdfiTjhA3lFPStKR/s05Y/k4f9rmc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-PCT03Wb1N0Goo0gXzCgoGQ-1; Tue, 19 May 2020 11:42:19 -0400
-X-MC-Unique: PCT03Wb1N0Goo0gXzCgoGQ-1
-Received: by mail-wr1-f69.google.com with SMTP id z10so18882wrs.2
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 08:42:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eKaFaxgBXG8cBP6OWLi2MESfoOmpbhjRqqIUaY05UUI=;
- b=JKijEemhBTShSefUSx2us3t9o0TXM+CardRmVBN1O3DKl8HjAyqhCRYIUMMzahwGAR
- wjZzuzOYtRY42jsJO46kye9BKSZ/KehmqjzAVYS/w+laPY7vFLz5DKpuR00sPvr12SQ/
- yaiaG7GJxtNwWVzV7GG0egQI3qmteSsXD+GVK6yA6ycxdPGkShxLej4bzpGbPtJqpHXP
- 6HWNr+SojgW6S+vZHb8qm4JK4aY5+a10Vx+QJbrWLD7YsMhnRz9T9dPeFmcmJhn+x+qv
- JxLozef22jt+MIqxHCSMBBjzvzC7j1pTL9E5GXre5v0tE92xGuayBTI24B6JlWnhSlKL
- ywIQ==
-X-Gm-Message-State: AOAM531bWJMaUFQlXRLLMZ/4cztSUfnBLSf2nHmgV9WsS6/mfVNto3qd
- nY4pj9Na1ahJO6BcCqThUK5ja8/kohXzICM9JtkwoJGn83trY0GnhXueVrf6IiHIfsbJX6oJ24O
- YioSHnvI+q6mk0L0=
-X-Received: by 2002:a1c:4b0e:: with SMTP id y14mr9403wma.170.1589902938177;
- Tue, 19 May 2020 08:42:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwwFXLp2PyFsyjsIj6PiDuR8HrdJ8tsUR7rodozic+LQa125xhtjxgz65FSep/9hkJM0gsRkw==
-X-Received: by 2002:a1c:4b0e:: with SMTP id y14mr9378wma.170.1589902937921;
- Tue, 19 May 2020 08:42:17 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id e5sm21009223wro.3.2020.05.19.08.42.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 May 2020 08:42:17 -0700 (PDT)
-Subject: Re: [PATCH] replay: synchronize on every virtual timer callback
-To: Pavel Dovgalyuk <dovgaluk@ispras.ru>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <158875304273.3986.105601155554744438.stgit@pasha-ThinkPad-X280>
- <c74e9498-75b4-d80c-e380-3d448497cfd0@redhat.com> <87wo59jky3.fsf@linaro.org>
- <b4da7577-8f42-3308-a4d6-05ff6451e944@ispras.ru> <87eergjqe5.fsf@linaro.org>
- <093880f8-72d4-f404-6792-d11c177aaedc@ispras.ru> <87h7wci5av.fsf@linaro.org>
- <934b3292-bc41-0d00-2a61-9ecbd3217454@ispras.ru>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a52b7038-35d4-74e0-b106-67138f8cef10@redhat.com>
-Date: Tue, 19 May 2020 17:42:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jb4TI-00079Q-5f
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 11:48:00 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:38902)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jb4TH-00080d-2G
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 11:47:59 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 04JFlCBF022064
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Tue, 19 May 2020 11:47:16 -0400
+Date: Tue, 19 May 2020 11:47:12 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org, stefanha@redhat.com
+Subject: Re: [PATCH 0/4] fuzz: misc changes for oss-fuzz compatability
+Message-ID: <20200519154712.lyh42fm7d26final@mozz.bu.edu>
+References: <20200512030133.29896-1-alxndr@bu.edu>
 MIME-Version: 1.0
-In-Reply-To: <934b3292-bc41-0d00-2a61-9ecbd3217454@ispras.ru>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:56:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200512030133.29896-1-alxndr@bu.edu>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 11:47:56
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,96 +56,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>,
- qemu-devel@nongnu.org, pavel.dovgaluk@ispras.ru
+Cc: darren.kenny@oracle.com, bsd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/19/20 12:38 PM, Pavel Dovgalyuk wrote:
+ping?
+
+On 200511 2301, Alexander Bulekov wrote:
+> Hello,
+> With these patches, the fuzzer passes the oss-fuzz build checks.
+> There are also some miscelanous improvement to the fuzzer, in general:
+>  * If building for oss-fuzz, check executable_dir/pc-bios for
+>    the bios images
+>  * Fix a typo in the i440fx-qtest-reboot argument which resulted in an
+>    invalid argument to qemu_main
+>  * Add an alternate name to resolve libfuzzer's internal fuzzer::TPC
+>    object at link-time
+>  * For all fork-based fuzzers, run the main-loop in the parent, to
+>    prevent the clock from running far-ahead of the previous main-loop.
+> -Alex
 > 
-> On 19.05.2020 13:32, Alex Bennée wrote:
->> Pavel Dovgalyuk <dovgaluk@ispras.ru> writes:
->>
->>> On 19.05.2020 11:11, Alex Bennée wrote:
->>>> Pavel Dovgalyuk <dovgaluk@ispras.ru> writes:
->>>>
->>>>> On 18.05.2020 18:56, Alex Bennée wrote:
->>>>>> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
->>>>>>
->>>>>>> + Alex
->>>>>>>
->>>>>>> On 5/6/20 10:17 AM, Pavel Dovgalyuk wrote:
->>>>>>>> Sometimes virtual timer callbacks depend on order
->>>>>>>> of virtual timer processing and warping of virtual clock.
->>>>>>>> Therefore every callback should be logged to make replay 
->>>>>>>> deterministic.
->>>>>>>> This patch creates a checkpoint before every virtual timer 
->>>>>>>> callback.
->>>>>>>> With these checkpoints virtual timers processing and clock warping
->>>>>>>> events order is completely deterministic.
->>>>>>>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
->>>>>>>> ---
->>>>>>>>      util/qemu-timer.c |    5 +++++
->>>>>>>>      1 file changed, 5 insertions(+)
->>>>>>>> diff --git a/util/qemu-timer.c b/util/qemu-timer.c
->>>>>>>> index d548d3c1ad..47833f338f 100644
->>>>>>>> --- a/util/qemu-timer.c
->>>>>>>> +++ b/util/qemu-timer.c
->>>>>>>> @@ -588,6 +588,11 @@ bool timerlist_run_timers(QEMUTimerList 
->>>>>>>> *timer_list)
->>>>>>>>              qemu_mutex_lock(&timer_list->active_timers_lock);
->>>>>>>>                progress = true;
->>>>>>>> +        /*
->>>>>>>> +         * Callback may insert new checkpoints, therefore add 
->>>>>>>> new checkpoint
->>>>>>>> +         * for the virtual timers.
->>>>>>>> +         */
->>>>>>>> +        need_replay_checkpoint = timer_list->clock->type == 
->>>>>>>> QEMU_CLOCK_VIRTUAL;
->>>>>>>>          }
->>>>>>>>          qemu_mutex_unlock(&timer_list->active_timers_lock);
->>>>>> So the problem I have with this as with all the record/replay stuff I
->>>>>> need want to review is it's very hard to see things in action. I 
->>>>>> added a
->>>>>> *very* basic record/replay test to the aarch64 softmmu tests but they
->>>>>> won't exercise any of this code because no timers get fired. I'm
->>>>>> assuming the sort of tests that is really needed is something that 
->>>>>> not
->>>>>> only causes QEMU_CLOCK_VIRTUAL timers to fire and trigger logged HW
->>>>>> events and ensure that things don't get confused in the process.
->>>>> I encounter most of the bugs in different OS boot scenarios.
->>>>>
->>>>> We also have internal tests that include some computational, disk, and
->>>>> network interaction tasks.
->>>>>
->>>>> Is it possible to add a test like booting a "real" OS and replaying
->>>>> it?
->>>> Yes - for these bigger more complex setups we should use the acceptance
->>>> tests that run under Avocado. See "make check-acceptance".
->>> I've installed avocado and avocado-framework, but got the following 
->>> error:
->>>
->>> venv/bin/python: No module named avocado
->> Hmm make check-acceptance should automatically setup local copies of
->> avocado using virtualenv. You shouldn't need to install the system
->> version.
->>
+> Alexander Bulekov (4):
+>   fuzz: add datadir for oss-fuzz compatability
+>   fuzz: fix typo in i440fx-qtest-reboot arguments
+>   fuzz: add mangled object name to linker script
+>   fuzz: run the main-loop in fork-server process
 > 
-> What should I try then?
-
-My workflow running selected tests is:
-
-$ git clone qemu
-$ mkdir qemu/build
-$ cd qemu/build
-qemu/build$ ../configure
-qemu/build$ make arm-softmmu/all
-qemu/build$ make check-venv
-qemu/build$ tests/venv/bin/python -m avocado \
-             --show=app,console -t machine:virt \
-             run tests/acceptance/
-
-'make check-acceptance' runs all the tests for the available QEMU 
-targets built. It should call check-venv automatically.
-
+>  include/sysemu/sysemu.h             |  2 ++
+>  softmmu/vl.c                        |  2 +-
+>  tests/qtest/fuzz/fork_fuzz.ld       |  5 +++++
+>  tests/qtest/fuzz/fuzz.c             | 15 +++++++++++++++
+>  tests/qtest/fuzz/i440fx_fuzz.c      |  3 ++-
+>  tests/qtest/fuzz/virtio_net_fuzz.c  |  2 ++
+>  tests/qtest/fuzz/virtio_scsi_fuzz.c |  2 ++
+>  7 files changed, 29 insertions(+), 2 deletions(-)
+> 
+> -- 
+> 2.26.2
+> 
 
