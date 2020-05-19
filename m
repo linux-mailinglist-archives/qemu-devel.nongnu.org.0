@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D4D01DA33E
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 23:12:41 +0200 (CEST)
-Received: from localhost ([::1]:51558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0B91DA364
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 23:18:26 +0200 (CEST)
+Received: from localhost ([::1]:58694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb9XU-0003kH-Hg
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 17:12:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36480)
+	id 1jb9d3-0007WR-Q0
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 17:18:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jb9WZ-0003J9-Hs
- for qemu-devel@nongnu.org; Tue, 19 May 2020 17:11:43 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:37814)
+ id 1jb9au-0006qp-Tv
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 17:16:12 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:34571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jb9WX-0003DO-WD
- for qemu-devel@nongnu.org; Tue, 19 May 2020 17:11:43 -0400
-Received: by mail-il1-x141.google.com with SMTP id n11so918221ilj.4
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 14:11:41 -0700 (PDT)
+ id 1jb9at-00044X-Ct
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 17:16:12 -0400
+Received: by mail-io1-xd41.google.com with SMTP id f3so830546ioj.1
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 14:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=G3eiMPALaGyVwqUiv5nIRCLk5czfyJdXMejw8+2tsOw=;
- b=MJZV4p7HK8GT1aVCUlU6vhd5nXuwH1WHMH1dfOyK3YJR4sBkwGWRkv/i0/J4VJ6/b1
- wG96T5eNhsQ14gleC2BHCENSHO2BqLiT1P+g+dfRoH+kBLNTA3XKWRwKwDof+dza98tR
- Bf5OLF2kZUGq6E4voAZAHkIZ0BG966BpOPbvsfe+eV53J01joMCOtardVzgOV53tGQLT
- nkojhBEr40eih2w8tc3ZK5GwZV9of8kviKCFEpHVwklODl5F5+cU/w+Y9Yj4336VzaX7
- kmr6q488GcnKHcZBqPsTgYVx8o2H2+/noyJENBeRKKexCrGr0n1ss9AZ80eMxZ4XCdfy
- Oqcw==
+ :cc; bh=2STbaSQTUqLl/dn7ITABEwJ9QnawGEhuLbFdZHdg74I=;
+ b=eAG2jyNQMJs3M5Ib2bEVoHfjn//ogfukB08UC/9E6JrRzgrQjo/55kXbBKwP56xdEj
+ 7hjijn9wRwxip6nTIFPJM2+XicVT9XRBicqoMN2DH1fedN/h1H+vOMGczLJ/k4/laM3t
+ yd11fqvEf66Cnf2UCQXibR6aGgvYPpMZSmrKAXhnC39kahOoXVglPVCSIcv6X26NFtV7
+ pt8picnEGQw6N0/3wkMk5nYDgoLwdBUCrVXEAAsUWO4VtMFwgbZq71uOXW7MV1LVLOhJ
+ 2Ir6ayht/OWSX6itM5VM9hgDpjHTC2wcqsTaRJC7CXYGyCRx08iYNYNfkVjYPL4KODZV
+ MU8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=G3eiMPALaGyVwqUiv5nIRCLk5czfyJdXMejw8+2tsOw=;
- b=gWgD50iPK38Ubx+ycPkcPGDBv+sqgqX+0X/m4mlCypc9qvH3LqEzeYiYhPDzFk5OXC
- H/AHjxcdbUFDcOzSJZdsW1nD015I24IRlDoz+c94vfpATuoAThO+1Q9wWq+6ZifysvAE
- AqKga2OQkjLd/fLr7Pbhqin1HhxkabHotCvNjJYjvKnf6m9XDF5fc0nG+r93fz7HPA8o
- /Ixjmdye4IjIBhmLJ5KBE1bRM3EOvPmQ687OlxZFhVggDDb0B5lpNsdaNjEj/GwGFrNm
- cRrIl4+52E4B2Lfoj4k5Q1XboJ+DmOA8Dwul8jbA14iVQcUu5vsQqxKrrylkBHjrdX7R
- cYRA==
-X-Gm-Message-State: AOAM530s79zFZTQ6dq0rNjSWAMwQ2daZ/AHj0NGIZLh9lgPL3sy3lk0Y
- m+oiBpCF7D6IVtGeTOKqiaZkQaQVCxDFrWnjFqmTvlZT
-X-Google-Smtp-Source: ABdhPJzHWKPKRchH4Hyl85zrzK4K/X+NWYbqEota7AL7uxo//pETRuG192GteVAsIe6j3rfPPLP7SFBLzYAN6pfkEkc=
-X-Received: by 2002:a92:48d1:: with SMTP id j78mr1016986ilg.131.1589922700620; 
- Tue, 19 May 2020 14:11:40 -0700 (PDT)
+ bh=2STbaSQTUqLl/dn7ITABEwJ9QnawGEhuLbFdZHdg74I=;
+ b=Kh/gRsH1zb9UFEa/jBPXa5ZNQZxhKftMHnKCGuhAHvYHuEsg+7cl88KZsWpNK76zUL
+ 2QZEQ1jf/g6Q/frXnGCp1Hk9+jspnja2RTQgbcZAMpWDzfzYtU1iF6gp5s3aUJh2SgZQ
+ SgwmxyKD6MnnqKf5yPnSiUfJYk6i9g4NtOLLFE3gzYNoyrmXH2CZxDF9CbDZf72kF2ke
+ M0n+QHYfGGj3zi46wlmHvCZe03F8TpkCn3Nk/m6PDJW+PBqY7pM7YekTiMdz/SGyhjxv
+ VXvx8enraRCxJeOb7vBxR1DzLThnrdtEHh9DvtCMfoIbX2pliYNKlmKgqqNpXhzMPNYF
+ zYxA==
+X-Gm-Message-State: AOAM533Qc2O406Vxc0cCxztEKc9Vmqv2VDZ/jw3ZQtEc9KWJsC16WfET
+ AikBnDbnIeIv9tIxJhz1ShxC41G+9gSaiOoCXlg=
+X-Google-Smtp-Source: ABdhPJw/AJNALeLDD/hFY2knlZV5Q/3CGS86w8CS40hLexzGNRUaIJLh4j5Eymt3Br2ZKnLZpA0OcKb38vkaOu+cEYI=
+X-Received: by 2002:a6b:bf83:: with SMTP id p125mr886158iof.118.1589922970149; 
+ Tue, 19 May 2020 14:16:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200519145551.22836-1-armbru@redhat.com>
- <20200519145551.22836-4-armbru@redhat.com>
-In-Reply-To: <20200519145551.22836-4-armbru@redhat.com>
+ <20200519145551.22836-23-armbru@redhat.com>
+In-Reply-To: <20200519145551.22836-23-armbru@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 19 May 2020 14:02:47 -0700
-Message-ID: <CAKmqyKP6ccwxc+6DoxJ3kH1uA-PLL47OMxw9RjBzcMXHo3S9Fw@mail.gmail.com>
-Subject: Re: [PATCH 03/55] qdev: New qdev_new(), qdev_realize(), etc.
+Date: Tue, 19 May 2020 14:07:17 -0700
+Message-ID: <CAKmqyKOY_jhm--p2GErGQo18+fF=Nzo3t+pFuFa-MNyO7ZzFhA@mail.gmail.com>
+Subject: Re: [PATCH 22/55] ssi: Convert uses of ssi_create_slave_no_init()
+ with Coccinelle
 To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -80,268 +81,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Alistair Francis <alistair@alistair23.me>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 19, 2020 at 8:11 AM Markus Armbruster <armbru@redhat.com> wrote:
+On Tue, May 19, 2020 at 8:19 AM Markus Armbruster <armbru@redhat.com> wrote:
 >
-> We commonly plug devices into their bus right when we create them,
-> like this:
+> Replace
 >
->     dev = qdev_create(bus, type_name);
->
-> Note that @dev is a weak reference.  The reference from @bus to @dev
-> is the only strong one.
->
-> We realize at some later time, either with
->
->     object_property_set_bool(OBJECT(dev), true, "realized", errp);
->
-> or its convenience wrapper
->
+>     dev = ssi_create_slave_no_init(bus, type_name);
+>     ...
 >     qdev_init_nofail(dev);
 >
-> If @dev still has no QOM parent then, realizing makes the
-> /machine/unattached/ orphanage its QOM parent.
->
-> Note that the device returned by qdev_create() is plugged into a bus,
-> but doesn't have a QOM parent, yet.  Until it acquires one,
-> unrealizing the bus will hang in bus_unparent():
->
->     while ((kid = QTAILQ_FIRST(&bus->children)) != NULL) {
->         DeviceState *dev = kid->child;
->         object_unparent(OBJECT(dev));
->     }
->
-> object_unparent() does nothing when its argument has no QOM parent,
-> and the loop spins forever.
->
-> Device state "no QOM parent, but plugged into bus" is dangerous.
->
-> Paolo suggested to delay plugging into the bus until realize.  We need
-> to plug into the parent bus before we call the device's realize
-> method, in case it uses the parent bus.  So the dangerous state still
-> exists, but only within realization, where we can manage it safely.
->
-> This commit creates infrastructure to do this:
+> by
 >
 >     dev = qdev_new(type_name);
 >     ...
->     qdev_realize_and_unref(dev, bus, errp)
+>     qdev_realize_and_unref(dev, bus, &error_fatal);
 >
-> Note that @dev becomes a strong reference here.
-> qdev_realize_and_unref() drops it.  There is also plain
-> qdev_realize(), which doesn't drop it.
+> Recent commit "qdev: New qdev_new(), qdev_realize(), etc." explains
+> why.
 >
-> The remainder of this series will convert all users to this new
-> interface.
+>     @@
+>     type SSIBus;
+>     identifier bus;
+>     expression dev, qbus, expr;
+>     expression list args;
+>     @@
+>     -    bus = (SSIBus *)qbus;
+>     +    bus = qbus; // TODO fix up decl
+>          ...
+>     -    dev = ssi_create_slave_no_init(bus, args);
+>     +    dev = qdev_new(args);
+>          ... when != dev = expr
+>     -    qdev_init_nofail(dev);
+>     +    qdev_realize_and_unref(dev, bus, &error_fatal);
 >
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+>     @@
+>     expression dev, bus, expr;
+>     expression list args;
+>     @@
+>     -    dev = ssi_create_slave_no_init(bus, args);
+>     +    dev = qdev_new(args);
+>          ... when != dev = expr
+>     -    qdev_init_nofail(dev);
+>     +    qdev_realize_and_unref(dev, BUS(bus), &error_fatal);
+>
+> Bus declarations fixed up manually.
+>
 > Cc: Alistair Francis <alistair@alistair23.me>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  include/hw/qdev-core.h | 11 ++++-
->  hw/core/bus.c          | 14 +++++++
->  hw/core/qdev.c         | 94 ++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 118 insertions(+), 1 deletion(-)
->
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index b870b27966..fba29308f7 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -57,7 +57,7 @@ typedef void (*BusUnrealize)(BusState *bus);
->   * After successful realization, setting static properties will fail.
->   *
->   * As an interim step, the #DeviceState:realized property can also be
-> - * set with qdev_init_nofail().
-> + * set with qdev_realize() or qdev_init_nofail().
->   * In the future, devices will propagate this state change to their children
->   * and along busses they expose.
->   * The point in time will be deferred to machine creation, so that values
-> @@ -322,7 +322,13 @@ compat_props_add(GPtrArray *arr,
->
->  DeviceState *qdev_create(BusState *bus, const char *name);
->  DeviceState *qdev_try_create(BusState *bus, const char *name);
-> +DeviceState *qdev_new(const char *name);
-> +DeviceState *qdev_try_new(const char *name);
->  void qdev_init_nofail(DeviceState *dev);
-> +bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp);
-> +bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp);
-> +void qdev_unrealize(DeviceState *dev);
-> +
->  void qdev_set_legacy_instance_id(DeviceState *dev, int alias_id,
->                                   int required_for_version);
->  HotplugHandler *qdev_get_bus_hotplug_handler(DeviceState *dev);
-> @@ -411,6 +417,9 @@ typedef int (qdev_walkerfn)(DeviceState *dev, void *opaque);
->  void qbus_create_inplace(void *bus, size_t size, const char *typename,
->                           DeviceState *parent, const char *name);
->  BusState *qbus_create(const char *typename, DeviceState *parent, const char *name);
-> +bool qbus_realize(BusState *bus, Error **errp);
-> +void qbus_unrealize(BusState *bus);
-> +
->  /* Returns > 0 if either devfn or busfn skip walk somewhere in cursion,
->   *         < 0 if either devfn or busfn terminate walk somewhere in cursion,
->   *           0 otherwise. */
-> diff --git a/hw/core/bus.c b/hw/core/bus.c
-> index 08c5eab24a..bf622604a3 100644
-> --- a/hw/core/bus.c
-> +++ b/hw/core/bus.c
-> @@ -169,6 +169,20 @@ BusState *qbus_create(const char *typename, DeviceState *parent, const char *nam
->      return bus;
->  }
->
-> +bool qbus_realize(BusState *bus, Error **errp)
-> +{
-> +    Error *err = NULL;
-> +
-> +    object_property_set_bool(OBJECT(bus), true, "realized", &err);
-> +    error_propagate(errp, err);
-> +    return !err;
-> +}
-> +
-> +void qbus_unrealize(BusState *bus)
-> +{
-> +    object_property_set_bool(OBJECT(bus), true, "realized", &error_abort);
 
-Not false?
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
-> +}
-> +
->  static bool bus_get_realized(Object *obj, Error **errp)
->  {
->      BusState *bus = BUS(obj);
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index a68ba674db..82deeb7841 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -176,6 +176,32 @@ DeviceState *qdev_try_create(BusState *bus, const char *type)
->      return dev;
->  }
+> ---
+>  hw/arm/aspeed.c                     |  4 ++--
+>  hw/arm/msf2-som.c                   |  8 ++++----
+>  hw/arm/sabrelite.c                  |  4 ++--
+>  hw/arm/xilinx_zynq.c                |  4 ++--
+>  hw/arm/xlnx-zcu102.c                | 16 ++++++++--------
+>  hw/microblaze/petalogix_ml605_mmu.c |  4 ++--
+>  6 files changed, 20 insertions(+), 20 deletions(-)
 >
-> +/*
-> + * Create a device on the heap.
-> + * A type @name must exist.
-> + * This only initializes the device state structure and allows
-> + * properties to be set.  The device still needs to be realized.  See
-> + * qdev-core.h.
-> + */
-> +DeviceState *qdev_new(const char *name)
-> +{
-> +    return DEVICE(object_new(name));
-> +}
-> +
-> +/*
-> + * Try to create a device on the heap.
-> + * This is like qdev_new(), except it returns %NULL when type @name
-> + * does not exist.
-> + */
-> +DeviceState *qdev_try_new(const char *name)
-> +{
-> +    if (!object_class_by_name(name)) {
-> +        return NULL;
-> +    }
-> +
-> +    return DEVICE(object_new(name));
-> +}
-> +
->  static QTAILQ_HEAD(, DeviceListener) device_listeners
->      = QTAILQ_HEAD_INITIALIZER(device_listeners);
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index c425c01e06..adbfbbd6b4 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -225,12 +225,12 @@ static void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
+>          DriveInfo *dinfo = drive_get_next(IF_MTD);
+>          qemu_irq cs_line;
 >
-> @@ -427,6 +453,70 @@ void qdev_init_nofail(DeviceState *dev)
->      object_unref(OBJECT(dev));
->  }
+> -        fl->flash = ssi_create_slave_no_init(s->spi, flashtype);
+> +        fl->flash = qdev_new(flashtype);
+>          if (dinfo) {
+>              qdev_prop_set_drive(fl->flash, "drive", blk_by_legacy_dinfo(dinfo),
+>                                  errp);
+>          }
+> -        qdev_init_nofail(fl->flash);
+> +        qdev_realize_and_unref(fl->flash, BUS(s->spi), &error_fatal);
 >
-> +/*
-> + * Realize @dev.
-> + * @dev must not be plugged into a bus.
-> + * Plug @dev into @bus if non-null, else into the main system bus.
-> + * This takes a reference to @dev.
-> + * If @dev has no QOM parent, make one up, taking another reference.
-> + * On success, return true.
-> + * On failure, store an error through @errp and return false.
-> + */
-> +bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
-> +{
-> +    Error *err = NULL;
-> +
-> +    assert(!dev->realized && !dev->parent_bus);
-> +
-> +    if (!bus) {
-> +        /*
-> +         * Assert that the device really is a SysBusDevice before we
-> +         * put it onto the sysbus.  Non-sysbus devices which aren't
-> +         * being put onto a bus should be realized with
-> +         * object_property_set_bool(OBJECT(dev), true, "realized",
-> +         * errp);
-> +         */
-> +        g_assert(object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE));
-> +        bus = sysbus_get_default();
-> +    }
-> +
-> +    qdev_set_parent_bus(dev, bus);
-> +
-> +    object_ref(OBJECT(dev));
-> +    object_property_set_bool(OBJECT(dev), true, "realized", &err);
-> +    if (err) {
-> +        error_propagate_prepend(errp, err,
-> +                                "Initialization of device %s failed: ",
-> +                                object_get_typename(OBJECT(dev)));
-> +    }
-> +    object_unref(OBJECT(dev));
-> +    return !err;
-> +}
-> +
-> +/*
-> + * Realize @dev and drop a reference.
-> + * This is like qdev_realize(), except it steals a reference rather
-> + * than take one to plug @dev into @bus.  On failure, it drops that
-> + * reference instead.  Intended use:
-> + *     dev = qdev_new();
-> + *     [...]
-> + *     qdev_realize_and_unref(dev, bus, errp);
-> + * Now @dev can go away without further ado.
-> + */
-> +bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp)
-> +{
-> +    bool ret;
-> +
-> +    ret = qdev_realize(dev, bus, errp);
-> +    object_unref(OBJECT(dev));
-> +    return ret;
-> +}
-> +
-> +void qdev_unrealize(DeviceState *dev)
-> +{
-> +    object_property_set_bool(OBJECT(dev), false, "realized", &error_abort);
-> +}
-> +
->  static int qdev_assert_realized_properly(Object *obj, void *opaque)
->  {
->      DeviceState *dev = DEVICE(object_dynamic_cast(obj, TYPE_DEVICE));
-> @@ -1002,6 +1092,10 @@ post_realize_fail:
->  fail:
->      error_propagate(errp, local_err);
->      if (unattached_parent) {
-> +        /*
-> +         * Beware, this doesn't just revert
-> +         * object_property_add_child(), it also runs bus_remove()!
-> +         */
->          object_unparent(OBJECT(dev));
->          unattached_count--;
+>          cs_line = qdev_get_gpio_in_named(fl->flash, SSI_GPIO_CS, 0);
+>          sysbus_connect_irq(SYS_BUS_DEVICE(s), i + 1, cs_line);
+> diff --git a/hw/arm/msf2-som.c b/hw/arm/msf2-som.c
+> index e398703742..ca9cbe1acb 100644
+> --- a/hw/arm/msf2-som.c
+> +++ b/hw/arm/msf2-som.c
+> @@ -47,7 +47,7 @@ static void emcraft_sf2_s2s010_init(MachineState *machine)
+>      MachineClass *mc = MACHINE_GET_CLASS(machine);
+>      DriveInfo *dinfo = drive_get_next(IF_MTD);
+>      qemu_irq cs_line;
+> -    SSIBus *spi_bus;
+> +    BusState *spi_bus;
+>      MemoryRegion *sysmem = get_system_memory();
+>      MemoryRegion *ddr = g_new(MemoryRegion, 1);
+>
+> @@ -82,14 +82,14 @@ static void emcraft_sf2_s2s010_init(MachineState *machine)
+>      soc = MSF2_SOC(dev);
+>
+>      /* Attach SPI flash to SPI0 controller */
+> -    spi_bus = (SSIBus *)qdev_get_child_bus(dev, "spi0");
+> -    spi_flash = ssi_create_slave_no_init(spi_bus, "s25sl12801");
+> +    spi_bus = qdev_get_child_bus(dev, "spi0");
+> +    spi_flash = qdev_new("s25sl12801");
+>      qdev_prop_set_uint8(spi_flash, "spansion-cr2nv", 1);
+>      if (dinfo) {
+>          qdev_prop_set_drive(spi_flash, "drive", blk_by_legacy_dinfo(dinfo),
+>                                      &error_fatal);
 >      }
+> -    qdev_init_nofail(spi_flash);
+> +    qdev_realize_and_unref(spi_flash, spi_bus, &error_fatal);
+>      cs_line = qdev_get_gpio_in_named(spi_flash, SSI_GPIO_CS, 0);
+>      sysbus_connect_irq(SYS_BUS_DEVICE(&soc->spi[0]), 1, cs_line);
+>
+> diff --git a/hw/arm/sabrelite.c b/hw/arm/sabrelite.c
+> index 6f0e233d77..dfd6643822 100644
+> --- a/hw/arm/sabrelite.c
+> +++ b/hw/arm/sabrelite.c
+> @@ -80,13 +80,13 @@ static void sabrelite_init(MachineState *machine)
+>                  qemu_irq cs_line;
+>                  DriveInfo *dinfo = drive_get_next(IF_MTD);
+>
+> -                flash_dev = ssi_create_slave_no_init(spi_bus, "sst25vf016b");
+> +                flash_dev = qdev_new("sst25vf016b");
+>                  if (dinfo) {
+>                      qdev_prop_set_drive(flash_dev, "drive",
+>                                          blk_by_legacy_dinfo(dinfo),
+>                                          &error_fatal);
+>                  }
+> -                qdev_init_nofail(flash_dev);
+> +                qdev_realize_and_unref(flash_dev, BUS(spi_bus), &error_fatal);
+>
+>                  cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
+>                  sysbus_connect_irq(SYS_BUS_DEVICE(spi_dev), 1, cs_line);
+> diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+> index 5fbd2b2e31..0e0f0976c4 100644
+> --- a/hw/arm/xilinx_zynq.c
+> +++ b/hw/arm/xilinx_zynq.c
+> @@ -157,12 +157,12 @@ static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
+>
+>          for (j = 0; j < num_ss; ++j) {
+>              DriveInfo *dinfo = drive_get_next(IF_MTD);
+> -            flash_dev = ssi_create_slave_no_init(spi, "n25q128");
+> +            flash_dev = qdev_new("n25q128");
+>              if (dinfo) {
+>                  qdev_prop_set_drive(flash_dev, "drive",
+>                                      blk_by_legacy_dinfo(dinfo), &error_fatal);
+>              }
+> -            qdev_init_nofail(flash_dev);
+> +            qdev_realize_and_unref(flash_dev, BUS(spi), &error_fatal);
+>
+>              cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
+>              sysbus_connect_irq(busdev, i * num_ss + j + 1, cs_line);
+> diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
+> index 4229b2d936..77c84b82ab 100644
+> --- a/hw/arm/xlnx-zcu102.c
+> +++ b/hw/arm/xlnx-zcu102.c
+> @@ -149,21 +149,21 @@ static void xlnx_zcu102_init(MachineState *machine)
+>      }
+>
+>      for (i = 0; i < XLNX_ZYNQMP_NUM_SPIS; i++) {
+> -        SSIBus *spi_bus;
+> +        BusState *spi_bus;
+>          DeviceState *flash_dev;
+>          qemu_irq cs_line;
+>          DriveInfo *dinfo = drive_get_next(IF_MTD);
+>          gchar *bus_name = g_strdup_printf("spi%d", i);
+>
+> -        spi_bus = (SSIBus *)qdev_get_child_bus(DEVICE(&s->soc), bus_name);
+> +        spi_bus = qdev_get_child_bus(DEVICE(&s->soc), bus_name);
+>          g_free(bus_name);
+>
+> -        flash_dev = ssi_create_slave_no_init(spi_bus, "sst25wf080");
+> +        flash_dev = qdev_new("sst25wf080");
+>          if (dinfo) {
+>              qdev_prop_set_drive(flash_dev, "drive", blk_by_legacy_dinfo(dinfo),
+>                                  &error_fatal);
+>          }
+> -        qdev_init_nofail(flash_dev);
+> +        qdev_realize_and_unref(flash_dev, spi_bus, &error_fatal);
+>
+>          cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
+>
+> @@ -171,22 +171,22 @@ static void xlnx_zcu102_init(MachineState *machine)
+>      }
+>
+>      for (i = 0; i < XLNX_ZYNQMP_NUM_QSPI_FLASH; i++) {
+> -        SSIBus *spi_bus;
+> +        BusState *spi_bus;
+>          DeviceState *flash_dev;
+>          qemu_irq cs_line;
+>          DriveInfo *dinfo = drive_get_next(IF_MTD);
+>          int bus = i / XLNX_ZYNQMP_NUM_QSPI_BUS_CS;
+>          gchar *bus_name = g_strdup_printf("qspi%d", bus);
+>
+> -        spi_bus = (SSIBus *)qdev_get_child_bus(DEVICE(&s->soc), bus_name);
+> +        spi_bus = qdev_get_child_bus(DEVICE(&s->soc), bus_name);
+>          g_free(bus_name);
+>
+> -        flash_dev = ssi_create_slave_no_init(spi_bus, "n25q512a11");
+> +        flash_dev = qdev_new("n25q512a11");
+>          if (dinfo) {
+>              qdev_prop_set_drive(flash_dev, "drive", blk_by_legacy_dinfo(dinfo),
+>                                  &error_fatal);
+>          }
+> -        qdev_init_nofail(flash_dev);
+> +        qdev_realize_and_unref(flash_dev, spi_bus, &error_fatal);
+>
+>          cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
+>
+> diff --git a/hw/microblaze/petalogix_ml605_mmu.c b/hw/microblaze/petalogix_ml605_mmu.c
+> index 2e7a3fa119..d4bfa233c9 100644
+> --- a/hw/microblaze/petalogix_ml605_mmu.c
+> +++ b/hw/microblaze/petalogix_ml605_mmu.c
+> @@ -186,12 +186,12 @@ petalogix_ml605_init(MachineState *machine)
+>              DriveInfo *dinfo = drive_get_next(IF_MTD);
+>              qemu_irq cs_line;
+>
+> -            dev = ssi_create_slave_no_init(spi, "n25q128");
+> +            dev = qdev_new("n25q128");
+>              if (dinfo) {
+>                  qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo),
+>                                      &error_fatal);
+>              }
+> -            qdev_init_nofail(dev);
+> +            qdev_realize_and_unref(dev, BUS(spi), &error_fatal);
+>
+>              cs_line = qdev_get_gpio_in_named(dev, SSI_GPIO_CS, 0);
+>              sysbus_connect_irq(busdev, i+1, cs_line);
 > --
 > 2.21.1
 >
