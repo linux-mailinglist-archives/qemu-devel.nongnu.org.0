@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F341D9F61
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:25:49 +0200 (CEST)
-Received: from localhost ([::1]:52548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D80421D9F32
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:22:38 +0200 (CEST)
+Received: from localhost ([::1]:42372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb6w0-0003uU-33
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:25:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41630)
+	id 1jb6sv-0007BM-UQ
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:22:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jb6rV-00061V-Ht
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:21:09 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29760
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jb6rK-0005kp-7D
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 14:20:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54684
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jb6rT-0008Us-8n
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:21:09 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jb6rJ-0008T4-0E
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 14:20:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589912466;
+ s=mimecast20190719; t=1589912456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LVQVAAvXbqJcDyYus8SsyTCycxmjXkzrJy0FVLgtSug=;
- b=fQs/8P7tr/O1UTOPK1oN1qGkDvswGxgFYO06bRSPyovhreB8Jbgh4BycshcnyOb2oRpTHV
- PuQIygPUWv38XLG7yazFfZt7die+eUwFM3kNAmnWI4B+Qy7aJLFJ+OXz0rdUsEcGNxRZSZ
- Ge4ks27WdpsbYHVveuMwsWNj28MlYRM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-FBUXAgSxM-a3CCLdDlkl_A-1; Tue, 19 May 2020 14:20:50 -0400
-X-MC-Unique: FBUXAgSxM-a3CCLdDlkl_A-1
-Received: by mail-wm1-f69.google.com with SMTP id m11so22860wml.5
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 11:20:50 -0700 (PDT)
+ bh=G4M1Sk471/wpIRr2uPISQE7oxsTBasuxbJF2aNsWx5U=;
+ b=K9KaKeFA6rdwCgPgovi9w/sopaHItPBQKDx9kR23klJjlrMAyQ9qKrKdcYvTxvBVao4rOz
+ oDOYgBG+141fuxkQAB5mpbY4tXDZcuqxggxW2XJQWMtcraDYKGbuE8AJ26lRHJAQ3c6YDZ
+ SqwzFp87HSWzEBYJdVzBve5DQmqRZUE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-110-R6PWDmI2OzqBnFOBMJvlVg-1; Tue, 19 May 2020 14:20:54 -0400
+X-MC-Unique: R6PWDmI2OzqBnFOBMJvlVg-1
+Received: by mail-wr1-f72.google.com with SMTP id y7so194422wrd.12
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 11:20:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LVQVAAvXbqJcDyYus8SsyTCycxmjXkzrJy0FVLgtSug=;
- b=BRSIyRUC2/jt2s/oySSRSzGR9wTrJnMxehWVuhPK1nqew/SGmttzOqr3rnpmKUiVhE
- ru36ZMxVz7Tt8tPEQsnNkixLhtFgKB+xoV7CVrra6dtPN65Ma9WSISN8uBpjrTRR8sZS
- Kfo+1LwZpcLYIgWbpAFEZIaIgf8+TdFhyVHXXIN8PXicp8J44Hpen00fliXAwP6aWG2o
- yWAYO56s5XTW7FQd1FWfuwYrx0RVqzZ8TSTT33Bj/Re+XmhVQ5qQmd3l9qZgOh8stxnh
- DdiX+3Rq+l9BgJldOSRakswzRuMXgghRC+fOzhIQ5qhRKOIhXyMHqCD+YYJ9G3qbMsSA
- eo2w==
-X-Gm-Message-State: AOAM531OhkS0eACK6l7aN0R5IiPs9C+Hk6a9FB+ML0Eh8eF+pibJVA67
- LDjEPYiU/hS7+uDUHKuYKKIrYMqUBs6LxoxwY1oejoKhplLZ9QqpruQvVtx7o7tn1fbshcCASSf
- II1agFtJ5CjfohNU=
-X-Received: by 2002:a1c:f312:: with SMTP id q18mr643640wmq.175.1589912448955; 
- Tue, 19 May 2020 11:20:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxbccqL21xiOc/RTj3tNHHTOb7oqAs61SOpDqXOBC/cnnoJ8AHVh87T3DWNRuVKFfUvfbIRcQ==
-X-Received: by 2002:a1c:f312:: with SMTP id q18mr643608wmq.175.1589912448655; 
- Tue, 19 May 2020 11:20:48 -0700 (PDT)
+ bh=G4M1Sk471/wpIRr2uPISQE7oxsTBasuxbJF2aNsWx5U=;
+ b=sr6pFF7KxqjrnOyzc69WHkIMISfpjDk2zL5KkpY+Z6XVECjBnnFxU7DjopQWp7oe0H
+ e9sfkfe6SqRx/1k2wZGTGYklra1AZJ1DXuS1/Ct6lH1D7H19JRNqyjKCv1nm+EgOd5Ij
+ CTPrXSg/AbWjQP3QPUVEkd0duIPj3SX+np3DOYg+blP4EqSvx0VnXuCKmo9KaTvuCKjZ
+ yjFnnC/zUqZz7LiGrNN7PppmEVLGOxSVs0yybpNGNUcIvL8HyogIdBbys22tDpgIaKQ9
+ 7Go/wWNZuz9OFvNqSsP+E0k6hHYTao3px7dGyTLhsGZE3KC4VYUu07KTTMoimMPHh3px
+ NyDQ==
+X-Gm-Message-State: AOAM5332dFvkdC7ksyaphMh5hI+lC9OrqExyh2yk6fsaS9ebVUBzQxvE
+ rpUl1AZOWn8pj+JRUzVyVUd3xPnYiTQuo+DaP/87F29jWlB2YmZq1qGjoz+Eqz0NjaHisosAyir
+ /zkHyj0Bzz8j2fYw=
+X-Received: by 2002:a7b:c4da:: with SMTP id g26mr669849wmk.3.1589912453406;
+ Tue, 19 May 2020 11:20:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxCDUw75o4IQMRaKPxCeuqA75BeOP+5lHCao1PqwaGEZPGR24a4wgHmYR1RE27KrFwivzX0oA==
+X-Received: by 2002:a7b:c4da:: with SMTP id g26mr669828wmk.3.1589912453248;
+ Tue, 19 May 2020 11:20:53 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id o24sm463708wmm.33.2020.05.19.11.20.47
+ by smtp.gmail.com with ESMTPSA id r9sm280010wra.52.2020.05.19.11.20.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 May 2020 11:20:48 -0700 (PDT)
+ Tue, 19 May 2020 11:20:52 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 4/5] crypto: Add tls-cipher-suites object
-Date: Tue, 19 May 2020 20:20:23 +0200
-Message-Id: <20200519182024.14638-5-philmd@redhat.com>
+Subject: [PATCH v6 5/5] crypto/tls-cipher-suites: Product fw_cfg consumable
+ blob
+Date: Tue, 19 May 2020 20:20:24 +0200
+Message-Id: <20200519182024.14638-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200519182024.14638-1-philmd@redhat.com>
 References: <20200519182024.14638-1-philmd@redhat.com>
@@ -72,17 +73,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:19:13
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:56:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,247 +103,63 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Example of use to dump:
-
-  $ qemu-system-x86_64 -S \
-    -object tls-cipher-suites,id=mysuite,priority=@SYSTEM,verbose=yes
-  Cipher suites for @SYSTEM:
-  - TLS_AES_256_GCM_SHA384                                0x13, 0x02      TLS1.3
-  - TLS_CHACHA20_POLY1305_SHA256                          0x13, 0x03      TLS1.3
-  - TLS_AES_128_GCM_SHA256                                0x13, 0x01      TLS1.3
-  - TLS_AES_128_CCM_SHA256                                0x13, 0x04      TLS1.3
-  - TLS_ECDHE_RSA_AES_256_GCM_SHA384                      0xc0, 0x30      TLS1.2
-  - TLS_ECDHE_RSA_CHACHA20_POLY1305                       0xcc, 0xa8      TLS1.2
-  - TLS_ECDHE_RSA_AES_256_CBC_SHA1                        0xc0, 0x14      TLS1.0
-  - TLS_ECDHE_RSA_AES_128_GCM_SHA256                      0xc0, 0x2f      TLS1.2
-  - TLS_ECDHE_RSA_AES_128_CBC_SHA1                        0xc0, 0x13      TLS1.0
-  - TLS_ECDHE_ECDSA_AES_256_GCM_SHA384                    0xc0, 0x2c      TLS1.2
-  - TLS_ECDHE_ECDSA_CHACHA20_POLY1305                     0xcc, 0xa9      TLS1.2
-  - TLS_ECDHE_ECDSA_AES_256_CCM                           0xc0, 0xad      TLS1.2
-  - TLS_ECDHE_ECDSA_AES_256_CBC_SHA1                      0xc0, 0x0a      TLS1.0
-  - TLS_ECDHE_ECDSA_AES_128_GCM_SHA256                    0xc0, 0x2b      TLS1.2
-  - TLS_ECDHE_ECDSA_AES_128_CCM                           0xc0, 0xac      TLS1.2
-  - TLS_ECDHE_ECDSA_AES_128_CBC_SHA1                      0xc0, 0x09      TLS1.0
-  - TLS_RSA_AES_256_GCM_SHA384                            0x00, 0x9d      TLS1.2
-  - TLS_RSA_AES_256_CCM                                   0xc0, 0x9d      TLS1.2
-  - TLS_RSA_AES_256_CBC_SHA1                              0x00, 0x35      TLS1.0
-  - TLS_RSA_AES_128_GCM_SHA256                            0x00, 0x9c      TLS1.2
-  - TLS_RSA_AES_128_CCM                                   0xc0, 0x9c      TLS1.2
-  - TLS_RSA_AES_128_CBC_SHA1                              0x00, 0x2f      TLS1.0
-  - TLS_DHE_RSA_AES_256_GCM_SHA384                        0x00, 0x9f      TLS1.2
-  - TLS_DHE_RSA_CHACHA20_POLY1305                         0xcc, 0xaa      TLS1.2
-  - TLS_DHE_RSA_AES_256_CCM                               0xc0, 0x9f      TLS1.2
-  - TLS_DHE_RSA_AES_256_CBC_SHA1                          0x00, 0x39      TLS1.0
-  - TLS_DHE_RSA_AES_128_GCM_SHA256                        0x00, 0x9e      TLS1.2
-  - TLS_DHE_RSA_AES_128_CCM                               0xc0, 0x9e      TLS1.2
-  - TLS_DHE_RSA_AES_128_CBC_SHA1                          0x00, 0x33      TLS1.0
-  total: 29 ciphers
+Since our format is consumable by the fw_cfg device,
+we can implement the FW_CFG_DATA_GENERATOR interface.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/crypto/tls-cipher-suites.h |  39 +++++++++
- crypto/tls-cipher-suites.c         | 133 +++++++++++++++++++++++++++++
- crypto/Makefile.objs               |   1 +
- 3 files changed, 173 insertions(+)
- create mode 100644 include/crypto/tls-cipher-suites.h
- create mode 100644 crypto/tls-cipher-suites.c
+ crypto/tls-cipher-suites.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/include/crypto/tls-cipher-suites.h b/include/crypto/tls-cipher-suites.h
-new file mode 100644
-index 0000000000..31e92916e1
---- /dev/null
-+++ b/include/crypto/tls-cipher-suites.h
-@@ -0,0 +1,39 @@
-+/*
-+ * QEMU TLS Cipher Suites
-+ *
-+ * Copyright (c) 2019 Red Hat, Inc.
-+ *
-+ * Author: Philippe Mathieu-Daudé <philmd@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef QCRYPTO_TLSCIPHERSUITES_H
-+#define QCRYPTO_TLSCIPHERSUITES_H
-+
-+#include "qom/object.h"
-+#include "crypto/tlscreds.h"
-+
-+#define TYPE_QCRYPTO_TLS_CIPHER_SUITES "tls-cipher-suites"
-+#define QCRYPTO_TLS_CIPHER_SUITES(obj) \
-+    OBJECT_CHECK(QCryptoTLSCipherSuites, (obj), TYPE_QCRYPTO_TLS_CIPHER_SUITES)
-+
-+/*
-+ * IANA registered TLS ciphers:
-+ * https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-4
-+ */
-+typedef struct {
-+    uint8_t data[2];
-+} IANA_TLS_CIPHER;
-+
-+typedef struct QCryptoTLSCipherSuites {
-+    /* <private> */
-+    QCryptoTLSCreds parent_obj;
-+
-+    /* <public> */
-+    bool verbose;
-+    IANA_TLS_CIPHER *cipher_list;
-+    unsigned cipher_count;
-+} QCryptoTLSCipherSuites;
-+
-+#endif /* QCRYPTO_TLSCIPHERSUITES_H */
 diff --git a/crypto/tls-cipher-suites.c b/crypto/tls-cipher-suites.c
-new file mode 100644
-index 0000000000..c6c51359bd
---- /dev/null
+index c6c51359bd..11872783eb 100644
+--- a/crypto/tls-cipher-suites.c
 +++ b/crypto/tls-cipher-suites.c
-@@ -0,0 +1,133 @@
-+/*
-+ * QEMU TLS Cipher Suites
-+ *
-+ * Copyright (c) 2019 Red Hat, Inc.
-+ *
-+ * Author: Philippe Mathieu-Daudé <philmd@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qom/object_interfaces.h"
-+#include "qemu/error-report.h"
-+#include "crypto/tlscreds.h"
-+#include "crypto/tls-cipher-suites.h"
-+
-+static void parse_cipher_suites(QCryptoTLSCipherSuites *s,
-+                                const char *priority_name, Error **errp)
-+{
-+#ifdef CONFIG_GNUTLS
-+    int ret;
-+    unsigned int idx;
-+    const char *name;
-+    const char *err;
-+    gnutls_protocol_t version;
-+    gnutls_priority_t pcache;
-+
-+    assert(priority_name);
-+    ret = gnutls_priority_init(&pcache, priority_name, &err);
-+    if (ret < 0) {
-+        error_setg(errp, "Syntax error using priority '%s': %s",
-+                   priority_name, gnutls_strerror(ret));
-+        return;
-+    }
-+
-+    if (s->verbose) {
-+        fprintf(stderr, "Cipher suites for %s:\n", priority_name);
-+    }
-+    for (size_t i = 0;; i++) {
-+        ret = gnutls_priority_get_cipher_suite_index(pcache, i, &idx);
-+        if (ret == GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
-+            break;
-+        }
-+        if (ret == GNUTLS_E_UNKNOWN_CIPHER_SUITE) {
-+            continue;
-+        }
-+        s->cipher_list = g_renew(IANA_TLS_CIPHER,
-+                                 s->cipher_list, s->cipher_count + 1);
-+
-+        name = gnutls_cipher_suite_info(idx,
-+                                        s->cipher_list[s->cipher_count].data,
-+                                        NULL, NULL, NULL, &version);
-+        if (name != NULL) {
-+            if (s->verbose) {
-+                fprintf(stderr, "- %-50s\t0x%02x, 0x%02x\t%s\n", name,
-+                        s->cipher_list[s->cipher_count].data[0],
-+                        s->cipher_list[s->cipher_count].data[1],
-+                        gnutls_protocol_get_name(version));
-+            }
-+            s->cipher_count++;
-+       }
-+    }
-+    if (s->verbose) {
-+        fprintf(stderr, "total: %u ciphers\n", s->cipher_count);
-+    }
-+    gnutls_priority_deinit(pcache);
-+#else
-+    error_setg(errp, "GNU TLS not available");
-+#endif /* CONFIG_GNUTLS */
-+}
-+
-+static void qcrypto_tls_cipher_suites_complete(UserCreatable *uc, Error **errp)
-+{
-+    QCryptoTLSCreds *s = QCRYPTO_TLS_CREDS(uc);
-+
-+    if (!s->priority) {
-+        error_setg(errp, "'priority' property is not set");
-+        return;
-+    }
-+    parse_cipher_suites(QCRYPTO_TLS_CIPHER_SUITES(s), s->priority, errp);
-+}
-+
-+static void qcrypto_tls_cipher_suites_set_verbose(Object *obj, bool value,
-+                                                 Error **errp G_GNUC_UNUSED)
-+{
-+    QCRYPTO_TLS_CIPHER_SUITES(obj)->verbose = value;
-+}
-+
-+
-+static bool qcrypto_tls_cipher_suites_get_verbose(Object *obj,
-+                                                 Error **errp G_GNUC_UNUSED)
-+{
-+    return QCRYPTO_TLS_CIPHER_SUITES(obj)->verbose;
-+}
-+
-+static void qcrypto_tls_cipher_suites_finalize(Object *obj)
+@@ -14,6 +14,7 @@
+ #include "qemu/error-report.h"
+ #include "crypto/tlscreds.h"
+ #include "crypto/tls-cipher-suites.h"
++#include "hw/nvram/fw_cfg.h"
+ 
+ static void parse_cipher_suites(QCryptoTLSCipherSuites *s,
+                                 const char *priority_name, Error **errp)
+@@ -101,11 +102,28 @@ static void qcrypto_tls_cipher_suites_finalize(Object *obj)
+     g_free(s->cipher_list);
+ }
+ 
++static const void *qcrypto_tls_cipher_suites_get_data(Object *obj)
 +{
 +    QCryptoTLSCipherSuites *s = QCRYPTO_TLS_CIPHER_SUITES(obj);
 +
-+    g_free(s->cipher_list);
++    return s->cipher_list;
 +}
 +
-+static void qcrypto_tls_cipher_suites_class_init(ObjectClass *oc, void *data)
++static size_t qcrypto_tls_cipher_suites_get_length(Object *obj)
 +{
-+    UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
++    QCryptoTLSCipherSuites *s = QCRYPTO_TLS_CIPHER_SUITES(obj);
 +
-+    ucc->complete = qcrypto_tls_cipher_suites_complete;
-+
-+    object_class_property_add_bool(oc, "verbose",
-+                                   qcrypto_tls_cipher_suites_get_verbose,
-+                                   qcrypto_tls_cipher_suites_set_verbose);
++    return s->cipher_count * sizeof(IANA_TLS_CIPHER);
 +}
 +
-+static const TypeInfo qcrypto_tls_cipher_suites_info = {
-+    .parent = TYPE_QCRYPTO_TLS_CREDS,
-+    .name = TYPE_QCRYPTO_TLS_CIPHER_SUITES,
-+    .instance_size = sizeof(QCryptoTLSCipherSuites),
-+    .instance_finalize = qcrypto_tls_cipher_suites_finalize,
-+    .class_size = sizeof(QCryptoTLSCredsClass),
-+    .class_init = qcrypto_tls_cipher_suites_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_USER_CREATABLE },
-+        { }
-+    }
-+};
-+
-+static void qcrypto_tls_cipher_suites_register_types(void)
-+{
-+    type_register_static(&qcrypto_tls_cipher_suites_info);
-+}
-+
-+type_init(qcrypto_tls_cipher_suites_register_types);
-diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
-index c2a371b0b4..ce706d322a 100644
---- a/crypto/Makefile.objs
-+++ b/crypto/Makefile.objs
-@@ -13,6 +13,7 @@ crypto-obj-y += cipher.o
- crypto-obj-$(CONFIG_AF_ALG) += afalg.o
- crypto-obj-$(CONFIG_AF_ALG) += cipher-afalg.o
- crypto-obj-$(CONFIG_AF_ALG) += hash-afalg.o
-+crypto-obj-y += tls-cipher-suites.o
- crypto-obj-y += tlscreds.o
- crypto-obj-y += tlscredsanon.o
- crypto-obj-y += tlscredspsk.o
+ static void qcrypto_tls_cipher_suites_class_init(ObjectClass *oc, void *data)
+ {
+     UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
++    FWCfgDataGeneratorClass *fwgc = FW_CFG_DATA_GENERATOR_CLASS(oc);
+ 
+     ucc->complete = qcrypto_tls_cipher_suites_complete;
++    fwgc->get_data = qcrypto_tls_cipher_suites_get_data;
++    fwgc->get_length = qcrypto_tls_cipher_suites_get_length;
+ 
+     object_class_property_add_bool(oc, "verbose",
+                                    qcrypto_tls_cipher_suites_get_verbose,
+@@ -121,6 +139,7 @@ static const TypeInfo qcrypto_tls_cipher_suites_info = {
+     .class_init = qcrypto_tls_cipher_suites_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { TYPE_USER_CREATABLE },
++        { TYPE_FW_CFG_DATA_GENERATOR_INTERFACE },
+         { }
+     }
+ };
 -- 
 2.21.3
 
