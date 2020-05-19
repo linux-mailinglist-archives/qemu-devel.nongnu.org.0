@@ -2,76 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230621D8DFE
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 05:01:52 +0200 (CEST)
-Received: from localhost ([::1]:60786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF131D8E2F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 05:24:15 +0200 (CEST)
+Received: from localhost ([::1]:43808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jasVr-0002ZL-5J
-	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 23:01:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46926)
+	id 1jasrV-0000pU-GX
+	for lists+qemu-devel@lfdr.de; Mon, 18 May 2020 23:24:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jasOd-0005mh-Bh
- for qemu-devel@nongnu.org; Mon, 18 May 2020 22:54:23 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:46616)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jasOc-0002XL-2Y
- for qemu-devel@nongnu.org; Mon, 18 May 2020 22:54:23 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id 145so5851239pfw.13
- for <qemu-devel@nongnu.org>; Mon, 18 May 2020 19:54:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7oeS1yq+JuN20j7v7YlPjXCqUmCXhfYGwbcqS/Ex0lQ=;
- b=iPRpokFCK6wQcIorE/5znHNzBns5F8QhUi/eWDuUptzms0PHkODWyIbYVqxtwwktIm
- PlNAN7WNt293oK9k1AuTMZfp4Hg/E3D6NqVUhQHm/ghahTFPO1CL+REgj3MTwRr+KDpn
- u8yE1blINsgBpTdlbINjfATn7iIP4FJUuMbqK8erfqp4fN2e2plnv+4JmtfLBkDtgFOm
- SSwBUWxI4CtWsoZBQ8FlLz50xt57rt4YbE/gFcCkuh4Ndy1RfIVKZjGgrneD5ttHLkEy
- ZbD3rnGnaVUUtyphXOVTpV6OWpl1UpFAgzDL0orpiijBMFvfE/c9fl8Qmz9raAhI2TAB
- KQgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7oeS1yq+JuN20j7v7YlPjXCqUmCXhfYGwbcqS/Ex0lQ=;
- b=ktybrfxp4qz5i+3EcI9X9fGmqby7GmkFttdeITMXStfpJNMbeJjfiTEdaYCTvy+YHy
- 2fuvYnKjhuFF7mrAXqkPPA+dNsFoz13RGkONXMMiU+Zcpby39BfGtsR4SL26A0A9BRJu
- 5rCt0YNQA/fSbrZFT+loeNbOeoX4il1YtAgA93hsKWJgxUvuBHVa3nk9pLhBiCio0+TF
- JHWoH5vg5iD2YtUQzxh2sO39/LjzF2/rKVyqzSQajpwq1bin2gph66us03mijsDr3Ulb
- EGYUC4GQiVaWt5Ula1CZkGLwz0Y9wp/RJvVh+eN8r/7mxPkAQh3AH1s8PAi58O7Zj7zq
- +oWQ==
-X-Gm-Message-State: AOAM5327z6X4sUyk3j5PxhMpF0vmYmJcR30/5YBurVMkwItLzZUy2eIL
- ZisNuaN0P3pBkOvA+QsToyve1aVaPto=
-X-Google-Smtp-Source: ABdhPJytF1N+m1lqm7ajke1BaElmisfGDMoSrO7KgH4x4sfrdnVvBl+zuDoQn7tVHa8dB4Q/rb2FEQ==
-X-Received: by 2002:a63:c146:: with SMTP id p6mr11521519pgi.55.1589856860213; 
- Mon, 18 May 2020 19:54:20 -0700 (PDT)
-Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
- [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id a2sm8772418pgh.57.2020.05.18.19.54.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 19:54:19 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RISU v2 17/17] Add --dump option to inspect trace files
-Date: Mon, 18 May 2020 19:53:55 -0700
-Message-Id: <20200519025355.4420-18-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200519025355.4420-1-richard.henderson@linaro.org>
-References: <20200519025355.4420-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <zhengxiang9@huawei.com>)
+ id 1jasqd-0000Q6-Is
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 23:23:19 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3764 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengxiang9@huawei.com>)
+ id 1jasqb-00026y-Gf
+ for qemu-devel@nongnu.org; Mon, 18 May 2020 23:23:19 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id EEDCAB22913D00E0F84A;
+ Tue, 19 May 2020 11:23:06 +0800 (CST)
+Received: from [127.0.0.1] (10.173.221.213) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0;
+ Tue, 19 May 2020 11:23:01 +0800
+Subject: Re: [PATCH Kernel v21 0/8] Add UAPIs to support migration for VFIO
+ devices
+To: Yan Zhao <yan.y.zhao@intel.com>, Kirti Wankhede <kwankhede@nvidia.com>
+References: <1589577203-20640-1-git-send-email-kwankhede@nvidia.com>
+ <689be011-4de4-6bfb-f2bb-8bb98046b9cb@huawei.com>
+ <20200518033641.GA14737@joy-OptiPlex-7040>
+From: Xiang Zheng <zhengxiang9@huawei.com>
+Message-ID: <8e8fc7b0-13ca-3672-a92d-f6ac6fe32a28@huawei.com>
+Date: Tue, 19 May 2020 11:22:53 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
+In-Reply-To: <20200518033641.GA14737@joy-OptiPlex-7040>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Originating-IP: [10.173.221.213]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=zhengxiang9@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:23:07
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,378 +65,263 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
+Cc: cjia@nvidia.com, kvm@vger.kernel.org, aik@ozlabs.ru,
+ Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, eauger@redhat.com, yi.l.liu@intel.com,
+ eskultet@redhat.com, ziye.yang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, felipe@nutanix.com,
+ Wang Haibin <wanghaibin.wang@huawei.com>, zhi.a.wang@intel.com,
+ kevin.tian@intel.com, dgilbert@redhat.com, alex.williamson@redhat.com,
+ prime.zeng@hisilicon.com, changpeng.liu@intel.com, cohuck@redhat.com,
+ Ken.Xue@amd.com, jonathan.davies@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adjust some of the aarch64 code to look at the reginfo struct
-instead of looking at test_sve, so that we do not need to pass
-the --test-sve option in order to dump sve trace files.
+Thank you very much, Kirti and Yan!
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- risu.h                 |   1 +
- risu.c                 | 108 ++++++++++++++++++++++++++++++++++++++++-
- risu_reginfo_aarch64.c |  55 +++++++++++++--------
- risu_reginfo_arm.c     |   4 ++
- risu_reginfo_i386.c    |   4 ++
- risu_reginfo_m68k.c    |   4 ++
- risu_reginfo_ppc64.c   |   4 ++
- 7 files changed, 159 insertions(+), 21 deletions(-)
+On 2020/5/18 11:36, Yan Zhao wrote:
+> On Mon, May 18, 2020 at 10:39:52AM +0800, Xiang Zheng wrote:
+>> Hi Kirti and Yan,
+>>
+>> How can I test this patch series on my SR-IOV devices?
+>> I have looked through Yan's pathes for i40e VF live migration support：
+>>     https://patchwork.kernel.org/patch/11375177/
+>>
+> I just updated the patches to v4.
+> https://patchwork.kernel.org/cover/11554617/.
+> 
+> It's based on v17 kernel + v16 qemu with some minor changes in qemu.
+> 
+>> However, I cannot find the detailed implementation about device state
+>> saving/restoring and dirty page logging. Has i40e hardware already supported
+>> these two features?
+>>
+> In v4, vendor driver for i40e vf reports dirty pages to vfio container.
+> the detailed implementation of identifying dirty pages and device state
+> is not sent yet for process reason.
+> We use a software way to get dirty pages i.e. dynamically trapping of BAR 0.
 
-diff --git a/risu.h b/risu.h
-index 054cef7..3bfe765 100644
---- a/risu.h
-+++ b/risu.h
-@@ -23,6 +23,7 @@
- extern const struct option * const arch_long_opts;
- extern const char * const arch_extra_help;
- void process_arch_opt(int opt, const char *arg);
-+void arch_init(void);
- #define FIRST_ARCH_OPT   0x100
- 
- /* GCC computed include to pull in the correct risu_reginfo_*.h for
-diff --git a/risu.c b/risu.c
-index 95b4674..d7c7556 100644
---- a/risu.c
-+++ b/risu.c
-@@ -249,6 +249,93 @@ static int apprentice(void)
-     }
- }
- 
-+static int dump_trace(void)
-+{
-+    trace_header_t header;
-+    union {
-+        struct reginfo ri;
-+        unsigned char memblock[MEMBLOCKLEN];
-+    } u;
-+    const char *op_name;
-+
-+    while (1) {
-+        if (read_buffer(&header, sizeof(header))) {
-+            fprintf(stderr, "Trace header read failed\n");
-+            return EXIT_FAILURE;
-+        }
-+
-+        if (header.magic != RISU_MAGIC) {
-+            fprintf(stderr, "Unexpected header magic (%#x)\n", header.magic);
-+            return EXIT_FAILURE;
-+        }
-+
-+        switch (header.risu_op) {
-+        case OP_COMPARE:
-+           op_name = "COMPARE";
-+           break;
-+        case OP_TESTEND:
-+           op_name = "TESTEND";
-+           break;
-+        case OP_SETMEMBLOCK:
-+           op_name = "SETMEMBLOCK";
-+           break;
-+        case OP_GETMEMBLOCK:
-+           op_name = "GETMEMBLOCK";
-+           break;
-+        case OP_COMPAREMEM:
-+           op_name = "COMPAREMEM";
-+           break;
-+        case OP_SIGILL:
-+           op_name = "SIGILL";
-+           break;
-+        default:
-+           op_name = "<unknown>";
-+           break;
-+        }
-+
-+        switch (header.risu_op) {
-+        case OP_COMPARE:
-+        case OP_TESTEND:
-+        case OP_SIGILL:
-+            if (header.size > sizeof(u.ri)) {
-+                fprintf(stderr, "Unexpected trace size (%u)\n", header.size);
-+                return EXIT_FAILURE;
-+            }
-+            if (read_buffer(&u.ri, header.size)) {
-+                fprintf(stderr, "Reginfo read failed\n");
-+                return EXIT_FAILURE;
-+            }
-+            if (header.size != reginfo_size(&u.ri)) {
-+                fprintf(stderr, "Unexpected trace size (%u)\n", header.size);
-+                return EXIT_FAILURE;
-+            }
-+            printf("%s: (pc %#lx)\n", op_name, (unsigned long)header.pc);
-+            reginfo_dump(&u.ri, stdout);
-+            putchar('\n');
-+            if (header.risu_op == OP_TESTEND) {
-+                return EXIT_SUCCESS;
-+            }
-+            break;
-+
-+        case OP_COMPAREMEM:
-+            if (header.size != MEMBLOCKLEN) {
-+                fprintf(stderr, "Unexpected trace size (%u)\n", header.size);
-+                return EXIT_FAILURE;
-+            }
-+            if (read_buffer(&u.memblock, MEMBLOCKLEN)) {
-+                fprintf(stderr, "Memblock read failed\n");
-+                return EXIT_FAILURE;
-+            }
-+            /* TODO: Dump 8k of data? */
-+            /* fall through */
-+
-+        default:
-+            printf("%s\n", op_name);
-+            break;
-+        }
-+    }
-+}
-+
- static int ismaster;
- 
- static void usage(void)
-@@ -261,6 +348,7 @@ static void usage(void)
-     fprintf(stderr, "between master and apprentice risu processes.\n\n");
-     fprintf(stderr, "Options:\n");
-     fprintf(stderr, "  --master          Be the master (server)\n");
-+    fprintf(stderr, "  -d, --dump=FILE   Dump " TRACE_TYPE " trace file\n");
-     fprintf(stderr, "  -t, --trace=FILE  Record/playback " TRACE_TYPE " trace file\n");
-     fprintf(stderr,
-             "  -h, --host=HOST   Specify master host machine (apprentice only)"
-@@ -281,11 +369,12 @@ static struct option * setup_options(char **short_opts)
-         {"host", required_argument, 0, 'h'},
-         {"port", required_argument, 0, 'p'},
-         {"trace", required_argument, 0, 't'},
-+        {"dump", required_argument, 0, 'd'},
-         {0, 0, 0, 0}
-     };
-     struct option *lopts = &default_longopts[0];
- 
--    *short_opts = "h:p:t:";
-+    *short_opts = "d:h:p:t:";
- 
-     if (arch_long_opts) {
-         const size_t osize = sizeof(struct option);
-@@ -316,6 +405,7 @@ int main(int argc, char **argv)
-     char *trace_fn = NULL;
-     struct option *longopts;
-     char *shortopts;
-+    bool dump = false;
- 
-     longopts = setup_options(&shortopts);
- 
-@@ -330,6 +420,10 @@ int main(int argc, char **argv)
-         case 0:
-             /* flag set by getopt_long, do nothing */
-             break;
-+        case 'd':
-+            trace_fn = optarg;
-+            trace = dump = true;
-+            break;
-         case 't':
-             trace_fn = optarg;
-             trace = true;
-@@ -351,6 +445,11 @@ int main(int argc, char **argv)
-         }
-     }
- 
-+    if (dump && ismaster) {
-+        usage();
-+        exit(1);
-+    }
-+
-     if (trace) {
-         if (strcmp(trace_fn, "-") == 0) {
-             comm_fd = ismaster ? STDOUT_FILENO : STDIN_FILENO;
-@@ -366,6 +465,10 @@ int main(int argc, char **argv)
-         }
-     }
- 
-+    if (dump) {
-+        return dump_trace();
-+    }
-+
-     imgfile = argv[optind];
-     if (!imgfile) {
-         fprintf(stderr, "Error: must specify image file name\n\n");
-@@ -375,6 +478,9 @@ int main(int argc, char **argv)
- 
-     load_image(imgfile);
- 
-+    /* Select requested SVE vector length. */
-+    arch_init();
-+
-     if (ismaster) {
-         if (!trace) {
-             fprintf(stderr, "master port %d\n", port);
-diff --git a/risu_reginfo_aarch64.c b/risu_reginfo_aarch64.c
-index a1020ac..fb8e11a 100644
---- a/risu_reginfo_aarch64.c
-+++ b/risu_reginfo_aarch64.c
-@@ -44,8 +44,6 @@ const char * const arch_extra_help
- void process_arch_opt(int opt, const char *arg)
- {
- #ifdef SVE_MAGIC
--    long want, got;
--
-     assert(opt == FIRST_ARCH_OPT);
-     test_sve = strtol(arg, 0, 10);
- 
-@@ -53,22 +51,37 @@ void process_arch_opt(int opt, const char *arg)
-         fprintf(stderr, "Invalid value for VQ (1-%d)\n", SVE_VQ_MAX);
-         exit(EXIT_FAILURE);
-     }
--    want = sve_vl_from_vq(test_sve);
--    got = prctl(PR_SVE_SET_VL, want);
--    if (want != got) {
--        if (got < 0) {
--            perror("prctl PR_SVE_SET_VL");
--        } else {
--            fprintf(stderr, "Unsupported value for VQ (%d != %d)\n",
--                    test_sve, (int)sve_vq_from_vl(got));
--        }
--        exit(EXIT_FAILURE);
--    }
- #else
-     abort();
- #endif
- }
- 
-+void arch_init(void)
-+{
-+#ifdef SVE_MAGIC
-+    long want, got1, got2;
-+
-+    if (test_sve == 0) {
-+        return;
-+    }
-+
-+    want = sve_vl_from_vq(test_sve);
-+    asm(".arch_extension sve\n\trdvl %0, #1" : "=r"(got1));
-+    if (want != got1) {
-+        got2 = prctl(PR_SVE_SET_VL, want);
-+        if (want != got2) {
-+            if (got2 < 0) {
-+                perror("prctl PR_SVE_SET_VL");
-+                got2 = got1;
-+            }
-+            fprintf(stderr, "Unsupported value for VQ (%d != %d)\n",
-+                    test_sve, (int)sve_vq_from_vl(got1));
-+            exit(EXIT_FAILURE);
-+        }
-+    }
-+#endif
-+}
-+
- int reginfo_size(struct reginfo *ri)
- {
- #ifdef SVE_MAGIC
-@@ -170,6 +183,7 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
-         if (sve->head.size < SVE_SIG_CONTEXT_SIZE(vq)) {
-             if (sve->head.size == sizeof(*sve)) {
-                 /* SVE state is empty -- not an error.  */
-+                goto do_simd;
-             } else {
-                 fprintf(stderr, "risu_reginfo_aarch64: "
-                         "failed to get complete SVE state\n");
-@@ -182,6 +196,7 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
-                SVE_SIG_CONTEXT_SIZE(vq) - SVE_SIG_REGS_OFFSET);
-         return;
-     }
-+ do_simd:
- #endif /* SVE_MAGIC */
- 
-     for (i = 0; i < 32; i++) {
-@@ -260,8 +275,9 @@ int reginfo_dump(struct reginfo *ri, FILE * f)
-     fprintf(f, "  fpcr   : %08x\n", ri->fpcr);
- 
- #ifdef SVE_MAGIC
--    if (test_sve) {
--        int q, vq = test_sve;
-+    if (ri->sve_vl) {
-+        int vq = sve_vq_from_vl(ri->sve_vl);
-+        int q;
- 
-         fprintf(f, "  vl     : %d\n", ri->sve_vl);
- 
-@@ -339,13 +355,12 @@ int reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE * f)
-     }
- 
- #ifdef SVE_MAGIC
--    if (test_sve) {
-+    if (m->sve_vl != a->sve_vl) {
-+        fprintf(f, "  vl    : %d vs %d\n", m->sve_vl, a->sve_vl);
-+    }
-+    if (m->sve_vl) {
-         int vq = sve_vq_from_vl(m->sve_vl);
- 
--        if (m->sve_vl != a->sve_vl) {
--            fprintf(f, "  vl    : %d vs %d\n", m->sve_vl, a->sve_vl);
--        }
--
-         for (i = 0; i < SVE_NUM_ZREGS; i++) {
-             uint64_t *zm = reginfo_zreg(m, vq, i);
-             uint64_t *za = reginfo_zreg(a, vq, i);
-diff --git a/risu_reginfo_arm.c b/risu_reginfo_arm.c
-index 3832e27..2982435 100644
---- a/risu_reginfo_arm.c
-+++ b/risu_reginfo_arm.c
-@@ -36,6 +36,10 @@ void process_arch_opt(int opt, const char *arg)
-     abort();
- }
- 
-+void arch_init(void)
-+{
-+}
-+
- int reginfo_size(struct reginfo *ri)
- {
-     return sizeof(struct reginfo);
-diff --git a/risu_reginfo_i386.c b/risu_reginfo_i386.c
-index 902d33e..68f2323 100644
---- a/risu_reginfo_i386.c
-+++ b/risu_reginfo_i386.c
-@@ -74,6 +74,10 @@ void process_arch_opt(int opt, const char *arg)
-     }
- }
- 
-+void arch_init(void)
-+{
-+}
-+
- int reginfo_size(struct reginfo *ri)
- {
-     return sizeof(struct reginfo);
-diff --git a/risu_reginfo_m68k.c b/risu_reginfo_m68k.c
-index 361f172..499fdc4 100644
---- a/risu_reginfo_m68k.c
-+++ b/risu_reginfo_m68k.c
-@@ -23,6 +23,10 @@ void process_arch_opt(int opt, const char *arg)
-     abort();
- }
- 
-+void arch_init(void)
-+{
-+}
-+
- int reginfo_size(struct reginfo *ri)
- {
-     return sizeof(struct reginfo);
-diff --git a/risu_reginfo_ppc64.c b/risu_reginfo_ppc64.c
-index c86313c..3b04747 100644
---- a/risu_reginfo_ppc64.c
-+++ b/risu_reginfo_ppc64.c
-@@ -32,6 +32,10 @@ void process_arch_opt(int opt, const char *arg)
-     abort();
- }
- 
-+void arch_init(void)
-+{
-+}
-+
- int reginfo_size(struct reginfo *ri)
- {
-     return sizeof(struct reginfo);
+Sounds interesting, is the dirty pages tracking done in the VM's vf driver or
+in the host's vf-migration module? It seems done in the host side, but I still
+cannot understand how dynamically trapping of BAR 0 can track the dirty pages.
+
+> 
+> Thanks
+> Yan
+>> And if once a device supports both features, how to implement live
+>> migration for this device via this series patch?
+>>
+>> On 2020/5/16 5:13, Kirti Wankhede wrote:
+>>> Hi,
+>>>
+>>> This patch set adds:
+>>> * IOCTL VFIO_IOMMU_DIRTY_PAGES to get dirty pages bitmap with
+>>>   respect to IOMMU container rather than per device. All pages pinned by
+>>>   vendor driver through vfio_pin_pages external API has to be marked as
+>>>   dirty during  migration. When IOMMU capable device is present in the
+>>>   container and all pages are pinned and mapped, then all pages are marked
+>>>   dirty.
+>>>   When there are CPU writes, CPU dirty page tracking can identify dirtied
+>>>   pages, but any page pinned by vendor driver can also be written by
+>>>   device. As of now there is no device which has hardware support for
+>>>   dirty page tracking. So all pages which are pinned should be considered
+>>>   as dirty.
+>>>   This ioctl is also used to start/stop dirty pages tracking for pinned and
+>>>   unpinned pages while migration is active.
+>>>
+>>> * Updated IOCTL VFIO_IOMMU_UNMAP_DMA to get dirty pages bitmap before
+>>>   unmapping IO virtual address range.
+>>>   With vIOMMU, during pre-copy phase of migration, while CPUs are still
+>>>   running, IO virtual address unmap can happen while device still keeping
+>>>   reference of guest pfns. Those pages should be reported as dirty before
+>>>   unmap, so that VFIO user space application can copy content of those
+>>>   pages from source to destination.
+>>>
+>>> * Patch 8 detect if IOMMU capable device driver is smart to report pages
+>>>   to be marked dirty by pinning pages using vfio_pin_pages() API.
+>>>
+>>>
+>>> Yet TODO:
+>>> Since there is no device which has hardware support for system memmory
+>>> dirty bitmap tracking, right now there is no other API from vendor driver
+>>> to VFIO IOMMU module to report dirty pages. In future, when such hardware
+>>> support will be implemented, an API will be required such that vendor
+>>> driver could report dirty pages to VFIO module during migration phases.
+>>>
+>>> Adding revision history from previous QEMU patch set to understand KABI
+>>> changes done till now
+>>>
+>>> v20 -> v21
+>>> - Added checkin for GET_BITMAP ioctl for vfio_dma boundaries.
+>>> - Updated unmap ioctl function - as suggested by Alex.
+>>> - Updated comments in DIRTY_TRACKING ioctl definition - as suggested by
+>>>   Cornelia.
+>>>
+>>> v19 -> v20
+>>> - Fixed ioctl to get dirty bitmap to get bitmap of multiple vfio_dmas
+>>> - Fixed unmap ioctl to get dirty bitmap of multiple vfio_dmas.
+>>> - Removed flag definition from migration capability.
+>>>
+>>> v18 -> v19
+>>> - Updated migration capability with supported page sizes bitmap for dirty
+>>>   page tracking and  maximum bitmap size supported by kernel module.
+>>> - Added patch to calculate and cache pgsize_bitmap when iommu->domain_list
+>>>   is updated.
+>>> - Removed extra buffers added in previous version for bitmap manipulation
+>>>   and optimised the code.
+>>>
+>>> v17 -> v18
+>>> - Add migration capability to the capability chain for VFIO_IOMMU_GET_INFO
+>>>   ioctl
+>>> - Updated UMAP_DMA ioctl to return bitmap of multiple vfio_dma
+>>>
+>>> v16 -> v17
+>>> - Fixed errors reported by kbuild test robot <lkp@intel.com> on i386
+>>>
+>>> v15 -> v16
+>>> - Minor edits and nit picks (Auger Eric)
+>>> - On copying bitmap to user, re-populated bitmap only for pinned pages,
+>>>   excluding unmapped pages and CPU dirtied pages.
+>>> - Patches are on tag: next-20200318 and 1-3 patches from Yan's series
+>>>   https://lkml.org/lkml/2020/3/12/1255
+>>>
+>>> v14 -> v15
+>>> - Minor edits and nit picks.
+>>> - In the verification of user allocated bitmap memory, added check of
+>>>    maximum size.
+>>> - Patches are on tag: next-20200318 and 1-3 patches from Yan's series
+>>>   https://lkml.org/lkml/2020/3/12/1255
+>>>
+>>> v13 -> v14
+>>> - Added struct vfio_bitmap to kabi. updated structure
+>>>   vfio_iommu_type1_dirty_bitmap_get and vfio_iommu_type1_dma_unmap.
+>>> - All small changes suggested by Alex.
+>>> - Patches are on tag: next-20200318 and 1-3 patches from Yan's series
+>>>   https://lkml.org/lkml/2020/3/12/1255
+>>>
+>>> v12 -> v13
+>>> - Changed bitmap allocation in vfio_iommu_type1 to per vfio_dma
+>>> - Changed VFIO_IOMMU_DIRTY_PAGES ioctl behaviour to be per vfio_dma range.
+>>> - Changed vfio_iommu_type1_dirty_bitmap structure to have separate data
+>>>   field.
+>>>
+>>> v11 -> v12
+>>> - Changed bitmap allocation in vfio_iommu_type1.
+>>> - Remove atomicity of ref_count.
+>>> - Updated comments for migration device state structure about error
+>>>   reporting.
+>>> - Nit picks from v11 reviews
+>>>
+>>> v10 -> v11
+>>> - Fix pin pages API to free vpfn if it is marked as unpinned tracking page.
+>>> - Added proposal to detect if IOMMU capable device calls external pin pages
+>>>   API to mark pages dirty.
+>>> - Nit picks from v10 reviews
+>>>
+>>> v9 -> v10:
+>>> - Updated existing VFIO_IOMMU_UNMAP_DMA ioctl to get dirty pages bitmap
+>>>   during unmap while migration is active
+>>> - Added flag in VFIO_IOMMU_GET_INFO to indicate driver support dirty page
+>>>   tracking.
+>>> - If iommu_mapped, mark all pages dirty.
+>>> - Added unpinned pages tracking while migration is active.
+>>> - Updated comments for migration device state structure with bit
+>>>   combination table and state transition details.
+>>>
+>>> v8 -> v9:
+>>> - Split patch set in 2 sets, Kernel and QEMU.
+>>> - Dirty pages bitmap is queried from IOMMU container rather than from
+>>>   vendor driver for per device. Added 2 ioctls to achieve this.
+>>>
+>>> v7 -> v8:
+>>> - Updated comments for KABI
+>>> - Added BAR address validation check during PCI device's config space load
+>>>   as suggested by Dr. David Alan Gilbert.
+>>> - Changed vfio_migration_set_state() to set or clear device state flags.
+>>> - Some nit fixes.
+>>>
+>>> v6 -> v7:
+>>> - Fix build failures.
+>>>
+>>> v5 -> v6:
+>>> - Fix build failure.
+>>>
+>>> v4 -> v5:
+>>> - Added decriptive comment about the sequence of access of members of
+>>>   structure vfio_device_migration_info to be followed based on Alex's
+>>>   suggestion
+>>> - Updated get dirty pages sequence.
+>>> - As per Cornelia Huck's suggestion, added callbacks to VFIODeviceOps to
+>>>   get_object, save_config and load_config.
+>>> - Fixed multiple nit picks.
+>>> - Tested live migration with multiple vfio device assigned to a VM.
+>>>
+>>> v3 -> v4:
+>>> - Added one more bit for _RESUMING flag to be set explicitly.
+>>> - data_offset field is read-only for user space application.
+>>> - data_size is read for every iteration before reading data from migration,
+>>>   that is removed assumption that data will be till end of migration
+>>>   region.
+>>> - If vendor driver supports mappable sparsed region, map those region
+>>>   during setup state of save/load, similarly unmap those from cleanup
+>>>   routines.
+>>> - Handles race condition that causes data corruption in migration region
+>>>   during save device state by adding mutex and serialiaing save_buffer and
+>>>   get_dirty_pages routines.
+>>> - Skip called get_dirty_pages routine for mapped MMIO region of device.
+>>> - Added trace events.
+>>> - Split into multiple functional patches.
+>>>
+>>> v2 -> v3:
+>>> - Removed enum of VFIO device states. Defined VFIO device state with 2
+>>>   bits.
+>>> - Re-structured vfio_device_migration_info to keep it minimal and defined
+>>>   action on read and write access on its members.
+>>>
+>>> v1 -> v2:
+>>> - Defined MIGRATION region type and sub-type which should be used with
+>>>   region type capability.
+>>> - Re-structured vfio_device_migration_info. This structure will be placed
+>>>   at 0th offset of migration region.
+>>> - Replaced ioctl with read/write for trapped part of migration region.
+>>> - Added both type of access support, trapped or mmapped, for data section
+>>>   of the region.
+>>> - Moved PCI device functions to pci file.
+>>> - Added iteration to get dirty page bitmap until bitmap for all requested
+>>>   pages are copied.
+>>>
+>>> Thanks,
+>>> Kirti
+>>>
+>>>
+>>>
+>>> Kirti Wankhede (8):
+>>>   vfio: UAPI for migration interface for device state
+>>>   vfio iommu: Remove atomicity of ref_count of pinned pages
+>>>   vfio iommu: Cache pgsize_bitmap in struct vfio_iommu
+>>>   vfio iommu: Add ioctl definition for dirty pages tracking
+>>>   vfio iommu: Implementation of ioctl for dirty pages tracking
+>>>   vfio iommu: Update UNMAP_DMA ioctl to get dirty bitmap before unmap
+>>>   vfio iommu: Add migration capability to report supported features
+>>>   vfio: Selective dirty page tracking if IOMMU backed device pins pages
+>>>
+>>>  drivers/vfio/vfio.c             |  13 +-
+>>>  drivers/vfio/vfio_iommu_type1.c | 569 ++++++++++++++++++++++++++++++++++++----
+>>>  include/linux/vfio.h            |   4 +-
+>>>  include/uapi/linux/vfio.h       | 315 ++++++++++++++++++++++
+>>>  4 files changed, 842 insertions(+), 59 deletions(-)
+>>>
+>>
+>> -- 
+>> Thanks,
+>> Xiang
+>>
+> 
+> .
+> 
+
 -- 
-2.20.1
+Thanks,
+Xiang
 
 
