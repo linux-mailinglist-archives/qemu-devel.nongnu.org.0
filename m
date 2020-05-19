@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74041D9F2F
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:22:34 +0200 (CEST)
-Received: from localhost ([::1]:41916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7AFF1D9F68
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 20:26:25 +0200 (CEST)
+Received: from localhost ([::1]:54982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb6sr-00070B-Ci
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:22:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41582)
+	id 1jb6wa-0004tf-HJ
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 14:26:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jb6r6-0005cu-Qm
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:20:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30840
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jb6rC-0005eP-AF
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 14:20:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42466
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jb6r5-0008Rv-VT
- for qemu-devel@nongnu.org; Tue, 19 May 2020 14:20:44 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jb6rB-0008SE-CY
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 14:20:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589912443;
+ s=mimecast20190719; t=1589912447;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AXKHm9sEGpzJKmFxobEwS5Bkzi/fbuyVBY253GTU/xE=;
- b=crVINwPcV+drVuE0Iqgz6jyK9qNwtce7pr+0DMxnhzXCiVzPvdYzf8lmMqsrDdPv4dPeLU
- e3CGsMOJQVyHZzrOwDJAOhxACDnIyK23K4NnXRZXcGiInuqeiJi+4SBdJ1sHGrwWXElEKu
- Z+gD0KfTf0uRLa+iDd0n+S07npVkOiw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-Lqm4HskPM9mGERR6Qd2JZA-1; Tue, 19 May 2020 14:20:41 -0400
-X-MC-Unique: Lqm4HskPM9mGERR6Qd2JZA-1
-Received: by mail-wr1-f70.google.com with SMTP id u5so183061wrt.22
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 11:20:41 -0700 (PDT)
+ bh=jq7M0GNbAMnwTwtOhCF9XvyRYicoQZiXqGW42a5oD/A=;
+ b=YX8smZQKsIzTcUet4vxLzf7gLGb8x638jHnYejJvsUqPQZ35/64dqs0bWsMz/kL0Z5CNw4
+ qXwo9HZ34TOMcoCOYB3MHbxJ0yXcBbKUYcpvVXItTli9bMR0G57SQp3XyXfsnz3iVmtrsd
+ zw3ypiQE/Mp3DKOqPbzHz1kGdezB6+g=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-391-URk7aF8NNhe3NcaEviA6pw-1; Tue, 19 May 2020 14:20:45 -0400
+X-MC-Unique: URk7aF8NNhe3NcaEviA6pw-1
+Received: by mail-wr1-f69.google.com with SMTP id e14so196103wrv.11
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 11:20:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AXKHm9sEGpzJKmFxobEwS5Bkzi/fbuyVBY253GTU/xE=;
- b=XAGAwkchuVtCkDV6b6UgpkgysmEnkmqkgoJogEN0UCqjiDJwcG9Il/dNnv2wiRcuNl
- akYA6kv1KVUcbDCWN1E3YbJNjVWVN8DJU1FKHDHEBn1AmvQpGHYwO71O6cCxdcBPUW2U
- F/G8343Jq5lo1kSaXAqF1kFjdmVUQVMDwWHMPCq8ok1fDCIZxhOBI4HCWAR/3OU4k1je
- 8lplgaEGcfZC5KW0DJgUB30QhjmlnqAgI1MyFVv4bcmJzwLdRXPj8MFQQVUI0chEf4JX
- E1QsLsLMjmWNjJTG7Wkn8mrlvGU0dZplrcad82B5VBil9XoT0vQFxsh4sfUzi6ekdVum
- AHrg==
-X-Gm-Message-State: AOAM533KxWWZhwgmjEVlirhaB6Qsm456BeEBUXGqnEM8WmwoMcINYcvz
- ExdLh0NGPRdf5XFMW8LpO2BfZVpTjRT3kqimzwTNGCiFqheltPZki8D9BpTMH9p2R65+DXWRAGM
- lBuThOhVkEAQbRK8=
-X-Received: by 2002:a5d:6087:: with SMTP id w7mr226338wrt.158.1589912439530;
- Tue, 19 May 2020 11:20:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwk4B8l3Ki5y6mp56jyDKGFOGMBcO9XVVp+fzi7K9ZMNWIFEf8jSQ1K1qE5TDyWsWVL9ba51g==
-X-Received: by 2002:a5d:6087:: with SMTP id w7mr226320wrt.158.1589912439375;
- Tue, 19 May 2020 11:20:39 -0700 (PDT)
+ bh=jq7M0GNbAMnwTwtOhCF9XvyRYicoQZiXqGW42a5oD/A=;
+ b=BU+3h90rQNiJwM33JxkRCd/pT82XclaPcgyf+PCKGwU9bGwQhfFMvqRQI1xCJqAbXF
+ RU4gyOFrodnBLsZMF+HRMMK2yCXgzTwhyHBXsZjJ7mEGiClegKNWhSQVhsryW7gx5PYm
+ ivBUGmz/ZPFJwljMajvGDIK7IGD26MS5/7qt46XfoN2xLhhsOabmDsgrC86l6nO9kBaC
+ u8fhtmuxHrkoRJfrZMs3d8hcqF6cNqpKpGeFpnhZlKXeG12DUh19Sl3q/Jawaev0gTC1
+ IafYS/u6YJrjY9Q6kR2ApTB99YrbTUN+PnYdf3wplZ/Y4R3P+re1sH1kKXkGwlL69tQa
+ kcRQ==
+X-Gm-Message-State: AOAM532FNT5hgetYOPyq2YegQxakQJ44dWB4/zrAmaTbpPUBkv6CSFlb
+ Dm9yBXo9EZarparzFjqQJihqQYmZU7NIgKIjG/1TUohY629WE0H0xjFer+K1LStVy6Pl+q6571y
+ U2wG8PFLtSa0emKI=
+X-Received: by 2002:adf:f702:: with SMTP id r2mr173874wrp.191.1589912444140;
+ Tue, 19 May 2020 11:20:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzq4xfSE71w5ZhKwWI8R11/+g1xtfz/aFvWL6CRdzCbcxXMMOyuVM3CQsJJHsW2UDuNewqOYQ==
+X-Received: by 2002:adf:f702:: with SMTP id r2mr173845wrp.191.1589912443903;
+ Tue, 19 May 2020 11:20:43 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id q144sm581286wme.0.2020.05.19.11.20.38
+ by smtp.gmail.com with ESMTPSA id h1sm508829wme.42.2020.05.19.11.20.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 May 2020 11:20:38 -0700 (PDT)
+ Tue, 19 May 2020 11:20:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 2/5] softmmu/vl: Let -fw_cfg option take a 'blob_id'
- argument
-Date: Tue, 19 May 2020 20:20:21 +0200
-Message-Id: <20200519182024.14638-3-philmd@redhat.com>
+Subject: [RFC PATCH v6 3/5] softmmu/vl: Allow -fw_cfg 'blob_id' option to set
+ any file pathname
+Date: Tue, 19 May 2020 20:20:22 +0200
+Message-Id: <20200519182024.14638-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200519182024.14638-1-philmd@redhat.com>
 References: <20200519182024.14638-1-philmd@redhat.com>
@@ -73,16 +73,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/18 23:56:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 09:19:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,69 +103,31 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'blob_id' argument refers to a QOM object able to produce
-data consumable by the fw_cfg device. The producer object must
-implement the FW_CFG_DATA_GENERATOR interface.
+This is to silent:
+
+  $ qemu-system-x86_64 \
+    -object tls-cipher-suites,id=ciphersuite0,priority=@SYSTEM \
+    -fw_cfg name=etc/edk2/https/ciphers,blob_id=ciphersuite0
+  qemu-system-x86_64: -fw_cfg name=etc/edk2/https/ciphers,blob_id=ciphersuite0: warning: externally provided fw_cfg item names should be prefixed with "opt/"
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- softmmu/vl.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ softmmu/vl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index ae5451bc23..f76c53ad2e 100644
+index f76c53ad2e..3b77dcc00d 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -489,6 +489,10 @@ static QemuOptsList qemu_fw_cfg_opts = {
-             .name = "string",
-             .type = QEMU_OPT_STRING,
-             .help = "Sets content of the blob to be inserted from a string",
-+        }, {
-+            .name = "blob_id",
-+            .type = QEMU_OPT_STRING,
-+            .help = "Sets id of the object generating fw_cfg blob to be used",
-         },
-         { /* end of list */ }
-     },
-@@ -2020,7 +2024,7 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
- {
-     gchar *buf;
-     size_t size;
--    const char *name, *file, *str;
-+    const char *name, *file, *str, *blob_id;
-     FWCfgState *fw_cfg = (FWCfgState *) opaque;
- 
-     if (fw_cfg == NULL) {
-@@ -2030,14 +2034,17 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
-     name = qemu_opt_get(opts, "name");
-     file = qemu_opt_get(opts, "file");
-     str = qemu_opt_get(opts, "string");
-+    blob_id = qemu_opt_get(opts, "blob_id");
- 
-     /* we need name and either a file or the content string */
--    if (!(nonempty_str(name) && (nonempty_str(file) || nonempty_str(str)))) {
-+    if (!(nonempty_str(name)
-+          && (nonempty_str(file) || nonempty_str(str) || nonempty_str(blob_id)))
-+         ) {
-         error_setg(errp, "invalid argument(s)");
+@@ -2052,7 +2052,7 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
+                    FW_CFG_MAX_FILE_PATH - 1);
          return -1;
      }
--    if (nonempty_str(file) && nonempty_str(str)) {
--        error_setg(errp, "file and string are mutually exclusive");
-+    if (nonempty_str(file) && nonempty_str(str) && nonempty_str(blob_id)) {
-+        error_setg(errp, "file, string and blob_id are mutually exclusive");
-         return -1;
+-    if (strncmp(name, "opt/", 4) != 0) {
++    if (!nonempty_str(blob_id) && strncmp(name, "opt/", 4) != 0) {
+         warn_report("externally provided fw_cfg item names "
+                     "should be prefixed with \"opt/\"");
      }
-     if (strlen(name) > FW_CFG_MAX_FILE_PATH - 1) {
-@@ -2052,6 +2059,8 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
-     if (nonempty_str(str)) {
-         size = strlen(str); /* NUL terminator NOT included in fw_cfg blob */
-         buf = g_memdup(str, size);
-+    } else if (nonempty_str(blob_id)) {
-+        return fw_cfg_add_from_generator(fw_cfg, name, blob_id, errp);
-     } else {
-         GError *err = NULL;
-         if (!g_file_get_contents(file, &buf, &size, &err)) {
 -- 
 2.21.3
 
