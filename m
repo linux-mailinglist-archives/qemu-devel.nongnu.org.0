@@ -2,55 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FBD11DA258
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 22:15:34 +0200 (CEST)
-Received: from localhost ([::1]:36248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D16F1DA261
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 22:17:31 +0200 (CEST)
+Received: from localhost ([::1]:43294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb8eC-0000zn-6m
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 16:15:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57696)
+	id 1jb8g6-00041w-4l
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 16:17:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jb8bf-0004MR-TP
- for qemu-devel@nongnu.org; Tue, 19 May 2020 16:12:55 -0400
-Received: from mga01.intel.com ([192.55.52.88]:59949)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jb8be-00089z-UI
- for qemu-devel@nongnu.org; Tue, 19 May 2020 16:12:55 -0400
-IronPort-SDR: s+g4BEtENgpJLoQhsvhg+u5qRtUzNEYcfZ4FhkO+8bkAGQ4Cd3K92mFyVUVgy4OmVZi9E6Jz72
- jwjWBK0mP1zg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2020 13:12:52 -0700
-IronPort-SDR: XoFZzOpw58hdCa02D3lBAu84vxPsvegQgIbi+g4UFhflvi1Ejw8l+BMLg/iQQcuhJc8H9jjgPR
- tv7KOFyGI5PQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="268007894"
-Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga006.jf.intel.com with ESMTP; 19 May 2020 13:12:50 -0700
-From: Zhang Chen <chen.zhang@intel.com >
-To: Jason Wang <jasowang@redhat.com>
-Subject: [PATCH 7/7] net/colo-compare.c: Correct ordering in complete and
- finalize
-Date: Wed, 20 May 2020 04:02:07 +0800
-Message-Id: <20200519200207.17773-8-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200519200207.17773-1-chen.zhang@intel.com>
-References: <20200519200207.17773-1-chen.zhang@intel.com>
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=chen.zhang@intel.com;
- helo=mga01.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 16:12:40
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, FROM_ADDR_WS=2.999,
- FROM_WSP_TRAIL=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <msys.mizuma@gmail.com>)
+ id 1jb8eo-0002qa-Cj; Tue, 19 May 2020 16:16:10 -0400
+Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:44687)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <msys.mizuma@gmail.com>)
+ id 1jb8en-0000K4-EK; Tue, 19 May 2020 16:16:10 -0400
+Received: by mail-qt1-x836.google.com with SMTP id d7so697666qtn.11;
+ Tue, 19 May 2020 13:16:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ohRjIDaIbdm4P+k27fxUHbPnyTMLLeLbcg/2Kj481/s=;
+ b=URvptElp3wDblAoX2OOzvLgR+zJqrolf9RNnhJCyMVK5gwJrul0gbZ+QcvA1XkFfG5
+ QJlix4eTQTfs7pULWASKsstqzz41/7nsYIe3uoTFRM/K7p4zbA4Y0K/Ciz2B8ydNeN6D
+ e73IsQQ+qTJLPgBHBrcrZXxAO1nQRRv7Jmp51ssxAUKyHvTi8FBTOsDKtJaR4JmmV4h5
+ xgqAhlfr8x4A+ZxlU/vhkM47TXbIdVVrvwm+Dbhg7s4l/yx1dxQtGAneUnhT6chxR1di
+ XvuhmnvXFT1QROxFiHS/Fzvs48BauQYoiPeHeSaKAhtO58K6tUEo88GTBSFOm2nklKTs
+ U6mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ohRjIDaIbdm4P+k27fxUHbPnyTMLLeLbcg/2Kj481/s=;
+ b=HkAfTTD3+MEcO4mA/LJ+w/WDhOzDb5MBsaCX5mAAJkAj+2GLQHaLhJU73fDwa16RSw
+ BKWgI+FepjznjLr3FUfo6ZsS/odmAZNiLBcnwU/ib6nF7wW3g4njXUxOKx3V7NkBpP2Z
+ giOcXVpl+31Nz4CGBsqMyuBQbV0ZgUmsPj908/6QZHi/Euwxa3xgq03uGbPD7rvFJKlj
+ Slr7k0rK+44q/erKfyyYjISLz3kyh3QnX80bUuK7uZL+2EsfYeWW7oAt1UjhxcTrhl2j
+ 7Csu0WGGOsIcKjsRnrYBpNzlqcekVUn44jIfMw8WWtkENpFX+K+XadnKr7CzOIKkHT0Q
+ a4gA==
+X-Gm-Message-State: AOAM5300NxEQTiUN1D86YLTOjC0z52ixizuIZ7DEj/Vsu+OjgLvJoOs5
+ fv6STrzfBdga6rDpYAT95g==
+X-Google-Smtp-Source: ABdhPJxn163fi/WhKHHbSRswoK5bmj8Yc4L4XA0PCLZClsCqL9MtOi3jghCWiTy1B+pY6JgmSx1zZw==
+X-Received: by 2002:ac8:4311:: with SMTP id z17mr1639400qtm.316.1589919367355; 
+ Tue, 19 May 2020 13:16:07 -0700 (PDT)
+Received: from gabell
+ (209-6-122-159.s2973.c3-0.arl-cbr1.sbo-arl.ma.cable.rcncustomer.com.
+ [209.6.122.159])
+ by smtp.gmail.com with ESMTPSA id c26sm450005qkm.98.2020.05.19.13.16.06
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 19 May 2020 13:16:06 -0700 (PDT)
+Date: Tue, 19 May 2020 16:16:05 -0400
+From: Masayoshi Mizuma <msys.mizuma@gmail.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: Question: How do I discard any changes for the device which is
+ set by blockdev option?
+Message-ID: <20200519201605.7xlostisrjitesny@gabell>
+References: <20200519175659.4poxgjmp4xoufl7h@gabell>
+ <efeb1594-589b-3f0a-9295-da55f92970b2@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <efeb1594-589b-3f0a-9295-da55f92970b2@redhat.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
+ envelope-from=msys.mizuma@gmail.com; helo=mail-qt1-x836.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,103 +86,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Lukas Straub <lukasstraub2@web.de>,
- qemu-dev <qemu-devel@nongnu.org>, Zhang Chen <zhangckid@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ "libvirt-list@redhat.com" <libvirt-list@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lukas Straub <lukasstraub2@web.de>
+On Tue, May 19, 2020 at 01:41:08PM -0500, Eric Blake wrote:
+> On 5/19/20 12:56 PM, Masayoshi Mizuma wrote:
+> > Hello,
+> > 
+> > I would like to discard any changes while the qemu guest OS is done.
+> > I can do that with snapshot and drive option.
+> > However, snapshot option doesn't work for the device which set by
+> > blockdev option like as:
+> > 
+> > $QEMU --enable-kvm \
+> >        -m 1024 \
+> >        -nographic \
+> >        -serial mon:stdio \
+> >        -blockdev driver=file,node-name=mydisk,filename=/mnt/fedora.qcow2 \
+> >        -blockdev driver=qcow2,node-name=vda,file=mydisk \
+> >        -device virtio-blk-pci,drive=vda,bootindex=1 \
+> >        -snapshot
+> > 
+> > I would like to use blockdev option to set the device because
+> > libvirt uses blockdev option for disk element.
+> > 
+> > If there's no way to do so, does that make sense to get available
+> > snapshot option to blockdev as well? If that makes sense, I'll try to
+> > implement that.
+> > 
+> > As for qcow2, I think we can do such things to use qemu-img snapshot
+> > command, for example save the original image and restore the image
+> > after the qemu guest OS is shutdowned. However, it may be complecated
+> > for user. I would like the simple way like as snapshot/drive option...
+> > 
+> > If I'm missing something, let me know.
+> > 
+> 
+> Sounds like a repeat of this thread:
+> https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg06144.html
+> 
+> where the consensus is yes, -blockdev and -snapshot are incompatible,
+> libvirt has plans to use the <transient/> tag to behave the same as what
+> -snapshot does (but no one has implemented it yet), and in the meantime, it
+> is possible to force libvirt to avoid -blockdev if you still need to supply
+> -snapshot behind libvirt's back.
 
-In colo_compare_complete, insert CompareState into net_compares
-only after everything has been initialized.
-In colo_compare_finalize, remove CompareState from net_compares
-before anything is deinitialized.
+Thank you for the info! I didn't notice the thread.
+I got we should implement that feature for libvirt side, not qemu.
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- net/colo-compare.c | 45 +++++++++++++++++++++++----------------------
- 1 file changed, 23 insertions(+), 22 deletions(-)
+Thanks!
+Masa
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 1ee8b9dc3c..8632681229 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -1290,15 +1290,6 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
-                            s->vnet_hdr);
-     }
- 
--    qemu_mutex_lock(&colo_compare_mutex);
--    if (!colo_compare_active) {
--        qemu_mutex_init(&event_mtx);
--        qemu_cond_init(&event_complete_cond);
--        colo_compare_active = true;
--    }
--    QTAILQ_INSERT_TAIL(&net_compares, s, next);
--    qemu_mutex_unlock(&colo_compare_mutex);
--
-     s->out_sendco.s = s;
-     s->out_sendco.chr = &s->chr_out;
-     s->out_sendco.notify_remote_frame = false;
-@@ -1321,6 +1312,16 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
-                                                       connection_destroy);
- 
-     colo_compare_iothread(s);
-+
-+    qemu_mutex_lock(&colo_compare_mutex);
-+    if (!colo_compare_active) {
-+        qemu_mutex_init(&event_mtx);
-+        qemu_cond_init(&event_complete_cond);
-+        colo_compare_active = true;
-+    }
-+    QTAILQ_INSERT_TAIL(&net_compares, s, next);
-+    qemu_mutex_unlock(&colo_compare_mutex);
-+
-     return;
- }
- 
-@@ -1389,19 +1390,6 @@ static void colo_compare_finalize(Object *obj)
-     CompareState *s = COLO_COMPARE(obj);
-     CompareState *tmp = NULL;
- 
--    qemu_chr_fe_deinit(&s->chr_pri_in, false);
--    qemu_chr_fe_deinit(&s->chr_sec_in, false);
--    qemu_chr_fe_deinit(&s->chr_out, false);
--    if (s->notify_dev) {
--        qemu_chr_fe_deinit(&s->chr_notify_dev, false);
--    }
--
--    if (s->iothread) {
--        colo_compare_timer_del(s);
--    }
--
--    qemu_bh_delete(s->event_bh);
--
-     qemu_mutex_lock(&colo_compare_mutex);
-     QTAILQ_FOREACH(tmp, &net_compares, next) {
-         if (tmp == s) {
-@@ -1416,6 +1404,19 @@ static void colo_compare_finalize(Object *obj)
-     }
-     qemu_mutex_unlock(&colo_compare_mutex);
- 
-+    qemu_chr_fe_deinit(&s->chr_pri_in, false);
-+    qemu_chr_fe_deinit(&s->chr_sec_in, false);
-+    qemu_chr_fe_deinit(&s->chr_out, false);
-+    if (s->notify_dev) {
-+        qemu_chr_fe_deinit(&s->chr_notify_dev, false);
-+    }
-+
-+    if (s->iothread) {
-+        colo_compare_timer_del(s);
-+    }
-+
-+    qemu_bh_delete(s->event_bh);
-+
-     AioContext *ctx = iothread_get_aio_context(s->iothread);
-     aio_context_acquire(ctx);
-     AIO_WAIT_WHILE(ctx, !s->out_sendco.done);
--- 
-2.17.1
-
+> 
+> -- 
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3226
+> Virtualization:  qemu.org | libvirt.org
+> 
 
