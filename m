@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AB7B1D9D45
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 18:55:03 +0200 (CEST)
-Received: from localhost ([::1]:41208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A8D71D9D34
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 18:51:59 +0200 (CEST)
+Received: from localhost ([::1]:56458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb5WA-0004cX-3i
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 12:55:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59630)
+	id 1jb5TC-0006XZ-5Z
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 12:51:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jb5RP-0004f8-EK
- for qemu-devel@nongnu.org; Tue, 19 May 2020 12:50:07 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:46323)
+ id 1jb5RQ-0004gb-Sw
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 12:50:08 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:36818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jb5RO-0006Cm-8e
- for qemu-devel@nongnu.org; Tue, 19 May 2020 12:50:07 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id 145so161074pfw.13
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 09:50:04 -0700 (PDT)
+ id 1jb5RO-0006DP-IN
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 12:50:08 -0400
+Received: by mail-pf1-x435.google.com with SMTP id z1so185928pfn.3
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 09:50:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9krfltsdrPyRRqutGHrEb2XJlVU12BnO8AU9UkCykds=;
- b=saZnCBSHamuCrS7yQ6dkqinrIqi2BifI58CI8L+xnX57s1tBz7fEiGXtRwg8DzcLPf
- SNG8ndYVJHeqGTwzRmUWegUbxbgD3lzQ8lBGa9rt0MFkoQ9oS1Xb5aRicjFQ/f+Y9ch1
- /wKFGW1dOqWTwLxx7btacDyfp3T1Xq7xj1x0A6u/9O5EivRVqhYAS8SIXesI8wLSP62T
- AMNyTzG0fvP0dw8m3gevxybOAIcOuI52aJvdJ8cLKzUP65D43O1ctHoSmhi6Z6qHR2BA
- CJTSVXMRhB87PxHBr6vYWOKgtvl+dGIhjDTTRoD4PPj+e05zxWnEBGZgQJCuRbw328RE
- cyHg==
+ bh=PCmqWRwoeQAvE87APi5hhUVbKMEOrTBeCc5Dp8TlOV8=;
+ b=lXgkkvCEDiOxOzqa9nqiLGnoy0RJchcAmruLkohGQwJ4bqD48eK4GMyAdyCfbK15qB
+ 9oNuX4b2dFMln5jSJGzKbEMTHEHnFfG+di9cNNimpV8t5Rjga26OnvWDV3/1OoU80thn
+ xwI7VIlIDfzu+dV/Ngays0XbdPFZtqjUMLN+uiBjoiRLGSzS9poN5aHCCynJzKVmT7+3
+ PMLWZDTVdaYvAcsP547Kg6eXsMTeWwimYCCGOjmBC0DlrVJD3IglnyOFi+FOpZNIaPhW
+ xTPs6qSQAT0qfTawXFlhFZfmBJcghjW9Naybzv7uLklcfNHc5/ZAfbGGaUKKdpdnznLO
+ 95yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9krfltsdrPyRRqutGHrEb2XJlVU12BnO8AU9UkCykds=;
- b=N5ZJMQ/6CL2sbbDckkCQdY72eu/1C+zzBQXtZUDsVIkzV5CsyPvV6ujqOl/oQfBPTa
- FmV+6U+8eBZspzSAhL3SLOqIE+/rI8E9jo5wiYLps+98B7InK4iQYUa+D9+/eYwuNlIn
- irSR5JJUTzbZ3b0sFfS6ceophfcXS86C61rddX5ijyw4RDaG9RVl5k/RkhPFaQ1j1e9l
- KnazsRvzTDGbgXJOqXRp6w7ZkOu/uGl+97AI1tsNW58RtdR60AXWNOVI4TbZvMahF5Gf
- 03+XKCGAKcDBFjE+CMN64Q8a1mEOY9nMdwzu893plmYkWQMlNZ36tvTR2iaVEsu+pXWU
- TFfg==
-X-Gm-Message-State: AOAM532eVBpEIDA2Nwgdvh7p8h7qNM7wbBQwHa3mgARuaMgAxFgFRcG6
- Bt5H2Iz5CxFOKyOuecBc81gyrhuIPHc=
-X-Google-Smtp-Source: ABdhPJyBwLv1XFtm3rQ12e4H8e5tXv9YXXRgEP2aBAxGTs6B+YqCRFNvA8Qlxv7QNX/pRE85DcK+ug==
-X-Received: by 2002:a63:1e4c:: with SMTP id p12mr86745pgm.355.1589907003385;
- Tue, 19 May 2020 09:50:03 -0700 (PDT)
+ bh=PCmqWRwoeQAvE87APi5hhUVbKMEOrTBeCc5Dp8TlOV8=;
+ b=nOSRcL1W4IWNw8ENynVzzwzCY93mirAjgWgTmEZLKhSoWuu4Ufe9ZgNk5p/3DoqsBt
+ 3qIIiSxaHgpszLXtIoRgdNtwQ62HkpYyQEcYyo31kjsTCLYzWJRSBFSFwpmYFNRp2THC
+ W1GGi/NGUus0rKDTcWZD8zWtG06Rt3XYD+EWvSFhtTOu+690S15h/iK1h0zu0FsKkFbj
+ Jju060CHKREc4zRuJoUQ7aCJa5TVE0zTq78jbSjr4m6hWH9f4dWAB5hRqm/J2BWKziQg
+ LeU4syqUrcq0Z3qzcMysuoAScc8yrF7+ivfwNIk/zxxymh23vDDxcFwze65G12uDlKWI
+ Zz+w==
+X-Gm-Message-State: AOAM532/0SlrrG5gjpY8cYElo/byjxSjyAd8W44+LsqnLUnnOPRfmAJM
+ nYFnYRyfknHRrS+OoZbL+jy2VlDi0VI=
+X-Google-Smtp-Source: ABdhPJxG5wevGxHhG+XN8NlCEHIBIUVILNe4vOFrMchCOMwf79p1VRuvuk690aZFHDwQArqVN9WzGA==
+X-Received: by 2002:a63:5717:: with SMTP id l23mr91724pgb.217.1589907004704;
+ Tue, 19 May 2020 09:50:04 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id gx21sm96685pjb.47.2020.05.19.09.50.02
+ by smtp.gmail.com with ESMTPSA id gx21sm96685pjb.47.2020.05.19.09.50.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 May 2020 09:50:02 -0700 (PDT)
+ Tue, 19 May 2020 09:50:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/10] softfloat: Change tininess_before_rounding to bool
-Date: Tue, 19 May 2020 09:49:50 -0700
-Message-Id: <20200519164957.26920-4-richard.henderson@linaro.org>
+Subject: [PULL 04/10] softfloat: Name rounding mode enum
+Date: Tue, 19 May 2020 09:49:51 -0700
+Message-Id: <20200519164957.26920-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200519164957.26920-1-richard.henderson@linaro.org>
 References: <20200519164957.26920-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,192 +87,428 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Slightly tidies the usage within softfloat.c and the
-representation in float_status.
+Give the previously unnamed enum a typedef name.  Use the packed
+attribute so that we do not affect the layout of the float_status
+struct.  Use it in the prototypes of relevant functions.
+
+Adjust switch statements as necessary to avoid compiler warnings.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/fpu/softfloat-helpers.h |  8 ++---
- include/fpu/softfloat-types.h   |  8 ++---
- fpu/softfloat.c                 | 54 ++++++++++++---------------------
- tests/fp/fp-test.c              |  2 +-
- 4 files changed, 28 insertions(+), 44 deletions(-)
+ include/fpu/softfloat-helpers.h |  5 +--
+ include/fpu/softfloat-types.h   |  6 ++--
+ include/fpu/softfloat.h         | 39 +++++++++++-----------
+ fpu/softfloat.c                 | 57 ++++++++++++++++++++-------------
+ target/arm/vfp_helper.c         |  4 +--
+ target/m68k/fpu_helper.c        |  6 ++--
+ 6 files changed, 66 insertions(+), 51 deletions(-)
 
 diff --git a/include/fpu/softfloat-helpers.h b/include/fpu/softfloat-helpers.h
-index 528d7ebd9f..40d32a6d5d 100644
+index 40d32a6d5d..735ed6b653 100644
 --- a/include/fpu/softfloat-helpers.h
 +++ b/include/fpu/softfloat-helpers.h
-@@ -53,9 +53,9 @@ this code that are retained.
+@@ -58,7 +58,8 @@ static inline void set_float_detect_tininess(bool val, float_status *status)
+     status->tininess_before_rounding = val;
+ }
  
- #include "fpu/softfloat-types.h"
- 
--static inline void set_float_detect_tininess(int val, float_status *status)
-+static inline void set_float_detect_tininess(bool val, float_status *status)
+-static inline void set_float_rounding_mode(int val, float_status *status)
++static inline void set_float_rounding_mode(FloatRoundMode val,
++                                           float_status *status)
  {
--    status->float_detect_tininess = val;
-+    status->tininess_before_rounding = val;
+     status->float_rounding_mode = val;
+ }
+@@ -99,7 +100,7 @@ static inline bool get_float_detect_tininess(float_status *status)
+     return status->tininess_before_rounding;
  }
  
- static inline void set_float_rounding_mode(int val, float_status *status)
-@@ -94,9 +94,9 @@ static inline void set_snan_bit_is_one(bool val, float_status *status)
-     status->snan_bit_is_one = val;
- }
- 
--static inline int get_float_detect_tininess(float_status *status)
-+static inline bool get_float_detect_tininess(float_status *status)
+-static inline int get_float_rounding_mode(float_status *status)
++static inline FloatRoundMode get_float_rounding_mode(float_status *status)
  {
--    return status->float_detect_tininess;
-+    return status->tininess_before_rounding;
+     return status->float_rounding_mode;
  }
- 
- static inline int get_float_rounding_mode(float_status *status)
 diff --git a/include/fpu/softfloat-types.h b/include/fpu/softfloat-types.h
-index 619b875df6..874ddd9f93 100644
+index 874ddd9f93..7680193ebc 100644
 --- a/include/fpu/softfloat-types.h
 +++ b/include/fpu/softfloat-types.h
-@@ -116,10 +116,8 @@ typedef struct {
-  * Software IEC/IEEE floating-point underflow tininess-detection mode.
+@@ -123,7 +123,7 @@ typedef struct {
+  *Software IEC/IEEE floating-point rounding mode.
   */
  
 -enum {
--    float_tininess_after_rounding  = 0,
--    float_tininess_before_rounding = 1
++typedef enum __attribute__((__packed__)) {
+     float_round_nearest_even = 0,
+     float_round_down         = 1,
+     float_round_up           = 2,
+@@ -131,7 +131,7 @@ enum {
+     float_round_ties_away    = 4,
+     /* Not an IEEE rounding mode: round to the closest odd mantissa value */
+     float_round_to_odd       = 5,
 -};
-+#define float_tininess_after_rounding  false
-+#define float_tininess_before_rounding true
++} FloatRoundMode;
  
  /*
-  *Software IEC/IEEE floating-point rounding mode.
-@@ -158,10 +156,10 @@ enum {
+  * Software IEC/IEEE floating-point exception flags.
+@@ -156,7 +156,7 @@ enum {
   */
  
  typedef struct float_status {
--    signed char float_detect_tininess;
-     signed char float_rounding_mode;
+-    signed char float_rounding_mode;
++    FloatRoundMode float_rounding_mode;
      uint8_t     float_exception_flags;
      signed char floatx80_rounding_precision;
-+    bool tininess_before_rounding;
-     /* should denormalised results go to zero and set the inexact flag? */
-     bool flush_to_zero;
-     /* should denormalised inputs go to zero and set the input_denormal flag? */
+     bool tininess_before_rounding;
+diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+index 3f588da7c7..ca75f764aa 100644
+--- a/include/fpu/softfloat.h
++++ b/include/fpu/softfloat.h
+@@ -186,9 +186,9 @@ float32 float16_to_float32(float16, bool ieee, float_status *status);
+ float16 float64_to_float16(float64 a, bool ieee, float_status *status);
+ float64 float16_to_float64(float16 a, bool ieee, float_status *status);
+ 
+-int16_t float16_to_int16_scalbn(float16, int, int, float_status *status);
+-int32_t float16_to_int32_scalbn(float16, int, int, float_status *status);
+-int64_t float16_to_int64_scalbn(float16, int, int, float_status *status);
++int16_t float16_to_int16_scalbn(float16, FloatRoundMode, int, float_status *);
++int32_t float16_to_int32_scalbn(float16, FloatRoundMode, int, float_status *);
++int64_t float16_to_int64_scalbn(float16, FloatRoundMode, int, float_status *);
+ 
+ int16_t float16_to_int16(float16, float_status *status);
+ int32_t float16_to_int32(float16, float_status *status);
+@@ -198,9 +198,12 @@ int16_t float16_to_int16_round_to_zero(float16, float_status *status);
+ int32_t float16_to_int32_round_to_zero(float16, float_status *status);
+ int64_t float16_to_int64_round_to_zero(float16, float_status *status);
+ 
+-uint16_t float16_to_uint16_scalbn(float16 a, int, int, float_status *status);
+-uint32_t float16_to_uint32_scalbn(float16 a, int, int, float_status *status);
+-uint64_t float16_to_uint64_scalbn(float16 a, int, int, float_status *status);
++uint16_t float16_to_uint16_scalbn(float16 a, FloatRoundMode,
++                                  int, float_status *status);
++uint32_t float16_to_uint32_scalbn(float16 a, FloatRoundMode,
++                                  int, float_status *status);
++uint64_t float16_to_uint64_scalbn(float16 a, FloatRoundMode,
++                                  int, float_status *status);
+ 
+ uint16_t float16_to_uint16(float16 a, float_status *status);
+ uint32_t float16_to_uint32(float16 a, float_status *status);
+@@ -298,9 +301,9 @@ float16 float16_default_nan(float_status *status);
+ | Software IEC/IEEE single-precision conversion routines.
+ *----------------------------------------------------------------------------*/
+ 
+-int16_t float32_to_int16_scalbn(float32, int, int, float_status *status);
+-int32_t float32_to_int32_scalbn(float32, int, int, float_status *status);
+-int64_t float32_to_int64_scalbn(float32, int, int, float_status *status);
++int16_t float32_to_int16_scalbn(float32, FloatRoundMode, int, float_status *);
++int32_t float32_to_int32_scalbn(float32, FloatRoundMode, int, float_status *);
++int64_t float32_to_int64_scalbn(float32, FloatRoundMode, int, float_status *);
+ 
+ int16_t float32_to_int16(float32, float_status *status);
+ int32_t float32_to_int32(float32, float_status *status);
+@@ -310,9 +313,9 @@ int16_t float32_to_int16_round_to_zero(float32, float_status *status);
+ int32_t float32_to_int32_round_to_zero(float32, float_status *status);
+ int64_t float32_to_int64_round_to_zero(float32, float_status *status);
+ 
+-uint16_t float32_to_uint16_scalbn(float32, int, int, float_status *status);
+-uint32_t float32_to_uint32_scalbn(float32, int, int, float_status *status);
+-uint64_t float32_to_uint64_scalbn(float32, int, int, float_status *status);
++uint16_t float32_to_uint16_scalbn(float32, FloatRoundMode, int, float_status *);
++uint32_t float32_to_uint32_scalbn(float32, FloatRoundMode, int, float_status *);
++uint64_t float32_to_uint64_scalbn(float32, FloatRoundMode, int, float_status *);
+ 
+ uint16_t float32_to_uint16(float32, float_status *status);
+ uint32_t float32_to_uint32(float32, float_status *status);
+@@ -455,9 +458,9 @@ float32 float32_default_nan(float_status *status);
+ | Software IEC/IEEE double-precision conversion routines.
+ *----------------------------------------------------------------------------*/
+ 
+-int16_t float64_to_int16_scalbn(float64, int, int, float_status *status);
+-int32_t float64_to_int32_scalbn(float64, int, int, float_status *status);
+-int64_t float64_to_int64_scalbn(float64, int, int, float_status *status);
++int16_t float64_to_int16_scalbn(float64, FloatRoundMode, int, float_status *);
++int32_t float64_to_int32_scalbn(float64, FloatRoundMode, int, float_status *);
++int64_t float64_to_int64_scalbn(float64, FloatRoundMode, int, float_status *);
+ 
+ int16_t float64_to_int16(float64, float_status *status);
+ int32_t float64_to_int32(float64, float_status *status);
+@@ -467,9 +470,9 @@ int16_t float64_to_int16_round_to_zero(float64, float_status *status);
+ int32_t float64_to_int32_round_to_zero(float64, float_status *status);
+ int64_t float64_to_int64_round_to_zero(float64, float_status *status);
+ 
+-uint16_t float64_to_uint16_scalbn(float64, int, int, float_status *status);
+-uint32_t float64_to_uint32_scalbn(float64, int, int, float_status *status);
+-uint64_t float64_to_uint64_scalbn(float64, int, int, float_status *status);
++uint16_t float64_to_uint16_scalbn(float64, FloatRoundMode, int, float_status *);
++uint32_t float64_to_uint32_scalbn(float64, FloatRoundMode, int, float_status *);
++uint64_t float64_to_uint64_scalbn(float64, FloatRoundMode, int, float_status *);
+ 
+ uint16_t float64_to_uint16(float64, float_status *status);
+ uint32_t float64_to_uint32(float64, float_status *status);
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index b741cf5bc3..65d457a548 100644
+index 65d457a548..93d8a03de6 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -744,8 +744,7 @@ static FloatParts round_canonical(FloatParts p, float_status *s,
-             p.cls = float_class_zero;
-             goto do_zero;
-         } else {
--            bool is_tiny = (s->float_detect_tininess
--                            == float_tininess_before_rounding)
-+            bool is_tiny = s->tininess_before_rounding
-                         || (exp < 0)
-                         || !((frac + inc) & DECOMPOSED_OVERFLOW_BIT);
+@@ -759,6 +759,8 @@ static FloatParts round_canonical(FloatParts p, float_status *s,
+                 case float_round_to_odd:
+                     inc = frac & frac_lsb ? 0 : round_mask;
+                     break;
++                default:
++                    break;
+                 }
+                 flags |= float_flag_inexact;
+                 frac += inc;
+@@ -1928,7 +1930,7 @@ float32 float64_to_float32(float64 a, float_status *s)
+  * Arithmetic.
+  */
  
-@@ -3579,11 +3578,9 @@ static float32 roundAndPackFloat32(bool zSign, int zExp, uint32_t zSig,
-                 float_raise(float_flag_output_denormal, status);
-                 return packFloat32(zSign, 0, 0);
-             }
--            isTiny =
--                (status->float_detect_tininess
--                 == float_tininess_before_rounding)
--                || ( zExp < -1 )
--                || ( zSig + roundIncrement < 0x80000000 );
-+            isTiny = status->tininess_before_rounding
-+                  || (zExp < -1)
-+                  || (zSig + roundIncrement < 0x80000000);
-             shift32RightJamming( zSig, - zExp, &zSig );
-             zExp = 0;
-             roundBits = zSig & 0x7F;
-@@ -3735,11 +3732,9 @@ static float64 roundAndPackFloat64(bool zSign, int zExp, uint64_t zSig,
-                 float_raise(float_flag_output_denormal, status);
-                 return packFloat64(zSign, 0, 0);
-             }
--            isTiny =
--                   (status->float_detect_tininess
--                    == float_tininess_before_rounding)
--                || ( zExp < -1 )
--                || ( zSig + roundIncrement < UINT64_C(0x8000000000000000) );
-+            isTiny = status->tininess_before_rounding
-+                  || (zExp < -1)
-+                  || (zSig + roundIncrement < UINT64_C(0x8000000000000000));
-             shift64RightJamming( zSig, - zExp, &zSig );
-             zExp = 0;
-             roundBits = zSig & 0x3FF;
-@@ -3878,11 +3873,9 @@ floatx80 roundAndPackFloatx80(int8_t roundingPrecision, bool zSign,
-                 float_raise(float_flag_output_denormal, status);
-                 return packFloatx80(zSign, 0, 0);
-             }
--            isTiny =
--                   (status->float_detect_tininess
--                    == float_tininess_before_rounding)
--                || ( zExp < 0 )
--                || ( zSig0 <= zSig0 + roundIncrement );
-+            isTiny = status->tininess_before_rounding
-+                  || (zExp < 0 )
-+                  || (zSig0 <= zSig0 + roundIncrement);
-             shift64RightJamming( zSig0, 1 - zExp, &zSig0 );
-             zExp = 0;
-             roundBits = zSig0 & roundMask;
-@@ -3956,12 +3949,10 @@ floatx80 roundAndPackFloatx80(int8_t roundingPrecision, bool zSign,
-                                 floatx80_infinity_low);
+-static FloatParts round_to_int(FloatParts a, int rmode,
++static FloatParts round_to_int(FloatParts a, FloatRoundMode rmode,
+                                int scale, float_status *s)
+ {
+     switch (a.cls) {
+@@ -2061,8 +2063,8 @@ float64 float64_round_to_int(float64 a, float_status *s)
+  * is returned.
+ */
+ 
+-static int64_t round_to_int_and_pack(FloatParts in, int rmode, int scale,
+-                                     int64_t min, int64_t max,
++static int64_t round_to_int_and_pack(FloatParts in, FloatRoundMode rmode,
++                                     int scale, int64_t min, int64_t max,
+                                      float_status *s)
+ {
+     uint64_t r;
+@@ -2107,63 +2109,63 @@ static int64_t round_to_int_and_pack(FloatParts in, int rmode, int scale,
+     }
+ }
+ 
+-int16_t float16_to_int16_scalbn(float16 a, int rmode, int scale,
++int16_t float16_to_int16_scalbn(float16 a, FloatRoundMode rmode, int scale,
+                                 float_status *s)
+ {
+     return round_to_int_and_pack(float16_unpack_canonical(a, s),
+                                  rmode, scale, INT16_MIN, INT16_MAX, s);
+ }
+ 
+-int32_t float16_to_int32_scalbn(float16 a, int rmode, int scale,
++int32_t float16_to_int32_scalbn(float16 a, FloatRoundMode rmode, int scale,
+                                 float_status *s)
+ {
+     return round_to_int_and_pack(float16_unpack_canonical(a, s),
+                                  rmode, scale, INT32_MIN, INT32_MAX, s);
+ }
+ 
+-int64_t float16_to_int64_scalbn(float16 a, int rmode, int scale,
++int64_t float16_to_int64_scalbn(float16 a, FloatRoundMode rmode, int scale,
+                                 float_status *s)
+ {
+     return round_to_int_and_pack(float16_unpack_canonical(a, s),
+                                  rmode, scale, INT64_MIN, INT64_MAX, s);
+ }
+ 
+-int16_t float32_to_int16_scalbn(float32 a, int rmode, int scale,
++int16_t float32_to_int16_scalbn(float32 a, FloatRoundMode rmode, int scale,
+                                 float_status *s)
+ {
+     return round_to_int_and_pack(float32_unpack_canonical(a, s),
+                                  rmode, scale, INT16_MIN, INT16_MAX, s);
+ }
+ 
+-int32_t float32_to_int32_scalbn(float32 a, int rmode, int scale,
++int32_t float32_to_int32_scalbn(float32 a, FloatRoundMode rmode, int scale,
+                                 float_status *s)
+ {
+     return round_to_int_and_pack(float32_unpack_canonical(a, s),
+                                  rmode, scale, INT32_MIN, INT32_MAX, s);
+ }
+ 
+-int64_t float32_to_int64_scalbn(float32 a, int rmode, int scale,
++int64_t float32_to_int64_scalbn(float32 a, FloatRoundMode rmode, int scale,
+                                 float_status *s)
+ {
+     return round_to_int_and_pack(float32_unpack_canonical(a, s),
+                                  rmode, scale, INT64_MIN, INT64_MAX, s);
+ }
+ 
+-int16_t float64_to_int16_scalbn(float64 a, int rmode, int scale,
++int16_t float64_to_int16_scalbn(float64 a, FloatRoundMode rmode, int scale,
+                                 float_status *s)
+ {
+     return round_to_int_and_pack(float64_unpack_canonical(a, s),
+                                  rmode, scale, INT16_MIN, INT16_MAX, s);
+ }
+ 
+-int32_t float64_to_int32_scalbn(float64 a, int rmode, int scale,
++int32_t float64_to_int32_scalbn(float64 a, FloatRoundMode rmode, int scale,
+                                 float_status *s)
+ {
+     return round_to_int_and_pack(float64_unpack_canonical(a, s),
+                                  rmode, scale, INT32_MIN, INT32_MAX, s);
+ }
+ 
+-int64_t float64_to_int64_scalbn(float64 a, int rmode, int scale,
++int64_t float64_to_int64_scalbn(float64 a, FloatRoundMode rmode, int scale,
+                                 float_status *s)
+ {
+     return round_to_int_and_pack(float64_unpack_canonical(a, s),
+@@ -2273,8 +2275,9 @@ int64_t float64_to_int64_round_to_zero(float64 a, float_status *s)
+  *  flag.
+  */
+ 
+-static uint64_t round_to_uint_and_pack(FloatParts in, int rmode, int scale,
+-                                       uint64_t max, float_status *s)
++static uint64_t round_to_uint_and_pack(FloatParts in, FloatRoundMode rmode,
++                                       int scale, uint64_t max,
++                                       float_status *s)
+ {
+     int orig_flags = get_float_exception_flags(s);
+     FloatParts p = round_to_int(in, rmode, scale, s);
+@@ -2319,63 +2322,63 @@ static uint64_t round_to_uint_and_pack(FloatParts in, int rmode, int scale,
+     }
+ }
+ 
+-uint16_t float16_to_uint16_scalbn(float16 a, int rmode, int scale,
++uint16_t float16_to_uint16_scalbn(float16 a, FloatRoundMode rmode, int scale,
+                                   float_status *s)
+ {
+     return round_to_uint_and_pack(float16_unpack_canonical(a, s),
+                                   rmode, scale, UINT16_MAX, s);
+ }
+ 
+-uint32_t float16_to_uint32_scalbn(float16 a, int rmode, int scale,
++uint32_t float16_to_uint32_scalbn(float16 a, FloatRoundMode rmode, int scale,
+                                   float_status *s)
+ {
+     return round_to_uint_and_pack(float16_unpack_canonical(a, s),
+                                   rmode, scale, UINT32_MAX, s);
+ }
+ 
+-uint64_t float16_to_uint64_scalbn(float16 a, int rmode, int scale,
++uint64_t float16_to_uint64_scalbn(float16 a, FloatRoundMode rmode, int scale,
+                                   float_status *s)
+ {
+     return round_to_uint_and_pack(float16_unpack_canonical(a, s),
+                                   rmode, scale, UINT64_MAX, s);
+ }
+ 
+-uint16_t float32_to_uint16_scalbn(float32 a, int rmode, int scale,
++uint16_t float32_to_uint16_scalbn(float32 a, FloatRoundMode rmode, int scale,
+                                   float_status *s)
+ {
+     return round_to_uint_and_pack(float32_unpack_canonical(a, s),
+                                   rmode, scale, UINT16_MAX, s);
+ }
+ 
+-uint32_t float32_to_uint32_scalbn(float32 a, int rmode, int scale,
++uint32_t float32_to_uint32_scalbn(float32 a, FloatRoundMode rmode, int scale,
+                                   float_status *s)
+ {
+     return round_to_uint_and_pack(float32_unpack_canonical(a, s),
+                                   rmode, scale, UINT32_MAX, s);
+ }
+ 
+-uint64_t float32_to_uint64_scalbn(float32 a, int rmode, int scale,
++uint64_t float32_to_uint64_scalbn(float32 a, FloatRoundMode rmode, int scale,
+                                   float_status *s)
+ {
+     return round_to_uint_and_pack(float32_unpack_canonical(a, s),
+                                   rmode, scale, UINT64_MAX, s);
+ }
+ 
+-uint16_t float64_to_uint16_scalbn(float64 a, int rmode, int scale,
++uint16_t float64_to_uint16_scalbn(float64 a, FloatRoundMode rmode, int scale,
+                                   float_status *s)
+ {
+     return round_to_uint_and_pack(float64_unpack_canonical(a, s),
+                                   rmode, scale, UINT16_MAX, s);
+ }
+ 
+-uint32_t float64_to_uint32_scalbn(float64 a, int rmode, int scale,
++uint32_t float64_to_uint32_scalbn(float64 a, FloatRoundMode rmode, int scale,
+                                   float_status *s)
+ {
+     return round_to_uint_and_pack(float64_unpack_canonical(a, s),
+                                   rmode, scale, UINT32_MAX, s);
+ }
+ 
+-uint64_t float64_to_uint64_scalbn(float64 a, int rmode, int scale,
++uint64_t float64_to_uint64_scalbn(float64 a, FloatRoundMode rmode, int scale,
+                                   float_status *s)
+ {
+     return round_to_uint_and_pack(float64_unpack_canonical(a, s),
+@@ -5715,6 +5718,11 @@ floatx80 floatx80_round_to_int(floatx80 a, float_status *status)
+             return
+                   aSign ? packFloatx80( 1, 0, 0 )
+                 : packFloatx80( 0, 0x3FFF, UINT64_C(0x8000000000000000));
++
++        case float_round_to_zero:
++            break;
++        default:
++            g_assert_not_reached();
          }
-         if ( zExp <= 0 ) {
--            isTiny =
--                   (status->float_detect_tininess
--                    == float_tininess_before_rounding)
--                || ( zExp < 0 )
--                || ! increment
--                || ( zSig0 < UINT64_C(0xFFFFFFFFFFFFFFFF) );
-+            isTiny = status->tininess_before_rounding
-+                  || (zExp < 0)
-+                  || !increment
-+                  || (zSig0 < UINT64_C(0xFFFFFFFFFFFFFFFF));
-             shift64ExtraRightJamming( zSig0, zSig1, 1 - zExp, &zSig0, &zSig1 );
-             zExp = 0;
-             if (isTiny && zSig1) {
-@@ -4237,17 +4228,12 @@ static float128 roundAndPackFloat128(bool zSign, int32_t zExp,
-                 float_raise(float_flag_output_denormal, status);
-                 return packFloat128(zSign, 0, 0, 0);
+         return packFloatx80( aSign, 0, 0 );
+     }
+@@ -7047,6 +7055,9 @@ float128 float128_round_to_int(float128 a, float_status *status)
+ 
+             case float_round_to_odd:
+                 return packFloat128(aSign, 0x3FFF, 0, 0);
++
++            case float_round_to_zero:
++                break;
              }
--            isTiny =
--                   (status->float_detect_tininess
--                    == float_tininess_before_rounding)
--                || ( zExp < -1 )
--                || ! increment
--                || lt128(
--                       zSig0,
--                       zSig1,
--                       UINT64_C(0x0001FFFFFFFFFFFF),
--                       UINT64_C(0xFFFFFFFFFFFFFFFF)
--                   );
-+            isTiny = status->tininess_before_rounding
-+                  || (zExp < -1)
-+                  || !increment
-+                  || lt128(zSig0, zSig1,
-+                           UINT64_C(0x0001FFFFFFFFFFFF),
-+                           UINT64_C(0xFFFFFFFFFFFFFFFF));
-             shift128ExtraRightJamming(
-                 zSig0, zSig1, zSig2, - zExp, &zSig0, &zSig1, &zSig2 );
-             zExp = 0;
-diff --git a/tests/fp/fp-test.c b/tests/fp/fp-test.c
-index 7d0faf2b47..43ef9628c4 100644
---- a/tests/fp/fp-test.c
-+++ b/tests/fp/fp-test.c
-@@ -989,7 +989,7 @@ static void QEMU_NORETURN run_test(void)
+             return packFloat128( aSign, 0, 0, 0 );
+         }
+diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
+index 42625747d1..0920694764 100644
+--- a/target/arm/vfp_helper.c
++++ b/target/arm/vfp_helper.c
+@@ -697,9 +697,9 @@ static bool round_to_inf(float_status *fpst, bool sign_bit)
+         return sign_bit;
+     case float_round_to_zero: /* Round to Zero */
+         return false;
++    default:
++        g_assert_not_reached();
+     }
+-
+-    g_assert_not_reached();
+ }
  
-                     verCases_tininessCode = 0;
-                     slowfloat_detectTininess = tmode;
--                    qsf.float_detect_tininess = sf_tininess_to_qemu(tmode);
-+                    qsf.tininess_before_rounding = sf_tininess_to_qemu(tmode);
+ uint32_t HELPER(recpe_f16)(uint32_t input, void *fpstp)
+diff --git a/target/m68k/fpu_helper.c b/target/m68k/fpu_helper.c
+index 4137542ec0..36e6c704d1 100644
+--- a/target/m68k/fpu_helper.c
++++ b/target/m68k/fpu_helper.c
+@@ -149,7 +149,7 @@ void cpu_m68k_set_fpcr(CPUM68KState *env, uint32_t val)
  
-                     if (attrs & FUNC_EFF_TININESSMODE ||
-                         ((attrs & FUNC_EFF_TININESSMODE_REDUCEDPREC) &&
+ void HELPER(fitrunc)(CPUM68KState *env, FPReg *res, FPReg *val)
+ {
+-    int rounding_mode = get_float_rounding_mode(&env->fp_status);
++    FloatRoundMode rounding_mode = get_float_rounding_mode(&env->fp_status);
+     set_float_rounding_mode(float_round_to_zero, &env->fp_status);
+     res->d = floatx80_round_to_int(val->d, &env->fp_status);
+     set_float_rounding_mode(rounding_mode, &env->fp_status);
+@@ -300,7 +300,7 @@ void HELPER(fdmul)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
+ 
+ void HELPER(fsglmul)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
+ {
+-    int rounding_mode = get_float_rounding_mode(&env->fp_status);
++    FloatRoundMode rounding_mode = get_float_rounding_mode(&env->fp_status);
+     floatx80 a, b;
+ 
+     PREC_BEGIN(32);
+@@ -333,7 +333,7 @@ void HELPER(fddiv)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
+ 
+ void HELPER(fsgldiv)(CPUM68KState *env, FPReg *res, FPReg *val0, FPReg *val1)
+ {
+-    int rounding_mode = get_float_rounding_mode(&env->fp_status);
++    FloatRoundMode rounding_mode = get_float_rounding_mode(&env->fp_status);
+     floatx80 a, b;
+ 
+     PREC_BEGIN(32);
 -- 
 2.20.1
 
