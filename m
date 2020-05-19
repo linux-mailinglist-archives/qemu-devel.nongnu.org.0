@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6FC1D9DAD
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 19:17:37 +0200 (CEST)
-Received: from localhost ([::1]:57872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B349C1D9DEB
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 19:31:12 +0200 (CEST)
+Received: from localhost ([::1]:45134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb5s0-00020Y-Hj
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 13:17:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34354)
+	id 1jb659-00036R-A4
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 13:31:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jb5mn-0003Jc-KI
- for qemu-devel@nongnu.org; Tue, 19 May 2020 13:12:13 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27222
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jb5mm-0002eK-Bf
- for qemu-devel@nongnu.org; Tue, 19 May 2020 13:12:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589908331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8GcfOHK0z+CHgyGSWamqDzJ/eK8uFIiE2Aef6qeLdEk=;
- b=Ro+v/m6GKbYDryuQ6loRoqotnTVmKIJsG3HYRmqQjIQk4mTCH9jyXnCCrOi40yzh0laK17
- W3CsT3vNyf5wYR1lg0RAjniYVa9X+OWGC8Xc5e6hHAyTMCSs9/gM5012QPiGIyz6OSS2MK
- WDVd39LcQ3gjBW6XiRe0mHTi7S30cnI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-IuwUGN--P_2c15tnn_p_pg-1; Tue, 19 May 2020 13:12:09 -0400
-X-MC-Unique: IuwUGN--P_2c15tnn_p_pg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C12C218FF660;
- Tue, 19 May 2020 17:12:08 +0000 (UTC)
-Received: from localhost (ovpn-114-215.ams2.redhat.com [10.36.114.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A4F6D10013D9;
- Tue, 19 May 2020 17:12:05 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] block/nvme: support nested aio_poll()
-Date: Tue, 19 May 2020 18:11:38 +0100
-Message-Id: <20200519171138.201667-8-stefanha@redhat.com>
-In-Reply-To: <20200519171138.201667-1-stefanha@redhat.com>
-References: <20200519171138.201667-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <nicolas@ndufresne.ca>)
+ id 1jb63i-0001In-B8
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 13:29:43 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:44852)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <nicolas@ndufresne.ca>)
+ id 1jb63f-0006Fz-8F
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 13:29:41 -0400
+Received: by mail-qt1-x844.google.com with SMTP id d7so216353qtn.11
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 10:29:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=wkAQrt/QZ02YfB0Dlvt6hkvv0K9Gt8A3M2LmM+q+IYc=;
+ b=n+OsgAYn6ku0Pc2ck7u0bL9hFV8sjFkFcV57lIKqgh9bcoOMz1PWnTir5mqhWeqvbI
+ hXXPsPe59N3DA0+863kjIFZcQlU/8x4gSIcSjF71GlOaVVbsPBYb8BCoJBxH0LNzY5Jb
+ fDK7RyOYHtnT+bsoz6VrydwL4KMMDAl5Tymh1ynXIp71+DeG4xCzui41AK4SRp6r3p2N
+ xg/M8oGpxtHu2RKpQbSJvT91/7o7NPC555ACPVk1KnelaWOieUu2UJFiJWLEHz6YHukL
+ oADRQ3FyqQlljmsXUREOjnsJsoR5i9pTQxmvLKBLUjVyZRFky2YZiZ1LTo4GFMCSWG2J
+ 6WzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=wkAQrt/QZ02YfB0Dlvt6hkvv0K9Gt8A3M2LmM+q+IYc=;
+ b=MU2KSV6itHuNE4oo1TjxRZ2VypJqddFrV7rQW6PUQJrbBOdCYdKg5w9WAfJQauCZKI
+ f3QpA8eCFbEstda/LwCAk4mTncX7sJBFYwmAerbGoSwBeB1pjeIaxHcbIxx4imiLlcBa
+ JMN6lyNXV6xQbgfyenfE3L+YR4Ey6qHZcXNhNodqMiD4niQqo5pc08ZmYWbJfYv3NdYP
+ TBMZkIgLFrK4Ki+Lf0r9J3w1THVNsE+1GCB1wikPOBIj9EYvdQzJly3LiZrsKc9uZ60Q
+ pFaRdO+jPVbcYmmKXTQHvj1mDBWtXk+MMWkQhB/GKMfM0nrOcFoSO3ONySDZi4yS5Yab
+ qJUg==
+X-Gm-Message-State: AOAM5339MXAHVq6hO8HzJ51Qu1ku6L8hlzLnVUzNuYwK+eCWRWL/LX6X
+ YylJ9B2hyn85HoevaokP1hDK4g==
+X-Google-Smtp-Source: ABdhPJyG/+SPtbPU7sgZkWnIlc7Q8EUY+74vFhMeoDGz0YrICiPi+rzcx78sEKbplJvjubXnHYZjeg==
+X-Received: by 2002:ac8:5504:: with SMTP id j4mr851837qtq.383.1589909377528;
+ Tue, 19 May 2020 10:29:37 -0700 (PDT)
+Received: from skullcanyon ([192.222.193.21])
+ by smtp.gmail.com with ESMTPSA id 4sm111319qky.130.2020.05.19.10.29.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 May 2020 10:29:36 -0700 (PDT)
+Message-ID: <92ac2db087ccf8fae853284ecc8bdf187e292097.camel@ndufresne.ca>
+Subject: Re: [virtio-dev] Re: Fwd: Qemu Support for Virtio Video V4L2 driver
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Keiichi Watanabe <keiichiw@chromium.org>
+Date: Tue, 19 May 2020 13:29:35 -0400
+In-Reply-To: <CAD90VcaqE7PsLV=-xwWHXkct61wsiAuOCH78aLGSObfX9LqGsw@mail.gmail.com>
+References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
+ <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
+ <CAK25hWM-hLdk=MSKgceumOUo9ZNBrrmM8qSe7MvTUAPGmur_HQ@mail.gmail.com>
+ <2515515.r9knKAEANn@os-lin-dmo>
+ <CAD90VcYeF7drbYNDiEioPBHcQcifqDYUia_CKqNLv_5VAMjPKw@mail.gmail.com>
+ <67e1ba850c5fbf84b09ec8266ab70dd08a10c2e3.camel@ndufresne.ca>
+ <CAD90VcaqE7PsLV=-xwWHXkct61wsiAuOCH78aLGSObfX9LqGsw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 00:34:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::844;
+ envelope-from=nicolas@ndufresne.ca; helo=mail-qt1-x844.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,124 +91,274 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
+ virtio-dev@lists.oasis-open.org, Alex Lau <alexlau@chromium.org>,
+ Kiran Pawar <Kiran.Pawar@opensynergy.com>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Tomasz Figa <tfiga@chromium.org>, Saket Sinha <saket.sinha89@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Dmitry Sepp <dmitry.sepp@opensynergy.com>,
+ Emil Velikov <emil.velikov@collabora.com>, Pawel Osciak <posciak@chromium.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UUVNVSBibG9jayBkcml2ZXJzIGFyZSBzdXBwb3NlZCB0byBzdXBwb3J0IGFpb19wb2xsKCkgZnJv
-bSBJL08KY29tcGxldGlvbiBjYWxsYmFjayBmdW5jdGlvbnMuIFRoaXMgbWVhbnMgY29tcGxldGlv
-biBwcm9jZXNzaW5nIG11c3QgYmUKcmUtZW50cmFudC4KClRoZSBzdGFuZGFyZCBhcHByb2FjaCBp
-cyB0byBzY2hlZHVsZSBhIEJIIGR1cmluZyBjb21wbGV0aW9uIHByb2Nlc3NpbmcKYW5kIGNhbmNl
-bCBpdCBhdCB0aGUgZW5kIG9mIHByb2Nlc3NpbmcuIElmIGFpb19wb2xsKCkgaXMgaW52b2tlZCBi
-eSBhCmNhbGxiYWNrIGZ1bmN0aW9uIHRoZW4gdGhlIEJIIHdpbGwgcnVuLiBUaGUgQkggY29udGlu
-dWVzIHRoZSBzdXNwZW5kZWQKY29tcGxldGlvbiBwcm9jZXNzaW5nLgoKQWxsIG9mIHRoaXMgbWVh
-bnMgdGhhdCByZXF1ZXN0IEEncyBjYigpIGNhbiBzeW5jaHJvbm91c2x5IHdhaXQgZm9yCnJlcXVl
-c3QgQiB0byBjb21wbGV0ZS4gUHJldmlvdXNseSB0aGUgbnZtZSBibG9jayBkcml2ZXIgd291bGQg
-aGFuZwpiZWNhdXNlIGl0IGRpZG4ndCBwcm9jZXNzIGNvbXBsZXRpb25zIGZyb20gbmVzdGVkIGFp
-b19wb2xsKCkuCgpTaWduZWQtb2ZmLWJ5OiBTdGVmYW4gSGFqbm9jemkgPHN0ZWZhbmhhQHJlZGhh
-dC5jb20+Ci0tLQogYmxvY2svbnZtZS5jICAgICAgIHwgNjcgKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKy0tLS0tLQogYmxvY2svdHJhY2UtZXZlbnRzIHwgIDIgKy0KIDIg
-ZmlsZXMgY2hhbmdlZCwgNjAgaW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
-aXQgYS9ibG9jay9udm1lLmMgYi9ibG9jay9udm1lLmMKaW5kZXggNWIyZjZlOWZmYy4uY2U5MDgy
-MzVhZSAxMDA2NDQKLS0tIGEvYmxvY2svbnZtZS5jCisrKyBiL2Jsb2NrL252bWUuYwpAQCAtNzQs
-OSArNzQsMTEgQEAgdHlwZWRlZiBzdHJ1Y3QgewogICAgIGludCAgICAgICAgIGNxX3BoYXNlOwog
-ICAgIGludCAgICAgICAgIGZyZWVfcmVxX2hlYWQ7CiAgICAgTlZNZVJlcXVlc3QgcmVxc1tOVk1F
-X05VTV9SRVFTXTsKLSAgICBib29sICAgICAgICBidXN5OwogICAgIGludCAgICAgICAgIG5lZWRf
-a2ljazsKICAgICBpbnQgICAgICAgICBpbmZsaWdodDsKKworICAgIC8qIFRocmVhZC1zYWZlLCBu
-byBsb2NrIG5lY2Vzc2FyeSAqLworICAgIFFFTVVCSCAgICAgICpjb21wbGV0aW9uX2JoOwogfSBO
-Vk1lUXVldWVQYWlyOwogCiAvKiBNZW1vcnkgbWFwcGVkIHJlZ2lzdGVycyAqLwpAQCAtMTQwLDYg
-KzE0Miw4IEBAIHN0cnVjdCBCRFJWTlZNZVN0YXRlIHsKICNkZWZpbmUgTlZNRV9CTE9DS19PUFRf
-REVWSUNFICJkZXZpY2UiCiAjZGVmaW5lIE5WTUVfQkxPQ0tfT1BUX05BTUVTUEFDRSAibmFtZXNw
-YWNlIgogCitzdGF0aWMgdm9pZCBudm1lX3Byb2Nlc3NfY29tcGxldGlvbl9iaCh2b2lkICpvcGFx
-dWUpOworCiBzdGF0aWMgUWVtdU9wdHNMaXN0IHJ1bnRpbWVfb3B0cyA9IHsKICAgICAubmFtZSA9
-ICJudm1lIiwKICAgICAuaGVhZCA9IFFUQUlMUV9IRUFEX0lOSVRJQUxJWkVSKHJ1bnRpbWVfb3B0
-cy5oZWFkKSwKQEAgLTE4MSw2ICsxODUsOSBAQCBzdGF0aWMgdm9pZCBudm1lX2luaXRfcXVldWUo
-QmxvY2tEcml2ZXJTdGF0ZSAqYnMsIE5WTWVRdWV1ZSAqcSwKIAogc3RhdGljIHZvaWQgbnZtZV9m
-cmVlX3F1ZXVlX3BhaXIoTlZNZVF1ZXVlUGFpciAqcSkKIHsKKyAgICBpZiAocS0+Y29tcGxldGlv
-bl9iaCkgeworICAgICAgICBxZW11X2JoX2RlbGV0ZShxLT5jb21wbGV0aW9uX2JoKTsKKyAgICB9
-CiAgICAgcWVtdV92ZnJlZShxLT5wcnBfbGlzdF9wYWdlcyk7CiAgICAgcWVtdV92ZnJlZShxLT5z
-cS5xdWV1ZSk7CiAgICAgcWVtdV92ZnJlZShxLT5jcS5xdWV1ZSk7CkBAIC0yMTQsNiArMjIxLDgg
-QEAgc3RhdGljIE5WTWVRdWV1ZVBhaXIgKm52bWVfY3JlYXRlX3F1ZXVlX3BhaXIoQmxvY2tEcml2
-ZXJTdGF0ZSAqYnMsCiAgICAgcS0+aW5kZXggPSBpZHg7CiAgICAgcWVtdV9jb19xdWV1ZV9pbml0
-KCZxLT5mcmVlX3JlcV9xdWV1ZSk7CiAgICAgcS0+cHJwX2xpc3RfcGFnZXMgPSBxZW11X2Jsb2Nr
-YWxpZ24wKGJzLCBzLT5wYWdlX3NpemUgKiBOVk1FX05VTV9SRVFTKTsKKyAgICBxLT5jb21wbGV0
-aW9uX2JoID0gYWlvX2JoX25ldyhiZHJ2X2dldF9haW9fY29udGV4dChicyksCisgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgbnZtZV9wcm9jZXNzX2NvbXBsZXRpb25fYmgsIHEpOwog
-ICAgIHIgPSBxZW11X3ZmaW9fZG1hX21hcChzLT52ZmlvLCBxLT5wcnBfbGlzdF9wYWdlcywKICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgcy0+cGFnZV9zaXplICogTlZNRV9OVU1fUkVRUywKICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgZmFsc2UsICZwcnBfbGlzdF9pb3ZhKTsKQEAgLTM1Miwx
-MSArMzYxLDIxIEBAIHN0YXRpYyBib29sIG52bWVfcHJvY2Vzc19jb21wbGV0aW9uKE5WTWVRdWV1
-ZVBhaXIgKnEpCiAgICAgTnZtZUNxZSAqYzsKIAogICAgIHRyYWNlX252bWVfcHJvY2Vzc19jb21w
-bGV0aW9uKHMsIHEtPmluZGV4LCBxLT5pbmZsaWdodCk7Ci0gICAgaWYgKHEtPmJ1c3kgfHwgcy0+
-cGx1Z2dlZCkgewotICAgICAgICB0cmFjZV9udm1lX3Byb2Nlc3NfY29tcGxldGlvbl9xdWV1ZV9i
-dXN5KHMsIHEtPmluZGV4KTsKKyAgICBpZiAocy0+cGx1Z2dlZCkgeworICAgICAgICB0cmFjZV9u
-dm1lX3Byb2Nlc3NfY29tcGxldGlvbl9xdWV1ZV9wbHVnZ2VkKHMsIHEtPmluZGV4KTsKICAgICAg
-ICAgcmV0dXJuIGZhbHNlOwogICAgIH0KLSAgICBxLT5idXN5ID0gdHJ1ZTsKKworICAgIC8qCisg
-ICAgICogU3VwcG9ydCByZS1lbnRyYW5jeSB3aGVuIGEgcmVxdWVzdCBjYigpIGZ1bmN0aW9uIGlu
-dm9rZXMgYWlvX3BvbGwoKS4KKyAgICAgKiBQZW5kaW5nIGNvbXBsZXRpb25zIG11c3QgYmUgdmlz
-aWJsZSB0byBhaW9fcG9sbCgpIHNvIHRoYXQgYSBjYigpCisgICAgICogZnVuY3Rpb24gY2FuIHdh
-aXQgZm9yIHRoZSBjb21wbGV0aW9uIG9mIGFub3RoZXIgcmVxdWVzdC4KKyAgICAgKgorICAgICAq
-IFRoZSBhaW9fcG9sbCgpIGxvb3Agd2lsbCBleGVjdXRlIG91ciBCSCBhbmQgd2UnbGwgcmVzdW1l
-IGNvbXBsZXRpb24KKyAgICAgKiBwcm9jZXNzaW5nIHRoZXJlLgorICAgICAqLworICAgIHFlbXVf
-Ymhfc2NoZWR1bGUocS0+Y29tcGxldGlvbl9iaCk7CisKICAgICBhc3NlcnQocS0+aW5mbGlnaHQg
-Pj0gMCk7CiAgICAgd2hpbGUgKHEtPmluZmxpZ2h0KSB7CiAgICAgICAgIGludCByZXQ7CkBAIC0z
-ODQsMTAgKzQwMywxMCBAQCBzdGF0aWMgYm9vbCBudm1lX3Byb2Nlc3NfY29tcGxldGlvbihOVk1l
-UXVldWVQYWlyICpxKQogICAgICAgICBhc3NlcnQocmVxLmNiKTsKICAgICAgICAgbnZtZV9wdXRf
-ZnJlZV9yZXFfbG9ja2VkKHEsIHByZXEpOwogICAgICAgICBwcmVxLT5jYiA9IHByZXEtPm9wYXF1
-ZSA9IE5VTEw7Ci0gICAgICAgIHFlbXVfbXV0ZXhfdW5sb2NrKCZxLT5sb2NrKTsKLSAgICAgICAg
-cmVxLmNiKHJlcS5vcGFxdWUsIHJldCk7Ci0gICAgICAgIHFlbXVfbXV0ZXhfbG9jaygmcS0+bG9j
-ayk7CiAgICAgICAgIHEtPmluZmxpZ2h0LS07CisgICAgICAgIHFlbXVfbXV0ZXhfdW5sb2NrKCZx
-LT5sb2NrKTsKKyAgICAgICAgcmVxLmNiKHJlcS5vcGFxdWUsIHJldCk7CisgICAgICAgIHFlbXVf
-bXV0ZXhfbG9jaygmcS0+bG9jayk7CiAgICAgICAgIHByb2dyZXNzID0gdHJ1ZTsKICAgICB9CiAg
-ICAgaWYgKHByb2dyZXNzKSB7CkBAIC0zOTYsMTAgKzQxNSwyOCBAQCBzdGF0aWMgYm9vbCBudm1l
-X3Byb2Nlc3NfY29tcGxldGlvbihOVk1lUXVldWVQYWlyICpxKQogICAgICAgICAqcS0+Y3EuZG9v
-cmJlbGwgPSBjcHVfdG9fbGUzMihxLT5jcS5oZWFkKTsKICAgICAgICAgbnZtZV93YWtlX2ZyZWVf
-cmVxX2xvY2tlZChxKTsKICAgICB9Ci0gICAgcS0+YnVzeSA9IGZhbHNlOworCisgICAgcWVtdV9i
-aF9jYW5jZWwocS0+Y29tcGxldGlvbl9iaCk7CisKICAgICByZXR1cm4gcHJvZ3Jlc3M7CiB9CiAK
-K3N0YXRpYyB2b2lkIG52bWVfcHJvY2Vzc19jb21wbGV0aW9uX2JoKHZvaWQgKm9wYXF1ZSkKK3sK
-KyAgICBOVk1lUXVldWVQYWlyICpxID0gb3BhcXVlOworCisgICAgLyoKKyAgICAgKiBXZSdyZSBi
-ZWluZyBpbnZva2VkIGJlY2F1c2UgYSBudm1lX3Byb2Nlc3NfY29tcGxldGlvbigpIGNiKCkgZnVu
-Y3Rpb24KKyAgICAgKiBjYWxsZWQgYWlvX3BvbGwoKS4gVGhlIGNhbGxiYWNrIG1heSBiZSB3YWl0
-aW5nIGZvciBmdXJ0aGVyIGNvbXBsZXRpb25zCisgICAgICogc28gbm90aWZ5IHRoZSBkZXZpY2Ug
-dGhhdCBpdCBoYXMgc3BhY2UgdG8gZmlsbCBpbiBtb3JlIGNvbXBsZXRpb25zIG5vdy4KKyAgICAg
-Ki8KKyAgICBzbXBfbWJfcmVsZWFzZSgpOworICAgICpxLT5jcS5kb29yYmVsbCA9IGNwdV90b19s
-ZTMyKHEtPmNxLmhlYWQpOworICAgIG52bWVfd2FrZV9mcmVlX3JlcV9sb2NrZWQocSk7CisKKyAg
-ICBudm1lX3Byb2Nlc3NfY29tcGxldGlvbihxKTsKK30KKwogc3RhdGljIHZvaWQgbnZtZV90cmFj
-ZV9jb21tYW5kKGNvbnN0IE52bWVDbWQgKmNtZCkKIHsKICAgICBpbnQgaTsKQEAgLTEzMDksNiAr
-MTM0NiwxMyBAQCBzdGF0aWMgdm9pZCBudm1lX2RldGFjaF9haW9fY29udGV4dChCbG9ja0RyaXZl
-clN0YXRlICpicykKIHsKICAgICBCRFJWTlZNZVN0YXRlICpzID0gYnMtPm9wYXF1ZTsKIAorICAg
-IGZvciAoaW50IGkgPSAwOyBpIDwgcy0+bnJfcXVldWVzOyBpKyspIHsKKyAgICAgICAgTlZNZVF1
-ZXVlUGFpciAqcSA9IHMtPnF1ZXVlc1tpXTsKKworICAgICAgICBxZW11X2JoX2RlbGV0ZShxLT5j
-b21wbGV0aW9uX2JoKTsKKyAgICAgICAgcS0+Y29tcGxldGlvbl9iaCA9IE5VTEw7CisgICAgfQor
-CiAgICAgYWlvX3NldF9ldmVudF9ub3RpZmllcihiZHJ2X2dldF9haW9fY29udGV4dChicyksICZz
-LT5pcnFfbm90aWZpZXIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBmYWxzZSwgTlVMTCwg
-TlVMTCk7CiB9CkBAIC0xMzIxLDYgKzEzNjUsMTMgQEAgc3RhdGljIHZvaWQgbnZtZV9hdHRhY2hf
-YWlvX2NvbnRleHQoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsCiAgICAgcy0+YWlvX2NvbnRleHQgPSBu
-ZXdfY29udGV4dDsKICAgICBhaW9fc2V0X2V2ZW50X25vdGlmaWVyKG5ld19jb250ZXh0LCAmcy0+
-aXJxX25vdGlmaWVyLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgZmFsc2UsIG52bWVfaGFu
-ZGxlX2V2ZW50LCBudm1lX3BvbGxfY2IpOworCisgICAgZm9yIChpbnQgaSA9IDA7IGkgPCBzLT5u
-cl9xdWV1ZXM7IGkrKykgeworICAgICAgICBOVk1lUXVldWVQYWlyICpxID0gcy0+cXVldWVzW2ld
-OworCisgICAgICAgIHEtPmNvbXBsZXRpb25fYmggPQorICAgICAgICAgICAgYWlvX2JoX25ldyhu
-ZXdfY29udGV4dCwgbnZtZV9wcm9jZXNzX2NvbXBsZXRpb25fYmgsIHEpOworICAgIH0KIH0KIAog
-c3RhdGljIHZvaWQgbnZtZV9haW9fcGx1ZyhCbG9ja0RyaXZlclN0YXRlICpicykKZGlmZiAtLWdp
-dCBhL2Jsb2NrL3RyYWNlLWV2ZW50cyBiL2Jsb2NrL3RyYWNlLWV2ZW50cwppbmRleCAyOWRmZjg4
-ODFjLi5kYmU3NmE3NjEzIDEwMDY0NAotLS0gYS9ibG9jay90cmFjZS1ldmVudHMKKysrIGIvYmxv
-Y2svdHJhY2UtZXZlbnRzCkBAIC0xNTgsNyArMTU4LDcgQEAgbnZtZV9raWNrKHZvaWQgKnMsIGlu
-dCBxdWV1ZSkgInMgJXAgcXVldWUgJWQiCiBudm1lX2RtYV9mbHVzaF9xdWV1ZV93YWl0KHZvaWQg
-KnMpICJzICVwIgogbnZtZV9lcnJvcihpbnQgY21kX3NwZWNpZmljLCBpbnQgc3FfaGVhZCwgaW50
-IHNxaWQsIGludCBjaWQsIGludCBzdGF0dXMpICJjbWRfc3BlY2lmaWMgJWQgc3FfaGVhZCAlZCBz
-cWlkICVkIGNpZCAlZCBzdGF0dXMgMHgleCIKIG52bWVfcHJvY2Vzc19jb21wbGV0aW9uKHZvaWQg
-KnMsIGludCBpbmRleCwgaW50IGluZmxpZ2h0KSAicyAlcCBxdWV1ZSAlZCBpbmZsaWdodCAlZCIK
-LW52bWVfcHJvY2Vzc19jb21wbGV0aW9uX3F1ZXVlX2J1c3kodm9pZCAqcywgaW50IGluZGV4KSAi
-cyAlcCBxdWV1ZSAlZCIKK252bWVfcHJvY2Vzc19jb21wbGV0aW9uX3F1ZXVlX3BsdWdnZWQodm9p
-ZCAqcywgaW50IGluZGV4KSAicyAlcCBxdWV1ZSAlZCIKIG52bWVfY29tcGxldGVfY29tbWFuZCh2
-b2lkICpzLCBpbnQgaW5kZXgsIGludCBjaWQpICJzICVwIHF1ZXVlICVkIGNpZCAlZCIKIG52bWVf
-c3VibWl0X2NvbW1hbmQodm9pZCAqcywgaW50IGluZGV4LCBpbnQgY2lkKSAicyAlcCBxdWV1ZSAl
-ZCBjaWQgJWQiCiBudm1lX3N1Ym1pdF9jb21tYW5kX3JhdyhpbnQgYzAsIGludCBjMSwgaW50IGMy
-LCBpbnQgYzMsIGludCBjNCwgaW50IGM1LCBpbnQgYzYsIGludCBjNykgIiUwMnggJTAyeCAlMDJ4
-ICUwMnggJTAyeCAlMDJ4ICUwMnggJTAyeCIKLS0gCjIuMjUuMwoK
+Le mardi 19 mai 2020 à 17:37 +0900, Keiichi Watanabe a écrit :
+> Hi Nicolas,
+> 
+> On Fri, May 15, 2020 at 8:38 AM Nicolas Dufresne <
+> nicolas@ndufresne.ca
+> > wrote:
+> > Le lundi 11 mai 2020 à 20:49 +0900, Keiichi Watanabe a écrit :
+> > > Hi,
+> > > 
+> > > Thanks Saket for your feedback. As Dmitry mentioned, we're focusing on
+> > > video encoding and decoding, not camera. So, my reply was about how to
+> > > implement paravirtualized video codec devices.
+> > > 
+> > > On Mon, May 11, 2020 at 8:25 PM Dmitry Sepp <
+> > > dmitry.sepp@opensynergy.com
+> > > >
+> > > wrote:
+> > > > Hi Saket,
+> > > > 
+> > > > On Montag, 11. Mai 2020 13:05:53 CEST Saket Sinha wrote:
+> > > > > Hi Keiichi,
+> > > > > 
+> > > > > I do not support the approach of  QEMU implementation forwarding
+> > > > > requests to the host's vicodec module since  this can limit the scope
+> > > > > of the virtio-video device only for testing,
+> > > > 
+> > > > That was my understanding as well.
+> > > 
+> > > Not really because the API which the vicodec provides is V4L2 stateful
+> > > decoder interface [1], which are also used by other video drivers on
+> > > Linux.
+> > > The difference between vicodec and actual device drivers is that
+> > > vicodec performs decoding in the kernel space without using special
+> > > video devices. In other words, vicodec is a software decoder in kernel
+> > > space which provides the same interface with actual video drivers.
+> > > Thus, if the QEMU implementation can forward virtio-video requests to
+> > > vicodec, it can forward them to the actual V4L2 video decoder devices
+> > > as well and VM gets access to a paravirtualized video device.
+> > > 
+> > > The reason why we discussed vicodec in the previous thread was it'll
+> > > allow us to test the virtio-video driver without hardware requirement.
+> > > 
+> > > [1] 
+> > > https://www.kernel.org/doc/html/latest/media/uapi/v4l/dev-decoder.html
+> > > 
+> > > 
+> > > > > which instead can be used with multiple use cases such as -
+> > > > > 
+> > > > > 1. VM gets access to paravirtualized  camera devices which shares the
+> > > > > video frames input through actual HW camera attached to Host.
+> > > > 
+> > > > This use-case is out of the scope of virtio-video. Initially I had a plan to
+> > > > support capture-only streams like camera as well, but later the decision was
+> > > > made upstream that camera should be implemented as separate device type. We
+> > > > still plan to implement a simple frame capture capability as a downstream
+> > > > patch though.
+> > > > 
+> > > > > 2. If Host has multiple video devices (especially in ARM SOCs over
+> > > > > MIPI interfaces or USB), different VM can be started or hotplugged
+> > > > > with selective video streams from actual HW video devices.
+> > > > 
+> > > > We do support this in our device implementation. But spec in general has no
+> > > > requirements or instructions regarding this. And it is in fact flexible
+> > > > enough
+> > > > to provide abstraction on top of several HW devices.
+> > > > 
+> > > > > Also instead of using libraries like Gstreamer in Host userspace, they
+> > > > > can also be used inside the VM userspace after getting access to
+> > > > > paravirtualized HW camera devices .
+> > > 
+> > > Regarding Gstreamer, I intended this video decoding API [2]. If QEMU
+> > > can translate virtio-video requests to this API, we can easily support
+> > > multiple platforms.
+> > > I'm not sure how feasible it is though, as I have no experience of
+> > > using this API by myself...
+> > 
+> > Not sure which API you aim exactly, but what one need to remember is that
+> > mapping virtio-video CODEC on top of VAAPI, V4L2 Stateless, NVDEC or other type
+> > of "stateless" CODEC is not trivial and can't be done without userspace. Notably
+> > because we don't want to do bitstream parsing in the kernel on the main CPU as
+> > security would otherwise be very hard to guaranty. The other driver using same
+> > API as virtio-video do bitstream parsing on a dedicated co-processor (through
+> > firmware blobs though).
+> > 
+> > Having bridges between virtio-video, qemu and some abstraction library like
+> > FFMPEG or GStreamer is certainly the best solution if you want to virtualize any
+> > type of HW accelerated decoder or if you need to virtualized something
+> > proprietary (like NVDEC). Please shout if you need help.
+> > 
+> 
+> Yeah, I meant we should map virtio-video commands to a set of
+> abstracted userspace APIs to avoid having many platform-dependent code
+> in QEMU.
+> This is the same with what we implemented in crosvm, a VMM on
+> ChromiumOS. Crosvm's video device translates virtio-video commands
+> into our own video decoding APIs [1, 2] which supports VAAPI, V4L2
+> stateful and V4L2 stateless. Unfortunately, since our library is
+> highly depending on Chrome, we cannot reuse this for QEMU.
+> 
+> So, I agree that using FFMPEG or GStreamer is a good idea. Probably,
+> APIs in my previous link weren't for this purpose.
+> Nicolas, do you know any good references for FFMPEG or GStreamer's
+> abstracted video decoding APIs? Then, I may be able to think about how
+> virtio-video protocols can be mapped to them.
+
+The FFMpeg API for libavcodec can be found here:
+
+  http://git.videolan.org/?p=ffmpeg.git;a=blob;f=libavcodec/avcodec.h
+
+GStreamer does not really have such a low level CODEC API. So while
+it's possible to use it (Wine project uses it for it's parsers as an
+example, and Firefox use to have CODEC support wrapping GStreamer
+CODEC), there will not be any one-to-one mapping. GStreamer is often
+chosen as it's LGPL code does not carry directly any patented
+implementation. It instead rely on plugins, which maybe provided as
+third party, allowing to distribute your project while giving uses the
+option to install potentially non-free technologies.
+
+But overall, I can describe GStreamer API for CODEC wrapping (pipeline
+less) as:
+
+  - Push GstCaps describing the stream format
+  - Push bitstream buffer on sink pad
+  - When ready, buffers will be pushed through the push function 
+    callback on src pad
+
+Of course nothing prevent adding something like the vda abstraction in
+qemu and make this multi-backend capable.
+
+> 
+> [1] libvda's C interface:
+> https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/arc/vm/libvda/libvda_decode.h
+> 
+> [2] libvda's Rust interface:
+> https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/arc/vm/libvda/rust/
+> 
+> 
+> Best regards,
+> Keiichi
+> 
+> > > [2]
+> > > https://gstreamer.freedesktop.org/documentation/tutorials/playback/hardware-accelerated-video-decoding.html
+> > > 
+> > > 
+> > > Best regards,
+> > > Keiichi
+> > > 
+> > > > Regarding the cameras, unfortunately same as above.
+> > > > 
+> > > > Best regards,
+> > > > Dmitry.
+> > > > 
+> > > > > Regards,
+> > > > > Saket Sinha
+> > > > > 
+> > > > > On Mon, May 11, 2020 at 12:20 PM Keiichi Watanabe <
+> > > > > keiichiw@chromium.org
+> > > > > >
+> > > > 
+> > > > wrote:
+> > > > > > Hi Dmitry,
+> > > > > > 
+> > > > > > On Mon, May 11, 2020 at 6:40 PM Dmitry Sepp <
+> > > > > > dmitry.sepp@opensynergy.com
+> > > > > > 
+> > > > 
+> > > > wrote:
+> > > > > > > Hi Saket and all,
+> > > > > > > 
+> > > > > > > As we are working with automotive platforms, unfortunately we don't
+> > > > > > > plan
+> > > > > > > any Qemu reference implementation so far.
+> > > > > > > 
+> > > > > > > Of course we are ready to support the community if any help is needed.
+> > > > > > > Is
+> > > > > > > there interest in support for the FWHT format only for testing purpose
+> > > > > > > or you want a full-featured implementation on the QEMU side?
+> > > > > > 
+> > > > > > I guess we don't need to implement the codec algorithm in QEMU.
+> > > > > > Rather, QEMU forwards virtio-video requests to the host video device
+> > > > > > or a software library such as GStreamer or ffmpeg.
+> > > > > > So, what we need to implement in QEMU is a kind of API translation,
+> > > > > > which shouldn't care about actual video formats so much.
+> > > > > > 
+> > > > > > Regarding the FWHT format discussed in the patch thread [1], in my
+> > > > > > understanding, Hans suggested to have QEMU implementation forwarding
+> > > > > > requests to the host's vicodec module [2].
+> > > > > > Then, we'll be able to test the virtio-video driver on QEMU on Linux
+> > > > > > even if the host Linux has no hardware video decoder.
+> > > > > > (Please correct me if I'm wrong.)
+> > > > > > 
+> > > > > > Let me add Hans and Linux media ML in CC.
+> > > > > > 
+> > > > > > [1]  
+> > > > > > https://patchwork.linuxtv.org/patch/61717/
+> > > > > > 
+> > > > > > [2] 
+> > > > > > https://lwn.net/Articles/760650/
+> > > > > > 
+> > > > > > 
+> > > > > > Best regards,
+> > > > > > Keiichi
+> > > > > > 
+> > > > > > > Please note that the spec is not finalized yet and a major update is
+> > > > > > > now
+> > > > > > > discussed with upstream and the Chrome OS team, which is also
+> > > > > > > interested
+> > > > > > > and deeply involved in the process. The update mostly implies some
+> > > > > > > rewording and reorganization of data structures, but for sure will
+> > > > > > > require a driver rework.
+> > > > > > > 
+> > > > > > > Best regards,
+> > > > > > > Dmitry.
+> > > > > > > 
+> > > > > > > On Samstag, 9. Mai 2020 16:11:43 CEST Saket Sinha wrote:
+> > > > > > > > Hi,
+> > > > > > > > 
+> > > > > > > > As suggested on #qemu-devel IRC channel, I am including virtio-dev,
+> > > > > > > > Gerd and Michael to point in the right direction how to move forward
+> > > > > > > > with Qemu support for Virtio Video V4L2 driver
+> > > > > > > > posted in [1].
+> > > > > > > > 
+> > > > > > > > [1]: 
+> > > > > > > > https://patchwork.linuxtv.org/patch/61717/
+> > > > > > > > 
+> > > > > > > > 
+> > > > > > > > Regards,
+> > > > > > > > Saket Sinha
+> > > > > > > > 
+> > > > > > > > On Sat, May 9, 2020 at 1:09 AM Saket Sinha <
+> > > > > > > > saket.sinha89@gmail.com
+> > > > > > > > >
+> > > > 
+> > > > wrote:
+> > > > > > > > > Hi ,
+> > > > > > > > > 
+> > > > > > > > > This is to inquire about Qemu support for Virtio Video V4L2 driver
+> > > > > > > > > posted in [1].
+> > > > > > > > > I am currently not aware of any upstream effort for Qemu reference
+> > > > > > > > > implementation and would like to discuss how to proceed with the
+> > > > > > > > > same.
+> > > > > > > > > 
+> > > > > > > > > [1]: 
+> > > > > > > > > https://patchwork.linuxtv.org/patch/61717/
+> > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > Regards,
+> > > > > > > > > Saket Sinha
+> > > > > > > 
+> > > > > > > ---------------------------------------------------------------------
+> > > > > > > To unsubscribe, e-mail: 
+> > > > > > > virtio-dev-unsubscribe@lists.oasis-open.org
+> > > > > > > 
+> > > > > > > For additional commands, e-mail: 
+> > > > > > > virtio-dev-help@lists.oasis-open.org
+> > > > > > > 
 
 
