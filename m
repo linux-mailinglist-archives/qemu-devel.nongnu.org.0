@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6D31D932F
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 11:19:21 +0200 (CEST)
-Received: from localhost ([::1]:42168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22B471D93C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 11:48:22 +0200 (CEST)
+Received: from localhost ([::1]:46910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jayPA-000854-UF
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 05:19:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58320)
+	id 1jayrF-0007mq-7j
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 05:48:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jayON-0007YW-BV
- for qemu-devel@nongnu.org; Tue, 19 May 2020 05:18:31 -0400
-Received: from 10.mo69.mail-out.ovh.net ([46.105.73.241]:43470)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jayOM-0003HM-Bo
- for qemu-devel@nongnu.org; Tue, 19 May 2020 05:18:31 -0400
-Received: from player738.ha.ovh.net (unknown [10.110.208.220])
- by mo69.mail-out.ovh.net (Postfix) with ESMTP id 2AAB98D102
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 11:18:20 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player738.ha.ovh.net (Postfix) with ESMTPSA id D58E1129DB05E;
- Tue, 19 May 2020 09:18:16 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002b4001553-1dd6-4e3f-80e3-f3e556ea751f,70C5C5024F1CAF4ABF6ABE2DC9B39611306C745C)
- smtp.auth=groug@kaod.org
-Date: Tue, 19 May 2020 11:18:15 +0200
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 2/9] ppc/xive: Export xive_presenter_notify()
-Message-ID: <20200519111815.67b3a5b7@bahia.lan>
-In-Reply-To: <20200513151109.453530-3-clg@kaod.org>
-References: <20200513151109.453530-1-clg@kaod.org>
- <20200513151109.453530-3-clg@kaod.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jayqT-0007J6-P2
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 05:47:33 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48988)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jayqS-0001Yu-MW
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 05:47:33 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jayqN-0001HO-JZ
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 09:47:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E69CB2E832C
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 09:47:04 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 11843341123563919755
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedruddtjedgudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueekjeekiefffedtveeukedvteejgeeivefhgfejgfdtleduvdfgfeelkeeuveeunecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=46.105.73.241; envelope-from=groug@kaod.org;
- helo=10.mo69.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 05:18:21
+Date: Tue, 19 May 2020 09:34:38 -0000
+From: Jan Klos <1856335@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger janklos
+X-Launchpad-Bug-Reporter: Damir (djdatte)
+X-Launchpad-Bug-Modifier: Jan Klos (janklos)
+References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
+Message-Id: <158988087898.23291.14311773758881795090.malone@gac.canonical.com>
+Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 6e0761913539098be8c065b4c9d1255f31e7f37f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 05:47:29
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,61 +72,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 13 May 2020 17:11:02 +0200
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+<cache mode=3D"passthrough"/>
 
-> It's generic enough to be used from the XIVE2 router and avoid more
-> duplication.
->=20
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
+adds "host-cache-info=3Don,l3-cache=3Doff"
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+to the qemu -cpu args
 
->  include/hw/ppc/xive.h | 4 ++++
->  hw/intc/xive.c        | 8 ++++----
->  2 files changed, 8 insertions(+), 4 deletions(-)
->=20
-> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-> index 112fb6fb6dbe..88b0a2a3811f 100644
-> --- a/include/hw/ppc/xive.h
-> +++ b/include/hw/ppc/xive.h
-> @@ -406,6 +406,10 @@ int xive_presenter_tctx_match(XivePresenter *xptr, X=
-iveTCTX *tctx,
->                                uint8_t format,
->                                uint8_t nvt_blk, uint32_t nvt_idx,
->                                bool cam_ignore, uint32_t logic_serv);
-> +bool xive_presenter_notify(XiveFabric *xfb, uint8_t format,
-> +                           uint8_t nvt_blk, uint32_t nvt_idx,
-> +                           bool cam_ignore, uint8_t priority,
-> +                           uint32_t logic_serv);
-> =20
->  /*
->   * XIVE Fabric (Interface between Interrupt Controller and Machine)
-> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index b8825577f719..f08fcec1c039 100644
-> --- a/hw/intc/xive.c
-> +++ b/hw/intc/xive.c
-> @@ -1481,10 +1481,10 @@ int xive_presenter_tctx_match(XivePresenter *xptr=
-, XiveTCTX *tctx,
->   *
->   * The parameters represent what is sent on the PowerBus
->   */
-> -static bool xive_presenter_notify(XiveFabric *xfb, uint8_t format,
-> -                                  uint8_t nvt_blk, uint32_t nvt_idx,
-> -                                  bool cam_ignore, uint8_t priority,
-> -                                  uint32_t logic_serv)
-> +bool xive_presenter_notify(XiveFabric *xfb, uint8_t format,
-> +                           uint8_t nvt_blk, uint32_t nvt_idx,
-> +                           bool cam_ignore, uint8_t priority,
-> +                           uint32_t logic_serv)
->  {
->      XiveFabricClass *xfc =3D XIVE_FABRIC_GET_CLASS(xfb);
->      XiveTCTXMatch match =3D { .tctx =3D NULL, .ring =3D 0 };
+I believe l3-cache=3Doff is useless with host-cache-info=3Don
 
+So <cache mode=3D"passthrough"/> should do what you want.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856335
+
+Title:
+  Cache Layout wrong on many Zen Arch CPUs
+
+Status in QEMU:
+  New
+
+Bug description:
+  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
+  to always map Cache ass if it was an 4-Core per CCX CPU, which is
+  incorrect, and costs upwards 30% performance (more realistically 10%)
+  in L3 Cache Layout aware applications.
+
+  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
+
+  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
+/>
+
+  In windows, coreinfo reports correctly:
+
+  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+
+  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
+/>
+
+  in windows, coreinfo reports incorrectly:
+
+  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
+
+  With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter:
+  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+
+  The problem is that the dies are exposed differently than how AMD does
+  it natively, they are exposed to Windows as sockets, which means, that
+  if you are nto a business user, you can't ever have a machine with
+  more than two CCX (6 cores) as consumer versions of Windows only
+  supports two sockets. (Should this be reported as a separate bug?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
