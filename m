@@ -2,78 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF4681D8F59
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 07:47:09 +0200 (CEST)
-Received: from localhost ([::1]:49372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE961D8F5E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 07:48:20 +0200 (CEST)
+Received: from localhost ([::1]:53170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jav5o-0003JB-NF
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 01:47:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35482)
+	id 1jav6x-0004s9-5K
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 01:48:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jav4f-0002U8-A5
- for qemu-devel@nongnu.org; Tue, 19 May 2020 01:45:57 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38968
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jav4e-0003C0-JY
- for qemu-devel@nongnu.org; Tue, 19 May 2020 01:45:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589867156;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CzO2EM9qxFbSXo9ndV3QOhZLTKiQsvjgzbRwusLWFvM=;
- b=E+9Dbf3XHj+YhNo+Fda6I9sjUVVsCZ/7Qz94OR+7IYb4kIxfuIf7cXvI4ISR64iwQd7jSg
- HR0zwubDOeQYwQyVVWQ4MSXx67TtM3UcCNKtCRvK73gLzayt7P4H9ORy/08uu4/1UptaBZ
- LZZZhqXQeYwHuPtXfPo9EC63dU7dz5M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-iePTPCzhO_mBPwjnsnJ5Tg-1; Tue, 19 May 2020 01:45:47 -0400
-X-MC-Unique: iePTPCzhO_mBPwjnsnJ5Tg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 108E5107ACCA;
- Tue, 19 May 2020 05:45:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
- [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D2411649D6;
- Tue, 19 May 2020 05:45:45 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5376211358BC; Tue, 19 May 2020 07:45:44 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Andrew Jeffery" <andrew@aj.id.au>
-Subject: Re: [PATCH 04/24] aspeed: Don't create unwanted "ftgmac100",
- "aspeed-mmi" devices
-References: <20200518050408.4579-1-armbru@redhat.com>
- <20200518050408.4579-5-armbru@redhat.com>
- <9fc4a6e2-fa90-ba62-91cf-e22eb3ef4cdc@kaod.org>
- <eb1b203d-44ba-4b89-b96b-4e7bf993ac67@www.fastmail.com>
-Date: Tue, 19 May 2020 07:45:44 +0200
-In-Reply-To: <eb1b203d-44ba-4b89-b96b-4e7bf993ac67@www.fastmail.com> (Andrew
- Jeffery's message of "Tue, 19 May 2020 09:50:34 +0930")
-Message-ID: <87v9ks5vg7.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <dovgaluk@ispras.ru>)
+ id 1jav5J-0003ML-W5
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 01:46:38 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:35872)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <dovgaluk@ispras.ru>) id 1jav5I-0003Fc-K4
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 01:46:37 -0400
+Received: from [192.168.0.183] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 8B8BBCD46B;
+ Tue, 19 May 2020 08:46:34 +0300 (MSK)
+Subject: Re: [PATCH] replay: implement fair mutex
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
+References: <158823999490.29783.7079486043043163164.stgit@pasha-ThinkPad-X280>
+ <87tv0djkfy.fsf@linaro.org>
+From: Pavel Dovgalyuk <dovgaluk@ispras.ru>
+Message-ID: <c1ba54d2-1709-2911-1472-e1267d686614@ispras.ru>
+Date: Tue, 19 May 2020 08:46:33 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 00:34:39
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <87tv0djkfy.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=83.149.199.45; envelope-from=dovgaluk@ispras.ru;
+ helo=mail.ispras.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 01:40:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,70 +57,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>, Cameron Esfahani
- via <qemu-devel@nongnu.org>, qemu-arm@nongnu.org,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Joel Stanley <joel@jms.id.au>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, pavel.dovgaluk@ispras.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Andrew Jeffery" <andrew@aj.id.au> writes:
 
-> On Mon, 18 May 2020, at 21:49, C=C3=A9dric Le Goater wrote:
->> On 5/18/20 7:03 AM, Markus Armbruster wrote:
->> > These devices are optional, and controlled by @nb_nics.
->> > aspeed_soc_ast2600_init() and aspeed_soc_init() create the maximum
->> > supported number.  aspeed_soc_ast2600_realize() and
->> > aspeed_soc_realize() realize only the wanted number.  Works, although
->> > it can leave unrealized devices hanging around in the QOM composition
->> > tree.  Affects machines ast2500-evb, ast2600-evb, palmetto-bmc,
->> > romulus-bmc, swift-bmc, tacoma-bmc, and witherspoon-bmc.
->> >=20
->> > Make the init functions create only the wanted ones.  Visible in "info
->> > qom-tree"; here's the change for ast2600-evb:
->> >=20
->> >      /machine (ast2600-evb-machine)
->> >        [...]
->> >        /soc (ast2600-a1)
->> >          [...]
->> >          /ftgmac100[0] (ftgmac100)
->> >            /ftgmac100[0] (qemu:memory-region)
->> >     -    /ftgmac100[1] (ftgmac100)
->> >     -    /ftgmac100[2] (ftgmac100)
->> >     -    /ftgmac100[3] (ftgmac100)
->> >          /gpio (aspeed.gpio-ast2600)
->> >          [...]
->> >          /mii[0] (aspeed-mmi)
->> >            /aspeed-mmi[0] (qemu:memory-region)
->> >     -    /mii[1] (aspeed-mmi)
->> >     -    /mii[2] (aspeed-mmi)
->> >     -    /mii[3] (aspeed-mmi)
->> >          /rtc (aspeed.rtc)
->> >=20
->> > I'm not sure creating @nb_nics devices makes sense.  How many does the
->> > physical chip provide?
->>=20
->> The AST2400, AST2500 SoC have 2 macs and the AST2600 has 4. Each machine
->> define the one it uses, generally MAC0 but the tacoma board uses MAC3.
->>=20
->> Shouldn't the model reflect the real address space independently from
->> the NIC backends defined on the command line ? =20
+On 18.05.2020 19:07, Alex Bennée wrote:
+> Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com> writes:
 >
-> That's my feeling too, though I'm not sure what to make of the unrealised=
- devices
-> in the QOM tree. Does it matter? It hasn't bothered me.
+>> In record/replay icount mode main loop thread and vCPU thread
+>> do not perform simultaneously. They take replay mutex to synchronize
+>> the actions. Sometimes vCPU thread waits for locking the mutex for
+>> very long time, because main loop releases the mutex and takes it
+>> back again.
+> Where in the main loop do we keep bouncing the mutex like this? Surely
+> that is the problem we should fix?
 
-Depending on what the initialization code does, unrealized devices can
-be anything from a little wasted memory to open bear trap.  I don't
-really expect the latter extreme in the code, as I expect bear traps to
-quickly catch the developer that set them.
+I performed kind of profilng while replaying.
 
-I guess the unrealized devices cleaned up in this patch did no actual
-harm.
+Sometimes main loop takes and releases this mutex without giving a 
+chance to vCPU to work.
 
-Still, it's an unhealthy state, and that's why I clean it up.  "[PATCH
-24/24] qdev: Assert onboard devices all get realized properly" should
-ensure we stay clean.
+I also got reports about the opposite behavior from the users: vCPU 
+takes and releases the mutex, and main loop stalls.
 
+>
+>> Standard qemu mutex do not provide the ordering
+>> capabilities.
+>>
+>> This patch adds a "queue" for replay mutex. Therefore thread ordering
+>> becomes more "fair". Threads are executed in the same order as
+>> they are trying to take the mutex.
+>>
+>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+>> ---
+>>   replay/replay-internal.c |   15 ++++++++++++++-
+>>   1 file changed, 14 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/replay/replay-internal.c b/replay/replay-internal.c
+>> index eba8246aae..2e8a3e947a 100644
+>> --- a/replay/replay-internal.c
+>> +++ b/replay/replay-internal.c
+>> @@ -22,6 +22,9 @@
+>>      It also protects replay events queue which stores events to be
+>>      written or read to the log. */
+>>   static QemuMutex lock;
+>> +/* Condition and queue for fair ordering of mutex lock requests. */
+>> +static QemuCond mutex_cond;
+>> +static unsigned long mutex_head, mutex_tail;
+>>   
+>>   /* File for replay writing */
+>>   static bool write_error;
+>> @@ -197,9 +200,10 @@ static __thread bool replay_locked;
+>>   void replay_mutex_init(void)
+>>   {
+>>       qemu_mutex_init(&lock);
+>> +    qemu_cond_init(&mutex_cond);
+>>       /* Hold the mutex while we start-up */
+>> -    qemu_mutex_lock(&lock);
+>>       replay_locked = true;
+>> +    ++mutex_tail;
+>>   }
+>>   
+>>   bool replay_mutex_locked(void)
+>> @@ -211,10 +215,16 @@ bool replay_mutex_locked(void)
+>>   void replay_mutex_lock(void)
+>>   {
+>>       if (replay_mode != REPLAY_MODE_NONE) {
+>> +        unsigned long id;
+>>           g_assert(!qemu_mutex_iothread_locked());
+>>           g_assert(!replay_mutex_locked());
+>>           qemu_mutex_lock(&lock);
+>> +        id = mutex_tail++;
+>> +        while (id != mutex_head) {
+>> +            qemu_cond_wait(&mutex_cond, &lock);
+>> +        }
+>>           replay_locked = true;
+>> +        qemu_mutex_unlock(&lock);
+>>       }
+>>   }
+>>   
+>> @@ -222,7 +232,10 @@ void replay_mutex_unlock(void)
+>>   {
+>>       if (replay_mode != REPLAY_MODE_NONE) {
+>>           g_assert(replay_mutex_locked());
+>> +        qemu_mutex_lock(&lock);
+>> +        ++mutex_head;
+>>           replay_locked = false;
+>> +        qemu_cond_broadcast(&mutex_cond);
+>>           qemu_mutex_unlock(&lock);
+>>       }
+>>   }
+>
 
