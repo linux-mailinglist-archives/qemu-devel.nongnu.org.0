@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006EA1D9DD8
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 19:24:10 +0200 (CEST)
-Received: from localhost ([::1]:38444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F62F1D9DCF
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 19:22:28 +0200 (CEST)
+Received: from localhost ([::1]:33830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb5yL-00062e-2S
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 13:24:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57066)
+	id 1jb5wg-000493-NL
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 13:22:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1jb50O-00007m-1r
- for qemu-devel@nongnu.org; Tue, 19 May 2020 12:22:12 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35934)
+ id 1jb50S-00008h-40
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 12:22:16 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1jb50N-0008TY-BO
- for qemu-devel@nongnu.org; Tue, 19 May 2020 12:22:11 -0400
-Received: by mail-wm1-x343.google.com with SMTP id u188so4339225wmu.1
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 09:22:10 -0700 (PDT)
+ id 1jb50R-0008Uo-Ch
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 12:22:15 -0400
+Received: by mail-wr1-x443.google.com with SMTP id y3so102797wrt.1
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 09:22:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=WgQ2lUBbzmR6637b2t29iBGO13yjSvaFbByDwQhQzFg=;
- b=IrrC+YyDylJ0xTeut8LfctSaF1PoN+zl/oGoisV235QyfWQzbT1Pa9xMSzo3R1TQz+
- wxqScfSsdQ0Frkcqibp+OAYi6TQH+ttiky7pjL06obmspCA0Yk5so1FfRTxVNoz4IDEI
- NnVpMtfikiP1XetLexqUX1uWSCmz+v8neHbiXVWOSu/tuYV3N22bwkA8qJ1cWbJwNl/h
- CKssA5we1cZiMHhDWZmP77b+i4TbR5sMDZrFIpTEdznzsByqUc2KCbjsdpCUPDJTf9WP
- +vsHBwiL/ngCF2hlwE350MTOpv7qu/mpUgT+C8EeD28ekh+edEx6TX5wXffaYCmtVsS4
- yr7Q==
+ bh=au8xXNArAeEcrfRxUdWVQbbVD0Wo1gkuJ3rS47HgeWw=;
+ b=KYOlebpOeqwHdawsnyQ4lVO3w0fuQzmpHZdb1W4RidJjG19oPWzi6PLYph7wzOkgoq
+ /M0IQaCllaXATUsC9EXaXLm8T3T5mcqW5FmOesM0mAKzjJMZTnbEx1/4eTM/Eqdzlzag
+ 4YAkYWG2R9DOS712Ov5yiRXgjMsuoZzvQGVcGYR2Cks821al1fVfpg9xLXa4FckegWIB
+ +aST6Omnb7qaVKzm/llHAXFDabGDXFm3dE6Tod2WWFcaB2oQAZ8T5XXL2mWQTlwWkrhw
+ oM+mT0YmKKw0ns+Fz7pVn0Hkt7+s/CIIAAf62ZdJj9gCVEmHfAfLhWIROzDxGIsy97IP
+ TPNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=WgQ2lUBbzmR6637b2t29iBGO13yjSvaFbByDwQhQzFg=;
- b=qnDoq2q7BVBYvt1fmo72re+HDVJqgeBCgXLNEg5omAwxv9AR7wcVmc5FuEWt9AG2MT
- 2wCYpqpIT8p6JfuLA4mYKfVErW6oVLGBQ8hIXqCFPixO+frcYGJDGLjLPQrVw4Dod25p
- 8VES7mnKKcrS1C2aCU7cBbRehn8XDSwkKKYa9WUSbC9K2gcis1BlyToSZLxFhqNsDO7p
- tKrPaBJDExWcohhS6l6Ftsx/3dFK32SufxfsqyqZGgUJAHuP4BWv0/SlQxBfWFJNiage
- zCC/uBEkWS8r8gCdrJDe7PLvqyZo8T+sVkChm0yPyPDnbaQ9M7PhqG6b24Vu9eSMt64B
- Gd/A==
-X-Gm-Message-State: AOAM533W+AKmE8gl9fI6++uM07XjF6bnoKfSO9BMHScvZMhCQluAuAmd
- NtHR6xJbo+6W+e1Hvr9AZGKXHiQK
-X-Google-Smtp-Source: ABdhPJwTRG+6rnYSZ3MXVJiq9gH0GAyvtyOB1CdM7O68Rz1KxD5uPxue/kVLpMFjF7KgWZIzz75v9Q==
-X-Received: by 2002:a05:600c:2c53:: with SMTP id
- r19mr173209wmg.83.1589905329663; 
- Tue, 19 May 2020 09:22:09 -0700 (PDT)
+ bh=au8xXNArAeEcrfRxUdWVQbbVD0Wo1gkuJ3rS47HgeWw=;
+ b=Up7pT7XfFstei1kRrwrHlIKA5Sx/5Ae7hqskhME0Dv1lqHioyN3p253GanGzCEV+vM
+ UH62sd5YmxSmX9gL7qDdGwS14Zc6mOcOSyCFh0wkC2tY4SlmwHM3RQk7P4QJ3TMpINgT
+ mGhX4HfvyVaCPv+y+Zlts/UWwDt3buRQWAi1CbAL2Bjo8/uvL8CfQq9O0cUw09n7sgyF
+ puLyRLrqqVYCEHqGgXrnIbp6cK1EANhd0o8KjWhjZj0wW84a8HPW2HgKs/icrhGhMhhX
+ 2G6RtVcTB6bH1ACCbjOhbATkiSwtV6BxegsHTn1vzLomgfwTJr+YkKlSiiTCyxXYLzas
+ FEwA==
+X-Gm-Message-State: AOAM531RQxcTT38C2K6VyM/G8x/5aJ+QtMNAMNksH4wy2Ixooish+ZRs
+ lyQEX8FDQmpUjJgfYoepVBJohVvz
+X-Google-Smtp-Source: ABdhPJzZIcQp7k+eNmRdn4zDxF2hz/5aTFJDy42rNEPnM3B4PAMkG4RHJFtdl0+RUYc/e6K5VsZv4Q==
+X-Received: by 2002:adf:f446:: with SMTP id f6mr25985527wrp.75.1589905333866; 
+ Tue, 19 May 2020 09:22:13 -0700 (PDT)
 Received: from AK-L.domain.name ([41.40.225.250])
- by smtp.gmail.com with ESMTPSA id j190sm202729wmb.33.2020.05.19.09.22.07
+ by smtp.gmail.com with ESMTPSA id j190sm202729wmb.33.2020.05.19.09.22.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 May 2020 09:22:08 -0700 (PDT)
+ Tue, 19 May 2020 09:22:13 -0700 (PDT)
 From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 To: qemu-devel@nongnu.org,
 	rth@twiddle.net,
 	ysato@users.sourceforge.jp
-Subject: [PATCH 1/2] target/hppa: Check page crossings in use_goto_tb() only
- in system mode
-Date: Tue, 19 May 2020 18:21:43 +0200
-Message-Id: <20200519162144.10831-2-ahmedkhaledkaraman@gmail.com>
+Subject: [PATCH 2/2] target/rx: Check for page crossings in use_goto_tb()
+Date: Tue, 19 May 2020 18:21:44 +0200
+Message-Id: <20200519162144.10831-3-ahmedkhaledkaraman@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200519162144.10831-1-ahmedkhaledkaraman@gmail.com>
 References: <20200519162144.10831-1-ahmedkhaledkaraman@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,48 +89,44 @@ Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Restrict page crossing check to system mode only. By doing this, the
-hppa target performance in user mode improves by up to 6.93%. Of course,
-the amount of performance improvement will vary depending on the nature
-of the hppa executable being emulated by QEMU.
+Add the page crossings check when using system mode. If this
+fix is not applied, a number of bugs may occasionally occur during
+target rx system mode emulation.
 
-While doing this correction, this patch adds some more verbose
-comments in use_goto_tb() as well.
+Rename parameter dc of type DisasContext* to the more common
+name ctx, to keep consistency with other targets.
 
 Signed-off-by: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 ---
- target/hppa/translate.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ target/rx/translate.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index 52d7bea1ea..7c9180cd76 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -817,10 +817,20 @@ static bool gen_illegal(DisasContext *ctx)
- 
- static bool use_goto_tb(DisasContext *ctx, target_ureg dest)
- {
--    /* Suppress goto_tb for page crossing, IO, or single-steping.  */
--    return !(((ctx->base.pc_first ^ dest) & TARGET_PAGE_MASK)
--             || (tb_cflags(ctx->base.tb) & CF_LAST_IO)
--             || ctx->base.singlestep_enabled);
-+    /* No direct translation block linking with CF_LAST_IO or in singlestep */
-+    if ((tb_cflags(ctx->base.tb) & CF_LAST_IO) ||
-+        ctx->base.singlestep_enabled) {
-+        return false;
-+    }
-+
-+#ifndef CONFIG_USER_ONLY
-+    /* Directly link translation blocks only from inside the same guest page */
-+    if ((ctx->base.pc_first ^ dest) & TARGET_PAGE_MASK) {
-+        return false;
-+    }
-+#endif
-+
-+    return true;
+diff --git a/target/rx/translate.c b/target/rx/translate.c
+index 61e86653a4..77497ddbfb 100644
+--- a/target/rx/translate.c
++++ b/target/rx/translate.c
+@@ -143,13 +143,17 @@ void rx_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     }
  }
  
- /* If the next insn is to be nullified, and it's on the same page,
+-static bool use_goto_tb(DisasContext *dc, target_ulong dest)
++static bool use_goto_tb(DisasContext *ctx, target_ulong dest)
+ {
+-    if (unlikely(dc->base.singlestep_enabled)) {
++    if (unlikely(ctx->base.singlestep_enabled)) {
+         return false;
+-    } else {
+-        return true;
+     }
++
++#ifndef CONFIG_USER_ONLY
++    return (ctx->base.tb->pc & TARGET_PAGE_MASK) == (dest & TARGET_PAGE_MASK);
++#else
++    return true;
++#endif
+ }
+ 
+ static void gen_goto_tb(DisasContext *dc, int n, target_ulong dest)
 -- 
 2.17.1
 
