@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3651D9A9D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:03:52 +0200 (CEST)
-Received: from localhost ([::1]:53290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180691D9AC1
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:09:51 +0200 (CEST)
+Received: from localhost ([::1]:52238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb3mZ-0000BB-Qb
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:03:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44988)
+	id 1jb3sL-0003kW-5c
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:09:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f2-0001EY-Oo
- for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60084
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f3-0001HR-UW
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56991
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3ey-0003UQ-Fd
- for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:03 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f0-0003Vh-RG
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589900159;
+ s=mimecast20190719; t=1589900162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GkqpDWaGI2npWsxgZ5v0W6bpf2K5Onnrf4NySDS9Euk=;
- b=akAUVjZt43s/LiT3i4KX/iZYvSktN4aX6mIMjk5Hc7d+qJkFU+FqkM24wqqsaeuAdkO020
- RCoDFCBf2HWOcZ59wq7brghGT25qjqkSI6iDdDZtRVLRRCQxgARdwUOvgnh35OUD1dTD1m
- dK/8W1GNg1WsWNf0MnE4sJMtdP0B868=
+ bh=XCm/72goZh4ZnajnVuwD1xFH6meW8VrHOOn1QGoEYcg=;
+ b=T0glW4ZNeqe/K6Eg2I016/YgeW8ga+JlU1z2sCJNIP+7UHcHGy8N577sDvLrsuPx49v0a2
+ XOQL9DnGZfumGDlmVSiayc+F81cZw13cKvjeTrAFMrDNJnUa2oncdm5PCpHugD/iTzqE4s
+ vYmwiAqBGwMMnYgbZZ0toDymseJeRI8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-242-RNcBr-VSOt-PuM3yVMruCA-1; Tue, 19 May 2020 10:55:57 -0400
-X-MC-Unique: RNcBr-VSOt-PuM3yVMruCA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-196-8zYc5MnQMASNESABXw-Hbg-1; Tue, 19 May 2020 10:56:00 -0400
+X-MC-Unique: 8zYc5MnQMASNESABXw-Hbg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67D60107ACCA
- for <qemu-devel@nongnu.org>; Tue, 19 May 2020 14:55:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60D7EBFC6;
+ Tue, 19 May 2020 14:55:59 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 37F2F5C1D0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3ABC762AEB;
  Tue, 19 May 2020 14:55:56 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D7D6511358C7; Tue, 19 May 2020 16:55:51 +0200 (CEST)
+ id DB25E11358C8; Tue, 19 May 2020 16:55:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/55] qdev: Convert uses of qdev_set_parent_bus() manually
-Date: Tue, 19 May 2020 16:55:07 +0200
-Message-Id: <20200519145551.22836-12-armbru@redhat.com>
+Subject: [PATCH 12/55] pci: New pci_new(), pci_realize_and_unref() etc.
+Date: Tue, 19 May 2020 16:55:08 +0200
+Message-Id: <20200519145551.22836-13-armbru@redhat.com>
 In-Reply-To: <20200519145551.22836-1-armbru@redhat.com>
 References: <20200519145551.22836-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -80,100 +80,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
+Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Same transformation as in the previous commit.  Manual, because
-convincing Coccinelle to transform these cases is somewhere between
-not worthwhile and infeasible (at least for me).
+I'm converting from qdev_create()/qdev_init_nofail() to
+qdev_new()/qdev_realize_and_unref(); recent commit "qdev: New
+qdev_new(), qdev_realize(), etc." explains why.
 
+PCI devices use qdev_create() through pci_create() and
+pci_create_multifunction().
+
+Provide pci_new(), pci_new_multifunction(), and
+pci_realize_and_unref() for converting PCI devices.
+
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/pci-host/prep.c |  3 +--
- hw/ppc/pnv.c       |  6 ++----
- hw/s390x/sclp.c    | 10 ++++------
- 3 files changed, 7 insertions(+), 12 deletions(-)
+ include/hw/pci/pci.h |  5 +++++
+ hw/pci/pci.c         | 21 +++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
 
-diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
-index c821ef889d..42c7e63a60 100644
---- a/hw/pci-host/prep.c
-+++ b/hw/pci-host/prep.c
-@@ -268,7 +268,7 @@ static void raven_pcihost_realizefn(DeviceState *d, Error **errp)
-     memory_region_add_subregion(address_space_mem, 0xbffffff0, &s->pci_intack);
- 
-     /* TODO Remove once realize propagates to child devices. */
--    object_property_set_bool(OBJECT(&s->pci_dev), true, "realized", errp);
-+    qdev_realize(DEVICE(&s->pci_dev), BUS(&s->pci_bus), errp);
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index cfedf5a995..66f8ba519b 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -712,6 +712,11 @@ pci_get_quad_by_mask(uint8_t *config, uint64_t mask)
+     return (val & mask) >> ctz32(mask);
  }
  
- static void raven_pcihost_initfn(Object *obj)
-@@ -308,7 +308,6 @@ static void raven_pcihost_initfn(Object *obj)
++PCIDevice *pci_new_multifunction(int devfn, bool multifunction,
++                                    const char *name);
++PCIDevice *pci_new(int devfn, const char *name);
++bool pci_realize_and_unref(PCIDevice *dev, PCIBus *bus, Error **errp);
++
+ PCIDevice *pci_create_multifunction(PCIBus *bus, int devfn, bool multifunction,
+                                     const char *name);
+ PCIDevice *pci_create_simple_multifunction(PCIBus *bus, int devfn,
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 6947c741c3..92f3f0f134 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2147,6 +2147,27 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
+     }
+ }
  
-     object_initialize(&s->pci_dev, sizeof(s->pci_dev), TYPE_RAVEN_PCI_DEVICE);
-     pci_dev = DEVICE(&s->pci_dev);
--    qdev_set_parent_bus(pci_dev, BUS(&s->pci_bus));
-     object_property_set_int(OBJECT(&s->pci_dev), PCI_DEVFN(0, 0), "addr",
-                             NULL);
-     qdev_prop_set_bit(pci_dev, "multifunction", false);
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 57dbf1e15a..e7bf589ef5 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1212,12 +1212,11 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
-         object_property_set_int(OBJECT(phb), i, "index", &error_fatal);
-         object_property_set_int(OBJECT(phb), chip->chip_id, "chip-id",
-                                 &error_fatal);
--        object_property_set_bool(OBJECT(phb), true, "realized", &local_err);
-+        qdev_realize(DEVICE(phb), NULL, &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
-             return;
-         }
--        qdev_set_parent_bus(DEVICE(phb), sysbus_get_default());
- 
-         /* Populate the XSCOM address space. */
-         pnv_xscom_add_subregion(chip,
-@@ -1422,12 +1421,11 @@ static void pnv_chip_power9_phb_realize(PnvChip *chip, Error **errp)
-             object_property_set_int(obj, PNV_PHB4_DEVICE_ID, "device-id",
-                                     &error_fatal);
-             object_property_set_link(obj, OBJECT(stack), "stack", &error_abort);
--            object_property_set_bool(obj, true, "realized", &local_err);
-+            qdev_realize(DEVICE(obj), NULL, &local_err);
-             if (local_err) {
-                 error_propagate(errp, local_err);
-                 return;
-             }
--            qdev_set_parent_bus(DEVICE(obj), sysbus_get_default());
- 
-             /* Populate the XSCOM address space. */
-             pnv_xscom_add_subregion(chip,
-diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index 20aca30ac4..40e27a8cb4 100644
---- a/hw/s390x/sclp.c
-+++ b/hw/s390x/sclp.c
-@@ -333,17 +333,15 @@ static void sclp_realize(DeviceState *dev, Error **errp)
-     uint64_t hw_limit;
-     int ret;
- 
--    object_property_set_bool(OBJECT(sclp->event_facility), true, "realized",
--                             &err);
--    if (err) {
--        goto out;
--    }
-     /*
-      * qdev_device_add searches the sysbus for TYPE_SCLP_EVENTS_BUS. As long
-      * as we can't find a fitting bus via the qom tree, we have to add the
-      * event facility to the sysbus, so e.g. a sclp console can be created.
-      */
--    qdev_set_parent_bus(DEVICE(sclp->event_facility), sysbus_get_default());
-+    qdev_realize(DEVICE(sclp->event_facility), NULL, &err);
-+    if (err) {
-+        goto out;
-+    }
- 
-     ret = s390_set_memory_limit(machine->maxram_size, &hw_limit);
-     if (ret == -E2BIG) {
++PCIDevice *pci_new_multifunction(int devfn, bool multifunction,
++                                 const char *name)
++{
++    DeviceState *dev;
++
++    dev = qdev_new(name);
++    qdev_prop_set_int32(dev, "addr", devfn);
++    qdev_prop_set_bit(dev, "multifunction", multifunction);
++    return PCI_DEVICE(dev);
++}
++
++PCIDevice *pci_new(int devfn, const char *name)
++{
++    return pci_new_multifunction(devfn, false, name);
++}
++
++bool pci_realize_and_unref(PCIDevice *dev, PCIBus *bus, Error **errp)
++{
++    return qdev_realize_and_unref(&dev->qdev, &bus->qbus, errp);
++}
++
+ PCIDevice *pci_create_multifunction(PCIBus *bus, int devfn, bool multifunction,
+                                     const char *name)
+ {
 -- 
 2.21.1
 
