@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1BC1D9AA0
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:04:15 +0200 (CEST)
-Received: from localhost ([::1]:55446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2891D1D9ABE
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 17:09:43 +0200 (CEST)
+Received: from localhost ([::1]:51508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jb3mw-000160-EA
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45040)
+	id 1jb3sD-0003Qa-7C
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 11:09:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f4-0001J8-Ky
- for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:06 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46076
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f7-0001Q6-8W
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:09 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54923
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f1-0003Vl-0q
- for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:06 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jb3f1-0003WA-Ko
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 10:56:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1589900162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h2225eS/I9PVina18K36Cys7b3IGVbbbYpW9WHV4swM=;
- b=WX5Knrg3fEeeJdoY5sMbRc29igz2Xy3/LRXWVD8R2rrBKBv25jWbWKTdpyab9qs19kNPfN
- 1tq9eS+8LY1hh+QmzDrSjWSiZZ2bEYVnXROhHcJoKmGtPZVAzWffZwwXc4Q6wZGknfSZWZ
- JFWq8S+YiiOWDDdaLuy85TxKHN6uYk4=
+ bh=9YvBOjz+GveHkdAI4uLmTvYvs3a9LqSfTz7KYaRSlFM=;
+ b=S4so4F++7Vdd9pK+Za+3UD8o6ACH6HbegL+4CwC5sD5RyEvNUWBa1tH1yeM5nKY9niwmMI
+ CetkgfrZo/0n6fyQsTIB5CSuA/IIRC2VJNyXPYTx3WYFSM9NG3dfLtpqEzhh6GaMqn7bJY
+ unrOm4UjJso1xPwoLV04uJRLPQvCxJA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-3LgeNWrdPpeYZdKK_9515w-1; Tue, 19 May 2020 10:56:00 -0400
-X-MC-Unique: 3LgeNWrdPpeYZdKK_9515w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-63-2qBI-vBgO9OGQudCUxE2nA-1; Tue, 19 May 2020 10:56:00 -0400
+X-MC-Unique: 2qBI-vBgO9OGQudCUxE2nA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76AAD8015CE
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9A92835B50
  for <qemu-devel@nongnu.org>; Tue, 19 May 2020 14:55:59 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 44D425C1D0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 93D8F5799C;
  Tue, 19 May 2020 14:55:59 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 405031135223; Tue, 19 May 2020 16:55:52 +0200 (CEST)
+ id 43A101135224; Tue, 19 May 2020 16:55:52 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 38/55] microbit: Tidy up sysbus_init_child_obj() @child
- argument
-Date: Tue, 19 May 2020 16:55:34 +0200
-Message-Id: <20200519145551.22836-39-armbru@redhat.com>
+Subject: [PATCH 39/55] sysbus: Tidy up sysbus_init_child_obj()'s @childsize
+ arg, part 1
+Date: Tue, 19 May 2020 16:55:35 +0200
+Message-Id: <20200519145551.22836-40-armbru@redhat.com>
 In-Reply-To: <20200519145551.22836-1-armbru@redhat.com>
 References: <20200519145551.22836-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -86,36 +86,134 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The callers of sysbus_init_child_obj() commonly pass either &child,
-sizeof(child), or pchild, sizeof(*pchild).  Tidy up two that don't,
-mostly to keep future commits simpler.
+sizeof(child), or pchild, sizeof(*pchild).  Tidy up the few that use
+sizeof(child_type) instead, mostly to keep future commits simpler.
+
+Coccinelle script:
+
+    @@
+    expression parent, propname, type;
+    type T;
+    T child;
+    @@
+    -    sysbus_init_child_obj(parent, propname, &child, sizeof(T), type)
+    +    sysbus_init_child_obj(parent, propname, &child, sizeof(child), type)
+
+    @@
+    expression parent, propname, type;
+    type T;
+    T *child;
+    @@
+    -    sysbus_init_child_obj(parent, propname, child, sizeof(T), type)
+    +    sysbus_init_child_obj(parent, propname, child, sizeof(*child), type)
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/arm/microbit.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/arm/bcm2835_peripherals.c    | 3 +--
+ hw/arm/mps2-tz.c                | 5 ++---
+ hw/arm/musca.c                  | 8 +++-----
+ hw/display/sm501.c              | 2 +-
+ hw/microblaze/xlnx-zynqmp-pmu.c | 4 ++--
+ 5 files changed, 9 insertions(+), 13 deletions(-)
 
-diff --git a/hw/arm/microbit.c b/hw/arm/microbit.c
-index ef213695bd..72fab429c4 100644
---- a/hw/arm/microbit.c
-+++ b/hw/arm/microbit.c
-@@ -39,7 +39,7 @@ static void microbit_init(MachineState *machine)
-     Object *soc = OBJECT(&s->nrf51);
-     Object *i2c = OBJECT(&s->i2c);
- 
--    sysbus_init_child_obj(OBJECT(machine), "nrf51", soc, sizeof(s->nrf51),
-+    sysbus_init_child_obj(OBJECT(machine), "nrf51", &s->nrf51, sizeof(s->nrf51),
-                           TYPE_NRF51_SOC);
-     qdev_prop_set_chr(DEVICE(&s->nrf51), "serial0", serial_hd(0));
-     object_property_set_link(soc, OBJECT(system_memory), "memory",
-@@ -51,7 +51,7 @@ static void microbit_init(MachineState *machine)
-      * hack until we implement the nRF51 TWI controller properly and the
-      * magnetometer/accelerometer devices.
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index f1bcc14f55..49bfabee9b 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -27,8 +27,7 @@ static void create_unimp(BCM2835PeripheralState *ps,
+                          UnimplementedDeviceState *uds,
+                          const char *name, hwaddr ofs, hwaddr size)
+ {
+-    sysbus_init_child_obj(OBJECT(ps), name, uds,
+-                          sizeof(UnimplementedDeviceState),
++    sysbus_init_child_obj(OBJECT(ps), name, uds, sizeof(*uds),
+                           TYPE_UNIMPLEMENTED_DEVICE);
+     qdev_prop_set_string(DEVICE(uds), "name", name);
+     qdev_prop_set_uint64(DEVICE(uds), "size", size);
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index 8a050228d0..ad0bc9365a 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -174,8 +174,7 @@ static MemoryRegion *make_unimp_dev(MPS2TZMachineState *mms,
       */
--    sysbus_init_child_obj(OBJECT(machine), "microbit.twi", i2c,
-+    sysbus_init_child_obj(OBJECT(machine), "microbit.twi", &s->i2c,
-                           sizeof(s->i2c), TYPE_MICROBIT_I2C);
-     object_property_set_bool(i2c, true, "realized", &error_fatal);
-     mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(i2c), 0);
+     UnimplementedDeviceState *uds = opaque;
+ 
+-    sysbus_init_child_obj(OBJECT(mms), name, uds,
+-                          sizeof(UnimplementedDeviceState),
++    sysbus_init_child_obj(OBJECT(mms), name, uds, sizeof(*uds),
+                           TYPE_UNIMPLEMENTED_DEVICE);
+     qdev_prop_set_string(DEVICE(uds), "name", name);
+     qdev_prop_set_uint64(DEVICE(uds), "size", size);
+@@ -552,7 +551,7 @@ static void mps2tz_common_init(MachineState *machine)
+         char *gpioname;
+ 
+         sysbus_init_child_obj(OBJECT(machine), ppcinfo->name, ppc,
+-                              sizeof(TZPPC), TYPE_TZ_PPC);
++                              sizeof(*ppc), TYPE_TZ_PPC);
+         ppcdev = DEVICE(ppc);
+ 
+         for (port = 0; port < TZ_NUM_PORTS; port++) {
+diff --git a/hw/arm/musca.c b/hw/arm/musca.c
+index cd7df7c191..b7f1c4e128 100644
+--- a/hw/arm/musca.c
++++ b/hw/arm/musca.c
+@@ -142,8 +142,7 @@ static MemoryRegion *make_unimp_dev(MuscaMachineState *mms,
+      */
+     UnimplementedDeviceState *uds = opaque;
+ 
+-    sysbus_init_child_obj(OBJECT(mms), name, uds,
+-                          sizeof(UnimplementedDeviceState),
++    sysbus_init_child_obj(OBJECT(mms), name, uds, sizeof(*uds),
+                           TYPE_UNIMPLEMENTED_DEVICE);
+     qdev_prop_set_string(DEVICE(uds), "name", name);
+     qdev_prop_set_uint64(DEVICE(uds), "size", size);
+@@ -246,8 +245,7 @@ static MemoryRegion *make_mpc(MuscaMachineState *mms, void *opaque,
+     case MPC_CRYPTOISLAND:
+         /* We don't implement the CryptoIsland yet */
+         uds = &mms->cryptoisland;
+-        sysbus_init_child_obj(OBJECT(mms), name, uds,
+-                              sizeof(UnimplementedDeviceState),
++        sysbus_init_child_obj(OBJECT(mms), name, uds, sizeof(*uds),
+                               TYPE_UNIMPLEMENTED_DEVICE);
+         qdev_prop_set_string(DEVICE(uds), "name", mpcinfo[i].name);
+         qdev_prop_set_uint64(DEVICE(uds), "size", mpcinfo[i].size);
+@@ -535,7 +533,7 @@ static void musca_init(MachineState *machine)
+         char *gpioname;
+ 
+         sysbus_init_child_obj(OBJECT(machine), ppcinfo->name, ppc,
+-                              sizeof(TZPPC), TYPE_TZ_PPC);
++                              sizeof(*ppc), TYPE_TZ_PPC);
+         ppcdev = DEVICE(ppc);
+ 
+         for (port = 0; port < TZ_NUM_PORTS; port++) {
+diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+index cacb6082b2..348d8f0458 100644
+--- a/hw/display/sm501.c
++++ b/hw/display/sm501.c
+@@ -2006,7 +2006,7 @@ static void sm501_sysbus_init(Object *o)
+     SM501SysBusState *sm501 = SYSBUS_SM501(o);
+     SerialMM *smm = &sm501->serial;
+ 
+-    sysbus_init_child_obj(o, "serial", smm, sizeof(SerialMM), TYPE_SERIAL_MM);
++    sysbus_init_child_obj(o, "serial", smm, sizeof(*smm), TYPE_SERIAL_MM);
+     qdev_set_legacy_instance_id(DEVICE(smm), SM501_UART0, 2);
+     qdev_prop_set_uint8(DEVICE(smm), "regshift", 2);
+     qdev_prop_set_uint8(DEVICE(smm), "endianness", DEVICE_LITTLE_ENDIAN);
+diff --git a/hw/microblaze/xlnx-zynqmp-pmu.c b/hw/microblaze/xlnx-zynqmp-pmu.c
+index bd56eccd66..30ad133ec3 100644
+--- a/hw/microblaze/xlnx-zynqmp-pmu.c
++++ b/hw/microblaze/xlnx-zynqmp-pmu.c
+@@ -69,8 +69,8 @@ static void xlnx_zynqmp_pmu_soc_init(Object *obj)
+     /* Create the IPI device */
+     for (int i = 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
+         char *name = g_strdup_printf("ipi%d", i);
+-        sysbus_init_child_obj(obj, name, &s->ipi[i],
+-                              sizeof(XlnxZynqMPIPI), TYPE_XLNX_ZYNQMP_IPI);
++        sysbus_init_child_obj(obj, name, &s->ipi[i], sizeof(s->ipi[i]),
++                              TYPE_XLNX_ZYNQMP_IPI);
+         g_free(name);
+     }
+ }
 -- 
 2.21.1
 
