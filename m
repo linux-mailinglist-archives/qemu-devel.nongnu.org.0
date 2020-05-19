@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D6381DA3C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 23:43:39 +0200 (CEST)
-Received: from localhost ([::1]:59042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A541DA3C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 May 2020 23:41:42 +0200 (CEST)
+Received: from localhost ([::1]:52834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbA1S-0000qz-JA
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 17:43:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39040)
+	id 1jb9zZ-0006eK-Kg
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 17:41:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=401675184=alistair.francis@wdc.com>)
- id 1jb9xu-0004GI-1o; Tue, 19 May 2020 17:39:58 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:10353)
+ id 1jb9yH-0004Ya-Gt; Tue, 19 May 2020 17:40:21 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:10362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=401675184=alistair.francis@wdc.com>)
- id 1jb9xs-0008Nj-KQ; Tue, 19 May 2020 17:39:57 -0400
+ id 1jb9yF-0008RH-PW; Tue, 19 May 2020 17:40:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1589924407; x=1621460407;
+ t=1589924442; x=1621460442;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=F6PaS0ppWoREt+I7H+MwgSoKprK6XgKjP6if/dnLS2k=;
- b=hQQMLtVu+0nDTCLHOKHDcHsSzDk2Oyot20ufQVjxsk6JwgAN1TQucsvi
- 3aqIb2N6lg3DulWYtpAuVPdQe65UcK9DGCtjHB7wERBwN4Heyd5l8YWLp
- 1yb4ldcXHB6jP0jhOLzJTKJKe/ZRAajlL7kK7AvQ2/LFU1Y7j26/RqeA5
- FlR4Ra58Q4UBlYDfXT14d6gNy+HuXZtdFbLSJpJVqrvIVULMpaeZXY+nj
- 8zjUtU/LD6zVjC3LRu2938mKAj08AD+UvpmZbLD6IzV6tVQiLttXugcSC
- aeN+0b5Y58n1yrZyQHv/fmBACAuUrv+48T1XT0LiNx45Y/wpAQWG+qsmL g==;
-IronPort-SDR: 8AggHsskYGd6zHDXQotHyHiBVnvnv/tOY8yKvBwau6wtgTMT4lEhL+DR3p0YdPTLxVJrSVtKB+
- bvHwjAgLOEOBmVSkj9eN5IjYxu6LbfOvzk+arN4z1ho1DjTCsVH29RgzF30EACFZ02AswHSbu9
- eal9myWrUyEjrYT3jISPV9FLg6pvWXVsuMndgK/FrQzf/vC3MISQf7OyA+Oi+R/aXL/8Iz4JPH
- N6kXqADJxX9eliePBNxJsMWFhoFyaOmDQpFxKTQ1o593DT99DKw4PC/5xtDXrYyQRtVhJHaJyL
- MQg=
-X-IronPort-AV: E=Sophos;i="5.73,411,1583164800"; d="scan'208";a="240814184"
+ bh=ABL5sMkVashheNLr/yNOfkXjgnG3gvdYDtNCa+XUzOo=;
+ b=QPIEfPste6HLTN7ky0TC0LECZey8y59UV+b8Rp/ZgjunJcMgEs0SsF2a
+ 1GeN+Wq8Ne5sRhP02TSv7a6Tpu6Ak3wl+PAgQ8m3Ozzb3jiJtZHQk93hd
+ jG5eAJOlJFAugSSH02qVcqT6Cjuu0nW2ByntnGO7j4wAIMU3QlCOayk9S
+ Sh7ohA53TSPRHrptpERi3NQL3uIbMQ8/4GPkhb6GmNTBhQuduw6Muhj38
+ 0472PyrKbDdbtECHfTrCSLQiGU/P3wlTNXwJcx5cuZQ/a0x41kIIThG3p
+ GxUzyJxoxr1MhLUzQXkNQ+TMEQAhQUu608b5/HfYK7hlhT0LBzsTYCtMz w==;
+IronPort-SDR: agD/Qi7Os+qtBQFKL/tiIKViALnqHeD8kNS+UJHzIYi+uboqMd0XiDJsA1FDpWYcFoDWAxoUZo
+ 3Xumu4VobM4N17JTxPW3YPhjZ9xvkKO7oOo3/MOGhhqWefGqEwyFFd2SSH2NGMtSHyeAr2FHsg
+ VNf1KI6ygo+ZhY28jaDlVtKzyK8593eoiOZCLb0uREi0zCZ2KpIhH3pUv7FjmrZLdRTPXGOKQv
+ 4WRFwh8bV3jFlQfV1tYts6NjTGf4CgGMwR5ybG/m0Tas5mOUJIVZ/YQtfjvQe/ji/M85TNNZTR
+ Ni0=
+X-IronPort-AV: E=Sophos;i="5.73,411,1583164800"; d="scan'208";a="240814187"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 May 2020 05:40:03 +0800
-IronPort-SDR: j81j6XbJyz2NBzpG9lSlA4fKKSIPZIoavec7y4wwVLz8QmzZ2IALs2SPIZaKlfZfqI7VhogMYH
- jUmvF6Lmn4aZW0dzVERuVpQpObuZDEYjo=
+ by ob1.hgst.iphmx.com with ESMTP; 20 May 2020 05:40:07 +0800
+IronPort-SDR: 4jAx0ku76JW+QtRcYKimel4e7BeaSloQ9/si4vaxfIM0Vg4Afd7nFmhhp1cCd6TH3ZYOJVLJWJ
+ 19ZdU9+AvO+ShDMFFGYmDdkmlSGAqLRbw=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2020 14:29:24 -0700
-IronPort-SDR: jpNlGFh1JgDiWSOXKeLV4tTL2cUX3AWuWSDeTAcOv/wXp7zGLCGZ7HqnBkqqXfy4FwOd3QRhyy
- vfu6agw94Qcg==
+ 19 May 2020 14:29:27 -0700
+IronPort-SDR: 0C8FBXr6DK6GbGzutikX0W/p9ifNC+E0Ns9zM0gh4PhHem5WBnjd/cCjEi1GWDXXjQVgt6uSDV
+ IDm2Mdcfvqkw==
 WDCIronportException: Internal
 Received: from usa005149.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.57.14])
- by uls-op-cesaip01.wdc.com with ESMTP; 19 May 2020 14:39:53 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 19 May 2020 14:39:56 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v3 1/9] riscv/boot: Add a missing header include
-Date: Tue, 19 May 2020 14:31:26 -0700
-Message-Id: <05ea15f2ec07e1c85273d4897d47c05225b116f6.1589923785.git.alistair.francis@wdc.com>
+Subject: [PATCH v3 2/9] target/riscv: Don't overwrite the reset vector
+Date: Tue, 19 May 2020 14:31:29 -0700
+Message-Id: <8ad7eb9be23b7483797f82d58742100ca40bf0b7.1589923785.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1589923785.git.alistair.francis@wdc.com>
 References: <cover.1589923785.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=401675184=alistair.francis@wdc.com;
@@ -92,29 +91,42 @@ Cc: alistair.francis@wdc.com, philmd@redhat.com, bmeng.cn@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently every c file that includes boot.h also includes loader.h
-before it. Which is why the build works fine. We should be able to
-include just boot.h though so this is a small fixup to allow that.
+The reset vector is set in the init function don't set it again in
+realize.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
 ---
- include/hw/riscv/boot.h | 1 +
- 1 file changed, 1 insertion(+)
+ target/riscv/cpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index 474a940ad5..9daa98da08 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -21,6 +21,7 @@
- #define RISCV_BOOT_H
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 059d71f2c7..5eb3c02735 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -133,6 +133,7 @@ static void riscv_base32_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, 0);
++    set_resetvec(env, DEFAULT_RSTVEC);
+ }
  
- #include "exec/cpu-defs.h"
-+#include "hw/loader.h"
+ static void rv32gcsu_priv1_09_1_cpu_init(Object *obj)
+@@ -180,6 +181,7 @@ static void riscv_base64_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, 0);
++    set_resetvec(env, DEFAULT_RSTVEC);
+ }
  
- void riscv_find_and_load_firmware(MachineState *machine,
-                                   const char *default_machine_firmware,
+ static void rv64gcsu_priv1_09_1_cpu_init(Object *obj)
+@@ -399,7 +401,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     set_priv_version(env, priv_version);
+-    set_resetvec(env, DEFAULT_RSTVEC);
+ 
+     if (cpu->cfg.mmu) {
+         set_feature(env, RISCV_FEATURE_MMU);
 -- 
 2.26.2
 
