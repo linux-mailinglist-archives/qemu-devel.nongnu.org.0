@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B6D81DACEC
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 10:09:15 +0200 (CEST)
-Received: from localhost ([::1]:37632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 155AF1DACE9
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 10:08:07 +0200 (CEST)
+Received: from localhost ([::1]:34388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbJms-0007Tf-6J
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 04:09:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40412)
+	id 1jbJll-0005Pa-Jr
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 04:08:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jbJkt-0004P2-1R; Wed, 20 May 2020 04:07:11 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:34328)
+ id 1jbJks-0004P3-Vg; Wed, 20 May 2020 04:07:10 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:45368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jbJkp-0008Pp-Dz; Wed, 20 May 2020 04:07:09 -0400
+ id 1jbJkq-0008UX-KM; Wed, 20 May 2020 04:07:09 -0400
 Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
  [IPv6:2a02:6b8:0:1619::162])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 0667B2E1521;
- Wed, 20 May 2020 11:07:00 +0300 (MSK)
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 154672E15D7;
+ Wed, 20 May 2020 11:07:03 +0300 (MSK)
 Received: from vla5-58875c36c028.qloud-c.yandex.net
  (vla5-58875c36c028.qloud-c.yandex.net [2a02:6b8:c18:340b:0:640:5887:5c36])
  by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- bcsor4v0rj-6vTS8sZb; Wed, 20 May 2020 11:06:59 +0300
+ YFLSrtxWfi-70Tqxshq; Wed, 20 May 2020 11:07:03 +0300
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1589962019; bh=EjkfETItd56nU4EAo+AAosAF/iNz9qJsYjkDq713yZY=;
- h=Message-Id:Date:Subject:To:From:Cc;
- b=YzFBCQetTXcFsa27/ANaYOuMldTEtRTKzYZmCQdT+tYGTKD5WZn2gH/3bYqWD8Frl
- 4XFwVcTdjMQTTlPRxXWm+Jt2OB0LyNh1QkDIXhR3hoYwbxnnIjIlEHwwoSJt6ulFqr
- mXnGfwkCLfmykRGQTSKOVVXF9JUO8mPWI9OXO/VI=
+ t=1589962023; bh=mI20EDucY0RIcbnbD/FroRaH48VEE4g/F4BoCww7kUk=;
+ h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
+ b=UG0Ux8wSYY0Ti25OqXqYoY9NiqgKZ0ZRptUv47Iw5y23HOHQn6U71UZ6bR2HqL+Ij
+ krB+WTl/7a8Rngrwi0GoBiXqYObv2vr4KiLFhJcLUgzKt9h94AP1iNKhuCP3EdFjGe
+ kTr2nGqL+3NJluZtNFg6audc/UFFT9nSrNHf8JJM=
 Authentication-Results: mxbackcorp1j.mail.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
  [2a02:6b8:b081:1519::1:a])
  by vla5-58875c36c028.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- HRdUjo6D3m-6vXmwmik; Wed, 20 May 2020 11:06:57 +0300
+ HRdUjo6D3m-70XmQHdJ; Wed, 20 May 2020 11:07:00 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 From: Roman Kagan <rvkagan@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/3] block: make BlockConf.*_size properties 32-bit
-Date: Wed, 20 May 2020 11:06:54 +0300
-Message-Id: <20200520080657.29080-1-rvkagan@yandex-team.ru>
+Subject: [PATCH v4 1/3] virtio-blk: store opt_io_size with correct size
+Date: Wed, 20 May 2020 11:06:55 +0300
+Message-Id: <20200520080657.29080-2-rvkagan@yandex-team.ru>
 X-Mailer: git-send-email 2.26.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200520080657.29080-1-rvkagan@yandex-team.ru>
+References: <20200520080657.29080-1-rvkagan@yandex-team.ru>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 04:07:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,63 +83,31 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Devices (virtio-blk, scsi, etc.) and the block layer are happy to use=0D
-32-bit for logical_block_size, physical_block_size, and min_io_size.=0D
-However, the properties in BlockConf are defined as uint16_t limiting=0D
-the values to 32768.=0D
-=0D
-This appears unnecessary tight, and we've seen bigger block sizes handy=0D
-at times.=0D
-=0D
-Make them 32 bit instead and lift the limitation up to 2 MiB which=0D
-appears to be good enough for everybody, and matches the qcow2 cluster=0D
-size limit.=0D
-=0D
-As the values can now be fairly big and awkward to type, make the=0D
-property setter accept common size suffixes (k, m).=0D
-=0D
-While at this, introduce a few consistency checks on the blocksize-related=
-=0D
-values in BlockConf, to prevent their silent truncation or rounding.=0D
-=0D
-Also fix the accessor for opt_io_size in virtio-blk to make it consistent w=
-ith=0D
-the size of the field, and thus synchronize virtio-blk and scsi in the way=
-=0D
-opt_io_size is used.=0D
-=0D
-History:=0D
-v3 -> v4:=0D
-- add patch to opt_io_size width=0D
-- add patch to perform consistency checks [Kevin]=0D
-- check min_io_size against truncation [Kevin]=0D
-=0D
-v2 -> v3:=0D
-- mention qcow2 cluster size limit in the log and comment [Eric]=0D
-=0D
-v1 -> v2:=0D
-- cap the property at 2 MiB [Eric]=0D
-- accept size suffixes=0D
-=0D
-Roman Kagan (3):=0D
-  virtio-blk: store opt_io_size with correct size=0D
-  block: consolidate blocksize properties consistency checks=0D
-  block: make BlockConf.*_size properties 32-bit=0D
-=0D
- include/hw/block/block.h     | 10 ++++-----=0D
- include/hw/qdev-properties.h |  2 +-=0D
- hw/block/block.c             | 40 +++++++++++++++++++++++++++++++++++-=0D
- hw/block/fdc.c               |  5 ++++-=0D
- hw/block/nvme.c              |  5 ++++-=0D
- hw/block/virtio-blk.c        |  9 ++------=0D
- hw/core/qdev-properties.c    | 34 +++++++++++++++++++++---------=0D
- hw/ide/qdev.c                |  5 ++++-=0D
- hw/scsi/scsi-disk.c          | 10 +++------=0D
- hw/usb/dev-storage.c         |  5 ++++-=0D
- tests/qemu-iotests/172.out   |  2 +-=0D
- 11 files changed, 91 insertions(+), 36 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+The width of opt_io_size in virtio_blk_topology is 32bit.
+
+Use the appropriate accessor to store it.
+
+Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+---
+v4: new patch
+
+ hw/block/virtio-blk.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index f5f6fc925e..413083e62f 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -918,7 +918,7 @@ static void virtio_blk_update_config(VirtIODevice *vdev, uint8_t *config)
+     virtio_stw_p(vdev, &blkcfg.geometry.cylinders, conf->cyls);
+     virtio_stl_p(vdev, &blkcfg.blk_size, blk_size);
+     virtio_stw_p(vdev, &blkcfg.min_io_size, conf->min_io_size / blk_size);
+-    virtio_stw_p(vdev, &blkcfg.opt_io_size, conf->opt_io_size / blk_size);
++    virtio_stl_p(vdev, &blkcfg.opt_io_size, conf->opt_io_size / blk_size);
+     blkcfg.geometry.heads = conf->heads;
+     /*
+      * We must ensure that the block device capacity is a multiple of
+-- 
+2.26.2
+
 
