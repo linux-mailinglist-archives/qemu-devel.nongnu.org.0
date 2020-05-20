@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6024A1DB51E
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:34:40 +0200 (CEST)
-Received: from localhost ([::1]:33130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0CD1DB502
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:29:57 +0200 (CEST)
+Received: from localhost ([::1]:40676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbOrn-0005db-ES
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:34:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47818)
+	id 1jbOnE-00046n-Lk
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:29:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbOeF-0002Iu-6Z
- for qemu-devel@nongnu.org; Wed, 20 May 2020 09:20:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58657
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbOeH-0002M6-Gj
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 09:20:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46348
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbOeC-0000J6-J7
- for qemu-devel@nongnu.org; Wed, 20 May 2020 09:20:38 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbOeD-0000Jx-R8
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 09:20:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589980835;
+ s=mimecast20190719; t=1589980836;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=2msO/1+vqpbDkNl4/pvOT0xxBfnL++oCQrrjhXIepns=;
- b=W+zvR8f6cGCzNTP9FUTnHjrUV4xVQSqjjCO4PsmjJGTT9AEgutDJ2xdfSibO8OOpX1DGFw
- eyXnqh/OFWspo6EC+HOuItOKOcmmKIPRhk6dkv1kBK7+K5GLKnTZ0Sifuw4P8YhUYDFPJy
- E4IHhY6eI77S1LN5AsmveOxfnoJlnSk=
+ references:references; bh=6OIxpUflKpjw9oFHZKmMc0sFoAZYdcP0pMC2r+iLubc=;
+ b=gmBRUY44K1svrWmqDBViY87OzI28H0rV1130ierxU9wXHbh5MrbmwS2NLRl6i6xzvaQWcz
+ HxiBjCoLEnxk6kzyO0Z9xmPgB9Ma/SOQVPkIUfrdmvwZMmpbh8no+2xMp1DAnIeZY/3KL3
+ 5J5CrUpZdXBjPQpC7V/ekxbf0+9TNTE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-tONqx_N0Nry61XJifatxmA-1; Wed, 20 May 2020 09:20:33 -0400
-X-MC-Unique: tONqx_N0Nry61XJifatxmA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-391-9KxStO4rPR61EXfnfpNnJA-1; Wed, 20 May 2020 09:20:34 -0400
+X-MC-Unique: 9KxStO4rPR61EXfnfpNnJA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 648551902EC6;
- Wed, 20 May 2020 13:20:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85527464;
+ Wed, 20 May 2020 13:20:33 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
  [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57E8C60C84;
- Wed, 20 May 2020 13:20:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 125D019C58;
+ Wed, 20 May 2020 13:20:25 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6F9679D72; Wed, 20 May 2020 15:20:04 +0200 (CEST)
+ id 7A1469D73; Wed, 20 May 2020 15:20:04 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 20/22] microvm/acpi: disable virtio-mmio cmdline hack
-Date: Wed, 20 May 2020 15:20:01 +0200
-Message-Id: <20200520132003.9492-21-kraxel@redhat.com>
+Subject: [PATCH v3 21/22] [RfC] acpi: add per machine type acpi default
+Date: Wed, 20 May 2020 15:20:02 +0200
+Message-Id: <20200520132003.9492-22-kraxel@redhat.com>
 In-Reply-To: <20200520132003.9492-1-kraxel@redhat.com>
 References: <20200520132003.9492-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 22:48:02
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 01:34:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,28 +85,66 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-... in case we are using ACPI.
+Allow setting acpi default value for each machine type.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/microvm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/hw/i386/x86.h |  1 +
+ hw/i386/x86.c         | 21 ++++++++++++++++++---
+ 2 files changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index ddb8570a2915..602c6a8f75f3 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -362,7 +362,8 @@ static void microvm_machine_reset(MachineState *machine)
-     CPUState *cs;
-     X86CPU *cpu;
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index b52285481687..d2fffa8252ff 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -37,6 +37,7 @@ typedef struct {
+     bool save_tsc_khz;
+     /* Enables contiguous-apic-ID mode */
+     bool compat_apic_id_mode;
++    bool acpi_default;
+ } X86MachineClass;
  
--    if (machine->kernel_filename != NULL &&
-+    if (!x86_machine_is_acpi_enabled(X86_MACHINE(machine)) &&
-+        machine->kernel_filename != NULL &&
-         mms->auto_kernel_cmdline && !mms->kernel_cmdline_fixed) {
-         microvm_fix_kernel_cmdline(machine);
-         mms->kernel_cmdline_fixed = true;
+ typedef struct {
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index ac7a0a958781..3a56a157c5f0 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -940,10 +940,22 @@ static void x86_machine_set_smm(Object *obj, Visitor *v, const char *name,
+ 
+ bool x86_machine_is_acpi_enabled(X86MachineState *x86ms)
+ {
+-    if (x86ms->acpi == ON_OFF_AUTO_OFF) {
+-        return false;
++    X86MachineClass *x86mc = X86_MACHINE_GET_CLASS(x86ms);
++    bool enabled;
++
++    switch (x86ms->acpi) {
++    case ON_OFF_AUTO_ON:
++        enabled = true;
++        break;
++    case ON_OFF_AUTO_OFF:
++        enabled = false;
++        break;
++    case ON_OFF_AUTO_AUTO:
++    default:
++        enabled = x86mc->acpi_default;
++        break;
+     }
+-    return true;
++    return enabled;
+ }
+ 
+ static void x86_machine_get_acpi(Object *obj, Visitor *v, const char *name,
+@@ -991,6 +1003,9 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+     x86mc->save_tsc_khz = true;
+     nc->nmi_monitor_handler = x86_nmi;
+ 
++    /* acpi is on by default */
++    x86mc->acpi_default = true;
++
+     object_class_property_add(oc, X86_MACHINE_MAX_RAM_BELOW_4G, "size",
+         x86_machine_get_max_ram_below_4g, x86_machine_set_max_ram_below_4g,
+         NULL, NULL);
 -- 
 2.18.4
 
