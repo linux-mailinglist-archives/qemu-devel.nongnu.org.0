@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA2A1DC18E
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 23:47:32 +0200 (CEST)
-Received: from localhost ([::1]:34618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 229B11DC1AB
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 23:56:33 +0200 (CEST)
+Received: from localhost ([::1]:49646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbWYk-00027U-EI
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 17:47:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51228)
+	id 1jbWhU-00025Y-7o
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 17:56:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jbWXb-0001bI-GD; Wed, 20 May 2020 17:46:19 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:32838)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jbWXX-0002yv-GJ; Wed, 20 May 2020 17:46:17 -0400
-Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net
- [IPv6:2a02:6b8:0:1402::301])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 95AA32E151E;
- Thu, 21 May 2020 00:46:10 +0300 (MSK)
-Received: from sas2-32987e004045.qloud-c.yandex.net
- (sas2-32987e004045.qloud-c.yandex.net [2a02:6b8:c08:b889:0:640:3298:7e00])
- by mxbackcorp1g.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- UaccNMyeVx-k1201YCD; Thu, 21 May 2020 00:46:10 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1590011170; bh=Etpz66RdX4LCP+mrWmGum0kY+H7b1T18bZjJ9np0FW4=;
- h=In-Reply-To:Message-ID:Subject:To:From:References:Date:Cc;
- b=MVOUo2qNLmmmI4WxruPKocvzknODBdxfFlTrhdBazOcfXcmmc1XOz7viyYb7DdzUU
- oU+e4YThSra2qHGdaJUMov1RRnvXlOHd0Jm2c36ytk2/dtKzaTfn4YXQNTdLkUz3Ch
- 6f7uNtgep+Tmd+u4fGWg5ldngHFu/mjRgkGNiEtA=
-Authentication-Results: mxbackcorp1g.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:407::1:16])
- by sas2-32987e004045.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- lMie7Eiixo-k0WeTihK; Thu, 21 May 2020 00:46:01 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Date: Thu, 21 May 2020 00:45:59 +0300
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 3/3] block: make BlockConf.*_size properties 32-bit
-Message-ID: <20200520214559.GD104207@rvkaganb.lan>
-Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Fam Zheng <fam@euphon.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20200520080657.29080-1-rvkagan@yandex-team.ru>
- <20200520080657.29080-4-rvkagan@yandex-team.ru>
- <fafeeaf6-1151-f0c4-2699-35eb888b6115@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jbWgn-0001gx-Oo
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 17:55:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44740)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jbWgm-0004lK-KF
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 17:55:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jbWgj-0006yn-Bg
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 21:55:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 56EDC2E807E
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 21:55:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fafeeaf6-1151-f0c4-2699-35eb888b6115@redhat.com>
-Received-SPF: pass client-ip=5.45.199.163; envelope-from=rvkagan@yandex-team.ru;
- helo=forwardcorp1j.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 17:11:46
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 20 May 2020 21:47:33 -0000
+From: Heiko Sieger <1856335@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger janklos
+X-Launchpad-Bug-Reporter: Damir (djdatte)
+X-Launchpad-Bug-Modifier: Heiko Sieger (h-sieger)
+References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
+Message-Id: <159001125351.19954.12625699296987847688.malone@soybean.canonical.com>
+Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: adcf25eb001ef9022230813ade20629dfe6d2cfa
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 17:55:46
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,207 +72,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 20, 2020 at 11:04:44AM +0200, Philippe Mathieu-Daudé wrote:
-> On 5/20/20 10:06 AM, Roman Kagan wrote:
-> > Devices (virtio-blk, scsi, etc.) and the block layer are happy to use
-> > 32-bit for logical_block_size, physical_block_size, and min_io_size.
-> > However, the properties in BlockConf are defined as uint16_t limiting
-> > the values to 32768.
-> > 
-> > This appears unnecessary tight, and we've seen bigger block sizes handy
-> > at times.
-> > 
-> > Make them 32 bit instead and lift the limitation up to 2 MiB which
-> > appears to be good enough for everybody, and matches the qcow2 cluster
-> > size limit.
-> > 
-> > As the values can now be fairly big and awkward to type, make the
-> > property setter accept common size suffixes (k, m).
-> > 
-> > Also as the devices which use min_io_size (virtio-blk and scsi) pass its
-> > value to the guest in units of logical blocks in a 16bit field, to
-> > prevent its silent truncation add a corresponding check to
-> > blkconf_blocksizes.
-> > 
-> > Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
-> > ---
-> > v3 -> v4:
-> > - check min_io_size against truncation [Kevin]
-> > 
-> > v2 -> v3:
-> > - mention qcow2 cluster size limit in the log and comment [Eric]
-> > 
-> > v1 -> v2:
-> > - cap the property at 2 MiB [Eric]
-> > - accept size suffixes
-> > 
-> >   include/hw/block/block.h     |  8 ++++----
-> >   include/hw/qdev-properties.h |  2 +-
-> >   hw/block/block.c             | 11 +++++++++++
-> >   hw/core/qdev-properties.c    | 34 ++++++++++++++++++++++++----------
-> >   4 files changed, 40 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/include/hw/block/block.h b/include/hw/block/block.h
-> > index 784953a237..2fa09aa0b1 100644
-> > --- a/include/hw/block/block.h
-> > +++ b/include/hw/block/block.h
-> > @@ -18,9 +18,9 @@
-> >   typedef struct BlockConf {
-> >       BlockBackend *blk;
-> > -    uint16_t physical_block_size;
-> > -    uint16_t logical_block_size;
-> > -    uint16_t min_io_size;
-> > +    uint32_t physical_block_size;
-> > +    uint32_t logical_block_size;
-> > +    uint32_t min_io_size;
-> >       uint32_t opt_io_size;
-> >       int32_t bootindex;
-> >       uint32_t discard_granularity;
-> > @@ -51,7 +51,7 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
-> >                             _conf.logical_block_size),                    \
-> >       DEFINE_PROP_BLOCKSIZE("physical_block_size", _state,                \
-> >                             _conf.physical_block_size),                   \
-> > -    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),    \
-> > +    DEFINE_PROP_UINT32("min_io_size", _state, _conf.min_io_size, 0),    \
-> >       DEFINE_PROP_UINT32("opt_io_size", _state, _conf.opt_io_size, 0),    \
-> >       DEFINE_PROP_UINT32("discard_granularity", _state,                   \
-> >                          _conf.discard_granularity, -1),                  \
-> > diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-> > index f161604fb6..f9e0f8c041 100644
-> > --- a/include/hw/qdev-properties.h
-> > +++ b/include/hw/qdev-properties.h
-> > @@ -197,7 +197,7 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
-> >   #define DEFINE_PROP_BIOS_CHS_TRANS(_n, _s, _f, _d) \
-> >       DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_bios_chs_trans, int)
-> >   #define DEFINE_PROP_BLOCKSIZE(_n, _s, _f) \
-> > -    DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint16_t)
-> > +    DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint32_t)
-> >   #define DEFINE_PROP_PCI_HOST_DEVADDR(_n, _s, _f) \
-> >       DEFINE_PROP(_n, _s, _f, qdev_prop_pci_host_devaddr, PCIHostDeviceAddress)
-> >   #define DEFINE_PROP_OFF_AUTO_PCIBAR(_n, _s, _f, _d) \
-> > diff --git a/hw/block/block.c b/hw/block/block.c
-> > index 5f8ebff59c..cd95e7e38f 100644
-> > --- a/hw/block/block.c
-> > +++ b/hw/block/block.c
-> > @@ -96,6 +96,17 @@ bool blkconf_blocksizes(BlockConf *conf, Error **errp)
-> >           return false;
-> >       }
-> > +    /*
-> > +     * all devices which support min_io_size (scsi and virtio-blk) expose it to
-> > +     * the guest as a uint16_t in units of logical blocks
-> > +     */
-> > +    if ((conf->min_io_size / conf->logical_block_size) > UINT16_MAX) {
-> > +        error_setg(errp,
-> > +                   "min_io_size must be no more than " stringify(UINT16_MAX)
-> > +                   " of logical_block_size");
-> > +        return false;
-> > +    }
-> > +
-> >       if (conf->opt_io_size % conf->logical_block_size) {
-> >           error_setg(errp,
-> >                      "opt_io_size must be a multple of logical_block_size");
-> > diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-> > index cc924815da..fd03cc7597 100644
-> > --- a/hw/core/qdev-properties.c
-> > +++ b/hw/core/qdev-properties.c
-> > @@ -14,6 +14,7 @@
-> >   #include "qapi/visitor.h"
-> >   #include "chardev/char.h"
-> >   #include "qemu/uuid.h"
-> > +#include "qemu/units.h"
-> >   void qdev_prop_set_after_realize(DeviceState *dev, const char *name,
-> >                                     Error **errp)
-> > @@ -729,30 +730,42 @@ const PropertyInfo qdev_prop_pci_devfn = {
-> >   /* --- blocksize --- */
-> > +/* lower limit is sector size */
-> > +#define MIN_BLOCK_SIZE          512
-> > +#define MIN_BLOCK_SIZE_STR      "512 B"
-> > +/*
-> > + * upper limit is arbitrary, 2 MiB looks sufficient for all sensible uses, and
-> > + * matches qcow2 cluster size limit
-> > + */
-> > +#define MAX_BLOCK_SIZE          (2 * MiB)
-> 
-> Can you split this patch?
-> 
-> - add/use definitions (here MAX_BLOCK_SIZE = 32 * KiB)
-> - use 32-bit
-> - raise limit to 2MB
+Jan, I tried your suggestion but it didn't make a difference. Here is my
+current setup:
 
-I can see the value of splitting out the rework of the blocksize
-property, but I'm struggling to justify expanding the fields without
-increasing the limits.  Do you mind if I do it in two patches rather
-than three?
+h/w: AMD Ryzen 9 3900X
+kernel: 5.4
+QEMU: 5.0.0-6
+Chipset selection: Q35-5.0
 
-Thanks,
-Roman.
+Configuration: host-passthrough, cache enabled
 
-> 
-> Feel free to refuse, but having atomic changes is better for bisectability
-> and cherry-picking/reverting.
-> 
-> Thanks,
-> 
-> Phil.
-> 
-> > +#define MAX_BLOCK_SIZE_STR      "2 MiB"
-> > +
-> >   static void set_blocksize(Object *obj, Visitor *v, const char *name,
-> >                             void *opaque, Error **errp)
-> >   {
-> >       DeviceState *dev = DEVICE(obj);
-> >       Property *prop = opaque;
-> > -    uint16_t value, *ptr = qdev_get_prop_ptr(dev, prop);
-> > +    uint32_t *ptr = qdev_get_prop_ptr(dev, prop);
-> > +    uint64_t value;
-> >       Error *local_err = NULL;
-> > -    const int64_t min = 512;
-> > -    const int64_t max = 32768;
-> >       if (dev->realized) {
-> >           qdev_prop_set_after_realize(dev, name, errp);
-> >           return;
-> >       }
-> > -    visit_type_uint16(v, name, &value, &local_err);
-> > +    visit_type_size(v, name, &value, &local_err);
-> >       if (local_err) {
-> >           error_propagate(errp, local_err);
-> >           return;
-> >       }
-> >       /* value of 0 means "unset" */
-> > -    if (value && (value < min || value > max)) {
-> > -        error_setg(errp, QERR_PROPERTY_VALUE_OUT_OF_RANGE,
-> > -                   dev->id ? : "", name, (int64_t)value, min, max);
-> > +    if (value && (value < MIN_BLOCK_SIZE || value > MAX_BLOCK_SIZE)) {
-> > +        error_setg(errp,
-> > +                   "Property %s.%s doesn't take value %" PRIu64
-> > +                   " (minimum: " MIN_BLOCK_SIZE_STR
-> > +                   ", maximum: " MAX_BLOCK_SIZE_STR ")",
-> > +                   dev->id ? : "", name, value);
-> >           return;
-> >       }
-> > @@ -768,9 +781,10 @@ static void set_blocksize(Object *obj, Visitor *v, const char *name,
-> >   }
-> >   const PropertyInfo qdev_prop_blocksize = {
-> > -    .name  = "uint16",
-> > -    .description = "A power of two between 512 and 32768",
-> > -    .get   = get_uint16,
-> > +    .name  = "size",
-> > +    .description = "A power of two between " MIN_BLOCK_SIZE_STR
-> > +                   " and " MAX_BLOCK_SIZE_STR,
-> > +    .get   = get_uint32,
-> >       .set   = set_blocksize,
-> >       .set_default_value = set_default_value_uint,
-> >   };
-> > 
-> 
+Use CoreInfo.exe inside Windows. The problem is this:
+
+Logical Processor to Cache Map:
+**---------------------- Data Cache 0, Level 1, 32 KB, Assoc 8, LineSize 64
+**---------------------- Instruction Cache 0, Level 1, 32 KB, Assoc 8, Line=
+Size 64
+**---------------------- Unified Cache 0, Level 2, 512 KB, Assoc 8, LineSiz=
+e 64
+********---------------- Unified Cache 1, Level 3, 16 MB, Assoc 16, LineSiz=
+e 64
+
+The last line above should be as follows:
+
+******------------------ Unified Cache 0, Level 3, 16 MB, Assoc 16,
+LineSize 64
+
+The cache is supposed to be associated with 3 cores a 2 threads in group
+0. Yet it shows 8 (2x4) vcpus inside a cache that is associated with the
+next group.
+
+In total, I always get 3 L3 caches instead of 4 L4 caches for my 12
+cores / 24 threads. Also see my next post.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856335
+
+Title:
+  Cache Layout wrong on many Zen Arch CPUs
+
+Status in QEMU:
+  New
+
+Bug description:
+  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
+  to always map Cache ass if it was an 4-Core per CCX CPU, which is
+  incorrect, and costs upwards 30% performance (more realistically 10%)
+  in L3 Cache Layout aware applications.
+
+  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
+
+  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
+/>
+
+  In windows, coreinfo reports correctly:
+
+  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+
+  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
+/>
+
+  in windows, coreinfo reports incorrectly:
+
+  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
+
+  With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter:
+  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+
+  The problem is that the dies are exposed differently than how AMD does
+  it natively, they are exposed to Windows as sockets, which means, that
+  if you are nto a business user, you can't ever have a machine with
+  more than two CCX (6 cores) as consumer versions of Windows only
+  supports two sockets. (Should this be reported as a separate bug?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
