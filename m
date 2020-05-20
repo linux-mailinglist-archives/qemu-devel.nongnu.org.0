@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3661DB266
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 13:55:45 +0200 (CEST)
-Received: from localhost ([::1]:59744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 788211DB298
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 14:02:00 +0200 (CEST)
+Received: from localhost ([::1]:36458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbNK4-0003WO-Gt
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 07:55:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35764)
+	id 1jbNQ7-0007JZ-IL
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 08:01:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jbNJB-000373-0t
- for qemu-devel@nongnu.org; Wed, 20 May 2020 07:54:49 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:54935)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jbNJ9-000082-6R
- for qemu-devel@nongnu.org; Wed, 20 May 2020 07:54:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=rnWX03BHLF392dwQU+ParX+v1Pe5URzj+DFBIS40txA=; b=rdIBDmxkoHNcoi2aXjef0PSBOP
- 4AXVDTJsfhmvajjK4m1v3PQ/vxtVBTscCg/ySw1znG0n2x1/WsppqbQoO8ETnwQzZb8JX/8xnoF4X
- jGLzwLBmYk02yXI5d4oXubilmKsg2Er9mHS8rz3tw3aVk6xs+Dz89UxjRxte8FGOYfx24tLBUluqz
- obIVh1Tdjy5qKsTs/7Pi4UZSlTvT9CDvT8KHkJZ3jDB8uMmCVmFoXQGq3SFr0dNv5TCIbTLXOlusa
- i+7gs3cQXslyFuIgW4wuxf5S88iKqB2/LCqJuRQ9EW9BFkfzqzP/CVgh9fqc1eAgAiGvAdnS+3G+h
- 1XCm3OWtJ/7AwlOQbR8mgEKuOMWE3uJ2psmhJwaAA90+diyCRvxdJcvebFi4ezwIK+OomRgEv+Abh
- VXGe80nBOgfwl9RHwINVFsII869JfRISqy3Ngi+FsvPUEewwLW0YYzJeoowAgCo06IGsPiGAr5vkv
- QbU9RJDm7wtBiuxqWcNNKdC8qz9Jr7tkWAxLzPqk/r1S9FiORhZ1T1PHB1ignilg4+J7JDUP99onH
- XZ7tZaU9jsizQ2p9ecKWpW86rQroyTJgGEsDN/6c3kvII7DdI9kZCAFJJnG5esAq3bpbfIIk0SM7+
- L7HCrJHDFMl+w3om2EUTDpzvEjqp9I58t2dLqwFcI=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Stefano Stabellini <sstabellini@kernel.org>, groug@kaod.org,
- anthony.perard@citrix.com, Stefano Stabellini <stefano.stabellini@xilinx.com>,
- paul@xen.org
-Subject: Re: [PATCH 1/2] Revert "9p: init_in_iov_from_pdu can truncate the
- size"
-Date: Wed, 20 May 2020 13:54:13 +0200
-Message-ID: <1727767.QC7mgPDRgF@silver>
-In-Reply-To: <20200520014712.24213-1-sstabellini@kernel.org>
-References: <alpine.DEB.2.21.2005191651130.27502@sstabellini-ThinkPad-T480s>
- <20200520014712.24213-1-sstabellini@kernel.org>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jbNOk-0005xy-IG
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 08:00:34 -0400
+Resent-Date: Wed, 20 May 2020 08:00:34 -0400
+Resent-Message-Id: <E1jbNOk-0005xy-IG@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21344)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jbNOi-0001Ir-Sl
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 08:00:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1589976015; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=hyL8JUMWPtr8Kc6yvGs9OA7Hcv0JyLj3FylpCvJfwjWkY27geXnldHPGOuruMGFta+YL5TUUnzCDID8J0RfS2fwkk4Yy50i+pcOdaWPsVXi17XUe7F1yJtVxl4d87aXou5TUfWydwLSJOi1LgU+pSb9KMsGPRpqHk4z57LRu4p4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1589976015;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=F+vILczbSMRwLUeMyVJhuK/S+SPDpzya05n6quxD2yc=; 
+ b=Tplf1HWI5WOIHRJTKeM7LT9R1HEPOYtCTR4k+bldDXefytKeCqZTuOIeCaJvvKq/bHeNmnI2TJuf4tMjcQzUzsEtW40KAsBAvpMR4ma7LB3go6UMkuPoYylFJtxBV3EwJSJ12Nw9m9adhzlj0BQhvI6ZfSrcgcZtTgFxi07TWH0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1589976012848287.3321944349917;
+ Wed, 20 May 2020 05:00:12 -0700 (PDT)
+Message-ID: <158997601110.25482.12994184817450958176@45ef0f9c86ae>
+In-Reply-To: <20200520093629.1495-1-miaoyubo@huawei.com>
+Subject: Re: [PATCH v7 0/8] pci_expander_brdige:acpi: Support pxb-pcie for ARM
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 07:23:30
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: miaoyubo@huawei.com
+Date: Wed, 20 May 2020 05:00:12 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 07:01:44
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,209 +69,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, berrange@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, xiexiangyou@huawei.com, shannon.zhaosl@gmail.com,
+ miaoyubo@huawei.com, imammedo@redhat.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 20. Mai 2020 03:47:11 CEST Stefano Stabellini wrote:
-> From: Stefano Stabellini <stefano.stabellini@xilinx.com>
-> 
-> This reverts commit 16724a173049ac29c7b5ade741da93a0f46edff7.
-> It causes https://bugs.launchpad.net/bugs/1877688.
-> 
-> Signed-off-by: Stefano Stabellini <stefano.stabellini@xilinx.com>
-> ---
-
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-
->  hw/9pfs/9p.c               | 33 +++++++++++----------------------
->  hw/9pfs/9p.h               |  2 +-
->  hw/9pfs/virtio-9p-device.c | 11 ++++-------
->  hw/9pfs/xen-9p-backend.c   | 15 ++++++---------
->  4 files changed, 22 insertions(+), 39 deletions(-)
-> 
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index a2a14b5979..d39bfee462 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -2102,29 +2102,22 @@ out_nofid:
->   * with qemu_iovec_destroy().
->   */
->  static void v9fs_init_qiov_from_pdu(QEMUIOVector *qiov, V9fsPDU *pdu,
-> -                                    size_t skip, size_t *size,
-> +                                    size_t skip, size_t size,
->                                      bool is_write)
->  {
->      QEMUIOVector elem;
->      struct iovec *iov;
->      unsigned int niov;
-> -    size_t alloc_size = *size + skip;
-> 
->      if (is_write) {
-> -        pdu->s->transport->init_out_iov_from_pdu(pdu, &iov, &niov,
-> alloc_size); +        pdu->s->transport->init_out_iov_from_pdu(pdu, &iov,
-> &niov, size + skip); } else {
-> -        pdu->s->transport->init_in_iov_from_pdu(pdu, &iov, &niov,
-> &alloc_size); -    }
-> -
-> -    if (alloc_size < skip) {
-> -        *size = 0;
-> -    } else {
-> -        *size = alloc_size - skip;
-> +        pdu->s->transport->init_in_iov_from_pdu(pdu, &iov, &niov, size +
-> skip); }
-> 
->      qemu_iovec_init_external(&elem, iov, niov);
->      qemu_iovec_init(qiov, niov);
-> -    qemu_iovec_concat(qiov, &elem, skip, *size);
-> +    qemu_iovec_concat(qiov, &elem, skip, size);
->  }
-> 
->  static int v9fs_xattr_read(V9fsState *s, V9fsPDU *pdu, V9fsFidState *fidp,
-> @@ -2132,14 +2125,15 @@ static int v9fs_xattr_read(V9fsState *s, V9fsPDU
-> *pdu, V9fsFidState *fidp, {
->      ssize_t err;
->      size_t offset = 7;
-> -    size_t read_count;
-> +    uint64_t read_count;
->      QEMUIOVector qiov_full;
-> 
->      if (fidp->fs.xattr.len < off) {
->          read_count = 0;
-> -    } else if (fidp->fs.xattr.len - off < max_count) {
-> -        read_count = fidp->fs.xattr.len - off;
->      } else {
-> +        read_count = fidp->fs.xattr.len - off;
-> +    }
-> +    if (read_count > max_count) {
->          read_count = max_count;
->      }
->      err = pdu_marshal(pdu, offset, "d", read_count);
-> @@ -2148,7 +2142,7 @@ static int v9fs_xattr_read(V9fsState *s, V9fsPDU *pdu,
-> V9fsFidState *fidp, }
->      offset += err;
-> 
-> -    v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset, &read_count, false);
-> +    v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset, read_count, false);
->      err = v9fs_pack(qiov_full.iov, qiov_full.niov, 0,
->                      ((char *)fidp->fs.xattr.value) + off,
->                      read_count);
-> @@ -2277,11 +2271,9 @@ static void coroutine_fn v9fs_read(void *opaque)
->          QEMUIOVector qiov_full;
->          QEMUIOVector qiov;
->          int32_t len;
-> -        size_t size = max_count;
-> 
-> -        v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset + 4, &size, false);
-> +        v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset + 4, max_count,
-> false); qemu_iovec_init(&qiov, qiov_full.niov);
-> -        max_count = size;
->          do {
->              qemu_iovec_reset(&qiov);
->              qemu_iovec_concat(&qiov, &qiov_full, count, qiov_full.size -
-> count); @@ -2532,7 +2524,6 @@ static void coroutine_fn v9fs_write(void
-> *opaque) int32_t len = 0;
->      int32_t total = 0;
->      size_t offset = 7;
-> -    size_t size;
->      V9fsFidState *fidp;
->      V9fsPDU *pdu = opaque;
->      V9fsState *s = pdu->s;
-> @@ -2545,9 +2536,7 @@ static void coroutine_fn v9fs_write(void *opaque)
->          return;
->      }
->      offset += err;
-> -    size = count;
-> -    v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset, &size, true);
-> -    count = size;
-> +    v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset, count, true);
->      trace_v9fs_write(pdu->tag, pdu->id, fid, off, count, qiov_full.niov);
-> 
->      fidp = get_fid(pdu, fid);
-> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-> index dd1c6cb8d2..1b9e110605 100644
-> --- a/hw/9pfs/9p.h
-> +++ b/hw/9pfs/9p.h
-> @@ -436,7 +436,7 @@ struct V9fsTransport {
->      ssize_t     (*pdu_vunmarshal)(V9fsPDU *pdu, size_t offset, const char
-> *fmt, va_list ap);
->      void        (*init_in_iov_from_pdu)(V9fsPDU *pdu, struct iovec **piov,
-> -                                        unsigned int *pniov, size_t *size);
-> +                                        unsigned int *pniov, size_t size);
-> void        (*init_out_iov_from_pdu)(V9fsPDU *pdu, struct iovec **piov,
-> unsigned int *pniov, size_t size); void        (*push_and_notify)(V9fsPDU
-> *pdu);
-> diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
-> index e5b44977c7..36f3aa9352 100644
-> --- a/hw/9pfs/virtio-9p-device.c
-> +++ b/hw/9pfs/virtio-9p-device.c
-> @@ -147,22 +147,19 @@ static ssize_t virtio_pdu_vunmarshal(V9fsPDU *pdu,
-> size_t offset, }
-> 
->  static void virtio_init_in_iov_from_pdu(V9fsPDU *pdu, struct iovec **piov,
-> -                                        unsigned int *pniov, size_t *size)
-> +                                        unsigned int *pniov, size_t size)
->  {
->      V9fsState *s = pdu->s;
->      V9fsVirtioState *v = container_of(s, V9fsVirtioState, state);
->      VirtQueueElement *elem = v->elems[pdu->idx];
->      size_t buf_size = iov_size(elem->in_sg, elem->in_num);
-> 
-> -    if (buf_size < P9_IOHDRSZ) {
-> +    if (buf_size < size) {
->          VirtIODevice *vdev = VIRTIO_DEVICE(v);
-> 
->          virtio_error(vdev,
-> -                     "VirtFS reply type %d needs %zu bytes, buffer has %zu,
-> less than minimum", -                     pdu->id + 1, *size, buf_size);
-> -    }
-> -    if (buf_size < *size) {
-> -        *size = buf_size;
-> +                     "VirtFS reply type %d needs %zu bytes, buffer has
-> %zu", +                     pdu->id + 1, size, buf_size);
->      }
-> 
->      *piov = elem->in_sg;
-> diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
-> index f04caabfe5..fc197f6c8a 100644
-> --- a/hw/9pfs/xen-9p-backend.c
-> +++ b/hw/9pfs/xen-9p-backend.c
-> @@ -188,7 +188,7 @@ static void xen_9pfs_init_out_iov_from_pdu(V9fsPDU *pdu,
-> static void xen_9pfs_init_in_iov_from_pdu(V9fsPDU *pdu,
->                                            struct iovec **piov,
->                                            unsigned int *pniov,
-> -                                          size_t *size)
-> +                                          size_t size)
->  {
->      Xen9pfsDev *xen_9pfs = container_of(pdu->s, Xen9pfsDev, state);
->      Xen9pfsRing *ring = &xen_9pfs->rings[pdu->tag % xen_9pfs->num_rings];
-> @@ -198,19 +198,16 @@ static void xen_9pfs_init_in_iov_from_pdu(V9fsPDU
-> *pdu, g_free(ring->sg);
-> 
->      ring->sg = g_new0(struct iovec, 2);
-> -    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, *size);
-> +    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, size);
-> 
->      buf_size = iov_size(ring->sg, num);
-> -    if (buf_size  < P9_IOHDRSZ) {
-> -        xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs reply type %d needs "
-> -                      "%zu bytes, buffer has %zu, less than minimum\n", - 
->                     pdu->id + 1, *size, buf_size);
-> +    if (buf_size  < size) {
-> +        xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs request type %d"
-> +                "needs %zu bytes, buffer has %zu\n", pdu->id, size,
-> +                buf_size);
->          xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
->          xen_9pfs_disconnect(&xen_9pfs->xendev);
->      }
-> -    if (buf_size  < *size) {
-> -        *size = buf_size;
-> -    }
-> 
->      *piov = ring->sg;
->      *pniov = num;
-
-Best regards,
-Christian Schoenebeck
-
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUyMDA5MzYyOS4xNDk1
+LTEtbWlhb3l1Ym9AaHVhd2VpLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRv
+Y2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNv
+bW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxs
+ZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJ
+UFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcgVj0xIE5F
+VFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VOVj0xIEo9
+MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAgICAgYWFyY2g2NC1z
+b2Z0bW11L2h3L3ZpcnRpby92aXJ0aW8tYmFsbG9vbi1wY2kubwogIENDICAgICAgYWFyY2g2NC1z
+b2Z0bW11L2h3L3ZpcnRpby92aXJ0aW8taW9tbXUtcGNpLm8KL3RtcC9xZW11LXRlc3Qvc3JjL2h3
+L2kzODYvcGMuYzogSW4gZnVuY3Rpb24gJ3BjX21hY2hpbmVfZG9uZSc6Ci90bXAvcWVtdS10ZXN0
+L3NyYy9ody9pMzg2L3BjLmM6ODQ1OjMwOiBlcnJvcjogJ1BDTWFjaGluZVN0YXRlJyBoYXMgbm8g
+bWVtYmVyIG5hbWVkICdmd19jZmcnCiAgICAgRldDZmdTdGF0ZSAqZndfY2ZnID0gcGNtcy0+Zndf
+Y2ZnOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCm1ha2VbMV06ICoqKiBbaHcvaTM4
+Ni9wYy5vXSBFcnJvciAxCm1ha2VbMV06ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMu
+Li4uCiAgQ0MgICAgICBhYXJjaDY0LXNvZnRtbXUvaHcvdmlydGlvL3ZpcnRpby1zY3NpLXBjaS5v
+CiAgQ0MgICAgICBhYXJjaDY0LXNvZnRtbXUvaHcvdmlydGlvL3ZpcnRpby1ibGstcGNpLm8KLS0t
+CiAgQ0MgICAgICBhYXJjaDY0LXNvZnRtbXUvaHcvYXJtL2ZzbC1pbXgzMS5vCiAgQ0MgICAgICBh
+YXJjaDY0LXNvZnRtbXUvaHcvYXJtL2t6bS5vCiAgQ0MgICAgICBhYXJjaDY0LXNvZnRtbXUvaHcv
+YXJtL2ZzbC1pbXg2Lm8KbWFrZTogKioqIFt4ODZfNjQtc29mdG1tdS9hbGxdIEVycm9yIDIKbWFr
+ZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KICBDQyAgICAgIGFhcmNoNjQt
+c29mdG1tdS9ody9hcm0vYXNwZWVkX3NvYy5vCiAgQ0MgICAgICBhYXJjaDY0LXNvZnRtbXUvaHcv
+YXJtL2FzcGVlZC5vCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNt
+ZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbics
+ICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD0xYTZl
+Yjc2MmFhMjQ0Njc5YjJkOGJiNWU5NGFiNzhjMicsICctdScsICcxMDAxJywgJy0tc2VjdXJpdHkt
+b3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScs
+ICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcs
+ICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVfRElSPS92
+YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1j
+Y2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXIt
+dG1wLWJiOXFnX3FoL3NyYy9kb2NrZXItc3JjLjIwMjAtMDUtMjAtMDcuNTcuMTguMTEyMDM6L3Zh
+ci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0
+ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZp
+bHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTFhNmViNzYyYWEyNDQ2NzliMmQ4YmI1
+ZTk0YWI3OGMyCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2
+aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWJiOXFnX3FoL3NyYycK
+bWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAg
+ICAybTUzLjc5MHMKdXNlciAgICAwbTguNjY1cwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUg
+YXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA1MjAwOTM2MjkuMTQ5NS0xLW1pYW95dWJv
+QGh1YXdlaS5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgot
+LS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRj
+aGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVk
+aGF0LmNvbQ==
 
