@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896851DB4FB
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:29:07 +0200 (CEST)
-Received: from localhost ([::1]:35904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E0ED1DB509
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:31:11 +0200 (CEST)
+Received: from localhost ([::1]:45292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbOmQ-0002Bb-KY
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:29:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47724)
+	id 1jbOoQ-0005wx-2i
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:31:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbOe8-0001zc-CT
- for qemu-devel@nongnu.org; Wed, 20 May 2020 09:20:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38188
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbOeA-000248-2e
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 09:20:34 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59749
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbOe5-0000G0-BU
- for qemu-devel@nongnu.org; Wed, 20 May 2020 09:20:31 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbOe8-0000Hj-UA
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 09:20:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589980828;
+ s=mimecast20190719; t=1589980832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=Cs+xA9nlQJb+xFVefGhp9a99zyys5aZQFZRxKPaRqOU=;
- b=aLxAm3S+HEY9OWWewY9F/EXTUalq8o4t1GFXXDPwpr4igbx/F5qyENeg66Vga89fhJ1KNU
- baBh2YCrkFa0ajbzMdtjKBQtnmlaRp9q0wAHaoUJrLaBD7uXys3nfiE05yWA7IiXbqaw2Q
- pCJn8Abq/gVf2gzmI1zcmBDqY3VL0AI=
+ references:references; bh=bXE+h2BI+iedXQwFImxfC59sUb0E26EyoIxiNHNhE28=;
+ b=Jxpepg1AsoMMiyagUACedBxrYZziKuYC32ksbIsKL0IRq29OvVMgaGYP0TpuZ4ZWBe5Q2n
+ z/zM1PRmmx5tnr0xbZ0D+B1SDQKoTGX84GQrbulbSMcrKWLr6OHVmnTauCOVzCUu8AIxy2
+ qFDXP8yQahz+c754svDYOFbpE+RHupU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-diUIxhKgPyGNqvQqPfzVsg-1; Wed, 20 May 2020 09:20:26 -0400
-X-MC-Unique: diUIxhKgPyGNqvQqPfzVsg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-217-oS24YF-UPQamE7gIf4q4rQ-1; Wed, 20 May 2020 09:20:28 -0400
+X-MC-Unique: oS24YF-UPQamE7gIf4q4rQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82DE6835B40;
- Wed, 20 May 2020 13:20:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2735C1005512;
+ Wed, 20 May 2020 13:20:27 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
  [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 32D6D19451;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96E7882E72;
  Wed, 20 May 2020 13:20:23 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 549FD9D69; Wed, 20 May 2020 15:20:04 +0200 (CEST)
+ id 5D8479D6A; Wed, 20 May 2020 15:20:04 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/22] microvm/acpi: add acpi_dsdt_add_virtio() for x86
-Date: Wed, 20 May 2020 15:19:58 +0200
-Message-Id: <20200520132003.9492-18-kraxel@redhat.com>
+Subject: [PATCH v3 18/22] microvm/acpi: use GSI 16-23 for virtio
+Date: Wed, 20 May 2020 15:19:59 +0200
+Message-Id: <20200520132003.9492-19-kraxel@redhat.com>
 In-Reply-To: <20200520132003.9492-1-kraxel@redhat.com>
 References: <20200520132003.9492-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 22:48:02
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 04:09:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,95 +85,30 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Makes x86 linux kernel find virtio-mmio devices automatically.
+With ACPI enabled and IO-APIC being properly declared in the ACPI tables
+we can use interrupt lines 16-23 for virtio and avoid shared interrupts.
+
+With acpi disabled we continue to use lines 8-15.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Sergio Lopez <slp@redhat.com>
 ---
- hw/i386/acpi-microvm.c | 52 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ hw/i386/microvm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-index d2dd024909cc..12060939ff6c 100644
---- a/hw/i386/acpi-microvm.c
-+++ b/hw/i386/acpi-microvm.c
-@@ -21,6 +21,7 @@
-  */
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index b38321112baa..7d8174809ae1 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -125,7 +125,7 @@ static void microvm_devices_init(MicrovmMachineState *mms)
  
- #include "qemu/osdep.h"
-+#include "qemu/cutils.h"
- #include "qapi/error.h"
+     kvmclock_create();
  
- #include "exec/memory.h"
-@@ -32,10 +33,60 @@
- #include "hw/boards.h"
- #include "hw/i386/fw_cfg.h"
- #include "hw/i386/microvm.h"
-+#include "hw/virtio/virtio-mmio.h"
- 
- #include "acpi-common.h"
- #include "acpi-microvm.h"
- 
-+static void acpi_dsdt_add_virtio(Aml *scope,
-+                                 MicrovmMachineState *mms)
-+{
-+    gchar *separator;
-+    long int index;
-+    BusState *bus;
-+    BusChild *kid;
-+
-+    bus = sysbus_get_default();
-+    QTAILQ_FOREACH(kid, &bus->children, sibling) {
-+        DeviceState *dev = kid->child;
-+        Object *obj = object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MMIO);
-+
-+        if (obj) {
-+            VirtIOMMIOProxy *mmio = VIRTIO_MMIO(obj);
-+            VirtioBusState *mmio_virtio_bus = &mmio->bus;
-+            BusState *mmio_bus = &mmio_virtio_bus->parent_obj;
-+
-+            if (QTAILQ_EMPTY(&mmio_bus->children)) {
-+                continue;
-+            }
-+            separator = g_strrstr(mmio_bus->name, ".");
-+            if (!separator) {
-+                continue;
-+            }
-+            if (qemu_strtol(separator + 1, NULL, 10, &index) != 0) {
-+                continue;
-+            }
-+
-+            uint32_t irq = mms->virtio_irq_base + index;
-+            hwaddr base = VIRTIO_MMIO_BASE + index * 512;
-+            hwaddr size = 512;
-+
-+            Aml *dev = aml_device("VR%02u", (unsigned)index);
-+            aml_append(dev, aml_name_decl("_HID", aml_string("LNRO0005")));
-+            aml_append(dev, aml_name_decl("_UID", aml_int(index)));
-+            aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
-+
-+            Aml *crs = aml_resource_template();
-+            aml_append(crs, aml_memory32_fixed(base, size, AML_READ_WRITE));
-+            aml_append(crs,
-+                       aml_interrupt(AML_CONSUMER, AML_LEVEL, AML_ACTIVE_HIGH,
-+                                     AML_EXCLUSIVE, &irq, 1));
-+            aml_append(dev, aml_name_decl("_CRS", crs));
-+            aml_append(scope, dev);
-+        }
-+    }
-+}
-+
- static void
- build_dsdt_microvm(GArray *table_data, BIOSLinker *linker,
-                    MicrovmMachineState *mms)
-@@ -60,6 +111,7 @@ build_dsdt_microvm(GArray *table_data, BIOSLinker *linker,
-     build_ged_aml(sb_scope, GED_DEVICE, HOTPLUG_HANDLER(mms->acpi_dev),
-                   GED_MMIO_IRQ, AML_SYSTEM_MEMORY, GED_MMIO_BASE);
-     acpi_dsdt_add_power_button(sb_scope);
-+    acpi_dsdt_add_virtio(sb_scope, mms);
-     aml_append(dsdt, sb_scope);
- 
-     scope = aml_scope("\\");
+-    mms->virtio_irq_base = 8;
++    mms->virtio_irq_base = x86_machine_is_acpi_enabled(x86ms) ? 16 : 8;
+     for (i = 0; i < VIRTIO_NUM_TRANSPORTS; i++) {
+         sysbus_create_simple("virtio-mmio",
+                              VIRTIO_MMIO_BASE + i * 512,
 -- 
 2.18.4
 
