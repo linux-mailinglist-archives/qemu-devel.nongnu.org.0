@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B896F1DBB78
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 19:29:12 +0200 (CEST)
-Received: from localhost ([::1]:36644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A7A1DBB7A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 19:29:55 +0200 (CEST)
+Received: from localhost ([::1]:39860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbSWl-0002t0-9G
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 13:29:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53552)
+	id 1jbSXS-0004UR-QL
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 13:29:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jbSVk-0001ly-SC
- for qemu-devel@nongnu.org; Wed, 20 May 2020 13:28:08 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:38309)
+ id 1jbSVl-0001mD-EY
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 13:28:09 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jbSVj-0004J3-8Y
- for qemu-devel@nongnu.org; Wed, 20 May 2020 13:28:08 -0400
-Received: by mail-pg1-x544.google.com with SMTP id u5so1754674pgn.5
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 10:28:03 -0700 (PDT)
+ id 1jbSVj-0004JB-Gq
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 13:28:09 -0400
+Received: by mail-pf1-x444.google.com with SMTP id x13so1880900pfn.11
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 10:28:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=m0smmKWM3ILO4U+9uDDvaXLhnVQU+uqi21bdkLG9M4I=;
- b=uAyubkjmSYu+FanEeckKrlw42FYgwjHiTxzfInZCMJUFSHco1oVpYZbNSeQRBtGFB8
- wMkOc8pQEho5TQQspDXOEUBUybULWfyfzYC3PkiOascdyFHfEHGP6WktMyjfBC5MHZSb
- XoAMjWbZVP9OJDKakMWN60XtHmbji6YouNkGW0KRHYKVG7r65RVLndN3mbH/km2AEXsS
- 3g6hHJ1ukiPl+nfLWzmfK2MNH4yIvwFJwu+BQLduZ/mF/ZXuk5jVpLO8646uGXdvle5/
- KeHskhsCzAJowTtoiYvqWS91Un3X/HhnxnCuc0WLqHfKPirlGFcdJ+xJcZjMvl6PU2Qz
- ++Pw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=btSVOHjKygqtDtrb1dFrs4ZFhT9VU5bMtTLVHWgmpDQ=;
+ b=IEexihwJhok6sSzixqByIreJXkjn5IhkGZ88k+gM3aw2vVfJKUyExUVNx6v1VW5WM0
+ nLtYfm1S4DtjJNX6SdfyI8B+6j88A5yR6JDlDxSdGe8iN47zv5K6mU6JPhxwF8YTcz1n
+ oSkbiYceIvrfbUHWzBRQU2ecQxjez3VnSFPhVMXg1/PBuctO5egGfF+r27MSflCm5l+d
+ Bv7gS1RgWLhSr8BdtSGr2fSVxDAoCNxPca9fjhaKKydJG3gewT601AJKgFZfYjh4afVN
+ 7lsQ9uDjLC9+lbXGBEoS1hTapWluNDP8WV6tqe9KfGGxJ1gQEMZ3xWzQhbSqD8iGbYwO
+ pNew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=m0smmKWM3ILO4U+9uDDvaXLhnVQU+uqi21bdkLG9M4I=;
- b=D8tS4Z6udCHNO77zxReuCpzNt9owUVbJKH7/RniQUPvqh0qDSUA8PQgFDrzoJLPQjC
- iYFg8BR5so3O9jOOFdW/cQtOC4ynK02yWbACJCAp0msd2NWiGq8xmEUd3WwsdabpTzEE
- jrtONd9+s+E8vE4OQ1ZesuuI98natlG+V+hy7iCI7DuH2aqO1TrGL/JJdRgPMmHrPgD0
- /dtdPwH+14E+Evt6QcX79bKizJe6QUINtcXc5xt66FOQ03btweJa8t1XIHJ7jjBaOvNk
- Hnd1Cr3Sb8P4IZgSFhOQHOxtQ4iRwhPFP+CAcrtRcaZztj3jkQaeR5xtqIZnzuxLkBuE
- HWPg==
-X-Gm-Message-State: AOAM530ICwpVmjJqZrl/B0vQ+scuD6ng4JAZPZx2RTNeuavO3gYtJsdP
- lXZTd+/O1Rpz4bbWQn7PlEGOvQqsAhM=
-X-Google-Smtp-Source: ABdhPJwFk26JU3KGGyeWqdbIJvdjT5BG6Bmb7x04xo8/oqysOFpDY3f6IzmSpCuCgfSYnlfnsie2RQ==
-X-Received: by 2002:a65:51ca:: with SMTP id i10mr5195627pgq.115.1589995682243; 
- Wed, 20 May 2020 10:28:02 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=btSVOHjKygqtDtrb1dFrs4ZFhT9VU5bMtTLVHWgmpDQ=;
+ b=OOdVpRcp4Hqft4O21hZuOkwc+o6EJpekqFu9U1o9idbvJ+U0jtqyOsuUasy00g1/n4
+ q00m4aXCTyKxhNM5rm7lp6Pv6HfWRKBlL0Kos7EnQnn6Ll4ftUBd45Q58hcDJtU3GzgT
+ IIjz4BA+3FLyZR4GzlPBKNCOJjOtyZxbVtAhIBnOwqgulAwPrKGhrswyGukczqE6m7Xt
+ +1QUe968G+oDHiOF++UBxBAR5RAUbMbnhkUgK46bIUYRWCHSUnVvIxGQ1p0gxSWsAo8b
+ 71HssbvBduxVI3YtRx2e+8XvekaRZHSzW1grk7FCW7YP9pluGAKHP8ze8e5pXI9gaFh7
+ a2oA==
+X-Gm-Message-State: AOAM531zgXUOnVcasdrjEcCwOTwPvRsMxeXq+3QNVeSUt7iDtnrb4mRp
+ FfiDfwsGs5Dr0aFzPqqNAF4SHC9bb9A=
+X-Google-Smtp-Source: ABdhPJxcIGcJ7KmfWlS44oZQBEJTuhFKAsvLYU3nS5QefUJrP07lBVvX477CTWwm3jV3ZivzlpZThg==
+X-Received: by 2002:a62:1681:: with SMTP id 123mr164618pfw.306.1589995683431; 
+ Wed, 20 May 2020 10:28:03 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id k18sm2643672pfg.217.2020.05.20.10.28.01
+ by smtp.gmail.com with ESMTPSA id k18sm2643672pfg.217.2020.05.20.10.28.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 May 2020 10:28:01 -0700 (PDT)
+ Wed, 20 May 2020 10:28:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 0/5] linux-user: User support for AArch64 BTI
-Date: Wed, 20 May 2020 10:27:55 -0700
-Message-Id: <20200520172800.8499-1-richard.henderson@linaro.org>
+Subject: [PATCH v9 1/5] linux-user/aarch64: Reset btype for signals
+Date: Wed, 20 May 2020 10:27:56 -0700
+Message-Id: <20200520172800.8499-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200520172800.8499-1-richard.henderson@linaro.org>
+References: <20200520172800.8499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,56 +89,36 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The kernel ABI for this is (finally) close to being merged:
+The kernel sets btype for the signal handler as if for a call.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/bti-user
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/aarch64/signal.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-I've made a couple of tweaks from v8:
-
- (1) Only map the interpreter or a static executable with BTI.
-     The interpreter is responsible for handling the pages of
-     a dynamic executable.  This is a behaviour change in the
-     kernel ABI since the last time I audited the code.
-
- (2) Rely on the recently released gcc 10 for building the test case.
-     Thanks to Alex for helping me get a docker setup for that.
-
-Based-on: <20200519185645.3915-1-richard.henderson@linaro.org>
-("linux-user: mmap/mprotect prot values")
-
-Based-on: An unpublished version of stsquad's testing/next
-
-So for avoidance of doubt, the complete tree may be found at
-
-https://github.com/rth7680/qemu/tree/tgt-arm-bti
-
-
-r~
-
-
-Richard Henderson (5):
-  linux-user/aarch64: Reset btype for signals
-  linux-user: Set PAGE_TARGET_1 for TARGET_PROT_BTI
-  include/elf: Add defines related to GNU property notes for AArch64
-  linux-user: Parse NT_GNU_PROPERTY_TYPE_0 notes
-  tests/tcg/aarch64: Add bti smoke test
-
- include/elf.h                     |  22 +++++
- include/exec/cpu-all.h            |   2 +
- linux-user/qemu.h                 |   4 +
- linux-user/syscall_defs.h         |   4 +
- linux-user/aarch64/signal.c       |  10 ++-
- linux-user/elfload.c              | 143 ++++++++++++++++++++++--------
- linux-user/mmap.c                 |  16 ++++
- target/arm/translate-a64.c        |   6 +-
- tests/tcg/aarch64/bti-1.c         |  62 +++++++++++++
- tests/tcg/aarch64/bti-crt.inc.c   |  51 +++++++++++
- tests/tcg/aarch64/Makefile.target |   7 ++
- tests/tcg/configure.sh            |   4 +
- 12 files changed, 291 insertions(+), 40 deletions(-)
- create mode 100644 tests/tcg/aarch64/bti-1.c
- create mode 100644 tests/tcg/aarch64/bti-crt.inc.c
-
+diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
+index cd521ee42d..2c596a7088 100644
+--- a/linux-user/aarch64/signal.c
++++ b/linux-user/aarch64/signal.c
+@@ -506,10 +506,16 @@ static void target_setup_frame(int usig, struct target_sigaction *ka,
+             + offsetof(struct target_rt_frame_record, tramp);
+     }
+     env->xregs[0] = usig;
+-    env->xregs[31] = frame_addr;
+     env->xregs[29] = frame_addr + fr_ofs;
+-    env->pc = ka->_sa_handler;
+     env->xregs[30] = return_addr;
++    env->xregs[31] = frame_addr;
++    env->pc = ka->_sa_handler;
++
++    /* Invoke the signal handler as if by indirect call.  */
++    if (cpu_isar_feature(aa64_bti, env_archcpu(env))) {
++        env->btype = 2;
++    }
++
+     if (info) {
+         tswap_siginfo(&frame->info, info);
+         env->xregs[1] = frame_addr + offsetof(struct target_rt_sigframe, info);
 -- 
 2.20.1
 
