@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31BB71DB61F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:21:22 +0200 (CEST)
-Received: from localhost ([::1]:59308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8CC21DB608
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:16:23 +0200 (CEST)
+Received: from localhost ([::1]:37180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbPay-0001lu-Ty
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:21:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55294)
+	id 1jbPWA-0000Kx-LC
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:16:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPMF-0000N5-13
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:06:07 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:32870)
+ id 1jbPME-0000LO-5G
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:06:06 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:34020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPME-00022V-18
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:06:06 -0400
-Received: by mail-ej1-x643.google.com with SMTP id n24so3988681ejd.0
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:06:05 -0700 (PDT)
+ id 1jbPMC-00022Q-Pj
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:06:05 -0400
+Received: by mail-ej1-x643.google.com with SMTP id j21so3986517ejy.1
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:06:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Z8jXpAxep38NH+tQtqiVR0PvMkfpz3aIN7XElkKMn28=;
- b=ngKMFjy9TO80XtZGn7uw142jNG5nWlbLPqGX4DdQkMMcM7q7jNMvyYpTGezLwpMKgJ
- PwjEyr4Trv1+fWaVw7Dlq0z2FJOmAUh6Qi9EN2ljfPHhBwcMwMLKR2YUN+l1HrhIYMVA
- NRQvcQdwE7WPgNTcLVjmjsTnuU5q5oXstqAoHYCczWtei3dOZOd5CyTgDGTu1IeqJoQC
- KhzpefSQ5WelDOtLP1ezZaa35zST+Fi6+KkVfSx8C5EUY5UCvFDneyvVR2TX2fG3ULOd
- aVOYFRNduRMTbG8Lgofmn2auhkZpBZdeCU9QnQdPH7f4AbXMZ8xnh1bQF6XEgDrO7LSL
- +PZQ==
+ bh=tVaA6VVKMxT5atPOq3mupoaoOxw2j2mNyFQd2GQU77U=;
+ b=FcGiZMh0mR/7XmqKUTy7DPfOsaqDwIbdy4LZrUUlNMvGnlptykNuU61UfgovyZMh0T
+ L29g1s2OvORb//bFqpZUsoOPfAUwEdJ9cjzMV6wkZU1UGiSL11YQyZWOWlYSldh+Zjvh
+ 3bq6NwVHikpdhpg6eKFLWDFrV+wpTKrhz7ENdG4pqg6tPcABUlqlUweRofaobCOXaGnx
+ ETOyygfgqABLLwXc3lY7LOsdGvrhKBmO+CXkv87xyjEtcfkOvC4fx5EVUc5poibIA2UQ
+ wQuSrlN8s+9jQp8GPDts0HsaipNWuGa8rjB205Gb7s3nUimPrm5zPmjXy8GkIafZ+Orw
+ cFSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Z8jXpAxep38NH+tQtqiVR0PvMkfpz3aIN7XElkKMn28=;
- b=rGd4BDcdKSB3wpFU+KDDkjWgp6YC5bL8g8tKqExWj3Ui63qtreKlHHY9HHeMgiyoO4
- BaJ9tjGuMVDpxsJxdNeoqw359WAqwU2YyWIaLVBjp9dKDYNLZbUkBzQdZtGeLhIZV1BF
- hWUWbArb8wpScbShNSMLnng+tUZVj1kgLuLYB1oXnKJdnVBX5B9o2FB63Oz5N4v3Pq+s
- HubGbPJ1CwxHJB+iEr5LweTICtQx9NP7vTXXTcfPP+kGcDzkyUk5fgHdo04r+vkzxcMJ
- tNjKs/IeKXk72smutEOVj1wZVaEpAj4sO/yr9/fJliEki0B+mUe4g9ZmWPA2swCWJNyG
- E6cg==
-X-Gm-Message-State: AOAM532FN2vY77ziXAuecH09+vnghKjGDyQx/o8r5tkIJPPMchbjEVdt
- 4t9FAqNdVXvVS9Xs5I8v8decyQ==
-X-Google-Smtp-Source: ABdhPJxTFGWlThngj7dQBp306RPHEuVe+eJcBB5lKFJPiS1Fv3EX/GFQbr0VXvCE/TgpQn4utf9OAw==
-X-Received: by 2002:a17:906:ce39:: with SMTP id
- sd25mr3749331ejb.482.1589983564722; 
- Wed, 20 May 2020 07:06:04 -0700 (PDT)
+ bh=tVaA6VVKMxT5atPOq3mupoaoOxw2j2mNyFQd2GQU77U=;
+ b=sOlhn92b6zcXsWv4bbalqVKzvCQlqvg/5Gj3vzycD8MGM1MrzGiBHkqwqEgLZyGG9X
+ 5bNBsj8ILld9+RZLC0K/tpVlwgJgsdQh8DRwiAQZvk32S94OuraVJjExFXoruvXksTIc
+ Wt9rY6xS38ab+usCLlpTRKWDYua8tKOLVdMsagMxavVFC9ECOYYqZqcH8+zRMI2OvldJ
+ Vq+iIuXIpuHS1sV9n3bXIhNzNoKuZrXX+P6TCbeQyzldHLky5Ubdj9lyWtvkVh09M//9
+ vrswu6+3uj6/Zi5kCqk2r7TaxAwc+p5jZkbE+NTg7UargV77tr/vVLbR9eGS63KErzMw
+ VfkQ==
+X-Gm-Message-State: AOAM533U5HhiOd/3kk/v6fi5M0eReKwxX64IC2CAMpWRdgNvorsw7jRh
+ pEXEUY5EEhgPmM5VxrnCywhwQg==
+X-Google-Smtp-Source: ABdhPJz/47npYSYpLNEmFuF0YR0OljuFNxxEIk9xR/zyaqYEO79RuOmsaXnmnB3UgRoROhLqfDC2dw==
+X-Received: by 2002:a17:906:780b:: with SMTP id
+ u11mr3625508ejm.341.1589983563430; 
+ Wed, 20 May 2020 07:06:03 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m5sm1965236ejk.27.2020.05.20.07.05.49
+ by smtp.gmail.com with ESMTPSA id dt12sm2017082ejb.102.2020.05.20.07.05.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 20 May 2020 07:05:54 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5E95E1FF9C;
+ by zen.linaroharston (Postfix) with ESMTP id 750B41FF9D;
  Wed, 20 May 2020 15:05:42 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 13/15] linux-user: properly "unrealize" vCPU object
-Date: Wed, 20 May 2020 15:05:39 +0100
-Message-Id: <20200520140541.30256-14-alex.bennee@linaro.org>
+Subject: [PATCH  v1 14/15] tests/tcg: add new threadcount test
+Date: Wed, 20 May 2020 15:05:40 +0100
+Message-Id: <20200520140541.30256-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200520140541.30256-1-alex.bennee@linaro.org>
 References: <20200520140541.30256-1-alex.bennee@linaro.org>
@@ -89,83 +89,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Nikolay Igotti <igotti@gmail.com>,
- Riku Voipio <riku.voipio@iki.fi>, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Nikolay Igotti <igotti@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We shouldn't be messing around with the CPU list in linux-user save
-for the very special case of do_fork(). When threads end we need to
-properly follow QOM object lifetime handling and allow the eventual
-cpu_common_unrealizefn to both remove the CPU and ensure any clean-up
-actions are taken place, for example calling plugin exit hooks.
+Based on the original testcase by Nikolay Igotti.
 
-There is still a race condition to avoid so use the linux-user
-specific clone_lock instead of the cpu_list_lock to avoid it.
-
+Message-ID: <CAEme+7GLKg_dNsHizzTKDymX9HyD+Ph2iZ=WKhOw2XG+zhViXg@mail.gmail.com>
+Signed-off-by: Nikolay Igotti <igotti@gmail.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Nikolay Igotti <igotti@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Daniel P. Berrange <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
 
 ---
 v2
-  - expand Cc list to QOM/QMP object lifetime experts
+  - add Nikolay's s-o-b
+  - checkpatch fixes
 ---
- linux-user/syscall.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ tests/tcg/multiarch/threadcount.c   | 64 +++++++++++++++++++++++++++++
+ tests/tcg/multiarch/Makefile.target |  2 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 tests/tcg/multiarch/threadcount.c
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 05f03919ff0..7f6700c54e3 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -7635,30 +7635,33 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             return -TARGET_ERESTARTSYS;
-         }
+diff --git a/tests/tcg/multiarch/threadcount.c b/tests/tcg/multiarch/threadcount.c
+new file mode 100644
+index 00000000000..545a1c81466
+--- /dev/null
++++ b/tests/tcg/multiarch/threadcount.c
+@@ -0,0 +1,64 @@
++/*
++ * Thread Exerciser
++ *
++ * Unlike testthread which is mainly concerned about testing thread
++ * semantics this test is used to exercise the thread creation and
++ * accounting. A version of this test found a problem with clashing
++ * cpu_indexes which caused a break in plugin handling.
++ *
++ * Based on the original test case by Nikolay Igotti.
++ *
++ * Copyright (c) 2020 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <unistd.h>
++#include <pthread.h>
++
++int max_threads = 10;
++
++typedef struct {
++    int delay;
++} ThreadArg;
++
++static void *thread_fn(void* varg)
++{
++    ThreadArg *arg = varg;
++    usleep(arg->delay);
++    free(arg);
++    return NULL;
++}
++
++int main(int argc, char **argv)
++{
++    int i;
++    pthread_t *threads;
++
++    if (argc > 1) {
++        max_threads = atoi(argv[1]);
++    }
++    threads = calloc(sizeof(pthread_t), max_threads);
++
++    for (i = 0; i < max_threads; i++) {
++        ThreadArg *arg = calloc(sizeof(ThreadArg), 1);
++        arg->delay = i * 100;
++        pthread_create(threads + i, NULL, thread_fn, arg);
++    }
++
++    printf("Created %d threads\n", max_threads);
++
++    /* sleep until roughly half the threads have "finished" */
++    usleep(max_threads * 50);
++
++    for (i = 0; i < max_threads; i++) {
++        pthread_join(threads[i], NULL);
++    }
++
++    printf("Done\n");
++
++    return 0;
++}
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+index 51fb75ecfdd..cb49cc9ccb2 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -28,6 +28,8 @@ run-float_%: float_%
  
--        cpu_list_lock();
-+        pthread_mutex_lock(&clone_lock);
+ testthread: LDFLAGS+=-lpthread
  
-         if (CPU_NEXT(first_cpu)) {
--            TaskState *ts;
-+            TaskState *ts = cpu->opaque;
- 
--            /* Remove the CPU from the list.  */
--            QTAILQ_REMOVE_RCU(&cpus, cpu, node);
-+            object_property_set_bool(OBJECT(cpu), false, "realized", NULL);
-+            object_unref(OBJECT(cpu));
-+            /*
-+             * At this point the CPU should be unrealized and removed
-+             * from cpu lists. We can clean-up the rest of the thread
-+             * data without the lock held.
-+             */
- 
--            cpu_list_unlock();
-+            pthread_mutex_unlock(&clone_lock);
- 
--            ts = cpu->opaque;
-             if (ts->child_tidptr) {
-                 put_user_u32(0, ts->child_tidptr);
-                 do_sys_futex(g2h(ts->child_tidptr), FUTEX_WAKE, INT_MAX,
-                           NULL, NULL, 0);
-             }
-             thread_cpu = NULL;
--            object_unref(OBJECT(cpu));
-             g_free(ts);
-             rcu_unregister_thread();
-             pthread_exit(NULL);
-         }
- 
--        cpu_list_unlock();
-+        pthread_mutex_unlock(&clone_lock);
-         preexit_cleanup(cpu_env, arg1);
-         _exit(arg1);
-         return 0; /* avoid warning */
++threadcount: LDFLAGS+=-lpthread
++
+ # We define the runner for test-mmap after the individual
+ # architectures have defined their supported pages sizes. If no
+ # additional page sizes are defined we only run the default test.
 -- 
 2.20.1
 
