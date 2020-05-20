@@ -2,99 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733A01DB039
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 12:31:37 +0200 (CEST)
-Received: from localhost ([::1]:38390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2792E1DB040
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 12:32:50 +0200 (CEST)
+Received: from localhost ([::1]:42520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbM0e-0004i0-Dt
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 06:31:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55724)
+	id 1jbM1p-0006wf-6v
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 06:32:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbLz4-0003CQ-CG
- for qemu-devel@nongnu.org; Wed, 20 May 2020 06:29:59 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28938
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jbLz6-0003Co-ST
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 06:30:01 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45079
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbLz3-0000fm-Fb
- for qemu-devel@nongnu.org; Wed, 20 May 2020 06:29:58 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jbLz6-0000h3-7H
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 06:30:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589970596;
+ s=mimecast20190719; t=1589970599;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sm2JIWJ2x2QMZ7pxcWlbuxvXy3baAqenq2UZalN4G1U=;
- b=F4cpaJ6J0oWrC7wI9IFBjL3fcQM3v4aMBzvbF/7GIaY93NIScmwBOlFpuyyvM4C0iYbbkG
- lMfzzY+jVYncMQsrNHc/iEcumoUQuFmUWnoYGhNti3NgrqZCWAFhURXp6TBBjpl9ETN4RX
- fu9YZHAooL0E3uoVeAWtWeX4BPPb8pk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-8GDSMoPuPbO1X0IFv5hq-w-1; Wed, 20 May 2020 06:29:49 -0400
-X-MC-Unique: 8GDSMoPuPbO1X0IFv5hq-w-1
-Received: by mail-wr1-f70.google.com with SMTP id g10so1215429wrr.10
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 03:29:49 -0700 (PDT)
+ bh=scMCYpJEYGJpIew3DLaLj+/Ro13I7keT6LWOdd2p23A=;
+ b=fBTi0VjpPQXCXuOqgrlrcZ0ol7wgqYJ/EmKE9R97cB//NDUanGsvvMZGha1+w5OItvYDLb
+ j7r2vYaNy57LRXgE7jy87qjcCm047o7VsPwUezp3io3bOA99DjQ6dCe0n9q6qdD3Fw+RzB
+ qJky+DpNrD51dwEa7kg6uw2yBe/V+Rs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-101-5VBWivJ1NkKOb179Tv0Z3Q-1; Wed, 20 May 2020 06:29:55 -0400
+X-MC-Unique: 5VBWivJ1NkKOb179Tv0Z3Q-1
+Received: by mail-wm1-f69.google.com with SMTP id u11so740925wmc.7
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 03:29:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Sm2JIWJ2x2QMZ7pxcWlbuxvXy3baAqenq2UZalN4G1U=;
- b=UyZzkohA4S25d92Y9wb2EtqaSd8Yc5ykm/OYNGH6mIFn0fT+z+j44dXGDZDe/kHUJa
- XpxgdgwtT7unPc6F6tOp6sqXvha5WhMvFkyzqIupycJbe3SaaAQSE1LyJ7It7LQcdHVU
- 5oftpRcn7VYBc8l5p7MaigZqMVv9FCjHKza9Z743IDUA8V/HLFNIvsjaAlv+TkmIJ0a7
- IffIsD/ZODo+/S4Prm9oBrwQfTYhXDgXsb2eiGfKQvBLU4myN154UETfVADDr2CSyxv5
- ak7Mvq41eJ44YFVd/6qD58ETR4SPK14wg18n9iG2QPea2p2os6quqw7dW/w2mMYmKHmA
- U8NQ==
-X-Gm-Message-State: AOAM530/aBEhFJsHqmPksTpz8zhNNluVNn4lGC9Hkd9YyvPRjvVIk1TZ
- Sv0yAxsK9WpDzZCWLSmKWwurV+ozQ1nEJ6JbCaFLHWsmOwOSR4LnDC7/wH55DYxgzajYfoVVcy6
- p1m8T9nHnQX9zO/w=
-X-Received: by 2002:a1c:2bc2:: with SMTP id r185mr4282787wmr.49.1589970588477; 
- Wed, 20 May 2020 03:29:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwzOWBqhTZ5FlG0Wv4yJ0Y9a3a8u9OBhPqdfuNdj8f3G5g8RJCDYBDQQaDPGwIXR+zLcXZBVA==
-X-Received: by 2002:a1c:2bc2:: with SMTP id r185mr4282758wmr.49.1589970588213; 
- Wed, 20 May 2020 03:29:48 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id v5sm2370135wrr.93.2020.05.20.03.29.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 May 2020 03:29:47 -0700 (PDT)
-Subject: Re: [EXTERNAL] Re: [PATCH] WHPX: Assigning maintainer for Windows
- Hypervisor Platform
-To: Sunil Muthuswamy <sunilmut@microsoft.com>, Stefan Weil <sw@weilnetz.de>,
- "Justin Terry (SF)" <juterry@microsoft.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
- Mike Battista <Mike.Battista@microsoft.com>
-References: <SN4PR2101MB0880E245954826FD91C9D67DC0110@SN4PR2101MB0880.namprd21.prod.outlook.com>
- <BN8PR21MB1297D3D88C41B6AFADE36DCCB6110@BN8PR21MB1297.namprd21.prod.outlook.com>
- <ecc9b0c5-7cd7-1f8d-d10c-bee7aff8fa01@redhat.com>
- <BN8PR21MB12974CEDAEC173FC8CD626DFB6100@BN8PR21MB1297.namprd21.prod.outlook.com>
- <6b5c046a-af4b-8adf-e3a2-64d904c9ff16@weilnetz.de>
- <SN4PR2101MB0880A6DE49500BCA0B1898EBC0B90@SN4PR2101MB0880.namprd21.prod.outlook.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3349c1dc-bc9a-6a74-41b2-2d6ebb29eec5@redhat.com>
-Date: Wed, 20 May 2020 12:29:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=CjXsPArqeVZUxZnM75Qph7ij8o3SdnpfjxPXON+ZmFI=;
+ b=LgNjlyRx40fnbpH4P76yMDR5xIBZpFm86OPK29W+vm1l91CIwJ4n50eCZ630Gfk9Jt
+ cNz2TMMSiIRpqMgNcmmwMitmuqJiqsf1LK1Ukvfmv9kAi7OqNjwHO3JvSaXdu/HR2Rc8
+ 1Yc5xYf0j84WQeeLhzmFdqXpQVNuJsPKi+u7wth08ltuq+l/Dbre29MbZ54kSq0U8uzb
+ VT2ZsCxeMV+EyI3/pUCFXqt4GyqQDmbVI+Q8HyxLt7Keo2J29iDf44P8xT4vIn9Ki2fr
+ 3hH8fB23GHSY5UQ1TF8NKsXqS5xgw5k0I+QLOv4ttDfaBbshz7YcijEx9SMVrwycGT4E
+ JG0w==
+X-Gm-Message-State: AOAM530vtVcGDv4OewGdXkPYRppBk98fFv/JCLFnwV+RT/m2snVARVnJ
+ VWAtciEQWyKHfi0qAQFzrstHtQn9JMFWPehJdR6sMGSHrHhZi1826WK03/TLWwLa2kwGcZD2mXY
+ +gksaR/F0+sdXmq4=
+X-Received: by 2002:a1c:a3c5:: with SMTP id m188mr4082241wme.160.1589970594864; 
+ Wed, 20 May 2020 03:29:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwpmix3MGNpMCWRxtZNqx5egMV1bYq67KOuJuZcHntZvehg1R3eIdWo9mSup2MabP92gdDp4w==
+X-Received: by 2002:a1c:a3c5:: with SMTP id m188mr4082218wme.160.1589970594653; 
+ Wed, 20 May 2020 03:29:54 -0700 (PDT)
+Received: from redhat.com (bzq-109-64-41-91.red.bezeqint.net. [109.64.41.91])
+ by smtp.gmail.com with ESMTPSA id
+ b14sm2770933wmb.18.2020.05.20.03.29.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 May 2020 03:29:54 -0700 (PDT)
+Date: Wed, 20 May 2020 06:29:51 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v6 10/16] floppy: move cmos_get_fd_drive_type() from pc
+Message-ID: <20200520062944-mutt-send-email-mst@kernel.org>
+References: <20200515150421.25479-1-kraxel@redhat.com>
+ <20200515150421.25479-11-kraxel@redhat.com>
+ <0c3d5c81-fc38-e1c1-b83a-3c3d8f781dd8@redhat.com>
+ <20200520084303.z4srklygrskx7kbr@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <SN4PR2101MB0880A6DE49500BCA0B1898EBC0B90@SN4PR2101MB0880.namprd21.prod.outlook.com>
-Content-Language: en-US
+In-Reply-To: <20200520084303.z4srklygrskx7kbr@sirius.home.kraxel.org>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 02:22:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 04:09:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,51 +98,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 1879672@bugs.launchpad.net, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Sunil,
-
-On 5/19/20 11:59 PM, Sunil Muthuswamy wrote:
->> -----Original Message-----
->> From: Stefan Weil <sw@weilnetz.de>
->> Sent: Thursday, February 20, 2020 11:54 PM
->> To: Justin Terry (SF) <juterry@microsoft.com>; Philippe Mathieu-Daudé <philmd@redhat.com>; Sunil Muthuswamy
->> <sunilmut@microsoft.com>; Eduardo Habkost <ehabkost@redhat.com>; Paolo Bonzini <pbonzini@redhat.com>; Richard
->> Henderson <rth@twiddle.net>
->> Cc: qemu-devel@nongnu.org
->> Subject: Re: [EXTERNAL] Re: [PATCH] WHPX: Assigning maintainer for Windows Hypervisor Platform
->>
->> Am 19.02.20 um 16:50 schrieb Justin Terry (SF):
->>
->> Hello Justin, hello Sunil,
->>
->> just a reminder: we still have the problem with the proprietary license
->> for the required Microsoft header files.
->>
->> Can you estimate when this will be solved?
->>
->> Regards,
->> Stefan
->>
+On Wed, May 20, 2020 at 10:43:03AM +0200, Gerd Hoffmann wrote:
+> On Tue, May 19, 2020 at 04:51:44PM +0200, Philippe Mathieu-Daudé wrote:
+> > Missing "Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>",
+> > otherwise:
 > 
-> Adding Mike Battista, who is on the SDK team and can help provide some clarity around the questions about SDK licensing.
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > 
+> mst, can you pick that up or should I respin?
+> 
+> thanks,
+>   Gerd
 
-To ease communication and track the changes over time regarding this 
-problem, I opened a ticket on Launchpad:
-https://bugs.launchpad.net/qemu/+bug/1879672
-
-Last time (Sept 2019) Justin Terry contacted Microsoft legal department 
-for guidance but no update since.
-This is unfortunate as we can not let the community use this feature, 
-neither can we keep testing WHPX to avoid code bitrot.
-
-Can you meanwhile provide Azure CI builds using WHPX enabled?
-
-Regards,
-
-Phil.
+Not a problem.
 
 
