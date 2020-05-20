@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0CD1DB502
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:29:57 +0200 (CEST)
-Received: from localhost ([::1]:40676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 245781DB4EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:26:47 +0200 (CEST)
+Received: from localhost ([::1]:54274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbOnE-00046n-Lk
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:29:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47828)
+	id 1jbOkA-0006aD-52
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:26:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbOeH-0002M6-Gj
- for qemu-devel@nongnu.org; Wed, 20 May 2020 09:20:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46348
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbOeJ-0002NI-Oc
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 09:20:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36720
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbOeD-0000Jx-R8
- for qemu-devel@nongnu.org; Wed, 20 May 2020 09:20:41 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbOeE-0000KL-E1
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 09:20:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589980836;
+ s=mimecast20190719; t=1589980837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=6OIxpUflKpjw9oFHZKmMc0sFoAZYdcP0pMC2r+iLubc=;
- b=gmBRUY44K1svrWmqDBViY87OzI28H0rV1130ierxU9wXHbh5MrbmwS2NLRl6i6xzvaQWcz
- HxiBjCoLEnxk6kzyO0Z9xmPgB9Ma/SOQVPkIUfrdmvwZMmpbh8no+2xMp1DAnIeZY/3KL3
- 5J5CrUpZdXBjPQpC7V/ekxbf0+9TNTE=
+ references:references; bh=Sr2/mO9x3+V1w5jPR6muuF5U5yNtB/8Q3ABWiRShk38=;
+ b=Um/R9trVXQC8/tGSG3eJj4hJBMWWhCO+UQyF88kCJ4XBvwZQhjIJNNCJaXNjBlYXHwVYp4
+ CLCgWSER2/HlUIqAiJ08wOulBxUEqgQEgVsLRNOAXFFuU9ysqIw6oNK6i+hVkizMCaZ4on
+ ZDDwC06dfaM4HT+JcMYd803yIL/EFGs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-9KxStO4rPR61EXfnfpNnJA-1; Wed, 20 May 2020 09:20:34 -0400
-X-MC-Unique: 9KxStO4rPR61EXfnfpNnJA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-453-J1lfdg2OPbClFeAetMAepg-1; Wed, 20 May 2020 09:20:36 -0400
+X-MC-Unique: J1lfdg2OPbClFeAetMAepg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85527464;
- Wed, 20 May 2020 13:20:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2C33EC1A0;
+ Wed, 20 May 2020 13:20:34 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
  [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 125D019C58;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1AAFC5C1BE;
  Wed, 20 May 2020 13:20:25 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7A1469D73; Wed, 20 May 2020 15:20:04 +0200 (CEST)
+ id 82FDE9D74; Wed, 20 May 2020 15:20:04 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 21/22] [RfC] acpi: add per machine type acpi default
-Date: Wed, 20 May 2020 15:20:02 +0200
-Message-Id: <20200520132003.9492-22-kraxel@redhat.com>
+Subject: [PATCH v3 22/22] [RfC] acpi: flip default to off for microvm
+Date: Wed, 20 May 2020 15:20:03 +0200
+Message-Id: <20200520132003.9492-23-kraxel@redhat.com>
 In-Reply-To: <20200520132003.9492-1-kraxel@redhat.com>
 References: <20200520132003.9492-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -85,66 +85,33 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow setting acpi default value for each machine type.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/hw/i386/x86.h |  1 +
- hw/i386/x86.c         | 21 ++++++++++++++++++---
- 2 files changed, 19 insertions(+), 3 deletions(-)
+ hw/i386/microvm.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index b52285481687..d2fffa8252ff 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -37,6 +37,7 @@ typedef struct {
-     bool save_tsc_khz;
-     /* Enables contiguous-apic-ID mode */
-     bool compat_apic_id_mode;
-+    bool acpi_default;
- } X86MachineClass;
- 
- typedef struct {
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index ac7a0a958781..3a56a157c5f0 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -940,10 +940,22 @@ static void x86_machine_set_smm(Object *obj, Visitor *v, const char *name,
- 
- bool x86_machine_is_acpi_enabled(X86MachineState *x86ms)
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 602c6a8f75f3..b5c445b5403b 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -517,6 +517,7 @@ static void microvm_machine_initfn(Object *obj)
+ static void microvm_class_init(ObjectClass *oc, void *data)
  {
--    if (x86ms->acpi == ON_OFF_AUTO_OFF) {
--        return false;
-+    X86MachineClass *x86mc = X86_MACHINE_GET_CLASS(x86ms);
-+    bool enabled;
-+
-+    switch (x86ms->acpi) {
-+    case ON_OFF_AUTO_ON:
-+        enabled = true;
-+        break;
-+    case ON_OFF_AUTO_OFF:
-+        enabled = false;
-+        break;
-+    case ON_OFF_AUTO_AUTO:
-+    default:
-+        enabled = x86mc->acpi_default;
-+        break;
-     }
--    return true;
-+    return enabled;
- }
+     MachineClass *mc = MACHINE_CLASS(oc);
++    X86MachineClass *x86mc = X86_MACHINE_CLASS(oc);
  
- static void x86_machine_get_acpi(Object *obj, Visitor *v, const char *name,
-@@ -991,6 +1003,9 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
-     x86mc->save_tsc_khz = true;
-     nc->nmi_monitor_handler = x86_nmi;
+     mc->init = microvm_machine_state_init;
  
-+    /* acpi is on by default */
-+    x86mc->acpi_default = true;
+@@ -537,6 +538,9 @@ static void microvm_class_init(ObjectClass *oc, void *data)
+     /* Machine class handlers */
+     mc->reset = microvm_machine_reset;
+ 
++    /* acpi is off by default */
++    x86mc->acpi_default = false;
 +
-     object_class_property_add(oc, X86_MACHINE_MAX_RAM_BELOW_4G, "size",
-         x86_machine_get_max_ram_below_4g, x86_machine_set_max_ram_below_4g,
-         NULL, NULL);
+     object_class_property_add(oc, MICROVM_MACHINE_PIC, "OnOffAuto",
+                               microvm_machine_get_pic,
+                               microvm_machine_set_pic,
 -- 
 2.18.4
 
