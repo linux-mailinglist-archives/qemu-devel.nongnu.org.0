@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57DD11DB8BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 17:55:09 +0200 (CEST)
-Received: from localhost ([::1]:53024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB801DB8BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 17:53:58 +0200 (CEST)
+Received: from localhost ([::1]:48646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbR3k-0000FQ-DW
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 11:55:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41944)
+	id 1jbR2b-0006hJ-Oh
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 11:53:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbR17-0004iv-3Q
- for qemu-devel@nongnu.org; Wed, 20 May 2020 11:52:26 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:36752)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbR15-00016Q-Jn
- for qemu-devel@nongnu.org; Wed, 20 May 2020 11:52:24 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id z5so4481824ejb.3
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 08:52:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=62ZyJoZtqvVb+YSvUWP0BqmQxz7WBVnnr8bKhUSYceY=;
- b=ay92jhRm3J/LYXUeIwxclaTsIACQSGvSVMCXijQq9XMUv6qHmxGwEnwM56WRqovuDK
- +n/h6wssjISY/jCF4ow8EJWLdO+3KWuLIsZ/zkDBcGkFQU/1GkZrQN/mBLxj2hdfS7ZL
- BdXL59EsM09ZzhgT8o9btVFl1yjCz2Qfto8vqomcrlKCWeKjCnYsDiV3A0GW5C3px6Ut
- CqUPxfJvxYyv1TM91k+EJD9xKR9sv8JWf2OBPtrzWq7Ju+OVsEaycYWGGP+MQrqP/Ee5
- yCITEFwM2wl3e3Ycr7hZQ6evInrwqAAQr7kGif0n/IQ5yvQdpYJUusr+gW3GmyTXRdpO
- cNxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=62ZyJoZtqvVb+YSvUWP0BqmQxz7WBVnnr8bKhUSYceY=;
- b=QHG5O20Mpg4RB/Vt99GDdH4SY6bxCWWzrNiVlKkq6I8g7oO/xCcDhtkA+gtkCScudk
- j/6CSk8wYxrFs09y64KX0rVNhsOE/HEnKrzlRhorogy2Z35+6yIROYExCFfA4cXyYnPX
- PAWGNAOVMxpwXv0XLantMay6Aas4ZdIPxN7Ltczg1TQ/iHOPyElUrfuHLXPrQUBxkDpr
- 6+uQArya3Dnj7giMA01v07sjus2z8QMEag2Sg0FdYasYOA23+r//nNxBmt6ouZtbMJnh
- 6+AZsAhGr+AIVquyjKxUCROT4XDE4RwdtZhBitG+Iip04lpi9rKlZxadW+2x24KJsH3m
- Fp7Q==
-X-Gm-Message-State: AOAM531ZNoNHrDSkOX3M48V/Gad0eYlT/PoNlHRsaOdqKhXGuHtZqh66
- e4B/KtJb18jwZQ0bMZfqVe3yJA==
-X-Google-Smtp-Source: ABdhPJwHopEeY72uuE00ITHgynZ4bf1onqlay3CsEr9Hm7hYZJ7eswyIYxB3g6kxF/L3zpkpYReNsg==
-X-Received: by 2002:a17:906:64c:: with SMTP id
- t12mr4157170ejb.524.1589989941541; 
- Wed, 20 May 2020 08:52:21 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a15sm2211854ejj.104.2020.05.20.08.52.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 May 2020 08:52:20 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 967911FF7E;
- Wed, 20 May 2020 16:52:19 +0100 (BST)
-References: <20200519025355.4420-1-richard.henderson@linaro.org>
- <20200519025355.4420-11-richard.henderson@linaro.org>
-User-agent: mu4e 1.4.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [RISU v2 10/17] Pass non-OK result back through siglongjmp
-In-reply-to: <20200519025355.4420-11-richard.henderson@linaro.org>
-Date: Wed, 20 May 2020 16:52:19 +0100
-Message-ID: <877dx6hado.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jbR1P-0005Eb-Ho
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 11:52:43 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38350
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jbR1O-00019O-Rn
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 11:52:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589989962;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PFsEpvTxPW3ElWyQyYoRef9LUjtzesHVQu26J2kXqls=;
+ b=DH9dO+V7xX8r25SgE8JtxEJLcxx37AZh2FzNOUDcnqnGVVb/n36/hcNCesrDXSuBTd0D1l
+ ELuPaWZHky/P4Y99WArvl++ra6vb1O20h9tGYIZExmCMYZ41wivhndDGm27JrgykP1vti2
+ cu9UgyQvKwlr9doI22kDu8Uc9fq4J3c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-192-dHGOMePZO3KeaQaE-DbU9A-1; Wed, 20 May 2020 11:52:38 -0400
+X-MC-Unique: dHGOMePZO3KeaQaE-DbU9A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F64D19200C0;
+ Wed, 20 May 2020 15:52:37 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-115-47.ams2.redhat.com [10.36.115.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E71610640E2;
+ Wed, 20 May 2020 15:52:23 +0000 (UTC)
+Date: Wed, 20 May 2020 17:52:21 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v4 2/3] block: consolidate blocksize properties
+ consistency checks
+Message-ID: <20200520155221.GF5192@linux.fritz.box>
+References: <20200520080657.29080-1-rvkagan@yandex-team.ru>
+ <20200520080657.29080-3-rvkagan@yandex-team.ru>
+ <ae8e02be-8cce-6b4d-dc12-4c2c70a8d1a0@redhat.com>
+ <CAP+75-U0SsdBeK-6gzjrjeBN099FnM15_qU6JZ2Fy6H8aNA1uA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <CAP+75-U0SsdBeK-6gzjrjeBN099FnM15_qU6JZ2Fy6H8aNA1uA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 02:22:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,22 +82,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Roman Kagan <rvkagan@yandex-team.ru>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 20.05.2020 um 10:59 hat Philippe Mathieu-Daudé geschrieben:
+> On Wed, May 20, 2020 at 10:57 AM Philippe Mathieu-Daudé
+> <philmd@redhat.com> wrote:
+> >
+> > Hi Roman,
+> >
+> > On 5/20/20 10:06 AM, Roman Kagan wrote:
+> > > Several block device properties related to blocksize configuration must
+> > > be in certain relationship WRT each other: physical block must be no
+> > > smaller than logical block; min_io_size, opt_io_size, and
+> > > discard_granularity must be a multiple of a logical block.
+> > >
+> > > To ensure these requirements are met, add corresponding consistency
+> > > checks to blkconf_blocksizes, adjusting its signature to communicate
+> > > possible error to the caller.  Also remove the now redundant consistency
+> > > checks from the specific devices.
+> > >
+> > > Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+> > > ---
+> > > v4: new patch
+> > >
+> > >   include/hw/block/block.h   |  2 +-
+> > >   hw/block/block.c           | 29 ++++++++++++++++++++++++++++-
+> > >   hw/block/fdc.c             |  5 ++++-
+> > >   hw/block/nvme.c            |  5 ++++-
+> > >   hw/block/virtio-blk.c      |  7 +------
+> > >   hw/ide/qdev.c              |  5 ++++-
+> > >   hw/scsi/scsi-disk.c        | 10 +++-------
+> > >   hw/usb/dev-storage.c       |  5 ++++-
+> > >   tests/qemu-iotests/172.out |  2 +-
+> > >   9 files changed, 50 insertions(+), 20 deletions(-)
+> > >
+> > > diff --git a/include/hw/block/block.h b/include/hw/block/block.h
+> > > index d7246f3862..784953a237 100644
+> > > --- a/include/hw/block/block.h
+> > > +++ b/include/hw/block/block.h
+> > > @@ -87,7 +87,7 @@ bool blk_check_size_and_read_all(BlockBackend *blk, void *buf, hwaddr size,
+> > >   bool blkconf_geometry(BlockConf *conf, int *trans,
+> > >                         unsigned cyls_max, unsigned heads_max, unsigned secs_max,
+> > >                         Error **errp);
+> > > -void blkconf_blocksizes(BlockConf *conf);
+> > > +bool blkconf_blocksizes(BlockConf *conf, Error **errp);
+> 
+> Maybe rename blkconf_validate_blocksizes()?
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+It does more than validating. It also assigns defaults or guesses
+settings from the host file.
 
-> Rather than doing some work in the signal handler and
-> some work outside, move all of the non-resume work outside.
-> This works because we arranged for RES_OK to be 0, which
-> is the normal return from sigsetjmp.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Kevin
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
