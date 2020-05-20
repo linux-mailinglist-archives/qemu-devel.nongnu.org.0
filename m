@@ -2,119 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA4FF1DABE8
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 09:24:01 +0200 (CEST)
-Received: from localhost ([::1]:37438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F7A1DAC32
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 09:32:12 +0200 (CEST)
+Received: from localhost ([::1]:46798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbJ56-0002D3-PJ
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 03:24:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60666)
+	id 1jbJD1-0007zX-5y
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 03:32:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jbJ4L-0001hc-U8; Wed, 20 May 2020 03:23:13 -0400
-Received: from mail-eopbgr60137.outbound.protection.outlook.com
- ([40.107.6.137]:13006 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jbJ4J-0007eI-82; Wed, 20 May 2020 03:23:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kUYdYkLa3TsDxFKaO718xB3MD3ZN4YXmq/RGwbLWj/Tkp8JEkZ4/k+EjaG9FKx6og14BzuAhDyStntB6KW8k8bdZwHiDtRcr4drZ1PuUaouvVVjbBvWxG1UVl8q3B4QUWAatDRgK0LsACrlC+2io+RTzrgL4Rgg7QFqOtkuVdrQjp3p16cPV4/rheW4E9Y3BtuPCDE2Lp0x1d+skRIdvUZcVj73w4M3eiez6ka27YZY9rsP5rxH3BElpLsh2s3UQMExe3zh70YIxZsO7mj5Odne2vWMH8TyEQ/XXLM1q2yzAKTLevKYT420Q2SjtWRItcRkR/CagKlN05kNqOoJreQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZFFALVEIPAJVzq5LPJkPeB6ebHW15J7WyZtaTmsDLIY=;
- b=B3P/MRuKmORcVxsc5+WV2xSIg8XURKTZuk5Ha4YjupedcHsculJw/qb37+/PEqbcLvgFywD5knhiE1Ngpq0CEBHjvDFzrlhKhEDmm6n+4Fw/mfSoI+SfW49QI5k4JIInq/RDoOKJAwqsPqjl7K7KZjdtb1PtzcuKLu8vynqbZEiIn7Zw7MSFWA6MsTHywFxICPZQ1U8f6EKihhcv/bdeLcjSnK/wRhhJyvKGO9lveF0Cn3o65rp/iVK2qu1/TGaNehia+udFW8xdrvBBmHKw7d5jhDB+kWrs+aACxKjP76IR+hWp7jDXEMMwi9VP6/KxkHgQOpHAVGfEcYq/qb3qrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZFFALVEIPAJVzq5LPJkPeB6ebHW15J7WyZtaTmsDLIY=;
- b=IcHEq/uDZRzHkzPfdNpw/RCd1tQLpByYDd56xUfx241/HKQaJAitY43Rn47Ggfq1iUXpxm78spDV6fQO8uHno19c2fJXeSe6q27vgVEmvnLU8l/zjKrTckQ3rTyOSq9BfTSsHdundui322UaFj1UPR3dr2/62yXsbIvvXxh6FWc=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (2603:10a6:208:ff::27)
- by AM0PR08MB3796.eurprd08.prod.outlook.com (2603:10a6:208:100::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23; Wed, 20 May
- 2020 07:23:07 +0000
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::95e6:1da8:1244:d16f]) by AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::95e6:1da8:1244:d16f%4]) with mapi id 15.20.3021.020; Wed, 20 May 2020
- 07:23:07 +0000
-Subject: Re: [RFC PATCH 0/3] block: Synchronous bdrv_*() from coroutine in
- different AioContext
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200512144318.181049-1-kwolf@redhat.com>
- <6d78bc78-0c44-d703-6f9f-e048ea34fdd9@proxmox.com>
- <20200514142606.GH5518@linux.fritz.box>
- <285ba39f-9ee6-e089-13f7-a98ea0a84866@virtuozzo.com>
- <548700ea-78db-fabc-d1eb-6d89af39ece3@virtuozzo.com>
- <20200519141858.GN7652@linux.fritz.box>
- <dfed81f7-9806-9aaf-459f-13f786b67e0a@virtuozzo.com>
- <20200519152959.GP7652@linux.fritz.box>
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Message-ID: <ea9f2813-9b39-88d2-faaf-748b6c8a4a83@virtuozzo.com>
-Date: Wed, 20 May 2020 10:23:05 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-In-Reply-To: <20200519152959.GP7652@linux.fritz.box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: AM0P190CA0007.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:208:190::17) To AM0PR08MB3745.eurprd08.prod.outlook.com
- (2603:10a6:208:ff::27)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jbJBx-0007P4-8t
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 03:31:05 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36490)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jbJBv-0001U9-SO
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 03:31:04 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jbJBu-0003uy-40
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:31:02 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1BD642E806E
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:31:02 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.64] (178.34.161.50) by
- AM0P190CA0007.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3021.23 via Frontend Transport; Wed, 20 May 2020 07:23:06 +0000
-X-Originating-IP: [178.34.161.50]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7151deb5-52ca-4f8a-c70e-08d7fc8ea485
-X-MS-TrafficTypeDiagnostic: AM0PR08MB3796:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM0PR08MB3796C8DC3DB0C6A8A6327029CFB60@AM0PR08MB3796.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 04097B7F7F
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mrTpVcy4o2yRqj2Lfga/sLv24URnyOImvKeKW0d6eaK6NEByfbQGRQH6omUX9KLbL++4gjm8LcjhsflW5qXYQMm+T79crEGKrrjpyRwc6b7xDT5Za0qVj9czVvOQzO5BuIEt3HnNreRuba9KbS3xLY7iaU4kbZGULpZjOQgfLciIuXmEVoMN++LafZH/foP+bBvaBr3zymh17khA7hoznXGyeUCMqrq6bLTx9Dpj8ALN9WowwOeWSBsV5D63RkjKQLtWJWklR7yLmbl3ffVc4gsFRM4PFhL9QDkcB4SJso6j/qjNWTwpaL/kidE8T1S9k2yoylkssliIynJrZuuzMz7Zi25v+FMXM+dLcm7cGiTsKDtQ9v8Lhz0Rz/u6k4wZ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR08MB3745.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(346002)(396003)(366004)(39840400004)(376002)(956004)(31696002)(5660300002)(6916009)(86362001)(52116002)(26005)(16526019)(2616005)(478600001)(4326008)(186003)(316002)(16576012)(6486002)(54906003)(8936002)(36756003)(31686004)(66556008)(66946007)(66476007)(2906002)(8676002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: hnOPP86FyN4aLqO5SHN65L5E1AJ+x0Zd2+irGRN6KW1kg/Y045Eg/FBYteNIX0OutRgt12nJvf5WM1GyanVEbJN+P07qf/GGVyDbOVgFR1p8AIRSZDGxDCF+rTgUDyiXsmnw3fROOPH7rvPSLniVebUqIVKVgTDc5BNkl1ygAPvtftxvTeGa27W9srfA4EtVlF68KYae+33KxnxopN994cgWCf4gZDUQQgiZ1eWtTk6jScvJcikQj1cbPWDTXdl/Qf8SAuYzElw5O1WK6p2DqgvgJt9OHQ90LPmJCmOO1LNzdraoIGUO8t/xrew8ssWUILJ32MN3gF5lzZld7akoOfrHN0/WYQfoAbASVc0jUicmvcXaq6uIjylksHREHYEipKbMfAcQNqgGn0T2dR/RoIyV3hju4/T4K5fnDFuzySqVdFblUD524o35HD7tcsAlyJJv9DywTRWw76ZFJ55PjlFXWE3fWYPm97J/kkE1i6k=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7151deb5-52ca-4f8a-c70e-08d7fc8ea485
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2020 07:23:07.3919 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zs6S/kYwwjXM6pEiTgP34NpngQ0dtR+yGBYwtZAIxhDY5GCVC5Tx1yzPStA3rElwAToiJ95/lFVd4CrLJKMCWILT/Mks9dmSoyyB4brpZ0E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3796
-Received-SPF: pass client-ip=40.107.6.137;
- envelope-from=dplotnikov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 03:23:08
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 20 May 2020 07:23:41 -0000
+From: cliff chen <1879425@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cliffchen
+X-Launchpad-Bug-Reporter: cliff chen (cliffchen)
+X-Launchpad-Bug-Modifier: cliff chen (cliffchen)
+References: <158985197617.30924.14122012304587735670.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158995942225.31190.14262946199317533076.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1879425] Re: The thread of "CPU 0 /KVM" keeping 99.9%CPU
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0b39b8ec378bb87e59fd20c67b17e33fc33a14ab
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 03:31:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -123,62 +72,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, s.reiter@proxmox.com,
- armbru@redhat.com, mreitz@redhat.com, stefanha@redhat.com,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
+Reply-To: Bug 1879425 <1879425@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+** Description changed:
 
->> I'm not quite sure I understand the point.
->> Let's see all the picture of async snapshot: our goal is to minimize a VM
->> downtime during the snapshot.
->> When we do async snapshot we save vmstate except RAM when a VM is stopped
->> using the current L1 table (further initial L1 table). Then, we want the VM
->> start running
->> and write RAM content. At this time all RAM is write-protected.
->> We unprotect each RAM page once it has been written.
-> Oh, I see, you're basically doing something like postcopy migration. I
-> was assuming it was more like regular live migration, except that you
-> would overwrite updated RAM blocks instead of appending them.
->
-> I can see your requirement then.
->
->> All those RAM pages should go to the snapshot using the initial L1 table.
->> Since the VM is running, it may want to write new disk blocks,
->> so we need to use a NEW L1 table to provide this ability. (Am I correct so
->> far?)
->> Thus, if I understand correctly, we need to use two L1 tables: the initial
->> one to store RAM pages
->> to the vmstate and the new one to allow disk writings.
->>
->> May be I can't see a better way to achieve that. Please, correct me if I'm
->> wrong.
-> I guess I could imagine a different, though probably not better way: We
-> could internally have a separate low-level operation that moves the VM
-> state from the active layer to an already existing disk snapshot. Then
-> you would snapshot the disk and start writing the VM to the active
-> layer, and when the VM state write has completed you move it into the
-> snapshot.
->
-> The other options is doing what you suggested. There is nothing in the
-> qcow2 on-disk format that would prevent this, but we would have to
-> extend the qcow2 driver to allow I/O to inactive L1 tables. This sounds
-> like a non-trivial amount of code changes, though it would potentially
-> enable more use cases we never implemented ((read-only) access to
-> internal snapshots as block nodes, so you could e.g. use block jobs to
-> export a snapshot).
->
-> Kevin
+  Hi Expert:
+  =
 
-Ok, thanks for validating the possibilities and more ideas of 
-implementation.
-I think I should start from trying to post my background snapshot 
-version storing the vmstate to an external file
-because write-protected-userfaultfd is now available on linux.
-And If it's accepted I'll try to come up with an internal version for 
-qcow2 (It seems this is the only format supporting this).
+  The VM is hung here after (2, or 3, or 5 and the longest time is 10 hours=
+) by qemu-kvm.
+- Notes: =
 
-Denis
++ Notes:
+  for VM:
+-   OS: RHEL 7.6
+-   CPU: 1
+-   MEM:4G
+- For qemu-kvm:
+-   1) version:
+-      /usr/libexec/qemu-kvm -version
+-      QEMU emulator version 2.10.0(qemu-kvm-ev-2.10.0-21.el7_5.4.1)
+-   2) once the issue is occurred, the CPU of "CPU0 /KVM" is more than 99% =
+by com "top -p VM_pro_ID"
+-     PID  UDER   PR NI RES   S  % CPU %MEM  TIME+    COMMAND
++ =C2=A0=C2=A0OS: RHEL8.1
++ =C2=A0=C2=A0CPU: 1
++ =C2=A0=C2=A0MEM:4G
++ For qemu-kvm(host kernel RHEL7):
++ =C2=A0=C2=A01) version:
++ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/usr/libexec/qemu-kvm -version
++ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0QEMU emulator version 2.10.0(qemu-kvm-ev-2.=
+10.0-21.el7_5.4.1)
++ =C2=A0=C2=A02) once the issue is occurred, the CPU of "CPU0 /KVM" is more=
+ than 99% by com "top -p VM_pro_ID"
++ =C2=A0=C2=A0=C2=A0=C2=A0PID  UDER   PR NI RES   S  % CPU %MEM  TIME+    C=
+OMMAND
+  872067   qemu   20 0  1.6g  R   99.9  0.6  37:08.87 CPU 0/KVM
+-   3) use "pstack 493307" and below is function trace
++ =C2=A0=C2=A03) use "pstack 493307" and below is function trace
+  Thread 1 (Thread 0x7f2572e73040 (LWP 872067)):
+  #0  0x00007f256cad8fcf in ppoll () from /lib64/libc.so.6
+  #1  0x000055ff34bdf4a9 in qemu_poll_ns ()
+  #2  0x000055ff34be02a8 in main_loop_wait ()
+  #3  0x000055ff348bfb1a in main ()
+-   4) use strace "strace -tt -ff -p 872067 -o cfx" and below log keep prin=
+ting
++ =C2=A0=C2=A04) use strace "strace -tt -ff -p 872067 -o cfx" and below log=
+ keep printing
+  21:24:02.977833 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
+N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
+=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
+15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 0}, NULL, 8) =3D=
+ 0 (Timeout)
+  21:24:02.977918 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
+N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
+=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
+15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 911447}, NULL, 8=
+) =3D 0 (Timeout)
+  21:24:02.978945 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
+N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
+=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
+15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 0}, NULL, 8) =3D=
+ 0 (Timeout)
+  Therefore, I think the thread "CPU 0/KVM" is in tight loop.
+-   5) use reset can recover this issue. however, it will reoccurred again.
++ =C2=A0=C2=A05) use reset can recover this issue. however, it will reoccur=
+red again.
+  Current work around is increase one CPU for this VM, then issue is gone.
+  =
+
+  thanks
+  Cliff
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1879425
+
+Title:
+  The thread of "CPU 0 /KVM" keeping 99.9%CPU
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi Expert:
+
+  The VM is hung here after (2, or 3, or 5 and the longest time is 10 hours=
+) by qemu-kvm.
+  Notes:
+  for VM:
+  =C2=A0=C2=A0OS: RHEL8.1
+  =C2=A0=C2=A0CPU: 1
+  =C2=A0=C2=A0MEM:4G
+  For qemu-kvm(host kernel RHEL7):
+  =C2=A0=C2=A01) version:
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/usr/libexec/qemu-kvm -version
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0QEMU emulator version 2.10.0(qemu-kvm-ev-2.=
+10.0-21.el7_5.4.1)
+  =C2=A0=C2=A02) once the issue is occurred, the CPU of "CPU0 /KVM" is more=
+ than 99% by com "top -p VM_pro_ID"
+  =C2=A0=C2=A0=C2=A0=C2=A0PID  UDER   PR NI RES   S  % CPU %MEM  TIME+    C=
+OMMAND
+  872067   qemu   20 0  1.6g  R   99.9  0.6  37:08.87 CPU 0/KVM
+  =C2=A0=C2=A03) use "pstack 493307" and below is function trace
+  Thread 1 (Thread 0x7f2572e73040 (LWP 872067)):
+  #0  0x00007f256cad8fcf in ppoll () from /lib64/libc.so.6
+  #1  0x000055ff34bdf4a9 in qemu_poll_ns ()
+  #2  0x000055ff34be02a8 in main_loop_wait ()
+  #3  0x000055ff348bfb1a in main ()
+  =C2=A0=C2=A04) use strace "strace -tt -ff -p 872067 -o cfx" and below log=
+ keep printing
+  21:24:02.977833 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
+N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
+=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
+15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 0}, NULL, 8) =3D=
+ 0 (Timeout)
+  21:24:02.977918 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
+N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
+=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
+15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 911447}, NULL, 8=
+) =3D 0 (Timeout)
+  21:24:02.978945 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
+N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
+=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
+15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 0}, NULL, 8) =3D=
+ 0 (Timeout)
+  Therefore, I think the thread "CPU 0/KVM" is in tight loop.
+  =C2=A0=C2=A05) use reset can recover this issue. however, it will reoccur=
+red again.
+  Current work around is increase one CPU for this VM, then issue is gone.
+
+  thanks
+  Cliff
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1879425/+subscriptions
 
