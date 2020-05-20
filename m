@@ -2,82 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCFB41DB022
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 12:27:11 +0200 (CEST)
-Received: from localhost ([::1]:54934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB471DB02C
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 12:29:42 +0200 (CEST)
+Received: from localhost ([::1]:60378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbLwM-0007zv-UQ
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 06:27:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55448)
+	id 1jbLyn-0001vN-8H
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 06:29:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbLva-0007Iw-3A
- for qemu-devel@nongnu.org; Wed, 20 May 2020 06:26:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56694
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jbLwJ-0008Fg-Gr
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 06:27:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34202
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbLvZ-0000Nv-1E
- for qemu-devel@nongnu.org; Wed, 20 May 2020 06:26:21 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jbLwI-0000SE-Np
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 06:27:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589970379;
+ s=mimecast20190719; t=1589970426;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1WqekJu921czZs4WghQfQg3RGUfTEcR4yw7P7OzZTiE=;
- b=Ij58N6vN9D6SRHTUJIrqOll3x6GAQEbxGfpF6e2wieJHzl0YTPbAKrPg7axOOc0Y/i9Unk
- pkN66yfBHnjumT8M0hx07SqW3jR6da9gngn7S6aTJu8pkCPisk7WdFq3Tkxp6SSPTmJUfU
- jleUut7LhroY8vo/RyL0xRJQxg4KtD4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-9xeDWfQJMVWlVdCPtzKixw-1; Wed, 20 May 2020 06:26:16 -0400
-X-MC-Unique: 9xeDWfQJMVWlVdCPtzKixw-1
-Received: by mail-wm1-f71.google.com with SMTP id 23so1044150wma.8
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 03:26:16 -0700 (PDT)
+ bh=22ThqfLCOKXlMaqSVC7KqxILef2PKuDpGKq6uJE99j0=;
+ b=IRUJejvODkm1Wty+mxXM26k3x2UCNl7VfcWaQlJo8lu/1CfOgUqYaqrinr6P6fx4ZLY0gy
+ fc3YIW7hqS0WWyzEa3oJDFHqjQkW8gZUEjb2kiTVJa8W+V2lHex26X1LfWi+Sj8DKBzyT0
+ CoQkE7mqBh770uktr38LSe6RjcW4KpE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-483-zEDQd6HXPvy5o9qTvfNe0w-1; Wed, 20 May 2020 06:27:03 -0400
+X-MC-Unique: zEDQd6HXPvy5o9qTvfNe0w-1
+Received: by mail-wm1-f72.google.com with SMTP id t82so742980wmf.4
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 03:27:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1WqekJu921czZs4WghQfQg3RGUfTEcR4yw7P7OzZTiE=;
- b=sHv8NQsqHzu1ZUg/gLSwaLrNkS+EUmZwhaiwIdO1tgmOTJ/7bTnN+JJGSKoeyUuJYu
- F5ksALWxD16JzuqnW7gL/Ds92V0U89NJ88nbaGuQ6umFBB5LwmxdZ+J+bEeLaEZN9wAs
- 7GQN9JsqcVD4EkWr6it/RofLPyWJN/RihhkCZtp2yXO9kOAaYOF4kSAT3iRBw2mBoThv
- LCNK1bqWWDZeRHCItOu8XRWTW2pk8CJSCNp0W746ptS4FgzrH/yKQR19bw32hxV1uWjD
- EXU0qh2O5sWBRGHmoK8dIZzVXW5kR8YvR2MLN6fbqGZ0U9X3w0oYxOfl6DbCovDm9bbf
- ekbQ==
-X-Gm-Message-State: AOAM5326TaPdh8eAZYKKqMzYMA4Nzl5fw5h1u4aplfbEnjCtCktzNxhw
- SDZZkMtnTrHkYEj2NtlkVWglGTNxHaoyvx/oQOK/gdCR3Zjg5OZgwuBK8AiVHvy8kUa1m+xlQV1
- Or3GPN1OdcttqTMw=
-X-Received: by 2002:a7b:cb4e:: with SMTP id v14mr3924007wmj.164.1589970375106; 
- Wed, 20 May 2020 03:26:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwU0kzx9ie/b6LJ3lmwCOBIligp5EHg8DrBSx/bwI9MUprTcUZ6Jbc6Xx020WRvdn9NL/GLAg==
-X-Received: by 2002:a7b:cb4e:: with SMTP id v14mr3923985wmj.164.1589970374906; 
- Wed, 20 May 2020 03:26:14 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id v20sm2695069wrd.9.2020.05.20.03.26.13
+ bh=22ThqfLCOKXlMaqSVC7KqxILef2PKuDpGKq6uJE99j0=;
+ b=mlFWI51XqzMuMq9ErGyXaUFXgVyFD9Ql4hnO1cmy8bgiECF8896uVbIugu4fX6ajmd
+ ApPleZAnjuhGUUYNevoBxyyKHkpTgRxiuA2Dkqn9cq/X8fYzTu8kDknT/radqY6ATvXG
+ rtTtNeKg9CgF9u+NS7Ckaypgxxq8D5DpO4PVRSn8EAc5Yec2Ig8YSMTOVkw0mER9uDi5
+ Zq/WMwYIcUvfARcCXghsSXpo91WC1i+7b1b6gFL3sFDlbjb/4z/jSegGVXbdIkQNt+Fw
+ VZE+xd8XTFm8rwPvbQFJMAvHo5QqOz91oNICQdResey0HIcMg2Ycv4HrHo20qblG8DL/
+ 3FFQ==
+X-Gm-Message-State: AOAM531G1LsLq42X4oqVyPSL2+2YsiPvEeCc3FV1rLqgMRh+fzLTq2B0
+ fV+keaeJYm9e+1XTQVubw+vAUP18fbM4yc6UE16GTQbGiYQ0LToim/IVS2PxUSWp+RNlyoFtCUc
+ iFSDOBR3DPPhDYkU=
+X-Received: by 2002:a05:6000:1187:: with SMTP id
+ g7mr3674090wrx.54.1589970421405; 
+ Wed, 20 May 2020 03:27:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzhttaRqZSokbOgIW8wEcW+xERUX4vEHbD95P790KI0pKivpOqhl52NGIcFo5bmEgK8E86VVA==
+X-Received: by 2002:a05:6000:1187:: with SMTP id
+ g7mr3674071wrx.54.1589970421127; 
+ Wed, 20 May 2020 03:27:01 -0700 (PDT)
+Received: from [192.168.178.58] ([151.30.94.134])
+ by smtp.gmail.com with ESMTPSA id p7sm2550541wmg.38.2020.05.20.03.27.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 May 2020 03:26:14 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] testing: Build WHPX enabled binaries
-To: "Justin Terry (VM)" <juterry@microsoft.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20190920113329.16787-1-philmd@redhat.com>
- <01f2f0ee-a288-921a-58f4-78aeb4d457e1@redhat.com>
- <BYAPR21MB1208F0D09B3E5CA80F1B7C3BB6880@BYAPR21MB1208.namprd21.prod.outlook.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2acf854f-c49a-0811-31af-80e1e958f058@redhat.com>
-Date: Wed, 20 May 2020 12:26:13 +0200
+ Wed, 20 May 2020 03:27:00 -0700 (PDT)
+Subject: Re: kvm_buf_set_msrs: Assertion `ret == cpu->kvm_msr_buf->nmsrs'
+ failed.
+To: Li Feng <fengli@smartx.com>
+References: <CAHckoCymFfuVd=tKV-hk+PHn2fk6ydWjSxwKVorj9Qe5KV6nGQ@mail.gmail.com>
+ <55b6466c-0769-6652-a237-c6bc18704064@redhat.com>
+ <20200514125220.GJ2787@work-vm>
+ <CAHckoCyegWG9yH_y6VjHhnghfHJD-Wq+EmOyRZE3EYguTOHfPw@mail.gmail.com>
+ <20200514151600.GO2787@work-vm>
+ <CAHckoCxc2XTA3ckU0sq-BmbZZFtfAY_GaEOW46XFzfZ2qXjeMQ@mail.gmail.com>
+ <20200514153129.GP2787@work-vm>
+ <CAHckoCxOjNEAM4DwWtXS9JT_aPsqOtDAzf5zhhiRrDyAmQa00Q@mail.gmail.com>
+ <CAHckoCwee+aNHcgRFvReCCz_0J-vLrM5=MPZFpqvQjkefV2MiQ@mail.gmail.com>
+ <986fbf33-8127-870b-9163-4aa8d332553f@redhat.com>
+ <CAHckoCxw=j8+uXHD3tzQc4vGkRu-_xhcHn8sSeiKaSHw=Bt6mA@mail.gmail.com>
+ <7ecfb762-0359-92a4-d8b3-1a9e081ace92@redhat.com>
+ <CAHckoCwEt+citc5pQkJxhsWkLuqJa47A98YUYtMHd7epmx0esQ@mail.gmail.com>
+ <5902006b-655a-9208-796d-1af7b36da52c@redhat.com>
+ <CAHckoCyZmYXU8bz-3UAVXGi1MpdNdb20no1-kB09MoWOGPz_VA@mail.gmail.com>
+ <8ce60286-85a5-f338-c079-20e868da59dd@redhat.com>
+ <CAHckoCxFGTgPwTXvf6H4AeGDmDyy2dfQRtEHD51QojZpv-0E+Q@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <c1a3a26b-7ce1-9be6-836e-cf5ff1f10a2c@redhat.com>
+Date: Wed, 20 May 2020 12:26:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <BYAPR21MB1208F0D09B3E5CA80F1B7C3BB6880@BYAPR21MB1208.namprd21.prod.outlook.com>
+In-Reply-To: <CAHckoCxFGTgPwTXvf6H4AeGDmDyy2dfQRtEHD51QojZpv-0E+Q@mail.gmail.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 01:34:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -87,7 +104,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,70 +117,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Paolo Bonzini <pbonzini@redhat.com>, 1879672@bugs.launchpad.net,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: vkuznets@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+launchpad ticket
+On 20/05/20 12:15, Li Feng wrote:
+> /root/qemu-master/x86_64-softmmu/qemu-system-x86_64 -enable-kvm
+> -device virtio-balloon -cpu
+> host,-vmx-exit-nosave-debugctl,-vmx-exit-ack-intr,-vmx-exit-save-pat,-vmx-exit-load-pat,-vmx-exit-save-efer,-vmx-exit-load-efer,-vmx-exit-save-preemption-timer
+> -smp 4 -m 2G -drive
+> file=/root/html/fedora-10g.img,format=raw,cache=none,aio=native,if=none,id=drive-virtio-disk1
+> -device virtio-blk-pci,scsi=off,drive=drive-virtio-disk1,id=virtio-disk1,bootindex=1
+> -device virtio-net,netdev=nw1,mac=00:11:22:EE:EE:10 -netdev
+> tap,id=nw1,script=no,downscript=no,ifname=tap0 -serial mon:stdio
+> -nographic -object
+> memory-backend-file,id=mem0,size=2G,mem-path=/dev/hugepages,share=on
+> -numa node,memdev=mem0 -vnc 0.0.0.0:100 -machine usb=on,nvdimm -device
+> usb-tablet -monitor tcp:0.0.0.0:1234,server,nowait -qmp
+> tcp:0.0.0.0:2234,server,nowait -device
+> virtio-serial-pci,id=virtio-serial0,max_ports=16 -chardev
+> socket,id=channel1,path=/tmp/helloworld1,server,nowait -device
+> virtserialport,chardev=channel1,name=com.redhat.rhevm.vdsm1,bus=virtio-serial0.0,id=port1
+> 
+> The CentOS version(qemu-kvm-ev-2.12.0-33.1.el7) works well on my VM.
+> So I guess this is an issue in the upstream master codebase.
 
-On 9/20/19 6:53 PM, Justin Terry (VM) wrote:
-> Hey Phil,
-> 
-> I have contacted our legal department for guidance on this specific use case and will update you when I hear back. Thank you for your patience.
-> 
-> Justin Terry
-> 
->> -----Original Message-----
->> From: Philippe Mathieu-Daudé <philmd@redhat.com>
->> Sent: Friday, September 20, 2019 8:18 AM
->> To: qemu-devel@nongnu.org; Justin Terry (VM) <juterry@microsoft.com>
->> Cc: Daniel P . Berrangé <berrange@redhat.com>; Fam Zheng
->> <fam@euphon.net>; Thomas Huth <thuth@redhat.com>; Paolo Bonzini
->> <pbonzini@redhat.com>; Alex Bennée <alex.bennee@linaro.org>; Richard
->> Henderson <rth@twiddle.net>; Eduardo Habkost <ehabkost@redhat.com>;
->> Stefan Weil <sw@weilnetz.de>
->> Subject: Re: [PATCH v2 0/3] testing: Build WHPX enabled binaries
->>
->> On 9/20/19 1:33 PM, Philippe Mathieu-Daudé wrote:
->>> Add a job to cross-build QEMU with WHPX enabled.
->>>
->>> Since the WHPX is currently broken, include the patch required to have
->>> successful Shippable build.
->>>
->>> I previously included the WHPX headers shared by the Android project,
->>> and Daniel asked me to check the EULA. While trying to manually
->>> install the Windows SDK, I noticed the installer fetches archives
->>> directly, kindly asking where they are stored via the /fwlink API.
->>> Do the same, fetch the required archives and extract them. No need to
->>> accept EULA...
->>>
->>> Docker build the image first, then build QEMU in a instance of this
->>> image. The image is internal to Shippable, the instances are not
->>> reachable and are thrown once the build is finished. What we collect
->>> from Shippable is the console output of QEMU build process, and if the
->>> build process succeed or failed. So far we do not redistribute the
->>> image or built binaries.
->>>
->>> Philippe Mathieu-Daudé (3):
->>>    target/i386: Fix broken build with WHPX enabled
->>>    tests/docker: Add fedora-win10sdk-cross image
->>>    .shippable.yml: Build WHPX enabled binaries
->>
->> FWIW here is the result of this series:
->> https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Fapp.
->> shippable.com%2Fgithub%2Fphilmd%2Fqemu%2Fruns%2F516%2F11%2Fcon
->> sole&amp;data=02%7C01%7Cjuterry%40microsoft.com%7C733a566f3233427
->> 8ae6f08d73dddb39f%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C6
->> 37045894733463150&amp;sdata=55URgDII5r74QMUpLOD%2FWT5%2B5jbzyv
->> nfCSdv%2FNaWDAw%3D&amp;reserved=0
->> Duration 17 minutes (1076 seconds)
->>
->> 4m49s building the qemu:fedora-win10sdk-cross docker image, 11m10s
->> building WHPX QEMU.
+I don't know, it's really weird that KVM rejects bit 9.  It should be
+fine as long as KVM_SET_CPUID2 is called before kvm_init_msrs (which is
+true, it's some 30 lines earlier in kvm_arch_init_vcpu).
+
+Thanks,
+
+Paolo
 
 
