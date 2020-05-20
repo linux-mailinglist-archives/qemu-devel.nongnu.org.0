@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9E71DB5F9
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:11:53 +0200 (CEST)
-Received: from localhost ([::1]:48234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8FFC1DB5F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:09:51 +0200 (CEST)
+Received: from localhost ([::1]:41636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbPRo-0000Ts-81
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:11:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55234)
+	id 1jbPPq-000660-N8
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:09:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPM5-0000Aw-Mh
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:57 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:43045)
+ id 1jbPM4-00007M-2O
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:56 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:34584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPM4-0001z9-0o
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:57 -0400
-Received: by mail-ed1-x544.google.com with SMTP id g9so3163979edw.10
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:05:55 -0700 (PDT)
+ id 1jbPM3-0001yf-5r
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:55 -0400
+Received: by mail-ed1-x529.google.com with SMTP id i16so3198885edv.1
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:05:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sKR6q5Rw9VEFb3A0dJqchg5Eh5EneIbh7z8JPrBYd9A=;
- b=Px0ECHj9eowUQxmO4+i+eHa76wcPHGUG4sI98PHR+lxiuyvOlZPwizeOIZZlSdQ69u
- TmXOTKm+Ajw/NZ0zzXagykvbQ1gryE35h17wsKCbXal7Zy7U8ttt3NlNS5HphgGaSvqb
- CYYwsQo3skGaqF62R6VBu3NREu7EGCznLoj3J5GxGozx1ZRMWwsslp4eYkzQRaUb+6kz
- V5NBJCjE992qvhFjW9Te8W6N1EXU8qb3OgowVOijudUCkPofIwrclH9E6/NPDlSXu6Vs
- VyQRXZI/OOR+SiEK2ZsiyhnR6Hi7QwyAcTUFWehBwaf++O1CyMszL4hTpVlELN+THMfb
- a0Aw==
+ bh=dnU7gW5Cd1Qobc/cZXPkaWez6sVKYdN9N3HtZBS9Vzk=;
+ b=lMZSqeIQ/8aqCxdKE0tDiEXCjyjlt2AmIIYUTS+gS/OaBpPKPQBrofZFjAg1YpOI0H
+ 94t2R8Ic2009Vq72J6LoGtbAK3EmqQCyyOOpfEunhO9g2NyYNcJB7sJdTHVM2hdTPA4p
+ 7zhVT64UV30AhYpDedx0klZY7S+HCyH7seH4NhaHIQVM3H31fynRNLUD7IQjIxijDhRZ
+ uMNBzb6Xbjmp1g2msluyul46+/htzzoV8CrPMiHEwjFsxGliGW/btq/QflCaeD1rwE8v
+ kEKmsiru8ALFcOG4Jqp8NuZfCi2en3e5vINzKwnXFkzVM665Dbf4CTuWexVSYCQf0Z/I
+ WTNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sKR6q5Rw9VEFb3A0dJqchg5Eh5EneIbh7z8JPrBYd9A=;
- b=JzntNJLN6J/ehHV6QBeSbZw74xxWC2O/olNAVpwHGwofep05JtnSIu7NqgBIZxKxuI
- FUTW3TAJ3LRIcrfQY6EKPGRAtzDSm16Jt/po/kET2QLvQYS/6p2T896sQPFHG8IIcNJO
- bhF+IUb+R02lOn9g9aJPynmVbk7sozy3KKtM/7mFSwb4UCuiO52cNj7Cqdi2Wg5sFFfl
- OXZs+AX9jT9EgznMSxbQvjyK8YNHEEY6vXh4Stf8DVSMeB7JhwkCDStxFs5dgE5qxJ0q
- i++5f7Jd+p1l2zEYW8ZOIdEBdGSo7NnSrHvn6RMr26thLB6wAenHqzV1hIqBFRqMu6gG
- jq+g==
-X-Gm-Message-State: AOAM531KQhb584ihNGr/wx8PO7BV0UtVOtkcC/GSWj7ImxEVIQ7Qa6rZ
- DH1ykJrGuXCC9LW74JODYlufPNx4PaI=
-X-Google-Smtp-Source: ABdhPJzqCOOwTHtihwy1xlG3olT6s4pUOVeL/3LWrKYmqbmWYKGPLhVsZ8tysPjwzY61BLyNrq9q2Q==
-X-Received: by 2002:aa7:d590:: with SMTP id r16mr1627020edq.304.1589983554663; 
- Wed, 20 May 2020 07:05:54 -0700 (PDT)
+ bh=dnU7gW5Cd1Qobc/cZXPkaWez6sVKYdN9N3HtZBS9Vzk=;
+ b=RpE+EggQnQ4KmPmZPatWUdVwv2LCYm1zBgtf6mtPuNiB/QT/BLRcOoMewdTSmTmMc3
+ 6MkNIednE9g6VVJTYH5OhA8j1UjqryLp05vQqx5VYNJzLI43qthmJlNWNTDABvo14NTa
+ LXJYD9F5e7eLPEUYiDeTDL+cAQ8eNCKF3HhaGP3sStF4cnAQkgPZHWZzqg7SDGSWcou7
+ vcHv1UlghjnxlJ+3tW7DItE723sHYhqgmp1B5NYQNO627fm01PwR51eSexAGlITjlThZ
+ N4/9LJ0C3Fvs1qnJd22zk/Xsv65GkFL3SVw5H+DvAsmXkFhgWqcWX9cei7ofFmuBV3K+
+ skuw==
+X-Gm-Message-State: AOAM533+7DWnsfwhGmk2lcxTJE/BzK5ebE71eILZlrJO+vybAdBnupjW
+ fyAyJYWX+Kl6yaG/j8z5CfCnsQ==
+X-Google-Smtp-Source: ABdhPJy4R0eEg+FO1yCyKoQ5NnitpJiP7mdg5Y9cXDQ9L2bMHaNXzCe9baY6SJ8A0lW4Tr6oyZVlsA==
+X-Received: by 2002:aa7:c6c6:: with SMTP id b6mr3481695eds.53.1589983553667;
+ Wed, 20 May 2020 07:05:53 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x8sm1998151edj.53.2020.05.20.07.05.46
+ by smtp.gmail.com with ESMTPSA id h18sm2054301eji.86.2020.05.20.07.05.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 20 May 2020 07:05:49 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CBB751FF93;
+ by zen.linaroharston (Postfix) with ESMTP id DEF971FF96;
  Wed, 20 May 2020 15:05:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 07/15] tests/tcg: better detect confused gdb which can't
- connect
-Date: Wed, 20 May 2020 15:05:33 +0100
-Message-Id: <20200520140541.30256-8-alex.bennee@linaro.org>
+Subject: [PATCH  v1 08/15] tests/docker: bump fedora to 32
+Date: Wed, 20 May 2020 15:05:34 +0100
+Message-Id: <20200520140541.30256-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200520140541.30256-1-alex.bennee@linaro.org>
 References: <20200520140541.30256-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x529.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,42 +88,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While we may gamely give the right information it can still confuse
-the wide range of GDBs out there. For example ppc64abi32-linux-user
-reports:
-
-  warning: Selected architecture powerpc:common is not compatible with reported target architecture powerpc:common64
-  warning: Architecture rejected target-supplied description
-
-but still connects. Add a test for a 0 pc and exit early if that is
-the case. This may actually be a bug we need to fix?
+We should be keeping this up to date as Fedora goes out of support
+quite quickly.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Richard Henderson <rth@twiddle.net>
 ---
- tests/tcg/multiarch/gdbstub/sha1.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/docker/dockerfiles/fedora.docker | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/tcg/multiarch/gdbstub/sha1.py b/tests/tcg/multiarch/gdbstub/sha1.py
-index 734553b98bb..2bfde49633c 100644
---- a/tests/tcg/multiarch/gdbstub/sha1.py
-+++ b/tests/tcg/multiarch/gdbstub/sha1.py
-@@ -65,6 +65,10 @@ except (gdb.error, AttributeError):
-     print("SKIPPING (not connected)", file=sys.stderr)
-     exit(0)
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 179575ecaaa..92204dc79eb 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -1,4 +1,4 @@
+-FROM fedora:30
++FROM fedora:32
  
-+if gdb.parse_and_eval('$pc') == 0:
-+    print("SKIP: PC not set")
-+    exit(0)
-+
- try:
-     # These are not very useful in scripts
-     gdb.execute("set pagination off")
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
 -- 
 2.20.1
 
