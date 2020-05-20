@@ -2,61 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D22A1DA88D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 05:24:11 +0200 (CEST)
-Received: from localhost ([::1]:52274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0C51DB55D
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:43:22 +0200 (CEST)
+Received: from localhost ([::1]:59694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbFL0-0001sc-6b
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 23:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40988)
+	id 1jbP0C-0001Lw-Ph
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:43:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jbFKH-0001Sg-HN
- for qemu-devel@nongnu.org; Tue, 19 May 2020 23:23:25 -0400
-Received: from mga12.intel.com ([192.55.52.136]:59215)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jbFKF-000558-FZ
- for qemu-devel@nongnu.org; Tue, 19 May 2020 23:23:24 -0400
-IronPort-SDR: EpmE/Qr85sMGhmf4iGRDcwnt++iw2COV0DFDzuf/ojHHp3ULYfE2Y//6mIpEPlFHKOrMmHhENn
- HkmNSkWWkdAg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2020 20:23:20 -0700
-IronPort-SDR: Lc5HyV3yB2vXb7yG+A1yETHck1DcvzO/Op47cU040pq3eKVXJ1Aw9Js1df2FJX9VcnZjP3AQH8
- fntVz0yg0tgg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,412,1583222400"; d="scan'208";a="439861203"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by orsmga005.jf.intel.com with ESMTP; 19 May 2020 20:23:14 -0700
-Date: Tue, 19 May 2020 23:13:23 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH QEMU v22 09/18] vfio: Add save state functions to
- SaveVMHandlers
-Message-ID: <20200520031323.GB10369@joy-OptiPlex-7040>
-References: <1589782398-24406-1-git-send-email-kwankhede@nvidia.com>
- <1589782398-24406-10-git-send-email-kwankhede@nvidia.com>
+ (Exim 4.90_1) (envelope-from <acourbot@chromium.org>)
+ id 1jbFGX-0000Xl-5b
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 23:19:33 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:35636)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <acourbot@chromium.org>)
+ id 1jbFGV-0004Hf-Px
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 23:19:32 -0400
+Received: by mail-ot1-x343.google.com with SMTP id 69so1379348otv.2
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 20:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6TLItYFdmLhLv8377X8Q79d5QCaK908HiuEnRS/pI7U=;
+ b=Py/oK423a9fblk27GVPLDrEfx+5NS+wWBi8gO+k4eeO43RqPU4mD+5T39nTl8pG+Uv
+ eYcD9XUasb6xje8IqXyMiU03xLKDcDwcBiULAhVRQmfPIcdiZdDQ/kT6LVzh63KW6RVK
+ AEtnVaQ7B4FS3eCsRW9A+Guh9J48MwkU4YuzY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6TLItYFdmLhLv8377X8Q79d5QCaK908HiuEnRS/pI7U=;
+ b=ug/FRdE/q+v3pmAEsLIJ7tkq+nUEzJ8u7MoFFQOY9vke191XNwjRLUJ+LWtije1MGD
+ RGMuBUdrFTQXh+C3NhAdKwXK7qsxzfG5px0cmz7Cu851FIrlR3IAL7vOxpHYxKD6bjQt
+ mx9MmFeuYxsgHPDXX3BFRb2wgcsbbjNanozoEmRXDysUD+rQbLxPRVjO6AVSmiNWgpeI
+ 0ZsSCuKEoBRLEy9ebcGBWNERjakvk0SGTPFNBMVfNmGdgZGDSqj0mgRtwP3giyTvdzhU
+ BwUVxIAdm91r0PrNA+Vh/p0RSFtHHoihuSHK2751EuMySB9bVNK2N/h21yPrBk2Ycyre
+ 7EIA==
+X-Gm-Message-State: AOAM530NpdG5TdVjt/NqvvRqsIfXozSv87hUrcdFWR137RX7/tuyoirf
+ JPXD7lckK2DiFMStnKNnx+dPzOoidXc=
+X-Google-Smtp-Source: ABdhPJyHCuhT6qHB9AhxbDjRbou+zfuZF/wlMU9CbswUrZJF3RqwhN3oh23cAakMxctm/EmXbnQiUQ==
+X-Received: by 2002:a9d:2603:: with SMTP id a3mr1739674otb.340.1589944768513; 
+ Tue, 19 May 2020 20:19:28 -0700 (PDT)
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com.
+ [209.85.167.170])
+ by smtp.gmail.com with ESMTPSA id d64sm471541oig.53.2020.05.19.20.19.26
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 May 2020 20:19:26 -0700 (PDT)
+Received: by mail-oi1-f170.google.com with SMTP id b3so1676460oib.13
+ for <qemu-devel@nongnu.org>; Tue, 19 May 2020 20:19:26 -0700 (PDT)
+X-Received: by 2002:aca:3a55:: with SMTP id h82mr1790729oia.71.1589944765505; 
+ Tue, 19 May 2020 20:19:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1589782398-24406-10-git-send-email-kwankhede@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=yan.y.zhao@intel.com;
- helo=mga12.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 23:04:57
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
+ <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
+ <CAK25hWM-hLdk=MSKgceumOUo9ZNBrrmM8qSe7MvTUAPGmur_HQ@mail.gmail.com>
+ <2515515.r9knKAEANn@os-lin-dmo>
+ <CAD90VcYeF7drbYNDiEioPBHcQcifqDYUia_CKqNLv_5VAMjPKw@mail.gmail.com>
+ <67e1ba850c5fbf84b09ec8266ab70dd08a10c2e3.camel@ndufresne.ca>
+ <CAD90VcaqE7PsLV=-xwWHXkct61wsiAuOCH78aLGSObfX9LqGsw@mail.gmail.com>
+ <92ac2db087ccf8fae853284ecc8bdf187e292097.camel@ndufresne.ca>
+In-Reply-To: <92ac2db087ccf8fae853284ecc8bdf187e292097.camel@ndufresne.ca>
+From: Alexandre Courbot <acourbot@chromium.org>
+Date: Wed, 20 May 2020 12:19:14 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MXUsMtNhxEPAdn4aTN8kNgt1eL8oLDDyNtXrD9bew_kMA@mail.gmail.com>
+Message-ID: <CAPBb6MXUsMtNhxEPAdn4aTN8kNgt1eL8oLDDyNtXrD9bew_kMA@mail.gmail.com>
+Subject: Re: [virtio-dev] Re: Fwd: Qemu Support for Virtio Video V4L2 driver
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=acourbot@chromium.org; helo=mail-ot1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 20 May 2020 09:42:13 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,193 +96,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
- dgilbert@redhat.com, alex.williamson@redhat.com, changpeng.liu@intel.com,
- eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
- pbonzini@redhat.com
+Cc: Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
+ Saket Sinha <saket.sinha89@gmail.com>, Alex Lau <alexlau@chromium.org>,
+ Kiran Pawar <Kiran.Pawar@opensynergy.com>, virtio-dev@lists.oasis-open.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Tomasz Figa <tfiga@chromium.org>, Keiichi Watanabe <keiichiw@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Dmitry Sepp <dmitry.sepp@opensynergy.com>,
+ Emil Velikov <emil.velikov@collabora.com>, Pawel Osciak <posciak@chromium.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 18, 2020 at 11:43:09AM +0530, Kirti Wankhede wrote:
+On Wed, May 20, 2020 at 2:29 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+te:
+>
+> Le mardi 19 mai 2020 =C3=A0 17:37 +0900, Keiichi Watanabe a =C3=A9crit :
+> > Hi Nicolas,
+> >
+> > On Fri, May 15, 2020 at 8:38 AM Nicolas Dufresne <
+> > nicolas@ndufresne.ca
+> > > wrote:
+> > > Le lundi 11 mai 2020 =C3=A0 20:49 +0900, Keiichi Watanabe a =C3=A9cri=
+t :
+> > > > Hi,
+> > > >
+> > > > Thanks Saket for your feedback. As Dmitry mentioned, we're focusing=
+ on
+> > > > video encoding and decoding, not camera. So, my reply was about how=
+ to
+> > > > implement paravirtualized video codec devices.
+> > > >
+> > > > On Mon, May 11, 2020 at 8:25 PM Dmitry Sepp <
+> > > > dmitry.sepp@opensynergy.com
+> > > > >
+> > > > wrote:
+> > > > > Hi Saket,
+> > > > >
+> > > > > On Montag, 11. Mai 2020 13:05:53 CEST Saket Sinha wrote:
+> > > > > > Hi Keiichi,
+> > > > > >
+> > > > > > I do not support the approach of  QEMU implementation forwardin=
+g
+> > > > > > requests to the host's vicodec module since  this can limit the=
+ scope
+> > > > > > of the virtio-video device only for testing,
+> > > > >
+> > > > > That was my understanding as well.
+> > > >
+> > > > Not really because the API which the vicodec provides is V4L2 state=
+ful
+> > > > decoder interface [1], which are also used by other video drivers o=
+n
+> > > > Linux.
+> > > > The difference between vicodec and actual device drivers is that
+> > > > vicodec performs decoding in the kernel space without using special
+> > > > video devices. In other words, vicodec is a software decoder in ker=
+nel
+> > > > space which provides the same interface with actual video drivers.
+> > > > Thus, if the QEMU implementation can forward virtio-video requests =
+to
+> > > > vicodec, it can forward them to the actual V4L2 video decoder devic=
+es
+> > > > as well and VM gets access to a paravirtualized video device.
+> > > >
+> > > > The reason why we discussed vicodec in the previous thread was it'l=
+l
+> > > > allow us to test the virtio-video driver without hardware requireme=
+nt.
+> > > >
+> > > > [1]
+> > > > https://www.kernel.org/doc/html/latest/media/uapi/v4l/dev-decoder.h=
+tml
+> > > >
+> > > >
+> > > > > > which instead can be used with multiple use cases such as -
+> > > > > >
+> > > > > > 1. VM gets access to paravirtualized  camera devices which shar=
+es the
+> > > > > > video frames input through actual HW camera attached to Host.
+> > > > >
+> > > > > This use-case is out of the scope of virtio-video. Initially I ha=
+d a plan to
+> > > > > support capture-only streams like camera as well, but later the d=
+ecision was
+> > > > > made upstream that camera should be implemented as separate devic=
+e type. We
+> > > > > still plan to implement a simple frame capture capability as a do=
+wnstream
+> > > > > patch though.
+> > > > >
+> > > > > > 2. If Host has multiple video devices (especially in ARM SOCs o=
+ver
+> > > > > > MIPI interfaces or USB), different VM can be started or hotplug=
+ged
+> > > > > > with selective video streams from actual HW video devices.
+> > > > >
+> > > > > We do support this in our device implementation. But spec in gene=
+ral has no
+> > > > > requirements or instructions regarding this. And it is in fact fl=
+exible
+> > > > > enough
+> > > > > to provide abstraction on top of several HW devices.
+> > > > >
+> > > > > > Also instead of using libraries like Gstreamer in Host userspac=
+e, they
+> > > > > > can also be used inside the VM userspace after getting access t=
+o
+> > > > > > paravirtualized HW camera devices .
+> > > >
+> > > > Regarding Gstreamer, I intended this video decoding API [2]. If QEM=
+U
+> > > > can translate virtio-video requests to this API, we can easily supp=
+ort
+> > > > multiple platforms.
+> > > > I'm not sure how feasible it is though, as I have no experience of
+> > > > using this API by myself...
+> > >
+> > > Not sure which API you aim exactly, but what one need to remember is =
+that
+> > > mapping virtio-video CODEC on top of VAAPI, V4L2 Stateless, NVDEC or =
+other type
+> > > of "stateless" CODEC is not trivial and can't be done without userspa=
+ce. Notably
+> > > because we don't want to do bitstream parsing in the kernel on the ma=
+in CPU as
+> > > security would otherwise be very hard to guaranty. The other driver u=
+sing same
+> > > API as virtio-video do bitstream parsing on a dedicated co-processor =
+(through
+> > > firmware blobs though).
+> > >
+> > > Having bridges between virtio-video, qemu and some abstraction librar=
+y like
+> > > FFMPEG or GStreamer is certainly the best solution if you want to vir=
+tualize any
+> > > type of HW accelerated decoder or if you need to virtualized somethin=
+g
+> > > proprietary (like NVDEC). Please shout if you need help.
+> > >
+> >
+> > Yeah, I meant we should map virtio-video commands to a set of
+> > abstracted userspace APIs to avoid having many platform-dependent code
+> > in QEMU.
+> > This is the same with what we implemented in crosvm, a VMM on
+> > ChromiumOS. Crosvm's video device translates virtio-video commands
+> > into our own video decoding APIs [1, 2] which supports VAAPI, V4L2
+> > stateful and V4L2 stateless. Unfortunately, since our library is
+> > highly depending on Chrome, we cannot reuse this for QEMU.
+> >
+> > So, I agree that using FFMPEG or GStreamer is a good idea. Probably,
+> > APIs in my previous link weren't for this purpose.
+> > Nicolas, do you know any good references for FFMPEG or GStreamer's
+> > abstracted video decoding APIs? Then, I may be able to think about how
+> > virtio-video protocols can be mapped to them.
+>
+> The FFMpeg API for libavcodec can be found here:
+>
+>   http://git.videolan.org/?p=3Dffmpeg.git;a=3Dblob;f=3Dlibavcodec/avcodec=
+.h
+>
+> GStreamer does not really have such a low level CODEC API. So while
+> it's possible to use it (Wine project uses it for it's parsers as an
+> example, and Firefox use to have CODEC support wrapping GStreamer
+> CODEC), there will not be any one-to-one mapping. GStreamer is often
+> chosen as it's LGPL code does not carry directly any patented
+> implementation. It instead rely on plugins, which maybe provided as
+> third party, allowing to distribute your project while giving uses the
+> option to install potentially non-free technologies.
+>
+> But overall, I can describe GStreamer API for CODEC wrapping (pipeline
+> less) as:
+>
+>   - Push GstCaps describing the stream format
+>   - Push bitstream buffer on sink pad
+>   - When ready, buffers will be pushed through the push function
+>     callback on src pad
+>
+> Of course nothing prevent adding something like the vda abstraction in
+> qemu and make this multi-backend capable.
 
-<...>
-> +
-> +static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev)
-> +{
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    VFIORegion *region = &migration->region;
-> +    uint64_t data_offset = 0, data_size = 0;
-> +    int ret;
-> +
-> +    ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
-> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
-> +                                             data_offset));
-> +    if (ret != sizeof(data_offset)) {
-> +        error_report("%s: Failed to get migration buffer data offset %d",
-> +                     vbasedev->name, ret);
-> +        return -EINVAL;
-> +    }
-> +
-> +    ret = pread(vbasedev->fd, &data_size, sizeof(data_size),
-> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
-> +                                             data_size));
-> +    if (ret != sizeof(data_size)) {
-> +        error_report("%s: Failed to get migration buffer data size %d",
-> +                     vbasedev->name, ret);
-> +        return -EINVAL;
-> +    }
-> +
-> +    if (data_size > 0) {
-> +        void *buf = NULL;
-> +        bool buffer_mmaped;
-> +
-> +        if (region->mmaps) {
-> +            buf = find_data_region(region, data_offset, data_size);
-> +        }
-> +
-> +        buffer_mmaped = (buf != NULL);
-> +
-> +        if (!buffer_mmaped) {
-> +            buf = g_try_malloc(data_size);
-> +            if (!buf) {
-> +                error_report("%s: Error allocating buffer ", __func__);
-> +                return -ENOMEM;
-> +            }
-> +
-> +            ret = pread(vbasedev->fd, buf, data_size,
-> +                        region->fd_offset + data_offset);
-> +            if (ret != data_size) {
-> +                error_report("%s: Failed to get migration data %d",
-> +                             vbasedev->name, ret);
-> +                g_free(buf);
-> +                return -EINVAL;
-> +            }
-> +        }
-> +
-> +        qemu_put_be64(f, data_size);
-> +        qemu_put_buffer(f, buf, data_size);
-> +
-> +        if (!buffer_mmaped) {
-> +            g_free(buf);
-> +        }
-> +    } else {
-> +        qemu_put_be64(f, data_size);
-> +    }
-> +
-> +    trace_vfio_save_buffer(vbasedev->name, data_offset, data_size,
-> +                           migration->pending_bytes);
-> +
-> +    ret = qemu_file_get_error(f);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    return data_size;
-> +}
-> +
-> +static int vfio_update_pending(VFIODevice *vbasedev)
-> +{
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    VFIORegion *region = &migration->region;
-> +    uint64_t pending_bytes = 0;
-> +    int ret;
-> +
-> +    ret = pread(vbasedev->fd, &pending_bytes, sizeof(pending_bytes),
-> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
-> +                                             pending_bytes));
-> +    if ((ret < 0) || (ret != sizeof(pending_bytes))) {
-> +        error_report("%s: Failed to get pending bytes %d",
-> +                     vbasedev->name, ret);
-> +        migration->pending_bytes = 0;
-> +        return (ret < 0) ? ret : -EINVAL;
-> +    }
-> +
-> +    migration->pending_bytes = pending_bytes;
-> +    trace_vfio_update_pending(vbasedev->name, pending_bytes);
-> +    return 0;
-> +}
-> +
-<...>
->  
-> +static void vfio_save_pending(QEMUFile *f, void *opaque,
-> +                              uint64_t threshold_size,
-> +                              uint64_t *res_precopy_only,
-> +                              uint64_t *res_compatible,
-> +                              uint64_t *res_postcopy_only)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    int ret;
-> +
-> +    ret = vfio_update_pending(vbasedev);
-> +    if (ret) {
-> +        return;
-> +    }
-> +
-> +    *res_precopy_only += migration->pending_bytes;
-> +
-> +    trace_vfio_save_pending(vbasedev->name, *res_precopy_only,
-> +                            *res_postcopy_only, *res_compatible);
-> +}
-> +
-> +static int vfio_save_iterate(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    int ret, data_size;
-> +
-> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
-> +
-hi Kirti
-seems you also didn't address my previous comments.
-https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg02795.html.
-https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg02796.html
+My understanding is that we don't need a particularly low-level API to
+interact with. The host virtual device is receiving the whole encoded
+data, and can thus easily reconstruct the original stream (minus the
+container) and pass it to ffmpeg/gstreamer. So we can be pretty
+high-level here.
 
+Now the choice of API will also determine whether we want to allow
+emulation of codec devices, or whether we stay on a purely
+para-virtual track. If we use e.g. gstreamer, then the host can
+provide a virtual device that is backed by a purely software
+implementation. This can be useful for testing purposes, but for
+real-life usage the guest would be just as well using gstreamer
+itself.
 
-> +    if (migration->pending_bytes == 0) {
-> +        ret = vfio_update_pending(vbasedev);
-repeated get pending_bytes here would cause vmstats following vfio-pci
-have no chance to get called.
-
-Thanks
-Yan
-
-> +        if (ret) {
-> +            return ret;
-> +        }
-> +
-> +        if (migration->pending_bytes == 0) {
-> +            /* indicates data finished, goto complete phase */
-> +            return 1;
-> +        }
-> +    }
-> +
-> +    data_size = vfio_save_buffer(f, vbasedev);
-> +
-> +    if (data_size < 0) {
-> +        error_report("%s: vfio_save_buffer failed %s", vbasedev->name,
-> +                     strerror(errno));
-> +        return data_size;
-> +    }
-> +
-> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-> +
-> +    ret = qemu_file_get_error(f);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    trace_vfio_save_iterate(vbasedev->name, data_size);
-> +
-> +    return 0;
-> +}
-> +
-
-<...>
+If we want to make sure that there is hardware on the host side, then
+an API like libva might make more sense, but it would be more
+complicated and may not support all hardware (I don't know if the V4L2
+backends are usable for instance).
 
