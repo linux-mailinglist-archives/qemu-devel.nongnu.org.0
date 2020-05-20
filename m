@@ -2,59 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FC41DBB9C
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 19:36:02 +0200 (CEST)
-Received: from localhost ([::1]:60204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C28E21DC17A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 23:39:15 +0200 (CEST)
+Received: from localhost ([::1]:52552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbSdN-0007kl-0n
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 13:36:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54596)
+	id 1jbWQk-00045J-Cy
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 17:39:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1jbScS-0006rx-Nk
- for qemu-devel@nongnu.org; Wed, 20 May 2020 13:35:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34354)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1jbScR-0005UR-Ey
- for qemu-devel@nongnu.org; Wed, 20 May 2020 13:35:04 -0400
-Received: from localhost (c-67-164-102-47.hsd1.ca.comcast.net [67.164.102.47])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A57D220709;
- Wed, 20 May 2020 17:35:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589996102;
- bh=I4OjoXpzqnyuXULuQZ/vUsj6Sj5E8T2qU9GYKKG5SE4=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=tcoEXJmIB0Ow4D2q5YDEJNtMp00t+gsF63QycBG73m8eTGXKbRggKlh7/xuR0Iyls
- ilgaClwSwh5udmz2UyOwwOLWo+MmasxEtl8oQCcQKh9+SlQoa65jsQFX7heX0luqRo
- p7Ol83sghNZ22bT5oc5/tgyWnO1s1l/N1YvKP/G0=
-Date: Wed, 20 May 2020 10:35:00 -0700 (PDT)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@sstabellini-ThinkPad-T480s
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH 2/2] xen/9pfs: yield when there isn't enough room on the
- ring
-In-Reply-To: <14197604.KFEeGaIGOr@silver>
-Message-ID: <alpine.DEB.2.21.2005201016280.27502@sstabellini-ThinkPad-T480s>
-References: <alpine.DEB.2.21.2005191651130.27502@sstabellini-ThinkPad-T480s>
- <20200520014712.24213-2-sstabellini@kernel.org> <14197604.KFEeGaIGOr@silver>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ (Exim 4.90_1) (envelope-from <greatquux@gmail.com>)
+ id 1jbSlh-00033Q-Pf
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 13:44:37 -0400
+Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:45723)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <greatquux@gmail.com>)
+ id 1jbSlg-0007Ig-UJ
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 13:44:37 -0400
+Received: by mail-qk1-x72a.google.com with SMTP id i5so4372370qkl.12
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 10:44:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:user-agent
+ :mime-version; bh=yGRgLX8KyBUfh1dKkQe6460Rwdc7PLR+dor60P3m2PM=;
+ b=im184+b3OeTiV6x3mH/mQIx1XZvDTTRn7pllj9rvvY0LdALMG876mFOpeidLghgZxP
+ YE7SYVil6l5H48WVOe6dETa14n5pveAfQ0dYDQhSCDnf42YgPbrnN3FKrQTHe5aeuE6o
+ DTS5fWBwQ3zqh4Y4CIRszfXEYEbps4chix8wJbLo0mOjAbUoytWYhsWLcmhJJLEyhtVJ
+ q+3S3xB9vthVjC5oB+s4cEmAAz664vG2bxVm42Shevx0KngDfWTrFelN16LHk0yawLiz
+ lXt8ktGUy8XJUmUblfIPwMUWulbK6zVOeJtonAqNgqUb+Ik5jaMB9CmbqnwWPFPkVgRa
+ Rgig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :user-agent:mime-version;
+ bh=yGRgLX8KyBUfh1dKkQe6460Rwdc7PLR+dor60P3m2PM=;
+ b=sU6jPTnP5zG6b92mYIGqICLAFNb+/b1NjBFNsxFJFj4XkdHxrzNU6r5+PKOQ34b867
+ +/0hMRq2GMkbV5JULd/cqT9NNvGhZIuHZ6TucK0eIW8pmc0DV5ooZFgWBUsGgfI5rpBE
+ OjhxWH6HLXgrwxAHxb1j3lZpIgc7HCpcjDQoAANx9TIlTEd5LexuMMUf0oxLN8kkg99A
+ 95TX09yS15SBfOeaSdiljlUBaHD8dtIYp1OJcqqPRxnrKRyvUtO+V4TjFMKEgBd68vk0
+ PAZtkPnAmNN3kjWwbrVb1SgDx9yhjqeBEhL6f94MPBPNXwCN2C3LdW6fX8p/n6CBLniO
+ qfqA==
+X-Gm-Message-State: AOAM5315dpa8J8m5p/DN5MrHGD2TsRBmrws22c4AyEfzmTY9gaeDpzzZ
+ 3mP6BC3awOjOPa28TqbOjU4=
+X-Google-Smtp-Source: ABdhPJxdRoiMpIbxsc1Xv047hRJF85nlUPN+podXKuHQ2u02ctvSECJO8l4rwlRKem9JIa+rX7k5fA==
+X-Received: by 2002:a37:4e4e:: with SMTP id c75mr5999682qkb.143.1589996675269; 
+ Wed, 20 May 2020 10:44:35 -0700 (PDT)
+Received: from ossy (pool-108-27-241-12.nycmny.fios.verizon.net.
+ [108.27.241.12])
+ by smtp.gmail.com with ESMTPSA id 23sm2683595qkf.68.2020.05.20.10.44.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 May 2020 10:44:34 -0700 (PDT)
+Message-ID: <b7b2d3921fa6d2274c63b8b58f655bf293139598.camel@gmail.com>
+Subject: Re: Emulating Solaris 10 on SPARC64 sun4u
+From: Mike Russo <greatquux@gmail.com>
+To: jasper.lowell@bt.com
+Date: Wed, 20 May 2020 13:44:33 -0400
+In-Reply-To: <be68b7ad559ec17c69439217c1378c23e30745c9.camel@bt.com>
+Content-Type: multipart/alternative; boundary="=-z0p+ktn1hEPHibtMFiqQ"
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=198.145.29.99;
- envelope-from=sstabellini@kernel.org; helo=mail.kernel.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 13:35:02
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
+ envelope-from=greatquux@gmail.com; helo=mail-qk1-x72a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 20 May 2020 17:38:13 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,120 +84,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, paul@xen.org,
- qemu-devel@nongnu.org, groug@kaod.org, anthony.perard@citrix.com,
- Stefano Stabellini <stefano.stabellini@xilinx.com>
+Cc: tony.nguyen@bt.com, mark.cave-ayland@ilande.co.uk, dgilbert@redhat.com,
+ qemu-devel@nongnu.org, peter.tribble@gmail.com, atar4qemu@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 May 2020, Christian Schoenebeck wrote:
-> On Mittwoch, 20. Mai 2020 03:47:12 CEST Stefano Stabellini wrote:
-> > From: Stefano Stabellini <stefano.stabellini@xilinx.com>
-> > 
-> > Instead of truncating replies, which is problematic, wait until the
-> > client reads more data and frees bytes on the reply ring.
-> > 
-> > Do that by calling qemu_coroutine_yield(). The corresponding
-> > qemu_coroutine_enter_if_inactive() is called from xen_9pfs_bh upon
-> > receiving the next notification from the client.
-> > 
-> > We need to be careful to avoid races in case xen_9pfs_bh and the
-> > coroutine are both active at the same time. In xen_9pfs_bh, wait until
-> > either the critical section is over (ring->co == NULL) or until the
-> > coroutine becomes inactive (qemu_coroutine_yield() was called) before
-> > continuing. Then, simply wake up the coroutine if it is inactive.
-> > 
-> > Signed-off-by: Stefano Stabellini <stefano.stabellini@xilinx.com>
-> > ---
+
+--=-z0p+ktn1hEPHibtMFiqQ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+> Using the proprietary firmware for this would be ideal. It would also
+> provide reliable access to the kernel debugger which would be
+> extremely
+> helpful for diagnosing what's going wrong with the console. I'm not
+> sure how I would go about making progress on this though. I know there
+> are binaries of the BIOS for Sun4m machines floating around but I'm
+> not
+> aware of any for Sun4u machines.
 > 
-> In general this patch makes sense to me, and much better and cleaner solution 
-> than what we discussed before. Just one detail ...
-> 
-> >  hw/9pfs/xen-9p-backend.c | 28 ++++++++++++++++++++++------
-> >  1 file changed, 22 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
-> > index fc197f6c8a..3939539028 100644
-> > --- a/hw/9pfs/xen-9p-backend.c
-> > +++ b/hw/9pfs/xen-9p-backend.c
-> > @@ -37,6 +37,7 @@ typedef struct Xen9pfsRing {
-> > 
-> >      struct iovec *sg;
-> >      QEMUBH *bh;
-> > +    Coroutine *co;
-> > 
-> >      /* local copies, so that we can read/write PDU data directly from
-> >       * the ring */
-> > @@ -198,16 +199,18 @@ static void xen_9pfs_init_in_iov_from_pdu(V9fsPDU
-> > *pdu, g_free(ring->sg);
-> > 
-> >      ring->sg = g_new0(struct iovec, 2);
-> > -    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, size);
-> > +    ring->co = qemu_coroutine_self();
-> > +    smp_wmb();
-> > 
-> > +again:
-> > +    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, size);
-> >      buf_size = iov_size(ring->sg, num);
-> >      if (buf_size  < size) {
-> > -        xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs request type %d"
-> > -                "needs %zu bytes, buffer has %zu\n", pdu->id, size,
-> > -                buf_size);
-> > -        xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
-> > -        xen_9pfs_disconnect(&xen_9pfs->xendev);
-> > +        qemu_coroutine_yield();
-> > +        goto again;
-> >      }
-> > +    ring->co = NULL;
-> > +    smp_wmb();
-> > 
-> >      *piov = ring->sg;
-> >      *pniov = num;
-> > @@ -292,6 +295,19 @@ static int xen_9pfs_receive(Xen9pfsRing *ring)
-> >  static void xen_9pfs_bh(void *opaque)
-> >  {
-> >      Xen9pfsRing *ring = opaque;
-> > +    bool wait;
-> > +
-> > +again:
-> > +    wait = ring->co != NULL && qemu_coroutine_entered(ring->co);
-> > +    smp_rmb();
-> > +    if (wait) {
-> > +        cpu_relax();
-> > +        goto again;
-> > +    }
-> > +
-> > +    if (ring->co != NULL) {
-> > +        qemu_coroutine_enter_if_inactive(ring->co);
-> 
-> ... correct me if I am wrong, but AFAIK qemu_coroutine_enter_if_inactive() 
-> will simply run the coroutine directly on caller's thread, it will not 
-> dispatch the coroutine onto the thread which yielded the coroutine before.
 
-Yes, that is correct. I thought it would be fine because the caller here
-is a bh function so it should have no problems entering the coroutine.
+I haven't been able to find any of this firmware either. Not sure if
+this helps but someone says they've got the Ultra 1 firmware (along with
+cgsix and cgthree) available here:
+https://people.csail.mit.edu/fredette/tme/sun-u1-nbsd.html
 
-But I am not that much of an expert on coroutines... Do you think there
-could be issues?
+--=-z0p+ktn1hEPHibtMFiqQ
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+<html dir=3D"ltr"><head></head><body style=3D"text-align:left; direction:lt=
+r;"><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #=
+729fcf solid;padding-left:1ex"><div>Using the proprietary firmware for this=
+ would be ideal. It would also</div><div>provide reliable access to the ker=
+nel debugger which would be extremely</div><div>helpful for diagnosing what=
+'s going wrong with the console. I'm not</div><div>sure how I would go abou=
+t making progress on this though. I know there</div><div>are binaries of th=
+e BIOS for Sun4m machines floating around but I'm not</div><div>aware of an=
+y for Sun4u machines.</div><div><br></div></blockquote><div><br></div><div>=
+I haven't been able to find any of this firmware either. Not sure if this h=
+elps but someone says they've got the Ultra 1 firmware (along with cgsix an=
+d cgthree) available here:</div><div><a href=3D"https://people.csail.mit.ed=
+u/fredette/tme/sun-u1-nbsd.html">https://people.csail.mit.edu/fredette/tme/=
+sun-u1-nbsd.html</a></div></body></html>
 
-> > +    }
-> >      xen_9pfs_receive(ring);
-> >  }
-> 
-> AFAICS you have not addressed the problem msize >> xen ringbuffer size, in 
-> which case I would expect the Xen driver to loop forever. Am I missing 
-> something or have you postponed addressing this?
+--=-z0p+ktn1hEPHibtMFiqQ--
 
-Yes, I postponed addressing that issue because of a couple of reasons.
-
-For starter strictly speaking it should not be required: msize cannot be
-bigger than the ring, but it can be equal to the ring increasing the
-chances of having to wait in QEMU. It should still be correct but the
-performance might not be great.
-
-The other reason is that I already have the patches for both QEMU and
-Linux, but I am seeing a strange error setting order = 10. Order = 9
-works fine. I would like to do a bit more investigation before sending
-those patches.
 
