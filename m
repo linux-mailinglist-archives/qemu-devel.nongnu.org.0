@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5C81DB51B
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:34:18 +0200 (CEST)
-Received: from localhost ([::1]:59430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606FD1DB512
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:32:40 +0200 (CEST)
+Received: from localhost ([::1]:50732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbOrR-0004rH-75
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:34:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48428)
+	id 1jbOpr-0000Xs-CG
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:32:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbOjP-0006AG-Me
- for qemu-devel@nongnu.org; Wed, 20 May 2020 09:25:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42000
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbOnO-0005j0-FO
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 09:30:06 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58578
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbOjO-0001Ny-Uf
- for qemu-devel@nongnu.org; Wed, 20 May 2020 09:25:59 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbOnN-00022h-HV
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 09:30:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589981158;
+ s=mimecast20190719; t=1589981404;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IwIHrpyVIX86aJn0ORsOQ0Yk0TNb79Ag+DOjqPnc9zM=;
- b=X97PBlUXtA2Kpt5dNN6Oo9eZ8IcsUZB009ZLxOjTSwgga/8ZUcEyK1kN4DAakjROycaieN
- /wXhCoDw/kAsXDbzY/SE3hO2nBE4ctIYK2aSCr1c9FhoKTzP6YZi/f5Bekj3lFvsFU7Y10
- o9WB6BkmbQ3/eO0KI7hzIaz4BqMPb4M=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-298-Y8_ct2jQOmeHofywZnVAFg-1; Wed, 20 May 2020 09:25:56 -0400
-X-MC-Unique: Y8_ct2jQOmeHofywZnVAFg-1
-Received: by mail-wm1-f70.google.com with SMTP id 202so891498wmb.8
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 06:25:56 -0700 (PDT)
+ bh=wSGZ3gehLIq7FBpI9sreSKihRzYfMOkCI1HPmeTVMak=;
+ b=aZUc8stEeD1oLUH3xQcN4S8yN2nv3H3vVLsFtUtJmDCP4A9hstDLH8+1ropYbUpvUmhcRY
+ nfgiBBPD67HhL5Hki5UowxT6bzy5XK4zghXztisUfwqg1bxnian0nroqJmT0BHOvCPbnRO
+ OqErppjs4aRjzDc1A0hbjY6SAKmkrTc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-222-7_XF29WDPJSo0FM5djXmig-1; Wed, 20 May 2020 09:30:00 -0400
+X-MC-Unique: 7_XF29WDPJSo0FM5djXmig-1
+Received: by mail-wm1-f72.google.com with SMTP id v23so909426wmj.0
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 06:30:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=IwIHrpyVIX86aJn0ORsOQ0Yk0TNb79Ag+DOjqPnc9zM=;
- b=fk7oCUCVJRTtKIFxLXW+pWaqU6ka6CAcnwFnlP2cBNoYw2SzU1dKYFRfbaw/bd91DR
- vIiWJHJlfi86DYNhHNISV7Msd94Oz7dhQHdbGBjYcSFdOIWQpICDSl+i84g/d3KVlTQs
- U205KFCpIAKyLl8KnO84fXnJN346PinTS/at15lRAS8AoioAsEhSuCsRYS99FcWxWQaD
- GxNIRIQKrttJv+FqjGLCkxR6cSmY5XKFOrZ3ezkIlD07zoMindRctu7cf9T6T8wjkvPY
- rMfMFSQi5zFzxdYr+gS5pmN/pwwNB1iYcNESLWUpfMkO8nNviLi9k/gJfQLtQcijHsAy
- GZWg==
-X-Gm-Message-State: AOAM530GBukp0Pa2qJEupPCY82dydAtPAMf7j6ThcRX5edBh71QxqSjc
- HbNsFKmZnlVf6EhSrL8dHrIaSULaIgKMVHEYKW/fG3ZOdgFdISGozcTprvz2ucb/rMaCc52dXQd
- A+lnBq4pfBThssE0=
-X-Received: by 2002:adf:80f0:: with SMTP id 103mr3988800wrl.232.1589981155248; 
- Wed, 20 May 2020 06:25:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwzYhQsIgJQQOJuShPPOZfl3CwWYQ5JfoC4O+vklCms/zSZ/TCYhPlJAtdbJ4o16f9u396woA==
-X-Received: by 2002:adf:80f0:: with SMTP id 103mr3988774wrl.232.1589981155011; 
- Wed, 20 May 2020 06:25:55 -0700 (PDT)
+ bh=wSGZ3gehLIq7FBpI9sreSKihRzYfMOkCI1HPmeTVMak=;
+ b=YbJMdFc0+ssu9U9CJC0YRu5ga9besHMXX3trhIJP7e+iqzvSGR+hui2QLK9LxHsh5v
+ iKQ7hfbqFRNS8X/OIFDj25j6xgs/DhMmUIwxDT7WWa7BSEBaEHKoy1IBjHJZil9Giznt
+ GlyC9JopLy6F9MCK7d3yEoezqGcdmxwuCBaRTi3Jtmnneta+Pd4g2La3Jg6sctySC2B1
+ DfdmGMWlS3Rh8MNu0Dp9Sa8KlfnqZKo8dF3VSXZLCEijk5JMVsWu/nFZL28POE3z+hsI
+ p6LAWFuHF4t6mSsrFzON/rw85V8vAIxD1kLBfNtole0zi7aMF79ORoJ26fqj/8ntHv/6
+ +ZwA==
+X-Gm-Message-State: AOAM533Hn0oRmWq8u8bFPkx7twelcvA9e+N5G5H15RrRE9Jejbp6IpbR
+ WfBMG36GldIlCXjoSY+QAjm/hcEma8Kw+5Qmxr9ZZW1KZRj1DxPEFvdDtCfqxHrnGlK43emtQtS
+ VszTM5W7Hfrpt3CE=
+X-Received: by 2002:adf:9564:: with SMTP id 91mr4101558wrs.414.1589981399373; 
+ Wed, 20 May 2020 06:29:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyAJkXjA/pKD5PROAum8g5m2+r6hImx3d953iyQDzMxOYJ3C20SRoYqvkS7uiBBwkuPk/CRRA==
+X-Received: by 2002:adf:9564:: with SMTP id 91mr4101542wrs.414.1589981399182; 
+ Wed, 20 May 2020 06:29:59 -0700 (PDT)
 Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id h133sm3213832wmf.25.2020.05.20.06.25.53
+ by smtp.gmail.com with ESMTPSA id l13sm2828388wrm.55.2020.05.20.06.29.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 May 2020 06:25:54 -0700 (PDT)
-Subject: Re: [PATCH v3 01/22] microvm: name qboot binary qboot.bin
+ Wed, 20 May 2020 06:29:58 -0700 (PDT)
+Subject: Re: [PATCH v3 15/22] microvm: make virtio irq base runtime
+ configurable
 To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 References: <20200520132003.9492-1-kraxel@redhat.com>
- <20200520132003.9492-2-kraxel@redhat.com>
+ <20200520132003.9492-16-kraxel@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2a9e8f07-a1eb-9c3b-5070-51d5a87d76d5@redhat.com>
-Date: Wed, 20 May 2020 15:25:53 +0200
+Message-ID: <3e0451d7-5692-10b3-ac01-90128765643e@redhat.com>
+Date: Wed, 20 May 2020 15:29:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200520132003.9492-2-kraxel@redhat.com>
+In-Reply-To: <20200520132003.9492-16-kraxel@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 22:48:02
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 02:22:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,92 +107,92 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
-
 On 5/20/20 3:19 PM, Gerd Hoffmann wrote:
-> qboot isn't a bios and shouldnt be named that way.
-
-Still it resides in a directory named pc-bios =)
-
-It is used later in x86_bios_rom_init() as:
-
-     bios = g_malloc(sizeof(*bios));
-     memory_region_init_ram(bios, NULL, "pc.bios", bios_size, &error_fatal);
-     if (!isapc_ram_fw) {
-         memory_region_set_readonly(bios, true);
-     }
-     ret = rom_add_file_fixed(bios_name, (uint32_t)(-bios_size), -1);
-     if (ret != 0) {
-     bios_error:
-         fprintf(stderr, "qemu: could not load PC BIOS '%s'\n", bios_name);
-         exit(1);
-     }
-     g_free(filename);
-
-Many 'bios' occurrences.
-
-Should it be called 'qboot.rom' instead?
-
-> 
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Reviewed-by: Sergio Lopez <slp@redhat.com>
 > ---
->   hw/i386/microvm.c                       |   4 ++--
->   pc-bios/{bios-microvm.bin => qboot.bin} | Bin
->   roms/Makefile                           |   6 +++---
->   3 files changed, 5 insertions(+), 5 deletions(-)
->   rename pc-bios/{bios-microvm.bin => qboot.bin} (100%)
+>   include/hw/i386/microvm.h |  2 +-
+>   hw/i386/microvm.c         | 11 +++++++----
+>   2 files changed, 8 insertions(+), 5 deletions(-)
 > 
+> diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
+> index ba68d1f22bb3..2709306c4016 100644
+> --- a/include/hw/i386/microvm.h
+> +++ b/include/hw/i386/microvm.h
+> @@ -27,7 +27,6 @@
+>   
+>   /* Platform virtio definitions */
+>   #define VIRTIO_MMIO_BASE      0xc0000000
+> -#define VIRTIO_IRQ_BASE       5
+>   #define VIRTIO_NUM_TRANSPORTS 8
+>   #define VIRTIO_CMDLINE_MAXLEN 64
+>   
+> @@ -57,6 +56,7 @@ typedef struct {
+>       bool auto_kernel_cmdline;
+>   
+>       /* Machine state */
+> +    uint32_t virtio_irq_base;
+>       bool kernel_cmdline_fixed;
+>   } MicrovmMachineState;
+>   
 > diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-> index 937db10ae6a5..867d3d652145 100644
+> index b8f0d3283758..ea4460714a99 100644
 > --- a/hw/i386/microvm.c
 > +++ b/hw/i386/microvm.c
-> @@ -47,7 +47,7 @@
->   #include "kvm_i386.h"
->   #include "hw/xen/start_info.h"
+> @@ -121,10 +121,11 @@ static void microvm_devices_init(MicrovmMachineState *mms)
 >   
-> -#define MICROVM_BIOS_FILENAME "bios-microvm.bin"
-> +#define MICROVM_QBOOT_FILENAME "qboot.bin"
+>       kvmclock_create();
 >   
->   static void microvm_set_rtc(MicrovmMachineState *mms, ISADevice *s)
->   {
-> @@ -158,7 +158,7 @@ static void microvm_devices_init(MicrovmMachineState *mms)
+> +    mms->virtio_irq_base = 8;
+
+Hmm you made it runtime configurable indeed, but you also changed it 
+from 5 to 8. Worth a different patch, or at least mentioning in commit 
+description.
+
+>       for (i = 0; i < VIRTIO_NUM_TRANSPORTS; i++) {
+>           sysbus_create_simple("virtio-mmio",
+>                                VIRTIO_MMIO_BASE + i * 512,
+> -                             x86ms->gsi[VIRTIO_IRQ_BASE + i]);
+> +                             x86ms->gsi[mms->virtio_irq_base + i]);
 >       }
 >   
->       if (bios_name == NULL) {
-> -        bios_name = MICROVM_BIOS_FILENAME;
-> +        bios_name = MICROVM_QBOOT_FILENAME;
->       }
->       x86_bios_rom_init(get_system_memory(), true);
+>       /* Optional and legacy devices */
+> @@ -246,7 +247,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+>       x86ms->ioapic_as = &address_space_memory;
 >   }
-> diff --git a/pc-bios/bios-microvm.bin b/pc-bios/qboot.bin
-> similarity index 100%
-> rename from pc-bios/bios-microvm.bin
-> rename to pc-bios/qboot.bin
-> diff --git a/roms/Makefile b/roms/Makefile
-> index f9acf39954dc..d6d4948bfc31 100644
-> --- a/roms/Makefile
-> +++ b/roms/Makefile
-> @@ -68,7 +68,7 @@ default help:
->   	@echo "  opensbi64-virt     -- update OpenSBI for 64-bit virt machine"
->   	@echo "  opensbi32-sifive_u -- update OpenSBI for 32-bit sifive_u machine"
->   	@echo "  opensbi64-sifive_u -- update OpenSBI for 64-bit sifive_u machine"
-> -	@echo "  bios-microvm       -- update bios-microvm.bin (qboot)"
-> +	@echo "  qboot              -- update qboot"
->   	@echo "  clean              -- delete the files generated by the previous" \
->   	                              "build targets"
 >   
-> @@ -194,9 +194,9 @@ opensbi64-sifive_u:
->   		PLATFORM="sifive/fu540"
->   	cp opensbi/build/platform/sifive/fu540/firmware/fw_jump.bin ../pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+> -static gchar *microvm_get_mmio_cmdline(gchar *name)
+> +static gchar *microvm_get_mmio_cmdline(gchar *name, uint32_t virtio_irq_base)
+>   {
+>       gchar *cmdline;
+>       gchar *separator;
+> @@ -266,7 +267,7 @@ static gchar *microvm_get_mmio_cmdline(gchar *name)
+>       ret = g_snprintf(cmdline, VIRTIO_CMDLINE_MAXLEN,
+>                        " virtio_mmio.device=512@0x%lx:%ld",
+>                        VIRTIO_MMIO_BASE + index * 512,
+> -                     VIRTIO_IRQ_BASE + index);
+> +                     virtio_irq_base + index);
+>       if (ret < 0 || ret >= VIRTIO_CMDLINE_MAXLEN) {
+>           g_free(cmdline);
+>           return NULL;
+> @@ -278,6 +279,7 @@ static gchar *microvm_get_mmio_cmdline(gchar *name)
+>   static void microvm_fix_kernel_cmdline(MachineState *machine)
+>   {
+>       X86MachineState *x86ms = X86_MACHINE(machine);
+> +    MicrovmMachineState *mms = MICROVM_MACHINE(machine);
+>       BusState *bus;
+>       BusChild *kid;
+>       char *cmdline;
+> @@ -301,7 +303,8 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
+>               BusState *mmio_bus = &mmio_virtio_bus->parent_obj;
 >   
-> -bios-microvm:
-> +qboot:
->   	$(MAKE) -C qboot
-> -	cp qboot/bios.bin ../pc-bios/bios-microvm.bin
-> +	cp qboot/bios.bin ../pc-bios/qboot.bin
->   
->   clean:
->   	rm -rf seabios/.config seabios/out seabios/builds
+>               if (!QTAILQ_EMPTY(&mmio_bus->children)) {
+> -                gchar *mmio_cmdline = microvm_get_mmio_cmdline(mmio_bus->name);
+> +                gchar *mmio_cmdline = microvm_get_mmio_cmdline
+> +                    (mmio_bus->name, mms->virtio_irq_base);
+>                   if (mmio_cmdline) {
+>                       char *newcmd = g_strjoin(NULL, cmdline, mmio_cmdline, NULL);
+>                       g_free(mmio_cmdline);
 > 
 
 
