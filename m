@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0ADF1DB055
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 12:37:18 +0200 (CEST)
-Received: from localhost ([::1]:47710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3851DB062
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 12:38:33 +0200 (CEST)
+Received: from localhost ([::1]:54462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbM6A-0001X9-1P
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 06:37:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56212)
+	id 1jbM7M-0004fp-E4
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 06:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jbM4Y-0008CB-Jt
- for qemu-devel@nongnu.org; Wed, 20 May 2020 06:35:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59778)
+ id 1jbM4Z-0008CN-N6
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 06:35:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jbM4X-00024R-G8
- for qemu-devel@nongnu.org; Wed, 20 May 2020 06:35:38 -0400
+ id 1jbM4Y-00024d-Bs
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 06:35:39 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jbM4V-0006FP-OH
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 10:35:35 +0000
+ id 1jbM4X-0006FP-9s
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 10:35:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9749B2E806E
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 10:35:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 483312E806E
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 10:35:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 20 May 2020 10:25:59 -0000
-From: Daniel Berrange <1879672@bugs.launchpad.net>
+Date: Wed, 20 May 2020 10:26:13 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1879672@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -41,17 +41,18 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: berrange philmd
 X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
 References: <158996968484.21371.12685815665992748631.malonedeb@wampee.canonical.com>
-Message-Id: <158997035992.22320.3521032791619939364.malone@gac.canonical.com>
-Subject: [Bug 1879672] Re: QEMU installer with WHPX support
+Message-Id: <2acf854f-c49a-0811-31af-80e1e958f058@redhat.com>
+Subject: [Bug 1879672] Re: [PATCH v2 0/3] testing: Build WHPX enabled binaries
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 04d52d32e44a75af86e1a4bbb514b32cedacee31
+X-Launchpad-Hash: e7ef2733317ad9c528cfee53575bc300f494b88d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 06:20:39
@@ -78,11 +79,66 @@ Reply-To: Bug 1879672 <1879672@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Has anyone raised an RFE with the mingw64 project to provide these
-headers / APIs ? That's what provides the interfaces we usually rely on
-for Windows builds, and they're likely familiar with what they can &
-can't do from a legal POV. I don't see this as something QEMU needs to
-solve itself.
++launchpad ticket
+
+On 9/20/19 6:53 PM, Justin Terry (VM) wrote:
+> Hey Phil,
+> =
+
+> I have contacted our legal department for guidance on this specific use c=
+ase and will update you when I hear back. Thank you for your patience.
+> =
+
+> Justin Terry
+> =
+
+>> -----Original Message-----
+>> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> Sent: Friday, September 20, 2019 8:18 AM
+>> To: qemu-devel@nongnu.org; Justin Terry (VM) <juterry@microsoft.com>
+>> Cc: Daniel P . Berrang=C3=A9 <berrange@redhat.com>; Fam Zheng
+>> <fam@euphon.net>; Thomas Huth <thuth@redhat.com>; Paolo Bonzini
+>> <pbonzini@redhat.com>; Alex Benn=C3=A9e <alex.bennee@linaro.org>; Richard
+>> Henderson <rth@twiddle.net>; Eduardo Habkost <ehabkost@redhat.com>;
+>> Stefan Weil <sw@weilnetz.de>
+>> Subject: Re: [PATCH v2 0/3] testing: Build WHPX enabled binaries
+>>
+>> On 9/20/19 1:33 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> Add a job to cross-build QEMU with WHPX enabled.
+>>>
+>>> Since the WHPX is currently broken, include the patch required to have
+>>> successful Shippable build.
+>>>
+>>> I previously included the WHPX headers shared by the Android project,
+>>> and Daniel asked me to check the EULA. While trying to manually
+>>> install the Windows SDK, I noticed the installer fetches archives
+>>> directly, kindly asking where they are stored via the /fwlink API.
+>>> Do the same, fetch the required archives and extract them. No need to
+>>> accept EULA...
+>>>
+>>> Docker build the image first, then build QEMU in a instance of this
+>>> image. The image is internal to Shippable, the instances are not
+>>> reachable and are thrown once the build is finished. What we collect
+>>> from Shippable is the console output of QEMU build process, and if the
+>>> build process succeed or failed. So far we do not redistribute the
+>>> image or built binaries.
+>>>
+>>> Philippe Mathieu-Daud=C3=A9 (3):
+>>>    target/i386: Fix broken build with WHPX enabled
+>>>    tests/docker: Add fedora-win10sdk-cross image
+>>>    .shippable.yml: Build WHPX enabled binaries
+>>
+>> FWIW here is the result of this series:
+>> https://nam06.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fapp.
+>> shippable.com%2Fgithub%2Fphilmd%2Fqemu%2Fruns%2F516%2F11%2Fcon
+>> sole&amp;data=3D02%7C01%7Cjuterry%40microsoft.com%7C733a566f3233427
+>> 8ae6f08d73dddb39f%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C6
+>> 37045894733463150&amp;sdata=3D55URgDII5r74QMUpLOD%2FWT5%2B5jbzyv
+>> nfCSdv%2FNaWDAw%3D&amp;reserved=3D0
+>> Duration 17 minutes (1076 seconds)
+>>
+>> 4m49s building the qemu:fedora-win10sdk-cross docker image, 11m10s
+>> building WHPX QEMU.
 
 -- =
 
