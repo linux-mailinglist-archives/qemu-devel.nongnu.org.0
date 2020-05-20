@@ -2,35 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280721DAEED
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 11:39:14 +0200 (CEST)
-Received: from localhost ([::1]:45466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8910D1DAF04
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 11:40:44 +0200 (CEST)
+Received: from localhost ([::1]:53658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbLBx-00040o-6p
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 05:39:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50794)
+	id 1jbLDP-0007Io-K2
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 05:40:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <miaoyubo@huawei.com>)
- id 1jbLAC-0002iU-8g
+ id 1jbLAC-0002ir-Dy
  for qemu-devel@nongnu.org; Wed, 20 May 2020 05:37:24 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:42504 helo=huawei.com)
+Received: from szxga07-in.huawei.com ([45.249.212.35]:42578 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <miaoyubo@huawei.com>)
- id 1jbLAA-0008Tl-SC
- for qemu-devel@nongnu.org; Wed, 20 May 2020 05:37:23 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 4DCB3CC510C8B7FF26CE;
- Wed, 20 May 2020 17:37:12 +0800 (CST)
+ id 1jbLAA-0008UT-UR
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 05:37:24 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 2C6BAAF4EC3276D976BD;
+ Wed, 20 May 2020 17:37:17 +0800 (CST)
 Received: from DESKTOP-D7EVK5B.china.huawei.com (10.173.221.29) by
  DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 20 May 2020 17:37:01 +0800
+ 14.3.487.0; Wed, 20 May 2020 17:37:09 +0800
 From: Yubo Miao <miaoyubo@huawei.com>
 To: <peter.maydell@linaro.org>, <shannon.zhaosl@gmail.com>, <lersek@redhat.com>
-Subject: [PATCH v7 0/8] pci_expander_brdige:acpi: Support pxb-pcie for ARM
-Date: Wed, 20 May 2020 17:36:21 +0800
-Message-ID: <20200520093629.1495-1-miaoyubo@huawei.com>
+Subject: [PATCH v7 1/8] acpi: Extract two APIs from acpi_dsdt_add_pci
+Date: Wed, 20 May 2020 17:36:22 +0800
+Message-ID: <20200520093629.1495-2-miaoyubo@huawei.com>
 X-Mailer: git-send-email 2.24.1.windows.2
+In-Reply-To: <20200520093629.1495-1-miaoyubo@huawei.com>
+References: <20200520093629.1495-1-miaoyubo@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -63,76 +65,188 @@ Cc: berrange@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes with v6
-v6->v7:
-Refactor fw_cfg_write_extra_pci_roots
-Add API PCI_GET_PCIE_HOST_STATE
-Fix typos
+Extract two APIs acpi_dsdt_add_pci_route_table and
+acpi_dsdt_add_pci_osc form acpi_dsdt_add_pci. The first
+API is used to specify the pci route table and the second
+API is used to declare the operation system capabilities.
+These two APIs would be used to specify the pxb-pcie in DSDT.
 
-I have one question for patch
-[PATCH v7 8/8] unit-test: Add the binary file and clear diff.
+Signed-off-by: Yubo Miao <miaoyubo@huawei.com>
+---
+ hw/arm/virt-acpi-build.c | 129 ++++++++++++++++++++++-----------------
+ 1 file changed, 72 insertions(+), 57 deletions(-)
 
-I followed instructions in tests/qtest/bios-tables-test.c
-to updated golden master binaries and empty
-tests/qtest/bios-tables-test-allowed-diff.h.
-
-However, checkpatch.pl would report the error
-ERROR: Do not add expected files together with tests.
-
-Does the error matters?
-
-Changes with v5
-v5->v6: stat crs_range_insert in aml_build.h
-
-Changes with v4
-v4->v5: Not using specific resources for PXB.
-Instead, the resources for pxb are composed of the bar space of the
-pci-bridge/pcie-root-port behined it and the config space of devices
-behind it.
-
-Only if the bios(uefi for arm) support multiple roots,
-configure space of devices behind pxbs could be obtained.
-The uefi work is updated for discussion by the following link:
-https://edk2.groups.io/g/devel/message/56901?p=,,,20,0,0,0::Created,,add+extra+roots+for+Arm,20,2,0,72723351
-[PATCH] ArmVirtPkg/FdtPciHostBridgeLib: add extra roots for Arm.
-
-Currently pxb-pcie is not supported by arm,
-the reason for it is pxb-pcie is not described in DSDT table
-and only one main host bridge is described in acpi tables,
-which means it is not impossible to present different io numas
-for different devices.
-
-This series of patches make arm to support PXB-PCIE.
-
-Users can configure pxb-pcie with certain numa, Example command
-is:
-
-   -device pxb-pcie,id=pci.7,bus_nr=128,numa_node=0,bus=pcie.0,addr=0x9
-
-Yubo Miao (8):
-  acpi: Extract two APIs from acpi_dsdt_add_pci
-  fw_cfg: Write the extra roots into the fw_cfg
-  acpi: Extract crs build form acpi_build.c
-  acpi: Refactor the source of host bridge and build tables for pxb
-  acpi: Align the size to 128k
-  unit-test: The files changed.
-  unit-test: Add testcase for pxb
-  unit-test: Add the binary file and clear diff.h
-
- hw/acpi/aml-build.c            | 275 +++++++++++++++++++++++++++++++
- hw/arm/virt-acpi-build.c       | 249 +++++++++++++++++++++-------
- hw/arm/virt.c                  |   8 +
- hw/i386/acpi-build.c           | 285 ---------------------------------
- hw/i386/pc.c                   |  18 +--
- hw/nvram/fw_cfg.c              |  20 +++
- include/hw/acpi/aml-build.h    |  25 +++
- include/hw/nvram/fw_cfg.h      |   2 +
- include/hw/pci/pcie_host.h     |   4 +
- tests/data/acpi/virt/DSDT.pxb  | Bin 0 -> 7802 bytes
- tests/qtest/bios-tables-test.c |  58 ++++++-
- 11 files changed, 579 insertions(+), 365 deletions(-)
- create mode 100644 tests/data/acpi/virt/DSDT.pxb
-
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 1b0a584c7b..24ebc06a9f 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -148,29 +148,11 @@ static void acpi_dsdt_add_virtio(Aml *scope,
+     }
+ }
+ 
+-static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+-                              uint32_t irq, bool use_highmem, bool highmem_ecam)
++static void acpi_dsdt_add_pci_route_table(Aml *dev, Aml *scope,
++                                          uint32_t irq)
+ {
+-    int ecam_id = VIRT_ECAM_ID(highmem_ecam);
+-    Aml *method, *crs, *ifctx, *UUID, *ifctx1, *elsectx, *buf;
+     int i, slot_no;
+-    hwaddr base_mmio = memmap[VIRT_PCIE_MMIO].base;
+-    hwaddr size_mmio = memmap[VIRT_PCIE_MMIO].size;
+-    hwaddr base_pio = memmap[VIRT_PCIE_PIO].base;
+-    hwaddr size_pio = memmap[VIRT_PCIE_PIO].size;
+-    hwaddr base_ecam = memmap[ecam_id].base;
+-    hwaddr size_ecam = memmap[ecam_id].size;
+-    int nr_pcie_buses = size_ecam / PCIE_MMCFG_SIZE_MIN;
+-
+-    Aml *dev = aml_device("%s", "PCI0");
+-    aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
+-    aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
+-    aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
+-    aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
+-    aml_append(dev, aml_name_decl("_UID", aml_string("PCI0")));
+-    aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")));
+-    aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
+-
++    Aml *method, *crs;
+     /* Declare the PCI Routing Table. */
+     Aml *rt_pkg = aml_varpackage(PCI_SLOT_MAX * PCI_NUM_PINS);
+     for (slot_no = 0; slot_no < PCI_SLOT_MAX; slot_no++) {
+@@ -206,41 +188,11 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+         aml_append(dev_gsi, method);
+         aml_append(dev, dev_gsi);
+     }
++}
+ 
+-    method = aml_method("_CBA", 0, AML_NOTSERIALIZED);
+-    aml_append(method, aml_return(aml_int(base_ecam)));
+-    aml_append(dev, method);
+-
+-    method = aml_method("_CRS", 0, AML_NOTSERIALIZED);
+-    Aml *rbuf = aml_resource_template();
+-    aml_append(rbuf,
+-        aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
+-                            0x0000, 0x0000, nr_pcie_buses - 1, 0x0000,
+-                            nr_pcie_buses));
+-    aml_append(rbuf,
+-        aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
+-                         AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000, base_mmio,
+-                         base_mmio + size_mmio - 1, 0x0000, size_mmio));
+-    aml_append(rbuf,
+-        aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
+-                     AML_ENTIRE_RANGE, 0x0000, 0x0000, size_pio - 1, base_pio,
+-                     size_pio));
+-
+-    if (use_highmem) {
+-        hwaddr base_mmio_high = memmap[VIRT_HIGH_PCIE_MMIO].base;
+-        hwaddr size_mmio_high = memmap[VIRT_HIGH_PCIE_MMIO].size;
+-
+-        aml_append(rbuf,
+-            aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
+-                             AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
+-                             base_mmio_high,
+-                             base_mmio_high + size_mmio_high - 1, 0x0000,
+-                             size_mmio_high));
+-    }
+-
+-    aml_append(method, aml_return(rbuf));
+-    aml_append(dev, method);
+-
++static void acpi_dsdt_add_pci_osc(Aml *dev, Aml *scope)
++{
++    Aml *method, *UUID, *ifctx, *ifctx1, *elsectx, *buf;
+     /* Declare an _OSC (OS Control Handoff) method */
+     aml_append(dev, aml_name_decl("SUPP", aml_int(0)));
+     aml_append(dev, aml_name_decl("CTRL", aml_int(0)));
+@@ -248,7 +200,8 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+     aml_append(method,
+         aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
+ 
+-    /* PCI Firmware Specification 3.0
++    /*
++     * PCI Firmware Specification 3.0
+      * 4.5.1. _OSC Interface for PCI Host Bridge Devices
+      * The _OSC interface for a PCI/PCI-X/PCI Express hierarchy is
+      * identified by the Universal Unique IDentifier (UUID)
+@@ -293,7 +246,8 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+ 
+     method = aml_method("_DSM", 4, AML_NOTSERIALIZED);
+ 
+-    /* PCI Firmware Specification 3.0
++    /*
++     * PCI Firmware Specification 3.0
+      * 4.6.1. _DSM for PCI Express Slot Information
+      * The UUID in _DSM in this context is
+      * {E5C937D0-3553-4D7A-9117-EA4D19C3434D}
+@@ -311,6 +265,67 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+     buf = aml_buffer(1, byte_list);
+     aml_append(method, aml_return(buf));
+     aml_append(dev, method);
++}
++
++static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
++                              uint32_t irq, bool use_highmem, bool highmem_ecam)
++{
++    int ecam_id = VIRT_ECAM_ID(highmem_ecam);
++    Aml *method, *crs;
++    hwaddr base_mmio = memmap[VIRT_PCIE_MMIO].base;
++    hwaddr size_mmio = memmap[VIRT_PCIE_MMIO].size;
++    hwaddr base_pio = memmap[VIRT_PCIE_PIO].base;
++    hwaddr size_pio = memmap[VIRT_PCIE_PIO].size;
++    hwaddr base_ecam = memmap[ecam_id].base;
++    hwaddr size_ecam = memmap[ecam_id].size;
++    int nr_pcie_buses = size_ecam / PCIE_MMCFG_SIZE_MIN;
++
++    Aml *dev = aml_device("%s", "PCI0");
++    aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
++    aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
++    aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
++    aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
++    aml_append(dev, aml_name_decl("_UID", aml_string("PCI0")));
++    aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")));
++    aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
++
++    acpi_dsdt_add_pci_route_table(dev, scope, irq);
++
++    method = aml_method("_CBA", 0, AML_NOTSERIALIZED);
++    aml_append(method, aml_return(aml_int(base_ecam)));
++    aml_append(dev, method);
++
++    method = aml_method("_CRS", 0, AML_NOTSERIALIZED);
++    Aml *rbuf = aml_resource_template();
++    aml_append(rbuf,
++        aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
++                            0x0000, 0x0000, nr_pcie_buses - 1, 0x0000,
++                            nr_pcie_buses));
++    aml_append(rbuf,
++        aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
++                         AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000, base_mmio,
++                         base_mmio + size_mmio - 1, 0x0000, size_mmio));
++    aml_append(rbuf,
++        aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
++                     AML_ENTIRE_RANGE, 0x0000, 0x0000, size_pio - 1, base_pio,
++                     size_pio));
++
++    if (use_highmem) {
++        hwaddr base_mmio_high = memmap[VIRT_HIGH_PCIE_MMIO].base;
++        hwaddr size_mmio_high = memmap[VIRT_HIGH_PCIE_MMIO].size;
++
++        aml_append(rbuf,
++            aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
++                             AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
++                             base_mmio_high,
++                             base_mmio_high + size_mmio_high - 1, 0x0000,
++                             size_mmio_high));
++    }
++
++    aml_append(method, aml_return(rbuf));
++    aml_append(dev, method);
++
++    acpi_dsdt_add_pci_osc(dev, scope);
+ 
+     Aml *dev_res0 = aml_device("%s", "RES0");
+     aml_append(dev_res0, aml_name_decl("_HID", aml_string("PNP0C02")));
 -- 
 2.19.1
 
