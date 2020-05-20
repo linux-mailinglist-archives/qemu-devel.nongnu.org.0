@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1DA11DA6EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 03:06:23 +0200 (CEST)
-Received: from localhost ([::1]:42850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A8B1DA784
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 03:51:41 +0200 (CEST)
+Received: from localhost ([::1]:40946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbDBe-00082x-Go
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 21:06:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59506)
+	id 1jbDtU-0001ti-L9
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 21:51:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jbDAy-0007e6-3d
- for qemu-devel@nongnu.org; Tue, 19 May 2020 21:05:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37214)
+ id 1jbDsY-0001Bu-Fy
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 21:50:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jbDAw-0000kn-QB
- for qemu-devel@nongnu.org; Tue, 19 May 2020 21:05:39 -0400
+ id 1jbDsW-0000xx-TV
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 21:50:42 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jbDAv-0002Gl-6Y
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 01:05:37 +0000
+ id 1jbDsU-0005Hg-Rl
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 01:50:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2F4052E806D
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 01:05:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id CFF702E806D
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 01:50:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 20 May 2020 00:59:34 -0000
-From: chris pugmire <1879590@bugs.launchpad.net>
+Date: Wed, 20 May 2020 01:41:07 -0000
+From: cliff chen <1879425@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: chrisp99
-X-Launchpad-Bug-Reporter: chris pugmire (chrisp99)
-X-Launchpad-Bug-Modifier: chris pugmire (chrisp99)
-Message-Id: <158993637415.31242.3259652866813380059.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1879590] [NEW] Using qemu-system-sparc64 no network interface
- seems to exist
+X-Launchpad-Bug-Commenters: cliffchen
+X-Launchpad-Bug-Reporter: cliff chen (cliffchen)
+X-Launchpad-Bug-Modifier: cliff chen (cliffchen)
+References: <158985197617.30924.14122012304587735670.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158993886758.31351.13131516430257538828.malone@chaenomeles.canonical.com>
+Subject: [Bug 1879425] Re: The thread of "CPU 0 /KVM" keeping 99.9%CPU
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d1f943458c0d4a308dff4ffef93ba03b29748d13
+X-Launchpad-Hash: 420ea351ed718eb7ae8f587eb38abe090fd73f6b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 20:30:42
@@ -72,111 +72,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1879590 <1879590@bugs.launchpad.net>
+Reply-To: Bug 1879425 <1879425@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-Using boot command:
-
-qemu-system-sparc64 -M niagara -L /home/chrisp/sparc/S10image/
--nographic -m 256 -drive
-if=3Dpflash,readonly=3Don,file=3D/home/chrisp/sparc/S10image/disk.s10hw2
-
-After I log into solaris system I see no network devices other than the loo=
-pback device.
-All the docs I can see suggest it should come up with a default network dev=
-ice that allows communication via the hosts network. Host is ubuntu 64bit.  =
-
-
-root@giant:/home/chrisp/sparc# qemu-system-sparc64 -version
-QEMU emulator version 5.0.0
-Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-
-
-dladm show-link
-ifconfig -a
-
-
-ok boot
-Loading ufs-file-system package 1.4 04 Aug 1995 13:02:54.
-FCode UFS Reader 1.12 00/07/17 15:48:16.
-Loading: /platform/SUNW,Sun-Fire-T2000/ufsboot
-Loading: /platform/sun4v/ufsboot
-SunOS Release 5.10 Version Generic_118822-23 64-bit
-Copyright 1983-2005 Sun Microsystems, Inc.  All rights reserved.
-Use is subject to license terms.
-Hostname: unknown
-
-unknown console login: root
-Last login: Wed Feb  8 09:01:28 on console
-Sun Microsystems Inc.   SunOS 5.10      Generic January 2005
-# dladm show-link
-# ifconfig -a
-lo0: flags=3D2001000849<UP,LOOPBACK,RUNNING,MULTICAST,IPv4,VIRTUAL> mtu 823=
-2 index 1
-        inet 127.0.0.1 netmask ff000000
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+one changes:
+Guest VM is Red Hat Enterprise Linux 8.1 (Ootpa).
+there is no issue once guest VM is RHEL7.6.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1879590
+https://bugs.launchpad.net/bugs/1879425
 
 Title:
-  Using qemu-system-sparc64 no network interface seems to exist
+  The thread of "CPU 0 /KVM" keeping 99.9%CPU
 
 Status in QEMU:
   New
 
 Bug description:
-  Using boot command:
+  Hi Expert:
 
-  qemu-system-sparc64 -M niagara -L /home/chrisp/sparc/S10image/
-  -nographic -m 256 -drive
-  if=3Dpflash,readonly=3Don,file=3D/home/chrisp/sparc/S10image/disk.s10hw2
+  The VM is hung here after (2, or 3, or 5 and the longest time is 10 hours=
+) by qemu-kvm.
+  Notes: =
 
-  After I log into solaris system I see no network devices other than the l=
-oopback device.
-  All the docs I can see suggest it should come up with a default network d=
-evice that allows communication via the hosts network. Host is ubuntu 64bit=
-.  =
+  for VM:
+    OS: RHEL 7.6
+    CPU: 1
+    MEM:4G
+  For qemu-kvm:
+    1) version:
+       /usr/libexec/qemu-kvm -version
+       QEMU emulator version 2.10.0(qemu-kvm-ev-2.10.0-21.el7_5.4.1)
+    2) once the issue is occurred, the CPU of "CPU0 /KVM" is more than 99% =
+by com "top -p VM_pro_ID"
+      PID  UDER   PR NI RES   S  % CPU %MEM  TIME+    COMMAND
+  872067   qemu   20 0  1.6g  R   99.9  0.6  37:08.87 CPU 0/KVM
+    3) use "pstack 493307" and below is function trace
+  Thread 1 (Thread 0x7f2572e73040 (LWP 872067)):
+  #0  0x00007f256cad8fcf in ppoll () from /lib64/libc.so.6
+  #1  0x000055ff34bdf4a9 in qemu_poll_ns ()
+  #2  0x000055ff34be02a8 in main_loop_wait ()
+  #3  0x000055ff348bfb1a in main ()
+    4) use strace "strace -tt -ff -p 872067 -o cfx" and below log keep prin=
+ting
+  21:24:02.977833 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
+N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
+=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
+15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 0}, NULL, 8) =3D=
+ 0 (Timeout)
+  21:24:02.977918 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
+N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
+=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
+15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 911447}, NULL, 8=
+) =3D 0 (Timeout)
+  21:24:02.978945 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
+N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
+=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
+15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 0}, NULL, 8) =3D=
+ 0 (Timeout)
+  Therefore, I think the thread "CPU 0/KVM" is in tight loop.
+    5) use reset can recover this issue. however, it will reoccurred again.
+  Current work around is increase one CPU for this VM, then issue is gone.
 
-
-  root@giant:/home/chrisp/sparc# qemu-system-sparc64 -version
-  QEMU emulator version 5.0.0
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-
-  =
-
-  dladm show-link
-  ifconfig -a
-
-
-  ok boot
-  Loading ufs-file-system package 1.4 04 Aug 1995 13:02:54.
-  FCode UFS Reader 1.12 00/07/17 15:48:16.
-  Loading: /platform/SUNW,Sun-Fire-T2000/ufsboot
-  Loading: /platform/sun4v/ufsboot
-  SunOS Release 5.10 Version Generic_118822-23 64-bit
-  Copyright 1983-2005 Sun Microsystems, Inc.  All rights reserved.
-  Use is subject to license terms.
-  Hostname: unknown
-
-  unknown console login: root
-  Last login: Wed Feb  8 09:01:28 on console
-  Sun Microsystems Inc.   SunOS 5.10      Generic January 2005
-  # dladm show-link
-  # ifconfig -a
-  lo0: flags=3D2001000849<UP,LOOPBACK,RUNNING,MULTICAST,IPv4,VIRTUAL> mtu 8=
-232 index 1
-          inet 127.0.0.1 netmask ff000000
+  thanks
+  Cliff
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1879590/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1879425/+subscriptions
 
