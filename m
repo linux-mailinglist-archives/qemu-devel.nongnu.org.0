@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B201DBD69
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 20:59:31 +0200 (CEST)
-Received: from localhost ([::1]:40066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E501DBD7F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 21:00:58 +0200 (CEST)
+Received: from localhost ([::1]:46570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbTwA-0007xZ-NY
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 14:59:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34956)
+	id 1jbTxZ-0002Kj-Vc
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 15:00:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jbTv1-0006dD-KK
- for qemu-devel@nongnu.org; Wed, 20 May 2020 14:58:19 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:8317)
+ id 1jbTv9-0006tG-5N
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 14:58:27 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:14669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jbTv0-0004lD-LN
- for qemu-devel@nongnu.org; Wed, 20 May 2020 14:58:19 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ec57d390000>; Wed, 20 May 2020 11:55:53 -0700
+ id 1jbTv8-0004lp-6x
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 14:58:26 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5ec57d810002>; Wed, 20 May 2020 11:57:05 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Wed, 20 May 2020 11:58:16 -0700
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Wed, 20 May 2020 11:58:24 -0700
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Wed, 20 May 2020 11:58:16 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 20 May
- 2020 18:58:16 +0000
+ by hqpgpgate102.nvidia.com on Wed, 20 May 2020 11:58:24 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 20 May
+ 2020 18:58:24 +0000
 Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 20 May 2020 18:58:08 +0000
+ Transport; Wed, 20 May 2020 18:58:16 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH QEMU v23 02/18] vfio: Add function to unmap VFIO region
-Date: Wed, 20 May 2020 23:54:32 +0530
-Message-ID: <1589999088-31477-3-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH QEMU v23 03/18] vfio: Add vfio_get_object callback to
+ VFIODeviceOps
+Date: Wed, 20 May 2020 23:54:33 +0530
+Message-ID: <1589999088-31477-4-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1589999088-31477-1-git-send-email-kwankhede@nvidia.com>
 References: <1589999088-31477-1-git-send-email-kwankhede@nvidia.com>
@@ -45,19 +46,19 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1590000953; bh=uxcaLOxg2xj3rhyMw3x1Xx+lhz+xb710FD3fnDcqF/w=;
+ t=1590001025; bh=xyCL2w6sqfutoK52vfdLhYE5HjQMeFHEisVT5KfC3F4=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:X-NVConfidentiality:MIME-Version:
  Content-Type;
- b=oQ2/1oLelKq6tiikSP60NDnhLQVX0JKV/tDzOXX/eGeWc1oNUcBMgMIcC0maYIGyd
- +RAbNcTnBy8ATeUIcfUjofEyJf1Dc0Z1VjZU/MHAnVg/PxK1c15tEDQ3J9u8piA8ql
- KcZ6GmXgUuMOeomruRIjSpUOrJej486kNJkstbwKGHmLSqUC4PCPDI2KrN6l+6CVsV
- iqn61A7tZ71QaBeIxFa8fdbuH8/SXT3sbSXY30MauYPVH1rHonBI/nZ1xzdtYzydfd
- 14eteQnOLX1Dj+raEJE4WbhMPjymbRV5w+ftj6tyWSqrbjAQSuENThdyhMkVMzgkCu
- v0JdaOyM/sCPA==
-Received-SPF: pass client-ip=216.228.121.143;
- envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 14:41:27
+ b=QnshcvQac2OFsZIkdwoCy79LidOZxwjpbfnq1taB+0raHT0JEZOCmEiyimGzl+MK4
+ 008UZhoDJmjvTsj1N25c+5HA5QfS7mqW/T64LbmFftzv+1vFoaawzm97/wGLeFXMLh
+ A+YXvWuMvWaEXSdMI+yI1q0jxz2/Y5zvh5wDmiM+kKWoOZ2RFH+0Q+1opVAPKTh5Iw
+ dwJ2uXNriZ76ppwK/0be7FwpDT0prJAbLkAM+yx7Rf+4hpQk6EuR06feX1Hzfi/esh
+ IdDClZJZ/pIviqMno1X6ogSNy9TvWPfqx7C+ztzi3/tn4OoXdLzP/q8C3qwRmLyjbP
+ B9yhJt1NLVPIw==
+Received-SPF: pass client-ip=216.228.121.64; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate25.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 14:41:20
 X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
 X-Spam_score_int: -70
 X-Spam_score: -7.1
@@ -88,100 +89,52 @@ Cc: cohuck@redhat.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function will be used for migration region.
-Migration region is mmaped when migration starts and will be unmapped when
-migration is complete.
+Hook vfio_get_object callback for PCI devices.
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 Reviewed-by: Neo Jia <cjia@nvidia.com>
+Suggested-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/vfio/common.c              | 32 ++++++++++++++++++++++++++++----
- hw/vfio/trace-events          |  1 +
- include/hw/vfio/vfio-common.h |  1 +
- 3 files changed, 30 insertions(+), 4 deletions(-)
+ hw/vfio/pci.c                 | 8 ++++++++
+ include/hw/vfio/vfio-common.h | 1 +
+ 2 files changed, 9 insertions(+)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 0b3593b3c0c4..90e9a854d82c 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -925,6 +925,18 @@ int vfio_region_setup(Object *obj, VFIODevice *vbasedev, VFIORegion *region,
-     return 0;
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 342dd6b9129d..0514ba373d1c 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -2407,10 +2407,18 @@ static void vfio_pci_compute_needs_reset(VFIODevice *vbasedev)
+     }
  }
  
-+static void vfio_subregion_unmap(VFIORegion *region, int index)
++static Object *vfio_pci_get_object(VFIODevice *vbasedev)
 +{
-+    trace_vfio_region_unmap(memory_region_name(&region->mmaps[index].mem),
-+                            region->mmaps[index].offset,
-+                            region->mmaps[index].offset +
-+                            region->mmaps[index].size - 1);
-+    memory_region_del_subregion(region->mem, &region->mmaps[index].mem);
-+    munmap(region->mmaps[index].mmap, region->mmaps[index].size);
-+    object_unparent(OBJECT(&region->mmaps[index].mem));
-+    region->mmaps[index].mmap = NULL;
++    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
++
++    return OBJECT(vdev);
 +}
 +
- int vfio_region_mmap(VFIORegion *region)
- {
-     int i, prot = 0;
-@@ -955,10 +967,7 @@ int vfio_region_mmap(VFIORegion *region)
-             region->mmaps[i].mmap = NULL;
+ static VFIODeviceOps vfio_pci_ops = {
+     .vfio_compute_needs_reset = vfio_pci_compute_needs_reset,
+     .vfio_hot_reset_multi = vfio_pci_hot_reset_multi,
+     .vfio_eoi = vfio_intx_eoi,
++    .vfio_get_object = vfio_pci_get_object,
+ };
  
-             for (i--; i >= 0; i--) {
--                memory_region_del_subregion(region->mem, &region->mmaps[i].mem);
--                munmap(region->mmaps[i].mmap, region->mmaps[i].size);
--                object_unparent(OBJECT(&region->mmaps[i].mem));
--                region->mmaps[i].mmap = NULL;
-+                vfio_subregion_unmap(region, i);
-             }
- 
-             return ret;
-@@ -983,6 +992,21 @@ int vfio_region_mmap(VFIORegion *region)
-     return 0;
- }
- 
-+void vfio_region_unmap(VFIORegion *region)
-+{
-+    int i;
-+
-+    if (!region->mem) {
-+        return;
-+    }
-+
-+    for (i = 0; i < region->nr_mmaps; i++) {
-+        if (region->mmaps[i].mmap) {
-+            vfio_subregion_unmap(region, i);
-+        }
-+    }
-+}
-+
- void vfio_region_exit(VFIORegion *region)
- {
-     int i;
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index b1ef55a33ffd..8cdc27946cb8 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -111,6 +111,7 @@ vfio_region_mmap(const char *name, unsigned long offset, unsigned long end) "Reg
- vfio_region_exit(const char *name, int index) "Device %s, region %d"
- vfio_region_finalize(const char *name, int index) "Device %s, region %d"
- vfio_region_mmaps_set_enabled(const char *name, bool enabled) "Region %s mmaps enabled: %d"
-+vfio_region_unmap(const char *name, unsigned long offset, unsigned long end) "Region %s unmap [0x%lx - 0x%lx]"
- vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) "Device %s region %d: %d sparse mmap entries"
- vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long end) "sparse entry %d [0x%lx - 0x%lx]"
- vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%0x8"
+ int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
 diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index fd564209ac71..8d7a0fbb1046 100644
+index 8d7a0fbb1046..74261feaeac9 100644
 --- a/include/hw/vfio/vfio-common.h
 +++ b/include/hw/vfio/vfio-common.h
-@@ -171,6 +171,7 @@ int vfio_region_setup(Object *obj, VFIODevice *vbasedev, VFIORegion *region,
-                       int index, const char *name);
- int vfio_region_mmap(VFIORegion *region);
- void vfio_region_mmaps_set_enabled(VFIORegion *region, bool enabled);
-+void vfio_region_unmap(VFIORegion *region);
- void vfio_region_exit(VFIORegion *region);
- void vfio_region_finalize(VFIORegion *region);
- void vfio_reset_handler(void *opaque);
+@@ -119,6 +119,7 @@ struct VFIODeviceOps {
+     void (*vfio_compute_needs_reset)(VFIODevice *vdev);
+     int (*vfio_hot_reset_multi)(VFIODevice *vdev);
+     void (*vfio_eoi)(VFIODevice *vdev);
++    Object *(*vfio_get_object)(VFIODevice *vdev);
+ };
+ 
+ typedef struct VFIOGroup {
 -- 
 2.7.0
 
