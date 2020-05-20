@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 131661DADE1
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 10:47:54 +0200 (CEST)
-Received: from localhost ([::1]:50730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5081DADFC
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 10:50:55 +0200 (CEST)
+Received: from localhost ([::1]:37634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbKOH-0001r3-3j
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 04:47:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44214)
+	id 1jbKRC-0000Hs-9X
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 04:50:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbKK1-0001Ho-4P
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbKK1-0001IY-Bu
  for qemu-devel@nongnu.org; Wed, 20 May 2020 04:43:29 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56685
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27466
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbKK0-0006dT-C5
- for qemu-devel@nongnu.org; Wed, 20 May 2020 04:43:28 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbKK0-0006dW-IL
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 04:43:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1589964207;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0h9Xrn5alrncjgk60MHQt9zTPyjvKPS+4HBKjbyq7MI=;
- b=Df0c8kS6yrWh0zVShZNg5P/t322JluJucKOvrG3lWoPn+FDcYBuFgN1Xe8vXHBhrMFUc5l
- 8y538J6Vwy2Y3I1i3oiDUq5V01FA1QgdkmTDvT7HPx5Rp4zoRmjoPx/YIf91uugTYZpkQD
- R49KO4WlCWhh5xjq25gKVHmvTVWDfWw=
+ bh=zuBuzj5GYz7RhXBC+9SUi2jwNTsF+AAg+8mDGbNWuVI=;
+ b=Bb98CC6yyq+wd2SCjRdkgL5uozMWK2sarPMHZebDDA+Y/1u76HMZ4BTI/zLz6y85uOd6lq
+ qyxyZUYEoyKy0lY6U5mWNJn9R2k29kelEepet+Itcuj5PKUgxyg1OECc5sUOj83UANpSxO
+ gSec/Q3Jp7h4iojCeG/2Y62uvNr9xIY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-ycuPYvc7MXewFvH9HKutJA-1; Wed, 20 May 2020 04:43:25 -0400
-X-MC-Unique: ycuPYvc7MXewFvH9HKutJA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-300-v_ZQBq4WPzWZU9p2e_sY-Q-1; Wed, 20 May 2020 04:43:25 -0400
+X-MC-Unique: v_ZQBq4WPzWZU9p2e_sY-Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA68B107ACF2;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7A1D8005AA;
  Wed, 20 May 2020 08:43:24 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
  [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C8E04579A5;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBBC85C1C8;
  Wed, 20 May 2020 08:43:21 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B60619D56; Wed, 20 May 2020 10:43:16 +0200 (CEST)
+ id C03E59D57; Wed, 20 May 2020 10:43:16 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/11] ui/sdl2: start in full screen with grab enabled
-Date: Wed, 20 May 2020 10:43:12 +0200
-Message-Id: <20200520084316.22057-8-kraxel@redhat.com>
+Subject: [PULL 08/11] ui/sdl2-input: use trace-events to debug key events
+Date: Wed, 20 May 2020 10:43:13 +0200
+Message-Id: <20200520084316.22057-9-kraxel@redhat.com>
 In-Reply-To: <20200520084316.22057-1-kraxel@redhat.com>
 References: <20200520084316.22057-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -88,45 +88,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-QEMU with SDL 1.2 display used to enable keyboard and mouse grab-
-bing when started in full screen. The SDL 2.0 code tries to do
-the same but fails to enable grabbing because sdl_grab_start(0)
-returns early. To do it's work the sdl_grab_start() function
-needs a pointer to a sdl2_console structure.
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-id: 20200516072014.7766-7-vr_qemu@t-online.de
+Message-id: 20200516072014.7766-8-vr_qemu@t-online.de
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/sdl2.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ ui/sdl2-input.c | 3 +++
+ ui/trace-events | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/ui/sdl2.c b/ui/sdl2.c
-index 79c1ea29d223..b23a8f0a8ebf 100644
---- a/ui/sdl2.c
-+++ b/ui/sdl2.c
-@@ -881,17 +881,16 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
-         SDL_SetWindowIcon(sdl2_console[0].real_window, icon);
+diff --git a/ui/sdl2-input.c b/ui/sdl2-input.c
+index 1f9fe831b30d..f068382209cc 100644
+--- a/ui/sdl2-input.c
++++ b/ui/sdl2-input.c
+@@ -27,6 +27,7 @@
+ #include "ui/console.h"
+ #include "ui/input.h"
+ #include "ui/sdl2.h"
++#include "trace.h"
+ 
+ void sdl2_process_key(struct sdl2_console *scon,
+                       SDL_KeyboardEvent *ev)
+@@ -38,6 +39,8 @@ void sdl2_process_key(struct sdl2_console *scon,
+         return;
      }
+     qcode = qemu_input_map_usb_to_qcode[ev->keysym.scancode];
++    trace_sdl2_process_key(ev->keysym.scancode, qcode,
++                           ev->type == SDL_KEYDOWN ? "down" : "up");
+     qkbd_state_key_event(scon->kbd, qcode, ev->type == SDL_KEYDOWN);
  
--    gui_grab = 0;
--    if (gui_fullscreen) {
--        sdl_grab_start(0);
--    }
--
-     mouse_mode_notifier.notify = sdl_mouse_mode_change;
-     qemu_add_mouse_mode_change_notifier(&mouse_mode_notifier);
+     if (!qemu_console_is_graphic(con)) {
+diff --git a/ui/trace-events b/ui/trace-events
+index 0dcda393c1d6..5367fd3f1668 100644
+--- a/ui/trace-events
++++ b/ui/trace-events
+@@ -75,6 +75,9 @@ input_event_abs(int conidx, const char *axis, int value) "con %d, axis %s, value
+ input_event_sync(void) ""
+ input_mouse_mode(int absolute) "absolute %d"
  
-     sdl_cursor_hidden = SDL_CreateCursor(&data, &data, 8, 1, 0, 0);
-     sdl_cursor_normal = SDL_GetCursor();
- 
-+    if (gui_fullscreen) {
-+        sdl_grab_start(&sdl2_console[0]);
-+    }
++# sdl2-input.c
++sdl2_process_key(int sdl_scancode, int qcode, const char *action) "translated SDL scancode %d to QKeyCode %d (%s)"
 +
-     atexit(sdl_cleanup);
- }
- 
+ # spice-display.c
+ qemu_spice_add_memslot(int qid, uint32_t slot_id, unsigned long virt_start, unsigned long virt_end, int async) "%d %u: host virt 0x%lx - 0x%lx async=%d"
+ qemu_spice_del_memslot(int qid, uint32_t gid, uint32_t slot_id) "%d gid=%u sid=%u"
 -- 
 2.18.4
 
