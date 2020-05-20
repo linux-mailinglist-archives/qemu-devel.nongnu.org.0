@@ -2,90 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F3A1DAE55
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 11:05:46 +0200 (CEST)
-Received: from localhost ([::1]:41434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5061DAE67
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 11:11:50 +0200 (CEST)
+Received: from localhost ([::1]:51980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbKfZ-0007Y3-WD
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 05:05:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47692)
+	id 1jbKlR-0005WX-Kt
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 05:11:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbKei-0006nv-Mp
- for qemu-devel@nongnu.org; Wed, 20 May 2020 05:04:52 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35692
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbKeh-0002kk-HS
- for qemu-devel@nongnu.org; Wed, 20 May 2020 05:04:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589965490;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oocyeyfi06rEqLAG6cCs0mwNDdwdwuRlj8l5ypwzvEo=;
- b=TIKjWYCpV86f/YUxXdRWk9wDAMrv/P/ksaY/kdR6B2Rht/RcWfLDMNRVXFuUHA1d6v8gGn
- oGRg9DyUBWb1vUCMsWpUXizHhjRt3bhzkm41Nq214ZZcQL1UdTR4zGbMIQb4Yh27tu4Wbo
- v6U7jAWfKR8/N6acWE6aD3wSNdkPtaY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-2bj9BFFxNdWH8FsKyAqF1g-1; Wed, 20 May 2020 05:04:49 -0400
-X-MC-Unique: 2bj9BFFxNdWH8FsKyAqF1g-1
-Received: by mail-wr1-f71.google.com with SMTP id n9so1111638wru.20
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 02:04:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oocyeyfi06rEqLAG6cCs0mwNDdwdwuRlj8l5ypwzvEo=;
- b=Yp5z0wLfg4ZwXzKMOADxaK+20tq3ikFQOTxQaPYe1VyvOU8YqA/yjKUW4cOkMk9T/Y
- 8tlmLgqrKKgTbpoPl8LZkq8Ca5k/2bg1efeo+0Ya4hH8BXGipTTdCJHYQbE+3HWKUlwH
- CNsbz5wKg+4W3lPvgtFPHuStmmTTnwKXJu0JTB8wogmlEfisvrEmIdjz6PSgWcymoOXm
- QIMDvxL2BNzyHmvaCMsvEgFbpKkD9AgCbx3aWa6u+LFQfzxaLp7asIv1VZLiQ+9vhPEZ
- vD8evOhiOO+qcEXf/qX2mNevvRF6y3Uc0gUQkZIYsybbfHAOPCJWKUKxqMcsPWw87Edt
- VSMA==
-X-Gm-Message-State: AOAM532jJRInGhP5P1rwGweXFIbvfuJgBB9xVnOo6Ysrom9mrf46fari
- PqZ0mauJozpKdTvZpJxIvbwlzyOmTRQM3nvCsxdFKAGhCe2uk6N8BcVdX+UeNSo7DeskaLbK+Yx
- 8iboIaa36fd5/doA=
-X-Received: by 2002:a7b:c353:: with SMTP id l19mr3848984wmj.187.1589965486987; 
- Wed, 20 May 2020 02:04:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzuyCKwWqj2bZO+6zZJrFiJdBbVjC4Nuu3+nefzWCugo6EEICxPs3aqUX6PdXLtO45MVKMibA==
-X-Received: by 2002:a7b:c353:: with SMTP id l19mr3848956wmj.187.1589965486663; 
- Wed, 20 May 2020 02:04:46 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id a13sm2085340wrv.67.2020.05.20.02.04.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 May 2020 02:04:45 -0700 (PDT)
-Subject: Re: [PATCH v4 3/3] block: make BlockConf.*_size properties 32-bit
-To: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org
-References: <20200520080657.29080-1-rvkagan@yandex-team.ru>
- <20200520080657.29080-4-rvkagan@yandex-team.ru>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <fafeeaf6-1151-f0c4-2699-35eb888b6115@redhat.com>
-Date: Wed, 20 May 2020 11:04:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jbKge-0000QW-GV; Wed, 20 May 2020 05:06:52 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:33626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jbKgc-0003Gx-8u; Wed, 20 May 2020 05:06:51 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0767612|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.551534-0.00035049-0.448116;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e01l07447; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=9; RT=9; SR=0; TI=SMTPD_---.Hb5n1.8_1589965600; 
+Received: from 30.225.208.54(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Hb5n1.8_1589965600)
+ by smtp.aliyun-inc.com(10.147.41.158);
+ Wed, 20 May 2020 17:06:40 +0800
+Subject: Re: [RFC PATCH 2/8] riscv: Generate payload scripts
+To: Richard Henderson <richard.henderson@linaro.org>, peter.maydell@linaro.org
+References: <20200430072139.4602-1-zhiwei_liu@c-sky.com>
+ <20200430072139.4602-3-zhiwei_liu@c-sky.com>
+ <70ed74b9-83bb-c3ae-667a-bd74826acdd4@linaro.org>
+ <047f591b-3c70-7ae8-8c2b-2a8ce2e41309@c-sky.com>
+ <865aaf91-59da-09a3-438a-3230ff69d093@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <04f42926-1b47-b433-3f52-23cda14ad478@c-sky.com>
+Date: Wed, 20 May 2020 17:06:39 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200520080657.29080-4-rvkagan@yandex-team.ru>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <865aaf91-59da-09a3-438a-3230ff69d093@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 04:09:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 05:06:41
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9,
+ UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,206 +63,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wxy194768@alibaba-inc.com,
+ wenmeng_zhang@c-sky.com, palmer@dabbelt.com, alistair23@gmail.com,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/20/20 10:06 AM, Roman Kagan wrote:
-> Devices (virtio-blk, scsi, etc.) and the block layer are happy to use
-> 32-bit for logical_block_size, physical_block_size, and min_io_size.
-> However, the properties in BlockConf are defined as uint16_t limiting
-> the values to 32768.
-> 
-> This appears unnecessary tight, and we've seen bigger block sizes handy
-> at times.
-> 
-> Make them 32 bit instead and lift the limitation up to 2 MiB which
-> appears to be good enough for everybody, and matches the qcow2 cluster
-> size limit.
-> 
-> As the values can now be fairly big and awkward to type, make the
-> property setter accept common size suffixes (k, m).
-> 
-> Also as the devices which use min_io_size (virtio-blk and scsi) pass its
-> value to the guest in units of logical blocks in a 16bit field, to
-> prevent its silent truncation add a corresponding check to
-> blkconf_blocksizes.
-> 
-> Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
-> ---
-> v3 -> v4:
-> - check min_io_size against truncation [Kevin]
-> 
-> v2 -> v3:
-> - mention qcow2 cluster size limit in the log and comment [Eric]
-> 
-> v1 -> v2:
-> - cap the property at 2 MiB [Eric]
-> - accept size suffixes
-> 
->   include/hw/block/block.h     |  8 ++++----
->   include/hw/qdev-properties.h |  2 +-
->   hw/block/block.c             | 11 +++++++++++
->   hw/core/qdev-properties.c    | 34 ++++++++++++++++++++++++----------
->   4 files changed, 40 insertions(+), 15 deletions(-)
-> 
-> diff --git a/include/hw/block/block.h b/include/hw/block/block.h
-> index 784953a237..2fa09aa0b1 100644
-> --- a/include/hw/block/block.h
-> +++ b/include/hw/block/block.h
-> @@ -18,9 +18,9 @@
->   
->   typedef struct BlockConf {
->       BlockBackend *blk;
-> -    uint16_t physical_block_size;
-> -    uint16_t logical_block_size;
-> -    uint16_t min_io_size;
-> +    uint32_t physical_block_size;
-> +    uint32_t logical_block_size;
-> +    uint32_t min_io_size;
->       uint32_t opt_io_size;
->       int32_t bootindex;
->       uint32_t discard_granularity;
-> @@ -51,7 +51,7 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
->                             _conf.logical_block_size),                    \
->       DEFINE_PROP_BLOCKSIZE("physical_block_size", _state,                \
->                             _conf.physical_block_size),                   \
-> -    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),    \
-> +    DEFINE_PROP_UINT32("min_io_size", _state, _conf.min_io_size, 0),    \
->       DEFINE_PROP_UINT32("opt_io_size", _state, _conf.opt_io_size, 0),    \
->       DEFINE_PROP_UINT32("discard_granularity", _state,                   \
->                          _conf.discard_granularity, -1),                  \
-> diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-> index f161604fb6..f9e0f8c041 100644
-> --- a/include/hw/qdev-properties.h
-> +++ b/include/hw/qdev-properties.h
-> @@ -197,7 +197,7 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
->   #define DEFINE_PROP_BIOS_CHS_TRANS(_n, _s, _f, _d) \
->       DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_bios_chs_trans, int)
->   #define DEFINE_PROP_BLOCKSIZE(_n, _s, _f) \
-> -    DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint16_t)
-> +    DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint32_t)
->   #define DEFINE_PROP_PCI_HOST_DEVADDR(_n, _s, _f) \
->       DEFINE_PROP(_n, _s, _f, qdev_prop_pci_host_devaddr, PCIHostDeviceAddress)
->   #define DEFINE_PROP_OFF_AUTO_PCIBAR(_n, _s, _f, _d) \
-> diff --git a/hw/block/block.c b/hw/block/block.c
-> index 5f8ebff59c..cd95e7e38f 100644
-> --- a/hw/block/block.c
-> +++ b/hw/block/block.c
-> @@ -96,6 +96,17 @@ bool blkconf_blocksizes(BlockConf *conf, Error **errp)
->           return false;
->       }
->   
-> +    /*
-> +     * all devices which support min_io_size (scsi and virtio-blk) expose it to
-> +     * the guest as a uint16_t in units of logical blocks
-> +     */
-> +    if ((conf->min_io_size / conf->logical_block_size) > UINT16_MAX) {
-> +        error_setg(errp,
-> +                   "min_io_size must be no more than " stringify(UINT16_MAX)
-> +                   " of logical_block_size");
-> +        return false;
-> +    }
-> +
->       if (conf->opt_io_size % conf->logical_block_size) {
->           error_setg(errp,
->                      "opt_io_size must be a multple of logical_block_size");
-> diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-> index cc924815da..fd03cc7597 100644
-> --- a/hw/core/qdev-properties.c
-> +++ b/hw/core/qdev-properties.c
-> @@ -14,6 +14,7 @@
->   #include "qapi/visitor.h"
->   #include "chardev/char.h"
->   #include "qemu/uuid.h"
-> +#include "qemu/units.h"
->   
->   void qdev_prop_set_after_realize(DeviceState *dev, const char *name,
->                                     Error **errp)
-> @@ -729,30 +730,42 @@ const PropertyInfo qdev_prop_pci_devfn = {
->   
->   /* --- blocksize --- */
->   
-> +/* lower limit is sector size */
-> +#define MIN_BLOCK_SIZE          512
-> +#define MIN_BLOCK_SIZE_STR      "512 B"
-> +/*
-> + * upper limit is arbitrary, 2 MiB looks sufficient for all sensible uses, and
-> + * matches qcow2 cluster size limit
-> + */
-> +#define MAX_BLOCK_SIZE          (2 * MiB)
 
-Can you split this patch?
 
-- add/use definitions (here MAX_BLOCK_SIZE = 32 * KiB)
-- use 32-bit
-- raise limit to 2MB
+On 2020/5/20 13:41, Richard Henderson wrote:
+> On 5/19/20 7:37 PM, LIU Zhiwei wrote:
+>> On 2020/5/12 1:40, Richard Henderson wrote:
+>>> On 4/30/20 12:21 AM, LIU Zhiwei wrote:
+>>>> +    # sequence of li rd, 0x1234567887654321
+>>>> +    #
+>>>> +    #  0:   002471b7                lui     rd,0x247
+>>>> +    #  4:   8ad1819b                addiw   rd,rd,-1875
+>>>> +    #  8:   00c19193                slli    rd,rd,0xc
+>>>> +    #  c:   f1118193                addi    rd,rd,-239 # 0x246f11
+>>>> +    # 10:   00d19193                slli    rd,rd,0xd
+>>>> +    # 14:   d9518193                addi    rd,rd,-619
+>>>> +    # 18:   00e19193                slli    rd,rd,0xe
+>>>> +    # 1c:   32118193                addi    rd,rd,801
+>>> You don't really need to use addiw.  Removing that special case would really
+>>> simplify this.
+>> I think I don't get it. Do you mean that the immediate will not be 64 bit?
+> Well, mostly the immediate will be small, actually.  But the interface must
+> support 64-bit immediates.
+>
+> I'm saying that for this computation,
+>
+> 	lui
+> 	addi
+> 	slli
+> 	addi
+> 	...
+>
+> is the same.  You don't *have* to use addiw.
+I see addiw is not good, as it is a RV64 only instruction. I think addi 
+is right and better.
 
-Feel free to refuse, but having atomic changes is better for 
-bisectability and cherry-picking/reverting.
+But I'm afraid I don't get
 
-Thanks,
+"Removing that special case would really
+simplify this."
 
-Phil.
+Do you mean I need not the decode_li function if I use addi instead of 
+addiw?
 
-> +#define MAX_BLOCK_SIZE_STR      "2 MiB"
-> +
->   static void set_blocksize(Object *obj, Visitor *v, const char *name,
->                             void *opaque, Error **errp)
->   {
->       DeviceState *dev = DEVICE(obj);
->       Property *prop = opaque;
-> -    uint16_t value, *ptr = qdev_get_prop_ptr(dev, prop);
-> +    uint32_t *ptr = qdev_get_prop_ptr(dev, prop);
-> +    uint64_t value;
->       Error *local_err = NULL;
-> -    const int64_t min = 512;
-> -    const int64_t max = 32768;
->   
->       if (dev->realized) {
->           qdev_prop_set_after_realize(dev, name, errp);
->           return;
->       }
->   
-> -    visit_type_uint16(v, name, &value, &local_err);
-> +    visit_type_size(v, name, &value, &local_err);
->       if (local_err) {
->           error_propagate(errp, local_err);
->           return;
->       }
->       /* value of 0 means "unset" */
-> -    if (value && (value < min || value > max)) {
-> -        error_setg(errp, QERR_PROPERTY_VALUE_OUT_OF_RANGE,
-> -                   dev->id ? : "", name, (int64_t)value, min, max);
-> +    if (value && (value < MIN_BLOCK_SIZE || value > MAX_BLOCK_SIZE)) {
-> +        error_setg(errp,
-> +                   "Property %s.%s doesn't take value %" PRIu64
-> +                   " (minimum: " MIN_BLOCK_SIZE_STR
-> +                   ", maximum: " MAX_BLOCK_SIZE_STR ")",
-> +                   dev->id ? : "", name, value);
->           return;
->       }
->   
-> @@ -768,9 +781,10 @@ static void set_blocksize(Object *obj, Visitor *v, const char *name,
->   }
->   
->   const PropertyInfo qdev_prop_blocksize = {
-> -    .name  = "uint16",
-> -    .description = "A power of two between 512 and 32768",
-> -    .get   = get_uint16,
-> +    .name  = "size",
-> +    .description = "A power of two between " MIN_BLOCK_SIZE_STR
-> +                   " and " MAX_BLOCK_SIZE_STR,
-> +    .get   = get_uint32,
->       .set   = set_blocksize,
->       .set_default_value = set_default_value_uint,
->   };
-> 
+Zhiwei
+>
+> r~
 
 
