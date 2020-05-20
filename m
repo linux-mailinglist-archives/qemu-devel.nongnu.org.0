@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC7A1DA776
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 03:48:29 +0200 (CEST)
-Received: from localhost ([::1]:34200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB961DA77C
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 03:49:33 +0200 (CEST)
+Received: from localhost ([::1]:38322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbDqO-0006t9-F9
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 21:48:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34146)
+	id 1jbDrQ-0000g9-Ft
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 21:49:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1jbDp6-00061m-2L
- for qemu-devel@nongnu.org; Tue, 19 May 2020 21:47:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33460)
+ id 1jbDpE-0006HW-7L
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 21:47:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1jbDp4-0000ax-HI
- for qemu-devel@nongnu.org; Tue, 19 May 2020 21:47:07 -0400
-Received: from localhost (c-67-164-102-47.hsd1.ca.comcast.net [67.164.102.47])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EC23E2075F;
- Wed, 20 May 2020 01:47:03 +0000 (UTC)
+ id 1jbDpD-0000cQ-4B
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 21:47:15 -0400
+Received: from sstabellini-ThinkPad-T480s.hsd1.ca.comcast.net
+ (c-67-164-102-47.hsd1.ca.comcast.net [67.164.102.47])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9D619207D8;
+ Wed, 20 May 2020 01:47:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589939224;
- bh=PlOrO2hPNTrV2DHVVXjGq7qQqxwmF7vPo6luLkVw/jE=;
- h=Date:From:To:cc:Subject:From;
- b=ZU1V8dZtzF/UZ+PFaowncihYCsGpd+il3ldAokeOTgl40zmBEtEJ1zP6YOD6+UFlc
- vq8YNER12bDEfJiCizEXF+lGuraT5mrtrsDi66MCSWEFhe0v5BmwESdAb9V0awP054
- T67uUnUEmQRSX/Qx7dTvLj4MyCEvMCqCqFdSrlhg=
-Date: Tue, 19 May 2020 18:47:03 -0700 (PDT)
+ s=default; t=1589939233;
+ bh=4/W/Pzh2gymBGgKA7KnPmOduUQtI3QITX4oFPL4mDos=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=xb7uZcNbQptT0Ye8VBvou5KfUxII6ADHU0mOX4eWKxDSH9s1EICUvscW4hxxF5A23
+ LuprqIXka8K/g76G7iFeJMf0IdoemS1jMcQNG48NdyWhhhiA6sEqIz8GyfRn9Xv1Yi
+ 4LqN5mnpM4VW8ZFYcWNFCnbDwHg+NAU0fwSjQUoo=
 From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@sstabellini-ThinkPad-T480s
-To: groug@kaod.org, qemu_oss@crudebyte.com
-Subject: [PATCH 0/2] revert 9pfs reply truncation, wait for free room to reply
-Message-ID: <alpine.DEB.2.21.2005191651130.27502@sstabellini-ThinkPad-T480s>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+To: groug@kaod.org,
+	qemu_oss@crudebyte.com
+Subject: [PATCH 1/2] Revert "9p: init_in_iov_from_pdu can truncate the size"
+Date: Tue, 19 May 2020 18:47:11 -0700
+Message-Id: <20200520014712.24213-1-sstabellini@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <alpine.DEB.2.21.2005191651130.27502@sstabellini-ThinkPad-T480s>
+References: <alpine.DEB.2.21.2005191651130.27502@sstabellini-ThinkPad-T480s>
 Received-SPF: pass client-ip=198.145.29.99;
  envelope-from=sstabellini@kernel.org; helo=mail.kernel.org
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 21:47:04
@@ -63,21 +64,204 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: anthony.perard@citrix.com, sstabellini@kernel.org, qemu-devel@nongnu.org,
- paul@xen.org
+ Stefano Stabellini <stefano.stabellini@xilinx.com>, paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+From: Stefano Stabellini <stefano.stabellini@xilinx.com>
 
-This short series reverts commit 16724a173049ac29c7b5ade741da93a0f46edff
-becauses it is the cause for https://bugs.launchpad.net/bugs/1877688.
+This reverts commit 16724a173049ac29c7b5ade741da93a0f46edff7.
+It causes https://bugs.launchpad.net/bugs/1877688.
 
-The original issue addressed by 16724a173049ac29c7b5ade741da93a0f46edff
-is solved differently in this series by using qemu_coroutine_yield() to
-wait for the client to free more data from the ring before sending the
-reply.
+Signed-off-by: Stefano Stabellini <stefano.stabellini@xilinx.com>
+---
+ hw/9pfs/9p.c               | 33 +++++++++++----------------------
+ hw/9pfs/9p.h               |  2 +-
+ hw/9pfs/virtio-9p-device.c | 11 ++++-------
+ hw/9pfs/xen-9p-backend.c   | 15 ++++++---------
+ 4 files changed, 22 insertions(+), 39 deletions(-)
 
-Cheers,
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index a2a14b5979..d39bfee462 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -2102,29 +2102,22 @@ out_nofid:
+  * with qemu_iovec_destroy().
+  */
+ static void v9fs_init_qiov_from_pdu(QEMUIOVector *qiov, V9fsPDU *pdu,
+-                                    size_t skip, size_t *size,
++                                    size_t skip, size_t size,
+                                     bool is_write)
+ {
+     QEMUIOVector elem;
+     struct iovec *iov;
+     unsigned int niov;
+-    size_t alloc_size = *size + skip;
+ 
+     if (is_write) {
+-        pdu->s->transport->init_out_iov_from_pdu(pdu, &iov, &niov, alloc_size);
++        pdu->s->transport->init_out_iov_from_pdu(pdu, &iov, &niov, size + skip);
+     } else {
+-        pdu->s->transport->init_in_iov_from_pdu(pdu, &iov, &niov, &alloc_size);
+-    }
+-
+-    if (alloc_size < skip) {
+-        *size = 0;
+-    } else {
+-        *size = alloc_size - skip;
++        pdu->s->transport->init_in_iov_from_pdu(pdu, &iov, &niov, size + skip);
+     }
+ 
+     qemu_iovec_init_external(&elem, iov, niov);
+     qemu_iovec_init(qiov, niov);
+-    qemu_iovec_concat(qiov, &elem, skip, *size);
++    qemu_iovec_concat(qiov, &elem, skip, size);
+ }
+ 
+ static int v9fs_xattr_read(V9fsState *s, V9fsPDU *pdu, V9fsFidState *fidp,
+@@ -2132,14 +2125,15 @@ static int v9fs_xattr_read(V9fsState *s, V9fsPDU *pdu, V9fsFidState *fidp,
+ {
+     ssize_t err;
+     size_t offset = 7;
+-    size_t read_count;
++    uint64_t read_count;
+     QEMUIOVector qiov_full;
+ 
+     if (fidp->fs.xattr.len < off) {
+         read_count = 0;
+-    } else if (fidp->fs.xattr.len - off < max_count) {
+-        read_count = fidp->fs.xattr.len - off;
+     } else {
++        read_count = fidp->fs.xattr.len - off;
++    }
++    if (read_count > max_count) {
+         read_count = max_count;
+     }
+     err = pdu_marshal(pdu, offset, "d", read_count);
+@@ -2148,7 +2142,7 @@ static int v9fs_xattr_read(V9fsState *s, V9fsPDU *pdu, V9fsFidState *fidp,
+     }
+     offset += err;
+ 
+-    v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset, &read_count, false);
++    v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset, read_count, false);
+     err = v9fs_pack(qiov_full.iov, qiov_full.niov, 0,
+                     ((char *)fidp->fs.xattr.value) + off,
+                     read_count);
+@@ -2277,11 +2271,9 @@ static void coroutine_fn v9fs_read(void *opaque)
+         QEMUIOVector qiov_full;
+         QEMUIOVector qiov;
+         int32_t len;
+-        size_t size = max_count;
+ 
+-        v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset + 4, &size, false);
++        v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset + 4, max_count, false);
+         qemu_iovec_init(&qiov, qiov_full.niov);
+-        max_count = size;
+         do {
+             qemu_iovec_reset(&qiov);
+             qemu_iovec_concat(&qiov, &qiov_full, count, qiov_full.size - count);
+@@ -2532,7 +2524,6 @@ static void coroutine_fn v9fs_write(void *opaque)
+     int32_t len = 0;
+     int32_t total = 0;
+     size_t offset = 7;
+-    size_t size;
+     V9fsFidState *fidp;
+     V9fsPDU *pdu = opaque;
+     V9fsState *s = pdu->s;
+@@ -2545,9 +2536,7 @@ static void coroutine_fn v9fs_write(void *opaque)
+         return;
+     }
+     offset += err;
+-    size = count;
+-    v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset, &size, true);
+-    count = size;
++    v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset, count, true);
+     trace_v9fs_write(pdu->tag, pdu->id, fid, off, count, qiov_full.niov);
+ 
+     fidp = get_fid(pdu, fid);
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index dd1c6cb8d2..1b9e110605 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -436,7 +436,7 @@ struct V9fsTransport {
+     ssize_t     (*pdu_vunmarshal)(V9fsPDU *pdu, size_t offset, const char *fmt,
+                                   va_list ap);
+     void        (*init_in_iov_from_pdu)(V9fsPDU *pdu, struct iovec **piov,
+-                                        unsigned int *pniov, size_t *size);
++                                        unsigned int *pniov, size_t size);
+     void        (*init_out_iov_from_pdu)(V9fsPDU *pdu, struct iovec **piov,
+                                          unsigned int *pniov, size_t size);
+     void        (*push_and_notify)(V9fsPDU *pdu);
+diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
+index e5b44977c7..36f3aa9352 100644
+--- a/hw/9pfs/virtio-9p-device.c
++++ b/hw/9pfs/virtio-9p-device.c
+@@ -147,22 +147,19 @@ static ssize_t virtio_pdu_vunmarshal(V9fsPDU *pdu, size_t offset,
+ }
+ 
+ static void virtio_init_in_iov_from_pdu(V9fsPDU *pdu, struct iovec **piov,
+-                                        unsigned int *pniov, size_t *size)
++                                        unsigned int *pniov, size_t size)
+ {
+     V9fsState *s = pdu->s;
+     V9fsVirtioState *v = container_of(s, V9fsVirtioState, state);
+     VirtQueueElement *elem = v->elems[pdu->idx];
+     size_t buf_size = iov_size(elem->in_sg, elem->in_num);
+ 
+-    if (buf_size < P9_IOHDRSZ) {
++    if (buf_size < size) {
+         VirtIODevice *vdev = VIRTIO_DEVICE(v);
+ 
+         virtio_error(vdev,
+-                     "VirtFS reply type %d needs %zu bytes, buffer has %zu, less than minimum",
+-                     pdu->id + 1, *size, buf_size);
+-    }
+-    if (buf_size < *size) {
+-        *size = buf_size;
++                     "VirtFS reply type %d needs %zu bytes, buffer has %zu",
++                     pdu->id + 1, size, buf_size);
+     }
+ 
+     *piov = elem->in_sg;
+diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
+index f04caabfe5..fc197f6c8a 100644
+--- a/hw/9pfs/xen-9p-backend.c
++++ b/hw/9pfs/xen-9p-backend.c
+@@ -188,7 +188,7 @@ static void xen_9pfs_init_out_iov_from_pdu(V9fsPDU *pdu,
+ static void xen_9pfs_init_in_iov_from_pdu(V9fsPDU *pdu,
+                                           struct iovec **piov,
+                                           unsigned int *pniov,
+-                                          size_t *size)
++                                          size_t size)
+ {
+     Xen9pfsDev *xen_9pfs = container_of(pdu->s, Xen9pfsDev, state);
+     Xen9pfsRing *ring = &xen_9pfs->rings[pdu->tag % xen_9pfs->num_rings];
+@@ -198,19 +198,16 @@ static void xen_9pfs_init_in_iov_from_pdu(V9fsPDU *pdu,
+     g_free(ring->sg);
+ 
+     ring->sg = g_new0(struct iovec, 2);
+-    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, *size);
++    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, size);
+ 
+     buf_size = iov_size(ring->sg, num);
+-    if (buf_size  < P9_IOHDRSZ) {
+-        xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs reply type %d needs "
+-                      "%zu bytes, buffer has %zu, less than minimum\n",
+-                      pdu->id + 1, *size, buf_size);
++    if (buf_size  < size) {
++        xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs request type %d"
++                "needs %zu bytes, buffer has %zu\n", pdu->id, size,
++                buf_size);
+         xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
+         xen_9pfs_disconnect(&xen_9pfs->xendev);
+     }
+-    if (buf_size  < *size) {
+-        *size = buf_size;
+-    }
+ 
+     *piov = ring->sg;
+     *pniov = num;
+-- 
+2.17.1
 
-Stefano
 
