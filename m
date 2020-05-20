@@ -2,76 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C1131DB554
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:41:35 +0200 (CEST)
-Received: from localhost ([::1]:54240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B5981DB564
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:43:50 +0200 (CEST)
+Received: from localhost ([::1]:33494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbOyU-0007UN-4U
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:41:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50876)
+	id 1jbP0f-0002Oh-G9
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:43:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jbOxP-0006L0-63
- for qemu-devel@nongnu.org; Wed, 20 May 2020 09:40:27 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:6266)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jbOzn-0001J0-P8
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 09:42:55 -0400
+Received: from 10.mo179.mail-out.ovh.net ([46.105.79.46]:42128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jbOxN-0004Ya-Nf
- for qemu-devel@nongnu.org; Wed, 20 May 2020 09:40:26 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ec532f60000>; Wed, 20 May 2020 06:39:03 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Wed, 20 May 2020 06:40:21 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Wed, 20 May 2020 06:40:21 -0700
-Received: from [10.40.103.233] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 20 May
- 2020 13:40:12 +0000
-Subject: Re: [PATCH Kernel v22 0/8] Add UAPIs to support migration for VFIO
- devices
-To: Yan Zhao <yan.y.zhao@intel.com>, Alex Williamson
- <alex.williamson@redhat.com>
-References: <1589781397-28368-1-git-send-email-kwankhede@nvidia.com>
- <20200519105804.02f3cae8@x1.home> <20200520025500.GA10369@joy-OptiPlex-7040>
-X-Nvconfidentiality: public
-From: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <97977ede-3c5b-c5a5-7858-7eecd7dd531c@nvidia.com>
-Date: Wed, 20 May 2020 19:10:07 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jbOzm-00054D-LM
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 09:42:55 -0400
+Received: from player779.ha.ovh.net (unknown [10.110.103.121])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id C986016899B
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 15:42:43 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player779.ha.ovh.net (Postfix) with ESMTPSA id 96976128804B6;
+ Wed, 20 May 2020 13:42:37 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G0061255c64c-454e-42b8-a9bb-9173243bdfbc,D4AE9CB3A4750E3488E7135F1D4D455A9A9A4933)
+ smtp.auth=groug@kaod.org
+Date: Wed, 20 May 2020 15:42:36 +0200
+From: Greg Kurz <groug@kaod.org>
+To: no-reply@patchew.org
+Subject: Re: [PATCH 0/2] revert 9pfs reply truncation, wait for free room to
+ reply
+Message-ID: <20200520154236.3edf3cbc@bahia.lan>
+In-Reply-To: <158996146074.24632.17962896571801369435@45ef0f9c86ae>
+References: <alpine.DEB.2.21.2005191651130.27502@sstabellini-ThinkPad-T480s>
+ <158996146074.24632.17962896571801369435@45ef0f9c86ae>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200520025500.GA10369@joy-OptiPlex-7040>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1589981943; bh=faPBSV2kKFs9KcNpiKmZ8H1HdeeFJMTyhpDehXdMBoY=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=ThionlaGvecESYFlNwEDRGZkfqO0jvd1/aUR6BWd9rfl5CoquvX8mcWx8MMjAMeH+
- OriEdZNk/oyTLtIAxL9Anpf0CxMEWQQbyUMFRWaixJV9AMRMXPTieqDMRsStWWPqob
- I2d3T4uSLRVcBn4jsYDCAAU4Uy1mGK5jHYjdgDWovoFZD5QCR8Kr9/GC7xZ+yLiifF
- Ma7U1FbYFyRyVYB6W5fOQ/tAJx6EfYgwlIuKM4WVQa3HymJATkCyrx/lLJAB3AmvRA
- mIWfK8adTynMg8bU6z9crvPfUv4PPooaWWZIwWjLc3uc+9xZMfltjXeukFgb50QC6U
- rdIR6sMpRGfXQ==
-Received-SPF: pass client-ip=216.228.121.64; envelope-from=kwankhede@nvidia.com;
- helo=hqnvemgate25.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 09:40:22
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Ovh-Tracer-Id: 3734328519024744824
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedruddtledgieeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuffetkefgtedtvdeuiefgffeghfevgeeuuedvgeduveffhffhhfeggfefteehveenucffohhmrghinhepphgrthgthhgvfidrohhrghenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeejledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=46.105.79.46; envelope-from=groug@kaod.org;
+ helo=10.mo179.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 09:42:44
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,84 +65,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com
+Cc: anthony.perard@citrix.com, sstabellini@kernel.org, qemu_oss@crudebyte.com,
+ qemu-devel@nongnu.org, paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 20 May 2020 00:57:42 -0700 (PDT)
+no-reply@patchew.org wrote:
 
-
-On 5/20/2020 8:25 AM, Yan Zhao wrote:
-> On Tue, May 19, 2020 at 10:58:04AM -0600, Alex Williamson wrote:
->> Hi folks,
->>
->> My impression is that we're getting pretty close to a workable
->> implementation here with v22 plus respins of patches 5, 6, and 8.  We
->> also have a matching QEMU series and a proposal for a new i40e
->> consumer, as well as I assume GVT-g updates happening internally at
->> Intel.  I expect all of the latter needs further review and discussion,
->> but we should be at the point where we can validate these proposed
->> kernel interfaces.  Therefore I'd like to make a call for reviews so
->> that we can get this wrapped up for the v5.8 merge window.  I know
->> Connie has some outstanding documentation comments and I'd like to make
->> sure everyone has an opportunity to check that their comments have been
->> addressed and we don't discover any new blocking issues.  Please send
->> your Acked-by/Reviewed-by/Tested-by tags if you're satisfied with this
->> interface and implementation.  Thanks!
->>
-> hi Alex and Kirti,
-> after porting to qemu v22 and kernel v22, it is found out that
-> it can not even pass basic live migration test with error like
+> Patchew URL: https://patchew.org/QEMU/alpine.DEB.2.21.2005191651130.27502@sstabellini-ThinkPad-T480s/
 > 
-> "Failed to get dirty bitmap for iova: 0xca000 size: 0x3000 err: 22"
+> 
+> 
+> Hi,
+> 
+> This series seems to have some coding style problems. See output below for
+> more information:
+> 
+> Message-id: alpine.DEB.2.21.2005191651130.27502@sstabellini-ThinkPad-T480s
+> Subject: [PATCH 0/2] revert 9pfs reply truncation, wait for free room to reply
+> Type: series
+> 
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> git rev-parse base > /dev/null || exit 0
+> git config --local diff.renamelimit 0
+> git config --local diff.renames True
+> git config --local diff.algorithm histogram
+> ./scripts/checkpatch.pl --mailback base..
+> === TEST SCRIPT END ===
+> 
+> Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
+> Switched to a new branch 'test'
+> 1fcf375 xen/9pfs: yield when there isn't enough room on the ring
+> 8e197ec Revert "9p: init_in_iov_from_pdu can truncate the size"
+> 
+> === OUTPUT BEGIN ===
+> 1/2 Checking commit 8e197ec8340d (Revert "9p: init_in_iov_from_pdu can truncate the size")
+> 2/2 Checking commit 1fcf3751db74 (xen/9pfs: yield when there isn't enough room on the ring)
+> ERROR: memory barrier without comment
+> #41: FILE: hw/9pfs/xen-9p-backend.c:203:
+> +    smp_wmb();
+> 
+> ERROR: memory barrier without comment
+> #56: FILE: hw/9pfs/xen-9p-backend.c:213:
+> +    smp_wmb();
+> 
+> ERROR: memory barrier without comment
+> #68: FILE: hw/9pfs/xen-9p-backend.c:302:
+> +    smp_rmb();
 > 
 
-Thanks for testing Yan.
-I think last moment change in below cause this failure
+Indeed some comments would definitely provide better understanding.
 
-https://lore.kernel.org/kvm/1589871178-8282-1-git-send-email-kwankhede@nvidia.com/
-
- > 	if (dma->iova > iova + size)
- > 		break;
-
-Surprisingly with my basic testing with 2G sys mem QEMU didn't raise 
-abort on g_free, but I do hit this with large sys mem.
-With above change, that function iterated through next vfio_dma as well. 
-Check should be as below:
-
--               if (dma->iova > iova + size)
-+               if (dma->iova > iova + size -1)
-                         break;
-
-Another fix is in QEMU.
-https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04751.html
-
- > > +        range->bitmap.size = ROUND_UP(pages, 64) / 8;
- >
- > ROUND_UP(npages/8, sizeof(u64))?
- >
-
-If npages < 8, npages/8 is 0 and ROUND_UP(0, 8) returns 0.
-
-Changing it as below
-
--        range->bitmap.size = ROUND_UP(pages / 8, sizeof(uint64_t));
-+        range->bitmap.size = ROUND_UP(pages, sizeof(__u64) * 
-BITS_PER_BYTE) /
-+                             BITS_PER_BYTE;
-
-I'm updating patches with these fixes and Cornelia's suggestion soon.
-
-Due to short of time I may not be able to address all the concerns 
-raised on previous versions of QEMU, I'm trying make QEMU side code 
-available for testing for others with latest kernel changes. Don't 
-worry, I will revisit comments on QEMU patches. Right now first priority 
-is to test kernel UAPI and prepare kernel patches for 5.8
-
-Thanks,
-Kirti
+> total: 3 errors, 0 warnings, 50 lines checked
+> 
+> Patch 2/2 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 
+> === OUTPUT END ===
+> 
+> Test command exited with code: 1
+> 
+> 
+> The full log is available at
+> http://patchew.org/logs/alpine.DEB.2.21.2005191651130.27502@sstabellini-ThinkPad-T480s/testing.checkpatch/?type=message.
+> ---
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
 
