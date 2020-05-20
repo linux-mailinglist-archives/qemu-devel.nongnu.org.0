@@ -2,55 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B491DB081
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 12:47:41 +0200 (CEST)
-Received: from localhost ([::1]:37240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1351DB103
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 13:07:19 +0200 (CEST)
+Received: from localhost ([::1]:45218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbMGC-0002UK-AU
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 06:47:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56842)
+	id 1jbMZC-0001ao-NE
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 07:07:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovgaluk@ispras.ru>)
- id 1jbMFL-00025K-4N
- for qemu-devel@nongnu.org; Wed, 20 May 2020 06:46:47 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:35592)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dovgaluk@ispras.ru>) id 1jbMFJ-0004KS-G1
- for qemu-devel@nongnu.org; Wed, 20 May 2020 06:46:46 -0400
-Received: from [192.168.0.183] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 4ED19CD463;
- Wed, 20 May 2020 13:46:42 +0300 (MSK)
-Subject: Re: [PATCH] replay: synchronize on every virtual timer callback
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <158875304273.3986.105601155554744438.stgit@pasha-ThinkPad-X280>
- <c74e9498-75b4-d80c-e380-3d448497cfd0@redhat.com> <87wo59jky3.fsf@linaro.org>
- <b4da7577-8f42-3308-a4d6-05ff6451e944@ispras.ru> <87eergjqe5.fsf@linaro.org>
- <093880f8-72d4-f404-6792-d11c177aaedc@ispras.ru> <87h7wci5av.fsf@linaro.org>
- <934b3292-bc41-0d00-2a61-9ecbd3217454@ispras.ru>
- <a52b7038-35d4-74e0-b106-67138f8cef10@redhat.com>
- <a3ea327d-f24f-71b6-42ca-fd55379ac34e@ispras.ru>
- <037727db-6500-33bb-2302-4186638c0baf@redhat.com>
-From: Pavel Dovgalyuk <dovgaluk@ispras.ru>
-Message-ID: <1f28631b-3814-ddfb-fc4b-e057983bced2@ispras.ru>
-Date: Wed, 20 May 2020 13:46:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jbMYI-0000NI-00; Wed, 20 May 2020 07:06:22 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3766 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1jbMYG-0007zY-BS; Wed, 20 May 2020 07:06:21 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id E867F647BB5BB2D5ABED;
+ Wed, 20 May 2020 19:06:09 +0800 (CST)
+Received: from S00345302A-PC.china.huawei.com (10.47.27.193) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 20 May 2020 19:06:01 +0800
+From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+Subject: [PATCH v2] arm/virt: Add memory hot remove support
+Date: Wed, 20 May 2020 12:03:54 +0100
+Message-ID: <20200520110354.14352-1-shameerali.kolothum.thodi@huawei.com>
+X-Mailer: git-send-email 2.12.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <037727db-6500-33bb-2302-4186638c0baf@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=83.149.199.45; envelope-from=dovgaluk@ispras.ru;
- helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 06:46:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain
+X-Originating-IP: [10.47.27.193]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=shameerali.kolothum.thodi@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 05:37:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,135 +55,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>,
- qemu-devel@nongnu.org, pavel.dovgaluk@ispras.ru,
- Cleber Rosa <crosa@redhat.com>
+Cc: peter.maydell@linaro.org, mst@redhat.com, linuxarm@huawei.com,
+ xuwei5@hisilicon.com, eric.auger@redhat.com, prime.zeng@hisilicon.com,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This adds support for memory hot remove on arm/virt that
+uses acpi ged device.
 
-On 20.05.2020 10:18, Philippe Mathieu-Daudé wrote:
-> +Cleber
->
-> On 5/20/20 8:54 AM, Pavel Dovgalyuk wrote:
->> On 19.05.2020 18:42, Philippe Mathieu-Daudé wrote:
->>> On 5/19/20 12:38 PM, Pavel Dovgalyuk wrote:
->>>>
->>>> On 19.05.2020 13:32, Alex Bennée wrote:
->>>>> Pavel Dovgalyuk <dovgaluk@ispras.ru> writes:
->>>>>
->>>>>> On 19.05.2020 11:11, Alex Bennée wrote:
->>>>>>> Pavel Dovgalyuk <dovgaluk@ispras.ru> writes:
->>>>>>>
->>>>>>>> On 18.05.2020 18:56, Alex Bennée wrote:
->>>>>>>>> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
->>>>>>>>>
->>>>>>>>>> + Alex
->>>>>>>>>>
->>>>>>>>>> On 5/6/20 10:17 AM, Pavel Dovgalyuk wrote:
->>>>>>>>>>> Sometimes virtual timer callbacks depend on order
->>>>>>>>>>> of virtual timer processing and warping of virtual clock.
->>>>>>>>>>> Therefore every callback should be logged to make replay 
->>>>>>>>>>> deterministic.
->>>>>>>>>>> This patch creates a checkpoint before every virtual timer 
->>>>>>>>>>> callback.
->>>>>>>>>>> With these checkpoints virtual timers processing and clock 
->>>>>>>>>>> warping
->>>>>>>>>>> events order is completely deterministic.
->>>>>>>>>>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
->>>>>>>>>>> ---
->>>>>>>>>>>      util/qemu-timer.c |    5 +++++
->>>>>>>>>>>      1 file changed, 5 insertions(+)
->>>>>>>>>>> diff --git a/util/qemu-timer.c b/util/qemu-timer.c
->>>>>>>>>>> index d548d3c1ad..47833f338f 100644
->>>>>>>>>>> --- a/util/qemu-timer.c
->>>>>>>>>>> +++ b/util/qemu-timer.c
->>>>>>>>>>> @@ -588,6 +588,11 @@ bool timerlist_run_timers(QEMUTimerList 
->>>>>>>>>>> *timer_list)
->>>>>>>>>>> qemu_mutex_lock(&timer_list->active_timers_lock);
->>>>>>>>>>>                progress = true;
->>>>>>>>>>> +        /*
->>>>>>>>>>> +         * Callback may insert new checkpoints, therefore 
->>>>>>>>>>> add new checkpoint
->>>>>>>>>>> +         * for the virtual timers.
->>>>>>>>>>> +         */
->>>>>>>>>>> +        need_replay_checkpoint = timer_list->clock->type == 
->>>>>>>>>>> QEMU_CLOCK_VIRTUAL;
->>>>>>>>>>>          }
->>>>>>>>>>> qemu_mutex_unlock(&timer_list->active_timers_lock);
->>>>>>>>> So the problem I have with this as with all the record/replay 
->>>>>>>>> stuff I
->>>>>>>>> need want to review is it's very hard to see things in action. 
->>>>>>>>> I added a
->>>>>>>>> *very* basic record/replay test to the aarch64 softmmu tests 
->>>>>>>>> but they
->>>>>>>>> won't exercise any of this code because no timers get fired. I'm
->>>>>>>>> assuming the sort of tests that is really needed is something 
->>>>>>>>> that not
->>>>>>>>> only causes QEMU_CLOCK_VIRTUAL timers to fire and trigger 
->>>>>>>>> logged HW
->>>>>>>>> events and ensure that things don't get confused in the process.
->>>>>>>> I encounter most of the bugs in different OS boot scenarios.
->>>>>>>>
->>>>>>>> We also have internal tests that include some computational, 
->>>>>>>> disk, and
->>>>>>>> network interaction tasks.
->>>>>>>>
->>>>>>>> Is it possible to add a test like booting a "real" OS and 
->>>>>>>> replaying
->>>>>>>> it?
->>>>>>> Yes - for these bigger more complex setups we should use the 
->>>>>>> acceptance
->>>>>>> tests that run under Avocado. See "make check-acceptance".
->>>>>> I've installed avocado and avocado-framework, but got the 
->>>>>> following error:
->>>>>>
->>>>>> venv/bin/python: No module named avocado
->>>>> Hmm make check-acceptance should automatically setup local copies of
->>>>> avocado using virtualenv. You shouldn't need to install the system
->>>>> version.
->>>>>
->>>>
->>>> What should I try then?
->>>
->>> My workflow running selected tests is:
->>>
->>> $ git clone qemu
->>> $ mkdir qemu/build
->>> $ cd qemu/build
->>> qemu/build$ ../configure
->>> qemu/build$ make arm-softmmu/all
->>> qemu/build$ make check-venv
->>> qemu/build$ tests/venv/bin/python -m avocado \
->>>             --show=app,console -t machine:virt \
->>>             run tests/acceptance/
->>>
->>> 'make check-acceptance' runs all the tests for the available QEMU 
->>> targets built. It should call check-venv automatically.
->>
->> Thanks. Download has started with these command lines.
->
-> Good news!
->
->>
->> But usually I run configure directly from the source directory. Could 
->> it be the cause of the failure?
->
-> To be honest last time I ran ./configure from source directory was 
-> more than 2 years ago. The acceptance CI testing use out-of-tree build.
->
-> I'm surprised it didn't worked as expected for you, because when 
-> Cleber implemented it, he was using in-tree builds. Maybe it 
-> bit-rotten since.
->
-> I'm not interested in trying/debugging/maintaining it, but if you 
-> think it is worthwhile, I'll first simply add a job testing in-tree 
-> acceptance, shot it to Travis and see.
+Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+---
+RFC v1 --> v2
+  -Rebased on top of latest Qemu master.
+  -Dropped "RFC" and tested with kernel 5.7-rc6
+---
+ hw/acpi/generic_event_device.c | 28 +++++++++++++++++
+ hw/arm/virt.c                  | 56 ++++++++++++++++++++++++++++++++--
+ 2 files changed, 82 insertions(+), 2 deletions(-)
 
-Maybe that copy has some garbage.
-
-I started with new cloned repository and in-tree build, and everything 
-was ok.
+diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+index b1cbdd86b6..2b3bedcd2f 100644
+--- a/hw/acpi/generic_event_device.c
++++ b/hw/acpi/generic_event_device.c
+@@ -193,6 +193,32 @@ static void acpi_ged_device_plug_cb(HotplugHandler *hotplug_dev,
+     }
+ }
+ 
++static void acpi_ged_unplug_request_cb(HotplugHandler *hotplug_dev,
++                                       DeviceState *dev, Error **errp)
++{
++    AcpiGedState *s = ACPI_GED(hotplug_dev);
++
++    if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
++        acpi_memory_unplug_request_cb(hotplug_dev, &s->memhp_state, dev, errp);
++    } else {
++        error_setg(errp, "acpi: device unplug request for unsupported device"
++                   " type: %s", object_get_typename(OBJECT(dev)));
++    }
++}
++
++static void acpi_ged_unplug_cb(HotplugHandler *hotplug_dev,
++                               DeviceState *dev, Error **errp)
++{
++    AcpiGedState *s = ACPI_GED(hotplug_dev);
++
++    if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
++        acpi_memory_unplug_cb(&s->memhp_state, dev, errp);
++    } else {
++        error_setg(errp, "acpi: device unplug for unsupported device"
++                   " type: %s", object_get_typename(OBJECT(dev)));
++    }
++}
++
+ static void acpi_ged_send_event(AcpiDeviceIf *adev, AcpiEventStatusBits ev)
+ {
+     AcpiGedState *s = ACPI_GED(adev);
+@@ -318,6 +344,8 @@ static void acpi_ged_class_init(ObjectClass *class, void *data)
+     dc->vmsd = &vmstate_acpi_ged;
+ 
+     hc->plug = acpi_ged_device_plug_cb;
++    hc->unplug_request = acpi_ged_unplug_request_cb;
++    hc->unplug = acpi_ged_unplug_cb;
+ 
+     adevc->send_event = acpi_ged_send_event;
+ }
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 37462a6f78..110fa73990 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2177,11 +2177,62 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+     }
+ }
+ 
++static void virt_dimm_unplug_request(HotplugHandler *hotplug_dev,
++                                     DeviceState *dev, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
++    Error *local_err = NULL;
++
++    if (!vms->acpi_dev) {
++        error_setg(errp,
++                   "memory hotplug is not enabled: missing acpi-ged device");
++        goto out;
++    }
++
++    hotplug_handler_unplug_request(HOTPLUG_HANDLER(vms->acpi_dev), dev,
++                                   &local_err);
++out:
++    error_propagate(errp, local_err);
++}
++
++static void virt_dimm_unplug(HotplugHandler *hotplug_dev,
++                             DeviceState *dev, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
++    Error *local_err = NULL;
++
++    hotplug_handler_unplug(HOTPLUG_HANDLER(vms->acpi_dev), dev, &local_err);
++    if (local_err) {
++        goto out;
++    }
++
++    pc_dimm_unplug(PC_DIMM(dev), MACHINE(vms));
++    object_property_set_bool(OBJECT(dev), false, "realized", NULL);
++
++ out:
++    error_propagate(errp, local_err);
++}
++
+ static void virt_machine_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+                                           DeviceState *dev, Error **errp)
+ {
+-    error_setg(errp, "device unplug request for unsupported device"
+-               " type: %s", object_get_typename(OBJECT(dev)));
++    if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
++        virt_dimm_unplug_request(hotplug_dev, dev, errp);
++    } else {
++        error_setg(errp, "device unplug request for unsupported device"
++                   " type: %s", object_get_typename(OBJECT(dev)));
++    }
++}
++
++static void virt_machine_device_unplug_cb(HotplugHandler *hotplug_dev,
++                                          DeviceState *dev, Error **errp)
++{
++    if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
++        virt_dimm_unplug(hotplug_dev, dev, errp);
++    } else {
++        error_setg(errp, "virt: device unplug for unsupported device"
++                   " type: %s", object_get_typename(OBJECT(dev)));
++    }
+ }
+ 
+ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+@@ -2262,6 +2313,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     hc->pre_plug = virt_machine_device_pre_plug_cb;
+     hc->plug = virt_machine_device_plug_cb;
+     hc->unplug_request = virt_machine_device_unplug_request_cb;
++    hc->unplug = virt_machine_device_unplug_cb;
+     mc->numa_mem_supported = true;
+     mc->nvdimm_supported = true;
+     mc->auto_enable_numa_with_memhp = true;
+-- 
+2.17.1
 
 
 
