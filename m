@@ -2,33 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6281DB6E3
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:28:31 +0200 (CEST)
-Received: from localhost ([::1]:60164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD631DB6BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:27:20 +0200 (CEST)
+Received: from localhost ([::1]:53878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbPhu-0006ua-RN
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:28:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57134)
+	id 1jbPg6-0004Mw-SD
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:26:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jbPXo-00052M-Pj
+ id 1jbPXo-000512-9r
  for qemu-devel@nongnu.org; Wed, 20 May 2020 10:18:04 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:49756)
+Received: from zero.eik.bme.hu ([152.66.115.2]:49720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jbPXm-0004T2-NG
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:18:04 -0400
+ id 1jbPXk-0004Pt-Af
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:18:03 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BC8F8748DDE;
+ by localhost (Postfix) with SMTP id 4AD2E748DDC;
  Wed, 20 May 2020 16:17:49 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 38915748DC8; Wed, 20 May 2020 16:17:49 +0200 (CEST)
-Message-Id: <57104c20bf2838fef58623349b1c8ee7554be7b5.1589981990.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1589981990.git.balaton@eik.bme.hu>
-References: <cover.1589981990.git.balaton@eik.bme.hu>
+ id 2F040748DCF; Wed, 20 May 2020 16:17:49 +0200 (CEST)
+Message-Id: <cover.1589981990.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 2/6] sm501: Shorten long variable names in sm501_2d_operation
+Subject: [PATCH 0/6] Misc display/sm501 clean ups and fixes
 Date: Wed, 20 May 2020 15:39:50 +0200
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
@@ -40,7 +38,7 @@ X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,130 +58,31 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This increases readability and cleans up some confusing naming.
+Hello,
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/display/sm501.c | 45 ++++++++++++++++++++++-----------------------
- 1 file changed, 22 insertions(+), 23 deletions(-)
+These are some small clean ups and changes to hopefully improve 2D
+engine performance and fix a security bug in it. I've only tested it
+lightly, haven't verified if breaking it is still possible. It's also
+known to change handling of right to left blits which may not be able
+to handle overlaping regions but the only guest known to use it
+(AmigaOS on sam460ex) seems to be OK with this so unless this is
+proven to be needed I won't try to fix that now, this could be
+addressed in later patches.
 
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index bd3ccfe311..f42d05e1e4 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -700,17 +700,16 @@ static inline void hwc_invalidate(SM501State *s, int crt)
- static void sm501_2d_operation(SM501State *s)
- {
-     /* obtain operation parameters */
--    int operation = (s->twoD_control >> 16) & 0x1f;
-+    int cmd = (s->twoD_control >> 16) & 0x1F;
-     int rtl = s->twoD_control & 0x8000000;
-     int src_x = (s->twoD_source >> 16) & 0x01FFF;
-     int src_y = s->twoD_source & 0xFFFF;
-     int dst_x = (s->twoD_destination >> 16) & 0x01FFF;
-     int dst_y = s->twoD_destination & 0xFFFF;
--    int operation_width = (s->twoD_dimension >> 16) & 0x1FFF;
--    int operation_height = s->twoD_dimension & 0xFFFF;
-+    int width = (s->twoD_dimension >> 16) & 0x1FFF;
-+    int height = s->twoD_dimension & 0xFFFF;
-     uint32_t color = s->twoD_foreground;
--    int format_flags = (s->twoD_stretch >> 20) & 0x3;
--    int addressing = (s->twoD_stretch >> 16) & 0xF;
-+    int format = (s->twoD_stretch >> 20) & 0x3;
-     int rop_mode = (s->twoD_control >> 15) & 0x1; /* 1 for rop2, else rop3 */
-     /* 1 if rop2 source is the pattern, otherwise the source is the bitmap */
-     int rop2_source_is_pattern = (s->twoD_control >> 14) & 0x1;
-@@ -721,12 +720,12 @@ static void sm501_2d_operation(SM501State *s)
-     /* get frame buffer info */
-     uint8_t *src = s->local_mem + src_base;
-     uint8_t *dst = s->local_mem + dst_base;
--    int src_width = s->twoD_pitch & 0x1FFF;
--    int dst_width = (s->twoD_pitch >> 16) & 0x1FFF;
-+    int src_pitch = s->twoD_pitch & 0x1FFF;
-+    int dst_pitch = (s->twoD_pitch >> 16) & 0x1FFF;
-     int crt = (s->dc_crt_control & SM501_DC_CRT_CONTROL_SEL) ? 1 : 0;
-     int fb_len = get_width(s, crt) * get_height(s, crt) * get_bpp(s, crt);
- 
--    if (addressing != 0x0) {
-+    if ((s->twoD_stretch >> 16) & 0xF) {
-         qemu_log_mask(LOG_UNIMP, "sm501: only XY addressing is supported.\n");
-         return;
-     }
-@@ -758,20 +757,20 @@ static void sm501_2d_operation(SM501State *s)
-         return;
-     }
- 
--    switch (operation) {
-+    switch (cmd) {
-     case 0x00: /* copy area */
- #define COPY_AREA(_bpp, _pixel_type, rtl) {                                   \
-         int y, x, index_d, index_s;                                           \
--        for (y = 0; y < operation_height; y++) {                              \
--            for (x = 0; x < operation_width; x++) {                           \
-+        for (y = 0; y < height; y++) {                              \
-+            for (x = 0; x < width; x++) {                           \
-                 _pixel_type val;                                              \
-                                                                               \
-                 if (rtl) {                                                    \
--                    index_s = ((src_y - y) * src_width + src_x - x) * _bpp;   \
--                    index_d = ((dst_y - y) * dst_width + dst_x - x) * _bpp;   \
-+                    index_s = ((src_y - y) * src_pitch + src_x - x) * _bpp;   \
-+                    index_d = ((dst_y - y) * dst_pitch + dst_x - x) * _bpp;   \
-                 } else {                                                      \
--                    index_s = ((src_y + y) * src_width + src_x + x) * _bpp;   \
--                    index_d = ((dst_y + y) * dst_width + dst_x + x) * _bpp;   \
-+                    index_s = ((src_y + y) * src_pitch + src_x + x) * _bpp;   \
-+                    index_d = ((dst_y + y) * dst_pitch + dst_x + x) * _bpp;   \
-                 }                                                             \
-                 if (rop_mode == 1 && rop == 5) {                              \
-                     /* Invert dest */                                         \
-@@ -783,7 +782,7 @@ static void sm501_2d_operation(SM501State *s)
-             }                                                                 \
-         }                                                                     \
-     }
--        switch (format_flags) {
-+        switch (format) {
-         case 0:
-             COPY_AREA(1, uint8_t, rtl);
-             break;
-@@ -799,15 +798,15 @@ static void sm501_2d_operation(SM501State *s)
-     case 0x01: /* fill rectangle */
- #define FILL_RECT(_bpp, _pixel_type) {                                      \
-         int y, x;                                                           \
--        for (y = 0; y < operation_height; y++) {                            \
--            for (x = 0; x < operation_width; x++) {                         \
--                int index = ((dst_y + y) * dst_width + dst_x + x) * _bpp;   \
-+        for (y = 0; y < height; y++) {                            \
-+            for (x = 0; x < width; x++) {                         \
-+                int index = ((dst_y + y) * dst_pitch + dst_x + x) * _bpp;   \
-                 *(_pixel_type *)&dst[index] = (_pixel_type)color;           \
-             }                                                               \
-         }                                                                   \
-     }
- 
--        switch (format_flags) {
-+        switch (format) {
-         case 0:
-             FILL_RECT(1, uint8_t);
-             break;
-@@ -824,14 +823,14 @@ static void sm501_2d_operation(SM501State *s)
- 
-     default:
-         qemu_log_mask(LOG_UNIMP, "sm501: not implemented 2D operation: %d\n",
--                      operation);
-+                      cmd);
-         return;
-     }
- 
-     if (dst_base >= get_fb_addr(s, crt) &&
-         dst_base <= get_fb_addr(s, crt) + fb_len) {
--        int dst_len = MIN(fb_len, ((dst_y + operation_height - 1) * dst_width +
--                           dst_x + operation_width) * (1 << format_flags));
-+        int dst_len = MIN(fb_len, ((dst_y + height - 1) * dst_pitch +
-+                          dst_x + width) * (1 << format));
-         if (dst_len) {
-             memory_region_set_dirty(&s->local_mem_region, dst_base, dst_len);
-         }
+Regards,
+BALATON Zoltan
+
+BALATON Zoltan (6):
+  sm501: Convert printf + abort to qemu_log_mask
+  sm501: Shorten long variable names in sm501_2d_operation
+  sm501: Use BIT(x) macro to shorten constant
+  sm501: Clean up local variables in sm501_2d_operation
+  sm501: Replace hand written implementation with pixman where possible
+  sm501: Remove obsolete changelog and todo comment
+
+ hw/display/sm501.c | 278 +++++++++++++++++++++------------------------
+ 1 file changed, 131 insertions(+), 147 deletions(-)
+
 -- 
 2.21.3
 
