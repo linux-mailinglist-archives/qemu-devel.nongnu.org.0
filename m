@@ -2,76 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5CE1DB74D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:44:12 +0200 (CEST)
-Received: from localhost ([::1]:59790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 632431DB766
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:50:11 +0200 (CEST)
+Received: from localhost ([::1]:45408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbPx4-0005K1-Tg
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:44:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32778)
+	id 1jbQ2s-00045g-Cc
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:50:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jbPw3-0004nX-0T
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:43:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32960
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jbPw1-0002JL-J7
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:43:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589985783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yNAqIFPYFp453Dtu0ePdb+p2yWwK6PJODJb8QxX8hBM=;
- b=erQo5rZyvPdMDbDSZdbg4VPlVTGdjRilTnOudNCETNVWwjGR+tPO6i7I+E36gSPOuI1Mk3
- 1k4QHx4IM4PKD7AsTTo/r8wBLV/qOElxlpaJUnjJdV1bs2ZhyvooAX7RUYGLKSlZppvIkW
- JJweI42yZvm5kmJZ4Kq7rONb+vyuzrY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-PHR_drAlPFa0wScWVVLbMQ-1; Wed, 20 May 2020 10:43:02 -0400
-X-MC-Unique: PHR_drAlPFa0wScWVVLbMQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3BB51005510;
- Wed, 20 May 2020 14:43:00 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
- [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD30F5C1C8;
- Wed, 20 May 2020 14:42:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5C2D211358BC; Wed, 20 May 2020 16:42:53 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 03/55] qdev: New qdev_new(), qdev_realize(), etc.
-References: <20200519145551.22836-1-armbru@redhat.com>
- <20200519145551.22836-4-armbru@redhat.com>
- <9b329adc-8110-c108-996a-3b7d8463d042@redhat.com>
- <871rnft498.fsf@dusky.pond.sub.org>
- <c3c59472-9f2a-f30a-deed-36192840a892@redhat.com>
-Date: Wed, 20 May 2020 16:42:53 +0200
-In-Reply-To: <c3c59472-9f2a-f30a-deed-36192840a892@redhat.com> (Paolo
- Bonzini's message of "Wed, 20 May 2020 10:17:27 +0200")
-Message-ID: <871rner7ki.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jbPxn-0006xy-VY
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:44:55 -0400
+Received: from 7.mo173.mail-out.ovh.net ([46.105.44.159]:35300)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jbPxl-0002U9-MG
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:44:55 -0400
+Received: from player726.ha.ovh.net (unknown [10.110.103.121])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id CEA5E13AA4A
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 16:44:50 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player726.ha.ovh.net (Postfix) with ESMTPSA id 4985F127CEDEE;
+ Wed, 20 May 2020 14:44:46 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G0065a90287b-f85a-4872-a28b-d452051a3724,D4AE9CB3A4750E3488E7135F1D4D455A9A9A4933)
+ smtp.auth=groug@kaod.org
+Date: Wed, 20 May 2020 16:44:45 +0200
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 7/9] ppc/pnv: Add POWER10 quads
+Message-ID: <20200520164445.1c8a03a1@bahia.lan>
+In-Reply-To: <20200513151109.453530-8-clg@kaod.org>
+References: <20200513151109.453530-1-clg@kaod.org>
+ <20200513151109.453530-8-clg@kaod.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 22:48:02
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 4783385756989364619
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedruddtledgjeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueekjeekiefffedtveeukedvteejgeeivefhgfejgfdtleduvdfgfeelkeeuveeunecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejvdeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=46.105.44.159; envelope-from=groug@kaod.org;
+ helo=7.mo173.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 10:44:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,112 +65,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+On Wed, 13 May 2020 17:11:07 +0200
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-> On 20/05/20 10:11, Markus Armbruster wrote:
->>> On 19/05/20 16:54, Markus Armbruster wrote:
->>>> +
->>>> +    object_ref(OBJECT(dev));
->>>> +    object_property_set_bool(OBJECT(dev), true, "realized", &err);
->>>> +    if (err) {
->>>> +        error_propagate_prepend(errp, err,
->>>> +                                "Initialization of device %s failed: ",
->>>> +                                object_get_typename(OBJECT(dev)));
->>>> +    }
->>>> +    object_unref(OBJECT(dev));
->>> Why is the ref/unref pair needed?  Should it be done in the realized
->>> setter instead?
->> Copied from qdev_init_nofail(), where it is necessary (I figured out why
->> the hard way).  It doesn't seem to be necessary here, though.  Thanks!
->
-> Why is it necessary there?  It seems a bit iffy.
+> Still needs some refinements on the XSCOM registers.
+>=20
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  include/hw/ppc/pnv.h |  4 ++++
+>  hw/ppc/pnv.c         | 33 +++++++++++++++++++++++++++++++++
+>  2 files changed, 37 insertions(+)
+>=20
+> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+> index 3ff610a9c7b5..86bfa2107a8c 100644
+> --- a/include/hw/ppc/pnv.h
+> +++ b/include/hw/ppc/pnv.h
+> @@ -123,6 +123,10 @@ typedef struct Pnv10Chip {
+>      Pnv9Psi      psi;
+>      PnvLpcController lpc;
+>      PnvOCC       occ;
+> +
+> +    uint32_t     nr_quads;
+> +    PnvQuad      *quads;
+> +
+>  } Pnv10Chip;
+> =20
+>  #define PNV10_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 9f1698a74467..fc751dd575d4 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -1621,6 +1621,33 @@ static void pnv_chip_power10_instance_init(Object =
+*obj)
+>                              TYPE_PNV10_OCC, &error_abort, NULL);
+>  }
+> =20
+> +
+> +static void pnv_chip_power10_quad_realize(Pnv10Chip *chip10, Error **err=
+p)
+> +{
+> +    PnvChip *chip =3D PNV_CHIP(chip10);
+> +    int i;
+> +
+> +    chip10->nr_quads =3D DIV_ROUND_UP(chip->nr_cores, 4);
+> +    chip10->quads =3D g_new0(PnvQuad, chip10->nr_quads);
+> +
+> +    for (i =3D 0; i < chip10->nr_quads; i++) {
+> +        char eq_name[32];
+> +        PnvQuad *eq =3D &chip10->quads[i];
+> +        PnvCore *pnv_core =3D chip->cores[i * 4];
+> +        int core_id =3D CPU_CORE(pnv_core)->core_id;
+> +
+> +        snprintf(eq_name, sizeof(eq_name), "eq[%d]", core_id);
+> +        object_initialize_child(OBJECT(chip), eq_name, eq, sizeof(*eq),
+> +                                TYPE_PNV_QUAD, &error_fatal, NULL);
+> +
+> +        object_property_set_int(OBJECT(eq), core_id, "id", &error_fatal);
+> +        object_property_set_bool(OBJECT(eq), true, "realized", &error_fa=
+tal);
+> +
+> +        pnv_xscom_add_subregion(chip, PNV10_XSCOM_EQ_BASE(eq->id),
+> +                                &eq->xscom_regs);
+> +    }
+> +}
 
-My exact thoughts a few days back.  One debugging session later, I
-understood, and put them right back.  Glad we have tests :)
+So, this function is mostly identical to the P9 variant, except the xscom
+offset. Unless the refinements envisioned in the changelog bring substantial
+change, I'd suggest to move this to a common helper and call it from dedica=
+ted
+P9 and P10 realize functions.
 
-When object_property_set_bool() fails in qdev_init_nofail(), the
-reference count can drop to zero.  Certainly surprised me.  Have a look:
-
-        dev = qdev_create(bus, type_name);
-        // @dev is a weak reference, and @bus holds the only strong one
-        ...
-        qdev_init_nofail(dev);
-
-In qdev_init_nofail():
-
-        // object_ref(OBJECT(dev));
-        object_property_set_bool(OBJECT(dev), true, "realized", &err);
-
-This is a fancy way to call device_set_realized().  If something goes
-wrong there, we execute
-
-    fail:
-        error_propagate(errp, local_err);
-        if (unattached_parent) {
-            /*
-             * Beware, this doesn't just revert
-             * object_property_add_child(), it also runs bus_remove()!
-             */
-            object_unparent(OBJECT(dev));
-            unattached_count--;
-        }
-
-and bus_remove() drops the reference count to zero.
-
-Back in qdev_init_nofail(), we then use after free:
-    
-    if (err) {
-        error_reportf_err(err, "Initialization of device %s failed: ",
---->                      object_get_typename(OBJECT(dev)));
-        exit(1);
-    }
-    // object_unref(OBJECT(dev));
-
-The ref/unref keeps around @dev long enough for adding @dev's type name
-to the error message.
-
-The equivalent new pattern doesn't have this issue:
-
-        dev = qdev_new(type_name);
-        // @dev is the only reference
-        ...
-        qdev_realize_and_unref(dev, bus, errp);
-
-In qdev_realize(), called via qdev_realize_and_unref():
-
-        qdev_set_parent_bus(dev, bus);
-        // @bus now holds the second reference
-
-        // object_ref(OBJECT(dev));
-        object_property_set_bool(OBJECT(dev), true, "realized", &err);
-
-In device_set_realized(), the reference count drops to one, namely
-@dev's reference.  That one goes away only in qdev_realize_and_unref(),
-after we added @dev's type name to the error message.
-
-However, a boring drive to the supermarket gave me this scenario:
-
-        dev = qdev_new(type_name);
-        // @dev is the only reference
-        ...
-        object_property_add_child(parent, name, OBJECT(dev));
-        // @parent holds the second reference
-        object_unref(dev);
-        // unusual, but not wrong; @parent holds the only reference now
-        ...
-        qdev_realize(dev, bus, errp);
-
-Here, the reference count can drop to zero when device_set_realized()
-fails, and qdev_realize()'s object_get_typename() is a use after free.
-
-Best to keep the ref/unref, I think.
+> +
+>  static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
+>  {
+>      PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(dev);
+> @@ -1642,6 +1669,12 @@ static void pnv_chip_power10_realize(DeviceState *=
+dev, Error **errp)
+>          return;
+>      }
+> =20
+> +    pnv_chip_power10_quad_realize(chip10, &local_err);
+> +    if (local_err) {
+> +        error_propagate(errp, local_err);
+> +        return;
+> +    }
+> +
+>      /* XIVE2 interrupt controller (POWER10) */
+>      object_property_set_int(OBJECT(&chip10->xive), PNV10_XIVE2_IC_BASE(c=
+hip),
+>                              "ic-bar", &error_fatal);
 
 
