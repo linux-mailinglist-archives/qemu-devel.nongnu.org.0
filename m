@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7801DB633
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:23:22 +0200 (CEST)
-Received: from localhost ([::1]:39816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5991DB620
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:21:29 +0200 (CEST)
+Received: from localhost ([::1]:60094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbPcv-0006Ek-MV
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:23:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57116)
+	id 1jbPb6-0002Bj-H3
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:21:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jbPXm-0004vk-Co
+ id 1jbPXm-0004wm-MD
  for qemu-devel@nongnu.org; Wed, 20 May 2020 10:18:02 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:49721)
+Received: from zero.eik.bme.hu ([152.66.115.2]:49719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jbPXk-0004Pv-Al
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:18:01 -0400
+ id 1jbPXk-0004Pu-Pz
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:18:02 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 882B2748DD1;
+ by localhost (Postfix) with SMTP id 60A93748DDD;
  Wed, 20 May 2020 16:17:49 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 408FD748DD8; Wed, 20 May 2020 16:17:49 +0200 (CEST)
-Message-Id: <f9557de4f9d30e5af4b1e7cd66f3e5a044705fba.1589981990.git.balaton@eik.bme.hu>
+ id 34630748DD1; Wed, 20 May 2020 16:17:49 +0200 (CEST)
+Message-Id: <90b2648461d57d384823c90fa700cdd81d0b7254.1589981990.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1589981990.git.balaton@eik.bme.hu>
 References: <cover.1589981990.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 4/6] sm501: Clean up local variables in sm501_2d_operation
+Subject: [PATCH 1/6] sm501: Convert printf + abort to qemu_log_mask
 Date: Wed, 20 May 2020 15:39:50 +0200
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
@@ -60,87 +60,151 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make variables local to the block they are used in to make it clearer
-which operation they are needed for.
+Some places already use qemu_log_mask() to log unimplemented features
+or errors but some others have printf() then abort(). Convert these to
+qemu_log_mask() and avoid aborting to prevent guests to easily cause
+denial of service.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/display/sm501.c | 31 ++++++++++++++++---------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
+ hw/display/sm501.c | 57 ++++++++++++++++++++++------------------------
+ 1 file changed, 27 insertions(+), 30 deletions(-)
 
 diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 97660090bb..5ed57703d8 100644
+index acc692531a..bd3ccfe311 100644
 --- a/hw/display/sm501.c
 +++ b/hw/display/sm501.c
-@@ -699,28 +699,19 @@ static inline void hwc_invalidate(SM501State *s, int crt)
- 
- static void sm501_2d_operation(SM501State *s)
- {
--    /* obtain operation parameters */
-     int cmd = (s->twoD_control >> 16) & 0x1F;
-     int rtl = s->twoD_control & BIT(27);
--    int src_x = (s->twoD_source >> 16) & 0x01FFF;
--    int src_y = s->twoD_source & 0xFFFF;
--    int dst_x = (s->twoD_destination >> 16) & 0x01FFF;
--    int dst_y = s->twoD_destination & 0xFFFF;
--    int width = (s->twoD_dimension >> 16) & 0x1FFF;
--    int height = s->twoD_dimension & 0xFFFF;
--    uint32_t color = s->twoD_foreground;
-     int format = (s->twoD_stretch >> 20) & 0x3;
-     int rop_mode = (s->twoD_control >> 15) & 0x1; /* 1 for rop2, else rop3 */
-     /* 1 if rop2 source is the pattern, otherwise the source is the bitmap */
-     int rop2_source_is_pattern = (s->twoD_control >> 14) & 0x1;
-     int rop = s->twoD_control & 0xFF;
--    uint32_t src_base = s->twoD_source_base & 0x03FFFFFF;
-+    int dst_x = (s->twoD_destination >> 16) & 0x01FFF;
-+    int dst_y = s->twoD_destination & 0xFFFF;
-+    int width = (s->twoD_dimension >> 16) & 0x1FFF;
-+    int height = s->twoD_dimension & 0xFFFF;
-     uint32_t dst_base = s->twoD_destination_base & 0x03FFFFFF;
--
--    /* get frame buffer info */
--    uint8_t *src = s->local_mem + src_base;
-     uint8_t *dst = s->local_mem + dst_base;
--    int src_pitch = s->twoD_pitch & 0x1FFF;
-     int dst_pitch = (s->twoD_pitch >> 16) & 0x1FFF;
-     int crt = (s->dc_crt_control & SM501_DC_CRT_CONTROL_SEL) ? 1 : 0;
+@@ -727,8 +727,8 @@ static void sm501_2d_operation(SM501State *s)
      int fb_len = get_width(s, crt) * get_height(s, crt) * get_bpp(s, crt);
-@@ -758,6 +749,13 @@ static void sm501_2d_operation(SM501State *s)
  
-     switch (cmd) {
-     case 0x00: /* copy area */
-+    {
-+        int src_x = (s->twoD_source >> 16) & 0x01FFF;
-+        int src_y = s->twoD_source & 0xFFFF;
-+        uint32_t src_base = s->twoD_source_base & 0x03FFFFFF;
-+        uint8_t *src = s->local_mem + src_base;
-+        int src_pitch = s->twoD_pitch & 0x1FFF;
-+
- #define COPY_AREA(_bpp, _pixel_type, rtl) {                                   \
-         int y, x, index_d, index_s;                                           \
-         for (y = 0; y < height; y++) {                              \
-@@ -793,8 +791,11 @@ static void sm501_2d_operation(SM501State *s)
-             break;
-         }
+     if (addressing != 0x0) {
+-        printf("%s: only XY addressing is supported.\n", __func__);
+-        abort();
++        qemu_log_mask(LOG_UNIMP, "sm501: only XY addressing is supported.\n");
++        return;
+     }
+ 
+     if (rop_mode == 0) {
+@@ -754,8 +754,8 @@ static void sm501_2d_operation(SM501State *s)
+ 
+     if ((s->twoD_source_base & 0x08000000) ||
+         (s->twoD_destination_base & 0x08000000)) {
+-        printf("%s: only local memory is supported.\n", __func__);
+-        abort();
++        qemu_log_mask(LOG_UNIMP, "sm501: only local memory is supported.\n");
++        return;
+     }
+ 
+     switch (operation) {
+@@ -823,9 +823,9 @@ static void sm501_2d_operation(SM501State *s)
          break;
--
-+    }
-     case 0x01: /* fill rectangle */
-+    {
-+        uint32_t color = s->twoD_foreground;
-+
- #define FILL_RECT(_bpp, _pixel_type) {                                      \
-         int y, x;                                                           \
-         for (y = 0; y < height; y++) {                            \
-@@ -819,7 +820,7 @@ static void sm501_2d_operation(SM501State *s)
-             break;
-         }
-         break;
--
-+    }
+ 
      default:
-         qemu_log_mask(LOG_UNIMP, "sm501: not implemented 2D operation: %d\n",
-                       cmd);
+-        printf("non-implemented SM501 2D operation. %d\n", operation);
+-        abort();
+-        break;
++        qemu_log_mask(LOG_UNIMP, "sm501: not implemented 2D operation: %d\n",
++                      operation);
++        return;
+     }
+ 
+     if (dst_base >= get_fb_addr(s, crt) &&
+@@ -892,9 +892,8 @@ static uint64_t sm501_system_config_read(void *opaque, hwaddr addr,
+         break;
+ 
+     default:
+-        printf("sm501 system config : not implemented register read."
+-               " addr=%x\n", (int)addr);
+-        abort();
++        qemu_log_mask(LOG_UNIMP, "sm501: not implemented system config"
++                      "register read. addr=%" HWADDR_PRIx "\n", addr);
+     }
+ 
+     return ret;
+@@ -948,15 +947,15 @@ static void sm501_system_config_write(void *opaque, hwaddr addr,
+         break;
+     case SM501_ENDIAN_CONTROL:
+         if (value & 0x00000001) {
+-            printf("sm501 system config : big endian mode not implemented.\n");
+-            abort();
++            qemu_log_mask(LOG_UNIMP, "sm501: system config big endian mode not"
++                          " implemented.\n");
+         }
+         break;
+ 
+     default:
+-        printf("sm501 system config : not implemented register write."
+-               " addr=%x, val=%x\n", (int)addr, (uint32_t)value);
+-        abort();
++        qemu_log_mask(LOG_UNIMP, "sm501: not implemented system config"
++                      "register write. addr=%" HWADDR_PRIx
++                      ", val=%" PRIx64 "\n", addr, value);
+     }
+ }
+ 
+@@ -1207,9 +1206,8 @@ static uint64_t sm501_disp_ctrl_read(void *opaque, hwaddr addr,
+         break;
+ 
+     default:
+-        printf("sm501 disp ctrl : not implemented register read."
+-               " addr=%x\n", (int)addr);
+-        abort();
++        qemu_log_mask(LOG_UNIMP, "sm501: not implemented disp ctrl register "
++                      "read. addr=%" HWADDR_PRIx "\n", addr);
+     }
+ 
+     return ret;
+@@ -1345,9 +1343,9 @@ static void sm501_disp_ctrl_write(void *opaque, hwaddr addr,
+         break;
+ 
+     default:
+-        printf("sm501 disp ctrl : not implemented register write."
+-               " addr=%x, val=%x\n", (int)addr, (unsigned)value);
+-        abort();
++        qemu_log_mask(LOG_UNIMP, "sm501: not implemented disp ctrl register "
++                      "write. addr=%" HWADDR_PRIx
++                      ", val=%" PRIx64 "\n", addr, value);
+     }
+ }
+ 
+@@ -1433,9 +1431,8 @@ static uint64_t sm501_2d_engine_read(void *opaque, hwaddr addr,
+         ret = 0; /* Should return interrupt status */
+         break;
+     default:
+-        printf("sm501 disp ctrl : not implemented register read."
+-               " addr=%x\n", (int)addr);
+-        abort();
++        qemu_log_mask(LOG_UNIMP, "sm501: not implemented disp ctrl register "
++                      "read. addr=%" HWADDR_PRIx "\n", addr);
+     }
+ 
+     return ret;
+@@ -1520,9 +1517,9 @@ static void sm501_2d_engine_write(void *opaque, hwaddr addr,
+         /* ignored, writing 0 should clear interrupt status */
+         break;
+     default:
+-        printf("sm501 2d engine : not implemented register write."
+-               " addr=%x, val=%x\n", (int)addr, (unsigned)value);
+-        abort();
++        qemu_log_mask(LOG_UNIMP, "sm501: not implemented 2d engine register "
++                      "write. addr=%" HWADDR_PRIx
++                      ", val=%" PRIx64 "\n", addr, value);
+     }
+ }
+ 
+@@ -1670,9 +1667,9 @@ static void sm501_update_display(void *opaque)
+         draw_line = draw_line32_funcs[dst_depth_index];
+         break;
+     default:
+-        printf("sm501 update display : invalid control register value.\n");
+-        abort();
+-        break;
++        qemu_log_mask(LOG_GUEST_ERROR, "sm501: update display"
++                      "invalid control register value.\n");
++        return;
+     }
+ 
+     /* set up to draw hardware cursor */
 -- 
 2.21.3
 
