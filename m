@@ -2,61 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13171DC1BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 00:03:38 +0200 (CEST)
-Received: from localhost ([::1]:59350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD221DC255
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 00:49:33 +0200 (CEST)
+Received: from localhost ([::1]:33480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbWoL-0007RB-Up
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 18:03:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53264)
+	id 1jbXWl-0000kV-Nb
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 18:49:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jbWmK-000576-HP
- for qemu-devel@nongnu.org; Wed, 20 May 2020 18:01:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22017
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jbXVu-0007wv-4K
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 18:48:38 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30250
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jbWmI-0005jb-Rs
- for qemu-devel@nongnu.org; Wed, 20 May 2020 18:01:32 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jbXVs-0005To-Hl
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 18:48:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590012089;
+ s=mimecast20190719; t=1590014915;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6OVr8ibEOE5mMIhIy7+qnvD4Z98j/0E/PW+Pi7JthXk=;
- b=depjCtYOXeDox1DE+KDYF3snBaEu2dJHfm3h/tPKLYLdQFPgNXCHOtEZVWIlEzrGUV1ch1
- iySF7YJjUVQIUILxsBAMVKmns4YW58t9T7jtCyI5RTmxOoXw4SVBrZR9vvHHrIAXgZYl6H
- WQS4A8iqc23YmrQg3sibTA1pcFo9eXY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-dG10YvwsPM-8SybwFY1BPw-1; Wed, 20 May 2020 18:01:26 -0400
-X-MC-Unique: dG10YvwsPM-8SybwFY1BPw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 227098014D7;
- Wed, 20 May 2020 22:01:25 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 992536AD00;
- Wed, 20 May 2020 22:01:24 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 5/5] iotests: Add test 291 to for qemu-img bitmap coverage
-Date: Wed, 20 May 2020 17:01:18 -0500
-Message-Id: <20200520220118.1037094-6-eblake@redhat.com>
-In-Reply-To: <20200520220118.1037094-1-eblake@redhat.com>
-References: <20200520220118.1037094-1-eblake@redhat.com>
+ bh=tjK0wYllS4ibvWJ5TsfjWgCHi6FwX71A6Z8Mc6ItnMQ=;
+ b=N65UBNIOmIRKDZQc25cRkVwcWSRTj2ACJ6Uj2ad9YpPytYLmFiC0d/Sj9CtN9tibJvJKkl
+ m24+Lg/OHjvmT4HPzmJY7wNW6ZYUMTF+ba79Uprv6EAYP/pAYbSdpwOx+4/N07mBk6Ki6w
+ Zc5J0OT2xAQrrsFOWZKNTLzcAnurx/g=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-449-Manu0w7-MPW8mJTdT_Dg0A-1; Wed, 20 May 2020 18:48:33 -0400
+X-MC-Unique: Manu0w7-MPW8mJTdT_Dg0A-1
+Received: by mail-ed1-f70.google.com with SMTP id w15so1331337edi.11
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 15:48:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tjK0wYllS4ibvWJ5TsfjWgCHi6FwX71A6Z8Mc6ItnMQ=;
+ b=grWP/9BtOF9ibuSO575R0JKFAk4uL/BqBC4uJLJjjYA9cID5n5NHtp987Y65Gn1RWI
+ CbWy0GQsUoZdevCXUvbZbHHw85tEw7MI80zQBFKzAl22dB80EbFQYAF2nr0wTPU6g8uI
+ kvkOp8FBjyt9Wb9wDQ+xUolbrsab8fjf+4xhTyBTGtoS/Gf37fVq/SzIt4ZW6WEZMbqe
+ 2ycZ0PxqXWVP9cn0AfDfryz4FLkXwqz8ewyxLabYLX4oQ6gFo5yb2vIibjjZkiJD8TuC
+ myk+WAjlCAk9h1njzaK32MepkIaJVNwHNR/OWHbGrBtXvP9J55XGvmjnOd/0FRYWteUE
+ 1bsQ==
+X-Gm-Message-State: AOAM530AzATdcA7WQZzCjYQ5UIpa3bOjf03H/MSAHVjGVvncWzm81m9D
+ 4lk03IjbCsG1xG7TsMcvuGhaO14gFeJiP1LnKbNWzMXrApxIsWLcohQ6jJTLoHMXt6shWbzLcv6
+ LpiY+gsXmRr6SR4s=
+X-Received: by 2002:aa7:d399:: with SMTP id x25mr5320967edq.164.1590014912674; 
+ Wed, 20 May 2020 15:48:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx4F+b0269uBJCZFdMupffPpAAb0/zMB/eLM+MV4zn9HvHZq3j08uBWgRkuoPOLKHGvqxB5ow==
+X-Received: by 2002:aa7:d399:: with SMTP id x25mr5320940edq.164.1590014912357; 
+ Wed, 20 May 2020 15:48:32 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:1c48:1dd8:fe63:e3da?
+ ([2001:b07:6468:f312:1c48:1dd8:fe63:e3da])
+ by smtp.gmail.com with ESMTPSA id s18sm3004906edi.45.2020.05.20.15.48.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 May 2020 15:48:31 -0700 (PDT)
+Subject: Re: [PATCH v2 1/4] Introduce yank feature
+To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
+References: <cover.1590008051.git.lukasstraub2@web.de>
+ <20005a15c708fbda983f9be602c55fc0b1979a18.1590008051.git.lukasstraub2@web.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <4585d13a-edad-94a8-1c3b-0a0599c930ad@redhat.com>
+Date: Thu, 21 May 2020 00:48:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20005a15c708fbda983f9be602c55fc0b1979a18.1590008051.git.lukasstraub2@web.de>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 18:01:29
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 17:39:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -64,7 +87,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,241 +100,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, nsoffer@redhat.com, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new test covering the 'qemu-img bitmap' subcommand, as well as
-'qemu-img convert --bitmaps', both added in recent patches.
+On 20/05/20 23:05, Lukas Straub wrote:
+> +
+> +void yank_init(void)
+> +{
+> +    qemu_mutex_init(&lock);
+> +}
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/291     | 112 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/291.out |  80 ++++++++++++++++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 193 insertions(+)
- create mode 100755 tests/qemu-iotests/291
- create mode 100644 tests/qemu-iotests/291.out
+You can use __constructor__ for this to avoid the call in vl.c.  See
+job.c for an example.
 
-diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
-new file mode 100755
-index 000000000000..3ca83b9cd1f7
---- /dev/null
-+++ b/tests/qemu-iotests/291
-@@ -0,0 +1,112 @@
-+#!/usr/bin/env bash
-+#
-+# Test qemu-img bitmap handling
-+#
-+# Copyright (C) 2018-2020 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1 # failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+    nbd_server_stop
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+. ./common.nbd
-+
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+_require_command QEMU_NBD
-+
-+echo
-+echo "=== Initial image setup ==="
-+echo
-+
-+# Create backing image with one bitmap
-+TEST_IMG="$TEST_IMG.base" _make_test_img 10M
-+$QEMU_IMG bitmap --add -f $IMGFMT "$TEST_IMG.base" b0
-+$QEMU_IO -c 'w 3M 1M' -f $IMGFMT "$TEST_IMG.base" | _filter_qemu_io
-+
-+# Create initial image and populate two bitmaps: one active, one inactive.
-+ORIG_IMG=$TEST_IMG
-+TEST_IMG=$TEST_IMG.orig
-+_make_test_img -b "$ORIG_IMG.base" -F $IMGFMT 10M
-+$QEMU_IO -c 'w 0 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IMG bitmap --add -g 512k -f $IMGFMT "$TEST_IMG" b1
-+$QEMU_IMG bitmap --add --disable -f $IMGFMT "$TEST_IMG" b2
-+$QEMU_IO -c 'w 3M 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IMG bitmap --clear -f $IMGFMT "$TEST_IMG" b1
-+$QEMU_IO -c 'w 1M 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IMG bitmap --disable -f $IMGFMT "$TEST_IMG" b1
-+$QEMU_IMG bitmap --enable -f $IMGFMT "$TEST_IMG" b2
-+$QEMU_IO -c 'w 2M 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo "=== Bitmap preservation not possible to non-qcow2 ==="
-+echo
-+
-+TEST_IMG=$ORIG_IMG
-+$QEMU_IMG convert --bitmaps -O raw "$TEST_IMG.orig" "$TEST_IMG" &&
-+    echo "unexpected success"
-+
-+echo
-+echo "=== Convert with bitmap preservation ==="
-+echo
-+
-+# Only bitmaps from the active layer are copied
-+$QEMU_IMG convert --bitmaps -O qcow2 "$TEST_IMG.orig" "$TEST_IMG"
-+$QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
-+# But we can also merge in bitmaps from other layers.  This test is a bit
-+# contrived to cover more code paths, in reality, you could merge directly
-+# into b0 without going through tmp
-+$QEMU_IMG bitmap --add --disable -f $IMGFMT "$TEST_IMG" b0
-+$QEMU_IMG bitmap --add --merge b0 -b "$TEST_IMG.base" -F $IMGFMT \
-+     -f $IMGFMT "$TEST_IMG" tmp
-+$QEMU_IMG bitmap --merge tmp -f $IMGFMT "$TEST_IMG" b0
-+$QEMU_IMG bitmap --remove --image-opts \
-+    driver=$IMGFMT,file.driver=file,file.filename="$TEST_IMG" tmp
-+$QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
-+
-+echo
-+echo "=== Check bitmap contents ==="
-+echo
-+
-+# x-dirty-bitmap is a hack for reading bitmaps; it abuses block status to
-+# report "data":false for portions of the bitmap which are set
-+IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
-+nbd_server_start_unix_socket -r -f qcow2 -B b0 "$TEST_IMG"
-+$QEMU_IMG map --output=json --image-opts \
-+    "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b0" | _filter_qemu_img_map
-+nbd_server_start_unix_socket -r -f qcow2 -B b1 "$TEST_IMG"
-+$QEMU_IMG map --output=json --image-opts \
-+    "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b1" | _filter_qemu_img_map
-+nbd_server_start_unix_socket -r -f qcow2 -B b2 "$TEST_IMG"
-+$QEMU_IMG map --output=json --image-opts \
-+    "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
-+
-+# success, all done
-+echo '*** done'
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/291.out b/tests/qemu-iotests/291.out
-new file mode 100644
-index 000000000000..8c62017567e9
---- /dev/null
-+++ b/tests/qemu-iotests/291.out
-@@ -0,0 +1,80 @@
-+QA output created by 291
-+
-+=== Initial image setup ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=10485760
-+wrote 1048576/1048576 bytes at offset 3145728
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=IMGFMT size=10485760 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 1048576/1048576 bytes at offset 3145728
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 1048576/1048576 bytes at offset 1048576
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 1048576/1048576 bytes at offset 2097152
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Bitmap preservation not possible to non-qcow2 ===
-+
-+qemu-img: Format driver 'raw' does not support bitmaps
-+
-+=== Convert with bitmap preservation ===
-+
-+image: TEST_DIR/t.IMGFMT
-+file format: IMGFMT
-+virtual size: 10 MiB (10485760 bytes)
-+disk size: 4.39 MiB
-+Format specific information:
-+    compat: 1.1
-+    compression type: zlib
-+    lazy refcounts: false
-+    bitmaps:
-+        [0]:
-+            flags:
-+            name: b1
-+            granularity: 524288
-+        [1]:
-+            flags:
-+                [0]: auto
-+            name: b2
-+            granularity: 65536
-+    refcount bits: 16
-+    corrupt: false
-+image: TEST_DIR/t.IMGFMT
-+file format: IMGFMT
-+virtual size: 10 MiB (10485760 bytes)
-+disk size: 4.48 MiB
-+Format specific information:
-+    compat: 1.1
-+    compression type: zlib
-+    lazy refcounts: false
-+    bitmaps:
-+        [0]:
-+            flags:
-+            name: b1
-+            granularity: 524288
-+        [1]:
-+            flags:
-+                [0]: auto
-+            name: b2
-+            granularity: 65536
-+        [2]:
-+            flags:
-+            name: b0
-+            granularity: 65536
-+    refcount bits: 16
-+    corrupt: false
-+
-+=== Check bitmap contents ===
-+
-+[{ "start": 0, "length": 3145728, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 3145728, "length": 1048576, "depth": 0, "zero": false, "data": false},
-+{ "start": 4194304, "length": 6291456, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
-+[{ "start": 0, "length": 1048576, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 1048576, "length": 1048576, "depth": 0, "zero": false, "data": false},
-+{ "start": 2097152, "length": 8388608, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
-+[{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 2097152, "length": 1048576, "depth": 0, "zero": false, "data": false},
-+{ "start": 3145728, "length": 7340032, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 445c26f8d2e2..d886fa0cb355 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -299,5 +299,6 @@
- 288 quick
- 289 rw quick
- 290 rw auto quick
-+291 rw quick
- 292 rw auto quick
- 297 meta
--- 
-2.26.2
+Thanks,
+
+Paolo
 
 
