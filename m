@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B1F1DC078
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 22:47:06 +0200 (CEST)
-Received: from localhost ([::1]:49286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237211DC07B
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 22:47:12 +0200 (CEST)
+Received: from localhost ([::1]:49436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbVcH-00082O-7j
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 16:47:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44390)
+	id 1jbVcN-000870-0C
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 16:47:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jbVXj-0005j4-Qb
- for qemu-devel@nongnu.org; Wed, 20 May 2020 16:42:23 -0400
-Received: from mout.web.de ([212.227.15.3]:38559)
+ id 1jbVXn-0005kD-LM
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 16:42:27 -0400
+Received: from mout.web.de ([212.227.17.11]:54509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jbVXi-00072E-QN
- for qemu-devel@nongnu.org; Wed, 20 May 2020 16:42:23 -0400
+ id 1jbVXm-00074z-Ik
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 16:42:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1590007330;
- bh=4mxVk7kMAqb0QjTJqBWNdZXrK3LObwX3IAZJW6rBUeQ=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=REvlKdCXE3llWFD5djYzAzeiOA14iKRFgwaUDlmtcL5ydbXGT13SoVsXa+kZt4beq
- hVJrb6LoYAQU5XyM8WVy2DOxx78Ma7LsN0dVcEaxQ2sYxaSdL63gsp2pOeJnZFFKms
- pHq6HtJNfKZ+JJG2UpJEIpvwhjD/sYg1Wr1rUXVc=
+ s=dbaedf251592; t=1590007334;
+ bh=AjMQkHOf6lMrzLOXJDOiR2XIYx1RZkeSv1cRQw5pyuA=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=hY5T4AC0KLL2wO40rGwXvNj0+egoPPHBKR0CumQkCsSQGduih+7bZFmMEA7H/5nr1
+ 3bspMl4bVCrBpPggEQopdz6fVLnSPqBSCMtCdgaGCpGRZ/lltTbFN7sbPNC3I1hJjK
+ pR9v/LC0dOm0xSKF5wLq+FE6igEHPLxv/Towbeoo=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([88.130.61.105]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MQxnv-1jNWvl0J4J-00NxtO; Wed, 20
- May 2020 22:42:10 +0200
-Date: Wed, 20 May 2020 22:42:00 +0200
+Received: from luklap ([88.130.61.105]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MRF3W-1jNFwo139Y-00NMzx; Wed, 20
+ May 2020 22:42:14 +0200
+Date: Wed, 20 May 2020 22:42:13 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v2 0/6] colo: migration related bugfixes
-Message-ID: <cover.1590007004.git.lukasstraub2@web.de>
+Subject: [PATCH v2 1/6] migration/colo.c: Use event instead of semaphore
+Message-ID: <1a13487e3f1ea3e378497cdefb5c9bb6a29f3bfc.1590007004.git.lukasstraub2@web.de>
+In-Reply-To: <cover.1590007004.git.lukasstraub2@web.de>
+References: <cover.1590007004.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/_QT+bUPjP3ZCBj_nMK36oY=";
+Content-Type: multipart/signed; boundary="Sig_/E6Qd9X_eYkwRUWgG6bEtlsx";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:pq1qzTll0V06yvcJWc5zDd3BcqxMaXjVRFTEiCRJVUoZeYQ2ZZ3
- /CmDVSg2ZM47kQMYEiuHzwaWFROVFIcRErAUgOb8fwhGNeJ3aJ0U8w+wtokD5EqeLZv49hl
- jSuhy3TSl7ONZ4EDk+SlJvUfDsY01mtI5FNvGIR3/nKhy9RzISsAiD9iZvaeVq2D9WT1fdY
- 49WQvUU2tEkxg5QqfaTlw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:n9mVGSsxFX0=:s/9Uzvu6GJEZaxZ5F0cH4I
- 2tVpcM8SCCoQb1vjZ2IhSD42WSqmfbUE5Y12Cmj/CBkyr6uod1Oz7wHu30gAD16f9NJjl36hU
- HEFEymE1VoUD3KkK65dGj9P9Y8pmt0mDtUHB8bRMaPiwNQnwAM2hAG9Vyor2Hb8KMUaU/FjJp
- WPPHoWgnAiuFelCG8vfoda1H3DEZD/QmoTdNHVmGyLX7rjHEC+bHH4//s4VweIFavzCBiI5K8
- q6/8YfuMF2kPd2qRJ6ExLox2yEp9W9bfB138eOTaGRplOqxRBYr9lWP2B2YG7Upaq/0KSxwh0
- vGG+i0v5mnTkjOvyC34jhnY1BOoK3EHHfX7CmS9yR3LADRrdyzlbRy58wsM/P+/1Y6q1O0W3T
- P1XNCppu0szr3yNqdMK03qamvchOysFgn98PIv/CenxUrwxDWkM1WGiXwDeaCbV3t8ZAdIX2r
- vvN7pzrZ6NS6KWfvkqVdGpGG1srmo2RbsZk+1tfcCBhrWJrr2KljGAiSyVt6A3aL/9sWqdE+5
- dKtOsCkkdik/U8T9n+p760nz/gnvBfaXvsBeDWdcAoEHn6v8hIy93u4DwgNBflfrGDuz/Pk00
- 5jdt88fleq9Hcm5oc0XG3ssWAWqCRkg0YEQKMIwNm1ZAxtKh8Pz0fDLM7Mv0A7fkwDcUhulZb
- NEMmo85Jqzz3x0mJR+Fr+VGFk2Xq/yPQORGMQ7lt3PpX01xO3mxvkGChLq85/2Gzvuj0+InrY
- Lu2J/5m8v/F9XazNlPVwwyyikZ8HgRt2UDzVW9q9ySHzXZn/hKoC3YSAuvoUhf8y2089XdFyO
- GpKxvJbmLyDhp0BA0zliiY2AT8KgHKfpZ1LUcG8NZYcOfEO6Z1CdnH5GpajzF8/nacIAVmN7w
- 8OGMfn6dp6E10M6VLv9DSoOiigN0/VcHfCT2IBR/1h3iaw3lL+3rO9C1jRY/8lieCg20nJQeY
- HHGedeEf9+IzcCmA6Jq6pBsATymY/dQSnO3NuBc1jWNbeA9ukCIJxsTK1nHBw2gT5LQTE/uLQ
- Xsg01fWZ87Ca6HDuUo/zZJA/zHq7oHRvjVdEWFyW5D2YKr090dWM42heSwgrubPOw8Gn/ud5N
- Ge/hsLkKCgL786YgFdKp3WL7Q8JdYk4l+8YJ4szYTnm2dUFvLkgodwQS0ErkP17ZmePXb2vtQ
- QF6QlLzRdCNhvyOwY3DkapxkPQqoq2xl976o8q0Z+RjYUCt4Sfx8PCbos2C4DH+1PXE3kJ1J+
- INlgjSEEX7iW/zTjZ
-Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:OhSQ4c25roRjnkblBc3E55EWt8WdTAbhzil+XSV9VcNgKwW6JOX
+ Te198ldL+Xncxr+TUoVOUzUBXVMzd1yUC7wyJ4M/u8E9rLKHi4b83vFp+bzB+GrdDxWvQnQ
+ xMPYDJuLW53vl//jrABpD5j0k+ZFgk9rAffbknbznczKasEfXesGpNNMYnACW7EMNT++YL6
+ K0wT/n1kIBn0rBaPw/hsw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:FBI/0iZnJ7I=:j47IYbGm8PrUKbtHmLS/r6
+ VDjvIHCK+v3bbolt4VTOIxVNBndA3l0Qy1HC/E0wGcfo0qo9/RN5tijq+aBWlUwIyQ0Zq+mn4
+ V9GWpJKLS1l3jW02CzTKVxXMRVTs34AVX9oIOeyrtLMssVOid34yHay+S9XtuyuQaqU1yS6GC
+ QxOv2cedRBc6mCitNGySuzniG0yxHxr/PRbsxzLtBLsD1Q0NTD5gkh0XGN77k6tjWH6+hT2Ov
+ Yyr6ctdtUZnXo90aJTVhiDxWZoW+k5KHByhbXYadSPQKXcEimoRnnWHGN7fhZ7c3X5R2o/l1p
+ sXUdMTzbnxkOa5Uq3QUinH4Rl216jqsNDCmmooK9aq7fgfsasYO0181xYHM3oKBQzucFaZ+At
+ qzOQNtWK/jqzdHwJ7lgncQqlTgef5o6VfwdgLktAMP9Mo55GDCyQJGdQ7A/vsoNT8UAVYQdzn
+ 5WyRFlub3CIxv01H3ZVK40y2XvvubR3bdJ29x80UW3SAx+OJwrAXICt/vPvgQi/Riuwb8sF4f
+ h1Fk9BY64dgoqBBuMJST03SgdhMhCUTrKi3IXEiIqvaJykycW/xs2YXrPpSUBhEuGipOBoGEk
+ 8Ujhqu5aCletXLtu+BCCQA6s6U5mPg22yqDCdzERP0V7KVIgnnrNp5fWOTa3x8u4aXLNpLds5
+ nRzZI5tpMPIXGlEgH7n/zrVNUDySzE7IbETfWiCmlHS/i5RdnKzsFlaCXoaJjoum4Y5MLTuBy
+ pvLFVDZtUBCasm+ubl38Wy2WASzwrWJiTQDqaPnJqZDDGMXWTjj6UJy01JdeYb0mH84qIJ6eJ
+ ttHJ5cB4vM4tv7Hoci0qJk2HBfVCuGM7d3lUae5KkyfDmEFkQd9Szlkbj4+IWvz6vLYdnip/+
+ 7ioW93mqJf/W1ipmbFqoSJH/IPX6NS18SOvuYdZvPY54+kzQkYWX2lhFou/y2OR7e9+f786Ca
+ q9HQQFnSiQ7qyr+jiQv75K/QmWaCS4m16N6HI2vRy2pQXDeaF+BOSb+CDKqRurqkpp+2WnZTz
+ 7eg+WZVNRnzCuDnxIiy6AvUpEEr3UWSzrM8ZgNeegP5/7xe99t5srwiKhTQxA+HZqHNeLYbKi
+ jJE2WGnglh9ceG4wwqin9ntmTb8Ya+h/AM+FpMlIc4ctExXsUTZ591fiY7QdsO4BAtPLijyyR
+ Rsezzoe29tKBajqGeZ4QMij6oj1MJ5Pg9uVN2oCGhfN0NECGKbUZzwSWVlXMpj+tdoyKd6uIN
+ 8FYf7uI21juzFwh+I
+Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 16:42:20
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 16:42:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,58 +93,123 @@ Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/_QT+bUPjP3ZCBj_nMK36oY=
+--Sig_/E6Qd9X_eYkwRUWgG6bEtlsx
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hello Everyone,
-Here are fixes for bugs that I found in my tests.
+If multiple packets miscompare in a short timeframe, the semaphore
+value will be increased multiple times. This causes multiple
+checkpoints even if one would be sufficient.
 
-Regards,
-Lukas Straub
+Fix this by using a event instead of a semaphore for triggering
+checkpoints. Now, checkpoint requests will be ignored until the
+checkpoint event is sent to colo-compare (which releases the
+miscompared packets).
 
-v2:
- -Don't touch qemu_file_rate_limit, solve the problem in migration_rate_lim=
-it
+Benchmark results (iperf3):
+Client-to-server tcp:
+without patch: ~66 Mbit/s
+with patch: ~61 Mbit/s
+Server-to-client tcp:
+without patch: ~702 Kbit/s
+with patch: ~16 Mbit/s
 
-Lukas Straub (6):
-  migration/colo.c: Use event instead of semaphore
-  migration/colo.c: Use cpu_synchronize_all_states()
-  migration/colo.c: Flush ram cache only after receiving device state
-  migration/colo.c: Relaunch failover even if there was an error
-  migration/colo.c: Move colo_notify_compares_event to the right place
-  migration/migration.c: Fix hang in ram_save_host_page
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Reviewed-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
+---
+ migration/colo.c      | 9 +++++----
+ migration/migration.h | 4 ++--
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
- migration/colo.c      | 39 ++++++++++++++++++++++++---------------
- migration/migration.c |  4 ++++
- migration/migration.h |  4 ++--
- migration/ram.c       |  5 +----
- migration/ram.h       |  1 +
- 5 files changed, 32 insertions(+), 21 deletions(-)
+diff --git a/migration/colo.c b/migration/colo.c
+index a54ac84f41..09168627bc 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -430,6 +430,7 @@ static int colo_do_checkpoint_transaction(MigrationStat=
+e *s,
+         goto out;
+     }
+
++    qemu_event_reset(&s->colo_checkpoint_event);
+     colo_notify_compares_event(NULL, COLO_EVENT_CHECKPOINT, &local_err);
+     if (local_err) {
+         goto out;
+@@ -580,7 +581,7 @@ static void colo_process_checkpoint(MigrationState *s)
+             goto out;
+         }
+
+-        qemu_sem_wait(&s->colo_checkpoint_sem);
++        qemu_event_wait(&s->colo_checkpoint_event);
+
+         if (s->state !=3D MIGRATION_STATUS_COLO) {
+             goto out;
+@@ -628,7 +629,7 @@ out:
+     colo_compare_unregister_notifier(&packets_compare_notifier);
+     timer_del(s->colo_delay_timer);
+     timer_free(s->colo_delay_timer);
+-    qemu_sem_destroy(&s->colo_checkpoint_sem);
++    qemu_event_destroy(&s->colo_checkpoint_event);
+
+     /*
+      * Must be called after failover BH is completed,
+@@ -645,7 +646,7 @@ void colo_checkpoint_notify(void *opaque)
+     MigrationState *s =3D opaque;
+     int64_t next_notify_time;
+
+-    qemu_sem_post(&s->colo_checkpoint_sem);
++    qemu_event_set(&s->colo_checkpoint_event);
+     s->colo_checkpoint_time =3D qemu_clock_get_ms(QEMU_CLOCK_HOST);
+     next_notify_time =3D s->colo_checkpoint_time +
+                     s->parameters.x_checkpoint_delay;
+@@ -655,7 +656,7 @@ void colo_checkpoint_notify(void *opaque)
+ void migrate_start_colo_process(MigrationState *s)
+ {
+     qemu_mutex_unlock_iothread();
+-    qemu_sem_init(&s->colo_checkpoint_sem, 0);
++    qemu_event_init(&s->colo_checkpoint_event, false);
+     s->colo_delay_timer =3D  timer_new_ms(QEMU_CLOCK_HOST,
+                                 colo_checkpoint_notify, s);
+
+diff --git a/migration/migration.h b/migration/migration.h
+index 507284e563..f617960522 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -215,8 +215,8 @@ struct MigrationState
+     /* The semaphore is used to notify COLO thread that failover is finish=
+ed */
+     QemuSemaphore colo_exit_sem;
+
+-    /* The semaphore is used to notify COLO thread to do checkpoint */
+-    QemuSemaphore colo_checkpoint_sem;
++    /* The event is used to notify COLO thread to do checkpoint */
++    QemuEvent colo_checkpoint_event;
+     int64_t colo_checkpoint_time;
+     QEMUTimer *colo_delay_timer;
 
 --
 2.20.1
 
---Sig_/_QT+bUPjP3ZCBj_nMK36oY=
+
+--Sig_/E6Qd9X_eYkwRUWgG6bEtlsx
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7FlhgACgkQNasLKJxd
-slibdxAAjLz9ZowsfhziSYsTa7ysH25Hn5QyOUgP/hypLDvuvenanVeZoXJEQ9km
-iR8k7jZj2JsJZOlGziHNanmUL3aHEtw3KP/sX33iYvzn8RhrsKug8+KV6TJJaVPn
-7pE8Dp4wrr3S6Mlx0c4JsxADu9Z7yr1/6iIWMRopTDt/RF+6SzuK6oLK2HFEp2FL
-DSWx8sHdk1WzfEe5jG8BNd/0CgYmjPLpwZsYT38Slb0kag6nhMkItBrGEaeG4vCI
-dH/x+jF4n73Z+ZPIk0MDECeIwQ6qwzlyQJiaEiHY5pwclaaevkt8Erc4ukSw1bYV
-VzHcigldFXqMdO9g+wssGbls4R98yJrK9oAZoXg/184rYI5Yks7+msuDC9dRNrPj
-hid1vrEp4MX89YNoSlGSZNscCKncXldy7Vn0xhUkILz3ybrFra3zcQVHEnTntMHj
-X5NZxiDzQ4F5SKtsrAWyllsUdD0I4mgmmVph0pE/X389Hd1julUoXPuOm/oQKIYV
-+39vNeDizaKlqDicPwpRiq+6s4POSSbXGREnG9cEALSIc4MVklz7NI/lcVlPlqb1
-4jmHLVIGej/2T/UrqWiFpVyGv4QIsx8t5hhg9Be455bkfnBGHl2awrIMdSgw1TFU
-m/lG+7Wk8rkHNGuTLYEOk+I18GUzqi73dStXuGj9u8VUX4GTYQ4=
-=NbM2
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7FliUACgkQNasLKJxd
+slhiPw//XcibcUc+vYAkhMfmFhQxgKReCHWRsOMBM7I09QUGJwj0Q6nqEUVjH8uF
+PdDi5UUqXEU0hE5eQJS/9RZNvWTOhE1LK/WDAlTJSaRjAZvlGOnxbo2Et7IAACYi
+yICNyh+gVhTLkH2NpkvyLh6enOaF9hdk61wXsOK2bBEGB4Sr01yWdmg1WRhgUKd5
+NpuxLJ2zsUSlkmerylLuipO3vyyl6PugapI4QUA2/EZ1VctM5GhQNE6DzivmI8rO
+IsmIxwM8hByJ7bgBDMdpZURDOOsq6Z1SzWZOovCz1m5eTQ8LvOrEv1abt304ggCB
+E8lQIpdwjCkqqOn25UxJLR0nIftSbK4IeFToCHpAW6PesIOOGTg7zUiB00EjATry
+BPqZD/cRCZdAAsgL9b1ACcOUp2u5V2TN2YtgyRYA69PngLGJpOR/p+NYpVPkxXsT
+0PFbTtVv2j83pLFbTQES9Vk9rbjHapVf5n32oVErfbSfJ5DhOTtln13QvT9saqhF
+WShy1IumnQ71x/0i+ksJ2JUTnjBKFn0NFmdGPf3VUCrCcTGLnha6/CXzQH2zILov
+/jl75VPkFBzwxj5sttJf4PTvC4fhSqpJ3EXmiTF2T+R4KhRy0bzv9+4As+P4sgCs
+CntyttechriID4ElBEftR+Jk5MLeF1AHuF1VMlJplh7y4+jmpKk=
+=uHKy
 -----END PGP SIGNATURE-----
 
---Sig_/_QT+bUPjP3ZCBj_nMK36oY=--
+--Sig_/E6Qd9X_eYkwRUWgG6bEtlsx--
 
