@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9CA1DB8C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 17:55:57 +0200 (CEST)
-Received: from localhost ([::1]:57386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F35B81DB8D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 17:57:35 +0200 (CEST)
+Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbR4W-0002hi-Qe
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 11:55:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42158)
+	id 1jbR67-0005Nw-3K
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 11:57:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
- id 1jbR2c-0007kz-LS; Wed, 20 May 2020 11:53:58 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:50106)
+ id 1jbR2h-00081f-QJ; Wed, 20 May 2020 11:54:03 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:46292)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
- id 1jbR2Y-0001GE-Jw; Wed, 20 May 2020 11:53:56 -0400
-Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::162])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id B5F842E137B;
- Wed, 20 May 2020 18:53:48 +0300 (MSK)
+ id 1jbR2g-0001HB-3F; Wed, 20 May 2020 11:54:03 -0400
+Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::119])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 019122E15A0;
+ Wed, 20 May 2020 18:53:57 +0300 (MSK)
 Received: from vla5-58875c36c028.qloud-c.yandex.net
  (vla5-58875c36c028.qloud-c.yandex.net [2a02:6b8:c18:340b:0:640:5887:5c36])
- by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- tQypq4BnLA-rjTO2s0l; Wed, 20 May 2020 18:53:48 +0300
+ by mxbackcorp2j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ MrD3iOv6lW-rsdmkE4h; Wed, 20 May 2020 18:53:56 +0300
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1589990028; bh=+m0IyyEEuSXRB2V4Z5jxzLnq/GEgvmB9lUsOdbywHWY=;
- h=Message-Id:Date:Subject:To:From:Cc;
- b=l7IeiH0D3UNZL1XUqnVz2zd4e2oH7swAcdZetfVz49ozt27Y+PFeZf8bTqU6zekvW
- wE35t7N5RMapurmsrhcRVt4wySPNNU1SBZ687eUtxgaOJP7a8OVfCGGFItEr0pX69j
- HEJ19zKjKc0NrqROEioAcfj3+wiBW1qx4fllwBwA=
-Authentication-Results: mxbackcorp1j.mail.yandex.net;
+ t=1589990036; bh=SEun7ESiWH3czDdIa+sUhnBLSFJMVA81918bgD9tv/k=;
+ h=In-Reply-To:In-Reply-To:Message-Id:References:References:Date:
+ Subject:To:From:Cc;
+ b=wWYalFkDnGKFSNHDbV0koQbtahnLTPDzIrNAwSkY+nS7DPh7xkAFOmk4S0BrpTd1Z
+ U7KF28kZaZL/oAyt1LaR/pR6rzUHds+qfEvtDPeDNZRkCw/HPMxz/uKI1x8cFkT1SH
+ lQzM1jX/OMcsXQB4/95Mexgl8nUpTwiXOfqos3t8=
+Authentication-Results: mxbackcorp2j.mail.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
  [2a02:6b8:b081:1221::1:11])
  by vla5-58875c36c028.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- wLIWnjIOwO-rjXeB3hM; Wed, 20 May 2020 18:53:45 +0300
+ wLIWnjIOwO-rsXeYWgN; Wed, 20 May 2020 18:53:54 +0300
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (Client certificate not present)
 From: Dima Stepanov <dimastep@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/2] vhost-user reconnect issues during vhost initialization
-Date: Wed, 20 May 2020 18:53:11 +0300
-Message-Id: <cover.1589989075.git.dimastep@yandex-team.ru>
+Subject: [PATCH v3 1/2] char-socket: return -1 in case of disconnect during
+ tcp_chr_write
+Date: Wed, 20 May 2020 18:53:12 +0300
+Message-Id: <aeb7806bfc945faadf09f64dcfa30f59de3ac053.1589989075.git.dimastep@yandex-team.ru>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1589989075.git.dimastep@yandex-team.ru>
+References: <cover.1589989075.git.dimastep@yandex-team.ru>
 MIME-Version: 1.0
+In-Reply-To: <cover.1589989075.git.dimastep@yandex-team.ru>
+References: <cover.1589989075.git.dimastep@yandex-team.ru>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.45.199.163;
- envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 11:53:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 11:53:57
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,70 +85,75 @@ Cc: kwolf@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes in v3:
-- "[PATCH v3 1/2] char-socket: return -1 in case of disconnect during
-  tcp_chr_write" made a small cleanup suggested by Li Feng. Added
-  "Reviewed-by: Marc-André Lureau"
-- Rework the vhost_user_blk_disconnect call logic to delay it.
-- Remove the migration patch from the patch set, since we are still
-  having some discussion about it. In general the current idea is good,
-  but need to make some more investigation of how to handle reconnect
-  during migration properly
+During testing of the vhost-user-blk reconnect functionality the qemu
+SIGSEGV was triggered:
+ start qemu as:
+ x86_64-softmmu/qemu-system-x86_64 -m 1024M -M q35 \
+   -object memory-backend-file,id=ram-node0,size=1024M,mem-path=/dev/shm/qemu,share=on \
+   -numa node,cpus=0,memdev=ram-node0 \
+   -chardev socket,id=chardev0,path=./vhost.sock,noserver,reconnect=1 \
+   -device vhost-user-blk-pci,chardev=chardev0,num-queues=4 --enable-kvm
+ start vhost-user-blk daemon:
+ ./vhost-user-blk -s ./vhost.sock -b test-img.raw
 
-Changes in v2:
-- Add to CC list: Li Feng <fengli@smartx.com>, since it looks like that we
-are working on pretty similar issues
-- Remove [RFC PATCH v1 1/7] contrib/vhost-user-blk: add option to simulate
-disconnect on init. Going to send this functionality in the separate
-patch, with the LIBVHOST_USER_DEBUG rework. Need to think how to reuse
-this option and silence the messages first.
-- Remove [RFC PATCH v1 3/7] char-socket: initialize reconnect timer only if
-close is emitted. This will be handled in the separate patchset:
-[PATCH 3/4] char-socket: avoid double call tcp_chr_free_connection by Li
-Feng
+If vhost-user-blk will be killed during the vhost initialization
+process, for instance after getting VHOST_SET_VRING_CALL command, then
+QEMU will fail with the following backtrace:
 
-v1:
+Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
+0x00005555559272bb in vhost_user_read (dev=0x7fffef2d53e0, msg=0x7fffffffd5b0)
+    at ./hw/virtio/vhost-user.c:260
+260         CharBackend *chr = u->user->chr;
 
-During vhost-user reconnect functionality we hit several issues, if
-vhost-user-blk daemon is "crashed" or made disconnect during vhost
-initialization. The general scenario is as follows:
-  - vhost start routine is called
-  - vhost write failed due to SIGPIPE
-  - this call the disconnect routine and vhost_dev_cleanup routine
-    which set to 0 all the field of the vhost_dev structure
-  - return back to vhost start routine with the error
-  - on the fail path vhost start routine tries to rollback the changes
-    by using vhost_dev struct fields which were already reset
-  - sometimes this leads to SIGSEGV, sometimes to SIGABRT
-Before revising the vhost-user initialization code, we suggest adding
-the sanity checks to be aware of the possible disconnect event and that
-the vhost_dev structure can be in "uninitialized" state.
+ #0  0x00005555559272bb in vhost_user_read (dev=0x7fffef2d53e0, msg=0x7fffffffd5b0)
+    at ./hw/virtio/vhost-user.c:260
+ #1  0x000055555592acb8 in vhost_user_get_config (dev=0x7fffef2d53e0, config=0x7fffef2d5394 "", config_len=60)
+    at ./hw/virtio/vhost-user.c:1645
+ #2  0x0000555555925525 in vhost_dev_get_config (hdev=0x7fffef2d53e0, config=0x7fffef2d5394 "", config_len=60)
+    at ./hw/virtio/vhost.c:1490
+ #3  0x00005555558cc46b in vhost_user_blk_device_realize (dev=0x7fffef2d51a0, errp=0x7fffffffd8f0)
+    at ./hw/block/vhost-user-blk.c:429
+ #4  0x0000555555920090 in virtio_device_realize (dev=0x7fffef2d51a0, errp=0x7fffffffd948)
+    at ./hw/virtio/virtio.c:3615
+ #5  0x0000555555a9779c in device_set_realized (obj=0x7fffef2d51a0, value=true, errp=0x7fffffffdb88)
+    at ./hw/core/qdev.c:891
+ ...
 
-The vhost-user-blk daemon is updated with the additional
-"--simulate-disconnect-stage=CASENUM" argument to simulate disconnect during
-VHOST device initialization. For instance:
-  1. $ ./vhost-user-blk -s ./vhost.sock -b test-img.raw --simulate-disconnect-stage=1
-     This command will simulate disconnect in the SET_VRING_CALL handler.
-     In this case the vhost device in QEMU is not set the started field to
-     true.
-  2. $ ./vhost-user-blk -s ./vhost.sock -b test-img.raw --simulate-disconnect-stage=2
-     This command will simulate disconnect in the SET_VRING_NUM handler.
-     In this case the started field is set to true.
-These two cases test different QEMU parts. Also to trigger different code paths
-disconnect should be simulated in two ways:
-  - before any successful initialization
-  - make successful initialization once and try to simulate disconnects
-Also we catch SIGABRT on the migration start if vhost-user daemon disconnected
-during vhost-user set log commands communication.
+The problem is that vhost_user_write doesn't get an error after
+disconnect and try to call vhost_user_read(). The tcp_chr_write()
+routine should return -1 in case of disconnect. Indicate the EIO error
+if this routine is called in the disconnected state.
 
-Dima Stepanov (2):
-  char-socket: return -1 in case of disconnect during tcp_chr_write
-  vhost-user-blk: delay vhost_user_blk_disconnect
+Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ chardev/char-socket.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
- chardev/char-socket.c     |  7 ++++---
- hw/block/vhost-user-blk.c | 49 +++++++++++++++++++++++++++++++++++++++++------
- 2 files changed, 47 insertions(+), 9 deletions(-)
-
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index 232e0a8..c2462e0 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -174,15 +174,16 @@ static int tcp_chr_write(Chardev *chr, const uint8_t *buf, int len)
+ 
+         if (ret < 0 && errno != EAGAIN) {
+             if (tcp_chr_read_poll(chr) <= 0) {
++                /* Perform disconnect and return error. */
+                 tcp_chr_disconnect_locked(chr);
+-                return len;
+             } /* else let the read handler finish it properly */
+         }
+ 
+         return ret;
+     } else {
+-        /* XXX: indicate an error ? */
+-        return len;
++        /* Indicate an error. */
++        errno = EIO;
++        return -1;
+     }
+ }
+ 
 -- 
 2.7.4
 
