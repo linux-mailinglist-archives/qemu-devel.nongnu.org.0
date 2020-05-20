@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3460F1DB47D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:02:44 +0200 (CEST)
-Received: from localhost ([::1]:54858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE85C1DB485
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:04:14 +0200 (CEST)
+Received: from localhost ([::1]:35142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbOMs-0003Se-OK
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:02:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44044)
+	id 1jbOOM-00078I-0t
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:04:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbOKi-0001z3-Ie
- for qemu-devel@nongnu.org; Wed, 20 May 2020 09:00:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38169
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jbOL8-0002TJ-0O
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 09:00:54 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38053
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbOKh-0004kC-3i
- for qemu-devel@nongnu.org; Wed, 20 May 2020 09:00:27 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jbOL6-0004rw-Gz
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 09:00:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589979625;
+ s=mimecast20190719; t=1589979651;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vtwLpCcTit2OVWp8a2YL7RdmjJMudH8Vw35TudanvYM=;
- b=UdnTY1Edu55xq7KIvx6PesqFWtZsaWKtppV9cieLvmB+E7+31upjOMULbn7kFjcyf6TkYN
- bJzV0yrLmyUTR5kROPcJVDPM5KgcW874b1QGoss+T0lGUek+tf85o+UI/Ib65Gqmbod7Du
- 6WtUOk8x058a7kOl+6UASsc2h4XtoX0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-xPxsDtY3PRiceYgXeHCIhA-1; Wed, 20 May 2020 09:00:23 -0400
-X-MC-Unique: xPxsDtY3PRiceYgXeHCIhA-1
-Received: by mail-wr1-f70.google.com with SMTP id l12so1382383wrw.9
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 06:00:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vtwLpCcTit2OVWp8a2YL7RdmjJMudH8Vw35TudanvYM=;
- b=mo8Q2+SFPpKdnMo5cneGQKzUa5CmXfE+cEIKGVnzilYDurDj1pKg9ZZHVwqWDVzwVl
- 3RKmn7r45LX1x6f/2gbUOwg+hhGZICs0H6PcN32HuqYiRzFxlUfi1G6U2A/WcylnWFBy
- wX/Zf4oPrKyIc0Y3xz1s2MAUaS9sLcmjRSKOskZxSmlskAFRGL5vk2hY5SsVx9jDeBHY
- rbn6h+8IeuEBMLtODNwUK0olGj8Yty40t1LXIqZzkNWV0c/akAYHrqB+8rJvVK7Zg+Qt
- n4Y2wTZAL1sf7lY9ZlWkiryWuEQE02qkjpE2sa2q58utdVAzrjcuIX+V98G1npC/hZFx
- 2fzw==
-X-Gm-Message-State: AOAM5308NWi28FU5gucrYYRVURQmCsp8U5Y+qdTFcho2BV0yBJQWAfvT
- b1F6K916NuPbfY1uQsgkRjHCZPOaOCmeejHeaUNUpUjg/tSthoKdxd3JSQ7TYdxqBxtkS6R5+ss
- CRRZM6y5o8maJUsE=
-X-Received: by 2002:adf:fdc1:: with SMTP id i1mr427299wrs.0.1589979622450;
- Wed, 20 May 2020 06:00:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxnCq355+z+Oz9c/gOb5+5MlQ9JUxVessq1Rh7cNA3NtprMxMbg2gM3QyYAFpW8QTa8yHSHNw==
-X-Received: by 2002:adf:fdc1:: with SMTP id i1mr427275wrs.0.1589979622227;
- Wed, 20 May 2020 06:00:22 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id h133sm3142083wmf.25.2020.05.20.06.00.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 May 2020 06:00:21 -0700 (PDT)
-Subject: Re: [PATCH v2 03/19] accel/kvm: Convert to ram_block_discard_disable()
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20200520123152.60527-1-david@redhat.com>
- <20200520123152.60527-4-david@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2b6f0c1a-a2fd-0ecb-846e-848948266f8a@redhat.com>
-Date: Wed, 20 May 2020 15:00:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dLWXXK5D2cCfyRXM12I6ZrLTs40rufR7J0sLVVY5nEk=;
+ b=D+uN/DuTzetJ620VlsIncJLknEtRygMaAXPfFALGDyVMrHIbAGCrffG7cEel+f+J12da3w
+ cckLFqP32YB3tMmipmCNuSY/RsZhgTgMHSXJmP4xLSv+2c6L4WZHv/Cqa7X2dKTUP5mMYz
+ m4UUuqIv1Zghc4g9CzcBvwv0t/+52ug=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-60-apW-InItMkCcpkon8bzPcQ-1; Wed, 20 May 2020 09:00:35 -0400
+X-MC-Unique: apW-InItMkCcpkon8bzPcQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF0CB18FE870
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 13:00:34 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.36.110.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E4994101E678;
+ Wed, 20 May 2020 13:00:26 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] Socket next patches
+Date: Wed, 20 May 2020 14:00:22 +0100
+Message-Id: <20200520130025.2201467-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200520123152.60527-4-david@redhat.com>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 01:34:51
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 02:22:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,62 +76,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David,
-
-On 5/20/20 2:31 PM, David Hildenbrand wrote:
-> Discarding memory does not work as expected. At the time this is called,
-> we cannot have anyone active that relies on discards to work properly.
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->   accel/kvm/kvm-all.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index d06cc04079..7a6158fb99 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -40,7 +40,6 @@
->   #include "trace.h"
->   #include "hw/irq.h"
->   #include "sysemu/sev.h"
-> -#include "sysemu/balloon.h"
->   #include "qapi/visitor.h"
->   #include "qapi/qapi-types-common.h"
->   #include "qapi/qapi-visit-common.h"
-> @@ -2143,7 +2142,7 @@ static int kvm_init(MachineState *ms)
->   
->       s->sync_mmu = !!kvm_vm_check_extension(kvm_state, KVM_CAP_SYNC_MMU);
->       if (!s->sync_mmu) {
-> -        qemu_balloon_inhibit(true);
-> +        g_assert(ram_block_discard_disable(true));
-
-Please do not evaluate code within an assert() call.
-
-See the comment added to "qemu/osdep.h" in commit 262a69f4282:
-
-/*
-  * We have a lot of unaudited code that may fail in strange ways, or
-  * even be a security risk during migration, if you disable assertions
-  * at compile-time.  You may comment out these safety checks if you
-  * absolutely want to disable assertion overhead, but it is not
-  * supported upstream so the risk is all yours.  Meanwhile, please
-  * submit patches to remove any side-effects inside an assertion, or
-  * fixing error handling that should use Error instead of assert.
-  */
-
->       }
->   
->       return 0;
-> 
+The following changes since commit f2465433b43fb87766d79f42191607dac4aed5b4=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' i=
+nto staging (2020-05-19 13:42:58 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://github.com/berrange/qemu tags/socket-next-pull-request=0D
+=0D
+for you to fetch changes up to e339273bfc514824410a49837e4f16dd4e51ae8e:=0D
+=0D
+  qemu-options: updates for abstract unix sockets (2020-05-20 10:34:53 +010=
+0)=0D
+=0D
+----------------------------------------------------------------=0D
+Add support for UNIX sockets in the abstract namespace=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Xiaoqiang Zhao (3):=0D
+  qemu-sockets: add abstract UNIX domain socket support=0D
+  tests/util-sockets: add abstract unix socket cases=0D
+  qemu-options: updates for abstract unix sockets=0D
+=0D
+ chardev/char-socket.c     |  4 ++=0D
+ chardev/char.c            |  7 +++=0D
+ qapi/sockets.json         |  8 +++-=0D
+ qemu-options.hx           |  8 +++-=0D
+ tests/test-util-sockets.c | 92 +++++++++++++++++++++++++++++++++++++++=0D
+ util/qemu-sockets.c       | 39 ++++++++++++++---=0D
+ 6 files changed, 148 insertions(+), 10 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
