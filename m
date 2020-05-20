@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E18081DB603
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:13:41 +0200 (CEST)
-Received: from localhost ([::1]:57640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BFBE1DB690
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:25:59 +0200 (CEST)
+Received: from localhost ([::1]:52368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbPTY-0004g3-T8
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:13:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55480)
+	id 1jbPfS-0003li-GM
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:25:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jbPNR-0002rW-SF
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:07:21 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60101
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jbPYJ-0005ic-Qu
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:18:35 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32813
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jbPNR-0002Jo-5S
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:07:21 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jbPYH-0004cM-Rq
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:18:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589983640;
+ s=mimecast20190719; t=1589984311;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YR2FoUY7vdTYcYyk7WUgvCbigEn6xSFvQxyQJ1F8nKM=;
- b=HjiZ+jC+Qkb/VuX5piskAF9xiN9FRdKVWHZQLB1dtVphj1Qg+6kucQ5j2ihAh6r79NT8pB
- OepbknwYNsU1a68BGRfMpo1hhJG1s/52tH5Hf4oTEcHpJ0nE/0WTG6py0ubmzBo+Z7xzsG
- x8pywqaU6vanr6n6aARkWJj5EmGyuKY=
+ bh=fCtxyaGRX3pH5si0qKT8LOAxquMmZc6pTkiDFw7uCaE=;
+ b=L2UK+rkLj0Q5l0WuhvATm/4umSYfHEx4pQ7MiRhGKKG4a6ahmnBs9tIrUus2MeI10fKL6T
+ fVqujO5j6F5F0ugHzUyD8gavCWjznlGW8H2VcIj+ynxeEqp1ALHw6A490moQ6y/au79Imu
+ LRkKVYPkIFegP6GjAtkINYW9tVogw1E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-XecUaje-NEa1nIv0VSSaIg-1; Wed, 20 May 2020 10:07:16 -0400
-X-MC-Unique: XecUaje-NEa1nIv0VSSaIg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-63-JofniFxtP9yih4whcT0CFg-1; Wed, 20 May 2020 10:18:29 -0400
+X-MC-Unique: JofniFxtP9yih4whcT0CFg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C113835B40;
- Wed, 20 May 2020 14:07:15 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A13105D9CA;
- Wed, 20 May 2020 14:07:03 +0000 (UTC)
-Date: Wed, 20 May 2020 16:07:01 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 13/22] x86: coldplug cpus
-Message-ID: <20200520160701.2157aad0@redhat.com>
-In-Reply-To: <20200520132003.9492-14-kraxel@redhat.com>
-References: <20200520132003.9492-1-kraxel@redhat.com>
- <20200520132003.9492-14-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D120A464
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 14:18:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
+ [10.36.112.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 974CE2E18C;
+ Wed, 20 May 2020 14:18:28 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1287C11358BC; Wed, 20 May 2020 16:18:27 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH not-for-merge 0/5] Instrumentation for "Fixes around
+ device realization"
+References: <20200518051945.8621-1-armbru@redhat.com>
+ <60a1b3d3-354f-ab11-31f4-dbbbbf8a9270@redhat.com>
+Date: Wed, 20 May 2020 16:18:27 +0200
+In-Reply-To: <60a1b3d3-354f-ab11-31f4-dbbbbf8a9270@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 20 May 2020 14:13:24
+ +0200")
+Message-ID: <87mu62r8p8.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 02:22:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 04:09:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,69 +85,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: pbonzini@redhat.com, berrange@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, ehabkost@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 May 2020 15:19:54 +0200
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> microvm needs this, for correct madt creation
-> (make sure enable bit is set).
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/i386/x86.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index 7a3bc7ab6639..ac7a0a958781 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -118,6 +118,7 @@ uint32_t x86_cpu_apic_id_from_index(X86MachineState *x86ms,
->  
->  void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
->  {
-> +    MachineClass *mc = MACHINE_GET_CLASS(x86ms);
->      Object *cpu = NULL;
->      Error *local_err = NULL;
->  
-> @@ -126,6 +127,16 @@ void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
->      object_property_set_uint(cpu, apic_id, "apic-id", &local_err);
->      object_property_set_bool(cpu, true, "realized", &local_err);
->  
-> +    if (!mc->has_hotpluggable_cpus) {
-> +        /* coldplug cpu */
-> +        MachineState *ms = MACHINE(x86ms);
-> +        int i = 0;
-> +        while (ms->possible_cpus->cpus[i].arch_id != apic_id) {
-> +            i++;
-> +        }
-> +        ms->possible_cpus->cpus[i].cpu = cpu;
-> +    }
+> On 5/18/20 7:19 AM, Markus Armbruster wrote:
+>> This is the instrumentation mentioned in "[PATCH 00/24] Fixes around
+>> device realization".
+>>
+>> PATCH 2/5 might have value on its own.  You tell me.
+>
+> I'd like to have 2/3 merged normally because as you described, having
+> reproducible output makes testing simpler. Can you repost them with
+> proper syntax/style?
 
-I'm thinking about removing x86_cpu_new alogether (in favor of device_add),
-so I'd preffer avoid adding direct access to possible_cpus here.
+I will.
 
-that's the job of pc_cpu_plug (and possibly pc_cpu_pre_plug) in combination with
-static const TypeInfo pc_machine_info = {
-    .name = TYPE_PC_MACHINE,
-...
-    .interfaces = (InterfaceInfo[]) {
-         { TYPE_HOTPLUG_HANDLER },
-         { }
-    },
-};
+> I have similar hacks than 1/4/5.
+> What about having the warnings always displayed with warn_report()
+> while running QTests? Simply checking qtest_enabled().
 
-I'd reuse common code if possible in microvm or make microvm specific simplified version of it
-if it makes job easier.
+PATCH 1 and 4 get superseded by "[PATCH 24/24] qdev: Assert onboard
+devices all get realized properly".
 
->      object_unref(cpu);
->      error_propagate(errp, local_err);
->  }
+PATCH 5 gets superseded by "[PATCH 22/24] qdev: Assert devices are
+plugged into a bus that can take them".
 
 
