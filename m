@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3AE1DB8BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 17:54:24 +0200 (CEST)
-Received: from localhost ([::1]:50680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9CA1DB8C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 17:55:57 +0200 (CEST)
+Received: from localhost ([::1]:57386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbR31-0007go-Dn
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 11:54:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42068)
+	id 1jbR4W-0002hi-Qe
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 11:55:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jbR1o-0006E3-Gn
- for qemu-devel@nongnu.org; Wed, 20 May 2020 11:53:08 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27651
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jbR1n-0001CX-Rk
- for qemu-devel@nongnu.org; Wed, 20 May 2020 11:53:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589989987;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MWxes5zfMaG9o/8NEN/0d/Rm32meUmr2iQZPwMdi3lg=;
- b=jBdHwLzXf2D1d+8swKSSZ29XBhIOvKmhnTPnd/SmsmTA5X3jXIDGFKOl/Qfa145wb207hf
- CHjQho7IWSH/G7kBxu72bNW2AqlrTK8e0KCpw7P+3S+Nr5+5cfGf8PqhP8Ctb+TnrQMoek
- tKP4apx0A9eRUHjSD38RlHEmErCV4p8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-d951aKoFOkGPom9rMP8BQg-1; Wed, 20 May 2020 11:53:05 -0400
-X-MC-Unique: d951aKoFOkGPom9rMP8BQg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AA531005510;
- Wed, 20 May 2020 15:53:04 +0000 (UTC)
-Received: from work-vm (ovpn-114-169.ams2.redhat.com [10.36.114.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A7C455D9E2;
- Wed, 20 May 2020 15:52:56 +0000 (UTC)
-Date: Wed, 20 May 2020 16:52:54 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2 07/19] migration/rdma: Use ram_block_discard_disable()
-Message-ID: <20200520155254.GE2820@work-vm>
-References: <20200520123152.60527-1-david@redhat.com>
- <20200520123152.60527-8-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
+ id 1jbR2c-0007kz-LS; Wed, 20 May 2020 11:53:58 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:50106)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
+ id 1jbR2Y-0001GE-Jw; Wed, 20 May 2020 11:53:56 -0400
+Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::162])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id B5F842E137B;
+ Wed, 20 May 2020 18:53:48 +0300 (MSK)
+Received: from vla5-58875c36c028.qloud-c.yandex.net
+ (vla5-58875c36c028.qloud-c.yandex.net [2a02:6b8:c18:340b:0:640:5887:5c36])
+ by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ tQypq4BnLA-rjTO2s0l; Wed, 20 May 2020 18:53:48 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1589990028; bh=+m0IyyEEuSXRB2V4Z5jxzLnq/GEgvmB9lUsOdbywHWY=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=l7IeiH0D3UNZL1XUqnVz2zd4e2oH7swAcdZetfVz49ozt27Y+PFeZf8bTqU6zekvW
+ wE35t7N5RMapurmsrhcRVt4wySPNNU1SBZ687eUtxgaOJP7a8OVfCGGFItEr0pX69j
+ HEJ19zKjKc0NrqROEioAcfj3+wiBW1qx4fllwBwA=
+Authentication-Results: mxbackcorp1j.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:1221::1:11])
+ by vla5-58875c36c028.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ wLIWnjIOwO-rjXeB3hM; Wed, 20 May 2020 18:53:45 +0300
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (Client certificate not present)
+From: Dima Stepanov <dimastep@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/2] vhost-user reconnect issues during vhost initialization
+Date: Wed, 20 May 2020 18:53:11 +0300
+Message-Id: <cover.1589989075.git.dimastep@yandex-team.ru>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200520123152.60527-8-david@redhat.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 04:09:34
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.45.199.163;
+ envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 11:53:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, T_HK_NAME_DR=0.01 autolearn=_AUTOLEARN
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,85 +72,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
+ jasowang@redhat.com, dgilbert@redhat.com, mreitz@redhat.com, fengli@smartx.com,
+ yc-core@yandex-team.ru, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ raphael.norwitz@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* David Hildenbrand (david@redhat.com) wrote:
-> RDMA will pin all guest memory (as documented in docs/rdma.txt). We want
-> to disable RAM block discards - however, to keep it simple use
-> ram_block_discard_is_required() instead of inhibiting.
-> 
-> Note: It is not sufficient to limit disabling to pin_all. Even when only
-> conditionally pinning 1 MB chunks, as soon as one page within such a
-> chunk was discarded and one page not, the discarded pages will be pinned
-> as well.
-> 
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+Changes in v3:
+- "[PATCH v3 1/2] char-socket: return -1 in case of disconnect during
+  tcp_chr_write" made a small cleanup suggested by Li Feng. Added
+  "Reviewed-by: Marc-André Lureau"
+- Rework the vhost_user_blk_disconnect call logic to delay it.
+- Remove the migration patch from the patch set, since we are still
+  having some discussion about it. In general the current idea is good,
+  but need to make some more investigation of how to handle reconnect
+  during migration properly
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Changes in v2:
+- Add to CC list: Li Feng <fengli@smartx.com>, since it looks like that we
+are working on pretty similar issues
+- Remove [RFC PATCH v1 1/7] contrib/vhost-user-blk: add option to simulate
+disconnect on init. Going to send this functionality in the separate
+patch, with the LIBVHOST_USER_DEBUG rework. Need to think how to reuse
+this option and silence the messages first.
+- Remove [RFC PATCH v1 3/7] char-socket: initialize reconnect timer only if
+close is emitted. This will be handled in the separate patchset:
+[PATCH 3/4] char-socket: avoid double call tcp_chr_free_connection by Li
+Feng
 
-> ---
->  migration/rdma.c | 18 ++++++++++++++++--
->  1 file changed, 16 insertions(+), 2 deletions(-)
-> 
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index 967fda5b0c..57e2cbc8ca 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -29,6 +29,7 @@
->  #include "qemu/sockets.h"
->  #include "qemu/bitmap.h"
->  #include "qemu/coroutine.h"
-> +#include "exec/memory.h"
->  #include <sys/socket.h>
->  #include <netdb.h>
->  #include <arpa/inet.h>
-> @@ -4017,8 +4018,14 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
->      Error *local_err = NULL;
->  
->      trace_rdma_start_incoming_migration();
-> -    rdma = qemu_rdma_data_init(host_port, &local_err);
->  
-> +    /* Avoid ram_block_discard_disable(), cannot change during migration. */
-> +    if (ram_block_discard_is_required()) {
-> +        error_setg(errp, "RDMA: cannot disable RAM discard");
-> +        return;
-> +    }
-> +
-> +    rdma = qemu_rdma_data_init(host_port, &local_err);
->      if (rdma == NULL) {
->          goto err;
->      }
-> @@ -4065,10 +4072,17 @@ void rdma_start_outgoing_migration(void *opaque,
->                              const char *host_port, Error **errp)
->  {
->      MigrationState *s = opaque;
-> -    RDMAContext *rdma = qemu_rdma_data_init(host_port, errp);
->      RDMAContext *rdma_return_path = NULL;
-> +    RDMAContext *rdma;
->      int ret = 0;
->  
-> +    /* Avoid ram_block_discard_disable(), cannot change during migration. */
-> +    if (ram_block_discard_is_required()) {
-> +        error_setg(errp, "RDMA: cannot disable RAM discard");
-> +        return;
-> +    }
-> +
-> +    rdma = qemu_rdma_data_init(host_port, errp);
->      if (rdma == NULL) {
->          goto err;
->      }
-> -- 
-> 2.25.4
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+v1:
+
+During vhost-user reconnect functionality we hit several issues, if
+vhost-user-blk daemon is "crashed" or made disconnect during vhost
+initialization. The general scenario is as follows:
+  - vhost start routine is called
+  - vhost write failed due to SIGPIPE
+  - this call the disconnect routine and vhost_dev_cleanup routine
+    which set to 0 all the field of the vhost_dev structure
+  - return back to vhost start routine with the error
+  - on the fail path vhost start routine tries to rollback the changes
+    by using vhost_dev struct fields which were already reset
+  - sometimes this leads to SIGSEGV, sometimes to SIGABRT
+Before revising the vhost-user initialization code, we suggest adding
+the sanity checks to be aware of the possible disconnect event and that
+the vhost_dev structure can be in "uninitialized" state.
+
+The vhost-user-blk daemon is updated with the additional
+"--simulate-disconnect-stage=CASENUM" argument to simulate disconnect during
+VHOST device initialization. For instance:
+  1. $ ./vhost-user-blk -s ./vhost.sock -b test-img.raw --simulate-disconnect-stage=1
+     This command will simulate disconnect in the SET_VRING_CALL handler.
+     In this case the vhost device in QEMU is not set the started field to
+     true.
+  2. $ ./vhost-user-blk -s ./vhost.sock -b test-img.raw --simulate-disconnect-stage=2
+     This command will simulate disconnect in the SET_VRING_NUM handler.
+     In this case the started field is set to true.
+These two cases test different QEMU parts. Also to trigger different code paths
+disconnect should be simulated in two ways:
+  - before any successful initialization
+  - make successful initialization once and try to simulate disconnects
+Also we catch SIGABRT on the migration start if vhost-user daemon disconnected
+during vhost-user set log commands communication.
+
+Dima Stepanov (2):
+  char-socket: return -1 in case of disconnect during tcp_chr_write
+  vhost-user-blk: delay vhost_user_blk_disconnect
+
+ chardev/char-socket.c     |  7 ++++---
+ hw/block/vhost-user-blk.c | 49 +++++++++++++++++++++++++++++++++++++++++------
+ 2 files changed, 47 insertions(+), 9 deletions(-)
+
+-- 
+2.7.4
 
 
