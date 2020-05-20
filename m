@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB7F1DB61B
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:19:45 +0200 (CEST)
-Received: from localhost ([::1]:51604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA8E1DB5EA
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:07:04 +0200 (CEST)
+Received: from localhost ([::1]:58250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbPZP-0006cM-Sa
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:19:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55212)
+	id 1jbPN9-0001PU-1b
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:07:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPM3-00005X-KW
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:55 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:35290)
+ id 1jbPLw-0008Mh-Fo
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:48 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:33093)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPM0-0001r9-M7
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:55 -0400
-Received: by mail-ej1-x641.google.com with SMTP id s21so3982450ejd.2
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:05:48 -0700 (PDT)
+ id 1jbPLv-0001pM-Ju
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:48 -0400
+Received: by mail-ej1-x633.google.com with SMTP id n24so3987196ejd.0
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:05:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=m1zXruZIXUvjwU/PTNcJ1tB+FSG/kUrku9mORQV4WDg=;
- b=imZ/76FXo4Z2H8/YMebPsY+A0NMizgUxrPiOhyiNbD9fBYI8jii/L0REdHqGRLU6Hf
- nq6p3ILZ2kHqkIXt/tE+Z0ShrhxwfXMJrdWSRNAvJK5JHFZYu0vMR+4s8hZSnwiNAKfG
- vRQKev+segCqVigpQEk0ZkVseSJyb8oKveNnRhUa/YJ2WrUhFBJJEjB3zqw6aN7Lq5Jr
- 8JXfNdJgjkm1JQKTqPN8PjSCJ4T1CdzXk0q8wzVtEf36jUzN7PEmVYv+mSt59EgH48Nt
- 8vhugxz171mKrKRf3b677s5YoEwp4AigMChit8eOho7SFn5aoqwFg5WHg6piMSFPDRSD
- FXGA==
+ bh=6y8fucjPdtyjNnMKl8OrXnEZUIzt60LCNpIsgO/fm5g=;
+ b=Bgt/shIFfwALhzWWD+GbalBr99hky/pdn82uT3CgjYg+1rojxpQAaSnA8uJQj7vKku
+ AalpZfJRXFnNoypYWHlOnBUk2pdxgiPDgK3z9q4tUTd4q4fOOxWIYMy134Tn0QDta+XV
+ lxD3i6whrWtMz0Z2TQ4s6f925K50y+tvNITn8AxOpaoa5i5dDJ93hyP3+SKDGeQrBKkw
+ Aa4NWDwdq9bg1AVB6yb+BYnLFbQeFyrBKiqlL9sMdTrpuzvwzwrSwMk8+Opz65wmUm3I
+ uKG/fveaiCjVrpGfLBZm0ONG6cvNCh1xFULPZLPj8MgMmJKoe9nRrKHTpvNrJibebzR4
+ L9lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m1zXruZIXUvjwU/PTNcJ1tB+FSG/kUrku9mORQV4WDg=;
- b=iMDlu1EINDZ49Rxy0z+CPcIwVxIx5+qZm4Q6XQjdFC3XgkTJH28P771k6IBe+kBo53
- P+EVVaE6+aw13+2+tFKkBXZBtgcMtAt/Mnf50RtAWnsELqozmyMhtUiz0OGgJxcuQYzb
- aZVPrVEZW6veXyPu/KYj+VRp/+AFP/y+gCIsD1qtSH+7OqiKUIQqBTR2ii9bN0MOm3Ze
- 5sX0NYV8tQRT2qssw25WQja+8+aRRxQKH46qatf0Q9hCKjMyDJMXt3UalN2b7dNjjCOH
- CRRLMKhi2LOv/VU6/5/A0BtkQuA32PqaoLjTnBpprEtMcusyrgCFhgekTotUm/fN9XkJ
- 1Ocg==
-X-Gm-Message-State: AOAM531EJtOxy2nLG5WEcsABM/c+S6FjKjUD27fJ7KBDHbdw+9LKR8RN
- oX4+hqDDsyfWdPfMbvKpYlpP5A==
-X-Google-Smtp-Source: ABdhPJyOdFI+XiTPAElhc7UlbLNCcw0vH+mtjxAGfUQW5MqVSQpy/3zeUrbio5v1cnDPYnRWPSMNMA==
-X-Received: by 2002:a17:906:aad8:: with SMTP id
- kt24mr4127743ejb.54.1589983547251; 
- Wed, 20 May 2020 07:05:47 -0700 (PDT)
+ bh=6y8fucjPdtyjNnMKl8OrXnEZUIzt60LCNpIsgO/fm5g=;
+ b=AULDAG85vwG+cK7Tas8hJzY6rmHoxahVz/pOIcvm/XUmg8CTXzDx4HuW7IKlYiZaOx
+ o+75MtVlZOU1kDp6ewXhG3PjdShjjOlmdx46mM6AvFpzJUsGgA9gapx91fk/ZIXSFsqe
+ NJQ4XHV8RqIdOYu+Y8xCm6tDhmg6VwhuFDaxaObzC77ZMRf7MCv+3ruYClEafbmEvgkv
+ 9vy0HOFL6Q2D3Ka82hyj1AxmUoNwhA7Gk++JmN29hnXlSlhtJ6fza1RC8n192Kn9MCQa
+ s6tRWADJOoTkjce1RXJ1e8+fdwB+DMfdQVmUOxVq5eqDA6TVXletMKxc2nZSuYU00hOB
+ X7NA==
+X-Gm-Message-State: AOAM530v1e9w+rM6HvaEJNc7TZe1TV2BBhGhKtmshIlFQOmFKt8ZtlTD
+ nOLwwUZT6HwMNJsiYkzjfyqC4g==
+X-Google-Smtp-Source: ABdhPJyLoMQpNF6JgrCLauCcMWRDJr6/JSgsofyRZmNHp/Ls9GDvKX59bMZ1acLM4loEgqChmMoXiA==
+X-Received: by 2002:a17:906:dbef:: with SMTP id
+ yd15mr3761002ejb.5.1589983546008; 
+ Wed, 20 May 2020 07:05:46 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t16sm1927404edy.20.2020.05.20.07.05.41
+ by smtp.gmail.com with ESMTPSA id g20sm2001567ejx.85.2020.05.20.07.05.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 20 May 2020 07:05:42 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7C61D1FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 902471FF90;
  Wed, 20 May 2020 15:05:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 03/15] travis.yml: Use clang++ in the Clang tests
-Date: Wed, 20 May 2020 15:05:29 +0100
-Message-Id: <20200520140541.30256-4-alex.bennee@linaro.org>
+Subject: [PATCH v1 04/15] tests/tcg: fix invocation of the memory
+ record/replay tests
+Date: Wed, 20 May 2020 15:05:30 +0100
+Message-Id: <20200520140541.30256-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200520140541.30256-1-alex.bennee@linaro.org>
 References: <20200520140541.30256-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x641.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x633.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,60 +90,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+I'm not sure when this broke but we should use EXTRA_RUNS for
+"virtual" tests which are not generated from the binary names.
 
-Our configure script does not look for clang++ automatically, so we
-should use --cxx=clang++ to make sure that we test our C++ code with
-Clang, too. And while we're at it, also use --host-cc=clang here
-to avoid that we use the normal "cc" as host C compiler.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200518083316.25065-1-thuth@redhat.com>
----
- .travis.yml | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/.travis.yml b/.travis.yml
-index 1ec8a7b4657..564be50a3c1 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -205,14 +205,15 @@ jobs:
-     # Test with Clang for compile portability (Travis uses clang-5.0)
-     - name: "Clang (user)"
-       env:
--        - CONFIG="--disable-system"
-+        - CONFIG="--disable-system --host-cc=clang --cxx=clang++"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-clang-default"
-       compiler: clang
+---
+v2
+  - keep the PHONY's for the benefit of output
+---
+ tests/tcg/aarch64/Makefile.softmmu-target | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
+index 71f72cfbe34..1057a8ac498 100644
+--- a/tests/tcg/aarch64/Makefile.softmmu-target
++++ b/tests/tcg/aarch64/Makefile.softmmu-target
+@@ -61,7 +61,7 @@ run-memory-replay: memory-replay run-memory-record
+ 	   	  $(QEMU_OPTS) memory, \
+ 	  "$< on $(TARGET_NAME)")
  
+-EXTRA_TESTS+=memory-record memory-replay
++EXTRA_RUNS+=run-memory-replay
  
-     - name: "Clang (main-softmmu)"
-       env:
--        - CONFIG="--target-list=${MAIN_SOFTMMU_TARGETS} "
-+        - CONFIG="--target-list=${MAIN_SOFTMMU_TARGETS}
-+                  --host-cc=clang --cxx=clang++"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-clang-sanitize"
-       compiler: clang
-       before_script:
-@@ -222,7 +223,8 @@ jobs:
- 
-     - name: "Clang (other-softmmu)"
-       env:
--        - CONFIG="--disable-user --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
-+        - CONFIG="--disable-user --target-list-exclude=${MAIN_SOFTMMU_TARGETS}
-+                  --host-cc=clang --cxx=clang++"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-clang-default"
-       compiler: clang
- 
+ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_3),)
+ pauth-3: CFLAGS += -march=armv8.3-a
 -- 
 2.20.1
 
