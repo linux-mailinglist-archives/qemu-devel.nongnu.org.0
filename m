@@ -2,65 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F35B81DB8D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 17:57:35 +0200 (CEST)
-Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F31EE1DB8C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 17:55:38 +0200 (CEST)
+Received: from localhost ([::1]:55526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbR67-0005Nw-3K
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 11:57:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42206)
+	id 1jbR4D-0001sg-Vt
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 11:55:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
- id 1jbR2h-00081f-QJ; Wed, 20 May 2020 11:54:03 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:46292)
+ id 1jbR2m-0008Di-GJ; Wed, 20 May 2020 11:54:08 -0400
+Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:44198)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
- id 1jbR2g-0001HB-3F; Wed, 20 May 2020 11:54:03 -0400
-Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::119])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 019122E15A0;
- Wed, 20 May 2020 18:53:57 +0300 (MSK)
+ id 1jbR2k-0001IJ-MA; Wed, 20 May 2020 11:54:08 -0400
+Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::162])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id D3E0C2E15FD;
+ Wed, 20 May 2020 18:54:02 +0300 (MSK)
 Received: from vla5-58875c36c028.qloud-c.yandex.net
  (vla5-58875c36c028.qloud-c.yandex.net [2a02:6b8:c18:340b:0:640:5887:5c36])
- by mxbackcorp2j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- MrD3iOv6lW-rsdmkE4h; Wed, 20 May 2020 18:53:56 +0300
+ by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ i6WipSSTU2-s0TSmWHo; Wed, 20 May 2020 18:54:02 +0300
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1589990036; bh=SEun7ESiWH3czDdIa+sUhnBLSFJMVA81918bgD9tv/k=;
+ t=1589990042; bh=+SjeKv7JofGN47sm5ZgJS2qgyS6IMRcoqy6Nk2Fpuz0=;
  h=In-Reply-To:In-Reply-To:Message-Id:References:References:Date:
  Subject:To:From:Cc;
- b=wWYalFkDnGKFSNHDbV0koQbtahnLTPDzIrNAwSkY+nS7DPh7xkAFOmk4S0BrpTd1Z
- U7KF28kZaZL/oAyt1LaR/pR6rzUHds+qfEvtDPeDNZRkCw/HPMxz/uKI1x8cFkT1SH
- lQzM1jX/OMcsXQB4/95Mexgl8nUpTwiXOfqos3t8=
-Authentication-Results: mxbackcorp2j.mail.yandex.net;
+ b=0Jvdd1OK6fcwj+R8JIxxtfPEvxroY68k0ltjob4e6EambsqbfrCMFJtjnqVVjtvyS
+ Wl6W/QsrwIhpijSENdfpOaHqIAPZqIZYeP9Mmg879FhwWhv/TOVgPdxswYUt8UDbPl
+ 3CU9T3CaJZO9IEG1OU02IdS5NVcI3UqyBlTHzDZ4=
+Authentication-Results: mxbackcorp1j.mail.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
  [2a02:6b8:b081:1221::1:11])
  by vla5-58875c36c028.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- wLIWnjIOwO-rsXeYWgN; Wed, 20 May 2020 18:53:54 +0300
+ wLIWnjIOwO-s0Xe43DN; Wed, 20 May 2020 18:54:00 +0300
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (Client certificate not present)
 From: Dima Stepanov <dimastep@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/2] char-socket: return -1 in case of disconnect during
- tcp_chr_write
-Date: Wed, 20 May 2020 18:53:12 +0300
-Message-Id: <aeb7806bfc945faadf09f64dcfa30f59de3ac053.1589989075.git.dimastep@yandex-team.ru>
+Subject: [PATCH v3 2/2] vhost-user-blk: delay vhost_user_blk_disconnect
+Date: Wed, 20 May 2020 18:53:13 +0300
+Message-Id: <0dfb37f8728aba26c8d6c117018332a5b7dc9b56.1589989075.git.dimastep@yandex-team.ru>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1589989075.git.dimastep@yandex-team.ru>
 References: <cover.1589989075.git.dimastep@yandex-team.ru>
-MIME-Version: 1.0
 In-Reply-To: <cover.1589989075.git.dimastep@yandex-team.ru>
 References: <cover.1589989075.git.dimastep@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 11:53:57
-X-ACL-Warn: Detected OS   = ???
+Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
+ envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,75 +80,107 @@ Cc: kwolf@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-During testing of the vhost-user-blk reconnect functionality the qemu
-SIGSEGV was triggered:
- start qemu as:
- x86_64-softmmu/qemu-system-x86_64 -m 1024M -M q35 \
-   -object memory-backend-file,id=ram-node0,size=1024M,mem-path=/dev/shm/qemu,share=on \
-   -numa node,cpus=0,memdev=ram-node0 \
-   -chardev socket,id=chardev0,path=./vhost.sock,noserver,reconnect=1 \
-   -device vhost-user-blk-pci,chardev=chardev0,num-queues=4 --enable-kvm
- start vhost-user-blk daemon:
- ./vhost-user-blk -s ./vhost.sock -b test-img.raw
+A socket write during vhost-user communication may trigger a disconnect
+event, calling vhost_user_blk_disconnect() and clearing all the
+vhost_dev structures holding data that vhost-user functions expect to
+remain valid to roll back initialization correctly. Delay the cleanup to
+keep vhost_dev structure valid.
+There are two possible states to handle:
+1. RUN_STATE_PRELAUNCH: skip bh oneshot call and perform disconnect in
+the caller routine.
+2. RUN_STATE_RUNNING: delay by using bh
 
-If vhost-user-blk will be killed during the vhost initialization
-process, for instance after getting VHOST_SET_VRING_CALL command, then
-QEMU will fail with the following backtrace:
-
-Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
-0x00005555559272bb in vhost_user_read (dev=0x7fffef2d53e0, msg=0x7fffffffd5b0)
-    at ./hw/virtio/vhost-user.c:260
-260         CharBackend *chr = u->user->chr;
-
- #0  0x00005555559272bb in vhost_user_read (dev=0x7fffef2d53e0, msg=0x7fffffffd5b0)
-    at ./hw/virtio/vhost-user.c:260
- #1  0x000055555592acb8 in vhost_user_get_config (dev=0x7fffef2d53e0, config=0x7fffef2d5394 "", config_len=60)
-    at ./hw/virtio/vhost-user.c:1645
- #2  0x0000555555925525 in vhost_dev_get_config (hdev=0x7fffef2d53e0, config=0x7fffef2d5394 "", config_len=60)
-    at ./hw/virtio/vhost.c:1490
- #3  0x00005555558cc46b in vhost_user_blk_device_realize (dev=0x7fffef2d51a0, errp=0x7fffffffd8f0)
-    at ./hw/block/vhost-user-blk.c:429
- #4  0x0000555555920090 in virtio_device_realize (dev=0x7fffef2d51a0, errp=0x7fffffffd948)
-    at ./hw/virtio/virtio.c:3615
- #5  0x0000555555a9779c in device_set_realized (obj=0x7fffef2d51a0, value=true, errp=0x7fffffffdb88)
-    at ./hw/core/qdev.c:891
- ...
-
-The problem is that vhost_user_write doesn't get an error after
-disconnect and try to call vhost_user_read(). The tcp_chr_write()
-routine should return -1 in case of disconnect. Indicate the EIO error
-if this routine is called in the disconnected state.
+BH changes are based on the similar changes for the vhost-user-net
+device:
+  commit e7c83a885f865128ae3cf1946f8cb538b63cbfba
+  "vhost-user: delay vhost_user_stop"
 
 Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- chardev/char-socket.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ hw/block/vhost-user-blk.c | 49 +++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 43 insertions(+), 6 deletions(-)
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 232e0a8..c2462e0 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -174,15 +174,16 @@ static int tcp_chr_write(Chardev *chr, const uint8_t *buf, int len)
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index 9d8c0b3..447fc9c 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -337,11 +337,6 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VHostUserBlk *s = VHOST_USER_BLK(vdev);
  
-         if (ret < 0 && errno != EAGAIN) {
-             if (tcp_chr_read_poll(chr) <= 0) {
-+                /* Perform disconnect and return error. */
-                 tcp_chr_disconnect_locked(chr);
--                return len;
-             } /* else let the read handler finish it properly */
-         }
- 
-         return ret;
-     } else {
--        /* XXX: indicate an error ? */
--        return len;
-+        /* Indicate an error. */
-+        errno = EIO;
-+        return -1;
+-    if (!s->connected) {
+-        return;
+-    }
+-    s->connected = false;
+-
+     if (s->dev.started) {
+         vhost_user_blk_stop(vdev);
      }
+@@ -349,6 +344,19 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
+     vhost_dev_cleanup(&s->dev);
  }
  
++static void vhost_user_blk_event(void *opaque, QEMUChrEvent event);
++
++static void vhost_user_blk_chr_closed_bh(void *opaque)
++{
++    DeviceState *dev = opaque;
++    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
++    VHostUserBlk *s = VHOST_USER_BLK(vdev);
++
++    vhost_user_blk_disconnect(dev);
++    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, vhost_user_blk_event,
++            NULL, opaque, NULL, true);
++}
++
+ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
+ {
+     DeviceState *dev = opaque;
+@@ -363,7 +371,28 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
+         }
+         break;
+     case CHR_EVENT_CLOSED:
+-        vhost_user_blk_disconnect(dev);
++        /*
++         * A close event may happen during a read/write, but vhost
++         * code assumes the vhost_dev remains setup, so delay the
++         * stop & clear. There are two possible paths to hit this
++         * disconnect event:
++         * 1. When VM is in the RUN_STATE_PRELAUNCH state. The
++         * vhost_user_blk_device_realize() is a caller.
++         * 2. In tha main loop phase after VM start.
++         *
++         * For p2 the disconnect event will be delayed. We can't
++         * do the same for p1, because we are not running the loop
++         * at this moment. So just skip this step and perform
++         * disconnect in the caller function.
++         */
++        if (s->connected && runstate_is_running()) {
++            AioContext *ctx = qemu_get_current_aio_context();
++
++            qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL, NULL,
++                    NULL, NULL, false);
++            aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, opaque);
++        }
++        s->connected = false;
+         break;
+     case CHR_EVENT_BREAK:
+     case CHR_EVENT_MUX_IN:
+@@ -428,6 +457,14 @@ reconnect:
+ 
+     ret = vhost_dev_get_config(&s->dev, (uint8_t *)&s->blkcfg,
+                                sizeof(struct virtio_blk_config));
++    if (!s->connected) {
++        /*
++         * Perform disconnect before making reconnect. More detailed
++         * comment why it was delayed is in the vhost_user_blk_event()
++         * routine.
++         */
++        vhost_user_blk_disconnect(dev);
++    }
+     if (ret < 0) {
+         error_report("vhost-user-blk: get block config failed");
+         goto reconnect;
 -- 
 2.7.4
 
