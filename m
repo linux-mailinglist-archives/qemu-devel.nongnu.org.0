@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155AF1DACE9
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 10:08:07 +0200 (CEST)
-Received: from localhost ([::1]:34388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA691DACED
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 10:10:11 +0200 (CEST)
+Received: from localhost ([::1]:39922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbJll-0005Pa-Jr
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 04:08:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40414)
+	id 1jbJnm-0008T2-Rr
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 04:10:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jbJks-0004P3-Vg; Wed, 20 May 2020 04:07:10 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:45368)
+ id 1jbJkt-0004PO-Jl; Wed, 20 May 2020 04:07:11 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:48624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jbJkq-0008UX-KM; Wed, 20 May 2020 04:07:09 -0400
-Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::162])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 154672E15D7;
- Wed, 20 May 2020 11:07:03 +0300 (MSK)
+ id 1jbJks-00009E-1e; Wed, 20 May 2020 04:07:11 -0400
+Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::119])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 1A0F92E0AFB;
+ Wed, 20 May 2020 11:07:07 +0300 (MSK)
 Received: from vla5-58875c36c028.qloud-c.yandex.net
  (vla5-58875c36c028.qloud-c.yandex.net [2a02:6b8:c18:340b:0:640:5887:5c36])
- by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- YFLSrtxWfi-70Tqxshq; Wed, 20 May 2020 11:07:03 +0300
+ by mxbackcorp2j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ V3OVv32V9W-73dm0siV; Wed, 20 May 2020 11:07:07 +0300
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1589962023; bh=mI20EDucY0RIcbnbD/FroRaH48VEE4g/F4BoCww7kUk=;
+ t=1589962027; bh=DWrIhskjaoO5eZGksQebh6hVKl0oO8pML//kRAFbyLw=;
  h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=UG0Ux8wSYY0Ti25OqXqYoY9NiqgKZ0ZRptUv47Iw5y23HOHQn6U71UZ6bR2HqL+Ij
- krB+WTl/7a8Rngrwi0GoBiXqYObv2vr4KiLFhJcLUgzKt9h94AP1iNKhuCP3EdFjGe
- kTr2nGqL+3NJluZtNFg6audc/UFFT9nSrNHf8JJM=
-Authentication-Results: mxbackcorp1j.mail.yandex.net;
+ b=upPQ5CztHs+A0OxzPbT/WoOP+bbhXEI2+yEHboRSkxgkhnneC8vVuDViTms2mv24h
+ eRrBoVjb3jCZzB8klHrpT58YWsbJtTfGNMrFld97eCCut6btF5j2OQDJUsWIvCXb/r
+ ZicwRb5HnK72u8hOFpME/AF4Hg7LwHW16906YRNQ=
+Authentication-Results: mxbackcorp2j.mail.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
  [2a02:6b8:b081:1519::1:a])
  by vla5-58875c36c028.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- HRdUjo6D3m-70XmQHdJ; Wed, 20 May 2020 11:07:00 +0300
+ HRdUjo6D3m-73XmaV8Z; Wed, 20 May 2020 11:07:03 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 From: Roman Kagan <rvkagan@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/3] virtio-blk: store opt_io_size with correct size
-Date: Wed, 20 May 2020 11:06:55 +0300
-Message-Id: <20200520080657.29080-2-rvkagan@yandex-team.ru>
+Subject: [PATCH v4 2/3] block: consolidate blocksize properties consistency
+ checks
+Date: Wed, 20 May 2020 11:06:56 +0300
+Message-Id: <20200520080657.29080-3-rvkagan@yandex-team.ru>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200520080657.29080-1-rvkagan@yandex-team.ru>
 References: <20200520080657.29080-1-rvkagan@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 04:07:03
+Received-SPF: pass client-ip=77.88.29.217; envelope-from=rvkagan@yandex-team.ru;
+ helo=forwardcorp1p.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 04:07:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,30 +84,214 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The width of opt_io_size in virtio_blk_topology is 32bit.
+Several block device properties related to blocksize configuration must
+be in certain relationship WRT each other: physical block must be no
+smaller than logical block; min_io_size, opt_io_size, and
+discard_granularity must be a multiple of a logical block.
 
-Use the appropriate accessor to store it.
+To ensure these requirements are met, add corresponding consistency
+checks to blkconf_blocksizes, adjusting its signature to communicate
+possible error to the caller.  Also remove the now redundant consistency
+checks from the specific devices.
 
 Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
 ---
 v4: new patch
 
- hw/block/virtio-blk.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/block/block.h   |  2 +-
+ hw/block/block.c           | 29 ++++++++++++++++++++++++++++-
+ hw/block/fdc.c             |  5 ++++-
+ hw/block/nvme.c            |  5 ++++-
+ hw/block/virtio-blk.c      |  7 +------
+ hw/ide/qdev.c              |  5 ++++-
+ hw/scsi/scsi-disk.c        | 10 +++-------
+ hw/usb/dev-storage.c       |  5 ++++-
+ tests/qemu-iotests/172.out |  2 +-
+ 9 files changed, 50 insertions(+), 20 deletions(-)
 
+diff --git a/include/hw/block/block.h b/include/hw/block/block.h
+index d7246f3862..784953a237 100644
+--- a/include/hw/block/block.h
++++ b/include/hw/block/block.h
+@@ -87,7 +87,7 @@ bool blk_check_size_and_read_all(BlockBackend *blk, void *buf, hwaddr size,
+ bool blkconf_geometry(BlockConf *conf, int *trans,
+                       unsigned cyls_max, unsigned heads_max, unsigned secs_max,
+                       Error **errp);
+-void blkconf_blocksizes(BlockConf *conf);
++bool blkconf_blocksizes(BlockConf *conf, Error **errp);
+ bool blkconf_apply_backend_options(BlockConf *conf, bool readonly,
+                                    bool resizable, Error **errp);
+ 
+diff --git a/hw/block/block.c b/hw/block/block.c
+index bf56c7612b..5f8ebff59c 100644
+--- a/hw/block/block.c
++++ b/hw/block/block.c
+@@ -61,7 +61,7 @@ bool blk_check_size_and_read_all(BlockBackend *blk, void *buf, hwaddr size,
+     return true;
+ }
+ 
+-void blkconf_blocksizes(BlockConf *conf)
++bool blkconf_blocksizes(BlockConf *conf, Error **errp)
+ {
+     BlockBackend *blk = conf->blk;
+     BlockSizes blocksizes;
+@@ -83,6 +83,33 @@ void blkconf_blocksizes(BlockConf *conf)
+             conf->logical_block_size = BDRV_SECTOR_SIZE;
+         }
+     }
++
++    if (conf->logical_block_size > conf->physical_block_size) {
++        error_setg(errp,
++                   "logical_block_size > physical_block_size not supported");
++        return false;
++    }
++
++    if (conf->min_io_size % conf->logical_block_size) {
++        error_setg(errp,
++                   "min_io_size must be a multple of logical_block_size");
++        return false;
++    }
++
++    if (conf->opt_io_size % conf->logical_block_size) {
++        error_setg(errp,
++                   "opt_io_size must be a multple of logical_block_size");
++        return false;
++    }
++
++    if (conf->discard_granularity != -1 &&
++        conf->discard_granularity % conf->logical_block_size) {
++        error_setg(errp, "discard_granularity must be "
++                   "a multple of logical_block_size");
++        return false;
++    }
++
++    return true;
+ }
+ 
+ bool blkconf_apply_backend_options(BlockConf *conf, bool readonly,
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index c5fb9d6ece..8eda572ef4 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -554,7 +554,10 @@ static void floppy_drive_realize(DeviceState *qdev, Error **errp)
+         read_only = !blk_bs(dev->conf.blk) || blk_is_read_only(dev->conf.blk);
+     }
+ 
+-    blkconf_blocksizes(&dev->conf);
++    if (!blkconf_blocksizes(&dev->conf, errp)) {
++        return;
++    }
++
+     if (dev->conf.logical_block_size != 512 ||
+         dev->conf.physical_block_size != 512)
+     {
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 2f3100e56c..672650e162 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1390,7 +1390,10 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+         host_memory_backend_set_mapped(n->pmrdev, true);
+     }
+ 
+-    blkconf_blocksizes(&n->conf);
++    if (!blkconf_blocksizes(&n->conf, errp)) {
++        return;
++    }
++
+     if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->conf.blk),
+                                        false, errp)) {
+         return;
 diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index f5f6fc925e..413083e62f 100644
+index 413083e62f..4ffdb130be 100644
 --- a/hw/block/virtio-blk.c
 +++ b/hw/block/virtio-blk.c
-@@ -918,7 +918,7 @@ static void virtio_blk_update_config(VirtIODevice *vdev, uint8_t *config)
-     virtio_stw_p(vdev, &blkcfg.geometry.cylinders, conf->cyls);
-     virtio_stl_p(vdev, &blkcfg.blk_size, blk_size);
-     virtio_stw_p(vdev, &blkcfg.min_io_size, conf->min_io_size / blk_size);
--    virtio_stw_p(vdev, &blkcfg.opt_io_size, conf->opt_io_size / blk_size);
-+    virtio_stl_p(vdev, &blkcfg.opt_io_size, conf->opt_io_size / blk_size);
-     blkcfg.geometry.heads = conf->heads;
-     /*
-      * We must ensure that the block device capacity is a multiple of
+@@ -1162,12 +1162,7 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    blkconf_blocksizes(&conf->conf);
+-
+-    if (conf->conf.logical_block_size >
+-        conf->conf.physical_block_size) {
+-        error_setg(errp,
+-                   "logical_block_size > physical_block_size not supported");
++    if (!blkconf_blocksizes(&conf->conf, errp)) {
+         return;
+     }
+ 
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index 06b11583f5..b4821b2403 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -187,7 +187,10 @@ static void ide_dev_initfn(IDEDevice *dev, IDEDriveKind kind, Error **errp)
+         return;
+     }
+ 
+-    blkconf_blocksizes(&dev->conf);
++    if (!blkconf_blocksizes(&dev->conf, errp)) {
++        return;
++    }
++
+     if (dev->conf.logical_block_size != 512) {
+         error_setg(errp, "logical_block_size must be 512 for IDE");
+         return;
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 387503e11b..06c8f1ba92 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -2346,12 +2346,7 @@ static void scsi_realize(SCSIDevice *dev, Error **errp)
+         return;
+     }
+ 
+-    blkconf_blocksizes(&s->qdev.conf);
+-
+-    if (s->qdev.conf.logical_block_size >
+-        s->qdev.conf.physical_block_size) {
+-        error_setg(errp,
+-                   "logical_block_size > physical_block_size not supported");
++    if (!blkconf_blocksizes(&s->qdev.conf, errp)) {
+         return;
+     }
+ 
+@@ -2436,7 +2431,8 @@ static void scsi_hd_realize(SCSIDevice *dev, Error **errp)
+     if (s->qdev.conf.blk) {
+         ctx = blk_get_aio_context(s->qdev.conf.blk);
+         aio_context_acquire(ctx);
+-        blkconf_blocksizes(&s->qdev.conf);
++        /* ignore errors, blocksizes will be revalidated in scsi_realize */
++        blkconf_blocksizes(&s->qdev.conf, NULL);
+     }
+     s->qdev.blocksize = s->qdev.conf.logical_block_size;
+     s->qdev.type = TYPE_DISK;
+diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
+index 4eba47538d..de461f37bd 100644
+--- a/hw/usb/dev-storage.c
++++ b/hw/usb/dev-storage.c
+@@ -599,7 +599,10 @@ static void usb_msd_storage_realize(USBDevice *dev, Error **errp)
+         return;
+     }
+ 
+-    blkconf_blocksizes(&s->conf);
++    if (!blkconf_blocksizes(&s->conf, errp)) {
++        return;
++    }
++
+     if (!blkconf_apply_backend_options(&s->conf, blk_is_read_only(blk), true,
+                                        errp)) {
+         return;
+diff --git a/tests/qemu-iotests/172.out b/tests/qemu-iotests/172.out
+index 7abbe82427..59cc70aebb 100644
+--- a/tests/qemu-iotests/172.out
++++ b/tests/qemu-iotests/172.out
+@@ -1204,7 +1204,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,physica
+                 drive-type = "144"
+ 
+ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,logical_block_size=4096
+-QEMU_PROG: -device floppy,drive=none0,logical_block_size=4096: Physical and logical block size must be 512 for floppy
++QEMU_PROG: -device floppy,drive=none0,logical_block_size=4096: logical_block_size > physical_block_size not supported
+ 
+ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,physical_block_size=1024
+ QEMU_PROG: -device floppy,drive=none0,physical_block_size=1024: Physical and logical block size must be 512 for floppy
 -- 
 2.26.2
 
