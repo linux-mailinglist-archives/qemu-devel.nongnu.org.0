@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184C91DBD8F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 21:05:46 +0200 (CEST)
-Received: from localhost ([::1]:35584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E33501DBE12
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 21:38:22 +0200 (CEST)
+Received: from localhost ([::1]:37876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbU2D-0002Pl-4F
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 15:05:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35494)
+	id 1jbUXl-0007TB-IB
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 15:38:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jbU0R-0000RT-BM
- for qemu-devel@nongnu.org; Wed, 20 May 2020 15:03:55 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57184
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jbUX2-00072X-DG
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 15:37:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24557
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jbU0P-0005ZL-Ox
- for qemu-devel@nongnu.org; Wed, 20 May 2020 15:03:54 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jbUX1-0002wR-Lt
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 15:37:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590001432;
+ s=mimecast20190719; t=1590003454;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JY5n92pu6fG92Dzw+7m2L38OC54A8FSYmWaVa0G4uaI=;
- b=Qcwcf4Dk/SDa+XBec3kVNXSqKLoWOAQ4GnoOreE7xdJZplyFTnOzWapXRJojDwJUW/b6qU
- oFhIiXCI0tbSWU0Q5jjhiIVxe4qnv9EZOz1lKDLe7sr3DY6JW7CWevm8dqDmmg9yjlImNF
- NfHdB4cId4xqfS0idQBR78Urnm1zXqY=
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=nRD8InT/OcADvRVBkUQEgDwm1zAKDV6Djr9GL+Blw8s=;
+ b=RHEcxikaCLfTI1VHE/bwFp4sa/YgfZ4ppRsoVPsGpyqymvdNTZ13gXQmxeGTSDalSbesyW
+ tjmTL8lLsGMtlx78scaD0lsDmEw/UGbmHE+9tO3cQFlGt2nmIwuMKll8A3/NWCK8zJnJBG
+ 1vL0Nt64dpT9RdmH4vm07dx9tYJeIB0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-IVSfctbfMbOnCnw66BJWnA-1; Wed, 20 May 2020 15:03:50 -0400
-X-MC-Unique: IVSfctbfMbOnCnw66BJWnA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-310-Om00G_SDOw2Ono4nKrAY4w-1; Wed, 20 May 2020 15:37:31 -0400
+X-MC-Unique: Om00G_SDOw2Ono4nKrAY4w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB2C5461;
- Wed, 20 May 2020 19:03:48 +0000 (UTC)
-Received: from work-vm (ovpn-114-169.ams2.redhat.com [10.36.114.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 916757D96E;
- Wed, 20 May 2020 19:03:47 +0000 (UTC)
-Date: Wed, 20 May 2020 20:03:44 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 2/2] hmp: Simplify qom_set
-Message-ID: <20200520190344.GG2820@work-vm>
-References: <20200520151108.160598-1-dgilbert@redhat.com>
- <20200520151108.160598-3-dgilbert@redhat.com>
- <1f627a6b-9c5f-09b3-8f75-64e95a4f5d02@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26F0C1800D42;
+ Wed, 20 May 2020 19:37:30 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-114.ams2.redhat.com [10.36.112.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 81E1810640F5;
+ Wed, 20 May 2020 19:37:25 +0000 (UTC)
+Subject: Re: [PATCH v2 1/9] pc-bios: s390x: cio.c cleanup and compile fix
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200514123729.156283-1-frankja@linux.ibm.com>
+ <20200514123729.156283-2-frankja@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <8e57d1b7-7408-c2e8-a202-d9e394cf9810@redhat.com>
+Date: Wed, 20 May 2020 21:37:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <1f627a6b-9c5f-09b3-8f75-64e95a4f5d02@redhat.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200514123729.156283-2-frankja@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 15:03:52
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 22:48:02
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_HK_NAME_DR=0.01 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,74 +82,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: clg@kaod.org, berrange@redhat.com, qemu-devel@nongnu.org, afaerber@suse.de,
- armbru@redhat.com
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
-> On 5/20/20 5:11 PM, Dr. David Alan Gilbert (git) wrote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > 
-> > Simplify qom_set by making it use qmp_qom_set and the JSON parser.
-> > 
-> > Note that qom-set likes JSON strings quoted with ' not ", e.g.:
-> > 
-> > (qemu) qom-get /machine smm
-> > "auto"
-> > (qemu) qom-set /machine smm 'auto'
+On 14/05/2020 14.37, Janosch Frank wrote:
+> Let's initialize the structs at the beginning to ease reading and also
+> zeroing all other fields. This also makes the compiler stop
+> compalining about sense_id_ccw.flags being ored into when it's not
+> initialized.
 > 
-> Will I get this output using "?
-> 
-> (qemu) qom-set /machine smm "auto"
-> Error: Expecting a JSON value
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>  pc-bios/s390-ccw/cio.c | 36 ++++++++++++++++++------------------
+>  1 file changed, 18 insertions(+), 18 deletions(-)
 
-The error you get is:
+With the nits mentioned by David fixed:
 
-(qemu) qom-set /machine smm "auto"
-Error: JSON parse error, invalid keyword 'auto'
-
-I think, having seen alphanumerics, it's expecting a keyword;
-i.e. a true/false making a bool, or a null.
-
-Dave
-
-> > 
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> >   qom/qom-hmp-cmds.c | 16 +++++-----------
-> >   1 file changed, 5 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/qom/qom-hmp-cmds.c b/qom/qom-hmp-cmds.c
-> > index a8b0a080c7..f704b6949a 100644
-> > --- a/qom/qom-hmp-cmds.c
-> > +++ b/qom/qom-hmp-cmds.c
-> > @@ -48,19 +48,13 @@ void hmp_qom_set(Monitor *mon, const QDict *qdict)
-> >       const char *property = qdict_get_str(qdict, "property");
-> >       const char *value = qdict_get_str(qdict, "value");
-> >       Error *err = NULL;
-> > -    bool ambiguous = false;
-> > -    Object *obj;
-> > +    QObject *obj;
-> > -    obj = object_resolve_path(path, &ambiguous);
-> > -    if (obj == NULL) {
-> > -        error_set(&err, ERROR_CLASS_DEVICE_NOT_FOUND,
-> > -                  "Device '%s' not found", path);
-> > -    } else {
-> > -        if (ambiguous) {
-> > -            monitor_printf(mon, "Warning: Path '%s' is ambiguous\n", path);
-> > -        }
-> > -        object_property_parse(obj, value, property, &err);
-> > +    obj = qobject_from_json(value, &err);
-> > +    if (err == NULL) {
-> > +        qmp_qom_set(path, property, obj, &err);
-> >       }
-> > +
-> >       hmp_handle_error(mon, err);
-> >   }
-> > 
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
