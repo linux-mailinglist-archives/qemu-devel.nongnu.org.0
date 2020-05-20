@@ -2,68 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A8B1DA784
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 03:51:41 +0200 (CEST)
-Received: from localhost ([::1]:40946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85EC11DA76F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 03:47:01 +0200 (CEST)
+Received: from localhost ([::1]:59382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbDtU-0001ti-L9
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 21:51:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34368)
+	id 1jbDox-0005GO-IQ
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 21:47:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jbDsY-0001Bu-Fy
- for qemu-devel@nongnu.org; Tue, 19 May 2020 21:50:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40598)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jbDsW-0000xx-TV
- for qemu-devel@nongnu.org; Tue, 19 May 2020 21:50:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jbDsU-0005Hg-Rl
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 01:50:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CFF702E806D
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 01:50:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jbDoF-0004nZ-0Y; Tue, 19 May 2020 21:46:15 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:37254)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jbDoC-0000V7-Oh; Tue, 19 May 2020 21:46:14 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1275078|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.0184575-0.00084914-0.980693;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03267; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=9; RT=9; SR=0; TI=SMTPD_---.HawMO8X_1589939155; 
+Received: from 30.225.208.54(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.HawMO8X_1589939155)
+ by smtp.aliyun-inc.com(10.147.43.95); Wed, 20 May 2020 09:45:57 +0800
+Subject: Re: [RFC PATCH 6/8] riscv: Add configure script
+To: Richard Henderson <richard.henderson@linaro.org>, peter.maydell@linaro.org
+References: <20200430072139.4602-1-zhiwei_liu@c-sky.com>
+ <20200430072139.4602-7-zhiwei_liu@c-sky.com>
+ <a434ed23-5102-b39b-8fff-0f60e493e488@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <6aa1a054-4ce9-2794-7a52-236f4a38df2d@c-sky.com>
+Date: Wed, 20 May 2020 09:45:55 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 20 May 2020 01:41:07 -0000
-From: cliff chen <1879425@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cliffchen
-X-Launchpad-Bug-Reporter: cliff chen (cliffchen)
-X-Launchpad-Bug-Modifier: cliff chen (cliffchen)
-References: <158985197617.30924.14122012304587735670.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158993886758.31351.13131516430257538828.malone@chaenomeles.canonical.com>
-Subject: [Bug 1879425] Re: The thread of "CPU 0 /KVM" keeping 99.9%CPU
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 420ea351ed718eb7ae8f587eb38abe090fd73f6b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 20:30:42
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <a434ed23-5102-b39b-8fff-0f60e493e488@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/19 21:46:04
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9,
+ UNPARSEABLE_RELAY=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,75 +60,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1879425 <1879425@bugs.launchpad.net>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wxy194768@alibaba-inc.com,
+ wenmeng_zhang@c-sky.com, palmer@dabbelt.com, alistair23@gmail.com,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-one changes:
-Guest VM is Red Hat Enterprise Linux 8.1 (Ootpa).
-there is no issue once guest VM is RHEL7.6.
 
--- =
+On 2020/5/12 2:06, Richard Henderson wrote:
+> On 4/30/20 12:21 AM, LIU Zhiwei wrote:
+>> +++ b/configure
+>> @@ -58,6 +58,8 @@ guess_arch() {
+>>           ARCH="m68k"
+>>       elif check_define __powerpc64__ ; then
+>>           ARCH="ppc64"
+>> +    elif check_define __riscv ; then
+>> +        ARCH="riscv64"
+>>       else
+>>           echo "This cpu is not supported by risu. Try -h. " >&2
+>>           exit 1
+> Why "riscv64" and not "riscv"?
+>
+> You can't really say more without checking __riscv_xlen.
+Thanks for point it out. I will add support for RV32 next patch set.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1879425
+Zhiwei
+>
+> r~
 
-Title:
-  The thread of "CPU 0 /KVM" keeping 99.9%CPU
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi Expert:
-
-  The VM is hung here after (2, or 3, or 5 and the longest time is 10 hours=
-) by qemu-kvm.
-  Notes: =
-
-  for VM:
-    OS: RHEL 7.6
-    CPU: 1
-    MEM:4G
-  For qemu-kvm:
-    1) version:
-       /usr/libexec/qemu-kvm -version
-       QEMU emulator version 2.10.0(qemu-kvm-ev-2.10.0-21.el7_5.4.1)
-    2) once the issue is occurred, the CPU of "CPU0 /KVM" is more than 99% =
-by com "top -p VM_pro_ID"
-      PID  UDER   PR NI RES   S  % CPU %MEM  TIME+    COMMAND
-  872067   qemu   20 0  1.6g  R   99.9  0.6  37:08.87 CPU 0/KVM
-    3) use "pstack 493307" and below is function trace
-  Thread 1 (Thread 0x7f2572e73040 (LWP 872067)):
-  #0  0x00007f256cad8fcf in ppoll () from /lib64/libc.so.6
-  #1  0x000055ff34bdf4a9 in qemu_poll_ns ()
-  #2  0x000055ff34be02a8 in main_loop_wait ()
-  #3  0x000055ff348bfb1a in main ()
-    4) use strace "strace -tt -ff -p 872067 -o cfx" and below log keep prin=
-ting
-  21:24:02.977833 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
-N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
-=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
-15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 0}, NULL, 8) =3D=
- 0 (Timeout)
-  21:24:02.977918 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
-N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
-=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
-15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 911447}, NULL, 8=
-) =3D 0 (Timeout)
-  21:24:02.978945 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLI=
-N}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN}, {fd=3D80, events=
-=3DPOLLIN}, {fd=3D82, events=3DPOLLIN}, {fd=3D84, events=3DPOLLIN}, {fd=3D1=
-15, events=3DPOLLIN}, {fd=3D121, events=3DPOLLIN}], 9, {0, 0}, NULL, 8) =3D=
- 0 (Timeout)
-  Therefore, I think the thread "CPU 0/KVM" is in tight loop.
-    5) use reset can recover this issue. however, it will reoccurred again.
-  Current work around is increase one CPU for this VM, then issue is gone.
-
-  thanks
-  Cliff
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1879425/+subscriptions
 
