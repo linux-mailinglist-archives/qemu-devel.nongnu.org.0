@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E10491DB402
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 14:45:56 +0200 (CEST)
-Received: from localhost ([::1]:45672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4281DB3E1
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 14:43:22 +0200 (CEST)
+Received: from localhost ([::1]:39198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbO6e-0004Gn-0r
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 08:45:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41314)
+	id 1jbO49-000172-SX
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 08:43:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andy.shevchenko@gmail.com>)
- id 1jbO1A-0003cb-6H
- for qemu-devel@nongnu.org; Wed, 20 May 2020 08:40:16 -0400
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:40235)
+ id 1jbO1y-0005vd-VS
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 08:41:06 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:34461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <andy.shevchenko@gmail.com>)
- id 1jbO19-0000DW-AU
- for qemu-devel@nongnu.org; Wed, 20 May 2020 08:40:15 -0400
-Received: by mail-pj1-x1044.google.com with SMTP id ci23so1221316pjb.5
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 05:40:14 -0700 (PDT)
+ id 1jbO1w-0000SU-SS
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 08:41:06 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id l73so2310602pjb.1
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 05:41:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sTd7gk/F5t8+90VdVmPMqwcUDImsEOyU6Dtdpqgy9Wk=;
- b=lGH4/YvXzbpg8mnazKXwowykaaS/FaFJK6zRzmFMUwq3bPrXqelmSJhJjUCx4kt5gR
- FdWwuYsZxumG2p8fXPW0Ug2kqYvwBuDnWQuqFKAWpPtK4IkzaxNPuUE10/fBXRRkPOqd
- YXAUI7Z2mLoTYZjKY3IVwNmLA/R3iJ+vKrs/dZk/jzRVIlCek4Y89X9j6BqPB7m5IFj7
- y7AkQbFwVCVc5LqYoEZz8hIF8F2XyP3NcPV7395PBQM4+uuaWpNZQ+HZNPGjkHI6jPSg
- RrG08I60wNO3l368r3lFotMz4aasm2cXaAztzC2c3TLWFnBTqHnwnSe+jMTsTyHeGvRH
- rnHA==
+ :cc; bh=oByZiP5udJbQzBWklBptE2RceP4HV/dxPc97SQf5r9I=;
+ b=bMPUbzd4w8Xckix21mTZAu4nqS8lo47Q1IuxRu1bg7ZEfkEGQ8nXx5annWGMvSJpUG
+ Ik/OdHHZVFQzOUM1UtH3eq53mId64W2QngOShgah4eBAgtzA8wecG2nCqBzMqTNljtsD
+ I/obKtjGl79PBq18fdqrzfjBAgO5nXDSxTC6ja6DWm6PPpb0EEEoMoUqBYfL2jgwEY31
+ ny9uKMDOQHdpq3EmyqBSW1qcC/9hybhjlqyzXdhMmUELkNCHd+FG4uFvvhSZ89c0FYk8
+ Wc8Amekl/xkn7XYPvcq8vhfKVysczN0Bay8pc2ehG7MO/QFdv0+hAQ81qW7BWXJ5hvL3
+ f5SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=sTd7gk/F5t8+90VdVmPMqwcUDImsEOyU6Dtdpqgy9Wk=;
- b=qka+3s5bT2PLXfU8xscI4zqqPTUjp2dYb0tgeGtiqopOi7akvI0mGC29+OvM3K5Kiw
- XRUjaN4lx1jGef4U4kFJkF7vRvIo4WNdze60ZdVT7xwqENFIi6hBGqg/S15QQ8ONKwjl
- jKuyGOL4xOZo0FIXDl0BpTTqUYmUqJ73gX4D1FPLZGjwaXInfvEJ8u035RNJQLl7z3Jn
- Ll8f92kaQKCXTD5HpnqFCeEc+z8Jkra26H2uUea6S16xo04XejIK7jXp79kTSSIWxh8y
- hlavpKDWhcnz5j0X2LeG1LTtyf5q+fyGQAjkoe6eiEJ3xwZkA7rCd9nkJLRJZMRU5O21
- t4VA==
-X-Gm-Message-State: AOAM5318o9Eap/Q0dPpdXhecQTMpU0shKexE5EcxIKMJX4pGVPVeBKFu
- L/VgMyAdbFdaFMVHA1bXT5EKJ5RqsQ8RF5JpUY8=
-X-Google-Smtp-Source: ABdhPJx/Cl6q3jd3Y0UMnwozkcZAjDceOt2Er4TDCLYHyDTi6gqB77pGxZs0hLGbAvpCUV1znVIZxUUk8EW37tNIpcg=
-X-Received: by 2002:a17:90b:113:: with SMTP id
- p19mr5377909pjz.129.1589978413555; 
- Wed, 20 May 2020 05:40:13 -0700 (PDT)
+ bh=oByZiP5udJbQzBWklBptE2RceP4HV/dxPc97SQf5r9I=;
+ b=QOp/Mz1P2tC44dlCUQKZ7GuvURVyeLDv8Q0YTacssTC3I/HAYS8nVIPj+raOWHF9oP
+ aG0w6vSZi6pZmiG2wUn8y/lsYdieLdVjtlxeAAUlSf0Geu4JmFwu9I9jS2Bn9giTdwUW
+ /lSOON2NF4cRPBuwDlkXZ91tYXqdhlrXr22dwThNLxg/CB8sBvdinEsf/CY99tLPjtpl
+ CnM+vEQJqvOxR0Vcn4+BP1RiRRKZj7IX2ZbSunsmZYL43eNKu8RQRWpXbbjj7Xa6QIVZ
+ gXprXZQTo8/9A0Q+2awsRiUXCOHpYctLrK14za4QsyMXachRrtK1FFPZG9Fljiab/9mb
+ MMUQ==
+X-Gm-Message-State: AOAM530FQLaZiaNriFImsb16BkuKzLllclIY6EhjFrqV45mZXNKc8JOe
+ zBn0fdrCFV14bL6ztt57pDwtDMp4TssL1rXmL3s=
+X-Google-Smtp-Source: ABdhPJyjV9IcI4Rvhp2yDHZ0cMw5+9uLEMBQuP44Edg6AhPbW7DTGRWOGVfUVIEgCtyep5Po1iHo+g/GYI8TVSX85T8=
+X-Received: by 2002:a17:90a:1704:: with SMTP id
+ z4mr5093444pjd.181.1589978463619; 
+ Wed, 20 May 2020 05:41:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200511145257.22970-1-geert+renesas@glider.be>
  <20200520121420.GA1867563@smile.fi.intel.com>
  <CAMuHMdW9EsRLYYTL0pd-PqqZs5WcUfK8i2uceNwJnSvAQKuVgw@mail.gmail.com>
-In-Reply-To: <CAMuHMdW9EsRLYYTL0pd-PqqZs5WcUfK8i2uceNwJnSvAQKuVgw@mail.gmail.com>
+ <CAHp75Vc9=1cD81TDuaGuFQpBcHaKqEZKv8tA7ZGBbDJ6MKq6kw@mail.gmail.com>
+In-Reply-To: <CAHp75Vc9=1cD81TDuaGuFQpBcHaKqEZKv8tA7ZGBbDJ6MKq6kw@mail.gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 20 May 2020 15:40:02 +0300
-Message-ID: <CAHp75Vc9=1cD81TDuaGuFQpBcHaKqEZKv8tA7ZGBbDJ6MKq6kw@mail.gmail.com>
+Date: Wed, 20 May 2020 15:40:52 +0300
+Message-ID: <CAHp75VcARgxf-Ty77mk2PJ0BUxJsXQdDLMffiDdv1gCkF_VMtg@mail.gmail.com>
 Subject: Re: [PATCH v7 0/6] gpio: Add GPIO Aggregator
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
- envelope-from=andy.shevchenko@gmail.com; helo=mail-pj1-x1044.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=andy.shevchenko@gmail.com; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -99,37 +100,46 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 20, 2020 at 3:38 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Wed, May 20, 2020 at 2:14 PM Andy Shevchenko
-> <andriy.shevchenko@intel.com> wrote:
-> > On Mon, May 11, 2020 at 04:52:51PM +0200, Geert Uytterhoeven wrote:
-
-...
-
-> > Sorry for late reply, recently noticed this nice idea.
-> > The comment I have is, please, can we reuse bitmap parse algorithm and syntax?
-> > We have too many different formats and parsers in the kernel and bitmap's one
-> > seems suitable here.
+On Wed, May 20, 2020 at 3:40 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+> On Wed, May 20, 2020 at 3:38 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Wed, May 20, 2020 at 2:14 PM Andy Shevchenko
+> > <andriy.shevchenko@intel.com> wrote:
+> > > On Mon, May 11, 2020 at 04:52:51PM +0200, Geert Uytterhoeven wrote:
 >
-> Thank you, I wasn't aware of that.
+> ...
 >
-> Which one do you mean? The documentation seems to be confusing,
-> and incomplete.
-> My first guess was bitmap_parse(), but that one assumes hex values?
-> And given it processes the unsigned long bitmap in u32 chunks, I guess
-> it doesn't work as expected on big-endian 64-bit?
+> > > Sorry for late reply, recently noticed this nice idea.
+> > > The comment I have is, please, can we reuse bitmap parse algorithm and syntax?
+> > > We have too many different formats and parsers in the kernel and bitmap's one
+> > > seems suitable here.
+> >
+> > Thank you, I wasn't aware of that.
+> >
+> > Which one do you mean? The documentation seems to be confusing,
+> > and incomplete.
+> > My first guess was bitmap_parse(), but that one assumes hex values?
+> > And given it processes the unsigned long bitmap in u32 chunks, I guess
+> > it doesn't work as expected on big-endian 64-bit?
+> >
+> > bitmap_parselist() looks more suitable, and the format seems to be
+
+> > compatible with what's currently used, so it won't change ABI.
+
+What ABI? We didn't have a release with it, right? So, we are quite
+flexible for few more weeks to amend it.
+
+> > Is that the one you propose?
 >
-> bitmap_parselist() looks more suitable, and the format seems to be
-> compatible with what's currently used, so it won't change ABI.
-> Is that the one you propose?
-
-Yes, sorry for the confusion.
-
-> > (Despite other small clean ups, like strstrip() use)
+> Yes, sorry for the confusion.
 >
-> Aka strim()? There are too many of them, to know all of them by heart ;-)
+> > > (Despite other small clean ups, like strstrip() use)
+> >
+> > Aka strim()? There are too many of them, to know all of them by heart ;-)
+>
+> The difference between them is __must_check flag. But yes.
 
-The difference between them is __must_check flag. But yes.
+
 
 -- 
 With Best Regards,
