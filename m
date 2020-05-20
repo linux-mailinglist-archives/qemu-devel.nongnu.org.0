@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AADAC1DC19D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 23:52:06 +0200 (CEST)
-Received: from localhost ([::1]:45850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 651221DC1C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 00:04:56 +0200 (CEST)
+Received: from localhost ([::1]:38250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbWdB-0007lU-Pe
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 17:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51846)
+	id 1jbWpb-0002pK-GV
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 18:04:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jbWbu-0007Dx-Vl; Wed, 20 May 2020 17:50:47 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:57504)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jbWbr-0003rf-MX; Wed, 20 May 2020 17:50:45 -0400
-Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net
- [IPv6:2a02:6b8:0:1402::301])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 9E0D72E15FD;
- Thu, 21 May 2020 00:50:37 +0300 (MSK)
-Received: from iva8-88b7aa9dc799.qloud-c.yandex.net
- (iva8-88b7aa9dc799.qloud-c.yandex.net [2a02:6b8:c0c:77a0:0:640:88b7:aa9d])
- by mxbackcorp1g.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- Re5UCFfqPn-oY2OFLmO; Thu, 21 May 2020 00:50:37 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1590011437; bh=m9GEZkurVaCJLwzGrUVqA0aEgzP8g3I7gWdk8d7nKkE=;
- h=In-Reply-To:Message-ID:Subject:To:From:References:Date:Cc;
- b=qP+lGWpRX3oCq0DKJzlWNmy/L87kRRkftlhjApCu2pWiONIyUq9X9g0nMLbiYyh9b
- Gk8l7C8PzqHPl/TbEVTVqGFoBDRKoOJPkquN/63xGtfxxNU8T0fvX6skm14d39/CtJ
- KM9LQaxrI25nnne4Jt/EZadHCM6XFVy1QEE3AMAk=
-Authentication-Results: mxbackcorp1g.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:407::1:16])
- by iva8-88b7aa9dc799.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- M63wWBdcdM-oYXWcPGW; Thu, 21 May 2020 00:50:34 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Date: Thu, 21 May 2020 00:50:33 +0300
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v4 3/3] block: make BlockConf.*_size properties 32-bit
-Message-ID: <20200520215033.GE104207@rvkaganb.lan>
-Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
- Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>,
- Keith Busch <kbusch@kernel.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Fam Zheng <fam@euphon.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-block@nongnu.org,
- John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>
-References: <20200520080657.29080-1-rvkagan@yandex-team.ru>
- <20200520080657.29080-4-rvkagan@yandex-team.ru>
- <20200520155444.GG5192@linux.fritz.box>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jbWmN-0005G0-PM
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 18:01:35 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42737
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jbWmM-0005kL-P1
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 18:01:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590012093;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zdEj+iO4Ja0lQkfxzafSeWcrY9kIsFL5NMxKIbVphVg=;
+ b=cO1UzOkGSk1dtUYYILKP97bCBVQ3GsnygLJ6a/Zf8Ypf91ctUdpiqYyiLwRbJIDL2EKTrx
+ lts0HsNUSjvYCBpPK1SWiwLzsLJ67XjPQQAGfrwb6ar48lYVVeENy04/wgO3NYWOIH0MRP
+ 2XsrGlT4NM9SmD5zOatD/4iTmcM/5qk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-231-P_cxHLiXNvO1Q1itPK6vtA-1; Wed, 20 May 2020 18:01:20 -0400
+X-MC-Unique: P_cxHLiXNvO1Q1itPK6vtA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CF22474;
+ Wed, 20 May 2020 22:01:19 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-112-88.phx2.redhat.com [10.3.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8AC096EA19;
+ Wed, 20 May 2020 22:01:18 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/5] qemu-img: Add convert --bitmaps
+Date: Wed, 20 May 2020 17:01:13 -0500
+Message-Id: <20200520220118.1037094-1-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200520155444.GG5192@linux.fritz.box>
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 17:32:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,133 +74,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, nsoffer@redhat.com, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 20, 2020 at 05:54:44PM +0200, Kevin Wolf wrote:
-> Am 20.05.2020 um 10:06 hat Roman Kagan geschrieben:
-> > Devices (virtio-blk, scsi, etc.) and the block layer are happy to use
-> > 32-bit for logical_block_size, physical_block_size, and min_io_size.
-> > However, the properties in BlockConf are defined as uint16_t limiting
-> > the values to 32768.
-> > 
-> > This appears unnecessary tight, and we've seen bigger block sizes handy
-> > at times.
-> > 
-> > Make them 32 bit instead and lift the limitation up to 2 MiB which
-> > appears to be good enough for everybody, and matches the qcow2 cluster
-> > size limit.
-> > 
-> > As the values can now be fairly big and awkward to type, make the
-> > property setter accept common size suffixes (k, m).
-> > 
-> > Also as the devices which use min_io_size (virtio-blk and scsi) pass its
-> > value to the guest in units of logical blocks in a 16bit field, to
-> > prevent its silent truncation add a corresponding check to
-> > blkconf_blocksizes.
-> > 
-> > Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
-> > ---
-> > v3 -> v4:
-> > - check min_io_size against truncation [Kevin]
-> > 
-> > v2 -> v3:
-> > - mention qcow2 cluster size limit in the log and comment [Eric]
-> > 
-> > v1 -> v2:
-> > - cap the property at 2 MiB [Eric]
-> > - accept size suffixes
-> > 
-> >  include/hw/block/block.h     |  8 ++++----
-> >  include/hw/qdev-properties.h |  2 +-
-> >  hw/block/block.c             | 11 +++++++++++
-> >  hw/core/qdev-properties.c    | 34 ++++++++++++++++++++++++----------
-> >  4 files changed, 40 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/include/hw/block/block.h b/include/hw/block/block.h
-> > index 784953a237..2fa09aa0b1 100644
-> > --- a/include/hw/block/block.h
-> > +++ b/include/hw/block/block.h
-> > @@ -18,9 +18,9 @@
-> >  
-> >  typedef struct BlockConf {
-> >      BlockBackend *blk;
-> > -    uint16_t physical_block_size;
-> > -    uint16_t logical_block_size;
-> > -    uint16_t min_io_size;
-> > +    uint32_t physical_block_size;
-> > +    uint32_t logical_block_size;
-> > +    uint32_t min_io_size;
-> >      uint32_t opt_io_size;
-> >      int32_t bootindex;
-> >      uint32_t discard_granularity;
-> > @@ -51,7 +51,7 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
-> >                            _conf.logical_block_size),                    \
-> >      DEFINE_PROP_BLOCKSIZE("physical_block_size", _state,                \
-> >                            _conf.physical_block_size),                   \
-> > -    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),    \
-> > +    DEFINE_PROP_UINT32("min_io_size", _state, _conf.min_io_size, 0),    \
-> >      DEFINE_PROP_UINT32("opt_io_size", _state, _conf.opt_io_size, 0),    \
-> >      DEFINE_PROP_UINT32("discard_granularity", _state,                   \
-> >                         _conf.discard_granularity, -1),                  \
-> > diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-> > index f161604fb6..f9e0f8c041 100644
-> > --- a/include/hw/qdev-properties.h
-> > +++ b/include/hw/qdev-properties.h
-> > @@ -197,7 +197,7 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
-> >  #define DEFINE_PROP_BIOS_CHS_TRANS(_n, _s, _f, _d) \
-> >      DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_bios_chs_trans, int)
-> >  #define DEFINE_PROP_BLOCKSIZE(_n, _s, _f) \
-> > -    DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint16_t)
-> > +    DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint32_t)
-> >  #define DEFINE_PROP_PCI_HOST_DEVADDR(_n, _s, _f) \
-> >      DEFINE_PROP(_n, _s, _f, qdev_prop_pci_host_devaddr, PCIHostDeviceAddress)
-> >  #define DEFINE_PROP_OFF_AUTO_PCIBAR(_n, _s, _f, _d) \
-> > diff --git a/hw/block/block.c b/hw/block/block.c
-> > index 5f8ebff59c..cd95e7e38f 100644
-> > --- a/hw/block/block.c
-> > +++ b/hw/block/block.c
-> > @@ -96,6 +96,17 @@ bool blkconf_blocksizes(BlockConf *conf, Error **errp)
-> >          return false;
-> >      }
-> >  
-> > +    /*
-> > +     * all devices which support min_io_size (scsi and virtio-blk) expose it to
-> > +     * the guest as a uint16_t in units of logical blocks
-> > +     */
-> > +    if ((conf->min_io_size / conf->logical_block_size) > UINT16_MAX) {
-> > +        error_setg(errp,
-> > +                   "min_io_size must be no more than " stringify(UINT16_MAX)
-> > +                   " of logical_block_size");
-> 
-> I'm not a native speaker, but "no more than 65536 of
-> logical_block_size" sounds odd to me.
+v4 was here:
+https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg03182.html
+original cover letter here:
+https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg03464.html
 
-Neither am I but I agree with the feeling.
+Based-on: <20200519175707.815782-1-eblake@redhat.com>
+[pull v3 bitmaps patches for 2020-05-18]
 
-> Maybe "65536 times the logical_block_size"?
+Since then:
+- patch 1 is new (fixes regression from recent NBD pull)
+- patch 2, 4: include fixes suggested by Vladimir; biggest is that
+bitmaps computation is now in qcow2-bitmaps.c instead of qcow2.c
+- patch 3: split out from patch 4 (was v4 8/9)
+- patch 5: rebase to master
 
-Sounds better indeed, will do in the respin.
-Or perhaps "no more than 65536 logical blocks"?
+001/5:[down] 'iotests: Fix test 178'
+002/5:[0106] [FC] 'qcow2: Expose bitmaps' size during measure'
+003/5:[down] 'qemu-img: Factor out code for merging bitmaps'
+004/5:[0012] [FC] 'qemu-img: Add convert --bitmaps option'
+005/5:[0002] [FC] 'iotests: Add test 291 to for qemu-img bitmap coverage'
 
-Thanks,
-Roman.
+Series can also be downloaded at:
+https://repo.or.cz/qemu/ericb.git/shortlog/refs/tags/qemu-img-bitmaps-v5
 
-> 
-> > +        return false;
-> > +    }
-> > +
-> >      if (conf->opt_io_size % conf->logical_block_size) {
-> >          error_setg(errp,
-> >                     "opt_io_size must be a multple of logical_block_size");
-> 
-> Kevin
-> 
+Eric Blake (5):
+  iotests: Fix test 178
+  qcow2: Expose bitmaps' size during measure
+  qemu-img: Factor out code for merging bitmaps
+  qemu-img: Add convert --bitmaps option
+  iotests: Add test 291 to for qemu-img bitmap coverage
+
+ docs/tools/qemu-img.rst          |  18 ++++-
+ qapi/block-core.json             |  15 ++--
+ block/qcow2.h                    |   2 +
+ block/crypto.c                   |   2 +-
+ block/qcow2-bitmap.c             |  36 +++++++++
+ block/qcow2.c                    |  14 +++-
+ block/raw-format.c               |   2 +-
+ qemu-img.c                       | 135 +++++++++++++++++++++++++++----
+ qemu-img-cmds.hx                 |   8 +-
+ tests/qemu-iotests/178.out.qcow2 |  18 ++++-
+ tests/qemu-iotests/178.out.raw   |   2 +-
+ tests/qemu-iotests/190           |  58 ++++++++++++-
+ tests/qemu-iotests/190.out       |  35 +++++++-
+ tests/qemu-iotests/291           | 112 +++++++++++++++++++++++++
+ tests/qemu-iotests/291.out       |  80 ++++++++++++++++++
+ tests/qemu-iotests/group         |   1 +
+ 16 files changed, 501 insertions(+), 37 deletions(-)
+ create mode 100755 tests/qemu-iotests/291
+ create mode 100644 tests/qemu-iotests/291.out
+
+-- 
+2.26.2
+
 
