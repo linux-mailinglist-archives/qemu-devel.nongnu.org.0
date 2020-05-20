@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA57A1DB601
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:13:14 +0200 (CEST)
-Received: from localhost ([::1]:56084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31BB71DB61F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:21:22 +0200 (CEST)
+Received: from localhost ([::1]:59308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbPT7-00041W-T8
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:13:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55246)
+	id 1jbPay-0001lu-Ty
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:21:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPM7-0000Dl-7c
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:59 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:45592)
+ id 1jbPMF-0000N5-13
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:06:07 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:32870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPM6-0001zr-BQ
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:58 -0400
-Received: by mail-ed1-x544.google.com with SMTP id s19so3151565edt.12
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:05:57 -0700 (PDT)
+ id 1jbPME-00022V-18
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:06:06 -0400
+Received: by mail-ej1-x643.google.com with SMTP id n24so3988681ejd.0
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+LGH6cEsciAiwVyXb+MVUWk2m7FbTfgK1AGU3Atbb6c=;
- b=tCnOefJAPSgNssrx7Mqr6fwaYfBkYwjbKjD01MQnAfIMEpCA+h3AcWI6YIGsu4AnJL
- 1wKPAlaCQszIXvxzyunpgiJ2NcwV5HxN3e83fzrYcAcWo/oXhmDl0TVFFKOEgI7CwF6h
- R7XG9OD9ZjPTP0PcbDLbztZ6gU5U4cKOzCCAOYAZ8zEh/dtijjoRvNWzlhYAf4V3nnTL
- 243rLu16SSQr0cdXn6KYpPfedN4lypsvvA7MGR+gyiYretHRPq4F69XkMzOXDz0XIN1c
- oE5znS/0Dpsy5OLO+2p9gapwgryMOwEhIssR2h+vhRblx4fo//1GqZRw37tR/ULDnVTK
- 3T1w==
+ bh=Z8jXpAxep38NH+tQtqiVR0PvMkfpz3aIN7XElkKMn28=;
+ b=ngKMFjy9TO80XtZGn7uw142jNG5nWlbLPqGX4DdQkMMcM7q7jNMvyYpTGezLwpMKgJ
+ PwjEyr4Trv1+fWaVw7Dlq0z2FJOmAUh6Qi9EN2ljfPHhBwcMwMLKR2YUN+l1HrhIYMVA
+ NRQvcQdwE7WPgNTcLVjmjsTnuU5q5oXstqAoHYCczWtei3dOZOd5CyTgDGTu1IeqJoQC
+ KhzpefSQ5WelDOtLP1ezZaa35zST+Fi6+KkVfSx8C5EUY5UCvFDneyvVR2TX2fG3ULOd
+ aVOYFRNduRMTbG8Lgofmn2auhkZpBZdeCU9QnQdPH7f4AbXMZ8xnh1bQF6XEgDrO7LSL
+ +PZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+LGH6cEsciAiwVyXb+MVUWk2m7FbTfgK1AGU3Atbb6c=;
- b=fKsODiwd3O3erfyRydXNgfQj3xQMUVSMDzt2rMe9J26obIOtSxqCY1sPis442Q+WD7
- PBqCNfpvoVH3xy4UISEsaNzVH8SZlQOZLJnaCFKsUz4HIqnYm4Fa+M3pYFA2HAiVM556
- toBlBA5AU6SiGUbDKnjQPZFxotv1gccIKDtpKvgA6gvC6EKvlVHIT+DvILBsdYUk61A/
- aQfZ7tcqaVrsDIjfJk2+SeYTvlEjI4tNQ+J1nJlTjSpUyTopF93qij/lp+cv7GdlRa2u
- v64Gw0JO0GvA+T0Upz8+Kzfi8uYPWAugE/HIEYB4Tv/4a9xDksO4vtAmbYyZ8KWeQVWJ
- v6bQ==
-X-Gm-Message-State: AOAM533hOqpOdwWReXHlPPP4HWx9trp9rYTA2oOplvBQ4Kcav+D5kEdV
- IgD+38APpQOhep9z0fZ0i3Zbww==
-X-Google-Smtp-Source: ABdhPJzXChu7WUg33jAUbSnVdxrNsc3I5vPU5OeuwFMApBq5gFFSpkMmrrXcJ4Hifp6RcYdwjpkWcw==
-X-Received: by 2002:a05:6402:c87:: with SMTP id
- cm7mr3452099edb.96.1589983557054; 
- Wed, 20 May 2020 07:05:57 -0700 (PDT)
+ bh=Z8jXpAxep38NH+tQtqiVR0PvMkfpz3aIN7XElkKMn28=;
+ b=rGd4BDcdKSB3wpFU+KDDkjWgp6YC5bL8g8tKqExWj3Ui63qtreKlHHY9HHeMgiyoO4
+ BaJ9tjGuMVDpxsJxdNeoqw359WAqwU2YyWIaLVBjp9dKDYNLZbUkBzQdZtGeLhIZV1BF
+ hWUWbArb8wpScbShNSMLnng+tUZVj1kgLuLYB1oXnKJdnVBX5B9o2FB63Oz5N4v3Pq+s
+ HubGbPJ1CwxHJB+iEr5LweTICtQx9NP7vTXXTcfPP+kGcDzkyUk5fgHdo04r+vkzxcMJ
+ tNjKs/IeKXk72smutEOVj1wZVaEpAj4sO/yr9/fJliEki0B+mUe4g9ZmWPA2swCWJNyG
+ E6cg==
+X-Gm-Message-State: AOAM532FN2vY77ziXAuecH09+vnghKjGDyQx/o8r5tkIJPPMchbjEVdt
+ 4t9FAqNdVXvVS9Xs5I8v8decyQ==
+X-Google-Smtp-Source: ABdhPJxTFGWlThngj7dQBp306RPHEuVe+eJcBB5lKFJPiS1Fv3EX/GFQbr0VXvCE/TgpQn4utf9OAw==
+X-Received: by 2002:a17:906:ce39:: with SMTP id
+ sd25mr3749331ejb.482.1589983564722; 
+ Wed, 20 May 2020 07:06:04 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id ch8sm1994503ejb.53.2020.05.20.07.05.47
+ by smtp.gmail.com with ESMTPSA id m5sm1965236ejk.27.2020.05.20.07.05.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 May 2020 07:05:49 -0700 (PDT)
+ Wed, 20 May 2020 07:05:54 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 490351FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id 5E95E1FF9C;
  Wed, 20 May 2020 15:05:42 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 12/15] cpus-common: ensure auto-assigned cpu_indexes don't
- clash
-Date: Wed, 20 May 2020 15:05:38 +0100
-Message-Id: <20200520140541.30256-13-alex.bennee@linaro.org>
+Subject: [PATCH  v1 13/15] linux-user: properly "unrealize" vCPU object
+Date: Wed, 20 May 2020 15:05:39 +0100
+Message-Id: <20200520140541.30256-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200520140541.30256-1-alex.bennee@linaro.org>
 References: <20200520140541.30256-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,68 +89,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Nikolay Igotti <igotti@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Nikolay Igotti <igotti@gmail.com>,
+ Riku Voipio <riku.voipio@iki.fi>, Markus Armbruster <armbru@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Basing the cpu_index on the number of currently allocated vCPUs fails
-when vCPUs aren't removed in a LIFO manner. This is especially true
-when we are allocating a cpu_index for each guest thread in
-linux-user where there is no ordering constraint on their allocation
-and de-allocation.
+We shouldn't be messing around with the CPU list in linux-user save
+for the very special case of do_fork(). When threads end we need to
+properly follow QOM object lifetime handling and allow the eventual
+cpu_common_unrealizefn to both remove the CPU and ensure any clean-up
+actions are taken place, for example calling plugin exit hooks.
 
-[I've dropped the assert which is there to guard against out-of-order
-removal as this should probably be caught higher up the stack. Maybe
-we could just ifdef CONFIG_SOFTTMU it?]
+There is still a race condition to avoid so use the linux-user
+specific clone_lock instead of the cpu_list_lock to avoid it.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Cc: Nikolay Igotti <igotti@gmail.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Daniel P. Berrange <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>
 
 ---
 v2
-  - slightly tweak the index algorithm to preserve cpu_index = 0
+  - expand Cc list to QOM/QMP object lifetime experts
 ---
- cpus-common.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ linux-user/syscall.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/cpus-common.c b/cpus-common.c
-index 55d5df89237..70a9d12981a 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -61,13 +61,15 @@ static bool cpu_index_auto_assigned;
- static int cpu_get_free_index(void)
- {
-     CPUState *some_cpu;
--    int cpu_index = 0;
-+    int max_cpu_index = 0;
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 05f03919ff0..7f6700c54e3 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -7635,30 +7635,33 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             return -TARGET_ERESTARTSYS;
+         }
  
-     cpu_index_auto_assigned = true;
-     CPU_FOREACH(some_cpu) {
--        cpu_index++;
-+        if (some_cpu->cpu_index >= max_cpu_index) {
-+            max_cpu_index = some_cpu->cpu_index + 1;
-+        }
-     }
--    return cpu_index;
-+    return max_cpu_index;
- }
+-        cpu_list_lock();
++        pthread_mutex_lock(&clone_lock);
  
- void cpu_list_add(CPUState *cpu)
-@@ -90,8 +92,6 @@ void cpu_list_remove(CPUState *cpu)
-         return;
-     }
+         if (CPU_NEXT(first_cpu)) {
+-            TaskState *ts;
++            TaskState *ts = cpu->opaque;
  
--    assert(!(cpu_index_auto_assigned && cpu != QTAILQ_LAST(&cpus)));
--
-     QTAILQ_REMOVE_RCU(&cpus, cpu, node);
-     cpu->cpu_index = UNASSIGNED_CPU_INDEX;
- }
+-            /* Remove the CPU from the list.  */
+-            QTAILQ_REMOVE_RCU(&cpus, cpu, node);
++            object_property_set_bool(OBJECT(cpu), false, "realized", NULL);
++            object_unref(OBJECT(cpu));
++            /*
++             * At this point the CPU should be unrealized and removed
++             * from cpu lists. We can clean-up the rest of the thread
++             * data without the lock held.
++             */
+ 
+-            cpu_list_unlock();
++            pthread_mutex_unlock(&clone_lock);
+ 
+-            ts = cpu->opaque;
+             if (ts->child_tidptr) {
+                 put_user_u32(0, ts->child_tidptr);
+                 do_sys_futex(g2h(ts->child_tidptr), FUTEX_WAKE, INT_MAX,
+                           NULL, NULL, 0);
+             }
+             thread_cpu = NULL;
+-            object_unref(OBJECT(cpu));
+             g_free(ts);
+             rcu_unregister_thread();
+             pthread_exit(NULL);
+         }
+ 
+-        cpu_list_unlock();
++        pthread_mutex_unlock(&clone_lock);
+         preexit_cleanup(cpu_env, arg1);
+         _exit(arg1);
+         return 0; /* avoid warning */
 -- 
 2.20.1
 
