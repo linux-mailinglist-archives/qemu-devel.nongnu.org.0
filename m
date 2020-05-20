@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D641DB7AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 17:04:56 +0200 (CEST)
-Received: from localhost ([::1]:48452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE57D1DB7D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 17:12:13 +0200 (CEST)
+Received: from localhost ([::1]:54376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbQH9-0003eL-Vp
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 11:04:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35146)
+	id 1jbQOC-00005l-JW
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 11:12:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jbQFF-0001VG-GI
- for qemu-devel@nongnu.org; Wed, 20 May 2020 11:02:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30951
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jbQNL-0007eg-2Y
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 11:11:19 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44435
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jbQFD-0005zM-Um
- for qemu-devel@nongnu.org; Wed, 20 May 2020 11:02:56 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jbQNJ-0000O6-Uo
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 11:11:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589986973;
+ s=mimecast20190719; t=1589987475;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ENzz94L/o8ytsVx12JNcM7t1M7UTcH+sYxTluDO0kqE=;
- b=Ms62q3oWG23RGUUuVGnbPdBWuBF/TaDDtRuJwwH8MJ9V6xgbz3msjYwqwsqgDtm+118XgJ
- vRuWafFG+q3yEB6mQRukIpH6GBo8s5hEknYHvgo98l87uiAct5nOJa45eiU0atEw1ZKND2
- hErlqG6v+2ra8Fm++bfiVL0jNSs9bt0=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=H+VqHMnoUsUmSLlqYe+yF671Xo0R1cJZx6dSNOy88rM=;
+ b=Xypvh5QXOos0KBtmeEWLRatSeQEF1U/3goH2Bu3VXF69xFfD1+rFt5qhHg9fp4QFMGyP8i
+ qg8gYZmA7lEN93YPS/PQh7Pfh91StKugVRtYmZUDtyhvBq7fAWgMdzoT7ugvLrURcTkXCP
+ 7QY8u42K3ql99SbdEV8ZNcnLdzEDIRI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-KLkzjSnXMveDn1WMP2GbKQ-1; Wed, 20 May 2020 11:02:50 -0400
-X-MC-Unique: KLkzjSnXMveDn1WMP2GbKQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-94-kY0LMa_6OZSxP_ex4a3a7w-1; Wed, 20 May 2020 11:11:12 -0400
+X-MC-Unique: kY0LMa_6OZSxP_ex4a3a7w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56A4A1800738
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 15:02:49 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
- [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F36E2E17D;
- Wed, 20 May 2020 15:02:49 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 82D9211358BC; Wed, 20 May 2020 17:02:47 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 51/55] qdev: Make qdev_realize() support bus-less devices
-References: <20200519145551.22836-1-armbru@redhat.com>
- <20200519145551.22836-52-armbru@redhat.com>
- <b0188311-e138-cf55-c0e9-52313b5aa906@redhat.com>
-Date: Wed, 20 May 2020 17:02:47 +0200
-In-Reply-To: <b0188311-e138-cf55-c0e9-52313b5aa906@redhat.com> (Paolo
- Bonzini's message of "Wed, 20 May 2020 08:43:14 +0200")
-Message-ID: <87lflmps2w.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D62C8474;
+ Wed, 20 May 2020 15:11:11 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-114-169.ams2.redhat.com
+ [10.36.114.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A876A600E3;
+ Wed, 20 May 2020 15:11:10 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org,
+	armbru@redhat.com
+Subject: [PATCH 0/2] HMP: qom-get and set
+Date: Wed, 20 May 2020 16:11:06 +0100
+Message-Id: <20200520151108.160598-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 01:34:51
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 02:22:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ T_HK_NAME_DR=0.01 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,59 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com
+Cc: berrange@redhat.com, clg@kaod.org, afaerber@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-> On 19/05/20 16:55, Markus Armbruster wrote:
->> So far, qdev_realize() supports only devices that plug into a bus:
->> argument @bus cannot be null.  Extend it to support bus-less devices,
->> too.
->> 
->> qdev_realize_and_unref() remains restricted, because its reference
->> counting would become rather confusing for bus-less devices.
->
-> I think it would be fine, you would just rely on the reference held by
-> the QOM parent (via the child property).
+HMP has had a qom-set for a long time, but not a matching qom-get;
+various attempts have been made to add one over the last 5 years.
+Here's another go.
 
-I took one look at the contract I wrote for it, and balked :)
+It's got simpler due to a suggestion by Markus to take the output
+from qmp's qom-get.  While we're here, rework hmp's qom-set to be
+a wrapper around the qmp equivalent, which simplifies it a bit.
 
-qdev_realize()'s contract before this patch:
+In one post people didn't particularly like the use of JSON,
+but in the intervening 4 years no one has implemented anything to
+avoid it, and the output is trivially readable for non-structures
+and still pretty readable for (the very rare) structures.
 
-    /*
-     * Realize @dev.
-     * @dev must not be plugged into a bus.
-     * Plug @dev into @bus.  This takes a reference to @dev.
-     * If @dev has no QOM parent, make one up, taking another reference.
-     * On success, return true.
-     * On failure, store an error through @errp and return false.
-     */
-    bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
+Dave
 
-Simple enough.
+Dr. David Alan Gilbert (2):
+  hmp: Implement qom-get HMP command
+  hmp: Simplify qom_set
 
-This patch merely adds "If @bus, " before "plug".  Still simple enough.
+ hmp-commands.hx        | 14 ++++++++++++++
+ include/monitor/hmp.h  |  1 +
+ qom/qom-hmp-cmds.c     | 34 +++++++++++++++++++++++-----------
+ tests/qtest/test-hmp.c |  1 +
+ 4 files changed, 39 insertions(+), 11 deletions(-)
 
-qdev_realize_and_unref()'s contract:
-
-    /*
-     * Realize @dev and drop a reference.
-     * This is like qdev_realize(), except it steals a reference rather
-     * than take one to plug @dev into @bus.  On failure, it drops that
-     * reference instead.  @bus must not be null.  Intended use:
-     *     dev = qdev_new();
-     *     [...]
-     *     qdev_realize_and_unref(dev, bus, errp);
-     * Now @dev can go away without further ado.
-     */
-    bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp)
-
-If @bus is null, who gets to hold the stolen reference?
-
-You seem to suggest the QOM parent.  What if @dev already has a parent?
-
-Oh, sod it, let's go shopping.
+-- 
+2.26.2
 
 
