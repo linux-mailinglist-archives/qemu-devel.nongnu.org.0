@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E254B1DB4CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:19:30 +0200 (CEST)
-Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C3F1DB4DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 15:24:24 +0200 (CEST)
+Received: from localhost ([::1]:41614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbOd7-0000sL-Ec
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:19:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47230)
+	id 1jbOhr-0000fw-2R
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 09:24:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbOc4-00008L-Qo
- for qemu-devel@nongnu.org; Wed, 20 May 2020 09:18:25 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbOc3-0008K0-T9
- for qemu-devel@nongnu.org; Wed, 20 May 2020 09:18:24 -0400
-Received: by mail-oi1-x242.google.com with SMTP id o7so2884587oif.2
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 06:18:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TepDhlLU0nAXQ/3EFT4Au/LskTmn7y2T02RgQylmwCE=;
- b=eRAfzSRwgefe30hquLj+l+KcZeV47Y/dzsRlbWcu9X1s5S6dQB8VMA6DND+RJtR5Hq
- pJcy5z4wxwj2SZkNEGC0u90knOsSGly8olyKI1bt6KhYZyy0IWkQ+5eVGrz3ACBYvt41
- qjGPj7HDvOKqP+1C0XuA9MPzty5vVi8CwTvEAnWWFdT66Ac3cCbv52942NNZfgclDtLA
- Pwbjo7XWoYL3zjzQzDte7UQthvFI8tmrETHoUztvrP0Tq1ZUXjX54ajf+9nnB95SWVQ5
- QEguXpKR0xvrnpgookV+CWfv8znmGbpk1nZnEXTjFs3Ll/4FOy4T/3Nmf5ZhpMMJA3+5
- g3xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TepDhlLU0nAXQ/3EFT4Au/LskTmn7y2T02RgQylmwCE=;
- b=ZbWFA3YoVzEtIFOGsjebyJZ8Snv5jxSqtjWGoEsFFCTAS5MPc5KEFZlktTzrv5F2Fd
- ExgUa55g3zlCDjSxrPcsKcNRZeeOVLQAdbajhDRk3raxZH/yUWvm4+asAWPzX2rU7eJV
- hINvTuiHNI07axYu/vi1PhqffD28444argRThiLFP8yjByBV0cvW8dBxnG3SlRQeU/zh
- sucAXyvO9XNBjUAk+aPwKNG7xwXRufUn56XPd4cO/3ZRwHHrViKKoB0XDZm/KoNEkf9X
- eE4BYqlfn5Jmo+cQHDilGwy6rUuMSWb/WQJ+e49RSgSer20XiyzgpesmUBZLDCkvjqgq
- r9TA==
-X-Gm-Message-State: AOAM532umI77n5Ohpdc1xyINpR0oy8sLeG+9UPxd+ae9rhJF5y95SXxg
- vLvAO5hIbCpLSCVwCQWxeLslYbfXGtUsl3IQJwxllA==
-X-Google-Smtp-Source: ABdhPJwedkIt34pH4V1HBtOut9KBzqj1lVXeNAENp8aK4A48FaZElvxDL4w3J4yfCwZw8+egK0i8FRCCJgsWdb3s5WE=
-X-Received: by 2002:aca:eb96:: with SMTP id j144mr2875647oih.48.1589980702714; 
- Wed, 20 May 2020 06:18:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbOe5-0001ss-V3
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 09:20:29 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43533
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbOe3-0000EX-3H
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 09:20:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589980826;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LjEUqtAyDJRh+3ySal0dAeENhAV5iT0I2cr2A1T9mw0=;
+ b=FepzWlt692Lxd9hlpzdXSef+3wm1WecOIyu1oJ3w1ELRYo6ECuQauvSCMMgSqOr6thfi6b
+ Dz/p7jbeNWeqF1EfViDf4vKcQHbcG3Q9t2qeLpFzg6zUmiIzMB2jW85BRdqf6o58hANhIP
+ 7iK8W17MMrTzpyQ3/s8AGnmB2tfepu4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481-_O4RNU_fMvqSY4AG9lTl1A-1; Wed, 20 May 2020 09:20:19 -0400
+X-MC-Unique: _O4RNU_fMvqSY4AG9lTl1A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E23C835B45;
+ Wed, 20 May 2020 13:20:18 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
+ [10.36.113.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E49DF6246F;
+ Wed, 20 May 2020 13:20:07 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8A74617444; Wed, 20 May 2020 15:20:03 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/22] microvm: add acpi support
+Date: Wed, 20 May 2020 15:19:41 +0200
+Message-Id: <20200520132003.9492-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20200512064900.28554-1-pauldzim@gmail.com>
- <20200512064900.28554-5-pauldzim@gmail.com>
- <CAFEAcA8ru0DyVTvVcTjf0AH8wi+d64m=iP_qbHrsLnGt65Y0Kg@mail.gmail.com>
- <CADBGO79puzxx8dC2_kxe0eGJ34fn=DwwgNfL9xSBt=dQvEcOUw@mail.gmail.com>
-In-Reply-To: <CADBGO79puzxx8dC2_kxe0eGJ34fn=DwwgNfL9xSBt=dQvEcOUw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 20 May 2020 14:18:11 +0100
-Message-ID: <CAFEAcA_SVkgtr959SGKCgdFHX15pq-bkHXbF5RvMJXhVgBfb0Q@mail.gmail.com>
-Subject: Re: [PATCH v5 4/7] dwc-hsotg (dwc2) USB host controller emulation
-To: Paul Zimmerman <pauldzim@gmail.com>,
- Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 04:09:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,26 +77,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, John Snow <jsnow@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 May 2020 at 06:49, Paul Zimmerman <pauldzim@gmail.com> wrote:
-> Is there a tree somewhere that has a working example of a
-> three-phase reset? I did a 'git grep' on the master branch and didn't
-> find any code that is actually using it. I tried to implement it from
-> the example in reset.rst, but I'm getting a segfault on the first line in
-> resettable_class_set_parent_phases() that I'm having trouble figuring
-> out.
+I know that not supporting ACPI in microvm is intentional.  If you still
+don't want ACPI this is perfectly fine, you can use the usual -no-acpi
+switch to toggle ACPI support.
 
-Hmm, I thought we'd committed a change of a device to use the new
-mechanism along with the actual implementation but I can't see it
-now. Damien, what's the status with getting Xilinx devices to use the
-3-phase reset API?
+These are the advantages you are going to loose then:
 
-thanks
--- PMM
+  (1) virtio-mmio device discovery without command line hacks (tweaking
+      the command line is a problem when not using direct kernel boot).
+  (2) Better IO-APIC support, we can use IRQ lines 16-23.
+  (3) ACPI power button (aka powerdown request) works.
+  (4) machine poweroff (aka S5 state) works.
+
+Together with seabios patches for virtio-mmio support this allows to
+boot standard fedora images (cloud, coreos, workstation live) with the
+microvm machine type.
+
+git branch for testing (including updated seabios):
+	https://git.kraxel.org/cgit/qemu/log/?h=sirius/microvm
+
+changes in v2:
+  * some acpi cleanups are an separate patch series now.
+  * switched to hw reduced acpi & generic event device.
+  * misc fixes here and there.
+
+changes in v3:
+  * depeds on "[PATCH v6 00/16] acpi: i386 tweaks" series.
+  * renamed qboot to qboot.bin
+  * updated seabios to master branch snapshot.
+    - this version boots fine with rtc=off
+  * generic event device tweaks (Igor's comments).
+  * make SMP work.
+  * add RfC patches to turn off acpi by default for microvm.
+  * misc fixes here and there.
+
+cheers,
+  Gerd
+
+Gerd Hoffmann (22):
+  microvm: name qboot binary qboot.bin
+  [testing] seabios: update submodule to master snapshot
+  [testing] seabios: update config & build rules
+  [testing] seabios: update binaries to master snapshot
+  acpi: make build_madt() more generic.
+  acpi: create acpi-common.c and move madt code
+  acpi: madt: skip pci override on pci-less systems.
+  acpi: fadt: add hw-reduced sleep register support
+  acpi: ged: rename event memory region
+  acpi: ged: add control regs
+  acpi: ged: add x86 device variant.
+  acpi: move acpi_dsdt_add_power_button() to ged
+  x86: coldplug cpus
+  microvm: use 2G split unconditionally
+  microvm: make virtio irq base runtime configurable
+  microvm/acpi: add minimal acpi support
+  microvm/acpi: add acpi_dsdt_add_virtio() for x86
+  microvm/acpi: use GSI 16-23 for virtio
+  microvm/acpi: use seabios with acpi=on
+  microvm/acpi: disable virtio-mmio cmdline hack
+  [RfC] acpi: add per machine type acpi default
+  [RfC] acpi: flip default to off for microvm
+
+ hw/i386/acpi-common.h                  |  15 ++
+ hw/i386/acpi-microvm.h                 |   6 +
+ include/hw/acpi/acpi-defs.h            |   2 +
+ include/hw/acpi/generic_event_device.h |  14 +-
+ include/hw/i386/microvm.h              |  11 +-
+ include/hw/i386/x86.h                  |   1 +
+ hw/acpi/aml-build.c                    |   4 +-
+ hw/acpi/generic_event_device.c         |  68 ++++++-
+ hw/arm/virt-acpi-build.c               |   8 -
+ hw/i386/acpi-build.c                   | 126 +------------
+ hw/i386/acpi-common.c                  | 156 +++++++++++++++++
+ hw/i386/acpi-microvm.c                 | 234 +++++++++++++++++++++++++
+ hw/i386/generic_event_device_x86.c     |  36 ++++
+ hw/i386/microvm.c                      |  78 ++++++---
+ hw/i386/x86.c                          |  32 +++-
+ hw/i386/Kconfig                        |   1 +
+ hw/i386/Makefile.objs                  |   3 +
+ pc-bios/bios-256k.bin                  | Bin 262144 -> 262144 bytes
+ pc-bios/bios-microvm.bin               | Bin 65536 -> 131072 bytes
+ pc-bios/bios.bin                       | Bin 131072 -> 131072 bytes
+ pc-bios/qboot.bin                      | Bin 0 -> 65536 bytes
+ roms/Makefile                          |  11 +-
+ roms/config.seabios-128k               |   3 +
+ roms/config.seabios-microvm            |  26 +++
+ roms/seabios                           |   2 +-
+ 25 files changed, 664 insertions(+), 173 deletions(-)
+ create mode 100644 hw/i386/acpi-common.h
+ create mode 100644 hw/i386/acpi-microvm.h
+ create mode 100644 hw/i386/acpi-common.c
+ create mode 100644 hw/i386/acpi-microvm.c
+ create mode 100644 hw/i386/generic_event_device_x86.c
+ create mode 100644 pc-bios/qboot.bin
+ create mode 100644 roms/config.seabios-microvm
+
+-- 
+2.18.4
+
 
