@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3919F1DB600
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:13:14 +0200 (CEST)
-Received: from localhost ([::1]:55992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51ADD1DB60C
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:17:54 +0200 (CEST)
+Received: from localhost ([::1]:43878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbPT7-0003y8-AU
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:13:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55188)
+	id 1jbPXd-0003FK-BM
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:17:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPM2-0008S8-2b
+ id 1jbPM2-0008Tk-Oo
  for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:54 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:42853)
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:42781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPM0-0001w4-No
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:53 -0400
-Received: by mail-ed1-x544.google.com with SMTP id k19so3171064edv.9
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:05:51 -0700 (PDT)
+ id 1jbPM1-0001xj-C8
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:54 -0400
+Received: by mail-ej1-x643.google.com with SMTP id se13so3922029ejb.9
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:05:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Qlw02NVecU/ZV81h9ZnM/tUYlZiIp12SHyZcSJattzs=;
- b=GsU/pvJ/JHy8w8Ig8FKbPM88bWyQGq4vVeUgJlAytd9wp1HL1+gUZC7Q5GJe9PkIDn
- AZ2AHbpneM034tY5zqEu0D17nBfZpCyKbDM79aKcQ6G3xQzvr09n3pBl+gppS8kU00BD
- bNFJpn2waToX2wc4ijSvJz9h5a5xEWDUM62YK9dDs04KsizFoVS7HrnHOFwpMacJp5/J
- TFQfz6fPVoFTZyCEtkAp045fofCHKfFEgX6e3cT1EL9NPot185bMY1SlVd1Y2UEjABPl
- 5qnOrFHu2DTqyUsH9iQJ19o2Y7nQa84i5Whj2om3+69r6SB0aiWlqk3zk+1TvRyns0sq
- SaZQ==
+ bh=6AuJncFd/Ok9B8fiGwq2VbdoGBxgxt1TjrXD5Ap1HKs=;
+ b=tNPpU6C0A1kGGe5FJwWmzvRV2JCheNZ5RR5pmpB5Jqzpx4yFl8Dc5WzLzIUVZKuHWV
+ d00BFjBmjSPHRF/UEwL41UbJcXY4/AvplY8J2NsqKwcHbPZa5lYoxozEZCmYQn6Y0OZV
+ ZgXIM2fjJh4wKqJ3ZpCH23Aindr/nUJbRo/y55zdLvz6uV5rqaSzeKgBf3q6DTxHEas+
+ oW5fnjYcQM6GQ4yPxGDL6Mufssf5Nh0e/QpWksBuzckKBSYt+dU+Ti3/wl9LQCMqru+z
+ pIhHm+leAVRHkeUXvkRNdzynhyaMgBuusHXQxm+Y50un12Z5LBOTtADBIM+smYwb7mdu
+ mbnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Qlw02NVecU/ZV81h9ZnM/tUYlZiIp12SHyZcSJattzs=;
- b=WSi+8917AeAQpih/Qet/GtrFPyW9nUrh4Y8oAfTymKuIOj18UrML3cXOTq77pND0s2
- vHkFwx1QmJif/y09yc+I3uBdnoqiH3ZaZdlVYH7dghosnCXC0qMhdrQ8vEyK+RC1VtLi
- AlvUgynU2Ls9CLBjjY4UU3QaqOFB0aaAJJzP2Q1nAw8qcjOgDKYYM7eKLCLkke//qaTG
- GLasr0GEd/UIEKrTJ+FyZp/rzX7b58IF5lDlFC0ev7P8IpfJUPANadqgEmY2dy6YIPP3
- lcrxf7o9e8kqr43/p0VIIldpMbFTXNGwr3/WdsX+oUaLRpTks/bbvwsO95fD6a/R69Xj
- K0xg==
-X-Gm-Message-State: AOAM533QoyZ0ZaW7nC2iLM2sLYqIsqslEaxRVcY1v/ZSfDlOm4M5VjQC
- kzwWVgxyleSSn1H9bIpTs2U458/6mR0=
-X-Google-Smtp-Source: ABdhPJzo4fzavfXL6hcnnvlYv1yluh6pGjaOaX03x3LyqQVd4vC1a+8sf16Brar8cTLUjIkvrQjbEA==
-X-Received: by 2002:aa7:db45:: with SMTP id n5mr3355029edt.147.1589983550701; 
- Wed, 20 May 2020 07:05:50 -0700 (PDT)
+ bh=6AuJncFd/Ok9B8fiGwq2VbdoGBxgxt1TjrXD5Ap1HKs=;
+ b=tEh/0Ae52sLWMPeGTwgCz9EYIPAsYFjTcPeuXHa7Ypy5GnL+l4MJeRTkf0FWr1fQnX
+ 3GU3SvL+5+Wq8SLU7fZj8efyv+uCXU2Smg5YrnZT+oZkrftkxJcXd/lrDMGCO8EBZEtg
+ MdV4mCJZIUyhs9jwQ/cYoMXCWIu+z9XuiXNGFou96khkSdJlx4Mma5SLxaTPmyXoX1G+
+ hjTf0Hw4QKhVtAWoSnwppL3m+xf8E3VE0jR3/rvX9ub6e6Pfz/jd1IeqShe1ilSjCGS2
+ kRVEZ97nvWVizeQ57gk/2JEpLW0k/+cJhAWaGBuBmpObFyzS4cTe6LSJYAsHOodOtJLb
+ g6rA==
+X-Gm-Message-State: AOAM533tWeOue9oTR43QtBpemDcK7y5L7BRAsGcX+/tL2SZenI8OPeFJ
+ fNbiXLbVuH+9b6UiRH9SsgxOa/r6w+Y=
+X-Google-Smtp-Source: ABdhPJzJ5ktxU/DFfct0/NEZuxHcZ5OPqiNYMXEZdN0C8R9s+bULExW/9OjLq/RyQP0xRdaIc1WdPg==
+X-Received: by 2002:a17:906:b2c6:: with SMTP id
+ cf6mr3855268ejb.210.1589983551950; 
+ Wed, 20 May 2020 07:05:51 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id gf25sm1973382ejb.54.2020.05.20.07.05.45
+ by smtp.gmail.com with ESMTPSA id b16sm1873467edu.89.2020.05.20.07.05.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 20 May 2020 07:05:49 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A39DE1FF91;
+ by zen.linaroharston (Postfix) with ESMTP id B781B1FF92;
  Wed, 20 May 2020 15:05:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 05/15] tests/fp: enable extf80_le_quite tests
-Date: Wed, 20 May 2020 15:05:31 +0100
-Message-Id: <20200520140541.30256-6-alex.bennee@linaro.org>
+Subject: [PATCH  v1 06/15] tests/fp: split and audit the conversion tests
+Date: Wed, 20 May 2020 15:05:32 +0100
+Message-Id: <20200520140541.30256-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200520140541.30256-1-alex.bennee@linaro.org>
 References: <20200520140541.30256-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,32 +93,100 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These have been fixed now so we no longer need a special version of
-the le_quiet rule to skip the test.
+Split the float conversion tests into separate groups and audit the
+tests to check what is still broken. I was able to enable a bunch of
+tests that had been missed before:
+
+  all the float to float conversions
+  ui32_to_extF80
+  ui64_to_extF80
+  extF80_to_ui32
+  extF80_to_ui32_r_minMag
+  extF80_to_ui64
+  extF80_to_ui64_r_minMag
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/Makefile.include | 7 -------
- 1 file changed, 7 deletions(-)
+ tests/Makefile.include | 37 ++++++++++++++++++++++++++++++++-----
+ 1 file changed, 32 insertions(+), 5 deletions(-)
 
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 03a74b60f6b..e6d87fcbf0e 100644
+index e6d87fcbf0e..a00ccc94b8b 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -741,13 +741,6 @@ check-softfloat-%: $(FP_TEST_BIN)
- SF_COMPARE_OPS=eq eq_signaling le le_quiet lt_quiet
- SF_COMPARE_RULES=$(patsubst %,check-softfloat-%, $(SF_COMPARE_OPS))
+@@ -687,11 +687,26 @@ test-softfloat = $(call quiet-command, \
+ 			(cat $2.out && exit 1;), \
+ 			"FLOAT TEST", $2)
  
--# FIXME: extF80_le_quiet (broken)
--check-softfloat-le_quiet: $(FP_TEST_BIN)
--	$(call test-softfloat, 				\
--		f16_le_quiet f32_le_quiet f64_le_quiet  \
--		f128_le_quiet, 				\
--		le_quiet)
--
- # FIXME: extF80_lt_quiet (broken)
- check-softfloat-lt_quiet: $(FP_TEST_BIN)
- 	$(call test-softfloat, 				\
+-# Conversion Routines:
++# Conversion Routines: Float to Float
++# FIXME: f32_to_f128 (broken), f64_to_f128 (broken)
++# FIXME: f128_to_f32(broken), f128_to_f64 (broken)
++# FIXME: f128_to_extF80 (broken)
++check-softfloat-conv-f2f: $(FP_TEST_BIN)
++	$(call test-softfloat, \
++		f16_to_f32 f16_to_f64 \
++		f16_to_extF80 f16_to_f128 \
++		f32_to_f16 f32_to_f64 \
++		f32_to_extF80 \
++		f64_to_f16 f64_to_f32 \
++		extF80_to_f16 extF80_to_f32 \
++		extF80_to_f64 extF80_to_f128 \
++		f128_to_f16, \
++		float-to-float)
++
++# Conversion Routines: Int and Uint to Float
+ # FIXME: i32_to_extF80 (broken), i64_to_extF80 (broken)
+-#        ui32_to_f128 (not implemented), extF80_roundToInt (broken)
+-#
+-check-softfloat-conv: $(FP_TEST_BIN)
++#        ui32_to_f128 (not implemented)
++check-softfloat-conv-to-float: $(FP_TEST_BIN)
+ 	$(call test-softfloat, \
+ 		i32_to_f16 i64_to_f16 \
+ 		i32_to_f32 i64_to_f32 \
+@@ -701,7 +716,12 @@ check-softfloat-conv: $(FP_TEST_BIN)
+ 		ui32_to_f16 ui64_to_f16 \
+ 		ui32_to_f32 ui64_to_f32 \
+ 		ui32_to_f64 ui64_to_f64 \
++		ui32_to_extF80 ui64_to_extF80 \
+ 		ui64_to_f128, uint-to-float)
++
++# Conversion Routines: Float to integers
++# FIXME: extF80_roundToInt (broken)
++check-softfloat-conv-to-int: $(FP_TEST_BIN)
+ 	$(call test-softfloat, \
+ 		f16_to_i32 f16_to_i32_r_minMag \
+ 		f32_to_i32 f32_to_i32_r_minMag \
+@@ -718,10 +738,12 @@ check-softfloat-conv: $(FP_TEST_BIN)
+ 		f16_to_ui32 f16_to_ui32_r_minMag \
+ 		f32_to_ui32 f32_to_ui32_r_minMag \
+ 		f64_to_ui32 f64_to_ui32_r_minMag \
++		extF80_to_ui32 extF80_to_ui32_r_minMag \
+ 		f128_to_ui32 f128_to_ui32_r_minMag \
+ 		f16_to_ui64 f16_to_ui64_r_minMag \
+ 		f32_to_ui64 f32_to_ui64_r_minMag \
+ 		f64_to_ui64 f64_to_ui64_r_minMag \
++		extF80_to_ui64 extF80_to_ui64_r_minMag \
+ 		f128_to_ui64 f128_to_ui64_r_minMag, \
+ 		float-to-uint)
+ 	$(call test-softfloat, \
+@@ -729,9 +751,14 @@ check-softfloat-conv: $(FP_TEST_BIN)
+ 		f64_roundToInt f128_roundToInt, \
+ 		round-to-integer)
+ 
++.PHONY: check-softfloat-conv
++check-softfloat-conv: check-softfloat-conv-f2f
++check-softfloat-conv: check-softfloat-conv-to-float
++check-softfloat-conv: check-softfloat-conv-to-int
++
+ # Generic rule for all float operations
+ #
+-# Some patterns are overidden due to broken or missing tests.
++# Some patterns are overridden due to broken or missing tests.
+ # Hopefully these can be removed over time.
+ 
+ check-softfloat-%: $(FP_TEST_BIN)
 -- 
 2.20.1
 
