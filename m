@@ -2,78 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22AA41DB9C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 18:38:18 +0200 (CEST)
-Received: from localhost ([::1]:58766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA981DB94E
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 18:30:13 +0200 (CEST)
+Received: from localhost ([::1]:44286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbRjV-0006rH-44
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 12:38:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48056)
+	id 1jbRbg-0004jo-Ve
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 12:30:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=40290bcd2=alistair.francis@wdc.com>)
- id 1jbRi2-0005CJ-0K; Wed, 20 May 2020 12:36:46 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:11692)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=40290bcd2=alistair.francis@wdc.com>)
- id 1jbRi1-0002lX-6B; Wed, 20 May 2020 12:36:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1589992605; x=1621528605;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=DOagZFIyWIOdVZLyXWb+AMorfmw3jWNAx6DX9j9m1ns=;
- b=JYadaoSS+1z9J2fXqAgMLtEyHPEUWCcCLmGQ7ybEvTZGWJk5aHG57iKP
- 3ARROFDl0LANkd0i3+sJdkvn8LysyDYckgrCSn9/LGbtp+MlGYISrVL6E
- 98Gmi4JCsT4IcdfI4kgz75UH2fYCp/4oZe/7TxaWAG+uUzPlP+YANsDpe
- dPeioAHVFRV2BPIVhqi51SGz8a9mcWE3recz+l4I+4PsoLCi3YS3GgfGA
- bzm82rDpPAfeldQrF3hYQLtaoHAE06IDeg6Bzi40eFHIO0ESg/GPniPyg
- W6HPPm67m/JXl+/4ZGPLNXJV1WIE6ipqjLJmC1GbubpNe3HvsgjsNpw2A w==;
-IronPort-SDR: JNlcbRFmI/YXLsQp/CEPDQbu0LQk5a8GcqafmwcylkxAuDXVug/epTkP6zKMt0AiHi22ZOJH/L
- EOIzONzH/xZ7+DgoP1xpvPhCJzLU0iTnBavaugm29bl6IZkKhApguDMPM9n1t0GifuQGvnq8mC
- oS6IuNDZL6f6V5TQVlkLZIFwmlFS0BctxH/d/JbvS8Ml5iJQQvZxvT16kqkQoRtMxIZ/ykgrlx
- 4ophXDQnW/sBb9mOz+GVQ8ddCVqpHc7Wax7B7+wFU/RdqNjcAkDMlt4ckHkCmE+rvtwy3AZrUn
- PaQ=
-X-IronPort-AV: E=Sophos;i="5.73,414,1583164800"; d="scan'208";a="138468215"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 May 2020 00:36:44 +0800
-IronPort-SDR: THwWWngZAjQ84jL8glqVb88OIZ63FQpRMEFlOWX4dRH0aFNV+pXyFjy13CagFGTyu5pjpZpBlw
- RMtdit1SampdjxSVWgwnnEv2DyL9J6zkI=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 May 2020 09:26:46 -0700
-IronPort-SDR: BO2RXBNVmC0/n1sGE6nS4bygGRRdEcWAX/Y8QorFtY/bxftrqIza4LsjeD3i4yE1LK5jUV/SNo
- hoVvnN/8kyng==
-WDCIronportException: Internal
-Received: from 96yhgc2.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.57.51])
- by uls-op-cesaip02.wdc.com with ESMTP; 20 May 2020 09:36:43 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2 2/2] sifive_e: Support the revB machine
-Date: Wed, 20 May 2020 09:28:15 -0700
-Message-Id: <9a45e819e850f6c913340a03c475b93428e9d139.1589992028.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1589992028.git.alistair.francis@wdc.com>
-References: <cover.1589992028.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jbRaL-0003y1-To
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 12:28:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20180
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jbRaL-00016r-7G
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 12:28:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589992128;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BBZjUY8icn0goV0DvA5D98N6qa9Lrwi7PhJKO85t6JE=;
+ b=PdW6xYXXX718W6i5EOtgLsF3vu2vquYEzrIQhFQ9rD1xTL6fX7YyzmY26hAJfqg1fTU6kn
+ oqrDSlwpKK+zf0wyn7mjSUHst8FaiW6mjFLTaNwGRBwJsMRwP6rz+BK0xGAadL606+m1QD
+ DMNQ0lp2KAZkBMLKJMmHsquo2PgnNbs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-CFxjPPNtOYmJM9J0808mVw-1; Wed, 20 May 2020 12:28:46 -0400
+X-MC-Unique: CFxjPPNtOYmJM9J0808mVw-1
+Received: by mail-wr1-f69.google.com with SMTP id i9so1633997wrx.0
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 09:28:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BBZjUY8icn0goV0DvA5D98N6qa9Lrwi7PhJKO85t6JE=;
+ b=kEyYfKCilTFb+IxNAuzTov1kkKeprtdDrhMUy6zu/1idH+lXBgtflkBoAO63hXms0G
+ zQyuNZ7VEKiTU440zcltdMt42hyloTvPTWK2ji4klm1U46hltSdXuBbZDT2PJswE+c9w
+ 2JANEuvTELGI7uk+3EhvrZPcX/R877DMAg8Y7hTVzbF6rnQH55XeUNOcU8smtN++YC7d
+ hBttuAmSooH0Z0AGVBPOmuujcZUsvnmlWAveFrzuZNn8yDdcyKfR3bR+ktz1GMbw+6sl
+ fCb6y1RQzK5OMLDApCob0Kya1DZlGp+7JEfh8IR/NCwYTKDJdPvrLGYay4AyJJ4cDUYM
+ P9fA==
+X-Gm-Message-State: AOAM530oTD44SPaB+tjtOLpLDpZq6Z5UJXrwPvQ1h1s2ohMul49DIBcq
+ 5eMeLHHsSKyDGR/C5OjLdw6wmAOeRA5gxq/S/ZOFyyqsQRhudJ78+Oarg/xvqGbY9RBTKiVXteP
+ ReBaWqoDhUv0MpWc=
+X-Received: by 2002:a1c:2e46:: with SMTP id u67mr5155387wmu.156.1589992125304; 
+ Wed, 20 May 2020 09:28:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzt3JwMfOBClPx27+NPomZTTvNAEsu8b5k+3QHAvMz/E8PNKC5niy1R94y5lWvH6f5tz/u+XA==
+X-Received: by 2002:a1c:2e46:: with SMTP id u67mr5155379wmu.156.1589992125117; 
+ Wed, 20 May 2020 09:28:45 -0700 (PDT)
+Received: from [192.168.178.58] ([151.30.94.134])
+ by smtp.gmail.com with ESMTPSA id s8sm3185108wrt.69.2020.05.20.09.28.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 May 2020 09:28:44 -0700 (PDT)
+Subject: Re: [PATCH 03/55] qdev: New qdev_new(), qdev_realize(), etc.
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200519145551.22836-1-armbru@redhat.com>
+ <20200519145551.22836-4-armbru@redhat.com>
+ <9b329adc-8110-c108-996a-3b7d8463d042@redhat.com>
+ <871rnft498.fsf@dusky.pond.sub.org>
+ <c3c59472-9f2a-f30a-deed-36192840a892@redhat.com>
+ <871rner7ki.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <75f22571-138a-337b-a1c3-e715b1622bae@redhat.com>
+Date: Wed, 20 May 2020 18:28:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=40290bcd2=alistair.francis@wdc.com;
- helo=esa5.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 12:36:38
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <871rner7ki.fsf@dusky.pond.sub.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 01:34:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,85 +103,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, philmd@redhat.com, palmer@dabbelt.com,
- bmeng.cn@gmail.com, alistair23@gmail.com
+Cc: berrange@redhat.com, ehabkost@redhat.com,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- include/hw/riscv/sifive_e.h |  1 +
- hw/riscv/sifive_e.c         | 35 +++++++++++++++++++++++++++++++----
- 2 files changed, 32 insertions(+), 4 deletions(-)
+On 20/05/20 16:42, Markus Armbruster wrote:
+> If something goes
+> wrong there, we execute
+> 
+>     fail:
+>         error_propagate(errp, local_err);
+>         if (unattached_parent) {
+>             /*
+>              * Beware, this doesn't just revert
+>              * object_property_add_child(), it also runs bus_remove()!
+>              */
+>             object_unparent(OBJECT(dev));
+>             unattached_count--;
+>         }
+> 
+> and bus_remove() drops the reference count to zero.
 
-diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-index 414992119e..0d3cd07fcc 100644
---- a/include/hw/riscv/sifive_e.h
-+++ b/include/hw/riscv/sifive_e.h
-@@ -45,6 +45,7 @@ typedef struct SiFiveEState {
- 
-     /*< public >*/
-     SiFiveESoCState soc;
-+    bool revb;
- } SiFiveEState;
- 
- #define TYPE_RISCV_E_MACHINE MACHINE_TYPE_NAME("sifive_e")
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 472a98970b..cb7818341b 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -98,10 +98,14 @@ static void riscv_sifive_e_init(MachineState *machine)
-         memmap[SIFIVE_E_DTIM].base, main_mem);
- 
-     /* Mask ROM reset vector */
--    uint32_t reset_vec[2] = {
--        0x204002b7,        /* 0x1000: lui     t0,0x20400 */
--        0x00028067,        /* 0x1004: jr      t0 */
--    };
-+    uint32_t reset_vec[2];
-+
-+    if (s->revb) {
-+        reset_vec[0] = 0x200102b7;        /* 0x1000: lui     t0,0x20010 */
-+    } else {
-+        reset_vec[0] = 0x204002b7;        /* 0x1000: lui     t0,0x20400 */
-+    }
-+    reset_vec[1] = 0x00028067;        /* 0x1004: jr      t0 */
- 
-     /* copy in the reset vector in little_endian byte order */
-     for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
-@@ -115,8 +119,31 @@ static void riscv_sifive_e_init(MachineState *machine)
-     }
- }
- 
-+static bool sifive_e_machine_get_revb(Object *obj, Error **errp)
-+{
-+    SiFiveEState *s = RISCV_E_MACHINE(obj);
-+
-+    return s->revb;
-+}
-+
-+static void sifive_e_machine_set_revb(Object *obj, bool value, Error **errp)
-+{
-+    SiFiveEState *s = RISCV_E_MACHINE(obj);
-+
-+    s->revb = value;
-+}
-+
- static void sifive_e_machine_instance_init(Object *obj)
- {
-+    SiFiveEState *s = RISCV_E_MACHINE(obj);
-+
-+    s->revb = false;
-+    object_property_add_bool(obj, "revb", sifive_e_machine_get_revb,
-+                             sifive_e_machine_set_revb, NULL);
-+    object_property_set_description(obj, "revb",
-+                                    "Set on to tell QEMU that it should model "
-+                                    "the revB HiFive1 board",
-+                                    NULL);
- }
- 
- static void sifive_e_machine_class_init(ObjectClass *oc, void *data)
--- 
-2.26.2
+Whoa whoa...  I didn't expect this from a failure to realize.
+
+I think we should move the whole /machine/unattached dance into
+qdev_realize, and just assert that a device being realized already has a
+parent.  Then the ref/unref _will_ be unnecessary.  In the meanwhile, I
+agree to either keep it or move it inside device_set_realized.
+
+Thanks,
+
+Paolo
 
 
