@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3E11DB606
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:15:41 +0200 (CEST)
-Received: from localhost ([::1]:35288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3EE1DB5EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:08:36 +0200 (CEST)
+Received: from localhost ([::1]:36898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbPVU-0007fv-J3
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:15:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55192)
+	id 1jbPOd-00049B-GX
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:08:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPM2-0008Sz-H8
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:54 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:34964)
+ id 1jbPM1-0008Qz-Hd
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:53 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:35291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPM0-0001ur-OJ
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:54 -0400
-Received: by mail-ej1-x633.google.com with SMTP id s21so3982651ejd.2
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:05:50 -0700 (PDT)
+ id 1jbPM0-0001tc-O7
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:53 -0400
+Received: by mail-ej1-x642.google.com with SMTP id s21so3982580ejd.2
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:05:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+eYBUW9i9LEqNAlwNOSXlSk7O/CmGupV0lmi1g2GZD4=;
- b=qAZ/tnxvhbwE8lF4CoUEsT1QfzJvxKEy9Zn159AoIUQFUH7eqeycSQj3fFG+5HXHOa
- +g5HgxBGl8VQyekidzHCF1O1r6M0dpW4356a0wfYPY4GtfbfFG9bst8QFZZzCio7AXdy
- YPPE5V7eTHgBcQe1KFzPywxQWKVj7GXUf85dn57eV/0Fyc5EzmSAe6dJUBLfe5WnfnOy
- l8g16uFzwvnS5r6bDDoD4eDEMSwGSy2p6TAeIJibgy3XQdFWXUJUtiO5nJMdC38rrTb3
- cUUuK/JZuEEU4tYA9kqQCCKYAG2Ba8ZGoID7qlyrg+5to8+B1M7uX8ly5aSfELA7wb08
- 8kRA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=mvfZ9b5X++pjGPlHODQLP+73HAFs/zH+An8fEoHT3r0=;
+ b=lbqpozNmAb3aRO7b+SST0+hxyC4PY7mto6WovSWVkUo3NE6DY4rIqhynN7k3L6FWfH
+ MNrijzr+8Krb6W8ERK/b1GxWSm0qYnFtZX1kA4RjnG7mi2Kovm0yR5tolGF/BhIFrGTf
+ kv+oqzgEUlgr4FRJaHj7YKm6b0oZGomWcnV6JLVI65p9H4aREhp728lJeeHjOsfg2SmI
+ rG6gvcC/oKUtN66IYfnPA8yWIXUBI+rEaWuDS4dfeCNR9j7d29P8NkWakIsR+odvk/+z
+ O0ojMCOiZNq8hhPQKQM/QXNsQ3n8WiYQ3rHSYc9fwHD8PRV1044YTR6ZRajB/+joI/M4
+ ptcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+eYBUW9i9LEqNAlwNOSXlSk7O/CmGupV0lmi1g2GZD4=;
- b=f+IU06eHs4+sJ/x95WV+XUG9WaXSDz0U6izjT5svpwm647m4/ZipkYSS9G1E3rXGyg
- FGT+zErnb5kPiS/2yS1HkkZEFrY3FefwDMHP6vWbF1i5X8ljUDLASL7EmPiFhCOeM0kl
- SdnXubb99KD4cIc0Ptd8wex+FzLEqAD3e4KsVQCBaCd6Rsd2Y9+9Nv/YFbGpylTJHdkv
- iZwf62xMV89U2pENBFZEbLZPP3+5Pn6U+huMGRMAvmfHYvUuvpGpMuADregQ2D4ZSvck
- ky2mJ8l8k7k1Ns3qViY2S4jJi/2dvO8WOgkeMtMuCKNK2/7oV7LOFsDQVZgdQu+9wUFC
- fshg==
-X-Gm-Message-State: AOAM533nt9+KFzQXjcpuMtKZ/rRZrU8JEyf8Ox3gIQuZ0NRg9RQO7bFX
- wQu3OT3WfCEY90656XBnAXhQjA==
-X-Google-Smtp-Source: ABdhPJzzfwD/nEoTUOfwmj4n8I+Zm3Z4wz+xUrNImqfYoOHdmgRUXKCBOdtg7n3zayQZT2/v6MfaaA==
-X-Received: by 2002:a17:906:2610:: with SMTP id
- h16mr3994006ejc.423.1589983544544; 
- Wed, 20 May 2020 07:05:44 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=mvfZ9b5X++pjGPlHODQLP+73HAFs/zH+An8fEoHT3r0=;
+ b=G58ZyDmD0dLnCaYSaxfX6AhSaU8qoczpzLaxFIxztIot+neCe6PlvUwF6r61c2C/1b
+ Yjq9278zkWLc9ayuy9VYE5VdRih/HvtxRVqbWFyKcA96CJkvoLACDoNNPMO1knUPR7hI
+ Z4tXJnoSZ638uo1fc7ZiBIFu2PDfc4nf89IbXKU1hliQxq9JXPdSQmMJ6LGiiC7sUzEA
+ aDLJacmblBylA6ajcYZoqLnosDOC9iIQEe+aMYs8VKID+TG1tWYCnJoCqTigftql7O3n
+ 1Qhxryv/mqeK/OFpdLKHOfhECmmABSrN+/+Zqmrhn9wbHP0XH48TUQG8debD4RoiL+Ub
+ 41bg==
+X-Gm-Message-State: AOAM533Noev1J3qphx1EKwFix3MTs5oTIW52veKXOd3/xNcyUsamM3FL
+ zRBrq0ytFn84O/l8kx9c7iNQU3cCO6M=
+X-Google-Smtp-Source: ABdhPJxKbw0YI15135ryOFdJhtTO5KfRNwrIdNtEq0cmQgmhGVgK+Rwzm795Ce/HsZVSH1TqexQMBA==
+X-Received: by 2002:a17:906:9404:: with SMTP id
+ q4mr3769343ejx.138.1589983548742; 
+ Wed, 20 May 2020 07:05:48 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id lr21sm2026808ejb.117.2020.05.20.07.05.41
+ by smtp.gmail.com with ESMTPSA id k3sm1844624edi.60.2020.05.20.07.05.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 20 May 2020 07:05:42 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 357221FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 4E2A01FF87;
  Wed, 20 May 2020 15:05:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 00/15] testing and plugin updates
-Date: Wed, 20 May 2020 15:05:26 +0100
-Message-Id: <20200520140541.30256-1-alex.bennee@linaro.org>
+Subject: [PATCH  v1 01/15] configure: add alternate binary for genisoimage
+Date: Wed, 20 May 2020 15:05:27 +0100
+Message-Id: <20200520140541.30256-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200520140541.30256-1-alex.bennee@linaro.org>
+References: <20200520140541.30256-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,78 +93,28 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Not all distros ship genisoimage which is a Debian fork from the
+original cdrtools. As the options are pretty much the same support it
+as a fallback binary.
 
-Here is the current status of various testing and plugin related
-patches. Most of the patches should be uncontroversial although I
-would draw attention to the cpu and linux-user QOM object lifetime
-patches. I think properly de-referencing the vCPU object associated
-with the linux-user thread is the cleaner solution but it does involve
-also changing some assumptions about the cpu indexing.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The following patches need review:
-  - plugins: new lockstep plugin for debugging TCG changes
-  - linux-user: properly "unrealize" vCPU object
-  - cpus-common: ensure auto-assigned cpu_indexes don't clash
-  - tests/docker: use a gcc-10 based image for arm64 tests
-  - tests/docker: add debian11 base image
-  - tests/docker: bump fedora to 32
-  - tests/tcg: better detect confused gdb which can't connect
-  - tests/fp: split and audit the conversion tests
-  - tests/fp: enable extf80_le_quite tests
-  - configure: add alternate binary for genisoimage
-
-Alex Bennée (13):
-  configure: add alternate binary for genisoimage
-  tests/vm: pass --genisoimage to basevm script
-  tests/tcg: fix invocation of the memory record/replay tests
-  tests/fp: enable extf80_le_quite tests
-  tests/fp: split and audit the conversion tests
-  tests/tcg: better detect confused gdb which can't connect
-  tests/docker: bump fedora to 32
-  tests/docker: add debian11 base image
-  tests/docker: use a gcc-10 based image for arm64 tests
-  cpus-common: ensure auto-assigned cpu_indexes don't clash
-  linux-user: properly "unrealize" vCPU object
-  tests/tcg: add new threadcount test
-  plugins: new lockstep plugin for debugging TCG changes
-
-Richard Henderson (1):
-  tests/tcg/aarch64: Add bti smoke test
-
-Thomas Huth (1):
-  travis.yml: Use clang++ in the Clang tests
-
- configure                                     |   2 +-
- cpus-common.c                                 |  10 +-
- linux-user/syscall.c                          |  19 +-
- tests/plugin/lockstep.c                       | 340 ++++++++++++++++++
- tests/tcg/aarch64/bti-1.c                     |  62 ++++
- tests/tcg/aarch64/bti-crt.inc.c               |  51 +++
- tests/tcg/multiarch/threadcount.c             |  64 ++++
- .travis.yml                                   |   8 +-
- tests/Makefile.include                        |  44 ++-
- tests/docker/Makefile.include                 |   4 +-
- .../debian-arm64-test-cross.docker            |  13 +
- tests/docker/dockerfiles/debian11.docker      |  18 +
- tests/docker/dockerfiles/fedora.docker        |   2 +-
- tests/plugin/Makefile                         |   1 +
- tests/tcg/Makefile.target                     |   2 +-
- tests/tcg/aarch64/Makefile.softmmu-target     |   2 +-
- tests/tcg/aarch64/Makefile.target             |   9 +
- tests/tcg/configure.sh                        |   8 +-
- tests/tcg/multiarch/Makefile.target           |   2 +
- tests/tcg/multiarch/gdbstub/sha1.py           |   4 +
- tests/vm/Makefile.include                     |   1 +
- tests/vm/basevm.py                            |  16 +-
- 22 files changed, 641 insertions(+), 41 deletions(-)
- create mode 100644 tests/plugin/lockstep.c
- create mode 100644 tests/tcg/aarch64/bti-1.c
- create mode 100644 tests/tcg/aarch64/bti-crt.inc.c
- create mode 100644 tests/tcg/multiarch/threadcount.c
- create mode 100644 tests/docker/dockerfiles/debian-arm64-test-cross.docker
- create mode 100644 tests/docker/dockerfiles/debian11.docker
-
+diff --git a/configure b/configure
+index 26084fc53ad..a574250524f 100755
+--- a/configure
++++ b/configure
+@@ -941,7 +941,7 @@ done
+ 
+ # Check for ancillary tools used in testing
+ genisoimage=
+-for binary in genisoimage
++for binary in genisoimage mkisofs
+ do
+     if has $binary
+     then
 -- 
 2.20.1
 
