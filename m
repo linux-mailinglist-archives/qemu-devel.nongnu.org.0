@@ -2,57 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 632431DB766
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:50:11 +0200 (CEST)
-Received: from localhost ([::1]:45408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D0F1DB75C
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:47:43 +0200 (CEST)
+Received: from localhost ([::1]:41602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbQ2s-00045g-Cc
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:50:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33014)
+	id 1jbQ0U-00021Z-Bp
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:47:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jbPxn-0006xy-VY
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:44:55 -0400
-Received: from 7.mo173.mail-out.ovh.net ([46.105.44.159]:35300)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1jbPzN-0000mW-9M
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:46:34 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:10805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jbPxl-0002U9-MG
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:44:55 -0400
-Received: from player726.ha.ovh.net (unknown [10.110.103.121])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id CEA5E13AA4A
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 16:44:50 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player726.ha.ovh.net (Postfix) with ESMTPSA id 4985F127CEDEE;
- Wed, 20 May 2020 14:44:46 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G0065a90287b-f85a-4872-a28b-d452051a3724,D4AE9CB3A4750E3488E7135F1D4D455A9A9A4933)
- smtp.auth=groug@kaod.org
-Date: Wed, 20 May 2020 16:44:45 +0200
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 7/9] ppc/pnv: Add POWER10 quads
-Message-ID: <20200520164445.1c8a03a1@bahia.lan>
-In-Reply-To: <20200513151109.453530-8-clg@kaod.org>
-References: <20200513151109.453530-1-clg@kaod.org>
- <20200513151109.453530-8-clg@kaod.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1jbPzL-0002wk-8v
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:46:32 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5ec542760001>; Wed, 20 May 2020 07:45:10 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Wed, 20 May 2020 07:46:29 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Wed, 20 May 2020 07:46:29 -0700
+Received: from [10.40.103.233] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 20 May
+ 2020 14:46:21 +0000
+Subject: Re: [PATCH Kernel v22 3/8] vfio iommu: Cache pgsize_bitmap in struct
+ vfio_iommu
+To: Cornelia Huck <cohuck@redhat.com>
+References: <1589781397-28368-1-git-send-email-kwankhede@nvidia.com>
+ <1589781397-28368-4-git-send-email-kwankhede@nvidia.com>
+ <20200520120825.7d8144ba.cohuck@redhat.com>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <b43ac210-56da-26ea-7235-0416c7b7ff84@nvidia.com>
+Date: Wed, 20 May 2020 20:16:16 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 4783385756989364619
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedruddtledgjeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueekjeekiefffedtveeukedvteejgeeivefhgfejgfdtleduvdfgfeelkeeuveeunecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejvdeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=46.105.44.159; envelope-from=groug@kaod.org;
- helo=7.mo173.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 10:44:51
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200520120825.7d8144ba.cohuck@redhat.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1589985910; bh=FPbxFOmi6KNOFTvuFioGxQQrtp4OZVgphsmww96nZ8E=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=V9H/ib1Au1lVVa1VZ5Z0T34YbYRV9fAjEKGJSp1HKcefK8zmpgi8JyqstyjV/OABY
+ CRFaMlP8PsvHpnDYtLkNcnBho6zjHsbzG5uaQKtvjkrpyl2+mdcojlzmGg3MtIY76G
+ BADbAkU2APNe7Kcsu3s6Di8LDGN+9B+91eZwvO9+YXPsTr5aKBv6Vt4kzlPVzEmyQ0
+ jLrtup9Xt8E+wIejSykJaPrlFJQa2iUKk3M+tzdIrWdEwt866lF06JtIRBxbINO8oU
+ V01N4Of+xk8um+rvx2brsYmor7hYOdNV4+/ziFuyqFeLQQFrvT+pyj3UtT2X5JOjJb
+ FBDYFMNtnMhmQ==
+Received-SPF: pass client-ip=216.228.121.64; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate25.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 09:40:22
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,99 +84,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kevin.tian@intel.com, yi.l.liu@intel.com, cjia@nvidia.com,
+ kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, Zhengxiao.zx@Alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, dgilbert@redhat.com, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ alex.williamson@redhat.com, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 13 May 2020 17:11:07 +0200
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-> Still needs some refinements on the XSCOM registers.
->=20
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
->  include/hw/ppc/pnv.h |  4 ++++
->  hw/ppc/pnv.c         | 33 +++++++++++++++++++++++++++++++++
->  2 files changed, 37 insertions(+)
->=20
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index 3ff610a9c7b5..86bfa2107a8c 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -123,6 +123,10 @@ typedef struct Pnv10Chip {
->      Pnv9Psi      psi;
->      PnvLpcController lpc;
->      PnvOCC       occ;
-> +
-> +    uint32_t     nr_quads;
-> +    PnvQuad      *quads;
-> +
->  } Pnv10Chip;
-> =20
->  #define PNV10_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 9f1698a74467..fc751dd575d4 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1621,6 +1621,33 @@ static void pnv_chip_power10_instance_init(Object =
-*obj)
->                              TYPE_PNV10_OCC, &error_abort, NULL);
->  }
-> =20
-> +
-> +static void pnv_chip_power10_quad_realize(Pnv10Chip *chip10, Error **err=
-p)
-> +{
-> +    PnvChip *chip =3D PNV_CHIP(chip10);
-> +    int i;
-> +
-> +    chip10->nr_quads =3D DIV_ROUND_UP(chip->nr_cores, 4);
-> +    chip10->quads =3D g_new0(PnvQuad, chip10->nr_quads);
-> +
-> +    for (i =3D 0; i < chip10->nr_quads; i++) {
-> +        char eq_name[32];
-> +        PnvQuad *eq =3D &chip10->quads[i];
-> +        PnvCore *pnv_core =3D chip->cores[i * 4];
-> +        int core_id =3D CPU_CORE(pnv_core)->core_id;
-> +
-> +        snprintf(eq_name, sizeof(eq_name), "eq[%d]", core_id);
-> +        object_initialize_child(OBJECT(chip), eq_name, eq, sizeof(*eq),
-> +                                TYPE_PNV_QUAD, &error_fatal, NULL);
-> +
-> +        object_property_set_int(OBJECT(eq), core_id, "id", &error_fatal);
-> +        object_property_set_bool(OBJECT(eq), true, "realized", &error_fa=
-tal);
-> +
-> +        pnv_xscom_add_subregion(chip, PNV10_XSCOM_EQ_BASE(eq->id),
-> +                                &eq->xscom_regs);
-> +    }
-> +}
 
-So, this function is mostly identical to the P9 variant, except the xscom
-offset. Unless the refinements envisioned in the changelog bring substantial
-change, I'd suggest to move this to a common helper and call it from dedica=
-ted
-P9 and P10 realize functions.
+On 5/20/2020 3:38 PM, Cornelia Huck wrote:
+> On Mon, 18 May 2020 11:26:32 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
+>> Calculate and cache pgsize_bitmap when iommu->domain_list is updated
+>> and iommu->external_domain is set for mdev device.
+>> Add iommu->lock protection when cached pgsize_bitmap is accessed.
+>>
+>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+>> Reviewed-by: Neo Jia <cjia@nvidia.com>
+>> ---
+>>   drivers/vfio/vfio_iommu_type1.c | 88 +++++++++++++++++++++++------------------
+>>   1 file changed, 49 insertions(+), 39 deletions(-)
+>>
+> 
+> (...)
+> 
+>> @@ -805,15 +806,14 @@ static void vfio_remove_dma(struct vfio_iommu *iommu, struct vfio_dma *dma)
+>>   	iommu->dma_avail++;
+>>   }
+>>   
+>> -static unsigned long vfio_pgsize_bitmap(struct vfio_iommu *iommu)
+>> +static void vfio_pgsize_bitmap(struct vfio_iommu *iommu)
+> 
+> Minor nit: I'd have renamed this function to
+> vfio_update_pgsize_bitmap().
+> 
 
-> +
->  static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
->  {
->      PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(dev);
-> @@ -1642,6 +1669,12 @@ static void pnv_chip_power10_realize(DeviceState *=
-dev, Error **errp)
->          return;
->      }
-> =20
-> +    pnv_chip_power10_quad_realize(chip10, &local_err);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-> +
->      /* XIVE2 interrupt controller (POWER10) */
->      object_property_set_int(OBJECT(&chip10->xive), PNV10_XIVE2_IC_BASE(c=
-hip),
->                              "ic-bar", &error_fatal);
+Done.
 
+>>   {
+>>   	struct vfio_domain *domain;
+>> -	unsigned long bitmap = ULONG_MAX;
+>>   
+>> -	mutex_lock(&iommu->lock);
+>> +	iommu->pgsize_bitmap = ULONG_MAX;
+>> +
+>>   	list_for_each_entry(domain, &iommu->domain_list, next)
+>> -		bitmap &= domain->domain->pgsize_bitmap;
+>> -	mutex_unlock(&iommu->lock);
+>> +		iommu->pgsize_bitmap &= domain->domain->pgsize_bitmap;
+>>   
+>>   	/*
+>>   	 * In case the IOMMU supports page sizes smaller than PAGE_SIZE
+> 
+> (...)
+> 
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> 
+
+Thanks.
+
+Kirti
 
