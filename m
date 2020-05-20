@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1831DACF0
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 10:11:37 +0200 (CEST)
-Received: from localhost ([::1]:44352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B6D81DACEC
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 10:09:15 +0200 (CEST)
+Received: from localhost ([::1]:37632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbJpA-0001zl-6C
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 04:11:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40814)
+	id 1jbJms-0007Tf-6J
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 04:09:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jbJoP-0001MO-Kr
- for qemu-devel@nongnu.org; Wed, 20 May 2020 04:10:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48498)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jbJoO-000145-AP
- for qemu-devel@nongnu.org; Wed, 20 May 2020 04:10:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jbJoM-00023a-C6
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 08:10:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 52F312E8076
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 08:10:46 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 20 May 2020 08:01:34 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1879646@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1jbJkt-0004P2-1R; Wed, 20 May 2020 04:07:11 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:34328)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1jbJkp-0008Pp-Dz; Wed, 20 May 2020 04:07:09 -0400
+Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::162])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 0667B2E1521;
+ Wed, 20 May 2020 11:07:00 +0300 (MSK)
+Received: from vla5-58875c36c028.qloud-c.yandex.net
+ (vla5-58875c36c028.qloud-c.yandex.net [2a02:6b8:c18:340b:0:640:5887:5c36])
+ by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ bcsor4v0rj-6vTS8sZb; Wed, 20 May 2020 11:06:59 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1589962019; bh=EjkfETItd56nU4EAo+AAosAF/iNz9qJsYjkDq713yZY=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=YzFBCQetTXcFsa27/ANaYOuMldTEtRTKzYZmCQdT+tYGTKD5WZn2gH/3bYqWD8Frl
+ 4XFwVcTdjMQTTlPRxXWm+Jt2OB0LyNh1QkDIXhR3hoYwbxnnIjIlEHwwoSJt6ulFqr
+ mXnGfwkCLfmykRGQTSKOVVXF9JUO8mPWI9OXO/VI=
+Authentication-Results: mxbackcorp1j.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:1519::1:a])
+ by vla5-58875c36c028.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ HRdUjo6D3m-6vXmwmik; Wed, 20 May 2020 11:06:57 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Roman Kagan <rvkagan@yandex-team.ru>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: i386
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-Message-Id: <158996169456.22050.5633849401809444729.malonedeb@wampee.canonical.com>
-Subject: [Bug 1879646] [NEW] [Feature request] x86: dump MSR features in human
- form
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 093ba1c351aef796375d6f7fd99facc122bd3ace
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 03:31:02
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Subject: [PATCH v4 0/3] block: make BlockConf.*_size properties 32-bit
+Date: Wed, 20 May 2020 11:06:54 +0300
+Message-Id: <20200520080657.29080-1-rvkagan@yandex-team.ru>
+X-Mailer: git-send-email 2.26.2
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,94 +71,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1879646 <1879646@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-QEMU might fail because host/guest cpu features are not properly
-configured:
-
-qemu-system-x86_64: error: failed to set MSR 0x48f to 0x7fefff00036dfb
-qemu-system-x86_64: /root/qemu-master/target/i386/kvm.c:2695:
-kvm_buf_set_msrs: Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
-
-To ease debugging, it the MSR features bit could be dumped.
-
-Example in this thread:
-
-https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg05593.html
-
-  The high 32 bits are 0111 1111 1110 1111 1111 1111.
-
-  The low 32 bits are  0000 0011 0110 1101 1111 1011.
-
-  The features that are set are the xor, so 0111 1100 1000 0010 0000
-0100:
-
-  - bit 2, vmx-exit-nosave-debugctl
-  - bit 9, host address space size, is handled automatically by QEMU
-  - bit 15, vmx-exit-ack-intr
-  - bit 17, vmx-exit-save-pat
-  - bit 18, vmx-exit-load-pat
-  - bit 19, vmx-exit-save-efer
-  - bit 20, vmx-exit-load-efer
-  - bit 21, vmx-exit-save-preemption-timer
-
-This output ^^^ is easier to digest.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: i386
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1879646
-
-Title:
-  [Feature request] x86: dump MSR features in human form
-
-Status in QEMU:
-  New
-
-Bug description:
-  QEMU might fail because host/guest cpu features are not properly
-  configured:
-
-  qemu-system-x86_64: error: failed to set MSR 0x48f to 0x7fefff00036dfb
-  qemu-system-x86_64: /root/qemu-master/target/i386/kvm.c:2695:
-  kvm_buf_set_msrs: Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
-
-  To ease debugging, it the MSR features bit could be dumped.
-
-  Example in this thread:
-
-  https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg05593.html
-
-    The high 32 bits are 0111 1111 1110 1111 1111 1111.
-
-    The low 32 bits are  0000 0011 0110 1101 1111 1011.
-
-    The features that are set are the xor, so 0111 1100 1000 0010 0000
-  0100:
-
-    - bit 2, vmx-exit-nosave-debugctl
-    - bit 9, host address space size, is handled automatically by QEMU
-    - bit 15, vmx-exit-ack-intr
-    - bit 17, vmx-exit-save-pat
-    - bit 18, vmx-exit-load-pat
-    - bit 19, vmx-exit-save-efer
-    - bit 20, vmx-exit-load-efer
-    - bit 21, vmx-exit-save-preemption-timer
-
-  This output ^^^ is easier to digest.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1879646/+subscriptions
+Devices (virtio-blk, scsi, etc.) and the block layer are happy to use=0D
+32-bit for logical_block_size, physical_block_size, and min_io_size.=0D
+However, the properties in BlockConf are defined as uint16_t limiting=0D
+the values to 32768.=0D
+=0D
+This appears unnecessary tight, and we've seen bigger block sizes handy=0D
+at times.=0D
+=0D
+Make them 32 bit instead and lift the limitation up to 2 MiB which=0D
+appears to be good enough for everybody, and matches the qcow2 cluster=0D
+size limit.=0D
+=0D
+As the values can now be fairly big and awkward to type, make the=0D
+property setter accept common size suffixes (k, m).=0D
+=0D
+While at this, introduce a few consistency checks on the blocksize-related=
+=0D
+values in BlockConf, to prevent their silent truncation or rounding.=0D
+=0D
+Also fix the accessor for opt_io_size in virtio-blk to make it consistent w=
+ith=0D
+the size of the field, and thus synchronize virtio-blk and scsi in the way=
+=0D
+opt_io_size is used.=0D
+=0D
+History:=0D
+v3 -> v4:=0D
+- add patch to opt_io_size width=0D
+- add patch to perform consistency checks [Kevin]=0D
+- check min_io_size against truncation [Kevin]=0D
+=0D
+v2 -> v3:=0D
+- mention qcow2 cluster size limit in the log and comment [Eric]=0D
+=0D
+v1 -> v2:=0D
+- cap the property at 2 MiB [Eric]=0D
+- accept size suffixes=0D
+=0D
+Roman Kagan (3):=0D
+  virtio-blk: store opt_io_size with correct size=0D
+  block: consolidate blocksize properties consistency checks=0D
+  block: make BlockConf.*_size properties 32-bit=0D
+=0D
+ include/hw/block/block.h     | 10 ++++-----=0D
+ include/hw/qdev-properties.h |  2 +-=0D
+ hw/block/block.c             | 40 +++++++++++++++++++++++++++++++++++-=0D
+ hw/block/fdc.c               |  5 ++++-=0D
+ hw/block/nvme.c              |  5 ++++-=0D
+ hw/block/virtio-blk.c        |  9 ++------=0D
+ hw/core/qdev-properties.c    | 34 +++++++++++++++++++++---------=0D
+ hw/ide/qdev.c                |  5 ++++-=0D
+ hw/scsi/scsi-disk.c          | 10 +++------=0D
+ hw/usb/dev-storage.c         |  5 ++++-=0D
+ tests/qemu-iotests/172.out   |  2 +-=0D
+ 11 files changed, 91 insertions(+), 36 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
