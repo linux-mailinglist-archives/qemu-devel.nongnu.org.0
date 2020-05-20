@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA8E1DB5EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:07:04 +0200 (CEST)
-Received: from localhost ([::1]:58250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3919F1DB600
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:13:14 +0200 (CEST)
+Received: from localhost ([::1]:55992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbPN9-0001PU-1b
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:07:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55152)
+	id 1jbPT7-0003y8-AU
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:13:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPLw-0008Mh-Fo
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:48 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:33093)
+ id 1jbPM2-0008S8-2b
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:54 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:42853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPLv-0001pM-Ju
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:48 -0400
-Received: by mail-ej1-x633.google.com with SMTP id n24so3987196ejd.0
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:05:47 -0700 (PDT)
+ id 1jbPM0-0001w4-No
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:53 -0400
+Received: by mail-ed1-x544.google.com with SMTP id k19so3171064edv.9
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:05:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6y8fucjPdtyjNnMKl8OrXnEZUIzt60LCNpIsgO/fm5g=;
- b=Bgt/shIFfwALhzWWD+GbalBr99hky/pdn82uT3CgjYg+1rojxpQAaSnA8uJQj7vKku
- AalpZfJRXFnNoypYWHlOnBUk2pdxgiPDgK3z9q4tUTd4q4fOOxWIYMy134Tn0QDta+XV
- lxD3i6whrWtMz0Z2TQ4s6f925K50y+tvNITn8AxOpaoa5i5dDJ93hyP3+SKDGeQrBKkw
- Aa4NWDwdq9bg1AVB6yb+BYnLFbQeFyrBKiqlL9sMdTrpuzvwzwrSwMk8+Opz65wmUm3I
- uKG/fveaiCjVrpGfLBZm0ONG6cvNCh1xFULPZLPj8MgMmJKoe9nRrKHTpvNrJibebzR4
- L9lQ==
+ bh=Qlw02NVecU/ZV81h9ZnM/tUYlZiIp12SHyZcSJattzs=;
+ b=GsU/pvJ/JHy8w8Ig8FKbPM88bWyQGq4vVeUgJlAytd9wp1HL1+gUZC7Q5GJe9PkIDn
+ AZ2AHbpneM034tY5zqEu0D17nBfZpCyKbDM79aKcQ6G3xQzvr09n3pBl+gppS8kU00BD
+ bNFJpn2waToX2wc4ijSvJz9h5a5xEWDUM62YK9dDs04KsizFoVS7HrnHOFwpMacJp5/J
+ TFQfz6fPVoFTZyCEtkAp045fofCHKfFEgX6e3cT1EL9NPot185bMY1SlVd1Y2UEjABPl
+ 5qnOrFHu2DTqyUsH9iQJ19o2Y7nQa84i5Whj2om3+69r6SB0aiWlqk3zk+1TvRyns0sq
+ SaZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6y8fucjPdtyjNnMKl8OrXnEZUIzt60LCNpIsgO/fm5g=;
- b=AULDAG85vwG+cK7Tas8hJzY6rmHoxahVz/pOIcvm/XUmg8CTXzDx4HuW7IKlYiZaOx
- o+75MtVlZOU1kDp6ewXhG3PjdShjjOlmdx46mM6AvFpzJUsGgA9gapx91fk/ZIXSFsqe
- NJQ4XHV8RqIdOYu+Y8xCm6tDhmg6VwhuFDaxaObzC77ZMRf7MCv+3ruYClEafbmEvgkv
- 9vy0HOFL6Q2D3Ka82hyj1AxmUoNwhA7Gk++JmN29hnXlSlhtJ6fza1RC8n192Kn9MCQa
- s6tRWADJOoTkjce1RXJ1e8+fdwB+DMfdQVmUOxVq5eqDA6TVXletMKxc2nZSuYU00hOB
- X7NA==
-X-Gm-Message-State: AOAM530v1e9w+rM6HvaEJNc7TZe1TV2BBhGhKtmshIlFQOmFKt8ZtlTD
- nOLwwUZT6HwMNJsiYkzjfyqC4g==
-X-Google-Smtp-Source: ABdhPJyLoMQpNF6JgrCLauCcMWRDJr6/JSgsofyRZmNHp/Ls9GDvKX59bMZ1acLM4loEgqChmMoXiA==
-X-Received: by 2002:a17:906:dbef:: with SMTP id
- yd15mr3761002ejb.5.1589983546008; 
- Wed, 20 May 2020 07:05:46 -0700 (PDT)
+ bh=Qlw02NVecU/ZV81h9ZnM/tUYlZiIp12SHyZcSJattzs=;
+ b=WSi+8917AeAQpih/Qet/GtrFPyW9nUrh4Y8oAfTymKuIOj18UrML3cXOTq77pND0s2
+ vHkFwx1QmJif/y09yc+I3uBdnoqiH3ZaZdlVYH7dghosnCXC0qMhdrQ8vEyK+RC1VtLi
+ AlvUgynU2Ls9CLBjjY4UU3QaqOFB0aaAJJzP2Q1nAw8qcjOgDKYYM7eKLCLkke//qaTG
+ GLasr0GEd/UIEKrTJ+FyZp/rzX7b58IF5lDlFC0ev7P8IpfJUPANadqgEmY2dy6YIPP3
+ lcrxf7o9e8kqr43/p0VIIldpMbFTXNGwr3/WdsX+oUaLRpTks/bbvwsO95fD6a/R69Xj
+ K0xg==
+X-Gm-Message-State: AOAM533QoyZ0ZaW7nC2iLM2sLYqIsqslEaxRVcY1v/ZSfDlOm4M5VjQC
+ kzwWVgxyleSSn1H9bIpTs2U458/6mR0=
+X-Google-Smtp-Source: ABdhPJzo4fzavfXL6hcnnvlYv1yluh6pGjaOaX03x3LyqQVd4vC1a+8sf16Brar8cTLUjIkvrQjbEA==
+X-Received: by 2002:aa7:db45:: with SMTP id n5mr3355029edt.147.1589983550701; 
+ Wed, 20 May 2020 07:05:50 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g20sm2001567ejx.85.2020.05.20.07.05.42
+ by smtp.gmail.com with ESMTPSA id gf25sm1973382ejb.54.2020.05.20.07.05.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 May 2020 07:05:42 -0700 (PDT)
+ Wed, 20 May 2020 07:05:49 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 902471FF90;
+ by zen.linaroharston (Postfix) with ESMTP id A39DE1FF91;
  Wed, 20 May 2020 15:05:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 04/15] tests/tcg: fix invocation of the memory
- record/replay tests
-Date: Wed, 20 May 2020 15:05:30 +0100
-Message-Id: <20200520140541.30256-5-alex.bennee@linaro.org>
+Subject: [PATCH  v1 05/15] tests/fp: enable extf80_le_quite tests
+Date: Wed, 20 May 2020 15:05:31 +0100
+Message-Id: <20200520140541.30256-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200520140541.30256-1-alex.bennee@linaro.org>
 References: <20200520140541.30256-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,39 +88,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm not sure when this broke but we should use EXTRA_RUNS for
-"virtual" tests which are not generated from the binary names.
+These have been fixed now so we no longer need a special version of
+the le_quiet rule to skip the test.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 ---
-v2
-  - keep the PHONY's for the benefit of output
----
- tests/tcg/aarch64/Makefile.softmmu-target | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/Makefile.include | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
-index 71f72cfbe34..1057a8ac498 100644
---- a/tests/tcg/aarch64/Makefile.softmmu-target
-+++ b/tests/tcg/aarch64/Makefile.softmmu-target
-@@ -61,7 +61,7 @@ run-memory-replay: memory-replay run-memory-record
- 	   	  $(QEMU_OPTS) memory, \
- 	  "$< on $(TARGET_NAME)")
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 03a74b60f6b..e6d87fcbf0e 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -741,13 +741,6 @@ check-softfloat-%: $(FP_TEST_BIN)
+ SF_COMPARE_OPS=eq eq_signaling le le_quiet lt_quiet
+ SF_COMPARE_RULES=$(patsubst %,check-softfloat-%, $(SF_COMPARE_OPS))
  
--EXTRA_TESTS+=memory-record memory-replay
-+EXTRA_RUNS+=run-memory-replay
- 
- ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_3),)
- pauth-3: CFLAGS += -march=armv8.3-a
+-# FIXME: extF80_le_quiet (broken)
+-check-softfloat-le_quiet: $(FP_TEST_BIN)
+-	$(call test-softfloat, 				\
+-		f16_le_quiet f32_le_quiet f64_le_quiet  \
+-		f128_le_quiet, 				\
+-		le_quiet)
+-
+ # FIXME: extF80_lt_quiet (broken)
+ check-softfloat-lt_quiet: $(FP_TEST_BIN)
+ 	$(call test-softfloat, 				\
 -- 
 2.20.1
 
