@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F5A1DB5EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:07:15 +0200 (CEST)
-Received: from localhost ([::1]:58978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB7F1DB61B
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 16:19:45 +0200 (CEST)
+Received: from localhost ([::1]:51604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbPNK-0001hC-V1
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:07:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55146)
+	id 1jbPZP-0006cM-Sa
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 10:19:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPLw-0008Lt-0h
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:48 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:37226)
+ id 1jbPM3-00005X-KW
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:55 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:35290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jbPLu-0001nS-O6
- for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:47 -0400
-Received: by mail-ed1-x544.google.com with SMTP id l25so3187035edj.4
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:05:46 -0700 (PDT)
+ id 1jbPM0-0001r9-M7
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 10:05:55 -0400
+Received: by mail-ej1-x641.google.com with SMTP id s21so3982450ejd.2
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 07:05:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UeeEkoEdpVqBre5kbf2Z3iGxDOkRZkflMSZw9nUZHA0=;
- b=CX57/snSsRC+YCnc4Wm2N6rdthktOl5UNJv6i/0jLSWSf/BGXt+JqN+Qc37XKVo35U
- gZSCVxiPf334fxDMS3bc293fwQyL5D69AYd/0i+D1VpXWMe7AAS/xUSrTgZLoYM1Sn7u
- EuICP4yKqpp2ji3PRQ3vjZvCJVOMgFpGk2s+f+2LIgX+Xh2PLFzDlCN46bDhqIzEKvmI
- kOVi32a2YGv92iSXA2azpoynaVJBIG3i6L5p4gozY0Y1wcLn4sLas0hdrOcTqik55smh
- LG9miTda51rA4hFH4bQFWyXCXRQvN2IY733uEQGiewcUA2lFOqonnBDKySyX9fbefPCt
- jYsw==
+ bh=m1zXruZIXUvjwU/PTNcJ1tB+FSG/kUrku9mORQV4WDg=;
+ b=imZ/76FXo4Z2H8/YMebPsY+A0NMizgUxrPiOhyiNbD9fBYI8jii/L0REdHqGRLU6Hf
+ nq6p3ILZ2kHqkIXt/tE+Z0ShrhxwfXMJrdWSRNAvJK5JHFZYu0vMR+4s8hZSnwiNAKfG
+ vRQKev+segCqVigpQEk0ZkVseSJyb8oKveNnRhUa/YJ2WrUhFBJJEjB3zqw6aN7Lq5Jr
+ 8JXfNdJgjkm1JQKTqPN8PjSCJ4T1CdzXk0q8wzVtEf36jUzN7PEmVYv+mSt59EgH48Nt
+ 8vhugxz171mKrKRf3b677s5YoEwp4AigMChit8eOho7SFn5aoqwFg5WHg6piMSFPDRSD
+ FXGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UeeEkoEdpVqBre5kbf2Z3iGxDOkRZkflMSZw9nUZHA0=;
- b=jLkps2DSJniZ7SME3ZgbFZwM7s+kaDH/70er0K7a/p5ystmObDTLPLbGDjoPJWi1wU
- +GIYV88LzMcRGKXmVANh0NfaXdGPTLpWZlEFH94BzjtcC1G6VwVz7JlbhF+kMe93C5b6
- 9SsCxQjNn341Ejsf9gteEnxGDZ2O2AO1PECDw7h1Pr4s4KEFAxvPdejLwDfagbgMDqez
- Z6AtSvroUHQk/QMnfHIuSE4YtbPqA81UjqoOrsXN5biWDYx7Vb7Myu2l47hgJ4QR4mit
- V2U0GEn6nU29GlfxdYstI8fMB8pRe5jHS3I+lZ//zwnjv4LhMxr8maWANOadI0CSGdHK
- 0B0Q==
-X-Gm-Message-State: AOAM531urxhCpYvsVrMI4Q0Quxc1R5p548zfNuD9W5UBDu37RpY1eTn4
- UmB1GHOiQYZj4+aEF/pegkDUxA==
-X-Google-Smtp-Source: ABdhPJzu8DQ8pQoXWTmPWQ2NMX699PEfLqgwCT1F9cgBHnT6no9rYZ+LUOCMA0j1bL4GXE0YZKaYcg==
-X-Received: by 2002:a50:870c:: with SMTP id i12mr3723574edb.258.1589983544813; 
- Wed, 20 May 2020 07:05:44 -0700 (PDT)
+ bh=m1zXruZIXUvjwU/PTNcJ1tB+FSG/kUrku9mORQV4WDg=;
+ b=iMDlu1EINDZ49Rxy0z+CPcIwVxIx5+qZm4Q6XQjdFC3XgkTJH28P771k6IBe+kBo53
+ P+EVVaE6+aw13+2+tFKkBXZBtgcMtAt/Mnf50RtAWnsELqozmyMhtUiz0OGgJxcuQYzb
+ aZVPrVEZW6veXyPu/KYj+VRp/+AFP/y+gCIsD1qtSH+7OqiKUIQqBTR2ii9bN0MOm3Ze
+ 5sX0NYV8tQRT2qssw25WQja+8+aRRxQKH46qatf0Q9hCKjMyDJMXt3UalN2b7dNjjCOH
+ CRRLMKhi2LOv/VU6/5/A0BtkQuA32PqaoLjTnBpprEtMcusyrgCFhgekTotUm/fN9XkJ
+ 1Ocg==
+X-Gm-Message-State: AOAM531EJtOxy2nLG5WEcsABM/c+S6FjKjUD27fJ7KBDHbdw+9LKR8RN
+ oX4+hqDDsyfWdPfMbvKpYlpP5A==
+X-Google-Smtp-Source: ABdhPJyOdFI+XiTPAElhc7UlbLNCcw0vH+mtjxAGfUQW5MqVSQpy/3zeUrbio5v1cnDPYnRWPSMNMA==
+X-Received: by 2002:a17:906:aad8:: with SMTP id
+ kt24mr4127743ejb.54.1589983547251; 
+ Wed, 20 May 2020 07:05:47 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e18sm1978935ejr.2.2020.05.20.07.05.41
+ by smtp.gmail.com with ESMTPSA id t16sm1927404edy.20.2020.05.20.07.05.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 20 May 2020 07:05:42 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 680E31FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 7C61D1FF8F;
  Wed, 20 May 2020 15:05:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 02/15] tests/vm: pass --genisoimage to basevm script
-Date: Wed, 20 May 2020 15:05:28 +0100
-Message-Id: <20200520140541.30256-3-alex.bennee@linaro.org>
+Subject: [PATCH  v1 03/15] travis.yml: Use clang++ in the Clang tests
+Date: Wed, 20 May 2020 15:05:29 +0100
+Message-Id: <20200520140541.30256-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200520140541.30256-1-alex.bennee@linaro.org>
 References: <20200520140541.30256-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,84 +91,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we have an alternative to genisoimage we really need to tell the
-script about it as well so it can use it. It will still default to
-genisoimage in case it is run outside our build machinery.
+From: Thomas Huth <thuth@redhat.com>
 
+Our configure script does not look for clang++ automatically, so we
+should use --cxx=clang++ to make sure that we test our C++ code with
+Clang, too. And while we're at it, also use --host-cc=clang here
+to avoid that we use the normal "cc" as host C compiler.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200518083316.25065-1-thuth@redhat.com>
 ---
- tests/vm/Makefile.include |  1 +
- tests/vm/basevm.py        | 16 ++++++++++------
- 2 files changed, 11 insertions(+), 6 deletions(-)
+ .travis.yml | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index 1bf9693d195..74ab522c55d 100644
---- a/tests/vm/Makefile.include
-+++ b/tests/vm/Makefile.include
-@@ -56,6 +56,7 @@ $(IMAGES_DIR)/%.img:	$(SRC_PATH)/tests/vm/% \
- 	$(call quiet-command, \
- 		$(PYTHON) $< \
- 		$(if $(V)$(DEBUG), --debug) \
-+		$(if $(GENISOIMAGE),--genisoimage $(GENISOIMAGE)) \
- 		--image "$@" \
- 		--force \
- 		--build-image $@, \
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 756ccf7acae..a2d4054d72b 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -61,8 +61,9 @@ class BaseVM(object):
-     # 4 is arbitrary, but greater than 2,
-     # since we found we need to wait more than twice as long.
-     tcg_ssh_timeout_multiplier = 4
--    def __init__(self, debug=False, vcpus=None):
-+    def __init__(self, debug=False, vcpus=None, genisoimage=None):
-         self._guest = None
-+        self._genisoimage = genisoimage
-         self._tmpdir = os.path.realpath(tempfile.mkdtemp(prefix="vm-test-",
-                                                          suffix=".tmp",
-                                                          dir="."))
-@@ -381,12 +382,12 @@ class BaseVM(object):
-             udata.writelines(["apt:\n",
-                               "  proxy: %s" % proxy])
-         udata.close()
--        subprocess.check_call(["genisoimage", "-output", "cloud-init.iso",
-+        subprocess.check_call([self._genisoimage, "-output", "cloud-init.iso",
-                                "-volid", "cidata", "-joliet", "-rock",
-                                "user-data", "meta-data"],
--                               cwd=cidir,
--                               stdin=self._devnull, stdout=self._stdout,
--                               stderr=self._stdout)
-+                              cwd=cidir,
-+                              stdin=self._devnull, stdout=self._stdout,
-+                              stderr=self._stdout)
+diff --git a/.travis.yml b/.travis.yml
+index 1ec8a7b4657..564be50a3c1 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -205,14 +205,15 @@ jobs:
+     # Test with Clang for compile portability (Travis uses clang-5.0)
+     - name: "Clang (user)"
+       env:
+-        - CONFIG="--disable-system"
++        - CONFIG="--disable-system --host-cc=clang --cxx=clang++"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-clang-default"
+       compiler: clang
  
-         return os.path.join(cidir, "cloud-init.iso")
  
-@@ -424,6 +425,8 @@ def parse_args(vmcls):
-                       help="Interactively run command")
-     parser.add_option("--snapshot", "-s", action="store_true",
-                       help="run tests with a snapshot")
-+    parser.add_option("--genisoimage", default="genisoimage",
-+                      help="iso imaging tool")
-     parser.disable_interspersed_args()
-     return parser.parse_args()
+     - name: "Clang (main-softmmu)"
+       env:
+-        - CONFIG="--target-list=${MAIN_SOFTMMU_TARGETS} "
++        - CONFIG="--target-list=${MAIN_SOFTMMU_TARGETS}
++                  --host-cc=clang --cxx=clang++"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-clang-sanitize"
+       compiler: clang
+       before_script:
+@@ -222,7 +223,8 @@ jobs:
  
-@@ -435,7 +438,8 @@ def main(vmcls):
-             return 1
-         logging.basicConfig(level=(logging.DEBUG if args.debug
-                                    else logging.WARN))
--        vm = vmcls(debug=args.debug, vcpus=args.jobs)
-+        vm = vmcls(debug=args.debug, vcpus=args.jobs,
-+                   genisoimage=args.genisoimage)
-         if args.build_image:
-             if os.path.exists(args.image) and not args.force:
-                 sys.stderr.writelines(["Image file exists: %s\n" % args.image,
+     - name: "Clang (other-softmmu)"
+       env:
+-        - CONFIG="--disable-user --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
++        - CONFIG="--disable-user --target-list-exclude=${MAIN_SOFTMMU_TARGETS}
++                  --host-cc=clang --cxx=clang++"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-clang-default"
+       compiler: clang
+ 
 -- 
 2.20.1
 
