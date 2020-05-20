@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6641DA7B1
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 04:11:19 +0200 (CEST)
-Received: from localhost ([::1]:55646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D80B1DA7AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 04:10:14 +0200 (CEST)
+Received: from localhost ([::1]:49050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbECU-00037N-T1
-	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 22:11:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35588)
+	id 1jbEBR-0000Nj-0g
+	for lists+qemu-devel@lfdr.de; Tue, 19 May 2020 22:10:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1jbEAB-0007Ic-BK
- for qemu-devel@nongnu.org; Tue, 19 May 2020 22:08:55 -0400
-Received: from mga18.intel.com ([134.134.136.126]:42318)
+ id 1jbEA8-0007Dy-2b
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 22:08:52 -0400
+Received: from mga18.intel.com ([134.134.136.126]:42314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1jbEA9-0004YD-0l
- for qemu-devel@nongnu.org; Tue, 19 May 2020 22:08:55 -0400
-IronPort-SDR: h/Hyh45H8RrPC8jwFUTDGaY/9j/zyDXFtNnLH67lS3F6UKNhQ2ElXq1WiNmyTWFbPtGgHo0rJ9
- NaK8V2SX6iHQ==
+ id 1jbEA7-0004XI-Ac
+ for qemu-devel@nongnu.org; Tue, 19 May 2020 22:08:51 -0400
+IronPort-SDR: zD5n0XiVet9GvLNVA0yOJC+i0iSSKm+Z/XbIW8q3n4rWCp6AzxGO2ciLWccZgntF7Sv0/kUJZ2
+ TZ7nR5KONVPw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2020 19:08:44 -0700
-IronPort-SDR: jbgLJUTDTcQ4zsxCgmFLvH+6B90I1P/2uEfnVB8K8XemPST30lQ0UXGQ8zwz9Z46h0/C47kPYb
- 4x/+qAzAy6Vw==
+ 19 May 2020 19:08:46 -0700
+IronPort-SDR: yf3bNoeMtK6r1P5Vsy3EVZGjGPjc1syyFb0fRUZJSKJedDMgi+7jAsP3i1+0LtDmz7OX/mQCd3
+ ZNGOpPLD6qhw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,412,1583222400"; d="scan'208";a="300299758"
+X-IronPort-AV: E=Sophos;i="5.73,412,1583222400"; d="scan'208";a="300299762"
 Received: from chenyi-pc.sh.intel.com ([10.239.159.72])
- by orsmga008.jf.intel.com with ESMTP; 19 May 2020 19:08:42 -0700
+ by orsmga008.jf.intel.com with ESMTP; 19 May 2020 19:08:44 -0700
 From: Chenyi Qiang <chenyi.qiang@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v4 2/5] target/i386: add fast short REP MOV support
-Date: Wed, 20 May 2020 10:10:04 +0800
-Message-Id: <20200520021007.30649-3-chenyi.qiang@intel.com>
+Subject: [PATCH v4 3/5] target/i386: add the missing features for
+ Icelake-Server CPU model
+Date: Wed, 20 May 2020 10:10:05 +0800
+Message-Id: <20200520021007.30649-4-chenyi.qiang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200520021007.30649-1-chenyi.qiang@intel.com>
 References: <20200520021007.30649-1-chenyi.qiang@intel.com>
@@ -67,41 +68,35 @@ Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For CPUs support fast short REP MOV[CPUID.(EAX=7,ECX=0):EDX(bit4)], e.g
-Icelake and Tigerlake, expose it to the guest VM.
+Add the missing features(sha-ni, avx512ifma, rdpid, fsrm) in the
+Icelake-Server CPU model.
 
 Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
 ---
- target/i386/cpu.c | 2 +-
- target/i386/cpu.h | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ target/i386/cpu.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 2b653a0161..52f5aa5418 100644
+index 52f5aa5418..b4697b0148 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -984,7 +984,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         .type = CPUID_FEATURE_WORD,
-         .feat_names = {
-             NULL, NULL, "avx512-4vnniw", "avx512-4fmaps",
--            NULL, NULL, NULL, NULL,
-+            "fsrm", NULL, NULL, NULL,
-             NULL, NULL, "md-clear", NULL,
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, NULL /* pconfig */, NULL,
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 408392dbf6..142256017b 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -772,6 +772,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_0_EDX_AVX512_4VNNIW     (1U << 2)
- /* AVX512 Multiply Accumulation Single Precision */
- #define CPUID_7_0_EDX_AVX512_4FMAPS     (1U << 3)
-+/* Fast Short Rep Mov */
-+#define CPUID_7_0_EDX_FSRM              (1U << 4)
- /* Speculation Control */
- #define CPUID_7_0_EDX_SPEC_CTRL         (1U << 26)
- /* Single Thread Indirect Branch Predictors */
+@@ -3488,6 +3488,16 @@ static X86CPUDefinition builtin_x86_defs[] = {
+                     { /* end of list */ }
+                 },
+             },
++            {
++                .version = 4,
++                .props = (PropValue[]) {
++                    { "sha-ni", "on" },
++                    { "avx512ifma", "on" },
++                    { "rdpid", "on" },
++                    { "fsrm", "on" },
++                    { /* end of list */ }
++                },
++            },
+             { /* end of list */ }
+         }
+     },
 -- 
 2.17.1
 
