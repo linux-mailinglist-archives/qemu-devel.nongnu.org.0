@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC44F1DADE8
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 10:49:09 +0200 (CEST)
-Received: from localhost ([::1]:57048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C9B41DADFB
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 10:50:37 +0200 (CEST)
+Received: from localhost ([::1]:36042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbKPU-0004fp-RW
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 04:49:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44298)
+	id 1jbKQu-00082w-Ls
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 04:50:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbKLP-00051u-1E
- for qemu-devel@nongnu.org; Wed, 20 May 2020 04:44:55 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23431
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbKMI-0007F1-M4
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 04:45:50 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22494
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbKLO-0006j7-6c
- for qemu-devel@nongnu.org; Wed, 20 May 2020 04:44:54 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jbKMH-0006yr-Th
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 04:45:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589964293;
+ s=mimecast20190719; t=1589964349;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ACZMC+KpEHOQ77K+jVMciU6Vq2dmgG/kYfEX3RrkOQA=;
- b=irlWiW9lGCycA4dZW59OtBuvdK5KYMQAioLXsbaApPVHxWfuavHVVlZyORwLwVSEvfBXkd
- kYHUglJ/TzmH6pLovkiThzh3Vvzhp1aC2CzajmsteBs+k8dT5/8ALDPvwvtsxGMyMmsTMK
- WsPKK/wembcHQ8KnFZ4focmnSnC6Cak=
+ bh=Ug9eLCurCvOPoQPc0EAmR2pqw3iF1yxq3Sat6WzrwF0=;
+ b=YtnsCd7rV2Yun1uaTjCN6dj2m/rNGKX9L5C/LvY/hXrixoLsz86vPhpu7acrsvcxDSIudE
+ mnk7NVgrRdF1RCFqzPtcjTYGV7bPxCyx+QfMBkhztYbXSX4ZNGQ25UnVgDAeMGndsq1TLx
+ 5SZmRzPvKGCu7bsATedqNWq37+p27q4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-sqRjQHLFOle679v7yYpo0w-1; Wed, 20 May 2020 04:44:51 -0400
-X-MC-Unique: sqRjQHLFOle679v7yYpo0w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-249-t-WboLnnPHOCuVDcCJw4OA-1; Wed, 20 May 2020 04:45:47 -0400
+X-MC-Unique: t-WboLnnPHOCuVDcCJw4OA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13C61107ACCA
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 08:44:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DC308014D7
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 08:45:46 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
  [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C13795C1C8;
- Wed, 20 May 2020 08:44:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 362FE60C05;
+ Wed, 20 May 2020 08:45:46 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B99279D54; Wed, 20 May 2020 10:44:49 +0200 (CEST)
-Date: Wed, 20 May 2020 10:44:49 +0200
+ id 24E149D54; Wed, 20 May 2020 10:45:45 +0200 (CEST)
+Date: Wed, 20 May 2020 10:45:45 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 25/55] usb: New usb_new(), usb_realize_and_unref()
-Message-ID: <20200520084449.ulvyto5r7fifi4gu@sirius.home.kraxel.org>
+Subject: Re: [PATCH 26/55] usb: Convert uses of usb_create()
+Message-ID: <20200520084545.p3npzuosfnghnyw4@sirius.home.kraxel.org>
 References: <20200519145551.22836-1-armbru@redhat.com>
- <20200519145551.22836-26-armbru@redhat.com>
+ <20200519145551.22836-27-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200519145551.22836-26-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200519145551.22836-27-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -85,15 +85,21 @@ Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 19, 2020 at 04:55:21PM +0200, Markus Armbruster wrote:
-> I'm converting from qdev_create()/qdev_init_nofail() to
-> qdev_new()/qdev_realize_and_unref(); recent commit "qdev: New
-> qdev_new(), qdev_realize(), etc." explains why.
+On Tue, May 19, 2020 at 04:55:22PM +0200, Markus Armbruster wrote:
+> Replace
 > 
-> USB devices use qdev_create() through usb_create().
+>     dev = usb_create(bus, type_name);
+>     ...
+>     object_property_set_bool(OBJECT(dev), true, "realized", &err);
 > 
-> Provide usb_new() and usb_realize_and_unref() for converting USB
-> devices.
+> by
+> 
+>     dev = isa_new(type_name);
+>     ...
+>     usb_realize_and_unref(dev, bus, &err);
+> 
+> Recent commit "qdev: New qdev_new(), qdev_realize(), etc." explains
+> why.
 > 
 > Cc: Gerd Hoffmann <kraxel@redhat.com>
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
