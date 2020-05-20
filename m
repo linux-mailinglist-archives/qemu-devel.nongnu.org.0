@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31EE1DB8C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 17:55:38 +0200 (CEST)
-Received: from localhost ([::1]:55526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC671DB8C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 17:56:38 +0200 (CEST)
+Received: from localhost ([::1]:59710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbR4D-0001sg-Vt
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 11:55:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42226)
+	id 1jbR5A-0003cz-0u
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 11:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
- id 1jbR2m-0008Di-GJ; Wed, 20 May 2020 11:54:08 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:44198)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
- id 1jbR2k-0001IJ-MA; Wed, 20 May 2020 11:54:08 -0400
-Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::162])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id D3E0C2E15FD;
- Wed, 20 May 2020 18:54:02 +0300 (MSK)
-Received: from vla5-58875c36c028.qloud-c.yandex.net
- (vla5-58875c36c028.qloud-c.yandex.net [2a02:6b8:c18:340b:0:640:5887:5c36])
- by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- i6WipSSTU2-s0TSmWHo; Wed, 20 May 2020 18:54:02 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1589990042; bh=+SjeKv7JofGN47sm5ZgJS2qgyS6IMRcoqy6Nk2Fpuz0=;
- h=In-Reply-To:In-Reply-To:Message-Id:References:References:Date:
- Subject:To:From:Cc;
- b=0Jvdd1OK6fcwj+R8JIxxtfPEvxroY68k0ltjob4e6EambsqbfrCMFJtjnqVVjtvyS
- Wl6W/QsrwIhpijSENdfpOaHqIAPZqIZYeP9Mmg879FhwWhv/TOVgPdxswYUt8UDbPl
- 3CU9T3CaJZO9IEG1OU02IdS5NVcI3UqyBlTHzDZ4=
-Authentication-Results: mxbackcorp1j.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:1221::1:11])
- by vla5-58875c36c028.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- wLIWnjIOwO-s0Xe43DN; Wed, 20 May 2020 18:54:00 +0300
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (Client certificate not present)
-From: Dima Stepanov <dimastep@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] vhost-user-blk: delay vhost_user_blk_disconnect
-Date: Wed, 20 May 2020 18:53:13 +0300
-Message-Id: <0dfb37f8728aba26c8d6c117018332a5b7dc9b56.1589989075.git.dimastep@yandex-team.ru>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1589989075.git.dimastep@yandex-team.ru>
-References: <cover.1589989075.git.dimastep@yandex-team.ru>
-In-Reply-To: <cover.1589989075.git.dimastep@yandex-team.ru>
-References: <cover.1589989075.git.dimastep@yandex-team.ru>
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jbR2i-00083E-CE; Wed, 20 May 2020 11:54:04 -0400
+Resent-Date: Wed, 20 May 2020 11:54:04 -0400
+Resent-Message-Id: <E1jbR2i-00083E-CE@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21783)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jbR2g-0001Hj-JU; Wed, 20 May 2020 11:54:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1589990031; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=gxoIY6Cty2fNGCjMW6sTd4pRms56rPkP2fEIL6pSHRQJPf9GBxtAv4j7QKhScEd5QnI5akBD/+vku6YZMu3dt91JBL0JKTEb1gpAxBIhZ58Ye4hQOR95FbRMwJvmajAWNOUMltVdC/5Vja3mv89QvwO6hkTxoDUFx9CzI/CsoQM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1589990031;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=tx6wVHsfw7OS+dFxLj6lZFIgNEjVcIm6KlEK7Sgzo64=; 
+ b=NrFpNn8In5YWCnV2xJbewUkPdwx066YOidFuzooSLT/GIQW0NO+U4BqFM3sn5u6NpAfE7mcyF9oLGqhHpAAAb/ldX+nVRNipHFpJvAkFbjCXiu85e/hJYvA4K9c198cPLFSCO2gVKKWv5vZ2euf5KZEuS9t8PRstFL2SKadWzuo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1589990029173269.8900933964204;
+ Wed, 20 May 2020 08:53:49 -0700 (PDT)
+Message-ID: <158999002740.28633.15086035982719918736@45ef0f9c86ae>
+In-Reply-To: <20200520132003.9492-1-kraxel@redhat.com>
+Subject: Re: [PATCH v3 00/22] microvm: add acpi support
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kraxel@redhat.com
+Date: Wed, 20 May 2020 08:53:49 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 11:46:47
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,115 +67,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
- jasowang@redhat.com, dgilbert@redhat.com, mreitz@redhat.com, fengli@smartx.com,
- yc-core@yandex-team.ru, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- raphael.norwitz@nutanix.com
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, slp@redhat.com,
+ mst@redhat.com, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, kraxel@redhat.com, imammedo@redhat.com,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A socket write during vhost-user communication may trigger a disconnect
-event, calling vhost_user_blk_disconnect() and clearing all the
-vhost_dev structures holding data that vhost-user functions expect to
-remain valid to roll back initialization correctly. Delay the cleanup to
-keep vhost_dev structure valid.
-There are two possible states to handle:
-1. RUN_STATE_PRELAUNCH: skip bh oneshot call and perform disconnect in
-the caller routine.
-2. RUN_STATE_RUNNING: delay by using bh
-
-BH changes are based on the similar changes for the vhost-user-net
-device:
-  commit e7c83a885f865128ae3cf1946f8cb538b63cbfba
-  "vhost-user: delay vhost_user_stop"
-
-Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
----
- hw/block/vhost-user-blk.c | 49 +++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 43 insertions(+), 6 deletions(-)
-
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 9d8c0b3..447fc9c 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -337,11 +337,6 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VHostUserBlk *s = VHOST_USER_BLK(vdev);
- 
--    if (!s->connected) {
--        return;
--    }
--    s->connected = false;
--
-     if (s->dev.started) {
-         vhost_user_blk_stop(vdev);
-     }
-@@ -349,6 +344,19 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
-     vhost_dev_cleanup(&s->dev);
- }
- 
-+static void vhost_user_blk_event(void *opaque, QEMUChrEvent event);
-+
-+static void vhost_user_blk_chr_closed_bh(void *opaque)
-+{
-+    DeviceState *dev = opaque;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-+    VHostUserBlk *s = VHOST_USER_BLK(vdev);
-+
-+    vhost_user_blk_disconnect(dev);
-+    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, vhost_user_blk_event,
-+            NULL, opaque, NULL, true);
-+}
-+
- static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
- {
-     DeviceState *dev = opaque;
-@@ -363,7 +371,28 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
-         }
-         break;
-     case CHR_EVENT_CLOSED:
--        vhost_user_blk_disconnect(dev);
-+        /*
-+         * A close event may happen during a read/write, but vhost
-+         * code assumes the vhost_dev remains setup, so delay the
-+         * stop & clear. There are two possible paths to hit this
-+         * disconnect event:
-+         * 1. When VM is in the RUN_STATE_PRELAUNCH state. The
-+         * vhost_user_blk_device_realize() is a caller.
-+         * 2. In tha main loop phase after VM start.
-+         *
-+         * For p2 the disconnect event will be delayed. We can't
-+         * do the same for p1, because we are not running the loop
-+         * at this moment. So just skip this step and perform
-+         * disconnect in the caller function.
-+         */
-+        if (s->connected && runstate_is_running()) {
-+            AioContext *ctx = qemu_get_current_aio_context();
-+
-+            qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL, NULL,
-+                    NULL, NULL, false);
-+            aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh, opaque);
-+        }
-+        s->connected = false;
-         break;
-     case CHR_EVENT_BREAK:
-     case CHR_EVENT_MUX_IN:
-@@ -428,6 +457,14 @@ reconnect:
- 
-     ret = vhost_dev_get_config(&s->dev, (uint8_t *)&s->blkcfg,
-                                sizeof(struct virtio_blk_config));
-+    if (!s->connected) {
-+        /*
-+         * Perform disconnect before making reconnect. More detailed
-+         * comment why it was delayed is in the vhost_user_blk_event()
-+         * routine.
-+         */
-+        vhost_user_blk_disconnect(dev);
-+    }
-     if (ret < 0) {
-         error_report("vhost-user-blk: get block config failed");
-         goto reconnect;
--- 
-2.7.4
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUyMDEzMjAwMy45NDky
+LTEta3JheGVsQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBkb2Nr
+ZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1h
+bmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQs
+IHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQg
+QkVHSU4gPT09CiMhIC9iaW4vYmFzaApleHBvcnQgQVJDSD14ODZfNjQKbWFrZSBkb2NrZXItaW1h
+Z2UtZmVkb3JhIFY9MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LW1pbmd3QGZlZG9y
+YSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICBDQyAgICAgIHg4Nl82
+NC1zb2Z0bW11L3RhcmdldC9pMzg2L21weF9oZWxwZXIubwogIENDICAgICAgeDg2XzY0LXNvZnRt
+bXUvdGFyZ2V0L2kzODYvc2VnX2hlbHBlci5vCi90bXAvcWVtdS10ZXN0L3NyYy9ody9pMzg2L2Fj
+cGktbWljcm92bS5jOiBJbiBmdW5jdGlvbiAnYnVpbGRfZHNkdF9taWNyb3ZtJzoKL3RtcC9xZW11
+LXRlc3Qvc3JjL2h3L2kzODYvYWNwaS1taWNyb3ZtLmM6MTA5OjU6IGVycm9yOiBpbXBsaWNpdCBk
+ZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiAnZndfY2ZnX2FkZF9hY3BpX2RzZHQnOyBkaWQgeW91IG1l
+YW4gJ2Z3X2NmZ19hZGRfZmlsZSc/IFstV2Vycm9yPWltcGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0
+aW9uXQogICAgIGZ3X2NmZ19hZGRfYWNwaV9kc2R0KHNiX3Njb3BlLCB4ODZtcy0+ZndfY2ZnKTsK
+ICAgICBefn5+fn5+fn5+fn5+fn5+fn5+fgogICAgIGZ3X2NmZ19hZGRfZmlsZQovdG1wL3FlbXUt
+dGVzdC9zcmMvaHcvaTM4Ni9hY3BpLW1pY3Jvdm0uYzoxMDk6NTogZXJyb3I6IG5lc3RlZCBleHRl
+cm4gZGVjbGFyYXRpb24gb2YgJ2Z3X2NmZ19hZGRfYWNwaV9kc2R0JyBbLVdlcnJvcj1uZXN0ZWQt
+ZXh0ZXJuc10KY2MxOiBhbGwgd2FybmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMKICBDQyAg
+ICAgIHg4Nl82NC1zb2Z0bW11L3RhcmdldC9pMzg2L3NtbV9oZWxwZXIubwptYWtlWzFdOiAqKiog
+Wy90bXAvcWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IGh3L2kzODYvYWNwaS1taWNyb3ZtLm9d
+IEVycm9yIDEKbWFrZVsxXTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KICBD
+QyAgICAgIGFhcmNoNjQtc29mdG1tdS9ody9hcm0vZGlnaWNfYm9hcmRzLm8KICBDQyAgICAgIGFh
+cmNoNjQtc29mdG1tdS9ody9hcm0vZXh5bm9zNF9ib2FyZHMubwotLS0KICBDQyAgICAgIGFhcmNo
+NjQtc29mdG1tdS9ody9hcm0vdmV4cHJlc3MubwogIENDICAgICAgYWFyY2g2NC1zb2Z0bW11L2h3
+L2FybS94aWxpbnhfenlucS5vCiAgQ0MgICAgICBhYXJjaDY0LXNvZnRtbXUvaHcvYXJtL3NhYnJl
+bGl0ZS5vCm1ha2U6ICoqKiBbTWFrZWZpbGU6NTI3OiB4ODZfNjQtc29mdG1tdS9hbGxdIEVycm9y
+IDIKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KICBDQyAgICAgIGFh
+cmNoNjQtc29mdG1tdS9ody9hcm0vYXJtdjdtLm8KICBDQyAgICAgIGFhcmNoNjQtc29mdG1tdS9o
+dy9hcm0vZXh5bm9zNDIxMC5vCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNv
+ZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3Vkbycs
+ICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVp
+ZD04N2U3OTc0NWYyYWU0MmFlOTc0ZWI5YjI0N2Q0YWY3NicsICctdScsICcxMDAzJywgJy0tc2Vj
+dXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9M
+SVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAn
+Sj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9JywgJy1lJywgJ0NDQUNIRV9E
+SVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRv
+Y2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10
+ZXN0ZXItdG1wLTQzZmh2YTl0L3NyYy9kb2NrZXItc3JjLjIwMjAtMDUtMjAtMTEuNTAuNDUuMTY3
+MTM6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6ZmVkb3JhJywgJy92YXIvdG1wL3FlbXUvcnVu
+JywgJ3Rlc3QtbWluZ3cnXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVy
+PS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9ODdlNzk3NDVmMmFlNDJhZTk3
+NGViOWIyNDdkNGFmNzYKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06
+IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtNDNmaHZhOXQv
+c3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1taW5nd0BmZWRvcmFdIEVycm9yIDIKCnJl
+YWwgICAgM20xLjYyMnMKdXNlciAgICAwbTcuNDIzcwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFi
+bGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA1MjAxMzIwMDMuOTQ5Mi0xLWtyYXhl
+bEByZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLW1pbmd3QGZlZG9yYS8/dHlwZT1tZXNzYWdlLgot
+LS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRj
+aGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVk
+aGF0LmNvbQ==
 
