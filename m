@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28E21DC17A
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 23:39:15 +0200 (CEST)
-Received: from localhost ([::1]:52552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E811DBBEA
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 May 2020 19:50:42 +0200 (CEST)
+Received: from localhost ([::1]:40568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbWQk-00045J-Cy
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 17:39:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55452)
+	id 1jbSrY-0005HN-Pj
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 13:50:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <greatquux@gmail.com>)
- id 1jbSlh-00033Q-Pf
- for qemu-devel@nongnu.org; Wed, 20 May 2020 13:44:37 -0400
-Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:45723)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jbSqV-0004ar-S9
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 13:49:35 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:45777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <greatquux@gmail.com>)
- id 1jbSlg-0007Ig-UJ
- for qemu-devel@nongnu.org; Wed, 20 May 2020 13:44:37 -0400
-Received: by mail-qk1-x72a.google.com with SMTP id i5so4372370qkl.12
- for <qemu-devel@nongnu.org>; Wed, 20 May 2020 10:44:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:user-agent
- :mime-version; bh=yGRgLX8KyBUfh1dKkQe6460Rwdc7PLR+dor60P3m2PM=;
- b=im184+b3OeTiV6x3mH/mQIx1XZvDTTRn7pllj9rvvY0LdALMG876mFOpeidLghgZxP
- YE7SYVil6l5H48WVOe6dETa14n5pveAfQ0dYDQhSCDnf42YgPbrnN3FKrQTHe5aeuE6o
- DTS5fWBwQ3zqh4Y4CIRszfXEYEbps4chix8wJbLo0mOjAbUoytWYhsWLcmhJJLEyhtVJ
- q+3S3xB9vthVjC5oB+s4cEmAAz664vG2bxVm42Shevx0KngDfWTrFelN16LHk0yawLiz
- lXt8ktGUy8XJUmUblfIPwMUWulbK6zVOeJtonAqNgqUb+Ik5jaMB9CmbqnwWPFPkVgRa
- Rgig==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jbSqU-0007zS-QP
+ for qemu-devel@nongnu.org; Wed, 20 May 2020 13:49:35 -0400
+Received: by mail-ed1-x536.google.com with SMTP id s19so4026337edt.12
+ for <qemu-devel@nongnu.org>; Wed, 20 May 2020 10:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=HHyD8LXaTohh0A3IUpE+dTXMF2vK7ZTyarhHdjrU5pY=;
+ b=jxTJS9gk8FydXhDa3C7vJiNXN6imeJAkxgUffPBGBx0zmSI+OyZNWgXdBPDRzCydEz
+ c/Br5MnZoRNoW1My6jtJVvBFeT0VNJTbkTEYomSQ6R8Mwe8RKF9lrGrx1cSDVHSTR+jr
+ VyIyjhMU9Gd3akNW5NoYQ28XYvMluAmu197lYzSqprUU3zUPleAJreDyOyYaUXfcbQHq
+ 77Fokk/G6NFLMNIySE5K5VXrB4Ohnq0FdVk3ESSIM0ZOw7xqLh+20rEC70AkHyHYaPgP
+ VcKallY7lzV0/Ozh1LmUhyNP6scuf31tVl5KqXlHQaAM4bIQz9SM4FjC7MHn+pnPmC05
+ wk8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :user-agent:mime-version;
- bh=yGRgLX8KyBUfh1dKkQe6460Rwdc7PLR+dor60P3m2PM=;
- b=sU6jPTnP5zG6b92mYIGqICLAFNb+/b1NjBFNsxFJFj4XkdHxrzNU6r5+PKOQ34b867
- +/0hMRq2GMkbV5JULd/cqT9NNvGhZIuHZ6TucK0eIW8pmc0DV5ooZFgWBUsGgfI5rpBE
- OjhxWH6HLXgrwxAHxb1j3lZpIgc7HCpcjDQoAANx9TIlTEd5LexuMMUf0oxLN8kkg99A
- 95TX09yS15SBfOeaSdiljlUBaHD8dtIYp1OJcqqPRxnrKRyvUtO+V4TjFMKEgBd68vk0
- PAZtkPnAmNN3kjWwbrVb1SgDx9yhjqeBEhL6f94MPBPNXwCN2C3LdW6fX8p/n6CBLniO
- qfqA==
-X-Gm-Message-State: AOAM5315dpa8J8m5p/DN5MrHGD2TsRBmrws22c4AyEfzmTY9gaeDpzzZ
- 3mP6BC3awOjOPa28TqbOjU4=
-X-Google-Smtp-Source: ABdhPJxdRoiMpIbxsc1Xv047hRJF85nlUPN+podXKuHQ2u02ctvSECJO8l4rwlRKem9JIa+rX7k5fA==
-X-Received: by 2002:a37:4e4e:: with SMTP id c75mr5999682qkb.143.1589996675269; 
- Wed, 20 May 2020 10:44:35 -0700 (PDT)
-Received: from ossy (pool-108-27-241-12.nycmny.fios.verizon.net.
- [108.27.241.12])
- by smtp.gmail.com with ESMTPSA id 23sm2683595qkf.68.2020.05.20.10.44.34
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=HHyD8LXaTohh0A3IUpE+dTXMF2vK7ZTyarhHdjrU5pY=;
+ b=Ie+0+sAn+SC4DOKPINmOmSKSZqADSHW30RH8+lvxUB0pSB4RYxDk0zXsETJL6QdiSI
+ rInNFaOLK7rLTNJvTf0TAPbTwGdkj0Jq/vi+E4Dv5fJBpOcZmfHSjS4nTtxDwkQb6l0E
+ 04NJLVkU7ZYVIu8Bmf5XRsimnp0XpWbqSIbF5vnI4YIjYI38MnCpiFSlsoBkQfyjF9QF
+ d1Mh3rgzdknWeZOrNOmMCugXEBO8Y9Gw2tBaMRFxyObzjqE8eHryRmyVLC0PYLVjnVhn
+ GN1MqAqn97TrvhJXrJjFG8ECpiunyTtqJhxj/U5XhHirqaZolrF5FS6/V7MaXHWG1/+L
+ Aiqw==
+X-Gm-Message-State: AOAM530K86Hf1eDXiYuBaM2VXFgzn7IuP5xAnadGJ9k9swN5YF9dHHsL
+ g43fEwiuTBvHoSLg8HwpGGynHw==
+X-Google-Smtp-Source: ABdhPJwIrB9ORne4+8Zk/kOm8o58Bw9t2awy4p7V1kF7EsJlICpeG5PU0c2WrI4qRTlk5ezg8SCmtw==
+X-Received: by 2002:a05:6402:959:: with SMTP id
+ h25mr4381017edz.287.1589996972748; 
+ Wed, 20 May 2020 10:49:32 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id x26sm2450218edv.61.2020.05.20.10.49.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 May 2020 10:44:34 -0700 (PDT)
-Message-ID: <b7b2d3921fa6d2274c63b8b58f655bf293139598.camel@gmail.com>
-Subject: Re: Emulating Solaris 10 on SPARC64 sun4u
-From: Mike Russo <greatquux@gmail.com>
-To: jasper.lowell@bt.com
-Date: Wed, 20 May 2020 13:44:33 -0400
-In-Reply-To: <be68b7ad559ec17c69439217c1378c23e30745c9.camel@bt.com>
-Content-Type: multipart/alternative; boundary="=-z0p+ktn1hEPHibtMFiqQ"
-User-Agent: Evolution 3.36.1-2 
+ Wed, 20 May 2020 10:49:31 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C72A91FF7E;
+ Wed, 20 May 2020 18:49:30 +0100 (BST)
+References: <20200519025355.4420-1-richard.henderson@linaro.org>
+ <20200519025355.4420-18-richard.henderson@linaro.org>
+User-agent: mu4e 1.4.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [RISU v2 17/17] Add --dump option to inspect trace files
+In-reply-to: <20200519025355.4420-18-richard.henderson@linaro.org>
+Date: Wed, 20 May 2020 18:49:30 +0100
+Message-ID: <87pnayfqdx.fsf@linaro.org>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
- envelope-from=greatquux@gmail.com; helo=mail-qk1-x72a.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x536.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 20 May 2020 17:38:13 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,50 +90,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tony.nguyen@bt.com, mark.cave-ayland@ilande.co.uk, dgilbert@redhat.com,
- qemu-devel@nongnu.org, peter.tribble@gmail.com, atar4qemu@gmail.com
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---=-z0p+ktn1hEPHibtMFiqQ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Using the proprietary firmware for this would be ideal. It would also
-> provide reliable access to the kernel debugger which would be
-> extremely
-> helpful for diagnosing what's going wrong with the console. I'm not
-> sure how I would go about making progress on this though. I know there
-> are binaries of the BIOS for Sun4m machines floating around but I'm
-> not
-> aware of any for Sun4u machines.
-> 
+> Adjust some of the aarch64 code to look at the reginfo struct
+> instead of looking at test_sve, so that we do not need to pass
+> the --test-sve option in order to dump sve trace files.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  risu.h                 |   1 +
+>  risu.c                 | 108 ++++++++++++++++++++++++++++++++++++++++-
+>  risu_reginfo_aarch64.c |  55 +++++++++++++--------
+>  risu_reginfo_arm.c     |   4 ++
+>  risu_reginfo_i386.c    |   4 ++
+>  risu_reginfo_m68k.c    |   4 ++
+>  risu_reginfo_ppc64.c   |   4 ++
+>  7 files changed, 159 insertions(+), 21 deletions(-)
+>
+> diff --git a/risu.h b/risu.h
+> index 054cef7..3bfe765 100644
+> --- a/risu.h
+> +++ b/risu.h
+> @@ -23,6 +23,7 @@
+>  extern const struct option * const arch_long_opts;
+>  extern const char * const arch_extra_help;
+>  void process_arch_opt(int opt, const char *arg);
+> +void arch_init(void);
+>  #define FIRST_ARCH_OPT   0x100
+>=20=20
+>  /* GCC computed include to pull in the correct risu_reginfo_*.h for
+> diff --git a/risu.c b/risu.c
+> index 95b4674..d7c7556 100644
+> --- a/risu.c
+> +++ b/risu.c
+> @@ -249,6 +249,93 @@ static int apprentice(void)
+>      }
+>  }
+>=20=20
+> +static int dump_trace(void)
+> +{
+> +    trace_header_t header;
+> +    union {
+> +        struct reginfo ri;
+> +        unsigned char memblock[MEMBLOCKLEN];
+> +    } u;
 
-I haven't been able to find any of this firmware either. Not sure if
-this helps but someone says they've got the Ultra 1 firmware (along with
-cgsix and cgthree) available here:
-https://people.csail.mit.edu/fredette/tme/sun-u1-nbsd.html
+If you kept a p(rev) copy you could also add an option to:
 
---=-z0p+ktn1hEPHibtMFiqQ
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+> +    const char *op_name;
+> +
+<snip>
+> +            printf("%s: (pc %#lx)\n", op_name, (unsigned long)header.pc);
+> +            reginfo_dump(&u.ri, stdout);
 
-<html dir=3D"ltr"><head></head><body style=3D"text-align:left; direction:lt=
-r;"><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #=
-729fcf solid;padding-left:1ex"><div>Using the proprietary firmware for this=
- would be ideal. It would also</div><div>provide reliable access to the ker=
-nel debugger which would be extremely</div><div>helpful for diagnosing what=
-'s going wrong with the console. I'm not</div><div>sure how I would go abou=
-t making progress on this though. I know there</div><div>are binaries of th=
-e BIOS for Sun4m machines floating around but I'm not</div><div>aware of an=
-y for Sun4u machines.</div><div><br></div></blockquote><div><br></div><div>=
-I haven't been able to find any of this firmware either. Not sure if this h=
-elps but someone says they've got the Ultra 1 firmware (along with cgsix an=
-d cgthree) available here:</div><div><a href=3D"https://people.csail.mit.ed=
-u/fredette/tme/sun-u1-nbsd.html">https://people.csail.mit.edu/fredette/tme/=
-sun-u1-nbsd.html</a></div></body></html>
+optionally call reginfo_dump_mismatch(&u.ri, &p.ri, stdout) here so you
+can see what is changing for each instruction. It looks a bit ugly
+calling them mismatches though ;-)
 
---=-z0p+ktn1hEPHibtMFiqQ--
+Anyway:
 
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
