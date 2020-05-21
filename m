@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE6741DD722
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:23:43 +0200 (CEST)
-Received: from localhost ([::1]:36976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7534C1DD72C
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:25:39 +0200 (CEST)
+Received: from localhost ([::1]:45394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbqn8-0007rS-NT
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:23:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38092)
+	id 1jbqp0-0003Yg-Cj
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:25:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqgI-0002gp-Bc
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:38 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35796)
+ id 1jbqgJ-0002jN-Iw
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:39 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqgH-0000SJ-Az
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:37 -0400
-Received: by mail-wr1-x433.google.com with SMTP id x14so2391322wrp.2
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:36 -0700 (PDT)
+ id 1jbqgI-0000SQ-Ex
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:39 -0400
+Received: by mail-wr1-x444.google.com with SMTP id k13so7795742wrx.3
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=7HVyutZ+jChpWjaCI3psmvFBqjyzPdDDfNGC17h6AVA=;
- b=qFbw3Untmnfv7tRO+0usM6XxrlCUxMUg0b6chY+1yLx0yPHyL5SAZbM+ABHeC209wX
- vHTknaYu0bFHv+KV40+H9RSQ8hhRl7ugNFGjaGVrBMKxs1ixRhYYUMHXwlo8IjY2P7rc
- QYY36Zr9tNDwN6yxvxqcsxQTzGwUhzIxnKjHOw95v/MkxTL2nvBFYxFv/4qBJ9KX/rTg
- ifyO7UMvDifTNWruwHArgCEXS74gngVBCcIjfXga01W9wfWcKdvOq8KwpkKQOj+nN5KE
- w7j70AkNmUkzQhnDgxR1x/lNpu7k3WOaUbmXIk1uZXQjrxmZ67pFQeAAT3MqeuU3I/BO
- KeaQ==
+ bh=MBRcZYhsnG0Nv84sXRAp1u7ZTCa04K6nc81c5uqmkh8=;
+ b=DpqotN24rCXVOXyo2V0Fq9Cz24bRd25gK2MPTyEOqAL5zEp36gi3/9Wz+ybODSigcF
+ uSD3fSHl7IdTio+6e3Pi8qfImYY1CfasSttpL34RkSwgPIyDnZzbkYGld8JLurduGwnm
+ z/gQLJWL+ilnfT+2Chd8V/Iml1i8BEAGg/zS76xg1JHuYnIWKg6H5n4V5EaOkz9k1DGu
+ gbqbvkQeeopAm/NIyPQav91+ttk3kDmqFhItvrSj7zw44VIne2c+/Bg+t4qxJBdgfHcY
+ JsiW+K4K6xVbFeXmSmxUUh4XNfC+GAjAxQCQyrEFIxDzIOb+qUBRVMlPBbUghW0iMS0q
+ WkHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7HVyutZ+jChpWjaCI3psmvFBqjyzPdDDfNGC17h6AVA=;
- b=ob9VKZsMyltzUtTTQHbVMDV1QDkiDlgHMkwAZnyWUuIn22MwmeER/8iXmBIdNOUn20
- q74Hn3cDZa/htizf6Fmq/5zb7B335SbZHI+K4zTjOZc4QY7uSMMfbz27qb9mHqOypZ0G
- uuONJIGVBz7NuBbvDXp7caZrgIyvZNVIJt71a0/FVUpTshkDpm0NXC2PKULaIdRbEWt6
- 6V2tGtFc5vnNpaXhn2zdSZudWmOxTYsHZ40Y/1DcFe6GJwwE3S2K35cXdaBu2fVd83f8
- di0jxvGfMhF3MVB8Ecj3PiV8v17kmJCJrsVS9kBCMUC94Y3qmLXd7eF5AK/bciTyIZCu
- Xijw==
-X-Gm-Message-State: AOAM532X0OnE/6jc9mAxvJmwqZc1gn+zJU9FEE0MCLB70pYhHV+LiCXs
- PurdwDlVxugnux/jHoLcwMETlMjlk0LKNg==
-X-Google-Smtp-Source: ABdhPJw3KkGWki159pId6Oc5FTOIW8nbDmqX7fmh0doL+s1dJ7tUHzDgR6JBfsxqwmFE2Ik0FxOULg==
-X-Received: by 2002:adf:e38e:: with SMTP id e14mr123880wrm.2.1590088595632;
- Thu, 21 May 2020 12:16:35 -0700 (PDT)
+ bh=MBRcZYhsnG0Nv84sXRAp1u7ZTCa04K6nc81c5uqmkh8=;
+ b=UldF5Cdw8Km4+mEcgpxDDKg7YKXQAhV6gAbJ+l3AutUnnxbGjEl7Ym6SMb2p8iLpfs
+ DKZwG6PE0NLsBbGz5LcmBS0/Ms8EWCb8Haj62QcmmL82JUzgPZpcWo5/0KnpRLpa1Oln
+ zyvL+BPev4U3HrHxbM/sUHpRomyyTUv0MN7U0arrMAvGwG0VRmLSyWwcmb5AeT2j2eRN
+ ds6jwGFz0s8vOURRk1okS0NxNyWTfwO23CrwdBXnTXObTuJ5NjPaxyeGDl7sQVFPFaF+
+ HPeWBdUv/MPFwFbB6LuRHEGxHUjdec/UZ1HHZ+2N28NrCqQFx6EMzjW9LhDVzoBkb82y
+ JDyQ==
+X-Gm-Message-State: AOAM530aaqoJZZa3yKUuE7hGvmyr8ddgUP20LcPborlaKxkNCW1TkcNY
+ e3pw0WLeyDj4uQTOof9Thw0NQ9TSGmDnlA==
+X-Google-Smtp-Source: ABdhPJwuJb0bYKnH9yW153p09mgCQE0/lAvHdtDnxELC3t11Omvotu0/ab53h9FTJHaFGIbYdNoFig==
+X-Received: by 2002:a5d:4d0f:: with SMTP id z15mr70137wrt.411.1590088596658;
+ Thu, 21 May 2020 12:16:36 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.34
+ by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 12:16:34 -0700 (PDT)
+ Thu, 21 May 2020 12:16:36 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/29] hw/arm/fsl-imx7: Connect watchdog interrupts
-Date: Thu, 21 May 2020 20:16:00 +0100
-Message-Id: <20200521191610.10941-20-peter.maydell@linaro.org>
+Subject: [PULL 20/29] hw/arm/integratorcp: Replace hw_error() by
+ qemu_log_mask()
+Date: Thu, 21 May 2020 20:16:01 +0100
+Message-Id: <20200521191610.10941-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200521191610.10941-1-peter.maydell@linaro.org>
 References: <20200521191610.10941-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,64 +90,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Guenter Roeck <linux@roeck-us.net>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-i.MX7 supports watchdog pretimeout interupts. With this commit,
-the watchdog in mcimx7d-sabre is fully operational, including
-pretimeout support.
+hw_error() calls exit(). This a bit overkill when we can log
+the accesses as unimplemented or guest error.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Message-id: 20200517162135.110364-9-linux@roeck-us.net
+When fuzzing the devices, we don't want the whole process to
+exit. Replace some hw_error() calls by qemu_log_mask().
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20200518140309.5220-2-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/fsl-imx7.h |  5 +++++
- hw/arm/fsl-imx7.c         | 11 +++++++++++
- 2 files changed, 16 insertions(+)
+ hw/arm/integratorcp.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
-index 47826da2b7e..da977f9ffb4 100644
---- a/include/hw/arm/fsl-imx7.h
-+++ b/include/hw/arm/fsl-imx7.h
-@@ -228,6 +228,11 @@ enum FslIMX7IRQs {
-     FSL_IMX7_USB2_IRQ     = 42,
-     FSL_IMX7_USB3_IRQ     = 40,
- 
-+    FSL_IMX7_WDOG1_IRQ    = 78,
-+    FSL_IMX7_WDOG2_IRQ    = 79,
-+    FSL_IMX7_WDOG3_IRQ    = 10,
-+    FSL_IMX7_WDOG4_IRQ    = 109,
-+
-     FSL_IMX7_PCI_INTA_IRQ = 125,
-     FSL_IMX7_PCI_INTB_IRQ = 124,
-     FSL_IMX7_PCI_INTC_IRQ = 123,
-diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
-index d6cf7c48ce8..89c3b64c066 100644
---- a/hw/arm/fsl-imx7.c
-+++ b/hw/arm/fsl-imx7.c
-@@ -447,11 +447,22 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
-             FSL_IMX7_WDOG3_ADDR,
-             FSL_IMX7_WDOG4_ADDR,
-         };
-+        static const int FSL_IMX7_WDOGn_IRQ[FSL_IMX7_NUM_WDTS] = {
-+            FSL_IMX7_WDOG1_IRQ,
-+            FSL_IMX7_WDOG2_IRQ,
-+            FSL_IMX7_WDOG3_IRQ,
-+            FSL_IMX7_WDOG4_IRQ,
-+        };
- 
-+        object_property_set_bool(OBJECT(&s->wdt[i]), true, "pretimeout-support",
-+                                 &error_abort);
-         object_property_set_bool(OBJECT(&s->wdt[i]), true, "realized",
-                                  &error_abort);
- 
-         sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt[i]), 0, FSL_IMX7_WDOGn_ADDR[i]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->wdt[i]), 0,
-+                           qdev_get_gpio_in(DEVICE(&s->a7mpcore),
-+                                            FSL_IMX7_WDOGn_IRQ[i]));
+diff --git a/hw/arm/integratorcp.c b/hw/arm/integratorcp.c
+index 6d69010d06b..5fb54e5aa75 100644
+--- a/hw/arm/integratorcp.c
++++ b/hw/arm/integratorcp.c
+@@ -20,6 +20,7 @@
+ #include "exec/address-spaces.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
++#include "qemu/log.h"
+ #include "qemu/error-report.h"
+ #include "hw/char/pl011.h"
+ #include "hw/hw.h"
+@@ -144,8 +145,9 @@ static uint64_t integratorcm_read(void *opaque, hwaddr offset,
+         /* ??? Voltage control unimplemented.  */
+         return 0;
+     default:
+-        hw_error("integratorcm_read: Unimplemented offset 0x%x\n",
+-                 (int)offset);
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: Unimplemented offset 0x%" HWADDR_PRIX "\n",
++                      __func__, offset);
+         return 0;
      }
+ }
+@@ -252,8 +254,9 @@ static void integratorcm_write(void *opaque, hwaddr offset,
+         /* ??? Voltage control unimplemented.  */
+         break;
+     default:
+-        hw_error("integratorcm_write: Unimplemented offset 0x%x\n",
+-                 (int)offset);
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: Unimplemented offset 0x%" HWADDR_PRIX "\n",
++                      __func__, offset);
+         break;
+     }
+ }
+@@ -394,7 +397,8 @@ static uint64_t icp_pic_read(void *opaque, hwaddr offset,
+     case 5: /* INT_SOFTCLR */
+     case 11: /* FRQ_ENABLECLR */
+     default:
+-        printf ("icp_pic_read: Bad register offset 0x%x\n", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
++                      __func__, offset);
+         return 0;
+     }
+ }
+@@ -430,7 +434,8 @@ static void icp_pic_write(void *opaque, hwaddr offset,
+     case 8: /* FRQ_STATUS */
+     case 9: /* FRQ_RAWSTAT */
+     default:
+-        printf ("icp_pic_write: Bad register offset 0x%x\n", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
++                      __func__, offset);
+         return;
+     }
+     icp_pic_update(s);
+@@ -504,7 +509,8 @@ static uint64_t icp_control_read(void *opaque, hwaddr offset,
+     case 3: /* CP_DECODE */
+         return 0x11;
+     default:
+-        hw_error("icp_control_read: Bad offset %x\n", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
++                      __func__, offset);
+         return 0;
+     }
+ }
+@@ -524,7 +530,8 @@ static void icp_control_write(void *opaque, hwaddr offset,
+         /* Nothing interesting implemented yet.  */
+         break;
+     default:
+-        hw_error("icp_control_write: Bad offset %x\n", (int)offset);
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
++                      __func__, offset);
+     }
+ }
  
-     /*
 -- 
 2.20.1
 
