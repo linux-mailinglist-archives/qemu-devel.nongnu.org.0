@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110DE1DC688
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E0F1DC689
 	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 07:15:21 +0200 (CEST)
-Received: from localhost ([::1]:60942 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:60934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbdY7-000204-Sl
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 01:15:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32788)
+	id 1jbdY8-0001zo-M1
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 01:15:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jbdXD-0000yf-EA; Thu, 21 May 2020 01:14:23 -0400
-Received: from ozlabs.org ([203.11.71.1]:51605)
+ id 1jbdXD-0000ye-Cq; Thu, 21 May 2020 01:14:23 -0400
+Received: from ozlabs.org ([203.11.71.1]:52005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jbdXB-0003Gj-LI; Thu, 21 May 2020 01:14:23 -0400
+ id 1jbdXB-0003Gk-Qz; Thu, 21 May 2020 01:14:23 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49SHpw4vZBz9sTC; Thu, 21 May 2020 15:14:16 +1000 (AEST)
+ id 49SHpw5ZqYz9sT6; Thu, 21 May 2020 15:14:16 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1590038056;
- bh=HlpPo307BgyGZ1fDfIK9tCCEldKEwCvd1Wje0PtzBCs=;
+ bh=V4BhrQcYdN6rAAw2yhbYrnwa1gmsi0PFHV57Jf1FmHE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IdFeghp7A0Lz6rqCGKdbiPKKaWktbRz/A6iGNRsznSLSa/KXTWn7jFlx8syLIrCeR
- q9+ee/ShhkZ6M1exAK55KrsKv1QhyLfpnrw1oE0CnzYiIGlXYRV76GlswtdZuS4XVr
- BtPBNfUoCvblbvptNQuHIFuvtLRPkZ63v7f5pfAM=
-Date: Thu, 21 May 2020 15:12:49 +1000
+ b=Cxxu3VkNbVfUgRr6nqS3KH3IH/ouNoDcAVUAkKDkRQeZdiGPBSzZJvtQDYXvyUi9c
+ Mxx+ScDOJlMXz1noRYxlSn7GQWAHIg3JPNb7WFhLbuVw4st4ab1hn1F2sl/nNq6JMW
+ AX1xBjy35SN8Way9fPp+CxhHOByLe958LsQtL1cc=
+Date: Thu, 21 May 2020 15:13:45 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 1/2] spapr: Add associativity reference point count to
- machine info
-Message-ID: <20200521051249.GF63349@umbus.fritz.box>
+Subject: Re: [PATCH v2 2/2] spapr: Add a new level of NUMA for GPUs
+Message-ID: <20200521051345.GG63349@umbus.fritz.box>
 References: <20200518214418.18248-1-arbab@linux.ibm.com>
- <20200521013437.5da898fb@bahia.lan>
+ <20200518214418.18248-2-arbab@linux.ibm.com>
+ <20200521013616.15664254@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Zi0sgQQBxRFxMTsj"
+ protocol="application/pgp-signature"; boundary="Zrag5V6pnZGjLKiw"
 Content-Disposition: inline
-In-Reply-To: <20200521013437.5da898fb@bahia.lan>
+In-Reply-To: <20200521013616.15664254@bahia.lan>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 23:43:13
@@ -69,102 +69,121 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Zi0sgQQBxRFxMTsj
+--Zrag5V6pnZGjLKiw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 21, 2020 at 01:34:37AM +0200, Greg Kurz wrote:
-> On Mon, 18 May 2020 16:44:17 -0500
+On Thu, May 21, 2020 at 01:36:16AM +0200, Greg Kurz wrote:
+> On Mon, 18 May 2020 16:44:18 -0500
 > Reza Arbab <arbab@linux.ibm.com> wrote:
 >=20
-> > Make the number of NUMA associativity reference points a
-> > machine-specific value, using the currently assumed default (two
-> > reference points). This preps the next patch to conditionally change it.
+> > NUMA nodes corresponding to GPU memory currently have the same
+> > affinity/distance as normal memory nodes. Add a third NUMA associativity
+> > reference point enabling us to give GPU nodes more distance.
+> >=20
+> > This is guest visible information, which shouldn't change under a
+> > running guest across migration between different qemu versions, so make
+> > the change effective only in new (pseries > 5.0) machine types.
+> >=20
+> > Before, `numactl -H` output in a guest with 4 GPUs (nodes 2-5):
+> >=20
+> > node distances:
+> > node   0   1   2   3   4   5
+> >   0:  10  40  40  40  40  40
+> >   1:  40  10  40  40  40  40
+> >   2:  40  40  10  40  40  40
+> >   3:  40  40  40  10  40  40
+> >   4:  40  40  40  40  10  40
+> >   5:  40  40  40  40  40  10
+> >=20
+> > After:
+> >=20
+> > node distances:
+> > node   0   1   2   3   4   5
+> >   0:  10  40  80  80  80  80
+> >   1:  40  10  80  80  80  80
+> >   2:  80  80  10  80  80  80
+> >   3:  80  80  80  10  80  80
+> >   4:  80  80  80  80  10  80
+> >   5:  80  80  80  80  80  10
+> >=20
+> > These are the same distances as on the host, mirroring the change made
+> > to host firmware in skiboot commit f845a648b8cb ("numa/associativity:
+> > Add a new level of NUMA for GPU's").
 > >=20
 > > Signed-off-by: Reza Arbab <arbab@linux.ibm.com>
 > > ---
-> >  hw/ppc/spapr.c         | 6 +++++-
-> >  include/hw/ppc/spapr.h | 1 +
-> >  2 files changed, 6 insertions(+), 1 deletion(-)
+> >  hw/ppc/spapr.c             | 11 +++++++++--
+> >  hw/ppc/spapr_pci_nvlink2.c |  2 +-
+> >  2 files changed, 10 insertions(+), 3 deletions(-)
 > >=20
 > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index c18eab0a2305..88b4a1f17716 100644
+> > index 88b4a1f17716..1d9193d5ee49 100644
 > > --- a/hw/ppc/spapr.c
 > > +++ b/hw/ppc/spapr.c
-> > @@ -889,10 +889,12 @@ static int spapr_dt_rng(void *fdt)
-> >  static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
-> >  {
-> >      MachineState *ms =3D MACHINE(spapr);
-> > +    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(ms);
+> > @@ -893,7 +893,11 @@ static void spapr_dt_rtas(SpaprMachineState *spapr=
+, void *fdt)
 > >      int rtas;
 > >      GString *hypertas =3D g_string_sized_new(256);
 > >      GString *qemu_hypertas =3D g_string_sized_new(256);
-> >      uint32_t refpoints[] =3D { cpu_to_be32(0x4), cpu_to_be32(0x4) };
-> > +    uint32_t nr_refpoints;
+> > -    uint32_t refpoints[] =3D { cpu_to_be32(0x4), cpu_to_be32(0x4) };
+> > +    uint32_t refpoints[] =3D {
+> > +        cpu_to_be32(0x4),
+> > +        cpu_to_be32(0x4),
+> > +        cpu_to_be32(0x2),
+> > +    };
+> >      uint32_t nr_refpoints;
 > >      uint64_t max_device_addr =3D MACHINE(spapr)->device_memory->base +
 > >          memory_region_size(&MACHINE(spapr)->device_memory->mr);
-> >      uint32_t lrdr_capacity[] =3D {
-> > @@ -944,8 +946,9 @@ static void spapr_dt_rtas(SpaprMachineState *spapr,=
- void *fdt)
-> >                       qemu_hypertas->str, qemu_hypertas->len));
-> >      g_string_free(qemu_hypertas, TRUE);
-> > =20
-> > +    nr_refpoints =3D MIN(smc->nr_assoc_refpoints, ARRAY_SIZE(refpoints=
-));
->=20
-> Having the machine requesting more reference points than available
-> would clearly be a bug. I'd rather add an assert() than silently
-> clipping to the size of refpoints[].
-
-Actually, I think this "num reference points" thing is a false
-abstraction.  It's selecting a number of entries from a list of
-reference points that's fixed.  The number of things we could do
-simply by changing the machine property and not the array is pretty
-small.
-
-I think it would be simpler to just have a boolean in the machine
-class.
-
-> >      _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
-> > -                     refpoints, sizeof(refpoints)));
-> > +                     refpoints, nr_refpoints * sizeof(uint32_t)));
-> > =20
->=20
-> Size can be expressed without yet another explicit reference to the
-> uint32_t type:
->=20
-> nr_refpoints * sizeof(refpoints[0])
->=20
-> >      _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
-> >                       maxdomains, sizeof(maxdomains)));
-> > @@ -4541,6 +4544,7 @@ static void spapr_machine_class_init(ObjectClass =
+> > @@ -4544,7 +4548,7 @@ static void spapr_machine_class_init(ObjectClass =
 *oc, void *data)
 > >      smc->linux_pci_probe =3D true;
 > >      smc->smp_threads_vsmt =3D true;
 > >      smc->nr_xirqs =3D SPAPR_NR_XIRQS;
-> > +    smc->nr_assoc_refpoints =3D 2;
->=20
-> When adding a new setting for the default machine type, we usually
-> take care of older machine types at the same time, ie. folding this
-> patch into the next one. Both patches are simple enough that it should
-> be okay and this would avoid this line to be touched again.
->=20
+> > -    smc->nr_assoc_refpoints =3D 2;
+> > +    smc->nr_assoc_refpoints =3D 3;
 > >      xfc->match_nvt =3D spapr_match_nvt;
 > >  }
 > > =20
-> > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> > index e579eaf28c05..abaf9a92adc0 100644
-> > --- a/include/hw/ppc/spapr.h
-> > +++ b/include/hw/ppc/spapr.h
-> > @@ -129,6 +129,7 @@ struct SpaprMachineClass {
-> >      bool linux_pci_probe;
-> >      bool smp_threads_vsmt; /* set VSMT to smp_threads by default */
-> >      hwaddr rma_limit;          /* clamp the RMA to this size */
-> > +    uint32_t nr_assoc_refpoints;
+> > @@ -4611,8 +4615,11 @@ DEFINE_SPAPR_MACHINE(5_1, "5.1", true);
+> >   */
+> >  static void spapr_machine_5_0_class_options(MachineClass *mc)
+> >  {
+> > +    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
+> > +
+> >      spapr_machine_5_1_class_options(mc);
+> >      compat_props_add(mc->compat_props, hw_compat_5_0, hw_compat_5_0_le=
+n);
+> > +    smc->nr_assoc_refpoints =3D 2;
+> >  }
 > > =20
-> >      void (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
-> >                            uint64_t *buid, hwaddr *pio,=20
+> >  DEFINE_SPAPR_MACHINE(5_0, "5.0", false);
+> > diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
+> > index 8332d5694e46..247fd48731e2 100644
+> > --- a/hw/ppc/spapr_pci_nvlink2.c
+> > +++ b/hw/ppc/spapr_pci_nvlink2.c
+> > @@ -362,7 +362,7 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState =
+*sphb, void *fdt)
+> >          uint32_t associativity[] =3D {
+> >              cpu_to_be32(0x4),
+> >              SPAPR_GPU_NUMA_ID,
+> > -            SPAPR_GPU_NUMA_ID,
+> > +            cpu_to_be32(nvslot->numa_id),
+>=20
+> This is a guest visible change. It should theoretically be controlled
+> with a compat property of the PHB (look for "static GlobalProperty" in
+> spapr.c). But since this code is only used for GPU passthrough and we
+> don't support migration of such devices, I guess it's okay. Maybe just
+> mention it in the changelog.
+
+Yeah, we might get away with it, but it should be too hard to get this
+right, so let's do it.
+
+>=20
+> >              SPAPR_GPU_NUMA_ID,
+> >              cpu_to_be32(nvslot->numa_id)
+> >          };
 >=20
 
 --=20
@@ -173,25 +192,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Zi0sgQQBxRFxMTsj
+--Zrag5V6pnZGjLKiw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7GDdEACgkQbDjKyiDZ
-s5IkHA/8CMFIMr3Wp+axNjKWt9UBahd8DqIMtKSa6HUvVzbskPOqC+XRRaFwkXyo
-p7JSXVjC7P0crPXiYgIVqTzgBhjx8/Qmb1TY0yZ0rgd5Dxzjg4KOUk7FbnEPWqOr
-2tqUzKAhF+McoGaI7qyouYvTIZlYUFR9pEypEyeJ5A/fv137yRkEUMp72AnLehPF
-k/NPOEbEE0RSrko97FKopEI9o2QYodlLgoO+TAgzk1Z58rMnIklt77yUNhr5JGly
-y8wNjlOU/WvcwmtyqWAcmOOpyNkSbJ3pm+y42rBKbCpHxeymkOKCyuMnkRWlEhYI
-tFQ2F11CgaNizlMbsAOnGAdyFRl7HyVW7cdaLH+LK5RzIVRE4LMIF3boOo6VMLCd
-ECZwBei0ddhhfdMCnQkDzSfTr34kxs/k7bctrfdgFiYwjmoH9kL4ljJo23ZC19iu
-dv5TVJ0s9lZijKCDB1tJ8lDmb3aLOVzEsibdqLsr2Cuej6w5UhMSTyksSW8Xqbfk
-4UBR5uF5sg4R5fb2DEmbomMdUG5932jn5eIvbGKCvB7P0auNFg0SpoaLEWRG09jo
-tV8ymTkf2FO5RFp+SbfJ2KwW1y4tX+eocDhWnRsADurANK/Zq+ilsAoR46grZ4ds
-VuDeFnRupX1BbRS+FdRuNk72lDB+HvbEZrajwQwOgcR3VYwwqtw=
-=xXKG
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7GDgkACgkQbDjKyiDZ
+s5IzpA//XgLiPKYu3UOjVMQrJ+ebHr5QVvwHxIf10BH7Ux9EUme7YHwy/m6GO4vG
+Qm1PKkZ6oys/ujwYFmlbCZSYeJRM9jPUEsgQOMviNl52Hl687l91zftHfll1Si9H
+t+Cec3H80tgBO6V2jJORREO083UePk1v98n5SCj6T/z3vliJKXA0+JoiGS3gxsFH
+o+C11D1Jb2FSgKAlJZJIF+RTiRQBBwJkI43AXK9r9Fb+ey8am2WREJTSF9KwMngq
+CLGHHidky/FPKbO2WYvixMrY6GVIPve3V9DfCgntlRe+CXKRiSLDGA/Oo/HDc1pQ
+xq8eNa3VCLDowJOp9SztHgyeD5nrje0t+Bw8xbbHiUOrNYyp9zZB1nlG7FoBZ3m5
+Dfy6vfYYDPkH6Th8pZNYqw9xjGHs0cBW4vAFufYE+M+1FDSquGGT3zzuMpx2OPAT
+bOE+35bKy5UudswWx7hLkPT/zQbjCeyf1bvij1N6lQBowQZjP76gdqKqALN3oheI
+vA0V/S5iWhGzCN6ruLoyI/Jlyps7m6YmyYe6blscb1kFmp2deHCusDxqtnGBiE/G
+aKEk1FPzUMju1ct+B4QIkcS79zDqdn9gb5N7gPmRznvZ4+IlVTG9gxPQx90nXTVi
+49pnq4Hp2P06Kv2S/hse0hYMSRyEs8M/8d7bQrg/ggjEr5ka6+8=
+=8fyH
 -----END PGP SIGNATURE-----
 
---Zi0sgQQBxRFxMTsj--
+--Zrag5V6pnZGjLKiw--
 
