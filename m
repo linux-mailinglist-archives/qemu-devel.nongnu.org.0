@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97051DD721
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:23:41 +0200 (CEST)
-Received: from localhost ([::1]:36676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E28A61DD72B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:25:37 +0200 (CEST)
+Received: from localhost ([::1]:45228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbqn6-0007jZ-Og
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:23:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38074)
+	id 1jbqoy-0003TK-Sb
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:25:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqgE-0002Y2-Sc
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:34 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33001)
+ id 1jbqgF-0002aH-SU
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:35 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34794)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqgD-0000Rt-U8
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:34 -0400
-Received: by mail-wr1-x443.google.com with SMTP id l11so7810610wru.0
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:33 -0700 (PDT)
+ id 1jbqgE-0000S0-Uc
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:35 -0400
+Received: by mail-wr1-x443.google.com with SMTP id g12so6565549wrw.1
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/CQUeNZzF81fMUMrjQ9fUpjLOhXLi7IijeH4uibvu5Q=;
- b=lgzIKUk9suiMCZmJ0wPZddNvVbgPVdpgeHuGqhL3KqfLR8A1dLY0+zySKARbPS4v9w
- W+LNsJ2PA5Gdua9HrA9sMaqiHL8sWRP701iJK8BKiyUGu3ZquRzAr9UIdMQrLhtCY54p
- MRN3lT//d4fx1HGaRwa161GCHv07CadzxNZ6xL1m5Q54IYmqSHDil26JDOc+8mZKR13L
- FtQSDcYd+2Um+dHtbckAPPX87R6PwuonnKxrblAcjcXCUGp9Hjy5Trwl1cxliuXsceA7
- mOTuF3mUQ6VSI9CzkDp8mvJvKxMV6NH8rPbIpCH0zlpPsZoJdATv6BcjBT53Ga6FfesR
- pYwg==
+ bh=d4s6zDnREhAoNMbKHlnL2nJicHbk/umExwSYklWFs54=;
+ b=tflTDjYpC52AKWnAhfxxCXbmepuYlmubnTqxirCXniltCnkuvbrTBEzcofqu01ZBn8
+ oJ9UCAQWo0ZQTtsOskxs4Ud1E/A9ThHiXL7yMY3cSByenZBUm2t5jhj89Iu5RtvYvz9Z
+ 45ND27B/IjrzJ7zYs7NVJM6ne4lrE1rlc/A10CK68cTNdoEO2wJ/sZGlCzfc+2zjPYrL
+ l+dPCkYMSJtiTC0ILFgXpNDjzNSbeIAXr7pkFrS2dzmVGQizdYxMETcE5l/X26uVUgbF
+ 2RlLaJ8oRKHugoo1jNBJY2XiP0Kpza9aaxlJFcpCrwRJJOy6/N/q3cY+w+bbOgxv82eL
+ Eb2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/CQUeNZzF81fMUMrjQ9fUpjLOhXLi7IijeH4uibvu5Q=;
- b=lkdw7PU7/sY6UThPw/emSixgTSsgiE6gHPSCpxk8oHT1YNpjAH9Tb3c8BqA6e5H94V
- GPUOUveWjMKkaZyJhniSXNXgXPPilcO3vOMyA9IsivsHn2Ozgoii5gVaOx5bk5J/OGTV
- PfJoU6IgbybtaFoILm9f7H5wj5Sh2ES1BgLQu/Zd6pxlYmE4SDpZbpW7zgA2pQPQu/6X
- CYo+UdUQ36eZEwSXnC9XUbTc+QI/qAN0Hp+rmgxIs+5S72Je2d/56vUJWVHGChaihSs8
- tKKWFT1Ict/lqbTIyk+eJBChMbrSdmOLzBpi8jnvsuQyzrK6VTARiZqspXyDRKZFxpLH
- qrBQ==
-X-Gm-Message-State: AOAM5331Kcq92Pj+PPcUOzOU94SAUgOGKowCA/GJEmnxFMwLGizQgp/4
- 6jChAlyJBDIHRLbfdgGFZw+exWXy7s74sw==
-X-Google-Smtp-Source: ABdhPJyUIZzNj1wwpoUz3TXHfMScyd9iFdY97GjHou1QLvh3gavYI0ZqPqtIa9u7zh4/w/JBnmz13Q==
-X-Received: by 2002:a05:6000:ce:: with SMTP id q14mr94570wrx.105.1590088592237; 
- Thu, 21 May 2020 12:16:32 -0700 (PDT)
+ bh=d4s6zDnREhAoNMbKHlnL2nJicHbk/umExwSYklWFs54=;
+ b=r2S4Y9B6bZSjv4sv6es5ez5JaPMKyje6aNrWgLysOVaPPVszvZbbbgSSV484EuU42Q
+ 6LyeOEvEM7+JCxREoUoOvbpmapAlu1bElvf36eTj6xxlnUMzFiYQiiMQt/O3191ZlrE6
+ f2/93h3vvS8UvhAQNt5/0U56Y6H3rZJxEY71Ra6JgiLHsRxteGB+qtrFaLk3DtHtD9H9
+ hVeKfUmMDdcW8+I/H/xij1ubD5F4uNB3VOcI5OM4HZ3F6pbntQ/Sjk60jl1EySIIIV7b
+ jeO7tNp+L5OduupWu5HB5JqV5nPHUYDkkAr1PcjLIXVvCSuufII0Tqm0wRLv3Km+R8l5
+ bOtQ==
+X-Gm-Message-State: AOAM531+3N2rTZA75lGTUJFULHB6iCW0D/zyKvYVal1gVxYHrRVPS6J/
+ OW1nCniSshgKCVHz/UXxBlj2m7dw384rKg==
+X-Google-Smtp-Source: ABdhPJz5UfHtihmnw1Da25Tyw6WCCGcgOd7bOtBZos9NhSl4d0nFEJ7NxcJTVbNeVE2mpFBz7GdY4w==
+X-Received: by 2002:a5d:530a:: with SMTP id e10mr75209wrv.303.1590088593322;
+ Thu, 21 May 2020 12:16:33 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.31
+ by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.32
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 12:16:31 -0700 (PDT)
+ Thu, 21 May 2020 12:16:32 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/29] hw/arm/fsl-imx6: Connect watchdog interrupts
-Date: Thu, 21 May 2020 20:15:57 +0100
-Message-Id: <20200521191610.10941-17-peter.maydell@linaro.org>
+Subject: [PULL 17/29] hw/arm/fsl-imx6ul: Connect watchdog interrupts
+Date: Thu, 21 May 2020 20:15:58 +0100
+Message-Id: <20200521191610.10941-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200521191610.10941-1-peter.maydell@linaro.org>
 References: <20200521191610.10941-1-peter.maydell@linaro.org>
@@ -91,28 +91,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Guenter Roeck <linux@roeck-us.net>
 
-With this patch applied, the watchdog in the sabrelite emulation
-is fully operational, including pretimeout support.
+With this commit, the watchdog on mcimx6ul-evk is fully operational,
+including pretimeout support.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Message-id: 20200517162135.110364-6-linux@roeck-us.net
+Message-id: 20200517162135.110364-7-linux@roeck-us.net
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/fsl-imx6.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/arm/fsl-imx6ul.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-index 13f1bf23a6c..f58c85aa8ce 100644
---- a/hw/arm/fsl-imx6.c
-+++ b/hw/arm/fsl-imx6.c
-@@ -433,11 +433,20 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
-             FSL_IMX6_WDOG1_ADDR,
-             FSL_IMX6_WDOG2_ADDR,
+diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
+index 56dfd7cecc9..3ecb212da6f 100644
+--- a/hw/arm/fsl-imx6ul.c
++++ b/hw/arm/fsl-imx6ul.c
+@@ -531,12 +531,22 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
+             FSL_IMX6UL_WDOG2_ADDR,
+             FSL_IMX6UL_WDOG3_ADDR,
          };
-+        static const int FSL_IMX6_WDOGn_IRQ[FSL_IMX6_NUM_WDTS] = {
-+            FSL_IMX6_WDOG1_IRQ,
-+            FSL_IMX6_WDOG2_IRQ,
++        static const int FSL_IMX6UL_WDOGn_IRQ[FSL_IMX6UL_NUM_WDTS] = {
++            FSL_IMX6UL_WDOG1_IRQ,
++            FSL_IMX6UL_WDOG2_IRQ,
++            FSL_IMX6UL_WDOG3_IRQ,
 +        };
  
 +        object_property_set_bool(OBJECT(&s->wdt[i]), true, "pretimeout-support",
@@ -120,13 +121,14 @@ index 13f1bf23a6c..f58c85aa8ce 100644
          object_property_set_bool(OBJECT(&s->wdt[i]), true, "realized",
                                   &error_abort);
  
-         sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt[i]), 0, FSL_IMX6_WDOGn_ADDR[i]);
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt[i]), 0,
+                         FSL_IMX6UL_WDOGn_ADDR[i]);
 +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->wdt[i]), 0,
-+                           qdev_get_gpio_in(DEVICE(&s->a9mpcore),
-+                                            FSL_IMX6_WDOGn_IRQ[i]));
++                           qdev_get_gpio_in(DEVICE(&s->a7mpcore),
++                                            FSL_IMX6UL_WDOGn_IRQ[i]));
      }
  
-     /* ROM memory */
+     /*
 -- 
 2.20.1
 
