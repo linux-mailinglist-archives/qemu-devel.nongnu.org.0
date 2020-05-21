@@ -2,70 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984CF1DCF52
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 16:16:52 +0200 (CEST)
-Received: from localhost ([::1]:47238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F2E1DCEE5
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 16:05:54 +0200 (CEST)
+Received: from localhost ([::1]:48002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbm0B-0002Z5-LC
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 10:16:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60890)
+	id 1jblpZ-00058u-DP
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 10:05:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jblzF-00022p-8m
- for qemu-devel@nongnu.org; Thu, 21 May 2020 10:15:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54112)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jblzE-0005Cp-6K
- for qemu-devel@nongnu.org; Thu, 21 May 2020 10:15:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jblzA-0004FF-GY
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 14:15:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 287B52E807E
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 14:15:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jblok-0004Nw-Oa
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 10:05:02 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59155
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbloj-00038e-2L
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 10:05:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590069899;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WCKNTUWRbqUPeiRPnkUyLzHXmhdj+cZ4YQYD3xxRsOE=;
+ b=gmSiuJU7VD9DZRb8njgVs5bfwWBy5h9kTWKHuMrsqlEBtnerQQcHbQpyAp2XKfeK7Laws1
+ mvVm/M/1yoRz2lpIddGZotvbXHMRBoSI0ehIYM/TIeZp3b632AUyzOoAm6iaIXJprrUrlf
+ vvpBtvLwmlZ6NtwDiY1G1DX6EXTlCDI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-170-cuhsqQxBMVOd9gmeLZ5YrQ-1; Thu, 21 May 2020 10:04:55 -0400
+X-MC-Unique: cuhsqQxBMVOd9gmeLZ5YrQ-1
+Received: by mail-wr1-f70.google.com with SMTP id z5so2944111wrt.17
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 07:04:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WCKNTUWRbqUPeiRPnkUyLzHXmhdj+cZ4YQYD3xxRsOE=;
+ b=c9gZW5beqydlUE2GVTF4/2ZgofWC6Yp9Lx4n2U5WJ0ib6t9Bsha2dNLudlWzVziuC6
+ BsAu4P5CO9MMshn5NxQu2qeNR+ymz3sYnfp8vBFSN2LSwUplr/jKdOq08Jrru2oNeaBH
+ M7sXohJVE5p9HXP/NOQeMSSUzla86rGgiM6dZvoVla4vIIt660Dv09fjMd0cdAkMlrxv
+ LgW1pzN2+QpaXKfoQZX1+RFdEG5VQkYwtThiBSqu+buuoxX8lFYc5jdwUwP4xKUBx+Fg
+ YQ+SvW/vbWd1M020RM58cSVX+QWgrJlr+1R5QF24aQURRlfphKACd7N0LezWX8CoaZYe
+ aSug==
+X-Gm-Message-State: AOAM533ZKNhkSpiIrFTPLW82ry/lp+GUcQFigghzdqdcsJOMTpfKrJqj
+ 0eY6bXdT4PAD6l2xIuXMWFH+PqSnluZuec2OEUgb6zIj5UDmkVHJfEHEkJGTjRF/pVSSFU37QNX
+ 4bp1/Kghal65OTwo=
+X-Received: by 2002:a5d:65ce:: with SMTP id e14mr8559341wrw.314.1590069893850; 
+ Thu, 21 May 2020 07:04:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyOpYeJVwaEgtbBzfd9h0DfJYdljrF2sF0DuwZs7IF3TEcu9bE0bedK5jQrYZP8arwYKiRfrg==
+X-Received: by 2002:a5d:65ce:: with SMTP id e14mr8559321wrw.314.1590069893555; 
+ Thu, 21 May 2020 07:04:53 -0700 (PDT)
+Received: from [192.168.1.40] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id v131sm7131542wmb.27.2020.05.21.07.04.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 May 2020 07:04:52 -0700 (PDT)
+Subject: Re: [PATCH v1 10/10] translate-all: include guest address in out_asm
+ output
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200513175134.19619-1-alex.bennee@linaro.org>
+ <20200513175134.19619-11-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <f4862b01-8a96-7c8c-c62e-ccb9fa5cffbb@redhat.com>
+Date: Thu, 21 May 2020 16:04:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 21 May 2020 14:04:26 -0000
-From: Stefan Hajnoczi <1878915@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: floppy io-uring
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: felix.von.s stefanha
-X-Launchpad-Bug-Reporter: felix (felix.von.s)
-X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
-References: <158954872808.31513.13433748579796760766.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159006986635.31173.11641438131053874784.malone@wampee.canonical.com>
-Subject: [Bug 1878915] Re: util/fdmon-io_uring.c:95: get_sqe: Assertion `ret >
- 1' failed.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a8d765116ee11705f34de69643938932c7b3e2e1
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 08:50:51
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20200513175134.19619-11-alex.bennee@linaro.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:47:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,73 +100,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878915 <1878915@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-This issue should no longer occur in qemu.git/master.
+Hi Alex,
 
-Commit ba607ca8bff4d2c2062902f8355657c865ac7c29 ("aio-posix: disable
-fdmon-io_uring when GSource is used") disabled fdmon-io_uring in this
-scenario.
+On 5/13/20 7:51 PM, Alex Bennée wrote:
+> We already have information about where each guest instructions
+> representation starts stored in the tcg_ctx->gen_insn_data so we can
+> rectify the PC for faults. We can re-use this information to annotate
+> the out_asm output with guest instruction address which makes it a bit
+> easier to work out where you are especially with longer blocks. A
+> minor wrinkle is that some instructions get optimised away so we have
+> to scan forward until we find some actual generated code.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+> ---
+> v1
+>    - better logic for doing chunk at a time
+>    - use new "note" facility to tag address
+>    - rewrite the commit log
+> v2
+>    - don't terminate gen_insn_end_off, trust your termination
+>      conditions ;-)
+> ---
+>   accel/tcg/translate-all.c | 39 +++++++++++++++++++++++++++++++++------
+>   1 file changed, 33 insertions(+), 6 deletions(-)
+> 
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index cdf58bb420e..42ce1dfcff7 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -1794,14 +1794,43 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>       if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM) &&
+>           qemu_log_in_addr_range(tb->pc)) {
+>           FILE *logfile = qemu_log_lock();
+> +        int code_size, data_size = 0;
+> +        g_autoptr(GString) note = g_string_new("[tb header & initial instruction]");
+> +        size_t chunk_start = 0;
+> +        int insn = 0;
+>           qemu_log("OUT: [size=%d]\n", gen_code_size);
+>           if (tcg_ctx->data_gen_ptr) {
+> -            size_t code_size = tcg_ctx->data_gen_ptr - tb->tc.ptr;
+> -            size_t data_size = gen_code_size - code_size;
+> -            size_t i;
+> +            code_size = tcg_ctx->data_gen_ptr - tb->tc.ptr;
+> +            data_size = gen_code_size - code_size;
+> +        } else {
+> +            code_size = gen_code_size;
+> +        }
+>   
+> -            log_disas(tb->tc.ptr, code_size, NULL);
+> +        /* Dump header and the first instruction */
+> +        chunk_start = tcg_ctx->gen_insn_end_off[insn];
+> +        log_disas(tb->tc.ptr, chunk_start, note->str);
+>   
+> +        /*
+> +         * Dump each instruction chunk, wrapping up empty chunks into
+> +         * the next instruction. The whole array is offset so the
+> +         * first entry is the beginning of the 2nd instruction.
+> +         */
+> +        while (insn <= tb->icount && chunk_start < code_size) {
+> +            size_t chunk_end = tcg_ctx->gen_insn_end_off[insn];
+> +            if (chunk_end > chunk_start) {
+> +                g_string_printf(note, "[guest addr: " TARGET_FMT_lx "]",
+> +                                tcg_ctx->gen_insn_data[insn][0]);
+> +                log_disas(tb->tc.ptr + chunk_start, chunk_end - chunk_start,
+> +                          note->str);
+> +                chunk_start = chunk_end;
+> +            }
+> +            insn++;
+> +        }
+> +
+> +        /* Finally dump any data we may have after the block */
+> +        if (data_size) {
 
--- =
+It seems we can simplify checking tcg_ctx->data_gen_ptr here, and 
+declaring data_size in this reduced scope. Doing so as a preliminary 
+patch makes the rest of this patch easier to review. What do you think?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878915
+> +            int i;
+> +            qemu_log("  data: [size=%d]\n", data_size);
+>               for (i = 0; i < data_size; i += sizeof(tcg_target_ulong)) {
+>                   if (sizeof(tcg_target_ulong) == 8) {
+>                       qemu_log("0x%08" PRIxPTR ":  .quad  0x%016" PRIx64 "\n",
+> @@ -1813,8 +1842,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>                                *(uint32_t *)(tcg_ctx->data_gen_ptr + i));
+>                   }
+>               }
+> -        } else {
+> -            log_disas(tb->tc.ptr, gen_code_size, NULL);
+>           }
+>           qemu_log("\n");
+>           qemu_log_flush();
+> 
 
-Title:
-  util/fdmon-io_uring.c:95: get_sqe: Assertion `ret > 1' failed.
-
-Status in QEMU:
-  New
-
-Bug description:
-  qemu 5.0.0, liburing1 0.6-3, Linux 5.6.0-1-686-pae (Debian)
-
-  Stack trace:
-
-  Stack trace of thread 31002:
-  #0  0x00000000b7faf1cd __kernel_vsyscall (linux-gate.so.1 + 0x11cd)
-  #1  0x00000000b6c618e2 __libc_signal_restore_set (libc.so.6 + 0x348e2)
-  #2  0x00000000b6c4a309 __GI_abort (libc.so.6 + 0x1d309)
-  #3  0x00000000b6c4a1d1 __assert_fail_base (libc.so.6 + 0x1d1d1)
-  #4  0x00000000b6c59929 __GI___assert_fail (libc.so.6 + 0x2c929)
-  #5  0x0000000000ba80be get_sqe (qemu-system-i386 + 0x6d00be)
-  #6  0x0000000000ba80cb add_poll_add_sqe (qemu-system-i386 + 0x6d00cb)
-  #7  0x0000000000ba820c fill_sq_ring (qemu-system-i386 + 0x6d020c)
-  #8  0x0000000000ba7145 aio_poll (qemu-system-i386 + 0x6cf145)
-  #9  0x0000000000aede63 blk_prw (qemu-system-i386 + 0x615e63)
-  #10 0x0000000000aeef95 blk_pread (qemu-system-i386 + 0x616f95)
-  #11 0x00000000008abbfa fdctrl_transfer_handler (qemu-system-i386 + 0x3d3b=
-fa)
-  #12 0x0000000000906c3d i8257_channel_run (qemu-system-i386 + 0x42ec3d)
-  #13 0x00000000008ac119 fdctrl_start_transfer (qemu-system-i386 + 0x3d4119)
-  #14 0x00000000008ab233 fdctrl_write_data (qemu-system-i386 + 0x3d3233)
-  #15 0x0000000000708ae7 memory_region_write_accessor (qemu-system-i386 + 0=
-x230ae7)
-  #16 0x00000000007059e1 access_with_adjusted_size (qemu-system-i386 + 0x22=
-d9e1)
-  #17 0x000000000070b931 memory_region_dispatch_write (qemu-system-i386 + 0=
-x233931)
-  #18 0x00000000006a87a2 address_space_stb (qemu-system-i386 + 0x1d07a2)
-  #19 0x0000000000829216 helper_outb (qemu-system-i386 + 0x351216)
-  #20 0x00000000b06d9fdc n/a (n/a + 0x0)
-
-  Steps:
-
-  0. qemu-img create -f raw fda.img 3840K
-  1. mformat -i fda.img -n 48 -t 80 -h 2
-  2. qemu-system-i386 -fda fda.img -hda freedos.qcow2
-  3. Attempt to run 'dosfsck a:' in the guest
-
-  According to hw/block/fdc.c, a 3840K image should result in a virtual
-  floppy with a geometry of 48 sectors/track x 80 tracks x 2 sides.
-
-  The assert seems bogus either way.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878915/+subscriptions
 
