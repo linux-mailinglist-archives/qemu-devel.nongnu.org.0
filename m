@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD591DCE98
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 15:50:56 +0200 (CEST)
-Received: from localhost ([::1]:38618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE941DCEC7
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 15:58:53 +0200 (CEST)
+Received: from localhost ([::1]:45650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jblb5-0004nG-OT
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 09:50:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57936)
+	id 1jblim-0001p8-OO
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 09:58:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jblZM-00031G-LV; Thu, 21 May 2020 09:49:08 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38017)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jblhx-0001PU-7v
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 09:58:01 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:36450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jblZL-0008TZ-OO; Thu, 21 May 2020 09:49:08 -0400
-Received: by mail-wm1-x343.google.com with SMTP id u12so1634782wmd.3;
- Thu, 21 May 2020 06:49:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=CswiY0vKiN2C0BFtjhgvFRnm/Dywj2zH0Heipijb7uM=;
- b=Ju2YD/SMO80B+cgVI+jS7DgAT8PWeSzCVrzVnsNqUJvJ9H9oyslZjLsWUYuTfCbqlm
- N+VF3MuKlOwRIIpvdyTw4PN4wYaAteG4SiM15EJk7gkkkeMuYxlmjXDmYLYpZZEeq5qE
- pltoc7VBmaepqySDW2XDq/2Mt0M0QejbpJLQ6aJPkYUwtY9bNLQ8DuvE1HlgduncLv7M
- ZBWE4dW/x8SbPQV31ewfpZcbKGgMyIT3wuy1wRUvNIbviUTk8Y8mSLW67VBE3yDbzTEl
- Cl5XoXoqIQ3llmp3FrOGNuR5ywqIxm3Img9equ7U9G3VHOw/TfmziNR3q13cbBg6O9tw
- IkSQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jblhw-0001XY-3k
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 09:58:00 -0400
+Received: by mail-ed1-x543.google.com with SMTP id b91so6727102edf.3
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 06:57:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jOXM0m/kqe/Bzewn8gZ7sUGDJi/1sEEUwPb5JWkw44g=;
+ b=sctq1WWAmg/x/CQGB4m4dJ2UeNZcRJ7kbiULo0gTIEh2qM/znOjFGx/sBhR2zj/T7I
+ vvlFQKLoNi3C9HwfUXlSrK93WvskP6W5Q+xffdrfo3yV4fbqFhc/2RUgPYhnZnMYTo/P
+ t+AyHJfk4fPIqyZrStIuLzRqtJINapfDT5EM+WBWmoy5YYUeQdwD/G9mgtkKOXJu0E0r
+ HfBFmaBoFYFAbu5oOv20bIoc4/OE/OjSnXZ55pBWIKzfOYM2R8nnbn+27wsIsylD9U8e
+ vhuA/QiOaIKjbG1hf2XmuEzXkBEm/kF92U2BE3k6E/9FcFpgBBFIHaOn+9IFJnOx1+K3
+ ztSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=CswiY0vKiN2C0BFtjhgvFRnm/Dywj2zH0Heipijb7uM=;
- b=umJ1WNBSRflVOgoct9Nd6z4MiPbsDDjFeFiY3tjbjP2xocxRavtWg9tcDYSo6iIVHT
- bUEvJ+PA1aTcGjtqR+gFQTuYPrqzDQIAFewxM2s5lIn+kEEmr7kBLk0mdkKK9+JvM1df
- 2enhZwKdXIdQro8+Pj+dPC8ds3sIEyb5KbX5k79p6AY0CtkXGOPwumN65NY062XRvv8x
- YEUsq4ArUWjUoOGnw/TYAreib0g/yTZX0PNa3oyu0bgapr0y9X9H3XUeo3MIseSSij3h
- FsbqtyNSj7KL54GjQTCjShsdhxGc1JUGnSVnQ9X5rScCXOf0wQfr57ceQ4ckWBicC2Mi
- J+HA==
-X-Gm-Message-State: AOAM533qdvaEfdYuTpS6l+viGFHUtapAGADSiSyXcqi/ZWzzjjM8Bf1+
- 5/hf3QzGwNFkLRVUI58N72BPHKnG
-X-Google-Smtp-Source: ABdhPJwmCrU/b31bCVkDrM/w+LKyLZVsDz02jxn0w8Mnz57N8GkngpjRzGSscFXP90UNssE8v4GaHA==
-X-Received: by 2002:a1c:740e:: with SMTP id p14mr9433402wmc.102.1590068945718; 
- Thu, 21 May 2020 06:49:05 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id 128sm7133209wme.39.2020.05.21.06.49.04
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jOXM0m/kqe/Bzewn8gZ7sUGDJi/1sEEUwPb5JWkw44g=;
+ b=bBppkgide7ca0d83GOXQxz5SG+OsBD225fmEJ81U2sMfshdcyKj4uPWcGsX9UzWykC
+ 0VCXwoiUGVnwR7R6sU1gztv/L4ykqsA4hGXZKhZmYufzWVtecOuzEdF8bZhEsSO7p1BD
+ 4zauk328JuyVYwFhsE9DNllLTi1hrr3B252mmM2T201EUjdmeUOoyu3amZtfB2wUHbBp
+ QtGfzVUz3fbwIAe05+qkYoTANf+PO30HMWCokTt7TTn+FfBiDmUlvvJDXk6ktQdPhE2i
+ jz1uxe5QNYVT5QYuaHDTfcdhTpxOYVoaYD39wjpFbnH7vZmtBkpo7uMLDb7jlFieoAgF
+ o3jQ==
+X-Gm-Message-State: AOAM531iDadfAQEeJEsl0lGOh0auHOWam9jxusY5Ymz7azazQ4jfIdHh
+ 5iqQJbmAWL3O+XCkdDVWQUIh/g==
+X-Google-Smtp-Source: ABdhPJxjUabx6SDTFq+s4jU3XDoQyTwOvIWuf0nqdsqNy6YHC3qF8iJ1kLynBDCgwfcpeuy3crDy+Q==
+X-Received: by 2002:a05:6402:128f:: with SMTP id
+ w15mr7949700edv.203.1590069476780; 
+ Thu, 21 May 2020 06:57:56 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w14sm5061690ejk.13.2020.05.21.06.57.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 06:49:04 -0700 (PDT)
-Date: Thu, 21 May 2020 14:49:03 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 0/2] aio-posix: fix fdmon-io_uring memory leak
-Message-ID: <20200521134903.GK251811@stefanha-x1.localdomain>
-References: <20200511183630.279750-1-stefanha@redhat.com>
+ Thu, 21 May 2020 06:57:55 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 75F561FF7E;
+ Thu, 21 May 2020 14:57:54 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] linux-user: limit check to HOST_LONG_BITS == 32
+Date: Thu, 21 May 2020 14:57:48 +0100
+Message-Id: <20200521135748.9859-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wRokNccIwvMzawGl"
-Content-Disposition: inline
-In-Reply-To: <20200511183630.279750-1-stefanha@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x343.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -83,66 +87,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>, qemu-stable@nongnu.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Newer clangs rightly spot that you can never exceed the full address
+space of 64 bit hosts with:
 
---wRokNccIwvMzawGl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  linux-user/elfload.c:2076:41: error: result of comparison 'unsigned
+  long' > 18446744073709551615 is always false
+  [-Werror,-Wtautological-type-limit-compare]
+  4685         if ((guest_hiaddr - guest_base) > ~(uintptr_t)0) {
+  4686             ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
+  4687 1 error generated.
 
-On Mon, May 11, 2020 at 07:36:28PM +0100, Stefan Hajnoczi wrote:
-> This bug was introduced in QEMU 5.0 and causes guests to slow down because
-> AioHandlers are not freed when the fdmon-io_uring file descriptor monitor=
-ing
-> implementation is used by the main loop thread's glib event loop. This is=
-sue
-> does not apply to IOThread usage of fdmon-io_uring.
->=20
-> In practice few distros build with io_uring support enabled at the moment=
-, so
-> the number of affected users is likely to be small. The fix is still suit=
-able
-> for a stable release though.
->=20
-> https://bugs.launchpad.net/qemu/+bug/1877716
-> https://bugs.launchpad.net/qemu/+bug/1873032
->=20
-> Stefan Hajnoczi (2):
->   aio-posix: don't duplicate fd handler deletion in
->     fdmon_io_uring_destroy()
->   aio-posix: disable fdmon-io_uring when GSource is used
->=20
->  include/block/aio.h   |  3 +++
->  util/aio-posix.c      | 13 +++++++++++++
->  util/aio-win32.c      |  4 ++++
->  util/async.c          |  1 +
->  util/fdmon-io_uring.c | 13 ++++++++++---
->  5 files changed, 31 insertions(+), 3 deletions(-)
+So lets limit the check to 32 bit hosts only.
 
-This has been merged into qemu.git/master.
+Fixes: ee94743034bf
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-Stefan
+---
+v2
+  - move inside else bracket
+---
+ linux-user/elfload.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
---wRokNccIwvMzawGl
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 01a9323a637..de82eaf5420 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2073,12 +2073,14 @@ static void pgb_have_guest_base(const char *image_name, abi_ulong guest_loaddr,
+             exit(EXIT_FAILURE);
+         }
+     } else {
++#if HOST_LONG_BITS == 32
+         if ((guest_hiaddr - guest_base) > ~(uintptr_t)0) {
+             error_report("%s: requires more virtual address space "
+                          "than the host can provide (0x%" PRIx64 ")",
+                          image_name, (uint64_t)guest_hiaddr - guest_base);
+             exit(EXIT_FAILURE);
+         }
++#endif
+     }
+ 
+     /*
+-- 
+2.20.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7Ghs8ACgkQnKSrs4Gr
-c8i4WQgAkKKFt3GS5zuAd+k5LqyG0xJZ2S4Uaqv2/GspI8mcj5KE4f7gGS+vLiSr
-6t4f0rXUuV2JGRM8LaYjTYHQn1C2wx+aZmI9A0A7HRq9MMwjqLUMY7LVokVxRFy3
-UJ+gDHhuNadcsOXA0HqjWTjXOB3KJQIybD4OrMotWyLxemns5UWHBFj6N8A8tsic
-qcy2K9ORMhzyNZ1o66hXETbCSyOGTpSxyRA71rSPqp7PFnHn0XCqaftWIpIC4E6o
-LNgOki6G8sqbytxYcuDDwo5EPS2AS4T546g8HGgfljT/EQLT1miXlQTrrYnaBXlD
-gAcxr0d4N8aOvdw/IlQeLM/ePdxkOg==
-=bGqG
------END PGP SIGNATURE-----
-
---wRokNccIwvMzawGl--
 
