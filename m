@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E756B1DD27C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 17:56:55 +0200 (CEST)
-Received: from localhost ([::1]:47692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B52391DD2DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:12:52 +0200 (CEST)
+Received: from localhost ([::1]:34402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbnZ0-0006yR-Vo
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 11:56:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44006)
+	id 1jbnoR-0005Ri-Pr
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:12:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jbnXO-0005Ox-Bt
- for qemu-devel@nongnu.org; Thu, 21 May 2020 11:55:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38820
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jbnXL-0002vp-Gm
- for qemu-devel@nongnu.org; Thu, 21 May 2020 11:55:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590076510;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kvmqkTREPnIQgumN6Baa7AbQ9wZxRHSfBjzoTW7p+x4=;
- b=MAiniqUVCtTS0Al2Nd6o9bCE0YddJ8RJpQBTtFoh7lUkAMiYJRO8Lc2yQGSXiAdLyXfoXc
- UmD0vCDe9IQIFoIG47Kni9s65YPACudAqUGLZjqmGIViSJqQmHvFpHUk6RIRw9aDOXhNAl
- 4a1aGUuD54w5Jg5HlvwNr2S7Zqw0OK4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-Cv7-vvD-OTqp2Yym-orGNg-1; Thu, 21 May 2020 11:55:05 -0400
-X-MC-Unique: Cv7-vvD-OTqp2Yym-orGNg-1
-Received: by mail-wm1-f72.google.com with SMTP id y20so806000wmi.8
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 08:55:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jbnid-0004P9-Dx; Thu, 21 May 2020 12:06:51 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:45157)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jbnic-0006MN-4F; Thu, 21 May 2020 12:06:50 -0400
+Received: by mail-il1-x144.google.com with SMTP id b15so7556280ilq.12;
+ Thu, 21 May 2020 09:06:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hVYeWESeCnMzkcM+Fh3zeAkSckNAl04eVjQ1OUPApI0=;
+ b=nHVjP3AcQg0LP8VE2rwdG6VoOsllBAYDwVQNIKI3B3VCP9yyVGLTv+112SnAgeKbmk
+ 30Ij3BfZftAqqbMY1cQdrKiI20IxFCmRa456yf4LeUw1en+KTL8lrvdA45fcyFIj8HSN
+ EOSdbAas+QcvMVkc0r7sStLSR21xC1jnhPjRnylZn9LeYmneh6F0b86Ge6HqAiXY7y6a
+ Ul4G65imAbpMLZjN20/gy4DN9M8ZpOfZ41ZRATWDtK2cyogFfQuEATSOVvJTS6A17QME
+ +0/54WuRZDO235Y73fES8XAfBBxVrb4sY00wpuQndLjOmCT23CKjSUYyF2gedQcSMGWQ
+ 4C/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kvmqkTREPnIQgumN6Baa7AbQ9wZxRHSfBjzoTW7p+x4=;
- b=pbUWPP2G4hkhYDVbTX71CY3Biky4VilY0Z7x2nl55kFj4YClhktZ6YbyhhaIUDBMZm
- UoXc9ktieralvgmGvcc/O73aTKw270BDDCZeSqa9+GhoDoS/riahKNORJi5rl++PPRy8
- Vg+l4k8HkRZHbRRYSwearyajL6XKrZMlYyHzINN5MX+BF365WMmpF5qWC97ldu+mlCsf
- V6hOJTwiSmuRxb68AVw3aFoPijqW+JBju2jZrI+SH1HC0DKTVuJalY1nm15UHqqoYE40
- scLI1zgeFZrYwRKLNsOvNnUYA1EgQ5NxiKG4tXa5FTJbAYIYiym5Z2O9r8ZYET2u3Mvc
- UHyg==
-X-Gm-Message-State: AOAM5304rGTei+UouTqhfKArCynxnSPs4cP/msX/PtvVg909zXZjHpsd
- Hhc40fqFV/JBVKo631903Z+/DPb6HXizuyh0Z1T8QL836J8/PF35iAKshO8z7t97wR3P+HbvI70
- gOC21ekMBu8u5dR8=
-X-Received: by 2002:a05:600c:1403:: with SMTP id
- g3mr10035419wmi.51.1590076504582; 
- Thu, 21 May 2020 08:55:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzslmZ2AtJyMi4n+cHQ5y1VCo/CNiTHxCs1tL31fXoBKiyXhqwOuDV8U7dh6OSYCyak9Yv6Iw==
-X-Received: by 2002:a05:600c:1403:: with SMTP id
- g3mr10035397wmi.51.1590076504377; 
- Thu, 21 May 2020 08:55:04 -0700 (PDT)
-Received: from [192.168.178.58] ([151.21.160.154])
- by smtp.gmail.com with ESMTPSA id s67sm7072415wmf.3.2020.05.21.08.55.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 May 2020 08:55:03 -0700 (PDT)
-Subject: Re: [PATCH] x86/cpu: Enable AVX512_VP2INTERSECT cpu feature
-To: Cathy Zhang <cathy.zhang@intel.com>, rth@twiddle.net, ehabkost@redhat.com
-References: <1586760758-13638-1-git-send-email-cathy.zhang@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <9eb3a0ba-d695-1fb3-74ea-d69e45941506@redhat.com>
-Date: Thu, 21 May 2020 17:55:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hVYeWESeCnMzkcM+Fh3zeAkSckNAl04eVjQ1OUPApI0=;
+ b=VHSOKgIaqyAtNejkVb3U518EfYxLTGjlpH+a4wJXUtk8pgG1/UBgQY568MozrM3fAm
+ AmgVbkp1tjlROtpq0V65VbFy4g3Bcc9AtRv3f8UKDG+jMr+ZqGOCY88+NSECBVZjqKDH
+ JRxfPS8XLMzpO+rxi6SlbaV+vPPzg9R0dgibUm2un0XsA0AnRxRKPUfAeC3x/Cxzkv3l
+ SIwRS+hLMolu4AZ2PfwpqaGOp0jfCCSFYBSGvWPThkJJ40PUuceg20BXLi+HCSW/el3D
+ mYfdcJDDLmqY4kYAZPPhJixOxcfFau5H8fvGBV2ysvidp6YiiOBAv6purVDhNUGUw9bu
+ 3j0w==
+X-Gm-Message-State: AOAM531Zx8foo372G5hZ9pK4J7VUKP/0ziOEyFbzZhOREMBLqkkIZYUu
+ zRvnhHUBGa6kbhQXR4aVansfnP2ZWw7FGtD/TyA=
+X-Google-Smtp-Source: ABdhPJxuuJ8g59+1nI4P6UuXSEAq+sJXigyCIT/ZivznOh/NFSt4hbkqTgEvdiUoE7nySOMtq2Chets+6CazVpXQMCw=
+X-Received: by 2002:a92:d087:: with SMTP id h7mr9822915ilh.227.1590077208538; 
+ Thu, 21 May 2020 09:06:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1586760758-13638-1-git-send-email-cathy.zhang@intel.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:44:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <925bdcd2b3536014306a8800975fb63592fd051a.1589489213.git.alistair.francis@wdc.com>
+ <mhng-8a09dc11-68b8-4e28-9b50-3fc5a52837e6@palmerdabbelt-glaptop1>
+In-Reply-To: <mhng-8a09dc11-68b8-4e28-9b50-3fc5a52837e6@palmerdabbelt-glaptop1>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 21 May 2020 08:57:52 -0700
+Message-ID: <CAKmqyKM7G+b0cZ2a0MGtqRCKc5WbCcAkTfzYfF+gbvYDyOMidA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] sifive_e: Support the revB machine
+To: Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,55 +78,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/04/20 08:52, Cathy Zhang wrote:
-> AVX512_VP2INTERSECT compute vector pair intersection to a pair
-> of mask registers, which is introduced with intel Tiger Lake,
-> defining as CPUID.(EAX=7,ECX=0):EDX[bit 08].
-> 
-> Refer to the following release spec:
-> https://software.intel.com/sites/default/files/managed/c5/15/\
-> architecture-instruction-set-extensions-programming-reference.pdf
-> 
-> Signed-off-by: Cathy Zhang <cathy.zhang@intel.com>
-> ---
->  target/i386/cpu.c | 2 +-
->  target/i386/cpu.h | 2 ++
->  2 files changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 92fafa2..c8c95c3 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -1078,7 +1078,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
->          .feat_names = {
->              NULL, NULL, "avx512-4vnniw", "avx512-4fmaps",
->              NULL, NULL, NULL, NULL,
-> -            NULL, NULL, "md-clear", NULL,
-> +            "avx512-vp2intersect", NULL, "md-clear", NULL,
->              NULL, NULL, NULL, NULL,
->              NULL, NULL, NULL /* pconfig */, NULL,
->              NULL, NULL, NULL, NULL,
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 576f309..5c34795 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -770,6 +770,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
->  #define CPUID_7_0_EDX_AVX512_4VNNIW     (1U << 2)
->  /* AVX512 Multiply Accumulation Single Precision */
->  #define CPUID_7_0_EDX_AVX512_4FMAPS     (1U << 3)
-> +/* AVX512 Vector Pair Intersection to a Pair of Mask Registers */
-> +#define CPUID_7_0_EDX_AVX512_VP2INTERSECT (1U << 8)
->  /* Speculation Control */
->  #define CPUID_7_0_EDX_SPEC_CTRL         (1U << 26)
->  /* Single Thread Indirect Branch Predictors */
-> 
+On Wed, May 20, 2020 at 4:08 PM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+>
+> On Thu, 14 May 2020 13:47:10 PDT (-0700), Alistair Francis wrote:
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  hw/riscv/sifive_e.c         | 35 +++++++++++++++++++++++++++++++----
+> >  include/hw/riscv/sifive_e.h |  1 +
+> >  2 files changed, 32 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> > index 472a98970b..cb7818341b 100644
+> > --- a/hw/riscv/sifive_e.c
+> > +++ b/hw/riscv/sifive_e.c
+> > @@ -98,10 +98,14 @@ static void riscv_sifive_e_init(MachineState *machine)
+> >          memmap[SIFIVE_E_DTIM].base, main_mem);
+> >
+> >      /* Mask ROM reset vector */
+> > -    uint32_t reset_vec[2] = {
+> > -        0x204002b7,        /* 0x1000: lui     t0,0x20400 */
+> > -        0x00028067,        /* 0x1004: jr      t0 */
+> > -    };
+> > +    uint32_t reset_vec[2];
+> > +
+> > +    if (s->revb) {
+> > +        reset_vec[0] = 0x200102b7;        /* 0x1000: lui     t0,0x20010 */
+> > +    } else {
+> > +        reset_vec[0] = 0x204002b7;        /* 0x1000: lui     t0,0x20400 */
+> > +    }
+> > +    reset_vec[1] = 0x00028067;        /* 0x1004: jr      t0 */
+> >
+> >      /* copy in the reset vector in little_endian byte order */
+> >      for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
+> > @@ -115,8 +119,31 @@ static void riscv_sifive_e_init(MachineState *machine)
+> >      }
+> >  }
+> >
+> > +static bool sifive_e_machine_get_revb(Object *obj, Error **errp)
+> > +{
+> > +    SiFiveEState *s = RISCV_E_MACHINE(obj);
+> > +
+> > +    return s->revb;
+> > +}
+> > +
+> > +static void sifive_e_machine_set_revb(Object *obj, bool value, Error **errp)
+> > +{
+> > +    SiFiveEState *s = RISCV_E_MACHINE(obj);
+> > +
+> > +    s->revb = value;
+> > +}
+> > +
+> >  static void sifive_e_machine_instance_init(Object *obj)
+> >  {
+> > +    SiFiveEState *s = RISCV_E_MACHINE(obj);
+> > +
+> > +    s->revb = false;
+> > +    object_property_add_bool(obj, "revb", sifive_e_machine_get_revb,
+> > +                             sifive_e_machine_set_revb, NULL);
+> > +    object_property_set_description(obj, "revb",
+> > +                                    "Set on to tell QEMU that it should model "
+> > +                                    "the revB HiFive1 board",
+> > +                                    NULL);
+> >  }
+> >
+> >  static void sifive_e_machine_class_init(ObjectClass *oc, void *data)
+> > diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
+> > index 414992119e..0d3cd07fcc 100644
+> > --- a/include/hw/riscv/sifive_e.h
+> > +++ b/include/hw/riscv/sifive_e.h
+> > @@ -45,6 +45,7 @@ typedef struct SiFiveEState {
+> >
+> >      /*< public >*/
+> >      SiFiveESoCState soc;
+> > +    bool revb;
+> >  } SiFiveEState;
+> >
+> >  #define TYPE_RISCV_E_MACHINE MACHINE_TYPE_NAME("sifive_e")
+>
+> IIRC there are way more differences between the un-suffixed FE310 and the Rev
+> B, specifically the interrupt map is all different.
 
-Queued, thanks.
+The three IRQs that QEMU uses for the SiFive E (UART0, UART1 and GPIO)
+all seem to be the same.
 
-Paolo
-
+Alistair
 
