@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3881DD36A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:54:26 +0200 (CEST)
-Received: from localhost ([::1]:41296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D72D1DD35A
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:50:23 +0200 (CEST)
+Received: from localhost ([::1]:51262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jboSf-0006dT-QN
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49788)
+	id 1jboOk-00079B-7R
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:50:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboIH-0002Tc-Lz
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:41 -0400
-Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:41358)
+ id 1jboII-0002VL-N8
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:42 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:38180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboIG-0006XM-Mm
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:41 -0400
-Received: by mail-qv1-xf44.google.com with SMTP id v15so3357276qvr.8
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:43:40 -0700 (PDT)
+ id 1jboIH-0006Xb-HL
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:42 -0400
+Received: by mail-qk1-x742.google.com with SMTP id f189so7857517qkd.5
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:43:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dMJD65Hlj8sZEjsVc6zG0Ir/AhvAmDKltVf3k3r4CgY=;
- b=qxolO3NHBjbuWSRVm36ecn5krJ1xJDM5MsGZe5bSWEmRz2qykCI/o2yo/NPfJ3CxQP
- UqPRK/+HK3cnZax4qIl/EXV5PqZd/zWzN9uyUetgiB/7NayvCslb5KR2+jKttR6Flm2o
- oXT0VevNgkoD14jUvTXvMbjiDA++0c8Oxv6GGAMV8JWe2+MxNWrBAx2195PKKvY0FGUv
- PG/n6uqVOMcQO9T4xYRpIRjbIaoyaCYpJzMPk/pkLqj/XsNniKiEmGjm9TwiyZqI64dO
- BBWUZDbpuiCo6+JCd2RC0lsYhp/6YKmL9IeXLsLkxmkzObsyg3H/Y7sf+uHiLQXhrWbv
- 7/sg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=6NkPzVbp7pB8hvFfdsKA9EEdR2aYnidZNgYq++P2+/c=;
+ b=bN29/13S1TB+Mt2KQKrLcDbSzGXtjcu7xAuASP1uygOxNBrXG1x+JT9OvurLi1TB10
+ QD9s1V9bZlJZpweuS2rFiinRWa1HgHI4zk+7NERwvi1Gonw/fFaxlbOiXdhU14H6Jmbo
+ kgCmP3LsQ7H1gZe64Iq8YxjdUys6nOf3soRG9pbjrXHlLzfJgPMTq9G4f17EwwTqOndA
+ LpVUct/Fz0p2g6lYVweB9yZKZwezfOHdym/hwIqZDEMDU3cyhhck/VmTj2bxlI+xKzn+
+ 3XJM8PYl3J/TMDeltrcgWnUXximXal1rUPscxiJRlusBER0ndCRx0CgAaTrOXEkYUAIw
+ q+CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dMJD65Hlj8sZEjsVc6zG0Ir/AhvAmDKltVf3k3r4CgY=;
- b=KuYo6IZlTZ1XttfxunsmF1aGxFv4mcvDe0aIuZ31VVzTZ6DAkqGoTEoXH/hBnM+dTj
- AP7RBtA9iY8mWIQvj5HPQICSUwFqQ+IaGzoYUSOoyfVcrPswBkMMG47xGUHTWq+gJpgM
- 0f8zY3Cgh2CuHwolhLwB7vI2o+7CIvVy4DUtfs3Pyss60uRE2EAFGma2QbJu0bfkYDB4
- FP57VJ0OD4OWpUpz8kIEM95KCIbp1HR5sdWHHnEPvf0al/8/b38wz6HHX1Xh9H4ksLCK
- jvb98sA5Is5fMQH7qEGkGPiaQ+DfJT4CjB7xo4OlYJ4pNzZ+/0SbblF5XHeFRxBcys4j
- D1Zw==
-X-Gm-Message-State: AOAM5332XtZyh+abh8PK8/yt4zD86oNYgCBXHRSlXW7VrP2A8UeW86n4
- LjrjaM4h5eunNvDZK7wQYLVJ/iNenEvjMw==
-X-Google-Smtp-Source: ABdhPJzU6+L9m9eKgmFy4T2CpzBwZGdFhnu+SPFlwBxgP8YjJY+IKwveBx7QWv1alWwOabyJgBzpMA==
-X-Received: by 2002:a0c:f590:: with SMTP id k16mr11076855qvm.81.1590079418769; 
- Thu, 21 May 2020 09:43:38 -0700 (PDT)
+ :references;
+ bh=6NkPzVbp7pB8hvFfdsKA9EEdR2aYnidZNgYq++P2+/c=;
+ b=taNYWf+7EzXzGr/71Cr48SZXR+5BZZOD9NcyAt4agHBO9IN/rdm8UOZ/ZbWpDbgGpP
+ M2dsrFMXpA89r/tBWtuzp818WGwouD8+KQ6MCzSjey/eedAwIeD/bx+OqOGBfj0cLmQC
+ 5GW1eCH88WvpAiKJ3r8ZOb3yzEgpiJHgEg7Beb0nVZvE/zWWn8sL+INdgMS6GA/AAaBR
+ MqtS5i7dO+G5GfXkU9X9bLBLza1UXP0rLHRxrhQB+7hBX5lrzEG3gOZUJ0FbrGx4OspI
+ GRFhfT7DxQRRDAUeay7ga8KQ2yV22qF6HYzbgsn5nPEldbGbwfWjrrcnxAEhXw6FIr1Q
+ r6vA==
+X-Gm-Message-State: AOAM533My6drMsFd3lkiuJPXBbv3+cAlN+C+4A4RaTKwiLiCr5HI39TZ
+ z0+JdNgcYLgStYF6sIiSfF/oEkR/UF0xRQ==
+X-Google-Smtp-Source: ABdhPJzmlzM24e5Uy8a9AdtYRd+s24yjA2O3qNjMwAtIshkIyQnWHtISZAXAjoru0dtkedjm8lw8PA==
+X-Received: by 2002:a05:620a:14ac:: with SMTP id
+ x12mr10388327qkj.262.1590079420064; 
+ Thu, 21 May 2020 09:43:40 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:1944:c530:655c:5583])
- by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.43.37
+ by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.43.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:43:37 -0700 (PDT)
+ Thu, 21 May 2020 09:43:39 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 18/74] arm: convert to cpu_halted
-Date: Thu, 21 May 2020 12:39:15 -0400
-Message-Id: <20200521164011.638-19-robert.foley@linaro.org>
+Subject: [PATCH v9 19/74] ppc: convert to cpu_halted
+Date: Thu, 21 May 2020 12:39:16 -0400
+Message-Id: <20200521164011.638-20-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200521164011.638-1-robert.foley@linaro.org>
 References: <20200521164011.638-1-robert.foley@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f44;
- envelope-from=robert.foley@linaro.org; helo=mail-qv1-xf44.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
+ envelope-from=robert.foley@linaro.org; helo=mail-qk1-x742.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,135 +83,340 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, robert.foley@linaro.org,
- alex.bennee@linaro.org, richard.henderson@linaro.org, cota@braap.org,
- qemu-arm@nongnu.org, peter.puhov@linaro.org
+Cc: robert.foley@linaro.org, richard.henderson@linaro.org, cota@braap.org,
+ qemu-ppc@nongnu.org, peter.puhov@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Cc: Andrzej Zaborowski <balrogg@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
+In ppce500_spin.c, acquire the lock just once to update
+both cpu->halted and cpu->stopped.
+
+In hw/ppc/spapr_hcall.c, acquire the lock just once to
+update cpu->halted and call cpu_has_work, since later
+in the series we'll acquire the BQL (if not already held)
+from cpu_has_work.
+
+Cc: qemu-ppc@nongnu.org
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
+[RF: hw/ppc/spapr_hcall.c, spapr_rtas.c more conversions]
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- hw/arm/omap1.c            | 4 ++--
- hw/arm/pxa2xx_gpio.c      | 2 +-
- hw/arm/pxa2xx_pic.c       | 2 +-
- target/arm/arm-powerctl.c | 6 +++---
- target/arm/cpu.c          | 2 +-
- target/arm/op_helper.c    | 2 +-
- 6 files changed, 9 insertions(+), 9 deletions(-)
+ hw/ppc/e500.c                   |  4 ++--
+ hw/ppc/ppc.c                    | 10 +++++-----
+ hw/ppc/ppce500_spin.c           |  6 ++++--
+ hw/ppc/spapr_cpu_core.c         |  4 ++--
+ hw/ppc/spapr_hcall.c            | 14 ++++++++------
+ hw/ppc/spapr_rtas.c             |  8 ++++----
+ target/ppc/excp_helper.c        |  4 ++--
+ target/ppc/helper_regs.h        |  2 +-
+ target/ppc/kvm.c                |  4 ++--
+ target/ppc/translate_init.inc.c |  8 ++++----
+ 10 files changed, 34 insertions(+), 30 deletions(-)
 
-diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
-index 761cc17ea9..83b1d63f27 100644
---- a/hw/arm/omap1.c
-+++ b/hw/arm/omap1.c
-@@ -1776,7 +1776,7 @@ static uint64_t omap_clkdsp_read(void *opaque, hwaddr addr,
-     case 0x18:	/* DSP_SYSST */
-         cpu = CPU(s->cpu);
-         return (s->clkm.clocking_scheme << 11) | s->clkm.cold_start |
--                (cpu->halted << 6);      /* Quite useless... */
-+                (cpu_halted(cpu) << 6);      /* Quite useless... */
-     }
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 2a0b66a152..5683a8576e 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -706,7 +706,7 @@ static void ppce500_cpu_reset_sec(void *opaque)
  
-     OMAP_BAD_REG(addr);
-@@ -3797,7 +3797,7 @@ void omap_mpu_wakeup(void *opaque, int irq, int req)
-     struct omap_mpu_state_s *mpu = (struct omap_mpu_state_s *) opaque;
-     CPUState *cpu = CPU(mpu->cpu);
- 
--    if (cpu->halted) {
-+    if (cpu_halted(cpu)) {
-         cpu_interrupt(cpu, CPU_INTERRUPT_EXITTB);
-     }
- }
-diff --git a/hw/arm/pxa2xx_gpio.c b/hw/arm/pxa2xx_gpio.c
-index f8df3cc227..23b4a06a4f 100644
---- a/hw/arm/pxa2xx_gpio.c
-+++ b/hw/arm/pxa2xx_gpio.c
-@@ -132,7 +132,7 @@ static void pxa2xx_gpio_set(void *opaque, int line, int level)
-         pxa2xx_gpio_irq_update(s);
- 
-     /* Wake-up GPIOs */
--    if (cpu->halted && (mask & ~s->dir[bank] & pxa2xx_gpio_wake[bank])) {
-+    if (cpu_halted(cpu) && (mask & ~s->dir[bank] & pxa2xx_gpio_wake[bank])) {
-         cpu_interrupt(cpu, CPU_INTERRUPT_EXITTB);
-     }
- }
-diff --git a/hw/arm/pxa2xx_pic.c b/hw/arm/pxa2xx_pic.c
-index 203d4d28af..057448c2ed 100644
---- a/hw/arm/pxa2xx_pic.c
-+++ b/hw/arm/pxa2xx_pic.c
-@@ -58,7 +58,7 @@ static void pxa2xx_pic_update(void *opaque)
-     PXA2xxPICState *s = (PXA2xxPICState *) opaque;
-     CPUState *cpu = CPU(s->cpu);
- 
--    if (cpu->halted) {
-+    if (cpu_halted(cpu)) {
-         mask[0] = s->int_pending[0] & (s->int_enabled[0] | s->int_idle);
-         mask[1] = s->int_pending[1] & (s->int_enabled[1] | s->int_idle);
-         if (mask[0] || mask[1]) {
-diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
-index b75f813b40..f0db413519 100644
---- a/target/arm/arm-powerctl.c
-+++ b/target/arm/arm-powerctl.c
-@@ -64,7 +64,7 @@ static void arm_set_cpu_on_async_work(CPUState *target_cpu_state,
- 
-     /* Initialize the cpu we are turning on */
-     cpu_reset(target_cpu_state);
--    target_cpu_state->halted = 0;
-+    cpu_halted_set(target_cpu_state, 0);
- 
-     if (info->target_aa64) {
-         if ((info->target_el < 3) && arm_feature(&target_cpu->env,
-@@ -241,7 +241,7 @@ static void arm_set_cpu_on_and_reset_async_work(CPUState *target_cpu_state,
- 
-     /* Initialize the cpu we are turning on */
-     cpu_reset(target_cpu_state);
--    target_cpu_state->halted = 0;
-+    cpu_halted_set(target_cpu_state, 0);
- 
-     /* Finally set the power status */
-     assert(qemu_mutex_iothread_locked());
-@@ -297,7 +297,7 @@ static void arm_set_cpu_off_async_work(CPUState *target_cpu_state,
- 
-     assert(qemu_mutex_iothread_locked());
-     target_cpu->power_state = PSCI_OFF;
--    target_cpu_state->halted = 1;
-+    cpu_halted_set(target_cpu_state, 1);
-     target_cpu_state->exception_index = EXCP_HLT;
- }
- 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 32bec156f2..dc435a18a1 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -175,7 +175,7 @@ static void arm_cpu_reset(DeviceState *dev)
-     env->vfp.xregs[ARM_VFP_MVFR2] = cpu->isar.mvfr2;
- 
-     cpu->power_state = cpu->start_powered_off ? PSCI_OFF : PSCI_ON;
--    s->halted = cpu->start_powered_off;
-+    cpu_halted_set(s, cpu->start_powered_off);
- 
-     if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
-         env->iwmmxt.cregs[ARM_IWMMXT_wCID] = 0x69051000 | 'Q';
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index eb0de080f1..88c86a4346 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -305,7 +305,7 @@ void HELPER(wfi)(CPUARMState *env, uint32_t insn_len)
-     }
- 
-     cs->exception_index = EXCP_HLT;
+     /* Secondary CPU starts in halted state for now. Needs to change when
+        implementing non-kernel boot. */
 -    cs->halted = 1;
 +    cpu_halted_set(cs, 1);
-     cpu_loop_exit(cs);
+     cs->exception_index = EXCP_HLT;
  }
  
+@@ -720,7 +720,7 @@ static void ppce500_cpu_reset(void *opaque)
+     cpu_reset(cs);
+ 
+     /* Set initial guest state. */
+-    cs->halted = 0;
++    cpu_halted_set(cs, 0);
+     env->gpr[1] = (16 * MiB) - 8;
+     env->gpr[3] = bi->dt_base;
+     env->gpr[4] = 0;
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index 4a11fb1640..0e7386ff88 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -149,7 +149,7 @@ static void ppc6xx_set_irq(void *opaque, int pin, int level)
+             /* XXX: Note that the only way to restart the CPU is to reset it */
+             if (level) {
+                 LOG_IRQ("%s: stop the CPU\n", __func__);
+-                cs->halted = 1;
++                cpu_halted_set(cs, 1);
+             }
+             break;
+         case PPC6xx_INPUT_HRESET:
+@@ -228,10 +228,10 @@ static void ppc970_set_irq(void *opaque, int pin, int level)
+             /* XXX: TODO: relay the signal to CKSTP_OUT pin */
+             if (level) {
+                 LOG_IRQ("%s: stop the CPU\n", __func__);
+-                cs->halted = 1;
++                cpu_halted_set(cs, 1);
+             } else {
+                 LOG_IRQ("%s: restart the CPU\n", __func__);
+-                cs->halted = 0;
++                cpu_halted_set(cs, 0);
+                 qemu_cpu_kick(cs);
+             }
+             break;
+@@ -445,10 +445,10 @@ static void ppc40x_set_irq(void *opaque, int pin, int level)
+             /* Level sensitive - active low */
+             if (level) {
+                 LOG_IRQ("%s: stop the CPU\n", __func__);
+-                cs->halted = 1;
++                cpu_halted_set(cs, 1);
+             } else {
+                 LOG_IRQ("%s: restart the CPU\n", __func__);
+-                cs->halted = 0;
++                cpu_halted_set(cs, 0);
+                 qemu_cpu_kick(cs);
+             }
+             break;
+diff --git a/hw/ppc/ppce500_spin.c b/hw/ppc/ppce500_spin.c
+index 66c1065db2..79313944cf 100644
+--- a/hw/ppc/ppce500_spin.c
++++ b/hw/ppc/ppce500_spin.c
+@@ -107,9 +107,11 @@ static void spin_kick(CPUState *cs, run_on_cpu_data data)
+     map_start = ldq_p(&curspin->addr) & ~(map_size - 1);
+     mmubooke_create_initial_mapping(env, 0, map_start, map_size);
+ 
+-    cs->halted = 0;
+-    cs->exception_index = -1;
++    cpu_mutex_lock(cs);
++    cpu_halted_set(cs, 0);
+     cs->stopped = false;
++    cpu_mutex_unlock(cs);
++    cs->exception_index = -1;
+     qemu_cpu_kick(cs);
+ }
+ 
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index e1f76c74f3..b5d0b06f3a 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -39,7 +39,7 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
+     /* All CPUs start halted.  CPU0 is unhalted from the machine level
+      * reset code and the rest are explicitly started up by the guest
+      * using an RTAS call */
+-    cs->halted = 1;
++    cpu_halted_set(cs, 1);
+ 
+     env->spr[SPR_HIOR] = 0;
+ 
+@@ -88,7 +88,7 @@ void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip,
+     env->gpr[3] = r3;
+     env->gpr[4] = r4;
+     kvmppc_set_reg_ppc_online(cpu, 1);
+-    CPU(cpu)->halted = 0;
++    cpu_halted_set(CPU(cpu), 0);
+     /* Enable Power-saving mode Exit Cause exceptions */
+     ppc_store_lpcr(cpu, env->spr[SPR_LPCR] | pcc->lpcr_pm);
+ }
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 0f54988f2e..e678ca29a5 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1058,17 +1058,19 @@ static target_ulong h_cede(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     env->msr |= (1ULL << MSR_EE);
+     hreg_compute_hflags(env);
+ 
++    cpu_mutex_lock(cs);
+     if (spapr_cpu->prod) {
+         spapr_cpu->prod = false;
++        cpu_mutex_unlock(cs);
+         return H_SUCCESS;
+     }
+ 
+     if (!cpu_has_work(cs)) {
+-        cs->halted = 1;
++        cpu_halted_set(cs, 1);
+         cs->exception_index = EXCP_HLT;
+         cs->exit_request = 1;
+     }
+-
++    cpu_mutex_unlock(cs);
+     return H_SUCCESS;
+ }
+ 
+@@ -1085,7 +1087,7 @@ static target_ulong h_confer_self(PowerPCCPU *cpu)
+         spapr_cpu->prod = false;
+         return H_SUCCESS;
+     }
+-    cs->halted = 1;
++    cpu_halted_set(cs, 1);
+     cs->exception_index = EXCP_HALTED;
+     cs->exit_request = 1;
+ 
+@@ -1116,7 +1118,7 @@ static target_ulong h_join(PowerPCCPU *cpu, SpaprMachineState *spapr,
+         }
+ 
+         /* Don't have a way to indicate joined, so use halted && MSR[EE]=0 */
+-        if (!cs->halted || (e->msr & (1ULL << MSR_EE))) {
++        if (!cpu_halted(cs) || (e->msr & (1ULL << MSR_EE))) {
+             last_unjoined = false;
+             break;
+         }
+@@ -1199,7 +1201,7 @@ static target_ulong h_prod(PowerPCCPU *cpu, SpaprMachineState *spapr,
+ 
+     spapr_cpu = spapr_cpu_state(tcpu);
+     spapr_cpu->prod = true;
+-    cs->halted = 0;
++    cpu_halted_set(cs, 0);
+     qemu_cpu_kick(cs);
+ 
+     return H_SUCCESS;
+@@ -1685,7 +1687,7 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+         if (cs == CPU(cpu)) {
+             continue;
+         }
+-        if (!cs->halted) {
++        if (!cpu_halted(cs)) {
+             warn_report("guest has multiple active vCPUs at CAS, which is not allowed");
+             return H_MULTI_THREADS_ACTIVE;
+         }
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index bcac0d00e7..2306f2985e 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -111,7 +111,7 @@ static void rtas_query_cpu_stopped_state(PowerPCCPU *cpu_,
+     id = rtas_ld(args, 0);
+     cpu = spapr_find_cpu(id);
+     if (cpu != NULL) {
+-        if (CPU(cpu)->halted) {
++        if (cpu_halted(CPU(cpu))) {
+             rtas_st(rets, 1, 0);
+         } else {
+             rtas_st(rets, 1, 2);
+@@ -155,7 +155,7 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, SpaprMachineState *spapr,
+     env = &newcpu->env;
+     pcc = POWERPC_CPU_GET_CLASS(newcpu);
+ 
+-    if (!CPU(newcpu)->halted) {
++    if (!cpu_halted(CPU(newcpu))) {
+         rtas_st(rets, 0, RTAS_OUT_HW_ERROR);
+         return;
+     }
+@@ -213,7 +213,7 @@ static void rtas_stop_self(PowerPCCPU *cpu, SpaprMachineState *spapr,
+      */
+     ppc_store_lpcr(cpu, env->spr[SPR_LPCR] & ~pcc->lpcr_pm);
+     env->spr[SPR_PSSCR] |= PSSCR_EC;
+-    cs->halted = 1;
++    cpu_halted_set(cs, 1);
+     kvmppc_set_reg_ppc_online(cpu, 0);
+     qemu_cpu_kick(cs);
+ }
+@@ -238,7 +238,7 @@ static void rtas_ibm_suspend_me(PowerPCCPU *cpu, SpaprMachineState *spapr,
+         }
+ 
+         /* See h_join */
+-        if (!cs->halted || (e->msr & (1ULL << MSR_EE))) {
++        if (!cpu_halted(cs) || (e->msr & (1ULL << MSR_EE))) {
+             rtas_st(rets, 0, H_MULTI_THREADS_ACTIVE);
+             return;
+         }
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index f052979664..4c7da88682 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -293,7 +293,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+                 qemu_log("Machine check while not allowed. "
+                         "Entering checkstop state\n");
+             }
+-            cs->halted = 1;
++            cpu_halted_set(cs, 1);
+             cpu_interrupt_exittb(cs);
+         }
+         if (env->msr_mask & MSR_HVB) {
+@@ -1095,7 +1095,7 @@ void helper_pminsn(CPUPPCState *env, powerpc_pm_insn_t insn)
+     CPUState *cs;
+ 
+     cs = env_cpu(env);
+-    cs->halted = 1;
++    cpu_halted_set(cs, 1);
+ 
+     /*
+      * The architecture specifies that HDEC interrupts are discarded
+diff --git a/target/ppc/helper_regs.h b/target/ppc/helper_regs.h
+index d78c2af63e..f84438f639 100644
+--- a/target/ppc/helper_regs.h
++++ b/target/ppc/helper_regs.h
+@@ -168,7 +168,7 @@ static inline int hreg_store_msr(CPUPPCState *env, target_ulong value,
+ #if !defined(CONFIG_USER_ONLY)
+     if (unlikely(msr_pow == 1)) {
+         if (!env->pending_interrupts && (*env->check_pow)(env)) {
+-            cs->halted = 1;
++            cpu_halted_set(cs, 1);
+             excp = EXCP_HALTED;
+         }
+     }
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 2692f76130..aae2ef0ad4 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -1342,7 +1342,7 @@ MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
+ 
+ int kvm_arch_process_async_events(CPUState *cs)
+ {
+-    return cs->halted;
++    return cpu_halted(cs);
+ }
+ 
+ static int kvmppc_handle_halt(PowerPCCPU *cpu)
+@@ -1351,7 +1351,7 @@ static int kvmppc_handle_halt(PowerPCCPU *cpu)
+     CPUPPCState *env = &cpu->env;
+ 
+     if (!(cs->interrupt_request & CPU_INTERRUPT_HARD) && (msr_ee)) {
+-        cs->halted = 1;
++        cpu_halted_set(cs, 1);
+         cs->exception_index = EXCP_HLT;
+     }
+ 
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
+index d8adc1bd49..5838b6f7bc 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -8539,7 +8539,7 @@ static bool cpu_has_work_POWER7(CPUState *cs)
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
+ 
+-    if (cs->halted) {
++    if (cpu_halted(cs)) {
+         if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
+             return false;
+         }
+@@ -8701,7 +8701,7 @@ static bool cpu_has_work_POWER8(CPUState *cs)
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
+ 
+-    if (cs->halted) {
++    if (cpu_halted(cs)) {
+         if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
+             return false;
+         }
+@@ -8901,7 +8901,7 @@ static bool cpu_has_work_POWER9(CPUState *cs)
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
+ 
+-    if (cs->halted) {
++    if (cpu_halted(cs)) {
+         uint64_t psscr = env->spr[SPR_PSSCR];
+ 
+         if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
+@@ -9117,7 +9117,7 @@ static bool cpu_has_work_POWER10(CPUState *cs)
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
+ 
+-    if (cs->halted) {
++    if (cpu_halted(cs)) {
+         uint64_t psscr = env->spr[SPR_PSSCR];
+ 
+         if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
 -- 
 2.17.1
 
