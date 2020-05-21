@@ -2,72 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7F41DCC2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 13:34:00 +0200 (CEST)
-Received: from localhost ([::1]:53306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8865F1DCC46
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 13:41:38 +0200 (CEST)
+Received: from localhost ([::1]:37686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbjSZ-0006eI-IA
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 07:33:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42412)
+	id 1jbjZx-0006U6-Km
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 07:41:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1jbjRk-0005bX-Bs
- for qemu-devel@nongnu.org; Thu, 21 May 2020 07:33:08 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:43066)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1jbjRi-00074Q-0U
- for qemu-devel@nongnu.org; Thu, 21 May 2020 07:33:08 -0400
-Received: by mail-lf1-x141.google.com with SMTP id c12so4240653lfc.10
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 04:33:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O0ofk45mBhkd/iPVmIzLPHgKLBfNxwP0/3vKM+icrNk=;
- b=st0EYVbcnEn3qQGTucl91UGlk36e+4T+mTRM5Qwy1G0W3AOn2EFHntdc4ni5ViVwht
- bZd+b3C52B7Tb7G3AyEhxCCN52vbCG07jHlkeZBjq+YALFYRNW0Rv9NAiYqzsY8yeUvF
- DO0xXRzo8bCHlPKAN+cok3MmxbQfULGcNVD/zboLUOKEVTwd044Lyneyqhd143FzIc2A
- sCWep8OpSxUofAoxssXqy9qakFjjCbJtoKK8xXyvInXoD5P7zLXna61x4+UIJE4/g+Cl
- KY/O5OgRGOMo2zC4AZddnZsWyoGSSYBBSoCHM1/G4XUX9ZKrBnP5n/s+Yqw72oElLBuF
- niBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=O0ofk45mBhkd/iPVmIzLPHgKLBfNxwP0/3vKM+icrNk=;
- b=IdLfjalG7ftDExWumWzwN8HMzSi5sxcYexvDvaA8DjeAq2t9An8M1A0OHjg6VWdbOh
- OuZn3q/aKGeLSCUHQ8TWNcX8/EfstsMfGjh4UQXzmHKYznXV9A+2zFjsck3nRY4lEBe/
- m8apuCAfmOEJbve4fbDLriU24hWmPCwmOU+Gka46XNMn8lRmbQOzLeORhHKLjnnyzhic
- wtLRPOUH580TOgcpPkZ5/O8/i0N+3ft74Gp4PXlc59K++jvF4WEC8zf7VMOwH6JYlOja
- /Knl1XgcrX5HM9SDbPHF6aet9ge7LuLgT0Xz0/yVfsCgSQbY9XDhOE3q9r8E33i6Pg8K
- aXxA==
-X-Gm-Message-State: AOAM5338/vILvS84EjWROI6yQmqXINpTT8rA1K0/dUHT1XTDkXxxrEoB
- eq4KdiQ8/nWhBk0SalIVqYZunF9JdzJw87ENr30=
-X-Google-Smtp-Source: ABdhPJwCV+mpQc1/t6aPt3OFF2YRtHCvA9D4LcU0iAvcK0eBuwkqdfS2KI6p/Q5KJQtT8MrpWBZrW3MGwLJVd2GhL4Y=
-X-Received: by 2002:a19:987:: with SMTP id 129mr4854869lfj.8.1590060783656;
- Thu, 21 May 2020 04:33:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jbjYs-0004pP-2t; Thu, 21 May 2020 07:40:30 -0400
+Received: from mail-eopbgr80099.outbound.protection.outlook.com
+ ([40.107.8.99]:54266 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jbjYp-000059-L9; Thu, 21 May 2020 07:40:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mARDPpNMOxlg5TIkvtZ7n0BjcOWE9+OgRqF0pdZgk+rhwpDibqudMmdltk3wXfYrlt/EDW/H6Qo5Xrtj8mvwf4aDCgyh5foVP75oDrAqkjAD/e2YilFnQtWjlE/shOM7sWXHPjYfZSsK+T33PPq4s6Dj85fzs4cisyFTI/kgo50MtQqVwng/9afc9jHihJSMbGUKAXPX/8i9DBXhV8yut/poq6o//1gQT4ezmG5DVTMw/A2qGpv7X9Cr8dKTcuweiiPG6h+H03vgTnYUwg+U3DJxyM051XooGKv3pany90kWBtS8q3rlWDU5x2sD8WaMF40vekjVObjI4C2pULf0ew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CN1lOw4OgUM4IkzquiKGInpVhk+U8GbS3vHV0RuQEuM=;
+ b=GSam7jInq+FcsZv1tELUTncYz50dt6p8Ms7SrvmYMlIWH+r3+juGAZYV+sN76z+pOG5udeu581gP++dzpFw8S5KjoEJPIgg7tmBnEc+61CoTvU9/f+c5fah/1yt7+sromFyxaXxJu4BQga84s0Lc3gYOng4N8DflQg3w1D09ns0uFJZoKFYRiBoxvmcmlQtI0+MCoO6D0MPS+vEw6Ks98Bp1r7lSEIdtQoHoqgMYDbfAyL8JqYQY9W3VeQHdMp+qzTBbgqStRveu4kJQtbTuYv9mIAsXsVuxeoZyZwzGfDkqn3qof0aNO493ARRFHKzRSxX9rk5ABHaBzBUnav85jA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CN1lOw4OgUM4IkzquiKGInpVhk+U8GbS3vHV0RuQEuM=;
+ b=lUdjDZ6y2MvWViAbSv9IdiChAV63Bdz8o27DjPJrNWk85u00KGdFn/k1oAEJ7yFCmgvtPvoTJJ/2+FJmaBK6/yTLhmf80MPcakRLmRITtY2wHqZoT9esTrGuaq6ZgeYqvGB1bjZtkaG/2U/v8RbRGxvKWjmla5qvmrSIIqLF0DY=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5446.eurprd08.prod.outlook.com (2603:10a6:20b:107::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.26; Thu, 21 May
+ 2020 11:40:24 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3021.020; Thu, 21 May 2020
+ 11:40:23 +0000
+Subject: Re: [PATCH v5 2/5] qcow2: Expose bitmaps' size during measure
+To: Nir Soffer <nsoffer@redhat.com>, Eric Blake <eblake@redhat.com>
+References: <20200520220118.1037094-1-eblake@redhat.com>
+ <20200520220118.1037094-3-eblake@redhat.com>
+ <CAMRbyytCZ5KuqPLXkv_kw1Fbgw-w05s0iApmhP69ev_q3VjOnA@mail.gmail.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <295f514d-f4c8-551a-d828-77a70b4d6fa3@virtuozzo.com>
+Date: Thu, 21 May 2020 14:40:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <CAMRbyytCZ5KuqPLXkv_kw1Fbgw-w05s0iApmhP69ev_q3VjOnA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR07CA0001.eurprd07.prod.outlook.com
+ (2603:10a6:208:ac::14) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20200519162144.10831-1-ahmedkhaledkaraman@gmail.com>
- <a0f3967f-e125-d888-bc6d-44414edbfd5b@linaro.org>
-In-Reply-To: <a0f3967f-e125-d888-bc6d-44414edbfd5b@linaro.org>
-From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Date: Thu, 21 May 2020 13:32:27 +0200
-Message-ID: <CALTWKrVGqVb1mjsaoxYm4Y1iQoXYwz7ToC7T6r2EDPp-_LO=LQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Update use_goto_tb() in hppa and rx targets
-To: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, rth@twiddle.net, 
- ysato@users.sourceforge.jp
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-lf1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.167) by
+ AM0PR07CA0001.eurprd07.prod.outlook.com (2603:10a6:208:ac::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3045.8 via Frontend Transport; Thu, 21 May 2020 11:40:23 +0000
+X-Originating-IP: [185.215.60.167]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f6a735ae-18b4-4c5b-3709-08d7fd7bbfdb
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5446:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5446A488E9F270CF3D9957ADC1B70@AM7PR08MB5446.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 041032FF37
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JlKm55vhl4ii9a7Bk4mfvmCNsSBBpAz0WakGlrDZmL33yrdeqIONZ0V14oK+pL+7hYqIk7CRV4z2KfkPOgbGSw0EMkm51jjttpvxcOeQkfDe2ooPaT3OvZ1fo9hS+aLMecTQ3N1Qhh5afpa0zy/T+vt8jEvQI8+Qh/5UM18QJeeaD4oF8fGFbcqo23WxOfSzpvURj4kDlh/V0xJnn/6ox+GUFzulDjg+4+9gm7fMFRyWN8i/8mF7448rFkjJvfVWqu9g1kYDIr4gWl3hZ5sZTu0cJorM8fQtEvbFy+FCtmAiqIbzHBGaYlITPguI/K94CHH5ZZjDUzlAuzwIBIf+J2vxKf1/lsvjP7z9gooGBKq3O32o93GfcutJfWaLE94eCZVs83ESHVA5Y6e+zM5IGzgtCy+oBwJTgmihAY6rKhsAc2Q453OrIZomJ0W/quzwOjrqbYJ2RQJ05ywobXC/3fFed4cM+H4in5ML/oFiRzmIP9AzkzAfcDy+qnMKkbV6
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(366004)(39850400004)(136003)(346002)(376002)(478600001)(110136005)(66556008)(16576012)(316002)(31696002)(2616005)(66946007)(36756003)(956004)(31686004)(4326008)(8936002)(66476007)(26005)(16526019)(6486002)(186003)(53546011)(86362001)(5660300002)(8676002)(2906002)(54906003)(52116002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: eMIb1NEuhoXlH9/wtWAfnDC2wAhu+zfQosV7dyMJVnRKGt4gq0w3Z1ENgi2bIfaUXCd5ZzRUaIH68gpAGItPgh2SARc02BoN1didp+zKzrZexQeG9dMGhjzS8qJ38Dwcu73PrQY1HUYha/YgjrlASaMiZBs9+tcAWc0w8yAG/vAOKMCM6NIbCwfZGItNjqK5II3odWNDJoec8JkUj2qiqhHbuze7S9Tnf1T7KrGX1CF3NKJocOiezlCUIr64O/Hiwg/wZ29EjMEaCnTFLadbHWrOyk01DvXYUNcN1IHMQjeDpypgl4rCBKlh0O2mM9eBCYFg2Px6+MmCi/LZbCIeHZTMuxlvYlO7C0gyGJo9pX7kxx0qZG0lBIlksvljpsYnS8FfUGq0gNpoZhoFhX2GdkzZFu36fjr+gucsLkTInDwvP//H3aMc84+0zMmRJrpvsgKIYy4yCZdDlOj/wL+7rIh8QCv0T9Eu1559yrj20iXz1SGB26gWpBHXo1eRiHkt
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6a735ae-18b4-4c5b-3709-08d7fd7bbfdb
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2020 11:40:23.8749 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7/x7MaTvX4wrCinHiLIjnimKl/ywa03xLDNZOnTXnZDNH7eWWdTy4vWME/DuE9gdWl7E7jj1bQTBUb5betPXYjuYmJfPZgtss9Zk6wgF1Z0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5446
+Received-SPF: pass client-ip=40.107.8.99;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 07:40:24
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,61 +116,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, stefanha@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 19, 2020 at 8:01 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 5/19/20 9:21 AM, Ahmed Karaman wrote:
-> > The issue arose because the page crossings check in use_goto_tb()
-> > function is required only in the system mode. Checking it in both
-> > modes causes an unnecessary overhead in the user mode.
->
-> It is not only required in system mode.
->
-> You can see failures in user-mode if you modify executable pages, or
-> change their permissions with mmap.  Such as if the guest program
-> contains a JIT.
->
->
-> r~
+21.05.2020 02:00, Nir Soffer wrote:
+> On Thu, May 21, 2020 at 1:01 AM Eric Blake <eblake@redhat.com> wrote:
+>>
+>> It's useful to know how much space can be occupied by qcow2 persistent
+>> bitmaps, even though such metadata is unrelated to the guest-visible
+>> data.  Report this value as an additional QMP field, present when
+>> measuring an existing image and output format that both support
+>> bitmaps.  Update iotest 178 and 190 to updated output, as well as new
+>> coverage in 190 demonstrating non-zero values made possible with the
+>> recently-added qemu-img bitmap command.
+>>
+>> On the command-line side, 'qemu-img measure' gains a new --bitmaps
+>> flag.  When present, the bitmap size is rolled into the two existing
+>> measures (or errors if either the source image or destination format
+>> lacks bitmaps); when absent, there is never an error (for
+>> back-compat), but the output will instead include a new line item for
+>> bitmaps (which you would have to manually add), with that line being
+>> omitted in the same cases where passing --bitmaps would error.
+> 
+> Supporting 2 ways to measure, one by specifying --bitmaps, and another
+> by adding bitmaps key is not a good idea. We really need one way.
+> 
+> Each one has advantages. adding --bitmaps flag is consistent with
+> "qemu-img convert"
+> and future extensions that may require  new flag, and adding "bitmaps"
+> key is consistent
+> with "qmeu-img info", showing bitmaps when they exist.
+> 
+> Adding a "bitmaps" key has an advantage that we can use it to test if qemu-img
+> supports measuring and copying bitmaps (since both features are expected to
+> be delivered at the same time). So we can avoid checking --help learn about
+> the capabilities.
+> 
+> I'm ok with both options, can we have only one?
 
-Hi Mr. Richard,
+Hi! What are your scenarios? Are you using qemu-img by hand, or it is used from some management tool? For management tool, I'd recommend to use qmp interface, which is a lot more strict, reliable and stable, and documented. You just need to run qemu binary in stopped mode for it.
 
-I've checked how the use_goto_tb() function is implemented in other
-targets, and it appears that they do the page crossings check in the
-system mode only.
 
-Below is an example from the arm64 target:
------------------------------------------------------------------------
-static inline bool use_goto_tb(DisasContext *s, int n, uint64_t dest)
-{
-  /* No direct tb linking with singlestep (either QEMU's or the ARM
-   * debug architecture kind) or deterministic io
-   */
-  if (s->base.singlestep_enabled || s->ss_active ||
-    (tb_cflags(s->base.tb) & CF_LAST_IO)) {
-    return false;
-  }
-
-#ifndef CONFIG_USER_ONLY
-  /* Only link tbs from inside the same guest page */
-  if ((s->base.tb->pc & TARGET_PAGE_MASK)!=(dest & TARGET_PAGE_MASK)) {
-    return false;
-  }
-#endif
-
-  return true;
-}
------------------------------------------------------------------------
-Please let me know what you think. Does this mean that there is a bug
-in this function for the other targets?
-That we have to do the page crossings check in both modes to avoid the
-user-mode failures that you have mentioned above?
-
-Regards,
-Ahmed Karaman
+-- 
+Best regards,
+Vladimir
 
