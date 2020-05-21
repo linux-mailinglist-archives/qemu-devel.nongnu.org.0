@@ -2,49 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F264A1DCC67
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 13:49:57 +0200 (CEST)
-Received: from localhost ([::1]:50140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F7E11DCA65
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 11:46:55 +0200 (CEST)
+Received: from localhost ([::1]:53154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbji1-0005dP-2i
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 07:49:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44236)
+	id 1jbhmw-0000nl-JN
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 05:46:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jbjhJ-0005Ac-MM; Thu, 21 May 2020 07:49:13 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:42954)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jbjhI-0002Kw-Gq; Thu, 21 May 2020 07:49:13 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.06436846|-1; CH=blue; DM=|OVERLOAD|false|;
- DS=CONTINUE|ham_system_inform|0.0241358-8.11644e-05-0.975783;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03309; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=8; RT=8; SR=0; TI=SMTPD_---.Hbeu8eH_1590061747; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.Hbeu8eH_1590061747)
- by smtp.aliyun-inc.com(10.147.41.120);
- Thu, 21 May 2020 19:49:08 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v8 62/62] target/riscv: configure and turn on vector extension
- from command line
-Date: Thu, 21 May 2020 17:44:13 +0800
-Message-Id: <20200521094413.10425-63-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200521094413.10425-1-zhiwei_liu@c-sky.com>
-References: <20200521094413.10425-1-zhiwei_liu@c-sky.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jbhlG-0007Tz-BJ
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 05:45:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48125
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jbhlE-0003H7-M7
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 05:45:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590054306;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hNzTiv0oKZQS6AlnQUHoaMOspKjbIvhv1u+9dEMYpe8=;
+ b=UC1sOMhXuGFH9BMr9vQpo/V2inURaa9tzQ2EvNsS429W+cMaLu91IEGXfxMJnYyfRy6ycF
+ s0G1CMat4hzVP6fQsUI7B/yBy3KBBXPjM7FjgcO43eB7C01xkUAaAgfzDtiNxcrs5KdoyJ
+ 0z2aSiKS2ctvOAXs7oDSYyXT34F5G2Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-137-QUYnSaRJO0q6FLLE5seZlw-1; Thu, 21 May 2020 05:44:55 -0400
+X-MC-Unique: QUYnSaRJO0q6FLLE5seZlw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07DCCEC1A2;
+ Thu, 21 May 2020 09:44:54 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C01F079584;
+ Thu, 21 May 2020 09:44:51 +0000 (UTC)
+Date: Thu, 21 May 2020 10:44:48 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Robert Hoo <robert.hu@linux.intel.com>
+Subject: Re: [PATCH v4 5/5] target/i386: remove Icelake-Client CPU model
+Message-ID: <20200521094448.GA2211791@redhat.com>
+References: <20200520021007.30649-1-chenyi.qiang@intel.com>
+ <20200520021007.30649-6-chenyi.qiang@intel.com>
+ <20200520091734.GD2194189@redhat.com>
+ <40954b28075efac72948a9fd43b59ff4e2e9f42a.camel@linux.intel.com>
 MIME-Version: 1.0
+In-Reply-To: <40954b28075efac72948a9fd43b59ff4e2e9f42a.camel@linux.intel.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 05:19:14
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:44:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, UNPARSEABLE_RELAY=0.001,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,132 +86,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, wxy194768@alibaba-inc.com,
- wenmeng_zhang@c-sky.com, alistair.francis@wdc.com, palmer@dabbelt.com,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
+ qemu-devel@nongnu.org, Chenyi Qiang <chenyi.qiang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vector extension is default off. The only way to use vector extension is
-1. use cpu rv32 or rv64
-2. turn on it by command line
-   "-cpu rv64,x-v=true,vlen=128,elen=64,vext_spec=v0.7.1".
+On Thu, May 21, 2020 at 09:40:55AM +0800, Robert Hoo wrote:
+> On Wed, 2020-05-20 at 10:17 +0100, Daniel P. Berrangé wrote:
+> > On Wed, May 20, 2020 at 10:10:07AM +0800, Chenyi Qiang wrote:
+> > > There are no Icelake Desktop products in the market. Remove the
+> > > Icelake-Client CPU model.
+> > 
+> > QEMU has been shipping this CPU model for 2 years now. Regardless
+> > of what CPUs Intel are selling, it is possible for users to be
+> > running VMs with Icelake-Client CPU if their host satisfies the
+> > listed features. So I don't think it is valid to remove this.
+> > 
+> This 'Icelake-Client' actually doesn't exist. How do we define its
+> feature list? and who will be using it? If any special feature tailor
+> requirement, it can be simply achieved by '-cpu Icelake,+/-' features,
+> this is the correct way.
 
-vlen is the vector register length, default value is 128 bit.
-elen is the max operator size in bits, default value is 64 bit.
-vext_spec is the vector specification version, default value is v0.7.1.
-These properties can be specified with other values.
+Well its feature list is defined by what exists in QEMU code right
+now. Presumably was based off some silicon that did exist in Intel
+at some point, or it would not have been added to QEMU in the first
+place ?
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/cpu.c | 44 +++++++++++++++++++++++++++++++++++++++++++-
- target/riscv/cpu.h |  4 +++-
- 2 files changed, 46 insertions(+), 2 deletions(-)
+Changing guests to use "-cpu Icelake-Server,+/-" would be a guest
+ABI change because of the different model number IIUC
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 74fc21b1c8..aff3bc4067 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -405,7 +405,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     }
- 
-     set_priv_version(env, priv_version);
--    set_vext_version(env, vext_version);
-     set_resetvec(env, DEFAULT_RSTVEC);
- 
-     if (cpu->cfg.mmu) {
-@@ -473,6 +472,45 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         if (cpu->cfg.ext_h) {
-             target_misa |= RVH;
-         }
-+        if (cpu->cfg.ext_v) {
-+            target_misa |= RVV;
-+            if (!is_power_of_2(cpu->cfg.vlen)) {
-+                error_setg(errp,
-+                        "Vector extension VLEN must be power of 2");
-+                return;
-+            }
-+            if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
-+                error_setg(errp,
-+                        "Vector extension implementation only supports VLEN "
-+                        "in the range [128, %d]", RV_VLEN_MAX);
-+                return;
-+            }
-+            if (!is_power_of_2(cpu->cfg.elen)) {
-+                error_setg(errp,
-+                        "Vector extension ELEN must be power of 2");
-+                return;
-+            }
-+            if (cpu->cfg.elen > 64 || cpu->cfg.vlen < 8) {
-+                error_setg(errp,
-+                        "Vector extension implementation only supports ELEN "
-+                        "in the range [8, 64]");
-+                return;
-+            }
-+            if (cpu->cfg.vext_spec) {
-+                if (!g_strcmp0(cpu->cfg.vext_spec, "v0.7.1")) {
-+                    vext_version = VEXT_VERSION_0_07_1;
-+                } else {
-+                    error_setg(errp,
-+                           "Unsupported vector spec version '%s'",
-+                           cpu->cfg.vext_spec);
-+                    return;
-+                }
-+            } else {
-+                qemu_log("vector verison is not specified, "
-+                        "use the default value v0.7.1\n");
-+            }
-+            set_vext_version(env, vext_version);
-+        }
- 
-         set_misa(env, RVXLEN | target_misa);
-     }
-@@ -510,10 +548,14 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     /* This is experimental so mark with 'x-' */
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-+    DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-+    DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-+    DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-+    DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-     DEFINE_PROP_END_OF_LIST(),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index bed3ec32b9..660b98ec1c 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -99,7 +99,7 @@ typedef struct CPURISCVState CPURISCVState;
- 
- #include "pmp.h"
- 
--#define RV_VLEN_MAX 512
-+#define RV_VLEN_MAX 256
- 
- FIELD(VTYPE, VLMUL, 0, 2)
- FIELD(VTYPE, VSEW, 2, 3)
-@@ -286,12 +286,14 @@ typedef struct RISCVCPU {
-         bool ext_s;
-         bool ext_u;
-         bool ext_h;
-+        bool ext_v;
-         bool ext_counters;
-         bool ext_ifencei;
-         bool ext_icsr;
- 
-         char *priv_spec;
-         char *user_spec;
-+        char *vext_spec;
-         uint16_t vlen;
-         uint16_t elen;
-         bool mmu;
+> I think we should remove it. When we realize something's not correct,
+> we should fix it ASAP. Leaving it there will only cause more serious
+> issue in the future.
+
+We have versioned CPU models so that we can fix mistakes in previously
+defined CPU model features, without causing breakage for anything that
+is using the previous incorrectly defined model.  We can't version the
+deletion of a CPU model though. I'm not seeing the serious harm that's
+caused by the Icelake-Client CPU model existing though, and deleting
+it will definitely cause harm to the config of anything that currently
+happens to use it.
+
+Maybe Icelake-Client could be turned into a deprecated alias for a
+version of Icelake-Server that has  the cutdown feature list ?
+
+Regards,
+Daniel
 -- 
-2.23.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
