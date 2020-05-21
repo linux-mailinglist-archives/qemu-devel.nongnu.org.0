@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4831DCA8F
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 11:57:38 +0200 (CEST)
-Received: from localhost ([::1]:52038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5E251DCA98
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 12:00:06 +0200 (CEST)
+Received: from localhost ([::1]:58308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbhxJ-0005sS-EA
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 05:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60630)
+	id 1jbhzh-0000wl-Nt
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 06:00:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dereksu@qnap.com>) id 1jbhw3-0004ss-9b
- for qemu-devel@nongnu.org; Thu, 21 May 2020 05:56:19 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:35504)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jbhyl-0008CA-Bk
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 05:59:07 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dereksu@qnap.com>) id 1jbhw2-0005as-8P
- for qemu-devel@nongnu.org; Thu, 21 May 2020 05:56:18 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id 5so2816368pjd.0
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 02:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=google;
- h=from:subject:to:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=Pi6MfxT/dZ7F7Ipj8H60MtgaLEzF+Qv42PQYEC97aHg=;
- b=Vuj7F7LQTR/RLM2g5vVXLrXgTBtwPTxL/UBALQUWOlNbgp9chkRLY5Y9FFFV4RTW8T
- m6GnZVD7KiLEuNveFGkrboxKXrfeQ/Xe+p7gA4/SHsGLsV1DguQ4Zv9YZfxhlQBis0BB
- JKyXxLalkMOwghsqY/3e7LgTSYgq71eNcNlOg=
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jbhyk-000611-Em
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 05:59:06 -0400
+Received: by mail-wr1-x443.google.com with SMTP id g12so4857772wrw.1
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 02:59:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=RfqkWEfWMVg9QTo4uO9M/wlF4mdizaDQ392VK3kQ5/E=;
+ b=IO51MwwQqUnw2j+XfGeBgCBkuitiNSZFdB77uAfjMazItFTdTMqESvUv5OwfiHwfQ6
+ doHBzUfVj4EPLLg7N3XD7y0Y66mZ3lqUEDBeRYinBEOVwOmbEQVVEU6KPyGyqns8u2Sh
+ fBhMIPTPHVBzcGdk/e4NCwtN4kDxIAMGw8vdZrcBngWF214qdt6vVH33LEFihGuFHnkA
+ +kZRevvPvsxN8wTzXukAiXX9Zr1yJZZj8s6/Mm5TbdoAZso2L1DpmHbnGje6wo+Rp0ip
+ +lo6td1mp1Vg7mUOyNRJhES42lR77KXwvFm+MLg2helio7k5SOQgr83m+RObRWc5ijWI
+ 1cMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=Pi6MfxT/dZ7F7Ipj8H60MtgaLEzF+Qv42PQYEC97aHg=;
- b=Bs+0y3iZ6D2Fkmebk1KVuklcv2RK/xwAWrjhZeeH7BacUAFqq06wTy/tGULefjEb4x
- DstfHLfu1NFttxeTYVigDNaCk0nN6poZ8iUO2Y2jvUygGXGxC+ifd7mShz/yrk8gMV25
- N4WdRrwk/RwRRhuZTGnB2OM0gFQrC2TMaMAGOACRMWwVYsTRvYKn3EBaTuPg+3XsUX4V
- pUFaWXgnS03oQSYlhXEjV4Dt+EXsVGaxY/ObIWBswaHsMccF3KprS5Uxj5d6sYlbeBh5
- aMHPfFA807qIqOYq/3zdKIzIhMmPrKdvjsuHPK31dCmk/Pz+H+ClbFN1FQp8Po4P0+/G
- ug+g==
-X-Gm-Message-State: AOAM531mgu9zHKXQJErsY3uG3pr/DEp1+WIGtjkEbQB0No3ZpygiqszI
- YhcEtog7QzgYKUv/N8O8gJfTRPPZGZE=
-X-Google-Smtp-Source: ABdhPJzMLlnITw5/3XH1agN2RSp6ysqMlOUfYhile7nvjd1szmCvSiiIstU3LwLf9VHWmcWwN2Cszg==
-X-Received: by 2002:a17:90a:1a17:: with SMTP id
- 23mr5980766pjk.198.1590054975834; 
- Thu, 21 May 2020 02:56:15 -0700 (PDT)
-Received: from Jing-Weide-MacBook-Pro-3.local
- (202-39-79-13.HINET-IP.hinet.net. [202.39.79.13])
- by smtp.gmail.com with ESMTPSA id j17sm3724353pgk.66.2020.05.21.02.56.14
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 May 2020 02:56:14 -0700 (PDT)
-From: Derek Su <dereksu@qnap.com>
-Subject: cluster_size got from backup_calculate_cluster_size()
-To: qemu-devel <qemu-devel@nongnu.org>
-Message-ID: <7b96191b-2c16-7257-9ae3-50457bf82e27@qnap.com>
-Date: Thu, 21 May 2020 17:56:12 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.8.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=RfqkWEfWMVg9QTo4uO9M/wlF4mdizaDQ392VK3kQ5/E=;
+ b=tcbnyk3uLXQN7JqD0Z/boewRNZ0qWhx+OpS7A935MzmLTfCEts8heFkwY0XimF72al
+ gofTN293prQM8QScAp/QgCUIFsVOaGDv8IvaX46wXtSeDENlsIn4FxFyoTGiAeng8sNk
+ 3ol57hNVxjv9AdO7IGzyvRtdI6FGOX70CZNhgiHRwlElVvXbZp+YmRYL9hmwAN1LMcat
+ z++VasXg8Sfq1bqOS+JJpd53AF1bxqzLsIGxJTGwj+3iwezE5XAW0NirfxFns8YNUQTg
+ mUhDCYG2U1bpUAJoSyfEh9drx1UoqI3T9OgG6NftwGlcRpT1VwAlu75M7Fgig534l4HE
+ XgYg==
+X-Gm-Message-State: AOAM531H9Ew60QJypzljpAfZ1TrHKDnadmhyXr6UWn4Me6gsI1tVj05J
+ b43aELS8ImN74H//Vqqkkpk=
+X-Google-Smtp-Source: ABdhPJwLQKU7O8zyYClNo7Cq/haLIzNADcVHvr+B8SZx2uOkSt9nPT0fnUf0Qheu46X9/z/lxA0UzQ==
+X-Received: by 2002:adf:f8c1:: with SMTP id f1mr7727716wrq.171.1590055144846; 
+ Thu, 21 May 2020 02:59:04 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id q74sm6275881wme.14.2020.05.21.02.59.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 May 2020 02:59:03 -0700 (PDT)
+Date: Thu, 21 May 2020 10:59:02 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Subject: Re: [PATCH 4/4] check-block: Enable iotests with SafeStack
+Message-ID: <20200521095902.GD251811@stefanha-x1.localdomain>
+References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
+ <20200429194420.21147-5-dbuono@linux.vnet.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=dereksu@qnap.com; helo=mail-pj1-x1035.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Hf61M2y+wYpnELGG"
+Content-Disposition: inline
+In-Reply-To: <20200429194420.21147-5-dbuono@linux.vnet.ibm.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=stefanha@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -83,47 +86,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, thuth@redhat.com,
+ Tobin Feldman-Fitzthum <tobin@ibm.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
 
-The cluster_size got from backup_calculate_cluster_size(),
-MAX(BACKUP_CLUSTER_SIZE_DEFAULT, bdi.cluster_size), is 64K regardless
-of the target image's cluster size.
+--Hf61M2y+wYpnELGG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Apr 29, 2020 at 03:44:20PM -0400, Daniele Buono wrote:
+> SafeStack is a stack protection technique implemented in llvm. It is
+> enabled with a -fsanitize flag.
+> iotests are currently disabled when any -fsanitize option is used.
+> Since SafeStack is useful on production environments, and its
+> implementation may break the binary, filter it out when the check is
+> performed, so that if SafeStack was the only -fsanitize option, iotests
+> are still performed.
 
-For example:
+I can't parse this sentence. What does "its implementation may break the
+binary" mean? Do you mean it's worth running tests with SafeStack
+enabled because it exposes failures that go unnoticed without SafeStack?
 
-If the cluster size of source and target qcow2 images are both 16K, the 
-64K from backup_calculate_cluster_size() results in unwanted copies of 
-clusters.
+>=20
+> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+> ---
+>  tests/check-block.sh | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/tests/check-block.sh b/tests/check-block.sh
+> index ad320c21ba..8e29c868e5 100755
+> --- a/tests/check-block.sh
+> +++ b/tests/check-block.sh
+> @@ -21,7 +21,17 @@ if grep -q "CONFIG_GPROF=3Dy" config-host.mak 2>/dev/n=
+ull ; then
+>      exit 0
+>  fi
+> =20
+> -if grep -q "CFLAGS.*-fsanitize" config-host.mak 2>/dev/null ; then
+> +# Disable tests with any sanitizer except for SafeStack
+> +CFLAGS=3D$( grep "CFLAGS.*-fsanitize" config-host.mak 2>/dev/null )
+> +SANITIZE_FLAGS=3D""
+> +#Remove all occurrencies of -fsanitize=3Dsafe-stack
+> +for i in ${CFLAGS}; do
+> +        if [ "${i}" !=3D "-fsanitize=3Dsafe-stack" ]; then
+> +                SANITIZE_FLAGS=3D"${SANITIZE_FLAGS} ${i}"
+> +        fi
+> +done
+> +if echo ${SANITIZE_FLAGS} | grep -q "\-fsanitize" 2>/dev/null; then
+> +    # Have a sanitize flag that is not allowed, stop
+>      echo "Sanitizers are enabled =3D=3D> Not running the qemu-iotests."
+>      exit 0
+>  fi
 
-The behavior slows down the backup (block-copy) process when the
-source image receives lots of rand writes.
+The commit that disabled check-block.sh with sanitizers said:
 
+  The sanitizers (especially the address sanitizer from Clang) are
+  sometimes printing out warnings or false positives - this spoils
+  the output of the iotests, causing some of the tests to fail.
 
-Is the following calculation reasonable for the above issue?
+It seems fine to allow SafeStack if check-block.sh currently passes with
+it enabled. Does it pass and produce no extra output?
 
+Stefan
 
-```
-static int64_t backup_calculate_cluster_size(BlockDriverState *target,
-                                              Error **errp)
-{
-     ...
+--Hf61M2y+wYpnELGG
+Content-Type: application/pgp-signature; name="signature.asc"
 
-     ret = bdrv_get_info(target, &bdi);
+-----BEGIN PGP SIGNATURE-----
 
-     ...
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7GUOYACgkQnKSrs4Gr
+c8hEmAgAul7ACHMyTMKZMJIFtW3FN/jSmhlzpJDFHvkbDJsh3tJMA+J7jdD3k/M+
+LKgsr53K+jZKChzxDC6mtREmzRzj+ISTAZsdg44vz5TmdBVRQ6OSTg32BGKlV9Ky
+DPX/hcNI8gaHLsGaW5dTqytc/Ow9FwGEE6ia1TPOVEfEY534uoNwBUSFlXL6hTZV
+WZynczvHGQJl0kJqde4qNcsdvOoMOFKTO0dheL7doZImMZZPfwAxcnbaJzVSBd5f
+aD4lszREgtyibmzPM51RxCU1PjBaOxwFFD214hbxuQ0jMWnudd7yFylmgIxLiy5m
+JX+AUZvuW2hM9NsBNjLM80mnS5WJOw==
+=gKzJ
+-----END PGP SIGNATURE-----
 
-     return (bdi.cluster_size == 0 ?
-                 BACKUP_CLUSTER_SIZE_DEFAULT : cluster_size);
-}
-
-```
-
-Thanks.
-Regards,
-
-Derek
+--Hf61M2y+wYpnELGG--
 
