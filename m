@@ -2,77 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460461DCB36
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 12:44:52 +0200 (CEST)
-Received: from localhost ([::1]:50194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950011DCBA6
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 13:09:05 +0200 (CEST)
+Received: from localhost ([::1]:59312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbih1-00069G-C2
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 06:44:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37416)
+	id 1jbj4S-0003wA-Lf
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 07:09:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jbigI-0005eP-97
- for qemu-devel@nongnu.org; Thu, 21 May 2020 06:44:06 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36145
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jbigG-0006IE-WD
- for qemu-devel@nongnu.org; Thu, 21 May 2020 06:44:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590057843;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f3pH87xIq2jlvjOJb1ctZAs7/dK98Qqrq4rzf70bIiw=;
- b=LBYTni1i4zKnoJ25e3PD3iW5WYJ3McV84+118Q2fwHJbdjZbxCbfbI6nWBvGlt3S9rrYdP
- ASBvAodqubnGMEtFoWy67SZbtkpgwtwgGFavGhPSV2H0WbfB2ndUVed8+VzNQfJvuQ9dxn
- JG6/PAl7rtuVmxb+S12R5GJ9u0SzkhY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-q3sv6YjZP7KSaRj5nmlcbA-1; Thu, 21 May 2020 06:43:52 -0400
-X-MC-Unique: q3sv6YjZP7KSaRj5nmlcbA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D184E19057A5;
- Thu, 21 May 2020 10:43:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F69E6EA4A;
- Thu, 21 May 2020 10:43:47 +0000 (UTC)
-Date: Thu, 21 May 2020 11:43:44 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: [PATCH] virtiofsd: Use clone() and not unshare(), support non-root
-Message-ID: <20200521104344.GD2211791@redhat.com>
-References: <348d4774-bd5f-4832-bd7e-a21491fdac8d@www.fastmail.com>
- <20200506191614.GR2743@work-vm>
- <20200507092832.GA1104082@redhat.com>
- <20200521101923.GF251811@stefanha-x1.localdomain>
-MIME-Version: 1.0
-In-Reply-To: <20200521101923.GF251811@stefanha-x1.localdomain>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jbj3g-0003Fw-Dy; Thu, 21 May 2020 07:08:16 -0400
+Received: from mail-eopbgr50097.outbound.protection.outlook.com
+ ([40.107.5.97]:63968 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jbj3d-0002UM-0G; Thu, 21 May 2020 07:08:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z5gphj3T+X0fHCq6y6cM4gt37j9GtwerfKDH69A9EQfMOfinrzjtVzMTE0HZQjK68A7bgVDYRCXcDgshCYuL4czqRQRvTbF1ACESmrsrAxR7b0n5iZlp5bR8E/6cTtdJW0rASLKtK6qgXe0pmRZ0g1WWfVZoLUBn8+INHeeDUgILHOBd+0UZv057d5zr3PCkxs/HLwzFRRSJWSfYxHbWIgKOIy3iyD1OQblHlygPKCmEigtOM49uOVz1Qz5U1n0MUtd8H/i6M6V++VGng/KIGz6oZtONe0jVIba5PfRMfFQ7u1dNmr9h36oU2bH9amGmg8USDRR4tx/wdWdU+fYixQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8eMM+kDJGfOGPQ9v4AVjTLtXTrb7Etyfx/4xp/JCS0E=;
+ b=P6y5uUlN89y+CS9JuXrhTei4XsfvyP5V7xbB6LTg7Dk7BMAvzGtTgZhYZkRLLAMCz9iH0yvEfuLuuhFyn7XKDjtrUfhSpcj2B7m10IETAQsd+CDlyFfvuWnjzXgNqHJAu0ZIIpqcMSkFc3VZfTAHCnQ9I68vQhCkMBgwWKBatVknt2NDjuz+gWEDQApzCzgeKBc2pKYE7z3395ohy+HLZjmdopYhZvIs8wRbBlJQ68ZIl8CRO9hpK8XM+R6pErz+llBtbbB+bJBH+IGP5GG5SslbJvzeg0w+2HnJ29u5xCVuU4AV7tal+jkXk4qtV6V977efTnIjjTMkWeE8mUXugA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8eMM+kDJGfOGPQ9v4AVjTLtXTrb7Etyfx/4xp/JCS0E=;
+ b=mXwWxXQ3kMEC8ty8cC81oKGXeK6nxTfj+0H8ldOt2laYKYhzoFECW8HBvA3rrUZ/evgYaE7arEVMx4FDnYweLGsYOXeZ2SnnAENEOch2OrIZyv5yMZ0ZdlXtsfMpcyLLPSWXZmCzuZRoB67eUyGhoqNej2N0X/ZiRB3LzSqF8zU=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5512.eurprd08.prod.outlook.com (2603:10a6:20b:de::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.24; Thu, 21 May
+ 2020 11:08:09 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3021.020; Thu, 21 May 2020
+ 11:08:09 +0000
+Subject: Re: [PATCH v3 5/5] iotests: add commit top->base cases to 274
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
+References: <20200520083520.25793-1-vsementsov@virtuozzo.com>
+ <20200520083520.25793-6-vsementsov@virtuozzo.com>
+ <1c203598-24c8-e632-f654-7313a97b6e71@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <940e2fb9-dc18-abcb-57fe-fef6a39ce7b9@virtuozzo.com>
+Date: Thu, 21 May 2020 14:08:03 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <1c203598-24c8-e632-f654-7313a97b6e71@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:47:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-ClientProxiedBy: AM0PR04CA0062.eurprd04.prod.outlook.com
+ (2603:10a6:208:1::39) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.167) by
+ AM0PR04CA0062.eurprd04.prod.outlook.com (2603:10a6:208:1::39) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3021.23 via Frontend Transport; Thu, 21 May 2020 11:08:04 +0000
+X-Originating-IP: [185.215.60.167]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1aefd763-61ab-43e0-f2da-08d7fd773ee8
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5512:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5512AB3B91FDF992259DE8D9C1B70@AM7PR08MB5512.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:129;
+X-Forefront-PRVS: 041032FF37
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fwuM8sIJLiqHW9Tl7T1jeN0OTmNHlxVQJzzmySDSgiwYgW4dyuZB/JV5JwElKOMi5J5Cof1+ACMIICZRNUJ/4X9mpsT6NAj8SgLVF7u5PfK2HH8nrFc9dkql8J3Va5UBTuXhwApazspSPHDMkMArtFBoNUoCn6E2ugt1DyiKwJhA3t5hvhPGbTxPjRKHBtNVAluVG4FYi8fCcE43A2v5PDqcYiNlthQhtN9lMcmaA2WsQwmyKSXZfLXl8OyJFSBtF7w7iF2uWBLPEZlM+YkmatUcxgPc9xkKU1UXVoqmWaj4Rf4lDzF+Y11wxqdGq6qkiNi7MVFMjMnvQn2Xvl6UTywhc/SKaz4oZ72Mhw06WMr5kdCzgdqbuiRlwJ85/v43
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(366004)(396003)(376002)(39850400004)(136003)(8676002)(4744005)(186003)(2906002)(16526019)(316002)(6486002)(26005)(31696002)(53546011)(8936002)(36756003)(16576012)(107886003)(478600001)(4326008)(52116002)(86362001)(66476007)(5660300002)(66556008)(66946007)(956004)(2616005)(31686004)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 4dk0Dv0gsVGlvgHygqFn3kCISPt5TgdDYMzOQf9R2jLqm8wZ+kqBKEFWv/cBaGYH/56bYWSKcmyEikYuvv6SHsOfK+JdCoPEkDA+AjHUM+3rsTlbT4E5w0pQaJ6zmqUuoJ5dCDPsmt02kzBRPOvBS3jAcXSXaYdHNRR3D0BXPFjA5O5TwsS/XJ+mMKrVn/0wCDoGxnJP0c37JwFrOMSovg+uZB6yytKDiLkBcADnrJSKOm3V4C7gc2R+mUDDV/uj2k29uFfyyu6XzbAEt+U4/t5U5ovFhU1RC9MZ52nqdVQBkq32MSaQ7UKA+i/sXg/4mI69pXEjq2yArt0uhK8XO884YujsDPOUV++rk/GE5auuS7SDuwsNOi2YUIu1d5yJ4mX1pefeAFP+gSP8SUx4MLqXgbLRHl+8xqkuhOTF7WBPTuVeapqeFThTl0df6Nu8J4gOp69rtSp7zWLy4NwoBGKNvP2rv3sD0D9sPvfPbmcBjmPEBdUJ0Xcq9oRhij9p
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1aefd763-61ab-43e0-f2da-08d7fd773ee8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2020 11:08:09.5938 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pUsdEVehViL2YjNrljl5H/7LHtihZbMjyYnArpkiB3ysHMDrN0zHaILrsGmNNvHijlHioQ7WH4AwgOnYnfuUAPvFdaQTBE13jcZ0n47Sxjs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5512
+Received-SPF: pass client-ip=40.107.5.97;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 07:08:10
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,65 +117,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Colin Walters <walters@verbum.org>
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-devel@nongnu.org, mreitz@redhat.com,
+ stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 21, 2020 at 11:19:23AM +0100, Stefan Hajnoczi wrote:
-> On Thu, May 07, 2020 at 10:28:32AM +0100, Daniel P. Berrangé wrote:
-> > If the person in the host launching virtiofsd is non-root, then
-> > user namespaces mean they can offer the guest the full range of
-> > POSIX APIs wrt access control & file ownership, since they're
-> > no longer restricted to their single host UID when inside the
-> > container.
+20.05.2020 19:39, Eric Blake wrote:
+> On 5/20/20 3:35 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> These cases are fixed by previous patches around block_status and
+>> is_allocated.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   tests/qemu-iotests/274     | 20 ++++++++++++
+>>   tests/qemu-iotests/274.out | 65 ++++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 85 insertions(+)
+>>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 > 
-> What installs the uid_map/gid_map for virtiofsd?
-> 
-> My machine has /etc/subuid and /etc/subgid, but how would this come into
-> play with these patches applied?
-
-AFAICT, nothing is setting up the mapping, hence my question in the first
-review of this patch, that this patch seems incomplete.
-
-The subuid/subgid files are essentially just reserving a range of IDs
-for each user. Something then needs to read & honour those IDs.
-
-The rules on setting up a mapping are complex though, to avoid a user
-from creating a new user namespace, and defining a mapping that lets
-them elevate privileges to read files in the host they wouldn't otherwise
-be permitted to access.
-
-IIUC, applying the range of IDs from subuid/subgid will require the
-process defining the mapping to have CAP_SETUID *outside* the container.
-As an unprivileged host user, you won't have that, so I think the only
-thing you can do is setup a mapping for your own UID/GID, which would
-allow the container to read/write files owned by the host user that
-started it. That should be ok for virtiofsd's needs at least for simple
-file sharing. If virtiofsd needs to expose its full range of features
-though, something privileged in the host needs to setup a full mapping
-based on subuid/subgid
-
-BTW, "man user_namespaces" gives many more details on UID mapping
-rules.
-
-> What happens when an unprivileged user who is not listed in /etc/subuid
-> runs virtiofsd?
-
-The UID map inside the container will be empty, which should result in
-all files being remapped to (uid_t)-1 or whatever is shown in the
-/proc/sys/kernel/overflow{u,g}id files.
-
-So virtiofsd would not have any write access, and only have read access
-to files which have world-read bit set.  
 
 
-Regards,
-Daniel
+Thanks a lot!
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Best regards,
+Vladimir
 
