@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B12F1DC67D
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 07:07:23 +0200 (CEST)
-Received: from localhost ([::1]:53304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7201DC68F
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 07:19:42 +0200 (CEST)
+Received: from localhost ([::1]:37044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbdQQ-0004rz-Ev
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 01:07:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60062)
+	id 1jbdcL-0004z6-FF
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 01:19:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
- id 1jbdKJ-0003gR-4p
- for qemu-devel@nongnu.org; Thu, 21 May 2020 01:01:03 -0400
-Received: from o1.dev.nutanix.com ([198.21.4.205]:58463)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jbdbY-0004Yv-7o
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 01:18:52 -0400
+Received: from mga05.intel.com ([192.55.52.43]:28125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
- id 1jbdKH-0001Ia-R9
- for qemu-devel@nongnu.org; Thu, 21 May 2020 01:01:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
- h=from:subject:in-reply-to:references:to:cc:content-type:
- content-transfer-encoding;
- s=smtpapi; bh=lgg31uEtMDopUvmpXDUsYGONCAL7eG0Q3eMW9ba+v58=;
- b=RGHZT8x8fmbzhKb6JYJ+LkmxwFxCSt1tPjuipoMzJvvVXTTEPnZQrnhSFYs6B09P+Je4
- UubpuXDV9kcxHOlaB+YqBSe4692O4FNnOEJufHFnrsKNyU1TWbcF1jNFaqgDQardIHwnv1
- /+usYlqElBpmjr7ZbG6zoStXPJtYCmszk=
-Received: by filterdrecv-p3iad2-8ddf98858-lwgxm with SMTP id
- filterdrecv-p3iad2-8ddf98858-lwgxm-19-5EC60B0B-E7
- 2020-05-21 05:00:59.818794673 +0000 UTC m=+4852409.056490205
-Received: from localhost.localdomain.com (unknown)
- by ismtpd0026p1las1.sendgrid.net (SG) with ESMTP
- id VG9aOgbfRxipDFJ3nZk6Lg Thu, 21 May 2020 05:00:59.599 +0000 (UTC)
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: [PATCH v4 10/10] Lift max ram slots limit in libvhost-user
-Date: Thu, 21 May 2020 05:00:59 +0000 (UTC)
-Message-Id: <1588533678-23450-11-git-send-email-raphael.norwitz@nutanix.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1588533678-23450-1-git-send-email-raphael.norwitz@nutanix.com>
-References: <1588533678-23450-1-git-send-email-raphael.norwitz@nutanix.com>
-X-SG-EID: =?us-ascii?Q?YCLURHX+pjNDm1i7d69iKyMnQi=2FdvWah9veFa8nllaoUC0ScIWrCgiaWGu43Vg?=
- =?us-ascii?Q?xFdB4istXUBpN9H93OJgc8zSp3+RPqU4g3+UQTY?=
- =?us-ascii?Q?OB1nSwmrKHZM0l7k4GYm8xmWEN5tH=2FMfTcSIBia?=
- =?us-ascii?Q?Sz680lFOusuXuTzpDAylu2jwXl8dIhJwhIlU3Wb?=
- =?us-ascii?Q?hH+4DEnC7f1AkUEp0Gh15xnGvaarfjE2FM7qJNt?=
- =?us-ascii?Q?kO99npY21tUMUblQGGWnMG1A6MuBIrK5cScI=2FmZ?=
- =?us-ascii?Q?9Uxidkgs6RS2wHLK7ccWg=3D=3D?=
-To: qemu-devel@nongnu.org, mst@redhat.com, marcandre.lureau@redhat.com
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jbdbV-0004CZ-Dl
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 01:18:51 -0400
+IronPort-SDR: lIhUhNCQ4bB61+5HqrJB43RKKv7uNSNNQjJq35Q5ZhNjBDcz1iD+E5Cbf1rWIr4rjtBWOKQV5w
+ NDKX2AEhA6QA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 May 2020 22:18:44 -0700
+IronPort-SDR: PyQBc6QrQH5MeOG4YoWWgZ978estFyoBDusDoj0/YZC+l3Zbsyu4OyOR9nmeImA20dGsWtPGwx
+ uVuVpYeusRiQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,416,1583222400"; d="scan'208";a="264929876"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by orsmga003.jf.intel.com with ESMTP; 20 May 2020 22:18:37 -0700
+Date: Thu, 21 May 2020 01:08:46 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH Kernel v22 0/8] Add UAPIs to support migration for VFIO
+ devices
+Message-ID: <20200521050846.GC10369@joy-OptiPlex-7040>
+References: <1589781397-28368-1-git-send-email-kwankhede@nvidia.com>
+ <20200519105804.02f3cae8@x1.home>
+ <20200520025500.GA10369@joy-OptiPlex-7040>
+ <97977ede-3c5b-c5a5-7858-7eecd7dd531c@nvidia.com>
+ <20200520104612.03a32977@w520.home>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=198.21.4.205;
- envelope-from=bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net;
- helo=o1.dev.nutanix.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:00:23
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Disposition: inline
+In-Reply-To: <20200520104612.03a32977@w520.home>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=yan.y.zhao@intel.com;
+ helo=mga05.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:18:44
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,161 +70,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: raphael.s.norwitz@gmail.com, marcandre.lureau@gmail.com,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, Kirti Wankhede <kwankhede@nvidia.com>,
+ eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
+ changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Historically, VMs with vhost-user devices could hot-add memory a maximum
-of 8 times. Now that the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
-protocol feature has been added, VMs with vhost-user backends which
-support this new feature can support a configurable number of ram slots
-up to the maximum supported by the target platform.
+On Wed, May 20, 2020 at 10:46:12AM -0600, Alex Williamson wrote:
+> On Wed, 20 May 2020 19:10:07 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
+> > On 5/20/2020 8:25 AM, Yan Zhao wrote:
+> > > On Tue, May 19, 2020 at 10:58:04AM -0600, Alex Williamson wrote:  
+> > >> Hi folks,
+> > >>
+> > >> My impression is that we're getting pretty close to a workable
+> > >> implementation here with v22 plus respins of patches 5, 6, and 8.  We
+> > >> also have a matching QEMU series and a proposal for a new i40e
+> > >> consumer, as well as I assume GVT-g updates happening internally at
+> > >> Intel.  I expect all of the latter needs further review and discussion,
+> > >> but we should be at the point where we can validate these proposed
+> > >> kernel interfaces.  Therefore I'd like to make a call for reviews so
+> > >> that we can get this wrapped up for the v5.8 merge window.  I know
+> > >> Connie has some outstanding documentation comments and I'd like to make
+> > >> sure everyone has an opportunity to check that their comments have been
+> > >> addressed and we don't discover any new blocking issues.  Please send
+> > >> your Acked-by/Reviewed-by/Tested-by tags if you're satisfied with this
+> > >> interface and implementation.  Thanks!
+> > >>  
+> > > hi Alex and Kirti,
+> > > after porting to qemu v22 and kernel v22, it is found out that
+> > > it can not even pass basic live migration test with error like
+> > > 
+> > > "Failed to get dirty bitmap for iova: 0xca000 size: 0x3000 err: 22"
+> > >   
+> > 
+> > Thanks for testing Yan.
+> > I think last moment change in below cause this failure
+> > 
+> > https://lore.kernel.org/kvm/1589871178-8282-1-git-send-email-kwankhede@nvidia.com/
+> > 
+> >  > 	if (dma->iova > iova + size)
+> >  > 		break;  
+> > 
+> > Surprisingly with my basic testing with 2G sys mem QEMU didn't raise 
+> > abort on g_free, but I do hit this with large sys mem.
+> > With above change, that function iterated through next vfio_dma as well. 
+> > Check should be as below:
+> > 
+> > -               if (dma->iova > iova + size)
+> > +               if (dma->iova > iova + size -1)
+> 
+> 
+> Or just:
+> 
+> 	if (dma->iova >= iova + size)
+> 
+> Thanks,
+> Alex
+> 
+> 
+> >                          break;
+> > 
+> > Another fix is in QEMU.
+> > https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04751.html
+> > 
+> >  > > +        range->bitmap.size = ROUND_UP(pages, 64) / 8;  
+> >  >
+> >  > ROUND_UP(npages/8, sizeof(u64))?
+> >  >  
+> > 
+> > If npages < 8, npages/8 is 0 and ROUND_UP(0, 8) returns 0.
+> > 
+> > Changing it as below
+> > 
+> > -        range->bitmap.size = ROUND_UP(pages / 8, sizeof(uint64_t));
+> > +        range->bitmap.size = ROUND_UP(pages, sizeof(__u64) * 
+> > BITS_PER_BYTE) /
+> > +                             BITS_PER_BYTE;
+> > 
+> > I'm updating patches with these fixes and Cornelia's suggestion soon.
+> > 
+> > Due to short of time I may not be able to address all the concerns 
+> > raised on previous versions of QEMU, I'm trying make QEMU side code 
+> > available for testing for others with latest kernel changes. Don't 
+> > worry, I will revisit comments on QEMU patches. Right now first priority 
+> > is to test kernel UAPI and prepare kernel patches for 5.8
+> > 
+>
+hi Kirti
+by updating kernel/qemu to v23, still met below two types of errors.
+just basic migration test.
+(the guest VM size is 2G for all reported bugs).
 
-This change adds VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS support for
-backends built with libvhost-user, and increases the number of supported
-ram slots from 8 to 32.
+"Failed to get dirty bitmap for iova: 0xfe011000 size: 0x3fb0 err: 22"
 
-Memory hot-add, hot-remove and postcopy migration were tested with
-the vhost-user-bridge sample.
+or 
 
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
----
- contrib/libvhost-user/libvhost-user.c | 17 +++++++++--------
- contrib/libvhost-user/libvhost-user.h | 15 +++++++++++----
- 2 files changed, 20 insertions(+), 12 deletions(-)
+"qemu-system-x86_64-lm: vfio_load_state: Error allocating buffer
+qemu-system-x86_64-lm: error while loading state section id 49(vfio)
+qemu-system-x86_64-lm: load of migration failed: Cannot allocate memory"
 
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index 386449b..b1e6072 100644
---- a/contrib/libvhost-user/libvhost-user.c
-+++ b/contrib/libvhost-user/libvhost-user.c
-@@ -269,7 +269,7 @@ have_userfault(void)
- static bool
- vu_message_read(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
- {
--    char control[CMSG_SPACE(VHOST_MEMORY_MAX_NREGIONS * sizeof(int))] = { };
-+    char control[CMSG_SPACE(VHOST_MEMORY_BASELINE_NREGIONS * sizeof(int))] = {};
-     struct iovec iov = {
-         .iov_base = (char *)vmsg,
-         .iov_len = VHOST_USER_HDR_SIZE,
-@@ -340,7 +340,7 @@ vu_message_write(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
- {
-     int rc;
-     uint8_t *p = (uint8_t *)vmsg;
--    char control[CMSG_SPACE(VHOST_MEMORY_MAX_NREGIONS * sizeof(int))] = { };
-+    char control[CMSG_SPACE(VHOST_MEMORY_BASELINE_NREGIONS * sizeof(int))] = {};
-     struct iovec iov = {
-         .iov_base = (char *)vmsg,
-         .iov_len = VHOST_USER_HDR_SIZE,
-@@ -353,7 +353,7 @@ vu_message_write(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
-     struct cmsghdr *cmsg;
- 
-     memset(control, 0, sizeof(control));
--    assert(vmsg->fd_num <= VHOST_MEMORY_MAX_NREGIONS);
-+    assert(vmsg->fd_num <= VHOST_MEMORY_BASELINE_NREGIONS);
-     if (vmsg->fd_num > 0) {
-         size_t fdsize = vmsg->fd_num * sizeof(int);
-         msg.msg_controllen = CMSG_SPACE(fdsize);
-@@ -780,7 +780,7 @@ static bool
- vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-     int i, j;
-     bool found = false;
--    VuDevRegion shadow_regions[VHOST_MEMORY_MAX_NREGIONS] = {};
-+    VuDevRegion shadow_regions[VHOST_USER_MAX_RAM_SLOTS] = {};
-     VhostUserMemoryRegion m = vmsg->payload.memreg.region, *msg_region = &m;
- 
-     DPRINT("Removing region:\n");
-@@ -813,7 +813,7 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
- 
-     if (found) {
-         memcpy(dev->regions, shadow_regions,
--               sizeof(VuDevRegion) * VHOST_MEMORY_MAX_NREGIONS);
-+               sizeof(VuDevRegion) * VHOST_USER_MAX_RAM_SLOTS);
-         DPRINT("Successfully removed a region\n");
-         dev->nregions--;
-         vmsg_set_reply_u64(vmsg, 0);
-@@ -1394,7 +1394,8 @@ vu_get_protocol_features_exec(VuDev *dev, VhostUserMsg *vmsg)
-                         1ULL << VHOST_USER_PROTOCOL_F_SLAVE_REQ |
-                         1ULL << VHOST_USER_PROTOCOL_F_HOST_NOTIFIER |
-                         1ULL << VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD |
--                        1ULL << VHOST_USER_PROTOCOL_F_REPLY_ACK;
-+                        1ULL << VHOST_USER_PROTOCOL_F_REPLY_ACK |
-+                        1ULL << VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS;
- 
-     if (have_userfault()) {
-         features |= 1ULL << VHOST_USER_PROTOCOL_F_PAGEFAULT;
-@@ -1732,14 +1733,14 @@ static bool vu_handle_get_max_memslots(VuDev *dev, VhostUserMsg *vmsg)
- {
-     vmsg->flags = VHOST_USER_REPLY_MASK | VHOST_USER_VERSION;
-     vmsg->size  = sizeof(vmsg->payload.u64);
--    vmsg->payload.u64 = VHOST_MEMORY_MAX_NREGIONS;
-+    vmsg->payload.u64 = VHOST_USER_MAX_RAM_SLOTS;
-     vmsg->fd_num = 0;
- 
-     if (!vu_message_write(dev, dev->sock, vmsg)) {
-         vu_panic(dev, "Failed to send max ram slots: %s\n", strerror(errno));
-     }
- 
--    DPRINT("u64: 0x%016"PRIx64"\n", (uint64_t) VHOST_MEMORY_MAX_NREGIONS);
-+    DPRINT("u64: 0x%016"PRIx64"\n", (uint64_t) VHOST_USER_MAX_RAM_SLOTS);
- 
-     return false;
- }
-diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
-index f843971..844c37c 100644
---- a/contrib/libvhost-user/libvhost-user.h
-+++ b/contrib/libvhost-user/libvhost-user.h
-@@ -28,7 +28,13 @@
- 
- #define VIRTQUEUE_MAX_SIZE 1024
- 
--#define VHOST_MEMORY_MAX_NREGIONS 8
-+#define VHOST_MEMORY_BASELINE_NREGIONS 8
-+
-+/*
-+ * Set a reasonable maximum number of ram slots, which will be supported by
-+ * any architecture.
-+ */
-+#define VHOST_USER_MAX_RAM_SLOTS 32
- 
- typedef enum VhostSetConfigType {
-     VHOST_SET_CONFIG_TYPE_MASTER = 0,
-@@ -55,6 +61,7 @@ enum VhostUserProtocolFeature {
-     VHOST_USER_PROTOCOL_F_HOST_NOTIFIER = 11,
-     VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD = 12,
-     VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS = 14,
-+    VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
- 
-     VHOST_USER_PROTOCOL_F_MAX
- };
-@@ -123,7 +130,7 @@ typedef struct VhostUserMemoryRegion {
- typedef struct VhostUserMemory {
-     uint32_t nregions;
-     uint32_t padding;
--    VhostUserMemoryRegion regions[VHOST_MEMORY_MAX_NREGIONS];
-+    VhostUserMemoryRegion regions[VHOST_MEMORY_BASELINE_NREGIONS];
- } VhostUserMemory;
- 
- typedef struct VhostUserMemRegMsg {
-@@ -190,7 +197,7 @@ typedef struct VhostUserMsg {
-         VhostUserInflight inflight;
-     } payload;
- 
--    int fds[VHOST_MEMORY_MAX_NREGIONS];
-+    int fds[VHOST_MEMORY_BASELINE_NREGIONS];
-     int fd_num;
-     uint8_t *data;
- } VU_PACKED VhostUserMsg;
-@@ -368,7 +375,7 @@ typedef struct VuDevInflightInfo {
- struct VuDev {
-     int sock;
-     uint32_t nregions;
--    VuDevRegion regions[VHOST_MEMORY_MAX_NREGIONS];
-+    VuDevRegion regions[VHOST_USER_MAX_RAM_SLOTS];
-     VuVirtq *vq;
-     VuDevInflightInfo inflight_info;
-     int log_call_fd;
--- 
-1.8.3.1
 
+Thanks
+Yan
 
