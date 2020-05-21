@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72FB1DD36B
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:55:26 +0200 (CEST)
-Received: from localhost ([::1]:46252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 899771DD38E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:58:18 +0200 (CEST)
+Received: from localhost ([::1]:57828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jboTd-0000GX-Qz
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:55:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49848)
+	id 1jboWP-00050q-HB
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboIS-0002xs-Pc
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:52 -0400
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:42237)
+ id 1jboIT-00030Z-Np
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:53 -0400
+Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:35551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboIR-0006Yh-3S
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:52 -0400
-Received: by mail-qk1-x744.google.com with SMTP id s1so7835957qkf.9
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:43:50 -0700 (PDT)
+ id 1jboIS-0006Yr-IY
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:53 -0400
+Received: by mail-qt1-x832.google.com with SMTP id z18so6021834qto.2
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:43:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WqInjgZviyNdzW5p2Hg5xhlKpmgDlxcslWkF7JOAFYA=;
- b=ZkfYDUUgKAGy5gWJ52+BEeFQi29PP6rBSegwRrL7iwnA+lQL8U9jVTc1qVmX3UZ6SB
- E/2bDy/H69RDUeIB8fHzgZclwxLndyZDP/SFsHfBNghvnUOjmB4puCH+Go78ZUYJ08Zw
- zcRtGdvEmJpV8Unf7qgLaHRtAQ/bsT4ZAlq9rU4h9ZRd56fSfO2YMlmU3G6qnl7Uz45U
- JTu4HKBFKLVV17YC1ZR68FVuAPyGyLmwGFG8JL9ijgSMxQNQ8LZzmTpQ8UbJUdxxrJnO
- mTWB+WlW8I9pDhY1+WOwue8nFcfUtHBPAvzerIJmbJDyC5UXWW3ehRQzYj2Ebj6n7hK8
- +l6Q==
+ bh=eHaQBXlGwYEJ+LUDpIzgk48KJ4nxL6vb+7Ag6IrpPa0=;
+ b=RDIeoaKVwO60kH/bb4xqU79wAH4A5kAGqh6pg4mG3qUN081R0/NYSQKrYxa7PN2667
+ UtmNc34vJIS+NZoY7Afx3SgzYhhBxicmb9jME1fbIiqpJX/IFyAWI43BiXziV1rMYwSU
+ EeN+ttXpYvKcKJYnU1vdoSe+3/PIrxGCz7D9Q3eBPJH1Bnh3GaOBQ/4p+3SRt38ppu5T
+ 9z6zLy/f30lhlXCpg3B4zGqRbCZJ02dfUosiCdFiTZl3pa5OCFgeG257UjLD7p7BcBJ/
+ k4gW8DxwJog+JPsMPoEOuINiOa1yq/ZIuvzqxT7bugiUoQqdWcEFIYkAUF9vEkKtAQPr
+ zJsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WqInjgZviyNdzW5p2Hg5xhlKpmgDlxcslWkF7JOAFYA=;
- b=bu7/JQyLou0U004XlfA/mMA8yOBANvWGo1eV2NvrjouC6TIVxVr4iOOh2PmtuPF4AH
- FXPbFcrU+uOdym177cjQ1xCEWxUY5JWquBCvsuwcZzIoHJ9cWUDP+8iVh7Mk5T9gVaL7
- ysC3bN3DKnI1kehmW5Bn99YEzQot05JS6/uVh5LFyQmQeqJ6cquFFC/jMvCt3gI8Jm3O
- /bV4qPEkevEZUQZOY6fxsmUu9V/g9NOLM2R0SLlnP6Zy7Z2PtVw/62s5NYcq+foQmTeF
- eXpCVQYNRwkju9mxalvuvJp9klQaYqVvb8r1PmZXxB/ibRvD4wvq+3g2DBC8ZWNSPWmW
- r/gg==
-X-Gm-Message-State: AOAM5332tqLw1YKKuh08QNY9677FRpwAu5VGL6I+kx3wCc1QhMISmAe+
- VZuAaeNbRZWwss4sUJ/svc1mzDAfSOpX2A==
-X-Google-Smtp-Source: ABdhPJxmQY+QPlxS11ljJsb1F1MnPxOiUEaHhO0JzZc+Ks7lGnlbOkxzAduA0w3S1uY25eTzJoLwUQ==
-X-Received: by 2002:a37:9d09:: with SMTP id g9mr10906870qke.154.1590079429752; 
- Thu, 21 May 2020 09:43:49 -0700 (PDT)
+ bh=eHaQBXlGwYEJ+LUDpIzgk48KJ4nxL6vb+7Ag6IrpPa0=;
+ b=osbgRicbre7dyhmxSN+RjDemT+xwST1YazoWdhAaQNguwDY+3eaCTJPL3bcOCDb4jq
+ fqo8ixQDFCiGKzWHvzbUzT1S5XukMXVkLKIbUsaiIjTQti3YqT3UTxsCYUeoxGrqE2O1
+ tsmYjFv1elgh4u7XBKHZUtJxr/5gU4AlBnypSvgTx6bjcuWnhZchiVlMb5u41cfyu0Nd
+ ODbG8Z6610rmNyhprn5oB9NhPQvdqixYEYcxANJ8BgLgEoimA19R1zVfQ5F3AclfhHJC
+ 42jqJf41glAVNQJCNMd/NyPA/ZuG4QrszMoYsIbaefewlJ+Zlda/TXY1kIAfORS3fSL1
+ QPmA==
+X-Gm-Message-State: AOAM532TrWnrIStI9jRv8XByqG9ibXZ7ZZT7GDUR/4aaiT74QY7k+tru
+ 6LDw+iJJfy0QR5kFgdZWAorMh1NwPLSjAQ==
+X-Google-Smtp-Source: ABdhPJwYYZXBuUGYIr+NMmiNDPXHRgaTGxjjaIflF4Jg2U0bJb+DXHma+tBagKJqKmP3o7ddWaq2YQ==
+X-Received: by 2002:aed:20d1:: with SMTP id 75mr11676981qtb.1.1590079431267;
+ Thu, 21 May 2020 09:43:51 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:1944:c530:655c:5583])
- by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.43.48
+ by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.43.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:43:49 -0700 (PDT)
+ Thu, 21 May 2020 09:43:50 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 26/74] s390x: convert to cpu_halted
-Date: Thu, 21 May 2020 12:39:23 -0400
-Message-Id: <20200521164011.638-27-robert.foley@linaro.org>
+Subject: [PATCH v9 27/74] sparc: convert to cpu_halted
+Date: Thu, 21 May 2020 12:39:24 -0400
+Message-Id: <20200521164011.638-28-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200521164011.638-1-robert.foley@linaro.org>
 References: <20200521164011.638-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::744;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x744.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=robert.foley@linaro.org; helo=mail-qt1-x832.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,168 +86,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, David Hildenbrand <david@redhat.com>,
- richard.henderson@linaro.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x@nongnu.org, cota@braap.org, peter.puhov@linaro.org,
- alex.bennee@linaro.org
+Cc: robert.foley@linaro.org, richard.henderson@linaro.org,
+ Fabien Chouteau <chouteau@adacore.com>, cota@braap.org, peter.puhov@linaro.org,
+ alex.bennee@linaro.org, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: qemu-s390x@nongnu.org
+Cc: Fabien Chouteau <chouteau@adacore.com>
+Cc: Artyom Tarasenko <atar4qemu@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- hw/intc/s390_flic.c        |  2 +-
- target/s390x/cpu.c         | 22 +++++++++++++++-------
- target/s390x/excp_helper.c |  2 +-
- target/s390x/kvm.c         |  2 +-
- target/s390x/sigp.c        |  8 ++++----
- 5 files changed, 22 insertions(+), 14 deletions(-)
+ hw/sparc/leon3.c      | 2 +-
+ hw/sparc/sun4m.c      | 8 ++++----
+ hw/sparc64/sparc64.c  | 4 ++--
+ target/sparc/helper.c | 2 +-
+ 4 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/hw/intc/s390_flic.c b/hw/intc/s390_flic.c
-index baca4d8a2d..a1c6b8a6f6 100644
---- a/hw/intc/s390_flic.c
-+++ b/hw/intc/s390_flic.c
-@@ -200,7 +200,7 @@ static void qemu_s390_flic_notify(uint32_t type)
-         }
+diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
+index 8f024dab7b..00d1efd430 100644
+--- a/hw/sparc/leon3.c
++++ b/hw/sparc/leon3.c
+@@ -132,7 +132,7 @@ static void main_cpu_reset(void *opaque)
  
-         /* we always kick running CPUs for now, this is tricky */
--        if (cs->halted) {
-+        if (cpu_halted(cs)) {
-             /* don't check for subclasses, CPUs double check when waking up */
-             if (type & FLIC_PENDING_SERVICE) {
-                 if (!(cpu->env.psw.mask & PSW_MASK_EXT)) {
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index ca50b70451..4b1961694e 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -293,7 +293,7 @@ static void s390_cpu_initfn(Object *obj)
-     S390CPU *cpu = S390_CPU(obj);
+     cpu_reset(cpu);
  
-     cpu_set_cpustate_pointers(cpu);
+-    cpu->halted = 0;
++    cpu_halted_set(cpu, 0);
+     env->pc     = s->entry;
+     env->npc    = s->entry + 4;
+     env->regbase[6] = s->sp;
+diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+index 8dda3f7292..e189ba5395 100644
+--- a/hw/sparc/sun4m.c
++++ b/hw/sparc/sun4m.c
+@@ -192,7 +192,7 @@ static void cpu_kick_irq(SPARCCPU *cpu)
+     CPUSPARCState *env = &cpu->env;
+     CPUState *cs = CPU(cpu);
+ 
+-    cs->halted = 0;
++    cpu_halted_set(cs, 0);
+     cpu_check_irqs(env);
+     qemu_cpu_kick(cs);
+ }
+@@ -223,7 +223,7 @@ static void main_cpu_reset(void *opaque)
+     CPUState *cs = CPU(cpu);
+ 
+     cpu_reset(cs);
+-    cs->halted = 0;
++    cpu_halted_set(cs, 0);
+ }
+ 
+ static void secondary_cpu_reset(void *opaque)
+@@ -232,7 +232,7 @@ static void secondary_cpu_reset(void *opaque)
+     CPUState *cs = CPU(cpu);
+ 
+     cpu_reset(cs);
+-    cs->halted = 1;
++    cpu_halted_set(cs, 1);
+ }
+ 
+ static void cpu_halt_signal(void *opaque, int irq, int level)
+@@ -831,7 +831,7 @@ static void cpu_devinit(const char *cpu_type, unsigned int id,
+     } else {
+         qemu_register_reset(secondary_cpu_reset, cpu);
+         cs = CPU(cpu);
+-        cs->halted = 1;
++        cpu_halted_set(cs, 1);
+     }
+     *cpu_irqs = qemu_allocate_irqs(cpu_set_irq, cpu, MAX_PILS);
+     env->prom_addr = prom_addr;
+diff --git a/hw/sparc64/sparc64.c b/hw/sparc64/sparc64.c
+index 100b2fab17..fe9c678459 100644
+--- a/hw/sparc64/sparc64.c
++++ b/hw/sparc64/sparc64.c
+@@ -101,7 +101,7 @@ static void cpu_kick_irq(SPARCCPU *cpu)
+     CPUState *cs = CPU(cpu);
+     CPUSPARCState *env = &cpu->env;
+ 
+-    cs->halted = 0;
++    cpu_halted_set(cs, 0);
+     cpu_check_irqs(env);
+     qemu_cpu_kick(cs);
+ }
+@@ -116,7 +116,7 @@ void sparc64_cpu_set_ivec_irq(void *opaque, int irq, int level)
+         if (!(env->ivec_status & 0x20)) {
+             trace_sparc64_cpu_ivec_raise_irq(irq);
+             cs = CPU(cpu);
+-            cs->halted = 0;
++            cpu_halted_set(cs, 0);
+             env->interrupt_index = TT_IVEC;
+             env->ivec_status |= 0x20;
+             env->ivec_data[0] = (0x1f << 6) | irq;
+diff --git a/target/sparc/helper.c b/target/sparc/helper.c
+index 07d87efa4e..90dfb1e92f 100644
+--- a/target/sparc/helper.c
++++ b/target/sparc/helper.c
+@@ -244,7 +244,7 @@ void helper_power_down(CPUSPARCState *env)
+ {
+     CPUState *cs = env_cpu(env);
+ 
 -    cs->halted = 1;
 +    cpu_halted_set(cs, 1);
      cs->exception_index = EXCP_HLT;
-     object_property_add(obj, "crash-information", "GuestPanicInformation",
-                         s390_cpu_get_crash_info_qom, NULL, NULL, NULL);
-@@ -320,8 +320,8 @@ static void s390_cpu_finalize(Object *obj)
- #if !defined(CONFIG_USER_ONLY)
- static bool disabled_wait(CPUState *cpu)
- {
--    return cpu->halted && !(S390_CPU(cpu)->env.psw.mask &
--                            (PSW_MASK_IO | PSW_MASK_EXT | PSW_MASK_MCHECK));
-+    return cpu_halted(cpu) && !(S390_CPU(cpu)->env.psw.mask &
-+                                (PSW_MASK_IO | PSW_MASK_EXT | PSW_MASK_MCHECK));
- }
- 
- static unsigned s390_count_running_cpus(void)
-@@ -347,10 +347,16 @@ unsigned int s390_cpu_halt(S390CPU *cpu)
-     CPUState *cs = CPU(cpu);
-     trace_cpu_halt(cs->cpu_index);
- 
--    if (!cs->halted) {
--        cs->halted = 1;
-+    /*
-+     * cpu_halted and cpu_halted_set acquire the cpu lock if it
-+     * isn't already held, so acquire it first.
-+     */
-+    cpu_mutex_lock(cs);
-+    if (!cpu_halted(cs)) {
-+        cpu_halted_set(cs, 1);
-         cs->exception_index = EXCP_HLT;
-     }
-+    cpu_mutex_unlock(cs);
- 
-     return s390_count_running_cpus();
- }
-@@ -360,10 +366,12 @@ void s390_cpu_unhalt(S390CPU *cpu)
-     CPUState *cs = CPU(cpu);
-     trace_cpu_unhalt(cs->cpu_index);
- 
--    if (cs->halted) {
--        cs->halted = 0;
-+    cpu_mutex_lock(cs);
-+    if (cpu_halted(cs)) {
-+        cpu_halted_set(cs, 0);
-         cs->exception_index = -1;
-     }
-+    cpu_mutex_unlock(cs);
- }
- 
- unsigned int s390_cpu_set_state(uint8_t cpu_state, S390CPU *cpu)
-diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-index 3b58d10df3..db6640ba2c 100644
---- a/target/s390x/excp_helper.c
-+++ b/target/s390x/excp_helper.c
-@@ -537,7 +537,7 @@ try_deliver:
-     if ((env->psw.mask & PSW_MASK_WAIT) || stopped) {
-         /* don't trigger a cpu_loop_exit(), use an interrupt instead */
-         cpu_interrupt(CPU(cpu), CPU_INTERRUPT_HALT);
--    } else if (cs->halted) {
-+    } else if (cpu_halted(cs)) {
-         /* unhalt if we had a WAIT PSW somehwere in our injection chain */
-         s390_cpu_unhalt(cpu);
-     }
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index 69881a0da0..ae3e0880f1 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -1094,7 +1094,7 @@ MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
- 
- int kvm_arch_process_async_events(CPUState *cs)
- {
--    return cs->halted;
-+    return cpu_halted(cs);
- }
- 
- static int s390_kvm_irq_to_interrupt(struct kvm_s390_irq *irq,
-diff --git a/target/s390x/sigp.c b/target/s390x/sigp.c
-index c604f17710..44d22ae3bf 100644
---- a/target/s390x/sigp.c
-+++ b/target/s390x/sigp.c
-@@ -115,7 +115,7 @@ static void sigp_stop(CPUState *cs, run_on_cpu_data arg)
-     }
- 
-     /* disabled wait - sleeping in user space */
--    if (cs->halted) {
-+    if (cpu_halted(cs)) {
-         s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
-     } else {
-         /* execute the stop function */
-@@ -131,7 +131,7 @@ static void sigp_stop_and_store_status(CPUState *cs, run_on_cpu_data arg)
-     SigpInfo *si = arg.host_ptr;
- 
-     /* disabled wait - sleeping in user space */
--    if (s390_cpu_get_state(cpu) == S390_CPU_STATE_OPERATING && cs->halted) {
-+    if (s390_cpu_get_state(cpu) == S390_CPU_STATE_OPERATING && cpu_halted(cs)) {
-         s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
-     }
- 
-@@ -313,7 +313,7 @@ static void sigp_cond_emergency(S390CPU *src_cpu, S390CPU *dst_cpu,
-     }
- 
-     /* this looks racy, but these values are only used when STOPPED */
--    idle = CPU(dst_cpu)->halted;
-+    idle = cpu_halted(CPU(dst_cpu));
-     psw_addr = dst_cpu->env.psw.addr;
-     psw_mask = dst_cpu->env.psw.mask;
-     asn = si->param;
-@@ -347,7 +347,7 @@ static void sigp_sense_running(S390CPU *dst_cpu, SigpInfo *si)
-     }
- 
-     /* If halted (which includes also STOPPED), it is not running */
--    if (CPU(dst_cpu)->halted) {
-+    if (cpu_halted(CPU(dst_cpu))) {
-         set_sigp_status(si, SIGP_STAT_NOT_RUNNING);
-     } else {
-         si->cc = SIGP_CC_ORDER_CODE_ACCEPTED;
+     env->pc = env->npc;
+     env->npc = env->pc + 4;
 -- 
 2.17.1
 
