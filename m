@@ -2,54 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E0F1DC689
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 07:15:21 +0200 (CEST)
-Received: from localhost ([::1]:60934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A71901DC6AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 07:45:26 +0200 (CEST)
+Received: from localhost ([::1]:49216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbdY8-0001zo-M1
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 01:15:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32786)
+	id 1jbe1F-0001Ik-3K
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 01:45:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jbdXD-0000ye-Cq; Thu, 21 May 2020 01:14:23 -0400
-Received: from ozlabs.org ([203.11.71.1]:52005)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jbdXB-0003Gk-Qz; Thu, 21 May 2020 01:14:23 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49SHpw5ZqYz9sT6; Thu, 21 May 2020 15:14:16 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1590038056;
- bh=V4BhrQcYdN6rAAw2yhbYrnwa1gmsi0PFHV57Jf1FmHE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Cxxu3VkNbVfUgRr6nqS3KH3IH/ouNoDcAVUAkKDkRQeZdiGPBSzZJvtQDYXvyUi9c
- Mxx+ScDOJlMXz1noRYxlSn7GQWAHIg3JPNb7WFhLbuVw4st4ab1hn1F2sl/nNq6JMW
- AX1xBjy35SN8Way9fPp+CxhHOByLe958LsQtL1cc=
-Date: Thu, 21 May 2020 15:13:45 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 2/2] spapr: Add a new level of NUMA for GPUs
-Message-ID: <20200521051345.GG63349@umbus.fritz.box>
-References: <20200518214418.18248-1-arbab@linux.ibm.com>
- <20200518214418.18248-2-arbab@linux.ibm.com>
- <20200521013616.15664254@bahia.lan>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jbe0K-0008MI-9P
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 01:44:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54319
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jbe0I-000078-Qg
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 01:44:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590039865;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=5fh9BuBHBCq9+Zj7PHhy50GHCg1LVDBI1sEVOZOTOW0=;
+ b=cXabh0Q1QIEbdqKUtQNCnkLOutnSMwAGE+t9paGbdWC+S94Puh1QNzOAiTaulkZ1+OAH9f
+ kL5pnJKqmTsb/70hrmgeadF+EFcVroQATxEb+rOcGQayUvMwVTcIOsawD9LtikXQUK4qlI
+ GpzzIgITJfxL5PWQFYpkBMmxmaX27Io=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-95-qdfzsHR8NaaPkaPgij8iOA-1; Thu, 21 May 2020 01:44:23 -0400
+X-MC-Unique: qdfzsHR8NaaPkaPgij8iOA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE2EC1005510;
+ Thu, 21 May 2020 05:44:21 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-77.ams2.redhat.com [10.36.112.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 663CE82EEA;
+ Thu, 21 May 2020 05:44:17 +0000 (UTC)
+Subject: Re: [PATCH v2 4/9] pc-bios: s390x: Rename and use PSW_MASK_ZMODE
+ constant
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200514123729.156283-1-frankja@linux.ibm.com>
+ <20200514123729.156283-5-frankja@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <45c70387-c5e6-ef45-9535-de1c4002b683@redhat.com>
+Date: Thu, 21 May 2020 07:44:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Zrag5V6pnZGjLKiw"
-Content-Disposition: inline
-In-Reply-To: <20200521013616.15664254@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/20 23:43:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200514123729.156283-5-frankja@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:44:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,155 +83,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb@linux.ibm.com>,
- Leonardo Augusto Guimaraes Garcia <lagarcia@linux.ibm.com>,
- Reza Arbab <arbab@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 14/05/2020 14.37, Janosch Frank wrote:
+> ZMODE has a lot of ambiguity with the ESAME architecture mode, but is
+> actually 64 bit addressing.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> ---
+>  pc-bios/s390-ccw/dasd-ipl.c  | 3 +--
+>  pc-bios/s390-ccw/s390-arch.h | 2 +-
+>  2 files changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/pc-bios/s390-ccw/dasd-ipl.c b/pc-bios/s390-ccw/dasd-ipl.c
+> index 0fc879bb8e..b932531e6f 100644
+> --- a/pc-bios/s390-ccw/dasd-ipl.c
+> +++ b/pc-bios/s390-ccw/dasd-ipl.c
+> @@ -229,7 +229,6 @@ void dasd_ipl(SubChannelId schid, uint16_t cutype)
+>      run_ipl2(schid, cutype, ipl2_addr);
+>  
+>      /* Transfer control to the guest operating system */
+> -    pswl->mask |= PSW_MASK_EAMODE;   /* Force z-mode */
+> -    pswl->addr |= PSW_MASK_BAMODE;   /* ...          */
+> +    pswl->mask |= PSW_MASK_64;   /* Force 64 bit addressing */
 
---Zrag5V6pnZGjLKiw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is not only a rename (as announced in the subject), but also a
+change in behavior since you now do not change pswl->addr anymore. So
+this is even a bug fix? Could you please mention this in the patch
+description, too?
 
-On Thu, May 21, 2020 at 01:36:16AM +0200, Greg Kurz wrote:
-> On Mon, 18 May 2020 16:44:18 -0500
-> Reza Arbab <arbab@linux.ibm.com> wrote:
->=20
-> > NUMA nodes corresponding to GPU memory currently have the same
-> > affinity/distance as normal memory nodes. Add a third NUMA associativity
-> > reference point enabling us to give GPU nodes more distance.
-> >=20
-> > This is guest visible information, which shouldn't change under a
-> > running guest across migration between different qemu versions, so make
-> > the change effective only in new (pseries > 5.0) machine types.
-> >=20
-> > Before, `numactl -H` output in a guest with 4 GPUs (nodes 2-5):
-> >=20
-> > node distances:
-> > node   0   1   2   3   4   5
-> >   0:  10  40  40  40  40  40
-> >   1:  40  10  40  40  40  40
-> >   2:  40  40  10  40  40  40
-> >   3:  40  40  40  10  40  40
-> >   4:  40  40  40  40  10  40
-> >   5:  40  40  40  40  40  10
-> >=20
-> > After:
-> >=20
-> > node distances:
-> > node   0   1   2   3   4   5
-> >   0:  10  40  80  80  80  80
-> >   1:  40  10  80  80  80  80
-> >   2:  80  80  10  80  80  80
-> >   3:  80  80  80  10  80  80
-> >   4:  80  80  80  80  10  80
-> >   5:  80  80  80  80  80  10
-> >=20
-> > These are the same distances as on the host, mirroring the change made
-> > to host firmware in skiboot commit f845a648b8cb ("numa/associativity:
-> > Add a new level of NUMA for GPU's").
-> >=20
-> > Signed-off-by: Reza Arbab <arbab@linux.ibm.com>
-> > ---
-> >  hw/ppc/spapr.c             | 11 +++++++++--
-> >  hw/ppc/spapr_pci_nvlink2.c |  2 +-
-> >  2 files changed, 10 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index 88b4a1f17716..1d9193d5ee49 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -893,7 +893,11 @@ static void spapr_dt_rtas(SpaprMachineState *spapr=
-, void *fdt)
-> >      int rtas;
-> >      GString *hypertas =3D g_string_sized_new(256);
-> >      GString *qemu_hypertas =3D g_string_sized_new(256);
-> > -    uint32_t refpoints[] =3D { cpu_to_be32(0x4), cpu_to_be32(0x4) };
-> > +    uint32_t refpoints[] =3D {
-> > +        cpu_to_be32(0x4),
-> > +        cpu_to_be32(0x4),
-> > +        cpu_to_be32(0x2),
-> > +    };
-> >      uint32_t nr_refpoints;
-> >      uint64_t max_device_addr =3D MACHINE(spapr)->device_memory->base +
-> >          memory_region_size(&MACHINE(spapr)->device_memory->mr);
-> > @@ -4544,7 +4548,7 @@ static void spapr_machine_class_init(ObjectClass =
-*oc, void *data)
-> >      smc->linux_pci_probe =3D true;
-> >      smc->smp_threads_vsmt =3D true;
-> >      smc->nr_xirqs =3D SPAPR_NR_XIRQS;
-> > -    smc->nr_assoc_refpoints =3D 2;
-> > +    smc->nr_assoc_refpoints =3D 3;
-> >      xfc->match_nvt =3D spapr_match_nvt;
-> >  }
-> > =20
-> > @@ -4611,8 +4615,11 @@ DEFINE_SPAPR_MACHINE(5_1, "5.1", true);
-> >   */
-> >  static void spapr_machine_5_0_class_options(MachineClass *mc)
-> >  {
-> > +    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
-> > +
-> >      spapr_machine_5_1_class_options(mc);
-> >      compat_props_add(mc->compat_props, hw_compat_5_0, hw_compat_5_0_le=
-n);
-> > +    smc->nr_assoc_refpoints =3D 2;
-> >  }
-> > =20
-> >  DEFINE_SPAPR_MACHINE(5_0, "5.0", false);
-> > diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
-> > index 8332d5694e46..247fd48731e2 100644
-> > --- a/hw/ppc/spapr_pci_nvlink2.c
-> > +++ b/hw/ppc/spapr_pci_nvlink2.c
-> > @@ -362,7 +362,7 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState =
-*sphb, void *fdt)
-> >          uint32_t associativity[] =3D {
-> >              cpu_to_be32(0x4),
-> >              SPAPR_GPU_NUMA_ID,
-> > -            SPAPR_GPU_NUMA_ID,
-> > +            cpu_to_be32(nvslot->numa_id),
->=20
-> This is a guest visible change. It should theoretically be controlled
-> with a compat property of the PHB (look for "static GlobalProperty" in
-> spapr.c). But since this code is only used for GPU passthrough and we
-> don't support migration of such devices, I guess it's okay. Maybe just
-> mention it in the changelog.
+ Thanks,
+  Thomas
 
-Yeah, we might get away with it, but it should be too hard to get this
-right, so let's do it.
-
->=20
-> >              SPAPR_GPU_NUMA_ID,
-> >              cpu_to_be32(nvslot->numa_id)
-> >          };
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---Zrag5V6pnZGjLKiw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7GDgkACgkQbDjKyiDZ
-s5IzpA//XgLiPKYu3UOjVMQrJ+ebHr5QVvwHxIf10BH7Ux9EUme7YHwy/m6GO4vG
-Qm1PKkZ6oys/ujwYFmlbCZSYeJRM9jPUEsgQOMviNl52Hl687l91zftHfll1Si9H
-t+Cec3H80tgBO6V2jJORREO083UePk1v98n5SCj6T/z3vliJKXA0+JoiGS3gxsFH
-o+C11D1Jb2FSgKAlJZJIF+RTiRQBBwJkI43AXK9r9Fb+ey8am2WREJTSF9KwMngq
-CLGHHidky/FPKbO2WYvixMrY6GVIPve3V9DfCgntlRe+CXKRiSLDGA/Oo/HDc1pQ
-xq8eNa3VCLDowJOp9SztHgyeD5nrje0t+Bw8xbbHiUOrNYyp9zZB1nlG7FoBZ3m5
-Dfy6vfYYDPkH6Th8pZNYqw9xjGHs0cBW4vAFufYE+M+1FDSquGGT3zzuMpx2OPAT
-bOE+35bKy5UudswWx7hLkPT/zQbjCeyf1bvij1N6lQBowQZjP76gdqKqALN3oheI
-vA0V/S5iWhGzCN6ruLoyI/Jlyps7m6YmyYe6blscb1kFmp2deHCusDxqtnGBiE/G
-aKEk1FPzUMju1ct+B4QIkcS79zDqdn9gb5N7gPmRznvZ4+IlVTG9gxPQx90nXTVi
-49pnq4Hp2P06Kv2S/hse0hYMSRyEs8M/8d7bQrg/ggjEr5ka6+8=
-=8fyH
------END PGP SIGNATURE-----
-
---Zrag5V6pnZGjLKiw--
 
