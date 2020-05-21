@@ -2,93 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB78C1DCFA8
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 16:25:06 +0200 (CEST)
-Received: from localhost ([::1]:36258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A141DD026
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 16:36:48 +0200 (CEST)
+Received: from localhost ([::1]:46640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbm89-0004Bw-Vh
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 10:25:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33510)
+	id 1jbmJT-0002nT-HC
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 10:36:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jbm7S-0003Ty-3j
- for qemu-devel@nongnu.org; Thu, 21 May 2020 10:24:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34285
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jbm7R-0006ig-Bl
- for qemu-devel@nongnu.org; Thu, 21 May 2020 10:24:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590071060;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=r3n5camu2vTy8AoeCRgCA3pumHzNMzQABEKgM7+acVc=;
- b=JtAaRTWQV25+H+dSMzRb5FPadoKrz3wXz5F5DxwaBPkz86gD3FQjuHjdYoz2Oda6gp1zwb
- nQw8YhhwXGo+0UdrFUpsFyDZHLJzO9e5HMtbhrhyMl4RLE+kMXMNZSmczs55J5WmIMQO8S
- +ZLgo4q0d6Ll+6aXJa53ZoP+KuYMgxg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-ruZv7UicMvKpq9sRkgdCYw-1; Thu, 21 May 2020 10:24:16 -0400
-X-MC-Unique: ruZv7UicMvKpq9sRkgdCYw-1
-Received: by mail-wm1-f69.google.com with SMTP id o8so1039537wmd.0
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 07:24:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jbmIm-0002MU-Rh
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 10:36:04 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53848)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jbmIm-0000Rl-69
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 10:36:04 -0400
+Received: by mail-wm1-x342.google.com with SMTP id u1so5763252wmn.3
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 07:36:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=6dr1N6au+/PSDuCwuDyv95Wk7SFoJLoX7H1tBGd290Y=;
+ b=J3bp2SgFuzbqJEpHEh2SE0dRE17uU9iVKMB0uORKrE0UlQ5JDarUQiczV15qF+j/Kt
+ p+JeD3B/h1yWzJPCFah2DGa0NlIuuMSMdVpeRP/yI31pGDkyZskBR2lwBMOJWHm2TH3+
+ CRAJLgye3lJvgZ+7kHB0iPlKu9E+w9W6X0uHR29GkSFNr9mq1wzQsmS01OED80+e6rtW
+ By+sVUsDXWBdEKPudLgDdGarKh9wsRCw5blxy6KkLPMUkwkA60Jv8pVT32+eqFUFm7Vs
+ jZD1l52zcav5EUwo34mB2+lyEvU5C4thmuM2IS4VHksaEDU9mKa8iZQ5xuRbdp81Rn9f
+ G2ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=r3n5camu2vTy8AoeCRgCA3pumHzNMzQABEKgM7+acVc=;
- b=qzmqZRW6cKNlr7PoDDIasuNIDymYCBE6UOrJfmITDWFooXN7jfaDH4r2jayB4I0Bn4
- 3UPbvjxICqvW9IDNR9r3Qevrc4VXbQvZEKRKnVaqAlTBT/V2+0TSxA+ZoZ+ZTMM+3OtZ
- YwE/q7RoF1yNJWPOahRYYIOWw9YOr2M8UTjHH+gFhiaXpxGUgfaiL1yMZZamTwP+mvhU
- xv8JnHSuWX5cHYrwqo7HdHA7xhKsC1SNEbEvZdTAKBhcmbJfbxk0fQXPHx51mQPTlINW
- liwA2kIYJqIWH1Y5Vb6XvI5Sg6ZaTdbSe4B08mxD8uDjRw5twt/NMvJo0gxVLcMZOFGO
- UWZA==
-X-Gm-Message-State: AOAM533WNr2xxFxcXBgWEfqfjMROkQ7FbclayWo/7kHa7a19jEfBFJqW
- RphTzg2kU2b08ZNwCJjuS+St55IJEwtY6Mgs2OEHrZyKOVh2Hgj1HgI504sapQTQfkZwJEa82C1
- spKggF4XFX4MN80Q=
-X-Received: by 2002:a1c:5402:: with SMTP id i2mr9838504wmb.185.1590071055746; 
- Thu, 21 May 2020 07:24:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxFmFKdGMrESw2ueQQCNe0ifN+qu9jqAtZOw98ddEAV+rcvPQfKiHrIoTOZpRHRsfygqP9Y7g==
-X-Received: by 2002:a1c:5402:: with SMTP id i2mr9838488wmb.185.1590071055550; 
- Thu, 21 May 2020 07:24:15 -0700 (PDT)
-Received: from [192.168.178.58] ([151.30.94.134])
- by smtp.gmail.com with ESMTPSA id f128sm7067932wme.1.2020.05.21.07.24.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 May 2020 07:24:14 -0700 (PDT)
-Subject: Re: [RFC PATCH] qom: Implement qom-get HMP command
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20200407114449.482532-1-clg@kaod.org>
- <87a72q6fi4.fsf@dusky.pond.sub.org> <20200507170611.GF2699@work-vm>
- <87h7wq2a8t.fsf@dusky.pond.sub.org> <20200520095920.GB2820@work-vm>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <2c148331-78ae-31f7-8702-d65c37a090b0@redhat.com>
-Date: Thu, 21 May 2020 16:24:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=6dr1N6au+/PSDuCwuDyv95Wk7SFoJLoX7H1tBGd290Y=;
+ b=RO/DLbM8jXcjfwksKU9PxD/rY1UAXeRhoSjQ7zWEGWf8eV8tE0vOwF0z7sQT/cSja0
+ PYYbHtdbhDomSw/qHW/D9uZZqiEs7NSI+Y5KR3vWGgD2JD6dkSo/GvbnmWJhiqkA8Zx1
+ UI5UCbAvuVApmIPBmUBJRqSyB6Efe/WYscNe2VP3MQO82bFNsE06VmuIwR3QXSQMUyjv
+ YjzzXOYpLyQWJhR0pvLKU4NliQ/WYVAnpLXdjUWpeS40p7aOACWiodj4E1CC2hgvkc3U
+ 9CfjWX/YdbaIvcNhY4w/MmV4CL5/Dh9SpbYlJN0DH9SZsBc676bLbTeKHovXBuHF1/WA
+ SbTw==
+X-Gm-Message-State: AOAM532FFAAldFtCvrYtXTGs9skQCntqnlQpJua/nLR/4TH/nXNYzim5
+ 0KAp4Ka6v1IqgNfTDiMs7NM=
+X-Google-Smtp-Source: ABdhPJwiqUhiifBX8C3kSbH440XuQcTra2yI+A3HEFkqqzBES+E2jiKMTuhf/ZWsgF4x7h2coSXT+g==
+X-Received: by 2002:a1c:bd8b:: with SMTP id n133mr2454078wmf.160.1590071762406; 
+ Thu, 21 May 2020 07:36:02 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id b14sm7248640wmb.18.2020.05.21.07.35.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 May 2020 07:36:00 -0700 (PDT)
+Date: Thu, 21 May 2020 15:35:59 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [PATCH 0/3] virtio: add vhost-user-vsock device
+Message-ID: <20200521143559.GL251811@stefanha-x1.localdomain>
+References: <20200515152110.202917-1-sgarzare@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200520095920.GB2820@work-vm>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 06:06:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8SdtHY/0P4yzaavF"
+Content-Disposition: inline
+In-Reply-To: <20200515152110.202917-1-sgarzare@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,27 +84,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>, qemu-devel@nongnu.org
+Cc: Julio Montes <julio.montes@intel.com>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/05/20 11:59, Dr. David Alan Gilbert wrote:
->> Count me in favour.  I'd like to see the matching change to HMP qom-set,
->> though.
-> It turns out I actually did do a JSON version, as the follow up to the
-> version Cédric reposted; but then that got lost in people not liking
-> JSON;   https://lists.gnu.org/archive/html/qemu-devel/2016-09/msg01041.html
 
-Great.  I think we're in agreement then that making qom-get and qom-set
-just take JSON is the best option.  So qom-get would be
-"path:s,property:s" as in your patch, and qom-set would be
-"path:s,property:s,value:S".
+--8SdtHY/0P4yzaavF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-It is not a big deal to make this a backwards-incompatible change.
+On Fri, May 15, 2020 at 05:21:07PM +0200, Stefano Garzarella wrote:
+> This series add vhost-user-vsock base device and its PCI version
+> (vhost-user-vsock-pci).
+> The vhost-user-vsock device can be used to implement the virtio-vsock
+> device emulation in user-space.
+> An use case might be Kata, where they prefer to emulate devices
+> in user-space.
 
-Paolo
+Looks good.
 
+My main concern is live migration. If it hasn't been tested, please
+remove the live migration code.
+
+Stefan
+
+--8SdtHY/0P4yzaavF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7Gkc8ACgkQnKSrs4Gr
+c8jyOQf8DqTCaRrHi6J57Oanzd1Tzsn8jik7P4hLE2i422FIe4fATGk7fGJm51IV
+oJ37fNZVxt7a1cgx5wV2XtpCT3I1Ov0m7bUaJCFLUhI0NJgTzg0VE0HMkzu33tga
+UcBf7Ian8eodrxjVz3wdsdGp5kwjgvLsNdEr91IsfKHCe559P9IBMV1Gml6FtGqt
+GAyZrjdggO/EGPOcRnehq287DTYWRWpdbbx29XdVE+nvZQ19LC/xmsSzrCDiFoRq
+NtMqG0K7TotcQzJJEv4CmpSsh6++KqE9VGpP+YtbmWFRWDiQXppnwtYkE1vpQN4E
+EKC4veE3KlVJ7NMslpbXIdoPYOyxvA==
+=Ipej
+-----END PGP SIGNATURE-----
+
+--8SdtHY/0P4yzaavF--
 
