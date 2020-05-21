@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FAB51DD351
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:49:15 +0200 (CEST)
-Received: from localhost ([::1]:44596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 337061DD35B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:50:30 +0200 (CEST)
+Received: from localhost ([::1]:51926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jboNe-0004Ee-Am
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:49:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49720)
+	id 1jboOr-0007PC-77
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:50:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboI8-000228-23
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:32 -0400
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:38339)
+ id 1jboI9-000258-6g
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:33 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:38969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboI7-0006W2-4a
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:31 -0400
-Received: by mail-qt1-x841.google.com with SMTP id i68so6005767qtb.5
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:43:30 -0700 (PDT)
+ id 1jboI8-0006WK-87
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:32 -0400
+Received: by mail-qk1-x742.google.com with SMTP id w3so2326442qkb.6
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:43:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wrWqzZuurKLoDMN6QCL6bZgCudK/zrEU5r5KFbp+gtw=;
- b=YmuuoF5LDaLC9LPJFJ/OIGT/lFZhaggYW7guEd37vYOaxxRGX3CYGksjL+A29Pkhwf
- o++J4eNpgjnAUhOl/PaQW7sP2c4QlcHkcKOKf9A9CNQXmGssLOkqFR/dvVmq7KXJ9wup
- QjIkdJG8kC9o+aQOoMx1bZO3imXwxJk4lH5njtI8JcI32/ZiFccR03ksZeGTFBj5Xb3B
- W8TFGmLqGGjHpHZZvWJFTFD7+kN6u9EeakOrxTxTqPCiXP1IQP0uXGtW9L1s1K9yjZly
- TUcEiwNcTTkoK0Rl5gqWb5AnZS4D/HZbVDHT02fwfJt4Ep7F0seGmq1DTKfD/nue39FZ
- 6ooA==
+ bh=p1mJfQgUSajpR9lU6ZTURQdWL9DblhFREsfOMzR9p54=;
+ b=G+4Hjh5dHU44k3Vge8s7hwNhgmKXokOePkqdTPtL48+K/vVTjAEL6y82VbSToKpNNE
+ +CSL+56UL7WLFmtnnRY19Fe27uhwgD82J+CvcG5nhCFZ54MKEiIfVPsskk62NmX/Vs8a
+ Qw16zOpzbKM6722D08ldOTvFXU9Bz31xftGaI5d0RvayZZqpc6vYKS1Q62eeNdZs64NA
+ ctkRHWL2CgHinSI8VBgcDouipdz4hJIL7tlhi+bT2NS5NW7NocZXYeAg7pc2H5QTrWdB
+ vWSXH/Wpsj8Sr4OFa+tMD8PXKnGPsJJuqP92VXPP559eytNMMYTIM2UYVN8lzzGGPPev
+ mKeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wrWqzZuurKLoDMN6QCL6bZgCudK/zrEU5r5KFbp+gtw=;
- b=tq6VNt8SG9J8jhpIANrlRmSt5Tmnyp5u7sHzdcsN4YvuTqXMxAnIbQ17A7F15yI0gz
- JzoJTS8gIfhZFV6IWyt1ZNnr2NRc4jQjixMdC/X35GXaqICeM2L/sOH4sofiyx2FvJrv
- 9WV040HBwHa26wXE9DscqVuuAkqdW/0CHNWXH9IAsskwGJ3zvNlpzdsKBNRHxHpd1bW9
- AnopmcrIhj633rILObtQ33zTmpTB3kOxxBMDdauK+Lv1GC4eW2m6JCYY8C9Cie7nja1e
- nwuFW5z8lXMCUfcdlGjU4SDBkWMQ6MW77LHFW8vnTlC9Qt80rejB9U3OHKkWRjoZSaoW
- vEWg==
-X-Gm-Message-State: AOAM5310na1X6n0sKRG9PZKDXxmF7yDRzc0nzgVY2+J9TtZCnjZCXGpq
- +Ttgy4qTBoWcCF1X9A984C2QAOzXJMfjrA==
-X-Google-Smtp-Source: ABdhPJxlEzsj/zaUIMcZ1jml40fDX5W9HatDTGpHa++ep0asPzDjUpRl3YoskiSCMJIHIs4RA4SyQQ==
-X-Received: by 2002:aed:35a1:: with SMTP id c30mr11731970qte.228.1590079409933; 
- Thu, 21 May 2020 09:43:29 -0700 (PDT)
+ bh=p1mJfQgUSajpR9lU6ZTURQdWL9DblhFREsfOMzR9p54=;
+ b=N9N9NX3o3GGdvHgcSOH/vEyLSrtyO71TWSU6R1goo/+xjmGhKeejf+fCYhSrBMSOkX
+ lC7uaLQmjUKAzUCySzHht8ZBGO+PfcLMnp0vM0ISlcXaH4Jgiba1bqSOzyuokJ7mN0Eu
+ RLhZWGfwRi+yK+QbKHn68kYy21kD1iwrUW1WkdKyjkzE/ZJNN4d/2J5XBvztUA8m6g32
+ ufWND/zbyjWTH0HMof7jgQBUnP2pHnoeOK6BBTpP4cbU3DsvoT0gn+JxzRvNXfYg2iP1
+ Q6yHnMlJXFhoC5qd1oSVAHLQIgf3Hi6nmR0hUG002mBKxSsROW4O9u+7WZ1OnKcd87zy
+ T6ng==
+X-Gm-Message-State: AOAM531MqieSlQS+4U6mGfZOcsHy9yZCxQ4a1DFADqS9mJdPc+dlO3FY
+ AkyfHmGttWbgWVqhMmtpjdVrcKIK0qHUOA==
+X-Google-Smtp-Source: ABdhPJzSYPw/mIcCG6YiyKkWhcoH5A2dsvRWdMJN5BSRBmUQ3z66h1xBQ/BslbS1y4rjvNMcq0RY9A==
+X-Received: by 2002:a37:8a42:: with SMTP id m63mr10531000qkd.230.1590079411098; 
+ Thu, 21 May 2020 09:43:31 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:1944:c530:655c:5583])
- by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.43.28
+ by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.43.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:43:29 -0700 (PDT)
+ Thu, 21 May 2020 09:43:30 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 11/74] hppa: convert to helper_cpu_halted_set
-Date: Thu, 21 May 2020 12:39:08 -0400
-Message-Id: <20200521164011.638-12-robert.foley@linaro.org>
+Subject: [PATCH v9 12/74] m68k: convert to helper_cpu_halted_set
+Date: Thu, 21 May 2020 12:39:09 -0400
+Message-Id: <20200521164011.638-13-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200521164011.638-1-robert.foley@linaro.org>
 References: <20200521164011.638-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::841;
- envelope-from=robert.foley@linaro.org; helo=mail-qt1-x841.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
+ envelope-from=robert.foley@linaro.org; helo=mail-qk1-x742.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,26 +95,54 @@ From: "Emilio G. Cota" <cota@braap.org>
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/hppa/translate.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/m68k/translate.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index 52d7bea1ea..9c4d5b28b0 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -2725,8 +2725,7 @@ static bool trans_or(DisasContext *ctx, arg_rrr_cf *a)
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index 0f80888203..16a64e4776 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -44,7 +44,6 @@
+ #undef DEFO32
+ #undef DEFO64
  
-             /* Tell the qemu main loop to halt until this cpu has work.  */
-             tmp = tcg_const_i32(1);
--            tcg_gen_st_i32(tmp, cpu_env, -offsetof(HPPACPU, env) +
--                                         offsetof(CPUState, halted));
-+            gen_helper_cpu_halted_set(cpu_env, tmp);
-             tcg_temp_free_i32(tmp);
-             gen_excp_1(EXCP_HALTED);
-             ctx->base.is_jmp = DISAS_NORETURN;
+-static TCGv_i32 cpu_halted;
+ static TCGv_i32 cpu_exception_index;
+ 
+ static char cpu_reg_names[2 * 8 * 3 + 5 * 4];
+@@ -80,9 +79,6 @@ void m68k_tcg_init(void)
+ #undef DEFO32
+ #undef DEFO64
+ 
+-    cpu_halted = tcg_global_mem_new_i32(cpu_env,
+-                                        -offsetof(M68kCPU, env) +
+-                                        offsetof(CPUState, halted), "HALTED");
+     cpu_exception_index = tcg_global_mem_new_i32(cpu_env,
+                                                  -offsetof(M68kCPU, env) +
+                                                  offsetof(CPUState, exception_index),
+@@ -4698,6 +4694,7 @@ DISAS_INSN(halt)
+ DISAS_INSN(stop)
+ {
+     uint16_t ext;
++    TCGv_i32 tmp;
+ 
+     if (IS_USER(s)) {
+         gen_exception(s, s->base.pc_next, EXCP_PRIVILEGE);
+@@ -4707,7 +4704,9 @@ DISAS_INSN(stop)
+     ext = read_im16(env, s);
+ 
+     gen_set_sr_im(s, ext, 0);
+-    tcg_gen_movi_i32(cpu_halted, 1);
++    tmp = tcg_const_i32(1);
++    gen_helper_cpu_halted_set(cpu_env, tmp);
++    tcg_temp_free_i32(tmp);
+     gen_exception(s, s->pc, EXCP_HLT);
+ }
+ 
 -- 
 2.17.1
 
