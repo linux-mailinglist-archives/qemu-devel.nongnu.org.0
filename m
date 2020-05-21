@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE91B1DC67E
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 07:08:14 +0200 (CEST)
-Received: from localhost ([::1]:56276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4613A1DC67B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 07:06:07 +0200 (CEST)
+Received: from localhost ([::1]:49042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbdRF-00066S-S4
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 01:08:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60046)
+	id 1jbdPC-00034Y-B6
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 01:06:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
- id 1jbdKC-0003Uh-Un
- for qemu-devel@nongnu.org; Thu, 21 May 2020 01:00:56 -0400
-Received: from o1.dev.nutanix.com ([198.21.4.205]:51874)
+ id 1jbdKG-0003ak-0V
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 01:01:00 -0400
+Received: from o1.dev.nutanix.com ([198.21.4.205]:40221)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
- id 1jbdKB-0001Hu-N3
- for qemu-devel@nongnu.org; Thu, 21 May 2020 01:00:56 -0400
+ id 1jbdKE-0001IG-RV
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 01:00:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
  h=from:subject:in-reply-to:references:to:cc:content-type:
  content-transfer-encoding;
- s=smtpapi; bh=2FTh0G5Bni5O1HipBUNVtDSutJB43/93GVvOtHvkaoY=;
- b=VOKESkOoCaVhiV8z8J0Lk7p0xHZGPBskbZpshq4/zosNmk0IdHScyH+uZ5Qi8HRTU6UE
- cZgpGO0KGA7NmTkZvS8wrJoDiS9MsubKHVOBQz0PkhwiA8oNzkzH0uQ+w72tmy1jHBgf1u
- buOXfJdS4b9xAua4EWC4m0zX8uvtHgBMU=
-Received: by filterdrecv-p3iad2-8ddf98858-xxtk7 with SMTP id
- filterdrecv-p3iad2-8ddf98858-xxtk7-19-5EC60B04-2
- 2020-05-21 05:00:52.08102741 +0000 UTC m=+4852401.953129604
+ s=smtpapi; bh=t3fz5473SIIHnN2NwCjhpDyWkhB4xeDUz228FyTM6Gk=;
+ b=AWFMhsOjiKCxzo1S1j8QIz/FVZVYwygItB0AGbcb9a8C8J7KBGAb2VmjyrV8iCKV1JPN
+ YHGNJud3Tz98GJI7t41YS0MSb5xvSwoZm6qi81iRnRKkE7vh9oKnoEJIGgB+iLIi44HYY6
+ h0Rjn+LttE1FXQe0MZUiSYApYd0It2lqU=
+Received: by filterdrecv-p3iad2-8ddf98858-xm5rk with SMTP id
+ filterdrecv-p3iad2-8ddf98858-xm5rk-18-5EC60B08-E2
+ 2020-05-21 05:00:56.802137655 +0000 UTC m=+4775845.781871036
 Received: from localhost.localdomain.com (unknown)
  by ismtpd0026p1las1.sendgrid.net (SG) with ESMTP
- id MD98p3FRTe-PP1loND7zOg Thu, 21 May 2020 05:00:51.865 +0000 (UTC)
+ id yqpAbHQuRdOSTJlRZqj__A Thu, 21 May 2020 05:00:56.585 +0000 (UTC)
 From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: [PATCH v4 08/10] Support adding individual regions in libvhost-user
-Date: Thu, 21 May 2020 05:00:52 +0000 (UTC)
-Message-Id: <1588533678-23450-9-git-send-email-raphael.norwitz@nutanix.com>
+Subject: [PATCH v4 09/10] Support individual region unmap in libvhost-user
+Date: Thu, 21 May 2020 05:00:56 +0000 (UTC)
+Message-Id: <1588533678-23450-10-git-send-email-raphael.norwitz@nutanix.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1588533678-23450-1-git-send-email-raphael.norwitz@nutanix.com>
 References: <1588533678-23450-1-git-send-email-raphael.norwitz@nutanix.com>
 X-SG-EID: =?us-ascii?Q?YCLURHX+pjNDm1i7d69iKyMnQi=2FdvWah9veFa8nllaoUC0ScIWrCgiaWGu43Vg?=
- =?us-ascii?Q?xFdB4istXUBpN9H93OJgc8zf8uMeSsKbghQKEVM?=
- =?us-ascii?Q?6R2KgxARKEbTESzuukyHUwbR4wkJ6FoW++TXFTe?=
- =?us-ascii?Q?Fe2sz+f4lUcx3eEzTaRr7Ppoo352Iag4d3fdRar?=
- =?us-ascii?Q?URxyEiN6Vyz1bK=2FcOjunotCx0btOiTbBfLiRlLM?=
- =?us-ascii?Q?PyBgIFVFVIhHXHTqfRTvc+tMXfuh8xOCqPbbQ5x?=
- =?us-ascii?Q?Ms89IlE091tJv6X9lNnqw=3D=3D?=
+ =?us-ascii?Q?xFdB4istXUBpN9H93OJgc8zQJ3KVDq2XRWa2Xbk?=
+ =?us-ascii?Q?OOq+vXI84eLiafeClUC7SbSEGIm8qHo7LMQsMaD?=
+ =?us-ascii?Q?8JSr1sgASWuJnCZqSfYv9NBNcvFfbskxRzhOADd?=
+ =?us-ascii?Q?HGs3ViQ2=2F5lpu4j=2F2=2Fvy1Fz0xxGtwChw8CJ3z+6?=
+ =?us-ascii?Q?PU5U=2F1JMFVsURDvWXreJntRQ3uRzcZYsAxo7o9c?=
+ =?us-ascii?Q?6icQRKoClbohf2dBfdTAA=3D=3D?=
 To: qemu-devel@nongnu.org, mst@redhat.com, marcandre.lureau@redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -81,59 +81,60 @@ Cc: raphael.s.norwitz@gmail.com, marcandre.lureau@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS is enabled, qemu will
-transmit memory regions to a backend individually using the new message
-VHOST_USER_ADD_MEM_REG. With this change vhost-user backends built with
-libvhost-user can now map in new memory regions when VHOST_USER_ADD_MEM_REG
-messages are received.
+When the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS protocol feature is
+enabled, on memory hot-unplug qemu will transmit memory regions to
+remove individually using the new message VHOST_USER_REM_MEM_REG
+message. With this change, vhost-user backends build with libvhost-user
+can now unmap individual memory regions when receiving the
+VHOST_USER_REM_MEM_REG message.
 
-Qemu only sends VHOST_USER_ADD_MEM_REG messages when the
+Qemu only sends VHOST_USER_REM_MEM_REG messages when the
 VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS feature is negotiated, and
-since it is not yet supported in libvhost-user, this new functionality
-is not yet used.
+support for that feature has not yet been added in libvhost-user, this
+new functionality is not yet used.
 
 Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 ---
- contrib/libvhost-user/libvhost-user.c | 103 ++++++++++++++++++++++++++++++++++
- contrib/libvhost-user/libvhost-user.h |   7 +++
- 2 files changed, 110 insertions(+)
+ contrib/libvhost-user/libvhost-user.c | 63 +++++++++++++++++++++++++++++++++++
+ contrib/libvhost-user/libvhost-user.h |  1 +
+ 2 files changed, 64 insertions(+)
 
 diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index 9f039b7..d8ee7a2 100644
+index d8ee7a2..386449b 100644
 --- a/contrib/libvhost-user/libvhost-user.c
 +++ b/contrib/libvhost-user/libvhost-user.c
-@@ -138,6 +138,7 @@ vu_request_to_string(unsigned int req)
-         REQ(VHOST_USER_GPU_SET_SOCKET),
+@@ -139,6 +139,7 @@ vu_request_to_string(unsigned int req)
          REQ(VHOST_USER_VRING_KICK),
          REQ(VHOST_USER_GET_MAX_MEM_SLOTS),
-+        REQ(VHOST_USER_ADD_MEM_REG),
+         REQ(VHOST_USER_ADD_MEM_REG),
++        REQ(VHOST_USER_REM_MEM_REG),
          REQ(VHOST_USER_MAX),
      };
  #undef REQ
-@@ -663,6 +664,106 @@ generate_faults(VuDev *dev) {
+@@ -763,6 +764,66 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+     }
  }
  
- static bool
-+vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-+    int i;
-+    bool track_ramblocks = dev->postcopy_listening;
-+    VhostUserMemoryRegion m = vmsg->payload.memreg.region, *msg_region = &m;
-+    VuDevRegion *dev_region = &dev->regions[dev->nregions];
-+    void *mmap_addr;
-+
-+    /*
-+     * If we are in postcopy mode and we receive a u64 payload with a 0 value
-+     * we know all the postcopy client bases have been recieved, and we
-+     * should start generating faults.
-+     */
-+    if (track_ramblocks &&
-+        vmsg->size == sizeof(vmsg->payload.u64) &&
-+        vmsg->payload.u64 == 0) {
-+        (void)generate_faults(dev);
-+        return false;
++static inline bool reg_equal(VuDevRegion *vudev_reg,
++                             VhostUserMemoryRegion *msg_reg)
++{
++    if (vudev_reg->gpa == msg_reg->guest_phys_addr &&
++        vudev_reg->qva == msg_reg->userspace_addr &&
++        vudev_reg->size == msg_reg->memory_size) {
++        return true;
 +    }
 +
-+    DPRINT("Adding region: %d\n", dev->nregions);
++    return false;
++}
++
++static bool
++vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
++    int i, j;
++    bool found = false;
++    VuDevRegion shadow_regions[VHOST_MEMORY_MAX_NREGIONS] = {};
++    VhostUserMemoryRegion m = vmsg->payload.memreg.region, *msg_region = &m;
++
++    DPRINT("Removing region:\n");
 +    DPRINT("    guest_phys_addr: 0x%016"PRIx64"\n",
 +           msg_region->guest_phys_addr);
 +    DPRINT("    memory_size:     0x%016"PRIx64"\n",
@@ -143,121 +144,61 @@ index 9f039b7..d8ee7a2 100644
 +    DPRINT("    mmap_offset      0x%016"PRIx64"\n",
 +           msg_region->mmap_offset);
 +
-+    dev_region->gpa = msg_region->guest_phys_addr;
-+    dev_region->size = msg_region->memory_size;
-+    dev_region->qva = msg_region->userspace_addr;
-+    dev_region->mmap_offset = msg_region->mmap_offset;
++    for (i = 0, j = 0; i < dev->nregions; i++) {
++        if (!reg_equal(&dev->regions[i], msg_region)) {
++            shadow_regions[j].gpa = dev->regions[i].gpa;
++            shadow_regions[j].size = dev->regions[i].size;
++            shadow_regions[j].qva = dev->regions[i].qva;
++            shadow_regions[j].mmap_offset = dev->regions[i].mmap_offset;
++            j++;
++        } else {
++            found = true;
++            VuDevRegion *r = &dev->regions[i];
++            void *m = (void *) (uintptr_t) r->mmap_addr;
 +
-+    /*
-+     * We don't use offset argument of mmap() since the
-+     * mapped address has to be page aligned, and we use huge
-+     * pages.
-+     */
-+    if (track_ramblocks) {
-+        /*
-+         * In postcopy we're using PROT_NONE here to catch anyone
-+         * accessing it before we userfault.
-+         */
-+        mmap_addr = mmap(0, dev_region->size + dev_region->mmap_offset,
-+                         PROT_NONE, MAP_SHARED,
-+                         vmsg->fds[0], 0);
-+    } else {
-+        mmap_addr = mmap(0, dev_region->size + dev_region->mmap_offset,
-+                         PROT_READ | PROT_WRITE, MAP_SHARED, vmsg->fds[0],
-+                         0);
-+    }
-+
-+    if (mmap_addr == MAP_FAILED) {
-+        vu_panic(dev, "region mmap error: %s", strerror(errno));
-+    } else {
-+        dev_region->mmap_addr = (uint64_t)(uintptr_t)mmap_addr;
-+        DPRINT("    mmap_addr:       0x%016"PRIx64"\n",
-+               dev_region->mmap_addr);
-+    }
-+
-+    close(vmsg->fds[0]);
-+
-+    if (track_ramblocks) {
-+        /*
-+         * Return the address to QEMU so that it can translate the ufd
-+         * fault addresses back.
-+         */
-+        msg_region->userspace_addr = (uintptr_t)(mmap_addr +
-+                                                 dev_region->mmap_offset);
-+
-+        /* Send the message back to qemu with the addresses filled in. */
-+        vmsg->fd_num = 0;
-+        if (!vu_send_reply(dev, dev->sock, vmsg)) {
-+            vu_panic(dev, "failed to respond to add-mem-region for postcopy");
-+            return false;
-+        }
-+
-+        DPRINT("Successfully added new region in postcopy\n");
-+        dev->nregions++;
-+        return false;
-+
-+    } else {
-+        for (i = 0; i < dev->max_queues; i++) {
-+            if (dev->vq[i].vring.desc) {
-+                if (map_ring(dev, &dev->vq[i])) {
-+                    vu_panic(dev, "remapping queue %d for new memory region",
-+                             i);
-+                }
++            if (m) {
++                munmap(m, r->size + r->mmap_offset);
 +            }
 +        }
-+
-+        DPRINT("Successfully added new region\n");
-+        dev->nregions++;
-+        vmsg_set_reply_u64(vmsg, 0);
-+        return true;
 +    }
++
++    if (found) {
++        memcpy(dev->regions, shadow_regions,
++               sizeof(VuDevRegion) * VHOST_MEMORY_MAX_NREGIONS);
++        DPRINT("Successfully removed a region\n");
++        dev->nregions--;
++        vmsg_set_reply_u64(vmsg, 0);
++    } else {
++        vu_panic(dev, "Specified region not found\n");
++    }
++
++    return true;
 +}
 +
-+static bool
+ static bool
  vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserMsg *vmsg)
  {
-     int i;
-@@ -1668,6 +1769,8 @@ vu_process_message(VuDev *dev, VhostUserMsg *vmsg)
-         return vu_handle_vring_kick(dev, vmsg);
-     case VHOST_USER_GET_MAX_MEM_SLOTS:
+@@ -1771,6 +1832,8 @@ vu_process_message(VuDev *dev, VhostUserMsg *vmsg)
          return vu_handle_get_max_memslots(dev, vmsg);
-+    case VHOST_USER_ADD_MEM_REG:
-+        return vu_add_mem_reg(dev, vmsg);
+     case VHOST_USER_ADD_MEM_REG:
+         return vu_add_mem_reg(dev, vmsg);
++    case VHOST_USER_REM_MEM_REG:
++        return vu_rem_mem_reg(dev, vmsg);
      default:
          vmsg_close_fds(vmsg);
          vu_panic(dev, "Unhandled request: %d", vmsg->request);
 diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
-index 88ef40d..60ef7fd 100644
+index 60ef7fd..f843971 100644
 --- a/contrib/libvhost-user/libvhost-user.h
 +++ b/contrib/libvhost-user/libvhost-user.h
-@@ -98,6 +98,7 @@ typedef enum VhostUserRequest {
-     VHOST_USER_GPU_SET_SOCKET = 33,
+@@ -99,6 +99,7 @@ typedef enum VhostUserRequest {
      VHOST_USER_VRING_KICK = 35,
      VHOST_USER_GET_MAX_MEM_SLOTS = 36,
-+    VHOST_USER_ADD_MEM_REG = 37,
+     VHOST_USER_ADD_MEM_REG = 37,
++    VHOST_USER_REM_MEM_REG = 38,
      VHOST_USER_MAX
  } VhostUserRequest;
  
-@@ -124,6 +125,11 @@ typedef struct VhostUserMemory {
-     VhostUserMemoryRegion regions[VHOST_MEMORY_MAX_NREGIONS];
- } VhostUserMemory;
- 
-+typedef struct VhostUserMemRegMsg {
-+    uint32_t padding;
-+    VhostUserMemoryRegion region;
-+} VhostUserMemRegMsg;
-+
- typedef struct VhostUserLog {
-     uint64_t mmap_size;
-     uint64_t mmap_offset;
-@@ -176,6 +182,7 @@ typedef struct VhostUserMsg {
-         struct vhost_vring_state state;
-         struct vhost_vring_addr addr;
-         VhostUserMemory memory;
-+        VhostUserMemRegMsg memreg;
-         VhostUserLog log;
-         VhostUserConfig config;
-         VhostUserVringArea area;
 -- 
 1.8.3.1
 
