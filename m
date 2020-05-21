@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F961DD3FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:11:21 +0200 (CEST)
-Received: from localhost ([::1]:58502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5292F1DD3F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:10:17 +0200 (CEST)
+Received: from localhost ([::1]:54570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jboj2-0000Kz-Q3
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:11:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50058)
+	id 1jboi0-0006oY-Ce
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:10:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboIv-00045l-8M
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:21 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:43430)
+ id 1jboIw-000493-Ii
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:22 -0400
+Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43]:41362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboIu-0006dQ-C7
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:20 -0400
-Received: by mail-qk1-x743.google.com with SMTP id i14so7815678qka.10
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:44:19 -0700 (PDT)
+ id 1jboIv-0006dj-MM
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:22 -0400
+Received: by mail-qv1-xf43.google.com with SMTP id v15so3358333qvr.8
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oS4OFCHOXLNPVShms1TjWbnrC15wr+ouKwB5TcDXaeE=;
- b=PApIav66WsDc1bFqajYu0cRHwN7mfnbvpm1wtAm6l9c+Kn/zD+Xi7kBv3kOikQn8of
- ue3AN3ddkcbx9dyNM7kcu+nsKgbO8n8E/IJZdEoY3c508n9Cvl4brDZolFBg5u/Cg84Y
- Ty1sVQgraHCo313hncSfyLg6WTFIEJWBmoNn6RpBanz1HlHPPhm8JpFXj+ZIFh6iT8PG
- 8a3r60+NYc/pafcnPd3DfgIjIpv7l4TMGYgAVMTyK3kWoEoMkspRgIMKco7hKFVT+RFn
- Tqwgo4sH/B3ji0TT+eLIrlZhZtSJ7FyYcBl9poOgA2x2H5b5bERkMDAZ5wU5GsT0sJhL
- MNnA==
+ bh=leGMjXpK2HH4jKgWKo9xRsuJr3HkPgiK0233yCfpGgs=;
+ b=G5aczt2dpOKIKi9IgJcGV67xlqm5xPcdhGw4lK+DpCsr5YXe95LUhE4rFDIi4lofkb
+ X4RVjQIWs5VxNiFHfoWr65rESg+N/TnxSY00KrrgBIvLL2bh6t3CWLBu9oe38w1HqTZt
+ RVRstxlcE1JofmLuBd30bJYfkLu4V3/eBT1XEY19y8F6UyfxgEcyEPDD+PFhIC9W2NOW
+ j/xfznMaiFTPQkeZ5uPFpqeq0pgA+j1Z+C4gLMHNVSPTbm6pJQwZQRhs++MFLeJT1a3d
+ 7S0sO1GIvzgYjyr1HyIy4HILq++AHGtXX/ST7tG5Oy1c3SR6bJwMGNBT8nfWqeR2qr5I
+ pv8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oS4OFCHOXLNPVShms1TjWbnrC15wr+ouKwB5TcDXaeE=;
- b=HgO3Co6IACo7UmWWAAMqqujfQPuyqCXla5Ttnre2/siSGYJUkoHZyMXVYOp5e6Orix
- +ET4rFPXj2LqM5fkpEKCzYZBKLz4XluR8QQGP+Xyz5fLNInYWEaSHrNVxKjHSmiBG2hw
- x/z1e2wSV2H1HkBesD9c44SR8EhoNdV+OVyeGR7pXTKptxox6Y+vDbQybgVOyH8uXfFW
- WC39tN40yzq/SWoI8HfgDRICzJ57LmJBlixGAkfeg4Sz/z0kUGmPtJTJ4p1n8spVtYY3
- Vdj/eovr6fU6gukNjRcsw4ETaFfi4B22IsICOXpRCVNMNO7WKwAFtqJBNihaHw8JfvTe
- jU9w==
-X-Gm-Message-State: AOAM530sb60ZKP0g7oMnTQFalloeyGuuPWiyqdhCNhgZeRM28i1ofEDA
- 7AQqW6s/j5feU4+vw5XX25B+iuHhbQluew==
-X-Google-Smtp-Source: ABdhPJxVo3qqeqqFsltgKt+Cr6IXu1GmbYY9pxNhyBFpd20suueKSQEfcrWEgSFIH4RVdZe22f/GaQ==
-X-Received: by 2002:a37:8d85:: with SMTP id p127mr9862865qkd.35.1590079459260; 
- Thu, 21 May 2020 09:44:19 -0700 (PDT)
+ bh=leGMjXpK2HH4jKgWKo9xRsuJr3HkPgiK0233yCfpGgs=;
+ b=GReuuiWywltA/IHgwbCFtEy5o6YXUx7mIH8iFG+rk8P5ssorbotkRjWqoiEBPSJMut
+ nE2I0/8KNM9GnfBB95oZZxjcYHnxF/QzBk9YMyDly6WdXTVfIgpWnit/bsfCE2ZMCVN2
+ gAQecjWMr8NqhROvX4ILeMTs9D8P4Q5NZ44w06/HnV3g9R74kWvFAalodlX7CtHmir5s
+ 9r3O4IiKMnb4e4RFCG4inkndfqfg6Vf2rcetPsjXWIFCUqZEdf+y2vYSYQSzAg/6T90Q
+ NMvFNpcj1FY8q/kI+wGJG3ElXt//aBHfvswDdEEUo6+1cqby3ZeRB+61gaghOgotxuwY
+ Js0Q==
+X-Gm-Message-State: AOAM532j+QfxqN8t9bqZbgwEXYKGD3NJ63QiP6Ygx3ZR1c3GuYL7ig6A
+ xRTr02Kb/E0shnI5/4hWWutCC4JNO3LnLw==
+X-Google-Smtp-Source: ABdhPJxrqItGbtLUe1XkxIEFvZ1PQ2Fa+E7wcn0uQrojUd9HYX5HOHWg/OXPm+EnJxhGhWyc8Yp6Tg==
+X-Received: by 2002:a0c:f887:: with SMTP id u7mr10969837qvn.32.1590079460585; 
+ Thu, 21 May 2020 09:44:20 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:1944:c530:655c:5583])
- by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.44.18
+ by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.44.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:44:18 -0700 (PDT)
+ Thu, 21 May 2020 09:44:20 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 48/74] hppa: convert to cpu_interrupt_request
-Date: Thu, 21 May 2020 12:39:45 -0400
-Message-Id: <20200521164011.638-49-robert.foley@linaro.org>
+Subject: [PATCH v9 49/74] lm32: convert to cpu_interrupt_request
+Date: Thu, 21 May 2020 12:39:46 -0400
+Message-Id: <20200521164011.638-50-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200521164011.638-1-robert.foley@linaro.org>
 References: <20200521164011.638-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::743;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x743.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f43;
+ envelope-from=robert.foley@linaro.org; helo=mail-qv1-xf43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,34 +86,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, cota@braap.org, alex.bennee@linaro.org,
- robert.foley@linaro.org, peter.puhov@linaro.org
+Cc: robert.foley@linaro.org, richard.henderson@linaro.org,
+ Michael Walle <michael@walle.cc>, cota@braap.org, peter.puhov@linaro.org,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
+Cc: Michael Walle <michael@walle.cc>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/hppa/cpu.c | 2 +-
+ target/lm32/cpu.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index 71b6aca45d..287055f96e 100644
---- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -61,7 +61,7 @@ static void hppa_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
+diff --git a/target/lm32/cpu.c b/target/lm32/cpu.c
+index c50ad5fa15..9e7d8ca929 100644
+--- a/target/lm32/cpu.c
++++ b/target/lm32/cpu.c
+@@ -96,7 +96,7 @@ static void lm32_cpu_init_cfg_reg(LM32CPU *cpu)
  
- static bool hppa_cpu_has_work(CPUState *cs)
+ static bool lm32_cpu_has_work(CPUState *cs)
  {
 -    return cs->interrupt_request & CPU_INTERRUPT_HARD;
 +    return cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD;
  }
  
- static void hppa_cpu_disas_set_info(CPUState *cs, disassemble_info *info)
+ static void lm32_cpu_reset(DeviceState *dev)
 -- 
 2.17.1
 
