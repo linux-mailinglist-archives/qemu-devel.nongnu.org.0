@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FE11DD24C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 17:50:15 +0200 (CEST)
-Received: from localhost ([::1]:34536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 468491DD244
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 17:47:55 +0200 (CEST)
+Received: from localhost ([::1]:56338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbnSY-0008HN-Bc
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 11:50:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42904)
+	id 1jbnQI-00021c-3H
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 11:47:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbnOP-0006qx-Lk
- for qemu-devel@nongnu.org; Thu, 21 May 2020 11:46:01 -0400
-Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:42143)
+ id 1jbnPS-0001EZ-IW
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 11:47:03 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:44262)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbnON-0001Ob-RH
- for qemu-devel@nongnu.org; Thu, 21 May 2020 11:45:57 -0400
-Received: by mail-oo1-xc41.google.com with SMTP id a83so1526469oob.9
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 08:45:55 -0700 (PDT)
+ id 1jbnPR-0001Vk-HG
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 11:47:02 -0400
+Received: by mail-oi1-x244.google.com with SMTP id y85so6534578oie.11
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 08:47:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8h1ZPoBxJvuQvx2ziXpdx/NQiUgWmqZ1hoQbkwoXnSQ=;
- b=SlQZLiB4OFUSMtrURCnULNta22198oi+Z5RQAyBqo38LQk9Wha8N10/YPkuBWPYcSV
- v0dSGU9HBPNNIrm+eyaZTbxOTlAN/5UVuXo/cRYgucmP/HGV5nChW+Q00R9WpbIoCX6x
- PnDtVFdl4tD0EDId0iZ4Y8lp9MVazgA3g1/JGyZzN5QoT2KYF2uaj3bXRr4B5IhSI9Ix
- A+ZRl1caqAKOoRzSsN2cMlYXlQA5F+VlGNFj5+2ufUKqgS/NXx0aew8IzlZBikCPtrD5
- bMgxLoeMq5bcK8G35nZBb9ubrSzNanS+gwpQBB9ZWi77//UAfqBJZd82VOxRt5ykYr9O
- 2Ozg==
+ :cc; bh=DMAmRsESsVaiXOEOCuUhOQFWDk/U9e7hEkT+oRLG0gM=;
+ b=tcBKGwCcU0lLzrRJYbqr5Fzz4nOtMXiav6wgRA9ZPcBVg5yDAXZGwMBVU+QLfMR1hN
+ C/GP3SI4fMYgqTGAYYwKXBZntijIv+nHFuy6eYtlca/PdM0wDIc9kRLWa66E48R3W7Oc
+ frTjoDEsPM2WyVSi+9KTJtsQ8KvsvQ07Bs8R3y96UrmF8z/1sy5GDeZP4OHrjwf9Oxku
+ 9xZLXTqzirHZ7y7wMLHHYXDR3a+27xRidSXZ7rutR+P0GrjgNvZ8gcCYoYWFbQPJfLxU
+ w3OjQnSebpKuHsB5AK5YlnbTNedOVN59oDZtlLxEajt0Ltk2r7+7of+oMjlhlf1vul+w
+ qGSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8h1ZPoBxJvuQvx2ziXpdx/NQiUgWmqZ1hoQbkwoXnSQ=;
- b=PBNsr5Yk9Uhrgq8BUviLMvEm1ihnTZRyD0T6Rm2QwGnlflkyyEfXBiWgX7kTRv1LU4
- bLP4peQ/8ihNnVkCNCZ5q9Oh+8TRW8OzWJST9LN+fkkuBN7u92L1bnca8Iu4fxaa3ETH
- E94yPggqLR8e0tzbWOjIiRIJ9sMGm1RFOicXLN/SqWbS3oUspzYetBKPV7iNpUwBXOex
- G01qiQDLTEAZLswz/pb2e7P5w0lN1sh/gG1jUl1D5A1m+/QtFN81CIVv/h6aCenFsX82
- HUaFTkjE1CpHBvbU+Od29lFYFijDS2ktTHP+aVgFycpQoANb8lt5uUmrV37T2AEv2KYU
- JTBw==
-X-Gm-Message-State: AOAM530dGfZDacWnf+K+HuI+fen9Gx1x8WIJruUMQcgcSKe93/3NSHy8
- d2hwBxXiSloHN8IUhmR5ghMuitMbcMSLEtvN61WY6A==
-X-Google-Smtp-Source: ABdhPJw5xr8eYxO7RpfOFZCX1bJlGCyf6NovnXN5CNJ3JraeuvE/zpszL7WYd8lUI2xweMQ38hKNv6LHhQvcl3d9SF0=
-X-Received: by 2002:a4a:8253:: with SMTP id t19mr7809624oog.69.1590075954348; 
- Thu, 21 May 2020 08:45:54 -0700 (PDT)
+ bh=DMAmRsESsVaiXOEOCuUhOQFWDk/U9e7hEkT+oRLG0gM=;
+ b=DX6ybQgkB3DaR4Bq7F585JeN2d2qNoxU4t/duAVa4TYSaBtxnEumgObM3htkVwTIla
+ Fi/5xUz/Lflzo1h5c8L9HeOX1oedzfYMCweNd7ASwMLBdPN5mjwySYxi4rOetU0T9Ir8
+ 49oI7xZajp6lBfmNiE9CSwKQ6DdJK81rNtqzCMM9xjzX6BLEv22oADoi61jLoAn9IzOM
+ qBJgGoAPDMMjz+zW/U2Fy19O5S/q6bXsya2NVfIIic7kAj64oXCzoPW0RXsUKKenv8NX
+ +3fgCbq6tTxuTZ5qTzijaKPAN5G03j4sUN9N3FcPCNvD/PJan15rdDks5WHLbSZVAk21
+ Q38g==
+X-Gm-Message-State: AOAM530aUWLHlIfstfM5YLMC+nKZNQGdjE/DILkJVQvefNdd44tm368R
+ prwWkGfKNdTHDF7pGlyRUZoiV7xSm5NFSRLnUNLNfQ==
+X-Google-Smtp-Source: ABdhPJwVynKI1/9NKpKzPuDdyr2kosB11e5Z7fEvzm6V4EVzDxuh3dt2fiGWZ8Ghbtu23C18bKAti9J22CiPd6SrM28=
+X-Received: by 2002:aca:ed16:: with SMTP id l22mr6821973oih.146.1590076019663; 
+ Thu, 21 May 2020 08:46:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200518155308.15851-1-f4bug@amsat.org>
- <20200518155308.15851-7-f4bug@amsat.org>
- <CAFEAcA8tGgyYgHXT5LVGz675JMq6VWR56H++XO5gtTrcaZiDQQ@mail.gmail.com>
- <0c0cbdc0-a809-b80b-ade3-9bdc6f95b1a8@redhat.com>
-In-Reply-To: <0c0cbdc0-a809-b80b-ade3-9bdc6f95b1a8@redhat.com>
+References: <20200520084316.22057-1-kraxel@redhat.com>
+In-Reply-To: <20200520084316.22057-1-kraxel@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 May 2020 16:45:43 +0100
-Message-ID: <CAFEAcA_WOEeV53yr7SmWqyOnbfWYg3COr-C+mjaCuAPw=refcQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 6/7] accel/kvm: Let KVM_EXIT_MMIO return error
-To: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 21 May 2020 16:46:47 +0100
+Message-ID: <CAFEAcA-ihkKnmGODR8_1SkUiFThst_5pK-jy_ge6qm_qPPHQXg@mail.gmail.com>
+Subject: Re: [PULL 00/11] Ui 20200520 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc41.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,34 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <rth@twiddle.net>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- kvm-devel <kvm@vger.kernel.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Stefan Weil <sw@weilnetz.de>, QEMU Developers <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 May 2020 at 16:39, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Wed, 20 May 2020 at 09:44, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> On 18/05/20 18:01, Peter Maydell wrote:
-> > The "right" answer is that the kernel should enhance the KVM_EXIT_MMIO
-> > API to allow userspace to say "sorry, you got a bus error on that
-> > memory access the guest just tried" (which the kernel then has to
-> > turn into an appropriate guest exception, or ignore, depending on
-> > what the architecture requires.) You don't want to set ret to
-> > non-zero here, because that will cause us to VM_STOP, and I
-> > suspect that x86 at least is relying on the implict RAZ/WI
-> > behaviour it currently gets.
+> The following changes since commit debe78ce14bf8f8940c2bdf3ef387505e9e035a9:
 >
-> Yes, it is.  It may even be already possible to inject the right
-> exception (on ARM) through KVM_SET_VCPU_EVENTS or something like that, too.
+>   Merge remote-tracking branch 'remotes/rth/tags/pull-fpu-20200515' into staging (2020-05-15 19:51:16 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/ui-20200520-pull-request
+>
+> for you to fetch changes up to 7b23d121f913709306e678a3289edc813f3a7463:
+>
+>   ui: increase min required GTK version to 3.22.0 (2020-05-19 09:06:44 +0200)
+>
+> ----------------------------------------------------------------
+> ui: windows keyboard fixes for gtk & sdl.
+> ui: require GTK 3.22 or newer.
+>
 
-Yeah, in theory we could deliver an exception from userspace
-by updating all the register state, but I think the kernel really
-ought to do it both (a) because it's just a neater API to do it
-that way round and (b) because the kernel is the one that has
-the info about the faulting insn that it might need for things
-like setting up a syndrome register value.
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
+
 -- PMM
 
