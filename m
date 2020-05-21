@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08ABC1DD41A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:17:41 +0200 (CEST)
-Received: from localhost ([::1]:60324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C17A1DD458
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:28:41 +0200 (CEST)
+Received: from localhost ([::1]:51124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbopA-0005Nj-0K
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:17:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50452)
+	id 1jbozo-0005S2-Al
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jboKk-0008CH-E1
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:46:16 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:45769)
+ id 1jboKv-00009K-Np
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:46:25 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:38122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jboKj-0007Jt-53
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:46:14 -0400
-Received: by mail-lf1-x142.google.com with SMTP id a4so4806805lfh.12
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:46:12 -0700 (PDT)
+ id 1jboKu-0007Lw-Py
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:46:25 -0400
+Received: by mail-lj1-x241.google.com with SMTP id m18so9097782ljo.5
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:46:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=Jvo/LxIXkOSLdWD9j0aBQLPNatwvdHY+fHy3y+oQ0ac=;
- b=jR3zHEjnC3beB692ekSGNKP3OhLg7f+kXHzvy1dSaNAvnbFYwM6hbI5UfoGip5UB2K
- 5WDG7vKUT2nKX3WcCjYbaJ7/y+oDNHRXRdv9I5XhYZM3B1+zLBO+xXuVVgnzlP5G8jZD
- zjG3jcilHP5FFEKZdlXItn23F2XxjeysEr8I7Ij7YUvhR6EcVUiYK6koiK+n/f12WvF2
- v2VzWVWea8ZO8EOGg/hc7UQ/ilpSupmwTgyeFIAq+2SitO+doewczPdPUdqBDuD6p3Gh
- qxJgr++AU45x62vhdjEEapiULwVATd6HPAAlMWAUHD49FnoLL+8tQBsP0ROH12VZfiHM
- 1qfg==
+ :user-agent; bh=nsk3zfmNeJFaP9bVvAvlmccGh1DkjRNJNp+MaeM9Uzs=;
+ b=dF7s+q6tmFlM/8+WoVZRP+VwbaIaruJJeCLUL6RXCnSLUAz1KKQYN4Z1sgXSJhpC+B
+ iUWMNXq7fRMRW+ovR0kAd88WF0giJDT8jaDJG+zS3oNkHshsbGFxNbaiXuZ6MAqbXqgC
+ GASokyMveHI42ysiCjLMxl87b+hlqRcTZ7AnwjhO5HFSCbd51Z4fOqob8bJpGLkpW5e1
+ KHeA0i3uuoyWt2o3f5Kmt4F6cOqRqAeBpwEDttJ6CWO+SdawxBciw5pRsKaueh6Cf6iQ
+ nDtY7EovI9+XXPy82721t44kUbQLw+5Qb17ZjfGNdXop7hJSlIlGp2qnsBkAsWp7yrF6
+ Lf6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to:user-agent;
- bh=Jvo/LxIXkOSLdWD9j0aBQLPNatwvdHY+fHy3y+oQ0ac=;
- b=fb8ImXkv/Jh8cm54WhbY9eo9s2cKrQiCtFvajFn3YIks4dSxuBrIHyWfET/aDJT+5u
- RLwahf4DGx6l87Ubr+xh8cb45FZYWW/1IXC0HXwfbeTrnGm/jBM6FM5IkE0qZl/Us/+/
- +hmRkv76di0SYLU7To7KROpZyTNEYR9uWBNMQCEY1gP3+yNvKYQI+EQyk7axZJ6TRzux
- eqtNHsbpfdZ4WmEgNqOMfdi786H01dbCUmW97Mj/0czixANX/m5fpXo//nQL/7fQ6cJy
- s5qZUTEXmoCJFl+ECnuaqltNrN6Qc8XTVeL1n9z+/jM3CwUakAg44SYcupropjFQ5pA6
- GNXQ==
-X-Gm-Message-State: AOAM530elJOITwUbzb41WoQScza2edGWQMoYGDx4B2wu4uaur87hST6n
- 07tGIhGuBFNQ6jW8y5PL4Fo=
-X-Google-Smtp-Source: ABdhPJzje3Jv8tQaq8GrwaMWJmc+/r8zqEoLf7/ZCYkIBs0gZh/VZ+a33I5An0TCLPJWr2yH0MmMSg==
-X-Received: by 2002:a19:70d:: with SMTP id 13mr5518699lfh.60.1590079571404;
- Thu, 21 May 2020 09:46:11 -0700 (PDT)
+ bh=nsk3zfmNeJFaP9bVvAvlmccGh1DkjRNJNp+MaeM9Uzs=;
+ b=maWWS10HkW8lYZw/uN8cKCDaGPDVvbiAJRVEu3G5epAC8C7Oa6cuwiwBgKQuyZs3ac
+ o/d0IZns6wjOwK89MyC6uqUXtIi/e4sE2FHWiDqN3AlQLAttAQeMEjA/G68MJCuIr8mi
+ wwMZbAjaRJ+C7AIztASdKM0evAtmZxlplPEB2u4zAfLkglVfIMo26wd6sBzlx0pG4adh
+ 59uGUIzRDQXpxkngwdwBxBZMcNuS8ltQcocw2rAs2OWwncm4nocJI2b5HQN9meMz0Uex
+ pnUzbSizO6D8TSOrtI6FplyLchXUI78L8kV06fhsl/MS3MFAPfLNem98oXOrJArwwLZF
+ mlyw==
+X-Gm-Message-State: AOAM5339sKDlR74G7ThcHdArdTHAhjmbY0e1YggGmwUAD69yrpY8Stal
+ 64W2IX15UgYfZRlkzxJZ6/U=
+X-Google-Smtp-Source: ABdhPJwRW+9cnuzxjgyjMP8Afh3XELZPYLhy1HBh/hz4IZih64C2hCzrIWcE+KVclFQdKR1z4b40xA==
+X-Received: by 2002:a2e:9641:: with SMTP id z1mr5548123ljh.201.1590079583170; 
+ Thu, 21 May 2020 09:46:23 -0700 (PDT)
 Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id x10sm1827235ljd.25.2020.05.21.09.46.10
+ by smtp.gmail.com with ESMTPSA id d22sm1645958lfc.27.2020.05.21.09.46.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:46:10 -0700 (PDT)
-Date: Thu, 21 May 2020 18:45:53 +0200
+ Thu, 21 May 2020 09:46:22 -0700 (PDT)
+Date: Thu, 21 May 2020 18:46:05 +0200
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: Robert Foley <robert.foley@linaro.org>
-Subject: Re: [PATCH v9 47/74] cris: convert to cpu_interrupt_request
-Message-ID: <20200521164553.GG5519@toto>
+Subject: Re: [PATCH v9 59/74] microblaze: convert to cpu_interrupt_request
+Message-ID: <20200521164605.GH5519@toto>
 References: <20200521164011.638-1-robert.foley@linaro.org>
- <20200521164011.638-48-robert.foley@linaro.org>
+ <20200521164011.638-60-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200521164011.638-48-robert.foley@linaro.org>
+In-Reply-To: <20200521164011.638-60-robert.foley@linaro.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::142;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x142.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,7 +93,7 @@ Cc: richard.henderson@linaro.org, cota@braap.org, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 21, 2020 at 12:39:44PM -0400, Robert Foley wrote:
+On Thu, May 21, 2020 at 12:39:56PM -0400, Robert Foley wrote:
 > From: "Emilio G. Cota" <cota@braap.org>
 > 
 > Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
@@ -106,45 +106,22 @@ Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
 
 > ---
->  target/cris/cpu.c    | 2 +-
->  target/cris/helper.c | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  target/microblaze/cpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/target/cris/cpu.c b/target/cris/cpu.c
-> index cff6b9eabf..6d7e266042 100644
-> --- a/target/cris/cpu.c
-> +++ b/target/cris/cpu.c
-> @@ -37,7 +37,7 @@ static void cris_cpu_set_pc(CPUState *cs, vaddr value)
+> diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+> index 51e5c85b10..ce70f7d281 100644
+> --- a/target/microblaze/cpu.c
+> +++ b/target/microblaze/cpu.c
+> @@ -84,7 +84,7 @@ static void mb_cpu_set_pc(CPUState *cs, vaddr value)
 >  
->  static bool cris_cpu_has_work(CPUState *cs)
+>  static bool mb_cpu_has_work(CPUState *cs)
 >  {
 > -    return cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
 > +    return cpu_interrupt_request(cs) & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
 >  }
 >  
->  static void cris_cpu_reset(DeviceState *dev)
-> diff --git a/target/cris/helper.c b/target/cris/helper.c
-> index b5159b8357..67946d9246 100644
-> --- a/target/cris/helper.c
-> +++ b/target/cris/helper.c
-> @@ -131,7 +131,7 @@ void crisv10_cpu_do_interrupt(CPUState *cs)
->  
->      D_LOG("exception index=%d interrupt_req=%d\n",
->            cs->exception_index,
-> -          cs->interrupt_request);
-> +          cpu_interrupt_request(cs));
->  
->      if (env->dslot) {
->          /* CRISv10 never takes interrupts while in a delay-slot.  */
-> @@ -193,7 +193,7 @@ void cris_cpu_do_interrupt(CPUState *cs)
->  
->      D_LOG("exception index=%d interrupt_req=%d\n",
->            cs->exception_index,
-> -          cs->interrupt_request);
-> +          cpu_interrupt_request(cs));
->  
->      switch (cs->exception_index) {
->      case EXCP_BREAK:
+>  #ifndef CONFIG_USER_ONLY
 > -- 
 > 2.17.1
 > 
