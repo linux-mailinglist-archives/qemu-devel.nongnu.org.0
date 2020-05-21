@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2631DD3FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:11:56 +0200 (CEST)
-Received: from localhost ([::1]:33630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3407A1DD42E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:22:02 +0200 (CEST)
+Received: from localhost ([::1]:52774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbojb-0001ry-CU
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:11:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50236)
+	id 1jbotN-0007Za-5l
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:22:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboJL-0004m4-R9
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:47 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:45697)
+ id 1jboJN-0004pe-3n
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:49 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:46885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboJK-0006tD-PV
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:47 -0400
-Received: by mail-qk1-x742.google.com with SMTP id i5so7791409qkl.12
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:44:46 -0700 (PDT)
+ id 1jboJM-0006wx-5H
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:48 -0400
+Received: by mail-qk1-x731.google.com with SMTP id f83so7783071qke.13
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:44:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=xM5F5VKH4+4sC5/UG8rh4cawXyjUH8jNOSP42/FFGNs=;
- b=WOlVPG7otck/gVRhYO+Jc23elD7wfUNztElUGh7nG+igheI00J51UQJQnwIRTmqjde
- r2OUVB73e5ZfrGfinTwDfveRWcJYSCSCoZN330heJ9DkmVi766yaIN4l8bbsY3sPCjTA
- MZE1wRYzk+B9NLd7PmL1Ow+QnpgFTlPX5YnJEuz2wQMVuGX7uXw9dT2Lkk3+y5uK3ckN
- NEkIg55JonbPVUg7Xzaj7yrGU2VzMXBSbOWxmfKiq58HW6DfBfs09/DXG+6JAMZKNzvN
- sD66XKl6u9uVYSCM3Ic74b0h1cdpHZIHCpQB6sNC3uiNaiuQloCHOd7nQm67V2cNJSZo
- rHmg==
+ bh=FcchR0Kiy3cS07PsythDlOBOqbmqT9MEDX8/TYIcoYY=;
+ b=ssOVXhEK6Z62VXfIfsH/COP+Fd77hFrjpA8KjOFhyLqtpHqSG3Oyh0sIOHsjrjPUSL
+ nyjYyXPxfHs8Wo/8OP+sUkzB+j25EH09I7m4C+pGWfjuSaVl6NDVULdvZu31A0q1lPgE
+ 44HIUcYV0ahm96G5y7TrfLwcOjOK3HrJjZoOuZWtqYuXtaVfnsUSBPr26kzJzeREt65C
+ D/pCe+2bEuT7uZg1ecmRLZ6kuzKdiMwKpANF4Wm5ZxmliBx4Go69ALhBnSGfrt+LD5J1
+ /yzUsOnFotN9/mdgRdiecSHFFPtQCIV+oXh86YMXJf1hSs9odlX0c4V+MpUGB3FLupl3
+ 9g2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=xM5F5VKH4+4sC5/UG8rh4cawXyjUH8jNOSP42/FFGNs=;
- b=k+UW4guuhHqbjOjoLUGsUuycQXrqQ3EAm0uiCMVSzPDfuZ3PD+1RZPOcAstJe0Ppih
- gTli3o7qTu45BvaCLX39Er5yil11d/8gzhIgsy8OQOl+lORT8lebg6fm7H2Vu3Bjnc3u
- DZZGue1gF1I5qcgxFIUBiNDpDKizLN5vS91nXUH9KKtmuMmMqPuhLvXCA1144Sbjb6ex
- CmBYqARUHssmQkrEIMOUWY6sxVS/ozlCTNQZBlsWt5sw32R8OAqFq7TdrUW+cgAM249y
- phSzdq3s4/Cn7jVysswkjcpGJ6HdoWtR4LOEpSA+xKcJXoOclUgOGc6MEFthtnjCNJki
- /rkQ==
-X-Gm-Message-State: AOAM533KmkmXFDK3TctC18aKkwDR01kg+V5by0J7s+gowITT4jLkAPV0
- NW2DPEc7W7tNGm7NCOadSz6g2S3rV1WNZg==
-X-Google-Smtp-Source: ABdhPJxX5hXseZH8WZi3XJU4bMVgeGrhs/VO2QA9caPKh+vvAU/1WOMHJBk5WcDmk4Wa2wAc+co/xg==
-X-Received: by 2002:a37:4e81:: with SMTP id
- c123mr10463609qkb.467.1590079485560; 
- Thu, 21 May 2020 09:44:45 -0700 (PDT)
+ bh=FcchR0Kiy3cS07PsythDlOBOqbmqT9MEDX8/TYIcoYY=;
+ b=O5Alz5hgoAkwdHfElxmgqpcO6xakJR/8w6S3PqYQYHfR5++CX9ukp4of1hhbTYfq0y
+ ug536XbHYRJYFcrVzRq8CxGucVNXStUS8CLMBKhilMd1nNBAjKdG4w09W9LnqD8NE5Wu
+ wik5gHX50fQyXzme0v5wD530BQUWy/teNiaG94TH6anQdjwIJILxfqNUs6yiPDqV3hBx
+ 0clN0gYkw5qXDkOMJKrxEdKRWjL1Sp8FKU6c+WTNMbvW+X8AUtL3T7l7m7QqaNeCFzbQ
+ 3yCl+xrO7r9Gq7z7JDakhys6fvjwB9wdtrq+/Kr+544cNoZ0iELdyH3H6HdDmN0T7bcu
+ E7fA==
+X-Gm-Message-State: AOAM53122MVUxav4yPPJ/Pq8IAD62GMTdsCZPrn0VyBq6tlgnrMIRn29
+ cJO1NW5XaMeTkz2GxPnpqTbkzNc2SvCCrw==
+X-Google-Smtp-Source: ABdhPJwYDzCsf/NOUruPxe0+/ZMq+Xn2vKo0dk4BooVAsFboa0LdHnZzaQBwBPTieISf3DpDEh5FyQ==
+X-Received: by 2002:a37:46c9:: with SMTP id t192mr7541261qka.3.1590079486957; 
+ Thu, 21 May 2020 09:44:46 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:1944:c530:655c:5583])
- by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.44.44
+ by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.44.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:44:45 -0700 (PDT)
+ Thu, 21 May 2020 09:44:46 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 68/74] sparc: convert to cpu_has_work_with_iothread_lock
-Date: Thu, 21 May 2020 12:40:05 -0400
-Message-Id: <20200521164011.638-69-robert.foley@linaro.org>
+Subject: [PATCH v9 69/74] xtensa: convert to cpu_has_work_with_iothread_lock
+Date: Thu, 21 May 2020 12:40:06 -0400
+Message-Id: <20200521164011.638-70-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200521164011.638-1-robert.foley@linaro.org>
 References: <20200521164011.638-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x742.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=robert.foley@linaro.org; helo=mail-qk1-x731.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,9 +82,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, richard.henderson@linaro.org, cota@braap.org,
- peter.puhov@linaro.org, alex.bennee@linaro.org,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: robert.foley@linaro.org, richard.henderson@linaro.org,
+ Max Filippov <jcmvbkbc@gmail.com>, cota@braap.org, peter.puhov@linaro.org,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,37 +92,36 @@ From: "Emilio G. Cota" <cota@braap.org>
 
 Soon we will call cpu_has_work without the BQL.
 
-Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/sparc/cpu.c | 4 +++-
+ target/xtensa/cpu.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index cef25238a5..3fa1a535d9 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -704,6 +704,8 @@ static bool sparc_cpu_has_work(CPUState *cs)
-     SPARCCPU *cpu = SPARC_CPU(cs);
-     CPUSPARCState *env = &cpu->env;
+diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+index fda4a73722..0f96483563 100644
+--- a/target/xtensa/cpu.c
++++ b/target/xtensa/cpu.c
+@@ -47,6 +47,8 @@ static bool xtensa_cpu_has_work(CPUState *cs)
+ #ifndef CONFIG_USER_ONLY
+     XtensaCPU *cpu = XTENSA_CPU(cs);
  
 +    g_assert(qemu_mutex_iothread_locked());
 +
-     return (cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD) &&
-            cpu_interrupts_enabled(env);
- }
-@@ -863,7 +865,7 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
+     return !cpu->env.runstall && cpu->env.pending_irq_level;
+ #else
+     return true;
+@@ -187,7 +189,7 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
+     device_class_set_parent_reset(dc, xtensa_cpu_reset, &xcc->parent_reset);
  
-     cc->class_by_name = sparc_cpu_class_by_name;
-     cc->parse_features = sparc_cpu_parse_features;
--    cc->has_work = sparc_cpu_has_work;
-+    cc->has_work_with_iothread_lock = sparc_cpu_has_work;
-     cc->do_interrupt = sparc_cpu_do_interrupt;
-     cc->cpu_exec_interrupt = sparc_cpu_exec_interrupt;
-     cc->dump_state = sparc_cpu_dump_state;
+     cc->class_by_name = xtensa_cpu_class_by_name;
+-    cc->has_work = xtensa_cpu_has_work;
++    cc->has_work_with_iothread_lock = xtensa_cpu_has_work;
+     cc->do_interrupt = xtensa_cpu_do_interrupt;
+     cc->cpu_exec_interrupt = xtensa_cpu_exec_interrupt;
+     cc->dump_state = xtensa_cpu_dump_state;
 -- 
 2.17.1
 
