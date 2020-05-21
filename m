@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A29D11DD247
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 17:49:29 +0200 (CEST)
-Received: from localhost ([::1]:60074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51AB41DD2BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:06:15 +0200 (CEST)
+Received: from localhost ([::1]:43508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbnRo-0005HQ-Ng
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 11:49:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43276)
+	id 1jbni2-0002BC-99
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:06:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jbnQy-0002yX-It
- for qemu-devel@nongnu.org; Thu, 21 May 2020 11:48:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23341
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jbnQx-0001x9-3P
- for qemu-devel@nongnu.org; Thu, 21 May 2020 11:48:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590076113;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=zBH8atWFDlPPOx7CdZcY6nT/3fT0D+F9IB0HdGBJsBU=;
- b=MbmX0639Y6r4i4cSaUgVm6NF71w8wMWjhePtqCu/PB2tnZAMqnMv5rNRd4DQnqeJ4F6FQI
- GalKvXFu21qCtqVDNt7LldEPDl+mfluriUHX6h6jffnL5dmn9um3mNvRDttxVm0TQnRCEG
- Gze5reUugfcfaa9hC1VnviJ1k4uD9Kc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-xjRZlXfoMmyOOKY3hPeeqg-1; Thu, 21 May 2020 11:48:20 -0400
-X-MC-Unique: xjRZlXfoMmyOOKY3hPeeqg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C04C78018A5;
- Thu, 21 May 2020 15:48:19 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B0ED90068;
- Thu, 21 May 2020 15:48:09 +0000 (UTC)
-Date: Thu, 21 May 2020 16:48:06 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Subject: Re: [PATCH v2 1/4] Introduce yank feature
-Message-ID: <20200521154806.GI2211791@redhat.com>
-References: <cover.1590008051.git.lukasstraub2@web.de>
- <20005a15c708fbda983f9be602c55fc0b1979a18.1590008051.git.lukasstraub2@web.de>
- <20200521150335.GO251811@stefanha-x1.localdomain>
- <20200521174241.3b0a267f@luklap>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jbndw-0004uR-2V; Thu, 21 May 2020 12:02:02 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:33554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jbndk-0004Y6-27; Thu, 21 May 2020 12:01:55 -0400
+Received: by mail-io1-xd44.google.com with SMTP id k18so8035014ion.0;
+ Thu, 21 May 2020 09:01:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uTHTIfmNBf76SWC/ADq3fQt/dNmanjgMWjPMSWG66gs=;
+ b=qVUMJPylQt/gJadtzON+UgGN3yxHKWAuBvi+M/QNmmIr0YafgmDoPMd38Xe9B+WVsc
+ Q4AOScajlmB7LHlxQKpo6+9AP+bU9ZBReDWjH+ivTjdsk4xaAkD7lNqpKnXy5oFl5/AP
+ Hj0pqJBloT5QhlGKSzBsihOiY1sI0Dys86wcKOLDIdXoaat+tXgmer5qU3J7lD3rGGfy
+ CZsbGkv7ycKN+nifbqRXEetoDbMPjfBfDWO/ZKisZHuGt5l7kiPSVl7Zd5OAqDlIAhcn
+ 6BxR113UioExTivMxTia4ezbTXid+vu4jeSjqKNOS9exLou2KdejXoba6BFg18sNkfXx
+ mv2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uTHTIfmNBf76SWC/ADq3fQt/dNmanjgMWjPMSWG66gs=;
+ b=nE8bvZZMQObKIPTEM1cS43nsIBuSJbLrP5g8kIQD+VM4nmvHRVCoeEZqderEjvL0HI
+ 3l4560Yv46eOOJnX5V0pD8YAZExu0H109uBSrsLcCWR61ZndrCg2pSY5wK8ap8G8uH9Z
+ i/V4L0/AqiK7qQnRoLzKx5fUtX4YSwtICmBgGi0ay2gSUm+H9mrx3ZJcV/FTHqPhf7C0
+ XaCphPJalgOHMTfK/lHwsQoTOfSuhI/WrofSL0DxqlsInSL7XeJMNSc0H3pDFDg0lq5H
+ nKizEVvfpXgVEx8DG1OePtIPfZQtWKFdhNZw9TEIp4zS1aVowRes/iSoTfDf6devbCdr
+ o1Wg==
+X-Gm-Message-State: AOAM531lT50t0blgIjq1R6p2SGj8nw8m2LeRHxkr7lmLzD36TWSjcq+E
+ qA6P1lyzFXkfsZYePHB/ShY0zWjPXVViwHM/66I=
+X-Google-Smtp-Source: ABdhPJxShgMMu6A9SuWD+GwsjM+R6WUkYtn2izYoMLlACqvJATUUwqIePO/5/IjZg7uW3tDJTen+9mypvMCOmPqkNjg=
+X-Received: by 2002:a02:a118:: with SMTP id f24mr4530548jag.8.1590076906254;
+ Thu, 21 May 2020 09:01:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200521174241.3b0a267f@luklap>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 06:06:22
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+References: <1588335545-649-1-git-send-email-bmeng.cn@gmail.com>
+ <CAKmqyKMdmVrvYDNVtm6_iviDT_mofGZO9DC2vtZdZaHN31T07A@mail.gmail.com>
+ <CAKmqyKO6HGQrMxsNovPkoB4TncEmeD=uFV_oXEpQ0t+=g20Wfw@mail.gmail.com>
+ <CAEUhbmVTg+521EHutukOod_PKx0RQ-s=EgnKu=JM-vduMn4mNA@mail.gmail.com>
+ <CAKmqyKPdjBFmPcQY+O4zsaTHYeLVC9zanXhS5CBovfn4LLRdJg@mail.gmail.com>
+ <CAEUhbmXPRN=1QCfr=ekG_m5wiWkQoG7pb-OzR-guixRutYJOEg@mail.gmail.com>
+In-Reply-To: <CAEUhbmXPRN=1QCfr=ekG_m5wiWkQoG7pb-OzR-guixRutYJOEg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 21 May 2020 08:52:50 -0700
+Message-ID: <CAKmqyKO+Yowc57izjx_5V6u8ncj1VZ897dTQNmkhWi9yT-PESg@mail.gmail.com>
+Subject: Re: [PATCH] riscv: Change the default behavior if no -bios option is
+ specified
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,97 +83,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 21, 2020 at 05:42:41PM +0200, Lukas Straub wrote:
-> On Thu, 21 May 2020 16:03:35 +0100
-> Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> 
-> > On Wed, May 20, 2020 at 11:05:39PM +0200, Lukas Straub wrote:
-> > > +void yank_generic_iochannel(void *opaque)
-> > > +{
-> > > +    QIOChannel *ioc = QIO_CHANNEL(opaque);
-> > > +
-> > > +    qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-> > > +}
-> > > +
-> > > +void qmp_yank(strList *instances, Error **errp)
-> > > +{
-> > > +    strList *tmp;
-> > > +    struct YankInstance *instance;
-> > > +    struct YankFuncAndParam *entry;
-> > > +
-> > > +    qemu_mutex_lock(&lock);
-> > > +    tmp = instances;
-> > > +    for (; tmp; tmp = tmp->next) {
-> > > +        instance = yank_find_instance(tmp->value);
-> > > +        if (!instance) {
-> > > +            error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,
-> > > +                      "Instance '%s' not found", tmp->value);
-> > > +            qemu_mutex_unlock(&lock);
-> > > +            return;
-> > > +        }
-> > > +    }
-> > > +    tmp = instances;
-> > > +    for (; tmp; tmp = tmp->next) {
-> > > +        instance = yank_find_instance(tmp->value);
-> > > +        assert(instance);
-> > > +        QLIST_FOREACH(entry, &instance->yankfns, next) {
-> > > +            entry->func(entry->opaque);
-> > > +        }
-> > > +    }
-> > > +    qemu_mutex_unlock(&lock);
-> > > +}  
-> > 
-> > From docs/devel/qapi-code-gen.txt:
-> > 
-> >   An OOB-capable command handler must satisfy the following conditions:
-> > 
-> >   - It terminates quickly.
-> Check.
-> 
-> >   - It does not invoke system calls that may block.
-> brk/sbrk (malloc and friends):
-> The manpage doesn't say anything about blocking, but malloc is already used while handling the qmp command.
-> 
-> shutdown():
-> The manpage doesn't say anything about blocking, but this is already used in migration oob qmp commands.
+On Wed, May 20, 2020 at 6:37 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Hi Alistair,
+>
+> On Thu, May 7, 2020 at 5:02 AM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Tue, May 5, 2020 at 6:34 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > Hi Alistair,
+> > >
+> > > On Wed, May 6, 2020 at 6:37 AM Alistair Francis <alistair23@gmail.com> wrote:
+> > > >
+> > > > On Tue, May 5, 2020 at 1:34 PM Alistair Francis <alistair23@gmail.com> wrote:
+> > > > >
+> > > > > On Fri, May 1, 2020 at 5:21 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > > > >
+> > > > > > From: Bin Meng <bin.meng@windriver.com>
+> > > > > >
+> > > > > > Per QEMU deprecated doc, QEMU 4.1 introduced support for the -bios
+> > > > > > option in QEMU for RISC-V for the virt machine and sifive_u machine.
+> > > > > > The default behavior has been that QEMU does not automatically load
+> > > > > > any firmware if no -bios option is included.
+> > > > > >
+> > > > > > Now 2 releases passed, it's time to change the default behavior to
+> > > > > > load the default OpenSBI firmware automatically. The firmware is
+> > > > > > included with the QEMU release and no user interaction is required.
+> > > > > > All a user needs to do is specify the kernel they want to boot with
+> > > > > > the -kernel option.
+> > > > > >
+> > > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > > > >
+> > > > > Thanks!
+> > > > >
+> > > > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > > > >
+> > > > > Applied to the RISC-V tree.
+> > > >
+> > > > This fails `make check`
+> > > >
+> > > > qemu-system-riscv64: Unable to load the RISC-V firmware
+> > > > "opensbi-riscv64-spike-fw_jump.elf"
+> > > > Broken pipe
+> > > > /scratch/alistair/software/qemu/tests/qtest/libqtest.c:166:
+> > > > kill_qemu() tried to terminate QEMU process but encountered exit
+> > > > status 1 (expected 0)
+> > > > ERROR - too few tests run (expected 7, got 2)
+> > > > make: *** [/scratch/alistair/software/qemu/tests/Makefile.include:637:
+> > > > check-qtest-riscv64] Error 1
+> > > >
+> > >
+> > > Please apply this patch to fix the "make check" as well.
+> > >
+> > > [5/5] riscv: Suppress the error report for QEMU testing with
+> > > riscv_find_firmware()
+> > > http://patchwork.ozlabs.org/project/qemu-devel/patch/1588348254-7241-6-git-send-email-bmeng.cn@gmail.com/
+> >
+> > In future please send all related patches in a single series.
+> >
+> > I have applied those two patches.
+>
+> I checked https://github.com/alistair23/qemu/ but could not find where
+> these 2 patches applied. Just make sure I was not looking at the wrong
+> place?
 
-It just marks the socket state in local kernel side. It doesn't involve
-any blocking roundtrips over the wire, so this is fine.
+That's the right place, I just hadn't pushed it there yet.
 
-> 
-> There are no other syscalls involved to my knowledge.
-> 
-> >   - It does not access guest RAM that may block when userfaultfd is
-> >     enabled for postcopy live migration.
-> Check.
-> 
-> >   - It takes only "fast" locks, i.e. all critical sections protected by
-> >     any lock it takes also satisfy the conditions for OOB command
-> >     handler code.
-> 
-> The lock in yank.c satisfies this requirement.
-> 
-> qio_channel_shutdown doesn't take any locks.
+I have an internal Git instance that does all the testing so I usually
+push it there.
 
-Agreed, I think the yank code is compliant with all the points
-listed above.
+Alistair
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+>
+> Regards,
+> Bin
 
