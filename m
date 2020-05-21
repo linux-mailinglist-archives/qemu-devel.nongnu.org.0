@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7E11DCA65
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 11:46:55 +0200 (CEST)
-Received: from localhost ([::1]:53154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA4F1DCA78
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 11:50:35 +0200 (CEST)
+Received: from localhost ([::1]:33248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbhmw-0000nl-JN
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 05:46:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59138)
+	id 1jbhqU-0005Ip-N2
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 05:50:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jbhlG-0007Tz-BJ
- for qemu-devel@nongnu.org; Thu, 21 May 2020 05:45:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48125
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jbhlE-0003H7-M7
- for qemu-devel@nongnu.org; Thu, 21 May 2020 05:45:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590054306;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hNzTiv0oKZQS6AlnQUHoaMOspKjbIvhv1u+9dEMYpe8=;
- b=UC1sOMhXuGFH9BMr9vQpo/V2inURaa9tzQ2EvNsS429W+cMaLu91IEGXfxMJnYyfRy6ycF
- s0G1CMat4hzVP6fQsUI7B/yBy3KBBXPjM7FjgcO43eB7C01xkUAaAgfzDtiNxcrs5KdoyJ
- 0z2aSiKS2ctvOAXs7oDSYyXT34F5G2Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-QUYnSaRJO0q6FLLE5seZlw-1; Thu, 21 May 2020 05:44:55 -0400
-X-MC-Unique: QUYnSaRJO0q6FLLE5seZlw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07DCCEC1A2;
- Thu, 21 May 2020 09:44:54 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C01F079584;
- Thu, 21 May 2020 09:44:51 +0000 (UTC)
-Date: Thu, 21 May 2020 10:44:48 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Robert Hoo <robert.hu@linux.intel.com>
-Subject: Re: [PATCH v4 5/5] target/i386: remove Icelake-Client CPU model
-Message-ID: <20200521094448.GA2211791@redhat.com>
-References: <20200520021007.30649-1-chenyi.qiang@intel.com>
- <20200520021007.30649-6-chenyi.qiang@intel.com>
- <20200520091734.GD2194189@redhat.com>
- <40954b28075efac72948a9fd43b59ff4e2e9f42a.camel@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jbhpX-0004Sp-UO
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 05:49:35 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53345)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jbhpX-0003ys-2H
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 05:49:35 -0400
+Received: by mail-wm1-x342.google.com with SMTP id u1so5032038wmn.3
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 02:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=dab727b92pWIn4BAU5fQNy37+/dwpAGvdumHvUN3T68=;
+ b=vaPoWDQj3Qzb+PCro61q715FTpOKdNYpYNSpZDW1cN3rqThhwdA9NbYpTjGfZzmiIq
+ RHChNnbiS7pG43KGoUgd0C73Hi3+3K/xbK/5nIdXZZcrlWMpdcAXUyp1nD6TROHswSCp
+ puZtgyOUuJ0xOhxp7SR2oVIpK2vRO1BjnmM+xThq9S8gjZd+XgB+/08xT7RkKVsSotsE
+ 80ycxxn+TtMasnp4hTa+RNOqp/bFIpWF4X4Rcg/sWTmcqWRUMZNmvyYvrOJYhpDktQ2s
+ q2DCz30e/zZSs3Jhe1BglJLF+14EpJ+QcjBlsUH2SestcclmajijQpIp/689qNhWVfM7
+ Fcyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=dab727b92pWIn4BAU5fQNy37+/dwpAGvdumHvUN3T68=;
+ b=lRrGtdpcmuvMVk5huswSnDQkzsZXFBdM7VAsXMkTAwXGwH3J+5H7oAo91rMxm1b9Z8
+ 2Ceg7yNs8PLKrgUrvVVksU6Vd89aMHXrtElwlsD4Nz21JQdg0n0QAD0zkWT4Ayb1WDHZ
+ HMMZook4AhgrPV19X+850kqx1ctkcRwXEB0hl2FIOTzhi69+VLSVbLL7CEMxPuY6LRO+
+ mn6t17BOVoHq9kFuCbi7Wjt/FFo23cl9ysNnrrednPLiuMp+j8W3k6XkVOwMFpN1sk1A
+ YpU3IwxYoWk6A7JT5hD48vDE3nchFGfUl0rTQ3IIe5J2jwygF3MpQEGRlkcuQMh2SBUN
+ h0vQ==
+X-Gm-Message-State: AOAM530NDsx9r/kAwAq/a3QCQpvQdHQxSeSPZwdfWsbIyjrWw8gz8HCU
+ CxwTg7g8saFqHft7cYAB2ek=
+X-Google-Smtp-Source: ABdhPJxC9hRYc6GSBkWDn9jpqQqsFVmrI5+U6cEkeS+dCNZImLgPsUOyY7cAyc1VUixOyUIYNbBS6g==
+X-Received: by 2002:a7b:c8c1:: with SMTP id f1mr8813553wml.66.1590054573572;
+ Thu, 21 May 2020 02:49:33 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id e5sm5799655wro.3.2020.05.21.02.49.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 May 2020 02:49:32 -0700 (PDT)
+Date: Thu, 21 May 2020 10:49:30 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Subject: Re: [PATCH 2/4] coroutine: Add check for SafeStack in sigalstack
+Message-ID: <20200521094930.GB251811@stefanha-x1.localdomain>
+References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
+ <20200429194420.21147-3-dbuono@linux.vnet.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <40954b28075efac72948a9fd43b59ff4e2e9f42a.camel@linux.intel.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="v9Ux+11Zm5mwPlX6"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:44:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200429194420.21147-3-dbuono@linux.vnet.ibm.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,57 +85,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>,
- qemu-devel@nongnu.org, Chenyi Qiang <chenyi.qiang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@ibm.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 21, 2020 at 09:40:55AM +0800, Robert Hoo wrote:
-> On Wed, 2020-05-20 at 10:17 +0100, Daniel P. Berrangé wrote:
-> > On Wed, May 20, 2020 at 10:10:07AM +0800, Chenyi Qiang wrote:
-> > > There are no Icelake Desktop products in the market. Remove the
-> > > Icelake-Client CPU model.
-> > 
-> > QEMU has been shipping this CPU model for 2 years now. Regardless
-> > of what CPUs Intel are selling, it is possible for users to be
-> > running VMs with Icelake-Client CPU if their host satisfies the
-> > listed features. So I don't think it is valid to remove this.
-> > 
-> This 'Icelake-Client' actually doesn't exist. How do we define its
-> feature list? and who will be using it? If any special feature tailor
-> requirement, it can be simply achieved by '-cpu Icelake,+/-' features,
-> this is the correct way.
 
-Well its feature list is defined by what exists in QEMU code right
-now. Presumably was based off some silicon that did exist in Intel
-at some point, or it would not have been added to QEMU in the first
-place ?
+--v9Ux+11Zm5mwPlX6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Changing guests to use "-cpu Icelake-Server,+/-" would be a guest
-ABI change because of the different model number IIUC
+On Wed, Apr 29, 2020 at 03:44:18PM -0400, Daniele Buono wrote:
 
-> I think we should remove it. When we realize something's not correct,
-> we should fix it ASAP. Leaving it there will only cause more serious
-> issue in the future.
+s/sigalstack/sigaltstack/ in the commit message.
 
-We have versioned CPU models so that we can fix mistakes in previously
-defined CPU model features, without causing breakage for anything that
-is using the previous incorrectly defined model.  We can't version the
-deletion of a CPU model though. I'm not seeing the serious harm that's
-caused by the Icelake-Client CPU model existing though, and deleting
-it will definitely cause harm to the config of anything that currently
-happens to use it.
+> LLVM's SafeStack instrumentation cannot be used inside signal handlers
+> that make use of sigaltstack().
+> Since coroutine-sigaltstack relies on sigaltstack(), it is not
+> compatible with SafeStack. The resulting binary is incorrect, with
+> different coroutines sharing the same unsafe stack and producing
+> undefined behavior at runtime.
+> To avoid this, we add a check in coroutine-sigaltstack that throws a
+> preprocessor #error and interrupt the compilation if SafeStack is
+> enabled.
+>=20
+> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+> ---
+>  util/coroutine-sigaltstack.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
+> index f6fc49a0e5..b7cdc959f8 100644
+> --- a/util/coroutine-sigaltstack.c
+> +++ b/util/coroutine-sigaltstack.c
+> @@ -30,6 +30,10 @@
+>  #include "qemu-common.h"
+>  #include "qemu/coroutine_int.h"
+> =20
+> +#ifdef CONFIG_SAFESTACK
+> +#error "SafeStack does not work with sigaltstack's implementation"
+> +#endif
 
-Maybe Icelake-Client could be turned into a deprecated alias for a
-version of Icelake-Server that has  the cutdown feature list ?
+Neither the commit description nor the #error message explain why it
+doesn't work. Could it work in the future or is there a fundamental
+reason why it will never work?
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Stefan
 
+--v9Ux+11Zm5mwPlX6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7GTqoACgkQnKSrs4Gr
+c8jcrwf/UwFu+fdyNgn+DtiSRnBpLULgT8YRZNwClG/2WRhGhXjO98KERAG55kWd
+rCpIgDPnxQ6va7kpkBCcwBz9c7nIis7t03aTGHfIVV2CV6GoHWX5Z4A1d5Xe1aeW
+f2ErAlOrOf2xz1CEG63dHbZqNP5iicmmh+nVQUNYWIeYtSaBmMUsyK8gHLNe5TwP
+hYlaZ07qC8oJ6kLnJauFJZq9RocHVCmtIpNHimnQrACXUOR+ExHd/qLKbgT3vVwq
+pYPpLASQYkh0Ei5tCK1GS2yAocvOoe4gAMLiz1fF3MtVCzzhoTnxl2fas9n8LMn6
+fjkO2kPHBSRbot3S6ec1j7v98sw5dg==
+=jAyN
+-----END PGP SIGNATURE-----
+
+--v9Ux+11Zm5mwPlX6--
 
