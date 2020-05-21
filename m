@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908D31DCBF5
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 13:16:59 +0200 (CEST)
-Received: from localhost ([::1]:47778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F066E1DCBFA
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 13:20:34 +0200 (CEST)
+Received: from localhost ([::1]:55276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbjC6-0004qn-LF
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 07:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40526)
+	id 1jbjFa-0000R6-3G
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 07:20:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jbjAm-0003oJ-Uz
- for qemu-devel@nongnu.org; Thu, 21 May 2020 07:15:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56630
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jbjEb-0007y5-Ow
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 07:19:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37859
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jbjAl-0003vb-Qd
- for qemu-devel@nongnu.org; Thu, 21 May 2020 07:15:36 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jbjEa-0004yu-Nf
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 07:19:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590059735;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=BRWdBXcNIl2FgtUAJJIFaLVynEbNAlqPR3PKkHCI8D8=;
- b=aoKSxt/9TKDjRiKqQKZUWoHpbdB/A+HTYPpjn19SYqP+zRkPT3CiOi/CCkWSyNs9YB4afa
- ZX5TDfPXuKGq7ZqODFYWaWcIpKRJvJO2uUaaXIHALD6xbiiZkflh4VSXRbeevJJMV0W+Vd
- 2RfvrLuBRvTBtw7at8WZeimr3S5SYJ4=
+ s=mimecast20190719; t=1590059971;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SnN5RkZqCjFf+yXOWWTC9O58O1JQDt5utNcwOfChlN8=;
+ b=OXxrGnKClev3GsPfby72BIHbTO5TrNcBSb5sWahaTKMgWKXHNimrsPOPQCakZ/GU2k7F6n
+ HUze3Zle2P961eh1ZHBGcc/5jxYfIhetjymzunAwsGhrdbjkCjfFoO6KZQNwFAmU/F6PIP
+ Sj/cr3y0Ocl8OsSfKBLYbDrSt9OX1p0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-101yQws9Pn6NEYuWZZ7L8Q-1; Thu, 21 May 2020 07:15:27 -0400
-X-MC-Unique: 101yQws9Pn6NEYuWZZ7L8Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-143-lPmvtMNGMEme5AkPoIcGZg-1; Thu, 21 May 2020 07:19:29 -0400
+X-MC-Unique: lPmvtMNGMEme5AkPoIcGZg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4745318FE861;
- Thu, 21 May 2020 11:15:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1438D2E18E;
- Thu, 21 May 2020 11:15:24 +0000 (UTC)
-Date: Thu, 21 May 2020 12:15:22 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alexey Krasikov <alex-krasikov@yandex-team.ru>
-Subject: Re: [PATCH v3 3/3] test-crypto-secret: add 'secret_keyring' object
- tests.
-Message-ID: <20200521111522.GG2211791@redhat.com>
-References: <20200518202804.3761-1-alex-krasikov@yandex-team.ru>
- <20200518202804.3761-4-alex-krasikov@yandex-team.ru>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D699A1005510;
+ Thu, 21 May 2020 11:19:26 +0000 (UTC)
+Received: from work-vm (ovpn-113-115.ams2.redhat.com [10.36.113.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 56C0682EEF;
+ Thu, 21 May 2020 11:19:15 +0000 (UTC)
+Date: Thu, 21 May 2020 12:19:07 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH QEMU v23 06/18] vfio: Add VM state change handler to know
+ state of VM
+Message-ID: <20200521111907.GD2752@work-vm>
+References: <1589999088-31477-1-git-send-email-kwankhede@nvidia.com>
+ <1589999088-31477-7-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200518202804.3761-4-alex-krasikov@yandex-team.ru>
+In-Reply-To: <1589999088-31477-7-git-send-email-kwankhede@nvidia.com>
 User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 06:06:22
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:44:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,137 +81,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
+Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
+ Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
+ yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
+ armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
+ felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
+ yan.y.zhao@intel.com, alex.williamson@redhat.com, changpeng.liu@intel.com,
+ eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 18, 2020 at 11:28:04PM +0300, Alexey Krasikov wrote:
-> Add tests:
->   test_secret_keyring_good;
->   test_secret_keyring_revoked_key;
->   test_secret_keyring_expired_key;
->   test_secret_keyring_bad_serial_key;
->   test_secret_keyring_bad_key_access_right;
+* Kirti Wankhede (kwankhede@nvidia.com) wrote:
+> VM state change handler gets called on change in VM's state. This is used to set
+> VFIO device state to _RUNNING.
 > 
-> Added tests require libkeyutils. The absence of this library is not
-> critical, because these tests will be skipped in this case.
-> 
-> Signed-off-by: Alexey Krasikov <alex-krasikov@yandex-team.ru>
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
 > ---
->  configure                  |  25 ++++++
->  tests/Makefile.include     |   4 +
->  tests/test-crypto-secret.c | 154 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 183 insertions(+)
+>  hw/vfio/migration.c           | 87 +++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/trace-events          |  2 +
+>  include/hw/vfio/vfio-common.h |  4 ++
+>  3 files changed, 93 insertions(+)
 > 
-> diff --git a/configure b/configure
-> index 1bae5ec0a1..2ab7d2961c 100755
-> --- a/configure
-> +++ b/configure
-> @@ -6283,6 +6283,28 @@ but not implemented on your system"
->      fi
->  fi
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index bf9384907ec0..e79b34003079 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -10,6 +10,7 @@
+>  #include "qemu/osdep.h"
+>  #include <linux/vfio.h>
 >  
-> +##########################################
-> +# check for usable keyutils.h
-> +
-> +if test "$linux" = "yes" ; then
-> +
-> +    have_keyutils=no
-> +    cat > $TMPC << EOF
-> +#include <errno.h>
-> +#include <asm/unistd.h>
-> +#include <linux/keyctl.h>
-> +#include <unistd.h>
-> +#include <sys/types.h>
-> +#include <keyutils.h>
-> +int main(void) {
-> +    return request_key("user", NULL, NULL, 0);
-> +}
-> +EOF
-> +    if compile_prog "" "-lkeyutils"; then
-> +        have_keyutils=yes
-> +    fi
-> +fi
-
-On my Fedora 32 system this always fails despite having keyutils-libs-devel
-installed. Looking at config.log,  the linux/keyctl.h file defines structs
-with names that clash with those in keyutils.h.  Removing the linux/keyctl.h
-include here makes this test succeed, but.....
-
-
-> +/*
-> + * TODO
-> + * test_secret_keyring_bad_key_access_right() is not working yet.
-> + * We don't know yet if this due a bug in the Linux kernel or
-> + * whether it's normal syscall behavior.
-> + * We've requested information from kernel maintainers.
-> + * See: <https://www.spinics.net/lists/keyrings/index.html>
-> + * Thread: 'security/keys: remove possessor verify after key permission check'
-> + */
-> +
-> +static void test_secret_keyring_bad_key_access_right(void)
+> +#include "sysemu/runstate.h"
+>  #include "hw/vfio/vfio-common.h"
+>  #include "cpu.h"
+>  #include "migration/migration.h"
+> @@ -74,6 +75,85 @@ err:
+>      return ret;
+>  }
+>  
+> +static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
+> +                                    uint32_t value)
 > +{
-> +    char key_str[16];
-> +    Object *sec;
-> +    int32_t key = add_key("user", DESCRIPTION, PAYLOAD,
-> +                          strlen(PAYLOAD), KEY_SPEC_PROCESS_KEYRING);
-> +    g_assert(key >= 0);
-> +    g_assert_false(keyctl_setperm(key, KEY_POS_ALL & (~KEY_POS_READ)));
+> +    VFIOMigration *migration = vbasedev->migration;
+> +    VFIORegion *region = &migration->region;
+> +    uint32_t device_state;
+> +    int ret;
 > +
-> +    snprintf(key_str, sizeof(key_str), "0x%08x", key);
+> +    ret = pread(vbasedev->fd, &device_state, sizeof(device_state),
+> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+> +                                              device_state));
+> +    if (ret < 0) {
+> +        error_report("%s: Failed to read device state %d %s",
+> +                     vbasedev->name, ret, strerror(errno));
+> +        return ret;
+> +    }
 > +
-> +    sec = object_new_with_props(
-> +        TYPE_QCRYPTO_SECRET_KEYRING,
-> +        object_get_objects_root(),
-> +        "sec0",
-> +        NULL,
-> +        "serial", key_str,
-> +        NULL);
+> +    device_state = (device_state & mask) | value;
 > +
-> +    g_assert(errno == EACCES);
-> +    g_assert(sec == NULL);
+> +    if (!VFIO_DEVICE_STATE_VALID(device_state)) {
+> +        return -EINVAL;
+> +    }
 > +
-> +    keyctl_unlink(key, KEY_SPEC_PROCESS_KEYRING);
+> +    ret = pwrite(vbasedev->fd, &device_state, sizeof(device_state),
+> +                 region->fd_offset + offsetof(struct vfio_device_migration_info,
+> +                                              device_state));
+> +    if (ret < 0) {
+> +        error_report("%s: Failed to set device state %d %s",
+> +                     vbasedev->name, ret, strerror(errno));
+> +
+> +        ret = pread(vbasedev->fd, &device_state, sizeof(device_state),
+> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+> +                device_state));
+> +        if (ret < 0) {
+> +            error_report("%s: On failure, failed to read device state %d %s",
+> +                    vbasedev->name, ret, strerror(errno));
+> +            return ret;
+> +        }
+> +
+> +        if (VFIO_DEVICE_STATE_IS_ERROR(device_state)) {
+> +            error_report("%s: Device is in error state 0x%x",
+> +                         vbasedev->name, device_state);
+> +            return -EFAULT;
+> +        }
+> +    }
+> +
+> +    vbasedev->device_state = device_state;
+> +    trace_vfio_migration_set_state(vbasedev->name, device_state);
+> +    return 0;
 > +}
-
-This causes the entire test suite to abort
-
-ERROR:tests/test-crypto-secret.c:261:test_secret_keyring_bad_key_access_right: assertion failed: (errno == EACCES)
-Bail out! ERROR:tests/test-crypto-secret.c:261:test_secret_keyring_bad_key_access_right: assertion failed: (errno == EACCES)
-
-Either this test needs a temporary  "g_test_skip()" at the start of the
-method to stop executing (if we expect Linux to be fixed), or it just 
-needs deleting (if this is intentional Linux behaviour)
-
 > +
-> +#endif /* CONFIG_TEST_SECRET_KEYRING */
->  
->  static void test_secret_noconv_base64_good(void)
+> +static void vfio_vmstate_change(void *opaque, int running, RunState state)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +
+> +    if ((vbasedev->vm_running != running)) {
+> +        int ret;
+> +        uint32_t value = 0, mask = 0;
+> +
+> +        if (running) {
+> +            value = VFIO_DEVICE_STATE_RUNNING;
+> +            if (vbasedev->device_state & VFIO_DEVICE_STATE_RESUMING) {
+> +                mask = ~VFIO_DEVICE_STATE_RESUMING;
+> +            }
+> +        } else {
+> +            mask = ~VFIO_DEVICE_STATE_RUNNING;
+> +        }
+> +
+> +        ret = vfio_migration_set_state(vbasedev, mask, value);
+> +        if (ret) {
+> +            error_report("%s: Failed to set device state 0x%x",
+> +                         vbasedev->name, value & mask);
+> +        }
+> +        vbasedev->vm_running = running;
+> +        trace_vfio_vmstate_change(vbasedev->name, running, RunState_str(state),
+> +                                  value & mask);
+> +    }
+> +}
+> +
+>  static int vfio_migration_init(VFIODevice *vbasedev,
+>                                 struct vfio_region_info *info)
 >  {
-> @@ -426,6 +567,19 @@ int main(int argc, char **argv)
->      g_test_add_func("/crypto/secret/indirect/emptyfile",
->                      test_secret_indirect_emptyfile);
+> @@ -90,6 +170,9 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>          return ret;
+>      }
 >  
-> +#ifdef CONFIG_TEST_SECRET_KEYRING
-> +    g_test_add_func("/crypto/secret/keyring/good",
-> +                    test_secret_keyring_good);
-> +    g_test_add_func("/crypto/secret/keyring/revoked_key",
-> +                    test_secret_keyring_revoked_key);
-> +    g_test_add_func("/crypto/secret/keyring/expired_key",
-> +                    test_secret_keyring_expired_key);
-> +    g_test_add_func("/crypto/secret/keyring/bad_serial_key",
-> +                    test_secret_keyring_bad_serial_key);
-> +    g_test_add_func("/crypto/secret/keyring/bad_key_access_right",
-> +                    test_secret_keyring_bad_key_access_right);
-> +#endif /* CONFIG_TEST_SECRET_KEYRING */
+> +    vbasedev->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+> +                                                          vbasedev);
 > +
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>      return 0;
+>  }
+>  
+> @@ -128,6 +211,10 @@ add_blocker:
+>  
+>  void vfio_migration_finalize(VFIODevice *vbasedev)
+>  {
+> +    if (vbasedev->vm_state) {
+> +        qemu_del_vm_change_state_handler(vbasedev->vm_state);
+> +    }
+> +
+>      if (vbasedev->migration_blocker) {
+>          migrate_del_blocker(vbasedev->migration_blocker);
+>          error_free(vbasedev->migration_blocker);
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index fd034ac53684..14b0a86c0035 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -146,3 +146,5 @@ vfio_display_edid_write_error(void) ""
+>  
+>  # migration.c
+>  vfio_migration_probe(const char *name, uint32_t index) " (%s) Region %d"
+> +vfio_migration_set_state(char *name, uint32_t state) " (%s) state %d"
+> +vfio_vmstate_change(char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index d4b268641173..3d18eb146b33 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -29,6 +29,7 @@
+>  #ifdef CONFIG_LINUX
+>  #include <linux/vfio.h>
+>  #endif
+> +#include "sysemu/sysemu.h"
+>  
+>  #define VFIO_MSG_PREFIX "vfio %s: "
+>  
+> @@ -119,6 +120,9 @@ typedef struct VFIODevice {
+>      unsigned int flags;
+>      VFIOMigration *migration;
+>      Error *migration_blocker;
+> +    VMChangeStateEntry *vm_state;
+> +    uint32_t device_state;
+> +    int vm_running;
+>  } VFIODevice;
+>  
+>  struct VFIODeviceOps {
+> -- 
+> 2.7.0
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
