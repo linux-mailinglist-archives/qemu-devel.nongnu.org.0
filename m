@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEEA81DD762
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:38:01 +0200 (CEST)
-Received: from localhost ([::1]:50046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D333E1DD748
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:32:49 +0200 (CEST)
+Received: from localhost ([::1]:49518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbr0y-00077M-So
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:38:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38674)
+	id 1jbqvw-0002UO-T1
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:32:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jbqlP-0005JC-WC
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:21:56 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22398
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jbqnA-0000ih-Hd
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:23:44 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51142
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jbqlN-0001iM-8z
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:21:55 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jbqn9-00026v-A3
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:23:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590088912;
+ s=mimecast20190719; t=1590089022;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6OVr8ibEOE5mMIhIy7+qnvD4Z98j/0E/PW+Pi7JthXk=;
- b=ArSlexCfxYNhjEivr9iWYRSdm3CKfZeOCyLPLZXIrpQ84VZBgKcv4l3uyC/6H1HZ6+lESt
- WNRVO90q8YoJiDRSnn73BSJfIPWzLVVnIoRylLZEamOWMddT8K3bBYmUEBWwyODWnZyRMo
- tWG3E4vqLGzkG48GVNkprobBH0PZ4lU=
+ bh=eV7kx6uWwAjz7sghgf8RSGSrat15H3jlax1fXIgevFw=;
+ b=Zg9rGeo188HEqWZ1m+GTJS3ji6Q2sPQJjVI4eGOqG3Sv0dgLxwICPBQRbzeDki8tK5dbAw
+ Fi01rGyltTKMsB4BSivyAWZyWoaq9CJiq3G0j/kOJHZ0ctJ1/UyKD1SvrL7gSuMsV15gpZ
+ 4jhloSeVhwpO+bNVCbu/GmbtE7JefMU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-Yv2qJoO3PpOzSeXM1rD6mw-1; Thu, 21 May 2020 15:21:49 -0400
-X-MC-Unique: Yv2qJoO3PpOzSeXM1rD6mw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-241-eGOo5sMJNBqckf6RtwR8bA-1; Thu, 21 May 2020 15:23:38 -0400
+X-MC-Unique: eGOo5sMJNBqckf6RtwR8bA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 120278015D1;
- Thu, 21 May 2020 19:21:48 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88AA460C05;
- Thu, 21 May 2020 19:21:47 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 5/5] iotests: Add test 291 to for qemu-img bitmap coverage
-Date: Thu, 21 May 2020 14:21:37 -0500
-Message-Id: <20200521192137.1120211-6-eblake@redhat.com>
-In-Reply-To: <20200521192137.1120211-1-eblake@redhat.com>
-References: <20200521192137.1120211-1-eblake@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 161CB835B44;
+ Thu, 21 May 2020 19:23:36 +0000 (UTC)
+Received: from work-vm (ovpn-113-115.ams2.redhat.com [10.36.113.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 24B6E5D9C9;
+ Thu, 21 May 2020 19:23:23 +0000 (UTC)
+Date: Thu, 21 May 2020 20:23:21 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH QEMU v23 18/18] qapi: Add VFIO devices migration stats in
+ Migration stats
+Message-ID: <20200521192321.GP2752@work-vm>
+References: <1589999088-31477-1-git-send-email-kwankhede@nvidia.com>
+ <1589999088-31477-19-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <1589999088-31477-19-git-send-email-kwankhede@nvidia.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:47:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 04:44:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,241 +81,254 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, nsoffer@redhat.com, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
+ Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
+ yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
+ armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
+ felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
+ yan.y.zhao@intel.com, alex.williamson@redhat.com, changpeng.liu@intel.com,
+ eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new test covering the 'qemu-img bitmap' subcommand, as well as
-'qemu-img convert --bitmaps', both added in recent patches.
+* Kirti Wankhede (kwankhede@nvidia.com) wrote:
+> Added amount of bytes transferred to the target VM by all VFIO devices
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> ---
+>  hw/vfio/common.c            | 20 ++++++++++++++++++++
+>  hw/vfio/migration.c         | 10 +++++++++-
+>  include/qemu/vfio-helpers.h |  3 +++
+>  migration/migration.c       | 18 ++++++++++++++++++
+>  monitor/hmp-cmds.c          |  6 ++++++
+>  qapi/migration.json         | 19 ++++++++++++++++++-
+>  6 files changed, 74 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 2dd9e8b24788..e1ad426a6d78 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -40,6 +40,7 @@
+>  #include "trace.h"
+>  #include "qapi/error.h"
+>  #include "migration/migration.h"
+> +#include "qemu/vfio-helpers.h"
+>  
+>  VFIOGroupList vfio_group_list =
+>      QLIST_HEAD_INITIALIZER(vfio_group_list);
+> @@ -293,6 +294,25 @@ const MemoryRegionOps vfio_region_ops = {
+>   * Device state interfaces
+>   */
+>  
+> +bool vfio_mig_active(void)
+> +{
+> +    VFIOGroup *group;
+> +    VFIODevice *vbasedev;
+> +
+> +    if (QLIST_EMPTY(&vfio_group_list)) {
+> +        return false;
+> +    }
+> +
+> +    QLIST_FOREACH(group, &vfio_group_list, next) {
+> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
+> +            if (vbasedev->migration_blocker) {
+> +                return false;
+> +            }
+> +        }
+> +    }
+> +    return true;
+> +}
+> +
+>  static bool vfio_devices_are_stopped_and_saving(void)
+>  {
+>      VFIOGroup *group;
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 7729c90782bd..2eef38fe5c65 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -26,7 +26,7 @@
+>  #include "exec/ram_addr.h"
+>  #include "pci.h"
+>  #include "trace.h"
+> -
+> +#include "qemu/vfio-helpers.h"
+>  /*
+>   * Flags used as delimiter:
+>   * 0xffffffff => MSB 32-bit all 1s
+> @@ -38,6 +38,8 @@
+>  #define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
+>  #define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
+>  
+> +static int64_t bytes_transferred;
+> +
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/291     | 112 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/291.out |  80 ++++++++++++++++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 193 insertions(+)
- create mode 100755 tests/qemu-iotests/291
- create mode 100644 tests/qemu-iotests/291.out
+eww global; but if there's no where else OK.
+I think you need to initialise this somewhere at the start of each
+migration;  you can get a migration that fails or is cancelled and then
+start a second one, if you don't zero it then the second time will be
+wrong.
 
-diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
-new file mode 100755
-index 000000000000..3ca83b9cd1f7
---- /dev/null
-+++ b/tests/qemu-iotests/291
-@@ -0,0 +1,112 @@
-+#!/usr/bin/env bash
-+#
-+# Test qemu-img bitmap handling
-+#
-+# Copyright (C) 2018-2020 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1 # failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+    nbd_server_stop
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+. ./common.nbd
-+
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+_require_command QEMU_NBD
-+
-+echo
-+echo "=== Initial image setup ==="
-+echo
-+
-+# Create backing image with one bitmap
-+TEST_IMG="$TEST_IMG.base" _make_test_img 10M
-+$QEMU_IMG bitmap --add -f $IMGFMT "$TEST_IMG.base" b0
-+$QEMU_IO -c 'w 3M 1M' -f $IMGFMT "$TEST_IMG.base" | _filter_qemu_io
-+
-+# Create initial image and populate two bitmaps: one active, one inactive.
-+ORIG_IMG=$TEST_IMG
-+TEST_IMG=$TEST_IMG.orig
-+_make_test_img -b "$ORIG_IMG.base" -F $IMGFMT 10M
-+$QEMU_IO -c 'w 0 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IMG bitmap --add -g 512k -f $IMGFMT "$TEST_IMG" b1
-+$QEMU_IMG bitmap --add --disable -f $IMGFMT "$TEST_IMG" b2
-+$QEMU_IO -c 'w 3M 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IMG bitmap --clear -f $IMGFMT "$TEST_IMG" b1
-+$QEMU_IO -c 'w 1M 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IMG bitmap --disable -f $IMGFMT "$TEST_IMG" b1
-+$QEMU_IMG bitmap --enable -f $IMGFMT "$TEST_IMG" b2
-+$QEMU_IO -c 'w 2M 1M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo "=== Bitmap preservation not possible to non-qcow2 ==="
-+echo
-+
-+TEST_IMG=$ORIG_IMG
-+$QEMU_IMG convert --bitmaps -O raw "$TEST_IMG.orig" "$TEST_IMG" &&
-+    echo "unexpected success"
-+
-+echo
-+echo "=== Convert with bitmap preservation ==="
-+echo
-+
-+# Only bitmaps from the active layer are copied
-+$QEMU_IMG convert --bitmaps -O qcow2 "$TEST_IMG.orig" "$TEST_IMG"
-+$QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
-+# But we can also merge in bitmaps from other layers.  This test is a bit
-+# contrived to cover more code paths, in reality, you could merge directly
-+# into b0 without going through tmp
-+$QEMU_IMG bitmap --add --disable -f $IMGFMT "$TEST_IMG" b0
-+$QEMU_IMG bitmap --add --merge b0 -b "$TEST_IMG.base" -F $IMGFMT \
-+     -f $IMGFMT "$TEST_IMG" tmp
-+$QEMU_IMG bitmap --merge tmp -f $IMGFMT "$TEST_IMG" b0
-+$QEMU_IMG bitmap --remove --image-opts \
-+    driver=$IMGFMT,file.driver=file,file.filename="$TEST_IMG" tmp
-+$QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
-+
-+echo
-+echo "=== Check bitmap contents ==="
-+echo
-+
-+# x-dirty-bitmap is a hack for reading bitmaps; it abuses block status to
-+# report "data":false for portions of the bitmap which are set
-+IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
-+nbd_server_start_unix_socket -r -f qcow2 -B b0 "$TEST_IMG"
-+$QEMU_IMG map --output=json --image-opts \
-+    "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b0" | _filter_qemu_img_map
-+nbd_server_start_unix_socket -r -f qcow2 -B b1 "$TEST_IMG"
-+$QEMU_IMG map --output=json --image-opts \
-+    "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b1" | _filter_qemu_img_map
-+nbd_server_start_unix_socket -r -f qcow2 -B b2 "$TEST_IMG"
-+$QEMU_IMG map --output=json --image-opts \
-+    "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
-+
-+# success, all done
-+echo '*** done'
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/291.out b/tests/qemu-iotests/291.out
-new file mode 100644
-index 000000000000..8c62017567e9
---- /dev/null
-+++ b/tests/qemu-iotests/291.out
-@@ -0,0 +1,80 @@
-+QA output created by 291
-+
-+=== Initial image setup ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=10485760
-+wrote 1048576/1048576 bytes at offset 3145728
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=IMGFMT size=10485760 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 1048576/1048576 bytes at offset 3145728
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 1048576/1048576 bytes at offset 1048576
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 1048576/1048576 bytes at offset 2097152
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Bitmap preservation not possible to non-qcow2 ===
-+
-+qemu-img: Format driver 'raw' does not support bitmaps
-+
-+=== Convert with bitmap preservation ===
-+
-+image: TEST_DIR/t.IMGFMT
-+file format: IMGFMT
-+virtual size: 10 MiB (10485760 bytes)
-+disk size: 4.39 MiB
-+Format specific information:
-+    compat: 1.1
-+    compression type: zlib
-+    lazy refcounts: false
-+    bitmaps:
-+        [0]:
-+            flags:
-+            name: b1
-+            granularity: 524288
-+        [1]:
-+            flags:
-+                [0]: auto
-+            name: b2
-+            granularity: 65536
-+    refcount bits: 16
-+    corrupt: false
-+image: TEST_DIR/t.IMGFMT
-+file format: IMGFMT
-+virtual size: 10 MiB (10485760 bytes)
-+disk size: 4.48 MiB
-+Format specific information:
-+    compat: 1.1
-+    compression type: zlib
-+    lazy refcounts: false
-+    bitmaps:
-+        [0]:
-+            flags:
-+            name: b1
-+            granularity: 524288
-+        [1]:
-+            flags:
-+                [0]: auto
-+            name: b2
-+            granularity: 65536
-+        [2]:
-+            flags:
-+            name: b0
-+            granularity: 65536
-+    refcount bits: 16
-+    corrupt: false
-+
-+=== Check bitmap contents ===
-+
-+[{ "start": 0, "length": 3145728, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 3145728, "length": 1048576, "depth": 0, "zero": false, "data": false},
-+{ "start": 4194304, "length": 6291456, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
-+[{ "start": 0, "length": 1048576, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 1048576, "length": 1048576, "depth": 0, "zero": false, "data": false},
-+{ "start": 2097152, "length": 8388608, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
-+[{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 2097152, "length": 1048576, "depth": 0, "zero": false, "data": false},
-+{ "start": 3145728, "length": 7340032, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 445c26f8d2e2..d886fa0cb355 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -299,5 +299,6 @@
- 288 quick
- 289 rw quick
- 290 rw auto quick
-+291 rw quick
- 292 rw auto quick
- 297 meta
--- 
-2.26.2
+>  static void vfio_migration_region_exit(VFIODevice *vbasedev)
+>  {
+>      VFIOMigration *migration = vbasedev->migration;
+> @@ -229,6 +231,7 @@ static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev)
+>          return ret;
+>      }
+>  
+> +    bytes_transferred += data_size;
+>      return data_size;
+>  }
+>  
+> @@ -744,6 +747,11 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>  
+>  /* ---------------------------------------------------------------------- */
+>  
+> +int64_t vfio_mig_bytes_transferred(void)
+> +{
+> +    return bytes_transferred;
+> +}
+> +
+>  int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
+>  {
+>      struct vfio_region_info *info;
+> diff --git a/include/qemu/vfio-helpers.h b/include/qemu/vfio-helpers.h
+> index 1f057c2b9e40..26a7df0767b1 100644
+> --- a/include/qemu/vfio-helpers.h
+> +++ b/include/qemu/vfio-helpers.h
+> @@ -29,4 +29,7 @@ void qemu_vfio_pci_unmap_bar(QEMUVFIOState *s, int index, void *bar,
+>  int qemu_vfio_pci_init_irq(QEMUVFIOState *s, EventNotifier *e,
+>                             int irq_type, Error **errp);
+>  
+> +bool vfio_mig_active(void);
+> +int64_t vfio_mig_bytes_transferred(void);
+> +
+>  #endif
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 0bb042a0f78b..bcdc880e9a76 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -54,6 +54,7 @@
+>  #include "net/announce.h"
+>  #include "qemu/queue.h"
+>  #include "multifd.h"
+> +#include "qemu/vfio-helpers.h"
+>  
+>  #define MAX_THROTTLE  (32 << 20)      /* Migration transfer speed throttling */
+>  
+> @@ -970,6 +971,17 @@ static void populate_disk_info(MigrationInfo *info)
+>      }
+>  }
+>  
+> +#ifdef CONFIG_LINUX
+
+If you put the ifdef inside this function then you can avoid all the
+others below.
+
+> +static void populate_vfio_info(MigrationInfo *info)
+> +{
+> +    if (vfio_mig_active()) {
+> +        info->has_vfio = true;
+> +        info->vfio = g_malloc0(sizeof(*info->vfio));
+> +        info->vfio->bytes = vfio_mig_bytes_transferred();
+> +    }
+> +}
+> +#endif
+> +
+>  static void fill_source_migration_info(MigrationInfo *info)
+>  {
+>      MigrationState *s = migrate_get_current();
+> @@ -995,6 +1007,9 @@ static void fill_source_migration_info(MigrationInfo *info)
+>          populate_time_info(info, s);
+>          populate_ram_info(info, s);
+>          populate_disk_info(info);
+> +#ifdef CONFIG_LINUX
+> +        populate_vfio_info(info);
+> +#endif
+>          break;
+>      case MIGRATION_STATUS_COLO:
+>          info->has_status = true;
+> @@ -1003,6 +1018,9 @@ static void fill_source_migration_info(MigrationInfo *info)
+>      case MIGRATION_STATUS_COMPLETED:
+>          populate_time_info(info, s);
+>          populate_ram_info(info, s);
+> +#ifdef CONFIG_LINUX
+> +        populate_vfio_info(info);
+> +#endif
+>          break;
+>      case MIGRATION_STATUS_FAILED:
+>          info->has_status = true;
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 9c61e769ca9a..396c195263c2 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -355,6 +355,12 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+>          }
+>          monitor_printf(mon, "]\n");
+>      }
+> +
+> +    if (info->has_vfio) {
+> +        monitor_printf(mon, "vfio device bytes: %" PRIu64 " kbytes\n",
+> +                       info->vfio->bytes >> 10);
+> +    }
+> +
+>      qapi_free_MigrationInfo(info);
+>  }
+>  
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index d5000558c6c9..acbc42a1efe8 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -146,6 +146,18 @@
+>              'active', 'postcopy-active', 'postcopy-paused',
+>              'postcopy-recover', 'completed', 'failed', 'colo',
+>              'pre-switchover', 'device', 'wait-unplug' ] }
+> +##
+> +# @VfioStats:
+> +#
+> +# Detailed VFIO devices migration statistics
+> +#
+> +# @bytes: amount of bytes transferred to the target VM by VFIO devices
+> +#
+> +# Since: 5.1
+> +#
+> +##
+> +{ 'struct': 'VfioStats',
+> +  'data': {'bytes': 'int' } }
+>  
+>  ##
+>  # @MigrationInfo:
+> @@ -207,6 +219,10 @@
+>  #
+>  # @socket-address: Only used for tcp, to know what the real port is (Since 4.0)
+>  #
+> +# @vfio: @VfioStats containing detailed VFIO devices migration statistics,
+> +#        only returned if VFIO device is present, migration is supported by all
+> +#         VFIO devices and status is 'active' or 'completed' (since 5.1)
+> +#
+>  # Since: 0.14.0
+>  ##
+>  { 'struct': 'MigrationInfo',
+> @@ -222,7 +238,8 @@
+>             '*postcopy-blocktime' : 'uint32',
+>             '*postcopy-vcpu-blocktime': ['uint32'],
+>             '*compression': 'CompressionStats',
+> -           '*socket-address': ['SocketAddress'] } }
+> +           '*socket-address': ['SocketAddress'],
+> +           '*vfio': 'VfioStats' } }
+
+Is there anyway you can provide stats on the amount of main memory
+that's been marked as dirty because it's mapped by the device?
+
+Dave
+
+>  ##
+>  # @query-migrate:
+> -- 
+> 2.7.0
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
