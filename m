@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA2E1DD791
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:47:55 +0200 (CEST)
-Received: from localhost ([::1]:36812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3971E1DD768
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:39:56 +0200 (CEST)
+Received: from localhost ([::1]:57768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbrAY-0003cJ-FF
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:47:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39164)
+	id 1jbr2p-0002EG-8z
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:39:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1jbqps-0007xW-NT
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:26:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46348)
+ id 1jbqpr-0007tJ-Cs
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:26:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1jbqpq-0002Yq-BT
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:26:32 -0400
+ id 1jbqpq-0002Yu-Dy
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:26:31 -0400
 Received: from sstabellini-ThinkPad-T480s.hsd1.ca.comcast.net
  (c-67-164-102-47.hsd1.ca.comcast.net [67.164.102.47])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B1F1020823;
- Thu, 21 May 2020 19:26:28 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2764B20829;
+ Thu, 21 May 2020 19:26:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=default; t=1590089189;
- bh=OLinQC9iMGghSpuw/kVjTtdK+MSS8ybD0n5V6iGg1R0=;
+ bh=qth0gZ5xBbaWEKdqHxl0V348J7lsE6oOo/kwx1SoOOg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Mn2ybyc5RdBn3P9lPA+JIa0Jo3DN94gHiKwtjQptGdwW5ZJqnrLnVXzmvybaAKoEv
- UzcIWpKiGMXhIgU5G0u9xGmoo+uvNjJN48OxRr5m8L82iYMte3K5x+RN1Oe/YOlJcN
- P/Rl6hcJ+gHh4IRDkbRX58V8RAehPqMHIlS7ZKsQ=
+ b=iMyEo7j32pCrxOnF9egdv4Uwx6R32QNKGD+ACg/qr2frOpcD3wK/xz0AgXRoEISsp
+ uI8Z/AtNXF6IFKZ6YxFF5qr/P72r9EywZH/omTw7DbNwRZ5WT+AY8923/rXiBSFkNk
+ bKwPA/c4oO8HacbNFmGHKWpGt1R3BBHWeudOH5oc=
 From: Stefano Stabellini <sstabellini@kernel.org>
 To: groug@kaod.org
-Subject: [PATCH v2 2/3] xen/9pfs: yield when there isn't enough room on the
- ring
-Date: Thu, 21 May 2020 12:26:26 -0700
-Message-Id: <20200521192627.15259-2-sstabellini@kernel.org>
+Subject: [PATCH v2 3/3] xen/9pfs: increase max ring order to 9
+Date: Thu, 21 May 2020 12:26:27 -0700
+Message-Id: <20200521192627.15259-3-sstabellini@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <alpine.DEB.2.21.2005211225030.27502@sstabellini-ThinkPad-T480s>
 References: <alpine.DEB.2.21.2005211225030.27502@sstabellini-ThinkPad-T480s>
@@ -71,88 +70,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefano Stabellini <stefano.stabellini@xilinx.com>
 
-Instead of truncating replies, which is problematic, wait until the
-client reads more data and frees bytes on the reply ring.
-
-Do that by calling qemu_coroutine_yield(). The corresponding
-qemu_coroutine_enter_if_inactive() is called from xen_9pfs_bh upon
-receiving the next notification from the client.
-
-We need to be careful to avoid races in case xen_9pfs_bh and the
-coroutine are both active at the same time. In xen_9pfs_bh, wait until
-either the critical section is over (ring->co == NULL) or until the
-coroutine becomes inactive (qemu_coroutine_yield() was called) before
-continuing. Then, simply wake up the coroutine if it is inactive.
+The max order allowed by the protocol is 9. Increase the max order
+supported by QEMU to 9 to increase performance.
 
 Signed-off-by: Stefano Stabellini <stefano.stabellini@xilinx.com>
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
 Changes in v2:
-- add comments on barriers
+- patch added
 ---
- hw/9pfs/xen-9p-backend.c | 31 +++++++++++++++++++++++++------
- 1 file changed, 25 insertions(+), 6 deletions(-)
+ hw/9pfs/xen-9p-backend.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
-index fc197f6c8a..3c84c86ab8 100644
+index 3c84c86ab8..a969fcc54c 100644
 --- a/hw/9pfs/xen-9p-backend.c
 +++ b/hw/9pfs/xen-9p-backend.c
-@@ -37,6 +37,7 @@ typedef struct Xen9pfsRing {
+@@ -21,7 +21,7 @@
  
-     struct iovec *sg;
-     QEMUBH *bh;
-+    Coroutine *co;
+ #define VERSIONS "1"
+ #define MAX_RINGS 8
+-#define MAX_RING_ORDER 8
++#define MAX_RING_ORDER 9
  
-     /* local copies, so that we can read/write PDU data directly from
-      * the ring */
-@@ -198,16 +199,20 @@ static void xen_9pfs_init_in_iov_from_pdu(V9fsPDU *pdu,
-     g_free(ring->sg);
- 
-     ring->sg = g_new0(struct iovec, 2);
--    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, size);
-+    ring->co = qemu_coroutine_self();
-+    /* make sure other threads see ring->co changes before continuing */
-+    smp_wmb();
- 
-+again:
-+    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, size);
-     buf_size = iov_size(ring->sg, num);
-     if (buf_size  < size) {
--        xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs request type %d"
--                "needs %zu bytes, buffer has %zu\n", pdu->id, size,
--                buf_size);
--        xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
--        xen_9pfs_disconnect(&xen_9pfs->xendev);
-+        qemu_coroutine_yield();
-+        goto again;
-     }
-+    ring->co = NULL;
-+    /* make sure other threads see ring->co changes before continuing */
-+    smp_wmb();
- 
-     *piov = ring->sg;
-     *pniov = num;
-@@ -292,6 +297,20 @@ static int xen_9pfs_receive(Xen9pfsRing *ring)
- static void xen_9pfs_bh(void *opaque)
- {
-     Xen9pfsRing *ring = opaque;
-+    bool wait;
-+
-+again:
-+    wait = ring->co != NULL && qemu_coroutine_entered(ring->co);
-+    /* paired with the smb_wmb barriers in xen_9pfs_init_in_iov_from_pdu */
-+    smp_rmb();
-+    if (wait) {
-+        cpu_relax();
-+        goto again;
-+    }
-+
-+    if (ring->co != NULL) {
-+        qemu_coroutine_enter_if_inactive(ring->co);
-+    }
-     xen_9pfs_receive(ring);
- }
- 
+ typedef struct Xen9pfsRing {
+     struct Xen9pfsDev *priv;
 -- 
 2.17.1
 
