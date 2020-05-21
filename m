@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BFA71DD39F
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:00:06 +0200 (CEST)
-Received: from localhost ([::1]:38474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEFD1DD3A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:02:21 +0200 (CEST)
+Received: from localhost ([::1]:47068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jboY9-0000JZ-25
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:00:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49856)
+	id 1jboaK-00048v-Nx
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:02:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboIU-000336-KJ
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:54 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:34317)
+ id 1jboIV-000367-Ly
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:55 -0400
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:37282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboIT-0006Z0-Lc
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:54 -0400
-Received: by mail-qk1-x742.google.com with SMTP id 190so7915286qki.1
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:43:53 -0700 (PDT)
+ id 1jboIU-0006Z8-QW
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:55 -0400
+Received: by mail-qk1-x744.google.com with SMTP id m11so7881267qka.4
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LDQ6XQ/3vPiAN54mt6Pw+hfW8ObudV4rT2qqPEmK+8U=;
- b=rONSTrnGrSZ2PsoIrFLqBFuu6suHGbrMjX8uNyhMJMBGg035NputYOHa8h2uI8xtlF
- LOjjEFaAEKkn8SxHd9pFLcvc+FgVqlAAsvunyS530dGc7thTweLioc3xQRj6myQtUnLx
- CI32Z6rrO3nr72JWTeh6hFju0acnpQvitBwwDOgHgXCgLjooWqJ4mHqlHiphU/eby5at
- k/81cNpVH8haEAfc1pRSpJna3mOqwqfqMr5lAaGKf/+Md/yj69tA2eYbdD1ujFjUAwi8
- Lk08Cku5kOH1EfDrI8KUefdy7IkNzG49rii+8nDLJhIBuDwIXpN4P35dTiCr3dA0cXC1
- DeMg==
+ bh=r3ihf6Hm5TzP8tkXXmmJd+HhpHTqUNEyVizEpWsgvtc=;
+ b=dofwbhIQEtWvVwznSPn68P9c4ugfBCTexDdljcODqQWG+DjyYOY5lP7pauQpAYMjjL
+ +aXx0gqXBKheKyeehSQQFJLgDNZ1SGDybjZauKqFAOsNrI0U3goLecHNVlRhKHq6C50A
+ FchHgD+Xf+qTIuoz1daCb4X/xU5kCbrAuJ6vxm/4+uDsM/kOZHP4T3SZfrEGqO1OC4SJ
+ AWVQ36HblfaL7N5JeJXOz2t9y+FEBjSSIgnLbEsAU0O7iddzyrbsEXAUxoWTbRLvtX9T
+ aGfY1h8AbsWMwB8Rd8HeBXzWl1Xqo+a6o6GumqKs7IQhpzn6bdY8FS4x9lNzLEjaX+Zs
+ rx3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LDQ6XQ/3vPiAN54mt6Pw+hfW8ObudV4rT2qqPEmK+8U=;
- b=uGTSVeXZrjtgJ6lS1WsqEVzJkTpf9trALB4MmT+FvLQoY3M9i261vfCyw8y0di2yaQ
- VWob3VglJdPmSjsuaU4g6KxsGUlmvG6jM1i5o8DLCFwD6MiHM2oI++uJoFw7G8hL5Wp+
- nFI0TB3Ts6Yml2oVIPbUx2VBBu6+4TYXklgVnaypDPFFA0CaRE11q6DfLl33iML0Ah0f
- tceeUVHVd1znBrraPni/A4AAYnQ2gX01J+PzLkiFFEcnVmjO4EyhLBGMy/VeRNpDLkOy
- MXfG1suSjgFTuwdcPnok/dFNd6rY/vyDwyAzCRYBhzlraNLPkWKb0jCjZ9otkP7untIj
- 3rDw==
-X-Gm-Message-State: AOAM531loOJiljYRFHps+dRj+G59Qib0PcirfnkmLMqfGSY1lf/8rNY7
- AbEXlqFJr3jIoQZT9xRBqr/hUdtqfnAL2w==
-X-Google-Smtp-Source: ABdhPJxM86RQ5aNqp9UP/nL9z4Vei3jmWAjYFxbehbX9xxreBnli8ioe3TT9J5WNADneK2sbufq+eg==
-X-Received: by 2002:a05:620a:634:: with SMTP id
- 20mr10169315qkv.15.1590079432542; 
- Thu, 21 May 2020 09:43:52 -0700 (PDT)
+ bh=r3ihf6Hm5TzP8tkXXmmJd+HhpHTqUNEyVizEpWsgvtc=;
+ b=gyLB74qVdmyUt258HL7zE1KQsQcuEfMJBvL0zxeoJpex1LRtSqp16OQV8X/PbaeCwo
+ TeE8F6MjScb71syhYi+xJQxM5fqw5SeIFLrgEVD7OPd7Hzm59kNi0ZedIX+qHBWjFcSe
+ Az/PdElspcZkpNEP3pb4LRrBJHk3w13f+fjrMFmeLnl65l9KsHbPbdGsfPozm9aK2dLK
+ KsNTiZML059+9Wu7smavWULeddEMa7WHSICAL/Q7YCul+FwEKUJixvSeX3l2u5Mmjlf3
+ DrJReBIO1vj1leIvvhayE1QJcUOjD8IxqWU5bd1GnpxB5eVZOonlgsULQxIYe8SDjbRE
+ 75yg==
+X-Gm-Message-State: AOAM532iFTUGCZZBIIcEfidzwpMMmHCszMwTsxLNKATs7u8OhHfAdIDV
+ lVOCaIuMJ8gQo41fMpdZklNjFIKiGT8p9Q==
+X-Google-Smtp-Source: ABdhPJwl7FNruas9E/6C2KUyEKPpuIlgq7JHEyLeL/y4PTGdEoF+Hz7JoKctY+EQEdSsVLgv2amh2Q==
+X-Received: by 2002:a37:6fc3:: with SMTP id k186mr7870093qkc.419.1590079433750; 
+ Thu, 21 May 2020 09:43:53 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:1944:c530:655c:5583])
- by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.43.51
+ by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.43.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:43:51 -0700 (PDT)
+ Thu, 21 May 2020 09:43:53 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 28/74] xtensa: convert to cpu_halted
-Date: Thu, 21 May 2020 12:39:25 -0400
-Message-Id: <20200521164011.638-29-robert.foley@linaro.org>
+Subject: [PATCH v9 29/74] gdbstub: convert to cpu_halted
+Date: Thu, 21 May 2020 12:39:26 -0400
+Message-Id: <20200521164011.638-30-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200521164011.638-1-robert.foley@linaro.org>
 References: <20200521164011.638-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x742.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::744;
+ envelope-from=robert.foley@linaro.org; helo=mail-qk1-x744.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,64 +86,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, richard.henderson@linaro.org,
- Max Filippov <jcmvbkbc@gmail.com>, cota@braap.org, peter.puhov@linaro.org,
- alex.bennee@linaro.org
+Cc: richard.henderson@linaro.org, cota@braap.org, alex.bennee@linaro.org,
+ robert.foley@linaro.org, peter.puhov@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Cc: Max Filippov <jcmvbkbc@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/xtensa/cpu.c        | 2 +-
- target/xtensa/exc_helper.c | 2 +-
- target/xtensa/helper.c     | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ gdbstub.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-index 82c2ee0679..fda4a73722 100644
---- a/target/xtensa/cpu.c
-+++ b/target/xtensa/cpu.c
-@@ -102,7 +102,7 @@ static void xtensa_cpu_reset(DeviceState *dev)
- 
- #ifndef CONFIG_USER_ONLY
-     reset_mmu(env);
--    s->halted = env->runstall;
-+    cpu_halted_set(s, env->runstall);
- #endif
- }
- 
-diff --git a/target/xtensa/exc_helper.c b/target/xtensa/exc_helper.c
-index 601341d13a..01d1e56feb 100644
---- a/target/xtensa/exc_helper.c
-+++ b/target/xtensa/exc_helper.c
-@@ -115,7 +115,7 @@ void HELPER(waiti)(CPUXtensaState *env, uint32_t pc, uint32_t intlevel)
-         return;
-     }
- 
--    cpu->halted = 1;
-+    cpu_halted_set(cpu, 1);
-     HELPER(exception)(env, EXCP_HLT);
- }
- 
-diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
-index 7073381f03..031a14cf86 100644
---- a/target/xtensa/helper.c
-+++ b/target/xtensa/helper.c
-@@ -328,7 +328,7 @@ void xtensa_runstall(CPUXtensaState *env, bool runstall)
-     CPUState *cpu = env_cpu(env);
- 
-     env->runstall = runstall;
--    cpu->halted = runstall;
-+    cpu_halted_set(cpu, runstall);
-     if (runstall) {
-         cpu_interrupt(cpu, CPU_INTERRUPT_HALT);
+diff --git a/gdbstub.c b/gdbstub.c
+index 6950fd243f..b25796b33d 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -2062,10 +2062,10 @@ static void handle_query_thread_extra(GdbCmdContext *gdb_ctx, void *user_ctx)
+         g_autofree char *cpu_name =
+             object_get_canonical_path_component(OBJECT(cpu));
+         g_string_printf(rs, "%s %s [%s]", cpu_model, cpu_name,
+-                        cpu->halted ? "halted " : "running");
++                        cpu_halted(cpu) ? "halted " : "running");
      } else {
+         g_string_printf(rs, "CPU#%d [%s]", cpu->cpu_index,
+-                        cpu->halted ? "halted " : "running");
++                                   cpu_halted(cpu) ? "halted " : "running");
+     }
+     trace_gdbstub_op_extra_info(rs->str);
+     memtohex(gdbserver_state.str_buf, (uint8_t *)rs->str, rs->len);
 -- 
 2.17.1
 
