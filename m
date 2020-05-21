@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37AD01DD711
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:19:57 +0200 (CEST)
-Received: from localhost ([::1]:47788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D05B51DD717
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:22:03 +0200 (CEST)
+Received: from localhost ([::1]:56600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbqjU-0008OU-5w
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:19:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38036)
+	id 1jbqlW-0003q8-PD
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:22:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqg7-0002Gq-VJ
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:27 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:38704)
+ id 1jbqg8-0002Iz-Ru
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:28 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34250)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqg6-0000R3-O2
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:27 -0400
-Received: by mail-wm1-x331.google.com with SMTP id u12so2757713wmd.3
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:26 -0700 (PDT)
+ id 1jbqg7-0000RD-Ti
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:28 -0400
+Received: by mail-wm1-x341.google.com with SMTP id g14so2850245wme.1
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=jqyrlre26HzY4/EOKXLxmJgMpYAcEqSqJmnuoHIuFXE=;
- b=fnvEJEVbAtzKgzwdrXY3QzBVm37op7KWIJS9YimDHalAugt4KsOmYCGWJSEsDFrivw
- Sa055egmD1BffURhC7r+XPkP504MlCsMSL+f7i41ozZ80Q+e8Fh8+lnPuJLtq/sFBkW5
- sUBAwK1XeA++pUXSGw063Zofc7mbCm5L2IuhhGvR63dXvE4D9a5e4YNm6hsLm9Qok8Py
- TTCJPm8Z6pPiv+jSwJqAH9tx2paGDk/YE8kNg/9cvzjfPGzZs5vuA6kSIYxSyhwPL/VV
- feAfLBrAlALwvdxbt0s81mifO3HkZCHAg2kSgMbnkFqmWkKRDvh7+oiry4xjE0C5jkf/
- QZCg==
+ bh=dFEQXmjjsTDYYVSak8Tb1Vcj0+3VcW2hSollOB67zz4=;
+ b=htMRgp5kApo/ZQnPb29RD+Tgk/QPKgoMxNImuX76++tnvxPWQFW6FMlJpjzqMXkACH
+ yaXfzvthFsqLqUP//LPfEw0i3hgl+7TaieYILDQ6h0ec34jhya/pPwi6FQPxmES6ZPGl
+ ukfwYKZA7ESgAR5HXVjDLrvwXQyfd5OiWrc37ltvGpvEZ/5+uLnYrLEmB/+jTq1YwKQ7
+ 8k4li8GJ70IqKJlMhtWfquK7XXJQMztLrahRIgEhPqikCyTISLueanRLbvdimgHjqH8L
+ +Jyn54xszWr6L+qDs592QULr8xGLsXUK1XO023UC9AWxbF0sCGnjgagqEEjTBdxFY3kv
+ uazg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jqyrlre26HzY4/EOKXLxmJgMpYAcEqSqJmnuoHIuFXE=;
- b=EZUv58eSTu8AQ2mvgcWhEq8jR4thLIbHs9RxS9FMhrJI0wDV+uub/4SrC+OPMHq7/E
- ivNLuzL0lC70odl2Y/2LXfZRUNsz706ltN3gaz4i49P2tWiCVlzV7OGPJ1XIpR65W89a
- l+YIPju3Gm8IU3Re2cQs5JtYcALO75Dp+/g16L/kmGBewtinL26BciSTw4C86QofMcN/
- MXjo0Db65a3ILk/v+0nUrSmtcm0fo+0lHmyqpOx8myVOaaIDt/oTqTQVQGL5dvBGo6e6
- 8XK8M+1+0327Q3TBH8v3MFYKB9Ibu8ijhgOErJot0TXIhWgQLO70qcI+sGpjH+hvnRvw
- tpKQ==
-X-Gm-Message-State: AOAM532Ks3IPO5MVzJ/qGnZFMxg9c2OtVvIZxuCVb8831M7VehC80BCS
- ipOFZ3ntj0z60VEEhDJ9pWC9RnsQr+zlFg==
-X-Google-Smtp-Source: ABdhPJxvO2AVXP185g7ryFGfNXgIeonu0ml69KrXDk1GMOJbriCtvBHDjcisPLpnQjJLW0DucAAdVA==
-X-Received: by 2002:a1c:6182:: with SMTP id v124mr10112288wmb.30.1590088584813; 
- Thu, 21 May 2020 12:16:24 -0700 (PDT)
+ bh=dFEQXmjjsTDYYVSak8Tb1Vcj0+3VcW2hSollOB67zz4=;
+ b=lQ2xV9GmnL9zCnY4b5GQMcWQpIh7vhVoY+rv9/E/lKvAAdcBz4VUcorC39HqPo+mZJ
+ 13b5UvyxyNwoMdkCLi5XHiSxNjjEKXbHV8XsVvlWqqgkX9QZJfjqjLEwDxCi4B0XzjEj
+ ncATLLrvYazN32FBJItVnuQnPgyTP9NxrcgcXZG9r60pz3rYXgorV98RnoswQLnqIYfi
+ +AHU5lYCrNcGIp9DqWzqojcc6LbD/wMIV05BDwj/bkUiFD5ruXzr4L0UY75M5R2Dlinn
+ hHQtoLZmOrYVas2Lt1o1iL9bgFYky9G0MoGVCkafWmUgYl9zvKOaxgHWMnu+ljbw/ME3
+ yy0w==
+X-Gm-Message-State: AOAM5303rCosd7ZTaGvLyRo7/dM5bOCwo3mecf3n4H+usM4UPps9DKtB
+ MoeUF7uUOfFF0Gqw9Z34D+xhqHLHTKuHRw==
+X-Google-Smtp-Source: ABdhPJwRtSc60DXVgTaWXDjiaVVh1BS+XSFaYNtSx15karoYrsTfPFmemrAG2iX3j7gwCbWd4ZtRtQ==
+X-Received: by 2002:a05:600c:2109:: with SMTP id
+ u9mr9785168wml.75.1590088586237; 
+ Thu, 21 May 2020 12:16:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.23
+ by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 12:16:24 -0700 (PDT)
+ Thu, 21 May 2020 12:16:25 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/29] linux-user/arm: Fix identification of syscall numbers
-Date: Thu, 21 May 2020 20:15:51 +0100
-Message-Id: <20200521191610.10941-11-peter.maydell@linaro.org>
+Subject: [PULL 11/29] target/arm: Remove unused GEN_NEON_INTEGER_OP macro
+Date: Thu, 21 May 2020 20:15:52 +0100
+Message-Id: <20200521191610.10941-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200521191610.10941-1-peter.maydell@linaro.org>
 References: <20200521191610.10941-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,198 +89,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our code to identify syscall numbers has some issues:
- * for Thumb mode, we never need the immediate value from the insn,
-   but we always read it anyway
- * bad immediate values in the svc insn should cause a SIGILL, but we
-   were abort()ing instead (via "goto error")
-
-We can fix both these things by refactoring the code that identifies
-the syscall number to more closely follow the kernel COMPAT_OABI code:
- * for Thumb it is always r7
- * for Arm, if the immediate value is 0, then this is an EABI call
-   with the syscall number in r7
- * otherwise, we XOR the immediate value with 0x900000
-   (ARM_SYSCALL_BASE for QEMU; __NR_OABI_SYSCALL_BASE in the kernel),
-   which converts valid syscall immediates into the desired value,
-   and puts all invalid immediates in the range 0x100000 or above
- * then we can just let the existing "value too large, deliver
-   SIGILL" case handle invalid numbers, and drop the 'goto error'
+The GEN_NEON_INTEGER_OP macro is no longer used; remove it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-id: 20200420212206.12776-5-peter.maydell@linaro.org
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/arm/cpu_loop.c | 143 ++++++++++++++++++++------------------
- 1 file changed, 77 insertions(+), 66 deletions(-)
+ target/arm/translate.c | 23 -----------------------
+ 1 file changed, 23 deletions(-)
 
-diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
-index df8b7b3fa96..13629ee1f6a 100644
---- a/linux-user/arm/cpu_loop.c
-+++ b/linux-user/arm/cpu_loop.c
-@@ -299,85 +299,96 @@ void cpu_loop(CPUARMState *env)
-                 env->eabi = 1;
-                 /* system call */
-                 if (env->thumb) {
--                    /* FIXME - what to do if get_user() fails? */
--                    get_user_code_u16(insn, env->regs[15] - 2, env);
--                    n = insn & 0xff;
-+                    /* Thumb is always EABI style with syscall number in r7 */
-+                    n = env->regs[7];
-                 } else {
-+                    /*
-+                     * Equivalent of kernel CONFIG_OABI_COMPAT: read the
-+                     * Arm SVC insn to extract the immediate, which is the
-+                     * syscall number in OABI.
-+                     */
-                     /* FIXME - what to do if get_user() fails? */
-                     get_user_code_u32(insn, env->regs[15] - 4, env);
-                     n = insn & 0xffffff;
--                }
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 4c9bb8b5ac0..c8296116d4b 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -3034,29 +3034,6 @@ static inline void gen_neon_rsb(int size, TCGv_i32 t0, TCGv_i32 t1)
+     default: return 1; \
+     }} while (0)
+ 
+-#define GEN_NEON_INTEGER_OP(name) do { \
+-    switch ((size << 1) | u) { \
+-    case 0: \
+-        gen_helper_neon_##name##_s8(tmp, tmp, tmp2); \
+-        break; \
+-    case 1: \
+-        gen_helper_neon_##name##_u8(tmp, tmp, tmp2); \
+-        break; \
+-    case 2: \
+-        gen_helper_neon_##name##_s16(tmp, tmp, tmp2); \
+-        break; \
+-    case 3: \
+-        gen_helper_neon_##name##_u16(tmp, tmp, tmp2); \
+-        break; \
+-    case 4: \
+-        gen_helper_neon_##name##_s32(tmp, tmp, tmp2); \
+-        break; \
+-    case 5: \
+-        gen_helper_neon_##name##_u32(tmp, tmp, tmp2); \
+-        break; \
+-    default: return 1; \
+-    }} while (0)
 -
--                if (n == 0 || n >= ARM_SYSCALL_BASE || env->thumb) {
--                    /* linux syscall */
--                    if (env->thumb || n == 0) {
-+                    if (n == 0) {
-+                        /* zero immediate: EABI, syscall number in r7 */
-                         n = env->regs[7];
-                     } else {
--                        n -= ARM_SYSCALL_BASE;
-+                        /*
-+                         * This XOR matches the kernel code: an immediate
-+                         * in the valid range (0x900000 .. 0x9fffff) is
-+                         * converted into the correct EABI-style syscall
-+                         * number; invalid immediates end up as values
-+                         * > 0xfffff and are handled below as out-of-range.
-+                         */
-+                        n ^= ARM_SYSCALL_BASE;
-                         env->eabi = 0;
-                     }
--                    if ( n > ARM_NR_BASE) {
--                        switch (n) {
--                        case ARM_NR_cacheflush:
--                            /* nop */
--                            break;
--                        case ARM_NR_set_tls:
--                            cpu_set_tls(env, env->regs[0]);
--                            env->regs[0] = 0;
--                            break;
--                        case ARM_NR_breakpoint:
--                            env->regs[15] -= env->thumb ? 2 : 4;
--                            goto excp_debug;
--                        case ARM_NR_get_tls:
--                            env->regs[0] = cpu_get_tls(env);
--                            break;
--                        default:
--                            if (n < 0xf0800) {
--                                /*
--                                 * Syscalls 0xf0000..0xf07ff (or 0x9f0000..
--                                 * 0x9f07ff in OABI numbering) are defined
--                                 * to return -ENOSYS rather than raising
--                                 * SIGILL. Note that we have already
--                                 * removed the 0x900000 prefix.
--                                 */
--                                qemu_log_mask(LOG_UNIMP,
--                                    "qemu: Unsupported ARM syscall: 0x%x\n",
--                                              n);
--                                env->regs[0] = -TARGET_ENOSYS;
-+                }
-+
-+                if (n > ARM_NR_BASE) {
-+                    switch (n) {
-+                    case ARM_NR_cacheflush:
-+                        /* nop */
-+                        break;
-+                    case ARM_NR_set_tls:
-+                        cpu_set_tls(env, env->regs[0]);
-+                        env->regs[0] = 0;
-+                        break;
-+                    case ARM_NR_breakpoint:
-+                        env->regs[15] -= env->thumb ? 2 : 4;
-+                        goto excp_debug;
-+                    case ARM_NR_get_tls:
-+                        env->regs[0] = cpu_get_tls(env);
-+                        break;
-+                    default:
-+                        if (n < 0xf0800) {
-+                            /*
-+                             * Syscalls 0xf0000..0xf07ff (or 0x9f0000..
-+                             * 0x9f07ff in OABI numbering) are defined
-+                             * to return -ENOSYS rather than raising
-+                             * SIGILL. Note that we have already
-+                             * removed the 0x900000 prefix.
-+                             */
-+                            qemu_log_mask(LOG_UNIMP,
-+                                "qemu: Unsupported ARM syscall: 0x%x\n",
-+                                          n);
-+                            env->regs[0] = -TARGET_ENOSYS;
-+                        } else {
-+                            /*
-+                             * Otherwise SIGILL. This includes any SWI with
-+                             * immediate not originally 0x9fxxxx, because
-+                             * of the earlier XOR.
-+                             */
-+                            info.si_signo = TARGET_SIGILL;
-+                            info.si_errno = 0;
-+                            info.si_code = TARGET_ILL_ILLTRP;
-+                            info._sifields._sigfault._addr = env->regs[15];
-+                            if (env->thumb) {
-+                                info._sifields._sigfault._addr -= 2;
-                             } else {
--                                /* Otherwise SIGILL */
--                                info.si_signo = TARGET_SIGILL;
--                                info.si_errno = 0;
--                                info.si_code = TARGET_ILL_ILLTRP;
--                                info._sifields._sigfault._addr = env->regs[15];
--                                if (env->thumb) {
--                                    info._sifields._sigfault._addr -= 2;
--                                } else {
--                                    info._sifields._sigfault._addr -= 4;
--                                }
--                                queue_signal(env, info.si_signo,
--                                             QEMU_SI_FAULT, &info);
-+                                info._sifields._sigfault._addr -= 4;
-                             }
--                            break;
--                        }
--                    } else {
--                        ret = do_syscall(env,
--                                         n,
--                                         env->regs[0],
--                                         env->regs[1],
--                                         env->regs[2],
--                                         env->regs[3],
--                                         env->regs[4],
--                                         env->regs[5],
--                                         0, 0);
--                        if (ret == -TARGET_ERESTARTSYS) {
--                            env->regs[15] -= env->thumb ? 2 : 4;
--                        } else if (ret != -TARGET_QEMU_ESIGRETURN) {
--                            env->regs[0] = ret;
-+                            queue_signal(env, info.si_signo,
-+                                         QEMU_SI_FAULT, &info);
-                         }
-+                        break;
-                     }
-                 } else {
--                    goto error;
-+                    ret = do_syscall(env,
-+                                     n,
-+                                     env->regs[0],
-+                                     env->regs[1],
-+                                     env->regs[2],
-+                                     env->regs[3],
-+                                     env->regs[4],
-+                                     env->regs[5],
-+                                     0, 0);
-+                    if (ret == -TARGET_ERESTARTSYS) {
-+                        env->regs[15] -= env->thumb ? 2 : 4;
-+                    } else if (ret != -TARGET_QEMU_ESIGRETURN) {
-+                        env->regs[0] = ret;
-+                    }
-                 }
-             }
-             break;
+ static TCGv_i32 neon_load_scratch(int scratch)
+ {
+     TCGv_i32 tmp = tcg_temp_new_i32();
 -- 
 2.20.1
 
