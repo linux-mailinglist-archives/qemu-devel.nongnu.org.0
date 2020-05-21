@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472C61DD288
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 17:58:27 +0200 (CEST)
-Received: from localhost ([::1]:53758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A29D11DD247
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 17:49:29 +0200 (CEST)
+Received: from localhost ([::1]:60074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbnaU-00017L-Bc
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 11:58:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44122)
+	id 1jbnRo-0005HQ-Ng
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 11:49:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jbnYt-0007gA-FT; Thu, 21 May 2020 11:56:47 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:42007)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jbnYs-0003Jh-9u; Thu, 21 May 2020 11:56:47 -0400
-Received: by mail-io1-xd41.google.com with SMTP id e18so7927387iog.9;
- Thu, 21 May 2020 08:56:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oLR7dVAHollce4e7Rsge3CYJzhnQgXioaSrOT96WRko=;
- b=nAHUHC1oGJ65TsoJss/1RVz7wa1w+aK8kVuvgc/OlY3ADUGbgGqfaxBkdbP+a2Nlf2
- vPzBzsedQ8xBHw6WBdhjFkKd7ieTW9lkmQR7JcuTym27jOFRiuhNeqgxQ3RVAg32T9GO
- nv7aMPAgPGPt/cS+1KQNgal4jClF/z4ut5a4Uy0+T6XjsgHStIeVaUJLVncaMjhRliZs
- DOxXKMQAs8B7F3tK2fgQf4phhBLg59RWfANK3P0myqRzAw3nV7q5Hbi29VasUE/NTpHB
- 8YxrhLvLJCQk10gqJFAUETvdN1fM3wEJYkD+KBDtoZAVvNJi7WkMGP2qRds9kMmkk8ZA
- HEvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oLR7dVAHollce4e7Rsge3CYJzhnQgXioaSrOT96WRko=;
- b=FMKIDe4BazD3+h6UHd8HogQgsbkM5H8MzKLG0UvvZ/WO3iiQ8G5QRAM5+teWC/3c60
- 7+HE3kzTEmZ2cD3aWvK1Ze5hmkrAFaJki69gALawEL9VXcgtJYYIUjD4x9dvveqdUhD0
- 9sjQdq4z7dfusGr5PIBpCHq2P3GN4kQ27mShzrWETZo2lIpwDCQlXJbWDRj391S8vfWO
- LR8WuXJUd78j8NXWY0bTfGv4qGG0azdz7/HPZSdwzHlTaoqOXTKnftS/0caLZo5qQgyp
- YLoDPUm+855DZaA3ioy3fz5+hK/U+E7N0qmSNOTCgklloxc+9zPIgfR+bDtHNagbklVg
- ET+g==
-X-Gm-Message-State: AOAM532okadRodMaX6ZuE7dqF+23Z518U94+k8phBuXCRTk562aBh7AL
- BqdGTpeD7+cRcgwJqRU1GkvWSB4mqZNdkzqsYw0=
-X-Google-Smtp-Source: ABdhPJwWYB56fqLTjZ2KMcu/kaXxSCV5wqRCqo7Bewgrc6mYhxWUD8u1udqmRYqa1epHeLpIFORn/WmdEwokDJvPn9s=
-X-Received: by 2002:a5d:9604:: with SMTP id w4mr8442667iol.105.1590076604224; 
- Thu, 21 May 2020 08:56:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jbnQy-0002yX-It
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 11:48:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23341
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jbnQx-0001x9-3P
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 11:48:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590076113;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=zBH8atWFDlPPOx7CdZcY6nT/3fT0D+F9IB0HdGBJsBU=;
+ b=MbmX0639Y6r4i4cSaUgVm6NF71w8wMWjhePtqCu/PB2tnZAMqnMv5rNRd4DQnqeJ4F6FQI
+ GalKvXFu21qCtqVDNt7LldEPDl+mfluriUHX6h6jffnL5dmn9um3mNvRDttxVm0TQnRCEG
+ Gze5reUugfcfaa9hC1VnviJ1k4uD9Kc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-108-xjRZlXfoMmyOOKY3hPeeqg-1; Thu, 21 May 2020 11:48:20 -0400
+X-MC-Unique: xjRZlXfoMmyOOKY3hPeeqg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C04C78018A5;
+ Thu, 21 May 2020 15:48:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B0ED90068;
+ Thu, 21 May 2020 15:48:09 +0000 (UTC)
+Date: Thu, 21 May 2020 16:48:06 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Lukas Straub <lukasstraub2@web.de>
+Subject: Re: [PATCH v2 1/4] Introduce yank feature
+Message-ID: <20200521154806.GI2211791@redhat.com>
+References: <cover.1590008051.git.lukasstraub2@web.de>
+ <20005a15c708fbda983f9be602c55fc0b1979a18.1590008051.git.lukasstraub2@web.de>
+ <20200521150335.GO251811@stefanha-x1.localdomain>
+ <20200521174241.3b0a267f@luklap>
 MIME-Version: 1.0
-References: <cover.1588878640.git.alistair.francis@wdc.com>
- <341f49712f36d53b9d8588da8c7bac712fa7bfcc.1588878640.git.alistair.francis@wdc.com>
- <CAEUhbmUemew2k9EthWStX5UADMN1JGRqj0+Tk1nOpZJ2WSEAHQ@mail.gmail.com>
-In-Reply-To: <CAEUhbmUemew2k9EthWStX5UADMN1JGRqj0+Tk1nOpZJ2WSEAHQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 21 May 2020 08:47:48 -0700
-Message-ID: <CAKmqyKOHfagzmOttP4Yx-9fwL9_zCUs66V0seUz3=2ZJJYa2Lg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] target/riscv: Drop support for ISA spec version
- 1.09.1
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+In-Reply-To: <20200521174241.3b0a267f@luklap>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 06:06:22
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,245 +83,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 20, 2020 at 6:18 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Fri, May 8, 2020 at 3:22 AM Alistair Francis
-> <alistair.francis@wdc.com> wrote:
-> >
-> > The RISC-V ISA spec version 1.09.1 has been deprecated in QEMU since
-> > 4.1. It's not commonly used so let's remove support for it.
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  target/riscv/cpu.c                            |  2 -
-> >  target/riscv/cpu.h                            |  1 -
-> >  target/riscv/csr.c                            | 82 ++++---------------
-> >  .../riscv/insn_trans/trans_privileged.inc.c   |  6 --
-> >  4 files changed, 17 insertions(+), 74 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index 112f2e3a2f..eeb91f8513 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -368,8 +368,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-> >              priv_version = PRIV_VERSION_1_11_0;
-> >          } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.10.0")) {
-> >              priv_version = PRIV_VERSION_1_10_0;
-> > -        } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.9.1")) {
-> > -            priv_version = PRIV_VERSION_1_09_1;
-> >          } else {
-> >              error_setg(errp,
-> >                         "Unsupported privilege spec version '%s'",
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index 76b98d7a33..c022539012 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -73,7 +73,6 @@ enum {
-> >      RISCV_FEATURE_MISA
-> >  };
-> >
-> > -#define PRIV_VERSION_1_09_1 0x00010901
-> >  #define PRIV_VERSION_1_10_0 0x00011000
-> >  #define PRIV_VERSION_1_11_0 0x00011100
-> >
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index 11d184cd16..df3498b24f 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -58,31 +58,11 @@ static int ctr(CPURISCVState *env, int csrno)
-> >  #if !defined(CONFIG_USER_ONLY)
-> >      CPUState *cs = env_cpu(env);
-> >      RISCVCPU *cpu = RISCV_CPU(cs);
-> > -    uint32_t ctr_en = ~0u;
-> >
-> >      if (!cpu->cfg.ext_counters) {
-> >          /* The Counters extensions is not enabled */
-> >          return -1;
-> >      }
-> > -
-> > -    /*
-> > -     * The counters are always enabled at run time on newer priv specs, as the
-> > -     * CSR has changed from controlling that the counters can be read to
-> > -     * controlling that the counters increment.
-> > -     */
-> > -    if (env->priv_ver > PRIV_VERSION_1_09_1) {
-> > -        return 0;
-> > -    }
-> > -
-> > -    if (env->priv < PRV_M) {
-> > -        ctr_en &= env->mcounteren;
-> > -    }
-> > -    if (env->priv < PRV_S) {
-> > -        ctr_en &= env->scounteren;
-> > -    }
-> > -    if (!(ctr_en & (1u << (csrno & 31)))) {
-> > -        return -1;
-> > -    }
-> >  #endif
-> >      return 0;
-> >  }
-> > @@ -358,34 +338,21 @@ static int write_mstatus(CPURISCVState *env, int csrno, target_ulong val)
-> >      int dirty;
-> >
-> >      /* flush tlb on mstatus fields that affect VM */
-> > -    if (env->priv_ver <= PRIV_VERSION_1_09_1) {
-> > -        if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP |
-> > -                MSTATUS_MPRV | MSTATUS_SUM | MSTATUS_VM)) {
-> > -            tlb_flush(env_cpu(env));
-> > -        }
-> > -        mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
-> > -            MSTATUS_SPP | MSTATUS_FS | MSTATUS_MPRV | MSTATUS_SUM |
-> > -            MSTATUS_MPP | MSTATUS_MXR |
-> > -            (validate_vm(env, get_field(val, MSTATUS_VM)) ?
-> > -                MSTATUS_VM : 0);
-> > +    if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
-> > +            MSTATUS_MPRV | MSTATUS_SUM)) {
-> > +        tlb_flush(env_cpu(env));
-> >      }
-> > -    if (env->priv_ver >= PRIV_VERSION_1_10_0) {
-> > -        if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
-> > -                MSTATUS_MPRV | MSTATUS_SUM)) {
-> > -            tlb_flush(env_cpu(env));
-> > -        }
-> > -        mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
-> > -            MSTATUS_SPP | MSTATUS_FS | MSTATUS_MPRV | MSTATUS_SUM |
-> > -            MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
-> > -            MSTATUS_TW;
-> > +    mask = MSTATUS_SIE | MSTATUS_SPIE | MSTATUS_MIE | MSTATUS_MPIE |
-> > +        MSTATUS_SPP | MSTATUS_FS | MSTATUS_MPRV | MSTATUS_SUM |
-> > +        MSTATUS_MPP | MSTATUS_MXR | MSTATUS_TVM | MSTATUS_TSR |
-> > +        MSTATUS_TW;
-> >  #if defined(TARGET_RISCV64)
-> > -            /*
-> > -             * RV32: MPV and MTL are not in mstatus. The current plan is to
-> > -             * add them to mstatush. For now, we just don't support it.
-> > -             */
-> > -            mask |= MSTATUS_MTL | MSTATUS_MPV;
-> > +        /*
-> > +         * RV32: MPV and MTL are not in mstatus. The current plan is to
-> > +         * add them to mstatush. For now, we just don't support it.
-> > +         */
-> > +        mask |= MSTATUS_MTL | MSTATUS_MPV;
->
-> The indentation level is wrong
+On Thu, May 21, 2020 at 05:42:41PM +0200, Lukas Straub wrote:
+> On Thu, 21 May 2020 16:03:35 +0100
+> Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> 
+> > On Wed, May 20, 2020 at 11:05:39PM +0200, Lukas Straub wrote:
+> > > +void yank_generic_iochannel(void *opaque)
+> > > +{
+> > > +    QIOChannel *ioc = QIO_CHANNEL(opaque);
+> > > +
+> > > +    qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
+> > > +}
+> > > +
+> > > +void qmp_yank(strList *instances, Error **errp)
+> > > +{
+> > > +    strList *tmp;
+> > > +    struct YankInstance *instance;
+> > > +    struct YankFuncAndParam *entry;
+> > > +
+> > > +    qemu_mutex_lock(&lock);
+> > > +    tmp = instances;
+> > > +    for (; tmp; tmp = tmp->next) {
+> > > +        instance = yank_find_instance(tmp->value);
+> > > +        if (!instance) {
+> > > +            error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,
+> > > +                      "Instance '%s' not found", tmp->value);
+> > > +            qemu_mutex_unlock(&lock);
+> > > +            return;
+> > > +        }
+> > > +    }
+> > > +    tmp = instances;
+> > > +    for (; tmp; tmp = tmp->next) {
+> > > +        instance = yank_find_instance(tmp->value);
+> > > +        assert(instance);
+> > > +        QLIST_FOREACH(entry, &instance->yankfns, next) {
+> > > +            entry->func(entry->opaque);
+> > > +        }
+> > > +    }
+> > > +    qemu_mutex_unlock(&lock);
+> > > +}  
+> > 
+> > From docs/devel/qapi-code-gen.txt:
+> > 
+> >   An OOB-capable command handler must satisfy the following conditions:
+> > 
+> >   - It terminates quickly.
+> Check.
+> 
+> >   - It does not invoke system calls that may block.
+> brk/sbrk (malloc and friends):
+> The manpage doesn't say anything about blocking, but malloc is already used while handling the qmp command.
+> 
+> shutdown():
+> The manpage doesn't say anything about blocking, but this is already used in migration oob qmp commands.
 
-Good catch.
+It just marks the socket state in local kernel side. It doesn't involve
+any blocking roundtrips over the wire, so this is fine.
 
->
-> >  #endif
-> > -    }
-> >
-> >      mstatus = (mstatus & ~mask) | (val & mask);
-> >
-> > @@ -553,8 +520,7 @@ static int write_mcounteren(CPURISCVState *env, int csrno, target_ulong val)
-> >  /* This regiser is replaced with CSR_MCOUNTINHIBIT in 1.11.0 */
-> >  static int read_mscounteren(CPURISCVState *env, int csrno, target_ulong *val)
-> >  {
-> > -    if (env->priv_ver > PRIV_VERSION_1_09_1
-> > -        && env->priv_ver < PRIV_VERSION_1_11_0) {
-> > +    if (env->priv_ver < PRIV_VERSION_1_11_0) {
-> >          return -1;
-> >      }
-> >      *val = env->mcounteren;
-> > @@ -564,8 +530,7 @@ static int read_mscounteren(CPURISCVState *env, int csrno, target_ulong *val)
-> >  /* This regiser is replaced with CSR_MCOUNTINHIBIT in 1.11.0 */
-> >  static int write_mscounteren(CPURISCVState *env, int csrno, target_ulong val)
-> >  {
-> > -    if (env->priv_ver > PRIV_VERSION_1_09_1
-> > -        && env->priv_ver < PRIV_VERSION_1_11_0) {
-> > +    if (env->priv_ver < PRIV_VERSION_1_11_0) {
-> >          return -1;
-> >      }
-> >      env->mcounteren = val;
-> > @@ -574,20 +539,13 @@ static int write_mscounteren(CPURISCVState *env, int csrno, target_ulong val)
-> >
-> >  static int read_mucounteren(CPURISCVState *env, int csrno, target_ulong *val)
-> >  {
-> > -    if (env->priv_ver > PRIV_VERSION_1_09_1) {
-> > -        return -1;
-> > -    }
-> > -    *val = env->scounteren;
-> > +    return -1;
-> >      return 0;
-> >  }
-> >
-> >  static int write_mucounteren(CPURISCVState *env, int csrno, target_ulong val)
-> >  {
-> > -    if (env->priv_ver > PRIV_VERSION_1_09_1) {
-> > -        return -1;
-> > -    }
-> > -    env->scounteren = val;
-> > -    return 0;
-> > +    return -1;
-> >  }
-> >
-> >  /* Machine Trap Handling */
-> > @@ -829,13 +787,7 @@ static int write_satp(CPURISCVState *env, int csrno, target_ulong val)
-> >      if (!riscv_feature(env, RISCV_FEATURE_MMU)) {
-> >          return 0;
-> >      }
-> > -    if (env->priv_ver <= PRIV_VERSION_1_09_1 && (val ^ env->sptbr)) {
-> > -        tlb_flush(env_cpu(env));
-> > -        env->sptbr = val & (((target_ulong)
-> > -            1 << (TARGET_PHYS_ADDR_SPACE_BITS - PGSHIFT)) - 1);
-> > -    }
-> > -    if (env->priv_ver >= PRIV_VERSION_1_10_0 &&
-> > -        validate_vm(env, get_field(val, SATP_MODE)) &&
-> > +    if (validate_vm(env, get_field(val, SATP_MODE)) &&
-> >          ((val ^ env->satp) & (SATP_MODE | SATP_ASID | SATP_PPN)))
-> >      {
-> >          if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-> > diff --git a/target/riscv/insn_trans/trans_privileged.inc.c b/target/riscv/insn_trans/trans_privileged.inc.c
-> > index 76c2fad71c..1af9fa7df8 100644
-> > --- a/target/riscv/insn_trans/trans_privileged.inc.c
-> > +++ b/target/riscv/insn_trans/trans_privileged.inc.c
-> > @@ -95,12 +95,6 @@ static bool trans_sfence_vma(DisasContext *ctx, arg_sfence_vma *a)
-> >
-> >  static bool trans_sfence_vm(DisasContext *ctx, arg_sfence_vm *a)
-> >  {
-> > -#ifndef CONFIG_USER_ONLY
-> > -    if (ctx->priv_ver <= PRIV_VERSION_1_09_1) {
-> > -        gen_helper_tlb_flush(cpu_env);
-> > -        return true;
-> > -    }
-> > -#endif
-> >      return false;
-> >  }
->
-> There are 3 more places in this file that should be cleaned up:
->
-> ./target/riscv/insn_trans/trans_privileged.inc.c:88:    if
-> (ctx->priv_ver >= PRIV_VERSION_1_10_0) {
-> ./target/riscv/insn_trans/trans_privileged.inc.c:110:    if
-> (ctx->priv_ver >= PRIV_VERSION_1_10_0 &&
-> ./target/riscv/insn_trans/trans_privileged.inc.c:130:    if
-> (ctx->priv_ver >= PRIV_VERSION_1_10_0 &&
->
-> And the following place in monitor.c should be cleaned up too:
->
-> ./target/riscv/monitor.c:218:    if (env->priv_ver < PRIV_VERSION_1_10_0) {
->
-> And several other places in
->
-> ./target/riscv/op_helper.c:87:    if (env->priv_ver >= PRIV_VERSION_1_10_0 &&
-> ./target/riscv/op_helper.c:123:            env->priv_ver >=
-> PRIV_VERSION_1_10_0 ?
-> ./target/riscv/op_helper.c:151:        env->priv_ver >= PRIV_VERSION_1_10_0 ?
-> ./target/riscv/op_helper.c:180:        env->priv_ver >= PRIV_VERSION_1_10_0 &&
-> ./target/riscv/op_helper.c:196:         env->priv_ver >= PRIV_VERSION_1_10_0 &&
+> 
+> There are no other syscalls involved to my knowledge.
+> 
+> >   - It does not access guest RAM that may block when userfaultfd is
+> >     enabled for postcopy live migration.
+> Check.
+> 
+> >   - It takes only "fast" locks, i.e. all critical sections protected by
+> >     any lock it takes also satisfy the conditions for OOB command
+> >     handler code.
+> 
+> The lock in yank.c satisfies this requirement.
+> 
+> qio_channel_shutdown doesn't take any locks.
 
-Yeah you are right. I have fixed all of these.
+Agreed, I think the yank code is compliant with all the points
+listed above.
 
-Alistair
 
->
-> Regards,
-> Bin
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
