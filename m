@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51AB41DD2BD
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:06:15 +0200 (CEST)
-Received: from localhost ([::1]:43508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D991DD268
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 17:55:09 +0200 (CEST)
+Received: from localhost ([::1]:41930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbni2-0002BC-99
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:06:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44742)
+	id 1jbnXI-00045X-Bx
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 11:55:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jbndw-0004uR-2V; Thu, 21 May 2020 12:02:02 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:33554)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jbndk-0004Y6-27; Thu, 21 May 2020 12:01:55 -0400
-Received: by mail-io1-xd44.google.com with SMTP id k18so8035014ion.0;
- Thu, 21 May 2020 09:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uTHTIfmNBf76SWC/ADq3fQt/dNmanjgMWjPMSWG66gs=;
- b=qVUMJPylQt/gJadtzON+UgGN3yxHKWAuBvi+M/QNmmIr0YafgmDoPMd38Xe9B+WVsc
- Q4AOScajlmB7LHlxQKpo6+9AP+bU9ZBReDWjH+ivTjdsk4xaAkD7lNqpKnXy5oFl5/AP
- Hj0pqJBloT5QhlGKSzBsihOiY1sI0Dys86wcKOLDIdXoaat+tXgmer5qU3J7lD3rGGfy
- CZsbGkv7ycKN+nifbqRXEetoDbMPjfBfDWO/ZKisZHuGt5l7kiPSVl7Zd5OAqDlIAhcn
- 6BxR113UioExTivMxTia4ezbTXid+vu4jeSjqKNOS9exLou2KdejXoba6BFg18sNkfXx
- mv2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uTHTIfmNBf76SWC/ADq3fQt/dNmanjgMWjPMSWG66gs=;
- b=nE8bvZZMQObKIPTEM1cS43nsIBuSJbLrP5g8kIQD+VM4nmvHRVCoeEZqderEjvL0HI
- 3l4560Yv46eOOJnX5V0pD8YAZExu0H109uBSrsLcCWR61ZndrCg2pSY5wK8ap8G8uH9Z
- i/V4L0/AqiK7qQnRoLzKx5fUtX4YSwtICmBgGi0ay2gSUm+H9mrx3ZJcV/FTHqPhf7C0
- XaCphPJalgOHMTfK/lHwsQoTOfSuhI/WrofSL0DxqlsInSL7XeJMNSc0H3pDFDg0lq5H
- nKizEVvfpXgVEx8DG1OePtIPfZQtWKFdhNZw9TEIp4zS1aVowRes/iSoTfDf6devbCdr
- o1Wg==
-X-Gm-Message-State: AOAM531lT50t0blgIjq1R6p2SGj8nw8m2LeRHxkr7lmLzD36TWSjcq+E
- qA6P1lyzFXkfsZYePHB/ShY0zWjPXVViwHM/66I=
-X-Google-Smtp-Source: ABdhPJxShgMMu6A9SuWD+GwsjM+R6WUkYtn2izYoMLlACqvJATUUwqIePO/5/IjZg7uW3tDJTen+9mypvMCOmPqkNjg=
-X-Received: by 2002:a02:a118:: with SMTP id f24mr4530548jag.8.1590076906254;
- Thu, 21 May 2020 09:01:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jbnVV-0002i2-UT
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 11:53:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56835
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jbnVU-0002je-9E
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 11:53:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590076392;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lXoVBJMwC4KsISdnsK7rGMGb7OpYsdbJxQ5Ni5Ivmz4=;
+ b=cniwJxnqxs5je1uZjxv9xnDa3Xk/68evz8I96HVzAQVhsVK48McJS+IleRD/unUSqhm1pT
+ u6rK8hE+buca6nNxGkUAAtCEYyVYr12ExsJIRptysPuKAk5i7K98Ry1+ONJz4udlNgJ3k9
+ ULYAckmNlisrL78bdL/4FzBE/IRoEK0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-430-iIb33i8pMgmD2EKu0HetMA-1; Thu, 21 May 2020 11:53:11 -0400
+X-MC-Unique: iIb33i8pMgmD2EKu0HetMA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12A2F1855A02;
+ Thu, 21 May 2020 15:53:10 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 10CCC779D4;
+ Thu, 21 May 2020 15:53:07 +0000 (UTC)
+Date: Thu, 21 May 2020 17:53:03 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH  v1 5/8] cpus-common: ensure auto-assigned cpu_indexes
+ don't clash
+Message-ID: <20200521175303.74faabe2@redhat.com>
+In-Reply-To: <87y2pucwhi.fsf@linaro.org>
+References: <20200513173200.11830-1-alex.bennee@linaro.org>
+ <20200513173200.11830-6-alex.bennee@linaro.org>
+ <87y2pucwhi.fsf@linaro.org>
 MIME-Version: 1.0
-References: <1588335545-649-1-git-send-email-bmeng.cn@gmail.com>
- <CAKmqyKMdmVrvYDNVtm6_iviDT_mofGZO9DC2vtZdZaHN31T07A@mail.gmail.com>
- <CAKmqyKO6HGQrMxsNovPkoB4TncEmeD=uFV_oXEpQ0t+=g20Wfw@mail.gmail.com>
- <CAEUhbmVTg+521EHutukOod_PKx0RQ-s=EgnKu=JM-vduMn4mNA@mail.gmail.com>
- <CAKmqyKPdjBFmPcQY+O4zsaTHYeLVC9zanXhS5CBovfn4LLRdJg@mail.gmail.com>
- <CAEUhbmXPRN=1QCfr=ekG_m5wiWkQoG7pb-OzR-guixRutYJOEg@mail.gmail.com>
-In-Reply-To: <CAEUhbmXPRN=1QCfr=ekG_m5wiWkQoG7pb-OzR-guixRutYJOEg@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 21 May 2020 08:52:50 -0700
-Message-ID: <CAKmqyKO+Yowc57izjx_5V6u8ncj1VZ897dTQNmkhWi9yT-PESg@mail.gmail.com>
-Subject: Re: [PATCH] riscv: Change the default behavior if no -bios option is
- specified
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 06:06:22
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,88 +82,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Nikolay Igotti <igotti@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 20, 2020 at 6:37 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi Alistair,
->
-> On Thu, May 7, 2020 at 5:02 AM Alistair Francis <alistair23@gmail.com> wrote:
+On Thu, 14 May 2020 17:27:53 +0100
+Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
+
+> a
+> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>=20
+> > Basing the cpu_index on the number of currently allocated vCPUs fails
+> > when vCPUs aren't removed in a LIFO manner. This is especially true
+> > when we are allocating a cpu_index for each guest thread in
+> > linux-user where there is no ordering constraint on their allocation
+> > and de-allocation.
 > >
-> > On Tue, May 5, 2020 at 6:34 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >
-> > > Hi Alistair,
-> > >
-> > > On Wed, May 6, 2020 at 6:37 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > > >
-> > > > On Tue, May 5, 2020 at 1:34 PM Alistair Francis <alistair23@gmail.com> wrote:
-> > > > >
-> > > > > On Fri, May 1, 2020 at 5:21 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > > >
-> > > > > > From: Bin Meng <bin.meng@windriver.com>
-> > > > > >
-> > > > > > Per QEMU deprecated doc, QEMU 4.1 introduced support for the -bios
-> > > > > > option in QEMU for RISC-V for the virt machine and sifive_u machine.
-> > > > > > The default behavior has been that QEMU does not automatically load
-> > > > > > any firmware if no -bios option is included.
-> > > > > >
-> > > > > > Now 2 releases passed, it's time to change the default behavior to
-> > > > > > load the default OpenSBI firmware automatically. The firmware is
-> > > > > > included with the QEMU release and no user interaction is required.
-> > > > > > All a user needs to do is specify the kernel they want to boot with
-> > > > > > the -kernel option.
-> > > > > >
-> > > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > > > >
-> > > > > Thanks!
-> > > > >
-> > > > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > > > >
-> > > > > Applied to the RISC-V tree.
-> > > >
-> > > > This fails `make check`
-> > > >
-> > > > qemu-system-riscv64: Unable to load the RISC-V firmware
-> > > > "opensbi-riscv64-spike-fw_jump.elf"
-> > > > Broken pipe
-> > > > /scratch/alistair/software/qemu/tests/qtest/libqtest.c:166:
-> > > > kill_qemu() tried to terminate QEMU process but encountered exit
-> > > > status 1 (expected 0)
-> > > > ERROR - too few tests run (expected 7, got 2)
-> > > > make: *** [/scratch/alistair/software/qemu/tests/Makefile.include:637:
-> > > > check-qtest-riscv64] Error 1
-> > > >
-> > >
-> > > Please apply this patch to fix the "make check" as well.
-> > >
-> > > [5/5] riscv: Suppress the error report for QEMU testing with
-> > > riscv_find_firmware()
-> > > http://patchwork.ozlabs.org/project/qemu-devel/patch/1588348254-7241-6-git-send-email-bmeng.cn@gmail.com/
+> > [I've dropped the assert which is there to guard against out-of-order
+> > removal as this should probably be caught higher up the stack. Maybe
+> > we could just ifdef CONFIG_SOFTTMU it?]
+
+for machines where we care about cross version migration (arm/virt,s390,x86=
+,spapr),
+we do manual cpu_index assignment on keep control on its stability
+So orderining probably shouldn't matter for other softmmu boards,
+but what I'd watch for is arrays within devices where cpu_index is used as =
+index
+(ex: would be apic emulation (but its not affected by this patch since x86 =
+control
+cpu_index assignment))
+
+
 > >
-> > In future please send all related patches in a single series.
+> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> > Cc: Nikolay Igotti <igotti@gmail.com>
+> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > Cc: Igor Mammedov <imammedo@redhat.com>
+> > Cc: Eduardo Habkost <ehabkost@redhat.com>
+> > ---
+> >  cpus-common.c | 9 ++++-----
+> >  1 file changed, 4 insertions(+), 5 deletions(-)
 > >
-> > I have applied those two patches.
->
-> I checked https://github.com/alistair23/qemu/ but could not find where
-> these 2 patches applied. Just make sure I was not looking at the wrong
-> place?
+> > diff --git a/cpus-common.c b/cpus-common.c
+> > index 55d5df89237..5a7d2f6132b 100644
+> > --- a/cpus-common.c
+> > +++ b/cpus-common.c
+> > @@ -61,13 +61,14 @@ static bool cpu_index_auto_assigned;
+> >  static int cpu_get_free_index(void)
+> >  {
+> >      CPUState *some_cpu;
+> > -    int cpu_index =3D 0;
+> > +    int max_cpu_index =3D 0;
+> > =20
+> >      cpu_index_auto_assigned =3D true;
+> >      CPU_FOREACH(some_cpu) {
+> > -        cpu_index++;
+> > +        max_cpu_index =3D MAX(some_cpu->cpu_index, max_cpu_index);
+> >      }
+> > -    return cpu_index;
+> > +    max_cpu_index++;
+> > +    return max_cpu_index;
+> >  } =20
+>=20
+> OK some ending up with cpu_index =3D 1 threw off devices that would do
+> qemu_get_cpu(0) so I've tweaked the algorithm to:
+>=20
+>   static int cpu_get_free_index(void)
+>   {
+>       CPUState *some_cpu;
+>       int max_cpu_index =3D 0;
+>=20
+>       cpu_index_auto_assigned =3D true;
+>       CPU_FOREACH(some_cpu) {
+>           if (some_cpu->cpu_index >=3D max_cpu_index) {
+>               max_cpu_index =3D some_cpu->cpu_index + 1;
+>           }
+>       }
+>       return max_cpu_index;
+>   }
+>=20
+> > =20
+> >  void cpu_list_add(CPUState *cpu)
+> > @@ -90,8 +91,6 @@ void cpu_list_remove(CPUState *cpu)
+> >          return;
+> >      }
+> > =20
+> > -    assert(!(cpu_index_auto_assigned && cpu !=3D QTAILQ_LAST(&cpus)));
+> > -
+> >      QTAILQ_REMOVE_RCU(&cpus, cpu, node);
+> >      cpu->cpu_index =3D UNASSIGNED_CPU_INDEX;
+> >  } =20
+>=20
+>=20
 
-That's the right place, I just hadn't pushed it there yet.
-
-I have an internal Git instance that does all the testing so I usually
-push it there.
-
-Alistair
-
->
-> Regards,
-> Bin
 
