@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52BCC1DCF6C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 16:19:35 +0200 (CEST)
-Received: from localhost ([::1]:55138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317991DCFAD
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 16:26:56 +0200 (CEST)
+Received: from localhost ([::1]:38700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbm2o-0006qv-Cx
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 10:19:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32864)
+	id 1jbm9v-0006EK-9f
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 10:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jbm1l-0005ev-Lv
- for qemu-devel@nongnu.org; Thu, 21 May 2020 10:18:29 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20730
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jbm1j-0005Xt-Oc
- for qemu-devel@nongnu.org; Thu, 21 May 2020 10:18:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590070705;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4a3PW0f+ZNOmpU3uTsbH8e30LNIPg8MpNlNrlRNOdt4=;
- b=Nt+McK6c3lly6SoW+Lz2pJHl5uoyw/pcQhMelcvab1v4gPdmp5pgIGD1lmI2xCEjYRFKLO
- utLyKt4Pa2iApYj9Wiu4G4jzJZamWbR7vpzhRymHnZspR+JauiozpyE5OC2kfzAGqcv6sA
- KsX73GkIw6T/F1jcDtp6oJvlLcsywvw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-lb_c9oxTOSyjZjgbXVVdBw-1; Thu, 21 May 2020 10:18:23 -0400
-X-MC-Unique: lb_c9oxTOSyjZjgbXVVdBw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F6168014D7;
- Thu, 21 May 2020 14:18:21 +0000 (UTC)
-Received: from work-vm (ovpn-113-115.ams2.redhat.com [10.36.113.115])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 61C9F5D9C9;
- Thu, 21 May 2020 14:18:08 +0000 (UTC)
-Date: Thu, 21 May 2020 15:18:05 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH QEMU v23 08/18] vfio: Register SaveVMHandlers for VFIO
- device
-Message-ID: <20200521141805.GG2752@work-vm>
-References: <1589999088-31477-1-git-send-email-kwankhede@nvidia.com>
- <1589999088-31477-9-git-send-email-kwankhede@nvidia.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jbm96-0005hY-ED
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 10:26:04 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59010)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jbm95-00070W-5h
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 10:26:04 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jbm91-0006Vn-4p
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 14:25:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7DF7F2E819F
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 14:25:54 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1589999088-31477-9-git-send-email-kwankhede@nvidia.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:47:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 21 May 2020 14:19:40 -0000
+From: Peter Maydell <1877136@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: matmal01 pmaydell
+X-Launchpad-Bug-Reporter: Matthew (matmal01)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <158877804267.5105.15160019007007013161.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159007078103.7211.15588578918744226444.malone@gac.canonical.com>
+Subject: [Bug 1877136] Re: Qemu GDB Arm core registers XML description not
+ valid for M-profile
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 8d9762e4786034fec1f03bf47074d23adee4941c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 08:50:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,169 +75,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
- Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
- yan.y.zhao@intel.com, alex.williamson@redhat.com, changpeng.liu@intel.com,
- eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
- pbonzini@redhat.com
+Reply-To: Bug 1877136 <1877136@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Kirti Wankhede (kwankhede@nvidia.com) wrote:
-> Define flags to be used as delimeter in migration file stream.
-> Added .save_setup and .save_cleanup functions. Mapped & unmapped migration
-> region from these functions at source during saving or pre-copy phase.
-> Set VFIO device state depending on VM's state. During live migration, VM is
-> running when .save_setup is called, _SAVING | _RUNNING state is set for VFIO
-> device. During save-restore, VM is paused, _SAVING state is set for VFIO device.
-> 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> ---
->  hw/vfio/migration.c  | 73 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->  hw/vfio/trace-events |  2 ++
->  2 files changed, 75 insertions(+)
-> 
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index c2f5564b51c3..773c8d16b1c1 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -8,12 +8,14 @@
->   */
->  
->  #include "qemu/osdep.h"
-> +#include "qemu/main-loop.h"
->  #include <linux/vfio.h>
->  
->  #include "sysemu/runstate.h"
->  #include "hw/vfio/vfio-common.h"
->  #include "cpu.h"
->  #include "migration/migration.h"
-> +#include "migration/vmstate.h"
->  #include "migration/qemu-file.h"
->  #include "migration/register.h"
->  #include "migration/blocker.h"
-> @@ -24,6 +26,17 @@
->  #include "pci.h"
->  #include "trace.h"
->  
-> +/*
-> + * Flags used as delimiter:
-> + * 0xffffffff => MSB 32-bit all 1s
-> + * 0xef10     => emulated (virtual) function IO
-> + * 0x0000     => 16-bits reserved for flags
-> + */
-> +#define VFIO_MIG_FLAG_END_OF_STATE      (0xffffffffef100001ULL)
-> +#define VFIO_MIG_FLAG_DEV_CONFIG_STATE  (0xffffffffef100002ULL)
-> +#define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
-> +#define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
-> +
->  static void vfio_migration_region_exit(VFIODevice *vbasedev)
->  {
->      VFIOMigration *migration = vbasedev->migration;
-> @@ -126,6 +139,64 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
->      return 0;
->  }
->  
-> +/* ---------------------------------------------------------------------- */
-> +
-> +static int vfio_save_setup(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    int ret;
-> +
-> +    trace_vfio_save_setup(vbasedev->name);
-> +
-> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
-> +
-> +    if (migration->region.mmaps) {
-> +        qemu_mutex_lock_iothread();
-> +        ret = vfio_region_mmap(&migration->region);
-> +        qemu_mutex_unlock_iothread();
-> +        if (ret) {
-> +            error_report("%s: Failed to mmap VFIO migration region %d: %s",
-> +                         vbasedev->name, migration->region.index,
-> +                         strerror(-ret));
-> +            return ret;
-> +        }
-> +    }
-> +
-> +    ret = vfio_migration_set_state(vbasedev, ~0, VFIO_DEVICE_STATE_SAVING);
-> +    if (ret) {
-> +        error_report("%s: Failed to set state SAVING", vbasedev->name);
-> +        return ret;
-> +    }
-> +
-> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-> +
-> +    ret = qemu_file_get_error(f);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static void vfio_save_cleanup(void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    VFIOMigration *migration = vbasedev->migration;
-> +
-> +    if (migration->region.mmaps) {
-> +        vfio_region_unmap(&migration->region);
-> +    }
-> +    trace_vfio_save_cleanup(vbasedev->name);
-> +}
-> +
-> +static SaveVMHandlers savevm_vfio_handlers = {
-> +    .save_setup = vfio_save_setup,
-> +    .save_cleanup = vfio_save_cleanup,
-> +};
-> +
-> +/* ---------------------------------------------------------------------- */
-> +
->  static void vfio_vmstate_change(void *opaque, int running, RunState state)
->  {
->      VFIODevice *vbasedev = opaque;
-> @@ -192,6 +263,8 @@ static int vfio_migration_init(VFIODevice *vbasedev,
->          return ret;
->      }
->  
-> +    register_savevm_live("vfio", VMSTATE_INSTANCE_ID_ANY, 1,
-> +                         &savevm_vfio_handlers, vbasedev);
+Fix now in master, will be in QEMU 5.1.
 
-Hi,
-  This is still the only bit which worries me, and I saw your note
-saying you'd tested it; to calm my nerves, can you run with the
-'qemu_loadvm_state_section_startfull' trace enabled with 2 devices
-and show me the output and qemu command line?
-I'm trying to figure out how they end up represented in the stream.
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
 
-Dave
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877136
 
->      vbasedev->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
->                                                            vbasedev);
->  
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index bd3d47b005cb..86c18def016e 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -149,3 +149,5 @@ vfio_migration_probe(const char *name, uint32_t index) " (%s) Region %d"
->  vfio_migration_set_state(const char *name, uint32_t state) " (%s) state %d"
->  vfio_vmstate_change(const char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
->  vfio_migration_state_notifier(const char *name, const char *state) " (%s) state %s"
-> +vfio_save_setup(const char *name) " (%s)"
-> +vfio_save_cleanup(const char *name) " (%s)"
-> -- 
-> 2.7.0
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Title:
+  Qemu GDB Arm core registers XML description not valid for M-profile
 
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  When trying to debug an armv7-m binary running on Qemu, GDB makes some
+  mistakes due to mistakenly believing the target is not M-profile.
+
+  One observable is that backtraces over signal handlers are not handled
+  correctly -- since the special M-profile EXC_RETURN value is not
+  recognised.  That happens because GDB doesn't think the target is
+  M-profile.
+
+  This happens because GDB sees a reported feature set from the Qemu
+  remote connection that includes the feature `org.gnu.gdb.arm.core`.
+
+  As described in the GDB online docs, for "M-profile targets (e.g. Cortex-=
+M3), the =E2=80=98org.gnu.gdb.arm.core=E2=80=99 feature is replaced by =E2=
+=80=98org.gnu.gdb.arm.m-profile=E2=80=99"
+  https://sourceware.org/gdb/current/onlinedocs/gdb/ARM-Features.html
+
+  From a scan of the Qemu source code on commit
+  ea1329bb3a8d5cd25b70e3dbf73e7ded4d5ad756 it seems that when emulating
+  an arm core it uses `arm-core.xml` unconditionally for
+  `CPUClass->gdb_core_xml_file`, and that means the only feature
+  provided is `org.gnu.gdb.arm.core`.
+
+  Note that even though there is a command to set the architecture in GDB, =
+setting the target architecture to an M-profile core is still not a valid w=
+orkaround.
+  This is because the target description overrides everything in setting th=
+e `is_m` attribute within GDB.
+
+  Reproduction of the observable:
+  Using the examples here https://git.linaro.org/people/peter.maydell/m-pro=
+file-tests.git/tree/ .
+  Build the examples, and run =
+
+  ```
+  qemu-system-arm -s -S -no-reboot -M lm3s6965evb -m 16 -serial stdio -disp=
+lay none -net nic -net user,restrict=3Don -d guest_errors,unimp -kernel tes=
+t3-kern.bin
+  ```
+
+  Then in a GDB session
+  ```
+  vshcmd: > arm-none-eabi-gdb -q                                           =
+                                                                           =
+                                              =
+
+  (gdb)
+  vshcmd: > file test3-kern.elf
+  Reading symbols from test3-kern.elf...
+  (gdb)
+  vshcmd: > target remote localhost:1234
+  Remote debugging using localhost:1234
+  _start () at init-m.S:53
+  53        mov r0, #0
+  (gdb)
+  vshcmd: > show architecture
+  The target architecture is set automatically (currently armv7)
+  (gdb)
+  vshcmd: > break svc
+  Breakpoint 1 at 0x6fc: svc. (2 locations)
+  (gdb)
+  vshcmd: > cont
+  Continuing.
+
+  Breakpoint 1, svc () at test3.c:16
+  16          int test =3D SEQ();
+  (gdb)
+  vshcmd: > bt
+  #0  svc () at test3.c:16
+  #1  0xfffffff8 in ?? ()
+  Backtrace stopped: previous frame identical to this frame (corrupt stack?)
+  (gdb)
+  vshcmd: > print/x $lr
+  $1 =3D 0xfffffff9
+  (gdb)
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877136/+subscriptions
 
