@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B9161DD41E
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:18:37 +0200 (CEST)
-Received: from localhost ([::1]:36330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCB51DD3CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:04:24 +0200 (CEST)
+Received: from localhost ([::1]:55836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jboq2-0007b1-KM
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:18:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50144)
+	id 1jbocJ-0008Iv-8s
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:04:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboJA-0004Ns-EJ
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:37 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:45008)
+ id 1jboJC-0004PH-Fk
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:38 -0400
+Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:40457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboJ8-0006iT-4R
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:36 -0400
-Received: by mail-qk1-x743.google.com with SMTP id b6so7814837qkh.11
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:44:33 -0700 (PDT)
+ id 1jboJ8-0006id-UZ
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:38 -0400
+Received: by mail-qv1-xf41.google.com with SMTP id l3so3360505qvo.7
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:44:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NQ/BbjaNmbkm5KQOy7Vv4O17R/NYOg7qZF+hAsl6NgU=;
- b=MF8FyNqJb/RGFP/09QrjTIyVf34prruwqZ1AceBOSuOm48II948vnFxI3xzdmRnPzi
- DZ7vpfin3Nkm/cEGHA5V00jSHaM1SbzLyUgeh/y4kELaczI5vmcNnFTvDGPblHmyWgZM
- 2XVUUDlCEmzs6o5EB91D8YsjrT5tR2ijt0fVlWrDKNdTGEQMYZnpIS4ENx3zW5wZ8oB4
- zyrLZQRiBpOpJgRxh7kXQUgR81wTWAKlVYsTyGIcKbMZOtnZOBQ40kNvemJZk+zNfrMU
- UMioW8CgE4Q0pNRWwSOd96K4NEybvbsefSuVVpS8TYGQpGtLYrtdMs9oizX/pYXMdHkv
- c0gA==
+ bh=DUz6IjE+KDBm1v/EkLkpXtyZ6YOnw3SSFHn8L1s2bt0=;
+ b=WpGaaZarln1buUQsPXvXV7MU1b2/sArJI8g/dPlZ2GY3Nlu3exrW6lezhy2Lp3rKb3
+ uZ6a25KZprT5fFh9P7YuWIL7gQlKdva7U7qzbuksba8OByJMhrAEoGD2nYQ+ezJZElsN
+ 78y6NUVTBTSP04t9ik7Uh1hl+uYXm9nxyIiFIYS96BUbKav/Z2Y/f3HrdcxsLb/HZjgY
+ JA8QT/Wy/IqQrFk6ByAa5yyZiqCBlFAY8Fpfd06Z9ZGGI+kwkbtQvTin8g0zAMASt6K3
+ sK8oywFXPH9bYkv4q9ZEMJIf5sn+yOvuJdFBVdjzAq7WfjCxCSToYih9MJyh8TsFAAd7
+ KNhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NQ/BbjaNmbkm5KQOy7Vv4O17R/NYOg7qZF+hAsl6NgU=;
- b=amixXc/iZmNttRfyb+aLIBYCS6Bte22NvMY3vQr9+4uJWEnYTvG6+NdWROzvAeqW7V
- FXFX3q/up+jgE1eKNxDxjuDul5gCtz88f9HUaQM/fLZp3FFow1DQZoQ7jQa67djwHXip
- YUZOfidS/Ow+lhcM8JGWHI56K6f55z8Iw9mJpaE3wxbiRz4379KLCSzLI+TPzCfP4bCK
- rfQMWOi59ghwgI63BGDHN+yNsMaMk8jmhQSINK9UmeO0DXD0aOW/KZsSNbXf6osohWTC
- 5JBZ0MYLd9n/DUbBQSooubr5PQpnGyQGIDfLjTuLcghDefV9UPAdoOgRMpspRBnGC8y0
- cU8A==
-X-Gm-Message-State: AOAM531W9e6UIWOsMuSHpW+G/FkXrLDHfprZA40NW4IGK9LHUhFVM0iM
- 2jgtdXBg6D+N9iARLHPgpHzS999eRaNBVA==
-X-Google-Smtp-Source: ABdhPJzeBkaDp+FqKVcdVk/W/8+ZVXtC1PPJ04dX03wXjgBff+z9ucLK+bNXteXW28K7hFHCFRtVSw==
-X-Received: by 2002:a05:620a:204e:: with SMTP id
- d14mr9451256qka.13.1590079472636; 
- Thu, 21 May 2020 09:44:32 -0700 (PDT)
+ bh=DUz6IjE+KDBm1v/EkLkpXtyZ6YOnw3SSFHn8L1s2bt0=;
+ b=aAgXV5ULeut5Nhgf13rw0700t5bvydMlJ2sRMOK516LFJ1o3LerV6o+p2UgsKpAC9j
+ Z7MWC803b7AhLMhPUQvfCi3WqzknNp+k/WJb6Kx6BYVYfWoahtAvWhqWvFDl+tedghdE
+ KHBich0bgkpZF/0Rc/UvuQKr1EPJSQhwFp4vHb3EiNSw3au+otXX6XtGo0mIpU3LQAHW
+ unRaBn/FELKLqiXpDy+apeeAoV66qAsVqJVYPeFZ5EXgdvUIRYNHXwJMpDmjOJ7tjC3o
+ AtEKpn32O1i2tngSTMyFvg27M5StILMCR2CMS5+vUzvxXHeI7hQhv8B0YLUTYUiLQ/lL
+ ruUA==
+X-Gm-Message-State: AOAM531fvdiMprVc22U60RjQ1pTmp07RHHuoX89zKofrG1BhbUi1uHNM
+ 5R2G9vjLz/Cfb3JO6YYB1WaJMtsaRJRJRg==
+X-Google-Smtp-Source: ABdhPJxs5z/Sr+EzwlmkDN9oHJhMg+boja1xDSBUrrfurptRHOEUYYGQ/6vfUmT6K9RihcgGyiwG0Q==
+X-Received: by 2002:a0c:b259:: with SMTP id k25mr3837154qve.111.1590079473900; 
+ Thu, 21 May 2020 09:44:33 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:1944:c530:655c:5583])
- by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.44.31
+ by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.44.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:44:32 -0700 (PDT)
+ Thu, 21 May 2020 09:44:33 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 58/74] unicore32: convert to cpu_interrupt_request
-Date: Thu, 21 May 2020 12:39:55 -0400
-Message-Id: <20200521164011.638-59-robert.foley@linaro.org>
+Subject: [PATCH v9 59/74] microblaze: convert to cpu_interrupt_request
+Date: Thu, 21 May 2020 12:39:56 -0400
+Message-Id: <20200521164011.638-60-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200521164011.638-1-robert.foley@linaro.org>
 References: <20200521164011.638-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::743;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x743.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f41;
+ envelope-from=robert.foley@linaro.org; helo=mail-qv1-xf41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,49 +87,35 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: robert.foley@linaro.org, richard.henderson@linaro.org, cota@braap.org,
- peter.puhov@linaro.org, Guan Xuetao <gxt@mprc.pku.edu.cn>,
+ peter.puhov@linaro.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
  alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/unicore32/cpu.c     | 2 +-
- target/unicore32/softmmu.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ target/microblaze/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
-index b27fb9689f..06bf4b4b63 100644
---- a/target/unicore32/cpu.c
-+++ b/target/unicore32/cpu.c
-@@ -27,7 +27,7 @@ static void uc32_cpu_set_pc(CPUState *cs, vaddr value)
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index 51e5c85b10..ce70f7d281 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -84,7 +84,7 @@ static void mb_cpu_set_pc(CPUState *cs, vaddr value)
  
- static bool uc32_cpu_has_work(CPUState *cs)
+ static bool mb_cpu_has_work(CPUState *cs)
  {
--    return cs->interrupt_request &
-+    return cpu_interrupt_request(cs) &
-         (CPU_INTERRUPT_HARD | CPU_INTERRUPT_EXITTB);
+-    return cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
++    return cpu_interrupt_request(cs) & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
  }
  
-diff --git a/target/unicore32/softmmu.c b/target/unicore32/softmmu.c
-index cbdaa500b7..9660bd2a27 100644
---- a/target/unicore32/softmmu.c
-+++ b/target/unicore32/softmmu.c
-@@ -117,7 +117,7 @@ void uc32_cpu_do_interrupt(CPUState *cs)
-     /* The PC already points to the proper instruction.  */
-     env->regs[30] = env->regs[31];
-     env->regs[31] = addr;
--    cs->interrupt_request |= CPU_INTERRUPT_EXITTB;
-+    cpu_interrupt_request_or(cs, CPU_INTERRUPT_EXITTB);
- }
- 
- static int get_phys_addr_ucv2(CPUUniCore32State *env, uint32_t address,
+ #ifndef CONFIG_USER_ONLY
 -- 
 2.17.1
 
