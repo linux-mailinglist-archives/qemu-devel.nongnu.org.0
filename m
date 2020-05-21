@@ -2,96 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A5F1DCEE9
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 16:06:52 +0200 (CEST)
-Received: from localhost ([::1]:50984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F081DCEFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 16:08:16 +0200 (CEST)
+Received: from localhost ([::1]:55366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jblqV-00076R-A9
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 10:06:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59688)
+	id 1jblrr-0000RC-TQ
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 10:08:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jblpE-0005CS-Dj
- for qemu-devel@nongnu.org; Thu, 21 May 2020 10:05:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37416
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jblqT-0007Nu-M3
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 10:06:49 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38974
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jblpC-0003Mb-Ul
- for qemu-devel@nongnu.org; Thu, 21 May 2020 10:05:32 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jblqS-0003bj-Sn
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 10:06:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590069929;
+ s=mimecast20190719; t=1590070008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WuW4LhQZmtRPxOdsGv0UfenYyJdURtJzEmFBQoF1B8A=;
- b=Ypa2IvkmNFWqlHEvhzj4kNY9EI9p00KGUA4rJE7sLf1Vw4f4jl8jA05HpV5odVP+3SgYqP
- bNk+sFFnIUQxzal08rSf8zRsKfeODvbNl+JvmlBaZmBZ1nX8c1cRSS0SEDuQBjQMNSGdul
- m7jE9AnxuW3TBrl8KMVKz89PKQ5Zytk=
+ bh=jvBWdr8a5YhmJdzLuNokxS28hpINEb1yCyCs7QbIVQs=;
+ b=KyOhbTMv/LjgGbWyH/5bc8d6mmdi3OUCEHI9MUMyEXiaeURZ7XcI4ULmuX+5Cb+yjZM+x1
+ +87zEFWnrtehpbCjMkSHeSH8Gwe4JrsZEq0f4IxJFNblusaz8CP0UFa4liWXY4i4vQBG34
+ OjEbdPlJl4I41L2h+8uRdfjsfhf7mcc=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-jNt-f-hfMoah5a1Gwy29pQ-1; Thu, 21 May 2020 10:05:22 -0400
-X-MC-Unique: jNt-f-hfMoah5a1Gwy29pQ-1
-Received: by mail-wr1-f69.google.com with SMTP id g10so2966291wrr.10
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 07:05:21 -0700 (PDT)
+ us-mta-72-ddB5st48NmaTpr_uqqTtPA-1; Thu, 21 May 2020 10:06:46 -0400
+X-MC-Unique: ddB5st48NmaTpr_uqqTtPA-1
+Received: by mail-wr1-f69.google.com with SMTP id g10so2967964wrr.10
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 07:06:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=WuW4LhQZmtRPxOdsGv0UfenYyJdURtJzEmFBQoF1B8A=;
- b=SFYl1/tdwTohsHIjKwSkv+qcJ/xmKVWaGMBjKTJSW55AP1opqNOYMsRUj30RbU+mVQ
- EYyCWdgffx1KYSIHNz0XsYhEGKC4LKKa0sKajoGmvPrJBWkJ99gZG76fFMWj35eBy+tf
- p2M+hKADtluTaCe6x5KHZ49myDjc2sRJMAaaxjRimHstjM0amBHO7gTBeH8duQMTZUkO
- rDIZG6TGg3dCVne71ROdgGVhePGri4rRrTA2Y7H3VGw0RbHXLg/lqcrb+KWmsxEgkGOV
- B31J1XpkwHPTskuo8TXOp27Z0v0b8SBZbBL+iZkPMBbZ3J3XuGOA7VgTHnlyFoMTIB3H
- wUcA==
-X-Gm-Message-State: AOAM532Rgk8E+31ucwBF9TIE951tpGm+8T/5pp7npCd+zBd9KbrA7ihs
- BqJCSzsTSsasZ7k5nsIM7w3DhILcbDZM/bkKlHuRVDhERijezbDbWvzQVYoLc8NlqHjXAQybBOE
- BW2t14jnObfPv7hM=
-X-Received: by 2002:a7b:c205:: with SMTP id x5mr9562697wmi.135.1590069920837; 
- Thu, 21 May 2020 07:05:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz+9vDo+k5k5h2/AhbhlgqJeb0CrNG8dWFa5E8+nrQcjn7Lroo1lNJb24UV5jL3E+o+6JSXCg==
-X-Received: by 2002:a7b:c205:: with SMTP id x5mr9562654wmi.135.1590069920578; 
- Thu, 21 May 2020 07:05:20 -0700 (PDT)
-Received: from [192.168.178.58] ([151.30.94.134])
- by smtp.gmail.com with ESMTPSA id c140sm6952309wmd.18.2020.05.21.07.05.16
+ bh=jvBWdr8a5YhmJdzLuNokxS28hpINEb1yCyCs7QbIVQs=;
+ b=MbT0eBPgeqZYeAZekn386oeI94/GG8zmz2maCBDwZUxEshP+zDHPPqpaKniK4L305m
+ MrN7gii/BYHpElpA9cySa4n7bqBkSXecLWHEHENW74tIE0a9xmWaQtZmah3ccNyzN6EE
+ az0ZUOlh/er4NqhuUqDWXjAAxYb+qlCCG3Jid0kK+VI2YvcXnv+cUPFSAfuPLVfUVY/O
+ k5gNH+RweamDFtwHBnReHx+U9r69TGIlW8WBdX5v4SJEAcQ0LwGRO7khqLtTcQdHVZwX
+ B6qKrtNTuC6p6DQB2sQ4tGo3pP0YhdvBd61a7pQFM/0PCIcEQT6QU8ZgTf6buPzhkxOd
+ O/Cg==
+X-Gm-Message-State: AOAM532one1ahmZy9cNKfXDA1SDkaEZOGyayCxL/BKHiDQMd3WoM9Aj9
+ z/owhIw83/X5+8cKvrXz+030XYmhTGOQzZ8Thxa40w7Nc2iJhvUN8TZ2uYhSY53MgPrWbU3vLQj
+ a64OJsiWgmkkwsT4=
+X-Received: by 2002:a5d:674f:: with SMTP id l15mr8957804wrw.339.1590070005171; 
+ Thu, 21 May 2020 07:06:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz3entDVIk+p6dxUu8fwBaTRMbGJFfk2ONiy7OKg7BR31T0d++Hcwlgwmru7g0Z9Al11Wcn7A==
+X-Received: by 2002:a5d:674f:: with SMTP id l15mr8957790wrw.339.1590070005010; 
+ Thu, 21 May 2020 07:06:45 -0700 (PDT)
+Received: from [192.168.1.40] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id f128sm7015875wme.1.2020.05.21.07.06.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 May 2020 07:05:19 -0700 (PDT)
-Subject: Re: [PATCH v3 0/3] various: Remove unnecessary casts
-To: Markus Armbruster <armbru@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>
-References: <20200512070020.22782-1-f4bug@amsat.org>
- <871rnlsps6.fsf@dusky.pond.sub.org>
- <8791b385-8493-f81d-5ee3-cca5b8559c27@redhat.com>
- <87imgt9ycp.fsf@dusky.pond.sub.org>
- <2f4607cf-90a9-ca9a-4ef6-a8358631cdf0@kaod.org>
- <87k1187dbo.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ffae374d-9429-5bdc-d415-053aaa1b033c@redhat.com>
-Date: Thu, 21 May 2020 16:05:15 +0200
+ Thu, 21 May 2020 07:06:44 -0700 (PDT)
+Subject: Re: [PATCH v1 01/10] tests/guest-debug: catch hanging guests
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200513175134.19619-1-alex.bennee@linaro.org>
+ <20200513175134.19619-2-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0e9981ac-9330-6ed1-a660-a220300bada1@redhat.com>
+Date: Thu, 21 May 2020 16:06:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <87k1187dbo.fsf@dusky.pond.sub.org>
+In-Reply-To: <20200513175134.19619-2-alex.bennee@linaro.org>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:44:25
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:47:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,66 +99,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>, qemu-block@nongnu.org,
- qemu-trivial@nongnu.org, David Hildenbrand <david@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Joel Stanley <joel@jms.id.au>, Anthony Perard <anthony.perard@citrix.com>,
- xen-devel@lists.xenproject.org, Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Corey Minyard <minyard@acm.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
- John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Cornelia Huck <cohuck@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/05/20 06:34, Markus Armbruster wrote:
-> Cédric Le Goater <clg@kaod.org> writes:
+On 5/13/20 7:51 PM, Alex Bennée wrote:
+> If gdb never actually connected with the guest we need to catch that
+> and clean-up after ourselves.
 > 
->> On 5/18/20 3:17 PM, Markus Armbruster wrote:
->>> Paolo Bonzini <pbonzini@redhat.com> writes:
->>>
->>>> On 15/05/20 07:58, Markus Armbruster wrote:
->>>>> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
->>>>>
->>>>>> Remove unnecessary casts using coccinelle scripts.
->>>>>>
->>>>>> The CPU()/OBJECT() patches don't introduce logical change,
->>>>>> The DEVICE() one removes various OBJECT_CHECK() calls.
->>>>> Queued, thanks!
->>>>>
->>>>> Managing expecations: I'm not a QOM maintainer, I don't want to become
->>>>> one, and I don't normally queue QOM patches :)
->>>>>
->>>>
->>>> I want to be again a QOM maintainer, but it's not the best time for me
->>>> to be one.  So thanks for picking up my slack.
->>>
->>> You're welcome :)
->>
->> Could you help me getting this patch merged ? :)
->>
->> http://patchwork.ozlabs.org/project/qemu-devel/patch/20200404153340.164861-1-clg@kaod.org/
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20200512104338.27365-1-alex.bennee@linaro.org>
+> ---
+>   tests/guest-debug/run-test.py | 6 ++++++
+>   1 file changed, 6 insertions(+)
 > 
-> I have more QOM patches in the pipe, and I may well post another QOM
-> pull request while Paolo is busy with other stuff.  I'll consider
-> including other QOM patches then.  Non-trivial ones need an R-by from
-> Paolo, Daniel or Eduardo.
+> diff --git a/tests/guest-debug/run-test.py b/tests/guest-debug/run-test.py
+> index d9af9573b9e..71c55690546 100755
+> --- a/tests/guest-debug/run-test.py
+> +++ b/tests/guest-debug/run-test.py
+> @@ -80,4 +80,10 @@ if __name__ == '__main__':
+>           print("GDB crashed? SKIPPING")
+>           exit(0)
+>   
+> +    try:
+> +        inferior.wait(2)
+> +    except subprocess.TimeoutExpired:
+> +        print("GDB never connected? Killed guest")
 
-I queued Cedric's.
+Maybe "Killing guest"?
 
-Paolo
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> +        inferior.kill()
+> +
+>       exit(result)
+> 
 
 
