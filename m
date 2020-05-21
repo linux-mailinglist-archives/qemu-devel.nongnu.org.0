@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A831DD338
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:44:48 +0200 (CEST)
-Received: from localhost ([::1]:53952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27EAF1DD340
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:46:42 +0200 (CEST)
+Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jboJL-0003Ky-BM
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:44:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49640)
+	id 1jboLB-0007Kr-64
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:46:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboHu-0001bi-JE
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:18 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:45672)
+ id 1jboHx-0001cv-Gb
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:21 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:41268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboHt-0006T4-IM
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:18 -0400
-Received: by mail-qk1-x742.google.com with SMTP id i5so7786049qkl.12
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:43:17 -0700 (PDT)
+ id 1jboHv-0006TF-6E
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:21 -0400
+Received: by mail-qt1-x844.google.com with SMTP id m44so5980524qtm.8
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:43:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=bON7YUxlhwgscX2SUVnZ4d6zlp9keY1L8USoWVcvoFg=;
- b=kZidtQ0XENdeengyKKW4whn3w3BbFo8YAwMqvx5iCkzwRhHySJ6WNbeEEBV9SLiM4p
- 3dY/l1Ix/L/OzICp0SH2GNfc0SNqx9sQqfAIEskmmRYjLuhpIw9LaoRzKzT+ND8r/n2k
- Guf3KKhTPDlCkaJOq/7rjUWwnCocoDCYuJ8NKvXwzftHxSmJ3V83qqtQ59xC8B+Haf7s
- 3DRP1EyOLMI9cm7883IuuRcxAqtVgxZWQU4YEJ7u7EO//cS3LKnxFMOr+9QX60/wSC5m
- h9TUbFzLloi9gzijPehgfrd385Ztj298vJn/RuNZhgRV9l9J2G9Jc5a8hrk1WAygY6Wf
- DNKw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=XkuJ6MkZisGtrqNcI/WmjmrJib8LTmp/yxFiG3GQPeA=;
+ b=q3/we0bWpMx2wZYtvNo7PDfKbGGLd1MU7T2yd8K3VQCepk6ILUxIUVlKeYd2TKHYva
+ DbwPOgaKDfpYeqFy87uJ8NBd4ZgWHpIdY/rxr86qceO5fF/VDPKhTwiNOkQja8pToIJR
+ LKRaH+xnVRWTbkKVo0auD2RtPpg6ieznb3DND5XPHt3B5VVyG7orv749L3IbxCqMeN70
+ LyddUZe5/Kdlwx6zjb06cj0xynwcGt2M4rIzRbk21X6zTM5bd1AvROjJU/9TC0C1HAhm
+ YK75CqBOoyNlZ7/T9SK6StIPnjh+st4UVAoQVseT7REkwtVe2V7s/whfWdHqIJP0CgDI
+ u2XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=bON7YUxlhwgscX2SUVnZ4d6zlp9keY1L8USoWVcvoFg=;
- b=Bh2mZbArXLa2ypSOe3RXVkDSf6wgfBLpG7eNxyH7gKYy9bspvYob96cKxBO5pk4g7N
- dzdPCN4U1sj8e9lSpQ1LyUmLUqbBL5aem4sMzdbr1Fp2yTgastzUpmGCwtJz6T/pPxWN
- LsIeKyg5T2mH5YCMyIIRVfx11Za+kNPMss3aOvN7bVtZzuZugYwscaraUUH9fPk9pus0
- feffF9gbjSNlTNaDv9zXBolYt3IpT+RpUlVgvXYuliZ53B8wrDxnxnnCwincd/wDyoKQ
- 5FYrQHW/nEpq5wyGWaQ7yzQ7SlFDIJaJnciqUU15r5yvVDwBC7B8T2AjaF+iCRIHMBvD
- BD6A==
-X-Gm-Message-State: AOAM533p8wdi2n+CH1joqmqr9GY0jK8t1KZbt/Njyq97sFmeqJCxZ0rJ
- s7QMF7sbz3d+8FCBmz/VrBaQ7FTgbSuKMA==
-X-Google-Smtp-Source: ABdhPJyWocePND1w9eVhDHgqmbLFLBR00tujlFaGNijLepzgdvSHnUAK8NBlHiP2m3pkSiJpo4t2aA==
-X-Received: by 2002:a37:f517:: with SMTP id l23mr10957493qkk.475.1590079396278; 
- Thu, 21 May 2020 09:43:16 -0700 (PDT)
+ :references;
+ bh=XkuJ6MkZisGtrqNcI/WmjmrJib8LTmp/yxFiG3GQPeA=;
+ b=TFAgyS112mauIQPte9gKJCT+FtYnmALU290UWrg2EzXtdRlJVI+J4cHhSQQKPLNiUq
+ mWeVKijaOWK1t98HcNvQnU5Yqu7rwkka5modmxARGSb85XVtKKO5oEt16YDqkFEf/keG
+ oX80YcXYQFH/Zc2vuBSpghI0M0Jy6pCKhFzzVFHqUgfRgSkroEsOCmNmhWZPbhy0Oh0x
+ xSBIJff1Q/h4syiWcb9vW9ZKztsrSLRVaZkveS6bVUQT1RVvcObhqm5vvQN+hoEmV4QS
+ wpWcwDOxdwiLDbdJhBMIGcDRMtnenH/DCe/Opr07lzj5YbkWd1R02jP1FpE5WFoVuk1F
+ LN4w==
+X-Gm-Message-State: AOAM5314x4TDST4nTLTkYQ4bFK4l9bdXSWWRB79TWTHYc+RYI0c1Y/uq
+ 4U+BmmVSYkhaTzLnsD9FqZCFYgG+f28HBA==
+X-Google-Smtp-Source: ABdhPJzVzUwKTxuOR8q6Lhlfvb+TG02ayREFkvuJz6uDhW3g1IOY0w5Zc+M3uyDgyOvXFljDSG1zYg==
+X-Received: by 2002:ac8:4f4e:: with SMTP id i14mr11835684qtw.167.1590079397651; 
+ Thu, 21 May 2020 09:43:17 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:1944:c530:655c:5583])
- by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.43.15
+ by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.43.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:43:15 -0700 (PDT)
+ Thu, 21 May 2020 09:43:17 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 02/74] cpu: rename cpu->work_mutex to cpu->lock
-Date: Thu, 21 May 2020 12:38:59 -0400
-Message-Id: <20200521164011.638-3-robert.foley@linaro.org>
+Subject: [PATCH v9 03/74] cpu: introduce cpu_mutex_lock/unlock
+Date: Thu, 21 May 2020 12:39:00 -0400
+Message-Id: <20200521164011.638-4-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200521164011.638-1-robert.foley@linaro.org>
 References: <20200521164011.638-1-robert.foley@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x742.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::844;
+ envelope-from=robert.foley@linaro.org; helo=mail-qt1-x844.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,134 +89,200 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-This lock will soon protect more fields of the struct. Give
-it a more appropriate name.
+The few direct users of &cpu->lock will be converted soon.
+
+The per-thread bitmap introduced here might seem unnecessary,
+since a bool could just do. However, once we complete the
+conversion to per-vCPU locks, we will need to cover the use
+case where all vCPUs are locked by the same thread, which
+explains why the bitmap is introduced here.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
+[RF: Add assert in smp_parse. Make cpu_mutex_lock stub empty]
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- cpus-common.c         | 14 +++++++-------
- cpus.c                |  4 ++--
- hw/core/cpu.c         |  4 ++--
- include/hw/core/cpu.h |  6 ++++--
- 4 files changed, 15 insertions(+), 13 deletions(-)
+ cpus.c                | 45 +++++++++++++++++++++++++++++++++++++++++--
+ hw/core/machine.c     |  1 +
+ include/hw/core/cpu.h | 36 ++++++++++++++++++++++++++++++++++
+ stubs/Makefile.objs   |  1 +
+ stubs/cpu-lock.c      | 20 +++++++++++++++++++
+ 5 files changed, 101 insertions(+), 2 deletions(-)
+ create mode 100644 stubs/cpu-lock.c
 
-diff --git a/cpus-common.c b/cpus-common.c
-index 210fc7fc39..34025923e3 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -105,10 +105,10 @@ struct qemu_work_item {
- 
- static void queue_work_on_cpu(CPUState *cpu, struct qemu_work_item *wi)
- {
--    qemu_mutex_lock(&cpu->work_mutex);
-+    qemu_mutex_lock(&cpu->lock);
-     QSIMPLEQ_INSERT_TAIL(&cpu->work_list, wi, node);
-     wi->done = false;
--    qemu_mutex_unlock(&cpu->work_mutex);
-+    qemu_mutex_unlock(&cpu->lock);
- 
-     qemu_cpu_kick(cpu);
- }
-@@ -300,15 +300,15 @@ void process_queued_cpu_work(CPUState *cpu)
- {
-     struct qemu_work_item *wi;
- 
--    qemu_mutex_lock(&cpu->work_mutex);
-+    qemu_mutex_lock(&cpu->lock);
-     if (QSIMPLEQ_EMPTY(&cpu->work_list)) {
--        qemu_mutex_unlock(&cpu->work_mutex);
-+        qemu_mutex_unlock(&cpu->lock);
-         return;
-     }
-     while (!QSIMPLEQ_EMPTY(&cpu->work_list)) {
-         wi = QSIMPLEQ_FIRST(&cpu->work_list);
-         QSIMPLEQ_REMOVE_HEAD(&cpu->work_list, node);
--        qemu_mutex_unlock(&cpu->work_mutex);
-+        qemu_mutex_unlock(&cpu->lock);
-         if (wi->exclusive) {
-             /* Running work items outside the BQL avoids the following deadlock:
-              * 1) start_exclusive() is called with the BQL taken while another
-@@ -324,13 +324,13 @@ void process_queued_cpu_work(CPUState *cpu)
-         } else {
-             wi->func(cpu, wi->data);
-         }
--        qemu_mutex_lock(&cpu->work_mutex);
-+        qemu_mutex_lock(&cpu->lock);
-         if (wi->free) {
-             g_free(wi);
-         } else {
-             atomic_mb_set(&wi->done, true);
-         }
-     }
--    qemu_mutex_unlock(&cpu->work_mutex);
-+    qemu_mutex_unlock(&cpu->lock);
-     qemu_cond_broadcast(&qemu_work_cond);
- }
 diff --git a/cpus.c b/cpus.c
-index af44027549..77a2d7b7cf 100644
+index 77a2d7b7cf..c2da430221 100644
 --- a/cpus.c
 +++ b/cpus.c
-@@ -101,9 +101,9 @@ static inline bool cpu_work_list_empty(CPUState *cpu)
+@@ -92,6 +92,44 @@ static unsigned int throttle_percentage;
+ #define CPU_THROTTLE_PCT_MAX 99
+ #define CPU_THROTTLE_TIMESLICE_NS 10000000
+ 
++/*
++ * Note: we index the bitmap with cpu->cpu_index + 1 so that the logic
++ * also works during early CPU initialization, when cpu->cpu_index is set to
++ * UNASSIGNED_CPU_INDEX == -1.
++ */
++static __thread DECLARE_BITMAP(cpu_lock_bitmap, CPU_LOCK_BITMAP_SIZE);
++
++bool no_cpu_mutex_locked(void)
++{
++    return bitmap_empty(cpu_lock_bitmap, CPU_LOCK_BITMAP_SIZE);
++}
++
++void cpu_mutex_lock_impl(CPUState *cpu, const char *file, int line)
++{
++/* coverity gets confused by the indirect function call */
++#ifdef __COVERITY__
++    qemu_mutex_lock_impl(&cpu->lock, file, line);
++#else
++    QemuMutexLockFunc f = atomic_read(&qemu_mutex_lock_func);
++
++    g_assert(!cpu_mutex_locked(cpu));
++    set_bit(cpu->cpu_index + 1, cpu_lock_bitmap);
++    f(&cpu->lock, file, line);
++#endif
++}
++
++void cpu_mutex_unlock_impl(CPUState *cpu, const char *file, int line)
++{
++    g_assert(cpu_mutex_locked(cpu));
++    qemu_mutex_unlock_impl(&cpu->lock, file, line);
++    clear_bit(cpu->cpu_index + 1, cpu_lock_bitmap);
++}
++
++bool cpu_mutex_locked(const CPUState *cpu)
++{
++    return test_bit(cpu->cpu_index + 1, cpu_lock_bitmap);
++}
++
+ bool cpu_is_stopped(CPUState *cpu)
+ {
+     return cpu->stopped || !runstate_is_running();
+@@ -101,9 +139,9 @@ static inline bool cpu_work_list_empty(CPUState *cpu)
  {
      bool ret;
  
--    qemu_mutex_lock(&cpu->work_mutex);
-+    qemu_mutex_lock(&cpu->lock);
+-    qemu_mutex_lock(&cpu->lock);
++    cpu_mutex_lock(cpu);
      ret = QSIMPLEQ_EMPTY(&cpu->work_list);
--    qemu_mutex_unlock(&cpu->work_mutex);
-+    qemu_mutex_unlock(&cpu->lock);
+-    qemu_mutex_unlock(&cpu->lock);
++    cpu_mutex_unlock(cpu);
      return ret;
  }
  
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 77703d62b7..4d58399cfc 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -367,7 +367,7 @@ static void cpu_common_initfn(Object *obj)
-     cpu->nr_cores = 1;
-     cpu->nr_threads = 1;
- 
--    qemu_mutex_init(&cpu->work_mutex);
-+    qemu_mutex_init(&cpu->lock);
-     QSIMPLEQ_INIT(&cpu->work_list);
-     QTAILQ_INIT(&cpu->breakpoints);
-     QTAILQ_INIT(&cpu->watchpoints);
-@@ -379,7 +379,7 @@ static void cpu_common_finalize(Object *obj)
+@@ -1845,6 +1883,9 @@ void qemu_mutex_lock_iothread_impl(const char *file, int line)
  {
-     CPUState *cpu = CPU(obj);
+     QemuMutexLockFunc bql_lock = atomic_read(&qemu_bql_mutex_lock_func);
  
--    qemu_mutex_destroy(&cpu->work_mutex);
-+    qemu_mutex_destroy(&cpu->lock);
- }
++    /* enforce locking order */
++    g_assert(no_cpu_mutex_locked());
++
+     g_assert(!qemu_mutex_iothread_locked());
+     bql_lock(&qemu_global_mutex, file, line);
+     iothread_locked = true;
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index bb3a7b18b1..03a9081f55 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -763,6 +763,7 @@ static void smp_parse(MachineState *ms, QemuOpts *opts)
+         ms->smp.threads = threads;
+         ms->smp.sockets = sockets;
+     }
++    assert(ms->smp.max_cpus <= CPU_LOCK_BITMAP_SIZE);
  
- static int64_t cpu_common_get_arch_id(CPUState *cpu)
+     if (ms->smp.cpus > 1) {
+         Error *blocker = NULL;
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index d78ff1d165..873bf23a39 100644
+index 873bf23a39..2912d9a7c1 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -331,7 +331,8 @@ struct qemu_work_item;
-  * @opaque: User data.
-  * @mem_io_pc: Host Program Counter at which the memory was accessed.
-  * @kvm_fd: vCPU file descriptor for KVM.
-- * @work_mutex: Lock to prevent multiple access to @work_list.
-+ * @lock: Lock to prevent multiple access to per-CPU fields. Must be acquired
-+ *        after the BQL.
-  * @work_list: List of pending asynchronous work.
-  * @trace_dstate_delayed: Delayed changes to trace_dstate (includes all changes
-  *                        to @trace_dstate).
-@@ -375,7 +376,8 @@ struct CPUState {
-     uint64_t random_seed;
-     sigjmp_buf jmp_env;
+@@ -457,6 +457,39 @@ extern CPUTailQ cpus;
  
--    QemuMutex work_mutex;
-+    QemuMutex lock;
-+    /* fields below protected by @lock */
-     QSIMPLEQ_HEAD(, qemu_work_item) work_list;
+ extern __thread CPUState *current_cpu;
  
-     CPUAddressSpace *cpu_ases;
++/**
++ * cpu_mutex_lock - lock a CPU's mutex
++ * @cpu: the CPU whose mutex is to be locked
++ *
++ * To avoid deadlock, a CPU's mutex must be acquired after the BQL.
++ */
++#define cpu_mutex_lock(cpu)                             \
++    cpu_mutex_lock_impl(cpu, __FILE__, __LINE__)
++void cpu_mutex_lock_impl(CPUState *cpu, const char *file, int line);
++
++/**
++ * cpu_mutex_unlock - unlock a CPU's mutex
++ * @cpu: the CPU whose mutex is to be unlocked
++ */
++#define cpu_mutex_unlock(cpu)                           \
++    cpu_mutex_unlock_impl(cpu, __FILE__, __LINE__)
++void cpu_mutex_unlock_impl(CPUState *cpu, const char *file, int line);
++
++/**
++ * cpu_mutex_locked - check whether a CPU's mutex is locked
++ * @cpu: the CPU of interest
++ *
++ * Returns true if the calling thread is currently holding the CPU's mutex.
++ */
++bool cpu_mutex_locked(const CPUState *cpu);
++
++/**
++ * no_cpu_mutex_locked - check whether any CPU mutex is held
++ *
++ * Returns true if the calling thread is not holding any CPU mutex.
++ */
++bool no_cpu_mutex_locked(void);
++
+ static inline void cpu_tb_jmp_cache_clear(CPUState *cpu)
+ {
+     unsigned int i;
+@@ -1179,4 +1212,7 @@ extern const VMStateDescription vmstate_cpu_common;
+ #define UNASSIGNED_CPU_INDEX -1
+ #define UNASSIGNED_CLUSTER_INDEX -1
+ 
++/* XXX: is this really the max number of CPUs? */
++#define CPU_LOCK_BITMAP_SIZE 2048
++
+ #endif
+diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+index 45be5dc0ed..d2dd6c94cc 100644
+--- a/stubs/Makefile.objs
++++ b/stubs/Makefile.objs
+@@ -5,6 +5,7 @@ stub-obj-y += blockdev-close-all-bdrv-states.o
+ stub-obj-y += clock-warp.o
+ stub-obj-y += cpu-get-clock.o
+ stub-obj-y += cpu-get-icount.o
++stub-obj-y += cpu-lock.o
+ stub-obj-y += dump.o
+ stub-obj-y += error-printf.o
+ stub-obj-y += fdset.o
+diff --git a/stubs/cpu-lock.c b/stubs/cpu-lock.c
+new file mode 100644
+index 0000000000..1981a00fb3
+--- /dev/null
++++ b/stubs/cpu-lock.c
+@@ -0,0 +1,20 @@
++#include "qemu/osdep.h"
++#include "hw/core/cpu.h"
++
++void cpu_mutex_lock_impl(CPUState *cpu, const char *file, int line)
++{
++}
++
++void cpu_mutex_unlock_impl(CPUState *cpu, const char *file, int line)
++{
++}
++
++bool cpu_mutex_locked(const CPUState *cpu)
++{
++    return true;
++}
++
++bool no_cpu_mutex_locked(void)
++{
++    return true;
++}
 -- 
 2.17.1
 
