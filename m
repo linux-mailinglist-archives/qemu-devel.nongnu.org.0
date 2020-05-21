@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4613A1DC67B
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 07:06:07 +0200 (CEST)
-Received: from localhost ([::1]:49042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B12F1DC67D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 07:07:23 +0200 (CEST)
+Received: from localhost ([::1]:53304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbdPC-00034Y-B6
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 01:06:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60056)
+	id 1jbdQQ-0004rz-Ev
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 01:07:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
- id 1jbdKG-0003ak-0V
- for qemu-devel@nongnu.org; Thu, 21 May 2020 01:01:00 -0400
-Received: from o1.dev.nutanix.com ([198.21.4.205]:40221)
+ id 1jbdKJ-0003gR-4p
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 01:01:03 -0400
+Received: from o1.dev.nutanix.com ([198.21.4.205]:58463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
- id 1jbdKE-0001IG-RV
- for qemu-devel@nongnu.org; Thu, 21 May 2020 01:00:59 -0400
+ id 1jbdKH-0001Ia-R9
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 01:01:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
  h=from:subject:in-reply-to:references:to:cc:content-type:
  content-transfer-encoding;
- s=smtpapi; bh=t3fz5473SIIHnN2NwCjhpDyWkhB4xeDUz228FyTM6Gk=;
- b=AWFMhsOjiKCxzo1S1j8QIz/FVZVYwygItB0AGbcb9a8C8J7KBGAb2VmjyrV8iCKV1JPN
- YHGNJud3Tz98GJI7t41YS0MSb5xvSwoZm6qi81iRnRKkE7vh9oKnoEJIGgB+iLIi44HYY6
- h0Rjn+LttE1FXQe0MZUiSYApYd0It2lqU=
-Received: by filterdrecv-p3iad2-8ddf98858-xm5rk with SMTP id
- filterdrecv-p3iad2-8ddf98858-xm5rk-18-5EC60B08-E2
- 2020-05-21 05:00:56.802137655 +0000 UTC m=+4775845.781871036
+ s=smtpapi; bh=lgg31uEtMDopUvmpXDUsYGONCAL7eG0Q3eMW9ba+v58=;
+ b=RGHZT8x8fmbzhKb6JYJ+LkmxwFxCSt1tPjuipoMzJvvVXTTEPnZQrnhSFYs6B09P+Je4
+ UubpuXDV9kcxHOlaB+YqBSe4692O4FNnOEJufHFnrsKNyU1TWbcF1jNFaqgDQardIHwnv1
+ /+usYlqElBpmjr7ZbG6zoStXPJtYCmszk=
+Received: by filterdrecv-p3iad2-8ddf98858-lwgxm with SMTP id
+ filterdrecv-p3iad2-8ddf98858-lwgxm-19-5EC60B0B-E7
+ 2020-05-21 05:00:59.818794673 +0000 UTC m=+4852409.056490205
 Received: from localhost.localdomain.com (unknown)
  by ismtpd0026p1las1.sendgrid.net (SG) with ESMTP
- id yqpAbHQuRdOSTJlRZqj__A Thu, 21 May 2020 05:00:56.585 +0000 (UTC)
+ id VG9aOgbfRxipDFJ3nZk6Lg Thu, 21 May 2020 05:00:59.599 +0000 (UTC)
 From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: [PATCH v4 09/10] Support individual region unmap in libvhost-user
-Date: Thu, 21 May 2020 05:00:56 +0000 (UTC)
-Message-Id: <1588533678-23450-10-git-send-email-raphael.norwitz@nutanix.com>
+Subject: [PATCH v4 10/10] Lift max ram slots limit in libvhost-user
+Date: Thu, 21 May 2020 05:00:59 +0000 (UTC)
+Message-Id: <1588533678-23450-11-git-send-email-raphael.norwitz@nutanix.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1588533678-23450-1-git-send-email-raphael.norwitz@nutanix.com>
 References: <1588533678-23450-1-git-send-email-raphael.norwitz@nutanix.com>
 X-SG-EID: =?us-ascii?Q?YCLURHX+pjNDm1i7d69iKyMnQi=2FdvWah9veFa8nllaoUC0ScIWrCgiaWGu43Vg?=
- =?us-ascii?Q?xFdB4istXUBpN9H93OJgc8zQJ3KVDq2XRWa2Xbk?=
- =?us-ascii?Q?OOq+vXI84eLiafeClUC7SbSEGIm8qHo7LMQsMaD?=
- =?us-ascii?Q?8JSr1sgASWuJnCZqSfYv9NBNcvFfbskxRzhOADd?=
- =?us-ascii?Q?HGs3ViQ2=2F5lpu4j=2F2=2Fvy1Fz0xxGtwChw8CJ3z+6?=
- =?us-ascii?Q?PU5U=2F1JMFVsURDvWXreJntRQ3uRzcZYsAxo7o9c?=
- =?us-ascii?Q?6icQRKoClbohf2dBfdTAA=3D=3D?=
+ =?us-ascii?Q?xFdB4istXUBpN9H93OJgc8zSp3+RPqU4g3+UQTY?=
+ =?us-ascii?Q?OB1nSwmrKHZM0l7k4GYm8xmWEN5tH=2FMfTcSIBia?=
+ =?us-ascii?Q?Sz680lFOusuXuTzpDAylu2jwXl8dIhJwhIlU3Wb?=
+ =?us-ascii?Q?hH+4DEnC7f1AkUEp0Gh15xnGvaarfjE2FM7qJNt?=
+ =?us-ascii?Q?kO99npY21tUMUblQGGWnMG1A6MuBIrK5cScI=2FmZ?=
+ =?us-ascii?Q?9Uxidkgs6RS2wHLK7ccWg=3D=3D?=
 To: qemu-devel@nongnu.org, mst@redhat.com, marcandre.lureau@redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -81,124 +81,155 @@ Cc: raphael.s.norwitz@gmail.com, marcandre.lureau@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS protocol feature is
-enabled, on memory hot-unplug qemu will transmit memory regions to
-remove individually using the new message VHOST_USER_REM_MEM_REG
-message. With this change, vhost-user backends build with libvhost-user
-can now unmap individual memory regions when receiving the
-VHOST_USER_REM_MEM_REG message.
+Historically, VMs with vhost-user devices could hot-add memory a maximum
+of 8 times. Now that the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
+protocol feature has been added, VMs with vhost-user backends which
+support this new feature can support a configurable number of ram slots
+up to the maximum supported by the target platform.
 
-Qemu only sends VHOST_USER_REM_MEM_REG messages when the
-VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS feature is negotiated, and
-support for that feature has not yet been added in libvhost-user, this
-new functionality is not yet used.
+This change adds VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS support for
+backends built with libvhost-user, and increases the number of supported
+ram slots from 8 to 32.
+
+Memory hot-add, hot-remove and postcopy migration were tested with
+the vhost-user-bridge sample.
 
 Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 ---
- contrib/libvhost-user/libvhost-user.c | 63 +++++++++++++++++++++++++++++++++++
- contrib/libvhost-user/libvhost-user.h |  1 +
- 2 files changed, 64 insertions(+)
+ contrib/libvhost-user/libvhost-user.c | 17 +++++++++--------
+ contrib/libvhost-user/libvhost-user.h | 15 +++++++++++----
+ 2 files changed, 20 insertions(+), 12 deletions(-)
 
 diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index d8ee7a2..386449b 100644
+index 386449b..b1e6072 100644
 --- a/contrib/libvhost-user/libvhost-user.c
 +++ b/contrib/libvhost-user/libvhost-user.c
-@@ -139,6 +139,7 @@ vu_request_to_string(unsigned int req)
-         REQ(VHOST_USER_VRING_KICK),
-         REQ(VHOST_USER_GET_MAX_MEM_SLOTS),
-         REQ(VHOST_USER_ADD_MEM_REG),
-+        REQ(VHOST_USER_REM_MEM_REG),
-         REQ(VHOST_USER_MAX),
-     };
- #undef REQ
-@@ -763,6 +764,66 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-     }
- }
- 
-+static inline bool reg_equal(VuDevRegion *vudev_reg,
-+                             VhostUserMemoryRegion *msg_reg)
-+{
-+    if (vudev_reg->gpa == msg_reg->guest_phys_addr &&
-+        vudev_reg->qva == msg_reg->userspace_addr &&
-+        vudev_reg->size == msg_reg->memory_size) {
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
-+static bool
-+vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-+    int i, j;
-+    bool found = false;
-+    VuDevRegion shadow_regions[VHOST_MEMORY_MAX_NREGIONS] = {};
-+    VhostUserMemoryRegion m = vmsg->payload.memreg.region, *msg_region = &m;
-+
-+    DPRINT("Removing region:\n");
-+    DPRINT("    guest_phys_addr: 0x%016"PRIx64"\n",
-+           msg_region->guest_phys_addr);
-+    DPRINT("    memory_size:     0x%016"PRIx64"\n",
-+           msg_region->memory_size);
-+    DPRINT("    userspace_addr   0x%016"PRIx64"\n",
-+           msg_region->userspace_addr);
-+    DPRINT("    mmap_offset      0x%016"PRIx64"\n",
-+           msg_region->mmap_offset);
-+
-+    for (i = 0, j = 0; i < dev->nregions; i++) {
-+        if (!reg_equal(&dev->regions[i], msg_region)) {
-+            shadow_regions[j].gpa = dev->regions[i].gpa;
-+            shadow_regions[j].size = dev->regions[i].size;
-+            shadow_regions[j].qva = dev->regions[i].qva;
-+            shadow_regions[j].mmap_offset = dev->regions[i].mmap_offset;
-+            j++;
-+        } else {
-+            found = true;
-+            VuDevRegion *r = &dev->regions[i];
-+            void *m = (void *) (uintptr_t) r->mmap_addr;
-+
-+            if (m) {
-+                munmap(m, r->size + r->mmap_offset);
-+            }
-+        }
-+    }
-+
-+    if (found) {
-+        memcpy(dev->regions, shadow_regions,
-+               sizeof(VuDevRegion) * VHOST_MEMORY_MAX_NREGIONS);
-+        DPRINT("Successfully removed a region\n");
-+        dev->nregions--;
-+        vmsg_set_reply_u64(vmsg, 0);
-+    } else {
-+        vu_panic(dev, "Specified region not found\n");
-+    }
-+
-+    return true;
-+}
-+
+@@ -269,7 +269,7 @@ have_userfault(void)
  static bool
- vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserMsg *vmsg)
+ vu_message_read(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
  {
-@@ -1771,6 +1832,8 @@ vu_process_message(VuDev *dev, VhostUserMsg *vmsg)
-         return vu_handle_get_max_memslots(dev, vmsg);
-     case VHOST_USER_ADD_MEM_REG:
-         return vu_add_mem_reg(dev, vmsg);
-+    case VHOST_USER_REM_MEM_REG:
-+        return vu_rem_mem_reg(dev, vmsg);
-     default:
-         vmsg_close_fds(vmsg);
-         vu_panic(dev, "Unhandled request: %d", vmsg->request);
+-    char control[CMSG_SPACE(VHOST_MEMORY_MAX_NREGIONS * sizeof(int))] = { };
++    char control[CMSG_SPACE(VHOST_MEMORY_BASELINE_NREGIONS * sizeof(int))] = {};
+     struct iovec iov = {
+         .iov_base = (char *)vmsg,
+         .iov_len = VHOST_USER_HDR_SIZE,
+@@ -340,7 +340,7 @@ vu_message_write(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
+ {
+     int rc;
+     uint8_t *p = (uint8_t *)vmsg;
+-    char control[CMSG_SPACE(VHOST_MEMORY_MAX_NREGIONS * sizeof(int))] = { };
++    char control[CMSG_SPACE(VHOST_MEMORY_BASELINE_NREGIONS * sizeof(int))] = {};
+     struct iovec iov = {
+         .iov_base = (char *)vmsg,
+         .iov_len = VHOST_USER_HDR_SIZE,
+@@ -353,7 +353,7 @@ vu_message_write(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
+     struct cmsghdr *cmsg;
+ 
+     memset(control, 0, sizeof(control));
+-    assert(vmsg->fd_num <= VHOST_MEMORY_MAX_NREGIONS);
++    assert(vmsg->fd_num <= VHOST_MEMORY_BASELINE_NREGIONS);
+     if (vmsg->fd_num > 0) {
+         size_t fdsize = vmsg->fd_num * sizeof(int);
+         msg.msg_controllen = CMSG_SPACE(fdsize);
+@@ -780,7 +780,7 @@ static bool
+ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+     int i, j;
+     bool found = false;
+-    VuDevRegion shadow_regions[VHOST_MEMORY_MAX_NREGIONS] = {};
++    VuDevRegion shadow_regions[VHOST_USER_MAX_RAM_SLOTS] = {};
+     VhostUserMemoryRegion m = vmsg->payload.memreg.region, *msg_region = &m;
+ 
+     DPRINT("Removing region:\n");
+@@ -813,7 +813,7 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+ 
+     if (found) {
+         memcpy(dev->regions, shadow_regions,
+-               sizeof(VuDevRegion) * VHOST_MEMORY_MAX_NREGIONS);
++               sizeof(VuDevRegion) * VHOST_USER_MAX_RAM_SLOTS);
+         DPRINT("Successfully removed a region\n");
+         dev->nregions--;
+         vmsg_set_reply_u64(vmsg, 0);
+@@ -1394,7 +1394,8 @@ vu_get_protocol_features_exec(VuDev *dev, VhostUserMsg *vmsg)
+                         1ULL << VHOST_USER_PROTOCOL_F_SLAVE_REQ |
+                         1ULL << VHOST_USER_PROTOCOL_F_HOST_NOTIFIER |
+                         1ULL << VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD |
+-                        1ULL << VHOST_USER_PROTOCOL_F_REPLY_ACK;
++                        1ULL << VHOST_USER_PROTOCOL_F_REPLY_ACK |
++                        1ULL << VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS;
+ 
+     if (have_userfault()) {
+         features |= 1ULL << VHOST_USER_PROTOCOL_F_PAGEFAULT;
+@@ -1732,14 +1733,14 @@ static bool vu_handle_get_max_memslots(VuDev *dev, VhostUserMsg *vmsg)
+ {
+     vmsg->flags = VHOST_USER_REPLY_MASK | VHOST_USER_VERSION;
+     vmsg->size  = sizeof(vmsg->payload.u64);
+-    vmsg->payload.u64 = VHOST_MEMORY_MAX_NREGIONS;
++    vmsg->payload.u64 = VHOST_USER_MAX_RAM_SLOTS;
+     vmsg->fd_num = 0;
+ 
+     if (!vu_message_write(dev, dev->sock, vmsg)) {
+         vu_panic(dev, "Failed to send max ram slots: %s\n", strerror(errno));
+     }
+ 
+-    DPRINT("u64: 0x%016"PRIx64"\n", (uint64_t) VHOST_MEMORY_MAX_NREGIONS);
++    DPRINT("u64: 0x%016"PRIx64"\n", (uint64_t) VHOST_USER_MAX_RAM_SLOTS);
+ 
+     return false;
+ }
 diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
-index 60ef7fd..f843971 100644
+index f843971..844c37c 100644
 --- a/contrib/libvhost-user/libvhost-user.h
 +++ b/contrib/libvhost-user/libvhost-user.h
-@@ -99,6 +99,7 @@ typedef enum VhostUserRequest {
-     VHOST_USER_VRING_KICK = 35,
-     VHOST_USER_GET_MAX_MEM_SLOTS = 36,
-     VHOST_USER_ADD_MEM_REG = 37,
-+    VHOST_USER_REM_MEM_REG = 38,
-     VHOST_USER_MAX
- } VhostUserRequest;
+@@ -28,7 +28,13 @@
  
+ #define VIRTQUEUE_MAX_SIZE 1024
+ 
+-#define VHOST_MEMORY_MAX_NREGIONS 8
++#define VHOST_MEMORY_BASELINE_NREGIONS 8
++
++/*
++ * Set a reasonable maximum number of ram slots, which will be supported by
++ * any architecture.
++ */
++#define VHOST_USER_MAX_RAM_SLOTS 32
+ 
+ typedef enum VhostSetConfigType {
+     VHOST_SET_CONFIG_TYPE_MASTER = 0,
+@@ -55,6 +61,7 @@ enum VhostUserProtocolFeature {
+     VHOST_USER_PROTOCOL_F_HOST_NOTIFIER = 11,
+     VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD = 12,
+     VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS = 14,
++    VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
+ 
+     VHOST_USER_PROTOCOL_F_MAX
+ };
+@@ -123,7 +130,7 @@ typedef struct VhostUserMemoryRegion {
+ typedef struct VhostUserMemory {
+     uint32_t nregions;
+     uint32_t padding;
+-    VhostUserMemoryRegion regions[VHOST_MEMORY_MAX_NREGIONS];
++    VhostUserMemoryRegion regions[VHOST_MEMORY_BASELINE_NREGIONS];
+ } VhostUserMemory;
+ 
+ typedef struct VhostUserMemRegMsg {
+@@ -190,7 +197,7 @@ typedef struct VhostUserMsg {
+         VhostUserInflight inflight;
+     } payload;
+ 
+-    int fds[VHOST_MEMORY_MAX_NREGIONS];
++    int fds[VHOST_MEMORY_BASELINE_NREGIONS];
+     int fd_num;
+     uint8_t *data;
+ } VU_PACKED VhostUserMsg;
+@@ -368,7 +375,7 @@ typedef struct VuDevInflightInfo {
+ struct VuDev {
+     int sock;
+     uint32_t nregions;
+-    VuDevRegion regions[VHOST_MEMORY_MAX_NREGIONS];
++    VuDevRegion regions[VHOST_USER_MAX_RAM_SLOTS];
+     VuVirtq *vq;
+     VuDevInflightInfo inflight_info;
+     int log_call_fd;
 -- 
 1.8.3.1
 
