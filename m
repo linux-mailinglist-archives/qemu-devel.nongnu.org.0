@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D5D91DD3F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:10:00 +0200 (CEST)
-Received: from localhost ([::1]:53186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EDC61DD42F
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:22:04 +0200 (CEST)
+Received: from localhost ([::1]:52692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbohj-00061V-Do
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:09:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50202)
+	id 1jbotP-0007XL-An
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:22:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboJH-0004ab-SH
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:43 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:33301)
+ id 1jboJJ-0004eF-5b
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:45 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:34595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboJG-0006n2-Ms
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:43 -0400
-Received: by mail-qk1-x743.google.com with SMTP id z80so7921281qka.0
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:44:42 -0700 (PDT)
+ id 1jboJI-0006pe-AF
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:44 -0400
+Received: by mail-qt1-x844.google.com with SMTP id a23so6026633qto.1
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:44:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Gn2vKDOISxQzKy44RYpzzeOAg/5NGEBTOA6wtcYZvN4=;
- b=w6ewQJaVNHlfqxUwmcl94B40fhD4pjmyTDUwV9aACZqsZay3ux3wsq6a9AedtIdZ4O
- 9TBgFrhwzNqBYP8y1lISG4kf3zfd6vpiBY11hAFTCoTPzeCEVCDriJ7s2PnBKZszu1Gz
- PFOKQi8J4XEkujUsy4qrCyJbW/Qachj+BP4hUAD3Rx0KOghPOIVK6hcPjW7ag9+FKIW7
- y7reI1ZjXcm3+QnH3IpHMc+YdbWNN2+v/TIbR1vVP/JwLe7SL4qvvrDjAoGUwQ2clk7Z
- pVnDGNF+Wwwlji3Z+xE1CpSPz9N3b98mgXi0YqUCl47NyHLOqMN2jpxK8CflPflZ1xoz
- UT7g==
+ bh=JFBVbjLhWvz//NfxtqcWhFsd9jqQkkiik7lq07yLP/0=;
+ b=FTMsvZlOso8oYjZX/jmcx9fwfOIyj7GdWbF+mpCOnbWKcNISDe51SA/G+Sd61s5Rnh
+ TvQ1rDtZsDu2dJIOjrM/lO9l4o+pyLWX/yLm7e1A2iJveDcBi0lbflWV+NMLLjRrQ0kh
+ S1nB2vn0P/goDYLLn7jSp7Uq0ZpwaT1YY9KJSSzVEedjixm8hmGmZ5xn1rYxYi34/pgM
+ UOQn0kWKPsi5+cyszesRgHLvrwMjMhoMhbHKP0agP4Os1Rdy91OvXo5F8H61n48dFV0U
+ YrQxXG0QdhR6ZCCC3eVRMZb7pIlVRlLs3ypdfrP4jvUPInluw3hu6DkZ/9ZxDGxkz3+v
+ gBcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Gn2vKDOISxQzKy44RYpzzeOAg/5NGEBTOA6wtcYZvN4=;
- b=JDCrlwHu6nngK9OgD/CeifUm+MPmPzxShbf2BwOzgY567Bzu8g1miikzTuUzOR4C6I
- RkX29sP36m8tnwjFi3s/2IrzF5ytVblBkqLytQTot4lmtOVS2VS9hwCnxmvgj4F+JLal
- ulcuNy4MBJ4Cdb6ClLAFNvcs6YSDAu9asVR/FK1hqiwq/nwltwZHaYOw/jOWw+RqLv1R
- YbyNW6vmJDleGLsbG1S8SZfOCxy/mCf19sdwQQKLNW8xxk1kbrDmYwPY1fxwr0oQt2Wz
- P9A/ilvk9NQXDyMQR0Gj4LeZXryFRZNzQi/2x2/bxIQWJ06Lf7vvJfI3tEVOyQ4eRazJ
- QOrA==
-X-Gm-Message-State: AOAM533HSRgAEbf2f2U54h2vJrynjmYavU68v2ZEVQcIDCWIeMXQmc7E
- nXEkOfXHb6LQFri7CsuVdzHQsAPcNfoa3g==
-X-Google-Smtp-Source: ABdhPJxUOFG5AU32hHpb9iIRytixrzjcqFY3Ps0ryUK3ULJpyzY+5i0HLTIM22K4qI8eeSzfb8JyVA==
-X-Received: by 2002:a37:a42:: with SMTP id 63mr11126690qkk.399.1590079481587; 
- Thu, 21 May 2020 09:44:41 -0700 (PDT)
+ bh=JFBVbjLhWvz//NfxtqcWhFsd9jqQkkiik7lq07yLP/0=;
+ b=kteZZKuNSMWkYt9QF6DBocro41dG6mOTIsfbuLXj2p5E+mYT+t9V+KMBA5RKOfJnLZ
+ 0ffLjz4oah5pFpksoQUKAvnvrPZVJEfegL19ZPKnWbjGJl+CZtgqBObdODKn/eVuzgDb
+ ZYmV0HDD6iXgVXtAysp2/He+dDwP8GdtTFF+5E9fX2ExF6tK8ZXJRLLcVM6d67isJca7
+ W3DpS3uCy6DCf76a/YiecjWPL4m4wGY0cmVqWqcFJCETPwZ2i4bhshmguObT/2OLwRzQ
+ JKOET8s9usREeVIbbqRYu9wDQXDa6k2s1EuzKig7LyPSTef5tC3Gp0VkE8TtcCccuVhh
+ I+0w==
+X-Gm-Message-State: AOAM531fWwDNz2alCxo9tl3uklzCxCV/uJF2j2GMC8fZJCFNJJJLfWBJ
+ VoaSOlGfBUD+OU6Pr9ryRDYzaIvYpvPRDg==
+X-Google-Smtp-Source: ABdhPJxNSiyYPNp4rWI7ciQinjtzUAF7aqML7mIt6wtirdZz2ZEii8kXa14B2f2xea9LFo9NkjIFZQ==
+X-Received: by 2002:ac8:3f5d:: with SMTP id w29mr11407970qtk.192.1590079483088; 
+ Thu, 21 May 2020 09:44:43 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:1944:c530:655c:5583])
- by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.44.40
+ by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.44.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:44:40 -0700 (PDT)
+ Thu, 21 May 2020 09:44:42 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 65/74] mips: convert to cpu_has_work_with_iothread_lock
-Date: Thu, 21 May 2020 12:40:02 -0400
-Message-Id: <20200521164011.638-66-robert.foley@linaro.org>
+Subject: [PATCH v9 66/74] s390x: convert to cpu_has_work_with_iothread_lock
+Date: Thu, 21 May 2020 12:40:03 -0400
+Message-Id: <20200521164011.638-67-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200521164011.638-1-robert.foley@linaro.org>
 References: <20200521164011.638-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::743;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x743.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::844;
+ envelope-from=robert.foley@linaro.org; helo=mail-qt1-x844.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,10 +82,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, richard.henderson@linaro.org,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, cota@braap.org,
- peter.puhov@linaro.org, alex.bennee@linaro.org,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: robert.foley@linaro.org, David Hildenbrand <david@redhat.com>,
+ richard.henderson@linaro.org, qemu-s390x@nongnu.org, cota@braap.org,
+ peter.puhov@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -93,37 +92,38 @@ From: "Emilio G. Cota" <cota@braap.org>
 
 Soon we will call cpu_has_work without the BQL.
 
-Cc: Aurelien Jarno <aurelien@aurel32.net>
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: qemu-s390x@nongnu.org
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- target/mips/cpu.c | 4 +++-
+ target/s390x/cpu.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 761d8aaa54..ec9dde5100 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -58,6 +58,8 @@ static bool mips_cpu_has_work(CPUState *cs)
-     bool has_work = false;
-     uint32_t interrupt_request = cpu_interrupt_request(cs);
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 490644e12b..e9a014bd02 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -59,6 +59,8 @@ static bool s390_cpu_has_work(CPUState *cs)
+ {
+     S390CPU *cpu = S390_CPU(cs);
  
 +    g_assert(qemu_mutex_iothread_locked());
 +
-     /*
-      * Prior to MIPS Release 6 it is implementation dependent if non-enabled
-      * interrupts wake-up the CPU, however most of the implementations only
-@@ -193,7 +195,7 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
-     device_class_set_parent_reset(dc, mips_cpu_reset, &mcc->parent_reset);
- 
-     cc->class_by_name = mips_cpu_class_by_name;
--    cc->has_work = mips_cpu_has_work;
-+    cc->has_work_with_iothread_lock = mips_cpu_has_work;
-     cc->do_interrupt = mips_cpu_do_interrupt;
-     cc->cpu_exec_interrupt = mips_cpu_exec_interrupt;
-     cc->dump_state = mips_cpu_dump_state;
+     /* STOPPED cpus can never wake up */
+     if (s390_cpu_get_state(cpu) != S390_CPU_STATE_LOAD &&
+         s390_cpu_get_state(cpu) != S390_CPU_STATE_OPERATING) {
+@@ -491,7 +493,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
+ #endif
+     scc->reset = s390_cpu_reset;
+     cc->class_by_name = s390_cpu_class_by_name,
+-    cc->has_work = s390_cpu_has_work;
++    cc->has_work_with_iothread_lock = s390_cpu_has_work;
+ #ifdef CONFIG_TCG
+     cc->do_interrupt = s390_cpu_do_interrupt;
+ #endif
 -- 
 2.17.1
 
