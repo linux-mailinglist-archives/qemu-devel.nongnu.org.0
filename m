@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C161DD9E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 00:08:31 +0200 (CEST)
-Received: from localhost ([::1]:34796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A32F1DD9E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 00:08:40 +0200 (CEST)
+Received: from localhost ([::1]:35774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbtMc-0005ZJ-TT
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 18:08:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56504)
+	id 1jbtMl-0005xd-2i
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 18:08:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jbtLI-0003rb-Lk; Thu, 21 May 2020 18:07:09 -0400
+ id 1jbtLK-0003t1-4s; Thu, 21 May 2020 18:07:10 -0400
 Received: from mail-eopbgr70104.outbound.protection.outlook.com
  ([40.107.7.104]:17734 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jbtLH-0007vC-5a; Thu, 21 May 2020 18:07:08 -0400
+ id 1jbtLJ-0007vC-7o; Thu, 21 May 2020 18:07:09 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i1UysHU5Kl5EvrWwAANJeGd4qjMgHEUJfQBgxavSbEqfwLIZxqdvC6VcTfWOmEw/UOAfdFeh/Evzny1grw0mjxjmL23AAGEzY4lNrkJM8md72ZmQZb3o7Jo96TvQJzeG5dO1KkDVuiajyl0G7IpkxO5gqWq3505jVrnERfICPSk2vDH6xgsXDG1T8KncerdCEacuOKYJCuPaAES4O5L/A3xVYEq42NpV5X+XwqvVxLOUZwjMMRr9t+6uAj+W/OS5TGBfi2vjZ4E1MqQcO7G2/JRPLTtyweCJEvRq5Zl8YNFc1mvJ+ZwXfp6y/EDKXGI9Bknn3W0mbPKFtN88je6QEQ==
+ b=iyvRcgXSfYllDkRkpmu+P0JEZKe92+UKJgV3vE8qNNvYzrZnmUdEBq9HJf+70WLApE5wSRJ5e1hbfKa/mE0ZiXelcI6UubfgKn5hJDScz+6MyHG85w8xdOrxLBCTrYCLADxa3xbH71tV1gZhHSbxE4Nsys+JOFis8xWSYNsj8BD3w/FKchO5hxLYJ0SDKU0DnGS6WG2Gc1Iq45xk4Sjd50H32hGrbXXxB4tlZ5wKxpDTB9RrY6c7cUXdpxX82CnNSWj1ZlgP22D9ZLOa7RdwbHmDiPM4tbHBTnB8I9vV42n1WGun5pfTTBPY9+kGGQMYmSWfC9cdF4cVtviVCfSQmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+lip4dD19i4EOeKiQ0LX1sMJZbgdXQCeU57yRCNf1Zk=;
- b=fJpFSr/3C9BBzOTqF/b2D8i0nVl2Z/SsTONaPwBuzLfKftepbsTQuhH0VxezZi1Lp4JSeqv7s5+SpIrq74YbzdxDaeZzQN3e5XyTSIOrrDACvooZiEZKwUQ2Qq9KR2z0TdTCBVuCBeCkiSIgniDX9jWmaQGdIKdXrgcGpwXhiDJiJLGnntsa1fqHbCDE5Y+juw43agAQ/tivWAxVC5wrMc3K6DJ9gCnaRD8/9FaXPbtsUYqoubH2Cp+gIyvcbFcj/7xXF7zHWCSq41isinOMozy+3OtiKkcThmtB4EW6/gqucLtFjHk/JoICb7hfOZK2oMzQSJWGz8ENykhAhmQXsg==
+ bh=DVYcnaT6dR52w62/tGifxQOIl8agZQNiTMO0y90ZWQI=;
+ b=OmElxXHGdHJYjvooe+P8e4GeIWCBpAN86rnk5TdZpsEkLn05Vxti4h37+vUrlJuASANBVmkbqFKdjdn3McVVxHrZjPpHj4Mf5oyuLtmThYC009DnUgBwZg9pbHED4WDsRRFR/Kru76OMGOtBBSHip8lBFoI6yAobye98Qb7AmdE5FKCdtfOrZ3c4SrJ/sWZtcdLzh9r28mHzzEkgO7m4AwiZBohNLe3g+PtDUigw3fBdMtO83DIvskQ1orvbmdMim87FgOf3u+Rg6jtp2Bhud/EJnUhvZ+5Ph4n+9ymfgQ983YUrjPlyVRbJDuJ3ZuNUZTItzRm6BZ8FbaJUiBqCTg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+lip4dD19i4EOeKiQ0LX1sMJZbgdXQCeU57yRCNf1Zk=;
- b=oXtWt6kFT3+Bqvd7/i7+87UMAN0t0kcte9DyCdBCP9xAkJJwhmFWt/YOAEoTbHekGGfb49tCP/6ztYBYU/Ahck/7lelOpn2muxs/N0ouTpw8+/CSnQVVTpoEiheiRw9ZtKc1LFMo+w7fUAg1Htnl1ep7Sh6FnYyJmfvGUmV1FiQ=
+ bh=DVYcnaT6dR52w62/tGifxQOIl8agZQNiTMO0y90ZWQI=;
+ b=FWV0QOATjn3suJ6Ah3MTJHKyOEQwe5R1OBI0bbQpTvSGyisQY0U9YQ2ZLnR97I1ooEGr32igsFBSEOiCVXvczk5NA4dxb9jkj3M8aziMTgbDiRDnfnowB3K1W9Y3FB68fQ9bWidpCr/xzycIwkKrvLc7QgECztaA4zffw38lKBY=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5512.eurprd08.prod.outlook.com (2603:10a6:20b:de::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.24; Thu, 21 May
- 2020 22:07:01 +0000
+ 2020 22:07:03 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3021.020; Thu, 21 May 2020
- 22:07:01 +0000
+ 22:07:03 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 1/6] migration/block-dirty-bitmap: refactor
- init_dirty_bitmap_migration
-Date: Fri, 22 May 2020 01:06:43 +0300
-Message-Id: <20200521220648.3255-2-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 2/6] block/dirty-bitmap: add bdrv_has_named_bitmaps helper
+Date: Fri, 22 May 2020 01:06:44 +0300
+Message-Id: <20200521220648.3255-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200521220648.3255-1-vsementsov@virtuozzo.com>
 References: <20200521220648.3255-1-vsementsov@virtuozzo.com>
@@ -63,32 +62,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.167) by
  AM3PR07CA0137.eurprd07.prod.outlook.com (2603:10a6:207:8::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3021.12 via Frontend Transport; Thu, 21 May 2020 22:07:00 +0000
+ 15.20.3021.12 via Frontend Transport; Thu, 21 May 2020 22:07:02 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.167]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8041b0bc-98b8-4b6c-78a8-08d7fdd349ed
+X-MS-Office365-Filtering-Correlation-Id: f1a3878a-59f2-49f5-c7bd-08d7fdd34aaf
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5512:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5512C2BD39AD6B6A5389CD7EC1B70@AM7PR08MB5512.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5512075EA03A6D8DAE24167BC1B70@AM7PR08MB5512.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:18;
 X-Forefront-PRVS: 041032FF37
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pdG/JnPVHQW4UUWcIQaxrUhwSDhrUX0M8QctRxgRpyiOq8rBmZTaKcwl8TcnmISNOD9ITx+JD6+452UljA3BLi80CUzKTKoJaki2z1c0nOwaF6+loyMqoCx2lYboawePpTmkWTOm9h2CZezLSkXbvxaFUyJXiDR0pvj+ff3aNw5UvcqYXW11/8x3GisePqzfV7GgBjwCaerFy1rng68ZROvLXva77xMDdbU8beI0ndegvYEiRel0kiL78SDpDX36e133a2pCj0eGGUbSWzkmlUVLMA+EXhANHh6BgQeKh56Rd+uy+4pV+O1mkn0pp/x/ePoCOCoM7ukwxb8+D0fozkesUh1JpH4Rzunyku9MnaEdDCDfAfg8AvJZmMH5FlCGKGYvQ3S9VSESNtHjx34+IiV3P2NHzfVf1/7mvzgX4+A=
+X-Microsoft-Antispam-Message-Info: 3m0+zP5f+vMPk7XMXtv44jxANYE4XHWi3WmfRmF44byzUA7Hzd9Z0ZXoTFW0Yxw06rwsw0LTrG6/NIkTixg9ol9rpcDAh5vVk5GgoiNH/D1QHC20j2I0MWfQ5olI8oYElq4ic2B+jH/WA5pRYKbcqJdCK7XYFr3EVM+9nXVsnswMLwppFmWeIPhBJhpDRhruX1E/jSIhB4yXv5ikDpBGjSJMgABN1AwP7BuBlgEMHv02oK09OsaZIQFlzVHnoFG+bw90uytU4KP781xa4C+lIiisD9EwErl8TtkYfh64gtgeWOFtatpZFgcDG5BSaaoUnbrUfX9TlkN7rfXhED2I74NTfdr6T7eoXxImn0e7V6OoCbU4cJmXfqeAy1iHZctDYuUUyGpR8JSMrOoK4rLEQnSZEVoHBDd0xPzeFFmc++A=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(4636009)(346002)(366004)(396003)(136003)(376002)(39840400004)(8676002)(6512007)(186003)(26005)(6666004)(2906002)(7416002)(16526019)(316002)(6916009)(8936002)(6486002)(36756003)(6506007)(1076003)(107886003)(478600001)(4326008)(66556008)(66476007)(86362001)(5660300002)(66946007)(52116002)(2616005)(69590400007)(956004)(14143004);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: aJhV33YihziCHV1sztTE8kEWEELhW4nQiJxg1wRmebOfWDNtKIAeSFDbfFZXs/WEcNDOh7DKPHh9fYpu5xwlp7azvVzv3TnEH4fYjj1CU9GhW1eyYIRQsj1b5YTjl1cckxLSYt+65Ru3z7LfsD6BAI6S5Xf/01Fpep1oKdHNvnRSQ12w8545u8qT2yOWvs8pixyVeBobvgzufM0nU1J6SuM6bqKPRCdZnWelPwboiCGWDosNC8AKGc6qoPsGZMh+unnFSjZHlAC/Mh4AejD/rQ3Zw4eChRusC8GvqTVo2SsToQMd9J3dxYqjWYO5FkxGkjXu4Dmqi2VCMU6B384Yx6MJpS/WSrQnPyo7LvGSgftbSEoZlnoZujpAFqGLyeuiddfnk2XNDYBbToLrr4oaWBUtCwVZ4P+OYx38qhLgQvIGAaVXw4yP4Yb/R10/RINlJ/rCy2Hf/V04pNASsN2VdB3Tv1+G+Tk+yM7yg+NlQ8R96qxDG12TBk7ADdVDwUda
+X-MS-Exchange-AntiSpam-MessageData: AgVk5susrOoKjdVzQY0n7a19OKzr/gY706WPnujjLMHOivW/TUx4PjiadbzoM8BSys8/DMlqgHIWhXhDrgu7asOa+KTHmZRyeuRsnKgDwiiLzulz1Yo7z8u/8AfOZiFlvOS1HkVb1L9XoGyFYttYgcxtR+2+dgUCVn4Q0uz7OhSQ47JHerh1pvlN1AMhZxwbTsijF2WL89IvtbyufdlBlJUfRfk1XSkSYNcRlKbT3GOEDsVK/UZwueQpBFKb6LHWT+HD0yuMTV5d/xa6AG4LEafvAA/2iWT9em5iE4+DphaSNknf4eYXqRqpubEnXZgIEm0eT86KaPk3Ae+BkvDL+sMjWRNnoWtNfvrgB5sBzEXUVQfdEIKhG/6hQSmR6eAefaPdJh/R3OEpimIaML13+BCVnQ8/FgjX5DxXSz78rV8+drnCDKrJj0LXMJd/oZEhafQx673Ksq8wBICK6vTrVkryFxDBGXGt/1ztc8iinVc=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8041b0bc-98b8-4b6c-78a8-08d7fdd349ed
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2020 22:07:01.7685 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f1a3878a-59f2-49f5-c7bd-08d7fdd34aaf
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2020 22:07:03.0429 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S6mjHuTigG2R0fsDQSmafNVshk8U1e3mAYsnP5RWnGypyE+4Fff0+Spt8LFRgTRi7lPupAqwQinwkmltV0nj8ww8CS6OgtfenMh2ryjKsME=
+X-MS-Exchange-CrossTenant-UserPrincipalName: EY/o+kjyr1sHsuFKXSNdZ9WdGJ9TyejYkdkvfx1GO/LGusA9dii40dmU+F1z7DdDQWh9pdZcJrdMyvNfIPjUttqcJmxpl7yJ9WWoz53F4MA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5512
 Received-SPF: pass client-ip=40.107.7.104;
  envelope-from=vsementsov@virtuozzo.com;
@@ -117,130 +116,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
  quintela@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, den@openvz.org, jsnow@redhat.com, dgilbert@redhat.com
+ stefanha@redhat.com, Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ den@openvz.org, jsnow@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out handling one bs, it is needed for the following commit, which
-will handle BlockBackends separately.
+To be used for bitmap migration in further commit.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- migration/block-dirty-bitmap.c | 89 +++++++++++++++++++---------------
- 1 file changed, 49 insertions(+), 40 deletions(-)
+ include/block/dirty-bitmap.h |  1 +
+ block/dirty-bitmap.c         | 13 +++++++++++++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 7eafface61..7e93718086 100644
---- a/migration/block-dirty-bitmap.c
-+++ b/migration/block-dirty-bitmap.c
-@@ -268,57 +268,66 @@ static void dirty_bitmap_mig_cleanup(void)
+diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
+index 5a8d52e4de..36e8da4fc2 100644
+--- a/include/block/dirty-bitmap.h
++++ b/include/block/dirty-bitmap.h
+@@ -95,6 +95,7 @@ int64_t bdrv_get_dirty_count(BdrvDirtyBitmap *bitmap);
+ void bdrv_dirty_bitmap_truncate(BlockDriverState *bs, int64_t bytes);
+ bool bdrv_dirty_bitmap_readonly(const BdrvDirtyBitmap *bitmap);
+ bool bdrv_has_readonly_bitmaps(BlockDriverState *bs);
++bool bdrv_has_named_bitmaps(BlockDriverState *bs);
+ bool bdrv_dirty_bitmap_get_autoload(const BdrvDirtyBitmap *bitmap);
+ bool bdrv_dirty_bitmap_get_persistence(BdrvDirtyBitmap *bitmap);
+ bool bdrv_dirty_bitmap_inconsistent(const BdrvDirtyBitmap *bitmap);
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index f9bfc77985..c01319b188 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -818,6 +818,19 @@ bool bdrv_has_readonly_bitmaps(BlockDriverState *bs)
+     return false;
  }
  
- /* Called with iothread lock taken. */
--static int init_dirty_bitmap_migration(void)
-+static int add_bitmaps_to_list(BlockDriverState *bs, const char *bs_name)
- {
--    BlockDriverState *bs;
-     BdrvDirtyBitmap *bitmap;
-     DirtyBitmapMigBitmapState *dbms;
-     Error *local_err = NULL;
- 
--    dirty_bitmap_mig_state.bulk_completed = false;
--    dirty_bitmap_mig_state.prev_bs = NULL;
--    dirty_bitmap_mig_state.prev_bitmap = NULL;
--    dirty_bitmap_mig_state.no_bitmaps = false;
-+    FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
-+        if (!bdrv_dirty_bitmap_name(bitmap)) {
-+            continue;
-+        }
- 
--    for (bs = bdrv_next_all_states(NULL); bs; bs = bdrv_next_all_states(bs)) {
--        const char *name = bdrv_get_device_or_node_name(bs);
-+        if (!bs_name || strcmp(bs_name, "") == 0) {
-+            error_report("Found bitmap '%s' in unnamed node %p. It can't "
-+                         "be migrated", bdrv_dirty_bitmap_name(bitmap), bs);
-+            return -1;
-+        }
- 
--        FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
--            if (!bdrv_dirty_bitmap_name(bitmap)) {
--                continue;
--            }
-+        if (bdrv_dirty_bitmap_check(bitmap, BDRV_BITMAP_DEFAULT, &local_err)) {
-+            error_report_err(local_err);
-+            return -1;
-+        }
- 
--            if (!name || strcmp(name, "") == 0) {
--                error_report("Found bitmap '%s' in unnamed node %p. It can't "
--                             "be migrated", bdrv_dirty_bitmap_name(bitmap), bs);
--                goto fail;
--            }
-+        bdrv_ref(bs);
-+        bdrv_dirty_bitmap_set_busy(bitmap, true);
++bool bdrv_has_named_bitmaps(BlockDriverState *bs)
++{
++    BdrvDirtyBitmap *bm;
 +
-+        dbms = g_new0(DirtyBitmapMigBitmapState, 1);
-+        dbms->bs = bs;
-+        dbms->node_name = bs_name;
-+        dbms->bitmap = bitmap;
-+        dbms->total_sectors = bdrv_nb_sectors(bs);
-+        dbms->sectors_per_chunk = CHUNK_SIZE * 8 *
-+            bdrv_dirty_bitmap_granularity(bitmap) >> BDRV_SECTOR_BITS;
-+        if (bdrv_dirty_bitmap_enabled(bitmap)) {
-+            dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_ENABLED;
++    QLIST_FOREACH(bm, &bs->dirty_bitmaps, list) {
++        if (bdrv_dirty_bitmap_name(bm)) {
++            return true;
 +        }
-+        if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
-+            dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_PERSISTENT;
-+        }
- 
--            if (bdrv_dirty_bitmap_check(bitmap, BDRV_BITMAP_DEFAULT,
--                                        &local_err)) {
--                error_report_err(local_err);
--                goto fail;
--            }
-+        QSIMPLEQ_INSERT_TAIL(&dirty_bitmap_mig_state.dbms_list,
-+                             dbms, entry);
 +    }
- 
--            bdrv_ref(bs);
--            bdrv_dirty_bitmap_set_busy(bitmap, true);
--
--            dbms = g_new0(DirtyBitmapMigBitmapState, 1);
--            dbms->bs = bs;
--            dbms->node_name = name;
--            dbms->bitmap = bitmap;
--            dbms->total_sectors = bdrv_nb_sectors(bs);
--            dbms->sectors_per_chunk = CHUNK_SIZE * 8 *
--                bdrv_dirty_bitmap_granularity(bitmap) >> BDRV_SECTOR_BITS;
--            if (bdrv_dirty_bitmap_enabled(bitmap)) {
--                dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_ENABLED;
--            }
--            if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
--                dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_PERSISTENT;
--            }
-+    return 0;
++
++    return false;
 +}
 +
-+/* Called with iothread lock taken. */
-+static int init_dirty_bitmap_migration(void)
-+{
-+    BlockDriverState *bs;
-+    DirtyBitmapMigBitmapState *dbms;
-+
-+    dirty_bitmap_mig_state.bulk_completed = false;
-+    dirty_bitmap_mig_state.prev_bs = NULL;
-+    dirty_bitmap_mig_state.prev_bitmap = NULL;
-+    dirty_bitmap_mig_state.no_bitmaps = false;
- 
--            QSIMPLEQ_INSERT_TAIL(&dirty_bitmap_mig_state.dbms_list,
--                                 dbms, entry);
-+    for (bs = bdrv_next_all_states(NULL); bs; bs = bdrv_next_all_states(bs)) {
-+        if (add_bitmaps_to_list(bs, bdrv_get_device_or_node_name(bs))) {
-+            goto fail;
-         }
-     }
- 
+ /* Called with BQL taken. */
+ void bdrv_dirty_bitmap_set_persistence(BdrvDirtyBitmap *bitmap, bool persistent)
+ {
 -- 
 2.21.0
 
