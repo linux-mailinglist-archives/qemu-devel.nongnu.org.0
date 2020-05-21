@@ -2,72 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F5151DC9CD
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 11:17:47 +0200 (CEST)
-Received: from localhost ([::1]:53384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 513891DC9DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 11:20:40 +0200 (CEST)
+Received: from localhost ([::1]:33846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbhKk-000669-3n
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 05:17:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55994)
+	id 1jbhNX-0001EB-DU
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 05:20:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jbhHy-0002F4-GB
- for qemu-devel@nongnu.org; Thu, 21 May 2020 05:14:54 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28688
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jbhHx-0005ds-Pb
- for qemu-devel@nongnu.org; Thu, 21 May 2020 05:14:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590052493;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pAQcFfvmbFo2T0FcP6sN6SJ7IPjBqdn/kotVhvFayU4=;
- b=AdamYWQh0f8DMIAT2bYyW8UiRTlipDaeEVy4pIBjCnpL3BAMF/VzMF1s3nVBS3IrUGv+Y4
- peXaSKW3oWrYGN3N1QNG6Rx++Ej+RB1zZcQVUChs4w1doYVLFcRc1h6tWcMql8Vfy7Mr7l
- XJFO8TsxZu8VKurOHFYSFwDzQAb6NNo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-YjhYg8QNNbG64tldmum13Q-1; Thu, 21 May 2020 05:14:50 -0400
-X-MC-Unique: YjhYg8QNNbG64tldmum13Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83DD58018A2;
- Thu, 21 May 2020 09:14:49 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A4EC6E71B;
- Thu, 21 May 2020 09:14:37 +0000 (UTC)
-Date: Thu, 21 May 2020 11:14:36 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 14/22] microvm: use 2G split unconditionally
-Message-ID: <20200521111436.5c742fde@redhat.com>
-In-Reply-To: <20200520132003.9492-15-kraxel@redhat.com>
-References: <20200520132003.9492-1-kraxel@redhat.com>
- <20200520132003.9492-15-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jbhMM-0000dZ-UE; Thu, 21 May 2020 05:19:27 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:59539)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1jbhMJ-0006Jy-9b; Thu, 21 May 2020 05:19:26 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.06446513|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0113536-0.000471024-0.988175;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e02c03300; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ RN=8; RT=8; SR=0; TI=SMTPD_---.HbbEKqG_1590052751; 
+Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.HbbEKqG_1590052751)
+ by smtp.aliyun-inc.com(10.147.43.95); Thu, 21 May 2020 17:19:12 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v8 00/62] target/riscv: support vector extension v0.7.1
+Date: Thu, 21 May 2020 17:17:32 +0800
+Message-Id: <20200521091834.9847-1-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 04:44:45
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 05:19:14
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, UNPARSEABLE_RELAY=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,58 +55,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: richard.henderson@linaro.org, wxy194768@alibaba-inc.com,
+ wenmeng_zhang@c-sky.com, alistair.francis@wdc.com, palmer@dabbelt.com,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 May 2020 15:19:55 +0200
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+This patchset implements the vector extension for RISC-V on QEMU.
 
-> Looks like the logiv was copied over from q35.
-> 
-> q35 does this for backward compatibility, there is no reason to do this
-> on microvm though.  So split @ 2G unconditionally.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+You can also find the patchset and all *test cases* in
+my repo(https://github.com/romanheros/qemu.git branch:vector-upstream-v8).
+All the test cases are in the directory qemu/tests/riscv/vector/. They are
+riscv64 linux user mode programs.
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+You can test the patchset by the script qemu/tests/riscv/vector/runcase.sh.
 
-> ---
->  hw/i386/microvm.c | 16 +---------------
->  1 file changed, 1 insertion(+), 15 deletions(-)
-> 
-> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-> index 867d3d652145..b8f0d3283758 100644
-> --- a/hw/i386/microvm.c
-> +++ b/hw/i386/microvm.c
-> @@ -170,23 +170,9 @@ static void microvm_memory_init(MicrovmMachineState *mms)
->      MemoryRegion *ram_below_4g, *ram_above_4g;
->      MemoryRegion *system_memory = get_system_memory();
->      FWCfgState *fw_cfg;
-> -    ram_addr_t lowmem;
-> +    ram_addr_t lowmem = 0x80000000; /* 2G */
->      int i;
->  
-> -    /*
-> -     * Check whether RAM fits below 4G (leaving 1/2 GByte for IO memory
-> -     * and 256 Mbytes for PCI Express Enhanced Configuration Access Mapping
-> -     * also known as MMCFG).
-> -     * If it doesn't, we need to split it in chunks below and above 4G.
-> -     * In any case, try to make sure that guest addresses aligned at
-> -     * 1G boundaries get mapped to host addresses aligned at 1G boundaries.
-> -     */
-> -    if (machine->ram_size >= 0xb0000000) {
-> -        lowmem = 0x80000000;
-> -    } else {
-> -        lowmem = 0xb0000000;
-> -    }
-> -
->      /*
->       * Handle the machine opt max-ram-below-4g.  It is basically doing
->       * min(qemu limit, user limit).
+Features:
+  * support specification riscv-v-spec-0.7.1.(https://github.com/riscv/riscv-v-spec/releases/tag/0.7.1/)
+  * support basic vector extension.
+  * support Zvlsseg.
+  * support Zvamo.
+  * not support Zvediv as it is changing.
+  * SLEN always equals VLEN.
+  * element width support 8bit, 16bit, 32bit, 64bit.
+
+Changelog:
+v8
+  * support different float rounding modes for vector instructions.
+  * use lastest released TCG GVEC DUP IR.
+  * set RV_VLEN_MAX to 256 bits, as GVEC IR uses simd_desc.
+
+v7
+  * move vl == 0 check to translation time by add a global cpu_vl.
+  * implement vector element inline load and store function by TCG IR.
+  * based on vec_element_load(store), implement some permutation instructions.
+  * implement rsubs GVEC IR.
+  * fixup vsmul, vmfne, vfmerge, vslidedown.
+  * some other small bugs and indentation errors.
+
+v6
+  * use gvec_dup Gvec IR to accellerate move and merge.
+  * a better way to implement fixed point instructions.
+  * a global check when vl == 0.
+  * limit some macros to only one inline function call.
+  * fixup sew error when use Gvec IR.
+  * fixup bugs for corner cases.
+
+v5
+  * fixup a bug in tb flags.
+
+v4
+  * no change
+
+v3
+  * move check code from execution-time to translation-time
+  * use a continous memory block for vector register description.
+  * vector registers as direct fields in RISCVCPUState.
+  * support VLEN configure from qemu command line.
+  * support ELEN configure from qemu command line.
+  * support vector specification version configure from qemu command line.
+  * probe pages before real load or store access.
+  * use probe_page_check for no-fault operations in linux user mode.
+  * generation atomic exit exception when in parallel environment.
+  * fixup a lot of concrete bugs.
+
+V2
+  * use float16_compare{_quiet}
+  * only use GETPC() in outer most helper
+  * add ctx.ext_v Property
+
+LIU Zhiwei (62):
+  target/riscv: add vector extension field in CPURISCVState
+  target/riscv: implementation-defined constant parameters
+  target/riscv: support vector extension csr
+  target/riscv: add vector configure instruction
+  target/riscv: add an internals.h header
+  target/riscv: add vector stride load and store instructions
+  target/riscv: add vector index load and store instructions
+  target/riscv: add fault-only-first unit stride load
+  target/riscv: add vector amo operations
+  target/riscv: vector single-width integer add and subtract
+  target/riscv: vector widening integer add and subtract
+  target/riscv: vector integer add-with-carry / subtract-with-borrow
+    instructions
+  target/riscv: vector bitwise logical instructions
+  target/riscv: vector single-width bit shift instructions
+  target/riscv: vector narrowing integer right shift instructions
+  target/riscv: vector integer comparison instructions
+  target/riscv: vector integer min/max instructions
+  target/riscv: vector single-width integer multiply instructions
+  target/riscv: vector integer divide instructions
+  target/riscv: vector widening integer multiply instructions
+  target/riscv: vector single-width integer multiply-add instructions
+  target/riscv: vector widening integer multiply-add instructions
+  target/riscv: vector integer merge and move instructions
+  target/riscv: vector single-width saturating add and subtract
+  target/riscv: vector single-width averaging add and subtract
+  target/riscv: vector single-width fractional multiply with rounding
+    and saturation
+  target/riscv: vector widening saturating scaled multiply-add
+  target/riscv: vector single-width scaling shift instructions
+  target/riscv: vector narrowing fixed-point clip instructions
+  target/riscv: Update fp_status when float rounding mode changes
+  target/riscv: vector single-width floating-point add/subtract
+    instructions
+  target/riscv: vector widening floating-point add/subtract instructions
+  target/riscv: vector single-width floating-point multiply/divide
+    instructions
+  target/riscv: vector widening floating-point multiply
+  target/riscv: vector single-width floating-point fused multiply-add
+    instructions
+  target/riscv: vector widening floating-point fused multiply-add
+    instructions
+  target/riscv: vector floating-point square-root instruction
+  target/riscv: vector floating-point min/max instructions
+  target/riscv: vector floating-point sign-injection instructions
+  target/riscv: vector floating-point compare instructions
+  target/riscv: vector floating-point classify instructions
+  target/riscv: vector floating-point merge instructions
+  target/riscv: vector floating-point/integer type-convert instructions
+  target/riscv: widening floating-point/integer type-convert
+    instructions
+  target/riscv: narrowing floating-point/integer type-convert
+    instructions
+  target/riscv: vector single-width integer reduction instructions
+  target/riscv: vector wideing integer reduction instructions
+  target/riscv: vector single-width floating-point reduction
+    instructions
+  target/riscv: vector widening floating-point reduction instructions
+  target/riscv: vector mask-register logical instructions
+  target/riscv: vector mask population count vmpopc
+  target/riscv: vmfirst find-first-set mask bit
+  target/riscv: set-X-first mask bit
+  target/riscv: vector iota instruction
+  target/riscv: vector element index instruction
+  target/riscv: integer extract instruction
+  target/riscv: integer scalar move instruction
+  target/riscv: floating-point scalar move instructions
+  target/riscv: vector slide instructions
+  target/riscv: vector register gather instruction
+  target/riscv: vector compress instruction
+  target/riscv: configure and turn on vector extension from command line
+
+ target/riscv/Makefile.objs              |    2 +-
+ target/riscv/cpu.c                      |   49 +
+ target/riscv/cpu.h                      |   82 +-
+ target/riscv/cpu_bits.h                 |   15 +
+ target/riscv/csr.c                      |   82 +-
+ target/riscv/fpu_helper.c               |   52 +-
+ target/riscv/helper.h                   | 1068 +++++
+ target/riscv/insn32-64.decode           |   11 +
+ target/riscv/insn32.decode              |  372 ++
+ target/riscv/insn_trans/trans_rvv.inc.c | 2884 +++++++++++++
+ target/riscv/internals.h                |   44 +
+ target/riscv/translate.c                |   27 +-
+ target/riscv/vector_helper.c            | 4898 +++++++++++++++++++++++
+ 13 files changed, 9537 insertions(+), 49 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvv.inc.c
+ create mode 100644 target/riscv/internals.h
+ create mode 100644 target/riscv/vector_helper.c
+
+-- 
+2.23.0
 
 
