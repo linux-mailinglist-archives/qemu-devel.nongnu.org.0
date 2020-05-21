@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5751A1DC65D
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 06:44:47 +0200 (CEST)
-Received: from localhost ([::1]:57434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E9C1DC678
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 07:04:14 +0200 (CEST)
+Received: from localhost ([::1]:44242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbd4Y-0004hW-DZ
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 00:44:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58402)
+	id 1jbdNN-0008OE-Md
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 01:04:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jbd3K-0004Di-Dr
- for qemu-devel@nongnu.org; Thu, 21 May 2020 00:43:30 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59553
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jbd3H-0006QH-TO
- for qemu-devel@nongnu.org; Thu, 21 May 2020 00:43:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590036206;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=giE285k9sIgJf/ygeiyjVz4uez8ees6tXUNmorLDtdM=;
- b=RysXgJNBIuxzufKp90PgadtY52Ga8F4dNArmLoofVWgZXloiJj+KaiXnXS3W7MBxHcSvqc
- bB70XrmAzA/PKEDCYL474JhN5+kWByb/FEwg05lhjNNaO1ZhC823m4xGqmz0Tnnxfx9GnJ
- Ymr9l7Iq4YefrlNHaJT4D3+oDMAUPmg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-Vz-JS9wdMmqYZaCpsVDFlg-1; Thu, 21 May 2020 00:43:22 -0400
-X-MC-Unique: Vz-JS9wdMmqYZaCpsVDFlg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A08C218FE860;
- Thu, 21 May 2020 04:43:20 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-77.ams2.redhat.com [10.36.112.77])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 774055EE0E;
- Thu, 21 May 2020 04:43:18 +0000 (UTC)
-Subject: Re: [PATCH v1 04/10] linux-user: completely re-write init_guest_space
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200513175134.19619-1-alex.bennee@linaro.org>
- <20200513175134.19619-5-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <958a1d7e-305d-96f5-2e0c-f8a2dd53e1c0@redhat.com>
-Date: Thu, 21 May 2020 06:43:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1)
+ (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
+ id 1jbdJo-00032b-SM
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 01:00:32 -0400
+Received: from o1.dev.nutanix.com ([198.21.4.205]:55623)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
+ id 1jbdJn-0001A9-9a
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 01:00:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
+ h=from:subject:mime-version:to:cc:content-type:
+ content-transfer-encoding;
+ s=smtpapi; bh=mN8yhPFVREukjgJqzzjqPJuXPBOE0YZnDh2ytROZpY4=;
+ b=YZatBfayVc+n11+XU0iaERQ8wH1FLP5G67H3NWnCQ8gjcjXjEE6OsBEOPlWLsKSMXFSC
+ /ZgZoG9YaIBOhNMlzqkAD27s0wvog3IVkMlGyjdnbtewOBXMACybqURNuGxY+KruHhG9lA
+ U4LRR6aZoGK+52sZ3W4EzF54kuOuuXOUs=
+Received: by filterdrecv-p3iad2-8ddf98858-w5zgs with SMTP id
+ filterdrecv-p3iad2-8ddf98858-w5zgs-17-5EC60AE7-DB
+ 2020-05-21 05:00:23.515433249 +0000 UTC m=+4852377.809760845
+Received: from localhost.localdomain.com (unknown)
+ by ismtpd0026p1las1.sendgrid.net (SG) with ESMTP
+ id hI5-5ya4QmabEdwPopNe7g Thu, 21 May 2020 05:00:23.191 +0000 (UTC)
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Subject: [PATCH v4 00/10] vhost-user: Lift Max Ram Slots Limitation
+Date: Thu, 21 May 2020 05:00:23 +0000 (UTC)
+Message-Id: <1588533678-23450-1-git-send-email-raphael.norwitz@nutanix.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200513175134.19619-5-alex.bennee@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+X-SG-EID: =?us-ascii?Q?YCLURHX+pjNDm1i7d69iKyMnQi=2FdvWah9veFa8nllaoUC0ScIWrCgiaWGu43Vg?=
+ =?us-ascii?Q?xFdB4istXUBpN9H93OJgc8zXXCc=2Fa+Hl+92HLHr?=
+ =?us-ascii?Q?GCgzRd+Jt=2Fk1rVKdBDeugJypJTnshknVriuZOQt?=
+ =?us-ascii?Q?TQK37+uo1D6dq27GaVVFTRiXENA914MXirpLPag?=
+ =?us-ascii?Q?q3oCvW=2FOkyno3fhO4N9a01DBONyP4Tl8ZkBS2Jl?=
+ =?us-ascii?Q?SZsVjYjSQPxTNs1aGWsNxjRqb0QNWHOJrBePHi1?=
+ =?us-ascii?Q?LyUy4w=2Fydj41gvCXjSANw=3D=3D?=
+To: qemu-devel@nongnu.org, mst@redhat.com, marcandre.lureau@redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 00:43:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=198.21.4.205;
+ envelope-from=bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net;
+ helo=o1.dev.nutanix.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:00:23
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,261 +75,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Cornelia Huck <cohuck@redhat.com>
+Cc: raphael.s.norwitz@gmail.com, marcandre.lureau@gmail.com,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/05/2020 19.51, Alex Bennée wrote:
-> First we ensure all guest space initialisation logic comes through
-> probe_guest_base once we understand the nature of the binary we are
-> loading. The convoluted init_guest_space routine is removed and
-> replaced with a number of pgb_* helpers which are called depending on
-> what requirements we have when loading the binary.
-> 
-> We first try to do what is requested by the host. Failing that we try
-> and satisfy the guest requested base address. If all those options
-> fail we fall back to finding a space in the memory map using our
-> recently written read_self_maps() helper.
-> 
-> There are some additional complications we try and take into account
-> when looking for holes in the address space. We try not to go directly
-> after the system brk() space so there is space for a little growth. We
-> also don't want to have to use negative offsets which would result in
-> slightly less efficient code on x86 when it's unable to use the
-> segment offset register.
-> 
-> Less mind-binding gotos and hopefully clearer logic throughout.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Acked-by: Laurent Vivier <laurent@vivier.eu>
-[...]
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index 619c054cc48..01a9323a637 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -11,6 +11,7 @@
->  #include "qemu/queue.h"
->  #include "qemu/guest-random.h"
->  #include "qemu/units.h"
-> +#include "qemu/selfmap.h"
->  
->  #ifdef _ARCH_PPC64
->  #undef ARCH_DLINFO
-> @@ -382,68 +383,30 @@ enum {
->  
->  /* The commpage only exists for 32 bit kernels */
->  
-> -/* Return 1 if the proposed guest space is suitable for the guest.
-> - * Return 0 if the proposed guest space isn't suitable, but another
-> - * address space should be tried.
-> - * Return -1 if there is no way the proposed guest space can be
-> - * valid regardless of the base.
-> - * The guest code may leave a page mapped and populate it if the
-> - * address is suitable.
-> - */
-> -static int init_guest_commpage(unsigned long guest_base,
-> -                               unsigned long guest_size)
-> -{
-> -    unsigned long real_start, test_page_addr;
-> -
-> -    /* We need to check that we can force a fault on access to the
-> -     * commpage at 0xffff0fxx
-> -     */
-> -    test_page_addr = guest_base + (0xffff0f00 & qemu_host_page_mask);
-> -
-> -    /* If the commpage lies within the already allocated guest space,
-> -     * then there is no way we can allocate it.
-> -     *
-> -     * You may be thinking that that this check is redundant because
-> -     * we already validated the guest size against MAX_RESERVED_VA;
-> -     * but if qemu_host_page_mask is unusually large, then
-> -     * test_page_addr may be lower.
-> -     */
-> -    if (test_page_addr >= guest_base
-> -        && test_page_addr < (guest_base + guest_size)) {
-> -        return -1;
-> -    }
-> +#define ARM_COMMPAGE (intptr_t)0xffff0f00u
->  
-> -    /* Note it needs to be writeable to let us initialise it */
-> -    real_start = (unsigned long)
-> -                 mmap((void *)test_page_addr, qemu_host_page_size,
-> -                     PROT_READ | PROT_WRITE,
-> -                     MAP_ANONYMOUS | MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-> +static bool init_guest_commpage(void)
-> +{
-> +    void *want = g2h(ARM_COMMPAGE & -qemu_host_page_size);
-> +    void *addr = mmap(want, qemu_host_page_size, PROT_READ | PROT_WRITE,
-> +                      MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
->  
-> -    /* If we can't map it then try another address */
-> -    if (real_start == -1ul) {
-> -        return 0;
-> +    if (addr == MAP_FAILED) {
-> +        perror("Allocating guest commpage");
-> +        exit(EXIT_FAILURE);
->      }
-> -
-> -    if (real_start != test_page_addr) {
-> -        /* OS didn't put the page where we asked - unmap and reject */
-> -        munmap((void *)real_start, qemu_host_page_size);
-> -        return 0;
-> +    if (addr != want) {
-> +        return false;
->      }
->  
-> -    /* Leave the page mapped
-> -     * Populate it (mmap should have left it all 0'd)
-> -     */
-> -
-> -    /* Kernel helper versions */
-> -    __put_user(5, (uint32_t *)g2h(0xffff0ffcul));
-> +    /* Set kernel helper versions; rest of page is 0.  */
-> +    __put_user(5, (uint32_t *)g2h(0xffff0ffcu));
->  
-> -    /* Now it's populated make it RO */
-> -    if (mprotect((void *)test_page_addr, qemu_host_page_size, PROT_READ)) {
-> +    if (mprotect(addr, qemu_host_page_size, PROT_READ)) {
->          perror("Protecting guest commpage");
-> -        exit(-1);
-> +        exit(EXIT_FAILURE);
->      }
-> -
-> -    return 1; /* All good */
-> +    return true;
->  }
->  
->  #define ELF_HWCAP get_elf_hwcap()
-> @@ -2075,239 +2038,267 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
->      return sp;
->  }
->  
-> -unsigned long init_guest_space(unsigned long host_start,
-> -                               unsigned long host_size,
-> -                               unsigned long guest_start,
-> -                               bool fixed)
-> -{
-> -    /* In order to use host shmat, we must be able to honor SHMLBA.  */
-> -    unsigned long align = MAX(SHMLBA, qemu_host_page_size);
-> -    unsigned long current_start, aligned_start;
-> -    int flags;
-> -
-> -    assert(host_start || host_size);
-> -
-> -    /* If just a starting address is given, then just verify that
-> -     * address.  */
-> -    if (host_start && !host_size) {
-> -#if defined(TARGET_ARM) && !defined(TARGET_AARCH64)
-> -        if (init_guest_commpage(host_start, host_size) != 1) {
-> -            return (unsigned long)-1;
-> -        }
-> +#ifndef ARM_COMMPAGE
-> +#define ARM_COMMPAGE 0
-> +#define init_guest_commpage() true
->  #endif
-> -        return host_start;
-> -    }
->  
-> -    /* Setup the initial flags and start address.  */
-> -    current_start = host_start & -align;
-> -    flags = MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE;
-> -    if (fixed) {
-> -        flags |= MAP_FIXED;
-> -    }
-> +static void pgb_fail_in_use(const char *image_name)
-> +{
-> +    error_report("%s: requires virtual address space that is in use "
-> +                 "(omit the -B option or choose a different value)",
-> +                 image_name);
-> +    exit(EXIT_FAILURE);
-> +}
->  
-> -    /* Otherwise, a non-zero size region of memory needs to be mapped
-> -     * and validated.  */
-> +static void pgb_have_guest_base(const char *image_name, abi_ulong guest_loaddr,
-> +                                abi_ulong guest_hiaddr, long align)
-> +{
-> +    const int flags = MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE;
-> +    void *addr, *test;
->  
-> -#if defined(TARGET_ARM) && !defined(TARGET_AARCH64)
-> -    /* On 32-bit ARM, we need to map not just the usable memory, but
-> -     * also the commpage.  Try to find a suitable place by allocating
-> -     * a big chunk for all of it.  If host_start, then the naive
-> -     * strategy probably does good enough.
-> -     */
-> -    if (!host_start) {
-> -        unsigned long guest_full_size, host_full_size, real_start;
-> -
-> -        guest_full_size =
-> -            (0xffff0f00 & qemu_host_page_mask) + qemu_host_page_size;
-> -        host_full_size = guest_full_size - guest_start;
-> -        real_start = (unsigned long)
-> -            mmap(NULL, host_full_size, PROT_NONE, flags, -1, 0);
-> -        if (real_start == (unsigned long)-1) {
-> -            if (host_size < host_full_size - qemu_host_page_size) {
-> -                /* We failed to map a continous segment, but we're
-> -                 * allowed to have a gap between the usable memory and
-> -                 * the commpage where other things can be mapped.
-> -                 * This sparseness gives us more flexibility to find
-> -                 * an address range.
-> -                 */
-> -                goto naive;
-> -            }
-> -            return (unsigned long)-1;
-> +    if (!QEMU_IS_ALIGNED(guest_base, align)) {
-> +        fprintf(stderr, "Requested guest base 0x%lx does not satisfy "
-> +                "host minimum alignment (0x%lx)\n",
-> +                guest_base, align);
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    /* Sanity check the guest binary. */
-> +    if (reserved_va) {
-> +        if (guest_hiaddr > reserved_va) {
-> +            error_report("%s: requires more than reserved virtual "
-> +                         "address space (0x%" PRIx64 " > 0x%lx)",
-> +                         image_name, (uint64_t)guest_hiaddr, reserved_va);
-> +            exit(EXIT_FAILURE);
->          }
-> -        munmap((void *)real_start, host_full_size);
-> -        if (real_start & (align - 1)) {
-> -            /* The same thing again, but with extra
-> -             * so that we can shift around alignment.
-> -             */
-> -            unsigned long real_size = host_full_size + qemu_host_page_size;
-> -            real_start = (unsigned long)
-> -                mmap(NULL, real_size, PROT_NONE, flags, -1, 0);
-> -            if (real_start == (unsigned long)-1) {
-> -                if (host_size < host_full_size - qemu_host_page_size) {
-> -                    goto naive;
-> -                }
-> -                return (unsigned long)-1;
-> -            }
-> -            munmap((void *)real_start, real_size);
-> -            real_start = ROUND_UP(real_start, align);
-> +    } else {
-> +        if ((guest_hiaddr - guest_base) > ~(uintptr_t)0) {
-> +            error_report("%s: requires more virtual address space "
-> +                         "than the host can provide (0x%" PRIx64 ")",
-> +                         image_name, (uint64_t)guest_hiaddr - guest_base);
-> +            exit(EXIT_FAILURE);
->          }
+In QEMU today, a VM with a vhost-user device can hot add memory a
+maximum of 8 times. See these threads, among others:
 
- Hi Alex,
+[1] https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01046.html
+    https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01236.html
 
-this causes an error with newer versions of Clang:
+[2] https://lists.gnu.org/archive/html/qemu-devel/2017-11/msg04656.html
 
-linux-user/elfload.c:2076:41: error: result of comparison 'unsigned
-long' > 18446744073709551615 is always false
-[-Werror,-Wtautological-type-limit-compare]
-4685         if ((guest_hiaddr - guest_base) > ~(uintptr_t)0) {
-4686             ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
-4687 1 error generated.
+This series introduces a new protocol feature
+VHOST_USER_PROTOCOL_F_CONFIGURE_SLOTS which, when enabled, lifts the
+restriction on the maximum number RAM slots imposed by vhost-user.
 
-Any ideas how to fix this?
+Without vhost-user, a Qemu VM can support 256 ram slots (for ACPI targets),
+or potentially more (the KVM max is 512). With each region, a file descriptor
+must be sent over the socket. If that many regions are sent in a single message
+there could be upwards of 256 file descriptors being opened in the backend process
+at once. Opening that many fds could easily push the process past the open fd limit,
+especially considering one backend process could have multiple vhost threads,
+exposing different devices to different Qemu instances. Therefore to safely lift the
+limit, transmitting regions should be split up over multiple messages.
 
- Thomas
+In addition, the VHOST_USER_SET_MEM_TABLE message was not reused because
+as the number of regions grows, the message becomes very large. In practice, such
+large messages caused problems (truncated messages) and in the past it seems
+the community has opted for smaller fixed size messages where possible. VRINGs,
+for example, are sent to the backend individually instead of in one massive
+message.
+
+The implementation details are explained in more detail in the commit
+messages, but at a high level the new protocol feature works as follows:
+- If the VHOST_USER_PROTCOL_F_CONFIGURE_MEM_SLOTS feature is enabled,
+  QEMU will send multiple VHOST_USER_ADD_MEM_REG and
+  VHOST_USER_REM_MEM_REG messages to map and unmap individual memory
+ regions instead of one large VHOST_USER_SET_MEM_TABLE message containing
+  all memory regions.
+- The vhost-user struct maintains a ’shadow state’ of memory regions
+  already sent to the guest. Each time vhost_user_set_mem_table is called,
+  the shadow state is compared with the new device state. A
+  VHOST_USER_REM_MEM_REG will be sent for each region in the shadow state
+  not in the device state. Then, a VHOST_USER_ADD_MEM_REG will be sent
+  for each region in the device state but not the shadow state. After
+  these messages have been sent, the shadow state will be updated to
+  reflect the new device state.
+
+The series consists of 10 changes:
+1. Add helper to populate vhost-user message regions:
+    This change adds a helper to populate a VhostUserMemoryRegion from a
+    struct vhost_memory_region, which needs to be done in multiple places in
+    in this series.
+
+2. Add vhost-user helper to get MemoryRegion data
+    This changes adds a helper to get a pointer to a MemoryRegion struct, along
+    with it's offset address and associated file descriptor. This helper is used to
+    simplify other vhost-user code paths and will be needed elsewhere in this
+    series.
+
+3. Add VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
+    This change adds the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
+    protocol feature. At this point, if negotiated, the feature only allows the
+    backend to limit the number of max ram slots to a number less than
+    VHOST_MEMORY_MAX_NREGIONS = 8.
+
+4. Transmit vhost-user memory regions individually
+    With this change, if the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
+    protocol feature is enabled, Qemu will send regions to the backend using
+    individual VHOST_USER_ADD_MEM_REG and VHOST_USER_REM_MEM_REG
+    messages.
+    The max number of ram slots supported is still limited to 8.
+
+5. Lift max memory slots imposed by vhost-user
+    With this change, if the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
+    protocol feature is enabled, the backend can support a configurable number of
+    ram slots up to the maximum allowed by the target platform.
+
+6. Refactor out libvhost-user fault generation logic
+    This cleanup moves some logic from vu_set_mem_table_exec_postcopy() to a
+    separate helper, which will be needed elsewhere.
+
+7. Support ram slot configuration in libvhost-user
+   This change adds support for processing VHOST_USER_GET_MAX_MEMSLOTS
+    messages in libvhost-user.
+    The VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS protocol is not yet
+    enabled in libvhost-user, so at this point this change is non-functional.
+
+8. Support adding individual regions in libvhost-user
+    This change adds libvhost-user support for mapping in new memory regions
+    when receiving VHOST_USER_ADD_MEM_REG messages.
+    The VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS protocol is not yet
+    enabled in libvhost-user, so at this point this change is non-functional.
+
+9. Support individual region unmap in libvhost-user
+    This change adds libvhost-user support for unmapping removed memory regions
+    when receiving VHOST_USER_REM_MEM_REG messages.
+    The VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS protocol is not yet
+    enabled in libvhost-user, so at this point this change is non-functional.
+
+10. Lift max ram slots limit in libvhost-user
+   This change makes libvhost-user try to negotiate the
+   VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS, and adds support for
+   backends built using libvhost-user to support hot adding memory up to the
+   32 times.
+
+The changes were tested with the vhost-user-bridge sample.
+
+Changes since V3:
+    * Fixed compiler warnings caused by using pointers to packed elements
+       (flagged by patchew building with -Waddress-of-packed-member)
+
+Changes since V2:
+    * Add support for VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
+       for backends build with libvhost-user
+    * Add support for postcopy live-migration when the
+       VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS protocol feature has
+       been negotiated.
+    * Add support for backends which want to support both
+       VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS and
+       VHOST_USER_PROTOCOL_F_REPLY_ACK
+    * Change feature name from VHOST_USER_PROTOCOL_F_CONFIGURE_SLOTS
+        to VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS, and any associated
+        variable names.
+    *Log a more descriptive message if the backend lowers the max ram slots limit
+       on reconnect.
+
+Changes since V1:
+    * Kept the assert in vhost_user_set_mem_table_postcopy, but moved it
+      to prevent corruption
+    * Made QEMU send a single VHOST_USER_GET_MAX_MEMSLOTS message at
+      startup and cache the returned value so that QEMU does not need to
+      query the backend every time vhost_backend_memslots_limit is called.
+
+Best,
+Raphael
+
+Raphael Norwitz (10):
+  Add helper to populate vhost-user message regions
+  Add vhost-user helper to get MemoryRegion data
+  Add VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
+  Transmit vhost-user memory regions individually
+  Lift max memory slots limit imposed by vhost-user
+  Refactor out libvhost-user fault generation logic
+  Support ram slot configuration in libvhost-user
+  Support adding individual regions in libvhost-user
+  Support individual region unmap in libvhost-user
+  Lift max ram slots limit in libvhost-user
+
+ contrib/libvhost-user/libvhost-user.c | 341 ++++++++++++++----
+ contrib/libvhost-user/libvhost-user.h |  24 +-
+ docs/interop/vhost-user.rst           |  44 +++
+ hw/virtio/vhost-user.c                | 638 ++++++++++++++++++++++++++++------
+ include/hw/virtio/vhost-user.h        |   1 +
+ 5 files changed, 873 insertions(+), 175 deletions(-)
+
+-- 
+1.8.3.1
 
 
