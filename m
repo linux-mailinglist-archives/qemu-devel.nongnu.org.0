@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D68F1DD416
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:16:54 +0200 (CEST)
-Received: from localhost ([::1]:55838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6CB61DD401
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:12:10 +0200 (CEST)
+Received: from localhost ([::1]:35054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbooP-0003Is-BR
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:16:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50094)
+	id 1jbojp-0002VF-Sj
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:12:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboJ1-0004Ia-No
+ id 1jboJ2-0004Ie-O1
  for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:29 -0400
-Received: from mail-qv1-xf2d.google.com ([2607:f8b0:4864:20::f2d]:37756)
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:38477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboJ1-0006h6-1g
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:27 -0400
-Received: by mail-qv1-xf2d.google.com with SMTP id z5so3375396qvw.4
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:44:26 -0700 (PDT)
+ id 1jboJ1-0006hF-WA
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:28 -0400
+Received: by mail-qv1-xf44.google.com with SMTP id fb16so3366126qvb.5
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:44:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rdoJqb1IBk9SgvYZUNMM+KSW8M0ZuxcTTKuiIiIMCBs=;
- b=v5ZpjIYGOvlPCrZUyNTyCt6JWDyWc3FctG1uKuwFMq/oFAcQLPRSG3lM8g/KdEKCnU
- 5j4hCb+6fotCXd6RUDlwoUqAYVHNZlZlP/atalJIJpW0nRJtxemhdeQ/MydYJmzlvGsB
- LxpjxKjk1veQQqQ1XfO4qrUxjVcwkVpVZsUk+ruwG0wkzrfGxG5dpMgM12g1kT7yF0jo
- bztlncEi3L0X4CWeHN6ZenhqmP2RU0iFZ4TM1uMhfdtIQg8+Jpn7/E+fZ6Gvw4AqzCR6
- YY4+QFC+Y/U4MCaUvpiMPoGXHyjvWg8NSM1W72KZyy8UMzKBFjf3BabvozC0SMUgl02/
- nw+g==
+ bh=E/tQbITHc97dgORFyK3tE34tNsNJB0LGdPZMzeOAZ2A=;
+ b=xo2yYsbXMAYWcZxDsNeGRW8GPlpUHMnVUMqE+npgdAvvBTMJ4zLTNBUeognUwKOa9/
+ v/HIbnYn5Bn6AwN050T3TEZhj48pBqOUh3gcAwQFluN6qt4dTnyOSO841BOvSNk7odn/
+ WfpcB+Z8qVUKrsHjOE6eWLk6KsIQZiu0RGKcyrOYCgUxweZRZwc9VAG0/NnmbQxuTinY
+ cElnvomWcGhm1jbv720+BxZRNKMET/FATNZhYODBDYUQsYjeQTRY48Vo4oRs1OCRCwnS
+ pLD01f4u3P2LQwO3NPs9Y5Ys8PurP8bM+fHCJGCdDYfBKjfthe7+Oagmmlez8K+HuYAU
+ 5RJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rdoJqb1IBk9SgvYZUNMM+KSW8M0ZuxcTTKuiIiIMCBs=;
- b=Q2j0ogNGatzT1ZoYDuMaVBRH/NBK1McPDK6lTga02Ip2nOtBWfBpdA3YnC9lz01nqM
- 55rHYRFJ4kmYvpnFGdqPAGl6hGCjTkNVqzAeUzbs81BJjQEJBI8JDe/lccoB9vvnqmFc
- PDz2SeKcxo05RAdH8THjbCEV117cGNdb6uvSvLOM7h48LyTKzs44UwaalWKniPnM0cl6
- k0QVpxqASbQvqkusj0iWCQaE5lWMtJ9zs1FuaDT4xdlwIMOmmoXJ/PlD+5VQUHawNhV6
- 0FFpLyxAD2NOy6FqSp0+ZV2r0bvZanfUYH9xkq0J1/oAR4MDpSyl+0vDaPbQPZ8thjf6
- sKOA==
-X-Gm-Message-State: AOAM533mE5VRdV4U38R1AM7RPTQQ6X+pw/jxNgLSnLA0QxHjzktXA1GP
- cyD4z2lcb0jg/Dyhk2xiygrqtBzyX66YFw==
-X-Google-Smtp-Source: ABdhPJwXHdqedXKFL1D/wKc3KhFF0h4/83SSDqa5vR2yunPozcJaGcVLxE1urNGeSGLZIxeZAUyl8w==
-X-Received: by 2002:a0c:90e7:: with SMTP id p94mr11208478qvp.219.1590079465710; 
- Thu, 21 May 2020 09:44:25 -0700 (PDT)
+ bh=E/tQbITHc97dgORFyK3tE34tNsNJB0LGdPZMzeOAZ2A=;
+ b=ddqNINA2qshbT3rZAVP/57jzw7iTynsupgZzRgn6oP4X61+f1AQG0Qmym6a0ysTOaN
+ E13pZj9KKAzPpuPG9js2nJVVlzxUhk0iaxTntbjmBjR46d4xHVhiBCV22qRFQopP0CBC
+ KcbCMnr6EiEj8We2EKhfYUXcFA1kgQnaTMTxc5TzDZbcrF9BU0Soe1bGDfb5pnFSyP/H
+ 7tV0DlkWmX8jKW3paalf5yk+YXb3KJ9i10Vx+wY1rLP1OVEMGMAtzTOyn1AOWdDalgFZ
+ 9IkiwyqokbQaZlr6iD03URhOPrREVpZjm4gFE1AITABou4MFLWHDVWosBGp2KY2LwFPv
+ p8og==
+X-Gm-Message-State: AOAM5311A7NdmX0/eQKpygCeOQuSF/L+oie/B6Ls1z2zOr2okocK/iD6
+ eKdopbwKFkIMbwacbRD7OANe5s6Dd8gc3w==
+X-Google-Smtp-Source: ABdhPJwto4RstkhwO2dZaQUBcN7/lRGVXAsx4K+KaMtCaTG01RIU/7xnCwC6LeP+nX387ko7L9yD4A==
+X-Received: by 2002:a0c:b2c5:: with SMTP id d5mr10934829qvf.36.1590079466923; 
+ Thu, 21 May 2020 09:44:26 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:1944:c530:655c:5583])
- by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.44.24
+ by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.44.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:44:25 -0700 (PDT)
+ Thu, 21 May 2020 09:44:26 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 53/74] s390x: convert to cpu_interrupt_request
-Date: Thu, 21 May 2020 12:39:50 -0400
-Message-Id: <20200521164011.638-54-robert.foley@linaro.org>
+Subject: [PATCH v9 54/74] alpha: convert to cpu_interrupt_request
+Date: Thu, 21 May 2020 12:39:51 -0400
+Message-Id: <20200521164011.638-55-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200521164011.638-1-robert.foley@linaro.org>
 References: <20200521164011.638-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2d;
- envelope-from=robert.foley@linaro.org; helo=mail-qv1-xf2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f44;
+ envelope-from=robert.foley@linaro.org; helo=mail-qv1-xf44.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,54 +86,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, David Hildenbrand <david@redhat.com>,
- richard.henderson@linaro.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x@nongnu.org, cota@braap.org, peter.puhov@linaro.org,
- alex.bennee@linaro.org
+Cc: richard.henderson@linaro.org, cota@braap.org, alex.bennee@linaro.org,
+ robert.foley@linaro.org, peter.puhov@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: qemu-s390x@nongnu.org
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- hw/intc/s390_flic.c | 2 +-
- target/s390x/cpu.c  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ target/alpha/cpu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/intc/s390_flic.c b/hw/intc/s390_flic.c
-index a1c6b8a6f6..40b1a5b940 100644
---- a/hw/intc/s390_flic.c
-+++ b/hw/intc/s390_flic.c
-@@ -191,7 +191,7 @@ static void qemu_s390_flic_notify(uint32_t type)
-     CPU_FOREACH(cs) {
-         S390CPU *cpu = S390_CPU(cs);
+diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
+index b3fd6643e8..09677c6c44 100644
+--- a/target/alpha/cpu.c
++++ b/target/alpha/cpu.c
+@@ -42,10 +42,10 @@ static bool alpha_cpu_has_work(CPUState *cs)
+        assume that if a CPU really wants to stay asleep, it will mask
+        interrupts at the chipset level, which will prevent these bits
+        from being set in the first place.  */
+-    return cs->interrupt_request & (CPU_INTERRUPT_HARD
+-                                    | CPU_INTERRUPT_TIMER
+-                                    | CPU_INTERRUPT_SMP
+-                                    | CPU_INTERRUPT_MCHK);
++    return cpu_interrupt_request(cs) & (CPU_INTERRUPT_HARD
++                                        | CPU_INTERRUPT_TIMER
++                                        | CPU_INTERRUPT_SMP
++                                        | CPU_INTERRUPT_MCHK);
+ }
  
--        cs->interrupt_request |= CPU_INTERRUPT_HARD;
-+        cpu_interrupt_request_or(cs, CPU_INTERRUPT_HARD);
- 
-         /* ignore CPUs that are not sleeping */
-         if (s390_cpu_get_state(cpu) != S390_CPU_STATE_OPERATING &&
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 4b1961694e..490644e12b 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -65,7 +65,7 @@ static bool s390_cpu_has_work(CPUState *cs)
-         return false;
-     }
- 
--    if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
-+    if (!(cpu_interrupt_request(cs) & CPU_INTERRUPT_HARD)) {
-         return false;
-     }
- 
+ static void alpha_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
 -- 
 2.17.1
 
