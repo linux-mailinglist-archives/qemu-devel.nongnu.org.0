@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B19A1DC9AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 11:14:45 +0200 (CEST)
-Received: from localhost ([::1]:43512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E03D1DC996
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 11:12:40 +0200 (CEST)
+Received: from localhost ([::1]:35636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbhHo-0000zc-NU
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 05:14:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55530)
+	id 1jbhFm-0005EI-J6
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 05:12:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jbhEg-00047D-GJ
+ id 1jbhEg-00046q-1e
  for qemu-devel@nongnu.org; Thu, 21 May 2020 05:11:30 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36958
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49017
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jbhEe-0005JH-Ce
- for qemu-devel@nongnu.org; Thu, 21 May 2020 05:11:30 -0400
+ id 1jbhEf-0005JQ-42
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 05:11:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590052286;
+ s=mimecast20190719; t=1590052287;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vOZcCyG6+q6mpWKybdwSRlg7xtE0dYIf0cnK+vy6ob4=;
- b=OX74XLME8iE6SeGImaVKdWfBMNARFy+6qYEJ8al3+zm+VjaROd/edWf6sViV6tdBZXR7ok
- /fKWV0aVTOFHcqX0Shm/bE9LlFhuqed36MtFkARqsu+o0gHlH3EAXq+FpV8Xo5EHjly1zn
- J34BrBe+GJer792+DFcRh3CSdmiU0Rk=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Kd60isijc7N93R5SBt36LCkpor0G13KGJpP9vjfXfyA=;
+ b=WQzEGohn96wxZmQSYgiOgQR7IDwy5uBkCglM+km5ffjGqiTqAiGZk1xLSRRPRtkGbpTBLt
+ dfzhy5ftSfWnntubrerwGt6N7Rck72qUPK01gsy9+NHtqGnGr5G5wmFIIPYFjtRaDAKBij
+ vPQkyXFRoL8pl0e6yFs2/uZNjEYs9N4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-511-j6PeE6uPO5-NVxXYpvdLMw-1; Thu, 21 May 2020 05:11:23 -0400
-X-MC-Unique: j6PeE6uPO5-NVxXYpvdLMw-1
+ us-mta-199-dKprUG8KNtahSmXsp-dHDg-1; Thu, 21 May 2020 05:11:26 -0400
+X-MC-Unique: dKprUG8KNtahSmXsp-dHDg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5226C8005AA;
- Thu, 21 May 2020 09:11:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0DD718CA274;
+ Thu, 21 May 2020 09:11:24 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-113-56.ams2.redhat.com [10.36.113.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 296905D9E4;
- Thu, 21 May 2020 09:11:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A8F2B5D9C9;
+ Thu, 21 May 2020 09:11:21 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org, peterx@redhat.com
-Subject: [PATCH 0/9] SMMUv3.2 Range-based TLB Invalidation Support
-Date: Thu, 21 May 2020 11:10:50 +0200
-Message-Id: <20200521091059.9453-1-eric.auger@redhat.com>
+Subject: [PATCH 1/9] hw/arm/smmu-common: Factorize some code in smmu_ptw_64()
+Date: Thu, 21 May 2020 11:10:51 +0200
+Message-Id: <20200521091059.9453-2-eric.auger@redhat.com>
+In-Reply-To: <20200521091059.9453-1-eric.auger@redhat.com>
+References: <20200521091059.9453-1-eric.auger@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 04:44:45
+Received-SPF: pass client-ip=207.211.31.120;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:44:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,72 +86,109 @@ Cc: jean-philippe@linaro.org, robh@kernel.org, robin.murphy@arm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SMMU3.2 brings the support of range-based TLB invalidation and
-level hint. When this feature is supported, the SMMUv3 driver
-is allowed to send TLB invalidations for a range of IOVAs instead
-of using page based invalidation.
+Page and block PTE decoding can share some code. Let's
+first handle table PTE and factorize some code shared by
+page and block PTEs.
 
-Implementing this feature in the virtual SMMUv3 device is
-mandated for DPDK on guest use case: DPDK uses hugepage
-buffers and guest sends invalidations for blocks. Without
-this feature, a guest invalidation of a block of 1GB for instance
-translates into a storm of page invalidations. Each of them
-is trapped by the VMM and cascaded downto the physical IOMMU.
-This completely stalls the execution. This integration issue
-was initially reported in [1].
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+---
+ hw/arm/smmu-common.c | 51 ++++++++++++++++----------------------------
+ 1 file changed, 18 insertions(+), 33 deletions(-)
 
-Now SMMUv3.2 specifies additional parameters to NH_VA and NH_VAA
-stage 1 invalidation commands so we can support those extensions.
-
-patches [1, 3] are cleanup patches.
-patches [4, 6] changes the implementation of the VSMMUV3 IOTLB
-   This IOTLB is a minimalist IOTLB implementation that avoids to
-   do the page table walk in case we have an entry in the TLB.
-   Previously entries were page mappings only. Now they can be
-   blocks.
-patches [7, 9] bring support for range invalidation.
-
-Supporting block mappings in the IOTLB look sensible in terms of
-TLB entry consumption. However looking at virtio/vhost device usage,
-without block mapping and without range invalidation (< 5.7 kernels
-it may be less performant. However for recent guest kernels
-supporting range invalidations [2], the performance should be similar.
-
-Best Regards
-
-Eric
-
-This series can be found at:
-https://github.com/eauger/qemu.git
-branch: v5.0.0-smmuv3-ril-v1
-
-References:
-[1] [RFC v2 4/4] iommu/arm-smmu-v3: add CMD_TLBI_NH_VA_AM command
-for iova range invalidation
-(https://lists.linuxfoundation.org/pipermail/iommu/2017-August/023679.html
-
-[2] 5.7+ kernels featuring
-6a481a95d4c1 iommu/arm-smmu-v3: Add SMMUv3.2 range invalidation support
-
-Eric Auger (9):
-  hw/arm/smmu-common: Factorize some code in smmu_ptw_64()
-  hw/arm/smmu-common: Add IOTLB helpers
-  hw/arm/smmu: Simplify the IOTLB key format
-  hw/arm/smmu: Introduce SMMUTLBEntry for PTW and IOTLB value
-  hw/arm/smmuv3: Store the starting level in SMMUTransTableInfo
-  hw/arm/smmu-common: Manage IOTLB block entries
-  hw/arm/smmuv3: Introduce smmuv3_s1_range_inval() helper
-  hw/arm/smmuv3: Get prepared for range invalidation
-  hw/arm/smmuv3: Advertise SMMUv3.2 range invalidation
-
- hw/arm/smmu-internal.h       |  14 +++
- hw/arm/smmuv3-internal.h     |   5 +
- include/hw/arm/smmu-common.h |  24 ++--
- hw/arm/smmu-common.c         | 205 +++++++++++++++++++++++------------
- hw/arm/smmuv3.c              | 142 ++++++++++++------------
- hw/arm/trace-events          |  12 +-
- 6 files changed, 246 insertions(+), 156 deletions(-)
-
+diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
+index e13a5f4a7c..f2de2be527 100644
+--- a/hw/arm/smmu-common.c
++++ b/hw/arm/smmu-common.c
+@@ -186,12 +186,12 @@ static int smmu_ptw_64(SMMUTransCfg *cfg,
+         uint64_t subpage_size = 1ULL << level_shift(level, granule_sz);
+         uint64_t mask = subpage_size - 1;
+         uint32_t offset = iova_level_offset(iova, inputsize, level, granule_sz);
+-        uint64_t pte;
++        uint64_t pte, gpa;
+         dma_addr_t pte_addr = baseaddr + offset * sizeof(pte);
+         uint8_t ap;
+ 
+         if (get_pte(baseaddr, offset, &pte, info)) {
+-                goto error;
++            break;
+         }
+         trace_smmu_ptw_level(level, iova, subpage_size,
+                              baseaddr, offset, pte);
+@@ -199,58 +199,43 @@ static int smmu_ptw_64(SMMUTransCfg *cfg,
+         if (is_invalid_pte(pte) || is_reserved_pte(pte, level)) {
+             trace_smmu_ptw_invalid_pte(stage, level, baseaddr,
+                                        pte_addr, offset, pte);
+-            info->type = SMMU_PTW_ERR_TRANSLATION;
+-            goto error;
++            break;
+         }
+ 
+-        if (is_page_pte(pte, level)) {
+-            uint64_t gpa = get_page_pte_address(pte, granule_sz);
++        if (is_table_pte(pte, level)) {
++            ap = PTE_APTABLE(pte);
+ 
+-            ap = PTE_AP(pte);
+             if (is_permission_fault(ap, perm)) {
+                 info->type = SMMU_PTW_ERR_PERMISSION;
+                 goto error;
+             }
+-
+-            tlbe->translated_addr = gpa + (iova & mask);
+-            tlbe->perm = PTE_AP_TO_PERM(ap);
++            baseaddr = get_table_pte_address(pte, granule_sz);
++            level++;
++            continue;
++        } else if (is_page_pte(pte, level)) {
++            gpa = get_page_pte_address(pte, granule_sz);
+             trace_smmu_ptw_page_pte(stage, level, iova,
+                                     baseaddr, pte_addr, pte, gpa);
+-            return 0;
+-        }
+-        if (is_block_pte(pte, level)) {
++        } else {
+             uint64_t block_size;
+-            hwaddr gpa = get_block_pte_address(pte, level, granule_sz,
+-                                               &block_size);
+-
+-            ap = PTE_AP(pte);
+-            if (is_permission_fault(ap, perm)) {
+-                info->type = SMMU_PTW_ERR_PERMISSION;
+-                goto error;
+-            }
+ 
++            gpa = get_block_pte_address(pte, level, granule_sz,
++                                        &block_size);
+             trace_smmu_ptw_block_pte(stage, level, baseaddr,
+                                      pte_addr, pte, iova, gpa,
+                                      block_size >> 20);
+-
+-            tlbe->translated_addr = gpa + (iova & mask);
+-            tlbe->perm = PTE_AP_TO_PERM(ap);
+-            return 0;
+         }
+-
+-        /* table pte */
+-        ap = PTE_APTABLE(pte);
+-
++        ap = PTE_AP(pte);
+         if (is_permission_fault(ap, perm)) {
+             info->type = SMMU_PTW_ERR_PERMISSION;
+             goto error;
+         }
+-        baseaddr = get_table_pte_address(pte, granule_sz);
+-        level++;
++
++        tlbe->translated_addr = gpa + (iova & mask);
++        tlbe->perm = PTE_AP_TO_PERM(ap);
++        return 0;
+     }
+-
+     info->type = SMMU_PTW_ERR_TRANSLATION;
+-
+ error:
+     tlbe->perm = IOMMU_NONE;
+     return -EINVAL;
 -- 
 2.20.1
 
