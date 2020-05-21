@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED7D1DD7B1
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A7D1DD7B0
 	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:56:52 +0200 (CEST)
-Received: from localhost ([::1]:60424 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:60406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbrJD-00075r-Bi
+	id 1jbrJD-00075U-58
 	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41984)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jbrGP-0002DV-JZ
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:53:57 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57735)
+ id 1jbrGR-0002Dq-0m
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:53:59 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jbrGO-0007bm-Q8
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:53:57 -0400
+ id 1jbrGQ-0007c1-5P
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:53:58 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 06F73748DDD;
+ by localhost (Postfix) with SMTP id 057E7748DDC;
  Thu, 21 May 2020 21:53:44 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 69C16748DCF; Thu, 21 May 2020 21:53:43 +0200 (CEST)
-Message-Id: <7946852258d528497e85f465327fc90b5c3b59fb.1590089984.git.balaton@eik.bme.hu>
+ id 7027C748DCB; Thu, 21 May 2020 21:53:43 +0200 (CEST)
+Message-Id: <1392cad2ad1315a5a50409970e0af061821462e6.1590089984.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1590089984.git.balaton@eik.bme.hu>
 References: <cover.1590089984.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 6/7] sm501: Optimize small overlapping blits
+Subject: [PATCH v2 7/7] sm501: Remove obsolete changelog and todo comment
 Date: Thu, 21 May 2020 21:39:44 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -63,56 +63,51 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AmigaOS tends to do a lot of small blits (even 1 pixel). Avoid malloc
-overhead by keeping around a buffer for this and only alloc when
-blitting larger areas.
+Also update copyright year for latest changes
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/display/sm501.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ hw/display/sm501.c | 19 +------------------
+ 1 file changed, 1 insertion(+), 18 deletions(-)
 
 diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 8bf4d111f4..e7a9f77de7 100644
+index e7a9f77de7..edd8d24a76 100644
 --- a/hw/display/sm501.c
 +++ b/hw/display/sm501.c
-@@ -750,6 +750,7 @@ static void sm501_2d_operation(SM501State *s)
-     switch (cmd) {
-     case 0: /* BitBlt */
-     {
-+        static uint32_t tmp_buf[16384];
-         unsigned int src_x = (s->twoD_source >> 16) & 0x01FFF;
-         unsigned int src_y = s->twoD_source & 0xFFFF;
-         uint32_t src_base = s->twoD_source_base & 0x03FFFFFF;
-@@ -812,10 +813,14 @@ static void sm501_2d_operation(SM501State *s)
-             de = db + width + height * (width + dst_pitch);
-             if (rtl && ((db >= sb && db <= se) || (de >= sb && de <= se))) {
-                 /* regions may overlap: copy via temporary */
--                int llb = width * (1 << format);
-+                int free_buf = 0, llb = width * (1 << format);
-                 int tmp_stride = DIV_ROUND_UP(llb, sizeof(uint32_t));
--                uint32_t *tmp = g_malloc(tmp_stride * sizeof(uint32_t) *
--                                         height);
-+                uint32_t *tmp = tmp_buf;
-+
-+                if (tmp_stride * sizeof(uint32_t) * height > sizeof(tmp_buf)) {
-+                    tmp = g_malloc(tmp_stride * sizeof(uint32_t) * height);
-+                    free_buf = 1;
-+                }
-                 pixman_blt((uint32_t *)&s->local_mem[src_base], tmp,
-                            src_pitch * (1 << format) / sizeof(uint32_t),
-                            tmp_stride, 8 * (1 << format), 8 * (1 << format),
-@@ -825,7 +830,9 @@ static void sm501_2d_operation(SM501State *s)
-                            dst_pitch * (1 << format) / sizeof(uint32_t),
-                            8 * (1 << format), 8 * (1 << format),
-                            0, 0, dst_x, dst_y, width, height);
--                g_free(tmp);
-+                if (free_buf) {
-+                    g_free(tmp);
-+                }
-             } else {
-                 pixman_blt((uint32_t *)&s->local_mem[src_base],
-                            (uint32_t *)&s->local_mem[dst_base],
+@@ -2,7 +2,7 @@
+  * QEMU SM501 Device
+  *
+  * Copyright (c) 2008 Shin-ichiro KAWASAKI
+- * Copyright (c) 2016 BALATON Zoltan
++ * Copyright (c) 2016-2020 BALATON Zoltan
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the "Software"), to deal
+@@ -40,23 +40,6 @@
+ #include "ui/pixel_ops.h"
+ #include "qemu/bswap.h"
+ 
+-/*
+- * Status: 2010/05/07
+- *   - Minimum implementation for Linux console : mmio regs and CRT layer.
+- *   - 2D graphics acceleration partially supported : only fill rectangle.
+- *
+- * Status: 2016/12/04
+- *   - Misc fixes: endianness, hardware cursor
+- *   - Panel support
+- *
+- * TODO:
+- *   - Touch panel support
+- *   - USB support
+- *   - UART support
+- *   - More 2D graphics engine support
+- *   - Performance tuning
+- */
+-
+ /*#define DEBUG_SM501*/
+ /*#define DEBUG_BITBLT*/
+ 
 -- 
 2.21.3
 
