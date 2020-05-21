@@ -2,71 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317991DCFAD
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 16:26:56 +0200 (CEST)
-Received: from localhost ([::1]:38700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1FCC1DCF96
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 16:23:08 +0200 (CEST)
+Received: from localhost ([::1]:33394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbm9v-0006EK-9f
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 10:26:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33672)
+	id 1jbm6F-0002iD-Ip
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 10:23:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jbm96-0005hY-ED
- for qemu-devel@nongnu.org; Thu, 21 May 2020 10:26:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59010)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jbm95-00070W-5h
- for qemu-devel@nongnu.org; Thu, 21 May 2020 10:26:04 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jbm91-0006Vn-4p
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 14:25:59 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7DF7F2E819F
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 14:25:54 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbm4k-0001Xh-Df
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 10:21:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51766
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jbm4j-0006Dt-DK
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 10:21:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590070892;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xg3bKzC4by8jf2C0O9TYTrZkk9SIrF8VIiDgmcnMufQ=;
+ b=e+sJx1m1otnib5QfqDhRz8hvGjc+AKmfEx5Saz9RVA51oVk381MWh8/o+w6USrhvRtlhgG
+ +cCFpLbGzQAqSOrS+PGwAQ5N3eCLV3fEYlQW34D/sYIfjnejAo+umjyN6FtcRzGjE8K/ow
+ hZow0Amuth7XnK3uKcZAMzHu2W2Vpe8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-213-k6lD_XV3P_eG_j0QcmT0Rw-1; Thu, 21 May 2020 10:21:30 -0400
+X-MC-Unique: k6lD_XV3P_eG_j0QcmT0Rw-1
+Received: by mail-wr1-f69.google.com with SMTP id d16so2969993wrv.18
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 07:21:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Xk3PN1V81+WyaTVGKsiFpvv3947Bx6sjeseiShYqzcU=;
+ b=L5bsUFSI54a+Udy9TdMM5V3ASNM3jPhcA2ECxJwtIcu4rfu1CQYIpB0lpaKwapjTCe
+ oxXahevRkPuSUL3FiUgL0h6Zote6X9y+lcOxJGOnnS/g6MluyZHTiFKaG4LaxqUR24OJ
+ NQdnXT6Km1h8Xbtp0c2VtTfMmwL2S2bbp9cdpWCQ/eNBFk/ESZm3qHWg8Usr2gh5gLUb
+ OboBXnf1g7iwrvBbs5A6/wvEP4nED7AMdW6hbG32fwWsW+C4udjhXRGD9NItvFiZzce0
+ WcX2GbEy174/h9nwHnDAwiEywXiXTpjj+pDRebZ6bjy/vrBuamYYuKeetuQ8QxTefhJj
+ I6XQ==
+X-Gm-Message-State: AOAM532cTQ8FOGnH+T4slnOncq5+H9eaECOsue4Mmx9jaYXXbLVRzWf+
+ tJjwQ2DeLfZWUxI0ksYxOA+RN5GU2jCd/09ms6GoofC2V6zamijLVlEl1Zf0WLreUEnOzDj6VTI
+ BsOcpID/A3KA9s+c=
+X-Received: by 2002:a5d:6803:: with SMTP id w3mr8693020wru.151.1590070889106; 
+ Thu, 21 May 2020 07:21:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwOOgG9tLjRr8HKIPebkxk9AFVomeEwtFKnfdEiqR5u+xubzPBWnAa6j28oUjvKjM6lKJqQFQ==
+X-Received: by 2002:a5d:6803:: with SMTP id w3mr8692999wru.151.1590070888853; 
+ Thu, 21 May 2020 07:21:28 -0700 (PDT)
+Received: from [192.168.1.40] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id f8sm6389879wrm.8.2020.05.21.07.21.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 May 2020 07:21:28 -0700 (PDT)
+Subject: Re: [PATCH 0/4] memory: Add memory_region_msync() & make NVMe
+ emulated device generic
+To: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>
+References: <20200508062456.23344-1-philmd@redhat.com>
+ <20200521123245.GG251811@stefanha-x1.localdomain>
+ <5514da71-8d9e-e784-bfad-5939bd7ac99f@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <770d4c73-440c-5579-582f-7dea5de2c051@redhat.com>
+Date: Thu, 21 May 2020 16:21:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 21 May 2020 14:19:40 -0000
-From: Peter Maydell <1877136@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: matmal01 pmaydell
-X-Launchpad-Bug-Reporter: Matthew (matmal01)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <158877804267.5105.15160019007007013161.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159007078103.7211.15588578918744226444.malone@gac.canonical.com>
-Subject: [Bug 1877136] Re: Qemu GDB Arm core registers XML description not
- valid for M-profile
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 8d9762e4786034fec1f03bf47074d23adee4941c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 08:50:51
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <5514da71-8d9e-e784-bfad-5939bd7ac99f@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:44:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,104 +100,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1877136 <1877136@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Beata Michalska <beata.michalska@linaro.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, qemu-arm@nongnu.org,
+ Keith Busch <kbusch@kernel.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix now in master, will be in QEMU 5.1.
+On 5/21/20 2:46 PM, Paolo Bonzini wrote:
+> On 21/05/20 14:32, Stefan Hajnoczi wrote:
+>> On Fri, May 08, 2020 at 08:24:52AM +0200, Philippe Mathieu-Daudé wrote:
+>>> Let the NVMe emulated device be target-agnostic.
+>>>
+>>> It is not clear if dccvap_writefn() really needs
+>>> memory_region_writeback() or could use memory_region_msync().
+>>>
+>>> Philippe Mathieu-Daudé (4):
+>>>    memory: Rename memory_region_do_writeback -> memory_region_writeback
+>>>    memory: Extract memory_region_msync() from memory_region_writeback()
+>>>    hw/block: Let the NVMe emulated device be target-agnostic
+>>>    exec: Rename qemu_ram_writeback() as qemu_ram_msync()
+>>>
+>>>   include/exec/memory.h   | 15 +++++++++++++--
+>>>   include/exec/ram_addr.h |  4 ++--
+>>>   exec.c                  |  2 +-
+>>>   hw/block/nvme.c         |  6 ++----
+>>>   memory.c                | 12 +++++++++---
+>>>   target/arm/helper.c     |  2 +-
+>>>   hw/block/Makefile.objs  |  2 +-
+>>>   7 files changed, 29 insertions(+), 14 deletions(-)
+>>>
+>>> -- 
+>>> 2.21.3
+>>>
+>>>
+>>
+>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>>
+> 
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+> 
 
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+Thanks both.
 
--- =
+Stefan, do you mind taking the series via your block tree?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1877136
+Thanks,
 
-Title:
-  Qemu GDB Arm core registers XML description not valid for M-profile
+Phil.
 
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  When trying to debug an armv7-m binary running on Qemu, GDB makes some
-  mistakes due to mistakenly believing the target is not M-profile.
-
-  One observable is that backtraces over signal handlers are not handled
-  correctly -- since the special M-profile EXC_RETURN value is not
-  recognised.  That happens because GDB doesn't think the target is
-  M-profile.
-
-  This happens because GDB sees a reported feature set from the Qemu
-  remote connection that includes the feature `org.gnu.gdb.arm.core`.
-
-  As described in the GDB online docs, for "M-profile targets (e.g. Cortex-=
-M3), the =E2=80=98org.gnu.gdb.arm.core=E2=80=99 feature is replaced by =E2=
-=80=98org.gnu.gdb.arm.m-profile=E2=80=99"
-  https://sourceware.org/gdb/current/onlinedocs/gdb/ARM-Features.html
-
-  From a scan of the Qemu source code on commit
-  ea1329bb3a8d5cd25b70e3dbf73e7ded4d5ad756 it seems that when emulating
-  an arm core it uses `arm-core.xml` unconditionally for
-  `CPUClass->gdb_core_xml_file`, and that means the only feature
-  provided is `org.gnu.gdb.arm.core`.
-
-  Note that even though there is a command to set the architecture in GDB, =
-setting the target architecture to an M-profile core is still not a valid w=
-orkaround.
-  This is because the target description overrides everything in setting th=
-e `is_m` attribute within GDB.
-
-  Reproduction of the observable:
-  Using the examples here https://git.linaro.org/people/peter.maydell/m-pro=
-file-tests.git/tree/ .
-  Build the examples, and run =
-
-  ```
-  qemu-system-arm -s -S -no-reboot -M lm3s6965evb -m 16 -serial stdio -disp=
-lay none -net nic -net user,restrict=3Don -d guest_errors,unimp -kernel tes=
-t3-kern.bin
-  ```
-
-  Then in a GDB session
-  ```
-  vshcmd: > arm-none-eabi-gdb -q                                           =
-                                                                           =
-                                              =
-
-  (gdb)
-  vshcmd: > file test3-kern.elf
-  Reading symbols from test3-kern.elf...
-  (gdb)
-  vshcmd: > target remote localhost:1234
-  Remote debugging using localhost:1234
-  _start () at init-m.S:53
-  53        mov r0, #0
-  (gdb)
-  vshcmd: > show architecture
-  The target architecture is set automatically (currently armv7)
-  (gdb)
-  vshcmd: > break svc
-  Breakpoint 1 at 0x6fc: svc. (2 locations)
-  (gdb)
-  vshcmd: > cont
-  Continuing.
-
-  Breakpoint 1, svc () at test3.c:16
-  16          int test =3D SEQ();
-  (gdb)
-  vshcmd: > bt
-  #0  svc () at test3.c:16
-  #1  0xfffffff8 in ?? ()
-  Backtrace stopped: previous frame identical to this frame (corrupt stack?)
-  (gdb)
-  vshcmd: > print/x $lr
-  $1 =3D 0xfffffff9
-  (gdb)
-  ```
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1877136/+subscriptions
 
