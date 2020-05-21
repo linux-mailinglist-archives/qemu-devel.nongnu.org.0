@@ -2,72 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F98C1DCD41
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 14:50:48 +0200 (CEST)
-Received: from localhost ([::1]:46426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7EBA1DCD4D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 14:52:29 +0200 (CEST)
+Received: from localhost ([::1]:52864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbket-0003oR-IW
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 08:50:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50688)
+	id 1jbkgW-0007HT-PU
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 08:52:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jbka3-0003X2-Rk
- for qemu-devel@nongnu.org; Thu, 21 May 2020 08:45:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31613
- helo=us-smtp-1.mimecast.com)
+ id 1jbkat-0005EI-0Y
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 08:46:39 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22728
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jbka2-00057M-0Y
- for qemu-devel@nongnu.org; Thu, 21 May 2020 08:45:47 -0400
+ id 1jbkas-0005H6-3B
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 08:46:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590065145;
+ s=mimecast20190719; t=1590065197;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j4FdChKq6cAC1AvirjpOGLQBCc9XB8opK4v+ZgHbNbU=;
- b=gt4itLhmbO/FTwOmyhkax2YP4wf6Bi/kFiyIQffHNif8wDsIV2vvQfWoKkbMU44MC9KJsp
- GmicmmcNOeeLv+TrGz4hkfeX9SejXRYBrjnuDt+TX8ADv2PHxrBIuE60G3mmldMjMzzVkk
- Zf18j6GNshdvqIRifcit144dMm6TA7U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-GKADqYn6NVaODDiJDgJH2Q-1; Thu, 21 May 2020 08:45:43 -0400
-X-MC-Unique: GKADqYn6NVaODDiJDgJH2Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75D96108BD0B;
- Thu, 21 May 2020 12:45:42 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E119A34209;
- Thu, 21 May 2020 12:45:41 +0000 (UTC)
+ bh=PeGpWItfOJZddJcKTk8DZm7ycGZspJwU5c59cQRQihQ=;
+ b=gf8LMdSe0al6H8BOsxpDh4zZws+CuYYbJZKcQGpCnNksGayh4gprqOVxZkusJg6w65gckL
+ Tx8QdFRU44R/r9Wdqmi8+suxnIJAz8Xc6y3vB7ivPPNW5uxszlDr4RCr7EzO6j2uyB0pHO
+ RveDvk+lg9wVL0vJnacRwuw1gtDzK2w=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-259-pGR-adOdO8iT4ezhDlJFOQ-1; Thu, 21 May 2020 08:46:33 -0400
+X-MC-Unique: pGR-adOdO8iT4ezhDlJFOQ-1
+Received: by mail-wr1-f69.google.com with SMTP id n9so2861139wru.20
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 05:46:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to;
+ bh=pD7dRz0HbjX1Z3dLa5HOTCEnHSW5/TCCKIxYqYpngEc=;
+ b=nfTl2hqzBXaB+vf5nuFCiC1VtbBAYgaIlQd/5mud9Tj9TRlEmmDXfEBZGXz8gjK3mg
+ lsG8yCz8cYtoflaIesqqv5hQl0ECsKx6Xe/cgurS2zy0kWCEu77QBF21xzObqWTsBU6p
+ c+4VunzP5rmypgqOqeaNX8sr0xmMAHGe4wXj1KeBiOLjpPeTYbNOckn5wmoyOKjxfjM2
+ IvhKY5w7UiA4yXzPqv7NCJ7Fa/Pt7WWRMGkhpzso+Tnswv2urKL1Xzp3PHa1smNSeWP9
+ iVxKrjx+mMiYCYlcRS7ztwffUEL+pI+eh4clNlZ0SUc0RFYvlsZjwKpC4Xyahxv0JTmc
+ n2Dg==
+X-Gm-Message-State: AOAM531IJedkGtLqoShBsZv3fqNf/MYUHXuflHU0T30GzM02K05VuT2S
+ W9IJJuAJjEY0lbjEaNfocE2FMEvqi5Fvy2tYQ/CXCNBSeny04Kc79MxyihCbDBcoqjKTkqS75Ye
+ Gzyv5McfvkAE6nOE=
+X-Received: by 2002:a7b:cd84:: with SMTP id y4mr8651278wmj.2.1590065192229;
+ Thu, 21 May 2020 05:46:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyEyF1k2JejKKSVxibxJ4yyBqQdG0zgPLI0TifQz9Mv8bIxe1K+QzV2XRFNX1X/6l0SLfa00A==
+X-Received: by 2002:a7b:cd84:: with SMTP id y4mr8651259wmj.2.1590065191982;
+ Thu, 21 May 2020 05:46:31 -0700 (PDT)
+Received: from [192.168.178.58] ([151.30.94.134])
+ by smtp.gmail.com with ESMTPSA id a17sm2483448wmm.23.2020.05.21.05.46.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 May 2020 05:46:31 -0700 (PDT)
+Subject: Re: [PATCH 0/4] memory: Add memory_region_msync() & make NVMe
+ emulated device generic
+To: Stefan Hajnoczi <stefanha@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20200508062456.23344-1-philmd@redhat.com>
+ <20200521123245.GG251811@stefanha-x1.localdomain>
 From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 8/8] run-coverity-scan: support --update-tools-only --docker
-Date: Thu, 21 May 2020 08:45:35 -0400
-Message-Id: <20200521124535.5329-9-pbonzini@redhat.com>
-In-Reply-To: <20200521124535.5329-1-pbonzini@redhat.com>
-References: <20200521124535.5329-1-pbonzini@redhat.com>
+Message-ID: <5514da71-8d9e-e784-bfad-5939bd7ac99f@redhat.com>
+Date: Thu, 21 May 2020 14:46:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200521123245.GG251811@stefanha-x1.localdomain>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:44:25
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="cnPwKwY95zFoTWIEJTwV1FHsbv0FbsNN8"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 04:44:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,103 +99,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Beata Michalska <beata.michalska@linaro.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, qemu-arm@nongnu.org,
+ Keith Busch <kbusch@kernel.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just build the container when run-coverity-scan is invoked with
---update-tools-only --docker.  This requires moving the "docker build"
-logic into the update_coverity_tools function.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--cnPwKwY95zFoTWIEJTwV1FHsbv0FbsNN8
+Content-Type: multipart/mixed; boundary="4m78srN6PibKSPtZF7iUwG0r86mCzYNKf"
 
-The only snag is that --update-tools-only --docker requires access to
-the dockerfile.  For now just report an error for --src-tarball, and
-"docker build" will fail if not in a source tree.  Another possibility
-could be to host our container images on a public registry, and use
-"FROM qemu:fedora" to make the Dockerfile small enough that it can be
-included directly in the run-coverity-scan script.
+--4m78srN6PibKSPtZF7iUwG0r86mCzYNKf
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- scripts/coverity-scan/run-coverity-scan | 39 +++++++++++++++----------
- 1 file changed, 23 insertions(+), 16 deletions(-)
+On 21/05/20 14:32, Stefan Hajnoczi wrote:
+> On Fri, May 08, 2020 at 08:24:52AM +0200, Philippe Mathieu-Daud=E9 wrote:
+>> Let the NVMe emulated device be target-agnostic.
+>>
+>> It is not clear if dccvap_writefn() really needs
+>> memory_region_writeback() or could use memory_region_msync().
+>>
+>> Philippe Mathieu-Daud=E9 (4):
+>>   memory: Rename memory_region_do_writeback -> memory_region_writeback
+>>   memory: Extract memory_region_msync() from memory_region_writeback()
+>>   hw/block: Let the NVMe emulated device be target-agnostic
+>>   exec: Rename qemu_ram_writeback() as qemu_ram_msync()
+>>
+>>  include/exec/memory.h   | 15 +++++++++++++--
+>>  include/exec/ram_addr.h |  4 ++--
+>>  exec.c                  |  2 +-
+>>  hw/block/nvme.c         |  6 ++----
+>>  memory.c                | 12 +++++++++---
+>>  target/arm/helper.c     |  2 +-
+>>  hw/block/Makefile.objs  |  2 +-
+>>  7 files changed, 29 insertions(+), 14 deletions(-)
+>>
+>> --=20
+>> 2.21.3
+>>
+>>
+>=20
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>=20
 
-diff --git a/scripts/coverity-scan/run-coverity-scan b/scripts/coverity-scan/run-coverity-scan
-index 8bff952bf5..03a791dec9 100755
---- a/scripts/coverity-scan/run-coverity-scan
-+++ b/scripts/coverity-scan/run-coverity-scan
-@@ -95,6 +95,18 @@ check_upload_permissions() {
- }
- 
- 
-+build_docker_image() {
-+    # build docker container including the coverity-scan tools
-+    echo "Building docker container..."
-+    # TODO: This re-unpacks the tools every time, rather than caching
-+    # and reusing the image produced by the COPY of the .tgz file.
-+    # Not sure why.
-+    tests/docker/docker.py --engine ${DOCKER_ENGINE} build \
-+                   -t coverity-scanner -f scripts/coverity-scan/coverity-scan.docker \
-+                   --extra-files scripts/coverity-scan/run-coverity-scan \
-+                                 "$COVERITY_TOOL_BASE"/coverity_tool.tgz
-+}
-+
- update_coverity_tools () {
-     # Check for whether we need to download the Coverity tools
-     # (either because we don't have a copy, or because it's out of date)
-@@ -128,6 +140,11 @@ update_coverity_tools () {
-         fi
-     fi
-     rm -f coverity_tool.md5.new
-+    cd "$SRCDIR"
-+
-+    if [ "$DOCKER" = yes ]; then
-+        build_docker_image
-+    fi
- }
- 
- 
-@@ -252,15 +269,16 @@ fi
- PROJNAME=QEMU
- TARBALL=cov-int.tar.xz
- 
--if [ "$UPDATE" = only ] && [ "$DOCKER" = yes ]; then
--    echo "Combining --docker and --update-only is not supported"
--    exit 1
--fi
--
- if [ "$UPDATE" = only ]; then
-     # Just do the tools update; we don't need to check whether
-     # we are in a source tree or have upload rights for this,
-     # so do it before some of the command line and source tree checks.
-+
-+    if [ "$DOCKER" = yes ] && [ ! -z "$SRCTARBALL" ]; then
-+        echo --update-tools-only --docker is incompatible with --src-tarball.
-+        exit 1
-+    fi
-+
-     update_coverity_tools
-     exit 0
- fi
-@@ -322,17 +340,6 @@ if [ "$DOCKER" = yes ]; then
-     echo "Created temporary directory $SECRETDIR"
-     SECRET="$SECRETDIR/token"
-     echo "$COVERITY_TOKEN" > "$SECRET"
--    if [ "$UPDATE" != no ]; then
--        # build docker container including the coverity-scan tools
--        echo "Building docker container..."
--        # TODO: This re-unpacks the tools every time, rather than caching
--        # and reusing the image produced by the COPY of the .tgz file.
--        # Not sure why.
--        tests/docker/docker.py --engine ${DOCKER_ENGINE} build \
--                       -t coverity-scanner -f scripts/coverity-scan/coverity-scan.docker \
--                       --extra-files scripts/coverity-scan/run-coverity-scan \
--                                     "$COVERITY_TOOL_BASE"/coverity_tool.tgz
--    fi
-     echo "Archiving sources to be analyzed..."
-     ./scripts/archive-source.sh "$SECRETDIR/qemu-sources.tgz"
-     ARGS="--no-update-tools"
--- 
-2.26.2
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+
+
+--4m78srN6PibKSPtZF7iUwG0r86mCzYNKf--
+
+--cnPwKwY95zFoTWIEJTwV1FHsbv0FbsNN8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEE8TM4V0tmI4mGbHaCv/vSX3jHroMFAl7GeCYACgkQv/vSX3jH
+roPoYgf+JNMgIUZzO7+lN61e+os+EfjEubcxarvJeqyjX2tl43tKjiz9g7ZG6nWu
+W1ID5hJQPfoyAuzf8cCiroEG0WPpwfkw4OjuvhAmocDYfaF1BxPs9lf4CacIr4yQ
+IPB9jxsdvgN2KMlo0NOKPzFuEaq17DOLr6tg2GhWTuA//3Qz5Xk5wxhIaMUzRjex
+rHpHowj4FiHyB4EbFHZs9W6po8jLusY9r5QgDloBswwcrFOG0fop8FLPO/uUTv5J
+R0KRWrjZiL/lCLu8WXwxyqfYc81Ap5fry/7tulCU4kA+eJJTSnzB5rNzwqT7KZ6r
+piGDiRrcAhiF01TIEHlE1Kclj4epWg==
+=fpV6
+-----END PGP SIGNATURE-----
+
+--cnPwKwY95zFoTWIEJTwV1FHsbv0FbsNN8--
 
 
