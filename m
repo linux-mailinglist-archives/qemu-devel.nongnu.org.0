@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D5A1DCA7E
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 11:53:39 +0200 (CEST)
-Received: from localhost ([::1]:43348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4831DCA8F
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 11:57:38 +0200 (CEST)
+Received: from localhost ([::1]:52038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbhtS-0001zz-73
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 05:53:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60018)
+	id 1jbhxJ-0005sS-EA
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 05:57:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jbhsY-0000eD-S4
- for qemu-devel@nongnu.org; Thu, 21 May 2020 05:52:42 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37962)
+ (Exim 4.90_1) (envelope-from <dereksu@qnap.com>) id 1jbhw3-0004ss-9b
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 05:56:19 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:35504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jbhsX-0004uP-RD
- for qemu-devel@nongnu.org; Thu, 21 May 2020 05:52:42 -0400
-Received: by mail-wr1-x444.google.com with SMTP id e1so6044943wrt.5
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 02:52:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=z2fwFsGJLxMg88IpM5Dn/19a32GO79i9+5iBUkOayr0=;
- b=Ue/hFtBJe3xZR4RyiCR9BjoctdmR4Rod+AW8uJdJFznUlfjnHQJh/qdU2bBmKCwqY/
- i/PGk7daFdX0wyZH9Psg7bCnZDylIQZ4gfOMk0YJm/k5uDGGAyBpLgiLqFWlSwF8wCod
- NaMl1OQx2NVD2SeO45i5GzHiYGzQ2ngMX44CxQp/h2UMl6C7C/dl1S99XGR2DQRZLBJh
- yfkCFTiuJv98c8HA3JsuoOUlDOeLKCP9tBSGa4aWT/yuU0R5Ba8KklXT21Fd5PzMHROn
- GIbxEPvqGo2BUfNFx0ul0EhotUKKgexPC2uc32IvxrbMk7KePVf2tx7QpuejTSMt5Usf
- MaHA==
+ (Exim 4.90_1) (envelope-from <dereksu@qnap.com>) id 1jbhw2-0005as-8P
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 05:56:18 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id 5so2816368pjd.0
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 02:56:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=google;
+ h=from:subject:to:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=Pi6MfxT/dZ7F7Ipj8H60MtgaLEzF+Qv42PQYEC97aHg=;
+ b=Vuj7F7LQTR/RLM2g5vVXLrXgTBtwPTxL/UBALQUWOlNbgp9chkRLY5Y9FFFV4RTW8T
+ m6GnZVD7KiLEuNveFGkrboxKXrfeQ/Xe+p7gA4/SHsGLsV1DguQ4Zv9YZfxhlQBis0BB
+ JKyXxLalkMOwghsqY/3e7LgTSYgq71eNcNlOg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=z2fwFsGJLxMg88IpM5Dn/19a32GO79i9+5iBUkOayr0=;
- b=elXSMO4XR1BPp49sxoD5C+5Q9nu6xO/V37SOn6ehMUiGev3JxVjPrZohVwN7nL/ib9
- MFhd7Gh+hyNViEURei+r2ZXCdKK60Gc0sn2Z2A0AJpg0k6WJqU4dweCNC8FkPwOGn6zn
- j2juA9QXDMQ8mzZ0a9eDyQM+SG+2x6XlQNBAY+gi0Ay4zqWwEWZPW0+uZSI3mBeyoLbs
- /NwuvVGzu1nFkN9+AGSkG7kc4DHclue2DCA2owDBS4FmWTARZlev1hngQ1qAyj4RCxrU
- sf+fj0jL1npj1O1zzwcrVZ0Vx1DGIdx59czuVhwIi8VsiZkcauEZQ9kkrPjSgGLb2+8K
- OGow==
-X-Gm-Message-State: AOAM531plNHZjypoDwSF6aP1/4xrNE41z3OWT/XhI0VEHpFHIMvE3A3x
- 8jQLvJyElgw1C3t/rFxNTbI=
-X-Google-Smtp-Source: ABdhPJz+2CDrVrEgjMPDeMEKzPgboc/gW36xlSsP9erpaGjq61wTYUWWQuMp5UrllBgsNms8D5kIJw==
-X-Received: by 2002:adf:9f48:: with SMTP id f8mr7863660wrg.228.1590054759306; 
- Thu, 21 May 2020 02:52:39 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id r11sm5754237wrv.14.2020.05.21.02.52.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 02:52:38 -0700 (PDT)
-Date: Thu, 21 May 2020 10:52:37 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Subject: Re: [PATCH 3/4] configure: add flag to enable SafeStack
-Message-ID: <20200521095237.GC251811@stefanha-x1.localdomain>
-References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
- <20200429194420.21147-4-dbuono@linux.vnet.ibm.com>
+ h=x-gm-message-state:from:subject:to:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=Pi6MfxT/dZ7F7Ipj8H60MtgaLEzF+Qv42PQYEC97aHg=;
+ b=Bs+0y3iZ6D2Fkmebk1KVuklcv2RK/xwAWrjhZeeH7BacUAFqq06wTy/tGULefjEb4x
+ DstfHLfu1NFttxeTYVigDNaCk0nN6poZ8iUO2Y2jvUygGXGxC+ifd7mShz/yrk8gMV25
+ N4WdRrwk/RwRRhuZTGnB2OM0gFQrC2TMaMAGOACRMWwVYsTRvYKn3EBaTuPg+3XsUX4V
+ pUFaWXgnS03oQSYlhXEjV4Dt+EXsVGaxY/ObIWBswaHsMccF3KprS5Uxj5d6sYlbeBh5
+ aMHPfFA807qIqOYq/3zdKIzIhMmPrKdvjsuHPK31dCmk/Pz+H+ClbFN1FQp8Po4P0+/G
+ ug+g==
+X-Gm-Message-State: AOAM531mgu9zHKXQJErsY3uG3pr/DEp1+WIGtjkEbQB0No3ZpygiqszI
+ YhcEtog7QzgYKUv/N8O8gJfTRPPZGZE=
+X-Google-Smtp-Source: ABdhPJzMLlnITw5/3XH1agN2RSp6ysqMlOUfYhile7nvjd1szmCvSiiIstU3LwLf9VHWmcWwN2Cszg==
+X-Received: by 2002:a17:90a:1a17:: with SMTP id
+ 23mr5980766pjk.198.1590054975834; 
+ Thu, 21 May 2020 02:56:15 -0700 (PDT)
+Received: from Jing-Weide-MacBook-Pro-3.local
+ (202-39-79-13.HINET-IP.hinet.net. [202.39.79.13])
+ by smtp.gmail.com with ESMTPSA id j17sm3724353pgk.66.2020.05.21.02.56.14
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 May 2020 02:56:14 -0700 (PDT)
+From: Derek Su <dereksu@qnap.com>
+Subject: cluster_size got from backup_calculate_cluster_size()
+To: qemu-devel <qemu-devel@nongnu.org>
+Message-ID: <7b96191b-2c16-7257-9ae3-50457bf82e27@qnap.com>
+Date: Thu, 21 May 2020 17:56:12 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ncSAzJYg3Aa9+CRW"
-Content-Disposition: inline
-In-Reply-To: <20200429194420.21147-4-dbuono@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x444.google.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=dereksu@qnap.com; helo=mail-pj1-x1035.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,64 +83,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Tobin Feldman-Fitzthum <tobin@ibm.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
---ncSAzJYg3Aa9+CRW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The cluster_size got from backup_calculate_cluster_size(),
+MAX(BACKUP_CLUSTER_SIZE_DEFAULT, bdi.cluster_size), is 64K regardless
+of the target image's cluster size.
 
-On Wed, Apr 29, 2020 at 03:44:19PM -0400, Daniele Buono wrote:
-> This patch adds a flag to enable the SafeStack instrumentation provided
-> by LLVM.
-> The checks make sure that the compiler supports the flags, and that we
-> are using the proper coroutine implementation (coroutine-ucontext).
-> While SafeStack is supported only on Linux, NetBSD, FreeBSD and macOS,
-> we are not checking for the O.S. since this is already done by LLVM.
->=20
-> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
-> ---
->  configure | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
 
-Great, this can become Patch 1 and it can set CONFIG_SAFESTACK as
-mentioned in my earlier reply.
+For example:
 
-> diff --git a/configure b/configure
-> index 23b5e93752..f37e4ae0bd 100755
-> --- a/configure
-> +++ b/configure
-> @@ -302,6 +302,7 @@ audio_win_int=3D""
->  libs_qga=3D""
->  debug_info=3D"yes"
->  stack_protector=3D""
-> +safe_stack=3D"no"
+If the cluster size of source and target qcow2 images are both 16K, the 
+64K from backup_calculate_cluster_size() results in unwanted copies of 
+clusters.
 
-The comment above this says:
+The behavior slows down the backup (block-copy) process when the
+source image receives lots of rand writes.
 
-  # Always add --enable-foo and --disable-foo command line args.
 
-Please add --disable-safe-stack.
+Is the following calculation reasonable for the above issue?
 
---ncSAzJYg3Aa9+CRW
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+```
+static int64_t backup_calculate_cluster_size(BlockDriverState *target,
+                                              Error **errp)
+{
+     ...
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7GT2UACgkQnKSrs4Gr
-c8jH1Qf/b04GO1zgdwlTQur57QOn/C3K0p+p/RwlOUKzVMPqFlsoBj/cM2M1tjfP
-ryEg9/AbMPMxOUSXcDSH7NJWgQxF/RrXvTZ/c35rM/uJoPnBdta+q0e3KlUTLhg8
-DaaHdpG7maP2N9sOewgZFan0FcUlqsnt8onvgZ8JxVMYEk4lJddsf2uJpmMY9W66
-Hy9AJmI6mriTH3TPf1SGDs46hcRhYoNirMdl55cIshraq7xojyO8LrKvvi+9vVh6
-Q992bxQVkZ2m3Qd2whNa48ae4pDQuCH3iJMzunFn3Xex1Pa/+Nz5g/2kYiaQMFUn
-9pTi9hWSClRgzw0ThZ1JTTrWbfBA6Q==
-=1M0l
------END PGP SIGNATURE-----
+     ret = bdrv_get_info(target, &bdi);
 
---ncSAzJYg3Aa9+CRW--
+     ...
+
+     return (bdi.cluster_size == 0 ?
+                 BACKUP_CLUSTER_SIZE_DEFAULT : cluster_size);
+}
+
+```
+
+Thanks.
+Regards,
+
+Derek
 
