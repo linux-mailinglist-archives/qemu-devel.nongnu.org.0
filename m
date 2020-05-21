@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE6F1DC5DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 05:46:49 +0200 (CEST)
-Received: from localhost ([::1]:59366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B81151DC5EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 05:52:52 +0200 (CEST)
+Received: from localhost ([::1]:54402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbcAS-0007w0-Eq
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 23:46:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53280)
+	id 1jbcGJ-0002Co-QN
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 23:52:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jbc7I-000341-Ii; Wed, 20 May 2020 23:43:32 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:36107)
+ id 1jbc7J-000362-AA; Wed, 20 May 2020 23:43:33 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:48147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jbc7H-0003Wg-Gb; Wed, 20 May 2020 23:43:32 -0400
+ id 1jbc7H-0003Wh-PI; Wed, 20 May 2020 23:43:32 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49SFns27szz9sTg; Thu, 21 May 2020 13:43:13 +1000 (AEST)
+ id 49SFns1NXdz9sTT; Thu, 21 May 2020 13:43:13 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1590032593;
- bh=bf5Cd9xw2ZTvT2sR3eQKUWyajZbzGCNDJL88uOSTsxA=;
+ bh=d27Ffc+UM25I6jMKKixH/o4N+rS/wECOugs7Ml/AULE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FSbn203Rcy19lTP/Uh82Cy4AGqsnatY7iLqO1Uu8XUf+L14nn+MXwj7IzuNAJs8GW
- i3uJUx/g84fqSywOCIEW/9jbHGEcBeg8ccTaDTqgmW8US17FJnd6H0XVtsN3Zf5t6z
- HxpqCsnypeqML8EXHQMmBW/KfTN4Ivk8ZV66ZFVU=
+ b=NyyiKIgRv8Sa41xtepCYVJluBW+AhLBvINnbN87OdeeyM3yp4/39vXYbVeNhQymmh
+ w9h5HFnBxqtFma/Dgw4COf4HOWHWO0y7kNHNCWwxUKEF0NL/sue/3Cjot/cnJ24R8g
+ 0hCZAyi+kNc4RRVPYdd1yxxpob8XWUeWxID41pRw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-devel@nongnu.org, brijesh.singh@amd.com, frankja@linux.ibm.com,
  dgilbert@redhat.com, pair@us.ibm.com
-Subject: [RFC v2 07/18] target/i386: sev: Remove redundant policy field
-Date: Thu, 21 May 2020 13:42:53 +1000
-Message-Id: <20200521034304.340040-8-david@gibson.dropbear.id.au>
+Subject: [RFC v2 08/18] target/i386: sev: Remove redundant handle field
+Date: Thu, 21 May 2020 13:42:54 +1000
+Message-Id: <20200521034304.340040-9-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200521034304.340040-1-david@gibson.dropbear.id.au>
 References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
@@ -68,54 +68,75 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SEVState::policy is set from the final value of the policy field in the
-parameter structure for the KVM_SEV_LAUNCH_START ioctl().  But, AFAICT
-that ioctl() won't ever change it from the original supplied value which
-comes from SevGuestState::policy.
+The user can explicitly specify a handle via the "handle" property wired
+to SevGuestState::handle.  That gets passed to the KVM_SEV_LAUNCH_START
+ioctl() which may update it, the final value being copied back to both
+SevGuestState::handle and SEVState::handle.
 
-So, remove this field and just use SevGuestState::policy directly.
+AFAICT, nothing will be looking SEVState::handle before it and
+SevGuestState::handle have been updated from the ioctl().  So, remove the
+field and just use SevGuestState::handle directly.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/i386/sev.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ target/i386/sev.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/target/i386/sev.c b/target/i386/sev.c
-index d25af37136..4b261beaa7 100644
+index 4b261beaa7..24e2dea9b8 100644
 --- a/target/i386/sev.c
 +++ b/target/i386/sev.c
-@@ -39,7 +39,6 @@ struct SEVState {
-     uint8_t api_major;
+@@ -40,7 +40,6 @@ struct SEVState {
      uint8_t api_minor;
      uint8_t build_id;
--    uint32_t policy;
      uint64_t me_mask;
-     uint32_t handle;
+-    uint32_t handle;
      int sev_fd;
-@@ -397,7 +396,7 @@ sev_get_info(void)
-         info->api_major = sev_guest->state.api_major;
-         info->api_minor = sev_guest->state.api_minor;
-         info->build_id = sev_guest->state.build_id;
--        info->policy = sev_guest->state.policy;
-+        info->policy = sev_guest->policy;
-         info->state = sev_guest->state.state;
-         info->handle = sev_guest->state.handle;
-     }
-@@ -520,8 +519,7 @@ sev_launch_start(SevGuestState *sev)
+     SevState state;
+     gchar *measurement;
+@@ -64,13 +63,13 @@ struct SevGuestState {
+     /* configuration parameters */
+     char *sev_device;
+     uint32_t policy;
+-    uint32_t handle;
+     char *dh_cert_file;
+     char *session_file;
+     uint32_t cbitpos;
+     uint32_t reduced_phys_bits;
  
-     start->handle = object_property_get_int(OBJECT(sev), "handle",
-                                             &error_abort);
--    start->policy = object_property_get_int(OBJECT(sev), "policy",
+     /* runtime state */
++    uint32_t handle;
+     SEVState state;
+ };
+ 
+@@ -398,7 +397,7 @@ sev_get_info(void)
+         info->build_id = sev_guest->state.build_id;
+         info->policy = sev_guest->policy;
+         info->state = sev_guest->state.state;
+-        info->handle = sev_guest->state.handle;
++        info->handle = sev_guest->handle;
+     }
+ 
+     return info;
+@@ -517,8 +516,7 @@ sev_launch_start(SevGuestState *sev)
+ 
+     start = g_new0(struct kvm_sev_launch_start, 1);
+ 
+-    start->handle = object_property_get_int(OBJECT(sev), "handle",
 -                                            &error_abort);
-+    start->policy = sev->policy;
++    start->handle = sev->handle;
+     start->policy = sev->policy;
      if (sev->session_file) {
          if (sev_read_file_base64(sev->session_file, &session, &sz) < 0) {
-             goto out;
-@@ -550,7 +548,6 @@ sev_launch_start(SevGuestState *sev)
-                             &error_abort);
+@@ -544,10 +542,8 @@ sev_launch_start(SevGuestState *sev)
+         goto out;
+     }
+ 
+-    object_property_set_int(OBJECT(sev), start->handle, "handle",
+-                            &error_abort);
      sev_set_guest_state(sev, SEV_STATE_LAUNCH_UPDATE);
-     s->handle = start->handle;
--    s->policy = start->policy;
+-    s->handle = start->handle;
++    sev->handle = start->handle;
      ret = 0;
  
  out:
