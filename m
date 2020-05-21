@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E581DD246
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 17:48:13 +0200 (CEST)
-Received: from localhost ([::1]:53970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C08D71DD248
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 17:49:55 +0200 (CEST)
+Received: from localhost ([::1]:57844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbnQa-0007NU-J0
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 11:48:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42574)
+	id 1jbnSE-0002dB-Li
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 11:49:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jbnLa-0004fs-1S; Thu, 21 May 2020 11:43:02 -0400
-Received: from mout.web.de ([212.227.17.11]:58913)
+ id 1jbnMy-0005K8-MA; Thu, 21 May 2020 11:44:28 -0400
+Received: from mout.web.de ([212.227.15.14]:44837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jbnLY-0000yT-Rz; Thu, 21 May 2020 11:43:01 -0400
+ id 1jbnMx-00017L-K1; Thu, 21 May 2020 11:44:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1590075771;
- bh=s6EmzGnQKvQhNxY/0H67s9SSPbcPWSQxAXlMeNLwU9w=;
+ s=dbaedf251592; t=1590075860;
+ bh=SUURXh4jypd9G2t/iEjlri3DZHpTTvKrsSOE5CS2etA=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=BVDgsdsG987FRk8HgjcigOcly/FubRS6nnonjhOtZFoUh2N0MynIOcXwz342uJLRi
- EbBSDAl4YOm3Jef+VDtMazdkA2P5too8TkaX4cWpwlBqV5G79nA+EqQOusi1c7Nf0I
- di18PHN1Jgg9yR+59Kthbm9TwbY2NZUrjGwtomeA=
+ b=QuH1F56/zmjJIRDMiW62LMvbDzSKFcer5sKVn55HfGCbdI8aszF+Vs0SUa/qcXG5v
+ 8+qsZCC+vYvCuCaj9S4LfiXaZn0oHfganSpIORrThl0IlFy3TfkawhBwuJ4zxoECxw
+ 5DSOR3+xAjTvGDjI6GPMjx+r/kJ5OnzQa8e4HA8o=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.99]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MFaui-1jpXdt03sU-00H8UR; Thu, 21
- May 2020 17:42:51 +0200
-Date: Thu, 21 May 2020 17:42:41 +0200
+Received: from luklap ([89.247.255.99]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MVtmK-1jZehA1VGa-00X3fw; Thu, 21
+ May 2020 17:44:20 +0200
+Date: Thu, 21 May 2020 17:44:19 +0200
 From: Lukas Straub <lukasstraub2@web.de>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: [PATCH v2 1/4] Introduce yank feature
-Message-ID: <20200521174241.3b0a267f@luklap>
-In-Reply-To: <20200521150335.GO251811@stefanha-x1.localdomain>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2 4/4] migration: Add yank feature
+Message-ID: <20200521174419.51909b9c@luklap>
+In-Reply-To: <b3ca78c3b4b8ad903ca2f70795fc38218802afc4.1590008051.git.lukasstraub2@web.de>
 References: <cover.1590008051.git.lukasstraub2@web.de>
- <20005a15c708fbda983f9be602c55fc0b1979a18.1590008051.git.lukasstraub2@web.de>
- <20200521150335.GO251811@stefanha-x1.localdomain>
+ <b3ca78c3b4b8ad903ca2f70795fc38218802afc4.1590008051.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/DvQBs6t243FwTUuOGz3kuZD";
+Content-Type: multipart/signed; boundary="Sig_/6.rtzgeIehzpFDWvs_MAiMZ";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:1KNrUeTiw6hj/xNh12tv9yLWepZvLO0l1+acpnHkyGCLNF+30R6
- 9e1WM5HJTR+dmMEYGVibjpaU5yV17a5qGAs+i4IGwUnxHi6yT4fhg6DC4Pj/JlMFnRJyzuO
- 6WW+XE6KJ/zFMwYkxo53JVLS7nnuutMj0+mRQFrX4orHLUyERwL3KMivSDDhAa85zLa7iQF
- NXvKmHHg1zTfZ0MGohkgw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:tbWfAf4iCuI=:QQlc3pE4B7kosZUTkV9oZ0
- QbefJR5DoZPt3jw1FREvxaUjVh5ityOMCFLAQHSiUe3ZNVpPYFL01RTPzHHYl+kLu65EicXZ4
- LzNtOx2AP9fpydgKMUh+4d1iSkMpX2m6pKY+1AlCxgV7SCcLj/hpQqtfYwK02ne2eGIuwYMxb
- r+kZHPLw4p7aXGFn8avwzgt8Mkd3Vp2MFmwcuRzMG9XY80jR9f+N6S/YZe5Utf2Iq0uB335Re
- nGi2TawYBag7Ved3bh+5C6boA65PX1ij5dM+fU0X5+3jlVzVbLozhcMmWDqxINeFc8ceZMBuK
- ReickYZBMKGhPEhQI08Ff1jj+lS1fxUJu5irH009EEkr16O50TWo8niD1w92bkr48CO9CgJed
- tXnkvSKlG+oj/s7fPkW+wyG7Mt9VLD8l//55+eKDxUZAAdJfJFFWpjUb31Ml0ZHPRWHAGW5/P
- SZOH6R+7oUSzUz7WyOfdEvkrJ7ZsWO2TP0Y9Ox20cGszjeF4TXyG93NqnPqfmgz+1+K25tef0
- AH8dratIJ1gRVhkbNfXcY1cANwkpT7ULPAc/xx/FEhVepqNjxTFpfjc/HE1kjXH1p9aa/q3eU
- w0kLRyLD60KYMKby3sO9pnyn/jNaUvZIy2aedsQEiXvddkxx72dsmTZ0dY/RN2bav625EDhGJ
- JwlavFwtoqlxmG+nLabp0VMBv2ecMiiPaCVIM3KIhRFMp+e9U9JxmDrWL7qTS17/pGNOTLR98
- PMcm4TGKLgEAgmyE33gjf9fekerpKqw0B3A6PWB0KHDrEN8kVb19R8OnEKvnwXoFdMBpTMW1y
- dCMXVscKpAXHKnUkQ1a8nlRKsNXbeV7eB/i4nCi5a8JMNHuKSvM+sn+xCSzKaEE8T/v833A76
- JkoQ5aMqzVC12iQ/IRowF3copydm+UmV77bS8UvCWzX6VTllfTpJaVOX2rpCIfC8XcGd2YaUk
- Lea+7EgaRMCvqmFDHLKjPNId1B3CrwtDtwUY2740jeBfezXBAO8EvQUghdPDzvkMbQTpvpGSr
- k4ZS+9lVAzGY1u/SX7T/CT87pGkOn1BRrq36qR/TnbDfMmsQVd6ohNpYrscTZwEod9RvkFdlp
- vsEoylByRat5icDsJSSZnq/18Qr6KSKxslZJLIZNH56k02xakmxaiy7kuYiQDUZmDcR0tj/5V
- wANYskFyhoHRx6ir69apMgE+y4epf8FXTWLKxQp0VML1W/YpLSwaFM6Y7ysG/p9wBUljI5w2G
- 7m/pz4f3Wp+d94OdH
-Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:izJdfGEdFTjjZHuVThWgyLDs0PD1FTcbLzIo7aE/IJv5ekYOAvr
+ DiU5PFu1BRz3Fkt5ZABzUMCoUJjwjU6QwXxszrI3A+sdo0ZgogrEfYNXhMO+8z+s9bkqJKy
+ yNY6JtFjFVGmj8HAOuIpQRcIlJ0bFcJBvlAY0tBfVWXCKfUlJTbVgMa0LMAz6/UwWc0d8A2
+ ZT9M4OGPI3FGPUaRYK0Bw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8UfWLW+Foy8=:IZyD7RDuXGuVfsowebc/hD
+ PtA4h0rj+OHhqibCAkcmQwaC8BVb+J08sidmfvzaj04QsUHuAinW0j4Rpxn0PYz9GLLqYinK0
+ Hdw+AEoRZeuDGDYe6yDysOTvHyh3Ec3o1WpC1PhCg1eegEexdTXkBMz2QaIbkiL8q2vmh1QaD
+ Y5cbda24ZAa50oTQH8fAfiiQafJMaN4Qpojz0LuqxMSs99YAlFe7dDFZgZbcwkqsNTePbp/uL
+ vdHB+5aUIWd04gLctgKE2GehwPLiuSQqxzXZ5HBeRjVK6Pbp0wyR1hd9DYFNL2n7lnAZlbbO2
+ ZyEGSdTVYVWvvH9U5UvD3VoEyxCo0NX0HNucqqhp5Y1sokP9sUrq/T/Ebmql/2Iqsd9zCGcHH
+ diJziyYFGa7zse96cO8vLxM2M5C8FSbkMUwNktGmGHQ1zzfNotO8rPwexeoCplEOg1u9R8BqU
+ 8l1kVc2HGAR/lioHf+7MwTkc4mt+mTzyKCFjfJWPlt62q0PQ9Uiw5f5uNT2d2uKxS/kha1G5V
+ S3p0bG+Ja/OTVvWxI+42P+uRFFk6PY71/A3GQfk9OuX+eO3EPVdL1O6IQD1RGg+rfAXFkqCKc
+ mUT0o9yj2+IYZdGrY59AI/s4Fwxww+R2VixYPzkEIKeRgnwBo+9YMqu3B6D9Jpoo6cPHD+bMk
+ XFbsz/1CtVjp3C79yWTKP2H3aLDPMq7/afRjRJbkHg1iaUXJL3dVf0yk0KC7G/DbC/gjBckKo
+ OrjeM8PIaSDGdPxy3hVu3750iTm8TbchQUR555fMkeoYhXew3LTLZNxcfZ6HeX87nCwbh28GT
+ wRO2Zrcxz1KFNibQ7pRkLuer1aP5jcvh9orvWWvDcazQp/54+bzxgwmV4X0JY4cRYNK93IUFF
+ jnHuhZN5TarcjEdur5nLSrLIKvl/PUmYwRTqnAVJvyVNFyxEg+7OQAe7zol1YDu5Cwf6YuO/E
+ 2dTo0os74M4yvRfMGlTkR8PKmgUSdcyAog/+Yqck/huTV7W71xewxJ5vl6UJQ/57jjCJagzLS
+ /08RX9nqwyGwy6XIV1en6gD7FfjARpCXmRMvPbZxJTXQ05ELOoORcA8tsSGwuLNe+V07KTMOV
+ Gk79wKZIhsdzcu+yTco+fekC+rWhD63bAVMIxDBMCfHPEfx5VE3qHZ6xG34AQlrqSTyT6f3Os
+ Zvs3UTGXzUY8gmqAAoiQ4/O7kYeh+2IV8HkJpkNw41g3dwbj82xmMJIKcBFA9nvaJ4IAG1Vx1
+ kLw0m1e2S7cYo5ycF
+Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 11:42:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 11:44:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,118 +88,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>,
  "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
  qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+ "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/DvQBs6t243FwTUuOGz3kuZD
+--Sig_/6.rtzgeIehzpFDWvs_MAiMZ
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 21 May 2020 16:03:35 +0100
-Stefan Hajnoczi <stefanha@gmail.com> wrote:
+On Wed, 20 May 2020 23:05:50 +0200
+Lukas Straub <lukasstraub2@web.de> wrote:
 
-> On Wed, May 20, 2020 at 11:05:39PM +0200, Lukas Straub wrote:
-> > +void yank_generic_iochannel(void *opaque)
-> > +{
-> > +    QIOChannel *ioc =3D QIO_CHANNEL(opaque);
-> > +
-> > +    qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-> > +}
-> > +
-> > +void qmp_yank(strList *instances, Error **errp)
-> > +{
-> > +    strList *tmp;
-> > +    struct YankInstance *instance;
-> > +    struct YankFuncAndParam *entry;
-> > +
-> > +    qemu_mutex_lock(&lock);
-> > +    tmp =3D instances;
-> > +    for (; tmp; tmp =3D tmp->next) {
-> > +        instance =3D yank_find_instance(tmp->value);
-> > +        if (!instance) {
-> > +            error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,
-> > +                      "Instance '%s' not found", tmp->value);
-> > +            qemu_mutex_unlock(&lock);
-> > +            return;
-> > +        }
-> > +    }
-> > +    tmp =3D instances;
-> > +    for (; tmp; tmp =3D tmp->next) {
-> > +        instance =3D yank_find_instance(tmp->value);
-> > +        assert(instance);
-> > +        QLIST_FOREACH(entry, &instance->yankfns, next) {
-> > +            entry->func(entry->opaque);
-> > +        }
-> > +    }
-> > +    qemu_mutex_unlock(&lock);
-> > +} =20
+> Register yank functions on sockets to shut them down.
 >=20
-> From docs/devel/qapi-code-gen.txt:
->=20
->   An OOB-capable command handler must satisfy the following conditions:
->=20
->   - It terminates quickly.
-Check.
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 
->   - It does not invoke system calls that may block.
-brk/sbrk (malloc and friends):
-The manpage doesn't say anything about blocking, but malloc is already used=
- while handling the qmp command.
-
-shutdown():
-The manpage doesn't say anything about blocking, but this is already used i=
-n migration oob qmp commands.
-
-There are no other syscalls involved to my knowledge.
-
->   - It does not access guest RAM that may block when userfaultfd is
->     enabled for postcopy live migration.
-Check.
-
->   - It takes only "fast" locks, i.e. all critical sections protected by
->     any lock it takes also satisfy the conditions for OOB command
->     handler code.
-
-The lock in yank.c satisfies this requirement.
-
-qio_channel_shutdown doesn't take any locks.
+Don't review this commit for now, I'll have to revamp it anyway.
 
 Regards,
 Lukas Straub
 
-> This patch series violates these rules and calls existing functions that
-> were not designed for OOB execution.
->=20
-> Please explain why it is safe to do this.
->=20
-> Stefan
-
-
---Sig_/DvQBs6t243FwTUuOGz3kuZD
+--Sig_/6.rtzgeIehzpFDWvs_MAiMZ
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7GoXEACgkQNasLKJxd
-sljvww//UdOEfISDpu0u4sPDkX1y7ZDKwpiFG1cpRV8V7df3vT5xTMn1yy//rlOf
-2tVm9Pi6X2TQSSGAtoKSh7kskoWpwzMa52bOIW3KGTj4ijToFrYD3m3EfD2O7VEi
-ZE0KrV3T74XIC25VPKWa4cyhqSjdiwKcpJpF0jtOtiXG3ZTMzaUGqDfXkAQ3/V0R
-hBcDUYsJbq7d48+wxANMq+dvlXOwVZuYkAwHIJ6wuSvEqYZDayxJ+XYshZ+wb4Kv
-JV3AM62gOU47t99fFgIzhypxuCQcQone1BnkzcnewZQnto2BnDN64JgG0wYxy9bI
-8PYzRWd+nYeS8hpS8VvTFLo453VGPISODyXYrZCtbXMHIJnEnAveAj0n2kvPBxJj
-bgBMOcyDI9V914+NAgO/Wvx7xYNnuT1FbJ3hhnnKMSmqHzeUXPwXtBHPUAmcBzIs
-kCf2w0Y5q5fzuhAfMbUzYAZq9a1yrD6NOrjsmxEfXb+OtPzqgCPT114iDGVExo1X
-+0bYuZlQH4oFtk9fJ50TkGunnoUoABZNmB/PpypF7lIYU1CXvZmhKbcmHERlRgHJ
-DRxD4idZ+zs+1PuKpSE3gIv9F9nnvtQnaj9hpfZAyxSZQ7guKKFUsJaqr2kKnDzk
-cTHlDT/BF64WZyCtup0lTA/uULvkgVIkOQFloxrfuCwha+8uOP4=
-=lpsK
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7GodMACgkQNasLKJxd
+slgLbQ/9EpNXzi6dvLR5WOMv6TgS+T/QOubZ5f1XcQ/M6jSeesfUNAx+tvCSbPGS
+V06Uhuo+ZgVhGhXoMK6zNVPQaXNkWJnWmPC/fN7vQ7pqkdkjA9WB/MMzxJpAoLfK
+bQjHflikSbwcUQKUcqFJ/nF4wkibqt0hh2CEFZFI7468W//FaW9CnF3WzgJiJTOs
+izqnOvP9IVklkZLXU4Ljm7y2a0B18qvMJOQcLumEM9Zx7l0u9wUfMtduem4OcMP3
+S9u+wwRqagWgThwphHDUhDkTSJ+XPxSqJQISkLvT9jJju18xLiHkukzGJIXDL7ql
+RnEEnBC2Lo/1UBAYOJp/JKXC7RzsOkYZFmDe8gXhO/nWrD4tQycpY7lRu11M9NbP
+4A5rwgyiv5Wq3qUP2bkyEsKpNFoAEaZWzAXkWImOINDjmUDTfLmXGi9Jf0Jbjsgk
+0aK+ZWvtnRhw160Nf89aO7453FkV9HpnTTkoilofw1A0zxgSAtVegXvPpRLXs2n4
+QmtAoAv1JauSK5OuChhSO62jxZSfG8RghGeZrmMlacGwXLQKQI7NZdqytiGn3sqf
+s9y1BMSqUp4SB8O2utfxddbz0T16cYRs27gs8O06xlWJ4Y3sVSMDL5OJ2GObVexY
+vVrtdE7j3ZIebO3AoL819AJRazLtX8IzfAqurLBAUrsNpHJ30vU=
+=erQ5
 -----END PGP SIGNATURE-----
 
---Sig_/DvQBs6t243FwTUuOGz3kuZD--
+--Sig_/6.rtzgeIehzpFDWvs_MAiMZ--
 
