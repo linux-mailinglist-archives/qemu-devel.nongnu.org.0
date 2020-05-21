@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2C621DCAA0
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 12:02:01 +0200 (CEST)
-Received: from localhost ([::1]:34834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2EF81DCAAE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 12:08:27 +0200 (CEST)
+Received: from localhost ([::1]:53730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbi1Y-0004Df-Rz
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 06:02:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32778)
+	id 1jbi7m-0004fW-RF
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 06:08:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jbi0B-00026y-Rs
- for qemu-devel@nongnu.org; Thu, 21 May 2020 06:00:35 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36720)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jbi0B-0006NU-1W
- for qemu-devel@nongnu.org; Thu, 21 May 2020 06:00:35 -0400
-Received: by mail-wr1-x442.google.com with SMTP id k13so6090609wrx.3
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 03:00:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=TPaV4JvfBALFnzvbJlsMc6Qn+duNP6FlrUkXM33a6Ig=;
- b=fJdSzCIeY526wuiKXjxWf+YC15xOvErHP3l5qUgANXy4f9dcW1DjzUUQWzD13jkWPl
- 4egw4fqOd5fxXiB4LGY6i1dEucc84HcepAlPRycF4k8HlMiaB3+MQvE8tWrS3UZLc9u8
- FAsDXx7EKx9MvLFLa9wsIKJ8yGgpBhymLHPmS1s3NXfBz1CUy5m0WFGUghhgJSYCypyF
- 05H1CA13TWEhvqkDYT5U5bImO3pxKgVraCjSIFWjozcyB4G0a2mJN8ekJOrk97WdPcUm
- Fz6k/JpKuBy58yfJ2ol1dmAWmRYzeVD+0LGbtp5ll0KEpO3WHb81bhOichZNI2A210kC
- ue4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=TPaV4JvfBALFnzvbJlsMc6Qn+duNP6FlrUkXM33a6Ig=;
- b=WtHBPbBcxy+OiQ6bCF7aZyIkguVVvvv3eFgViR4iHb6HczxrcGayPCW5I9RP+fQdQ2
- Wr7rpyhPC4BYjJDueGIR1cTduQzf3+6Xw2bltdFIDB8QM43ZJK1WdOGzyffY63CPmSlk
- 3WTQFAhQ3pAwOaCv7iMrywLH9kVqQtSJI38FxBZTlRemGb/eTjqdBDqfMYkpU70MBSTf
- 3I9I+kawl/2G9/Mo9oxP+1sjNC4AzkAEL/sggjLSzEdTvzUtnMkHFZoCupzVMGw7UiFh
- Tw6hWrCTLpQ2QJYSc4k97D3sl37hOSG6hJPcvVcsBnLSt5Mw/3wO5tX1Gszlynmuc9nB
- r1yw==
-X-Gm-Message-State: AOAM530N1uuiQDbvsAS6325zkfXfvOjQFUjfz3EN7d//DMwPwAQnzLcY
- T/sX5Qkf5+xDKWDJ548x89WzpfCv
-X-Google-Smtp-Source: ABdhPJxInjn7lEqv4lIAZ1KK/yqSZqEpDmd/FyjT35VHCrrC9Zn2gc9I/DdLUqEhoEvTgM+JDhTejg==
-X-Received: by 2002:a5d:4e8f:: with SMTP id e15mr7791115wru.91.1590055232979; 
- Thu, 21 May 2020 03:00:32 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id i21sm5972732wml.5.2020.05.21.03.00.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 03:00:32 -0700 (PDT)
-Date: Thu, 21 May 2020 11:00:30 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Subject: Re: [PATCH 0/4] Add support for SafeStack
-Message-ID: <20200521100030.GE251811@stefanha-x1.localdomain>
-References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
- <51f28cf2-0f34-508f-96f8-02c02b3c8a85@redhat.com>
- <20200505133111.GM764268@redhat.com>
- <c6ac2d0e-34bf-9927-f2fe-2ef0408dcbfb@redhat.com>
- <7f6916f8-c559-ebae-e6b2-75083f3ff2e5@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jbi6v-0003o0-D9
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 06:07:33 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58674
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jbi6t-0007vf-Mq
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 06:07:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590055650;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=baT+4CJp4I0YAmggm/ipdIJMbUnP9gnMA/lxanJ+S30=;
+ b=C7DXx5oemy9ZnNsdPczELb/xR8NAXvlRRYwl8HgPj8utmcFIkxt8ArYgFMsAdZ9kDC4+/d
+ vjLurxecGN5ywHLVjVFSpqb9jvtS2xf//Z3RWhLhvduhPMIxFtYKY1FY3JGv93ERwVVMOs
+ EEcxcQqxtzRrvAla64r98BUoPM92U84=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-7-tU58GAEbMNSDRBHiaYtjdg-1; Thu, 21 May 2020 06:07:26 -0400
+X-MC-Unique: tU58GAEbMNSDRBHiaYtjdg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8425C8014D7;
+ Thu, 21 May 2020 10:07:25 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 34F0E2E188;
+ Thu, 21 May 2020 10:07:23 +0000 (UTC)
+Date: Thu, 21 May 2020 11:07:20 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?=
+ <marmarek@invisiblethingslab.com>
+Subject: Re: [PATCH] crypto: add "none" random provider
+Message-ID: <20200521100720.GC2211791@redhat.com>
+References: <20200520132022.6913-1-marmarek@invisiblethingslab.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2qXFWqzzG3v1+95a"
+In-Reply-To: <20200520132022.6913-1-marmarek@invisiblethingslab.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-In-Reply-To: <7f6916f8-c559-ebae-e6b2-75083f3ff2e5@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 04:44:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,45 +84,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Tobin Feldman-Fitzthum <tobin@ibm.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, May 20, 2020 at 03:20:23PM +0200, Marek Marczykowski-Górecki wrote:
+> In case of not using random-number needing feature, it makes sense to
+> skip RNG init too. This is especially helpful when QEMU is sandboxed in
+> Stubdomain under Xen, where there is very little entropy so initial
+> getrandom() call delays the startup several seconds. In that setup, no
+> random bytes are needed at all.
+> 
+> Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
+> ---
+>  configure            | 11 +++++++++++
+>  crypto/Makefile.objs |  3 ++-
+>  crypto/random-none.c | 38 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 51 insertions(+), 1 deletion(-)
+>  create mode 100644 crypto/random-none.c
+> 
+> diff --git a/configure b/configure
+> index 26084fc53a..79a3affe70 100755
+> --- a/configure
+> +++ b/configure
+> @@ -509,6 +509,7 @@ libpmem=""
+>  default_devices="yes"
+>  plugins="no"
+>  fuzzing="no"
+> +rng_none="no"
+>  
+>  supported_cpu="no"
+>  supported_os="no"
+> @@ -1601,6 +1602,10 @@ for opt do
+>    ;;
+>    --gdb=*) gdb_bin="$optarg"
+>    ;;
+> +  --enable-rng-none) rng_none=yes
+> +  ;;
+> +  --disable-rng-none) rng_none=no
+> +  ;;
+>    *)
+>        echo "ERROR: unknown option $opt"
+>        echo "Try '$0 --help' for more information"
+> @@ -1894,6 +1899,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+>    debug-mutex     mutex debugging support
+>    libpmem         libpmem support
+>    xkbcommon       xkbcommon support
+> +  rng-none        dummy RNG, avoid using /dev/(u)random and getrandom()
+>  
+>  NOTE: The object files are built at the place where configure is launched
+>  EOF
+> @@ -6733,6 +6739,7 @@ echo "default devices   $default_devices"
+>  echo "plugin support    $plugins"
+>  echo "fuzzing support   $fuzzing"
+>  echo "gdb               $gdb_bin"
+> +echo "rng-none          $rng_none"
+>  
+>  if test "$supported_cpu" = "no"; then
+>      echo
+> @@ -7705,6 +7712,10 @@ if test "$edk2_blobs" = "yes" ; then
+>    echo "DECOMPRESS_EDK2_BLOBS=y" >> $config_host_mak
+>  fi
+>  
+> +if test "$rng_none" = "yes"; then
+> +  echo "CONFIG_RNG_NONE=y" >> $config_host_mak
+> +fi
+> +
+>  # use included Linux headers
+>  if test "$linux" = "yes" ; then
+>    mkdir -p linux-headers
+> diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
+> index c2a371b0b4..cdee92b4e5 100644
+> --- a/crypto/Makefile.objs
+> +++ b/crypto/Makefile.objs
+> @@ -35,5 +35,6 @@ crypto-obj-y += block-luks.o
+>  
+>  util-obj-$(CONFIG_GCRYPT) += random-gcrypt.o
+>  util-obj-$(if $(CONFIG_GCRYPT),n,$(CONFIG_GNUTLS)) += random-gnutls.o
+> -util-obj-$(if $(CONFIG_GCRYPT),n,$(if $(CONFIG_GNUTLS),n,y)) += random-platform.o
+> +util-obj-$(if $(CONFIG_GCRYPT),n,$(if $(CONFIG_GNUTLS),n,$(CONFIG_RNG_NONE))) += random-none.o
+> +util-obj-$(if $(CONFIG_GCRYPT),n,$(if $(CONFIG_GNUTLS),n,$(if $(CONFIG_RNG_NONE),n,y))) += random-platform.o
+>  util-obj-y += aes.o init.o
+> diff --git a/crypto/random-none.c b/crypto/random-none.c
+> new file mode 100644
+> index 0000000000..102f8a4dce
+> --- /dev/null
+> +++ b/crypto/random-none.c
+> @@ -0,0 +1,38 @@
+> +/*
+> + * QEMU Crypto "none" random number provider
+> + *
+> + * Copyright (c) 2020 Marek Marczykowski-Górecki
+> + *                      <marmarek@invisiblethingslab.com>
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +
+> +#include "crypto/random.h"
+> +#include "qapi/error.h"
+> +
+> +int qcrypto_random_init(Error **errp)
+> +{
+> +    return 0;
+> +}
+> +
+> +int qcrypto_random_bytes(void *buf,
+> +                         size_t buflen,
+> +                         Error **errp)
+> +{
+> +    error_setg(errp, "Random bytes not available with \"none\" rng");
+> +    return -1;
+> +}
 
---2qXFWqzzG3v1+95a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-On Wed, May 13, 2020 at 10:48:04AM -0400, Daniele Buono wrote:
-> Hello everybody, just pinging since it it's been a few days.
 
-Hi Daniele,
-Sorry I'm late to the party. This looks useful, the patches are not
-invasive and provide the option of enabling extra security.
+and queued.
 
-I have left comments on specific patches.
 
-Stefan
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---2qXFWqzzG3v1+95a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7GUT4ACgkQnKSrs4Gr
-c8iuQAf+MvVb+ZZZErrIb4Rl0gCB4njhLVCCFeio92TlMTGR8mWbKp/ZnV+4bXE8
-6sEz4J94exjWfB3QTg45br5JQ8u/QPrslVvwPNI4RGESNRfj9x3EjymznysNkbEs
-gVn4f6xIwKQ/HlViPSHxnhiFfuCTM+BkFVVz/aWPngESaVXiVQrMxX93TwUPoXcL
-x9odVwIwAXXAiRyWVAep8e/4w/4ajmWnZSgpy1r+jxjl6XRr5ETNezmNc6scSPgO
-B9Dgn3bhfBX9nRce8VsEyriD/jHxCboUPJTLKPe+4yoNTJXQBjkbaXfuRE/yRBtW
-winv4mssf+nvIAClqjgo1GsdsB5xpg==
-=0mKc
------END PGP SIGNATURE-----
-
---2qXFWqzzG3v1+95a--
 
