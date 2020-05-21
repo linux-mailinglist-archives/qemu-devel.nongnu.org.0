@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2471DC5F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 05:55:23 +0200 (CEST)
-Received: from localhost ([::1]:34378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C941DC5F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 05:54:16 +0200 (CEST)
+Received: from localhost ([::1]:59512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbcIk-0005wk-PB
-	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 23:55:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53328)
+	id 1jbcHf-0004gl-Og
+	for lists+qemu-devel@lfdr.de; Wed, 20 May 2020 23:54:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jbc7M-0003Ep-BL; Wed, 20 May 2020 23:43:36 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:36719)
+ id 1jbc7L-0003Dj-UE; Wed, 20 May 2020 23:43:35 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:39577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jbc7L-0003Y3-9k; Wed, 20 May 2020 23:43:35 -0400
+ id 1jbc7K-0003Xs-Pw; Wed, 20 May 2020 23:43:35 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49SFnt1Htpz9sVD; Thu, 21 May 2020 13:43:13 +1000 (AEST)
+ id 49SFns6cHlz9sV6; Thu, 21 May 2020 13:43:13 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1590032594;
- bh=xjUzdFv7PO3XoJd/FFXhNb/LuH61Tpp8Hb6PMqjq6AU=;
+ d=gibson.dropbear.id.au; s=201602; t=1590032593;
+ bh=nm9xB2V5R/0lVmUDvJmT+YhtEegXvU4xCUn008zu1Y0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=V12T8RrQNZRt1llpfwcvPHSPZKsvhbSvojMbSVrwspCyAcr3xF47JqQxghRvMtC2k
- DuycoeilI8yuvVdl0uSRz1AknrYYfEl27+9bNUY6SplBoKgZRM5DG93oS1pVpZIXDy
- 3jpasCwXyhZ51bNgL1Cw3lwkPAWCBPSWFFhWH3rc=
+ b=J76UE+l8Q9zlvDFZqaaUtPjqUeTJjmI3FTmuPrNug7bZHMqfkVrajRLwYSd2DBlOf
+ ZP9UcfOGw4fCrdb/qBjBAR1yx6znI7e5nkptHh1km7squAu7TjCboLDJUA+0hlt3B8
+ +0IL111yZzXR9CWIWwNqwxJ+jZ/9kphyDwN3JQqw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-devel@nongnu.org, brijesh.singh@amd.com, frankja@linux.ibm.com,
  dgilbert@redhat.com, pair@us.ibm.com
-Subject: [RFC v2 13/18] guest memory protection: Move side effect out of
- machine_set_memory_encryption()
-Date: Thu, 21 May 2020 13:42:59 +1000
-Message-Id: <20200521034304.340040-14-david@gibson.dropbear.id.au>
+Subject: [RFC v2 14/18] guest memory protection: Rework the
+ "memory-encryption" property
+Date: Thu, 21 May 2020 13:43:00 +1000
+Message-Id: <20200521034304.340040-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200521034304.340040-1-david@gibson.dropbear.id.au>
 References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
@@ -69,58 +69,164 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the "memory-encryption" property is set, we also disable KSM
-merging for the guest, since it won't accomplish anything.
+Currently the "memory-encryption" property is only looked at once we get to
+kvm_init().  Although protection of guest memory from the hypervisor isn't
+something that could really ever work with TCG, it's not conceptually tied
+to the KVM accelerator.
 
-We want that, but doing it in the property set function itself is
-thereoretically incorrect, in the unlikely event of some configuration
-environment that set the property then cleared it again before
-constructing the guest.
+In addition, the way the string property is resolved to an object is
+almost identical to how a QOM link property is handled.
 
-But more important, it makes some other cleanups we want more
-difficult.  So, instead move this logic to machine_run_board_init()
-conditional on the final value of the property.
+So, create a new "guest-memory-protection" link property which sets
+this QOM interface link directly in the machine.  For compatibility we
+keep the "memory-encryption" property, but now implemented in terms of
+the new property.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/core/machine.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ accel/kvm/kvm-all.c | 23 +++++++----------------
+ hw/core/machine.c   | 41 ++++++++++++++++++++++++++++++++++++-----
+ include/hw/boards.h |  4 +++-
+ 3 files changed, 46 insertions(+), 22 deletions(-)
 
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 5cf1a397e3..3588adf1e1 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -2102,25 +2102,16 @@ static int kvm_init(MachineState *ms)
+      * if memory encryption object is specified then initialize the memory
+      * encryption context.
+      */
+-    if (ms->memory_encryption) {
+-        Object *obj = object_resolve_path_component(object_get_objects_root(),
+-                                                    ms->memory_encryption);
+-
+-        if (object_dynamic_cast(obj, TYPE_GUEST_MEMORY_PROTECTION)) {
+-            GuestMemoryProtection *gmpo = GUEST_MEMORY_PROTECTION(obj);
+-            GuestMemoryProtectionClass *gmpc =
+-                GUEST_MEMORY_PROTECTION_GET_CLASS(gmpo);
+-
+-            ret = gmpc->kvm_init(gmpo);
+-            if (ret < 0) {
+-                goto err;
+-            }
++    if (ms->gmpo) {
++        GuestMemoryProtectionClass *gmpc =
++            GUEST_MEMORY_PROTECTION_GET_CLASS(ms->gmpo);
+ 
+-            kvm_state->guest_memory_protection = gmpo;
+-        } else {
+-            ret = -1;
++        ret = gmpc->kvm_init(ms->gmpo);
++        if (ret < 0) {
+             goto err;
+         }
++
++        kvm_state->guest_memory_protection = ms->gmpo;
+     }
+ 
+     ret = kvm_arch_init(ms, s);
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index bb3a7b18b1..e75f0b73d0 100644
+index e75f0b73d0..88d699bceb 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -429,14 +429,6 @@ static void machine_set_memory_encryption(Object *obj, const char *value,
+@@ -27,6 +27,7 @@
+ #include "hw/pci/pci.h"
+ #include "hw/mem/nvdimm.h"
+ #include "migration/vmstate.h"
++#include "exec/guest-memory-protection.h"
  
-     g_free(ms->memory_encryption);
-     ms->memory_encryption = g_strdup(value);
--
--    /*
--     * With memory encryption, the host can't see the real contents of RAM,
--     * so there's no point in it trying to merge areas.
--     */
--    if (value) {
--        machine_set_mem_merge(obj, false, errp);
--    }
+ GlobalProperty hw_compat_5_0[] = {};
+ const size_t hw_compat_5_0_len = G_N_ELEMENTS(hw_compat_5_0);
+@@ -419,16 +420,37 @@ static char *machine_get_memory_encryption(Object *obj, Error **errp)
+ {
+     MachineState *ms = MACHINE(obj);
+ 
+-    return g_strdup(ms->memory_encryption);
++    if (ms->gmpo) {
++        return object_get_canonical_path_component(OBJECT(ms->gmpo));
++    }
++
++    return NULL;
+ }
+ 
+ static void machine_set_memory_encryption(Object *obj, const char *value,
+                                         Error **errp)
+ {
+-    MachineState *ms = MACHINE(obj);
++    Object *gmpo =
++        object_resolve_path_component(object_get_objects_root(), value);
++
++    if (!gmpo) {
++        error_setg(errp, "No such memory encryption object '%s'", value);
++        return;
++    }
+ 
+-    g_free(ms->memory_encryption);
+-    ms->memory_encryption = g_strdup(value);
++    object_property_set_link(obj, gmpo, "guest-memory-protection", errp);
++}
++
++static void machine_check_guest_memory_protection(const Object *obj,
++                                                  const char *name,
++                                                  Object *new_target,
++                                                  Error **errp)
++{
++    /*
++     * So far the only constraint is that the target has the
++     * TYPE_GUEST_MEMORY_PROTECTION interface, and that's checked by
++     * the QOM core
++     */
  }
  
  static bool machine_get_nvdimm(Object *obj, Error **errp)
-@@ -1129,6 +1121,15 @@ void machine_run_board_init(MachineState *machine)
+@@ -849,6 +871,15 @@ static void machine_class_init(ObjectClass *oc, void *data)
+     object_class_property_set_description(oc, "enforce-config-section",
+         "Set on to enforce configuration section migration");
+ 
++    object_class_property_add_link(oc, "guest-memory-protection",
++                                   TYPE_GUEST_MEMORY_PROTECTION,
++                                   offsetof(MachineState, gmpo),
++                                   machine_check_guest_memory_protection,
++                                   OBJ_PROP_LINK_STRONG);
++    object_class_property_set_description(oc, "guest-memory-protection",
++        "Set guest memory protection object to use");
++
++    /* For compatibility */
+     object_class_property_add_str(oc, "memory-encryption",
+         machine_get_memory_encryption, machine_set_memory_encryption);
+     object_class_property_set_description(oc, "memory-encryption",
+@@ -1121,7 +1152,7 @@ void machine_run_board_init(MachineState *machine)
          }
      }
  
-+    if (machine->memory_encryption) {
-+        /*
-+         * With guest memory protection, the host can't see the real
-+         * contents of RAM, so there's no point in it trying to merge
-+         * areas.
-+         */
-+        machine_set_mem_merge(OBJECT(machine), false, &error_abort);
-+    }
-+
-     machine_class->init(machine);
- }
+-    if (machine->memory_encryption) {
++    if (machine->gmpo) {
+         /*
+          * With guest memory protection, the host can't see the real
+          * contents of RAM, so there's no point in it trying to merge
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 18815d9be2..19bf2c38fc 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -12,6 +12,8 @@
+ #include "qom/object.h"
+ #include "hw/core/cpu.h"
  
++typedef struct GuestMemoryProtection GuestMemoryProtection;
++
+ #define TYPE_MACHINE_SUFFIX "-machine"
+ 
+ /* Machine class name that needs to be used for class-name-based machine
+@@ -277,7 +279,7 @@ struct MachineState {
+     bool suppress_vmdesc;
+     bool enforce_config_section;
+     bool enable_graphics;
+-    char *memory_encryption;
++    GuestMemoryProtection *gmpo;
+     char *ram_memdev_id;
+     /*
+      * convenience alias to ram_memdev_id backend memory region
 -- 
 2.26.2
 
