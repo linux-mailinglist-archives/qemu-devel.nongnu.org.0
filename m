@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8641DD743
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:31:51 +0200 (CEST)
-Received: from localhost ([::1]:45658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C301DD74D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:33:37 +0200 (CEST)
+Received: from localhost ([::1]:54208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbqv0-0000tl-GD
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:31:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38168)
+	id 1jbqwi-0004k9-UL
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:33:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqgS-000345-31
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:48 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38003)
+ id 1jbqgU-0003AY-MA
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:50 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqgR-0000VS-3e
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:47 -0400
-Received: by mail-wm1-x344.google.com with SMTP id u12so2758532wmd.3
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:46 -0700 (PDT)
+ id 1jbqgS-0000Vh-5c
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:50 -0400
+Received: by mail-wr1-x444.google.com with SMTP id c3so3528180wru.12
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9kKd+uI5z6jR/8DRUg4wAhiNt2UeI3CInnSxtouYWeE=;
- b=p+EcMrVjRaowMi9Xukm6rJ5kDln3uw+DoHqlw4RKl3fneVQJMgnecx9knyGGJVguuX
- FMHP3a14Zp6zjcRVwlimPbTzGT9SBweDPTRVTq2dC9xySSf6HjUbr6/g+ps5zz/YU5ci
- IoWidifCr7Ex0yK+tq2MTR11sg1W8hbPNaAH0ti2m3oPDhnb3vdleZntC0LygyWgvtSZ
- RsCUGm24QPBu/D4SsmiGy7o7tpIMAIA5UThJUBgtvkyHCTxgFMqagYsMGD9qXhUg2HCU
- SvPDor1J4ApCg2oQLSTg7UNqA5nB9r+lyEPMxR+LxLJSRiI8/oo8QX4CyFjpAMeIqPiI
- J2Kw==
+ bh=JGi0kam4Hb96tw8QLNp1XZzN02TvAsgq8rt91AU8qsU=;
+ b=dxGBjI4+plqULDMi3VU0ejpviQu07Pr1yDT8h6IUcv26CGVkMUYqjCJ23Tl4sQffVt
+ o0KUYqha4+zgYyUYBVxRTxbn3hvNici6EPlGxIW5bXygjnIvWl2ByQF1OsHj4k2efz7d
+ qQTyvjIHWGjqHK2V9/x3eJKogVHDe0ocx455urGHXxAklvPwgLRGLP07d2jzIkpJ8wt8
+ 75b0lZKUqQjXEQGNxUqoyET/JKJYjwlByXGYhIK6Fh2LxnzMZrshvswotPpdXDJmnJUp
+ FO/A0VT9TBBeGhrae7PIynDKZ/QE66/4Vb9tBEjncnflX8SBUTm0FgAZMJrCSF0FP8qf
+ gvuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9kKd+uI5z6jR/8DRUg4wAhiNt2UeI3CInnSxtouYWeE=;
- b=gJAcYe0H/+BVrcg9RbY80tlXyCOtYwxKTqS4G0O6H2+QX3GUCTmaXOv/WIAv+SjTef
- tpM1THv/Fl0gL2Yn8DvVyxFK2ae6Dba4loq8IbUEEwoBVb13EaKBe6ZVG2Nda++3d2/N
- U1icqFwKFI03gEkibhZ9xDsv4XYx7EESslNjkNLU0chr+It8Pt+gxCw1vUj++vRU3Cx/
- R7MtEndMq7ZUttKpSDbPD2gwoke82KYVVxr2kIGOKRwGplRD5sVDQ3ycGDmeylu6eqCy
- u3xa1+QahJHEYph8MBU3BF8v8hOSe/R2SXsHNR8bRSVLAYlFgl6fnAP3o/wTRAQMuoFo
- GBaw==
-X-Gm-Message-State: AOAM5321LE38mjP9Jb0iMCGFt8va5E6gqsZpy9mDb1CYoVEDQj6ojzwN
- zNuNdVbjI3jVB+9pdBWjE55jWgJe80d8aQ==
-X-Google-Smtp-Source: ABdhPJxu9ut3355w7XQyjaOSM5bSpCHoSwDvl81S6POsawkAihH0lSjwrnbGUWv4m4Uw+csjnrz+iA==
-X-Received: by 2002:a1c:740e:: with SMTP id p14mr10671500wmc.137.1590088605504; 
- Thu, 21 May 2020 12:16:45 -0700 (PDT)
+ bh=JGi0kam4Hb96tw8QLNp1XZzN02TvAsgq8rt91AU8qsU=;
+ b=qEXCHywuPssSQs12vK9jXx5qtljct/jNfxdp+HdKOBHLIm8gwu9QDyAi7Y3VOJbqFF
+ 9+D9iXOeP+5OKzxnMn+CiNpQGq+PJwAjUZ+oEuFBgGog9xy1ZFEofGbrdT3nGBZ2Xxsv
+ kMiYLw/+mnlS6OIJ1PnKWOvcPwxjHZJLwyuR5fFK3uIP77SRsFMlJpqNDeNane5AbsjH
+ 0BCLTTKRtyKIrLdm6EfPX8aN5pthXVfLQjPqfHp+h+MTxVci1o/ymRpsEu/b3b4tjPIV
+ DhgnnR30sjIi4t76FYvnEJmnbfHNnlLprmbTSBkGOJV2dhY1SqBYr+PB5QBHNA9PHfRz
+ +hIw==
+X-Gm-Message-State: AOAM532oPKee8Og9X6lpTg3aWjaZ3gvgGKgpO6eUTs6gPqeIBHD/GFdr
+ i/L3y/2HzKDLxYEACWoB35VGvFPVtv27iA==
+X-Google-Smtp-Source: ABdhPJzcELP+isSbNzjyyoYS1XlzfuKRDK9QcW6U5TdVMCaBch7zXhiI+SZ2KOTTWkspE8YsMH8TZQ==
+X-Received: by 2002:adf:dc0a:: with SMTP id t10mr108524wri.342.1590088606527; 
+ Thu, 21 May 2020 12:16:46 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.44
+ by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 12:16:44 -0700 (PDT)
+ Thu, 21 May 2020 12:16:45 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/29] linux-user/arm: Reset CPSR_E when entering a signal
- handler
-Date: Thu, 21 May 2020 20:16:09 +0100
-Message-Id: <20200521191610.10941-29-peter.maydell@linaro.org>
+Subject: [PULL 29/29] linux-user/arm/signal.c: Drop TARGET_CONFIG_CPU_32
+Date: Thu, 21 May 2020 20:16:10 +0100
+Message-Id: <20200521191610.10941-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200521191610.10941-1-peter.maydell@linaro.org>
 References: <20200521191610.10941-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,45 +88,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Amanieu d'Antras <amanieu@gmail.com>
+The Arm signal-handling code has some parts ifdeffed with a
+TARGET_CONFIG_CPU_32, which is always defined. This is a leftover
+from when this code's structure was based on the Linux kernel
+signal handling code, where it was intended to support 26-bit
+Arm CPUs. The kernel dropped its CONFIG_CPU_32 in kernel commit
+4da8b8208eded0ba21e3 in 2009.
 
-This fixes signal handlers running with the wrong endianness if the
-interrupted code used SETEND to dynamically switch endianness.
+QEMU has never had 26-bit CPU support and is unlikely to ever
+add it; we certainly aren't going to support 26-bit Linux
+binaries via linux-user mode. The ifdef is just unhelpful
+noise, so remove it entirely.
 
-Signed-off-by: Amanieu d'Antras <amanieu@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20200511131117.2486486-1-amanieu@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200518143014.20689-1-peter.maydell@linaro.org
 ---
- linux-user/arm/signal.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ linux-user/arm/signal.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
 diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
-index 8020c80acb5..698985a647e 100644
+index 698985a647e..f21d1535e4d 100644
 --- a/linux-user/arm/signal.c
 +++ b/linux-user/arm/signal.c
-@@ -244,6 +244,11 @@ setup_return(CPUARMState *env, struct target_sigaction *ka,
-     } else {
-         cpsr &= ~CPSR_T;
-     }
-+    if (env->cp15.sctlr_el[1] & SCTLR_E0E) {
-+        cpsr |= CPSR_E;
-+    } else {
-+        cpsr &= ~CPSR_E;
-+    }
+@@ -126,8 +126,6 @@ struct rt_sigframe_v2
+     abi_ulong retcode[4];
+ };
  
-     if (ka->sa_flags & TARGET_SA_RESTORER) {
-         if (is_fdpic) {
-@@ -287,7 +292,8 @@ setup_return(CPUARMState *env, struct target_sigaction *ka,
-     env->regs[13] = frame_addr;
-     env->regs[14] = retcode;
-     env->regs[15] = handler & (thumb ? ~1 : ~3);
--    cpsr_write(env, cpsr, CPSR_IT | CPSR_T, CPSRWriteByInstr);
-+    cpsr_write(env, cpsr, CPSR_IT | CPSR_T | CPSR_E, CPSRWriteByInstr);
-+    arm_rebuild_hflags(env);
+-#define TARGET_CONFIG_CPU_32 1
+-
+ /*
+  * For ARM syscalls, we encode the syscall number into the instruction.
+  */
+@@ -187,9 +185,7 @@ setup_sigcontext(struct target_sigcontext *sc, /*struct _fpstate *fpstate,*/
+     __put_user(env->regs[13], &sc->arm_sp);
+     __put_user(env->regs[14], &sc->arm_lr);
+     __put_user(env->regs[15], &sc->arm_pc);
+-#ifdef TARGET_CONFIG_CPU_32
+     __put_user(cpsr_read(env), &sc->arm_cpsr);
+-#endif
  
-     return 0;
- }
+     __put_user(/* current->thread.trap_no */ 0, &sc->trap_no);
+     __put_user(/* current->thread.error_code */ 0, &sc->error_code);
+@@ -549,11 +545,9 @@ restore_sigcontext(CPUARMState *env, struct target_sigcontext *sc)
+     __get_user(env->regs[13], &sc->arm_sp);
+     __get_user(env->regs[14], &sc->arm_lr);
+     __get_user(env->regs[15], &sc->arm_pc);
+-#ifdef TARGET_CONFIG_CPU_32
+     __get_user(cpsr, &sc->arm_cpsr);
+     cpsr_write(env, cpsr, CPSR_USER | CPSR_EXEC, CPSRWriteByInstr);
+     arm_rebuild_hflags(env);
+-#endif
+ 
+     err |= !valid_user_regs(env);
+ 
 -- 
 2.20.1
 
