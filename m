@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 824761DD766
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:38:50 +0200 (CEST)
-Received: from localhost ([::1]:52412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF63C1DD76B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:40:40 +0200 (CEST)
+Received: from localhost ([::1]:33284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbr1l-0008Aq-HA
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:38:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39046)
+	id 1jbr3X-0003nk-UG
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:40:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steplong@quicinc.com>)
- id 1jbqp7-0005h3-F4
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:25:45 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:9569)
+ id 1jbqpC-0005p3-It
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:25:50 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:18872)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <steplong@quicinc.com>)
- id 1jbqp5-0002NA-Gn
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:25:45 -0400
+ id 1jbqp8-0002P8-Vq
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:25:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1590089143; x=1621625143;
+ t=1590089147; x=1621625147;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=IWFwfpIoAao4jDfNWuiM3Pv4IGU6alL9Ti8VPi+ePzk=;
- b=AKhXTo5Zf31GSb+gtuJmz6AcSoyu13q5jwvPcAQCtWYTwBG5VNym/tL3
- J7kZlHEhc5foRhnroZm92x8MYMlHYiYx2zjY81hl1NBiix2rcilIBv4gP
- OHzXbgDjWB1uI/8iejhd2SbYqX2dY+i6RfRRNa/vsevM4TfKdJhnLhhHm E=;
+ bh=dU35suH0wkRuHatY4ot0TEbnYn+1Zwqdy+S04GO0aUY=;
+ b=KFMotXAYYIAmelVfMw/oZ6HKsGbIJ10++YpPtSkBTDuTddmh8a61pN55
+ HqpXDJNBTADT0iamceNsY8zswWLIclx6bcx7hPxIJJPZuEeZqg3VGCKNk
+ 1crn49MMYP805aP7Jfv08AUtNqxvi5nfYYj7W7Ut8Y4MNM6C1/PbRgrUh Y=;
 Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 21 May 2020 12:25:42 -0700
-Received: from nasanexm01h.na.qualcomm.com ([10.85.0.34])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 21 May 2020 12:25:45 -0700
+Received: from nasanexm03b.na.qualcomm.com ([10.85.0.98])
  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 21 May 2020 12:25:42 -0700
-Received: from APSANEXR01A.ap.qualcomm.com (10.85.0.36) by
- NASANEXM01H.na.qualcomm.com (10.85.0.34) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 21 May 2020 12:25:42 -0700
+ 21 May 2020 12:25:45 -0700
+Received: from APSANEXR01B.ap.qualcomm.com (10.85.0.37) by
+ nasanexm03b.na.qualcomm.com (10.85.0.98) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 21 May 2020 12:25:45 -0700
 Received: from nasanexm03g.na.qualcomm.com (10.85.0.49) by
- APSANEXR01A.ap.qualcomm.com (10.85.0.36) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 21 May 2020 12:25:39 -0700
+ APSANEXR01B.ap.qualcomm.com (10.85.0.37) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 21 May 2020 12:25:42 -0700
 Received: from NAM11-BN8-obe.outbound.protection.outlook.com (199.106.107.6)
  by nasanexm03g.na.qualcomm.com (10.85.0.49) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2 via Frontend Transport; Thu, 21 May 2020 12:25:39 -0700
+ id 15.0.1497.2 via Frontend Transport; Thu, 21 May 2020 12:25:42 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gBOqO3Vj/LyHJD/DAQWAuxu2W8CukfHNn1+Oate+9qIT0PhSLCJoqL+zqaX+KxBQk/VnFh0dZdM0CrnqGTcMkFksb64JcaCQyFYOmNqtV0sXiI3QsvTcIW2oYh5yt4NMQeewAP6iURiydl1ACD8KvZ0sp5EB21GQNgzcxN/KmONWfS0IsMEZYpxIh4etmFdIAXP2ErapPyhTo8/1QrgsGQqMW0ed7yahK5qdV1X24mzzf9fQfhzkOi5G+JlWtJuyhXwzxpJ2WYR3P1Jt5gSCP6QdE6NG2UX8WBSt3oAWw375hhka/wz3v8Y6EQk4ns8Qq0HlpWah3KFjycaH7irVHw==
+ b=hNV+ET6WkG/9sYYmY9e/M7YijBcGkrtOD8/2GyxH4yyZAS8HCv8ADULkGiGqeRdBXq6XQTPgz4YX4p4iTqIYUIEXx6j2hIHFsjPguIJZCF0+qjBUcGkPCtyEwIT1HAGPpAyGBZfPonyL1R/prBPs15r1gCGgRndIfjo4nf93FGihBZEBC6EhggTaDW6pK798crS2K5szqb+gqMtdyVZSxMz+dr7EaajibKcyOEonE6I5FGxVCqq9Zj4/C9/TDwuYeXhW+niajDrfDuHEk6lKeB+YGan1+FwDjMMqJ52o9TDJFezXmOBATXOcvHR5xOKW+rBMGHndkLImmc6nB4fQgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NhUlpTqKrwPN4HgFztA2qUe3kAmLFvfLHE5Fn9MUsDs=;
- b=FQYC9MLRaQ7mAeJE6RNs5BV9ZK5P4QxPrx7BgpZQwXUm2Q26Wp0DQIT62Tfoivmxe+nHEHlCtZJmDI17Wpawosado8iiZkQbkCZt3b0+kIKX145xqkfx7Cb5iOGIubJ3rghsPYwajA9xOHfIXXjpQNweGYtkla7kXgubaiUnspVSnzhXKeag4u6STtFM97gfBaLBkZRd56pTwc3hc1du2Z4ZDXA/K1ol25g2tLflqlzPboP9NfJAkI+EaicgF0nzxrYBlhVIIbR2+QMu3Ok/CfS6SsFUzGx9icA4uV2MyosbaBYSEID+UNx1nlvgdlf63OymXer+Px3BsQ2EvHFTHQ==
+ bh=F9cqF/6jrcnd6h9exH6gnzCYoTAm8ovIUEHf6ZTcRQw=;
+ b=TFEaiDq0r4GNQKtUtak2PZwwMtmq58o/nKu2Fxhtm7ENKUtvRysqZkO2Keo78mwewSV/kFdtKMJbuPKtuc+THflWU8Nu2vRXkr3l5l7xNEbYcnb54kNf9u+nOfP2a+9ZMb6s2up4jeqgXZlVTi2s16GXb2EsrnQ0zhIDP1YcurWlqU6SYePD0k7PIHNwpsu+ZpAjjzkk2KVmu50qbzWKeD+xJoZhLcSKBEPMdzvsG/kG5aXkLEb05JiDwgLBuZcUVnNHE7hO5NAgp16o/TBpdltP9Fba5uoicHc5Yj/M6YDrR7NAXrW8w9gya0a8LL7mofBJQLaLq61AjSfI/Vxokw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
  dkim=pass header.d=quicinc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NhUlpTqKrwPN4HgFztA2qUe3kAmLFvfLHE5Fn9MUsDs=;
- b=jxANxaS4+b21ywVri0J8ERS4jnWdzKpGtbkZ/hgfDpQcJWAUvBZGgEb4/AsSI6WABnFDjzHf3y85vTRauIzWXcSCT9ltHWMeMksBIVYi6a/FiWRTD4VZExz9yDZLA8893gyrrPk33Gz1BwZ/4b33uv7ERtWG8V2E/uGD8DH+n5g=
+ bh=F9cqF/6jrcnd6h9exH6gnzCYoTAm8ovIUEHf6ZTcRQw=;
+ b=fCZzgweOzLxwdW9s6SPusWBap930MBquVoq0LgHiuGBLKkxX1ALoKO7bzRBY2gB53EjKKosbe/kn2dvYwBTX3TXxDm0uIDl/J25Opuby0a2lGKBbiZ/gEZXji/4XnCrGI4sZh9F0aBIYXsGXsSgwBacdNsXh0blsooBuFUyzkAI=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=quicinc.com;
 Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
  (2603:10b6:301:7b::24) by MWHPR0201MB3627.namprd02.prod.outlook.com
  (2603:10b6:301:80::12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.33; Thu, 21 May
- 2020 19:25:38 +0000
+ 2020 19:25:40 +0000
 Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
  ([fe80::10ad:5df5:d575:1f37]) by MWHPR0201MB3547.namprd02.prod.outlook.com
  ([fe80::10ad:5df5:d575:1f37%3]) with mapi id 15.20.3000.034; Thu, 21 May 2020
- 19:25:38 +0000
+ 19:25:40 +0000
 From: Stephen Long <steplong@quicinc.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RISU PATCH v2 11/22] sve2.risu: Add patterns for bitwise shift
- (unpredicated) ops
-Date: Thu, 21 May 2020 12:25:00 -0700
-Message-ID: <20200521192511.6623-12-steplong@quicinc.com>
+Subject: [RISU PATCH v2 12/22] sve2.risu: Add patterns for fp convert
+ precision odd elems insns
+Date: Thu, 21 May 2020 12:25:01 -0700
+Message-ID: <20200521192511.6623-13-steplong@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200521192511.6623-1-steplong@quicinc.com>
 References: <20200521192511.6623-1-steplong@quicinc.com>
@@ -88,30 +88,30 @@ Received: from STEPLONG.qualcomm.com (24.102.122.190) by
  MN2PR20CA0056.namprd20.prod.outlook.com (2603:10b6:208:235::25) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23 via Frontend
- Transport; Thu, 21 May 2020 19:25:38 +0000
+ Transport; Thu, 21 May 2020 19:25:39 +0000
 X-Mailer: git-send-email 2.25.1
 X-Originating-IP: [24.102.122.190]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 791dc7b3-0ac4-4703-6103-08d7fdbcbe46
+X-MS-Office365-Filtering-Correlation-Id: b95138f3-16ce-4ad1-f2d2-08d7fdbcbf13
 X-MS-TrafficTypeDiagnostic: MWHPR0201MB3627:
-X-Microsoft-Antispam-PRVS: <MWHPR0201MB3627F208F7DB4C192DE9E751C7B70@MWHPR0201MB3627.namprd02.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1079;
+X-Microsoft-Antispam-PRVS: <MWHPR0201MB36276662851EA32E001B681EC7B70@MWHPR0201MB3627.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:296;
 X-Forefront-PRVS: 041032FF37
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bvG5wmwyC6zZWIn718WL5k4Zwx0ZluXp4qm9CVaTnnSSZ2p6SL54GvCoEC2HmR2qmxaMRkEMQkkX8vd5qNabcR01G+YZw7klJ95uITxwxz6rX1/tUjOgkey9v22vmsq1CM4EI/Em4Ku1C81pDZ9iAPzFR2YuoL64eLdnv4vnorAt5W84nyzF0QsEutXTHqjww2Wq4olZrDX1T9zfOIb5Nm0PZcC9agxwYDwKc6AMSGSgQlgyb/IG/2+OBjHEekeASjIdAAxpboszZRZQFDXpt1jEGIendHiSqSlL++id85BdDwhg9VQSAFQgv/vYRLUVmgrdgG7ApeYHiaw4Ceu/acBLlfDHlNzIA2/VkwMo65u7Rnal6MUelwcJUzNzYsEDKk78wgiZcZuDQ/0IehD2IrTaXT+nsMCw8U7jYgPvi9TEATA4PRudFR4cJGbNvRQH
+X-Microsoft-Antispam-Message-Info: XZPByPCsGTTbPsFChqofWqTDFjTeWTjqWDqtvPGJ9WECjbzVdss5YDDb/Kn+COwLSzRSJqNkDdlFnYkoCjXygXg/h7M0iXPe/e8/Gu+UhpFOXQhXA+1B2Umh0mgJW1vKC1lKVOMOkADL+Tfs9EHOd35piMezTmiwmBFUiFUJux59JuWaO2S3z26gXDVB0fLaSMmPHb8yQsg4ALFTfkVBVBCpAQoo/dWXL1QhkMKqxLtd2+/Bnc3YUtGD51MZcDNLqweNm0VquMzCvL8Jum3iG3YAXTns/25JN0vETf7BPio2liGHRG82Bzx2Rzj7gVrKDIDcRiUcJnDJTdL37dmFSCiQAV5IqwK2Wv1771EzVvIqjDIx+wv56kFv65RA4VXPiLdolZPtvqdqFlsbpPec2uw/QkvkIeB05wKlSszdhGqLLLRwEE73ROQRfOkM4o9t
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MWHPR0201MB3547.namprd02.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(366004)(346002)(376002)(39860400002)(396003)(136003)(26005)(186003)(16526019)(6666004)(6916009)(1076003)(86362001)(478600001)(2906002)(6486002)(5660300002)(8676002)(36756003)(8936002)(6512007)(6506007)(4326008)(66556008)(316002)(956004)(66476007)(66946007)(52116002)(2616005);
+ SFS:(366004)(346002)(376002)(39860400002)(396003)(136003)(26005)(186003)(16526019)(6666004)(6916009)(1076003)(4744005)(86362001)(478600001)(2906002)(6486002)(5660300002)(8676002)(36756003)(8936002)(6512007)(6506007)(4326008)(66556008)(316002)(956004)(66476007)(66946007)(52116002)(2616005);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: gl4Qf72p+t0HQjT5a3e9ZV2YPuupIVoFay2hi0ps6Z19vcpEQlxBXRB8OkrK9knxYzaUNurGr1KijLGUt4s6YDXe5q4lWWs0iIxgvflVByqFJf8fuTzqayu6zNg0wKx6OjBFY2z2qaJib4jAouJ5vBz+e+SbMy1ILfMmafJlcuwJUZOMEm4ZfsWSPlksEj5/WFSwOIWcUjbujbvD4DWNbnEjsg3ysa/CwE7WvSMGsOFk0+r1eKS0VCyyM98qgI1dyIfZdQo8a3V6woQ12OKAxollFT1lbFokBamjiQy2POL1OWdc+4sHUul0wiNuX03FldiFzvZqw45agM/2CXXtUXGCEK9/vJlwgBzXpS0lKt+7B1JTCsNi3TywQHxo5nx5XOQZlwHto/iUnI3+hAeKYzLxtMxD4MqLIpa9j2Q8KFvhZWRzca07wJ4YjNxnWRkZcTf24udB+cp61IAsR7ZEThF9K40OBFJ4BbX7S4sP7Js=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 791dc7b3-0ac4-4703-6103-08d7fdbcbe46
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2020 19:25:38.7974 (UTC)
+X-MS-Exchange-AntiSpam-MessageData: SWoW9gwnxAD00Z+qRKloMcK+2jxZg6PVVCXH4ex/VHVdzgdoO9bnj2mtjAz7qtBS1+YsmU2JMs9oK0QEl/VVARzQrA4psxHR1az8qY/83WE3n9n4YJ0FyCwrjv/RZgJAtt4NSE1PVc4ceg7RekRSrOpZ5pxt2vv4ZneEoe+uxDLCIfnX28DAHj7lupXWQXHU7fRo6WSu43ft2c8+BwW4skV3wF6B5wPrDk4NY0gx6CHDuFUqqNFQBFlHK/Dk9um2EbMw6RyvQE4hUnKSsXS5wrI2JR31/WNRA8A4Nchac23DByN0i3w7sGVDHfjTROKOoN+PHgVCx8XhrtLQCplZ7SG5NCk1qPIeW/Hj/h7usVyotwzbnn+EXUcfaNKJa3YBacz2B9xRoGrIQUxOcuKIpqTNNm1ABRBvDdmGIx774sqNYFWKPUxUm1m16E7CPUecTInr2aDY/mYoPCNjnkhhPMoVFdiKxgSUuTbpS1EcG9o=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b95138f3-16ce-4ad1-f2d2-08d7fdbcbf13
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2020 19:25:40.3135 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wpbiz8Djs40VsMlk7rf4nnwPKu6hXeLX/hVJ1W0JC4cg1aCKAcJC1KNmtpXflS0xUpcwcVfMAhWfp1utPviWNw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y5Wg6LXfqbKKT6atcIfTFotBjrgELRAI1mwQllanURZo/aiflcgRgrXWxrMHkYXap2TYlA7mMMMmMX32o1Hikg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0201MB3627
 X-OriginatorOrg: quicinc.com
 Received-SPF: pass client-ip=199.106.114.38; envelope-from=steplong@quicinc.com;
@@ -143,33 +143,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Stephen Long <steplong@quicinc.com>
 ---
- sve2.risu | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ sve2.risu | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/sve2.risu b/sve2.risu
-index 6177848..adc5dd1 100755
+index adc5dd1..4b2a79d 100755
 --- a/sve2.risu
 +++ b/sve2.risu
-@@ -1,6 +1,19 @@
- # Input file for risugen defining AArch64 SVE2 instructions
- .mode arm.aarch64
+@@ -297,6 +297,13 @@ SM4E        A64_V    01000101 00 10001 1 11100 0 zm:5 zdn:5
+ SM4EKEY     A64_V    01000101 00 1 zm:5 11110 0 zn:5 zd:5
+ RAX1        A64_V    01000101 00 1 zm:5 11110 1 zn:5 zd:5
  
-+# Bitwise Shift (Unpredicated)
-+## bitwise shift by immediate (predicated)
-+SQSHL_imm   A64_V    00000100 tszh:2 00 0110 100 pg:3 tszl:2 imm3:3 zdn:5 \
-+!constraints { !($tszh == 0 && $tszl == 0); }
-+UQSHL_imm   A64_V    00000100 tszh:2 00 0111 100 pg:3 tszl:2 imm3:3 zdn:5 \
-+!constraints { !($tszh == 0 && $tszl == 0); }
-+SRSHR       A64_V    00000100 tszh:2 00 1100 100 pg:3 tszl:2 imm3:3 zdn:5 \
-+!constraints { !($tszh == 0 && $tszl == 0); }
-+URSHR       A64_V    00000100 tszh:2 00 1101 100 pg:3 tszl:2 imm3:3 zdn:5 \
-+!constraints { !($tszh == 0 && $tszl == 0); }
-+SQSHLU      A64_V    00000100 tszh:2 00 1111 100 pg:3 tszl:2 imm3:3 zdn:5 \
-+!constraints { !($tszh == 0 && $tszl == 0); }
++# Floating Point Convert Precision Odd Elements
++FCVTXNT     A64_V    01100100 00 0010 10 101 pg:3 zn:5 zd:5
++FCVTNT_SH   A64_V    01100100 10 0010 00 101 pg:3 zn:5 zd:5
++FCVTLT_HS   A64_V    01100100 10 0010 01 101 pg:3 zn:5 zd:5
++FCVTNT_DS   A64_V    01100100 11 0010 10 101 pg:3 zn:5 zd:5
++FCVTLT_SD   A64_V    01100100 11 0010 11 101 pg:3 zn:5 zd:5
 +
- # Integer Multiply (Unpredicated)
- ## integer multiply vectors (unpredicated)
- MUL         A64_V    00000100 size:2 1 zm:5 0110 00 zn:5 zd:5
+ # Floating Point Pairwise
+ FADDP       A64_V    01100100 size:2 010 000 100 pg:3 zm:5 zdn:5 \
+ !constraints { $size != 0; }
 -- 
 2.25.1
 
