@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 038591DCB10
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 12:30:41 +0200 (CEST)
-Received: from localhost ([::1]:50896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DAE11DCB26
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 12:38:07 +0200 (CEST)
+Received: from localhost ([::1]:37702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbiTI-00081U-2u
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 06:30:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35880)
+	id 1jbiaU-0006YG-Cu
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 06:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbiSU-0007ZA-8G
- for qemu-devel@nongnu.org; Thu, 21 May 2020 06:29:50 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:45848)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbiST-0003Y8-91
- for qemu-devel@nongnu.org; Thu, 21 May 2020 06:29:49 -0400
-Received: by mail-ot1-x342.google.com with SMTP id c3so5075842otr.12
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 03:29:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=lbc3oGCIDmO2jipSEDw8CsxoRSv6ED+VDoPM8fWpJRs=;
- b=YOVel/6fHtXOK4rigc08CHqD4DsLNP1vZASwTVNRBP8lGShkbmZtGtKxSR7qxgTOkH
- Y2ErfdTyUpsadmuLi7TDgNhdjg3luC3A+/P+5ZPJ5b3ggYYblp1vLlymjPt7EW7v2RP6
- cPrpntxAN2weihOxghsFBsqDAkfSZLncbipP1XVqLtbeCd8DIVOUU+UIWniv3i39YA5w
- KOrwLSUYmar8LPt/1OjJnnt9I0nRBSUVjREgPLXcGl8fh6H+xxYAQCg0U1/C1flPFP11
- 0dEK3/YNCm1IVT9A+N8HcM2wmxaip4EKgjQ3pRQ2yig0VTmnK04cuUnzucRwRL8MAOJB
- TkPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lbc3oGCIDmO2jipSEDw8CsxoRSv6ED+VDoPM8fWpJRs=;
- b=k88zzzRIlYfKRuFlharcvy7kIPSEBvnHB8ThYW7t9mhieNcXbHyXwtvKHCszmpONvk
- V/u1esnzqIF53B9/b2p0wVwFB7Ld3GO/r07eY7EDgG1cYrYxQX/Ygttc3VX/Z2oCUTBj
- AN+A0rHbqOD2HBBDk23o84PZh64qVX85yCT6xfoGJlqILMF2A4/FOXq/EkNKiFmZfkYY
- 5WzapsMH3Zc3UUDaWW+STwwsOakI39SaKKyf01QZYUuFJXI33DYfmKzG4VQqA84nZXRW
- I2KrafhoPTuIKJlOg9Ler8IJVSpk1ujTrKxx/SSJ39yUfzDA3gAqYcsrrCkGu7pmJVdR
- IzsQ==
-X-Gm-Message-State: AOAM530vYT/S5JL8sxVcGfb9Je9yspRbTeFlLg0fBNGlHSWrphf990Ha
- N0WPw3iUVkQrxVTE9WvQvSESLqWohQjDPtFZbO0u6w==
-X-Google-Smtp-Source: ABdhPJxY4Mo8DjhtvJqUOe8lxQZd4xtmAf9XcrUi0ghyCMlaEClKP19jNyufv4KjloAxe1C5CKLbgKB8rWHMTRew+gk=
-X-Received: by 2002:a9d:3623:: with SMTP id w32mr6417206otb.91.1590056987902; 
- Thu, 21 May 2020 03:29:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jbiZD-0005GV-R4
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 06:36:47 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48976
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jbiZC-0004uu-KB
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 06:36:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590057405;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+2fs3cG+8vtlMMq9nJxJkMA+F7IRdFgVKcZa1gOqxJo=;
+ b=EE29kYTi5YOnFjl1c/f8UqM/B2aPo25J+WFvE6JIPAHiuUAOj62XPCTSATbyDXwyTwNUWV
+ HBFnPm8qMnj3dFNOhJlTz+62aV9/lyciby6+D4fn5lCXHrglF6xOXXk0WTrw31rpF33dZE
+ pKkvbStw/VQreJf29qP66SnhK1OpHWs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-70-pK472VI4NHOmn_r8zP5zbw-1; Thu, 21 May 2020 06:36:44 -0400
+X-MC-Unique: pK472VI4NHOmn_r8zP5zbw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8E41872FE1;
+ Thu, 21 May 2020 10:36:42 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B44A79592;
+ Thu, 21 May 2020 10:36:29 +0000 (UTC)
+Date: Thu, 21 May 2020 12:36:24 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3 22/22] [RfC] acpi: flip default to off for microvm
+Message-ID: <20200521123624.4f50fcf7@redhat.com>
+In-Reply-To: <20200520132003.9492-23-kraxel@redhat.com>
+References: <20200520132003.9492-1-kraxel@redhat.com>
+ <20200520132003.9492-23-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20200521102130.17619-1-alex.bennee@linaro.org>
-In-Reply-To: <20200521102130.17619-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 May 2020 11:29:37 +0100
-Message-ID: <CAFEAcA-0f8tsTSu2nc9Z2tnEA4YBMbzWru1yUbW_xxM1=zV0JQ@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: limit check to HOST_LONG_BITS == 32
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:47:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,60 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 May 2020 at 11:22, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> Newer clangs rightly spot that you can never exceed the full address
-> space of 64 bit hosts with:
->
->   linux-user/elfload.c:2076:41: error: result of comparison 'unsigned
->   long' > 18446744073709551615 is always false
->   [-Werror,-Wtautological-type-limit-compare]
->   4685         if ((guest_hiaddr - guest_base) > ~(uintptr_t)0) {
->   4686             ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
->   4687 1 error generated.
->
-> So lets limit the check to 32 bit hosts only.
->
-> Fixes: ee94743034bf
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+On Wed, 20 May 2020 15:20:03 +0200
+Gerd Hoffmann <kraxel@redhat.com> wrote:
+
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->  linux-user/elfload.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index 01a9323a637..797fbf2337a 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -2072,6 +2072,7 @@ static void pgb_have_guest_base(const char *image_n=
-ame, abi_ulong guest_loaddr,
->                           image_name, (uint64_t)guest_hiaddr, reserved_va=
-);
->              exit(EXIT_FAILURE);
->          }
-> +#if HOST_LONG_BITS =3D=3D 32
->      } else {
->          if ((guest_hiaddr - guest_base) > ~(uintptr_t)0) {
->              error_report("%s: requires more virtual address space "
-> @@ -2079,6 +2080,7 @@ static void pgb_have_guest_base(const char *image_n=
-ame, abi_ulong guest_loaddr,
->                           image_name, (uint64_t)guest_hiaddr - guest_base=
-);
->              exit(EXIT_FAILURE);
->          }
-> +#endif
+>  hw/i386/microvm.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> index 602c6a8f75f3..b5c445b5403b 100644
+> --- a/hw/i386/microvm.c
+> +++ b/hw/i386/microvm.c
+> @@ -517,6 +517,7 @@ static void microvm_machine_initfn(Object *obj)
+>  static void microvm_class_init(ObjectClass *oc, void *data)
+>  {
+>      MachineClass *mc = MACHINE_CLASS(oc);
+> +    X86MachineClass *x86mc = X86_MACHINE_CLASS(oc);
+>  
+>      mc->init = microvm_machine_state_init;
+>  
+> @@ -537,6 +538,9 @@ static void microvm_class_init(ObjectClass *oc, void *data)
+>      /* Machine class handlers */
+>      mc->reset = microvm_machine_reset;
+>  
+> +    /* acpi is off by default */
+> +    x86mc->acpi_default = false;
 
-Could we write this so that we have the #if...#endif
-conditional nested inside the if { ... } else { ... },
-rather than having the two conditional constructs
-oddly intermeshed?
+Since we don't care about compat stuff for microvm yet,
+I'd preffer default 'on', as in long run it allows to boot larger range of guests
+without need for tuning QEMU and guest configuration
+(i.e. it's the least troublesome case for ordinary user)
 
-thanks
--- PMM
+> +
+>      object_class_property_add(oc, MICROVM_MACHINE_PIC, "OnOffAuto",
+>                                microvm_machine_get_pic,
+>                                microvm_machine_set_pic,
+
 
