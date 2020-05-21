@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1656F1DC6BD
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 07:57:56 +0200 (CEST)
-Received: from localhost ([::1]:33426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 419861DC6C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 08:03:11 +0200 (CEST)
+Received: from localhost ([::1]:39150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbeDK-0000un-J3
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 01:57:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36072)
+	id 1jbeIP-0004pO-UK
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 02:03:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jbeCE-0000OD-Bi
- for qemu-devel@nongnu.org; Thu, 21 May 2020 01:56:46 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29290
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jbeHF-0004Lh-Dk
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 02:01:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44531
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jbeCC-0002M1-RZ
- for qemu-devel@nongnu.org; Thu, 21 May 2020 01:56:46 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jbeHE-00041C-1w
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 02:01:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590040603;
+ s=mimecast20190719; t=1590040915;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=XG5OEzt4nAtQx/tycgX9BXrt3+BP5r0okK1jpkS2mgA=;
- b=TMkQV/lkIRToJMpP7poAnK0KYSU4TBOtXhZz8Cyg2QRaq0nwbPHuMIF7ttspIOw3rMYTI5
- D6KDq3JdHEu+HJMrbBf4puk77FG2bIlGar/BKqW71bEtgzbquw55QBstHDbGfE6wrTkSxh
- pZHJpmWLKh3z1aIgS6bINHippNX+34s=
+ bh=5oVeHoaL/aaVSZ7oUeQTMZ0RQuk9f1zqrUxLqTWUnKo=;
+ b=UAE591jvtRGuuwoKXYFnyE0K5L2aUKuRQdzLpvzBpYD9PehKOr5fl9KSrSjQhV4XvlBlCg
+ 9cFVInGweOBWG9WscsgXc/miMM7Mt7yOdDFEAOnioQQDOp7qXFK06asFMtF2Jl4KsbKziN
+ qaK9M0ksa3SGNNsgW8H6m5ysgif0yT0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-rsUgvQp4P3KKgVyrYky32Q-1; Thu, 21 May 2020 01:56:41 -0400
-X-MC-Unique: rsUgvQp4P3KKgVyrYky32Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-400-PnowWho9NSm4tBNGqKUMCw-1; Thu, 21 May 2020 02:01:51 -0400
+X-MC-Unique: PnowWho9NSm4tBNGqKUMCw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75B9B8018AB;
- Thu, 21 May 2020 05:56:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 314831853C6E;
+ Thu, 21 May 2020 06:01:50 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-77.ams2.redhat.com [10.36.112.77])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E2BB076E95;
- Thu, 21 May 2020 05:56:35 +0000 (UTC)
-Subject: Re: [PATCH v2 7/9] pc-bios: s390x: Use ebcdic2ascii table
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C8A2460C84;
+ Thu, 21 May 2020 06:01:45 +0000 (UTC)
+Subject: Re: [PATCH v2 8/9] pc-bios: s390x: Replace 0x00 with 0x0 or 0
 To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 References: <20200514123729.156283-1-frankja@linux.ibm.com>
- <20200514123729.156283-8-frankja@linux.ibm.com>
+ <20200514123729.156283-9-frankja@linux.ibm.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <7a8e0371-82b7-cccc-b08f-27fd7d7902e4@redhat.com>
-Date: Thu, 21 May 2020 07:56:34 +0200
+Message-ID: <f8732927-1f5c-b985-d89a-5014556f3eef@redhat.com>
+Date: Thu, 21 May 2020 08:01:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200514123729.156283-8-frankja@linux.ibm.com>
+In-Reply-To: <20200514123729.156283-9-frankja@linux.ibm.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:47:40
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 00:43:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,39 +82,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- david@redhat.com
+Cc: "Jason J . Herne" <jjherne@linux.ibm.com>, borntraeger@de.ibm.com,
+ qemu-s390x@nongnu.org, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 14/05/2020 14.37, Janosch Frank wrote:
-> Why should we do conversion of a ebcdic value if we have a handy table
-> where we coul look up the ascii value instead?
-
-s/coul/could/
-
+> 0x00 looks odd, time to replace it with 0 or 0x0 (for pointers).
+> 
 > Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
 > ---
->  pc-bios/s390-ccw/bootmap.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>  pc-bios/s390-ccw/dasd-ipl.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 > 
-> diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
-> index d13b7cbd15..97205674e5 100644
-> --- a/pc-bios/s390-ccw/bootmap.c
-> +++ b/pc-bios/s390-ccw/bootmap.c
-> @@ -328,9 +328,7 @@ static void print_eckd_ldl_msg(ECKD_IPL_mode_t mode)
->          msg[0] = '2';
->          break;
->      default:
-> -        msg[0] = vlbl->LDL_version;
-> -        msg[0] &= 0x0f; /* convert EBCDIC   */
-> -        msg[0] |= 0x30; /* to ASCII (digit) */
-> +        msg[0] = ebc2asc[vlbl->LDL_version];
->          msg[1] = '?';
->          break;
+> diff --git a/pc-bios/s390-ccw/dasd-ipl.c b/pc-bios/s390-ccw/dasd-ipl.c
+> index b932531e6f..764ee89e92 100644
+> --- a/pc-bios/s390-ccw/dasd-ipl.c
+> +++ b/pc-bios/s390-ccw/dasd-ipl.c
+> @@ -98,18 +98,18 @@ static int run_dynamic_ccw_program(SubChannelId schid, uint16_t cutype,
+>  
+>  static void make_readipl(void)
+>  {
+> -    Ccw0 *ccwIplRead = (Ccw0 *)0x00;
+> +    Ccw0 *ccwIplRead = (Ccw0 *)0x0;
+>  
+>      /* Create Read IPL ccw at address 0 */
+>      ccwIplRead->cmd_code = CCW_CMD_READ_IPL;
+> -    ccwIplRead->cda = 0x00; /* Read into address 0x00 in main memory */
+> +    ccwIplRead->cda = 0x0; /* Read into address 0x00 in main memory */
+>      ccwIplRead->chain = 0; /* Chain flag */
+>      ccwIplRead->count = 0x18; /* Read 0x18 bytes of data */
+>  }
+>  
+>  static void run_readipl(SubChannelId schid, uint16_t cutype)
+>  {
+> -    if (do_cio(schid, cutype, 0x00, CCW_FMT0)) {
+> +    if (do_cio(schid, cutype, 0x0, CCW_FMT0)) {
+>          panic("dasd-ipl: Failed to run Read IPL channel program\n");
 >      }
+>  }
+> @@ -133,10 +133,10 @@ static void check_ipl2(uint32_t ipl2_addr)
+>  {
+>      Ccw0 *ccw = u32toptr(ipl2_addr);
+>  
+> -    if (ipl2_addr == 0x00) {
+> +    if (ipl2_addr == 0) {
+>          panic("IPL2 address invalid. Is this disk really bootable?\n");
+>      }
+> -    if (ccw->cmd_code == 0x00) {
+> +    if (ccw->cmd_code == 0) {
+>          panic("IPL2 ccw data invalid. Is this disk really bootable?\n");
+>      }
+>  }
+> @@ -161,7 +161,7 @@ static void ipl1_fixup(void)
+>      memcpy(ccwRead, (void *)0x08, 16);
+>  
+>      /* Disable chaining so we don't TIC to IPL2 channel program */
+> -    ccwRead->chain = 0x00;
+> +    ccwRead->chain = 0;
+>  
+>      ccwSeek->cmd_code = CCW_CMD_DASD_SEEK;
+>      ccwSeek->cda = ptr2u32(seekData);
+> @@ -206,7 +206,7 @@ static void run_ipl2(SubChannelId schid, uint16_t cutype, uint32_t addr)
+>   */
+>  void dasd_ipl(SubChannelId schid, uint16_t cutype)
+>  {
+> -    PSWLegacy *pswl = (PSWLegacy *) 0x00;
+> +    PSWLegacy *pswl = (PSWLegacy *) 0x0;
+>      uint32_t ipl2_addr;
+>  
+>      /* Construct Read IPL CCW and run it to read IPL1 from boot disk */
 > 
+
+Not sure whether this is really worth the churn ... but in case you insist:
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
