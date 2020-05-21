@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D05B51DD717
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:22:03 +0200 (CEST)
-Received: from localhost ([::1]:56600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12EE11DD729
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:24:41 +0200 (CEST)
+Received: from localhost ([::1]:40262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbqlW-0003q8-PD
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:22:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38042)
+	id 1jbqo4-0000lz-0l
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:24:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqg8-0002Iz-Ru
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:28 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34250)
+ id 1jbqgA-0002Mt-Fn
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:30 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqg7-0000RD-Ti
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:28 -0400
-Received: by mail-wm1-x341.google.com with SMTP id g14so2850245wme.1
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:27 -0700 (PDT)
+ id 1jbqg9-0000RK-1u
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:30 -0400
+Received: by mail-wm1-x341.google.com with SMTP id z72so7561857wmc.2
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=dFEQXmjjsTDYYVSak8Tb1Vcj0+3VcW2hSollOB67zz4=;
- b=htMRgp5kApo/ZQnPb29RD+Tgk/QPKgoMxNImuX76++tnvxPWQFW6FMlJpjzqMXkACH
- yaXfzvthFsqLqUP//LPfEw0i3hgl+7TaieYILDQ6h0ec34jhya/pPwi6FQPxmES6ZPGl
- ukfwYKZA7ESgAR5HXVjDLrvwXQyfd5OiWrc37ltvGpvEZ/5+uLnYrLEmB/+jTq1YwKQ7
- 8k4li8GJ70IqKJlMhtWfquK7XXJQMztLrahRIgEhPqikCyTISLueanRLbvdimgHjqH8L
- +Jyn54xszWr6L+qDs592QULr8xGLsXUK1XO023UC9AWxbF0sCGnjgagqEEjTBdxFY3kv
- uazg==
+ bh=DvN+yAsNtscyCciNcKwAxqrn3APcppH5Qh8vMf7lyFw=;
+ b=IZ7vj/w1UL3YoaIRIbPUB4mFylEAAKI6W14C4BA49qkDqsRBsbJQxmRxGUI+ZVON1u
+ g+OqSoFXIrGIl+yXWDT1U/YqUIvd1zslAYCpR2i+PgmkcaezKYHrP7JuJ49bJkoIv/4E
+ nFwwdcq5HoSuewhffWdjKoY2jx8P08E66erTszjzJu3aD5bKcpGmXoaErFXzCTUNcNIC
+ 52Rj1Kx797FKV5ZhZdVLYNd4KNRWTTR6rJfV3UlZNyWTxHUvYB0w/RF5Dbko1tfCeg8V
+ QkWb4JozP3Mk20V8FJQgAJQ/hMu5G8x0vd0EVavXV/v+bPPJQH3KeDLwP3lpEGmkjb2l
+ ZlOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dFEQXmjjsTDYYVSak8Tb1Vcj0+3VcW2hSollOB67zz4=;
- b=lQ2xV9GmnL9zCnY4b5GQMcWQpIh7vhVoY+rv9/E/lKvAAdcBz4VUcorC39HqPo+mZJ
- 13b5UvyxyNwoMdkCLi5XHiSxNjjEKXbHV8XsVvlWqqgkX9QZJfjqjLEwDxCi4B0XzjEj
- ncATLLrvYazN32FBJItVnuQnPgyTP9NxrcgcXZG9r60pz3rYXgorV98RnoswQLnqIYfi
- +AHU5lYCrNcGIp9DqWzqojcc6LbD/wMIV05BDwj/bkUiFD5ruXzr4L0UY75M5R2Dlinn
- hHQtoLZmOrYVas2Lt1o1iL9bgFYky9G0MoGVCkafWmUgYl9zvKOaxgHWMnu+ljbw/ME3
- yy0w==
-X-Gm-Message-State: AOAM5303rCosd7ZTaGvLyRo7/dM5bOCwo3mecf3n4H+usM4UPps9DKtB
- MoeUF7uUOfFF0Gqw9Z34D+xhqHLHTKuHRw==
-X-Google-Smtp-Source: ABdhPJwRtSc60DXVgTaWXDjiaVVh1BS+XSFaYNtSx15karoYrsTfPFmemrAG2iX3j7gwCbWd4ZtRtQ==
-X-Received: by 2002:a05:600c:2109:: with SMTP id
- u9mr9785168wml.75.1590088586237; 
- Thu, 21 May 2020 12:16:26 -0700 (PDT)
+ bh=DvN+yAsNtscyCciNcKwAxqrn3APcppH5Qh8vMf7lyFw=;
+ b=gjzgk1uA5uTKUtwHefkfkJEcI1ZhssQiXnRBVHhFKf3ciQh+v1tP9ZpA4t5Ggwsn82
+ hC/LI18NiqMkjiwVlmdaUZqQ/yp5u0JoIgpjn+AB9txvs/5AnDR4Ihs4GKq8RkgzFLdh
+ cLDPHeRS7H4OE0k7WS7Z5L2pKgY5AfruQJltdkZUg6nREFaOmDJ9mrmQ0VsK6XY+PTmJ
+ Fo+TBS5z1xzCpXl20E16JCR5ILqaHkMlM2qgYkHZCwR+mEocmfUXj30322q6PFmSHsDk
+ UiD9hsmbp4hEpl7Vn0E8OS4xnUGRl44hJmtYi3w3T/NQX6qPuuLZzqHa/kTJav0Y6+t0
+ 1CGQ==
+X-Gm-Message-State: AOAM533Zpqn5kl2XdjhclnAYE/aL2L3TB+/Ld2O54XFGmKRpnb7u21e4
+ wudASF9+ZrOD/vI8gSpiZsAX5iBdJL/dJg==
+X-Google-Smtp-Source: ABdhPJzFcepXl9ef9QFDKFln+wh0JQOj7awwNzItEPraV18UXIknNVxkI8glRHyy1QHqEMGJ9MOhaQ==
+X-Received: by 2002:a1c:6506:: with SMTP id z6mr10589311wmb.104.1590088587304; 
+ Thu, 21 May 2020 12:16:27 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.24
+ by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 12:16:25 -0700 (PDT)
+ Thu, 21 May 2020 12:16:26 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/29] target/arm: Remove unused GEN_NEON_INTEGER_OP macro
-Date: Thu, 21 May 2020 20:15:52 +0100
-Message-Id: <20200521191610.10941-12-peter.maydell@linaro.org>
+Subject: [PULL 12/29] hw: Move i.MX watchdog driver to hw/watchdog
+Date: Thu, 21 May 2020 20:15:53 +0100
+Message-Id: <20200521191610.10941-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200521191610.10941-1-peter.maydell@linaro.org>
 References: <20200521191610.10941-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::341;
  envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
@@ -89,48 +89,165 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GEN_NEON_INTEGER_OP macro is no longer used; remove it.
+From: Guenter Roeck <linux@roeck-us.net>
 
+In preparation for a full implementation, move i.MX watchdog driver
+from hw/misc to hw/watchdog. While at it, add the watchdog files
+to MAINTAINERS.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Message-id: 20200517162135.110364-2-linux@roeck-us.net
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 23 -----------------------
- 1 file changed, 23 deletions(-)
+ include/hw/arm/fsl-imx6.h                           | 2 +-
+ include/hw/arm/fsl-imx6ul.h                         | 2 +-
+ include/hw/arm/fsl-imx7.h                           | 2 +-
+ include/hw/{misc/imx2_wdt.h => watchdog/wdt_imx2.h} | 0
+ hw/{misc/imx2_wdt.c => watchdog/wdt_imx2.c}         | 2 +-
+ MAINTAINERS                                         | 2 ++
+ hw/arm/Kconfig                                      | 3 +++
+ hw/misc/Makefile.objs                               | 1 -
+ hw/watchdog/Kconfig                                 | 3 +++
+ hw/watchdog/Makefile.objs                           | 1 +
+ 10 files changed, 13 insertions(+), 5 deletions(-)
+ rename include/hw/{misc/imx2_wdt.h => watchdog/wdt_imx2.h} (100%)
+ rename hw/{misc/imx2_wdt.c => watchdog/wdt_imx2.c} (98%)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 4c9bb8b5ac0..c8296116d4b 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -3034,29 +3034,6 @@ static inline void gen_neon_rsb(int size, TCGv_i32 t0, TCGv_i32 t1)
-     default: return 1; \
-     }} while (0)
+diff --git a/include/hw/arm/fsl-imx6.h b/include/hw/arm/fsl-imx6.h
+index 973bcb72f7f..1ebd7513246 100644
+--- a/include/hw/arm/fsl-imx6.h
++++ b/include/hw/arm/fsl-imx6.h
+@@ -21,7 +21,7 @@
+ #include "hw/cpu/a9mpcore.h"
+ #include "hw/misc/imx6_ccm.h"
+ #include "hw/misc/imx6_src.h"
+-#include "hw/misc/imx2_wdt.h"
++#include "hw/watchdog/wdt_imx2.h"
+ #include "hw/char/imx_serial.h"
+ #include "hw/timer/imx_gpt.h"
+ #include "hw/timer/imx_epit.h"
+diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
+index 1a0bab8daaf..37c89cc5f92 100644
+--- a/include/hw/arm/fsl-imx6ul.h
++++ b/include/hw/arm/fsl-imx6ul.h
+@@ -24,7 +24,7 @@
+ #include "hw/misc/imx7_snvs.h"
+ #include "hw/misc/imx7_gpr.h"
+ #include "hw/intc/imx_gpcv2.h"
+-#include "hw/misc/imx2_wdt.h"
++#include "hw/watchdog/wdt_imx2.h"
+ #include "hw/gpio/imx_gpio.h"
+ #include "hw/char/imx_serial.h"
+ #include "hw/timer/imx_gpt.h"
+diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
+index 706aef2e7e0..3a0041c4c26 100644
+--- a/include/hw/arm/fsl-imx7.h
++++ b/include/hw/arm/fsl-imx7.h
+@@ -26,7 +26,7 @@
+ #include "hw/misc/imx7_snvs.h"
+ #include "hw/misc/imx7_gpr.h"
+ #include "hw/misc/imx6_src.h"
+-#include "hw/misc/imx2_wdt.h"
++#include "hw/watchdog/wdt_imx2.h"
+ #include "hw/gpio/imx_gpio.h"
+ #include "hw/char/imx_serial.h"
+ #include "hw/timer/imx_gpt.h"
+diff --git a/include/hw/misc/imx2_wdt.h b/include/hw/watchdog/wdt_imx2.h
+similarity index 100%
+rename from include/hw/misc/imx2_wdt.h
+rename to include/hw/watchdog/wdt_imx2.h
+diff --git a/hw/misc/imx2_wdt.c b/hw/watchdog/wdt_imx2.c
+similarity index 98%
+rename from hw/misc/imx2_wdt.c
+rename to hw/watchdog/wdt_imx2.c
+index 2aedfe803a4..ad1ef02e9e7 100644
+--- a/hw/misc/imx2_wdt.c
++++ b/hw/watchdog/wdt_imx2.c
+@@ -14,7 +14,7 @@
+ #include "qemu/module.h"
+ #include "sysemu/watchdog.h"
  
--#define GEN_NEON_INTEGER_OP(name) do { \
--    switch ((size << 1) | u) { \
--    case 0: \
--        gen_helper_neon_##name##_s8(tmp, tmp, tmp2); \
--        break; \
--    case 1: \
--        gen_helper_neon_##name##_u8(tmp, tmp, tmp2); \
--        break; \
--    case 2: \
--        gen_helper_neon_##name##_s16(tmp, tmp, tmp2); \
--        break; \
--    case 3: \
--        gen_helper_neon_##name##_u16(tmp, tmp, tmp2); \
--        break; \
--    case 4: \
--        gen_helper_neon_##name##_s32(tmp, tmp, tmp2); \
--        break; \
--    case 5: \
--        gen_helper_neon_##name##_u32(tmp, tmp, tmp2); \
--        break; \
--    default: return 1; \
--    }} while (0)
--
- static TCGv_i32 neon_load_scratch(int scratch)
- {
-     TCGv_i32 tmp = tcg_temp_new_i32();
+-#include "hw/misc/imx2_wdt.h"
++#include "hw/watchdog/wdt_imx2.h"
+ 
+ #define IMX2_WDT_WCR_WDA    BIT(5)      /* -> External Reset WDOG_B */
+ #define IMX2_WDT_WCR_SRS    BIT(4)      /* -> Software Reset Signal */
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 023f48d3eaa..3690f313c3b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -633,8 +633,10 @@ S: Odd Fixes
+ F: hw/arm/fsl-imx25.c
+ F: hw/arm/imx25_pdk.c
+ F: hw/misc/imx25_ccm.c
++F: hw/watchdog/wdt_imx2.c
+ F: include/hw/arm/fsl-imx25.h
+ F: include/hw/misc/imx25_ccm.h
++F: include/hw/watchdog/wdt_imx2.h
+ 
+ i.MX31 (kzm)
+ M: Peter Chubb <peter.chubb@nicta.com.au>
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 53641725371..3d05dc8538c 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -375,6 +375,7 @@ config FSL_IMX6
+     select IMX_FEC
+     select IMX_I2C
+     select IMX_USBPHY
++    select WDT_IMX2
+     select SDHCI
+ 
+ config ASPEED_SOC
+@@ -412,6 +413,7 @@ config FSL_IMX7
+     select IMX
+     select IMX_FEC
+     select IMX_I2C
++    select WDT_IMX2
+     select PCI_EXPRESS_DESIGNWARE
+     select SDHCI
+     select UNIMP
+@@ -425,6 +427,7 @@ config FSL_IMX6UL
+     select IMX
+     select IMX_FEC
+     select IMX_I2C
++    select WDT_IMX2
+     select SDHCI
+     select UNIMP
+ 
+diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
+index 68aae2eabbc..b25181b7113 100644
+--- a/hw/misc/Makefile.objs
++++ b/hw/misc/Makefile.objs
+@@ -44,7 +44,6 @@ common-obj-$(CONFIG_IMX) += imx6_ccm.o
+ common-obj-$(CONFIG_IMX) += imx6ul_ccm.o
+ obj-$(CONFIG_IMX) += imx6_src.o
+ common-obj-$(CONFIG_IMX) += imx7_ccm.o
+-common-obj-$(CONFIG_IMX) += imx2_wdt.o
+ common-obj-$(CONFIG_IMX) += imx7_snvs.o
+ common-obj-$(CONFIG_IMX) += imx7_gpr.o
+ common-obj-$(CONFIG_IMX) += imx_rngc.o
+diff --git a/hw/watchdog/Kconfig b/hw/watchdog/Kconfig
+index 2118d897c93..293209b291d 100644
+--- a/hw/watchdog/Kconfig
++++ b/hw/watchdog/Kconfig
+@@ -14,3 +14,6 @@ config WDT_IB700
+ 
+ config WDT_DIAG288
+     bool
++
++config WDT_IMX2
++    bool
+diff --git a/hw/watchdog/Makefile.objs b/hw/watchdog/Makefile.objs
+index 3f536d1cad8..631b711d868 100644
+--- a/hw/watchdog/Makefile.objs
++++ b/hw/watchdog/Makefile.objs
+@@ -4,3 +4,4 @@ common-obj-$(CONFIG_WDT_IB6300ESB) += wdt_i6300esb.o
+ common-obj-$(CONFIG_WDT_IB700) += wdt_ib700.o
+ common-obj-$(CONFIG_WDT_DIAG288) += wdt_diag288.o
+ common-obj-$(CONFIG_ASPEED_SOC) += wdt_aspeed.o
++common-obj-$(CONFIG_WDT_IMX2) += wdt_imx2.o
 -- 
 2.20.1
 
