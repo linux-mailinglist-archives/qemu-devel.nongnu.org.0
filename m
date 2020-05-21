@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0051D1DD74C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:33:35 +0200 (CEST)
-Received: from localhost ([::1]:53898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BCD1DD754
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:35:06 +0200 (CEST)
+Received: from localhost ([::1]:34936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbqwh-0004cV-1X
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:33:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39028)
+	id 1jbqy9-0008LS-MZ
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:35:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steplong@quicinc.com>)
- id 1jbqp2-0005UQ-Hv
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:25:40 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:46189)
+ id 1jbqp4-0005Ze-5o
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:25:42 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:9569)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <steplong@quicinc.com>)
- id 1jbqp1-0002N6-AI
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:25:40 -0400
+ id 1jbqp2-0002NA-Pt
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:25:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1590089139; x=1621625139;
+ t=1590089140; x=1621625140;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=fUDDpifECHpgTV/f27IxUWgCV1J0ZzGhBFz2mTygQyI=;
- b=b1GTuDJ52/oCF3/kJS+CMuFu2xtdIekf3VlcL20AU+YRRYj5CtV3Zt6w
- QVAAxNQGnF+tjfDtQqRNnC3l/QtQ7bMoeD71va67KZYlxNFO1wnyHSaZs
- bH9iwpTOp5pUuvuqeVO7ZJfe6Yn7+OsXpwE3OHeIBf2s3Vk5iBQaFqP2M Q=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ bh=zu5umXLra3ndpju4jmgD01nxylZIq/RmhVMuVzwKWRg=;
+ b=jMDiX8lJvKFTcqT8thJ5ov20HjCtSPOf3QO54MQjPYy6Tol/fRJxDwg+
+ eAuom2fDKRRJ2qYRIAv5GaO5z2t+kpfcDqJglzDybPD54wRD+x834pzA2
+ qfTurXz/I4gGQfdmlYJEnc3ocNa1JoG62XysyFK5iWkrxALfSfXfI7bPG Y=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
  by alexa-out-sd-01.qualcomm.com with ESMTP; 21 May 2020 12:25:38 -0700
-Received: from nasanexm03a.na.qualcomm.com ([10.85.0.103])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+Received: from nasanexm03e.na.qualcomm.com ([10.85.0.48])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
  21 May 2020 12:25:38 -0700
 Received: from nasanexm03e.na.qualcomm.com (10.85.0.48) by
- nasanexm03a.na.qualcomm.com (10.85.0.103) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 21 May 2020 12:25:37 -0700
+ nasanexm03e.na.qualcomm.com (10.85.0.48) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 21 May 2020 12:25:38 -0700
 Received: from NAM11-DM6-obe.outbound.protection.outlook.com (199.106.107.6)
  by nasanexm03e.na.qualcomm.com (10.85.0.48) with Microsoft SMTP Server (TLS)
  id 15.0.1497.2 via Frontend Transport; Thu, 21 May 2020 12:25:37 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OeVSD7z/V9LdSFjBhXzKEmwbzaIOhBIqvSy1lpaj6G+JGrCk78nQk+6LqHHabputq/S2+o7I6K6tp2Ll+7jqgGJUyMCYgZASug9LXEBrlzmvrmsz3a3lGz4161oolchXGAe38uoUTVaak3V5I/8Av8frHBeaj543K3ve/HqyhrFIq7hi6w6iYKQTN67MNJpxUTg/xsEDg0/Zkk3JuoIU0RZcPo9/bH0mXYACpanS2/AZ2AWzLRxKR/fVC7ijlMxwtRUMB+UC4u4IvZ76tYpD6tI3+LIy6Jm8JW/f0afIbgdTWQ1yxAYrxilq8Ii0SpWObR7tXo9aoSYtqIUUH+aRhg==
+ b=IrwY155Ejms+oHjKaqA7PjBpB30Mn4FcNosV1dpqDI4oGi0xLwe/EErU9wAuYntjj6+vKdDjravHlIHfrgl2ZZFHuxXDbdQIlkORlWdSS0MYaBM3VInfTlmqG/dlQ5AaCzuLvlAcSlzQePq2zdaKE+K2e5JK+APu5BJhTx7pbB4Dcpk4pasrp+xW8nBfgd1NJc7CNcI1HV8ay/vFmOsJ3v689jg5vVLqzqwym9DR3/GOT+l5LhwyFQrqE5jYsdmSnjnBYwXX3W6UK7yiRUK8aapodePAKtik0a+VzwbXV2lg8H9ADL4OCjzOyfhCdJOQK1WISdDknKxI39tmnwtmNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WEj+hBi1aLodbsohYWdJShd2WpBmvtMJ+MBfpyWwylE=;
- b=aRrkLEpe89vnOVzDtbvRj/QzGETiHAwvve50bWZl5lEfy+YCJn/hQpndr9dG+f75EdpW0RBRvIpBH0o36SlQMQKvGuRPv/1Hqjzv/nGAZJJvwpsl0oxqOLTssc3qYPKU1IPA6V6JQgCRMIpZhDSstJwMb6leDQxA0izjJWSnMfSbbMMx/7sjuovYoxqo2qVj6QFH0SZ4OR8mGXTFTI8yt3fYvOlg/zsMtB/Lzs9Ng0IZ5Nos4AHUk6eaSfsg48Te3U9Ot4mDl1rsk2ZgMPtCtB9sXbIKeEZDTaPUAMuLDen8bPtydFA0XS3+NTexbZoG+FB1USay5Vc+LWLpAE3Glg==
+ bh=PkASLzOakw7jVpwY7j/W6xiPjwUQ9D8cD7bVX2GUdKg=;
+ b=XdHVq0i2N64v+94AL9JqYmcSWqy5JspkPTRnaAwazgpJFtAvDXjb+Ians2RHO9hZFiI3462dFrJLjU4xcMolaE7IAsz9l83U2LaOgyZS/Zf94b1VheSsJGRE3TdBZvZc47PTfUOr4PPDmKa49rtYAnfkXTYeNahIkIuTBdtTYDPFA86hZyRJcjvS5h1JBU9DstVRk0rT7JPPX3DgfEfEcUeNohzQIhmNlkk9oEe8hVeKIVgwW25ccgRYOyeSJr45FNuESYK1lL8dQe5lqaQZN+UmSTCBbw9UfVXSLhmHSS0jYxh5K86+0geOpID736SHA0BcuNX6nNuUwNdF+eAZFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
  dkim=pass header.d=quicinc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WEj+hBi1aLodbsohYWdJShd2WpBmvtMJ+MBfpyWwylE=;
- b=eOxR/AUZmKWXcEzimeP4TilhiZtAG89/uAvSS4tknHRMaf506Zwqo9rN7skb9M6HXx05ufcQoLpHfdGDDCzN5bdqg6lvvLDWp9SSoI/cSxeiQuLx/q5OCYm7WFo/zXXLpNYmijcQWMyGO/DK33bSKC9TCik0xVoEymmd35Ta1Us=
+ bh=PkASLzOakw7jVpwY7j/W6xiPjwUQ9D8cD7bVX2GUdKg=;
+ b=jzgLQVARKcbWm58JlE2qspNNStRpAemImHf2009nAZPm0yGTVoETOaeHS8CTHF7p/BJ2lZrVIMVyBLsye9WFDKEiYiYGpih9DOqbKn22boLCrivHWMNHPpsDyi9RggPXEuORfG3fwNNAHir3JJjeafRsNWPM6NwgbWZVScKfQus=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=quicinc.com;
 Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
  (2603:10b6:301:7b::24) by MWHPR0201MB3484.namprd02.prod.outlook.com
  (2603:10b6:301:77::36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23; Thu, 21 May
- 2020 19:25:34 +0000
+ 2020 19:25:35 +0000
 Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
  ([fe80::10ad:5df5:d575:1f37]) by MWHPR0201MB3547.namprd02.prod.outlook.com
  ([fe80::10ad:5df5:d575:1f37%3]) with mapi id 15.20.3000.034; Thu, 21 May 2020
- 19:25:34 +0000
+ 19:25:35 +0000
 From: Stephen Long <steplong@quicinc.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RISU PATCH v2 06/22] sve2.risu: Add patterns for accumulate ops
-Date: Thu, 21 May 2020 12:24:55 -0700
-Message-ID: <20200521192511.6623-7-steplong@quicinc.com>
+Subject: [RISU PATCH v2 07/22] sve2.risu: Add patterns for narrowing ops
+Date: Thu, 21 May 2020 12:24:56 -0700
+Message-ID: <20200521192511.6623-8-steplong@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200521192511.6623-1-steplong@quicinc.com>
 References: <20200521192511.6623-1-steplong@quicinc.com>
@@ -84,30 +84,30 @@ Received: from STEPLONG.qualcomm.com (24.102.122.190) by
  MN2PR20CA0056.namprd20.prod.outlook.com (2603:10b6:208:235::25) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23 via Frontend
- Transport; Thu, 21 May 2020 19:25:33 +0000
+ Transport; Thu, 21 May 2020 19:25:34 +0000
 X-Mailer: git-send-email 2.25.1
 X-Originating-IP: [24.102.122.190]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c294e5f3-ec25-42d3-ccea-08d7fdbcbb77
+X-MS-Office365-Filtering-Correlation-Id: 767cb075-37fe-4258-a3e8-08d7fdbcbc0c
 X-MS-TrafficTypeDiagnostic: MWHPR0201MB3484:
-X-Microsoft-Antispam-PRVS: <MWHPR0201MB3484A30EC87D7A33CB283A19C7B70@MWHPR0201MB3484.namprd02.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <MWHPR0201MB348439BCC1454BB15B910518C7B70@MWHPR0201MB3484.namprd02.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:296;
 X-Forefront-PRVS: 041032FF37
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: csC7Wc1wnQ6enVIlwaXrn1PnZ2Uq2zUiT1Zvv3Ui7y2HaKhHnPewHhR5crt7OASvqI+oSZ5VEHB7l1bbs6oVu2zx0QG+zlkXPXVDCan5sbAsiuNSRHuPclb6OYB/VHKH/1ObnShniygqXWcEKjxdbPwM5cQtXm0Ms/ep+hWP5Qbk4VPN0k0Yf7BO4Ry1D53mPGyhPWlb6A8Xm6/pj0IeC3yQ/ICWwtZqjMIRPEPoLlEYTguC8KR91JizRfzDBk3qLxM2CtpHDHzAaLTRuY8GR6jtekXIev1gCTeVtkJat6NPB3g4E/N2U6UdP27bAU1YaGn4hpqqqrsaCGG4Z1hjXg==
+X-Microsoft-Antispam-Message-Info: y7DLRPOZOxbXPgIsDSq9+Ht/0J/xXYAmrP1peW/7pLkideCVoyckZo6YavWdAAQ5hh6iXKiS2UhyBa7L5foZvPInSsfFWKxW72R6SQJ3W2HU0m3JU3dhY5GJAyEMiHn/wcIlPFOS3f1KceYicYjLSbl1w7G/1juhfijJXXp9AhgrN9km54cRh78BCnO0OekA7v5gM3tlFKL6v6VSwMJIxz860UqDeF81B5IJR0r+ACv/ODFZr1n0lbhVgAsTaE9A8VRrHX5T8xWCMtC2baJOub2Sqp/QFPfBq1TQ3xz01k0Yao7xuXcaifQqPjTjJuAQYbLzilZ9eYbZ2YN1bCd/Gg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MWHPR0201MB3547.namprd02.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(346002)(366004)(136003)(396003)(376002)(39860400002)(2616005)(4326008)(956004)(66476007)(66556008)(66946007)(52116002)(186003)(316002)(16526019)(6506007)(86362001)(2906002)(5660300002)(26005)(6666004)(6486002)(1076003)(8676002)(6916009)(6512007)(8936002)(478600001)(36756003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: rzAMaME6qtHEOuNyFH+AUvnh8/09m6tsUI2Tuvf+g2lPDFQgCKZQyUpcVN0cPajTY6PievUZdLz6ZMcEGYdnDKfuPyl1ig+vfBnMJ9Xc8VbZYrBbiEYUpBt7F44+PfNS9yHE1FQTyGaPcO5pcyaXdhL9j4S2RQJziHAgSJcaswKNcTRRsyGVuGILHXOJZXRHbCMkf+w8Patyp5cpT2eO75y/t768GdTjYiOO1PdK9QGHmozQF1SHhhA7HTwDuDbiBMAGuQnRs7+DPpquTLgNgnC6t6ZR5MTpggl8Tz9P8zMd3DBCoANbHoXsTX+jcbGY4QZfejseZe0yAxiM2wO2ktY5g/PjQeL9XHYIFGgBXRhK9FdcYWOzBzUCUOCRNp/c4Zkz9cMpSi0nU2S5prxZczb5hIeyip4OXMbXE2wU0zCrie9gc5QyIPeGU8Uc30QGo6/4p0R2Vt1tQ51xEcZJ1LoGaq34uOkNHlSB3uXIeok=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c294e5f3-ec25-42d3-ccea-08d7fdbcbb77
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2020 19:25:33.9912 (UTC)
+X-MS-Exchange-AntiSpam-MessageData: 7NJf3Kw/MitpSoMVv/Qf/vtFFEDMjeuBj+EzMyGZn1ciWFW53RNV/+KaF8w9NVu/rooKtTCLSUQQCMt/bhh+wQ/i2WbEaXQJ3557CX2I+RsBcm4bbURCXM+E/VFfW2hdMTRlZ1kPJLgZ5cfoC3pa58DDFEYeQNFnzGd2lTK+Zu2e37axolY369ucRucoxtR6fEN+y4E8rpHgAbsOE2bofppQ1hAIVnk0lZ2Jhv9JSvU5XJsoiuimpaibaVA5eKxpU+z+Ha2vD0R8FNwfjGRjRgvIzx4T25XSQUJa0dqa9AFfztz8qFT/6DCkrVInvsJQCw4S5v1mqQg0s/G3IvCTfVfLWy0wsJl0bz85tTCFoiltAdyA3NfBZqrztFIPKOMMyaIAh1JVmLian5JIi3WbaxSG/k/Pez5KfKpNP60wgyH5Yclgk/Oum2KWgIp5IQ+89FOrL/Z4zZZLHhdAxBkdymGk7R+RKU5pLMlS+eteunc=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 767cb075-37fe-4258-a3e8-08d7fdbcbc0c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2020 19:25:34.9746 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: E71D3m/GgwdOtJz8ZjndjsXS3eXHAfQEa9US8v/o/JbsW222Wkz66WB/Xq8fWnlF0E+/qWZOQ0DNVS3oN2iMKg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: A0rseMFYebeI8bf5rwUcIM3Y+KpkTuECdvBwH1ayjM3ljvAzVDJ5eC4W2PMTQa9QYtmKlOwEwgX/iiMyXFx8yA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0201MB3484
 X-OriginatorOrg: quicinc.com
 Received-SPF: pass client-ip=199.106.114.38; envelope-from=steplong@quicinc.com;
@@ -139,52 +139,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Stephen Long <steplong@quicinc.com>
 ---
- sve2.risu | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ sve2.risu | 76 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 76 insertions(+)
 
 diff --git a/sve2.risu b/sve2.risu
-index ca14193..caca5c0 100755
+index caca5c0..1ebb08c 100755
 --- a/sve2.risu
 +++ b/sve2.risu
-@@ -148,6 +148,42 @@ BEXT        A64_V    01000101 size:2 0 zm:5 1011 00 zn:5 zd:5
- BDEP        A64_V    01000101 size:2 0 zm:5 1011 01 zn:5 zd:5
- BGRP        A64_V    01000101 size:2 0 zm:5 1011 10 zn:5 zd:5
+@@ -184,6 +184,82 @@ SLI         A64_V    01000101 tszh:2 0 tszl:2 imm3:3 11110 1 zn:5 zd:5 \
+ SABA        A64_V    01000101 size:2 0 zm:5 11111 0 zn:5 zda:5
+ UABA        A64_V    01000101 size:2 0 zm:5 11111 1 zn:5 zda:5
  
-+# Accumulate
-+## complex integer add
-+CADD        A64_V    01000101 size:2 00000 0 11011 rot:1 zm:5 zdn:5
-+SQCADD      A64_V    01000101 size:2 00000 1 11011 rot:1 zm:5 zdn:5
-+## integer absolute difference and accumulate long
-+SABALB      A64_V    01000101 size:2 0 zm:5 1100 00 zn:5 zda:5 \
++# Narrowing
++## saturating extract narrow
++SQXTNB_H    A64_V    010001010 0101 000010 000 zn:5 zd:5
++SQXTNB_S    A64_V    010001010 0110 000010 000 zn:5 zd:5
++SQXTNB_D    A64_V    010001010 1100 000010 000 zn:5 zd:5
++
++SQXTNT_H    A64_V    010001010 0101 000010 001 zn:5 zd:5
++SQXTNT_S    A64_V    010001010 0110 000010 001 zn:5 zd:5
++SQXTNT_D    A64_V    010001010 1100 000010 001 zn:5 zd:5
++
++UQXTNB_H    A64_V    010001010 0101 000010 010 zn:5 zd:5
++UQXTNB_S    A64_V    010001010 0110 000010 010 zn:5 zd:5
++UQXTNB_D    A64_V    010001010 1100 000010 010 zn:5 zd:5
++
++UQXTNT_H    A64_V    010001010 0101 000010 011 zn:5 zd:5
++UQXTNT_S    A64_V    010001010 0110 000010 011 zn:5 zd:5
++UQXTNT_D    A64_V    010001010 1100 000010 011 zn:5 zd:5
++
++SQXTUNB_H   A64_V    010001010 0101 000010 100 zn:5 zd:5
++SQXTUNB_S   A64_V    010001010 0110 000010 100 zn:5 zd:5
++SQXTUNB_D   A64_V    010001010 1100 000010 100 zn:5 zd:5
++
++SQXTUNT_H   A64_V    010001010 0101 000010 101 zn:5 zd:5
++SQXTUNT_S   A64_V    010001010 0110 000010 101 zn:5 zd:5
++SQXTUNT_D   A64_V    010001010 1100 000010 101 zn:5 zd:5
++## bitwise shift right narrow
++SQSHRUNB    A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 0000 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++SQSHRUNT    A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 0001 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++SQRSHRUNB   A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 0010 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++SQRSHRUNT   A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 0011 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++SHRNB       A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 0100 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++SHRNT       A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 0101 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++RSHRNB      A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 0110 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++RSHRNT      A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 0111 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++SQSHRNB     A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 1000 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++SQSHRNT     A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 1001 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++SQRSHRNB    A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 1010 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++SQRSHRNT    A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 1011 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++UQSHRNB     A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 1100 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++UQSHRNT     A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 1101 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++UQRSHRNB    A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 1110 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++UQRSHRNT    A64_V    010001010 tszh:1 1 tszl:2 imm3:3 00 1111 zn:5 zd:5 \
++!constraints { !($tszh == 0 && $tszl == 0); }
++## integer add/subtract narrow high part
++ADDHNB      A64_V    01000101 size:2 1 zm:5 011 000 zn:5 zd:5 \
 +!constraints { $size != 0; }
-+SABALT      A64_V    01000101 size:2 0 zm:5 1100 01 zn:5 zda:5 \
++ADDHNT      A64_V    01000101 size:2 1 zm:5 011 001 zn:5 zd:5 \
 +!constraints { $size != 0; }
-+UABALB      A64_V    01000101 size:2 0 zm:5 1100 10 zn:5 zda:5 \
++RADDHNB     A64_V    01000101 size:2 1 zm:5 011 010 zn:5 zd:5 \
 +!constraints { $size != 0; }
-+UABALT      A64_V    01000101 size:2 0 zm:5 1100 11 zn:5 zda:5 \
++RADDHNT     A64_V    01000101 size:2 1 zm:5 011 011 zn:5 zd:5 \
 +!constraints { $size != 0; }
-+## integer add/subtract long with carry
-+ADCLB       A64_V    01000101 0 size:1 0 zm:5 11010 0 zn:5 zda:5
-+ADCLT       A64_V    01000101 0 size:1 0 zm:5 11010 1 zn:5 zda:5
-+SBCLB       A64_V    01000101 1 size:1 0 zm:5 11010 0 zn:5 zda:5
-+SBCLT       A64_V    01000101 1 size:1 0 zm:5 11010 1 zn:5 zda:5
-+## bitwise shift right and accumulate
-+SSRA        A64_V    01000101 tszh:2 0 tszl:2 imm3:3 1110 00 zn:5 zda:5 \
-+!constraints { !($tszh == 0 && $tszl == 0); }
-+USRA        A64_V    01000101 tszh:2 0 tszl:2 imm3:3 1110 01 zn:5 zda:5 \
-+!constraints { !($tszh == 0 && $tszl == 0); }
-+SRSRA       A64_V    01000101 tszh:2 0 tszl:2 imm3:3 1110 10 zn:5 zda:5 \
-+!constraints { !($tszh == 0 && $tszl == 0); }
-+URSRA       A64_V    01000101 tszh:2 0 tszl:2 imm3:3 1110 11 zn:5 zda:5 \
-+!constraints { !($tszh == 0 && $tszl == 0); }
-+## bitwise shift and insert
-+SRI         A64_V    01000101 tszh:2 0 tszl:2 imm3:3 11110 0 zn:5 zd:5 \
-+!constraints { !($tszh == 0 && $tszl == 0); }
-+SLI         A64_V    01000101 tszh:2 0 tszl:2 imm3:3 11110 1 zn:5 zd:5 \
-+!constraints { !($tszh == 0 && $tszl == 0); }
-+## integer absolute difference and accumulate
-+SABA        A64_V    01000101 size:2 0 zm:5 11111 0 zn:5 zda:5
-+UABA        A64_V    01000101 size:2 0 zm:5 11111 1 zn:5 zda:5
++SUBHNB      A64_V    01000101 size:2 1 zm:5 011 100 zn:5 zd:5 \
++!constraints { $size != 0; }
++SUBHNT      A64_V    01000101 size:2 1 zm:5 011 101 zn:5 zd:5 \
++!constraints { $size != 0; }
++RSUBHNB     A64_V    01000101 size:2 1 zm:5 011 110 zn:5 zd:5 \
++!constraints { $size != 0; }
++RSUBHNT     A64_V    01000101 size:2 1 zm:5 011 111 zn:5 zd:5 \
++!constraints { $size != 0; }
 +
  # Floating Point Pairwise
  FADDP       A64_V    01100100 size:2 010 000 100 pg:3 zm:5 zdn:5 \
