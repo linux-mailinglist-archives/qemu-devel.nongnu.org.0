@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28A61DD72B
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:25:37 +0200 (CEST)
-Received: from localhost ([::1]:45228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7F91DD72D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:26:21 +0200 (CEST)
+Received: from localhost ([::1]:48800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbqoy-0003TK-Sb
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:25:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38080)
+	id 1jbqpg-0005aM-7h
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:26:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqgF-0002aH-SU
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:35 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34794)
+ id 1jbqgH-0002do-DH
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:37 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqgE-0000S0-Uc
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:35 -0400
-Received: by mail-wr1-x443.google.com with SMTP id g12so6565549wrw.1
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:34 -0700 (PDT)
+ id 1jbqgG-0000SC-9n
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:37 -0400
+Received: by mail-wr1-x431.google.com with SMTP id c3so3527754wru.12
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=d4s6zDnREhAoNMbKHlnL2nJicHbk/umExwSYklWFs54=;
- b=tflTDjYpC52AKWnAhfxxCXbmepuYlmubnTqxirCXniltCnkuvbrTBEzcofqu01ZBn8
- oJ9UCAQWo0ZQTtsOskxs4Ud1E/A9ThHiXL7yMY3cSByenZBUm2t5jhj89Iu5RtvYvz9Z
- 45ND27B/IjrzJ7zYs7NVJM6ne4lrE1rlc/A10CK68cTNdoEO2wJ/sZGlCzfc+2zjPYrL
- l+dPCkYMSJtiTC0ILFgXpNDjzNSbeIAXr7pkFrS2dzmVGQizdYxMETcE5l/X26uVUgbF
- 2RlLaJ8oRKHugoo1jNBJY2XiP0Kpza9aaxlJFcpCrwRJJOy6/N/q3cY+w+bbOgxv82eL
- Eb2Q==
+ bh=2Mka/5Sz7nZUUrfy7Vlrx4tkhq1CXZaUSp5RTGkdVVc=;
+ b=v2rX4itSwOvP7xr52jl0n0Z6/9me89mqWHmKmhhjgolAywV/5D1wHBJz5IBmULUzio
+ YNqN3DoBMYjSdAL/bF3vBeXam5lzVGIY7UVz5h9dgF9EaMwatgx99nYgABxGQglGd0a5
+ ci4MDdu0ol+q0LLG7QUGO+cDQ+l/sSH5avW82HLTJ0o7LidSSn6mrq7WHPEpkw+V7Ys5
+ E2TQBNapWxMVvopF5HWy5LUfjH9RUAp6iCCcBXY5/HpDZ3MxPmaQ9noVHAeFcD4XR9eG
+ GfQowiEnPxbMIf6X0hljk4SJ83V3dQfuzwpY3Zsuy1+hwysvjVVbuWTM6q6nDB4PYaea
+ UMGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=d4s6zDnREhAoNMbKHlnL2nJicHbk/umExwSYklWFs54=;
- b=r2S4Y9B6bZSjv4sv6es5ez5JaPMKyje6aNrWgLysOVaPPVszvZbbbgSSV484EuU42Q
- 6LyeOEvEM7+JCxREoUoOvbpmapAlu1bElvf36eTj6xxlnUMzFiYQiiMQt/O3191ZlrE6
- f2/93h3vvS8UvhAQNt5/0U56Y6H3rZJxEY71Ra6JgiLHsRxteGB+qtrFaLk3DtHtD9H9
- hVeKfUmMDdcW8+I/H/xij1ubD5F4uNB3VOcI5OM4HZ3F6pbntQ/Sjk60jl1EySIIIV7b
- jeO7tNp+L5OduupWu5HB5JqV5nPHUYDkkAr1PcjLIXVvCSuufII0Tqm0wRLv3Km+R8l5
- bOtQ==
-X-Gm-Message-State: AOAM531+3N2rTZA75lGTUJFULHB6iCW0D/zyKvYVal1gVxYHrRVPS6J/
- OW1nCniSshgKCVHz/UXxBlj2m7dw384rKg==
-X-Google-Smtp-Source: ABdhPJz5UfHtihmnw1Da25Tyw6WCCGcgOd7bOtBZos9NhSl4d0nFEJ7NxcJTVbNeVE2mpFBz7GdY4w==
-X-Received: by 2002:a5d:530a:: with SMTP id e10mr75209wrv.303.1590088593322;
- Thu, 21 May 2020 12:16:33 -0700 (PDT)
+ bh=2Mka/5Sz7nZUUrfy7Vlrx4tkhq1CXZaUSp5RTGkdVVc=;
+ b=lVHfGnrdB7KDQR5xBZ4uSE4HzoPRGgwOOanxUeszlNYttLncyr1Sed4ldOXEnqpr52
+ 6+tCRXpTCrEOloRsKGKNBIqOfrPQ70syPO+Jhw4EpHgiXRhhxLgnZtEyFoqtz311yNex
+ pUBvCmmDxBzyPIAGprOADeJ01jpYH8Dw2+YRmooovZLHI8GXX4Ynmsx1maY9tineNdeC
+ AM9ACvyrWNkCvKszunaPtSRYpAR5worPSWzOa+3eHK2SB5J5ZQtjyZqtCxvC/kJD1gNY
+ 9SGQKqTcsFw7HJJ8OE6c4uezoTsJ90Gveh7wQH9AHsombYANGRgmPROO9bJIseAVQGuj
+ AmUA==
+X-Gm-Message-State: AOAM532nI3fx0eYyTiCDkc71+I0XuoKz2xxwTVJ8iawDw6L4Wh7vCll7
+ MebHVVxekjRbtCr5lyS14qgTOePn1xypjg==
+X-Google-Smtp-Source: ABdhPJylkyyiGmqQgaS9mAYsz7c4CfCrE3EbCRBuPQLAiGogv2SISXQD3O2MmlmdGHZ6E/SXE01O5w==
+X-Received: by 2002:adf:b30f:: with SMTP id j15mr104163wrd.394.1590088594568; 
+ Thu, 21 May 2020 12:16:34 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.32
+ by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 12:16:32 -0700 (PDT)
+ Thu, 21 May 2020 12:16:33 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/29] hw/arm/fsl-imx6ul: Connect watchdog interrupts
-Date: Thu, 21 May 2020 20:15:58 +0100
-Message-Id: <20200521191610.10941-18-peter.maydell@linaro.org>
+Subject: [PULL 18/29] hw/arm/fsl-imx7: Instantiate various unimplemented
+ devices
+Date: Thu, 21 May 2020 20:15:59 +0100
+Message-Id: <20200521191610.10941-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200521191610.10941-1-peter.maydell@linaro.org>
 References: <20200521191610.10941-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,44 +91,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Guenter Roeck <linux@roeck-us.net>
 
-With this commit, the watchdog on mcimx6ul-evk is fully operational,
-including pretimeout support.
+Instantiating PWM, CAN, CAAM, and OCOTP devices is necessary to avoid
+crashes when booting mainline Linux.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Message-id: 20200517162135.110364-7-linux@roeck-us.net
+Message-id: 20200517162135.110364-8-linux@roeck-us.net
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/fsl-imx6ul.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ include/hw/arm/fsl-imx7.h | 16 ++++++++++++++++
+ hw/arm/fsl-imx7.c         | 24 ++++++++++++++++++++++++
+ 2 files changed, 40 insertions(+)
 
-diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
-index 56dfd7cecc9..3ecb212da6f 100644
---- a/hw/arm/fsl-imx6ul.c
-+++ b/hw/arm/fsl-imx6ul.c
-@@ -531,12 +531,22 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
-             FSL_IMX6UL_WDOG2_ADDR,
-             FSL_IMX6UL_WDOG3_ADDR,
-         };
-+        static const int FSL_IMX6UL_WDOGn_IRQ[FSL_IMX6UL_NUM_WDTS] = {
-+            FSL_IMX6UL_WDOG1_IRQ,
-+            FSL_IMX6UL_WDOG2_IRQ,
-+            FSL_IMX6UL_WDOG3_IRQ,
-+        };
+diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
+index 3a0041c4c26..47826da2b7e 100644
+--- a/include/hw/arm/fsl-imx7.h
++++ b/include/hw/arm/fsl-imx7.h
+@@ -113,6 +113,9 @@ enum FslIMX7MemoryMap {
+     FSL_IMX7_IOMUXC_GPR_ADDR      = 0x30340000,
+     FSL_IMX7_IOMUXCn_SIZE         = 0x1000,
  
-+        object_property_set_bool(OBJECT(&s->wdt[i]), true, "pretimeout-support",
-+                                 &error_abort);
-         object_property_set_bool(OBJECT(&s->wdt[i]), true, "realized",
-                                  &error_abort);
++    FSL_IMX7_OCOTP_ADDR           = 0x30350000,
++    FSL_IMX7_OCOTP_SIZE           = 0x10000,
++
+     FSL_IMX7_ANALOG_ADDR          = 0x30360000,
+     FSL_IMX7_SNVS_ADDR            = 0x30370000,
+     FSL_IMX7_CCM_ADDR             = 0x30380000,
+@@ -124,11 +127,24 @@ enum FslIMX7MemoryMap {
+     FSL_IMX7_ADC2_ADDR            = 0x30620000,
+     FSL_IMX7_ADCn_SIZE            = 0x1000,
  
-         sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt[i]), 0,
-                         FSL_IMX6UL_WDOGn_ADDR[i]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->wdt[i]), 0,
-+                           qdev_get_gpio_in(DEVICE(&s->a7mpcore),
-+                                            FSL_IMX6UL_WDOGn_IRQ[i]));
-     }
++    FSL_IMX7_PWM1_ADDR            = 0x30660000,
++    FSL_IMX7_PWM2_ADDR            = 0x30670000,
++    FSL_IMX7_PWM3_ADDR            = 0x30680000,
++    FSL_IMX7_PWM4_ADDR            = 0x30690000,
++    FSL_IMX7_PWMn_SIZE            = 0x10000,
++
+     FSL_IMX7_PCIE_PHY_ADDR        = 0x306D0000,
+     FSL_IMX7_PCIE_PHY_SIZE        = 0x10000,
  
-     /*
+     FSL_IMX7_GPC_ADDR             = 0x303A0000,
+ 
++    FSL_IMX7_CAAM_ADDR            = 0x30900000,
++    FSL_IMX7_CAAM_SIZE            = 0x40000,
++
++    FSL_IMX7_CAN1_ADDR            = 0x30A00000,
++    FSL_IMX7_CAN2_ADDR            = 0x30A10000,
++    FSL_IMX7_CANn_SIZE            = 0x10000,
++
+     FSL_IMX7_I2C1_ADDR            = 0x30A20000,
+     FSL_IMX7_I2C2_ADDR            = 0x30A30000,
+     FSL_IMX7_I2C3_ADDR            = 0x30A40000,
+diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
+index 119b281a500..d6cf7c48ce8 100644
+--- a/hw/arm/fsl-imx7.c
++++ b/hw/arm/fsl-imx7.c
+@@ -459,6 +459,30 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
+      */
+     create_unimplemented_device("sdma", FSL_IMX7_SDMA_ADDR, FSL_IMX7_SDMA_SIZE);
+ 
++    /*
++     * CAAM
++     */
++    create_unimplemented_device("caam", FSL_IMX7_CAAM_ADDR, FSL_IMX7_CAAM_SIZE);
++
++    /*
++     * PWM
++     */
++    create_unimplemented_device("pwm1", FSL_IMX7_PWM1_ADDR, FSL_IMX7_PWMn_SIZE);
++    create_unimplemented_device("pwm2", FSL_IMX7_PWM2_ADDR, FSL_IMX7_PWMn_SIZE);
++    create_unimplemented_device("pwm3", FSL_IMX7_PWM3_ADDR, FSL_IMX7_PWMn_SIZE);
++    create_unimplemented_device("pwm4", FSL_IMX7_PWM4_ADDR, FSL_IMX7_PWMn_SIZE);
++
++    /*
++     * CAN
++     */
++    create_unimplemented_device("can1", FSL_IMX7_CAN1_ADDR, FSL_IMX7_CANn_SIZE);
++    create_unimplemented_device("can2", FSL_IMX7_CAN2_ADDR, FSL_IMX7_CANn_SIZE);
++
++    /*
++     * OCOTP
++     */
++    create_unimplemented_device("ocotp", FSL_IMX7_OCOTP_ADDR,
++                                FSL_IMX7_OCOTP_SIZE);
+ 
+     object_property_set_bool(OBJECT(&s->gpr), true, "realized",
+                              &error_abort);
 -- 
 2.20.1
 
