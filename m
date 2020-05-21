@@ -2,107 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8865F1DCC46
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 13:41:38 +0200 (CEST)
-Received: from localhost ([::1]:37686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2B91DCC6B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 13:52:44 +0200 (CEST)
+Received: from localhost ([::1]:54366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbjZx-0006U6-Km
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 07:41:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43314)
+	id 1jbjkh-0007Tj-75
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 07:52:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jbjYs-0004pP-2t; Thu, 21 May 2020 07:40:30 -0400
-Received: from mail-eopbgr80099.outbound.protection.outlook.com
- ([40.107.8.99]:54266 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1jbjjv-000745-D1
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 07:51:55 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:51975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jbjYp-000059-L9; Thu, 21 May 2020 07:40:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mARDPpNMOxlg5TIkvtZ7n0BjcOWE9+OgRqF0pdZgk+rhwpDibqudMmdltk3wXfYrlt/EDW/H6Qo5Xrtj8mvwf4aDCgyh5foVP75oDrAqkjAD/e2YilFnQtWjlE/shOM7sWXHPjYfZSsK+T33PPq4s6Dj85fzs4cisyFTI/kgo50MtQqVwng/9afc9jHihJSMbGUKAXPX/8i9DBXhV8yut/poq6o//1gQT4ezmG5DVTMw/A2qGpv7X9Cr8dKTcuweiiPG6h+H03vgTnYUwg+U3DJxyM051XooGKv3pany90kWBtS8q3rlWDU5x2sD8WaMF40vekjVObjI4C2pULf0ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CN1lOw4OgUM4IkzquiKGInpVhk+U8GbS3vHV0RuQEuM=;
- b=GSam7jInq+FcsZv1tELUTncYz50dt6p8Ms7SrvmYMlIWH+r3+juGAZYV+sN76z+pOG5udeu581gP++dzpFw8S5KjoEJPIgg7tmBnEc+61CoTvU9/f+c5fah/1yt7+sromFyxaXxJu4BQga84s0Lc3gYOng4N8DflQg3w1D09ns0uFJZoKFYRiBoxvmcmlQtI0+MCoO6D0MPS+vEw6Ks98Bp1r7lSEIdtQoHoqgMYDbfAyL8JqYQY9W3VeQHdMp+qzTBbgqStRveu4kJQtbTuYv9mIAsXsVuxeoZyZwzGfDkqn3qof0aNO493ARRFHKzRSxX9rk5ABHaBzBUnav85jA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CN1lOw4OgUM4IkzquiKGInpVhk+U8GbS3vHV0RuQEuM=;
- b=lUdjDZ6y2MvWViAbSv9IdiChAV63Bdz8o27DjPJrNWk85u00KGdFn/k1oAEJ7yFCmgvtPvoTJJ/2+FJmaBK6/yTLhmf80MPcakRLmRITtY2wHqZoT9esTrGuaq6ZgeYqvGB1bjZtkaG/2U/v8RbRGxvKWjmla5qvmrSIIqLF0DY=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5446.eurprd08.prod.outlook.com (2603:10a6:20b:107::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.26; Thu, 21 May
- 2020 11:40:24 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3021.020; Thu, 21 May 2020
- 11:40:23 +0000
-Subject: Re: [PATCH v5 2/5] qcow2: Expose bitmaps' size during measure
-To: Nir Soffer <nsoffer@redhat.com>, Eric Blake <eblake@redhat.com>
-References: <20200520220118.1037094-1-eblake@redhat.com>
- <20200520220118.1037094-3-eblake@redhat.com>
- <CAMRbyytCZ5KuqPLXkv_kw1Fbgw-w05s0iApmhP69ev_q3VjOnA@mail.gmail.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <295f514d-f4c8-551a-d828-77a70b4d6fa3@virtuozzo.com>
-Date: Thu, 21 May 2020 14:40:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-In-Reply-To: <CAMRbyytCZ5KuqPLXkv_kw1Fbgw-w05s0iApmhP69ev_q3VjOnA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR07CA0001.eurprd07.prod.outlook.com
- (2603:10a6:208:ac::14) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1jbjjt-0002tt-Ec
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 07:51:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=sQFNTK0uqjd+CMAhOnBnzQETNKOG0NmT2EEfZTQGJ98=; b=u1R74/T3jo4rfWH5uR33w70ANV
+ uHzRIj6zIISTN+AuKNj9xH35imFg7Fj6AGxQFYBOn0AiYOaLzkgv2eamewu7TAL1hvnxDPlCf5DV3
+ Gg+yPZYpyoBqmgLtWEmecJjmehkCfWfnPujksNfe9h6Or2kE53p4GtwektaBMXF1rzs28VGh2nhdK
+ xOkhWF3UJyLehUzxpbpwI6Euq9xqoykd5MsmUZQoED47pn8VTOgCJtN9pzwqYmct1XabqkyfoqQQI
+ Fgic9t2NDg/PmPp7YoyrzNoFvgtiEL1TE8S0e7ldZQzLxsb/M3oevZ9oL75CQFiftSn/vJp+dc4sn
+ YQG/0HpEKthzF9OJnm9v98UeOHcAVtfIFUDGWuWl2dHVRaYoiloEoJvuKnccWe/wPXi6jR97D3hnO
+ /Sw+UflYFWckAy3aIEiHBPsPq3VGhagF1Bfer6HDlV+cM724FQEyzR8OrxD9NNK+jYq1+2J5h/lCu
+ dbtGzO+xc73C/GbXt2fD/0vay2U5XwUvSPQsyiyrKSLBZnLpt1Zi9sqrq8m93mp5ccL2JTrNNYf7B
+ zKfGg6b/VaR/G47qNddrx+XrNwWCc0CVbDTVeXzyc4vL8vTqs/cvrBPzCpXtwUdYCvQYc37xqTaxy
+ 2GC0XGZL/99uyAwRn09G29g+b5TnKbPhtdRZaSXHY=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Stefano Stabellini <sstabellini@kernel.org>, paul@xen.org, groug@kaod.org,
+ anthony.perard@citrix.com, Stefano Stabellini <stefano.stabellini@xilinx.com>
+Subject: Re: [PATCH 2/2] xen/9pfs: yield when there isn't enough room on the
+ ring
+Date: Thu, 21 May 2020 13:51:33 +0200
+Message-ID: <12139644.GanVjlWIQh@silver>
+In-Reply-To: <alpine.DEB.2.21.2005201016280.27502@sstabellini-ThinkPad-T480s>
+References: <alpine.DEB.2.21.2005191651130.27502@sstabellini-ThinkPad-T480s>
+ <14197604.KFEeGaIGOr@silver>
+ <alpine.DEB.2.21.2005201016280.27502@sstabellini-ThinkPad-T480s>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.167) by
- AM0PR07CA0001.eurprd07.prod.outlook.com (2603:10a6:208:ac::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3045.8 via Frontend Transport; Thu, 21 May 2020 11:40:23 +0000
-X-Originating-IP: [185.215.60.167]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f6a735ae-18b4-4c5b-3709-08d7fd7bbfdb
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5446:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5446A488E9F270CF3D9957ADC1B70@AM7PR08MB5446.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 041032FF37
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JlKm55vhl4ii9a7Bk4mfvmCNsSBBpAz0WakGlrDZmL33yrdeqIONZ0V14oK+pL+7hYqIk7CRV4z2KfkPOgbGSw0EMkm51jjttpvxcOeQkfDe2ooPaT3OvZ1fo9hS+aLMecTQ3N1Qhh5afpa0zy/T+vt8jEvQI8+Qh/5UM18QJeeaD4oF8fGFbcqo23WxOfSzpvURj4kDlh/V0xJnn/6ox+GUFzulDjg+4+9gm7fMFRyWN8i/8mF7448rFkjJvfVWqu9g1kYDIr4gWl3hZ5sZTu0cJorM8fQtEvbFy+FCtmAiqIbzHBGaYlITPguI/K94CHH5ZZjDUzlAuzwIBIf+J2vxKf1/lsvjP7z9gooGBKq3O32o93GfcutJfWaLE94eCZVs83ESHVA5Y6e+zM5IGzgtCy+oBwJTgmihAY6rKhsAc2Q453OrIZomJ0W/quzwOjrqbYJ2RQJ05ywobXC/3fFed4cM+H4in5ML/oFiRzmIP9AzkzAfcDy+qnMKkbV6
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(366004)(39850400004)(136003)(346002)(376002)(478600001)(110136005)(66556008)(16576012)(316002)(31696002)(2616005)(66946007)(36756003)(956004)(31686004)(4326008)(8936002)(66476007)(26005)(16526019)(6486002)(186003)(53546011)(86362001)(5660300002)(8676002)(2906002)(54906003)(52116002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: eMIb1NEuhoXlH9/wtWAfnDC2wAhu+zfQosV7dyMJVnRKGt4gq0w3Z1ENgi2bIfaUXCd5ZzRUaIH68gpAGItPgh2SARc02BoN1didp+zKzrZexQeG9dMGhjzS8qJ38Dwcu73PrQY1HUYha/YgjrlASaMiZBs9+tcAWc0w8yAG/vAOKMCM6NIbCwfZGItNjqK5II3odWNDJoec8JkUj2qiqhHbuze7S9Tnf1T7KrGX1CF3NKJocOiezlCUIr64O/Hiwg/wZ29EjMEaCnTFLadbHWrOyk01DvXYUNcN1IHMQjeDpypgl4rCBKlh0O2mM9eBCYFg2Px6+MmCi/LZbCIeHZTMuxlvYlO7C0gyGJo9pX7kxx0qZG0lBIlksvljpsYnS8FfUGq0gNpoZhoFhX2GdkzZFu36fjr+gucsLkTInDwvP//H3aMc84+0zMmRJrpvsgKIYy4yCZdDlOj/wL+7rIh8QCv0T9Eu1559yrj20iXz1SGB26gWpBHXo1eRiHkt
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6a735ae-18b4-4c5b-3709-08d7fd7bbfdb
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2020 11:40:23.8749 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7/x7MaTvX4wrCinHiLIjnimKl/ywa03xLDNZOnTXnZDNH7eWWdTy4vWME/DuE9gdWl7E7jj1bQTBUb5betPXYjuYmJfPZgtss9Zk6wgF1Z0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5446
-Received-SPF: pass client-ip=40.107.8.99;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 07:40:24
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 07:51:50
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,51 +70,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-21.05.2020 02:00, Nir Soffer wrote:
-> On Thu, May 21, 2020 at 1:01 AM Eric Blake <eblake@redhat.com> wrote:
->>
->> It's useful to know how much space can be occupied by qcow2 persistent
->> bitmaps, even though such metadata is unrelated to the guest-visible
->> data.  Report this value as an additional QMP field, present when
->> measuring an existing image and output format that both support
->> bitmaps.  Update iotest 178 and 190 to updated output, as well as new
->> coverage in 190 demonstrating non-zero values made possible with the
->> recently-added qemu-img bitmap command.
->>
->> On the command-line side, 'qemu-img measure' gains a new --bitmaps
->> flag.  When present, the bitmap size is rolled into the two existing
->> measures (or errors if either the source image or destination format
->> lacks bitmaps); when absent, there is never an error (for
->> back-compat), but the output will instead include a new line item for
->> bitmaps (which you would have to manually add), with that line being
->> omitted in the same cases where passing --bitmaps would error.
+On Mittwoch, 20. Mai 2020 19:35:00 CEST Stefano Stabellini wrote:
+> On Wed, 20 May 2020, Christian Schoenebeck wrote:
+> > On Mittwoch, 20. Mai 2020 03:47:12 CEST Stefano Stabellini wrote:
+> > > From: Stefano Stabellini <stefano.stabellini@xilinx.com>
+> > > 
+> > > Instead of truncating replies, which is problematic, wait until the
+> > > client reads more data and frees bytes on the reply ring.
+> > > 
+> > > Do that by calling qemu_coroutine_yield(). The corresponding
+> > > qemu_coroutine_enter_if_inactive() is called from xen_9pfs_bh upon
+> > > receiving the next notification from the client.
+> > > 
+> > > We need to be careful to avoid races in case xen_9pfs_bh and the
+> > > coroutine are both active at the same time. In xen_9pfs_bh, wait until
+> > > either the critical section is over (ring->co == NULL) or until the
+> > > coroutine becomes inactive (qemu_coroutine_yield() was called) before
+> > > continuing. Then, simply wake up the coroutine if it is inactive.
+> > > 
+> > > Signed-off-by: Stefano Stabellini <stefano.stabellini@xilinx.com>
+> > > ---
+> > 
+> > In general this patch makes sense to me, and much better and cleaner
+> > solution than what we discussed before. Just one detail ...
+> > 
+> > >  hw/9pfs/xen-9p-backend.c | 28 ++++++++++++++++++++++------
+> > >  1 file changed, 22 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
+> > > index fc197f6c8a..3939539028 100644
+> > > --- a/hw/9pfs/xen-9p-backend.c
+> > > +++ b/hw/9pfs/xen-9p-backend.c
+> > > @@ -37,6 +37,7 @@ typedef struct Xen9pfsRing {
+> > > 
+> > >      struct iovec *sg;
+> > >      QEMUBH *bh;
+> > > 
+> > > +    Coroutine *co;
+> > > 
+> > >      /* local copies, so that we can read/write PDU data directly from
+> > >      
+> > >       * the ring */
+> > > 
+> > > @@ -198,16 +199,18 @@ static void xen_9pfs_init_in_iov_from_pdu(V9fsPDU
+> > > *pdu, g_free(ring->sg);
+> > > 
+> > >      ring->sg = g_new0(struct iovec, 2);
+> > > 
+> > > -    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, size);
+> > > +    ring->co = qemu_coroutine_self();
+> > > +    smp_wmb();
+> > > 
+> > > +again:
+> > > +    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, size);
+> > > 
+> > >      buf_size = iov_size(ring->sg, num);
+> > >      if (buf_size  < size) {
+> > > 
+> > > -        xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs request type %d"
+> > > -                "needs %zu bytes, buffer has %zu\n", pdu->id, size,
+> > > -                buf_size);
+> > > -        xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
+> > > -        xen_9pfs_disconnect(&xen_9pfs->xendev);
+> > > +        qemu_coroutine_yield();
+> > > +        goto again;
+> > > 
+> > >      }
+> > > 
+> > > +    ring->co = NULL;
+> > > +    smp_wmb();
+> > > 
+> > >      *piov = ring->sg;
+> > >      *pniov = num;
+> > > 
+> > > @@ -292,6 +295,19 @@ static int xen_9pfs_receive(Xen9pfsRing *ring)
+> > > 
+> > >  static void xen_9pfs_bh(void *opaque)
+> > >  {
+> > >  
+> > >      Xen9pfsRing *ring = opaque;
+> > > 
+> > > +    bool wait;
+> > > +
+> > > +again:
+> > > +    wait = ring->co != NULL && qemu_coroutine_entered(ring->co);
+> > > +    smp_rmb();
+> > > +    if (wait) {
+> > > +        cpu_relax();
+> > > +        goto again;
+> > > +    }
+> > > +
+> > > +    if (ring->co != NULL) {
+> > > +        qemu_coroutine_enter_if_inactive(ring->co);
+> > 
+> > ... correct me if I am wrong, but AFAIK qemu_coroutine_enter_if_inactive()
+> > will simply run the coroutine directly on caller's thread, it will not
+> > dispatch the coroutine onto the thread which yielded the coroutine before.
 > 
-> Supporting 2 ways to measure, one by specifying --bitmaps, and another
-> by adding bitmaps key is not a good idea. We really need one way.
+> Yes, that is correct. I thought it would be fine because the caller here
+> is a bh function so it should have no problems entering the coroutine.
 > 
-> Each one has advantages. adding --bitmaps flag is consistent with
-> "qemu-img convert"
-> and future extensions that may require  new flag, and adding "bitmaps"
-> key is consistent
-> with "qmeu-img info", showing bitmaps when they exist.
-> 
-> Adding a "bitmaps" key has an advantage that we can use it to test if qemu-img
-> supports measuring and copying bitmaps (since both features are expected to
-> be delivered at the same time). So we can avoid checking --help learn about
-> the capabilities.
-> 
-> I'm ok with both options, can we have only one?
+> But I am not that much of an expert on coroutines... Do you think there
+> could be issues?
 
-Hi! What are your scenarios? Are you using qemu-img by hand, or it is used from some management tool? For management tool, I'd recommend to use qmp interface, which is a lot more strict, reliable and stable, and documented. You just need to run qemu binary in stopped mode for it.
+There is not something specific that would come to my mind right now, no. I 
+just wanted to make sure you are aware on which thread that's going to be 
+executed.
 
+Remember we're all working on 9pfs only on a side channel, so nobody right now 
+has a 100% code base coverage in his head. Most of the 9pfs code assumes to be 
+run on main I/O thread only. On other projects I use to guard those functions 
+like:
 
--- 
+#define MAIN_THREAD_ONLY() \
+	assert(isMainThread())
+
+void foo() {
+	MAIN_THREAD_ONLY();
+	...
+}
+
+Might make sense to add something like that to 9pfs as well at some point.
+
+> > > +    }
+> > > 
+> > >      xen_9pfs_receive(ring);
+> > >  
+> > >  }
+> > 
+> > AFAICS you have not addressed the problem msize >> xen ringbuffer size, in
+> > which case I would expect the Xen driver to loop forever. Am I missing
+> > something or have you postponed addressing this?
+> 
+> Yes, I postponed addressing that issue because of a couple of reasons.
+> 
+> For starter strictly speaking it should not be required: msize cannot be
+> bigger than the ring, but it can be equal to the ring increasing the
+> chances of having to wait in QEMU. It should still be correct but the
+> performance might not be great.
+
+Ah right, I actually mixed some things up on Xen side, my bad! You're right, 
+the introduced loop should be sufficient to avoid misbehaviours now. So there 
+would really just be a potential performance penalty, but that's more of a 
+luxury issue that could be addressed in future.
+
+Good then, maybe just add some comment on the memory barriers to shut up the 
+code style warning as suggested by Greg, except of that ...
+
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+
 Best regards,
-Vladimir
+Christian Schoenebeck
+
+
 
