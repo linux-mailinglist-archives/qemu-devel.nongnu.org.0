@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E9C1DC678
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 07:04:14 +0200 (CEST)
-Received: from localhost ([::1]:44242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2BAC1DC672
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 07:02:31 +0200 (CEST)
+Received: from localhost ([::1]:37168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbdNN-0008OE-Md
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 01:04:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59990)
+	id 1jbdLi-0004nX-54
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 01:02:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
- id 1jbdJo-00032b-SM
- for qemu-devel@nongnu.org; Thu, 21 May 2020 01:00:32 -0400
-Received: from o1.dev.nutanix.com ([198.21.4.205]:55623)
+ id 1jbdJn-00031q-MU
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 01:00:31 -0400
+Received: from o1.dev.nutanix.com ([198.21.4.205]:16893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net>)
- id 1jbdJn-0001A9-9a
- for qemu-devel@nongnu.org; Thu, 21 May 2020 01:00:32 -0400
+ id 1jbdJl-0001D5-IS
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 01:00:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
- h=from:subject:mime-version:to:cc:content-type:
+ h=from:subject:in-reply-to:references:to:cc:content-type:
  content-transfer-encoding;
- s=smtpapi; bh=mN8yhPFVREukjgJqzzjqPJuXPBOE0YZnDh2ytROZpY4=;
- b=YZatBfayVc+n11+XU0iaERQ8wH1FLP5G67H3NWnCQ8gjcjXjEE6OsBEOPlWLsKSMXFSC
- /ZgZoG9YaIBOhNMlzqkAD27s0wvog3IVkMlGyjdnbtewOBXMACybqURNuGxY+KruHhG9lA
- U4LRR6aZoGK+52sZ3W4EzF54kuOuuXOUs=
-Received: by filterdrecv-p3iad2-8ddf98858-w5zgs with SMTP id
- filterdrecv-p3iad2-8ddf98858-w5zgs-17-5EC60AE7-DB
- 2020-05-21 05:00:23.515433249 +0000 UTC m=+4852377.809760845
+ s=smtpapi; bh=m0NtnfVnp0PzfL8px4sfwdcZTA8azBlcXjhOtOvFdl8=;
+ b=qyKcbRAElTLIoMwmJk3K5OyHEzV8NJAV/23kVGO0oi+X2YtoY4wNBZzejpXGOvTOeQKy
+ /S61zLrqL8yWdgX/ioi9hglrA0dVVubY2dT8xTqBbDAdc3w7pTgrcBF9Wf/E/M88rvKtRI
+ WsiIDnpXZWJzlv25+g+oRzwiSigxYjAA8=
+Received: by filterdrecv-p3iad2-8ddf98858-4fqk8 with SMTP id
+ filterdrecv-p3iad2-8ddf98858-4fqk8-19-5EC60AEA-4F
+ 2020-05-21 05:00:26.281457718 +0000 UTC m=+4852371.715890103
 Received: from localhost.localdomain.com (unknown)
  by ismtpd0026p1las1.sendgrid.net (SG) with ESMTP
- id hI5-5ya4QmabEdwPopNe7g Thu, 21 May 2020 05:00:23.191 +0000 (UTC)
+ id Z5pJocFvQ2aULHmAcDnqJg Thu, 21 May 2020 05:00:26.069 +0000 (UTC)
 From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: [PATCH v4 00/10] vhost-user: Lift Max Ram Slots Limitation
-Date: Thu, 21 May 2020 05:00:23 +0000 (UTC)
-Message-Id: <1588533678-23450-1-git-send-email-raphael.norwitz@nutanix.com>
+Subject: [PATCH v4 01/10] Add helper to populate vhost-user message regions
+Date: Thu, 21 May 2020 05:00:26 +0000 (UTC)
+Message-Id: <1588533678-23450-2-git-send-email-raphael.norwitz@nutanix.com>
 X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
+In-Reply-To: <1588533678-23450-1-git-send-email-raphael.norwitz@nutanix.com>
+References: <1588533678-23450-1-git-send-email-raphael.norwitz@nutanix.com>
 X-SG-EID: =?us-ascii?Q?YCLURHX+pjNDm1i7d69iKyMnQi=2FdvWah9veFa8nllaoUC0ScIWrCgiaWGu43Vg?=
- =?us-ascii?Q?xFdB4istXUBpN9H93OJgc8zXXCc=2Fa+Hl+92HLHr?=
- =?us-ascii?Q?GCgzRd+Jt=2Fk1rVKdBDeugJypJTnshknVriuZOQt?=
- =?us-ascii?Q?TQK37+uo1D6dq27GaVVFTRiXENA914MXirpLPag?=
- =?us-ascii?Q?q3oCvW=2FOkyno3fhO4N9a01DBONyP4Tl8ZkBS2Jl?=
- =?us-ascii?Q?SZsVjYjSQPxTNs1aGWsNxjRqb0QNWHOJrBePHi1?=
- =?us-ascii?Q?LyUy4w=2Fydj41gvCXjSANw=3D=3D?=
+ =?us-ascii?Q?xFdB4istXUBpN9H93OJgc8zVv1yMmJe5tLurTe2?=
+ =?us-ascii?Q?InvQ9mYtNZqTmxdk8Wla7zw5jovEWVmb0cMKqQC?=
+ =?us-ascii?Q?nGqneqYtWnvMojJzCWfPEHHNp6tswzP=2FZicf521?=
+ =?us-ascii?Q?quUeuIlPiWefyyNsx0qOplGYXsoaAgfiENr3TH1?=
+ =?us-ascii?Q?w0b5MygRWewOer9Y7=2F6BLbR3G6xqmrVTXQ9ENFz?=
+ =?us-ascii?Q?2L=2FQuGPrff1TgOahPTl3g=3D=3D?=
 To: qemu-devel@nongnu.org, mst@redhat.com, marcandre.lureau@redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=198.21.4.205;
  envelope-from=bounces+16159052-3d09-qemu-devel=nongnu.org@sendgrid.net;
  helo=o1.dev.nutanix.com
@@ -80,158 +81,59 @@ Cc: raphael.s.norwitz@gmail.com, marcandre.lureau@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In QEMU today, a VM with a vhost-user device can hot add memory a
-maximum of 8 times. See these threads, among others:
+When setting vhost-user memory tables, memory region descriptors must be
+copied from the vhost_dev struct to the vhost-user message. To avoid
+duplicating code in setting the memory tables, we should use a helper to
+populate this field. This change adds this helper.
 
-[1] https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01046.html
-    https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01236.html
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+---
+ hw/virtio/vhost-user.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-[2] https://lists.gnu.org/archive/html/qemu-devel/2017-11/msg04656.html
-
-This series introduces a new protocol feature
-VHOST_USER_PROTOCOL_F_CONFIGURE_SLOTS which, when enabled, lifts the
-restriction on the maximum number RAM slots imposed by vhost-user.
-
-Without vhost-user, a Qemu VM can support 256 ram slots (for ACPI targets),
-or potentially more (the KVM max is 512). With each region, a file descriptor
-must be sent over the socket. If that many regions are sent in a single message
-there could be upwards of 256 file descriptors being opened in the backend process
-at once. Opening that many fds could easily push the process past the open fd limit,
-especially considering one backend process could have multiple vhost threads,
-exposing different devices to different Qemu instances. Therefore to safely lift the
-limit, transmitting regions should be split up over multiple messages.
-
-In addition, the VHOST_USER_SET_MEM_TABLE message was not reused because
-as the number of regions grows, the message becomes very large. In practice, such
-large messages caused problems (truncated messages) and in the past it seems
-the community has opted for smaller fixed size messages where possible. VRINGs,
-for example, are sent to the backend individually instead of in one massive
-message.
-
-The implementation details are explained in more detail in the commit
-messages, but at a high level the new protocol feature works as follows:
-- If the VHOST_USER_PROTCOL_F_CONFIGURE_MEM_SLOTS feature is enabled,
-  QEMU will send multiple VHOST_USER_ADD_MEM_REG and
-  VHOST_USER_REM_MEM_REG messages to map and unmap individual memory
- regions instead of one large VHOST_USER_SET_MEM_TABLE message containing
-  all memory regions.
-- The vhost-user struct maintains a ’shadow state’ of memory regions
-  already sent to the guest. Each time vhost_user_set_mem_table is called,
-  the shadow state is compared with the new device state. A
-  VHOST_USER_REM_MEM_REG will be sent for each region in the shadow state
-  not in the device state. Then, a VHOST_USER_ADD_MEM_REG will be sent
-  for each region in the device state but not the shadow state. After
-  these messages have been sent, the shadow state will be updated to
-  reflect the new device state.
-
-The series consists of 10 changes:
-1. Add helper to populate vhost-user message regions:
-    This change adds a helper to populate a VhostUserMemoryRegion from a
-    struct vhost_memory_region, which needs to be done in multiple places in
-    in this series.
-
-2. Add vhost-user helper to get MemoryRegion data
-    This changes adds a helper to get a pointer to a MemoryRegion struct, along
-    with it's offset address and associated file descriptor. This helper is used to
-    simplify other vhost-user code paths and will be needed elsewhere in this
-    series.
-
-3. Add VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
-    This change adds the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
-    protocol feature. At this point, if negotiated, the feature only allows the
-    backend to limit the number of max ram slots to a number less than
-    VHOST_MEMORY_MAX_NREGIONS = 8.
-
-4. Transmit vhost-user memory regions individually
-    With this change, if the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
-    protocol feature is enabled, Qemu will send regions to the backend using
-    individual VHOST_USER_ADD_MEM_REG and VHOST_USER_REM_MEM_REG
-    messages.
-    The max number of ram slots supported is still limited to 8.
-
-5. Lift max memory slots imposed by vhost-user
-    With this change, if the VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
-    protocol feature is enabled, the backend can support a configurable number of
-    ram slots up to the maximum allowed by the target platform.
-
-6. Refactor out libvhost-user fault generation logic
-    This cleanup moves some logic from vu_set_mem_table_exec_postcopy() to a
-    separate helper, which will be needed elsewhere.
-
-7. Support ram slot configuration in libvhost-user
-   This change adds support for processing VHOST_USER_GET_MAX_MEMSLOTS
-    messages in libvhost-user.
-    The VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS protocol is not yet
-    enabled in libvhost-user, so at this point this change is non-functional.
-
-8. Support adding individual regions in libvhost-user
-    This change adds libvhost-user support for mapping in new memory regions
-    when receiving VHOST_USER_ADD_MEM_REG messages.
-    The VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS protocol is not yet
-    enabled in libvhost-user, so at this point this change is non-functional.
-
-9. Support individual region unmap in libvhost-user
-    This change adds libvhost-user support for unmapping removed memory regions
-    when receiving VHOST_USER_REM_MEM_REG messages.
-    The VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS protocol is not yet
-    enabled in libvhost-user, so at this point this change is non-functional.
-
-10. Lift max ram slots limit in libvhost-user
-   This change makes libvhost-user try to negotiate the
-   VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS, and adds support for
-   backends built using libvhost-user to support hot adding memory up to the
-   32 times.
-
-The changes were tested with the vhost-user-bridge sample.
-
-Changes since V3:
-    * Fixed compiler warnings caused by using pointers to packed elements
-       (flagged by patchew building with -Waddress-of-packed-member)
-
-Changes since V2:
-    * Add support for VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
-       for backends build with libvhost-user
-    * Add support for postcopy live-migration when the
-       VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS protocol feature has
-       been negotiated.
-    * Add support for backends which want to support both
-       VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS and
-       VHOST_USER_PROTOCOL_F_REPLY_ACK
-    * Change feature name from VHOST_USER_PROTOCOL_F_CONFIGURE_SLOTS
-        to VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS, and any associated
-        variable names.
-    *Log a more descriptive message if the backend lowers the max ram slots limit
-       on reconnect.
-
-Changes since V1:
-    * Kept the assert in vhost_user_set_mem_table_postcopy, but moved it
-      to prevent corruption
-    * Made QEMU send a single VHOST_USER_GET_MAX_MEMSLOTS message at
-      startup and cache the returned value so that QEMU does not need to
-      query the backend every time vhost_backend_memslots_limit is called.
-
-Best,
-Raphael
-
-Raphael Norwitz (10):
-  Add helper to populate vhost-user message regions
-  Add vhost-user helper to get MemoryRegion data
-  Add VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS
-  Transmit vhost-user memory regions individually
-  Lift max memory slots limit imposed by vhost-user
-  Refactor out libvhost-user fault generation logic
-  Support ram slot configuration in libvhost-user
-  Support adding individual regions in libvhost-user
-  Support individual region unmap in libvhost-user
-  Lift max ram slots limit in libvhost-user
-
- contrib/libvhost-user/libvhost-user.c | 341 ++++++++++++++----
- contrib/libvhost-user/libvhost-user.h |  24 +-
- docs/interop/vhost-user.rst           |  44 +++
- hw/virtio/vhost-user.c                | 638 ++++++++++++++++++++++++++++------
- include/hw/virtio/vhost-user.h        |   1 +
- 5 files changed, 873 insertions(+), 175 deletions(-)
-
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index ec21e8f..2e0552d 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -407,6 +407,15 @@ static int vhost_user_set_log_base(struct vhost_dev *dev, uint64_t base,
+     return 0;
+ }
+ 
++static void vhost_user_fill_msg_region(VhostUserMemoryRegion *dst,
++                                       struct vhost_memory_region *src)
++{
++    assert(src != NULL && dst != NULL);
++    dst->userspace_addr = src->userspace_addr;
++    dst->memory_size = src->memory_size;
++    dst->guest_phys_addr = src->guest_phys_addr;
++}
++
+ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
+                                              struct vhost_dev *dev,
+                                              VhostUserMsg *msg,
+@@ -417,6 +426,7 @@ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
+     ram_addr_t offset;
+     MemoryRegion *mr;
+     struct vhost_memory_region *reg;
++    VhostUserMemoryRegion region_buffer;
+ 
+     msg->hdr.request = VHOST_USER_SET_MEM_TABLE;
+ 
+@@ -441,12 +451,8 @@ static int vhost_user_fill_set_mem_table_msg(struct vhost_user *u,
+                 error_report("Failed preparing vhost-user memory table msg");
+                 return -1;
+             }
+-            msg->payload.memory.regions[*fd_num].userspace_addr =
+-                reg->userspace_addr;
+-            msg->payload.memory.regions[*fd_num].memory_size =
+-                reg->memory_size;
+-            msg->payload.memory.regions[*fd_num].guest_phys_addr =
+-                reg->guest_phys_addr;
++            vhost_user_fill_msg_region(&region_buffer, reg);
++            msg->payload.memory.regions[*fd_num] = region_buffer;
+             msg->payload.memory.regions[*fd_num].mmap_offset = offset;
+             fds[(*fd_num)++] = fd;
+         } else if (track_ramblocks) {
 -- 
 1.8.3.1
 
