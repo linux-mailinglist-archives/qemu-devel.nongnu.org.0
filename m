@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C17A1DD458
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:28:41 +0200 (CEST)
-Received: from localhost ([::1]:51124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0651DD422
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:19:29 +0200 (CEST)
+Received: from localhost ([::1]:40632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbozo-0005S2-Al
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50472)
+	id 1jboqu-00013h-QJ
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:19:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jboKv-00009K-Np
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:46:25 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:38122)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jboKu-0007Lw-Py
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:46:25 -0400
-Received: by mail-lj1-x241.google.com with SMTP id m18so9097782ljo.5
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:46:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=nsk3zfmNeJFaP9bVvAvlmccGh1DkjRNJNp+MaeM9Uzs=;
- b=dF7s+q6tmFlM/8+WoVZRP+VwbaIaruJJeCLUL6RXCnSLUAz1KKQYN4Z1sgXSJhpC+B
- iUWMNXq7fRMRW+ovR0kAd88WF0giJDT8jaDJG+zS3oNkHshsbGFxNbaiXuZ6MAqbXqgC
- GASokyMveHI42ysiCjLMxl87b+hlqRcTZ7AnwjhO5HFSCbd51Z4fOqob8bJpGLkpW5e1
- KHeA0i3uuoyWt2o3f5Kmt4F6cOqRqAeBpwEDttJ6CWO+SdawxBciw5pRsKaueh6Cf6iQ
- nDtY7EovI9+XXPy82721t44kUbQLw+5Qb17ZjfGNdXop7hJSlIlGp2qnsBkAsWp7yrF6
- Lf6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=nsk3zfmNeJFaP9bVvAvlmccGh1DkjRNJNp+MaeM9Uzs=;
- b=maWWS10HkW8lYZw/uN8cKCDaGPDVvbiAJRVEu3G5epAC8C7Oa6cuwiwBgKQuyZs3ac
- o/d0IZns6wjOwK89MyC6uqUXtIi/e4sE2FHWiDqN3AlQLAttAQeMEjA/G68MJCuIr8mi
- wwMZbAjaRJ+C7AIztASdKM0evAtmZxlplPEB2u4zAfLkglVfIMo26wd6sBzlx0pG4adh
- 59uGUIzRDQXpxkngwdwBxBZMcNuS8ltQcocw2rAs2OWwncm4nocJI2b5HQN9meMz0Uex
- pnUzbSizO6D8TSOrtI6FplyLchXUI78L8kV06fhsl/MS3MFAPfLNem98oXOrJArwwLZF
- mlyw==
-X-Gm-Message-State: AOAM5339sKDlR74G7ThcHdArdTHAhjmbY0e1YggGmwUAD69yrpY8Stal
- 64W2IX15UgYfZRlkzxJZ6/U=
-X-Google-Smtp-Source: ABdhPJwRW+9cnuzxjgyjMP8Afh3XELZPYLhy1HBh/hz4IZih64C2hCzrIWcE+KVclFQdKR1z4b40xA==
-X-Received: by 2002:a2e:9641:: with SMTP id z1mr5548123ljh.201.1590079583170; 
- Thu, 21 May 2020 09:46:23 -0700 (PDT)
-Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id d22sm1645958lfc.27.2020.05.21.09.46.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:46:22 -0700 (PDT)
-Date: Thu, 21 May 2020 18:46:05 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Robert Foley <robert.foley@linaro.org>
-Subject: Re: [PATCH v9 59/74] microblaze: convert to cpu_interrupt_request
-Message-ID: <20200521164605.GH5519@toto>
-References: <20200521164011.638-1-robert.foley@linaro.org>
- <20200521164011.638-60-robert.foley@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jboQT-0003ug-Ea
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:52:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59462
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jboQR-0008KJ-Gn
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:52:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590079925;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ec4RLZmFUi/ZWVXLoJtBmMk7Zv9vYqbGpEU/jXVQFhk=;
+ b=RPbShwKxtbAp/CmfagqPOaAHrBswHjJ8kXirolamqKrtW2YCzrcpc+mmMq1n32av5nL7oA
+ QJD4lD19xEiP7dBtxK8z1OxaXR+HjXop4ycaVPoYrZn9OHghMt4v970zO6+0FhpYbawZLF
+ Qn+gq3t0BBtpyvNvahO9T025Fe/tmy8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-j9GGX-QjN6WQ4Tsnx_xs6A-1; Thu, 21 May 2020 12:52:03 -0400
+X-MC-Unique: j9GGX-QjN6WQ4Tsnx_xs6A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E23EE157D8;
+ Thu, 21 May 2020 16:51:43 +0000 (UTC)
+Received: from work-vm (ovpn-113-115.ams2.redhat.com [10.36.113.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 53D631801D;
+ Thu, 21 May 2020 16:51:02 +0000 (UTC)
+Date: Thu, 21 May 2020 17:50:59 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH QEMU v23 14/18] vfio: Add function to start and stop
+ dirty pages tracking
+Message-ID: <20200521165059.GK2752@work-vm>
+References: <1589999088-31477-1-git-send-email-kwankhede@nvidia.com>
+ <1589999088-31477-15-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+In-Reply-To: <1589999088-31477-15-git-send-email-kwankhede@nvidia.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200521164011.638-60-robert.foley@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::241;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x241.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:44:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,41 +81,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, cota@braap.org, alex.bennee@linaro.org,
- qemu-devel@nongnu.org, peter.puhov@linaro.org
+Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
+ Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
+ yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
+ armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
+ felipe@nutanix.com, zhi.a.wang@intel.com, kevin.tian@intel.com,
+ yan.y.zhao@intel.com, alex.williamson@redhat.com, changpeng.liu@intel.com,
+ eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 21, 2020 at 12:39:56PM -0400, Robert Foley wrote:
-> From: "Emilio G. Cota" <cota@braap.org>
+* Kirti Wankhede (kwankhede@nvidia.com) wrote:
+> Call VFIO_IOMMU_DIRTY_PAGES ioctl to start and stop dirty pages tracking
+> for VFIO devices.
 > 
-> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Emilio G. Cota <cota@braap.org>
-> Signed-off-by: Robert Foley <robert.foley@linaro.org>
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+This does seem to match my reading of your 4/8 ioctl sefinition patch,
+so:
 
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+I must admit I don't see why 'argsz' is needed.
+
+Dave
 
 > ---
->  target/microblaze/cpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/vfio/migration.c | 36 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
 > 
-> diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-> index 51e5c85b10..ce70f7d281 100644
-> --- a/target/microblaze/cpu.c
-> +++ b/target/microblaze/cpu.c
-> @@ -84,7 +84,7 @@ static void mb_cpu_set_pc(CPUState *cs, vaddr value)
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index b9bbe38e539c..7729c90782bd 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -9,6 +9,7 @@
 >  
->  static bool mb_cpu_has_work(CPUState *cs)
->  {
-> -    return cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
-> +    return cpu_interrupt_request(cs) & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
+>  #include "qemu/osdep.h"
+>  #include "qemu/main-loop.h"
+> +#include <sys/ioctl.h>
+>  #include <linux/vfio.h>
+>  
+>  #include "sysemu/runstate.h"
+> @@ -297,6 +298,32 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+>      return qemu_file_get_error(f);
 >  }
 >  
->  #ifndef CONFIG_USER_ONLY
+> +static int vfio_start_dirty_page_tracking(VFIODevice *vbasedev, bool start)
+> +{
+> +    int ret;
+> +    VFIOContainer *container = vbasedev->group->container;
+> +    struct vfio_iommu_type1_dirty_bitmap dirty = {
+> +        .argsz = sizeof(dirty),
+> +    };
+> +
+> +    if (start) {
+> +        if (vbasedev->device_state & VFIO_DEVICE_STATE_SAVING) {
+> +            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_START;
+> +        } else {
+> +            return -EINVAL;
+> +        }
+> +    } else {
+> +            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
+> +    }
+> +
+> +    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
+> +    if (ret) {
+> +        error_report("Failed to set dirty tracking flag 0x%x errno: %d",
+> +                     dirty.flags, errno);
+> +    }
+> +    return ret;
+> +}
+> +
+>  /* ---------------------------------------------------------------------- */
+>  
+>  static int vfio_save_setup(QEMUFile *f, void *opaque)
+> @@ -327,6 +354,11 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
+>          return ret;
+>      }
+>  
+> +    ret = vfio_start_dirty_page_tracking(vbasedev, true);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+>      qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+>  
+>      ret = qemu_file_get_error(f);
+> @@ -342,6 +374,8 @@ static void vfio_save_cleanup(void *opaque)
+>      VFIODevice *vbasedev = opaque;
+>      VFIOMigration *migration = vbasedev->migration;
+>  
+> +    vfio_start_dirty_page_tracking(vbasedev, false);
+> +
+>      if (migration->region.mmaps) {
+>          vfio_region_unmap(&migration->region);
+>      }
+> @@ -676,6 +710,8 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+>          if (ret) {
+>              error_report("%s: Failed to set state RUNNING", vbasedev->name);
+>          }
+> +
+> +        vfio_start_dirty_page_tracking(vbasedev, false);
+>      }
+>  }
+>  
 > -- 
-> 2.17.1
+> 2.7.0
 > 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
