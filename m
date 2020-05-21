@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48AE1DCD3A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 14:49:09 +0200 (CEST)
-Received: from localhost ([::1]:40634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F8D1DCD33
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 14:47:07 +0200 (CEST)
+Received: from localhost ([::1]:59272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbkdI-0000v1-U7
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 08:49:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50682)
+	id 1jbkbK-00059q-TZ
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 08:47:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jbka3-0003Vm-7w
- for qemu-devel@nongnu.org; Thu, 21 May 2020 08:45:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34046
+ id 1jbka0-0003Rh-U1
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 08:45:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36189
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jbka1-00057I-SV
- for qemu-devel@nongnu.org; Thu, 21 May 2020 08:45:46 -0400
+ id 1jbkZz-00054p-Lt
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 08:45:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590065145;
+ s=mimecast20190719; t=1590065142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tJrxybmGdrfBbB987Z3tJ0S0qgwtOuPu1SkhX8bjTVs=;
- b=HEBkolKZnL72QHeWvokgqgFUTdG79EW8r14A3JKO5KTDZYweqiBfKRZ1X1HMDZn+PV1H1I
- kUJiaRkXLXiM8ZxQMQ9Kx4ceLXYZFDeCgWCTfldUY5lHikMvb/rUWuqC4Zy7zQK/N/59qF
- 5UwS45jC7YquoaO+8DjzcGAMvMQiit4=
+ bh=1x1449wh9fFr7gq1V8OCFbpQf1TKKB1YZGtB8zf4V7c=;
+ b=YQ/gROl+X1qIJ/7/UB8Hd5aWAHRFZEYAfgFLgVEfJmhngcCxy1awlGJBP2FZOSsOQJamTX
+ Ds982Vtsts9PuIdeMlrFqyz+CbgvIuSVRxIufi7ESWbC3ZugmD0Ps/7CkkDalaf9zWRWhh
+ m/HJeCDBn7UGiTqD874RumPBRf2phnA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-7RhToScFNAe45_u0Q4goqg-1; Thu, 21 May 2020 08:45:39 -0400
-X-MC-Unique: 7RhToScFNAe45_u0Q4goqg-1
+ us-mta-190-dfaHOMhqPC2MO-S3r96W0g-1; Thu, 21 May 2020 08:45:40 -0400
+X-MC-Unique: dfaHOMhqPC2MO-S3r96W0g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9C14107ACF4;
- Thu, 21 May 2020 12:45:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D7B2461;
+ Thu, 21 May 2020 12:45:39 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2176C341E9;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DAA0934201;
  Thu, 21 May 2020 12:45:38 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/8] run-coverity-scan: get Coverity token and email from
- special git config section
-Date: Thu, 21 May 2020 08:45:30 -0400
-Message-Id: <20200521124535.5329-4-pbonzini@redhat.com>
+Subject: [PATCH v2 4/8] run-coverity-scan: use docker.py
+Date: Thu, 21 May 2020 08:45:31 -0400
+Message-Id: <20200521124535.5329-5-pbonzini@redhat.com>
 In-Reply-To: <20200521124535.5329-1-pbonzini@redhat.com>
 References: <20200521124535.5329-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -85,108 +84,102 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support a [coverity] section in .git/config.  It can be used to retrieve the
-token and also, if it is different from user.email, the username of the
-submitter.
+Our trusted docker wrapper allows run-coverity-scan to run with both
+docker and podman.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+For the "run" phase this is transparent; for the "build" phase however
+scripts are replaced with a bind mount (-v).  This is not an issue
+because the secret option is meant for secrets stored globally in the
+system and bind mounts are a valid substitute for secrets that are known
+to whoever builds the container.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/coverity-scan/run-coverity-scan | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+ scripts/coverity-scan/coverity-scan.docker |  2 +-
+ scripts/coverity-scan/run-coverity-scan    | 32 ++++++++++++++--------
+ 2 files changed, 22 insertions(+), 12 deletions(-)
 
+diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
+index a4f64d1283..6f0460b66c 100644
+--- a/scripts/coverity-scan/coverity-scan.docker
++++ b/scripts/coverity-scan/coverity-scan.docker
+@@ -128,4 +128,4 @@ RUN rpm -q $PACKAGES | sort > /packages.txt
+ ENV PATH $PATH:/usr/libexec/python3-sphinx/
+ ENV COVERITY_TOOL_BASE=/coverity-tools
+ COPY run-coverity-scan run-coverity-scan
+-RUN --mount=type=secret,id=coverity.token,required ./run-coverity-scan --update-tools-only --tokenfile /run/secrets/coverity.token
++RUN ./run-coverity-scan --update-tools-only --tokenfile /work/token
 diff --git a/scripts/coverity-scan/run-coverity-scan b/scripts/coverity-scan/run-coverity-scan
-index 2e067ef5cf..990f75138d 100755
+index 990f75138d..e926623b3b 100755
 --- a/scripts/coverity-scan/run-coverity-scan
 +++ b/scripts/coverity-scan/run-coverity-scan
-@@ -41,9 +41,10 @@
- #                   is intended mainly for internal use by the Docker support
- #
- # User-specifiable environment variables:
--#  COVERITY_TOKEN -- Coverity token
-+#  COVERITY_TOKEN -- Coverity token (default: looks at your
-+#                    coverity.token config)
- #  COVERITY_EMAIL -- the email address to use for uploads (default:
--#                    looks at your git user.email config)
-+#                    looks at your git coverity.email or user.email config)
- #  COVERITY_BUILD_CMD -- make command (default: 'make -jN' where N is
- #                    number of CPUs as determined by 'nproc')
- #  COVERITY_TOOL_BASE -- set to directory to put coverity tools
-@@ -58,11 +59,11 @@ check_upload_permissions() {
-     # with status 1 if the check failed (usually a bad token);
-     # will exit the script with status 0 if the check indicated that we
-     # can't upload yet (ie we are at quota)
--    # Assumes that PROJTOKEN, PROJNAME and DRYRUN have been initialized.
-+    # Assumes that COVERITY_TOKEN, PROJNAME and DRYRUN have been initialized.
+@@ -29,7 +29,9 @@
  
-     echo "Checking upload permissions..."
- 
--    if ! up_perm="$(wget https://scan.coverity.com/api/upload_permitted --post-data "token=$PROJTOKEN&project=$PROJNAME" -q -O -)"; then
-+    if ! up_perm="$(wget https://scan.coverity.com/api/upload_permitted --post-data "token=$COVERITY_TOKEN&project=$PROJNAME" -q -O -)"; then
-         echo "Coverity Scan API access denied: bad token?"
-         exit 1
-     fi
-@@ -94,20 +95,20 @@ check_upload_permissions() {
- update_coverity_tools () {
-     # Check for whether we need to download the Coverity tools
-     # (either because we don't have a copy, or because it's out of date)
--    # Assumes that COVERITY_TOOL_BASE, PROJTOKEN and PROJNAME are set.
-+    # Assumes that COVERITY_TOOL_BASE, COVERITY_TOKEN and PROJNAME are set.
- 
-     mkdir -p "$COVERITY_TOOL_BASE"
-     cd "$COVERITY_TOOL_BASE"
- 
-     echo "Checking for new version of coverity build tools..."
--    wget https://scan.coverity.com/download/linux64 --post-data "token=$PROJTOKEN&project=$PROJNAME&md5=1" -O coverity_tool.md5.new
-+    wget https://scan.coverity.com/download/linux64 --post-data "token=$COVERITY_TOKEN&project=$PROJNAME&md5=1" -O coverity_tool.md5.new
- 
-     if ! cmp -s coverity_tool.md5 coverity_tool.md5.new; then
-         # out of date md5 or no md5: download new build tool
-         # blow away the old build tool
-         echo "Downloading coverity build tools..."
-         rm -rf coverity_tool coverity_tool.tgz
--        wget https://scan.coverity.com/download/linux64 --post-data "token=$PROJTOKEN&project=$PROJNAME" -O coverity_tool.tgz
-+        wget https://scan.coverity.com/download/linux64 --post-data "token=$COVERITY_TOKEN&project=$PROJNAME" -O coverity_tool.tgz
-         if ! (cat coverity_tool.md5.new; echo "  coverity_tool.tgz") | md5sum -c --status; then
-             echo "Downloaded tarball didn't match md5sum!"
-             exit 1
-@@ -205,6 +206,9 @@ while [ "$#" -ge 1 ]; do
-     esac
- done
- 
-+if [ -z "$COVERITY_TOKEN" ]; then
-+    COVERITY_TOKEN="$(git config coverity.token)"
-+fi
- if [ -z "$COVERITY_TOKEN" ]; then
-     echo "COVERITY_TOKEN environment variable not set"
-     exit 1
-@@ -225,7 +229,6 @@ if [ -z "$SRCDIR" ]; then
-     SRCDIR="$PWD"
- fi
- 
--PROJTOKEN="$COVERITY_TOKEN"
- PROJNAME=QEMU
- TARBALL=cov-int.tar.xz
- 
-@@ -268,6 +271,9 @@ if [ -z "$DESCRIPTION" ]; then
-     DESCRIPTION="$(git rev-parse HEAD)"
- fi
- 
-+if [ -z "$COVERITY_EMAIL" ]; then
-+    COVERITY_EMAIL="$(git config coverity.email)"
-+fi
- if [ -z "$COVERITY_EMAIL" ]; then
-     COVERITY_EMAIL="$(git config user.email)"
- fi
-@@ -393,7 +399,7 @@ if [ "$DRYRUN" = yes ]; then
-     exit 0
- fi
- 
--curl --form token="$PROJTOKEN" --form email="$COVERITY_EMAIL" \
-+curl --form token="$COVERITY_TOKEN" --form email="$COVERITY_EMAIL" \
-      --form file=@"$TARBALL" --form version="$VERSION" \
-      --form description="$DESCRIPTION" \
-      https://scan.coverity.com/builds?project="$PROJNAME"
+ # Command line options:
+ #   --dry-run : run the tools, but don't actually do the upload
+-#   --docker : create and work inside a docker container
++#   --docker : create and work inside a container
++#   --docker-engine : specify the container engine to use (docker/podman/auto);
++#                     implies --docker
+ #   --update-tools-only : update the cached copy of the tools, but don't run them
+ #   --tokenfile : file to read Coverity token from
+ #   --version ver : specify version being analyzed (default: ask git)
+@@ -197,6 +199,17 @@ while [ "$#" -ge 1 ]; do
+             ;;
+         --docker)
+             DOCKER=yes
++            DOCKER_ENGINE=auto
++            shift
++            ;;
++        --docker-engine)
++            shift
++            if [ $# -eq 0 ]; then
++                echo "--docker-engine needs an argument"
++                exit 1
++            fi
++            DOCKER=yes
++            DOCKER_ENGINE="$1"
+             shift
+             ;;
+         *)
+@@ -283,9 +296,8 @@ if [ "$DOCKER" = yes ]; then
+     # build docker container including the coverity-scan tools
+     # Put the Coverity token into a temporary file that only
+     # we have read access to, and then pass it to docker build
+-    # using --secret. This requires at least Docker 18.09.
+-    # Mostly what we are trying to do here is ensure we don't leak
+-    # the token into the Docker image.
++    # using a volume.  A volume is enough for the token not to
++    # leak into the Docker image.
+     umask 077
+     SECRETDIR=$(mktemp -d)
+     if [ -z "$SECRETDIR" ]; then
+@@ -300,12 +312,10 @@ if [ "$DOCKER" = yes ]; then
+     # TODO: This re-downloads the tools every time, rather than
+     # caching and reusing the image produced with the downloaded tools.
+     # Not sure why.
+-    # TODO: how do you get 'docker build' to print the output of the
+-    # commands it is running to its stdout? This would be useful for debug.
+-    DOCKER_BUILDKIT=1 docker build -t coverity-scanner \
+-                   --secret id=coverity.token,src="$SECRET" \
+-                   -f scripts/coverity-scan/coverity-scan.docker \
+-                   scripts/coverity-scan
++    tests/docker/docker.py --engine ${DOCKER_ENGINE} build \
++                   -t coverity-scanner -f scripts/coverity-scan/coverity-scan.docker \
++                   -v "$SECRETDIR:/work" \
++                   --extra-files scripts/coverity-scan/run-coverity-scan
+     echo "Archiving sources to be analyzed..."
+     ./scripts/archive-source.sh "$SECRETDIR/qemu-sources.tgz"
+     if [ "$DRYRUN" = yes ]; then
+@@ -323,7 +333,7 @@ if [ "$DOCKER" = yes ]; then
+     # Arrange for this docker run to get access to the sources with -v.
+     # We pass through all the configuration from the outer script to the inner.
+     export COVERITY_EMAIL COVERITY_BUILD_CMD
+-    docker run -it --env COVERITY_EMAIL --env COVERITY_BUILD_CMD \
++    tests/docker/docker.py run -it --env COVERITY_EMAIL --env COVERITY_BUILD_CMD \
+            -v "$SECRETDIR:/work" coverity-scanner \
+            ./run-coverity-scan --version "$VERSION" \
+            --description "$DESCRIPTION" $DRYRUNARG --tokenfile /work/token \
 -- 
 2.26.2
 
