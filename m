@@ -2,93 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CB81DD07E
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 16:50:16 +0200 (CEST)
-Received: from localhost ([::1]:58886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 837AC1DD07C
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 16:49:38 +0200 (CEST)
+Received: from localhost ([::1]:56232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbmWV-0007Pi-E2
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 10:50:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35906)
+	id 1jbmVt-00060N-Kc
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 10:49:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jbmT5-00005S-Js
- for qemu-devel@nongnu.org; Thu, 21 May 2020 10:46:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25173
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jbmT4-0002Wh-6U
- for qemu-devel@nongnu.org; Thu, 21 May 2020 10:46:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590072401;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=USLeMxcB/gZ9GGCsDGqkU49MhFSxIPTJ5eZ58NzmCLU=;
- b=Kp8GRvXaH4Wi2Ofd1Pdj1s/iY2ESvKMYAmvmGM4A9wXbUskFKO3syvd5bPsqpVhoOSAIAa
- NBMBfjC6sMc7XjXb+UHbHh30G0vSS9pC4PxeBkUh1jZXrozeE8C8UkRGDjOHStrFmxIf13
- dPNcCXURdZUJ0h5oagy10b8G/pCBDy8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-DjdqATsLOaKnEm_BIwrdtw-1; Thu, 21 May 2020 10:46:40 -0400
-X-MC-Unique: DjdqATsLOaKnEm_BIwrdtw-1
-Received: by mail-wm1-f70.google.com with SMTP id e15so1057053wme.1
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 07:46:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jbmUm-0003Vq-6W; Thu, 21 May 2020 10:48:28 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jbmUl-0002zd-Dy; Thu, 21 May 2020 10:48:27 -0400
+Received: by mail-wr1-x441.google.com with SMTP id l17so6936929wrr.4;
+ Thu, 21 May 2020 07:48:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qtqsvHSuQJOeViteiq/MtRUnB7haRBW+2sGnGMz0WjU=;
+ b=qa2gv22tktvN6xWz+JvHriUfsxu6V7HwuEvTE/zCLJ9OrgULjqjhhQI96eFqm4zrt+
+ 4mFC8BXFYOSVJooyi2IGP3eMhfdyoI+u/bUp1Z8jdSbwSpnbg7WU6N0FvDJ6be9mVzKj
+ qk4Mh2RBj3YF+c9dG+x3b16geEoYte13NZBQPPmQFOyj5Udwfg6frGCWYnysBVtk/R0w
+ yGmLVYOAWlx3GMYWoiSsSvNib+LvFaX3yfsJoY76sC2zva+Y9znGWuSScjqMhehkiPxd
+ nOlyv4pExHhrwKCCGTEc2VFUqYnvUS4sAPC7+CZMgAK4iIEj9YtZ01foZ3kfEl+wqIMo
+ ryhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=USLeMxcB/gZ9GGCsDGqkU49MhFSxIPTJ5eZ58NzmCLU=;
- b=KMVCRqUtu56D1zkIEHF8xE7W1rE3M5F/KY2XoWB1/rg9hop2/YUh6w6vutXTD5bUxl
- Zm6wMgeZGchgB8QnNBWMuJbC77COBCRJjgGvdL0W+6SbUSfRV6ONOJ3507DIlQdkxQlN
- KvPyAs5eUIyECfoDtCDpW4uAl1lXgt9aguyVreymHHeB1x3dlp+liUcVjkU9c3jI4ALP
- RZgHq85IEjpzMXF+0HpGOBbZkk6d4N/1ehPAfgpnQfyPP1lS6oUgHSZl127KG4XZu31l
- UQVEoWo6UGAFXoVAs2/ZiQOn1UAsO1EhqeHKBUy3MqP9zMaKhid74xzPcbaJtNnm+NHI
- H7CA==
-X-Gm-Message-State: AOAM532gb9XgM3cYavWZi1RLK32Xiv95l19oEp941H6JjVX/8s7fj74z
- QdZ6P1kYs23y85xop7TAlplWltBkIiVP+r2Q7CFQAy3S3FIIpG4NB5daav9hkpWR8WDmIKthnkk
- HnJCj6lif1sM0xjg=
-X-Received: by 2002:adf:fc8b:: with SMTP id g11mr9377425wrr.90.1590072398744; 
- Thu, 21 May 2020 07:46:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxrUBO+1n4OrxGIFWdarpub6deORjztDIAAedmyKV3fI/kV0nAHP7nqyho7dJIZLhE4cohiuw==
-X-Received: by 2002:adf:fc8b:: with SMTP id g11mr9377410wrr.90.1590072398447; 
- Thu, 21 May 2020 07:46:38 -0700 (PDT)
-Received: from [192.168.178.58] ([151.30.94.134])
- by smtp.gmail.com with ESMTPSA id l9sm5541539wrv.32.2020.05.21.07.46.37
+ bh=qtqsvHSuQJOeViteiq/MtRUnB7haRBW+2sGnGMz0WjU=;
+ b=E7tTshopj9l17VXwV0KyTYc6PADmCC6o5d/jU1mK6cX+dA/GRX2t7dHXWxPNUKIfGI
+ ptiMKnewkOZMlC+POlO5Nrz/Mjvvn3Wb98sdXGZ5GyYlT9B9lH4HtracXiRvJ2XJknxJ
+ zmYLe5MLOfaGx9DY5BWyKTBjbz2jwpbxNpv3vVWA6NpYgStSLUFmV1qou4Ophp9y4oam
+ iqsfdzo7aYVAJGWkaX2m8c6PJbHMPgEiqz32fpVA9y9GMFZJJUCynE7Da5icOOzGczfK
+ 6ibJnkyrcnHCT1YqeYemmDxzn9v+z8tuSC4zH8CVY+MdxwRidaGUbXXUS9/XEMBl6w/L
+ ykAQ==
+X-Gm-Message-State: AOAM531WRs6mXIKWFPLSQl0ui5Ck7m4HzSma+1pcMOyGL+7J61sD0Vyk
+ ZFH0iu0AEWbCrHfrnNaZYR4=
+X-Google-Smtp-Source: ABdhPJznZ+5w9gdiy840MRgex5+n6SH9W7MRaABcBBZXiAzrDiVgz+bzyy6ZniKG/HNvyGHauqsQkg==
+X-Received: by 2002:adf:ce05:: with SMTP id p5mr9322045wrn.423.1590072505176; 
+ Thu, 21 May 2020 07:48:25 -0700 (PDT)
+Received: from [192.168.1.40] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id b12sm7123853wmj.0.2020.05.21.07.48.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 May 2020 07:46:38 -0700 (PDT)
-Subject: Re: [PATCH] qom/container: remove .instance_size initializer from
- container_info
-To: Masahiro Yamada <masahiroy@kernel.org>, qemu-devel@nongnu.org,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <20200513033600.2709646-1-masahiroy@kernel.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <337d26b8-11b3-bed9-2c30-f52bdf7c2b40@redhat.com>
-Date: Thu, 21 May 2020 16:46:37 +0200
+ Thu, 21 May 2020 07:48:24 -0700 (PDT)
+Subject: Re: [PATCH 1/2] hw/riscv: sifive_u: Remove the riscv_ prefix of the
+ soc* functions
+To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <1590072147-13035-1-git-send-email-bmeng.cn@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c6fba5b7-1191-29bf-a4b7-4707efecb973@amsat.org>
+Date: Thu, 21 May 2020 16:48:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200513033600.2709646-1-masahiroy@kernel.org>
+In-Reply-To: <1590072147-13035-1-git-send-email-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:44:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,38 +93,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/05/20 05:36, Masahiro Yamada wrote:
-> You can omit .instance_size if it is the same as that of the parent.
+On 5/21/20 4:42 PM, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
 > 
->     .class_size = sizeof(ObjectClass)
+> To keep consistency with the machine* functions, remove the riscv_
+> prefix of the soc* functions.
 > 
-> ... is omitted here, so removing .instance_size is more consistent.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
 > 
->  qom/container.c | 1 -
->  1 file changed, 1 deletion(-)
+>   hw/riscv/sifive_u.c | 24 ++++++++++++------------
+>   1 file changed, 12 insertions(+), 12 deletions(-)
 > 
-> diff --git a/qom/container.c b/qom/container.c
-> index f6ccaf7ea7..4c030d6dda 100644
-> --- a/qom/container.c
-> +++ b/qom/container.c
-> @@ -16,7 +16,6 @@
->  
->  static const TypeInfo container_info = {
->      .name          = "container",
-> -    .instance_size = sizeof(Object),
->      .parent        = TYPE_OBJECT,
->  };
->  
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index 4299bdf..f9fef2b 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -481,7 +481,7 @@ static void sifive_u_machine_init_register_types(void)
+>   
+>   type_init(sifive_u_machine_init_register_types)
+>   
+> -static void riscv_sifive_u_soc_init(Object *obj)
+> +static void sifive_u_soc_instance_init(Object *obj)
+>   {
+>       MachineState *ms = MACHINE(qdev_get_machine());
+>       SiFiveUSoCState *s = RISCV_U_SOC(obj);
+> @@ -520,7 +520,7 @@ static void riscv_sifive_u_soc_init(Object *obj)
+>                             TYPE_CADENCE_GEM);
+>   }
+>   
+> -static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+> +static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+>   {
+>       MachineState *ms = MACHINE(qdev_get_machine());
+>       SiFiveUSoCState *s = RISCV_U_SOC(dev);
+> @@ -635,32 +635,32 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+>           memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
+>   }
+>   
+> -static Property riscv_sifive_u_soc_props[] = {
+> +static Property sifive_u_soc_props[] = {
+>       DEFINE_PROP_UINT32("serial", SiFiveUSoCState, serial, OTP_SERIAL),
+>       DEFINE_PROP_END_OF_LIST()
+>   };
+>   
+> -static void riscv_sifive_u_soc_class_init(ObjectClass *oc, void *data)
+> +static void sifive_u_soc_class_init(ObjectClass *oc, void *data)
+>   {
+>       DeviceClass *dc = DEVICE_CLASS(oc);
+>   
+> -    device_class_set_props(dc, riscv_sifive_u_soc_props);
+> -    dc->realize = riscv_sifive_u_soc_realize;
+> +    device_class_set_props(dc, sifive_u_soc_props);
+> +    dc->realize = sifive_u_soc_realize;
+>       /* Reason: Uses serial_hds in realize function, thus can't be used twice */
+>       dc->user_creatable = false;
+>   }
+>   
+> -static const TypeInfo riscv_sifive_u_soc_type_info = {
+> +static const TypeInfo sifive_u_soc_type_info = {
+>       .name = TYPE_RISCV_U_SOC,
+>       .parent = TYPE_DEVICE,
+>       .instance_size = sizeof(SiFiveUSoCState),
+> -    .instance_init = riscv_sifive_u_soc_init,
+> -    .class_init = riscv_sifive_u_soc_class_init,
+> +    .instance_init = sifive_u_soc_instance_init,
+> +    .class_init = sifive_u_soc_class_init,
+>   };
+>   
+> -static void riscv_sifive_u_soc_register_types(void)
+> +static void sifive_u_soc_register_types(void)
+>   {
+> -    type_register_static(&riscv_sifive_u_soc_type_info);
+> +    type_register_static(&sifive_u_soc_type_info);
+>   }
+>   
+> -type_init(riscv_sifive_u_soc_register_types)
+> +type_init(sifive_u_soc_register_types)
 > 
 
-Queued, thanks.
-
-Paolo
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
