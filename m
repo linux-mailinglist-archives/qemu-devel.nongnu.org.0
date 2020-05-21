@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716FC1DD9B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 23:52:12 +0200 (CEST)
-Received: from localhost ([::1]:50068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 263191DD9EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 00:10:02 +0200 (CEST)
+Received: from localhost ([::1]:43052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbt6p-0001Gn-1M
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 17:52:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55020)
+	id 1jbtO5-0000bx-5A
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 18:10:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jbt66-00006G-B1
- for qemu-devel@nongnu.org; Thu, 21 May 2020 17:51:26 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58000
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jbt64-0004wd-D1
- for qemu-devel@nongnu.org; Thu, 21 May 2020 17:51:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590097882;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TjybcKmkvEPh8D1tKzbWO/d/SoEg/o9PbiEIgHbvDlY=;
- b=SaD/lmKxCrUniPlTbM/R0WupdCEAqy9Us9vPoqhXF+I8RY+kTd0FkYhMwZpUNjdo3A4tCB
- 4wt8TUtblKRgJHELS9mLTi7g956gwTsUPuhG1uPVX0XSgaSDlkkoSPHxdCC5dsX16Z3pTz
- CD0Z7RrT5DBOavfypKoS2y4nWPaAEKc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-PbH4wnAxNTOoV_vBnqwKrg-1; Thu, 21 May 2020 17:51:06 -0400
-X-MC-Unique: PbH4wnAxNTOoV_vBnqwKrg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0A968014D7
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 21:51:05 +0000 (UTC)
-Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 788CD7FCA8;
- Thu, 21 May 2020 21:51:05 +0000 (UTC)
-Subject: Re: [PATCH v3 2/2] net: Drop the NetLegacy structure, always use
- Netdev instead
-To: Thomas Huth <thuth@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200518180103.32484-1-thuth@redhat.com>
- <20200518180103.32484-3-thuth@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <9a059691-b6b2-4315-8156-259baefaffa9@redhat.com>
-Date: Thu, 21 May 2020 16:51:04 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jbtMd-0006pY-UD; Thu, 21 May 2020 18:08:31 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:33852)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jbtMc-00084w-JI; Thu, 21 May 2020 18:08:31 -0400
+Received: by mail-io1-xd41.google.com with SMTP id f3so9352668ioj.1;
+ Thu, 21 May 2020 15:08:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YiwTY9FFMWYx7ULCqRmU7ItaOvMyntJC2WWMydEepEM=;
+ b=LlbhjgAYDTgjqKr7oInz69utGL9ndkwIR0dhFQTVrlegy18/WsapR0HYEix0hdZ8Fn
+ Jyzz/7J5ySYaI+5QKiAjCRIxjmoTqcnKLYdk3xstgWNzoG/8q/3Gar0GFTtRCznsrrV4
+ wViO/iDiW+8rV56p9aLJci23DLgVt/e3sZMxEnpGeNKGQb902Xw8efQWloCpC7fX9bXl
+ 5JuCwRbp/94QNhCFuhuUOMnkhlfplW4qlgwbEQCBvnz0XCHL2pdzGZpsh1uFaoqSGgw9
+ du4gzuhpSnymFQTe8IhR8asgeck1n6V+B4jLRWv1wREGNFw5DhT4ZQpTKRPCLOnlmStL
+ iIAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YiwTY9FFMWYx7ULCqRmU7ItaOvMyntJC2WWMydEepEM=;
+ b=rbijmcw4SuFliv9JuPVxc5vLLbhjT9aGH3fmLNUMgTtnWrVLUhtxi2rUB/MdAu97eR
+ 0Ew2PkTX4qXJBYIAZsohXLsrN+kJLdRVR6pJ50prjHVpBz+r0JPWjRc/qg+VyBIpF85j
+ jlpXZ6MpiVFU6lzkGl5/DRLjmgaGG5czNZVhVgZDvcme4RAELXddhxeAmwl2RVnJqsEc
+ A6ow5veqJyEEEiLICGJHFSljT8JmDKMz5LRIcOSglJHo4Q+CpNzOaPuizaW+f8wO3n+n
+ neWzubjmXwdLdPYsDwH8VjbUedGM3THM+HHknuy+yRj7NoD4kvEyNfTgWbWm7H2Twx6n
+ oa6A==
+X-Gm-Message-State: AOAM5301KWyzbnr4zUDf2B4wW/lFZRiKin4KWxBn6CR5X11+ZH9Oo+Ta
+ 39saARHngpGCN9LqWtSbWL56rdWnXkxRbAwnGCo=
+X-Google-Smtp-Source: ABdhPJxXTQsw/6k8xCc25f4J77bGkQqq+lwwobMxy5HAwp8FkPBqnLQj6bJXolp032dse4b14/6SNIuipNU4zniyYJY=
+X-Received: by 2002:a02:54ca:: with SMTP id t193mr5910128jaa.26.1590098908784; 
+ Thu, 21 May 2020 15:08:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200518180103.32484-3-thuth@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:47:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+References: <20200516063746.18296-1-anup.patel@wdc.com>
+ <20200516063746.18296-4-anup.patel@wdc.com>
+In-Reply-To: <20200516063746.18296-4-anup.patel@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 21 May 2020 14:59:31 -0700
+Message-ID: <CAKmqyKNeTR7_G5KkN0sh8YALYdUp6nnXPJ+9sUrrMk-_ATtSDQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] hw/riscv: Allow creating multiple instances of PLIC
+To: Anup Patel <anup.patel@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,43 +78,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/18/20 1:01 PM, Thomas Huth wrote:
-> Now that the "name" parameter is gone, there is hardly any difference
-> between NetLegacy and Netdev anymore, so we can drop NetLegacy and always
-> use Netdev to simplify the code quite a bit.
-> 
-> The only two differences that were really left between Netdev and NetLegacy:
-> 
-> 1) NetLegacy does not allow a "hubport" type. We can continue to block
->     this with a simple check in net_client_init1() for this type.
-> 
-> 2) The "id" parameter was optional in NetLegacy (and an internal id
->     was chosen via assign_name() during initialization), but it is mandatory
->     for Netdev. To avoid that the visitor code bails out here, we have to
->     add an internal id to the QemuOpts already earlier now.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On Fri, May 15, 2020 at 11:39 PM Anup Patel <anup.patel@wdc.com> wrote:
+>
+> We extend PLIC emulation to allow multiple instances of PLIC in
+> a QEMU RISC-V machine. To achieve this, we remove first HART id
+> zero assumption from PLIC emulation.
+>
+> Signed-off-by: Anup Patel <anup.patel@wdc.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->   Note: I did not rename the "is_netdev" parameter of the function (as
->   Eric suggested) - you really have to think of "-netdev" vs. "-net"
->   here and not about "Netdev" vs. "NetLegacy". But if this "is_netdev"
->   thing still confuses us in the future, we can still rename it with an
->   additional follow-up patch later instead.
-
-Works for me. It still might be nice mentioning "-netdev" vs. "-net" in 
-the commit message (and the fact that "-net" was what was previously 
-using the legacy type).  But with the explanations you've given, the 
-code looks correct, and a commit message tweak does not change:
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+>  hw/riscv/sifive_e.c            |  2 +-
+>  hw/riscv/sifive_plic.c         | 24 +++++++++++++-----------
+>  hw/riscv/sifive_u.c            |  2 +-
+>  hw/riscv/virt.c                |  2 +-
+>  include/hw/riscv/sifive_plic.h | 12 +++++++-----
+>  5 files changed, 23 insertions(+), 19 deletions(-)
+>
+> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> index 1c3b37d0ba..bd122e71ae 100644
+> --- a/hw/riscv/sifive_e.c
+> +++ b/hw/riscv/sifive_e.c
+> @@ -152,7 +152,7 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
+>
+>      /* MMIO */
+>      s->plic = sifive_plic_create(memmap[SIFIVE_E_PLIC].base,
+> -        (char *)SIFIVE_E_PLIC_HART_CONFIG,
+> +        (char *)SIFIVE_E_PLIC_HART_CONFIG, 0,
+>          SIFIVE_E_PLIC_NUM_SOURCES,
+>          SIFIVE_E_PLIC_NUM_PRIORITIES,
+>          SIFIVE_E_PLIC_PRIORITY_BASE,
+> diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
+> index c1e04cbb98..f88bb48053 100644
+> --- a/hw/riscv/sifive_plic.c
+> +++ b/hw/riscv/sifive_plic.c
+> @@ -352,6 +352,7 @@ static const MemoryRegionOps sifive_plic_ops = {
+>
+>  static Property sifive_plic_properties[] = {
+>      DEFINE_PROP_STRING("hart-config", SiFivePLICState, hart_config),
+> +    DEFINE_PROP_UINT32("hartid-base", SiFivePLICState, hartid_base, 0),
+>      DEFINE_PROP_UINT32("num-sources", SiFivePLICState, num_sources, 0),
+>      DEFINE_PROP_UINT32("num-priorities", SiFivePLICState, num_priorities, 0),
+>      DEFINE_PROP_UINT32("priority-base", SiFivePLICState, priority_base, 0),
+> @@ -400,10 +401,12 @@ static void parse_hart_config(SiFivePLICState *plic)
+>      }
+>      hartid++;
+>
+> -    /* store hart/mode combinations */
+>      plic->num_addrs = addrid;
+> +    plic->num_harts = hartid;
+> +
+> +    /* store hart/mode combinations */
+>      plic->addr_config = g_new(PLICAddr, plic->num_addrs);
+> -    addrid = 0, hartid = 0;
+> +    addrid = 0, hartid = plic->hartid_base;
+>      p = plic->hart_config;
+>      while ((c = *p++)) {
+>          if (c == ',') {
+> @@ -429,8 +432,6 @@ static void sifive_plic_irq_request(void *opaque, int irq, int level)
+>
+>  static void sifive_plic_realize(DeviceState *dev, Error **errp)
+>  {
+> -    MachineState *ms = MACHINE(qdev_get_machine());
+> -    unsigned int smp_cpus = ms->smp.cpus;
+>      SiFivePLICState *plic = SIFIVE_PLIC(dev);
+>      int i;
+>
+> @@ -451,8 +452,8 @@ static void sifive_plic_realize(DeviceState *dev, Error **errp)
+>       * lost a interrupt in the case a PLIC is attached. The SEIP bit must be
+>       * hardware controlled when a PLIC is attached.
+>       */
+> -    for (i = 0; i < smp_cpus; i++) {
+> -        RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(i));
+> +    for (i = 0; i < plic->num_harts; i++) {
+> +        RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(plic->hartid_base + i));
+>          if (riscv_cpu_claim_interrupts(cpu, MIP_SEIP) < 0) {
+>              error_report("SEIP already claimed");
+>              exit(1);
+> @@ -488,16 +489,17 @@ type_init(sifive_plic_register_types)
+>   * Create PLIC device.
+>   */
+>  DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
+> -    uint32_t num_sources, uint32_t num_priorities,
+> -    uint32_t priority_base, uint32_t pending_base,
+> -    uint32_t enable_base, uint32_t enable_stride,
+> -    uint32_t context_base, uint32_t context_stride,
+> -    uint32_t aperture_size)
+> +    uint32_t hartid_base, uint32_t num_sources,
+> +    uint32_t num_priorities, uint32_t priority_base,
+> +    uint32_t pending_base, uint32_t enable_base,
+> +    uint32_t enable_stride, uint32_t context_base,
+> +    uint32_t context_stride, uint32_t aperture_size)
+>  {
+>      DeviceState *dev = qdev_create(NULL, TYPE_SIFIVE_PLIC);
+>      assert(enable_stride == (enable_stride & -enable_stride));
+>      assert(context_stride == (context_stride & -context_stride));
+>      qdev_prop_set_string(dev, "hart-config", hart_config);
+> +    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
+>      qdev_prop_set_uint32(dev, "num-sources", num_sources);
+>      qdev_prop_set_uint32(dev, "num-priorities", num_priorities);
+>      qdev_prop_set_uint32(dev, "priority-base", priority_base);
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index 22997fbf13..69dbd7980b 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -585,7 +585,7 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+>
+>      /* MMIO */
+>      s->plic = sifive_plic_create(memmap[SIFIVE_U_PLIC].base,
+> -        plic_hart_config,
+> +        plic_hart_config, 0,
+>          SIFIVE_U_PLIC_NUM_SOURCES,
+>          SIFIVE_U_PLIC_NUM_PRIORITIES,
+>          SIFIVE_U_PLIC_PRIORITY_BASE,
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index dcb8a83b35..f40efcb193 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -585,7 +585,7 @@ static void riscv_virt_board_init(MachineState *machine)
+>
+>      /* MMIO */
+>      s->plic = sifive_plic_create(memmap[VIRT_PLIC].base,
+> -        plic_hart_config,
+> +        plic_hart_config, 0,
+>          VIRT_PLIC_NUM_SOURCES,
+>          VIRT_PLIC_NUM_PRIORITIES,
+>          VIRT_PLIC_PRIORITY_BASE,
+> diff --git a/include/hw/riscv/sifive_plic.h b/include/hw/riscv/sifive_plic.h
+> index 4421e81249..ace76d0f1b 100644
+> --- a/include/hw/riscv/sifive_plic.h
+> +++ b/include/hw/riscv/sifive_plic.h
+> @@ -48,6 +48,7 @@ typedef struct SiFivePLICState {
+>      /*< public >*/
+>      MemoryRegion mmio;
+>      uint32_t num_addrs;
+> +    uint32_t num_harts;
+>      uint32_t bitfield_words;
+>      PLICAddr *addr_config;
+>      uint32_t *source_priority;
+> @@ -58,6 +59,7 @@ typedef struct SiFivePLICState {
+>
+>      /* config */
+>      char *hart_config;
+> +    uint32_t hartid_base;
+>      uint32_t num_sources;
+>      uint32_t num_priorities;
+>      uint32_t priority_base;
+> @@ -70,10 +72,10 @@ typedef struct SiFivePLICState {
+>  } SiFivePLICState;
+>
+>  DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
+> -    uint32_t num_sources, uint32_t num_priorities,
+> -    uint32_t priority_base, uint32_t pending_base,
+> -    uint32_t enable_base, uint32_t enable_stride,
+> -    uint32_t context_base, uint32_t context_stride,
+> -    uint32_t aperture_size);
+> +    uint32_t hartid_base, uint32_t num_sources,
+> +    uint32_t num_priorities, uint32_t priority_base,
+> +    uint32_t pending_base, uint32_t enable_base,
+> +    uint32_t enable_stride, uint32_t context_base,
+> +    uint32_t context_stride, uint32_t aperture_size);
+>
+>  #endif
+> --
+> 2.25.1
+>
+>
 
