@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33F31DD2D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:09:51 +0200 (CEST)
-Received: from localhost ([::1]:57022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79401DD2E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:14:39 +0200 (CEST)
+Received: from localhost ([::1]:38588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbnlW-0000I1-O0
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45552)
+	id 1jbnqA-0008WB-TJ
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:14:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbnkL-00074m-A2
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:08:37 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:36976)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbnkJ-0006c1-Fq
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:08:37 -0400
-Received: by mail-oi1-x241.google.com with SMTP id r25so6659165oij.4
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:08:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=IOLhARJ1tgt+Qu6q4i7HRkc7EUqe7jOLcBJP52QCNTE=;
- b=fnbbSfyalB8AL4UEc9tN2OhQPNYiYnSOqp4IdTddT/GPQdxycKD/wBlDq8dQj15l1c
- HgvG9d9a+zb9nm5tirQhEZctGAZyBpNcbYud4CmZq8iVyo0cjUBA9SXVeZRl8dQY/WN8
- SYKJ0Hg24jVIYIs0ag9ssIx3BD7eiHw6A6VKKUeyr8oj7UgQrCy5QVqwq4lIwPES93eG
- NJ3Zmmj9Jsw9XYCrw0OHrk/h7VgB9NMRBRB9IXJwTbjMsoM/YrG9UtIJGTdbzNbpwqi9
- 3vZQQk7mpdX1ypyDuqWErwT6VXv1VDrJcvc9lB8lZgZc3SA/an7eOyfqhjGcgEZh68JF
- vf2g==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jbnpN-0007nB-5K
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:13:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50578
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jbnpL-0008BF-M9
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:13:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590077626;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HjneuAgsSfc93YNZ4T57f3GUr573YmR8JUJQhPxIgrg=;
+ b=IuZAL0w9Tx+4mlupcIYNMDMvvcdlg/gjeJFOnYL7IQu1NPWQWKWM/5R5KVuk97mLHqlJCb
+ 2BoQjuwpX0oRg4HjfrgyhX+rNWRtvJ0AWZo///sgbFptmfcke5cqFsgZb/KOO5XT8CU6Hs
+ Ga5WAmwVb2ZXo21Txvnk36Oip2I3adY=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-9-yaD6_jpHPtyNrIk2vtSDRA-1; Thu, 21 May 2020 12:13:42 -0400
+X-MC-Unique: yaD6_jpHPtyNrIk2vtSDRA-1
+Received: by mail-qv1-f70.google.com with SMTP id t10so7691102qvz.9
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:13:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IOLhARJ1tgt+Qu6q4i7HRkc7EUqe7jOLcBJP52QCNTE=;
- b=AndD8fey3vpIeAkp9PijVai0Xp8eNUKskze+TRj6ST7pE4/jw2T9ySh8vdU2COQPQi
- VPQA8soYGrNofke4NVbq65VJU/NQA2gb41xkslmr9T2ofY4wwVAkbSmzDwAPEAXTfdUD
- GjFDstaWUayxXH83qBt8F/v/6e1nBRPkL3lvd4HqFTFuLNgyK5RB4qVUNgCV+W29HBSv
- +WHA3uA+fTNfT6b49CL18NKNNIjwxQsFRc0o8NtHKWlNLs7qqx5fBEv+StqhVdmRG8i1
- 1akQeT+BPuX3rhq0ZQYJDGA4uZHFAxWydsxZPPxxxykczPIo/uxa2Xy2CXEcET4O2qNd
- 33eA==
-X-Gm-Message-State: AOAM532/zBSGH8wOO02ZxjDy3CovLIuRhBzdEIp4GNxjrjHBrO/kk/Sa
- gqgcsq4iJAiuAZkEAK3ySVv8P1JkwMPYpjgdvveY1g==
-X-Google-Smtp-Source: ABdhPJyTiIkkl11m6LFZrzAa+d2w45fJfTClLk0nyLB12E6MaaP7Ue6mzcg4dFiGXBRiXy2dSuHLk7kU0wZ7jca9XYc=
-X-Received: by 2002:aca:eb96:: with SMTP id j144mr6697722oih.48.1590077314309; 
- Thu, 21 May 2020 09:08:34 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=HjneuAgsSfc93YNZ4T57f3GUr573YmR8JUJQhPxIgrg=;
+ b=o6Eh2AP/OGoWKi+WJ/KWiFbCiLJEQciNuOJKa63McSqtCeKgidZ18LrhHp1u6MHs75
+ 57ne3rHsz6b8VKhr6Edxp0pPBmH/qc6GhGMw/urhMQBFjaYfdwSQsHL6zPF9k9IetJQr
+ knDnwFMzLLRZtSqgnDMT0v5XyVqBl8TI2jzBpYRcr8OVDvTE7/CPFUE6aBkcjzisvo5H
+ ZqdYaXfh/54bnDtHDaOv4ew1lAXlufp0i8ETp3O5PZx0IO9a32SXc+gnoq9sMdZiqqqR
+ wTkCR8ej6GZP3NaOqrRjmmu8OTUSq57jR2lGTeVc/c3p1uVXzhaIWRkKfhcxO0xUEZcF
+ sICw==
+X-Gm-Message-State: AOAM5332AXe3YCCzhrTDeGcevacyL4iCu/IEGxJquxVS4bDp2gzIL3SD
+ 2tbu4Cay/h325jcn20kal7EzlXajfNdVGVn6L38N566a5QgpTPfKzvA1aSFRrNRiNubxDwrfI48
+ nngVddkQjTRYTOPU=
+X-Received: by 2002:a0c:e488:: with SMTP id n8mr10192137qvl.172.1590077621833; 
+ Thu, 21 May 2020 09:13:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxZNTz+0Fe556etUG7BHYZGiLhDEb+pszjT5x+fVnCoIJDFYWTez/NlANE28RxJmdq0qDKTRQ==
+X-Received: by 2002:a0c:e488:: with SMTP id n8mr10192091qvl.172.1590077621545; 
+ Thu, 21 May 2020 09:13:41 -0700 (PDT)
+Received: from xz-x1 ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id g19sm5204133qke.32.2020.05.21.09.13.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 May 2020 09:13:40 -0700 (PDT)
+Date: Thu, 21 May 2020 12:13:37 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH QEMU v23 11/18] iommu: add callback to get address limit
+ IOMMU supports
+Message-ID: <20200521161337.GA766834@xz-x1>
+References: <1589999088-31477-1-git-send-email-kwankhede@nvidia.com>
+ <1589999088-31477-12-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-References: <20200519085143.1376-1-geert+renesas@glider.be>
-In-Reply-To: <20200519085143.1376-1-geert+renesas@glider.be>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 May 2020 17:08:23 +0100
-Message-ID: <CAFEAcA-BR=jHHLfvsy2CbUA1v+P1_5sOrkHnms_CCyMscppPVg@mail.gmail.com>
-Subject: Re: [PATCH] ARM: PL061: Introduce N_GPIOS
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <1589999088-31477-12-git-send-email-kwankhede@nvidia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=peterx@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:44:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,28 +93,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
+ Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, eauger@redhat.com, yi.l.liu@intel.com,
+ quintela@redhat.com, ziye.yang@intel.com, armbru@redhat.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, felipe@nutanix.com,
+ zhi.a.wang@intel.com, kevin.tian@intel.com, yan.y.zhao@intel.com,
+ dgilbert@redhat.com, alex.williamson@redhat.com, changpeng.liu@intel.com,
+ eskultet@redhat.com, Ken.Xue@amd.com, jonathan.davies@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 May 2020 at 09:51, Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> Add a definition for the number of GPIO lines controlled by a PL061
-> instance, and use it instead of the hardcoded magic value 8.
->
-> Suggested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  hw/gpio/pl061.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
->
+On Wed, May 20, 2020 at 11:54:41PM +0530, Kirti Wankhede wrote:
+> +hwaddr memory_region_iommu_get_address_limit(IOMMUMemoryRegion *iommu_mr)
+> +{
+> +    IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
+> +
+> +    if (imrc->get_address_limit) {
+> +        return imrc->get_address_limit(iommu_mr);
+> +    }
+> +
+> +    return 0;
 
+LGTM, besides.. Would it be better to return (hwaddr)-1 as default here?
+Because if an IOMMU type didn't provide this information, IMHO we'd better
+cover the whole possible address range.
 
+Thanks,
 
-Applied to target-arm.next, thanks.
+> +}
 
--- PMM
+-- 
+Peter Xu
+
 
