@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B19E1DD44C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:27:48 +0200 (CEST)
-Received: from localhost ([::1]:47782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7799E1DD46D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:31:23 +0200 (CEST)
+Received: from localhost ([::1]:33786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jboyx-00044J-8e
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:27:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51186)
+	id 1jbp2Q-0001ym-6g
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:31:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jboRu-0006tQ-TA
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:53:40 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:38755)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jboXu-00013Y-Qa
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:59:50 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:44617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jboRs-0008WR-1f
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:53:38 -0400
-Received: by mail-ej1-x641.google.com with SMTP id h21so9675835ejq.5
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:53:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jboXt-00016Y-CB
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:59:50 -0400
+Received: by mail-ot1-x341.google.com with SMTP id f18so6016652otq.11
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:59:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=+1miga9ogLLOn2cfQOxdPsZTYfR25BOk5zO9I4zkgD4=;
- b=bnaZsjepusapG0fevePVmrop/yXv5IYsl2UPExN3y5J09TIAjWbEa4dv+eOjbIfy8i
- PAalLt3NF78IhELeNRpPCXNDXiB9+oOv2F7p9jnDqDy0nrqU5OSF2wYjiXYqcv5ieiGP
- Vvm6i5TEkkARK+HVW4F1QzEMyTfn2OIMmq5/DXEXF20oiRab1XhDrUwrZYz8IlU0ju4x
- s5nS67WABE5Hk7X04uEkiNVF7rgNNI7rMX+wCfFgL06KRhbacA9umoFnovXYibg4UeYP
- Kx1jonrooizOw1qB2KDD9bi9w800DD+tps1t5aJYKseRrVpEljHKbCFAWnSTWXmqYlp/
- cAVQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oHKmpJirg4EZoTKDF575j+PCYShCNB8Xm+6VogrN6FA=;
+ b=G4Eqelj72FTUuEXOQDgLe1SoQH1v4Ua5qW0EWqZ8ULWhG3c+WQbKYZo9vWNniboF/O
+ PHf/AznmoUJk2dltC+/ThYvTKdN2s2KCMvOvdvm3IynzPiHWaVvdnJtDJbrA/sP8meYV
+ 7PLQ/AASuNRXviX1CLYakMauQGlHAdJQAI2kaOg71DTLeCS/I4hKPh12cLXEeaQPe9pD
+ xImacx9JfiSZnZKMOtKD7tKRSohBwXDwW7s6WH6YQD7xOCPgEI6pzF8bb66tfI+KA137
+ GCNO56iA69u6+YbumNJaMTh+ea3UKgUzg6d7RQg2915hK+Np+xka8RjaCv83PubIlRRk
+ wvCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=+1miga9ogLLOn2cfQOxdPsZTYfR25BOk5zO9I4zkgD4=;
- b=Ve9IF1vxGwEBQE1JUywxzmMU/H+/sgCBdCqxtFXNmQzhaWl/8Au0b6fSfa3TZDZ2Pl
- T6RN2PoIddLXnvRqScDC0wK8hyXkvW4Et5CTd1EUW9xcwIqaXaIVahNACNfJug6ceZXz
- 36tL69qprnk/Gut4LDkGCowBqoyv7EjH37g8h8/Oiq0ToGZnTSZeRf7xwk0CGyt5W7PQ
- nrljm2cog3M16XdAi9lv5MPVg9H+hYje1fACS6NaSNK4aPvH/u/k9q3je6nw9DwoNGVM
- Lqr2CaIJeyPak11vNy+UhYGujXQQkLo3rYKdyVsQ5KUgKwoAPM7QwAviJgt8AzUH/X2V
- yvPA==
-X-Gm-Message-State: AOAM5309e/KZ35jeoHg40P+j/Yq6x2xc5ergu77xoydk7n4bSCvRk5Fw
- 5ixoGRrgIPG7OE7lQergXpO12g==
-X-Google-Smtp-Source: ABdhPJx559UsZdeJN/Ry5rUuejQTYgmW2mEAHfAgUE+rCpqfXTovXiFZeGeQJtBFFI5FFeLtfWcQfA==
-X-Received: by 2002:a17:907:39b:: with SMTP id
- ss27mr4353887ejb.209.1590080013627; 
- Thu, 21 May 2020 09:53:33 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w11sm4771711edf.32.2020.05.21.09.53.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:53:32 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5AA3A1FF7E;
- Thu, 21 May 2020 17:53:31 +0100 (BST)
-References: <cover.1578407802.git.jan.kiszka@siemens.com>
- <5ddc4ca4f32bfab8971840e441b60a72153a2308.1578407802.git.jan.kiszka@siemens.com>
-User-agent: mu4e 1.4.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jan Kiszka <jan.kiszka@siemens.com>
-Subject: Re: [RFC][PATCH v2 2/3] docs/specs: Add specification of ivshmem
- device revision 2
-In-reply-to: <5ddc4ca4f32bfab8971840e441b60a72153a2308.1578407802.git.jan.kiszka@siemens.com>
-Date: Thu, 21 May 2020 17:53:31 +0100
-Message-ID: <877dx5fcvo.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oHKmpJirg4EZoTKDF575j+PCYShCNB8Xm+6VogrN6FA=;
+ b=YgJxBJJWJV123hqA6teRfkufM3u+W2HTshguBIe4+t7FpeoBD6uJb7ttKVXINbgowg
+ onH7PuB79h1DEi3J3kNarfpE5pb4+QRWUS1O6304+/MLTlawOwkdyS2sqChH8kFuiytX
+ EW8pLP6VKLfQfZNn+k07Dr0ug15/uqzNlqOFwJo/kjm97NN0vqvZW6Jp2tyNPJrf0fsh
+ /1Zh3/1THLY1n1GpPEKgGzUrmFBk2RSLWuu3tG2MX5wqLyVxpX+GZfgFR3HGRzei75Zk
+ SzezugF9swvtsjkYjJo9+/865OE6v9i4pJjySOz9dwpf6lsYB9yh92GEDIevXMAgkHsn
+ VTiQ==
+X-Gm-Message-State: AOAM530BhP9lxkfvRyN/EdsFzKHvFS9Z1tPrUcF4up2SRN5LN+11mjsc
+ n0xjMi03/3AGU+8cMNh8Hcct3DvcA1D2MhbdNXsNsw==
+X-Google-Smtp-Source: ABdhPJwEhkexMKUINid9wuLNtB6fVpHfueW3m2e3kqUAv6oOy3z/6jMS/ZrHCXEdUezJ/NTgU5B3vAJW9sHvCYVF9mc=
+X-Received: by 2002:a05:6830:158b:: with SMTP id
+ i11mr8016316otr.135.1590080387984; 
+ Thu, 21 May 2020 09:59:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x641.google.com
+References: <20200519084904.1069-1-geert+renesas@glider.be>
+In-Reply-To: <20200519084904.1069-1-geert+renesas@glider.be>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 21 May 2020 17:59:37 +0100
+Message-ID: <CAFEAcA9-wQ72_M+ZY+EbEgw1L9LVchBgpLivexFXVZ3HuCtcZg@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/virt: Fix PL061 node name and properties
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,48 +79,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liang yan <lyan@suse.com>, Jailhouse <jailhouse-dev@googlegroups.com>,
- Claudio Fontana <claudio.fontana@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Hannes Reinecke <hare@suse.de>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 19 May 2020 at 09:49, Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> Make the created node comply with the PL061 Device Tree bindings:
+>   - Use generic node name "gpio" instead of "pl061",
+>   - Add missing "#interrupt-cells" and "interrupt-controller"
+>     properties.
 
-Jan Kiszka <jan.kiszka@siemens.com> writes:
+Where have these properties come from? They must be optional,
+because in the version of the binding documentation from Linux
+5.0 they're not described:
+https://elixir.bootlin.com/linux/v5.0/source/Documentation/devicetree/bindings/gpio/pl061-gpio.txt
 
-> From: Jan Kiszka <jan.kiszka@siemens.com>
+They seem to have magically appeared in kernel commit
+910f38bed9439e765f7e, which purports to only be a change
+of format from plain text to yaml but has added some
+extra properties and claimed them to be mandatory.
+
+Since the devicetree spec says that the interrupt-controller
+property "defines a node as an interrupt controller node"
+and a GPIO chip isn't an interrupt controller, this seems
+like some kind of error in the dtb binding. Maybe I'm
+missing something...
+
+What actually goes wrong if QEMU doesn't specify these
+properties?
+
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 7dc96abf72cf2b9a..99593d7bce4d85cb 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -818,13 +818,15 @@ static void create_gpio(const VirtMachineState *vms)
+>                                       qdev_get_gpio_in(vms->gic, irq));
 >
-> This imports the ivshmem v2 specification draft from Jailhouse where the
-> implementation is about to be merged now. The final home of the spec is
-> to be decided, this shall just simplify the review process at this
-> stage.
->
-> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
-> ---
->  docs/specs/ivshmem-2-device-spec.md | 376 ++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 376 insertions(+)
->  create mode 100644 docs/specs/ivshmem-2-device-spec.md
->
-> diff --git a/docs/specs/ivshmem-2-device-spec.md b/docs/specs/ivshmem-2-d=
-evice-spec.md
-> new file mode 100644
-> index 0000000000..d93cb22b04
-> --- /dev/null
-> +++ b/docs/specs/ivshmem-2-device-spec.md
-> @@ -0,0 +1,376 @@
-> +IVSHMEM Device Specification
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +
-> +** NOTE: THIS IS WORK-IN-PROGRESS, NOT YET A STABLE INTERFACE
-> SPECIFICATION! **
+>      uint32_t phandle = qemu_fdt_alloc_phandle(vms->fdt);
+> -    nodename = g_strdup_printf("/pl061@%" PRIx64, base);
+> +    nodename = g_strdup_printf("/gpio@%" PRIx64, base);
 
-Has there been any proposal to the OASIS virtio spec to use this as a
-transport for VirtIO?
+Does the devicetree binding really mandate what the node name is?
+I thought that finding the right device was doe via the
+'compatible' string and the nodename could be whatever the
+device tree creator wanted.
 
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
