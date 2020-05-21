@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB941DD6FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:17:57 +0200 (CEST)
-Received: from localhost ([::1]:39668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 076DF1DD718
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:22:04 +0200 (CEST)
+Received: from localhost ([::1]:56044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbqhY-0004PD-LD
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:17:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37992)
+	id 1jbqlR-0003Xs-Oc
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:21:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqg1-00021K-Ba
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:21 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43146)
+ id 1jbqg2-00022j-6O
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:22 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqg0-0000P9-89
+ id 1jbqg1-0000PG-7q
  for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:21 -0400
-Received: by mail-wr1-x443.google.com with SMTP id i15so7731385wrx.10
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:19 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id x14so2390693wrp.2
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=CcIe3RQsnYbg8g+NInxK1LG4Wd7si9pCUTbnuZRw2Kg=;
- b=ve643H7V7zDSjRdar8kSOyH7SUt/JzrJN8nfsYVm8H5yIsVCL7xC4jeog31S2bRNqb
- jBqdMT4qlJ4VY9rga7RP/NTyRTjGwwKGuZ9wQ9w3KzDwKc6ctsF+6rvn4AHrn8EJTcVh
- 2zXq7DUt3MrgsYMmBdzbcF5htSo9R6s+E56Gx1oRA9GHAMwByqIZSs1TVP8E7nJLP3Sy
- mRA2nuXxqzd66JtPewzMpuDqcM4UyxS0SZ0idB++7nKDx3qEk4j3hGGzxcg3fqc6jQsl
- BU48clPzL301O889DYV+DPWvD7eN9+WjuZXZyqNuyTM7F0gQUrVke+6jtUeFqk3EBNvp
- GO7g==
+ bh=IaZtb9mzc1u3nnOp3gW0dG4QSP8UXW5anJbY4Gmv+gE=;
+ b=mPOd8aCVeIw3BIrA8COwOpbC65xMtDwDGDltpBo+xW+4OzHn6PhYcHTa62esAVAmOC
+ 6xhiLhbk8WcE+Zbwkb+wqk6cJ5TfQ+GL6mJF3P1JELEoj8MCUPNUR7x4Op2wKuMSLCvQ
+ 20afZg4sSmBFeLkh7EOl2eOlk9PBAHtOBJyufkcChjtI/Ovks4PxIRFLKHwKNhwfc3Ey
+ Gf41X2qi6FzKl68gAzU2/giJx1VPM97qCtkV/xywLqZdb1Jh5nz1n+GOyqlRT0LQsXVR
+ brrOA3JT9B3FVSSA4umA3yZcE6hDDBWuZzWJPMWybRRQJX41yavg7fPbf0DlMO5hMZwO
+ 6AZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CcIe3RQsnYbg8g+NInxK1LG4Wd7si9pCUTbnuZRw2Kg=;
- b=f8MP36Uy38APvAu7jba8fd6ya46LliHjWhBn4ktNMxbVmzif3zV8Lz2oHOoGo4fyGl
- vaiQnoQNQJYGJnsJxFi6Qj41oua5j0w972MYdvlWfkJ7uitoX9hl8N01gut8xunO9Ihh
- wsikk875ABkOiYWGxbmidDKttxPPrNFgBatiEd46iMVNAWn/FLdAYw3eN2Q0gEywAZEL
- hLEK7csZt4fBYt93yFKL6cKXSHx2Rtrh6yFUyZf4GTvpgaAKL7cL5iKodNgKKwXUz4n7
- rRnyO+200nvju0wA8ebAXEccsz1adNfYcVSr721nmzSUtDtBo1PEfqMIBuVjccVbaVtm
- 9jnw==
-X-Gm-Message-State: AOAM533WsJhs6nNcjQubBh4+P4qcAfoC4n/dWopzrh+ZdaR/QvIZ1g09
- tJSOHJeJss9ydDDAzWA9M3odmfnodWkMwA==
-X-Google-Smtp-Source: ABdhPJyOxlZbKJ6UhIi86q3LQVZK4qrt0A5FPf7UIhAUWbxjA3JWATjUcfzzbN/8ZEII85FRw94GSg==
-X-Received: by 2002:adf:f601:: with SMTP id t1mr87334wrp.207.1590088578531;
- Thu, 21 May 2020 12:16:18 -0700 (PDT)
+ bh=IaZtb9mzc1u3nnOp3gW0dG4QSP8UXW5anJbY4Gmv+gE=;
+ b=Is/vUCyNdPl7B/91N4Xda00v6/OJKb/hkDixd2cluo3bni9BmAptOj07UlM2/4jN9d
+ oDzKlb3Ewa4OGg6unlpZfvOWBaWRNcOiHq94mlu8KUJ6lNvGXCFyCIkKycCBCbwM/ZBP
+ 2PmF7FF9IR/AvGwsP1f7PbP+3sddyViIk2gakcO6db9TaUpbZ7q+wkBrd4y0kno4Z52f
+ kEq2xdaPAZo41+CyFQ0B2qTvdzcWymgLEFs+8w8NF+aphPVVmFIEXVXIgMy5kaZFSOSm
+ luIuhJgqQhr6+WtKd/VS7wExskHGeVL+qum5MxfaVMk0IX6bTcCp7V6mpvw06eUUdl//
+ v97g==
+X-Gm-Message-State: AOAM5308i9T/jh6/SuowzTwQnuGZGQ7jOJL/WUrVgueJKctJg/8UhW/8
+ /SaB3Ho4mKObF0TJq1QcnEzXwV8/SP2vSQ==
+X-Google-Smtp-Source: ABdhPJyAP96vlXO72zIBHOY96Mn9o7Jq+xx7dCbRbmw8fiwouafysnweMzAC5BB1bxWrCp1JgJ52kA==
+X-Received: by 2002:adf:e90b:: with SMTP id f11mr95957wrm.364.1590088579534;
+ Thu, 21 May 2020 12:16:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.16
+ by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 12:16:17 -0700 (PDT)
+ Thu, 21 May 2020 12:16:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/29] docs/system: Document Arm Versatile Express boards
-Date: Thu, 21 May 2020 20:15:45 +0100
-Message-Id: <20200521191610.10941-5-peter.maydell@linaro.org>
+Subject: [PULL 05/29] docs/system: Document the various MPS2 models
+Date: Thu, 21 May 2020 20:15:46 +0100
+Message-Id: <20200521191610.10941-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200521191610.10941-1-peter.maydell@linaro.org>
 References: <20200521191610.10941-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,110 +89,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide a minimal documentation of the Versatile Express boards
-(vexpress-a9, vexpress-a15).
+Add basic documentation of the MPS2 board models.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20200507151819.28444-4-peter.maydell@linaro.org
+Message-id: 20200507151819.28444-5-peter.maydell@linaro.org
 ---
- docs/system/arm/vexpress.rst | 60 ++++++++++++++++++++++++++++++++++++
- docs/system/target-arm.rst   |  1 +
- MAINTAINERS                  |  1 +
- 3 files changed, 62 insertions(+)
- create mode 100644 docs/system/arm/vexpress.rst
+ docs/system/arm/mps2.rst   | 29 +++++++++++++++++++++++++++++
+ docs/system/target-arm.rst |  1 +
+ MAINTAINERS                |  1 +
+ 3 files changed, 31 insertions(+)
+ create mode 100644 docs/system/arm/mps2.rst
 
-diff --git a/docs/system/arm/vexpress.rst b/docs/system/arm/vexpress.rst
+diff --git a/docs/system/arm/mps2.rst b/docs/system/arm/mps2.rst
 new file mode 100644
-index 00000000000..7f1bcbef078
+index 00000000000..3a98cb59b0d
 --- /dev/null
-+++ b/docs/system/arm/vexpress.rst
-@@ -0,0 +1,60 @@
-+Arm Versatile Express boards (``vexpress-a9``, ``vexpress-a15``)
-+================================================================
++++ b/docs/system/arm/mps2.rst
+@@ -0,0 +1,29 @@
++Arm MPS2 boards (``mps2-an385``, ``mps2-an505``, ``mps2-an511``, ``mps2-an521``)
++================================================================================
 +
-+QEMU models two variants of the Arm Versatile Express development
-+board family:
++These board models all use Arm M-profile CPUs.
 +
-+- ``vexpress-a9`` models the combination of the Versatile Express
-+  motherboard and the CoreTile Express A9x4 daughterboard
-+- ``vexpress-a15`` models the combination of the Versatile Express
-+  motherboard and the CoreTile Express A15x2 daughterboard
++The Arm MPS2 and MPS2+ dev boards are FPGA based (the 2+ has a bigger
++FPGA but is otherwise the same as the 2). Since the CPU itself
++and most of the devices are in the FPGA, the details of the board
++as seen by the guest depend significantly on the FPGA image.
 +
-+Note that as this hardware does not have PCI, IDE or SCSI,
-+the only available storage option is emulated SD card.
++QEMU models the following FPGA images:
 +
-+Implemented devices:
++``mps2-an385``
++  Cortex-M3 as documented in ARM Application Note AN385
++``mps2-an511``
++  Cortex-M3 'DesignStart' as documented in AN511
++``mps2-an505``
++  Cortex-M33 as documented in ARM Application Note AN505
++``mps2-an521``
++  Dual Cortex-M33 as documented in Application Note AN521
 +
-+- PL041 audio
-+- PL181 SD controller
-+- PL050 keyboard and mouse
-+- PL011 UARTs
-+- SP804 timers
-+- I2C controller
-+- PL031 RTC
-+- PL111 LCD display controller
-+- Flash memory
-+- LAN9118 ethernet
++Differences between QEMU and real hardware:
 +
-+Unimplemented devices:
-+
-+- SP810 system control block
-+- PCI-express
-+- USB controller (Philips ISP1761)
-+- Local DAP ROM
-+- CoreSight interfaces
-+- PL301 AXI interconnect
-+- SCC
-+- System counter
-+- HDLCD controller (``vexpress-a15``)
-+- SP805 watchdog
-+- PL341 dynamic memory controller
-+- DMA330 DMA controller
-+- PL354 static memory controller
-+- BP147 TrustZone Protection Controller
-+- TrustZone Address Space Controller
-+
-+Other differences between the hardware and the QEMU model:
-+
-+- QEMU will default to creating one CPU unless you pass a different
-+  ``-smp`` argument
-+- QEMU allows the amount of RAM provided to be specified with the
-+  ``-m`` argument
-+- QEMU defaults to providing a CPU which does not provide either
-+  TrustZone or the Virtualization Extensions: if you want these you
-+  must enable them with ``-machine secure=on`` and ``-machine
-+  virtualization=on``
-+- QEMU provides 4 virtio-mmio virtio transports; these start at
-+  address ``0x10013000`` for ``vexpress-a9`` and at ``0x1c130000`` for
-+  ``vexpress-a15``, and have IRQs from 40 upwards. If a dtb is
-+  provided on the command line then QEMU will edit it to include
-+  suitable entries describing these transports for the guest.
++- AN385 remapping of low 16K of memory to either ZBT SSRAM1 or to
++  block RAM is unimplemented (QEMU always maps this to ZBT SSRAM1, as
++  if zbt_boot_ctrl is always zero)
++- QEMU provides a LAN9118 ethernet rather than LAN9220; the only guest
++  visible difference is that the LAN9118 doesn't support checksum
++  offloading
 diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-index d459efb3d20..1c759aa1a08 100644
+index 1c759aa1a08..f2d9366e9b4 100644
 --- a/docs/system/target-arm.rst
 +++ b/docs/system/target-arm.rst
-@@ -78,6 +78,7 @@ undocumented; you can get a complete list by running
+@@ -76,6 +76,7 @@ undocumented; you can get a complete list by running
+    :maxdepth: 1
+ 
     arm/integratorcp
++   arm/mps2
     arm/realview
     arm/versatile
-+   arm/vexpress
-    arm/musicpal
-    arm/nseries
-    arm/orangepi
+    arm/vexpress
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 1e006c98fab..6a9280c1b03 100644
+index 6a9280c1b03..520a7b74f28 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -828,6 +828,7 @@ M: Peter Maydell <peter.maydell@linaro.org>
- L: qemu-arm@nongnu.org
- S: Maintained
- F: hw/arm/vexpress.c
-+F: docs/system/arm/vexpress.rst
+@@ -701,6 +701,7 @@ F: hw/misc/armsse-cpuid.c
+ F: include/hw/misc/armsse-cpuid.h
+ F: hw/misc/armsse-mhu.c
+ F: include/hw/misc/armsse-mhu.h
++F: docs/system/arm/mps2.rst
  
- Versatile PB
+ Musca
  M: Peter Maydell <peter.maydell@linaro.org>
 -- 
 2.20.1
