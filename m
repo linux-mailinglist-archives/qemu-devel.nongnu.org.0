@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F001DD710
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:19:55 +0200 (CEST)
-Received: from localhost ([::1]:47554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87CC1DD6F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:17:56 +0200 (CEST)
+Received: from localhost ([::1]:39552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbqjR-0008Ip-VE
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:19:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37980)
+	id 1jbqhX-0004LR-NY
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqfy-0001xY-AB
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:18 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:34834)
+ id 1jbqfz-0001y1-AO
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:19 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqfx-0000Oi-He
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:18 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id n5so7564593wmd.0
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:17 -0700 (PDT)
+ id 1jbqfy-0000Ou-H2
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:19 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id n18so7557819wmj.5
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Ua66Po+S3fTZ1GQQHmrF+D0YxmGxJFJ7sLOjFuo6+sc=;
- b=sMJNYReZlzbKibgOo2Z8Lph/UOTxHaVxxJ2/lACoK8SBd+HSqYqp+fAXXoZ6TqU1AI
- 9NxDcS8CGkYfYJ/OvWPCV5buutAwYGVJyYYzwnTHlkRJO5N/KN18+v55rPQIeWDPlPTS
- K4L44uzuoxoKNYHm7Bc9bwAyMfUsv0N/OVU3kgb/nClgc5TlpvtrgKxFusCZQBKvdwfV
- QoOGRR0RRK9vq8Jp9DAtVHKgN/tPd6PmOi/OCEVj971gWHCMsDK/1vOxtNy4PR3k19hU
- FLDyssr5Fyb9cy59wIDXI96JNwwObG5+e/PsL5EZYs1yXnmbv9RZc684gnZBl6ddkSEw
- G8bQ==
+ bh=u7KCiGuOgAZ7UqunOZf69lXCjQ+SrqjjB07ACAIR9HQ=;
+ b=Nhp2jQQmmXApv1pE5D9w1AtHZ4YqZL/UHM+CikIQ2a49cZaCvxBLcGJKzNw5qbwaFt
+ +tov3wEl35c4dj/KyVViEh4OzRGhJs4JH8X7Unjg2qii1MOKlb2bYsm3XZM7fj0Z76un
+ cgfh1FNJCN/FDOm5oNpNFOxp3sEd8gGwrZFHtvCjVWt354ktCuah9gnkoS/EaP7YaG14
+ 2LwOH3yMW0ykFDMpRrxKUNjk6lKJUsZYWALNrnOnT3oD5cq+BHl2pa+KLv24Eop3AG9q
+ kcBeyTrCc92zABMzDLFW1U6eoPwYDpkGv01pGV/1dt431U+2vMSxbj6oYUP52KPZyJw7
+ gfQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ua66Po+S3fTZ1GQQHmrF+D0YxmGxJFJ7sLOjFuo6+sc=;
- b=NjyDNEJIYOjXVYZsaGvZbLvjA/Hb9lokaKEc9oP5H+1Tz5xPXCLHhvBfDsEtEd51pk
- 4en6VDSqrk3s9aayfK4TYIi3BksnRSXs9t9n1+f9gh9q5G8e1WS3FoSo8tu+SfMTweNg
- b5GIKZo71OtkaRd40P5599z6Kw0zW1nnDEtFVodP6kcYRbNpJ6BzPKEZ5U4BF8eSNuce
- eagzrNzhWN3keWjG1wU72WvhLkqP49e1TBkvDa2v7b4IOZsUEjocYhSaVXmcgF2ZMC+m
- 3EYlKb1jOdjiWaHac4oQegqw9N/lFukPWlcuRF5Qy1Blm+g+ZZrPxL41sFmBlvJxCVfT
- 93Kw==
-X-Gm-Message-State: AOAM533o48egFe+kvYQn72V2yZCu+zO2QTvlctOnKQqZ3l/vQFDAZKhk
- dV2Wycv9MpDYT45AxOQ6q0lafSUCQuV48Q==
-X-Google-Smtp-Source: ABdhPJyJyFI61x2npqm85JPSCyQELmgJsFseoLdtXx7T0Je1SB7mxE/WWzfPB8hIPSkkiUKvUEhR4g==
-X-Received: by 2002:a1c:5502:: with SMTP id j2mr10776930wmb.56.1590088575861; 
- Thu, 21 May 2020 12:16:15 -0700 (PDT)
+ bh=u7KCiGuOgAZ7UqunOZf69lXCjQ+SrqjjB07ACAIR9HQ=;
+ b=seAMZXGkJJ7opREsaMg4uqnfz08eaD8GYUcyFYRPuA+s7sX7ln1QnDfOQiYaZGp2+b
+ ru0V4805A4rjFzneCAU1crAE/QPnlSzVCPhaYIzeNfoKchzwuUzVBfTBjqmWKmEg7G2B
+ q7Hz5yjtMMTDaW/FtgCTGH1KSQMCuQcMjuacxtS9vpevZTdHKh6n46qnQqenUKbRMh/e
+ tmol9ChL5+cC5GohSHdH9wBvRTz/PQqbJeH6v2JPaRTTFGLsoeEFj7rMIf2KkLwkUY61
+ H360WZgLLLNHwq6vGY3kgV17qxBfQiOUv5xO3Rh5nKQaLLLaR0iW0BUn5bCx3zpd1wlk
+ pDOg==
+X-Gm-Message-State: AOAM530+Yq6au7ZmYJT8O1qvuv+/dM8/QXuXFl+450rXe2at4Y3IsFmP
+ 3lzoy6Jp/RQ5LU3zdrBC/ySTaOJeYTnQtQ==
+X-Google-Smtp-Source: ABdhPJwdsXEOAxv/+gy5DyrvZCOxJ6gANqcTvUPZMbarEXR3FTNkDRPU2BGDnNGobgX7YKwbhSnoog==
+X-Received: by 2002:a1c:1b4d:: with SMTP id b74mr10059710wmb.123.1590088576824; 
+ Thu, 21 May 2020 12:16:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.14
+ by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 12:16:15 -0700 (PDT)
+ Thu, 21 May 2020 12:16:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/29] docs/system: Add 'Arm' to the Integrator/CP document
- title
-Date: Thu, 21 May 2020 20:15:43 +0100
-Message-Id: <20200521191610.10941-3-peter.maydell@linaro.org>
+Subject: [PULL 03/29] docs/system: Sort Arm board index into alphabetical order
+Date: Thu, 21 May 2020 20:15:44 +0100
+Message-Id: <20200521191610.10941-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200521191610.10941-1-peter.maydell@linaro.org>
 References: <20200521191610.10941-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,31 +89,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add 'Arm' to the Integrator/CP document title, for consistency with
-the titling of the other documentation of Arm devboard models
-(versatile, realview).
+Sort the board index into alphabetical order.  (Note that we need to
+sort alphabetically by the title text of each file, which isn't the
+same ordering as sorting by the filename.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20200507151819.28444-2-peter.maydell@linaro.org
+Message-id: 20200507151819.28444-3-peter.maydell@linaro.org
 ---
- docs/system/arm/integratorcp.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ docs/system/target-arm.rst | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/docs/system/arm/integratorcp.rst b/docs/system/arm/integratorcp.rst
-index e6f050f602b..594438008e4 100644
---- a/docs/system/arm/integratorcp.rst
-+++ b/docs/system/arm/integratorcp.rst
-@@ -1,5 +1,5 @@
--Integrator/CP (``integratorcp``)
--================================
-+Arm Integrator/CP (``integratorcp``)
-+====================================
+diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
+index 324e2af1cbc..d459efb3d20 100644
+--- a/docs/system/target-arm.rst
++++ b/docs/system/target-arm.rst
+@@ -67,19 +67,24 @@ Unfortunately many of the Arm boards QEMU supports are currently
+ undocumented; you can get a complete list by running
+ ``qemu-system-aarch64 --machine help``.
  
- The Arm Integrator/CP board is emulated with the following devices:
++..
++   This table of contents should be kept sorted alphabetically
++   by the title text of each file, which isn't the same ordering
++   as an alphabetical sort by filename.
++
+ .. toctree::
+    :maxdepth: 1
  
+    arm/integratorcp
+-   arm/versatile
+    arm/realview
+-   arm/xscale
+-   arm/palm
+-   arm/nseries
+-   arm/stellaris
++   arm/versatile
+    arm/musicpal
+-   arm/sx1
++   arm/nseries
+    arm/orangepi
++   arm/palm
++   arm/xscale
++   arm/sx1
++   arm/stellaris
+ 
+ Arm CPU features
+ ================
 -- 
 2.20.1
 
