@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2C301DD74D
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:33:37 +0200 (CEST)
-Received: from localhost ([::1]:54208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3797D1DD889
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 22:39:21 +0200 (CEST)
+Received: from localhost ([::1]:47184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbqwi-0004k9-UL
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:33:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38182)
+	id 1jbryJ-0004Dv-ON
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 16:39:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqgU-0003AY-MA
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:50 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45750)
+ (Exim 4.90_1) (envelope-from
+ <31NTGXgsKCpU6H97CC3BD3C5DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--hskinnemoen.bounces.google.com>)
+ id 1jbqlT-0005Te-RD
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:21:59 -0400
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:35664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbqgS-0000Vh-5c
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:16:50 -0400
-Received: by mail-wr1-x444.google.com with SMTP id c3so3528180wru.12
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:16:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=JGi0kam4Hb96tw8QLNp1XZzN02TvAsgq8rt91AU8qsU=;
- b=dxGBjI4+plqULDMi3VU0ejpviQu07Pr1yDT8h6IUcv26CGVkMUYqjCJ23Tl4sQffVt
- o0KUYqha4+zgYyUYBVxRTxbn3hvNici6EPlGxIW5bXygjnIvWl2ByQF1OsHj4k2efz7d
- qQTyvjIHWGjqHK2V9/x3eJKogVHDe0ocx455urGHXxAklvPwgLRGLP07d2jzIkpJ8wt8
- 75b0lZKUqQjXEQGNxUqoyET/JKJYjwlByXGYhIK6Fh2LxnzMZrshvswotPpdXDJmnJUp
- FO/A0VT9TBBeGhrae7PIynDKZ/QE66/4Vb9tBEjncnflX8SBUTm0FgAZMJrCSF0FP8qf
- gvuA==
+ (Exim 4.90_1) (envelope-from
+ <31NTGXgsKCpU6H97CC3BD3C5DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--hskinnemoen.bounces.google.com>)
+ id 1jbqlT-0001iy-1R
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:21:59 -0400
+Received: by mail-yb1-xb4a.google.com with SMTP id 207so6558841ybl.2
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 12:21:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=tGxrjpstm4I7PAN/kuQkbl2KdvRqWXweBxIWEzXPUS0=;
+ b=Rb9xo580Cp4PkbnfGEYMeoLvbnxzM/jWkefINiY4AQhk+CTvp0DwP79x9bjZuKkztD
+ iL2s1AokqH+yB7byGWfGE/FHIFItjUFyTtCQ4AX9+BGBL33flQNdxUoTKR2TyXEMA3CJ
+ 6ZXXT+U5gey0Xg0Chw2NiQPfzBSDFGc6vLcXDC8xVpfiCnhhYHBED0DTakRNuPMHKWo0
+ SVWpGfceoA9LYq9wZCDrnPIZDEbKgd4t2tZC1YJ3/fR7puc5hncR1ml1+YzrS0/PC3OP
+ 6Z6UuXvaK+Bsz5xZ9RNjEQGqY4mkrSwzO7f2qWuevtb+SFVx5PcvQHDSl7coUP/b/ID1
+ weXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JGi0kam4Hb96tw8QLNp1XZzN02TvAsgq8rt91AU8qsU=;
- b=qEXCHywuPssSQs12vK9jXx5qtljct/jNfxdp+HdKOBHLIm8gwu9QDyAi7Y3VOJbqFF
- 9+D9iXOeP+5OKzxnMn+CiNpQGq+PJwAjUZ+oEuFBgGog9xy1ZFEofGbrdT3nGBZ2Xxsv
- kMiYLw/+mnlS6OIJ1PnKWOvcPwxjHZJLwyuR5fFK3uIP77SRsFMlJpqNDeNane5AbsjH
- 0BCLTTKRtyKIrLdm6EfPX8aN5pthXVfLQjPqfHp+h+MTxVci1o/ymRpsEu/b3b4tjPIV
- DhgnnR30sjIi4t76FYvnEJmnbfHNnlLprmbTSBkGOJV2dhY1SqBYr+PB5QBHNA9PHfRz
- +hIw==
-X-Gm-Message-State: AOAM532oPKee8Og9X6lpTg3aWjaZ3gvgGKgpO6eUTs6gPqeIBHD/GFdr
- i/L3y/2HzKDLxYEACWoB35VGvFPVtv27iA==
-X-Google-Smtp-Source: ABdhPJzcELP+isSbNzjyyoYS1XlzfuKRDK9QcW6U5TdVMCaBch7zXhiI+SZ2KOTTWkspE8YsMH8TZQ==
-X-Received: by 2002:adf:dc0a:: with SMTP id t10mr108524wri.342.1590088606527; 
- Thu, 21 May 2020 12:16:46 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z124sm7335100wmg.20.2020.05.21.12.16.45
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 12:16:45 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 29/29] linux-user/arm/signal.c: Drop TARGET_CONFIG_CPU_32
-Date: Thu, 21 May 2020 20:16:10 +0100
-Message-Id: <20200521191610.10941-30-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200521191610.10941-1-peter.maydell@linaro.org>
-References: <20200521191610.10941-1-peter.maydell@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=tGxrjpstm4I7PAN/kuQkbl2KdvRqWXweBxIWEzXPUS0=;
+ b=bWaxPTQYjSLrtQBKSQ2x5uoFAoy1inH7Z80ZDH2bMYGnMwvR1yxYrTNedondwJeapR
+ 1juTiuKdTVfGXRuOJW1y4Q+82j5ktoQA+K8KEf665Av5s6/ncHhmPLcWgEtMpXFiG9Rd
+ EU5c4N55x+xgL7seibzDMw/wc07un6giA5rNh/OTYwe4mZzujvvQBvlKTejGwMw5uIbw
+ lGB+GAscJvdS3GZEXKSYxyMLRwkO1YPs4gPD0F0kn6vgYxjPq9CgwjKlaJYPFfpKb83r
+ LL3reKnhjAybwZVcUtPYZ4hW/MN9THzJzEi6QtcrOjcXpIO9XVNA9Yfjgxgoz9ov+1zR
+ Yuew==
+X-Gm-Message-State: AOAM531XeyGkVOJLEyUlLBqx/CZYHmivwT1+UzEJqfL9KCYO1cpUptGb
+ R1QfdFLQhpoVmom0pWxHXPzKPjs4jwog3dRbKA==
+X-Google-Smtp-Source: ABdhPJyPME2bFg9M885rGZZI0rHS1DImpGoixn0MHCePFhXGI5w3H138E3V+16uvY6NoHKS7Lzt9REync16BsslJTQ==
+X-Received: by 2002:a25:8808:: with SMTP id c8mr18042665ybl.159.1590088916644; 
+ Thu, 21 May 2020 12:21:56 -0700 (PDT)
+Date: Thu, 21 May 2020 12:21:27 -0700
+Message-Id: <20200521192133.127559-1-hskinnemoen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.rc0.183.gde8f92d652-goog
+Subject: [PATCH 0/6] Add Nuvoton NPCM730/NPCM750 SoCs and two BMC machines
+From: Havard Skinnemoen <hskinnemoen@google.com>
+To: peter.maydell@linaro.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Avi.Fishman@nuvoton.com, 
+ kfting@nuvoton.com, Havard Skinnemoen <hskinnemoen@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=31NTGXgsKCpU6H97CC3BD3C5DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--hskinnemoen.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 21 May 2020 16:37:38 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,61 +85,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Arm signal-handling code has some parts ifdeffed with a
-TARGET_CONFIG_CPU_32, which is always defined. This is a leftover
-from when this code's structure was based on the Linux kernel
-signal handling code, where it was intended to support 26-bit
-Arm CPUs. The kernel dropped its CONFIG_CPU_32 in kernel commit
-4da8b8208eded0ba21e3 in 2009.
+This patch series models enough of the Nuvoton NPCM730 and NPCM750 SoCs to boot
+a minimal Linux kernel. This includes device models for:
 
-QEMU has never had 26-bit CPU support and is unlikely to ever
-add it; we certainly aren't going to support 26-bit Linux
-binaries via linux-user mode. The ifdef is just unhelpful
-noise, so remove it entirely.
+  - Global Configuration Registers
+  - Clock Control
+  - Timers
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200518143014.20689-1-peter.maydell@linaro.org
----
- linux-user/arm/signal.c | 6 ------
- 1 file changed, 6 deletions(-)
+These modules, along with the existing Cortex A9 CPU cores and built-in
+peripherals, are integrated into a NPCM730 or NPCM750 SoC, which in turn form
+the foundation for the quanta-gsj and npcm750-evb machines, respectively. The
+two SoCs are very similar; the only difference is that NPCM730 is missing some
+peripherals that NPCM750 has, and which are not considered essential for
+datacenter use (e.g. graphics controllers). For more information, see
 
-diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
-index 698985a647e..f21d1535e4d 100644
---- a/linux-user/arm/signal.c
-+++ b/linux-user/arm/signal.c
-@@ -126,8 +126,6 @@ struct rt_sigframe_v2
-     abi_ulong retcode[4];
- };
- 
--#define TARGET_CONFIG_CPU_32 1
--
- /*
-  * For ARM syscalls, we encode the syscall number into the instruction.
-  */
-@@ -187,9 +185,7 @@ setup_sigcontext(struct target_sigcontext *sc, /*struct _fpstate *fpstate,*/
-     __put_user(env->regs[13], &sc->arm_sp);
-     __put_user(env->regs[14], &sc->arm_lr);
-     __put_user(env->regs[15], &sc->arm_pc);
--#ifdef TARGET_CONFIG_CPU_32
-     __put_user(cpsr_read(env), &sc->arm_cpsr);
--#endif
- 
-     __put_user(/* current->thread.trap_no */ 0, &sc->trap_no);
-     __put_user(/* current->thread.error_code */ 0, &sc->error_code);
-@@ -549,11 +545,9 @@ restore_sigcontext(CPUARMState *env, struct target_sigcontext *sc)
-     __get_user(env->regs[13], &sc->arm_sp);
-     __get_user(env->regs[14], &sc->arm_lr);
-     __get_user(env->regs[15], &sc->arm_pc);
--#ifdef TARGET_CONFIG_CPU_32
-     __get_user(cpsr, &sc->arm_cpsr);
-     cpsr_write(env, cpsr, CPSR_USER | CPSR_EXEC, CPSRWriteByInstr);
-     arm_rebuild_hflags(env);
--#endif
- 
-     err |= !valid_user_regs(env);
- 
+https://www.nuvoton.com/products/cloud-computing/ibmc/
+
+Both quanta-gsj and npcm750-evb correspond to real boards supported by OpenBMC.
+While this initial series uses a stripped-down kernel for testing, future
+series will be tested using OpenBMC images built from public sources. I'm
+currently putting the finishing touches on flash controller support, which is
+necessary to boot a full OpenBMC image, and will be enabled by the next series.
+
+The patches in this series were developed by Google and reviewed by Nuvoton. We
+will be maintaining the machine and peripheral support together.
+
+The data sheet for these SoCs is not generally available. Please let me know if
+more comments are needed to understand the device behavior.
+
+Thanks for reviewing,
+
+Havard
+
+Havard Skinnemoen (6):
+  npcm7xx: Add config symbol
+  hw/misc: Add NPCM7xx System Global Control Registers device model
+  hw/misc: Add NPCM7xx Clock Controller device model
+  hw/timer: Add NPCM7xx Timer device model
+  hw/arm: Add NPCM730 and NPCM750 SoC models
+  hw/arm: Add two NPCM7xx-based machines
+
+ MAINTAINERS                      |  12 +
+ default-configs/arm-softmmu.mak  |   1 +
+ hw/arm/Kconfig                   |   8 +
+ hw/arm/Makefile.objs             |   1 +
+ hw/arm/npcm7xx.c                 | 328 +++++++++++++++++++++++
+ hw/arm/npcm7xx_boards.c          | 108 ++++++++
+ hw/misc/Makefile.objs            |   2 +
+ hw/misc/npcm7xx_clk.c            | 210 +++++++++++++++
+ hw/misc/npcm7xx_gcr.c            | 160 +++++++++++
+ hw/misc/trace-events             |   8 +
+ hw/timer/Makefile.objs           |   1 +
+ hw/timer/npcm7xx_timer.c         | 437 +++++++++++++++++++++++++++++++
+ hw/timer/trace-events            |   5 +
+ include/hw/arm/npcm7xx.h         |  98 +++++++
+ include/hw/misc/npcm7xx_clk.h    |  65 +++++
+ include/hw/misc/npcm7xx_gcr.h    |  74 ++++++
+ include/hw/timer/npcm7xx_timer.h |  95 +++++++
+ 17 files changed, 1613 insertions(+)
+ create mode 100644 hw/arm/npcm7xx.c
+ create mode 100644 hw/arm/npcm7xx_boards.c
+ create mode 100644 hw/misc/npcm7xx_clk.c
+ create mode 100644 hw/misc/npcm7xx_gcr.c
+ create mode 100644 hw/timer/npcm7xx_timer.c
+ create mode 100644 include/hw/arm/npcm7xx.h
+ create mode 100644 include/hw/misc/npcm7xx_clk.h
+ create mode 100644 include/hw/misc/npcm7xx_gcr.h
+ create mode 100644 include/hw/timer/npcm7xx_timer.h
+
 -- 
-2.20.1
+2.27.0.rc0.183.gde8f92d652-goog
 
 
