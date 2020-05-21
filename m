@@ -2,49 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B56B1DCC16
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 13:27:51 +0200 (CEST)
-Received: from localhost ([::1]:39740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D2E1DCA63
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 11:46:24 +0200 (CEST)
+Received: from localhost ([::1]:52082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbjMc-0007qs-BS
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 07:27:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41968)
+	id 1jbhmR-0000MC-B6
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 05:46:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jbjLt-0007EO-GT; Thu, 21 May 2020 07:27:05 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:39144)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jbjLs-0006Lr-4c; Thu, 21 May 2020 07:27:05 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.09640112|-1; CH=blue; DM=|OVERLOAD|false|;
- DS=CONTINUE|ham_regular_dialog|0.00371753-5.70752e-05-0.996225;
- FP=0|0|0|0|0|-1|-1|-1; HT=e01a16384; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=8; RT=8; SR=0; TI=SMTPD_---.HbdyuHR_1590060419; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.HbdyuHR_1590060419)
- by smtp.aliyun-inc.com(10.147.41.231);
- Thu, 21 May 2020 19:27:00 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v8 51/62] target/riscv: vector mask population count vmpopc
-Date: Thu, 21 May 2020 17:44:02 +0800
-Message-Id: <20200521094413.10425-52-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200521094413.10425-1-zhiwei_liu@c-sky.com>
-References: <20200521094413.10425-1-zhiwei_liu@c-sky.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jbhkH-0005wg-5k
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 05:44:09 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jbhkG-0003AW-7U
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 05:44:08 -0400
+Received: by mail-wr1-x442.google.com with SMTP id l17so6029835wrr.4
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 02:44:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ooQ0IakLwGcvkfeLgdBFetBZbd8U1Ew9bZ5JYb0DkVI=;
+ b=IRrR9YWNVp+9+WaRhZYRWkT/9yRpV1v4Qll+/F12R8RImpffGKb5Nv1NEVDX3TUn3I
+ /UJzAJcgbfNbjMxPuQ3LE0+HCLWuiTZxUnTfyVddmmqfj48tXG40odiYF3G281eSBUfm
+ 3X7ZWtTtcZK0jfrvv3JeQ/VusEsIHBT1HgSkxw6x6li4oR1kJkWIKFPuCT1k6g67+MY1
+ 58AvDlObTRH+b/eQmgLZAgBSKZe/2kwP9v6oWOmGiULJRyuwBIrPRZoua+o7h/mnoXUa
+ KjYVh06UCpPM89jF1k8lsoZlX/wmvO9VCS7WkyFRm0Ii0brJxad3ZDmu+qMAPgVl0hdS
+ NCng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ooQ0IakLwGcvkfeLgdBFetBZbd8U1Ew9bZ5JYb0DkVI=;
+ b=rAMW+K7+DXZOa5SA8QBgjfVBHefXNzKyqBK3d9RyE3F6RC9xdnxE7ulT8D00JUdALx
+ b0uIxI0yODElEGfT2dCqeFCoUyv1+Lk4dx30F9NJtFbHPOVWvp270vPtmumqpm1ieStK
+ 8gqZCAUXfzxVN7g5YcyzySHJYdRGHCfD1Ce8n56RvCSBYqe528QU4yuvc5EhPFZzNdVe
+ 3C5G2K8TiGvPG6sen3tKwOpP70RaQPSNY/T1HEzWugRlSSdw3Cie/DUz4Y7tLISHxaSQ
+ 9X3Qv9zDLHZVVOFkkqPLuFF0udEx5blysRsfqiZqZ3jg/KAH61nGjpKQQKFePyvBER4q
+ yv/A==
+X-Gm-Message-State: AOAM532p3Z0kgC+gFrXbXxp9aQyBFkcdJy5QZTPPPkWrB4vFjmzi+Tf7
+ wRhJa9eFbW4BBkhKafU43wY=
+X-Google-Smtp-Source: ABdhPJxvylgy49IHe7/pr2kwtMhDk6PB09UUbgMTLuwcYn4qr6/0thg9/gbGtv6DR1t1ofve3Vcchw==
+X-Received: by 2002:a5d:5092:: with SMTP id a18mr3098403wrt.42.1590054246504; 
+ Thu, 21 May 2020 02:44:06 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id l9sm4706739wrv.32.2020.05.21.02.44.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 May 2020 02:44:04 -0700 (PDT)
+Date: Thu, 21 May 2020 10:44:02 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Subject: Re: [PATCH 1/4] coroutine: support SafeStack in ucontext backend
+Message-ID: <20200521094402.GA251811@stefanha-x1.localdomain>
+References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
+ <20200429194420.21147-2-dbuono@linux.vnet.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 05:19:14
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, UNPARSEABLE_RELAY=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="a8Wt8u1KmwUX3Y2C"
+Content-Disposition: inline
+In-Reply-To: <20200429194420.21147-2-dbuono@linux.vnet.ibm.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=stefanha@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,112 +85,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, wxy194768@alibaba-inc.com,
- wenmeng_zhang@c-sky.com, alistair.francis@wdc.com, palmer@dabbelt.com,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@ibm.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/helper.h                   |  2 ++
- target/riscv/insn32.decode              |  1 +
- target/riscv/insn_trans/trans_rvv.inc.c | 32 +++++++++++++++++++++++++
- target/riscv/vector_helper.c            | 20 ++++++++++++++++
- 4 files changed, 55 insertions(+)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 9bb4d8efd5..7ae41ebc2c 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -1095,3 +1095,5 @@ DEF_HELPER_6(vmor_mm, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmornot_mm, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmxnor_mm, void, ptr, ptr, ptr, ptr, env, i32)
-+
-+DEF_HELPER_4(vmpopc_m, tl, ptr, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index a4128c26a0..decb7f773f 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -553,6 +553,7 @@ vmor_mm         011010 - ..... ..... 010 ..... 1010111 @r
- vmnor_mm        011110 - ..... ..... 010 ..... 1010111 @r
- vmornot_mm      011100 - ..... ..... 010 ..... 1010111 @r
- vmxnor_mm       011111 - ..... ..... 010 ..... 1010111 @r
-+vmpopc_m        010100 . ..... ----- 010 ..... 1010111 @r2_vm
- 
- vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
- vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
-index 8c18b4d3e7..7792845e53 100644
---- a/target/riscv/insn_trans/trans_rvv.inc.c
-+++ b/target/riscv/insn_trans/trans_rvv.inc.c
-@@ -2380,3 +2380,35 @@ GEN_MM_TRANS(vmor_mm)
- GEN_MM_TRANS(vmnor_mm)
- GEN_MM_TRANS(vmornot_mm)
- GEN_MM_TRANS(vmxnor_mm)
-+
-+/* Vector mask population count vmpopc */
-+static bool trans_vmpopc_m(DisasContext *s, arg_rmr *a)
-+{
-+    if (vext_check_isa_ill(s)) {
-+        TCGv_ptr src2, mask;
-+        TCGv dst;
-+        TCGv_i32 desc;
-+        uint32_t data = 0;
-+        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-+        data = FIELD_DP32(data, VDATA, VM, a->vm);
-+        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-+
-+        mask = tcg_temp_new_ptr();
-+        src2 = tcg_temp_new_ptr();
-+        dst = tcg_temp_new();
-+        desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
-+
-+        tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, a->rs2));
-+        tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
-+
-+        gen_helper_vmpopc_m(dst, mask, src2, cpu_env, desc);
-+        gen_set_gpr(a->rd, dst);
-+
-+        tcg_temp_free_ptr(mask);
-+        tcg_temp_free_ptr(src2);
-+        tcg_temp_free(dst);
-+        tcg_temp_free_i32(desc);
-+        return true;
-+    }
-+    return false;
-+}
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index f36b8f8913..75627d335d 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -4541,3 +4541,23 @@ GEN_VEXT_MASK_VV(vmor_mm, DO_OR)
- GEN_VEXT_MASK_VV(vmnor_mm, DO_NOR)
- GEN_VEXT_MASK_VV(vmornot_mm, DO_ORNOT)
- GEN_VEXT_MASK_VV(vmxnor_mm, DO_XNOR)
-+
-+/* Vector mask population count vmpopc */
-+target_ulong HELPER(vmpopc_m)(void *v0, void *vs2, CPURISCVState *env,
-+                              uint32_t desc)
-+{
-+    target_ulong cnt = 0;
-+    uint32_t mlen = vext_mlen(desc);
-+    uint32_t vm = vext_vm(desc);
-+    uint32_t vl = env->vl;
-+    int i;
-+
-+    for (i = 0; i < vl; i++) {
-+        if (vm || vext_elem_mask(v0, mlen, i)) {
-+            if (vext_elem_mask(vs2, mlen, i)) {
-+                cnt++;
-+            }
-+        }
-+    }
-+    return cnt;
-+}
--- 
-2.23.0
+--a8Wt8u1KmwUX3Y2C
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Apr 29, 2020 at 03:44:17PM -0400, Daniele Buono wrote:
+> diff --git a/include/qemu/coroutine_int.h b/include/qemu/coroutine_int.h
+> index bd6b0468e1..2ffd75ddbe 100644
+> --- a/include/qemu/coroutine_int.h
+> +++ b/include/qemu/coroutine_int.h
+> @@ -28,6 +28,12 @@
+>  #include "qemu/queue.h"
+>  #include "qemu/coroutine.h"
+> =20
+> +#if defined(__has_feature) && __has_feature(safe_stack)
+> +#define CONFIG_SAFESTACK 1
+
+Please perform this feature check in ./configure. That way
+CONFIG_SAFESTACK will be defined alongside all the other CONFIG_* values
+and be available to C and Makefiles via config-host.h and
+config-host.mak.
+
+> @@ -160,6 +169,19 @@ Coroutine *qemu_coroutine_new(void)
+>      /* swapcontext() in, siglongjmp() back out */
+>      if (!sigsetjmp(old_env, 0)) {
+>          start_switch_fiber(&fake_stack_save, co->stack, co->stack_size);
+> +#ifdef CONFIG_SAFESTACK
+> +        /*
+> +         * Before we swap the context, set the new unsafe stack
+> +         * The unsafe stack grows just like the normal stack, so start f=
+rom
+> +         * the last usable location of the memory area.
+> +         * NOTE: we don't have to re-set it afterwards because sigsetjmp=
+ was
+> +         * called with the original usp. Since we are not coming back wi=
+th a
+> +         * swapcontext, but with a siglongjmp, when we are back here we
+> +         * already have usp restored to the valid one for this function
+
+I don't understand this comment. __safestack_unsafe_stack_ptr is a
+thread-local variable, not a CPU register. How will siglongjmp()
+automatically restore it?
+
+> +         */
+> +        void *usp =3D co->unsafe_stack + co->unsafe_stack_size;
+> +        __safestack_unsafe_stack_ptr =3D usp;
+> +#endif
+>          swapcontext(&old_uc, &uc);
+>      }
+> =20
+
+--a8Wt8u1KmwUX3Y2C
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7GTWIACgkQnKSrs4Gr
+c8h3IQgAuS80v3EEz1v9yAs8jROXblcYz3l5FRzJHhGBMkaly3eN72+0lLKEAlaV
+Mvkhqhwf4P/1JB6BuuVe+2lH3VToz5SaZgh2X5jQhj4q6Sgxd8GYpndwbZHGo4kY
+/G3NTDTNNn8BoKU4x7WaHkZX40UEcxU5UQoS27K+40ZmNDobBMI6LMmKuVZVYvVf
+hA35CoNZptgRpSoTncfv+HW8G5EoGP8RI6wB3vTuXCj19btlO9WffspI8looMNOm
+0lNfxcGRrVnlM1amk7n0+s3wrOhZCkuMAU5DcZamUccSwf2kA24raB4pz39gfEHZ
+CjvFT2jjL/JqNNom1tCaAu8p+WUsbA==
+=G4UC
+-----END PGP SIGNATURE-----
+
+--a8Wt8u1KmwUX3Y2C--
 
