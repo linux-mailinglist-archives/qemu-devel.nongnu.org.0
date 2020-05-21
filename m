@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B44381DD44A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:27:18 +0200 (CEST)
-Received: from localhost ([::1]:45998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC5B1DD331
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:42:58 +0200 (CEST)
+Received: from localhost ([::1]:48332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jboyT-0003LD-Nr
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:27:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50276)
+	id 1jboHY-0000xv-Ng
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:42:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboJU-0005Bk-Kp
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:56 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:45014)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jboGn-0000K7-UM
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:42:09 -0400
+Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:36700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboJT-00070A-9a
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:56 -0400
-Received: by mail-qk1-x742.google.com with SMTP id b6so7816260qkh.11
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:44:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jboGm-0006Cu-4f
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:42:09 -0400
+Received: by mail-oo1-xc41.google.com with SMTP id z6so1573569ooz.3
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:42:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Un0q+TORCXPo2kVgpbtgd18wfbS4+otCPFQoRusR5X8=;
- b=Zuhg0QrosnDSJQQxuQjaE/0Eu0Js7LvHll0Nvbo2CnQtqJVgS+XrY6NeZ7LnkEqn48
- T+zYdv2JQVHfhRdFU28o9OsIloC3ngptnf8RMaWErOGe4W9kF4y7Qx7vEcjiKwdGC29T
- jGhVIo6VQRIuMRcLHUVaMlBU6cxWMlgKfOG4E2Bj0PJd1NFQbUziCU02+IsapsMZhVny
- O2RESxqHKCLGIShZNIPbvlGwfgTNzJFubrWvZV8/oyIJDPQXBtpVWGLRC0NZDxqxAJuM
- NIHb+7PqRHhbxm46gw0Nbnl87ZbVQ9gdVkxvp35bk5ZQkvNDQa5dNUhy31L5pSxNVNYN
- UzLg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8E/poLvZzRLPdzPli9ukalkP/v2cZkBvpmdtH4RI/Xw=;
+ b=eZyh2EoreYs9k+rK4XeDxZjRuLGsib1jv0W4KOn56jGEojb40/3eb50axs3BMKnQPM
+ 6XbixvXJO3pPXEB9VDCg+vPsG1P/CGC0RjEPRxX8M/60v8fjL638Fnu72hQQcFvsRg2+
+ 5M1ag/fFMd59yYu+cf3e5q2WoWBd3unUcPpwG2LxUhcsQH7atfUzMZYjbm6mu/p8qkZR
+ XllEVAN6urSoeUif2kWQzcKkmNv5ZHcuRsReMAHNYGzNHMs360jE9GxWispRTPPeOJ/Y
+ Ml9go81xBH8Xt6JCm3UrtqdYzDubzKURrGDcnzXhbSotjP/lcmPBOki+k7g72y4czfhp
+ dWrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Un0q+TORCXPo2kVgpbtgd18wfbS4+otCPFQoRusR5X8=;
- b=T0v23/QoqMWsQB0WuhBgmc6jddcEU19q1lrQFlHUX/ccNJzldD0aK6GNuNaX5QdMVj
- XcYTC+bVkF6xmQuPdFu1TR6vCNwJw3RiKlJPKC7OHHxey79Qp19SfsVLbaaiKHOHMH4L
- n0CNkyEBCcbX9jijZLJkcucxQCEzUsDz2xMtYYQtfq9MpFHuzibN/GxQ9ADCC99ES2GY
- saP2K3DC4VGsHYecuaE7XvvQ5qOrsc28rfpsUaEV2bc5E5X0tsq/rWDn7p6pvx1IgBhh
- 0sG4UjiWxBpm3ZsySSU9Qmd/Wd5xBYETjr4oKGweG5MWNrAi6GHKYZod+O2Ieus0+X14
- oohA==
-X-Gm-Message-State: AOAM5331HJKBjXpP2iY0Q4HoIJbGwxbcqJv7p3PFrRU3Ah5M3yQU+Zn5
- z8WXjBHAAiJF19FJYY3VEPszxDe49U158g==
-X-Google-Smtp-Source: ABdhPJzMblJhAhzoYHS5DfaBinSuUyW+zVxNd3v3lVSB1hOavCWX4tXZAOwexRuTdCuRP+tE4cWLqQ==
-X-Received: by 2002:a05:620a:1524:: with SMTP id
- n4mr10997938qkk.490.1590079493846; 
- Thu, 21 May 2020 09:44:53 -0700 (PDT)
-Received: from Rfoley-MA01.hsd1.ma.comcast.net
- ([2601:199:4480:60c0:1944:c530:655c:5583])
- by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.44.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:44:53 -0700 (PDT)
-From: Robert Foley <robert.foley@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v9 74/74] cputlb: queue async flush jobs without the BQL
-Date: Thu, 21 May 2020 12:40:11 -0400
-Message-Id: <20200521164011.638-75-robert.foley@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200521164011.638-1-robert.foley@linaro.org>
-References: <20200521164011.638-1-robert.foley@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8E/poLvZzRLPdzPli9ukalkP/v2cZkBvpmdtH4RI/Xw=;
+ b=DGOZM0QxVxrDuwbtgqZ7ZcK/JTDHkMPH4T146QXw4DzaQFAZ8ZmIz6VmsYDYVgBKje
+ lLlUuza3stIPZAGIbpUGkv3W9boVhrjNRF+gfxgtCsJiwI8K8Yqcxm1XyGpEzechdcOk
+ h8n6XqhP2SkCZYDc+9imAOQ3dEpUWVbfpHk9YLiIEhoQHsX/plq0UtZ39+3BmsczGUK4
+ B0usgiBLnt35wK8wjngl4Kq97DO933v0ZbK48tTeWdthIUd1Y0jKLt8R/pZGkMe6f7bi
+ 9323fesZ5TJIURh5SZKvF3f6tRgljPF9W1nEbaNerynCVbZ3tAvTulhl3Fk2prqTEAuj
+ yepg==
+X-Gm-Message-State: AOAM533zU3GvLMVov150TVPko62/95VUJ+uTdFtrO9v2QCSOXj6ruCzQ
+ PvlvsqAT8WrQ1oDjbyIhwBkmI8zmgE94nw+trF3gBA==
+X-Google-Smtp-Source: ABdhPJxcWnbu1tQgtA+DqWw0AVv2GsdXos/Yrs0FaYN9fLooxvrtic//VE+dSXhjx85YXkzGutxBnBAnaIB3mYOz9oI=
+X-Received: by 2002:a4a:3556:: with SMTP id w22mr7967412oog.20.1590079326635; 
+ Thu, 21 May 2020 09:42:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x742.google.com
+References: <20200520143255.27235-1-e.mikitas@gmail.com>
+In-Reply-To: <20200520143255.27235-1-e.mikitas@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 21 May 2020 17:41:55 +0100
+Message-ID: <CAFEAcA_i=HsBtpJh_o4+NWNeUihvNTccfB67gs0WrXttYdTc2A@mail.gmail.com>
+Subject: Re: [PATCH] ssi/imx_spi: Removed unnecessary cast and fixed condition
+ in while statement
+To: Eden Mikitas <e.mikitas@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,155 +79,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, cota@braap.org, alex.bennee@linaro.org,
- robert.foley@linaro.org, peter.puhov@linaro.org
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ "open list:i.MX31 \(kzm\)" <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Emilio G. Cota" <cota@braap.org>
+On Wed, 20 May 2020 at 15:33, Eden Mikitas <e.mikitas@gmail.com> wrote:
+> When inserting the value retrieved (rx) from the spi slave, rx is pushed to
+> rx_fifo after being cast to uint8_t. rx_fifo is a fifo32, and the rx
+> register the driver uses is also 32 bit. This zeroes the 24 most
+> significant bits of rx. This proved problematic with devices that expect to
+> use the whole 32 bits of the rx register.
+> I tested this change by running `make check` and by booting linux on
+> sabrelite (which uses an spi flash device).
+>
+> Signed-off-by: Eden Mikitas <e.mikitas@gmail.com>
+> ---
+>  hw/ssi/imx_spi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
+> index 2dd9a631e1..43b2f14dd2 100644
+> --- a/hw/ssi/imx_spi.c
+> +++ b/hw/ssi/imx_spi.c
+> @@ -182,7 +182,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+>
+>          rx = 0;
+>
+> -        while (tx_burst) {
+> +        while (tx_burst > 0) {
+>              uint8_t byte = tx & 0xff;
 
-This yields sizable scalability improvements, as the below results show.
+When does this make a difference? Looking at the code
+I don't think tx_burst can ever be negative at this
+point, in which case the two conditions are equivalent.
+What was the motivation for this change?
 
-Host: Two Intel Xeon Silver 4114 10-core CPUs at 2.20 GHz
+>              DPRINTF("writing 0x%02x\n", (uint32_t)byte);
+> @@ -206,7 +206,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+>          if (fifo32_is_full(&s->rx_fifo)) {
+>              s->regs[ECSPI_STATREG] |= ECSPI_STATREG_RO;
+>          } else {
+> -            fifo32_push(&s->rx_fifo, (uint8_t)rx);
+> +            fifo32_push(&s->rx_fifo, rx);
+>          }
+>
+>          if (s->burst_length <= 0) {
 
-VM: Ubuntu 18.04 ppc64
+This seems like a separate change to the first one;
+in general unrelated changes should be each in their
+own patch, rather than combined into a single patch.
 
-                   Speedup vs a single thread for kernel build                  
-                                                                               
-  7 +-----------------------------------------------------------------------+  
-    |         +          +         +         +         +          +         |  
-    |                                    ###########       baseline ******* |  
-    |                               #####           ####   cpu lock ####### |  
-    |                             ##                    ####                |  
-  6 |-+                         ##                          ##            +-|  
-    |                         ##                              ####          |  
-    |                       ##                                    ###       |  
-    |                     ##        *****                            #      |  
-    |                   ##      ****     ***                          #     |  
-    |                 ##     ***            *                               |  
-  5 |-+             ##    ***                ****                         +-|  
-    |              #  ****                       **                         |  
-    |             # **                             **                       |  
-    |             #*                                 **                     |  
-    |          #*                                          **               |  
-    |         #*                                             *              |  
-    |         #                                               ******        |  
-    |        #                                                      **      |  
-    |       #                                                         *     |  
-  3 |-+     #                                                             +-|  
-    |      #                                                                |  
-    |      #                                                                |  
-    |     #                                                                 |  
-    |     #                                                                 |  
-  2 |-+  #                                                                +-|  
-    |    #                                                                  |  
-    |   #                                                                   |  
-    |   #                                                                   |  
-    |  #                                                                    |  
-    |  #      +          +         +         +         +          +         |  
-  1 +-----------------------------------------------------------------------+  
-    0         5          10        15        20        25         30        35  
-                                   Guest vCPUs  
-Pictures are also here:
-https://drive.google.com/file/d/1ASg5XyP9hNfN9VysXC3qe5s9QSJlwFAt/view?usp=sharing
+The fifo32_push() part of this change looks correct to me.
 
-Some notes:
-- baseline corresponds to the commit before this series
-- cpu-lock is this series
-
-Single-threaded performance is affected very lightly. Results
-below for debian aarch64 bootup+test for the entire series
-on an Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz host:
-
-- Before:
-
- Performance counter stats for 'taskset -c 0 ../img/aarch64/die.sh' (10 runs):
-
-       7269.033478      task-clock (msec)         #    0.998 CPUs utilized
-      ( +-  0.06% )
-    30,659,870,302      cycles                    #    4.218 GHz
-      ( +-  0.06% )
-    54,790,540,051      instructions              #    1.79  insns per cycle
-      ( +-  0.05% )
-     9,796,441,380      branches                  # 1347.695 M/sec
-      ( +-  0.05% )
-       165,132,201      branch-misses             #    1.69% of all branches
-      ( +-  0.12% )
-
-       7.287011656 seconds time elapsed
- ( +-  0.10% )
-
-- After:
-
-       7375.924053      task-clock (msec)         #    0.998 CPUs utilized
-      ( +-  0.13% )
-    31,107,548,846      cycles                    #    4.217 GHz
-      ( +-  0.12% )
-    55,355,668,947      instructions              #    1.78  insns per cycle
-      ( +-  0.05% )
-     9,929,917,664      branches                  # 1346.261 M/sec
-      ( +-  0.04% )
-       166,547,442      branch-misses             #    1.68% of all branches
-      ( +-  0.09% )
-
-       7.389068145 seconds time elapsed
- ( +-  0.13% )
-
-That is, a 1.37% slowdown.
-
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Emilio G. Cota <cota@braap.org>
-[Updated the speedup chart results for re-based series.]
-Signed-off-by: Robert Foley <robert.foley@linaro.org>
----
- accel/tcg/cputlb.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index eb2cf9de5e..50bc76fb61 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -284,7 +284,7 @@ static void flush_all_helper(CPUState *src, run_on_cpu_func fn,
- 
-     CPU_FOREACH(cpu) {
-         if (cpu != src) {
--            async_run_on_cpu(cpu, fn, d);
-+            async_run_on_cpu_no_bql(cpu, fn, d);
-         }
-     }
- }
-@@ -352,8 +352,8 @@ void tlb_flush_by_mmuidx(CPUState *cpu, uint16_t idxmap)
-     tlb_debug("mmu_idx: 0x%" PRIx16 "\n", idxmap);
- 
-     if (cpu->created && !qemu_cpu_is_self(cpu)) {
--        async_run_on_cpu(cpu, tlb_flush_by_mmuidx_async_work,
--                         RUN_ON_CPU_HOST_INT(idxmap));
-+        async_run_on_cpu_no_bql(cpu, tlb_flush_by_mmuidx_async_work,
-+                                RUN_ON_CPU_HOST_INT(idxmap));
-     } else {
-         tlb_flush_by_mmuidx_async_work(cpu, RUN_ON_CPU_HOST_INT(idxmap));
-     }
-@@ -547,7 +547,7 @@ void tlb_flush_page_by_mmuidx(CPUState *cpu, target_ulong addr, uint16_t idxmap)
-          * we can stuff idxmap into the low TARGET_PAGE_BITS, avoid
-          * allocating memory for this operation.
-          */
--        async_run_on_cpu(cpu, tlb_flush_page_by_mmuidx_async_1,
-+        async_run_on_cpu_no_bql(cpu, tlb_flush_page_by_mmuidx_async_1,
-                          RUN_ON_CPU_TARGET_PTR(addr | idxmap));
-     } else {
-         TLBFlushPageByMMUIdxData *d = g_new(TLBFlushPageByMMUIdxData, 1);
-@@ -555,7 +555,7 @@ void tlb_flush_page_by_mmuidx(CPUState *cpu, target_ulong addr, uint16_t idxmap)
-         /* Otherwise allocate a structure, freed by the worker.  */
-         d->addr = addr;
-         d->idxmap = idxmap;
--        async_run_on_cpu(cpu, tlb_flush_page_by_mmuidx_async_2,
-+        async_run_on_cpu_no_bql(cpu, tlb_flush_page_by_mmuidx_async_2,
-                          RUN_ON_CPU_HOST_PTR(d));
-     }
- }
--- 
-2.17.1
-
+thanks
+-- PMM
 
