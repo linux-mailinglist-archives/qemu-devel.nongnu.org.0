@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36C6F1DD91E
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 23:10:52 +0200 (CEST)
-Received: from localhost ([::1]:35066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774141DD92F
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 23:11:56 +0200 (CEST)
+Received: from localhost ([::1]:37230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbsSp-0001Pm-91
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 17:10:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50758)
+	id 1jbsTr-0002dK-J7
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 17:11:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jbsRs-0000m5-FJ
- for qemu-devel@nongnu.org; Thu, 21 May 2020 17:09:52 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43225
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jbsT4-0002CG-Pv
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 17:11:07 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27269
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jbsRo-0005ju-5u
- for qemu-devel@nongnu.org; Thu, 21 May 2020 17:09:52 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jbsT3-00062Y-68
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 17:11:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590095386;
+ s=mimecast20190719; t=1590095464;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LnfrAb5BxF2wxu5wJynTOm9j/vKRNiz5wVgCk02A2V0=;
- b=Mgt/ChucvHR8AR+YM6jk2FZj+WKfrIbSpfBNGM3MNam0Uq+1ir5Am8RGHqOqnT2bH5gwk7
- nfEW8jfLnqj/E3AxALAU/+Cy14ZTKL9SP5LYCX061VVkIt4l/lx49Edd33q7r/35GrYwE2
- Kp/sbgS664gSgL1g6xftMsOLg1Baeeo=
+ bh=oZ6xql0Pdq+ZRP+F3Ek3si/TdWfnaffZKOdM393mwf0=;
+ b=VVLy+jnc5U8RRXY8Pxud5mB+s1DDc9umOMPYDaAqL0H4+95zTs6eut0HNQAZxEcx5Stbss
+ foZ4tYboJWXsKF7RdUOD6JdMCWs2QCKfqxfVYivTIfEr/UUPkZQJsZozd6927kDr9Q6Uxg
+ jrulN0ERQKXRVEFtKgtTp/nmnLVQGZM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-rATEH_a0MO6Hov_2ljVMwg-1; Thu, 21 May 2020 17:09:42 -0400
-X-MC-Unique: rATEH_a0MO6Hov_2ljVMwg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-281-KpLCoANdM-WKN903BTsjhg-1; Thu, 21 May 2020 17:11:00 -0400
+X-MC-Unique: KpLCoANdM-WKN903BTsjhg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16A97107ACCA;
- Thu, 21 May 2020 21:09:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32CF78014D4;
+ Thu, 21 May 2020 21:10:59 +0000 (UTC)
 Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5BBF8779D4;
- Thu, 21 May 2020 21:09:37 +0000 (UTC)
-Subject: Re: [PATCH v3 6/7] migration/block-dirty-bitmap: add_bitmaps_to_list:
- check disk name once
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 52244619C0;
+ Thu, 21 May 2020 21:10:55 +0000 (UTC)
+Subject: Re: [PATCH v3 5/7] iotests: 194: test also migration of dirty bitmap
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20200515124024.3491-1-vsementsov@virtuozzo.com>
- <20200515124024.3491-7-vsementsov@virtuozzo.com>
+ <20200515124024.3491-6-vsementsov@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <a840be30-5af8-481a-fe00-e8a7f587400a@redhat.com>
-Date: Thu, 21 May 2020 16:09:36 -0500
+Message-ID: <68852f50-e91f-d614-665d-6a0567c4b103@redhat.com>
+Date: Thu, 21 May 2020 16:10:54 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200515124024.3491-7-vsementsov@virtuozzo.com>
+In-Reply-To: <20200515124024.3491-6-vsementsov@virtuozzo.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
@@ -86,61 +85,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kwolf@redhat.com, fam@euphon.net, pavel.dovgaluk@ispras.ru,
  quintela@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- mreitz@redhat.com, Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- stefanha@redhat.com, den@openvz.org, pbonzini@redhat.com, jsnow@redhat.com
+ mreitz@redhat.com, stefanha@redhat.com, den@openvz.org, pbonzini@redhat.com,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/15/20 7:40 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> ---
->   migration/block-dirty-bitmap.c | 17 +++++++++++------
->   1 file changed, 11 insertions(+), 6 deletions(-)
+> Test that dirty bitmap migration works when we deal with mirror.
 > 
-> diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-> index 5d3a7d2b07..e0e081ce60 100644
-> --- a/migration/block-dirty-bitmap.c
-> +++ b/migration/block-dirty-bitmap.c
-> @@ -274,17 +274,22 @@ static int add_bitmaps_to_list(BlockDriverState *bs, const char *bs_name)
->       DirtyBitmapMigBitmapState *dbms;
->       Error *local_err = NULL;
->   
-> +    bitmap = bdrv_dirty_bitmap_first(bs);
-> +    if (!bitmap) {
-> +        return 0;
-> +    }
-> +
-> +    if (!bs_name || strcmp(bs_name, "") == 0) {
-> +        error_report("Found bitmap '%s' in unnamed node %p. It can't "
-> +                     "be migrated", bdrv_dirty_bitmap_name(bitmap), bs);
-
-The %p is unusual; it does not help the end user, but only a developer 
-with gdb access.
-
-Maybe we could compress to:
-
-"Bitmap '%s' in unnamed node can't be migrated"
-
-> +        return -1;
-> +    }
-> +
->       FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
->           if (!bdrv_dirty_bitmap_name(bitmap)) {
->               continue;
->           }
->   
-> -        if (!bs_name || strcmp(bs_name, "") == 0) {
-> -            error_report("Found bitmap '%s' in unnamed node %p. It can't "
-> -                         "be migrated", bdrv_dirty_bitmap_name(bitmap), bs);
-> -            return -1;
-> -        }
-> -
-
-But since this is just code motion (hoisting an check outside of a loop, 
-for fewer executions of something that does not change within the loop), 
-it doesn't matter whether this patch goes in as-is or if you also tweak 
-the error message.
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/194     | 14 ++++++++++----
+>   tests/qemu-iotests/194.out |  6 ++++++
+>   2 files changed, 16 insertions(+), 4 deletions(-)
+> 
+Definitely needed ;)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
