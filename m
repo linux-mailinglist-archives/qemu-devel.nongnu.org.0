@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0A1A1DD429
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:20:18 +0200 (CEST)
-Received: from localhost ([::1]:46052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F10C1DD436
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:23:23 +0200 (CEST)
+Received: from localhost ([::1]:60454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbori-0003Oc-1k
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:20:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52228)
+	id 1jboug-0002HH-BM
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:23:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbobj-00088R-AY
- for qemu-devel@nongnu.org; Thu, 21 May 2020 13:03:47 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33659)
+ id 1jbocg-0002yU-Ta
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 13:04:46 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:45148)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jbobh-0002SF-S3
- for qemu-devel@nongnu.org; Thu, 21 May 2020 13:03:46 -0400
-Received: by mail-ot1-x341.google.com with SMTP id v17so6102117ote.0
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 10:03:45 -0700 (PDT)
+ id 1jbocf-0002YH-Tn
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 13:04:46 -0400
+Received: by mail-oi1-x241.google.com with SMTP id d191so6776561oib.12
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 10:04:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RRVNm8yyLwG+jWu/U7zrvE67aC9THe5XI6GoogL1M/M=;
- b=JZUko1EwucyUqV1BeC+Onn7zX0mWd5uLsM8zMmv03bZdYvPhbSel0e33ZXc4LbGDNf
- WiLyz3HBtU1nfwtH6HpNEAimVrtA65l3JeObCGcLtzuWDywGf8VwB9xqKTMixqSzrP0p
- ifAbKLBFklQpIzO29lc6zzYJS43T0cNHvNhueFxtgW6psSOWrb47v5/f1QeVB0tR8Fz9
- 7FpX+G7xYS3qccDhYcf3i0ASgX4o1rNUIsxjvLyU0Xe5UQpjHW44MUil4Y1vWx7DBt02
- zjuG3dfNHOpCctevFWvlS+IsyMxhfnmhhHNi37GCLZMvIbRlbHCtBRTIheWzHE6VDETB
- TyMQ==
+ :cc; bh=IVvQ4BnC7G1Cm6dall93+lmFqFNZBQ6yoJcC7Zbwr9s=;
+ b=M0FtSt16hrFEPgUdCTy68KJLezgkuLQTTwU5Y93/VSYIMXN2l9Q+WL8IrNswX/NQjD
+ fYtm8awR4R5FEgSQtbYGXrnUkqSwu+0EHmFevRwg0Q9Dz7+QD5Wcmmv1DeyfEp4kXiwy
+ p9K2uALB+4EaYYI8WjJI9nHuOR33vy27HABY1MfrRyMehtGXzMd5JBJPRn7VTh5I+YEw
+ xa2ABFFg/mUxZyffs7ou4g+y4ot17gmYDx5NbLCuAmFg3Vh7n777SB+SuHCCRT9nq30K
+ Fs6cJxM3h2NacmzHJtjZ83vwpuztjoe1kzPSWbjASbvNMp93zy9ANeKU9SPYZ0bIo2jb
+ +ZlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=RRVNm8yyLwG+jWu/U7zrvE67aC9THe5XI6GoogL1M/M=;
- b=ldr3Ks2S/Bs5ixHf6sWRK5JKHloW0eNOsabutJSW5VhhB/Fsb9i8/ygoM5pG0Rxlt2
- SRQTQx9SaMkMvRdKdclO0PEcpYO5tlpNVUtvKadKna9Ny0XwtRFiQT3Loe6WNxdyGsUz
- J4DBEnMlnihEjxcekMEgicQ8wz6XrJTliOuQcuSY1pR7t1zWZmXFfeX/WpxVlVJY+GP6
- V1MDss8WJkISoYHm1SqOanM5+E8juMVBpwHJOmWLI/ktuZg7AglKvySCAxY8YM6D8J1y
- vorZkffvxEilVHFv2MFYojqGKlcPCWtntKO3V18vujIfYJdCMfr/j/P/Joyb3ALdVIG7
- jtng==
-X-Gm-Message-State: AOAM531PgcVokq5sACQkK072D8/pqDHxtAAaQ+y276vvtOxzsM2H/3Wh
- BdnsWUc/3K1eCpkLIZV90Bcz/yUFsQtm+lROBokFGQ==
-X-Google-Smtp-Source: ABdhPJwNthFsCUdSZq9385eXPz36/O1higQAQONSfCmrM7ZEYNjTeP1vhdvB7UNIxbBgUJqZKKka+dwuyl4SNX+F0VY=
-X-Received: by 2002:a05:6830:158b:: with SMTP id
- i11mr8034778otr.135.1590080624595; 
- Thu, 21 May 2020 10:03:44 -0700 (PDT)
+ bh=IVvQ4BnC7G1Cm6dall93+lmFqFNZBQ6yoJcC7Zbwr9s=;
+ b=Vv99aLrtcexfYeyVhJ87VyfywXwuIIRKpltqPwrd6ThHEG4ekvP+HwFt5p+RdPPqHs
+ cLKqZAXTVpSXjZVZvnTEdlNsGBgVWHBrpz+i+3uEVnmoWIAZCIQX+Na9PwfZ0M2ooF79
+ U99PkxcI363p6fQGp9zJIIg/U9m513jQLcOagOvszKlKYoAhcNC1jmLKsvg/hjamrRMC
+ rOGnYiizlEJHAWKiNlY07BCOepkg0Xlq7mTcIQn7kTisJG4w48Td/hKaQX0XF6g8Hb1d
+ HmGHgtENBdfFD12Q/Zy/KZpbw/PgkbvABr3GObW3oxDsNcugeCxq0p7sB3CthwxneCPK
+ keQg==
+X-Gm-Message-State: AOAM530Q5xhG2ZXIAK4/kwmrL6RIqcfj+qztdomXdw473/7ddoPyWVG3
+ IHkdhb2xUo1blGO3hyITOu6vviri2oTx+uM1gL9WLQ==
+X-Google-Smtp-Source: ABdhPJy0mXP6dRz5tVVsFZR8am4LIiiwaXSXbLuLaz+JWVZBsTvY5umqyRZzM/ADOM/qzWVE/B9Mu3glGxpfyFV8zh0=
+X-Received: by 2002:aca:eb96:: with SMTP id j144mr6872783oih.48.1590080684653; 
+ Thu, 21 May 2020 10:04:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200511131117.2486486-1-amanieu@gmail.com>
- <CAFEAcA_2X2CY3Z6Pwcd=p-vboPuYZPJOfx4smoQCoWtjo5sABQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA_2X2CY3Z6Pwcd=p-vboPuYZPJOfx4smoQCoWtjo5sABQ@mail.gmail.com>
+References: <20200518142801.20503-1-peter.maydell@linaro.org>
+In-Reply-To: <20200518142801.20503-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 May 2020 18:03:33 +0100
-Message-ID: <CAFEAcA_C6Xv=-Lqq2xsgXWCUYvzCLiM9ZtZvV6q4kO8g-ugUFw@mail.gmail.com>
-Subject: Re: [PATCH v2] linux-user/arm: Reset CPSR_E when entering a signal
- handler
-To: "Amanieu d'Antras" <amanieu@gmail.com>
+Date: Thu, 21 May 2020 18:04:33 +0100
+Message-ID: <CAFEAcA8TDGUX-3x6Ha9skH8rO7mWEXzrDPYvqe=e2+yTiOQ1eA@mail.gmail.com>
+Subject: Re: [PATCH v2] target/arm: Allow user-mode code to write CPSR.E via
+ MSR
+To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,25 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Amanieu d'Antras <amanieu@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 May 2020 at 14:23, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Mon, 18 May 2020 at 15:28, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> On Mon, 11 May 2020 at 14:11, Amanieu d'Antras <amanieu@gmail.com> wrote:
-> >
-> > This fixes signal handlers running with the wrong endianness if the
-> > interrupted code used SETEND to dynamically switch endianness.
-> >
-> > Signed-off-by: Amanieu d'Antras <amanieu@gmail.com>
-> > ---
-> >  linux-user/arm/signal.c | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> >
+> Using the MSR instruction to write to CPSR.E is deprecated, but it is
+> required to work from any mode including unprivileged code.  We were
+> incorrectly forbidding usermode code from writing it because
+> CPSR_USER did not include the CPSR_E bit.
 >
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> We use CPSR_USER in only three places:
+>  * as the mask of what to allow userspace MSR to write to CPSR
+>  * when deciding what bits a linux-user signal-return should be
+>    able to write from the sigcontext structure
+>  * in target_user_copy_regs() when we set up the initial
+>    registers for the linux-user process
+>
+> In the first two cases not being able to update CPSR.E is a bug, and
+> in the third case it doesn't matter because CPSR.E is always 0 there.
+> So we can fix both bugs by adding CPSR_E to CPSR_USER.
+>
+> Because the cpsr_write() in restore_sigcontext() is now changing
+> a CPSR bit which is cached in hflags, we need to add an
+> arm_rebuild_hflags() call there; the callsite in
+> target_user_copy_regs() was already rebuilding hflags for other
+> reasons.
+>
+> (The recommended way to change CPSR.E is to use the 'SETEND'
+> instruction, which we do correctly allow from usermode code.)
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 
 
