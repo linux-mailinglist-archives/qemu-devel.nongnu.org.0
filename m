@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE941DCEC7
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 15:58:53 +0200 (CEST)
-Received: from localhost ([::1]:45650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 984CF1DCF52
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 16:16:52 +0200 (CEST)
+Received: from localhost ([::1]:47238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jblim-0001p8-OO
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 09:58:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58804)
+	id 1jbm0B-0002Z5-LC
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 10:16:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jblhx-0001PU-7v
- for qemu-devel@nongnu.org; Thu, 21 May 2020 09:58:01 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:36450)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jblzF-00022p-8m
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 10:15:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jblhw-0001XY-3k
- for qemu-devel@nongnu.org; Thu, 21 May 2020 09:58:00 -0400
-Received: by mail-ed1-x543.google.com with SMTP id b91so6727102edf.3
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 06:57:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jOXM0m/kqe/Bzewn8gZ7sUGDJi/1sEEUwPb5JWkw44g=;
- b=sctq1WWAmg/x/CQGB4m4dJ2UeNZcRJ7kbiULo0gTIEh2qM/znOjFGx/sBhR2zj/T7I
- vvlFQKLoNi3C9HwfUXlSrK93WvskP6W5Q+xffdrfo3yV4fbqFhc/2RUgPYhnZnMYTo/P
- t+AyHJfk4fPIqyZrStIuLzRqtJINapfDT5EM+WBWmoy5YYUeQdwD/G9mgtkKOXJu0E0r
- HfBFmaBoFYFAbu5oOv20bIoc4/OE/OjSnXZ55pBWIKzfOYM2R8nnbn+27wsIsylD9U8e
- vhuA/QiOaIKjbG1hf2XmuEzXkBEm/kF92U2BE3k6E/9FcFpgBBFIHaOn+9IFJnOx1+K3
- ztSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jOXM0m/kqe/Bzewn8gZ7sUGDJi/1sEEUwPb5JWkw44g=;
- b=bBppkgide7ca0d83GOXQxz5SG+OsBD225fmEJ81U2sMfshdcyKj4uPWcGsX9UzWykC
- 0VCXwoiUGVnwR7R6sU1gztv/L4ykqsA4hGXZKhZmYufzWVtecOuzEdF8bZhEsSO7p1BD
- 4zauk328JuyVYwFhsE9DNllLTi1hrr3B252mmM2T201EUjdmeUOoyu3amZtfB2wUHbBp
- QtGfzVUz3fbwIAe05+qkYoTANf+PO30HMWCokTt7TTn+FfBiDmUlvvJDXk6ktQdPhE2i
- jz1uxe5QNYVT5QYuaHDTfcdhTpxOYVoaYD39wjpFbnH7vZmtBkpo7uMLDb7jlFieoAgF
- o3jQ==
-X-Gm-Message-State: AOAM531iDadfAQEeJEsl0lGOh0auHOWam9jxusY5Ymz7azazQ4jfIdHh
- 5iqQJbmAWL3O+XCkdDVWQUIh/g==
-X-Google-Smtp-Source: ABdhPJxjUabx6SDTFq+s4jU3XDoQyTwOvIWuf0nqdsqNy6YHC3qF8iJ1kLynBDCgwfcpeuy3crDy+Q==
-X-Received: by 2002:a05:6402:128f:: with SMTP id
- w15mr7949700edv.203.1590069476780; 
- Thu, 21 May 2020 06:57:56 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w14sm5061690ejk.13.2020.05.21.06.57.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 06:57:55 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 75F561FF7E;
- Thu, 21 May 2020 14:57:54 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] linux-user: limit check to HOST_LONG_BITS == 32
-Date: Thu, 21 May 2020 14:57:48 +0100
-Message-Id: <20200521135748.9859-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jblzE-0005Cp-6K
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 10:15:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jblzA-0004FF-GY
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 14:15:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 287B52E807E
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 14:15:48 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 21 May 2020 14:04:26 -0000
+From: Stefan Hajnoczi <1878915@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: floppy io-uring
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: felix.von.s stefanha
+X-Launchpad-Bug-Reporter: felix (felix.von.s)
+X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
+References: <158954872808.31513.13433748579796760766.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159006986635.31173.11641438131053874784.malone@wampee.canonical.com>
+Subject: [Bug 1878915] Re: util/fdmon-io_uring.c:95: get_sqe: Assertion `ret >
+ 1' failed.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a8d765116ee11705f34de69643938932c7b3e2e1
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 08:50:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,55 +74,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Reply-To: Bug 1878915 <1878915@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Newer clangs rightly spot that you can never exceed the full address
-space of 64 bit hosts with:
+Hi,
+This issue should no longer occur in qemu.git/master.
 
-  linux-user/elfload.c:2076:41: error: result of comparison 'unsigned
-  long' > 18446744073709551615 is always false
-  [-Werror,-Wtautological-type-limit-compare]
-  4685         if ((guest_hiaddr - guest_base) > ~(uintptr_t)0) {
-  4686             ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
-  4687 1 error generated.
+Commit ba607ca8bff4d2c2062902f8355657c865ac7c29 ("aio-posix: disable
+fdmon-io_uring when GSource is used") disabled fdmon-io_uring in this
+scenario.
 
-So lets limit the check to 32 bit hosts only.
+-- =
 
-Fixes: ee94743034bf
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878915
 
----
-v2
-  - move inside else bracket
----
- linux-user/elfload.c | 2 ++
- 1 file changed, 2 insertions(+)
+Title:
+  util/fdmon-io_uring.c:95: get_sqe: Assertion `ret > 1' failed.
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 01a9323a637..de82eaf5420 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2073,12 +2073,14 @@ static void pgb_have_guest_base(const char *image_name, abi_ulong guest_loaddr,
-             exit(EXIT_FAILURE);
-         }
-     } else {
-+#if HOST_LONG_BITS == 32
-         if ((guest_hiaddr - guest_base) > ~(uintptr_t)0) {
-             error_report("%s: requires more virtual address space "
-                          "than the host can provide (0x%" PRIx64 ")",
-                          image_name, (uint64_t)guest_hiaddr - guest_base);
-             exit(EXIT_FAILURE);
-         }
-+#endif
-     }
- 
-     /*
--- 
-2.20.1
+Status in QEMU:
+  New
 
+Bug description:
+  qemu 5.0.0, liburing1 0.6-3, Linux 5.6.0-1-686-pae (Debian)
+
+  Stack trace:
+
+  Stack trace of thread 31002:
+  #0  0x00000000b7faf1cd __kernel_vsyscall (linux-gate.so.1 + 0x11cd)
+  #1  0x00000000b6c618e2 __libc_signal_restore_set (libc.so.6 + 0x348e2)
+  #2  0x00000000b6c4a309 __GI_abort (libc.so.6 + 0x1d309)
+  #3  0x00000000b6c4a1d1 __assert_fail_base (libc.so.6 + 0x1d1d1)
+  #4  0x00000000b6c59929 __GI___assert_fail (libc.so.6 + 0x2c929)
+  #5  0x0000000000ba80be get_sqe (qemu-system-i386 + 0x6d00be)
+  #6  0x0000000000ba80cb add_poll_add_sqe (qemu-system-i386 + 0x6d00cb)
+  #7  0x0000000000ba820c fill_sq_ring (qemu-system-i386 + 0x6d020c)
+  #8  0x0000000000ba7145 aio_poll (qemu-system-i386 + 0x6cf145)
+  #9  0x0000000000aede63 blk_prw (qemu-system-i386 + 0x615e63)
+  #10 0x0000000000aeef95 blk_pread (qemu-system-i386 + 0x616f95)
+  #11 0x00000000008abbfa fdctrl_transfer_handler (qemu-system-i386 + 0x3d3b=
+fa)
+  #12 0x0000000000906c3d i8257_channel_run (qemu-system-i386 + 0x42ec3d)
+  #13 0x00000000008ac119 fdctrl_start_transfer (qemu-system-i386 + 0x3d4119)
+  #14 0x00000000008ab233 fdctrl_write_data (qemu-system-i386 + 0x3d3233)
+  #15 0x0000000000708ae7 memory_region_write_accessor (qemu-system-i386 + 0=
+x230ae7)
+  #16 0x00000000007059e1 access_with_adjusted_size (qemu-system-i386 + 0x22=
+d9e1)
+  #17 0x000000000070b931 memory_region_dispatch_write (qemu-system-i386 + 0=
+x233931)
+  #18 0x00000000006a87a2 address_space_stb (qemu-system-i386 + 0x1d07a2)
+  #19 0x0000000000829216 helper_outb (qemu-system-i386 + 0x351216)
+  #20 0x00000000b06d9fdc n/a (n/a + 0x0)
+
+  Steps:
+
+  0. qemu-img create -f raw fda.img 3840K
+  1. mformat -i fda.img -n 48 -t 80 -h 2
+  2. qemu-system-i386 -fda fda.img -hda freedos.qcow2
+  3. Attempt to run 'dosfsck a:' in the guest
+
+  According to hw/block/fdc.c, a 3840K image should result in a virtual
+  floppy with a geometry of 48 sectors/track x 80 tracks x 2 sides.
+
+  The assert seems bogus either way.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878915/+subscriptions
 
