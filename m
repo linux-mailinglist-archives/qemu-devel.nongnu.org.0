@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174B11DD40D
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:14:07 +0200 (CEST)
-Received: from localhost ([::1]:43660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DFAE1DD414
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:16:03 +0200 (CEST)
+Received: from localhost ([::1]:51790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jboli-0006E7-3Q
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:14:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50366)
+	id 1jbona-0001NO-G7
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:16:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jboK7-0006nx-7h
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:45:35 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:41943)
+ id 1jboKY-0007tE-2Q
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:46:02 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:39169)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jboK5-0007BQ-Ur
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:45:34 -0400
-Received: by mail-lj1-x241.google.com with SMTP id v16so9105581ljc.8
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:45:33 -0700 (PDT)
+ id 1jboKW-0007Io-TB
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:46:01 -0400
+Received: by mail-lf1-x141.google.com with SMTP id z206so1196327lfc.6
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:45:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=P8/ZRYeOG5B+jSgE1NVudAwxcAC9WImDYte2116gw7s=;
- b=gcKaYluUiLW+iAouc4NoZ1VdeYd6HEryprONPJaBxjn/akCcTOKL7ZC2HpnyhZLYao
- NnCrtd3RWmFleEypMRAt28GrGkVPzEKCPUb1Q2mzxJfgPhz++n9h/fKN8isYjXX/8UwI
- WcKDwAYqEEGhGvl1I8culcdqeIBJMhBMvxWKaBQ0Vjxy6cGvm0X5d6llgIz68huTUt75
- GlGlz2qozaqHKP13HClGtxsOoargJ0DisNB79cFffB2xfj3OV5jVHG80J34g4qi0M5Lg
- rcx2weSfO1msVLM87zXZ+kFze28wSBe+co2EIQSfuYTsEoDkm/hHYJ0iN2CJKfXUoVdh
- LvPQ==
+ :user-agent; bh=WeeQZiWZensuLGIJP+sCIaOhHMBDyTIWiHKs2HQj3/0=;
+ b=hFufRsgQ+lvNzwsZMeBj83GZRLxc9qmgHcgtKo9lzJufM8MejGQ68pmqy36x9TWiZK
+ DlAWpF39ifee18Y5TE9sm30kVRACyx4JqsPTNQShiKM2XUOJxIO8ZopcyfhZsKITEsxt
+ HV6GQjmA/0gcZtCxd53+7xLPbKcK06vjGgeP/r1/WXy8pCiS1GqAwvV2kNWTH8wFKI3P
+ 4dKepCPCy3pPSA0+Cm3mVUaSsuDscmnrIgSBFVT6spJx0RuUBGRn/6FV2n3uEzOF95IM
+ ij/cW5kR7txWqdtUfZZJxKhVqvNs2p0/jSIDn8+aTsLVFfFw7qqq9X4gNMOX25HiXHJY
+ V7QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to:user-agent;
- bh=P8/ZRYeOG5B+jSgE1NVudAwxcAC9WImDYte2116gw7s=;
- b=LXTTUT1UTz6o69LN6AiWnjDFue2z6uUm5YlmI6wuROdBetxbnxz/ZWP2fFfdH5n+MY
- pvAN45oab7SDZXXwNCB81cibwAvEWPJrr8THlBlhT7h0jbqYk5zrbOzDE3iAkWNdfwEj
- YHatwuGbFb8eaopNj1RYkTSd/o5vOe6PvuZdIPSVYAGACLOz9vy8E+0XSeWahBqHP/zM
- 1CpXnnsfxHvQYdlHaVSHFDIEYYzijeSWifODlixll5ssJ9lelNBlvmFaqV630VtSypBK
- zX2zCRowaPVRPWFd3k73j2aFFORCe762y3ysmkWaWmMQ8Gcu3nvqSuelAzXOwOwLIi1H
- uTQw==
-X-Gm-Message-State: AOAM532YyVP7vfJpD6+koSjfHyha6cU/jnhKrNOLbScBvMAKw4E8pXj+
- IlhbE0c+0cAAaGj5muA2U8g=
-X-Google-Smtp-Source: ABdhPJzzwHUfZPa7mi/Pxpko7fk5CSneHB0ygTQTWkoQ2GVAX23V83munLa4xUA0cFcZNInxTNdZ8Q==
-X-Received: by 2002:a2e:1f02:: with SMTP id f2mr5380237ljf.156.1590079531338; 
- Thu, 21 May 2020 09:45:31 -0700 (PDT)
+ bh=WeeQZiWZensuLGIJP+sCIaOhHMBDyTIWiHKs2HQj3/0=;
+ b=pUYZ5LucO3rdfx4VKf/6sAA/FBMy5Y4Vf8qstlve2yFhW16QxTn25rKoxXaDG0ZH6K
+ VmKZ8tbYk4JwW0RkhVHJKfTJAGR5XeF5oyGKQvZ/g051gvCUPYzvMzPDfR9TNHyV50Yp
+ OZvMj8A6eD+Rlnl3VlXKEPaB+CtpGTr8MVGeUBkpIUBz1cEgyiTh4/f3VTp+itar9IeL
+ lJDPx4zQzQvyNLfVgmrJDdcg9uodZ8KPBe7L8vxU0tmW9+KVt9Vub23pScqXmkLa3IXr
+ voOqIuZHXPcb3rRPOtdKv5OCEOpxCLYgYCUwDuzGynmdrtuMzEuuBSclaZt7kqOSA5kv
+ nvPg==
+X-Gm-Message-State: AOAM531yyR+zRvyzve7LzF3DZrx1zoP0nEdNcax1y2TXFcdSMsUFg6R+
+ DIo6PMiBXsFyYc7UTpExs18=
+X-Google-Smtp-Source: ABdhPJwlxle1FsYfSpzZOiNR0Rri950uc6GauaDOLSfc1zDJWEt4UvJxekMuyca2KKj+LAxUkz++uQ==
+X-Received: by 2002:a19:c114:: with SMTP id r20mr5487080lff.210.1590079557243; 
+ Thu, 21 May 2020 09:45:57 -0700 (PDT)
 Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id a6sm957410ljj.125.2020.05.21.09.45.30
+ by smtp.gmail.com with ESMTPSA id j10sm1824924ljc.21.2020.05.21.09.45.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:45:30 -0700 (PDT)
-Date: Thu, 21 May 2020 18:45:13 +0200
+ Thu, 21 May 2020 09:45:56 -0700 (PDT)
+Date: Thu, 21 May 2020 18:45:39 +0200
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: Robert Foley <robert.foley@linaro.org>
-Subject: Re: [PATCH v9 14/74] microblaze: convert to helper_cpu_halted_set
-Message-ID: <20200521164513.GE5519@toto>
+Subject: Re: [PATCH v9 10/74] cris: convert to helper_cpu_halted_set
+Message-ID: <20200521164539.GF5519@toto>
 References: <20200521164011.638-1-robert.foley@linaro.org>
- <20200521164011.638-15-robert.foley@linaro.org>
+ <20200521164011.638-11-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200521164011.638-15-robert.foley@linaro.org>
+In-Reply-To: <20200521164011.638-11-robert.foley@linaro.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::241;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x241.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::141;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,8 +93,10 @@ Cc: richard.henderson@linaro.org, cota@braap.org, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 21, 2020 at 12:39:11PM -0400, Robert Foley wrote:
+On Thu, May 21, 2020 at 12:39:07PM -0400, Robert Foley wrote:
 > From: "Emilio G. Cota" <cota@braap.org>
+> 
+> And fix the temp leak along the way.
 > 
 > Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
@@ -102,29 +104,29 @@ On Thu, May 21, 2020 at 12:39:11PM -0400, Robert Foley wrote:
 > Signed-off-by: Emilio G. Cota <cota@braap.org>
 > Signed-off-by: Robert Foley <robert.foley@linaro.org>
 
-
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
 
 > ---
->  target/microblaze/translate.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>  target/cris/translate.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-> index f6ff2591c3..c08a7f1d39 100644
-> --- a/target/microblaze/translate.c
-> +++ b/target/microblaze/translate.c
-> @@ -1237,9 +1237,7 @@ static void dec_br(DisasContext *dc)
->              LOG_DIS("sleep\n");
+> diff --git a/target/cris/translate.c b/target/cris/translate.c
+> index aaa46b5bca..6c4f091b7a 100644
+> --- a/target/cris/translate.c
+> +++ b/target/cris/translate.c
+> @@ -2823,8 +2823,9 @@ static int dec_rfe_etc(CPUCRISState *env, DisasContext *dc)
+>      cris_cc_mask(dc, 0);
 >  
->              t_sync_flags(dc);
-> -            tcg_gen_st_i32(tmp_1, cpu_env,
-> -                           -offsetof(MicroBlazeCPU, env)
-> -                           +offsetof(CPUState, halted));
-> +            gen_helper_cpu_halted_set(cpu_env, tmp_1);
->              tcg_gen_movi_i64(cpu_SR[SR_PC], dc->pc + 4);
->              gen_helper_raise_exception(cpu_env, tmp_hlt);
->              tcg_temp_free_i32(tmp_hlt);
+>      if (dc->op2 == 15) {
+> -        tcg_gen_st_i32(tcg_const_i32(1), cpu_env,
+> -                       -offsetof(CRISCPU, env) + offsetof(CPUState, halted));
+> +        TCGv_i32 tmp = tcg_const_i32(1);
+> +        gen_helper_cpu_halted_set(cpu_env, tmp);
+> +        tcg_temp_free_i32(tmp);
+>          tcg_gen_movi_tl(env_pc, dc->pc + 2);
+>          t_gen_raise_exception(EXCP_HLT);
+>          return 2;
 > -- 
 > 2.17.1
 > 
