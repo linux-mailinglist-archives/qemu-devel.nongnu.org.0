@@ -2,67 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDCD51DD437
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:23:36 +0200 (CEST)
-Received: from localhost ([::1]:32780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BB621DD46A
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:31:01 +0200 (CEST)
+Received: from localhost ([::1]:32786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbouu-0002Ui-2O
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:23:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53574)
+	id 1jbp24-0001Yi-27
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:31:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1jbol7-0006RX-JY
- for qemu-devel@nongnu.org; Thu, 21 May 2020 13:13:29 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:53604)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1jbol5-0004G1-BE
- for qemu-devel@nongnu.org; Thu, 21 May 2020 13:13:29 -0400
-Received: by mail-wm1-f65.google.com with SMTP id u1so6196421wmn.3
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 10:13:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=77TpdNg49b0UVh1z+kxGvXfBXeChZQ6bf0ksI56Tomk=;
- b=VgPOtFpeIc2xAMENuaMX3TPIQLI5W/GaL75lM4U4auJW9OEh/h7T5IliaIaR1tifHj
- 3IzhCcDdPaRkhCder9KXwrn+P6aJSPznnxgLMkGEd62RFCJzSYXjzOn/HJObheyOpxBl
- u3Qd3+/+u5fqgVGGHc9irhICGLfVt+T1B8iHHS+py4YhX/1fHJfCn8u/mncUOPOl2yAz
- j8NYzcrvpWxM7ixl7RrLakZ/lEJEuC10YnPPbFKACTuekFHtpbSIFt3XqwuiENDPsFK2
- p5k4KKyuqeaYqNe59TeuaTbqAdm/M0998VuXOa6e4tQikUrjMmeAE26hOM/+fJh9r4KN
- 2ZUg==
-X-Gm-Message-State: AOAM532FULRDSL8noE/hcdgW35MGdDPkyb2lkZ+2yGGJlB5dSQWWciCP
- rdXnyigMZsLBAVJBqKPDIl4=
-X-Google-Smtp-Source: ABdhPJw6BYG4+7138dpZ2B2f0l2V6sP9Hqs7w0UZ9fN8D2fpNstgKFWA+waL7Afjsa42NVOMCAKIbw==
-X-Received: by 2002:a7b:c5cc:: with SMTP id n12mr9577685wmk.69.1590081203142; 
- Thu, 21 May 2020 10:13:23 -0700 (PDT)
-Received: from thl530 (pd95ce791.dip0.t-ipconnect.de. [217.92.231.145])
- by smtp.gmail.com with ESMTPSA id t14sm6593803wrb.56.2020.05.21.10.13.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 10:13:22 -0700 (PDT)
-Date: Thu, 21 May 2020 19:13:18 +0200
-From: Thomas Huth <huth@tuxfamily.org>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 1/2] hw/m68k/mcf5206: Reduce m5206_mbar_read/write()
- offset arg to 16-bit
-Message-ID: <20200521191318.0567bc65@thl530>
-In-Reply-To: <20200518173859.16520-2-f4bug@amsat.org>
-References: <20200518173859.16520-1-f4bug@amsat.org>
- <20200518173859.16520-2-f4bug@amsat.org>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1jbp0u-0000De-TC
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 13:29:48 -0400
+Received: from mx2.suse.de ([195.135.220.15]:42924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1jbp0t-0007b3-9b
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 13:29:47 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id B75B2B200;
+ Thu, 21 May 2020 17:29:44 +0000 (UTC)
+From: Bruce Rogers <brogers@suse.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] audio: fix wavcapture segfault
+Date: Thu, 21 May 2020 11:29:31 -0600
+Message-Id: <20200521172931.121903-1-brogers@suse.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.128.65; envelope-from=th.huth@gmail.com;
- helo=mail-wm1-f65.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 13:13:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=brogers@suse.com;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 02:02:44
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,63 +51,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: Bruce Rogers <brogers@suse.com>, kraxel@redhat.com, dirty.ice.hu@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am Mon, 18 May 2020 19:38:58 +0200
-schrieb Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>:
+Commit 571a8c522e caused the HMP wavcapture command to segfault when
+processing audio data in audio_pcm_sw_write(), where a NULL
+sw->hw->pcm_ops is dereferenced. This fix checks that the pointer is
+valid before dereferincing it. A similar fix is also made in the
+parallel function audio_pcm_sw_read().
 
-> All calls to m5206_mbar_read/m5206_mbar_write are used with
-> 'offset =3D hwaddr & 0x3ff', so we are sure the offset fits
-> in 16-bit.
->=20
-> Suggested-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/m68k/mcf5206.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/m68k/mcf5206.c b/hw/m68k/mcf5206.c
-> index b155dd8170..45f44c43f0 100644
-> --- a/hw/m68k/mcf5206.c
-> +++ b/hw/m68k/mcf5206.c
-> @@ -273,7 +273,7 @@ static void m5206_mbar_reset(m5206_mbar_state *s)
->  }
-> =20
->  static uint64_t m5206_mbar_read(m5206_mbar_state *s,
-> -                                uint64_t offset, unsigned size)
-> +                                uint16_t offset, unsigned size)
->  {
->      if (offset >=3D 0x100 && offset < 0x120) {
->          return m5206_timer_read(s->timer[0], offset - 0x100);
-> @@ -306,11 +306,11 @@ static uint64_t
-> m5206_mbar_read(m5206_mbar_state *s, case 0x170: return s->uivr[0];
->      case 0x1b0: return s->uivr[1];
->      }
-> -    hw_error("Bad MBAR read offset 0x%x", (int)offset);
-> +    hw_error("Bad MBAR read offset 0x%x", offset);
->      return 0;
->  }
-> =20
-> -static void m5206_mbar_write(m5206_mbar_state *s, uint32_t offset,
-> +static void m5206_mbar_write(m5206_mbar_state *s, uint16_t offset,
->                               uint64_t value, unsigned size)
->  {
->      if (offset >=3D 0x100 && offset < 0x120) {
-> @@ -360,7 +360,7 @@ static void m5206_mbar_write(m5206_mbar_state *s,
-> uint32_t offset, s->uivr[1] =3D value;
->          break;
->      default:
-> -        hw_error("Bad MBAR write offset 0x%x", (int)offset);
-> +        hw_error("Bad MBAR write offset 0x%x", offset);
+Fixes: 571a8c522e (audio: split ctl_* functions into enable_* and
+volume_*)
+Signed-off-by: Bruce Rogers <brogers@suse.com>
+---
+ audio/audio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Isn't the correct format string for short ints (i.e. 16-bit) rather %hx
-instead of %x ? ... I think it does not matter on x86, but IIRC there
-are other architectures where this could be a problem. I'd say, let's
-simply use "int" for offset instead, that's likely the best solution.
-(I can do the change when picking up the patch in case you don't want
-to respin, just let me know)
+diff --git a/audio/audio.c b/audio/audio.c
+index 7a9e680355..08a067722b 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -649,7 +649,7 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+         total += isamp;
+     }
+ 
+-    if (!hw->pcm_ops->volume_in) {
++    if (hw->pcm_ops && !hw->pcm_ops->volume_in) {
+         mixeng_volume (sw->buf, ret, &sw->vol);
+     }
+ 
+@@ -736,7 +736,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
+     if (swlim) {
+         sw->conv (sw->buf, buf, swlim);
+ 
+-        if (!sw->hw->pcm_ops->volume_out) {
++        if (sw->hw->pcm_ops && !sw->hw->pcm_ops->volume_out) {
+             mixeng_volume (sw->buf, swlim, &sw->vol);
+         }
+     }
+-- 
+2.26.2
 
- Thomas
 
