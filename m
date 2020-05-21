@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B5E1DD7AB
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:55:25 +0200 (CEST)
-Received: from localhost ([::1]:52892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED7D1DD7B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 21:56:52 +0200 (CEST)
+Received: from localhost ([::1]:60424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbrHo-0003uh-SL
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:55:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41978)
+	id 1jbrJD-00075r-Bi
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 15:56:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jbrGO-0002D7-Rh
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:53:56 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57709)
+ id 1jbrGP-0002DV-JZ
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:53:57 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jbrGM-0007ah-Dq
- for qemu-devel@nongnu.org; Thu, 21 May 2020 15:53:56 -0400
+ id 1jbrGO-0007bm-Q8
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 15:53:57 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id DBDDA748DD9;
- Thu, 21 May 2020 21:53:43 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 06F73748DDD;
+ Thu, 21 May 2020 21:53:44 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 58A6774633F; Thu, 21 May 2020 21:53:43 +0200 (CEST)
-Message-Id: <b9b67b94c46e945252a73c77dfd117132c63c4fb.1590089984.git.balaton@eik.bme.hu>
+ id 69C16748DCF; Thu, 21 May 2020 21:53:43 +0200 (CEST)
+Message-Id: <7946852258d528497e85f465327fc90b5c3b59fb.1590089984.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1590089984.git.balaton@eik.bme.hu>
 References: <cover.1590089984.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 2/7] sm501: Shorten long variable names in
- sm501_2d_operation
+Subject: [PATCH v2 6/7] sm501: Optimize small overlapping blits
 Date: Thu, 21 May 2020 21:39:44 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -64,130 +63,56 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This increases readability and cleans up some confusing naming.
+AmigaOS tends to do a lot of small blits (even 1 pixel). Avoid malloc
+overhead by keeping around a buffer for this and only alloc when
+blitting larger areas.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/display/sm501.c | 45 ++++++++++++++++++++++-----------------------
- 1 file changed, 22 insertions(+), 23 deletions(-)
+ hw/display/sm501.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index bd3ccfe311..f42d05e1e4 100644
+index 8bf4d111f4..e7a9f77de7 100644
 --- a/hw/display/sm501.c
 +++ b/hw/display/sm501.c
-@@ -700,17 +700,16 @@ static inline void hwc_invalidate(SM501State *s, int crt)
- static void sm501_2d_operation(SM501State *s)
- {
-     /* obtain operation parameters */
--    int operation = (s->twoD_control >> 16) & 0x1f;
-+    int cmd = (s->twoD_control >> 16) & 0x1F;
-     int rtl = s->twoD_control & 0x8000000;
-     int src_x = (s->twoD_source >> 16) & 0x01FFF;
-     int src_y = s->twoD_source & 0xFFFF;
-     int dst_x = (s->twoD_destination >> 16) & 0x01FFF;
-     int dst_y = s->twoD_destination & 0xFFFF;
--    int operation_width = (s->twoD_dimension >> 16) & 0x1FFF;
--    int operation_height = s->twoD_dimension & 0xFFFF;
-+    int width = (s->twoD_dimension >> 16) & 0x1FFF;
-+    int height = s->twoD_dimension & 0xFFFF;
-     uint32_t color = s->twoD_foreground;
--    int format_flags = (s->twoD_stretch >> 20) & 0x3;
--    int addressing = (s->twoD_stretch >> 16) & 0xF;
-+    int format = (s->twoD_stretch >> 20) & 0x3;
-     int rop_mode = (s->twoD_control >> 15) & 0x1; /* 1 for rop2, else rop3 */
-     /* 1 if rop2 source is the pattern, otherwise the source is the bitmap */
-     int rop2_source_is_pattern = (s->twoD_control >> 14) & 0x1;
-@@ -721,12 +720,12 @@ static void sm501_2d_operation(SM501State *s)
-     /* get frame buffer info */
-     uint8_t *src = s->local_mem + src_base;
-     uint8_t *dst = s->local_mem + dst_base;
--    int src_width = s->twoD_pitch & 0x1FFF;
--    int dst_width = (s->twoD_pitch >> 16) & 0x1FFF;
-+    int src_pitch = s->twoD_pitch & 0x1FFF;
-+    int dst_pitch = (s->twoD_pitch >> 16) & 0x1FFF;
-     int crt = (s->dc_crt_control & SM501_DC_CRT_CONTROL_SEL) ? 1 : 0;
-     int fb_len = get_width(s, crt) * get_height(s, crt) * get_bpp(s, crt);
- 
--    if (addressing != 0x0) {
-+    if ((s->twoD_stretch >> 16) & 0xF) {
-         qemu_log_mask(LOG_UNIMP, "sm501: only XY addressing is supported.\n");
-         return;
-     }
-@@ -758,20 +757,20 @@ static void sm501_2d_operation(SM501State *s)
-         return;
-     }
- 
--    switch (operation) {
-+    switch (cmd) {
-     case 0x00: /* copy area */
- #define COPY_AREA(_bpp, _pixel_type, rtl) {                                   \
-         int y, x, index_d, index_s;                                           \
--        for (y = 0; y < operation_height; y++) {                              \
--            for (x = 0; x < operation_width; x++) {                           \
-+        for (y = 0; y < height; y++) {                              \
-+            for (x = 0; x < width; x++) {                           \
-                 _pixel_type val;                                              \
-                                                                               \
-                 if (rtl) {                                                    \
--                    index_s = ((src_y - y) * src_width + src_x - x) * _bpp;   \
--                    index_d = ((dst_y - y) * dst_width + dst_x - x) * _bpp;   \
-+                    index_s = ((src_y - y) * src_pitch + src_x - x) * _bpp;   \
-+                    index_d = ((dst_y - y) * dst_pitch + dst_x - x) * _bpp;   \
-                 } else {                                                      \
--                    index_s = ((src_y + y) * src_width + src_x + x) * _bpp;   \
--                    index_d = ((dst_y + y) * dst_width + dst_x + x) * _bpp;   \
-+                    index_s = ((src_y + y) * src_pitch + src_x + x) * _bpp;   \
-+                    index_d = ((dst_y + y) * dst_pitch + dst_x + x) * _bpp;   \
-                 }                                                             \
-                 if (rop_mode == 1 && rop == 5) {                              \
-                     /* Invert dest */                                         \
-@@ -783,7 +782,7 @@ static void sm501_2d_operation(SM501State *s)
-             }                                                                 \
-         }                                                                     \
-     }
--        switch (format_flags) {
-+        switch (format) {
-         case 0:
-             COPY_AREA(1, uint8_t, rtl);
-             break;
-@@ -799,15 +798,15 @@ static void sm501_2d_operation(SM501State *s)
-     case 0x01: /* fill rectangle */
- #define FILL_RECT(_bpp, _pixel_type) {                                      \
-         int y, x;                                                           \
--        for (y = 0; y < operation_height; y++) {                            \
--            for (x = 0; x < operation_width; x++) {                         \
--                int index = ((dst_y + y) * dst_width + dst_x + x) * _bpp;   \
-+        for (y = 0; y < height; y++) {                            \
-+            for (x = 0; x < width; x++) {                         \
-+                int index = ((dst_y + y) * dst_pitch + dst_x + x) * _bpp;   \
-                 *(_pixel_type *)&dst[index] = (_pixel_type)color;           \
-             }                                                               \
-         }                                                                   \
-     }
- 
--        switch (format_flags) {
-+        switch (format) {
-         case 0:
-             FILL_RECT(1, uint8_t);
-             break;
-@@ -824,14 +823,14 @@ static void sm501_2d_operation(SM501State *s)
- 
-     default:
-         qemu_log_mask(LOG_UNIMP, "sm501: not implemented 2D operation: %d\n",
--                      operation);
-+                      cmd);
-         return;
-     }
- 
-     if (dst_base >= get_fb_addr(s, crt) &&
-         dst_base <= get_fb_addr(s, crt) + fb_len) {
--        int dst_len = MIN(fb_len, ((dst_y + operation_height - 1) * dst_width +
--                           dst_x + operation_width) * (1 << format_flags));
-+        int dst_len = MIN(fb_len, ((dst_y + height - 1) * dst_pitch +
-+                          dst_x + width) * (1 << format));
-         if (dst_len) {
-             memory_region_set_dirty(&s->local_mem_region, dst_base, dst_len);
-         }
+@@ -750,6 +750,7 @@ static void sm501_2d_operation(SM501State *s)
+     switch (cmd) {
+     case 0: /* BitBlt */
+     {
++        static uint32_t tmp_buf[16384];
+         unsigned int src_x = (s->twoD_source >> 16) & 0x01FFF;
+         unsigned int src_y = s->twoD_source & 0xFFFF;
+         uint32_t src_base = s->twoD_source_base & 0x03FFFFFF;
+@@ -812,10 +813,14 @@ static void sm501_2d_operation(SM501State *s)
+             de = db + width + height * (width + dst_pitch);
+             if (rtl && ((db >= sb && db <= se) || (de >= sb && de <= se))) {
+                 /* regions may overlap: copy via temporary */
+-                int llb = width * (1 << format);
++                int free_buf = 0, llb = width * (1 << format);
+                 int tmp_stride = DIV_ROUND_UP(llb, sizeof(uint32_t));
+-                uint32_t *tmp = g_malloc(tmp_stride * sizeof(uint32_t) *
+-                                         height);
++                uint32_t *tmp = tmp_buf;
++
++                if (tmp_stride * sizeof(uint32_t) * height > sizeof(tmp_buf)) {
++                    tmp = g_malloc(tmp_stride * sizeof(uint32_t) * height);
++                    free_buf = 1;
++                }
+                 pixman_blt((uint32_t *)&s->local_mem[src_base], tmp,
+                            src_pitch * (1 << format) / sizeof(uint32_t),
+                            tmp_stride, 8 * (1 << format), 8 * (1 << format),
+@@ -825,7 +830,9 @@ static void sm501_2d_operation(SM501State *s)
+                            dst_pitch * (1 << format) / sizeof(uint32_t),
+                            8 * (1 << format), 8 * (1 << format),
+                            0, 0, dst_x, dst_y, width, height);
+-                g_free(tmp);
++                if (free_buf) {
++                    g_free(tmp);
++                }
+             } else {
+                 pixman_blt((uint32_t *)&s->local_mem[src_base],
+                            (uint32_t *)&s->local_mem[dst_base],
 -- 
 2.21.3
 
