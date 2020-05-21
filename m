@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79511DD427
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:20:04 +0200 (CEST)
-Received: from localhost ([::1]:44632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 662501DD420
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:18:51 +0200 (CEST)
+Received: from localhost ([::1]:37504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jborT-0002iP-KW
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:20:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50174)
+	id 1jboqI-00087W-E4
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:18:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboJD-0004Su-Px
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:39 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:34330)
+ id 1jboJG-0004Vu-9A
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:42 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:34331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboJC-0006j4-R6
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:39 -0400
-Received: by mail-qk1-x741.google.com with SMTP id 190so7917992qki.1
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:44:38 -0700 (PDT)
+ id 1jboJF-0006ke-98
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:44:41 -0400
+Received: by mail-qk1-x741.google.com with SMTP id 190so7918081qki.1
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:44:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DROR1j7T4nvT3Kb9/UW2YDjxvm1xSx4iyEWd3x/xCYw=;
- b=Jsk7EHgCy0F5z0OqfBb9qvVNN1MWfkVXUS5hylU8y/EYU03wvdaRFqRXrbzaapZeq1
- kW++2lZfsFYNJ0h2NR0XFTWVobJS3D01QoIsvIDMydnamlic1uhsCZpOEEPa6nSa3Dn3
- 9zjBSi1O9hOg422U4dl9OYNbZ28soZWNWdtSzgVLvIUZiHKhZgdCt/9cGXert1KBqj0S
- e8qmVFkOyFoe8RpdrlePkU2jq6GA1YeMy8FZ3/3R19xJy6Tw399OpkVLuwH5Uqv+f11Q
- PPN/Zgj7OOpGvnokyqjIPfk7UCddI3jA+OSqco6pwAgJP89wOME7jqZ2j2ue998aJtBQ
- v5Sw==
+ bh=f6jTs4l1FUMMcryMnS/4lJD5Ni20LOW4nBzyszoy3L4=;
+ b=U+GT93lCYq8RuQBsNpW0FvQNeYBg/ZDm0UBcKUlTv6NGzMx5QowNjosWOW4Hh6fFBR
+ o5qDdlykIEaKgxcHDCZrh0HJ16sSegni6A1tRjV5ajlB8OSq/P9VYMlC97qb/fqIg3of
+ S0nXOoxsvgybjD9x4aHyL8bpD+6ECZ+AiciwPI+wF3l4jMmaNOVjkZIKKXOMOCvo7pMC
+ wD/EOQIucPF0VtHzaL9kiB1ZcSUCpn5DVo/M0XlXjCjoUXRSOay/HD30DSnsGFQmSGkv
+ UsihxjAu/dVejODKWx423p61s7tP4sKGJCz6oVCbzwZ3QkmTiXLwaMlKsr/dPAdTR3lu
+ uBwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DROR1j7T4nvT3Kb9/UW2YDjxvm1xSx4iyEWd3x/xCYw=;
- b=XMWHSxuhV7Wfi3yv+90RbgMcBaD/4MqqAMYPIe1yyRWEjPVtztWuyeH/YKuyinKgCn
- 3uotd1nM5nWsVo69zBd6ewXUAKbzTiYM1f51HsDnSis6h6MnTxJRq7+GzBqdx/QGgpI7
- hy+s5NPMGtTAEjDs/n2Y6mS7pPIJ+AZWHuym3xnfpAVUdHABMR+WOmbC3J8uo/uOQB6l
- KSIB+p4J4fkUDjKvyN6NoI6bFDDJ8+JnL8vUwIb1veVF16qGgm1h3+Pw9X+PH/pwvsQR
- GEu3cPpMpJ+mQHWyrzHEuVxcr6lPWv+ZZhhFeGbkNi1yzINKi4GLm2a0uh97ioAb0Bal
- znOQ==
-X-Gm-Message-State: AOAM531UaonHtgDZ4RpQza/0Wb4RwDtoZFb5s7PwizyRZME+gLyNLuf/
- hfwrIpI5cRsWg6sOx0+UzCtafF0ZFxdadA==
-X-Google-Smtp-Source: ABdhPJzTSei10pjMgAv459Ojig7dcZWcbVkLQL+4ciRUS3g86QEZdDSCSCW6/UKMdUpELJHx4Si0Sg==
-X-Received: by 2002:a05:620a:14ac:: with SMTP id
- x12mr10392691qkj.262.1590079477697; 
- Thu, 21 May 2020 09:44:37 -0700 (PDT)
+ bh=f6jTs4l1FUMMcryMnS/4lJD5Ni20LOW4nBzyszoy3L4=;
+ b=WBvvlwrGDB1Gx8EyMZzJkjDUmReYOXutqoCGeTSsUhU+HeOqsiPh5/rapK/2dnY+Si
+ YQebIMUPPhF+7cqAUj3S8A5xmQ7oLWQUKnHqZoCZHHNp2rGtsiLZOMmgMSLBfndV9IAG
+ /F+Z7kJPnuLgy1MWxPD00nx4O3KYYrWaVijlW8POLuYyy57tTBXPDHqkqjqnVWH9mFxn
+ VXp/Etoerx9pRbgZ0g3dRKWtp7MvvwPegym5QpTg6J4SnFNPQG2aLkDgd7SmEdil37r/
+ C7Y+WwLQprlW5wFlMS6hyncVC1cKLeYMYZuGmTTomvuQmk8VUJGA+tENA2aWS2sHxnM6
+ puOA==
+X-Gm-Message-State: AOAM533NlcToEzmcSqsNOJ8dnl3GbfsBQOTbkUa3CzsMmiGKgQREb5fb
+ +Npf5Ss+qhi8NOOKorv4oPR2EOs5d4J/NQ==
+X-Google-Smtp-Source: ABdhPJzs90Pwp95Q4YWsVV7Q0rqm4Bp7Xbmm0LmluS7V13wMY2eWTxpv/A7YYTYSJEJaQQV1CfDbRg==
+X-Received: by 2002:a05:620a:a83:: with SMTP id
+ v3mr10997896qkg.84.1590079478970; 
+ Thu, 21 May 2020 09:44:38 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:1944:c530:655c:5583])
- by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.44.36
+ by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.44.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:44:37 -0700 (PDT)
+ Thu, 21 May 2020 09:44:38 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 62/74] cpu: call .cpu_has_work with the CPU lock held
-Date: Thu, 21 May 2020 12:39:59 -0400
-Message-Id: <20200521164011.638-63-robert.foley@linaro.org>
+Subject: [PATCH v9 63/74] cpu: introduce cpu_has_work_with_iothread_lock
+Date: Thu, 21 May 2020 12:40:00 -0400
+Message-Id: <20200521164011.638-64-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200521164011.638-1-robert.foley@linaro.org>
 References: <20200521164011.638-1-robert.foley@linaro.org>
@@ -94,46 +94,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
+It will gain some users soon.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- include/hw/core/cpu.h | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ include/hw/core/cpu.h | 37 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 34 insertions(+), 3 deletions(-)
 
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 6ed806db60..7bf7700630 100644
+index 7bf7700630..9766477e62 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -80,7 +80,8 @@ struct TranslationBlock;
-  * instantiatable CPU type.
-  * @parse_features: Callback to parse command line arguments.
+@@ -26,6 +26,7 @@
+ #include "exec/memattrs.h"
+ #include "qapi/qapi-types-run-state.h"
+ #include "qemu/bitmap.h"
++#include "qemu/main-loop.h"
+ #include "qemu/rcu_queue.h"
+ #include "qemu/queue.h"
+ #include "qemu/thread.h"
+@@ -82,6 +83,8 @@ struct TranslationBlock;
   * @reset_dump_flags: #CPUDumpFlags to use for reset logging.
-- * @has_work: Callback for checking if there is work to do.
-+ * @has_work: Callback for checking if there is work to do. Called with the
-+ * CPU lock held.
+  * @has_work: Callback for checking if there is work to do. Called with the
+  * CPU lock held.
++ * @has_work_with_iothread_lock: Callback for checking if there is work to do.
++ * Called with both the BQL and the CPU lock held.
   * @do_interrupt: Callback for interrupt handling.
   * @do_unaligned_access: Callback for unaligned access handling, if
   * the target defines #TARGET_ALIGNED_ONLY.
-@@ -799,9 +800,16 @@ const char *parse_cpu_option(const char *cpu_option);
+@@ -167,6 +170,7 @@ typedef struct CPUClass {
+ 
+     int reset_dump_flags;
+     bool (*has_work)(CPUState *cpu);
++    bool (*has_work_with_iothread_lock)(CPUState *cpu);
+     void (*do_interrupt)(CPUState *cpu);
+     void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
+                                 MMUAccessType access_type,
+@@ -800,14 +804,41 @@ const char *parse_cpu_option(const char *cpu_option);
  static inline bool cpu_has_work(CPUState *cpu)
  {
      CPUClass *cc = CPU_GET_CLASS(cpu);
-+    bool ret;
++    bool has_cpu_lock = cpu_mutex_locked(cpu);
++    bool (*func)(CPUState *cpu);
+     bool ret;
  
-     g_assert(cc->has_work);
--    return cc->has_work(cpu);
-+    if (cpu_mutex_locked(cpu)) {
-+        return cc->has_work(cpu);
++    /* some targets require us to hold the BQL when checking for work */
++    if (cc->has_work_with_iothread_lock) {
++        if (qemu_mutex_iothread_locked()) {
++            func = cc->has_work_with_iothread_lock;
++            goto call_func;
++        }
++
++        if (has_cpu_lock) {
++            /* avoid deadlock by acquiring the locks in order */
++            cpu_mutex_unlock(cpu);
++        }
++        qemu_mutex_lock_iothread();
++        cpu_mutex_lock(cpu);
++
++        ret = cc->has_work_with_iothread_lock(cpu);
++
++        qemu_mutex_unlock_iothread();
++        if (!has_cpu_lock) {
++            cpu_mutex_unlock(cpu);
++        }
++        return ret;
 +    }
-+    cpu_mutex_lock(cpu);
-+    ret = cc->has_work(cpu);
-+    cpu_mutex_unlock(cpu);
-+    return ret;
++
+     g_assert(cc->has_work);
+-    if (cpu_mutex_locked(cpu)) {
+-        return cc->has_work(cpu);
++    func = cc->has_work;
++ call_func:
++    if (has_cpu_lock) {
++        return func(cpu);
+     }
+     cpu_mutex_lock(cpu);
+-    ret = cc->has_work(cpu);
++    ret = func(cpu);
+     cpu_mutex_unlock(cpu);
+     return ret;
  }
- 
- /**
 -- 
 2.17.1
 
