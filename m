@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899771DD38E
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:58:18 +0200 (CEST)
-Received: from localhost ([::1]:57828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BFA71DD39F
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 19:00:06 +0200 (CEST)
+Received: from localhost ([::1]:38474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jboWP-00050q-HB
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:58:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49850)
+	id 1jboY9-0000JZ-25
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 13:00:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboIT-00030Z-Np
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:53 -0400
-Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:35551)
+ id 1jboIU-000336-KJ
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:54 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:34317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jboIS-0006Yr-IY
- for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:53 -0400
-Received: by mail-qt1-x832.google.com with SMTP id z18so6021834qto.2
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:43:52 -0700 (PDT)
+ id 1jboIT-0006Z0-Lc
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 12:43:54 -0400
+Received: by mail-qk1-x742.google.com with SMTP id 190so7915286qki.1
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 09:43:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eHaQBXlGwYEJ+LUDpIzgk48KJ4nxL6vb+7Ag6IrpPa0=;
- b=RDIeoaKVwO60kH/bb4xqU79wAH4A5kAGqh6pg4mG3qUN081R0/NYSQKrYxa7PN2667
- UtmNc34vJIS+NZoY7Afx3SgzYhhBxicmb9jME1fbIiqpJX/IFyAWI43BiXziV1rMYwSU
- EeN+ttXpYvKcKJYnU1vdoSe+3/PIrxGCz7D9Q3eBPJH1Bnh3GaOBQ/4p+3SRt38ppu5T
- 9z6zLy/f30lhlXCpg3B4zGqRbCZJ02dfUosiCdFiTZl3pa5OCFgeG257UjLD7p7BcBJ/
- k4gW8DxwJog+JPsMPoEOuINiOa1yq/ZIuvzqxT7bugiUoQqdWcEFIYkAUF9vEkKtAQPr
- zJsg==
+ bh=LDQ6XQ/3vPiAN54mt6Pw+hfW8ObudV4rT2qqPEmK+8U=;
+ b=rONSTrnGrSZ2PsoIrFLqBFuu6suHGbrMjX8uNyhMJMBGg035NputYOHa8h2uI8xtlF
+ LOjjEFaAEKkn8SxHd9pFLcvc+FgVqlAAsvunyS530dGc7thTweLioc3xQRj6myQtUnLx
+ CI32Z6rrO3nr72JWTeh6hFju0acnpQvitBwwDOgHgXCgLjooWqJ4mHqlHiphU/eby5at
+ k/81cNpVH8haEAfc1pRSpJna3mOqwqfqMr5lAaGKf/+Md/yj69tA2eYbdD1ujFjUAwi8
+ Lk08Cku5kOH1EfDrI8KUefdy7IkNzG49rii+8nDLJhIBuDwIXpN4P35dTiCr3dA0cXC1
+ DeMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eHaQBXlGwYEJ+LUDpIzgk48KJ4nxL6vb+7Ag6IrpPa0=;
- b=osbgRicbre7dyhmxSN+RjDemT+xwST1YazoWdhAaQNguwDY+3eaCTJPL3bcOCDb4jq
- fqo8ixQDFCiGKzWHvzbUzT1S5XukMXVkLKIbUsaiIjTQti3YqT3UTxsCYUeoxGrqE2O1
- tsmYjFv1elgh4u7XBKHZUtJxr/5gU4AlBnypSvgTx6bjcuWnhZchiVlMb5u41cfyu0Nd
- ODbG8Z6610rmNyhprn5oB9NhPQvdqixYEYcxANJ8BgLgEoimA19R1zVfQ5F3AclfhHJC
- 42jqJf41glAVNQJCNMd/NyPA/ZuG4QrszMoYsIbaefewlJ+Zlda/TXY1kIAfORS3fSL1
- QPmA==
-X-Gm-Message-State: AOAM532TrWnrIStI9jRv8XByqG9ibXZ7ZZT7GDUR/4aaiT74QY7k+tru
- 6LDw+iJJfy0QR5kFgdZWAorMh1NwPLSjAQ==
-X-Google-Smtp-Source: ABdhPJwYYZXBuUGYIr+NMmiNDPXHRgaTGxjjaIflF4Jg2U0bJb+DXHma+tBagKJqKmP3o7ddWaq2YQ==
-X-Received: by 2002:aed:20d1:: with SMTP id 75mr11676981qtb.1.1590079431267;
- Thu, 21 May 2020 09:43:51 -0700 (PDT)
+ bh=LDQ6XQ/3vPiAN54mt6Pw+hfW8ObudV4rT2qqPEmK+8U=;
+ b=uGTSVeXZrjtgJ6lS1WsqEVzJkTpf9trALB4MmT+FvLQoY3M9i261vfCyw8y0di2yaQ
+ VWob3VglJdPmSjsuaU4g6KxsGUlmvG6jM1i5o8DLCFwD6MiHM2oI++uJoFw7G8hL5Wp+
+ nFI0TB3Ts6Yml2oVIPbUx2VBBu6+4TYXklgVnaypDPFFA0CaRE11q6DfLl33iML0Ah0f
+ tceeUVHVd1znBrraPni/A4AAYnQ2gX01J+PzLkiFFEcnVmjO4EyhLBGMy/VeRNpDLkOy
+ MXfG1suSjgFTuwdcPnok/dFNd6rY/vyDwyAzCRYBhzlraNLPkWKb0jCjZ9otkP7untIj
+ 3rDw==
+X-Gm-Message-State: AOAM531loOJiljYRFHps+dRj+G59Qib0PcirfnkmLMqfGSY1lf/8rNY7
+ AbEXlqFJr3jIoQZT9xRBqr/hUdtqfnAL2w==
+X-Google-Smtp-Source: ABdhPJxM86RQ5aNqp9UP/nL9z4Vei3jmWAjYFxbehbX9xxreBnli8ioe3TT9J5WNADneK2sbufq+eg==
+X-Received: by 2002:a05:620a:634:: with SMTP id
+ 20mr10169315qkv.15.1590079432542; 
+ Thu, 21 May 2020 09:43:52 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:1944:c530:655c:5583])
- by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.43.49
+ by smtp.gmail.com with ESMTPSA id x24sm5923829qth.57.2020.05.21.09.43.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 09:43:50 -0700 (PDT)
+ Thu, 21 May 2020 09:43:51 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 27/74] sparc: convert to cpu_halted
-Date: Thu, 21 May 2020 12:39:24 -0400
-Message-Id: <20200521164011.638-28-robert.foley@linaro.org>
+Subject: [PATCH v9 28/74] xtensa: convert to cpu_halted
+Date: Thu, 21 May 2020 12:39:25 -0400
+Message-Id: <20200521164011.638-29-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200521164011.638-1-robert.foley@linaro.org>
 References: <20200521164011.638-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
- envelope-from=robert.foley@linaro.org; helo=mail-qt1-x832.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
+ envelope-from=robert.foley@linaro.org; helo=mail-qk1-x742.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,115 +88,63 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: robert.foley@linaro.org, richard.henderson@linaro.org,
- Fabien Chouteau <chouteau@adacore.com>, cota@braap.org, peter.puhov@linaro.org,
- alex.bennee@linaro.org, Artyom Tarasenko <atar4qemu@gmail.com>
+ Max Filippov <jcmvbkbc@gmail.com>, cota@braap.org, peter.puhov@linaro.org,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Cc: Fabien Chouteau <chouteau@adacore.com>
-Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- hw/sparc/leon3.c      | 2 +-
- hw/sparc/sun4m.c      | 8 ++++----
- hw/sparc64/sparc64.c  | 4 ++--
- target/sparc/helper.c | 2 +-
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ target/xtensa/cpu.c        | 2 +-
+ target/xtensa/exc_helper.c | 2 +-
+ target/xtensa/helper.c     | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
-index 8f024dab7b..00d1efd430 100644
---- a/hw/sparc/leon3.c
-+++ b/hw/sparc/leon3.c
-@@ -132,7 +132,7 @@ static void main_cpu_reset(void *opaque)
+diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+index 82c2ee0679..fda4a73722 100644
+--- a/target/xtensa/cpu.c
++++ b/target/xtensa/cpu.c
+@@ -102,7 +102,7 @@ static void xtensa_cpu_reset(DeviceState *dev)
  
-     cpu_reset(cpu);
- 
--    cpu->halted = 0;
-+    cpu_halted_set(cpu, 0);
-     env->pc     = s->entry;
-     env->npc    = s->entry + 4;
-     env->regbase[6] = s->sp;
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 8dda3f7292..e189ba5395 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -192,7 +192,7 @@ static void cpu_kick_irq(SPARCCPU *cpu)
-     CPUSPARCState *env = &cpu->env;
-     CPUState *cs = CPU(cpu);
- 
--    cs->halted = 0;
-+    cpu_halted_set(cs, 0);
-     cpu_check_irqs(env);
-     qemu_cpu_kick(cs);
- }
-@@ -223,7 +223,7 @@ static void main_cpu_reset(void *opaque)
-     CPUState *cs = CPU(cpu);
- 
-     cpu_reset(cs);
--    cs->halted = 0;
-+    cpu_halted_set(cs, 0);
+ #ifndef CONFIG_USER_ONLY
+     reset_mmu(env);
+-    s->halted = env->runstall;
++    cpu_halted_set(s, env->runstall);
+ #endif
  }
  
- static void secondary_cpu_reset(void *opaque)
-@@ -232,7 +232,7 @@ static void secondary_cpu_reset(void *opaque)
-     CPUState *cs = CPU(cpu);
- 
-     cpu_reset(cs);
--    cs->halted = 1;
-+    cpu_halted_set(cs, 1);
- }
- 
- static void cpu_halt_signal(void *opaque, int irq, int level)
-@@ -831,7 +831,7 @@ static void cpu_devinit(const char *cpu_type, unsigned int id,
-     } else {
-         qemu_register_reset(secondary_cpu_reset, cpu);
-         cs = CPU(cpu);
--        cs->halted = 1;
-+        cpu_halted_set(cs, 1);
+diff --git a/target/xtensa/exc_helper.c b/target/xtensa/exc_helper.c
+index 601341d13a..01d1e56feb 100644
+--- a/target/xtensa/exc_helper.c
++++ b/target/xtensa/exc_helper.c
+@@ -115,7 +115,7 @@ void HELPER(waiti)(CPUXtensaState *env, uint32_t pc, uint32_t intlevel)
+         return;
      }
-     *cpu_irqs = qemu_allocate_irqs(cpu_set_irq, cpu, MAX_PILS);
-     env->prom_addr = prom_addr;
-diff --git a/hw/sparc64/sparc64.c b/hw/sparc64/sparc64.c
-index 100b2fab17..fe9c678459 100644
---- a/hw/sparc64/sparc64.c
-+++ b/hw/sparc64/sparc64.c
-@@ -101,7 +101,7 @@ static void cpu_kick_irq(SPARCCPU *cpu)
-     CPUState *cs = CPU(cpu);
-     CPUSPARCState *env = &cpu->env;
  
--    cs->halted = 0;
-+    cpu_halted_set(cs, 0);
-     cpu_check_irqs(env);
-     qemu_cpu_kick(cs);
+-    cpu->halted = 1;
++    cpu_halted_set(cpu, 1);
+     HELPER(exception)(env, EXCP_HLT);
  }
-@@ -116,7 +116,7 @@ void sparc64_cpu_set_ivec_irq(void *opaque, int irq, int level)
-         if (!(env->ivec_status & 0x20)) {
-             trace_sparc64_cpu_ivec_raise_irq(irq);
-             cs = CPU(cpu);
--            cs->halted = 0;
-+            cpu_halted_set(cs, 0);
-             env->interrupt_index = TT_IVEC;
-             env->ivec_status |= 0x20;
-             env->ivec_data[0] = (0x1f << 6) | irq;
-diff --git a/target/sparc/helper.c b/target/sparc/helper.c
-index 07d87efa4e..90dfb1e92f 100644
---- a/target/sparc/helper.c
-+++ b/target/sparc/helper.c
-@@ -244,7 +244,7 @@ void helper_power_down(CPUSPARCState *env)
- {
-     CPUState *cs = env_cpu(env);
  
--    cs->halted = 1;
-+    cpu_halted_set(cs, 1);
-     cs->exception_index = EXCP_HLT;
-     env->pc = env->npc;
-     env->npc = env->pc + 4;
+diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
+index 7073381f03..031a14cf86 100644
+--- a/target/xtensa/helper.c
++++ b/target/xtensa/helper.c
+@@ -328,7 +328,7 @@ void xtensa_runstall(CPUXtensaState *env, bool runstall)
+     CPUState *cpu = env_cpu(env);
+ 
+     env->runstall = runstall;
+-    cpu->halted = runstall;
++    cpu_halted_set(cpu, runstall);
+     if (runstall) {
+         cpu_interrupt(cpu, CPU_INTERRUPT_HALT);
+     } else {
 -- 
 2.17.1
 
