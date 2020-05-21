@@ -2,70 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52391DD2DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 18:12:52 +0200 (CEST)
-Received: from localhost ([::1]:34402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE7051DD28D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 May 2020 17:58:54 +0200 (CEST)
+Received: from localhost ([::1]:55902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbnoR-0005Ri-Pr
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 12:12:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45330)
+	id 1jbnav-000253-To
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 11:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jbnid-0004P9-Dx; Thu, 21 May 2020 12:06:51 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:45157)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jbnic-0006MN-4F; Thu, 21 May 2020 12:06:50 -0400
-Received: by mail-il1-x144.google.com with SMTP id b15so7556280ilq.12;
- Thu, 21 May 2020 09:06:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hVYeWESeCnMzkcM+Fh3zeAkSckNAl04eVjQ1OUPApI0=;
- b=nHVjP3AcQg0LP8VE2rwdG6VoOsllBAYDwVQNIKI3B3VCP9yyVGLTv+112SnAgeKbmk
- 30Ij3BfZftAqqbMY1cQdrKiI20IxFCmRa456yf4LeUw1en+KTL8lrvdA45fcyFIj8HSN
- EOSdbAas+QcvMVkc0r7sStLSR21xC1jnhPjRnylZn9LeYmneh6F0b86Ge6HqAiXY7y6a
- Ul4G65imAbpMLZjN20/gy4DN9M8ZpOfZ41ZRATWDtK2cyogFfQuEATSOVvJTS6A17QME
- +0/54WuRZDO235Y73fES8XAfBBxVrb4sY00wpuQndLjOmCT23CKjSUYyF2gedQcSMGWQ
- 4C/w==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jbna6-00014L-MT
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 11:58:02 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24001
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jbna5-0003Tn-KL
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 11:58:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590076680;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1qel/3LEqs8TcaOy9QI2A+SHucHIfp6UqRicGUyRMzw=;
+ b=OnSb1wnSf85zg6LUIVEC+d87SXgpnWWKK2+aqYl5ilWVRUgP6eTewPNRt5y9Zhn4RLVNkX
+ MajHoXk7qwAZitivStcuGdh04/FGiYEzrVtWZcIWi8hiPT+PE0c3QVS+0jHEehkrf66s5o
+ udgDY8a3FcFmJX6dOWOnjCRcJ/MNwmQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-124-FI8LqEYQNaWRHJAq1TYo8Q-1; Thu, 21 May 2020 11:57:55 -0400
+X-MC-Unique: FI8LqEYQNaWRHJAq1TYo8Q-1
+Received: by mail-wr1-f70.google.com with SMTP id q13so3106569wrn.14
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 08:57:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hVYeWESeCnMzkcM+Fh3zeAkSckNAl04eVjQ1OUPApI0=;
- b=VHSOKgIaqyAtNejkVb3U518EfYxLTGjlpH+a4wJXUtk8pgG1/UBgQY568MozrM3fAm
- AmgVbkp1tjlROtpq0V65VbFy4g3Bcc9AtRv3f8UKDG+jMr+ZqGOCY88+NSECBVZjqKDH
- JRxfPS8XLMzpO+rxi6SlbaV+vPPzg9R0dgibUm2un0XsA0AnRxRKPUfAeC3x/Cxzkv3l
- SIwRS+hLMolu4AZ2PfwpqaGOp0jfCCSFYBSGvWPThkJJ40PUuceg20BXLi+HCSW/el3D
- mYfdcJDDLmqY4kYAZPPhJixOxcfFau5H8fvGBV2ysvidp6YiiOBAv6purVDhNUGUw9bu
- 3j0w==
-X-Gm-Message-State: AOAM531Zx8foo372G5hZ9pK4J7VUKP/0ziOEyFbzZhOREMBLqkkIZYUu
- zRvnhHUBGa6kbhQXR4aVansfnP2ZWw7FGtD/TyA=
-X-Google-Smtp-Source: ABdhPJxuuJ8g59+1nI4P6UuXSEAq+sJXigyCIT/ZivznOh/NFSt4hbkqTgEvdiUoE7nySOMtq2Chets+6CazVpXQMCw=
-X-Received: by 2002:a92:d087:: with SMTP id h7mr9822915ilh.227.1590077208538; 
- Thu, 21 May 2020 09:06:48 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1qel/3LEqs8TcaOy9QI2A+SHucHIfp6UqRicGUyRMzw=;
+ b=b9gNEMLUehEClHR7Na4VGY0SZyhALg41CFA/kW/2G2WsY0CUi5xGFggoIBgC4zGeUL
+ xHopftYzixElhzpdluSzowOgP2tlrtrjvGIQnXsan+JcYDz13DYBlvjkX2r12ybhAzNS
+ ezozUXCs3t62kTP5nbA8Hy1C4Y+MkoaXnqM0ODypvIyjDSaxLBah5JRrgxP8MPy9fqRd
+ lhSNogsb0YVZ8z06Or2TDiYeFsPMEm0SJg7P86B98llXQgvoJVcaHGkkJZBa+f8m/S4r
+ LJvYveLqD3ugamwmpeyMBVIrVDldzUKdA29W7SX9cwd68cNZyaJ86qRnbUHmJ+12Yrv8
+ anQQ==
+X-Gm-Message-State: AOAM531+FFj19Yj5vF0D6pYb2QxLh2zRpdHqGQGiVJgGPQoDeAwiqtzF
+ h2YXv5dyfv+Hqss3Q2gNfGTqf2Q13uAQG2arPbwdgDOLp5wLI1k51m66QDntV8+CHGEHEiUYRC9
+ 5bL6c5lIS1iftkH4=
+X-Received: by 2002:a7b:c385:: with SMTP id s5mr10205660wmj.189.1590076674087; 
+ Thu, 21 May 2020 08:57:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx1NZ772cjIDQ6H+6h9hcRukaT/Z9oEaCsZzB2YcWj/rovT0eRPMChKIpzyV0fg+jE6+B5GZA==
+X-Received: by 2002:a7b:c385:: with SMTP id s5mr10205643wmj.189.1590076673767; 
+ Thu, 21 May 2020 08:57:53 -0700 (PDT)
+Received: from [192.168.178.58] ([151.21.160.154])
+ by smtp.gmail.com with ESMTPSA id b18sm6800407wrn.82.2020.05.21.08.57.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 May 2020 08:57:53 -0700 (PDT)
+Subject: Re: [PATCH v4 0/5] vfio/pci: Fix up breakage against split irqchip
+ and INTx
+To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
+References: <20200318145204.74483-1-peterx@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <8c55922d-6f66-15c8-94f1-26a539c0b1fc@redhat.com>
+Date: Thu, 21 May 2020 17:57:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <925bdcd2b3536014306a8800975fb63592fd051a.1589489213.git.alistair.francis@wdc.com>
- <mhng-8a09dc11-68b8-4e28-9b50-3fc5a52837e6@palmerdabbelt-glaptop1>
-In-Reply-To: <mhng-8a09dc11-68b8-4e28-9b50-3fc5a52837e6@palmerdabbelt-glaptop1>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 21 May 2020 08:57:52 -0700
-Message-ID: <CAKmqyKM7G+b0cZ2a0MGtqRCKc5WbCcAkTfzYfF+gbvYDyOMidA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] sifive_e: Support the revB machine
-To: Palmer Dabbelt <palmer@dabbelt.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200318145204.74483-1-peterx@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 01:47:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,94 +99,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 20, 2020 at 4:08 PM Palmer Dabbelt <palmer@dabbelt.com> wrote:
->
-> On Thu, 14 May 2020 13:47:10 PDT (-0700), Alistair Francis wrote:
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  hw/riscv/sifive_e.c         | 35 +++++++++++++++++++++++++++++++----
-> >  include/hw/riscv/sifive_e.h |  1 +
-> >  2 files changed, 32 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> > index 472a98970b..cb7818341b 100644
-> > --- a/hw/riscv/sifive_e.c
-> > +++ b/hw/riscv/sifive_e.c
-> > @@ -98,10 +98,14 @@ static void riscv_sifive_e_init(MachineState *machine)
-> >          memmap[SIFIVE_E_DTIM].base, main_mem);
-> >
-> >      /* Mask ROM reset vector */
-> > -    uint32_t reset_vec[2] = {
-> > -        0x204002b7,        /* 0x1000: lui     t0,0x20400 */
-> > -        0x00028067,        /* 0x1004: jr      t0 */
-> > -    };
-> > +    uint32_t reset_vec[2];
-> > +
-> > +    if (s->revb) {
-> > +        reset_vec[0] = 0x200102b7;        /* 0x1000: lui     t0,0x20010 */
-> > +    } else {
-> > +        reset_vec[0] = 0x204002b7;        /* 0x1000: lui     t0,0x20400 */
-> > +    }
-> > +    reset_vec[1] = 0x00028067;        /* 0x1004: jr      t0 */
-> >
-> >      /* copy in the reset vector in little_endian byte order */
-> >      for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
-> > @@ -115,8 +119,31 @@ static void riscv_sifive_e_init(MachineState *machine)
-> >      }
-> >  }
-> >
-> > +static bool sifive_e_machine_get_revb(Object *obj, Error **errp)
-> > +{
-> > +    SiFiveEState *s = RISCV_E_MACHINE(obj);
-> > +
-> > +    return s->revb;
-> > +}
-> > +
-> > +static void sifive_e_machine_set_revb(Object *obj, bool value, Error **errp)
-> > +{
-> > +    SiFiveEState *s = RISCV_E_MACHINE(obj);
-> > +
-> > +    s->revb = value;
-> > +}
-> > +
-> >  static void sifive_e_machine_instance_init(Object *obj)
-> >  {
-> > +    SiFiveEState *s = RISCV_E_MACHINE(obj);
-> > +
-> > +    s->revb = false;
-> > +    object_property_add_bool(obj, "revb", sifive_e_machine_get_revb,
-> > +                             sifive_e_machine_set_revb, NULL);
-> > +    object_property_set_description(obj, "revb",
-> > +                                    "Set on to tell QEMU that it should model "
-> > +                                    "the revB HiFive1 board",
-> > +                                    NULL);
-> >  }
-> >
-> >  static void sifive_e_machine_class_init(ObjectClass *oc, void *data)
-> > diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-> > index 414992119e..0d3cd07fcc 100644
-> > --- a/include/hw/riscv/sifive_e.h
-> > +++ b/include/hw/riscv/sifive_e.h
-> > @@ -45,6 +45,7 @@ typedef struct SiFiveEState {
-> >
-> >      /*< public >*/
-> >      SiFiveESoCState soc;
-> > +    bool revb;
-> >  } SiFiveEState;
-> >
-> >  #define TYPE_RISCV_E_MACHINE MACHINE_TYPE_NAME("sifive_e")
->
-> IIRC there are way more differences between the un-suffixed FE310 and the Rev
-> B, specifically the interrupt map is all different.
+On 18/03/20 15:51, Peter Xu wrote:
+> v4:
+> - pick r-b and a-b for Alex without patch 4
+> - only kick resamplefd for level triggered irq (as 3.1 change on patch
+>   4) [Alex]
+> - fix mingw build error with below squashed into patch 4:
+> 
+> ----------------------------------------
+> diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
+> index 2ae96e10be..b9ec570c03 100644
+> --- a/hw/intc/ioapic.c
+> +++ b/hw/intc/ioapic.c
+> @@ -241,6 +241,7 @@ void ioapic_eoi_broadcast(int vector)
+>                  continue;
+>              }
+> 
+> +#ifdef CONFIG_KVM
+>              /*
+>               * When IOAPIC is in the userspace while APIC is still in
+>               * the kernel (i.e., split irqchip), we have a trick to
+> @@ -257,6 +258,7 @@ void ioapic_eoi_broadcast(int vector)
+>               * emulated devices that are using/sharing the same IRQ.
+>               */
+>              kvm_resample_fd_notify(n);
+> +#endif
+> 
+>              if (!(entry & IOAPIC_LVT_REMOTE_IRR)) {
+>                  continue;
+> ----------------------------------------
+> 
+> v3:
+> - collect r-bs for Eric
+> - unconditionally call kvm_resample_fd_notify(), change comment [Alex]
+> - remove the split irqchip check in kvm_resample_fd_notify(), then let
+>   it return nothing [Alex]
+> - test against shared irq to make sure it won't break
+> 
+> v2:
+> - pick tags
+> - don't register resamplefd with KVM kernel when the userspace
+>   resamplefd path is enabled (should enable fast path on new kernels)
+> - fix resamplefd mem leak
+> - fix commit message of patch 4 [Eric]
+> - let kvm_resample_fd_notify() return a boolean, skip ioapic check if
+>   returned true
+> - more comments here and there in the code to state the fact that
+>   userspace ioapic irr & remote-irr are bypassed [Paolo]
+> 
+> VFIO INTx is not working with split irqchip.  On new kernels KVM_IRQFD
+> will directly fail with resamplefd attached so QEMU will automatically
+> fallback to the INTx slow path.  However on old kernels it's still
+> broken.
+> 
+> Only until recently I noticed that this could also break PXE boot for
+> assigned NICs [1].  My wild guess is that the PXE ROM will be mostly
+> using INTx as well, which means we can't bypass that even if we
+> enables MSI for the guest kernel.
+> 
+> This series tries to first fix this issue function-wise, then speed up
+> for the INTx again with resamplefd (mostly following the ideas
+> proposed by Paolo one year ago [2]).  My TCP_RR test shows that:
+> 
+>   - Before this series: this is broken, no number to show
+> 
+>   - After patch 1 (enable slow path): get 63% perf comparing to full
+>     kernel irqchip
+> 
+>   - After whole series (enable fast path partly, irq injection will be
+>     the same as fast path, however userspace needs to intercept for
+>     EOI broadcast to resamplefd, though should still be faster than
+>     the MMIO trick for intx eoi): get 93% perf comparing to full
+>     kernel irqchip, which is a 46% performance boost
+> 
+> I think we can consider to apply patch 1 even sooner than the rest of
+> the series to unbreak intx+split first.
+> 
+> The whole test matrix for reference:
+> 
+>   |----------+---------+-------------------+--------------+--------------------|
+>   | IRQ type | irqchip | TCP_STREAM (Gbps) | TCP_RR (pps) | note               |
+>   |----------+---------+-------------------+--------------+--------------------|
+>   | msi      | on      |              9.39 |        17567 |                    |
+>   | nomsi    | on      |              9.29 |        14056 |                    |
+>   | msi      | split   |              9.36 |        17330 |                    |
+>   | nomsi    | split   |                 / |            / | currently broken   |
+>   | nomsi    | split   |              8.98 |         8977 | after patch 1      |
+>   | nomsi    | split   |              9.21 |        13142 | after whole series |
+>   |----------+---------+-------------------+--------------+--------------------|
+> 
+> Any review comment is welcomed.  Thanks,
+> 
+> [1] https://bugzilla.redhat.com/show_bug.cgi?id=1786404
+> [2] https://patchwork.kernel.org/patch/10738541/#22609933
+> 
+> Peter Xu (5):
+>   vfio/pci: Disable INTx fast path if using split irqchip
+>   vfio/pci: Use kvm_irqchip_add_irqfd_notifier_gsi() for irqfds
+>   KVM: Pass EventNotifier into kvm_irqchip_assign_irqfd
+>   KVM: Kick resamplefd for split kernel irqchip
+>   Revert "vfio/pci: Disable INTx fast path if using split irqchip"
+> 
+>  accel/kvm/kvm-all.c    | 95 ++++++++++++++++++++++++++++++++++++++----
+>  accel/kvm/trace-events |  1 +
+>  hw/intc/ioapic.c       | 19 +++++++++
+>  hw/vfio/pci.c          | 37 +++++++---------
+>  include/sysemu/kvm.h   |  4 ++
+>  5 files changed, 126 insertions(+), 30 deletions(-)
+> 
 
-The three IRQs that QEMU uses for the SiFive E (UART0, UART1 and GPIO)
-all seem to be the same.
+Queued, thanks.
 
-Alistair
+Paolo
+
 
