@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CFBF1DED84
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:42:03 +0200 (CEST)
-Received: from localhost ([::1]:60300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75DFD1DED8F
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:43:56 +0200 (CEST)
+Received: from localhost ([::1]:41748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcAkD-0003f8-WF
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:42:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42990)
+	id 1jcAm3-0007i6-Fy
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:43:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgw-0006zi-JO
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:38 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44835
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAh0-00079Q-76
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:42 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42590
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgu-0002WF-RR
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:38 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgy-0002WX-T8
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590165515;
+ s=mimecast20190719; t=1590165520;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GPfSgBN6V2tVMS8P3LJc7AXq2ATI7aQPyqGZHft5RHs=;
- b=TodHyOanITJdSSb2HHhyrv8ia4NCf12pWFxvGaYFRCWAhLWhkaxSL8uPmNzHABTLbFyilh
- ArpHtbV/QB7EIrgGVaYXkpzG+vwk6P7fPvs7xRP88eJ9gevCHjzqDMTCO5/Vi1YleqwYwH
- pU2cEgzZsvRQ/jbON2E6ugWe2tSyqBU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-TBoPoNhbO2KyAySLTkyN1A-1; Fri, 22 May 2020 12:38:34 -0400
-X-MC-Unique: TBoPoNhbO2KyAySLTkyN1A-1
-Received: by mail-wm1-f69.google.com with SMTP id p24so778898wmc.1
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:38:33 -0700 (PDT)
+ bh=TyEDe8wylZalxNMNSz6RpL3nleNnTxzk4iV0Jrd1pvo=;
+ b=TMHgAY2nHHoqN0Vfr28gvqoQfKFuK6FZJzLW45If5064z/lOEtMZr3gBwJblUAKx9RKFNs
+ tmqRC2yu2JjugMW9UCETf5JCd5cE3BqQcDOaPIFQX52dFJMBXICf63mmCYKNUYX9IIT3Ky
+ oVBSNVRu8jFsb4bl7tCxb60foe92c18=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-239-BQ5LFP8ZOXG6ApMLqrK8FA-1; Fri, 22 May 2020 12:38:38 -0400
+X-MC-Unique: BQ5LFP8ZOXG6ApMLqrK8FA-1
+Received: by mail-wr1-f72.google.com with SMTP id z10so4628429wrs.2
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:38:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GPfSgBN6V2tVMS8P3LJc7AXq2ATI7aQPyqGZHft5RHs=;
- b=b75YR0VXwE2kAWXhV9fOWaW2gnvWrVzNJk6CEn9gcvbRkgHgNKdQYwIuthHuPKT8Ip
- HCO1bRrtQvIxsyKho0toBZW+4X340O2A79+SAdeiqE4mxJMmskwtFkV5m2q+7jZw+AA3
- tze7JjI36NKH7lxB2GfZ3dF5SH85NrlSB0ZQGIXTz/z9mgWbA+iQuxcV1wHzSS9ybSqv
- D83UPGmaXDMZ0jx7oIkSsVqmITXRHAwbN5Pbhnyg+y++ZOcCmg4pr8AqZalR6/G8tTco
- ukW395Zr23v3f5ql0xj800IixlqypcQGDqxKO+RsABK9u+FpTT4jflwZi70+u4Gux1/E
- xTIw==
-X-Gm-Message-State: AOAM533c3XIZraM/CZFjK6diuid8uutKcNVTMXDubq4gQO+MdtSqSr9t
- /2EaHYdAro3i9v+SYB66FCVPg+5mstD16dk6hd+ln3hNGxEu/P5kpjvt9Hvl7yIM5k9jtkLqstr
- 9cdI/TQQcQF8ZSmY=
-X-Received: by 2002:a5d:5710:: with SMTP id a16mr3908144wrv.209.1590165512812; 
- Fri, 22 May 2020 09:38:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZupFUNt2hW8Y0TWlvCF+LCTOs7rLwEc7n9VszcVJIZdGI2nsYz7n/5zPGagJLYybYksrfgw==
-X-Received: by 2002:a5d:5710:: with SMTP id a16mr3908130wrv.209.1590165512676; 
- Fri, 22 May 2020 09:38:32 -0700 (PDT)
+ bh=TyEDe8wylZalxNMNSz6RpL3nleNnTxzk4iV0Jrd1pvo=;
+ b=caTwVb2VP2rDkzNarpagRhQG5u4jvXfrKsZzeRgcgGhNsygrsaIGjVJJ/qOc9lFBql
+ Jxaf01kuBeYOGlqfDRyXwCXbMFouQ+y0JYsRtJrApWttRvsAV6oSw4WYwaTK5/dOgIZ9
+ YUz95q20dpJipYSVohhc9ogtFvyNgX25uwQ1sUAvQzLEWhYml5wZOrKMtMiyfnSIe5m3
+ GG6e3al0Dce97wCZfPOojy7A984mfQKHM65mqY75qTI6wztrKitCv3qZd9tuXPqEzMXl
+ GdSt0rSGiYVXQBwpz0HQnbl2UjyF1yWV2Je15JVtZyfOL9U5IiRPCRSQ7brf8OLnDXY6
+ Y0Fw==
+X-Gm-Message-State: AOAM531OR7EYMeXOdU/1enIlsXdzvG/DGqSKVPajAiy/bY2w/1j8Rsqm
+ 5eDqoSccfYSylywu7BJKnXA6SA/iU/y+KK5kYj6Faz4VDnwdzTF6jAe5ZljtRXyo+c3FkbS1JN2
+ Fd3XrH3l9q7LFysk=
+X-Received: by 2002:a5d:4388:: with SMTP id i8mr3978721wrq.299.1590165517241; 
+ Fri, 22 May 2020 09:38:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy8FXz/JVDB9MMVFQ3tjpYR4CMOCWw1rnDbSv4zEloD6No26zJQRDPiyKG/cCZ/AvRACD7Itw==
+X-Received: by 2002:a5d:4388:: with SMTP id i8mr3978711wrq.299.1590165517039; 
+ Fri, 22 May 2020 09:38:37 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id d9sm9930474wmd.10.2020.05.22.09.38.31
+ by smtp.gmail.com with ESMTPSA id y185sm10167304wmy.11.2020.05.22.09.38.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 09:38:32 -0700 (PDT)
+ Fri, 22 May 2020 09:38:36 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 07/11] Makefile: Write MINIKCONF variables as one entry per
- line
-Date: Fri, 22 May 2020 18:37:55 +0200
-Message-Id: <20200522163759.11480-8-philmd@redhat.com>
+Subject: [PATCH v4 08/11] accel/Kconfig: Extract accel selectors into their
+ own config
+Date: Fri, 22 May 2020 18:37:56 +0200
+Message-Id: <20200522163759.11480-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200522163759.11480-1-philmd@redhat.com>
 References: <20200522163759.11480-1-philmd@redhat.com>
@@ -103,39 +103,67 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Having one entry per line helps reviews/refactors. As we are
-going to modify the MINIKCONF variables, split them now to
-ease further review.
+Move the accel selectors from the global Kconfig.host to their
+own Kconfig file.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- Makefile | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ Makefile      | 1 +
+ Kconfig.host  | 7 -------
+ accel/Kconfig | 6 ++++++
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+ create mode 100644 accel/Kconfig
 
 diff --git a/Makefile b/Makefile
-index 6c9d718b2c..7666f81e8a 100644
+index 7666f81e8a..648757f79a 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -418,12 +418,15 @@ MINIKCONF_ARGS = \
-     CONFIG_LINUX=$(CONFIG_LINUX) \
+@@ -419,6 +419,7 @@ MINIKCONF_ARGS = \
      CONFIG_PVRDMA=$(CONFIG_PVRDMA)
  
--MINIKCONF_INPUTS = $(SRC_PATH)/Kconfig.host $(SRC_PATH)/hw/Kconfig
--MINIKCONF_DEPS = $(MINIKCONF_INPUTS) $(wildcard $(SRC_PATH)/hw/*/Kconfig)
-+MINIKCONF_INPUTS = $(SRC_PATH)/Kconfig.host \
-+                   $(SRC_PATH)/hw/Kconfig
-+MINIKCONF_DEPS = $(MINIKCONF_INPUTS) \
-+                 $(wildcard $(SRC_PATH)/hw/*/Kconfig)
- MINIKCONF = $(PYTHON) $(SRC_PATH)/scripts/minikconf.py
+ MINIKCONF_INPUTS = $(SRC_PATH)/Kconfig.host \
++                   $(SRC_PATH)/accel/Kconfig \
+                    $(SRC_PATH)/hw/Kconfig
+ MINIKCONF_DEPS = $(MINIKCONF_INPUTS) \
+                  $(wildcard $(SRC_PATH)/hw/*/Kconfig)
+diff --git a/Kconfig.host b/Kconfig.host
+index 55136e037d..a6d871c399 100644
+--- a/Kconfig.host
++++ b/Kconfig.host
+@@ -2,9 +2,6 @@
+ # down to Kconfig.  See also MINIKCONF_ARGS in the Makefile:
+ # these two need to be kept in sync.
  
- $(SUBDIR_DEVICES_MAK): %/config-devices.mak: default-configs/%.mak $(MINIKCONF_DEPS) $(BUILD_DIR)/config-host.mak
--	$(call quiet-command, $(MINIKCONF) $(MINIKCONF_ARGS) > $@.tmp, "GEN", "$@.tmp")
-+	$(call quiet-command, $(MINIKCONF) $(MINIKCONF_ARGS) \
-+		> $@.tmp, "GEN", "$@.tmp")
- 	$(call quiet-command, if test -f $@; then \
- 	  if cmp -s $@.old $@; then \
- 	    mv $@.tmp $@; \
+-config KVM
+-    bool
+-
+ config LINUX
+     bool
+ 
+@@ -31,10 +28,6 @@ config VHOST_KERNEL
+     bool
+     select VHOST
+ 
+-config XEN
+-    bool
+-    select FSDEV_9P if VIRTFS
+-
+ config VIRTFS
+     bool
+ 
+diff --git a/accel/Kconfig b/accel/Kconfig
+new file mode 100644
+index 0000000000..c21802bb49
+--- /dev/null
++++ b/accel/Kconfig
+@@ -0,0 +1,6 @@
++config KVM
++    bool
++
++config XEN
++    bool
++    select FSDEV_9P if VIRTFS
 -- 
 2.21.3
 
