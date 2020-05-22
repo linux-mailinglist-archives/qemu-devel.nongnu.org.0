@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 822051DE180
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 10:06:56 +0200 (CEST)
-Received: from localhost ([::1]:54254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0F51DE17D
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 10:05:42 +0200 (CEST)
+Received: from localhost ([::1]:47890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jc2hj-0002wL-BN
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 04:06:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44756)
+	id 1jc2gX-0007WF-T3
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 04:05:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jc2fV-0005qs-Ke
+ id 1jc2fV-0005qz-MF
  for qemu-devel@nongnu.org; Fri, 22 May 2020 04:04:37 -0400
-Received: from mga17.intel.com ([192.55.52.151]:30272)
+Received: from mga17.intel.com ([192.55.52.151]:30270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jc2fU-0006Tw-OV
+ id 1jc2fU-0006To-Ts
  for qemu-devel@nongnu.org; Fri, 22 May 2020 04:04:37 -0400
-IronPort-SDR: EHGmuRXRzNhrw9/HoWiS1+YWStldh/YHAy6MCiHl6n/+i0CzCltQ6PUKSW3rcJJi/aNDutic6G
- BQzz1735UYfg==
+IronPort-SDR: 3t84r01eM67lKphdIzRSxdOz6VB10tP9izZ+C3dthKBLNhzC6x22o5VlGUczJmL7DSYSXcw+YR
+ 0507GsPTZc6Q==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 May 2020 01:04:34 -0700
-IronPort-SDR: E+OC3ShZm7B2ExWJrAuFQZKoy5LJnDM9C0MWflpi7BybGSQ47/ZVU9QzLp2R3SpDiKvcaB5IuY
- qmnUx6gwlLUQ==
+ 22 May 2020 01:04:36 -0700
+IronPort-SDR: 5vpbpwSs5AeTRpH/ktP3MUtupsP9qY3YzreOdDDcfQlaRk7cdIIQDkd42XZt1IAu7vy4h5FZIR
+ yLBT73lHkofg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,420,1583222400"; d="scan'208";a="467104538"
+X-IronPort-AV: E=Sophos;i="5.73,420,1583222400"; d="scan'208";a="467104545"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by fmsmga005.fm.intel.com with ESMTP; 22 May 2020 01:04:33 -0700
+ by fmsmga005.fm.intel.com with ESMTP; 22 May 2020 01:04:34 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: Jason Wang <jasowang@redhat.com>
-Subject: [PATCH V2 1/7] net/colo-compare.c: Create event_bh with the right
- AioContext
-Date: Fri, 22 May 2020 15:53:51 +0800
-Message-Id: <20200522075357.19883-2-chen.zhang@intel.com>
+Subject: [PATCH V2 2/7] chardev/char.c: Use qemu_co_sleep_ns if in coroutine
+Date: Fri, 22 May 2020 15:53:52 +0800
+Message-Id: <20200522075357.19883-3-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200522075357.19883-1-chen.zhang@intel.com>
 References: <20200522075357.19883-1-chen.zhang@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.151; envelope-from=chen.zhang@intel.com;
  helo=mga17.intel.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 04:04:33
@@ -71,45 +73,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lukas Straub <lukasstraub2@web.de>
 
-qemu_bh_new will set the bh to be executed in the main
-loop. This causes crashes as colo_compare_handle_event assumes
-that it has exclusive access the queues, which are also
-concurrently accessed in the iothread.
-
-Create the bh with the AioContext of the iothread to fulfill
-these assumptions and fix the crashes. This is safe, because
-the bh already takes the appropriate locks.
+This will be needed in the next patch so compare_chr_send can be
+converted to a coroutine.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Derek Su <dereksu@qnap.com>
-Tested-by: Derek Su <dereksu@qnap.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/colo-compare.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ chardev/char.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index c07e7c1c09..e557da70e5 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -890,6 +890,7 @@ static void colo_compare_handle_event(void *opaque)
+diff --git a/chardev/char.c b/chardev/char.c
+index ea06c5ff4d..e3051295ac 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -38,6 +38,7 @@
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+ #include "qemu/id.h"
++#include "qemu/coroutine.h"
  
- static void colo_compare_iothread(CompareState *s)
- {
-+    AioContext *ctx = iothread_get_aio_context(s->iothread);
-     object_ref(OBJECT(s->iothread));
-     s->worker_context = iothread_get_g_main_context(s->iothread);
+ #include "chardev/char-mux.h"
  
-@@ -906,7 +907,7 @@ static void colo_compare_iothread(CompareState *s)
-     }
+@@ -119,7 +120,11 @@ static int qemu_chr_write_buffer(Chardev *s,
+     retry:
+         res = cc->chr_write(s, buf + *offset, len - *offset);
+         if (res < 0 && errno == EAGAIN && write_all) {
+-            g_usleep(100);
++            if (qemu_in_coroutine()) {
++                qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, 100000);
++            } else {
++                g_usleep(100);
++            }
+             goto retry;
+         }
  
-     colo_compare_timer_init(s);
--    s->event_bh = qemu_bh_new(colo_compare_handle_event, s);
-+    s->event_bh = aio_bh_new(ctx, colo_compare_handle_event, s);
- }
- 
- static char *compare_get_pri_indev(Object *obj, Error **errp)
 -- 
 2.17.1
 
