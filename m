@@ -2,88 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BB41DDEE9
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 06:27:52 +0200 (CEST)
-Received: from localhost ([::1]:45374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 842041DDF0C
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 06:56:47 +0200 (CEST)
+Received: from localhost ([::1]:51892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbzHj-0003JR-R7
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 00:27:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56094)
+	id 1jbzji-0000sp-3e
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 00:56:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jbzGp-0002gh-VC
- for qemu-devel@nongnu.org; Fri, 22 May 2020 00:26:55 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:38227)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jbziq-00008m-Au
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 00:55:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jbzGp-0001aH-2x
- for qemu-devel@nongnu.org; Fri, 22 May 2020 00:26:55 -0400
-Received: by mail-pg1-x543.google.com with SMTP id u5so4424826pgn.5
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 21:26:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6t60OdTEj/+df3YqBoi4RRSuD0MFWy3jgFZjTOxrC5Y=;
- b=ABjzplJhJ7v2EY8T2PgfadwVYMYTpiHXzRtnQiQkyE4tHYiLWv6q11Iga0HDgro8op
- sFg13WEznnn/nDw8bLQbIqm1rIJe/JWLZokpnzC9Ne5TzC0dYt0/u+1bOTs3mLemDtZG
- iJKQ27PM4/Tvbix1SectJRTOYh9omaCRJULwouNn8ck/B82K3A3vc5QqNNCMiG76SK5z
- IM3lazPWmdYRW7Q1nzdK5neqLhXPvv62pjemgG7+93b2a0f7x6XD6aUvUcTK6C8nZ70P
- 9a/ylK595DV60+amKQnC5UdYL5c9GumoHzc4Xxyuf/yRWzI8nP4lHu5tyaJW6GiDf2JC
- rqCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6t60OdTEj/+df3YqBoi4RRSuD0MFWy3jgFZjTOxrC5Y=;
- b=UddthSPkWE1hpFSKzzGJVNDyFykwUclSknRegJDMBebfGhtjonk2hC8BClj3I+mxI6
- 4Sbx+91SOmO3utwIPhYeL4/NZf0H/QFLt+ctqfetwIi+WZbEyLQtl661x6NFWKAYhVrr
- jijlnT2x8U8QcdyPQkV2eKxJ64MYF4WBBXxOLx5X2AgadoQT6xm0nrZg1Oup5zLiMtSY
- 3XNcwRdaTRrb4HcYW9FRajtYKDLF0cXdI+00kEkyvP+rih1FWMNbj80q0nuQV3v8ma3L
- 6LPFqCAdAyDa0avxJ4ewcw5Z5jb+2bTXMkHOmtRVS5iZJrWA/Rp9tT4UOXQ/wQ8MeN72
- b3BQ==
-X-Gm-Message-State: AOAM5318B/EmmOWICEYTPxrad5T8gLLKNZjyd53JFOSzW82bxqlwk8qm
- 4P06WpyQxCwIutq1vkgoy2qXiQ==
-X-Google-Smtp-Source: ABdhPJyH7IulLdrBCc4zXIN9Yv0wCSv7AC2Yz2CgZMKL/CyQ70uJA/LgBzwbW61NL8Ezx4Mta1z1RQ==
-X-Received: by 2002:a17:90b:2396:: with SMTP id
- mr22mr2264422pjb.118.1590121613947; 
- Thu, 21 May 2020 21:26:53 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id q17sm5064573pfq.117.2020.05.21.21.26.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 May 2020 21:26:53 -0700 (PDT)
-Subject: Re: [PATCH v3 11/11] hw/semihosting: Make the feature depend of TCG, 
- and allow to disable it
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200521195911.19685-1-philmd@redhat.com>
- <20200521195911.19685-12-philmd@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <36db7554-dcc0-6b8c-e7b7-628c105d8fc7@linaro.org>
-Date: Thu, 21 May 2020 21:26:51 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jbzip-0006gj-1W
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 00:55:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jbzim-0002SU-EL
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 04:55:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2E0F72E8081
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 04:55:48 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200521195911.19685-12-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 22 May 2020 04:48:54 -0000
+From: Thomas Huth <1877716@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anatol busimus post-factum stefanha zkrx
+X-Launchpad-Bug-Reporter: zkrx (zkrx)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158901182209.5021.12832610872088111923.malonedeb@soybean.canonical.com>
+Message-Id: <159012293504.30845.3836592342378726563.launchpad@wampee.canonical.com>
+Subject: [Bug 1877716] Re: Win10 guest unusable after a few minutes
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 8d18ba233b01c557464a320f1c429f2790cd6188
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 21:50:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,43 +73,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-riscv@nongnu.org,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Max Filippov <jcmvbkbc@gmail.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-arm@nongnu.org,
- Palmer Dabbelt <palmer@dabbelt.com>, Michael Walle <michael@walle.cc>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1877716 <1877716@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/21/20 12:59 PM, Philippe Mathieu-Daudé wrote:
-> +++ b/hw/semihosting/Kconfig
-> @@ -1,3 +1,5 @@
->  
-> +# default is 'n'
->  config SEMIHOSTING
-> -       bool
-> +    bool
-> +    depends on TCG
-> diff --git a/target/arm/Kconfig b/target/arm/Kconfig
-> new file mode 100644
-> index 0000000000..035592dd86
-> --- /dev/null
-> +++ b/target/arm/Kconfig
-> @@ -0,0 +1,2 @@
-> +config SEMIHOSTING
-> +    default y if TCG
+** Changed in: qemu
+       Status: New =3D> Fix Committed
 
-Did you answer my question about replicating the TCG test?  If you did, I
-missed it...
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877716
 
-r~
+Title:
+  Win10 guest unusable after a few minutes
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  On Arch Linux, the recent qemu package update seems to misbehave on
+  some systems. In my case, my Windows 10 guest runs fine for around 5
+  minutes and then start to get really sluggish, even unresponsive. It
+  needs to be forced off. I could reproduce this on a minimal VM with no
+  passthrough, although my current testing setup involves an nvme pcie
+  passthrough.
+
+  I bisected it to the following commit which rapidly starts to run sluggis=
+hly on my setup:
+  https://github.com/qemu/qemu/commit/73fd282e7b6dd4e4ea1c3bbb3d302c8db51e4=
+ccf
+
+  I've ran the previous commit (
+  https://github.com/qemu/qemu/commit/b321051cf48ccc2d3d832af111d688f2282f0=
+89b
+  ) for the entire night without an issue so far.
+
+  I believe this might be a duplicate of
+  https://bugs.launchpad.net/qemu/+bug/1873032 , although I'm not sure.
+
+  Linux cc 5.6.10-arch1-1 #1 SMP PREEMPT Sat, 02 May 2020 19:11:54 +0000 x8=
+6_64 GNU/Linux
+  AMD Ryzen 7 2700X Eight-Core Processor
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877716/+subscriptions
 
