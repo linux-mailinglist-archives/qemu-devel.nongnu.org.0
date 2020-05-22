@@ -2,74 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3C91DEBC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 17:25:43 +0200 (CEST)
-Received: from localhost ([::1]:42110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A6E1DEBC1
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 17:26:49 +0200 (CEST)
+Received: from localhost ([::1]:44734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jc9YM-0006Hw-0z
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 11:25:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34788)
+	id 1jc9ZQ-0007n7-Gf
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 11:26:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jc9XO-0005CB-Va
- for qemu-devel@nongnu.org; Fri, 22 May 2020 11:24:42 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33868
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jc9XN-0003mI-EL
- for qemu-devel@nongnu.org; Fri, 22 May 2020 11:24:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590161079;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qT1qTyqnZbwBPV/H8gzYp4HbsjyaIo2z5EKpV4Ltztw=;
- b=BCDJgO99gwJNzpepzekqfugNTzFP1x1BrZDfgzDlgajPoxpOEGZ46zAeZj257C3NdaJhKB
- u/zTrM8ohGfNrufjB5PHtYbpZJyH1gTqM5EdgniPGZfmla6PRj+iIHfhE6yB40bFykqQlr
- /ec7pvpGEVcI9mqnnqDUgWDwdeLx7S0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-_yQUWCbLOKWG7_i_Vs0seA-1; Fri, 22 May 2020 11:24:38 -0400
-X-MC-Unique: _yQUWCbLOKWG7_i_Vs0seA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5DAA80183C;
- Fri, 22 May 2020 15:24:36 +0000 (UTC)
-Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 508515D9CC;
- Fri, 22 May 2020 15:24:32 +0000 (UTC)
-Subject: Re: [PATCH v4 0/6] fix migration with bitmaps and mirror
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200521220648.3255-1-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <5f7b47b5-5b91-c82b-8057-c78fc7e225a2@redhat.com>
-Date: Fri, 22 May 2020 10:24:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1jc9Xc-0005SZ-5Y
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 11:24:57 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43638)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1jc9XZ-0003ok-Ps
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 11:24:55 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04ME3rpW116098
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 11:24:52 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3160mguhsn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 11:24:51 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04ME4Q7x119399
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 11:24:51 -0400
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3160mguhs4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 May 2020 11:24:51 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04MFKMDe007985;
+ Fri, 22 May 2020 15:24:49 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma04wdc.us.ibm.com with ESMTP id 313wh45pp8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 May 2020 15:24:49 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 04MFOmSZ60358974
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 22 May 2020 15:24:48 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A994D6A047;
+ Fri, 22 May 2020 15:24:48 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DF7DD6A04F;
+ Fri, 22 May 2020 15:24:47 +0000 (GMT)
+Received: from [9.160.66.72] (unknown [9.160.66.72])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 22 May 2020 15:24:47 +0000 (GMT)
+Subject: Re: [PATCH 3/4] configure: add flag to enable SafeStack
+To: Stefan Hajnoczi <stefanha@gmail.com>
+References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
+ <20200429194420.21147-4-dbuono@linux.vnet.ibm.com>
+ <20200521095237.GC251811@stefanha-x1.localdomain>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-ID: <02f318af-609a-ee9d-4857-abe297773dda@linux.vnet.ibm.com>
+Date: Fri, 22 May 2020 11:24:46 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200521220648.3255-1-vsementsov@virtuozzo.com>
+In-Reply-To: <20200521095237.GC251811@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 11:12:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
+ definitions=2020-05-22_05:2020-05-22,
+ 2020-05-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ impostorscore=0 bulkscore=0 phishscore=0 cotscore=-2147483648
+ lowpriorityscore=0 mlxscore=0 clxscore=1015 adultscore=0 spamscore=0
+ priorityscore=1501 mlxlogscore=999 suspectscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005220114
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 11:18:25
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,40 +105,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, quintela@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org,
- jsnow@redhat.com, dgilbert@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@ibm.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/21/20 5:06 PM, Vladimir Sementsov-Ogievskiy wrote:
-> v4: (Max's patch marking filters as filters already in master)
-> 03: careful select child of filter, avoid crash
-> 04: add Eric's r-b
-> 05-06: tweak error message, keep Andrey's r-b, add Eric's r-b
+Hi Stefan,
+
+I would feel more confident by adding another check in configure to make
+sure that the user didn't enable SafeStack manually through other means,
+like manually setting the option through extra_cflags.
+What do you think?
+
+On 5/21/2020 5:52 AM, Stefan Hajnoczi wrote:
+> On Wed, Apr 29, 2020 at 03:44:19PM -0400, Daniele Buono wrote:
+>> This patch adds a flag to enable the SafeStack instrumentation provided
+>> by LLVM.
+>> The checks make sure that the compiler supports the flags, and that we
+>> are using the proper coroutine implementation (coroutine-ucontext).
+>> While SafeStack is supported only on Linux, NetBSD, FreeBSD and macOS,
+>> we are not checking for the O.S. since this is already done by LLVM.
+>>
+>> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+>> ---
+>>   configure | 29 +++++++++++++++++++++++++++++
+>>   1 file changed, 29 insertions(+)
 > 
-> Vladimir Sementsov-Ogievskiy (6):
->    migration/block-dirty-bitmap: refactor init_dirty_bitmap_migration
->    block/dirty-bitmap: add bdrv_has_named_bitmaps helper
->    migration/block-dirty-bitmap: fix bitmaps pre-blockdev migration
->      during mirror job
->    iotests: 194: test also migration of dirty bitmap
->    migration/block-dirty-bitmap: add_bitmaps_to_list: check disk name
->      once
->    migration/block-dirty-bitmap: forbid migration by generated node-name
-
-3 and 5 have rather long subject lines, as shown by the wrapping 
-inserted by git (3 even exceeds 80 columns on its own, even before git 
-adds prefixing).  Should I try to touch this up in my staging queue? 
-For example:
-
-migration: fix non-blockdev bitmap migration with mirror
-
-doesn't lose too much information, but is definitely shorter for 3.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+> Great, this can become Patch 1 and it can set CONFIG_SAFESTACK as
+> mentioned in my earlier reply.
+> 
+>> diff --git a/configure b/configure
+>> index 23b5e93752..f37e4ae0bd 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -302,6 +302,7 @@ audio_win_int=""
+>>   libs_qga=""
+>>   debug_info="yes"
+>>   stack_protector=""
+>> +safe_stack="no"
+> 
+> The comment above this says:
+> 
+>    # Always add --enable-foo and --disable-foo command line args.
+> 
+> Please add --disable-safe-stack.
+> 
 
