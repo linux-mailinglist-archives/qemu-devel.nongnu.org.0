@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8481DED29
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:23:45 +0200 (CEST)
-Received: from localhost ([::1]:51332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA5041DED2E
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:25:50 +0200 (CEST)
+Received: from localhost ([::1]:60964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcASW-0001lv-9Q
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:23:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40918)
+	id 1jcAUX-0006OS-RH
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:25:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jcAP2-0003qq-Ky; Fri, 22 May 2020 12:20:08 -0400
-Received: from mail-eopbgr140117.outbound.protection.outlook.com
- ([40.107.14.117]:21575 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ id 1jcAP3-0003ra-9w; Fri, 22 May 2020 12:20:09 -0400
+Received: from mail-eopbgr20113.outbound.protection.outlook.com
+ ([40.107.2.113]:54509 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jcAP0-0006pe-R4; Fri, 22 May 2020 12:20:07 -0400
+ id 1jcAP1-0006ph-HS; Fri, 22 May 2020 12:20:08 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SQwyqdy+kH/B0Gxkzo7HlyKB7kyM6fy5IQ6G1kfvCli7Gy7oGL6rt8B/SS9yGRlTsU4PbuwNH5Qs5Djd5yEgFzkgvnJPjUgUUE7eNr69OeggCRB4AOYSb2oxuEt/4/KzWH9u2+TgDS8BGi/oDS7zWxeL5Qkjeiyi+HAe6h6Afzluy7OkXk9ts9mHxNpk5W3agGdG9BDP1raq805mZZYwUDeYqIQL8xkVF+cuNLThSNubg82DU72sVBdTWmPMfJZBSzmLlT6qZ7Worxiu8z22dvM31/8rtMB5oBn7KPgB1L/SIlBZ1l1kes/vIERWfs0rRuuxmhjYyqrEAjwpwSETxA==
+ b=ZrqhJAiE63IlGsRp7EIOj0eaY8nB+o853PkCxBulzHRMEpEQWCzn4+LVh8g+RCkJPTYfXuCRF45LJNd+XiXH2Usw2ccFvnhk/kVgikmoxzMioXNlOTYB+gnB9writ3O8kO9sljigufAu/2WNaykKjdus7+CSQVAg293lO1oZUl3Zx1tdo7l+YYZQrvh2pNBc9mtPNYO3cShmJunLoMKJ+NhuuJwIUt9Xsr30xqG7GWpv78eI87LWhMUYwkai+zojatkejV3Ag2+Oz5enZC1/B1Vd0JUuYyOiZ5CpW6gNZMDKrCSKf8tennWQs5vx5mXLickTyX6VE7j0Q17QzwWhog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u26EYttqlHC4j3yS/Xn5yhfkoRnR5zFJMm3PJDH5Mec=;
- b=DmQXf5fcyvaC1igBSjdacUNh/IbZoyOINwrvPSFl6seZVDsySZmn0QyYwdR8V9irvhqE6+LfeSQF6vpW2tjqbIHVIU4kSSGkcjyxCa/oW3cgbfQHDZexYhQCHXwDxgpMfgCgfuE9pKzhj2/ukgIAaKWGFjN4Lm1bECjXazqi1+iJRIrYRIIaOkAI07rry0iSHCcxFNvNq3cBftBWIqJwjz8fnNUWOwVnf5mLgGorGQwthQ2aooIGjLjUl+flmC+H/vPJCMhRRTN5oUeHEyFEwhdH+YomV1uPu+l7aFTGlEx77fX97R8pONKp225XD+d1qtCfiFDGzvjzK+x+gOPp2g==
+ bh=37UPKvYPOUtSH/3fe/nRIKAGkIsyAlgYRdoSi6WC4u4=;
+ b=bstdqV0BCjq90jKkHXJ902YkHGR5I+/cqOaESIQNMYVzi/gDPWEOMSCghFqsg1tyEYQ12NPcOLOGBnnfJs3shJckwCyKTH4/w3Nthbx0L/fT9/MtMCV5Hnl0FVuMyNEwBgfqpnGoQfiQG5jb0boEHH6iPXVkbOobZuQsCQQ6vEInrqn3ZC8rOCWwhjJCWrG2YrYdOT9x5qKCGohJVEBiPb9QLqhvYMomIqH7vDuAn3oqCtNfzNFYahsiyCDcmJXnoSxwJzmu2BvtOhX6G3DHeE4xkm2GiuiCRFUDZ/o5C8V8k7tMWSu2d8FfmwF/KFKuUiRQKczD/VcV0fTPAOySlA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u26EYttqlHC4j3yS/Xn5yhfkoRnR5zFJMm3PJDH5Mec=;
- b=Exj9g8bec8zd4hRbUufQKii6BepsaHvZrJccLh78AGRBuvDcJJmREg+ymBver/UxMwlEfTPhYQ3+IZAH6r3fB99/3RfrmtYCTyRnogGItHLEFvSSiqcZ1STEt/J+LRSlKf9aeUBrGAUbZPerfxbFcf/3dkBbxC8RdwAPPrhASXg=
+ bh=37UPKvYPOUtSH/3fe/nRIKAGkIsyAlgYRdoSi6WC4u4=;
+ b=LO0xIpDBgIDK2hRGEIiRfCc6y3AuL7oFgDH0vk7zt6GfCBsGrRqg8m7IuCVFFXbFJWb+03H3OnRJmJElR5ob5e0KtugxtNu12RivUKE8psXuDkLFjTqVRN+rG+sp7zMBZn3O8UOgSMoYxe/q7KLNqqdQiF0/1m4EwXkIAizg58k=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
- by VI1PR08MB2813.eurprd08.prod.outlook.com (2603:10a6:802:1b::20)
+ by VI1PR08MB4000.eurprd08.prod.outlook.com (2603:10a6:803:dd::30)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.26; Fri, 22 May
- 2020 16:20:02 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.27; Fri, 22 May
+ 2020 16:20:04 +0000
 Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
  ([fe80::2c53:d56b:77ba:8aac]) by VI1PR08MB5503.eurprd08.prod.outlook.com
  ([fe80::2c53:d56b:77ba:8aac%6]) with mapi id 15.20.3021.027; Fri, 22 May 2020
- 16:20:02 +0000
+ 16:20:04 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 0/3] coroutines: generate wrapper code
-Date: Fri, 22 May 2020 19:19:47 +0300
-Message-Id: <20200522161950.2839-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 1/3] block/io: refactor coroutine wrappers
+Date: Fri, 22 May 2020 19:19:48 +0300
+Message-Id: <20200522161950.2839-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200522161950.2839-1-vsementsov@virtuozzo.com>
+References: <20200522161950.2839-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: AM0PR01CA0177.eurprd01.prod.exchangelabs.com
@@ -61,37 +63,37 @@ Received: from localhost.localdomain (185.215.60.182) by
  AM0PR01CA0177.eurprd01.prod.exchangelabs.com (2603:10a6:208:aa::46) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.24 via Frontend
- Transport; Fri, 22 May 2020 16:20:01 +0000
+ Transport; Fri, 22 May 2020 16:20:02 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.182]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2eac050b-4486-4bf9-0168-08d7fe6bfb44
-X-MS-TrafficTypeDiagnostic: VI1PR08MB2813:
+X-MS-Office365-Filtering-Correlation-Id: da0d614a-84bd-4b07-1e8c-08d7fe6bfbf7
+X-MS-TrafficTypeDiagnostic: VI1PR08MB4000:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR08MB2813D1C33C4FD3D047CFE14DC1B40@VI1PR08MB2813.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-Microsoft-Antispam-PRVS: <VI1PR08MB4000FACB82A0F8C3BEF9B259C1B40@VI1PR08MB4000.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:644;
 X-Forefront-PRVS: 04111BAC64
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qPNr55Tu8lnFKJ/3emnSunqzv/mxxYowynYmgFqhHkKyeo0dczGrPQxNZPfqbh6nSO6g+yLv+1tG8lXdjrPTw0p3WEo9DdMblvH0fkjfYh56v9GPNa7cDp+/YDM5umhOZMJfiEL1+wi0k8KdKQiEPV0VWiZ215GZAFm1A135C0SKFHEdZnQ9MGqinb+6j2dzubnyYM92dOK+PhJpcrDztbLMsDVjH41sIuoH4KLwTKxWeBkwMvaSCQ/FmbH84banf0EIaTKPSGfljdhFHpFvfdYexFrJxE2mq5uWjhQeWoASBBNvfPHEfKOoYNLF0rsWJMahAo0RuJYsWlAkrtTs2VCs2lGtDmxPw3Jlivm3eVXZ3ay9qxAesn0pOUvV53WvXNW8nJZTgNZWA3IQPzl2NZY6YpQKR4UFw2jDEYkS3Dvhe1FquwhBEpOl8WW4vrDTFOiHcKKv+7aP/xEiM1j9wuc5UulzoOqtb8mdPgU0TBf6p+r2fnnVE+IrMouKlM8g
+X-Microsoft-Antispam-Message-Info: Iue0IzkJIvAxBgAEmXoIZupt89vqSf5ZM+qocaVInQN4YxunLh0zaygUpZYgH9Jl6xk1FypuNZ2/LiGuyM4ptbnm4MazVWEdtM7nWflrkEpWSq5C6BBP9UYRgg9baAbaJRtJzGxH+e14CojGF/BKLkipVxh/UZ5lEXnUKBB5UfS1dYUJGJMUR/IaT48rMGHYDbgIEnm46vY9PDExRJmEDNUUwzzyB8NZnPSEWveT9LHl25lsCnJ04wsNSH8AhxFCN4takW2XCJP3zmtwiErdTaFcjce7umoFhA11cJ9v69sbolAufYgdrnuEz1JZXQ6iXcwfCdnn3Ewdu45po7GsC74Dq1q9777pEDoXCOJZgQxNWrMDw2iYzeQEoz4EHjMQ
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(376002)(346002)(136003)(396003)(366004)(39840400004)(186003)(1076003)(52116002)(26005)(6486002)(16526019)(2906002)(5660300002)(86362001)(8676002)(69590400007)(6916009)(4326008)(66556008)(6506007)(36756003)(478600001)(107886003)(316002)(66946007)(8936002)(6666004)(66476007)(6512007)(2616005)(956004);
+ SFS:(4636009)(396003)(39840400004)(346002)(376002)(366004)(136003)(107886003)(6486002)(2616005)(956004)(478600001)(26005)(36756003)(66556008)(6916009)(16526019)(2906002)(86362001)(5660300002)(69590400007)(66476007)(8676002)(8936002)(186003)(6506007)(66946007)(6666004)(52116002)(1076003)(6512007)(4326008)(316002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: A7AhGNeQBwk/8+6XN9FA6CpcsNS54I24O6zjNypCw8cnc0hFyxY2z1FO3xxo5mfEme9mGITjHSArVmJmVhpDfIRQbUVmirwHvN0/ryy4lyqnh74/OFwfVlWLbnezPKJDW++8MYG6fT+wHWgBBm/6YwOGM3xfdQ/yzP7/aRaa6YAv6ft52QCMuE1oyczQpXHKZQBLw90SlNkTRLAbrQbCvQLd5RSTUMtD7u98fghX5F1zE9CMerSS85UptOWBipUgxWtkkFeNvBwPO2vY3XH+XyiCBrsqGZBefmzjYmZT28jo0TeKsSnAYmNFHhO0EoDcxqlpNaCVauHa5ykgR4JnJcxvsKgN4FbJP3wVu9647Oesc8Pv4423T1mcACpM9hoSys7WYzbXW58SEWxKf5CMYQEaJMqMpNjubxHN7Ew3SwzSSucgVpg1Yg1TFr9gB0ig/ne+k9Xi5VP8cr+ouY38zBLfVXy/HgwY+bTmLGJcjUQyMn15MjeAGsdM7SZXoFQM
+X-MS-Exchange-AntiSpam-MessageData: 7jwiLB7ABePUk7aifR+OZRr98X2NQrisiHctSUVjuuYwQvllJUXR0vvvicEB7vJVXkb/CYs1ZhN+F4XwLccPsr8Y/HmWiQwOOpzQqgcnj+BdWuHMiOWuRjx7I0Xm1E3LToS7+5NwPJvclsAM+KgcBf4cacRTnlaEO3ySi4NzHohDmgeiW6aIygo2BankqlwxtLQHvJNsfTf8b8epudUSt7MidVPaI2H4Kj5l4IdTCwItfeFpcKmMcAD/0c2z8xj69j2g5JXnGklcwHGe4cW+AbegEkw7CVom04rI6PiqGsOKE5EceEs9vmbr2rv1XUCsaD+D3Q38xmp5I0tMMK/mvXv4ppc8x0B+7d4VZTNSQYysKmOn4nAAOM+/WCb8VlIa3iwrmop/JgsuaSbvBqK8BtgxOFlMkIAbMLitA+/C1Zexy8hwAz5obfPF/N2HdLUXOQRYuW7Z19OSl3DiVDV0p4JaghPcXmFrJUQvazTuXdI=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2eac050b-4486-4bf9-0168-08d7fe6bfb44
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2020 16:20:02.8092 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: da0d614a-84bd-4b07-1e8c-08d7fe6bfbf7
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2020 16:20:03.9760 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dZP1lPSGWjewn3kbhNhx70auBDHX5VF4T7zDvYH4QFipyb2AaJSN9WVK+z0kIlhpdRAaFMnTtTkAIANjiYcX/VgkOvmCN2hB1XDxv7xqumE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB2813
-Received-SPF: pass client-ip=40.107.14.117;
+X-MS-Exchange-CrossTenant-UserPrincipalName: rzTBWau1S+SaWYwjC/ueRaMeM4eiBp6W8muSrU4YJSl7mcUMpFq9nqM8ZVU4PiNAIvrXJpdmG70iAGFOBjOSgnaNq6qOyc9GG/Aj8CU7Np8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4000
+Received-SPF: pass client-ip=40.107.2.113;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 12:20:04
+ helo=EUR02-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 12:20:05
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: 5
 X-Spam_score: 0.5
@@ -119,40 +121,138 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Most of coroutine wrappers already follow this notation:
 
-After a long delay (~year) here is a v3.
+We have coroutine_fn bdrv_co_<something>(<normal argument list>), which
+is the core functions, and wrapper, which does polling loope is called
+bdrv_<something>(<same argument list>).
 
-The aim of the series is to reduce code-duplication and writing
-parameters structure-packing by hand around coroutine function wrappers.
+The only outsiders are bdrv_prwv_co and bdrv_common_block_status_above
+wrappers. Let's refactor the to behave as the others, it simplifies
+further conversion of coroutine wrappers.
 
-It's an alternative to "[PATCH v3] block: Factor out bdrv_run_co()"
-patch.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block/io.c | 61 +++++++++++++++++++++++++++++-------------------------
+ 1 file changed, 33 insertions(+), 28 deletions(-)
 
-Benefits:
- - no code duplication
- - less indirection
-
-Vladimir Sementsov-Ogievskiy (3):
-  block/io: refactor coroutine wrappers
-  block: declare some coroutine functions in block/coroutines.h
-  block: generate coroutine-wrapper code
-
- Makefile                             |   6 +
- block/block-gen.h                    |  30 +++
- block/coroutines.h                   |  44 ++++
- include/block/block.h                |  17 +-
- include/block/generated-co-wrapper.h |  11 +
- block.c                              |  78 +------
- block/io.c                           | 295 ++-------------------------
- block/Makefile.objs                  |   1 +
- scripts/coroutine-wrapper.py         | 169 +++++++++++++++
- 9 files changed, 296 insertions(+), 355 deletions(-)
- create mode 100644 block/block-gen.h
- create mode 100644 block/coroutines.h
- create mode 100644 include/block/generated-co-wrapper.h
- create mode 100755 scripts/coroutine-wrapper.py
-
+diff --git a/block/io.c b/block/io.c
+index 121ce17a49..bd00a70b47 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -900,28 +900,32 @@ typedef struct RwCo {
+     BdrvRequestFlags flags;
+ } RwCo;
+ 
++static int coroutine_fn bdrv_co_prwv(BdrvChild *child, int64_t offset,
++                                     QEMUIOVector *qiov, bool is_write,
++                                     BdrvRequestFlags flags)
++{
++    if (is_write) {
++        return bdrv_co_pwritev(child, offset, qiov->size, qiov, flags);
++    } else {
++        return bdrv_co_preadv(child, offset, qiov->size, qiov, flags);
++    }
++}
++
+ static void coroutine_fn bdrv_rw_co_entry(void *opaque)
+ {
+     RwCo *rwco = opaque;
+ 
+-    if (!rwco->is_write) {
+-        rwco->ret = bdrv_co_preadv(rwco->child, rwco->offset,
+-                                   rwco->qiov->size, rwco->qiov,
+-                                   rwco->flags);
+-    } else {
+-        rwco->ret = bdrv_co_pwritev(rwco->child, rwco->offset,
+-                                    rwco->qiov->size, rwco->qiov,
+-                                    rwco->flags);
+-    }
++    rwco->ret = bdrv_co_prwv(rwco->child, rwco->offset, rwco->qiov,
++                             rwco->is_write, rwco->flags);
+     aio_wait_kick();
+ }
+ 
+ /*
+  * Process a vectored synchronous request using coroutines
+  */
+-static int bdrv_prwv_co(BdrvChild *child, int64_t offset,
+-                        QEMUIOVector *qiov, bool is_write,
+-                        BdrvRequestFlags flags)
++static int bdrv_prwv(BdrvChild *child, int64_t offset,
++                     QEMUIOVector *qiov, bool is_write,
++                     BdrvRequestFlags flags)
+ {
+     Coroutine *co;
+     RwCo rwco = {
+@@ -949,8 +953,7 @@ int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
+ {
+     QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, NULL, bytes);
+ 
+-    return bdrv_prwv_co(child, offset, &qiov, true,
+-                        BDRV_REQ_ZERO_WRITE | flags);
++    return bdrv_prwv(child, offset, &qiov, true, BDRV_REQ_ZERO_WRITE | flags);
+ }
+ 
+ /*
+@@ -999,7 +1002,7 @@ int bdrv_preadv(BdrvChild *child, int64_t offset, QEMUIOVector *qiov)
+ {
+     int ret;
+ 
+-    ret = bdrv_prwv_co(child, offset, qiov, false, 0);
++    ret = bdrv_prwv(child, offset, qiov, false, 0);
+     if (ret < 0) {
+         return ret;
+     }
+@@ -1023,7 +1026,7 @@ int bdrv_pwritev(BdrvChild *child, int64_t offset, QEMUIOVector *qiov)
+ {
+     int ret;
+ 
+-    ret = bdrv_prwv_co(child, offset, qiov, true, 0);
++    ret = bdrv_prwv(child, offset, qiov, true, 0);
+     if (ret < 0) {
+         return ret;
+     }
+@@ -2443,14 +2446,15 @@ early_out:
+     return ret;
+ }
+ 
+-static int coroutine_fn bdrv_co_block_status_above(BlockDriverState *bs,
+-                                                   BlockDriverState *base,
+-                                                   bool want_zero,
+-                                                   int64_t offset,
+-                                                   int64_t bytes,
+-                                                   int64_t *pnum,
+-                                                   int64_t *map,
+-                                                   BlockDriverState **file)
++static int coroutine_fn
++bdrv_co_common_block_status_above(BlockDriverState *bs,
++                                  BlockDriverState *base,
++                                  bool want_zero,
++                                  int64_t offset,
++                                  int64_t bytes,
++                                  int64_t *pnum,
++                                  int64_t *map,
++                                  BlockDriverState **file)
+ {
+     BlockDriverState *p;
+     int ret = 0;
+@@ -2488,10 +2492,11 @@ static void coroutine_fn bdrv_block_status_above_co_entry(void *opaque)
+ {
+     BdrvCoBlockStatusData *data = opaque;
+ 
+-    data->ret = bdrv_co_block_status_above(data->bs, data->base,
+-                                           data->want_zero,
+-                                           data->offset, data->bytes,
+-                                           data->pnum, data->map, data->file);
++    data->ret = bdrv_co_common_block_status_above(data->bs, data->base,
++                                                  data->want_zero,
++                                                  data->offset, data->bytes,
++                                                  data->pnum, data->map,
++                                                  data->file);
+     data->done = true;
+     aio_wait_kick();
+ }
 -- 
 2.21.0
 
