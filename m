@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBCA31DED18
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:20:31 +0200 (CEST)
-Received: from localhost ([::1]:36420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 938651DED10
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:18:59 +0200 (CEST)
+Received: from localhost ([::1]:55748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcAPO-0003Ci-Vs
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:20:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40358)
+	id 1jcANu-00082c-KE
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:18:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jcAKJ-0002uJ-7x
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:15 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:40693)
+ id 1jcAKL-00031t-WD
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:19 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jcAKI-00068v-5D
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:14 -0400
-Received: by mail-pf1-x444.google.com with SMTP id v2so317048pfv.7
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:15:13 -0700 (PDT)
+ id 1jcAKK-00069X-1W
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:17 -0400
+Received: by mail-pf1-x442.google.com with SMTP id v2so317078pfv.7
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:15:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=v6Twul2TWinr3wq/OK/PDzXQA1fcuJlgD8ranJI4BbA=;
- b=hDFxAIroI0ANOVWUCCGJeF68Vy9zZCrDKE0UnTkapT+zSSGzHRoBZzk6RBzsRYlnr3
- KIQF+IzAqeNeY0Dns4JNH5e1qztDV4rKfeafnjPCIBRi3NVVPoWBNTndJzL3fuekbTLj
- lZAnriIraJ1RRMdr+tMqAEijsvxw98sYdxDc+N6nCffhazzwnoTZFcXYoZWLavn/0Gqk
- AJe9MgLlNCDLs6diOr0qf8/vn6FIv5zULDbLg1ifTx3Mz+qcKX5Psfy7ueF1kH4vrk0Q
- zn5YWqre7rhbapq5+U53fpZhuc3k1bTsUAK6+iog6lS363WllMLD+zLF4frfURQtYDER
- cOFA==
+ bh=mGW6wnv9FlzkC02Bo8Bk1So4QHTwo22NecRxOgB5aoI=;
+ b=dF1P08+W1ySZKkdJtEBOMsR7tfuqSb7PFhn5sie4eh3zucjXn7ftbpYsWjrUwNiQdW
+ SQHW0NXOvu7erCgRnAVl2kTymTE/vic71Q+fIdCIkA1+rwGRuvP83xMuxy0LF62m3wwg
+ PFLQMkUGOdN9KZQWBIXZ8AEUjvlYKeyXED+l2M1lnflct+fn50dUOyCvxrnVBMZ/GsGU
+ ases1B3fuvzf0oefio9BzK1KzeU+wtACKkgkP3zBCO94703CQPvtvisDAjFnyi8RFjXy
+ cf/qjX4n8SsCxRQhAfC1UQJEg2L3Y/V3eie+HohwJYLmxQsBknTomF+vlO9eMPIQ9a+s
+ iLxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=v6Twul2TWinr3wq/OK/PDzXQA1fcuJlgD8ranJI4BbA=;
- b=UWjbxSRERWThzq54hnbWAXJfCLTw04SdU0dk68zgf9UcgsF1g9pTFYvYZv/012q0J+
- D38OssZ5i2wRmxOTsZ8T4Jh1nUcHfptEvGvjz+GVbPxkxujagEBQqBZ01TGhZVgFeir7
- 2nZfipwYoESnrEqy5pn4ZRr8bfqY92ItnbNDD3s4dZQA5KM7FSaqBeL1qMZwMYkokmC2
- EJySmb97zaYr/NPa5MSOs8riHvA+Z1LIGutC2thzhGMFTO6hjHh3AHP76rvf36KcLYYu
- Hd34Iz2wxbB7tOJtVHp+naLyYHUsE7hsTC11QHh1xYmndcVuxG20QDeUR5nQk1v20GqS
- 0piA==
-X-Gm-Message-State: AOAM532p0OjtqYf6Vt86Z/6+JFGMrWHyuCsS/Angco7z1QQeIMmQCJbn
- bMu4UVumphIWZcbSHY1Cgg5RUdOP0OWUuQ==
-X-Google-Smtp-Source: ABdhPJykOQgaC2KLYX1YDI/KN2+rrp9UKAfxluW7PefbeLWNJjsIEOOcwORr9g/x9gWSGvfSfS/KoA==
-X-Received: by 2002:aa7:8a48:: with SMTP id n8mr4571386pfa.257.1590164112406; 
- Fri, 22 May 2020 09:15:12 -0700 (PDT)
+ bh=mGW6wnv9FlzkC02Bo8Bk1So4QHTwo22NecRxOgB5aoI=;
+ b=IPueW35ASYAOydobpu/r7pkZfYUG1v0oNDJ5fZDuBnQChlPjMreqESpac0Vwcn3VlU
+ KN1RUR8JfSrQ0RJt1+mUR7ceojGAHasc0mFfiCn8yzrBsYCQahMAvlsBxv04YJakCd86
+ AKSuVM1/9acBrd3FXY6P9EDpRAHC+bsRB4IVj8AnMQLoZvc6i4gMOcXnJnpucsZgbY69
+ wEL4fjFTQEBTGgRm3tdfjftiXC7gS0DImFhuu9M34jaiLgh3bwiwJ3snn61QvM+r/HkX
+ QZ+zLdaW4ctuUkz2AmAxJAT3ePHqzCCxy31lQFgxpqoI7HaJfDZ8CL9QTd3OGz/5RT70
+ 1aQA==
+X-Gm-Message-State: AOAM5327XnCNpzFXSi+9gXUKaNkrmKkHWyE9lMEzqbGOHgT+esujTVtR
+ uoYztVtpunh6qDOiwILlPqzrjFTLMl143w==
+X-Google-Smtp-Source: ABdhPJyuDaqzES88dCe0KcGqW6YrYPhqTjIrG/1drcJkt+KZ9APKc0/DeN7o4bHyMG0FJCK3V+5aSg==
+X-Received: by 2002:a63:4d4e:: with SMTP id n14mr12683505pgl.93.1590164114424; 
+ Fri, 22 May 2020 09:15:14 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:f1d9:5fce:c451:d2e2])
- by smtp.gmail.com with ESMTPSA id y75sm7255428pfb.212.2020.05.22.09.15.10
+ by smtp.gmail.com with ESMTPSA id y75sm7255428pfb.212.2020.05.22.09.15.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 09:15:11 -0700 (PDT)
+ Fri, 22 May 2020 09:15:13 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/19] translate-all: call qemu_spin_destroy for PageDesc
-Date: Fri, 22 May 2020 12:07:43 -0400
-Message-Id: <20200522160755.886-8-robert.foley@linaro.org>
+Subject: [PATCH 08/19] thread: add tsan annotations to QemuSpin
+Date: Fri, 22 May 2020 12:07:44 -0400
+Message-Id: <20200522160755.886-9-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200522160755.886-1-robert.foley@linaro.org>
 References: <20200522160755.886-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=robert.foley@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=robert.foley@linaro.org; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,35 +89,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-The radix tree is append-only, but we can fail to insert
-a PageDesc if the insertion races with another thread.
-
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- accel/tcg/translate-all.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ include/qemu/thread.h | 39 ++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 36 insertions(+), 3 deletions(-)
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 3708aab36b..3fb71a1503 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -547,6 +547,15 @@ static PageDesc *page_find_alloc(tb_page_addr_t index, int alloc)
- #endif
-         existing = atomic_cmpxchg(lp, NULL, pd);
-         if (unlikely(existing)) {
-+#ifndef CONFIG_USER_ONLY
-+            {
-+                int i;
-+
-+                for (i = 0; i < V_L2_SIZE; i++) {
-+                    qemu_spin_destroy(&pd[i].lock);
-+                }
-+            }
+diff --git a/include/qemu/thread.h b/include/qemu/thread.h
+index e50a073889..43fc094b96 100644
+--- a/include/qemu/thread.h
++++ b/include/qemu/thread.h
+@@ -206,6 +206,10 @@ void qemu_thread_atexit_add(struct Notifier *notifier);
+  */
+ void qemu_thread_atexit_remove(struct Notifier *notifier);
+ 
++#ifdef CONFIG_TSAN
++#include <sanitizer/tsan_interface.h>
 +#endif
-             g_free(pd);
-             pd = existing;
++
+ struct QemuSpin {
+     int value;
+ };
+@@ -213,23 +217,46 @@ struct QemuSpin {
+ static inline void qemu_spin_init(QemuSpin *spin)
+ {
+     __sync_lock_release(&spin->value);
++#ifdef CONFIG_TSAN
++    __tsan_mutex_create(spin, __tsan_mutex_not_static);
++#endif
+ }
+ 
+-static inline void qemu_spin_destroy(QemuSpin *spin)
+-{ }
++/* const parameter because the only purpose here is the TSAN annotation */
++static inline void qemu_spin_destroy(const QemuSpin *spin)
++{
++#ifdef CONFIG_TSAN
++    __tsan_mutex_destroy((void *)spin, __tsan_mutex_not_static);
++#endif
++}
+ 
+ static inline void qemu_spin_lock(QemuSpin *spin)
+ {
++#ifdef CONFIG_TSAN
++    __tsan_mutex_pre_lock(spin, 0);
++#endif
+     while (unlikely(__sync_lock_test_and_set(&spin->value, true))) {
+         while (atomic_read(&spin->value)) {
+             cpu_relax();
          }
+     }
++#ifdef CONFIG_TSAN
++    __tsan_mutex_post_lock(spin, 0, 0);
++#endif
+ }
+ 
+ static inline bool qemu_spin_trylock(QemuSpin *spin)
+ {
+-    return __sync_lock_test_and_set(&spin->value, true);
++#ifdef CONFIG_TSAN
++    __tsan_mutex_pre_lock(spin, __tsan_mutex_try_lock);
++#endif
++    bool busy = __sync_lock_test_and_set(&spin->value, true);
++#ifdef CONFIG_TSAN
++    unsigned flags = __tsan_mutex_try_lock;
++    flags |= busy ? __tsan_mutex_try_lock_failed : 0;
++    __tsan_mutex_post_lock(spin, flags, 0);
++#endif
++    return busy;
+ }
+ 
+ static inline bool qemu_spin_locked(QemuSpin *spin)
+@@ -239,7 +266,13 @@ static inline bool qemu_spin_locked(QemuSpin *spin)
+ 
+ static inline void qemu_spin_unlock(QemuSpin *spin)
+ {
++#ifdef CONFIG_TSAN
++    __tsan_mutex_pre_unlock(spin, 0);
++#endif
+     __sync_lock_release(&spin->value);
++#ifdef CONFIG_TSAN
++    __tsan_mutex_post_unlock(spin, 0);
++#endif
+ }
+ 
+ struct QemuLockCnt {
 -- 
 2.17.1
 
