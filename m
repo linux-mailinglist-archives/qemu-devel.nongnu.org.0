@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4774B1DED6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:39:45 +0200 (CEST)
-Received: from localhost ([::1]:50792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB601DED83
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:41:41 +0200 (CEST)
+Received: from localhost ([::1]:59320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcAi0-00087w-BE
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:39:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42962)
+	id 1jcAjs-0003GN-96
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:41:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgj-0006a3-Tm
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54407
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgm-0006et-LS
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:28 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38873
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgj-0002SF-6Q
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:25 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgl-0002U2-SY
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590165504;
+ s=mimecast20190719; t=1590165507;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i0X3nhCPIdBU+MkX2L6TDEsAOd8fgbYU7zMqrgwUeac=;
- b=Hv/OlCbLZZL9Ez4jM86zrrpVEtIKQiGjhKojbJD7hz21BwaUsceyPRrq0QrFEQ4K+aORB4
- ii8QvXMBQOCtT11llreBq678m7Nckdoub+ZrXsoF3EWrLnlAopCLDWCqXM6FdUxSbf89Ls
- yrs3W9LKno6YkmHOM+9UXppolnGG3YQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-un4yGojmPKW7k7nZGQIekw-1; Fri, 22 May 2020 12:38:21 -0400
-X-MC-Unique: un4yGojmPKW7k7nZGQIekw-1
-Received: by mail-wm1-f72.google.com with SMTP id l26so2866293wmh.3
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:38:20 -0700 (PDT)
+ bh=zPKsbRJt9+h1QZ5ZVV7cawQ2hLkDBzrcL810MECGIUM=;
+ b=RiEpbcewkKMs1J7IK9JY8RNSeO97WmQvvjtFfF+3joxWZ7rHvKrm/QrjBOoiEqg5O5ObT7
+ /66V0FBgaybQmer3lqdqWX6Jfpa6dJEozoP/ODePmHZ4yPcXB8E5bSC5Envu12ze8mJGfa
+ hoOr/zzkH8jZuNUT6Also/eeygKhpm0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-111-c97WLPUFMdiQYe-VvVoM_w-1; Fri, 22 May 2020 12:38:25 -0400
+X-MC-Unique: c97WLPUFMdiQYe-VvVoM_w-1
+Received: by mail-wr1-f71.google.com with SMTP id n9so4574983wru.20
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:38:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=i0X3nhCPIdBU+MkX2L6TDEsAOd8fgbYU7zMqrgwUeac=;
- b=Tj5KXfJQaf8nKFmQw5hKHYiIuqGa4WxbJxKrreTt8TgQdUUBh2z1Jy+d4EMbz6yUTs
- PI9q34Y0azm2yEjewCRU2atPMV4l2di70FvbamGHHRFZgeAfzhFuJylOrnvE+x1GekTB
- f6EW7aBI4fm19UKLtbfOL4isSyQeWPz5mxshGg/DP5dyIPdL5wcFh0jeaGhMkB4V2Vd1
- ESrR5l0+tUPL9g+6vtlfiTByt8AzjnIO9APqg8e59u+Z2x8o8vu70mbgSfqMTQr9MG1u
- Z48HoTCugGcvjWiQx42mxwHhFVCQB8UYiohCOWSzgphCBx2w8R9ThhmKQlssUo1lKw51
- Nn6g==
-X-Gm-Message-State: AOAM531bVxRCCenR1s2zeF/W/w57UQ0kPqA+Ud5EOd+sGzgxC3ISRDbq
- Yr6K8pko0SIzYR2SJrg/87qJYONQj4m6ulQtLY1n//pMRMRhVOcqsAT6a8aMga9010rvELQATc+
- m29A/djAgsOlzvqY=
-X-Received: by 2002:a1c:e188:: with SMTP id y130mr15059227wmg.83.1590165499649; 
- Fri, 22 May 2020 09:38:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzU4Tpxwzqm2Lh7k726ZhonVTNgf8nL7wXUytk8+vF5JZ7N3ORrYK+U47MRG0o0qwQ/Zm15bw==
-X-Received: by 2002:a1c:e188:: with SMTP id y130mr15059219wmg.83.1590165499509; 
- Fri, 22 May 2020 09:38:19 -0700 (PDT)
+ bh=zPKsbRJt9+h1QZ5ZVV7cawQ2hLkDBzrcL810MECGIUM=;
+ b=p71N2GYLxfO2d9qhfnqp8aPmdnHKnGmx4jtupDVcYljsiZ1P6T9fAfhwNmoGIOabxt
+ E8H99uQEqPZp9c/AtMtvj1Fzk/FiBbrNs6NTxFHQ2EqtSJUwYn9mB0qX3KY17MpHIbml
+ IwJCLekwq0x1u4peCqbwYUbACevOKC/R8e0YSNTW+ekNshX1mOYcYr0rFPwRJOsNkXjb
+ 5wOLgWMJRo2xaSG0+UpdAkusj/yqwuBL/3WyKAGuVGIBqVt9522nZYUAYxnWq5WK27D6
+ SKar+iokL+99vdTQ5ceaC1Cpm5bmqU3O8Xy+C4NPflfY8NzVTm8CRGVesSADiRMS/myY
+ CKIQ==
+X-Gm-Message-State: AOAM531P7Lk1u2HGZnqa6cnnb25sJwjSym7Kb8Y6Yxf04dtibzrVUgt4
+ 3mC2NvSFmYR7NGnWL/zK6zBlSaTrWKL/lOX6dWbA0dzvuRkKTSOoqNA8u3N/b+zju46nlkb7sH3
+ dZjybCdxRMf9+uyY=
+X-Received: by 2002:a5d:6283:: with SMTP id k3mr4010275wru.62.1590165503978;
+ Fri, 22 May 2020 09:38:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyvccAQCLsXlZohF7IaPbmy9JYZk5H7N32zMfVsg9ojJLunE2SZwNXo210t2UtcjKLfYmiF0w==
+X-Received: by 2002:a5d:6283:: with SMTP id k3mr4010264wru.62.1590165503762;
+ Fri, 22 May 2020 09:38:23 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id z7sm9934568wrl.88.2020.05.22.09.38.18
+ by smtp.gmail.com with ESMTPSA id m13sm9707946wmi.42.2020.05.22.09.38.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 09:38:19 -0700 (PDT)
+ Fri, 22 May 2020 09:38:23 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 04/11] rules.mak: Add startwith() rule
-Date: Fri, 22 May 2020 18:37:52 +0200
-Message-Id: <20200522163759.11480-5-philmd@redhat.com>
+Subject: [PATCH v4 05/11] rules.mak: Add base-arch() rule
+Date: Fri, 22 May 2020 18:37:53 +0200
+Message-Id: <20200522163759.11480-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200522163759.11480-1-philmd@redhat.com>
 References: <20200522163759.11480-1-philmd@redhat.com>
@@ -72,9 +72,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 10:36:44
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 11:12:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,31 +101,83 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a rule to test if a string starts with a substring.
+Add a rule to return the base architecture for a QEMU target.
+
+The current list of TARGET_BASE_ARCH is:
+
+  $ git grep  TARGET_BASE_ARCH configure
+  configure:7785:TARGET_BASE_ARCH=""
+  configure:7795:    TARGET_BASE_ARCH=i386
+  configure:7813:    TARGET_BASE_ARCH=arm
+  configure:7846:    TARGET_BASE_ARCH=mips
+  configure:7854:    TARGET_BASE_ARCH=mips
+  configure:7864:    TARGET_BASE_ARCH=openrisc
+  configure:7871:    TARGET_BASE_ARCH=ppc
+  configure:7879:    TARGET_BASE_ARCH=ppc
+  configure:7887:    TARGET_BASE_ARCH=ppc
+  configure:7894:    TARGET_BASE_ARCH=riscv
+  configure:7900:    TARGET_BASE_ARCH=riscv
+  configure:7920:    TARGET_BASE_ARCH=sparc
+  configure:7925:    TARGET_BASE_ARCH=sparc
+
+The rule can be tested calling 'print-base-arch-$TARGET':
+
+  $ make \
+      print-base-arch-openrisc \
+      print-base-arch-aarch64 \
+      print-base-arch-x86_64 \
+      print-base-arch-mips64el \
+      print-base-arch-ppc64
+  openrisc=openrisc
+  aarch64=arm
+  x86_64=i386
+  mips64el=mips
+  ppc64=ppc
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- rules.mak | 7 +++++++
- 1 file changed, 7 insertions(+)
+v4:
+- use startwith()
+- fix openrisc (rth)
+---
+ rules.mak | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
 diff --git a/rules.mak b/rules.mak
-index 694865b63e..e39bee93d5 100644
+index e39bee93d5..2ce527e885 100644
 --- a/rules.mak
 +++ b/rules.mak
-@@ -191,6 +191,13 @@ ne = $(if $(subst $2,,$1)$(subst $1,,$2),y,n)
- isempty = $(if $1,n,y)
- notempty = $(if $1,y,n)
+@@ -445,3 +445,30 @@ atomic = $(eval $1: $(call sentinel,$1) ; @:) \
  
-+# startwith
-+# Usage: $(call startwith, startstr, fullstr)
-+#
-+# This macro returns a string (TRUE) when @fullstr starts with
-+# @startstr, else returns the empty string (FALSE)
-+startwith = $(findstring :$(strip $1),:$(strip $2))
+ print-%:
+ 	@echo '$*=$($*)'
 +
- # Generate files with tracetool
- TRACETOOL=$(PYTHON) $(SRC_PATH)/scripts/tracetool.py
- 
++# base-arch
++# Usage: $(call base-arch, target)
++#
++# @target: the target architecture.
++#
++# This macro will return the base architecture for a target.
++#
++# As example, $(call base-arch, aarch64) returns 'arm'.
++base-arch = $(strip \
++		$(if $(call startwith,mips,$1),mips,\
++		  $(if $(call startwith,ppc,$1),ppc,\
++		    $(if $(call startwith,sparc,$1),sparc,\
++		      $(if $(call startwith,risc,$1),risc,\
++		        $(if $(call startwith,aarch64,$1),arm,\
++		          $(if $(call startwith,x86_64,$1),i386,\
++		            $1\
++		           )\
++		         )\
++		       )\
++		     )\
++		   )\
++		 )\
++		)
++
++print-base-arch-%:
++	@echo '$*=$(call base-arch, $*)'
 -- 
 2.21.3
 
