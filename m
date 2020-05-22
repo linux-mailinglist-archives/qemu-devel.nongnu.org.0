@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 295AA1DED15
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:19:56 +0200 (CEST)
-Received: from localhost ([::1]:33632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D22061DED2B
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:24:00 +0200 (CEST)
+Received: from localhost ([::1]:53330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcAOp-00026e-4x
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40470)
+	id 1jcASl-0002gS-SI
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:23:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jcAKZ-0003GA-V0
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:32 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:40166)
+ id 1jcAKb-0003Jr-Bb
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:33 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:39705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jcAKY-0006GA-NT
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:31 -0400
-Received: by mail-pl1-x641.google.com with SMTP id t16so4573855plo.7
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:15:28 -0700 (PDT)
+ id 1jcAKZ-0006GR-8s
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:32 -0400
+Received: by mail-pg1-x543.google.com with SMTP id w20so179973pga.6
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:15:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=hhjHkZsuPQqpn5j1/wPu9TPYOQurYS1uCjZTE9jPves=;
- b=WHSPHQjyqPfkzx7W+A894tHes/HkqL5TUFS5Hj6vTkvKkXpW9L4MW55REOjg5JhSWk
- SdOcmNelEvU5zmmI0Y1wmOsFg3HijE7su3DitGIbdPwBdfyfUWc1n4Qfkco4B9WOHOkM
- /oZjjHwdzYqWBU3+SRAGvK9cgZlRLQjBuvQfs0bbAPKeclO5CutnSS89wJcQy76miFxb
- mnvlzxOnJ8HZylKa9IKqRbMj4R53lVBWz/0aBENrJeGdfGSJeY2S8M4H0vl1NB+Z1v/j
- CvrUsoqfLMuutzahVqHsyjKggQnPqI84rX0FeMHeCbLWgRnqU4DT26BimQ18ol9qPAV1
- tM2Q==
+ bh=sRbh5iLhIJgul14kcDJeTEj/XcHGk+PMKpVRoyVth+g=;
+ b=PIBtX2KghCulSwqtE4E+2lMTUvnCtv2kFXVft1HT72ud2AiuiPjQeh+WoHEYj3wduP
+ JUyXBazeEzx3DN9vJqFwIWgjNYXGoMKSd0q7AEbJ4zzklyLFgpoIApc538pW3WwSiwKG
+ V1ED0lM1E6tpCe6h3h7gbgq2JQsibfTItSglZ9xxd0w9PKrQzNZNSlSwr4O5wPm307Bq
+ G9Ca5NAx4+fWYon/N772t4WKnG2POFkg1krJ5gqcfW8zUBdN0wQ7Olq669k0GUGxugCa
+ /W0dEkFBM9FJ979mgOVEvZ+x4k69qR6E4YitFAK5YQIUoJiR1OQrwYWHWl3gr2HGh1b0
+ /Wjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=hhjHkZsuPQqpn5j1/wPu9TPYOQurYS1uCjZTE9jPves=;
- b=hBxtymA0m1tZcVScZylq9HviVBjiGjRXPI6Vw3L98hcYJlJbVmJRhXfugf+ZnzxOzO
- hNOQTBjKNBUK6BXw8qLqCcJ7yZ4GXicBIPif6kqg71Vs0tCGct8FvN3QNF+CSE4slR1p
- wUqyy+VBONY7ugW2f2d08kUQN8fkA3xNWr8hhR2HE66P0U3IdZOSfz/Ezp3xvrLkQ75M
- x1g6tNZIdieyONuaS9R5GtezAfFrW7TQJAchYc2/k+7M7eQ/lkjB9QLnDCxWKsXWzrqi
- beoYSoN/5+2WNoTtKA301WtqLxiHarDPa96T+A+XjZtPXnkvPexoEl2KFPNvKqYDW8yG
- pUiw==
-X-Gm-Message-State: AOAM532bcjs+5znm3j9GlfwDScKiSfdzV4HzfxcKqnNgBGYPyrfLgc8k
- 0NpiE6W9qWCIlZ0tPyIu/6HbhdEO4bF75Q==
-X-Google-Smtp-Source: ABdhPJxS6O5pF1E7y2oFN4vEouVrNICucVS+qcpof41rMFRCukUh1HQqPbDyCANC34mHd/M2XSUBlg==
-X-Received: by 2002:a17:90a:1217:: with SMTP id
- f23mr5114019pja.150.1590164127476; 
- Fri, 22 May 2020 09:15:27 -0700 (PDT)
+ bh=sRbh5iLhIJgul14kcDJeTEj/XcHGk+PMKpVRoyVth+g=;
+ b=HQe6mmFIXto2DqBirHzB/PDbBTYSuvMOEPExOaysh2JqvqAPqsIPYPtleqwWcdKmDw
+ FxbZmmcEdDcesNRrx5t366DoCBzCCjaRB0l0RqTz40703auoxJnaCWidbhQEiK3aJAas
+ llg59O7swA52XgT9gSBHQ/LbcfVueVrM/S9nLRJmAyBEqfwZXUF8bS05TV4z81OzsqrN
+ vnNxYg2JyEzf2HXqhFbvcBHfhfp4Z7TCd5d2EG+5Jo/2KkFr8BsIUi9R7FdX3+dFZrBD
+ vmNgUOGnAUFf5KxdEiOKrhSqh6RqgogBoDawxTuRGxY9HlZMYLTIqt7q0GBtSPS8a5pn
+ jWeQ==
+X-Gm-Message-State: AOAM533SUf4xBtd2XlRkWUzL6lFakoNJ0UlsF1Ufxthik+1tb/4qEIs4
+ ryMWHQGb4fnhYgCS5RWc3z68RkvSZtmYBw==
+X-Google-Smtp-Source: ABdhPJzB2duxHEauhLrjN8q6cAKEcesq2o6omT60tyUUDs27i+8CJApt/nk2nhaJ0jdlVmIcpd1AqQ==
+X-Received: by 2002:a05:6a00:46:: with SMTP id
+ i6mr4755152pfk.146.1590164129705; 
+ Fri, 22 May 2020 09:15:29 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:f1d9:5fce:c451:d2e2])
- by smtp.gmail.com with ESMTPSA id y75sm7255428pfb.212.2020.05.22.09.15.25
+ by smtp.gmail.com with ESMTPSA id y75sm7255428pfb.212.2020.05.22.09.15.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 09:15:26 -0700 (PDT)
+ Fri, 22 May 2020 09:15:29 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/19] util/async: Fixed tsan warnings
-Date: Fri, 22 May 2020 12:07:50 -0400
-Message-Id: <20200522160755.886-15-robert.foley@linaro.org>
+Subject: [PATCH 15/19] qht: Fix tsan warnings.
+Date: Fri, 22 May 2020 12:07:51 -0400
+Message-Id: <20200522160755.886-16-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200522160755.886-1-robert.foley@linaro.org>
 References: <20200522160755.886-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=robert.foley@linaro.org; helo=mail-pl1-x641.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=robert.foley@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,89 +83,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, robert.foley@linaro.org, cota@braap.org,
- Stefan Hajnoczi <stefanha@redhat.com>, peter.puhov@linaro.org,
- alex.bennee@linaro.org
+Cc: peter.puhov@linaro.org, cota@braap.org, alex.bennee@linaro.org,
+ robert.foley@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 For example:
-  Atomic write of size 8 at 0x7b4800113c28 by main thread (mutexes: write M30):
-    #0 __tsan_atomic64_exchange <null> (qemu-system-aarch64+0x386f85)
-    #1 aio_bh_poll util/async.c:146:5 (qemu-system-aarch64+0xcd1f61)
-    #2 aio_dispatch util/aio-posix.c:380:5 (qemu-system-aarch64+0xcd8abb)
-    #3 aio_ctx_dispatch util/async.c:298:5 (qemu-system-aarch64+0xcd31b0)
-    #4 g_main_context_dispatch <null> (libglib-2.0.so.0+0x4c416)
-    #5 qemu_main_loop softmmu/vl.c:1664:9 (qemu-system-aarch64+0x5cc6d6)
-    #6 main softmmu/main.c:49:5 (qemu-system-aarch64+0xc62857)
+WARNING: ThreadSanitizer: data race (pid=23406)
+  Atomic read of size 4 at 0x7b100003e3c8 by thread T7:
+    #0 __tsan_atomic32_load <null> (qemu-system-aarch64+0x39a36c)
+    #1 qht_do_lookup util/qht.c:495:17 (qemu-system-aarch64+0xd82f7a)
+    #2 qht_lookup_custom util/qht.c:539:11 (qemu-system-aarch64+0xd82f7a)
+  Previous write of size 8 at 0x7b100003e3c8 by thread T6 (mutexes: write M166769147697783108, write M995435858420506688):
+    #0 posix_memalign <null> (qemu-system-aarch64+0x350dd1)
+    #1 qemu_try_memalign util/oslib-posix.c:189:11 (qemu-system-aarch64+0xd59317)
+    #2 qemu_memalign util/oslib-posix.c:205:27 (qemu-system-aarch64+0xd5943e)
+    #3 qht_insert__locked util/qht.c:583:9 (qemu-system-aarch64+0xd837c5)
 
-  Previous read of size 8 at 0x7b4800113c28 by thread T3 (mutexes: write M81):
-    #0 aio_bh_enqueue util/async.c:81:9 (qemu-system-aarch64+0xcd2267)
-    #1 qemu_bh_schedule util/async.c:181:5 (qemu-system-aarch64+0xcd2267)
-    #2 worker_thread util/thread-pool.c:113:9 (qemu-system-aarch64+0xcd473c)
-    #3 qemu_thread_start util/qemu-thread-posix.c:519:9 (qemu-system-aarch64+0xcde280)
-
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- util/async.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ util/qht.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/util/async.c b/util/async.c
-index 1319eee3bc..51e306bf0c 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -33,6 +33,7 @@
- #include "block/raw-aio.h"
- #include "qemu/coroutine_int.h"
- #include "trace.h"
+diff --git a/util/qht.c b/util/qht.c
+index 67e5d5b916..739a53ced0 100644
+--- a/util/qht.c
++++ b/util/qht.c
+@@ -69,6 +69,7 @@
+ #include "qemu/qht.h"
+ #include "qemu/atomic.h"
+ #include "qemu/rcu.h"
 +#include "qemu/tsan.h"
  
- /***********************************************************/
- /* bottom halves (can be seen as timers which expire ASAP) */
-@@ -76,10 +77,12 @@ static void aio_bh_enqueue(QEMUBH *bh, unsigned new_flags)
-      * 2. ctx is loaded before the callback has a chance to execute and bh
-      *    could be freed.
-      */
-+    TSAN_ANNOTATE_IGNORE_WRITES_BEGIN();
-     old_flags = atomic_fetch_or(&bh->flags, BH_PENDING | new_flags);
-     if (!(old_flags & BH_PENDING)) {
-         QSLIST_INSERT_HEAD_ATOMIC(&ctx->bh_list, bh, next);
-     }
-+    TSAN_ANNOTATE_IGNORE_WRITES_END();
+ //#define QHT_DEBUG
  
-     aio_notify(ctx);
- }
-@@ -143,7 +146,9 @@ int aio_bh_poll(AioContext *ctx)
-     BHListSlice *s;
-     int ret = 0;
+@@ -580,10 +581,12 @@ static void *qht_insert__locked(const struct qht *ht, struct qht_map *map,
+         b = b->next;
+     } while (b);
  
 +    TSAN_ANNOTATE_IGNORE_WRITES_BEGIN();
-     QSLIST_MOVE_ATOMIC(&slice.bh_list, &ctx->bh_list);
+     b = qemu_memalign(QHT_BUCKET_ALIGN, sizeof(*b));
+     memset(b, 0, sizeof(*b));
+     new = b;
+     i = 0;
 +    TSAN_ANNOTATE_IGNORE_WRITES_END();
-     QSIMPLEQ_INSERT_TAIL(&ctx->bh_slice_list, &slice, next);
- 
-     while ((s = QSIMPLEQ_FIRST(&ctx->bh_slice_list))) {
-@@ -280,14 +285,16 @@ aio_ctx_check(GSource *source)
-     aio_notify_accept(ctx);
- 
-     QSLIST_FOREACH_RCU(bh, &ctx->bh_list, next) {
--        if ((bh->flags & (BH_SCHEDULED | BH_DELETED)) == BH_SCHEDULED) {
-+        if ((atomic_read(&bh->flags) & (BH_SCHEDULED | BH_DELETED))
-+             == BH_SCHEDULED) {
-             return true;
-         }
-     }
- 
-     QSIMPLEQ_FOREACH(s, &ctx->bh_slice_list, next) {
-         QSLIST_FOREACH_RCU(bh, &s->bh_list, next) {
--            if ((bh->flags & (BH_SCHEDULED | BH_DELETED)) == BH_SCHEDULED) {
-+            if ((atomic_read(&bh->flags) & (BH_SCHEDULED | BH_DELETED))
-+                 == BH_SCHEDULED) {
-                 return true;
-             }
-         }
+     atomic_inc(&map->n_added_buckets);
+     if (unlikely(qht_map_needs_resize(map)) && needs_resize) {
+         *needs_resize = true;
 -- 
 2.17.1
 
