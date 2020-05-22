@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5B91DE8A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 16:20:01 +0200 (CEST)
-Received: from localhost ([::1]:50152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C90A1DE25B
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 10:42:06 +0200 (CEST)
+Received: from localhost ([::1]:56480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jc8Wm-00024e-EB
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 10:20:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47592)
+	id 1jc3Fk-0005De-QP
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 04:42:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <haris.phnx@gmail.com>)
- id 1jc37B-0000jp-I6
- for qemu-devel@nongnu.org; Fri, 22 May 2020 04:33:13 -0400
-Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:45702)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <haris.phnx@gmail.com>)
- id 1jc37A-00039g-KY
- for qemu-devel@nongnu.org; Fri, 22 May 2020 04:33:13 -0400
-Received: by mail-lf1-x131.google.com with SMTP id a4so6022126lfh.12
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 01:33:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=q1rhjp76abCy+NZtSwW/TpAW0D+kjfkf6867pQNi7+E=;
- b=PjY8DwzD9WEUD/ayHcvSJTKtMMZ9Hiy2eHT4IbTXi9PJjhjSAur7u90czALjgUxz7w
- G3ty0ydvjQcSWajAk+YNbJSrrJiNdY6m0pXLJHwM6PcOWKQPlpWFplC/ZQoPO0XVOzFT
- Uvy/R9Z/5mfmgZ5BzwJH6EQHhMw170qpYe6sR+Zr0ptXlv9LRWC+YX06U3+DxHiz+Yi3
- PzV/DtQ5cUPP0Z0xTcTFWDIeIrrQhiHJwBkTf+1dru1lwsh4oEWdRHbXRTBWT+j0x9EC
- 82OZ4+/S1aE2FbOzsqkjHvHEIubvZ/yofRkbPj29or5C+6N8BhE8ffNDWnXfxnM747ZE
- IrMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=q1rhjp76abCy+NZtSwW/TpAW0D+kjfkf6867pQNi7+E=;
- b=qEqFulQ97I3XhZXw7Zn3zZPYMEYrsBmkJQCZWOfiUpcnflgX23mBI2Y/a8GrqszHAG
- xU/BKsl7YDCl81wpxqcxzSHiGZPb4POM3FegjM7OUXh7WnQJH2zla+Z+w0CemhKbKvFI
- QilC50DhYPRCg/iNZVZI6ER96fqrRRFkJms4Ruqabngmx8LwVQ3HZyDcImpZUYDGzl+K
- Ip5DGiuKN7Yd+7D/B6caVLLuxBvPlTyJUbIz9puZFuvq/H7CZOMU3aukj1bziGWLQonl
- 0FUI6Nvt9HgGcbKHva812dOC0lB8ihJiEI+2OOgaqszwckyq3pJ//TtYErtm8tYV896V
- yNqA==
-X-Gm-Message-State: AOAM533sFsdT8LFxkyRFnp9yorqfD7YdSXUPz+qqo2eHO9Z9tbDRxL5f
- EoQ7mVZCrVk/AQAXlqCkelCliGEsEw+fjn+tvoR0T/rppuE=
-X-Google-Smtp-Source: ABdhPJyWKTQfquqe6AZKb8sNlo4j0LV4p9ZXXmPOr6R4fLmqTpUFIb1q31YfVKuQ+Rmv0jYHqYL9pBYyEJhoFBlDjdo=
-X-Received: by 2002:ac2:490f:: with SMTP id n15mr6938853lfi.39.1590136389393; 
- Fri, 22 May 2020 01:33:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jc3Eq-0004mm-RT
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 04:41:08 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28481
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jc3Ep-0004Z4-Ca
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 04:41:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590136864;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0rRGMXuDPQm7VHVHqFU7LRW3XMGF1X3bOLnPHMsHcGY=;
+ b=IkCoHn43GNyedQRxlmwrn+iqXFhMUUVsf/sdCGbMpY+daeaCbFElqJsEgGaBGMLlMYCuiZ
+ TVZgjIOwhINiaXm+eOZwQJi1CRsId/Ae9SFC6KhcpkHPTVdKGPqWUN/vaNQKnTmCA/+fyX
+ LBZM9+cS44eJD9Rc3JjAVCsQhxjLjFU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-142-6TB0t8DXNj6EXczmOF1NaA-1; Fri, 22 May 2020 04:41:01 -0400
+X-MC-Unique: 6TB0t8DXNj6EXczmOF1NaA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56FB8835B45;
+ Fri, 22 May 2020 08:40:59 +0000 (UTC)
+Received: from nas.mammed.net (unknown [10.40.193.252])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9675B5D9CC;
+ Fri, 22 May 2020 08:40:56 +0000 (UTC)
+Date: Fri, 22 May 2020 10:40:53 +0200
+From: Igor Mammedow <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v4 5/6] i386: Hyper-V VMBus ACPI DSDT entry
+Message-ID: <20200522104053.4e7834a8@nas.mammed.net>
+In-Reply-To: <fb1661c0-7282-58b4-03b4-a77793cc8e97@redhat.com>
+References: <20200424123444.3481728-1-arilou@gmail.com>
+ <20200424123444.3481728-6-arilou@gmail.com>
+ <20200505150637.7131e79b@redhat.com>
+ <20200511182121.GA1307176@rvkaganb.lan>
+ <20200513173414.62e3cb4e@redhat.com>
+ <fb1661c0-7282-58b4-03b4-a77793cc8e97@redhat.com>
 MIME-Version: 1.0
-References: <CAE_WKMwmOtR_zqUR-40Lv6Wrrm-ZBqTganHT_zF_m3tf2is7xA@mail.gmail.com>
-In-Reply-To: <CAE_WKMwmOtR_zqUR-40Lv6Wrrm-ZBqTganHT_zF_m3tf2is7xA@mail.gmail.com>
-From: haris iqbal <haris.phnx@gmail.com>
-Date: Fri, 22 May 2020 14:02:42 +0530
-Message-ID: <CAE_WKMy-PY3qyTGDGvogXPXWgCZ-N_N_n-qEP9Rtk-UgROHx6g@mail.gmail.com>
-Subject: Fwd: simple qemu command not working
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::131;
- envelope-from=haris.phnx@gmail.com; helo=mail-lf1-x131.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 04:25:21
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 22 May 2020 10:19:05 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,110 +84,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Danil Kipnis <danil.kipnis@cloud.ionos.com>
+Cc: mail@maciej.szmigiero.name, eyakovlev@virtuozzo.com,
+ Jon Doron <arilou@gmail.com>, qemu-devel@nongnu.org,
+ Roman Kagan <rvkagan@yandex-team.ru>, liran.alon@oracle.com,
+ Roman Kagan <rkagan@virtuozzo.com>, vkuznets@redhat.com,
+ "Maciej S . Szmigiero" <maciej.szmigiero@oracle.com>, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Thu, 21 May 2020 18:02:07 +0200
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-I am having some trouble with spinning up a VM using qemu. The
-description is below. Can someone please point me in the right
-direction?
+> On 13/05/20 17:34, Igor Mammedov wrote:
+> > I'd rather avoid using random IRQ numbers (considering we are
+> > dealing with black-box here). So if it's really necessary to have
+> > IRQ described here, I'd suggest to implement them in device model
+> > so they would be reserved and QEMU would error out in a sane way if
+> > IRQ conflict is detected.  
+> 
+> We don't generally detect ISA IRQ conflicts though, do we?
 
---
+that I don't know that's why I'm not suggesting how to do it.
+The point is hard-coding in AML random IRQs is not right thing to do,
+(especially with the lack of 'any' spec), as minimum AML should pull
+it from device model and that probably should be configurable and set
+by board.
 
-Regards
--Haris
+Other thing is:
+I haven't looked at VMBus device model in detail, but DSDT part aren't
+matching device though (device model is not ISA device hence AML part
+shouldn't be on in ISA scope), where to put it is open question.
+There were other issues with AML code, I've commented on, so I was
+waiting on respin with comments addressed.
+I don't think that this patch is good enough for merging.
 
+ 
+> 
+> Paolo
+> 
 
----------- Forwarded message ---------
-From: haris iqbal <haris.phnx@gmail.com>
-Date: Wed, May 20, 2020 at 5:10 PM
-Subject: simple qemu command not working
-To: <qemu-discuss@nongnu.org>
-Cc: Danil Kipnis <danil.kipnis@cloud.ionos.com>
-
-
-Hi,
-
-I am trying to install ubuntu in one of the qcow2 images I have
-created, using the below command
-
-    sudo qemu-system-x86_64 -enable-kvm -nographic -smp 8 -m 8G -cpu
-qemu64 -cdrom ubuntu-19.10-live-server-amd64.iso -boot d
-ubuntu-19.10-live-server-amd64.qcow2
-
-First it spits out a warning, and then just hangs at "Initializing gfx code...".
-
-    qemu-system-x86_64: warning: host doesn't support requested
-feature: CPUID.80000001H:ECX.svm [bit 2]
-    qemu-system-x86_64: warning: host doesn't support requested
-feature: CPUID.80000001H:ECX.svm [bit 2]
-    qemu-system-x86_64: warning: host doesn't support requested
-feature: CPUID.80000001H:ECX.svm [bit 2]
-    qemu-system-x86_64: warning: host doesn't support requested
-feature: CPUID.80000001H:ECX.svm [bit 2]
-    qemu-system-x86_64: warning: host doesn't support requested
-feature: CPUID.80000001H:ECX.svm [bit 2]
-    qemu-system-x86_64: warning: host doesn't support requested
-feature: CPUID.80000001H:ECX.svm [bit 2]
-    qemu-system-x86_64: warning: host doesn't support requested
-feature: CPUID.80000001H:ECX.svm [bit 2]
-    qemu-system-x86_64: warning: host doesn't support requested
-feature: CPUID.80000001H:ECX.svm [bit 2]
-    SeaBIOS (version 1.13.0-1ubuntu1)
-
-
-    iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+BFF8C9F0+BFECC9F0 CA00
-
-
-
-    Booting from DVD/CD...
-
-    ISOLINUX 6.04 20190226 ETCD Copyright (C) 1994-2015 H. Peter Anvin et al
-    Loading bootlogo...
-
-    Initializing gfx code...
-
-I have searched a lot and got a number of solutions and possible
-problems but none worked.
-
-1) Have tried with Ubuntu 20 also, but same error.
-
-2) VT-x not enabled.
-
-It is enabled, `lscpu` shows
-
-    Virtualization:                  VT-x
-    Hypervisor vendor:               KVM
-    Flags: .. vmx ..
-
-3) Tried with `-cpu qemu64`. Did not work
-
-4) used `qemu-system-i386` instead of `qemu-system-x86_64`. But that
-fails with a different error
-
-    This kernel requires an x86-64 CPU, but only detected an i686 CPU.
-    Unable to boot - please use a kernel appropriate for your CPU.
-
-5) I have asked the same question online, but no answers.
-https://stackoverflow.com/questions/61864520/qemu-installating-ubuntu-through-iso-gets-stuck-shows-svm-cpu-bit-warning
-
-6) Have tried without the -nographics option, same story.
-
-7) I did find out that the "SVM" CPU bit corresponds to "AMD Secure
-Virtual Machine", which confused me since my CPU is Haswell.
-
-The host system on which I am running this command is an ubuntu.
-I have tried this on 2 separate ubuntu machines, one running on
-virtualbox as a VM with host OS windows 10.
-The other also running on a virtualized hypervisor (not sure which
-one), as a VM.
-
-Can someone point out what the problem is, and what is the solution.
-
---
-
-Regards
--Haris
 
