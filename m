@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C1F1DE1D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 10:30:06 +0200 (CEST)
-Received: from localhost ([::1]:51056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA5B91DE8A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 16:20:01 +0200 (CEST)
+Received: from localhost ([::1]:50152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jc347-0006uz-3C
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 04:30:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47296)
+	id 1jc8Wm-00024e-EB
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 10:20:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <geert.uytterhoeven@gmail.com>)
- id 1jc33Q-0005az-3A; Fri, 22 May 2020 04:29:20 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:43246)
+ (Exim 4.90_1) (envelope-from <haris.phnx@gmail.com>)
+ id 1jc37B-0000jp-I6
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 04:33:13 -0400
+Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:45702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <geert.uytterhoeven@gmail.com>)
- id 1jc33O-0002Ae-Qh; Fri, 22 May 2020 04:29:19 -0400
-Received: by mail-oi1-f194.google.com with SMTP id i22so8614135oik.10;
- Fri, 22 May 2020 01:29:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <haris.phnx@gmail.com>)
+ id 1jc37A-00039g-KY
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 04:33:13 -0400
+Received: by mail-lf1-x131.google.com with SMTP id a4so6022126lfh.12
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 01:33:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=q1rhjp76abCy+NZtSwW/TpAW0D+kjfkf6867pQNi7+E=;
+ b=PjY8DwzD9WEUD/ayHcvSJTKtMMZ9Hiy2eHT4IbTXi9PJjhjSAur7u90czALjgUxz7w
+ G3ty0ydvjQcSWajAk+YNbJSrrJiNdY6m0pXLJHwM6PcOWKQPlpWFplC/ZQoPO0XVOzFT
+ Uvy/R9Z/5mfmgZ5BzwJH6EQHhMw170qpYe6sR+Zr0ptXlv9LRWC+YX06U3+DxHiz+Yi3
+ PzV/DtQ5cUPP0Z0xTcTFWDIeIrrQhiHJwBkTf+1dru1lwsh4oEWdRHbXRTBWT+j0x9EC
+ 82OZ4+/S1aE2FbOzsqkjHvHEIubvZ/yofRkbPj29or5C+6N8BhE8ffNDWnXfxnM747ZE
+ IrMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=UiNrG7HGs3W8q6IqBr6PtGoNoWHovdYvwbjl0qlZS1Q=;
- b=C+fB54CZFWMlTdLLGTGlvRVKeSELuLZBIieaLlcnyBsTLvxfkUskrw4MXp1JNGbRsY
- 0HvU47fw0Ev/SxNSYcXnC33TSYWnFlCIyCuB1BKTBw8c2DuCrL2/NLS+v7+khncmIIF4
- I4sYHqaLHxQYVeTAuwN8fVYD5KH0OnxN7XLhBdKw+8lTX7y3ocA9GLK/GYZPV23hVF8V
- ruvzaLq0yxz411qau5vYishBn95ntaTzdgkzG2+/BUfjJxcs2lEaAfxH8TuZGBzlbX0k
- SR+WK25c4JWbmFRZarlb8w5MOQ4fiqDnJpE9t7JsnCr3kZR8eVTLd8MTPFf6oC9tohEx
- /n+Q==
-X-Gm-Message-State: AOAM530SVZ0MvGTVX3cQG2qlwCz6c897qBAZbTCH4Ggn5R9YKM9mWzDm
- Bgh5RWp7c4uUUILbxGozbVFZLeDE7fEhR2g6C2s=
-X-Google-Smtp-Source: ABdhPJzG75so/NQ3+73MyVsVpT1ajB9revzQysbgIDJI98eOYaoNl9+JGYtQ5zUmPUhB1kh6myqOLRvnKw5GNuPt7JU=
-X-Received: by 2002:aca:cd93:: with SMTP id d141mr1715139oig.148.1590136156801; 
- Fri, 22 May 2020 01:29:16 -0700 (PDT)
+ bh=q1rhjp76abCy+NZtSwW/TpAW0D+kjfkf6867pQNi7+E=;
+ b=qEqFulQ97I3XhZXw7Zn3zZPYMEYrsBmkJQCZWOfiUpcnflgX23mBI2Y/a8GrqszHAG
+ xU/BKsl7YDCl81wpxqcxzSHiGZPb4POM3FegjM7OUXh7WnQJH2zla+Z+w0CemhKbKvFI
+ QilC50DhYPRCg/iNZVZI6ER96fqrRRFkJms4Ruqabngmx8LwVQ3HZyDcImpZUYDGzl+K
+ Ip5DGiuKN7Yd+7D/B6caVLLuxBvPlTyJUbIz9puZFuvq/H7CZOMU3aukj1bziGWLQonl
+ 0FUI6Nvt9HgGcbKHva812dOC0lB8ihJiEI+2OOgaqszwckyq3pJ//TtYErtm8tYV896V
+ yNqA==
+X-Gm-Message-State: AOAM533sFsdT8LFxkyRFnp9yorqfD7YdSXUPz+qqo2eHO9Z9tbDRxL5f
+ EoQ7mVZCrVk/AQAXlqCkelCliGEsEw+fjn+tvoR0T/rppuE=
+X-Google-Smtp-Source: ABdhPJyWKTQfquqe6AZKb8sNlo4j0LV4p9ZXXmPOr6R4fLmqTpUFIb1q31YfVKuQ+Rmv0jYHqYL9pBYyEJhoFBlDjdo=
+X-Received: by 2002:ac2:490f:: with SMTP id n15mr6938853lfi.39.1590136389393; 
+ Fri, 22 May 2020 01:33:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200519084904.1069-1-geert+renesas@glider.be>
- <CAFEAcA9-wQ72_M+ZY+EbEgw1L9LVchBgpLivexFXVZ3HuCtcZg@mail.gmail.com>
-In-Reply-To: <CAFEAcA9-wQ72_M+ZY+EbEgw1L9LVchBgpLivexFXVZ3HuCtcZg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 22 May 2020 10:29:05 +0200
-Message-ID: <CAMuHMdWrTbWTrLvMnX=60F+UqH6DJ9kDU1FZ5TnT2=mbah1yfg@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/virt: Fix PL061 node name and properties
-To: Peter Maydell <peter.maydell@linaro.org>
+References: <CAE_WKMwmOtR_zqUR-40Lv6Wrrm-ZBqTganHT_zF_m3tf2is7xA@mail.gmail.com>
+In-Reply-To: <CAE_WKMwmOtR_zqUR-40Lv6Wrrm-ZBqTganHT_zF_m3tf2is7xA@mail.gmail.com>
+From: haris iqbal <haris.phnx@gmail.com>
+Date: Fri, 22 May 2020 14:02:42 +0530
+Message-ID: <CAE_WKMy-PY3qyTGDGvogXPXWgCZ-N_N_n-qEP9Rtk-UgROHx6g@mail.gmail.com>
+Subject: Fwd: simple qemu command not working
+To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.167.194;
- envelope-from=geert.uytterhoeven@gmail.com; helo=mail-oi1-f194.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 04:29:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::131;
+ envelope-from=haris.phnx@gmail.com; helo=mail-lf1-x131.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 22 May 2020 10:19:05 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,123 +79,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Danil Kipnis <danil.kipnis@cloud.ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+Hi,
 
-On Thu, May 21, 2020 at 6:59 PM Peter Maydell <peter.maydell@linaro.org> wrote:
-> On Tue, 19 May 2020 at 09:49, Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > Make the created node comply with the PL061 Device Tree bindings:
-> >   - Use generic node name "gpio" instead of "pl061",
-> >   - Add missing "#interrupt-cells" and "interrupt-controller"
-> >     properties.
->
-> Where have these properties come from? They must be optional,
-> because in the version of the binding documentation from Linux
-> 5.0 they're not described:
-> https://elixir.bootlin.com/linux/v5.0/source/Documentation/devicetree/bindings/gpio/pl061-gpio.txt
+I am having some trouble with spinning up a VM using qemu. The
+description is below. Can someone please point me in the right
+direction?
 
-Many old DT bindings are incomplete.
+--
 
-> They seem to have magically appeared in kernel commit
-> 910f38bed9439e765f7e, which purports to only be a change
-> of format from plain text to yaml but has added some
-> extra properties and claimed them to be mandatory.
+Regards
+-Haris
 
-The main motivation behind the conversion from plain text to yaml is to
-do automatic validation of DTS files, based on the bindings.  During the
-conversion process, many issues are detected, and fixed; not only in the
-DTS files, but also in the bindings (e.g. missing properties, like in
-this case).
 
-When running the validation on a device tree passed to the guest
-(extracted from /sys/firmware/devicetree/base, converted to dts, and
- manually fixed up the phandles), the following is reported about the
-pl061 node:
+---------- Forwarded message ---------
+From: haris iqbal <haris.phnx@gmail.com>
+Date: Wed, May 20, 2020 at 5:10 PM
+Subject: simple qemu command not working
+To: <qemu-discuss@nongnu.org>
+Cc: Danil Kipnis <danil.kipnis@cloud.ionos.com>
 
-    virt.dt.yaml: pl061@9030000: {'reg': [[0, 151191552, 0, 4096]],
-'gpio-controller': True, 'phandle': [[32771]], '#gpio-cells': [[2]],
-'clocks': [[32768]], '#interrupt-cells': [[2]], 'compatible':
-['arm,pl061', 'arm,primecell'], 'clock-names': ['apb_pclk'],
-'$nodename': ['pl061@9030000']} is not valid under any of the given
-schemas
-    [...]
-            virt.dt.yaml: pl061@9030000: 'interrupts' is a required property
 
-    virt.dt.yaml: pl061@9030000: $nodename:0: 'pl061@9030000' does not
-match '^gpio@[0-9a-f]+$'
-    virt.dt.yaml: pl061@9030000: 'interrupt-controller' is a required property
+Hi,
 
-> Since the devicetree spec says that the interrupt-controller
-> property "defines a node as an interrupt controller node"
-> and a GPIO chip isn't an interrupt controller, this seems
-> like some kind of error in the dtb binding. Maybe I'm
-> missing something...
+I am trying to install ubuntu in one of the qcow2 images I have
+created, using the below command
 
-PL061 is an interrupt controller, as it can assert its interrupt output
-based on activity on GPIO input lines.
+    sudo qemu-system-x86_64 -enable-kvm -nographic -smp 8 -m 8G -cpu
+qemu64 -cdrom ubuntu-19.10-live-server-amd64.iso -boot d
+ubuntu-19.10-live-server-amd64.qcow2
 
-> What actually goes wrong if QEMU doesn't specify these
-> properties?
+First it spits out a warning, and then just hangs at "Initializing gfx code...".
 
-It means that other devices that have their interrupt output connected
-to a PL061 GPIO input won't work, as their driver in the guest OS cannot
-find the interrupt.  Note that arm/virt.c currently doesn't instantiate
-such devices.
+    qemu-system-x86_64: warning: host doesn't support requested
+feature: CPUID.80000001H:ECX.svm [bit 2]
+    qemu-system-x86_64: warning: host doesn't support requested
+feature: CPUID.80000001H:ECX.svm [bit 2]
+    qemu-system-x86_64: warning: host doesn't support requested
+feature: CPUID.80000001H:ECX.svm [bit 2]
+    qemu-system-x86_64: warning: host doesn't support requested
+feature: CPUID.80000001H:ECX.svm [bit 2]
+    qemu-system-x86_64: warning: host doesn't support requested
+feature: CPUID.80000001H:ECX.svm [bit 2]
+    qemu-system-x86_64: warning: host doesn't support requested
+feature: CPUID.80000001H:ECX.svm [bit 2]
+    qemu-system-x86_64: warning: host doesn't support requested
+feature: CPUID.80000001H:ECX.svm [bit 2]
+    qemu-system-x86_64: warning: host doesn't support requested
+feature: CPUID.80000001H:ECX.svm [bit 2]
+    SeaBIOS (version 1.13.0-1ubuntu1)
 
-> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> > index 7dc96abf72cf2b9a..99593d7bce4d85cb 100644
-> > --- a/hw/arm/virt.c
-> > +++ b/hw/arm/virt.c
-> > @@ -818,13 +818,15 @@ static void create_gpio(const VirtMachineState *vms)
-> >                                       qdev_get_gpio_in(vms->gic, irq));
-> >
-> >      uint32_t phandle = qemu_fdt_alloc_phandle(vms->fdt);
-> > -    nodename = g_strdup_printf("/pl061@%" PRIx64, base);
-> > +    nodename = g_strdup_printf("/gpio@%" PRIx64, base);
->
-> Does the devicetree binding really mandate what the node name is?
-> I thought that finding the right device was doe via the
-> 'compatible' string and the nodename could be whatever the
-> device tree creator wanted.
 
-Matching is indeed done based on compatible value.
+    iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+BFF8C9F0+BFECC9F0 CA00
 
-For node names, please see
-https://github.com/devicetree-org/devicetree-specification/releases/tag/v0.3
 
-   "2.2.2 Generic Names Recommendation
 
-    The name of a node should be somewhat generic, reflecting the
-    function of the device and not its precise programming model. If
-    appropriate, the name should be one of the following choices:
+    Booting from DVD/CD...
 
-    [...]
+    ISOLINUX 6.04 20190226 ETCD Copyright (C) 1994-2015 H. Peter Anvin et al
+    Loading bootlogo...
 
-    - gpio
+    Initializing gfx code...
 
-    [...]"
+I have searched a lot and got a number of solutions and possible
+problems but none worked.
 
-While many new generic names have been added recently, "gpio" was
-already documented in the Power.orgTM Standard for Embedded Power
-ArchitectureTM Platform Requirements (ePAPR).
+1) Have tried with Ubuntu 20 also, but same error.
 
-I hope the above explains the rationale behind these change better.
-Thanks!
+2) VT-x not enabled.
 
-Gr{oetje,eeting}s,
+It is enabled, `lscpu` shows
 
-                        Geert
+    Virtualization:                  VT-x
+    Hypervisor vendor:               KVM
+    Flags: .. vmx ..
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+3) Tried with `-cpu qemu64`. Did not work
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+4) used `qemu-system-i386` instead of `qemu-system-x86_64`. But that
+fails with a different error
+
+    This kernel requires an x86-64 CPU, but only detected an i686 CPU.
+    Unable to boot - please use a kernel appropriate for your CPU.
+
+5) I have asked the same question online, but no answers.
+https://stackoverflow.com/questions/61864520/qemu-installating-ubuntu-through-iso-gets-stuck-shows-svm-cpu-bit-warning
+
+6) Have tried without the -nographics option, same story.
+
+7) I did find out that the "SVM" CPU bit corresponds to "AMD Secure
+Virtual Machine", which confused me since my CPU is Haswell.
+
+The host system on which I am running this command is an ubuntu.
+I have tried this on 2 separate ubuntu machines, one running on
+virtualbox as a VM with host OS windows 10.
+The other also running on a virtualized hypervisor (not sure which
+one), as a VM.
+
+Can someone point out what the problem is, and what is the solution.
+
+--
+
+Regards
+-Haris
 
