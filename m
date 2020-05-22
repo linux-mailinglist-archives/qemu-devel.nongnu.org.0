@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC73C1DED8D
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:42:47 +0200 (CEST)
-Received: from localhost ([::1]:36842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4774B1DED6F
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:39:45 +0200 (CEST)
+Received: from localhost ([::1]:50792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcAkx-0005g9-0n
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:42:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42942)
+	id 1jcAi0-00087w-BE
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:39:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgd-0006Rk-Oy
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:19 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33221
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgj-0006a3-Tm
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54407
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgc-0002Rg-V9
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:19 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgj-0002SF-6Q
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590165498;
+ s=mimecast20190719; t=1590165504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JofVph8hTCqe9tTdYnNgdFhC3wOmZ117kRTp2Ed4In0=;
- b=GwZ/AO3N9kY//JfxyjJN9qPcPT+xriOpoTG65u8zHdLcKF43TkRCkjz7IThu7L7rFePyPm
- a4arLB/WXyHGGAx71JjY4WaIt89z4MS150KTcisY2Jz461ZEDqQuZG/2TNQI1Zq2AUPZ5/
- MjvnfSF8pMNfkf9q4i+Bjgy+L1P9XVs=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-R1vJMxPXO2OhEOhpx-mHzA-1; Fri, 22 May 2020 12:38:16 -0400
-X-MC-Unique: R1vJMxPXO2OhEOhpx-mHzA-1
-Received: by mail-wr1-f69.google.com with SMTP id z5so4564303wrt.17
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:38:16 -0700 (PDT)
+ bh=i0X3nhCPIdBU+MkX2L6TDEsAOd8fgbYU7zMqrgwUeac=;
+ b=Hv/OlCbLZZL9Ez4jM86zrrpVEtIKQiGjhKojbJD7hz21BwaUsceyPRrq0QrFEQ4K+aORB4
+ ii8QvXMBQOCtT11llreBq678m7Nckdoub+ZrXsoF3EWrLnlAopCLDWCqXM6FdUxSbf89Ls
+ yrs3W9LKno6YkmHOM+9UXppolnGG3YQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-236-un4yGojmPKW7k7nZGQIekw-1; Fri, 22 May 2020 12:38:21 -0400
+X-MC-Unique: un4yGojmPKW7k7nZGQIekw-1
+Received: by mail-wm1-f72.google.com with SMTP id l26so2866293wmh.3
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:38:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JofVph8hTCqe9tTdYnNgdFhC3wOmZ117kRTp2Ed4In0=;
- b=VjwLTUuCMA08LFwj9v13CiAaDlcXI5bDQ3f8/vzqcRgGqooqAHsmc4Qowoh6aiO11j
- dORmU00hA5tIbGSSbgvSliNDw4ly+1edlow1EfaVUCuYv2n7AI5Mj0KsI2UvSCZY295s
- XW30AMZogREhzgpLUyTwIVmdtuhDPuclQFo1fr3LsYUpZYoMKmG4dz9HfqCa5ve5xzDh
- H9liGuDE1bqwJA3YMwNsKl3trl+hVAUp3wXK1i85rvbRGWlwQpZoNdFBw3tdOMXKayP+
- BSY4lJmNilCEioLqCBjwlRhVs3n5qo/m57Bp2UZayZrctL08sHZM3C7882t/O/M/vKMX
- MoAw==
-X-Gm-Message-State: AOAM532hHwvUjM4d6meZcfu2/sHYm8ho+UAt9GiO9qverhVNqoUjAVNm
- sOkdOHNDvo/qSVCeqUyLwOcVFCM7OQvkw7TpzqFq6FJ8sCcdex7MHV99AIHjd+En1Ll7AslfSQV
- IcDxge8blleLISb0=
-X-Received: by 2002:a05:6000:1244:: with SMTP id
- j4mr4209036wrx.189.1590165495299; 
- Fri, 22 May 2020 09:38:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzqk92PaN3Nz8ElNLAx5ty+YFAT6VwSO8inYhv/gXZS+BeglvRLxaabN9BNQKDLbiLdit4QVg==
-X-Received: by 2002:a05:6000:1244:: with SMTP id
- j4mr4209030wrx.189.1590165495112; 
- Fri, 22 May 2020 09:38:15 -0700 (PDT)
+ bh=i0X3nhCPIdBU+MkX2L6TDEsAOd8fgbYU7zMqrgwUeac=;
+ b=Tj5KXfJQaf8nKFmQw5hKHYiIuqGa4WxbJxKrreTt8TgQdUUBh2z1Jy+d4EMbz6yUTs
+ PI9q34Y0azm2yEjewCRU2atPMV4l2di70FvbamGHHRFZgeAfzhFuJylOrnvE+x1GekTB
+ f6EW7aBI4fm19UKLtbfOL4isSyQeWPz5mxshGg/DP5dyIPdL5wcFh0jeaGhMkB4V2Vd1
+ ESrR5l0+tUPL9g+6vtlfiTByt8AzjnIO9APqg8e59u+Z2x8o8vu70mbgSfqMTQr9MG1u
+ Z48HoTCugGcvjWiQx42mxwHhFVCQB8UYiohCOWSzgphCBx2w8R9ThhmKQlssUo1lKw51
+ Nn6g==
+X-Gm-Message-State: AOAM531bVxRCCenR1s2zeF/W/w57UQ0kPqA+Ud5EOd+sGzgxC3ISRDbq
+ Yr6K8pko0SIzYR2SJrg/87qJYONQj4m6ulQtLY1n//pMRMRhVOcqsAT6a8aMga9010rvELQATc+
+ m29A/djAgsOlzvqY=
+X-Received: by 2002:a1c:e188:: with SMTP id y130mr15059227wmg.83.1590165499649; 
+ Fri, 22 May 2020 09:38:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzU4Tpxwzqm2Lh7k726ZhonVTNgf8nL7wXUytk8+vF5JZ7N3ORrYK+U47MRG0o0qwQ/Zm15bw==
+X-Received: by 2002:a1c:e188:: with SMTP id y130mr15059219wmg.83.1590165499509; 
+ Fri, 22 May 2020 09:38:19 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id s67sm10156436wmf.3.2020.05.22.09.38.14
+ by smtp.gmail.com with ESMTPSA id z7sm9934568wrl.88.2020.05.22.09.38.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 09:38:14 -0700 (PDT)
+ Fri, 22 May 2020 09:38:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/11] MAINTAINERS: Add an entry for the HAX accelerator
-Date: Fri, 22 May 2020 18:37:51 +0200
-Message-Id: <20200522163759.11480-4-philmd@redhat.com>
+Subject: [PATCH v4 04/11] rules.mak: Add startwith() rule
+Date: Fri, 22 May 2020 18:37:52 +0200
+Message-Id: <20200522163759.11480-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200522163759.11480-1-philmd@redhat.com>
 References: <20200522163759.11480-1-philmd@redhat.com>
@@ -74,17 +72,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 11:11:51
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 10:36:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,49 +95,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vincent Palatin <vpalatin@chromium.org>, Hang Yuan <hang.yuan@intel.com>,
- Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>,
- David Chou <david.j.chou@intel.com>, Wenchao Wang <wenchao.wang@intel.com>,
- haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
- Yu Ning <yu.ning@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Tao Wu <lepton@google.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add a rule to test if a string starts with a substring.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Cc: Sergio Andres Gomez Del Real <sergio.g.delreal@gmail.com>
-Cc: Vincent Palatin <vpalatin@chromium.org>
-Cc: Yu Ning <yu.ning@intel.com>
-Cc: Tao Wu <lepton@google.com>
-Cc: haxm-team@intel.com
-Cc: Colin Xu <colin.xu@intel.com>
-Cc: Hang Yuan <hang.yuan@intel.com>
-Cc: David Chou <david.j.chou@intel.com>
-Cc: Wenchao Wang <wenchao.wang@intel.com>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+ rules.mak | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f7ee0c77f1..0377978201 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -426,6 +426,12 @@ F: accel/accel.c
- F: accel/Makefile.objs
- F: accel/stubs/Makefile.objs
+diff --git a/rules.mak b/rules.mak
+index 694865b63e..e39bee93d5 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -191,6 +191,13 @@ ne = $(if $(subst $2,,$1)$(subst $1,,$2),y,n)
+ isempty = $(if $1,n,y)
+ notempty = $(if $1,y,n)
  
-+HAX Accelerator
-+S: Orphan
-+F: accel/stubs/hax-stub.c
-+F: target/i386/hax-all.c
-+F: include/sysemu/hax.h
++# startwith
++# Usage: $(call startwith, startstr, fullstr)
++#
++# This macro returns a string (TRUE) when @fullstr starts with
++# @startstr, else returns the empty string (FALSE)
++startwith = $(findstring :$(strip $1),:$(strip $2))
 +
- X86 HVF CPUs
- M: Roman Bolshakov <r.bolshakov@yadro.com>
- S: Maintained
+ # Generate files with tracetool
+ TRACETOOL=$(PYTHON) $(SRC_PATH)/scripts/tracetool.py
+ 
 -- 
 2.21.3
 
