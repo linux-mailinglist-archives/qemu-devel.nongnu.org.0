@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF161DDF6C
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 07:35:32 +0200 (CEST)
-Received: from localhost ([::1]:51308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6B01DDFAF
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 08:11:38 +0200 (CEST)
+Received: from localhost ([::1]:35722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jc0LC-0007Mt-4r
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 01:35:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60882)
+	id 1jc0u9-0001d0-EB
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 02:11:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jc0Gd-0003PX-2m
- for qemu-devel@nongnu.org; Fri, 22 May 2020 01:30:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58222)
+ id 1jc0tM-0001Cw-S1
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 02:10:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35102)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jc0Gc-0004g9-4K
- for qemu-devel@nongnu.org; Fri, 22 May 2020 01:30:46 -0400
+ id 1jc0tL-00039m-0y
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 02:10:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jc0Ga-00050k-Dt
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 05:30:44 +0000
+ id 1jc0tJ-0000Xt-2r
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 06:10:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 67B8A2E8029
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 05:30:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 120662E8025
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 06:10:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 22 May 2020 05:22:18 -0000
-From: cliff chen <1879425@bugs.launchpad.net>
+Date: Fri, 22 May 2020 06:02:32 -0000
+From: Thomas Huth <1879425@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -40,9 +40,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: cliffchen th-huth
 X-Launchpad-Bug-Reporter: cliff chen (cliffchen)
-X-Launchpad-Bug-Modifier: cliff chen (cliffchen)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
 References: <158985197617.30924.14122012304587735670.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159012493865.907.16920809286269680482.malone@chaenomeles.canonical.com>
+Message-Id: <159012735270.20620.11990465462449219691.malone@soybean.canonical.com>
 Subject: [Bug 1879425] Re: The thread of "CPU 0 /KVM" keeping 99.9%CPU
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -50,7 +50,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d6c13ed0d86fc63b926c78cc239891d11f2b2445
+X-Launchpad-Hash: fbd4ab802daba05677ff16146b671062893e36fe
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 21:50:42
@@ -77,11 +77,9 @@ Reply-To: Bug 1879425 <1879425@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Thomas,
-Do you have any quick suggestion before report it on CentOS?
-
-thanks
-Cliff
+I think you should definitely try a newer version if available -
+otherwise they'll likely refuse to help you, too (nobody wants to debug
+old versions when bugs are already fixed in newer ones)
 
 -- =
 
