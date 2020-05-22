@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B141DDD9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 05:02:24 +0200 (CEST)
-Received: from localhost ([::1]:59492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDCA81DDD9E
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 05:03:22 +0200 (CEST)
+Received: from localhost ([::1]:34554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbxx1-0001qw-W8
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 23:02:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49694)
+	id 1jbxxx-0003BO-RS
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 23:03:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jbxw1-0000HI-8q
- for qemu-devel@nongnu.org; Thu, 21 May 2020 23:01:21 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:35128)
+ id 1jbxwJ-0001GA-6T
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 23:01:39 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:39187)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jbxvz-0002nI-Jh
- for qemu-devel@nongnu.org; Thu, 21 May 2020 23:01:20 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id 5so4371600pjd.0
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 20:01:19 -0700 (PDT)
+ id 1jbxwI-0002tA-BD
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 23:01:38 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id n15so4366835pjt.4
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 20:01:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LbddS7ryjP0xw44sdVz4E/WV10fQdQ5H2rAbC0COCz0=;
- b=XYIx1ir2b1gxqPYcXnO5g5Z1m338IbY0Oc8hAGevoHTnSwJcbM3s41bF75TXPMyjF6
- vGueMMKZlCxMnA4WSw0py3ig8lVJGLDyMw3PvfObAoO9rO4PYscHmqmzLGdBFAB+2zhw
- 7C02zh6NuBM8nvnOimFhJ2Nxrt6YGuoPghuvj8bvPrDOm4ped/QaEbeC1VCgPMPzb/DX
- gyFNl4f1AhswYh550qnyygmLj7hgWlMF6HUfJeoBe7IQsj3ROrjFxjm3iV7FKqssZ2aQ
- rq1u7zOSFuD0UQgZSnDB4Ho0G3EfL+6flg8WyTNzgjpOFakCJyOtEtg2SwVfpQkA/fB3
- Vkxg==
+ bh=7jg+6ng0lQ2weQOBmMds6QSOC4i/EupgASW2YZ6ch+0=;
+ b=utn3yIUxsO4BnVfqX0jXEMC86XUBs56Xj5ZBQfGJfG3MedGxYkRRJ2sJK+2FCaBVU2
+ eLg5z3bSKV54i4ukDTUXIhZ7EPp8BDy5x8YMXJ7PwypD0olm/0ncqpc631Ok649m9Gw8
+ W/5iwhhEqDrnA/7zDPqHHOLdirvu0H08XskgqhIPiBHLVAomA3yq6OzrtBC7JnbT7DL8
+ LC8gcWv4Ueiq13sMLoE0iCH5X2cL35SLm86gWdi0PqgTDG0DiFYD8c46Iigr4mfhtG/P
+ srQkhHOAr6z/YKp/PSccD6fWkYnmCZe312JBC3XNNOOw/O4DmuTeyCp08JWvz430ukB+
+ lNjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=LbddS7ryjP0xw44sdVz4E/WV10fQdQ5H2rAbC0COCz0=;
- b=akQQB0nNUDh5glVqKggdaZ7E2gx/DNT0w28VLfitkurEn2LYLPfDiFaMvB8YJ/6yS9
- CgudDIwWpdbvWren/A522o1/EXDftsu7VIBypYzfxRBfTQCN+BnABuLrGmOKJ85YjHYX
- YbML6qhSSdxY1qLdXJIxtmwNBS/wvKJIWwJ9bkJdYWVERb14omZYuygvUkLL3vlwVJXc
- 6aacnIDN0x+J1cAimSrc+R1g6m7VsQpEnqS7HvGCThVha+YZiqq85Z2bl6eNymTw59/9
- zJknm92yrgIakth/EMuAvEqgzRw0wz4cGCB8P8911pZlSrHtW+RaCQmNCBleQB/fGk1a
- gvmw==
-X-Gm-Message-State: AOAM533wtvVVqWUvy3Q4JDtKhxFY4QL3NnIohWbuR35Otg0pQt7kxWSC
- 0OBvbhkyP4tIRjYISFgPAaWg6Q==
-X-Google-Smtp-Source: ABdhPJwgAe5k/xsAJwr3uJrnnlVJ7AYq3FiAeMPAgXAXC5ijmIoZ0Dg4MS22eS7x5Nge2JR6p8hC2Q==
-X-Received: by 2002:a17:90a:a60a:: with SMTP id
- c10mr1829161pjq.143.1590116478162; 
- Thu, 21 May 2020 20:01:18 -0700 (PDT)
+ bh=7jg+6ng0lQ2weQOBmMds6QSOC4i/EupgASW2YZ6ch+0=;
+ b=DgQ+QuJeGeOFoJIfQxONlr7ATtwUE/zIS5DfQP59ztpYDJNnQchQuCq71b7x3sx7aK
+ ydRGUXzNggrLSsnm10cQ/ncMjR5eScweNdjuxGU1EY79xruon5z86nxz4xRjh6/9kVVI
+ AVXzo+zDNK5KvMNYlLI1B4+TC8cEjuMWgEWtiMbBCGSlFfPQ00WcWx7ZcrXm/3ZICbiO
+ eu4uT/W00RyHhS53YKf5XcTW18e8WxH2jQ13UhZ+9zCnfqhiHzhH+JPnNE43TyV+rSos
+ Qf8wPZNIRmmZhMg3JmetAGqKwbfb9n2xyAoZce0p55Q+eu4p1puR0wXqMcYps+LhjecH
+ utHw==
+X-Gm-Message-State: AOAM532L4PTylvNeLrVfGp6TbIv7SDzhIttX2RIXWXRJ/sM9xkKwtpfu
+ N7P4yfcyFjjNYLDSMPbUxeRHNcAr1LQ=
+X-Google-Smtp-Source: ABdhPJx+bz2YoAC4FZKWT0QD0tnDeNG8Kj42rNuQ+yESXbkghLXn++94mvQHO9Sy2kUc7jftRYY2VA==
+X-Received: by 2002:a17:902:aa4b:: with SMTP id
+ c11mr12784930plr.211.1590116497109; 
+ Thu, 21 May 2020 20:01:37 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id mg9sm5413170pjb.10.2020.05.21.20.01.17
+ by smtp.gmail.com with ESMTPSA id 10sm5407624pfx.138.2020.05.21.20.01.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 May 2020 20:01:17 -0700 (PDT)
-Subject: Re: [PATCH v1 08/15] tests/docker: bump fedora to 32
+ Thu, 21 May 2020 20:01:36 -0700 (PDT)
+Subject: Re: [PATCH v1 09/15] tests/docker: add debian11 base image
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20200520140541.30256-1-alex.bennee@linaro.org>
- <20200520140541.30256-9-alex.bennee@linaro.org>
+ <20200520140541.30256-10-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a559fb88-b7de-672f-c754-87bfd9092e68@linaro.org>
-Date: Thu, 21 May 2020 20:01:15 -0700
+Message-ID: <5d7aad11-0133-7cdf-0cd3-764b9a5fd0bb@linaro.org>
+Date: Thu, 21 May 2020 20:01:34 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200520140541.30256-9-alex.bennee@linaro.org>
+In-Reply-To: <20200520140541.30256-10-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -97,13 +97,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/20/20 7:05 AM, Alex Bennée wrote:
-> We should be keeping this up to date as Fedora goes out of support
-> quite quickly.
+> We won't use this for building QEMU but we do need newer GCC's and
+> binutils for building some of our test cases.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  tests/docker/dockerfiles/fedora.docker | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  tests/docker/Makefile.include            |  2 +-
+>  tests/docker/dockerfiles/debian11.docker | 18 ++++++++++++++++++
+>  2 files changed, 19 insertions(+), 1 deletion(-)
+>  create mode 100644 tests/docker/dockerfiles/debian11.docker
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
