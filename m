@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A0B1DDD47
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 04:41:52 +0200 (CEST)
-Received: from localhost ([::1]:47836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455121DDD4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 04:43:04 +0200 (CEST)
+Received: from localhost ([::1]:54220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbxd9-00019P-9J
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 22:41:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48224)
+	id 1jbxeJ-0003fV-BK
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 22:43:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jbxWV-0002VI-0h
+ id 1jbxWV-0002Wu-Oj
  for qemu-devel@nongnu.org; Thu, 21 May 2020 22:34:59 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:37881)
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jbxWT-000574-RG
- for qemu-devel@nongnu.org; Thu, 21 May 2020 22:34:58 -0400
-Received: by mail-pg1-x541.google.com with SMTP id d10so4292409pgn.4
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 19:34:57 -0700 (PDT)
+ id 1jbxWU-00057B-Rm
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 22:34:59 -0400
+Received: by mail-pg1-x542.google.com with SMTP id u5so4284365pgn.5
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 19:34:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mjhuvlUCpOP50NjRcK3iFgBHX3wIurn+3a+Fa5MAOOk=;
- b=Kjg0V1faLSnT5254nz637RsvJ73jyNX4cA0CjlrSQFZqAgYF4dv5WVl/Ak+fV7Z9DN
- PEFMynQjcqS8Pn8jgw9BxRweI0b8szlERetMze1/WxlPXc90Jvym79uO0h6gi8WU7PuR
- tkVRZCHxFPTPoIZOLwX5YTPsqLA9EyXT00LohDOZf63dPZTj3F6wYe/VgGZGtrWV9Qxr
- fjOOcQA8VjZ+xxxg54blahtEuopQYVe4iSv2Eb48FCsbax98kmNj4GM1zWpBXKyYSPI7
- JW0Fr/n47EorY1YM6KcUo9mjWEyYyVRkkafaVuMLE14ObXMkG4+Wcjtx0/1BLEk8ozQz
- v36A==
+ bh=rJUczCRf7dBt8YUhUpO1kHr1QrkMw5NPc8UGt9HIenA=;
+ b=JlwNv7+8T85n3ZlQvSqBuJS4qU6VYzQ/2w7aqL5AkZIqVR27L5i58mKqvi0CCNE18Q
+ DcEaAkxdJDcu+yiekfXr8zCahz22KXdSo6GsG1hWRlTjVlk2+B05tQfFYtfadPdW359f
+ WHmBIbt2ZQhYjYR3D0HNgpICN/Pt7MDsn+TPv6j51CIcmKc5D3hZ9Dpl9IRhJ0aCsRMQ
+ TgZ2q/wOfmsXcCcB3cD50w4xme1jdOdkNNZfKp3Yqd4EV+BFo2yS9wggcXneTcD3+1xB
+ 0O3mA1YujsBXm83+DiQIz7wgDkNCo5n7DlMw1n6jtVZ+tpuM7EYWIlByh+g+KDsCPDQ8
+ xEjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mjhuvlUCpOP50NjRcK3iFgBHX3wIurn+3a+Fa5MAOOk=;
- b=kE21hhyNZZYzbM4gZJ+rk687Zz2np6huNvcmEs5ukcKkuqHwMRDBXtF7EPtxzxMZr2
- it+kbWFm875htyiGKlheZd+uYNhe8CwN2mwIMTUO+RK4/lKHeOj897ShwYjPEdPfeEnz
- P0QVBnNPwya9IAjn0foYSLp+YXvtcR3+nb4l/vAuNVaoi/7i89BzYXhi28CROB7W+ikh
- zjZdE8WvIM6GvTHLesBjrgqCbCBoYX0qztlXz9oczjJfHzGFR+ck1nL79IFn+nHG06ut
- u1I1NKpwGc8YLmGBMExy+1b6jyBumqcaDwZLRaLkQsVJimcGJr8M/l1LEh0lxtYQHToC
- PnhA==
-X-Gm-Message-State: AOAM531MyszpnhTobbmfe2c/em7Jx8nlCTPeMX1BbQxmFp3S5ubqImCI
- 4nDtye1ic6rfjUA/Osduun4Bag7Ry+A=
-X-Google-Smtp-Source: ABdhPJySN4B+mLqUYkXuClPUy70v207Ij6siWSOIXx2EYb3E/QUb2Y2hzz7FYz5QccpiZUagMnC0iw==
-X-Received: by 2002:a63:3814:: with SMTP id f20mr11520301pga.266.1590114896004; 
- Thu, 21 May 2020 19:34:56 -0700 (PDT)
+ bh=rJUczCRf7dBt8YUhUpO1kHr1QrkMw5NPc8UGt9HIenA=;
+ b=OmuhLYF3EPbqXvepDL5U+fGo+PvLTz2rwHhqNGmzVpLMottTNRjHJNfNM/u02EK6x9
+ s3RN65F86Mg87PUaB5SaE6IUMFu/mat785ggOdv+1rW0UK2fwXL1MCcziGESYte+vwdL
+ l4BsqFw49fEoAMM0lCrNrq+rvtDSmoFt+pNKNeO90DhZYKGLIbWXNBun97Dfqzt392qd
+ pNOY/pSVvXGKsLMHuvtxivAGUri3/NfJfha7fVKMXGQqxndsci6UWw6CZQb2Sia1KQ09
+ oS8kNazLNMNTjolgrYWa+FK8zE1Bj10C1WjwCujLU528Y53Ms4aHBONjCoHATxKdtCAe
+ QQrQ==
+X-Gm-Message-State: AOAM532SztddE1ZmUC9/rc+1JeOQDohPIcmzRt1atZfKx15UE0DysG5r
+ 9LrHwODFigwN0P7Wl/zmCfgXzo4mKBM=
+X-Google-Smtp-Source: ABdhPJxtg2bp9JfKuE11Bo8Cv8jM5elhlGpcRSY5c/huq6iaTjo2+HriHFMbZ9JcFUixvuQHbhew7g==
+X-Received: by 2002:a63:f709:: with SMTP id x9mr11658477pgh.330.1590114897162; 
+ Thu, 21 May 2020 19:34:57 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id gt10sm5443755pjb.30.2020.05.21.19.34.55
+ by smtp.gmail.com with ESMTPSA id gt10sm5443755pjb.30.2020.05.21.19.34.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 19:34:55 -0700 (PDT)
+ Thu, 21 May 2020 19:34:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/25] Always write for --master
-Date: Thu, 21 May 2020 19:34:26 -0700
-Message-Id: <20200522023440.26261-12-richard.henderson@linaro.org>
+Subject: [PATCH v3 12/25] Simplify syncing with master
+Date: Thu, 21 May 2020 19:34:27 -0700
+Message-Id: <20200522023440.26261-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200522023440.26261-1-richard.henderson@linaro.org>
 References: <20200522023440.26261-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,276 +90,52 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For trace, master of course must write to the file we create.
-
-For sockets, we can report mismatches from either end.  At present,
-we are reporting mismatches from master.  Reverse that so that we
-report mismatches from the apprentice, just as we do for trace.
+Do not pass status like RES_BAD_IO from apprentice to master.
+This means that when master reports i/o error that we know it
+came from master; the apprentice will report its own i/o error.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- risu.h    |  2 +-
- reginfo.c | 38 ++++++++--------------
- risu.c    | 96 ++++++++++++++++++++++++++-----------------------------
- 3 files changed, 61 insertions(+), 75 deletions(-)
+ reginfo.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/risu.h b/risu.h
-index c83b803..f383b64 100644
---- a/risu.h
-+++ b/risu.h
-@@ -106,7 +106,7 @@ RisuResult recv_and_compare_register_info(void *uc);
-  * Should return 0 if it was a good match (ie end of test)
-  * and 1 for a mismatch.
-  */
--int report_match_status(bool trace);
-+int report_match_status(void);
- 
- /* Interface provided by CPU-specific code: */
- 
 diff --git a/reginfo.c b/reginfo.c
-index fee025e..c37c5df 100644
+index c37c5df..31bc699 100644
 --- a/reginfo.c
 +++ b/reginfo.c
-@@ -14,9 +14,8 @@
- #include <stdlib.h>
- #include "risu.h"
+@@ -90,10 +90,9 @@ RisuResult recv_and_compare_register_info(void *uc)
+     }
  
--struct reginfo master_ri, apprentice_ri;
--
--uint8_t apprentice_memblock[MEMBLOCKLEN];
-+static struct reginfo master_ri, apprentice_ri;
-+static uint8_t master_memblock[MEMBLOCKLEN];
+     if (header.risu_op != op) {
+-        /* We are out of sync */
+-        res = RES_BAD_IO;
+-        respond(res);
+-        return res;
++        /* We are out of sync.  Tell master to exit. */
++        respond(RES_END);
++        return RES_BAD_IO;
+     }
  
- static int mem_used;
- static int packet_mismatch;
-@@ -82,8 +81,8 @@ RisuResult recv_and_compare_register_info(void *uc)
-     trace_header_t header;
-     RisuOp op;
- 
--    reginfo_init(&master_ri, uc);
--    op = get_risuop(&master_ri);
-+    reginfo_init(&apprentice_ri, uc);
-+    op = get_risuop(&apprentice_ri);
- 
-     res = read_buffer(&header, sizeof(header));
-     if (res != RES_OK) {
-@@ -107,7 +106,7 @@ RisuResult recv_and_compare_register_info(void *uc)
-         /* Do a simple register compare on (a) explicit request
-          * (b) end of test (c) a non-risuop UNDEF
-          */
--        res = read_buffer(&apprentice_ri, reginfo_size());
-+        res = read_buffer(&master_ri, reginfo_size());
-         if (res != RES_OK) {
-             packet_mismatch = 1;
-         } else if (!reginfo_is_eq(&master_ri, &apprentice_ri)) {
-@@ -119,18 +118,18 @@ RisuResult recv_and_compare_register_info(void *uc)
-         respond(res);
+     /* send OK for the header */
+@@ -115,7 +114,7 @@ RisuResult recv_and_compare_register_info(void *uc)
+         } else if (op == OP_TESTEND) {
+             res = RES_END;
+         }
+-        respond(res);
++        respond(res == RES_OK ? RES_OK : RES_END);
          break;
      case OP_SETMEMBLOCK:
--        memblock = (void *)(uintptr_t)get_reginfo_paramreg(&master_ri);
-+        memblock = (void *)(uintptr_t)get_reginfo_paramreg(&apprentice_ri);
-         break;
-     case OP_GETMEMBLOCK:
--        set_ucontext_paramreg(uc, get_reginfo_paramreg(&master_ri) +
-+        set_ucontext_paramreg(uc, get_reginfo_paramreg(&apprentice_ri) +
-                               (uintptr_t)memblock);
-         break;
-     case OP_COMPAREMEM:
-         mem_used = 1;
--        res = read_buffer(apprentice_memblock, MEMBLOCKLEN);
-+        res = read_buffer(master_memblock, MEMBLOCKLEN);
-         if (res != RES_OK) {
-             packet_mismatch = 1;
--        } else if (memcmp(memblock, apprentice_memblock, MEMBLOCKLEN) != 0) {
-+        } else if (memcmp(memblock, master_memblock, MEMBLOCKLEN) != 0) {
+         memblock = (void *)(uintptr_t)get_reginfo_paramreg(&apprentice_ri);
+@@ -133,7 +132,7 @@ RisuResult recv_and_compare_register_info(void *uc)
              /* memory mismatch */
              res = RES_MISMATCH;
          }
-@@ -149,18 +148,13 @@ RisuResult recv_and_compare_register_info(void *uc)
-  * Should return 0 if it was a good match (ie end of test)
-  * and 1 for a mismatch.
-  */
--int report_match_status(bool trace)
-+int report_match_status(void)
- {
-     int resp = 0;
-     fprintf(stderr, "match status...\n");
-     if (packet_mismatch) {
-         fprintf(stderr, "packet mismatch (probably disagreement "
-                 "about UNDEF on load/store)\n");
--        /* We don't have valid reginfo from the apprentice side
--         * so stop now rather than printing anything about it.
--         */
--        fprintf(stderr, "%s reginfo:\n", trace ? "this" : "master");
--        reginfo_dump(&master_ri, stderr);
-         return 1;
-     }
-     if (!reginfo_is_eq(&master_ri, &apprentice_ri)) {
-@@ -168,7 +162,7 @@ int report_match_status(bool trace)
-         resp = 1;
-     }
-     if (mem_used
--        && memcmp(memblock, &apprentice_memblock, MEMBLOCKLEN) != 0) {
-+        && memcmp(memblock, &master_memblock, MEMBLOCKLEN) != 0) {
-         fprintf(stderr, "mismatch on memory!\n");
-         resp = 1;
-     }
-@@ -177,15 +171,11 @@ int report_match_status(bool trace)
-         return 0;
-     }
- 
--    fprintf(stderr, "%s reginfo:\n", trace ? "this" : "master");
-+    fprintf(stderr, "master reginfo:\n");
-     reginfo_dump(&master_ri, stderr);
--    fprintf(stderr, "%s reginfo:\n", trace ? "trace" : "apprentice");
-+    fprintf(stderr, "apprentice reginfo:\n");
-     reginfo_dump(&apprentice_ri, stderr);
- 
--    if (trace) {
--        reginfo_dump_mismatch(&apprentice_ri, &master_ri, stderr);
--    } else {
--        reginfo_dump_mismatch(&master_ri, &apprentice_ri, stderr);
--    }
-+    reginfo_dump_mismatch(&master_ri, &apprentice_ri, stderr);
-     return resp;
- }
-diff --git a/risu.c b/risu.c
-index f238117..199f697 100644
---- a/risu.c
-+++ b/risu.c
-@@ -102,11 +102,7 @@ static void master_sigill(int sig, siginfo_t *si, void *uc)
-     RisuResult r;
-     signal_count++;
- 
--    if (trace) {
--        r = send_register_info(uc);
--    } else {
--        r = recv_and_compare_register_info(uc);
--    }
-+    r = send_register_info(uc);
-     if (r == RES_OK) {
-         advance_pc(uc);
-     } else {
-@@ -119,11 +115,7 @@ static void apprentice_sigill(int sig, siginfo_t *si, void *uc)
-     RisuResult r;
-     signal_count++;
- 
--    if (trace) {
--        r = recv_and_compare_register_info(uc);
--    } else {
--        r = send_register_info(uc);
--    }
-+    r = recv_and_compare_register_info(uc);
-     if (r == RES_OK) {
-         advance_pc(uc);
-     } else {
-@@ -186,61 +178,65 @@ static int master(void)
- {
-     RisuResult res = sigsetjmp(jmpbuf, 1);
- 
--    if (res != RES_OK) {
-+    switch (res) {
-+    case RES_OK:
-+        set_sigill_handler(&master_sigill);
-+        fprintf(stderr, "starting master image at 0x%"PRIxPTR"\n",
-+                image_start_address);
-+        fprintf(stderr, "starting image\n");
-+        image_start();
-+        fprintf(stderr, "image returned unexpectedly\n");
-+        return EXIT_FAILURE;
-+
-+    case RES_END:
- #ifdef HAVE_ZLIB
-         if (trace && comm_fd != STDOUT_FILENO) {
-             gzclose(gz_trace_file);
-         }
- #endif
-         close(comm_fd);
--        if (trace) {
--            fprintf(stderr, "trace complete after %zd checkpoints\n",
--                    signal_count);
--            return EXIT_SUCCESS;
--        } else {
--            return report_match_status(false);
--        }
-+        return EXIT_SUCCESS;
-+
-+    case RES_BAD_IO:
-+        fprintf(stderr, "i/o error after %zd checkpoints\n", signal_count);
-+        return EXIT_FAILURE;
-+
-+    default:
-+        fprintf(stderr, "unexpected result %d\n", res);
-+        return EXIT_FAILURE;
-     }
--    set_sigill_handler(&master_sigill);
--    fprintf(stderr, "starting master image at 0x%"PRIxPTR"\n",
--            image_start_address);
--    fprintf(stderr, "starting image\n");
--    image_start();
--    fprintf(stderr, "image returned unexpectedly\n");
--    return EXIT_FAILURE;
- }
- 
- static int apprentice(void)
- {
-     RisuResult res = sigsetjmp(jmpbuf, 1);
- 
--    if (res != RES_OK) {
--#ifdef HAVE_ZLIB
--        if (trace && comm_fd != STDIN_FILENO) {
--            gzclose(gz_trace_file);
--        }
--#endif
--        close(comm_fd);
-+    switch (res) {
-+    case RES_OK:
-+        set_sigill_handler(&apprentice_sigill);
-+        fprintf(stderr, "starting apprentice image at 0x%"PRIxPTR"\n",
-+                image_start_address);
-+        fprintf(stderr, "starting image\n");
-+        image_start();
-+        fprintf(stderr, "image returned unexpectedly\n");
-+        return EXIT_FAILURE;
- 
--        switch (res) {
--        case RES_END:
--            return EXIT_SUCCESS;
--        default:
--            if (!trace) {
--                return EXIT_FAILURE;
--            }
--            fprintf(stderr, "finished early after %zd checkpoints\n",
--                    signal_count);
--            return report_match_status(true);
--        }
-+    case RES_END:
-+        return EXIT_SUCCESS;
-+
-+    case RES_MISMATCH:
-+        fprintf(stderr, "mismatch after %zd checkpoints\n", signal_count);
-+        report_match_status();
-+        return EXIT_FAILURE;
-+
-+    case RES_BAD_IO:
-+        fprintf(stderr, "i/o error after %zd checkpoints\n", signal_count);
-+        return EXIT_FAILURE;
-+
-+    default:
-+        fprintf(stderr, "unexpected result %d\n", res);
-+        return EXIT_FAILURE;
-     }
--    set_sigill_handler(&apprentice_sigill);
--    fprintf(stderr, "starting apprentice image at 0x%"PRIxPTR"\n",
--            image_start_address);
--    fprintf(stderr, "starting image\n");
--    image_start();
--    fprintf(stderr, "image returned unexpectedly\n");
--    return EXIT_FAILURE;
- }
- 
- static int ismaster;
+-        respond(res);
++        respond(res == RES_OK ? RES_OK : RES_END);
+         break;
+     default:
+         abort();
 -- 
 2.20.1
 
