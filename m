@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059681DE78F
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 15:02:46 +0200 (CEST)
-Received: from localhost ([::1]:57248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF631DE780
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 15:00:04 +0200 (CEST)
+Received: from localhost ([::1]:52214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jc7K1-00052c-2q
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 09:02:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46244)
+	id 1jc7HO-0002FT-Lj
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 09:00:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jc7II-0003ca-2B
- for qemu-devel@nongnu.org; Fri, 22 May 2020 09:00:58 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36156)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jc7IG-0001UC-Px
- for qemu-devel@nongnu.org; Fri, 22 May 2020 09:00:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jc7IE-00022Q-Os
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 13:00:54 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AEF892E807D
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 13:00:54 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jc7GA-0001BV-N7
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 08:58:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42391
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jc7G9-00010Q-Iq
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 08:58:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590152324;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/C3uqZBJPPCkKnCTzF1Ee+D8f5IvukGqA0OWgnIzn5c=;
+ b=OjEJfRJAUJvlEWroDdsm/8kjmc/xsDF/D7XtuhyOd21LOZp6lZJqzxzbAxDyXDIxllskkr
+ l2MOG2BLQwI3JR5WFqeODLcFWxABBXPtSNT0OHgj5A559gMGlUhFiY28Ei41eRICT73FaZ
+ zk4ipKy2fye+hBuAuZuXxY5+6V9Wv8Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-489-qQnt2oFgN0e0ZkEj2Wu1ow-1; Fri, 22 May 2020 08:58:39 -0400
+X-MC-Unique: qQnt2oFgN0e0ZkEj2Wu1ow-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A450107ACCD;
+ Fri, 22 May 2020 12:58:38 +0000 (UTC)
+Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 949B66248F;
+ Fri, 22 May 2020 12:58:27 +0000 (UTC)
+Subject: Re: [PATCH v4 3/6] migration/block-dirty-bitmap: fix bitmaps
+ pre-blockdev migration during mirror job
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200521220648.3255-1-vsementsov@virtuozzo.com>
+ <20200521220648.3255-4-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <77ad0ab1-07c3-9b45-9f22-874fe29a4b70@redhat.com>
+Date: Fri, 22 May 2020 07:58:26 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 22 May 2020 12:51:32 -0000
-From: Paul Goyette <1693649@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: paul-whooppee th-huth
-X-Launchpad-Bug-Reporter: Paul Goyette (paul-whooppee)
-X-Launchpad-Bug-Modifier: Paul Goyette (paul-whooppee)
-References: <149575946555.18286.18117412791023512529.malonedeb@chaenomeles.canonical.com>
- <159012475963.7477.6476241369082913120.malone@gac.canonical.com>
-Message-Id: <Pine.NEB.4.64.2005220550440.14012@speedy.whooppee.com>
-Subject: Re: [Bug 1693649] Re: x86 pause misbehaves with -cpu haswell
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 04ceeb837c8ff76461ad44dc96eda2e0274ab198
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 09:00:55
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200521220648.3255-4-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 08:01:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,89 +84,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1693649 <1693649@bugs.launchpad.net>
+Cc: kwolf@redhat.com, fam@euphon.net, quintela@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org,
+ jsnow@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Seems ok now.
+On 5/21/20 5:06 PM, Vladimir Sementsov-Ogievskiy wrote:
+> Important thing for bitmap migration is to select destination block
+> node to obtain the migrated bitmap.
+> 
+> Prepatch, on source we use bdrv_get_device_or_node_name() to identify
+> the node, and on target we do bdrv_lookup_bs.
+> bdrv_get_device_or_node_name() returns blk name only for direct
+> children of blk. So, bitmaps of direct children of blks are migrated by
+> blk name and others - by node name.
+> 
+> Old libvirt is unprepared to bitmap migration by node-name,
+> node-names are mostly auto-generated. So actually only migration by blk
+> name works for it.
+> 
+> Newer libvirt will use new interface (which will be added soon) to
+> specify node-mapping for bitmaps migration explicitly. Still, let's
+> improve the current behavior a bit.
+> 
+> Now, consider classic libvirt migrations assisted by mirror block job:
+> mirror block job inserts filter, so our source is not a direct child of
+> blk, and bitmaps are migrated by node-names. And this just doesn't work
+> with auto-generated node names.
+> 
+> Let's fix it by using blk-name even if some implicit filters are
+> inserted.
+> 
+> Note2: we, of course, can't skip filters and use blk name to migrate
+> bitmaps in filtered node by blk name for this blk if these filters have
+> named bitmaps which should be migrated.
+> 
+> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1652424
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   migration/block-dirty-bitmap.c | 45 +++++++++++++++++++++++++++++++++-
+>   1 file changed, 44 insertions(+), 1 deletion(-)
 
-On Fri, 22 May 2020, Thomas Huth wrote:
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-> Can you still reproduce this issue with the latest version of QEMU
-> (currently 5.0)?
->
-> ** Changed in: qemu
->       Status: New =3D> Incomplete
->
-> -- =
+Thanks; I'm queuing this series through my bitmaps tree, and will send a 
+pull request probably on Monday.
 
-> You received this bug notification because you are subscribed to the bug
-> report.
-> https://bugs.launchpad.net/bugs/1693649
->
-> Title:
->  x86 pause misbehaves with -cpu haswell
->
-> Status in QEMU:
->  Incomplete
->
-> Bug description:
->  Using qemu-2.9.0
->
->  When booting NetBSD using '-cpu haswell -smp 4', the system fails to
->  initialize the additional CPUs.  It appears as though the "application
->  processor" enters routine x86_pause() but never returns.
->
->  x86_pause() is simply two assembler instructions: 'pause; ret;'
->
->  Replacing the routine with 'nop; nop; ret;' allows the system to
->  proceed, of course without the benefit of the pause instruction on
->  spin-loops!
->
->  Additionally, booting with '-cpu phenom -smp 4' also works, although
->  the system does seem confused about the type of CPU being used.
->
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1693649/+subscriptions
->
-> !DSPAM:5ec7625658281532840571!
->
->
 
-+--------------------+--------------------------+-----------------------+
-| Paul Goyette       | PGP Key fingerprint:     | E-mail addresses:     |
-| (Retired)          | FA29 0E3B 35AF E8AE 6651 | paul@whooppee.com     |
-| Software Developer | 0786 F758 55DE 53BA 7731 | pgoyette@netbsd.org   |
-+--------------------+--------------------------+-----------------------+
+> +
+> +        /* Skip filters without bitmaos */
 
--- =
+bitmaps - I'm touching that up
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1693649
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-Title:
-  x86 pause misbehaves with -cpu haswell
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Using qemu-2.9.0
-
-  When booting NetBSD using '-cpu haswell -smp 4', the system fails to
-  initialize the additional CPUs.  It appears as though the "application
-  processor" enters routine x86_pause() but never returns.
-
-  x86_pause() is simply two assembler instructions: 'pause; ret;'
-
-  Replacing the routine with 'nop; nop; ret;' allows the system to
-  proceed, of course without the benefit of the pause instruction on
-  spin-loops!
-
-  Additionally, booting with '-cpu phenom -smp 4' also works, although
-  the system does seem confused about the type of CPU being used.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1693649/+subscriptions
 
