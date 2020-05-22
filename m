@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817F11DED2D
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:25:18 +0200 (CEST)
-Received: from localhost ([::1]:58602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70F31DED3A
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:27:15 +0200 (CEST)
+Received: from localhost ([::1]:39292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcAU1-00058K-H3
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:25:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40926)
+	id 1jcAVu-00018B-OP
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:27:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jcAP3-0003rj-AM; Fri, 22 May 2020 12:20:09 -0400
+ id 1jcAP5-0003vP-KL; Fri, 22 May 2020 12:20:11 -0400
 Received: from mail-eopbgr140117.outbound.protection.outlook.com
  ([40.107.14.117]:21575 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jcAP2-0006pe-EP; Fri, 22 May 2020 12:20:08 -0400
+ id 1jcAP3-0006pe-RL; Fri, 22 May 2020 12:20:11 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hC7K6kP4ojH5PS/+rYlOhuq0oKS/jWBkXS2DQB43gHx8GGdUBy/OJZskGpcgENV+yUGrpksBpHGqJumfp5Y1yzUbUE3KU+Gq3tCrchkQeOY0mEd9NZI083eqyKooioJ7iWuV7csVDd/mp9Du+A8laGFMsziVvaMM72+dPjT2Su0sPCPi2po3U6sWRaKqsrCbpKhimvHBi8vi4rfBRGly0pvHMn+kkYwKyBkArIOwjc4cjhKrlaF8Pq714Z3bZ/OV9XBuGfWi/R9AjjdKT6jXVRvn5fcmjEm4/V7AqOfvD7jd17+FAxpf0N2MMThlxz4UeMQsgpDW0tRpYiRv2gyp8w==
+ b=hfvDOxtlFVoaMl2mte7xldoZnoyy76YAXPfD+ZIzKoNBkE5ZuZn839+d4NrC2VIiW79O3bQrRn/2NPqI/ooKnEG7USMNVwFqsRBIbFSn0tHLicipHZIgXDyMoa7KlrXiGdrNPZHC+23xk7IGnNIs68Jz/zuvWEiGTE3z7PMZ9caf4yBspgl968DjTkFbCjHrUXQ/qJ09HpY7TYJHQ8qMYviwtjGBCkpxYO+dP8LIQEYZHzVeJRWAp/FZBT5mrJwluabfJ/NcjdnLEUIWEyc+6J2ju5stNx6pXhcnWPLlqju3PAeQC0fQ7MmjtbfHIN3UtNNzweXt2j0d7N6fHNJhqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jwC93dflJu1NuqVGT/tqBJDncOZgO2M3XxzvN1FEAFc=;
- b=g7D2ol7v7/kZwoC+AxjYOZ4ROX/NiM97X17z1Uv/ywO/uMFKR96RfvEQg6WX+u9i2W+tELZOAlO8W/DLkT2EqgG6kiFECqFlFlMzYYJ/gtGR+UKHbTU+Q/EUGp4HEoLNO0v3I5pvpXHUpso9RJMUttv82RtAj0rGXP9TNWwmVerQ6qtWbYxvFEnEZx31yz3tUTb6jHDBZZGNfh1MxcBZR6qUexM05P8Wfdd/xNZmfW3v6KFYgpPz4nAc6hcOsjKBrmF/uH1tl5rlcpRwJcVLOo6Q72L1pFMGLTwMDK+uUlO9i2iOcq3bk+/Ut2olgiGVDfeaww4Qv6Vt+qbWSh5RLA==
+ bh=dYWMp5HDECVRQT2SDRnh8CeuAXhijPwO86etutOHcgQ=;
+ b=mggaKng/GTL4X8O8mn0sSTS7fsVtPga/6etNlNnwBNTmKgEfntx+vn4QmaeMHnM+QvxHAiMioIBi668bPhBwJnHqYM4nakLeghxM9O8sK6kDly3t5J4oP1/rRzfPjq3+++hOBqEOs+5noKvn8n86AtgJwRNBq2RwFnN9OasXGiwl7zknF+qOa3pEYriIBz5zWpL+XFqcZPUHXNfVmiEdugVu2Sec207iqdskyLfXI0eyzS3o36yMsoiJ071IjqMdICwlxrQynRIqe1hVHfzucvOWHYVLKoye/1JuQWiPV5IfP0BVI8H4D1Ev2283his9rzb/SzcLLHe0mjwUjKShPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jwC93dflJu1NuqVGT/tqBJDncOZgO2M3XxzvN1FEAFc=;
- b=DAIimQEqygVnkFih8JEAd1oAbvgh7C7fyFm/XmF4YQYPygCbqO+VB58EHM8aLwcGFd8n+AXUZAy0FFsWdBl+227GcogmsstgLXuWItsGWCNGDYEJHIF9Mti9hOZuhzeg14z7XJpoq04/ZLzO1BnKjVNK/ODOvJ+S1fvAZvMLqKg=
+ bh=dYWMp5HDECVRQT2SDRnh8CeuAXhijPwO86etutOHcgQ=;
+ b=ZE+f34Kk1K3mVIkRj35lyxjxxT5UE+o0Fb/5KbwtDXuHsh5GNIPTFH8npVkozse9EhBQFetCrQ9CSQmILKB32/grmb1MIW2Cra2fZeiSgxhRaDMkUVrUR0gQ2tGQcRQ7o+yyvFa7f94v9GjlA359JY0NVxqtC0ydWZfOdoQBzEc=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
  by VI1PR08MB2813.eurprd08.prod.outlook.com (2603:10a6:802:1b::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.26; Fri, 22 May
- 2020 16:20:05 +0000
+ 2020 16:20:06 +0000
 Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
  ([fe80::2c53:d56b:77ba:8aac]) by VI1PR08MB5503.eurprd08.prod.outlook.com
  ([fe80::2c53:d56b:77ba:8aac%6]) with mapi id 15.20.3021.027; Fri, 22 May 2020
- 16:20:05 +0000
+ 16:20:06 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 2/3] block: declare some coroutine functions in
- block/coroutines.h
-Date: Fri, 22 May 2020 19:19:49 +0300
-Message-Id: <20200522161950.2839-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 3/3] block: generate coroutine-wrapper code
+Date: Fri, 22 May 2020 19:19:50 +0300
+Message-Id: <20200522161950.2839-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200522161950.2839-1-vsementsov@virtuozzo.com>
 References: <20200522161950.2839-1-vsementsov@virtuozzo.com>
@@ -64,32 +63,32 @@ Received: from localhost.localdomain (185.215.60.182) by
  AM0PR01CA0177.eurprd01.prod.exchangelabs.com (2603:10a6:208:aa::46) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.24 via Frontend
- Transport; Fri, 22 May 2020 16:20:04 +0000
+ Transport; Fri, 22 May 2020 16:20:05 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.182]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c7ee84e5-b132-481a-04fc-08d7fe6bfcb5
+X-MS-Office365-Filtering-Correlation-Id: c4645a6c-de35-4a4f-020c-08d7fe6bfd72
 X-MS-TrafficTypeDiagnostic: VI1PR08MB2813:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR08MB28132A926CAF93F61BCD2D50C1B40@VI1PR08MB2813.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-Microsoft-Antispam-PRVS: <VI1PR08MB28135849FA56B5E8EF203A5EC1B40@VI1PR08MB2813.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
 X-Forefront-PRVS: 04111BAC64
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: i3PHVRa1XzGeqwmrTfwTESZaUJ4Jm1VLW0uF3FNyD5cK5sCMoXW5zV2TomJOLq3fY86BM1iSm/aWArEtdE6ekemq00GW+sCe63aziO9eoejUaudrQ0PoNqdPx4NAEBeyAi77awXAuJtoxSEPbB/VFwkQ8yLeDGy31rkK+2GttuY3f4EtmosOcZ01rDGDIryafMVKXG8yM3c6HYOEIyU7vZusQEy3o3NakcvZrv9QdLRdDeHgAm2jOImop1VZR154EsgFs551kCd8L5Vx1nzcI/yKnkW70VWu45k1ZoCpktu80VO8a304zchXPVjTeTbttHrLF7bgLHeG6uTzbfOFjo8MvUMOdZrodlFWiwgaMQFhsd8qN1zslbsmeAQ4YgRCHQGIkd+WJOC4QmJqpNpCuM+RqSB/ZHeRswQaNSy6dCgEORKfdOwqv58i2rzgWx4r9TQIFsXeUaQ4jo9oJzo3/fOx3t0waRZSG7uCAIScGfJFC0TcT0bdSrYiuu8q9NuC
+X-Microsoft-Antispam-Message-Info: bqNxCp5ZIDnSGnuATsHFvp0ISpIKwij3+K4X9JiYoYj67Uhnb7Qj7oXZYWeC9zgjQ/l8J2/gDlsRyKOVs2cQtivhrh4wRP+V1yxp85oEQ+HBnH1pi62zj4bV2u22IpVxyu4IWPGLNpPrg8XLpBrpBfvsk7COTkqmMLsiUJEkhxsKA8MSCBBO58STiaEn1pMi8hGrGMXQNU6qBEgxyhUXypYPg20740RORL8TeAC0K5Fs8H9KE+Feg0D1pMlDORszM4HXFu7q+aTgnV/ta2ofOTAQTYfYmauMM8e1Jqj8kQXaMbgsCwysRwxO8K8yTw/fYorFi6HS7of9dyy9VcTqT8qZ5VA+GVuaGfRHTZekMjaPtnHXe+2d9hSCsACzEzVnxMiZSkOwa9T29fu3jtquWwjuiZi+kstEEoDW42iFTc3y1NX4IVnlv0W0/9mAsrLHk2+Hhx/suEHOfLTLurZI6Wg4cLFiVw40LCcuh4oEgRAs2G0Xs03FzCDH3a2N/poxgFfXG88xKqes7NSOSLqv2Pb14hqGXAdVZ3NWYVJSwLtxwVsgeI04e96vbFHvfTclkAEhLrxWZ4vEO4QgpjUtbtmD2xPv7cd+4S+HiE30gbA=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(376002)(346002)(136003)(396003)(366004)(39840400004)(186003)(1076003)(52116002)(26005)(6486002)(16526019)(2906002)(5660300002)(86362001)(8676002)(69590400007)(6916009)(4326008)(66556008)(6506007)(36756003)(478600001)(107886003)(316002)(66946007)(8936002)(6666004)(66476007)(6512007)(2616005)(956004);
+ SFS:(4636009)(376002)(346002)(136003)(396003)(366004)(39840400004)(186003)(30864003)(1076003)(52116002)(26005)(6486002)(16526019)(2906002)(5660300002)(86362001)(8676002)(69590400007)(6916009)(4326008)(66556008)(6506007)(36756003)(478600001)(107886003)(316002)(66946007)(8936002)(6666004)(66476007)(6512007)(2616005)(956004)(2004002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: J2ZZ8cwdzNAQVS6E21WKzQub6+DGCDpBvsJfBQIvwfjhKL3OJpMeh7ekvGEJ29WlY+r6zHM9WVO3QQLLzcmM8gfbfkIPcMtT3QqRXL0Z+osVGHaCXWT6fLrPHyKSPbjt2KTBr0aWtCdExRe9+OhcIfE+A9MyMco25Lmze1nwbflwqPH4hTULjzmdWWw5LcM5sK0l6NIm86xUDwXzAvT7IZYYce+fu5JErx3WBY6l8L10L4d/aJIjUXkz+a3Tsf/ep8T3/obd7ubnYFCOV6UcLVWuuTb7XErs2ZTM2MaQbN0Pg16ZhZDXtFr3M1O76GExHDWwuuP5TJ3DUfqR6jZPzzAOfoEve3OSa2s9oifeanSGZWuXzFqCPuZTyhDNocrpkkj66mfEWYEv5IXVL5GuKk6Q3rmguqLekRmKTIjnbmLKGeVcbnVyATtTJneDqkMhM+QTC3M+2KQaOmyC+jeH1BWdFmbxjEctt7pNzjTJe84=
+X-MS-Exchange-AntiSpam-MessageData: eu24u6hFOWlh0G2chUa4gdzoQfEZBJKKu3x0U4UNNXugFl/kCFQkKPDVOnfnQdIjANfWeF5TmFb7Du3oc2dHuPfRhXHgQWH2AuVPjUyaOq53FVTti3uKTurJ0QkjNIu3zvQUm0nuEEP//3tfAXLJtsGo7BfWcsyRuxTYKJm/C623QfegsIMWenLdzYLsCNuNOIHKu8dwm7bAuRlaJZb8oioDb9b6yv+x7+oYXoOqCaf5EqvKEmbSX4nWV0qWWBEbAVbbc6w2YdLE0uAOgW/NJ0ocRhVtecVdx/MVfvGyPdIMtBCIPjKj48ZLtMsLN8ktyYDnp5DATQvZIfioll1HNqxrNpJ9wx+dF89cGEv7DUgVI9WDsziQD1PC5dULagUBTJAhGM2pJ0PennftOxzANyEVfERmE1m2yc40OigAMW1D1gnzNfA+7+EkoYc1eKXEd+YUutn4gNLgMCs0TDNtOnjznLSL5f7Tz1uJe70xmyU=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7ee84e5-b132-481a-04fc-08d7fe6bfcb5
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2020 16:20:05.2594 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4645a6c-de35-4a4f-020c-08d7fe6bfd72
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2020 16:20:06.5806 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yUJ+7wwImwBkWMkqcnA7INGqjaNtRwWknsUEPTsoVwqn90MHTUV9348yKDEY3BOorhj5xK+jh50rf/rWeaPGr1+rFsvdQL4dmjz+oV+fJ7E=
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZZoIbA048RYykZauyuC2uO6z0EJ9FQACTIiOLcfNN8WHIW+ZLhTZkAxNyB9tXl88cJKVubqc5oLndqi5h2yODm9HcBLO4pwHXYrn4GW5544=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB2813
 Received-SPF: pass client-ip=40.107.14.117;
  envelope-from=vsementsov@virtuozzo.com;
@@ -122,190 +121,825 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to keep coroutine-wrappers code (structure-packing
-parameters, BDRV_POLL wrapper functions) in a separate auto-generated
-files. So, we'll need a header with declaration of original _co_
-functions, for those which are static now. As well, we'll need
-declarations for wrapper functions. Do these declarations now, as a
-preparation step.
+We have a very frequent pattern of creating coroutine from function
+with several arguments:
+
+  - create structure to pack parameters
+  - create _entry function to call original function taking parameters
+    from struct
+  - do different magic to handle completion: set ret to NOT_DONE or
+    EINPROGRESS, use separate bool for void functions
+  - fill the struct and create coroutine from _entry function and this
+    struct as a parameter
+  - do coroutine enter and BDRV_POLL_WHILE loop
+
+Let's reduce code duplication. Here:
+
+Functional part (BDRV_POLL_WHILE loop, aio_wait_kick()) moved to
+(non-generated) block/block-gen.h
+
+Mechanical part (arguments packing, different kind of needed wrappers)
+are generated from template by scripts/coroutine-wrapper.py to
+resulting file block/block-gen.c
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/coroutines.h | 43 +++++++++++++++++++++++++++++++++++++++++++
- block.c            |  8 ++++----
- block/io.c         | 34 +++++++++++++++++-----------------
- 3 files changed, 64 insertions(+), 21 deletions(-)
- create mode 100644 block/coroutines.h
+ Makefile                             |   6 +
+ block/block-gen.h                    |  30 ++++
+ block/coroutines.h                   |   7 +-
+ include/block/block.h                |  17 +-
+ include/block/generated-co-wrapper.h |  11 ++
+ block.c                              |  70 --------
+ block/io.c                           | 260 ---------------------------
+ block/Makefile.objs                  |   1 +
+ scripts/coroutine-wrapper.py         | 169 +++++++++++++++++
+ 9 files changed, 232 insertions(+), 339 deletions(-)
+ create mode 100644 block/block-gen.h
+ create mode 100644 include/block/generated-co-wrapper.h
+ create mode 100755 scripts/coroutine-wrapper.py
 
-diff --git a/block/coroutines.h b/block/coroutines.h
+diff --git a/Makefile b/Makefile
+index 40e4f7677b..67b1c7852f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -159,6 +159,8 @@ generated-files-$(CONFIG_TRACE_UST) += trace-ust-all.c
+ 
+ generated-files-y += module_block.h
+ 
++GENERATED_FILES += block/block-gen.c
++
+ TRACE_HEADERS = trace-root.h $(trace-events-subdirs:%=%/trace.h)
+ TRACE_SOURCES = trace-root.c $(trace-events-subdirs:%=%/trace.c)
+ TRACE_DTRACE =
+@@ -175,6 +177,10 @@ generated-files-y += $(TRACE_SOURCES)
+ generated-files-y += $(BUILD_DIR)/trace-events-all
+ generated-files-y += .git-submodule-status
+ 
++COROUTINE_HEADERS = include/block/block.h block/coroutines.h
++block/block-gen.c: $(COROUTINE_HEADERS) $(SRC_PATH)/scripts/coroutine-wrapper.py
++	$(call quiet-command, cat $(COROUTINE_HEADERS) | $(SRC_PATH)/scripts/coroutine-wrapper.py > $@,"GEN","$(TARGET_DIR)$@")
++
+ trace-group-name = $(shell dirname $1 | sed -e 's/[^a-zA-Z0-9]/_/g')
+ 
+ tracetool-y = $(SRC_PATH)/scripts/tracetool.py
+diff --git a/block/block-gen.h b/block/block-gen.h
 new file mode 100644
-index 0000000000..23ea6fd5b3
+index 0000000000..79762cdda9
 --- /dev/null
-+++ b/block/coroutines.h
-@@ -0,0 +1,43 @@
-+#ifndef BLOCK_COROUTINES_INT_H
-+#define BLOCK_COROUTINES_INT_H
++++ b/block/block-gen.h
+@@ -0,0 +1,30 @@
++#ifndef BLOCK_BLOCK_GEN_H
++#define BLOCK_BLOCK_GEN_H
 +
 +#include "block/block_int.h"
 +
-+int coroutine_fn bdrv_co_check(BlockDriverState *bs,
-+                               BdrvCheckResult *res, BdrvCheckMode fix);
-+void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp);
++/* This function is called at the end of generated coroutine entries. */
++static inline void bdrv_poll_co__on_exit(void)
++{
++    aio_wait_kick();
++}
 +
-+int coroutine_fn
-+bdrv_co_prwv(BdrvChild *child, int64_t offset, QEMUIOVector *qiov,
-+             bool is_write, BdrvRequestFlags flags);
-+int
-+bdrv_prwv(BdrvChild *child, int64_t offset, QEMUIOVector *qiov,
-+          bool is_write, BdrvRequestFlags flags);
++/* Base structure for argument packing structures */
++typedef struct BdrvPollCo {
++    BlockDriverState *bs;
++    bool in_progress;
++    int ret;
++    Coroutine *co; /* Keep pointer here for debugging */
++} BdrvPollCo;
 +
-+int coroutine_fn
-+bdrv_co_common_block_status_above(BlockDriverState *bs,
-+                                  BlockDriverState *base,
-+                                  bool want_zero,
-+                                  int64_t offset,
-+                                  int64_t bytes,
-+                                  int64_t *pnum,
-+                                  int64_t *map,
-+                                  BlockDriverState **file);
-+int
-+bdrv_common_block_status_above(BlockDriverState *bs,
-+                               BlockDriverState *base,
-+                               bool want_zero,
-+                               int64_t offset,
-+                               int64_t bytes,
-+                               int64_t *pnum,
-+                               int64_t *map,
-+                               BlockDriverState **file);
++static inline int bdrv_poll_co(BdrvPollCo *s)
++{
++    assert(!qemu_in_coroutine());
 +
-+int coroutine_fn
-+bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
-+                   bool is_read);
-+int
-+bdrv_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
-+                bool is_read);
++    bdrv_coroutine_enter(s->bs, s->co);
++    BDRV_POLL_WHILE(s->bs, s->in_progress);
 +
-+#endif /* BLOCK_COROUTINES_INT_H */
++    return s->ret;
++}
++
++#endif /* BLOCK_BLOCK_GEN_H */
+diff --git a/block/coroutines.h b/block/coroutines.h
+index 23ea6fd5b3..6eb32ac387 100644
+--- a/block/coroutines.h
++++ b/block/coroutines.h
+@@ -2,6 +2,7 @@
+ #define BLOCK_COROUTINES_INT_H
+ 
+ #include "block/block_int.h"
++#include "block/generated-co-wrapper.h"
+ 
+ int coroutine_fn bdrv_co_check(BlockDriverState *bs,
+                                BdrvCheckResult *res, BdrvCheckMode fix);
+@@ -10,7 +11,7 @@ void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp);
+ int coroutine_fn
+ bdrv_co_prwv(BdrvChild *child, int64_t offset, QEMUIOVector *qiov,
+              bool is_write, BdrvRequestFlags flags);
+-int
++int generated_co_wrapper
+ bdrv_prwv(BdrvChild *child, int64_t offset, QEMUIOVector *qiov,
+           bool is_write, BdrvRequestFlags flags);
+ 
+@@ -23,7 +24,7 @@ bdrv_co_common_block_status_above(BlockDriverState *bs,
+                                   int64_t *pnum,
+                                   int64_t *map,
+                                   BlockDriverState **file);
+-int
++int generated_co_wrapper
+ bdrv_common_block_status_above(BlockDriverState *bs,
+                                BlockDriverState *base,
+                                bool want_zero,
+@@ -36,7 +37,7 @@ bdrv_common_block_status_above(BlockDriverState *bs,
+ int coroutine_fn
+ bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
+                    bool is_read);
+-int
++int generated_co_wrapper
+ bdrv_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
+                 bool is_read);
+ 
+diff --git a/include/block/block.h b/include/block/block.h
+index 25e299605e..aed6ffcc4f 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -9,6 +9,7 @@
+ #include "block/dirty-bitmap.h"
+ #include "block/blockjob.h"
+ #include "qemu/hbitmap.h"
++#include "block/generated-co-wrapper.h"
+ 
+ /* block.c */
+ typedef struct BlockDriver BlockDriver;
+@@ -398,8 +399,9 @@ void bdrv_refresh_filename(BlockDriverState *bs);
+ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
+                                   PreallocMode prealloc, BdrvRequestFlags flags,
+                                   Error **errp);
+-int bdrv_truncate(BdrvChild *child, int64_t offset, bool exact,
+-                  PreallocMode prealloc, BdrvRequestFlags flags, Error **errp);
++int generated_co_wrapper
++bdrv_truncate(BdrvChild *child, int64_t offset, bool exact,
++              PreallocMode prealloc, BdrvRequestFlags flags, Error **errp);
+ 
+ int64_t bdrv_nb_sectors(BlockDriverState *bs);
+ int64_t bdrv_getlength(BlockDriverState *bs);
+@@ -441,7 +443,8 @@ typedef enum {
+     BDRV_FIX_ERRORS   = 2,
+ } BdrvCheckMode;
+ 
+-int bdrv_check(BlockDriverState *bs, BdrvCheckResult *res, BdrvCheckMode fix);
++int generated_co_wrapper bdrv_check(BlockDriverState *bs, BdrvCheckResult *res,
++                                    BdrvCheckMode fix);
+ 
+ /* The units of offset and total_work_size may be chosen arbitrarily by the
+  * block driver; total_work_size may change during the course of the amendment
+@@ -464,12 +467,13 @@ void bdrv_aio_cancel_async(BlockAIOCB *acb);
+ int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf);
+ 
+ /* Invalidate any cached metadata used by image formats */
+-void bdrv_invalidate_cache(BlockDriverState *bs, Error **errp);
++void generated_co_wrapper bdrv_invalidate_cache(BlockDriverState *bs,
++                                                Error **errp);
+ void bdrv_invalidate_cache_all(Error **errp);
+ int bdrv_inactivate_all(void);
+ 
+ /* Ensure contents are flushed to disk.  */
+-int bdrv_flush(BlockDriverState *bs);
++int generated_co_wrapper bdrv_flush(BlockDriverState *bs);
+ int coroutine_fn bdrv_co_flush(BlockDriverState *bs);
+ int bdrv_flush_all(void);
+ void bdrv_close_all(void);
+@@ -484,7 +488,8 @@ void bdrv_drain_all(void);
+     AIO_WAIT_WHILE(bdrv_get_aio_context(bs_),              \
+                    cond); })
+ 
+-int bdrv_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
++int generated_co_wrapper bdrv_pdiscard(BdrvChild *child, int64_t offset,
++                                       int64_t bytes);
+ int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
+ int bdrv_has_zero_init_1(BlockDriverState *bs);
+ int bdrv_has_zero_init(BlockDriverState *bs);
+diff --git a/include/block/generated-co-wrapper.h b/include/block/generated-co-wrapper.h
+new file mode 100644
+index 0000000000..80a5433af4
+--- /dev/null
++++ b/include/block/generated-co-wrapper.h
+@@ -0,0 +1,11 @@
++#ifndef BLOCK_GENERATED_CO_WRAPPER_H
++#define BLOCK_GENERATED_CO_WRAPPER_H
++
++/*
++ * generated_co_wrapper
++ * Function specifier, which does nothing but marking functions to be
++ * generated by scripts/coroutine-wrapper.py
++ */
++#define generated_co_wrapper
++
++#endif /* BLOCK_GENERATED_CO_WRAPPER_H */
 diff --git a/block.c b/block.c
-index 8416376c9b..7f06e82880 100644
+index 7f06e82880..c1132ab323 100644
 --- a/block.c
 +++ b/block.c
-@@ -48,6 +48,7 @@
- #include "qemu/timer.h"
- #include "qemu/cutils.h"
- #include "qemu/id.h"
-+#include "block/coroutines.h"
- 
- #ifdef CONFIG_BSD
- #include <sys/ioctl.h>
-@@ -4625,8 +4626,8 @@ static void bdrv_delete(BlockDriverState *bs)
-  * free of errors) or -errno when an internal error occurred. The results of the
-  * check are stored in res.
-  */
--static int coroutine_fn bdrv_co_check(BlockDriverState *bs,
--                                      BdrvCheckResult *res, BdrvCheckMode fix)
-+int coroutine_fn bdrv_co_check(BlockDriverState *bs,
-+                               BdrvCheckResult *res, BdrvCheckMode fix)
- {
-     if (bs->drv == NULL) {
-         return -ENOMEDIUM;
-@@ -5643,8 +5644,7 @@ void bdrv_init_with_whitelist(void)
-     bdrv_init();
+@@ -4640,43 +4640,6 @@ int coroutine_fn bdrv_co_check(BlockDriverState *bs,
+     return bs->drv->bdrv_co_check(bs, res, fix);
  }
  
--static void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs,
--                                                  Error **errp)
-+void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
+-typedef struct CheckCo {
+-    BlockDriverState *bs;
+-    BdrvCheckResult *res;
+-    BdrvCheckMode fix;
+-    int ret;
+-} CheckCo;
+-
+-static void coroutine_fn bdrv_check_co_entry(void *opaque)
+-{
+-    CheckCo *cco = opaque;
+-    cco->ret = bdrv_co_check(cco->bs, cco->res, cco->fix);
+-    aio_wait_kick();
+-}
+-
+-int bdrv_check(BlockDriverState *bs,
+-               BdrvCheckResult *res, BdrvCheckMode fix)
+-{
+-    Coroutine *co;
+-    CheckCo cco = {
+-        .bs = bs,
+-        .res = res,
+-        .ret = -EINPROGRESS,
+-        .fix = fix,
+-    };
+-
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_check_co_entry(&cco);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_check_co_entry, &cco);
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, cco.ret == -EINPROGRESS);
+-    }
+-
+-    return cco.ret;
+-}
+-
+ /*
+  * Return values:
+  * 0        - success
+@@ -5721,39 +5684,6 @@ void coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
+     }
+ }
+ 
+-typedef struct InvalidateCacheCo {
+-    BlockDriverState *bs;
+-    Error **errp;
+-    bool done;
+-} InvalidateCacheCo;
+-
+-static void coroutine_fn bdrv_invalidate_cache_co_entry(void *opaque)
+-{
+-    InvalidateCacheCo *ico = opaque;
+-    bdrv_co_invalidate_cache(ico->bs, ico->errp);
+-    ico->done = true;
+-    aio_wait_kick();
+-}
+-
+-void bdrv_invalidate_cache(BlockDriverState *bs, Error **errp)
+-{
+-    Coroutine *co;
+-    InvalidateCacheCo ico = {
+-        .bs = bs,
+-        .done = false,
+-        .errp = errp
+-    };
+-
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_invalidate_cache_co_entry(&ico);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_invalidate_cache_co_entry, &ico);
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, !ico.done);
+-    }
+-}
+-
+ void bdrv_invalidate_cache_all(Error **errp)
  {
-     BdrvChild *child, *parent;
-     uint64_t perm, shared_perm;
+     BlockDriverState *bs;
 diff --git a/block/io.c b/block/io.c
-index bd00a70b47..f5b6ce3bf6 100644
+index f5b6ce3bf6..f9700cc897 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -29,6 +29,7 @@
- #include "block/blockjob.h"
- #include "block/blockjob_int.h"
- #include "block/block_int.h"
-+#include "block/coroutines.h"
- #include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-@@ -900,9 +901,9 @@ typedef struct RwCo {
-     BdrvRequestFlags flags;
- } RwCo;
+@@ -892,15 +892,6 @@ static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
+     return 0;
+ }
  
--static int coroutine_fn bdrv_co_prwv(BdrvChild *child, int64_t offset,
--                                     QEMUIOVector *qiov, bool is_write,
--                                     BdrvRequestFlags flags)
-+int coroutine_fn bdrv_co_prwv(BdrvChild *child, int64_t offset,
-+                              QEMUIOVector *qiov, bool is_write,
-+                              BdrvRequestFlags flags)
+-typedef struct RwCo {
+-    BdrvChild *child;
+-    int64_t offset;
+-    QEMUIOVector *qiov;
+-    bool is_write;
+-    int ret;
+-    BdrvRequestFlags flags;
+-} RwCo;
+-
+ int coroutine_fn bdrv_co_prwv(BdrvChild *child, int64_t offset,
+                               QEMUIOVector *qiov, bool is_write,
+                               BdrvRequestFlags flags)
+@@ -912,43 +903,6 @@ int coroutine_fn bdrv_co_prwv(BdrvChild *child, int64_t offset,
+     }
+ }
+ 
+-static void coroutine_fn bdrv_rw_co_entry(void *opaque)
+-{
+-    RwCo *rwco = opaque;
+-
+-    rwco->ret = bdrv_co_prwv(rwco->child, rwco->offset, rwco->qiov,
+-                             rwco->is_write, rwco->flags);
+-    aio_wait_kick();
+-}
+-
+-/*
+- * Process a vectored synchronous request using coroutines
+- */
+-int bdrv_prwv(BdrvChild *child, int64_t offset,
+-              QEMUIOVector *qiov, bool is_write,
+-              BdrvRequestFlags flags)
+-{
+-    Coroutine *co;
+-    RwCo rwco = {
+-        .child = child,
+-        .offset = offset,
+-        .qiov = qiov,
+-        .is_write = is_write,
+-        .ret = NOT_DONE,
+-        .flags = flags,
+-    };
+-
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_rw_co_entry(&rwco);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_rw_co_entry, &rwco);
+-        bdrv_coroutine_enter(child->bs, co);
+-        BDRV_POLL_WHILE(child->bs, rwco.ret == NOT_DONE);
+-    }
+-    return rwco.ret;
+-}
+-
+ int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
+                        int bytes, BdrvRequestFlags flags)
  {
-     if (is_write) {
-         return bdrv_co_pwritev(child, offset, qiov->size, qiov, flags);
-@@ -923,9 +924,9 @@ static void coroutine_fn bdrv_rw_co_entry(void *opaque)
- /*
-  * Process a vectored synchronous request using coroutines
-  */
--static int bdrv_prwv(BdrvChild *child, int64_t offset,
--                     QEMUIOVector *qiov, bool is_write,
--                     BdrvRequestFlags flags)
-+int bdrv_prwv(BdrvChild *child, int64_t offset,
-+              QEMUIOVector *qiov, bool is_write,
-+              BdrvRequestFlags flags)
- {
-     Coroutine *co;
-     RwCo rwco = {
-@@ -2446,7 +2447,7 @@ early_out:
+@@ -2223,20 +2177,6 @@ int bdrv_flush_all(void)
+     return result;
+ }
+ 
+-
+-typedef struct BdrvCoBlockStatusData {
+-    BlockDriverState *bs;
+-    BlockDriverState *base;
+-    bool want_zero;
+-    int64_t offset;
+-    int64_t bytes;
+-    int64_t *pnum;
+-    int64_t *map;
+-    BlockDriverState **file;
+-    int ret;
+-    bool done;
+-} BdrvCoBlockStatusData;
+-
+ int coroutine_fn bdrv_co_block_status_from_file(BlockDriverState *bs,
+                                                 bool want_zero,
+                                                 int64_t offset,
+@@ -2488,56 +2428,6 @@ bdrv_co_common_block_status_above(BlockDriverState *bs,
      return ret;
  }
  
--static int coroutine_fn
-+int coroutine_fn
- bdrv_co_common_block_status_above(BlockDriverState *bs,
-                                   BlockDriverState *base,
-                                   bool want_zero,
-@@ -2506,12 +2507,12 @@ static void coroutine_fn bdrv_block_status_above_co_entry(void *opaque)
-  *
-  * See bdrv_co_block_status_above() for details.
-  */
--static int bdrv_common_block_status_above(BlockDriverState *bs,
--                                          BlockDriverState *base,
--                                          bool want_zero, int64_t offset,
--                                          int64_t bytes, int64_t *pnum,
--                                          int64_t *map,
--                                          BlockDriverState **file)
-+int bdrv_common_block_status_above(BlockDriverState *bs,
-+                                   BlockDriverState *base,
-+                                   bool want_zero, int64_t offset,
-+                                   int64_t bytes, int64_t *pnum,
-+                                   int64_t *map,
-+                                   BlockDriverState **file)
- {
-     Coroutine *co;
-     BdrvCoBlockStatusData data = {
-@@ -2638,7 +2639,7 @@ typedef struct BdrvVmstateCo {
-     int                 ret;
- } BdrvVmstateCo;
- 
--static int coroutine_fn
-+int coroutine_fn
- bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
-                    bool is_read)
- {
-@@ -2670,9 +2671,8 @@ static void coroutine_fn bdrv_co_rw_vmstate_entry(void *opaque)
-     aio_wait_kick();
+-/* Coroutine wrapper for bdrv_block_status_above() */
+-static void coroutine_fn bdrv_block_status_above_co_entry(void *opaque)
+-{
+-    BdrvCoBlockStatusData *data = opaque;
+-
+-    data->ret = bdrv_co_common_block_status_above(data->bs, data->base,
+-                                                  data->want_zero,
+-                                                  data->offset, data->bytes,
+-                                                  data->pnum, data->map,
+-                                                  data->file);
+-    data->done = true;
+-    aio_wait_kick();
+-}
+-
+-/*
+- * Synchronous wrapper around bdrv_co_block_status_above().
+- *
+- * See bdrv_co_block_status_above() for details.
+- */
+-int bdrv_common_block_status_above(BlockDriverState *bs,
+-                                   BlockDriverState *base,
+-                                   bool want_zero, int64_t offset,
+-                                   int64_t bytes, int64_t *pnum,
+-                                   int64_t *map,
+-                                   BlockDriverState **file)
+-{
+-    Coroutine *co;
+-    BdrvCoBlockStatusData data = {
+-        .bs = bs,
+-        .base = base,
+-        .want_zero = want_zero,
+-        .offset = offset,
+-        .bytes = bytes,
+-        .pnum = pnum,
+-        .map = map,
+-        .file = file,
+-        .done = false,
+-    };
+-
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_block_status_above_co_entry(&data);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_block_status_above_co_entry, &data);
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, !data.done);
+-    }
+-    return data.ret;
+-}
+-
+ int bdrv_block_status_above(BlockDriverState *bs, BlockDriverState *base,
+                             int64_t offset, int64_t bytes, int64_t *pnum,
+                             int64_t *map, BlockDriverState **file)
+@@ -2631,14 +2521,6 @@ int bdrv_is_allocated_above(BlockDriverState *top,
+     return 0;
  }
  
--static inline int
--bdrv_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
--                bool is_read)
-+int bdrv_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
-+                    bool is_read)
+-typedef struct BdrvVmstateCo {
+-    BlockDriverState    *bs;
+-    QEMUIOVector        *qiov;
+-    int64_t             pos;
+-    bool                is_read;
+-    int                 ret;
+-} BdrvVmstateCo;
+-
+ int coroutine_fn
+ bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
+                    bool is_read)
+@@ -2664,34 +2546,6 @@ bdrv_co_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
+     return ret;
+ }
+ 
+-static void coroutine_fn bdrv_co_rw_vmstate_entry(void *opaque)
+-{
+-    BdrvVmstateCo *co = opaque;
+-    co->ret = bdrv_co_rw_vmstate(co->bs, co->qiov, co->pos, co->is_read);
+-    aio_wait_kick();
+-}
+-
+-int bdrv_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
+-                    bool is_read)
+-{
+-    if (qemu_in_coroutine()) {
+-        return bdrv_co_rw_vmstate(bs, qiov, pos, is_read);
+-    } else {
+-        BdrvVmstateCo data = {
+-            .bs         = bs,
+-            .qiov       = qiov,
+-            .pos        = pos,
+-            .is_read    = is_read,
+-            .ret        = -EINPROGRESS,
+-        };
+-        Coroutine *co = qemu_coroutine_create(bdrv_co_rw_vmstate_entry, &data);
+-
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, data.ret == -EINPROGRESS);
+-        return data.ret;
+-    }
+-}
+-
+ int bdrv_save_vmstate(BlockDriverState *bs, const uint8_t *buf,
+                       int64_t pos, int size)
  {
-     if (qemu_in_coroutine()) {
-         return bdrv_co_rw_vmstate(bs, qiov, pos, is_read);
+@@ -2767,20 +2621,6 @@ void bdrv_aio_cancel_async(BlockAIOCB *acb)
+ /**************************************************************/
+ /* Coroutine block device emulation */
+ 
+-typedef struct FlushCo {
+-    BlockDriverState *bs;
+-    int ret;
+-} FlushCo;
+-
+-
+-static void coroutine_fn bdrv_flush_co_entry(void *opaque)
+-{
+-    FlushCo *rwco = opaque;
+-
+-    rwco->ret = bdrv_co_flush(rwco->bs);
+-    aio_wait_kick();
+-}
+-
+ int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
+ {
+     int current_gen;
+@@ -2893,40 +2733,6 @@ early_exit:
+     return ret;
+ }
+ 
+-int bdrv_flush(BlockDriverState *bs)
+-{
+-    Coroutine *co;
+-    FlushCo flush_co = {
+-        .bs = bs,
+-        .ret = NOT_DONE,
+-    };
+-
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_flush_co_entry(&flush_co);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_flush_co_entry, &flush_co);
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, flush_co.ret == NOT_DONE);
+-    }
+-
+-    return flush_co.ret;
+-}
+-
+-typedef struct DiscardCo {
+-    BdrvChild *child;
+-    int64_t offset;
+-    int64_t bytes;
+-    int ret;
+-} DiscardCo;
+-static void coroutine_fn bdrv_pdiscard_co_entry(void *opaque)
+-{
+-    DiscardCo *rwco = opaque;
+-
+-    rwco->ret = bdrv_co_pdiscard(rwco->child, rwco->offset, rwco->bytes);
+-    aio_wait_kick();
+-}
+-
+ int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
+                                   int64_t bytes)
+ {
+@@ -3041,28 +2847,6 @@ out:
+     return ret;
+ }
+ 
+-int bdrv_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes)
+-{
+-    Coroutine *co;
+-    DiscardCo rwco = {
+-        .child = child,
+-        .offset = offset,
+-        .bytes = bytes,
+-        .ret = NOT_DONE,
+-    };
+-
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_pdiscard_co_entry(&rwco);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_pdiscard_co_entry, &rwco);
+-        bdrv_coroutine_enter(child->bs, co);
+-        BDRV_POLL_WHILE(child->bs, rwco.ret == NOT_DONE);
+-    }
+-
+-    return rwco.ret;
+-}
+-
+ int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf)
+ {
+     BlockDriver *drv = bs->drv;
+@@ -3460,47 +3244,3 @@ out:
+ 
+     return ret;
+ }
+-
+-typedef struct TruncateCo {
+-    BdrvChild *child;
+-    int64_t offset;
+-    bool exact;
+-    PreallocMode prealloc;
+-    BdrvRequestFlags flags;
+-    Error **errp;
+-    int ret;
+-} TruncateCo;
+-
+-static void coroutine_fn bdrv_truncate_co_entry(void *opaque)
+-{
+-    TruncateCo *tco = opaque;
+-    tco->ret = bdrv_co_truncate(tco->child, tco->offset, tco->exact,
+-                                tco->prealloc, tco->flags, tco->errp);
+-    aio_wait_kick();
+-}
+-
+-int bdrv_truncate(BdrvChild *child, int64_t offset, bool exact,
+-                  PreallocMode prealloc, BdrvRequestFlags flags, Error **errp)
+-{
+-    Coroutine *co;
+-    TruncateCo tco = {
+-        .child      = child,
+-        .offset     = offset,
+-        .exact      = exact,
+-        .prealloc   = prealloc,
+-        .flags      = flags,
+-        .errp       = errp,
+-        .ret        = NOT_DONE,
+-    };
+-
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_truncate_co_entry(&tco);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_truncate_co_entry, &tco);
+-        bdrv_coroutine_enter(child->bs, co);
+-        BDRV_POLL_WHILE(child->bs, tco.ret == NOT_DONE);
+-    }
+-
+-    return tco.ret;
+-}
+diff --git a/block/Makefile.objs b/block/Makefile.objs
+index 3635b6b4c1..05e4d033c1 100644
+--- a/block/Makefile.objs
++++ b/block/Makefile.objs
+@@ -45,6 +45,7 @@ block-obj-y += crypto.o
+ block-obj-y += aio_task.o
+ block-obj-y += backup-top.o
+ block-obj-y += filter-compress.o
++block-obj-y += block-gen.o
+ common-obj-y += monitor/
+ 
+ block-obj-y += stream.o
+diff --git a/scripts/coroutine-wrapper.py b/scripts/coroutine-wrapper.py
+new file mode 100755
+index 0000000000..cd9eefbe28
+--- /dev/null
++++ b/scripts/coroutine-wrapper.py
+@@ -0,0 +1,169 @@
++#!/usr/bin/env python3
++#
++# Generate coroutine wrappers for block subsystem.
++#
++# Copyright (c) 2020 Virtuozzo International GmbH.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++import re
++from typing import List, Iterator
++
++header = """/*
++ * File is generated by scripts/coroutine-wrapper.py
++ */
++
++#include "qemu/osdep.h"
++#include "block/coroutines.h"
++#include "block/block-gen.h"
++"""
++
++template = """
++/*
++ * Wrappers for $name$
++ */
++
++typedef struct $struct_name$ {
++    BdrvPollCo poll_state;
++    $fields$
++} $struct_name$;
++
++static void coroutine_fn $name$_entry(void *opaque)
++{
++    $struct_name$ *s = opaque;
++
++    $assign_ret$$name$($args_from_s$);
++
++    s->poll_state.in_progress = false;
++
++    bdrv_poll_co__on_exit();
++}
++
++$ret_type$ $wrapper_name$($args_def$)
++{
++    if (qemu_in_coroutine()) {
++        $do_return$$name$($arg_names$);
++    } else {
++        $struct_name$ s = {
++            .poll_state.bs = $bs$,
++            .poll_state.in_progress = true,
++
++            $initializers$
++        };
++
++        s.poll_state.co = qemu_coroutine_create($name$_entry, &s);
++
++        $do_return$bdrv_poll_co(&s.poll_state);
++    }
++}
++"""
++
++# We want to use python string.format() formatter, which uses curly brackets
++# as separators. But it's not comfortable with C. So, we used dollars instead,
++# and now is the time to escape curly brackets and convert dollars.
++template = template.replace('{', '{{').replace('}', '}}')
++template = re.sub(r'\$(\w+)\$', r'{\1}', template)
++
++
++class ParamDecl:
++    param_re = re.compile(r'(?P<decl>'
++                          r'(?P<type>.*[ *])'
++                          r'(?P<name>[a-z][a-z0-9_]*)'
++                          r')')
++
++    def __init__(self, param_decl: str) -> None:
++        m = self.param_re.match(param_decl.strip())
++        self.decl = m.group('decl')
++        self.type = m.group('type')
++        self.name = m.group('name')
++
++
++class FuncDecl:
++    def __init__(self, return_type: str, name: str, args: str) -> None:
++        self.return_type = return_type.strip()
++        self.name = name.strip()
++        self.args: List[ParamDecl] = []
++        self.args = [ParamDecl(arg) for arg in args.split(',')]
++
++    def get_args_decl(self) -> str:
++        return ', '.join(arg.decl for arg in self.args)
++
++    def get_arg_names(self) -> str:
++        return ', '.join(arg.name for arg in self.args)
++
++    def gen_struct_fields(self) -> str:
++        return '\n    '.join(f'{arg.decl};' for arg in self.args)
++
++    def gen_struct_initializers(self, indent: int) -> str:
++        sep = '\n' + ' ' * indent
++        return sep.join(f'.{a.name} = {a.name},' for a in self.args)
++
++
++# Match wrappers declaration, with generated_co_wrapper mark
++func_decl_re = re.compile(r'^(?P<return_type>(int|void))'
++                          r'\s*generated_co_wrapper\s*'
++                          r'(?P<wrapper_name>[a-z][a-z0-9_]*)'
++                          r'\((?P<args>[^)]*)\);$', re.MULTILINE)
++
++
++def func_decl_iter(text: str) -> Iterator:
++    for m in func_decl_re.finditer(text):
++        yield FuncDecl(return_type=m.group('return_type'),
++                       name=m.group('wrapper_name'),
++                       args=m.group('args'))
++
++
++def struct_name(func_name: str) -> str:
++    """some_function_name -> SomeFunctionName"""
++    words = func_name.split('_')
++    words = [w[0].upper() + w[1:] for w in words]
++    return ''.join(words)
++
++
++def make_wrapper(func: FuncDecl) -> str:
++    assert func.name.startswith('bdrv_')
++    co_name = 'bdrv_co_' + func.name[5:]
++
++    has_ret = func.return_type != 'void'
++
++    params = {
++        'name': co_name,
++        'do_return': 'return ' if has_ret else '',
++        'assign_ret': 's->poll_state.ret = ' if has_ret else '',
++        'struct_name': struct_name(co_name),
++        'wrapper_name': func.name,
++        'ret_type': func.return_type,
++        'args_def': func.get_args_decl(),
++        'arg_names': func.get_arg_names(),
++        'fields': func.gen_struct_fields(),
++        'initializers': func.gen_struct_initializers(12),
++        'args_from_s': ', '.join(f's->{a.name}' for a in func.args),
++    }
++
++    if func.args[0].type == 'BlockDriverState *':
++        params['bs'] = 'bs'
++    else:
++        assert func.args[0].type == 'BdrvChild *'
++        params['bs'] = 'child->bs'
++
++    return template.format(**params)
++
++
++if __name__ == '__main__':
++    import sys
++
++    print(header)
++    for func in func_decl_iter(sys.stdin.read()):
++        print(make_wrapper(func))
 -- 
 2.21.0
 
