@@ -2,97 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E21031DEC0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 17:36:51 +0200 (CEST)
-Received: from localhost ([::1]:54364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B8F1DEC60
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 17:47:15 +0200 (CEST)
+Received: from localhost ([::1]:40102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jc9j9-0007oC-1R
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 11:36:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36130)
+	id 1jc9tC-0001wE-5z
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 11:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1jc9iC-000740-Vm
- for qemu-devel@nongnu.org; Fri, 22 May 2020 11:35:53 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25598)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1jc9i8-0006rF-Uu
- for qemu-devel@nongnu.org; Fri, 22 May 2020 11:35:51 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04MFX8nv088630
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 11:35:47 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3160mubh4e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 11:35:47 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04MFYYJB093110
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 11:35:46 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3160mubh40-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 May 2020 11:35:46 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04MFKvqQ030728;
- Fri, 22 May 2020 15:35:45 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma04dal.us.ibm.com with ESMTP id 314wxpsree-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 May 2020 15:35:45 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 04MFZgsu29163852
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 22 May 2020 15:35:42 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ED7776A047;
- Fri, 22 May 2020 15:35:43 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2269E6A04D;
- Fri, 22 May 2020 15:35:43 +0000 (GMT)
-Received: from [9.160.66.72] (unknown [9.160.66.72])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 22 May 2020 15:35:42 +0000 (GMT)
-Subject: Re: [PATCH 4/4] check-block: Enable iotests with SafeStack
-To: Stefan Hajnoczi <stefanha@gmail.com>
-References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
- <20200429194420.21147-5-dbuono@linux.vnet.ibm.com>
- <20200521095902.GD251811@stefanha-x1.localdomain>
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Message-ID: <dc422d29-131b-a5a8-ee10-6dccff7caea4@linux.vnet.ibm.com>
-Date: Fri, 22 May 2020 11:35:42 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jc9rO-0000Ej-Sh; Fri, 22 May 2020 11:45:22 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:46956)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jc9rN-0008GW-DR; Fri, 22 May 2020 11:45:22 -0400
+Received: by mail-io1-xd41.google.com with SMTP id j8so11745121iog.13;
+ Fri, 22 May 2020 08:45:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=f800XsxbRoP+8fjozgRCoBbk2ftKwwQk+mzzP/QIsLU=;
+ b=BOyQwc9CT7QyQzOXHGSEcXad52XDgRHJudY+D4ELr/CN5ASi6ILEQVvAGr5A6SFT7e
+ E7FJKDPYbKEx7x0f5xD3MuT0j1B3CYhGL6ue6IuYkDhVtcMGsehBZg2HUR5+rvAzZeUN
+ zSNjlvQWX0LEsUaI92rmMRZSfRNin5o9ppYgR5T+qv1WqRfkw9dUkdy7gfzKQEOxcLpq
+ cnHCfr7Q4KII+svyoyY6GsGEXjjaQ4QiYgMZTV74Goe+hxABk7j6is5IOpFzCeXaSNDt
+ 2iXXOoW9IRybvwcXV+B8Dh08AjJ9riFrsW2Xfmh0vBauYPr2jsoc2ofxTUf9KmLzWMrU
+ MDFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=f800XsxbRoP+8fjozgRCoBbk2ftKwwQk+mzzP/QIsLU=;
+ b=Qz1Ej2q8NKHxBrQcVubNKP3N/neiWVLM3QamhJIkCEWpc4siaoFvIN2aAtsZp0B59k
+ bWN6MOOstT61j7aaAB+eSlgKqbfD1oiGYskoNhpcPF/UFwTrEoqtSCV4JszfERFv+Yo0
+ A0xAwOnl5eLFsyQgR4v+bwHHKIL2NpDeqsLQY/JAa+ji8Vq0oOxKAQaXONgfDqa7OJQp
+ mMkBPYie26wFJm34qeRSXn5U/jUDdQW5t3k8dq9nSe+16Gprzjp93e144pL07XiTUgG9
+ CN3HmlJFoRQIYV9t//4r/wW0byg2UlHZIULybBbgESEyug/0+e+R2ZRkyWJzt236KBir
+ 1ejg==
+X-Gm-Message-State: AOAM532CiEZ98IJJZ8iIYKXWkDRRn9peyWVcwQK1ZI1gDnQ6QQ+LPkhU
+ SyKqvXGVmrDIROz9irDsnjAKTLcKo7QOyy//8Co=
+X-Google-Smtp-Source: ABdhPJxn4WQMWQEecsS6DHeRTBfd/c/LqS8oWzzhVDoRHXh5HkZ0sqK7/AB1fKST8wwEomfjnGGUQ0qLl+J6lzSSRcE=
+X-Received: by 2002:a6b:6a13:: with SMTP id x19mr3566843iog.175.1590162319379; 
+ Fri, 22 May 2020 08:45:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200521095902.GD251811@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
- definitions=2020-05-22_05:2020-05-22,
- 2020-05-22 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- malwarescore=0 clxscore=1015 priorityscore=1501 bulkscore=0 phishscore=0
- adultscore=0 impostorscore=0 mlxscore=0 lowpriorityscore=0
- cotscore=-2147483648 spamscore=0 suspectscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005220125
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 11:18:25
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+References: <CAFEAcA8FFc_Vf-UQO9f_3qoXiCJf9N1uWh7qB-WXrEWTzKBu8Q@mail.gmail.com>
+ <20200522115036.31516-1-e.mikitas@gmail.com>
+ <20200522115036.31516-3-e.mikitas@gmail.com>
+In-Reply-To: <20200522115036.31516-3-e.mikitas@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 22 May 2020 08:36:22 -0700
+Message-ID: <CAKmqyKMgfochqOK47t8c_HfRbCBbJqSVvcHYV0tU6_f3GHCQBw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hw/ssi/imx_spi: Removed unnecessary cast of rx data
+ received from slave
+To: Eden Mikitas <e.mikitas@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,85 +80,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, thuth@redhat.com,
- Tobin Feldman-Fitzthum <tobin@ibm.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, May 22, 2020 at 4:52 AM Eden Mikitas <e.mikitas@gmail.com> wrote:
+>
+> When inserting the value retrieved (rx) from the spi slave, rx is pushed to
+> rx_fifo after being cast to uint8_t. rx_fifo is a fifo32, and the rx
+> register the driver uses is also 32 bit. This zeroes the 24 most
+> significant bits of rx. This proved problematic with devices that expect to
+> use the whole 32 bits of the rx register.
+>
+> Signed-off-by: Eden Mikitas <e.mikitas@gmail.com>
 
-On 5/21/2020 5:59 AM, Stefan Hajnoczi wrote:
-> On Wed, Apr 29, 2020 at 03:44:20PM -0400, Daniele Buono wrote:
->> SafeStack is a stack protection technique implemented in llvm. It is
->> enabled with a -fsanitize flag.
->> iotests are currently disabled when any -fsanitize option is used.
->> Since SafeStack is useful on production environments, and its
->> implementation may break the binary, filter it out when the check is
->> performed, so that if SafeStack was the only -fsanitize option, iotests
->> are still performed.
-> 
-> I can't parse this sentence. What does "its implementation may break the
-> binary" mean? Do you mean it's worth running tests with SafeStack
-> enabled because it exposes failures that go unnoticed without SafeStack?
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-What I meant is that, without proper changes, SafeStack breaks 
-co-routines. Since they are heavily used in the io subsystem, this is 
-probably the best class of tests to make sure co-routines are working 
-fine with SafeStack.
+Alistair
 
-I initially re-enabled the iotests for my internal testing.
-
-Since I wasn't seeing any issue, I thought it would be useful to keep 
-running this to make sure future implementations of SafeStack won't 
-break co-routines again.
-
-> 
->>
->> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
->> ---
->>   tests/check-block.sh | 12 +++++++++++-
->>   1 file changed, 11 insertions(+), 1 deletion(-)
->>
->> diff --git a/tests/check-block.sh b/tests/check-block.sh
->> index ad320c21ba..8e29c868e5 100755
->> --- a/tests/check-block.sh
->> +++ b/tests/check-block.sh
->> @@ -21,7 +21,17 @@ if grep -q "CONFIG_GPROF=y" config-host.mak 2>/dev/null ; then
->>       exit 0
->>   fi
->>   
->> -if grep -q "CFLAGS.*-fsanitize" config-host.mak 2>/dev/null ; then
->> +# Disable tests with any sanitizer except for SafeStack
->> +CFLAGS=$( grep "CFLAGS.*-fsanitize" config-host.mak 2>/dev/null )
->> +SANITIZE_FLAGS=""
->> +#Remove all occurrencies of -fsanitize=safe-stack
->> +for i in ${CFLAGS}; do
->> +        if [ "${i}" != "-fsanitize=safe-stack" ]; then
->> +                SANITIZE_FLAGS="${SANITIZE_FLAGS} ${i}"
->> +        fi
->> +done
->> +if echo ${SANITIZE_FLAGS} | grep -q "\-fsanitize" 2>/dev/null; then
->> +    # Have a sanitize flag that is not allowed, stop
->>       echo "Sanitizers are enabled ==> Not running the qemu-iotests."
->>       exit 0
->>   fi
-> 
-> The commit that disabled check-block.sh with sanitizers said:
-> 
->    The sanitizers (especially the address sanitizer from Clang) are
->    sometimes printing out warnings or false positives - this spoils
->    the output of the iotests, causing some of the tests to fail.
-> 
-> It seems fine to allow SafeStack if check-block.sh currently passes with
-> it enabled. Does it pass and produce no extra output?
-> 
-Yes, that was the idea. SafeStack should pass the tests without extra 
-output.
-
-It did (pass) on my testing machine. However I don't remember if I did 
-the full (slow) check or only the partial one.
-
-Will check again before I submit v2
-> Stefan
-> 
+> ---
+>  hw/ssi/imx_spi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
+> index 6fef5c7958..43b2f14dd2 100644
+> --- a/hw/ssi/imx_spi.c
+> +++ b/hw/ssi/imx_spi.c
+> @@ -206,7 +206,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+>          if (fifo32_is_full(&s->rx_fifo)) {
+>              s->regs[ECSPI_STATREG] |= ECSPI_STATREG_RO;
+>          } else {
+> -            fifo32_push(&s->rx_fifo, (uint8_t)rx);
+> +            fifo32_push(&s->rx_fifo, rx);
+>          }
+>
+>          if (s->burst_length <= 0) {
+> --
+> 2.17.1
+>
+>
 
