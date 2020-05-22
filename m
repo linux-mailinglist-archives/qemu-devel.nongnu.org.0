@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4D61DEE8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 19:47:11 +0200 (CEST)
-Received: from localhost ([::1]:47430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A861DEE97
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 19:48:57 +0200 (CEST)
+Received: from localhost ([::1]:53648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcBlH-0000Vi-0K
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 13:47:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49772)
+	id 1jcBmy-00032q-3r
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 13:48:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBjn-0007DT-Gv
- for qemu-devel@nongnu.org; Fri, 22 May 2020 13:45:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59493
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBjo-0007Hy-Sm
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 13:45:40 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21013
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBjk-0006De-RG
- for qemu-devel@nongnu.org; Fri, 22 May 2020 13:45:39 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBjo-0006Fd-0X
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 13:45:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590169535;
+ s=mimecast20190719; t=1590169538;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gFARda38uI5LKaq1O+Flf3O67TPescdkjgmAvm6EoVA=;
- b=C6g1BO8v36Gimo27HLZSrcMkrj3jbTmODSp6O88u4MM2rDut9M/UNPs8EzATzGSbj/Qb+d
- dQPwLGW3RfdePjgAm/clMmOZEENQ5GTuADhoaS9V8o5n/zoYZbUEVBdmXjXZWeUpPF8AtW
- mWIVMhfnH/hpww7210TlBb6gzRmx1u4=
+ bh=mGJcMQjK5aZXrUwTJnYJzoIr1ktljNKQXX01xjHQ4Jg=;
+ b=T+eH1pWJw39HIvQe+IZKJxcZA/rknQsQJkPUmoIrRYB3rcRFga2C0rpGIS9EfCmDhxwGcW
+ jiXdRbrscPsvVcLGIjA/78kTf736OMaL2O/6ngHVasqoYtWHZbL8YeHtrVLbeLomAynRti
+ B2prFg6FAqrsX21XiNxr+YR0GVLbBX8=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-D6NuH4naNd-C6uYxoIvo8w-1; Fri, 22 May 2020 13:45:32 -0400
-X-MC-Unique: D6NuH4naNd-C6uYxoIvo8w-1
-Received: by mail-wr1-f72.google.com with SMTP id x8so4672338wrl.16
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 10:45:32 -0700 (PDT)
+ us-mta-67-A6a7LrhJNMGlPJ7sfQ6g4Q-1; Fri, 22 May 2020 13:45:37 -0400
+X-MC-Unique: A6a7LrhJNMGlPJ7sfQ6g4Q-1
+Received: by mail-wr1-f72.google.com with SMTP id l1so989326wrc.8
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 10:45:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gFARda38uI5LKaq1O+Flf3O67TPescdkjgmAvm6EoVA=;
- b=FHrk9Wx0XupW0GEH8QZ6Jh/3osecdr+lydPCvJwdj1UoglQGbW03FZHjRQIZRlOXJ7
- OCo+EivgHEWj5zQVnbr7LxYWnQQDQHHTVD6vbbTVyTQDSmVbIqPgmTQPiTE2NPFbow+A
- KxnjviwirFz++8Psod/KA+QUfUshW+ewTIyvCPwQZK+nO7RHSTHfJgzJPMEp83V28enC
- ngYZrwh9hMWPWZfwBNNAIVATpTwZ6QGj5K+39oy41mMR9XcWFPr+CEfd4BpwHBr//E3A
- 51X8DaeG78oImHk2u2cyiUtsCE27CWekcDp5wtNTpmloEhpqtyoZIzH+Jv2GjGSb66Hq
- vHsQ==
-X-Gm-Message-State: AOAM532IKNsONE5SHofugyYeIgoPb5I6Dn6bTvH4AYNzmlqfh0/9nUZV
- CowqX8dBzaeQGnaFVkgZaVqyi9rVPUlKlurPp7295McsbSsPXkp6hWrbQDAeTPDDmAgoWamD9FJ
- 9pcSpZ3XDf7RXCmU=
-X-Received: by 2002:a7b:cf2c:: with SMTP id m12mr2325183wmg.70.1590169530877; 
- Fri, 22 May 2020 10:45:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxlYUiP2QPSXxk1lO2RckYv3wfLRr8jMzClSL2DViVr9f1j1GbuSVBtsysTUajaV6qq/g4y1A==
-X-Received: by 2002:a7b:cf2c:: with SMTP id m12mr2325168wmg.70.1590169530619; 
- Fri, 22 May 2020 10:45:30 -0700 (PDT)
+ bh=mGJcMQjK5aZXrUwTJnYJzoIr1ktljNKQXX01xjHQ4Jg=;
+ b=Pr7Qy2gG7Y9GqoxWsKr55XAMguRE/+ZLs7+blUMPuJ01gDj6PMNAseieEKHsstmjJY
+ PAfVXCKXlK5zJta7xGIPbWe+VY6Y6H8//+MV23wgTFiAo53249yleqh1vIoOWNQmMb6A
+ v22yQhO+6ped2InR5Mjpkgsijzru4RgSDwcAwfb0R61fqjGFAXK5nYBG1Dd8h+L/8kXi
+ yMwY5LSDtPAqquk6laeASwQcvM/0TK4pxGOmkIqtX8ub1k3bi4stcqb4+NA85dbMoI0q
+ T0eOZusxazxnYjVlXyv4UJYn2X6Lv1XZPIu7T2LU7CYa2tSNotDThgwJXRHiC2ZXe+tp
+ obPg==
+X-Gm-Message-State: AOAM533RI5nS5BVbas6dF3ti2wsO3jljVoy1Ed7nGsk86oWSJYRL/Wf9
+ U62LrM5Z0MeyNSgZUZ//6lNbBabpnMeP81DLrW59dbP3Kb2pjZ+PRPfVO91LAqR1SHZZDxOMZXW
+ u5dm3t3OEAlatbSI=
+X-Received: by 2002:adf:f6c4:: with SMTP id y4mr4626891wrp.81.1590169535540;
+ Fri, 22 May 2020 10:45:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz6BGywPYoOqVPY864Pzp2yne9Jhxx9xgvedyiPGFH1HwdZrMo9OHG9eTi66A06fhR6Uppolw==
+X-Received: by 2002:adf:f6c4:: with SMTP id y4mr4626873wrp.81.1590169535277;
+ Fri, 22 May 2020 10:45:35 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id v11sm10344738wrv.53.2020.05.22.10.45.29
+ by smtp.gmail.com with ESMTPSA id a184sm10220663wmh.24.2020.05.22.10.45.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 10:45:30 -0700 (PDT)
+ Fri, 22 May 2020 10:45:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/4] hw/block/pflash_cfi01: Removed an unused timer
-Date: Fri, 22 May 2020 19:45:21 +0200
-Message-Id: <20200522174524.29152-2-philmd@redhat.com>
+Subject: [PULL 2/4] hw/block/pflash_cfi01: Document use of non-CFI compliant
+ command '0x00'
+Date: Fri, 22 May 2020 19:45:22 +0200
+Message-Id: <20200522174524.29152-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200522174524.29152-1-philmd@redhat.com>
 References: <20200522174524.29152-1-philmd@redhat.com>
@@ -72,9 +73,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 10:36:44
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 11:12:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,80 +96,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+Cc: Kevin Wolf <kwolf@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
- Wei Yang <richardw.yang@linux.intel.com>, Laszlo Ersek <lersek@redhat.com>
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'CFI02' NOR flash was introduced in commit 29133e9a0fff, with
-timing modelled. One year later, the CFI01 model was introduced
-(commit 05ee37ebf630) based on the CFI02 model. As noted in the
-header, "It does not support timings". 12 years later, we never
-had to model the device timings. Time to remove the unused timer,
-we can still add it back if required.
+The command 0x00 is used by this model since its origin (commit
+05ee37ebf630). In this commit the command is described with a
+amusing '/* ??? */' comment, probably meaning 'FIXME'.
 
-Suggested-by: Laszlo Ersek <lersek@redhat.com>
-Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+        switch (cmd) {
+        case 0x00: /* ??? */
+            ...
+
+This comment survived 12 years because the 0x00 value is indeed
+not specified by the CFI open standard (as of this commit).
+
+The 'cmd' field is transfered during migration. To keep the
+migration feature working with older QEMU version, we have to
+take a lot of care with migrated field. We figured out it is
+too late to remove a non-specified value from this model
+(this would make migration review very complex). It is however
+not too late to improve the documentation.
+
+Add few comments to remember this is a special value related
+to QEMU, and we won't find information about it on the CFI
+spec.
+
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Tested-by: Laszlo Ersek <lersek@redhat.com>
-[Laszlo Ersek: Regression tested EDK2 OVMF IA32X64, ArmVirtQemu Aarch64
-https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg04373.html]
-Message-Id: <20190716221555.11145-2-philmd@redhat.com>
+Message-Id: <20190716221555.11145-3-philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/block/pflash_cfi01.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+ hw/block/pflash_cfi01.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
 diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 8e8887253d..d67f84d655 100644
+index d67f84d655..3cd483d26a 100644
 --- a/hw/block/pflash_cfi01.c
 +++ b/hw/block/pflash_cfi01.c
-@@ -42,7 +42,6 @@
- #include "hw/qdev-properties.h"
- #include "sysemu/block-backend.h"
- #include "qapi/error.h"
--#include "qemu/timer.h"
- #include "qemu/bitops.h"
- #include "qemu/error-report.h"
- #include "qemu/host-utils.h"
-@@ -91,7 +90,6 @@ struct PFlashCFI01 {
-     uint8_t cfi_table[0x52];
-     uint64_t counter;
-     unsigned int writeblock_size;
--    QEMUTimer *timer;
-     MemoryRegion mem;
-     char *name;
-     void *storage;
-@@ -115,18 +113,6 @@ static const VMStateDescription vmstate_pflash = {
-     }
- };
- 
--static void pflash_timer (void *opaque)
--{
--    PFlashCFI01 *pfl = opaque;
--
--    trace_pflash_timer_expired(pfl->cmd);
--    /* Reset flash */
--    pfl->status ^= 0x80;
--    memory_region_rom_device_set_romd(&pfl->mem, true);
--    pfl->wcycle = 0;
--    pfl->cmd = 0;
--}
--
- /* Perform a CFI query based on the bank width of the flash.
-  * If this code is called we know we have a device_width set for
-  * this flash.
-@@ -775,7 +761,6 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
-         pfl->max_device_width = pfl->device_width;
-     }
- 
--    pfl->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, pflash_timer, pfl);
+@@ -278,9 +278,13 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr offset,
+         /* This should never happen : reset state & treat it as a read */
+         DPRINTF("%s: unknown command state: %x\n", __func__, pfl->cmd);
+         pfl->wcycle = 0;
+-        pfl->cmd = 0;
++        /*
++         * The command 0x00 is not assigned by the CFI open standard,
++         * but QEMU historically uses it for the READ_ARRAY command (0xff).
++         */
++        pfl->cmd = 0x00;
+         /* fall through to read code */
+-    case 0x00:
++    case 0x00: /* This model reset value for READ_ARRAY (not CFI compliant) */
+         /* Flash area read */
+         ret = pflash_data_read(pfl, offset, width, be);
+         break;
+@@ -449,7 +453,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
+     case 0:
+         /* read mode */
+         switch (cmd) {
+-        case 0x00: /* ??? */
++        case 0x00: /* This model reset value for READ_ARRAY (not CFI) */
+             goto reset_flash;
+         case 0x10: /* Single Byte Program */
+         case 0x40: /* Single Byte Program */
+@@ -646,7 +650,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
+     trace_pflash_reset();
+     memory_region_rom_device_set_romd(&pfl->mem, true);
      pfl->wcycle = 0;
-     pfl->cmd = 0;
+-    pfl->cmd = 0;
++    pfl->cmd = 0x00; /* This model reset value for READ_ARRAY (not CFI) */
+ }
+ 
+ 
+@@ -762,7 +766,11 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     pfl->wcycle = 0;
+-    pfl->cmd = 0;
++    /*
++     * The command 0x00 is not assigned by the CFI open standard,
++     * but QEMU historically uses it for the READ_ARRAY command (0xff).
++     */
++    pfl->cmd = 0x00;
      pfl->status = 0x80; /* WSM ready */
+     /* Hardcoded CFI table */
+     /* Standard "QRY" string */
 -- 
 2.21.3
 
