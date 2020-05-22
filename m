@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09111DED72
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:40:00 +0200 (CEST)
-Received: from localhost ([::1]:51822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CFBF1DED84
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:42:03 +0200 (CEST)
+Received: from localhost ([::1]:60300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcAiE-000068-QS
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:39:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42978)
+	id 1jcAkD-0003f8-WF
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:42:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgr-0006po-U3
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25294
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgw-0006zi-JO
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:38 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44835
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgr-0002W7-3u
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:33 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgu-0002WF-RR
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590165512;
+ s=mimecast20190719; t=1590165515;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ndqFgBanjliYTdRp8N1sk+p/cY4owVogsc0x0ibf8Jw=;
- b=iMz9SYUEaU1t3r06yNKvE9vVlH7ZLGSDe8nVWpF4MFhDULTM1HlAgLD3VkoSXeiY9K4WWh
- 261mihzMrZ1FaZjTTI650CtIHsgRFyY2gyTBgIt6FGt2140b7/xiPIZWLDX9ePlU1kqj64
- hPTIfiv4yOFzh3bISQqs759dvsmuK94=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-TG6xN0qPNPO-AIsORCADVw-1; Fri, 22 May 2020 12:38:29 -0400
-X-MC-Unique: TG6xN0qPNPO-AIsORCADVw-1
-Received: by mail-wr1-f71.google.com with SMTP id z10so4628199wrs.2
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:38:29 -0700 (PDT)
+ bh=GPfSgBN6V2tVMS8P3LJc7AXq2ATI7aQPyqGZHft5RHs=;
+ b=TodHyOanITJdSSb2HHhyrv8ia4NCf12pWFxvGaYFRCWAhLWhkaxSL8uPmNzHABTLbFyilh
+ ArpHtbV/QB7EIrgGVaYXkpzG+vwk6P7fPvs7xRP88eJ9gevCHjzqDMTCO5/Vi1YleqwYwH
+ pU2cEgzZsvRQ/jbON2E6ugWe2tSyqBU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-TBoPoNhbO2KyAySLTkyN1A-1; Fri, 22 May 2020 12:38:34 -0400
+X-MC-Unique: TBoPoNhbO2KyAySLTkyN1A-1
+Received: by mail-wm1-f69.google.com with SMTP id p24so778898wmc.1
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:38:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ndqFgBanjliYTdRp8N1sk+p/cY4owVogsc0x0ibf8Jw=;
- b=AI32GHS614pSMU1DTberhBnn6IAM0yJlu4sTQg6U68N1PN4bR0EEJoR/sOOoFU0i4b
- zlqsyiooI8QF957iXkxeg4SzgoJD+mfV0JwNl2EuslR5ciyqJng2FhCKhuP4ZJUv0Loc
- NDuc4t7J70r3riPcq0jLBb7f/xWOn2TZi/iCZLxBWV3Rou8cWBMstPg3njqNbFXDcTmY
- nWEJLQic+F2w5QUMzAHHfU5Rc7uRuy6+YKsHjrkn1ZTsso8vNoUOM1MSaxeTcjNOXS2G
- 6TVpdYoozubygzYvlWKbFratentUFkWzJtv1eS22qiFObJFXDBIe7Qz5gqmnSs/hx0uU
- +O4g==
-X-Gm-Message-State: AOAM532n5IxfmgcG2+NYDIre3hJGSV+/eOPpVgfWCzbGA1Bxogo7EpAH
- bTHrfrJXoGMISolP1RhQLBldi9pfrIoQ7adZs5dHlDXvBwyJirWTy/89IypeMtBDuycEWLiDdn4
- w3zBOmF42fwj7SIw=
-X-Received: by 2002:a5d:51cb:: with SMTP id n11mr3968381wrv.236.1590165508461; 
- Fri, 22 May 2020 09:38:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy6KLQwXznyliPe2SRu8g6Pr0jqiPbXQhgOgvAbHH5VjLQVUwSwFNE+aANzgVTNFqI1B/QmaQ==
-X-Received: by 2002:a5d:51cb:: with SMTP id n11mr3968367wrv.236.1590165508308; 
- Fri, 22 May 2020 09:38:28 -0700 (PDT)
+ bh=GPfSgBN6V2tVMS8P3LJc7AXq2ATI7aQPyqGZHft5RHs=;
+ b=b75YR0VXwE2kAWXhV9fOWaW2gnvWrVzNJk6CEn9gcvbRkgHgNKdQYwIuthHuPKT8Ip
+ HCO1bRrtQvIxsyKho0toBZW+4X340O2A79+SAdeiqE4mxJMmskwtFkV5m2q+7jZw+AA3
+ tze7JjI36NKH7lxB2GfZ3dF5SH85NrlSB0ZQGIXTz/z9mgWbA+iQuxcV1wHzSS9ybSqv
+ D83UPGmaXDMZ0jx7oIkSsVqmITXRHAwbN5Pbhnyg+y++ZOcCmg4pr8AqZalR6/G8tTco
+ ukW395Zr23v3f5ql0xj800IixlqypcQGDqxKO+RsABK9u+FpTT4jflwZi70+u4Gux1/E
+ xTIw==
+X-Gm-Message-State: AOAM533c3XIZraM/CZFjK6diuid8uutKcNVTMXDubq4gQO+MdtSqSr9t
+ /2EaHYdAro3i9v+SYB66FCVPg+5mstD16dk6hd+ln3hNGxEu/P5kpjvt9Hvl7yIM5k9jtkLqstr
+ 9cdI/TQQcQF8ZSmY=
+X-Received: by 2002:a5d:5710:: with SMTP id a16mr3908144wrv.209.1590165512812; 
+ Fri, 22 May 2020 09:38:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZupFUNt2hW8Y0TWlvCF+LCTOs7rLwEc7n9VszcVJIZdGI2nsYz7n/5zPGagJLYybYksrfgw==
+X-Received: by 2002:a5d:5710:: with SMTP id a16mr3908130wrv.209.1590165512676; 
+ Fri, 22 May 2020 09:38:32 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id x24sm10415535wrd.51.2020.05.22.09.38.27
+ by smtp.gmail.com with ESMTPSA id d9sm9930474wmd.10.2020.05.22.09.38.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 09:38:27 -0700 (PDT)
+ Fri, 22 May 2020 09:38:32 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 06/11] Makefile: Remove dangerous EOL trailing backslash
-Date: Fri, 22 May 2020 18:37:54 +0200
-Message-Id: <20200522163759.11480-7-philmd@redhat.com>
+Subject: [PATCH v4 07/11] Makefile: Write MINIKCONF variables as one entry per
+ line
+Date: Fri, 22 May 2020 18:37:55 +0200
+Message-Id: <20200522163759.11480-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200522163759.11480-1-philmd@redhat.com>
 References: <20200522163759.11480-1-philmd@redhat.com>
@@ -72,9 +73,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 10:36:44
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 11:12:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,38 +96,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One might get caught trying to understand unexpected Makefile
-behavior. Trailing backslash can help to split very long lines,
-but are rather dangerous when nothing follow. Preserve other
-developers debugging time by removing this one.
+Having one entry per line helps reviews/refactors. As we are
+going to modify the MINIKCONF variables, split them now to
+ease further review.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Makefile | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 40e4f7677b..6c9d718b2c 100644
+index 6c9d718b2c..7666f81e8a 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -420,7 +420,7 @@ MINIKCONF_ARGS = \
+@@ -418,12 +418,15 @@ MINIKCONF_ARGS = \
+     CONFIG_LINUX=$(CONFIG_LINUX) \
+     CONFIG_PVRDMA=$(CONFIG_PVRDMA)
  
- MINIKCONF_INPUTS = $(SRC_PATH)/Kconfig.host $(SRC_PATH)/hw/Kconfig
- MINIKCONF_DEPS = $(MINIKCONF_INPUTS) $(wildcard $(SRC_PATH)/hw/*/Kconfig)
--MINIKCONF = $(PYTHON) $(SRC_PATH)/scripts/minikconf.py \
-+MINIKCONF = $(PYTHON) $(SRC_PATH)/scripts/minikconf.py
+-MINIKCONF_INPUTS = $(SRC_PATH)/Kconfig.host $(SRC_PATH)/hw/Kconfig
+-MINIKCONF_DEPS = $(MINIKCONF_INPUTS) $(wildcard $(SRC_PATH)/hw/*/Kconfig)
++MINIKCONF_INPUTS = $(SRC_PATH)/Kconfig.host \
++                   $(SRC_PATH)/hw/Kconfig
++MINIKCONF_DEPS = $(MINIKCONF_INPUTS) \
++                 $(wildcard $(SRC_PATH)/hw/*/Kconfig)
+ MINIKCONF = $(PYTHON) $(SRC_PATH)/scripts/minikconf.py
  
  $(SUBDIR_DEVICES_MAK): %/config-devices.mak: default-configs/%.mak $(MINIKCONF_DEPS) $(BUILD_DIR)/config-host.mak
- 	$(call quiet-command, $(MINIKCONF) $(MINIKCONF_ARGS) > $@.tmp, "GEN", "$@.tmp")
+-	$(call quiet-command, $(MINIKCONF) $(MINIKCONF_ARGS) > $@.tmp, "GEN", "$@.tmp")
++	$(call quiet-command, $(MINIKCONF) $(MINIKCONF_ARGS) \
++		> $@.tmp, "GEN", "$@.tmp")
+ 	$(call quiet-command, if test -f $@; then \
+ 	  if cmp -s $@.old $@; then \
+ 	    mv $@.tmp $@; \
 -- 
 2.21.3
 
