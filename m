@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB601DED83
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:41:41 +0200 (CEST)
-Received: from localhost ([::1]:59320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E09111DED72
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:40:00 +0200 (CEST)
+Received: from localhost ([::1]:51822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcAjs-0003GN-96
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:41:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42972)
+	id 1jcAiE-000068-QS
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:39:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgm-0006et-LS
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:28 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38873
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgr-0006po-U3
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25294
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgl-0002U2-SY
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:28 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcAgr-0002W7-3u
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:38:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590165507;
+ s=mimecast20190719; t=1590165512;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zPKsbRJt9+h1QZ5ZVV7cawQ2hLkDBzrcL810MECGIUM=;
- b=RiEpbcewkKMs1J7IK9JY8RNSeO97WmQvvjtFfF+3joxWZ7rHvKrm/QrjBOoiEqg5O5ObT7
- /66V0FBgaybQmer3lqdqWX6Jfpa6dJEozoP/ODePmHZ4yPcXB8E5bSC5Envu12ze8mJGfa
- hoOr/zzkH8jZuNUT6Also/eeygKhpm0=
+ bh=ndqFgBanjliYTdRp8N1sk+p/cY4owVogsc0x0ibf8Jw=;
+ b=iMz9SYUEaU1t3r06yNKvE9vVlH7ZLGSDe8nVWpF4MFhDULTM1HlAgLD3VkoSXeiY9K4WWh
+ 261mihzMrZ1FaZjTTI650CtIHsgRFyY2gyTBgIt6FGt2140b7/xiPIZWLDX9ePlU1kqj64
+ hPTIfiv4yOFzh3bISQqs759dvsmuK94=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-c97WLPUFMdiQYe-VvVoM_w-1; Fri, 22 May 2020 12:38:25 -0400
-X-MC-Unique: c97WLPUFMdiQYe-VvVoM_w-1
-Received: by mail-wr1-f71.google.com with SMTP id n9so4574983wru.20
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:38:25 -0700 (PDT)
+ us-mta-418-TG6xN0qPNPO-AIsORCADVw-1; Fri, 22 May 2020 12:38:29 -0400
+X-MC-Unique: TG6xN0qPNPO-AIsORCADVw-1
+Received: by mail-wr1-f71.google.com with SMTP id z10so4628199wrs.2
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:38:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zPKsbRJt9+h1QZ5ZVV7cawQ2hLkDBzrcL810MECGIUM=;
- b=p71N2GYLxfO2d9qhfnqp8aPmdnHKnGmx4jtupDVcYljsiZ1P6T9fAfhwNmoGIOabxt
- E8H99uQEqPZp9c/AtMtvj1Fzk/FiBbrNs6NTxFHQ2EqtSJUwYn9mB0qX3KY17MpHIbml
- IwJCLekwq0x1u4peCqbwYUbACevOKC/R8e0YSNTW+ekNshX1mOYcYr0rFPwRJOsNkXjb
- 5wOLgWMJRo2xaSG0+UpdAkusj/yqwuBL/3WyKAGuVGIBqVt9522nZYUAYxnWq5WK27D6
- SKar+iokL+99vdTQ5ceaC1Cpm5bmqU3O8Xy+C4NPflfY8NzVTm8CRGVesSADiRMS/myY
- CKIQ==
-X-Gm-Message-State: AOAM531P7Lk1u2HGZnqa6cnnb25sJwjSym7Kb8Y6Yxf04dtibzrVUgt4
- 3mC2NvSFmYR7NGnWL/zK6zBlSaTrWKL/lOX6dWbA0dzvuRkKTSOoqNA8u3N/b+zju46nlkb7sH3
- dZjybCdxRMf9+uyY=
-X-Received: by 2002:a5d:6283:: with SMTP id k3mr4010275wru.62.1590165503978;
- Fri, 22 May 2020 09:38:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyvccAQCLsXlZohF7IaPbmy9JYZk5H7N32zMfVsg9ojJLunE2SZwNXo210t2UtcjKLfYmiF0w==
-X-Received: by 2002:a5d:6283:: with SMTP id k3mr4010264wru.62.1590165503762;
- Fri, 22 May 2020 09:38:23 -0700 (PDT)
+ bh=ndqFgBanjliYTdRp8N1sk+p/cY4owVogsc0x0ibf8Jw=;
+ b=AI32GHS614pSMU1DTberhBnn6IAM0yJlu4sTQg6U68N1PN4bR0EEJoR/sOOoFU0i4b
+ zlqsyiooI8QF957iXkxeg4SzgoJD+mfV0JwNl2EuslR5ciyqJng2FhCKhuP4ZJUv0Loc
+ NDuc4t7J70r3riPcq0jLBb7f/xWOn2TZi/iCZLxBWV3Rou8cWBMstPg3njqNbFXDcTmY
+ nWEJLQic+F2w5QUMzAHHfU5Rc7uRuy6+YKsHjrkn1ZTsso8vNoUOM1MSaxeTcjNOXS2G
+ 6TVpdYoozubygzYvlWKbFratentUFkWzJtv1eS22qiFObJFXDBIe7Qz5gqmnSs/hx0uU
+ +O4g==
+X-Gm-Message-State: AOAM532n5IxfmgcG2+NYDIre3hJGSV+/eOPpVgfWCzbGA1Bxogo7EpAH
+ bTHrfrJXoGMISolP1RhQLBldi9pfrIoQ7adZs5dHlDXvBwyJirWTy/89IypeMtBDuycEWLiDdn4
+ w3zBOmF42fwj7SIw=
+X-Received: by 2002:a5d:51cb:: with SMTP id n11mr3968381wrv.236.1590165508461; 
+ Fri, 22 May 2020 09:38:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy6KLQwXznyliPe2SRu8g6Pr0jqiPbXQhgOgvAbHH5VjLQVUwSwFNE+aANzgVTNFqI1B/QmaQ==
+X-Received: by 2002:a5d:51cb:: with SMTP id n11mr3968367wrv.236.1590165508308; 
+ Fri, 22 May 2020 09:38:28 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id m13sm9707946wmi.42.2020.05.22.09.38.23
+ by smtp.gmail.com with ESMTPSA id x24sm10415535wrd.51.2020.05.22.09.38.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 09:38:23 -0700 (PDT)
+ Fri, 22 May 2020 09:38:27 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 05/11] rules.mak: Add base-arch() rule
-Date: Fri, 22 May 2020 18:37:53 +0200
-Message-Id: <20200522163759.11480-6-philmd@redhat.com>
+Subject: [PATCH v4 06/11] Makefile: Remove dangerous EOL trailing backslash
+Date: Fri, 22 May 2020 18:37:54 +0200
+Message-Id: <20200522163759.11480-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200522163759.11480-1-philmd@redhat.com>
 References: <20200522163759.11480-1-philmd@redhat.com>
@@ -72,9 +72,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 11:12:54
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 10:36:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,89 +95,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a rule to return the base architecture for a QEMU target.
+One might get caught trying to understand unexpected Makefile
+behavior. Trailing backslash can help to split very long lines,
+but are rather dangerous when nothing follow. Preserve other
+developers debugging time by removing this one.
 
-The current list of TARGET_BASE_ARCH is:
-
-  $ git grep  TARGET_BASE_ARCH configure
-  configure:7785:TARGET_BASE_ARCH=""
-  configure:7795:    TARGET_BASE_ARCH=i386
-  configure:7813:    TARGET_BASE_ARCH=arm
-  configure:7846:    TARGET_BASE_ARCH=mips
-  configure:7854:    TARGET_BASE_ARCH=mips
-  configure:7864:    TARGET_BASE_ARCH=openrisc
-  configure:7871:    TARGET_BASE_ARCH=ppc
-  configure:7879:    TARGET_BASE_ARCH=ppc
-  configure:7887:    TARGET_BASE_ARCH=ppc
-  configure:7894:    TARGET_BASE_ARCH=riscv
-  configure:7900:    TARGET_BASE_ARCH=riscv
-  configure:7920:    TARGET_BASE_ARCH=sparc
-  configure:7925:    TARGET_BASE_ARCH=sparc
-
-The rule can be tested calling 'print-base-arch-$TARGET':
-
-  $ make \
-      print-base-arch-openrisc \
-      print-base-arch-aarch64 \
-      print-base-arch-x86_64 \
-      print-base-arch-mips64el \
-      print-base-arch-ppc64
-  openrisc=openrisc
-  aarch64=arm
-  x86_64=i386
-  mips64el=mips
-  ppc64=ppc
-
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-v4:
-- use startwith()
-- fix openrisc (rth)
----
- rules.mak | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/rules.mak b/rules.mak
-index e39bee93d5..2ce527e885 100644
---- a/rules.mak
-+++ b/rules.mak
-@@ -445,3 +445,30 @@ atomic = $(eval $1: $(call sentinel,$1) ; @:) \
+diff --git a/Makefile b/Makefile
+index 40e4f7677b..6c9d718b2c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -420,7 +420,7 @@ MINIKCONF_ARGS = \
  
- print-%:
- 	@echo '$*=$($*)'
-+
-+# base-arch
-+# Usage: $(call base-arch, target)
-+#
-+# @target: the target architecture.
-+#
-+# This macro will return the base architecture for a target.
-+#
-+# As example, $(call base-arch, aarch64) returns 'arm'.
-+base-arch = $(strip \
-+		$(if $(call startwith,mips,$1),mips,\
-+		  $(if $(call startwith,ppc,$1),ppc,\
-+		    $(if $(call startwith,sparc,$1),sparc,\
-+		      $(if $(call startwith,risc,$1),risc,\
-+		        $(if $(call startwith,aarch64,$1),arm,\
-+		          $(if $(call startwith,x86_64,$1),i386,\
-+		            $1\
-+		           )\
-+		         )\
-+		       )\
-+		     )\
-+		   )\
-+		 )\
-+		)
-+
-+print-base-arch-%:
-+	@echo '$*=$(call base-arch, $*)'
+ MINIKCONF_INPUTS = $(SRC_PATH)/Kconfig.host $(SRC_PATH)/hw/Kconfig
+ MINIKCONF_DEPS = $(MINIKCONF_INPUTS) $(wildcard $(SRC_PATH)/hw/*/Kconfig)
+-MINIKCONF = $(PYTHON) $(SRC_PATH)/scripts/minikconf.py \
++MINIKCONF = $(PYTHON) $(SRC_PATH)/scripts/minikconf.py
+ 
+ $(SUBDIR_DEVICES_MAK): %/config-devices.mak: default-configs/%.mak $(MINIKCONF_DEPS) $(BUILD_DIR)/config-host.mak
+ 	$(call quiet-command, $(MINIKCONF) $(MINIKCONF_ARGS) > $@.tmp, "GEN", "$@.tmp")
 -- 
 2.21.3
 
