@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA7A1DEBFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 17:36:07 +0200 (CEST)
-Received: from localhost ([::1]:52210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4551C1DEC59
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 17:44:44 +0200 (CEST)
+Received: from localhost ([::1]:35192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jc9iP-0006rI-P4
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 11:36:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36068)
+	id 1jc9qk-0006Yw-Pi
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 11:44:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jc9gu-0006RH-Ed
- for qemu-devel@nongnu.org; Fri, 22 May 2020 11:34:32 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:45026)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jc9q3-0004yk-0k; Fri, 22 May 2020 11:43:59 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:39872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jc9gt-0006Ns-7S
- for qemu-devel@nongnu.org; Fri, 22 May 2020 11:34:31 -0400
-Received: by mail-ed1-x543.google.com with SMTP id d24so9523587eds.11
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 08:34:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=lhUws9CcVwQImGqjee9B8+WGP9k3GELVFYsGjPi0Jr4=;
- b=ik39fda+y5S8MBNh7BwKYTFZ7beN+N4toAveBjZuACnWH6qjZMUyRM2NMdN0QdEdUN
- tPK87k5kAsRcqY8OVRtNTOLl0ZeGeBl3HRy3M7srgIxI5tT0KAJtZRUt7VXCNS2+yS7V
- /8LypoXskET8t2H17qeW5gQowpFA9t2sTo90pmgZGUycmK3e+1rUFIXXttUBaSAnKQBP
- Q7l3dvtiAQt25z2aLLL8WO40gVPjKrZlVTq+1rhp4zDe2O65giFRylBl6zHYWXZlUqBD
- 6YxYtp9r28xTjwOFzhdgFs7HMmSSPjUS3e8JQSahk9SVo3/mcqL0BRzpzzu1Pnr4VlX0
- 45Kg==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jc9px-00081R-Ig; Fri, 22 May 2020 11:43:58 -0400
+Received: by mail-io1-xd42.google.com with SMTP id q129so2667800iod.6;
+ Fri, 22 May 2020 08:43:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PC7ssX+ZFZ33aEp3xUpkKd5iG93Ot5l7HURqGdFeHfQ=;
+ b=a6AwITcidtwgAgQ+0aeKMHg8JLpzz5bTpIxk9xEMrVQfe9EgGk+Rqo+4UzE9qgEiWZ
+ kX1TnOO7ekhdJOY+CnZxMU+Eqyn1qadsZ2iaWS2hplxLnG4lJaZ4hGN+OreVgl4jZVl0
+ r6RefFFivAQxDqqA5JPRQDxjJsqHQq41QmA9Yc3nIlDj6aHsjwg34r+oBOI4Jmhbnnyx
+ ZDX1+imDUxtv3CHVnU75+N2fYCk5JxTlROOYPLCJA/igDTXOcLjlCt/4lwh2ONghOGkI
+ 98p/fuYEn9fav8ZGU1LiepZ4oIzRGs7f1sFo8IVsv2GstfVmjUbMZhhcU5+7JrVhAsA2
+ PFWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=lhUws9CcVwQImGqjee9B8+WGP9k3GELVFYsGjPi0Jr4=;
- b=lfnFoSFiiQtIMH0Omwn7g5wsnqwl6KVc4uFsmwGMHwX6DZlwQ80Ccy9sYqRW8Dooqm
- CUFxXDzpNfpx/B/rGeGfQC/++Kz8q0PEBb7c7D+NBy1h5BDDKVebwKJQz1vz6NkSz6GB
- u49Xcl7Qzt27+QG/mcwI104LCjW2kOGcI9jS/eLuKqqH/Mj1iKqN3r7drMNGI/DG+xCk
- T+RPFsnadHv+MbzorNh9BMyiCBD/DrxDBxa+81Yoi2mIMXmneMpWbQ23luRt1tYRWWAr
- gKHeecPDLrBu/vZGrSFSd7q5QasBTzQfM/CHUS3s5LU7kt4wULZWhVU3nWdhgdKnDOmb
- b+8g==
-X-Gm-Message-State: AOAM5328LcVMBRHkn4xkNA6bQaqySue/snXny1SjXEM+QIhZw96qBq93
- 8sFIipQMpz8T9Znu/95tjgUlWA==
-X-Google-Smtp-Source: ABdhPJwolmoRymgrYD2rLxB19yUsweNKkNCkqgkomu52HiEmiWUX6aiQTk/8dJINMhjFgkMF7qD7/Q==
-X-Received: by 2002:a50:99de:: with SMTP id n30mr3343447edb.248.1590161669446; 
- Fri, 22 May 2020 08:34:29 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id gf25sm8193888ejb.54.2020.05.22.08.34.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 08:34:28 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 836761FF7E;
- Fri, 22 May 2020 16:34:27 +0100 (BST)
-References: <20200519132259.405-1-robert.foley@linaro.org>
- <20200519132259.405-10-robert.foley@linaro.org>
-User-agent: mu4e 1.4.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Robert Foley <robert.foley@linaro.org>
-Subject: Re: [PATCH v7 09/12] tests/vm: Added a new script for ubuntu.aarch64.
-In-reply-to: <20200519132259.405-10-robert.foley@linaro.org>
-Date: Fri, 22 May 2020 16:34:27 +0100
-Message-ID: <878shkdlvg.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PC7ssX+ZFZ33aEp3xUpkKd5iG93Ot5l7HURqGdFeHfQ=;
+ b=q3c3nCUvbdkmGbZKv0vteeRkvKxboFJaZfXMBdJfxE76oqTeRkw8Z7JB2KvSrT1c00
+ IVBCb6W+XLA3wcft0J3NpiOm4veM1xoYvyyXPtJw8uqtkgm5kIK4B3AH0Qiy1VUe+10P
+ iPb7VAPW7U/4kbpd5RxizFo8/q49MuCi9XaR1b1LKYpU0ffBaJ2/f2vB8iD7JevspazK
+ eWJAOJ94tL5ju+ptnJkNcdJMEE/I3ajERHApUTVh2naaYUkDozkesrL5hi0uLEhLYDfG
+ vNTBEYNHvTu3DtXMtZ4ixInokqQ6O3SttFrsYwyvKKmFKHevPB6E59yGzIkW9qmwuQYZ
+ NzWQ==
+X-Gm-Message-State: AOAM532bG7MXsukeDSBoG/6LliwTIq9ksrYMCBjaVb94G4LQsJ/20kdt
+ gMcRRJ4CT6I30nzt5AGUdfnQlUMgvKICywG8uEU=
+X-Google-Smtp-Source: ABdhPJz9+vQJA0UZQAg8yQ8HPIXlSkdtbMfXGa35ZFXix3wQINuZ0wfiWbdSIbXhfB0t7+4VFxp5uVcuwWy47rfI71Q=
+X-Received: by 2002:a6b:8f82:: with SMTP id r124mr3681687iod.42.1590162231039; 
+ Fri, 22 May 2020 08:43:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x543.google.com
+References: <CAFEAcA8FFc_Vf-UQO9f_3qoXiCJf9N1uWh7qB-WXrEWTzKBu8Q@mail.gmail.com>
+ <20200522115036.31516-1-e.mikitas@gmail.com>
+ <20200522115036.31516-2-e.mikitas@gmail.com>
+In-Reply-To: <20200522115036.31516-2-e.mikitas@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 22 May 2020 08:34:53 -0700
+Message-ID: <CAKmqyKOrNwjsLSAOjcj2jmcZftqAi6W-8whOwQ6nwnxC8wf-cA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/ssi/imx_spi: changed while statement to prevent
+ underflow
+To: Eden Mikitas <e.mikitas@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, T_SPF_TEMPERROR=0.01,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,169 +80,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, philmd@redhat.com, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Robert Foley <robert.foley@linaro.org> writes:
-
-> ubuntu.aarch64 provides a script to create an Ubuntu 18.04 VM.
-> Another new file is also added aarch64vm.py, which is a module with
-> common methods used by aarch64 VMs, such as how to create the
-> flash images.
+On Fri, May 22, 2020 at 4:51 AM Eden Mikitas <e.mikitas@gmail.com> wrote:
 >
-> Signed-off-by: Robert Foley <robert.foley@linaro.org>
-> Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
+> The while statement in question only checked if tx_burst is not 0.
+> tx_burst is a signed int, which is assigned the value put by the
+> guest driver in ECSPI_CONREG. The burst length can be anywhere
+> between 1 and 4096, and since tx_burst is always decremented by 8
+> it could possibly underflow, causing an infinite loop.
+>
+> Signed-off-by: Eden Mikitas <e.mikitas@gmail.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->  configure                 |  20 +++++++
->  tests/vm/Makefile.include |  11 ++++
->  tests/vm/aarch64vm.py     | 106 ++++++++++++++++++++++++++++++++++
->  tests/vm/basevm.py        |  12 ++++
->  tests/vm/ubuntu.aarch64   | 117 ++++++++++++++++++++++++++++++++++++++
->  5 files changed, 266 insertions(+)
->  create mode 100644 tests/vm/aarch64vm.py
->  create mode 100755 tests/vm/ubuntu.aarch64
+>  hw/ssi/imx_spi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/configure b/configure
-> index 89d11aa5d4..d38db335dd 100755
-> --- a/configure
-> +++ b/configure
-> @@ -411,6 +411,7 @@ prefix=3D"/usr/local"
->  mandir=3D"\${prefix}/share/man"
->  datadir=3D"\${prefix}/share"
->  firmwarepath=3D"\${prefix}/share/qemu-firmware"
-> +efi_aarch64_arg=3D
->  qemu_docdir=3D"\${prefix}/share/doc/qemu"
->  bindir=3D"\${prefix}/bin"
->  libdir=3D"\${prefix}/lib"
-> @@ -1099,6 +1100,8 @@ for opt do
->    ;;
->    --firmwarepath=3D*) firmwarepath=3D"$optarg"
->    ;;
-> +  --efi-aarch64=3D*) efi_aarch64_arg=3D"$optarg"
-> +  ;;
->    --host=3D*|--build=3D*|\
->    --disable-dependency-tracking|\
->    --sbindir=3D*|--sharedstatedir=3D*|\
-> @@ -1753,6 +1756,7 @@ Advanced options (experts only):
->    --sysconfdir=3DPATH        install config in PATH$confsuffix
->    --localstatedir=3DPATH     install local state in PATH (set at runtime=
- on win32)
->    --firmwarepath=3DPATH      search PATH for firmware files
-> +  --efi-aarch64=3DPATH       PATH of efi file to use for aarch64 VMs.
->    --with-confsuffix=3DSUFFIX suffix for QEMU data inside datadir/libdir/=
-sysconfdir [$confsuffix]
->    --with-pkgversion=3DVERS   use specified string as sub-version of the =
-package
->    --enable-debug           enable common debug build options
-> @@ -3548,6 +3552,20 @@ EOF
->    fi
->  fi
->=20=20
-> +############################################
-> +# efi-aarch64 probe
-> +# Check for efi files needed by aarch64 VMs.
-> +# By default we will use the efi included with QEMU.
-> +# Allow user to override the path for efi also.
-> +qemu_efi_aarch64=3D$PWD/pc-bios/edk2-aarch64-code.fd
-
-as you only define this once there is no harm in just having a long line
-bellow rather than running the potential confusion when looking at the
-variables.
-
-> +for fd in $efi_aarch64_arg $qemu_efi_aarch64
-> +do
-> +    if test -f $fd; then
-> +        efi_aarch64=3D$fd
-> +        break
-> +    fi
-> +done
-
-This only detects the pc-bios bundled version of edk on a directory
-which has already been built. Maybe we need to do a straight forward:
-
-  if not test -f $efi_aarch64; then
-      if test -f $SRC/pc-bios/edk2-aarch64-code.fd.bz2; then
-          # valid after build
-          efi_aarch64=3D$PWD/pc-bios/edk2-aarch64-code.fd
-      else
-          efi_aarch64=3D""
-      fi
-  fi
-
-what do you think?
-
-<snip>
-> +
-> +    def build_image(self, img):
-> +        os_img =3D self._download_with_cache(self.image_link)
-> +        img_tmp =3D img + ".tmp"
-> +        subprocess.check_call(["cp", "-f", os_img, img_tmp])
-> +        subprocess.check_call(["qemu-img", "resize", img_tmp, "+50G"])
-> +        ci_img =3D self.gen_cloud_init_iso()
-> +
-> +        self.boot(img_tmp, extra_args =3D ["-cdrom", ci_img])
-> +        if self.debug:
-> +            self.wait_boot()
-> +        # First command we issue is fix for slow ssh login.
-> +        self.wait_ssh(wait_root=3DTrue,
-> +                      cmd=3D"chmod -x /etc/update-motd.d/*")
-> +        # Wait for cloud init to finish
-> +        self.wait_ssh(wait_root=3DTrue,
-> +                      cmd=3D"ls /var/lib/cloud/instance/boot-finished")
-> +        self.ssh_root("touch /etc/cloud/cloud-init.disabled")
-> +        # Disable auto upgrades.
-> +        # We want to keep the VM system state stable.
-> +        self.ssh_root('sed -ie \'s/"1"/"0"/g\' /etc/apt/apt.conf.d/20aut=
-o-upgrades')
-> +        # If the user chooses *not* to do the second phase,
-> +        # then we will jump right to the graceful shutdown
-> +        if self._config['install_cmds'] !=3D "":
-> +            self.ssh_root("sync")
-> +            # Shutdown and then boot it again.
-> +            # Allows us to know for sure it is booting (not shutting dow=
-n)
-> +            # before we call wait_ssh().
-> +            self.graceful_shutdown()
-> +            self.boot(img_tmp)
-> +            if self.debug:
-> +                self.wait_boot()
-> +            self.wait_ssh(wait_root=3DTrue)
-> +            self.wait_ssh(wait_root=3DTrue, cmd=3D"locale")
-
-Why do we need to shutdown before proceeding with the install commands?
-I see ubuntu.i386 does it as well although with a slightly hackier
-approach.
-
-> +            # The previous update sometimes doesn't survive a reboot, so=
- do it again
-> +            self.ssh_root("sed -ie s/^#\ deb-src/deb-src/g /etc/apt/sour=
-ces.list")
-> +
-> +            # Issue the install commands.
-> +            # This can be overriden by the user in the config .yml.
-> +            install_cmds =3D self._config['install_cmds'].split(',')
-> +            for cmd in install_cmds:
-> +                self.ssh_root(cmd)
-> +        self.graceful_shutdown()
-> +        self.wait()
-> +        os.rename(img_tmp, img)
-> +        return 0
-
-How come we are diverging from the ubuntu.i386 install here? You've
-moved all the complications for aarch64 into a it's own handling so
-these steps are almost but not quite the same. Couldn't the ubuntu
-build_img code be common and then just have a slightly different set of
-install commands?
-
-> +
-> +if __name__ =3D=3D "__main__":
-> +    defaults =3D aarch64vm.get_config_defaults(UbuntuAarch64VM, DEFAULT_=
-CONFIG)
-> +    sys.exit(basevm.main(UbuntuAarch64VM, defaults))
-
-
---=20
-Alex Benn=C3=A9e
+> diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
+> index 2dd9a631e1..6fef5c7958 100644
+> --- a/hw/ssi/imx_spi.c
+> +++ b/hw/ssi/imx_spi.c
+> @@ -182,7 +182,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+>
+>          rx = 0;
+>
+> -        while (tx_burst) {
+> +        while (tx_burst > 0) {
+>              uint8_t byte = tx & 0xff;
+>
+>              DPRINTF("writing 0x%02x\n", (uint32_t)byte);
+> --
+> 2.17.1
+>
+>
 
