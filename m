@@ -2,61 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85711DE8DD
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 16:28:09 +0200 (CEST)
-Received: from localhost ([::1]:60038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C95ED1DE906
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 16:32:18 +0200 (CEST)
+Received: from localhost ([::1]:40488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jc8ef-0000gi-2A
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 10:28:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56066)
+	id 1jc8ie-0006Pp-Ie
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 10:32:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jc8di-0008Fp-RX
- for qemu-devel@nongnu.org; Fri, 22 May 2020 10:27:12 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:41105)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jc8g5-0003i7-9W
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 10:29:37 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:35381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jc8dh-0000d6-R7
- for qemu-devel@nongnu.org; Fri, 22 May 2020 10:27:10 -0400
-Received: by mail-ot1-x336.google.com with SMTP id 63so8356624oto.8
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 07:27:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jc8g0-00010p-BY
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 10:29:36 -0400
+Received: by mail-ej1-x643.google.com with SMTP id s21so13306918ejd.2
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 07:29:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bpe6ofdN8R/N2YPL1RJvm54mWt7nQU0TCAdkiBP34bI=;
- b=nDT9S+D+EwhygeHQjdidiFHo02Bdm+WqsoZxaGlMDSn16reV+fAxHJE4XfFpoLRMTo
- +7Usc0I6GrfI4A5DEvoxkZaCjioxrGmbGR0M3esIiEutosm41TCl6rUzqX79DKX2GtOK
- o2vHl1byT46vd3HfGEwGxADOpV/L1EcWHToG6H55AeZi3Pvr20WLS9QqiLOrUMmoakR/
- K9oEOZ3knX07qrMhfXgjhCJWmVFp1jGGuJNbfY/DE/9sfpLnFVt3Ncn7oG/mClCptR1W
- Yt0v+bP4VKXkkVCuOMqX0QE8Hakmm/OO1IJLXjTa71UlQB+Q0L/qNWFAd7puAilXByzL
- EyTQ==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=4VVcLSFHxTQGow1adThb0vRIPh73heIA+x9HtCgOnlU=;
+ b=XbJslCjAKM4hFYUiOyg4RAeTadzDZn7ud+AjDQHruRNOuOySSIbkFlVy6V9Bm/ZkPw
+ XtSaCWnCrcIZyGHeSyfPXk4fCtY9vFnREqd+KQtviCLG2otQudGF7zaGUrescMKBrwa8
+ d+Uf1YVcLYwwHbP0Va9d3ztqDazCV3Nc64M8Yh1rXoR7ZGwsDkSILFvXCLr8IDCsleJM
+ k75VE8oslDR41ObKhmDtm5B58dwjt/EmCZxllmDHEvys0ztdlu9SoXj8b+mW4CmXz2Oo
+ mLCHwZKpx24EyX4mNqc/whHWfkAK9C46l6S9TKKvFCJviFj5BpvmUm4K/JLxi7Y1tm9m
+ dLuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bpe6ofdN8R/N2YPL1RJvm54mWt7nQU0TCAdkiBP34bI=;
- b=bXDb94GgTTo3nyMD+acLVeKbEFfllirc6c8c8mL9U5g7C7viHll1KxORoQSn4+OW4z
- Cb/pYo7Oo3bD7KNrhQ/O6mrPM6ypq/82xFgfNM6Mo0g1zTlaNFz7b/+GSBmJ/392BRX7
- M8YjAZaYxFLV18hm5wpicGMSyYkBpM8BWAxSDS+JcWGr3LS0M5J+zRmwBDYCDyHu2sTr
- WPQrS8qUAfxNPTjxyhqHWyRkb8h1LHe3EzpN1xdi9qT1hIRbyc4fLItFq77mHAlJtj+5
- /5gqRSDFeXmJg3RdUFM+ll0h3d13YbEMP3EpgFUn2bgkfcH/tiyppynVABesO/4+AbAq
- 7hXg==
-X-Gm-Message-State: AOAM5305YYXwOr9RMbp6NRnfP4Ti0//X3eKmz0MwXdRsDF33ON0ocUVr
- K9F2wWam6hDotyMSnCblRHTCFJFpi9zPJVOhNXNhxMxN
-X-Google-Smtp-Source: ABdhPJwgxdC33Prqq5u1fUSYi8DMtrbUULIwoGUX4/Q9Z5b3qjijWbLsUXntCL/UAmVWTQtxae05ATO9eRU3AiPW3Ys=
-X-Received: by 2002:a9d:3623:: with SMTP id w32mr10954852otb.91.1590157628171; 
- Fri, 22 May 2020 07:27:08 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=4VVcLSFHxTQGow1adThb0vRIPh73heIA+x9HtCgOnlU=;
+ b=VeoI41EDGOfGquxk1EfKnS630GR/ehRyCYll6Dwsx4vrSynF/gthgWArrjmpZBcdtT
+ P9I7Mz9v5Jayof40b9IkbtiNlea6m9vXQU8uXSMp7QL9gFH2VROZRjXbFMELJMlYXIZC
+ 4rtTM/Ag72kw+RuwB1ACNDMEx44ys7w+y20Axb7O6MSyBOr3VEgMNjB+cLWs+FRSAc2w
+ joussKg7CqP/l32CEkt5tOYsYyjAeUfGZeeBXpLmVhY6PG4s8BK/QZG33OUJBqPnZelo
+ PzgW2ZSeqPP6WKGO4sEJ65DoAg/62WyGQ7+aX346zOKdAtKvaBzfM4EJOm7eJlGUcZAM
+ T6Kg==
+X-Gm-Message-State: AOAM533jTo7q/lxb7rf8q5t28PTJNRtiUbwegdAawk9ioKJxvVsBuExU
+ 2t7L0zxa2yQdD2DRA/3BQ6Al1A==
+X-Google-Smtp-Source: ABdhPJzYvEzib+RQ/qnGbVFB2MxSWhJyHGhGmMfgrEFxNL+z685WLPVYeEVDkVy0u9RZZxZBhd640g==
+X-Received: by 2002:a17:906:8608:: with SMTP id
+ o8mr8082527ejx.274.1590157770795; 
+ Fri, 22 May 2020 07:29:30 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o1sm7345361edf.77.2020.05.22.07.29.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 May 2020 07:29:29 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id EDD041FF7E;
+ Fri, 22 May 2020 15:29:28 +0100 (BST)
+References: <20200519132259.405-1-robert.foley@linaro.org>
+ <20200519132259.405-7-robert.foley@linaro.org>
+User-agent: mu4e 1.4.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Robert Foley <robert.foley@linaro.org>
+Subject: Re: [PATCH v7 06/12] tests/vm: Pass --debug through for vm-boot-ssh.
+In-reply-to: <20200519132259.405-7-robert.foley@linaro.org>
+Date: Fri, 22 May 2020 15:29:28 +0100
+Message-ID: <87eercdovr.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200521200707.13826-1-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20200521200707.13826-1-mark.cave-ayland@ilande.co.uk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 May 2020 15:26:57 +0100
-Message-ID: <CAFEAcA9SdmLzuTPXZX56ejPtkd6U1ac6M=FPCLRzaLri7fvxcA@mail.gmail.com>
-Subject: Re: [PULL 0/1] qemu-openbios queue 20200521
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x336.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -64,7 +76,7 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, T_SPF_TEMPERROR=0.01,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,34 +90,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.puhov@linaro.org, philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 May 2020 at 21:07, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
+
+Robert Foley <robert.foley@linaro.org> writes:
+
+> This helps debug issues that occur during the boot sequence.
 >
-> The following changes since commit ae3aa5da96f4ccf0c2a28851449d92db9fcfad71:
+> Signed-off-by: Robert Foley <robert.foley@linaro.org>
+> Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  tests/vm/Makefile.include | 1 +
+>  1 file changed, 1 insertion(+)
 >
->   Merge remote-tracking branch 'remotes/berrange/tags/socket-next-pull-request' into staging (2020-05-21 16:47:28 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/mcayland/qemu.git tags/qemu-openbios-20200521
->
-> for you to fetch changes up to e70626551ac64446b15350574d9422af2e0cff9d:
->
->   Update OpenBIOS images to 4704d9eb built from submodule. (2020-05-21 21:00:39 +0100)
->
-> ----------------------------------------------------------------
-> qemu-openbios queue
->
+> diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+> index d9b34eae63..e22c391a2a 100644
+> --- a/tests/vm/Makefile.include
+> +++ b/tests/vm/Makefile.include
+> @@ -97,6 +97,7 @@ vm-boot-ssh-%: $(IMAGES_DIR)/%.img
+>  	$(call quiet-command, \
+>  		$(PYTHON) $(SRC_PATH)/tests/vm/$* \
+>  		$(if $(J),--jobs $(J)) \
+> +		$(if $(V)$(DEBUG), --debug) \
+>  		--image "$<" \
+>  		--interactive \
+>  		false, \
 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
-
--- PMM
+--=20
+Alex Benn=C3=A9e
 
