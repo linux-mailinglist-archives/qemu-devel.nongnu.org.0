@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3421DEE92
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 19:47:59 +0200 (CEST)
-Received: from localhost ([::1]:50462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4D61DEE8E
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 19:47:11 +0200 (CEST)
+Received: from localhost ([::1]:47430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcBm2-0001lQ-DO
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 13:47:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49744)
+	id 1jcBlH-0000Vi-0K
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 13:47:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBjh-00077V-Vw
- for qemu-devel@nongnu.org; Fri, 22 May 2020 13:45:34 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48212
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBjn-0007DT-Gv
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 13:45:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59493
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBjg-00067Z-5j
- for qemu-devel@nongnu.org; Fri, 22 May 2020 13:45:33 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBjk-0006De-RG
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 13:45:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590169529;
+ s=mimecast20190719; t=1590169535;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=REcohPbhG9fGgxyS9sZyxolC0rPsb35OGuQqGbRsgV4=;
- b=KeJmDC53WcGIEMYuv9o5KBb6B7IsdmpQG8vLPw+ccWEZCjEsJ3ng4udCdoPgjkx1ncZuMI
- hYQhKt1wFHtU4q9PYiKI3Is7I26yr7mTdlbOyOFNQ6yyW5+XcesFfAfxH2xlb2OYEVcMoY
- Khh1M54GbZz1sIH+DZycWnsvmUPbjsg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gFARda38uI5LKaq1O+Flf3O67TPescdkjgmAvm6EoVA=;
+ b=C6g1BO8v36Gimo27HLZSrcMkrj3jbTmODSp6O88u4MM2rDut9M/UNPs8EzATzGSbj/Qb+d
+ dQPwLGW3RfdePjgAm/clMmOZEENQ5GTuADhoaS9V8o5n/zoYZbUEVBdmXjXZWeUpPF8AtW
+ mWIVMhfnH/hpww7210TlBb6gzRmx1u4=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-PMfdBwznMPawjUV6S6H_TQ-1; Fri, 22 May 2020 13:45:28 -0400
-X-MC-Unique: PMfdBwznMPawjUV6S6H_TQ-1
-Received: by mail-wr1-f72.google.com with SMTP id e1so2187389wrm.3
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 10:45:28 -0700 (PDT)
+ us-mta-484-D6NuH4naNd-C6uYxoIvo8w-1; Fri, 22 May 2020 13:45:32 -0400
+X-MC-Unique: D6NuH4naNd-C6uYxoIvo8w-1
+Received: by mail-wr1-f72.google.com with SMTP id x8so4672338wrl.16
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 10:45:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=REcohPbhG9fGgxyS9sZyxolC0rPsb35OGuQqGbRsgV4=;
- b=Ju0dh75K8RnIo+S7SzMecL5cnbllObf7qSrSsXaaBOQ+crJYbpTWN9uqtEMmjbj4uS
- rFpPhBQiN+sLD74INjpONhynSv7obF377xdz98GygVawDYHwb3rACV9+bAJstRZX8oLM
- z5c4aBJLtM1dI+lr+Vjkv91ZYSFaxCO7N21mBcwisoKjLsoEJNsad9uzyKdAAvylJohN
- 1aAyRzxXzpFl10zbNPkbxfv/ujV0kaIUx0MLOTXpFUStEWcrVQeQ4oNGtXHOAK9fLIGA
- iGmEbDHmz2SOf6sVlVdLqM1Ffe/9u8Ruavn/wJof9Q0vKqMgu37N2zioQdlT3qhpovLC
- Yl6Q==
-X-Gm-Message-State: AOAM5316p3wwJ39k1LB705L7264bqK91fvqeXw/f/gmtY8P9esWhteMo
- GMA3MKwPLw9DTUZfQ+vRnuEgUWIRwOXaXW/DaKplZPSGnMEjzZg0BeImbw1VbcI4wK3P6gRGuHO
- QWUbclDU/cJe0eFc=
-X-Received: by 2002:a1c:2bc2:: with SMTP id r185mr15008087wmr.49.1590169526324; 
- Fri, 22 May 2020 10:45:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwrd5z2S2lfF8LR4uE48pOwzeZ79Y2+4w7SDSsZpvqGHs2F3/8+puGWU8L6zuF2FprZXUvg5A==
-X-Received: by 2002:a1c:2bc2:: with SMTP id r185mr15008072wmr.49.1590169526122; 
- Fri, 22 May 2020 10:45:26 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=gFARda38uI5LKaq1O+Flf3O67TPescdkjgmAvm6EoVA=;
+ b=FHrk9Wx0XupW0GEH8QZ6Jh/3osecdr+lydPCvJwdj1UoglQGbW03FZHjRQIZRlOXJ7
+ OCo+EivgHEWj5zQVnbr7LxYWnQQDQHHTVD6vbbTVyTQDSmVbIqPgmTQPiTE2NPFbow+A
+ KxnjviwirFz++8Psod/KA+QUfUshW+ewTIyvCPwQZK+nO7RHSTHfJgzJPMEp83V28enC
+ ngYZrwh9hMWPWZfwBNNAIVATpTwZ6QGj5K+39oy41mMR9XcWFPr+CEfd4BpwHBr//E3A
+ 51X8DaeG78oImHk2u2cyiUtsCE27CWekcDp5wtNTpmloEhpqtyoZIzH+Jv2GjGSb66Hq
+ vHsQ==
+X-Gm-Message-State: AOAM532IKNsONE5SHofugyYeIgoPb5I6Dn6bTvH4AYNzmlqfh0/9nUZV
+ CowqX8dBzaeQGnaFVkgZaVqyi9rVPUlKlurPp7295McsbSsPXkp6hWrbQDAeTPDDmAgoWamD9FJ
+ 9pcSpZ3XDf7RXCmU=
+X-Received: by 2002:a7b:cf2c:: with SMTP id m12mr2325183wmg.70.1590169530877; 
+ Fri, 22 May 2020 10:45:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxlYUiP2QPSXxk1lO2RckYv3wfLRr8jMzClSL2DViVr9f1j1GbuSVBtsysTUajaV6qq/g4y1A==
+X-Received: by 2002:a7b:cf2c:: with SMTP id m12mr2325168wmg.70.1590169530619; 
+ Fri, 22 May 2020 10:45:30 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id f123sm10137308wmf.44.2020.05.22.10.45.25
+ by smtp.gmail.com with ESMTPSA id v11sm10344738wrv.53.2020.05.22.10.45.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 10:45:25 -0700 (PDT)
+ Fri, 22 May 2020 10:45:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/4] pflash-next patches for 2020-05-22
-Date: Fri, 22 May 2020 19:45:20 +0200
-Message-Id: <20200522174524.29152-1-philmd@redhat.com>
+Subject: [PULL 1/4] hw/block/pflash_cfi01: Removed an unused timer
+Date: Fri, 22 May 2020 19:45:21 +0200
+Message-Id: <20200522174524.29152-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200522174524.29152-1-philmd@redhat.com>
+References: <20200522174524.29152-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 11:11:51
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 10:36:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,48 +95,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+ Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Wei Yang <richardw.yang@linux.intel.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d19f1ab0de8b763159513e3eaa12c5bc68122361:
+The 'CFI02' NOR flash was introduced in commit 29133e9a0fff, with
+timing modelled. One year later, the CFI01 model was introduced
+(commit 05ee37ebf630) based on the CFI02 model. As noted in the
+header, "It does not support timings". 12 years later, we never
+had to model the device timings. Time to remove the unused timer,
+we can still add it back if required.
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-2020052=
-1-1' into staging (2020-05-21 22:06:56 +0100)
+Suggested-by: Laszlo Ersek <lersek@redhat.com>
+Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Tested-by: Laszlo Ersek <lersek@redhat.com>
+[Laszlo Ersek: Regression tested EDK2 OVMF IA32X64, ArmVirtQemu Aarch64
+https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg04373.html]
+Message-Id: <20190716221555.11145-2-philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/block/pflash_cfi01.c | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/philmd/qemu.git tags/pflash-next-20200522
-
-for you to fetch changes up to 1857b9db49770590483be44eb90993c42b2a5a99:
-
-  hw/block/pflash: Check return value of blk_pwrite() (2020-05-22 19:38:14 +0=
-200)
-
-----------------------------------------------------------------
-
-- Remove unused timer in CFI01 flash,
-- Clean up code documentation,
-- Silent a long-standing Coverity warning (2016-07-15).
-
-----------------------------------------------------------------
-
-Mansour Ahmadi (1):
-  hw/block/pflash: Check return value of blk_pwrite()
-
-Philippe Mathieu-Daud=C3=A9 (3):
-  hw/block/pflash_cfi01: Removed an unused timer
-  hw/block/pflash_cfi01: Document use of non-CFI compliant command
-    '0x00'
-  hw/block/pflash_cfi01: Rename 'reset_flash' label as 'mode_read_array'
-
- hw/block/pflash_cfi01.c | 71 ++++++++++++++++++++---------------------
- hw/block/pflash_cfi02.c |  8 ++++-
- 2 files changed, 42 insertions(+), 37 deletions(-)
-
---=20
+diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+index 8e8887253d..d67f84d655 100644
+--- a/hw/block/pflash_cfi01.c
++++ b/hw/block/pflash_cfi01.c
+@@ -42,7 +42,6 @@
+ #include "hw/qdev-properties.h"
+ #include "sysemu/block-backend.h"
+ #include "qapi/error.h"
+-#include "qemu/timer.h"
+ #include "qemu/bitops.h"
+ #include "qemu/error-report.h"
+ #include "qemu/host-utils.h"
+@@ -91,7 +90,6 @@ struct PFlashCFI01 {
+     uint8_t cfi_table[0x52];
+     uint64_t counter;
+     unsigned int writeblock_size;
+-    QEMUTimer *timer;
+     MemoryRegion mem;
+     char *name;
+     void *storage;
+@@ -115,18 +113,6 @@ static const VMStateDescription vmstate_pflash = {
+     }
+ };
+ 
+-static void pflash_timer (void *opaque)
+-{
+-    PFlashCFI01 *pfl = opaque;
+-
+-    trace_pflash_timer_expired(pfl->cmd);
+-    /* Reset flash */
+-    pfl->status ^= 0x80;
+-    memory_region_rom_device_set_romd(&pfl->mem, true);
+-    pfl->wcycle = 0;
+-    pfl->cmd = 0;
+-}
+-
+ /* Perform a CFI query based on the bank width of the flash.
+  * If this code is called we know we have a device_width set for
+  * this flash.
+@@ -775,7 +761,6 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
+         pfl->max_device_width = pfl->device_width;
+     }
+ 
+-    pfl->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, pflash_timer, pfl);
+     pfl->wcycle = 0;
+     pfl->cmd = 0;
+     pfl->status = 0x80; /* WSM ready */
+-- 
 2.21.3
 
 
