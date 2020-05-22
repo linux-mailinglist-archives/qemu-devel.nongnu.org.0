@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A62E1DEE34
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 19:28:54 +0200 (CEST)
-Received: from localhost ([::1]:44432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BCE51DEE30
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 19:27:23 +0200 (CEST)
+Received: from localhost ([::1]:36628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcBTZ-0001WR-BP
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 13:28:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47538)
+	id 1jcBS6-0006oz-22
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 13:27:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBQF-0003xU-PB
- for qemu-devel@nongnu.org; Fri, 22 May 2020 13:25:27 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60659
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBQL-00044F-Mk
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 13:25:34 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23053
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBQE-0001rV-JZ
- for qemu-devel@nongnu.org; Fri, 22 May 2020 13:25:27 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBQJ-0001tc-3G
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 13:25:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590168325;
+ s=mimecast20190719; t=1590168330;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jgZlGUY22rV8RWoGEVzXdsh/Q/2FAX4GHFlUmso+7+4=;
- b=DZLnaO/TZwJ4A7LvYWgkEANXUTysU8yZmgtlZv8wRLlEhU6egs0q/aJ0uKBR4u9ll4U7Xb
- WhTmD3QNwHffLKT5/OfOmMyGnDbk5dFKCvk7Us5aY/+172PKWaKHTFvp3AUW/tD2j8g7/g
- JS03ETLcExk1DRHCyN1UZcEut42cGqg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-hK6HwuHFNlOshJNvHT0yYA-1; Fri, 22 May 2020 13:25:24 -0400
-X-MC-Unique: hK6HwuHFNlOshJNvHT0yYA-1
-Received: by mail-wr1-f72.google.com with SMTP id e1so2165856wrm.3
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 10:25:24 -0700 (PDT)
+ bh=pzIXUjmQFMXKkBqElREelsSBtwnLlPTjL7FgZWSFFRo=;
+ b=b+VJ+Vhpaqltx7qQLy8TkBH1NR9dIuXvnIEJmnhVQ4XbgoQFTIh/YGuoiQR56VIko0rBww
+ ZuckFjirCF89aleCClQFhUzf4in4YAPD9eupB3oZINvEHXell7DUKOizLDZ8CBsFmzCe2c
+ xxNJULB8nd+jCiKTE4wnLCtupY5sNLs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-340-RmGrtnTeOCWl4_MkQK6knQ-1; Fri, 22 May 2020 13:25:29 -0400
+X-MC-Unique: RmGrtnTeOCWl4_MkQK6knQ-1
+Received: by mail-wm1-f70.google.com with SMTP id l2so4412920wmi.2
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 10:25:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jgZlGUY22rV8RWoGEVzXdsh/Q/2FAX4GHFlUmso+7+4=;
- b=l7ZTyEfYtEU4vRz/N9WMRgdVJNwJtlN7W618rm5rczsP3S7xmLDzuryX+bD0ly1Uo3
- P5eM73EDTSjUp55VnTt+64ZyzQKPSmWSZZk+WwijQ6gCq7kIJ+ZGpXECHzW2TzpHDuyW
- HcPazuCO2szzEUxVAkJkQS5vDUkDD+Mja1qvAIWNj8xnhreugXrIO3xhgCvbKW9N7LHg
- qqdkNu2naQZ2w40InxY/99C5MsIL7UPQi8eDTCS4j51UO/xGduvtwYxAMOL7PK2ajU6B
- /3EkSTno/A5h7mg32O5iGr7m9MU5Opt1mrcDZOWpBCBsNx36FDW3EzaX6/u54td9Kl9y
- Au/w==
-X-Gm-Message-State: AOAM531Ic3eiYcZPjmhWZrXGQ3BUoke0UsrnzM1Z/T3+4Oj50LQoH0gi
- sWeGjlNw25tHSfsrzmGRq43Gm7e5jioW1u1XZe1nkSID2/PYgh+FioBrv5o5ec3wlwy9BqiHBlZ
- tJ4+eOz0dg8D3las=
-X-Received: by 2002:adf:f6c4:: with SMTP id y4mr4563979wrp.81.1590168322922;
- Fri, 22 May 2020 10:25:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+6a07xH61ez0EqUOI1p9j5aofX1C1m/qY1s4oS5CeugnNzbl2ty/XQ88gT5/sRF2lb+/2Zg==
-X-Received: by 2002:adf:f6c4:: with SMTP id y4mr4563964wrp.81.1590168322779;
- Fri, 22 May 2020 10:25:22 -0700 (PDT)
+ bh=pzIXUjmQFMXKkBqElREelsSBtwnLlPTjL7FgZWSFFRo=;
+ b=ZGUPLFllLEMirQxPqtadsgmn3ENr7prSEgKZifAuapt6L+86JOEsFWBCn6H6X0eU02
+ CyanGoaexXdkPvwA6duKAYxysMHKIWMGUCwUN11vnWV/d/fHjVPYke/hK/aBJnwDTkYY
+ nm0kOVdxyM77aA8eYKlKy3owb7NaVAx0RWkyGj8/BVfuEaAsrwPGHSPYKaHpXYkeFdgp
+ baYhed8Hlag7o9P6x6Oud7yIozQ517SLet0nGCfud9Qc2aYuOJavsU7bo0zzYu94NK0O
+ dclCDbShjgHwxuGo7S3kYkfI7kIHtrpMn5w77zNZh5o+0dpKklJMBHgq+JSr5OfmcgCG
+ ms0A==
+X-Gm-Message-State: AOAM531nbbHJUczql1ma+yrXp9hAw5yFFnK1YQydeOolmjDny+khQltl
+ cCcqSZz5fIBNjlHniwbUwZR5stYpMJLM9ev5cRrexcihmPpN+BlyzcJE3A84STAj+G49FBs5420
+ Tlv3rikVd18c2xQY=
+X-Received: by 2002:a7b:c40f:: with SMTP id k15mr15191563wmi.65.1590168327640; 
+ Fri, 22 May 2020 10:25:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFUMOXMRJNi03qmgZVgVUBNZc61FlTSbPs4N95RyygaMEs2jp8mbjr97TSoPRdKs+JzJXZLA==
+X-Received: by 2002:a7b:c40f:: with SMTP id k15mr15191544wmi.65.1590168327492; 
+ Fri, 22 May 2020 10:25:27 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id b12sm10559661wmj.0.2020.05.22.10.25.21
+ by smtp.gmail.com with ESMTPSA id m3sm9950762wrn.96.2020.05.22.10.25.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 10:25:22 -0700 (PDT)
+ Fri, 22 May 2020 10:25:27 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/13] configure: Avoid building TCG when not needed
-Date: Fri, 22 May 2020 19:24:59 +0200
-Message-Id: <20200522172510.25784-3-philmd@redhat.com>
+Subject: [PATCH v4 03/13] tests/Makefile: Only display TCG-related tests when
+ TCG is available
+Date: Fri, 22 May 2020 19:25:00 +0200
+Message-Id: <20200522172510.25784-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200522172510.25784-1-philmd@redhat.com>
 References: <20200522172510.25784-1-philmd@redhat.com>
@@ -109,37 +110,30 @@ Cc: qemu-riscv@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid building TCG when building only tools:
-
-  ./configure --enable-tools --disable-system --disable-user
-
-This saves us from running the soft-float tests enabled since
-commit 76170102508.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Tested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- configure | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/Makefile.include | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/configure b/configure
-index 2fc05c4465..35e7951b95 100755
---- a/configure
-+++ b/configure
-@@ -1663,6 +1663,10 @@ if [ "$ARCH" = "unknown" ]; then
-   linux_user="no"
- fi
- 
-+if [ "$bsd_user" = "no" -a "$linux_user" = "no" -a "$softmmu" = "no" ] ; then
-+  tcg="no"
-+fi
-+
- default_target_list=""
- 
- mak_wilds=""
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 03a74b60f6..6bc3d1096b 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -12,8 +12,10 @@ check-help:
+ 	@echo " $(MAKE) check-speed          Run qobject speed tests"
+ 	@echo " $(MAKE) check-qapi-schema    Run QAPI schema tests"
+ 	@echo " $(MAKE) check-block          Run block tests"
++ifeq ($(CONFIG_TCG),y)
+ 	@echo " $(MAKE) check-tcg            Run TCG tests"
+ 	@echo " $(MAKE) check-softfloat      Run FPU emulation tests"
++endif
+ 	@echo " $(MAKE) check-acceptance     Run all acceptance (functional) tests"
+ 	@echo
+ 	@echo " $(MAKE) check-report.tap     Generates an aggregated TAP test report"
 -- 
 2.21.3
 
