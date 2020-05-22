@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A861DEE97
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 19:48:57 +0200 (CEST)
-Received: from localhost ([::1]:53648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088901DEE90
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 19:47:43 +0200 (CEST)
+Received: from localhost ([::1]:49244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcBmy-00032q-3r
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 13:48:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49784)
+	id 1jcBlm-0001G0-3u
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 13:47:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBjo-0007Hy-Sm
- for qemu-devel@nongnu.org; Fri, 22 May 2020 13:45:40 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21013
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBjt-0007VW-JQ
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 13:45:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42014
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBjo-0006Fd-0X
- for qemu-devel@nongnu.org; Fri, 22 May 2020 13:45:40 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jcBjs-0006HM-FG
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 13:45:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590169538;
+ s=mimecast20190719; t=1590169543;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mGJcMQjK5aZXrUwTJnYJzoIr1ktljNKQXX01xjHQ4Jg=;
- b=T+eH1pWJw39HIvQe+IZKJxcZA/rknQsQJkPUmoIrRYB3rcRFga2C0rpGIS9EfCmDhxwGcW
- jiXdRbrscPsvVcLGIjA/78kTf736OMaL2O/6ngHVasqoYtWHZbL8YeHtrVLbeLomAynRti
- B2prFg6FAqrsX21XiNxr+YR0GVLbBX8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-A6a7LrhJNMGlPJ7sfQ6g4Q-1; Fri, 22 May 2020 13:45:37 -0400
-X-MC-Unique: A6a7LrhJNMGlPJ7sfQ6g4Q-1
-Received: by mail-wr1-f72.google.com with SMTP id l1so989326wrc.8
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 10:45:36 -0700 (PDT)
+ bh=9opZe6voHNiZF2I8d27OC0NCQS7HY6LsO5ZpOjdW7vY=;
+ b=AnNVy4m0xBDYI2bYJIsZmWtZaSSUZnIBg0S5iepPc6KPw7IHnZ9s+ul7v/rSW6yVG5cpnN
+ Un3FgCRdUgdUz1dMD7cYiabnf9nEut2YuBR+UlS8yyhC//CZvyu8agsTxNCVNuhUdiJfmA
+ LgDJp1EcyDvucudOJYTVdh85o3+cdHk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-45-ooJHew8YNa6OJheTQPeCCQ-1; Fri, 22 May 2020 13:45:41 -0400
+X-MC-Unique: ooJHew8YNa6OJheTQPeCCQ-1
+Received: by mail-wr1-f69.google.com with SMTP id c14so3513977wrm.15
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 10:45:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mGJcMQjK5aZXrUwTJnYJzoIr1ktljNKQXX01xjHQ4Jg=;
- b=Pr7Qy2gG7Y9GqoxWsKr55XAMguRE/+ZLs7+blUMPuJ01gDj6PMNAseieEKHsstmjJY
- PAfVXCKXlK5zJta7xGIPbWe+VY6Y6H8//+MV23wgTFiAo53249yleqh1vIoOWNQmMb6A
- v22yQhO+6ped2InR5Mjpkgsijzru4RgSDwcAwfb0R61fqjGFAXK5nYBG1Dd8h+L/8kXi
- yMwY5LSDtPAqquk6laeASwQcvM/0TK4pxGOmkIqtX8ub1k3bi4stcqb4+NA85dbMoI0q
- T0eOZusxazxnYjVlXyv4UJYn2X6Lv1XZPIu7T2LU7CYa2tSNotDThgwJXRHiC2ZXe+tp
- obPg==
-X-Gm-Message-State: AOAM533RI5nS5BVbas6dF3ti2wsO3jljVoy1Ed7nGsk86oWSJYRL/Wf9
- U62LrM5Z0MeyNSgZUZ//6lNbBabpnMeP81DLrW59dbP3Kb2pjZ+PRPfVO91LAqR1SHZZDxOMZXW
- u5dm3t3OEAlatbSI=
-X-Received: by 2002:adf:f6c4:: with SMTP id y4mr4626891wrp.81.1590169535540;
- Fri, 22 May 2020 10:45:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz6BGywPYoOqVPY864Pzp2yne9Jhxx9xgvedyiPGFH1HwdZrMo9OHG9eTi66A06fhR6Uppolw==
-X-Received: by 2002:adf:f6c4:: with SMTP id y4mr4626873wrp.81.1590169535277;
- Fri, 22 May 2020 10:45:35 -0700 (PDT)
+ bh=9opZe6voHNiZF2I8d27OC0NCQS7HY6LsO5ZpOjdW7vY=;
+ b=ewPJf1qokZ9MOb7CW4ZzjFqdydpyraSRNBrZQ72xwBC/R6GtQtUO1Cpo9lQhjIY8Aa
+ 8DXgfzPc2qbydeEQx9V6AX3go9hp4FB4VGs3e9WdHVhHmRkMkmpHqDe2b88fhH76a7Ss
+ XFfTNc1NFX+7QiXOFAHMA6xsZ1Bn4sJRJa0Jsi+bLVDF+MzUQEChvPUEyUC8IzHxXdtA
+ Qgav79SLi343oXe44pVdbZPkxhzZhhyzBx3heWQrkwtJA0mrtzYyPjlrQlowsySppjk/
+ 1Mag0vh6jV8CcbWU3bZOenJAkdiFF21EWVc651ZNwKhI4lu7UMJrDjjYbwKzPELS+NuX
+ hIRA==
+X-Gm-Message-State: AOAM531+3Y2ywzBQcjDIb8TXb7Cd5wTEHrfcfQ47riP6J7XlBMKOG2rc
+ ShIaQ+v3I8z/zWvo+880+6WoMeS1VkcL6D9NHhpesNh9C+TJprxvIo+tKPTxC2HW6sdbJOrqeN6
+ gt8scLGBbnbN0fZ4=
+X-Received: by 2002:a1c:66d6:: with SMTP id
+ a205mr15142861wmc.163.1590169539963; 
+ Fri, 22 May 2020 10:45:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNzIjvevKGKpccIR4WKM+keCZWuLDXzUXtOv4tnp4kCYxUV6JNXAPbL3Ci7J9jeunL4WoQHA==
+X-Received: by 2002:a1c:66d6:: with SMTP id
+ a205mr15142845wmc.163.1590169539796; 
+ Fri, 22 May 2020 10:45:39 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id a184sm10220663wmh.24.2020.05.22.10.45.34
+ by smtp.gmail.com with ESMTPSA id 88sm7549072wre.45.2020.05.22.10.45.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 10:45:34 -0700 (PDT)
+ Fri, 22 May 2020 10:45:39 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] hw/block/pflash_cfi01: Document use of non-CFI compliant
- command '0x00'
-Date: Fri, 22 May 2020 19:45:22 +0200
-Message-Id: <20200522174524.29152-3-philmd@redhat.com>
+Subject: [PULL 3/4] hw/block/pflash_cfi01: Rename 'reset_flash' label as
+ 'mode_read_array'
+Date: Fri, 22 May 2020 19:45:23 +0200
+Message-Id: <20200522174524.29152-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200522174524.29152-1-philmd@redhat.com>
 References: <20200522174524.29152-1-philmd@redhat.com>
@@ -73,16 +75,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 11:12:54
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 08:01:12
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,92 +98,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+ Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The command 0x00 is used by this model since its origin (commit
-05ee37ebf630). In this commit the command is described with a
-amusing '/* ??? */' comment, probably meaning 'FIXME'.
+Rename the 'reset_flash' as 'mode_read_array' to make explicit we
+do not reset the device, we simply set its internal state machine
+in the READ_ARRAY mode. We do not reset the status register error
+bits, as a device reset would do.
 
-        switch (cmd) {
-        case 0x00: /* ??? */
-            ...
-
-This comment survived 12 years because the 0x00 value is indeed
-not specified by the CFI open standard (as of this commit).
-
-The 'cmd' field is transfered during migration. To keep the
-migration feature working with older QEMU version, we have to
-take a lot of care with migrated field. We figured out it is
-too late to remove a non-specified value from this model
-(this would make migration review very complex). It is however
-not too late to improve the documentation.
-
-Add few comments to remember this is a special value related
-to QEMU, and we won't find information about it on the CFI
-spec.
-
+Reviewed-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20190716221555.11145-3-philmd@redhat.com>
+Message-Id: <20190716221555.11145-5-philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/block/pflash_cfi01.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ hw/block/pflash_cfi01.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index d67f84d655..3cd483d26a 100644
+index 3cd483d26a..2ca173aa46 100644
 --- a/hw/block/pflash_cfi01.c
 +++ b/hw/block/pflash_cfi01.c
-@@ -278,9 +278,13 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr offset,
-         /* This should never happen : reset state & treat it as a read */
-         DPRINTF("%s: unknown command state: %x\n", __func__, pfl->cmd);
-         pfl->wcycle = 0;
--        pfl->cmd = 0;
-+        /*
-+         * The command 0x00 is not assigned by the CFI open standard,
-+         * but QEMU historically uses it for the READ_ARRAY command (0xff).
-+         */
-+        pfl->cmd = 0x00;
-         /* fall through to read code */
--    case 0x00:
-+    case 0x00: /* This model reset value for READ_ARRAY (not CFI compliant) */
-         /* Flash area read */
-         ret = pflash_data_read(pfl, offset, width, be);
-         break;
-@@ -449,7 +453,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
-     case 0:
+@@ -454,7 +454,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
          /* read mode */
          switch (cmd) {
--        case 0x00: /* ??? */
-+        case 0x00: /* This model reset value for READ_ARRAY (not CFI) */
-             goto reset_flash;
+         case 0x00: /* This model reset value for READ_ARRAY (not CFI) */
+-            goto reset_flash;
++            goto mode_read_array;
          case 0x10: /* Single Byte Program */
          case 0x40: /* Single Byte Program */
-@@ -646,7 +650,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
+             DPRINTF("%s: Single Byte Program\n", __func__);
+@@ -477,7 +477,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
+         case 0x50: /* Clear status bits */
+             DPRINTF("%s: Clear status bits\n", __func__);
+             pfl->status = 0x0;
+-            goto reset_flash;
++            goto mode_read_array;
+         case 0x60: /* Block (un)lock */
+             DPRINTF("%s: Block unlock\n", __func__);
+             break;
+@@ -502,10 +502,10 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
+             break;
+         case 0xf0: /* Probe for AMD flash */
+             DPRINTF("%s: Probe for AMD flash\n", __func__);
+-            goto reset_flash;
+-        case 0xff: /* Read array mode */
++            goto mode_read_array;
++        case 0xff: /* Read Array */
+             DPRINTF("%s: Read array mode\n", __func__);
+-            goto reset_flash;
++            goto mode_read_array;
+         default:
+             goto error_flash;
+         }
+@@ -531,8 +531,8 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
+             if (cmd == 0xd0) { /* confirm */
+                 pfl->wcycle = 0;
+                 pfl->status |= 0x80;
+-            } else if (cmd == 0xff) { /* read array mode */
+-                goto reset_flash;
++            } else if (cmd == 0xff) { /* Read Array */
++                goto mode_read_array;
+             } else
+                 goto error_flash;
+ 
+@@ -558,16 +558,16 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
+             } else if (cmd == 0x01) {
+                 pfl->wcycle = 0;
+                 pfl->status |= 0x80;
+-            } else if (cmd == 0xff) {
+-                goto reset_flash;
++            } else if (cmd == 0xff) { /* Read Array */
++                goto mode_read_array;
+             } else {
+                 DPRINTF("%s: Unknown (un)locking command\n", __func__);
+-                goto reset_flash;
++                goto mode_read_array;
+             }
+             break;
+         case 0x98:
+-            if (cmd == 0xff) {
+-                goto reset_flash;
++            if (cmd == 0xff) { /* Read Array */
++                goto mode_read_array;
+             } else {
+                 DPRINTF("%s: leaving query mode\n", __func__);
+             }
+@@ -627,7 +627,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
+                     " the data is already written to storage!\n"
+                     "Flash device reset into READ mode.\n",
+                     __func__);
+-                goto reset_flash;
++                goto mode_read_array;
+             }
+             break;
+         default:
+@@ -637,7 +637,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
+     default:
+         /* Should never happen */
+         DPRINTF("%s: invalid write state\n",  __func__);
+-        goto reset_flash;
++        goto mode_read_array;
+     }
+     return;
+ 
+@@ -646,7 +646,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr offset,
+                   "(offset " TARGET_FMT_plx ", wcycle 0x%x cmd 0x%x value 0x%x)"
+                   "\n", __func__, offset, pfl->wcycle, pfl->cmd, value);
+ 
+- reset_flash:
++ mode_read_array:
      trace_pflash_reset();
      memory_region_rom_device_set_romd(&pfl->mem, true);
      pfl->wcycle = 0;
--    pfl->cmd = 0;
-+    pfl->cmd = 0x00; /* This model reset value for READ_ARRAY (not CFI) */
- }
- 
- 
-@@ -762,7 +766,11 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
-     }
- 
-     pfl->wcycle = 0;
--    pfl->cmd = 0;
-+    /*
-+     * The command 0x00 is not assigned by the CFI open standard,
-+     * but QEMU historically uses it for the READ_ARRAY command (0xff).
-+     */
-+    pfl->cmd = 0x00;
-     pfl->status = 0x80; /* WSM ready */
-     /* Hardcoded CFI table */
-     /* Standard "QRY" string */
 -- 
 2.21.3
 
