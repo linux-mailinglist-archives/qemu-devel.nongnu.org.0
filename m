@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A995A1DDD59
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 04:45:25 +0200 (CEST)
-Received: from localhost ([::1]:36098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5BA41DDD5C
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 04:47:13 +0200 (CEST)
+Received: from localhost ([::1]:42204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbxga-0001Gu-Nc
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 22:45:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48292)
+	id 1jbxiK-0004xN-T7
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 22:47:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jbxWg-00033N-KL
- for qemu-devel@nongnu.org; Thu, 21 May 2020 22:35:10 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:53751)
+ id 1jbxWh-00036W-IH
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 22:35:11 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:55378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jbxWf-00058i-CG
- for qemu-devel@nongnu.org; Thu, 21 May 2020 22:35:10 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id ci21so4301989pjb.3
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 19:35:08 -0700 (PDT)
+ id 1jbxWg-00058u-FP
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 22:35:11 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id k7so4289771pjs.5
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 19:35:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yWhTT6Tler29jJNVR4Zy3JBAxKgKpOlXGq4NgNVQoXk=;
- b=jbQNc8jmS6QsogwRXB6jiRqzwhYNSaoVNMotTMIk4pxg0AowvCR/GNpofFlPtGCkGh
- LEoC/59q5a2k8KPNdmnH4sQGCAz1ZqxutLuhGO2BWecKWos7Nhiw2yOIdu9UxkXEbK8F
- RqC1QtFoRzaQJf1KHI/WM7ixkP0zKXp12OYBEjdFyPYTjRjEQcYd3Dlo8X4jeMLyAi9s
- 3NNBA/vP3QO/FitdSI/VkIAp8Njgn0DHkd2F64Adl1FViF93J7T+pcfnK63ZNWTNhC7y
- lSgQxJYYvDLjxLTVYuQa2XHOlwKvKTFCWb6NULs6tORLJj9faa5dkrJ9kbv58kXAQV5K
- F1bw==
+ bh=Y21KcsvLFJXq/u9VH9lik1swR2hgaP1jOrA8QoTE+F4=;
+ b=ECNuVEcZAbPQPZxEjgGYqmY1EOgyTcS2pmNAfs8ZJcMHP/ftK0gbYbPgPPCps1PfE1
+ eLCzVaAcxyzXmswqa0IQNKeXMKdbERkhegKD6Uqmm8Hl1/fr8F4UfHqVIJp+lSS9xrLL
+ DLKVYDamgUw2k2Tb1pvRsN9i/ikTMT9OXfxnYFn4wyeVaUq+dhFEOMTqgBqA0p69szpg
+ 4hFl1488GrsZkojtEUBgv7lBQe1HZtUMMT1BfUndkL+qZwo02RjpwaSBf4OCeVyOY2o0
+ PImxTHMXHkVVBXgIKbG1v91iYbGrSHOq3HlI3kNAcMa5SPM9NOax3coU7J/vK4XAhtCg
+ 2zCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yWhTT6Tler29jJNVR4Zy3JBAxKgKpOlXGq4NgNVQoXk=;
- b=pEf+HjaqmGjfnMzjCZkXGhh/QnJT9c9WXKru+C0cHP+vWn2uMT3Q5oQD0IhZeye1tG
- fLRq23QtM6Acf4do9YSUx6PsNHTEM3rv1acwf0ypHoue2stfN4E4+yEBuldsMpvp2N7R
- beDvq+IZzQrNYB9XRLUYU5XZZ4CyePS60U9FaKogh7plu6lAB4gUcxW5kbsLZAk2dTwp
- CPrhsaiS7czuMtuJ9gMALJ/n0ZTCybsLoOg1kO1ikSLcpBZZkrAgpJfYtrj8Nisi41GR
- ydOmHSCdDB3R5of+gOxbabNvdjEf7Rjf2fnP1A5Z7VN2KsDdxs+67emdLCP7gu5lZLwy
- I/mg==
-X-Gm-Message-State: AOAM531ffd0fvJjElrJECf6w73nxV1hrusZ3uHz0g0VX5b8r7AqHTKOi
- TX3Fp/ae50jYJEkVnrtCtN1fm9Kij90=
-X-Google-Smtp-Source: ABdhPJwfnORRMmewVmf4ibPtq53wyRK/Fpyz52RhkpPsgmwdwchuk0CyYyJ4jXZlgWd7B17cmU9D2Q==
-X-Received: by 2002:a17:90a:17ed:: with SMTP id
- q100mr1677697pja.80.1590114907295; 
- Thu, 21 May 2020 19:35:07 -0700 (PDT)
+ bh=Y21KcsvLFJXq/u9VH9lik1swR2hgaP1jOrA8QoTE+F4=;
+ b=KV5WvMw6uMHxCAR/m59s9zrFGgONBK3y53jzdcw4Fae7i0B3c0x9zczTHgh0V1VMFk
+ t2XseKAYbYFjmIs4ajuIHGOjefrsEc3LNSw0o/0+G0ZOqV9qCFLywOuElBZ6cslZXWhf
+ oYsIrcsK++d9ZlOsH/egrBUIuUlxJ8+1PJi41MACpCjWtVR3vFJ8IUtQ2YOE/pG5JMdC
+ Ct6agPSUqz9HPo3BNKCR2jUeBcf7Qqi4GHHMmCmaUwfihvaZzzZ9E7HwLKxoU6teLeWa
+ nma7acZV3mdGluzhe5GIQIwK8ODyVDD4xqOXJofpjN5avoEt7cd5BBoKREBF1OZsEwdY
+ 4QWg==
+X-Gm-Message-State: AOAM531h+Eg9YMDoUTFP37ELdd9Xk49rVEbrd+kiHfIK4MBYuACELIn8
+ BikHV1780PvYtiZK5JbFcOcoGm7f5I0=
+X-Google-Smtp-Source: ABdhPJxAQwznYPV6MAoBfMRQFrDmKEV+jXgKMF9phpFxo3XZSwyMOTNR648GTwsCOWFaw51OGzFghg==
+X-Received: by 2002:a17:902:328:: with SMTP id
+ 37mr13148955pld.35.1590114908766; 
+ Thu, 21 May 2020 19:35:08 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id gt10sm5443755pjb.30.2020.05.21.19.35.06
+ by smtp.gmail.com with ESMTPSA id gt10sm5443755pjb.30.2020.05.21.19.35.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 19:35:06 -0700 (PDT)
+ Thu, 21 May 2020 19:35:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 20/25] aarch64: Use arch_init to configure sve
-Date: Thu, 21 May 2020 19:34:35 -0700
-Message-Id: <20200522023440.26261-21-richard.henderson@linaro.org>
+Subject: [PATCH v3 21/25] ppc64: Use uint64_t to represent double
+Date: Thu, 21 May 2020 19:34:36 -0700
+Message-Id: <20200522023440.26261-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200522023440.26261-1-richard.henderson@linaro.org>
 References: <20200522023440.26261-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,215 +90,102 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adjust some of the aarch64 code to look at the reginfo struct
-instead of looking at test_sve, so that we do not need to pass
-the --test-sve option in order to dump sve trace files.
+We want to do exact bitwise comparisons of the data,
+not be held hostage to IEEE comparisons and NaNs.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- risu.h                 |  1 +
- risu.c                 |  3 +++
- risu_reginfo_aarch64.c | 55 +++++++++++++++++++++++++++---------------
- risu_reginfo_arm.c     |  4 +++
- risu_reginfo_i386.c    |  4 +++
- risu_reginfo_m68k.c    |  4 +++
- risu_reginfo_ppc64.c   |  4 +++
- 7 files changed, 55 insertions(+), 20 deletions(-)
+ risu_reginfo_ppc64.h |  3 ++-
+ risu_reginfo_ppc64.c | 29 +++++++++--------------------
+ 2 files changed, 11 insertions(+), 21 deletions(-)
 
-diff --git a/risu.h b/risu.h
-index 3cad3d5..bdb70c1 100644
---- a/risu.h
-+++ b/risu.h
-@@ -23,6 +23,7 @@
- extern const struct option * const arch_long_opts;
- extern const char * const arch_extra_help;
- void process_arch_opt(int opt, const char *arg);
-+void arch_init(void);
- #define FIRST_ARCH_OPT   0x100
+diff --git a/risu_reginfo_ppc64.h b/risu_reginfo_ppc64.h
+index 7f2c962..4b1d8bd 100644
+--- a/risu_reginfo_ppc64.h
++++ b/risu_reginfo_ppc64.h
+@@ -20,7 +20,8 @@ struct reginfo {
+     uint64_t nip;
+     uint64_t prev_addr;
+     gregset_t gregs;
+-    fpregset_t fpregs;
++    uint64_t fpregs[32];
++    uint64_t fpscr;
+     vrregset_t vrregs;
+ };
  
- /* GCC computed include to pull in the correct risu_reginfo_*.h for
-diff --git a/risu.c b/risu.c
-index a70b778..1c096a8 100644
---- a/risu.c
-+++ b/risu.c
-@@ -617,6 +617,9 @@ int main(int argc, char **argv)
- 
-     load_image(imgfile);
- 
-+    /* E.g. select requested SVE vector length. */
-+    arch_init();
-+
-     if (ismaster) {
-         return master();
-     } else {
-diff --git a/risu_reginfo_aarch64.c b/risu_reginfo_aarch64.c
-index a1020ac..fb8e11a 100644
---- a/risu_reginfo_aarch64.c
-+++ b/risu_reginfo_aarch64.c
-@@ -44,8 +44,6 @@ const char * const arch_extra_help
- void process_arch_opt(int opt, const char *arg)
- {
- #ifdef SVE_MAGIC
--    long want, got;
--
-     assert(opt == FIRST_ARCH_OPT);
-     test_sve = strtol(arg, 0, 10);
- 
-@@ -53,22 +51,37 @@ void process_arch_opt(int opt, const char *arg)
-         fprintf(stderr, "Invalid value for VQ (1-%d)\n", SVE_VQ_MAX);
-         exit(EXIT_FAILURE);
-     }
--    want = sve_vl_from_vq(test_sve);
--    got = prctl(PR_SVE_SET_VL, want);
--    if (want != got) {
--        if (got < 0) {
--            perror("prctl PR_SVE_SET_VL");
--        } else {
--            fprintf(stderr, "Unsupported value for VQ (%d != %d)\n",
--                    test_sve, (int)sve_vq_from_vl(got));
--        }
--        exit(EXIT_FAILURE);
--    }
- #else
-     abort();
- #endif
- }
- 
-+void arch_init(void)
-+{
-+#ifdef SVE_MAGIC
-+    long want, got1, got2;
-+
-+    if (test_sve == 0) {
-+        return;
-+    }
-+
-+    want = sve_vl_from_vq(test_sve);
-+    asm(".arch_extension sve\n\trdvl %0, #1" : "=r"(got1));
-+    if (want != got1) {
-+        got2 = prctl(PR_SVE_SET_VL, want);
-+        if (want != got2) {
-+            if (got2 < 0) {
-+                perror("prctl PR_SVE_SET_VL");
-+                got2 = got1;
-+            }
-+            fprintf(stderr, "Unsupported value for VQ (%d != %d)\n",
-+                    test_sve, (int)sve_vq_from_vl(got1));
-+            exit(EXIT_FAILURE);
-+        }
-+    }
-+#endif
-+}
-+
- int reginfo_size(struct reginfo *ri)
- {
- #ifdef SVE_MAGIC
-@@ -170,6 +183,7 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
-         if (sve->head.size < SVE_SIG_CONTEXT_SIZE(vq)) {
-             if (sve->head.size == sizeof(*sve)) {
-                 /* SVE state is empty -- not an error.  */
-+                goto do_simd;
-             } else {
-                 fprintf(stderr, "risu_reginfo_aarch64: "
-                         "failed to get complete SVE state\n");
-@@ -182,6 +196,7 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
-                SVE_SIG_CONTEXT_SIZE(vq) - SVE_SIG_REGS_OFFSET);
-         return;
-     }
-+ do_simd:
- #endif /* SVE_MAGIC */
- 
-     for (i = 0; i < 32; i++) {
-@@ -260,8 +275,9 @@ int reginfo_dump(struct reginfo *ri, FILE * f)
-     fprintf(f, "  fpcr   : %08x\n", ri->fpcr);
- 
- #ifdef SVE_MAGIC
--    if (test_sve) {
--        int q, vq = test_sve;
-+    if (ri->sve_vl) {
-+        int vq = sve_vq_from_vl(ri->sve_vl);
-+        int q;
- 
-         fprintf(f, "  vl     : %d\n", ri->sve_vl);
- 
-@@ -339,13 +355,12 @@ int reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE * f)
-     }
- 
- #ifdef SVE_MAGIC
--    if (test_sve) {
-+    if (m->sve_vl != a->sve_vl) {
-+        fprintf(f, "  vl    : %d vs %d\n", m->sve_vl, a->sve_vl);
-+    }
-+    if (m->sve_vl) {
-         int vq = sve_vq_from_vl(m->sve_vl);
- 
--        if (m->sve_vl != a->sve_vl) {
--            fprintf(f, "  vl    : %d vs %d\n", m->sve_vl, a->sve_vl);
--        }
--
-         for (i = 0; i < SVE_NUM_ZREGS; i++) {
-             uint64_t *zm = reginfo_zreg(m, vq, i);
-             uint64_t *za = reginfo_zreg(a, vq, i);
-diff --git a/risu_reginfo_arm.c b/risu_reginfo_arm.c
-index 47c52e8..202120b 100644
---- a/risu_reginfo_arm.c
-+++ b/risu_reginfo_arm.c
-@@ -36,6 +36,10 @@ void process_arch_opt(int opt, const char *arg)
-     abort();
- }
- 
-+void arch_init(void)
-+{
-+}
-+
- int reginfo_size(struct reginfo *ri)
- {
-     return sizeof(*ri);
-diff --git a/risu_reginfo_i386.c b/risu_reginfo_i386.c
-index 50505ab..e9730be 100644
---- a/risu_reginfo_i386.c
-+++ b/risu_reginfo_i386.c
-@@ -74,6 +74,10 @@ void process_arch_opt(int opt, const char *arg)
-     }
- }
- 
-+void arch_init(void)
-+{
-+}
-+
- int reginfo_size(struct reginfo *ri)
- {
-     return sizeof(*ri);
-diff --git a/risu_reginfo_m68k.c b/risu_reginfo_m68k.c
-index 4eb30cd..4c25e77 100644
---- a/risu_reginfo_m68k.c
-+++ b/risu_reginfo_m68k.c
-@@ -23,6 +23,10 @@ void process_arch_opt(int opt, const char *arg)
-     abort();
- }
- 
-+void arch_init(void)
-+{
-+}
-+
- int reginfo_size(struct reginfo *ri)
- {
-     return sizeof(*ri);
 diff --git a/risu_reginfo_ppc64.c b/risu_reginfo_ppc64.c
-index 39e8f1c..c80e387 100644
+index c80e387..9899b36 100644
 --- a/risu_reginfo_ppc64.c
 +++ b/risu_reginfo_ppc64.c
-@@ -32,6 +32,10 @@ void process_arch_opt(int opt, const char *arg)
-     abort();
- }
- 
-+void arch_init(void)
-+{
-+}
-+
- int reginfo_size(struct reginfo *ri)
+@@ -45,6 +45,7 @@ int reginfo_size(struct reginfo *ri)
+ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
  {
-     return sizeof(*ri);
+     int i;
++
+     memset(ri, 0, sizeof(*ri));
+ 
+     ri->faulting_insn = *((uint32_t *) uc->uc_mcontext.regs->nip);
+@@ -54,16 +55,11 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
+         ri->gregs[i] = uc->uc_mcontext.gp_regs[i];
+     }
+ 
+-    for (i = 0; i < NFPREG; i++) {
+-        ri->fpregs[i] = uc->uc_mcontext.fp_regs[i];
+-    }
++    memcpy(ri->fpregs, uc->uc_mcontext.fp_regs, 32 * sizeof(double));
++    ri->fpscr = uc->uc_mcontext.fp_regs[32];
+ 
+-    for (i = 0; i < 32; i++) {
+-        ri->vrregs.vrregs[i][0] = uc->uc_mcontext.v_regs->vrregs[i][0];
+-        ri->vrregs.vrregs[i][1] = uc->uc_mcontext.v_regs->vrregs[i][1];
+-        ri->vrregs.vrregs[i][2] = uc->uc_mcontext.v_regs->vrregs[i][2];
+-        ri->vrregs.vrregs[i][3] = uc->uc_mcontext.v_regs->vrregs[i][3];
+-    }
++    memcpy(ri->vrregs.vrregs, uc->uc_mcontext.v_regs->vrregs,
++           sizeof(ri->vrregs.vrregs[0]) * 32);
+     ri->vrregs.vscr = uc->uc_mcontext.v_regs->vscr;
+     ri->vrregs.vrsave = uc->uc_mcontext.v_regs->vrsave;
+ }
+@@ -91,10 +87,6 @@ int reginfo_is_eq(struct reginfo *m, struct reginfo *a)
+     }
+ 
+     for (i = 0; i < 32; i++) {
+-        if (isnan(m->fpregs[i]) && isnan(a->fpregs[i])) {
+-            continue;
+-        }
+-
+         if (m->fpregs[i] != a->fpregs[i]) {
+             return 0;
+         }
+@@ -141,10 +133,10 @@ int reginfo_dump(struct reginfo *ri, FILE * f)
+     fprintf(f, "\tdscr   : %16lx\n\n", ri->gregs[44]);
+ 
+     for (i = 0; i < 16; i++) {
+-        fprintf(f, "\tf%2d: %.4f\tf%2d: %.4f\n", i, ri->fpregs[i],
++        fprintf(f, "\tf%2d: %016lx\tf%2d: %016lx\n", i, ri->fpregs[i],
+                 i + 16, ri->fpregs[i + 16]);
+     }
+-    fprintf(f, "\tfpscr: %f\n\n", ri->fpregs[32]);
++    fprintf(f, "\tfpscr: %016lx\n\n", ri->fpscr);
+ 
+     for (i = 0; i < 32; i++) {
+         fprintf(f, "vr%02d: %8x, %8x, %8x, %8x\n", i,
+@@ -181,13 +173,10 @@ int reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE *f)
+     }
+ 
+     for (i = 0; i < 32; i++) {
+-        if (isnan(m->fpregs[i]) && isnan(a->fpregs[i])) {
+-            continue;
+-        }
+-
+         if (m->fpregs[i] != a->fpregs[i]) {
+             fprintf(f, "Mismatch: Register f%d\n", i);
+-            fprintf(f, "m: [%f] != a: [%f]\n", m->fpregs[i], a->fpregs[i]);
++            fprintf(f, "m: [%016lx] != a: [%016lx]\n",
++                    m->fpregs[i], a->fpregs[i]);
+         }
+     }
+ 
 -- 
 2.20.1
 
