@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C8D1DE5EE
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 13:53:08 +0200 (CEST)
-Received: from localhost ([::1]:58008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 656C61DE6D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 14:27:14 +0200 (CEST)
+Received: from localhost ([::1]:60752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jc6Ed-0005pH-Kw
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 07:53:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37618)
+	id 1jc6lb-0001Rr-Rd
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 08:27:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <e.mikitas@gmail.com>)
- id 1jc6Cg-0003JP-9Q; Fri, 22 May 2020 07:51:06 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55743)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <e.mikitas@gmail.com>)
- id 1jc6Cf-0004cP-Bl; Fri, 22 May 2020 07:51:05 -0400
-Received: by mail-wm1-x342.google.com with SMTP id f13so8374141wmc.5;
- Fri, 22 May 2020 04:51:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ATw2AQdt0tMLUBC524HixfrRhPl572ZT8HtNHYF2xvw=;
- b=dxBVMRpg+o021KVHz5A8ks0zutiZTujaLqO42y2jmH0xWCjP6saCePCEciz/aotlv2
- auN9x41lY5UXjVFoi2hQdFPA5caXoKjxjqXL0gpC1cCvwCQVeCCQ+VHbAnxfAMkWsnv5
- 8BLDHzi6xsH3htbgiKiI8rnRYEwFVb8nekUuvXBDovBDHCdBA2sBbDUXdbzRrJSCIo4i
- AiaQox3x70+aaDcnuJ+BboGY8Kpp3zLmjwcpS0cKpQGzv71EIwK+P33+cq4UrWMF8pPQ
- yoHOVZrcfsjj8MmASQuZnmCLoh+Rsa0ZBTnsZAxdsOeDNlJWZXRsCP7rBOQ2/0clZ/yC
- bggA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=ATw2AQdt0tMLUBC524HixfrRhPl572ZT8HtNHYF2xvw=;
- b=re4ndstB6uSFYJRxJbGZTuPIqqxlJKGRQSPS3yc80tk6ohj9LsS3Ss1dTU/aCc75qt
- SxejqNCYZamwuh0GEFILqPhPsIOVrdz4692TZJ1Q+GO0e6O3HR9bI42N1EDpjLFHC+gU
- me9ZsdzP/nRPweWsXJEPryS4UPK+tE7IC2rEAHMNOkye4VBqP4+UaE8iZ6TCeuHwV93+
- VECfnNXu0nq03DyNTNEOSIgIAa53kIlqWtna39+KDST0NGu/JP4FLXU4s9UbVVD0UMib
- gtctvv3r7uxs6i9jLUkd/EMJS4YHxSuCbW+fJ9xt4RDNHR8r3FxxBBR7hd8PyVC4/XZ7
- erEQ==
-X-Gm-Message-State: AOAM530j8f0u7c4iX4F4gcfX8G9FWzJV4S1EFrYXy1evgjGvaWKbEotw
- xwWLM97tNBFSpgUoHh+yvM0=
-X-Google-Smtp-Source: ABdhPJx4pJZpBmySqwHifSC2uYjzqgo1cF1Z9J0UvHeHi7upWFmPmdioA+AqPcCwgKmjeIsw3Ye1TA==
-X-Received: by 2002:a1c:dc05:: with SMTP id t5mr13600278wmg.112.1590148262694; 
- Fri, 22 May 2020 04:51:02 -0700 (PDT)
-Received: from eden-linux.lan (bzq-109-66-59-205.red.bezeqint.net.
- [109.66.59.205])
- by smtp.gmail.com with ESMTPSA id m3sm9237640wrn.96.2020.05.22.04.51.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 04:51:01 -0700 (PDT)
-From: Eden Mikitas <e.mikitas@gmail.com>
-To: peter.maydell@linaro.org
-Subject: [PATCH 2/2] hw/ssi/imx_spi: Removed unnecessary cast of rx data
- received from slave
-Date: Fri, 22 May 2020 14:50:36 +0300
-Message-Id: <20200522115036.31516-3-e.mikitas@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200522115036.31516-1-e.mikitas@gmail.com>
-References: <CAFEAcA8FFc_Vf-UQO9f_3qoXiCJf9N1uWh7qB-WXrEWTzKBu8Q@mail.gmail.com>
- <20200522115036.31516-1-e.mikitas@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=e.mikitas@gmail.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1jc6k2-0000n6-Kj
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 08:25:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27461
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1jc6k0-0002Wd-Vp
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 08:25:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590150331;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9BwoBHWiUoM4kiqQxZOudwD0jN347XKEVkk4ss4l3e0=;
+ b=Aaoy0Y8FlSzwiMiiP7+VqoDa8CnutEyIjXlUE5KBc0MUhzsjZ1U72o4BkTknfpQrQI5uPl
+ pTFr2sjwGWbQJz7vUjrnZPP+L/JNFAvYrOkMFVcGG2kjxo9c3zOY0vZiej/fQgofCtzQ15
+ XEywkFFvpkfM5N7D4KEMZ/0rvIgaGEA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-101-FUyx8pHqP4yyokMfj53rXQ-1; Fri, 22 May 2020 08:25:28 -0400
+X-MC-Unique: FUyx8pHqP4yyokMfj53rXQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE8058014D7;
+ Fri, 22 May 2020 12:25:26 +0000 (UTC)
+Received: from steredhat.redhat.com (ovpn-114-19.ams2.redhat.com
+ [10.36.114.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F081619C0;
+ Fri, 22 May 2020 12:25:13 +0000 (UTC)
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] virtio: add vhost-user-vsock device
+Date: Fri, 22 May 2020 14:25:09 +0200
+Message-Id: <20200522122512.87413-1-sgarzare@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 08:01:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,37 +77,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, alistair@alistair23.me, qemu-devel@nongnu.org,
- jcd@tribudubois.net, qemu-arm@nongnu.org, peter.chubb@nicta.com.au,
- e.mikitas@gmail.com
+Cc: Julio Montes <julio.montes@intel.com>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When inserting the value retrieved (rx) from the spi slave, rx is pushed to
-rx_fifo after being cast to uint8_t. rx_fifo is a fifo32, and the rx
-register the driver uses is also 32 bit. This zeroes the 24 most
-significant bits of rx. This proved problematic with devices that expect to
-use the whole 32 bits of the rx register.
+v2:
+  - removed live migration code in the vhost-user-vsock base device since
+    vhost-user-vsock application built with Cloud Hypervisor crates doesn't
+    support VHOST_USER_PROTOCOL_F_LOG_SHMFD, so I'm not able to test this
+    code [Stefan]
 
-Signed-off-by: Eden Mikitas <e.mikitas@gmail.com>
----
- hw/ssi/imx_spi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v1: https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04365.html
 
-diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-index 6fef5c7958..43b2f14dd2 100644
---- a/hw/ssi/imx_spi.c
-+++ b/hw/ssi/imx_spi.c
-@@ -206,7 +206,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
-         if (fifo32_is_full(&s->rx_fifo)) {
-             s->regs[ECSPI_STATREG] |= ECSPI_STATREG_RO;
-         } else {
--            fifo32_push(&s->rx_fifo, (uint8_t)rx);
-+            fifo32_push(&s->rx_fifo, rx);
-         }
- 
-         if (s->burst_length <= 0) {
+This series add vhost-user-vsock base device and its PCI version
+(vhost-user-vsock-pci).
+The vhost-user-vsock device can be used to implement the virtio-vsock
+device emulation in user-space.
+An use case might be Kata, where they prefer to emulate devices
+in user-space.
+
+The first patch creates a new vhost-vsock-common parent class
+with the common code usable for both vhost-vsock and vhost-user-vsock
+devices.
+
+The other patches add the vhost-user-vsock base device and its PCI
+version.
+
+I also implemented a vhost-user-vsock [1] (still WiP) application written in
+Rust using crates from Cloud Hypervisor.
+The application implements the Firecracker hybrid vsock (vsock over
+unix domain socket) [2]
+
+The vhost-user-vsock-pci device can be tested following these steps:
+
+    # build vhost-user-vsock application
+    git clone https://github.com/stefano-garzarella/cloud-hypervisor.git
+    git checkout vhost-user-vsock
+    cargo build
+
+    # start vhost-user-vsock
+    ./target/debug/vhost_user_vsock \
+        --vsock-backend guest_cid=4,uds_path=/tmp/vm4.vsock,sock=/tmp/vhost4.socket
+
+    # start QEMU
+    qemu-system-x86_64 -m 1G -smp 2 -cpu host -M q35,accel=kvm \
+        ... \
+        -chardev socket,id=char0,reconnect=0,path=/tmp/vhost4.socket \
+        -device vhost-user-vsock-pci,chardev=char0 -monitor stdio
+
+    # Guest listening
+    guest$ nc --vsock -l 1234
+
+    host$ nc -U /tmp/vm4.vsock
+    CONNECT 1234
+
+    # Host listening
+    host$ nc -l -U /tmp/vm4.vsock_1234
+
+    guest$ nc --vsock 2 1234
+
+[1] https://github.com/stefano-garzarella/cloud-hypervisor.git
+    (vhost-user-vsock branch)
+[2] https://github.com/firecracker-microvm/firecracker/blob/master/docs/vsock.md
+
+Stefano Garzarella (3):
+  vhost-vsock: add vhost-vsock-common abstraction
+  virtio: add vhost-user-vsock base device
+  virtio: add vhost-user-vsock-pci device
+
+ configure                              |   3 +
+ include/hw/virtio/vhost-user-vsock.h   |  36 ++++
+ include/hw/virtio/vhost-vsock-common.h |  47 ++++
+ include/hw/virtio/vhost-vsock.h        |  11 +-
+ hw/virtio/vhost-user-vsock-pci.c       |  84 ++++++++
+ hw/virtio/vhost-user-vsock.c           | 181 ++++++++++++++++
+ hw/virtio/vhost-vsock-common.c         | 258 ++++++++++++++++++++++
+ hw/virtio/vhost-vsock.c                | 283 ++++---------------------
+ hw/virtio/Makefile.objs                |   4 +-
+ 9 files changed, 656 insertions(+), 251 deletions(-)
+ create mode 100644 include/hw/virtio/vhost-user-vsock.h
+ create mode 100644 include/hw/virtio/vhost-vsock-common.h
+ create mode 100644 hw/virtio/vhost-user-vsock-pci.c
+ create mode 100644 hw/virtio/vhost-user-vsock.c
+ create mode 100644 hw/virtio/vhost-vsock-common.c
+
 -- 
-2.17.1
+2.25.4
 
 
