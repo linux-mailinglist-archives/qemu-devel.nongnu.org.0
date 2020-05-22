@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00AEF1DE183
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 10:07:07 +0200 (CEST)
-Received: from localhost ([::1]:55352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7931DE189
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 10:08:24 +0200 (CEST)
+Received: from localhost ([::1]:33326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jc2hu-0003Oz-2Q
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 04:07:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44776)
+	id 1jc2j9-0005tS-NY
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 04:08:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jc2fd-00069x-KP
- for qemu-devel@nongnu.org; Fri, 22 May 2020 04:04:45 -0400
-Received: from mga17.intel.com ([192.55.52.151]:30282)
+ id 1jc2ff-0006GS-Qs
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 04:04:47 -0400
+Received: from mga17.intel.com ([192.55.52.151]:30289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jc2fc-0006Um-Ot
- for qemu-devel@nongnu.org; Fri, 22 May 2020 04:04:45 -0400
-IronPort-SDR: INdNCjF9paE6hFwq3jBRhWsMlRAQhe7mCkCrqRDncVUKPsX1rqBwkTitfIVxgJhzD2vZrSRAw4
- Vu1O5cC5l9WA==
+ id 1jc2ff-0006VC-0Q
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 04:04:47 -0400
+IronPort-SDR: zA7cv8bu9YYwRvGB9vR385zk3XyX9TLJa/A7X8eCvD3tN1RdjIC7ymshYlQByw7lLFszBbnnp4
+ FzAJnEBCipyQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 May 2020 01:04:43 -0700
-IronPort-SDR: oqD34MHsnF+OvOH8PeeYeb4lhEysaQd3KHebdANXq9mUHzepcHxAdcWVvO0DV2EzJGtLIs3mZQ
- RZpTkI4pecWQ==
+ 22 May 2020 01:04:45 -0700
+IronPort-SDR: lEu/t9BQNpOD6gLck6dfdktQbee75UNfJYNWP0ND5Dm7kmNVv6SHXBMsEeoI2bWZs78UcaWEy+
+ Rulk8f0ItCnA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,420,1583222400"; d="scan'208";a="467104569"
+X-IronPort-AV: E=Sophos;i="5.73,420,1583222400"; d="scan'208";a="467104577"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by fmsmga005.fm.intel.com with ESMTP; 22 May 2020 01:04:42 -0700
+ by fmsmga005.fm.intel.com with ESMTP; 22 May 2020 01:04:43 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: Jason Wang <jasowang@redhat.com>
-Subject: [PATCH V2 6/7] net/colo-compare.c: Correct ordering in complete and
- finalize
-Date: Fri, 22 May 2020 15:53:56 +0800
-Message-Id: <20200522075357.19883-7-chen.zhang@intel.com>
+Subject: [PATCH V2 7/7] colo-compare: Fix memory leak in packet_enqueue()
+Date: Fri, 22 May 2020 15:53:57 +0800
+Message-Id: <20200522075357.19883-8-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200522075357.19883-1-chen.zhang@intel.com>
 References: <20200522075357.19883-1-chen.zhang@intel.com>
@@ -64,102 +63,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Lukas Straub <lukasstraub2@web.de>,
+Cc: Derek Su <dereksu@qnap.com>, Zhang Chen <chen.zhang@intel.com>,
  qemu-dev <qemu-devel@nongnu.org>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lukas Straub <lukasstraub2@web.de>
+From: Derek Su <dereksu@qnap.com>
 
-In colo_compare_complete, insert CompareState into net_compares
-only after everything has been initialized.
-In colo_compare_finalize, remove CompareState from net_compares
-before anything is deinitialized.
+The patch is to fix the "pkt" memory leak in packet_enqueue().
+The allocated "pkt" needs to be freed if the colo compare
+primary or secondary queue is too big.
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Replace the error_report of full queue with a trace event.
+
+Signed-off-by: Derek Su <dereksu@qnap.com>
 Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/colo-compare.c | 45 +++++++++++++++++++++++----------------------
- 1 file changed, 23 insertions(+), 22 deletions(-)
+ net/colo-compare.c | 23 +++++++++++++++--------
+ net/trace-events   |  1 +
+ 2 files changed, 16 insertions(+), 8 deletions(-)
 
 diff --git a/net/colo-compare.c b/net/colo-compare.c
-index c30dbfb6e6..ed1f3d0af0 100644
+index ed1f3d0af0..f15779dedc 100644
 --- a/net/colo-compare.c
 +++ b/net/colo-compare.c
-@@ -1283,15 +1283,6 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
-                            s->vnet_hdr);
+@@ -146,6 +146,10 @@ enum {
+     SECONDARY_IN,
+ };
+ 
++static const char *colo_mode[] = {
++    [PRIMARY_IN] = "primary",
++    [SECONDARY_IN] = "secondary",
++};
+ 
+ static int compare_chr_send(CompareState *s,
+                             uint8_t *buf,
+@@ -242,6 +246,7 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
+     ConnectionKey key;
+     Packet *pkt = NULL;
+     Connection *conn;
++    int ret;
+ 
+     if (mode == PRIMARY_IN) {
+         pkt = packet_new(s->pri_rs.buf,
+@@ -270,16 +275,18 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
      }
  
--    qemu_mutex_lock(&colo_compare_mutex);
--    if (!colo_compare_active) {
--        qemu_mutex_init(&event_mtx);
--        qemu_cond_init(&event_complete_cond);
--        colo_compare_active = true;
--    }
--    QTAILQ_INSERT_TAIL(&net_compares, s, next);
--    qemu_mutex_unlock(&colo_compare_mutex);
--
-     s->out_sendco.s = s;
-     s->out_sendco.chr = &s->chr_out;
-     s->out_sendco.notify_remote_frame = false;
-@@ -1314,6 +1305,16 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
-                                                       connection_destroy);
- 
-     colo_compare_iothread(s);
-+
-+    qemu_mutex_lock(&colo_compare_mutex);
-+    if (!colo_compare_active) {
-+        qemu_mutex_init(&event_mtx);
-+        qemu_cond_init(&event_complete_cond);
-+        colo_compare_active = true;
-+    }
-+    QTAILQ_INSERT_TAIL(&net_compares, s, next);
-+    qemu_mutex_unlock(&colo_compare_mutex);
-+
-     return;
- }
- 
-@@ -1382,19 +1383,6 @@ static void colo_compare_finalize(Object *obj)
-     CompareState *s = COLO_COMPARE(obj);
-     CompareState *tmp = NULL;
- 
--    qemu_chr_fe_deinit(&s->chr_pri_in, false);
--    qemu_chr_fe_deinit(&s->chr_sec_in, false);
--    qemu_chr_fe_deinit(&s->chr_out, false);
--    if (s->notify_dev) {
--        qemu_chr_fe_deinit(&s->chr_notify_dev, false);
--    }
--
--    if (s->iothread) {
--        colo_compare_timer_del(s);
--    }
--
--    qemu_bh_delete(s->event_bh);
--
-     qemu_mutex_lock(&colo_compare_mutex);
-     QTAILQ_FOREACH(tmp, &net_compares, next) {
-         if (tmp == s) {
-@@ -1409,6 +1397,19 @@ static void colo_compare_finalize(Object *obj)
+     if (mode == PRIMARY_IN) {
+-        if (!colo_insert_packet(&conn->primary_list, pkt, &conn->pack)) {
+-            error_report("colo compare primary queue size too big,"
+-                         "drop packet");
+-        }
++        ret = colo_insert_packet(&conn->primary_list, pkt, &conn->pack);
+     } else {
+-        if (!colo_insert_packet(&conn->secondary_list, pkt, &conn->sack)) {
+-            error_report("colo compare secondary queue size too big,"
+-                         "drop packet");
+-        }
++        ret = colo_insert_packet(&conn->secondary_list, pkt, &conn->sack);
      }
-     qemu_mutex_unlock(&colo_compare_mutex);
++
++    if (!ret) {
++        trace_colo_compare_drop_packet(colo_mode[mode],
++            "queue size too big, drop packet");
++        packet_destroy(pkt, NULL);
++        pkt = NULL;
++    }
++
+     *con = conn;
  
-+    qemu_chr_fe_deinit(&s->chr_pri_in, false);
-+    qemu_chr_fe_deinit(&s->chr_sec_in, false);
-+    qemu_chr_fe_deinit(&s->chr_out, false);
-+    if (s->notify_dev) {
-+        qemu_chr_fe_deinit(&s->chr_notify_dev, false);
-+    }
-+
-+    if (s->iothread) {
-+        colo_compare_timer_del(s);
-+    }
-+
-+    qemu_bh_delete(s->event_bh);
-+
-     AioContext *ctx = iothread_get_aio_context(s->iothread);
-     aio_context_acquire(ctx);
-     AIO_WAIT_WHILE(ctx, !s->out_sendco.done);
+     return 0;
+diff --git a/net/trace-events b/net/trace-events
+index 02c13fd0ba..fa49c71533 100644
+--- a/net/trace-events
++++ b/net/trace-events
+@@ -12,6 +12,7 @@ colo_proxy_main(const char *chr) ": %s"
+ 
+ # colo-compare.c
+ colo_compare_main(const char *chr) ": %s"
++colo_compare_drop_packet(const char *queue, const char *chr) ": %s: %s"
+ colo_compare_udp_miscompare(const char *sta, int size) ": %s = %d"
+ colo_compare_icmp_miscompare(const char *sta, int size) ": %s = %d"
+ colo_compare_ip_info(int psize, const char *sta, const char *stb, int ssize, const char *stc, const char *std) "ppkt size = %d, ip_src = %s, ip_dst = %s, spkt size = %d, ip_src = %s, ip_dst = %s"
 -- 
 2.17.1
 
