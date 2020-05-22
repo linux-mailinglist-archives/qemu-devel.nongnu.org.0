@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22061DED2B
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:24:00 +0200 (CEST)
-Received: from localhost ([::1]:53330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFF6E1DED27
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:23:09 +0200 (CEST)
+Received: from localhost ([::1]:47520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcASl-0002gS-SI
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:23:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40474)
+	id 1jcARw-0008OW-T1
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:23:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jcAKb-0003Jr-Bb
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:33 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:39705)
+ id 1jcAKd-0003Q8-KO
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:35 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:52588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jcAKZ-0006GR-8s
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:32 -0400
-Received: by mail-pg1-x543.google.com with SMTP id w20so179973pga.6
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:15:30 -0700 (PDT)
+ id 1jcAKb-0006Hv-9G
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:35 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id a5so5132886pjh.2
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=sRbh5iLhIJgul14kcDJeTEj/XcHGk+PMKpVRoyVth+g=;
- b=PIBtX2KghCulSwqtE4E+2lMTUvnCtv2kFXVft1HT72ud2AiuiPjQeh+WoHEYj3wduP
- JUyXBazeEzx3DN9vJqFwIWgjNYXGoMKSd0q7AEbJ4zzklyLFgpoIApc538pW3WwSiwKG
- V1ED0lM1E6tpCe6h3h7gbgq2JQsibfTItSglZ9xxd0w9PKrQzNZNSlSwr4O5wPm307Bq
- G9Ca5NAx4+fWYon/N772t4WKnG2POFkg1krJ5gqcfW8zUBdN0wQ7Olq669k0GUGxugCa
- /W0dEkFBM9FJ979mgOVEvZ+x4k69qR6E4YitFAK5YQIUoJiR1OQrwYWHWl3gr2HGh1b0
- /Wjw==
+ bh=diIOPIiuRLIcEaQmwzzlKokyZy0yKGmGdNzT1yctxLA=;
+ b=y4htgXC0XqAXfehtDZQyLI9kx5BTzgc4CTGWxcPXdh5B0UA+GPS1ORWRLQyFPk/lO+
+ TnKu76KLNbHbLTK0McGA3WrmyD/dilSsefEJjCSzk4SJUxPf5803dOQx1bIbgn8TS1PI
+ MRz5pZv8tZev+gcRlNm3vX7/zntQmNBvTFhr6RsDswnQ/JW/AWORUhVEYFT3O6Lz3uwQ
+ JA/WM+99857+4onUrQD16AxqoEClH/W8l/KpZf34uoLXKhe8x5yCaCKhBxAhjzovsL9f
+ djQJSYRJKmikgS6u765pkXlJusu1Q3sA3gB2KM5iPrQvy41MMtkb3OAGm3W9q9FaZfoz
+ s0PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=sRbh5iLhIJgul14kcDJeTEj/XcHGk+PMKpVRoyVth+g=;
- b=HQe6mmFIXto2DqBirHzB/PDbBTYSuvMOEPExOaysh2JqvqAPqsIPYPtleqwWcdKmDw
- FxbZmmcEdDcesNRrx5t366DoCBzCCjaRB0l0RqTz40703auoxJnaCWidbhQEiK3aJAas
- llg59O7swA52XgT9gSBHQ/LbcfVueVrM/S9nLRJmAyBEqfwZXUF8bS05TV4z81OzsqrN
- vnNxYg2JyEzf2HXqhFbvcBHfhfp4Z7TCd5d2EG+5Jo/2KkFr8BsIUi9R7FdX3+dFZrBD
- vmNgUOGnAUFf5KxdEiOKrhSqh6RqgogBoDawxTuRGxY9HlZMYLTIqt7q0GBtSPS8a5pn
- jWeQ==
-X-Gm-Message-State: AOAM533SUf4xBtd2XlRkWUzL6lFakoNJ0UlsF1Ufxthik+1tb/4qEIs4
- ryMWHQGb4fnhYgCS5RWc3z68RkvSZtmYBw==
-X-Google-Smtp-Source: ABdhPJzB2duxHEauhLrjN8q6cAKEcesq2o6omT60tyUUDs27i+8CJApt/nk2nhaJ0jdlVmIcpd1AqQ==
-X-Received: by 2002:a05:6a00:46:: with SMTP id
- i6mr4755152pfk.146.1590164129705; 
- Fri, 22 May 2020 09:15:29 -0700 (PDT)
+ bh=diIOPIiuRLIcEaQmwzzlKokyZy0yKGmGdNzT1yctxLA=;
+ b=rsUr/23n8bmhOb3ESYKV0FJ1php01nrIF+30PdbxXNqVD7HTev5pZZordgkg4FUFEH
+ JKc5dMdFX8fXNoZstW0SCy4EAzQQMTu2AN6Adg7FiCepIPw5WAZmfZ+X1N62VbD04Ngn
+ raZRVKB4QmguR08Ivy4vvid8F465uldVJ0uPNIfvkK87bGwjqpTJj8afcGfVOGBmg69L
+ p0kL0ZpcFtzR9nBcoxQmvUFFQqVnH9wW+W+iqikgMOsDMGygfDRCcVqME0i2qLTs77gi
+ CgyebGvhBwuk5EEvRyUjEZBVue7q3YBjpVh1v9z+esSRxs0n2c7yV133x6Dmd29QVJfB
+ ip6g==
+X-Gm-Message-State: AOAM5300UhWdhz9gmXklsz1NilzG2y6QjP3dPfB4RVU4obXDHLtY/K6F
+ rqKlmETUSh2I4YqwdVDlXhGN8rbgrxZB1Q==
+X-Google-Smtp-Source: ABdhPJzJNjSu3apx5VFMvsRSRbtiGOv0+yhJ38PtdCJlBmLFO9eYQhVMNPtyCBnn8NIKHqg6ZPYwFg==
+X-Received: by 2002:a17:90b:1082:: with SMTP id
+ gj2mr5610647pjb.225.1590164131706; 
+ Fri, 22 May 2020 09:15:31 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:f1d9:5fce:c451:d2e2])
- by smtp.gmail.com with ESMTPSA id y75sm7255428pfb.212.2020.05.22.09.15.27
+ by smtp.gmail.com with ESMTPSA id y75sm7255428pfb.212.2020.05.22.09.15.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 09:15:29 -0700 (PDT)
+ Fri, 22 May 2020 09:15:31 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/19] qht: Fix tsan warnings.
-Date: Fri, 22 May 2020 12:07:51 -0400
-Message-Id: <20200522160755.886-16-robert.foley@linaro.org>
+Subject: [PATCH 16/19] util: fixed tsan warnings in thread_pool.c
+Date: Fri, 22 May 2020 12:07:52 -0400
+Message-Id: <20200522160755.886-17-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200522160755.886-1-robert.foley@linaro.org>
 References: <20200522160755.886-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=robert.foley@linaro.org; helo=mail-pg1-x543.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=robert.foley@linaro.org; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,47 +89,52 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 For example:
-WARNING: ThreadSanitizer: data race (pid=23406)
-  Atomic read of size 4 at 0x7b100003e3c8 by thread T7:
-    #0 __tsan_atomic32_load <null> (qemu-system-aarch64+0x39a36c)
-    #1 qht_do_lookup util/qht.c:495:17 (qemu-system-aarch64+0xd82f7a)
-    #2 qht_lookup_custom util/qht.c:539:11 (qemu-system-aarch64+0xd82f7a)
-  Previous write of size 8 at 0x7b100003e3c8 by thread T6 (mutexes: write M166769147697783108, write M995435858420506688):
-    #0 posix_memalign <null> (qemu-system-aarch64+0x350dd1)
-    #1 qemu_try_memalign util/oslib-posix.c:189:11 (qemu-system-aarch64+0xd59317)
-    #2 qemu_memalign util/oslib-posix.c:205:27 (qemu-system-aarch64+0xd5943e)
-    #3 qht_insert__locked util/qht.c:583:9 (qemu-system-aarch64+0xd837c5)
+WARNING: ThreadSanitizer: data race (pid=14665)
+  Write of size 4 at 0x7b1c00007890 by thread T99:
+    #0 worker_thread util/thread-pool.c:112:20 (qemu-system-aarch64+0xd52108)
+    #1 qemu_thread_start util/qemu-thread-posix.c:519:9 (qemu-system-aarch64+0xd5be30)
+
+  Previous read of size 4 at 0x7b1c00007890 by main thread (mutexes: write M875, write M897):
+    #0 thread_pool_completion_bh util/thread-pool.c:177:19 (qemu-system-aarch64+0xd51a73)
+    #1 aio_bh_call util/async.c:136:5 (qemu-system-aarch64+0xd4f98e)
+    #2 aio_bh_poll util/async.c:164:13 (qemu-system-aarch64+0xd4f98e)
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- util/qht.c | 3 +++
- 1 file changed, 3 insertions(+)
+ util/thread-pool.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/util/qht.c b/util/qht.c
-index 67e5d5b916..739a53ced0 100644
---- a/util/qht.c
-+++ b/util/qht.c
-@@ -69,6 +69,7 @@
- #include "qemu/qht.h"
- #include "qemu/atomic.h"
- #include "qemu/rcu.h"
+diff --git a/util/thread-pool.c b/util/thread-pool.c
+index d763cea505..2403669827 100644
+--- a/util/thread-pool.c
++++ b/util/thread-pool.c
+@@ -21,6 +21,7 @@
+ #include "trace.h"
+ #include "block/thread-pool.h"
+ #include "qemu/main-loop.h"
 +#include "qemu/tsan.h"
  
- //#define QHT_DEBUG
+ static void do_spawn_thread(ThreadPool *pool);
  
-@@ -580,10 +581,12 @@ static void *qht_insert__locked(const struct qht *ht, struct qht_map *map,
-         b = b->next;
-     } while (b);
+@@ -97,7 +98,9 @@ static void *worker_thread(void *opaque)
+         }
  
-+    TSAN_ANNOTATE_IGNORE_WRITES_BEGIN();
-     b = qemu_memalign(QHT_BUCKET_ALIGN, sizeof(*b));
-     memset(b, 0, sizeof(*b));
-     new = b;
-     i = 0;
-+    TSAN_ANNOTATE_IGNORE_WRITES_END();
-     atomic_inc(&map->n_added_buckets);
-     if (unlikely(qht_map_needs_resize(map)) && needs_resize) {
-         *needs_resize = true;
+         req = QTAILQ_FIRST(&pool->request_list);
++        TSAN_ANNOTATE_IGNORE_WRITES_BEGIN();
+         QTAILQ_REMOVE(&pool->request_list, req, reqs);
++
+         req->state = THREAD_ACTIVE;
+         qemu_mutex_unlock(&pool->lock);
+ 
+@@ -107,7 +110,7 @@ static void *worker_thread(void *opaque)
+         /* Write ret before state.  */
+         smp_wmb();
+         req->state = THREAD_DONE;
+-
++        TSAN_ANNOTATE_IGNORE_WRITES_END();
+         qemu_mutex_lock(&pool->lock);
+ 
+         qemu_bh_schedule(pool->completion_bh);
 -- 
 2.17.1
 
