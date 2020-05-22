@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABA91DDD34
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 04:35:56 +0200 (CEST)
-Received: from localhost ([::1]:46510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4A31DDD39
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 04:37:23 +0200 (CEST)
+Received: from localhost ([::1]:55024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbxXP-000423-Ji
-	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 22:35:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48158)
+	id 1jbxYo-00087X-H6
+	for lists+qemu-devel@lfdr.de; Thu, 21 May 2020 22:37:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jbxWI-00023Z-AA
- for qemu-devel@nongnu.org; Thu, 21 May 2020 22:34:46 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:35254)
+ id 1jbxWJ-00023l-7I
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 22:34:47 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:40288)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jbxWH-00055l-7N
- for qemu-devel@nongnu.org; Thu, 21 May 2020 22:34:45 -0400
-Received: by mail-pl1-x631.google.com with SMTP id q16so3822656plr.2
- for <qemu-devel@nongnu.org>; Thu, 21 May 2020 19:34:44 -0700 (PDT)
+ id 1jbxWI-00055p-Ai
+ for qemu-devel@nongnu.org; Thu, 21 May 2020 22:34:46 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id ci23so4339821pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 21 May 2020 19:34:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gkyAigBcxeB9sTmXF9GJufgbDs99qzgoeJAd1MWy3/8=;
- b=eYjy3/1MBhnXWugPc+CFxZeLIxiTC0jYd4kIUwzJV8T2KLpJ8jQYffGbx5qJFaY3j7
- deRPgUhyPV4SE94sam6cWYBP5R2zj1LaKDSZJbJHQaKLsYczXCd2KbMk/7Zqiay2bWvV
- +da/AAj7xBe14iChYVnA7PoUzV5gu+daGIAmlZDyr+Zd613Wl5w8v1nq/loMNA5MG15P
- jF+EHWquY78+ZrfrTHq8Ps/oKuNUcoF8rMOPC9TjS+LGi40fnG9E1sWb6n/ORjmUXZ98
- ANzbmk4z64vlH8Ztxw71oVjbC+0iN7hOE0FvO4je8HdOdIa676Yxho0+9cgrn2/FKmMM
- L59g==
+ bh=JQCGgvllP6/zU7ZDrHyu78GSFItc7dHunrM7u5X5NHY=;
+ b=yswuQWAAOUpgZQ0p7M/vW8p9+vw1X2m4G5mfZdbfIurqVXZVw/ExYxvIWUwzmJN9X+
+ 34MJ6pLbTHePAfwHF8k1AuxfhY3D40HMcmVQfvCtotGimQPVqSUt80ueC61UHhXCyjPI
+ h7uSddUVRDaYL2fWEthR6jWKNJTuLJ+HmnXJRw2+2l2+zGIued+XsjzpY9aBXRyM27KQ
+ eRNOg+Z00DlV7x6IWIxJ1uF/k5dB1t3QAG0SBnkN0J1wUQO05Iah5Y/F0iucqmnHFsEc
+ XZSs+nyvQFqPI9I+zeP8AIsNEIa8OdqmfrDMUmY7PzZOXCv7zsUi+vIlDVkqRT5OeLR+
+ PqhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gkyAigBcxeB9sTmXF9GJufgbDs99qzgoeJAd1MWy3/8=;
- b=NDPG1c44YcoTW6+U7vtrRj0GQAkHD0dBeVHor8IaT43CZKpY0IYip/eNWb+8A2Pax7
- B/oYzAP80HpLXJLKdblkBOmZgwnKzYdOhu+7ySh8F/WqWygoY3MgdAZJMZeLDO5m3guo
- YU5lfiwFDjI3bSAlDJDEVQ03GONMVGXEixu7Csc3lUnC8W0GLRfJnhIl0IYPNybeCV5K
- 40b5z008XLJryrgEWtqiWnlR6ARQN8pLxm958FOkBAbukjvlMYFlW45W+QWaxjfs/nAL
- HZ81H6BkLZOrY1ZT3C1BenWbANuUBr1lAWj8UfIsvzghrCqNVQzP+6ag+DFeLosc68gB
- fiLQ==
-X-Gm-Message-State: AOAM5329gzG03tsbggdU42Bxf5hLFnFBr1zbdcI+XGz+oVAVWr5HEm92
- 1uJnA5wYSBn/T4rwHgr23r92FQEBIAo=
-X-Google-Smtp-Source: ABdhPJzzf1M25wPmaMu5y7kfJz7/kw91o9IVkvYuihZwHuF8/Itj1H3jz+DD0uO2mTwA+3qMd3Lxjw==
-X-Received: by 2002:a17:90b:3745:: with SMTP id
- ne5mr1822404pjb.68.1590114883474; 
- Thu, 21 May 2020 19:34:43 -0700 (PDT)
+ bh=JQCGgvllP6/zU7ZDrHyu78GSFItc7dHunrM7u5X5NHY=;
+ b=SgaVYDm9LO7Ztg7P5ye7V3DGeiLCm0eCDfz0xcGdVrj3xuhsj6U8B+EtWTnW+2Zbp9
+ QArJWrz/pVIXPFVHDVOV8JyHkckiG08QvVAV0arq4gDP4K7HgaCaH/y25KF5kNn5U9b+
+ RSEYB4ICgI1S1w05eRjpneMDrwj85RNR1fIKN+943yelUsGxNlw/aDkCz3Mc8yg/rdkp
+ KbIve9MYF+rKM4hZiGv+dRQ0QOmT8JCQ0RDbv3IkSyORwEb5lflUXvCzebugAGuVepmu
+ 7wzSJ4nwUXj5/tYuLtwVxJ4R+GTEfJr2miqM6ZwKBtxrgTVSdCozi5/V98l1tPm4+6np
+ VV6w==
+X-Gm-Message-State: AOAM531Xbhcv9Q9+WJP1jzuGz1Ie4UQMkCZgPEupZ9ka7Hdr6Owpxbv7
+ tzn3NWh2tudHbmCfox0BXywgNjEq/JE=
+X-Google-Smtp-Source: ABdhPJwWKVMo7qPX8GJbRE7skc8D8TBvSSKSdUpqPAjmFcvn0U6tnlqhcCUcShusAytfo0bb++0/ew==
+X-Received: by 2002:a17:902:4b:: with SMTP id 69mr11442611pla.99.1590114884611; 
+ Thu, 21 May 2020 19:34:44 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id gt10sm5443755pjb.30.2020.05.21.19.34.42
+ by smtp.gmail.com with ESMTPSA id gt10sm5443755pjb.30.2020.05.21.19.34.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 May 2020 19:34:42 -0700 (PDT)
+ Thu, 21 May 2020 19:34:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/25] Use bool for tracing variables
-Date: Thu, 21 May 2020 19:34:16 -0700
-Message-Id: <20200522023440.26261-2-richard.henderson@linaro.org>
+Subject: [PATCH v3 02/25] Unify master_fd and apprentice_fd to comm_fd
+Date: Thu, 21 May 2020 19:34:17 -0700
+Message-Id: <20200522023440.26261-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200522023440.26261-1-richard.henderson@linaro.org>
 References: <20200522023440.26261-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,89 +90,147 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Any one invocation cannot be both master and apprentice.
+Let's use only one variable for the file descriptor.
+
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- risu.h    | 3 ++-
- reginfo.c | 2 +-
- risu.c    | 8 ++++----
- 3 files changed, 7 insertions(+), 6 deletions(-)
+ risu.c | 40 ++++++++++++++++++++--------------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/risu.h b/risu.h
-index 8d2d646..e2b4508 100644
---- a/risu.h
-+++ b/risu.h
-@@ -17,6 +17,7 @@
- #include <ucontext.h>
- #include <stdio.h>
- #include <getopt.h>
-+#include <stdbool.h>
- 
- /* Extra option processing for architectures */
- extern const struct option * const arch_long_opts;
-@@ -96,7 +97,7 @@ int recv_and_compare_register_info(read_fn read_fn,
-  * Should return 0 if it was a good match (ie end of test)
-  * and 1 for a mismatch.
-  */
--int report_match_status(int trace);
-+int report_match_status(bool trace);
- 
- /* Interface provided by CPU-specific code: */
- 
-diff --git a/reginfo.c b/reginfo.c
-index dd42ae2..1b2a821 100644
---- a/reginfo.c
-+++ b/reginfo.c
-@@ -141,7 +141,7 @@ int recv_and_compare_register_info(read_fn read_fn,
-  * Should return 0 if it was a good match (ie end of test)
-  * and 1 for a mismatch.
-  */
--int report_match_status(int trace)
-+int report_match_status(bool trace)
- {
-     int resp = 0;
-     fprintf(stderr, "match status...\n");
 diff --git a/risu.c b/risu.c
-index 01525d2..79b1092 100644
+index 79b1092..059348f 100644
 --- a/risu.c
 +++ b/risu.c
-@@ -31,7 +31,7 @@
+@@ -30,7 +30,7 @@
+ 
  void *memblock;
  
- int apprentice_fd, master_fd;
--int trace;
-+bool trace;
+-int apprentice_fd, master_fd;
++static int comm_fd;
+ bool trace;
  size_t signal_count;
  
+@@ -50,7 +50,7 @@ sigjmp_buf jmpbuf;
+ 
+ int read_sock(void *ptr, size_t bytes)
+ {
+-    return recv_data_pkt(master_fd, ptr, bytes);
++    return recv_data_pkt(comm_fd, ptr, bytes);
+ }
+ 
+ int write_trace(void *ptr, size_t bytes)
+@@ -58,9 +58,9 @@ int write_trace(void *ptr, size_t bytes)
+     size_t res;
+ 
  #ifdef HAVE_ZLIB
-@@ -228,7 +228,7 @@ int master(void)
-                     signal_count);
-             return 0;
-         } else {
--            return report_match_status(0);
-+            return report_match_status(false);
-         }
-     }
-     set_sigill_handler(&master_sigill);
-@@ -250,7 +250,7 @@ int apprentice(void)
+-    if (master_fd == STDOUT_FILENO) {
++    if (comm_fd == STDOUT_FILENO) {
  #endif
-         close(apprentice_fd);
+-        res = write(master_fd, ptr, bytes);
++        res = write(comm_fd, ptr, bytes);
+ #ifdef HAVE_ZLIB
+     } else {
+         res = gzwrite(gz_trace_file, ptr, bytes);
+@@ -71,14 +71,14 @@ int write_trace(void *ptr, size_t bytes)
+ 
+ void respond_sock(int r)
+ {
+-    send_response_byte(master_fd, r);
++    send_response_byte(comm_fd, r);
+ }
+ 
+ /* Apprentice function */
+ 
+ int write_sock(void *ptr, size_t bytes)
+ {
+-    return send_data_pkt(apprentice_fd, ptr, bytes);
++    return send_data_pkt(comm_fd, ptr, bytes);
+ }
+ 
+ int read_trace(void *ptr, size_t bytes)
+@@ -86,9 +86,9 @@ int read_trace(void *ptr, size_t bytes)
+     size_t res;
+ 
+ #ifdef HAVE_ZLIB
+-    if (apprentice_fd == STDIN_FILENO) {
++    if (comm_fd == STDIN_FILENO) {
+ #endif
+-        res = read(apprentice_fd, ptr, bytes);
++        res = read(comm_fd, ptr, bytes);
+ #ifdef HAVE_ZLIB
+     } else {
+         res = gzread(gz_trace_file, ptr, bytes);
+@@ -218,11 +218,11 @@ int master(void)
+ {
+     if (sigsetjmp(jmpbuf, 1)) {
+ #ifdef HAVE_ZLIB
+-        if (trace && master_fd != STDOUT_FILENO) {
++        if (trace && comm_fd != STDOUT_FILENO) {
+             gzclose(gz_trace_file);
+         }
+ #endif
+-        close(master_fd);
++        close(comm_fd);
+         if (trace) {
+             fprintf(stderr, "trace complete after %zd checkpoints\n",
+                     signal_count);
+@@ -244,11 +244,11 @@ int apprentice(void)
+ {
+     if (sigsetjmp(jmpbuf, 1)) {
+ #ifdef HAVE_ZLIB
+-        if (trace && apprentice_fd != STDIN_FILENO) {
++        if (trace && comm_fd != STDIN_FILENO) {
+             gzclose(gz_trace_file);
+         }
+ #endif
+-        close(apprentice_fd);
++        close(comm_fd);
          fprintf(stderr, "finished early after %zd checkpoints\n", signal_count);
--        return report_match_status(1);
-+        return report_match_status(true);
+         return report_match_status(true);
      }
-     set_sigill_handler(&apprentice_sigill);
-     fprintf(stderr, "starting apprentice image at 0x%"PRIxPTR"\n",
-@@ -344,7 +344,7 @@ int main(int argc, char **argv)
-             break;
-         case 't':
-             trace_fn = optarg;
--            trace = 1;
-+            trace = true;
-             break;
-         case 'h':
-             hostname = optarg;
+@@ -375,31 +375,31 @@ int main(int argc, char **argv)
+     if (ismaster) {
+         if (trace) {
+             if (strcmp(trace_fn, "-") == 0) {
+-                master_fd = STDOUT_FILENO;
++                comm_fd = STDOUT_FILENO;
+             } else {
+-                master_fd = open(trace_fn, O_WRONLY | O_CREAT, S_IRWXU);
++                comm_fd = open(trace_fn, O_WRONLY | O_CREAT, S_IRWXU);
+ #ifdef HAVE_ZLIB
+-                gz_trace_file = gzdopen(master_fd, "wb9");
++                gz_trace_file = gzdopen(comm_fd, "wb9");
+ #endif
+             }
+         } else {
+             fprintf(stderr, "master port %d\n", port);
+-            master_fd = master_connect(port);
++            comm_fd = master_connect(port);
+         }
+         return master();
+     } else {
+         if (trace) {
+             if (strcmp(trace_fn, "-") == 0) {
+-                apprentice_fd = STDIN_FILENO;
++                comm_fd = STDIN_FILENO;
+             } else {
+-                apprentice_fd = open(trace_fn, O_RDONLY);
++                comm_fd = open(trace_fn, O_RDONLY);
+ #ifdef HAVE_ZLIB
+-                gz_trace_file = gzdopen(apprentice_fd, "rb");
++                gz_trace_file = gzdopen(comm_fd, "rb");
+ #endif
+             }
+         } else {
+             fprintf(stderr, "apprentice host %s port %d\n", hostname, port);
+-            apprentice_fd = apprentice_connect(hostname, port);
++            comm_fd = apprentice_connect(hostname, port);
+         }
+         return apprentice();
+     }
 -- 
 2.20.1
 
