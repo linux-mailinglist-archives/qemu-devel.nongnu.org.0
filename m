@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A961DEFF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 21:25:19 +0200 (CEST)
-Received: from localhost ([::1]:54282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B4E1DF010
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 21:37:37 +0200 (CEST)
+Received: from localhost ([::1]:42718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcDIE-00059I-7c
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 15:25:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59846)
+	id 1jcDU8-0005iM-VY
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 15:37:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jcDHP-0004ge-Dl
- for qemu-devel@nongnu.org; Fri, 22 May 2020 15:24:27 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:38268)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jcDSB-0003bc-N9
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 15:35:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jcDHN-00081V-Gs
- for qemu-devel@nongnu.org; Fri, 22 May 2020 15:24:26 -0400
-Received: by mail-lj1-x244.google.com with SMTP id m18so14000498ljo.5
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 12:24:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pB7G33MbbmjRXoKyui0VUUplhFhfexsVSp3+F8nH4ns=;
- b=ZKRn1MxdfOH5cshI+tpU813Gpk7K7GNXD0MtEMBMnZpQShlCigbU3Ihftl6VskgMl5
- Yrya+YGH1gG+F/Fx9ugnSslGLLIrhdaw1FTNnkVkoGHZBcamw679EonLowxfZeTqAbm0
- nigLshzUPavWVqPzuzoqmYnCWhCqAYDAVFIIz0OLj8KOfxMopcV0G5QYy55ybbbp60Gv
- 6OhStjyYn6331PpSs1ZkPQI3VSW3m3EDKdkHN+DHFMEK5J0pTI8eXX/BNJGq4m/ediyU
- dS1Tq+0051SEEegLpTFzOoESxmrZj+wgKg+JhkZqmCYO4tf0rBICWlfFYWHrao4nyqzR
- BNRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pB7G33MbbmjRXoKyui0VUUplhFhfexsVSp3+F8nH4ns=;
- b=JfMrBTCpUGyaoHfgaKQ2inCmZd4P4az9qc+cQ+4Ic9LvcEmyZ34/vAn20cg40HvVB7
- n7hP5VYeAhvZI+gvOWmxmK5teXazU6XGkmQkHt5WjGfooy4N8J7P9FzOGjFwxg/Q4hIM
- elgzDqwCpfgkIcf7FXpHwioqMmoWN3LpZ4iT7q2Mp/+YxJyIyFz+yruOaXT7xtdGdMK4
- FjdlJyJ16DqlN2gYtyH4whFUhYBtskb/FuxqrR8LD9shz7+Dtj/9nwiaC+4g5n8JaoGy
- ssy3+WI0IXRGb9vN8cAwutn/Lsa1mIutDBIVt+562QjHbRRIck/fa5JvMXelYo2tk+or
- 0mIQ==
-X-Gm-Message-State: AOAM531L4/krwSWkZrIysBNCCPM8zagtScDX2VxCUE7lRZG6ndWYAJC4
- zvScV+pBfTejaBqh+tI4f7x1BVUAz3YIFzxgEYVQQg==
-X-Google-Smtp-Source: ABdhPJwb+gxiMWZy+Y8gcp7ornMiXhtJ++CDLJdeJkBplJud3i/YVrSc9uitvFqKPxsjyz33LQICd2YDSQtJMMAGJn0=
-X-Received: by 2002:a2e:b551:: with SMTP id a17mr5530534ljn.380.1590175463644; 
- Fri, 22 May 2020 12:24:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jcDSA-0002G4-V8
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 15:35:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jcDS9-0000cP-GU
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 19:35:33 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6F4AF2E8076
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 19:35:33 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200519132259.405-1-robert.foley@linaro.org>
- <20200519132259.405-10-robert.foley@linaro.org>
- <878shkdlvg.fsf@linaro.org>
-In-Reply-To: <878shkdlvg.fsf@linaro.org>
-From: Robert Foley <robert.foley@linaro.org>
-Date: Fri, 22 May 2020 15:24:16 -0400
-Message-ID: <CAEyhzFtJC8zGm9fESE4k5Yvojk5Yvw8ey5ECz2c9S69s16j=UA@mail.gmail.com>
-Subject: Re: [PATCH v7 09/12] tests/vm: Added a new script for ubuntu.aarch64.
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::244;
- envelope-from=robert.foley@linaro.org; helo=mail-lj1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Date: Fri, 22 May 2020 19:25:55 -0000
+From: Thomas Huth <1693649@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: paul-whooppee th-huth
+X-Launchpad-Bug-Reporter: Paul Goyette (paul-whooppee)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <149575946555.18286.18117412791023512529.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159017555604.7915.4013692688620158864.malone@gac.canonical.com>
+Subject: [Bug 1693649] Re: x86 pause misbehaves with -cpu haswell
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: fb8fd90c195c3a8c6787cdd234be4799385c8706
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 14:50:36
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,155 +73,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Puhov <peter.puhov@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1693649 <1693649@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 22 May 2020 at 11:34, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
->
-> Robert Foley <robert.foley@linaro.org> writes:
-<snip>
-> >
-> > +############################################
-> > +# efi-aarch64 probe
-> > +# Check for efi files needed by aarch64 VMs.
-> > +# By default we will use the efi included with QEMU.
-> > +# Allow user to override the path for efi also.
-> > +qemu_efi_aarch64=3D$PWD/pc-bios/edk2-aarch64-code.fd
->
-> as you only define this once there is no harm in just having a long line
-> bellow rather than running the potential confusion when looking at the
-> variables.
+Ok, thanks for checking again! So I'm closing this ticket now.
 
-OK, makes sense, will change to just go for the longer line.
+** Changed in: qemu
+       Status: Incomplete =3D> Fix Released
 
-> > +for fd in $efi_aarch64_arg $qemu_efi_aarch64
-> > +do
-> > +    if test -f $fd; then
-> > +        efi_aarch64=3D$fd
-> > +        break
-> > +    fi
-> > +done
->
-> This only detects the pc-bios bundled version of edk on a directory
-> which has already been built. Maybe we need to do a straight forward:
->
->   if not test -f $efi_aarch64; then
->       if test -f $SRC/pc-bios/edk2-aarch64-code.fd.bz2; then
->           # valid after build
->           efi_aarch64=3D$PWD/pc-bios/edk2-aarch64-code.fd
->       else
->           efi_aarch64=3D""
->       fi
->   fi
->
-> what do you think?
+-- =
 
-I agree.  The straight up if check is easier to read.  Will change to this.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1693649
 
-> <snip>
-> > +
-> > +    def build_image(self, img):
-> > +        os_img =3D self._download_with_cache(self.image_link)
-> > +        img_tmp =3D img + ".tmp"
-> > +        subprocess.check_call(["cp", "-f", os_img, img_tmp])
-> > +        subprocess.check_call(["qemu-img", "resize", img_tmp, "+50G"])
-> > +        ci_img =3D self.gen_cloud_init_iso()
-> > +
-> > +        self.boot(img_tmp, extra_args =3D ["-cdrom", ci_img])
-> > +        if self.debug:
-> > +            self.wait_boot()
-> > +        # First command we issue is fix for slow ssh login.
-> > +        self.wait_ssh(wait_root=3DTrue,
-> > +                      cmd=3D"chmod -x /etc/update-motd.d/*")
-> > +        # Wait for cloud init to finish
-> > +        self.wait_ssh(wait_root=3DTrue,
-> > +                      cmd=3D"ls /var/lib/cloud/instance/boot-finished"=
-)
-> > +        self.ssh_root("touch /etc/cloud/cloud-init.disabled")
-> > +        # Disable auto upgrades.
-> > +        # We want to keep the VM system state stable.
-> > +        self.ssh_root('sed -ie \'s/"1"/"0"/g\' /etc/apt/apt.conf.d/20a=
-uto-upgrades')
-> > +        # If the user chooses *not* to do the second phase,
-> > +        # then we will jump right to the graceful shutdown
-> > +        if self._config['install_cmds'] !=3D "":
-> > +            self.ssh_root("sync")
-> > +            # Shutdown and then boot it again.
-> > +            # Allows us to know for sure it is booting (not shutting d=
-own)
-> > +            # before we call wait_ssh().
-> > +            self.graceful_shutdown()
-> > +            self.boot(img_tmp)
-> > +            if self.debug:
-> > +                self.wait_boot()
-> > +            self.wait_ssh(wait_root=3DTrue)
-> > +            self.wait_ssh(wait_root=3DTrue, cmd=3D"locale")
->
-> Why do we need to shutdown before proceeding with the install commands?
-> I see ubuntu.i386 does it as well although with a slightly hackier
-> approach.
+Title:
+  x86 pause misbehaves with -cpu haswell
 
-The reboot was carried over from the way i386 did things.
-I have a guess as to why the reboot is there, it is just after the
-install of cloud-initramfs-growroot, which does require a reboot.
-So I assume that we wanted to grow the root, reboot, and then
-begin installation of all the new packages.
+Status in QEMU:
+  Fix Released
 
-However, at this point, it looks like even without installing that package,
-(with i386 or aarch64) the root is growing to fill the new size of the imag=
-e,
-so it seems that package and the reboot is no longer needed.
-Will plan to remove these as part of making build_image common
-(discussed below).
+Bug description:
+  Using qemu-2.9.0
 
-> > +            # The previous update sometimes doesn't survive a reboot, =
-so do it again
-> > +            self.ssh_root("sed -ie s/^#\ deb-src/deb-src/g /etc/apt/so=
-urces.list")
-> > +
-> > +            # Issue the install commands.
-> > +            # This can be overriden by the user in the config .yml.
-> > +            install_cmds =3D self._config['install_cmds'].split(',')
-> > +            for cmd in install_cmds:
-> > +                self.ssh_root(cmd)
-> > +        self.graceful_shutdown()
-> > +        self.wait()
-> > +        os.rename(img_tmp, img)
-> > +        return 0
->
-> How come we are diverging from the ubuntu.i386 install here? You've
-> moved all the complications for aarch64 into a it's own handling so
-> these steps are almost but not quite the same. Couldn't the ubuntu
-> build_img code be common and then just have a slightly different set of
-> install commands?
+  When booting NetBSD using '-cpu haswell -smp 4', the system fails to
+  initialize the additional CPUs.  It appears as though the "application
+  processor" enters routine x86_pause() but never returns.
 
-I'm glad you brought this up.  I was noticing the commonality here especial=
-ly if
-we wanted to add another architecture of Ubuntu VM.
-For example, we brought up a ppc64 Ubuntu VM script the other day and it re=
-ally
-cried out for creating a common Ubuntu module here since most of the
-code is the same.
+  x86_pause() is simply two assembler instructions: 'pause; ret;'
 
-As suggested, I will plan to create a common Ubuntu module here and share
-the build_img code, but have a different set of install commands.
+  Replacing the routine with 'nop; nop; ret;' allows the system to
+  proceed, of course without the benefit of the pause instruction on
+  spin-loops!
 
-Thanks & Regards,
--Rob
+  Additionally, booting with '-cpu phenom -smp 4' also works, although
+  the system does seem confused about the type of CPU being used.
 
->
-> > +
-> > +if __name__ =3D=3D "__main__":
-> > +    defaults =3D aarch64vm.get_config_defaults(UbuntuAarch64VM, DEFAUL=
-T_CONFIG)
-> > +    sys.exit(basevm.main(UbuntuAarch64VM, defaults))
->
->
-> --
-> Alex Benn=C3=A9e
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1693649/+subscriptions
 
