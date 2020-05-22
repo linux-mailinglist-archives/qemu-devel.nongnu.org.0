@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA381DED2F
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:25:51 +0200 (CEST)
-Received: from localhost ([::1]:33340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE7A11DED39
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 18:27:11 +0200 (CEST)
+Received: from localhost ([::1]:39162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcAUY-0006it-LX
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:25:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40490)
+	id 1jcAVq-000156-Uy
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 12:27:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jcAKe-0003Rm-6P
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:36 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:43099)
+ id 1jcAKg-0003Xh-K3
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:38 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:38071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jcAKd-0006I8-86
- for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:35 -0400
-Received: by mail-pl1-x643.google.com with SMTP id k22so4567170pls.10
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:15:34 -0700 (PDT)
+ id 1jcAKf-0006IS-KC
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 12:15:38 -0400
+Received: by mail-pl1-x641.google.com with SMTP id m7so4577354plt.5
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 09:15:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=A/nKw6Isa4Oy51HOhG9UE8FR/bJbLBceggcTqOyEfB0=;
- b=GNUp0U1nhxuxngkyDMTNsnpGA/d53w6KxMd8KlP/3m7zeATcCIG7xrrSyIBqYMFBuM
- aghOEnTh/k82NwcDMLQXbC+5HkJXN45Q3QxXbOVGGrC6jJFIx7Y2dUXaS/ookwmGRP/X
- qMGatvSQU975cg4iXHgLIS+nzHufl63e2b2u/xkMSBR+GZ1kx0Niewnir32DD0vyzwTv
- AaqKHdmAfU/7BHHpTPtfOAJUO0TXonPl+mkGHAPJkmGDhgUcEPFjjqOD0aRrtwFiaJho
- mriiQYnJbmC88D0wQzawIRCulCUwxhNNCU6YmIHEF4A1bLrJz/315PYXyojL5xrrwQjl
- ac6g==
+ bh=HfLXLJX8xYWjaZkhWytSgY03XSw6juhoh6RiJzn7u1c=;
+ b=CT+0Y3LbfxdDeDDkrK9LzvOCb5kJTQVIScmmf8UAVpnilrJkIAI/qy+DWy03GLp1BR
+ kV4cwcmj1hF3BPf9DB3nl1r0zEjT0hTDm8HiBQWtPptLJOfR4C9g5Koc+OtWxF5soFTH
+ Qpz1chJuI7ONIltDBzLBqEp8+0gIz0EiZcqMAzixEP4Ay2N/gYsByQiDqmNKhke3bPiF
+ niGvg/+q0aWcVX5knDifbiatYaXYa2BIVv8TTvSu6MU6osYMNT6bF4nFWPlmumOCw5nQ
+ xqMXTAaklCAgQKCVkX6EGSb2FDHeVmt/7D7XKi+DyeLf4wPBvaOBvY/1wK2JXWLUzcop
+ xerQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=A/nKw6Isa4Oy51HOhG9UE8FR/bJbLBceggcTqOyEfB0=;
- b=A+F/KXf5RhaOSBV5e5OejE7EPgVgf3BFwiIIfEAIV+FSUVpnCMB/Z7J4iSiZ3oYNa4
- ks1HtUxCYDWb4lGt2ReymI2oRam9AbRCgELLJ5m7YgZ0wZpa/COVd01MTIb//f39NB4V
- OQPi8Y12ZW2H7NPHed3GT0cN9uw4hXnO/LlxUDACe70G34fLbl6hb9Q2JQyW8/FkDv4m
- EZXnxfWm7LCOqrRZnNJ16B4AQwe7gKZvYnMsDk8m7iJ0vUn+9VBcniRY9aNjxkLDyLdA
- dtkzciaajO+95LyxL0TiNOpgFKcTg++Ke+Hac0cpV/hPPqxkumErgcKp553m2Qxl4Ag0
- rgfg==
-X-Gm-Message-State: AOAM531E/J8zeewGkPBolYzrrQaLnjtEarh8qc5nvgLBumhHKp63WUlV
- Db7UnwdBdvMtvxq5HnKNzyyEXlkl6OTbrA==
-X-Google-Smtp-Source: ABdhPJys21ul8aDdEdjRji90tJOwobuTXZmcDYOj8bqY+tDMDzG35LNfgEPTjyTieiqNDSUhOZ27OQ==
-X-Received: by 2002:a17:902:8d8d:: with SMTP id
- v13mr15554071plo.67.1590164133603; 
- Fri, 22 May 2020 09:15:33 -0700 (PDT)
+ bh=HfLXLJX8xYWjaZkhWytSgY03XSw6juhoh6RiJzn7u1c=;
+ b=uWhvzgA94I2KsWZIid6n+dAME073+bAGb5vO5kdJXzaC5o2ozLtvOpIDdVvIrP+FiF
+ mwIpLelJzen43CTiDHJoXMGIz+IOAZa4UmZXuT8pQUzkdNLivDJtQ1+dkd8xtEEpn+Ca
+ 6nMB1ts7JqZHGimLBxqF2i3GDxd5dtFOMgXPt5qJlzzUUyw1uo5/S7/dh0QjZFFagQBR
+ c6I2U1rOE9eP6JyVv7LeFzkfRaUYNJ3M4bzgHqAV+DVGfTsnpyZYes9R7ZzLJq+uk2Rz
+ 0uGROOb/ItgaRTw6VQdx5SRznb26mIK9BUSIcg0TR+M28qNcuo+9NEazItaAb5WRfthX
+ op9w==
+X-Gm-Message-State: AOAM530FrPNhB9fP3bzngQ165GgS8FDC4zYm00bCKiUhcWy59sS7A2pr
+ IsY03v8er9tPaKzTaGrDW7aTPunHktp9BA==
+X-Google-Smtp-Source: ABdhPJyVSSNMgunpT7lv7Ih6PqROoXJwH72krGad2+09dtgPx+0B1zE5GpW7yZXm/kemZ7Uen5utWA==
+X-Received: by 2002:a17:902:694b:: with SMTP id
+ k11mr14190443plt.77.1590164135801; 
+ Fri, 22 May 2020 09:15:35 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:f1d9:5fce:c451:d2e2])
- by smtp.gmail.com with ESMTPSA id y75sm7255428pfb.212.2020.05.22.09.15.31
+ by smtp.gmail.com with ESMTPSA id y75sm7255428pfb.212.2020.05.22.09.15.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 May 2020 09:15:33 -0700 (PDT)
+ Fri, 22 May 2020 09:15:35 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/19] util: Added tsan annotate for thread name.
-Date: Fri, 22 May 2020 12:07:53 -0400
-Message-Id: <20200522160755.886-18-robert.foley@linaro.org>
+Subject: [PATCH 18/19] target/arm: Fix tsan warning in cpu.c
+Date: Fri, 22 May 2020 12:07:54 -0400
+Message-Id: <20200522160755.886-19-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200522160755.886-1-robert.foley@linaro.org>
 References: <20200522160755.886-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=robert.foley@linaro.org; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=robert.foley@linaro.org; helo=mail-pl1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,41 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, cota@braap.org, alex.bennee@linaro.org,
- robert.foley@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, robert.foley@linaro.org,
+ Richard Henderson <richard.henderson@linaro.org>, cota@braap.org,
+ peter.puhov@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows us to see the name of the thread in tsan
-warning reports such as this:
+For example:
+WARNING: ThreadSanitizer: data race (pid=11134)
+  Atomic write of size 4 at 0x7bbc0000e0ac by main thread (mutexes: write M875):
+    #0 __tsan_atomic32_store <null> (qemu-system-aarch64+0x394d84)
+    #1 cpu_reset_interrupt hw/core/cpu.c:107:5 (qemu-system-aarch64+0x842f90)
+    #2 arm_cpu_set_irq target/arm/cpu.c (qemu-system-aarch64+0x615a55)
 
-  Thread T7 'CPU 1/TCG' (tid=24317, running) created by main thread at:
+  Previous read of size 4 at 0x7bbc0000e0ac by thread T7:
+    #0 arm_cpu_has_work target/arm/cpu.c:78:16 (qemu-system-aarch64+0x6178ba)
+    #1 cpu_has_work include/hw/core/cpu.h:700:12 (qemu-system-aarch64+0x68be2e)
 
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- util/qemu-thread-posix.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/arm/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
-index 838980aaa5..dcbc82d80f 100644
---- a/util/qemu-thread-posix.c
-+++ b/util/qemu-thread-posix.c
-@@ -15,6 +15,7 @@
- #include "qemu/atomic.h"
- #include "qemu/notify.h"
- #include "qemu-thread-common.h"
-+#include "qemu/tsan.h"
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 32bec156f2..cdb90582ee 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -75,7 +75,7 @@ static bool arm_cpu_has_work(CPUState *cs)
+     ARMCPU *cpu = ARM_CPU(cs);
  
- static bool name_threads;
- 
-@@ -513,6 +514,7 @@ static void *qemu_thread_start(void *args)
- # endif
-     }
- #endif
-+    TSAN_ANNOTATE_THREAD_NAME(qemu_thread_args->name);
-     g_free(qemu_thread_args->name);
-     g_free(qemu_thread_args);
-     pthread_cleanup_push(qemu_thread_atexit_notify, NULL);
+     return (cpu->power_state != PSCI_OFF)
+-        && cs->interrupt_request &
++        && atomic_read(&cs->interrupt_request) &
+         (CPU_INTERRUPT_FIQ | CPU_INTERRUPT_HARD
+          | CPU_INTERRUPT_VFIQ | CPU_INTERRUPT_VIRQ
+          | CPU_INTERRUPT_EXITTB);
 -- 
 2.17.1
 
