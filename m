@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842041DDF0C
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 06:56:47 +0200 (CEST)
-Received: from localhost ([::1]:51892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22641DDF15
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 May 2020 07:01:43 +0200 (CEST)
+Received: from localhost ([::1]:56482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jbzji-0000sp-3e
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 00:56:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57778)
+	id 1jbzoU-0005Zt-4t
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 01:01:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jbziq-00008m-Au
- for qemu-devel@nongnu.org; Fri, 22 May 2020 00:55:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55184)
+ id 1jbznh-0005A2-Qm
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 01:00:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jbzip-0006gj-1W
- for qemu-devel@nongnu.org; Fri, 22 May 2020 00:55:51 -0400
+ id 1jbznh-0007X1-0u
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 01:00:53 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jbzim-0002SU-EL
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 04:55:48 +0000
+ id 1jbznf-0002pF-D3
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 05:00:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2E0F72E8081
- for <qemu-devel@nongnu.org>; Fri, 22 May 2020 04:55:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 611A12E806F
+ for <qemu-devel@nongnu.org>; Fri, 22 May 2020 05:00:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 22 May 2020 04:48:54 -0000
-From: Thomas Huth <1877716@bugs.launchpad.net>
+Date: Fri, 22 May 2020 04:50:59 -0000
+From: Thomas Huth <1878915@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: floppy io-uring
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anatol busimus post-factum stefanha zkrx
-X-Launchpad-Bug-Reporter: zkrx (zkrx)
+X-Launchpad-Bug-Commenters: felix.von.s stefanha
+X-Launchpad-Bug-Reporter: felix (felix.von.s)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158901182209.5021.12832610872088111923.malonedeb@soybean.canonical.com>
-Message-Id: <159012293504.30845.3836592342378726563.launchpad@wampee.canonical.com>
-Subject: [Bug 1877716] Re: Win10 guest unusable after a few minutes
+References: <158954872808.31513.13433748579796760766.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159012305970.2100.14199326277292947871.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1878915] Re: util/fdmon-io_uring.c:95: get_sqe: Assertion `ret >
+ 1' failed.
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 8d18ba233b01c557464a320f1c429f2790cd6188
+X-Launchpad-Hash: 03cf36e69de2d3f2b9ba8688b90a5d352398b58d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/21 21:50:42
@@ -73,7 +75,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1877716 <1877716@bugs.launchpad.net>
+Reply-To: Bug 1878915 <1878915@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,39 +86,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1877716
+https://bugs.launchpad.net/bugs/1878915
 
 Title:
-  Win10 guest unusable after a few minutes
+  util/fdmon-io_uring.c:95: get_sqe: Assertion `ret > 1' failed.
 
 Status in QEMU:
   Fix Committed
 
 Bug description:
-  On Arch Linux, the recent qemu package update seems to misbehave on
-  some systems. In my case, my Windows 10 guest runs fine for around 5
-  minutes and then start to get really sluggish, even unresponsive. It
-  needs to be forced off. I could reproduce this on a minimal VM with no
-  passthrough, although my current testing setup involves an nvme pcie
-  passthrough.
+  qemu 5.0.0, liburing1 0.6-3, Linux 5.6.0-1-686-pae (Debian)
 
-  I bisected it to the following commit which rapidly starts to run sluggis=
-hly on my setup:
-  https://github.com/qemu/qemu/commit/73fd282e7b6dd4e4ea1c3bbb3d302c8db51e4=
-ccf
+  Stack trace:
 
-  I've ran the previous commit (
-  https://github.com/qemu/qemu/commit/b321051cf48ccc2d3d832af111d688f2282f0=
-89b
-  ) for the entire night without an issue so far.
+  Stack trace of thread 31002:
+  #0  0x00000000b7faf1cd __kernel_vsyscall (linux-gate.so.1 + 0x11cd)
+  #1  0x00000000b6c618e2 __libc_signal_restore_set (libc.so.6 + 0x348e2)
+  #2  0x00000000b6c4a309 __GI_abort (libc.so.6 + 0x1d309)
+  #3  0x00000000b6c4a1d1 __assert_fail_base (libc.so.6 + 0x1d1d1)
+  #4  0x00000000b6c59929 __GI___assert_fail (libc.so.6 + 0x2c929)
+  #5  0x0000000000ba80be get_sqe (qemu-system-i386 + 0x6d00be)
+  #6  0x0000000000ba80cb add_poll_add_sqe (qemu-system-i386 + 0x6d00cb)
+  #7  0x0000000000ba820c fill_sq_ring (qemu-system-i386 + 0x6d020c)
+  #8  0x0000000000ba7145 aio_poll (qemu-system-i386 + 0x6cf145)
+  #9  0x0000000000aede63 blk_prw (qemu-system-i386 + 0x615e63)
+  #10 0x0000000000aeef95 blk_pread (qemu-system-i386 + 0x616f95)
+  #11 0x00000000008abbfa fdctrl_transfer_handler (qemu-system-i386 + 0x3d3b=
+fa)
+  #12 0x0000000000906c3d i8257_channel_run (qemu-system-i386 + 0x42ec3d)
+  #13 0x00000000008ac119 fdctrl_start_transfer (qemu-system-i386 + 0x3d4119)
+  #14 0x00000000008ab233 fdctrl_write_data (qemu-system-i386 + 0x3d3233)
+  #15 0x0000000000708ae7 memory_region_write_accessor (qemu-system-i386 + 0=
+x230ae7)
+  #16 0x00000000007059e1 access_with_adjusted_size (qemu-system-i386 + 0x22=
+d9e1)
+  #17 0x000000000070b931 memory_region_dispatch_write (qemu-system-i386 + 0=
+x233931)
+  #18 0x00000000006a87a2 address_space_stb (qemu-system-i386 + 0x1d07a2)
+  #19 0x0000000000829216 helper_outb (qemu-system-i386 + 0x351216)
+  #20 0x00000000b06d9fdc n/a (n/a + 0x0)
 
-  I believe this might be a duplicate of
-  https://bugs.launchpad.net/qemu/+bug/1873032 , although I'm not sure.
+  Steps:
 
-  Linux cc 5.6.10-arch1-1 #1 SMP PREEMPT Sat, 02 May 2020 19:11:54 +0000 x8=
-6_64 GNU/Linux
-  AMD Ryzen 7 2700X Eight-Core Processor
+  0. qemu-img create -f raw fda.img 3840K
+  1. mformat -i fda.img -n 48 -t 80 -h 2
+  2. qemu-system-i386 -fda fda.img -hda freedos.qcow2
+  3. Attempt to run 'dosfsck a:' in the guest
+
+  According to hw/block/fdc.c, a 3840K image should result in a virtual
+  floppy with a geometry of 48 sectors/track x 80 tracks x 2 sides.
+
+  The assert seems bogus either way.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1877716/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1878915/+subscriptions
 
