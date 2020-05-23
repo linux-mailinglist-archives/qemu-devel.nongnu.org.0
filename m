@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04FF1DFBAC
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 01:22:01 +0200 (CEST)
-Received: from localhost ([::1]:49210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 264A41DFBC0
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 01:23:42 +0200 (CEST)
+Received: from localhost ([::1]:57736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcdSq-00008a-Nl
-	for lists+qemu-devel@lfdr.de; Sat, 23 May 2020 19:22:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45182)
+	id 1jcdUT-0003hB-4E
+	for lists+qemu-devel@lfdr.de; Sat, 23 May 2020 19:23:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRe-0006sU-Lp
- for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:46 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57447
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRf-0006tQ-Gc
+ for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31136
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRd-0000Ow-MS
- for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:46 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRe-0000P5-M2
+ for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590276044;
+ s=mimecast20190719; t=1590276046;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7Kvi6xzK9MWs5xCm4IUNKTRO2aVL0Wwl9B3a3YZXML8=;
- b=iZHzwRL5hLE+M9pUAI8ObeMeyFyCIdcrSk5gln10SfcyiTT8gAtbU7XN82GnAQSKzRj4C4
- NIvuss3LR+Lrr+3WCZcnq7z4WuIbW9hTrUF3GqRloPngiR8MZXO3whD86tIcJD2BYGhEZo
- pedAIXWBdEqAc4qNlzqu1jnP23YvW9g=
+ bh=ZWuKxqHpTHrg9vNDgSvtlSiGvO4lTbyQf2mpVceh26Y=;
+ b=BxbeeTMQF1a2xSwrElNVNTbIz6Vz523MhouSpEStZwFDxBkn0uVADBx4hbrQeYN/NQnJYE
+ YXELD/NDjcACu1/xYXrh+MbbpJ/+KyQnrQorbK/neXHk39ZAnzn6ivhlK7Y5qqeEc5uU9v
+ sD3xhyJK+ZDzxRUsSguPTGowG0/KxWQ=
 Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
  [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-10Paq6OFMhWdwIzcGiw_MA-1; Sat, 23 May 2020 19:20:43 -0400
-X-MC-Unique: 10Paq6OFMhWdwIzcGiw_MA-1
-Received: by mail-qt1-f200.google.com with SMTP id o16so15947879qto.12
- for <qemu-devel@nongnu.org>; Sat, 23 May 2020 16:20:42 -0700 (PDT)
+ us-mta-299-GpL6XNN8Pn6QwpFKifHthQ-1; Sat, 23 May 2020 19:20:44 -0400
+X-MC-Unique: GpL6XNN8Pn6QwpFKifHthQ-1
+Received: by mail-qt1-f200.google.com with SMTP id 19so15963253qtp.8
+ for <qemu-devel@nongnu.org>; Sat, 23 May 2020 16:20:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7Kvi6xzK9MWs5xCm4IUNKTRO2aVL0Wwl9B3a3YZXML8=;
- b=tMZ26sOg9zGdXVHREK3f3FLa+tUjBJsXe92v/Lo+HS6QX9/ISgz5ktPuLMuj6FU8Zw
- Q/MLT4GvLabHusOWAviHnQyn8KPpmgTzFZqEiLBVlHJYAg1u6ROIsztlR3u2ZbzbdVlk
- eTGNGVkB44V3ytzLa7qYV9X6zY5fq/dl2BIwY7J53CblEqz64LmxP3p8xC4LqsFDEUuj
- StvJxmo5IqDSJPSiW+C+qisnA/tTpnRQnlNGyWQ8wi6rwU08epGZJIiG+pa/vWRJftDy
- Tj0itH2fknU0j8lSBniOnpysJg0NntyGGAZypcDqd0sR9SnwrywmGNN+fpxpwZkUtM/O
- xMzw==
-X-Gm-Message-State: AOAM531HhjlhAdUEK1cUbh4Ei1f1xsfm5hz+SI2N3+A1oLDVrIxhJmnV
- ZtDb3wFqqvQl/o61WdahEXfscd81ICSQdnpxkzyP3Ott4Il3NBZ9YRlxPCK3EJHjg6J1MHYH1jd
- 1NLAIBu53kbnv+qA=
-X-Received: by 2002:aed:3009:: with SMTP id 9mr22069073qte.191.1590276042202; 
- Sat, 23 May 2020 16:20:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwWRrzStb2z+qPHYVXam3uw39Xic1d5lduo5dqWB5YefEOq6B+ogqyKtb3yeYFp/cj3VE21ZQ==
-X-Received: by 2002:aed:3009:: with SMTP id 9mr22069057qte.191.1590276041921; 
- Sat, 23 May 2020 16:20:41 -0700 (PDT)
+ bh=ZWuKxqHpTHrg9vNDgSvtlSiGvO4lTbyQf2mpVceh26Y=;
+ b=YHj/a4gdfhEl1F2lDT4A/W4tir+bWI3DtFgpHjUmPUyb/rZPW6h4pjZvHgL1eavP2t
+ LaACZIGNZj9VOnIHEITkBfaZ9eYpdgOOLdHoDfFGdLe+Hl/bbCK4N4QQ032P9tZfXn6V
+ gtp+RdLEYU/eii3TB9tgFjPcoYJqKcS+iYtrxJSy0ihTAlBsyRfpXTl2fM7nGvCVLRjB
+ v/jHHH8mZd8Ji1nNQmD63O1Lz3mTXz153dmDWPX9FGqV0MCHXAOFjMm9QqXfwhpoOxBw
+ Bn0nZwaGpkLDowMh5W3VJHGpFuIf8dBQCo5ibvk05HAZF3vr/gfAJIDXleyVv6x/64c+
+ CEGQ==
+X-Gm-Message-State: AOAM532wX9vB53R9n0ykn6FcI/2wH70zQ1HH04YBsHQuqjffYsz+Mt2y
+ nTSWpZdcZUKn9ZxpRTQk4bjUV514EPhPE4sXhiorkVYA7Zo9neFJaIJqPoLBnzu4Wz9TPoA5aF1
+ mrZv1lM8VVvVSPxs=
+X-Received: by 2002:a37:a949:: with SMTP id s70mr614400qke.111.1590276043647; 
+ Sat, 23 May 2020 16:20:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJygS5o3xF5CKmnHw37C6T1jF25S7GLCcJ78nmO6rTD1dm3nysTeM7J1xR4LmOAvJLjRQOFGwg==
+X-Received: by 2002:a37:a949:: with SMTP id s70mr614384qke.111.1590276043426; 
+ Sat, 23 May 2020 16:20:43 -0700 (PDT)
 Received: from xz-x1.hitronhub.home ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id m33sm11974235qtb.88.2020.05.23.16.20.40
+ by smtp.gmail.com with ESMTPSA id m33sm11974235qtb.88.2020.05.23.16.20.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 May 2020 16:20:41 -0700 (PDT)
+ Sat, 23 May 2020 16:20:42 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v3 02/11] memory: Introduce log_sync_global() to memory
- listener
-Date: Sat, 23 May 2020 19:20:26 -0400
-Message-Id: <20200523232035.1029349-3-peterx@redhat.com>
+Subject: [PATCH RFC v3 03/11] KVM: Fixup kvm_log_clear_one_slot() ioctl return
+ check
+Date: Sat, 23 May 2020 19:20:27 -0400
+Message-Id: <20200523232035.1029349-4-peterx@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200523232035.1029349-1-peterx@redhat.com>
 References: <20200523232035.1029349-1-peterx@redhat.com>
@@ -71,16 +71,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/23 19:20:44
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=peterx@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/23 18:49:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,109 +99,36 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of the memory listener may want to do log synchronization without
-being able to specify a range of memory to sync but always globally.
-Such a memory listener should provide this new method instead of the
-log_sync() method.
-
-Obviously we can also achieve similar thing when we put the global
-sync logic into a log_sync() handler. However that's not efficient
-enough because otherwise memory_global_dirty_log_sync() may do the
-global sync N times, where N is the number of flat ranges in the
-address space.
-
-Make this new method be exclusive to log_sync().
+kvm_vm_ioctl() handles the errno trick already for ioctl() on
+returning -1 for errors.  Fix this.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- include/exec/memory.h | 12 ++++++++++++
- memory.c              | 33 +++++++++++++++++++++++----------
- 2 files changed, 35 insertions(+), 10 deletions(-)
+ accel/kvm/kvm-all.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index e000bd2f97..c0c6155ca0 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -533,6 +533,18 @@ struct MemoryListener {
-      */
-     void (*log_sync)(MemoryListener *listener, MemoryRegionSection *section);
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index d06cc04079..6e015aa2d4 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -699,14 +699,13 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
+     d.num_pages = bmap_npages;
+     d.slot = mem->slot | (as_id << 16);
  
-+    /**
-+     * @log_sync_global:
-+     *
-+     * This is the global version of @log_sync when the listener does
-+     * not have a way to synchronize the log with finer granularity.
-+     * When the listener registers with @log_sync_global defined, then
-+     * its @log_sync must be NULL.  Vice versa.
-+     *
-+     * @listener: The #MemoryListener.
-+     */
-+    void (*log_sync_global)(MemoryListener *listener);
-+
-     /**
-      * @log_clear:
-      *
-diff --git a/memory.c b/memory.c
-index 92fb8b80d7..a77c884e8e 100644
---- a/memory.c
-+++ b/memory.c
-@@ -2047,6 +2047,10 @@ void memory_region_set_dirty(MemoryRegion *mr, hwaddr addr,
-                                         memory_region_get_dirty_log_mask(mr));
- }
- 
-+/*
-+ * If memory region `mr' is NULL, do global sync.  Otherwise, sync
-+ * dirty bitmap for the specified memory region.
-+ */
- static void memory_region_sync_dirty_bitmap(MemoryRegion *mr)
- {
-     MemoryListener *listener;
-@@ -2060,18 +2064,24 @@ static void memory_region_sync_dirty_bitmap(MemoryRegion *mr)
-      * address space once.
-      */
-     QTAILQ_FOREACH(listener, &memory_listeners, link) {
--        if (!listener->log_sync) {
--            continue;
--        }
--        as = listener->address_space;
--        view = address_space_get_flatview(as);
--        FOR_EACH_FLAT_RANGE(fr, view) {
--            if (fr->dirty_log_mask && (!mr || fr->mr == mr)) {
--                MemoryRegionSection mrs = section_from_flat_range(fr, view);
--                listener->log_sync(listener, &mrs);
-+        if (listener->log_sync) {
-+            as = listener->address_space;
-+            view = address_space_get_flatview(as);
-+            FOR_EACH_FLAT_RANGE(fr, view) {
-+                if (fr->dirty_log_mask && (!mr || fr->mr == mr)) {
-+                    MemoryRegionSection mrs = section_from_flat_range(fr, view);
-+                    listener->log_sync(listener, &mrs);
-+                }
-             }
-+            flatview_unref(view);
-+        } else if (listener->log_sync_global) {
-+            /*
-+             * No matter whether MR is specified, what we can do here
-+             * is to do a global sync, because we are not capable to
-+             * sync in a finer granularity.
-+             */
-+            listener->log_sync_global(listener);
-         }
--        flatview_unref(view);
+-    if (kvm_vm_ioctl(s, KVM_CLEAR_DIRTY_LOG, &d) == -1) {
+-        ret = -errno;
++    ret = kvm_vm_ioctl(s, KVM_CLEAR_DIRTY_LOG, &d);
++    if (ret) {
+         error_report("%s: KVM_CLEAR_DIRTY_LOG failed, slot=%d, "
+                      "start=0x%"PRIx64", size=0x%"PRIx32", errno=%d",
+                      __func__, d.slot, (uint64_t)d.first_page,
+                      (uint32_t)d.num_pages, ret);
+     } else {
+-        ret = 0;
+         trace_kvm_clear_dirty_log(d.slot, d.first_page, d.num_pages);
      }
- }
  
-@@ -2758,6 +2768,9 @@ void memory_listener_register(MemoryListener *listener, AddressSpace *as)
- {
-     MemoryListener *other = NULL;
- 
-+    /* Only one of them can be defined for a listener */
-+    assert(!(listener->log_sync && listener->log_sync_global));
-+
-     listener->address_space = as;
-     if (QTAILQ_EMPTY(&memory_listeners)
-         || listener->priority >= QTAILQ_LAST(&memory_listeners)->priority) {
 -- 
 2.26.2
 
