@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6222C1DFBAD
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 01:22:02 +0200 (CEST)
-Received: from localhost ([::1]:49224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42301DFBAB
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 01:21:54 +0200 (CEST)
+Received: from localhost ([::1]:48882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcdSr-00008t-Dp
-	for lists+qemu-devel@lfdr.de; Sat, 23 May 2020 19:22:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45186)
+	id 1jcdSi-0008SP-UT
+	for lists+qemu-devel@lfdr.de; Sat, 23 May 2020 19:21:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRe-0006se-Vp
- for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40919
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRd-0006rx-QP
+ for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54990
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRb-0000Oa-5J
- for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:46 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRc-0000Om-9o
+ for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590276041;
+ s=mimecast20190719; t=1590276043;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=b08QrLnU9jv2ozncKQ+OlJbMdES6zeJZb8AxCljwpaU=;
- b=fCZwVFExMyFox5NsAd7q14pXfm3evBZYFPtccoxx35zb4BTC0rSDmHuJ2mwZ78W6K9V2rX
- mi7n2FglEz4H5cXXPJxp05uChtfTm/NTrsp6pGdjEs6caoYb4++hrAJ7GE7YkwfAOOh39p
- gJ/1CKaAv8dmYhhrIWSXMgukMwr29qQ=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-_w18AnAQOguiSdBhbExrbg-1; Sat, 23 May 2020 19:20:39 -0400
-X-MC-Unique: _w18AnAQOguiSdBhbExrbg-1
-Received: by mail-qk1-f198.google.com with SMTP id 25so14826380qkc.3
- for <qemu-devel@nongnu.org>; Sat, 23 May 2020 16:20:39 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gQ7yk2bcLXdcGraZvC1hVrePdZ8/yaXz3g3IC0vGAyA=;
+ b=HJ9m2qpXJmLiRIitfjfjJO1bp2tqB/FbywJahYsb8E9hT3Z67EJvFyH8jh88/SIiH5AqqX
+ uSMKS81gKmkbGB5d3bSU1gRUZJZoecVsA6uzIEVecruFcYiwxu6GzBYf5jHJBPMlKvhKIE
+ lxvL6T+YQ/ynSoTZd+7uJURPd6hts2Y=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-511-gZgzAB4sNMSeEsh1Skvtdg-1; Sat, 23 May 2020 19:20:41 -0400
+X-MC-Unique: gZgzAB4sNMSeEsh1Skvtdg-1
+Received: by mail-qt1-f198.google.com with SMTP id c20so15930641qtw.11
+ for <qemu-devel@nongnu.org>; Sat, 23 May 2020 16:20:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=b08QrLnU9jv2ozncKQ+OlJbMdES6zeJZb8AxCljwpaU=;
- b=VZcM/MOzfwlYtDjY9qzaqTNlfkCQvAgJKiKdlj5AswN+nRA/wmpATcjs3zrN/G97IU
- pb1FY1Jobqx44VY71FseROVK4kbKW/06uFj1cLEmitgD1Rizw5PqrWtN540vifgkhOe3
- +28JXz8VA6Q/xFPVPouObEvl3i3aBP5CCM0+9CVOPBKweRkIXyNhZw+saUESITXOuO6j
- cpLT9MS+t6PLo1H4qpWHkWncypiS4sz3Stjx4IK76GGVjEcJt1bEwzgaUBcCuccJX+yD
- YhLngaRtSUDYuXINJRb8UDvR1xMq0/wczJwFS8QoAzYx5dgqTcYiC8C0enFqRhGMOB1v
- kdUg==
-X-Gm-Message-State: AOAM531dQGSLrh2eTfCM0cVyi3NWMe57apJfgDPrQhXnCggOheuIkaba
- k4H/2cLX0XKuFCEnkvDKBy+jGR+/zQYErTqjvoG3p49nenQlZQpafTJ3co8rVTB+1Yaf4+5TGJ2
- 9vGP/hIPF0zqhMm4=
-X-Received: by 2002:aed:3949:: with SMTP id l67mr21415197qte.313.1590276038886; 
- Sat, 23 May 2020 16:20:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxTGJZ45ZTseidPTcao2ucc1A7EVSH9PH7q0juo3owOJ7Im2AfMMTUTmotGYvZ72i4a82oqrg==
-X-Received: by 2002:aed:3949:: with SMTP id l67mr21415179qte.313.1590276038518; 
- Sat, 23 May 2020 16:20:38 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=gQ7yk2bcLXdcGraZvC1hVrePdZ8/yaXz3g3IC0vGAyA=;
+ b=jIUWEuab0Ya480S2gelggO+XPrS+wZoiDqwnhu1fXo9bayCK5+PUdlkYrG0shjlkRi
+ Bek3qCSd8xLOv/P1XCykAlpZz3mFfoqFgUDYsQBiMNPwhjAQMCFoeL/p/0pQaaKavEbU
+ IAXIWL0bP+BOKmDVaxxgTGdttISxk/f6owaOFaGAsSP6+6y8StZ/WfeyQmwLJndG3GYM
+ 2ojPmmzZXFlE5Gw3C3tqA0vl+vBddhQV/ff+yCB222tTYkp4LmNeFPKwCwMrSNINGgbp
+ 0ELNvp4PZLAoXIhTNx5Fd5/41S0Ij/qN7+Ijht1z3p/QXb8tZ7qYs7Fh5T092x5DycGx
+ xtcg==
+X-Gm-Message-State: AOAM531a+1YaOdCso0u2iobJgbBAZLx7HDuu8kdufxdhDx7m2quHqfPx
+ Ol7PeUWTkPkrH53Yg16JlgvS7DzEDQHX7hG24a6k6FWiHB4CHzHpTEcIfIC9pEMvuot61zU7J3p
+ cH8F5HgDQhSjxWMc=
+X-Received: by 2002:ac8:7756:: with SMTP id g22mr21800182qtu.218.1590276040639; 
+ Sat, 23 May 2020 16:20:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwo3/5H0nxJ53s8uDqKlQny0Cjzn95Qx+NHLqeNatX3CM4L+17KD2ICMMHUEAWEZHvitwSp9g==
+X-Received: by 2002:ac8:7756:: with SMTP id g22mr21800170qtu.218.1590276040221; 
+ Sat, 23 May 2020 16:20:40 -0700 (PDT)
 Received: from xz-x1.hitronhub.home ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id m33sm11974235qtb.88.2020.05.23.16.20.37
+ by smtp.gmail.com with ESMTPSA id m33sm11974235qtb.88.2020.05.23.16.20.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 May 2020 16:20:37 -0700 (PDT)
+ Sat, 23 May 2020 16:20:39 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v3 00/11] KVM: Dirty ring support (QEMU part)
-Date: Sat, 23 May 2020 19:20:24 -0400
-Message-Id: <20200523232035.1029349-1-peterx@redhat.com>
+Subject: [PATCH RFC v3 01/11] linux-headers: Update
+Date: Sat, 23 May 2020 19:20:25 -0400
+Message-Id: <20200523232035.1029349-2-peterx@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200523232035.1029349-1-peterx@redhat.com>
+References: <20200523232035.1029349-1-peterx@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -77,7 +80,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,144 +98,107 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I kept the dirty sync in kvm_set_phys_mem() for kvmslot removals, left a
-comment on the known issue about strict dirty sync so we can fix it someday in
-the future together with dirty log and dirty ring.
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ linux-headers/asm-x86/kvm.h |  1 +
+ linux-headers/linux/kvm.h   | 53 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 54 insertions(+)
 
-v3:
-- added "KVM: Use a big lock to replace per-kml slots_lock"
-  this is preparing for the last patch where we'll reap kvm dirty ring when
-  removing kvmslots.
-- added "KVM: Simplify dirty log sync in kvm_set_phys_mem"
-  it's kind of a fix, but also a preparation of the last patch so it'll be very
-  easy to add the dirty ring sync there
-- the last patch is changed to handle correctly the dirty sync in kvmslot
-  removal, also comment there about the known issues.
-- reordered the patches a bit
-- NOTE: since we kept the sync in memslot removal, this version does not depend
-  on any other QEMU series - it is based on QEMU master
-
-v2:
-- add r-bs for Dave
-- change dirty-ring-size parameter from int64 to uint64_t [Dave]
-- remove an assertion for KVM_GET_DIRTY_LOG [Dave]
-- document update: "per vcpu" dirty ring [Dave]
-- rename KVMReaperState to KVMDirtyRingReaperState [Dave]
-- dump errno when kvm_init_vcpu fails with dirty ring [Dave]
-- switch to use dirty-ring-gfns as parameter [Dave]
-- comment MAP_SHARED [Dave]
-- dump more info when enable dirty ring failed [Dave]
-- add kvm_dirty_ring_enabled flag to show whether dirty ring enabled
-- rewrote many of the last patch to reduce LOC, now we do dirty ring reap only
-  with BQL to simplify things, allowing the main or vcpu thread to directly
-  call kvm_dirty_ring_reap() to collect dirty pages, so that we can drop a lot
-  of synchronization variables like sems or eventfds.
-
-For anyone who wants to try (we need to upgrade kernel too):
-
-KVM branch:
-  https://github.com/xzpeter/linux/tree/kvm-dirty-ring
-
-QEMU branch for testing:
-  https://github.com/xzpeter/qemu/tree/kvm-dirty-ring
-
-Overview
-========
-
-KVM dirty ring is a new interface to pass over dirty bits from kernel
-to the userspace.  Instead of using a bitmap for each memory region,
-the dirty ring contains an array of dirtied GPAs to fetch, one ring
-per vcpu.
-
-There're a few major changes comparing to how the old dirty logging
-interface would work:
-
-- Granularity of dirty bits
-
-  KVM dirty ring interface does not offer memory region level
-  granularity to collect dirty bits (i.e., per KVM memory
-  slot). Instead the dirty bit is collected globally for all the vcpus
-  at once.  The major effect is on VGA part because VGA dirty tracking
-  is enabled as long as the device is created, also it was in memory
-  region granularity.  Now that operation will be amplified to a VM
-  sync.  Maybe there's smarter way to do the same thing in VGA with
-  the new interface, but so far I don't see it affects much at least
-  on regular VMs.
-
-- Collection of dirty bits
-
-  The old dirty logging interface collects KVM dirty bits when
-  synchronizing dirty bits.  KVM dirty ring interface instead used a
-  standalone thread to do that.  So when the other thread (e.g., the
-  migration thread) wants to synchronize the dirty bits, it simply
-  kick the thread and wait until it flushes all the dirty bits to the
-  ramblock dirty bitmap.
-
-A new parameter "dirty-ring-size" is added to "-accel kvm".  By
-default, dirty ring is still disabled (size==0).  To enable it, we
-need to be with:
-
-  -accel kvm,dirty-ring-size=65536
-
-This establishes a 64K dirty ring buffer per vcpu.  Then if we
-migrate, it'll switch to dirty ring.
-
-I gave it a shot with a 24G guest, 8 vcpus, using 10g NIC as migration
-channel.  When idle or dirty workload small, I don't observe major
-difference on total migration time.  When with higher random dirty
-workload (800MB/s dirty rate upon 20G memory, worse for kvm dirty
-ring). Total migration time is (ping pong migrate for 6 times, in
-seconds):
-
-|-------------------------+---------------|
-| dirty ring (4k entries) | dirty logging |
-|-------------------------+---------------|
-|                      70 |            58 |
-|                      78 |            70 |
-|                      72 |            48 |
-|                      74 |            52 |
-|                      83 |            49 |
-|                      65 |            54 |
-|-------------------------+---------------|
-
-Summary:
-
-dirty ring average:    73s
-dirty logging average: 55s
-
-The KVM dirty ring will be slower in above case.  The number may show
-that the dirty logging is still preferred as a default value because
-small/medium VMs are still major cases, and high dirty workload
-happens frequently too.  And that's what this series did.
-
-Please refer to the code and comment itself for more information.
-
-Thanks,
-
-Peter Xu (11):
-  linux-headers: Update
-  memory: Introduce log_sync_global() to memory listener
-  KVM: Fixup kvm_log_clear_one_slot() ioctl return check
-  KVM: Use a big lock to replace per-kml slots_lock
-  KVM: Create the KVMSlot dirty bitmap on flag changes
-  KVM: Provide helper to get kvm dirty log
-  KVM: Provide helper to sync dirty bitmap from slot to ramblock
-  KVM: Simplify dirty log sync in kvm_set_phys_mem
-  KVM: Cache kvm slot dirty bitmap size
-  KVM: Add dirty-gfn-count property
-  KVM: Dirty ring support
-
- accel/kvm/kvm-all.c         | 540 +++++++++++++++++++++++++++++++-----
- accel/kvm/trace-events      |   7 +
- include/exec/memory.h       |  12 +
- include/hw/core/cpu.h       |   8 +
- include/sysemu/kvm_int.h    |   7 +-
- linux-headers/asm-x86/kvm.h |   1 +
- linux-headers/linux/kvm.h   |  53 ++++
- memory.c                    |  33 ++-
- qemu-options.hx             |   5 +
- 9 files changed, 581 insertions(+), 85 deletions(-)
-
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index 3f3f780c8c..99b15ce39e 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -12,6 +12,7 @@
+ 
+ #define KVM_PIO_PAGE_OFFSET 1
+ #define KVM_COALESCED_MMIO_PAGE_OFFSET 2
++#define KVM_DIRTY_LOG_PAGE_OFFSET 64
+ 
+ #define DE_VECTOR 0
+ #define DB_VECTOR 1
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 9804495a46..f0f3cecce1 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -236,6 +236,7 @@ struct kvm_hyperv_exit {
+ #define KVM_EXIT_IOAPIC_EOI       26
+ #define KVM_EXIT_HYPERV           27
+ #define KVM_EXIT_ARM_NISV         28
++#define KVM_EXIT_DIRTY_RING_FULL  29
+ 
+ /* For KVM_EXIT_INTERNAL_ERROR */
+ /* Emulate instruction failed. */
+@@ -1017,6 +1018,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_S390_VCPU_RESETS 179
+ #define KVM_CAP_S390_PROTECTED 180
+ #define KVM_CAP_PPC_SECURE_GUEST 181
++#define KVM_CAP_DIRTY_LOG_RING 182
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+@@ -1518,6 +1520,9 @@ struct kvm_pv_cmd {
+ /* Available with KVM_CAP_S390_PROTECTED */
+ #define KVM_S390_PV_COMMAND		_IOWR(KVMIO, 0xc5, struct kvm_pv_cmd)
+ 
++/* Available with KVM_CAP_DIRTY_LOG_RING */
++#define KVM_RESET_DIRTY_RINGS		_IO(KVMIO, 0xc6)
++
+ /* Secure Encrypted Virtualization command */
+ enum sev_cmd_id {
+ 	/* Guest initialization commands */
+@@ -1671,4 +1676,52 @@ struct kvm_hyperv_eventfd {
+ #define KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE    (1 << 0)
+ #define KVM_DIRTY_LOG_INITIALLY_SET            (1 << 1)
+ 
++/*
++ * Arch needs to define the macro after implementing the dirty ring
++ * feature.  KVM_DIRTY_LOG_PAGE_OFFSET should be defined as the
++ * starting page offset of the dirty ring structures.
++ */
++#ifndef KVM_DIRTY_LOG_PAGE_OFFSET
++#define KVM_DIRTY_LOG_PAGE_OFFSET 0
++#endif
++
++/*
++ * KVM dirty GFN flags, defined as:
++ *
++ * |---------------+---------------+--------------|
++ * | bit 1 (reset) | bit 0 (dirty) | Status       |
++ * |---------------+---------------+--------------|
++ * |             0 |             0 | Invalid GFN  |
++ * |             0 |             1 | Dirty GFN    |
++ * |             1 |             X | GFN to reset |
++ * |---------------+---------------+--------------|
++ *
++ * Lifecycle of a dirty GFN goes like:
++ *
++ *      dirtied         collected        reset
++ * 00 -----------> 01 -------------> 1X -------+
++ *  ^                                          |
++ *  |                                          |
++ *  +------------------------------------------+
++ *
++ * The userspace program is only responsible for the 01->1X state
++ * conversion (to collect dirty bits).  Also, it must not skip any
++ * dirty bits so that dirty bits are always collected in sequence.
++ */
++#define KVM_DIRTY_GFN_F_DIRTY           BIT(0)
++#define KVM_DIRTY_GFN_F_RESET           BIT(1)
++#define KVM_DIRTY_GFN_F_MASK            0x3
++
++/*
++ * KVM dirty rings should be mapped at KVM_DIRTY_LOG_PAGE_OFFSET of
++ * per-vcpu mmaped regions as an array of struct kvm_dirty_gfn.  The
++ * size of the gfn buffer is decided by the first argument when
++ * enabling KVM_CAP_DIRTY_LOG_RING.
++ */
++struct kvm_dirty_gfn {
++	__u32 flags;
++	__u32 slot;
++	__u64 offset;
++};
++
+ #endif /* __LINUX_KVM_H */
 -- 
 2.26.2
 
