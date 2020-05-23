@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17FEA1DF3CA
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 May 2020 03:16:35 +0200 (CEST)
-Received: from localhost ([::1]:35280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763321DF3CC
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 May 2020 03:21:32 +0200 (CEST)
+Received: from localhost ([::1]:41550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcIm9-0005A9-LQ
-	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 21:16:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38982)
+	id 1jcIqx-0000F6-2J
+	for lists+qemu-devel@lfdr.de; Fri, 22 May 2020 21:21:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jcIlL-0004jR-Ay
- for qemu-devel@nongnu.org; Fri, 22 May 2020 21:15:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35650)
+ id 1jcIqA-0007r2-7G
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 21:20:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jcIlI-0008QN-37
- for qemu-devel@nongnu.org; Fri, 22 May 2020 21:15:42 -0400
+ id 1jcIq9-0000jO-2p
+ for qemu-devel@nongnu.org; Fri, 22 May 2020 21:20:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jcIlG-0001Nh-7i
- for <qemu-devel@nongnu.org>; Sat, 23 May 2020 01:15:38 +0000
+ id 1jcIq7-0001Y7-AY
+ for <qemu-devel@nongnu.org>; Sat, 23 May 2020 01:20:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 244CA2E806E
- for <qemu-devel@nongnu.org>; Sat, 23 May 2020 01:15:38 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1F57C2E8079
+ for <qemu-devel@nongnu.org>; Sat, 23 May 2020 01:20:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 23 May 2020 01:07:05 -0000
+Date: Sat, 23 May 2020 01:14:54 -0000
 From: Aleksandar Markovic <1880225@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: ajbennee aleksandar-markovic
 X-Launchpad-Bug-Reporter: Aleksandar Markovic (aleksandar-markovic)
 X-Launchpad-Bug-Modifier: Aleksandar Markovic (aleksandar-markovic)
 References: <159017301531.7966.9120113243897778171.malonedeb@gac.canonical.com>
-Message-Id: <159019602553.2027.5671905110324226603.malone@chaenomeles.canonical.com>
+Message-Id: <159019649466.20452.12164074661904513625.malone@soybean.canonical.com>
 Subject: [Bug 1880225] Re: Emulation of some arm programs fail with "Assertion
  `have_guest_base' failed."
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -51,7 +51,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 909b908f24656d29b37e1ca69671a53ccbd1d6ab
+X-Launchpad-Hash: 47a277b9cf179b9facb42d10dfbff1167c7d3dcb
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/22 21:15:38
@@ -78,46 +78,8 @@ Reply-To: Bug 1880225 <1880225@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using bisection, it can be deduced that this behavior appears to be
-caused by this commit:
-
-
-commit ee94743034bfb443cf246eda4971bdc15d8ee066 (HEAD)
-Author: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Date:   Wed May 13 18:51:28 2020 +0100
-
-    linux-user: completely re-write init_guest_space
-    =
-
-    First we ensure all guest space initialisation logic comes through
-    probe_guest_base once we understand the nature of the binary we are
-    loading. The convoluted init_guest_space routine is removed and
-    replaced with a number of pgb_* helpers which are called depending on
-    what requirements we have when loading the binary.
-    =
-
-    We first try to do what is requested by the host. Failing that we try
-    and satisfy the guest requested base address. If all those options
-    fail we fall back to finding a space in the memory map using our
-    recently written read_self_maps() helper.
-    =
-
-    There are some additional complications we try and take into account
-    when looking for holes in the address space. We try not to go directly
-    after the system brk() space so there is space for a little growth. We
-    also don't want to have to use negative offsets which would result in
-    slightly less efficient code on x86 when it's unable to use the
-    segment offset register.
-    =
-
-    Less mind-binding gotos and hopefully clearer logic throughout.
-    =
-
-    Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-    Acked-by: Laurent Vivier <laurent@vivier.eu>
-    =
-
-    Message-Id: <20200513175134.19619-5-alex.bennee@linaro.org>
+I just want to stress once again that the test was performed on a 32-bit
+Intel host.
 
 -- =
 
