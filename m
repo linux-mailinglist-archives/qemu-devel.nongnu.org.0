@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F3771DFAAB
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 May 2020 21:21:23 +0200 (CEST)
-Received: from localhost ([::1]:51950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E221DFAA3
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 May 2020 21:16:28 +0200 (CEST)
+Received: from localhost ([::1]:42992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcZhy-0003p6-G4
-	for lists+qemu-devel@lfdr.de; Sat, 23 May 2020 15:21:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55670)
+	id 1jcZdC-00082J-TH
+	for lists+qemu-devel@lfdr.de; Sat, 23 May 2020 15:16:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jcZhI-0003It-79
- for qemu-devel@nongnu.org; Sat, 23 May 2020 15:20:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35508)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jcZcA-0006mE-UV
+ for qemu-devel@nongnu.org; Sat, 23 May 2020 15:15:22 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jcZhG-0001I6-VF
- for qemu-devel@nongnu.org; Sat, 23 May 2020 15:20:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jcZhF-0001l3-6Q
- for <qemu-devel@nongnu.org>; Sat, 23 May 2020 19:20:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2CC0B2E806E
- for <qemu-devel@nongnu.org>; Sat, 23 May 2020 19:20:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jcZcA-0000aA-8C
+ for qemu-devel@nongnu.org; Sat, 23 May 2020 15:15:22 -0400
+Received: by mail-wr1-x441.google.com with SMTP id l11so13592922wru.0
+ for <qemu-devel@nongnu.org>; Sat, 23 May 2020 12:15:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZDaUtNNctqDAyC9eXZ5DKRMbv6GEwxHReQkMLXjljqw=;
+ b=bGyC1SWrLeChB34M4JtTzNZUyeDkMTEiGk/cGjf0B+gYvHCuIeGv+L+2o4Krbz3RyM
+ JLiqU6S4WUTvjrt7wu5d3Sk9LtSelnTlHNtZgiJIBUglei4PKpfjfL8iV3ypOw2CoJrs
+ oJb69Hzb1KG0bSZgz9pwCpXPz2hj3seYvoT/J2+iNZZbTcSQexxPLFadqjVKnBt/wp0e
+ tIwHZbPXI4trUaM23rNUJ6/exE9/Kx6O+nEAvodM3KiCmAO7/GJmC3M/YVD8kfYzniaE
+ uKGP1reajl1hNRoZ4Gu8yZeXPYrS1VU+0cA1ZTL5IvUcmLbgmM72QeXE6LZjjaJDlbMj
+ /+1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=ZDaUtNNctqDAyC9eXZ5DKRMbv6GEwxHReQkMLXjljqw=;
+ b=ivoWkdf3gnBsXAB6ROxYHJ/E8GqThtBz8C2ROo5JHkeLQUvwL7kJHNoQe4hYD2wQCs
+ euP2K2ZfYcKRbyFrLHut/s6m1KizWCrPLrjVd57L+d00SpSYqtlIDohvJC0QIcGRJSK4
+ nG9o2fScev9wghGtNJNPZqPVQYdzr8l2ZPo+F13ECUaf/V+2C7qMp4Qms2r0AsVSYACd
+ 6gnYQEIiPbym4umiBZqPtQyAvFsFKcOSoIMSIbMUAaphfYdpTxVVBBFHeDY/x9JNQ4JD
+ yAMdOU1QyuuMGxeynsWXXi0E+wBjjE/enymvxSRzcZVIobzLnj7dApJSff5EsVDQXRXI
+ 3jlg==
+X-Gm-Message-State: AOAM533kB0HL1diedKdJbhuXfm95uAcV/6Ygmny0YJoqHkMtxZ9Tmrhm
+ lLYcA+5ZJR4I6t+ulBzBF9o=
+X-Google-Smtp-Source: ABdhPJwtq0mbf91XNL2HUXtMVBrDFOhMYqn1jHg3G2iqWpMiIBGsLxOttXMdbBfndgMMuz6vJwad4w==
+X-Received: by 2002:a05:6000:47:: with SMTP id
+ k7mr7748651wrx.233.1590261320720; 
+ Sat, 23 May 2020 12:15:20 -0700 (PDT)
+Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id y185sm13370681wmy.11.2020.05.23.12.15.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 23 May 2020 12:15:19 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>, Sven Schnelle <svens@stackframe.org>
+Subject: [PATCH 0/3] hw/display/artist: Fix out-of-buffer accesses found while
+ fuzzing
+Date: Sat, 23 May 2020 21:15:14 +0200
+Message-Id: <20200523191517.23684-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 23 May 2020 19:13:47 -0000
-From: =?utf-8?q?H=C3=A9ctor_Molinero_Fern=C3=A1ndez?=
- <1880332@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hectormf
-X-Launchpad-Bug-Reporter: =?utf-8?q?H=C3=A9ctor_Molinero_Fern=C3=A1ndez_=28?=
- =?utf-8?q?hectormf=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?H=C3=A9ctor_Molinero_Fern=C3=A1ndez_=28?=
- =?utf-8?q?hectormf=29?=
-Message-Id: <159026122753.1613.8522405227035466257.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1880332] [NEW] Possible regression in QEMU 5.0.0 after
- CVE-2020-10702 (segmentation fault)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 835ff6675406b442a58c8707e0977d27b75789ca
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/23 14:10:46
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,56 +88,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1880332 <1880332@bugs.launchpad.net>
+Cc: Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Fix various out-of-range buffer access in the artist device
+emulation. Bugs found using libFuzzer (docs/devel/fuzzing.txt).
 
-I've come across a very specific situation, but I'm sure it could be
-replicated in other cases.
+Philippe Mathieu-Daudé (3):
+  hw/display/artist: Check offset in draw_line to avoid buffer over-run
+  hw/display/artist: Refactor artist_rop8() to avoid buffer over-run
+  hw/display/artist: Check offset in block_move to avoid buffer
+    over-read
 
-In QEMU 5.0.0 when I use user emulation with a cURL binary for aarch64
-and connect to a server using TLS 1.2 and ECDHE-ECDSA-CHACHA20-POLY1305
-cypher a segmentation fault occurs.
+ hw/display/artist.c | 54 +++++++++++++++++++++++++++++++--------------
+ 1 file changed, 37 insertions(+), 17 deletions(-)
 
-I attach a Dockerfile that reproduces this crash and the strace output
-with and without the de0b1bae6461f67243282555475f88b2384a1eb9 commit
-reverted.
+-- 
+2.21.3
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "crash-replication.zip"
-   https://bugs.launchpad.net/bugs/1880332/+attachment/5375960/+files/crash=
--replication.zip
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1880332
-
-Title:
-  Possible regression in QEMU 5.0.0 after CVE-2020-10702 (segmentation
-  fault)
-
-Status in QEMU:
-  New
-
-Bug description:
-  I've come across a very specific situation, but I'm sure it could be
-  replicated in other cases.
-
-  In QEMU 5.0.0 when I use user emulation with a cURL binary for aarch64
-  and connect to a server using TLS 1.2 and ECDHE-ECDSA-
-  CHACHA20-POLY1305 cypher a segmentation fault occurs.
-
-  I attach a Dockerfile that reproduces this crash and the strace output
-  with and without the de0b1bae6461f67243282555475f88b2384a1eb9 commit
-  reverted.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1880332/+subscriptions
 
