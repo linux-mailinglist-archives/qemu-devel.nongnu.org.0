@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821F11DFBC6
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 01:24:08 +0200 (CEST)
-Received: from localhost ([::1]:60762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F711DFBC9
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 01:25:07 +0200 (CEST)
+Received: from localhost ([::1]:36850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcdUt-0004yz-Ia
-	for lists+qemu-devel@lfdr.de; Sat, 23 May 2020 19:24:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45228)
+	id 1jcdVq-0006hD-LQ
+	for lists+qemu-devel@lfdr.de; Sat, 23 May 2020 19:25:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRr-0007Jj-2F
- for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42089
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRs-0007MX-2V
+ for qemu-devel@nongnu.org; Sat, 23 May 2020 19:21:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51919
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRp-0000Tp-Uk
- for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:58 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRq-0000UI-MX
+ for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590276057;
+ s=mimecast20190719; t=1590276058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cdBTNtboGBy9lg3+b3bykeoaluEQ3dTDeb6ikWfO2cs=;
- b=Tq9cfdWSX2f8bX5plZNInXH5xjthRzNTJIEpAWf8UZIsLs+tk6YAAN66amxByJ6ReZvElX
- 3gKSX/HR3gb04knXDB6HQf+a/rm6KWc/iWJ7V12id649m+bQz3OF5SZtcdQR6wZs7R8M+9
- cUdWljHqaSGdpt1awzZh1/E+cr7VBNk=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-brDNya00PIC1RE-g0x6E9g-1; Sat, 23 May 2020 19:20:53 -0400
-X-MC-Unique: brDNya00PIC1RE-g0x6E9g-1
-Received: by mail-qk1-f199.google.com with SMTP id n187so2391791qkd.10
- for <qemu-devel@nongnu.org>; Sat, 23 May 2020 16:20:53 -0700 (PDT)
+ bh=4Vf79eVB2XK0J+Fvwx282tsbcI9o5vEmo7tTYQwHKag=;
+ b=A0ZPINbMq3Hh2BWNBblA+xcPmJoKrmjpPAYjPthyaU7L4WnSM/A2qMqvZw3suj4TMq+cre
+ Y2SKnJzxH1mVmpS0/PZBgMXuOg873VD1g2qkOo4RifXS0l2W1XEQmexgqi1RnamUY05Xqq
+ RfPAET8Bv+crUFUSljgkg7Sv5VW2j74=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-377-wwS8s7vsPaSnSq1WOl0ksg-1; Sat, 23 May 2020 19:20:55 -0400
+X-MC-Unique: wwS8s7vsPaSnSq1WOl0ksg-1
+Received: by mail-qt1-f198.google.com with SMTP id l11so15927963qti.19
+ for <qemu-devel@nongnu.org>; Sat, 23 May 2020 16:20:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cdBTNtboGBy9lg3+b3bykeoaluEQ3dTDeb6ikWfO2cs=;
- b=XBkTBhUyjSU039iSZS46wTaQOwuC0gymeMKfAU4y5NI9vce4ePb0SLGRLVwJ+dDBOr
- pdmv9X1ZlJfrEqbrgBkrscnMUx7hbk8h7sHyhRHphysIYI2h0w1VZxl6DpPzQ2wAALdi
- LCMzR5OX8woe/BreY1Ji9+w0JvyaBhe3n0FFSyTzkb6XeHZJ22xT99uT1J4Sbabk3QkW
- t3PYLfb5RDrQUZFPLiz1D9KQwaNQlM72uGM0dcFRb+tLh93hMqzPgmwUKWr7lkUcgA9p
- hcWgMcflRAn+VhEzV1HjzitSXOtKoMXI2xFKWuaKctnpVsMGswBxnsNs3BIeeXun3zyU
- o9dQ==
-X-Gm-Message-State: AOAM533ZICviqVxLf1n5TF0x4Wcni4InJGV/62Vf0dzQ0sLY5SvCkgYM
- I14HYg+S3t+gFXkJzbHmJobrAbYfOWWz3TCZYgx61k6Ln9Qn77qcy/3dECCo9bja3apX/yy3UdB
- mjVsesH2GXqK1AhU=
-X-Received: by 2002:ac8:768c:: with SMTP id g12mr22221482qtr.51.1590276052794; 
- Sat, 23 May 2020 16:20:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwx/bv8Q9ugZF4DKvnROLq/0qMBy+phWv7UBncJ9ATO7JN5oaUOA3iHvOKy4x0NXOQsTEjwRw==
-X-Received: by 2002:ac8:768c:: with SMTP id g12mr22221464qtr.51.1590276052564; 
- Sat, 23 May 2020 16:20:52 -0700 (PDT)
+ bh=4Vf79eVB2XK0J+Fvwx282tsbcI9o5vEmo7tTYQwHKag=;
+ b=AgE9W60nxhznuNMkhjWk4qokiyRsU4PxsJV4F3Ocbx1BHwSEDC82RHOw0GOiFVtMeg
+ 8ojCPqoy+NCy5M2AeeztNHB2OpZyJXyetG0LHL6060tyZ2YiRArKnlXztplvsV0wqg2U
+ WjfGPdSq6nwE96N2xlc7Vkowdsk01z7YK8r0wMFs2c4f1t35TZ0TwLWCzf0CV/eVZj3N
+ +UyxM4TY1K/1oEW8/+CdatvK88JdT9CA4XowcDBcwLiYjVN73YIxHwUSSTMdhgo6dfEt
+ h+UKdTlO+UtSuxSLIy0yBGrP980bZPuRQkc7areqCSlRCbhhHq0jlgjKT6JgVkAqb/kl
+ 2Y6w==
+X-Gm-Message-State: AOAM53254aqaP1l0NR002LAeAuuM7nkHD7Af0zLkgNxAvfyDqAWhv3pa
+ CjXn8asaIv1O41FEZoQFqbXXAYsXHHu6MxiOwTwS+B5TeZ7DUe9H/DXnEsjIBOi+AMhZG09m2dC
+ dGw8mrUxVwZrhTKA=
+X-Received: by 2002:a0c:b5c1:: with SMTP id o1mr3467975qvf.9.1590276054667;
+ Sat, 23 May 2020 16:20:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyc97PaUnm7AfdbPF9CtfOXDQKZkAKXDj+yOCG8MhfQJFPTEHJ2oyry6t0vcPLK2kwbTTgQnA==
+X-Received: by 2002:a0c:b5c1:: with SMTP id o1mr3467965qvf.9.1590276054424;
+ Sat, 23 May 2020 16:20:54 -0700 (PDT)
 Received: from xz-x1.hitronhub.home ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id m33sm11974235qtb.88.2020.05.23.16.20.51
+ by smtp.gmail.com with ESMTPSA id m33sm11974235qtb.88.2020.05.23.16.20.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 May 2020 16:20:51 -0700 (PDT)
+ Sat, 23 May 2020 16:20:53 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v3 09/11] KVM: Cache kvm slot dirty bitmap size
-Date: Sat, 23 May 2020 19:20:33 -0400
-Message-Id: <20200523232035.1029349-10-peterx@redhat.com>
+Subject: [PATCH RFC v3 10/11] KVM: Add dirty-gfn-count property
+Date: Sat, 23 May 2020 19:20:34 -0400
+Message-Id: <20200523232035.1029349-11-peterx@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200523232035.1029349-1-peterx@redhat.com>
 References: <20200523232035.1029349-1-peterx@redhat.com>
@@ -70,16 +70,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=peterx@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/23 19:07:45
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/23 18:49:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,39 +98,153 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cache it too because we'll reference it more frequently in the future.
+Add a parameter for dirty gfn count for dirty rings.  If zero, dirty ring is
+disabled.  Otherwise dirty ring will be enabled with the per-vcpu gfn count as
+specified.  If dirty ring cannot be enabled due to unsupported kernel or
+illegal parameter, it'll fallback to dirty logging.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+By default, dirty ring is not enabled (dirty-gfn-count default to 0).
+
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- accel/kvm/kvm-all.c      | 1 +
- include/sysemu/kvm_int.h | 1 +
- 2 files changed, 2 insertions(+)
+ accel/kvm/kvm-all.c | 72 +++++++++++++++++++++++++++++++++++++++++++++
+ qemu-options.hx     |  5 ++++
+ 2 files changed, 77 insertions(+)
 
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index f7c8e6bebe..b9aaa7912c 100644
+index b9aaa7912c..dd017d0720 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -561,6 +561,7 @@ static void kvm_slot_init_dirty_bitmap(KVMSlot *mem)
-     hwaddr bitmap_size = ALIGN(((mem->memory_size) >> TARGET_PAGE_BITS),
-                                         /*HOST_LONG_BITS*/ 64) / 8;
-     mem->dirty_bmap = g_malloc0(bitmap_size);
-+    mem->dirty_bmap_size = bitmap_size;
+@@ -128,6 +128,9 @@ struct KVMState
+         KVMMemoryListener *ml;
+         AddressSpace *as;
+     } *as;
++    bool kvm_dirty_ring_enabled;    /* Whether KVM dirty ring is enabled */
++    uint64_t kvm_dirty_ring_size;   /* Size of the per-vcpu dirty ring */
++    uint32_t kvm_dirty_gfn_count;   /* Number of dirty GFNs per ring */
+ };
+ 
+ KVMState *kvm_state;
+@@ -2129,6 +2132,40 @@ static int kvm_init(MachineState *ms)
+     s->memory_listener.listener.coalesced_io_add = kvm_coalesce_mmio_region;
+     s->memory_listener.listener.coalesced_io_del = kvm_uncoalesce_mmio_region;
+ 
++    /*
++     * Enable KVM dirty ring if supported, otherwise fall back to
++     * dirty logging mode
++     */
++    if (s->kvm_dirty_gfn_count > 0) {
++        uint64_t ring_size;
++
++        ring_size = s->kvm_dirty_gfn_count * sizeof(struct kvm_dirty_gfn);
++
++        /* Read the max supported pages */
++        ret = kvm_vm_check_extension(kvm_state, KVM_CAP_DIRTY_LOG_RING);
++        if (ret > 0) {
++            if (ring_size > ret) {
++                error_report("KVM dirty GFN count %" PRIu32 " too big "
++                             "(maximum is %ld).  Please use a smaller value.",
++                             s->kvm_dirty_gfn_count,
++                             ret / sizeof(struct kvm_dirty_gfn));
++                ret = -EINVAL;
++                goto err;
++            }
++
++            ret = kvm_vm_enable_cap(s, KVM_CAP_DIRTY_LOG_RING, 0, ring_size);
++            if (ret) {
++                error_report("Enabling of KVM dirty ring failed: %d. "
++                             "Suggested mininum value is 1024. "
++                             "Please also make sure it's a power of two.", ret);
++                goto err;
++            }
++
++            s->kvm_dirty_ring_size = ring_size;
++            s->kvm_dirty_ring_enabled = true;
++        }
++    }
++
+     kvm_memory_listener_register(s, &s->memory_listener,
+                                  &address_space_memory, 0);
+     memory_listener_register(&kvm_io_listener,
+@@ -3089,6 +3126,33 @@ bool kvm_kernel_irqchip_split(void)
+     return kvm_state->kernel_irqchip_split == ON_OFF_AUTO_ON;
  }
  
- /* Sync dirty bitmap from kernel to KVMSlot.dirty_bmap */
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index 4a35d04478..b4d2886e26 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -23,6 +23,7 @@ typedef struct KVMSlot
-     int old_flags;
-     /* Dirty bitmap cache for the slot */
-     unsigned long *dirty_bmap;
-+    unsigned long dirty_bmap_size;
-     /* Cache of the address space ID */
-     int as_id;
-     /* Cache of the offset in ram address space */
++static void kvm_get_dirty_gfn_count(Object *obj, Visitor *v,
++                                    const char *name, void *opaque,
++                                    Error **errp)
++{
++    KVMState *s = KVM_STATE(obj);
++    uint32_t value = s->kvm_dirty_gfn_count;
++
++    visit_type_uint32(v, name, &value, errp);
++}
++
++static void kvm_set_dirty_gfn_count(Object *obj, Visitor *v,
++                                    const char *name, void *opaque,
++                                    Error **errp)
++{
++    KVMState *s = KVM_STATE(obj);
++    Error *error = NULL;
++    uint32_t value;
++
++    visit_type_uint32(v, name, &value, &error);
++    if (error) {
++        error_propagate(errp, error);
++        return;
++    }
++
++    s->kvm_dirty_gfn_count = value;
++}
++
+ static void kvm_accel_instance_init(Object *obj)
+ {
+     KVMState *s = KVM_STATE(obj);
+@@ -3096,6 +3160,8 @@ static void kvm_accel_instance_init(Object *obj)
+     s->kvm_shadow_mem = -1;
+     s->kernel_irqchip_allowed = true;
+     s->kernel_irqchip_split = ON_OFF_AUTO_AUTO;
++    /* KVM dirty ring is by default off */
++    s->kvm_dirty_gfn_count = 0;
+ }
+ 
+ static void kvm_accel_class_init(ObjectClass *oc, void *data)
+@@ -3117,6 +3183,12 @@ static void kvm_accel_class_init(ObjectClass *oc, void *data)
+         NULL, NULL);
+     object_class_property_set_description(oc, "kvm-shadow-mem",
+         "KVM shadow MMU size");
++
++    object_class_property_add(oc, "dirty-gfn-count", "uint32",
++        kvm_get_dirty_gfn_count, kvm_set_dirty_gfn_count,
++        NULL, NULL);
++    object_class_property_set_description(oc, "dirty-gfn-count",
++        "KVM dirty GFN count (=0 to disable dirty ring)");
+ }
+ 
+ static const TypeInfo kvm_accel_type = {
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 93bde2bbc8..b59d47473e 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -124,6 +124,7 @@ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
+     "                kernel-irqchip=on|off|split controls accelerated irqchip support (default=on)\n"
+     "                kvm-shadow-mem=size of KVM shadow MMU in bytes\n"
+     "                tb-size=n (TCG translation block cache size)\n"
++    "                dirty-gfn-count=n (KVM dirty ring GFN count, default 0)\n"
+     "                thread=single|multi (enable multi-threaded TCG)\n", QEMU_ARCH_ALL)
+ SRST
+ ``-accel name[,prop=value[,...]]``
+@@ -158,6 +159,10 @@ SRST
+         where both the back-end and front-ends support it and no
+         incompatible TCG features have been enabled (e.g.
+         icount/replay).
++
++    ``dirty-gfn-count=n``
++        Controls the per-vcpu KVM dirty ring GFN count (=0 to disable).
++
+ ERST
+ 
+ DEF("smp", HAS_ARG, QEMU_OPTION_smp,
 -- 
 2.26.2
 
