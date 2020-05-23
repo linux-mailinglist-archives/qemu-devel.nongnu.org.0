@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F891DFBBF
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 01:23:38 +0200 (CEST)
-Received: from localhost ([::1]:57398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61CE61DFBCB
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 01:26:09 +0200 (CEST)
+Received: from localhost ([::1]:40944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcdUP-0003X7-Ko
-	for lists+qemu-devel@lfdr.de; Sat, 23 May 2020 19:23:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45218)
+	id 1jcdWq-0000EB-F2
+	for lists+qemu-devel@lfdr.de; Sat, 23 May 2020 19:26:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRo-0007EE-S0
- for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26510
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRp-0007Ff-E5
+ for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:57 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46628
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRn-0000T0-GO
- for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:56 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRo-0000TB-Ec
+ for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590276054;
+ s=mimecast20190719; t=1590276055;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q7lpYJgfXHjUejHCMRc3Hs6VZqb4ZQYOtRCAVzuAg1M=;
- b=U+Q3lfggw8+gSTklv2XecVrZM3kyEzCqGX6dvSmPDEnV6tQZiaiI54VZyDmfW7K8QqGf5z
- 6egGQgH8rW8FU8PgOi4vz1/AdMmWz3fO6x4xem4MDJu6wPu6er4cLCNA/1JrGmW7oAmBr8
- MQJs2RoeWlDBvLXHiQ7UxBgdEWNArug=
+ bh=8XYb0vyiefli8SR2efrdEhLZZ34eLVw3ObV8/l5+n3E=;
+ b=MTHZQlycqfOVXOiVusodBa9rz4GORcUC6wo75XIa9E18/nZpKPfiNF18ozh+c2134T0Iqm
+ Y8TGMIBc6bD7K+VP3PvOUa7kXjOBWv3sHogAE4hksE2kDzk5zWhzgozTPoSLgeBxfSBVWV
+ jbCNRVucWxo+inJpK+3e8ivQjuZaV30=
 Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
  [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-jpiwamIHNImv7VczGuQASg-1; Sat, 23 May 2020 19:20:50 -0400
-X-MC-Unique: jpiwamIHNImv7VczGuQASg-1
-Received: by mail-qv1-f71.google.com with SMTP id q10so14159348qvs.16
- for <qemu-devel@nongnu.org>; Sat, 23 May 2020 16:20:50 -0700 (PDT)
+ us-mta-309-z2BQPtiUNwyaZva6JJ6K1Q-1; Sat, 23 May 2020 19:20:52 -0400
+X-MC-Unique: z2BQPtiUNwyaZva6JJ6K1Q-1
+Received: by mail-qv1-f71.google.com with SMTP id l1so12106745qvy.20
+ for <qemu-devel@nongnu.org>; Sat, 23 May 2020 16:20:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q7lpYJgfXHjUejHCMRc3Hs6VZqb4ZQYOtRCAVzuAg1M=;
- b=N/XSHLtEyrbEcEvbYYe2iUq0psaWX3xBpn+KuaEry1vmpSOuW+T6FeWQGeKOBmmDnt
- WR4KQZoAc/m0uo/cEcBkEK3W+OL98R2Guiz4IQwgw/549OR04o2+WTyrkcRBmaS0SVk4
- fKNYfkOl99jUijx0oSlIk+w/zvZIyFjpjJw6YTfyNkCFYSRfaZY6/Fb24dS4eyJW+gMZ
- q5/9S+E6/u2e2npWQFOWf5IYXqPn2ZL56n3f77D+96YgRGIMopk7izSkh7epyw0Jq49M
- YR5K766PijiR3oi98MHtTbqmIB8Tzr7bzyLo3qd/34kv3lBgwz+YK6lCCRUNbB4gkI9R
- t24g==
-X-Gm-Message-State: AOAM532KjJOAJQW1aLOXiyDAnnxWmgs5p2Gf0GP7gzYLbD4O1IKrJ7cu
- yapLX4P5xdfSXiwQbPo3QSJv9LglsG2JHzqOzrC9cNI+mwYnclb/roCLc8KQlw5tuzOkAEZ+sg7
- gq/QgN5U/zmJ//To=
-X-Received: by 2002:a37:270a:: with SMTP id n10mr20640739qkn.288.1590276049940; 
- Sat, 23 May 2020 16:20:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwglEXiOFQrCU0NTiOYvGdAvbtIQBrn5Rgi+z3Cl2PSrQn0jhZpDjOJfZhdCXga8QOUVCBodQ==
-X-Received: by 2002:a37:270a:: with SMTP id n10mr20640707qkn.288.1590276049419; 
- Sat, 23 May 2020 16:20:49 -0700 (PDT)
+ bh=8XYb0vyiefli8SR2efrdEhLZZ34eLVw3ObV8/l5+n3E=;
+ b=gd06fwb2k40lxhvzQCpPsKAC8CxCbad8hH9gBE+Isnvm7EgkLb8lYhkZA4L+lg32bD
+ STAdyHtZ3m9XgB+QPS0gnRW76Zh75UdaR2KH0TodtsetsS890Q8sSFv3j5OCU3jNaNfr
+ lyQh8aw/PHs8JKEdO5t+lt8HnYwRGpUQJRk8//ojwnkbSyUL6r2IXv9WoCu8tP3yCOKE
+ 2ng5Gn+GoGydhaCHvPPKz92Rz7MM+TbgJoM1xQAqb0hGYWIPV6D0/j2VQXFP6Zj8wqs1
+ LGNOTOo0L81qzNhHtNvlT3uDn90clPlev7rW1gzlSqJC7dt29Mey9hhBVzst9W8Rp9P7
+ WVvQ==
+X-Gm-Message-State: AOAM532nEk0LB87ZwytdEDsu83tm7iaUgf0ChCytbver77vdNkTKvPxX
+ ny6bEdPgRsOLAE1i6HSqw2kzO2AhQWStSyFFEbnx19MUeT0iO1w1XpKlZazXZXyuzZxcm3NR6lq
+ jxt9SAxxtXz9mN8s=
+X-Received: by 2002:aed:3ff7:: with SMTP id w52mr22694621qth.148.1590276051454; 
+ Sat, 23 May 2020 16:20:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJys09leCwe3eIXUQUyovUNIiTNGvQavMemqWX3XVBWfuk8bWdUOq1vj5OdY+gbfR81d3yaDVQ==
+X-Received: by 2002:aed:3ff7:: with SMTP id w52mr22694608qth.148.1590276051243; 
+ Sat, 23 May 2020 16:20:51 -0700 (PDT)
 Received: from xz-x1.hitronhub.home ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id m33sm11974235qtb.88.2020.05.23.16.20.48
+ by smtp.gmail.com with ESMTPSA id m33sm11974235qtb.88.2020.05.23.16.20.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 May 2020 16:20:48 -0700 (PDT)
+ Sat, 23 May 2020 16:20:50 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v3 07/11] KVM: Provide helper to sync dirty bitmap from
- slot to ramblock
-Date: Sat, 23 May 2020 19:20:31 -0400
-Message-Id: <20200523232035.1029349-8-peterx@redhat.com>
+Subject: [PATCH RFC v3 08/11] KVM: Simplify dirty log sync in kvm_set_phys_mem
+Date: Sat, 23 May 2020 19:20:32 -0400
+Message-Id: <20200523232035.1029349-9-peterx@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200523232035.1029349-1-peterx@redhat.com>
 References: <20200523232035.1029349-1-peterx@redhat.com>
@@ -71,9 +70,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=peterx@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/23 19:07:45
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/23 19:20:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,131 +98,33 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kvm_physical_sync_dirty_bitmap() calculates the ramblock offset in an
-awkward way from the MemoryRegionSection that passed in from the
-caller.  The truth is for each KVMSlot the ramblock offset never
-change for the lifecycle.  Cache the ramblock offset for each KVMSlot
-into the structure when the KVMSlot is created.
+kvm_physical_sync_dirty_bitmap() on the whole section is inaccurate, because
+the section can be a superset of the memslot that we're working on.  The result
+is that if the section covers multiple kvm memslots, we could be doing the
+synchronization for multiple times for each kvmslot in the section.
 
-With that, we can further simplify kvm_physical_sync_dirty_bitmap()
-with a helper to sync KVMSlot dirty bitmap to the ramblock dirty
-bitmap of a specific KVMSlot.
+With the two helpers that we just introduced, it's very easy to do it right now
+by calling the helpers.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- accel/kvm/kvm-all.c      | 37 +++++++++++++++++--------------------
- include/sysemu/kvm_int.h |  2 ++
- 2 files changed, 19 insertions(+), 20 deletions(-)
+ accel/kvm/kvm-all.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 5892e5db24..016bad1089 100644
+index 016bad1089..f7c8e6bebe 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -528,15 +528,12 @@ static void kvm_log_stop(MemoryListener *listener,
- }
+@@ -1099,7 +1099,8 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+                 goto out;
+             }
+             if (mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
+-                kvm_physical_sync_dirty_bitmap(kml, section);
++                kvm_slot_get_dirty_log(kvm_state, mem);
++                kvm_slot_sync_dirty_pages(mem);
+             }
  
- /* get kvm's dirty pages bitmap and update qemu's */
--static int kvm_get_dirty_pages_log_range(MemoryRegionSection *section,
--                                         unsigned long *bitmap)
-+static void kvm_slot_sync_dirty_pages(KVMSlot *slot)
- {
--    ram_addr_t start = section->offset_within_region +
--                       memory_region_get_ram_addr(section->mr);
--    ram_addr_t pages = int128_get64(section->size) / qemu_real_host_page_size;
-+    ram_addr_t start = slot->ram_start_offset;
-+    ram_addr_t pages = slot->memory_size / qemu_real_host_page_size;
- 
--    cpu_physical_memory_set_dirty_lebitmap(bitmap, start, pages);
--    return 0;
-+    cpu_physical_memory_set_dirty_lebitmap(slot->dirty_bmap, start, pages);
- }
- 
- #define ALIGN(x, y)  (((x)+(y)-1) & ~((y)-1))
-@@ -598,12 +595,10 @@ static void kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
-     KVMState *s = kvm_state;
-     KVMSlot *mem;
-     hwaddr start_addr, size;
--    hwaddr slot_size, slot_offset = 0;
-+    hwaddr slot_size;
- 
-     size = kvm_align_section(section, &start_addr);
-     while (size) {
--        MemoryRegionSection subsection = *section;
--
-         slot_size = MIN(kvm_max_slot_size, size);
-         mem = kvm_lookup_matching_slot(kml, start_addr, slot_size);
-         if (!mem) {
-@@ -612,12 +607,7 @@ static void kvm_physical_sync_dirty_bitmap(KVMMemoryListener *kml,
-         }
- 
-         kvm_slot_get_dirty_log(s, mem);
--
--        subsection.offset_within_region += slot_offset;
--        subsection.size = int128_make64(slot_size);
--        kvm_get_dirty_pages_log_range(&subsection, mem->dirty_bmap);
--
--        slot_offset += slot_size;
-+        kvm_slot_sync_dirty_pages(mem);
-         start_addr += slot_size;
-         size -= slot_size;
-     }
-@@ -1072,7 +1062,8 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-     int err;
-     MemoryRegion *mr = section->mr;
-     bool writeable = !mr->readonly && !mr->rom_device;
--    hwaddr start_addr, size, slot_size;
-+    hwaddr start_addr, size, slot_size, mr_offset;
-+    ram_addr_t ram_start_offset;
-     void *ram;
- 
-     if (!memory_region_is_ram(mr)) {
-@@ -1090,9 +1081,13 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-         return;
-     }
- 
--    /* use aligned delta to align the ram address */
--    ram = memory_region_get_ram_ptr(mr) + section->offset_within_region +
--          (start_addr - section->offset_within_address_space);
-+    /* The offset of the kvmslot within the memory region */
-+    mr_offset = section->offset_within_region + start_addr -
-+        section->offset_within_address_space;
-+
-+    /* use aligned delta to align the ram address and offset */
-+    ram = memory_region_get_ram_ptr(mr) + mr_offset;
-+    ram_start_offset = memory_region_get_ram_addr(mr) + mr_offset;
- 
-     kvm_slots_lock();
- 
-@@ -1131,6 +1126,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-         mem->as_id = kml->as_id;
-         mem->memory_size = slot_size;
-         mem->start_addr = start_addr;
-+        mem->ram_start_offset = ram_start_offset;
-         mem->ram = ram;
-         mem->flags = kvm_mem_flags(mr);
-         kvm_slot_init_dirty_bitmap(mem);
-@@ -1141,6 +1137,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-             abort();
-         }
-         start_addr += slot_size;
-+        ram_start_offset += slot_size;
-         ram += slot_size;
-         size -= slot_size;
-     } while (size);
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index 1202593c6f..4a35d04478 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -25,6 +25,8 @@ typedef struct KVMSlot
-     unsigned long *dirty_bmap;
-     /* Cache of the address space ID */
-     int as_id;
-+    /* Cache of the offset in ram address space */
-+    ram_addr_t ram_start_offset;
- } KVMSlot;
- 
- typedef struct KVMMemoryListener {
+             /* unregister the slot */
 -- 
 2.26.2
 
