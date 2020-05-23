@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61CE61DFBCB
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 01:26:09 +0200 (CEST)
-Received: from localhost ([::1]:40944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 821F11DFBC6
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 01:24:08 +0200 (CEST)
+Received: from localhost ([::1]:60762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcdWq-0000EB-F2
-	for lists+qemu-devel@lfdr.de; Sat, 23 May 2020 19:26:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45220)
+	id 1jcdUt-0004yz-Ia
+	for lists+qemu-devel@lfdr.de; Sat, 23 May 2020 19:24:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRp-0007Ff-E5
- for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:57 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46628
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRr-0007Jj-2F
+ for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42089
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRo-0000TB-Ec
- for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:57 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jcdRp-0000Tp-Uk
+ for qemu-devel@nongnu.org; Sat, 23 May 2020 19:20:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590276055;
+ s=mimecast20190719; t=1590276057;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8XYb0vyiefli8SR2efrdEhLZZ34eLVw3ObV8/l5+n3E=;
- b=MTHZQlycqfOVXOiVusodBa9rz4GORcUC6wo75XIa9E18/nZpKPfiNF18ozh+c2134T0Iqm
- Y8TGMIBc6bD7K+VP3PvOUa7kXjOBWv3sHogAE4hksE2kDzk5zWhzgozTPoSLgeBxfSBVWV
- jbCNRVucWxo+inJpK+3e8ivQjuZaV30=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-z2BQPtiUNwyaZva6JJ6K1Q-1; Sat, 23 May 2020 19:20:52 -0400
-X-MC-Unique: z2BQPtiUNwyaZva6JJ6K1Q-1
-Received: by mail-qv1-f71.google.com with SMTP id l1so12106745qvy.20
- for <qemu-devel@nongnu.org>; Sat, 23 May 2020 16:20:52 -0700 (PDT)
+ bh=cdBTNtboGBy9lg3+b3bykeoaluEQ3dTDeb6ikWfO2cs=;
+ b=Tq9cfdWSX2f8bX5plZNInXH5xjthRzNTJIEpAWf8UZIsLs+tk6YAAN66amxByJ6ReZvElX
+ 3gKSX/HR3gb04knXDB6HQf+a/rm6KWc/iWJ7V12id649m+bQz3OF5SZtcdQR6wZs7R8M+9
+ cUdWljHqaSGdpt1awzZh1/E+cr7VBNk=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-brDNya00PIC1RE-g0x6E9g-1; Sat, 23 May 2020 19:20:53 -0400
+X-MC-Unique: brDNya00PIC1RE-g0x6E9g-1
+Received: by mail-qk1-f199.google.com with SMTP id n187so2391791qkd.10
+ for <qemu-devel@nongnu.org>; Sat, 23 May 2020 16:20:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8XYb0vyiefli8SR2efrdEhLZZ34eLVw3ObV8/l5+n3E=;
- b=gd06fwb2k40lxhvzQCpPsKAC8CxCbad8hH9gBE+Isnvm7EgkLb8lYhkZA4L+lg32bD
- STAdyHtZ3m9XgB+QPS0gnRW76Zh75UdaR2KH0TodtsetsS890Q8sSFv3j5OCU3jNaNfr
- lyQh8aw/PHs8JKEdO5t+lt8HnYwRGpUQJRk8//ojwnkbSyUL6r2IXv9WoCu8tP3yCOKE
- 2ng5Gn+GoGydhaCHvPPKz92Rz7MM+TbgJoM1xQAqb0hGYWIPV6D0/j2VQXFP6Zj8wqs1
- LGNOTOo0L81qzNhHtNvlT3uDn90clPlev7rW1gzlSqJC7dt29Mey9hhBVzst9W8Rp9P7
- WVvQ==
-X-Gm-Message-State: AOAM532nEk0LB87ZwytdEDsu83tm7iaUgf0ChCytbver77vdNkTKvPxX
- ny6bEdPgRsOLAE1i6HSqw2kzO2AhQWStSyFFEbnx19MUeT0iO1w1XpKlZazXZXyuzZxcm3NR6lq
- jxt9SAxxtXz9mN8s=
-X-Received: by 2002:aed:3ff7:: with SMTP id w52mr22694621qth.148.1590276051454; 
- Sat, 23 May 2020 16:20:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJys09leCwe3eIXUQUyovUNIiTNGvQavMemqWX3XVBWfuk8bWdUOq1vj5OdY+gbfR81d3yaDVQ==
-X-Received: by 2002:aed:3ff7:: with SMTP id w52mr22694608qth.148.1590276051243; 
- Sat, 23 May 2020 16:20:51 -0700 (PDT)
+ bh=cdBTNtboGBy9lg3+b3bykeoaluEQ3dTDeb6ikWfO2cs=;
+ b=XBkTBhUyjSU039iSZS46wTaQOwuC0gymeMKfAU4y5NI9vce4ePb0SLGRLVwJ+dDBOr
+ pdmv9X1ZlJfrEqbrgBkrscnMUx7hbk8h7sHyhRHphysIYI2h0w1VZxl6DpPzQ2wAALdi
+ LCMzR5OX8woe/BreY1Ji9+w0JvyaBhe3n0FFSyTzkb6XeHZJ22xT99uT1J4Sbabk3QkW
+ t3PYLfb5RDrQUZFPLiz1D9KQwaNQlM72uGM0dcFRb+tLh93hMqzPgmwUKWr7lkUcgA9p
+ hcWgMcflRAn+VhEzV1HjzitSXOtKoMXI2xFKWuaKctnpVsMGswBxnsNs3BIeeXun3zyU
+ o9dQ==
+X-Gm-Message-State: AOAM533ZICviqVxLf1n5TF0x4Wcni4InJGV/62Vf0dzQ0sLY5SvCkgYM
+ I14HYg+S3t+gFXkJzbHmJobrAbYfOWWz3TCZYgx61k6Ln9Qn77qcy/3dECCo9bja3apX/yy3UdB
+ mjVsesH2GXqK1AhU=
+X-Received: by 2002:ac8:768c:: with SMTP id g12mr22221482qtr.51.1590276052794; 
+ Sat, 23 May 2020 16:20:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwx/bv8Q9ugZF4DKvnROLq/0qMBy+phWv7UBncJ9ATO7JN5oaUOA3iHvOKy4x0NXOQsTEjwRw==
+X-Received: by 2002:ac8:768c:: with SMTP id g12mr22221464qtr.51.1590276052564; 
+ Sat, 23 May 2020 16:20:52 -0700 (PDT)
 Received: from xz-x1.hitronhub.home ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id m33sm11974235qtb.88.2020.05.23.16.20.50
+ by smtp.gmail.com with ESMTPSA id m33sm11974235qtb.88.2020.05.23.16.20.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 May 2020 16:20:50 -0700 (PDT)
+ Sat, 23 May 2020 16:20:51 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v3 08/11] KVM: Simplify dirty log sync in kvm_set_phys_mem
-Date: Sat, 23 May 2020 19:20:32 -0400
-Message-Id: <20200523232035.1029349-9-peterx@redhat.com>
+Subject: [PATCH RFC v3 09/11] KVM: Cache kvm slot dirty bitmap size
+Date: Sat, 23 May 2020 19:20:33 -0400
+Message-Id: <20200523232035.1029349-10-peterx@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200523232035.1029349-1-peterx@redhat.com>
 References: <20200523232035.1029349-1-peterx@redhat.com>
@@ -70,9 +70,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/23 19:20:44
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=peterx@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/23 19:07:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,33 +98,39 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kvm_physical_sync_dirty_bitmap() on the whole section is inaccurate, because
-the section can be a superset of the memslot that we're working on.  The result
-is that if the section covers multiple kvm memslots, we could be doing the
-synchronization for multiple times for each kvmslot in the section.
+Cache it too because we'll reference it more frequently in the future.
 
-With the two helpers that we just introduced, it's very easy to do it right now
-by calling the helpers.
-
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- accel/kvm/kvm-all.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ accel/kvm/kvm-all.c      | 1 +
+ include/sysemu/kvm_int.h | 1 +
+ 2 files changed, 2 insertions(+)
 
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 016bad1089..f7c8e6bebe 100644
+index f7c8e6bebe..b9aaa7912c 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -1099,7 +1099,8 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-                 goto out;
-             }
-             if (mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
--                kvm_physical_sync_dirty_bitmap(kml, section);
-+                kvm_slot_get_dirty_log(kvm_state, mem);
-+                kvm_slot_sync_dirty_pages(mem);
-             }
+@@ -561,6 +561,7 @@ static void kvm_slot_init_dirty_bitmap(KVMSlot *mem)
+     hwaddr bitmap_size = ALIGN(((mem->memory_size) >> TARGET_PAGE_BITS),
+                                         /*HOST_LONG_BITS*/ 64) / 8;
+     mem->dirty_bmap = g_malloc0(bitmap_size);
++    mem->dirty_bmap_size = bitmap_size;
+ }
  
-             /* unregister the slot */
+ /* Sync dirty bitmap from kernel to KVMSlot.dirty_bmap */
+diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
+index 4a35d04478..b4d2886e26 100644
+--- a/include/sysemu/kvm_int.h
++++ b/include/sysemu/kvm_int.h
+@@ -23,6 +23,7 @@ typedef struct KVMSlot
+     int old_flags;
+     /* Dirty bitmap cache for the slot */
+     unsigned long *dirty_bmap;
++    unsigned long dirty_bmap_size;
+     /* Cache of the address space ID */
+     int as_id;
+     /* Cache of the offset in ram address space */
 -- 
 2.26.2
 
