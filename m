@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 927B01DFF35
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 15:54:10 +0200 (CEST)
-Received: from localhost ([::1]:48634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7F51DFF3A
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 15:55:57 +0200 (CEST)
+Received: from localhost ([::1]:51068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcr4r-0000ad-ER
-	for lists+qemu-devel@lfdr.de; Sun, 24 May 2020 09:54:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41360)
+	id 1jcr6a-0001fe-Fd
+	for lists+qemu-devel@lfdr.de; Sun, 24 May 2020 09:55:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jcr43-0008PK-7Q; Sun, 24 May 2020 09:53:19 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43373)
+ id 1jcr5k-00016g-BU; Sun, 24 May 2020 09:55:04 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jcr42-000134-JH; Sun, 24 May 2020 09:53:18 -0400
-Received: by mail-wr1-x442.google.com with SMTP id i15so14751844wrx.10;
- Sun, 24 May 2020 06:53:17 -0700 (PDT)
+ id 1jcr5j-0001LG-5z; Sun, 24 May 2020 09:55:04 -0400
+Received: by mail-wr1-x444.google.com with SMTP id l11so14859473wru.0;
+ Sun, 24 May 2020 06:55:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KU0L7HoiTfXHEnpKdKbEtcdMjtpbb22uEejOrgQORew=;
- b=IDmrC2aetv1moiyJpsMsv4i2i3vYYJC0yZX1/NGV3OZMcdMZLAup463yF7ovq7pNzG
- 406DlhNfFmMDBwlBisxBSdBfmZ4Sfddo5RMEtor8BRDP6oAMe8Cqem4yKYx94eTt/6J2
- a+VkP3xSkzCFFV39oG207kRajZtbEgMjGTgwTnznA45mOJnhf6hl57eb0mjLIT1b7yAO
- SxvhzqTl9rn80xbozrI8ab6LpeKTsiRNhUX2H9Jaq6Vcgl0fAIPboeBPYPurTGidnCP5
- NzTWBVAV02BbZfLaNfo0yCXcVIscYaPMrb1lyqicA7eMZdVYeU4zn3l5KkOcEnhT7DjT
- tJmg==
+ bh=JUS3cCHpJpqYqc4UCWRawizAk5CJylaqWikvTc4pC0Y=;
+ b=jKV0KjLI/6JvdRvlK04mNEydsCdwwpSdflFuTsFZPyU6LEfqJE7Enf51lqZLn1pY/5
+ /BPcoGWcTg0oH99xgDLQZrCC7sQe7ZY8w9rLEiBgACDBuDJGDXHYg1pQaggKoxV/SRBZ
+ gv20kSP5DmCFSq3ERVEIey6rx3zhIK6r1EdUleuF+glGAIYNeF8QT9zE2fmk0od82N33
+ IGaRNdEfByJbLQCb8xS90aiDD6g2KmFbxeRUFb7F5Ym9/qa5BFNKpA1YmS1WAP+YgetR
+ YtcTnzksNBYxS2AjKZOBIK8jn7je6AEPCcmJnlCta/xhQoGthJlyMU2ahsiW6MOW6xt9
+ PEgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=KU0L7HoiTfXHEnpKdKbEtcdMjtpbb22uEejOrgQORew=;
- b=TL7DqFZwrGFdR49dcjaYIgPW52ds9WxgXgNH2+n3TjuYvevOH/pe+pAH8JcZ8MVe0o
- nqZZPXoGjLJF8jupr6CXs/UcSFOp0vJAkHjq5EnMktL2+dW31EZ0pJqFa0Dq76XMjm/N
- eoHcjVqzjkX59RzWv9IvzvDJtRmOZBqNad+1rU60Rq0+t1j/YQrnD5HZChRsBUgF0OPr
- 7WdzQ1RD3Riia7qA7AL9mVkWsdJLLdAJcqMmhNrbxCS6oEtFkGP7R46o2Sh+oLbqX80x
- ohEVI7BhPrYCzShYoLKq704GL3+TP2/RRzf5AKBwUMkJMcyGwwimiWcAoKHCRTTxI3TR
- VStw==
-X-Gm-Message-State: AOAM532tAcQvukzR+xqESUqBGxuMSPoMCR244NqNKKHCe0FhKLs8FB5Q
- ZLAfeNRQxBLWkbsF1W66+gDtuIBXAIA=
-X-Google-Smtp-Source: ABdhPJzZ5B835F0pDkrhLRXT8wkO/XT7FYCfEgq5fXVdPb7z+qJKYTpcaxeAdblNX8+lvf9FYLUyEw==
-X-Received: by 2002:a5d:6145:: with SMTP id y5mr10471814wrt.195.1590328395735; 
- Sun, 24 May 2020 06:53:15 -0700 (PDT)
+ bh=JUS3cCHpJpqYqc4UCWRawizAk5CJylaqWikvTc4pC0Y=;
+ b=kvQOXFCEAkKdT6454DobYyKFB6i6LJVJ2aAkS4Gce6Xdq4M123AXzoM7jx97G1Bmcg
+ G2MBl3wU2sj6MboHUfteSMbIvYSMWa1GF00dzFo9YROh9fogYPGIG4/Y8ewOh4oWxJir
+ 0ktQ9JM3C8nvh4xpj43hBnO7M0zI5DPnb/UI0vcxcWLczAHiWVNqAUIDYNlQuZaMs6eK
+ BxIu3DgK9yD5fHnx5m5Rx+yKrq9gxIQ9xwbm/GWX3fpUdnZaFUt2zJwlN9vluQQUgRia
+ 09ZoR3xmcxOkG66xtZV+kFmwe5Y7nvhoKU8QmrOUHsseTpv23CdGB0LpNleFXQEvb6vU
+ xTOA==
+X-Gm-Message-State: AOAM530h4sQ43kbYp1s99OUEqIT7tbwgBghmPBSVfI072LzBFM1hqw66
+ Yk5SzxnNQdNFm6MtiDhv/wZK08KR7Tg=
+X-Google-Smtp-Source: ABdhPJwAWb4G3OSfkNCqBqKDRroIWVHqtepxMWXRB8JshWq2r7Qksjg7DGRWFKxk3zFdNlo9yCEK9Q==
+X-Received: by 2002:adf:eec3:: with SMTP id a3mr11923084wrp.164.1590328501245; 
+ Sun, 24 May 2020 06:55:01 -0700 (PDT)
 Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id s7sm1040818wrr.60.2020.05.24.06.53.14
+ by smtp.gmail.com with ESMTPSA id h196sm7656697wme.22.2020.05.24.06.55.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 24 May 2020 06:53:15 -0700 (PDT)
-Subject: Re: [PATCH] hw/display/omap_dss: Replace fprintf() call by
- qemu_log_mask(LOG_UNIMP)
-To: Alexander Bulekov <alxndr@bu.edu>
-References: <20200524103833.8188-1-f4bug@amsat.org>
- <20200524124132.dri74sl5iei3aaxl@mozz.bu.edu>
+ Sun, 24 May 2020 06:55:00 -0700 (PDT)
+Subject: Re: [PATCH 0/4] hw/display/cirrus_vga: Convert debug printf() to
+ qemu_log_mask & trace
+To: qemu-devel@nongnu.org, no-reply@patchew.org
+References: <159032319028.25024.16341819742251742761@45ef0f9c86ae>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <61f80fea-d37d-e84b-773a-5ec083b61b94@amsat.org>
-Date: Sun, 24 May 2020 15:53:14 +0200
+Message-ID: <57d7ed92-03a2-023c-52c5-95ea77cba659@amsat.org>
+Date: Sun, 24 May 2020 15:54:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200524124132.dri74sl5iei3aaxl@mozz.bu.edu>
+In-Reply-To: <159032319028.25024.16341819742251742761@45ef0f9c86ae>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -90,55 +89,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/20 2:41 PM, Alexander Bulekov wrote:
-> On 200524 1238, Philippe Mathieu-Daudé wrote:
->> Replace fprintf() call by qemu_log_mask(LOG_UNIMP), which is
->> disabled by default. This avoid flooding the terminal when
->> fuzzing the device.
->>
-> Hi Philippe,
-> libfuzzer also lets you pass -close_fd_mask=[1,2,3] to close stdout,
-> stderr or both. As a side-effect, In this mode, libfuzzer will write the
-> crashing stacktraces to individual files ./.$PID, instead of to the
-> terminal's output.
-
-Thanks, good to know.
-
-This information is worth adding in docs/devel/fuzzing.txt :P
-
-> As far as I know, closing the FDs doesn't bypass all
-> of printf's allocation/formatting code, so getting rid of calls can
-> still be a good idea for performance, sometimes.
-
-Certainly.
-
-> -Alex
+On 5/24/20 2:26 PM, no-reply@patchew.org wrote:
 > 
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  hw/display/omap_dss.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/display/omap_dss.c b/hw/display/omap_dss.c
->> index 32dc0d6aa7..21fde58a26 100644
->> --- a/hw/display/omap_dss.c
->> +++ b/hw/display/omap_dss.c
->> @@ -619,7 +619,7 @@ static void omap_rfbi_transfer_start(struct omap_dss_s *s)
->>      if (s->rfbi.control & (1 << 1)) {				/* BYPASS */
->>          /* TODO: in non-Bypass mode we probably need to just assert the
->>           * DRQ and wait for DMA to write the pixels.  */
->> -        fprintf(stderr, "%s: Bypass mode unimplemented\n", __func__);
->> +        qemu_log_mask(LOG_UNIMP, "%s: Bypass mode unimplemented\n", __func__);
->>          return;
->>      }
->>  
->> -- 
->> 2.21.3
->>
+> This series seems to have some coding style problems. See output below for
+> more information:
 > 
+[...]
+> 3/4 Checking commit 0b01a633fe92 (hw/display/cirrus_vga: Use qemu_log_mask(ERROR) instead of debug printf)
+> ERROR: suspect code indent for conditional statements (16, 12)
+> #31: FILE: hw/display/cirrus_vga.c:1038:
+>                 if (s->cirrus_blt_pixelwidth > 2) {
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+
+False positive. Checkpatch is confused by the mis-indented code previous
+to this line.
+
+> 
+> total: 1 errors, 0 warnings, 156 lines checked
+> 
+> Patch 3/4 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+[...]
 
