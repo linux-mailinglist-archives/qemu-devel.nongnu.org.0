@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA6F1DFF8A
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 16:58:01 +0200 (CEST)
-Received: from localhost ([::1]:40898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 007BA1DFF7E
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 16:55:28 +0200 (CEST)
+Received: from localhost ([::1]:55234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcs4e-0004nU-N3
-	for lists+qemu-devel@lfdr.de; Sun, 24 May 2020 10:58:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45800)
+	id 1jcs2A-0007XU-VO
+	for lists+qemu-devel@lfdr.de; Sun, 24 May 2020 10:55:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jcrzx-0002ro-5q; Sun, 24 May 2020 10:53:09 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:37895)
+ id 1jcrzZ-0001h2-VV; Sun, 24 May 2020 10:52:45 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:37781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jcrzv-0002lK-9w; Sun, 24 May 2020 10:53:08 -0400
+ id 1jcrzX-0002kI-5L; Sun, 24 May 2020 10:52:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=8zplI1UiwFKJ83AGO9lzNzyl1XqngZYwma9UQPZedjE=; 
- b=TnvcSpprxd2/dlXZfQRyRIfwdmXYUZNjh5NAd9Emyopd352G1U9ay2Gr2XlYQBPDPuUZpiZadeIG4JjkskAkYu1c/C4wk2cIDLSVBg8VrHZbmcWekFLAKetNmdxeVF+tl3rrfMAkXy7J7q6emPFbWM3d/aMbhu5dImxtu+cqlgQO6ol6sIetvF5ImBV7Hd886qjkOp7tv55BFa/WTmXZenLfbmkxJ8MLFeorEPtUASFE+cSxfROBZae35Cgt8GIh28szgAZL7MIvI3tILmy9iTpLKljygaOGPn7xqH1+CuKodT1eFGF3llRFAX7L7oXGG1Pt2cTzanmOsuOUBHSQVA==;
+ bh=kbQL9LmZByGXU/l+CI8XcwAXUOKtIOhRYRMQ/s/0KYI=; 
+ b=KSwGNKlzQV/w/z8GGrC+FXUQASyrNhxUqcjfD6DX/ZWEkr7Df3z4iUed/r42xa32OKeLwq/kqsgdVdfu+Eh4ytxIGd09AfROB89N6pSqCMitddUkQ3lzmq+CVBSexaQ9Sq0xwR7m4QVmvrZsEIUHESlPRH0w1wO50p6Z1KfhfDYxhlRRWIKX/49gD2RUR4uoaDdd5pwzl3d77cEUIb3yUZGf1pZojKIkr2tVWj4nQY5hNT7wLsYOBj9ZESxerN2Sex3VfqIdPwOunHylUAwyB1kiNuOx5cmylVGAjXJz4v4BXhcaXv3SR8fGuAEgwr460Nx5GRZ/3af+5XDGIVwgyQ==;
 Received: from [81.0.38.199] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jcrzF-0007GP-5g; Sun, 24 May 2020 16:52:25 +0200
+ id 1jcrz9-0007GI-8J; Sun, 24 May 2020 16:52:19 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1jcryu-0005KG-T5; Sun, 24 May 2020 16:52:04 +0200
+ id 1jcryu-0005KI-U3; Sun, 24 May 2020 16:52:04 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 09/32] qcow2: Add subcluster-related fields to
- BDRVQcow2State
-Date: Sun, 24 May 2020 16:51:29 +0200
-Message-Id: <fbffb90925bb8000896e818efc0b8a3ef0f62519.1590331741.git.berto@igalia.com>
+Subject: [PATCH v6 10/32] qcow2: Add offset_to_sc_index()
+Date: Sun, 24 May 2020 16:51:30 +0200
+Message-Id: <ea143ec5d65d3525b1c831f42bac76360364274a.1590331741.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1590331741.git.berto@igalia.com>
 References: <cover.1590331741.git.berto@igalia.com>
@@ -69,62 +68,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds the following new fields to BDRVQcow2State:
-
-- subclusters_per_cluster: Number of subclusters in a cluster
-- subcluster_size: The size of each subcluster, in bytes
-- subcluster_bits: No. of bits so 1 << subcluster_bits = subcluster_size
-
-Images without subclusters are treated as if they had exactly one
-subcluster per cluster (i.e. subcluster_size = cluster_size).
+For a given offset, return the subcluster number within its cluster
+(i.e. with 32 subclusters per cluster it returns a number between 0
+and 31).
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
  block/qcow2.h | 5 +++++
- block/qcow2.c | 5 +++++
- 2 files changed, 10 insertions(+)
+ 1 file changed, 5 insertions(+)
 
 diff --git a/block/qcow2.h b/block/qcow2.h
-index f41bfd743f..4e9c732831 100644
+index 4e9c732831..ca73ac9b67 100644
 --- a/block/qcow2.h
 +++ b/block/qcow2.h
-@@ -78,6 +78,8 @@
- /* The cluster reads as all zeros */
- #define QCOW_OFLAG_ZERO (1ULL << 0)
+@@ -581,6 +581,11 @@ static inline int offset_to_l2_slice_index(BDRVQcow2State *s, int64_t offset)
+     return (offset >> s->cluster_bits) & (s->l2_slice_size - 1);
+ }
  
-+#define QCOW_EXTL2_SUBCLUSTERS_PER_CLUSTER 32
++static inline int offset_to_sc_index(BDRVQcow2State *s, int64_t offset)
++{
++    return (offset >> s->subcluster_bits) & (s->subclusters_per_cluster - 1);
++}
 +
- #define MIN_CLUSTER_BITS 9
- #define MAX_CLUSTER_BITS 21
- 
-@@ -295,6 +297,9 @@ typedef struct BDRVQcow2State {
-     int cluster_bits;
-     int cluster_size;
-     int l2_slice_size;
-+    int subcluster_bits;
-+    int subcluster_size;
-+    int subclusters_per_cluster;
-     int l2_bits;
-     int l2_size;
-     int l1_size;
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 6562eb1590..916b6c3f92 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1433,6 +1433,11 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-         }
-     }
- 
-+    s->subclusters_per_cluster =
-+        has_subclusters(s) ? QCOW_EXTL2_SUBCLUSTERS_PER_CLUSTER : 1;
-+    s->subcluster_size = s->cluster_size / s->subclusters_per_cluster;
-+    s->subcluster_bits = ctz32(s->subcluster_size);
-+
-     /* Check support for various header values */
-     if (header.refcount_order > 6) {
-         error_setg(errp, "Reference count entry width too large; may not "
+ static inline int64_t qcow2_vm_state_offset(BDRVQcow2State *s)
+ {
+     return (int64_t)s->l1_vm_state_index << (s->cluster_bits + s->l2_bits);
 -- 
 2.20.1
 
