@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F7DE1DFF2E
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 15:43:23 +0200 (CEST)
-Received: from localhost ([::1]:34404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927B01DFF35
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 15:54:10 +0200 (CEST)
+Received: from localhost ([::1]:48634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcquQ-0002SU-6W
-	for lists+qemu-devel@lfdr.de; Sun, 24 May 2020 09:43:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40610)
+	id 1jcr4r-0000ad-ER
+	for lists+qemu-devel@lfdr.de; Sun, 24 May 2020 09:54:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jcqti-00023J-7Q
- for qemu-devel@nongnu.org; Sun, 24 May 2020 09:42:38 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:40511)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jcr43-0008PK-7Q; Sun, 24 May 2020 09:53:19 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jcqth-0008Ak-Dy
- for qemu-devel@nongnu.org; Sun, 24 May 2020 09:42:37 -0400
-Received: by mail-ot1-x341.google.com with SMTP id d26so11973335otc.7
- for <qemu-devel@nongnu.org>; Sun, 24 May 2020 06:42:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CmCh7P1mfvmHffwghYt0wsTyOMiKjFDhwoNEYkiSwy0=;
- b=H3TL+C3tOitVKg3kH1W1bpfqx51wkRXGv4SBZo4mxBP8Mifd5jnb3YCFvVM8H+//7z
- WGl7gblovgABgubV4lqDv2USySgmFzF8bICseSq0261VUMVQ3ToU81Wo9YT19zbJH2sL
- BccAFd/gSJ6tKYkveF0PBK8mWyxa9vR99DfcGXq0W+4dsEd72T0EJhC21fPFrWobSgdq
- 7+vQjcZGuYh1PTiJsWDFvOTO1Lo505KIh6pCWQwubb/E8MuNBbZBBGq7vlxLkY+AHV2H
- sM1t6BXXJqCRt5obQLfmikioieZtA/V+UA7Jxo8Hsv6b53PCEQNv+ZzupgZGsVL0brFt
- FFxw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jcr42-000134-JH; Sun, 24 May 2020 09:53:18 -0400
+Received: by mail-wr1-x442.google.com with SMTP id i15so14751844wrx.10;
+ Sun, 24 May 2020 06:53:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=KU0L7HoiTfXHEnpKdKbEtcdMjtpbb22uEejOrgQORew=;
+ b=IDmrC2aetv1moiyJpsMsv4i2i3vYYJC0yZX1/NGV3OZMcdMZLAup463yF7ovq7pNzG
+ 406DlhNfFmMDBwlBisxBSdBfmZ4Sfddo5RMEtor8BRDP6oAMe8Cqem4yKYx94eTt/6J2
+ a+VkP3xSkzCFFV39oG207kRajZtbEgMjGTgwTnznA45mOJnhf6hl57eb0mjLIT1b7yAO
+ SxvhzqTl9rn80xbozrI8ab6LpeKTsiRNhUX2H9Jaq6Vcgl0fAIPboeBPYPurTGidnCP5
+ NzTWBVAV02BbZfLaNfo0yCXcVIscYaPMrb1lyqicA7eMZdVYeU4zn3l5KkOcEnhT7DjT
+ tJmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CmCh7P1mfvmHffwghYt0wsTyOMiKjFDhwoNEYkiSwy0=;
- b=PchuymO44BqDyYEB7OKMTq3F2ZWIYNXOPqMyWX0KK3u5UWWJ1Rs1JLHvL2XqZ0eaRl
- NZvpqgkr3lbUTHYQ71e9aRguGwtCAklNCEN6DHX9tcjuR/PU/48BcxQO2jK2uuLTdm3G
- v54Pjhyh4cpc4Hu7podAw6uifSIAzLZy0F0EdV8Uov6JutuFQnHXgu2IjtcK8uWBYXWh
- 1EkWn0288ENn0VGcXrrE5nOUH1uT2viQID35/r7MfIEqTf2QcUE8JmL4uTOxgKo7qSQ7
- DuJW8MFXZWys8j9UwMHzoYyuGZ8HltJ3eZzYio92V1erpnKqwDucXnS+AKQkkT+67yyU
- 3Q/A==
-X-Gm-Message-State: AOAM531WRNiUFAxt4kDlEjIqjZndKCRM98bvjguGFO72pTWEGY1UIPew
- pYvvoJDhmGskq1y3itIZTdr+1l7AKh9go7EJNqXHe2Zi
-X-Google-Smtp-Source: ABdhPJxECnYjoCtetvnBQTYBqsizt/JC1S2HzhM4Yu4nXvZvHsZAhJ0N7juRTV8yUqDYVyG6ie6/Z+72plM3RVlFa9k=
-X-Received: by 2002:a9d:b82:: with SMTP id 2mr16957338oth.221.1590327756248;
- Sun, 24 May 2020 06:42:36 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KU0L7HoiTfXHEnpKdKbEtcdMjtpbb22uEejOrgQORew=;
+ b=TL7DqFZwrGFdR49dcjaYIgPW52ds9WxgXgNH2+n3TjuYvevOH/pe+pAH8JcZ8MVe0o
+ nqZZPXoGjLJF8jupr6CXs/UcSFOp0vJAkHjq5EnMktL2+dW31EZ0pJqFa0Dq76XMjm/N
+ eoHcjVqzjkX59RzWv9IvzvDJtRmOZBqNad+1rU60Rq0+t1j/YQrnD5HZChRsBUgF0OPr
+ 7WdzQ1RD3Riia7qA7AL9mVkWsdJLLdAJcqMmhNrbxCS6oEtFkGP7R46o2Sh+oLbqX80x
+ ohEVI7BhPrYCzShYoLKq704GL3+TP2/RRzf5AKBwUMkJMcyGwwimiWcAoKHCRTTxI3TR
+ VStw==
+X-Gm-Message-State: AOAM532tAcQvukzR+xqESUqBGxuMSPoMCR244NqNKKHCe0FhKLs8FB5Q
+ ZLAfeNRQxBLWkbsF1W66+gDtuIBXAIA=
+X-Google-Smtp-Source: ABdhPJzZ5B835F0pDkrhLRXT8wkO/XT7FYCfEgq5fXVdPb7z+qJKYTpcaxeAdblNX8+lvf9FYLUyEw==
+X-Received: by 2002:a5d:6145:: with SMTP id y5mr10471814wrt.195.1590328395735; 
+ Sun, 24 May 2020 06:53:15 -0700 (PDT)
+Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id s7sm1040818wrr.60.2020.05.24.06.53.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 24 May 2020 06:53:15 -0700 (PDT)
+Subject: Re: [PATCH] hw/display/omap_dss: Replace fprintf() call by
+ qemu_log_mask(LOG_UNIMP)
+To: Alexander Bulekov <alxndr@bu.edu>
+References: <20200524103833.8188-1-f4bug@amsat.org>
+ <20200524124132.dri74sl5iei3aaxl@mozz.bu.edu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <61f80fea-d37d-e84b-773a-5ec083b61b94@amsat.org>
+Date: Sun, 24 May 2020 15:53:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200522174524.29152-1-philmd@redhat.com>
-In-Reply-To: <20200522174524.29152-1-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 24 May 2020 14:42:25 +0100
-Message-ID: <CAFEAcA9h-wG50ekZaZzS+zpKEMPfZvB1W8VbdPfMviNfBj-fzA@mail.gmail.com>
-Subject: Re: [PULL 0/4] pflash-next patches for 2020-05-22
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
+In-Reply-To: <20200524124132.dri74sl5iei3aaxl@mozz.bu.edu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -80,42 +90,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 22 May 2020 at 18:47, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> The following changes since commit d19f1ab0de8b763159513e3eaa12c5bc681223=
-61:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-202=
-0052=3D
-> 1-1' into staging (2020-05-21 22:06:56 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/philmd/qemu.git tags/pflash-next-20200522
->
-> for you to fetch changes up to 1857b9db49770590483be44eb90993c42b2a5a99:
->
->   hw/block/pflash: Check return value of blk_pwrite() (2020-05-22 19:38:1=
-4 +0=3D
-> 200)
->
-> ----------------------------------------------------------------
->
-> - Remove unused timer in CFI01 flash,
-> - Clean up code documentation,
-> - Silent a long-standing Coverity warning (2016-07-15).
+On 5/24/20 2:41 PM, Alexander Bulekov wrote:
+> On 200524 1238, Philippe Mathieu-Daudé wrote:
+>> Replace fprintf() call by qemu_log_mask(LOG_UNIMP), which is
+>> disabled by default. This avoid flooding the terminal when
+>> fuzzing the device.
+>>
+> Hi Philippe,
+> libfuzzer also lets you pass -close_fd_mask=[1,2,3] to close stdout,
+> stderr or both. As a side-effect, In this mode, libfuzzer will write the
+> crashing stacktraces to individual files ./.$PID, instead of to the
+> terminal's output.
 
+Thanks, good to know.
 
-Applied, thanks.
+This information is worth adding in docs/devel/fuzzing.txt :P
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+> As far as I know, closing the FDs doesn't bypass all
+> of printf's allocation/formatting code, so getting rid of calls can
+> still be a good idea for performance, sometimes.
 
--- PMM
+Certainly.
+
+> -Alex
+> 
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  hw/display/omap_dss.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/display/omap_dss.c b/hw/display/omap_dss.c
+>> index 32dc0d6aa7..21fde58a26 100644
+>> --- a/hw/display/omap_dss.c
+>> +++ b/hw/display/omap_dss.c
+>> @@ -619,7 +619,7 @@ static void omap_rfbi_transfer_start(struct omap_dss_s *s)
+>>      if (s->rfbi.control & (1 << 1)) {				/* BYPASS */
+>>          /* TODO: in non-Bypass mode we probably need to just assert the
+>>           * DRQ and wait for DMA to write the pixels.  */
+>> -        fprintf(stderr, "%s: Bypass mode unimplemented\n", __func__);
+>> +        qemu_log_mask(LOG_UNIMP, "%s: Bypass mode unimplemented\n", __func__);
+>>          return;
+>>      }
+>>  
+>> -- 
+>> 2.21.3
+>>
+> 
 
