@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 007BA1DFF7E
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 16:55:28 +0200 (CEST)
-Received: from localhost ([::1]:55234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 664931DFFA5
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 17:06:29 +0200 (CEST)
+Received: from localhost ([::1]:44764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcs2A-0007XU-VO
-	for lists+qemu-devel@lfdr.de; Sun, 24 May 2020 10:55:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45726)
+	id 1jcsCq-00024S-Fv
+	for lists+qemu-devel@lfdr.de; Sun, 24 May 2020 11:06:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jcrzZ-0001h2-VV; Sun, 24 May 2020 10:52:45 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:37781)
+ id 1jcs00-00033F-TY; Sun, 24 May 2020 10:53:12 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:38075)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jcrzX-0002kI-5L; Sun, 24 May 2020 10:52:45 -0400
+ id 1jcrzy-0002m3-0h; Sun, 24 May 2020 10:53:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=kbQL9LmZByGXU/l+CI8XcwAXUOKtIOhRYRMQ/s/0KYI=; 
- b=KSwGNKlzQV/w/z8GGrC+FXUQASyrNhxUqcjfD6DX/ZWEkr7Df3z4iUed/r42xa32OKeLwq/kqsgdVdfu+Eh4ytxIGd09AfROB89N6pSqCMitddUkQ3lzmq+CVBSexaQ9Sq0xwR7m4QVmvrZsEIUHESlPRH0w1wO50p6Z1KfhfDYxhlRRWIKX/49gD2RUR4uoaDdd5pwzl3d77cEUIb3yUZGf1pZojKIkr2tVWj4nQY5hNT7wLsYOBj9ZESxerN2Sex3VfqIdPwOunHylUAwyB1kiNuOx5cmylVGAjXJz4v4BXhcaXv3SR8fGuAEgwr460Nx5GRZ/3af+5XDGIVwgyQ==;
+ bh=XJ9+f7lurHYvBuTBC9J85Mjrkazyhzvj9xMgkShAYvQ=; 
+ b=q31IQGj+5ndzClRzXsYyiT8zms9AMrdKRbzntIv9otnIFuB12aYFFceJPo7VNDihBlUqb9Kf/WFTUElPMc3bujYE7PZyyVnFuhySA5+kENq7yb+QZE/vDTAKMtw3eH3k4w98r6EjAGDAxkS2Ev0getKFpR8sQg1By1YKaNFeGu8u53G2IizhH0dhXOn6h7EX0Am5r6cFvmVo18Hwwx8VIUQw3/pqT7kMm5Fd9bzOSc8i57ahe4tClHeCsy238lUZiyAtBZon5feSO+L3D+iHDcXNdmLPaD65Odgv+p+GU15h3uHVeuW67bVjjJ/pwJk3E7fvhnDoKtqx4g8DsHrVUQ==;
 Received: from [81.0.38.199] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jcrz9-0007GI-8J; Sun, 24 May 2020 16:52:19 +0200
+ id 1jcrzF-0007GR-TV; Sun, 24 May 2020 16:52:26 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1jcryu-0005KI-U3; Sun, 24 May 2020 16:52:04 +0200
+ id 1jcryu-0005KK-V7; Sun, 24 May 2020 16:52:04 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 10/32] qcow2: Add offset_to_sc_index()
-Date: Sun, 24 May 2020 16:51:30 +0200
-Message-Id: <ea143ec5d65d3525b1c831f42bac76360364274a.1590331741.git.berto@igalia.com>
+Subject: [PATCH v6 11/32] qcow2: Add offset_into_subcluster() and
+ size_to_subclusters()
+Date: Sun, 24 May 2020 16:51:31 +0200
+Message-Id: <72cf411f89b5ccbf07d611bb33b418a875f1d475.1590331741.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1590331741.git.berto@igalia.com>
 References: <cover.1590331741.git.berto@igalia.com>
@@ -68,33 +69,41 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For a given offset, return the subcluster number within its cluster
-(i.e. with 32 subclusters per cluster it returns a number between 0
-and 31).
+Like offset_into_cluster() and size_to_clusters(), but for
+subclusters.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/qcow2.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ block/qcow2.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/block/qcow2.h b/block/qcow2.h
-index 4e9c732831..ca73ac9b67 100644
+index ca73ac9b67..79c4f82383 100644
 --- a/block/qcow2.h
 +++ b/block/qcow2.h
-@@ -581,6 +581,11 @@ static inline int offset_to_l2_slice_index(BDRVQcow2State *s, int64_t offset)
-     return (offset >> s->cluster_bits) & (s->l2_slice_size - 1);
+@@ -555,11 +555,21 @@ static inline int64_t offset_into_cluster(BDRVQcow2State *s, int64_t offset)
+     return offset & (s->cluster_size - 1);
  }
  
-+static inline int offset_to_sc_index(BDRVQcow2State *s, int64_t offset)
++static inline int64_t offset_into_subcluster(BDRVQcow2State *s, int64_t offset)
 +{
-+    return (offset >> s->subcluster_bits) & (s->subclusters_per_cluster - 1);
++    return offset & (s->subcluster_size - 1);
 +}
 +
- static inline int64_t qcow2_vm_state_offset(BDRVQcow2State *s)
+ static inline uint64_t size_to_clusters(BDRVQcow2State *s, uint64_t size)
  {
-     return (int64_t)s->l1_vm_state_index << (s->cluster_bits + s->l2_bits);
+     return (size + (s->cluster_size - 1)) >> s->cluster_bits;
+ }
+ 
++static inline uint64_t size_to_subclusters(BDRVQcow2State *s, uint64_t size)
++{
++    return (size + (s->subcluster_size - 1)) >> s->subcluster_bits;
++}
++
+ static inline int64_t size_to_l1(BDRVQcow2State *s, int64_t size)
+ {
+     int shift = s->cluster_bits + s->l2_bits;
 -- 
 2.20.1
 
