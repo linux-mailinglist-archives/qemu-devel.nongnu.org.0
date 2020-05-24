@@ -2,53 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3E01DFFBB
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 17:12:26 +0200 (CEST)
-Received: from localhost ([::1]:39578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB1A51DFFAF
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 17:09:13 +0200 (CEST)
+Received: from localhost ([::1]:55944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcsIb-0003Rz-8N
-	for lists+qemu-devel@lfdr.de; Sun, 24 May 2020 11:12:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45888)
+	id 1jcsFU-0006kR-PF
+	for lists+qemu-devel@lfdr.de; Sun, 24 May 2020 11:09:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jcs05-0003HF-Bl; Sun, 24 May 2020 10:53:17 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:38076)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jcrzy-0002m1-9S; Sun, 24 May 2020 10:53:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=2GTZxdPC1KRB/CooM/8Z/rox7iMvqhdJWjaOaGyDg/M=; 
- b=ghYcHoaCIlnvkH4i0VEkvhQTB9yrG13z3JldMPmyS/QtCD0l6ihr8SsAFs/6K1MGyvu0yqeV9OZRgH5HDqlx34IvGLaUzVKQrQvTfoWi1eK13Cz4WNxge+/Xvay9bGRhDJQ2cTH+PoH2CgsHEt5ot2AniKUsVnU31OUVwLXIT0unqkLSdV+GunC6Jr+9tQiSLhU/hWJcpLGfyovALW2A13be/Qy46yLwew2bP4QUtN/rXkEaPKyWfwh8X3tIG/Dnw5WcTOJdB1u2qI+/HF6NpQW7XHjECn56pOhmeYdNYGTp70XT81x72vYF3nNeBASSll/w4TzFidZh9dmpRLZR1w==;
-Received: from [81.0.38.199] (helo=perseus.local)
- by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jcrzF-0007GT-Sl; Sun, 24 May 2020 16:52:26 +0200
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1jcryv-0005L0-Lh; Sun, 24 May 2020 16:52:05 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 32/32] iotests: Add tests for qcow2 images with extended L2
- entries
-Date: Sun, 24 May 2020 16:51:52 +0200
-Message-Id: <6752a7f9eaf48dfb811f2750f94e621f4ca80506.1590331741.git.berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1590331741.git.berto@igalia.com>
-References: <cover.1590331741.git.berto@igalia.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jcsDp-0004lD-HX
+ for qemu-devel@nongnu.org; Sun, 24 May 2020 11:07:29 -0400
+Received: from mx2.suse.de ([195.135.220.15]:60696)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jcsDg-0005Er-BH
+ for qemu-devel@nongnu.org; Sun, 24 May 2020 11:07:28 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id F08B4ACED;
+ Sun, 24 May 2020 15:07:20 +0000 (UTC)
+Subject: Re: [RFC v2 3/3] cpus: extract out accel-specific code to each accel
+To: Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20200522171013.27597-1-cfontana@suse.de>
+ <20200522171013.27597-4-cfontana@suse.de>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <76ec3d98-276d-f6b2-86f0-d84541acc4d1@suse.de>
+Date: Sun, 24 May 2020 17:07:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/24 10:52:20
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+In-Reply-To: <20200522171013.27597-4-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/23 21:40:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,1355 +59,2770 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
- Derek Su <dereksu@qnap.com>, Max Reitz <mreitz@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
+ haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>,
+ Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
- tests/qemu-iotests/271     | 705 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/271.out | 603 +++++++++++++++++++++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 1309 insertions(+)
- create mode 100755 tests/qemu-iotests/271
- create mode 100644 tests/qemu-iotests/271.out
+On 5/22/20 7:10 PM, Claudio Fontana wrote:
+> each accelerator registers a new "CpusAccelInterface"
+> on initialization, providing functions for starting a vcpu,
+> kicking a vcpu, and sychronizing state.
+> 
+> This way the code in cpus.cc is now all general softmmu code,
+> nothing (or almost nothing) accelerator-specific anymore.
 
-diff --git a/tests/qemu-iotests/271 b/tests/qemu-iotests/271
-new file mode 100755
-index 0000000000..4dd11772cf
---- /dev/null
-+++ b/tests/qemu-iotests/271
-@@ -0,0 +1,705 @@
-+#!/bin/bash
-+#
-+# Test qcow2 images with extended L2 entries
-+#
-+# Copyright (C) 2019-2020 Igalia, S.L.
-+# Author: Alberto Garcia <berto@igalia.com>
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=berto@igalia.com
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+here="$PWD"
-+status=1	# failure is the default!
-+
-+_cleanup()
-+{
-+	_cleanup_test_img
-+        rm -f "$TEST_IMG.raw"
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt qcow2
-+_supported_proto file nfs
-+_supported_os Linux
-+_unsupported_imgopts extended_l2 compat=0.10 cluster_size data_file
-+
-+l2_offset=262144 # 0x40000
-+
-+_verify_img()
-+{
-+    $QEMU_IMG compare "$TEST_IMG" "$TEST_IMG.raw" | grep -v 'Images are identical'
-+    $QEMU_IMG check "$TEST_IMG" | _filter_qemu_img_check | \
-+        grep -v 'No errors were found on the image'
-+}
-+
-+# Compare the bitmap of an extended L2 entry against an expected value
-+_verify_l2_bitmap()
-+{
-+    entry_no="$1"            # L2 entry number, starting from 0
-+    expected_alloc="$alloc"  # Space-separated list of allocated subcluster indexes
-+    expected_zero="$zero"    # Space-separated list of zero subcluster indexes
-+
-+    offset=$(($l2_offset + $entry_no * 16))
-+    entry=`peek_file_be "$TEST_IMG" $offset 8`
-+    offset=$(($offset + 8))
-+    bitmap=`peek_file_be "$TEST_IMG" $offset 8`
-+
-+    expected_bitmap=0
-+    for bit in $expected_alloc; do
-+        expected_bitmap=$(($expected_bitmap | (1 << $bit)))
-+    done
-+    for bit in $expected_zero; do
-+        expected_bitmap=$(($expected_bitmap | (1 << (32 + $bit))))
-+    done
-+    expected_bitmap=`printf "%llu" $expected_bitmap`
-+
-+    printf "L2 entry #%d: 0x%016lx %016lx\n" "$entry_no" "$entry" "$bitmap"
-+    if [ "$bitmap" != "$expected_bitmap" ]; then
-+        printf "ERROR: expecting bitmap       0x%016lx\n" "$expected_bitmap"
-+    fi
-+}
-+
-+_test_write()
-+{
-+    cmd="$1"
-+    l2_entry_idx="$2"
-+    [ -n "$l2_entry_idx" ] || l2_entry_idx=0
-+    raw_cmd=`echo $cmd | sed s/-c//` # Raw images don't support -c
-+    echo "$cmd"
-+    $QEMU_IO -c "$cmd" "$TEST_IMG" | _filter_qemu_io
-+    $QEMU_IO -c "$raw_cmd" -f raw "$TEST_IMG.raw" | _filter_qemu_io
-+    _verify_img
-+    _verify_l2_bitmap "$l2_entry_idx"
-+}
-+
-+_reset_img()
-+{
-+    size="$1"
-+    $QEMU_IMG create -f raw "$TEST_IMG.raw" "$size" | _filter_img_create
-+    if [ "$use_backing_file" = "yes" ]; then
-+        $QEMU_IMG create -f raw "$TEST_IMG.base" "$size" | _filter_img_create
-+        $QEMU_IO -c "write -q -P 0xFF 0 $size" -f raw "$TEST_IMG.base" | _filter_qemu_io
-+        $QEMU_IO -c "write -q -P 0xFF 0 $size" -f raw "$TEST_IMG.raw" | _filter_qemu_io
-+        _make_test_img -o extended_l2=on -b "$TEST_IMG.base" "$size"
-+    else
-+        _make_test_img -o extended_l2=on "$size"
-+    fi
-+}
-+
-+# Test that writing to an image with subclusters produces the expected
-+# results, in images with and without backing files
-+for use_backing_file in yes no; do
-+    echo
-+    echo "### Standard write tests (backing file: $use_backing_file) ###"
-+    echo
-+    _reset_img 1M
-+    ### Write subcluster #0 (beginning of subcluster) ###
-+    alloc="0"; zero=""
-+    _test_write 'write -q -P 1 0 1k'
-+
-+    ### Write subcluster #1 (middle of subcluster) ###
-+    alloc="0 1"; zero=""
-+    _test_write 'write -q -P 2 3k 512'
-+
-+    ### Write subcluster #2 (end of subcluster) ###
-+    alloc="0 1 2"; zero=""
-+    _test_write 'write -q -P 3 5k 1k'
-+
-+    ### Write subcluster #3 (full subcluster) ###
-+    alloc="0 1 2 3"; zero=""
-+    _test_write 'write -q -P 4 6k 2k'
-+
-+    ### Write subclusters #4-6 (full subclusters) ###
-+    alloc="`seq 0 6`"; zero=""
-+    _test_write 'write -q -P 5 8k 6k'
-+
-+    ### Write subclusters #7-9 (partial subclusters) ###
-+    alloc="`seq 0 9`"; zero=""
-+    _test_write 'write -q -P 6 15k 4k'
-+
-+    ### Write subcluster #16 (partial subcluster) ###
-+    alloc="`seq 0 9` 16"; zero=""
-+    _test_write 'write -q -P 7 32k 1k'
-+
-+    ### Write subcluster #31-#33 (cluster overlap) ###
-+    alloc="`seq 0 9` 16 31"; zero=""
-+    _test_write 'write -q -P 8 63k 4k'
-+    alloc="0 1" ; zero=""
-+    _verify_l2_bitmap 1
-+
-+    ### Zero subcluster #1
-+    alloc="0 `seq 2 9` 16 31"; zero="1"
-+    _test_write 'write -q -z 2k 2k'
-+
-+    ### Zero cluster #0
-+    alloc=""; zero="`seq 0 31`"
-+    _test_write 'write -q -z 0 64k'
-+
-+    ### Fill cluster #0 with data
-+    alloc="`seq 0 31`"; zero=""
-+    _test_write 'write -q -P 9 0 64k'
-+
-+    ### Zero and unmap half of cluster #0 (this won't unmap it)
-+    alloc="`seq 16 31`"; zero="`seq 0 15`"
-+    _test_write 'write -q -z -u 0 32k'
-+
-+    ### Zero and unmap cluster #0
-+    alloc=""; zero="`seq 0 31`"
-+    _test_write 'write -q -z -u 0 64k'
-+
-+    ### Write subcluster #1 (middle of subcluster)
-+    alloc="1"; zero="0 `seq 2 31`"
-+    _test_write 'write -q -P 10 3k 512'
-+
-+    ### Fill cluster #0 with data
-+    alloc="`seq 0 31`"; zero=""
-+    _test_write 'write -q -P 11 0 64k'
-+
-+    ### Discard cluster #0
-+    alloc=""; zero="`seq 0 31`"
-+    _test_write 'discard -q 0 64k'
-+
-+    ### Write compressed data to cluster #0
-+    alloc=""; zero=""
-+    _test_write 'write -q -c -P 12 0 64k'
-+
-+    ### Write subcluster #2 (middle of subcluster)
-+    alloc="`seq 0 31`"; zero=""
-+    _test_write 'write -q -P 13 3k 512'
-+done
-+
-+# calculate_l2_meta() checks if none of the clusters affected by a
-+# write operation need COW or changes to their L2 metadata and simply
-+# returns when they don't. This is a test for that optimization.
-+# Here clusters #0-#3 are overwritten but only #1 and #2 need changes.
-+echo
-+echo '### Overwriting several clusters without COW ###'
-+echo
-+use_backing_file="no" _reset_img 1M
-+# Write cluster #0, subclusters #12-#31
-+alloc="`seq 12 31`"; zero=""
-+_test_write 'write -q 24k 40k' 0
-+
-+# Write cluster #1, subcluster #13
-+alloc="13"; zero=""
-+_test_write 'write -q 90k 2k' 1
-+
-+# Zeroize cluster #2, subcluster #14
-+alloc="14"; zero=""
-+_test_write 'write -q 156k 2k' 2
-+alloc=""; zero="14"
-+_test_write 'write -q -z 156k 2k' 2
-+
-+# Write cluster #3, subclusters #15-#31
-+alloc="`seq 0 16`"; zero=""
-+_test_write 'write -q 192k 34k' 3
-+
-+# Write from cluster #0, subcluster #12 to cluster #3, subcluster #11
-+alloc="`seq 12 31`"; zero=""
-+_test_write 'write -q 24k 192k' 0
-+
-+alloc="`seq 0 31`"; zero=""
-+_verify_l2_bitmap 1
-+_verify_l2_bitmap 2
-+
-+alloc="`seq 0 16`"; zero=""
-+_verify_l2_bitmap 3
-+
-+# Test different patterns of writing zeroes
-+for use_backing_file in yes no; do
-+    echo
-+    echo "### Writing zeroes 1: unallocated clusters (backing file: $use_backing_file) ###"
-+    echo
-+    # Note that the image size is not a multiple of the cluster size
-+    _reset_img 2083k
-+
-+    # Cluster-aligned request from clusters #0 to #2
-+    alloc=""; zero="`seq 0 31`"
-+    _test_write 'write -q -z 0 192k' 0
-+    _verify_l2_bitmap 1
-+    _verify_l2_bitmap 2
-+
-+    # Subcluster-aligned request from clusters #3 to #5
-+    alloc=""; zero="`seq 16 31`"
-+    _test_write 'write -q -z 224k 128k' 3
-+    alloc=""; zero="`seq 0 31`"
-+    _verify_l2_bitmap 4
-+    alloc=""; zero="`seq 0 15`"
-+    _verify_l2_bitmap 5
-+
-+    # Unaligned request from clusters #6 to #8
-+    if [ "$use_backing_file" = "yes" ]; then
-+        alloc="15"; zero="`seq 16 31`" # copy-on-write happening here
-+    else
-+        alloc=""; zero="`seq 15 31`"
-+    fi
-+    _test_write 'write -q -z 415k 128k' 6
-+    alloc=""; zero="`seq 0 31`"
-+    _verify_l2_bitmap 7
-+    if [ "$use_backing_file" = "yes" ]; then
-+        alloc="15"; zero="`seq 0 14`" # copy-on-write happening here
-+    else
-+        alloc=""; zero="`seq 0 15`"
-+    fi
-+    _verify_l2_bitmap 8
-+
-+    echo
-+    echo "### Writing zeroes 2: allocated clusters (backing file: $use_backing_file) ###"
-+    echo
-+    alloc="`seq 0 31`"; zero=""
-+    _test_write 'write -q -P 1 576k 576k' 9
-+    _verify_l2_bitmap 10
-+    _verify_l2_bitmap 11
-+    _verify_l2_bitmap 12
-+    _verify_l2_bitmap 13
-+    _verify_l2_bitmap 14
-+    _verify_l2_bitmap 15
-+    _verify_l2_bitmap 16
-+    _verify_l2_bitmap 17
-+
-+    # Cluster-aligned request from clusters #9 to #11
-+    alloc=""; zero="`seq 0 31`"
-+    _test_write 'write -q -z 576k 192k' 9
-+    _verify_l2_bitmap 10
-+    _verify_l2_bitmap 11
-+
-+    # Subcluster-aligned request from clusters #12 to #14
-+    alloc="`seq 0 15`"; zero="`seq 16 31`"
-+    _test_write 'write -q -z 800k 128k' 12
-+    alloc=""; zero="`seq 0 31`"
-+    _verify_l2_bitmap 13
-+    alloc="`seq 16 31`"; zero="`seq 0 15`"
-+    _verify_l2_bitmap 14
-+
-+    # Unaligned request from clusters #15 to #17
-+    alloc="`seq 0 15`"; zero="`seq 16 31`"
-+    _test_write 'write -q -z 991k 128k' 15
-+    alloc=""; zero="`seq 0 31`"
-+    _verify_l2_bitmap 16
-+    alloc="`seq 15 31`"; zero="`seq 0 14`"
-+    _verify_l2_bitmap 17
-+
-+    echo
-+    echo "### Writing zeroes 3: compressed clusters (backing file: $use_backing_file) ###"
-+    echo
-+    alloc=""; zero=""
-+    for c in `seq 18 28`; do
-+        _test_write "write -q -c -P 2 $(($c*64))k 64k" $c
-+    done
-+
-+    # Cluster-aligned request from clusters #18 to #20
-+    alloc=""; zero="`seq 0 31`"
-+    _test_write 'write -q -z 1152k 192k' 18
-+    _verify_l2_bitmap 19
-+    _verify_l2_bitmap 20
-+
-+    # Subcluster-aligned request from clusters #21 to #23.
-+    # We cannot partially zero a compressed cluster so the code
-+    # returns -ENOTSUP, which means copy-on-write of the compressed
-+    # data and fill the rest with actual zeroes on disk.
-+    # TODO: cluster #22 should use the 'all zeroes' bits.
-+    alloc="`seq 0 31`"; zero=""
-+    _test_write 'write -q -z 1376k 128k' 21
-+    _verify_l2_bitmap 22
-+    _verify_l2_bitmap 23
-+
-+    # Unaligned request from clusters #24 to #26
-+    # In this case QEMU internally sends a 1k request followed by a
-+    # subcluster-aligned 128k request. The first request decompresses
-+    # cluster #24, but that's not enough to perform efficiently the
-+    # second request because it partially writes to cluster #26 (which
-+    # is compressed) so we hit the same problem as before.
-+    alloc="`seq 0 31`"; zero=""
-+    _test_write 'write -q -z 1567k 129k' 24
-+    _verify_l2_bitmap 25
-+    _verify_l2_bitmap 26
-+
-+    # Unaligned request from clusters #27 to #29
-+    # Similar to the previous case, but this time the tail of the
-+    # request does not correspond to a compressed cluster, so it can
-+    # be zeroed efficiently.
-+    # Note that the very last subcluster is partially written, so if
-+    # there's a backing file we need to perform cow.
-+    alloc="`seq 0 15`"; zero="`seq 16 31`"
-+    _test_write 'write -q -z 1759k 128k' 27
-+    alloc=""; zero="`seq 0 31`"
-+    _verify_l2_bitmap 28
-+    if [ "$use_backing_file" = "yes" ]; then
-+        alloc="15"; zero="`seq 0 14`" # copy-on-write happening here
-+    else
-+        alloc=""; zero="`seq 0 15`"
-+    fi
-+    _verify_l2_bitmap 29
-+
-+    echo
-+    echo "### Writing zeroes 4: other tests (backing file: $use_backing_file) ###"
-+    echo
-+    # Unaligned request in the middle of cluster #30.
-+    # If there's a backing file we need to allocate and do
-+    # copy-on-write on the partially zeroed subclusters.
-+    # If not we can set the 'all zeroes' bit on them.
-+    if [ "$use_backing_file" = "yes" ]; then
-+        alloc="15 19"; zero="`seq 16 18`" # copy-on-write happening here
-+    else
-+        alloc=""; zero="`seq 15 19`"
-+    fi
-+    _test_write 'write -q -z 1951k 8k' 30
-+
-+    # Fill the last cluster with zeroes, up to the end of the image
-+    # (the image size is not a multiple of the cluster or subcluster size).
-+    alloc=""; zero="`seq 0 17`"
-+    _test_write 'write -q -z 2048k 35k' 32
-+done
-+
-+# Zero + unmap
-+for use_backing_file in yes no; do
-+    echo
-+    echo "### Zero + unmap 1: allocated clusters (backing file: $use_backing_file) ###"
-+    echo
-+    # Note that the image size is not a multiple of the cluster size
-+    _reset_img 2083k
-+    alloc="`seq 0 31`"; zero=""
-+    _test_write 'write -q -P 1 576k 576k' 9
-+    _verify_l2_bitmap 10
-+    _verify_l2_bitmap 11
-+    _verify_l2_bitmap 12
-+    _verify_l2_bitmap 13
-+    _verify_l2_bitmap 14
-+    _verify_l2_bitmap 15
-+    _verify_l2_bitmap 16
-+    _verify_l2_bitmap 17
-+
-+    # Cluster-aligned request from clusters #9 to #11
-+    alloc=""; zero="`seq 0 31`"
-+    _test_write 'write -q -z -u 576k 192k' 9
-+    _verify_l2_bitmap 10
-+    _verify_l2_bitmap 11
-+
-+    # Subcluster-aligned request from clusters #12 to #14
-+    alloc="`seq 0 15`"; zero="`seq 16 31`"
-+    _test_write 'write -q -z -u 800k 128k' 12
-+    alloc=""; zero="`seq 0 31`"
-+    _verify_l2_bitmap 13
-+    alloc="`seq 16 31`"; zero="`seq 0 15`"
-+    _verify_l2_bitmap 14
-+
-+    # Unaligned request from clusters #15 to #17
-+    alloc="`seq 0 15`"; zero="`seq 16 31`"
-+    _test_write 'write -q -z -u 991k 128k' 15
-+    alloc=""; zero="`seq 0 31`"
-+    _verify_l2_bitmap 16
-+    alloc="`seq 15 31`"; zero="`seq 0 14`"
-+    _verify_l2_bitmap 17
-+
-+    echo
-+    echo "### Zero + unmap 2: compressed clusters (backing file: $use_backing_file) ###"
-+    echo
-+    alloc=""; zero=""
-+    for c in `seq 18 28`; do
-+        _test_write "write -q -c -P 2 $(($c*64))k 64k" $c
-+    done
-+
-+    # Cluster-aligned request from clusters #18 to #20
-+    alloc=""; zero="`seq 0 31`"
-+    _test_write 'write -q -z -u 1152k 192k' 18
-+    _verify_l2_bitmap 19
-+    _verify_l2_bitmap 20
-+
-+    # Subcluster-aligned request from clusters #21 to #23.
-+    # We cannot partially zero a compressed cluster so the code
-+    # returns -ENOTSUP, which means copy-on-write of the compressed
-+    # data and fill the rest with actual zeroes on disk.
-+    # TODO: cluster #22 should use the 'all zeroes' bits.
-+    alloc="`seq 0 31`"; zero=""
-+    _test_write 'write -q -z -u 1376k 128k' 21
-+    _verify_l2_bitmap 22
-+    _verify_l2_bitmap 23
-+
-+    # Unaligned request from clusters #24 to #26
-+    # In this case QEMU internally sends a 1k request followed by a
-+    # subcluster-aligned 128k request. The first request decompresses
-+    # cluster #24, but that's not enough to perform efficiently the
-+    # second request because it partially writes to cluster #26 (which
-+    # is compressed) so we hit the same problem as before.
-+    alloc="`seq 0 31`"; zero=""
-+    _test_write 'write -q -z -u 1567k 129k' 24
-+    _verify_l2_bitmap 25
-+    _verify_l2_bitmap 26
-+
-+    # Unaligned request from clusters #27 to #29
-+    # Similar to the previous case, but this time the tail of the
-+    # request does not correspond to a compressed cluster, so it can
-+    # be zeroed efficiently.
-+    # Note that the very last subcluster is partially written, so if
-+    # there's a backing file we need to perform cow.
-+    alloc="`seq 0 15`"; zero="`seq 16 31`"
-+    _test_write 'write -q -z -u 1759k 128k' 27
-+    alloc=""; zero="`seq 0 31`"
-+    _verify_l2_bitmap 28
-+    if [ "$use_backing_file" = "yes" ]; then
-+        alloc="15"; zero="`seq 0 14`" # copy-on-write happening here
-+    else
-+        alloc=""; zero="`seq 0 15`"
-+    fi
-+    _verify_l2_bitmap 29
-+done
-+
-+# Test qcow2_cluster_discard() with full and normal discards
-+for use_backing_file in yes no; do
-+    echo
-+    echo "### Discarding clusters with non-zero bitmaps (backing file: $use_backing_file) ###"
-+    echo
-+    if [ "$use_backing_file" = "yes" ]; then
-+        _make_test_img -o extended_l2=on -b "$TEST_IMG.base" 1M
-+    else
-+        _make_test_img -o extended_l2=on 1M
-+    fi
-+    # Write clusters #0-#2 and then discard them
-+    $QEMU_IO -c 'write -q 0 128k' "$TEST_IMG"
-+    $QEMU_IO -c 'discard -q 0 128k' "$TEST_IMG"
-+    # 'qemu-io discard' doesn't do a full discard, it zeroizes the
-+    # cluster, so both clusters have all zero bits set now
-+    alloc=""; zero="`seq 0 31`"
-+    _verify_l2_bitmap 0
-+    _verify_l2_bitmap 1
-+    # Now mark the 2nd half of the subclusters from cluster #0 as unallocated
-+    poke_file "$TEST_IMG" $(($l2_offset+8)) "\x00\x00"
-+    # Discard cluster #0 again to see how the zero bits have changed
-+    $QEMU_IO -c 'discard -q 0 64k' "$TEST_IMG"
-+    # And do a full discard of cluster #1 by shrinking and growing the image
-+    $QEMU_IMG resize --shrink "$TEST_IMG" 64k
-+    $QEMU_IMG resize "$TEST_IMG" 1M
-+    # A normal discard sets all 'zero' bits only if the image has a
-+    # backing file, otherwise it won't touch them.
-+    if [ "$use_backing_file" = "yes" ]; then
-+        alloc=""; zero="`seq 0 31`"
-+    else
-+        alloc=""; zero="`seq 0 15`"
-+    fi
-+    _verify_l2_bitmap 0
-+    # A full discard should clear the L2 entry completely. However
-+    # when growing an image with a backing file the new clusters are
-+    # zeroized to hide the stale data from the backing file
-+    if [ "$use_backing_file" = "yes" ]; then
-+        alloc=""; zero="`seq 0 31`"
-+    else
-+        alloc=""; zero=""
-+    fi
-+    _verify_l2_bitmap 1
-+done
-+
-+# Test that corrupted L2 entries are detected in both read and write
-+# operations
-+for corruption_test_cmd in read write; do
-+    echo
-+    echo "### Corrupted L2 entries - $corruption_test_cmd test (allocated) ###"
-+    echo
-+    echo "# 'cluster is zero' bit set on the standard cluster descriptor"
-+    echo
-+    # We actually don't consider this a corrupted image.
-+    # The 'cluster is zero' bit is unused is unused in extended L2 entries
-+    # so QEMU ignores it.
-+    # TODO: maybe treat the image as corrupted and make qemu-img check fix it?
-+    _make_test_img -o extended_l2=on 1M
-+    $QEMU_IO -c 'write -q -P 0x11 0 2k' "$TEST_IMG"
-+    poke_file "$TEST_IMG" $(($l2_offset+7)) "\x01"
-+    alloc="0"; zero=""
-+    _verify_l2_bitmap 0
-+    $QEMU_IO -c "$corruption_test_cmd -q -P 0x11 0 1k" "$TEST_IMG"
-+    if [ "$corruption_test_cmd" = "write" ]; then
-+        alloc="0"; zero=""
-+    fi
-+    _verify_l2_bitmap 0
-+
-+    echo
-+    echo "# Both 'subcluster is zero' and 'subcluster is allocated' bits set"
-+    echo
-+    _make_test_img -o extended_l2=on 1M
-+    # Write from the middle of cluster #0 to the middle of cluster #2
-+    $QEMU_IO -c 'write -q 32k 128k' "$TEST_IMG"
-+    # Corrupt the L2 entry from cluster #1
-+    poke_file "$TEST_IMG" $(($l2_offset+24)) "\x00\x00\x00\x01"
-+    alloc="`seq 0 31`"; zero="0"
-+    _verify_l2_bitmap 1
-+    $QEMU_IO -c "$corruption_test_cmd 0 192k" "$TEST_IMG"
-+
-+    echo
-+    echo "### Corrupted L2 entries - $corruption_test_cmd test (unallocated) ###"
-+    echo
-+    echo "# 'cluster is zero' bit set on the standard cluster descriptor"
-+    echo
-+    # We actually don't consider this a corrupted image.
-+    # The 'cluster is zero' bit is unused is unused in extended L2 entries
-+    # so QEMU ignores it.
-+    # TODO: maybe treat the image as corrupted and make qemu-img check fix it?
-+    _make_test_img -o extended_l2=on 1M
-+    # We want to modify the (empty) L2 entry from cluster #0,
-+    # but we write to #4 in order to initialize the L2 table first
-+    $QEMU_IO -c 'write -q 256k 1k' "$TEST_IMG"
-+    poke_file "$TEST_IMG" $(($l2_offset+7)) "\x01"
-+    alloc=""; zero=""
-+    _verify_l2_bitmap 0
-+    $QEMU_IO -c "$corruption_test_cmd -q 0 1k" "$TEST_IMG"
-+    if [ "$corruption_test_cmd" = "write" ]; then
-+        alloc="0"; zero=""
-+    fi
-+    _verify_l2_bitmap 0
-+
-+    echo
-+    echo "# 'subcluster is allocated' bit set"
-+    echo
-+    _make_test_img -o extended_l2=on 1M
-+    # We want to corrupt the (empty) L2 entry from cluster #0,
-+    # but we write to #4 in order to initialize the L2 table first
-+    $QEMU_IO -c 'write -q 256k 1k' "$TEST_IMG"
-+    poke_file "$TEST_IMG" $(($l2_offset+15)) "\x01"
-+    alloc="0"; zero=""
-+    _verify_l2_bitmap 0
-+    $QEMU_IO -c "$corruption_test_cmd 0 1k" "$TEST_IMG"
-+
-+    echo
-+    echo "# Both 'subcluster is zero' and 'subcluster is allocated' bits set"
-+    echo
-+    _make_test_img -o extended_l2=on 1M
-+    # We want to corrupt the (empty) L2 entry from cluster #1,
-+    # but we write to #4 in order to initialize the L2 table first
-+    $QEMU_IO -c 'write -q 256k 1k' "$TEST_IMG"
-+    # Corrupt the L2 entry from cluster #1
-+    poke_file "$TEST_IMG" $(($l2_offset+24)) "\x00\x00\x00\x01\x00\x00\x00\x01"
-+    alloc="0"; zero="0"
-+    _verify_l2_bitmap 1
-+    $QEMU_IO -c "$corruption_test_cmd 0 192k" "$TEST_IMG"
-+
-+    echo
-+    echo "### Compressed cluster with subcluster bitmap != 0 - $corruption_test_cmd test ###"
-+    echo
-+    # We actually don't consider this a corrupted image.
-+    # The bitmap in compressed clusters is unused so QEMU should just ignore it.
-+    _make_test_img -o extended_l2=on 1M
-+    $QEMU_IO -c 'write -q -P 11 -c 0 64k' "$TEST_IMG"
-+    # Change the L2 bitmap to allocate subcluster #31 and zeroize subcluster #0
-+    poke_file "$TEST_IMG" $(($l2_offset+11)) "\x01\x80"
-+    alloc="31"; zero="0"
-+    _verify_l2_bitmap 0
-+    $QEMU_IO -c "$corruption_test_cmd -P 11 0 64k" "$TEST_IMG" | _filter_qemu_io
-+    # Writing allocates a new uncompressed cluster so we get a new bitmap
-+    if [ "$corruption_test_cmd" = "write" ]; then
-+        alloc="`seq 0 31`"; zero=""
-+    fi
-+    _verify_l2_bitmap 0
-+done
-+
-+echo
-+echo "### Image creation options ###"
-+echo
-+echo "# cluster_size < 16k"
-+_make_test_img -o extended_l2=on,cluster_size=8k 1M
-+
-+# TODO: allow preallocation with backing files when subclusters are used
-+echo "# backing file and preallocation=metadata"
-+_make_test_img -o extended_l2=on,preallocation=metadata -b "$TEST_IMG.base" 1M
-+
-+echo "# backing file and preallocation=falloc"
-+_make_test_img -o extended_l2=on,preallocation=falloc -b "$TEST_IMG.base" 1M
-+
-+echo "# backing file and preallocation=full"
-+_make_test_img -o extended_l2=on,preallocation=full -b "$TEST_IMG.base" 1M
-+
-+echo
-+echo "### qemu-img measure ###"
-+echo
-+echo "# 512MB, extended_l2=off" # This needs one L2 table
-+$QEMU_IMG measure --size 512M -O qcow2 -o extended_l2=off
-+echo "# 512MB, extended_l2=on"  # This needs two L2 tables
-+$QEMU_IMG measure --size 512M -O qcow2 -o extended_l2=on
-+
-+echo "# 16K clusters, 64GB, extended_l2=off" # This needs one full L1 table cluster
-+$QEMU_IMG measure --size 64G -O qcow2 -o cluster_size=16k,extended_l2=off
-+echo "# 16K clusters, 64GB, extended_l2=on"  # This needs two full L2 table clusters
-+$QEMU_IMG measure --size 64G -O qcow2 -o cluster_size=16k,extended_l2=on
-+
-+echo "# 8k clusters" # This should fail
-+$QEMU_IMG measure --size 1M -O qcow2 -o cluster_size=8k,extended_l2=on
-+
-+echo "# 1024 TB" # Maximum allowed size with extended_l2=on and 64K clusters
-+$QEMU_IMG measure --size 1024T -O qcow2 -o extended_l2=on
-+echo "# 1025 TB" # This should fail
-+$QEMU_IMG measure --size 1025T -O qcow2 -o extended_l2=on
-+
-+echo
-+echo "### qemu-img amend ###"
-+echo
-+_make_test_img -o extended_l2=on 1M
-+$QEMU_IMG amend -o extended_l2=off "$TEST_IMG"
-+
-+_make_test_img -o extended_l2=off 1M
-+$QEMU_IMG amend -o extended_l2=on "$TEST_IMG"
-+
-+echo
-+echo "### Test copy-on-write on an image with snapshots ###"
-+echo
-+_make_test_img -o extended_l2=on 1M
-+
-+# For each cluster from #0 to #9 this loop zeroes subcluster #7
-+# and allocates subclusters #13 and #18.
-+alloc="13 18"; zero="7"
-+for c in `seq 0 9`; do
-+    $QEMU_IO -c "write -q -z $((64*$c+14))k 2k" \
-+             -c "write -q -P $((0xd0+$c)) $((64*$c+26))k 2k" \
-+             -c "write -q -P $((0xe0+$c)) $((64*$c+36))k 2k" "$TEST_IMG"
-+    _verify_l2_bitmap "$c"
-+done
-+
-+# Create a snapshot and set l2_offset to the new L2 table
-+$QEMU_IMG snapshot -c snap1 "$TEST_IMG"
-+l2_offset=1114112 # 0x110000
-+
-+# Write different patterns to each one of the clusters
-+# in order to see how copy-on-write behaves in each case.
-+$QEMU_IO -c "write -q -P 0xf0 $((64*0+30))k 1k" \
-+         -c "write -q -P 0xf1 $((64*1+20))k 1k" \
-+         -c "write -q -P 0xf2 $((64*2+40))k 1k" \
-+         -c "write -q -P 0xf3 $((64*3+26))k 1k" \
-+         -c "write -q -P 0xf4 $((64*4+14))k 1k" \
-+         -c "write -q -P 0xf5 $((64*5+1))k  1k" \
-+         -c "write -q -z      $((64*6+30))k 3k" \
-+         -c "write -q -z      $((64*7+26))k 2k" \
-+         -c "write -q -z      $((64*8+26))k 1k" \
-+         -c "write -q -z      $((64*9+12))k 1k" \
-+         "$TEST_IMG"
-+alloc="`seq 13 18`"; zero="7" _verify_l2_bitmap 0
-+alloc="`seq 10 18`"; zero="7" _verify_l2_bitmap 1
-+alloc="`seq 13 20`"; zero="7" _verify_l2_bitmap 2
-+alloc="`seq 13 18`"; zero="7" _verify_l2_bitmap 3
-+alloc="`seq 7 18`";  zero=""  _verify_l2_bitmap 4
-+alloc="`seq 0 18`";  zero=""  _verify_l2_bitmap 5
-+alloc="13 18"; zero="7 15 16" _verify_l2_bitmap 6
-+alloc="18";       zero="7 13" _verify_l2_bitmap 7
-+alloc="`seq 13 18`"; zero="7" _verify_l2_bitmap 8
-+alloc="13 18";     zero="6 7" _verify_l2_bitmap 9
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/271.out b/tests/qemu-iotests/271.out
-new file mode 100644
-index 0000000000..6ac53d5e10
---- /dev/null
-+++ b/tests/qemu-iotests/271.out
-@@ -0,0 +1,603 @@
-+QA output created by 271
-+
-+### Standard write tests (backing file: yes) ###
-+
-+Formatting 'TEST_DIR/t.IMGFMT.raw', fmt=raw size=1048576
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=raw size=1048576
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT.base
-+write -q -P 1 0 1k
-+L2 entry #0: 0x8000000000050000 0000000000000001
-+write -q -P 2 3k 512
-+L2 entry #0: 0x8000000000050000 0000000000000003
-+write -q -P 3 5k 1k
-+L2 entry #0: 0x8000000000050000 0000000000000007
-+write -q -P 4 6k 2k
-+L2 entry #0: 0x8000000000050000 000000000000000f
-+write -q -P 5 8k 6k
-+L2 entry #0: 0x8000000000050000 000000000000007f
-+write -q -P 6 15k 4k
-+L2 entry #0: 0x8000000000050000 00000000000003ff
-+write -q -P 7 32k 1k
-+L2 entry #0: 0x8000000000050000 00000000000103ff
-+write -q -P 8 63k 4k
-+L2 entry #0: 0x8000000000050000 00000000800103ff
-+L2 entry #1: 0x8000000000060000 0000000000000003
-+write -q -z 2k 2k
-+L2 entry #0: 0x8000000000050000 00000002800103fd
-+write -q -z 0 64k
-+L2 entry #0: 0x8000000000050000 ffffffff00000000
-+write -q -P 9 0 64k
-+L2 entry #0: 0x8000000000050000 00000000ffffffff
-+write -q -z -u 0 32k
-+L2 entry #0: 0x8000000000050000 0000ffffffff0000
-+write -q -z -u 0 64k
-+L2 entry #0: 0x0000000000000000 ffffffff00000000
-+write -q -P 10 3k 512
-+L2 entry #0: 0x8000000000050000 fffffffd00000002
-+write -q -P 11 0 64k
-+L2 entry #0: 0x8000000000050000 00000000ffffffff
-+discard -q 0 64k
-+L2 entry #0: 0x0000000000000000 ffffffff00000000
-+write -q -c -P 12 0 64k
-+L2 entry #0: 0x4000000000050000 0000000000000000
-+write -q -P 13 3k 512
-+L2 entry #0: 0x8000000000070000 00000000ffffffff
-+
-+### Standard write tests (backing file: no) ###
-+
-+Formatting 'TEST_DIR/t.IMGFMT.raw', fmt=raw size=1048576
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+write -q -P 1 0 1k
-+L2 entry #0: 0x8000000000050000 0000000000000001
-+write -q -P 2 3k 512
-+L2 entry #0: 0x8000000000050000 0000000000000003
-+write -q -P 3 5k 1k
-+L2 entry #0: 0x8000000000050000 0000000000000007
-+write -q -P 4 6k 2k
-+L2 entry #0: 0x8000000000050000 000000000000000f
-+write -q -P 5 8k 6k
-+L2 entry #0: 0x8000000000050000 000000000000007f
-+write -q -P 6 15k 4k
-+L2 entry #0: 0x8000000000050000 00000000000003ff
-+write -q -P 7 32k 1k
-+L2 entry #0: 0x8000000000050000 00000000000103ff
-+write -q -P 8 63k 4k
-+L2 entry #0: 0x8000000000050000 00000000800103ff
-+L2 entry #1: 0x8000000000060000 0000000000000003
-+write -q -z 2k 2k
-+L2 entry #0: 0x8000000000050000 00000002800103fd
-+write -q -z 0 64k
-+L2 entry #0: 0x8000000000050000 ffffffff00000000
-+write -q -P 9 0 64k
-+L2 entry #0: 0x8000000000050000 00000000ffffffff
-+write -q -z -u 0 32k
-+L2 entry #0: 0x8000000000050000 0000ffffffff0000
-+write -q -z -u 0 64k
-+L2 entry #0: 0x0000000000000000 ffffffff00000000
-+write -q -P 10 3k 512
-+L2 entry #0: 0x8000000000050000 fffffffd00000002
-+write -q -P 11 0 64k
-+L2 entry #0: 0x8000000000050000 00000000ffffffff
-+discard -q 0 64k
-+L2 entry #0: 0x0000000000000000 ffffffff00000000
-+write -q -c -P 12 0 64k
-+L2 entry #0: 0x4000000000050000 0000000000000000
-+write -q -P 13 3k 512
-+L2 entry #0: 0x8000000000070000 00000000ffffffff
-+
-+### Overwriting several clusters without COW ###
-+
-+Formatting 'TEST_DIR/t.IMGFMT.raw', fmt=raw size=1048576
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+write -q 24k 40k
-+L2 entry #0: 0x8000000000050000 00000000fffff000
-+write -q 90k 2k
-+L2 entry #1: 0x8000000000060000 0000000000002000
-+write -q 156k 2k
-+L2 entry #2: 0x8000000000070000 0000000000004000
-+write -q -z 156k 2k
-+L2 entry #2: 0x8000000000070000 0000400000000000
-+write -q 192k 34k
-+L2 entry #3: 0x8000000000080000 000000000001ffff
-+write -q 24k 192k
-+L2 entry #0: 0x8000000000050000 00000000fffff000
-+L2 entry #1: 0x8000000000060000 00000000ffffffff
-+L2 entry #2: 0x8000000000070000 00000000ffffffff
-+L2 entry #3: 0x8000000000080000 000000000001ffff
-+
-+### Writing zeroes 1: unallocated clusters (backing file: yes) ###
-+
-+Formatting 'TEST_DIR/t.IMGFMT.raw', fmt=raw size=2132992
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=raw size=2132992
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2132992 backing_file=TEST_DIR/t.IMGFMT.base
-+write -q -z 0 192k
-+L2 entry #0: 0x0000000000000000 ffffffff00000000
-+L2 entry #1: 0x0000000000000000 ffffffff00000000
-+L2 entry #2: 0x0000000000000000 ffffffff00000000
-+write -q -z 224k 128k
-+L2 entry #3: 0x0000000000000000 ffff000000000000
-+L2 entry #4: 0x0000000000000000 ffffffff00000000
-+L2 entry #5: 0x0000000000000000 0000ffff00000000
-+write -q -z 415k 128k
-+L2 entry #6: 0x8000000000050000 ffff000000008000
-+L2 entry #7: 0x0000000000000000 ffffffff00000000
-+L2 entry #8: 0x8000000000060000 00007fff00008000
-+
-+### Writing zeroes 2: allocated clusters (backing file: yes) ###
-+
-+write -q -P 1 576k 576k
-+L2 entry #9: 0x8000000000070000 00000000ffffffff
-+L2 entry #10: 0x8000000000080000 00000000ffffffff
-+L2 entry #11: 0x8000000000090000 00000000ffffffff
-+L2 entry #12: 0x80000000000a0000 00000000ffffffff
-+L2 entry #13: 0x80000000000b0000 00000000ffffffff
-+L2 entry #14: 0x80000000000c0000 00000000ffffffff
-+L2 entry #15: 0x80000000000d0000 00000000ffffffff
-+L2 entry #16: 0x80000000000e0000 00000000ffffffff
-+L2 entry #17: 0x80000000000f0000 00000000ffffffff
-+write -q -z 576k 192k
-+L2 entry #9: 0x8000000000070000 ffffffff00000000
-+L2 entry #10: 0x8000000000080000 ffffffff00000000
-+L2 entry #11: 0x8000000000090000 ffffffff00000000
-+write -q -z 800k 128k
-+L2 entry #12: 0x80000000000a0000 ffff00000000ffff
-+L2 entry #13: 0x80000000000b0000 ffffffff00000000
-+L2 entry #14: 0x80000000000c0000 0000ffffffff0000
-+write -q -z 991k 128k
-+L2 entry #15: 0x80000000000d0000 ffff00000000ffff
-+L2 entry #16: 0x80000000000e0000 ffffffff00000000
-+L2 entry #17: 0x80000000000f0000 00007fffffff8000
-+
-+### Writing zeroes 3: compressed clusters (backing file: yes) ###
-+
-+write -q -c -P 2 1152k 64k
-+L2 entry #18: 0x4000000000100000 0000000000000000
-+write -q -c -P 2 1216k 64k
-+L2 entry #19: 0x4000000000110000 0000000000000000
-+write -q -c -P 2 1280k 64k
-+L2 entry #20: 0x4000000000120000 0000000000000000
-+write -q -c -P 2 1344k 64k
-+L2 entry #21: 0x4000000000130000 0000000000000000
-+write -q -c -P 2 1408k 64k
-+L2 entry #22: 0x4000000000140000 0000000000000000
-+write -q -c -P 2 1472k 64k
-+L2 entry #23: 0x4000000000150000 0000000000000000
-+write -q -c -P 2 1536k 64k
-+L2 entry #24: 0x4000000000160000 0000000000000000
-+write -q -c -P 2 1600k 64k
-+L2 entry #25: 0x4000000000170000 0000000000000000
-+write -q -c -P 2 1664k 64k
-+L2 entry #26: 0x4000000000180000 0000000000000000
-+write -q -c -P 2 1728k 64k
-+L2 entry #27: 0x4000000000190000 0000000000000000
-+write -q -c -P 2 1792k 64k
-+L2 entry #28: 0x40000000001a0000 0000000000000000
-+write -q -z 1152k 192k
-+L2 entry #18: 0x0000000000000000 ffffffff00000000
-+L2 entry #19: 0x0000000000000000 ffffffff00000000
-+L2 entry #20: 0x0000000000000000 ffffffff00000000
-+write -q -z 1376k 128k
-+L2 entry #21: 0x8000000000100000 00000000ffffffff
-+L2 entry #22: 0x8000000000110000 00000000ffffffff
-+L2 entry #23: 0x8000000000120000 00000000ffffffff
-+write -q -z 1567k 129k
-+L2 entry #24: 0x8000000000130000 00000000ffffffff
-+L2 entry #25: 0x8000000000140000 00000000ffffffff
-+L2 entry #26: 0x8000000000150000 00000000ffffffff
-+write -q -z 1759k 128k
-+L2 entry #27: 0x8000000000160000 ffff00000000ffff
-+L2 entry #28: 0x0000000000000000 ffffffff00000000
-+L2 entry #29: 0x8000000000170000 00007fff00008000
-+
-+### Writing zeroes 4: other tests (backing file: yes) ###
-+
-+write -q -z 1951k 8k
-+L2 entry #30: 0x8000000000180000 0007000000088000
-+write -q -z 2048k 35k
-+L2 entry #32: 0x0000000000000000 0003ffff00000000
-+
-+### Writing zeroes 1: unallocated clusters (backing file: no) ###
-+
-+Formatting 'TEST_DIR/t.IMGFMT.raw', fmt=raw size=2132992
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2132992
-+write -q -z 0 192k
-+L2 entry #0: 0x0000000000000000 ffffffff00000000
-+L2 entry #1: 0x0000000000000000 ffffffff00000000
-+L2 entry #2: 0x0000000000000000 ffffffff00000000
-+write -q -z 224k 128k
-+L2 entry #3: 0x0000000000000000 ffff000000000000
-+L2 entry #4: 0x0000000000000000 ffffffff00000000
-+L2 entry #5: 0x0000000000000000 0000ffff00000000
-+write -q -z 415k 128k
-+L2 entry #6: 0x0000000000000000 ffff800000000000
-+L2 entry #7: 0x0000000000000000 ffffffff00000000
-+L2 entry #8: 0x0000000000000000 0000ffff00000000
-+
-+### Writing zeroes 2: allocated clusters (backing file: no) ###
-+
-+write -q -P 1 576k 576k
-+L2 entry #9: 0x8000000000050000 00000000ffffffff
-+L2 entry #10: 0x8000000000060000 00000000ffffffff
-+L2 entry #11: 0x8000000000070000 00000000ffffffff
-+L2 entry #12: 0x8000000000080000 00000000ffffffff
-+L2 entry #13: 0x8000000000090000 00000000ffffffff
-+L2 entry #14: 0x80000000000a0000 00000000ffffffff
-+L2 entry #15: 0x80000000000b0000 00000000ffffffff
-+L2 entry #16: 0x80000000000c0000 00000000ffffffff
-+L2 entry #17: 0x80000000000d0000 00000000ffffffff
-+write -q -z 576k 192k
-+L2 entry #9: 0x8000000000050000 ffffffff00000000
-+L2 entry #10: 0x8000000000060000 ffffffff00000000
-+L2 entry #11: 0x8000000000070000 ffffffff00000000
-+write -q -z 800k 128k
-+L2 entry #12: 0x8000000000080000 ffff00000000ffff
-+L2 entry #13: 0x8000000000090000 ffffffff00000000
-+L2 entry #14: 0x80000000000a0000 0000ffffffff0000
-+write -q -z 991k 128k
-+L2 entry #15: 0x80000000000b0000 ffff00000000ffff
-+L2 entry #16: 0x80000000000c0000 ffffffff00000000
-+L2 entry #17: 0x80000000000d0000 00007fffffff8000
-+
-+### Writing zeroes 3: compressed clusters (backing file: no) ###
-+
-+write -q -c -P 2 1152k 64k
-+L2 entry #18: 0x40000000000e0000 0000000000000000
-+write -q -c -P 2 1216k 64k
-+L2 entry #19: 0x40000000000f0000 0000000000000000
-+write -q -c -P 2 1280k 64k
-+L2 entry #20: 0x4000000000100000 0000000000000000
-+write -q -c -P 2 1344k 64k
-+L2 entry #21: 0x4000000000110000 0000000000000000
-+write -q -c -P 2 1408k 64k
-+L2 entry #22: 0x4000000000120000 0000000000000000
-+write -q -c -P 2 1472k 64k
-+L2 entry #23: 0x4000000000130000 0000000000000000
-+write -q -c -P 2 1536k 64k
-+L2 entry #24: 0x4000000000140000 0000000000000000
-+write -q -c -P 2 1600k 64k
-+L2 entry #25: 0x4000000000150000 0000000000000000
-+write -q -c -P 2 1664k 64k
-+L2 entry #26: 0x4000000000160000 0000000000000000
-+write -q -c -P 2 1728k 64k
-+L2 entry #27: 0x4000000000170000 0000000000000000
-+write -q -c -P 2 1792k 64k
-+L2 entry #28: 0x4000000000180000 0000000000000000
-+write -q -z 1152k 192k
-+L2 entry #18: 0x0000000000000000 ffffffff00000000
-+L2 entry #19: 0x0000000000000000 ffffffff00000000
-+L2 entry #20: 0x0000000000000000 ffffffff00000000
-+write -q -z 1376k 128k
-+L2 entry #21: 0x80000000000e0000 00000000ffffffff
-+L2 entry #22: 0x80000000000f0000 00000000ffffffff
-+L2 entry #23: 0x8000000000100000 00000000ffffffff
-+write -q -z 1567k 129k
-+L2 entry #24: 0x8000000000110000 00000000ffffffff
-+L2 entry #25: 0x8000000000120000 00000000ffffffff
-+L2 entry #26: 0x8000000000130000 00000000ffffffff
-+write -q -z 1759k 128k
-+L2 entry #27: 0x8000000000140000 ffff00000000ffff
-+L2 entry #28: 0x0000000000000000 ffffffff00000000
-+L2 entry #29: 0x0000000000000000 0000ffff00000000
-+
-+### Writing zeroes 4: other tests (backing file: no) ###
-+
-+write -q -z 1951k 8k
-+L2 entry #30: 0x0000000000000000 000f800000000000
-+write -q -z 2048k 35k
-+L2 entry #32: 0x0000000000000000 0003ffff00000000
-+
-+### Zero + unmap 1: allocated clusters (backing file: yes) ###
-+
-+Formatting 'TEST_DIR/t.IMGFMT.raw', fmt=raw size=2132992
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=raw size=2132992
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2132992 backing_file=TEST_DIR/t.IMGFMT.base
-+write -q -P 1 576k 576k
-+L2 entry #9: 0x8000000000050000 00000000ffffffff
-+L2 entry #10: 0x8000000000060000 00000000ffffffff
-+L2 entry #11: 0x8000000000070000 00000000ffffffff
-+L2 entry #12: 0x8000000000080000 00000000ffffffff
-+L2 entry #13: 0x8000000000090000 00000000ffffffff
-+L2 entry #14: 0x80000000000a0000 00000000ffffffff
-+L2 entry #15: 0x80000000000b0000 00000000ffffffff
-+L2 entry #16: 0x80000000000c0000 00000000ffffffff
-+L2 entry #17: 0x80000000000d0000 00000000ffffffff
-+write -q -z -u 576k 192k
-+L2 entry #9: 0x0000000000000000 ffffffff00000000
-+L2 entry #10: 0x0000000000000000 ffffffff00000000
-+L2 entry #11: 0x0000000000000000 ffffffff00000000
-+write -q -z -u 800k 128k
-+L2 entry #12: 0x8000000000080000 ffff00000000ffff
-+L2 entry #13: 0x0000000000000000 ffffffff00000000
-+L2 entry #14: 0x80000000000a0000 0000ffffffff0000
-+write -q -z -u 991k 128k
-+L2 entry #15: 0x80000000000b0000 ffff00000000ffff
-+L2 entry #16: 0x0000000000000000 ffffffff00000000
-+L2 entry #17: 0x80000000000d0000 00007fffffff8000
-+
-+### Zero + unmap 2: compressed clusters (backing file: yes) ###
-+
-+write -q -c -P 2 1152k 64k
-+L2 entry #18: 0x4000000000050000 0000000000000000
-+write -q -c -P 2 1216k 64k
-+L2 entry #19: 0x4000000000060000 0000000000000000
-+write -q -c -P 2 1280k 64k
-+L2 entry #20: 0x4000000000070000 0000000000000000
-+write -q -c -P 2 1344k 64k
-+L2 entry #21: 0x4000000000090000 0000000000000000
-+write -q -c -P 2 1408k 64k
-+L2 entry #22: 0x40000000000c0000 0000000000000000
-+write -q -c -P 2 1472k 64k
-+L2 entry #23: 0x40000000000e0000 0000000000000000
-+write -q -c -P 2 1536k 64k
-+L2 entry #24: 0x40000000000f0000 0000000000000000
-+write -q -c -P 2 1600k 64k
-+L2 entry #25: 0x4000000000100000 0000000000000000
-+write -q -c -P 2 1664k 64k
-+L2 entry #26: 0x4000000000110000 0000000000000000
-+write -q -c -P 2 1728k 64k
-+L2 entry #27: 0x4000000000120000 0000000000000000
-+write -q -c -P 2 1792k 64k
-+L2 entry #28: 0x4000000000130000 0000000000000000
-+write -q -z -u 1152k 192k
-+L2 entry #18: 0x0000000000000000 ffffffff00000000
-+L2 entry #19: 0x0000000000000000 ffffffff00000000
-+L2 entry #20: 0x0000000000000000 ffffffff00000000
-+write -q -z -u 1376k 128k
-+L2 entry #21: 0x8000000000050000 00000000ffffffff
-+L2 entry #22: 0x8000000000060000 00000000ffffffff
-+L2 entry #23: 0x8000000000070000 00000000ffffffff
-+write -q -z -u 1567k 129k
-+L2 entry #24: 0x8000000000090000 00000000ffffffff
-+L2 entry #25: 0x80000000000e0000 00000000ffffffff
-+L2 entry #26: 0x80000000000f0000 00000000ffffffff
-+write -q -z -u 1759k 128k
-+L2 entry #27: 0x80000000000c0000 ffff00000000ffff
-+L2 entry #28: 0x0000000000000000 ffffffff00000000
-+L2 entry #29: 0x8000000000100000 00007fff00008000
-+
-+### Zero + unmap 1: allocated clusters (backing file: no) ###
-+
-+Formatting 'TEST_DIR/t.IMGFMT.raw', fmt=raw size=2132992
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2132992
-+write -q -P 1 576k 576k
-+L2 entry #9: 0x8000000000050000 00000000ffffffff
-+L2 entry #10: 0x8000000000060000 00000000ffffffff
-+L2 entry #11: 0x8000000000070000 00000000ffffffff
-+L2 entry #12: 0x8000000000080000 00000000ffffffff
-+L2 entry #13: 0x8000000000090000 00000000ffffffff
-+L2 entry #14: 0x80000000000a0000 00000000ffffffff
-+L2 entry #15: 0x80000000000b0000 00000000ffffffff
-+L2 entry #16: 0x80000000000c0000 00000000ffffffff
-+L2 entry #17: 0x80000000000d0000 00000000ffffffff
-+write -q -z -u 576k 192k
-+L2 entry #9: 0x0000000000000000 ffffffff00000000
-+L2 entry #10: 0x0000000000000000 ffffffff00000000
-+L2 entry #11: 0x0000000000000000 ffffffff00000000
-+write -q -z -u 800k 128k
-+L2 entry #12: 0x8000000000080000 ffff00000000ffff
-+L2 entry #13: 0x0000000000000000 ffffffff00000000
-+L2 entry #14: 0x80000000000a0000 0000ffffffff0000
-+write -q -z -u 991k 128k
-+L2 entry #15: 0x80000000000b0000 ffff00000000ffff
-+L2 entry #16: 0x0000000000000000 ffffffff00000000
-+L2 entry #17: 0x80000000000d0000 00007fffffff8000
-+
-+### Zero + unmap 2: compressed clusters (backing file: no) ###
-+
-+write -q -c -P 2 1152k 64k
-+L2 entry #18: 0x4000000000050000 0000000000000000
-+write -q -c -P 2 1216k 64k
-+L2 entry #19: 0x4000000000060000 0000000000000000
-+write -q -c -P 2 1280k 64k
-+L2 entry #20: 0x4000000000070000 0000000000000000
-+write -q -c -P 2 1344k 64k
-+L2 entry #21: 0x4000000000090000 0000000000000000
-+write -q -c -P 2 1408k 64k
-+L2 entry #22: 0x40000000000c0000 0000000000000000
-+write -q -c -P 2 1472k 64k
-+L2 entry #23: 0x40000000000e0000 0000000000000000
-+write -q -c -P 2 1536k 64k
-+L2 entry #24: 0x40000000000f0000 0000000000000000
-+write -q -c -P 2 1600k 64k
-+L2 entry #25: 0x4000000000100000 0000000000000000
-+write -q -c -P 2 1664k 64k
-+L2 entry #26: 0x4000000000110000 0000000000000000
-+write -q -c -P 2 1728k 64k
-+L2 entry #27: 0x4000000000120000 0000000000000000
-+write -q -c -P 2 1792k 64k
-+L2 entry #28: 0x4000000000130000 0000000000000000
-+write -q -z -u 1152k 192k
-+L2 entry #18: 0x0000000000000000 ffffffff00000000
-+L2 entry #19: 0x0000000000000000 ffffffff00000000
-+L2 entry #20: 0x0000000000000000 ffffffff00000000
-+write -q -z -u 1376k 128k
-+L2 entry #21: 0x8000000000050000 00000000ffffffff
-+L2 entry #22: 0x8000000000060000 00000000ffffffff
-+L2 entry #23: 0x8000000000070000 00000000ffffffff
-+write -q -z -u 1567k 129k
-+L2 entry #24: 0x8000000000090000 00000000ffffffff
-+L2 entry #25: 0x80000000000e0000 00000000ffffffff
-+L2 entry #26: 0x80000000000f0000 00000000ffffffff
-+write -q -z -u 1759k 128k
-+L2 entry #27: 0x80000000000c0000 ffff00000000ffff
-+L2 entry #28: 0x0000000000000000 ffffffff00000000
-+L2 entry #29: 0x0000000000000000 0000ffff00000000
-+
-+### Discarding clusters with non-zero bitmaps (backing file: yes) ###
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT.base
-+L2 entry #0: 0x0000000000000000 ffffffff00000000
-+L2 entry #1: 0x0000000000000000 ffffffff00000000
-+Image resized.
-+Image resized.
-+L2 entry #0: 0x0000000000000000 ffffffff00000000
-+L2 entry #1: 0x0000000000000000 ffffffff00000000
-+
-+### Discarding clusters with non-zero bitmaps (backing file: no) ###
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+L2 entry #0: 0x0000000000000000 ffffffff00000000
-+L2 entry #1: 0x0000000000000000 ffffffff00000000
-+Image resized.
-+Image resized.
-+L2 entry #0: 0x0000000000000000 0000ffff00000000
-+L2 entry #1: 0x0000000000000000 0000000000000000
-+
-+### Corrupted L2 entries - read test (allocated) ###
-+
-+# 'cluster is zero' bit set on the standard cluster descriptor
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+L2 entry #0: 0x8000000000050001 0000000000000001
-+L2 entry #0: 0x8000000000050001 0000000000000001
-+
-+# Both 'subcluster is zero' and 'subcluster is allocated' bits set
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+L2 entry #1: 0x8000000000060000 00000001ffffffff
-+qcow2: Marking image as corrupt: Invalid cluster entry found  (L2 offset: 0x40000, L2 index: 0x1); further corruption events will be suppressed
-+read failed: Input/output error
-+
-+### Corrupted L2 entries - read test (unallocated) ###
-+
-+# 'cluster is zero' bit set on the standard cluster descriptor
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+L2 entry #0: 0x0000000000000001 0000000000000000
-+L2 entry #0: 0x0000000000000001 0000000000000000
-+
-+# 'subcluster is allocated' bit set
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+L2 entry #0: 0x0000000000000000 0000000000000001
-+qcow2: Marking image as corrupt: Invalid cluster entry found  (L2 offset: 0x40000, L2 index: 0); further corruption events will be suppressed
-+read failed: Input/output error
-+
-+# Both 'subcluster is zero' and 'subcluster is allocated' bits set
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+L2 entry #1: 0x0000000000000000 0000000100000001
-+qcow2: Marking image as corrupt: Invalid cluster entry found  (L2 offset: 0x40000, L2 index: 0x1); further corruption events will be suppressed
-+read failed: Input/output error
-+
-+### Compressed cluster with subcluster bitmap != 0 - read test ###
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+L2 entry #0: 0x4000000000050000 0000000180000000
-+read 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+L2 entry #0: 0x4000000000050000 0000000180000000
-+
-+### Corrupted L2 entries - write test (allocated) ###
-+
-+# 'cluster is zero' bit set on the standard cluster descriptor
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+L2 entry #0: 0x8000000000050001 0000000000000001
-+L2 entry #0: 0x8000000000050001 0000000000000001
-+
-+# Both 'subcluster is zero' and 'subcluster is allocated' bits set
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+L2 entry #1: 0x8000000000060000 00000001ffffffff
-+qcow2: Marking image as corrupt: Invalid cluster entry found  (L2 offset: 0x40000, L2 index: 0x1); further corruption events will be suppressed
-+write failed: Input/output error
-+
-+### Corrupted L2 entries - write test (unallocated) ###
-+
-+# 'cluster is zero' bit set on the standard cluster descriptor
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+L2 entry #0: 0x0000000000000001 0000000000000000
-+L2 entry #0: 0x8000000000060000 0000000000000001
-+
-+# 'subcluster is allocated' bit set
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+L2 entry #0: 0x0000000000000000 0000000000000001
-+qcow2: Marking image as corrupt: Invalid cluster entry found  (L2 offset: 0x40000, L2 index: 0); further corruption events will be suppressed
-+write failed: Input/output error
-+
-+# Both 'subcluster is zero' and 'subcluster is allocated' bits set
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+L2 entry #1: 0x0000000000000000 0000000100000001
-+qcow2: Marking image as corrupt: Invalid cluster entry found  (L2 offset: 0x40000, L2 index: 0x1); further corruption events will be suppressed
-+write failed: Input/output error
-+
-+### Compressed cluster with subcluster bitmap != 0 - write test ###
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+L2 entry #0: 0x4000000000050000 0000000180000000
-+wrote 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+L2 entry #0: 0x8000000000060000 00000000ffffffff
-+
-+### Image creation options ###
-+
-+# cluster_size < 16k
-+qemu-img: TEST_DIR/t.IMGFMT: Extended L2 entries are only supported with cluster sizes of at least 16384 bytes
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+# backing file and preallocation=metadata
-+qemu-img: TEST_DIR/t.IMGFMT: Backing file and preallocation cannot be used at the same time
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT.base preallocation=metadata
-+# backing file and preallocation=falloc
-+qemu-img: TEST_DIR/t.IMGFMT: Backing file and preallocation cannot be used at the same time
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT.base preallocation=falloc
-+# backing file and preallocation=full
-+qemu-img: TEST_DIR/t.IMGFMT: Backing file and preallocation cannot be used at the same time
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT.base preallocation=full
-+
-+### qemu-img measure ###
-+
-+# 512MB, extended_l2=off
-+required size: 327680
-+fully allocated size: 537198592
-+# 512MB, extended_l2=on
-+required size: 393216
-+fully allocated size: 537264128
-+# 16K clusters, 64GB, extended_l2=off
-+required size: 42008576
-+fully allocated size: 68761485312
-+# 16K clusters, 64GB, extended_l2=on
-+required size: 75579392
-+fully allocated size: 68795056128
-+# 8k clusters
-+qemu-img: Extended L2 entries are only supported with cluster sizes of at least 16384 bytes
-+# 1024 TB
-+required size: 309285027840
-+fully allocated size: 1126209191870464
-+# 1025 TB
-+qemu-img: The image size is too large (try using a larger cluster size)
-+
-+### qemu-img amend ###
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+qemu-img: Toggling extended L2 entries is not supported
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+qemu-img: Toggling extended L2 entries is not supported
-+
-+### Test copy-on-write on an image with snapshots ###
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-+L2 entry #0: 0x8000000000050000 0000008000042000
-+L2 entry #1: 0x8000000000060000 0000008000042000
-+L2 entry #2: 0x8000000000070000 0000008000042000
-+L2 entry #3: 0x8000000000080000 0000008000042000
-+L2 entry #4: 0x8000000000090000 0000008000042000
-+L2 entry #5: 0x80000000000a0000 0000008000042000
-+L2 entry #6: 0x80000000000b0000 0000008000042000
-+L2 entry #7: 0x80000000000c0000 0000008000042000
-+L2 entry #8: 0x80000000000d0000 0000008000042000
-+L2 entry #9: 0x80000000000e0000 0000008000042000
-+L2 entry #0: 0x8000000000120000 000000800007e000
-+L2 entry #1: 0x8000000000130000 000000800007fc00
-+L2 entry #2: 0x8000000000140000 00000080001fe000
-+L2 entry #3: 0x8000000000150000 000000800007e000
-+L2 entry #4: 0x8000000000160000 000000000007ff80
-+L2 entry #5: 0x8000000000170000 000000000007ffff
-+L2 entry #6: 0x00000000000b0000 0001808000042000
-+L2 entry #7: 0x00000000000c0000 0000208000040000
-+L2 entry #8: 0x8000000000180000 000000800007e000
-+L2 entry #9: 0x00000000000e0000 000000c000042000
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 445c26f8d2..50c9bbc750 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -284,6 +284,7 @@
- 267 rw auto quick snapshot
- 268 rw auto quick
- 270 rw backing quick
-+271 rw auto
- 272 rw
- 273 backing quick
- 274 rw backing
--- 
-2.20.1
+
+NB: here I _really_ wanted to make AccelClass more useful and add methods to it.
+
+In practice though, accessing the methods becomes clunky and expensive with lots of indirections from cpus.c
+
+(current_accel() call, -> accelerator, ACCEL_GET_CLASS(), -> AccelCpusInterface -> method);
+
+In my first attempt I ended up with a cache of the interface in cpus.c ,
+and at that point the usefulness of having the methods at all in AccelClass becomes nil, so that resulted in the cpus accel interface being disjointed from AccelClass.
+
+Any thoughts?
+
+Ciao,
+
+Claudio
+
+
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> ---
+>  MAINTAINERS                          |   1 +
+>  accel/kvm/Makefile.objs              |   2 +
+>  accel/kvm/kvm-all.c                  |  15 +-
+>  accel/kvm/kvm-cpus-interface.c       |  94 ++++
+>  accel/kvm/kvm-cpus-interface.h       |   8 +
+>  accel/qtest.c                        |  82 ++++
+>  accel/stubs/kvm-stub.c               |   3 +-
+>  accel/tcg/Makefile.objs              |   1 +
+>  accel/tcg/tcg-all.c                  |  12 +-
+>  accel/tcg/tcg-cpus-interface.c       | 523 ++++++++++++++++++++
+>  accel/tcg/tcg-cpus-interface.h       |   8 +
+>  cpus.c                               | 911 +++--------------------------------
+>  hw/core/cpu.c                        |   1 +
+>  include/sysemu/cpus.h                |  44 ++
+>  include/sysemu/hvf.h                 |   1 -
+>  include/sysemu/hw_accel.h            |  57 +--
+>  include/sysemu/kvm.h                 |   2 +-
+>  stubs/Makefile.objs                  |   1 +
+>  stubs/cpu-synchronize-state.c        |  15 +
+>  target/i386/Makefile.objs            |   7 +-
+>  target/i386/hax-all.c                |   6 +-
+>  target/i386/hax-cpus-interface.c     |  85 ++++
+>  target/i386/hax-cpus-interface.h     |   8 +
+>  target/i386/hax-i386.h               |   2 +
+>  target/i386/hax-posix.c              |  12 +
+>  target/i386/hax-windows.c            |  20 +
+>  target/i386/hvf/Makefile.objs        |   2 +-
+>  target/i386/hvf/hvf-cpus-interface.c |  92 ++++
+>  target/i386/hvf/hvf-cpus-interface.h |   8 +
+>  target/i386/hvf/hvf.c                |   5 +-
+>  target/i386/whpx-all.c               |   3 +
+>  target/i386/whpx-cpus-interface.c    |  96 ++++
+>  target/i386/whpx-cpus-interface.h    |   8 +
+>  33 files changed, 1232 insertions(+), 903 deletions(-)
+>  create mode 100644 accel/kvm/kvm-cpus-interface.c
+>  create mode 100644 accel/kvm/kvm-cpus-interface.h
+>  create mode 100644 accel/tcg/tcg-cpus-interface.c
+>  create mode 100644 accel/tcg/tcg-cpus-interface.h
+>  create mode 100644 stubs/cpu-synchronize-state.c
+>  create mode 100644 target/i386/hax-cpus-interface.c
+>  create mode 100644 target/i386/hax-cpus-interface.h
+>  create mode 100644 target/i386/hvf/hvf-cpus-interface.c
+>  create mode 100644 target/i386/hvf/hvf-cpus-interface.h
+>  create mode 100644 target/i386/whpx-cpus-interface.c
+>  create mode 100644 target/i386/whpx-cpus-interface.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d8df7130ef..d86af5188f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -426,6 +426,7 @@ WHPX CPUs
+>  M: Sunil Muthuswamy <sunilmut@microsoft.com>
+>  S: Supported
+>  F: target/i386/whpx-all.c
+> +F: target/i386/whpx-cpus-interface.c
+>  F: target/i386/whp-dispatch.h
+>  F: accel/stubs/whpx-stub.c
+>  F: include/sysemu/whpx.h
+> diff --git a/accel/kvm/Makefile.objs b/accel/kvm/Makefile.objs
+> index fdfa481578..4babbf7796 100644
+> --- a/accel/kvm/Makefile.objs
+> +++ b/accel/kvm/Makefile.objs
+> @@ -1,2 +1,4 @@
+>  obj-y += kvm-all.o
+> +obj-y += kvm-cpus-interface.o
+> +
+>  obj-$(call lnot,$(CONFIG_SEV)) += sev-stub.o
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index d06cc04079..c9cbbb1184 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -45,6 +45,10 @@
+>  #include "qapi/qapi-types-common.h"
+>  #include "qapi/qapi-visit-common.h"
+>  #include "sysemu/reset.h"
+> +#include "qemu/guest-random.h"
+> +
+> +#include "sysemu/hw_accel.h"
+> +#include "kvm-cpus-interface.h"
+>  
+>  #include "hw/boards.h"
+>  
+> @@ -329,7 +333,7 @@ err:
+>      return ret;
+>  }
+>  
+> -int kvm_destroy_vcpu(CPUState *cpu)
+> +static int do_kvm_destroy_vcpu(CPUState *cpu)
+>  {
+>      KVMState *s = kvm_state;
+>      long mmap_size;
+> @@ -363,6 +367,14 @@ err:
+>      return ret;
+>  }
+>  
+> +void kvm_destroy_vcpu(CPUState *cpu)
+> +{
+> +    if (do_kvm_destroy_vcpu(cpu) < 0) {
+> +        error_report("kvm_destroy_vcpu failed");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +}
+> +
+>  static int kvm_get_vcpu(KVMState *s, unsigned long vcpu_id)
+>  {
+>      struct KVMParkedVcpu *cpu;
+> @@ -2146,6 +2158,7 @@ static int kvm_init(MachineState *ms)
+>          qemu_balloon_inhibit(true);
+>      }
+>  
+> +    cpus_register_accel_interface(&kvm_cpus_interface);
+>      return 0;
+>  
+>  err:
+> diff --git a/accel/kvm/kvm-cpus-interface.c b/accel/kvm/kvm-cpus-interface.c
+> new file mode 100644
+> index 0000000000..fd3d117364
+> --- /dev/null
+> +++ b/accel/kvm/kvm-cpus-interface.c
+> @@ -0,0 +1,94 @@
+> +/*
+> + * QEMU KVM support
+> + *
+> + * Copyright IBM, Corp. 2008
+> + *           Red Hat, Inc. 2008
+> + *
+> + * Authors:
+> + *  Anthony Liguori   <aliguori@us.ibm.com>
+> + *  Glauber Costa     <gcosta@redhat.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/error-report.h"
+> +#include "qemu/main-loop.h"
+> +#include "sysemu/kvm_int.h"
+> +#include "sysemu/runstate.h"
+> +#include "sysemu/cpus.h"
+> +#include "qemu/guest-random.h"
+> +
+> +#include "kvm-cpus-interface.h"
+> +
+> +static void kvm_kick_vcpu_thread(CPUState *cpu)
+> +{
+> +    cpus_kick_thread(cpu);
+> +}
+> +
+> +static void *kvm_vcpu_thread_fn(void *arg)
+> +{
+> +    CPUState *cpu = arg;
+> +    int r;
+> +
+> +    rcu_register_thread();
+> +
+> +    qemu_mutex_lock_iothread();
+> +    qemu_thread_get_self(cpu->thread);
+> +    cpu->thread_id = qemu_get_thread_id();
+> +    cpu->can_do_io = 1;
+> +    current_cpu = cpu;
+> +
+> +    r = kvm_init_vcpu(cpu);
+> +    if (r < 0) {
+> +        error_report("kvm_init_vcpu failed: %s", strerror(-r));
+> +        exit(1);
+> +    }
+> +
+> +    kvm_init_cpu_signals(cpu);
+> +
+> +    /* signal CPU creation */
+> +    cpu_thread_signal_created(cpu);
+> +    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> +
+> +    do {
+> +        if (cpu_can_run(cpu)) {
+> +            r = kvm_cpu_exec(cpu);
+> +            if (r == EXCP_DEBUG) {
+> +                cpu_handle_guest_debug(cpu);
+> +            }
+> +        }
+> +        qemu_wait_io_event(cpu);
+> +    } while (!cpu->unplug || cpu_can_run(cpu));
+> +
+> +    kvm_destroy_vcpu(cpu);
+> +    cpu_thread_signal_destroyed(cpu);
+> +    qemu_mutex_unlock_iothread();
+> +    rcu_unregister_thread();
+> +    return NULL;
+> +}
+> +
+> +static void kvm_start_vcpu_thread(CPUState *cpu)
+> +{
+> +    char thread_name[VCPU_THREAD_NAME_SIZE];
+> +
+> +    cpu->thread = g_malloc0(sizeof(QemuThread));
+> +    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+> +    qemu_cond_init(cpu->halt_cond);
+> +    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/KVM",
+> +             cpu->cpu_index);
+> +    qemu_thread_create(cpu->thread, thread_name, kvm_vcpu_thread_fn,
+> +                       cpu, QEMU_THREAD_JOINABLE);
+> +}
+> +
+> +CpusAccelInterface kvm_cpus_interface = {
+> +    .create_vcpu_thread = kvm_start_vcpu_thread,
+> +    .kick_vcpu_thread = kvm_kick_vcpu_thread,
+> +
+> +    .cpu_synchronize_post_reset = kvm_cpu_synchronize_post_reset,
+> +    .cpu_synchronize_post_init = kvm_cpu_synchronize_post_init,
+> +    .cpu_synchronize_state = kvm_cpu_synchronize_state,
+> +    .cpu_synchronize_pre_loadvm = kvm_cpu_synchronize_pre_loadvm,
+> +};
+> diff --git a/accel/kvm/kvm-cpus-interface.h b/accel/kvm/kvm-cpus-interface.h
+> new file mode 100644
+> index 0000000000..5531a4a4ad
+> --- /dev/null
+> +++ b/accel/kvm/kvm-cpus-interface.h
+> @@ -0,0 +1,8 @@
+> +#ifndef KVM_CPUS_INTERFACE_H
+> +#define KVM_CPUS_INTERFACE_H
+> +
+> +#include "sysemu/cpus.h"
+> +
+> +extern CpusAccelInterface kvm_cpus_interface;
+> +
+> +#endif /* KVM_CPUS_INTERFACE */
+> diff --git a/accel/qtest.c b/accel/qtest.c
+> index 119d0f16a4..2da597d17d 100644
+> --- a/accel/qtest.c
+> +++ b/accel/qtest.c
+> @@ -12,6 +12,7 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> +#include "qemu/rcu.h"
+>  #include "qapi/error.h"
+>  #include "qemu/module.h"
+>  #include "qemu/option.h"
+> @@ -20,9 +21,90 @@
+>  #include "sysemu/qtest.h"
+>  #include "sysemu/cpus.h"
+>  #include "sysemu/cpu-timers.h"
+> +#include "qemu/guest-random.h"
+> +#include "qemu/main-loop.h"
+> +#include "hw/core/cpu.h"
+> +
+> +static void qtest_cpu_synchronize_noop(CPUState *cpu)
+> +{
+> +}
+> +
+> +static void qtest_kick_vcpu_thread(CPUState *cpu)
+> +{
+> +    cpus_kick_thread(cpu);
+> +}
+> +
+> +static void *qtest_cpu_thread_fn(void *arg)
+> +{
+> +#ifdef _WIN32
+> +    error_report("qtest is not supported under Windows");
+> +    exit(1);
+> +#else
+> +    CPUState *cpu = arg;
+> +    sigset_t waitset;
+> +    int r;
+> +
+> +    rcu_register_thread();
+> +
+> +    qemu_mutex_lock_iothread();
+> +    qemu_thread_get_self(cpu->thread);
+> +    cpu->thread_id = qemu_get_thread_id();
+> +    cpu->can_do_io = 1;
+> +    current_cpu = cpu;
+> +
+> +    sigemptyset(&waitset);
+> +    sigaddset(&waitset, SIG_IPI);
+> +
+> +    /* signal CPU creation */
+> +    cpu_thread_signal_created(cpu);
+> +    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> +
+> +    do {
+> +        qemu_mutex_unlock_iothread();
+> +        do {
+> +            int sig;
+> +            r = sigwait(&waitset, &sig);
+> +        } while (r == -1 && (errno == EAGAIN || errno == EINTR));
+> +        if (r == -1) {
+> +            perror("sigwait");
+> +            exit(1);
+> +        }
+> +        qemu_mutex_lock_iothread();
+> +        qemu_wait_io_event(cpu);
+> +    } while (!cpu->unplug);
+> +
+> +    qemu_mutex_unlock_iothread();
+> +    rcu_unregister_thread();
+> +    return NULL;
+> +#endif
+> +}
+> +
+> +static void qtest_start_vcpu_thread(CPUState *cpu)
+> +{
+> +    char thread_name[VCPU_THREAD_NAME_SIZE];
+> +
+> +    cpu->thread = g_malloc0(sizeof(QemuThread));
+> +    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+> +    qemu_cond_init(cpu->halt_cond);
+> +    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/DUMMY",
+> +             cpu->cpu_index);
+> +    qemu_thread_create(cpu->thread, thread_name, qtest_cpu_thread_fn, cpu,
+> +                       QEMU_THREAD_JOINABLE);
+> +}
+> +
+> +CpusAccelInterface qtest_cpus_interface = {
+> +    .create_vcpu_thread = qtest_start_vcpu_thread,
+> +    .kick_vcpu_thread = qtest_kick_vcpu_thread,
+> +
+> +    .cpu_synchronize_post_reset = qtest_cpu_synchronize_noop,
+> +    .cpu_synchronize_post_init = qtest_cpu_synchronize_noop,
+> +    .cpu_synchronize_state = qtest_cpu_synchronize_noop,
+> +    .cpu_synchronize_pre_loadvm = qtest_cpu_synchronize_noop,
+> +};
+>  
+>  static int qtest_init_accel(MachineState *ms)
+>  {
+> +    cpus_register_accel_interface(&qtest_cpus_interface);
+>      return 0;
+>  }
+>  
+> diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
+> index 82f118d2df..69f8a842da 100644
+> --- a/accel/stubs/kvm-stub.c
+> +++ b/accel/stubs/kvm-stub.c
+> @@ -32,9 +32,8 @@ bool kvm_readonly_mem_allowed;
+>  bool kvm_ioeventfd_any_length_allowed;
+>  bool kvm_msi_use_devid;
+>  
+> -int kvm_destroy_vcpu(CPUState *cpu)
+> +void kvm_destroy_vcpu(CPUState *cpu)
+>  {
+> -    return -ENOSYS;
+>  }
+>  
+>  int kvm_init_vcpu(CPUState *cpu)
+> diff --git a/accel/tcg/Makefile.objs b/accel/tcg/Makefile.objs
+> index a92f2c454b..ddc57acae2 100644
+> --- a/accel/tcg/Makefile.objs
+> +++ b/accel/tcg/Makefile.objs
+> @@ -1,5 +1,6 @@
+>  obj-$(CONFIG_SOFTMMU) += tcg-all.o
+>  obj-$(CONFIG_SOFTMMU) += cputlb.o
+> +obj-$(CONFIG_SOFTMMU) += tcg-cpus-interface.o
+>  obj-y += tcg-runtime.o tcg-runtime-gvec.o
+>  obj-y += cpu-exec.o cpu-exec-common.o translate-all.o
+>  obj-y += translator.o
+> diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+> index e27385d051..9e332585d3 100644
+> --- a/accel/tcg/tcg-all.c
+> +++ b/accel/tcg/tcg-all.c
+> @@ -24,19 +24,17 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> -#include "sysemu/accel.h"
+> +#include "qemu-common.h"
+>  #include "sysemu/tcg.h"
+> -#include "qom/object.h"
+> -#include "cpu.h"
+> -#include "sysemu/cpus.h"
+>  #include "sysemu/cpu-timers.h"
+> -#include "qemu/main-loop.h"
+>  #include "tcg/tcg.h"
+>  #include "qapi/error.h"
+>  #include "qemu/error-report.h"
+>  #include "hw/boards.h"
+>  #include "qapi/qapi-builtin-visit.h"
+>  
+> +#include "tcg-cpus-interface.h"
+> +
+>  typedef struct TCGState {
+>      AccelState parent_obj;
+>  
+> @@ -123,6 +121,8 @@ static void tcg_accel_instance_init(Object *obj)
+>      s->mttcg_enabled = default_mttcg_enabled();
+>  }
+>  
+> +bool mttcg_enabled;
+> +
+>  static int tcg_init(MachineState *ms)
+>  {
+>      TCGState *s = TCG_STATE(current_accel());
+> @@ -130,6 +130,8 @@ static int tcg_init(MachineState *ms)
+>      tcg_exec_init(s->tb_size * 1024 * 1024);
+>      cpu_interrupt_handler = tcg_handle_interrupt;
+>      mttcg_enabled = s->mttcg_enabled;
+> +    cpus_register_accel_interface(&tcg_cpus_interface);
+> +
+>      return 0;
+>  }
+>  
+> diff --git a/accel/tcg/tcg-cpus-interface.c b/accel/tcg/tcg-cpus-interface.c
+> new file mode 100644
+> index 0000000000..28a88beb84
+> --- /dev/null
+> +++ b/accel/tcg/tcg-cpus-interface.c
+> @@ -0,0 +1,523 @@
+> +/*
+> + * QEMU System Emulator, accelerator interfaces
+> + *
+> + * Copyright (c) 2003-2008 Fabrice Bellard
+> + * Copyright (c) 2014 Red Hat Inc.
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a copy
+> + * of this software and associated documentation files (the "Software"), to deal
+> + * in the Software without restriction, including without limitation the rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +#include "sysemu/tcg.h"
+> +#include "sysemu/replay.h"
+> +#include "qemu/main-loop.h"
+> +#include "qemu/guest-random.h"
+> +#include "exec/exec-all.h"
+> +
+> +#include "tcg-cpus-interface.h"
+> +
+> +/* Kick all RR vCPUs */
+> +static void qemu_cpu_kick_rr_cpus(void)
+> +{
+> +    CPUState *cpu;
+> +
+> +    CPU_FOREACH(cpu) {
+> +        cpu_exit(cpu);
+> +    };
+> +}
+> +
+> +static void tcg_kick_vcpu_thread(CPUState *cpu)
+> +{
+> +    if (qemu_tcg_mttcg_enabled()) {
+> +        cpu_exit(cpu);
+> +    } else {
+> +        qemu_cpu_kick_rr_cpus();
+> +    }
+> +}
+> +
+> +/*
+> + * TCG vCPU kick timer
+> + *
+> + * The kick timer is responsible for moving single threaded vCPU
+> + * emulation on to the next vCPU. If more than one vCPU is running a
+> + * timer event with force a cpu->exit so the next vCPU can get
+> + * scheduled.
+> + *
+> + * The timer is removed if all vCPUs are idle and restarted again once
+> + * idleness is complete.
+> + */
+> +
+> +static QEMUTimer *tcg_kick_vcpu_timer;
+> +static CPUState *tcg_current_rr_cpu;
+> +
+> +#define TCG_KICK_PERIOD (NANOSECONDS_PER_SECOND / 10)
+> +
+> +static inline int64_t qemu_tcg_next_kick(void)
+> +{
+> +    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + TCG_KICK_PERIOD;
+> +}
+> +
+> +/* Kick the currently round-robin scheduled vCPU to next */
+> +static void qemu_cpu_kick_rr_next_cpu(void)
+> +{
+> +    CPUState *cpu;
+> +    do {
+> +        cpu = atomic_mb_read(&tcg_current_rr_cpu);
+> +        if (cpu) {
+> +            cpu_exit(cpu);
+> +        }
+> +    } while (cpu != atomic_mb_read(&tcg_current_rr_cpu));
+> +}
+> +
+> +static void kick_tcg_thread(void *opaque)
+> +{
+> +    timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
+> +    qemu_cpu_kick_rr_next_cpu();
+> +}
+> +
+> +static void start_tcg_kick_timer(void)
+> +{
+> +    assert(!mttcg_enabled);
+> +    if (!tcg_kick_vcpu_timer && CPU_NEXT(first_cpu)) {
+> +        tcg_kick_vcpu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+> +                                           kick_tcg_thread, NULL);
+> +    }
+> +    if (tcg_kick_vcpu_timer && !timer_pending(tcg_kick_vcpu_timer)) {
+> +        timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
+> +    }
+> +}
+> +
+> +static void stop_tcg_kick_timer(void)
+> +{
+> +    assert(!mttcg_enabled);
+> +    if (tcg_kick_vcpu_timer && timer_pending(tcg_kick_vcpu_timer)) {
+> +        timer_del(tcg_kick_vcpu_timer);
+> +    }
+> +}
+> +
+> +static void qemu_tcg_destroy_vcpu(CPUState *cpu)
+> +{
+> +}
+> +
+> +static void qemu_tcg_rr_wait_io_event(void)
+> +{
+> +    CPUState *cpu;
+> +
+> +    while (all_cpu_threads_idle()) {
+> +        stop_tcg_kick_timer();
+> +        qemu_cond_wait_iothread(first_cpu->halt_cond);
+> +    }
+> +
+> +    start_tcg_kick_timer();
+> +
+> +    CPU_FOREACH(cpu) {
+> +        qemu_wait_io_event_common(cpu);
+> +    }
+> +}
+> +
+> +static int64_t tcg_get_icount_limit(void)
+> +{
+> +    int64_t deadline;
+> +
+> +    if (replay_mode != REPLAY_MODE_PLAY) {
+> +        /*
+> +         * Include all the timers, because they may need an attention.
+> +         * Too long CPU execution may create unnecessary delay in UI.
+> +         */
+> +        deadline = qemu_clock_deadline_ns_all(QEMU_CLOCK_VIRTUAL,
+> +                                              QEMU_TIMER_ATTR_ALL);
+> +        /* Check realtime timers, because they help with input processing */
+> +        deadline = qemu_soonest_timeout(deadline,
+> +                qemu_clock_deadline_ns_all(QEMU_CLOCK_REALTIME,
+> +                                           QEMU_TIMER_ATTR_ALL));
+> +
+> +        /*
+> +         * Maintain prior (possibly buggy) behaviour where if no deadline
+> +         * was set (as there is no QEMU_CLOCK_VIRTUAL timer) or it is more than
+> +         * INT32_MAX nanoseconds ahead, we still use INT32_MAX
+> +         * nanoseconds.
+> +         */
+> +        if ((deadline < 0) || (deadline > INT32_MAX)) {
+> +            deadline = INT32_MAX;
+> +        }
+> +
+> +        return icount_round(deadline);
+> +    } else {
+> +        return replay_get_instructions();
+> +    }
+> +}
+> +
+> +static void handle_icount_deadline(void)
+> +{
+> +    assert(qemu_in_vcpu_thread());
+> +    if (icount_enabled()) {
+> +        int64_t deadline = qemu_clock_deadline_ns_all(QEMU_CLOCK_VIRTUAL,
+> +                                                      QEMU_TIMER_ATTR_ALL);
+> +
+> +        if (deadline == 0) {
+> +            /* Wake up other AioContexts.  */
+> +            qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
+> +            qemu_clock_run_timers(QEMU_CLOCK_VIRTUAL);
+> +        }
+> +    }
+> +}
+> +
+> +static void prepare_icount_for_run(CPUState *cpu)
+> +{
+> +    if (icount_enabled()) {
+> +        int insns_left;
+> +
+> +        /*
+> +         * These should always be cleared by process_icount_data after
+> +         * each vCPU execution. However u16.high can be raised
+> +         * asynchronously by cpu_exit/cpu_interrupt/tcg_handle_interrupt
+> +         */
+> +        g_assert(cpu_neg(cpu)->icount_decr.u16.low == 0);
+> +        g_assert(cpu->icount_extra == 0);
+> +
+> +        cpu->icount_budget = tcg_get_icount_limit();
+> +        insns_left = MIN(0xffff, cpu->icount_budget);
+> +        cpu_neg(cpu)->icount_decr.u16.low = insns_left;
+> +        cpu->icount_extra = cpu->icount_budget - insns_left;
+> +
+> +        replay_mutex_lock();
+> +    }
+> +}
+> +
+> +static void process_icount_data(CPUState *cpu)
+> +{
+> +    if (icount_enabled()) {
+> +        /* Account for executed instructions */
+> +        icount_update(cpu);
+> +
+> +        /* Reset the counters */
+> +        cpu_neg(cpu)->icount_decr.u16.low = 0;
+> +        cpu->icount_extra = 0;
+> +        cpu->icount_budget = 0;
+> +
+> +        replay_account_executed_instructions();
+> +
+> +        replay_mutex_unlock();
+> +    }
+> +}
+> +
+> +static int tcg_cpu_exec(CPUState *cpu)
+> +{
+> +    int ret;
+> +#ifdef CONFIG_PROFILER
+> +    int64_t ti;
+> +#endif
+> +
+> +    assert(tcg_enabled());
+> +#ifdef CONFIG_PROFILER
+> +    ti = profile_getclock();
+> +#endif
+> +    cpu_exec_start(cpu);
+> +    ret = cpu_exec(cpu);
+> +    cpu_exec_end(cpu);
+> +#ifdef CONFIG_PROFILER
+> +    atomic_set(&tcg_ctx->prof.cpu_exec_time,
+> +               tcg_ctx->prof.cpu_exec_time + profile_getclock() - ti);
+> +#endif
+> +    return ret;
+> +}
+> +
+> +/*
+> + * Destroy any remaining vCPUs which have been unplugged and have
+> + * finished running
+> + */
+> +static void deal_with_unplugged_cpus(void)
+> +{
+> +    CPUState *cpu;
+> +
+> +    CPU_FOREACH(cpu) {
+> +        if (cpu->unplug && !cpu_can_run(cpu)) {
+> +            qemu_tcg_destroy_vcpu(cpu);
+> +            cpu_thread_signal_destroyed(cpu);
+> +            break;
+> +        }
+> +    }
+> +}
+> +
+> +/*
+> + * Single-threaded TCG
+> + *
+> + * In the single-threaded case each vCPU is simulated in turn. If
+> + * there is more than a single vCPU we create a simple timer to kick
+> + * the vCPU and ensure we don't get stuck in a tight loop in one vCPU.
+> + * This is done explicitly rather than relying on side-effects
+> + * elsewhere.
+> + */
+> +
+> +static void *tcg_rr_cpu_thread_fn(void *arg)
+> +{
+> +    CPUState *cpu = arg;
+> +
+> +    assert(tcg_enabled());
+> +    rcu_register_thread();
+> +    tcg_register_thread();
+> +
+> +    qemu_mutex_lock_iothread();
+> +    qemu_thread_get_self(cpu->thread);
+> +
+> +    cpu->thread_id = qemu_get_thread_id();
+> +    cpu->can_do_io = 1;
+> +    cpu_thread_signal_created(cpu);
+> +    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> +
+> +    /* wait for initial kick-off after machine start */
+> +    while (first_cpu->stopped) {
+> +        qemu_cond_wait_iothread(first_cpu->halt_cond);
+> +
+> +        /* process any pending work */
+> +        CPU_FOREACH(cpu) {
+> +            current_cpu = cpu;
+> +            qemu_wait_io_event_common(cpu);
+> +        }
+> +    }
+> +
+> +    start_tcg_kick_timer();
+> +
+> +    cpu = first_cpu;
+> +
+> +    /* process any pending work */
+> +    cpu->exit_request = 1;
+> +
+> +    while (1) {
+> +        qemu_mutex_unlock_iothread();
+> +        replay_mutex_lock();
+> +        qemu_mutex_lock_iothread();
+> +        /* Account partial waits to QEMU_CLOCK_VIRTUAL.  */
+> +        icount_account_warp_timer();
+> +
+> +        /*
+> +         * Run the timers here.  This is much more efficient than
+> +         * waking up the I/O thread and waiting for completion.
+> +         */
+> +        handle_icount_deadline();
+> +
+> +        replay_mutex_unlock();
+> +
+> +        if (!cpu) {
+> +            cpu = first_cpu;
+> +        }
+> +
+> +        while (cpu && !cpu->queued_work_first && !cpu->exit_request) {
+> +
+> +            atomic_mb_set(&tcg_current_rr_cpu, cpu);
+> +            current_cpu = cpu;
+> +
+> +            qemu_clock_enable(QEMU_CLOCK_VIRTUAL,
+> +                              (cpu->singlestep_enabled & SSTEP_NOTIMER) == 0);
+> +
+> +            if (cpu_can_run(cpu)) {
+> +                int r;
+> +
+> +                qemu_mutex_unlock_iothread();
+> +                prepare_icount_for_run(cpu);
+> +
+> +                r = tcg_cpu_exec(cpu);
+> +
+> +                process_icount_data(cpu);
+> +                qemu_mutex_lock_iothread();
+> +
+> +                if (r == EXCP_DEBUG) {
+> +                    cpu_handle_guest_debug(cpu);
+> +                    break;
+> +                } else if (r == EXCP_ATOMIC) {
+> +                    qemu_mutex_unlock_iothread();
+> +                    cpu_exec_step_atomic(cpu);
+> +                    qemu_mutex_lock_iothread();
+> +                    break;
+> +                }
+> +            } else if (cpu->stop) {
+> +                if (cpu->unplug) {
+> +                    cpu = CPU_NEXT(cpu);
+> +                }
+> +                break;
+> +            }
+> +
+> +            cpu = CPU_NEXT(cpu);
+> +        } /* while (cpu && !cpu->exit_request).. */
+> +
+> +        /* Does not need atomic_mb_set because a spurious wakeup is okay.  */
+> +        atomic_set(&tcg_current_rr_cpu, NULL);
+> +
+> +        if (cpu && cpu->exit_request) {
+> +            atomic_mb_set(&cpu->exit_request, 0);
+> +        }
+> +
+> +        if (icount_enabled() && all_cpu_threads_idle()) {
+> +            /*
+> +             * When all cpus are sleeping (e.g in WFI), to avoid a deadlock
+> +             * in the main_loop, wake it up in order to start the warp timer.
+> +             */
+> +            qemu_notify_event();
+> +        }
+> +
+> +        qemu_tcg_rr_wait_io_event();
+> +        deal_with_unplugged_cpus();
+> +    }
+> +
+> +    rcu_unregister_thread();
+> +    return NULL;
+> +}
+> +
+> +/*
+> + * Multi-threaded TCG
+> + *
+> + * In the multi-threaded case each vCPU has its own thread. The TLS
+> + * variable current_cpu can be used deep in the code to find the
+> + * current CPUState for a given thread.
+> + */
+> +
+> +static void *tcg_cpu_thread_fn(void *arg)
+> +{
+> +    CPUState *cpu = arg;
+> +
+> +    assert(tcg_enabled());
+> +    g_assert(!icount_enabled());
+> +
+> +    rcu_register_thread();
+> +    tcg_register_thread();
+> +
+> +    qemu_mutex_lock_iothread();
+> +    qemu_thread_get_self(cpu->thread);
+> +
+> +    cpu->thread_id = qemu_get_thread_id();
+> +    cpu->can_do_io = 1;
+> +    current_cpu = cpu;
+> +    cpu_thread_signal_created(cpu);
+> +    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> +
+> +    /* process any pending work */
+> +    cpu->exit_request = 1;
+> +
+> +    do {
+> +        if (cpu_can_run(cpu)) {
+> +            int r;
+> +            qemu_mutex_unlock_iothread();
+> +            r = tcg_cpu_exec(cpu);
+> +            qemu_mutex_lock_iothread();
+> +            switch (r) {
+> +            case EXCP_DEBUG:
+> +                cpu_handle_guest_debug(cpu);
+> +                break;
+> +            case EXCP_HALTED:
+> +                /*
+> +                 * during start-up the vCPU is reset and the thread is
+> +                 * kicked several times. If we don't ensure we go back
+> +                 * to sleep in the halted state we won't cleanly
+> +                 * start-up when the vCPU is enabled.
+> +                 *
+> +                 * cpu->halted should ensure we sleep in wait_io_event
+> +                 */
+> +                g_assert(cpu->halted);
+> +                break;
+> +            case EXCP_ATOMIC:
+> +                qemu_mutex_unlock_iothread();
+> +                cpu_exec_step_atomic(cpu);
+> +                qemu_mutex_lock_iothread();
+> +            default:
+> +                /* Ignore everything else? */
+> +                break;
+> +            }
+> +        }
+> +
+> +        atomic_mb_set(&cpu->exit_request, 0);
+> +        qemu_wait_io_event(cpu);
+> +    } while (!cpu->unplug || cpu_can_run(cpu));
+> +
+> +    qemu_tcg_destroy_vcpu(cpu);
+> +    cpu_thread_signal_destroyed(cpu);
+> +    qemu_mutex_unlock_iothread();
+> +    rcu_unregister_thread();
+> +    return NULL;
+> +}
+> +
+> +static void tcg_start_vcpu_thread(CPUState *cpu)
+> +{
+> +    char thread_name[VCPU_THREAD_NAME_SIZE];
+> +    static QemuCond *single_tcg_halt_cond;
+> +    static QemuThread *single_tcg_cpu_thread;
+> +    static int tcg_region_inited;
+> +
+> +    assert(tcg_enabled());
+> +    /*
+> +     * Initialize TCG regions--once. Now is a good time, because:
+> +     * (1) TCG's init context, prologue and target globals have been set up.
+> +     * (2) qemu_tcg_mttcg_enabled() works now (TCG init code runs before the
+> +     *     -accel flag is processed, so the check doesn't work then).
+> +     */
+> +    if (!tcg_region_inited) {
+> +        tcg_region_inited = 1;
+> +        tcg_region_init();
+> +    }
+> +
+> +    if (qemu_tcg_mttcg_enabled() || !single_tcg_cpu_thread) {
+> +        cpu->thread = g_malloc0(sizeof(QemuThread));
+> +        cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+> +        qemu_cond_init(cpu->halt_cond);
+> +
+> +        if (qemu_tcg_mttcg_enabled()) {
+> +            /* create a thread per vCPU with TCG (MTTCG) */
+> +            parallel_cpus = true;
+> +            snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
+> +                 cpu->cpu_index);
+> +
+> +            qemu_thread_create(cpu->thread, thread_name, tcg_cpu_thread_fn,
+> +                               cpu, QEMU_THREAD_JOINABLE);
+> +
+> +        } else {
+> +            /* share a single thread for all cpus with TCG */
+> +            snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "ALL CPUs/TCG");
+> +            qemu_thread_create(cpu->thread, thread_name,
+> +                               tcg_rr_cpu_thread_fn,
+> +                               cpu, QEMU_THREAD_JOINABLE);
+> +
+> +            single_tcg_halt_cond = cpu->halt_cond;
+> +            single_tcg_cpu_thread = cpu->thread;
+> +        }
+> +#ifdef _WIN32
+> +        cpu->hThread = qemu_thread_get_handle(cpu->thread);
+> +#endif
+> +    } else {
+> +        /* For non-MTTCG cases we share the thread */
+> +        cpu->thread = single_tcg_cpu_thread;
+> +        cpu->halt_cond = single_tcg_halt_cond;
+> +        cpu->thread_id = first_cpu->thread_id;
+> +        cpu->can_do_io = 1;
+> +        cpu->created = true;
+> +    }
+> +}
+> +
+> +static void tcg_cpu_synchronize_noop(CPUState *cpu)
+> +{
+> +}
+> +
+> +CpusAccelInterface tcg_cpus_interface = {
+> +    .create_vcpu_thread = tcg_start_vcpu_thread,
+> +    .kick_vcpu_thread = tcg_kick_vcpu_thread,
+> +
+> +    .cpu_synchronize_post_reset = tcg_cpu_synchronize_noop,
+> +    .cpu_synchronize_post_init = tcg_cpu_synchronize_noop,
+> +    .cpu_synchronize_state = tcg_cpu_synchronize_noop,
+> +    .cpu_synchronize_pre_loadvm = tcg_cpu_synchronize_noop,
+> +};
+> diff --git a/accel/tcg/tcg-cpus-interface.h b/accel/tcg/tcg-cpus-interface.h
+> new file mode 100644
+> index 0000000000..c6e96b2af4
+> --- /dev/null
+> +++ b/accel/tcg/tcg-cpus-interface.h
+> @@ -0,0 +1,8 @@
+> +#ifndef TCG_CPUS_INTERFACE_H
+> +#define TCG_CPUS_INTERFACE_H
+> +
+> +#include "sysemu/cpus.h"
+> +
+> +extern CpusAccelInterface tcg_cpus_interface;
+> +
+> +#endif /* TCG_CPUS_INTERFACE */
+> diff --git a/cpus.c b/cpus.c
+> index 7e9f545be8..3f5d34981e 100644
+> --- a/cpus.c
+> +++ b/cpus.c
+> @@ -24,27 +24,19 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "qemu-common.h"
+> -#include "qemu/config-file.h"
+> -#include "qemu/cutils.h"
+> -#include "migration/vmstate.h"
+>  #include "monitor/monitor.h"
+>  #include "qapi/error.h"
+>  #include "qapi/qapi-commands-misc.h"
+>  #include "qapi/qapi-events-run-state.h"
+>  #include "qapi/qmp/qerror.h"
+> -#include "qemu/error-report.h"
+> -#include "qemu/qemu-print.h"
+>  #include "sysemu/tcg.h"
+> -#include "sysemu/block-backend.h"
+>  #include "exec/gdbstub.h"
+> -#include "sysemu/dma.h"
+>  #include "sysemu/hw_accel.h"
+>  #include "sysemu/kvm.h"
+>  #include "sysemu/hax.h"
+>  #include "sysemu/hvf.h"
+>  #include "sysemu/whpx.h"
+>  #include "exec/exec-all.h"
+> -
+>  #include "qemu/thread.h"
+>  #include "qemu/plugin.h"
+>  #include "sysemu/cpus.h"
+> @@ -87,7 +79,7 @@ bool cpu_is_stopped(CPUState *cpu)
+>      return cpu->stopped || !runstate_is_running();
+>  }
+>  
+> -static bool cpu_thread_is_idle(CPUState *cpu)
+> +bool cpu_thread_is_idle(CPUState *cpu)
+>  {
+>      if (cpu->stop || cpu->queued_work_first) {
+>          return false;
+> @@ -114,78 +106,6 @@ bool all_cpu_threads_idle(void)
+>      return true;
+>  }
+>  
+> -bool mttcg_enabled;
+> -
+> -/***********************************************************/
+> -/* TCG vCPU kick timer
+> - *
+> - * The kick timer is responsible for moving single threaded vCPU
+> - * emulation on to the next vCPU. If more than one vCPU is running a
+> - * timer event with force a cpu->exit so the next vCPU can get
+> - * scheduled.
+> - *
+> - * The timer is removed if all vCPUs are idle and restarted again once
+> - * idleness is complete.
+> - */
+> -
+> -static QEMUTimer *tcg_kick_vcpu_timer;
+> -static CPUState *tcg_current_rr_cpu;
+> -
+> -#define TCG_KICK_PERIOD (NANOSECONDS_PER_SECOND / 10)
+> -
+> -static inline int64_t qemu_tcg_next_kick(void)
+> -{
+> -    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + TCG_KICK_PERIOD;
+> -}
+> -
+> -/* Kick the currently round-robin scheduled vCPU to next */
+> -static void qemu_cpu_kick_rr_next_cpu(void)
+> -{
+> -    CPUState *cpu;
+> -    do {
+> -        cpu = atomic_mb_read(&tcg_current_rr_cpu);
+> -        if (cpu) {
+> -            cpu_exit(cpu);
+> -        }
+> -    } while (cpu != atomic_mb_read(&tcg_current_rr_cpu));
+> -}
+> -
+> -/* Kick all RR vCPUs */
+> -static void qemu_cpu_kick_rr_cpus(void)
+> -{
+> -    CPUState *cpu;
+> -
+> -    CPU_FOREACH(cpu) {
+> -        cpu_exit(cpu);
+> -    };
+> -}
+> -
+> -static void kick_tcg_thread(void *opaque)
+> -{
+> -    timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
+> -    qemu_cpu_kick_rr_next_cpu();
+> -}
+> -
+> -static void start_tcg_kick_timer(void)
+> -{
+> -    assert(!mttcg_enabled);
+> -    if (!tcg_kick_vcpu_timer && CPU_NEXT(first_cpu)) {
+> -        tcg_kick_vcpu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+> -                                           kick_tcg_thread, NULL);
+> -    }
+> -    if (tcg_kick_vcpu_timer && !timer_pending(tcg_kick_vcpu_timer)) {
+> -        timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
+> -    }
+> -}
+> -
+> -static void stop_tcg_kick_timer(void)
+> -{
+> -    assert(!mttcg_enabled);
+> -    if (tcg_kick_vcpu_timer && timer_pending(tcg_kick_vcpu_timer)) {
+> -        timer_del(tcg_kick_vcpu_timer);
+> -    }
+> -}
+> -
+>  /***********************************************************/
+>  void hw_error(const char *fmt, ...)
+>  {
+> @@ -204,16 +124,21 @@ void hw_error(const char *fmt, ...)
+>      abort();
+>  }
+>  
+> +/*
+> + * every accelerator is supposed to register this.
+> + * Cannot be done cleanly as a machine state or accel class method,
+> + * since TCG is not a normal accelerator yet,
+> + * with USER mode being special-cased and other complications.
+> + */
+> +static CpusAccelInterface accel_int;
+> +
+>  void cpu_synchronize_all_states(void)
+>  {
+>      CPUState *cpu;
+>  
+>      CPU_FOREACH(cpu) {
+> -        cpu_synchronize_state(cpu);
+> -        /* TODO: move to cpu_synchronize_state() */
+> -        if (hvf_enabled()) {
+> -            hvf_cpu_synchronize_state(cpu);
+> -        }
+> +        assert(accel_int.cpu_synchronize_state != NULL);
+> +        accel_int.cpu_synchronize_state(cpu);
+>      }
+>  }
+>  
+> @@ -222,11 +147,8 @@ void cpu_synchronize_all_post_reset(void)
+>      CPUState *cpu;
+>  
+>      CPU_FOREACH(cpu) {
+> -        cpu_synchronize_post_reset(cpu);
+> -        /* TODO: move to cpu_synchronize_post_reset() */
+> -        if (hvf_enabled()) {
+> -            hvf_cpu_synchronize_post_reset(cpu);
+> -        }
+> +        assert(accel_int.cpu_synchronize_post_reset != NULL);
+> +        accel_int.cpu_synchronize_post_reset(cpu);
+>      }
+>  }
+>  
+> @@ -235,11 +157,8 @@ void cpu_synchronize_all_post_init(void)
+>      CPUState *cpu;
+>  
+>      CPU_FOREACH(cpu) {
+> -        cpu_synchronize_post_init(cpu);
+> -        /* TODO: move to cpu_synchronize_post_init() */
+> -        if (hvf_enabled()) {
+> -            hvf_cpu_synchronize_post_init(cpu);
+> -        }
+> +        assert(accel_int.cpu_synchronize_post_init != NULL);
+> +        accel_int.cpu_synchronize_post_init(cpu);
+>      }
+>  }
+>  
+> @@ -248,7 +167,8 @@ void cpu_synchronize_all_pre_loadvm(void)
+>      CPUState *cpu;
+>  
+>      CPU_FOREACH(cpu) {
+> -        cpu_synchronize_pre_loadvm(cpu);
+> +        assert(accel_int.cpu_synchronize_pre_loadvm != NULL);
+> +        accel_int.cpu_synchronize_pre_loadvm(cpu);
+>      }
+>  }
+>  
+> @@ -280,7 +200,7 @@ int vm_shutdown(void)
+>      return do_vm_stop(RUN_STATE_SHUTDOWN, false);
+>  }
+>  
+> -static bool cpu_can_run(CPUState *cpu)
+> +bool cpu_can_run(CPUState *cpu)
+>  {
+>      if (cpu->stop) {
+>          return false;
+> @@ -291,7 +211,7 @@ static bool cpu_can_run(CPUState *cpu)
+>      return true;
+>  }
+>  
+> -static void cpu_handle_guest_debug(CPUState *cpu)
+> +void cpu_handle_guest_debug(CPUState *cpu)
+>  {
+>      gdb_set_stop_cpu(cpu);
+>      qemu_system_debug_request();
+> @@ -374,18 +294,6 @@ void run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
+>      do_run_on_cpu(cpu, func, data, &qemu_global_mutex);
+>  }
+>  
+> -static void qemu_kvm_destroy_vcpu(CPUState *cpu)
+> -{
+> -    if (kvm_destroy_vcpu(cpu) < 0) {
+> -        error_report("kvm_destroy_vcpu failed");
+> -        exit(EXIT_FAILURE);
+> -    }
+> -}
+> -
+> -static void qemu_tcg_destroy_vcpu(CPUState *cpu)
+> -{
+> -}
+> -
+>  static void qemu_cpu_stop(CPUState *cpu, bool exit)
+>  {
+>      g_assert(qemu_cpu_is_self(cpu));
+> @@ -397,7 +305,7 @@ static void qemu_cpu_stop(CPUState *cpu, bool exit)
+>      qemu_cond_broadcast(&qemu_pause_cond);
+>  }
+>  
+> -static void qemu_wait_io_event_common(CPUState *cpu)
+> +void qemu_wait_io_event_common(CPUState *cpu)
+>  {
+>      atomic_mb_set(&cpu->thread_kicked, false);
+>      if (cpu->stop) {
+> @@ -406,23 +314,7 @@ static void qemu_wait_io_event_common(CPUState *cpu)
+>      process_queued_cpu_work(cpu);
+>  }
+>  
+> -static void qemu_tcg_rr_wait_io_event(void)
+> -{
+> -    CPUState *cpu;
+> -
+> -    while (all_cpu_threads_idle()) {
+> -        stop_tcg_kick_timer();
+> -        qemu_cond_wait(first_cpu->halt_cond, &qemu_global_mutex);
+> -    }
+> -
+> -    start_tcg_kick_timer();
+> -
+> -    CPU_FOREACH(cpu) {
+> -        qemu_wait_io_event_common(cpu);
+> -    }
+> -}
+> -
+> -static void qemu_wait_io_event(CPUState *cpu)
+> +void qemu_wait_io_event(CPUState *cpu)
+>  {
+>      bool slept = false;
+>  
+> @@ -438,7 +330,8 @@ static void qemu_wait_io_event(CPUState *cpu)
+>      }
+>  
+>  #ifdef _WIN32
+> -    /* Eat dummy APC queued by qemu_cpu_kick_thread.  */
+> +    /* Eat dummy APC queued by hax_kick_vcpu_thread */
+> +    /* NB!!! Should not this be if (hax_enabled)? Is this wrong for whpx? */
+>      if (!tcg_enabled()) {
+>          SleepEx(0, TRUE);
+>      }
+> @@ -446,540 +339,7 @@ static void qemu_wait_io_event(CPUState *cpu)
+>      qemu_wait_io_event_common(cpu);
+>  }
+>  
+> -static void *qemu_kvm_cpu_thread_fn(void *arg)
+> -{
+> -    CPUState *cpu = arg;
+> -    int r;
+> -
+> -    rcu_register_thread();
+> -
+> -    qemu_mutex_lock_iothread();
+> -    qemu_thread_get_self(cpu->thread);
+> -    cpu->thread_id = qemu_get_thread_id();
+> -    cpu->can_do_io = 1;
+> -    current_cpu = cpu;
+> -
+> -    r = kvm_init_vcpu(cpu);
+> -    if (r < 0) {
+> -        error_report("kvm_init_vcpu failed: %s", strerror(-r));
+> -        exit(1);
+> -    }
+> -
+> -    kvm_init_cpu_signals(cpu);
+> -
+> -    /* signal CPU creation */
+> -    cpu->created = true;
+> -    qemu_cond_signal(&qemu_cpu_cond);
+> -    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> -
+> -    do {
+> -        if (cpu_can_run(cpu)) {
+> -            r = kvm_cpu_exec(cpu);
+> -            if (r == EXCP_DEBUG) {
+> -                cpu_handle_guest_debug(cpu);
+> -            }
+> -        }
+> -        qemu_wait_io_event(cpu);
+> -    } while (!cpu->unplug || cpu_can_run(cpu));
+> -
+> -    qemu_kvm_destroy_vcpu(cpu);
+> -    cpu->created = false;
+> -    qemu_cond_signal(&qemu_cpu_cond);
+> -    qemu_mutex_unlock_iothread();
+> -    rcu_unregister_thread();
+> -    return NULL;
+> -}
+> -
+> -static void *qemu_dummy_cpu_thread_fn(void *arg)
+> -{
+> -#ifdef _WIN32
+> -    error_report("qtest is not supported under Windows");
+> -    exit(1);
+> -#else
+> -    CPUState *cpu = arg;
+> -    sigset_t waitset;
+> -    int r;
+> -
+> -    rcu_register_thread();
+> -
+> -    qemu_mutex_lock_iothread();
+> -    qemu_thread_get_self(cpu->thread);
+> -    cpu->thread_id = qemu_get_thread_id();
+> -    cpu->can_do_io = 1;
+> -    current_cpu = cpu;
+> -
+> -    sigemptyset(&waitset);
+> -    sigaddset(&waitset, SIG_IPI);
+> -
+> -    /* signal CPU creation */
+> -    cpu->created = true;
+> -    qemu_cond_signal(&qemu_cpu_cond);
+> -    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> -
+> -    do {
+> -        qemu_mutex_unlock_iothread();
+> -        do {
+> -            int sig;
+> -            r = sigwait(&waitset, &sig);
+> -        } while (r == -1 && (errno == EAGAIN || errno == EINTR));
+> -        if (r == -1) {
+> -            perror("sigwait");
+> -            exit(1);
+> -        }
+> -        qemu_mutex_lock_iothread();
+> -        qemu_wait_io_event(cpu);
+> -    } while (!cpu->unplug);
+> -
+> -    qemu_mutex_unlock_iothread();
+> -    rcu_unregister_thread();
+> -    return NULL;
+> -#endif
+> -}
+> -
+> -static int64_t tcg_get_icount_limit(void)
+> -{
+> -    int64_t deadline;
+> -
+> -    if (replay_mode != REPLAY_MODE_PLAY) {
+> -        /*
+> -         * Include all the timers, because they may need an attention.
+> -         * Too long CPU execution may create unnecessary delay in UI.
+> -         */
+> -        deadline = qemu_clock_deadline_ns_all(QEMU_CLOCK_VIRTUAL,
+> -                                              QEMU_TIMER_ATTR_ALL);
+> -        /* Check realtime timers, because they help with input processing */
+> -        deadline = qemu_soonest_timeout(deadline,
+> -                qemu_clock_deadline_ns_all(QEMU_CLOCK_REALTIME,
+> -                                           QEMU_TIMER_ATTR_ALL));
+> -
+> -        /* Maintain prior (possibly buggy) behaviour where if no deadline
+> -         * was set (as there is no QEMU_CLOCK_VIRTUAL timer) or it is more than
+> -         * INT32_MAX nanoseconds ahead, we still use INT32_MAX
+> -         * nanoseconds.
+> -         */
+> -        if ((deadline < 0) || (deadline > INT32_MAX)) {
+> -            deadline = INT32_MAX;
+> -        }
+> -
+> -        return icount_round(deadline);
+> -    } else {
+> -        return replay_get_instructions();
+> -    }
+> -}
+> -
+> -static void handle_icount_deadline(void)
+> -{
+> -    assert(qemu_in_vcpu_thread());
+> -    if (icount_enabled()) {
+> -        int64_t deadline = qemu_clock_deadline_ns_all(QEMU_CLOCK_VIRTUAL,
+> -                                                      QEMU_TIMER_ATTR_ALL);
+> -
+> -        if (deadline == 0) {
+> -            /* Wake up other AioContexts.  */
+> -            qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
+> -            qemu_clock_run_timers(QEMU_CLOCK_VIRTUAL);
+> -        }
+> -    }
+> -}
+> -
+> -static void prepare_icount_for_run(CPUState *cpu)
+> -{
+> -    if (icount_enabled()) {
+> -        int insns_left;
+> -
+> -        /* These should always be cleared by process_icount_data after
+> -         * each vCPU execution. However u16.high can be raised
+> -         * asynchronously by cpu_exit/cpu_interrupt/tcg_handle_interrupt
+> -         */
+> -        g_assert(cpu_neg(cpu)->icount_decr.u16.low == 0);
+> -        g_assert(cpu->icount_extra == 0);
+> -
+> -        cpu->icount_budget = tcg_get_icount_limit();
+> -        insns_left = MIN(0xffff, cpu->icount_budget);
+> -        cpu_neg(cpu)->icount_decr.u16.low = insns_left;
+> -        cpu->icount_extra = cpu->icount_budget - insns_left;
+> -
+> -        replay_mutex_lock();
+> -    }
+> -}
+> -
+> -static void process_icount_data(CPUState *cpu)
+> -{
+> -    if (icount_enabled()) {
+> -        /* Account for executed instructions */
+> -        icount_update(cpu);
+> -
+> -        /* Reset the counters */
+> -        cpu_neg(cpu)->icount_decr.u16.low = 0;
+> -        cpu->icount_extra = 0;
+> -        cpu->icount_budget = 0;
+> -
+> -        replay_account_executed_instructions();
+> -
+> -        replay_mutex_unlock();
+> -    }
+> -}
+> -
+> -
+> -static int tcg_cpu_exec(CPUState *cpu)
+> -{
+> -    int ret;
+> -#ifdef CONFIG_PROFILER
+> -    int64_t ti;
+> -#endif
+> -
+> -    assert(tcg_enabled());
+> -#ifdef CONFIG_PROFILER
+> -    ti = profile_getclock();
+> -#endif
+> -    cpu_exec_start(cpu);
+> -    ret = cpu_exec(cpu);
+> -    cpu_exec_end(cpu);
+> -#ifdef CONFIG_PROFILER
+> -    atomic_set(&tcg_ctx->prof.cpu_exec_time,
+> -               tcg_ctx->prof.cpu_exec_time + profile_getclock() - ti);
+> -#endif
+> -    return ret;
+> -}
+> -
+> -/* Destroy any remaining vCPUs which have been unplugged and have
+> - * finished running
+> - */
+> -static void deal_with_unplugged_cpus(void)
+> -{
+> -    CPUState *cpu;
+> -
+> -    CPU_FOREACH(cpu) {
+> -        if (cpu->unplug && !cpu_can_run(cpu)) {
+> -            qemu_tcg_destroy_vcpu(cpu);
+> -            cpu->created = false;
+> -            qemu_cond_signal(&qemu_cpu_cond);
+> -            break;
+> -        }
+> -    }
+> -}
+> -
+> -/* Single-threaded TCG
+> - *
+> - * In the single-threaded case each vCPU is simulated in turn. If
+> - * there is more than a single vCPU we create a simple timer to kick
+> - * the vCPU and ensure we don't get stuck in a tight loop in one vCPU.
+> - * This is done explicitly rather than relying on side-effects
+> - * elsewhere.
+> - */
+> -
+> -static void *qemu_tcg_rr_cpu_thread_fn(void *arg)
+> -{
+> -    CPUState *cpu = arg;
+> -
+> -    assert(tcg_enabled());
+> -    rcu_register_thread();
+> -    tcg_register_thread();
+> -
+> -    qemu_mutex_lock_iothread();
+> -    qemu_thread_get_self(cpu->thread);
+> -
+> -    cpu->thread_id = qemu_get_thread_id();
+> -    cpu->created = true;
+> -    cpu->can_do_io = 1;
+> -    qemu_cond_signal(&qemu_cpu_cond);
+> -    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> -
+> -    /* wait for initial kick-off after machine start */
+> -    while (first_cpu->stopped) {
+> -        qemu_cond_wait(first_cpu->halt_cond, &qemu_global_mutex);
+> -
+> -        /* process any pending work */
+> -        CPU_FOREACH(cpu) {
+> -            current_cpu = cpu;
+> -            qemu_wait_io_event_common(cpu);
+> -        }
+> -    }
+> -
+> -    start_tcg_kick_timer();
+> -
+> -    cpu = first_cpu;
+> -
+> -    /* process any pending work */
+> -    cpu->exit_request = 1;
+> -
+> -    while (1) {
+> -        qemu_mutex_unlock_iothread();
+> -        replay_mutex_lock();
+> -        qemu_mutex_lock_iothread();
+> -        /* Account partial waits to QEMU_CLOCK_VIRTUAL.  */
+> -        icount_account_warp_timer();
+> -
+> -        /* Run the timers here.  This is much more efficient than
+> -         * waking up the I/O thread and waiting for completion.
+> -         */
+> -        handle_icount_deadline();
+> -
+> -        replay_mutex_unlock();
+> -
+> -        if (!cpu) {
+> -            cpu = first_cpu;
+> -        }
+> -
+> -        while (cpu && !cpu->queued_work_first && !cpu->exit_request) {
+> -
+> -            atomic_mb_set(&tcg_current_rr_cpu, cpu);
+> -            current_cpu = cpu;
+> -
+> -            qemu_clock_enable(QEMU_CLOCK_VIRTUAL,
+> -                              (cpu->singlestep_enabled & SSTEP_NOTIMER) == 0);
+> -
+> -            if (cpu_can_run(cpu)) {
+> -                int r;
+> -
+> -                qemu_mutex_unlock_iothread();
+> -                prepare_icount_for_run(cpu);
+> -
+> -                r = tcg_cpu_exec(cpu);
+> -
+> -                process_icount_data(cpu);
+> -                qemu_mutex_lock_iothread();
+> -
+> -                if (r == EXCP_DEBUG) {
+> -                    cpu_handle_guest_debug(cpu);
+> -                    break;
+> -                } else if (r == EXCP_ATOMIC) {
+> -                    qemu_mutex_unlock_iothread();
+> -                    cpu_exec_step_atomic(cpu);
+> -                    qemu_mutex_lock_iothread();
+> -                    break;
+> -                }
+> -            } else if (cpu->stop) {
+> -                if (cpu->unplug) {
+> -                    cpu = CPU_NEXT(cpu);
+> -                }
+> -                break;
+> -            }
+> -
+> -            cpu = CPU_NEXT(cpu);
+> -        } /* while (cpu && !cpu->exit_request).. */
+> -
+> -        /* Does not need atomic_mb_set because a spurious wakeup is okay.  */
+> -        atomic_set(&tcg_current_rr_cpu, NULL);
+> -
+> -        if (cpu && cpu->exit_request) {
+> -            atomic_mb_set(&cpu->exit_request, 0);
+> -        }
+> -
+> -        if (icount_enabled() && all_cpu_threads_idle()) {
+> -            /*
+> -             * When all cpus are sleeping (e.g in WFI), to avoid a deadlock
+> -             * in the main_loop, wake it up in order to start the warp timer.
+> -             */
+> -            qemu_notify_event();
+> -        }
+> -
+> -        qemu_tcg_rr_wait_io_event();
+> -        deal_with_unplugged_cpus();
+> -    }
+> -
+> -    rcu_unregister_thread();
+> -    return NULL;
+> -}
+> -
+> -static void *qemu_hax_cpu_thread_fn(void *arg)
+> -{
+> -    CPUState *cpu = arg;
+> -    int r;
+> -
+> -    rcu_register_thread();
+> -    qemu_mutex_lock_iothread();
+> -    qemu_thread_get_self(cpu->thread);
+> -
+> -    cpu->thread_id = qemu_get_thread_id();
+> -    cpu->created = true;
+> -    current_cpu = cpu;
+> -
+> -    hax_init_vcpu(cpu);
+> -    qemu_cond_signal(&qemu_cpu_cond);
+> -    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> -
+> -    do {
+> -        if (cpu_can_run(cpu)) {
+> -            r = hax_smp_cpu_exec(cpu);
+> -            if (r == EXCP_DEBUG) {
+> -                cpu_handle_guest_debug(cpu);
+> -            }
+> -        }
+> -
+> -        qemu_wait_io_event(cpu);
+> -    } while (!cpu->unplug || cpu_can_run(cpu));
+> -    rcu_unregister_thread();
+> -    return NULL;
+> -}
+> -
+> -/* The HVF-specific vCPU thread function. This one should only run when the host
+> - * CPU supports the VMX "unrestricted guest" feature. */
+> -static void *qemu_hvf_cpu_thread_fn(void *arg)
+> -{
+> -    CPUState *cpu = arg;
+> -
+> -    int r;
+> -
+> -    assert(hvf_enabled());
+> -
+> -    rcu_register_thread();
+> -
+> -    qemu_mutex_lock_iothread();
+> -    qemu_thread_get_self(cpu->thread);
+> -
+> -    cpu->thread_id = qemu_get_thread_id();
+> -    cpu->can_do_io = 1;
+> -    current_cpu = cpu;
+> -
+> -    hvf_init_vcpu(cpu);
+> -
+> -    /* signal CPU creation */
+> -    cpu->created = true;
+> -    qemu_cond_signal(&qemu_cpu_cond);
+> -    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> -
+> -    do {
+> -        if (cpu_can_run(cpu)) {
+> -            r = hvf_vcpu_exec(cpu);
+> -            if (r == EXCP_DEBUG) {
+> -                cpu_handle_guest_debug(cpu);
+> -            }
+> -        }
+> -        qemu_wait_io_event(cpu);
+> -    } while (!cpu->unplug || cpu_can_run(cpu));
+> -
+> -    hvf_vcpu_destroy(cpu);
+> -    cpu->created = false;
+> -    qemu_cond_signal(&qemu_cpu_cond);
+> -    qemu_mutex_unlock_iothread();
+> -    rcu_unregister_thread();
+> -    return NULL;
+> -}
+> -
+> -static void *qemu_whpx_cpu_thread_fn(void *arg)
+> -{
+> -    CPUState *cpu = arg;
+> -    int r;
+> -
+> -    rcu_register_thread();
+> -
+> -    qemu_mutex_lock_iothread();
+> -    qemu_thread_get_self(cpu->thread);
+> -    cpu->thread_id = qemu_get_thread_id();
+> -    current_cpu = cpu;
+> -
+> -    r = whpx_init_vcpu(cpu);
+> -    if (r < 0) {
+> -        fprintf(stderr, "whpx_init_vcpu failed: %s\n", strerror(-r));
+> -        exit(1);
+> -    }
+> -
+> -    /* signal CPU creation */
+> -    cpu->created = true;
+> -    qemu_cond_signal(&qemu_cpu_cond);
+> -    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> -
+> -    do {
+> -        if (cpu_can_run(cpu)) {
+> -            r = whpx_vcpu_exec(cpu);
+> -            if (r == EXCP_DEBUG) {
+> -                cpu_handle_guest_debug(cpu);
+> -            }
+> -        }
+> -        while (cpu_thread_is_idle(cpu)) {
+> -            qemu_cond_wait(cpu->halt_cond, &qemu_global_mutex);
+> -        }
+> -        qemu_wait_io_event_common(cpu);
+> -    } while (!cpu->unplug || cpu_can_run(cpu));
+> -
+> -    whpx_destroy_vcpu(cpu);
+> -    cpu->created = false;
+> -    qemu_cond_signal(&qemu_cpu_cond);
+> -    qemu_mutex_unlock_iothread();
+> -    rcu_unregister_thread();
+> -    return NULL;
+> -}
+> -
+> -#ifdef _WIN32
+> -static void CALLBACK dummy_apc_func(ULONG_PTR unused)
+> -{
+> -}
+> -#endif
+> -
+> -/* Multi-threaded TCG
+> - *
+> - * In the multi-threaded case each vCPU has its own thread. The TLS
+> - * variable current_cpu can be used deep in the code to find the
+> - * current CPUState for a given thread.
+> - */
+> -
+> -static void *qemu_tcg_cpu_thread_fn(void *arg)
+> -{
+> -    CPUState *cpu = arg;
+> -
+> -    assert(tcg_enabled());
+> -    g_assert(!icount_enabled());
+> -
+> -    rcu_register_thread();
+> -    tcg_register_thread();
+> -
+> -    qemu_mutex_lock_iothread();
+> -    qemu_thread_get_self(cpu->thread);
+> -
+> -    cpu->thread_id = qemu_get_thread_id();
+> -    cpu->created = true;
+> -    cpu->can_do_io = 1;
+> -    current_cpu = cpu;
+> -    qemu_cond_signal(&qemu_cpu_cond);
+> -    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> -
+> -    /* process any pending work */
+> -    cpu->exit_request = 1;
+> -
+> -    do {
+> -        if (cpu_can_run(cpu)) {
+> -            int r;
+> -            qemu_mutex_unlock_iothread();
+> -            r = tcg_cpu_exec(cpu);
+> -            qemu_mutex_lock_iothread();
+> -            switch (r) {
+> -            case EXCP_DEBUG:
+> -                cpu_handle_guest_debug(cpu);
+> -                break;
+> -            case EXCP_HALTED:
+> -                /* during start-up the vCPU is reset and the thread is
+> -                 * kicked several times. If we don't ensure we go back
+> -                 * to sleep in the halted state we won't cleanly
+> -                 * start-up when the vCPU is enabled.
+> -                 *
+> -                 * cpu->halted should ensure we sleep in wait_io_event
+> -                 */
+> -                g_assert(cpu->halted);
+> -                break;
+> -            case EXCP_ATOMIC:
+> -                qemu_mutex_unlock_iothread();
+> -                cpu_exec_step_atomic(cpu);
+> -                qemu_mutex_lock_iothread();
+> -            default:
+> -                /* Ignore everything else? */
+> -                break;
+> -            }
+> -        }
+> -
+> -        atomic_mb_set(&cpu->exit_request, 0);
+> -        qemu_wait_io_event(cpu);
+> -    } while (!cpu->unplug || cpu_can_run(cpu));
+> -
+> -    qemu_tcg_destroy_vcpu(cpu);
+> -    cpu->created = false;
+> -    qemu_cond_signal(&qemu_cpu_cond);
+> -    qemu_mutex_unlock_iothread();
+> -    rcu_unregister_thread();
+> -    return NULL;
+> -}
+> -
+> -static void qemu_cpu_kick_thread(CPUState *cpu)
+> +void cpus_kick_thread(CPUState *cpu)
+>  {
+>  #ifndef _WIN32
+>      int err;
+> @@ -993,44 +353,20 @@ static void qemu_cpu_kick_thread(CPUState *cpu)
+>          fprintf(stderr, "qemu:%s: %s", __func__, strerror(err));
+>          exit(1);
+>      }
+> -#else /* _WIN32 */
+> -    if (!qemu_cpu_is_self(cpu)) {
+> -        if (whpx_enabled()) {
+> -            whpx_vcpu_kick(cpu);
+> -        } else if (!QueueUserAPC(dummy_apc_func, cpu->hThread, 0)) {
+> -            fprintf(stderr, "%s: QueueUserAPC failed with error %lu\n",
+> -                    __func__, GetLastError());
+> -            exit(1);
+> -        }
+> -    }
+>  #endif
+>  }
+>  
+>  void qemu_cpu_kick(CPUState *cpu)
+>  {
+>      qemu_cond_broadcast(cpu->halt_cond);
+> -    if (tcg_enabled()) {
+> -        if (qemu_tcg_mttcg_enabled()) {
+> -            cpu_exit(cpu);
+> -        } else {
+> -            qemu_cpu_kick_rr_cpus();
+> -        }
+> -    } else {
+> -        if (hax_enabled()) {
+> -            /*
+> -             * FIXME: race condition with the exit_request check in
+> -             * hax_vcpu_hax_exec
+> -             */
+> -            cpu->exit_request = 1;
+> -        }
+> -        qemu_cpu_kick_thread(cpu);
+> -    }
+> +    assert(accel_int.kick_vcpu_thread != NULL);
+> +    accel_int.kick_vcpu_thread(cpu);
+>  }
+>  
+>  void qemu_cpu_kick_self(void)
+>  {
+>      assert(current_cpu);
+> -    qemu_cpu_kick_thread(current_cpu);
+> +    cpus_kick_thread(current_cpu);
+>  }
+>  
+>  bool qemu_cpu_is_self(CPUState *cpu)
+> @@ -1080,6 +416,21 @@ void qemu_cond_timedwait_iothread(QemuCond *cond, int ms)
+>      qemu_cond_timedwait(cond, &qemu_global_mutex, ms);
+>  }
+>  
+> +/* signal CPU creation */
+> +void cpu_thread_signal_created(CPUState *cpu)
+> +{
+> +    cpu->created = true;
+> +    qemu_cond_signal(&qemu_cpu_cond);
+> +}
+> +
+> +/* signal CPU destruction */
+> +void cpu_thread_signal_destroyed(CPUState *cpu)
+> +{
+> +    cpu->created = false;
+> +    qemu_cond_signal(&qemu_cpu_cond);
+> +}
+> +
+> +
+>  static bool all_vcpus_paused(void)
+>  {
+>      CPUState *cpu;
+> @@ -1155,140 +506,18 @@ void cpu_remove_sync(CPUState *cpu)
+>      qemu_mutex_lock_iothread();
+>  }
+>  
+> -/* For temporary buffers for forming a name */
+> -#define VCPU_THREAD_NAME_SIZE 16
+> -
+> -static void qemu_tcg_init_vcpu(CPUState *cpu)
+> -{
+> -    char thread_name[VCPU_THREAD_NAME_SIZE];
+> -    static QemuCond *single_tcg_halt_cond;
+> -    static QemuThread *single_tcg_cpu_thread;
+> -    static int tcg_region_inited;
+> -
+> -    assert(tcg_enabled());
+> -    /*
+> -     * Initialize TCG regions--once. Now is a good time, because:
+> -     * (1) TCG's init context, prologue and target globals have been set up.
+> -     * (2) qemu_tcg_mttcg_enabled() works now (TCG init code runs before the
+> -     *     -accel flag is processed, so the check doesn't work then).
+> -     */
+> -    if (!tcg_region_inited) {
+> -        tcg_region_inited = 1;
+> -        tcg_region_init();
+> -    }
+> -
+> -    if (qemu_tcg_mttcg_enabled() || !single_tcg_cpu_thread) {
+> -        cpu->thread = g_malloc0(sizeof(QemuThread));
+> -        cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+> -        qemu_cond_init(cpu->halt_cond);
+> -
+> -        if (qemu_tcg_mttcg_enabled()) {
+> -            /* create a thread per vCPU with TCG (MTTCG) */
+> -            parallel_cpus = true;
+> -            snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
+> -                 cpu->cpu_index);
+> -
+> -            qemu_thread_create(cpu->thread, thread_name, qemu_tcg_cpu_thread_fn,
+> -                               cpu, QEMU_THREAD_JOINABLE);
+> -
+> -        } else {
+> -            /* share a single thread for all cpus with TCG */
+> -            snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "ALL CPUs/TCG");
+> -            qemu_thread_create(cpu->thread, thread_name,
+> -                               qemu_tcg_rr_cpu_thread_fn,
+> -                               cpu, QEMU_THREAD_JOINABLE);
+> -
+> -            single_tcg_halt_cond = cpu->halt_cond;
+> -            single_tcg_cpu_thread = cpu->thread;
+> -        }
+> -#ifdef _WIN32
+> -        cpu->hThread = qemu_thread_get_handle(cpu->thread);
+> -#endif
+> -    } else {
+> -        /* For non-MTTCG cases we share the thread */
+> -        cpu->thread = single_tcg_cpu_thread;
+> -        cpu->halt_cond = single_tcg_halt_cond;
+> -        cpu->thread_id = first_cpu->thread_id;
+> -        cpu->can_do_io = 1;
+> -        cpu->created = true;
+> -    }
+> -}
+> -
+> -static void qemu_hax_start_vcpu(CPUState *cpu)
+> -{
+> -    char thread_name[VCPU_THREAD_NAME_SIZE];
+> -
+> -    cpu->thread = g_malloc0(sizeof(QemuThread));
+> -    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+> -    qemu_cond_init(cpu->halt_cond);
+> -
+> -    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/HAX",
+> -             cpu->cpu_index);
+> -    qemu_thread_create(cpu->thread, thread_name, qemu_hax_cpu_thread_fn,
+> -                       cpu, QEMU_THREAD_JOINABLE);
+> -#ifdef _WIN32
+> -    cpu->hThread = qemu_thread_get_handle(cpu->thread);
+> -#endif
+> -}
+> -
+> -static void qemu_kvm_start_vcpu(CPUState *cpu)
+> +void cpus_register_accel_interface(CpusAccelInterface *i)
+>  {
+> -    char thread_name[VCPU_THREAD_NAME_SIZE];
+> -
+> -    cpu->thread = g_malloc0(sizeof(QemuThread));
+> -    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+> -    qemu_cond_init(cpu->halt_cond);
+> -    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/KVM",
+> -             cpu->cpu_index);
+> -    qemu_thread_create(cpu->thread, thread_name, qemu_kvm_cpu_thread_fn,
+> -                       cpu, QEMU_THREAD_JOINABLE);
+> -}
+> -
+> -static void qemu_hvf_start_vcpu(CPUState *cpu)
+> -{
+> -    char thread_name[VCPU_THREAD_NAME_SIZE];
+> -
+> -    /* HVF currently does not support TCG, and only runs in
+> -     * unrestricted-guest mode. */
+> -    assert(hvf_enabled());
+> -
+> -    cpu->thread = g_malloc0(sizeof(QemuThread));
+> -    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+> -    qemu_cond_init(cpu->halt_cond);
+> +    assert(i != NULL);
+> +    assert(i->create_vcpu_thread != NULL);
+> +    assert(i->kick_vcpu_thread != NULL);
+>  
+> -    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/HVF",
+> -             cpu->cpu_index);
+> -    qemu_thread_create(cpu->thread, thread_name, qemu_hvf_cpu_thread_fn,
+> -                       cpu, QEMU_THREAD_JOINABLE);
+> -}
+> -
+> -static void qemu_whpx_start_vcpu(CPUState *cpu)
+> -{
+> -    char thread_name[VCPU_THREAD_NAME_SIZE];
+> -
+> -    cpu->thread = g_malloc0(sizeof(QemuThread));
+> -    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+> -    qemu_cond_init(cpu->halt_cond);
+> -    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/WHPX",
+> -             cpu->cpu_index);
+> -    qemu_thread_create(cpu->thread, thread_name, qemu_whpx_cpu_thread_fn,
+> -                       cpu, QEMU_THREAD_JOINABLE);
+> -#ifdef _WIN32
+> -    cpu->hThread = qemu_thread_get_handle(cpu->thread);
+> -#endif
+> -}
+> +    assert(i->cpu_synchronize_post_reset != NULL);
+> +    assert(i->cpu_synchronize_post_init != NULL);
+> +    assert(i->cpu_synchronize_state != NULL);
+> +    assert(i->cpu_synchronize_pre_loadvm != NULL);
+>  
+> -static void qemu_dummy_start_vcpu(CPUState *cpu)
+> -{
+> -    char thread_name[VCPU_THREAD_NAME_SIZE];
+> -
+> -    cpu->thread = g_malloc0(sizeof(QemuThread));
+> -    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+> -    qemu_cond_init(cpu->halt_cond);
+> -    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/DUMMY",
+> -             cpu->cpu_index);
+> -    qemu_thread_create(cpu->thread, thread_name, qemu_dummy_cpu_thread_fn, cpu,
+> -                       QEMU_THREAD_JOINABLE);
+> +    accel_int = *i;
+>  }
+>  
+>  void qemu_init_vcpu(CPUState *cpu)
+> @@ -1308,19 +537,8 @@ void qemu_init_vcpu(CPUState *cpu)
+>          cpu_address_space_init(cpu, 0, "cpu-memory", cpu->memory);
+>      }
+>  
+> -    if (kvm_enabled()) {
+> -        qemu_kvm_start_vcpu(cpu);
+> -    } else if (hax_enabled()) {
+> -        qemu_hax_start_vcpu(cpu);
+> -    } else if (hvf_enabled()) {
+> -        qemu_hvf_start_vcpu(cpu);
+> -    } else if (tcg_enabled()) {
+> -        qemu_tcg_init_vcpu(cpu);
+> -    } else if (whpx_enabled()) {
+> -        qemu_whpx_start_vcpu(cpu);
+> -    } else {
+> -        qemu_dummy_start_vcpu(cpu);
+> -    }
+> +    assert(accel_int.create_vcpu_thread != NULL);
+> +    accel_int.create_vcpu_thread(cpu);
+>  
+>      while (!cpu->created) {
+>          qemu_cond_wait(&qemu_cpu_cond, &qemu_global_mutex);
+> @@ -1498,3 +716,26 @@ void qmp_inject_nmi(Error **errp)
+>      nmi_monitor_handle(monitor_get_cpu_index(), errp);
+>  }
+>  
+> +void cpu_synchronize_state(CPUState *cpu)
+> +{
+> +    assert(accel_int.cpu_synchronize_state != NULL);
+> +    accel_int.cpu_synchronize_state(cpu);
+> +}
+> +
+> +void cpu_synchronize_post_reset(CPUState *cpu)
+> +{
+> +    assert(accel_int.cpu_synchronize_post_reset != NULL);
+> +    accel_int.cpu_synchronize_post_reset(cpu);
+> +}
+> +
+> +void cpu_synchronize_post_init(CPUState *cpu)
+> +{
+> +    assert(accel_int.cpu_synchronize_post_init != NULL);
+> +    accel_int.cpu_synchronize_post_init(cpu);
+> +}
+> +
+> +void cpu_synchronize_pre_loadvm(CPUState *cpu)
+> +{
+> +    assert(accel_int.cpu_synchronize_pre_loadvm != NULL);
+> +    accel_int.cpu_synchronize_pre_loadvm(cpu);
+> +}
+> diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+> index 5284d384fb..b601654a10 100644
+> --- a/hw/core/cpu.c
+> +++ b/hw/core/cpu.c
+> @@ -33,6 +33,7 @@
+>  #include "hw/qdev-properties.h"
+>  #include "trace-root.h"
+>  #include "qemu/plugin.h"
+> +#include "sysemu/hw_accel.h"
+>  
+>  CPUInterruptHandler cpu_interrupt_handler;
+>  
+> diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
+> index 149de000a0..b9d76ebda8 100644
+> --- a/include/sysemu/cpus.h
+> +++ b/include/sysemu/cpus.h
+> @@ -4,7 +4,51 @@
+>  #include "qemu/timer.h"
+>  
+>  /* cpus.c */
+> +
+> +/* CPU execution threads */
+> +
+> +typedef struct CpusAccelInterface {
+> +    void (*create_vcpu_thread)(CPUState *cpu);
+> +    void (*kick_vcpu_thread)(CPUState *cpu);
+> +
+> +    void (*cpu_synchronize_post_reset)(CPUState *cpu);
+> +    void (*cpu_synchronize_post_init)(CPUState *cpu);
+> +    void (*cpu_synchronize_state)(CPUState *cpu);
+> +    void (*cpu_synchronize_pre_loadvm)(CPUState *cpu);
+> +} CpusAccelInterface;
+> +
+> +/* register accel-specific interface */
+> +void cpus_register_accel_interface(CpusAccelInterface *i);
+> +
+> +/*
+> + * these are the registrable vcpu start functions for all accelerators.
+> + * They are arguments to qemu_register_start_vcpu();
+> + */
+> +void qemu_dummy_start_vcpu(CPUState *cpu);
+> +void qemu_tcg_init_vcpu(CPUState *cpu);
+> +void qemu_kvm_start_vcpu(CPUState *cpu);
+> +void qemu_hax_start_vcpu(CPUState *cpu);
+> +void qemu_hvf_start_vcpu(CPUState *cpu);
+> +void qemu_whpx_start_vcpu(CPUState *cpu);
+> +/* end of vcpu start functions for accelerators */
+> +
+> +/* interface available for cpus accelerator threads */
+> +
+> +/* For temporary buffers for forming a name */
+> +#define VCPU_THREAD_NAME_SIZE 16
+> +
+> +void cpus_kick_thread(CPUState *cpu);
+> +bool cpu_thread_is_idle(CPUState *cpu);
+>  bool all_cpu_threads_idle(void);
+> +bool cpu_can_run(CPUState *cpu);
+> +void qemu_wait_io_event_common(CPUState *cpu);
+> +void qemu_wait_io_event(CPUState *cpu);
+> +void cpu_thread_signal_created(CPUState *cpu);
+> +void cpu_thread_signal_destroyed(CPUState *cpu);
+> +void cpu_handle_guest_debug(CPUState *cpu);
+> +
+> +/* end interface for cpus accelerator threads */
+> +
+>  bool qemu_in_vcpu_thread(void);
+>  void qemu_init_cpu_loop(void);
+>  void resume_all_vcpus(void);
+> diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
+> index d211e808e9..cdd4172b24 100644
+> --- a/include/sysemu/hvf.h
+> +++ b/include/sysemu/hvf.h
+> @@ -86,7 +86,6 @@ int hvf_smp_cpu_exec(CPUState *);
+>  void hvf_cpu_synchronize_state(CPUState *);
+>  void hvf_cpu_synchronize_post_reset(CPUState *);
+>  void hvf_cpu_synchronize_post_init(CPUState *);
+> -void _hvf_cpu_synchronize_post_init(CPUState *, run_on_cpu_data);
+>  
+>  void hvf_vcpu_destroy(CPUState *);
+>  void hvf_raise_event(CPUState *);
+> diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
+> index 0ec2372477..336740e10a 100644
+> --- a/include/sysemu/hw_accel.h
+> +++ b/include/sysemu/hw_accel.h
+> @@ -1,5 +1,5 @@
+>  /*
+> - * QEMU Hardware accelertors support
+> + * QEMU Hardware accelerators support
+>   *
+>   * Copyright 2016 Google, Inc.
+>   *
+> @@ -16,56 +16,9 @@
+>  #include "sysemu/kvm.h"
+>  #include "sysemu/whpx.h"
+>  
+> -static inline void cpu_synchronize_state(CPUState *cpu)
+> -{
+> -    if (kvm_enabled()) {
+> -        kvm_cpu_synchronize_state(cpu);
+> -    }
+> -    if (hax_enabled()) {
+> -        hax_cpu_synchronize_state(cpu);
+> -    }
+> -    if (whpx_enabled()) {
+> -        whpx_cpu_synchronize_state(cpu);
+> -    }
+> -}
+> -
+> -static inline void cpu_synchronize_post_reset(CPUState *cpu)
+> -{
+> -    if (kvm_enabled()) {
+> -        kvm_cpu_synchronize_post_reset(cpu);
+> -    }
+> -    if (hax_enabled()) {
+> -        hax_cpu_synchronize_post_reset(cpu);
+> -    }
+> -    if (whpx_enabled()) {
+> -        whpx_cpu_synchronize_post_reset(cpu);
+> -    }
+> -}
+> -
+> -static inline void cpu_synchronize_post_init(CPUState *cpu)
+> -{
+> -    if (kvm_enabled()) {
+> -        kvm_cpu_synchronize_post_init(cpu);
+> -    }
+> -    if (hax_enabled()) {
+> -        hax_cpu_synchronize_post_init(cpu);
+> -    }
+> -    if (whpx_enabled()) {
+> -        whpx_cpu_synchronize_post_init(cpu);
+> -    }
+> -}
+> -
+> -static inline void cpu_synchronize_pre_loadvm(CPUState *cpu)
+> -{
+> -    if (kvm_enabled()) {
+> -        kvm_cpu_synchronize_pre_loadvm(cpu);
+> -    }
+> -    if (hax_enabled()) {
+> -        hax_cpu_synchronize_pre_loadvm(cpu);
+> -    }
+> -    if (whpx_enabled()) {
+> -        whpx_cpu_synchronize_pre_loadvm(cpu);
+> -    }
+> -}
+> +void cpu_synchronize_state(CPUState *cpu);
+> +void cpu_synchronize_post_reset(CPUState *cpu);
+> +void cpu_synchronize_post_init(CPUState *cpu);
+> +void cpu_synchronize_pre_loadvm(CPUState *cpu);
+>  
+>  #endif /* QEMU_HW_ACCEL_H */
+> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+> index 3b2250471c..3d84c940db 100644
+> --- a/include/sysemu/kvm.h
+> +++ b/include/sysemu/kvm.h
+> @@ -218,7 +218,7 @@ int kvm_has_intx_set_mask(void);
+>  
+>  int kvm_init_vcpu(CPUState *cpu);
+>  int kvm_cpu_exec(CPUState *cpu);
+> -int kvm_destroy_vcpu(CPUState *cpu);
+> +void kvm_destroy_vcpu(CPUState *cpu);
+>  
+>  /**
+>   * kvm_arm_supports_user_irq
+> diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+> index 238d6f8e9f..0256c8cdcd 100644
+> --- a/stubs/Makefile.objs
+> +++ b/stubs/Makefile.objs
+> @@ -45,4 +45,5 @@ stub-obj-y += pci-host-piix.o
+>  stub-obj-y += ram-block.o
+>  stub-obj-y += ramfb.o
+>  stub-obj-y += fw_cfg.o
+> +stub-obj-y += cpu-synchronize-state.o
+>  stub-obj-$(CONFIG_SOFTMMU) += semihost.o
+> diff --git a/stubs/cpu-synchronize-state.c b/stubs/cpu-synchronize-state.c
+> new file mode 100644
+> index 0000000000..3112fe439d
+> --- /dev/null
+> +++ b/stubs/cpu-synchronize-state.c
+> @@ -0,0 +1,15 @@
+> +#include "qemu/osdep.h"
+> +#include "sysemu/hw_accel.h"
+> +
+> +void cpu_synchronize_state(CPUState *cpu)
+> +{
+> +}
+> +void cpu_synchronize_post_reset(CPUState *cpu)
+> +{
+> +}
+> +void cpu_synchronize_post_init(CPUState *cpu)
+> +{
+> +}
+> +void cpu_synchronize_pre_loadvm(CPUState *cpu)
+> +{
+> +}
+> diff --git a/target/i386/Makefile.objs b/target/i386/Makefile.objs
+> index 48e0c28434..a847064e68 100644
+> --- a/target/i386/Makefile.objs
+> +++ b/target/i386/Makefile.objs
+> @@ -9,14 +9,15 @@ obj-y += machine.o arch_memory_mapping.o arch_dump.o monitor.o
+>  obj-$(CONFIG_KVM) += kvm.o
+>  obj-$(CONFIG_HYPERV) += hyperv.o
+>  obj-$(call lnot,$(CONFIG_HYPERV)) += hyperv-stub.o
+> +obj-$(CONFIG_HAX) += hax-all.o hax-mem.o hax-cpus-interface.o
+>  ifeq ($(CONFIG_WIN32),y)
+> -obj-$(CONFIG_HAX) += hax-all.o hax-mem.o hax-windows.o
+> +obj-$(CONFIG_HAX) += hax-windows.o
+>  endif
+>  ifeq ($(CONFIG_POSIX),y)
+> -obj-$(CONFIG_HAX) += hax-all.o hax-mem.o hax-posix.o
+> +obj-$(CONFIG_HAX) += hax-posix.o
+>  endif
+>  obj-$(CONFIG_HVF) += hvf/
+> -obj-$(CONFIG_WHPX) += whpx-all.o
+> +obj-$(CONFIG_WHPX) += whpx-all.o whpx-cpus-interface.o
+>  endif
+>  obj-$(CONFIG_SEV) += sev.o
+>  obj-$(call lnot,$(CONFIG_SEV)) += sev-stub.o
+> diff --git a/target/i386/hax-all.c b/target/i386/hax-all.c
+> index f9c83fff25..56c99bffd2 100644
+> --- a/target/i386/hax-all.c
+> +++ b/target/i386/hax-all.c
+> @@ -32,9 +32,10 @@
+>  #include "sysemu/accel.h"
+>  #include "sysemu/reset.h"
+>  #include "sysemu/runstate.h"
+> -#include "qemu/main-loop.h"
+>  #include "hw/boards.h"
+>  
+> +#include "hax-cpus-interface.h"
+> +
+>  #define DEBUG_HAX 0
+>  
+>  #define DPRINTF(fmt, ...) \
+> @@ -361,6 +362,9 @@ static int hax_accel_init(MachineState *ms)
+>                  !ret ? "working" : "not working",
+>                  !ret ? "fast virt" : "emulation");
+>      }
+> +    if (ret == 0) {
+> +        cpus_register_accel_interface(&hax_cpus_interface);
+> +    }
+>      return ret;
+>  }
+>  
+> diff --git a/target/i386/hax-cpus-interface.c b/target/i386/hax-cpus-interface.c
+> new file mode 100644
+> index 0000000000..85cbfb4ae8
+> --- /dev/null
+> +++ b/target/i386/hax-cpus-interface.c
+> @@ -0,0 +1,85 @@
+> +/*
+> + * QEMU HAX support
+> + *
+> + * Copyright IBM, Corp. 2008
+> + *           Red Hat, Inc. 2008
+> + *
+> + * Authors:
+> + *  Anthony Liguori   <aliguori@us.ibm.com>
+> + *  Glauber Costa     <gcosta@redhat.com>
+> + *
+> + * Copyright (c) 2011 Intel Corporation
+> + *  Written by:
+> + *  Jiang Yunhong<yunhong.jiang@intel.com>
+> + *  Xin Xiaohui<xiaohui.xin@intel.com>
+> + *  Zhang Xiantao<xiantao.zhang@intel.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/error-report.h"
+> +#include "qemu/main-loop.h"
+> +#include "hax-i386.h"
+> +#include "sysemu/runstate.h"
+> +#include "sysemu/cpus.h"
+> +#include "qemu/guest-random.h"
+> +
+> +#include "hax-cpus-interface.h"
+> +
+> +static void *hax_cpu_thread_fn(void *arg)
+> +{
+> +    CPUState *cpu = arg;
+> +    int r;
+> +
+> +    rcu_register_thread();
+> +    qemu_mutex_lock_iothread();
+> +    qemu_thread_get_self(cpu->thread);
+> +
+> +    cpu->thread_id = qemu_get_thread_id();
+> +    hax_init_vcpu(cpu);
+> +    cpu_thread_signal_created(cpu);
+> +    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> +
+> +    do {
+> +        if (cpu_can_run(cpu)) {
+> +            r = hax_smp_cpu_exec(cpu);
+> +            if (r == EXCP_DEBUG) {
+> +                cpu_handle_guest_debug(cpu);
+> +            }
+> +        }
+> +
+> +        qemu_wait_io_event(cpu);
+> +    } while (!cpu->unplug || cpu_can_run(cpu));
+> +    rcu_unregister_thread();
+> +    return NULL;
+> +}
+> +
+> +static void hax_start_vcpu_thread(CPUState *cpu)
+> +{
+> +    char thread_name[VCPU_THREAD_NAME_SIZE];
+> +
+> +    cpu->thread = g_malloc0(sizeof(QemuThread));
+> +    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+> +    qemu_cond_init(cpu->halt_cond);
+> +
+> +    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/HAX",
+> +             cpu->cpu_index);
+> +    qemu_thread_create(cpu->thread, thread_name, hax_cpu_thread_fn,
+> +                       cpu, QEMU_THREAD_JOINABLE);
+> +#ifdef _WIN32
+> +    cpu->hThread = qemu_thread_get_handle(cpu->thread);
+> +#endif
+> +}
+> +
+> +CpusAccelInterface hax_cpus_interface = {
+> +    .create_vcpu_thread = hax_start_vcpu_thread,
+> +    .kick_vcpu_thread = hax_kick_vcpu_thread,
+> +
+> +    .cpu_synchronize_post_reset = hax_cpu_synchronize_post_reset,
+> +    .cpu_synchronize_post_init = hax_cpu_synchronize_post_init,
+> +    .cpu_synchronize_state = hax_cpu_synchronize_state,
+> +    .cpu_synchronize_pre_loadvm = hax_cpu_synchronize_pre_loadvm,
+> +};
+> diff --git a/target/i386/hax-cpus-interface.h b/target/i386/hax-cpus-interface.h
+> new file mode 100644
+> index 0000000000..a06f3df752
+> --- /dev/null
+> +++ b/target/i386/hax-cpus-interface.h
+> @@ -0,0 +1,8 @@
+> +#ifndef HAX_CPUS_INTERFACE_H
+> +#define HAX_CPUS_INTERFACE_H
+> +
+> +#include "sysemu/cpus.h"
+> +
+> +extern CpusAccelInterface hax_cpus_interface;
+> +
+> +#endif /* HAX_CPUS_INTERFACE */
+> diff --git a/target/i386/hax-i386.h b/target/i386/hax-i386.h
+> index 54e9d8b057..667139c7af 100644
+> --- a/target/i386/hax-i386.h
+> +++ b/target/i386/hax-i386.h
+> @@ -61,6 +61,8 @@ int hax_inject_interrupt(CPUArchState *env, int vector);
+>  struct hax_vm *hax_vm_create(struct hax_state *hax);
+>  int hax_vcpu_run(struct hax_vcpu_state *vcpu);
+>  int hax_vcpu_create(int id);
+> +void hax_kick_vcpu_thread(CPUState *cpu);
+> +
+>  int hax_sync_vcpu_state(CPUArchState *env, struct vcpu_state_t *state,
+>                          int set);
+>  int hax_sync_msr(CPUArchState *env, struct hax_msr_data *msrs, int set);
+> diff --git a/target/i386/hax-posix.c b/target/i386/hax-posix.c
+> index 3bad89f133..ea956ddfc1 100644
+> --- a/target/i386/hax-posix.c
+> +++ b/target/i386/hax-posix.c
+> @@ -16,6 +16,8 @@
+>  
+>  #include "target/i386/hax-i386.h"
+>  
+> +#include "sysemu/cpus.h"
+> +
+>  hax_fd hax_mod_open(void)
+>  {
+>      int fd = open("/dev/HAX", O_RDWR);
+> @@ -292,3 +294,13 @@ int hax_inject_interrupt(CPUArchState *env, int vector)
+>  
+>      return ioctl(fd, HAX_VCPU_IOCTL_INTERRUPT, &vector);
+>  }
+> +
+> +void hax_kick_vcpu_thread(CPUState *cpu)
+> +{
+> +    /*
+> +     * FIXME: race condition with the exit_request check in
+> +     * hax_vcpu_hax_exec
+> +     */
+> +    cpu->exit_request = 1;
+> +    cpus_kick_thread(cpu);
+> +}
+> diff --git a/target/i386/hax-windows.c b/target/i386/hax-windows.c
+> index 863c2bcc19..469b48e608 100644
+> --- a/target/i386/hax-windows.c
+> +++ b/target/i386/hax-windows.c
+> @@ -463,3 +463,23 @@ int hax_inject_interrupt(CPUArchState *env, int vector)
+>          return 0;
+>      }
+>  }
+> +
+> +static void CALLBACK dummy_apc_func(ULONG_PTR unused)
+> +{
+> +}
+> +
+> +void hax_kick_vcpu_thread(CPUState *cpu)
+> +{
+> +    /*
+> +     * FIXME: race condition with the exit_request check in
+> +     * hax_vcpu_hax_exec
+> +     */
+> +    cpu->exit_request = 1;
+> +    if (!qemu_cpu_is_self(cpu)) {
+> +        if (!QueueUserAPC(dummy_apc_func, cpu->hThread, 0)) {
+> +            fprintf(stderr, "%s: QueueUserAPC failed with error %lu\n",
+> +                    __func__, GetLastError());
+> +            exit(1);
+> +        }
+> +    }
+> +}
+> diff --git a/target/i386/hvf/Makefile.objs b/target/i386/hvf/Makefile.objs
+> index 927b86bc67..bdbc2c0227 100644
+> --- a/target/i386/hvf/Makefile.objs
+> +++ b/target/i386/hvf/Makefile.objs
+> @@ -1,2 +1,2 @@
+> -obj-y += hvf.o
+> +obj-y += hvf.o hvf-cpus-interface.o
+>  obj-y += x86.o x86_cpuid.o x86_decode.o x86_descr.o x86_emu.o x86_flags.o x86_mmu.o x86hvf.o x86_task.o
+> diff --git a/target/i386/hvf/hvf-cpus-interface.c b/target/i386/hvf/hvf-cpus-interface.c
+> new file mode 100644
+> index 0000000000..54bfe307c1
+> --- /dev/null
+> +++ b/target/i386/hvf/hvf-cpus-interface.c
+> @@ -0,0 +1,92 @@
+> +#include "qemu/osdep.h"
+> +#include "qemu/error-report.h"
+> +#include "qemu/main-loop.h"
+> +#include "sysemu/hvf.h"
+> +#include "sysemu/runstate.h"
+> +#include "sysemu/cpus.h"
+> +#include "qemu/guest-random.h"
+> +
+> +#include "hvf-cpus-interface.h"
+> +
+> +/*
+> + * The HVF-specific vCPU thread function. This one should only run when the host
+> + * CPU supports the VMX "unrestricted guest" feature.
+> + */
+> +static void *hvf_cpu_thread_fn(void *arg)
+> +{
+> +    CPUState *cpu = arg;
+> +
+> +    int r;
+> +
+> +    assert(hvf_enabled());
+> +
+> +    rcu_register_thread();
+> +
+> +    qemu_mutex_lock_iothread();
+> +    qemu_thread_get_self(cpu->thread);
+> +
+> +    cpu->thread_id = qemu_get_thread_id();
+> +    cpu->can_do_io = 1;
+> +    current_cpu = cpu;
+> +
+> +    hvf_init_vcpu(cpu);
+> +
+> +    /* signal CPU creation */
+> +    cpu_thread_signal_created(cpu);
+> +    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> +
+> +    do {
+> +        if (cpu_can_run(cpu)) {
+> +            r = hvf_vcpu_exec(cpu);
+> +            if (r == EXCP_DEBUG) {
+> +                cpu_handle_guest_debug(cpu);
+> +            }
+> +        }
+> +        qemu_wait_io_event(cpu);
+> +    } while (!cpu->unplug || cpu_can_run(cpu));
+> +
+> +    hvf_vcpu_destroy(cpu);
+> +    cpu_thread_signal_destroyed(cpu);
+> +    qemu_mutex_unlock_iothread();
+> +    rcu_unregister_thread();
+> +    return NULL;
+> +}
+> +
+> +static void hvf_kick_vcpu_thread(CPUState *cpu)
+> +{
+> +    cpus_kick_thread(cpu);
+> +}
+> +
+> +static void hvf_cpu_synchronize_noop(CPUState *cpu)
+> +{
+> +}
+> +
+> +static void hvf_start_vcpu_thread(CPUState *cpu)
+> +{
+> +    char thread_name[VCPU_THREAD_NAME_SIZE];
+> +
+> +    /*
+> +     * HVF currently does not support TCG, and only runs in
+> +     * unrestricted-guest mode.
+> +     */
+> +    assert(hvf_enabled());
+> +
+> +    cpu->thread = g_malloc0(sizeof(QemuThread));
+> +    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+> +    qemu_cond_init(cpu->halt_cond);
+> +
+> +    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/HVF",
+> +             cpu->cpu_index);
+> +    qemu_thread_create(cpu->thread, thread_name, hvf_cpu_thread_fn,
+> +                       cpu, QEMU_THREAD_JOINABLE);
+> +}
+> +
+> +CpusAccelInterface hvf_cpus_interface = {
+> +    .create_vcpu_thread = hvf_start_vcpu_thread,
+> +    .kick_vcpu_thread = hvf_kick_vcpu_thread,
+> +
+> +    .cpu_synchronize_post_reset = hvf_cpu_synchronize_noop,
+> +    .cpu_synchronize_post_init = hvf_cpu_synchronize_noop,
+> +    .cpu_synchronize_state = hvf_cpu_synchronize_noop,
+> +    .cpu_synchronize_pre_loadvm = hvf_cpu_synchronize_noop,
+> +};
+> diff --git a/target/i386/hvf/hvf-cpus-interface.h b/target/i386/hvf/hvf-cpus-interface.h
+> new file mode 100644
+> index 0000000000..6ea38742e5
+> --- /dev/null
+> +++ b/target/i386/hvf/hvf-cpus-interface.h
+> @@ -0,0 +1,8 @@
+> +#ifndef HVF_CPUS_INTERFACE_H
+> +#define HVF_CPUS_INTERFACE_H
+> +
+> +#include "sysemu/cpus.h"
+> +
+> +extern CpusAccelInterface hvf_cpus_interface;
+> +
+> +#endif /* HVF_CPUS_INTERFACE */
+> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+> index d72543dc31..75cdf88cec 100644
+> --- a/target/i386/hvf/hvf.c
+> +++ b/target/i386/hvf/hvf.c
+> @@ -72,6 +72,8 @@
+>  #include "sysemu/accel.h"
+>  #include "target/i386/cpu.h"
+>  
+> +#include "hvf-cpus-interface.h"
+> +
+>  HVFState *hvf_state;
+>  
+>  static void assert_hvf_ok(hv_return_t ret)
+> @@ -312,7 +314,7 @@ void hvf_cpu_synchronize_post_reset(CPUState *cpu_state)
+>      run_on_cpu(cpu_state, do_hvf_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
+>  }
+>  
+> -void _hvf_cpu_synchronize_post_init(CPUState *cpu, run_on_cpu_data arg)
+> +static void _hvf_cpu_synchronize_post_init(CPUState *cpu, run_on_cpu_data arg)
+>  {
+>      CPUState *cpu_state = cpu;
+>      hvf_put_registers(cpu_state);
+> @@ -979,6 +981,7 @@ static int hvf_accel_init(MachineState *ms)
+>      hvf_state = s;
+>      cpu_interrupt_handler = hvf_handle_interrupt;
+>      memory_listener_register(&hvf_memory_listener, &address_space_memory);
+> +    cpus_register_accel_interface(&hvf_cpus_interface);
+>      return 0;
+>  }
+>  
+> diff --git a/target/i386/whpx-all.c b/target/i386/whpx-all.c
+> index c78baac6df..daac9858ae 100644
+> --- a/target/i386/whpx-all.c
+> +++ b/target/i386/whpx-all.c
+> @@ -24,6 +24,8 @@
+>  #include "migration/blocker.h"
+>  #include "whp-dispatch.h"
+>  
+> +#include "whpx-cpus-interface.h"
+> +
+>  #include <WinHvPlatform.h>
+>  #include <WinHvEmulation.h>
+>  
+> @@ -1575,6 +1577,7 @@ static int whpx_accel_init(MachineState *ms)
+>      whpx_memory_init();
+>  
+>      cpu_interrupt_handler = whpx_handle_interrupt;
+> +    cpus_register_accel_interface(&whpx_cpus_interface);
+>  
+>      printf("Windows Hypervisor Platform accelerator is operational\n");
+>      return 0;
+> diff --git a/target/i386/whpx-cpus-interface.c b/target/i386/whpx-cpus-interface.c
+> new file mode 100644
+> index 0000000000..d2a4ef0699
+> --- /dev/null
+> +++ b/target/i386/whpx-cpus-interface.c
+> @@ -0,0 +1,96 @@
+> +/*
+> + * QEMU Windows Hypervisor Platform accelerator (WHPX)
+> + *
+> + * Copyright Microsoft Corp. 2017
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "sysemu/kvm_int.h"
+> +#include "qemu/main-loop.h"
+> +#include "sysemu/cpus.h"
+> +#include "qemu/guest-random.h"
+> +
+> +#include "sysemu/whpx.h"
+> +#include "whpx-cpus-interface.h"
+> +
+> +#include <WinHvPlatform.h>
+> +#include <WinHvEmulation.h>
+> +
+> +static void *whpx_cpu_thread_fn(void *arg)
+> +{
+> +    CPUState *cpu = arg;
+> +    int r;
+> +
+> +    rcu_register_thread();
+> +
+> +    qemu_mutex_lock_iothread();
+> +    qemu_thread_get_self(cpu->thread);
+> +    cpu->thread_id = qemu_get_thread_id();
+> +    current_cpu = cpu;
+> +
+> +    r = whpx_init_vcpu(cpu);
+> +    if (r < 0) {
+> +        fprintf(stderr, "whpx_init_vcpu failed: %s\n", strerror(-r));
+> +        exit(1);
+> +    }
+> +
+> +    /* signal CPU creation */
+> +    cpu_thread_signal_created(cpu);
+> +    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+> +
+> +    do {
+> +        if (cpu_can_run(cpu)) {
+> +            r = whpx_vcpu_exec(cpu);
+> +            if (r == EXCP_DEBUG) {
+> +                cpu_handle_guest_debug(cpu);
+> +            }
+> +        }
+> +        while (cpu_thread_is_idle(cpu)) {
+> +            qemu_cond_wait_iothread(cpu->halt_cond);
+> +        }
+> +        qemu_wait_io_event_common(cpu);
+> +    } while (!cpu->unplug || cpu_can_run(cpu));
+> +
+> +    whpx_destroy_vcpu(cpu);
+> +    cpu_thread_signal_destroyed(cpu);
+> +    qemu_mutex_unlock_iothread();
+> +    rcu_unregister_thread();
+> +    return NULL;
+> +}
+> +
+> +static void whpx_start_vcpu_thread(CPUState *cpu)
+> +{
+> +    char thread_name[VCPU_THREAD_NAME_SIZE];
+> +
+> +    cpu->thread = g_malloc0(sizeof(QemuThread));
+> +    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+> +    qemu_cond_init(cpu->halt_cond);
+> +    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/WHPX",
+> +             cpu->cpu_index);
+> +    qemu_thread_create(cpu->thread, thread_name, whpx_cpu_thread_fn,
+> +                       cpu, QEMU_THREAD_JOINABLE);
+> +#ifdef _WIN32
+> +    cpu->hThread = qemu_thread_get_handle(cpu->thread);
+> +#endif
+> +}
+> +
+> +static void whpx_kick_vcpu_thread(CPUState *cpu)
+> +{
+> +    if (!qemu_cpu_is_self(cpu)) {
+> +        whpx_vcpu_kick(cpu);
+> +    }
+> +}
+> +
+> +CpusAccelInterface whpx_cpus_interface = {
+> +    .create_vcpu_thread = whpx_start_vcpu_thread,
+> +    .kick_vcpu_thread = whpx_kick_vcpu_thread,
+> +
+> +    .cpu_synchronize_post_reset = whpx_cpu_synchronize_post_reset,
+> +    .cpu_synchronize_post_init = whpx_cpu_synchronize_post_init,
+> +    .cpu_synchronize_state = whpx_cpu_synchronize_state,
+> +    .cpu_synchronize_pre_loadvm = whpx_cpu_synchronize_pre_loadvm,
+> +};
+> diff --git a/target/i386/whpx-cpus-interface.h b/target/i386/whpx-cpus-interface.h
+> new file mode 100644
+> index 0000000000..084e8b15b8
+> --- /dev/null
+> +++ b/target/i386/whpx-cpus-interface.h
+> @@ -0,0 +1,8 @@
+> +#ifndef WHPX_CPUS_INTERFACE_H
+> +#define WHPX_CPUS_INTERFACE_H
+> +
+> +#include "sysemu/cpus.h"
+> +
+> +extern CpusAccelInterface whpx_cpus_interface;
+> +
+> +#endif /* WHPX_CPUS_INTERFACE */
+> 
 
 
