@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 666ED1DFF1B
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 15:28:34 +0200 (CEST)
-Received: from localhost ([::1]:35208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F2F1DFF33
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 May 2020 15:51:26 +0200 (CEST)
+Received: from localhost ([::1]:43394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jcqg4-0006Sg-Uu
-	for lists+qemu-devel@lfdr.de; Sun, 24 May 2020 09:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39384)
+	id 1jcr2C-0006qG-P0
+	for lists+qemu-devel@lfdr.de; Sun, 24 May 2020 09:51:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jcqf2-0005g3-G4
- for qemu-devel@nongnu.org; Sun, 24 May 2020 09:27:28 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:40699)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jcr1S-0006I4-Eq
+ for qemu-devel@nongnu.org; Sun, 24 May 2020 09:50:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jcqf1-0005hd-Gb
- for qemu-devel@nongnu.org; Sun, 24 May 2020 09:27:28 -0400
-Received: by mail-oi1-x243.google.com with SMTP id v128so13942836oia.7
- for <qemu-devel@nongnu.org>; Sun, 24 May 2020 06:27:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TdGCLAkPEtn9FVvx/hEI+xO1c5a8MG1ZLDpElMnNnjk=;
- b=UNxaD2c8qV84hWmlfEEF4CYb0Z70GZ4uUzDk02jHpR+0MQd7djIB2jnSR0VVyKImKD
- sjmHybvIUVjKsilpYDGa+hnkPqLLCv5avlbvL27EJ0wSG80zmhCcJr3LBCD3PKmc/SiJ
- WHr03jgNkO8BD7arIXlB4V69bg1w9HnXs1NvmNvWHBaYv0vN5SIS0ZHT9ZkKejWJoC8K
- GkZ+AeX+LKKjp6O6mEbxan0/aJ9DSwIWJIqRXYCZ4163WjVZz0QmwA7B4FcLKmHz+EHd
- D2Crc81afPC3bWPNVjdv/X6r3Y6fHvJab3TG8o/k3tACmkN1rWO4AwNmP851Hi9anxNB
- t13g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TdGCLAkPEtn9FVvx/hEI+xO1c5a8MG1ZLDpElMnNnjk=;
- b=qC5aCBGfeyacsYj0l7dy+L/blUvoHITQLhSAe62ZAFsRyXAe+WMDZ47qsMOSTMOZDE
- 1vkDzE1z+mvTGZKotEymAmBXBs/yVtkWFPZOPrS3Z2RhbwPfSGNYsVbp6vXkyOaybakR
- OCtW6RRjvHx+rgSQH2S2XImbE8q/A8ex4ZT561e0dey7MqV3StUB+nEiDO/CnvTehhvS
- ZSrlUs3d9ymuoSSthR0LwkTqiNQ1ltojMEdY/2YY8k57C1kgFqy0itpAncwZpi0yghlj
- TyKtmYUtuDf5hlMwMOmqziw86iQxBIoab7nF1LUogXsiS6SZNwXLHfWrFc6U4m8Lsduk
- FCEA==
-X-Gm-Message-State: AOAM530HMtcKOcrLQWVq/yBKFAJPS2z/IyZGQ/CPF5CXSG4kNtpydfFI
- 2AOzx+HGHTJjbmg/RKMyIj+yQ87PbBqKkjJTYUbocg==
-X-Google-Smtp-Source: ABdhPJyRY5oPpvgL1qRSmLEi0TO3H4cU0bTxW7iDUS7ZnYicgoHitpvPXdVrzj0kF3zwNgIb2Js+z0G149xTLmS5/C4=
-X-Received: by 2002:a54:469a:: with SMTP id k26mr3482104oic.163.1590326845233; 
- Sun, 24 May 2020 06:27:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jcr1R-0000eh-84
+ for qemu-devel@nongnu.org; Sun, 24 May 2020 09:50:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jcr1P-0006p9-2C
+ for <qemu-devel@nongnu.org>; Sun, 24 May 2020 13:50:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0CB142E8029
+ for <qemu-devel@nongnu.org>; Sun, 24 May 2020 13:50:35 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200523232035.1029349-1-peterx@redhat.com>
- <20200523232035.1029349-2-peterx@redhat.com>
-In-Reply-To: <20200523232035.1029349-2-peterx@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 24 May 2020 14:27:14 +0100
-Message-ID: <CAFEAcA9jq6UbaZAT-itF5Kswy1YSAocKa8mVVh0hNF7DuLGBqA@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 01/11] linux-headers: Update
-To: Peter Xu <peterx@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 24 May 2020 13:40:41 -0000
+From: Peter Maydell <1880355@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd pmaydell
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <159029353528.907.11982786579949073896.malonedeb@chaenomeles.canonical.com>
+ <ced59c5e-01e9-9da6-5191-9d34ffa976b0@redhat.com>
+Message-Id: <CAFEAcA83E33xNjhXvbZr9oe7TO9kMa0nArroCA_mY3zy+0bq2g@mail.gmail.com>
+Subject: Re: [Bug 1880355] [NEW] Length restrictions for fw_cfg_dma_transfer?
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9c5c524f4a7f3644b9930c7748ec93d068f788b5
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/24 09:50:35
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,26 +73,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1880355 <1880355@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 24 May 2020 at 00:21, Peter Xu <peterx@redhat.com> wrote:
->
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+On Sun, 24 May 2020 at 11:30, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+> It looks to me a normal behavior for a DMA device. DMA devices have a
+> different address space view than the CPUs.
+> Also note the fw_cfg is a generic device, not restricted to the x86 arch.
 
-Header updates should always include the upstream
-kernel commit against which you ran the scripts/update-linux-headers.sh
-script, please.
-
- linux-headers/asm-x86/kvm.h |  1 +
- linux-headers/linux/kvm.h   | 53 +++++++++++++++++++++++++++++++++++++
-
-Are these really the only files which had changes? It looks
-a suspiciously short list...
+In an ideal world all our DMA devices would use some kind of common
+framework or design pattern so they didn't hog all the CPU
+and/or spend minutes with the BQL held if the guest requests
+an enormous-sized DMA. In practice many of them just have
+a simple "loop until the DMA transfer is complete" implementation...
 
 thanks
 -- PMM
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1880355
+
+Title:
+  Length restrictions for fw_cfg_dma_transfer?
+
+Status in QEMU:
+  New
+
+Bug description:
+  For me, this takes close to 3 minutes at 100% CPU:
+  echo "outl 0x518 0x9596ffff" | ./i386-softmmu/qemu-system-i386 -M q35 -m =
+32 -nographic -accel qtest -monitor none -serial none -qtest stdio
+
+  #0  phys_page_find (d=3D0x606000035d80, addr=3D136728041144404) at /exec.=
+c:338
+  #1  address_space_lookup_region (d=3D0x606000035d80, addr=3D1367280411444=
+04, resolve_subpage=3Dtrue) at /exec.c:363
+  #2  address_space_translate_internal (d=3D0x606000035d80, addr=3D13672804=
+1144404, xlat=3D0x7fff1fc0d070, plen=3D0x7fff1fc0d090, resolve_subpage=3Dtr=
+ue) at /exec.c:382
+  #3  flatview_do_translate (fv=3D0x606000035d20, addr=3D136728041144404, x=
+lat=3D0x7fff1fc0d070, plen_out=3D0x7fff1fc0d090, page_mask_out=3D0x0, is_wr=
+ite=3Dtrue, is_mmio=3Dtrue, target_as=3D0x7fff1fc0ce10, attrs=3D...)
+      pment/qemu/exec.c:520
+  #4  flatview_translate (fv=3D0x606000035d20, addr=3D136728041144404, xlat=
+=3D0x7fff1fc0d070, plen=3D0x7fff1fc0d090, is_write=3Dtrue, attrs=3D...) at =
+/exec.c:586
+  #5  flatview_write_continue (fv=3D0x606000035d20, addr=3D136728041144404,=
+ attrs=3D..., ptr=3D0x7fff1fc0d660, len=3D172, addr1=3D136728041144400, l=
+=3D172, mr=3D0x557fd54e77e0 <io_mem_unassigned>)
+      pment/qemu/exec.c:3160
+  #6  flatview_write (fv=3D0x606000035d20, addr=3D136728041144064, attrs=3D=
+..., buf=3D0x7fff1fc0d660, len=3D512) at /exec.c:3177
+  #7  address_space_write (as=3D0x557fd54e7a00 <address_space_memory>, addr=
+=3D136728041144064, attrs=3D..., buf=3D0x7fff1fc0d660, len=3D512) at /exec.=
+c:3271
+  #8  dma_memory_set (as=3D0x557fd54e7a00 <address_space_memory>, addr=3D13=
+6728041144064, c=3D0 '\000', len=3D1378422272) at /dma-helpers.c:31
+  #9  fw_cfg_dma_transfer (s=3D0x61a000001e80) at /hw/nvram/fw_cfg.c:400
+  #10 fw_cfg_dma_mem_write (opaque=3D0x61a000001e80, addr=3D4, value=3D4294=
+940309, size=3D4) at /hw/nvram/fw_cfg.c:467
+  #11 memory_region_write_accessor (mr=3D0x61a000002200, addr=3D4, value=3D=
+0x7fff1fc0e3d0, size=3D4, shift=3D0, mask=3D4294967295, attrs=3D...) at /me=
+mory.c:483
+  #12 access_with_adjusted_size (addr=3D4, value=3D0x7fff1fc0e3d0, size=3D4=
+, access_size_min=3D1, access_size_max=3D8, access_fn=3D0x557fd2288c80 <mem=
+ory_region_write_accessor>, mr=3D0x61a000002200, attrs=3D...)
+      pment/qemu/memory.c:539
+  #13 memory_region_dispatch_write (mr=3D0x61a000002200, addr=3D4, data=3D4=
+294940309, op=3DMO_32, attrs=3D...) at /memory.c:1476
+  #14 flatview_write_continue (fv=3D0x606000035f00, addr=3D1304, attrs=3D..=
+., ptr=3D0x7fff1fc0ec40, len=3D4, addr1=3D4, l=3D4, mr=3D0x61a000002200) at=
+ /exec.c:3137
+  #15 flatview_write (fv=3D0x606000035f00, addr=3D1304, attrs=3D..., buf=3D=
+0x7fff1fc0ec40, len=3D4) at /exec.c:3177
+  #16 address_space_write (as=3D0x557fd54e7bc0 <address_space_io>, addr=3D1=
+304, attrs=3D..., buf=3D0x7fff1fc0ec40, len=3D4) at /exec.c:3271
+
+  =
+
+  It looks like fw_cfg_dma_transfer gets the address(136728041144064) and l=
+ength(1378422272) for the read from the value provided as input 4294940309 =
+(0xFFFF9695) which lands in pcbios. Should there be any limits on the lengt=
+h of guest-memory that fw_cfg should populate?
+  Found by libfuzzer
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1880355/+subscriptions
 
