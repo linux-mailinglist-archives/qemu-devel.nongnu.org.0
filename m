@@ -2,53 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7321E1200
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 17:45:01 +0200 (CEST)
-Received: from localhost ([::1]:36740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CDC31E1216
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 17:52:12 +0200 (CEST)
+Received: from localhost ([::1]:41646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdFHg-00051j-P8
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 11:45:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58884)
+	id 1jdFOd-0007k0-8K
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 11:52:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jdFGk-0004a2-UI
- for qemu-devel@nongnu.org; Mon, 25 May 2020 11:44:02 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45278)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jdFH9-0004vA-Px; Mon, 25 May 2020 11:44:27 -0400
+Received: from mout.web.de ([212.227.17.11]:44687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jdFGk-0006Zc-0a
- for qemu-devel@nongnu.org; Mon, 25 May 2020 11:44:02 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 23FF8AC77;
- Mon, 25 May 2020 15:44:03 +0000 (UTC)
-Subject: Re: [RFC v3 3/4] cpu-timers, icount: new modules
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20200525145440.29728-1-cfontana@suse.de>
- <20200525145440.29728-4-cfontana@suse.de>
- <1a4eb7bb-9b92-7536-9de3-a7e56afd9da4@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <949ffed9-a6ef-fcb0-08c4-6bfedcf96cf6@suse.de>
-Date: Mon, 25 May 2020 17:43:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jdFH8-0006ca-Hp; Mon, 25 May 2020 11:44:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1590421461;
+ bh=7l8UDSTdzyHaeQBjUvlzWesvyPNzew2oEjteVv+RyzU=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=AP1PWVxRzVn6iwFnBMWPwtdyJiej3qEZ8Trvuw1uD+ugvHBFIr2EP9xBOUY9tejk9
+ dcAHAEsDPdXT3PnfIcx2YmY44wzuZzLD3GG/q2WhYd3EcuO0ZN1iPp6Eol2oBftORf
+ jrluOKy2d4iBE4/9uG6KSMtMKPi3JA4awA6YdDpY=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([94.134.180.22]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MlbHE-1jC7fS42eA-00im1p; Mon, 25
+ May 2020 17:44:21 +0200
+Date: Mon, 25 May 2020 17:44:12 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH v4 0/4] Introduce 'yank' oob qmp command to recover from
+ hanging qemu
+Message-ID: <cover.1590421341.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-In-Reply-To: <1a4eb7bb-9b92-7536-9de3-a7e56afd9da4@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 01:03:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; boundary="Sig_/phtN7D_PkqiSCtORxrJa0VZ";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:NV87t6E6YkeAwS5rDo0MTgaIDclUMjMb9YUzLCdQhKb/QbN2PGe
+ 8n3B1d8XYKOEDX0ztXq4xqSmHMXfnax/8iyAPQqJLYh6zKRUrdV2b1kjerJRUpBsmpTgcHU
+ 2opkIpxeOnIguoPowg2X6ya6wesMIBRpMvcYrIckTbI9C74HbnrU6lN/bRiIrw5fG//mvXC
+ GoVGsoK5YIALYWpxvbU/A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6/nIx4o8zck=:QZvHcXJCXA2eCoT3ofpO71
+ d5lroxjUkSiAEP79a8uqMnVwvnDuVidKk87wlSKgIOX1RhZiLX9UPfOd58aelj9kErvO/rZ1h
+ OTZAycVJ5R103fHg8qSTIC9LIiiPlmyJZjdRAOvX1771qZoFUj+jWnoFwaeNCML5YzhedZZSK
+ 4yAG3LTq2dv5rUrvnKvhT5P1ES+3uhPoZsApQFnt10zlF1PoFda6O0/wY+6WCiT414G9WMZJ4
+ a6tIWL+kCo3sXp++8Xpf9od68kHxEUMoS1B2h7QkNW27ICj1STNNNvwlZ9+W0t4UQcFPkz7xN
+ 3z2teLxfhQ+NrCrco2duyKJBGVbwxyXQcw0k4tbSgEtyIU4CfXhPntc/8p+VwBp1WZGpAkszo
+ ohJV/eZqxNRNCrB1X42NFyiydQqmK9ZgySsOoJlQOjxlUjhHiQeGZOgD0+n3kVv//J8Behjfi
+ d57ds1uW7Oml4wcwcR2XeEAV2qqDMGVQkdlGnNwtrnXA1/ZustMckYhmxVNQJWWa8jQNJBajw
+ lGrPw1McWq/P7xr+17m+d5Qywg49b3pm27WNihiiG5HcnvIMDcwLAUbolTSW0f3gyB4rfi0ov
+ 5k966IsZT4XIv7c0ezR7jCvCOLkzQ85BVybxJs54stTFOm6yTRR6p+CSKz61pQNxlJeXjb6id
+ GOzRuKauzfzVhjI7Xh3/ApwSEFs2AR1qEW4bK4UhsDI3DkO4372J5qlisz9pXvffqvP7jcJVf
+ CKuhZx1uDSeQKdUYH4933dpgeT0D8KoRqrrzsDzVh4ST+y0pQcCAwmgPr7svPme3sCFx9qu+G
+ lTn+nxvZmu5uLo+DMema6i0KaD5clmQ6xVTY2gEudHFT/wocMiHFQWqX9SWXHwU7O6ozzOF9d
+ rneM3gOqV72/lQ+iL6bC5RtKwg896KBJ91BbV7Aeea1OXMb3nDi6jpnvWo+tRZyeLqAQ5IEof
+ 7oCocCf2Rk7/nlcEE644gbRGpjeSid6OvaMS7EP3Tse67djT3gFCqthxViGp0Ims778QCvLSC
+ EFlUOnzH3ur0Ybwfo6RUAGToMnSaeZFQHuORy2UiY3cycFkV9lS0KgYZfa+6ZUFzcINdoMeJh
+ GXfChFm0Mum1hSAedvnH9YO4W/TO4omw/ywcaGKVYVRrA+ByOpFgW97Yzs5k2zEh521pHwdYe
+ mWTxD50V1FM3HCn36YEucQx1QiaDSwMEg3LsHkk3uVmoZOPkFSZ/N6l7yMJBRg0jh7NI73Vbp
+ CFTnuAsI0X/hKEnPK
+Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 11:44:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,92 +84,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Colin Xu <colin.xu@intel.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
- haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/25/20 5:16 PM, Philippe Mathieu-Daudé wrote:
-> On 5/25/20 4:54 PM, Claudio Fontana wrote:
->> refactoring of cpus.c continues with cpu timer state extraction.
->>
->> cpu-timers: responsible for the cpu timers state, and for access to
->> cpu clocks and ticks.
->>
->> icount: counts the TCG instructions executed. As such it is specific to
->> the TCG accelerator. Therefore, it is built only under CONFIG_TCG.
->>
->> One complication is due to qtest, which misuses icount to warp time
->> (qtest_clock_warp). In order to solve this problem, detach instead qtest
->> from icount, and use a trivial separate counter for it.
->>
->> This requires fixing assumptions scattered in the code that
->> qtest_enabled() implies icount_enabled().
->>
->> No functionality change.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
->>  accel/qtest.c                |   6 +-
->>  accel/tcg/cpu-exec.c         |  43 ++-
->>  accel/tcg/tcg-all.c          |   7 +-
->>  accel/tcg/translate-all.c    |   3 +-
->>  docs/replay.txt              |   6 +-
->>  exec.c                       |   4 -
->>  hw/core/ptimer.c             |   6 +-
->>  hw/i386/x86.c                |   1 +
->>  include/exec/cpu-all.h       |   4 +
->>  include/exec/exec-all.h      |   4 +-
->>  include/qemu/timer.h         |  22 +-
->>  include/sysemu/cpu-timers.h  |  72 +++++
->>  include/sysemu/cpus.h        |  12 +-
->>  include/sysemu/qtest.h       |   2 +
->>  include/sysemu/replay.h      |   4 +-
->>  replay/replay.c              |   6 +-
->>  softmmu/Makefile.objs        |   2 +
->>  softmmu/cpu-timers.c         | 267 ++++++++++++++++
->>  softmmu/cpus.c               | 731 +------------------------------------------
->>  softmmu/icount.c             | 496 +++++++++++++++++++++++++++++
->>  softmmu/qtest.c              |  34 +-
->>  softmmu/timers-state.h       |  45 +++
->>  softmmu/vl.c                 |   8 +-
->>  stubs/Makefile.objs          |   3 +-
->>  stubs/clock-warp.c           |   4 +-
->>  stubs/cpu-get-clock.c        |   3 +-
->>  stubs/cpu-get-icount.c       |  21 --
->>  stubs/icount.c               |  22 ++
->>  stubs/qemu-timer-notify-cb.c |   8 +
->>  stubs/qtest.c                |   5 +
->>  target/alpha/translate.c     |   3 +-
->>  target/arm/helper.c          |   7 +-
->>  target/riscv/csr.c           |   8 +-
->>  tests/ptimer-test-stubs.c    |   7 +-
->>  tests/test-timed-average.c   |   2 +-
->>  util/main-loop.c             |   4 +-
->>  util/qemu-timer.c            |  12 +-
->>  37 files changed, 1062 insertions(+), 832 deletions(-)
->>  create mode 100644 include/sysemu/cpu-timers.h
->>  create mode 100644 softmmu/cpu-timers.c
->>  create mode 100644 softmmu/icount.c
->>  create mode 100644 softmmu/timers-state.h
->>  delete mode 100644 stubs/cpu-get-icount.c
->>  create mode 100644 stubs/icount.c
->>  create mode 100644 stubs/qemu-timer-notify-cb.c
-> 
-> Similarly I'd rather see this patch comes before your current #1 "move
-> softmmu only files from root". Anyway wait for other reviewers before
-> spending time to reorder the series.
-> 
-> 
+--Sig_/phtN7D_PkqiSCtORxrJa0VZ
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I understand the desire to avoid moving cpus code back and forth,
-will then wait for other comments as you suggest.
+Hello Everyone,
+In many cases, if qemu has a network connection (qmp, migration, chardev, e=
+tc.)
+to some other server and that server dies or hangs, qemu hangs too.
+These patches introduce the new 'yank' out-of-band qmp command to recover f=
+rom
+these kinds of hangs. The different subsystems register callbacks which get
+executed with the yank command. For example the callback can shutdown() a
+socket. This is intended for the colo use-case, but it can be used for other
+things too of course.
 
-Ciao and thanks,
+Regards,
+Lukas Straub
 
-Claudio
+v4:
+ -fix build errors...
 
+v3:
+ -don't touch softmmu/vl.c, use __contructor__ attribute instead (Paolo Bon=
+zini)
+ -fix build errors
+ -rewrite migration patch so it actually passes all tests
+
+v2:
+ -don't touch io/ code anymore
+ -always register yank functions
+ -'yank' now takes a list of instances to yank
+ -'query-yank' returns a list of yankable instances
+
+
+Lukas Straub (4):
+  Introduce yank feature
+  block/nbd.c: Add yank feature
+  chardev/char-socket.c: Add yank feature
+  migration: Add yank feature
+
+ Makefile.objs                 |   3 +
+ block/nbd.c                   | 101 ++++++++++++--------
+ chardev/char-socket.c         |  24 +++++
+ migration/channel.c           |  12 +++
+ migration/migration.c         |  18 +++-
+ migration/multifd.c           |  10 ++
+ migration/qemu-file-channel.c |   6 ++
+ migration/savevm.c            |   2 +
+ qapi/misc.json                |  45 +++++++++
+ tests/Makefile.include        |   2 +-
+ yank.c                        | 174 ++++++++++++++++++++++++++++++++++
+ yank.h                        |  67 +++++++++++++
+ 12 files changed, 425 insertions(+), 39 deletions(-)
+ create mode 100644 yank.c
+ create mode 100644 yank.h
+
+--
+2.20.1
+
+--Sig_/phtN7D_PkqiSCtORxrJa0VZ
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl7L58wACgkQNasLKJxd
+sli8mA/7BhPMvBQouH3esjIdgh0zhEjWCPd3iQNX08SOvoLQhMN/mo14U++L+ocj
+4h13L4tlf015AAol3r9Eij8wNPdYMbP4g9Zgw/m9DqW7wt1/BGrkt4/JVFPism6I
++sxaPmC97tXQgjljri6uGGbMTnh/SMVztZV0GfzY5rT+JTSBWG0nnTWX4bzO1YDG
+o3AM3Hu9Y/AdmJ4vFJZcXo1UD3sNxbE0FTBZveS4NqbsAvTMf5eN4S/V731IZr7t
+VFBUKm1nxAoqxK5f50rIC62f3B+CW0Y7aVtZqsW1murlrq7vKHToQqBTOLgh54ZE
+XW+Ju+1l9hTYRLXzYXfNhc1WN/Y+VbIwe7bRqPmXfnjcP+S9uU5Qqxv2eYF6ZdwS
+ALdBG4Zao/qX2ayk7E79ewRBu9K+9YyC3wzg2mFjaQaw1i3hwrsF+iZ+1PXQrisP
+LwK9rsK8B+mHW195XQ4uM460bVVtCxaF+Xj4GLH3crxajb6qwuPp1fen771z9jsd
+ztvBvcB5oMyyVaPqx0U7r3zszSDZIMaNW1G08k4JRi/sN/co/wYnogUe5V9qFCMf
+ANlkgSFFaBxb8uHyhMQ6/qLhDfSjcXqxuNk/VQO2kn6mMptqX8WZmBX0anZePCzi
+lHmVUMGfR7KDw1P/crkrqPy4gtdkv5mx4qd10lUsz8+kXKP9aNY=
+=X+II
+-----END PGP SIGNATURE-----
+
+--Sig_/phtN7D_PkqiSCtORxrJa0VZ--
 
