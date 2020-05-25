@@ -2,58 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609A11E0CF3
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:29:50 +0200 (CEST)
-Received: from localhost ([::1]:42182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66CFA1E0D51
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:32:29 +0200 (CEST)
+Received: from localhost ([::1]:48574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdBIj-0000c4-Df
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:29:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58482)
+	id 1jdBLI-0003M7-Fj
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:32:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jdBH0-0007Ka-Di
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:28:02 -0400
-Received: from 1.mo178.mail-out.ovh.net ([178.33.251.53]:60126)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jdBGz-0001eB-8V
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:28:02 -0400
-Received: from player696.ha.ovh.net (unknown [10.108.57.139])
- by mo178.mail-out.ovh.net (Postfix) with ESMTP id 9407FA2A1B
- for <qemu-devel@nongnu.org>; Mon, 25 May 2020 13:27:58 +0200 (CEST)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player696.ha.ovh.net (Postfix) with ESMTPSA id 1EA9512B8F3E2;
- Mon, 25 May 2020 11:27:54 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G0052628fecf-8c63-426e-8287-139683b8f492,26835B9205782E90874D777227A1F0DDBFD0E061)
- smtp.auth=clg@kaod.org
-Subject: Re: [PATCH 7/9] ppc/pnv: Add POWER10 quads
-To: Greg Kurz <groug@kaod.org>
-References: <20200513151109.453530-1-clg@kaod.org>
- <20200513151109.453530-8-clg@kaod.org> <20200520164445.1c8a03a1@bahia.lan>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <5b62f676-b51e-510c-0ca1-3b311ce56d71@kaod.org>
-Date: Mon, 25 May 2020 13:27:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdBHZ-0007z4-UM; Mon, 25 May 2020 07:28:39 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53773)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdBHY-0001h5-DE; Mon, 25 May 2020 07:28:37 -0400
+Received: by mail-wm1-x332.google.com with SMTP id l26so856008wme.3;
+ Mon, 25 May 2020 04:28:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8or0Jt1EOa4HRL3qYrPJ2szYMkUXx13MFz/tHwUyMew=;
+ b=HreIQBAyjC1oLr2Saez0nDxlNXi7c4/ZQ8T3xKZWIbsER2nkpxL7iHenvN4n9vAUi+
+ GwdkHvmhXrFswoYgYwC2cBdMSOdNGlx4BTUmVLtUuo2RVbJe8TjdT1ZGsGpEd+CQkuAu
+ IBbd+luJHCUQHAI/0UNyS0TgksHmZVV6eSow+Q7T1Jy6ubWIAC07eGKp1mqHLCPc2FPd
+ bdG5r+jl6PmnnQX1PPMAQY/zYSrY4Qo27BDgOcdeHUd0ZUdzXH6leuu7//jtzs3cLCZ7
+ 0MU2gH4vwYx4q/KLWEjJoo+FrRuIY4TW8PR27J4lahNVyaK2I6t1OjHGTcLqKoJ+jmTo
+ YF6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=8or0Jt1EOa4HRL3qYrPJ2szYMkUXx13MFz/tHwUyMew=;
+ b=Wbg1B9sopvybiR1PEgmZi60zqIgov1CrMgtjaTvRIhKoIhzyqHAWu7ItCZ3EUUxiyI
+ m6s8EEaHHaWXC5TGcbJYhc3w7buBAGfLIctl0orv83BO0me81J7EgpRbs0KQzSOS6EBW
+ qU8MS0xOeUMecSZksSAauCPvxxHUMfNflEetVZ9lp/s8EExHn9efvtecqu0vyrsS0gVL
+ /7JHRK80LKzx+aHqEyohw0M3t5e/ejShqrGC3sf+z+wXJgSwU5zPdt5zy5VQn4Dmo2sW
+ uPdsn5M15paq4CNTG50QT6TsERoGSfztcA31Z/FvJxQHGfv0hfvz92SbdkH4o7A27M04
+ VHgQ==
+X-Gm-Message-State: AOAM531g6f5A8p21Xxr98a/ZW+KenOtnf9Vs9q/7JxpofZI9HoO0/WmS
+ 4alQGD4zfOqsJbPndOIOiwgyBy2RJdQ=
+X-Google-Smtp-Source: ABdhPJw4ufyliGA5gLQfdRqqMe3yVfyCvCUfmsqVg+rkFA3i9+vyvMk8YZyrpwhiet9S8PlRx5p2fw==
+X-Received: by 2002:a1c:dc05:: with SMTP id t5mr26061736wmg.112.1590406114001; 
+ Mon, 25 May 2020 04:28:34 -0700 (PDT)
+Received: from localhost.localdomain (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id x17sm17849039wrp.71.2020.05.25.04.28.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 May 2020 04:28:33 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] hw/display/cg3: Convert debug printf()s to trace events
+Date: Mon, 25 May 2020 13:28:31 +0200
+Message-Id: <20200525112831.12697-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <20200520164445.1c8a03a1@bahia.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 12375047351490349888
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedruddvtddggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefffdvtddugeeifeduuefghfejgfeigeeigeeltedthefgieeiveeuiefhgeefgfenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=178.33.251.53; envelope-from=clg@kaod.org;
- helo=1.mo178.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 07:27:59
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,102 +84,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/20/20 4:44 PM, Greg Kurz wrote:
-> On Wed, 13 May 2020 17:11:07 +0200
-> Cédric Le Goater <clg@kaod.org> wrote:
-> 
->> Still needs some refinements on the XSCOM registers.
->>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>  include/hw/ppc/pnv.h |  4 ++++
->>  hw/ppc/pnv.c         | 33 +++++++++++++++++++++++++++++++++
->>  2 files changed, 37 insertions(+)
->>
->> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
->> index 3ff610a9c7b5..86bfa2107a8c 100644
->> --- a/include/hw/ppc/pnv.h
->> +++ b/include/hw/ppc/pnv.h
->> @@ -123,6 +123,10 @@ typedef struct Pnv10Chip {
->>      Pnv9Psi      psi;
->>      PnvLpcController lpc;
->>      PnvOCC       occ;
->> +
->> +    uint32_t     nr_quads;
->> +    PnvQuad      *quads;
->> +
->>  } Pnv10Chip;
->>  
->>  #define PNV10_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
->> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
->> index 9f1698a74467..fc751dd575d4 100644
->> --- a/hw/ppc/pnv.c
->> +++ b/hw/ppc/pnv.c
->> @@ -1621,6 +1621,33 @@ static void pnv_chip_power10_instance_init(Object *obj)
->>                              TYPE_PNV10_OCC, &error_abort, NULL);
->>  }
->>  
->> +
->> +static void pnv_chip_power10_quad_realize(Pnv10Chip *chip10, Error **errp)
->> +{
->> +    PnvChip *chip = PNV_CHIP(chip10);
->> +    int i;
->> +
->> +    chip10->nr_quads = DIV_ROUND_UP(chip->nr_cores, 4);
->> +    chip10->quads = g_new0(PnvQuad, chip10->nr_quads);
->> +
->> +    for (i = 0; i < chip10->nr_quads; i++) {
->> +        char eq_name[32];
->> +        PnvQuad *eq = &chip10->quads[i];
->> +        PnvCore *pnv_core = chip->cores[i * 4];
->> +        int core_id = CPU_CORE(pnv_core)->core_id;
->> +
->> +        snprintf(eq_name, sizeof(eq_name), "eq[%d]", core_id);
->> +        object_initialize_child(OBJECT(chip), eq_name, eq, sizeof(*eq),
->> +                                TYPE_PNV_QUAD, &error_fatal, NULL);
->> +
->> +        object_property_set_int(OBJECT(eq), core_id, "id", &error_fatal);
->> +        object_property_set_bool(OBJECT(eq), true, "realized", &error_fatal);
->> +
->> +        pnv_xscom_add_subregion(chip, PNV10_XSCOM_EQ_BASE(eq->id),
->> +                                &eq->xscom_regs);
->> +    }
->> +}
-> 
-> So, this function is mostly identical to the P9 variant, except the xscom
-> offset. Unless the refinements envisioned in the changelog bring substantial
-> change, I'd suggest to move this to a common helper and call it from dedicated
-> P9 and P10 realize functions.
+Convert DPRINTF() to trace events and remove ifdef'ry.
 
-yes. I agree.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+v2: Order addr/val/size (Mark review)
+---
+ hw/display/cg3.c        | 14 ++++----------
+ hw/display/trace-events |  4 ++++
+ 2 files changed, 8 insertions(+), 10 deletions(-)
 
-Thanks,
-
-C. 
-
-> 
->> +
->>  static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
->>  {
->>      PnvChipClass *pcc = PNV_CHIP_GET_CLASS(dev);
->> @@ -1642,6 +1669,12 @@ static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
->>          return;
->>      }
->>  
->> +    pnv_chip_power10_quad_realize(chip10, &local_err);
->> +    if (local_err) {
->> +        error_propagate(errp, local_err);
->> +        return;
->> +    }
->> +
->>      /* XIVE2 interrupt controller (POWER10) */
->>      object_property_set_int(OBJECT(&chip10->xive), PNV10_XIVE2_IC_BASE(chip),
->>                              "ic-bar", &error_fatal);
-> 
+diff --git a/hw/display/cg3.c b/hw/display/cg3.c
+index f7f1c199ce..7cbe6e56ff 100644
+--- a/hw/display/cg3.c
++++ b/hw/display/cg3.c
+@@ -35,6 +35,7 @@
+ #include "hw/qdev-properties.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
++#include "trace.h"
+ 
+ /* Change to 1 to enable debugging */
+ #define DEBUG_CG3 0
+@@ -63,12 +64,6 @@
+ #define CG3_VRAM_SIZE 0x100000
+ #define CG3_VRAM_OFFSET 0x800000
+ 
+-#define DPRINTF(fmt, ...) do { \
+-    if (DEBUG_CG3) { \
+-        printf("CG3: " fmt , ## __VA_ARGS__); \
+-    } \
+-} while (0)
+-
+ #define TYPE_CG3 "cgthree"
+ #define CG3(obj) OBJECT_CHECK(CG3State, (obj), TYPE_CG3)
+ 
+@@ -195,7 +190,8 @@ static uint64_t cg3_reg_read(void *opaque, hwaddr addr, unsigned size)
+         val = 0;
+         break;
+     }
+-    DPRINTF("read %02x from reg %" HWADDR_PRIx "\n", val, addr);
++    trace_cg3_read(addr, val, size);
++
+     return val;
+ }
+ 
+@@ -206,9 +202,7 @@ static void cg3_reg_write(void *opaque, hwaddr addr, uint64_t val,
+     uint8_t regval;
+     int i;
+ 
+-    DPRINTF("write %" PRIx64 " to reg %" HWADDR_PRIx " size %d\n",
+-            val, addr, size);
+-
++    trace_cg3_write(addr, val, size);
+     switch (addr) {
+     case CG3_REG_BT458_ADDR:
+         s->dac_index = val;
+diff --git a/hw/display/trace-events b/hw/display/trace-events
+index e6e22bef88..47b2b168ae 100644
+--- a/hw/display/trace-events
++++ b/hw/display/trace-events
+@@ -151,3 +151,7 @@ artist_vram_write(unsigned int size, uint64_t addr, uint64_t val) "%u 0x%"PRIx64
+ artist_fill_window(unsigned int start_x, unsigned int start_y, unsigned int width, unsigned int height, uint32_t op, uint32_t ctlpln) "start=%ux%u length=%ux%u op=0x%08x ctlpln=0x%08x"
+ artist_block_move(unsigned int start_x, unsigned int start_y, unsigned int dest_x, unsigned int dest_y, unsigned int width, unsigned int height) "source %ux%u -> dest %ux%u size %ux%u"
+ artist_draw_line(unsigned int start_x, unsigned int start_y, unsigned int end_x, unsigned int end_y) "%ux%u %ux%u"
++
++# cg3.c
++cg3_read(uint32_t addr, uint32_t val, unsigned size) "read addr:0x%06"PRIx32" val:0x%08"PRIx32" size:%u"
++cg3_write(uint32_t addr, uint32_t val, unsigned size) "write addr:0x%06"PRIx32" val:0x%08"PRIx32" size:%u"
+-- 
+2.21.3
 
 
