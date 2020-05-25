@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1CDB1E11A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 17:23:59 +0200 (CEST)
-Received: from localhost ([::1]:38194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C481E1182
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 17:18:31 +0200 (CEST)
+Received: from localhost ([::1]:56842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdExK-0006gy-AE
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 11:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55104)
+	id 1jdEs2-0002UD-UV
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 11:18:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdEo3-0006aE-Hf
- for qemu-devel@nongnu.org; Mon, 25 May 2020 11:14:23 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58866
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdEqG-0000wP-48
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 11:16:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47522
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdEo2-0008Id-LP
- for qemu-devel@nongnu.org; Mon, 25 May 2020 11:14:23 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdEqD-0001Dh-78
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 11:16:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590419661;
+ s=mimecast20190719; t=1590419795;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=f66NeRqfpRlgfRe38i1+1ZCvzv5Vy8dQcb2vBsN06fM=;
- b=g80ZQ8Jzidb9LkFxLo5+cTvEb4mZf5y/EK+T4kQJ2qNa7m/vqvReGMEXVZMV/PLRQ35R87
- 39NtKeq/Dx0IyYk4rCxS/SS9PpNBE2h9hPt2r6HZevPuWAqLo3iy2se6/7bXWLd6AHi5gk
- MhPrrnfoDHEdQyP1hCS4bJL0TBBhHBY=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-7Ha9RwqdNBqoapgdZMkCaw-1; Mon, 25 May 2020 11:14:18 -0400
-X-MC-Unique: 7Ha9RwqdNBqoapgdZMkCaw-1
-Received: by mail-ed1-f71.google.com with SMTP id dk23so7617273edb.15
- for <qemu-devel@nongnu.org>; Mon, 25 May 2020 08:14:17 -0700 (PDT)
+ bh=nT4lpgYSMGD7ErgeHtGAF5Bm8H60TquL5i1tc51ad4g=;
+ b=XGB9GrMUk/y2q+CIkcTGBdLckp4U7oqB48Inp1PfO1zFSGSG1DqaAAHqBkv1BUIDfN03Q7
+ WHWPxeZriCL5b+IZDIkmvqVsN6VzwKleIDzyZ10yRmrcTLsx9/BWhflRWuydNz+R19/9L0
+ LQOmNNnEvx4iwlliM0jrpEDkSDjp0Rk=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-322-H37U8Ux5Mq6BHvjEPMAZdA-1; Mon, 25 May 2020 11:16:31 -0400
+X-MC-Unique: H37U8Ux5Mq6BHvjEPMAZdA-1
+Received: by mail-ed1-f70.google.com with SMTP id f10so7587429edn.10
+ for <qemu-devel@nongnu.org>; Mon, 25 May 2020 08:16:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=f66NeRqfpRlgfRe38i1+1ZCvzv5Vy8dQcb2vBsN06fM=;
- b=FIN1YkrVFPNnH0UpRSz7MXNUHJO3Dm6Y68aiA4ZVTWLSBq2uqSaEGorBUD9vUhdTxU
- bL0hNA5svo9nTQtn7KAkE6Fi946Ct82nBGb12j6M1fA3/f+aaBuh7hI6Cspf7/fkGKh/
- vhf9hB+V489GNwjDDrBrl2sYBjb6MIQa/B1S7Z28h+/Kdz32uyIYHYUdOzsHBhZ8QTky
- dBp/NptTqOQPBxkG9G2tAm3wI2JHZ3kiRlPwKWUKO9udY0/iI+6rCvgbl4YQswBjyEYC
- 0h+LYI2yBPaD0T+fRkUdtONZQBsAoT1VgetQ5rhuHhly6gJpircuOxyKjlzhS/zFrMEk
- Woww==
-X-Gm-Message-State: AOAM531GnbiMXc2/S14GYPbSL0mZWzjzRCP5Wbd2p+rWJGts1R5VwNV1
- fEOMiTTUm4ndoYbOTnU4SMssCF+06juOz4E4yk78MgBVIPJdGr4Z2/cqCh6o0zYC7Sj+ZFXULaq
- SgVBBCS/8hJm5K6c=
-X-Received: by 2002:a50:cdc8:: with SMTP id h8mr15501333edj.26.1590419656915; 
- Mon, 25 May 2020 08:14:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJygrAFtfsBgdKR7gXOn1iWQt4ztTqHnssuy9AW5rsHgK5+JKrmjv1PlSnDa3wWSVAB1LrAuKg==
-X-Received: by 2002:a50:cdc8:: with SMTP id h8mr15501316edj.26.1590419656638; 
- Mon, 25 May 2020 08:14:16 -0700 (PDT)
+ bh=nT4lpgYSMGD7ErgeHtGAF5Bm8H60TquL5i1tc51ad4g=;
+ b=hr8sp9o25EP43WMszF8XjVExraDze1RQBcC4MHC8kPzwFLDU6ifrSJgcAl690KFIjS
+ WaFRqDSocOagOaohFfiFxDuEYWCzOzgi2QtkSgDDVFnC49zZimEvgSZV2i0cHk3AqlT0
+ 8JccC8kOUEfP6vYkgtj43uSdBYXXeAsxEpKj8aO6qYwHQS768ypuxoBiNwZYPtdzATVK
+ /6K94A81Xy4l/u4FXKAlZi3B06La0SGPBd1NsXiF5CV0cqi0igFi+fdvw98S5ixFRy+h
+ uUz02WE6HwpwQlihNuqyzk2CQh+tFJk81Rj+k1QSiheZ1zfJ9SiYQgqOQ3A5wzfpBHPQ
+ Acgw==
+X-Gm-Message-State: AOAM533kkiVtfD/Tm1Z7QFa6PyewjVd+U45mEpEgr2EOD4ZDgL4qT2Up
+ TUYIwX4Yq0E5n2eUJHhBygKnBvg+tcLzt69nyMgFwhYRjZ8BGlCiIUhaOQRc/dBzLucu0z5oZ+u
+ 3HcDn2DEA0Oj49yQ=
+X-Received: by 2002:a17:906:1c10:: with SMTP id
+ k16mr18366455ejg.511.1590419790556; 
+ Mon, 25 May 2020 08:16:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxcsNVxzkHyldsbmzLkvtOJ4GgNIccNy/Nz4ppg/HZvtm7DTipZRFQw2pJijnvfdbZ2owCQwQ==
+X-Received: by 2002:a17:906:1c10:: with SMTP id
+ k16mr18366435ejg.511.1590419790343; 
+ Mon, 25 May 2020 08:16:30 -0700 (PDT)
 Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id c15sm10979392edm.78.2020.05.25.08.14.15
+ by smtp.gmail.com with ESMTPSA id rn17sm15547967ejb.115.2020.05.25.08.16.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 May 2020 08:14:16 -0700 (PDT)
-Subject: Re: [RFC v3 2/4] cpu-throttle: new module, extracted from cpus.c
+ Mon, 25 May 2020 08:16:29 -0700 (PDT)
+Subject: Re: [RFC v3 3/4] cpu-timers, icount: new modules
 To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
  <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>
 References: <20200525145440.29728-1-cfontana@suse.de>
- <20200525145440.29728-3-cfontana@suse.de>
+ <20200525145440.29728-4-cfontana@suse.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -89,20 +91,20 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <99995c3f-68a3-ce07-72bb-37a9b2263e52@redhat.com>
-Date: Mon, 25 May 2020 17:14:14 +0200
+Message-ID: <1a4eb7bb-9b92-7536-9de3-a7e56afd9da4@redhat.com>
+Date: Mon, 25 May 2020 17:16:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200525145440.29728-3-cfontana@suse.de>
+In-Reply-To: <20200525145440.29728-4-cfontana@suse.de>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 06:55:03
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 01:44:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -133,62 +135,73 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/25/20 4:54 PM, Claudio Fontana wrote:
-> move the vcpu throttling functionality into its own module.
+> refactoring of cpus.c continues with cpu timer state extraction.
 > 
-> This functionality is not specific to any accelerator,
-> and it is used currently by migration to slow down guests to try to
-> have migrations converge, and by the cocoa MacOS UI to throttle speed.
+> cpu-timers: responsible for the cpu timers state, and for access to
+> cpu clocks and ticks.
 > 
-> cpu-throttle contains the controls to adjust and inspect throttle
-> settings, start (set) and stop vcpu throttling, and the throttling
-> function itself that is run periodically on vcpus to make them take a nap.
+> icount: counts the TCG instructions executed. As such it is specific to
+> the TCG accelerator. Therefore, it is built only under CONFIG_TCG.
 > 
-> Execution of the throttling function on all vcpus is triggered by a timer,
-> registered at module initialization.
+> One complication is due to qtest, which misuses icount to warp time
+> (qtest_clock_warp). In order to solve this problem, detach instead qtest
+> from icount, and use a trivial separate counter for it.
+> 
+> This requires fixing assumptions scattered in the code that
+> qtest_enabled() implies icount_enabled().
 > 
 > No functionality change.
 > 
 > Signed-off-by: Claudio Fontana <cfontana@suse.de>
 > ---
->  MAINTAINERS                   |   3 +-
->  include/hw/core/cpu.h         |  37 -------------
->  include/qemu/main-loop.h      |   5 ++
->  include/sysemu/cpu-throttle.h |  50 +++++++++++++++++
->  migration/migration.c         |   1 +
->  migration/ram.c               |   1 +
->  softmmu/Makefile.objs         |   1 +
->  softmmu/cpu-throttle.c        | 122 ++++++++++++++++++++++++++++++++++++++++++
->  softmmu/cpus.c                |  95 +++-----------------------------
->  9 files changed, 190 insertions(+), 125 deletions(-)
->  create mode 100644 include/sysemu/cpu-throttle.h
->  create mode 100644 softmmu/cpu-throttle.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0288ffbc50..708768f120 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2147,13 +2147,14 @@ F: ui/cocoa.m
->  Main loop
->  M: Paolo Bonzini <pbonzini@redhat.com>
->  S: Maintained
-> -F: softmmu/cpus.c
->  F: include/qemu/main-loop.h
->  F: include/sysemu/runstate.h
->  F: util/main-loop.c
->  F: util/qemu-timer.c
->  F: softmmu/vl.c
->  F: softmmu/main.c
-> +F: softmmu/cpus.c
+>  accel/qtest.c                |   6 +-
+>  accel/tcg/cpu-exec.c         |  43 ++-
+>  accel/tcg/tcg-all.c          |   7 +-
+>  accel/tcg/translate-all.c    |   3 +-
+>  docs/replay.txt              |   6 +-
+>  exec.c                       |   4 -
+>  hw/core/ptimer.c             |   6 +-
+>  hw/i386/x86.c                |   1 +
+>  include/exec/cpu-all.h       |   4 +
+>  include/exec/exec-all.h      |   4 +-
+>  include/qemu/timer.h         |  22 +-
+>  include/sysemu/cpu-timers.h  |  72 +++++
+>  include/sysemu/cpus.h        |  12 +-
+>  include/sysemu/qtest.h       |   2 +
+>  include/sysemu/replay.h      |   4 +-
+>  replay/replay.c              |   6 +-
+>  softmmu/Makefile.objs        |   2 +
+>  softmmu/cpu-timers.c         | 267 ++++++++++++++++
+>  softmmu/cpus.c               | 731 +------------------------------------------
+>  softmmu/icount.c             | 496 +++++++++++++++++++++++++++++
+>  softmmu/qtest.c              |  34 +-
+>  softmmu/timers-state.h       |  45 +++
+>  softmmu/vl.c                 |   8 +-
+>  stubs/Makefile.objs          |   3 +-
+>  stubs/clock-warp.c           |   4 +-
+>  stubs/cpu-get-clock.c        |   3 +-
+>  stubs/cpu-get-icount.c       |  21 --
+>  stubs/icount.c               |  22 ++
+>  stubs/qemu-timer-notify-cb.c |   8 +
+>  stubs/qtest.c                |   5 +
+>  target/alpha/translate.c     |   3 +-
+>  target/arm/helper.c          |   7 +-
+>  target/riscv/csr.c           |   8 +-
+>  tests/ptimer-test-stubs.c    |   7 +-
+>  tests/test-timed-average.c   |   2 +-
+>  util/main-loop.c             |   4 +-
+>  util/qemu-timer.c            |  12 +-
+>  37 files changed, 1062 insertions(+), 832 deletions(-)
+>  create mode 100644 include/sysemu/cpu-timers.h
+>  create mode 100644 softmmu/cpu-timers.c
+>  create mode 100644 softmmu/icount.c
+>  create mode 100644 softmmu/timers-state.h
+>  delete mode 100644 stubs/cpu-get-icount.c
+>  create mode 100644 stubs/icount.c
+>  create mode 100644 stubs/qemu-timer-notify-cb.c
 
-This line belong the the previous patch (#1).
-
-> +F: softmmu/cpu-throttle.c
->  F: qapi/run-state.json
-
-Can you reorder patches #1/#2 to avoid moving cpu-throttle code twice?
-
-Otherwise this patch looks good.
-
-[...]
+Similarly I'd rather see this patch comes before your current #1 "move
+softmmu only files from root". Anyway wait for other reviewers before
+spending time to reorder the series.
 
 
