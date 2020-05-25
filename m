@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8CBD1E1326
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 19:06:25 +0200 (CEST)
-Received: from localhost ([::1]:53384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008F21E1328
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 19:06:33 +0200 (CEST)
+Received: from localhost ([::1]:53552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdGYS-0007BW-Fg
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 13:06:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37840)
+	id 1jdGYa-0007GR-0V
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 13:06:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1jdGVx-0004xU-Vk
- for qemu-devel@nongnu.org; Mon, 25 May 2020 13:03:50 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36852
+ id 1jdGVz-0004xn-3o
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 13:03:51 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37583
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1jdGVw-00053M-QZ
- for qemu-devel@nongnu.org; Mon, 25 May 2020 13:03:49 -0400
+ id 1jdGVw-00053K-Qb
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 13:03:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1590426227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EzFt/5yfcsbeS73zZ7db84VtvX+BWEX+e1n7nt2cyf0=;
- b=eb3X+dd8XkYUVkQ5jOo2pzV1byA3eHpoCc4qAUuKgFw4q49xCVOPYir5pyYz99lNb3hLXz
- dlZbV/zhWOntbGAPKPK+VzgChI58Y2CVj5CAbsDwOnYkVG1LwUj9Ppdm9YF8ol0+4TfgSP
- lcaLLaB3WMAaxQg7MtLpwpm2CKrPIro=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y6LQNogdXUEaR6nPL5OMBXYV36XGHrZzE9JwtLxxN+0=;
+ b=AZkgT+VmXdMjBCDflXA9H0zb1bG113jUnuP6o0/2F8UN8OPVg6Y2wAQOOu3ak1mnqPEoX1
+ uiZrBq6/wzEuj191IHWNWP/xt6BRRRZZreaHw/FywYW+21JFzthWZ7AnRkf0sVcMDnUDf4
+ 3na0RAr1n2q+qsN/g16DhPc+0Lr55cU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-2kunPJljMNmuiXLKLJFVGg-1; Mon, 25 May 2020 13:03:43 -0400
-X-MC-Unique: 2kunPJljMNmuiXLKLJFVGg-1
+ us-mta-197-3ECasqlYOGKP4qgEwBdsoA-1; Mon, 25 May 2020 13:03:45 -0400
+X-MC-Unique: 3ECasqlYOGKP4qgEwBdsoA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83C25461;
- Mon, 25 May 2020 17:03:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43DCA1005510;
+ Mon, 25 May 2020 17:03:44 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.193.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 20F8D5C1C5;
- Mon, 25 May 2020 17:03:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D3C3F5C1C5;
+ Mon, 25 May 2020 17:03:42 +0000 (UTC)
 From: Michal Privoznik <mprivozn@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] qmp: Expose MachineClass::default_ram_id
-Date: Mon, 25 May 2020 19:03:26 +0200
-Message-Id: <cover.1590426097.git.mprivozn@redhat.com>
+Subject: [PATCH 1/2] qapi: Fix comment format for @CpuInstanceProperties
+Date: Mon, 25 May 2020 19:03:27 +0200
+Message-Id: <e7a678664d5f384f8d4cae72755c9a887643b0c0.1590426097.git.mprivozn@redhat.com>
+In-Reply-To: <cover.1590426097.git.mprivozn@redhat.com>
+References: <cover.1590426097.git.mprivozn@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
@@ -80,16 +83,28 @@ Cc: imammedo@redhat.com, ehabkost@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The important patch is 2/2.
+In 176d2cda0de, the @die-id attribute was introduced to
+CpuInstanceProperties type. However, it mangled the comment.
 
-Michal Privoznik (2):
-  qapi: Fix comment format for @CpuInstanceProperties
-  qmp: Expose MachineClass::default_ram_id
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+---
+ qapi/machine.json | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- hw/core/machine-qmp-cmds.c | 1 +
- qapi/machine.json          | 8 ++++++--
- 2 files changed, 7 insertions(+), 2 deletions(-)
-
+diff --git a/qapi/machine.json b/qapi/machine.json
+index ff7b5032e3..39caa1d914 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -824,7 +824,8 @@
+ # @node-id: NUMA node ID the CPU belongs to
+ # @socket-id: socket number within node/board the CPU belongs to
+ # @die-id: die number within node/board the CPU belongs to (Since 4.1)
+-# @core-id: core number within die the CPU belongs to# @thread-id: thread number within core the CPU belongs to
++# @core-id: core number within die the CPU belongs to
++# @thread-id: thread number within core the CPU belongs to
+ #
+ # Note: currently there are 5 properties that could be present
+ #       but management should be prepared to pass through other
 -- 
 2.26.2
 
