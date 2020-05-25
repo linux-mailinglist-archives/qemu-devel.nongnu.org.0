@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB281E1153
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 17:11:42 +0200 (CEST)
-Received: from localhost ([::1]:37994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DACCA1E114D
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 17:09:55 +0200 (CEST)
+Received: from localhost ([::1]:59048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdElR-0002TL-PL
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 11:11:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54092)
+	id 1jdEji-0007JO-Re
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 11:09:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdEgu-0005IT-HU
- for qemu-devel@nongnu.org; Mon, 25 May 2020 11:07:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51667
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdEh2-0005XE-EZ
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 11:07:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36768
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdEgt-0006fd-Iz
- for qemu-devel@nongnu.org; Mon, 25 May 2020 11:07:00 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdEh1-0006hf-KN
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 11:07:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590419219;
+ s=mimecast20190719; t=1590419227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bhbiaGeyOZtfxUrFs0y2evFWTskfzhbIggYBhtmEIh4=;
- b=Vq8TqF+EK+7iyvlGipcCeLsxd3MbONpBw7KW5tFFWmWfTopPVmOKKI5YngA7wazQLqPKr/
- z9RBUuG/LEBiE9fckzDCdgoBMglSf7V7kCFCjjT6J1Msz9xFve9j3IF90xyAtij2b6bcoc
- Sbz5od0cffGRF/hv6R4S5sVjwlqhCJM=
+ bh=MQWYf2QYcqkNIHTPoPqPd3tJF9br/Kx677vEgu609W8=;
+ b=eb6Ju+8FLKlOXVpCihRdXAqRVO6tACGqR82FB7+ITVc2hUoLnioRgUCerKQ1I6Z5UFYYV6
+ DslNpGPg5Rz67X563eTTq6U+pF1G97huTRBGEwXfhEczjC5hhZlzcKsLwQOc1KlJIt5C1e
+ r9xRzTnHUH+SRQNB0wcnffXC5XpssuY=
 Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
  [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-8U0aNm0zO_yyWMeS8GXg_A-1; Mon, 25 May 2020 11:06:57 -0400
-X-MC-Unique: 8U0aNm0zO_yyWMeS8GXg_A-1
-Received: by mail-ej1-f72.google.com with SMTP id pj20so6451662ejb.3
- for <qemu-devel@nongnu.org>; Mon, 25 May 2020 08:06:57 -0700 (PDT)
+ us-mta-423-jh9kXP0HOzG1G2IJbjJbgQ-1; Mon, 25 May 2020 11:07:03 -0400
+X-MC-Unique: jh9kXP0HOzG1G2IJbjJbgQ-1
+Received: by mail-ej1-f72.google.com with SMTP id s13so6379623ejc.18
+ for <qemu-devel@nongnu.org>; Mon, 25 May 2020 08:07:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bhbiaGeyOZtfxUrFs0y2evFWTskfzhbIggYBhtmEIh4=;
- b=RQ8C/YFEHjaumcBEKnI4qfDH/h0yT/jLTa+NWgk6bbEE02qQCpN3d3xeYaz5RHH2py
- 7ZP42qdwjoY/diRNq/3g+zRVGTWMYbKOkmPk3fosa1XqDxJ6xMkinUU/rt/STeK70GB+
- Pc71wjI/AskD9zUtASnzSpkQAjrfi7hUT2lrtSxIYCP4mi1HLfnMh2rUZIbfX9nzpaYo
- O1RlBYiE4s/RKm0WniXfuNP3zNQP8I0Q4XGVhJOCnDwcaZ+w+eu4I6RWEhAig5D+QJsZ
- ULlHNmH2ixN6Rym4bEgfse/T2w/7MPS/DfJxFrOAyzEaAtXODjXy4X0vLYxRGu/DJ9uJ
- sokA==
-X-Gm-Message-State: AOAM532GYRo3LT03nx7dwE2x2Osd0Ro448FytYRy4IfDJ8ePH/2jLlP9
- Agnbp9vEFevcAuWad8WbJ4ZisnnHpS6xvOQ8ga+OJV0+rZpTNhq96kCprWVV5AME1OMv9NVjeGA
- zDwM/0YssyuDTNEs=
-X-Received: by 2002:a05:6402:74b:: with SMTP id
- p11mr15980622edy.229.1590419216134; 
- Mon, 25 May 2020 08:06:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvhJpAjrRfrPSZwdTOZC8MoK+C+sa55Wt4PJCaq4WMkmLvzC4IP1N1ijqlXxjpvvMRUhRupA==
-X-Received: by 2002:a05:6402:74b:: with SMTP id
- p11mr15980592edy.229.1590419215906; 
- Mon, 25 May 2020 08:06:55 -0700 (PDT)
+ bh=MQWYf2QYcqkNIHTPoPqPd3tJF9br/Kx677vEgu609W8=;
+ b=CZNJj1MEIeGHeZBcI6QdNLJB8lpGnmDp7rpzoyaABlB8lGQMr2/ASIBigaD2uIAtJL
+ CZxYltUHMBpG+v95B7C6ru3s+KUUbrOhtJNvCl89a6xLaq1oaVMjjxnUXn6qjm0h7saX
+ iY7ZJWW4sal1FKJlYx/e7/0+MxdvMWm72gGsJ14aIrNHg7QWQbiRwcyo7bMo/cK1orRt
+ OFMHvsby2GWcrEaWLKSMyu6iy06nCGRG4KoP/d496rDe9q0rYw1M/hKoy3apLbV0+hgd
+ 4QtsUhzmr0wn3Z78VFAUcy9hi8A/sRlxo+l1fWSm4w7Cj7R6dNrVha5irSpWghsV4X/i
+ ozrA==
+X-Gm-Message-State: AOAM533Ov4UdaMvyJiZnWnopoFhYJeAtQxdkQ6fe3OEqUIzKhYf0dvC1
+ mve4WWBubn615Uqlq0UBRrGPvBY9jaY+qOwx7vgWf9+ToFdXfD+qbZp2xP+moFHxrwyObhAichh
+ FpOZRhxByrr/T0RA=
+X-Received: by 2002:a17:906:d86:: with SMTP id
+ m6mr20137740eji.434.1590419222213; 
+ Mon, 25 May 2020 08:07:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxiLti9ujl8zPGB3BoWaIdOxK2Mxmt4QWp+2GEsLKO7ZN/1WHhN/x7yMWjaYTOPSjCoeELqnQ==
+X-Received: by 2002:a17:906:d86:: with SMTP id
+ m6mr20137701eji.434.1590419221912; 
+ Mon, 25 May 2020 08:07:01 -0700 (PDT)
 Received: from x1w.redhat.com (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id l11sm15933206edw.55.2020.05.25.08.06.54
+ by smtp.gmail.com with ESMTPSA id y13sm15544110ejm.107.2020.05.25.08.07.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 May 2020 08:06:55 -0700 (PDT)
+ Mon, 25 May 2020 08:07:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/9] qapi/misc: Restrict LostTickPolicy enum to machine code
-Date: Mon, 25 May 2020 17:06:33 +0200
-Message-Id: <20200525150640.30879-3-philmd@redhat.com>
+Subject: [PATCH v3 3/9] qapi/misc.json: Correct balloon documentation
+Date: Mon, 25 May 2020 17:06:34 +0200
+Message-Id: <20200525150640.30879-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200525150640.30879-1-philmd@redhat.com>
 References: <20200525150640.30879-1-philmd@redhat.com>
@@ -110,139 +110,65 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The documentation incorrectly uses the "size of the balloon"
+description when it should be "logical size of the VM". Fix it.
+
+The relation between both values is:
+
+  logical_vm_size = vm_ram_size - balloon_size
+
+Reported-by: David Hildenbrand <david@redhat.com>
+Suggested-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- qapi/machine.json            | 32 ++++++++++++++++++++++++++++++++
- qapi/misc.json               | 32 --------------------------------
- include/hw/rtc/mc146818rtc.h |  2 +-
- hw/core/qdev-properties.c    |  1 +
- hw/i386/kvm/i8254.c          |  2 +-
- 5 files changed, 35 insertions(+), 34 deletions(-)
+ qapi/misc.json | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 1fe31d374c..ca7d58f0c9 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -421,6 +421,38 @@
- ##
- { 'command': 'query-target', 'returns': 'TargetInfo' }
- 
-+##
-+# @LostTickPolicy:
-+#
-+# Policy for handling lost ticks in timer devices.  Ticks end up getting
-+# lost when, for example, the guest is paused.
-+#
-+# @discard: throw away the missed ticks and continue with future injection
-+#           normally.  The guest OS will see the timer jump ahead by a
-+#           potentially quite significant amount all at once, as if the
-+#           intervening chunk of time had simply not existed; needless to
-+#           say, such a sudden jump can easily confuse a guest OS which is
-+#           not specifically prepared to deal with it.  Assuming the guest
-+#           OS can deal correctly with the time jump, the time in the guest
-+#           and in the host should now match.
-+#
-+# @delay: continue to deliver ticks at the normal rate.  The guest OS will
-+#         not notice anything is amiss, as from its point of view time will
-+#         have continued to flow normally.  The time in the guest should now
-+#         be behind the time in the host by exactly the amount of time during
-+#         which ticks have been missed.
-+#
-+# @slew: deliver ticks at a higher rate to catch up with the missed ticks.
-+#        The guest OS will not notice anything is amiss, as from its point
-+#        of view time will have continued to flow normally.  Once the timer
-+#        has managed to catch up with all the missing ticks, the time in
-+#        the guest and in the host should match.
-+#
-+# Since: 2.0
-+##
-+{ 'enum': 'LostTickPolicy',
-+  'data': ['discard', 'delay', 'slew' ] }
-+
- ##
- # @NumaOptionsType:
- #
 diff --git a/qapi/misc.json b/qapi/misc.json
-index 99b90ac80b..2c48ffaa62 100644
+index 2c48ffaa62..446fc8ff83 100644
 --- a/qapi/misc.json
 +++ b/qapi/misc.json
-@@ -7,38 +7,6 @@
- 
- { 'include': 'common.json' }
- 
--##
--# @LostTickPolicy:
--#
--# Policy for handling lost ticks in timer devices.  Ticks end up getting
--# lost when, for example, the guest is paused.
--#
--# @discard: throw away the missed ticks and continue with future injection
--#           normally.  The guest OS will see the timer jump ahead by a
--#           potentially quite significant amount all at once, as if the
--#           intervening chunk of time had simply not existed; needless to
--#           say, such a sudden jump can easily confuse a guest OS which is
--#           not specifically prepared to deal with it.  Assuming the guest
--#           OS can deal correctly with the time jump, the time in the guest
--#           and in the host should now match.
--#
--# @delay: continue to deliver ticks at the normal rate.  The guest OS will
--#         not notice anything is amiss, as from its point of view time will
--#         have continued to flow normally.  The time in the guest should now
--#         be behind the time in the host by exactly the amount of time during
--#         which ticks have been missed.
--#
--# @slew: deliver ticks at a higher rate to catch up with the missed ticks.
--#        The guest OS will not notice anything is amiss, as from its point
--#        of view time will have continued to flow normally.  Once the timer
--#        has managed to catch up with all the missing ticks, the time in
--#        the guest and in the host should match.
--#
--# Since: 2.0
--##
--{ 'enum': 'LostTickPolicy',
--  'data': ['discard', 'delay', 'slew' ] }
--
- ##
- # @add_client:
+@@ -191,7 +191,8 @@
  #
-diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-index 3713181b56..9cd04f379a 100644
---- a/include/hw/rtc/mc146818rtc.h
-+++ b/include/hw/rtc/mc146818rtc.h
-@@ -9,7 +9,7 @@
- #ifndef HW_RTC_MC146818RTC_H
- #define HW_RTC_MC146818RTC_H
+ # Information about the guest balloon device.
+ #
+-# @actual: the number of bytes the balloon currently contains
++# @actual: the logical size of the VM in bytes
++#          Formula used: logical_vm_size = vm_ram_size - balloon_size
+ #
+ # Since: 0.14.0
+ #
+@@ -227,7 +228,8 @@
+ # Emitted when the guest changes the actual BALLOON level. This value is
+ # equivalent to the @actual field return by the 'query-balloon' command
+ #
+-# @actual: actual level of the guest memory balloon in bytes
++# @actual: the logical size of the VM in bytes
++#          Formula used: logical_vm_size = vm_ram_size - balloon_size
+ #
+ # Note: this event is rate-limited.
+ #
+@@ -756,7 +758,10 @@
+ #
+ # Request the balloon driver to change its balloon size.
+ #
+-# @value: the target size of the balloon in bytes
++# @value: the target logical size of the VM in bytes
++#         We can deduce the size of the balloon using this formula:
++#            logical_vm_size = vm_ram_size - balloon_size
++#         From it we have: balloon_size = vm_ram_size - @value
+ #
+ # Returns: - Nothing on success
+ #          - If the balloon driver is enabled but not functional because the KVM
+@@ -774,6 +779,8 @@
+ # -> { "execute": "balloon", "arguments": { "value": 536870912 } }
+ # <- { "return": {} }
+ #
++# With a 2.5GiB guest this command inflated the ballon to 3GiB.
++#
+ ##
+ { 'command': 'balloon', 'data': {'value': 'int'} }
  
--#include "qapi/qapi-types-misc.h"
-+#include "qapi/qapi-types-machine.h"
- #include "qemu/queue.h"
- #include "qemu/timer.h"
- #include "hw/isa/isa.h"
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index cc924815da..dacf91c877 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -4,6 +4,7 @@
- #include "qapi/error.h"
- #include "hw/pci/pci.h"
- #include "qapi/qapi-types-block.h"
-+#include "qapi/qapi-types-machine.h"
- #include "qapi/qapi-types-misc.h"
- #include "qapi/qmp/qerror.h"
- #include "qemu/ctype.h"
-diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
-index 876f5aa6fa..22ba6149b5 100644
---- a/hw/i386/kvm/i8254.c
-+++ b/hw/i386/kvm/i8254.c
-@@ -25,7 +25,7 @@
- 
- #include "qemu/osdep.h"
- #include <linux/kvm.h>
--#include "qapi/qapi-types-misc.h"
-+#include "qapi/qapi-types-machine.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
- #include "qemu/timer.h"
 -- 
 2.21.3
 
