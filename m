@@ -2,94 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1DA1E1156
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 17:12:07 +0200 (CEST)
-Received: from localhost ([::1]:39024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A2EA1E1183
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 17:18:48 +0200 (CEST)
+Received: from localhost ([::1]:57722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdElq-0002sP-LY
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 11:12:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54244)
+	id 1jdEsJ-0002sn-CI
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 11:18:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdEhc-0006Aw-T6
- for qemu-devel@nongnu.org; Mon, 25 May 2020 11:07:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47931
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdEhb-0006pc-1i
- for qemu-devel@nongnu.org; Mon, 25 May 2020 11:07:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590419262;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=weWxNPbVdQ3MTKccN/ZjEjAT/VhUoUmdY4b4staYdWU=;
- b=D3+FBUrJDNzmfHlJRAErPMh+zM7SOLFo14n4MKWBuwOjC0zUcj3jH7TqanPf1vr4jZyhPD
- yIqKW+HZJt28+e8P2NuI92LIU+v5tiHnI4AZUjPBh8IGP1+hKa2IqPa/I76MDr3X+dGAme
- fgUGOeTB9SjAABX5U2LT8jN8h+4Rc6A=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-qLZOQ1suPd20S0OHY3Icmg-1; Mon, 25 May 2020 11:07:40 -0400
-X-MC-Unique: qLZOQ1suPd20S0OHY3Icmg-1
-Received: by mail-ed1-f69.google.com with SMTP id g10so7610230edt.3
- for <qemu-devel@nongnu.org>; Mon, 25 May 2020 08:07:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=weWxNPbVdQ3MTKccN/ZjEjAT/VhUoUmdY4b4staYdWU=;
- b=bWK4WKQrrfTOK7EYtDbUB0EaTaPDTfyAj9StPOr1X1/+dTZ7eF+wEZB9Wzanh8fAIZ
- YXh36OXtfniJG1GD6Uj2JQMMexajCTQPT5AgkaKZeD8zMDr2dT+OvPaiFle/B4XllPBd
- +xY+tqPKdWjzoITaZYmesj6FcZwuhutyv8FdsrE7scaDDUpyodmm0bH83k7Og1NAI8Qc
- H9vspMviKIa6JxKuXKTW2a21P6WhvpqA0TkzhKYshTMl+wDBrQgpcvePEfqSuog54I1D
- FUGVzsoWItjEcL1rg3o+s9I9x4BSgxuu+Xmri3BtE0Yn6jPlzu2uYQq5AWViV+QgPdMA
- FRAA==
-X-Gm-Message-State: AOAM533URog0TumwxVUsIfaYkTQoksOIKmHzInSC6OYXlOStFS/sYcke
- dmWCIGnFXfxWh8SpecVuMirIx3ADS04PyWIT1WKsuf979ud4kHb4g6HO8pUbzzyJoHSPIZN+coB
- t1FM7BbQ2ex4kWIE=
-X-Received: by 2002:a17:906:9617:: with SMTP id
- s23mr18859487ejx.505.1590419258992; 
- Mon, 25 May 2020 08:07:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw0IE+K4zLC2So3qXa3HkVhXPWoEg7qeP6z8H7ybzsEbyGgjySeeGCTQh4ahitlXrbpOdGy+g==
-X-Received: by 2002:a17:906:9617:: with SMTP id
- s23mr18859460ejx.505.1590419258633; 
- Mon, 25 May 2020 08:07:38 -0700 (PDT)
-Received: from x1w.redhat.com (71.red-88-21-204.staticip.rima-tde.net.
- [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id cf7sm10835128edb.17.2020.05.25.08.07.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 May 2020 08:07:38 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 9/9] qapi/misc: Restrict device memory commands to machine
- code
-Date: Mon, 25 May 2020 17:06:40 +0200
-Message-Id: <20200525150640.30879-10-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200525150640.30879-1-philmd@redhat.com>
-References: <20200525150640.30879-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdEpP-0008Pt-Mq
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 11:15:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58604)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdEpN-0000eD-H0
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 11:15:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jdEpL-0007Rw-1X
+ for <qemu-devel@nongnu.org>; Mon, 25 May 2020 15:15:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 092DD2E8082
+ for <qemu-devel@nongnu.org>; Mon, 25 May 2020 15:15:43 +0000 (UTC)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 08:28:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 25 May 2020 15:08:50 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1868116@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Invalid; importance=High; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=vte2.91; component=main;
+ status=Fix Released; importance=Critical;
+ assignee=ubuntu-desktop@lists.ubuntu.com; 
+X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Unknown; assignee=None; 
+X-Launchpad-Bug-Tags: amd64 apport-bug champagne focal rls-ee-incoming
+ server-next
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h egmont-gmail furretuber janitor paelzer
+ seb128
+X-Launchpad-Bug-Reporter: FurretUber (furretuber)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <158463145822.18899.10972607578883935283.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159041933168.20452.14103247642288551676.launchpad@soybean.canonical.com>
+Subject: [Bug 1868116] Re: QEMU monitor no longer works
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a97569e038adcea7431e7e7c77ca5d4c50626f94
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 10:50:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -98,343 +83,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Ben Warren <ben@skyportsystems.com>, David Hildenbrand <david@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Peter Lieven <pl@kamp.de>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-block@nongnu.org, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1868116 <1868116@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- qapi/machine.json               | 131 +++++++++++++++++++++++++++++++
- qapi/misc.json                  | 132 --------------------------------
- include/hw/mem/memory-device.h  |   1 +
- include/hw/virtio/virtio-pmem.h |   2 +-
- 4 files changed, 133 insertions(+), 133 deletions(-)
+** Changed in: qemu (Ubuntu)
+       Status: Triaged =3D> Invalid
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 3ab1089a44..d1490edeb1 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1519,3 +1519,134 @@
- #
- ##
- { 'command': 'query-pci', 'returns': ['PciInfo'] }
-+
-+##
-+# @MemoryInfo:
-+#
-+# Actual memory information in bytes.
-+#
-+# @base-memory: size of "base" memory specified with command line
-+#               option -m.
-+#
-+# @plugged-memory: size of memory that can be hot-unplugged. This field
-+#                  is omitted if target doesn't support memory hotplug
-+#                  (i.e. CONFIG_MEM_DEVICE not defined at build time).
-+#
-+# Since: 2.11.0
-+##
-+{ 'struct': 'MemoryInfo',
-+  'data'  : { 'base-memory': 'size', '*plugged-memory': 'size' } }
-+
-+##
-+# @query-memory-size-summary:
-+#
-+# Return the amount of initially allocated and present hotpluggable (if
-+# enabled) memory in bytes.
-+#
-+# Example:
-+#
-+# -> { "execute": "query-memory-size-summary" }
-+# <- { "return": { "base-memory": 4294967296, "plugged-memory": 0 } }
-+#
-+# Since: 2.11.0
-+##
-+{ 'command': 'query-memory-size-summary', 'returns': 'MemoryInfo' }
-+
-+##
-+# @PCDIMMDeviceInfo:
-+#
-+# PCDIMMDevice state information
-+#
-+# @id: device's ID
-+#
-+# @addr: physical address, where device is mapped
-+#
-+# @size: size of memory that the device provides
-+#
-+# @slot: slot number at which device is plugged in
-+#
-+# @node: NUMA node number where device is plugged in
-+#
-+# @memdev: memory backend linked with device
-+#
-+# @hotplugged: true if device was hotplugged
-+#
-+# @hotpluggable: true if device if could be added/removed while machine is running
-+#
-+# Since: 2.1
-+##
-+{ 'struct': 'PCDIMMDeviceInfo',
-+  'data': { '*id': 'str',
-+            'addr': 'int',
-+            'size': 'int',
-+            'slot': 'int',
-+            'node': 'int',
-+            'memdev': 'str',
-+            'hotplugged': 'bool',
-+            'hotpluggable': 'bool'
-+          }
-+}
-+
-+##
-+# @VirtioPMEMDeviceInfo:
-+#
-+# VirtioPMEM state information
-+#
-+# @id: device's ID
-+#
-+# @memaddr: physical address in memory, where device is mapped
-+#
-+# @size: size of memory that the device provides
-+#
-+# @memdev: memory backend linked with device
-+#
-+# Since: 4.1
-+##
-+{ 'struct': 'VirtioPMEMDeviceInfo',
-+  'data': { '*id': 'str',
-+            'memaddr': 'size',
-+            'size': 'size',
-+            'memdev': 'str'
-+          }
-+}
-+
-+##
-+# @MemoryDeviceInfo:
-+#
-+# Union containing information about a memory device
-+#
-+# nvdimm is included since 2.12. virtio-pmem is included since 4.1.
-+#
-+# Since: 2.1
-+##
-+{ 'union': 'MemoryDeviceInfo',
-+  'data': { 'dimm': 'PCDIMMDeviceInfo',
-+            'nvdimm': 'PCDIMMDeviceInfo',
-+            'virtio-pmem': 'VirtioPMEMDeviceInfo'
-+          }
-+}
-+
-+##
-+# @query-memory-devices:
-+#
-+# Lists available memory devices and their state
-+#
-+# Since: 2.1
-+#
-+# Example:
-+#
-+# -> { "execute": "query-memory-devices" }
-+# <- { "return": [ { "data":
-+#                       { "addr": 5368709120,
-+#                         "hotpluggable": true,
-+#                         "hotplugged": true,
-+#                         "id": "d1",
-+#                         "memdev": "/objects/memX",
-+#                         "node": 0,
-+#                         "size": 1073741824,
-+#                         "slot": 0},
-+#                    "type": "dimm"
-+#                  } ] }
-+#
-+##
-+{ 'command': 'query-memory-devices', 'returns': ['MemoryDeviceInfo'] }
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 3f4add1c2e..d241f67bad 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -519,39 +519,6 @@
- ##
- { 'command': 'closefd', 'data': {'fdname': 'str'} }
- 
--##
--# @MemoryInfo:
--#
--# Actual memory information in bytes.
--#
--# @base-memory: size of "base" memory specified with command line
--#               option -m.
--#
--# @plugged-memory: size of memory that can be hot-unplugged. This field
--#                  is omitted if target doesn't support memory hotplug
--#                  (i.e. CONFIG_MEM_DEVICE not defined at build time).
--#
--# Since: 2.11.0
--##
--{ 'struct': 'MemoryInfo',
--  'data'  : { 'base-memory': 'size', '*plugged-memory': 'size' } }
--
--##
--# @query-memory-size-summary:
--#
--# Return the amount of initially allocated and present hotpluggable (if
--# enabled) memory in bytes.
--#
--# Example:
--#
--# -> { "execute": "query-memory-size-summary" }
--# <- { "return": { "base-memory": 4294967296, "plugged-memory": 0 } }
--#
--# Since: 2.11.0
--##
--{ 'command': 'query-memory-size-summary', 'returns': 'MemoryInfo' }
--
--
- ##
- # @AddfdInfo:
- #
-@@ -789,105 +756,6 @@
-  'returns': ['CommandLineOptionInfo'],
-  'allow-preconfig': true }
- 
--##
--# @PCDIMMDeviceInfo:
--#
--# PCDIMMDevice state information
--#
--# @id: device's ID
--#
--# @addr: physical address, where device is mapped
--#
--# @size: size of memory that the device provides
--#
--# @slot: slot number at which device is plugged in
--#
--# @node: NUMA node number where device is plugged in
--#
--# @memdev: memory backend linked with device
--#
--# @hotplugged: true if device was hotplugged
--#
--# @hotpluggable: true if device if could be added/removed while machine is running
--#
--# Since: 2.1
--##
--{ 'struct': 'PCDIMMDeviceInfo',
--  'data': { '*id': 'str',
--            'addr': 'int',
--            'size': 'int',
--            'slot': 'int',
--            'node': 'int',
--            'memdev': 'str',
--            'hotplugged': 'bool',
--            'hotpluggable': 'bool'
--          }
--}
--
--##
--# @VirtioPMEMDeviceInfo:
--#
--# VirtioPMEM state information
--#
--# @id: device's ID
--#
--# @memaddr: physical address in memory, where device is mapped
--#
--# @size: size of memory that the device provides
--#
--# @memdev: memory backend linked with device
--#
--# Since: 4.1
--##
--{ 'struct': 'VirtioPMEMDeviceInfo',
--  'data': { '*id': 'str',
--            'memaddr': 'size',
--            'size': 'size',
--            'memdev': 'str'
--          }
--}
--
--##
--# @MemoryDeviceInfo:
--#
--# Union containing information about a memory device
--#
--# nvdimm is included since 2.12. virtio-pmem is included since 4.1.
--#
--# Since: 2.1
--##
--{ 'union': 'MemoryDeviceInfo',
--  'data': { 'dimm': 'PCDIMMDeviceInfo',
--            'nvdimm': 'PCDIMMDeviceInfo',
--            'virtio-pmem': 'VirtioPMEMDeviceInfo'
--          }
--}
--
--##
--# @query-memory-devices:
--#
--# Lists available memory devices and their state
--#
--# Since: 2.1
--#
--# Example:
--#
--# -> { "execute": "query-memory-devices" }
--# <- { "return": [ { "data":
--#                       { "addr": 5368709120,
--#                         "hotpluggable": true,
--#                         "hotplugged": true,
--#                         "id": "d1",
--#                         "memdev": "/objects/memX",
--#                         "node": 0,
--#                         "size": 1073741824,
--#                         "slot": 0},
--#                    "type": "dimm"
--#                  } ] }
--#
--##
--{ 'command': 'query-memory-devices', 'returns': ['MemoryDeviceInfo'] }
--
- ##
- # @ReplayMode:
- #
-diff --git a/include/hw/mem/memory-device.h b/include/hw/mem/memory-device.h
-index 04476acb8f..76f3de0f7e 100644
---- a/include/hw/mem/memory-device.h
-+++ b/include/hw/mem/memory-device.h
-@@ -14,6 +14,7 @@
- #define MEMORY_DEVICE_H
- 
- #include "hw/qdev-core.h"
-+#include "qapi/qapi-types-machine.h"
- #include "qapi/qapi-types-misc.h"
- #include "qom/object.h"
- 
-diff --git a/include/hw/virtio/virtio-pmem.h b/include/hw/virtio/virtio-pmem.h
-index 33f1999320..72863412b2 100644
---- a/include/hw/virtio/virtio-pmem.h
-+++ b/include/hw/virtio/virtio-pmem.h
-@@ -15,7 +15,7 @@
- #define HW_VIRTIO_PMEM_H
- 
- #include "hw/virtio/virtio.h"
--#include "qapi/qapi-types-misc.h"
-+#include "qapi/qapi-types-machine.h"
- 
- #define TYPE_VIRTIO_PMEM "virtio-pmem"
- 
--- 
-2.21.3
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1868116
+
+Title:
+  QEMU monitor no longer works
+
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Invalid
+Status in vte2.91 package in Ubuntu:
+  Fix Released
+Status in qemu package in Debian:
+  Fix Released
+
+Bug description:
+  Repro:
+  VTE
+  $ meson _build && ninja -C _build && ninja -C _build install
+
+  qemu:
+  $ ../configure --python=3D/usr/bin/python3 --disable-werror --disable-use=
+r --disable-linux-user --disable-docs --disable-guest-agent --disable-sdl -=
+-enable-gtk --disable-vnc --disable-xen --disable-brlapi --disable-fdt --di=
+sable-hax --disable-vde --disable-netmap --disable-rbd --disable-libiscsi -=
+-disable-libnfs --disable-smartcard --disable-libusb --disable-usb-redir --=
+disable-seccomp --disable-glusterfs --disable-tpm --disable-numa --disable-=
+opengl --disable-virglrenderer --disable-xfsctl --disable-vxhs --disable-sl=
+irp --disable-blobs --target-list=3Dx86_64-softmmu --disable-rdma --disable=
+-pvrdma --disable-attr --disable-vhost-net --disable-vhost-vsock --disable-=
+vhost-scsi --disable-vhost-crypto --disable-vhost-user --disable-spice --di=
+sable-qom-cast-debug --disable-vxhs --disable-bochs --disable-cloop --disab=
+le-dmg --disable-qcow1 --disable-vdi --disable-vvfat --disable-qed --disabl=
+e-parallels --disable-sheepdog --disable-avx2 --disable-nettle --disable-gn=
+utls --disable-capstone --disable-tools --disable-libpmem --disable-iconv -=
+-disable-cap-ng
+  $ make
+
+  Test:
+  $ LD_LIBRARY_PATH=3D/usr/local/lib/x86_64-linux-gnu/:$LD_LIBRARY_PATH ./b=
+uild/x86_64-softmmu/qemu-system-x86_64 -enable-kvm --drive media=3Dcdrom,fi=
+le=3Dhttp://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/cur=
+rent/images/netboot/mini.iso
+  - switch to monitor with CTRL+ALT+2
+  - try to enter something
+
+  Affects head of both usptream git repos.
+
+  =
+
+  --- original bug ---
+
+  It was observed that the QEMU console (normally accessible using
+  Ctrl+Alt+2) accepts no input, so it can't be used. This is being
+  problematic because there are cases where it's required to send
+  commands to the guest, or key combinations that the host would grab
+  (as Ctrl-Alt-F1 or Alt-F4).
+
+  ProblemType: Bug
+  DistroRelease: Ubuntu 20.04
+  Package: qemu 1:4.2-3ubuntu2
+  Uname: Linux 5.6.0-rc6+ x86_64
+  ApportVersion: 2.20.11-0ubuntu20
+  Architecture: amd64
+  CurrentDesktop: XFCE
+  Date: Thu Mar 19 12:16:31 2020
+  Dependencies:
+
+  InstallationDate: Installed on 2017-06-13 (1009 days ago)
+  InstallationMedia: Xubuntu 17.04 "Zesty Zapus" - Release amd64 (20170412)
+  KvmCmdLine:
+  =C2=A0COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
+  =C2=A0qemu-system-x86 Sl+   1000  1000   34275   25235 29.2 qemu-system-x=
+86_64 -m 4G -cpu Skylake-Client -device virtio-vga,virgl=3Dtrue,xres=3D1280=
+,yres=3D720 -accel kvm -device nec-usb-xhci -serial vc -serial stdio -hda /=
+home/usuario/Sistemas/androidx86.img -display gtk,gl=3Don -device usb-audio
+  =C2=A0kvm-nx-lpage-re S        0     0   34284       2  0.0 [kvm-nx-lpage=
+-re]
+  =C2=A0kvm-pit/34275   S        0     0   34286       2  0.0 [kvm-pit/3427=
+5]
+  MachineType: LENOVO 80UG
+  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-5.6.0-rc6+ root=3DUUID=3D6b=
+4ae5c0-c78c-49a6-a1ba-029192618a7a ro quiet ro kvm.ignore_msrs=3D1 kvm.repo=
+rt_ignored_msrs=3D0 kvm.halt_poll_ns=3D0 kvm.halt_poll_ns_grow=3D0 i915.ena=
+ble_gvt=3D1 i915.fastboot=3D1 cgroup_enable=3Dmemory swapaccount=3D1 zswap.=
+enabled=3D1 zswap.zpool=3Dz3fold resume=3DUUID=3Da82e38a0-8d20-49dd-9cbd-de=
+7216b589fc log_buf_len=3D16M usbhid.quirks=3D0x0079:0x0006:0x100000 config_=
+scsi_mq_default=3Dy scsi_mod.use_blk_mq=3D1 mtrr_gran_size=3D64M mtrr_chunk=
+_size=3D64M nbd.nbds_max=3D2 nbd.max_part=3D63
+  SourcePackage: qemu
+  UpgradeStatus: Upgraded to focal on 2019-12-22 (87 days ago)
+  dmi.bios.date: 08/09/2018
+  dmi.bios.vendor: LENOVO
+  dmi.bios.version: 0XCN45WW
+  dmi.board.asset.tag: NO Asset Tag
+  dmi.board.name: Toronto 4A2
+  dmi.board.vendor: LENOVO
+  dmi.board.version: SDK0J40679 WIN
+  dmi.chassis.asset.tag: NO Asset Tag
+  dmi.chassis.type: 10
+  dmi.chassis.vendor: LENOVO
+  dmi.chassis.version: Lenovo ideapad 310-14ISK
+  dmi.modalias: dmi:bvnLENOVO:bvr0XCN45WW:bd08/09/2018:svnLENOVO:pn80UG:pvr=
+Lenovoideapad310-14ISK:rvnLENOVO:rnToronto4A2:rvrSDK0J40679WIN:cvnLENOVO:ct=
+10:cvrLenovoideapad310-14ISK:
+  dmi.product.family: IDEAPAD
+  dmi.product.name: 80UG
+  dmi.product.sku: LENOVO_MT_80UG_BU_idea_FM_Lenovo ideapad 310-14ISK
+  dmi.product.version: Lenovo ideapad 310-14ISK
+  dmi.sys.vendor: LENOVO
+  mtime.conffile..etc.apport.crashdb.conf: 2019-08-29T08:39:36.787240
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1868116/+subscriptions
 
