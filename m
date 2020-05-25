@@ -2,89 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6243E1E0731
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 08:42:52 +0200 (CEST)
-Received: from localhost ([::1]:54302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4220D1E077F
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 09:10:19 +0200 (CEST)
+Received: from localhost ([::1]:39080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jd6p1-0002j2-FZ
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 02:42:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59562)
+	id 1jd7Fa-0002WF-97
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 03:10:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jd6nC-00024f-R0
- for qemu-devel@nongnu.org; Mon, 25 May 2020 02:40:58 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24120
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jd6nB-0002dX-VV
- for qemu-devel@nongnu.org; Mon, 25 May 2020 02:40:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590388856;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Fh7qy5x7FFYDUUtKa75F1LNppiTgEK3QC0GcpCttKkg=;
- b=HLmm6NVr6eiLAffSCaKKQaHdvCgrRN2+K+aw7l80Srvs8RTjZIKsdCaRm7wKgDFwz3bGDf
- TXtqiNR1P4LutHR12Oa1RXmzqPIuxwlLHlEORsIf8NXo1rwHStu+zHCLNrg7Rsq6+/sY8P
- 1WZScg7asjRhZHPUfbv6vmG8KoatKJQ=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-aQBNJ4FdNkqdB2ayd95xOw-1; Mon, 25 May 2020 02:40:54 -0400
-X-MC-Unique: aQBNJ4FdNkqdB2ayd95xOw-1
-Received: by mail-ed1-f71.google.com with SMTP id k17so7058223edo.20
- for <qemu-devel@nongnu.org>; Sun, 24 May 2020 23:40:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Fh7qy5x7FFYDUUtKa75F1LNppiTgEK3QC0GcpCttKkg=;
- b=oYozc7kzaUK2iDUGziU6yyh49GiFxV55pF8FrEg4sFSyJJ7/c3cu12PChN9PXmGFj7
- 4FU7wyHI19YUVE/aSWtQk+nEWdJf2gEQEbjdTp4C28XlbrBEihX/q53VUOwwSnY3nGbg
- eIpTz4Wjgb8nW89ZeP+q5OkOsrQvOBcxast0CLl4vRPFdbSfG/MFVm8P9CtkcBf9pMSU
- C/dwZynSiuYnnumpoT3/bbMXrX72fbvoYiM121q5as6PXgYVJaUSimqkc/naA8diST7U
- b/ioOl5KeaIHUJozsi8PfMwGltE1E31qrwCWPQAJ+A2Bklkc9OOd0rgKUgOa8xfwbpkH
- GFgA==
-X-Gm-Message-State: AOAM53387LS1nznWF51nZ0KbKbTNGTZ5MdSGa22XoQFCJBNrCn43M8Vd
- 1/JFW2d9yA7vGyZy++NXw1Ho9Lf6Svuby9GVukcIrAWdgkkVekNWMoi578A+FXy6T93YUd8OQfl
- IzJm/9M5uKbEDeM4EqDbbCHjxzUpPrKI=
-X-Received: by 2002:a17:906:8d0:: with SMTP id
- o16mr18202326eje.196.1590388852727; 
- Sun, 24 May 2020 23:40:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwU27CikJ1mhYODdNeDvWt7d14Fpmm3VZRaRhyyhpgLJ1sNvcAcpF6u85e8wwtKx385kcLPM9GkZ2akFiDNkAY=
-X-Received: by 2002:a17:906:8d0:: with SMTP id
- o16mr18202314eje.196.1590388852543; 
- Sun, 24 May 2020 23:40:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jd7Eo-000270-N0
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 03:09:30 -0400
+Received: from mga01.intel.com ([192.55.52.88]:7753)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jd7Em-0006vQ-P5
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 03:09:29 -0400
+IronPort-SDR: B5iVdTKgxaGy1pB8W3TyoXvN9WTjLDelZmt/Ti4zXvLDMhTvS8kn2MaiPZ4PtkWAFuxdGyT2lV
+ S+hhueyUg2EA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 May 2020 00:09:23 -0700
+IronPort-SDR: GTy/UgBSgNKAfK/Tie1LHQ85jj5tejRIkftRgh2WdVz7izBcCGWlnMKgGnNHVAAx3c9NP3mR+F
+ JbT1DM0Am4Mw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,432,1583222400"; d="scan'208";a="413427539"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by orsmga004.jf.intel.com with ESMTP; 25 May 2020 00:09:18 -0700
+Date: Mon, 25 May 2020 02:59:26 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH Kernel v22 0/8] Add UAPIs to support migration for VFIO
+ devices
+Message-ID: <20200525065925.GA698@joy-OptiPlex-7040>
+References: <1589781397-28368-1-git-send-email-kwankhede@nvidia.com>
+ <20200519105804.02f3cae8@x1.home>
 MIME-Version: 1.0
-References: <20200519145551.22836-1-armbru@redhat.com>
- <20200519145551.22836-4-armbru@redhat.com>
- <9b329adc-8110-c108-996a-3b7d8463d042@redhat.com>
- <871rnft498.fsf@dusky.pond.sub.org>
- <c3c59472-9f2a-f30a-deed-36192840a892@redhat.com>
- <871rner7ki.fsf@dusky.pond.sub.org>
- <75f22571-138a-337b-a1c3-e715b1622bae@redhat.com>
- <87wo50frwe.fsf@dusky.pond.sub.org>
-In-Reply-To: <87wo50frwe.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Mon, 25 May 2020 08:40:39 +0200
-Message-ID: <CABgObfYEoZ0=k4uvMq3VGub=nx1UQUTE93G8Rn5rKYLbwxk97Q@mail.gmail.com>
-Subject: Re: [PATCH 03/55] qdev: New qdev_new(), qdev_realize(), etc.
-To: Markus Armbruster <armbru@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000009c65e805a67342fd"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 02:40:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200519105804.02f3cae8@x1.home>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=192.55.52.88; envelope-from=yan.y.zhao@intel.com;
+ helo=mga01.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 03:09:23
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,52 +68,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "P. Berrange, Daniel" <berrange@redhat.com>, "Habkost,
- Eduardo" <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, Kirti Wankhede <kwankhede@nvidia.com>,
+ eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
+ changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009c65e805a67342fd
-Content-Type: text/plain; charset="UTF-8"
-
-Il lun 25 mag 2020, 08:30 Markus Armbruster <armbru@redhat.com> ha scritto:
-
-> > I think we should move the whole /machine/unattached dance into
-> > qdev_realize, and just assert that a device being realized already has a
-> > parent.  Then the ref/unref _will_ be unnecessary.  In the meanwhile, I
-> > agree to either keep it or move it inside device_set_realized.
+On Tue, May 19, 2020 at 10:58:04AM -0600, Alex Williamson wrote:
+> Hi folks,
+> 
+> My impression is that we're getting pretty close to a workable
+> implementation here with v22 plus respins of patches 5, 6, and 8.  We
+> also have a matching QEMU series and a proposal for a new i40e
+> consumer, as well as I assume GVT-g updates happening internally at
+> Intel.  I expect all of the latter needs further review and discussion,
+> but we should be at the point where we can validate these proposed
+> kernel interfaces.  Therefore I'd like to make a call for reviews so
+> that we can get this wrapped up for the v5.8 merge window.  I know
+> Connie has some outstanding documentation comments and I'd like to make
+> sure everyone has an opportunity to check that their comments have been
+> addressed and we don't discover any new blocking issues.  Please send
+> your Acked-by/Reviewed-by/Tested-by tags if you're satisfied with this
+> interface and implementation.  Thanks!
 >
-> Could be done on top.  I might try for v2, if I can find the time.
->
+hi Alex
+after porting gvt/i40e vf migration code to kernel/qemu v23, we spoted
+two bugs.
+1. "Failed to get dirty bitmap for iova: 0xfe011000 size: 0x3fb0 err: 22"
+   This is a qemu bug that the dirty bitmap query range is not the same
+   as the dma map range. It can be fixed in qemu. and I just have a little
+   concern for kernel to have this restriction.
 
-Certainly on top.
+2. migration abortion, reporting
+"qemu-system-x86_64-lm: vfio_load_state: Error allocating buffer
+qemu-system-x86_64-lm: error while loading state section id 49(vfio)
+qemu-system-x86_64-lm: load of migration failed: Cannot allocate memory"
 
-Paolo
+It's still a qemu bug and we can fixed it by
+"
+if (migration->pending_bytes == 0) {
++            qemu_put_be64(f, 0);
++            qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+"
+and actually there are some extra concerns about this part, as reported in
+[1][2].
 
---0000000000009c65e805a67342fd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+[1] data_size should be read ahead of data_offset
+https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg02795.html.
+[2] should not repeatedly update pending_bytes in vfio_save_iterate()
+https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg02796.html.
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il lun 25 mag 2020, 08:30 Markus Armbruster &lt;<a hre=
-f=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; ha scritto:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">&gt; I think we should move the whole /ma=
-chine/unattached dance into<br>
-&gt; qdev_realize, and just assert that a device being realized already has=
- a<br>
-&gt; parent.=C2=A0 Then the ref/unref _will_ be unnecessary.=C2=A0 In the m=
-eanwhile, I<br>
-&gt; agree to either keep it or move it inside device_set_realized.<br>
-<br>
-Could be done on top.=C2=A0 I might try for v2, if I can find the time.<br>=
-</blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Cert=
-ainly on top.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div=
-></div>
+but as those errors are all in qemu, and we have finished basic tests in
+both gvt & i40e, we're fine with the kernel part interface in general now.
+(except for my concern [1], which needs to update kernel patch 1)
 
---0000000000009c65e805a67342fd--
+so I wonder which way in your mind is better, to give our reviewed-by to
+the kernel part now, or hold until next qemu fixes?
+and as performance data from gvt is requested from your previous mail, is
+that still required before the code is accepted?
+
+BTW, we have also conducted some basic tests when viommu is on, and found out
+errors like 
+"qemu-system-x86_64-dt: vtd_iova_to_slpte: detected slpte permission error (iova=0x0, level=0x3, slpte=0x0, write=1)
+qemu-system-x86_64-dt: vtd_iommu_translate: detected translation failure (dev=00:03:00, iova=0x0)
+qemu-system-x86_64-dt: New fault is not recorded due to compression of faults".
+
+Thanks
+Yan
+
+
+
 
 
