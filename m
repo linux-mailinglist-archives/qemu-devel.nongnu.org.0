@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B630D1E1450
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 20:27:43 +0200 (CEST)
-Received: from localhost ([::1]:55224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 994711E13FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 20:21:19 +0200 (CEST)
+Received: from localhost ([::1]:54178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdHp8-0000Ry-PY
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 14:27:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45238)
+	id 1jdHiw-0004Te-Kc
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 14:21:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jdHXu-00041L-9B; Mon, 25 May 2020 14:09:54 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:50865)
+ id 1jdHXr-0003uG-GR; Mon, 25 May 2020 14:09:51 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:50855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jdHXp-0007pF-Vu; Mon, 25 May 2020 14:09:53 -0400
+ id 1jdHXp-0007pB-H0; Mon, 25 May 2020 14:09:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=zhUI+SdcRuNKlLxl0eH0JWm96meGNa39l1+qfmyCMtQ=; 
- b=JdtUdn98awZMaou41nL6EVEfkrTRtEVgqCHGHs9ojY2qMYv6rR6rAibLilRNgGXBQ8Bd9TnLsYZocD9tSbiEzPmoKx0P2vN0pI8Z9tRcJw8AAU2YlDFZ7w4r+OcecvnZivyZxQdxNn4JAx7l3fg7T27Vm1bkPhrPpmCjuhMgM7v1YtVJKEKQsYjNB4PBI1GZjYXKanN5HeX2jcGLo1AYZ68wkAgMtdxmOsEk7BCcMEzB6XPco3vu6E9s7v2c2jHXyDY03rcGVS6DAEr4RMwkfppObHH22xMmmCbN2It2b7n7sFzXrvC2Sf9KkbHGH93fGCLepb/+iUnw5rU8HlXCug==;
+ bh=x44WykpORUb7jKPsPZokuc5MU7JgoaeSdWXwYoNGUz0=; 
+ b=mKwu4DDivtGLM/Ppvq76ZQpN1jmDbKNdwnnB99KxA1x8HaDh3r24mBYJN/h1ZgXDpOT7/Sl0BBty7QcZ4s9eRnFutU3ndfgYuYD0pdGssDpgWPVTNY79wXVj3bJK7AawyeomzHpfs0F6Nha44nyuHuqyQAi9Xo62LlPP2pupxHK4W2dL1Hc+pr93OOtf1dGa4hcC4vlu46dyJrsDwzbFreONEvGOiCS73EfTIoaBQZJ4FQIymiRTttCZbrfsiozW1uTAEQra394mtp7l/HTlLwhdy6flmbT9OOY0eMLYGuTA7ToxJj1jzrE5b127y4Abh/0wyHhhQD32CygqpAhykw==;
 Received: from [81.0.38.199] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jdHXO-00088B-6X; Mon, 25 May 2020 20:09:22 +0200
+ id 1jdHXO-00088C-Cd; Mon, 25 May 2020 20:09:22 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1jdHX9-0002MY-Gr; Mon, 25 May 2020 20:09:07 +0200
+ id 1jdHX9-0002Ma-Hv; Mon, 25 May 2020 20:09:07 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 03/32] qcow2: Add calculate_l2_meta()
-Date: Mon, 25 May 2020 20:08:28 +0200
-Message-Id: <5f54e7e02631f6fb3cbbd21e4711d6af946dfd01.1590429901.git.berto@igalia.com>
+Subject: [PATCH v7 04/32] qcow2: Split cluster_needs_cow() out of
+ count_cow_clusters()
+Date: Mon, 25 May 2020 20:08:29 +0200
+Message-Id: <6e6d29aa0e7de2449a7f1951df61802934cfd8ac.1590429901.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1590429901.git.berto@igalia.com>
 References: <cover.1590429901.git.berto@igalia.com>
@@ -68,118 +69,71 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-handle_alloc() creates a QCowL2Meta structure in order to update the
-image metadata and perform the necessary copy-on-write operations.
-
-This patch moves that code to a separate function so it can be used
-from other places.
+We are going to need it in other places.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2-cluster.c | 77 +++++++++++++++++++++++++++++--------------
- 1 file changed, 53 insertions(+), 24 deletions(-)
+ block/qcow2-cluster.c | 34 +++++++++++++++++++---------------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
 
 diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 9ab41cb728..61ad638bdc 100644
+index 61ad638bdc..80f9787461 100644
 --- a/block/qcow2-cluster.c
 +++ b/block/qcow2-cluster.c
-@@ -1037,6 +1037,56 @@ void qcow2_alloc_cluster_abort(BlockDriverState *bs, QCowL2Meta *m)
-     }
+@@ -1087,6 +1087,24 @@ static void calculate_l2_meta(BlockDriverState *bs,
+     QLIST_INSERT_HEAD(&s->cluster_allocs, *m, next_in_flight);
  }
  
-+/*
-+ * For a given write request, create a new QCowL2Meta structure, add
-+ * it to @m and the BDRVQcow2State.cluster_allocs list.
-+ *
-+ * @host_cluster_offset points to the beginning of the first cluster.
-+ *
-+ * @guest_offset and @bytes indicate the offset and length of the
-+ * request.
-+ *
-+ * If @keep_old is true it means that the clusters were already
-+ * allocated and will be overwritten. If false then the clusters are
-+ * new and we have to decrease the reference count of the old ones.
-+ */
-+static void calculate_l2_meta(BlockDriverState *bs,
-+                              uint64_t host_cluster_offset,
-+                              uint64_t guest_offset, unsigned bytes,
-+                              QCowL2Meta **m, bool keep_old)
++/* Returns true if writing to a cluster requires COW */
++static bool cluster_needs_cow(BlockDriverState *bs, uint64_t l2_entry)
 +{
-+    BDRVQcow2State *s = bs->opaque;
-+    unsigned cow_start_from = 0;
-+    unsigned cow_start_to = offset_into_cluster(s, guest_offset);
-+    unsigned cow_end_from = cow_start_to + bytes;
-+    unsigned cow_end_to = ROUND_UP(cow_end_from, s->cluster_size);
-+    unsigned nb_clusters = size_to_clusters(s, cow_end_from);
-+    QCowL2Meta *old_m = *m;
-+
-+    *m = g_malloc0(sizeof(**m));
-+    **m = (QCowL2Meta) {
-+        .next           = old_m,
-+
-+        .alloc_offset   = host_cluster_offset,
-+        .offset         = start_of_cluster(s, guest_offset),
-+        .nb_clusters    = nb_clusters,
-+
-+        .keep_old_clusters = keep_old,
-+
-+        .cow_start = {
-+            .offset     = cow_start_from,
-+            .nb_bytes   = cow_start_to - cow_start_from,
-+        },
-+        .cow_end = {
-+            .offset     = cow_end_from,
-+            .nb_bytes   = cow_end_to - cow_end_from,
-+        },
-+    };
-+
-+    qemu_co_queue_init(&(*m)->dependent_requests);
-+    QLIST_INSERT_HEAD(&s->cluster_allocs, *m, next_in_flight);
++    switch (qcow2_get_cluster_type(bs, l2_entry)) {
++    case QCOW2_CLUSTER_NORMAL:
++        if (l2_entry & QCOW_OFLAG_COPIED) {
++            return false;
++        }
++    case QCOW2_CLUSTER_UNALLOCATED:
++    case QCOW2_CLUSTER_COMPRESSED:
++    case QCOW2_CLUSTER_ZERO_PLAIN:
++    case QCOW2_CLUSTER_ZERO_ALLOC:
++        return true;
++    default:
++        abort();
++    }
 +}
 +
  /*
   * Returns the number of contiguous clusters that can be used for an allocating
   * write, but require COW to be performed (this includes yet unallocated space,
-@@ -1435,35 +1485,14 @@ static int handle_alloc(BlockDriverState *bs, uint64_t guest_offset,
-     uint64_t requested_bytes = *bytes + offset_into_cluster(s, guest_offset);
-     int avail_bytes = nb_clusters << s->cluster_bits;
-     int nb_bytes = MIN(requested_bytes, avail_bytes);
--    QCowL2Meta *old_m = *m;
--
--    *m = g_malloc0(sizeof(**m));
--
--    **m = (QCowL2Meta) {
--        .next           = old_m,
--
--        .alloc_offset   = alloc_cluster_offset,
--        .offset         = start_of_cluster(s, guest_offset),
--        .nb_clusters    = nb_clusters,
--
--        .keep_old_clusters  = keep_old_clusters,
--
--        .cow_start = {
--            .offset     = 0,
--            .nb_bytes   = offset_into_cluster(s, guest_offset),
--        },
--        .cow_end = {
--            .offset     = nb_bytes,
--            .nb_bytes   = avail_bytes - nb_bytes,
--        },
--    };
--    qemu_co_queue_init(&(*m)->dependent_requests);
--    QLIST_INSERT_HEAD(&s->cluster_allocs, *m, next_in_flight);
+@@ -1099,25 +1117,11 @@ static int count_cow_clusters(BlockDriverState *bs, int nb_clusters,
  
-     *host_offset = alloc_cluster_offset + offset_into_cluster(s, guest_offset);
-     *bytes = MIN(*bytes, nb_bytes - offset_into_cluster(s, guest_offset));
-     assert(*bytes != 0);
+     for (i = 0; i < nb_clusters; i++) {
+         uint64_t l2_entry = be64_to_cpu(l2_slice[l2_index + i]);
+-        QCow2ClusterType cluster_type = qcow2_get_cluster_type(bs, l2_entry);
+-
+-        switch(cluster_type) {
+-        case QCOW2_CLUSTER_NORMAL:
+-            if (l2_entry & QCOW_OFLAG_COPIED) {
+-                goto out;
+-            }
++        if (!cluster_needs_cow(bs, l2_entry)) {
+             break;
+-        case QCOW2_CLUSTER_UNALLOCATED:
+-        case QCOW2_CLUSTER_COMPRESSED:
+-        case QCOW2_CLUSTER_ZERO_PLAIN:
+-        case QCOW2_CLUSTER_ZERO_ALLOC:
+-            break;
+-        default:
+-            abort();
+         }
+     }
  
-+    calculate_l2_meta(bs, alloc_cluster_offset, guest_offset, *bytes,
-+                      m, keep_old_clusters);
-+
-     return 1;
- 
- fail:
+-out:
+     assert(i <= nb_clusters);
+     return i;
+ }
 -- 
 2.20.1
 
