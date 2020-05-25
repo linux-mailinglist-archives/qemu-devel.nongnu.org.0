@@ -2,47 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6713F1E0CF7
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:30:10 +0200 (CEST)
-Received: from localhost ([::1]:43576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BE31E0CCE
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:25:26 +0200 (CEST)
+Received: from localhost ([::1]:55052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdBJ3-0001AK-FX
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:30:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57524)
+	id 1jdBET-0002Q1-BJ
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:25:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
- id 1jdB99-00021M-8S
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:56 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:54930)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdB98-0008Qp-7g
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:55 -0400
-Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 40915CD466;
- Mon, 25 May 2020 14:19:53 +0300 (MSK)
-Subject: [PATCH 9/9] tests/acceptance: Linux boot test for record/replay
-From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdBD6-0000k9-3y; Mon, 25 May 2020 07:24:00 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:39345)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdBD5-0000pF-HB; Mon, 25 May 2020 07:23:59 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id y5so2449030wmj.4;
+ Mon, 25 May 2020 04:23:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xi9QqR+83+B5s2IOVxfJBVAFepRnYVrkPVzemn60gzI=;
+ b=mV0Ov88tOG4k8pajy0PZCGW/D7neDXPoUh++u8F5BrLIJLal2spLcI03NtxTG5Kmyh
+ Uo7QMyI0aqqxn68D7aor7DU66qktLz+EyU8K328eM3r+JVriSuOrzCJnuErNdNrixz1Z
+ DF7JE2W6uSSHtxj07V/Fnk3WAtCfLi+k1ifP5tI0wga4obckuZcQ8u4+ShIrWBcB+oVJ
+ OygzTUdl4aFW0dm0NEHO3hzM4YRv2o/jGHgRn8IZmzv3XcRiZJXYsWawj1CNiOW9JZav
+ uqLvA2Ta99OKEtFqHBHeMcrBB8sUmyUSWTAxHgUUuS2/mhlur3uOw/59vTz33HSK3EuD
+ ACZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=xi9QqR+83+B5s2IOVxfJBVAFepRnYVrkPVzemn60gzI=;
+ b=mBps7zDMMBvHCPtLDUAFvH0m16FIWubMfsUHKKK+r8tsr/ZFH3jcFB2+ibKBnFrrIO
+ Yf2EBAYBggzl93PZMR7wdpxXnKLrTXfDM7NsuvNMlTCRrr4RiTVPAW0j+TOv6tfLZDoS
+ APg1TM7zV0d2msUkC4pTLgwxiyMjVCtWuBymlfydBzEJRTMbKHCM8vbea4rSL6ppPgcs
+ tURxRJqZDA31Xf7NdNSiQKGo1uGarN4t52E8dhPspyUSvkYCxPWPHS556XKgcA9qWb2t
+ TShUMbgj0h6FXs/+TAXsRPti0F4ug3uSzk75BIbiaZIll7/qtHpQagpoLlrSfha3ZW/g
+ qgEg==
+X-Gm-Message-State: AOAM5302Wiomsys6XAhQG1kbdGy3owIkbyNKYh/ObiHiUZo1dsyOUq7L
+ 7VSmH6xxGwP/Ukjnn1M0NygQ88TAhyU=
+X-Google-Smtp-Source: ABdhPJyT1hGMf1DrqHJx7+AHUt01BTmY6d/eIGRODJW0Cw2/nheva5h3UfKnRLokZpdzeYOCJQ1XLg==
+X-Received: by 2002:a7b:c7d4:: with SMTP id z20mr10395324wmk.35.1590405837114; 
+ Mon, 25 May 2020 04:23:57 -0700 (PDT)
+Received: from localhost.localdomain (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id h196sm10715635wme.22.2020.05.25.04.23.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 May 2020 04:23:56 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 25 May 2020 14:19:53 +0300
-Message-ID: <159040559302.2615.18392869399102145442.stgit@pasha-ThinkPad-X280>
-In-Reply-To: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
-References: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
-User-Agent: StGit/0.17.1-dirty
+Subject: [PATCH 0/3] hw/display/vmware_vga: Trivial cleanups
+Date: Mon, 25 May 2020 13:23:51 +0200
+Message-Id: <20200525112354.10445-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: softfail client-ip=83.149.199.45;
- envelope-from=Pavel.Dovgaluk@gmail.com; helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 07:19:03
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: 17
-X-Spam_score: 1.7
-X-Spam_bar: +
-X-Spam_report: (1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
- FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, FROM_WORDY=1,
- NML_ADSP_CUSTOM_MED=0.9, SPF_SOFTFAIL=0.665, T_FILL_THIS_FORM_SHORT=0.01,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,190 +83,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, dovgaluk@ispras.ru, pavel.dovgaluk@ispras.ru,
- crosa@redhat.com, pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a test for record/replay, which boots Linux
-image from the disk and interacts with the network.
-The idea and code of this test is borrowed from boot_linux.py
-However, currently record/replay works only for x86_64,
-therefore other tests were excluded.
+Use qemu_log_mask(LOG_GUEST_ERROR),
+let the device be parent of a MemoryRegion.
 
-Each test consists of the following phases:
- - downloading the disk image
- - recording the execution
- - replaying the execution
+Philippe Mathieu-Daudé (3):
+  MAINTAINERS: Cover vmware_vga related files in VMware section
+  hw/display/vmware_vga: Replace printf() calls by qemu_log_mask(ERROR)
+  hw/display/vmware_vga: Let the PCI device own its I/O MemoryRegion
 
-Replay does not validates the output, but waits until QEMU
-finishes the execution. This is reasonable, because
-QEMU usually hangs when replay goes wrong.
+ hw/display/vmware_vga.c | 18 ++++++++++++------
+ MAINTAINERS             |  3 +++
+ 2 files changed, 15 insertions(+), 6 deletions(-)
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
----
- MAINTAINERS                      |    1 
- tests/acceptance/replay_linux.py |  140 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 141 insertions(+)
- create mode 100644 tests/acceptance/replay_linux.py
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e9a9ce4f66..97f066a9b2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2498,6 +2498,7 @@ F: include/sysemu/replay.h
- F: docs/replay.txt
- F: stubs/replay.c
- F: tests/acceptance/replay_kernel.py
-+F: tests/acceptance/replay_linux.py
- 
- IOVA Tree
- M: Peter Xu <peterx@redhat.com>
-diff --git a/tests/acceptance/replay_linux.py b/tests/acceptance/replay_linux.py
-new file mode 100644
-index 0000000000..08eedb23ef
---- /dev/null
-+++ b/tests/acceptance/replay_linux.py
-@@ -0,0 +1,140 @@
-+# Record/replay test that boots a complete Linux system via a cloud image
-+#
-+# Copyright (c) 2020 ISP RAS
-+#
-+# Author:
-+#  Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+import os
-+
-+from avocado_qemu import Test, BUILD_DIR
-+
-+from avocado.utils import cloudinit
-+from avocado.utils import network
-+from avocado.utils import vmimage
-+from avocado.utils import datadrainer
-+from avocado.utils.path import find_command
-+
-+class ReplayLinux(Test):
-+    """
-+    Boots a Linux system, checking for a successful initialization
-+    """
-+
-+    timeout = 1800
-+    chksum = None
-+    hdd = 'ide-hd'
-+    cd = 'ide-cd'
-+    bus = ''
-+
-+    def setUp(self):
-+        super(ReplayLinux, self).setUp()
-+        self.prepare_boot()
-+        self.prepare_cloudinit()
-+
-+    def vm_add_disk(self, vm, path, id, device):
-+        bus_string = ''
-+        if self.bus != '':
-+            bus_string = ',bus=%s.%d' % (self.bus, id,)
-+        vm.add_args('-drive', 'file=%s,snapshot,id=disk%s,if=none' % (path, id))
-+        vm.add_args('-drive', 'driver=blkreplay,id=disk%s-rr,if=none,image=disk%s' % (id, id))
-+        vm.add_args('-device', '%s,drive=disk%s-rr%s' % (device, id, bus_string))
-+
-+    def prepare_boot(self):
-+        self.log.debug('Looking for and selecting a qemu-img binary to be '
-+                       'used to create the bootable snapshot image')
-+        # If qemu-img has been built, use it, otherwise the system wide one
-+        # will be used.  If none is available, the test will cancel.
-+        qemu_img = os.path.join(BUILD_DIR, 'qemu-img')
-+        if not os.path.exists(qemu_img):
-+            qemu_img = find_command('qemu-img', False)
-+        if qemu_img is False:
-+            self.cancel('Could not find "qemu-img", which is required to '
-+                        'create the bootable image')
-+        vmimage.QEMU_IMG = qemu_img
-+
-+        self.log.info('Downloading/preparing boot image')
-+        # Fedora 31 only provides ppc64le images
-+        image_arch = self.arch
-+        if image_arch == 'ppc64':
-+            image_arch = 'ppc64le'
-+        try:
-+            self.boot = vmimage.get(
-+                'fedora', arch=image_arch, version='31',
-+                checksum=self.chksum,
-+                algorithm='sha256',
-+                cache_dir=self.cache_dirs[0],
-+                snapshot_dir=self.workdir)
-+        except:
-+            self.cancel('Failed to download/prepare boot image')
-+
-+    def prepare_cloudinit(self):
-+        self.log.info('Preparing cloudinit image')
-+        try:
-+            self.cloudinit_iso = os.path.join(self.workdir, 'cloudinit.iso')
-+            self.phone_home_port = network.find_free_port()
-+            cloudinit.iso(self.cloudinit_iso, self.name,
-+                          username='root',
-+                          password='password',
-+                          # QEMU's hard coded usermode router address
-+                          phone_home_host='10.0.2.2',
-+                          phone_home_port=self.phone_home_port)
-+        except Exception:
-+            self.cancel('Failed to prepared cloudinit image')
-+
-+    def launch_and_wait(self, record, args, shift):
-+        vm = self.get_vm()
-+        vm.add_args('-smp', '1')
-+        vm.add_args('-m', '1024')
-+        vm.add_args('-object', 'filter-replay,id=replay,netdev=hub0port0')
-+        vm.add_args(*args)
-+        self.vm_add_disk(vm, self.boot.path, 0, self.hdd)
-+        self.vm_add_disk(vm, self.cloudinit_iso, 1, self.cd)
-+        if record:
-+            mode = 'record'
-+        else:
-+            mode = 'replay'
-+        vm.add_args('-icount', 'shift=%s,rr=%s,rrfile=%s' %
-+                    (shift, mode, os.path.join(self.workdir, 'replay.bin')))
-+
-+        vm.set_console()
-+        vm.launch()
-+        console_drainer = datadrainer.LineLogger(vm.console_socket.fileno(),
-+                                                 logger=self.log.getChild('console'),
-+                                                 stop_check=(lambda : not vm.is_running()))
-+        console_drainer.start()
-+        if record:
-+            self.log.info('VM launched, waiting for boot confirmation from guest')
-+            cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port), self.name)
-+            vm.shutdown()
-+        else:
-+            self.log.info('VM launched, waiting the recorded execution to be replayed')
-+            vm.wait()
-+
-+    def run_rr(self, args=(), shift=7):
-+        self.launch_and_wait(True, args, shift)
-+        self.launch_and_wait(False, args, shift)
-+
-+class ReplayLinuxX8664(ReplayLinux):
-+    """
-+    :avocado: tags=arch:x86_64
-+    """
-+    bus = 'ide'
-+
-+    chksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
-+
-+    def test_pc_i440fx(self):
-+        """
-+        :avocado: tags=machine:pc
-+        :avocado: tags=accel:tcg
-+        """
-+        self.run_rr(shift=1)
-+
-+    def test_pc_q35(self):
-+        """
-+        :avocado: tags=machine:q35
-+        :avocado: tags=accel:tcg
-+        """
-+        self.run_rr(shift=3)
+-- 
+2.21.3
 
 
