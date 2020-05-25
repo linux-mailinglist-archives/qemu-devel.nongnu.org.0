@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8801E0CE6
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:26:56 +0200 (CEST)
-Received: from localhost ([::1]:60210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C8F1E0CBF
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:23:42 +0200 (CEST)
+Received: from localhost ([::1]:48098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdBFv-0004tJ-83
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:26:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57464)
+	id 1jdBCn-00080F-Ct
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:23:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
- id 1jdB8s-0001WO-AZ
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:38 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:54810)
+ id 1jdB8y-0001ek-4z
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:44 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:54866)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdB8r-0008O2-IY
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:38 -0400
+ (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdB8x-0008Pb-B4
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:43 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 5E57ECD466;
- Mon, 25 May 2020 14:19:36 +0300 (MSK)
-Subject: [PATCH 6/9] tests/acceptance: add record/replay test for ppc64
+ by mail.ispras.ru (Postfix) with ESMTPSA id 1BA89CD460;
+ Mon, 25 May 2020 14:19:42 +0300 (MSK)
+Subject: [PATCH 7/9] tests/acceptance: add record/replay test for m68k
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 25 May 2020 14:19:36 +0300
-Message-ID: <159040557608.2615.17453534013867754631.stgit@pasha-ThinkPad-X280>
+Date: Mon, 25 May 2020 14:19:41 +0300
+Message-ID: <159040558183.2615.5681444460877087880.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
 References: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -60,35 +60,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch adds a test for record/replay of the kernel
-image boot for ppc64 platform.
+image boot for m68k platform.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 ---
- tests/acceptance/replay_kernel.py |   15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ tests/acceptance/replay_kernel.py |   18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index 41c8ca3c99..9931f87bd5 100644
+index 9931f87bd5..4c786b1565 100644
 --- a/tests/acceptance/replay_kernel.py
 +++ b/tests/acceptance/replay_kernel.py
-@@ -158,3 +158,18 @@ class ReplayKernel(Test):
-         console_pattern = 'Boot successful.'
-         self.run_rr(kernel_path, kernel_command_line, console_pattern,
-             args=('-dtb', dtb_path, '-initrd', initrd_path, '-no-reboot'))
+@@ -173,3 +173,21 @@ class ReplayKernel(Test):
+         kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=hvc0'
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+         self.run_rr(kernel_path, kernel_command_line, console_pattern)
 +
-+    def test_ppc64_pseries(self):
++    def test_m68k_q800(self):
 +        """
-+        :avocado: tags=arch:ppc64
-+        :avocado: tags=machine:pseries
++        :avocado: tags=arch:m68k
++        :avocado: tags=machine:q800
 +        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
-+                      '/fedora-secondary/releases/29/Everything/ppc64le/os'
-+                      '/ppc/ppc64/vmlinuz')
-+        kernel_hash = '3fe04abfc852b66653b8c3c897a59a689270bc77'
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++        deb_url = ('https://snapshot.debian.org/archive/debian-ports'
++                   '/20191021T083923Z/pool-m68k/main'
++                   '/l/linux/kernel-image-5.3.0-1-m68k-di_5.3.7-1_m68k.udeb')
++        deb_hash = '044954bb9be4160a3ce81f8bc1b5e856b75cccd1'
++        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
++        kernel_path = self.extract_from_deb(deb_path,
++                                            '/boot/vmlinux-5.3.0-1-m68k')
 +
-+        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=hvc0'
-+        console_pattern = 'Kernel command line: %s' % kernel_command_line
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'console=ttyS0 vga=off')
++        console_pattern = 'No filesystem could mount root'
 +        self.run_rr(kernel_path, kernel_command_line, console_pattern)
 
 
