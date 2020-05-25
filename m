@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626621E10A0
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 16:36:03 +0200 (CEST)
-Received: from localhost ([::1]:40424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216EB1E1107
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 16:53:23 +0200 (CEST)
+Received: from localhost ([::1]:58720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdECw-0008V5-GV
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 10:36:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49926)
+	id 1jdETi-0001Tz-64
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 10:53:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdEBI-0007jV-2u
- for qemu-devel@nongnu.org; Mon, 25 May 2020 10:34:20 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42782
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdEBH-0008Gi-3F
- for qemu-devel@nongnu.org; Mon, 25 May 2020 10:34:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590417258;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6xSyCdEJLXbFihD88JarTGqRJAjtlUBbdSP9GkhVFWg=;
- b=HKorFjufLeyy7kNaOBdIhqVSxGogFwQMqKRERw9FmlbtVtGc8gNAM98ORJVikeITSc8cwD
- xVYsNfef6vqzAVq5BD0nBBZYJZiy9A/y2wiYcl3RTMjoHXCrPvqgh4EhWJa31b74VpFHc/
- uc8X5wSlwqYoNePG7seKrjnH3mP00+I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-fwsWJYToOmqd5QrGP6h2tg-1; Mon, 25 May 2020 10:34:14 -0400
-X-MC-Unique: fwsWJYToOmqd5QrGP6h2tg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 380C9107ACCD;
- Mon, 25 May 2020 14:34:12 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
- [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B68719D7E;
- Mon, 25 May 2020 14:34:05 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1AA8C113864A; Mon, 25 May 2020 16:34:04 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH QEMU v23 18/18] qapi: Add VFIO devices migration stats in
- Migration stats
-References: <1589999088-31477-1-git-send-email-kwankhede@nvidia.com>
- <1589999088-31477-19-git-send-email-kwankhede@nvidia.com>
-Date: Mon, 25 May 2020 16:34:04 +0200
-In-Reply-To: <1589999088-31477-19-git-send-email-kwankhede@nvidia.com> (Kirti
- Wankhede's message of "Wed, 20 May 2020 23:54:48 +0530")
-Message-ID: <875zckdqxv.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdER4-0007wn-RS
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 10:50:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51442)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdER3-0003ba-4k
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 10:50:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jdER0-0003K9-7v
+ for <qemu-devel@nongnu.org>; Mon, 25 May 2020 14:50:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2962C2E8078
+ for <qemu-devel@nongnu.org>; Mon, 25 May 2020 14:50:34 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 02:40:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 25 May 2020 14:36:48 -0000
+From: Laurent Vivier <1880518@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier rajaskakodkar
+X-Launchpad-Bug-Reporter: Rajas Kakodkar (rajaskakodkar)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <159039304634.8018.14704731502559290875.malonedeb@gac.canonical.com>
+Message-Id: <159041740888.20020.13427360368180447889.malone@soybean.canonical.com>
+Subject: [Bug 1880518] Re: issue while installing docker inside s390x container
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e9815586d718354be7edc6f40ce77c9fca2f40ee
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 10:50:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,98 +73,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, cjia@nvidia.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com,
- yi.l.liu@intel.com, eskultet@redhat.com, ziye.yang@intel.com,
- mlevitsk@redhat.com, pasic@linux.ibm.com, felipe@nutanix.com, Ken.Xue@amd.com,
- kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, changpeng.liu@intel.com, quintela@redhat.com,
- zhi.a.wang@intel.com, jonathan.davies@nutanix.com, pbonzini@redhat.com
+Reply-To: Bug 1880518 <1880518@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kirti Wankhede <kwankhede@nvidia.com> writes:
+Without a more detailled error message we can'know what happens.
 
-> Added amount of bytes transferred to the target VM by all VFIO devices
->
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+What I see is you don't have the 'OC' flags that should help to execute
+binaries with (s) bit.
 
-QAPI review only.
+You should also report the version of qemu.
 
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index d5000558c6c9..acbc42a1efe8 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -146,6 +146,18 @@
->              'active', 'postcopy-active', 'postcopy-paused',
->              'postcopy-recover', 'completed', 'failed', 'colo',
->              'pre-switchover', 'device', 'wait-unplug' ] }
-> +##
-> +# @VfioStats:
-> +#
-> +# Detailed VFIO devices migration statistics
-> +#
-> +# @bytes: amount of bytes transferred to the target VM by VFIO devices
-> +#
-> +# Since: 5.1
-> +#
-> +##
-> +{ 'struct': 'VfioStats',
-> +  'data': {'bytes': 'int' } }
+** Tags added: linux-user
 
-Pardon my ignorance...  What exactly do VFIO devices transfer to the
-target VM?  How is that related to MigrationInfo member @ram?
+-- =
 
-For what it's worth, MigrationStats has
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1880518
 
-   # @transferred: amount of bytes already transferred to the target VM
+Title:
+  issue while installing docker inside s390x container
 
-Name yours @transferred as well, for consistency?
+Status in QEMU:
+  New
 
-MigrationStats has much more information, and some of it is pretty
-useful to track how migration is doing, in particular whether it
-converges, and how fast.  Absent in VfioStats due to "not implemented",
-or due to "can't be done"?
+Bug description:
+  This is in reference to https://github.com/multiarch/qemu-user-static/iss=
+ues/108.
+  I am facing issue while installing docker inside s390x container under qe=
+mu on Ubuntu 18.04 host running on amd64.
+  Following are the contents of /proc/sys/fs/binfmt_misc/qemu-s390x on Inte=
+l host after running =
 
-Byte counts should use QAPI type 'size'.  Many existing ones don't.
-Since MigrationStats uses 'int', I'll let the migration maintainers
-decide whether they want 'int' or 'size' here.
+  docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  enabled
+  interpreter /usr/bin/qemu-s390x-static
+  flags: F
+  offset 0
+  magic 7f454c4602020100000000000000000000020016
+  mask ffffffffffffff00fffffffffffffffffffeffff
+  I could get docker service up with the following trick. =
 
->  
->  ##
->  # @MigrationInfo:
-> @@ -207,6 +219,10 @@
->  #
->  # @socket-address: Only used for tcp, to know what the real port is (Since 4.0)
->  #
-> +# @vfio: @VfioStats containing detailed VFIO devices migration statistics,
-> +#        only returned if VFIO device is present, migration is supported by all
-> +#         VFIO devices and status is 'active' or 'completed' (since 5.1)
-> +#
->  # Since: 0.14.0
->  ##
->  { 'struct': 'MigrationInfo',
-> @@ -222,7 +238,8 @@
-     'data': {'*status': 'MigrationStatus', '*ram': 'MigrationStats',
-              '*disk': 'MigrationStats',
-              '*xbzrle-cache': 'XBZRLECacheStats',
-              '*total-time': 'int',
-              '*expected-downtime': 'int',
-              '*downtime': 'int',
-              '*setup-time': 'int',
-              '*cpu-throttle-percentage': 'int',
-              '*error-desc': 'str',
->             '*postcopy-blocktime' : 'uint32',
->             '*postcopy-vcpu-blocktime': ['uint32'],
->             '*compression': 'CompressionStats',
-> -           '*socket-address': ['SocketAddress'] } }
-> +           '*socket-address': ['SocketAddress'],
-> +           '*vfio': 'VfioStats' } }
->  
->  ##
->  # @query-migrate:
+  printf '{"iptables": false,"ip-masq": false,"bridge": "none" }' > /etc/do=
+cker/daemon.json
+  But even though docker service comes up, images are not getting pulled, d=
+ocker pull fails with the following error.
+  failed to register layer: Error processing tar file(exit status 1):
 
-If @vfio and @ram are related, add @vfio next to @ram and @disk, please.
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1880518/+subscriptions
 
