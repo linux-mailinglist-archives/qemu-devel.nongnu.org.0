@@ -2,112 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C561E05E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 06:21:46 +0200 (CEST)
-Received: from localhost ([::1]:45962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4EE11E064F
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 07:10:41 +0200 (CEST)
+Received: from localhost ([::1]:49068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jd4cT-0005Dv-Ef
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 00:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48338)
+	id 1jd5No-0005vY-Sk
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 01:10:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jd4bb-0004md-Oo
- for qemu-devel@nongnu.org; Mon, 25 May 2020 00:20:51 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49964
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jd4ba-0004on-A2
- for qemu-devel@nongnu.org; Mon, 25 May 2020 00:20:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590380448;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=C0lDCbx2O2j/tjV55sDnHX103bMl15EJ3Z8poC0dNA0=;
- b=Nov3G95O3fa2mvM4Wn8ZODPN++YtfIU9dCJhywJe7fNS3wN53tsoO6Cnsgt6cJ7r1lKraz
- lWCiY5YcLphGtW0e+RJDhv7dTjb1dE4IP7112+pRS4IMQ4dmFroJAkj6ymj4v9I8uDxNp7
- p2WSn/k0HzNaeO6rYTMpmmRlgYRxTLs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-dvlbolVtP2yYwWVxraN9iQ-1; Mon, 25 May 2020 00:20:46 -0400
-X-MC-Unique: dvlbolVtP2yYwWVxraN9iQ-1
-Received: by mail-wm1-f72.google.com with SMTP id t62so6234705wmt.7
- for <qemu-devel@nongnu.org>; Sun, 24 May 2020 21:20:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=C0lDCbx2O2j/tjV55sDnHX103bMl15EJ3Z8poC0dNA0=;
- b=Nbq0oKxc9FtKTWYsn5s5AkH6xA09QjxmiTXi+jf/N3VYgW6wYANZbBKMmkLRwIkwTH
- cl4GN8pHMVjuJjuV5wkDDRZvMpy0KZqcn19J9bLJM2TngnfA40MTZ6ogjCdPZGiSJnIc
- QQRJRzWLV/BKFrmBJgJ1gtVu05gl1Oi9kNFoqWg/hIW++a6Ecni3QYpN2zEavax3o7zR
- Ni0Xd4YjaeIT4FYfTYHXst5A4kD4rbsmM1A0Caw5Mxl6Nxp09QJYm+6MfK9CSTGG/bIf
- I868wrHk1BFesoOHsVWLRuzrZyVsi2TbwqRBl7BqL6fUpPCnt09jowYu5mMDZ0hFQKCL
- IhFg==
-X-Gm-Message-State: AOAM533l1pxrwMM2Bs8ZvYnkWg2XeQLsFJoRJNByMycRrjHsyjl1HlFK
- sAPLb2ygbm50nbIUl1Qifs4OhRkaomnwXoYOimjD3333OzxqzlGdi+h5EbhY3MTXaIsjX1v5XcE
- Iuks+4IQIf7GlazI=
-X-Received: by 2002:adf:8287:: with SMTP id 7mr13412354wrc.396.1590380445662; 
- Sun, 24 May 2020 21:20:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxgJzS/yvLLIq5yr3NrxoWJnxa6z71LuE4YR0DPjCZRi80ncuHbKUFvnhFlaYEFTABAwLWYUA==
-X-Received: by 2002:adf:8287:: with SMTP id 7mr13412335wrc.396.1590380445469; 
- Sun, 24 May 2020 21:20:45 -0700 (PDT)
-Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
- [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id l5sm9004551wml.27.2020.05.24.21.20.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 24 May 2020 21:20:44 -0700 (PDT)
-Subject: Re: [PATCH] configure: Do not ignore malloc value
-To: Leonid Bloch <lb.workbox@gmail.com>, qemu-devel@nongnu.org
-References: <20200524221204.9791-1-lb.workbox@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <a03a3bf6-4761-1d1a-2812-13701980680e@redhat.com>
-Date: Mon, 25 May 2020 06:20:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jd5LK-000323-5k; Mon, 25 May 2020 01:08:06 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:41457 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jd5LH-00047e-If; Mon, 25 May 2020 01:08:05 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49VlTk58ZVz9sSg; Mon, 25 May 2020 15:07:54 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1590383274;
+ bh=a59gNMUkuQ8rm2u4zCsZZZGR8hWK7rCC7hL6cMglZzc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lL0exfsicWUR+6hPeNGrP1RwCDr1LwkQJ/h8jl3SLknSawiLDG1EvFqop6abcu0HN
+ X6jATrgyNYRrGVgoP//by9TN2l95WcFS/p3J6ATOM2EFgloPcYUMwjGL4fl5JGMD0z
+ F6yfGcfG7MBX/3+YH8HmwVXK4IqFmCWPZEBIMCq4=
+Date: Mon, 25 May 2020 15:05:50 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Reza Arbab <arbab@linux.ibm.com>
+Subject: Re: [PATCH v3] spapr: Add a new level of NUMA for GPUs
+Message-ID: <20200525050550.GA23110@umbus.fritz.box>
+References: <1590177213-4513-1-git-send-email-arbab@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20200524221204.9791-1-lb.workbox@gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 00:06:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="0OAP2g/MAC+5xKAE"
+Content-Disposition: inline
+In-Reply-To: <1590177213-4513-1-git-send-email-arbab@linux.ibm.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,76 +60,214 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>,
+ Leonardo Augusto Guimaraes Garcia <lagarcia@linux.ibm.com>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/25/20 12:12 AM, Leonid Bloch wrote:
-> From: Leonid Bloch <lbloch@janustech.com>
-> 
-> Not checking the value of malloc will cause a warning with GCC 10.1,
-> which may result in configuration failure, with the following line in
-> config.log:
-> 
-> config-temp/qemu-conf.c:2:18: error: ignoring return value of ‘malloc’ declared with attribute ‘warn_unused_result’ [-Werror=unused-result]
->     2 | int main(void) { malloc(1); return 0; }
->       |                  ^~~~~~~~~
 
-Do we want to add -Wno-unused-result to compile_prog()?
+--0OAP2g/MAC+5xKAE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Signed-off-by: Leonid Bloch <lb.workbox@gmail.com>
+On Fri, May 22, 2020 at 02:53:33PM -0500, Reza Arbab wrote:
+> NUMA nodes corresponding to GPU memory currently have the same
+> affinity/distance as normal memory nodes. Add a third NUMA associativity
+> reference point enabling us to give GPU nodes more distance.
+>=20
+> This is guest visible information, which shouldn't change under a
+> running guest across migration between different qemu versions, so make
+> the change effective only in new (pseries > 5.0) machine types.
+>=20
+> Before, `numactl -H` output in a guest with 4 GPUs (nodes 2-5):
+>=20
+> node distances:
+> node   0   1   2   3   4   5
+>   0:  10  40  40  40  40  40
+>   1:  40  10  40  40  40  40
+>   2:  40  40  10  40  40  40
+>   3:  40  40  40  10  40  40
+>   4:  40  40  40  40  10  40
+>   5:  40  40  40  40  40  10
+>=20
+> After:
+>=20
+> node distances:
+> node   0   1   2   3   4   5
+>   0:  10  40  80  80  80  80
+>   1:  40  10  80  80  80  80
+>   2:  80  80  10  80  80  80
+>   3:  80  80  80  10  80  80
+>   4:  80  80  80  80  10  80
+>   5:  80  80  80  80  80  10
+>=20
+> These are the same distances as on the host, mirroring the change made
+> to host firmware in skiboot commit f845a648b8cb ("numa/associativity:
+> Add a new level of NUMA for GPU's").
+>=20
+> Signed-off-by: Reza Arbab <arbab@linux.ibm.com>
 > ---
->  configure | 20 +++++++++++++++++---
->  1 file changed, 17 insertions(+), 3 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 2fc05c4465..d0220b2944 100755
-> --- a/configure
-> +++ b/configure
-> @@ -4567,7 +4567,13 @@ fi
->  if test "$tcmalloc" = "yes" ; then
->    cat > $TMPC << EOF
->  #include <stdlib.h>
-> -int main(void) { malloc(1); return 0; }
-> +int main(void) {
-> +    void *tmp = malloc(1);
-> +    if (tmp != NULL) {
-> +        return 0;
+> v3:
+> * Squash into one patch
+> * Add PHB compat property
+> ---
+>  hw/ppc/spapr.c              | 21 +++++++++++++++++++--
+>  hw/ppc/spapr_pci.c          |  2 ++
+>  hw/ppc/spapr_pci_nvlink2.c  |  7 ++++++-
+>  include/hw/pci-host/spapr.h |  1 +
+>  include/hw/ppc/spapr.h      |  1 +
+>  5 files changed, 29 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index c18eab0a2305..7c304b6c389d 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -889,10 +889,16 @@ static int spapr_dt_rng(void *fdt)
+>  static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+>  {
+>      MachineState *ms =3D MACHINE(spapr);
+> +    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(ms);
+>      int rtas;
+>      GString *hypertas =3D g_string_sized_new(256);
+>      GString *qemu_hypertas =3D g_string_sized_new(256);
+> -    uint32_t refpoints[] =3D { cpu_to_be32(0x4), cpu_to_be32(0x4) };
+> +    uint32_t refpoints[] =3D {
+> +        cpu_to_be32(0x4),
+> +        cpu_to_be32(0x4),
+> +        cpu_to_be32(0x2),
+> +    };
+> +    uint32_t nr_refpoints =3D 3;
+>      uint64_t max_device_addr =3D MACHINE(spapr)->device_memory->base +
+>          memory_region_size(&MACHINE(spapr)->device_memory->mr);
+>      uint32_t lrdr_capacity[] =3D {
+> @@ -944,8 +950,12 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, =
+void *fdt)
+>                       qemu_hypertas->str, qemu_hypertas->len));
+>      g_string_free(qemu_hypertas, TRUE);
+> =20
+> +    if (smc->pre_5_1_assoc_refpoints) {
+> +        nr_refpoints =3D 2;
 > +    }
-> +    return 1;
-> +}
->  EOF
->  
->    if compile_prog "" "-ltcmalloc" ; then
-> @@ -4583,7 +4589,13 @@ fi
->  if test "$jemalloc" = "yes" ; then
->    cat > $TMPC << EOF
->  #include <stdlib.h>
-> -int main(void) { malloc(1); return 0; }
-> +int main(void) {
-> +    void *tmp = malloc(1);
-> +    if (tmp != NULL) {
-> +        return 0;
-> +    }
-> +    return 1;
-> +}
->  EOF
->  
->    if compile_prog "" "-ljemalloc" ; then
-> @@ -6144,7 +6156,9 @@ if test "$sanitizers" = "yes" ; then
->  #include <stdlib.h>
->  int main(void) {
->      void *tmp = malloc(10);
-> -    return *(int *)(tmp + 2);
-> +    if (tmp != NULL) {
-> +        return *(int *)(tmp + 2);
-> +    }
+> +
+>      _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
+> -                     refpoints, sizeof(refpoints)));
+> +                     refpoints, nr_refpoints * sizeof(refpoints[0])));
+> =20
+>      _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
+>                       maxdomains, sizeof(maxdomains)));
+> @@ -4607,8 +4617,15 @@ DEFINE_SPAPR_MACHINE(5_1, "5.1", true);
+>   */
+>  static void spapr_machine_5_0_class_options(MachineClass *mc)
+>  {
+> +    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
+> +    static GlobalProperty compat[] =3D {
+> +        { TYPE_SPAPR_PCI_HOST_BRIDGE, "pre-5.1-associativity", "on" },
+> +    };
+> +
+>      spapr_machine_5_1_class_options(mc);
+>      compat_props_add(mc->compat_props, hw_compat_5_0, hw_compat_5_0_len);
+> +    compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
+> +    smc->pre_5_1_assoc_refpoints =3D true;
 >  }
->  EOF
->    if compile_prog "$CPU_CFLAGS -Werror -fsanitize=undefined" ""; then
-> 
+> =20
+>  DEFINE_SPAPR_MACHINE(5_0, "5.0", false);
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 61b84a392d65..bcdf1a25ae8b 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -2092,6 +2092,8 @@ static Property spapr_phb_properties[] =3D {
+>                       pcie_ecs, true),
+>      DEFINE_PROP_UINT64("gpa", SpaprPhbState, nv2_gpa_win_addr, 0),
+>      DEFINE_PROP_UINT64("atsd", SpaprPhbState, nv2_atsd_win_addr, 0),
+> +    DEFINE_PROP_BOOL("pre-5.1-associativity", SpaprPhbState,
+> +                     pre_5_1_assoc, false),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+> =20
+> diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
+> index 8332d5694e46..3394ac425eee 100644
+> --- a/hw/ppc/spapr_pci_nvlink2.c
+> +++ b/hw/ppc/spapr_pci_nvlink2.c
+> @@ -362,7 +362,7 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *s=
+phb, void *fdt)
+>          uint32_t associativity[] =3D {
+>              cpu_to_be32(0x4),
+>              SPAPR_GPU_NUMA_ID,
+> -            SPAPR_GPU_NUMA_ID,
+> +            cpu_to_be32(nvslot->numa_id),
+>              SPAPR_GPU_NUMA_ID,
+>              cpu_to_be32(nvslot->numa_id)
 
+
+This doesn't look quite right.  In the new case we'll get {
+GPU_NUMA_ID, nvslot->numa_id, GPU_NUMA_ID, nvslot->numa_id }.
+
+>          };
+> @@ -374,6 +374,11 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *=
+sphb, void *fdt)
+>          _FDT(off);
+>          _FDT((fdt_setprop_string(fdt, off, "device_type", "memory")));
+>          _FDT((fdt_setprop(fdt, off, "reg", mem_reg, sizeof(mem_reg))));
+> +
+> +        if (sphb->pre_5_1_assoc) {
+> +            associativity[2] =3D SPAPR_GPU_NUMA_ID;
+> +        }
+> +
+>          _FDT((fdt_setprop(fdt, off, "ibm,associativity", associativity,
+>                            sizeof(associativity))));
+> =20
+> diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
+> index 8877ff51fbf7..600eb55c3488 100644
+> --- a/include/hw/pci-host/spapr.h
+> +++ b/include/hw/pci-host/spapr.h
+> @@ -94,6 +94,7 @@ struct SpaprPhbState {
+>      hwaddr nv2_gpa_win_addr;
+>      hwaddr nv2_atsd_win_addr;
+>      SpaprPhbPciNvGpuConfig *nvgpus;
+> +    bool pre_5_1_assoc;
+>  };
+> =20
+>  #define SPAPR_PCI_MEM_WIN_BUS_OFFSET 0x80000000ULL
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index e579eaf28c05..8316d9eea405 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -129,6 +129,7 @@ struct SpaprMachineClass {
+>      bool linux_pci_probe;
+>      bool smp_threads_vsmt; /* set VSMT to smp_threads by default */
+>      hwaddr rma_limit;          /* clamp the RMA to this size */
+> +    bool pre_5_1_assoc_refpoints;
+> =20
+>      void (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
+>                            uint64_t *buid, hwaddr *pio,=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--0OAP2g/MAC+5xKAE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7LUisACgkQbDjKyiDZ
+s5KSug//b7QbWvThprrXqWylKy/+Ee1KJzay2G/wKwTkLfCSSc7NqXp1x2WQj79c
+KzdR0Qx3I0jbTNlm3We37B0q+nq2mwnNJ5EWb55zVwRkESwdPFpDMs4Z/BOcuURV
+DLSk7e5qBDB7hz+4+IHQiAUN/Uvd9eabLN6ewrt4+xigr3TQdm3uI5jPCbklhja6
+f8j+0mzByCCxyzp/U/oYecE+fvXwQ9PF3p/IwF8Ylvrv0Px/QtycMzB2sEfJgPgY
+/4ALN2CdVQb+PWFBibpfMzt3hv79Vs2g2NGokFRE/n0NwGNhxqoYFvQw7yR72uLU
+Vq+cxN4PYbSkp0b5pcjhqtduNW2mWYIc5U1aJnQRjT94STjtlfG6jfbJd0PgUcZb
+2anv/HOx/Hjuh6z8cLhJ4AXrGZg25KniowrvWUzRV36MNFLI4TdOcYhNWhEDws/u
+P5nYRxUNknEiEHEZw5vblE1+V2oRn65t+E+PObTgMOM/ok2gE+leKg/l67P2jmxQ
+KplkXUptCUfMohtbx9NNKFlKI0c6a8Q+OTZI3M4RrRpt4MRA6XM9KBCX0GgtyPkI
+Q83yKROU2cdjzTaY+ZP68RkwvTcLNuKRX17Cm3VP7NMAmN6O9i/7bjdoE+GULO/P
+TMqHr2ekQyfH97Q0ViGV+pxfUljVwqLjGsEGdJA3S454+/sl+Nk=
+=8XvF
+-----END PGP SIGNATURE-----
+
+--0OAP2g/MAC+5xKAE--
 
