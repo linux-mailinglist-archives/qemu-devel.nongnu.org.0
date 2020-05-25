@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788E51E0CF1
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:28:05 +0200 (CEST)
-Received: from localhost ([::1]:36132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6713F1E0CF7
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:30:10 +0200 (CEST)
+Received: from localhost ([::1]:43576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdBH2-0006Zh-DX
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:28:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57512)
+	id 1jdBJ3-0001AK-FX
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:30:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
- id 1jdB93-0001mS-Ni
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:49 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:54882)
+ id 1jdB99-00021M-8S
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:56 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:54930)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdB92-0008QJ-Ns
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:49 -0400
+ (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdB98-0008Qp-7g
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:55 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id C68BCCD466;
- Mon, 25 May 2020 14:19:47 +0300 (MSK)
-Subject: [PATCH 8/9] tests/acceptance: record/replay tests with advcal images
+ by mail.ispras.ru (Postfix) with ESMTPSA id 40915CD466;
+ Mon, 25 May 2020 14:19:53 +0300 (MSK)
+Subject: [PATCH 9/9] tests/acceptance: Linux boot test for record/replay
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 25 May 2020 14:19:47 +0300
-Message-ID: <159040558755.2615.4869959098521372877.stgit@pasha-ThinkPad-X280>
+Date: Mon, 25 May 2020 14:19:53 +0300
+Message-ID: <159040559302.2615.18392869399102145442.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
 References: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -36,12 +36,13 @@ Received-SPF: softfail client-ip=83.149.199.45;
  envelope-from=Pavel.Dovgaluk@gmail.com; helo=mail.ispras.ru
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 07:19:03
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: 7
-X-Spam_score: 0.7
-X-Spam_bar: /
-X-Spam_report: (0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
- FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, NML_ADSP_CUSTOM_MED=0.9,
- SPF_SOFTFAIL=0.665, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: 17
+X-Spam_score: 1.7
+X-Spam_bar: +
+X-Spam_report: (1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
+ FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, FROM_WORDY=1,
+ NML_ADSP_CUSTOM_MED=0.9, SPF_SOFTFAIL=0.665, T_FILL_THIS_FORM_SHORT=0.01,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,100 +60,185 @@ Cc: philmd@redhat.com, dovgaluk@ispras.ru, pavel.dovgaluk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds more record/replay tests with kernel images.
+This patch adds a test for record/replay, which boots Linux
+image from the disk and interacts with the network.
+The idea and code of this test is borrowed from boot_linux.py
+However, currently record/replay works only for x86_64,
+therefore other tests were excluded.
+
+Each test consists of the following phases:
+ - downloading the disk image
+ - recording the execution
+ - replaying the execution
+
+Replay does not validates the output, but waits until QEMU
+finishes the execution. This is reasonable, because
+QEMU usually hangs when replay goes wrong.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 ---
- tests/acceptance/replay_kernel.py |   80 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+ MAINTAINERS                      |    1 
+ tests/acceptance/replay_linux.py |  140 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 141 insertions(+)
+ create mode 100644 tests/acceptance/replay_linux.py
 
-diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index 4c786b1565..3849db7f3a 100644
---- a/tests/acceptance/replay_kernel.py
-+++ b/tests/acceptance/replay_kernel.py
-@@ -191,3 +191,83 @@ class ReplayKernel(Test):
-                                'console=ttyS0 vga=off')
-         console_pattern = 'No filesystem could mount root'
-         self.run_rr(kernel_path, kernel_command_line, console_pattern)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e9a9ce4f66..97f066a9b2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2498,6 +2498,7 @@ F: include/sysemu/replay.h
+ F: docs/replay.txt
+ F: stubs/replay.c
+ F: tests/acceptance/replay_kernel.py
++F: tests/acceptance/replay_linux.py
+ 
+ IOVA Tree
+ M: Peter Xu <peterx@redhat.com>
+diff --git a/tests/acceptance/replay_linux.py b/tests/acceptance/replay_linux.py
+new file mode 100644
+index 0000000000..08eedb23ef
+--- /dev/null
++++ b/tests/acceptance/replay_linux.py
+@@ -0,0 +1,140 @@
++# Record/replay test that boots a complete Linux system via a cloud image
++#
++# Copyright (c) 2020 ISP RAS
++#
++# Author:
++#  Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
 +
-+    def do_test_advcal_2018(self, day, tar_hash, kernel_name, args=()):
-+        tar_url = ('https://www.qemu-advent-calendar.org'
-+                   '/2018/download/day' + day + '.tar.xz')
-+        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-+        archive.extract(file_path, self.workdir)
++import os
 +
-+        kernel_path = self.workdir + '/day' + day + '/' + kernel_name
-+        kernel_command_line = ''
-+        console_pattern = 'QEMU advent calendar'
-+        self.run_rr(kernel_path, kernel_command_line, console_pattern,
-+            args=args)
++from avocado_qemu import Test, BUILD_DIR
 +
-+    def test_arm_vexpressa9(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:vexpress-a9
-+        """
-+        tar_hash = '32b7677ce8b6f1471fb0059865f451169934245b'
-+        self.do_test_advcal_2018('16', tar_hash, 'winter.zImage',
-+            ('-dtb', self.workdir + '/day16/vexpress-v2p-ca9.dtb'))
++from avocado.utils import cloudinit
++from avocado.utils import network
++from avocado.utils import vmimage
++from avocado.utils import datadrainer
++from avocado.utils.path import find_command
 +
-+    def test_m68k_mcf5208evb(self):
-+        """
-+        :avocado: tags=arch:m68k
-+        :avocado: tags=machine:mcf5208evb
-+        """
-+        tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
-+        self.do_test_advcal_2018('07', tar_hash, 'sanity-clause.elf')
++class ReplayLinux(Test):
++    """
++    Boots a Linux system, checking for a successful initialization
++    """
 +
-+    def test_microblaze_s3adsp1800(self):
-+        """
-+        :avocado: tags=arch:microblaze
-+        :avocado: tags=machine:petalogix-s3adsp1800
-+        """
-+        tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
-+        self.do_test_advcal_2018('17', tar_hash, 'ballerina.bin')
++    timeout = 1800
++    chksum = None
++    hdd = 'ide-hd'
++    cd = 'ide-cd'
++    bus = ''
 +
-+    def test_ppc64_e500(self):
-+        """
-+        :avocado: tags=arch:ppc64
-+        :avocado: tags=machine:ppce500
-+        """
-+        tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
-+        self.do_test_advcal_2018('19', tar_hash, 'uImage', ('-cpu', 'e5500'))
++    def setUp(self):
++        super(ReplayLinux, self).setUp()
++        self.prepare_boot()
++        self.prepare_cloudinit()
 +
-+    def test_ppc_g3beige(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=machine:g3beige
-+        """
-+        tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
-+        self.do_test_advcal_2018('15', tar_hash, 'invaders.elf',
-+            ('-M', 'graphics=off'))
++    def vm_add_disk(self, vm, path, id, device):
++        bus_string = ''
++        if self.bus != '':
++            bus_string = ',bus=%s.%d' % (self.bus, id,)
++        vm.add_args('-drive', 'file=%s,snapshot,id=disk%s,if=none' % (path, id))
++        vm.add_args('-drive', 'driver=blkreplay,id=disk%s-rr,if=none,image=disk%s' % (id, id))
++        vm.add_args('-device', '%s,drive=disk%s-rr%s' % (device, id, bus_string))
 +
-+    def test_ppc_mac99(self):
-+        """
-+        :avocado: tags=arch:ppc
-+        :avocado: tags=machine:mac99
-+        """
-+        tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
-+        self.do_test_advcal_2018('15', tar_hash, 'invaders.elf',
-+            ('-M', 'graphics=off'))
++    def prepare_boot(self):
++        self.log.debug('Looking for and selecting a qemu-img binary to be '
++                       'used to create the bootable snapshot image')
++        # If qemu-img has been built, use it, otherwise the system wide one
++        # will be used.  If none is available, the test will cancel.
++        qemu_img = os.path.join(BUILD_DIR, 'qemu-img')
++        if not os.path.exists(qemu_img):
++            qemu_img = find_command('qemu-img', False)
++        if qemu_img is False:
++            self.cancel('Could not find "qemu-img", which is required to '
++                        'create the bootable image')
++        vmimage.QEMU_IMG = qemu_img
 +
-+    def test_sparc_ss20(self):
-+        """
-+        :avocado: tags=arch:sparc
-+        :avocado: tags=machine:SS-20
-+        """
-+        tar_hash = 'b18550d5d61c7615d989a06edace051017726a9f'
-+        self.do_test_advcal_2018('11', tar_hash, 'zImage.elf')
++        self.log.info('Downloading/preparing boot image')
++        # Fedora 31 only provides ppc64le images
++        image_arch = self.arch
++        if image_arch == 'ppc64':
++            image_arch = 'ppc64le'
++        try:
++            self.boot = vmimage.get(
++                'fedora', arch=image_arch, version='31',
++                checksum=self.chksum,
++                algorithm='sha256',
++                cache_dir=self.cache_dirs[0],
++                snapshot_dir=self.workdir)
++        except:
++            self.cancel('Failed to download/prepare boot image')
 +
-+    def test_xtensa_lx60(self):
++    def prepare_cloudinit(self):
++        self.log.info('Preparing cloudinit image')
++        try:
++            self.cloudinit_iso = os.path.join(self.workdir, 'cloudinit.iso')
++            self.phone_home_port = network.find_free_port()
++            cloudinit.iso(self.cloudinit_iso, self.name,
++                          username='root',
++                          password='password',
++                          # QEMU's hard coded usermode router address
++                          phone_home_host='10.0.2.2',
++                          phone_home_port=self.phone_home_port)
++        except Exception:
++            self.cancel('Failed to prepared cloudinit image')
++
++    def launch_and_wait(self, record, args, shift):
++        vm = self.get_vm()
++        vm.add_args('-smp', '1')
++        vm.add_args('-m', '1024')
++        vm.add_args('-object', 'filter-replay,id=replay,netdev=hub0port0')
++        vm.add_args(*args)
++        self.vm_add_disk(vm, self.boot.path, 0, self.hdd)
++        self.vm_add_disk(vm, self.cloudinit_iso, 1, self.cd)
++        if record:
++            mode = 'record'
++        else:
++            mode = 'replay'
++        vm.add_args('-icount', 'shift=%s,rr=%s,rrfile=%s' %
++                    (shift, mode, os.path.join(self.workdir, 'replay.bin')))
++
++        vm.set_console()
++        vm.launch()
++        console_drainer = datadrainer.LineLogger(vm.console_socket.fileno(),
++                                                 logger=self.log.getChild('console'),
++                                                 stop_check=(lambda : not vm.is_running()))
++        console_drainer.start()
++        if record:
++            self.log.info('VM launched, waiting for boot confirmation from guest')
++            cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port), self.name)
++            vm.shutdown()
++        else:
++            self.log.info('VM launched, waiting the recorded execution to be replayed')
++            vm.wait()
++
++    def run_rr(self, args=(), shift=7):
++        self.launch_and_wait(True, args, shift)
++        self.launch_and_wait(False, args, shift)
++
++class ReplayLinuxX8664(ReplayLinux):
++    """
++    :avocado: tags=arch:x86_64
++    """
++    bus = 'ide'
++
++    chksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
++
++    def test_pc_i440fx(self):
 +        """
-+        :avocado: tags=arch:xtensa
-+        :avocado: tags=machine:lx60
++        :avocado: tags=machine:pc
++        :avocado: tags=accel:tcg
 +        """
-+        tar_hash = '49e88d9933742f0164b60839886c9739cb7a0d34'
-+        self.do_test_advcal_2018('02', tar_hash, 'santas-sleigh-ride.elf',
-+            ('-cpu', 'dc233c'))
++        self.run_rr(shift=1)
++
++    def test_pc_q35(self):
++        """
++        :avocado: tags=machine:q35
++        :avocado: tags=accel:tcg
++        """
++        self.run_rr(shift=3)
 
 
