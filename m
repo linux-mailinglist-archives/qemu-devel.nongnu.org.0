@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C281E0D85
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:43:35 +0200 (CEST)
-Received: from localhost ([::1]:56232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25B5E1E0D8D
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:43:56 +0200 (CEST)
+Received: from localhost ([::1]:57306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdBW2-0007kB-PT
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:43:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59908)
+	id 1jdBWN-0008B7-5l
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:43:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdBU3-0005b6-LU; Mon, 25 May 2020 07:41:31 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50953)
+ id 1jdBU3-0005b7-MX; Mon, 25 May 2020 07:41:31 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdBU1-00043M-EX; Mon, 25 May 2020 07:41:31 -0400
-Received: by mail-wm1-x342.google.com with SMTP id v19so9216542wmj.0;
- Mon, 25 May 2020 04:41:28 -0700 (PDT)
+ id 1jdBU2-00043U-Do; Mon, 25 May 2020 07:41:31 -0400
+Received: by mail-wr1-x443.google.com with SMTP id i15so16752849wrx.10;
+ Mon, 25 May 2020 04:41:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7nI/G3Z6Hrd/LcEj6HAvF8ip5LwLXsCC19mIjaUHNIU=;
- b=JCXQnJPyfUKYB9qg/DLDhUHnrrMMifBNIoMjN8jE65yQljDppyLW6a7bqceZpoJipe
- Tt6Y1ec4gX96h0gTqbgjtL1GD0VrIYOSEZ2ROBTC3EDBXIgt6G0HKyMjCzuAcd+PyQsP
- TWZFG9YOsVbv3KlaQO0B7x7Letz13wzF4HZ2UDCyW/PtuY4EjlGa0h7Pv7LMZX2fuZxG
- rUEwg9av0Lw+vLOUfFQ86e5ZEREV8LYqyyGpZgBJwg3oDWfHQBdIP1zg9401l2apgXvc
- Korgre+N23JNLBY7azwrv4P5lSgSp5Vnzo7XWnHNa2YwchqjQqultpCGDtG41VeE16F7
- 6nng==
+ bh=qMBsY0ZOgJppHVE8tuHKmerA5axchfe522twEzYD9JA=;
+ b=BSgbtOM2DSQ8XfOVGRR2dsKrEwhAbdZaM9yG1ZQTuvOSWUSXYcsF3TzOFUMLfXCD8H
+ Yzj1HLpaOqg6fWfKpvvIMULZVhuvhxrvR6yHFXb7mASB0bktFRtLs1IANffAASWXmGvb
+ nve8A4ApbxczEwgquW7pNmbjQwg2SSOVKe/wddyr1W/AvtyF0jkK4wi+XUrNpPPpJ5zW
+ ajucPvdEm4+1PA78YPlBAl/n8V+zdU5Xrdrt3/Rc60hL0gjksLHeUCjddLlTvfDXIliA
+ OvPDQzCInq4Imb4nxLJyRbwAWkt6TgVEOeWCwvzhCxjHc9Vuq4952IzVjhI1Bgs1gzhY
+ 5PLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7nI/G3Z6Hrd/LcEj6HAvF8ip5LwLXsCC19mIjaUHNIU=;
- b=CB2hhJUUyfhc1FRcwIxjcYaYeZqNZN4GaSo4gcoHJ9f5udphaVGoT/vtOZFnSXek0r
- IIt416a57gPwztxCROWy6BbS+MxVxuF1YmV1az0bjq4z0+BC0BoWYsxQqqTH84NB/umu
- ys4LFIVLlq8Z654kELYN1UWzxu/dCtvPgw775pXpknw/edHRdbfZcUA1vAdASYLovPlO
- tSJxMaEuEIhOrhqArmLqbmsomd3eIc62uYGD22mEhaS1pZ9feQxP6TkPQb2RfUvN0Sh6
- Gyo8cbTPIiWcE+XCYlg4HUCve1ZBtDEeYgrzMzkCfbF0ozjkkijZ0Slyuz2JCA44G13O
- /pkA==
-X-Gm-Message-State: AOAM532Wbfl9LLgZe/VVJ4NiKXrji0zJMC2oLcZNwv2fE7v3HCvw47E+
- oFY4lDAUOIjD1E1FSWhngKn4gP9v0sY=
-X-Google-Smtp-Source: ABdhPJyd1yRRWh6cVIYBq8H7eCl1ZTej+fgyxBKVMCFZg0T51bPn6afHx2EqDY3XVuRpGvvykU/zrg==
-X-Received: by 2002:a1c:4e0c:: with SMTP id g12mr8630135wmh.25.1590406886723; 
- Mon, 25 May 2020 04:41:26 -0700 (PDT)
+ bh=qMBsY0ZOgJppHVE8tuHKmerA5axchfe522twEzYD9JA=;
+ b=fuBDvyi3pMgr9zB/Fc5wB4v2Ko3TRFocqiFCqpYfqC05Mlr1kVO9madK74ja5fXz38
+ cMYDexfAZXXY3isPncRqjk4UVLGRy4GIbXbQ0bvB977jMxobqhlahhGWlckglcz3kUG8
+ d8ygj/mqsiLUojipG8Wmo2YS3iEq4lVh7L/PnvK4NmYYLFxW+mM+ngVKK53ouslbZGuK
+ jcbdfAVv3g8lWmf9MdgAAz1ezS2CO136NGuqmpBBwU72UmAnaiSvM9K7UkLI0+D7IrrX
+ p6zAtXumwgUjNV6bWnb2JV3YU9DjOASZFR9WNmkoRyqec/xEGIwlzPEyjo0fSX8qxMa/
+ xPkQ==
+X-Gm-Message-State: AOAM531+7o8BjdUBWqUFX0OLr6wNIMPkz8Ugt6HTVbQy1a9c5M9WGmx6
+ pEm4YO6NSHumYCw7w0iYC2cHTqZ3eg8=
+X-Google-Smtp-Source: ABdhPJwmCBA3LS/rqiVo0G85upMsGoBEK281/e1QJS2P0gBR7LChAeNfZZGF2FzxYRU70gdTdqGK+w==
+X-Received: by 2002:a05:6000:146:: with SMTP id
+ r6mr15550002wrx.9.1590406888080; 
+ Mon, 25 May 2020 04:41:28 -0700 (PDT)
 Received: from localhost.localdomain (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id b132sm4936159wmh.3.2020.05.25.04.41.25
+ by smtp.gmail.com with ESMTPSA id b132sm4936159wmh.3.2020.05.25.04.41.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 May 2020 04:41:26 -0700 (PDT)
+ Mon, 25 May 2020 04:41:27 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] hw/input/pxa2xx_keypad: Replace hw_error() by
- qemu_log_mask()
-Date: Mon, 25 May 2020 13:41:22 +0200
-Message-Id: <20200525114123.21317-2-f4bug@amsat.org>
+Subject: [PATCH 2/2] hw/arm/pxa2xx: Replace printf() call by qemu_log_mask()
+Date: Mon, 25 May 2020 13:41:23 +0200
+Message-Id: <20200525114123.21317-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200525114123.21317-1-f4bug@amsat.org>
 References: <20200525114123.21317-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -93,53 +93,263 @@ Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hw_error() calls exit(). This a bit overkill when we can log
-the accesses as unimplemented or guest error.
-
-When fuzzing the devices, we don't want the whole process to
-exit. Replace some hw_error() calls by qemu_log_mask()
-(missed in commit 5a0001ec7e).
+Replace printf() calls by qemu_log_mask(), which is disabled
+by default. This avoid flooding the terminal when fuzzing the
+device.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/input/pxa2xx_keypad.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ hw/arm/pxa2xx.c         | 66 ++++++++++++++++++++++++++++++-----------
+ hw/display/pxa2xx_lcd.c | 26 ++++++++--------
+ 2 files changed, 63 insertions(+), 29 deletions(-)
 
-diff --git a/hw/input/pxa2xx_keypad.c b/hw/input/pxa2xx_keypad.c
-index 31862a7d16..62aa6f6b15 100644
---- a/hw/input/pxa2xx_keypad.c
-+++ b/hw/input/pxa2xx_keypad.c
-@@ -12,7 +12,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "hw/hw.h"
+diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
+index 336c9bad4a..e649f8930c 100644
+--- a/hw/arm/pxa2xx.c
++++ b/hw/arm/pxa2xx.c
+@@ -26,6 +26,7 @@
+ #include "sysemu/blockdev.h"
+ #include "sysemu/qtest.h"
+ #include "qemu/cutils.h"
 +#include "qemu/log.h"
- #include "hw/irq.h"
- #include "migration/vmstate.h"
- #include "hw/arm/pxa.h"
-@@ -233,7 +233,9 @@ static uint64_t pxa2xx_keypad_read(void *opaque, hwaddr offset,
-         return s->kpkdi;
-         break;
+ 
+ static struct {
+     hwaddr io_base;
+@@ -112,7 +113,9 @@ static uint64_t pxa2xx_pm_read(void *opaque, hwaddr addr,
+         return s->pm_regs[addr >> 2];
      default:
--        hw_error("%s: Bad offset " REG_FMT "\n", __func__, offset);
+     fail:
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
 +        qemu_log_mask(LOG_GUEST_ERROR,
 +                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
-+                      __func__, offset);
++                      __func__, addr);
+         break;
      }
- 
      return 0;
-@@ -280,7 +282,9 @@ static void pxa2xx_keypad_write(void *opaque, hwaddr offset,
+@@ -143,8 +146,9 @@ static void pxa2xx_pm_write(void *opaque, hwaddr addr,
+             s->pm_regs[addr >> 2] = value;
+             break;
+         }
+-
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
++                      __func__, addr);
+         break;
+     }
+ }
+@@ -185,7 +189,9 @@ static uint64_t pxa2xx_cm_read(void *opaque, hwaddr addr,
+         return s->cm_regs[CCCR >> 2] | (3 << 28);
+ 
+     default:
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
++                      __func__, addr);
+         break;
+     }
+     return 0;
+@@ -210,7 +216,9 @@ static void pxa2xx_cm_write(void *opaque, hwaddr addr,
          break;
  
      default:
--        hw_error("%s: Bad offset " REG_FMT "\n", __func__, offset);
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
 +        qemu_log_mask(LOG_GUEST_ERROR,
 +                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
-+                      __func__, offset);
++                      __func__, addr);
+         break;
+     }
+ }
+@@ -415,7 +423,9 @@ static uint64_t pxa2xx_mm_read(void *opaque, hwaddr addr,
+             return s->mm_regs[addr >> 2];
+         /* fall through */
+     default:
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
++                      __func__, addr);
+         break;
+     }
+     return 0;
+@@ -434,7 +444,9 @@ static void pxa2xx_mm_write(void *opaque, hwaddr addr,
+         }
+ 
+     default:
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
++                      __func__, addr);
+         break;
+     }
+ }
+@@ -641,7 +653,9 @@ static uint64_t pxa2xx_ssp_read(void *opaque, hwaddr addr,
+     case SSACD:
+         return s->ssacd;
+     default:
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
++                      __func__, addr);
+         break;
+     }
+     return 0;
+@@ -733,7 +747,9 @@ static void pxa2xx_ssp_write(void *opaque, hwaddr addr,
+         break;
+ 
+     default:
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
++                      __func__, addr);
+         break;
+     }
+ }
+@@ -995,7 +1011,9 @@ static uint64_t pxa2xx_rtc_read(void *opaque, hwaddr addr,
+         else
+             return s->last_swcr;
+     default:
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
++                      __func__, addr);
+         break;
+     }
+     return 0;
+@@ -1101,7 +1119,9 @@ static void pxa2xx_rtc_write(void *opaque, hwaddr addr,
+         break;
+ 
+     default:
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
++                      __func__, addr);
      }
  }
  
+@@ -1354,7 +1374,9 @@ static uint64_t pxa2xx_i2c_read(void *opaque, hwaddr addr,
+             s->ibmr = 0;
+         return s->ibmr;
+     default:
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
++                      __func__, addr);
+         break;
+     }
+     return 0;
+@@ -1427,7 +1449,9 @@ static void pxa2xx_i2c_write(void *opaque, hwaddr addr,
+         break;
+ 
+     default:
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
++                      __func__, addr);
+     }
+ }
+ 
+@@ -1628,7 +1652,9 @@ static uint64_t pxa2xx_i2s_read(void *opaque, hwaddr addr,
+         }
+         return 0;
+     default:
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
++                      __func__, addr);
+         break;
+     }
+     return 0;
+@@ -1685,7 +1711,9 @@ static void pxa2xx_i2s_write(void *opaque, hwaddr addr,
+         }
+         break;
+     default:
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
++                      __func__, addr);
+     }
+ }
+ 
+@@ -1870,7 +1898,9 @@ static uint64_t pxa2xx_fir_read(void *opaque, hwaddr addr,
+     case ICFOR:
+         return s->rx_len;
+     default:
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad read offset 0x%"HWADDR_PRIx"\n",
++                      __func__, addr);
+         break;
+     }
+     return 0;
+@@ -1922,7 +1952,9 @@ static void pxa2xx_fir_write(void *opaque, hwaddr addr,
+     case ICFOR:
+         break;
+     default:
+-        printf("%s: Bad register " REG_FMT "\n", __func__, addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad write offset 0x%"HWADDR_PRIx"\n",
++                      __func__, addr);
+     }
+ }
+ 
+diff --git a/hw/display/pxa2xx_lcd.c b/hw/display/pxa2xx_lcd.c
+index d5f2e82a4e..ff90104b80 100644
+--- a/hw/display/pxa2xx_lcd.c
++++ b/hw/display/pxa2xx_lcd.c
+@@ -426,9 +426,10 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr offset,
+         if ((s->control[0] & LCCR0_ENB) && !(value & LCCR0_ENB))
+             s->status[0] |= LCSR0_QD;
+ 
+-        if (!(s->control[0] & LCCR0_LCDT) && (value & LCCR0_LCDT))
+-            printf("%s: internal frame buffer unsupported\n", __func__);
+-
++        if (!(s->control[0] & LCCR0_LCDT) && (value & LCCR0_LCDT)) {
++            qemu_log_mask(LOG_UNIMP,
++                          "%s: internal frame buffer unsupported\n", __func__);
++        }
+         if ((s->control[3] & LCCR3_API) &&
+                 (value & LCCR0_ENB) && !(value & LCCR0_LCDT))
+             s->status[0] |= LCSR0_ABC;
+@@ -462,9 +463,9 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr offset,
+         break;
+ 
+     case OVL1C1:
+-        if (!(s->ovl1c[0] & OVLC1_EN) && (value & OVLC1_EN))
+-            printf("%s: Overlay 1 not supported\n", __func__);
+-
++        if (!(s->ovl1c[0] & OVLC1_EN) && (value & OVLC1_EN)) {
++            qemu_log_mask(LOG_UNIMP, "%s: Overlay 1 not supported\n", __func__);
++        }
+         s->ovl1c[0] = value & 0x80ffffff;
+         s->dma_ch[1].up = (value & OVLC1_EN) || (s->control[0] & LCCR0_SDS);
+         break;
+@@ -474,9 +475,9 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr offset,
+         break;
+ 
+     case OVL2C1:
+-        if (!(s->ovl2c[0] & OVLC1_EN) && (value & OVLC1_EN))
+-            printf("%s: Overlay 2 not supported\n", __func__);
+-
++        if (!(s->ovl2c[0] & OVLC1_EN) && (value & OVLC1_EN)) {
++            qemu_log_mask(LOG_UNIMP, "%s: Overlay 2 not supported\n", __func__);
++        }
+         s->ovl2c[0] = value & 0x80ffffff;
+         s->dma_ch[2].up = !!(value & OVLC1_EN);
+         s->dma_ch[3].up = !!(value & OVLC1_EN);
+@@ -488,9 +489,10 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr offset,
+         break;
+ 
+     case CCR:
+-        if (!(s->ccr & CCR_CEN) && (value & CCR_CEN))
+-            printf("%s: Hardware cursor unimplemented\n", __func__);
+-
++        if (!(s->ccr & CCR_CEN) && (value & CCR_CEN)) {
++            qemu_log_mask(LOG_UNIMP,
++                          "%s: Hardware cursor unimplemented\n", __func__);
++        }
+         s->ccr = value & 0x81ffffe7;
+         s->dma_ch[5].up = !!(value & CCR_CEN);
+         break;
 -- 
 2.21.3
 
