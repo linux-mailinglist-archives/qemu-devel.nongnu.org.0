@@ -2,30 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92981E0CB7
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:20:32 +0200 (CEST)
-Received: from localhost ([::1]:33816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C573E1E0CB8
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:20:38 +0200 (CEST)
+Received: from localhost ([::1]:34360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdB9j-0001lF-U8
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:20:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57388)
+	id 1jdB9p-0001ye-RG
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:20:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
- id 1jdB8M-0000U0-Qf
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:06 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:54668)
+ id 1jdB8R-0000W1-00
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:12 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:54692)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdB8L-0008LH-Rs
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:06 -0400
+ (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdB8Q-0008M3-9w
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:10 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 23A17CD466;
- Mon, 25 May 2020 14:19:03 +0300 (MSK)
-Subject: [PATCH 0/9] Record/replay acceptance tests
+ by mail.ispras.ru (Postfix) with ESMTPSA id A91EBCD466;
+ Mon, 25 May 2020 14:19:08 +0300 (MSK)
+Subject: [PATCH 1/9] tests/acceptance: allow console interaction with
+ specific VMs
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 25 May 2020 14:19:02 +0300
-Message-ID: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
+Date: Mon, 25 May 2020 14:19:08 +0300
+Message-ID: <159040554841.2615.9176706179382687894.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
+References: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -57,39 +60,56 @@ Cc: philmd@redhat.com, dovgaluk@ispras.ru, pavel.dovgaluk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following series adds record/replay tests to the acceptance group.
-Test pass successfully with the latest submitted record/replay fixes:
- - replay: notify the main loop when there are no instructions
- - replay: synchronize on every virtual timer callback
+Console interaction in avocado scripts was possible only with single
+default VM.
+This patch modifies the function parameters to allow passing a specific
+VM as a parameter to interact with it.
 
-The provided tests perform kernel boot and disk image boot scenarios.
-For all of them recording and replaying phases are executed.
-Tests were borrowed from existing boot_linux*.py tests. But some
-of the platforms and images were excluded, because icount for them
-still has some issues.
-
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 ---
+ tests/acceptance/avocado_qemu/__init__.py |   12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-Pavel Dovgaluk (9):
-      tests/acceptance: allow console interaction with specific VMs
-      tests/acceptance: add base class record/replay kernel tests
-      tests/acceptance: add kernel record/replay test for x86_64
-      tests/acceptance: add record/replay test for aarch64
-      tests/acceptance: add record/replay test for arm
-      tests/acceptance: add record/replay test for ppc64
-      tests/acceptance: add record/replay test for m68k
-      tests/acceptance: record/replay tests with advcal images
-      tests/acceptance: Linux boot test for record/replay
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+index 59e7b4f763..0bbaa8d2a6 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -69,13 +69,15 @@ def pick_default_qemu_bin(arch=None):
+ 
+ 
+ def _console_interaction(test, success_message, failure_message,
+-                         send_string, keep_sending=False):
++                         send_string, keep_sending=False, vm=None):
+     assert not keep_sending or send_string
+-    console = test.vm.console_socket.makefile()
++    if vm is None:
++        vm = test.vm
++    console = vm.console_socket.makefile()
+     console_logger = logging.getLogger('console')
+     while True:
+         if send_string:
+-            test.vm.console_socket.sendall(send_string.encode())
++            vm.console_socket.sendall(send_string.encode())
+             if not keep_sending:
+                 send_string = None # send only once
+         msg = console.readline().strip()
+@@ -115,7 +117,7 @@ def interrupt_interactive_console_until_pattern(test, success_message,
+     _console_interaction(test, success_message, failure_message,
+                          interrupt_string, True)
+ 
+-def wait_for_console_pattern(test, success_message, failure_message=None):
++def wait_for_console_pattern(test, success_message, failure_message=None, vm=None):
+     """
+     Waits for messages to appear on the console, while logging the content
+ 
+@@ -125,7 +127,7 @@ def wait_for_console_pattern(test, success_message, failure_message=None):
+     :param success_message: if this message appears, test succeeds
+     :param failure_message: if this message appears, test fails
+     """
+-    _console_interaction(test, success_message, failure_message, None)
++    _console_interaction(test, success_message, failure_message, None, vm=vm)
+ 
+ def exec_command_and_wait_for_pattern(test, command,
+                                       success_message, failure_message=None):
 
-
- MAINTAINERS                               |    2 
- tests/acceptance/avocado_qemu/__init__.py |   12 +
- tests/acceptance/replay_kernel.py         |  273 +++++++++++++++++++++++++++++
- tests/acceptance/replay_linux.py          |  140 +++++++++++++++
- 4 files changed, 422 insertions(+), 5 deletions(-)
- create mode 100644 tests/acceptance/replay_kernel.py
- create mode 100644 tests/acceptance/replay_linux.py
-
---
-Pavel Dovgalyuk
 
