@@ -2,95 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 129371E0BBF
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 12:22:11 +0200 (CEST)
-Received: from localhost ([::1]:48356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 255521E0BBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 12:22:04 +0200 (CEST)
+Received: from localhost ([::1]:47882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdAFG-0001Is-4H
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 06:22:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51696)
+	id 1jdAF8-00017P-VN
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 06:22:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jdADn-0008BL-Al
- for qemu-devel@nongnu.org; Mon, 25 May 2020 06:20:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32784
- helo=us-smtp-1.mimecast.com)
+ id 1jdAEG-0000GN-8E
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 06:21:08 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41034
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jdADl-0006U4-Iz
- for qemu-devel@nongnu.org; Mon, 25 May 2020 06:20:38 -0400
+ id 1jdAEF-0006eE-E0
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 06:21:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590402036;
+ s=mimecast20190719; t=1590402066;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JRfSNC2ss3HIXRt1DQWODzcZm5cBs0oerm7Xf2BMQvc=;
- b=SKCvYhx6yo0821TdA0dHaW0svqQTPRBy1vs0fYRWZCvxnFFst3Nb3YipivUQo7l3sfReTt
- GvWisRa0WXUzo/3osbe9g6BhtNvsMk+HDHKr+9KEA/7RRybJXykqYXxa2bnCmnW61hh+lK
- 0lHDVzfGSDmQDyorVRm9o0boVqfh2SM=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-h12viYhCMC2lNoaGV_pYAw-1; Mon, 25 May 2020 06:20:34 -0400
-X-MC-Unique: h12viYhCMC2lNoaGV_pYAw-1
-Received: by mail-ej1-f71.google.com with SMTP id qn27so6243828ejb.11
- for <qemu-devel@nongnu.org>; Mon, 25 May 2020 03:20:34 -0700 (PDT)
+ bh=mIVIQtHHWl3AqmrSkaX/ggl/96ej6sUyR59zBaRflW8=;
+ b=ZiakjC+z3lDK42TkBQzEVXXLgChzBBLG+NM/M8/6DnLa42bwG3pLE9UiPCF/PJM3PTyNZ0
+ EOBjdglrqDhpxIocdfIhPwidJvOaX8CV2vHAOBD5a7cdIFT8qIw48I7xop8Cl/2R8CIyhf
+ uUYKfgcZZK2cBxKQ0B6vjuri8YDMA0c=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-vLNGGiqvOMWKUppKnv9Rjg-1; Mon, 25 May 2020 06:21:01 -0400
+X-MC-Unique: vLNGGiqvOMWKUppKnv9Rjg-1
+Received: by mail-ej1-f72.google.com with SMTP id t4so4084457ejj.12
+ for <qemu-devel@nongnu.org>; Mon, 25 May 2020 03:21:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=JRfSNC2ss3HIXRt1DQWODzcZm5cBs0oerm7Xf2BMQvc=;
- b=AWtRLv4jtu5sS99cUMxaOTkbocZSxjgfA+VcAA1NL/lK+LPctHksXgGLTQ8T1Kw+/q
- 3cwl+abl+zltmLwVTfV1uAK/LmhceHbdq4kBZA1i0MJUZ5LjX2kEwxj//+nRXsYDck3h
- plvoBJW9n7w8IN1NR6aR5ziBPPoGYYLSbYnV4QxXHVEmILmRxzExcFcmjca6BQ0xO132
- tXuEh1if9BG+DI1Nn0gNSYyqdQkR08ty9+lpuVnyhAlj4mhn9s6FcRNbku9BeLixGj2G
- VHOKhUiJQOV5d0BVhZTDnDE4SOUNenIm/SOPO45GL4cGkLk3pPP1GsY7zZ4PHO61EKqC
- Qz+Q==
-X-Gm-Message-State: AOAM531BprL8AQP5jnCmTsGLRk6fm1mvDwuqnQiuys8XOANFTmNDZvhc
- 00EvYamoGAea5GsKTZOobnokq/gMlhVHIzF3O0DSrGa7E411qE7vO/h5dQDzF8MjlobFXDEtf20
- vIyTwUn64s4dEZoA=
-X-Received: by 2002:aa7:d39a:: with SMTP id x26mr13924175edq.207.1590402033135; 
- Mon, 25 May 2020 03:20:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzNwbP/LQMpyhYdJQA8XtYTkL0MUYeSgkOMEblZiq1QIasG6dQW4eY/bg2rd+tlZv/EVawAwA==
-X-Received: by 2002:aa7:d39a:: with SMTP id x26mr13924159edq.207.1590402032941; 
- Mon, 25 May 2020 03:20:32 -0700 (PDT)
+ bh=mIVIQtHHWl3AqmrSkaX/ggl/96ej6sUyR59zBaRflW8=;
+ b=bCA9rOd2CvQd35CGyWWjcuhFQjSCtA7D5G/GC6LKh1cI4q7fXuKLdhLRqCl1QdGbDR
+ H6YAuRWRR8wNYvqHkOyUNmYg4RZFQV8WU/A34lKcRmvlCidYww6rlHd+be5rdr1QSlyg
+ 0q5IuECfzLto173syNX7T6hgcHrOOjsgmWraWOQuWzM256Aag5phF4ov86LHGwIhlXen
+ CAQDGw/8xPPJcPIT/BXSxx2S3I3hvs92122rjIEonfNhws/HSOCgiUIGZ4gFIv+euUq4
+ oSkTiweiiLkmdRWLueIGSD3QTZrdg64jpCduHmpV03Y4tfUnG9uSvppOI+78gQq3fOts
+ MlfA==
+X-Gm-Message-State: AOAM532K+EnAcbWp5RGwi4FeSl6qw8KLkzzVJ+5bSEHYBgGPoyzQg0Ct
+ VtYSA7KYqNEnHoWDYuMlk9Dtv1oMwB/4i8IsndMuG5WCM81di65wFm+6SpVsEgjvkCtQaVheBPB
+ OmynqsLQruhCzX+s=
+X-Received: by 2002:a50:f0ce:: with SMTP id a14mr14666806edm.131.1590402059922; 
+ Mon, 25 May 2020 03:20:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzbYH8vLVwWrPxq7sKFs5VTj4MK7Us6zxg398BcHJMhS15eURrmoSwt71UC5pfde0NCbwQNEw==
+X-Received: by 2002:a50:f0ce:: with SMTP id a14mr14666797edm.131.1590402059746; 
+ Mon, 25 May 2020 03:20:59 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:3c1c:ffba:c624:29b8?
  ([2001:b07:6468:f312:3c1c:ffba:c624:29b8])
- by smtp.gmail.com with ESMTPSA id w8sm15521648edu.15.2020.05.25.03.20.32
+ by smtp.gmail.com with ESMTPSA id lr21sm15075638ejb.117.2020.05.25.03.20.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 May 2020 03:20:32 -0700 (PDT)
-Subject: Re: [PATCH v6 1/3] memory: drop guest writes to read-only ram device
- regions
-To: Yan Zhao <yan.y.zhao@intel.com>
-References: <20200430080744.31232-1-yan.y.zhao@intel.com>
- <20200430080946.31286-1-yan.y.zhao@intel.com>
- <CAFEAcA-8NH_4ZV0J9urBZdQWmqOe-Nyy4y2gLAjTJ08MpfFY0g@mail.gmail.com>
- <9dd7f00b-1199-1097-80d4-1b700c0f28d6@redhat.com>
- <20200525011853.GB8867@joy-OptiPlex-7040>
+ Mon, 25 May 2020 03:20:59 -0700 (PDT)
+Subject: Re: [PATCH] cpus: Fix botched configure_icount() error API violation
+ fix
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200508104933.19051-1-armbru@redhat.com>
+ <28c289f3-eb3f-eb1a-f79b-b339437bef8a@redhat.com>
+ <87d06sh8m1.fsf@dusky.pond.sub.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f836eeb3-0655-2842-2e8a-b8a42710a765@redhat.com>
-Date: Mon, 25 May 2020 12:20:34 +0200
+Message-ID: <13c9c546-bc43-ce46-e6c3-5e4625d23714@redhat.com>
+Date: Mon, 25 May 2020 12:21:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200525011853.GB8867@joy-OptiPlex-7040>
+In-Reply-To: <87d06sh8m1.fsf@dusky.pond.sub.org>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 01:44:10
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 02:40:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,50 +102,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>, xin.zeng@intel.com,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/05/20 03:18, Yan Zhao wrote:
-> On Thu, May 21, 2020 at 04:38:47PM +0200, Paolo Bonzini wrote:
->> On 30/04/20 11:40, Peter Maydell wrote:
->>>> This does not "drop" a write to a r/o region -- it causes it to generate
->>>> whatever the guest architecture's equivalent of a bus error is (eg data
->>>> abort on Arm).
->>
->>
->>> More generally, this change seems a bit odd: currently we do not
->>> check the mr->readonly flag here, but in general guests don't get
->>> to write to ROM areas. Where is that check currently done
->>
->> Writes to ROM are directed to mr->ops unassigned_mem_ops.  Because _all_
->> ram-device reads and writes go through the ops, for ram-device we have
->> to stick the check for mr->readonly in the ops.
->>
->> On one hand, I was quite surprised to see that unassigned_mem_write does
->> not return MEMTX_ERROR now that I looked at it.
->>
->> On the other hand, we should use MEMTX_ERROR in patch 2 as well, if we
->> decide it's the way to go.
->>
->> (Sorry Yan for the late response).
->>
-> hi Paolo,
-> thanks for your reply and never mind :)
+On 25/05/20 07:44, Markus Armbruster wrote:
+> Paolo Bonzini <pbonzini@redhat.com> writes:
 > 
-> But there's one thing I just can't figure out the reason and eagerly need
-> your guide.
+>> On 08/05/20 12:49, Markus Armbruster wrote:
+>>> Fixes: abc9bf69a66a11499a801ff545b8fe7adbb3a04c
+>>> Fixes: Coverity CID 1428754
+>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>> ---
+>>>  cpus.c | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/cpus.c b/cpus.c
+>>> index 5670c96bcf..b9275c672d 100644
+>>> --- a/cpus.c
+>>> +++ b/cpus.c
+>>> @@ -813,7 +813,7 @@ void configure_icount(QemuOpts *opts, Error **errp)
+>>>          return;
+>>>      }
+>>>  
+>>> -    if (strcmp(option, "auto") != 0) {
+>>> +    if (option && !strcmp(option, "auto")) {
+>>>          if (qemu_strtol(option, NULL, 0, &time_shift) < 0
+>>>              || time_shift < 0 || time_shift > MAX_ICOUNT_SHIFT) {
+>>>              error_setg(errp, "icount: Invalid shift value");
+>>>
+>>
+>> Queued, thanks.
 > 
-> why do we have to convert all .write operations to .write_with_attrs and
-> return MEMTX_ERROR? because of the handling of writes to read-only region?
+> This one's wrong, please queue v2 instead.
+> 
 
-Not all of them, only those that need to return MEMTX_ERROR.  I would
-like some guidance from Peter as to whether (or when) reads from ROMs
-should return MEMTX_ERROR.  This way, we can use that information to
-device  what the read-only ram-device regions should do.
+Yep, got there already.  Thanks!
 
 Paolo
 
