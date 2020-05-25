@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94CF41E0CC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:25:04 +0200 (CEST)
-Received: from localhost ([::1]:54128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8801E0CE6
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:26:56 +0200 (CEST)
+Received: from localhost ([::1]:60210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdBE7-00023L-Kh
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:25:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57450)
+	id 1jdBFv-0004tJ-83
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
- id 1jdB8n-0001H1-2X
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:33 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:54782)
+ id 1jdB8s-0001WO-AZ
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:38 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:54810)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdB8l-0008NP-Pm
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:32 -0400
+ (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdB8r-0008O2-IY
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:38 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id D19C2CD460;
- Mon, 25 May 2020 14:19:30 +0300 (MSK)
-Subject: [PATCH 5/9] tests/acceptance: add record/replay test for arm
+ by mail.ispras.ru (Postfix) with ESMTPSA id 5E57ECD466;
+ Mon, 25 May 2020 14:19:36 +0300 (MSK)
+Subject: [PATCH 6/9] tests/acceptance: add record/replay test for ppc64
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 25 May 2020 14:19:30 +0300
-Message-ID: <159040557060.2615.13773529559912952341.stgit@pasha-ThinkPad-X280>
+Date: Mon, 25 May 2020 14:19:36 +0300
+Message-ID: <159040557608.2615.17453534013867754631.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
 References: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -60,66 +60,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch adds a test for record/replay of the kernel
-image boot for two different arm platforms.
+image boot for ppc64 platform.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 ---
- tests/acceptance/replay_kernel.py |   46 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ tests/acceptance/replay_kernel.py |   15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index 1d2cfebc85..41c8ca3c99 100644
+index 41c8ca3c99..9931f87bd5 100644
 --- a/tests/acceptance/replay_kernel.py
 +++ b/tests/acceptance/replay_kernel.py
-@@ -112,3 +112,49 @@ class ReplayKernel(Test):
- 
+@@ -158,3 +158,18 @@ class ReplayKernel(Test):
+         console_pattern = 'Boot successful.'
          self.run_rr(kernel_path, kernel_command_line, console_pattern,
-             args=('-cpu', 'cortex-a53'))
+             args=('-dtb', dtb_path, '-initrd', initrd_path, '-no-reboot'))
 +
-+    def test_arm_virt(self):
++    def test_ppc64_pseries(self):
 +        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:virt
++        :avocado: tags=arch:ppc64
++        :avocado: tags=machine:pseries
 +        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/29/Everything/armhfp/os/images/pxeboot'
-+                      '/vmlinuz')
-+        kernel_hash = 'e9826d741b4fb04cadba8d4824d1ed3b7fb8b4d4'
++        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
++                      '/fedora-secondary/releases/29/Everything/ppc64le/os'
++                      '/ppc/ppc64/vmlinuz')
++        kernel_hash = '3fe04abfc852b66653b8c3c897a59a689270bc77'
 +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
 +
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyAMA0')
++        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=hvc0'
 +        console_pattern = 'Kernel command line: %s' % kernel_command_line
-+
 +        self.run_rr(kernel_path, kernel_command_line, console_pattern)
-+
-+    def test_arm_cubieboard_initrd(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:cubieboard
-+        """
-+        deb_url = ('https://apt.armbian.com/pool/main/l/'
-+                   'linux-4.20.7-sunxi/linux-image-dev-sunxi_5.75_armhf.deb')
-+        deb_hash = '1334c29c44d984ffa05ed10de8c3361f33d78315'
-+        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
-+        kernel_path = self.extract_from_deb(deb_path,
-+                                            '/boot/vmlinuz-4.20.7-sunxi')
-+        dtb_path = '/usr/lib/linux-image-dev-sunxi/sun4i-a10-cubieboard.dtb'
-+        dtb_path = self.extract_from_deb(deb_path, dtb_path)
-+        initrd_url = ('https://github.com/groeck/linux-build-test/raw/'
-+                      '2eb0a73b5d5a28df3170c546ddaaa9757e1e0848/rootfs/'
-+                      'arm/rootfs-armv5.cpio.gz')
-+        initrd_hash = '2b50f1873e113523967806f4da2afe385462ff9b'
-+        initrd_path_gz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-+        initrd_path = os.path.join(self.workdir, 'rootfs.cpio')
-+        archive.gzip_uncompress(initrd_path_gz, initrd_path)
-+
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyS0,115200 '
-+                               'usbcore.nousb '
-+                               'panic=-1 noreboot')
-+        console_pattern = 'Boot successful.'
-+        self.run_rr(kernel_path, kernel_command_line, console_pattern,
-+            args=('-dtb', dtb_path, '-initrd', initrd_path, '-no-reboot'))
 
 
