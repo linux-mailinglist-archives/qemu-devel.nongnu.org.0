@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C8F1E0CBF
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:23:42 +0200 (CEST)
-Received: from localhost ([::1]:48098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 788E51E0CF1
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:28:05 +0200 (CEST)
+Received: from localhost ([::1]:36132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdBCn-00080F-Ct
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:23:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57496)
+	id 1jdBH2-0006Zh-DX
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
- id 1jdB8y-0001ek-4z
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:44 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:54866)
+ id 1jdB93-0001mS-Ni
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:49 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:54882)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdB8x-0008Pb-B4
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:43 -0400
+ (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdB92-0008QJ-Ns
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:49 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 1BA89CD460;
- Mon, 25 May 2020 14:19:42 +0300 (MSK)
-Subject: [PATCH 7/9] tests/acceptance: add record/replay test for m68k
+ by mail.ispras.ru (Postfix) with ESMTPSA id C68BCCD466;
+ Mon, 25 May 2020 14:19:47 +0300 (MSK)
+Subject: [PATCH 8/9] tests/acceptance: record/replay tests with advcal images
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 25 May 2020 14:19:41 +0300
-Message-ID: <159040558183.2615.5681444460877087880.stgit@pasha-ThinkPad-X280>
+Date: Mon, 25 May 2020 14:19:47 +0300
+Message-ID: <159040558755.2615.4869959098521372877.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
 References: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -59,39 +59,100 @@ Cc: philmd@redhat.com, dovgaluk@ispras.ru, pavel.dovgaluk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a test for record/replay of the kernel
-image boot for m68k platform.
+This patch adds more record/replay tests with kernel images.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 ---
- tests/acceptance/replay_kernel.py |   18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ tests/acceptance/replay_kernel.py |   80 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
 
 diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index 9931f87bd5..4c786b1565 100644
+index 4c786b1565..3849db7f3a 100644
 --- a/tests/acceptance/replay_kernel.py
 +++ b/tests/acceptance/replay_kernel.py
-@@ -173,3 +173,21 @@ class ReplayKernel(Test):
-         kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=hvc0'
-         console_pattern = 'Kernel command line: %s' % kernel_command_line
+@@ -191,3 +191,83 @@ class ReplayKernel(Test):
+                                'console=ttyS0 vga=off')
+         console_pattern = 'No filesystem could mount root'
          self.run_rr(kernel_path, kernel_command_line, console_pattern)
 +
-+    def test_m68k_q800(self):
++    def do_test_advcal_2018(self, day, tar_hash, kernel_name, args=()):
++        tar_url = ('https://www.qemu-advent-calendar.org'
++                   '/2018/download/day' + day + '.tar.xz')
++        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
++        archive.extract(file_path, self.workdir)
++
++        kernel_path = self.workdir + '/day' + day + '/' + kernel_name
++        kernel_command_line = ''
++        console_pattern = 'QEMU advent calendar'
++        self.run_rr(kernel_path, kernel_command_line, console_pattern,
++            args=args)
++
++    def test_arm_vexpressa9(self):
++        """
++        :avocado: tags=arch:arm
++        :avocado: tags=machine:vexpress-a9
++        """
++        tar_hash = '32b7677ce8b6f1471fb0059865f451169934245b'
++        self.do_test_advcal_2018('16', tar_hash, 'winter.zImage',
++            ('-dtb', self.workdir + '/day16/vexpress-v2p-ca9.dtb'))
++
++    def test_m68k_mcf5208evb(self):
 +        """
 +        :avocado: tags=arch:m68k
-+        :avocado: tags=machine:q800
++        :avocado: tags=machine:mcf5208evb
 +        """
-+        deb_url = ('https://snapshot.debian.org/archive/debian-ports'
-+                   '/20191021T083923Z/pool-m68k/main'
-+                   '/l/linux/kernel-image-5.3.0-1-m68k-di_5.3.7-1_m68k.udeb')
-+        deb_hash = '044954bb9be4160a3ce81f8bc1b5e856b75cccd1'
-+        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
-+        kernel_path = self.extract_from_deb(deb_path,
-+                                            '/boot/vmlinux-5.3.0-1-m68k')
++        tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
++        self.do_test_advcal_2018('07', tar_hash, 'sanity-clause.elf')
 +
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyS0 vga=off')
-+        console_pattern = 'No filesystem could mount root'
-+        self.run_rr(kernel_path, kernel_command_line, console_pattern)
++    def test_microblaze_s3adsp1800(self):
++        """
++        :avocado: tags=arch:microblaze
++        :avocado: tags=machine:petalogix-s3adsp1800
++        """
++        tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
++        self.do_test_advcal_2018('17', tar_hash, 'ballerina.bin')
++
++    def test_ppc64_e500(self):
++        """
++        :avocado: tags=arch:ppc64
++        :avocado: tags=machine:ppce500
++        """
++        tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
++        self.do_test_advcal_2018('19', tar_hash, 'uImage', ('-cpu', 'e5500'))
++
++    def test_ppc_g3beige(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=machine:g3beige
++        """
++        tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
++        self.do_test_advcal_2018('15', tar_hash, 'invaders.elf',
++            ('-M', 'graphics=off'))
++
++    def test_ppc_mac99(self):
++        """
++        :avocado: tags=arch:ppc
++        :avocado: tags=machine:mac99
++        """
++        tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
++        self.do_test_advcal_2018('15', tar_hash, 'invaders.elf',
++            ('-M', 'graphics=off'))
++
++    def test_sparc_ss20(self):
++        """
++        :avocado: tags=arch:sparc
++        :avocado: tags=machine:SS-20
++        """
++        tar_hash = 'b18550d5d61c7615d989a06edace051017726a9f'
++        self.do_test_advcal_2018('11', tar_hash, 'zImage.elf')
++
++    def test_xtensa_lx60(self):
++        """
++        :avocado: tags=arch:xtensa
++        :avocado: tags=machine:lx60
++        """
++        tar_hash = '49e88d9933742f0164b60839886c9739cb7a0d34'
++        self.do_test_advcal_2018('02', tar_hash, 'santas-sleigh-ride.elf',
++            ('-cpu', 'dc233c'))
 
 
