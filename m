@@ -2,68 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35A6C1E1031
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 16:14:14 +0200 (CEST)
-Received: from localhost ([::1]:43742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1402E1E1044
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 16:17:40 +0200 (CEST)
+Received: from localhost ([::1]:51390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdDrp-0004D0-AF
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 10:14:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47816)
+	id 1jdDv9-0007fI-6U
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 10:17:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdDqX-00037x-SG
- for qemu-devel@nongnu.org; Mon, 25 May 2020 10:12:55 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29074
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jdDsP-0005RV-PM
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 10:14:49 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47410
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdDqW-0005Pw-Dp
- for qemu-devel@nongnu.org; Mon, 25 May 2020 10:12:53 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jdDsO-0005cD-Lf
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 10:14:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590415971;
+ s=mimecast20190719; t=1590416087;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=F1/MlzvgtYm4HqrWVwHKmSSWH9RCyf6QXCHR1rSWbNI=;
- b=dv5xuuIq/GX0LzoYOXa5WKzC6m3uuicsrvIkVawkEE+PBo7aRqYOYHNN6j9Jvz0XO6Zgcv
- ICwlwJwd5jMVhozJaODVF1VY8ZuYeD8jB0LpeR5NsU+jpFoaN9136VbLM3NCWwjmrr3Myt
- FxJ8GceZo7QpVFwlYstLFgddjteR8d8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-isqpL-wVObKT8NhhL0Ajmg-1; Mon, 25 May 2020 10:12:48 -0400
-X-MC-Unique: isqpL-wVObKT8NhhL0Ajmg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB7F1107ACF3;
- Mon, 25 May 2020 14:12:46 +0000 (UTC)
-Received: from thuth.com (ovpn-113-78.ams2.redhat.com [10.36.113.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D232C60C47;
- Mon, 25 May 2020 14:12:40 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
-Subject: [PATCH v2] tests/acceptance: Add a boot test for the xlnx-versal-virt
- machine
-Date: Mon, 25 May 2020 16:12:37 +0200
-Message-Id: <20200525141237.15243-1-thuth@redhat.com>
+ in-reply-to:in-reply-to:references:references;
+ bh=OiwJGvTN3HrhwqBiQ8DjJJ09hKLRdrRNUuALUzufES0=;
+ b=gt1IdJy/wUrdy3Goll4H8pIiMxcw2RFNyTqjqcwIk16DlvsgcL/97o5iBME2fJ9qJP9+9z
+ eTwA23VvnrXgNt41q9QAZ+hTQstVTjp8bgwWoaBIbwC2fm/gJ4Pitvl9L9ghEHfCEQxloX
+ JXkfFEZod3OeJLuGuBPsr4jHPRvzxdU=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-380-x_wiCoiQMOSLCZUiloB7zA-1; Mon, 25 May 2020 10:14:46 -0400
+X-MC-Unique: x_wiCoiQMOSLCZUiloB7zA-1
+Received: by mail-qk1-f200.google.com with SMTP id v6so18095872qkh.7
+ for <qemu-devel@nongnu.org>; Mon, 25 May 2020 07:14:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=OiwJGvTN3HrhwqBiQ8DjJJ09hKLRdrRNUuALUzufES0=;
+ b=VRMEoiGuC/7fUaMtMTLtN5NjVMyMyUPodF56E3edpLufrD0ctFieOPjGdj7rovBec5
+ 4sp7gxFa7z8PB/JZk89dghiJSThrDfML2MdGbV43/eq5bQRqDKTrkntz7jDfwBMilr/l
+ TaBVH95D8M8hOC7IXWqbmNMKvG8HwbITwFErgrUoOvUgZIx8U6+mwmBcXvKcU93h8FF/
+ tTHpv3qQ5GiJGHM1C2Y5SGQ2Yx7TWg81YfVC2uWjoQX7vCCL8I7axUQq75XT1UWSYnnP
+ 7aSoSU9QTxNPxt6mL7nt/slMQf2PH6rNJPpmeWA+lhZwrP3FncfvZ81tp4qwT1GpVUJO
+ en5w==
+X-Gm-Message-State: AOAM533KhkfNiiTFVqVef8jEqmFfjBD6OJFGJ+2uznij6N7I9yFo4EQa
+ fJ3zmyqFaM8YfViEettpN+y0TlAyJPclgn5mgE3wGuoCFctRrBZMsOn/TXkULbVutdy3IQmr/q0
+ hAB7alJ4JZjGsx7A=
+X-Received: by 2002:ae9:edd8:: with SMTP id
+ c207mr27781379qkg.347.1590416085691; 
+ Mon, 25 May 2020 07:14:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx+E/pDkXg7rlCbmwraPtNWLh4hyEts+fbkCkrL7rVYgpZV806zFgC/ZsNUs3N+IUKKwkYjYA==
+X-Received: by 2002:ae9:edd8:: with SMTP id
+ c207mr27781355qkg.347.1590416085394; 
+ Mon, 25 May 2020 07:14:45 -0700 (PDT)
+Received: from xz-x1 ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id h15sm13094434qkh.18.2020.05.25.07.14.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 May 2020 07:14:44 -0700 (PDT)
+Date: Mon, 25 May 2020 10:14:43 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] pci: Display PCI IRQ pin in "info pci"
+Message-ID: <20200525141443.GB1058657@xz-x1>
+References: <20200317195908.283800-1-peterx@redhat.com>
+ <87a71wfmv6.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <87a71wfmv6.fsf@dusky.pond.sub.org>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 06:55:03
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 02:40:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,66 +94,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As described by Edgar here:
+Hi, Markus,
 
- https://www.mail-archive.com/qemu-devel@nongnu.org/msg605124.html
+Thanks for commenting.  Please see below.
 
-we can use the Ubuntu kernel for testing the xlnx-versal-virt machine.
-So let's add a boot test for this now.
+On Mon, May 25, 2020 at 10:19:09AM +0200, Markus Armbruster wrote:
+> Peter Xu <peterx@redhat.com> writes:
+> 
+> > Sometimes it would be good to be able to read the pin number along
+> > with the IRQ number allocated.  Since we'll dump the IRQ number, no
+> > reason to not dump the pin information.  For example, the vfio-pci
+> > device will overwrite the pin with the hardware pin number.  It would
+> > be nice to know the pin number of one assigned device from QMP/HMP.
+> >
+> > CC: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > CC: Alex Williamson <alex.williamson@redhat.com>
+> > CC: Michael S. Tsirkin <mst@redhat.com>
+> > CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> > CC: Julia Suvorova <jusual@redhat.com>
+> > CC: Markus Armbruster <armbru@redhat.com>
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > ---
+> >
+> > This helped me to debug an IRQ sharing issue, so may good to have it
+> > in master too.
+> > ---
+> [...]
+> > diff --git a/qapi/misc.json b/qapi/misc.json
+> > index c18fe681fb..f8d33ddb4e 100644
+> > --- a/qapi/misc.json
+> > +++ b/qapi/misc.json
+> > @@ -403,6 +403,8 @@
+> >  #
+> >  # @irq: if an IRQ is assigned to the device, the IRQ number
+> >  #
+> > +# @irq_pin: the IRQ pin, zero means no IRQ (since 5.1)
+> > +#
+> 
+> For the IRQ number, we make the member optional, and use "member absent"
+> for "no IRQ assigned".
+> 
+> For the IRQ pin, we make the member mandatory, and use zero value for
+> "no IRQ assigned".
+> 
+> Any particular reason for the difference?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- v2: Added "tags=device:pl011" and "tags=device:arm_gicv3"
+I have two reasons.
 
- tests/acceptance/boot_linux_console.py | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+Spec-wise, "irq" (PCI_INTERRUPT_LINE) is optional which should depend on
+"irq_pin" (PCI_INTERRUPT_PIN), while "irq_pin" itself is not optional according
+to PCI local bus spec 3.0:
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 0653c8c1bf..965272387c 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -307,6 +307,32 @@ class BootLinuxConsole(Test):
-         console_pattern = 'Kernel command line: %s' % kernel_command_line
-         self.wait_for_console_pattern(console_pattern)
- 
-+    def test_aarch64_xlnx_versal_virt(self):
-+        """
-+        :avocado: tags=arch:aarch64
-+        :avocado: tags=machine:xlnx-versal-virt
-+        :avocado: tags=device:pl011
-+        :avocado: tags=device:arm_gicv3
-+        """
-+        kernel_url = ('http://ports.ubuntu.com/ubuntu-ports/dists/'
-+                      'bionic-updates/main/installer-arm64/current/images/'
-+                      'netboot/ubuntu-installer/arm64/linux')
-+        kernel_hash = '5bfc54cf7ed8157d93f6e5b0241e727b6dc22c50'
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-+
-+        initrd_url = ('http://ports.ubuntu.com/ubuntu-ports/dists/'
-+                      'bionic-updates/main/installer-arm64/current/images/'
-+                      'netboot/ubuntu-installer/arm64/initrd.gz')
-+        initrd_hash = 'd385d3e88d53e2004c5d43cbe668b458a094f772'
-+        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-+
-+        self.vm.set_console()
-+        self.vm.add_args('-m', '2G',
-+                         '-kernel', kernel_path,
-+                         '-initrd', initrd_path)
-+        self.vm.launch()
-+        self.wait_for_console_pattern('Checked W+X mappings: passed')
-+
-     def test_arm_virt(self):
-         """
-         :avocado: tags=arch:arm
+        Interrupt Pin
+
+        The Interrupt Pin register tells which interrupt pin the device (or
+        device function) uses. A value of 1 corresponds to INTA# . A value of 2
+        corresponds to INTB# . A value of 3 corresponds to INTC# . A value of 4
+        corresponds to INTD# . Devices (or device functions) that do not use an
+        interrupt pin must put a 0 in this register. The values 05h through FFh
+        are reserved. This register is read-only. Refer to Section 2.2.6 for
+        further description of the usage of the INTx# pins.
+
+So it should be a value between 0-4, inclusive.  It applies even if the device
+does not support INTx.
+
+Code-wise, we can also make "irq_pin" optional just like "irq" (which will
+automatically create the has_irq_pin variable).  However, then it means we'll
+have two booleans for the same purpose for intx in PciDeviceInfo, which seems
+to be an unnecessary duplication.
+
+So I chose the simple to make it mandatory.
+
+Thanks,
+
 -- 
-2.18.1
+Peter Xu
 
 
