@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A420D1E115B
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 17:13:28 +0200 (CEST)
-Received: from localhost ([::1]:42720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 823BB1E117A
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 17:16:11 +0200 (CEST)
+Received: from localhost ([::1]:49198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdEn9-0004Ul-LE
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 11:13:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54200)
+	id 1jdEpm-0007SK-EX
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 11:16:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdEhN-0005zY-0I
- for qemu-devel@nongnu.org; Mon, 25 May 2020 11:07:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23350
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdEhR-00060h-Kc
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 11:07:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55474
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdEhK-0006kp-Ly
- for qemu-devel@nongnu.org; Mon, 25 May 2020 11:07:27 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdEhQ-0006lT-1h
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 11:07:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590419245;
+ s=mimecast20190719; t=1590419250;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n688Ug1E8U30t03slUDUg6yxWEE8HYKLjx2cTAsTob0=;
- b=g007vQu0BZql8fgrUT6ghYEfJs6G5Hv0559k7YcRuHnHbt9Ad02vt/IDxTud/vibZnMN0v
- FOG9Hemh2uOXf+yW/4IOWLBTrTBh2xfOlNBhrVz39iyY8zvVq4HQWZIQP4DJvr0rd070Ij
- Xl9wIcB/n1FA2ZyGHWv9yeJ8do+vRSk=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-cw1wLKcjOSiOmJFj3fFdTA-1; Mon, 25 May 2020 11:07:21 -0400
-X-MC-Unique: cw1wLKcjOSiOmJFj3fFdTA-1
-Received: by mail-ed1-f72.google.com with SMTP id dk23so7610239edb.15
- for <qemu-devel@nongnu.org>; Mon, 25 May 2020 08:07:21 -0700 (PDT)
+ bh=jzY0Zi9W4LdLuqEd5SDPILPIqLHrl6uTPzfQWotzWik=;
+ b=LScRIRrkjK67npQmwyPGIRgtEuhl5DVkAYSHUewX7PI915dz4IvJyXuOnlP8Yi8TQNG/yZ
+ YZHihpyoXRwEKzAgsLNM/j6uM3jhqjVKNJFq2HkvHMlCmvjVvIvJKcCq1rhshiM87AcRYe
+ G7sYltGN6X2OnSmeKdCkMNPFQNG2mKI=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-232-Am5Ly--lP8CYL8y4Yx4V9g-1; Mon, 25 May 2020 11:07:29 -0400
+X-MC-Unique: Am5Ly--lP8CYL8y4Yx4V9g-1
+Received: by mail-ej1-f72.google.com with SMTP id bo19so2894503ejb.0
+ for <qemu-devel@nongnu.org>; Mon, 25 May 2020 08:07:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=n688Ug1E8U30t03slUDUg6yxWEE8HYKLjx2cTAsTob0=;
- b=ktz5emDnglm6jAhxL/3t73O2drw5Lw/KqQcVxjfhRx31zHq1XxWKQmZJTKkUIbU0xr
- Me4G0eUNq7lP+EPEq+h2QdNZoOqfSEXhyzQSf3dhdiQuzVJigsafPLt8WXGDM2IjeLCK
- sinSVxzjD/NMH5VmEB+eE/1KzIaSJGsUv+/aIlpgRxpEw5RYOt/f3WeCiPxB8Yb9E3f9
- I5WSsBtXqDqheo9+3SbtsotUQNuxZiUFxRVwWXrrKM3PfpgUWcLeLCDIAXjtBnMRN20q
- pFqIJ9jdD0S7YwpQQ/LYQwpbGBR2rHAUMeSZGCbOuowT8tOhd3ferYRXsVpFY6ugAnmt
- 1XnQ==
-X-Gm-Message-State: AOAM5301lqGU8HmvpJoFb8X1jg6LdtH8/44ubbJ6+C5Jc7by2bsznYw2
- TjLsvMdsCT5LpgHmn4tDUkFr8wmFbqDrKJ91J9urRXo7YAkTxsu71u/yPbYWDKcObFEHdhkJb7S
- cnAzWtdvZ7tBxkFQ=
-X-Received: by 2002:aa7:cf08:: with SMTP id a8mr16348985edy.354.1590419240546; 
- Mon, 25 May 2020 08:07:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwKoxs/SJXYi/TLCv0wflQV/CK5x/44Yia7Jst0UMdeq6YgpiiqiwLEKojAiD1/lUaXeOrW0Q==
-X-Received: by 2002:aa7:cf08:: with SMTP id a8mr16348949edy.354.1590419240312; 
- Mon, 25 May 2020 08:07:20 -0700 (PDT)
+ bh=jzY0Zi9W4LdLuqEd5SDPILPIqLHrl6uTPzfQWotzWik=;
+ b=hshXrpqx2qxJq7zUTqEYqyTC6q930y0KuYMXZqVVf17RGtJlg3hfEQq3She0UcIY/J
+ 0k5axF3mLE+5HiUH/i8zAt0rw4W/P2jJd8rwMDXaFbIvLgLe19Xz1CUuJ3Dp2P+u5tAm
+ fN8HeY6atBZ0V7xn01xR4s69qEcxLKDzfx98nnHWi/YcJmqn9MaCZWQShmq7snkbZeBr
+ rGFSm2gROZdsjTpEUxX4rr8W+dH5HxE3yPXYLLtP99abQ0WjKKK09STrr7m4tuTNLjL/
+ U3Vl9qOgiHsFOPiaZ6OZHWGTj+u2a6sTxOZTWZ/R4SXMgq83I3tO3fCcx2RmNQUJ0vqU
+ CxjA==
+X-Gm-Message-State: AOAM530T28e3/22CMFEe5+5kLbiiqp6u8ThndAxJAVccxdCtT/lblr0J
+ wzLFo4nLefHzC9iGh9KEUS8nyXq16xGsgJrQF6XmvRm4lcPw7uXNwBb94NiNDY2xLvWFkmK7eXs
+ 3QjnTqyzc5qjLAuw=
+X-Received: by 2002:aa7:db4a:: with SMTP id n10mr15872719edt.11.1590419246900; 
+ Mon, 25 May 2020 08:07:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz7Y5ycO7FJSq/p+tdTdtlrMuLAnL8w5xb1miKZz3vITdkhWsGqffRKPud3DAqxaubOmrR2oA==
+X-Received: by 2002:aa7:db4a:: with SMTP id n10mr15872661edt.11.1590419246412; 
+ Mon, 25 May 2020 08:07:26 -0700 (PDT)
 Received: from x1w.redhat.com (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id 32sm14950014edf.43.2020.05.25.08.07.18
+ by smtp.gmail.com with ESMTPSA id i6sm14394964ejh.4.2020.05.25.08.07.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 May 2020 08:07:19 -0700 (PDT)
+ Mon, 25 May 2020 08:07:25 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/9] qapi/misc: Move query-uuid command to machine code
-Date: Mon, 25 May 2020 17:06:37 +0200
-Message-Id: <20200525150640.30879-7-philmd@redhat.com>
+Subject: [PATCH v3 7/9] qapi/misc: Restrict ACPI commands to machine code
+Date: Mon, 25 May 2020 17:06:38 +0200
+Message-Id: <20200525150640.30879-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200525150640.30879-1-philmd@redhat.com>
 References: <20200525150640.30879-1-philmd@redhat.com>
@@ -72,16 +72,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 08:28:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 01:44:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,120 +108,403 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- qapi/machine.json | 30 ++++++++++++++++++++++++++++++
- qapi/misc.json    | 30 ------------------------------
- block/iscsi.c     |  2 +-
- stubs/uuid.c      |  2 +-
- 4 files changed, 32 insertions(+), 32 deletions(-)
+ qapi/machine.json                    | 154 +++++++++++++++++++++++++++
+ qapi/misc.json                       | 154 ---------------------------
+ include/hw/acpi/acpi_dev_interface.h |   2 +-
+ hw/acpi/core.c                       |   2 +-
+ hw/acpi/cpu.c                        |   2 +-
+ hw/acpi/memory_hotplug.c             |   2 +-
+ 6 files changed, 158 insertions(+), 158 deletions(-)
 
 diff --git a/qapi/machine.json b/qapi/machine.json
-index 545ecb9a55..7420c4f5ee 100644
+index 7420c4f5ee..04b124be67 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -421,6 +421,36 @@
+@@ -1061,3 +1061,157 @@
  ##
- { 'command': 'query-target', 'returns': 'TargetInfo' }
- 
-+##
-+# @UuidInfo:
-+#
-+# Guest UUID information (Universally Unique Identifier).
-+#
-+# @UUID: the UUID of the guest
-+#
-+# Since: 0.14.0
-+#
-+# Notes: If no UUID was specified for the guest, a null UUID is returned.
-+##
-+{ 'struct': 'UuidInfo', 'data': {'UUID': 'str'} }
+ { 'event': 'BALLOON_CHANGE',
+   'data': { 'actual': 'int' } }
 +
 +##
-+# @query-uuid:
++# @AcpiTableOptions:
 +#
-+# Query the guest UUID information.
++# Specify an ACPI table on the command line to load.
 +#
-+# Returns: The @UuidInfo for the guest
++# At most one of @file and @data can be specified. The list of files specified
++# by any one of them is loaded and concatenated in order. If both are omitted,
++# @data is implied.
 +#
-+# Since: 0.14.0
++# Other fields / optargs can be used to override fields of the generic ACPI
++# table header; refer to the ACPI specification 5.0, section 5.2.6 System
++# Description Table Header. If a header field is not overridden, then the
++# corresponding value from the concatenated blob is used (in case of @file), or
++# it is filled in with a hard-coded value (in case of @data).
++#
++# String fields are copied into the matching ACPI member from lowest address
++# upwards, and silently truncated / NUL-padded to length.
++#
++# @sig: table signature / identifier (4 bytes)
++#
++# @rev: table revision number (dependent on signature, 1 byte)
++#
++# @oem_id: OEM identifier (6 bytes)
++#
++# @oem_table_id: OEM table identifier (8 bytes)
++#
++# @oem_rev: OEM-supplied revision number (4 bytes)
++#
++# @asl_compiler_id: identifier of the utility that created the table
++#                   (4 bytes)
++#
++# @asl_compiler_rev: revision number of the utility that created the
++#                    table (4 bytes)
++#
++# @file: colon (:) separated list of pathnames to load and
++#        concatenate as table data. The resultant binary blob is expected to
++#        have an ACPI table header. At least one file is required. This field
++#        excludes @data.
++#
++# @data: colon (:) separated list of pathnames to load and
++#        concatenate as table data. The resultant binary blob must not have an
++#        ACPI table header. At least one file is required. This field excludes
++#        @file.
++#
++# Since: 1.5
++##
++{ 'struct': 'AcpiTableOptions',
++  'data': {
++    '*sig':               'str',
++    '*rev':               'uint8',
++    '*oem_id':            'str',
++    '*oem_table_id':      'str',
++    '*oem_rev':           'uint32',
++    '*asl_compiler_id':   'str',
++    '*asl_compiler_rev':  'uint32',
++    '*file':              'str',
++    '*data':              'str' }}
++
++##
++# @MEM_UNPLUG_ERROR:
++#
++# Emitted when memory hot unplug error occurs.
++#
++# @device: device name
++#
++# @msg: Informative message
++#
++# Since: 2.4
 +#
 +# Example:
 +#
-+# -> { "execute": "query-uuid" }
-+# <- { "return": { "UUID": "550e8400-e29b-41d4-a716-446655440000" } }
++# <- { "event": "MEM_UNPLUG_ERROR"
++#      "data": { "device": "dimm1",
++#                "msg": "acpi: device unplug for unsupported device"
++#      },
++#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
 +#
 +##
-+{ 'command': 'query-uuid', 'returns': 'UuidInfo', 'allow-preconfig': true }
++{ 'event': 'MEM_UNPLUG_ERROR',
++  'data': { 'device': 'str', 'msg': 'str' } }
 +
- ##
- # @GuidInfo:
- #
++##
++# @ACPISlotType:
++#
++# @DIMM: memory slot
++# @CPU: logical CPU slot (since 2.7)
++##
++{ 'enum': 'ACPISlotType', 'data': [ 'DIMM', 'CPU' ] }
++
++##
++# @ACPIOSTInfo:
++#
++# OSPM Status Indication for a device
++# For description of possible values of @source and @status fields
++# see "_OST (OSPM Status Indication)" chapter of ACPI5.0 spec.
++#
++# @device: device ID associated with slot
++#
++# @slot: slot ID, unique per slot of a given @slot-type
++#
++# @slot-type: type of the slot
++#
++# @source: an integer containing the source event
++#
++# @status: an integer containing the status code
++#
++# Since: 2.1
++##
++{ 'struct': 'ACPIOSTInfo',
++  'data'  : { '*device': 'str',
++              'slot': 'str',
++              'slot-type': 'ACPISlotType',
++              'source': 'int',
++              'status': 'int' } }
++
++##
++# @query-acpi-ospm-status:
++#
++# Return a list of ACPIOSTInfo for devices that support status
++# reporting via ACPI _OST method.
++#
++# Since: 2.1
++#
++# Example:
++#
++# -> { "execute": "query-acpi-ospm-status" }
++# <- { "return": [ { "device": "d1", "slot": "0", "slot-type": "DIMM", "source": 1, "status": 0},
++#                  { "slot": "1", "slot-type": "DIMM", "source": 0, "status": 0},
++#                  { "slot": "2", "slot-type": "DIMM", "source": 0, "status": 0},
++#                  { "slot": "3", "slot-type": "DIMM", "source": 0, "status": 0}
++#    ]}
++#
++##
++{ 'command': 'query-acpi-ospm-status', 'returns': ['ACPIOSTInfo'] }
++
++##
++# @ACPI_DEVICE_OST:
++#
++# Emitted when guest executes ACPI _OST method.
++#
++# @info: OSPM Status Indication
++#
++# Since: 2.1
++#
++# Example:
++#
++# <- { "event": "ACPI_DEVICE_OST",
++#      "data": { "device": "d1", "slot": "0",
++#                "slot-type": "DIMM", "source": 1, "status": 0 } }
++#
++##
++{ 'event': 'ACPI_DEVICE_OST',
++     'data': { 'info': 'ACPIOSTInfo' } }
 diff --git a/qapi/misc.json b/qapi/misc.json
-index b43fe7c602..49ca97f712 100644
+index 49ca97f712..ecceba9d32 100644
 --- a/qapi/misc.json
 +++ b/qapi/misc.json
-@@ -97,36 +97,6 @@
+@@ -1000,64 +1000,6 @@
  ##
- { 'command': 'query-kvm', 'returns': 'KvmInfo' }
+ { 'command': 'query-fdsets', 'returns': ['FdsetInfo'] }
  
 -##
--# @UuidInfo:
+-# @AcpiTableOptions:
 -#
--# Guest UUID information (Universally Unique Identifier).
+-# Specify an ACPI table on the command line to load.
 -#
--# @UUID: the UUID of the guest
+-# At most one of @file and @data can be specified. The list of files specified
+-# by any one of them is loaded and concatenated in order. If both are omitted,
+-# @data is implied.
 -#
--# Since: 0.14.0
+-# Other fields / optargs can be used to override fields of the generic ACPI
+-# table header; refer to the ACPI specification 5.0, section 5.2.6 System
+-# Description Table Header. If a header field is not overridden, then the
+-# corresponding value from the concatenated blob is used (in case of @file), or
+-# it is filled in with a hard-coded value (in case of @data).
 -#
--# Notes: If no UUID was specified for the guest, a null UUID is returned.
+-# String fields are copied into the matching ACPI member from lowest address
+-# upwards, and silently truncated / NUL-padded to length.
+-#
+-# @sig: table signature / identifier (4 bytes)
+-#
+-# @rev: table revision number (dependent on signature, 1 byte)
+-#
+-# @oem_id: OEM identifier (6 bytes)
+-#
+-# @oem_table_id: OEM table identifier (8 bytes)
+-#
+-# @oem_rev: OEM-supplied revision number (4 bytes)
+-#
+-# @asl_compiler_id: identifier of the utility that created the table
+-#                   (4 bytes)
+-#
+-# @asl_compiler_rev: revision number of the utility that created the
+-#                    table (4 bytes)
+-#
+-# @file: colon (:) separated list of pathnames to load and
+-#        concatenate as table data. The resultant binary blob is expected to
+-#        have an ACPI table header. At least one file is required. This field
+-#        excludes @data.
+-#
+-# @data: colon (:) separated list of pathnames to load and
+-#        concatenate as table data. The resultant binary blob must not have an
+-#        ACPI table header. At least one file is required. This field excludes
+-#        @file.
+-#
+-# Since: 1.5
 -##
--{ 'struct': 'UuidInfo', 'data': {'UUID': 'str'} }
+-{ 'struct': 'AcpiTableOptions',
+-  'data': {
+-    '*sig':               'str',
+-    '*rev':               'uint8',
+-    '*oem_id':            'str',
+-    '*oem_table_id':      'str',
+-    '*oem_rev':           'uint32',
+-    '*asl_compiler_id':   'str',
+-    '*asl_compiler_rev':  'uint32',
+-    '*file':              'str',
+-    '*data':              'str' }}
 -
+ ##
+ # @CommandLineParameterType:
+ #
+@@ -1250,102 +1192,6 @@
+ ##
+ { 'command': 'query-memory-devices', 'returns': ['MemoryDeviceInfo'] }
+ 
 -##
--# @query-uuid:
+-# @MEM_UNPLUG_ERROR:
 -#
--# Query the guest UUID information.
+-# Emitted when memory hot unplug error occurs.
 -#
--# Returns: The @UuidInfo for the guest
+-# @device: device name
 -#
--# Since: 0.14.0
+-# @msg: Informative message
+-#
+-# Since: 2.4
 -#
 -# Example:
 -#
--# -> { "execute": "query-uuid" }
--# <- { "return": { "UUID": "550e8400-e29b-41d4-a716-446655440000" } }
+-# <- { "event": "MEM_UNPLUG_ERROR"
+-#      "data": { "device": "dimm1",
+-#                "msg": "acpi: device unplug for unsupported device"
+-#      },
+-#      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
 -#
 -##
--{ 'command': 'query-uuid', 'returns': 'UuidInfo', 'allow-preconfig': true }
+-{ 'event': 'MEM_UNPLUG_ERROR',
+-  'data': { 'device': 'str', 'msg': 'str' } }
+-
+-##
+-# @ACPISlotType:
+-#
+-# @DIMM: memory slot
+-# @CPU: logical CPU slot (since 2.7)
+-##
+-{ 'enum': 'ACPISlotType', 'data': [ 'DIMM', 'CPU' ] }
+-
+-##
+-# @ACPIOSTInfo:
+-#
+-# OSPM Status Indication for a device
+-# For description of possible values of @source and @status fields
+-# see "_OST (OSPM Status Indication)" chapter of ACPI5.0 spec.
+-#
+-# @device: device ID associated with slot
+-#
+-# @slot: slot ID, unique per slot of a given @slot-type
+-#
+-# @slot-type: type of the slot
+-#
+-# @source: an integer containing the source event
+-#
+-# @status: an integer containing the status code
+-#
+-# Since: 2.1
+-##
+-{ 'struct': 'ACPIOSTInfo',
+-  'data'  : { '*device': 'str',
+-              'slot': 'str',
+-              'slot-type': 'ACPISlotType',
+-              'source': 'int',
+-              'status': 'int' } }
+-
+-##
+-# @query-acpi-ospm-status:
+-#
+-# Return a list of ACPIOSTInfo for devices that support status
+-# reporting via ACPI _OST method.
+-#
+-# Since: 2.1
+-#
+-# Example:
+-#
+-# -> { "execute": "query-acpi-ospm-status" }
+-# <- { "return": [ { "device": "d1", "slot": "0", "slot-type": "DIMM", "source": 1, "status": 0},
+-#                  { "slot": "1", "slot-type": "DIMM", "source": 0, "status": 0},
+-#                  { "slot": "2", "slot-type": "DIMM", "source": 0, "status": 0},
+-#                  { "slot": "3", "slot-type": "DIMM", "source": 0, "status": 0}
+-#    ]}
+-#
+-##
+-{ 'command': 'query-acpi-ospm-status', 'returns': ['ACPIOSTInfo'] }
+-
+-##
+-# @ACPI_DEVICE_OST:
+-#
+-# Emitted when guest executes ACPI _OST method.
+-#
+-# @info: OSPM Status Indication
+-#
+-# Since: 2.1
+-#
+-# Example:
+-#
+-# <- { "event": "ACPI_DEVICE_OST",
+-#      "data": { "device": "d1", "slot": "0",
+-#                "slot-type": "DIMM", "source": 1, "status": 0 } }
+-#
+-##
+-{ 'event': 'ACPI_DEVICE_OST',
+-     'data': { 'info': 'ACPIOSTInfo' } }
 -
  ##
- # @IOThreadInfo:
+ # @ReplayMode:
  #
-diff --git a/block/iscsi.c b/block/iscsi.c
-index a8b76979d8..efec25f7ed 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -42,7 +42,7 @@
- #include "qemu/uuid.h"
- #include "sysemu/replay.h"
- #include "qapi/error.h"
--#include "qapi/qapi-commands-misc.h"
-+#include "qapi/qapi-commands-machine.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qstring.h"
- #include "crypto/secret.h"
-diff --git a/stubs/uuid.c b/stubs/uuid.c
-index 67f182fa3a..e5112eb3f6 100644
---- a/stubs/uuid.c
-+++ b/stubs/uuid.c
-@@ -1,5 +1,5 @@
- #include "qemu/osdep.h"
--#include "qapi/qapi-commands-misc.h"
-+#include "qapi/qapi-commands-machine.h"
- #include "qemu/uuid.h"
+diff --git a/include/hw/acpi/acpi_dev_interface.h b/include/hw/acpi/acpi_dev_interface.h
+index a2a12af9b9..a1b63d51db 100644
+--- a/include/hw/acpi/acpi_dev_interface.h
++++ b/include/hw/acpi/acpi_dev_interface.h
+@@ -1,7 +1,7 @@
+ #ifndef ACPI_DEV_INTERFACE_H
+ #define ACPI_DEV_INTERFACE_H
  
- UuidInfo *qmp_query_uuid(Error **errp)
+-#include "qapi/qapi-types-misc.h"
++#include "qapi/qapi-types-machine.h"
+ #include "qom/object.h"
+ #include "hw/boards.h"
+ #include "hw/qdev-core.h"
+diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+index 45cbed49ab..4f8d90f50b 100644
+--- a/hw/acpi/core.c
++++ b/hw/acpi/core.c
+@@ -27,7 +27,7 @@
+ #include "qapi/error.h"
+ #include "qapi/opts-visitor.h"
+ #include "qapi/qapi-events-run-state.h"
+-#include "qapi/qapi-visit-misc.h"
++#include "qapi/qapi-visit-machine.h"
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
+index 3d6a500fb7..532d8a6e4b 100644
+--- a/hw/acpi/cpu.c
++++ b/hw/acpi/cpu.c
+@@ -3,7 +3,7 @@
+ #include "migration/vmstate.h"
+ #include "hw/acpi/cpu.h"
+ #include "qapi/error.h"
+-#include "qapi/qapi-events-misc.h"
++#include "qapi/qapi-events-machine.h"
+ #include "trace.h"
+ #include "sysemu/numa.h"
+ 
+diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
+index 8d2e82240f..aa454f5cb2 100644
+--- a/hw/acpi/memory_hotplug.c
++++ b/hw/acpi/memory_hotplug.c
+@@ -7,7 +7,7 @@
+ #include "migration/vmstate.h"
+ #include "trace.h"
+ #include "qapi/error.h"
+-#include "qapi/qapi-events-misc.h"
++#include "qapi/qapi-events-machine.h"
+ 
+ #define MEMORY_SLOTS_NUMBER          "MDNR"
+ #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
 -- 
 2.21.3
 
