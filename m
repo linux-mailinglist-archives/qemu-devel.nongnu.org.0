@@ -2,58 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D851E0F53
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 15:22:00 +0200 (CEST)
-Received: from localhost ([::1]:44054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD03E1E0F4B
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 15:20:36 +0200 (CEST)
+Received: from localhost ([::1]:37008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdD3I-0000An-0P
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 09:22:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41916)
+	id 1jdD1v-0005MZ-RD
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 09:20:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdD0L-0003kS-9T
- for qemu-devel@nongnu.org; Mon, 25 May 2020 09:18:57 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20460
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdD0N-0003oK-NX
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 09:18:59 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44413
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdD0K-0004C9-Ka
- for qemu-devel@nongnu.org; Mon, 25 May 2020 09:18:57 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdD0M-0004CT-Rq
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 09:18:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590412735;
+ s=mimecast20190719; t=1590412738;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IM3RMQWtmr0vX7tqqXmDotr9iKEnvD2UUAMbokanaaI=;
- b=LegjlOZ/UlPXYBeOVQBSdFnOctJ2cJaZU5T4acBmaEefOBe3qIVLJszPqnrwJdnCQgjfvw
- PpHuCAe7rKqmOvRqT3cTSRWD3IdJdmdowCCRWTUqhy36yKv9z9gb1lfyqPCiiZDYwJLnVk
- FZ+zNzEobLYfnMWP18PqK6MspYWSLNc=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=vgVKm2jtWg6qxjCB8UIltkWmTVKHw4S4ci2h8UYybB0=;
+ b=RhE1OSHMV46ohNGgo+Zp0KOufnT+NU1hpzdx3GQ52jeaJF8LxKeGc4fnFYVxV2cnIEW7CF
+ dyFsyehmccR0WiTseFFB7oeQTl8BOPPLT4V8x7ILNFGHPEHjIeCpLzG4/vzUc8QP4dNfbI
+ JVRo/VcY65ASFk7Os/KXM5huPEN5e6o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-8Ev-_w7-NbatEXYialJoyg-1; Mon, 25 May 2020 09:18:53 -0400
-X-MC-Unique: 8Ev-_w7-NbatEXYialJoyg-1
+ us-mta-466-zWCj2D9SOM2E9GNbprHGiQ-1; Mon, 25 May 2020 09:18:55 -0400
+X-MC-Unique: zWCj2D9SOM2E9GNbprHGiQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C04CF8014D7;
- Mon, 25 May 2020 13:18:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F6331005510;
+ Mon, 25 May 2020 13:18:55 +0000 (UTC)
 Received: from thuth.com (ovpn-113-78.ams2.redhat.com [10.36.113.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC0875C1BB;
- Mon, 25 May 2020 13:18:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 608175C1BB;
+ Mon, 25 May 2020 13:18:53 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] gitlab-ci: Remove flex/bison packages
-Date: Mon, 25 May 2020 15:18:18 +0200
-Message-Id: <20200525131823.715-3-thuth@redhat.com>
+Subject: [PATCH 3/7] GitLab CI: avoid calling before_scripts on unintended jobs
+Date: Mon, 25 May 2020 15:18:19 +0200
+Message-Id: <20200525131823.715-4-thuth@redhat.com>
 In-Reply-To: <20200525131823.715-1-thuth@redhat.com>
 References: <20200525131823.715-1-thuth@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 02:40:56
@@ -84,30 +80,91 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Cleber Rosa <crosa@redhat.com>
 
-QEMU does not use flex/bison packages.
+At this point it seems that all jobs depend on those steps, with
+maybe the EDK2 jobs as exceptions.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200515163029.12917-4-philmd@redhat.com>
+The jobs that will be added later will not want those scripts to be
+run, so let's move these steps to the appropriate jobs, while
+still trying to avoid repetition.
+
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+[thuth: Rebased to current master branch, use separate template]
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .gitlab-ci.yml | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index b889fb96b6..994774250f 100644
+index 994774250f..bc6aee6aba 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -4,7 +4,7 @@ include:
+@@ -2,11 +2,13 @@ include:
+   - local: '/.gitlab-ci-edk2.yml'
+   - local: '/.gitlab-ci-opensbi.yml'
  
- before_script:
-  - apt-get update -qq
-- - apt-get install -y -qq flex bison libglib2.0-dev libpixman-1-dev genisoimage
-+ - apt-get install -y -qq libglib2.0-dev libpixman-1-dev genisoimage
+-before_script:
+- - apt-get update -qq
+- - apt-get install -y -qq libglib2.0-dev libpixman-1-dev genisoimage
++.update_apt_template: &before_script_apt
++ before_script:
++  - apt-get update -qq
++  - apt-get install -y -qq libglib2.0-dev libpixman-1-dev genisoimage
  
  build-system1:
++ <<: *before_script_apt
   script:
+  - apt-get install -y -qq libgtk-3-dev libvte-dev nettle-dev libcacard-dev
+       libusb-dev libvde-dev libspice-protocol-dev libgl1-mesa-dev libvdeplug-dev
+@@ -19,6 +21,7 @@ build-system1:
+  - make -j2 check
+ 
+ build-system2:
++ <<: *before_script_apt
+  script:
+  - apt-get install -y -qq libsdl2-dev libgcrypt-dev libbrlapi-dev libaio-dev
+       libfdt-dev liblzo2-dev librdmacm-dev libibverbs-dev libibumad-dev
+@@ -32,6 +35,7 @@ build-system2:
+  - make -j2 check
+ 
+ build-disabled:
++ <<: *before_script_apt
+  script:
+  - mkdir build
+  - cd build
+@@ -46,6 +50,7 @@ build-disabled:
+  - make -j2 check-qtest SPEED=slow
+ 
+ build-tcg-disabled:
++ <<: *before_script_apt
+  script:
+  - apt-get install -y -qq clang libgtk-3-dev libusb-dev
+  - mkdir build
+@@ -64,6 +69,7 @@ build-tcg-disabled:
+             260 261 262 263 264 270 272 273 277 279
+ 
+ build-user:
++ <<: *before_script_apt
+  script:
+  - mkdir build
+  - cd build
+@@ -73,6 +79,7 @@ build-user:
+  - make run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
+ 
+ build-clang:
++ <<: *before_script_apt
+  script:
+  - apt-get install -y -qq clang libsdl2-dev libattr1-dev libcap-ng-dev
+       xfslibs-dev libiscsi-dev libnfs-dev libseccomp-dev gnutls-dev librbd-dev
+@@ -85,6 +92,7 @@ build-clang:
+  - make -j2 check
+ 
+ build-tci:
++ <<: *before_script_apt
+  script:
+  - TARGETS="aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x86_64"
+  - mkdir build
 -- 
 2.18.1
 
