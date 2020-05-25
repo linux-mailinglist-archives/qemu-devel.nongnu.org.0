@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638651E0F4C
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 15:20:50 +0200 (CEST)
-Received: from localhost ([::1]:38086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5611E0F56
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 15:22:28 +0200 (CEST)
+Received: from localhost ([::1]:45380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdD29-0005o2-CP
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 09:20:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41934)
+	id 1jdD3j-0000ir-Lq
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 09:22:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdD0a-000499-GA
- for qemu-devel@nongnu.org; Mon, 25 May 2020 09:19:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60416
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdD0b-0004Al-4N
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 09:19:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35137
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdD0Y-0004Cy-4Z
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdD0a-0004D6-7y
  for qemu-devel@nongnu.org; Mon, 25 May 2020 09:19:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590412749;
+ s=mimecast20190719; t=1590412751;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=xoRZh4E9SwUPoOw5HFs4rvngktCMfv3YtVd2hsjW4Tk=;
- b=dVoCcDH1FuMQp1VzKIC+B6LieYmRPAgRjWTeI4vesOerANevASNToNUXLJ8IogA8IvVSv4
- DL9FTyebT64XVXj0n/bElJh+CErQGBT3Y3oRgfQvt2lzBC+xHqXv+GqNZOfNmFyFOudGph
- EeQvaKMa96zaKg4ccdirhpsCLaaUIEw=
+ references:references; bh=9VWgymfj7voU3ZB+90xqh8f5PhrfYdnnmPmhVIXrKDI=;
+ b=W+I3JeLA/wCr9gwVhSAjTmVEdJC7L4zp6Q2r9rM7OSycyqNTw0oUduBc6mMy7Q0jcBeSeQ
+ TAfwZ8TNR+NaaLrq0bZVdjn84xxTvyQUFc1X19kJ1cxqcZF5t+a+HB6hP/Y9TNxa0I0vyj
+ uh+31N7QV5MhO2nhOxckAhufX4j/2TE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-U9nv2QtiNFyqfBfLt77vkA-1; Mon, 25 May 2020 09:19:01 -0400
-X-MC-Unique: U9nv2QtiNFyqfBfLt77vkA-1
+ us-mta-370-OzY78ig6Ph-WZh98Ml4SbA-1; Mon, 25 May 2020 09:19:09 -0400
+X-MC-Unique: OzY78ig6Ph-WZh98Ml4SbA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4A8280183C;
- Mon, 25 May 2020 13:19:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D08EA1005510;
+ Mon, 25 May 2020 13:19:08 +0000 (UTC)
 Received: from thuth.com (ovpn-113-78.ams2.redhat.com [10.36.113.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C6C85C1BB;
- Mon, 25 May 2020 13:18:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4699C5C1BB;
+ Mon, 25 May 2020 13:19:02 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/7] gitlab-ci: Do not use the standard container images from
- gitlab
-Date: Mon, 25 May 2020 15:18:21 +0200
-Message-Id: <20200525131823.715-6-thuth@redhat.com>
+Subject: [PATCH 6/7] gitlab-ci: Determine the number of jobs dynamically
+Date: Mon, 25 May 2020 15:18:22 +0200
+Message-Id: <20200525131823.715-7-thuth@redhat.com>
 In-Reply-To: <20200525131823.715-1-thuth@redhat.com>
 References: <20200525131823.715-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 08:28:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 01:44:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,116 +80,106 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently all pipelines of the gitlab CI are failing, except for the
-"build-user" pipeline. There is an issue with the default container
-image (likely Debian stable) where they imported something bad in one
-of the system headers:
-
- /usr/include/linux/swab.h: In function '__swab':
- /builds/huth/qemu/include/qemu/bitops.h:20:34: error: "sizeof" is not
-  defined, evaluates to 0 [-Werror=undef]
- #define BITS_PER_LONG           (sizeof (unsigned long) * BITS_PER_BYTE)
-
-We could maybe work-around this issue or wait for the default containers
-to get fixed, but considering that we use Ubuntu (and thus Debian-style)
-CI in Travis already to a very large extent, we should consider to use
-some RPM-based distros in our gitlab CI instead. Thus let's change the
-failing pipelines to use Fedora and CentOS (and also one Ubuntu 19.10,
-since 20.04 is broken, too) now.
+Some people might want to run the gitlab CI pipelines in an environment
+where multiple CPUs are available to the runners, so let's rather get
+the number for "-j" from the "nproc" program (increased by 1 to compensate
+for jobs that wait for I/O) instead of hard-coding it.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.yml | 37 +++++++++++++++++++++++++------------
- 1 file changed, 25 insertions(+), 12 deletions(-)
+ .gitlab-ci.yml | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 5208d93ff8..559ec2ab4d 100644
+index 559ec2ab4d..349c77aa58 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -5,9 +5,17 @@ include:
- .update_apt_template: &before_script_apt
-  before_script:
+@@ -7,12 +7,14 @@ include:
    - apt-get update -qq
--  - apt-get install -y -qq libglib2.0-dev libpixman-1-dev genisoimage
-+  - apt-get install -y -qq git gcc libglib2.0-dev libpixman-1-dev make
-+        genisoimage
-+
-+.update_dnf_template: &before_script_dnf
-+ before_script:
-+  - dnf update -y
-+  - dnf install -y bzip2 diffutils gcc git genisoimage findutils glib2-devel
-+        make python3 perl-podlators perl-Test-Harness pixman-devel zlib-devel
+   - apt-get install -y -qq git gcc libglib2.0-dev libpixman-1-dev make
+         genisoimage
++  - JOBS=$(expr $(nproc) + 1)
+ 
+ .update_dnf_template: &before_script_dnf
+  before_script:
+   - dnf update -y
+   - dnf install -y bzip2 diffutils gcc git genisoimage findutils glib2-devel
+         make python3 perl-podlators perl-Test-Harness pixman-devel zlib-devel
++  - JOBS=$(expr $(nproc) + 1)
  
  build-system1:
-+ image: ubuntu:19.10
-  <<: *before_script_apt
-  script:
-  - apt-get install -y -qq libgtk-3-dev libvte-dev nettle-dev libcacard-dev
-@@ -21,11 +29,12 @@ build-system1:
-  - make -j2 check
+  image: ubuntu:19.10
+@@ -25,8 +27,8 @@ build-system1:
+  - ../configure --enable-werror --target-list="aarch64-softmmu alpha-softmmu
+       cris-softmmu hppa-softmmu lm32-softmmu moxie-softmmu microblazeel-softmmu
+       mips64el-softmmu m68k-softmmu ppc-softmmu riscv64-softmmu sparc-softmmu"
+- - make -j2
+- - make -j2 check
++ - make -j"$JOBS"
++ - make -j"$JOBS" check
  
  build-system2:
-- <<: *before_script_apt
-+ image: fedora:latest
-+ <<: *before_script_dnf
-  script:
-- - apt-get install -y -qq libsdl2-dev libgcrypt-dev libbrlapi-dev libaio-dev
--      libfdt-dev liblzo2-dev librdmacm-dev libibverbs-dev libibumad-dev
--      libzstd-dev
-+ - yum install -y SDL2-devel libgcrypt-devel brlapi-devel libaio-devel
-+       libfdt-devel lzo-devel librdmacm-devel libibverbs-devel libibumad-devel
-+       libzstd-devel
-  - mkdir build
-  - cd build
+  image: fedora:latest
+@@ -40,8 +42,8 @@ build-system2:
   - ../configure --enable-werror --target-list="tricore-softmmu unicore32-softmmu
-@@ -35,7 +44,8 @@ build-system2:
-  - make -j2 check
+       microblaze-softmmu mips-softmmu riscv32-softmmu s390x-softmmu sh4-softmmu
+       sparc64-softmmu x86_64-softmmu xtensa-softmmu nios2-softmmu or1k-softmmu"
+- - make -j2
+- - make -j2 check
++ - make -j"$JOBS"
++ - make -j"$JOBS" check
  
  build-disabled:
-- <<: *before_script_apt
-+ image: fedora:latest
-+ <<: *before_script_dnf
-  script:
-  - mkdir build
-  - cd build
-@@ -50,9 +60,10 @@ build-disabled:
-  - make -j2 check-qtest SPEED=slow
+  image: fedora:latest
+@@ -56,8 +58,8 @@ build-disabled:
+       --disable-qom-cast-debug --disable-spice --disable-vhost-vsock
+       --disable-vhost-net --disable-vhost-crypto --disable-vhost-user
+       --target-list="i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user"
+- - make -j2
+- - make -j2 check-qtest SPEED=slow
++ - make -j"$JOBS"
++ - make -j"$JOBS" check-qtest SPEED=slow
  
  build-tcg-disabled:
-- <<: *before_script_apt
-+ image: centos:8
-+ <<: *before_script_dnf
-  script:
-- - apt-get install -y -qq clang libgtk-3-dev libusb-dev
-+ - dnf install -y clang gtk3-devel libusbx-devel libgcrypt-devel
+  image: centos:8
+@@ -67,7 +69,7 @@ build-tcg-disabled:
   - mkdir build
   - cd build
   - ../configure --cc=clang --enable-werror --disable-tcg --audio-drv-list=""
-@@ -79,10 +90,11 @@ build-user:
+- - make -j2
++ - make -j"$JOBS"
+  - make check-unit
+  - make check-qapi-schema
+  - cd tests/qemu-iotests/
+@@ -86,7 +88,7 @@ build-user:
+  - cd build
+  - ../configure --enable-werror --disable-system --disable-guest-agent
+                --disable-capstone --disable-slirp --disable-fdt
+- - make -j2
++ - make -j"$JOBS"
   - make run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
  
  build-clang:
-- <<: *before_script_apt
-+ image: fedora:latest
-+ <<: *before_script_dnf
-  script:
-- - apt-get install -y -qq clang libsdl2-dev libattr1-dev libcap-ng-dev
--      xfslibs-dev libiscsi-dev libnfs-dev libseccomp-dev gnutls-dev librbd-dev
-+ - yum install -y clang SDL2-devel libattr-devel libcap-ng-devel xfsprogs-devel
-+       libiscsi-devel libnfs-devel libseccomp-devel gnutls-devel librbd-devel
-  - mkdir build
-  - cd build
+@@ -100,8 +102,8 @@ build-clang:
   - ../configure --cc=clang --cxx=clang++ --enable-werror
-@@ -92,7 +104,8 @@ build-clang:
-  - make -j2 check
+       --target-list="alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
+                      ppc-softmmu s390x-softmmu x86_64-softmmu arm-linux-user"
+- - make -j2
+- - make -j2 check
++ - make -j"$JOBS"
++ - make -j"$JOBS" check
  
  build-tci:
-- <<: *before_script_apt
-+ image: centos:8
-+ <<: *before_script_dnf
-  script:
-  - TARGETS="aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x86_64"
-  - mkdir build
+  image: centos:8
+@@ -112,7 +114,7 @@ build-tci:
+  - cd build
+  - ../configure --enable-tcg-interpreter
+       --target-list="$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '; done)"
+- - make -j2
++ - make -j"$JOBS"
+  - make run-tcg-tests-x86_64-softmmu
+  - make tests/qtest/boot-serial-test tests/qtest/cdrom-test tests/qtest/pxe-test
+  - for tg in $TARGETS ; do
 -- 
 2.18.1
 
