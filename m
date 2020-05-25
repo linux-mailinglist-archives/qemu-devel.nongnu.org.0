@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBFC21E0813
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 09:33:46 +0200 (CEST)
-Received: from localhost ([::1]:33572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D791E085E
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 10:02:50 +0200 (CEST)
+Received: from localhost ([::1]:54420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jd7cH-0005t2-HR
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 03:33:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35478)
+	id 1jd84P-0000N5-Uk
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 04:02:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jd7bQ-0005Hy-OU
- for qemu-devel@nongnu.org; Mon, 25 May 2020 03:32:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24543
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jd7bQ-0002mA-0Q
- for qemu-devel@nongnu.org; Mon, 25 May 2020 03:32:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590391970;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=bn1dhPxPDMF82dpFns6DlfjW95B1FNlZTbQG//S8qXA=;
- b=LTTccBgBVSKltMpDsEbLSqlaqSyI/A9CKtSSylgaWmhH4eKTiA5pEs5p0cpJNXrpgXzeNb
- CLf8ultyrJJm4vAsHbgQP39unXW7Dtjjly2pw36vEz1Yoio+AuUX8yH1x8a6z+lYCzNMb1
- EqrD9kEMFePY6dwet4M1gIfquJUmMMI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-bZJSwpTXP8WaCVvi_j2qUQ-1; Mon, 25 May 2020 03:32:46 -0400
-X-MC-Unique: bZJSwpTXP8WaCVvi_j2qUQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E3241855A06;
- Mon, 25 May 2020 07:32:44 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-78.ams2.redhat.com [10.36.113.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 91CB16FB6D;
- Mon, 25 May 2020 07:32:40 +0000 (UTC)
-Subject: Re: [PATCH] hw/unicore32/puv3: Use qemu_log_mask(ERROR) instead of
- debug printf()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200524164503.11944-1-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <e6b47284-1f22-c5a0-ce99-aa14e9462653@redhat.com>
-Date: Mon, 25 May 2020 09:32:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jd82Y-0007n3-BD
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 04:00:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40542)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jd82U-0007Jh-AK
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 04:00:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jd82S-0005u0-1S
+ for <qemu-devel@nongnu.org>; Mon, 25 May 2020 08:00:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0779B2E8052
+ for <qemu-devel@nongnu.org>; Mon, 25 May 2020 08:00:48 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200524164503.11944-1-f4bug@amsat.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 02:40:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 25 May 2020 07:50:46 -0000
+From: Rajas Kakodkar <1880518@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: rajaskakodkar
+X-Launchpad-Bug-Reporter: Rajas Kakodkar (rajaskakodkar)
+X-Launchpad-Bug-Modifier: Rajas Kakodkar (rajaskakodkar)
+Message-Id: <159039304634.8018.14704731502559290875.malonedeb@gac.canonical.com>
+Subject: [Bug 1880518] [NEW] issue while installing docker inside s390x
+ container
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 4ed5aa7f24021549c7b4e9e8af32261293384472
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 02:00:57
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,24 +72,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Guan Xuetao <gxt@mprc.pku.edu.cn>
+Reply-To: Bug 1880518 <1880518@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/05/2020 18.45, Philippe Mathieu-Daudé wrote:
-> Replace some debug printf() calls by qemu_log_mask(LOG_GUEST_ERROR).
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  hw/dma/puv3_dma.c   |  9 +++++++--
->  hw/gpio/puv3_gpio.c | 15 +++++++++++----
->  hw/intc/puv3_intc.c |  9 +++++++--
->  hw/misc/puv3_pm.c   |  9 +++++++--
->  hw/timer/puv3_ost.c |  9 +++++++--
->  hw/unicore32/puv3.c |  2 --
->  6 files changed, 39 insertions(+), 14 deletions(-)
+Public bug reported:
 
-Looks reasonable to me.
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+This is in reference to https://github.com/multiarch/qemu-user-static/issue=
+s/108.
+I am facing issue while installing docker inside s390x container under qemu=
+ on Ubuntu 18.04 host running on amd64.
+Following are the contents of /proc/sys/fs/binfmt_misc/qemu-s390x on Intel =
+host after running =
 
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+enabled
+interpreter /usr/bin/qemu-s390x-static
+flags: F
+offset 0
+magic 7f454c4602020100000000000000000000020016
+mask ffffffffffffff00fffffffffffffffffffeffff
+I could get docker service up with the following trick. =
+
+printf '{"iptables": false,"ip-masq": false,"bridge": "none" }' > /etc/dock=
+er/daemon.json
+But even though docker service comes up, images are not getting pulled, doc=
+ker pull fails with the following error.
+failed to register layer: Error processing tar file(exit status 1):
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1880518
+
+Title:
+  issue while installing docker inside s390x container
+
+Status in QEMU:
+  New
+
+Bug description:
+  This is in reference to https://github.com/multiarch/qemu-user-static/iss=
+ues/108.
+  I am facing issue while installing docker inside s390x container under qe=
+mu on Ubuntu 18.04 host running on amd64.
+  Following are the contents of /proc/sys/fs/binfmt_misc/qemu-s390x on Inte=
+l host after running =
+
+  docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  enabled
+  interpreter /usr/bin/qemu-s390x-static
+  flags: F
+  offset 0
+  magic 7f454c4602020100000000000000000000020016
+  mask ffffffffffffff00fffffffffffffffffffeffff
+  I could get docker service up with the following trick. =
+
+  printf '{"iptables": false,"ip-masq": false,"bridge": "none" }' > /etc/do=
+cker/daemon.json
+  But even though docker service comes up, images are not getting pulled, d=
+ocker pull fails with the following error.
+  failed to register layer: Error processing tar file(exit status 1):
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1880518/+subscriptions
 
