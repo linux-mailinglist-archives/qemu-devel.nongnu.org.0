@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446A61E0CB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:20:57 +0200 (CEST)
-Received: from localhost ([::1]:35452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DE21E0CBB
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:22:02 +0200 (CEST)
+Received: from localhost ([::1]:41948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdBA7-0002Sn-Pe
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:20:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57418)
+	id 1jdBBB-0005Vr-CC
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:22:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
- id 1jdB8c-0000qu-H5
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:22 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:54742)
+ id 1jdB8h-00011a-3L
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:27 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:54756)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdB8b-0008Mh-M9
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:22 -0400
+ (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdB8g-0008N0-B0
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:26 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id DEA7ECD466;
- Mon, 25 May 2020 14:19:19 +0300 (MSK)
-Subject: [PATCH 3/9] tests/acceptance: add kernel record/replay test for x86_64
+ by mail.ispras.ru (Postfix) with ESMTPSA id 6001DCD460;
+ Mon, 25 May 2020 14:19:25 +0300 (MSK)
+Subject: [PATCH 4/9] tests/acceptance: add record/replay test for aarch64
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 25 May 2020 14:19:19 +0300
-Message-ID: <159040555939.2615.15017741446489098332.stgit@pasha-ThinkPad-X280>
+Date: Mon, 25 May 2020 14:19:25 +0300
+Message-ID: <159040556513.2615.16719113739608959515.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
 References: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -59,38 +59,39 @@ Cc: philmd@redhat.com, dovgaluk@ispras.ru, pavel.dovgaluk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a test for record/replay an execution of x86_64 machine.
-Execution scenario includes simple kernel boot, which allows testing
-basic hardware interaction in RR mode.
+This patch adds a test for record/replay of the kernel
+image boot for aarch64 platform.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 ---
- tests/acceptance/replay_kernel.py |   16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ tests/acceptance/replay_kernel.py |   18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index 3208179789..00abe1e872 100644
+index 00abe1e872..1d2cfebc85 100644
 --- a/tests/acceptance/replay_kernel.py
 +++ b/tests/acceptance/replay_kernel.py
-@@ -78,3 +78,19 @@ class ReplayKernel(Test):
-     def run_rr(self, kernel_path, kernel_command_line, console_pattern, shift=7, args=()):
-         self.run_vm(kernel_path, kernel_command_line, console_pattern, True, shift, args)
-         self.run_vm(kernel_path, kernel_command_line, console_pattern, False, shift, args)
+@@ -94,3 +94,21 @@ class ReplayKernel(Test):
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+ 
+         self.run_rr(kernel_path, kernel_command_line, console_pattern)
 +
-+    def test_x86_64_pc(self):
++    def test_aarch64_virt(self):
 +        """
-+        :avocado: tags=arch:x86_64
-+        :avocado: tags=machine:pc
++        :avocado: tags=arch:aarch64
++        :avocado: tags=machine:virt
 +        """
 +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/29/Everything/x86_64/os/images/pxeboot'
++                      '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
 +                      '/vmlinuz')
-+        kernel_hash = '23bebd2680757891cf7adedb033532163a792495'
++        kernel_hash = '8c73e469fc6ea06a58dc83a628fc695b693b8493'
 +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
 +
-+        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=ttyS0'
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'console=ttyAMA0')
 +        console_pattern = 'Kernel command line: %s' % kernel_command_line
 +
-+        self.run_rr(kernel_path, kernel_command_line, console_pattern)
++        self.run_rr(kernel_path, kernel_command_line, console_pattern,
++            args=('-cpu', 'cortex-a53'))
 
 
