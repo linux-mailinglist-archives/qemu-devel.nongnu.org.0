@@ -2,60 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4220D1E077F
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 09:10:19 +0200 (CEST)
-Received: from localhost ([::1]:39080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD6A61E0772
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 09:02:59 +0200 (CEST)
+Received: from localhost ([::1]:60886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jd7Fa-0002WF-97
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 03:10:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33332)
+	id 1jd78U-0007Zp-IZ
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 03:02:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jd7Eo-000270-N0
- for qemu-devel@nongnu.org; Mon, 25 May 2020 03:09:30 -0400
-Received: from mga01.intel.com ([192.55.52.88]:7753)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jd7Em-0006vQ-P5
- for qemu-devel@nongnu.org; Mon, 25 May 2020 03:09:29 -0400
-IronPort-SDR: B5iVdTKgxaGy1pB8W3TyoXvN9WTjLDelZmt/Ti4zXvLDMhTvS8kn2MaiPZ4PtkWAFuxdGyT2lV
- S+hhueyUg2EA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 May 2020 00:09:23 -0700
-IronPort-SDR: GTy/UgBSgNKAfK/Tie1LHQ85jj5tejRIkftRgh2WdVz7izBcCGWlnMKgGnNHVAAx3c9NP3mR+F
- JbT1DM0Am4Mw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,432,1583222400"; d="scan'208";a="413427539"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by orsmga004.jf.intel.com with ESMTP; 25 May 2020 00:09:18 -0700
-Date: Mon, 25 May 2020 02:59:26 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH Kernel v22 0/8] Add UAPIs to support migration for VFIO
- devices
-Message-ID: <20200525065925.GA698@joy-OptiPlex-7040>
-References: <1589781397-28368-1-git-send-email-kwankhede@nvidia.com>
- <20200519105804.02f3cae8@x1.home>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jd77G-00075J-AV
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 03:01:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28141
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jd77F-0005ud-L2
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 03:01:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590390100;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DaFI3P7YjCboMKvLuJ5BQ/bRjqhX+uKlkw3rHlTtDys=;
+ b=OnrSWg3bMqL3X7o5056k1lbWHI+u5EHOOVmTvdppfN4smeVFvP7bnNbuJYRN3MFL83Kknb
+ hR3bexPnRsT884laemZ8pEJ533GsAVM9UM0xsQxVCc++T9C21s3FiPu+4/RfHsuNtc0M17
+ oZiM/LuZc5XWXNb+jT8V7SHwR1qEU+A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-WHTv6ZZNNTSHGzAs0nlHVQ-1; Mon, 25 May 2020 03:01:37 -0400
+X-MC-Unique: WHTv6ZZNNTSHGzAs0nlHVQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A324D107ACCA;
+ Mon, 25 May 2020 07:01:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
+ [10.36.112.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E2AF8384C;
+ Mon, 25 May 2020 07:01:32 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 92CA8113864A; Mon, 25 May 2020 09:01:30 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH 50/55] s390x/event-facility: Simplify creation of SCLP
+ event devices
+References: <5c6028bd-0bab-6c78-90fe-f00e23ab71b9@redhat.com>
+ <03AEEA41-0543-4097-8FFB-9E41038F31EE@redhat.com>
+Date: Mon, 25 May 2020 09:01:30 +0200
+In-Reply-To: <03AEEA41-0543-4097-8FFB-9E41038F31EE@redhat.com> (David
+ Hildenbrand's message of "Thu, 21 May 2020 10:44:39 +0200")
+Message-ID: <87k110fqgl.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200519105804.02f3cae8@x1.home>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=yan.y.zhao@intel.com;
- helo=mga01.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 03:09:23
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 01:54:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,80 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, aik@ozlabs.ru, Kirti Wankhede <kwankhede@nvidia.com>,
- eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
- changpeng.liu@intel.com, Ken.Xue@amd.com
+Cc: berrange@redhat.com, ehabkost@redhat.com, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ pbonzini@redhat.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 19, 2020 at 10:58:04AM -0600, Alex Williamson wrote:
-> Hi folks,
-> 
-> My impression is that we're getting pretty close to a workable
-> implementation here with v22 plus respins of patches 5, 6, and 8.  We
-> also have a matching QEMU series and a proposal for a new i40e
-> consumer, as well as I assume GVT-g updates happening internally at
-> Intel.  I expect all of the latter needs further review and discussion,
-> but we should be at the point where we can validate these proposed
-> kernel interfaces.  Therefore I'd like to make a call for reviews so
-> that we can get this wrapped up for the v5.8 merge window.  I know
-> Connie has some outstanding documentation comments and I'd like to make
-> sure everyone has an opportunity to check that their comments have been
-> addressed and we don't discover any new blocking issues.  Please send
-> your Acked-by/Reviewed-by/Tested-by tags if you're satisfied with this
-> interface and implementation.  Thanks!
+David Hildenbrand <david@redhat.com> writes:
+
+>>> +static void realize_event_facility(DeviceState *dev, Error **errp)
+>>> +{
+>>> +    SCLPEventFacility *event_facility = EVENT_FACILITY(dev);
+>>> +    Error *local_err = NULL;
+>>> +
+>>> +    qdev_realize(DEVICE(&event_facility->quiesce),
+>>> +                 BUS(&event_facility->sbus), &local_err);
+>>> +    if (local_err) {
+>>> +        error_propagate(errp, local_err);
+>>> +        return;
+>>> +    }
+>>> +    qdev_realize(DEVICE(&event_facility->cpu_hotplug),
+>>> +                 BUS(&event_facility->sbus), errp);
+>> 
+>> Just wondering, do we have to care about un-realizing quiesce in case
+>> this fails?
 >
-hi Alex
-after porting gvt/i40e vf migration code to kernel/qemu v23, we spoted
-two bugs.
-1. "Failed to get dirty bitmap for iova: 0xfe011000 size: 0x3fb0 err: 22"
-   This is a qemu bug that the dirty bitmap query range is not the same
-   as the dma map range. It can be fixed in qemu. and I just have a little
-   concern for kernel to have this restriction.
+> Just remembered that we fail creating the machine and therefore abort. So not necessary :)
 
-2. migration abortion, reporting
-"qemu-system-x86_64-lm: vfio_load_state: Error allocating buffer
-qemu-system-x86_64-lm: error while loading state section id 49(vfio)
-qemu-system-x86_64-lm: load of migration failed: Cannot allocate memory"
+True.
 
-It's still a qemu bug and we can fixed it by
-"
-if (migration->pending_bytes == 0) {
-+            qemu_put_be64(f, 0);
-+            qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-"
-and actually there are some extra concerns about this part, as reported in
-[1][2].
+But let's review briefly what happens when a realize method fails.
 
-[1] data_size should be read ahead of data_offset
-https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg02795.html.
-[2] should not repeatedly update pending_bytes in vfio_save_iterate()
-https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg02796.html.
+In theory, realize fails cleanly, i.e. doing nothing.  Another attempt
+could be made then.
 
-but as those errors are all in qemu, and we have finished basic tests in
-both gvt & i40e, we're fine with the kernel part interface in general now.
-(except for my concern [1], which needs to update kernel patch 1)
+In practice, realize failure is always followed by destruction, unless
+preempted by outright exit(1).
 
-so I wonder which way in your mind is better, to give our reviewed-by to
-the kernel part now, or hold until next qemu fixes?
-and as performance data from gvt is requested from your previous mail, is
-that still required before the code is accepted?
+Destroying a device must also destroy its components.
 
-BTW, we have also conducted some basic tests when viommu is on, and found out
-errors like 
-"qemu-system-x86_64-dt: vtd_iova_to_slpte: detected slpte permission error (iova=0x0, level=0x3, slpte=0x0, write=1)
-qemu-system-x86_64-dt: vtd_iommu_translate: detected translation failure (dev=00:03:00, iova=0x0)
-qemu-system-x86_64-dt: New fault is not recorded due to compression of faults".
+Paolo, is destroying a realized device okay, or does it have to be
+unrealized first?  I can't see automatic unrealize on destruction...
 
-Thanks
-Yan
+>>> }
+>>> 
+>>> static void reset_event_facility(DeviceState *dev)
+>>> @@ -479,6 +467,7 @@ static void init_event_facility_class(ObjectClass *klass, void *data)
+>>>     DeviceClass *dc = DEVICE_CLASS(sbdc);
+>>>     SCLPEventFacilityClass *k = EVENT_FACILITY_CLASS(dc);
+>>> 
+>>> +    dc->realize = realize_event_facility;
+>>>     dc->reset = reset_event_facility;
+>>>     dc->vmsd = &vmstate_event_facility;
+>>>     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>>> 
+>> 
+>> LGTM
+>> 
+>> Reviewed-by: David Hildenbrand <david@redhat.com>
 
-
-
+Thanks!
 
 
