@@ -2,51 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C573E1E0CB8
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:20:38 +0200 (CEST)
-Received: from localhost ([::1]:34360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD031E0CC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 13:23:50 +0200 (CEST)
+Received: from localhost ([::1]:48818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdB9p-0001ye-RG
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:20:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57400)
+	id 1jdBCv-0008JX-9B
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 07:23:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
- id 1jdB8R-0000W1-00
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:12 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:54692)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdB8Q-0008M3-9w
- for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:10 -0400
-Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id A91EBCD466;
- Mon, 25 May 2020 14:19:08 +0300 (MSK)
-Subject: [PATCH 1/9] tests/acceptance: allow console interaction with
- specific VMs
-From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 25 May 2020 14:19:08 +0300
-Message-ID: <159040554841.2615.9176706179382687894.stgit@pasha-ThinkPad-X280>
-In-Reply-To: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
-References: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
-User-Agent: StGit/0.17.1-dirty
+ (Exim 4.90_1) (envelope-from <alex-krasikov@yandex-team.ru>)
+ id 1jdB8g-0000zJ-7l
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:26 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:41238)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex-krasikov@yandex-team.ru>)
+ id 1jdB8e-0008Mu-O5
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 07:19:25 -0400
+Received: from mxbackcorp1o.mail.yandex.net (mxbackcorp1o.mail.yandex.net
+ [IPv6:2a02:6b8:0:1a2d::301])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 5B4872E151A;
+ Mon, 25 May 2020 14:19:23 +0300 (MSK)
+Received: from vla1-81430ab5870b.qloud-c.yandex.net
+ (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
+ by mxbackcorp1o.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ aBUpewoFa4-JMY8dewN; Mon, 25 May 2020 14:19:23 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1590405563; bh=sXoF/dr1GHAxXqNuyW7HXi2Lv+Al7/WUD4Taqeei4qo=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=oe2oqC+Q87C/HnJjc4Tqb05yQQ40JvGmPa8h7HTdmuzbi2Wk8Ti2nQYi3/ppK14A/
+ iFpwaA4qcAGviiQheBMfcvmla4v8M/ItcgU/ZQnwGLHvL9QdnXxGrxnE/KDfdsNFmB
+ EbsSMOKeSr62IWlBj7BKTB8GVs4vv2K+QpeZVOfg=
+Authentication-Results: mxbackcorp1o.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:518::1:6])
+ by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ ZxU7UXwtFf-JMXufU9k; Mon, 25 May 2020 14:19:22 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Alexey Krasikov <alex-krasikov@yandex-team.ru>
+To: berrange@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [PATCH v4 2/3] crypto/linux_keyring: add 'secret_keyring' secret
+ object.
+Date: Mon, 25 May 2020 14:19:12 +0300
+Message-Id: <20200525111913.4274-1-alex-krasikov@yandex-team.ru>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: softfail client-ip=83.149.199.45;
- envelope-from=Pavel.Dovgaluk@gmail.com; helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 07:19:03
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: 7
-X-Spam_score: 0.7
-X-Spam_bar: /
-X-Spam_report: (0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
- FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, NML_ADSP_CUSTOM_MED=0.9,
- SPF_SOFTFAIL=0.665, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=alex-krasikov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 07:17:05
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -55,61 +76,332 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, dovgaluk@ispras.ru, pavel.dovgaluk@ispras.ru,
- crosa@redhat.com, pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Console interaction in avocado scripts was possible only with single
-default VM.
-This patch modifies the function parameters to allow passing a specific
-VM as a parameter to interact with it.
+Add the ability for the secret object to obtain secret data from the
+Linux in-kernel key managment and retention facility, as an extra option
+to the existing ones: reading from a file or passing directly as a
+string.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+The secret is identified by the key serial number. The upper layers
+need to instantiate the key and make sure the QEMU process has access
+permissions to read it.
+
+Signed-off-by: Alexey Krasikov <alex-krasikov@yandex-team.ru>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/acceptance/avocado_qemu/__init__.py |   12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ configure                       |  38 ++++++++
+ crypto/Makefile.objs            |   1 +
+ crypto/secret_keyring.c         | 148 ++++++++++++++++++++++++++++++++
+ include/crypto/secret_keyring.h |  52 +++++++++++
+ 4 files changed, 239 insertions(+)
+ create mode 100644 crypto/secret_keyring.c
+ create mode 100644 include/crypto/secret_keyring.h
 
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index 59e7b4f763..0bbaa8d2a6 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -69,13 +69,15 @@ def pick_default_qemu_bin(arch=None):
+diff --git a/configure b/configure
+index 2fc05c4465..3c83504c95 100755
+--- a/configure
++++ b/configure
+@@ -509,6 +509,7 @@ libpmem=""
+ default_devices="yes"
+ plugins="no"
+ fuzzing="no"
++secret_keyring="yes"
  
+ supported_cpu="no"
+ supported_os="no"
+@@ -1601,6 +1602,10 @@ for opt do
+   ;;
+   --gdb=*) gdb_bin="$optarg"
+   ;;
++  --enable-keyring) secret_keyring="yes"
++  ;;
++  --disable-keyring) secret_keyring="no"
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -6250,6 +6255,34 @@ case "$slirp" in
+     ;;
+ esac
  
- def _console_interaction(test, success_message, failure_message,
--                         send_string, keep_sending=False):
-+                         send_string, keep_sending=False, vm=None):
-     assert not keep_sending or send_string
--    console = test.vm.console_socket.makefile()
-+    if vm is None:
-+        vm = test.vm
-+    console = vm.console_socket.makefile()
-     console_logger = logging.getLogger('console')
-     while True:
-         if send_string:
--            test.vm.console_socket.sendall(send_string.encode())
-+            vm.console_socket.sendall(send_string.encode())
-             if not keep_sending:
-                 send_string = None # send only once
-         msg = console.readline().strip()
-@@ -115,7 +117,7 @@ def interrupt_interactive_console_until_pattern(test, success_message,
-     _console_interaction(test, success_message, failure_message,
-                          interrupt_string, True)
++##########################################
++# check for usable __NR_keyctl syscall
++
++if test "$linux" = "yes" ; then
++
++    have_keyring=no
++    cat > $TMPC << EOF
++#include <errno.h>
++#include <asm/unistd.h>
++#include <linux/keyctl.h>
++#include <unistd.h>
++int main(void) {
++    return syscall(__NR_keyctl, KEYCTL_READ, 0, NULL, NULL, 0);
++}
++EOF
++    if compile_prog "" "" ; then
++        have_keyring=yes
++    fi
++fi
++if test "$secret_keyring" = "yes"
++then
++    if test "$have_keyring" != "yes"
++    then
++    error_exit "syscall __NR_keyctl requested, \
++but not implemented on your system"
++    fi
++fi
++
  
--def wait_for_console_pattern(test, success_message, failure_message=None):
-+def wait_for_console_pattern(test, success_message, failure_message=None, vm=None):
-     """
-     Waits for messages to appear on the console, while logging the content
+ ##########################################
+ # End of CC checks
+@@ -6733,6 +6766,7 @@ echo "default devices   $default_devices"
+ echo "plugin support    $plugins"
+ echo "fuzzing support   $fuzzing"
+ echo "gdb               $gdb_bin"
++echo "Linux keyring     $secret_keyring"
  
-@@ -125,7 +127,7 @@ def wait_for_console_pattern(test, success_message, failure_message=None):
-     :param success_message: if this message appears, test succeeds
-     :param failure_message: if this message appears, test fails
-     """
--    _console_interaction(test, success_message, failure_message, None)
-+    _console_interaction(test, success_message, failure_message, None, vm=vm)
+ if test "$supported_cpu" = "no"; then
+     echo
+@@ -7614,6 +7648,10 @@ if test -n "$gdb_bin" ; then
+     echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
+ fi
  
- def exec_command_and_wait_for_pattern(test, command,
-                                       success_message, failure_message=None):
++if test "$secret_keyring" = "yes" ; then
++  echo "CONFIG_SECRET_KEYRING=y" >> $config_host_mak
++fi
++
+ if test "$tcg_interpreter" = "yes"; then
+   QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
+ elif test "$ARCH" = "sparc64" ; then
+diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
+index 695da72dd1..872c928ac0 100644
+--- a/crypto/Makefile.objs
++++ b/crypto/Makefile.objs
+@@ -20,6 +20,7 @@ crypto-obj-y += tlscredsx509.o
+ crypto-obj-y += tlssession.o
+ crypto-obj-y += secret_common.o
+ crypto-obj-y += secret.o
++crypto-obj-$(CONFIG_SECRET_KEYRING) += secret_keyring.o
+ crypto-obj-y += pbkdf.o
+ crypto-obj-$(CONFIG_NETTLE) += pbkdf-nettle.o
+ crypto-obj-$(if $(CONFIG_NETTLE),n,$(CONFIG_GCRYPT)) += pbkdf-gcrypt.o
+diff --git a/crypto/secret_keyring.c b/crypto/secret_keyring.c
+new file mode 100644
+index 0000000000..aa29004639
+--- /dev/null
++++ b/crypto/secret_keyring.c
+@@ -0,0 +1,148 @@
++/*
++ * QEMU crypto secret support
++ *
++ * Copyright 2020 Yandex N.V.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include <asm/unistd.h>
++#include <linux/keyctl.h>
++#include "qapi/error.h"
++#include "qom/object_interfaces.h"
++#include "trace.h"
++#include "crypto/secret_keyring.h"
++
++
++static inline
++long keyctl_read(int32_t key, uint8_t *buffer, size_t buflen)
++{
++    return syscall(__NR_keyctl, KEYCTL_READ, key, buffer, buflen, 0);
++}
++
++
++static void
++qcrypto_secret_keyring_load_data(QCryptoSecretCommon *sec_common,
++                                 uint8_t **output,
++                                 size_t *outputlen,
++                                 Error **errp)
++{
++    QCryptoSecretKeyring *secret = QCRYPTO_SECRET_KEYRING(sec_common);
++    uint8_t *buffer = NULL;
++    long retcode;
++
++    *output = NULL;
++    *outputlen = 0;
++
++    if (!secret->serial) {
++        error_setg(errp, "'serial' parameter must be provided");
++        return;
++    }
++
++    retcode = keyctl_read(secret->serial, NULL, 0);
++    if (retcode <= 0) {
++        goto keyctl_error;
++    }
++
++    buffer = g_new0(uint8_t, retcode);
++
++    retcode = keyctl_read(secret->serial, buffer, retcode);
++    if (retcode < 0) {
++        g_free(buffer);
++        goto keyctl_error;
++    }
++
++    *outputlen = retcode;
++    *output = buffer;
++    return;
++
++keyctl_error:
++    error_setg_errno(errp, errno,
++                     "Unable to read serial key %08x",
++                     secret->serial);
++}
++
++
++static void
++qcrypto_secret_prop_set_key(Object *obj, Visitor *v,
++                            const char *name, void *opaque,
++                            Error **errp)
++{
++    QCryptoSecretKeyring *secret = QCRYPTO_SECRET_KEYRING(obj);
++    int32_t value;
++    visit_type_int32(v, name, &value, errp);
++    if (!value) {
++        error_setg(errp, "'serial' should not be equal to 0");
++    }
++    secret->serial = value;
++}
++
++
++static void
++qcrypto_secret_prop_get_key(Object *obj, Visitor *v,
++                            const char *name, void *opaque,
++                            Error **errp)
++{
++    QCryptoSecretKeyring *secret = QCRYPTO_SECRET_KEYRING(obj);
++    int32_t value = secret->serial;
++    visit_type_int32(v, name, &value, errp);
++}
++
++
++static void
++qcrypto_secret_keyring_complete(UserCreatable *uc, Error **errp)
++{
++    object_property_set_bool(OBJECT(uc), true, "loaded", errp);
++}
++
++
++static void
++qcrypto_secret_keyring_class_init(ObjectClass *oc, void *data)
++{
++    QCryptoSecretCommonClass *sic = QCRYPTO_SECRET_COMMON_CLASS(oc);
++    sic->load_data = qcrypto_secret_keyring_load_data;
++
++    UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
++    ucc->complete = qcrypto_secret_keyring_complete;
++
++    object_class_property_add(oc, "serial", "int32_t",
++                                  qcrypto_secret_prop_get_key,
++                                  qcrypto_secret_prop_set_key,
++                                  NULL, NULL, NULL);
++}
++
++
++static const TypeInfo qcrypto_secret_info = {
++    .parent = TYPE_QCRYPTO_SECRET_COMMON,
++    .name = TYPE_QCRYPTO_SECRET_KEYRING,
++    .instance_size = sizeof(QCryptoSecretKeyring),
++    .class_size = sizeof(QCryptoSecretKeyringClass),
++    .class_init = qcrypto_secret_keyring_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_USER_CREATABLE },
++        { }
++    }
++};
++
++
++static void
++qcrypto_secret_register_types(void)
++{
++    type_register_static(&qcrypto_secret_info);
++}
++
++
++type_init(qcrypto_secret_register_types);
+diff --git a/include/crypto/secret_keyring.h b/include/crypto/secret_keyring.h
+new file mode 100644
+index 0000000000..9f371ad251
+--- /dev/null
++++ b/include/crypto/secret_keyring.h
+@@ -0,0 +1,52 @@
++/*
++ * QEMU crypto secret support
++ *
++ * Copyright 2020 Yandex N.V.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++#ifndef QCRYPTO_SECRET_KEYRING_H
++#define QCRYPTO_SECRET_KEYRING_H
++
++#include "qapi/qapi-types-crypto.h"
++#include "qom/object.h"
++#include "crypto/secret_common.h"
++
++#define TYPE_QCRYPTO_SECRET_KEYRING "secret_keyring"
++#define QCRYPTO_SECRET_KEYRING(obj) \
++    OBJECT_CHECK(QCryptoSecretKeyring, (obj), \
++                 TYPE_QCRYPTO_SECRET_KEYRING)
++#define QCRYPTO_SECRET_KEYRING_CLASS(class) \
++    OBJECT_CLASS_CHECK(QCryptoSecretKeyringClass, \
++                       (class), TYPE_QCRYPTO_SECRET_KEYRING)
++#define QCRYPTO_SECRET_KEYRING_GET_CLASS(class) \
++    OBJECT_GET_CLASS(QCryptoSecretKeyringClass, \
++                     (class), TYPE_QCRYPTO_SECRET_KEYRING)
++
++typedef struct QCryptoSecretKeyring QCryptoSecretKeyring;
++typedef struct QCryptoSecretKeyringClass QCryptoSecretKeyringClass;
++
++typedef struct QCryptoSecretKeyring {
++    QCryptoSecretCommon parent;
++    int32_t serial;
++} QCryptoSecretKeyring;
++
++
++typedef struct QCryptoSecretKeyringClass {
++    QCryptoSecretCommonClass parent;
++} QCryptoSecretKeyringClass;
++
++#endif /* QCRYPTO_SECRET_KEYRING_H */
+-- 
+2.17.1
 
 
