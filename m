@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A13C1E102F
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 16:13:52 +0200 (CEST)
-Received: from localhost ([::1]:42830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F8A1E1033
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 16:15:11 +0200 (CEST)
+Received: from localhost ([::1]:46554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdDrS-0003pe-Pz
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 10:13:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47752)
+	id 1jdDsk-0005Kb-II
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 10:15:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdDq5-0002aW-CC
- for qemu-devel@nongnu.org; Mon, 25 May 2020 10:12:25 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38709
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdDqH-0002mz-KM
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 10:12:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49763
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdDq3-0005ND-CC
- for qemu-devel@nongnu.org; Mon, 25 May 2020 10:12:24 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdDqG-0005Nu-MG
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 10:12:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590415941;
+ s=mimecast20190719; t=1590415956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Cw0QuUNnEmFDBI+9RBVfIrh3pClI25Yb2YK7C5VjR7Q=;
- b=BBmAGH4/TV3ud0wTobvjyPWcfvGyEmKO407QeeIPECXt6Y1pq14NHxWa/g+hikY+mlVEuF
- oZ34V24IHu9sEavF/iq+Nq/k3N714JL6i0zmsrzjjh63+ZapxccLHSlL0+PxZie9jVTaYT
- rHldQBx7Z66fhBPH5LOzFhZ7jdYgkUc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-iXG6WiliNBGCec5zO0R3ag-1; Mon, 25 May 2020 10:12:20 -0400
-X-MC-Unique: iXG6WiliNBGCec5zO0R3ag-1
-Received: by mail-ej1-f70.google.com with SMTP id h17so13675ejo.21
- for <qemu-devel@nongnu.org>; Mon, 25 May 2020 07:12:20 -0700 (PDT)
+ bh=VgSuwoGE19pbIkSHpSGDDt8PRMouWyW6fcaHBYAmI7s=;
+ b=dDcp7y2f/lVacyCQWcLBOBxOl6ut5mNWWickVPN+PNcrkdvBEmsstopvu7NXeZoaG3Trtn
+ CHX6pXpQTCK3NCVeuFJfyyt3NRHpUr2CZs62DUZuF9y2roGPsFDbWx+ljfVdX2Y+7z8keA
+ trsWomCCOrZFWtZsWb28+yW3paFF/9w=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-501-q9blvNc4M8WOel3bfjgH1A-1; Mon, 25 May 2020 10:12:34 -0400
+X-MC-Unique: q9blvNc4M8WOel3bfjgH1A-1
+Received: by mail-ed1-f69.google.com with SMTP id bo26so7491574edb.22
+ for <qemu-devel@nongnu.org>; Mon, 25 May 2020 07:12:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=Cw0QuUNnEmFDBI+9RBVfIrh3pClI25Yb2YK7C5VjR7Q=;
- b=IFsraFeSMckRSKC025qa0LhfECE0gmvFTavXYUMpU+VhaG8ouy1Sfkk4JXXfWWNiVU
- ftgmeZAgkIeM9BU1LE97K2Pu+vLSEes9cnVAmOaaB6StKZOK6Vy4PuTBrIVEw8lVKsdZ
- Uxl1Zv3Ea9O+Xu8fKSx/I3+cykrFJ0wt2N9y5mCtP3ZiYj2H2NsFdcttyF4UIZn2ctvQ
- i/+WbL78tA9pzTHmfztzEvmVamA4pyYclgq2X4hHnytdB9MdwY6xVx9j68nisgCQ3Aej
- CG9U3r7WSDUXfn7ZRHyrUQUUHiufqVUY78gdijXO0YECKx283q+Ctd6a6DAAg6enWE5X
- /M1A==
-X-Gm-Message-State: AOAM530+bPZtKDq4zbJh3Q0e0AlMzQE16ZYJN0gb75TsqNGFDd5eDSLY
- xo+4NjMELL8LzKzi2j7Flg4DHwnItg4fdbGslLO0TLwuB0OQbmSJD4MrKNUto5jku+qBxOkX596
- Dqe9D2KaQ86Nz9Ho=
-X-Received: by 2002:a17:906:33c1:: with SMTP id
- w1mr20252179eja.313.1590415939102; 
- Mon, 25 May 2020 07:12:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyg+f+ByiNpmDZXRTtwVjzbRQKbp7mzgkR7IqrcP7P0uW4z97/+t0/8yA8DBYm5gconbSL0rA==
-X-Received: by 2002:a17:906:33c1:: with SMTP id
- w1mr20252053eja.313.1590415937570; 
- Mon, 25 May 2020 07:12:17 -0700 (PDT)
+ bh=VgSuwoGE19pbIkSHpSGDDt8PRMouWyW6fcaHBYAmI7s=;
+ b=ejQsd9+YHkHLZrwrf1n8vK3XPqOH3hI4tooWdwHkmCgx9vwEYtpMZ6PnfWvZXnUjGM
+ 1y1izfmST3pho5dHcbRuxlg9VeRRJfgzetzKEBFmNQuYfRVKuEg8duDp30WqoWCiPX9b
+ kzaS+LesZHAtKo19O4CtGcK+VwW8VCrU/Ln7HtrkQ4uIspTYw2Mt5tlNpFNkdldrm9oP
+ bXAyrDDn/BrBC0X2PHl8oJxhqlxG95S1noqpWQq13ljfzpE1cH1TThK7IOQYCrMgeymt
+ lawv1VMXu6jbSj3IrgX0yGYFbKsTO+huCnAc2VIwd2pQT9kexOvGqsmwb31Dm873k6OB
+ HzwQ==
+X-Gm-Message-State: AOAM531NoUq1NiEaAydiVO+1bAOqbc+cS6AsKORANANHeFwbk9LvXCev
+ LK43VXJoavKxgT9LKGWZS91Dc5HRWVNENPJxu4pWbRCN1LFw7u+a7KNEsi4eOz0ZQgbc3nKqlU/
+ a2bQ3ygp/b/DqrRs=
+X-Received: by 2002:a05:6402:308f:: with SMTP id
+ de15mr15695135edb.108.1590415953299; 
+ Mon, 25 May 2020 07:12:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz3aAQHRQosl/0KIT4ifa8uVRrEc2sizlXa+ofcZk4hQqLSWGR07UZ+YYWa+cjnLaZPn8lMvA==
+X-Received: by 2002:a05:6402:308f:: with SMTP id
+ de15mr15695093edb.108.1590415952971; 
+ Mon, 25 May 2020 07:12:32 -0700 (PDT)
 Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id w10sm15270459eju.106.2020.05.25.07.12.15
+ by smtp.gmail.com with ESMTPSA id fi9sm15289851ejb.5.2020.05.25.07.12.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 May 2020 07:12:16 -0700 (PDT)
-Subject: Re: [PATCH v2 7/8] qapi/misc: Restrict PCI commands to machine code
+ Mon, 25 May 2020 07:12:32 -0700 (PDT)
+Subject: Re: [PATCH v2 2/8] qapi/misc: Restrict LostTickPolicy enum to machine
+ code
 To: qemu-devel@nongnu.org
 References: <20200316000348.29692-1-philmd@redhat.com>
- <20200316000348.29692-8-philmd@redhat.com>
+ <20200316000348.29692-3-philmd@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -89,27 +90,27 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <2b9b397c-024e-45b5-f8b6-d78064a96f26@redhat.com>
-Date: Mon, 25 May 2020 16:12:14 +0200
+Message-ID: <81463e0f-a06a-0693-b6f7-a319f2cfc216@redhat.com>
+Date: Mon, 25 May 2020 16:12:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200316000348.29692-8-philmd@redhat.com>
+In-Reply-To: <20200316000348.29692-3-philmd@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 02:40:56
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 08:28:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -140,665 +141,137 @@ ping?
 On 3/16/20 1:03 AM, Philippe Mathieu-Daudé wrote:
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  qapi/machine.json | 304 ++++++++++++++++++++++++++++++++++++++++++++++
->  qapi/misc.json    | 304 ----------------------------------------------
->  hw/pci/pci-stub.c |   2 +-
->  hw/pci/pci.c      |   2 +-
->  4 files changed, 306 insertions(+), 306 deletions(-)
+>  qapi/machine.json            | 32 ++++++++++++++++++++++++++++++++
+>  qapi/misc.json               | 32 --------------------------------
+>  include/hw/rtc/mc146818rtc.h |  2 +-
+>  hw/core/qdev-properties.c    |  1 +
+>  hw/i386/kvm/i8254.c          |  2 +-
+>  5 files changed, 35 insertions(+), 34 deletions(-)
 > 
 > diff --git a/qapi/machine.json b/qapi/machine.json
-> index f77ee63730..33b259dbd0 100644
+> index de05730704..07ffc07ba2 100644
 > --- a/qapi/machine.json
 > +++ b/qapi/machine.json
-> @@ -1172,3 +1172,307 @@
+> @@ -415,6 +415,38 @@
 >  ##
->  { 'event': 'ACPI_DEVICE_OST',
->       'data': { 'info': 'ACPIOSTInfo' } }
+>  { 'command': 'query-target', 'returns': 'TargetInfo' }
+>  
+> +##
+> +# @LostTickPolicy:
+> +#
+> +# Policy for handling lost ticks in timer devices.  Ticks end up getting
+> +# lost when, for example, the guest is paused.
+> +#
+> +# @discard: throw away the missed ticks and continue with future injection
+> +#           normally.  The guest OS will see the timer jump ahead by a
+> +#           potentially quite significant amount all at once, as if the
+> +#           intervening chunk of time had simply not existed; needless to
+> +#           say, such a sudden jump can easily confuse a guest OS which is
+> +#           not specifically prepared to deal with it.  Assuming the guest
+> +#           OS can deal correctly with the time jump, the time in the guest
+> +#           and in the host should now match.
+> +#
+> +# @delay: continue to deliver ticks at the normal rate.  The guest OS will
+> +#         not notice anything is amiss, as from its point of view time will
+> +#         have continued to flow normally.  The time in the guest should now
+> +#         be behind the time in the host by exactly the amount of time during
+> +#         which ticks have been missed.
+> +#
+> +# @slew: deliver ticks at a higher rate to catch up with the missed ticks.
+> +#        The guest OS will not notice anything is amiss, as from its point
+> +#        of view time will have continued to flow normally.  Once the timer
+> +#        has managed to catch up with all the missing ticks, the time in
+> +#        the guest and in the host should match.
+> +#
+> +# Since: 2.0
+> +##
+> +{ 'enum': 'LostTickPolicy',
+> +  'data': ['discard', 'delay', 'slew' ] }
 > +
-> +##
-> +# @PciMemoryRange:
-> +#
-> +# A PCI device memory region
-> +#
-> +# @base: the starting address (guest physical)
-> +#
-> +# @limit: the ending address (guest physical)
-> +#
-> +# Since: 0.14.0
-> +##
-> +{ 'struct': 'PciMemoryRange', 'data': {'base': 'int', 'limit': 'int'} }
-> +
-> +##
-> +# @PciMemoryRegion:
-> +#
-> +# Information about a PCI device I/O region.
-> +#
-> +# @bar: the index of the Base Address Register for this region
-> +#
-> +# @type: - 'io' if the region is a PIO region
-> +#        - 'memory' if the region is a MMIO region
-> +#
-> +# @size: memory size
-> +#
-> +# @prefetch: if @type is 'memory', true if the memory is prefetchable
-> +#
-> +# @mem_type_64: if @type is 'memory', true if the BAR is 64-bit
-> +#
-> +# Since: 0.14.0
-> +##
-> +{ 'struct': 'PciMemoryRegion',
-> +  'data': {'bar': 'int', 'type': 'str', 'address': 'int', 'size': 'int',
-> +           '*prefetch': 'bool', '*mem_type_64': 'bool' } }
-> +
-> +##
-> +# @PciBusInfo:
-> +#
-> +# Information about a bus of a PCI Bridge device
-> +#
-> +# @number: primary bus interface number.  This should be the number of the
-> +#          bus the device resides on.
-> +#
-> +# @secondary: secondary bus interface number.  This is the number of the
-> +#             main bus for the bridge
-> +#
-> +# @subordinate: This is the highest number bus that resides below the
-> +#               bridge.
-> +#
-> +# @io_range: The PIO range for all devices on this bridge
-> +#
-> +# @memory_range: The MMIO range for all devices on this bridge
-> +#
-> +# @prefetchable_range: The range of prefetchable MMIO for all devices on
-> +#                      this bridge
-> +#
-> +# Since: 2.4
-> +##
-> +{ 'struct': 'PciBusInfo',
-> +  'data': {'number': 'int', 'secondary': 'int', 'subordinate': 'int',
-> +           'io_range': 'PciMemoryRange',
-> +           'memory_range': 'PciMemoryRange',
-> +           'prefetchable_range': 'PciMemoryRange' } }
-> +
-> +##
-> +# @PciBridgeInfo:
-> +#
-> +# Information about a PCI Bridge device
-> +#
-> +# @bus: information about the bus the device resides on
-> +#
-> +# @devices: a list of @PciDeviceInfo for each device on this bridge
-> +#
-> +# Since: 0.14.0
-> +##
-> +{ 'struct': 'PciBridgeInfo',
-> +  'data': {'bus': 'PciBusInfo', '*devices': ['PciDeviceInfo']} }
-> +
-> +##
-> +# @PciDeviceClass:
-> +#
-> +# Information about the Class of a PCI device
-> +#
-> +# @desc: a string description of the device's class
-> +#
-> +# @class: the class code of the device
-> +#
-> +# Since: 2.4
-> +##
-> +{ 'struct': 'PciDeviceClass',
-> +  'data': {'*desc': 'str', 'class': 'int'} }
-> +
-> +##
-> +# @PciDeviceId:
-> +#
-> +# Information about the Id of a PCI device
-> +#
-> +# @device: the PCI device id
-> +#
-> +# @vendor: the PCI vendor id
-> +#
-> +# @subsystem: the PCI subsystem id (since 3.1)
-> +#
-> +# @subsystem-vendor: the PCI subsystem vendor id (since 3.1)
-> +#
-> +# Since: 2.4
-> +##
-> +{ 'struct': 'PciDeviceId',
-> +  'data': {'device': 'int', 'vendor': 'int', '*subsystem': 'int',
-> +            '*subsystem-vendor': 'int'} }
-> +
-> +##
-> +# @PciDeviceInfo:
-> +#
-> +# Information about a PCI device
-> +#
-> +# @bus: the bus number of the device
-> +#
-> +# @slot: the slot the device is located in
-> +#
-> +# @function: the function of the slot used by the device
-> +#
-> +# @class_info: the class of the device
-> +#
-> +# @id: the PCI device id
-> +#
-> +# @irq: if an IRQ is assigned to the device, the IRQ number
-> +#
-> +# @qdev_id: the device name of the PCI device
-> +#
-> +# @pci_bridge: if the device is a PCI bridge, the bridge information
-> +#
-> +# @regions: a list of the PCI I/O regions associated with the device
-> +#
-> +# Notes: the contents of @class_info.desc are not stable and should only be
-> +#        treated as informational.
-> +#
-> +# Since: 0.14.0
-> +##
-> +{ 'struct': 'PciDeviceInfo',
-> +  'data': {'bus': 'int', 'slot': 'int', 'function': 'int',
-> +           'class_info': 'PciDeviceClass', 'id': 'PciDeviceId',
-> +           '*irq': 'int', 'qdev_id': 'str', '*pci_bridge': 'PciBridgeInfo',
-> +           'regions': ['PciMemoryRegion']} }
-> +
-> +##
-> +# @PciInfo:
-> +#
-> +# Information about a PCI bus
-> +#
-> +# @bus: the bus index
-> +#
-> +# @devices: a list of devices on this bus
-> +#
-> +# Since: 0.14.0
-> +##
-> +{ 'struct': 'PciInfo', 'data': {'bus': 'int', 'devices': ['PciDeviceInfo']} }
-> +
-> +##
-> +# @query-pci:
-> +#
-> +# Return information about the PCI bus topology of the guest.
-> +#
-> +# Returns: a list of @PciInfo for each PCI bus. Each bus is
-> +#          represented by a json-object, which has a key with a json-array of
-> +#          all PCI devices attached to it. Each device is represented by a
-> +#          json-object.
-> +#
-> +# Since: 0.14.0
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "query-pci" }
-> +# <- { "return": [
-> +#          {
-> +#             "bus": 0,
-> +#             "devices": [
-> +#                {
-> +#                   "bus": 0,
-> +#                   "qdev_id": "",
-> +#                   "slot": 0,
-> +#                   "class_info": {
-> +#                      "class": 1536,
-> +#                      "desc": "Host bridge"
-> +#                   },
-> +#                   "id": {
-> +#                      "device": 32902,
-> +#                      "vendor": 4663
-> +#                   },
-> +#                   "function": 0,
-> +#                   "regions": [
-> +#                   ]
-> +#                },
-> +#                {
-> +#                   "bus": 0,
-> +#                   "qdev_id": "",
-> +#                   "slot": 1,
-> +#                   "class_info": {
-> +#                      "class": 1537,
-> +#                      "desc": "ISA bridge"
-> +#                   },
-> +#                   "id": {
-> +#                      "device": 32902,
-> +#                      "vendor": 28672
-> +#                   },
-> +#                   "function": 0,
-> +#                   "regions": [
-> +#                   ]
-> +#                },
-> +#                {
-> +#                   "bus": 0,
-> +#                   "qdev_id": "",
-> +#                   "slot": 1,
-> +#                   "class_info": {
-> +#                      "class": 257,
-> +#                      "desc": "IDE controller"
-> +#                   },
-> +#                   "id": {
-> +#                      "device": 32902,
-> +#                      "vendor": 28688
-> +#                   },
-> +#                   "function": 1,
-> +#                   "regions": [
-> +#                      {
-> +#                         "bar": 4,
-> +#                         "size": 16,
-> +#                         "address": 49152,
-> +#                         "type": "io"
-> +#                      }
-> +#                   ]
-> +#                },
-> +#                {
-> +#                   "bus": 0,
-> +#                   "qdev_id": "",
-> +#                   "slot": 2,
-> +#                   "class_info": {
-> +#                      "class": 768,
-> +#                      "desc": "VGA controller"
-> +#                   },
-> +#                   "id": {
-> +#                      "device": 4115,
-> +#                      "vendor": 184
-> +#                   },
-> +#                   "function": 0,
-> +#                   "regions": [
-> +#                      {
-> +#                         "prefetch": true,
-> +#                         "mem_type_64": false,
-> +#                         "bar": 0,
-> +#                         "size": 33554432,
-> +#                         "address": 4026531840,
-> +#                         "type": "memory"
-> +#                      },
-> +#                      {
-> +#                         "prefetch": false,
-> +#                         "mem_type_64": false,
-> +#                         "bar": 1,
-> +#                         "size": 4096,
-> +#                         "address": 4060086272,
-> +#                         "type": "memory"
-> +#                      },
-> +#                      {
-> +#                         "prefetch": false,
-> +#                         "mem_type_64": false,
-> +#                         "bar": 6,
-> +#                         "size": 65536,
-> +#                         "address": -1,
-> +#                         "type": "memory"
-> +#                      }
-> +#                   ]
-> +#                },
-> +#                {
-> +#                   "bus": 0,
-> +#                   "qdev_id": "",
-> +#                   "irq": 11,
-> +#                   "slot": 4,
-> +#                   "class_info": {
-> +#                      "class": 1280,
-> +#                      "desc": "RAM controller"
-> +#                   },
-> +#                   "id": {
-> +#                      "device": 6900,
-> +#                      "vendor": 4098
-> +#                   },
-> +#                   "function": 0,
-> +#                   "regions": [
-> +#                      {
-> +#                         "bar": 0,
-> +#                         "size": 32,
-> +#                         "address": 49280,
-> +#                         "type": "io"
-> +#                      }
-> +#                   ]
-> +#                }
-> +#             ]
-> +#          }
-> +#       ]
-> +#    }
-> +#
-> +# Note: This example has been shortened as the real response is too long.
-> +#
-> +##
-> +{ 'command': 'query-pci', 'returns': ['PciInfo'] }
+>  ##
+>  # @NumaOptionsType:
+>  #
 > diff --git a/qapi/misc.json b/qapi/misc.json
-> index 3d9d7327fe..92b3926c6b 100644
+> index c18fe681fb..2725d835ad 100644
 > --- a/qapi/misc.json
 > +++ b/qapi/misc.json
-> @@ -156,310 +156,6 @@
->  { 'command': 'query-iothreads', 'returns': ['IOThreadInfo'],
->    'allow-preconfig': true }
+> @@ -7,38 +7,6 @@
+>  
+>  { 'include': 'common.json' }
 >  
 > -##
-> -# @PciMemoryRange:
+> -# @LostTickPolicy:
 > -#
-> -# A PCI device memory region
+> -# Policy for handling lost ticks in timer devices.  Ticks end up getting
+> -# lost when, for example, the guest is paused.
 > -#
-> -# @base: the starting address (guest physical)
+> -# @discard: throw away the missed ticks and continue with future injection
+> -#           normally.  The guest OS will see the timer jump ahead by a
+> -#           potentially quite significant amount all at once, as if the
+> -#           intervening chunk of time had simply not existed; needless to
+> -#           say, such a sudden jump can easily confuse a guest OS which is
+> -#           not specifically prepared to deal with it.  Assuming the guest
+> -#           OS can deal correctly with the time jump, the time in the guest
+> -#           and in the host should now match.
 > -#
-> -# @limit: the ending address (guest physical)
+> -# @delay: continue to deliver ticks at the normal rate.  The guest OS will
+> -#         not notice anything is amiss, as from its point of view time will
+> -#         have continued to flow normally.  The time in the guest should now
+> -#         be behind the time in the host by exactly the amount of time during
+> -#         which ticks have been missed.
 > -#
-> -# Since: 0.14.0
+> -# @slew: deliver ticks at a higher rate to catch up with the missed ticks.
+> -#        The guest OS will not notice anything is amiss, as from its point
+> -#        of view time will have continued to flow normally.  Once the timer
+> -#        has managed to catch up with all the missing ticks, the time in
+> -#        the guest and in the host should match.
+> -#
+> -# Since: 2.0
 > -##
-> -{ 'struct': 'PciMemoryRange', 'data': {'base': 'int', 'limit': 'int'} }
-> -
-> -##
-> -# @PciMemoryRegion:
-> -#
-> -# Information about a PCI device I/O region.
-> -#
-> -# @bar: the index of the Base Address Register for this region
-> -#
-> -# @type: - 'io' if the region is a PIO region
-> -#        - 'memory' if the region is a MMIO region
-> -#
-> -# @size: memory size
-> -#
-> -# @prefetch: if @type is 'memory', true if the memory is prefetchable
-> -#
-> -# @mem_type_64: if @type is 'memory', true if the BAR is 64-bit
-> -#
-> -# Since: 0.14.0
-> -##
-> -{ 'struct': 'PciMemoryRegion',
-> -  'data': {'bar': 'int', 'type': 'str', 'address': 'int', 'size': 'int',
-> -           '*prefetch': 'bool', '*mem_type_64': 'bool' } }
-> -
-> -##
-> -# @PciBusInfo:
-> -#
-> -# Information about a bus of a PCI Bridge device
-> -#
-> -# @number: primary bus interface number.  This should be the number of the
-> -#          bus the device resides on.
-> -#
-> -# @secondary: secondary bus interface number.  This is the number of the
-> -#             main bus for the bridge
-> -#
-> -# @subordinate: This is the highest number bus that resides below the
-> -#               bridge.
-> -#
-> -# @io_range: The PIO range for all devices on this bridge
-> -#
-> -# @memory_range: The MMIO range for all devices on this bridge
-> -#
-> -# @prefetchable_range: The range of prefetchable MMIO for all devices on
-> -#                      this bridge
-> -#
-> -# Since: 2.4
-> -##
-> -{ 'struct': 'PciBusInfo',
-> -  'data': {'number': 'int', 'secondary': 'int', 'subordinate': 'int',
-> -           'io_range': 'PciMemoryRange',
-> -           'memory_range': 'PciMemoryRange',
-> -           'prefetchable_range': 'PciMemoryRange' } }
-> -
-> -##
-> -# @PciBridgeInfo:
-> -#
-> -# Information about a PCI Bridge device
-> -#
-> -# @bus: information about the bus the device resides on
-> -#
-> -# @devices: a list of @PciDeviceInfo for each device on this bridge
-> -#
-> -# Since: 0.14.0
-> -##
-> -{ 'struct': 'PciBridgeInfo',
-> -  'data': {'bus': 'PciBusInfo', '*devices': ['PciDeviceInfo']} }
-> -
-> -##
-> -# @PciDeviceClass:
-> -#
-> -# Information about the Class of a PCI device
-> -#
-> -# @desc: a string description of the device's class
-> -#
-> -# @class: the class code of the device
-> -#
-> -# Since: 2.4
-> -##
-> -{ 'struct': 'PciDeviceClass',
-> -  'data': {'*desc': 'str', 'class': 'int'} }
-> -
-> -##
-> -# @PciDeviceId:
-> -#
-> -# Information about the Id of a PCI device
-> -#
-> -# @device: the PCI device id
-> -#
-> -# @vendor: the PCI vendor id
-> -#
-> -# @subsystem: the PCI subsystem id (since 3.1)
-> -#
-> -# @subsystem-vendor: the PCI subsystem vendor id (since 3.1)
-> -#
-> -# Since: 2.4
-> -##
-> -{ 'struct': 'PciDeviceId',
-> -  'data': {'device': 'int', 'vendor': 'int', '*subsystem': 'int',
-> -            '*subsystem-vendor': 'int'} }
-> -
-> -##
-> -# @PciDeviceInfo:
-> -#
-> -# Information about a PCI device
-> -#
-> -# @bus: the bus number of the device
-> -#
-> -# @slot: the slot the device is located in
-> -#
-> -# @function: the function of the slot used by the device
-> -#
-> -# @class_info: the class of the device
-> -#
-> -# @id: the PCI device id
-> -#
-> -# @irq: if an IRQ is assigned to the device, the IRQ number
-> -#
-> -# @qdev_id: the device name of the PCI device
-> -#
-> -# @pci_bridge: if the device is a PCI bridge, the bridge information
-> -#
-> -# @regions: a list of the PCI I/O regions associated with the device
-> -#
-> -# Notes: the contents of @class_info.desc are not stable and should only be
-> -#        treated as informational.
-> -#
-> -# Since: 0.14.0
-> -##
-> -{ 'struct': 'PciDeviceInfo',
-> -  'data': {'bus': 'int', 'slot': 'int', 'function': 'int',
-> -           'class_info': 'PciDeviceClass', 'id': 'PciDeviceId',
-> -           '*irq': 'int', 'qdev_id': 'str', '*pci_bridge': 'PciBridgeInfo',
-> -           'regions': ['PciMemoryRegion']} }
-> -
-> -##
-> -# @PciInfo:
-> -#
-> -# Information about a PCI bus
-> -#
-> -# @bus: the bus index
-> -#
-> -# @devices: a list of devices on this bus
-> -#
-> -# Since: 0.14.0
-> -##
-> -{ 'struct': 'PciInfo', 'data': {'bus': 'int', 'devices': ['PciDeviceInfo']} }
-> -
-> -##
-> -# @query-pci:
-> -#
-> -# Return information about the PCI bus topology of the guest.
-> -#
-> -# Returns: a list of @PciInfo for each PCI bus. Each bus is
-> -#          represented by a json-object, which has a key with a json-array of
-> -#          all PCI devices attached to it. Each device is represented by a
-> -#          json-object.
-> -#
-> -# Since: 0.14.0
-> -#
-> -# Example:
-> -#
-> -# -> { "execute": "query-pci" }
-> -# <- { "return": [
-> -#          {
-> -#             "bus": 0,
-> -#             "devices": [
-> -#                {
-> -#                   "bus": 0,
-> -#                   "qdev_id": "",
-> -#                   "slot": 0,
-> -#                   "class_info": {
-> -#                      "class": 1536,
-> -#                      "desc": "Host bridge"
-> -#                   },
-> -#                   "id": {
-> -#                      "device": 32902,
-> -#                      "vendor": 4663
-> -#                   },
-> -#                   "function": 0,
-> -#                   "regions": [
-> -#                   ]
-> -#                },
-> -#                {
-> -#                   "bus": 0,
-> -#                   "qdev_id": "",
-> -#                   "slot": 1,
-> -#                   "class_info": {
-> -#                      "class": 1537,
-> -#                      "desc": "ISA bridge"
-> -#                   },
-> -#                   "id": {
-> -#                      "device": 32902,
-> -#                      "vendor": 28672
-> -#                   },
-> -#                   "function": 0,
-> -#                   "regions": [
-> -#                   ]
-> -#                },
-> -#                {
-> -#                   "bus": 0,
-> -#                   "qdev_id": "",
-> -#                   "slot": 1,
-> -#                   "class_info": {
-> -#                      "class": 257,
-> -#                      "desc": "IDE controller"
-> -#                   },
-> -#                   "id": {
-> -#                      "device": 32902,
-> -#                      "vendor": 28688
-> -#                   },
-> -#                   "function": 1,
-> -#                   "regions": [
-> -#                      {
-> -#                         "bar": 4,
-> -#                         "size": 16,
-> -#                         "address": 49152,
-> -#                         "type": "io"
-> -#                      }
-> -#                   ]
-> -#                },
-> -#                {
-> -#                   "bus": 0,
-> -#                   "qdev_id": "",
-> -#                   "slot": 2,
-> -#                   "class_info": {
-> -#                      "class": 768,
-> -#                      "desc": "VGA controller"
-> -#                   },
-> -#                   "id": {
-> -#                      "device": 4115,
-> -#                      "vendor": 184
-> -#                   },
-> -#                   "function": 0,
-> -#                   "regions": [
-> -#                      {
-> -#                         "prefetch": true,
-> -#                         "mem_type_64": false,
-> -#                         "bar": 0,
-> -#                         "size": 33554432,
-> -#                         "address": 4026531840,
-> -#                         "type": "memory"
-> -#                      },
-> -#                      {
-> -#                         "prefetch": false,
-> -#                         "mem_type_64": false,
-> -#                         "bar": 1,
-> -#                         "size": 4096,
-> -#                         "address": 4060086272,
-> -#                         "type": "memory"
-> -#                      },
-> -#                      {
-> -#                         "prefetch": false,
-> -#                         "mem_type_64": false,
-> -#                         "bar": 6,
-> -#                         "size": 65536,
-> -#                         "address": -1,
-> -#                         "type": "memory"
-> -#                      }
-> -#                   ]
-> -#                },
-> -#                {
-> -#                   "bus": 0,
-> -#                   "qdev_id": "",
-> -#                   "irq": 11,
-> -#                   "slot": 4,
-> -#                   "class_info": {
-> -#                      "class": 1280,
-> -#                      "desc": "RAM controller"
-> -#                   },
-> -#                   "id": {
-> -#                      "device": 6900,
-> -#                      "vendor": 4098
-> -#                   },
-> -#                   "function": 0,
-> -#                   "regions": [
-> -#                      {
-> -#                         "bar": 0,
-> -#                         "size": 32,
-> -#                         "address": 49280,
-> -#                         "type": "io"
-> -#                      }
-> -#                   ]
-> -#                }
-> -#             ]
-> -#          }
-> -#       ]
-> -#    }
-> -#
-> -# Note: This example has been shortened as the real response is too long.
-> -#
-> -##
-> -{ 'command': 'query-pci', 'returns': ['PciInfo'] }
+> -{ 'enum': 'LostTickPolicy',
+> -  'data': ['discard', 'delay', 'slew' ] }
 > -
 >  ##
->  # @stop:
+>  # @add_client:
 >  #
-> diff --git a/hw/pci/pci-stub.c b/hw/pci/pci-stub.c
-> index cc2a2e1f73..b50c7ca590 100644
-> --- a/hw/pci/pci-stub.c
-> +++ b/hw/pci/pci-stub.c
-> @@ -22,7 +22,7 @@
->  #include "sysemu/sysemu.h"
->  #include "monitor/monitor.h"
->  #include "qapi/error.h"
-> -#include "qapi/qapi-commands-misc.h"
-> +#include "qapi/qapi-commands-machine.h"
->  #include "qapi/qmp/qerror.h"
->  #include "hw/pci/pci.h"
->  #include "hw/pci/msi.h"
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index e1ed6677e1..5ebc783d57 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -46,7 +46,7 @@
->  #include "hw/hotplug.h"
->  #include "hw/boards.h"
->  #include "qapi/error.h"
-> -#include "qapi/qapi-commands-misc.h"
-> +#include "qapi/qapi-commands-machine.h"
->  #include "qemu/cutils.h"
+> diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+> index 10c93a096a..58a7748c66 100644
+> --- a/include/hw/rtc/mc146818rtc.h
+> +++ b/include/hw/rtc/mc146818rtc.h
+> @@ -9,7 +9,7 @@
+>  #ifndef HW_RTC_MC146818RTC_H
+>  #define HW_RTC_MC146818RTC_H
 >  
->  //#define DEBUG_PCI
+> -#include "qapi/qapi-types-misc.h"
+> +#include "qapi/qapi-types-machine.h"
+>  #include "qemu/queue.h"
+>  #include "qemu/timer.h"
+>  #include "hw/isa/isa.h"
+> diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+> index 2047114fca..59380ed761 100644
+> --- a/hw/core/qdev-properties.c
+> +++ b/hw/core/qdev-properties.c
+> @@ -4,6 +4,7 @@
+>  #include "qapi/error.h"
+>  #include "hw/pci/pci.h"
+>  #include "qapi/qapi-types-block.h"
+> +#include "qapi/qapi-types-machine.h"
+>  #include "qapi/qapi-types-misc.h"
+>  #include "qapi/qmp/qerror.h"
+>  #include "qemu/ctype.h"
+> diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
+> index 876f5aa6fa..22ba6149b5 100644
+> --- a/hw/i386/kvm/i8254.c
+> +++ b/hw/i386/kvm/i8254.c
+> @@ -25,7 +25,7 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include <linux/kvm.h>
+> -#include "qapi/qapi-types-misc.h"
+> +#include "qapi/qapi-types-machine.h"
+>  #include "qapi/error.h"
+>  #include "qemu/module.h"
+>  #include "qemu/timer.h"
 > 
 
 
