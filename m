@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148E01E064A
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 07:08:54 +0200 (CEST)
-Received: from localhost ([::1]:44354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C271E0651
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 07:11:56 +0200 (CEST)
+Received: from localhost ([::1]:51722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jd5M4-0003sD-NY
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 01:08:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52610)
+	id 1jd5P1-00076l-On
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 01:11:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jd5LJ-00031o-DE; Mon, 25 May 2020 01:08:05 -0400
-Received: from ozlabs.org ([203.11.71.1]:43925)
+ id 1jd5LK-00031z-01; Mon, 25 May 2020 01:08:06 -0400
+Received: from ozlabs.org ([203.11.71.1]:53505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jd5LH-00047f-H0; Mon, 25 May 2020 01:08:05 -0400
+ id 1jd5LI-00047h-3C; Mon, 25 May 2020 01:08:05 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49VlTk5wmcz9sSd; Mon, 25 May 2020 15:07:54 +1000 (AEST)
+ id 49VlTk6m62z9sSs; Mon, 25 May 2020 15:07:54 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1590383274;
- bh=OyrMB+ZgEs812hRtFwLa+CjTxebcLfWN8wvoEJkzqFo=;
+ bh=RhtXAU3MRQxzJrFraIaZI5LbqjzddJBgv+hEPLL6wrg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nJLrgRQWCD2f//Vm58RzJVliR3HHobq6u01cOPVQSKZcMK8wGoAzTXpwnjzAlMzVQ
- /AKk5TerEFd61dP0/SSePWnCWV6Zic7h2+UlqgugzOU6SE4+zPAkpFadQVBeta/CcI
- kQCFExgSLqWsfA7+9Z+/JDU6YJdifargdrYibjJc=
-Date: Mon, 25 May 2020 15:06:07 +1000
+ b=kyvud2MheUkwLqdBC0AiEPjC7SC30cg1wfIlQyx7Gaf85cV+EzMVVduHr4mwly+7i
+ /0mlGj9mlSidQc/U7F6gb9Mj1vtG5ERgnYkIP94zlfFLKer5rga1m3D4KwPY8uszRq
+ azAOXBGjL9r34tblpmwbXbtBw+b0Fg+USZrFj6FM=
+Date: Mon, 25 May 2020 15:07:03 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Reza Arbab <arbab@linux.ibm.com>
-Subject: Re: [PATCH v3] spapr: Add a new level of NUMA for GPUs
-Message-ID: <20200525050607.GB23110@umbus.fritz.box>
-References: <1590177213-4513-1-git-send-email-arbab@linux.ibm.com>
- <20200522200856.d26ilw5zcswoggj4@arbab-vm>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] hw/pci-bridge/dec: Remove dead debug code
+Message-ID: <20200525050703.GC23110@umbus.fritz.box>
+References: <20200525033910.26166-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JP+T4n/bALQSJXh8"
+ protocol="application/pgp-signature"; boundary="Bu8it7iiRSEf40bY"
 Content-Disposition: inline
-In-Reply-To: <20200522200856.d26ilw5zcswoggj4@arbab-vm>
+In-Reply-To: <20200525033910.26166-1-f4bug@amsat.org>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 01:07:56
@@ -61,48 +60,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>,
- Leonardo Augusto Guimaraes Garcia <lagarcia@linux.ibm.com>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: qemu-trivial@nongnu.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---JP+T4n/bALQSJXh8
-Content-Type: text/plain; charset=us-ascii
+--Bu8it7iiRSEf40bY
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 22, 2020 at 03:08:56PM -0500, Reza Arbab wrote:
-> On Fri, May 22, 2020 at 02:53:33PM -0500, Reza Arbab wrote:
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -889,10 +889,16 @@ static int spapr_dt_rng(void *fdt)
-> > static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
-> > {
-> >     MachineState *ms =3D MACHINE(spapr);
-> > +    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(ms);
-> >     int rtas;
-> >     GString *hypertas =3D g_string_sized_new(256);
-> >     GString *qemu_hypertas =3D g_string_sized_new(256);
-> > -    uint32_t refpoints[] =3D { cpu_to_be32(0x4), cpu_to_be32(0x4) };
-> > +    uint32_t refpoints[] =3D {
-> > +        cpu_to_be32(0x4),
-> > +        cpu_to_be32(0x4),
-> > +        cpu_to_be32(0x2),
-> > +    };
-> > +    uint32_t nr_refpoints =3D 3;
+On Mon, May 25, 2020 at 05:39:10AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Remove debug code never used since added in commit e1c6bbabee30.
 >=20
-> Gah, I soon as I hit send I realize this should be
->=20
->     uint32_t nr_refpoints =3D ARRAY_SIZE(refpoints);
->=20
-> Can you fixup or should I send a v4?
+> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 
-I had one other comment that needs addressing, so you might as well
-send a v4.
+Applied to ppc-for-5.1, thanks.
 
+> ---
+>  hw/pci-bridge/dec.c | 10 ----------
+>  1 file changed, 10 deletions(-)
 >=20
+> diff --git a/hw/pci-bridge/dec.c b/hw/pci-bridge/dec.c
+> index 3ae2f788a4..952bc71122 100644
+> --- a/hw/pci-bridge/dec.c
+> +++ b/hw/pci-bridge/dec.c
+> @@ -32,16 +32,6 @@
+>  #include "hw/pci/pci_bridge.h"
+>  #include "hw/pci/pci_bus.h"
+> =20
+> -/* debug DEC */
+> -//#define DEBUG_DEC
+> -
+> -#ifdef DEBUG_DEC
+> -#define DEC_DPRINTF(fmt, ...)                               \
+> -    do { printf("DEC: " fmt , ## __VA_ARGS__); } while (0)
+> -#else
+> -#define DEC_DPRINTF(fmt, ...)
+> -#endif
+> -
+>  #define DEC_21154(obj) OBJECT_CHECK(DECState, (obj), TYPE_DEC_21154)
+> =20
+>  typedef struct DECState {
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -110,25 +110,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---JP+T4n/bALQSJXh8
+--Bu8it7iiRSEf40bY
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7LUj4ACgkQbDjKyiDZ
-s5KySg//SWWMGGKv8tdYl/dEdcigk8cBWA5U7hzSj8M3i/nC7DC4lU9MBOVihW9p
-Kh6yngV9WortNYA0aO4xIIaTw7f85n9tPKxKv8gW15lPNPAuOAM9rqRDfrtLf9mP
-AxxgI87Om4mbmoHNu7bpH5sxoELynB9wf8713axKhG4J9WNBHQN/eTZoKIyPQPb0
-QhDe8NCA4+v2u+dybLbE+Whr9jf4pGHOVH63T3iMoTJcwDB7L92Yk2sWOVsgsfpk
-j1aznEuhS24Uj3+y0fSbQjtbOAU16zjd4MQZl2LBRzZm7fKapcnHquVmkNOTBBRD
-+aEnt3jE3tGh+eWvjay0Jqso/VyTMJStUBnkYcXWMEhLebpcovtxBtVAp1NcG1NJ
-uZkEMu3/nGRgptOnbo3qd1UcBJxrIYON5ZEYGxA5pSGSHvfhfeWm3od+KXUz3v5M
-1202xTzQxARobWQR1K9gedWMp1yZjvcRdD/KL2AfRTdjWJ44xSXBl7zYd0ZpW2x9
-seAXk8x0fK04+t6QmF2sUohqZDFc2XNZquDbgZKa0l8f18Jo2v9J8A/QPhHMks2k
-nywL8vqnT6k0LmPXjucbSzaozVL0Wd03r5+TkNdwAEa2lVRBtnmRKuEnOGKqlpnH
-2NHcOdVQJM9++QLbWrmRC9TxiATRouw4sRjRIhQIPwGRmitBuVU=
-=GwFS
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7LUncACgkQbDjKyiDZ
+s5Jsdw//RnHjdSEGIiQVEQ/PVejpdkOKvoJfWBiASlS/AeIvvDfkOPlCXszwUYP+
+oZyvQj+8eqz6S0tyaCtziJDKMPkhNE8Le7dLf3228dcM88eP8tLJ8ug56CnJtYrI
+y9wp13AN8h7Ewj09XHlwzs04wZpO3/7TGP2kN4SlSDceJbzbfwqmkOtIIddQtzNo
+atgtyEt4+TzSsJESo0z63IEhzZXMzb7KhrUvDAMrJI6JtvIgUnSJOEovYosDanSA
+OEB1wW5gbR1QJ/ZGeZawfnOU9dQ34L2pzc3KKdf3qT5oUsEyezljL2nBvg5j3NkC
+WxybVSYk5HLIWjsMlGYEP/h+jL/cB0Qi3mHX+vx/HZ0Y788d5Jk44miZjWNoQNJv
+7jaJnJmv0mmzE+KJX4ZUyMuCssWA4/guS4yLxq6aS2u6ZoY8D/EhWMuQG4VeiYMd
+eg6GcPSoHT+GVL87nGSXW3w23/hAJM166hBGAQGkMhGzYAXlUSGAXSNQw/9MnIqH
+AVX+XypamieZQqlL6uJkAueT0qXpZ3kCdnpc1GQDX39NMsEN3BpgIMBZFvlJc8pr
+tgq8kWUo43T3tbpNyQt5ZOZyA1JMW+NRbMgQNFQmWvBpqgaPst+2GV91Gt80kzOo
+80S8iIvJ33gsg/VRtnYG17iMsSta1m/LGeN3BJUk2ZzlKoedgVE=
+=geU5
 -----END PGP SIGNATURE-----
 
---JP+T4n/bALQSJXh8--
+--Bu8it7iiRSEf40bY--
 
