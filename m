@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033001E05A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 05:47:31 +0200 (CEST)
-Received: from localhost ([::1]:52932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6BDE1E05AA
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 05:49:13 +0200 (CEST)
+Received: from localhost ([::1]:59380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jd45K-0001VR-2D
-	for lists+qemu-devel@lfdr.de; Sun, 24 May 2020 23:47:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46668)
+	id 1jd46y-00044a-Ve
+	for lists+qemu-devel@lfdr.de; Sun, 24 May 2020 23:49:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jd42z-00087g-E1; Sun, 24 May 2020 23:45:05 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33598)
+ id 1jd431-0008Ap-1b; Sun, 24 May 2020 23:45:07 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jd42y-0006vF-PT; Sun, 24 May 2020 23:45:05 -0400
-Received: by mail-wr1-x444.google.com with SMTP id l11so15852594wru.0;
- Sun, 24 May 2020 20:45:03 -0700 (PDT)
+ id 1jd430-0006vb-1A; Sun, 24 May 2020 23:45:06 -0400
+Received: by mail-wm1-x344.google.com with SMTP id n5so15455951wmd.0;
+ Sun, 24 May 2020 20:45:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jdIRLwa0ab05Cst8ONtq0+eHOzirKZG9j3qEtBls8q8=;
- b=X294QEMQkIEh2Ns4OZH2+M5N0cNj4/kIgMPBHtRkqsoNlnl4W+Be/rksfUoGGMP8hH
- iIIDHE7f7rvRqgLmh7ehOswMU2vVJNXXBBW6w4T+SlJ+LQBiF2aqpfOS+cIWWJJKxXB7
- o2wFx5/2e0haIiGj07PgRWJqO2rbbNq+mDtuBqitoVS41xPFf6tx724wCuognHbKxIEL
- ag6o0CVPOqK+g8FWA/Oq5IfMqi1S41PhFuTvuDT7E2jS9U1WmGnGZKdBLnvBHRXmriEh
- m0kWXq6thCoP17j52R5NEgEtZajVCR/LrlmfeZJfWi6Y6tZF4fs112O821TaiIlmnNwc
- zEKA==
+ bh=Xkslp0bcUbSqRBvOaVQSgMmVi3d4Gn9gVFXVfSGdOCE=;
+ b=p3o1UhSHcL1RF1FW1OUze2JJ2p/w0TmE/a54omUR2LncONL1M3KyHs8OlX0t2d/a1G
+ 9ms71OanUt/8x5+NPlW42t077SUQVtT3X1KerdXSg85njVg37yZTk7HATO+J4F2GoSkm
+ dhNJVk00f2Sf4Hee5TLVoC4qD4shMVetenr+oSJP9jE9c3KxeBesZIVO586dn1Ql5f1q
+ MpIVs5kh9ow0lNx2n1D9yJ4MvhJWe78fW1hPN/cMGie0Dn56zgimmBc8GVGNbGIJvJih
+ U5/5opBxsYmkSU2izMqEtx402+Dv2d2eHrKmgcPqSDsXau2IV+HKJuJt4FJYhh3CcpsP
+ aPPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jdIRLwa0ab05Cst8ONtq0+eHOzirKZG9j3qEtBls8q8=;
- b=TnttYc28Wm9Jn7H1VFzUIUkXfV5z63QrwuPpj9Imcq7z+3kwZKlAG0qFrCQnKefGcG
- 4qKYiHNgzZRoaJ97+8jD1sKYxanmeIMLGsoneoSfeSzBPZyw6RGcZNgJltA0QO0ZogSf
- JZp0OSYxscMEex+9yBKIW01EPz6O3JfIKnrop65Vbc1VjKVvEppoYDgeGJYUIiCyTEh4
- myxlCE+NWTMjR8d7FrKnccVfXjV9qr/b0AXvnPMoTJ7NAYb0n2OHzVJHsx/ehdzXdpqE
- XKCOWeVQ8K9T041ZcSlOeUDH2/hyei8xvwxEojf0cDsE2EQlrdBxIELKRDKh97gpQLpA
- IifQ==
-X-Gm-Message-State: AOAM531c2wJv40e9NFmvaATo2BQ5JWXDJveEzaiRwon194NuiUqXm8GB
- 4PIoC0QIMUb4CizWZiRcfM67Ss4i27s=
-X-Google-Smtp-Source: ABdhPJz2hMMhnoqEvZipw8yskJT5emgg+7m6Ky47vuHVTdSqu6R/F+M9+HrksFbSc6hk7kXWIm+qNg==
-X-Received: by 2002:a5d:6a83:: with SMTP id s3mr13612103wru.308.1590378302429; 
- Sun, 24 May 2020 20:45:02 -0700 (PDT)
+ bh=Xkslp0bcUbSqRBvOaVQSgMmVi3d4Gn9gVFXVfSGdOCE=;
+ b=c/yPQKEwPdWWpn4Fmx/SF6tdWP7oisG/Sj2CZttXMvXTPKE7zF2XsaO2egPJJw9tif
+ mcMk/ZWNnJbNKqPOPe3YYFfYRJeyov9f7a0/zaNmG8OqL4U+7/Xf3Eu31PcXYhscEwLz
+ hQaI8GsGy25HOIR7LUhza0p3y012OfdN37Ggot20Nqr1OWt+Osmh955+1bM2Rp8Vf9+l
+ nBDumUU5v0kysRWT+szg1iPZdDCk5xPIS5bBjStG1Ii55BJidpX0+ocEuAvv0pqckTTG
+ sCfalQRwpx3QeAzax05EPpCH2AqJHnNYHRK4yZV+PIftMpTBtzfGXnMqvQKrLnozv04M
+ eyLA==
+X-Gm-Message-State: AOAM530gHhiN3jDmOhnrJERm/anHlz/d9nzRB2xQqIWVBptR/gMoqBfy
+ /F3K6FJ5MnGFMZURsZ41MkWLkNz/hUM=
+X-Google-Smtp-Source: ABdhPJzR8JVfw0S5M36v0bNBGQtde4r8uiIOX2J/wq2Jh7THGrwde9MgbuPecMqdrbOzz0BW0aSY5g==
+X-Received: by 2002:a7b:cbc5:: with SMTP id n5mr23647343wmi.110.1590378303557; 
+ Sun, 24 May 2020 20:45:03 -0700 (PDT)
 Received: from localhost.localdomain (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id n9sm17555150wmj.5.2020.05.24.20.45.01
+ by smtp.gmail.com with ESMTPSA id n9sm17555150wmj.5.2020.05.24.20.45.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 May 2020 20:45:01 -0700 (PDT)
+ Sun, 24 May 2020 20:45:02 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] hw/misc/auxbus: Use qemu_log_mask(UNIMP) instead of debug
- printf
-Date: Mon, 25 May 2020 05:44:56 +0200
-Message-Id: <20200525034459.28535-2-f4bug@amsat.org>
+Subject: [PATCH 2/4] hw/display/dpcd: Fix memory region size
+Date: Mon, 25 May 2020 05:44:57 +0200
+Message-Id: <20200525034459.28535-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200525034459.28535-1-f4bug@amsat.org>
 References: <20200525034459.28535-1-f4bug@amsat.org>
@@ -63,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -94,25 +93,32 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the deprecated DPRINTF() call by qemu_log_mask(LOG_UNIMP).
+The memory region size is 512K.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/misc/auxbus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/display/dpcd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
-index f8e7b97971..06aabf20c5 100644
---- a/hw/misc/auxbus.c
-+++ b/hw/misc/auxbus.c
-@@ -196,7 +196,7 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uint32_t address,
-         }
-         break;
-     default:
--        DPRINTF("Not implemented!\n");
-+        qemu_log_mask(LOG_UNIMP, "AUX cmd=%u not implemented\n", cmd);
-         return AUX_NACK;
-     }
+diff --git a/hw/display/dpcd.c b/hw/display/dpcd.c
+index 170545c605..0c1b7b35fb 100644
+--- a/hw/display/dpcd.c
++++ b/hw/display/dpcd.c
+@@ -1,5 +1,5 @@
+ /*
+- * dpcd.c
++ * Xilinx Display Port Control Data
+  *
+  *  Copyright (C) 2015 : GreenSocs Ltd
+  *      http://www.greensocs.com/ , email: info@greensocs.com
+@@ -137,7 +137,7 @@ static void dpcd_init(Object *obj)
+ {
+     DPCDState *s = DPCD(obj);
+ 
+-    memory_region_init_io(&s->iomem, obj, &aux_ops, s, TYPE_DPCD, 0x7FFFF);
++    memory_region_init_io(&s->iomem, obj, &aux_ops, s, TYPE_DPCD, 0x80000);
+     aux_init_mmio(AUX_SLAVE(obj), &s->iomem);
+ }
  
 -- 
 2.21.3
