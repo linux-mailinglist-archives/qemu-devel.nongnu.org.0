@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C81F31E0F4A
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 15:20:28 +0200 (CEST)
-Received: from localhost ([::1]:36734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D851E0F53
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 15:22:00 +0200 (CEST)
+Received: from localhost ([::1]:44054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdD1n-0005G0-Ln
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 09:20:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41912)
+	id 1jdD3I-0000An-0P
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 09:22:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdD0K-0003k6-Mb
- for qemu-devel@nongnu.org; Mon, 25 May 2020 09:18:56 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26221
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdD0L-0003kS-9T
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 09:18:57 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20460
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdD0J-0004C2-VF
- for qemu-devel@nongnu.org; Mon, 25 May 2020 09:18:56 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdD0K-0004C9-Ka
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 09:18:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590412734;
+ s=mimecast20190719; t=1590412735;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RN0DveABAQP1+ddsrat+De7sL81/he/iYChXXBaORPw=;
- b=WXVg1QOr7BS0rzKZ1E9Fc81w+ZtYJYNtM17DDU64YgoMGadB8fNO8217x/0zWN7ABE79RC
- ZabYttmH/0Y/0MdnTNHCx3OTBj7Y+1IhXOFfwBaVFwqRKtLPUYT7xIF5GLg2boY5d/ARCQ
- SAXke0OIDfL8mCBW2ez9ZeQhd1zWJWU=
+ bh=IM3RMQWtmr0vX7tqqXmDotr9iKEnvD2UUAMbokanaaI=;
+ b=LegjlOZ/UlPXYBeOVQBSdFnOctJ2cJaZU5T4acBmaEefOBe3qIVLJszPqnrwJdnCQgjfvw
+ PpHuCAe7rKqmOvRqT3cTSRWD3IdJdmdowCCRWTUqhy36yKv9z9gb1lfyqPCiiZDYwJLnVk
+ FZ+zNzEobLYfnMWP18PqK6MspYWSLNc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-NEui6ZLFN2ajAr1zo31aZg-1; Mon, 25 May 2020 09:18:51 -0400
-X-MC-Unique: NEui6ZLFN2ajAr1zo31aZg-1
+ us-mta-480-8Ev-_w7-NbatEXYialJoyg-1; Mon, 25 May 2020 09:18:53 -0400
+X-MC-Unique: 8Ev-_w7-NbatEXYialJoyg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39778460;
- Mon, 25 May 2020 13:18:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C04CF8014D7;
+ Mon, 25 May 2020 13:18:52 +0000 (UTC)
 Received: from thuth.com (ovpn-113-78.ams2.redhat.com [10.36.113.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 477505C1BB;
- Mon, 25 May 2020 13:18:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC0875C1BB;
+ Mon, 25 May 2020 13:18:50 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] MAINTAINERS: Add Philippe,
- Alex and Wainer to the Gitlab-CI section
-Date: Mon, 25 May 2020 15:18:17 +0200
-Message-Id: <20200525131823.715-2-thuth@redhat.com>
+Subject: [PATCH 2/7] gitlab-ci: Remove flex/bison packages
+Date: Mon, 25 May 2020 15:18:18 +0200
+Message-Id: <20200525131823.715-3-thuth@redhat.com>
 In-Reply-To: <20200525131823.715-1-thuth@redhat.com>
 References: <20200525131823.715-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -55,17 +54,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 06:55:03
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 02:40:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,35 +84,30 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initially, I was the only one who was using Gitlab while most developers
-had their git trees still on other systems, but that has changed nowadays.
-There is now much more interest in the Gitlab-CI today, so it would be
-good to have more than only one maintainer / reviewer for the gitlab-ci.yml
-file. Alex, Wainer and Philippe kindly offered their help here, so let's
-add them to the corresponding section in the MAINTAINERS file now.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daude <philmd@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+QEMU does not use flex/bison packages.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200515163029.12917-4-philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- MAINTAINERS | 3 +++
- 1 file changed, 3 insertions(+)
+ .gitlab-ci.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 87a412c229..bde5fd480f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2893,6 +2893,9 @@ W: https://cirrus-ci.com/github/qemu/qemu
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index b889fb96b6..994774250f 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -4,7 +4,7 @@ include:
  
- GitLab Continuous Integration
- M: Thomas Huth <thuth@redhat.com>
-+M: Philippe Mathieu-Daudé <philmd@redhat.com>
-+M: Alex Bennée <alex.bennee@linaro.org>
-+R: Wainer dos Santos Moschetta <wainersm@redhat.com>
- S: Maintained
- F: .gitlab-ci.yml
+ before_script:
+  - apt-get update -qq
+- - apt-get install -y -qq flex bison libglib2.0-dev libpixman-1-dev genisoimage
++ - apt-get install -y -qq libglib2.0-dev libpixman-1-dev genisoimage
  
+ build-system1:
+  script:
 -- 
 2.18.1
 
