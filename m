@@ -2,94 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255521E0BBE
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 12:22:04 +0200 (CEST)
-Received: from localhost ([::1]:47882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC701E0BCF
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 May 2020 12:28:25 +0200 (CEST)
+Received: from localhost ([::1]:60968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdAF8-00017P-VN
-	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 06:22:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51798)
+	id 1jdALH-00079C-Sk
+	for lists+qemu-devel@lfdr.de; Mon, 25 May 2020 06:28:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jdAEG-0000GN-8E
- for qemu-devel@nongnu.org; Mon, 25 May 2020 06:21:08 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41034
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jdAEF-0006eE-E0
- for qemu-devel@nongnu.org; Mon, 25 May 2020 06:21:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590402066;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mIVIQtHHWl3AqmrSkaX/ggl/96ej6sUyR59zBaRflW8=;
- b=ZiakjC+z3lDK42TkBQzEVXXLgChzBBLG+NM/M8/6DnLa42bwG3pLE9UiPCF/PJM3PTyNZ0
- EOBjdglrqDhpxIocdfIhPwidJvOaX8CV2vHAOBD5a7cdIFT8qIw48I7xop8Cl/2R8CIyhf
- uUYKfgcZZK2cBxKQ0B6vjuri8YDMA0c=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-vLNGGiqvOMWKUppKnv9Rjg-1; Mon, 25 May 2020 06:21:01 -0400
-X-MC-Unique: vLNGGiqvOMWKUppKnv9Rjg-1
-Received: by mail-ej1-f72.google.com with SMTP id t4so4084457ejj.12
- for <qemu-devel@nongnu.org>; Mon, 25 May 2020 03:21:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mIVIQtHHWl3AqmrSkaX/ggl/96ej6sUyR59zBaRflW8=;
- b=bCA9rOd2CvQd35CGyWWjcuhFQjSCtA7D5G/GC6LKh1cI4q7fXuKLdhLRqCl1QdGbDR
- H6YAuRWRR8wNYvqHkOyUNmYg4RZFQV8WU/A34lKcRmvlCidYww6rlHd+be5rdr1QSlyg
- 0q5IuECfzLto173syNX7T6hgcHrOOjsgmWraWOQuWzM256Aag5phF4ov86LHGwIhlXen
- CAQDGw/8xPPJcPIT/BXSxx2S3I3hvs92122rjIEonfNhws/HSOCgiUIGZ4gFIv+euUq4
- oSkTiweiiLkmdRWLueIGSD3QTZrdg64jpCduHmpV03Y4tfUnG9uSvppOI+78gQq3fOts
- MlfA==
-X-Gm-Message-State: AOAM532K+EnAcbWp5RGwi4FeSl6qw8KLkzzVJ+5bSEHYBgGPoyzQg0Ct
- VtYSA7KYqNEnHoWDYuMlk9Dtv1oMwB/4i8IsndMuG5WCM81di65wFm+6SpVsEgjvkCtQaVheBPB
- OmynqsLQruhCzX+s=
-X-Received: by 2002:a50:f0ce:: with SMTP id a14mr14666806edm.131.1590402059922; 
- Mon, 25 May 2020 03:20:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzbYH8vLVwWrPxq7sKFs5VTj4MK7Us6zxg398BcHJMhS15eURrmoSwt71UC5pfde0NCbwQNEw==
-X-Received: by 2002:a50:f0ce:: with SMTP id a14mr14666797edm.131.1590402059746; 
- Mon, 25 May 2020 03:20:59 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:3c1c:ffba:c624:29b8?
- ([2001:b07:6468:f312:3c1c:ffba:c624:29b8])
- by smtp.gmail.com with ESMTPSA id lr21sm15075638ejb.117.2020.05.25.03.20.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 May 2020 03:20:59 -0700 (PDT)
-Subject: Re: [PATCH] cpus: Fix botched configure_icount() error API violation
- fix
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200508104933.19051-1-armbru@redhat.com>
- <28c289f3-eb3f-eb1a-f79b-b339437bef8a@redhat.com>
- <87d06sh8m1.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <13c9c546-bc43-ce46-e6c3-5e4625d23714@redhat.com>
-Date: Mon, 25 May 2020 12:21:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jdAKS-0006JC-60
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 06:27:32 -0400
+Received: from 9.mo173.mail-out.ovh.net ([46.105.72.44]:51936)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jdAKQ-00081D-PA
+ for qemu-devel@nongnu.org; Mon, 25 May 2020 06:27:31 -0400
+Received: from player787.ha.ovh.net (unknown [10.110.208.144])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 27505140C1C
+ for <qemu-devel@nongnu.org>; Mon, 25 May 2020 12:27:19 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player787.ha.ovh.net (Postfix) with ESMTPSA id B759F12DA05A1;
+ Mon, 25 May 2020 10:27:01 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001d606502f-2cb2-4bc0-ba2d-7477a65ac1ca,22A89661A4361147AF88D80C9EA00EFFECB1F326)
+ smtp.auth=groug@kaod.org
+Date: Mon, 25 May 2020 12:26:55 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [RFC v2 11/18] guest memory protection: Handle memory encrption
+ via interface
+Message-ID: <20200525122655.0488cc3d@bahia.lan>
+In-Reply-To: <20200521034304.340040-12-david@gibson.dropbear.id.au>
+References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
+ <20200521034304.340040-12-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <87d06sh8m1.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 02:40:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 11351041387843197414
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedruddvtddgvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueekjeekiefffedtveeukedvteejgeeivefhgfejgfdtleduvdfgfeelkeeuveeunecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=46.105.72.44; envelope-from=groug@kaod.org;
+ helo=9.mo173.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/25 06:27:20
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,43 +66,306 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: pair@us.ibm.com, brijesh.singh@amd.com,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ mdroth@linux.vnet.ibm.com, frankja@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/05/20 07:44, Markus Armbruster wrote:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
-> 
->> On 08/05/20 12:49, Markus Armbruster wrote:
->>> Fixes: abc9bf69a66a11499a801ff545b8fe7adbb3a04c
->>> Fixes: Coverity CID 1428754
->>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>> ---
->>>  cpus.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/cpus.c b/cpus.c
->>> index 5670c96bcf..b9275c672d 100644
->>> --- a/cpus.c
->>> +++ b/cpus.c
->>> @@ -813,7 +813,7 @@ void configure_icount(QemuOpts *opts, Error **errp)
->>>          return;
->>>      }
->>>  
->>> -    if (strcmp(option, "auto") != 0) {
->>> +    if (option && !strcmp(option, "auto")) {
->>>          if (qemu_strtol(option, NULL, 0, &time_shift) < 0
->>>              || time_shift < 0 || time_shift > MAX_ICOUNT_SHIFT) {
->>>              error_setg(errp, "icount: Invalid shift value");
->>>
->>
->> Queued, thanks.
-> 
-> This one's wrong, please queue v2 instead.
-> 
 
-Yep, got there already.  Thanks!
+s/encrption/encryption
 
-Paolo
+On Thu, 21 May 2020 13:42:57 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
+
+> At the moment AMD SEV sets a special function pointer, plus an opaque
+> handle in KVMState to let things know how to encrypt guest memory.
+>=20
+> Now that we have a QOM interface for handling things related to guest
+> memory protection, use a QOM method on that interface, rather than a bare
+> function pointer for this.
+>=20
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>  accel/kvm/kvm-all.c                    | 23 +++----
+>  accel/kvm/sev-stub.c                   |  5 --
+>  include/exec/guest-memory-protection.h |  2 +
+>  include/sysemu/sev.h                   |  6 +-
+>  target/i386/sev.c                      | 84 ++++++++++++++------------
+>  5 files changed, 63 insertions(+), 57 deletions(-)
+>=20
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index d06cc04079..40997de38c 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -45,6 +45,7 @@
+>  #include "qapi/qapi-types-common.h"
+>  #include "qapi/qapi-visit-common.h"
+>  #include "sysemu/reset.h"
+> +#include "exec/guest-memory-protection.h"
+> =20
+>  #include "hw/boards.h"
+> =20
+> @@ -119,8 +120,7 @@ struct KVMState
+>      QLIST_HEAD(, KVMParkedVcpu) kvm_parked_vcpus;
+> =20
+>      /* memory encryption */
+> -    void *memcrypt_handle;
+> -    int (*memcrypt_encrypt_data)(void *handle, uint8_t *ptr, uint64_t le=
+n);
+> +    GuestMemoryProtection *guest_memory_protection;
+> =20
+>      /* For "info mtree -f" to tell if an MR is registered in KVM */
+>      int nr_as;
+> @@ -172,7 +172,7 @@ int kvm_get_max_memslots(void)
+> =20
+>  bool kvm_memcrypt_enabled(void)
+>  {
+> -    if (kvm_state && kvm_state->memcrypt_handle) {
+> +    if (kvm_state && kvm_state->guest_memory_protection) {
+>          return true;
+>      }
+> =20
+> @@ -181,10 +181,13 @@ bool kvm_memcrypt_enabled(void)
+> =20
+>  int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len)
+>  {
+> -    if (kvm_state->memcrypt_handle &&
+> -        kvm_state->memcrypt_encrypt_data) {
+> -        return kvm_state->memcrypt_encrypt_data(kvm_state->memcrypt_hand=
+le,
+> -                                              ptr, len);
+> +    GuestMemoryProtection *gmpo =3D kvm_state->guest_memory_protection;
+> +
+> +    if (gmpo) {
+> +        GuestMemoryProtectionClass *gmpc =3D
+> +            GUEST_MEMORY_PROTECTION_GET_CLASS(gmpo);
+> +
+> +        return gmpc->encrypt_data(gmpo, ptr, len);
+>      }
+> =20
+>      return 1;
+> @@ -2101,13 +2104,11 @@ static int kvm_init(MachineState *ms)
+>       * encryption context.
+>       */
+>      if (ms->memory_encryption) {
+> -        kvm_state->memcrypt_handle =3D sev_guest_init(ms->memory_encrypt=
+ion);
+> -        if (!kvm_state->memcrypt_handle) {
+> +        kvm_state->guest_memory_protection =3D sev_guest_init(ms->memory=
+_encryption);
+> +        if (!kvm_state->guest_memory_protection) {
+>              ret =3D -1;
+>              goto err;
+>          }
+> -
+> -        kvm_state->memcrypt_encrypt_data =3D sev_encrypt_data;
+>      }
+> =20
+>      ret =3D kvm_arch_init(ms, s);
+> diff --git a/accel/kvm/sev-stub.c b/accel/kvm/sev-stub.c
+> index 4f97452585..4a5cc5569e 100644
+> --- a/accel/kvm/sev-stub.c
+> +++ b/accel/kvm/sev-stub.c
+> @@ -15,11 +15,6 @@
+>  #include "qemu-common.h"
+>  #include "sysemu/sev.h"
+> =20
+> -int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len)
+> -{
+> -    abort();
+> -}
+> -
+>  void *sev_guest_init(const char *id)
+>  {
+>      return NULL;
+
+This requires some extra care:
+
+accel/kvm/sev-stub.c:18:7: error: conflicting types for =E2=80=98sev_guest_=
+init=E2=80=99
+ void *sev_guest_init(const char *id)
+       ^~~~~~~~~~~~~~
+In file included from accel/kvm/sev-stub.c:16:0:
+include/sysemu/sev.h:21:24: note: previous declaration of =E2=80=98sev_gues=
+t_init=E2=80=99 was here
+ GuestMemoryProtection *sev_guest_init(const char *id);
+                        ^~~~~~~~~~~~~~
+rules.mak:69: recipe for target 'accel/kvm/sev-stub.o' failed
+
+> diff --git a/include/exec/guest-memory-protection.h b/include/exec/guest-=
+memory-protection.h
+> index 38e9b01667..eb712a5804 100644
+> --- a/include/exec/guest-memory-protection.h
+> +++ b/include/exec/guest-memory-protection.h
+> @@ -30,6 +30,8 @@ typedef struct GuestMemoryProtection GuestMemoryProtect=
+ion;
+> =20
+>  typedef struct GuestMemoryProtectionClass {
+>      InterfaceClass parent;
+> +
+> +    int (*encrypt_data)(GuestMemoryProtection *, uint8_t *, uint64_t);
+>  } GuestMemoryProtectionClass;
+> =20
+>  #endif /* QEMU_GUEST_MEMORY_PROTECTION_H */
+> diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
+> index 98c1ec8d38..7735a7942e 100644
+> --- a/include/sysemu/sev.h
+> +++ b/include/sysemu/sev.h
+> @@ -16,6 +16,8 @@
+> =20
+>  #include "sysemu/kvm.h"
+> =20
+> -void *sev_guest_init(const char *id);
+> -int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len);
+> +typedef struct GuestMemoryProtection GuestMemoryProtection;
+> +
+> +GuestMemoryProtection *sev_guest_init(const char *id);
+> +
+>  #endif
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index d273174ad3..986c2fee51 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -28,6 +28,7 @@
+>  #include "sysemu/runstate.h"
+>  #include "trace.h"
+>  #include "migration/blocker.h"
+> +#include "exec/guest-memory-protection.h"
+> =20
+>  #define TYPE_SEV_GUEST "sev-guest"
+>  #define SEV_GUEST(obj)                                          \
+> @@ -281,26 +282,6 @@ sev_guest_set_sev_device(Object *obj, const char *va=
+lue, Error **errp)
+>      sev->sev_device =3D g_strdup(value);
+>  }
+> =20
+> -static void
+> -sev_guest_class_init(ObjectClass *oc, void *data)
+> -{
+> -    object_class_property_add_str(oc, "sev-device",
+> -                                  sev_guest_get_sev_device,
+> -                                  sev_guest_set_sev_device);
+> -    object_class_property_set_description(oc, "sev-device",
+> -            "SEV device to use");
+> -    object_class_property_add_str(oc, "dh-cert-file",
+> -                                  sev_guest_get_dh_cert_file,
+> -                                  sev_guest_set_dh_cert_file);
+> -    object_class_property_set_description(oc, "dh-cert-file",
+> -            "guest owners DH certificate (encoded with base64)");
+> -    object_class_property_add_str(oc, "session-file",
+> -                                  sev_guest_get_session_file,
+> -                                  sev_guest_set_session_file);
+> -    object_class_property_set_description(oc, "session-file",
+> -            "guest owners session parameters (encoded with base64)");
+> -}
+> -
+>  static void
+>  sev_guest_instance_init(Object *obj)
+>  {
+> @@ -319,20 +300,6 @@ sev_guest_instance_init(Object *obj)
+>                                     OBJ_PROP_FLAG_READWRITE);
+>  }
+> =20
+> -/* sev guest info */
+> -static const TypeInfo sev_guest_info =3D {
+> -    .parent =3D TYPE_OBJECT,
+> -    .name =3D TYPE_SEV_GUEST,
+> -    .instance_size =3D sizeof(SevGuestState),
+> -    .instance_finalize =3D sev_guest_finalize,
+> -    .class_init =3D sev_guest_class_init,
+> -    .instance_init =3D sev_guest_instance_init,
+> -    .interfaces =3D (InterfaceInfo[]) {
+> -        { TYPE_USER_CREATABLE },
+> -        { }
+> -    }
+> -};
+> -
+>  static SevGuestState *
+>  lookup_sev_guest_info(const char *id)
+>  {
+> @@ -670,7 +637,7 @@ sev_vm_state_change(void *opaque, int running, RunSta=
+te state)
+>      }
+>  }
+> =20
+> -void *
+> +GuestMemoryProtection *
+>  sev_guest_init(const char *id)
+>  {
+>      SevGuestState *sev;
+> @@ -748,16 +715,16 @@ sev_guest_init(const char *id)
+>      qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
+>      qemu_add_vm_change_state_handler(sev_vm_state_change, sev);
+> =20
+> -    return sev;
+> +    return GUEST_MEMORY_PROTECTION(sev);
+>  err:
+>      sev_guest =3D NULL;
+>      return NULL;
+>  }
+> =20
+> -int
+> -sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len)
+> +static int
+> +sev_encrypt_data(GuestMemoryProtection *opaque, uint8_t *ptr, uint64_t l=
+en)
+>  {
+> -    SevGuestState *sev =3D handle;
+> +    SevGuestState *sev =3D SEV_GUEST(opaque);
+> =20
+>      assert(sev);
+> =20
+> @@ -769,6 +736,45 @@ sev_encrypt_data(void *handle, uint8_t *ptr, uint64_=
+t len)
+>      return 0;
+>  }
+> =20
+> +static void
+> +sev_guest_class_init(ObjectClass *oc, void *data)
+> +{
+> +    GuestMemoryProtectionClass *gmpc =3D GUEST_MEMORY_PROTECTION_CLASS(o=
+c);
+> +
+> +    object_class_property_add_str(oc, "sev-device",
+> +                                  sev_guest_get_sev_device,
+> +                                  sev_guest_set_sev_device);
+> +    object_class_property_set_description(oc, "sev-device",
+> +        "SEV device to use");
+> +    object_class_property_add_str(oc, "dh-cert-file",
+> +                                  sev_guest_get_dh_cert_file,
+> +                                  sev_guest_set_dh_cert_file);
+> +    object_class_property_set_description(oc, "dh-cert-file",
+> +        "guest owners DH certificate (encoded with base64)");
+> +    object_class_property_add_str(oc, "session-file",
+> +                                  sev_guest_get_session_file,
+> +                                  sev_guest_set_session_file);
+> +    object_class_property_set_description(oc, "session-file",
+> +        "guest owners session parameters (encoded with base64)");
+> +
+> +    gmpc->encrypt_data =3D sev_encrypt_data;
+> +}
+> +
+> +/* sev guest info */
+> +static const TypeInfo sev_guest_info =3D {
+> +    .parent =3D TYPE_OBJECT,
+> +    .name =3D TYPE_SEV_GUEST,
+> +    .instance_size =3D sizeof(SevGuestState),
+> +    .instance_finalize =3D sev_guest_finalize,
+> +    .class_init =3D sev_guest_class_init,
+> +    .instance_init =3D sev_guest_instance_init,
+> +    .interfaces =3D (InterfaceInfo[]) {
+> +        { TYPE_GUEST_MEMORY_PROTECTION },
+> +        { TYPE_USER_CREATABLE },
+> +        { }
+> +    }
+> +};
+> +
+>  static void
+>  sev_register_types(void)
+>  {
 
 
