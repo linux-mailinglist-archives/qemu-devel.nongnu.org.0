@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154E31E3051
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 22:53:23 +0200 (CEST)
-Received: from localhost ([::1]:50978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BB8A1E3148
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 23:37:14 +0200 (CEST)
+Received: from localhost ([::1]:51816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdgZd-0001tT-K0
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 16:53:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47290)
+	id 1jdhG5-0005eZ-5O
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 17:37:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jdgYa-0001Lx-2X
- for qemu-devel@nongnu.org; Tue, 26 May 2020 16:52:16 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29242
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jdgYY-0005lu-Cg
- for qemu-devel@nongnu.org; Tue, 26 May 2020 16:52:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590526333;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0iMtgWZah1bETQAZYAbkQYZKRdt9+PtF2I/AcXaHN10=;
- b=LkFS+Nfvr7mIe6nFN1VawcTCG90uuBZUhSSbSsZ1cfg3l0/ySRpBK1ecWYu1w9I5zEHbLN
- 6Hf+OqM1E7vqym2PxK/GDqxcCjszarMe0K+qYaOsmGFlCRmpxKCPyTgL64p14/UF1a1+ad
- zsjMU+NoFqf6wGz/MGBSnxPE/StwTr4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-SHRWYQcDPm-sOEF0aNuUwQ-1; Tue, 26 May 2020 16:52:08 -0400
-X-MC-Unique: SHRWYQcDPm-sOEF0aNuUwQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C079E1800D42;
- Tue, 26 May 2020 20:52:07 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD9C579C50;
- Tue, 26 May 2020 20:52:03 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] fixup! block: generate coroutine-wrapper code
-Date: Tue, 26 May 2020 15:51:59 -0500
-Message-Id: <20200526205159.1697083-1-eblake@redhat.com>
-In-Reply-To: <20200525100801.13859-4-vsementsov@virtuozzo.com>
-References: <20200525100801.13859-4-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdhEV-0004mV-Ge
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 17:35:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40990)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdhEU-00024l-3u
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 17:35:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jdhEQ-00060d-Ek
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 21:35:30 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 68D8D2E8072
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 21:35:30 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:14:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 26 May 2020 21:27:02 -0000
+From: Ahmed Karaman <1880763@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=ahmedkrmn@outlook.com; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ahmedkrmn
+X-Launchpad-Bug-Reporter: Ahmed Karaman (ahmedkrmn)
+X-Launchpad-Bug-Modifier: Ahmed Karaman (ahmedkrmn)
+Message-Id: <159052842235.20182.6565477896254015468.malonedeb@soybean.canonical.com>
+Subject: [Bug 1880763] [NEW] Missing page crossing check in use_goto_tb() for
+ rx target
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 388eade651498b6a92b70f6f9cb61a0108f55b1b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 17:35:31
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,42 +73,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, den@openvz.org
+Reply-To: Bug 1880763 <1880763@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Public bug reported:
 
-Fix Makefile usage for VPATH builds
+Currently the rx target doesn't have the page crossing check in its =
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
+use_goto_tb() function. =
 
-This fixup lets me build locally with my VPATH build; it probably also
-explains why patchew and other CLI tools (which use VPATH) were
-failing.
+This is a required feature for stable system mode emulations that all =
 
- Makefile | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+other targets implement.
 
-diff --git a/Makefile b/Makefile
-index ec15b8ea8900..d194cf067ba7 100644
---- a/Makefile
-+++ b/Makefile
-@@ -179,7 +179,9 @@ generated-files-y += .git-submodule-status
+** Affects: qemu
+     Importance: Undecided
+     Assignee: Ahmed Karaman (ahmedkrmn)
+         Status: New
 
- COROUTINE_HEADERS = include/block/block.h block/coroutines.h
- block/block-gen.c: $(COROUTINE_HEADERS) $(SRC_PATH)/scripts/coroutine-wrapper.py
--	$(call quiet-command, cat $(COROUTINE_HEADERS) | $(SRC_PATH)/scripts/coroutine-wrapper.py > $@,"GEN","$(TARGET_DIR)$@")
-+	$(call quiet-command, \
-+	  cat $(addprefix $(SRC_PATH)/,$(COROUTINE_HEADERS)) | \
-+	  $(SRC_PATH)/scripts/coroutine-wrapper.py > $@,"GEN","$(TARGET_DIR)$@")
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Ahmed Karaman (ahmedkrmn)
 
- trace-group-name = $(shell dirname $1 | sed -e 's/[^a-zA-Z0-9]/_/g')
+-- =
 
--- 
-2.26.2
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1880763
 
+Title:
+  Missing page crossing check in use_goto_tb() for rx target
+
+Status in QEMU:
+  New
+
+Bug description:
+  Currently the rx target doesn't have the page crossing check in its =
+
+  use_goto_tb() function. =
+
+  This is a required feature for stable system mode emulations that all =
+
+  other targets implement.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1880763/+subscriptions
 
