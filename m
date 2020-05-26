@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D26B01E27CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:59:09 +0200 (CEST)
-Received: from localhost ([::1]:48298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B341E27B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:52:27 +0200 (CEST)
+Received: from localhost ([::1]:49402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdcuy-0006uc-FS
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:59:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49296)
+	id 1jdcoU-0001hv-8t
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jdcly-0007Gs-1U; Tue, 26 May 2020 12:49:50 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:42005)
+ id 1jdcmu-0008Mx-Fs; Tue, 26 May 2020 12:50:48 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:41494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jdclx-0007qE-4I; Tue, 26 May 2020 12:49:49 -0400
-Received: by mail-il1-x144.google.com with SMTP id 18so21175643iln.9;
- Tue, 26 May 2020 09:49:48 -0700 (PDT)
+ id 1jdcmt-0008P8-8X; Tue, 26 May 2020 12:50:48 -0400
+Received: by mail-io1-xd42.google.com with SMTP id o5so22742175iow.8;
+ Tue, 26 May 2020 09:50:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=2KoUX+e5g1rmy+CRz+7sdJM4czxsGYzwfbSWV5cSDkM=;
- b=S0w04FF7T7bnf84GgZ7iEeaGAjKRa99jBNbbiznc6NxicvC649WmHhpTTTPuIWktIG
- 2yiSdjFAXjNfZ4uA6tP0KDgaynlXOjPbFq4aMIvgZ4LlKgdDfhWhSBdceF7LO5c4IMLy
- xFQ0XemyFB7fKVX6AL/8TEcgT+MRNRJ5HovYRKZeBXWLPa/6tuqpe7rJBzTe3dSv6NEE
- bM/A1e16xbiefPkTt1poacZ7ZTW3Byt2LzIW+89rFls7/Jk9tSUykZaMpI4gnRt8cg57
- LaPBd/x8NLo7oRWF2uO1n3vPqcTOPbQMiZgSLViQg/9JmHnivyGepGA/0YLPJqZqplIA
- ClZA==
+ bh=4xhxIuW5e7MTY17vJexhuzlogi09eAgFg3lNXL700Oc=;
+ b=uygr6lw7iZ5vnE1WD+PojkgydN/vd4U/GOGrtaI/dHHgBelfq8fXQLEZBUGrcMUsNx
+ s2rQZCjSKAqSfcK26TuA2103yaVQA3WDL0sguGB5GmNSdahiErUrIshSroZpJjAta886
+ Wss6/sg8albn11yBHg+T+F6OPJO3A/Ks743qAmYjkoKN8ovFpnCnqZcczJLQ8Bk7jyaA
+ gjlkDQg/DjFGTOlQj6LfX6zQ8nXnTkGhDLdAftnT57/lMh27od5U7QDjJ0S9ao1+O02a
+ lB6WeJLRnWOGG1xIvPLT6PgkU3fTrzwHHzNiXPOvz3cC0Yfs8c/koWijyChHWvWFFps2
+ Ek7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=2KoUX+e5g1rmy+CRz+7sdJM4czxsGYzwfbSWV5cSDkM=;
- b=BvrWCe9GsLf1NVIcFwxyDrGDzEspVk+qxKoLrZbGAbf4cdnakKUypKnSStUnW/fuTc
- fOZJQVerT0uvE5Y30y7tPoxGrLAcLlc/lwVwGe7/VykoAtjzwvCmvvBhdHXorarY8haL
- WRPd4RokZTd+qZAFkw7taIdptsX08crBJ7UEEF/2QQx7YzrX2OFad5DgRj/+TJwXsN6L
- JxVOR38bYhVrPU81zk579u4yHYzV7yDuzIKzXSQfdfssR37L8YxGF1E8y2iyU9eYs6mN
- +J4ZZBj/VUlR9YFghsa8DRQo0wpJzYkJ6WJUDr26QInpliVqaJMvbdXU0t4FeDQdscDn
- tqKA==
-X-Gm-Message-State: AOAM532/jMibkaTkuxfbwkeyFg+SevJ/1D1SdQfzbu9hEfN02aSj4Fa6
- Qpls3Uzq0KrI2vHP1ZCeQLcKJ/2MtAWwd6uLBVw=
-X-Google-Smtp-Source: ABdhPJy9jkbUJ0bO2l2TwYZZcEJFfChtxqwdylPwijaQfoGltI/7LJsBOc55rLhfY7fb+WSD2C+oYznmELJZ958imGs=
-X-Received: by 2002:a92:d087:: with SMTP id h7mr2131565ilh.227.1590511787083; 
- Tue, 26 May 2020 09:49:47 -0700 (PDT)
+ bh=4xhxIuW5e7MTY17vJexhuzlogi09eAgFg3lNXL700Oc=;
+ b=P1LIyHs0mAzCei121O86kF/tnPI9SkJLpxCrz6ryvr5kaLeBswOHtD0WsWVCg+7O3T
+ mYq47dOYj6iEV+6imzwLXygiEaPJrk29YS2nnzIKVuOYhIWgmscjnjAZW267+M7lS74s
+ ubnPbreOmURq7h1wcVHaZOGLKoigCtTODtvMyHGGfCHNa8MJY5e9f/YSK8WB0t0MPo2Z
+ 4HtWTcZhyoJW37QkNjGQRvm8xKFWuoq3XPoQ2lYbimZdBof4vjtT1CfP2m8er6sQ2/78
+ W+bsqPpb7bnBepIF6j//FAekNqGSZXst39vn4K9TeJkyu/sFH//XuxjwrpwzYHdDHidb
+ 5zhw==
+X-Gm-Message-State: AOAM5306fIBOM7ql0S9QRIAzs0p455DlVoGiuKupvYpbb5w450XmUrAm
+ Ec4Ne8A8LKgFq6ZKvQLBiT6+HE1PmreQTSlhGtc=
+X-Google-Smtp-Source: ABdhPJyncKVcuCtrgK6WZ/NuVPhU4G8aCrFJYvhnLbiixk+Wq6nzRO7BdNF5PR7woGqtLp76fSqzuNp+iDnaojUPX0U=
+X-Received: by 2002:a5d:9d03:: with SMTP id j3mr4516138ioj.176.1590511845417; 
+ Tue, 26 May 2020 09:50:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200526062252.19852-1-f4bug@amsat.org>
- <20200526062252.19852-2-f4bug@amsat.org>
-In-Reply-To: <20200526062252.19852-2-f4bug@amsat.org>
+ <20200526062252.19852-3-f4bug@amsat.org>
+In-Reply-To: <20200526062252.19852-3-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 26 May 2020 09:40:48 -0700
-Message-ID: <CAKmqyKNqv=CKpWpshU854joqp4KjxYjbNGdaik-BX-XePx5kvg@mail.gmail.com>
-Subject: Re: [PATCH 01/14] hw/display/edid: Add missing 'qdev-properties.h'
- header
+Date: Tue, 26 May 2020 09:41:46 -0700
+Message-ID: <CAKmqyKMhGXK+NPH16neMJc+8q7tGACHzTpMqT1CgpXT6x9fR0A@mail.gmail.com>
+Subject: Re: [PATCH 02/14] hw/display/cg3: Convert debug printf()s to trace
+ events
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -83,9 +83,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  QEMU Trivial <qemu-trivial@nongnu.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
  Gerd Hoffmann <kraxel@redhat.com>,
@@ -96,21 +95,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, May 25, 2020 at 11:23 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
 rg> wrote:
 >
-> When trying to consume the DEFINE_EDID_PROPERTIES() macro
-> by including "hw/display/edid.h", we get this build failure:
+> Convert DPRINTF() to trace events and remove ifdef'ry.
 >
->   include/hw/display/edid.h:24:5: error: implicit declaration of
->   function =E2=80=98DEFINE_PROP_UINT32=E2=80=99 [-Werror=3Dimplicit-funct=
-ion-declaration]
->      24 |     DEFINE_PROP_UINT32("xres", _state, _edid_info.prefx, 0),   =
- \
->         |     ^~~~~~~~~~~~~~~~~~
->
-> Headers should be self-contained, and one shouldn't have to
-> dig to find the missing headers.
-> In this case "hw/qdev-properties.h" is missing. Add it.
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
@@ -118,21 +104,78 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  include/hw/display/edid.h | 1 +
->  1 file changed, 1 insertion(+)
+>  hw/display/cg3.c        | 14 ++++----------
+>  hw/display/trace-events |  4 ++++
+>  2 files changed, 8 insertions(+), 10 deletions(-)
 >
-> diff --git a/include/hw/display/edid.h b/include/hw/display/edid.h
-> index ff99dc0a05..23371ee82c 100644
-> --- a/include/hw/display/edid.h
-> +++ b/include/hw/display/edid.h
-> @@ -2,6 +2,7 @@
->  #define EDID_H
+> diff --git a/hw/display/cg3.c b/hw/display/cg3.c
+> index f7f1c199ce..7cbe6e56ff 100644
+> --- a/hw/display/cg3.c
+> +++ b/hw/display/cg3.c
+> @@ -35,6 +35,7 @@
+>  #include "hw/qdev-properties.h"
+>  #include "qemu/log.h"
+>  #include "qemu/module.h"
+> +#include "trace.h"
 >
->  #include "qom/object.h"
-> +#include "hw/qdev-properties.h"
+>  /* Change to 1 to enable debugging */
+>  #define DEBUG_CG3 0
+> @@ -63,12 +64,6 @@
+>  #define CG3_VRAM_SIZE 0x100000
+>  #define CG3_VRAM_OFFSET 0x800000
 >
->  typedef struct qemu_edid_info {
->      const char *vendor; /* http://www.uefi.org/pnp_id_list */
+> -#define DPRINTF(fmt, ...) do { \
+> -    if (DEBUG_CG3) { \
+> -        printf("CG3: " fmt , ## __VA_ARGS__); \
+> -    } \
+> -} while (0)
+> -
+>  #define TYPE_CG3 "cgthree"
+>  #define CG3(obj) OBJECT_CHECK(CG3State, (obj), TYPE_CG3)
+>
+> @@ -195,7 +190,8 @@ static uint64_t cg3_reg_read(void *opaque, hwaddr add=
+r, unsigned size)
+>          val =3D 0;
+>          break;
+>      }
+> -    DPRINTF("read %02x from reg %" HWADDR_PRIx "\n", val, addr);
+> +    trace_cg3_read(addr, val, size);
+> +
+>      return val;
+>  }
+>
+> @@ -206,9 +202,7 @@ static void cg3_reg_write(void *opaque, hwaddr addr, =
+uint64_t val,
+>      uint8_t regval;
+>      int i;
+>
+> -    DPRINTF("write %" PRIx64 " to reg %" HWADDR_PRIx " size %d\n",
+> -            val, addr, size);
+> -
+> +    trace_cg3_write(addr, val, size);
+>      switch (addr) {
+>      case CG3_REG_BT458_ADDR:
+>          s->dac_index =3D val;
+> diff --git a/hw/display/trace-events b/hw/display/trace-events
+> index e6e22bef88..47b2b168ae 100644
+> --- a/hw/display/trace-events
+> +++ b/hw/display/trace-events
+> @@ -151,3 +151,7 @@ artist_vram_write(unsigned int size, uint64_t addr, u=
+int64_t val) "%u 0x%"PRIx64
+>  artist_fill_window(unsigned int start_x, unsigned int start_y, unsigned =
+int width, unsigned int height, uint32_t op, uint32_t ctlpln) "start=3D%ux%=
+u length=3D%ux%u op=3D0x%08x ctlpln=3D0x%08x"
+>  artist_block_move(unsigned int start_x, unsigned int start_y, unsigned i=
+nt dest_x, unsigned int dest_y, unsigned int width, unsigned int height) "s=
+ource %ux%u -> dest %ux%u size %ux%u"
+>  artist_draw_line(unsigned int start_x, unsigned int start_y, unsigned in=
+t end_x, unsigned int end_y) "%ux%u %ux%u"
+> +
+> +# cg3.c
+> +cg3_read(uint32_t addr, uint32_t val, unsigned size) "read addr:0x%06"PR=
+Ix32" val:0x%08"PRIx32" size:%u"
+> +cg3_write(uint32_t addr, uint32_t val, unsigned size) "write addr:0x%06"=
+PRIx32" val:0x%08"PRIx32" size:%u"
 > --
 > 2.21.3
 >
