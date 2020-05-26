@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB8F1E2932
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 19:39:28 +0200 (CEST)
-Received: from localhost ([::1]:41758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 769681E293B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 19:41:09 +0200 (CEST)
+Received: from localhost ([::1]:46334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jddXz-0003zg-B3
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 13:39:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44734)
+	id 1jddZc-0005uu-Ei
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 13:41:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jddVU-0000Pg-7G; Tue, 26 May 2020 13:36:52 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:38431)
+ id 1jddW8-0001j9-Vn; Tue, 26 May 2020 13:37:33 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:36680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jddVT-0005Kf-7L; Tue, 26 May 2020 13:36:51 -0400
-Received: by mail-qk1-x743.google.com with SMTP id f189so21461279qkd.5;
- Tue, 26 May 2020 10:36:49 -0700 (PDT)
+ id 1jddW7-0005ll-4D; Tue, 26 May 2020 13:37:31 -0400
+Received: by mail-il1-x141.google.com with SMTP id 17so21344269ilj.3;
+ Tue, 26 May 2020 10:37:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=1TGHuJezfA7VGfMb0nJjVu3KUhXGXNlW/nSKttdeGD0=;
- b=ZoQQQYH8tbI1Dv3TIR/e2vLBGcsW4me5bKvbVUKndPxcPnDlmuKe8wu7NOKPkd+QQc
- Dr/51CAPwMqKYUCKb+e42WEomZdYu7n6TDlnqNLsI4vr9R4389x0ffWtX7M/A/hu7ETf
- OdwmBq3pwm4jBkiteF0y3JRqphNAS42L60l3PLh9god0pXMBUHFATBiagREA0xGI9qXX
- GfT9xrYvQl47Onm4VS+1GPH6ajdG5WxFmkPDWwE1o607K2oK8ydlkaGKgWFkW0K2V6dt
- jOb6ZpJnxL77YXLiZ+nwX9N0kSBRpKx8t5w+APlFZZbpjo0Iv+XALPVWKMzvalOQxOsJ
- w6Wg==
+ bh=7dIEbDvjdPSgiC8KM+8KpNw2JYaYxr6R5A6LSlImonY=;
+ b=jQgFVP3zBEvCFOi/6th7JnPuipZCfzltmxZv+SAGJbagvzWUylgKGdXJTbxZ/wqNIR
+ 8cr9l+hXsuY3MfkvyUYE2FDHVv3Q++ZKvgJN12jdv6C11BrFVr8RuJIDJHhjKWpFlWCF
+ WMiEC/9BdIics6oxDXdqi8E0eVKzqCrtmbnhAti77ZtRsYE4/M0+S/09dw474ZJKbHFi
+ 9FG1QRJwvkjk8fCT7C1Yi2EFxnGD4V5TRfY/JR88nqPkikv90yNpkhvXgf0RGrpsWA0R
+ hiWYEYaGOKd3+tFwn62+jvI55mmfQo+HE0MxDmAK3XsYJuGFIFHXxNzb/XBeggEgzxex
+ ndkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=1TGHuJezfA7VGfMb0nJjVu3KUhXGXNlW/nSKttdeGD0=;
- b=Qn8Xt9iSHuyPxaloUF/p57YauaqJZ2cBc11QfhVmAiT8Gdi6lQHbGRMMQ74D39iUdV
- 5E3Ng7EFftkmQuiNouAszHIMw5UokTeB6kYyBqahhkXUhZfzB6mMxfHeGZyfSGlxdFZA
- Qbpmswp95sjP909Oe2pAoryFYhMzqx7FC1CV7cIgMsFAyIcHEXW8tVmu0eh6gSbFkH8+
- /d31RWFm3i877oWevJJt+T5G8K6XrZdJkPDIXjc1TFytrWuMPkxIUzo5/L5N9waSo2/n
- vcpqANZE+m9orjkOfsiONhF8py6O153QNhauEg9JPWQUePMDPPfaf35TmKazMP0P8S+E
- EZQg==
-X-Gm-Message-State: AOAM530QDicx4YPhWW7kYbj2QIOhuuFEyDPDLyMD5tZBuTtKY8aQIjhH
- EoPCs6qAGck9j+fQp8ab5xJ1gWQVKd90fNmr25k=
-X-Google-Smtp-Source: ABdhPJzNVySN//WhPY0a5gHK7WziJtHdmF/9F+Wt5kwicBi/mK5uF0cK6reEutUDlLOxwut5Oiqb6atw40QxOWZG+8A=
-X-Received: by 2002:a37:90f:: with SMTP id 15mr2584316qkj.339.1590514609304;
- Tue, 26 May 2020 10:36:49 -0700 (PDT)
+ bh=7dIEbDvjdPSgiC8KM+8KpNw2JYaYxr6R5A6LSlImonY=;
+ b=UE4WoQ+LhGxQtUFXVwXHAQreVzRAKJZjCPke00y1jxpypceB8Mf4cMqSEIZ8q95iCS
+ VT8ZvSqBrtocBWLXV5bkqzZJhpYZZ2xnX18lfkDiXIi2fto2/kiPycKFurTuu0LhCGKn
+ 3LyVNpQKfgCK4uoyd6Si4wZjC8yTTv92bg9FSFQ16itZ+hZXetLqOz00Bc0KgzwnLRhM
+ GS5nspLPiJw8ju3DwZ/LJo8fcavkvgVbOHu+OQr5ZblghVE8igCzD3STGIIbNe7nkFy4
+ aR5RPfYkB9esspp3xDJUSvRhHQ2J8oX6T9/i7Biz7QvSWp3w6gH7cNf/v5ErddFwAuGx
+ PDTA==
+X-Gm-Message-State: AOAM533l0ZZO5ohZftrRntKIDgoKjrq+mBRTK+G4h1mEy6kMW8KcX4Uq
+ mBO7OAI76YucMStKaluufn97Y6MQNH04jGYHil4=
+X-Google-Smtp-Source: ABdhPJzhC0PdugwaudBVQOwlxOW61qX8+Ql10z8rH3hctJ4A1vgLodp3f51KA/0/+6NrK4kpdNc3MNv2rc1Si2r2Dwg=
+X-Received: by 2002:a92:d087:: with SMTP id h7mr2336786ilh.227.1590514649527; 
+ Tue, 26 May 2020 10:37:29 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200526062252.19852-1-f4bug@amsat.org>
- <20200526062252.19852-14-f4bug@amsat.org>
-In-Reply-To: <20200526062252.19852-14-f4bug@amsat.org>
+ <20200526062252.19852-15-f4bug@amsat.org>
+In-Reply-To: <20200526062252.19852-15-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 26 May 2020 10:27:46 -0700
-Message-ID: <CAKmqyKMYp99tBHO_T63ib06dHr1wu3ynP5aOPTxVh8v3nWHZeQ@mail.gmail.com>
-Subject: Re: [PATCH 13/14] hw/display/omap_dss: Replace fprintf() call by
- qemu_log_mask(LOG_UNIMP)
+Date: Tue, 26 May 2020 10:28:29 -0700
+Message-ID: <CAKmqyKM9r2QXppfiEW4RVrXNbYzhx-Ds2CsODKVUk0Sxei0JwA@mail.gmail.com>
+Subject: Re: [PATCH 14/14] hw/display/pxa2xx_lcd: Replace printf() call by
+ qemu_log_mask()
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::743;
- envelope-from=alistair23@gmail.com; helo=mail-qk1-x743.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -92,10 +92,10 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 25, 2020 at 11:35 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+On Mon, May 25, 2020 at 11:36 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
 rg> wrote:
 >
-> Replace fprintf() call by qemu_log_mask(LOG_UNIMP), which is
+> Replace printf() calls by qemu_log_mask(UNIMP), which is
 > disabled by default. This avoid flooding the terminal when
 > fuzzing the device.
 >
@@ -106,25 +106,76 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/display/omap_dss.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/display/pxa2xx_lcd.c | 26 ++++++++++++++------------
+>  1 file changed, 14 insertions(+), 12 deletions(-)
 >
-> diff --git a/hw/display/omap_dss.c b/hw/display/omap_dss.c
-> index 32dc0d6aa7..21fde58a26 100644
-> --- a/hw/display/omap_dss.c
-> +++ b/hw/display/omap_dss.c
-> @@ -619,7 +619,7 @@ static void omap_rfbi_transfer_start(struct omap_dss_=
-s *s)
->      if (s->rfbi.control & (1 << 1)) {                          /* BYPASS=
- */
->          /* TODO: in non-Bypass mode we probably need to just assert the
->           * DRQ and wait for DMA to write the pixels.  */
-> -        fprintf(stderr, "%s: Bypass mode unimplemented\n", __func__);
-> +        qemu_log_mask(LOG_UNIMP, "%s: Bypass mode unimplemented\n", __fu=
-nc__);
->          return;
->      }
+> diff --git a/hw/display/pxa2xx_lcd.c b/hw/display/pxa2xx_lcd.c
+> index d5f2e82a4e..ff90104b80 100644
+> --- a/hw/display/pxa2xx_lcd.c
+> +++ b/hw/display/pxa2xx_lcd.c
+> @@ -426,9 +426,10 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr o=
+ffset,
+>          if ((s->control[0] & LCCR0_ENB) && !(value & LCCR0_ENB))
+>              s->status[0] |=3D LCSR0_QD;
 >
+> -        if (!(s->control[0] & LCCR0_LCDT) && (value & LCCR0_LCDT))
+> -            printf("%s: internal frame buffer unsupported\n", __func__);
+> -
+> +        if (!(s->control[0] & LCCR0_LCDT) && (value & LCCR0_LCDT)) {
+> +            qemu_log_mask(LOG_UNIMP,
+> +                          "%s: internal frame buffer unsupported\n", __f=
+unc__);
+> +        }
+>          if ((s->control[3] & LCCR3_API) &&
+>                  (value & LCCR0_ENB) && !(value & LCCR0_LCDT))
+>              s->status[0] |=3D LCSR0_ABC;
+> @@ -462,9 +463,9 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr of=
+fset,
+>          break;
+>
+>      case OVL1C1:
+> -        if (!(s->ovl1c[0] & OVLC1_EN) && (value & OVLC1_EN))
+> -            printf("%s: Overlay 1 not supported\n", __func__);
+> -
+> +        if (!(s->ovl1c[0] & OVLC1_EN) && (value & OVLC1_EN)) {
+> +            qemu_log_mask(LOG_UNIMP, "%s: Overlay 1 not supported\n", __=
+func__);
+> +        }
+>          s->ovl1c[0] =3D value & 0x80ffffff;
+>          s->dma_ch[1].up =3D (value & OVLC1_EN) || (s->control[0] & LCCR0=
+_SDS);
+>          break;
+> @@ -474,9 +475,9 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr of=
+fset,
+>          break;
+>
+>      case OVL2C1:
+> -        if (!(s->ovl2c[0] & OVLC1_EN) && (value & OVLC1_EN))
+> -            printf("%s: Overlay 2 not supported\n", __func__);
+> -
+> +        if (!(s->ovl2c[0] & OVLC1_EN) && (value & OVLC1_EN)) {
+> +            qemu_log_mask(LOG_UNIMP, "%s: Overlay 2 not supported\n", __=
+func__);
+> +        }
+>          s->ovl2c[0] =3D value & 0x80ffffff;
+>          s->dma_ch[2].up =3D !!(value & OVLC1_EN);
+>          s->dma_ch[3].up =3D !!(value & OVLC1_EN);
+> @@ -488,9 +489,10 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr o=
+ffset,
+>          break;
+>
+>      case CCR:
+> -        if (!(s->ccr & CCR_CEN) && (value & CCR_CEN))
+> -            printf("%s: Hardware cursor unimplemented\n", __func__);
+> -
+> +        if (!(s->ccr & CCR_CEN) && (value & CCR_CEN)) {
+> +            qemu_log_mask(LOG_UNIMP,
+> +                          "%s: Hardware cursor unimplemented\n", __func_=
+_);
+> +        }
+>          s->ccr =3D value & 0x81ffffe7;
+>          s->dma_ch[5].up =3D !!(value & CCR_CEN);
+>          break;
 > --
 > 2.21.3
 >
