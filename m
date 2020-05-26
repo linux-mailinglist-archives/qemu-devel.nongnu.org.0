@@ -2,64 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517441E1D25
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:21:07 +0200 (CEST)
-Received: from localhost ([::1]:39108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7ED1E1D28
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:21:47 +0200 (CEST)
+Received: from localhost ([::1]:41826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUpe-0007Vr-BI
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:21:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47822)
+	id 1jdUqI-0000HI-9J
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:21:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jdUmi-00036e-TP; Tue, 26 May 2020 04:18:04 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:51184)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jdUmh-00070B-Qi; Tue, 26 May 2020 04:18:04 -0400
-Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::119])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id DCE032E1510;
- Tue, 26 May 2020 11:18:01 +0300 (MSK)
-Received: from iva8-88b7aa9dc799.qloud-c.yandex.net
- (iva8-88b7aa9dc799.qloud-c.yandex.net [2a02:6b8:c0c:77a0:0:640:88b7:aa9d])
- by mxbackcorp2j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- VqyTYEYiK8-HwdKg7Su; Tue, 26 May 2020 11:18:01 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1590481081; bh=OOGP43LCRnsl7Y4se3qA0Gu2DQeJS48XyBa7OTMtlzc=;
- h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=ticrqhZZEF/1NTroIUO4apUnIYG4rlI93QLQqmhHQbQmM9nsVkqi/7ckl3aaZoJN0
- M5qz7j+kwkXyWumtJ5i2efWOcLK8hUs2KCQu+YHY6fvojxdMeqf7K640fbZRA4E2fS
- uM3tRuuASpP0okMneHg+tUzqPf/lLlaOpExn4ApM=
-Authentication-Results: mxbackcorp2j.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
- [2a02:6b8:b080:8909::1:0])
- by iva8-88b7aa9dc799.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- eMCAEelUnS-HwXuju7Q; Tue, 26 May 2020 11:17:58 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 5/5] block: lift blocksize property limit to 2 MiB
-Date: Tue, 26 May 2020 11:17:40 +0300
-Message-Id: <20200526081740.256236-6-rvkagan@yandex-team.ru>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200526081740.256236-1-rvkagan@yandex-team.ru>
-References: <20200526081740.256236-1-rvkagan@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdUn9-0004Bq-Nk
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 04:18:31 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41365
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdUn7-00072i-8I
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 04:18:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590481107;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pqr2X9hmGUi+6pud1TNoRJ0/wlJhnttbloos6bQARdY=;
+ b=a6OQLWI8FSVA+E0o0uzbrvnWfKsApV7i6/0UHVgt97qAhV6e2EdNOW4KJn+BQEIC3cEXWm
+ VVW9admFWiVSJpd+z7Nvp/UtmRl0rTw90ZciNLoQva+9TQrcP7/SfCDIgZ34mp9y+ibicS
+ 9pemHECta3ASqwgMKNMmeZV3H7mgosU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-96-Ko1rMqYvPJmya6bnVmgXDg-1; Tue, 26 May 2020 04:18:26 -0400
+X-MC-Unique: Ko1rMqYvPJmya6bnVmgXDg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F96580183C;
+ Tue, 26 May 2020 08:18:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
+ [10.36.112.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9077D5D9E5;
+ Tue, 26 May 2020 08:18:18 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 21F98113864A; Tue, 26 May 2020 10:18:17 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3 9/9] qapi/misc: Restrict device memory commands to
+ machine code
+References: <20200525150640.30879-1-philmd@redhat.com>
+ <20200525150640.30879-10-philmd@redhat.com>
+Date: Tue, 26 May 2020 10:18:17 +0200
+In-Reply-To: <20200525150640.30879-10-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 25 May 2020 17:06:40
+ +0200")
+Message-ID: <87h7w36ree.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:19:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,55 +85,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
+ "Michael
+ S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org, "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Logical and physical block sizes in QEMU are limited to 32 KiB.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-This appears unnecessary tight, and we've seen bigger block sizes handy
-at times.
+> Acked-by: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Lift the limitation up to 2 MiB which appears to be good enough for
-everybody, and matches the qcow2 cluster size limit.
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
-Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
----
-v4 -> v5:
-- split out into separate patch [Philippe]
-- as this patch has changed significantly lose Eric's r-b
+All patches: drop the /misc from qapi/misc: in the title, if you don't
+mind.
 
- hw/core/qdev-properties.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Observation:
+                            before series           after
+    machine-target.json     14KiB in 325 lines      15KiB in 370 lines
+    machine.json            24KiB in 933 lines      43KiB in 1652 lines
+    misc.json               38KiB in 1552 lines     18KiB in 796 lines
 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index fd945ce77f..01589e1ad6 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -1206,9 +1206,12 @@ const PropertyInfo qdev_prop_size = {
- /* lower limit is sector size */
- #define MIN_BLOCK_SIZE          512
- #define MIN_BLOCK_SIZE_STR      "512 B"
--/* upper limit is the max power of 2 that fits in uint16_t */
--#define MAX_BLOCK_SIZE          (32 * KiB)
--#define MAX_BLOCK_SIZE_STR      "32 KiB"
-+/*
-+ * upper limit is arbitrary, 2 MiB looks sufficient for all sensible uses, and
-+ * matches qcow2 cluster size limit
-+ */
-+#define MAX_BLOCK_SIZE          (2 * MiB)
-+#define MAX_BLOCK_SIZE_STR      "2 MiB"
- 
- static void set_blocksize(Object *obj, Visitor *v, const char *name,
-                           void *opaque, Error **errp)
--- 
-2.26.2
+machine.json is becoming too big.  Can we move some parts to new modules
+instead?  Bonus: these modules can then be covered properly in
+MAINTAINERS, unlike the machine.json grabbag.
+
+Obvious candidates for moving to new modules:
+
+* PATCH 8 PCI (304 lines)
+
+  This stuff belongs to MAINTAINERS section "PCI".
+
+  Michael, Marcel, any objections to new qapi/pci.json?
+
+  The QMP command code already lives in hw/pci/pci.c: qmp_query_pci().
+  Elsewhere, we keep QMP command code in files named like
+  hw/pci/pci-qmp-cmds.c, but that's probably overkill for just one
+  command.
+
+* PATCH 7 ACPI (154 lines)
+
+  This stuff belongs to MAINTAINERS section "ACPI/SMBIOS", I think.
+
+  Michael, Igor, any objections to new qapi/acpi.json?
+
+  The QMP command code lives in monitor/qmp-cmds.c:
+  qmp_query_acpi_ospm_status().  If we move the schema part to
+  acpi.json, we should consider moving the C part to hw/acpi/.
+
+* PATCH 9 memory (131 lines)
+
+  MAINTAINERS section?  include/hw/mem/memory-device.h is not covered.
+  hw/mem/memory-device.c is under "ACPI/SMBIOS".
+
+  Michael, Igor, should this stuff go into acpi.json, too?
+
+  The QMP command code lives in monitor/qmp-cmds.c:
+  qmp_query_memory_size_summary().  If we move the schema part to
+  acpi.json, we should consider moving the C part to hw/acpi/.
+
+* Any others?
 
 
