@@ -2,80 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86201E2037
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 12:56:07 +0200 (CEST)
-Received: from localhost ([::1]:60788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BF81E201D
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 12:51:10 +0200 (CEST)
+Received: from localhost ([::1]:38468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdXFe-0004a7-B0
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 06:56:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38844)
+	id 1jdXAr-0003kj-97
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 06:51:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdX7f-00074d-L1
- for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:52 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:41120)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdX7e-0002CL-Gq
- for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:51 -0400
-Received: by mail-ej1-x641.google.com with SMTP id x1so23269726ejd.8
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 03:47:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pPV3t0ciHdfu4yziGudCLa1nZMiogySec4g5RazN6FY=;
- b=c8619nWK+r2ILxOOB/tk0YZdXo2HC1k9we3JtZTnEk9MFO7h2yyMk/xgVGCBpDQb9O
- /QCcizh9SQSInR7lWChFPxHKwlx7y1BpawqaAIkX3ZrnY2ydQqXKLkS8HK/ELirwOQdw
- f4Gzlgvr0TjS4hbw10yudS2cVSaBGm1/Z+QeeGXMH1wnUj6EfgBdjkmEIaZQXLvYbiy+
- /65ehxWMmrTtgZ8e4LnJHqQ/tRxLcl6iXOYO8nHiPN787R47Roogir3swf2ngOYqCrBX
- 4Xm3VvMaQvvDnkM5gmsvP5PIP/nlzVlLkBy+TTjro0G3iio6uNBDcTDLEf2aI1dTBL7W
- f7bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=pPV3t0ciHdfu4yziGudCLa1nZMiogySec4g5RazN6FY=;
- b=PDu+OfukYgUHTLPbJ0VOiumD1C1CWJGQHi7L5KZoqAQ0JcL+m37mK5d2jN/Sec07zx
- pwMGhT7OtvO+LnPEPIRHbGh+I4qk1OQCnItA3O6YEl+rQyBFJQT8kPF5Q5GOv/XO2/HM
- BcTx+4GVoky05CIvTb19k5V/WAYbvVKH6ATqyweImKm+qplraDolpYThmBHftdjh5IW5
- ydo0Kk+8n7zr7ZDtSCLahuOmI54Ln/wl56NWX60q1aoN68XlgtCHWZ05da301c1WRdCL
- g24xCAuyG8Iilyl6IM6R+RIZPbVEj5IGWmH0IC2RQ3PmaKmoc4/ovGP3F5IiLai4ZOf7
- pUfw==
-X-Gm-Message-State: AOAM53328cH0/6AaD3rPCt2ooNg5aagJYqUOca6L99fYhLIrmXVpSrZe
- W7kJ0JkpfliuHNjsiUu7v8JCLPNMM44=
-X-Google-Smtp-Source: ABdhPJyOIhYvBjUKnznFH2d8so6ICd+nNEYSs8guprv5YVr7C++zZpO6tigE1IZ47JQzT+009hnsGQ==
-X-Received: by 2002:a17:906:c785:: with SMTP id
- cw5mr502946ejb.543.1590490068872; 
- Tue, 26 May 2020 03:47:48 -0700 (PDT)
-Received: from x1w.redhat.com (71.red-88-21-204.staticip.rima-tde.net.
- [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id c27sm3342597ejd.19.2020.05.26.03.47.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 03:47:48 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 14/14] MAINTAINERS: Change Aleksandar Rikalo's email address
-Date: Tue, 26 May 2020 12:47:26 +0200
-Message-Id: <20200526104726.11273-15-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200526104726.11273-1-f4bug@amsat.org>
-References: <20200526104726.11273-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jdX7c-00071K-KE; Tue, 26 May 2020 06:47:48 -0400
+Resent-Date: Tue, 26 May 2020 06:47:48 -0400
+Resent-Message-Id: <E1jdX7c-00071K-KE@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21775)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jdX7b-0002BU-4M; Tue, 26 May 2020 06:47:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1590490049; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=hG1Gu6Frg6dRqE4Uj5E4Zw+/xPPlHS0ILk6gG5jhIPSbBmoh9o+0Q5s0NtPgRv5pVg75sewb4kLwL1eE4j7YS41Mz/ArB5eyUxhndjCjb40MZAxDYcY2IoUAxEd8x4fxT3L5gYNHRf/8YuOszOPn08frlvkuGjZCZedGuyk6NvY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1590490049;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=Y/DyOfcdQL00VO0GKUl/NvS+qPS4wZohghKFC9nPQSw=; 
+ b=Cugp61F9zm0qZoEgkzhOi699ksuIsLZJAq/h1+Qw4FnciS1CNvC5TKj583rrMrk2O4Xrgi3P2bgMG9hyoO5uJyFRYV+uZFQUcX1dIaoRDC2y46+CAdfKbbCRUKPgmoKb/H87M6tQJRBDflS4rJpd8r3qi0PMljK3nGVcxts9Qr4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 159049004653043.47033956487644;
+ Tue, 26 May 2020 03:47:26 -0700 (PDT)
+Message-ID: <159049004463.9494.8302673029620017182@45ef0f9c86ae>
+In-Reply-To: <20200526081740.256236-1-rvkagan@yandex-team.ru>
+Subject: Re: [PATCH v5 0/5] block: widen and check consistency of size-related
+ BlockConf properties
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: rvkagan@yandex-team.ru
+Date: Tue, 26 May 2020 03:47:26 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:17:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,106 +68,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, libvir-list@redhat.com,
- Thomas Huth <thuth@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Huacai Chen <chenhc@lemote.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, mst@redhat.com, philmd@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com,
+ stefanha@redhat.com, kbusch@kernel.org, pbonzini@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-
-Aleksandar Rikalo wants to use a different email address from
-now on.
-
-Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-id: <20200518200920.17344-18-aleksandar.qemu.devel@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- .mailmap    |  3 ++-
- MAINTAINERS | 12 ++++++------
- 2 files changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/.mailmap b/.mailmap
-index 6412067bde..e3628c7a66 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -42,7 +42,8 @@ Justin Terry (VM) <juterry@microsoft.com> Justin Terry (VM) via Qemu-devel <qemu
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@mips.com>
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@imgtec.com>
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <amarkovic@wavecomp.com>
--Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com> <arikalo@wavecomp.com>
-+Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
-+Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
- Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
- James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
- Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f46ab150dc..a209b5d8ce 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -213,7 +213,7 @@ F: disas/microblaze.c
- MIPS TCG CPUs
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
- R: Aurelien Jarno <aurelien@aurel32.net>
--R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-+R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
- F: target/mips/
- F: default-configs/*mips*
-@@ -1048,7 +1048,7 @@ MIPS Machines
- -------------
- Jazz
- M: Hervé Poussineau <hpoussin@reactos.org>
--R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-+R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
- F: hw/mips/jazz.c
- F: hw/display/jazz_led.c
-@@ -1069,7 +1069,7 @@ F: tests/acceptance/machine_mips_malta.py
- 
- Mipssim
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
--R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-+R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Odd Fixes
- F: hw/mips/mipssim.c
- F: hw/net/mipsnet.c
-@@ -1077,7 +1077,7 @@ F: hw/net/mipsnet.c
- R4000
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
- R: Aurelien Jarno <aurelien@aurel32.net>
--R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-+R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Obsolete
- F: hw/mips/r4k.c
- 
-@@ -1094,7 +1094,7 @@ F: include/hw/isa/vt82c686.h
- 
- Boston
- M: Paul Burton <pburton@wavecomp.com>
--R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-+R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
- F: hw/core/loader-fit.c
- F: hw/mips/boston.c
-@@ -2608,7 +2608,7 @@ F: disas/i386.c
- MIPS TCG target
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
- R: Aurelien Jarno <aurelien@aurel32.net>
--R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-+R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
- F: tcg/mips/
- 
--- 
-2.21.3
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUyNjA4MTc0MC4yNTYy
+MzYtMS1ydmthZ2FuQHlhbmRleC10ZWFtLnJ1LwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
+IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
+cmUgaW5mb3JtYXRpb246CgpNZXNzYWdlLWlkOiAyMDIwMDUyNjA4MTc0MC4yNTYyMzYtMS1ydmth
+Z2FuQHlhbmRleC10ZWFtLnJ1ClN1YmplY3Q6IFtQQVRDSCB2NSAwLzVdIGJsb2NrOiB3aWRlbiBh
+bmQgY2hlY2sgY29uc2lzdGVuY3kgb2Ygc2l6ZS1yZWxhdGVkIEJsb2NrQ29uZiBwcm9wZXJ0aWVz
+ClR5cGU6IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQg
+cmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
+aWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdp
+dCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNr
+cGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0
+aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKU3dpdGNoZWQgdG8g
+YSBuZXcgYnJhbmNoICd0ZXN0Jwo2NjExYzUzIGJsb2NrOiBsaWZ0IGJsb2Nrc2l6ZSBwcm9wZXJ0
+eSBsaW1pdCB0byAyIE1pQgoxZWZlMDk0IGJsb2NrOiBtYWtlIHNpemUtcmVsYXRlZCBCbG9ja0Nv
+bmYgcHJvcGVydGllcyBhY2NlcHQgc2l6ZSBzdWZmaXhlcwpmOWQ4OGRmIHFkZXYtcHJvcGVydGll
+czogYmxvY2tzaXplOiB1c2Ugc2FtZSBsaW1pdHMgaW4gY29kZSBhbmQgZGVzY3JpcHRpb24KYmVl
+NjZjZiBibG9jazogY29uc29saWRhdGUgYmxvY2tzaXplIHByb3BlcnRpZXMgY29uc2lzdGVuY3kg
+Y2hlY2tzCjhiMmZkYzEgdmlydGlvLWJsazogc3RvcmUgb3B0X2lvX3NpemUgd2l0aCBjb3JyZWN0
+IHNpemUKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvNSBDaGVja2luZyBjb21taXQgOGIyZmRjMWIx
+OGIyICh2aXJ0aW8tYmxrOiBzdG9yZSBvcHRfaW9fc2l6ZSB3aXRoIGNvcnJlY3Qgc2l6ZSkKMi81
+IENoZWNraW5nIGNvbW1pdCBiZWU2NmNmZGU3NmYgKGJsb2NrOiBjb25zb2xpZGF0ZSBibG9ja3Np
+emUgcHJvcGVydGllcyBjb25zaXN0ZW5jeSBjaGVja3MpCjMvNSBDaGVja2luZyBjb21taXQgZjlk
+ODhkZjRjMDNlIChxZGV2LXByb3BlcnRpZXM6IGJsb2Nrc2l6ZTogdXNlIHNhbWUgbGltaXRzIGlu
+IGNvZGUgYW5kIGRlc2NyaXB0aW9uKQo0LzUgQ2hlY2tpbmcgY29tbWl0IDFlZmUwOTRiNzYzNyAo
+YmxvY2s6IG1ha2Ugc2l6ZS1yZWxhdGVkIEJsb2NrQ29uZiBwcm9wZXJ0aWVzIGFjY2VwdCBzaXpl
+IHN1ZmZpeGVzKQpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzIwMDogRklMRTogaHcv
+Y29yZS9xZGV2LXByb3BlcnRpZXMuYzoxMjQ0OgorICAgICAgICAgICAgICAgICAgIlByb3BlcnR5
+ICVzLiVzIGRvZXNuJ3QgdGFrZSB2YWx1ZSAnJSIgUFJJZDY0ICInLCBpdCdzIG5vdCBhIHBvd2Vy
+IG9mIDIiLAoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxMDcwIGxpbmVzIGNoZWNrZWQK
+ClBhdGNoIDQvNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
+dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
+YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNS81IENoZWNraW5nIGNvbW1p
+dCA2NjExYzUzODkxNWEgKGJsb2NrOiBsaWZ0IGJsb2Nrc2l6ZSBwcm9wZXJ0eSBsaW1pdCB0byAy
+IE1pQikKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTog
+MQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
+MjAyMDA1MjYwODE3NDAuMjU2MjM2LTEtcnZrYWdhbkB5YW5kZXgtdGVhbS5ydS90ZXN0aW5nLmNo
+ZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5
+IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVk
+YmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
