@@ -2,77 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACCD1E1CD1
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:03:53 +0200 (CEST)
-Received: from localhost ([::1]:57044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04FEE1E1D01
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:13:45 +0200 (CEST)
+Received: from localhost ([::1]:51202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUYy-0006RJ-N8
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:03:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45156)
+	id 1jdUiV-0008Up-VW
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:13:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdUSg-0004Oq-Ru
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:57:22 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27444
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdUSg-0002uZ-0M
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:57:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590479840;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=PtUSePRBf50R/oUdD69YUYtqmxlvL02IAV21d3N/zVA=;
- b=cSMh1CHSOCKHpTgR7xFGE1lieE8tR3vH7ENSKxfwIp1Oip5VeUwERQfBTJYBlLd8HJY+wo
- 5mXejJCaexTXW18UAW3+/DWbJ+/5hhfBRbAFFar7vh7U+tIEzRfKRiVefPCG3U2SHOQUsF
- vi1/wxrcSAxjJ2PdvXjkGMpMpgWWHAQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-4I9IpcrxM5KExalV00GNOg-1; Tue, 26 May 2020 03:57:19 -0400
-X-MC-Unique: 4I9IpcrxM5KExalV00GNOg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C8D8800688;
- Tue, 26 May 2020 07:57:17 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-138.ams2.redhat.com [10.36.112.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A5B0F5C1BB;
- Tue, 26 May 2020 07:57:14 +0000 (UTC)
-Subject: Re: [PATCH 1/2] hw/mips/mips_int: De-duplicate KVM interrupt delivery
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- chen huacai <zltjiangshi@gmail.com>, qemu-level <qemu-devel@nongnu.org>
-References: <20200429082916.10669-1-f4bug@amsat.org>
- <20200429082916.10669-2-f4bug@amsat.org>
- <CABDp7VoyvX2vD6awEC-GwnEu8SW=pMPPR7mrfKCSzamrnomPKg@mail.gmail.com>
- <dc94a9f4-b6c9-97fa-4515-3e51ef9b816a@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <193e8262-fa43-2132-02ae-e8bceca86c80@redhat.com>
-Date: Tue, 26 May 2020 09:57:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1jdUbJ-0002hJ-Ck
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 04:06:17 -0400
+Received: from mga05.intel.com ([192.55.52.43]:48177)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1jdUbH-0004j1-N3
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 04:06:16 -0400
+IronPort-SDR: 2GQwp0LrKjYpl04E1Lo/LL+TUhiMMDWdM5V6qOqZwf4mKiJm7yV7DN0aebNbUZ8bd4bl25gDke
+ zHmW/FOnfNWQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2020 01:06:12 -0700
+IronPort-SDR: 3B3jA/F85j8oh8aF6XvKuRB/twdFUD8WT0WK1oDETgI//WaZbw4zNvd4bSpLBcJWXhArzXzQtq
+ Tncu9xu/STMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,436,1583222400"; d="scan'208";a="441994311"
+Received: from yangzhon-virtual.bj.intel.com (HELO localhost)
+ ([10.238.144.101])
+ by orsmga005.jf.intel.com with ESMTP; 26 May 2020 01:06:10 -0700
+Date: Tue, 26 May 2020 15:57:38 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: About the PVH in Seabios
+Message-ID: <20200526075738.GB28145@yangzhon-Virtual>
+References: <20200526071826.GA28145@yangzhon-Virtual>
+ <20200526073651.mqnawlzjcqz2452t@steredhat>
 MIME-Version: 1.0
-In-Reply-To: <dc94a9f4-b6c9-97fa-4515-3e51ef9b816a@amsat.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:14:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200526073651.mqnawlzjcqz2452t@steredhat>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=yang.zhong@intel.com;
+ helo=mga05.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 04:06:12
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,57 +66,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Huacai Chen <chenhc@lemote.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/05/2020 09.08, Philippe Mathieu-Daudé wrote:
-> On 4/29/20 10:48 AM, chen huacai wrote:
->> Hi, Philippe,
->>
->> On Wed, Apr 29, 2020 at 4:30 PM Philippe Mathieu-Daudé
->> <f4bug@amsat.org> wrote:
->>>
->>> Refactor duplicated code in a single place.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> ---
->>>   hw/mips/mips_int.c | 11 +++--------
->>>   1 file changed, 3 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/hw/mips/mips_int.c b/hw/mips/mips_int.c
->>> index 796730b11d..4a1bf846da 100644
->>> --- a/hw/mips/mips_int.c
->>> +++ b/hw/mips/mips_int.c
->>> @@ -47,17 +47,12 @@ static void cpu_mips_irq_request(void *opaque,
->>> int irq, int level)
->>>
->>>       if (level) {
->>>           env->CP0_Cause |= 1 << (irq + CP0Ca_IP);
->>> -
->>> -        if (kvm_enabled() && irq == 2) {
->>> -            kvm_mips_set_interrupt(cpu, irq, level);
->>> -        }
->>> -
->>>       } else {
->>>           env->CP0_Cause &= ~(1 << (irq + CP0Ca_IP));
->>> +    }
->>>
->>> -        if (kvm_enabled() && irq == 2) {
->>> -            kvm_mips_set_interrupt(cpu, irq, level);
->>> -        }
->>> +    if (kvm_enabled() && irq == 2) {
->>> +        kvm_mips_set_interrupt(cpu, irq, level);
->>>       }
->>>
->>>       if (env->CP0_Cause & CP0Ca_IP_mask) {
->>> -- 
->>> 2.21.1
+On Tue, May 26, 2020 at 09:36:51AM +0200, Stefano Garzarella wrote:
+> Hi Yang,
+> 
+> On Tue, May 26, 2020 at 03:18:26PM +0800, Yang Zhong wrote:
+> > Hello all,
+> > 
+> > The current PVH has been implemented in Qemu and Qboot/uefi, i am not
+> > familiar with the PVH implementation history, and found there is no
+> > PVH support in Seabios, my question is do we have plan to support
+> > PVH in Seabios? thanks.
+> 
+> We developed an optionrom in QEMU (pc-bios/optionrom/pvh*) that is used
+> with SeaBIOS to boot a PVH image.
+> 
+> So we don't need to change SeaBIOS since it already supports optionroms.
+> Currently when you use a PVH image in QEMU, SeaBIOS is used as default
+> choice with the PVH optionrom.
+>
+  Stefano, thanks for your information, i only checked the pvh changes
+  in Seabios code and ignored optionrom changes, thanks again.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+  Regards,
 
+  Yang
+
+> Cheers,
+> Stefano
 
