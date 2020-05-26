@@ -2,60 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 738421E2012
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 12:48:34 +0200 (CEST)
-Received: from localhost ([::1]:55068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 533F41E201A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 12:50:24 +0200 (CEST)
+Received: from localhost ([::1]:33766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdX8L-00072Y-GH
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 06:48:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38732)
+	id 1jdXA7-0001p5-C2
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 06:50:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jdX6u-0005z4-TM; Tue, 26 May 2020 06:47:05 -0400
-Resent-Date: Tue, 26 May 2020 06:47:04 -0400
-Resent-Message-Id: <E1jdX6u-0005z4-TM@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21765)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jdX6r-0001zJ-Tn; Tue, 26 May 2020 06:47:04 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1590490006; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=WLk7Ier/d/lf4+rtBstY6hCEF7e8jrDmEUMjM7DInEMkr0f3aZFNko6Vlc+IGD1id8Runbxqu9ZLuZoN5naiyG2B1i1icIQsL6bZFS27udidsDOFeXejkXQTipAmMTSkijlPbVZ8J3nGYP+wDCdcNHX0beootlY5JIZqHRc6LCg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1590490006;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=dRYlgM5UhPZ34Aq+2hzTqtuzAqSNICP2teKQYH6HBjo=; 
- b=mzWBZRy3WFqMU0KR7BClX7Wq9Dr8SjsV/zZFFpg4HarJZD4wyNCAAP26KbVGQNE+u2oMWrlPLFClyVGWnzkg4WEEwdt9zWSG0ONQVggRFLJYSmfTtEe04/81OpE4499kLLdnYA5NH68SuOAMZfklRdOdVnvVWWhD8ErRVtLnTdA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1590490004082226.4315842797712;
- Tue, 26 May 2020 03:46:44 -0700 (PDT)
-Message-ID: <159049000222.9494.6642161589736904677@45ef0f9c86ae>
-In-Reply-To: <20200526081740.256236-1-rvkagan@yandex-team.ru>
-Subject: Re: [PATCH v5 0/5] block: widen and check consistency of size-related
- BlockConf properties
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdX7K-0006VG-IY
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:30 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:33181)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdX7J-000282-Sa
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:30 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id e10so17247357edq.0
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 03:47:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GJZJp2sUev4P2OYPMJf40xfwPWSp/WELJ2N4SonYgN8=;
+ b=H9/yVh1Ea3r4O5g3QsiVXymo65bzW/pbrwz2dWwGI4+Dsz2BT7xgzZexQ2jGyegjj2
+ RC2iKzk6VLUGAYwJ8vNF3GnrhgHiS3YyoEq5sym9EL48LZ+oDEgzH7T7IEsyKsazzLqd
+ nIMjIca+uED5+whSW5LIVBcTHUi0XwEz7cjdqXXpf0UP+K35W55GBPmriqjfJhByh3Gs
+ 0D0i4BlfwU7t8+xcPusuRrMM/yeCj5tDvCBhs0RBfAC5PoTgYKsacvnJq/Tp7S/KXx2d
+ u/Jl0yvs5wqi8dggR+voWytHDeEUlkH/3I7a4GzScqwZmUUckpg9LeYoKoNYMWfYIiJv
+ AvLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=GJZJp2sUev4P2OYPMJf40xfwPWSp/WELJ2N4SonYgN8=;
+ b=rh/atPjCg1uwYkGmML0OBPcVTqxPwdCn8Up4dom2SK6O8WfViisJThGDupZnHEdv00
+ tm1TAAmTBRxyjHxnLxMONiS5saQuQpq/CNZQR5UvHu9izVKNsMzfYkGgIR7J0E3ShDs9
+ VMBYXxLS6pP+pDSZySgW/C9/3aWEJLLUiYjpywqb3zr23XBGiG9KxsQufKeCMsXE7KpN
+ cgqbwz/yoky+7CJ8zfYoMZfPrkElRotxl7mKzSeH1XqXKzeMpROlrkb3lTtBwtgb95/+
+ 2a8R6I6eai54plVoXISRaiEIhE8jtBslcyieVR/v46t8K3rzbJ7f05PnRvb8xsyfOH0Q
+ iA6w==
+X-Gm-Message-State: AOAM531MGz6Y5GUxtgIaSoDwb3Y7pXbp7hnNpK9dPy87E7VzjD7ZN9vh
+ bPv51R7/TEApAMOOFO2Dn91fsKSJF80=
+X-Google-Smtp-Source: ABdhPJxMpbrGuvqC9Ngfycz+M225ctWb9sFsG3EBE1hKYe6TUgJGeR+NTUrkO/yBfyu2k4BARUTJSg==
+X-Received: by 2002:aa7:db45:: with SMTP id n5mr18440918edt.147.1590490048209; 
+ Tue, 26 May 2020 03:47:28 -0700 (PDT)
+Received: from x1w.redhat.com (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id c27sm3342597ejd.19.2020.05.26.03.47.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 May 2020 03:47:27 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/14] hw/mips: patch queue for 2020-05-26
+Date: Tue, 26 May 2020 12:47:12 +0200
+Message-Id: <20200526104726.11273-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: rvkagan@yandex-team.ru
-Date: Tue, 26 May 2020 03:46:44 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:17:51
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52e.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,66 +85,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, mst@redhat.com, philmd@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com,
- stefanha@redhat.com, kbusch@kernel.org, pbonzini@redhat.com, jsnow@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, libvir-list@redhat.com,
+ Thomas Huth <thuth@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Huacai Chen <chenhc@lemote.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUyNjA4MTc0MC4yNTYy
-MzYtMS1ydmthZ2FuQHlhbmRleC10ZWFtLnJ1LwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0
-aGUgYXNhbiBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21tYW5kcyBhbmQK
-dGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVkLCB5b3UgY2Fu
-IHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09
-PQojIS9iaW4vYmFzaApleHBvcnQgQVJDSD14ODZfNjQKbWFrZSBkb2NrZXItaW1hZ2UtZmVkb3Jh
-IFY9MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LWRlYnVnQGZlZG9yYSBUQVJHRVRf
-TElTVD14ODZfNjQtc29mdG1tdSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09
-PQoKICBDQyAgICAgIGh3L2Rpc3BsYXkvcmFtZmItc3RhbmRhbG9uZS5vCiAgQ0MgICAgICBody9k
-aXNwbGF5L2NpcnJ1c192Z2EubwogIENDICAgICAgaHcvZGlzcGxheS9jaXJydXNfdmdhX2lzYS5v
-Ci90bXAvcWVtdS10ZXN0L3NyYy9ody9ibG9jay94ZW4tYmxvY2suYzoyNDI6Mjg6IGVycm9yOiB0
-b28gZmV3IGFyZ3VtZW50cyB0byBmdW5jdGlvbiBjYWxsLCBleHBlY3RlZCAyLCBoYXZlIDEKICAg
-IGJsa2NvbmZfYmxvY2tzaXplcyhjb25mKTsKICAgIH5+fn5+fn5+fn5+fn5+fn5+fiAgICAgXgov
-dG1wL3FlbXUtdGVzdC9zcmMvaW5jbHVkZS9ody9ibG9jay9ibG9jay5oOjkwOjE6IG5vdGU6ICdi
-bGtjb25mX2Jsb2Nrc2l6ZXMnIGRlY2xhcmVkIGhlcmUKYm9vbCBibGtjb25mX2Jsb2Nrc2l6ZXMo
-QmxvY2tDb25mICpjb25mLCBFcnJvciAqKmVycnApOwpeCi91c3IvbGliNjQvY2xhbmcvOC4wLjAv
-aW5jbHVkZS9zdGRib29sLmg6MzE6MTQ6IG5vdGU6IGV4cGFuZGVkIGZyb20gbWFjcm8gJ2Jvb2wn
-CiNkZWZpbmUgYm9vbCBfQm9vbAogICAgICAgICAgICAgXgovdG1wL3FlbXUtdGVzdC9zcmMvaHcv
-YmxvY2sveGVuLWJsb2NrLmM6MjYwOjM1OiBlcnJvcjogZm9ybWF0IHNwZWNpZmllcyB0eXBlICd1
-bnNpZ25lZCBpbnQnIGJ1dCB0aGUgYXJndW1lbnQgaGFzIHR5cGUgJ3VpbnQ2NF90JyAoYWthICd1
-bnNpZ25lZCBsb25nJykgWy1XZXJyb3IsLVdmb3JtYXRdCiAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBjb25mLT5kaXNjYXJkX2dyYW51bGFyaXR5KTsKICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KL3RtcC9xZW11LXRlc3Qv
-c3JjL2h3L2Jsb2NrL3hlbi1ibG9jay5jOjI3NDozMTogZXJyb3I6IGZvcm1hdCBzcGVjaWZpZXMg
-dHlwZSAndW5zaWduZWQgaW50JyBidXQgdGhlIGFyZ3VtZW50IGhhcyB0eXBlICd1aW50NjRfdCcg
-KGFrYSAndW5zaWduZWQgbG9uZycpIFstV2Vycm9yLC1XZm9ybWF0XQogICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBjb25mLT5sb2dpY2FsX2Jsb2NrX3NpemUpOwogICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KMyBlcnJvcnMgZ2VuZXJhdGVk
-LgogIENDICAgICAgaHcvZGlzcGxheS94ZW5mYi5vCm1ha2U6ICoqKiBbL3RtcC9xZW11LXRlc3Qv
-c3JjL3J1bGVzLm1hazo2OTogaHcvYmxvY2sveGVuLWJsb2NrLm9dIEVycm9yIDEKbWFrZTogKioq
-IFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KVHJhY2ViYWNrIChtb3N0IHJlY2VudCBj
-YWxsIGxhc3QpOgogIEZpbGUgIi4vdGVzdHMvZG9ja2VyL2RvY2tlci5weSIsIGxpbmUgNjY0LCBp
-biA8bW9kdWxlPgotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQp
-CnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8nLCAnLW4nLCAn
-ZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1aWQ9NTFjMzNm
-ZGQxYjAwNGJkN2FlYTMyYmNiY2Y2MjdjZWQnLCAnLXUnLCAnMTAwMScsICctLXNlY3VyaXR5LW9w
-dCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRfTElTVD14ODZf
-NjQtc29mdG1tdScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAn
-LWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9JywgJy1lJywgJ0ND
-QUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcvLmNhY2hlL3Fl
-bXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3RtcC9wYXRj
-aGV3LXRlc3Rlci10bXAtZGlpMjlmNXAvc3JjL2RvY2tlci1zcmMuMjAyMC0wNS0yNi0wNi40My4w
-Ni4yNjE5NTovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpmZWRvcmEnLCAnL3Zhci90bXAvcWVt
-dS9ydW4nLCAndGVzdC1kZWJ1ZyddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1cyAyLgpm
-aWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD01MWMzM2ZkZDFiMDA0
-YmQ3YWVhMzJiY2JjZjYyN2NlZAptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5dIEVycm9yIDEKbWFr
-ZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1kaWky
-OWY1cC9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LWRlYnVnQGZlZG9yYV0gRXJyb3Ig
-MgoKcmVhbCAgICAzbTM2LjkwNnMKdXNlciAgICAwbTkuMTQ1cwoKClRoZSBmdWxsIGxvZyBpcyBh
-dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA1MjYwODE3NDAuMjU2MjM2
-LTEtcnZrYWdhbkB5YW5kZXgtdGVhbS5ydS90ZXN0aW5nLmFzYW4vP3R5cGU9bWVzc2FnZS4KLS0t
-CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
-dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
-dC5jb20=
+Hi,
+
+This is the current state of my hw/mips/next tree.
+
+- MAINTAINERS updated to welcome Huacai Chen and Jiaxun Yang,
+  and update Aleksandar Rikalo's email address,
+
+- Trivial improvements in the Bonito64 North Bridge and the
+  Fuloong 2e machine,
+
+- MIPS Machines names unified without 'mips_' prefix.
+
+The following patches need review:
+
+- #6  "hw/pci-host/bonito: Map the different PCI ranges more detailled"
+- #10 "hw/mips/fuloong2e: Fix typo in Fuloong machine name"
+
+Aleksandar Markovic (3):
+  hw/mips: Rename malta/mipssim/r4k/jazz files
+  hw/mips/malta: Add some logging for bad register offset cases
+  MAINTAINERS: Change Aleksandar Rikalo's email address
+
+Huacai Chen (1):
+  MAINTAINERS: Add Huacai Chen as fuloong2e co-maintainer
+
+Philippe Mathieu-Daudé (10):
+  hw/pci-host: Use CONFIG_PCI_BONITO to select the Bonito North Bridge
+  hw/pci-host/bonito: Fix DPRINTF() format strings
+  hw/pci-host/bonito: Map peripheral using physical address
+  hw/pci-host/bonito: Map all the Bonito64 I/O range
+  hw/pci-host/bonito: Map the different PCI ranges more detailled
+  hw/pci-host/bonito: Better describe the I/O CS regions
+  hw/pci-host/bonito: Set the Config register reset value with
+    FIELD_DP32
+  hw/mips/fuloong2e: Move code and update a comment
+  hw/mips/fuloong2e: Fix typo in Fuloong machine name
+  hw/mips/mips_int: De-duplicate KVM interrupt delivery
+
+ docs/system/deprecated.rst               |  5 ++
+ docs/system/target-mips.rst              |  2 +-
+ default-configs/mips64el-softmmu.mak     |  2 +-
+ hw/isa/vt82c686.c                        |  2 +-
+ hw/mips/{mips_fulong2e.c => fuloong2e.c} | 48 ++++++-------
+ hw/mips/{mips_jazz.c => jazz.c}          |  0
+ hw/mips/{mips_malta.c => malta.c}        | 14 ++--
+ hw/mips/mips_int.c                       | 11 +--
+ hw/mips/{mips_mipssim.c => mipssim.c}    |  0
+ hw/mips/{mips_r4k.c => r4k.c}            |  0
+ hw/pci-host/bonito.c                     | 87 +++++++++++++++++++-----
+ tests/qtest/endianness-test.c            |  2 +-
+ .mailmap                                 |  3 +-
+ MAINTAINERS                              | 26 +++----
+ hw/mips/Kconfig                          |  3 +-
+ hw/mips/Makefile.objs                    | 10 +--
+ hw/pci-host/Kconfig                      |  5 ++
+ hw/pci-host/Makefile.objs                |  2 +-
+ 18 files changed, 142 insertions(+), 80 deletions(-)
+ rename hw/mips/{mips_fulong2e.c => fuloong2e.c} (91%)
+ rename hw/mips/{mips_jazz.c => jazz.c} (100%)
+ rename hw/mips/{mips_malta.c => malta.c} (99%)
+ rename hw/mips/{mips_mipssim.c => mipssim.c} (100%)
+ rename hw/mips/{mips_r4k.c => r4k.c} (100%)
+
+-- 
+2.21.3
+
 
