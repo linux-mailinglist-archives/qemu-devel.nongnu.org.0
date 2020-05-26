@@ -2,64 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53881E1D21
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:19:54 +0200 (CEST)
-Received: from localhost ([::1]:60792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 887191E1D19
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:19:11 +0200 (CEST)
+Received: from localhost ([::1]:58688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUoT-0004mK-Ur
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:19:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47794)
+	id 1jdUnl-0003vr-B4
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:19:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jdUmZ-0002hy-JO; Tue, 26 May 2020 04:17:55 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:50934)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jdUmV-0006ru-JE; Tue, 26 May 2020 04:17:53 -0400
-Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::119])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 687CA2E087D;
- Tue, 26 May 2020 11:17:46 +0300 (MSK)
-Received: from iva8-88b7aa9dc799.qloud-c.yandex.net
- (iva8-88b7aa9dc799.qloud-c.yandex.net [2a02:6b8:c0c:77a0:0:640:88b7:aa9d])
- by mxbackcorp2j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- 2IvZ1Lcnuk-Hhda10YP; Tue, 26 May 2020 11:17:46 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1590481066; bh=oIN03DAZ4lQYUkl3lhide6Xs43zEdrUrV/56BgwHQX0=;
- h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=Ss8QBllTRyNHDuc6P1qEKKCkUAgWiGiPl3A91m6JUTj1IaNiiQxFG1fD2XgVQflBJ
- 6buMfuND4lCF+u+93he2OMasH0SgUT/tlUfjv1yGHAMUTRw2UEQ5o3+iRmmOSVg/Q7
- DjtHUUCO41tPXrFFJUKlv/twgWz9jvZzUFllVd1M=
-Authentication-Results: mxbackcorp2j.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
- [2a02:6b8:b080:8909::1:0])
- by iva8-88b7aa9dc799.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- eMCAEelUnS-HhXuriSD; Tue, 26 May 2020 11:17:43 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 1/5] virtio-blk: store opt_io_size with correct size
-Date: Tue, 26 May 2020 11:17:36 +0300
-Message-Id: <20200526081740.256236-2-rvkagan@yandex-team.ru>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200526081740.256236-1-rvkagan@yandex-team.ru>
-References: <20200526081740.256236-1-rvkagan@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdUmL-0002Sh-FQ
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 04:17:42 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43716)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdUmK-0006pK-Q8
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 04:17:41 -0400
+Received: by mail-wr1-x442.google.com with SMTP id i15so19428730wrx.10
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 01:17:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=rVeWaYkh+55WUlfx5f1RL+YYPQaKW76HE6852F1yfa8=;
+ b=YSUiKduXyZTM6GhVpUUud2lmPlwCLGL+taV+4zW4bxXgjmARE4pbT4CywhJ2jC25+s
+ QqRaL7nw2j9aU5jYW8EH3J3eIihxGrAxKEx74X/ys6jaJ/lxPHNhglBWOfllMFYSDuyV
+ iaQXVkyZS/Cyili69SDbnDpkS9KKDTKG6aiVxLZ2L0slSkCX57gLFtJZPDKwqHasLbf9
+ l9HCXByQ2dWEOKALZf8MIU5v1XlZQcfwf+iLHNKlXwM6wnNnsEBsklYFJirGKIi2wnsY
+ DlUJ3VLacNiub+XpHO2S4axWEflg0KqcK/ApKvHrgAhA7TApLAQSGI/h6XH/pwW2Ejt5
+ oV6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rVeWaYkh+55WUlfx5f1RL+YYPQaKW76HE6852F1yfa8=;
+ b=lGbgerFNEqwXFJxaFBbJAQARz0Ts/adH2brZXpsYiVYltV1U6Xsk4rQq6eICmcy2wS
+ 37gK3D95VUot2CAZBqXHCGe3g8Il+4CkrSwnv3bOc8eSFEp0t52pvlZDfL0cfZGifnxa
+ 6h7HecmGJXXRFSY5QkaPsO0QLK48eoLNAkRW+Gg6c+PIRKJvjBAjl3guSXiDf4l/r257
+ +Ex1U98tHOqeWThadmWDT+ctp6CEASFsEV1SPLk0U4o5xkXwc+oEkkLllZVVlXXOsIVi
+ UpdumFbgE5EEh6arc4Kw65cTBzHLYAM7PSozjYu0oUaHLUfduvezqu8SmC/HQ/LzPE1w
+ dP+Q==
+X-Gm-Message-State: AOAM533P++/dwcKmlXeHIOK1ql4UHxH/mFSDiuRtdmo8mQeIBCtXgdDZ
+ XUoQTYr7RCa+juNhLjp2VkY=
+X-Google-Smtp-Source: ABdhPJwju761sjSflCgsbM7SGseVCPaM7EuO4ZRWYnzoA1g19+FotE21J49sFX6hR1A4ALeNZ5qL3w==
+X-Received: by 2002:a5d:538e:: with SMTP id d14mr18649020wrv.174.1590481059177; 
+ Tue, 26 May 2020 01:17:39 -0700 (PDT)
+Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id t8sm9737901wro.56.2020.05.26.01.17.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 May 2020 01:17:38 -0700 (PDT)
+Subject: Re: [PATCH 1/2] hw/mips/mips_int: De-duplicate KVM interrupt delivery
+To: Thomas Huth <thuth@redhat.com>, chen huacai <zltjiangshi@gmail.com>,
+ qemu-level <qemu-devel@nongnu.org>
+References: <20200429082916.10669-1-f4bug@amsat.org>
+ <20200429082916.10669-2-f4bug@amsat.org>
+ <CABDp7VoyvX2vD6awEC-GwnEu8SW=pMPPR7mrfKCSzamrnomPKg@mail.gmail.com>
+ <dc94a9f4-b6c9-97fa-4515-3e51ef9b816a@amsat.org>
+ <193e8262-fa43-2132-02ae-e8bceca86c80@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <997e7635-93fa-d711-4c10-1cf3c02f2482@amsat.org>
+Date: Tue, 26 May 2020 10:17:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <193e8262-fa43-2132-02ae-e8bceca86c80@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,48 +95,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: Huacai Chen <chenhuacai@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Huacai Chen <chenhc@lemote.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The width of opt_io_size in virtio_blk_config is 32bit.  However, it's
-written with virtio_stw_p; this may result in value truncation, and on
-big-endian systems with legacy virtio in completely bogus readings in
-the guest.
+On 5/26/20 9:57 AM, Thomas Huth wrote:
+> On 12/05/2020 09.08, Philippe Mathieu-Daudé wrote:
+>> On 4/29/20 10:48 AM, chen huacai wrote:
+>>> Hi, Philippe,
+>>>
+>>> On Wed, Apr 29, 2020 at 4:30 PM Philippe Mathieu-Daudé
+>>> <f4bug@amsat.org> wrote:
+>>>>
+>>>> Refactor duplicated code in a single place.
+>>>>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>> ---
+>>>>   hw/mips/mips_int.c | 11 +++--------
+>>>>   1 file changed, 3 insertions(+), 8 deletions(-)
+>>>>
+>>>> diff --git a/hw/mips/mips_int.c b/hw/mips/mips_int.c
+>>>> index 796730b11d..4a1bf846da 100644
+>>>> --- a/hw/mips/mips_int.c
+>>>> +++ b/hw/mips/mips_int.c
+>>>> @@ -47,17 +47,12 @@ static void cpu_mips_irq_request(void *opaque,
+>>>> int irq, int level)
+>>>>
+>>>>       if (level) {
+>>>>           env->CP0_Cause |= 1 << (irq + CP0Ca_IP);
+>>>> -
+>>>> -        if (kvm_enabled() && irq == 2) {
+>>>> -            kvm_mips_set_interrupt(cpu, irq, level);
+>>>> -        }
+>>>> -
+>>>>       } else {
+>>>>           env->CP0_Cause &= ~(1 << (irq + CP0Ca_IP));
+>>>> +    }
+>>>>
+>>>> -        if (kvm_enabled() && irq == 2) {
+>>>> -            kvm_mips_set_interrupt(cpu, irq, level);
+>>>> -        }
+>>>> +    if (kvm_enabled() && irq == 2) {
+>>>> +        kvm_mips_set_interrupt(cpu, irq, level);
+>>>>       }
+>>>>
+>>>>       if (env->CP0_Cause & CP0Ca_IP_mask) {
+>>>> -- 
+>>>> 2.21.1
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Use the appropriate accessor to store it.
-
-Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
----
-v4 -> v5:
-- expand the log [Michael]
-
- hw/block/virtio-blk.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index f5f6fc925e..413083e62f 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -918,7 +918,7 @@ static void virtio_blk_update_config(VirtIODevice *vdev, uint8_t *config)
-     virtio_stw_p(vdev, &blkcfg.geometry.cylinders, conf->cyls);
-     virtio_stl_p(vdev, &blkcfg.blk_size, blk_size);
-     virtio_stw_p(vdev, &blkcfg.min_io_size, conf->min_io_size / blk_size);
--    virtio_stw_p(vdev, &blkcfg.opt_io_size, conf->opt_io_size / blk_size);
-+    virtio_stl_p(vdev, &blkcfg.opt_io_size, conf->opt_io_size / blk_size);
-     blkcfg.geometry.heads = conf->heads;
-     /*
-      * We must ensure that the block device capacity is a multiple of
--- 
-2.26.2
-
+Thanks, queued to mips-next.
 
