@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF76F1E1C27
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:24:45 +0200 (CEST)
-Received: from localhost ([::1]:43222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D9D1E1C4B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:30:16 +0200 (CEST)
+Received: from localhost ([::1]:51080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdTx6-0004Tp-Rq
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41410)
+	id 1jdU2R-0008GC-Bu
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:30:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdTvm-0003XS-P6
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:23:22 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47792
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdTvm-000571-0i
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:23:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590477801;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=Af9OWCxiLuUmfuDth/SgRGvS12HJr+d02hiZGS+ph30=;
- b=Fg27oQAbrY4jzb6gmBMlaTusOv21c+SIq0fERzHyhJ0pn12vg6mRsoWPpLP8T/frdPuVl9
- JQJ7bkYWUg0i5qxH8O6EUIakjYkwrysFPhHwRISb78b5WiM3QqlG6cmnMeGHDJUQFJ3M2z
- nhlIUe+f6SnSpP/AzrwW92EkUWu4N34=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-319-GsmL1c1LPqS0E2QZTHrncw-1; Tue, 26 May 2020 03:23:19 -0400
-X-MC-Unique: GsmL1c1LPqS0E2QZTHrncw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 263E1107ACF2;
- Tue, 26 May 2020 07:23:18 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-138.ams2.redhat.com [10.36.112.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46BDE5D9E5;
- Tue, 26 May 2020 07:23:15 +0000 (UTC)
-Subject: Re: [PATCH] hw/display/omap_dss: Replace fprintf() call by
- qemu_log_mask(LOG_UNIMP)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200524103833.8188-1-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <2b9ed3fc-2f57-7202-0c15-52de18fc890c@redhat.com>
-Date: Tue, 26 May 2020 09:23:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
+ id 1jdU1b-0007oe-Fg; Tue, 26 May 2020 03:29:23 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:43669)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
+ id 1jdU1a-0006Ar-Ed; Tue, 26 May 2020 03:29:23 -0400
+Received: by mail-ed1-x542.google.com with SMTP id g9so16774917edw.10;
+ Tue, 26 May 2020 00:29:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dR+EizNvfj9caOiPGhJAmpnFn4HgCsOvZzwglCD9HNw=;
+ b=dVSnhq9msDkouNMoSoqwUZjkNd6X9d0+ItxiM4lHBle4tcfWre/DdJe4V3fH8/Tned
+ K/0pFAtbeWuesq4gIBfRQuHiTuPrjPF+bx/2L9JBHAvj0Ye+zjJBrHcHFO7LVl7hvpB8
+ oFwMxri1PzSLVA5RpwRagcusgjwkYLUZH64gLkxbJQ0oiUTO/751JfVfckad0jMbIU0a
+ +fLFPGZ/evZLWLCekpNxrXSukiy+sc5KxpslNzOfeh55ZD3jANMMryfnLI0f3UIECdT9
+ Qy6OwLYEzyhLPCdaG6HFtz/452JDBt3eBGI39Kw+QXgdpitxkWQrjgxRrnM0tMlPfGeZ
+ LLDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dR+EizNvfj9caOiPGhJAmpnFn4HgCsOvZzwglCD9HNw=;
+ b=OSrkyj/NfkfIMmIdEzUFC398GCTpj8dn8TapF6yLL93Zkd1ew9gGVkc+l1db8flops
+ UgdjbtZ9nwLijOqeEQc0xUCcCCkJQC4s4sUjc4v+2uJnBJe//qAvz3nHBKFpPV93KAhb
+ qBSUlz4X3KYz4uAv6zqaCINUJJCUyr6/zUVYht8YSeYKq0a/Zgw7WJleqVMVLgolJONa
+ 4vy+NjJvMfwH+TYOKfHCZuODmbSam13hLesoSjxbA2dOqnzteckRB2VVciVSVMadjpqf
+ 63/fJy3a5JBZoUVbR87KAf0gA2fNAGcBTf4R8N3G7hk6d/HwpitdQbBqJFPgOVdOpW5M
+ xWsg==
+X-Gm-Message-State: AOAM533guXoxmDuhDeTEfYj1doE9yJVzmvFkAXPE9fMlHL2i+D4EnNPd
+ M/2zKeKAnOgqdHTAuNjTbCNR6aDFTrmLFu/ZrMc=
+X-Google-Smtp-Source: ABdhPJz+mLsFe26sLmYuyHYSu54BslNDu3uZ0K8WDMtDD5lRgl5d/0Kt5yUThGuTM+IJ+g488VOaWDa4dOEw2F8GtVI=
+X-Received: by 2002:a05:6402:17e6:: with SMTP id
+ t6mr1952122edy.243.1590478160100; 
+ Tue, 26 May 2020 00:29:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200524103833.8188-1-f4bug@amsat.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 00:48:49
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <CA+XhMqwMsmoYwNtkrvAEG_j_-8L=+PYcXSz--1Qg622szArkRQ@mail.gmail.com>
+ <f9ebb603-0a0e-8775-8405-dd8de2493a3f@redhat.com>
+In-Reply-To: <f9ebb603-0a0e-8775-8405-dd8de2493a3f@redhat.com>
+From: David CARLIER <devnexen@gmail.com>
+Date: Tue, 26 May 2020 08:29:09 +0100
+Message-ID: <CA+XhMqx6_mWvb-5Z2Mbtw3V-q-WkZPnOF10VK=iLwSwUGnOJAQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] util/oslib: Returns real thread identifier on FreeBSD
+ and NetBSD
+To: Thomas Huth <thuth@redhat.com>, pbonzini@readhat.com,
+ qemu-trivial@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=devnexen@gmail.com; helo=mail-ed1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,34 +80,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
- qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Cc: Kamil Rytarowski <kamil@netbsd.org>, Ed Maste <emaste@freebsd.org>,
+ qemu-devel@nongnu.org, bauerchen@tencent.com, Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/05/2020 12.38, Philippe Mathieu-Daudé wrote:
-> Replace fprintf() call by qemu_log_mask(LOG_UNIMP), which is
-> disabled by default. This avoid flooding the terminal when
-> fuzzing the device.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  hw/display/omap_dss.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/display/omap_dss.c b/hw/display/omap_dss.c
-> index 32dc0d6aa7..21fde58a26 100644
-> --- a/hw/display/omap_dss.c
-> +++ b/hw/display/omap_dss.c
-> @@ -619,7 +619,7 @@ static void omap_rfbi_transfer_start(struct omap_dss_s *s)
->      if (s->rfbi.control & (1 << 1)) {				/* BYPASS */
->          /* TODO: in non-Bypass mode we probably need to just assert the
->           * DRQ and wait for DMA to write the pixels.  */
-> -        fprintf(stderr, "%s: Bypass mode unimplemented\n", __func__);
-> +        qemu_log_mask(LOG_UNIMP, "%s: Bypass mode unimplemented\n", __func__);
->          return;
->      }
+From 792fbcd9114f43bd80fd1ef5b25cd9935a536f9f Mon Sep 17 00:00:00 2001
+From: David Carlier <devnexen@gmail.com>
+Date: Tue, 26 May 2020 08:25:26 +0100
+Subject: [PATCH] util/oslib: Returns the real thread identifier on FreeBSD and
+ NetBSD
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+getpid is good enough in a mono thread context, however
+ thr_self/_lwp_self reflects the real current thread identifier
+ from a given process.
+---
+ util/oslib-posix.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 062236a1ab..916f1be224 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -48,11 +48,13 @@
+ #ifdef __FreeBSD__
+ #include <sys/sysctl.h>
+ #include <sys/user.h>
++#include <sys/thr.h>
+ #include <libutil.h>
+ #endif
+
+ #ifdef __NetBSD__
+ #include <sys/sysctl.h>
++#include <lwp.h>
+ #endif
+
+ #include "qemu/mmap-alloc.h"
+@@ -84,6 +86,13 @@ int qemu_get_thread_id(void)
+ {
+ #if defined(__linux__)
+     return syscall(SYS_gettid);
++#elif defined(__FreeBSD__)
++    /* thread id is up to INT_MAX */
++    long tid;
++    thr_self(&tid);
++    return (int)tid;
++#elif defined(__NetBSD__)
++    return _lwp_self();
+ #else
+     return getpid();
+ #endif
+-- 
+2.27.0.rc0
+
+On Tue, 26 May 2020 at 06:40, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 23/05/2020 09.23, David CARLIER wrote:
+> > Hi this is my first contribution hope it s useful . Regards.
+>
+>  Hi!
+>
+> Thanks for your contribution. Some hints for getting your patch included:
+>
+> - Please make sure to CC: the corresponding maintainers, otherwise your
+> patch might get lost in the high traffic of the mailing list. See the
+> MAINTAINERS file for more information.
+>
+> - For simple patches like this one, it might also be helpful to CC:
+> qemu-trivial@nongnu.org so that the patch could get picked up via the
+> trivial queue
+>
+> > From ca7fcd85e0453f7173ce73732905463bc259ee32 Mon Sep 17 00:00:00 2001
+> > From: David Carlier <devnexen@gmail.com>
+> > Date: Sat, 23 May 2020 08:17:51 +0100
+> > Subject: [PATCH] util/oslib: returns real thread identifier on FreeBSD and
+> >  NetBSD
+>
+> The body of the mail should only contain a proper patch description, not
+> these head lines anymore, so that the patch can directly applied via
+> "git am". Please also add a proper description, e.g. saying what's the
+> effect of your patch. Is it just a cosmetic thing? Does it fix a real
+> bug that you've hit?
+>
+> > Signed-off-by: David Carlier <devnexen@gmail.com>
+> > ---
+> >  util/oslib-posix.c | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> >
+> > diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> > index 062236a1ab..4d28dfd8f5 100644
+> > --- a/util/oslib-posix.c
+> > +++ b/util/oslib-posix.c
+> > @@ -48,11 +48,13 @@
+> >  #ifdef __FreeBSD__
+> >  #include <sys/sysctl.h>
+> >  #include <sys/user.h>
+> > +#include <sys/thr.h>
+> >  #include <libutil.h>
+> >  #endif
+> >
+> >  #ifdef __NetBSD__
+> >  #include <sys/sysctl.h>
+> > +#include <lwp.h>
+> >  #endif
+> >
+> >  #include "qemu/mmap-alloc.h"
+> > @@ -84,6 +86,13 @@ int qemu_get_thread_id(void)
+> >  {
+> >  #if defined(__linux__)
+> >      return syscall(SYS_gettid);
+> > +#elif defined(__FreeBSD__)
+> > +    // thread id is up to INT_MAX
+>
+> QEMU coding style only used /* ... */ comments, see the CODING_STYLE.rst
+> file.
+>
+> > +    long tid;
+> > +    thr_self(&tid);
+> > +    return (int)tid;
+> > +#elif defined(__NetBSD__)
+> > +    return _lwp_self();
+> >  #else
+> >      return getpid();
+> >  #endif
+> >
+>
+>  HTH,
+>   Thomas
+>
 
