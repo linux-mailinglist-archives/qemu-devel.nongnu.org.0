@@ -2,77 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED7DF1E293A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 19:40:59 +0200 (CEST)
-Received: from localhost ([::1]:45884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2FEB1E29DE
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 20:15:28 +0200 (CEST)
+Received: from localhost ([::1]:36286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jddZT-0005il-0o
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 13:40:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46858)
+	id 1jde6p-0003qG-B1
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 14:15:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jddXe-0004Mn-Mc
- for qemu-devel@nongnu.org; Tue, 26 May 2020 13:39:08 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45416)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jddXa-0006Ui-MA
- for qemu-devel@nongnu.org; Tue, 26 May 2020 13:39:05 -0400
-Received: by mail-wr1-x444.google.com with SMTP id c3so16995309wru.12
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 10:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3hfD3ml7lk6m4OdRbIJyvHpcUBE7nj0l2MA3rhHfEF8=;
- b=WjgpCiPxiZvziRAtxDY8oHafCj63QdrcEz0Bmej+CacJaDEBqnlT6lIsBa0Mmr9vGB
- EPNR9M1k35FRp1mvFR+q8NKn4csW8hZqnJwaF8RYVr3NJOoBbdq/NSLHhbact18bBKj0
- 0xCMNjIANelPBYolbaI4n2cwt5oW8cIAAEGzFg2/W33kd9TQxenferNyd9qJWIAHKdF2
- JDM01QhGcAecC3DyYvO9DjssHRiKw/4RgtBGiJ6ikgsx/FQ36c4rJMHAUvtPcRlTMBEE
- nlBRSoiy3oTuENx9+yHbRm9AEy3GgOl/5aN7IHMcfdy0g23b9oA8ujWbz8I8lTxS/yv8
- HFlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3hfD3ml7lk6m4OdRbIJyvHpcUBE7nj0l2MA3rhHfEF8=;
- b=GyptuX0M/qwNIuORhkzhd/ibtA8qVUvXH82ELe8mcOzt/e237C2QY9zyyPZo6B/J+/
- z+/TSlnTs1KiIRlX+RL/Kd06CfkpWjcyNoMCG6coRASj0sFWZB+6u++PLsXCvWNVajtp
- CsCSB/H2ExnoyjIqg4ZJnq81SII1/eUzuAfk8ub/X+ONBMHqxfHX7b7aaGZc5ZDFwV43
- zLOv6c37P4tREtjI4ELQU3NAgSmi+EJ1aX9di6Elb+hIZz6A1gofgF1h7l8QBCKyVmT6
- 26g04+0EQbxJsgrX3sOmOztPy77kug4Si3bKlsdClEZOqlRoE6/Zh/BeC4aTuw+H6O3C
- hLxA==
-X-Gm-Message-State: AOAM5316qrQMV5r3ShX2SMOQTRG/V+bG31XXUVA11cqJpuGRAF1iVl1o
- +OraL9exChdPfdMndOHDfqi8EjqDGUaxHqBm7PE=
-X-Google-Smtp-Source: ABdhPJyP+nfa3EQCLgCxncuAZ+LLH22AQLwwFLEaTT9aouGS4SyvXTp6l9WrCq9v84fN9flfjH1AQhD4SLKNoIjUpuc=
-X-Received: by 2002:a5d:4385:: with SMTP id i5mr14199068wrq.420.1590514740886; 
- Tue, 26 May 2020 10:39:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200519162144.10831-1-ahmedkhaledkaraman@gmail.com>
- <a0f3967f-e125-d888-bc6d-44414edbfd5b@linaro.org>
- <CALTWKrVGqVb1mjsaoxYm4Y1iQoXYwz7ToC7T6r2EDPp-_LO=LQ@mail.gmail.com>
- <4e78400c-42be-08c6-492d-dc5596551efd@linaro.org>
- <CAHiYmc6zKmxgyKHzT4gazvJvPsX3SQYLjSXwK50_2eURkR3_NA@mail.gmail.com>
- <CAHiYmc7z+OfvE7nN1j14n2O8seVtqem_hsBwq=WyFgeo=WfybA@mail.gmail.com>
- <CALTWKrXv6NQUEzKFvPN4TmDGCKxY-Zaa+Dt-z0+sTgndco+EMA@mail.gmail.com>
- <CAHiYmc6289cQZEptA=KjpMDLx3S94Au7W79DXH9KTM-MLi3ADA@mail.gmail.com>
- <CAHiYmc7r0GBLytokN=cyonrQAC6S8J=SpPf9KroPgG+ACJPV5Q@mail.gmail.com>
-In-Reply-To: <CAHiYmc7r0GBLytokN=cyonrQAC6S8J=SpPf9KroPgG+ACJPV5Q@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Tue, 26 May 2020 19:38:47 +0200
-Message-ID: <CAHiYmc70D2xo4m9zx16EbVH+om+04cqJz3O+Wa9pq7S=6LF-3A@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Update use_goto_tb() in hppa and rx targets
-To: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jde5N-0003LW-Gy; Tue, 26 May 2020 14:13:57 -0400
+Received: from relay.sw.ru ([185.231.240.75]:44406)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jde5L-0002Gb-CR; Tue, 26 May 2020 14:13:56 -0400
+Received: from [192.168.15.5] (helo=kvm.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jde5D-000317-Vm; Tue, 26 May 2020 21:13:48 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] block/block-copy: block_copy_dirty_clusters: fix failure check
+Date: Tue, 26 May 2020 21:13:47 +0300
+Message-Id: <20200526181347.489557-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=vsementsov@virtuozzo.com; helo=relay.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 14:13:51
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,34 +48,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> >
-> > I think your last sentence in the bug report is not entirely correct.
-> > It is not known what would be performance results in case of
-> > correcting mmap.c. So, if possible, and unless Richard or someone else
-> > disagrees, please change that last sentence to: "By doing so, a better
-> > performance results could be achieved, compared to the case of the
-> > workaround described above."
-> >
-> > Also, please add the tag "linux-user".
-> >
+ret may be > 0 on success path at this point. Fix assertion, which may
+crash currently.
 
-Ahmed, since rx target supports system only mode at the moment, they
-must include page crossing check in use_goto_tb(), which is missing
-right now. So, since the rx bug is of a little bit of different
-nature, please file another bug for rx target only - they have the bug
-in system mode too, as opposed to other targets. Their fix should and
-could be applied independently on any user-mode modifications for any
-other target.
+Fixes: 4ce5dd3e9b5ee0fac18625860eb3727399ee965e
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block/block-copy.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Sincerely,
-Aleksandar
+diff --git a/block/block-copy.c b/block/block-copy.c
+index bb8d0569f2..f7428a7c08 100644
+--- a/block/block-copy.c
++++ b/block/block-copy.c
+@@ -622,8 +622,10 @@ out:
+          * block_copy_task_run. If it fails, it means some task already failed
+          * for real reason, let's return first failure.
+          * Still, assert that we don't rewrite failure by success.
++         *
++         * Note: ret may be positive here because of block-status result.
+          */
+-        assert(ret == 0 || aio_task_pool_status(aio) < 0);
++        assert(ret >= 0 || aio_task_pool_status(aio) < 0);
+         ret = aio_task_pool_status(aio);
+ 
+         aio_task_pool_free(aio);
+-- 
+2.18.0
+
 
