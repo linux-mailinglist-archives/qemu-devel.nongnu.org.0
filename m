@@ -2,76 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BDB21E1C75
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:46:16 +0200 (CEST)
-Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 834CB1E1C81
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:47:36 +0200 (CEST)
+Received: from localhost ([::1]:38364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUHv-0000Gu-N9
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:46:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43664)
+	id 1jdUJD-0002be-JG
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:47:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdUGS-0006hr-CR
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:44:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35291
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdUGQ-00007z-B1
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:44:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590479081;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2I0KH7HdAp2FFLAQzNRkgvdMx1vzky7L/jCWupGot4o=;
- b=MxH3IeZXvdWjWRzKtf60xA+1l3jCJsW4kR7HX86jwqUevCu5sesMPutjfQERYdix5L4pIc
- wEGLgWdGgONJKNEtVIHXCxzZwbHnVBi5SKlrALEN2GISdBR/es6BDkHkI/Lg8xNqY1fEDF
- /51NCtxfZzJqH3FY8YK/+9BBHYdqO+c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-TN8qFYZjPXGQwMHjV196Ng-1; Tue, 26 May 2020 03:44:40 -0400
-X-MC-Unique: TN8qFYZjPXGQwMHjV196Ng-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE49A100A61F;
- Tue, 26 May 2020 07:44:38 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
- [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A6855D9E7;
- Tue, 26 May 2020 07:44:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F420A113864A; Tue, 26 May 2020 09:44:31 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 8/9] qapi/misc: Restrict PCI commands to machine code
-References: <20200525150640.30879-1-philmd@redhat.com>
- <20200525150640.30879-9-philmd@redhat.com>
-Date: Tue, 26 May 2020 09:44:31 +0200
-In-Reply-To: <20200525150640.30879-9-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 25 May 2020 17:06:39
- +0200")
-Message-ID: <87wo4z6syo.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdUGc-0007F0-BY
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:44:54 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40335)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdUGb-0000AD-Nr
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:44:54 -0400
+Received: by mail-wm1-x342.google.com with SMTP id r15so1995271wmh.5
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 00:44:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jS61tJlHZiFmME9R10JS8InkHphE33vjnBCN0Mc2K70=;
+ b=HVBr3Bsr/ZZ+KP/B1Y0tzyYtZj4KplaOuVWqI4/9BTUNgUkyqmsPPnGgxifQENodny
+ Rdoa7xoAXdet8v4rt0G1mJeYqlDky5RIFGZQ1vAz8iRYBCO1wFtoR055vxbcYpS/I0kC
+ e84EJAb2ZhqcNY3ywb8rtwW+FDs6aEkeSuOGeG3NqyLFWymMhahTTJe08B1wCTqjl96K
+ 6R5uVNIkC5h9xctZy6yfRLHW8HpoLOra40KBFNlNT5/J22POlDEdUtjSwzdAhR7UpOl8
+ vu4uqsMtobGa8sOxDvwFsW5Jj4D4mga9ze7tAmqGaJuoXjS0PnIeUxzOqZSBjyjsmqRK
+ Ziyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jS61tJlHZiFmME9R10JS8InkHphE33vjnBCN0Mc2K70=;
+ b=iRyi9qiooIJXF0HkKlq52xRlK65DI/1TVi42nAThpuGEZ+xa7DHpz6DMRf31cWNE39
+ aI86PxeYuBQUEPLr6mHBKDx+foATPyYw90jHiAPQQtBUsxQZQOJ8qv9LkkRTGdW8OQ+z
+ ds2Cnys9bHd7QRmcdRrBVnWMapM5weiwxvgr5xSmPwRkcsUjiN5PQv3y3Lk+xqEycNoP
+ tRW9AEv3vzRx1i49XjiquItbi+BzwsztDb1Bgwk8ThUNuJygSe85EwotxV9nFVGuLhzv
+ 1vAY8nFXL/wtGDiYJ2W5Si1KprXUVTlcg69w4SoO3iBZDTnA2xIqPC5UG2VjDGrapWTB
+ Mo0g==
+X-Gm-Message-State: AOAM533D+dV/QVdr/Y5lQJgqS4EDdzTwbUnjl8aUkuQDnbpT/7L6Q+l2
+ oqT14e6yMbsSv9ula3nh20o=
+X-Google-Smtp-Source: ABdhPJxRSf4zMou9sD/N3j/fD+ihMW00QSkEAsyyWYFP0K/FEwA5fcWrJkLkgQopaV8WH42n1TVDCQ==
+X-Received: by 2002:a7b:c413:: with SMTP id k19mr139086wmi.124.1590479092466; 
+ Tue, 26 May 2020 00:44:52 -0700 (PDT)
+Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id u3sm11742989wrw.89.2020.05.26.00.44.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 May 2020 00:44:51 -0700 (PDT)
+Subject: Re: [PATCH v6 17/21] MAINTAINERS: Change Aleksandar Rikalo's email
+ address
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ qemu-devel@nongnu.org
+References: <20200518200920.17344-1-aleksandar.qemu.devel@gmail.com>
+ <20200518200920.17344-18-aleksandar.qemu.devel@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ed0ead1b-50a7-3595-d81d-ab3e5419562f@amsat.org>
+Date: Tue, 26 May 2020 09:44:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200518200920.17344-18-aleksandar.qemu.devel@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:51:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,22 +93,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
- "Michael
- S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: aleksandar.rikalo@syrmia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+On 5/18/20 10:09 PM, Aleksandar Markovic wrote:
+> Aleksandar Rikalo wants to use a different email address from
+> now on.
+> 
+> Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+> ---
+>  .mailmap    |  3 ++-
+>  MAINTAINERS | 12 ++++++------
+>  2 files changed, 8 insertions(+), 7 deletions(-)
 
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Acked-by: Markus Armbruster <armbru@redhat.com>
-
+Thanks, queued to mips-next.
 
