@@ -2,90 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D83A1E1C91
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:55:26 +0200 (CEST)
-Received: from localhost ([::1]:56750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 975C81E1CC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:00:11 +0200 (CEST)
+Received: from localhost ([::1]:42214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUQn-0002Dr-3D
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:55:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44824)
+	id 1jdUVO-000882-KR
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:00:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jdUQ1-0001oe-Bw
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:54:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27562
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdUSD-0002zG-9W
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:56:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38507
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jdUQ0-0002IU-IL
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:54:37 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdUSA-0002re-VA
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:56:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590479675;
+ s=mimecast20190719; t=1590479809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=P+7j/bsYLRsXcurjUbxakgQbRwUQ4G6U+efg1QBAnvs=;
- b=W/ugcPB4uiU5Vgh28+EheP5T7lIvUvIvytEHtSelTHokIdb0c0i44WFAMrdyEpYe0OvbVW
- D2lWE0QvnR+CE6cW2Hq1QUdialmQMaw0toI6FvKvs/QVhrPvqxBOlaSnMsAIbQHfYajm0O
- /Zm0Rzsl/ymYk9V3q4J82ps6sTnZB/E=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-2majIVAwMrCUtyzQgAuiVA-1; Tue, 26 May 2020 03:54:33 -0400
-X-MC-Unique: 2majIVAwMrCUtyzQgAuiVA-1
-Received: by mail-ed1-f72.google.com with SMTP id i93so4524368edi.4
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 00:54:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=P+7j/bsYLRsXcurjUbxakgQbRwUQ4G6U+efg1QBAnvs=;
- b=is5mYUTDv2c9CWDmSR88ADZgDN+Tmy48Ii777HM8Gbfz0yvkQ+/ladwofO9STU22xo
- T2J0NcjGZjduohtmG/kHL07HZXl9lT2kyO2n2O/IIOH+8NpR9hBWiRX7anX47pN7WjeQ
- YuOwsLS/DdL5yx//O4GetFHVq4Xk1nEigjsgV8kEALmtUKqIWATEpld0vVq/NLwb0Wcp
- odRdaWWTaITVWknwHAB4sHmYzQ7vl6/+miIAWgMxiL5SawomrusEXnGtrB2ArLHbvUrP
- 8S03ZwHGJjdVMcxE7FXGeC14g70UFvqA9XHSTwEi9MHIX2etOaj1loB8TcyxKPAchaQa
- vIKQ==
-X-Gm-Message-State: AOAM531M7MxGweaiWys/uLgDiIq5DkVODJfjjgjKXcaGNk9HTsMg/B0z
- poCMBjFscr9v26cUbKt9EwR+E+2wn19v5WQ69Q9HaVdi0/Os0yHwOAzhu3tliXxnqaqSyoBcKiE
- 4zrFGHFrM57/y+Zo=
-X-Received: by 2002:a17:906:350c:: with SMTP id
- r12mr45352eja.516.1590479672045; 
- Tue, 26 May 2020 00:54:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwfZYChgjWAxu7ju4enEBhACB05huLgrOSsuOoARLlaPl8smF+GEp4ZoCnii84WV4KRmHHocA==
-X-Received: by 2002:a17:906:350c:: with SMTP id
- r12mr45338eja.516.1590479671823; 
- Tue, 26 May 2020 00:54:31 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:3c1c:ffba:c624:29b8?
- ([2001:b07:6468:f312:3c1c:ffba:c624:29b8])
- by smtp.gmail.com with ESMTPSA id q16sm16789021eju.73.2020.05.26.00.54.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 May 2020 00:54:31 -0700 (PDT)
-Subject: Re: [PATCH 51/55] qdev: Make qdev_realize() support bus-less devices
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200519145551.22836-1-armbru@redhat.com>
- <20200519145551.22836-52-armbru@redhat.com>
- <b0188311-e138-cf55-c0e9-52313b5aa906@redhat.com>
- <87lflmps2w.fsf@dusky.pond.sub.org>
- <1b43c6cb-ac47-1fcb-72b4-e96ae00141b1@redhat.com>
- <87mu5wfrj8.fsf@dusky.pond.sub.org>
- <a3b09578-c164-22a0-8a52-3a4bd5513ef2@redhat.com>
- <87y2pf9t19.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <11771963-13dc-704b-d412-9853c81d7555@redhat.com>
-Date: Tue, 26 May 2020 09:54:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=g4Bg/bEwdV4+qq44eIjdGIVmQdN+60cl67CP/RRyqyM=;
+ b=C83cDGJi6AnPPGtahjQFirSSkgrPAjSLxXngq+2sdmzmC7XTY4KdY6Snh+hWSohBNeT9uX
+ KamC2K/JozUvvao7Z2h5ugJe0HrdbCelmO51tNn7f9wLzCl+TB/TZN0Mw+4l59EvgxQ2YY
+ GT4AQKWcgGGYEgk0B0R0CYBXfg/0RWk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-4jMlUkL5M6iiohBA-njMJw-1; Tue, 26 May 2020 03:56:46 -0400
+X-MC-Unique: 4jMlUkL5M6iiohBA-njMJw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C1A218C35AC;
+ Tue, 26 May 2020 07:56:45 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
+ [10.36.113.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 517C910013D2;
+ Tue, 26 May 2020 07:56:41 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id DA61A16E2C; Tue, 26 May 2020 09:56:39 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/8] Audio 20200526 patches
+Date: Tue, 26 May 2020 09:56:31 +0200
+Message-Id: <20200526075639.27949-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87y2pf9t19.fsf@dusky.pond.sub.org>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:19:28
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -95,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,59 +77,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/05/20 07:14, Markus Armbruster wrote:
->>> The contract must specify exactly what happens to the reference count,
->>> case by case.
->>
->> For both qdev_realize and qdev_realize_and_unref, on return the caller
->> need not care about keeping alive the device in the long-term.
->>
->> For qdev_realize_and_unref, the caller must _also_ have a "private"
->> reference to the object, which will be dropped on return.
->>
->> For qdev_realize, the caller _can_ have a private reference that it has
->> to later drop at a convenient time, but it could also ensure that the
->> device has a long-term reference via object->parent instead.
-> 
-> I need a contract.  The difficulty of writing a clear contract, caused
-> by a case that doesn't actually occur, is what made me limit null bus to
-> qdev_realize().  I admittedly didn't try hard.  Next try:
-> 
->     /*
->      * Realize @dev and drop a reference.
->      * This is like qdev_realize(), except the caller must hold a
->      * (private) reference, which is dropped on return regardless of
->      * success or failure.  Intended use:
->      *     dev = qdev_new();
->      *     [...]
->      *     qdev_realize_and_unref(dev, bus, errp);
->      * Now @dev can go away without further ado.
->      */
+The following changes since commit fea8f3ed739536fca027cf56af7f5576f37ef9cd=
+:
 
-Works for me!
+  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/pflash-next-2020=
+0522' into staging (2020-05-22 18:54:47 +0100)
 
->> Perhaps this tells us that the /machine/unattached automation actually
->> shouldn't be moved to qdev_realize, but rather to
->> qdev_realize_and_unref, and qdev_realize could assert that there is a
->> parent already at the time of the call.  However it is probably too
->> early to make a decision on that.
-> 
-> The common pairings are qdev_new() with qdev_realize_and_unref(), and
-> object_initialize_child() with qdev_realize().  Your idea obviously
-> works for these.  Whether there are other uses where it might not work,
-> I can't say offhand.
+are available in the Git repository at:
 
-Yes, let's look at it after this is committed.  But I think it is at
-least sensible, in the long term, for the *_new variants or their
-callers to all take care of adding the child, and then
-qdev_realize_and_unref() can go away.
+  git://git.kraxel.org/qemu tags/audio-20200526-pull-request
 
-Paolo
+for you to fetch changes up to b3b8a1fea6ed5004bbad2f70833caee70402bf02:
 
-Paolo
+  hw/mips/mips_fulong2e: Remove unused 'audio/audio.h' include (2020-05-26 =
+08:46:14 +0200)
+
+----------------------------------------------------------------
+audio: add JACK client audiodev.
+audio: bugfixes and cleanups.
+
+----------------------------------------------------------------
+
+Bruce Rogers (1):
+  audio: fix wavcapture segfault
+
+Geoffrey McRae (1):
+  audio/jack: add JACK client audiodev
+
+Philippe Mathieu-Daud=C3=A9 (4):
+  hw/audio/gus: Use AUDIO_HOST_ENDIANNESS definition from
+    'audio/audio.h'
+  audio: Let audio_sample_to_uint64() use const samples argument
+  audio: Let capture_callback handler use const buffer argument
+  hw/mips/mips_fulong2e: Remove unused 'audio/audio.h' include
+
+Prasad J Pandit (1):
+  es1370: check total frame count against current frame
+
+Volker R=C3=BCmelin (1):
+  audio/mixeng: fix clang 10+ warning
+
+ configure               |  17 +
+ audio/audio.h           |   4 +-
+ audio/audio_template.h  |   2 +
+ audio/audio.c           |   5 +-
+ audio/jackaudio.c       | 667 ++++++++++++++++++++++++++++++++++++++++
+ audio/mixeng.c          |   9 +-
+ audio/wavcapture.c      |   2 +-
+ hw/audio/es1370.c       |   7 +-
+ hw/audio/gus.c          |   8 +-
+ hw/mips/mips_fulong2e.c |   1 -
+ ui/vnc.c                |   2 +-
+ audio/Makefile.objs     |   5 +
+ qapi/audio.json         |  56 +++-
+ 13 files changed, 763 insertions(+), 22 deletions(-)
+ create mode 100644 audio/jackaudio.c
+
+--=20
+2.18.4
 
 
