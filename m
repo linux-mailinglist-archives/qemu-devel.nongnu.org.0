@@ -2,115 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E50C1E2734
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:38:10 +0200 (CEST)
-Received: from localhost ([::1]:38590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E051E27BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:54:50 +0200 (CEST)
+Received: from localhost ([::1]:59800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdcaf-0001zk-Ei
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:38:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34340)
+	id 1jdcqn-00060M-2s
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:54:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdcYX-0000Aq-H7
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:35:57 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37814
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdcYW-0006kv-0e
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:35:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590510954;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZLgJyCger61hPw5ZyqZ8cavAWoGrDX/LOuL7s1o9ZTU=;
- b=XfjHFSpRDpqvBnsAwTJtm+ukl6VP1ulLDTLKmcZoAN3CbIwDl0fkk1aS8K6ShRmnDhEu7n
- 1hdzfvsQ0Ebh39N9trtaeTCQUmw4c87c85xeW2Sv/XSQgFxCD7bwaMSZjcRQErT6i5XM/8
- VroOqXVRjiIe0d4j9SR/euO/BdFcrsk=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-435-aoGQTKFYNVaIFiIozfEUZg-1; Tue, 26 May 2020 12:35:53 -0400
-X-MC-Unique: aoGQTKFYNVaIFiIozfEUZg-1
-Received: by mail-ed1-f69.google.com with SMTP id s14so1248064edr.7
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 09:35:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jdcjZ-0003Uj-TZ; Tue, 26 May 2020 12:47:21 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:37492)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jdcjY-00069K-FW; Tue, 26 May 2020 12:47:21 -0400
+Received: by mail-il1-x143.google.com with SMTP id r2so9945188ila.4;
+ Tue, 26 May 2020 09:47:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=US/6pi8OtL/tZoq7LUrwfxAw/HJhGUy2KOFK+AJwJY0=;
+ b=p828qJp1PNv27RqFu1RwVggVVqpacLEuw/lKMbQd1CL4tB8R8ryd3T7o1O8X5e1RBI
+ omBXyriaK2xOdZF+NYC0vscjxestICNIhAChN/AXtUz9g6ViFvDeARzpjI60+pf43V0S
+ Nmj7WblBIrhJ4kZn6eWE/gV4JPWx3J1asYwjJcf5abmbGyP580rb1upWMPTrjTd0wrVq
+ ruHsFdGoPt8ZBoQPGP7zvKFBKxGAOkBgqOC838Nhpn2zZPyINYEib5Xam5SvOYcaAikc
+ q1HZatM4NqR1mdVOZS8Vqa1ICysa0ftxkO7QDghAA5Przydkj/7KqS+FnTf7ldFDNlMl
+ UvAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=ZLgJyCger61hPw5ZyqZ8cavAWoGrDX/LOuL7s1o9ZTU=;
- b=I4o2NyPWtqn1PiuPGdGQu0/1XftfafQpyH6WDRA9aPN+ZPGBSjqSyO9l64/KIvI2BY
- iWT/my5PoHcEHXJxuhG872xAggUUHtdtFJoH8v73ti0LZjgLTF7wjic7HwzTahY1GLGC
- tGg6022JAR8djkjCqcPe4WFf2teKrJh+jrHM5/54/ZOPiH7fEroaTNOUyJzriYCv14sT
- mLqjHe53Ife10mW5hk1rQ7vpEMe/GwqSnktWSTlSGOOlVPpdk/Dz6MnQEsx8e6+bpgMs
- 8f2wFEz9hkEwZfLgDgu9zUvQJ2RhOn1l0xktqrYRl2K9otUu4ZuCNSWLgv4NWC8GWiAC
- WTGw==
-X-Gm-Message-State: AOAM532o1KBs8tK2nsziCtYN3/0FEuAH6WYwsr3/hEcbdoTeZ//zUaCW
- wXJRPa95iOQkDUNVRVcjSCd/klapKVGB2EGvpJptZ0QAltylYr4vz9R7gUrjxDaisvnNPUIehIY
- sDzaVwj6nO0Gbdz4=
-X-Received: by 2002:a17:906:f112:: with SMTP id
- gv18mr1865398ejb.142.1590510951404; 
- Tue, 26 May 2020 09:35:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9NKYZdP5sCdgnnVf9GMrfr0zYE7oWKNtuEOcmtJheMuiAESnE1HkuJiG/jWbFO31R8DbfyA==
-X-Received: by 2002:a17:906:f112:: with SMTP id
- gv18mr1865378ejb.142.1590510951173; 
- Tue, 26 May 2020 09:35:51 -0700 (PDT)
-Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
- [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id f24sm343149edq.21.2020.05.26.09.35.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 May 2020 09:35:50 -0700 (PDT)
-Subject: Re: [PATCH] target/ppc: Fix argument to
- ppc_radix64_partition_scoped_xlate() again
-To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
-References: <159051003729.407106.10610703877543955831.stgit@bahia.lan>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <0c9c13b0-3d45-196b-c650-fb40317c5161@redhat.com>
-Date: Tue, 26 May 2020 18:35:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=US/6pi8OtL/tZoq7LUrwfxAw/HJhGUy2KOFK+AJwJY0=;
+ b=hS7vOsGOgY/uhP+RgeQ4aIA2M+jmSxjxO4opEfYIOfsAY814Km+MlFXH0nvAuuZKKU
+ Hf0SorPREonwTIMTu+o5qhdf6Dv3zCtOP7/RlRixNm6fpHpKSMYki3fNqjWW7Ev8vlsL
+ UNriZ+QczJEjAMkjkNMEy2ezyrjxqx5Kd1e6dDUsGhcU/NHJmTlgIj3uFbOz7vu4qjfg
+ 9L8/KKa5/dWdawwmSe+83ChDKAJ+7TrLvMxPklPneH3Rd0A1BH+D4FeSHayaNI/9lguk
+ NUhf/an4qafTumEWq+UV22t+/LJSq/cioPyFQuFuomRCNczEd+fn+FW8u5f+95DlFMuS
+ lV2w==
+X-Gm-Message-State: AOAM532QK4NlR7azKowbkWGWiSIkllbDTPgx9gJMVKQqOytAiP/c+aAY
+ jbknP3CsFZ7+Wh9a1SGW1FeN5KX9Sc7sRU4fu38=
+X-Google-Smtp-Source: ABdhPJykVOmpJRtoRxrqWUlBSe3yceU0HCLXUa7JW88QWl6Q1q0umRDzFTpSLRCs51S6c+XG2dmUpHpOczmLP+qCkfI=
+X-Received: by 2002:a92:de02:: with SMTP id x2mr2048228ilm.267.1590511638212; 
+ Tue, 26 May 2020 09:47:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <159051003729.407106.10610703877543955831.stgit@bahia.lan>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:51:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <20200525034459.28535-1-f4bug@amsat.org>
+ <20200525034459.28535-3-f4bug@amsat.org>
+In-Reply-To: <20200525034459.28535-3-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 26 May 2020 09:38:18 -0700
+Message-ID: <CAKmqyKNAf4KKdGM=_s5AWa4-G6YYH2CLOnTd-E0cvQtVa6+sCA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] hw/display/dpcd: Fix memory region size
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,47 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/20 6:20 PM, Greg Kurz wrote:
-> The penultimate argument of function ppc_radix64_partition_scoped_xlate()
-> has the bool type.
-> 
-> Fixes: d04ea940c597 "target/ppc: Add support for Radix partition-scoped translation"
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
-> 
-> A patch fixing the same issue in other places was merged recently in
-> ppc-for-5.1. Maybe worth squashing the two patches into one ?
-> 
-> commit 372ef6e9b803ef10c3200c45311d218e2c97b218
-> Author: Greg Kurz <groug@kaod.org>
-> Date:   Thu May 14 00:57:13 2020 +0200
-> 
->     target/ppc: Fix arguments to ppc_radix64_partition_scoped_xlate()
-> ---
->  target/ppc/mmu-radix64.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index 0d3922537c4c..c60bf3135734 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -513,7 +513,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx,
->  
->              ret = ppc_radix64_partition_scoped_xlate(cpu, rwx, eaddr, g_raddr,
->                                                       pate, raddr, &prot, &psize,
-> -                                                     0, guest_visible);
-> +                                                     false, guest_visible);
->              if (ret) {
->                  return ret;
->              }
-> 
-> 
+On Sun, May 24, 2020 at 8:48 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> The memory region size is 512K.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
+Alistair
+
+> ---
+>  hw/display/dpcd.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/display/dpcd.c b/hw/display/dpcd.c
+> index 170545c605..0c1b7b35fb 100644
+> --- a/hw/display/dpcd.c
+> +++ b/hw/display/dpcd.c
+> @@ -1,5 +1,5 @@
+>  /*
+> - * dpcd.c
+> + * Xilinx Display Port Control Data
+>   *
+>   *  Copyright (C) 2015 : GreenSocs Ltd
+>   *      http://www.greensocs.com/ , email: info@greensocs.com
+> @@ -137,7 +137,7 @@ static void dpcd_init(Object *obj)
+>  {
+>      DPCDState *s =3D DPCD(obj);
+>
+> -    memory_region_init_io(&s->iomem, obj, &aux_ops, s, TYPE_DPCD, 0x7FFF=
+F);
+> +    memory_region_init_io(&s->iomem, obj, &aux_ops, s, TYPE_DPCD, 0x8000=
+0);
+>      aux_init_mmio(AUX_SLAVE(obj), &s->iomem);
+>  }
+>
+> --
+> 2.21.3
+>
+>
 
