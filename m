@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41DEB1E28D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 19:29:54 +0200 (CEST)
-Received: from localhost ([::1]:40910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA49A1E28CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 19:28:06 +0200 (CEST)
+Received: from localhost ([::1]:34414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jddOh-0007PD-TH
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 13:29:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58076)
+	id 1jddMz-0004ak-Hd
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 13:28:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jddJf-0006c8-Hz; Tue, 26 May 2020 13:24:39 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:34695)
+ id 1jddJg-0006fb-Ov; Tue, 26 May 2020 13:24:40 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:35193)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jddJe-0004OL-K5; Tue, 26 May 2020 13:24:39 -0400
-Received: by mail-ej1-x644.google.com with SMTP id l27so2571563ejc.1;
- Tue, 26 May 2020 10:24:37 -0700 (PDT)
+ id 1jddJf-0004Oo-UE; Tue, 26 May 2020 13:24:40 -0400
+Received: by mail-ej1-x641.google.com with SMTP id y13so2738358eju.2;
+ Tue, 26 May 2020 10:24:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bosFEsOdRNCKNds18FsMsMzsl498InAUxYmyMk4mv4A=;
- b=KyJUyd+gePEnSqSfksBC75UrrHloRRCMmGCtrlSyNh4pEllbl10GZtOzNRj5kMmqGF
- 4/kQCF7wXQcRfX4wJ+k5gu4IFaye1PjSm75XwbUbPyikHilTrjbPUE22rQWfvYf9mWvE
- vKIXsuw59CfLbQ7JBca/eueF9jmo7EnGLp853riCO89SpSq8Ac6U78382kNXv9ysXCd9
- /rlhMetMgzrMici9nUAkbWVRj3u+/i5OvvFwNT7erZJsKiSaQ/QIWwWJGtajC6YYwjnm
- OmnqiVC032tTQLCO8e/994q91eLyVyaFwuEFqGU4neSbe1sIxG4DSCPcV/J3hOk9tb/W
- 8YKQ==
+ bh=xD1F0Crj0tTgMdXFMSpwQeLXu3Am6SzZrlFvxBhJ1Vo=;
+ b=IeXrjD2BOatUygJ+ulV/wns+oAgBRzOCA0KpeZ/FkTPUQZu72bqsawXLTPVuAjMMog
+ tUGk/hsS0oU6q0mh9JRiG84gU1aGspgivt1CjXpbodA1Mo8WOMQJ1njFmL600by792Kf
+ 0O7E5f87ciVz39TJ5jz+x8FytpdBGn7r1wHB4zDqhu04bR/r8s+0D0mioBY7oYOmd05F
+ Vw12XHQqutF+V6H1h4a2Yxus2QRKRtO4z55XC0wcQx0W1nDYtRaRnlzNTW3el21fwuiY
+ +84t4PNWtMLTwO1x3LssWHxMD5gZEzDhVEiFwK0XyA2isCawWH+snwVfPrJKoUBKW5P0
+ D0oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=bosFEsOdRNCKNds18FsMsMzsl498InAUxYmyMk4mv4A=;
- b=j6WNjX0NRh7FUDVEIydYw6jt+2kMWUC1pJCpW6i8itY3MYEhjLwAtU8XHFWQ1bWoAv
- GVWxKytu8JyJH15H5lxt5wo+Y88vsnc5IVuiXmounJH+TKw3to/YeF+ERMvj3MQC7ezX
- fEhS1cZhvVyFTBO6VAi3rjEpc1WR5y8L5fs+A4mCxKNaIt4zwy9TUgNJKsIhaAAAhgF4
- Km6TH6qC4j6Ks4LVbI/QPpPSHG+uUDqL4BcKsRRNRGmWhsIb5kfloSGSxuGcFo5tSTCK
- ZRCbiuQJPVKslD9FvUkWaPs3yQUt8vsMvfFl61sms4cGQvEdQ4EI7di9FH83QbCF1Xxs
- onkQ==
-X-Gm-Message-State: AOAM533lGIIRvPH4l4GGFp9pFiVOTB3fYrWRJlFVu8Ud7zooDERW9HGs
- b3h1MZHahyT9eNRMFKM+k8Z5PsfYmQU=
-X-Google-Smtp-Source: ABdhPJx1VtAgGZixmMlTyYjSo7rtLtXQ7p4bq4AoWGapdhDGU2ZuPJxfwxuCL08gdVywQ2AfFWu1Hg==
-X-Received: by 2002:a17:906:2f8d:: with SMTP id
- w13mr2167656eji.102.1590513876142; 
- Tue, 26 May 2020 10:24:36 -0700 (PDT)
+ bh=xD1F0Crj0tTgMdXFMSpwQeLXu3Am6SzZrlFvxBhJ1Vo=;
+ b=CS7CIsw+n8DumppcJkNqHAwJIEEg+5cJH9HhgcW7tsVaA0xIM+YujZ3Kxt/g8F2rzl
+ qc24EO1alsH9+VQRaMBF7AS/edjykWUQWmGL4BY7pl9djj8NSD3O7qrnzORMhWtV/nRQ
+ uSL1BEL208W6Vo8t1rHPlb0egG1dC6lUg0pXtBMRc8Z6YMOcUr2lePhsvXWJ8Ao9C8KA
+ wjucKHm8U1p/AsE50Dpk6aUedAd8WShhGC0rXRiwA0jl90BcsKYnhtivOicYyGoldKYA
+ HxNTzSpsOzF1xbA0C8OSBte161yV5M+jFGU2h6JdQJEhZwZ7Qsr3biHiDokcR7ZPjA2x
+ rC5g==
+X-Gm-Message-State: AOAM5308GVyh4jYHYO3wYvRwKePwL/TYzzL1AmHEGanBOkAqsYopb8YP
+ oCiJgaZ8mQJ/2T8bG8x2PLFp9EMOFXs=
+X-Google-Smtp-Source: ABdhPJxppiXRNKxsvfWoUwG0mSxbaomcaqkEeAxC9aNhTBlgTB4SzCn+aw6WFu5ZFEgCR3Og1G+p1Q==
+X-Received: by 2002:a17:906:f198:: with SMTP id
+ gs24mr1983093ejb.547.1590513877491; 
+ Tue, 26 May 2020 10:24:37 -0700 (PDT)
 Received: from x1w.redhat.com (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id bf15sm421357edb.46.2020.05.26.10.24.34
+ by smtp.gmail.com with ESMTPSA id bf15sm421357edb.46.2020.05.26.10.24.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 10:24:35 -0700 (PDT)
+ Tue, 26 May 2020 10:24:36 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/7] target/ppc: Restrict PPCVirtualHypervisorClass to
+Subject: [PATCH v2 5/7] target/s390x: Only compile decode_basedisp() on
  system-mode
-Date: Tue, 26 May 2020 19:24:24 +0200
-Message-Id: <20200526172427.17460-5-f4bug@amsat.org>
+Date: Tue, 26 May 2020 19:24:25 +0200
+Message-Id: <20200526172427.17460-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200526172427.17460-1-f4bug@amsat.org>
 References: <20200526172427.17460-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -98,112 +98,40 @@ Cc: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code related to PPC Virtual Hypervisor is pointless in user-mode.
+The decode_basedisp*() methods are only used in ioinst.c,
+which is only build in system-mode emulation.
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+I/O instructions are privileged, and other S instructions
+are decoded elsewhere.
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/ppc/cpu.h                |  4 ++--
- target/ppc/kvm_ppc.h            | 22 +++++++++++-----------
- target/ppc/translate_init.inc.c |  4 ++++
- 3 files changed, 17 insertions(+), 13 deletions(-)
+ target/s390x/internal.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 7db7882f52..13d6976534 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1176,6 +1176,7 @@ PowerPCCPUClass *ppc_cpu_class_by_pvr(uint32_t pvr);
- PowerPCCPUClass *ppc_cpu_class_by_pvr_mask(uint32_t pvr);
- PowerPCCPUClass *ppc_cpu_get_family_class(PowerPCCPUClass *pcc);
- 
-+#ifndef CONFIG_USER_ONLY
- struct PPCVirtualHypervisorClass {
-     InterfaceClass parent;
-     void (*hypercall)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
-@@ -1189,10 +1190,8 @@ struct PPCVirtualHypervisorClass {
-     void (*hpte_set_r)(PPCVirtualHypervisor *vhyp, hwaddr ptex, uint64_t pte1);
-     void (*get_pate)(PPCVirtualHypervisor *vhyp, ppc_v3_pate_t *entry);
-     target_ulong (*encode_hpt_for_kvm_pr)(PPCVirtualHypervisor *vhyp);
--#ifndef CONFIG_USER_ONLY
-     void (*cpu_exec_enter)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
-     void (*cpu_exec_exit)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
--#endif
+diff --git a/target/s390x/internal.h b/target/s390x/internal.h
+index 8c95c734db..c1678dc6bc 100644
+--- a/target/s390x/internal.h
++++ b/target/s390x/internal.h
+@@ -204,6 +204,8 @@ enum cc_op {
+     CC_OP_MAX
  };
  
- #define TYPE_PPC_VIRTUAL_HYPERVISOR "ppc-virtual-hypervisor"
-@@ -1204,6 +1203,7 @@ struct PPCVirtualHypervisorClass {
- #define PPC_VIRTUAL_HYPERVISOR_GET_CLASS(obj) \
-     OBJECT_GET_CLASS(PPCVirtualHypervisorClass, (obj), \
-                      TYPE_PPC_VIRTUAL_HYPERVISOR)
++#ifndef CONFIG_USER_ONLY
++
+ static inline hwaddr decode_basedisp_s(CPUS390XState *env, uint32_t ipb,
+                                        uint8_t *ar)
+ {
+@@ -225,6 +227,8 @@ static inline hwaddr decode_basedisp_s(CPUS390XState *env, uint32_t ipb,
+ /* Base/displacement are at the same locations. */
+ #define decode_basedisp_rs decode_basedisp_s
+ 
 +#endif /* CONFIG_USER_ONLY */
- 
- void ppc_cpu_do_interrupt(CPUState *cpu);
- bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index fcaf745516..701c0c262b 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -280,6 +280,17 @@ static inline bool kvmppc_has_cap_spapr_vfio(void)
-     return false;
- }
- 
-+static inline void kvmppc_read_hptes(ppc_hash_pte64_t *hptes,
-+                                     hwaddr ptex, int n)
-+{
-+    abort();
-+}
 +
-+static inline void kvmppc_write_hpte(hwaddr ptex, uint64_t pte0, uint64_t pte1)
-+{
-+    abort();
-+}
-+
- #endif /* !CONFIG_USER_ONLY */
- 
- static inline bool kvmppc_has_cap_epr(void)
-@@ -310,17 +321,6 @@ static inline int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
-     abort();
- }
- 
--static inline void kvmppc_read_hptes(ppc_hash_pte64_t *hptes,
--                                     hwaddr ptex, int n)
--{
--    abort();
--}
--
--static inline void kvmppc_write_hpte(hwaddr ptex, uint64_t pte0, uint64_t pte1)
--{
--    abort();
--}
--
- static inline bool kvmppc_has_cap_fixup_hcalls(void)
- {
-     abort();
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
-index d8adc1bd49..09f8b10e27 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -10941,16 +10941,20 @@ static const TypeInfo ppc_cpu_type_info = {
-     .class_init = ppc_cpu_class_init,
- };
- 
-+#ifndef CONFIG_USER_ONLY
- static const TypeInfo ppc_vhyp_type_info = {
-     .name = TYPE_PPC_VIRTUAL_HYPERVISOR,
-     .parent = TYPE_INTERFACE,
-     .class_size = sizeof(PPCVirtualHypervisorClass),
- };
-+#endif
- 
- static void ppc_cpu_register_types(void)
- {
-     type_register_static(&ppc_cpu_type_info);
-+#ifndef CONFIG_USER_ONLY
-     type_register_static(&ppc_vhyp_type_info);
-+#endif
- }
- 
- type_init(ppc_cpu_register_types)
+ /* arch_dump.c */
+ int s390_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
+                               int cpuid, void *opaque);
 -- 
 2.21.3
 
