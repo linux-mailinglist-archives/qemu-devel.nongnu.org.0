@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 364E21E2768
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:46:40 +0200 (CEST)
-Received: from localhost ([::1]:56390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 068B31E27BD
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:56:16 +0200 (CEST)
+Received: from localhost ([::1]:35758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdcit-00019L-5E
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:46:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41308)
+	id 1jdcsB-0008Q9-0a
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:56:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jdcer-0004Zg-Oa
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:42:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46724
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jdceq-0002qc-H9
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:42:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590511346;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=roULH0BHdVTWRU1sdcZcVNI1RpaX8hguuSGdm/MInuk=;
- b=ZK2oWbxWE6l0CVdnaZR/f6d/rLOzxImtzfqSkS6oDI53gw1F62+0EZw6E6Ymp0sMVyUTHm
- WIeCepQ5FDoSuWan2bknvYPjmNZneWB9v0BISKoilwBZvtLhRT/ogEHMNMtWMZhgWvt8ay
- WAzBq+H6z87+3JGpdQvLJYi7NgP2tbA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-lfvPOGW6PxSh3XrK01_5jw-1; Tue, 26 May 2020 12:42:22 -0400
-X-MC-Unique: lfvPOGW6PxSh3XrK01_5jw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3D33108BD11;
- Tue, 26 May 2020 16:42:21 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-113-239.ams2.redhat.com [10.36.113.239])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6270B19D71;
- Tue, 26 May 2020 16:42:17 +0000 (UTC)
-Date: Tue, 26 May 2020 18:42:15 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Reiter <s.reiter@proxmox.com>
-Subject: Re: [RFC PATCH 2/3] block: Allow bdrv_run_co() from different
- AioContext
-Message-ID: <20200526164215.GA8886@linux.fritz.box>
-References: <20200512144318.181049-1-kwolf@redhat.com>
- <20200512144318.181049-3-kwolf@redhat.com>
- <2ab7bae7-03c3-f269-1db1-202aeb41bdf3@proxmox.com>
- <20200525164150.GD19863@linux.fritz.box>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jdco8-00024J-M6; Tue, 26 May 2020 12:52:04 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:46973)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jdco6-0000m8-Ov; Tue, 26 May 2020 12:52:03 -0400
+Received: by mail-io1-xd41.google.com with SMTP id j8so22723257iog.13;
+ Tue, 26 May 2020 09:52:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=wogobYdgA7pdWEUiow9y+BbE4SrJpOahPEjnfmC9ss0=;
+ b=jheA7ja9yxFsNrUeovavT8+NzngQH/J+PJ4kuh0t/fwMH3SYb7nkLNyudNtVldLNNG
+ eoXiq06CtQJ3uxyzvV7NyH0N4JoqlcLnh6vWkJrTiNrLgNheyz7gP8R0shM89QDbtw8p
+ JZUjizEJni0l4y29EpjSrqEqzOExoJi634eEtOXK+9pty7OITgNGpiG5Njr+V5wn3Ry5
+ LUxNVYgx6wx+92PYH/nfCF7INVc2/A2sARyBanCkXDNPf/YA4jgAjgZwE5TLFKt6dvr/
+ 2dGc0B+aWkRbqkeM0yEc0gIlX8XwbYOB1Vb1c/7zNZNbnr7PEu7PeYRjx5CfWXvGsEvI
+ K1Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wogobYdgA7pdWEUiow9y+BbE4SrJpOahPEjnfmC9ss0=;
+ b=CQdEyb2BmSYeFi0aoF4/Zpd0L2m/DQJwV0ZDHw3j9x7XWiC9AppndmTJGB8OrVjsjh
+ e+105rY3Shc2Uuy+Om6vijqDX0+W/RHmgpb/MJMUy8on51uuodI0F5zj5WlBUXlWAkSf
+ 7iqNNeTlTvzEpezg+ojij8y0cN5oUnnLmpzb2SY8RsByEaw060Or+p070vArXcwxZKuU
+ pbj+0pYf2mvCFseimZXbfFhB3jbtnF+yw+qbcoZriRre0YlLj8qxRFKUyKO0gBfF6XGU
+ 3/VZXSCZ3Toloisz+IQASvG9TXnnTTYvNicLxiLZoWJEoolw0eUIS6WBe94Hfbcgt8Y0
+ qD4A==
+X-Gm-Message-State: AOAM5339RCJddAREkCFztbzLr1AMND+aOpG9zlyXKjERQHwAJv+YhFeH
+ IVBJq89Yvcvw1BFY7ka9nsY9jR2JVHpKkGiBB6w=
+X-Google-Smtp-Source: ABdhPJwG6bLuMi57LOOhtuFM7Cd+Y8FlPRKN7hczqoZy/Qg+bhnVHVNLF7Y1r4RMiuDna+oMVFZgZrmdvQFR8GxrUj4=
+X-Received: by 2002:a02:7009:: with SMTP id f9mr1962296jac.8.1590511920816;
+ Tue, 26 May 2020 09:52:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200525164150.GD19863@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:51:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <20200526062252.19852-1-f4bug@amsat.org>
+ <20200526062252.19852-5-f4bug@amsat.org>
+In-Reply-To: <20200526062252.19852-5-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 26 May 2020 09:42:56 -0700
+Message-ID: <CAKmqyKOc=Zs0VA-_BKDsrG__RXtgcM7JR8cwsNsd8RNr9VKVgA@mail.gmail.com>
+Subject: Re: [PATCH 04/14] hw/display/cirrus_vga: Use qemu_log_mask(UNIMP)
+ instead of debug printf
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,78 +81,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com, t.lamprecht@proxmox.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.05.2020 um 18:41 hat Kevin Wolf geschrieben:
-> Am 25.05.2020 um 16:18 hat Stefan Reiter geschrieben:
-> > On 5/12/20 4:43 PM, Kevin Wolf wrote:
-> > > Coroutine functions that are entered through bdrv_run_co() are already
-> > > safe to call from synchronous code in a different AioContext because
-> > > bdrv_coroutine_enter() will schedule them in the context of the node.
-> > > 
-> > > However, the coroutine fastpath still requires that we're already in the
-> > > right AioContext when called in coroutine context.
-> > > 
-> > > In order to make the behaviour more consistent and to make life a bit
-> > > easier for callers, let's check the AioContext and automatically move
-> > > the current coroutine around if we're not in the right context yet.
-> > > 
-> > > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > > ---
-> > >   block/io.c | 15 ++++++++++++++-
-> > >   1 file changed, 14 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/block/io.c b/block/io.c
-> > > index c1badaadc9..7808e8bdc0 100644
-> > > --- a/block/io.c
-> > > +++ b/block/io.c
-> > > @@ -895,8 +895,21 @@ static int bdrv_run_co(BlockDriverState *bs, CoroutineEntry *entry,
-> > >                          void *opaque, int *ret)
-> > >   {
-> > >       if (qemu_in_coroutine()) {
-> > > -        /* Fast-path if already in coroutine context */
-> > > +        Coroutine *self = qemu_coroutine_self();
-> > > +        AioContext *bs_ctx = bdrv_get_aio_context(bs);
-> > > +        AioContext *co_ctx = qemu_coroutine_get_aio_context(self);
-> > > +
-> > > +        if (bs_ctx != co_ctx) {
-> > > +            /* Move to the iothread of the node */
-> > > +            aio_co_schedule(bs_ctx, self);
-> > > +            qemu_coroutine_yield();
-> > 
-> > I'm pretty sure this can lead to a race: When the thread we're re-scheduling
-> > to is faster to schedule us than we can reach qemu_coroutine_yield, then
-> > we'll get an abort ("Co-routine re-entered recursively"), since co->caller
-> > is still set.
-> > 
-> > I've seen this happen in our code when I try to do the scheduling fandangle
-> > there.
-> 
-> Ah, crap. I guess letting a coroutine re-schedule itself is only safe
-> within the same thread then.
-> 
-> > Is there a safer way to have a coroutine reschedule itself? Some lock
-> > missing?
-> 
-> There is no problem that can't be solved by adding another level of
-> indirection... We would have to schedule a BH in the original thread
-> that will only schedule the coroutine in its new thread after it has
-> yielded.
-> 
-> Maybe we should actually introduce a helper function that moves the
-> current coroutine to a different AioContext this way.
+On Mon, May 25, 2020 at 11:25 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
+>
+> Replace some debug printf() calls by qemu_log_mask(LOG_UNIMP),
+> and add a new one in cirrus_linear_bitblt_read().
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Like this:
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-https://repo.or.cz/qemu/kevin.git/commitdiff/ed0244ba4ac699f7e8eaf7512ff25645cf43bda2
+Alistair
 
-The series for which I need this isn't quite ready yet, so I haven't
-sent it as a patch yet, but if it proves useful in other contexts, we
-can always commit it without the rest.
-
-Kevin
-
+> ---
+>  hw/display/cirrus_vga.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+>
+> diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
+> index 33ccdde000..f9f837b850 100644
+> --- a/hw/display/cirrus_vga.c
+> +++ b/hw/display/cirrus_vga.c
+> @@ -35,6 +35,7 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/module.h"
+>  #include "qemu/units.h"
+> +#include "qemu/log.h"
+>  #include "sysemu/reset.h"
+>  #include "qapi/error.h"
+>  #include "trace.h"
+> @@ -905,9 +906,8 @@ static int cirrus_bitblt_cputovideo(CirrusVGAState * =
+s)
+>  static int cirrus_bitblt_videotocpu(CirrusVGAState * s)
+>  {
+>      /* XXX */
+> -#ifdef DEBUG_BITBLT
+> -    printf("cirrus: bitblt (video to cpu) is not implemented yet\n");
+> -#endif
+> +    qemu_log_mask(LOG_UNIMP,
+> +                  "cirrus: bitblt (video to cpu) is not implemented\n");
+>      return 0;
+>  }
+>
+> @@ -989,9 +989,8 @@ static void cirrus_bitblt_start(CirrusVGAState * s)
+>          cirrus_blt_mode & (CIRRUS_BLTMODE_MEMSYSSRC |
+>                             CIRRUS_BLTMODE_MEMSYSDEST))
+>         =3D=3D (CIRRUS_BLTMODE_MEMSYSSRC | CIRRUS_BLTMODE_MEMSYSDEST)) {
+> -#ifdef DEBUG_BITBLT
+> -       printf("cirrus: bitblt - memory-to-memory copy is requested\n");
+> -#endif
+> +        qemu_log_mask(LOG_UNIMP,
+> +                      "cirrus: bitblt - memory-to-memory copy requested\=
+n");
+>         goto bitblt_ignore;
+>      }
+>
+> @@ -2412,6 +2411,9 @@ static uint64_t cirrus_linear_bitblt_read(void *opa=
+que,
+>
+>      /* XXX handle bitblt */
+>      (void)s;
+> +    qemu_log_mask(LOG_UNIMP,
+> +                  "cirrus: linear bitblt is not implemented\n");
+> +
+>      return 0xff;
+>  }
+>
+> --
+> 2.21.3
+>
+>
 
