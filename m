@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB4C1E1AD8
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 07:57:38 +0200 (CEST)
-Received: from localhost ([::1]:47386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D87421E1ADB
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 07:59:30 +0200 (CEST)
+Received: from localhost ([::1]:50534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdSan-0000ND-U7
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 01:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60438)
+	id 1jdSca-0001ia-Io
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 01:59:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdSZc-0007ws-1j
- for qemu-devel@nongnu.org; Tue, 26 May 2020 01:56:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60504
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdSZX-000686-TO
- for qemu-devel@nongnu.org; Tue, 26 May 2020 01:56:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590472578;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sKQ1AhTKOyEeSLNsfNo1edWWeduY23gX4OZwXMzCCUc=;
- b=fDK9H/HprDfNOYeCJQOwYnAH0Q0y71kzA6oQePXWw9Bf34sxjq9qghoSBPDyAqL96Tijfj
- Eto+v2Q3fD/8lBBRYVAZpV6WAuHNq0Gl/zqSXVFteW1bHl6eQXAZcQd/kAdGZaJk8T3rfE
- ZJgGEXSo5Ii2mtUINhBOdS/7ZCc9MYg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-I0pfnrkqNKKKfIYJuegnPA-1; Tue, 26 May 2020 01:56:13 -0400
-X-MC-Unique: I0pfnrkqNKKKfIYJuegnPA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9EEB1800D42;
- Tue, 26 May 2020 05:56:12 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
- [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A1F419D7C;
- Tue, 26 May 2020 05:56:12 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 52A381753B; Tue, 26 May 2020 07:56:11 +0200 (CEST)
-Date: Tue, 26 May 2020 07:56:11 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Bruce Rogers <brogers@suse.com>
-Subject: Re: [PATCH] audio: fix wavcapture segfault
-Message-ID: <20200526055611.bqazfxqjxusrmwca@sirius.home.kraxel.org>
-References: <20200521172931.121903-1-brogers@suse.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdSba-0000uU-MZ
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 01:58:26 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42753)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdSbZ-0006PF-Uu
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 01:58:26 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id s8so19096415wrt.9
+ for <qemu-devel@nongnu.org>; Mon, 25 May 2020 22:58:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OjikxZJqKYWyGNB2Nj82kz4FyRssinnND9PjTJAmeF4=;
+ b=aF3FTq75oV9daXNuyrUmMnTFEoELHt6vtQamWCwuJ/wxrBHm472WzEg4+EGZ6BbT77
+ eo4JLk0KVyitaLuZophUd6SFPpNAZV/YE7e4CTwsC2+xAKTfo2TCDPL0Oo43+j8HyYv5
+ ndgRl6cMLeBcfi/ApqoBTkCcrWPvHzzMsIixgQxYxc4h0bK3SGtGU2LEd1g7ggrxIQy9
+ 8C6ar4GpthmUoO+oeUFszHu4PmaZienl1cKjvDLhjkheJs5sNYJ0pqg1UVMDU2CapkJ9
+ ptQRI5wo8Ld1h4Rk4XCdbrgAOYwKcI6ksx4zUieg+0YaIUFrHTk33mjZlli+ZQjzcQby
+ 9Uow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=OjikxZJqKYWyGNB2Nj82kz4FyRssinnND9PjTJAmeF4=;
+ b=ayNG4CKJ0/LSaDJ23pfhm9quWzAgTDBL/grJIPJpA/OTyMAVPRESh97pjOHdrUj7pE
+ u4c4ymd+SMOAmDLgTucZZn8Xn8kz2NsKppmSQSrBCRV8qTTFJHXChWJ4uD/EYkUv4xGK
+ scUToGT7F0GMpNM4n6/L2KtouFuTV7hJyAGbHW6PEPjcBG7dXlEHBjQAUSW8iljS2AyD
+ TyWroUGb9O8v5m8OKYZYMIb7PZpfLCjRt7qeTg4TnLCWSInWFwcSPXyickysxcy2KLz7
+ iDoDS1Ak8O9m/bbFV3NFtoKH+yLMXiRW7i9FcVsk7OuW1fyp4J8Z01y/GfVGfQP3JGb2
+ Wn1g==
+X-Gm-Message-State: AOAM531iFaKG9U5ZEFGIR4Y8qlXL9wy39VCD8yNoJJ2ZzM7ezpX4vNX+
+ ZjrbgMGuDDJCmpZvZDcVpk9Ud3FmD10=
+X-Google-Smtp-Source: ABdhPJzuuWn2J/om0UBzfP2q8BPmNQHKXTTsCtboxMWscYqhzy9ZbmZk/iCHLaucdwl+QRSs5lJAAA==
+X-Received: by 2002:a05:6000:4:: with SMTP id h4mr17809081wrx.36.1590472703357; 
+ Mon, 25 May 2020 22:58:23 -0700 (PDT)
+Received: from localhost.localdomain (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id s8sm19887710wrt.69.2020.05.25.22.58.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 May 2020 22:58:22 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] tests/qtest/fuzz: Avoid QTest serialization
+Date: Tue, 26 May 2020 07:58:18 +0200
+Message-Id: <20200526055820.12999-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <20200521172931.121903-1-brogers@suse.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:19:28
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,24 +85,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, dirty.ice.hu@gmail.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 21, 2020 at 11:29:31AM -0600, Bruce Rogers wrote:
-> Commit 571a8c522e caused the HMP wavcapture command to segfault when
-> processing audio data in audio_pcm_sw_write(), where a NULL
-> sw->hw->pcm_ops is dereferenced. This fix checks that the pointer is
-> valid before dereferincing it. A similar fix is also made in the
-> parallel function audio_pcm_sw_read().
-> 
-> Fixes: 571a8c522e (audio: split ctl_* functions into enable_* and
-> volume_*)
-> Signed-off-by: Bruce Rogers <brogers@suse.com>
+Hi Alexander,
 
-Added to audio queue.
+I forgot to share these 2 patches wrote before
+the direct MemoryRegion fuzzer sent yesterday.
 
-thanks,
-  Gerd
+Regards,
+
+Phil.
+
+Philippe Mathieu-Daudé (2):
+  tests/qtest/fuzz: Avoid QTest ioport serialization
+  tests/qtest/fuzz: Avoid QTest mmio serialization
+
+ tests/qtest/fuzz/i440fx_fuzz.c      | 19 +++++++++++++------
+ tests/qtest/fuzz/virtio_net_fuzz.c  |  6 ++++--
+ tests/qtest/fuzz/virtio_scsi_fuzz.c |  6 +++++-
+ 3 files changed, 22 insertions(+), 9 deletions(-)
+
+-- 
+2.21.3
 
 
