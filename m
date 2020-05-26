@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6521E1B63
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 08:34:41 +0200 (CEST)
-Received: from localhost ([::1]:54718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3EA1E1B4F
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 08:32:46 +0200 (CEST)
+Received: from localhost ([::1]:49644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdTAe-00050S-L0
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 02:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34280)
+	id 1jdT8n-0002ai-8M
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 02:32:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdSzY-00070k-H2; Tue, 26 May 2020 02:23:12 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45922)
+ id 1jdSzZ-00074g-Sa; Tue, 26 May 2020 02:23:13 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdSzX-0002Uj-ME; Tue, 26 May 2020 02:23:12 -0400
-Received: by mail-wr1-x442.google.com with SMTP id c3so14931015wru.12;
- Mon, 25 May 2020 23:23:10 -0700 (PDT)
+ id 1jdSzZ-0002Ux-3r; Tue, 26 May 2020 02:23:13 -0400
+Received: by mail-wr1-x441.google.com with SMTP id j16so6751382wrb.7;
+ Mon, 25 May 2020 23:23:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AtkGUe/9x5K/0wcu8anW+e68UuC/UG56c3D7rIQ17bs=;
- b=N+s3qGCKD6FJmaHREPt7Wc3sme0IhvdZYn6vjZw8o5ZiJMMbo6fd8+fiiAVTjEgVst
- UdakEIe7B6Y13/msLFz6pNHh3xALeSO8gjPnGpG4n2bBRV9oWR1xUKdbL+O3on+/wsRq
- dbCwiNwN1vCznET5GmHpl6BV6XAUuoGBEMDlal9cSmCVP/LXu4VW+F0jxV6N4IjbO4Rw
- llkq4mZy8qOSGr6LJR1fwhqG6fw4YB98ujmcoWwsO/DAVDfoE+H1uKWFg6D/jvA5fROH
- 6FZScIj1aPWbYIkur97SgvRmYjl2qzCKk269FvYgRO1jAiErcgx5sDdhpW3/xnwy6Hz2
- izBQ==
+ bh=T2fFw/3ecGdUBJpHTI/rjWpVW7MRtnqzt7F58rWYdgA=;
+ b=cDsi1I0yUC8EPuAw+OuEzzF0OrA56wIYloZrYfN3Mu626tQCvkYC4nUuFHkaJ4MCV+
+ IIiiFu6Tv2Xdbnvesj3JxOEfx2/Zsoj2lEme0Gh4+hk+VbZJSiRrjPocQxm0sqk60aaQ
+ pJ8smH0j97zQrgscQeHsRJ3klrbZwhYCbmXYxX1Vw8lU6P0JC9rtLZTxKcYT57usJjvg
+ VRgZNt4IJNx3PmhJzigCo9cRD9B6DzIRZRGUk0eMm8tJAMeltfCGNKCVFSbv6+farAHr
+ 5aZ48f/bWfbfJYxR1UBO4P/6MfoDG6xgeZ8JLCf63QxStgL+BvsgPakbPB4X4AZKPllJ
+ 3CUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=AtkGUe/9x5K/0wcu8anW+e68UuC/UG56c3D7rIQ17bs=;
- b=GlthqNqii0gXriwAHyYjQuz/VvkjPZp1vF1+wFs9gft3Ko+u7BPRicy0PSVf2BboVk
- DPhTUyHEJLWoY2BYaA7s9no1WLOBfGUpmxp7rHeSt15Kw7Lp5fu0HKMDejYE6i+8l6c/
- AC496MFR/SCa7vuEi7HZM+D6f7CoyVcMJhnW+Gq/MaHKUrvkja2As+syqPXOzO45KUYZ
- V0/ct4E6jWVDeNmqoYpZbW0H3qukokRre575hnr5o5yGJY1qBmT2VEc2BYmdl3vL9vDs
- ky3BSmHG2VcONyNiky7yvmTaHv7TOLNaVwrow3gUsOUl+HX/vGkpRaLb1RbN3ZH64Hb1
- waSQ==
-X-Gm-Message-State: AOAM533TWjHJqsW4dsxmO3jH6FNWaBX/SBhWNtgQTARWWGN03LAtZhZ+
- gV6LIK2ygX91+zOTaaTZL7c=
-X-Google-Smtp-Source: ABdhPJw4moBLGdha5DbkL2H4cIZFDiDAqMz6pslOU9o8FAZ9pD+PkXaL5KlyF0CuwbbI0ca7oSl6zQ==
-X-Received: by 2002:a5d:40d0:: with SMTP id b16mr18168651wrq.218.1590474189691; 
- Mon, 25 May 2020 23:23:09 -0700 (PDT)
+ bh=T2fFw/3ecGdUBJpHTI/rjWpVW7MRtnqzt7F58rWYdgA=;
+ b=UQPGOTF975+6ZDzt8pNo/NjLlODt5b6ZUlngvxvsfIs6OUsXK6hrPddjqTvFtJ7Y1J
+ OmzJyAYQaB5bXQQ7M6DnwXjDLdIGCeiCJQ7hitD2e9H0LjoSAT1S51dXO+Dv1uraBzgB
+ t0gZ2jxKpeJpKRn+pL6X7dW5CCOnGj48wnQnyvncSP5n5/e7zF8HDoX4SX2fXzyoaeJX
+ UTKWBxV31YuyfYMA0AenEzpOZOZMRA2kffSbFmMU2gDGO0EzCRpex/2NF7mKCDn/SDxt
+ Eat1xPsGuTSLoQNqYl72Wk63SR9tNJKCHYjkc4+faexw0aGrWfM+LHj6PHHfGVYCP7dK
+ ReLQ==
+X-Gm-Message-State: AOAM532qsz0iVfxpaIgOI0Nf4gxDdyLFLdZvutxpJHWactJvmhDC5st7
+ G2qeT455uSJiiqpb57GzSrU=
+X-Google-Smtp-Source: ABdhPJz8ghzcg+M9qFGETi2kDN84YG6gkwryvq3ETq74bJY5MIf9N9sfJHo3OlramgCA7Ix3w5UWTw==
+X-Received: by 2002:adf:edc8:: with SMTP id v8mr5552424wro.176.1590474191169; 
+ Mon, 25 May 2020 23:23:11 -0700 (PDT)
 Received: from localhost.localdomain (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id a16sm5764745wrx.8.2020.05.25.23.23.08
+ by smtp.gmail.com with ESMTPSA id a16sm5764745wrx.8.2020.05.25.23.23.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 May 2020 23:23:09 -0700 (PDT)
+ Mon, 25 May 2020 23:23:10 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Gerd Hoffmann <kraxel@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 10/14] hw/display/vmware_vga: Replace printf() calls by
- qemu_log_mask(ERROR)
-Date: Tue, 26 May 2020 08:22:48 +0200
-Message-Id: <20200526062252.19852-11-f4bug@amsat.org>
+Subject: [PATCH 11/14] hw/display/vmware_vga: Let the PCI device own its I/O
+ MemoryRegion
+Date: Tue, 26 May 2020 08:22:49 +0200
+Message-Id: <20200526062252.19852-12-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200526062252.19852-1-f4bug@amsat.org>
 References: <20200526062252.19852-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -97,74 +97,29 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid flooding stdio by converting printf() calls to
-qemu_log_mask(GUEST_ERROR), which are disabled by default.
+To avoid the orphan I/O memory region being added in the /unattached
+QOM container, register the PCI device as its owner.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/display/vmware_vga.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+RFC: This might break migration
+---
+ hw/display/vmware_vga.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
-index 58ea82e3e5..5c0fc49d9d 100644
+index 5c0fc49d9d..2579f6b218 100644
 --- a/hw/display/vmware_vga.c
 +++ b/hw/display/vmware_vga.c
-@@ -26,6 +26,7 @@
- #include "qemu/module.h"
- #include "qemu/units.h"
- #include "qapi/error.h"
-+#include "qemu/log.h"
- #include "hw/loader.h"
- #include "trace.h"
- #include "ui/vnc.h"
-@@ -953,7 +954,8 @@ static uint32_t vmsvga_value_read(void *opaque, uint32_t address)
-             ret = s->scratch[s->index - SVGA_SCRATCH_BASE];
-             break;
-         }
--        printf("%s: Bad register %02x\n", __func__, s->index);
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Bad register %02x\n", __func__, s->index);
-         ret = 0;
-         break;
-     }
-@@ -1002,7 +1004,8 @@ static void vmsvga_value_write(void *opaque, uint32_t address, uint32_t value)
-             s->new_width = value;
-             s->invalidated = 1;
-         } else {
--            printf("%s: Bad width: %i\n", __func__, value);
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "%s: Bad width: %i\n", __func__, value);
-         }
-         break;
+@@ -1306,7 +1306,7 @@ static void pci_vmsvga_realize(PCIDevice *dev, Error **errp)
+     dev->config[PCI_LATENCY_TIMER] = 0x40;
+     dev->config[PCI_INTERRUPT_LINE] = 0xff;          /* End */
  
-@@ -1011,13 +1014,15 @@ static void vmsvga_value_write(void *opaque, uint32_t address, uint32_t value)
-             s->new_height = value;
-             s->invalidated = 1;
-         } else {
--            printf("%s: Bad height: %i\n", __func__, value);
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "%s: Bad height: %i\n", __func__, value);
-         }
-         break;
- 
-     case SVGA_REG_BITS_PER_PIXEL:
-         if (value != 32) {
--            printf("%s: Bad bits per pixel: %i bits\n", __func__, value);
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "%s: Bad bits per pixel: %i bits\n", __func__, value);
-             s->config = 0;
-             s->invalidated = 1;
-         }
-@@ -1082,7 +1087,8 @@ static void vmsvga_value_write(void *opaque, uint32_t address, uint32_t value)
-             s->scratch[s->index - SVGA_SCRATCH_BASE] = value;
-             break;
-         }
--        printf("%s: Bad register %02x\n", __func__, s->index);
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Bad register %02x\n", __func__, s->index);
-     }
- }
- 
+-    memory_region_init_io(&s->io_bar, NULL, &vmsvga_io_ops, &s->chip,
++    memory_region_init_io(&s->io_bar, OBJECT(dev), &vmsvga_io_ops, &s->chip,
+                           "vmsvga-io", 0x10);
+     memory_region_set_flush_coalesced(&s->io_bar);
+     pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &s->io_bar);
 -- 
 2.21.3
 
