@@ -2,60 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35BF81E201D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 12:51:10 +0200 (CEST)
-Received: from localhost ([::1]:38468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D5B1E203A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 12:57:20 +0200 (CEST)
+Received: from localhost ([::1]:36922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdXAr-0003kj-97
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 06:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38830)
+	id 1jdXGp-0006KJ-P5
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 06:57:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jdX7c-00071K-KE; Tue, 26 May 2020 06:47:48 -0400
-Resent-Date: Tue, 26 May 2020 06:47:48 -0400
-Resent-Message-Id: <E1jdX7c-00071K-KE@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21775)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdX7l-0007G3-7F
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60055
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jdX7b-0002BU-4M; Tue, 26 May 2020 06:47:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1590490049; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=hG1Gu6Frg6dRqE4Uj5E4Zw+/xPPlHS0ILk6gG5jhIPSbBmoh9o+0Q5s0NtPgRv5pVg75sewb4kLwL1eE4j7YS41Mz/ArB5eyUxhndjCjb40MZAxDYcY2IoUAxEd8x4fxT3L5gYNHRf/8YuOszOPn08frlvkuGjZCZedGuyk6NvY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1590490049;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Y/DyOfcdQL00VO0GKUl/NvS+qPS4wZohghKFC9nPQSw=; 
- b=Cugp61F9zm0qZoEgkzhOi699ksuIsLZJAq/h1+Qw4FnciS1CNvC5TKj583rrMrk2O4Xrgi3P2bgMG9hyoO5uJyFRYV+uZFQUcX1dIaoRDC2y46+CAdfKbbCRUKPgmoKb/H87M6tQJRBDflS4rJpd8r3qi0PMljK3nGVcxts9Qr4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 159049004653043.47033956487644;
- Tue, 26 May 2020 03:47:26 -0700 (PDT)
-Message-ID: <159049004463.9494.8302673029620017182@45ef0f9c86ae>
-In-Reply-To: <20200526081740.256236-1-rvkagan@yandex-team.ru>
-Subject: Re: [PATCH v5 0/5] block: widen and check consistency of size-related
- BlockConf properties
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdX7k-0002Ci-8s
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590490075;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9ElR8/TiWTLU4MenHCo/KuQT+CrmA8r6BBjyiu48rJs=;
+ b=SCFN2GvzDjhCH9VDdhJNDAr1DC+7g/EYd1mE/+ZTZmAt9+/xhl7QXHrmY+h31EUcmR0o8T
+ 0DdTmgJydI5UT6kpVG9xKrdEvdZkY7OSvgxcZX2/PwBq8oXuKfcWXN0TDJPmZruO/7FWjP
+ MIWdUkwt22ykaDQvyNIu8M0mp+Zd5gQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-372-isFpXgsrP2287zNLfysvtg-1; Tue, 26 May 2020 06:47:52 -0400
+X-MC-Unique: isFpXgsrP2287zNLfysvtg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 986AF19057A6;
+ Tue, 26 May 2020 10:47:50 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
+ [10.36.113.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2376B60C47;
+ Tue, 26 May 2020 10:47:50 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 3810F16E2C; Tue, 26 May 2020 12:47:48 +0200 (CEST)
+Date: Tue, 26 May 2020 12:47:48 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 11/14] hw/display/vmware_vga: Let the PCI device own its
+ I/O MemoryRegion
+Message-ID: <20200526104748.wayie5aovk5omz3t@sirius.home.kraxel.org>
+References: <20200526062252.19852-1-f4bug@amsat.org>
+ <20200526062252.19852-12-f4bug@amsat.org>
+ <20200526080123.ul5r4abphqfi7lkq@sirius.home.kraxel.org>
+ <4a6478f2-6b70-40df-093f-e81d2437bfa7@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: rvkagan@yandex-team.ru
-Date: Tue, 26 May 2020 03:47:26 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:17:51
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <4a6478f2-6b70-40df-093f-e81d2437bfa7@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:19:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,51 +85,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, mst@redhat.com, philmd@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com,
- stefanha@redhat.com, kbusch@kernel.org, pbonzini@redhat.com, jsnow@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUyNjA4MTc0MC4yNTYy
-MzYtMS1ydmthZ2FuQHlhbmRleC10ZWFtLnJ1LwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
-IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
-cmUgaW5mb3JtYXRpb246CgpNZXNzYWdlLWlkOiAyMDIwMDUyNjA4MTc0MC4yNTYyMzYtMS1ydmth
-Z2FuQHlhbmRleC10ZWFtLnJ1ClN1YmplY3Q6IFtQQVRDSCB2NSAwLzVdIGJsb2NrOiB3aWRlbiBh
-bmQgY2hlY2sgY29uc2lzdGVuY3kgb2Ygc2l6ZS1yZWxhdGVkIEJsb2NrQ29uZiBwcm9wZXJ0aWVz
-ClR5cGU6IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQg
-cmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
-aWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdp
-dCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNr
-cGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0
-aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKU3dpdGNoZWQgdG8g
-YSBuZXcgYnJhbmNoICd0ZXN0Jwo2NjExYzUzIGJsb2NrOiBsaWZ0IGJsb2Nrc2l6ZSBwcm9wZXJ0
-eSBsaW1pdCB0byAyIE1pQgoxZWZlMDk0IGJsb2NrOiBtYWtlIHNpemUtcmVsYXRlZCBCbG9ja0Nv
-bmYgcHJvcGVydGllcyBhY2NlcHQgc2l6ZSBzdWZmaXhlcwpmOWQ4OGRmIHFkZXYtcHJvcGVydGll
-czogYmxvY2tzaXplOiB1c2Ugc2FtZSBsaW1pdHMgaW4gY29kZSBhbmQgZGVzY3JpcHRpb24KYmVl
-NjZjZiBibG9jazogY29uc29saWRhdGUgYmxvY2tzaXplIHByb3BlcnRpZXMgY29uc2lzdGVuY3kg
-Y2hlY2tzCjhiMmZkYzEgdmlydGlvLWJsazogc3RvcmUgb3B0X2lvX3NpemUgd2l0aCBjb3JyZWN0
-IHNpemUKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvNSBDaGVja2luZyBjb21taXQgOGIyZmRjMWIx
-OGIyICh2aXJ0aW8tYmxrOiBzdG9yZSBvcHRfaW9fc2l6ZSB3aXRoIGNvcnJlY3Qgc2l6ZSkKMi81
-IENoZWNraW5nIGNvbW1pdCBiZWU2NmNmZGU3NmYgKGJsb2NrOiBjb25zb2xpZGF0ZSBibG9ja3Np
-emUgcHJvcGVydGllcyBjb25zaXN0ZW5jeSBjaGVja3MpCjMvNSBDaGVja2luZyBjb21taXQgZjlk
-ODhkZjRjMDNlIChxZGV2LXByb3BlcnRpZXM6IGJsb2Nrc2l6ZTogdXNlIHNhbWUgbGltaXRzIGlu
-IGNvZGUgYW5kIGRlc2NyaXB0aW9uKQo0LzUgQ2hlY2tpbmcgY29tbWl0IDFlZmUwOTRiNzYzNyAo
-YmxvY2s6IG1ha2Ugc2l6ZS1yZWxhdGVkIEJsb2NrQ29uZiBwcm9wZXJ0aWVzIGFjY2VwdCBzaXpl
-IHN1ZmZpeGVzKQpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzIwMDogRklMRTogaHcv
-Y29yZS9xZGV2LXByb3BlcnRpZXMuYzoxMjQ0OgorICAgICAgICAgICAgICAgICAgIlByb3BlcnR5
-ICVzLiVzIGRvZXNuJ3QgdGFrZSB2YWx1ZSAnJSIgUFJJZDY0ICInLCBpdCdzIG5vdCBhIHBvd2Vy
-IG9mIDIiLAoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxMDcwIGxpbmVzIGNoZWNrZWQK
-ClBhdGNoIDQvNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
-dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
-YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNS81IENoZWNraW5nIGNvbW1p
-dCA2NjExYzUzODkxNWEgKGJsb2NrOiBsaWZ0IGJsb2Nrc2l6ZSBwcm9wZXJ0eSBsaW1pdCB0byAy
-IE1pQikKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTog
-MQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
-MjAyMDA1MjYwODE3NDAuMjU2MjM2LTEtcnZrYWdhbkB5YW5kZXgtdGVhbS5ydS90ZXN0aW5nLmNo
-ZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5
-IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVk
-YmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Tue, May 26, 2020 at 10:16:19AM +0200, Philippe Mathieu-Daudé wrote:
+> On 5/26/20 10:01 AM, Gerd Hoffmann wrote:
+> > On Tue, May 26, 2020 at 08:22:49AM +0200, Philippe Mathieu-DaudÃƒÆ’Ã‚Â© wrote:
+> >> To avoid the orphan I/O memory region being added in the /unattached
+> >> QOM container, register the PCI device as its owner.
+> >>
+> >> Signed-off-by: Philippe Mathieu-DaudÃƒÆ’Ã‚Â© <f4bug@amsat.org>
+> >> ---
+> >> RFC: This might break migration
+> > 
+> > --verbose please.  This doesn't touch the live migration data stream?
+> 
+> Oops, this is an I/O region... I was confused by this warning form Peter:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg681970.html
+> 
+> But it is restricted to RAM regions, so this patch is harmless.
+
+Yes, for ram regions this is a problem, this is why vga has
+global_vmstate.  No problem for io.  Series looks fine then.
+
+take care,
+  Gerd
+
 
