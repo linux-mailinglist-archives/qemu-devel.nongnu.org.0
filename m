@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1723C1E1CEA
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:07:39 +0200 (CEST)
-Received: from localhost ([::1]:42428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A208B1E1D10
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:17:39 +0200 (CEST)
+Received: from localhost ([::1]:54450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUcc-0003vY-4q
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:07:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46482)
+	id 1jdUmI-0001pP-OX
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:17:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1jdUbO-0002oA-1X
- for qemu-devel@nongnu.org; Tue, 26 May 2020 04:06:22 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35436
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1jdUbN-0004kJ-9D
- for qemu-devel@nongnu.org; Tue, 26 May 2020 04:06:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590480380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=N62yquLSNCxDQV2QKxruJZ6QlvzKfFr6Z6h4p0GGcuY=;
- b=E6HasEhY18y/sz5m2I0bUwQupuLhVQn6uFPBZgIEeXmGSslq37PDepKrazZrAh61PNOGiF
- 8BibiZqaoH7bxhPajzsc3+ga8KPZkdg/sf26xTBL+f9VxB+W12kQaKmC1rxcQQXVyCJ/nH
- Wv6R+JYTD6x6nxkqt3qyaBXNj90UB1Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-cq5GOZiQMKq0906eCPzCLg-1; Tue, 26 May 2020 04:06:18 -0400
-X-MC-Unique: cq5GOZiQMKq0906eCPzCLg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08AC48018A7;
- Tue, 26 May 2020 08:06:17 +0000 (UTC)
-Received: from [10.40.195.106] (unknown [10.40.195.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C01F810013D2;
- Tue, 26 May 2020 08:06:15 +0000 (UTC)
-Subject: Re: [PATCH 2/2] qmp: Expose MachineClass::default_ram_id
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <cover.1590426097.git.mprivozn@redhat.com>
- <2dbffbc4e2c0f3a0184daaadf56f94a85aedef58.1590426097.git.mprivozn@redhat.com>
- <20200525180603.GS577771@habkost.net>
-From: Michal Privoznik <mprivozn@redhat.com>
-Message-ID: <1e8434ce-60c6-8e69-7ac7-65886993050b@redhat.com>
-Date: Tue, 26 May 2020 10:06:14 +0200
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdUl6-00012M-Bo; Tue, 26 May 2020 04:16:24 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37362)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdUl5-0006kf-LM; Tue, 26 May 2020 04:16:24 -0400
+Received: by mail-wm1-x343.google.com with SMTP id f5so2331379wmh.2;
+ Tue, 26 May 2020 01:16:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Xtv3pfI08ph+Vnmgl5CRTzpt6lk1dLDI5NDSsSeV5NE=;
+ b=XuyX8DWNsDZzoxOWgZP2RYH/wao6LBYcz3c+h9E1RlN0+O0pbtm2ZgyEPpB4HFrSZl
+ Vzk9MWgufj/PgHh4bxiYnlvGKfMqBQ5Ps0gyIKNdkGQlfKdMmNy2BL1cZcfPvpMbvYeQ
+ mQiK12iPqCWPNWg3+0KZqyWyt7dI6j4dEmRCDo3OO68/Rb39HqdnktXngS7aXd1Im4md
+ 6PkBZZLPU9+G8qMArSJbSIEEgb8qM93Ruzrqg9adbbxe/IrUZ5G33+x6OMyWHBTL1uC2
+ ZKHEgA/PTBOBzQfgqpF5pvajUhRq2R0APL36U1rneQ8GJzAFPjMKL9AEPFehz/L3qyOn
+ iTdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Xtv3pfI08ph+Vnmgl5CRTzpt6lk1dLDI5NDSsSeV5NE=;
+ b=Z5NCXVjPvYJ6cx5hcKDzMGWnQf0SXNSg9K9b2YFIOogXhsBMte/IkP9IbcyEVgeewK
+ A0S79l1SSZFACkJeBlsB8V02MnYQAoXPC9QMxCRN7DutEy/NUWmrC0Sw1QBon1B/+S8T
+ A40m83WJtp9jUJl9eZZfkhDbs8aUzf1yujfi61SmmTiHiUgimSkoofVR142iyf5xWtrL
+ 1Nmtc11RdAvQR6rmAuLT2BtLgZ+4b4C/DxZ6476Y2saakad/kVDXpo98Y3BPRje/zJkW
+ kgdpCzF6aWfwk8rGeFMroiZ8UznqsbBHJtz3DCUeaqNzqEIVBci1VzDMQWAtTQl3nFVV
+ 6TRQ==
+X-Gm-Message-State: AOAM530u7GGOCD92/S/qMCmMQkmyEj+LDH6ZdJeZaifBfSd3Nul+vDyx
+ g1+Wkf0ZIviyvotzLrIzEAw=
+X-Google-Smtp-Source: ABdhPJxFIzWUGLU+DjwiXREVvpqVyDfTwQ2HTwdQKxBbh9zXAyDl3DXP4Psk7OsNwFjlEY4/EJR5ow==
+X-Received: by 2002:a05:600c:297:: with SMTP id 23mr305757wmk.12.1590480981152; 
+ Tue, 26 May 2020 01:16:21 -0700 (PDT)
+Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id b185sm170016wmd.3.2020.05.26.01.16.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 May 2020 01:16:20 -0700 (PDT)
+Subject: Re: [PATCH 11/14] hw/display/vmware_vga: Let the PCI device own its
+ I/O MemoryRegion
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20200526062252.19852-1-f4bug@amsat.org>
+ <20200526062252.19852-12-f4bug@amsat.org>
+ <20200526080123.ul5r4abphqfi7lkq@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <4a6478f2-6b70-40df-093f-e81d2437bfa7@amsat.org>
+Date: Tue, 26 May 2020 10:16:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200525180603.GS577771@habkost.net>
+In-Reply-To: <20200526080123.ul5r4abphqfi7lkq@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:14:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,47 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/25/20 8:06 PM, Eduardo Habkost wrote:
-> On Mon, May 25, 2020 at 07:03:28PM +0200, Michal Privoznik wrote:
->> If a management application (like Libvirt) want's to preserve
->> migration ability and switch to '-machine memory-backend' it
->> needs to set exactly the same RAM id as QEMU would. Since the id
->> is machine type dependant, expose it under 'query-machines'
->> result.
+On 5/26/20 10:01 AM, Gerd Hoffmann wrote:
+> On Tue, May 26, 2020 at 08:22:49AM +0200, Philippe Mathieu-DaudÃƒÆ’Ã‚Â© wrote:
+>> To avoid the orphan I/O memory region being added in the /unattached
+>> QOM container, register the PCI device as its owner.
 >>
->> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-> 
-> The code looks good, but documentation was a bit confusing:
-> 
+>> Signed-off-by: Philippe Mathieu-DaudÃƒÆ’Ã‚Â© <f4bug@amsat.org>
 >> ---
-> [...]
->> +# @default-ram-id: the default name of initial RAM memory region (since 5.1)
->> +#
+>> RFC: This might break migration
 > 
-> Everywhere else in the commit message you call it "id", but here
-> you say "name".  Also, I don't think we have any references to a
-> "memory region" abstraction in the docs for the QAPI schema,
-> -machine options, or memory backend objects.
-> 
-> I had to look it up in the code, to finally understand you were
-> talking about the memory backend object ID.
-> 
-> To make it consistent with terminology used for -machine and
-> QAPI, I suggest:
-> 
->    @default-ram-id: the default ID of initial RAM memory backend (since 5.1)
-> 
-> I can change it before committing, if you agree.
+> --verbose please.  This doesn't touch the live migration data stream?
 
-Thanks for the offer, but I will post a v2, because as I was developing 
-patches for libvirt to consume this I found out that some machine types 
-don't have the attribute set (riscv is one of them). Therefore I will 
-have to make this optional.
+Oops, this is an I/O region... I was confused by this warning form Peter:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg681970.html
 
-Michal
-
+But it is restricted to RAM regions, so this patch is harmless.
 
