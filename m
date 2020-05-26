@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 533F41E201A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 12:50:24 +0200 (CEST)
-Received: from localhost ([::1]:33766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C701E2015
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 12:49:07 +0200 (CEST)
+Received: from localhost ([::1]:58238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdXA7-0001p5-C2
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 06:50:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38754)
+	id 1jdX8s-0008Kp-Eu
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 06:49:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdX7K-0006VG-IY
- for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:30 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:33181)
+ id 1jdX7M-0006Xv-38
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:32 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:43458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdX7J-000282-Sa
- for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:30 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id e10so17247357edq.0
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 03:47:29 -0700 (PDT)
+ id 1jdX7L-00028B-9t
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:31 -0400
+Received: by mail-ej1-x643.google.com with SMTP id a2so23239991ejb.10
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 03:47:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GJZJp2sUev4P2OYPMJf40xfwPWSp/WELJ2N4SonYgN8=;
- b=H9/yVh1Ea3r4O5g3QsiVXymo65bzW/pbrwz2dWwGI4+Dsz2BT7xgzZexQ2jGyegjj2
- RC2iKzk6VLUGAYwJ8vNF3GnrhgHiS3YyoEq5sym9EL48LZ+oDEgzH7T7IEsyKsazzLqd
- nIMjIca+uED5+whSW5LIVBcTHUi0XwEz7cjdqXXpf0UP+K35W55GBPmriqjfJhByh3Gs
- 0D0i4BlfwU7t8+xcPusuRrMM/yeCj5tDvCBhs0RBfAC5PoTgYKsacvnJq/Tp7S/KXx2d
- u/Jl0yvs5wqi8dggR+voWytHDeEUlkH/3I7a4GzScqwZmUUckpg9LeYoKoNYMWfYIiJv
- AvLQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=EByAZJAoFFtdeFOm6eReFE+ZTy/iIA5ZSOD5vs5S6WA=;
+ b=qE4ULK+cCDM1bDfECEA+Ewb5/i4BaLjSeLZPV+dWrLqc5QT/1TzN8mr+eQumeCmffI
+ z479JeFAH67a9GMUVxVXTAxwJ3/4b5VTWyapDZBJChPREgaw3teeS+J8OtUsYGSSzCJK
+ 9/KmxMNmbmWTzLg7Cj4DynfKbuA9De/9oV6u7JLFqvB7aBpmIbANGIoCkUGBrxobO7MX
+ /DOs5l3vnGzZQbclZEUSVbaDGsSfWXDSQoGVAbjkV0w147MRFHOxNyXU1N55dcS/SyJh
+ p+JECTsM29IdBuWX+2/bEkPBq5NaugAz59aOT4MlSJC0h+u3OfqGVSDY/gFDSbE+r/LM
+ a8+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=GJZJp2sUev4P2OYPMJf40xfwPWSp/WELJ2N4SonYgN8=;
- b=rh/atPjCg1uwYkGmML0OBPcVTqxPwdCn8Up4dom2SK6O8WfViisJThGDupZnHEdv00
- tm1TAAmTBRxyjHxnLxMONiS5saQuQpq/CNZQR5UvHu9izVKNsMzfYkGgIR7J0E3ShDs9
- VMBYXxLS6pP+pDSZySgW/C9/3aWEJLLUiYjpywqb3zr23XBGiG9KxsQufKeCMsXE7KpN
- cgqbwz/yoky+7CJ8zfYoMZfPrkElRotxl7mKzSeH1XqXKzeMpROlrkb3lTtBwtgb95/+
- 2a8R6I6eai54plVoXISRaiEIhE8jtBslcyieVR/v46t8K3rzbJ7f05PnRvb8xsyfOH0Q
- iA6w==
-X-Gm-Message-State: AOAM531MGz6Y5GUxtgIaSoDwb3Y7pXbp7hnNpK9dPy87E7VzjD7ZN9vh
- bPv51R7/TEApAMOOFO2Dn91fsKSJF80=
-X-Google-Smtp-Source: ABdhPJxMpbrGuvqC9Ngfycz+M225ctWb9sFsG3EBE1hKYe6TUgJGeR+NTUrkO/yBfyu2k4BARUTJSg==
-X-Received: by 2002:aa7:db45:: with SMTP id n5mr18440918edt.147.1590490048209; 
- Tue, 26 May 2020 03:47:28 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=EByAZJAoFFtdeFOm6eReFE+ZTy/iIA5ZSOD5vs5S6WA=;
+ b=S32YHdl/aVUuKNnAZwmhvcBSJrzpgypnG2tNWS4LYeSTZQsO6SL6dX+f+tL+7XfoVk
+ dDdsKCFURGFpxN3qWoxsS6iup+Iv+R1AFuJ4XiAqApMjX5CSEPh5k7dba/DQjoEBSLJw
+ Xgc4+Ob6a81HEArfPqLQ/dpxVvOVh/Os9jwvhXxurlM9w4WHUMIy6Lr5W3OmU/lnG4g3
+ XmSqSlRpxQ4zlqnLmFoPVraxu757CvkVQJAWcXFDHW0nb3gzIuCctcee5grcPEBGrq68
+ +8IXHUkGDgprgZ8AfaREpVnmMZ1h30xdT+QTRxS8QhE6G61/XnEkHB2BaG7148MzEQmE
+ OBgw==
+X-Gm-Message-State: AOAM531G4xgo/3aQQBuleqoW9To9ZH0UNed/o19nttWQ/UMMvpj1pf6f
+ dLtCf8MjInhklR4bpseplFWVpdGulBQ=
+X-Google-Smtp-Source: ABdhPJxMn7k1V8NNzV6+qNGwt3Xwk0fih0F7NPgNRvR1jI1qStLpQoIwhp+EyJmb9JETJBNxrH7b+A==
+X-Received: by 2002:a17:906:9714:: with SMTP id
+ k20mr586763ejx.18.1590490049645; 
+ Tue, 26 May 2020 03:47:29 -0700 (PDT)
 Received: from x1w.redhat.com (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id c27sm3342597ejd.19.2020.05.26.03.47.26
+ by smtp.gmail.com with ESMTPSA id c27sm3342597ejd.19.2020.05.26.03.47.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 03:47:27 -0700 (PDT)
+ Tue, 26 May 2020 03:47:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/14] hw/mips: patch queue for 2020-05-26
-Date: Tue, 26 May 2020 12:47:12 +0200
-Message-Id: <20200526104726.11273-1-f4bug@amsat.org>
+Subject: [PATCH 01/14] MAINTAINERS: Add Huacai Chen as fuloong2e co-maintainer
+Date: Tue, 26 May 2020 12:47:13 +0200
+Message-Id: <20200526104726.11273-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200526104726.11273-1-f4bug@amsat.org>
+References: <20200526104726.11273-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,69 +100,43 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: Huacai Chen <chenhc@lemote.com>
 
-This is the current state of my hw/mips/next tree.
+I submitted the MIPS/fuloong2e support about ten years ago, and
+after that I became a MIPS kernel developer. Last year, Philippe
+Mathieu- Daudé asked me that whether I can be a reviewer of
+MIPS/fuloong2e, and I promised that I will do some QEMU work in
+the next year (i.e., 2020 and later). I think now (and also in
+future) I can have some spare time, so I can finally do some real
+work on QEMU/MIPS. And if possible, I hope I can be a co-maintainer
+of MIPS/fuloong2e.
 
-- MAINTAINERS updated to welcome Huacai Chen and Jiaxun Yang,
-  and update Aleksandar Rikalo's email address,
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+Message-Id: <1586337380-25217-3-git-send-email-chenhc@lemote.com>
+[PMD: Added Jiaxun Yang as reviewer]
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Message-Id: <20200510210128.18343-2-f4bug@amsat.org>
+---
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-- Trivial improvements in the Bonito64 North Bridge and the
-  Fuloong 2e machine,
-
-- MIPS Machines names unified without 'mips_' prefix.
-
-The following patches need review:
-
-- #6  "hw/pci-host/bonito: Map the different PCI ranges more detailled"
-- #10 "hw/mips/fuloong2e: Fix typo in Fuloong machine name"
-
-Aleksandar Markovic (3):
-  hw/mips: Rename malta/mipssim/r4k/jazz files
-  hw/mips/malta: Add some logging for bad register offset cases
-  MAINTAINERS: Change Aleksandar Rikalo's email address
-
-Huacai Chen (1):
-  MAINTAINERS: Add Huacai Chen as fuloong2e co-maintainer
-
-Philippe Mathieu-Daudé (10):
-  hw/pci-host: Use CONFIG_PCI_BONITO to select the Bonito North Bridge
-  hw/pci-host/bonito: Fix DPRINTF() format strings
-  hw/pci-host/bonito: Map peripheral using physical address
-  hw/pci-host/bonito: Map all the Bonito64 I/O range
-  hw/pci-host/bonito: Map the different PCI ranges more detailled
-  hw/pci-host/bonito: Better describe the I/O CS regions
-  hw/pci-host/bonito: Set the Config register reset value with
-    FIELD_DP32
-  hw/mips/fuloong2e: Move code and update a comment
-  hw/mips/fuloong2e: Fix typo in Fuloong machine name
-  hw/mips/mips_int: De-duplicate KVM interrupt delivery
-
- docs/system/deprecated.rst               |  5 ++
- docs/system/target-mips.rst              |  2 +-
- default-configs/mips64el-softmmu.mak     |  2 +-
- hw/isa/vt82c686.c                        |  2 +-
- hw/mips/{mips_fulong2e.c => fuloong2e.c} | 48 ++++++-------
- hw/mips/{mips_jazz.c => jazz.c}          |  0
- hw/mips/{mips_malta.c => malta.c}        | 14 ++--
- hw/mips/mips_int.c                       | 11 +--
- hw/mips/{mips_mipssim.c => mipssim.c}    |  0
- hw/mips/{mips_r4k.c => r4k.c}            |  0
- hw/pci-host/bonito.c                     | 87 +++++++++++++++++++-----
- tests/qtest/endianness-test.c            |  2 +-
- .mailmap                                 |  3 +-
- MAINTAINERS                              | 26 +++----
- hw/mips/Kconfig                          |  3 +-
- hw/mips/Makefile.objs                    | 10 +--
- hw/pci-host/Kconfig                      |  5 ++
- hw/pci-host/Makefile.objs                |  2 +-
- 18 files changed, 142 insertions(+), 80 deletions(-)
- rename hw/mips/{mips_fulong2e.c => fuloong2e.c} (91%)
- rename hw/mips/{mips_jazz.c => jazz.c} (100%)
- rename hw/mips/{mips_malta.c => malta.c} (99%)
- rename hw/mips/{mips_mipssim.c => mipssim.c} (100%)
- rename hw/mips/{mips_r4k.c => r4k.c} (100%)
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3690f313c3..8f597aae12 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1082,8 +1082,10 @@ S: Obsolete
+ F: hw/mips/mips_r4k.c
+ 
+ Fulong 2E
++M: Huacai Chen <chenhc@lemote.com>
+ M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
++R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+ S: Odd Fixes
+ F: hw/mips/mips_fulong2e.c
+ F: hw/isa/vt82c686.c
 -- 
 2.21.3
 
