@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808601E2D54
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 21:24:19 +0200 (CEST)
-Received: from localhost ([::1]:53856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 356B11E2E03
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 21:26:30 +0200 (CEST)
+Received: from localhost ([::1]:57838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdfBS-0001hY-28
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 15:24:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47712)
+	id 1jdfDZ-0003Tg-8m
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 15:26:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1jdfA6-0001I9-W6
- for qemu-devel@nongnu.org; Tue, 26 May 2020 15:22:55 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21589
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jdfCD-0002Q4-OR
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 15:25:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54623
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1jdfA5-0004fp-06
- for qemu-devel@nongnu.org; Tue, 26 May 2020 15:22:54 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jdfCC-00060Z-Vb
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 15:25:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590520971;
+ s=mimecast20190719; t=1590521103;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0lDOZvNin70BZwlpd7fYYs5+G2w2klt8pUoQBw3YU8A=;
- b=KgPWnYoAHFHpPLp+qXiVYZHWoP14VRs3Of5CuyQ7LdXnQ1CSp2eW6prruHLmvDGGjwR7FP
- a9BpN5aO61VSXFUVcgksLOGXRLYaC4mMMTn62QHdD93dluinMAZGmc9+Y8JZzs0+3UDaYs
- +g+TwDX2RbRLYL5NVQKBVvHRCuIkBFE=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-463-Ik8LQHeNMp2M2V-P1qtNCg-1; Tue, 26 May 2020 15:22:46 -0400
-X-MC-Unique: Ik8LQHeNMp2M2V-P1qtNCg-1
-Received: by mail-ua1-f72.google.com with SMTP id v10so8260115uae.13
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 12:22:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0lDOZvNin70BZwlpd7fYYs5+G2w2klt8pUoQBw3YU8A=;
- b=tmKQ5sUNby98ZY5W3oRsgybDi12oEcLBt5BCjYj5Y4rcYvo9fn+to6Jq3VsfKKanxH
- Y46hugL/CCEuOZ9zL88PXIVUJoRVp4SinPm/hH3BPEnkcCZ9Z+1xXaXMWcbQoHppwkk0
- SAgENvdHW+fjaMCrBvqWkfi/giAWAn4/BLgs4TyxrMXNxncHSOBZkvn4Kz5Nwk/+35FC
- Kb8tbj4apmiSm7ls6Gw4pfCX1vSgB71r+X1tiSm7E8ILaiNYkb0/obvUy2md2206MFcX
- fXg0x0ISb4ThdEMSr8h3vxQaAXqaENygiT/a7Gwp1SyxGmHZ8fU55jzSr3fz3ObfDQJ6
- ZF3g==
-X-Gm-Message-State: AOAM530ecUTthGWkWjTMYQNYI7ESZYBywDv6iVw7NFcoWZJtFbmi7CmE
- I3OIqd814UaGS9fHxmNctV2d1R184Aohjq2pSdO1YCfVyezFx93uSo70bCfz6Lugw/pJuA5Kb0G
- ePNcPHSFLrEM5YD37Ivn/I8f4BmCRruE=
-X-Received: by 2002:a67:d984:: with SMTP id u4mr2363674vsj.33.1590520965422;
- Tue, 26 May 2020 12:22:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzG25xKXx/tL4w2e/N6AJ5Kew/8txoJLSjakiPrtp9wjHnnoIQs+5f2L7l8lNgNG9LXHART6GgSC8U8azR+jho=
-X-Received: by 2002:a67:d984:: with SMTP id u4mr2363659vsj.33.1590520965159;
- Tue, 26 May 2020 12:22:45 -0700 (PDT)
+ bh=DVlxxzX7eglvRpE3dQPlOSQw3ofhUg24cF009QW4RFk=;
+ b=H75pLFk4Gz8+vxn8+JUtGqZ4Ub3cVyDaBpFE+7zNzatHEpwWu3QfuP0Srzvudf0Z0Y7+ft
+ RfJiI246ysxECCWo4Dy9y3dCwu6SKt1MlCrBB2I4bZjrq0apjcXPB4cg38ZPD2u8lakRDa
+ X7mPIbdpp06PH6+DoGmID1nngJW8OPE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-396-Y0kf3xD8Np2aLEWTxvkTLA-1; Tue, 26 May 2020 15:24:57 -0400
+X-MC-Unique: Y0kf3xD8Np2aLEWTxvkTLA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CB4280183C;
+ Tue, 26 May 2020 19:24:56 +0000 (UTC)
+Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 626F960C47;
+ Tue, 26 May 2020 19:24:52 +0000 (UTC)
+Subject: Re: [PATCH v4 1/5] block/io: refactor coroutine wrappers
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200525100801.13859-1-vsementsov@virtuozzo.com>
+ <20200525100801.13859-2-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <931ea1e6-17f4-c87d-fca1-d58660f8fccb@redhat.com>
+Date: Tue, 26 May 2020 14:24:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <159040554265.2615.8993443700754452381.stgit@pasha-ThinkPad-X280>
- <159040558755.2615.4869959098521372877.stgit@pasha-ThinkPad-X280>
-In-Reply-To: <159040558755.2615.4869959098521372877.stgit@pasha-ThinkPad-X280>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 26 May 2020 16:22:34 -0300
-Message-ID: <CAKJDGDZSJTFAVnBFJetA+kQrr9_0fK+1oPzK8isoJ6chaj9fjQ@mail.gmail.com>
-Subject: Re: [PATCH 8/9] tests/acceptance: record/replay tests with advcal
- images
-To: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
+In-Reply-To: <20200525100801.13859-2-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 10:22:33
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 15:25:01
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -90,125 +83,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, dovgaluk@ispras.ru,
- pavel.dovgaluk@ispras.ru, Cleber Rosa Junior <crosa@redhat.com>,
- pbonzini@redhat.com, Philippe Mathieu Daude <philmd@redhat.com>
+Cc: kwolf@redhat.com, fam@euphon.net, ehabkost@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 25, 2020 at 8:28 AM Pavel Dovgalyuk
-<Pavel.Dovgaluk@gmail.com> wrote:
->
-> This patch adds more record/replay tests with kernel images.
->
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+On 5/25/20 5:07 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Most of our coroutine wrappers already follow this convention:
+> 
+> We have 'coroutine_fn bdrv_co_<something>(<normal argument list>)' as
+> the core function, and a wrapper 'bdrv_<something>(<same argument
+> list>)' which does a polling loop.
+> 
+> The only outsiders are the bdrv_prwv_co and
+> bdrv_common_block_status_above wrappers. Let's refactor them to behave
+> as the others, it simplifies further conversion of coroutine wrappers.
+
+It might be worth mentioning that a later patch in the series will then 
+further reduce the indirection present here.  But R-b still stands.
+
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 > ---
->  tests/acceptance/replay_kernel.py |   80 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 80 insertions(+)
->
-> diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-> index 4c786b1565..3849db7f3a 100644
-> --- a/tests/acceptance/replay_kernel.py
-> +++ b/tests/acceptance/replay_kernel.py
-> @@ -191,3 +191,83 @@ class ReplayKernel(Test):
->                                 'console=ttyS0 vga=off')
->          console_pattern = 'No filesystem could mount root'
->          self.run_rr(kernel_path, kernel_command_line, console_pattern)
-> +
-> +    def do_test_advcal_2018(self, day, tar_hash, kernel_name, args=()):
-> +        tar_url = ('https://www.qemu-advent-calendar.org'
-> +                   '/2018/download/day' + day + '.tar.xz')
-
-Making the file name flexible helps in the code organization. Still,
-in this specific case, due to limitations in the Avocado Asset parser,
-this construction is ignored in an `avocado assets fetch <file>`
-command. It results in the file being downloaded during the test run
-and the time spent to download the files being accounted for in the
-test time, and if the files are not saved in the Travis cache after
-this test runs, it also means the files will be downloaded again every
-time it runs.
-
-The straight forward solution to that is having the complete URL
-described and fetched for each test.
-
-> +        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-> +        archive.extract(file_path, self.workdir)
-> +
-> +        kernel_path = self.workdir + '/day' + day + '/' + kernel_name
-> +        kernel_command_line = ''
-> +        console_pattern = 'QEMU advent calendar'
-> +        self.run_rr(kernel_path, kernel_command_line, console_pattern,
-> +            args=args)
-> +
-> +    def test_arm_vexpressa9(self):
-> +        """
-> +        :avocado: tags=arch:arm
-> +        :avocado: tags=machine:vexpress-a9
-> +        """
-> +        tar_hash = '32b7677ce8b6f1471fb0059865f451169934245b'
-> +        self.do_test_advcal_2018('16', tar_hash, 'winter.zImage',
-> +            ('-dtb', self.workdir + '/day16/vexpress-v2p-ca9.dtb'))
-> +
-> +    def test_m68k_mcf5208evb(self):
-> +        """
-> +        :avocado: tags=arch:m68k
-> +        :avocado: tags=machine:mcf5208evb
-> +        """
-> +        tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
-> +        self.do_test_advcal_2018('07', tar_hash, 'sanity-clause.elf')
-> +
-> +    def test_microblaze_s3adsp1800(self):
-> +        """
-> +        :avocado: tags=arch:microblaze
-> +        :avocado: tags=machine:petalogix-s3adsp1800
-> +        """
-> +        tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
-> +        self.do_test_advcal_2018('17', tar_hash, 'ballerina.bin')
-> +
-> +    def test_ppc64_e500(self):
-> +        """
-> +        :avocado: tags=arch:ppc64
-> +        :avocado: tags=machine:ppce500
-> +        """
-> +        tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
-> +        self.do_test_advcal_2018('19', tar_hash, 'uImage', ('-cpu', 'e5500'))
-> +
-> +    def test_ppc_g3beige(self):
-> +        """
-> +        :avocado: tags=arch:ppc
-> +        :avocado: tags=machine:g3beige
-> +        """
-> +        tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
-> +        self.do_test_advcal_2018('15', tar_hash, 'invaders.elf',
-> +            ('-M', 'graphics=off'))
-> +
-> +    def test_ppc_mac99(self):
-> +        """
-> +        :avocado: tags=arch:ppc
-> +        :avocado: tags=machine:mac99
-> +        """
-> +        tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
-> +        self.do_test_advcal_2018('15', tar_hash, 'invaders.elf',
-> +            ('-M', 'graphics=off'))
-> +
-> +    def test_sparc_ss20(self):
-> +        """
-> +        :avocado: tags=arch:sparc
-> +        :avocado: tags=machine:SS-20
-> +        """
-> +        tar_hash = 'b18550d5d61c7615d989a06edace051017726a9f'
-> +        self.do_test_advcal_2018('11', tar_hash, 'zImage.elf')
-> +
-> +    def test_xtensa_lx60(self):
-> +        """
-> +        :avocado: tags=arch:xtensa
-> +        :avocado: tags=machine:lx60
-> +        """
-> +        tar_hash = '49e88d9933742f0164b60839886c9739cb7a0d34'
-> +        self.do_test_advcal_2018('02', tar_hash, 'santas-sleigh-ride.elf',
-> +            ('-cpu', 'dc233c'))
->
->
+>   block/io.c | 61 +++++++++++++++++++++++++++++-------------------------
+>   1 file changed, 33 insertions(+), 28 deletions(-)
+> 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
