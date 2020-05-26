@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCBD01E1CA9
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:58:40 +0200 (CEST)
-Received: from localhost ([::1]:34570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AACCD1E1CD1
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:03:53 +0200 (CEST)
+Received: from localhost ([::1]:57044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUTv-00051l-Ou
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:58:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45110)
+	id 1jdUYy-0006RJ-N8
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:03:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdUSI-0003BX-3y
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:56:58 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38446
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdUSg-0004Oq-Ru
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:57:22 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27444
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdUSG-0002sZ-PK
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:56:57 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdUSg-0002uZ-0M
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:57:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590479816;
+ s=mimecast20190719; t=1590479840;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oOUkV/qUnXrfrNOGAgJYl2APppkkiRofTcffne67/Lk=;
- b=XlsjWaKyO0zmheKeg0TVZrpIQjQ4IseL+YlSVntRvpKnuqPAj/vrj8DfHocBDRYG97gPWn
- P/7tQaRicYrBHSEkj7IEPDtlI18cxqFICadaTzRbXCrjJ3CkuJcEE8cWnOrtwk8aHyh+Fz
- wOAeUBovHZ1y24RTAdnatLV8FA5ZKNM=
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=PtUSePRBf50R/oUdD69YUYtqmxlvL02IAV21d3N/zVA=;
+ b=cSMh1CHSOCKHpTgR7xFGE1lieE8tR3vH7ENSKxfwIp1Oip5VeUwERQfBTJYBlLd8HJY+wo
+ 5mXejJCaexTXW18UAW3+/DWbJ+/5hhfBRbAFFar7vh7U+tIEzRfKRiVefPCG3U2SHOQUsF
+ vi1/wxrcSAxjJ2PdvXjkGMpMpgWWHAQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-USHyAsVIP9CNH1X7phLk6Q-1; Tue, 26 May 2020 03:56:51 -0400
-X-MC-Unique: USHyAsVIP9CNH1X7phLk6Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-332-4I9IpcrxM5KExalV00GNOg-1; Tue, 26 May 2020 03:57:19 -0400
+X-MC-Unique: 4I9IpcrxM5KExalV00GNOg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD77E1005512;
- Tue, 26 May 2020 07:56:50 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
- [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4722E5D9E5;
- Tue, 26 May 2020 07:56:46 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 412F39D57; Tue, 26 May 2020 09:56:40 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 8/8] hw/mips/mips_fulong2e: Remove unused 'audio/audio.h'
- include
-Date: Tue, 26 May 2020 09:56:39 +0200
-Message-Id: <20200526075639.27949-9-kraxel@redhat.com>
-In-Reply-To: <20200526075639.27949-1-kraxel@redhat.com>
-References: <20200526075639.27949-1-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C8D8800688;
+ Tue, 26 May 2020 07:57:17 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-138.ams2.redhat.com [10.36.112.138])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A5B0F5C1BB;
+ Tue, 26 May 2020 07:57:14 +0000 (UTC)
+Subject: Re: [PATCH 1/2] hw/mips/mips_int: De-duplicate KVM interrupt delivery
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ chen huacai <zltjiangshi@gmail.com>, qemu-level <qemu-devel@nongnu.org>
+References: <20200429082916.10669-1-f4bug@amsat.org>
+ <20200429082916.10669-2-f4bug@amsat.org>
+ <CABDp7VoyvX2vD6awEC-GwnEu8SW=pMPPR7mrfKCSzamrnomPKg@mail.gmail.com>
+ <dc94a9f4-b6c9-97fa-4515-3e51ef9b816a@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <193e8262-fa43-2132-02ae-e8bceca86c80@redhat.com>
+Date: Tue, 26 May 2020 09:57:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <dc94a9f4-b6c9-97fa-4515-3e51ef9b816a@amsat.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:14:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -81,41 +85,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: Huacai Chen <chenhuacai@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
+ Huacai Chen <chenhc@lemote.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 12/05/2020 09.08, Philippe Mathieu-Daudé wrote:
+> On 4/29/20 10:48 AM, chen huacai wrote:
+>> Hi, Philippe,
+>>
+>> On Wed, Apr 29, 2020 at 4:30 PM Philippe Mathieu-Daudé
+>> <f4bug@amsat.org> wrote:
+>>>
+>>> Refactor duplicated code in a single place.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>>   hw/mips/mips_int.c | 11 +++--------
+>>>   1 file changed, 3 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/hw/mips/mips_int.c b/hw/mips/mips_int.c
+>>> index 796730b11d..4a1bf846da 100644
+>>> --- a/hw/mips/mips_int.c
+>>> +++ b/hw/mips/mips_int.c
+>>> @@ -47,17 +47,12 @@ static void cpu_mips_irq_request(void *opaque,
+>>> int irq, int level)
+>>>
+>>>       if (level) {
+>>>           env->CP0_Cause |= 1 << (irq + CP0Ca_IP);
+>>> -
+>>> -        if (kvm_enabled() && irq == 2) {
+>>> -            kvm_mips_set_interrupt(cpu, irq, level);
+>>> -        }
+>>> -
+>>>       } else {
+>>>           env->CP0_Cause &= ~(1 << (irq + CP0Ca_IP));
+>>> +    }
+>>>
+>>> -        if (kvm_enabled() && irq == 2) {
+>>> -            kvm_mips_set_interrupt(cpu, irq, level);
+>>> -        }
+>>> +    if (kvm_enabled() && irq == 2) {
+>>> +        kvm_mips_set_interrupt(cpu, irq, level);
+>>>       }
+>>>
+>>>       if (env->CP0_Cause & CP0Ca_IP_mask) {
+>>> -- 
+>>> 2.21.1
 
-The Fuloong machine never had to use "audio/audio.h", remove it.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Huacai Chen <chenhc@lemote.com>
-Message-id: 20200515084209.9419-1-f4bug@amsat.org
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/mips/mips_fulong2e.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
-index ef02d54b335c..05b9efa516cf 100644
---- a/hw/mips/mips_fulong2e.c
-+++ b/hw/mips/mips_fulong2e.c
-@@ -33,7 +33,6 @@
- #include "hw/mips/mips.h"
- #include "hw/mips/cpudevs.h"
- #include "hw/pci/pci.h"
--#include "audio/audio.h"
- #include "qemu/log.h"
- #include "hw/loader.h"
- #include "hw/ide/pci.h"
--- 
-2.18.4
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
