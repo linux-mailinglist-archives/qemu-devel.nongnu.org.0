@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED62C1E2DF9
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 21:26:25 +0200 (CEST)
-Received: from localhost ([::1]:57550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 848351E2F46
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 21:51:21 +0200 (CEST)
+Received: from localhost ([::1]:51906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdfDV-0003Mp-2B
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 15:26:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50160)
+	id 1jdfbc-0000sv-2L
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 15:51:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jdfCD-0002Ph-CB
- for qemu-devel@nongnu.org; Tue, 26 May 2020 15:25:05 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38248)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jdfCC-0005zg-7A
- for qemu-devel@nongnu.org; Tue, 26 May 2020 15:25:04 -0400
-Received: by mail-oi1-x242.google.com with SMTP id j145so19685488oib.5
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 12:25:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KhQZnN0KQHH8kEo7sz4kjMuOFVsu8d0izBwLocoq1Kw=;
- b=CIPgj8ZIYXMlinQdgyVwqAc3ASZ/gcDj8yuXVezS1wBzWQ7DA0lBqHZP1jUGrL+rD2
- WJuF07DoFtqJqQI8zkY9oN5Xo3izc3TS5t0p3q8dfC9ObS69cl/ektd22aqMmrCsi5C5
- sAEywbyJzbWFywlo6KQqB39Ovac3ZjzXdJqV+XXgkFKda0AUu+dsnG9HBrKVW8XpoiEj
- rBNY6yPYJ8bvjs9pEC1BdSf8iE+wg/X6cRjo8iC/im7yXATWx7Qh+xCWJ+q5a/9F5RP0
- KXBIFfpyIlU8bM3z4YDTnwPMj08M1Apr70FWAm4QEBB79vRB/depCP1nTGwIM2SDcXWt
- H7GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KhQZnN0KQHH8kEo7sz4kjMuOFVsu8d0izBwLocoq1Kw=;
- b=aU2wfL7n/CcJsujmu21Mr++m91A0cnmj/ylHhnQShfntDL1Jx955TQd/Mnyw7Q6Ef6
- G9OXcrSRwwQ1kASkx7uTPJSbPbLroh7L2Ut/0OnWTcM9btJa3SJ7bubW56hOGbi0AltE
- 7qfLj35igktS46MxqqSfDLmImtsqfbyUw7tUFfpiAD83gjpi7LtSHlZun/t9CZ/x0peE
- kcOhjYaPooI77LBHdPsptCWnswKVfdqeH3JRRfQJGdGMqVF7MNzOzPA0MO777uWDVHLa
- fc+Sp3VozJSVBMKvAa5Ziy8j/K3LGwzzAsv9UN7CF/29+VXlhIatIOydAEmhwCfrTIUZ
- y2FQ==
-X-Gm-Message-State: AOAM531zkx5QmK1OujHAiY0uO/5vGX202+8rwvaT4RJpLHoKHliSXj/o
- tcMJ/+9XYaM2YVson+b/ARwDqFvnnKNjySdq75PPrg==
-X-Google-Smtp-Source: ABdhPJxwg/45+TXggEP9WLYTn5cr1eczrOWb3OpH9IyjqrwXZtJDW7d5I+6GnbyjcqBo6ua6NlMs3oqC9SsTBNC4LYY=
-X-Received: by 2002:a54:469a:: with SMTP id k26mr293351oic.163.1590521102788; 
- Tue, 26 May 2020 12:25:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jdfaP-000090-1J; Tue, 26 May 2020 15:50:05 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:40620 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1jdfaO-0007Ca-0Z; Tue, 26 May 2020 15:50:04 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 881704C80C;
+ Tue, 26 May 2020 19:49:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-transfer-encoding:content-disposition
+ :content-type:content-type:mime-version:references:message-id
+ :subject:subject:from:from:date:date:received:received:received;
+ s=mta-01; t=1590522597; x=1592336998; bh=FVT/trrJgIfKMhmT84JJlK
+ bLQPWgFe3TOBzRG1JQjs0=; b=EynrEIbhIjqUg8mWD0wefAPZofuKcxIq+rJbc7
+ viKxbkNRU15Ce2ycJTtPaijHJ2ZFMw3ur3LbJxrOdwZn8tW+l55jlJJSNLZnMn0H
+ FfLP5DD5AARZMCmD/+NJJhXRCVFEB9ggljQKt7usfEnl3VbAo18YVEeHurfq1evv
+ L3xDY=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Ds3rRuzpHzvi; Tue, 26 May 2020 22:49:57 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 0F3D446420;
+ Tue, 26 May 2020 22:49:56 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 26
+ May 2020 22:49:57 +0300
+Date: Tue, 26 May 2020 22:49:57 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 1/7] sysemu/accel: Restrict machine methods to
+ system-mode
+Message-ID: <20200526194957.GC4851@SPB-NB-133.local>
+References: <20200526172427.17460-1-f4bug@amsat.org>
+ <20200526172427.17460-2-f4bug@amsat.org>
 MIME-Version: 1.0
-References: <20200526114931.391049-1-groug@kaod.org>
-In-Reply-To: <20200526114931.391049-1-groug@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 26 May 2020 20:24:51 +0100
-Message-ID: <CAFEAcA_SwZ14vAYk9q87bf4Ndq4DCbHv5iP-N0JZucOvH0dV9A@mail.gmail.com>
-Subject: Re: [PULL 0/5] 9p patches 2020-05-26
-To: Greg Kurz <groug@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200526172427.17460-2-f4bug@amsat.org>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 15:16:05
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,39 +81,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Edgar E .
+ Iglesias" <edgar.iglesias@xilinx.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 26 May 2020 at 12:50, Greg Kurz <groug@kaod.org> wrote:
->
-> The following changes since commit fea8f3ed739536fca027cf56af7f5576f37ef9cd:
->
->   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/pflash-next-20200522' into staging (2020-05-22 18:54:47 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/gkurz/qemu.git tags/9p-next-2020-05-26
->
-> for you to fetch changes up to 84af75577cceb195b044e2d5ba6d940206b169ca:
->
->   xen/9pfs: increase max ring order to 9 (2020-05-25 11:45:40 +0200)
->
-> ----------------------------------------------------------------
-> - fix build with musl libc
-> - fix potential deadlock of QEMU main event loop (cannot be hit with linux
->   client)
-> - revert 9pfs reply truncation (LP 1877688)
-> - xen backend waits for client to free space on the reply ring instead of
->   truncating or disconnecting
->
+On Tue, May 26, 2020 at 07:24:21PM +0200, Philippe Mathieu-Daudé wrote:
+> Restrict init_machine(), setup_post() and has_memory()
+> to system-mode.
+> 
+> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  include/sysemu/accel.h | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
+> index 47e5788530..e08b8ab8fa 100644
+> --- a/include/sysemu/accel.h
+> +++ b/include/sysemu/accel.h
+> @@ -37,10 +37,12 @@ typedef struct AccelClass {
+>      /*< public >*/
+>  
+>      const char *name;
+> +#ifndef CONFIG_USER_ONLY
+>      int (*init_machine)(MachineState *ms);
+>      void (*setup_post)(MachineState *ms, AccelState *accel);
+>      bool (*has_memory)(MachineState *ms, AddressSpace *as,
+>                         hwaddr start_addr, hwaddr size);
+> +#endif
+>      bool *allowed;
+>      /*
+>       * Array of global properties that would be applied when specific
+> -- 
+> 2.21.3
+> 
 
+Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
-
--- PMM
+Thanks,
+Roman
 
