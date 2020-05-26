@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84BE1E266B
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:05:44 +0200 (CEST)
-Received: from localhost ([::1]:42306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A307C1E2686
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:08:56 +0200 (CEST)
+Received: from localhost ([::1]:53750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdc5G-0006xu-ER
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:05:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52160)
+	id 1jdc8N-0004Nu-Ng
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:08:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdc2y-000590-RE
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:03:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45729
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdc3J-0005j3-Om
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 12:03:41 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59392
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdc2x-00059v-DF
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:03:20 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdc3C-0005BS-1I
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 12:03:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590508998;
+ s=mimecast20190719; t=1590509013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=gL1QzzECW4in1I2RrNVQmk6a2JBsbpFVLZpwwa8IWFw=;
- b=GBWxamuI8moiHeZlmYwGzcBT9JRCJUptUnWOkQfYSdAidL6Q/iovcAvXKiRGyIVsgYcPG2
- 2sLKBseGGAeq/AtADyNkKmt7rE6NvpnfjO8hTaegB3oBjy2xQWWnuy+/Um5TYI67RI3ffZ
- of2cWhxXw9if67/k4luWQRmN5RSESw0=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-zx7JRDGBOpWFBX1DdLKXbg-1; Tue, 26 May 2020 12:03:14 -0400
-X-MC-Unique: zx7JRDGBOpWFBX1DdLKXbg-1
-Received: by mail-ej1-f71.google.com with SMTP id f17so7438969ejc.7
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 09:03:14 -0700 (PDT)
+ bh=zXh4hKlRVSA1o9eRjhDNlXGPVdXrUh0gvKzX7FOGXkc=;
+ b=YrsvEHOwK3gSW+vzztbL+kF0inRjQbXZ++v/tUKxPjPLFvkTiN/c13MWuIiiWXkdy2ByOL
+ c/rkqnMACkz6lGJKfOofc65hkuE/++M6HWVzMB7GeQQKMj4oCVq+Dvu6msY+qVcpffz0Mt
+ 2xYJIAuovm+hDeEv/iUFlEdiXDFsTRk=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-444-a79dWqAZNiigF84TOWwlPg-1; Tue, 26 May 2020 12:03:31 -0400
+X-MC-Unique: a79dWqAZNiigF84TOWwlPg-1
+Received: by mail-ej1-f70.google.com with SMTP id nw19so7449815ejb.10
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 09:03:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=gL1QzzECW4in1I2RrNVQmk6a2JBsbpFVLZpwwa8IWFw=;
- b=fQJ1sRH/HdmTILysOQ/GTTyft6Cd/KiFMe6xKjY8QXVDP+E18fbKTD+zhhgui9x7Hh
- mLHXij+y4BmXVOSZ0MrUA2syQYgiGX4S60QXXpDAGI2NfjXCiOyvsu87WsxLWGYtURAQ
- 5LL8sI0UTsBMX7HEwyt21izODjBG8euW6Flc8FBs+RKQJE2zQHpl0+4jh9aa6hBhgWIN
- 6eoaLGDD3P4+qX/mu1vCzl0knwe3by/dNJsrsAcJVG0h9hlZJb20ewoHn+k6n2EzQSor
- DFqmRwINzI2Mu8cEdCdwlqQ4BCftdaTry+KKTGrx5skVMxZWUVIotbMKow5c00rF4wca
- 8a/A==
-X-Gm-Message-State: AOAM530J4YyViKjv0u3agkzCA7ZZCBuASxmsgJtzmhpB6zR2a+BnEHcA
- 0CqSPFZE2koqvzCLJtojCz1xVv0XIoJXf20uhvaJkmxz8lORnwsiGD8R09sCM0886jAxnE977C/
- XXF7pPGbwp7T3mDE=
-X-Received: by 2002:a17:907:2701:: with SMTP id
- w1mr1675482ejk.317.1590508993195; 
- Tue, 26 May 2020 09:03:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxCz7ODxTebM2Pif50iZHfJh0fEwlCc8MqcKQ207lyL8lDazN7wtrYka7MlBWvXzJpCPyRCsQ==
-X-Received: by 2002:a17:907:2701:: with SMTP id
- w1mr1675461ejk.317.1590508992986; 
- Tue, 26 May 2020 09:03:12 -0700 (PDT)
+ bh=zXh4hKlRVSA1o9eRjhDNlXGPVdXrUh0gvKzX7FOGXkc=;
+ b=bFBfZOBn0iqWNZUtQIcahPiab7I40Xh/WZbTxqIt8fO9wAEsXax9m5gwq2f6r4LuEj
+ 6yfBvtvveVG4Zbmumgr1rvixunY66Qm/nG4cUTTzqDEskstjDl0MrvhBsQzud5M3/kuq
+ 2JM6e50MaVL3ENjeN6nV+WNTqoTX18c+VF+Gjg6+vEUL1Uyz+r0xsIzTn2FFwkD/Q2G0
+ 1mA9JvHjQqtVbZgW6iJAzxIwhIBxO+QF195V+T5rrVYMVRnubC0gPmrQYF5+X8kUx5Wd
+ hh+G/36tAt1LvHs77Ls+MFmu+c4JPgH3cVPs7ylwktBJ4pTf/sUbDm+85rPkrOiQ2S2A
+ QgKQ==
+X-Gm-Message-State: AOAM532UnpvlqUXDrua2T0fWaneVJGCe7H39e7twOkcZXMGCCFuPYKJ2
+ /ClfG8Bggq+mazqlqOzDvvCQruXLbOA+5MrAC/SW7Ztrw1OBhA8BMdckBdChmBdqXpv/sdZeDgw
+ SnF7/M3oZNQpzWH4=
+X-Received: by 2002:a05:6402:1216:: with SMTP id
+ c22mr2677497edw.208.1590509010369; 
+ Tue, 26 May 2020 09:03:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxUdS3jT5IFrS9epNADSARqLbVZwxzAg39Sqlwh45DdgSN/FyMUCp+R+kvLkMQyid5ibEKcLg==
+X-Received: by 2002:a05:6402:1216:: with SMTP id
+ c22mr2677478edw.208.1590509010221; 
+ Tue, 26 May 2020 09:03:30 -0700 (PDT)
 Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id v12sm306479eda.39.2020.05.26.09.03.11
+ by smtp.gmail.com with ESMTPSA id x26sm264269edv.61.2020.05.26.09.03.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 May 2020 09:03:12 -0700 (PDT)
-Subject: Re: [PATCH RFC 18/32] python//qmp.py: add casts to JSON
- deserialization
+ Tue, 26 May 2020 09:03:29 -0700 (PDT)
+Subject: Re: [PATCH RFC 20/32] python//qmp.py: assert sockfile is not None
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20200514055403.18902-1-jsnow@redhat.com>
- <20200514055403.18902-19-jsnow@redhat.com>
+ <20200514055403.18902-21-jsnow@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -90,28 +89,28 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <2a058902-a31e-275f-1025-ef012a0c9efd@redhat.com>
-Date: Tue, 26 May 2020 18:03:10 +0200
+Message-ID: <ef47033e-94f3-7d5e-c7cf-36a628d7b2ba@redhat.com>
+Date: Tue, 26 May 2020 18:03:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200514055403.18902-19-jsnow@redhat.com>
+In-Reply-To: <20200514055403.18902-21-jsnow@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:19:28
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:14:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -134,59 +133,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/14/20 7:53 AM, John Snow wrote:
-> mypy and python type hints are not powerful enough to properly describe
-> JSON messages in Python 3.6. The best we can do, generally, is describe
-> them as Dict[str, Any].
+> In truth, if you don't do this, you'll just get a TypeError
+> exception. Now, you'll get an AssertionError.
 > 
-> Add casts to coerce this type for static analysis; but do NOT enforce
-> this type at runtime in any way.
-> 
-> Note: Python 3.8 adds a TypedDict construct which allows for the
-> description of more arbitrary Dictionary shapes. There is a third-party
-> module, "Pydantic", which is compatible with 3.6 that can be used
-> instead of the JSON library that parses JSON messages to fully-typed
-> Python objects, and may be preferable in some cases.
-> 
-> (That is well beyond the scope of this commit or series.)
+> Is this tangibly better? No.
+> Does mypy complain less? Yes.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/lib/qmp.py | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>  python/qemu/lib/qmp.py | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 > diff --git a/python/qemu/lib/qmp.py b/python/qemu/lib/qmp.py
-> index 0036204218..e460234f2e 100644
+> index 5fb16f4b42..1aefc00c93 100644
 > --- a/python/qemu/lib/qmp.py
 > +++ b/python/qemu/lib/qmp.py
-> @@ -13,6 +13,7 @@
->  import logging
->  from typing import (
->      Any,
-> +    cast,
->      Dict,
->      Optional,
->      TextIO,
-> @@ -129,7 +130,10 @@ def __json_read(self, only_event=False):
+> @@ -132,6 +132,7 @@ def __negotiate_capabilities(self):
+>          raise QMPCapabilitiesError
+>  
+>      def __json_read(self, only_event=False):
+> +        assert self.__sockfile is not None
+>          while True:
 >              data = self.__sockfile.readline()
 >              if not data:
->                  return None
-> -            resp = json.loads(data)
-> +            # By definition, any JSON received from QMP is a QMPMessage,
-> +            # and we are asserting only at static analysis time that it
-> +            # has a particular shape.
-> +            resp = cast(QMPMessage, json.loads(data))
->              if 'event' in resp:
->                  self.logger.debug("<<< %s", resp)
->                  self.__events.append(resp)
-> @@ -261,7 +265,7 @@ def command(self, cmd, **kwds):
->          ret = self.cmd(cmd, kwds)
->          if 'error' in ret:
->              raise QMPResponseError(ret)
-> -        return ret['return']
-> +        return cast(QMPReturnValue, ret['return'])
->  
->      def pull_event(self, wait=False):
->          """
 > 
 
 Acked-by: Philippe Mathieu-Daudé <philmd@redhat.com>
