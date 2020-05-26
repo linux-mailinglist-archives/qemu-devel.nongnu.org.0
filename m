@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85BB1E1CC3
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:00:12 +0200 (CEST)
-Received: from localhost ([::1]:42310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCBD01E1CA9
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:58:40 +0200 (CEST)
+Received: from localhost ([::1]:34570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUVP-0008Aw-O6
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:00:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45096)
+	id 1jdUTv-00051l-Ou
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:58:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdUSE-00031u-Iy
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:56:54 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59993
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdUSI-0003BX-3y
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:56:58 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38446
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdUSD-0002sB-Or
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:56:54 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdUSG-0002sZ-PK
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:56:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590479812;
+ s=mimecast20190719; t=1590479816;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nAnIFVMBOy0omXP3sWTo/UUsmM8hMwNCz8GOBpVX8+g=;
- b=GK6CzKoyQN05ZA7DuWXkzwWEVDQOEdaxYnHgRwOF9eqffnEFq99LYWO7F11YA119Q8dkRb
- dt29si0++AdH+WV25c4WfihkVpfNrnOam0Yok8UMQ0tW7qbHfYoeaz8g1xJz948CRoeR0H
- 2lvCVdN2yXz/ea20gEWLgbp28vYqfkI=
+ bh=oOUkV/qUnXrfrNOGAgJYl2APppkkiRofTcffne67/Lk=;
+ b=XlsjWaKyO0zmheKeg0TVZrpIQjQ4IseL+YlSVntRvpKnuqPAj/vrj8DfHocBDRYG97gPWn
+ P/7tQaRicYrBHSEkj7IEPDtlI18cxqFICadaTzRbXCrjJ3CkuJcEE8cWnOrtwk8aHyh+Fz
+ wOAeUBovHZ1y24RTAdnatLV8FA5ZKNM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-oZZMjt7DMzm9A91HeOg_zQ-1; Tue, 26 May 2020 03:56:48 -0400
-X-MC-Unique: oZZMjt7DMzm9A91HeOg_zQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-290-USHyAsVIP9CNH1X7phLk6Q-1; Tue, 26 May 2020 03:56:51 -0400
+X-MC-Unique: USHyAsVIP9CNH1X7phLk6Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97AD918C35A0;
- Tue, 26 May 2020 07:56:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD77E1005512;
+ Tue, 26 May 2020 07:56:50 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
  [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 38E675C1BB;
- Tue, 26 May 2020 07:56:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4722E5D9E5;
+ Tue, 26 May 2020 07:56:46 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 37EC59D56; Tue, 26 May 2020 09:56:40 +0200 (CEST)
+ id 412F39D57; Tue, 26 May 2020 09:56:40 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/8] audio: Let capture_callback handler use const buffer
- argument
-Date: Tue, 26 May 2020 09:56:38 +0200
-Message-Id: <20200526075639.27949-8-kraxel@redhat.com>
+Subject: [PULL 8/8] hw/mips/mips_fulong2e: Remove unused 'audio/audio.h'
+ include
+Date: Tue, 26 May 2020 09:56:39 +0200
+Message-Id: <20200526075639.27949-9-kraxel@redhat.com>
 In-Reply-To: <20200526075639.27949-1-kraxel@redhat.com>
 References: <20200526075639.27949-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -93,57 +93,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The buffer is the captured input to pass to backends.
-As we should not modify it, mark the argument const.
+The Fuloong machine never had to use "audio/audio.h", remove it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200505132603.8575-3-f4bug@amsat.org>
+Reviewed-by: Huacai Chen <chenhc@lemote.com>
+Message-id: 20200515084209.9419-1-f4bug@amsat.org
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/audio.h      | 2 +-
- audio/wavcapture.c | 2 +-
- ui/vnc.c           | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ hw/mips/mips_fulong2e.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/audio/audio.h b/audio/audio.h
-index f27a12298fe5..b883ebfb1f8e 100644
---- a/audio/audio.h
-+++ b/audio/audio.h
-@@ -60,7 +60,7 @@ typedef enum {
- 
- struct audio_capture_ops {
-     void (*notify) (void *opaque, audcnotification_e cmd);
--    void (*capture) (void *opaque, void *buf, int size);
-+    void (*capture) (void *opaque, const void *buf, int size);
-     void (*destroy) (void *opaque);
- };
- 
-diff --git a/audio/wavcapture.c b/audio/wavcapture.c
-index 8d7ce2eda145..17e87ed6f45e 100644
---- a/audio/wavcapture.c
-+++ b/audio/wavcapture.c
-@@ -71,7 +71,7 @@ static void wav_destroy (void *opaque)
-     g_free (wav->path);
- }
- 
--static void wav_capture (void *opaque, void *buf, int size)
-+static void wav_capture(void *opaque, const void *buf, int size)
- {
-     WAVState *wav = opaque;
- 
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 1d7138a3a073..12a12714e129 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -1177,7 +1177,7 @@ static void audio_capture_destroy(void *opaque)
- {
- }
- 
--static void audio_capture(void *opaque, void *buf, int size)
-+static void audio_capture(void *opaque, const void *buf, int size)
- {
-     VncState *vs = opaque;
- 
+diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+index ef02d54b335c..05b9efa516cf 100644
+--- a/hw/mips/mips_fulong2e.c
++++ b/hw/mips/mips_fulong2e.c
+@@ -33,7 +33,6 @@
+ #include "hw/mips/mips.h"
+ #include "hw/mips/cpudevs.h"
+ #include "hw/pci/pci.h"
+-#include "audio/audio.h"
+ #include "qemu/log.h"
+ #include "hw/loader.h"
+ #include "hw/ide/pci.h"
 -- 
 2.18.4
 
