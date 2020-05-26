@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C531E2034
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 12:55:24 +0200 (CEST)
-Received: from localhost ([::1]:58582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C53401E2039
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 12:56:45 +0200 (CEST)
+Received: from localhost ([::1]:34716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdXEx-0003cb-OZ
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 06:55:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38834)
+	id 1jdXGG-0005Ql-U8
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 06:56:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdX7d-00071t-2n
- for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:49 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:34336)
+ id 1jdX7e-00073v-PG
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:51 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:37008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdX7b-0002Bs-JO
- for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:48 -0400
-Received: by mail-ed1-x542.google.com with SMTP id i16so17250233edv.1
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 03:47:47 -0700 (PDT)
+ id 1jdX7d-0002C5-O1
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:50 -0400
+Received: by mail-ej1-x641.google.com with SMTP id l21so23288909eji.4
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 03:47:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=45UgqB7xiuv75to9D1xtOkBXTGrFM8LHRPwW44N+AXY=;
- b=Oi9xE9F6rOTJgixcMpWfSS/NfUvbfq+cZ18N8xzAXMsVsblxvzRwmW5IZFl/VZZyuO
- m/MHptzNBrrwlhhDV3ougwUuLaWWLtTf6B+B1fpX+hNt/UoNWIGMx1z7NIFSQONiCJW9
- JfRwTQ44mTbc2fk8SX1Jsyy9Eg/Asbk6nTezEWUwO4K3GsTHEWrg5JyTDA33h/lHLrom
- 3UJLswgKJMLnUd9fSDQWS/ZoivOXXclYtG4aTPdwyXatELinW8gZbq2kG6sRT7EIwdg9
- BQTC/Kk60fS54gXBogOERLxFnGxlaJgQWWzNQC7g8b1TDOvDnPlFywWzpTJs6z9YXD/k
- tSMw==
+ bh=SzMnP+v0boOKzPS/hAbB4oxH7IK6D4Ae63ekoZyVIXc=;
+ b=DNwcaauSQDgl16ob7UQBkgTmNH/gmXz5+zn3dPBOik4fCqYtS3pmmgd9GgdqaKt44q
+ dmGvfEnBZzBzLuNau/wtJmL6YeoeFRQPSAuK28ftn5eIKhrsiVVyNmOVn9P3iwfbrhv/
+ QHfxGzW0VGpK+gNSMefsyFQonngHZWYA0oROkwTzy+jf8ai/rYHRl6XEKVJc/+DAo5vr
+ 5gMZ0uQoUQEyk9UI9CQNyYhhAHrpL47XTji9mVmeV5kqxNbuemlRqBYgsqDJthVFsI9I
+ 5IXick6YbDrTMd3diRolSd3wJc1k9t3rdpmogJfv4R+A6JOxjEMU1KAw9jOljiUtcpwH
+ korg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=45UgqB7xiuv75to9D1xtOkBXTGrFM8LHRPwW44N+AXY=;
- b=U/8wYveePEWWkjFCuR3TRKufGn9lp/1Vl+epg1rJZ9ilwSrYboOUEIS3Cnz/UMFHlT
- +bPx4j+p92GtUMWoQcF54jpBDlyzGk8G82OEpAchiV+tv92DWOukOo20TXo+TjwzZ7tl
- bLpqYt3/adLNLNkFHUlB007jehtIsJvZIN3BMKs/cJ49V/qrtx+b4QXY7yHVRaiZGcIK
- sQM41wHU/tPdAIDFAtrqGwx96+f9rG/9Dih0DIGgnpprDgEIKnQk81HeJJ2eGkRIqJ0R
- CC+EBK4CA5bpyMlmb0ssslA3UCyRxHuZTvN54wNmI+Ka4mIL0vS0IMK/c5j3C4yzaYKc
- 86vQ==
-X-Gm-Message-State: AOAM532zZA+6V7B8FXa5RwsyRXJYjI6FNn48w/KuCMZXdyrFQVr4e2IB
- jw15ApuTMdFxJ0U+c+sfF4CeHvqETh0=
-X-Google-Smtp-Source: ABdhPJz2BuRcHYEb0vJvbDghC8GF7FUB+ZLTYw4hWm0S4PsoeKn/UWCsOYNfxvHRzf7lUPCp+rcP7g==
-X-Received: by 2002:a50:8e56:: with SMTP id 22mr18385165edx.268.1590490066045; 
- Tue, 26 May 2020 03:47:46 -0700 (PDT)
+ bh=SzMnP+v0boOKzPS/hAbB4oxH7IK6D4Ae63ekoZyVIXc=;
+ b=hvk5pz+Q1ltoff7AN1BUm8+kNZ2UGaF6bgxBPQBCD1L2fF2YSs5ocsNMXmyjr53z6+
+ Q69zrsEBcspsapK6GZfV8nSMnjXwMNvUqDwLaCIrJEqsqm4b7KFY/cHfn9yHl5GkjxB1
+ i8/A6MaufM/iPsgX0Xe3cXpF0lXZCNLavmbeY1+HL2gifrRRjLbYdA5DqmO77G6rioyT
+ l/PBJf6k5d9xzIfAYp+Y91NRpitsKCfs6PfKGTz12pVcs+0UKK0y9Gl8taDcildP9tSs
+ yg/h1nUKfTPItz4rm3rxgmymr7LNDWA/YbgHILCgFQP30Mx4AVe16uJLSacjqwq0DQ5T
+ Bjlw==
+X-Gm-Message-State: AOAM532ZfDVq8xoFbZCRrl0sxsoIRrsrg05YSIPADZ2VAQXp776EsqIk
+ S8WVcnMFKnj6xlmGV4QDdDX09Ilv8VM=
+X-Google-Smtp-Source: ABdhPJy1srfveRWp4BYfglPPpBm74kwqzlVLximCdMgSDXaasUTut93LWwDHx66jJr980f8hMOkJoA==
+X-Received: by 2002:a17:906:1f09:: with SMTP id
+ w9mr530482ejj.508.1590490067469; 
+ Tue, 26 May 2020 03:47:47 -0700 (PDT)
 Received: from x1w.redhat.com (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id c27sm3342597ejd.19.2020.05.26.03.47.44
+ by smtp.gmail.com with ESMTPSA id c27sm3342597ejd.19.2020.05.26.03.47.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 03:47:45 -0700 (PDT)
+ Tue, 26 May 2020 03:47:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/14] hw/mips/malta: Add some logging for bad register offset
- cases
-Date: Tue, 26 May 2020 12:47:24 +0200
-Message-Id: <20200526104726.11273-13-f4bug@amsat.org>
+Subject: [PATCH 13/14] hw/mips/mips_int: De-duplicate KVM interrupt delivery
+Date: Tue, 26 May 2020 12:47:25 +0200
+Message-Id: <20200526104726.11273-14-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200526104726.11273-1-f4bug@amsat.org>
 References: <20200526104726.11273-1-f4bug@amsat.org>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -100,53 +100,40 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Refactor duplicated code in a single place.
 
-Log the cases where a guest attempts read or write using bad
-register offset.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-id: <20200518200920.17344-21-aleksandar.qemu.devel@gmail.com>
-[PMD: Replaced TARGET_FMT_lx by HWADDR_PRIX]
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200429082916.10669-2-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/malta.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ hw/mips/mips_int.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index e4c4de1b4e..b673a3a248 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -427,10 +427,9 @@ static uint64_t malta_fpga_read(void *opaque, hwaddr addr,
-         break;
+diff --git a/hw/mips/mips_int.c b/hw/mips/mips_int.c
+index 796730b11d..4a1bf846da 100644
+--- a/hw/mips/mips_int.c
++++ b/hw/mips/mips_int.c
+@@ -47,17 +47,12 @@ static void cpu_mips_irq_request(void *opaque, int irq, int level)
  
-     default:
--#if 0
--        printf("malta_fpga_read: Bad register offset 0x" TARGET_FMT_lx "\n",
--               addr);
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "malta_fpga_read: Bad register addr 0x%"HWADDR_PRIX"\n",
-+                      addr);
-         break;
-     }
-     return val;
-@@ -515,10 +514,9 @@ static void malta_fpga_write(void *opaque, hwaddr addr,
-         break;
+     if (level) {
+         env->CP0_Cause |= 1 << (irq + CP0Ca_IP);
+-
+-        if (kvm_enabled() && irq == 2) {
+-            kvm_mips_set_interrupt(cpu, irq, level);
+-        }
+-
+     } else {
+         env->CP0_Cause &= ~(1 << (irq + CP0Ca_IP));
++    }
  
-     default:
--#if 0
--        printf("malta_fpga_write: Bad register offset 0x" TARGET_FMT_lx "\n",
--               addr);
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "malta_fpga_write: Bad register addr 0x%"HWADDR_PRIX"\n",
-+                      addr);
-         break;
+-        if (kvm_enabled() && irq == 2) {
+-            kvm_mips_set_interrupt(cpu, irq, level);
+-        }
++    if (kvm_enabled() && irq == 2) {
++        kvm_mips_set_interrupt(cpu, irq, level);
      }
- }
+ 
+     if (env->CP0_Cause & CP0Ca_IP_mask) {
 -- 
 2.21.3
 
