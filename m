@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83FC1E1B37
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 08:26:44 +0200 (CEST)
-Received: from localhost ([::1]:33110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 848B11E1B3B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 08:29:05 +0200 (CEST)
+Received: from localhost ([::1]:40862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdT2x-00041z-NC
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 02:26:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34256)
+	id 1jdT5E-000760-I9
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 02:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdSzS-0006l2-V8; Tue, 26 May 2020 02:23:06 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34898)
+ id 1jdSzU-0006oO-8q; Tue, 26 May 2020 02:23:08 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdSzS-0002Tp-5I; Tue, 26 May 2020 02:23:06 -0400
-Received: by mail-wr1-x441.google.com with SMTP id x14so13820001wrp.2;
- Mon, 25 May 2020 23:23:04 -0700 (PDT)
+ id 1jdSzT-0002Ty-Hn; Tue, 26 May 2020 02:23:07 -0400
+Received: by mail-wr1-x444.google.com with SMTP id y17so10795364wrn.11;
+ Mon, 25 May 2020 23:23:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=niKys0M9qCRdd5XE0vRzIcnavSTrjMmT5iXeBJ1UjZs=;
- b=A0Clr/NmfQGAjrdffxoKZ0zK5WUpCI8/5bUlZpe+cOPkiWEBvvcLL6JtpADF9lG7C5
- enMQntACeD1VYmS4372X9a02/jd/tyuPa2GYZI2Fi5dtJEAITru38G+BMKpmR5j96CNp
- bDbij5rTSGwBzsa8V5phrSJzndHYa5bBm2z+8FH9ECQ/dHuv7SIuvGWRqJt7/Pyaqmw6
- vw/Rlwdrfv7gLkSco5NSQGtpGyh+K1e9JRldZmUVdKrP+E49fOZEJN9I36jBYbZ2P5eH
- HhaNXcWnChtVoPPLomOL+IA4JpTC+oYHuptBBJa1H3hArWTYw/KyRxFO6bnr2QS/7KwC
- Y+nA==
+ bh=Xkslp0bcUbSqRBvOaVQSgMmVi3d4Gn9gVFXVfSGdOCE=;
+ b=CzU7afDn/BrEvMaSH98TXT4W9PACIV1YcfWxyjMs55LUiGmtUnIaOqeajwVGl2zpef
+ nc9Rhv5za0ebqaE7h3wljCBH96II3Gl92jyogxwZpkJUXbFlsCzXX4janDF5wDb9ZpGO
+ M75cQNfpQlu2h0auJIT6hkuiYSQ4pa3X5eAb/2fS3PBGlZoGhRuazjq4405v8AFtCRUm
+ gO0kTyONHKFNikVUAl2YUYWRi/FmOpmjni5h6T6NRN4LAPSueSw9yfoJddd/QjIysGBZ
+ iQBE3tQJusFJ4/gh2EhD80u2XX56H8/QGwYCX/RlPMTJpaeUE2se1UdwkpEhBDbH/9Zn
+ 2dlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=niKys0M9qCRdd5XE0vRzIcnavSTrjMmT5iXeBJ1UjZs=;
- b=dZhRRUBP7LQT1jzqZXKNfNRQGfLijvGenMni8A0frQiAvB1g4Sm6PMaZC/d9tLJqjj
- 6XzwmQQMhkfKl9IgMHnQikD14HCrs3487Dgi4eQWhO06SeGyK4B3EyFVecbHMWqoGU0m
- fqG7klfS5+yqsWZyvE07OTpJi+d+9fZ8KqMZM6z0qyOA4m1Yzjehtw1bea9nJrXaqgX+
- MT8pK9iadfm5W7u+iiLjNxxElh5p4YV6cj66jaz/kHNL3xTxNkA4n1HIMtaVo0w5bjsU
- 211s30EmlXW3bpe1ZGkNsB5Fh/Zgc4R7III7Ccv0HM6tq+G0cyMEk4air2uG9cyPY6Nb
- KHkg==
-X-Gm-Message-State: AOAM531OdA8wLdmz+kLVYDSHGCcb2uGZwxqMI2N4TcjN9G6YgASlFmvV
- lGxTujYo5LwfOEkLLAp97/w=
-X-Google-Smtp-Source: ABdhPJy5QZSLW7kxwtrFiI5Y7aNsdbz9Bs6Ln08rGGpkszUO7YF4Ikag1EaPLmO1LxbPE7VmAgVcBw==
-X-Received: by 2002:adf:e752:: with SMTP id c18mr18168910wrn.353.1590474184018; 
- Mon, 25 May 2020 23:23:04 -0700 (PDT)
+ bh=Xkslp0bcUbSqRBvOaVQSgMmVi3d4Gn9gVFXVfSGdOCE=;
+ b=HswH8pgK3cA0RPuAqo0QS9aMtkfDyiyweqBadp9nZ+h8dBK+4TyS0SjCAnIQrPfWax
+ KJ4ZWMrkjP8uPbZ/ZRXoNTUBuTrypY+TtRMWnFFKt79XZ2av1Ua7R1h0qh/O3xliBVQf
+ VO4ose4l6DCjqr6ZH7fDux8/xupjqH+RjffiWlr+oisQy7i3FlKFMwRQlwGj50cx3Ekb
+ 9newMWNJojb00+1xUHUq85jF44sngmxD+uzeQfSyBmOCXfaQBzDKCK9mNm98S3eWSw6+
+ 9SBreGqIeQpx/o9yA8ZhVk3iUjXApzhGcEDoohyIBFSNskbHg75YeIq6fFbbCeSva7yW
+ Fyyw==
+X-Gm-Message-State: AOAM5300SljZft/gEQiAtzXGpK1rinWQ6zlOYUYiTcQYyF1ql6aRPXsl
+ pgxgOTfzygkAJtaMLLxaJNiCUmuHEyM=
+X-Google-Smtp-Source: ABdhPJy7XOuIvuPd87YUcyvN9PZYOFHqfmyIpeRi6JHHiJCZ7llcN4A6zFOZagd33VrieZQPGQ5QxA==
+X-Received: by 2002:adf:e682:: with SMTP id r2mr17707267wrm.378.1590474185418; 
+ Mon, 25 May 2020 23:23:05 -0700 (PDT)
 Received: from localhost.localdomain (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id a16sm5764745wrx.8.2020.05.25.23.23.02
+ by smtp.gmail.com with ESMTPSA id a16sm5764745wrx.8.2020.05.25.23.23.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 May 2020 23:23:03 -0700 (PDT)
+ Mon, 25 May 2020 23:23:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Gerd Hoffmann <kraxel@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 06/14] hw/display/cirrus_vga: Convert debug printf() to trace
- event
-Date: Tue, 26 May 2020 08:22:44 +0200
-Message-Id: <20200526062252.19852-7-f4bug@amsat.org>
+Subject: [PATCH 07/14] hw/display/dpcd: Fix memory region size
+Date: Tue, 26 May 2020 08:22:45 +0200
+Message-Id: <20200526062252.19852-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200526062252.19852-1-f4bug@amsat.org>
 References: <20200526062252.19852-1-f4bug@amsat.org>
@@ -64,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -97,68 +96,33 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the final bit of DEBUG_BITBLT to a tracepoint.
+The memory region size is 512K.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/display/cirrus_vga.c | 24 ++++++++++--------------
- hw/display/trace-events |  1 +
- 2 files changed, 11 insertions(+), 14 deletions(-)
+ hw/display/dpcd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-index 76e2dc5bb6..92c197cdde 100644
---- a/hw/display/cirrus_vga.c
-+++ b/hw/display/cirrus_vga.c
-@@ -53,7 +53,6 @@
-  */
- 
- //#define DEBUG_CIRRUS
--//#define DEBUG_BITBLT
- 
- /***************************************
+diff --git a/hw/display/dpcd.c b/hw/display/dpcd.c
+index 170545c605..0c1b7b35fb 100644
+--- a/hw/display/dpcd.c
++++ b/hw/display/dpcd.c
+@@ -1,5 +1,5 @@
+ /*
+- * dpcd.c
++ * Xilinx Display Port Control Data
   *
-@@ -950,19 +949,16 @@ static void cirrus_bitblt_start(CirrusVGAState * s)
-     s->cirrus_blt_dstaddr &= s->cirrus_addr_mask;
-     s->cirrus_blt_srcaddr &= s->cirrus_addr_mask;
+  *  Copyright (C) 2015 : GreenSocs Ltd
+  *      http://www.greensocs.com/ , email: info@greensocs.com
+@@ -137,7 +137,7 @@ static void dpcd_init(Object *obj)
+ {
+     DPCDState *s = DPCD(obj);
  
--#ifdef DEBUG_BITBLT
--    printf("rop=0x%02x mode=0x%02x modeext=0x%02x w=%d h=%d dpitch=%d spitch=%d daddr=0x%08x saddr=0x%08x writemask=0x%02x\n",
--           blt_rop,
--           s->cirrus_blt_mode,
--           s->cirrus_blt_modeext,
--           s->cirrus_blt_width,
--           s->cirrus_blt_height,
--           s->cirrus_blt_dstpitch,
--           s->cirrus_blt_srcpitch,
--           s->cirrus_blt_dstaddr,
--           s->cirrus_blt_srcaddr,
--           s->vga.gr[0x2f]);
--#endif
-+    trace_vga_cirrus_bitblt_start(blt_rop,
-+                                  s->cirrus_blt_mode,
-+                                  s->cirrus_blt_modeext,
-+                                  s->cirrus_blt_width,
-+                                  s->cirrus_blt_height,
-+                                  s->cirrus_blt_dstpitch,
-+                                  s->cirrus_blt_srcpitch,
-+                                  s->cirrus_blt_dstaddr,
-+                                  s->cirrus_blt_srcaddr,
-+                                  s->vga.gr[0x2f]);
+-    memory_region_init_io(&s->iomem, obj, &aux_ops, s, TYPE_DPCD, 0x7FFFF);
++    memory_region_init_io(&s->iomem, obj, &aux_ops, s, TYPE_DPCD, 0x80000);
+     aux_init_mmio(AUX_SLAVE(obj), &s->iomem);
+ }
  
-     switch (s->cirrus_blt_mode & CIRRUS_BLTMODE_PIXELWIDTHMASK) {
-     case CIRRUS_BLTMODE_PIXELWIDTH8:
-diff --git a/hw/display/trace-events b/hw/display/trace-events
-index c3043e4ced..bb089a5f5e 100644
---- a/hw/display/trace-events
-+++ b/hw/display/trace-events
-@@ -134,6 +134,7 @@ vga_cirrus_read_io(uint32_t addr, uint32_t val) "addr 0x%x, val 0x%x"
- vga_cirrus_write_io(uint32_t addr, uint32_t val) "addr 0x%x, val 0x%x"
- vga_cirrus_write_blt(uint32_t offset, uint32_t val) "offset 0x%x, val 0x%x"
- vga_cirrus_write_gr(uint8_t index, uint8_t val) "GR addr 0x%02x, val 0x%02x"
-+vga_cirrus_bitblt_start(uint8_t blt_rop, uint8_t blt_mode, uint8_t blt_modeext, int blt_width, int blt_height, int blt_dstpitch, int blt_srcpitch, uint32_t blt_dstaddr, uint32_t blt_srcaddr, uint8_t gr_val) "rop=0x%02x mode=0x%02x modeext=0x%02x w=%d h=%d dpitch=%d spitch=%d daddr=0x%08"PRIx32" saddr=0x%08"PRIx32" writemask=0x%02x"
- 
- # sii9022.c
- sii9022_read_reg(uint8_t addr, uint8_t val) "addr 0x%02x, val 0x%02x"
 -- 
 2.21.3
 
