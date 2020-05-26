@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8111E2339
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 15:44:14 +0200 (CEST)
-Received: from localhost ([::1]:48322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770311E22FF
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 15:37:08 +0200 (CEST)
+Received: from localhost ([::1]:57132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdZsL-0006wx-CI
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 09:44:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56992)
+	id 1jdZlT-0005yg-Gi
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 09:37:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdZhf-0006i8-A2
- for qemu-devel@nongnu.org; Tue, 26 May 2020 09:33:11 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:33866)
+ id 1jdZhh-0006q3-82
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 09:33:13 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:46722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdZhe-0005qS-Kj
- for qemu-devel@nongnu.org; Tue, 26 May 2020 09:33:10 -0400
-Received: by mail-ed1-x531.google.com with SMTP id i16so17662816edv.1
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 06:33:10 -0700 (PDT)
+ id 1jdZhg-0005qy-8O
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 09:33:12 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id e2so23773812eje.13
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 06:33:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SzMnP+v0boOKzPS/hAbB4oxH7IK6D4Ae63ekoZyVIXc=;
- b=ciuIefHL31taUGw39VgRPDV3fOx4cXNqKZ0nVm7Q0MO/i1UwdbtJT1/RGVVXlPMrzO
- JInRIfcNo6GwpyJlX/NfqIadpHtJ/sWCQyjjYTc6kPNC7AbDFtithfrxtswkzdYdo4dI
- a9oxLniLraEdtA1iGAzLlGJ0K0foSMi2QWqdYQMM2NEfOG0FLN0z+iLl1U5YqCGY00HU
- sVQ3vScHhkZ37AK10k13mP14vCsnl0Q2ozvdgDgHrOHs74DMuaKgsvCSMk5ZpnEfvtPX
- /hmGf6kuCPdmWUC0lHhL378WFyKHXwW82xIBtvMD3fqHdvokoum2F7QkR0XZk4xHC2Nr
- ZnYw==
+ bh=pPV3t0ciHdfu4yziGudCLa1nZMiogySec4g5RazN6FY=;
+ b=W1mfZZSFWow35xwNsVIdReKxgBP3yyskiyFSYhIimtM3idRn7OTYuov7YAxyJMFcbt
+ qy8CEuiLxo1JgT5vbtlGVHg3fzHlYH7Nh7tI2KhOByAXKuXBbbvwmfZs86azK2WO64Jp
+ zw3lpPe7LzRsJV+uozP/yea5/Wey1ZDfziScfO2X4pW5WdY3rG1IYL3/RpYRckjqJ5PH
+ IXATvGV6driLpV2vnkivt05CEVrTukqcezBMnhRQQqCAhq8Y7R6EmvHMISHYqPD2dMJB
+ /EhLyiUP+GWdq5SZSBtkRj9Mxmj/S2WaElDR5/cmqK2/k4iBXH8Zb02f5obRlC76EUPd
+ BFjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SzMnP+v0boOKzPS/hAbB4oxH7IK6D4Ae63ekoZyVIXc=;
- b=BzxydQTKxfqM5z9MrnRS9j7jT1F8kN10YfNEgV4/nXY7iPGeVIUG6zWXKE48ZTMVVy
- gYYTrxCXfa8o3aIG1LN/rYhSZA0XNBvSVe+YXrg3PSWthcI1dEMGAkn+E1ZKD71jJXy3
- uRI2/Fy27pDMyTqYVJTmJSTHL/GZssubEyKBkg93ON6huZsw9C0RGcUbgxTNG1oEW8hW
- eeZCuqF8XuLvUiRNo4hQhpruXNNV6ILh55H0zYdOClkyjVaHKsYPPRrTmGG3O+7TJc3e
- zSR4m5LPvOIkUX7r+P8RqKOj/pBCFwnkaNPHoEi3r935smdesO8bJLF4ddUzFqsONb57
- I9gg==
-X-Gm-Message-State: AOAM531MB9kFFIcrmKxNmC9UxoiknyQh9FUu1yphOIul6LNj2Wa4kXAx
- yZygVQK+PaMZA2qnFai7gPWHN5BsmLs=
-X-Google-Smtp-Source: ABdhPJyhe8NpcMddqxli+7/P7ZF4MbpIJ2/9Jo4E7uADaHqbr/LsGsvWVSz60OKuxbSdJVyVpp4SvA==
-X-Received: by 2002:aa7:c444:: with SMTP id n4mr19858176edr.308.1590499989149; 
- Tue, 26 May 2020 06:33:09 -0700 (PDT)
+ bh=pPV3t0ciHdfu4yziGudCLa1nZMiogySec4g5RazN6FY=;
+ b=XKuAxg/puMbhb5+0jJqY2sxLa3mSbfEvASXGHLecVoBMozn8LXKpNanNGuRFutBxkP
+ TTs4AvmOE2WSJpGQ5VQDh+zkFFwWMuq1H0qd7D6oIAvyxu4TO0kt8K/xStaeOkZNiUy4
+ 6DRDkQYizP6nDkxURytq8JYfVGqb6MCv7M137z7PwS9I6B6Ebcy3We1DQxMZAVNTXKmh
+ JRQ74BJxCK2FS71FSBbSnQUXxnMrXgws/LVCJ12j5hJ8HnkaWgcyxc/Bcv32q2py4HFm
+ j9XQGVamsr/C2bUvX4AzLxn7jWyFNJ5dwlPlcJELWwYMBUEeImiEGdl4RQfhSk5P7xWg
+ Jz3w==
+X-Gm-Message-State: AOAM532wAVMPeMIIpCnBG4T9FoTcHOMhfbTCTAWx7Z+WrDZB7q58QYPh
+ JkkF+g4cvVow4rv50kOpDSkE/0UAjDY=
+X-Google-Smtp-Source: ABdhPJxZQ3xrejlUHBn6UZjExFOrdzOzBr3xqGngyOSsnoUpEWmtvMLtz2AmdpSlStqjzl+MjhOlIA==
+X-Received: by 2002:a17:906:edb5:: with SMTP id
+ sa21mr1161894ejb.78.1590499990526; 
+ Tue, 26 May 2020 06:33:10 -0700 (PDT)
 Received: from x1w.redhat.com (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id n25sm1623084edo.56.2020.05.26.06.33.07
+ by smtp.gmail.com with ESMTPSA id n25sm1623084edo.56.2020.05.26.06.33.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 06:33:08 -0700 (PDT)
+ Tue, 26 May 2020 06:33:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/14] hw/mips/mips_int: De-duplicate KVM interrupt delivery
-Date: Tue, 26 May 2020 15:32:46 +0200
-Message-Id: <20200526133247.13066-14-f4bug@amsat.org>
+Subject: [PULL 14/14] MAINTAINERS: Change Aleksandar Rikalo's email address
+Date: Tue, 26 May 2020 15:32:47 +0200
+Message-Id: <20200526133247.13066-15-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200526133247.13066-1-f4bug@amsat.org>
 References: <20200526133247.13066-1-f4bug@amsat.org>
@@ -64,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -99,40 +100,94 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Refactor duplicated code in a single place.
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200429082916.10669-2-f4bug@amsat.org>
+Aleksandar Rikalo wants to use a different email address from
+now on.
+
+Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Message-id: <20200518200920.17344-18-aleksandar.qemu.devel@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/mips_int.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ .mailmap    |  3 ++-
+ MAINTAINERS | 12 ++++++------
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/hw/mips/mips_int.c b/hw/mips/mips_int.c
-index 796730b11d..4a1bf846da 100644
---- a/hw/mips/mips_int.c
-+++ b/hw/mips/mips_int.c
-@@ -47,17 +47,12 @@ static void cpu_mips_irq_request(void *opaque, int irq, int level)
+diff --git a/.mailmap b/.mailmap
+index 6412067bde..e3628c7a66 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -42,7 +42,8 @@ Justin Terry (VM) <juterry@microsoft.com> Justin Terry (VM) via Qemu-devel <qemu
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@mips.com>
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@imgtec.com>
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <amarkovic@wavecomp.com>
+-Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com> <arikalo@wavecomp.com>
++Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
++Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
+ James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
+ Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f46ab150dc..a209b5d8ce 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -213,7 +213,7 @@ F: disas/microblaze.c
+ MIPS TCG CPUs
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: target/mips/
+ F: default-configs/*mips*
+@@ -1048,7 +1048,7 @@ MIPS Machines
+ -------------
+ Jazz
+ M: Hervé Poussineau <hpoussin@reactos.org>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: hw/mips/jazz.c
+ F: hw/display/jazz_led.c
+@@ -1069,7 +1069,7 @@ F: tests/acceptance/machine_mips_malta.py
  
-     if (level) {
-         env->CP0_Cause |= 1 << (irq + CP0Ca_IP);
--
--        if (kvm_enabled() && irq == 2) {
--            kvm_mips_set_interrupt(cpu, irq, level);
--        }
--
-     } else {
-         env->CP0_Cause &= ~(1 << (irq + CP0Ca_IP));
-+    }
+ Mipssim
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Odd Fixes
+ F: hw/mips/mipssim.c
+ F: hw/net/mipsnet.c
+@@ -1077,7 +1077,7 @@ F: hw/net/mipsnet.c
+ R4000
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Obsolete
+ F: hw/mips/r4k.c
  
--        if (kvm_enabled() && irq == 2) {
--            kvm_mips_set_interrupt(cpu, irq, level);
--        }
-+    if (kvm_enabled() && irq == 2) {
-+        kvm_mips_set_interrupt(cpu, irq, level);
-     }
+@@ -1094,7 +1094,7 @@ F: include/hw/isa/vt82c686.h
  
-     if (env->CP0_Cause & CP0Ca_IP_mask) {
+ Boston
+ M: Paul Burton <pburton@wavecomp.com>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: hw/core/loader-fit.c
+ F: hw/mips/boston.c
+@@ -2608,7 +2608,7 @@ F: disas/i386.c
+ MIPS TCG target
+ M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+ R: Aurelien Jarno <aurelien@aurel32.net>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
++R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+ S: Maintained
+ F: tcg/mips/
+ 
 -- 
 2.21.3
 
