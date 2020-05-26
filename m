@@ -2,86 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD971E1C84
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:50:33 +0200 (CEST)
-Received: from localhost ([::1]:43894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 444FF1E1C8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:54:02 +0200 (CEST)
+Received: from localhost ([::1]:54558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUM4-0005Fx-Gz
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:50:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44230)
+	id 1jdUPR-0001L2-CQ
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:54:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jdUL9-0004Ws-83
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:49:35 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33946
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1jdUOa-0000Kn-Gu
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:53:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50786
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jdUL6-0001WQ-LO
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:49:33 -0400
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1jdUOZ-0002Ba-KD
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:53:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590479371;
+ s=mimecast20190719; t=1590479586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K2GqGqVpzeDHn/buEUhNhGyPmaeHSgXXuUVAu37OXCI=;
- b=Xec/pZW4kGLhaQnbNDWG4iShMKLzKz5wgmTVxsSOSdgPal7Poc981WUuES8c9eq4vFCCC+
- bd+k2Xg5jt7hEB972gVtGnoiPA5m7SErfeDAg8zOD+Pb2lSXibC3fbiEfNXknEs3LzPtMS
- dletxGOHcUBU57LV03IV+4Nj2WOKkyk=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-1rTRZ6cUMmiOFVWo9qRXKQ-1; Tue, 26 May 2020 03:49:27 -0400
-X-MC-Unique: 1rTRZ6cUMmiOFVWo9qRXKQ-1
-Received: by mail-ed1-f69.google.com with SMTP id s14so615170edr.7
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 00:49:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=K2GqGqVpzeDHn/buEUhNhGyPmaeHSgXXuUVAu37OXCI=;
- b=KPk6vMfS5kBDNiGzps4oQXufkobOwEP43YH2hlgIem74+wM8Aca6j3tbWauAX2/0j8
- jREQo1ITesoN45OCXaqdk6odxunblS/rGZ6ZW6er6CsJ4pB2SIgL+OFKP3W0berAhPPP
- 8dCPxtBmT3EKmRjJ/Xs9k6GZyeRyQpbHSoSP/dEd5j0PFg+AjM5CIpN6xtJ34De6Jz/w
- /z+Sjcf1bOLddE3FXJpLLPsvDPKHtFEKhxHcHWSYhFaq7AtD5u6ehOlqIuCFqBTBHx/C
- PtBD8y/m9q+LplEDFuyDjUvyZESD1AT/8AhPg0XsQ40RertV9RibRkny6tcrEfpoQo5s
- wlcQ==
-X-Gm-Message-State: AOAM5315sv7/eXsK2PrUbb70+DonX66uXZMArotECN37cydz5WHSPUo9
- RfGuEz0ySVAf4uG8AEC6FyeQNmfZGvQNHW86PSX+5J1J83ewVnL4A5uyx9wmVNfDAfD4VIDvK7r
- WbPV+GgJsxVYti+o=
-X-Received: by 2002:a17:906:5681:: with SMTP id
- am1mr42808ejc.376.1590479366351; 
- Tue, 26 May 2020 00:49:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxaTaUdTvYjLJ7OZAOl6l7bFMeGXvSjTuhOmoiYwgcF3wFbI4O+2W5+wOOffpdzVRW+U5VS9A==
-X-Received: by 2002:a17:906:5681:: with SMTP id
- am1mr42790ejc.376.1590479366148; 
- Tue, 26 May 2020 00:49:26 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:3c1c:ffba:c624:29b8?
- ([2001:b07:6468:f312:3c1c:ffba:c624:29b8])
- by smtp.gmail.com with ESMTPSA id r13sm6357090edq.53.2020.05.26.00.49.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 May 2020 00:49:25 -0700 (PDT)
-Subject: Re: [PATCH v2 2/3] megasas: avoid NULL pointer dereference
-To: P J P <ppandit@redhat.com>
-References: <20200513192540.1583887-1-ppandit@redhat.com>
- <20200513192540.1583887-3-ppandit@redhat.com>
- <defefce8-72f2-65c2-04cf-918f3697532a@redhat.com>
- <nycvar.YSQ.7.77.849.2005261138520.62159@xnncv>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <0ae2f3c7-da4a-a1ce-e2c6-08e195d08a16@redhat.com>
-Date: Tue, 26 May 2020 09:49:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2IzxrkhExVmTF7Y1W/4xKmgeGVhygIWpTlLDJmW6/O0=;
+ b=KHulftrI9MTm9d69U8WRpgaTShMBVcHRyGB9Tjb9phUS5R4jeJBlXM4iGwOJyASm0fThFD
+ g7hAEa0uZAF5L0oqbFlHoxDQzRwPUnkcQwu71KUldFMZ4ZXf+eYcr/8EyHtTk4uuPi3Pva
+ AkfwwkVkq0NrnI4p8U/34H5v5l8dnF4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-cn6Wd7jOOtOXkIdKTQk0cA-1; Tue, 26 May 2020 03:53:03 -0400
+X-MC-Unique: cn6Wd7jOOtOXkIdKTQk0cA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2745C460;
+ Tue, 26 May 2020 07:53:01 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.74.8.233])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EEE1419D7C;
+ Tue, 26 May 2020 07:52:47 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v3] exec: set map length to zero when returning NULL
+Date: Tue, 26 May 2020 13:20:42 +0530
+Message-Id: <20200526075042.420162-1-ppandit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <nycvar.YSQ.7.77.849.2005261138520.62159@xnncv>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ppandit@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:51:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -91,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,33 +76,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, QEMU Developers <qemu-devel@nongnu.org>,
- Alexander Bulekov <alxndr@bu.edu>, Ding Ren <rding@gatech.edu>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Prasad J Pandit <pjp@fedoraproject.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
+ Ding Ren <rding@gatech.edu>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/05/20 09:18, P J P wrote:
-> Later when address_space_map() returns 'NULL' above, '*plen' is not set to 
-> zero.
-> 
-> diff --git a/exec.c b/exec.c
-> index 5162f0d12f..4eea84bf66 100644
-> --- a/exec.c
-> +++ b/exec.c
-> @@ -3538,6 +3538,7 @@ void *address_space_map(AddressSpace *as,
->  
->      if (!memory_access_is_direct(mr, is_write)) {
->          if (atomic_xchg(&bounce.in_use, true)) {
-> +            *plen = 0;
->              return NULL;
->          }
-> 
-> I'll send a revised patch above.
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Great, this looks good.
+When mapping physical memory into host's virtual address space,
+'address_space_map' may return NULL if BounceBuffer is in_use.
+Set and return '*plen = 0' to avoid later NULL pointer dereference.
 
-Paolo
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Fixes: https://bugs.launchpad.net/qemu/+bug/1878259
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+---
+ exec.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+Update v3: set *plen = 0;
+  -> https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg06249.html
+
+diff --git a/exec.c b/exec.c
+index 5162f0d12f..4eea84bf66 100644
+--- a/exec.c
++++ b/exec.c
+@@ -3538,6 +3538,7 @@ void *address_space_map(AddressSpace *as,
+ 
+     if (!memory_access_is_direct(mr, is_write)) {
+         if (atomic_xchg(&bounce.in_use, true)) {
++            *plen = 0;
+             return NULL;
+         }
+         /* Avoid unbounded allocations */
+-- 
+2.26.2
 
 
