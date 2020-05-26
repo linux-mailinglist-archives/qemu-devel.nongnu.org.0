@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 468E01E22F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 15:34:31 +0200 (CEST)
-Received: from localhost ([::1]:42418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3441F1E22FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 15:35:56 +0200 (CEST)
+Received: from localhost ([::1]:50170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdZiw-0008SA-Am
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 09:34:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56914)
+	id 1jdZkJ-00037O-6P
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 09:35:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdZhR-0006EU-Oi
- for qemu-devel@nongnu.org; Tue, 26 May 2020 09:32:57 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:36690)
+ id 1jdZhT-0006Hc-7e
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 09:32:59 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:34745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdZhR-0005oN-2p
- for qemu-devel@nongnu.org; Tue, 26 May 2020 09:32:57 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id b91so17684520edf.3
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 06:32:56 -0700 (PDT)
+ id 1jdZhS-0005oZ-Gd
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 09:32:58 -0400
+Received: by mail-ed1-x542.google.com with SMTP id i16so17662208edv.1
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 06:32:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ExVlN86Dv7JggIxvLUBjz5FHxHeWDg8nuqJ3/185rZA=;
- b=plYsxoYZSAgslB/C0RDbBVII2MFwI9zXj+XMhSiXSrA9RD+ot4V+ICbX2lNw8YbkCQ
- XfGLg4XTNCoWvgopHufcRduVvzUx+SGYn/Uhdb+14WZXdTJHyLnpPonnh5EAOpTb6Chv
- ef7qhRoppJ1H9T043aO0IzXz2EphMcv1Lvd/dH5ccm9HVJ51HPh2/a7X/fUPolYuKVuz
- W3pDhPKicbksceasvtsDnRP8kRqM+wsFQFdugIFNIU9IGF0yjtfLdXkcbup16qmsG39q
- WAyOZ+QhX9zDuVW1C7O18+9PVaLSubQHe8zfncwc2EwI+xMfx746rjKU8kIlP0Gt+5hk
- loxQ==
+ bh=QG/Ao1FLrrqA3qiyJ5oTk9vVoadIo9/g3miLYRH/cTM=;
+ b=UhINZHjqPp42NtO7UMuRdvE9NzPRNaS1MnEPXJYERZ3JsSfT5DLmnWrn1qWMYWHILS
+ NsEBMEblg51/gpgrlwaRGjBRLAaO9tTZWVlQHIQd/mjwytL3fIvvFAqqhUw/USwq5gZn
+ Zx4mIwjCI6PmLjWJ5kxzGBKkeDbeiE8WrXACM1ivgdxLpOrqidd36g8tizTPztyGpkr0
+ ItjHMYzqMDyTYfJyACuTnN2OXZRVGNBRRhiIfEh/pqrDUjpXTjFkOJL+OhOtnGUJVGIM
+ 7qPCze5uNDEkYU12OjaM617LKYpTOmrUcZDcN5eyCVV4iNjiTtFPT54O4VUE/y50gkCV
+ twBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ExVlN86Dv7JggIxvLUBjz5FHxHeWDg8nuqJ3/185rZA=;
- b=ffJGNTo7l/KPqUo1mGS+I3v5sYWZsdFhPIty6NfkGiXInRKWHtyAtFu8AtuaVN7EAz
- jaMYmEBgHLhl4OnXOaexxHYyjbOtpwCjrPoN2YsqZb2AFJQRtGK6hIriCWzsES0yQLZP
- 0x9qV4gW7nA67T3BpBtU5pEHrflVTHmn7RhS/0fM1ZTnwWjWbvngtxqKQ0Q4J1ir65DW
- fcthgYVIW0C/HEfOTA2453GUha1Graqyw9V+ydC+sqWrO4Kbuut5I81PJpBCBfAY+7Eq
- x91w3dUr0x34WyzrBAK1oJC5ps0PRBvQl62KggIripm5Syv/lVh85GhiN269doUhVKcg
- ffjA==
-X-Gm-Message-State: AOAM530iD/vJdZa1bzRF0lmRG6qfXZwphmWM9l6MQ1WY6EXrAhwtbGas
- isOYcYT6uCLedT7exobj/mcpzRG9PKs=
-X-Google-Smtp-Source: ABdhPJzh5e2NJGorrQJUH5eWtCdS6ap4rrW8N0+JXwmSTQz4ZyMcEgH1vsP+EBW4EoanR6T4h6cucQ==
-X-Received: by 2002:aa7:ca49:: with SMTP id j9mr20535964edt.186.1590499975531; 
- Tue, 26 May 2020 06:32:55 -0700 (PDT)
+ bh=QG/Ao1FLrrqA3qiyJ5oTk9vVoadIo9/g3miLYRH/cTM=;
+ b=NA+henUQiD7UGxkeDiRqaosBMbFtwEEDCXyCLqjzhCNpWIF3LZ6dI+HMHevznUoS+C
+ Id/lV1ZavLM1fMQy9woiJ8TTeaagBWZxQ7Lg4Rr8UbmKDlS1z52N9RpEBGdVB5jVZbkL
+ 17yHd3kFVvpdRPh/nXu1QEsjnI7C2vqRgzSuKsbvyFHIRZx5BYEB17V6j6FpM2iSPJAZ
+ G5jmB3UvDWa/GpHUIsAkI4z7xwuEqx3oKisupbcFdL9pVNJaw30I4Zv1nBE6wCpxMX3l
+ fj7zcBQcLTorZJb/eoM4DlYj3MvrIgpdXPYWV5FLnDjdk6Sdu9P8nzs4oz473p27Dl5I
+ KDKQ==
+X-Gm-Message-State: AOAM531eKUfn5rPZdq35/aQ4KNj4gJXkimwyOMkZKhAUkkgTs/ePM5pd
+ I1qa1qVkhy4hdqkcZjAx1LPMLoAy/As=
+X-Google-Smtp-Source: ABdhPJyWdSXLY9491hDMgvcO33Na4sZlNb+WpZ5LUv3lhSQND6DBAw8s+jS6/Bs6Ye2KVS6u5zVdgg==
+X-Received: by 2002:aa7:c444:: with SMTP id n4mr19857088edr.308.1590499977017; 
+ Tue, 26 May 2020 06:32:57 -0700 (PDT)
 Received: from x1w.redhat.com (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id n25sm1623084edo.56.2020.05.26.06.32.54
+ by smtp.gmail.com with ESMTPSA id n25sm1623084edo.56.2020.05.26.06.32.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 06:32:54 -0700 (PDT)
+ Tue, 26 May 2020 06:32:56 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/14] hw/pci-host/bonito: Map peripheral using physical address
-Date: Tue, 26 May 2020 15:32:37 +0200
-Message-Id: <20200526133247.13066-5-f4bug@amsat.org>
+Subject: [PULL 05/14] hw/pci-host/bonito: Map all the Bonito64 I/O range
+Date: Tue, 26 May 2020 15:32:38 +0200
+Message-Id: <20200526133247.13066-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200526133247.13066-1-f4bug@amsat.org>
 References: <20200526133247.13066-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -99,35 +99,50 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peripherals are mapped at physical address on busses.
-Only CPU/IOMMU can use virtual addresses.
+To ease following guest accesses to the Bonito64 chipset,
+map its I/O range as UnimplementedDevice.
+We can now see the accesses to unimplemented peripheral
+using the '-d unimp' command line option.
 
 Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-id: <20200510210128.18343-8-f4bug@amsat.org>
+Message-id: <20200510210128.18343-9-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/pci-host/bonito.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/pci-host/bonito.c | 3 +++
+ hw/pci-host/Kconfig  | 1 +
+ 2 files changed, 4 insertions(+)
 
 diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index b874468ea6..b90e5a636d 100644
+index b90e5a636d..f09bb1c6a8 100644
 --- a/hw/pci-host/bonito.c
 +++ b/hw/pci-host/bonito.c
-@@ -647,12 +647,12 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
+@@ -48,6 +48,7 @@
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "exec/address-spaces.h"
++#include "hw/misc/unimp.h"
+ 
+ /* #define DEBUG_BONITO */
+ 
+@@ -644,6 +645,8 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
+     sysbus_init_mmio(sysbus, &phb->data_mem);
+     sysbus_mmio_map(sysbus, 2, BONITO_SPCICONFIG_BASE);
+ 
++    create_unimplemented_device("bonito", BONITO_REG_BASE, BONITO_REG_SIZE);
++
      memory_region_init_io(&s->iomem_ldma, OBJECT(s), &bonito_ldma_ops, s,
                            "ldma", 0x100);
      sysbus_init_mmio(sysbus, &s->iomem_ldma);
--    sysbus_mmio_map(sysbus, 3, 0xbfe00200);
-+    sysbus_mmio_map(sysbus, 3, 0x1fe00200);
+diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+index 8db41edc7e..036a61877a 100644
+--- a/hw/pci-host/Kconfig
++++ b/hw/pci-host/Kconfig
+@@ -58,4 +58,5 @@ config PCI_EXPRESS_DESIGNWARE
  
-     memory_region_init_io(&s->iomem_cop, OBJECT(s), &bonito_cop_ops, s,
-                           "cop", 0x100);
-     sysbus_init_mmio(sysbus, &s->iomem_cop);
--    sysbus_mmio_map(sysbus, 4, 0xbfe00300);
-+    sysbus_mmio_map(sysbus, 4, 0x1fe00300);
- 
-     /* Map PCI IO Space  0x1fd0 0000 - 0x1fd1 0000 */
-     memory_region_init_alias(&s->bonito_pciio, OBJECT(s), "isa_mmio",
+ config PCI_BONITO
+     select PCI
++    select UNIMP
+     bool
 -- 
 2.21.3
 
