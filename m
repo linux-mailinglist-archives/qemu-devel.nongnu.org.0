@@ -2,71 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7A01E1C0F
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:19:59 +0200 (CEST)
-Received: from localhost ([::1]:36304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADDCF1E1C48
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:28:01 +0200 (CEST)
+Received: from localhost ([::1]:48834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdTsU-00017R-5x
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:19:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40904)
+	id 1jdU0G-0007Fo-GC
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:28:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jdTrS-0000gy-GA
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:18:55 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30863
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jdTrP-0003zD-25
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:18:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590477528;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gmP9Y6PwbL3kpkvdhk7OEI6yLuh+MLADB97Xb2BGvQ0=;
- b=YULifFV2Vh0/I39YMjc0HuijSCT27cVhcDGdEKQM9Dy1GbC55rHwPj1ShVaadIC364BlKf
- PCbC4IBkJRkvUB7yS+7MSTAPzoxX4mBNJjMwL7Vq8Jwr4VvyFMjeX4XHU2M5fyNzn0XxY8
- 0HHkxu9mvg7Sdhvecy3a2uwSbmevucs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-TnF5FoCWOSOlAfO65OwGwg-1; Tue, 26 May 2020 03:18:44 -0400
-X-MC-Unique: TnF5FoCWOSOlAfO65OwGwg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D9931005512;
- Tue, 26 May 2020 07:18:43 +0000 (UTC)
-Received: from kaapi (unknown [10.74.8.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 125E579C35;
- Tue, 26 May 2020 07:18:31 +0000 (UTC)
-Date: Tue, 26 May 2020 12:48:25 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-X-X-Sender: pjp@kaapi
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 2/3] megasas: avoid NULL pointer dereference
-In-Reply-To: <defefce8-72f2-65c2-04cf-918f3697532a@redhat.com>
-Message-ID: <nycvar.YSQ.7.77.849.2005261138520.62159@xnncv>
-References: <20200513192540.1583887-1-ppandit@redhat.com>
- <20200513192540.1583887-3-ppandit@redhat.com>
- <defefce8-72f2-65c2-04cf-918f3697532a@redhat.com>
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1jdTzT-0006pR-SV
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:27:11 -0400
+Received: from mga14.intel.com ([192.55.52.115]:27042)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1jdTzR-0005zm-Vf
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:27:11 -0400
+IronPort-SDR: OkKLYHjvPdJMkf45TlrQ0ZtpiI8IaRD1rw1CD5dgto9eEyg+XIbr1/d3PhgpaolSxiPjlMvWt3
+ WFF0LB9w68iw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 May 2020 00:27:00 -0700
+IronPort-SDR: ev2oP/8eDsx2DkAl/Ag7p1K5niRfIIpcu3uTdXAtfMm0XjhWMZuHkrKhT810QNXlD/YvdcND+4
+ ubkyTz/ALrKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,436,1583222400"; d="scan'208";a="284340403"
+Received: from yangzhon-virtual.bj.intel.com (HELO localhost)
+ ([10.238.144.101])
+ by orsmga002.jf.intel.com with ESMTP; 26 May 2020 00:26:58 -0700
+Date: Tue, 26 May 2020 15:18:26 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: qemu-devel@nongnu.org
+Subject: About the PVH in Seabios
+Message-ID: <20200526071826.GA28145@yangzhon-Virtual>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:14:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=192.55.52.115; envelope-from=yang.zhong@intel.com;
+ helo=mga14.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 03:27:00
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,58 +63,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, QEMU Developers <qemu-devel@nongnu.org>,
- Alexander Bulekov <alxndr@bu.edu>, Ding Ren <rding@gatech.edu>,
- =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: yang.zhong@intel.com, pbonzini@redhat.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hello,
+Hello all,
 
-+-- On Thu, 21 May 2020, Paolo Bonzini wrote --+
-| I think the code here was expecting frame_size_p to be 0 if cmd->frame is 
-| NULL.  Can you check why this is not the case, or whether it ever was the 
-| case?
+The current PVH has been implemented in Qemu and Qboot/uefi, i am not
+familiar with the PVH implementation history, and found there is no
+PVH support in Seabios, my question is do we have plan to support
+PVH in Seabios? thanks.
 
-static MegasasCmd *megasas_enqueue_frame(MegasasState *s, hwaddr frame,
-    ...
-    int frame_size = MEGASAS_MAX_SGE * sizeof(union mfi_sgl);                   
-    hwaddr frame_size_p = frame_size;  <== = 128 * 16 = 2048
+Regards,
 
-so 'frame_size_p' always starts with value '2048'
-
-    ...
-    cmd->frame = pci_dma_map(pcid, frame, &frame_size_p, 0);
-     -> pci_dma_map
-      -> dma_memory_map
-       -> address_space_map
-          mr = flatview_translate(fv, addr, &xlat, &l, is_write, attrs);
-          ...
-          if (atomic_xchg(&bounce.in_use, true)) {
-              return NULL;    <== NULL is returned from here
-          }
-
-Later when address_space_map() returns 'NULL' above, '*plen' is not set to 
-zero.
-
-diff --git a/exec.c b/exec.c
-index 5162f0d12f..4eea84bf66 100644
---- a/exec.c
-+++ b/exec.c
-@@ -3538,6 +3538,7 @@ void *address_space_map(AddressSpace *as,
- 
-     if (!memory_access_is_direct(mr, is_write)) {
-         if (atomic_xchg(&bounce.in_use, true)) {
-+            *plen = 0;
-             return NULL;
-         }
-
-I'll send a revised patch above.
-
-Thank you.
---
-Prasad J Pandit / Red Hat Product Security Team
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
-
+Yang
 
