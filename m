@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975C81E1CC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:00:11 +0200 (CEST)
-Received: from localhost ([::1]:42214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB9B1E1CA4
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:58:10 +0200 (CEST)
+Received: from localhost ([::1]:33746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUVO-000882-KR
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:00:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45092)
+	id 1jdUTR-0004iD-Lx
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:58:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdUSD-0002zG-9W
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:56:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38507
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdUSB-0002wb-V3
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:56:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23250
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdUSA-0002re-VA
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:56:52 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jdUSA-0002rf-G4
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:56:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1590479809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=g4Bg/bEwdV4+qq44eIjdGIVmQdN+60cl67CP/RRyqyM=;
- b=C83cDGJi6AnPPGtahjQFirSSkgrPAjSLxXngq+2sdmzmC7XTY4KdY6Snh+hWSohBNeT9uX
- KamC2K/JozUvvao7Z2h5ugJe0HrdbCelmO51tNn7f9wLzCl+TB/TZN0Mw+4l59EvgxQ2YY
- GT4AQKWcgGGYEgk0B0R0CYBXfg/0RWk=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=XKjVgjzeHfNNiDkPKkAQa1ppfJfg/MOx2HQs/UenFpQ=;
+ b=ST908Tf7UTc1G1z6F611gHUImEsmOvnbeDb1FwxNbG6O9V3PbJYyimkITvlFAL4JaC2h2L
+ yMPVI9wz3jVEXAn/9cmh1dbqirCQ7fWROROIrp7JvyveOhqhqX0dXkzk+PsEd/I5FkE2Ti
+ vRGQjHFZj+IfHJ+PLs6RiGIGaHTxNTU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-4jMlUkL5M6iiohBA-njMJw-1; Tue, 26 May 2020 03:56:46 -0400
-X-MC-Unique: 4jMlUkL5M6iiohBA-njMJw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-418-6kBLZwY9PcSqOPBNPjShQA-1; Tue, 26 May 2020 03:56:47 -0400
+X-MC-Unique: 6kBLZwY9PcSqOPBNPjShQA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C1A218C35AC;
- Tue, 26 May 2020 07:56:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A95AE464;
+ Tue, 26 May 2020 07:56:46 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
  [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 517C910013D2;
- Tue, 26 May 2020 07:56:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1BA2360CD0;
+ Tue, 26 May 2020 07:56:42 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id DA61A16E2C; Tue, 26 May 2020 09:56:39 +0200 (CEST)
+ id E276B1753B; Tue, 26 May 2020 09:56:39 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/8] Audio 20200526 patches
-Date: Tue, 26 May 2020 09:56:31 +0200
-Message-Id: <20200526075639.27949-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Subject: [PULL 1/8] es1370: check total frame count against current frame
+Date: Tue, 26 May 2020 09:56:32 +0200
+Message-Id: <20200526075639.27949-2-kraxel@redhat.com>
+In-Reply-To: <20200526075639.27949-1-kraxel@redhat.com>
+References: <20200526075639.27949-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:19:28
@@ -77,7 +76,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Prasad J Pandit <pjp@fedoraproject.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
  Gerd Hoffmann <kraxel@redhat.com>,
@@ -86,63 +86,61 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit fea8f3ed739536fca027cf56af7f5576f37ef9cd=
-:
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/pflash-next-2020=
-0522' into staging (2020-05-22 18:54:47 +0100)
+A guest user may set channel frame count via es1370_write()
+such that, in es1370_transfer_audio(), total frame count
+'size' is lesser than the number of frames that are processed
+'cnt'.
 
-are available in the Git repository at:
+    int cnt = d->frame_cnt >> 16;
+    int size = d->frame_cnt & 0xffff;
 
-  git://git.kraxel.org/qemu tags/audio-20200526-pull-request
+if (size < cnt), it results in incorrect calculations leading
+to OOB access issue(s). Add check to avoid it.
 
-for you to fetch changes up to b3b8a1fea6ed5004bbad2f70833caee70402bf02:
+Reported-by: Ren Ding <rding@gatech.edu>
+Reported-by: Hanqing Zhao <hanqing@gatech.edu>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+Message-id: 20200514200608.1744203-1-ppandit@redhat.com
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/audio/es1370.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-  hw/mips/mips_fulong2e: Remove unused 'audio/audio.h' include (2020-05-26 =
-08:46:14 +0200)
-
-----------------------------------------------------------------
-audio: add JACK client audiodev.
-audio: bugfixes and cleanups.
-
-----------------------------------------------------------------
-
-Bruce Rogers (1):
-  audio: fix wavcapture segfault
-
-Geoffrey McRae (1):
-  audio/jack: add JACK client audiodev
-
-Philippe Mathieu-Daud=C3=A9 (4):
-  hw/audio/gus: Use AUDIO_HOST_ENDIANNESS definition from
-    'audio/audio.h'
-  audio: Let audio_sample_to_uint64() use const samples argument
-  audio: Let capture_callback handler use const buffer argument
-  hw/mips/mips_fulong2e: Remove unused 'audio/audio.h' include
-
-Prasad J Pandit (1):
-  es1370: check total frame count against current frame
-
-Volker R=C3=BCmelin (1):
-  audio/mixeng: fix clang 10+ warning
-
- configure               |  17 +
- audio/audio.h           |   4 +-
- audio/audio_template.h  |   2 +
- audio/audio.c           |   5 +-
- audio/jackaudio.c       | 667 ++++++++++++++++++++++++++++++++++++++++
- audio/mixeng.c          |   9 +-
- audio/wavcapture.c      |   2 +-
- hw/audio/es1370.c       |   7 +-
- hw/audio/gus.c          |   8 +-
- hw/mips/mips_fulong2e.c |   1 -
- ui/vnc.c                |   2 +-
- audio/Makefile.objs     |   5 +
- qapi/audio.json         |  56 +++-
- 13 files changed, 763 insertions(+), 22 deletions(-)
- create mode 100644 audio/jackaudio.c
-
---=20
+diff --git a/hw/audio/es1370.c b/hw/audio/es1370.c
+index 89c4dabcd44f..5f8a83ff5624 100644
+--- a/hw/audio/es1370.c
++++ b/hw/audio/es1370.c
+@@ -643,6 +643,9 @@ static void es1370_transfer_audio (ES1370State *s, struct chan *d, int loop_sel,
+     int csc_bytes = (csc + 1) << d->shift;
+     int cnt = d->frame_cnt >> 16;
+     int size = d->frame_cnt & 0xffff;
++    if (size < cnt) {
++        return;
++    }
+     int left = ((size - cnt + 1) << 2) + d->leftover;
+     int transferred = 0;
+     int temp = MIN (max, MIN (left, csc_bytes));
+@@ -651,7 +654,7 @@ static void es1370_transfer_audio (ES1370State *s, struct chan *d, int loop_sel,
+     addr += (cnt << 2) + d->leftover;
+ 
+     if (index == ADC_CHANNEL) {
+-        while (temp) {
++        while (temp > 0) {
+             int acquired, to_copy;
+ 
+             to_copy = MIN ((size_t) temp, sizeof (tmpbuf));
+@@ -669,7 +672,7 @@ static void es1370_transfer_audio (ES1370State *s, struct chan *d, int loop_sel,
+     else {
+         SWVoiceOut *voice = s->dac_voice[index];
+ 
+-        while (temp) {
++        while (temp > 0) {
+             int copied, to_copy;
+ 
+             to_copy = MIN ((size_t) temp, sizeof (tmpbuf));
+-- 
 2.18.4
 
 
