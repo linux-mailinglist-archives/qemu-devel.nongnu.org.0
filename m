@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7ED1E1D28
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:21:47 +0200 (CEST)
-Received: from localhost ([::1]:41826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D03F01E1D47
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:27:21 +0200 (CEST)
+Received: from localhost ([::1]:51162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUqI-0000HI-9J
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:21:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47878)
+	id 1jdUvf-000590-Hq
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:27:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdUn9-0004Bq-Nk
- for qemu-devel@nongnu.org; Tue, 26 May 2020 04:18:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41365
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1jdUuG-000429-Cq
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 04:25:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36215
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdUn7-00072i-8I
- for qemu-devel@nongnu.org; Tue, 26 May 2020 04:18:31 -0400
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1jdUuC-00087I-LM
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 04:25:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590481107;
+ s=mimecast20190719; t=1590481547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pqr2X9hmGUi+6pud1TNoRJ0/wlJhnttbloos6bQARdY=;
- b=a6OQLWI8FSVA+E0o0uzbrvnWfKsApV7i6/0UHVgt97qAhV6e2EdNOW4KJn+BQEIC3cEXWm
- VVW9admFWiVSJpd+z7Nvp/UtmRl0rTw90ZciNLoQva+9TQrcP7/SfCDIgZ34mp9y+ibicS
- 9pemHECta3ASqwgMKNMmeZV3H7mgosU=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uwGhqsMPxsdNbCwxd6ltrk6FIeCncltHEL9AF/oQc20=;
+ b=PXetGCTZWg3tRA+SP9KQZH1rxEhYMzpjcmf/s1jMV8/sduKdFFsk5dyAnpcmAyqhmvee4z
+ P/PoWug+rATluEhXliL8Pt8EmHue2FmF1gYX7JdjJOXObCsP1/LWfJfFSHKN68xakb4Pjb
+ riPnW7rivnp7q3mKVWzbc//ZiQMOjjg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-96-Ko1rMqYvPJmya6bnVmgXDg-1; Tue, 26 May 2020 04:18:26 -0400
-X-MC-Unique: Ko1rMqYvPJmya6bnVmgXDg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-419-AcvU4ttPMCyNNdL7ys9pCg-1; Tue, 26 May 2020 04:25:44 -0400
+X-MC-Unique: AcvU4ttPMCyNNdL7ys9pCg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F96580183C;
- Tue, 26 May 2020 08:18:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
- [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9077D5D9E5;
- Tue, 26 May 2020 08:18:18 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 21F98113864A; Tue, 26 May 2020 10:18:17 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 9/9] qapi/misc: Restrict device memory commands to
- machine code
-References: <20200525150640.30879-1-philmd@redhat.com>
- <20200525150640.30879-10-philmd@redhat.com>
-Date: Tue, 26 May 2020 10:18:17 +0200
-In-Reply-To: <20200525150640.30879-10-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 25 May 2020 17:06:40
- +0200")
-Message-ID: <87h7w36ree.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 848CD19200C1
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 08:25:43 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.40.195.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7410F10013D2;
+ Tue, 26 May 2020 08:25:42 +0000 (UTC)
+From: Michal Privoznik <mprivozn@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] qmp: Expose MachineClass::default_ram_id
+Date: Tue, 26 May 2020 10:25:33 +0200
+Message-Id: <cover.1590481402.git.mprivozn@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mprivozn@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:19:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:51:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,72 +76,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
- "Michael
- S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: imammedo@redhat.com, ehabkost@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+v2 of:
 
-> Acked-by: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg07103.html
 
-Acked-by: Markus Armbruster <armbru@redhat.com>
+diff to v1:
+- in 2/2 I made the default-ram-id optional, because as it turns out,
+    not every machine type has it set.
 
-All patches: drop the /misc from qapi/misc: in the title, if you don't
-mind.
+Michal Privoznik (2):
+  qapi: Fix comment format for @CpuInstanceProperties
+  qmp: Expose MachineClass::default_ram_id
 
-Observation:
-                            before series           after
-    machine-target.json     14KiB in 325 lines      15KiB in 370 lines
-    machine.json            24KiB in 933 lines      43KiB in 1652 lines
-    misc.json               38KiB in 1552 lines     18KiB in 796 lines
+ hw/core/machine-qmp-cmds.c | 4 ++++
+ qapi/machine.json          | 8 ++++++--
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-machine.json is becoming too big.  Can we move some parts to new modules
-instead?  Bonus: these modules can then be covered properly in
-MAINTAINERS, unlike the machine.json grabbag.
-
-Obvious candidates for moving to new modules:
-
-* PATCH 8 PCI (304 lines)
-
-  This stuff belongs to MAINTAINERS section "PCI".
-
-  Michael, Marcel, any objections to new qapi/pci.json?
-
-  The QMP command code already lives in hw/pci/pci.c: qmp_query_pci().
-  Elsewhere, we keep QMP command code in files named like
-  hw/pci/pci-qmp-cmds.c, but that's probably overkill for just one
-  command.
-
-* PATCH 7 ACPI (154 lines)
-
-  This stuff belongs to MAINTAINERS section "ACPI/SMBIOS", I think.
-
-  Michael, Igor, any objections to new qapi/acpi.json?
-
-  The QMP command code lives in monitor/qmp-cmds.c:
-  qmp_query_acpi_ospm_status().  If we move the schema part to
-  acpi.json, we should consider moving the C part to hw/acpi/.
-
-* PATCH 9 memory (131 lines)
-
-  MAINTAINERS section?  include/hw/mem/memory-device.h is not covered.
-  hw/mem/memory-device.c is under "ACPI/SMBIOS".
-
-  Michael, Igor, should this stuff go into acpi.json, too?
-
-  The QMP command code lives in monitor/qmp-cmds.c:
-  qmp_query_memory_size_summary().  If we move the schema part to
-  acpi.json, we should consider moving the C part to hw/acpi/.
-
-* Any others?
+-- 
+2.26.2
 
 
