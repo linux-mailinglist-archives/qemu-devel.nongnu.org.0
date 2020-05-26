@@ -2,73 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CED0C1E23B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 16:08:23 +0200 (CEST)
-Received: from localhost ([::1]:40208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643761E2405
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 16:25:21 +0200 (CEST)
+Received: from localhost ([::1]:49220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdaFh-00039x-K0
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 10:08:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37470)
+	id 1jdaW8-0001hG-BY
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 10:25:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jdaEz-0002ke-EF
- for qemu-devel@nongnu.org; Tue, 26 May 2020 10:07:37 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:39623)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jdaEy-0005jH-Bx
- for qemu-devel@nongnu.org; Tue, 26 May 2020 10:07:37 -0400
-Received: by mail-lj1-x241.google.com with SMTP id m12so22254210ljc.6
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 07:07:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uS1ftDSjmvy5JnPRj/u6OgAfZCzPZgf79ovzcHm3JVA=;
- b=SICK6bj/JMC1fHCfk3d6ppZvdG4JHl1ToiiDoP/pGMvsf/0OsqMbJkH5+UNwNb2PT4
- WZxyqgvpdb9kAlz+HsHu6Rmfxii48i2H5H3k7BGb6YfCnJja8tSwSQvGfKbI3oWngsz6
- hSDev8oMGzi4yPKTV+gxI9oY2or8VoEe8iY+h27Gom907vqmIKLEPk53rnLskldg6AVP
- H9i/15L+9Yl0U2GnEjZzL+0f81YqeC4ETjcSbb+7OLKlZvxfNZUjvlRvRoFK26tOaGPi
- NwiHx9cNEAG2BJLtqBXYwZtZ5/KHvjJsiGxtBhj8W9paNu8MQAEL2pWTgyYflnZurhFw
- S5Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uS1ftDSjmvy5JnPRj/u6OgAfZCzPZgf79ovzcHm3JVA=;
- b=eBfeQAEOTDvO7xvc9zmF059OSkSTdKnCP0l3Hyw/5XfMulml6UDi1zP/zVI5oAAT6y
- rPXOdjfO8/Bsg5k3HTbFw2eK6Eo+8BOHwdnr/KPPYYkntphwURblVz5WPs7rHHm4GFrw
- 5R3qoinuInr9G+ii9wcckzA9fWj0TdyhQUXgAjeZmHHcwfmmPy1Vo8pLqldu+2gn9W2n
- UXJ85+4ZHTqly7p3dYvKqwbi3WzHO41kE09sPmDKOCLUor8jnQkFNL/joZJXJAUdq5Ap
- qqmkFIWtTjuar+ekxCwv9DToKuAdsPpFTb4GYkTa1shmKC+s1V0OZYUwLaI/9XOv3uOk
- zwWg==
-X-Gm-Message-State: AOAM530ZV1g54tAvTyGFRm8NUGBrAn0XG0gEhPKEWvY8BAPpfItDcNFS
- xbMlrBeN7czTaCbHm6ZCZIXSDaIEVfBJ8kO2lT3XYw==
-X-Google-Smtp-Source: ABdhPJxxre8CFnIbNO6c8xfa3IySv7YlW0Cau1abOPfEiuBlY0JdX24E+K8SXDI+TKGHQbKLR2yQ8cuvHWvdLVeC1eY=
-X-Received: by 2002:a2e:150f:: with SMTP id s15mr686970ljd.102.1590502054133; 
- Tue, 26 May 2020 07:07:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kamil@netbsd.org>)
+ id 1jdZSQ-0006Fm-HS; Tue, 26 May 2020 09:17:26 -0400
+Received: from mail.netbsd.org ([199.233.217.200]:60308)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kamil@netbsd.org>)
+ id 1jdZSP-0003Ez-7Y; Tue, 26 May 2020 09:17:26 -0400
+Received: from [IPv6:::1] (localhost [127.0.0.1])
+ by mail.netbsd.org (Postfix) with ESMTP id 11E5E84C8B;
+ Tue, 26 May 2020 13:17:18 +0000 (UTC)
+Subject: Re: [PATCH 1/1] util/oslib: Returns real thread identifier on FreeBSD
+ and NetBSD
+To: David CARLIER <devnexen@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ pbonzini@readhat.com, qemu-trivial@nongnu.org
+References: <CA+XhMqwMsmoYwNtkrvAEG_j_-8L=+PYcXSz--1Qg622szArkRQ@mail.gmail.com>
+ <f9ebb603-0a0e-8775-8405-dd8de2493a3f@redhat.com>
+ <CA+XhMqx6_mWvb-5Z2Mbtw3V-q-WkZPnOF10VK=iLwSwUGnOJAQ@mail.gmail.com>
+From: Kamil Rytarowski <kamil@netbsd.org>
+Autocrypt: addr=kamil@netbsd.org; keydata=
+ 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
+Message-ID: <5b53af7c-72bd-f096-1763-353a8f9596e9@netbsd.org>
+Date: Tue, 26 May 2020 15:15:49 +0200
+User-Agent: Mozilla/5.0 (X11; NetBSD amd64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200522160755.886-1-robert.foley@linaro.org>
- <20200522160755.886-13-robert.foley@linaro.org>
- <20200523172729.GD382220@sff>
-In-Reply-To: <20200523172729.GD382220@sff>
-From: Robert Foley <robert.foley@linaro.org>
-Date: Tue, 26 May 2020 10:07:29 -0400
-Message-ID: <CAEyhzFsrQ3TgJ5fRnYcmoTL3vOVNXwof2a+WY7NSLT5y21mFYw@mail.gmail.com>
-Subject: Re: [PATCH 12/19] configure: added tsan support for blacklist.
-To: "Emilio G. Cota" <cota@braap.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::241;
- envelope-from=robert.foley@linaro.org; helo=mail-lj1-x241.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CA+XhMqx6_mWvb-5Z2Mbtw3V-q-WkZPnOF10VK=iLwSwUGnOJAQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=199.233.217.200; envelope-from=kamil@netbsd.org;
+ helo=mail.netbsd.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 07:57:51
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 26 May 2020 10:21:34 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,54 +101,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Puhov <peter.puhov@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kamil Rytarowski <kamil@netbsd.org>, qemu-devel@nongnu.org,
+ bauerchen@tencent.com, Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 23 May 2020 at 13:27, Emilio G. Cota <cota@braap.org> wrote:
->
-> On Fri, May 22, 2020 at 12:07:48 -0400, Robert Foley wrote:
-> > Initially put several files into blacklist that were
-> > causing the most problems, namely bitops.c and bitmap.c.
-> >
-> > Signed-off-by: Robert Foley <robert.foley@linaro.org>
-> > ---
-> >  configure                 | 3 ++-
-> >  tests/tsan/blacklist.tsan | 5 +++++
-> >  2 files changed, 7 insertions(+), 1 deletion(-)
-> >  create mode 100644 tests/tsan/blacklist.tsan
-> >
-> > diff --git a/configure b/configure
-> > index c95c54fb48..8a86a0638d 100755
-> > --- a/configure
-> > +++ b/configure
-> > @@ -6306,7 +6306,8 @@ if test "$have_asan" = "yes"; then
-> >  fi
-> >  if test "$have_tsan" = "yes" ; then
-> >    if test "$have_tsan_iface_fiber" = "yes" ; then
-> > -    QEMU_CFLAGS="-fsanitize=thread $QEMU_CFLAGS"
-> > +    QEMU_CFLAGS="-fsanitize=thread -fsanitize-blacklist="\
-> > +             "\$(SRC_PATH)/tests/tsan/blacklist.tsan $QEMU_CFLAGS"
->
-> I presume the goal here is to fix these races later (my default assumption
-> is that warnings == races, since most warnings are indeed races). If so,
-> please consider making the suppression optional (via
-> "--extra-cflags=-fsanitize-blacklist=path-to-this-file"), since that
-> way the reports are likely to get more eyeballs.
+Reviewed-by: Kamil Rytarowski <kamil@netbsd.org>
 
-Yes, the goal is to fix these later.  Will add an explanation of this in
-blacklist.tsan.
+On 26.05.2020 09:29, David CARLIER wrote:
+> From 792fbcd9114f43bd80fd1ef5b25cd9935a536f9f Mon Sep 17 00:00:00 2001
+> From: David Carlier <devnexen@gmail.com>
+> Date: Tue, 26 May 2020 08:25:26 +0100
+> Subject: [PATCH] util/oslib: Returns the real thread identifier on FreeBSD and
+>  NetBSD
+> 
+> getpid is good enough in a mono thread context, however
+>  thr_self/_lwp_self reflects the real current thread identifier
+>  from a given process.
+> ---
+>  util/oslib-posix.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index 062236a1ab..916f1be224 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -48,11 +48,13 @@
+>  #ifdef __FreeBSD__
+>  #include <sys/sysctl.h>
+>  #include <sys/user.h>
+> +#include <sys/thr.h>
+>  #include <libutil.h>
+>  #endif
+> 
+>  #ifdef __NetBSD__
+>  #include <sys/sysctl.h>
+> +#include <lwp.h>
+>  #endif
+> 
+>  #include "qemu/mmap-alloc.h"
+> @@ -84,6 +86,13 @@ int qemu_get_thread_id(void)
+>  {
+>  #if defined(__linux__)
+>      return syscall(SYS_gettid);
+> +#elif defined(__FreeBSD__)
+> +    /* thread id is up to INT_MAX */
+> +    long tid;
+> +    thr_self(&tid);
+> +    return (int)tid;
+> +#elif defined(__NetBSD__)
+> +    return _lwp_self();
+>  #else
+>      return getpid();
+>  #endif
+> 
 
-We will make the blacklist optional, and also add some documentation
-on how to use the blacklist in the TSan section of testing.rst.
-
-Thanks & Regards,
--Rob
-
->
-> Thanks,
->
->                 E.
 
