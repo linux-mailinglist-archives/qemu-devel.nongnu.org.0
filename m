@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D9F1E1B38
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 08:26:45 +0200 (CEST)
-Received: from localhost ([::1]:33116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F60D1E1B3C
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 08:29:07 +0200 (CEST)
+Received: from localhost ([::1]:40930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdT2y-000428-4m
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 02:26:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34246)
+	id 1jdT5G-00077d-K3
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 02:29:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdSzP-0006bj-R8; Tue, 26 May 2020 02:23:03 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41036)
+ id 1jdSzV-0006rc-C5; Tue, 26 May 2020 02:23:09 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdSzP-0002TG-1q; Tue, 26 May 2020 02:23:03 -0400
-Received: by mail-wr1-x442.google.com with SMTP id j10so3583918wrw.8;
- Mon, 25 May 2020 23:23:01 -0700 (PDT)
+ id 1jdSzQ-0002TW-OR; Tue, 26 May 2020 02:23:08 -0400
+Received: by mail-wr1-x441.google.com with SMTP id t18so5132074wru.6;
+ Mon, 25 May 2020 23:23:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cAS9vKi2N/HAp/t/0K9X49WNII1M7/uVCyjiDB52u+M=;
- b=TyjTa/DjX6XKXLJv2jKOeTH3KRs9IkO/poDsu5k8Nndv2RPiiuNSCKRpy1lZcp/O+a
- ip3X+CMdZqolqMlTCEd5t+MMAFL60vkDnI+IWyk+q2p4507J2UNSNcNHbMvB9RYukDPL
- +5qErcgg0ZJ1Zk441ZHSOoxdWuaaO0ltFZp0mk74VQOkfqfh4LhZcHXfskrXQeVnnW3C
- 9Lh7GwTNDX0wJruOSYc671TIN7yvi3NOx46n7eKrUV/LhuxiNzW64dDHS9hjzEc78dBr
- kex5/yYV/C7C7XdOQpSDhZsimB1OjaejlHa0eicWy/HZT18WrahpGlJx5AOTFMmdR4SP
- MTYw==
+ bh=u3oadF3lY7kJ7u32IbFBnTyzgbMxnriKTUoHa0TNDIA=;
+ b=CKq0xEQbcelCCj6F7V7VxokNsyeOgPiHpI6sysxANny/s18nHmlBXKCwq5x5N6/Rdj
+ zdfxOk3k/pciBbvbwOYTF+fYa/LdpoHgTrnPnsRpNbuqd6HMBEqsKhhb4KiR+4Q1+SQf
+ RfyB3JUpBCGW/E0zjZtaOJAptoc3qs29LboD/nNuJ2CoTysVEvVBIbQL9ChxfUcWkf4G
+ JkAYD/RVwge1c8mhz33Dp5JKnM0CwUVJUobcO33jodZ8Iei6yRNGdNv27Q5CW0HxbjE0
+ bP18vSIQrpkUy8mmU2BsFH/HPeGtQ8erUjN2BLB7JNOUWGf9tp6mfuC73LjKPNFPA/Bf
+ Srkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cAS9vKi2N/HAp/t/0K9X49WNII1M7/uVCyjiDB52u+M=;
- b=SI3KYVstngmFv/DF7vg489PyUxEY8PMDk6VIDVcOYIN6U1EkfazZPiAYQKopjPOxOr
- 29PEKxXQdEggI8uQq0UsNsTcaavdOuY9iNSZI0BmCwmk5mXb4SU7J+z8/twNGy5+avST
- /TpTSYdj6REl/ZoYm81JLrdt7V0SZTtf1nBRguxe+ppEpkw5NzHW0KfumydMPHsgl7+5
- dcjDSo8TrFsErweBAKE8Dn66PbGz6fchFhL/Xh2FiLdWnl2S1c8Gj71D+cc2T+JU5k8o
- 2GRL+4bm0WuLl8v9C8ygDNSksxq8yA5bZV5VoG6+k5c/9Vy0PacxxsJLg3GBDiSQqMvO
- 0zGQ==
-X-Gm-Message-State: AOAM531ivOhFQ9iDEJxECBD66Ne/gAZtO5ejkbG5LKks+GH4u3z+rjfn
- kmBVEzA97SJ8bIwfzC3M3BCqYNpYVvQ=
-X-Google-Smtp-Source: ABdhPJwqo1VwsKLgqyHXTUMsC53fzvBqxGIRb8oyMDkrnso26nRZzkOFIxid2kGorFJHMkKqIkRoHg==
-X-Received: by 2002:adf:ea11:: with SMTP id q17mr16484093wrm.75.1590474181081; 
- Mon, 25 May 2020 23:23:01 -0700 (PDT)
+ bh=u3oadF3lY7kJ7u32IbFBnTyzgbMxnriKTUoHa0TNDIA=;
+ b=R0d2gHnku+ry5C2BdSETouRVCh4YY6/OyRVPftZXkfvMS1Mj8dE5KQxYPpDyqm1oEp
+ 3R1qNEtRWPO+FhHxbmivhprid5rOsKwapIRmLb6fn1PjvN8gBJm/T29KDvt2DruqyvWW
+ Pp1f6/eH31vugxfwPlPha8QzNH8DlH2Rr18InBZsqu/kqoG1U62MqwwQqO8sRbeLKaWf
+ evJIAtkRTVb6cTU9voCznRWn/sBQo4+Kn6TIKL6btstpAre4uvNvtEI/1OEeJTtb71Wg
+ aXdLF8X3lQosUF4cCLT0cNbayZ58hkugEl/tNsBrh4Aqr8WA9zYxRokUx2O7KP3HYWkF
+ xLrw==
+X-Gm-Message-State: AOAM530+lKmm5x8I+6rskTprsuH5Dwt8pfI8a8NhACdbhdMrXo138RIX
+ SWxe7JjW73z4TkJCU/5sokQ=
+X-Google-Smtp-Source: ABdhPJzVgON6Ipb+2NLtAN41zJDY0zfiE1AjIRjY6DqlfoFSlyOFIsl9JyExZnRC1UUt9FxOCY+QLg==
+X-Received: by 2002:a05:6000:1184:: with SMTP id
+ g4mr3463508wrx.46.1590474182432; 
+ Mon, 25 May 2020 23:23:02 -0700 (PDT)
 Received: from localhost.localdomain (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id a16sm5764745wrx.8.2020.05.25.23.22.59
+ by smtp.gmail.com with ESMTPSA id a16sm5764745wrx.8.2020.05.25.23.23.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 May 2020 23:23:00 -0700 (PDT)
+ Mon, 25 May 2020 23:23:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Gerd Hoffmann <kraxel@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 04/14] hw/display/cirrus_vga: Use qemu_log_mask(UNIMP) instead
+Subject: [PATCH 05/14] hw/display/cirrus_vga: Use qemu_log_mask(ERROR) instead
  of debug printf
-Date: Tue, 26 May 2020 08:22:42 +0200
-Message-Id: <20200526062252.19852-5-f4bug@amsat.org>
+Date: Tue, 26 May 2020 08:22:43 +0200
+Message-Id: <20200526062252.19852-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200526062252.19852-1-f4bug@amsat.org>
 References: <20200526062252.19852-1-f4bug@amsat.org>
@@ -64,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -97,58 +98,184 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace some debug printf() calls by qemu_log_mask(LOG_UNIMP),
-and add a new one in cirrus_linear_bitblt_read().
+Replace some debug printf() calls by qemu_log_mask(LOG_GUEST_ERROR).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/display/cirrus_vga.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ hw/display/cirrus_vga.c | 77 ++++++++++++++++++-----------------------
+ 1 file changed, 33 insertions(+), 44 deletions(-)
 
 diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-index 33ccdde000..f9f837b850 100644
+index f9f837b850..76e2dc5bb6 100644
 --- a/hw/display/cirrus_vga.c
 +++ b/hw/display/cirrus_vga.c
-@@ -35,6 +35,7 @@
- #include "qemu/osdep.h"
- #include "qemu/module.h"
- #include "qemu/units.h"
-+#include "qemu/log.h"
- #include "sysemu/reset.h"
- #include "qapi/error.h"
- #include "trace.h"
-@@ -905,9 +906,8 @@ static int cirrus_bitblt_cputovideo(CirrusVGAState * s)
- static int cirrus_bitblt_videotocpu(CirrusVGAState * s)
- {
-     /* XXX */
+@@ -978,9 +978,8 @@ static void cirrus_bitblt_start(CirrusVGAState * s)
+ 	s->cirrus_blt_pixelwidth = 4;
+ 	break;
+     default:
 -#ifdef DEBUG_BITBLT
--    printf("cirrus: bitblt (video to cpu) is not implemented yet\n");
+-	printf("cirrus: bitblt - pixel width is unknown\n");
 -#endif
-+    qemu_log_mask(LOG_UNIMP,
-+                  "cirrus: bitblt (video to cpu) is not implemented\n");
-     return 0;
- }
- 
-@@ -989,9 +989,8 @@ static void cirrus_bitblt_start(CirrusVGAState * s)
- 	 cirrus_blt_mode & (CIRRUS_BLTMODE_MEMSYSSRC |
- 			    CIRRUS_BLTMODE_MEMSYSDEST))
- 	== (CIRRUS_BLTMODE_MEMSYSSRC | CIRRUS_BLTMODE_MEMSYSDEST)) {
--#ifdef DEBUG_BITBLT
--	printf("cirrus: bitblt - memory-to-memory copy is requested\n");
--#endif
-+        qemu_log_mask(LOG_UNIMP,
-+                      "cirrus: bitblt - memory-to-memory copy requested\n");
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "cirrus: bitblt - pixel width is unknown\n");
  	goto bitblt_ignore;
      }
+     s->cirrus_blt_mode &= ~CIRRUS_BLTMODE_PIXELWIDTHMASK;
+@@ -1037,7 +1036,9 @@ static void cirrus_bitblt_start(CirrusVGAState * s)
+         } else {
+ 	    if (s->cirrus_blt_mode & CIRRUS_BLTMODE_TRANSPARENTCOMP) {
+ 		if (s->cirrus_blt_pixelwidth > 2) {
+-		    printf("src transparent without colorexpand must be 8bpp or 16bpp\n");
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "cirrus: src transparent without colorexpand "
++                          "must be 8bpp or 16bpp\n");
+ 		    goto bitblt_ignore;
+ 		}
+ 		if (s->cirrus_blt_mode & CIRRUS_BLTMODE_BACKWARDS) {
+@@ -1135,10 +1136,9 @@ static uint32_t cirrus_get_bpp16_depth(CirrusVGAState * s)
+ 	ret = 16;
+ 	break;			/* XGA HiColor */
+     default:
+-#ifdef DEBUG_CIRRUS
+-	printf("cirrus: invalid DAC value %x in 16bpp\n",
+-	       (s->cirrus_hidden_dac_data & 0xf));
+-#endif
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "cirrus: invalid DAC value 0x%x in 16bpp\n",
++                      (s->cirrus_hidden_dac_data & 0xf));
+ 	ret = 15;		/* XXX */
+ 	break;
+     }
+@@ -1307,11 +1307,9 @@ static int cirrus_vga_read_sr(CirrusVGAState * s)
+ #endif
+ 	return s->vga.sr[s->vga.sr_index];
+     default:
+-#ifdef DEBUG_CIRRUS
+-	printf("cirrus: inport sr_index %02x\n", s->vga.sr_index);
+-#endif
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "cirrus: inport sr_index 0x%02x\n", s->vga.sr_index);
+ 	return 0xff;
+-	break;
+     }
+ }
  
-@@ -2412,6 +2411,9 @@ static uint64_t cirrus_linear_bitblt_read(void *opaque,
+@@ -1400,10 +1398,9 @@ static void cirrus_vga_write_sr(CirrusVGAState * s, uint32_t val)
+         cirrus_update_memory_access(s);
+         break;
+     default:
+-#ifdef DEBUG_CIRRUS
+-	printf("cirrus: outport sr_index %02x, sr_value %02x\n",
+-               s->vga.sr_index, val);
+-#endif
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "cirrus: outport sr_index 0x%02x, sr_value 0x%02x\n",
++                      s->vga.sr_index, val);
+ 	break;
+     }
+ }
+@@ -1501,9 +1498,8 @@ static int cirrus_vga_read_gr(CirrusVGAState * s, unsigned reg_index)
+     if (reg_index < 0x3a) {
+ 	return s->vga.gr[reg_index];
+     } else {
+-#ifdef DEBUG_CIRRUS
+-	printf("cirrus: inport gr_index %02x\n", reg_index);
+-#endif
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "cirrus: inport gr_index 0x%02x\n", reg_index);
+ 	return 0xff;
+     }
+ }
+@@ -1590,10 +1586,9 @@ cirrus_vga_write_gr(CirrusVGAState * s, unsigned reg_index, int reg_value)
+ 	cirrus_write_bitblt(s, reg_value);
+ 	break;
+     default:
+-#ifdef DEBUG_CIRRUS
+-	printf("cirrus: outport gr_index %02x, gr_value %02x\n", reg_index,
+-	       reg_value);
+-#endif
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "cirrus: outport gr_index 0x%02x, gr_value 0x%02x\n",
++                      reg_index, reg_value);
+ 	break;
+     }
+ }
+@@ -1648,9 +1643,8 @@ static int cirrus_vga_read_cr(CirrusVGAState * s, unsigned reg_index)
+ 	return s->vga.ar_index & 0x3f;
+ 	break;
+     default:
+-#ifdef DEBUG_CIRRUS
+-	printf("cirrus: inport cr_index %02x\n", reg_index);
+-#endif
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "cirrus: inport cr_index 0x%02x\n", reg_index);
+ 	return 0xff;
+     }
+ }
+@@ -1721,10 +1715,9 @@ static void cirrus_vga_write_cr(CirrusVGAState * s, int reg_value)
+ 	break;
+     case 0x25:			// Part Status
+     default:
+-#ifdef DEBUG_CIRRUS
+-	printf("cirrus: outport cr_index %02x, cr_value %02x\n",
+-               s->vga.cr_index, reg_value);
+-#endif
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "cirrus: outport cr_index 0x%02x, cr_value 0x%02x\n",
++                      s->vga.cr_index, reg_value);
+ 	break;
+     }
+ }
+@@ -1834,9 +1827,8 @@ static uint8_t cirrus_mmio_blt_read(CirrusVGAState * s, unsigned address)
+ 	value = cirrus_vga_read_gr(s, 0x31);
+ 	break;
+     default:
+-#ifdef DEBUG_CIRRUS
+-	printf("cirrus: mmio read - address 0x%04x\n", address);
+-#endif
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "cirrus: mmio read - address 0x%04x\n", address);
+ 	break;
+     }
  
-     /* XXX handle bitblt */
-     (void)s;
-+    qemu_log_mask(LOG_UNIMP,
-+                  "cirrus: linear bitblt is not implemented\n");
-+
-     return 0xff;
+@@ -1946,10 +1938,9 @@ static void cirrus_mmio_blt_write(CirrusVGAState * s, unsigned address,
+ 	cirrus_vga_write_gr(s, 0x31, value);
+ 	break;
+     default:
+-#ifdef DEBUG_CIRRUS
+-	printf("cirrus: mmio write - addr 0x%04x val 0x%02x (ignored)\n",
+-	       address, value);
+-#endif
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "cirrus: mmio write - addr 0x%04x val 0x%02x (ignored)\n",
++                      address, value);
+ 	break;
+     }
+ }
+@@ -2047,9 +2038,8 @@ static uint64_t cirrus_vga_mem_read(void *opaque,
+ 	}
+     } else {
+ 	val = 0xff;
+-#ifdef DEBUG_CIRRUS
+-	printf("cirrus: mem_readb " TARGET_FMT_plx "\n", addr);
+-#endif
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "cirrus: mem_readb 0x" TARGET_FMT_plx "\n", addr);
+     }
+     return val;
+ }
+@@ -2112,10 +2102,9 @@ static void cirrus_vga_mem_write(void *opaque,
+ 	    cirrus_mmio_blt_write(s, addr & 0xff, mem_value);
+ 	}
+     } else {
+-#ifdef DEBUG_CIRRUS
+-        printf("cirrus: mem_writeb " TARGET_FMT_plx " value 0x%02" PRIu64 "\n", addr,
+-               mem_value);
+-#endif
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "cirrus: mem_writeb 0x" TARGET_FMT_plx " "
++                      "value 0x%02" PRIu64 "\n", addr, mem_value);
+     }
  }
  
 -- 
