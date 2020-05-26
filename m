@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068B31E27BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:56:16 +0200 (CEST)
-Received: from localhost ([::1]:35758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5971E27B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:53:07 +0200 (CEST)
+Received: from localhost ([::1]:52742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdcsB-0008Q9-0a
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:56:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51442)
+	id 1jdcp8-000322-5I
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:53:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jdco8-00024J-M6; Tue, 26 May 2020 12:52:04 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:46973)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jdciG-0001dL-Gd
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 12:46:00 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jdco6-0000m8-Ov; Tue, 26 May 2020 12:52:03 -0400
-Received: by mail-io1-xd41.google.com with SMTP id j8so22723257iog.13;
- Tue, 26 May 2020 09:52:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jdciF-00058g-66
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 12:46:00 -0400
+Received: by mail-wm1-x344.google.com with SMTP id y5so199190wmj.4
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 09:45:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=wogobYdgA7pdWEUiow9y+BbE4SrJpOahPEjnfmC9ss0=;
- b=jheA7ja9yxFsNrUeovavT8+NzngQH/J+PJ4kuh0t/fwMH3SYb7nkLNyudNtVldLNNG
- eoXiq06CtQJ3uxyzvV7NyH0N4JoqlcLnh6vWkJrTiNrLgNheyz7gP8R0shM89QDbtw8p
- JZUjizEJni0l4y29EpjSrqEqzOExoJi634eEtOXK+9pty7OITgNGpiG5Njr+V5wn3Ry5
- LUxNVYgx6wx+92PYH/nfCF7INVc2/A2sARyBanCkXDNPf/YA4jgAjgZwE5TLFKt6dvr/
- 2dGc0B+aWkRbqkeM0yEc0gIlX8XwbYOB1Vb1c/7zNZNbnr7PEu7PeYRjx5CfWXvGsEvI
- K1Ew==
+ bh=0gRajJpZ1ewwCX0SexN33O83wF8F+CqSXxmSxisAFD4=;
+ b=bimOXRqm18yR/GSz0jgZd9tgBlJmxkMi1UbGTc9oF1hCn31KTmCm6+hMLFD1qs6V+j
+ 3Kh2CUuQ4j+C/URge393It+vFv4i8J9bH2TDp1aNFHHejmLh8CYXglOiystx0FB3ujqb
+ +VJANzXxixLKu6k7AVw869WBrxhBzK2odrBGhQ6W7W86ZsTLSGJwR7K4zikrZ2QS6Uyw
+ 1farXCOxJcjEoY4WJ2TN6u+5iJG6Ci9yuT9l3AELUcCGoaAeApxln7oL39m6GQ04eeW5
+ NVx6UE/EI9UKrhXzZhCwTi8JJkC/tnXHr+hrkL/r2ncU+MD7PmRMkBR4SXkN8SL0nttI
+ MdTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=wogobYdgA7pdWEUiow9y+BbE4SrJpOahPEjnfmC9ss0=;
- b=CQdEyb2BmSYeFi0aoF4/Zpd0L2m/DQJwV0ZDHw3j9x7XWiC9AppndmTJGB8OrVjsjh
- e+105rY3Shc2Uuy+Om6vijqDX0+W/RHmgpb/MJMUy8on51uuodI0F5zj5WlBUXlWAkSf
- 7iqNNeTlTvzEpezg+ojij8y0cN5oUnnLmpzb2SY8RsByEaw060Or+p070vArXcwxZKuU
- pbj+0pYf2mvCFseimZXbfFhB3jbtnF+yw+qbcoZriRre0YlLj8qxRFKUyKO0gBfF6XGU
- 3/VZXSCZ3Toloisz+IQASvG9TXnnTTYvNicLxiLZoWJEoolw0eUIS6WBe94Hfbcgt8Y0
- qD4A==
-X-Gm-Message-State: AOAM5339RCJddAREkCFztbzLr1AMND+aOpG9zlyXKjERQHwAJv+YhFeH
- IVBJq89Yvcvw1BFY7ka9nsY9jR2JVHpKkGiBB6w=
-X-Google-Smtp-Source: ABdhPJwG6bLuMi57LOOhtuFM7Cd+Y8FlPRKN7hczqoZy/Qg+bhnVHVNLF7Y1r4RMiuDna+oMVFZgZrmdvQFR8GxrUj4=
-X-Received: by 2002:a02:7009:: with SMTP id f9mr1962296jac.8.1590511920816;
- Tue, 26 May 2020 09:52:00 -0700 (PDT)
+ bh=0gRajJpZ1ewwCX0SexN33O83wF8F+CqSXxmSxisAFD4=;
+ b=mJp/hvNmhlvzdCafQEF+WFqHV4pQDSOSosiRrLyseI9U/91fdTvhZ2xYrPB05desSM
+ BCT1K+ZyulUt9JdrxzPVSvXG/omutA+6HibjVuQE2k7hPNUzkbzOX4OOuxKJbKxio6a1
+ H6DyFLBrN+SYxX7VM+aLk6qd9tW4/rUEdya6lTISIw9YPpp/ftXE/WD7S1mIgQhmm221
+ v/QRE8ErFQctnaVXcOh09dbMxmfrxiihXdfLkHYteVUcCMjd8kzKJgRC538VTaWK2iBh
+ CYLytcDS84Ei2WdHTr0YoDvsPDXGX9IG39cg6KtWFZVafPdGnTjkOFIUnh5shgzvrCbS
+ p2hQ==
+X-Gm-Message-State: AOAM530MHWNJ7HEtgXdchhKZk5Qk+pofi6fq/HwjLJiOQQXZ9fl+7uhz
+ l5jvp/AXGqbBMpe+ZYT/vbCilx+1VPRxS95m9iE=
+X-Google-Smtp-Source: ABdhPJyZjm1VNW6+18mX01U/K75Tn44wY/dQodMWKJnzBjgTV/MQVthoQLA4KOsTFFRtFDl1u4pJCHocW/7N7NvZSX4=
+X-Received: by 2002:a1c:18e:: with SMTP id 136mr76847wmb.159.1590511557242;
+ Tue, 26 May 2020 09:45:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200526062252.19852-1-f4bug@amsat.org>
- <20200526062252.19852-5-f4bug@amsat.org>
-In-Reply-To: <20200526062252.19852-5-f4bug@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 26 May 2020 09:42:56 -0700
-Message-ID: <CAKmqyKOc=Zs0VA-_BKDsrG__RXtgcM7JR8cwsNsd8RNr9VKVgA@mail.gmail.com>
-Subject: Re: [PATCH 04/14] hw/display/cirrus_vga: Use qemu_log_mask(UNIMP)
- instead of debug printf
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+References: <20200519162144.10831-1-ahmedkhaledkaraman@gmail.com>
+ <a0f3967f-e125-d888-bc6d-44414edbfd5b@linaro.org>
+ <CALTWKrVGqVb1mjsaoxYm4Y1iQoXYwz7ToC7T6r2EDPp-_LO=LQ@mail.gmail.com>
+ <4e78400c-42be-08c6-492d-dc5596551efd@linaro.org>
+ <CAHiYmc6zKmxgyKHzT4gazvJvPsX3SQYLjSXwK50_2eURkR3_NA@mail.gmail.com>
+ <CAHiYmc7z+OfvE7nN1j14n2O8seVtqem_hsBwq=WyFgeo=WfybA@mail.gmail.com>
+ <CALTWKrXv6NQUEzKFvPN4TmDGCKxY-Zaa+Dt-z0+sTgndco+EMA@mail.gmail.com>
+ <CAHiYmc6289cQZEptA=KjpMDLx3S94Au7W79DXH9KTM-MLi3ADA@mail.gmail.com>
+In-Reply-To: <CAHiYmc6289cQZEptA=KjpMDLx3S94Au7W79DXH9KTM-MLi3ADA@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Tue, 26 May 2020 18:45:42 +0200
+Message-ID: <CAHiYmc7r0GBLytokN=cyonrQAC6S8J=SpPf9KroPgG+ACJPV5Q@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Update use_goto_tb() in hppa and rx targets
+To: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -81,84 +87,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 25, 2020 at 11:25 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
->
-> Replace some debug printf() calls by qemu_log_mask(LOG_UNIMP),
-> and add a new one in cirrus_linear_bitblt_read().
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Mr. Ahmed,
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+The title "Changing executable page permissions with mmap causes
+user-mode failures", I know you paraphrased one of Richard's
+responses, but you picked up those pieces that don't convey the
+complete, larger, picture. So, the better, more inclusive, and much
+clearer title would be "Problems related to checking page crossing in
+use_goto_tb()"
 
-Alistair
+Yours,
+Mr. Aleksandar
 
-> ---
->  hw/display/cirrus_vga.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
+=D1=83=D1=82=D0=BE, 26. =D0=BC=D0=B0=D1=98 2020. =D1=83 18:29 Aleksandar Ma=
+rkovic
+<aleksandar.qemu.devel@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=
+=81=D0=B0=D0=BE/=D0=BB=D0=B0:
 >
-> diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-> index 33ccdde000..f9f837b850 100644
-> --- a/hw/display/cirrus_vga.c
-> +++ b/hw/display/cirrus_vga.c
-> @@ -35,6 +35,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu/module.h"
->  #include "qemu/units.h"
-> +#include "qemu/log.h"
->  #include "sysemu/reset.h"
->  #include "qapi/error.h"
->  #include "trace.h"
-> @@ -905,9 +906,8 @@ static int cirrus_bitblt_cputovideo(CirrusVGAState * =
-s)
->  static int cirrus_bitblt_videotocpu(CirrusVGAState * s)
->  {
->      /* XXX */
-> -#ifdef DEBUG_BITBLT
-> -    printf("cirrus: bitblt (video to cpu) is not implemented yet\n");
-> -#endif
-> +    qemu_log_mask(LOG_UNIMP,
-> +                  "cirrus: bitblt (video to cpu) is not implemented\n");
->      return 0;
->  }
+> =D1=83=D1=82=D0=BE, 26. =D0=BC=D0=B0=D1=98 2020. =D1=83 18:08 Ahmed Karam=
+an
+> <ahmedkhaledkaraman@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=
+=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> >
+> > On Tue, May 26, 2020 at 4:14 PM Aleksandar Markovic
+> > <aleksandar.qemu.devel@gmail.com> wrote:
+> > > Ahmed, please follow the instructions on this page: How to report a Q=
+EMU bug and file the bug related to the discussion, to the best of your abi=
+lities, if possible, today.
+> >
+> > Please find the link to the bug below:
+> > https://bugs.launchpad.net/qemu/+bug/1880722
 >
-> @@ -989,9 +989,8 @@ static void cirrus_bitblt_start(CirrusVGAState * s)
->          cirrus_blt_mode & (CIRRUS_BLTMODE_MEMSYSSRC |
->                             CIRRUS_BLTMODE_MEMSYSDEST))
->         =3D=3D (CIRRUS_BLTMODE_MEMSYSSRC | CIRRUS_BLTMODE_MEMSYSDEST)) {
-> -#ifdef DEBUG_BITBLT
-> -       printf("cirrus: bitblt - memory-to-memory copy is requested\n");
-> -#endif
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "cirrus: bitblt - memory-to-memory copy requested\=
-n");
->         goto bitblt_ignore;
->      }
+> I think your last sentence in the bug report is not entirely correct.
+> It is not known what would be performance results in case of
+> correcting mmap.c. So, if possible, and unless Richard or someone else
+> disagrees, please change that last sentence to: "By doing so, a better
+> performance results could be achieved, compared to the case of the
+> workaround described above."
 >
-> @@ -2412,6 +2411,9 @@ static uint64_t cirrus_linear_bitblt_read(void *opa=
-que,
+> Also, please add the tag "linux-user".
 >
->      /* XXX handle bitblt */
->      (void)s;
-> +    qemu_log_mask(LOG_UNIMP,
-> +                  "cirrus: linear bitblt is not implemented\n");
-> +
->      return 0xff;
->  }
->
-> --
-> 2.21.3
->
->
+> Yours,
+> Aleksandar
 
