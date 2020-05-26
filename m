@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E081E2755
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:44:11 +0200 (CEST)
-Received: from localhost ([::1]:48224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 635B11E275B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:45:01 +0200 (CEST)
+Received: from localhost ([::1]:51524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdcgU-0006HT-J0
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:44:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41288)
+	id 1jdchI-0007cu-EF
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:45:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jdceq-0004YQ-W7
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:42:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60817
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jdcet-0004dt-Pe
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 12:42:31 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47877
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jdcep-0002qL-4n
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:42:28 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jdces-0002sA-KN
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 12:42:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590511346;
+ s=mimecast20190719; t=1590511349;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K9IEHoDlJS+FjDytuoMfolDjl7ZsoI2ZIWaE7cuA0UY=;
- b=JW7DB0/iOimD1qDOmepgbR7eCkv6cazfJ6XpDbDFwvvrKtZ4NXhYV3dVVvl3Kb9iJkFyhm
- zkUppxqAgKSpY1Em46cY8GgXCOL21Vm/Aef+b7xJWxKjw+v2dJHPlUiv7Uzrg+DExiWQBC
- jhlCWukBef82oaena+BY0emWj7wXIdU=
+ bh=xydBB4a77F6ev/Rdwtmv5eQnd75LN+ldAUqy0nGnk+w=;
+ b=YM3sf1SXjuj3PY3CJNjj8LVF0R95rviPnDrugEsseKURh1SI/+7KlJZrt09HRMjJ5zBJE2
+ Srd31l3qI/VlQJg8kCWfKsYnAvRpIjCwgnWceEip6hCgWODHRbKfMSJ+ydYKrLwlG6c/iA
+ aKcHGlWgx0GR/0z8kS/55zZg38Ywrrk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-OxiSAE20Mq-sBsu8QGaqeQ-1; Tue, 26 May 2020 12:42:24 -0400
-X-MC-Unique: OxiSAE20Mq-sBsu8QGaqeQ-1
+ us-mta-62-ycy2himkOxCLRcyCiHDnKw-1; Tue, 26 May 2020 12:42:27 -0400
+X-MC-Unique: ycy2himkOxCLRcyCiHDnKw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EA1E460;
- Tue, 26 May 2020 16:42:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DC1883DB38;
+ Tue, 26 May 2020 16:42:26 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5204D86C7E;
- Tue, 26 May 2020 16:42:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F2419007C;
+ Tue, 26 May 2020 16:42:23 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/11] migration: refactor init_dirty_bitmap_migration
-Date: Tue, 26 May 2020 11:42:01 -0500
-Message-Id: <20200526164211.1569366-2-eblake@redhat.com>
+Subject: [PULL 02/11] block/dirty-bitmap: add bdrv_has_named_bitmaps helper
+Date: Tue, 26 May 2020 11:42:02 -0500
+Message-Id: <20200526164211.1569366-3-eblake@redhat.com>
 In-Reply-To: <20200526164211.1569366-1-eblake@redhat.com>
 References: <20200526164211.1569366-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -54,17 +54,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:51:57
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:14:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,141 +77,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Block I/O path" <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
+ "open list:Dirty Bitmaps" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Split out handling one bs, it is needed for the following commit, which
-will handle BlockBackends separately.
+To be used for bitmap migration in further commit.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200521220648.3255-2-vsementsov@virtuozzo.com>
-[eblake: shorter subject line]
+Message-Id: <20200521220648.3255-3-vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- migration/block-dirty-bitmap.c | 89 +++++++++++++++++++---------------
- 1 file changed, 49 insertions(+), 40 deletions(-)
+ include/block/dirty-bitmap.h |  1 +
+ block/dirty-bitmap.c         | 13 +++++++++++++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 7eafface6149..7e9371808653 100644
---- a/migration/block-dirty-bitmap.c
-+++ b/migration/block-dirty-bitmap.c
-@@ -267,13 +267,58 @@ static void dirty_bitmap_mig_cleanup(void)
-     }
+diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
+index 5a8d52e4deaf..36e8da4fc2e3 100644
+--- a/include/block/dirty-bitmap.h
++++ b/include/block/dirty-bitmap.h
+@@ -95,6 +95,7 @@ int64_t bdrv_get_dirty_count(BdrvDirtyBitmap *bitmap);
+ void bdrv_dirty_bitmap_truncate(BlockDriverState *bs, int64_t bytes);
+ bool bdrv_dirty_bitmap_readonly(const BdrvDirtyBitmap *bitmap);
+ bool bdrv_has_readonly_bitmaps(BlockDriverState *bs);
++bool bdrv_has_named_bitmaps(BlockDriverState *bs);
+ bool bdrv_dirty_bitmap_get_autoload(const BdrvDirtyBitmap *bitmap);
+ bool bdrv_dirty_bitmap_get_persistence(BdrvDirtyBitmap *bitmap);
+ bool bdrv_dirty_bitmap_inconsistent(const BdrvDirtyBitmap *bitmap);
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index f9bfc77985e8..c01319b188c3 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -818,6 +818,19 @@ bool bdrv_has_readonly_bitmaps(BlockDriverState *bs)
+     return false;
  }
 
-+/* Called with iothread lock taken. */
-+static int add_bitmaps_to_list(BlockDriverState *bs, const char *bs_name)
++bool bdrv_has_named_bitmaps(BlockDriverState *bs)
 +{
-+    BdrvDirtyBitmap *bitmap;
-+    DirtyBitmapMigBitmapState *dbms;
-+    Error *local_err = NULL;
++    BdrvDirtyBitmap *bm;
 +
-+    FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
-+        if (!bdrv_dirty_bitmap_name(bitmap)) {
-+            continue;
++    QLIST_FOREACH(bm, &bs->dirty_bitmaps, list) {
++        if (bdrv_dirty_bitmap_name(bm)) {
++            return true;
 +        }
-+
-+        if (!bs_name || strcmp(bs_name, "") == 0) {
-+            error_report("Found bitmap '%s' in unnamed node %p. It can't "
-+                         "be migrated", bdrv_dirty_bitmap_name(bitmap), bs);
-+            return -1;
-+        }
-+
-+        if (bdrv_dirty_bitmap_check(bitmap, BDRV_BITMAP_DEFAULT, &local_err)) {
-+            error_report_err(local_err);
-+            return -1;
-+        }
-+
-+        bdrv_ref(bs);
-+        bdrv_dirty_bitmap_set_busy(bitmap, true);
-+
-+        dbms = g_new0(DirtyBitmapMigBitmapState, 1);
-+        dbms->bs = bs;
-+        dbms->node_name = bs_name;
-+        dbms->bitmap = bitmap;
-+        dbms->total_sectors = bdrv_nb_sectors(bs);
-+        dbms->sectors_per_chunk = CHUNK_SIZE * 8 *
-+            bdrv_dirty_bitmap_granularity(bitmap) >> BDRV_SECTOR_BITS;
-+        if (bdrv_dirty_bitmap_enabled(bitmap)) {
-+            dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_ENABLED;
-+        }
-+        if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
-+            dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_PERSISTENT;
-+        }
-+
-+        QSIMPLEQ_INSERT_TAIL(&dirty_bitmap_mig_state.dbms_list,
-+                             dbms, entry);
 +    }
 +
-+    return 0;
++    return false;
 +}
 +
- /* Called with iothread lock taken. */
- static int init_dirty_bitmap_migration(void)
+ /* Called with BQL taken. */
+ void bdrv_dirty_bitmap_set_persistence(BdrvDirtyBitmap *bitmap, bool persistent)
  {
-     BlockDriverState *bs;
--    BdrvDirtyBitmap *bitmap;
-     DirtyBitmapMigBitmapState *dbms;
--    Error *local_err = NULL;
-
-     dirty_bitmap_mig_state.bulk_completed = false;
-     dirty_bitmap_mig_state.prev_bs = NULL;
-@@ -281,44 +326,8 @@ static int init_dirty_bitmap_migration(void)
-     dirty_bitmap_mig_state.no_bitmaps = false;
-
-     for (bs = bdrv_next_all_states(NULL); bs; bs = bdrv_next_all_states(bs)) {
--        const char *name = bdrv_get_device_or_node_name(bs);
--
--        FOR_EACH_DIRTY_BITMAP(bs, bitmap) {
--            if (!bdrv_dirty_bitmap_name(bitmap)) {
--                continue;
--            }
--
--            if (!name || strcmp(name, "") == 0) {
--                error_report("Found bitmap '%s' in unnamed node %p. It can't "
--                             "be migrated", bdrv_dirty_bitmap_name(bitmap), bs);
--                goto fail;
--            }
--
--            if (bdrv_dirty_bitmap_check(bitmap, BDRV_BITMAP_DEFAULT,
--                                        &local_err)) {
--                error_report_err(local_err);
--                goto fail;
--            }
--
--            bdrv_ref(bs);
--            bdrv_dirty_bitmap_set_busy(bitmap, true);
--
--            dbms = g_new0(DirtyBitmapMigBitmapState, 1);
--            dbms->bs = bs;
--            dbms->node_name = name;
--            dbms->bitmap = bitmap;
--            dbms->total_sectors = bdrv_nb_sectors(bs);
--            dbms->sectors_per_chunk = CHUNK_SIZE * 8 *
--                bdrv_dirty_bitmap_granularity(bitmap) >> BDRV_SECTOR_BITS;
--            if (bdrv_dirty_bitmap_enabled(bitmap)) {
--                dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_ENABLED;
--            }
--            if (bdrv_dirty_bitmap_get_persistence(bitmap)) {
--                dbms->flags |= DIRTY_BITMAP_MIG_START_FLAG_PERSISTENT;
--            }
--
--            QSIMPLEQ_INSERT_TAIL(&dirty_bitmap_mig_state.dbms_list,
--                                 dbms, entry);
-+        if (add_bitmaps_to_list(bs, bdrv_get_device_or_node_name(bs))) {
-+            goto fail;
-         }
-     }
-
 -- 
 2.26.2
 
