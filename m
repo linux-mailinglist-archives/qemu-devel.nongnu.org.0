@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F6A1E2177
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 13:55:56 +0200 (CEST)
-Received: from localhost ([::1]:44160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BEDC1E2166
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 13:54:14 +0200 (CEST)
+Received: from localhost ([::1]:38198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdYBX-0007rM-I3
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 07:55:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45266)
+	id 1jdY9t-0005V2-8D
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 07:54:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jdY6v-0001To-Gx
- for qemu-devel@nongnu.org; Tue, 26 May 2020 07:51:09 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51240)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jdY7N-0002Oi-94
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 07:51:37 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7190
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jdY6u-0004qU-K1
- for qemu-devel@nongnu.org; Tue, 26 May 2020 07:51:09 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04QBXgwa106903; Tue, 26 May 2020 07:50:37 -0400
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 316vqfwghw-1
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jdY7M-0004rC-9I
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 07:51:36 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04QBZ1DB151422; Tue, 26 May 2020 07:51:16 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 318yw6mt58-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 May 2020 07:50:37 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04QBcADx023836;
+ Tue, 26 May 2020 07:51:16 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04QBbRh6001048;
  Tue, 26 May 2020 11:50:35 GMT
 Received: from b06cxnps3075.portsmouth.uk.ibm.com
  (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma04fra.de.ibm.com with ESMTP id 316uf8abhh-1
+ by ppma04ams.nl.ibm.com with ESMTP id 316uf8wut2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 May 2020 11:50:34 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
+ Tue, 26 May 2020 11:50:35 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
  by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 04QBoWT363897802
+ 04QBoXEO63701040
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 May 2020 11:50:32 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7E9364C050;
- Tue, 26 May 2020 11:50:32 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 43A7E4C040;
+ Tue, 26 May 2020 11:50:33 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3879CA4053;
+ Tue, 26 May 2020 11:50:33 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EF823A4055;
  Tue, 26 May 2020 11:50:32 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Tue, 26 May 2020 11:50:32 +0000 (GMT)
 Received: from bahia.ibmuc.com (sig-9-145-63-64.uk.ibm.com [9.145.63.64])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 8E0DA22003E;
- Tue, 26 May 2020 13:50:31 +0200 (CEST)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 36E192201C7;
+ Tue, 26 May 2020 13:50:32 +0200 (CEST)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 4/5] xen/9pfs: yield when there isn't enough room on the ring
-Date: Tue, 26 May 2020 13:49:31 +0200
-Message-Id: <20200526114931.391049-5-groug@kaod.org>
+Subject: [PULL 5/5] xen/9pfs: increase max ring order to 9
+Date: Tue, 26 May 2020 13:49:32 +0200
+Message-Id: <20200526114931.391049-6-groug@kaod.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200526114931.391049-1-groug@kaod.org>
 References: <20200526114931.391049-1-groug@kaod.org>
@@ -66,16 +67,16 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
  definitions=2020-05-26_02:2020-05-26,
  2020-05-26 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- mlxlogscore=999 spamscore=0 clxscore=1034 priorityscore=1501
- impostorscore=0 cotscore=-2147483648 mlxscore=0 suspectscore=2
- phishscore=0 lowpriorityscore=0 malwarescore=0 classifier=spam adjust=0
+ mlxlogscore=849
+ malwarescore=0 suspectscore=0 phishscore=0 cotscore=-2147483648
+ impostorscore=0 adultscore=0 mlxscore=0 priorityscore=1501 clxscore=1034
+ lowpriorityscore=0 spamscore=0 bulkscore=0 classifier=spam adjust=0
  reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005260087
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=groug@kaod.org;
+ definitions=main-2005260080
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=groug@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 07:50:51
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 07:50:54
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -101,89 +102,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefano Stabellini <stefano.stabellini@xilinx.com>
 
-Instead of truncating replies, which is problematic, wait until the
-client reads more data and frees bytes on the reply ring.
-
-Do that by calling qemu_coroutine_yield(). The corresponding
-qemu_coroutine_enter_if_inactive() is called from xen_9pfs_bh upon
-receiving the next notification from the client.
-
-We need to be careful to avoid races in case xen_9pfs_bh and the
-coroutine are both active at the same time. In xen_9pfs_bh, wait until
-either the critical section is over (ring->co =3D=3D NULL) or until the
-coroutine becomes inactive (qemu_coroutine_yield() was called) before
-continuing. Then, simply wake up the coroutine if it is inactive.
+The max order allowed by the protocol is 9. Increase the max order
+supported by QEMU to 9 to increase performance.
 
 Signed-off-by: Stefano Stabellini <stefano.stabellini@xilinx.com>
 Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <20200521192627.15259-2-sstabellini@kernel.org>
+Message-Id: <20200521192627.15259-3-sstabellini@kernel.org>
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/9pfs/xen-9p-backend.c | 31 +++++++++++++++++++++++++------
- 1 file changed, 25 insertions(+), 6 deletions(-)
+ hw/9pfs/xen-9p-backend.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
-index fc197f6c8aaa..3c84c86ab873 100644
+index 3c84c86ab873..a969fcc54c34 100644
 --- a/hw/9pfs/xen-9p-backend.c
 +++ b/hw/9pfs/xen-9p-backend.c
-@@ -37,6 +37,7 @@ typedef struct Xen9pfsRing {
+@@ -21,7 +21,7 @@
 =20
-     struct iovec *sg;
-     QEMUBH *bh;
-+    Coroutine *co;
+ #define VERSIONS "1"
+ #define MAX_RINGS 8
+-#define MAX_RING_ORDER 8
++#define MAX_RING_ORDER 9
 =20
-     /* local copies, so that we can read/write PDU data directly from
-      * the ring */
-@@ -198,16 +199,20 @@ static void xen_9pfs_init_in_iov_from_pdu(V9fsPDU *=
-pdu,
-     g_free(ring->sg);
-=20
-     ring->sg =3D g_new0(struct iovec, 2);
--    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, size);
-+    ring->co =3D qemu_coroutine_self();
-+    /* make sure other threads see ring->co changes before continuing */
-+    smp_wmb();
-=20
-+again:
-+    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, size);
-     buf_size =3D iov_size(ring->sg, num);
-     if (buf_size  < size) {
--        xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs request type %d"
--                "needs %zu bytes, buffer has %zu\n", pdu->id, size,
--                buf_size);
--        xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
--        xen_9pfs_disconnect(&xen_9pfs->xendev);
-+        qemu_coroutine_yield();
-+        goto again;
-     }
-+    ring->co =3D NULL;
-+    /* make sure other threads see ring->co changes before continuing */
-+    smp_wmb();
-=20
-     *piov =3D ring->sg;
-     *pniov =3D num;
-@@ -292,6 +297,20 @@ static int xen_9pfs_receive(Xen9pfsRing *ring)
- static void xen_9pfs_bh(void *opaque)
- {
-     Xen9pfsRing *ring =3D opaque;
-+    bool wait;
-+
-+again:
-+    wait =3D ring->co !=3D NULL && qemu_coroutine_entered(ring->co);
-+    /* paired with the smb_wmb barriers in xen_9pfs_init_in_iov_from_pdu=
- */
-+    smp_rmb();
-+    if (wait) {
-+        cpu_relax();
-+        goto again;
-+    }
-+
-+    if (ring->co !=3D NULL) {
-+        qemu_coroutine_enter_if_inactive(ring->co);
-+    }
-     xen_9pfs_receive(ring);
- }
-=20
+ typedef struct Xen9pfsRing {
+     struct Xen9pfsDev *priv;
 --=20
 2.21.3
 
