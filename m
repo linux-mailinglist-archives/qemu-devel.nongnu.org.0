@@ -2,81 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770311E22FF
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 15:37:08 +0200 (CEST)
-Received: from localhost ([::1]:57132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 690DB1E2305
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 15:38:21 +0200 (CEST)
+Received: from localhost ([::1]:34504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdZlT-0005yg-Gi
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 09:37:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57002)
+	id 1jdZme-000074-Ew
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 09:38:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdZhh-0006q3-82
- for qemu-devel@nongnu.org; Tue, 26 May 2020 09:33:13 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:46722)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdZhg-0005qy-8O
- for qemu-devel@nongnu.org; Tue, 26 May 2020 09:33:12 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id e2so23773812eje.13
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 06:33:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pPV3t0ciHdfu4yziGudCLa1nZMiogySec4g5RazN6FY=;
- b=W1mfZZSFWow35xwNsVIdReKxgBP3yyskiyFSYhIimtM3idRn7OTYuov7YAxyJMFcbt
- qy8CEuiLxo1JgT5vbtlGVHg3fzHlYH7Nh7tI2KhOByAXKuXBbbvwmfZs86azK2WO64Jp
- zw3lpPe7LzRsJV+uozP/yea5/Wey1ZDfziScfO2X4pW5WdY3rG1IYL3/RpYRckjqJ5PH
- IXATvGV6driLpV2vnkivt05CEVrTukqcezBMnhRQQqCAhq8Y7R6EmvHMISHYqPD2dMJB
- /EhLyiUP+GWdq5SZSBtkRj9Mxmj/S2WaElDR5/cmqK2/k4iBXH8Zb02f5obRlC76EUPd
- BFjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=pPV3t0ciHdfu4yziGudCLa1nZMiogySec4g5RazN6FY=;
- b=XKuAxg/puMbhb5+0jJqY2sxLa3mSbfEvASXGHLecVoBMozn8LXKpNanNGuRFutBxkP
- TTs4AvmOE2WSJpGQ5VQDh+zkFFwWMuq1H0qd7D6oIAvyxu4TO0kt8K/xStaeOkZNiUy4
- 6DRDkQYizP6nDkxURytq8JYfVGqb6MCv7M137z7PwS9I6B6Ebcy3We1DQxMZAVNTXKmh
- JRQ74BJxCK2FS71FSBbSnQUXxnMrXgws/LVCJ12j5hJ8HnkaWgcyxc/Bcv32q2py4HFm
- j9XQGVamsr/C2bUvX4AzLxn7jWyFNJ5dwlPlcJELWwYMBUEeImiEGdl4RQfhSk5P7xWg
- Jz3w==
-X-Gm-Message-State: AOAM532wAVMPeMIIpCnBG4T9FoTcHOMhfbTCTAWx7Z+WrDZB7q58QYPh
- JkkF+g4cvVow4rv50kOpDSkE/0UAjDY=
-X-Google-Smtp-Source: ABdhPJxZQ3xrejlUHBn6UZjExFOrdzOzBr3xqGngyOSsnoUpEWmtvMLtz2AmdpSlStqjzl+MjhOlIA==
-X-Received: by 2002:a17:906:edb5:: with SMTP id
- sa21mr1161894ejb.78.1590499990526; 
- Tue, 26 May 2020 06:33:10 -0700 (PDT)
-Received: from x1w.redhat.com (71.red-88-21-204.staticip.rima-tde.net.
- [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id n25sm1623084edo.56.2020.05.26.06.33.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 06:33:09 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 14/14] MAINTAINERS: Change Aleksandar Rikalo's email address
-Date: Tue, 26 May 2020 15:32:47 +0200
-Message-Id: <20200526133247.13066-15-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200526133247.13066-1-f4bug@amsat.org>
-References: <20200526133247.13066-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jdZjz-0003OL-Lv
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 09:35:35 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:45693)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1jdZjw-0006Iq-SP
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 09:35:34 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 5526274633F;
+ Tue, 26 May 2020 15:35:21 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 08AA6746331; Tue, 26 May 2020 15:35:21 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 07187746335;
+ Tue, 26 May 2020 15:35:21 +0200 (CEST)
+Date: Tue, 26 May 2020 15:35:21 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2 5/7] sm501: Replace hand written implementation with
+ pixman where possible
+In-Reply-To: <20200526104318.wmsqqtia3h52l454@sirius.home.kraxel.org>
+Message-ID: <alpine.BSF.2.22.395.2005261434540.87757@zero.eik.bme.hu>
+References: <cover.1590089984.git.balaton@eik.bme.hu>
+ <58666389b6cae256e4e972a32c05cf8aa51bffc0.1590089984.git.balaton@eik.bme.hu>
+ <20200526104318.wmsqqtia3h52l454@sirius.home.kraxel.org>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62d.google.com
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,106 +62,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, libvir-list@redhat.com,
- Thomas Huth <thuth@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Huacai Chen <chenhc@lemote.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sebastian Bauer <mail@sebastianbauer.info>,
+ Magnus Damm <magnus.damm@gmail.com>, qemu-devel@nongnu.org,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+On Tue, 26 May 2020, Gerd Hoffmann wrote:
+> On Thu, May 21, 2020 at 09:39:44PM +0200, BALATON Zoltan wrote:
+>> Besides being faster this should also prevent malicious guests to
+>> abuse 2D engine to overwrite data or cause a crash.
+>
+>>          uint32_t src_base = s->twoD_source_base & 0x03FFFFFF;
+>> -        uint8_t *src = s->local_mem + src_base;
+>
+>> -                    val = *(_pixel_type *)&src[index_s];                      \
+>
+> Well, the advantage of *not* using pixman is that you can easily switch
+> the code to use offsets instead of pointers, then apply the mask to the
+> *final* offset to avoid oob data access:
 
-Aleksandar Rikalo wants to use a different email address from
-now on.
+The mask applied to src_base is not to prevent overflow but to implement 
+register limits. Only these bits are valid if I remember correctly, so 
+even if I use offsets I need to check for overflow. This patch basically 
+does that by changing parameters to unsigned to prevent them being 
+negative, checking values we multiply by to prevent them to be zero and 
+then calculating first and last offset and check if they are within vram. 
+(Unless of course I've made a mistake somewhere.) This should prevent 
+overflow with one check and does not need to apply a mask at every step. 
+The vram size can also be different so it's not a fixed mask anyway.
 
-Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-id: <20200518200920.17344-18-aleksandar.qemu.devel@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- .mailmap    |  3 ++-
- MAINTAINERS | 12 ++++++------
- 2 files changed, 8 insertions(+), 7 deletions(-)
+If not using pixman then I'd need to reimplement optimised 2D ops that 
+will likely never be as good as pixman and no point in doing it several 
+times for every device model so I'd rather try to use pixman where 
+possible unless a better library is available.
 
-diff --git a/.mailmap b/.mailmap
-index 6412067bde..e3628c7a66 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -42,7 +42,8 @@ Justin Terry (VM) <juterry@microsoft.com> Justin Terry (VM) via Qemu-devel <qemu
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@mips.com>
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <aleksandar.markovic@imgtec.com>
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com> <amarkovic@wavecomp.com>
--Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com> <arikalo@wavecomp.com>
-+Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <arikalo@wavecomp.com>
-+Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> <aleksandar.rikalo@rt-rk.com>
- Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
- James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
- Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f46ab150dc..a209b5d8ce 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -213,7 +213,7 @@ F: disas/microblaze.c
- MIPS TCG CPUs
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
- R: Aurelien Jarno <aurelien@aurel32.net>
--R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-+R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
- F: target/mips/
- F: default-configs/*mips*
-@@ -1048,7 +1048,7 @@ MIPS Machines
- -------------
- Jazz
- M: Hervé Poussineau <hpoussin@reactos.org>
--R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-+R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
- F: hw/mips/jazz.c
- F: hw/display/jazz_led.c
-@@ -1069,7 +1069,7 @@ F: tests/acceptance/machine_mips_malta.py
- 
- Mipssim
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
--R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-+R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Odd Fixes
- F: hw/mips/mipssim.c
- F: hw/net/mipsnet.c
-@@ -1077,7 +1077,7 @@ F: hw/net/mipsnet.c
- R4000
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
- R: Aurelien Jarno <aurelien@aurel32.net>
--R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-+R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Obsolete
- F: hw/mips/r4k.c
- 
-@@ -1094,7 +1094,7 @@ F: include/hw/isa/vt82c686.h
- 
- Boston
- M: Paul Burton <pburton@wavecomp.com>
--R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-+R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
- F: hw/core/loader-fit.c
- F: hw/mips/boston.c
-@@ -2608,7 +2608,7 @@ F: disas/i386.c
- MIPS TCG target
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
- R: Aurelien Jarno <aurelien@aurel32.net>
--R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-+R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Maintained
- F: tcg/mips/
- 
--- 
-2.21.3
+>    val = *(_pixel_type*)(&s->local_mem[(s->twoD_source_base + index_s) & 0x03FFFFFF]);
+>
+>> +        if ((rop_mode && rop == 0x5) || (!rop_mode && rop == 0x55)) {
+>> +            /* Invert dest, is there a way to do this with pixman? */
+>
+> PIXMAN_OP_XOR maybe?
 
+Maybe, but looking at the pixman source I couldn't decide if
+
+UN8x4_MUL_UN8_ADD_UN8x4_MUL_UN8 (s, dest_ia, d, src_ia);
+
+seen here:
+https://cgit.freedesktop.org/pixman/tree/pixman/pixman-combine32.c#n396
+is really the same as s ^ d.
+
+>> +            if (rtl && ((db >= sb && db <= se) || (de >= sb && de <= se))) {
+>> +                /* regions may overlap: copy via temporary */
+>
+> The usual way for a hardware blitter is to have a direction bit, i.e.
+> the guest os can ask to blit in top->bottom or bottom->top scanline
+> ordering.  The guest can use that to make sure the blit does not
+
+Yes, this is the rtl above (right to left) and AmigaOS sets this most of 
+the time so only relying on that to detect overlaps is not efficient.
+
+> overwrite things.  But note the guest can also intentionally use
+> overlapping regions, i.e. memset(0) the first scanline, then use a blit
+> with overlap to clear the whole screen.  The later will surely break if
+> you blit via temporary image ...
+
+Fortunately no guest code seems to do that so unless we find one needing 
+it I don't worry much about such rare cases. It would be best if pixman 
+supported this but while I've found patches were submitted they did not 
+get merged so far so using a temporary seems to be the simplest way that 
+works well enough for now.
+
+>> +                pixman_blt((uint32_t *)&s->local_mem[src_base],
+>> +                           (uint32_t *)&s->local_mem[dst_base],
+>> +                           src_pitch * (1 << format) / sizeof(uint32_t),
+>> +                           dst_pitch * (1 << format) / sizeof(uint32_t),
+>> +                           8 * (1 << format), 8 * (1 << format),
+>> +                           src_x, src_y, dst_x, dst_y, width, height);
+>
+> See above, i'm not convinced pixman is the best way here.
+> When using pixman I'd suggest:
+>
+>  (1) src = pixman_image_create_bits_no_clear(...);
+>  (2) dst = pixman_image_create_bits_no_clear(...);
+>  (3) pixman_image_composite(PIXMAN_OP_SRC, src, NULL, dst, ...);
+>  (4) pixman_image_unref(src);
+>  (5) pixman_image_unref(dst);
+>
+> pixman_blt() is probably doing basically the same.
+
+Actually not the same, pixman_blt is faster operating directly on pointers 
+while we need all the pixman_image overhead to use pixman_image_composite. 
+Blitter is used for a lot of small ops (I've seen AmigaOS even call it 
+with 1 pixel regions) so going through pixman_image every time does not 
+seem to be efficient. To implement more complex ops this may be needed so 
+I may try to figure that out later but I'd need some test cases to test if 
+the results are correct. The current patches do the same as before (except 
+for some rare overlapping cases as you noted above but we haven't observed 
+any yet) and fix the overflows so this was the best I could do in the time 
+I had. Maybe I try to improve this later but don't plan to rewrite it now.
+
+>  The advantage of not
+> using pixman_blt() is that
+>
+>  (a) you can also use pixman ops other than PIXMAN_OP_SRC, and
+>  (b) you can have a helper function for (1)+(2) which very carefully
+>      applies sanity checks to make sure the pixman image created stays
+>      completely inside s->local_mem.
+>  (c) you have the option to completely rearrange the code flow, for
+>      example update the src pixman image whenever the guest touches
+>      src_base or src_pitch or format instead of having a
+>      create/op/unref cycle on every blitter op.
+
+From traces I think most guest would write bltter related regs on every op 
+so probably not worth the hassle to try to update regions on register 
+access and we could do it on every op, possibly optimising 1 pixel blits 
+and small regions via some special cases but even then simple copy image 
+is probably the most common op that might worth doing via pixman_blt as 
+it's expected to be frequently used so the less overhead is the better. 
+Therefore I'd only use image_composite for more complex ops but that's too 
+much effort for a relatively unused device model. Maybe for ati-vga I'll 
+try to make it better but first should fix microengine for that so drivers 
+can talk to it. I'd rather spend my limited free time on that than further 
+improving sm501 unless some bugs show up.
+
+>> +        pixman_fill((uint32_t *)&s->local_mem[dst_base],
+>> +                    dst_pitch * (1 << format) / sizeof(uint32_t),
+>> +                    8 * (1 << format), dst_x, dst_y, width, height, color);
+>
+>  (1) src = pixman_image_create_solid(...), otherwise same as above ;)
+
+Same argument as composite_image and for fill we don't even have any 
+advantage so while for composite implementing other ops is a reason to not 
+use pixman_blt I see no reason to not go the fastest way for fill.
+
+Regards,
+BALATON Zoltan
 
