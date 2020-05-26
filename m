@@ -2,58 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04FEE1E1D01
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:13:45 +0200 (CEST)
-Received: from localhost ([::1]:51202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 546191E1CCE
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:03:03 +0200 (CEST)
+Received: from localhost ([::1]:53652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUiV-0008Up-VW
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46472)
+	id 1jdUYA-00055w-CL
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:03:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1jdUbJ-0002hJ-Ck
- for qemu-devel@nongnu.org; Tue, 26 May 2020 04:06:17 -0400
-Received: from mga05.intel.com ([192.55.52.43]:48177)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1jdUbH-0004j1-N3
- for qemu-devel@nongnu.org; Tue, 26 May 2020 04:06:16 -0400
-IronPort-SDR: 2GQwp0LrKjYpl04E1Lo/LL+TUhiMMDWdM5V6qOqZwf4mKiJm7yV7DN0aebNbUZ8bd4bl25gDke
- zHmW/FOnfNWQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 May 2020 01:06:12 -0700
-IronPort-SDR: 3B3jA/F85j8oh8aF6XvKuRB/twdFUD8WT0WK1oDETgI//WaZbw4zNvd4bSpLBcJWXhArzXzQtq
- Tncu9xu/STMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,436,1583222400"; d="scan'208";a="441994311"
-Received: from yangzhon-virtual.bj.intel.com (HELO localhost)
- ([10.238.144.101])
- by orsmga005.jf.intel.com with ESMTP; 26 May 2020 01:06:10 -0700
-Date: Tue, 26 May 2020 15:57:38 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: About the PVH in Seabios
-Message-ID: <20200526075738.GB28145@yangzhon-Virtual>
-References: <20200526071826.GA28145@yangzhon-Virtual>
- <20200526073651.mqnawlzjcqz2452t@steredhat>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdUWZ-0003Z3-6B
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 04:01:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39056
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdUWX-0003pq-P6
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 04:01:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590480080;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=TQTXRXEz/gMqp9X6Ttchn0696bXl6YwkmcUsYoxdUSI=;
+ b=dDTouif1+EJRgSbBNFI/1m2Tw/343Z2JzSgg3QIUcK3V+SJkBLcZzhTfJwx//HwcP4NRIi
+ e/YBJkAjIEs11zRQX71vdNaZCIWs9yDfWwLejXyX+xP+aUuAo6b6QQDSg7jMn+IRXeRCDL
+ P3jQXjHdvWcIdC2ylBpXqbzqe8PicGE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-463-AmwuIpA3MZCZLWgfc5C4sA-1; Tue, 26 May 2020 04:01:18 -0400
+X-MC-Unique: AmwuIpA3MZCZLWgfc5C4sA-1
+Received: by mail-wr1-f72.google.com with SMTP id h12so9465456wrr.19
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 01:01:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=TQTXRXEz/gMqp9X6Ttchn0696bXl6YwkmcUsYoxdUSI=;
+ b=h/YLKaclMQ+S/DgPBqHb1LNISIqId8LG494tNV0gbbtsjLuMjLdtKv9d23kWoyu7HJ
+ vU8KRKqED8E1K6IuRGFY3ibTUjt276HYQ+caC37xdjAgVTzcgMLR+rlSNxpxPl/Nss25
+ xcE/HxhgsoW7/Hnt7r+vWL5vVsOjmPKvPQxeur3ZmHKuH/Nvr0W94axiuWPcDh3yPs7L
+ vCJywlTlpCl+k6lpaz/XRZW/xrhymgQJoToAlzXkdruKiuDbIi7yx1mDYcUOd9Sn6XYB
+ nfYi/ITYh5WAYk6DIbIgwxJqSFOwVQG0/vArQEUWo8Lgws2GHFBmVijJvwd57zqPoa9I
+ Koxg==
+X-Gm-Message-State: AOAM5317hWqO9itu87oy13dBDadcahueBDLxqSnfH2a860KdgAmjF4Gm
+ VRXhxLTOKKhOkNINf4wZiW04L1sQgDs31FnAyYAx7oJwfgKjRgM8TjphPc/LNxSd28LGA/2XEGB
+ vpGS/Q7eaL6b247c=
+X-Received: by 2002:a1c:9d09:: with SMTP id g9mr176198wme.31.1590480077824;
+ Tue, 26 May 2020 01:01:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTezZfZGX0L5pc2CVLnftyI30Qx3kbz/cu0o1ak+8NQokiUrSLXbd1JZAbNHwNuYB2zJ/p5Q==
+X-Received: by 2002:a1c:9d09:: with SMTP id g9mr176118wme.31.1590480076810;
+ Tue, 26 May 2020 01:01:16 -0700 (PDT)
+Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id k17sm16209514wmj.15.2020.05.26.01.01.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 May 2020 01:01:16 -0700 (PDT)
+Subject: Re: [PATCH v3] exec: set map length to zero when returning NULL
+To: P J P <ppandit@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20200526075042.420162-1-ppandit@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <0b36df7d-06f3-1a78-4a00-12024db7ace0@redhat.com>
+Date: Tue, 26 May 2020 10:01:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200526073651.mqnawlzjcqz2452t@steredhat>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=yang.zhong@intel.com;
- helo=mga05.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 04:06:12
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200526075042.420162-1-ppandit@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:51:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,35 +120,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Prasad J Pandit <pjp@fedoraproject.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
+ Ding Ren <rding@gatech.edu>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 26, 2020 at 09:36:51AM +0200, Stefano Garzarella wrote:
-> Hi Yang,
+On 5/26/20 9:50 AM, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
 > 
-> On Tue, May 26, 2020 at 03:18:26PM +0800, Yang Zhong wrote:
-> > Hello all,
-> > 
-> > The current PVH has been implemented in Qemu and Qboot/uefi, i am not
-> > familiar with the PVH implementation history, and found there is no
-> > PVH support in Seabios, my question is do we have plan to support
-> > PVH in Seabios? thanks.
+> When mapping physical memory into host's virtual address space,
+> 'address_space_map' may return NULL if BounceBuffer is in_use.
+> Set and return '*plen = 0' to avoid later NULL pointer dereference.
 > 
-> We developed an optionrom in QEMU (pc-bios/optionrom/pvh*) that is used
-> with SeaBIOS to boot a PVH image.
+> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> Fixes: https://bugs.launchpad.net/qemu/+bug/1878259
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+> ---
+>  exec.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> So we don't need to change SeaBIOS since it already supports optionroms.
-> Currently when you use a PVH image in QEMU, SeaBIOS is used as default
-> choice with the PVH optionrom.
->
-  Stefano, thanks for your information, i only checked the pvh changes
-  in Seabios code and ignored optionrom changes, thanks again.
+> Update v3: set *plen = 0;
+>   -> https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg06249.html
+> 
+> diff --git a/exec.c b/exec.c
+> index 5162f0d12f..4eea84bf66 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -3538,6 +3538,7 @@ void *address_space_map(AddressSpace *as,
+>  
+>      if (!memory_access_is_direct(mr, is_write)) {
+>          if (atomic_xchg(&bounce.in_use, true)) {
+> +            *plen = 0;
+>              return NULL;
+>          }
+>          /* Avoid unbounded allocations */
+> 
 
-  Regards,
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-  Yang
-
-> Cheers,
-> Stefano
 
