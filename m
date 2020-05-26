@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8AA71E269D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:14:08 +0200 (CEST)
-Received: from localhost ([::1]:39240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 962381E268A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:09:42 +0200 (CEST)
+Received: from localhost ([::1]:55732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdcDQ-0002mc-0h
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:14:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53184)
+	id 1jdc97-0005jK-NN
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:09:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jdcAX-0008II-DU
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:11:09 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47190)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>)
+ id 1jdc41-0006Vd-3R; Tue, 26 May 2020 12:04:25 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:33718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jdcAC-0006JU-Hw
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:11:09 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jdcAA-0007p0-DE
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 16:10:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 612D12E8078
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 16:10:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>)
+ id 1jdc3y-0005GW-EK; Tue, 26 May 2020 12:04:24 -0400
+Received: by mail-wm1-f67.google.com with SMTP id j198so315105wmj.0;
+ Tue, 26 May 2020 09:04:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Oup9OvPZI88PbTh2vNNYQeJPSoFJ13JYSMC/2Zn3D2A=;
+ b=D1bnNi78U0zyuaD1DJT402FuCG3lVDTNG+5MrDEbVdPzSixLbqvclV0gRbUY2Xdyuc
+ ont0FyUuGXwOaRWSYHySrwuhYTQdh2mUEMEd5KtCG8WVKuTkJC9K+L7+WRNGZrIzEvhY
+ Nr/wglgv2+iM5M4vyh5YzwILpCnbXESbfv4w6Q5jxn9e/5CKCYOfSyk0hYb3x/lHDrl2
+ Fb3VcUffYD54cGxvbdCTJx39bZ4qrYvbABpQAUHI3HLk+9VjZPeVj1NsbrCL3wcFzMbn
+ duvvQK6zPT5lpZLDwXfGOEEqF/caf3pWw2znPPj+3BDNelH8DuCmLeBtuHn+ijV4qqRR
+ 8yNQ==
+X-Gm-Message-State: AOAM532rKpYtTY2bHoTv7NlK193xtnL3hlFaH3tVsBZ1cEjX7mUGf+IG
+ 1wKRH3UygKSAbsPXow2koDQ=
+X-Google-Smtp-Source: ABdhPJwfC0XTrCqh+pacFLPv1HhD/AFHhQ5ZLofqCK5i9DglRcJRZ97iuYIEmQQEdRYPbOYAZEoBrA==
+X-Received: by 2002:a7b:c046:: with SMTP id u6mr1918554wmc.57.1590509060427;
+ Tue, 26 May 2020 09:04:20 -0700 (PDT)
+Received: from thl530 (x590feeb5.dyn.telefonica.de. [89.15.238.181])
+ by smtp.gmail.com with ESMTPSA id s7sm261900wrr.60.2020.05.26.09.04.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 May 2020 09:04:19 -0700 (PDT)
+Date: Tue, 26 May 2020 18:04:16 +0200
+From: Thomas Huth <huth@tuxfamily.org>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Subject: Re: [PATCH v3 2/2] hw/m68k/mcf52xx: Replace hw_error() by
+ qemu_log_mask()
+Message-ID: <20200526180416.4f151f81@thl530>
+In-Reply-To: <20200526094052.1723-3-f4bug@amsat.org>
+References: <20200526094052.1723-1-f4bug@amsat.org>
+ <20200526094052.1723-3-f4bug@amsat.org>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 26 May 2020 16:03:45 -0000
-From: Ahmed Karaman <1880722@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ahmedkrmn
-X-Launchpad-Bug-Reporter: Ahmed Karaman (ahmedkrmn)
-X-Launchpad-Bug-Modifier: Ahmed Karaman (ahmedkrmn)
-Message-Id: <159050902512.8264.16089666576245848412.malonedeb@gac.canonical.com>
-Subject: [Bug 1880722] [NEW] Changing executable page permissions with mmap
- causes user-mode failures
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 89d400411839215444221cd006ebbaf567474daa
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 11:25:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=209.85.128.67; envelope-from=th.huth@gmail.com;
+ helo=mail-wm1-f67.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 12:04:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,71 +76,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1880722 <1880722@bugs.launchpad.net>
+Cc: qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Am Tue, 26 May 2020 11:40:52 +0200
+schrieb Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>:
 
-The discussion that led to this bug discovery can be found in this =
+> hw_error() calls exit(). This a bit overkill when we can log
+> the accesses as unimplemented or guest error.
+>=20
+> When fuzzing the devices, we don't want the whole process to
+> exit. Replace some hw_error() calls by qemu_log_mask().
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+[...]
+> diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
+> index b84c152ce3..108623b4ad 100644
+> --- a/hw/m68k/mcf5208.c
+> +++ b/hw/m68k/mcf5208.c
+> @@ -9,10 +9,10 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/units.h"
+>  #include "qemu/error-report.h"
+> +#include "qemu/log.h"
+>  #include "qapi/error.h"
+>  #include "qemu-common.h"
+>  #include "cpu.h"
+> -#include "hw/hw.h"
+>  #include "hw/irq.h"
+>  #include "hw/m68k/mcf.h"
+>  #include "hw/m68k/mcf_fec.h"
+> @@ -111,8 +111,9 @@ static void m5208_timer_write(void *opaque,
+> hwaddr offset, case 4:
+>          break;
+>      default:
+> -        hw_error("m5208_timer_write: Bad offset 0x%x\n",
+> (int)offset);
+> -        break;
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" PRIx64
+> "\n",
 
-mailing list thread:
-https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg05426.html
+That likely should be HWADDR_PRIX, too? ... could be fixed up while
+applying the patch.
 
-A workaround for this problem would be to check for page crossings for =
+With that:
+Reviewed-by: Thomas Huth <huth@tuxfamily.org>
 
-both the user and system modes in the use_goto_tb() function across =
 
-targets. Some targets like "hppa" already implement this fix but others
-don't.
-
-To solve the root cause of this problem, the linux-user/mmap.c should =
-
-be fixed to do all the invalidations required. By doing so, up to 6.93% =
-
-performance improvements will be achieved.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Summary changed:
-
-- Changing executable pages permissions with mmap causes user-mode failures
-+ Changing executable page permissions with mmap causes user-mode failures
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1880722
-
-Title:
-  Changing executable page permissions with mmap causes user-mode
-  failures
-
-Status in QEMU:
-  New
-
-Bug description:
-  The discussion that led to this bug discovery can be found in this =
-
-  mailing list thread:
-  https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg05426.html
-
-  A workaround for this problem would be to check for page crossings for =
-
-  both the user and system modes in the use_goto_tb() function across =
-
-  targets. Some targets like "hppa" already implement this fix but others
-  don't.
-
-  To solve the root cause of this problem, the linux-user/mmap.c should =
-
-  be fixed to do all the invalidations required. By doing so, up to 6.93% =
-
-  performance improvements will be achieved.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1880722/+subscriptions
+> +                      __func__, offset);
+> +        return;
+>      }
+>      m5208_timer_update(s);
+>  }
+> @@ -136,7 +137,8 @@ static uint64_t m5208_timer_read(void *opaque,
+> hwaddr addr, case 4:
+>          return ptimer_get_count(s->timer);
+>      default:
+> -        hw_error("m5208_timer_read: Bad offset 0x%x\n", (int)addr);
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%"
+> HWADDR_PRIX "\n",
+> +                      __func__, addr);
+>          return 0;
+>      }
+>  }
+> @@ -164,7 +166,8 @@ static uint64_t m5208_sys_read(void *opaque,
+> hwaddr addr, return 0;
+> =20
+>      default:
+> -        hw_error("m5208_sys_read: Bad offset 0x%x\n", (int)addr);
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%"
+> HWADDR_PRIX "\n",
+> +                      __func__, addr);
+>          return 0;
+>      }
+>  }
+> @@ -172,7 +175,8 @@ static uint64_t m5208_sys_read(void *opaque,
+> hwaddr addr, static void m5208_sys_write(void *opaque, hwaddr addr,
+>                              uint64_t value, unsigned size)
+>  {
+> -    hw_error("m5208_sys_write: Bad offset 0x%x\n", (int)addr);
+> +    qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX
+> "\n",
+> +                  __func__, addr);
+>  }
 
