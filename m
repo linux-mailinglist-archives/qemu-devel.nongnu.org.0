@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90F91E23F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 16:19:01 +0200 (CEST)
-Received: from localhost ([::1]:46310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CFBD1E2408
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 16:27:13 +0200 (CEST)
+Received: from localhost ([::1]:51406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdaQ0-0007ok-T8
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 10:19:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38888)
+	id 1jdaXw-0003IV-FM
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 10:27:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jdaPD-0007GO-Qo
- for qemu-devel@nongnu.org; Tue, 26 May 2020 10:18:11 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50457
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1jdaTU-0001ON-1V
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 10:22:36 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47667
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jdaPC-0007jo-Cm
- for qemu-devel@nongnu.org; Tue, 26 May 2020 10:18:11 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1jdaTS-00006S-6e
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 10:22:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590502688;
+ s=mimecast20190719; t=1590502953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=8QVcG1I/BqkJ/y3VTw5Xoe3fDPxbuE9D3yo9tSiC/7A=;
- b=Jan4BRmc9iKpmLMfmD2rw0DH+EktIhYQ2sxQ1BpJ+Ye4OYyrZ3LqpUS3UQtZM/AUIvQB0S
- Njc+3S9iaWbxVWYc9eI8dEkQBeBWgTauoD7Q++ox3V+cG6ql+P3Utk3yM74canZl5snf1v
- cHZkFgToAxrc4MD/G0UTC69utu8OMUU=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48--c1TyB85M-iOF1HrIeK8aQ-1; Tue, 26 May 2020 10:18:06 -0400
-X-MC-Unique: -c1TyB85M-iOF1HrIeK8aQ-1
-Received: by mail-qt1-f200.google.com with SMTP id u26so3856542qtj.21
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 07:18:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=8QVcG1I/BqkJ/y3VTw5Xoe3fDPxbuE9D3yo9tSiC/7A=;
- b=F8RjK+AXrYuHRG52JNQ2HZaPpgYUk8btdniWUHQLUav1RF2QkzKlBJkSfdSIsUodtr
- WJY85eGSo6KdyBb1kXb7ArhIet0BLyhGSBN7U6pnIHLMFxGay/bxrW882lhWG4RDSVqB
- TaXIFmBSOb9Vus3SuVHQxAc7JkEqgwg2qIWABWCRAFfTfqqkJcDVa8Q/cG3ERFQL6kjn
- JGpDJPgx6q9FOeOLESGjkoTJ0OZfPH9kUtizNowV4VyBmkkfHlZ5vmRpGXG9NX/TqD+G
- rPDXCu6P2Mt1Mf34wCV5Zbo3VCNkr/aKtBLAm5VECm/3/ys35YrvsTN1YJQGg8MdH0EW
- k2lQ==
-X-Gm-Message-State: AOAM532oMfHnqkjDHmw7M73KrIEbKxDh0kuyHp2WgcDmqRAQ+A2QMWxC
- drLtX0TOkLbUeVoUMkzE4T/6odNutB/x9YNkmlNli3vGhAi7ZTFMMDr7+6gmwOMNcjFndjItCQJ
- NW74ZlzEeJ5p4WfY=
-X-Received: by 2002:ad4:44a4:: with SMTP id n4mr10765495qvt.53.1590502685864; 
- Tue, 26 May 2020 07:18:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwJUFgXCH084DP/BtzeG/Tpze0evi70pBG1dP6FgxV5OIdOh9Rw853TqYVlM31ogEsuQhGEFA==
-X-Received: by 2002:ad4:44a4:: with SMTP id n4mr10765470qvt.53.1590502685620; 
- Tue, 26 May 2020 07:18:05 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id q24sm6130584qtc.0.2020.05.26.07.17.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 07:17:59 -0700 (PDT)
-Date: Tue, 26 May 2020 10:17:58 -0400
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH RFC v3 00/11] KVM: Dirty ring support (QEMU part)
-Message-ID: <20200526141758.GA1190778@xz-x1>
-References: <20200523232035.1029349-1-peterx@redhat.com>
+ bh=nJJJueX7AQo7+yPqQeAFEAHFKBBtCyDy7VQoB3Ju6iA=;
+ b=UhXn6ChfNz6+u1HHBAFd6nSGPYaPi3K95XhJ8mylWnLryMnEOdhLQNBuCmZaYU9LkNU3YR
+ ssArpqNVStg8R6f5ylGulniOe7p+qqJ9WJcPAHepWVP1dPHcL4w5VkCHtvDw/HXsYDzMmo
+ zeYkhjCRRNOBAvr3gJ5HtdketW5Fxcc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-35-O2ND-AFWOyaDcCSKDN72jQ-1; Tue, 26 May 2020 10:22:31 -0400
+X-MC-Unique: O2ND-AFWOyaDcCSKDN72jQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6063F8018A7;
+ Tue, 26 May 2020 14:22:30 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-115-102.rdu2.redhat.com [10.10.115.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 79BCB5C1C5;
+ Tue, 26 May 2020 14:22:20 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id E7A4722036E; Tue, 26 May 2020 10:22:19 -0400 (EDT)
+Date: Tue, 26 May 2020 10:22:19 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1] pc: Support coldplugging of virtio-pmem-pci devices
+ on all buses
+Message-ID: <20200526142219.GE108774@redhat.com>
+References: <20200525084511.51379-1-david@redhat.com>
+ <20200526132840.GD108774@redhat.com>
+ <dddadb61-b0af-a9c0-64f8-ac3c47d37566@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200523232035.1029349-1-peterx@redhat.com>
+In-Reply-To: <dddadb61-b0af-a9c0-64f8-ac3c47d37566@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:14:47
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 10:22:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,62 +81,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, May 23, 2020 at 07:20:24PM -0400, Peter Xu wrote:
-> I gave it a shot with a 24G guest, 8 vcpus, using 10g NIC as migration
-> channel.  When idle or dirty workload small, I don't observe major
-> difference on total migration time.  When with higher random dirty
-> workload (800MB/s dirty rate upon 20G memory, worse for kvm dirty
-> ring). Total migration time is (ping pong migrate for 6 times, in
-> seconds):
+On Tue, May 26, 2020 at 03:44:10PM +0200, David Hildenbrand wrote:
+> On 26.05.20 15:28, Vivek Goyal wrote:
+> > On Mon, May 25, 2020 at 10:45:11AM +0200, David Hildenbrand wrote:
+> >> E.g., with "pc-q35-4.2", trying to coldplug a virtio-pmem-pci devices
+> >> results in
+> >>     "virtio-pmem-pci not supported on this bus"
+> >>
+> >> Reasons is, that the bus does not support hotplug and, therefore, does
+> >> not have a hotplug handler. Let's allow coldplugging virtio-pmem devices
+> >> on such buses. The hotplug order is only relevant for virtio-pmem-pci
+> >> when the guest is already alive and the device is visible before
+> >> memory_device_plug() wired up the memory device bits.
+> >>
+> >> Hotplug attempts will still fail with:
+> >>     "Error: Bus 'pcie.0' does not support hotplugging"
+> >>
+> >> Hotunplug attempts will still fail with:
+> >>     "Error: Bus 'pcie.0' does not support hotplugging"
+> >>
+> >> Reported-by: Vivek Goyal <vgoyal@redhat.com>
+> >> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+> >> Cc: Igor Mammedov <imammedo@redhat.com>
+> >> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> >> Cc: Richard Henderson <rth@twiddle.net>
+> >> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> >> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> >> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> >> Signed-off-by: David Hildenbrand <david@redhat.com>
+> >> ---
+> >>  hw/i386/pc.c | 18 ++++++++++--------
+> >>  1 file changed, 10 insertions(+), 8 deletions(-)
+> > 
+> > Thanks for the patch David. I still seem to face a different error though.
+> > 
+> > 2020-05-26T13:26:05.720617Z qemu-system-x86_64: -device virtio-pmem-pci,memdev=pmem1,id=nv1: memory devices (e.g. for memory hotplug) are not enabled, please specify the maxmem option
+> > 
+> > Following is my domain xml file.
+> > 
+> > Vivek
 > 
-> |-------------------------+---------------|
-> | dirty ring (4k entries) | dirty logging |
-> |-------------------------+---------------|
-> |                      70 |            58 |
-> |                      78 |            70 |
-> |                      72 |            48 |
-> |                      74 |            52 |
-> |                      83 |            49 |
-> |                      65 |            54 |
-> |-------------------------+---------------|
+> Hi Vivek,
 > 
-> Summary:
+> you have to declare the maxMemory option. Memory devices like
+> virtio-pmem-pci reside in RAM like a pc-dimm or a nvdimm. If your
+> virtio-pmem device will be 4GB, you have to add that to maxMemory.
 > 
-> dirty ring average:    73s
-> dirty logging average: 55s
+>   <memory unit='GiB'>64</memory>
+>   <maxMemory unit='GiB'>68</maxMemory>
+>   <currentMemory unit='GiB'>64</currentMemory>
 > 
-> The KVM dirty ring will be slower in above case.  The number may show
-> that the dirty logging is still preferred as a default value because
-> small/medium VMs are still major cases, and high dirty workload
-> happens frequently too.  And that's what this series did.
+> (you might have to add "slots='0'" or "slots='1'" to maxMemory to make
+> libvirt happy)
 
-Two more TODOs that can potentially be worked upon:
+Ok, tried that.
 
-- Consider to drop the BQL dependency when reap dirty rings: then we can run
-  the reaper thread in parallel of main thread.  Needs some thoughts around the
-  race conditions of main thread to see whether it's doable.
+<maxMemory slots='1' unit='KiB'>134217728</maxMemory>
 
-- Consider to drop the kvmslot bitmap: logically this can be dropped with kvm
-  dirty ring, not only for space saving, but also it's slower, and it's yet
-  another layer linear to guest mem size which is against the whole idea of kvm
-  dirty ring.  This should make above number (of kvm dirty ring) even smaller,
-  but probably still not as good as dirty log if workload is high.  I'm not
-  sure whether it's possible to even drop the whole ramblock dirty bitmap when
-  kvm enabled then we remove all the bitmap caches (I guess VGA would still
-  need a very small one if it wants, or just do the refresh unconditionally),
-  but that's a much bigger surgery and a wild idea, but logically it should be
-  even more efficient with the ring structure, then precopy will just work
-  similar to postcopy that there'll be a queue of dirty pages (probably except
-  the 1st round of precopy).
+And now it complains about.
 
-I'll append them into the cover letter of next version too.
+error: unsupported configuration: At least one numa node has to be configured when enabling memory hotplug
 
--- 
-Peter Xu
+So ultimately it seems to be wanting me to somehow enable memory hotplug
+to be able to use virtio-pmem?
+
+Thanks
+Vivek
+
+> 
+> @Pankaj, do we have a virtio-pmem doc somewhere describing how to set it up?
+> 
+> -- 
+> Thanks,
+> 
+> David / dhildenb
 
 
