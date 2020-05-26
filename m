@@ -2,62 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CF31E28DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 19:33:03 +0200 (CEST)
-Received: from localhost ([::1]:48818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 685CD1E2931
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 19:38:36 +0200 (CEST)
+Received: from localhost ([::1]:39592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jddRl-0002m7-V7
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 13:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36490)
+	id 1jddX9-00032I-Gn
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 13:38:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jddPK-0001DH-UO
- for qemu-devel@nongnu.org; Tue, 26 May 2020 13:30:30 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32278
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jddUW-0007Jz-Kc
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 13:35:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27554
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jddPJ-0008Mt-3A
- for qemu-devel@nongnu.org; Tue, 26 May 2020 13:30:29 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jddUU-0004h9-R4
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 13:35:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590514228;
+ s=mimecast20190719; t=1590514548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UBqdWjmEc/msbKZwVVNYZNJeNnDanGxhIaX85cc6jhY=;
- b=C0EbywkV+nFsvX9gksSEHEc5Fdf430+9XeiOdU5hYgPtiCOCTjfD8r7+iBD/RrWaDn38kt
- 8tnVBYVH7cvZPWaF00UkRTMyT0p0HoVncfGJOwtD9Shmy+WNMPdcej7YXI++UDms+tMg3l
- yTKPwv9qUh05XCxJ2uZzcNnJaEN5hhM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-0mNBKSTLPGG9IZO9UvjDXA-1; Tue, 26 May 2020 13:30:25 -0400
-X-MC-Unique: 0mNBKSTLPGG9IZO9UvjDXA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6ECF107ACF4;
- Tue, 26 May 2020 17:30:23 +0000 (UTC)
-Received: from work-vm (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 74AB97A1E2;
- Tue, 26 May 2020 17:30:00 +0000 (UTC)
-Date: Tue, 26 May 2020 18:29:57 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 5/5] virtio: enable VIRTIO_F_RING_PACKED for all devices
-Message-ID: <20200526172957.GL2864@work-vm>
-References: <20200522171726.648279-1-stefanha@redhat.com>
- <20200522171726.648279-6-stefanha@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9QY8Q51pItvQreeWIlsdA9mHg+m2078KOFR/3hd7Gxk=;
+ b=fUBgL5HmNZH0e67cFGK4Z7VMzYN+THD6hTHkf8bKT6qzGEFUjwLSwvhlYzi7VQ3pYNdbY2
+ aGSXbasUCU3NzSPZs6J3lp/zlYAfYLlNVWFAF5qJVlCM/yKJuEJh92kXpexARyB2QKo/dz
+ V5dOLIB6FzHyi/XOQKRvARdkiA2MMyA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-161-K8D0JCKSMEanXusPFaAHDw-1; Tue, 26 May 2020 13:35:46 -0400
+X-MC-Unique: K8D0JCKSMEanXusPFaAHDw-1
+Received: by mail-ed1-f69.google.com with SMTP id e1so9315641edn.14
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 10:35:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9QY8Q51pItvQreeWIlsdA9mHg+m2078KOFR/3hd7Gxk=;
+ b=C2h1RMUkoZoZYnkreClNCS/Cj1kHjYb0rWIrpHgOP3mcrinBzJLWJntnP9eJ2V2qUv
+ TyO3CxA2pzh/n9HzYQ5A7ElfpyCaLH6E4PnK4TPch4yodq9jJAF72z3+m8REb0hndUNv
+ isJnUANaztVFe+JNpEdQyymGYXskrdcVhSNWpcj5ftIsiH23o19KORW8r7YG2fS+YHbf
+ aT9b3+3nblQK+w3DknHUd1+l3rU6P+SIU2FPRqfww9W1f+NqtX/wDJ7XHMaMBc853oK7
+ XYimlJIYP7GsfHRRrSC130fUYzGO1g94RFpayHW4hoy1aanwlOwcRNnVzgmsMthUnSNv
+ LiyA==
+X-Gm-Message-State: AOAM532sM6MlgVsPdwgPeGsooQLoQeDdqPh4G743sZD0SWDrJW8Uh9eS
+ HTY8shzO3Pr13m9c38Da01BilwVHhdowo7Nv9q7Uno1acv8I+cN/cPkzw132+bZpZaREURSshta
+ 0+ZjudRR+xNImguU=
+X-Received: by 2002:a50:b082:: with SMTP id j2mr21477927edd.201.1590514545160; 
+ Tue, 26 May 2020 10:35:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwD9NUFhURJxo0MIsNnjB84AhHRnm4Ur+7OmlV63fV2lVITWA1Noc1XRq7z40ItBN0eODbDSg==
+X-Received: by 2002:a50:b082:: with SMTP id j2mr21477904edd.201.1590514544964; 
+ Tue, 26 May 2020 10:35:44 -0700 (PDT)
+Received: from x1w.redhat.com (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id o25sm441491edt.66.2020.05.26.10.35.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 May 2020 10:35:44 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/vfio/common: Trace in which mode a IOMMU is opened
+Date: Tue, 26 May 2020 19:35:42 +0200
+Message-Id: <20200526173542.28710-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <20200522171726.648279-6-stefanha@redhat.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:51:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -67,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, T_HK_NAME_DR=0.01 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,86 +92,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- jasowang@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, Max Reitz <mreitz@redhat.com>
+Cc: Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> The packed virtqueue layout was introduced in VIRTIO 1.1. It is a single
-> ring instead of a split avail/used ring design. There are CPU cache
-> advantages to this layout and it is also suited better to hardware
-> implementation.
-> 
-> The vhost-net backend has already supported packed virtqueues for some
-> time. Performance benchmarks show that virtio-blk performance on NVMe
-> drives is also improved.
-> 
-> Go ahead and enable this feature for all VIRTIO devices. Keep it
-> disabled for QEMU 5.0 and earlier machine types.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+One might want to check which IOMMU version the host kernel
+provide. Add a trace event to see in which mode we opened
+our container.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/vfio/common.c     | 19 ++++++++++++++-----
+ hw/vfio/trace-events |  1 +
+ 2 files changed, 15 insertions(+), 5 deletions(-)
 
-> ---
->  include/hw/virtio/virtio.h |  2 +-
->  hw/core/machine.c          | 18 +++++++++++++++++-
->  2 files changed, 18 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index b69d517496..fd5b4a2044 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -292,7 +292,7 @@ typedef struct VirtIORNGConf VirtIORNGConf;
->      DEFINE_PROP_BIT64("iommu_platform", _state, _field, \
->                        VIRTIO_F_IOMMU_PLATFORM, false), \
->      DEFINE_PROP_BIT64("packed", _state, _field, \
-> -                      VIRTIO_F_RING_PACKED, false)
-> +                      VIRTIO_F_RING_PACKED, true)
->  
->  hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
->  bool virtio_queue_enabled(VirtIODevice *vdev, int n);
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index bb3a7b18b1..3598c3c825 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -28,7 +28,23 @@
->  #include "hw/mem/nvdimm.h"
->  #include "migration/vmstate.h"
->  
-> -GlobalProperty hw_compat_5_0[] = {};
-> +GlobalProperty hw_compat_5_0[] = {
-> +    { "vhost-user-blk", "packed", "off" },
-> +    { "vhost-user-fs-device", "packed", "off" },
-> +    { "vhost-vsock-device", "packed", "off" },
-> +    { "virtio-9p-device", "packed", "off" },
-> +    { "virtio-balloon-device", "packed", "off" },
-> +    { "virtio-blk-device", "packed", "off" },
-> +    { "virtio-crypto-device", "packed", "off" },
-> +    { "virtio-gpu-device", "packed", "off" },
-> +    { "virtio-input-device", "packed", "off" },
-> +    { "virtio-iommu-device", "packed", "off" },
-> +    { "virtio-net-device", "packed", "off" },
-> +    { "virtio-pmem", "packed", "off" },
-> +    { "virtio-rng-device", "packed", "off" },
-> +    { "virtio-scsi-common", "packed", "off" },
-> +    { "virtio-serial-device", "packed", "off" },
-> +};
->  const size_t hw_compat_5_0_len = G_N_ELEMENTS(hw_compat_5_0);
->  
->  GlobalProperty hw_compat_4_2[] = {
-> -- 
-> 2.25.3
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 0b3593b3c0..6b69a259c1 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1157,15 +1157,24 @@ static void vfio_put_address_space(VFIOAddressSpace *space)
+ static int vfio_get_iommu_type(VFIOContainer *container,
+                                Error **errp)
+ {
+-    int iommu_types[] = { VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
+-                          VFIO_SPAPR_TCE_v2_IOMMU, VFIO_SPAPR_TCE_IOMMU };
++    static const struct {
++        int type;
++        const char *name;
++    } iommu[] = {
++        {VFIO_TYPE1v2_IOMMU, "Type1 (v2)"},
++        {VFIO_TYPE1_IOMMU, "Type1 (v1)"},
++        {VFIO_SPAPR_TCE_v2_IOMMU, "sPAPR TCE (v2)"},
++        {VFIO_SPAPR_TCE_IOMMU, "sPAPR TCE (v1)"}
++    };
+     int i;
+ 
+-    for (i = 0; i < ARRAY_SIZE(iommu_types); i++) {
+-        if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu_types[i])) {
+-            return iommu_types[i];
++    for (i = 0; i < ARRAY_SIZE(iommu); i++) {
++        if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu[i].type)) {
++            trace_vfio_get_iommu_type(iommu[i].type, iommu[i].name);
++            return iommu[i].type;
+         }
+     }
++    trace_vfio_get_iommu_type(-1, "Not available or not supported");
+     error_setg(errp, "No available IOMMU models");
+     return -EINVAL;
+ }
+diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+index b1ef55a33f..8166c4c50d 100644
+--- a/hw/vfio/trace-events
++++ b/hw/vfio/trace-events
+@@ -115,6 +115,7 @@ vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) "Devic
+ vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long end) "sparse entry %d [0x%lx - 0x%lx]"
+ vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%0x8"
+ vfio_dma_unmap_overflow_workaround(void) ""
++vfio_get_iommu_type(int iommu_type, const char *iommu_name) "IOMMU type %d (%s)"
+ 
+ # platform.c
+ vfio_platform_base_device_init(char *name, int groupid) "%s belongs to group #%d"
+-- 
+2.21.3
 
 
