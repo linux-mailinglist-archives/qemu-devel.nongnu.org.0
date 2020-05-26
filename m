@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A8F1E27C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:56:56 +0200 (CEST)
-Received: from localhost ([::1]:38928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26B01E27CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:59:09 +0200 (CEST)
+Received: from localhost ([::1]:48298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdcsp-0001pW-MK
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:56:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48536)
+	id 1jdcuy-0006uc-FS
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:59:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jdclM-000678-F6; Tue, 26 May 2020 12:49:12 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:37198)
+ id 1jdcly-0007Gs-1U; Tue, 26 May 2020 12:49:50 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:42005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jdclL-0007Oc-Fe; Tue, 26 May 2020 12:49:12 -0400
-Received: by mail-io1-xd44.google.com with SMTP id r2so12450171ioo.4;
- Tue, 26 May 2020 09:49:10 -0700 (PDT)
+ id 1jdclx-0007qE-4I; Tue, 26 May 2020 12:49:49 -0400
+Received: by mail-il1-x144.google.com with SMTP id 18so21175643iln.9;
+ Tue, 26 May 2020 09:49:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=o6vFOUblTNolcbaRL4nx5kYJgwZRaRBiJrsxMHHl+zw=;
- b=DSm8IFUePY+/iZDmV2dfu1XDvfBpDCU2wQqmk5/3bvYWxyqQF/Dlgsq8XR7wEu06u3
- Tiao6YMjv0bW7HaXsvcEd3KQzZRAlkay65nIGq062Slmb5I9trCTvTW9Qo65tpw9I4D0
- z9TYe93YFW7HM3HVCPzl0b5fb1BrKs24tC28vV0jcD4/6j0TsAFkKmHahHbNKwcVvhxM
- c5gvkl82k8Ed2MsMmQw25EOpdTFQG0H5xpTBwnG7kCTAfTwmfB10WBpsaN3i7Od4oJbb
- g18n+6PKOky0naQjcuCRhnWZdX6dr/q7m8Nus8dnyF+sD4YzY9VxaFbo5/AvpqKq2pbG
- JI3w==
+ bh=2KoUX+e5g1rmy+CRz+7sdJM4czxsGYzwfbSWV5cSDkM=;
+ b=S0w04FF7T7bnf84GgZ7iEeaGAjKRa99jBNbbiznc6NxicvC649WmHhpTTTPuIWktIG
+ 2yiSdjFAXjNfZ4uA6tP0KDgaynlXOjPbFq4aMIvgZ4LlKgdDfhWhSBdceF7LO5c4IMLy
+ xFQ0XemyFB7fKVX6AL/8TEcgT+MRNRJ5HovYRKZeBXWLPa/6tuqpe7rJBzTe3dSv6NEE
+ bM/A1e16xbiefPkTt1poacZ7ZTW3Byt2LzIW+89rFls7/Jk9tSUykZaMpI4gnRt8cg57
+ LaPBd/x8NLo7oRWF2uO1n3vPqcTOPbQMiZgSLViQg/9JmHnivyGepGA/0YLPJqZqplIA
+ ClZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=o6vFOUblTNolcbaRL4nx5kYJgwZRaRBiJrsxMHHl+zw=;
- b=fAXTXzeFPam2yKiVP0H1UdqZd+nBeKyCSSlgep1ajMfG5JIW8S4PI5jHhj5tfCFCsv
- OTcr2VCFLL1WwfAQdVpSvLYPmwspHU6NIJcpWqEOyfUZqsT1D3ecxSSpidCMI/n3mZwm
- 8d/lXA6QpkwyNdiGx1B4qeGeMRnZYboBsOn822W6DuU++N4WoiiPYOCYN36RcaiEbEYh
- X/adIUEKM38CgYLzzYTjdis0aTLuUHsT/kcF6T4GxK05quseuo+yZkpqQl93/LS7X4Y7
- yumeUXJiwjGhqLxK8Pyp2UMSMyJ9XfTbENN3SAnyrd1u+qm6ncAy9qCjeAjWmmuO6S5T
- zZJw==
-X-Gm-Message-State: AOAM5307c+SKZeXWZuRogQ9Isz0SxRmo26NNxF/LB+IRnKC9MX+/xgoY
- YoMt8ykkCNdYE5DsJjvgxKYVSrSC93X5MHLozNo=
-X-Google-Smtp-Source: ABdhPJwCb7MhtLOi2/+Ctk/F0TbbZ+J8GGABdDDLn5kv3bgXUOuQWq8FYmh5+i+SpYgQycvfOVRVwuacayh70/LoJ0A=
-X-Received: by 2002:a6b:6a13:: with SMTP id x19mr17622754iog.175.1590511749432; 
- Tue, 26 May 2020 09:49:09 -0700 (PDT)
+ bh=2KoUX+e5g1rmy+CRz+7sdJM4czxsGYzwfbSWV5cSDkM=;
+ b=BvrWCe9GsLf1NVIcFwxyDrGDzEspVk+qxKoLrZbGAbf4cdnakKUypKnSStUnW/fuTc
+ fOZJQVerT0uvE5Y30y7tPoxGrLAcLlc/lwVwGe7/VykoAtjzwvCmvvBhdHXorarY8haL
+ WRPd4RokZTd+qZAFkw7taIdptsX08crBJ7UEEF/2QQx7YzrX2OFad5DgRj/+TJwXsN6L
+ JxVOR38bYhVrPU81zk579u4yHYzV7yDuzIKzXSQfdfssR37L8YxGF1E8y2iyU9eYs6mN
+ +J4ZZBj/VUlR9YFghsa8DRQo0wpJzYkJ6WJUDr26QInpliVqaJMvbdXU0t4FeDQdscDn
+ tqKA==
+X-Gm-Message-State: AOAM532/jMibkaTkuxfbwkeyFg+SevJ/1D1SdQfzbu9hEfN02aSj4Fa6
+ Qpls3Uzq0KrI2vHP1ZCeQLcKJ/2MtAWwd6uLBVw=
+X-Google-Smtp-Source: ABdhPJy9jkbUJ0bO2l2TwYZZcEJFfChtxqwdylPwijaQfoGltI/7LJsBOc55rLhfY7fb+WSD2C+oYznmELJZ958imGs=
+X-Received: by 2002:a92:d087:: with SMTP id h7mr2131565ilh.227.1590511787083; 
+ Tue, 26 May 2020 09:49:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200525034459.28535-1-f4bug@amsat.org>
- <20200525034459.28535-5-f4bug@amsat.org>
-In-Reply-To: <20200525034459.28535-5-f4bug@amsat.org>
+References: <20200526062252.19852-1-f4bug@amsat.org>
+ <20200526062252.19852-2-f4bug@amsat.org>
+In-Reply-To: <20200526062252.19852-2-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 26 May 2020 09:40:10 -0700
-Message-ID: <CAKmqyKP5T-X7wOSp0Fvdwi-V7BOUzY6SUxC=bL2tJDhEUkcSBg@mail.gmail.com>
-Subject: Re: [PATCH 4/4] hw/display/xlnx_dp: Replace disabled DPRINTF() by
- error_report()
+Date: Tue, 26 May 2020 09:40:48 -0700
+Message-ID: <CAKmqyKNqv=CKpWpshU854joqp4KjxYjbNGdaik-BX-XePx5kvg@mail.gmail.com>
+Subject: Re: [PATCH 01/14] hw/display/edid: Add missing 'qdev-properties.h'
+ header
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -83,20 +83,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  QEMU Trivial <qemu-trivial@nongnu.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 24, 2020 at 8:49 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
+On Mon, May 25, 2020 at 11:23 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
 >
-> DPRINTF() calls are disabled by default, so when unexpected
-> data is used, the whole process abort without information.
+> When trying to consume the DEFINE_EDID_PROPERTIES() macro
+> by including "hw/display/edid.h", we get this build failure:
 >
-> Display a bit of information with error_report() before crashing.
+>   include/hw/display/edid.h:24:5: error: implicit declaration of
+>   function =E2=80=98DEFINE_PROP_UINT32=E2=80=99 [-Werror=3Dimplicit-funct=
+ion-declaration]
+>      24 |     DEFINE_PROP_UINT32("xres", _state, _edid_info.prefx, 0),   =
+ \
+>         |     ^~~~~~~~~~~~~~~~~~
 >
+> Headers should be self-contained, and one shouldn't have to
+> dig to find the missing headers.
+> In this case "hw/qdev-properties.h" is missing. Add it.
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
@@ -104,75 +118,21 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/display/xlnx_dp.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
+>  include/hw/display/edid.h | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-> index 3e5fb44e06..8d940cd8d1 100644
-> --- a/hw/display/xlnx_dp.c
-> +++ b/hw/display/xlnx_dp.c
-> @@ -1,5 +1,5 @@
->  /*
-> - * xlnx_dp.c
-> + * Xilinx Display Port
->   *
->   *  Copyright (C) 2015 : GreenSocs Ltd
->   *      http://www.greensocs.com/ , email: info@greensocs.com
-> @@ -24,6 +24,7 @@
+> diff --git a/include/hw/display/edid.h b/include/hw/display/edid.h
+> index ff99dc0a05..23371ee82c 100644
+> --- a/include/hw/display/edid.h
+> +++ b/include/hw/display/edid.h
+> @@ -2,6 +2,7 @@
+>  #define EDID_H
 >
->  #include "qemu/osdep.h"
->  #include "qapi/error.h"
-> +#include "qemu/error-report.h"
->  #include "qemu/log.h"
->  #include "qemu/module.h"
->  #include "hw/display/xlnx_dp.h"
-> @@ -465,7 +466,7 @@ static uint8_t xlnx_dp_aux_pop_tx_fifo(XlnxDPState *s=
-)
->      uint8_t ret;
+>  #include "qom/object.h"
+> +#include "hw/qdev-properties.h"
 >
->      if (fifo8_is_empty(&s->tx_fifo)) {
-> -        DPRINTF("tx_fifo underflow..\n");
-> +        error_report("%s: TX_FIFO underflow", __func__);
->          abort();
->      }
->      ret =3D fifo8_pop(&s->tx_fifo);
-> @@ -525,6 +526,7 @@ static void xlnx_dp_aux_set_command(XlnxDPState *s, u=
-int32_t value)
->          qemu_log_mask(LOG_UNIMP, "xlnx_dp: Write i2c status not implemen=
-ted\n");
->          break;
->      default:
-> +        error_report("%s: invalid command: %u", __func__, cmd);
->          abort();
->      }
->
-> @@ -631,8 +633,8 @@ static void xlnx_dp_change_graphic_fmt(XlnxDPState *s=
-)
->          s->g_plane.format =3D PIXMAN_b8g8r8;
->          break;
->      default:
-> -        DPRINTF("error: unsupported graphic format %u.\n",
-> -                s->avbufm_registers[AV_BUF_FORMAT] & DP_GRAPHIC_MASK);
-> +        error_report("%s: unsupported graphic format %u", __func__,
-> +                     s->avbufm_registers[AV_BUF_FORMAT] & DP_GRAPHIC_MAS=
-K);
->          abort();
->      }
->
-> @@ -647,8 +649,8 @@ static void xlnx_dp_change_graphic_fmt(XlnxDPState *s=
-)
->          s->v_plane.format =3D PIXMAN_x8b8g8r8;
->          break;
->      default:
-> -        DPRINTF("error: unsupported video format %u.\n",
-> -                s->avbufm_registers[AV_BUF_FORMAT] & DP_NL_VID_FMT_MASK)=
-;
-> +        error_report("%s: unsupported video format %u", __func__,
-> +                     s->avbufm_registers[AV_BUF_FORMAT] & DP_NL_VID_FMT_=
-MASK);
->          abort();
->      }
->
+>  typedef struct qemu_edid_info {
+>      const char *vendor; /* http://www.uefi.org/pnp_id_list */
 > --
 > 2.21.3
 >
