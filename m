@@ -2,86 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887191E1D19
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:19:11 +0200 (CEST)
-Received: from localhost ([::1]:58688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE8A1E1D22
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:19:56 +0200 (CEST)
+Received: from localhost ([::1]:60908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUnl-0003vr-B4
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:19:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47776)
+	id 1jdUoV-0004p3-Lq
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:19:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdUmL-0002Sh-FQ
- for qemu-devel@nongnu.org; Tue, 26 May 2020 04:17:42 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdUmK-0006pK-Q8
- for qemu-devel@nongnu.org; Tue, 26 May 2020 04:17:41 -0400
-Received: by mail-wr1-x442.google.com with SMTP id i15so19428730wrx.10
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 01:17:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rVeWaYkh+55WUlfx5f1RL+YYPQaKW76HE6852F1yfa8=;
- b=YSUiKduXyZTM6GhVpUUud2lmPlwCLGL+taV+4zW4bxXgjmARE4pbT4CywhJ2jC25+s
- QqRaL7nw2j9aU5jYW8EH3J3eIihxGrAxKEx74X/ys6jaJ/lxPHNhglBWOfllMFYSDuyV
- iaQXVkyZS/Cyili69SDbnDpkS9KKDTKG6aiVxLZ2L0slSkCX57gLFtJZPDKwqHasLbf9
- l9HCXByQ2dWEOKALZf8MIU5v1XlZQcfwf+iLHNKlXwM6wnNnsEBsklYFJirGKIi2wnsY
- DlUJ3VLacNiub+XpHO2S4axWEflg0KqcK/ApKvHrgAhA7TApLAQSGI/h6XH/pwW2Ejt5
- oV6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rVeWaYkh+55WUlfx5f1RL+YYPQaKW76HE6852F1yfa8=;
- b=lGbgerFNEqwXFJxaFBbJAQARz0Ts/adH2brZXpsYiVYltV1U6Xsk4rQq6eICmcy2wS
- 37gK3D95VUot2CAZBqXHCGe3g8Il+4CkrSwnv3bOc8eSFEp0t52pvlZDfL0cfZGifnxa
- 6h7HecmGJXXRFSY5QkaPsO0QLK48eoLNAkRW+Gg6c+PIRKJvjBAjl3guSXiDf4l/r257
- +Ex1U98tHOqeWThadmWDT+ctp6CEASFsEV1SPLk0U4o5xkXwc+oEkkLllZVVlXXOsIVi
- UpdumFbgE5EEh6arc4Kw65cTBzHLYAM7PSozjYu0oUaHLUfduvezqu8SmC/HQ/LzPE1w
- dP+Q==
-X-Gm-Message-State: AOAM533P++/dwcKmlXeHIOK1ql4UHxH/mFSDiuRtdmo8mQeIBCtXgdDZ
- XUoQTYr7RCa+juNhLjp2VkY=
-X-Google-Smtp-Source: ABdhPJwju761sjSflCgsbM7SGseVCPaM7EuO4ZRWYnzoA1g19+FotE21J49sFX6hR1A4ALeNZ5qL3w==
-X-Received: by 2002:a5d:538e:: with SMTP id d14mr18649020wrv.174.1590481059177; 
- Tue, 26 May 2020 01:17:39 -0700 (PDT)
-Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
- [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id t8sm9737901wro.56.2020.05.26.01.17.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 May 2020 01:17:38 -0700 (PDT)
-Subject: Re: [PATCH 1/2] hw/mips/mips_int: De-duplicate KVM interrupt delivery
-To: Thomas Huth <thuth@redhat.com>, chen huacai <zltjiangshi@gmail.com>,
- qemu-level <qemu-devel@nongnu.org>
-References: <20200429082916.10669-1-f4bug@amsat.org>
- <20200429082916.10669-2-f4bug@amsat.org>
- <CABDp7VoyvX2vD6awEC-GwnEu8SW=pMPPR7mrfKCSzamrnomPKg@mail.gmail.com>
- <dc94a9f4-b6c9-97fa-4515-3e51ef9b816a@amsat.org>
- <193e8262-fa43-2132-02ae-e8bceca86c80@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <997e7635-93fa-d711-4c10-1cf3c02f2482@amsat.org>
-Date: Tue, 26 May 2020 10:17:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1jdUmZ-0002jG-JR; Tue, 26 May 2020 04:17:55 -0400
+Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:50966)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1jdUmX-0006w1-1H; Tue, 26 May 2020 04:17:54 -0400
+Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net
+ [IPv6:2a02:6b8:0:1402::301])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 5F0802E150E;
+ Tue, 26 May 2020 11:17:49 +0300 (MSK)
+Received: from iva8-88b7aa9dc799.qloud-c.yandex.net
+ (iva8-88b7aa9dc799.qloud-c.yandex.net [2a02:6b8:c0c:77a0:0:640:88b7:aa9d])
+ by mxbackcorp1g.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ inqmRCyFdJ-Hk2OD4MP; Tue, 26 May 2020 11:17:49 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1590481069; bh=hYpHAEWGII40PJg4NWc1hcoyT8D7n9oYQC0kF3H60fw=;
+ h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
+ b=Lw9CloBavvQ9o02mYxvL/KV08fNFnDoMMwUpontx2feEJAZIfUPK7b3FjWo7YJQFu
+ cb4mHlqsFLOYd6jmfl9qYPijUFnIpdYAAUTaTlOe5pavvNIqh1HNRvEXmEVAtk08FP
+ +jmh2JYdiA+r0JpQDPhbcUunv9hnF2YjxnAkStns=
+Authentication-Results: mxbackcorp1g.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
+ [2a02:6b8:b080:8909::1:0])
+ by iva8-88b7aa9dc799.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ eMCAEelUnS-HkXubgso; Tue, 26 May 2020 11:17:46 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 2/5] block: consolidate blocksize properties consistency
+ checks
+Date: Tue, 26 May 2020 11:17:37 +0300
+Message-Id: <20200526081740.256236-3-rvkagan@yandex-team.ru>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200526081740.256236-1-rvkagan@yandex-team.ru>
+References: <20200526081740.256236-1-rvkagan@yandex-team.ru>
 MIME-Version: 1.0
-In-Reply-To: <193e8262-fa43-2132-02ae-e8bceca86c80@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,59 +73,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Huacai Chen <chenhc@lemote.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/20 9:57 AM, Thomas Huth wrote:
-> On 12/05/2020 09.08, Philippe Mathieu-Daudé wrote:
->> On 4/29/20 10:48 AM, chen huacai wrote:
->>> Hi, Philippe,
->>>
->>> On Wed, Apr 29, 2020 at 4:30 PM Philippe Mathieu-Daudé
->>> <f4bug@amsat.org> wrote:
->>>>
->>>> Refactor duplicated code in a single place.
->>>>
->>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>> ---
->>>>   hw/mips/mips_int.c | 11 +++--------
->>>>   1 file changed, 3 insertions(+), 8 deletions(-)
->>>>
->>>> diff --git a/hw/mips/mips_int.c b/hw/mips/mips_int.c
->>>> index 796730b11d..4a1bf846da 100644
->>>> --- a/hw/mips/mips_int.c
->>>> +++ b/hw/mips/mips_int.c
->>>> @@ -47,17 +47,12 @@ static void cpu_mips_irq_request(void *opaque,
->>>> int irq, int level)
->>>>
->>>>       if (level) {
->>>>           env->CP0_Cause |= 1 << (irq + CP0Ca_IP);
->>>> -
->>>> -        if (kvm_enabled() && irq == 2) {
->>>> -            kvm_mips_set_interrupt(cpu, irq, level);
->>>> -        }
->>>> -
->>>>       } else {
->>>>           env->CP0_Cause &= ~(1 << (irq + CP0Ca_IP));
->>>> +    }
->>>>
->>>> -        if (kvm_enabled() && irq == 2) {
->>>> -            kvm_mips_set_interrupt(cpu, irq, level);
->>>> -        }
->>>> +    if (kvm_enabled() && irq == 2) {
->>>> +        kvm_mips_set_interrupt(cpu, irq, level);
->>>>       }
->>>>
->>>>       if (env->CP0_Cause & CP0Ca_IP_mask) {
->>>> -- 
->>>> 2.21.1
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+Several block device properties related to blocksize configuration must
+be in certain relationship WRT each other: physical block must be no
+smaller than logical block; min_io_size, opt_io_size, and
+discard_granularity must be a multiple of a logical block.
 
-Thanks, queued to mips-next.
+To ensure these requirements are met, add corresponding consistency
+checks to blkconf_blocksizes, adjusting its signature to communicate
+possible error to the caller.  Also remove the now redundant consistency
+checks from the specific devices.
+
+Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+---
+v4 -> v5:
+- fix/reword error messages [Philippe, Kevin]
+- do early return on failed consistency check [Philippe]
+- use QEMU_IS_ALIGNED instead of open coding [Philippe]
+
+ include/hw/block/block.h   |  2 +-
+ hw/block/block.c           | 30 +++++++++++++++++++++++++++++-
+ hw/block/fdc.c             |  5 ++++-
+ hw/block/nvme.c            |  5 ++++-
+ hw/block/virtio-blk.c      |  7 +------
+ hw/ide/qdev.c              |  5 ++++-
+ hw/scsi/scsi-disk.c        | 12 +++++-------
+ hw/usb/dev-storage.c       |  5 ++++-
+ tests/qemu-iotests/172.out |  2 +-
+ 9 files changed, 53 insertions(+), 20 deletions(-)
+
+diff --git a/include/hw/block/block.h b/include/hw/block/block.h
+index d7246f3862..784953a237 100644
+--- a/include/hw/block/block.h
++++ b/include/hw/block/block.h
+@@ -87,7 +87,7 @@ bool blk_check_size_and_read_all(BlockBackend *blk, void *buf, hwaddr size,
+ bool blkconf_geometry(BlockConf *conf, int *trans,
+                       unsigned cyls_max, unsigned heads_max, unsigned secs_max,
+                       Error **errp);
+-void blkconf_blocksizes(BlockConf *conf);
++bool blkconf_blocksizes(BlockConf *conf, Error **errp);
+ bool blkconf_apply_backend_options(BlockConf *conf, bool readonly,
+                                    bool resizable, Error **errp);
+ 
+diff --git a/hw/block/block.c b/hw/block/block.c
+index bf56c7612b..b22207c921 100644
+--- a/hw/block/block.c
++++ b/hw/block/block.c
+@@ -61,7 +61,7 @@ bool blk_check_size_and_read_all(BlockBackend *blk, void *buf, hwaddr size,
+     return true;
+ }
+ 
+-void blkconf_blocksizes(BlockConf *conf)
++bool blkconf_blocksizes(BlockConf *conf, Error **errp)
+ {
+     BlockBackend *blk = conf->blk;
+     BlockSizes blocksizes;
+@@ -83,6 +83,34 @@ void blkconf_blocksizes(BlockConf *conf)
+             conf->logical_block_size = BDRV_SECTOR_SIZE;
+         }
+     }
++
++    if (conf->logical_block_size > conf->physical_block_size) {
++        error_setg(errp,
++                   "logical_block_size > physical_block_size not supported");
++        return false;
++    }
++
++    if (!QEMU_IS_ALIGNED(conf->min_io_size, conf->logical_block_size)) {
++        error_setg(errp,
++                   "min_io_size must be a multiple of logical_block_size");
++        return false;
++    }
++
++    if (!QEMU_IS_ALIGNED(conf->opt_io_size, conf->logical_block_size)) {
++        error_setg(errp,
++                   "opt_io_size must be a multiple of logical_block_size");
++        return false;
++    }
++
++    if (conf->discard_granularity != -1 &&
++        !QEMU_IS_ALIGNED(conf->discard_granularity,
++                         conf->logical_block_size)) {
++        error_setg(errp, "discard_granularity must be "
++                   "a multiple of logical_block_size");
++        return false;
++    }
++
++    return true;
+ }
+ 
+ bool blkconf_apply_backend_options(BlockConf *conf, bool readonly,
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index c5fb9d6ece..8eda572ef4 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -554,7 +554,10 @@ static void floppy_drive_realize(DeviceState *qdev, Error **errp)
+         read_only = !blk_bs(dev->conf.blk) || blk_is_read_only(dev->conf.blk);
+     }
+ 
+-    blkconf_blocksizes(&dev->conf);
++    if (!blkconf_blocksizes(&dev->conf, errp)) {
++        return;
++    }
++
+     if (dev->conf.logical_block_size != 512 ||
+         dev->conf.physical_block_size != 512)
+     {
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 2f3100e56c..672650e162 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1390,7 +1390,10 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+         host_memory_backend_set_mapped(n->pmrdev, true);
+     }
+ 
+-    blkconf_blocksizes(&n->conf);
++    if (!blkconf_blocksizes(&n->conf, errp)) {
++        return;
++    }
++
+     if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->conf.blk),
+                                        false, errp)) {
+         return;
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index 413083e62f..4ffdb130be 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -1162,12 +1162,7 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    blkconf_blocksizes(&conf->conf);
+-
+-    if (conf->conf.logical_block_size >
+-        conf->conf.physical_block_size) {
+-        error_setg(errp,
+-                   "logical_block_size > physical_block_size not supported");
++    if (!blkconf_blocksizes(&conf->conf, errp)) {
+         return;
+     }
+ 
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index 06b11583f5..b4821b2403 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -187,7 +187,10 @@ static void ide_dev_initfn(IDEDevice *dev, IDEDriveKind kind, Error **errp)
+         return;
+     }
+ 
+-    blkconf_blocksizes(&dev->conf);
++    if (!blkconf_blocksizes(&dev->conf, errp)) {
++        return;
++    }
++
+     if (dev->conf.logical_block_size != 512) {
+         error_setg(errp, "logical_block_size must be 512 for IDE");
+         return;
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 387503e11b..8ce68a9dd6 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -2346,12 +2346,7 @@ static void scsi_realize(SCSIDevice *dev, Error **errp)
+         return;
+     }
+ 
+-    blkconf_blocksizes(&s->qdev.conf);
+-
+-    if (s->qdev.conf.logical_block_size >
+-        s->qdev.conf.physical_block_size) {
+-        error_setg(errp,
+-                   "logical_block_size > physical_block_size not supported");
++    if (!blkconf_blocksizes(&s->qdev.conf, errp)) {
+         return;
+     }
+ 
+@@ -2436,7 +2431,9 @@ static void scsi_hd_realize(SCSIDevice *dev, Error **errp)
+     if (s->qdev.conf.blk) {
+         ctx = blk_get_aio_context(s->qdev.conf.blk);
+         aio_context_acquire(ctx);
+-        blkconf_blocksizes(&s->qdev.conf);
++        if (!blkconf_blocksizes(&s->qdev.conf, errp)) {
++            goto out;
++        }
+     }
+     s->qdev.blocksize = s->qdev.conf.logical_block_size;
+     s->qdev.type = TYPE_DISK;
+@@ -2444,6 +2441,7 @@ static void scsi_hd_realize(SCSIDevice *dev, Error **errp)
+         s->product = g_strdup("QEMU HARDDISK");
+     }
+     scsi_realize(&s->qdev, errp);
++out:
+     if (ctx) {
+         aio_context_release(ctx);
+     }
+diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
+index 4eba47538d..de461f37bd 100644
+--- a/hw/usb/dev-storage.c
++++ b/hw/usb/dev-storage.c
+@@ -599,7 +599,10 @@ static void usb_msd_storage_realize(USBDevice *dev, Error **errp)
+         return;
+     }
+ 
+-    blkconf_blocksizes(&s->conf);
++    if (!blkconf_blocksizes(&s->conf, errp)) {
++        return;
++    }
++
+     if (!blkconf_apply_backend_options(&s->conf, blk_is_read_only(blk), true,
+                                        errp)) {
+         return;
+diff --git a/tests/qemu-iotests/172.out b/tests/qemu-iotests/172.out
+index 7abbe82427..59cc70aebb 100644
+--- a/tests/qemu-iotests/172.out
++++ b/tests/qemu-iotests/172.out
+@@ -1204,7 +1204,7 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,physica
+                 drive-type = "144"
+ 
+ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,logical_block_size=4096
+-QEMU_PROG: -device floppy,drive=none0,logical_block_size=4096: Physical and logical block size must be 512 for floppy
++QEMU_PROG: -device floppy,drive=none0,logical_block_size=4096: logical_block_size > physical_block_size not supported
+ 
+ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,physical_block_size=1024
+ QEMU_PROG: -device floppy,drive=none0,physical_block_size=1024: Physical and logical block size must be 512 for floppy
+-- 
+2.26.2
+
 
