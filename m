@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B85F1E28FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 19:37:33 +0200 (CEST)
-Received: from localhost ([::1]:33842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41CF71E28F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 19:35:40 +0200 (CEST)
+Received: from localhost ([::1]:54646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jddW8-0000Qx-J4
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 13:37:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38632)
+	id 1jddUJ-0005fW-62
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 13:35:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jddRO-00035P-Ug; Tue, 26 May 2020 13:32:38 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:40598)
+ id 1jddSa-00044s-A3; Tue, 26 May 2020 13:33:52 -0400
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:46424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jddRN-0001Ki-Bo; Tue, 26 May 2020 13:32:38 -0400
-Received: by mail-qk1-x741.google.com with SMTP id c185so7337194qke.7;
- Tue, 26 May 2020 10:32:35 -0700 (PDT)
+ id 1jddSY-0002mg-Tg; Tue, 26 May 2020 13:33:52 -0400
+Received: by mail-qk1-x744.google.com with SMTP id c12so2559395qkk.13;
+ Tue, 26 May 2020 10:33:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=9TQk01LXu77Qb/2MeYsij309PkMXZLEcP4/iGwIEKpQ=;
- b=NbyFaROVHFJvx2ICUP1UEIeCigwWBnhxDOj0rcqPq3L+y5GofiFCWhH6bacKg1R0Ix
- k7SeIB+2eysZoA90xB7U4lFQmEkdFCVk5hBejcpFrEwUJ0QGDaSVSdapcx4C+CZcoD0M
- 7JCM2tWdeHCeOLFfkOPN3k92bp1W4LR1c9V+Dz6Wnja9Uvnu42NVlZZ52F0UZZH+X1v1
- PTev0JL7Wa5NDIAF/3uXEb00L+ErhgLeFPzYI3Qa38GUL0Hw3MC3zlKisvYM49/m7FcH
- iyNoh3LCbY/9GeK21zpSykEK5GjGvGpq/f243KDDrapkhTuQlC2UHEhzqdo3tuXi4qFG
- 02Eg==
+ bh=0Dr7A8+ioW84EKnz0a2eSHIkSFmUZeUruSLYmyCx8cE=;
+ b=Mz5eKXZ1c3zs0Uroi1BqXJvHw4z0A/esYHlw17mM+rLGE10B3SqEZU394FoUDi21Wr
+ s1H1ensFarsc9p5dFcGIUzmSW2xbjeiLOOYIOwzTUhxK8QIUo7TF744cW963nX2095nE
+ MhzChYqnpI1ibwin3WoE+2kUH9WWnpAkQ0jPfWNbMjE5qSY//ApiXth8Mpj1ksZNU/Mf
+ 6JhBcMzAbRmqfcK4RoqZlQ+YwsC7Riv6DSGaHZTLSzYUCObveQvqqP0QAIkTgMr4YM+S
+ fJzBCmI/sPgvu0OyK3b8Rq6YmgvIif5tmaK4Wj3ZPpUCyP0Kc096ZhWFZCs6+3hhKwo/
+ F4xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=9TQk01LXu77Qb/2MeYsij309PkMXZLEcP4/iGwIEKpQ=;
- b=fnz0Ofie7p1pzs5+NZUgMnRFH5K12WUPEV/ZaiHCDJ+EY9V/Vg9FJ07lGwD2Gbh6sn
- kF2BLG6iYwgwddpZVvB7fyX3IBs7CydiMXDHGc/13YAQ7i2bqUh39qTY5UxmJdpfAaTp
- y+a3Gifzvk5nng1LTYZLOd2L6n9NMlMPSFClqXfIZUsZ/xhDJhOnZ8Si2Cg1bs2Ab41U
- A+5U1+kuAKh3rA9JGJIiKWE+MuKXBgd966Cn6b/H5UwZiWVhrCiVlzuN3sO14IIcM3bC
- 5R1AesSVNQEOC6KmDRA0rRYW0ujlRqq0r1uVMbGyXazEuq2Wc/FLnkGNa+cDP+H1B0LQ
- pNYw==
-X-Gm-Message-State: AOAM532Z5+BzYPeHXT5IT6y5IwlOH9VLSHe0SzdN0MG3aLZKGfsx8PlQ
- yOM8nQi9iaBcVCDWAl5VT2BxtlWV22pJwX9LrGI=
-X-Google-Smtp-Source: ABdhPJx1NYW6O2vTOmD2f+L1oefE7sUJOlRdzXwtXh4f1KlLnGDUPHbu69gI5a1CMlnFvc/bDBfE3NwYidfiPuQsHHE=
-X-Received: by 2002:ae9:f804:: with SMTP id x4mr2619573qkh.164.1590514355126; 
- Tue, 26 May 2020 10:32:35 -0700 (PDT)
+ bh=0Dr7A8+ioW84EKnz0a2eSHIkSFmUZeUruSLYmyCx8cE=;
+ b=M1eI4tZQGZlwxD1SaFnTADCwziujsBOImBvtFB/o+FJcvP1SR26LbXZaN/39K0q/EV
+ ZkjS2+QWretlxhR160Ue3Nyg6CiHVWhTw6TjlHQ/CglcymmsLLQg+BAlAIR5RPBfYVvi
+ C2K0TplY32tTLlnGEwgyUKx9hvezv+9WU82OdFMOrKVsed3R/Z28BCrQVkuprC60+yix
+ wuMll5qNWNJ6Hqg6Su610oihrH6CxNpxIWUmgzgNQpXWOKqcl98c6RYpVKR+ROntEEkr
+ ux4PYGWcUgnJMeZ0qcZH7lBt560VyBmsIqXf6EoPvn5JXJuSK8IJraw5pJvcYVf2pund
+ MOyw==
+X-Gm-Message-State: AOAM531KKoqvyGVkXgw+GZLvxaTOs3E0xECtp1tkVN/GrZcsMad1MV2C
+ LflK/d5t9bGvcBebhOZB3W6aCk13MPDGm1oNm/s=
+X-Google-Smtp-Source: ABdhPJyzrZEIzFEgdfUEzSz70ZeijYW2LeFpqhO1hMREYhxK6qz2+po/PgcAeXAHwrG9FGaegza+Qj+akYywa6f/e3c=
+X-Received: by 2002:a37:484c:: with SMTP id v73mr2483097qka.496.1590514427871; 
+ Tue, 26 May 2020 10:33:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200526062252.19852-1-f4bug@amsat.org>
- <20200526062252.19852-9-f4bug@amsat.org>
-In-Reply-To: <20200526062252.19852-9-f4bug@amsat.org>
+ <20200526062252.19852-10-f4bug@amsat.org>
+In-Reply-To: <20200526062252.19852-10-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 26 May 2020 10:23:36 -0700
-Message-ID: <CAKmqyKPz5zvPuiP7dNoni2rHq_jvo9wJ=c+Q-_xNDN91yf6gGw@mail.gmail.com>
-Subject: Re: [PATCH 08/14] hw/display/dpcd: Convert debug printf()s to trace
- events
+Date: Tue, 26 May 2020 10:24:49 -0700
+Message-ID: <CAKmqyKNQgnvixD2dqNmzyQTvHiO0TJCWP9DgdyTJCdcFEk76PQ@mail.gmail.com>
+Subject: Re: [PATCH 09/14] hw/display/xlnx_dp: Replace disabled DPRINTF() by
+ error_report()
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::741;
- envelope-from=alistair23@gmail.com; helo=mail-qk1-x741.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::744;
+ envelope-from=alistair23@gmail.com; helo=mail-qk1-x744.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -92,10 +92,13 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 25, 2020 at 11:25 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+On Mon, May 25, 2020 at 11:29 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
 rg> wrote:
 >
-> Convert DPRINTF() to trace events and remove ifdef'ry.
+> DPRINTF() calls are disabled by default, so when unexpected
+> data is used, the whole process abort without information.
+>
+> Display a bit of information with error_report() before crashing.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
@@ -104,75 +107,75 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/display/dpcd.c       | 16 +++-------------
->  hw/display/trace-events |  4 ++++
->  2 files changed, 7 insertions(+), 13 deletions(-)
+>  hw/display/xlnx_dp.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
 >
-> diff --git a/hw/display/dpcd.c b/hw/display/dpcd.c
-> index 0c1b7b35fb..64463654a1 100644
-> --- a/hw/display/dpcd.c
-> +++ b/hw/display/dpcd.c
-> @@ -32,16 +32,7 @@
->  #include "hw/misc/auxbus.h"
->  #include "migration/vmstate.h"
->  #include "hw/display/dpcd.h"
-> -
-> -#ifndef DEBUG_DPCD
-> -#define DEBUG_DPCD 0
-> -#endif
-> -
-> -#define DPRINTF(fmt, ...) do {                                          =
-       \
-> -    if (DEBUG_DPCD) {                                                   =
-       \
-> -        qemu_log("dpcd: " fmt, ## __VA_ARGS__);                         =
-       \
-> -    }                                                                   =
-       \
-> -} while (0)
-> +#include "trace.h"
+> diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
+> index 3e5fb44e06..8d940cd8d1 100644
+> --- a/hw/display/xlnx_dp.c
+> +++ b/hw/display/xlnx_dp.c
+> @@ -1,5 +1,5 @@
+>  /*
+> - * xlnx_dp.c
+> + * Xilinx Display Port
+>   *
+>   *  Copyright (C) 2015 : GreenSocs Ltd
+>   *      http://www.greensocs.com/ , email: info@greensocs.com
+> @@ -24,6 +24,7 @@
 >
->  #define DPCD_READABLE_AREA                      0x600
+>  #include "qemu/osdep.h"
+>  #include "qapi/error.h"
+> +#include "qemu/error-report.h"
+>  #include "qemu/log.h"
+>  #include "qemu/module.h"
+>  #include "hw/display/xlnx_dp.h"
+> @@ -465,7 +466,7 @@ static uint8_t xlnx_dp_aux_pop_tx_fifo(XlnxDPState *s=
+)
+>      uint8_t ret;
 >
-> @@ -70,8 +61,8 @@ static uint64_t dpcd_read(void *opaque, hwaddr offset, =
-unsigned size)
->                                         offset);
->          ret =3D 0;
+>      if (fifo8_is_empty(&s->tx_fifo)) {
+> -        DPRINTF("tx_fifo underflow..\n");
+> +        error_report("%s: TX_FIFO underflow", __func__);
+>          abort();
 >      }
-> +    trace_dpcd_read(offset, ret);
+>      ret =3D fifo8_pop(&s->tx_fifo);
+> @@ -525,6 +526,7 @@ static void xlnx_dp_aux_set_command(XlnxDPState *s, u=
+int32_t value)
+>          qemu_log_mask(LOG_UNIMP, "xlnx_dp: Write i2c status not implemen=
+ted\n");
+>          break;
+>      default:
+> +        error_report("%s: invalid command: %u", __func__, cmd);
+>          abort();
+>      }
 >
-> -    DPRINTF("read 0x%" PRIX8 " @0x%" HWADDR_PRIX "\n", ret, offset);
->      return ret;
->  }
+> @@ -631,8 +633,8 @@ static void xlnx_dp_change_graphic_fmt(XlnxDPState *s=
+)
+>          s->g_plane.format =3D PIXMAN_b8g8r8;
+>          break;
+>      default:
+> -        DPRINTF("error: unsupported graphic format %u.\n",
+> -                s->avbufm_registers[AV_BUF_FORMAT] & DP_GRAPHIC_MASK);
+> +        error_report("%s: unsupported graphic format %u", __func__,
+> +                     s->avbufm_registers[AV_BUF_FORMAT] & DP_GRAPHIC_MAS=
+K);
+>          abort();
+>      }
 >
-> @@ -80,8 +71,7 @@ static void dpcd_write(void *opaque, hwaddr offset, uin=
-t64_t value,
->  {
->      DPCDState *e =3D DPCD(opaque);
+> @@ -647,8 +649,8 @@ static void xlnx_dp_change_graphic_fmt(XlnxDPState *s=
+)
+>          s->v_plane.format =3D PIXMAN_x8b8g8r8;
+>          break;
+>      default:
+> -        DPRINTF("error: unsupported video format %u.\n",
+> -                s->avbufm_registers[AV_BUF_FORMAT] & DP_NL_VID_FMT_MASK)=
+;
+> +        error_report("%s: unsupported video format %u", __func__,
+> +                     s->avbufm_registers[AV_BUF_FORMAT] & DP_NL_VID_FMT_=
+MASK);
+>          abort();
+>      }
 >
-> -    DPRINTF("write 0x%" PRIX8 " @0x%" HWADDR_PRIX "\n", (uint8_t)value, =
-offset);
-> -
-> +    trace_dpcd_write(offset, value);
->      if (offset < DPCD_READABLE_AREA) {
->          e->dpcd_info[offset] =3D value;
->      } else {
-> diff --git a/hw/display/trace-events b/hw/display/trace-events
-> index bb089a5f5e..72d4c9812c 100644
-> --- a/hw/display/trace-events
-> +++ b/hw/display/trace-events
-> @@ -157,3 +157,7 @@ artist_draw_line(unsigned int start_x, unsigned int s=
-tart_y, unsigned int end_x,
->  # cg3.c
->  cg3_read(uint32_t addr, uint32_t val, unsigned size) "read addr:0x%06"PR=
-Ix32" val:0x%08"PRIx32" size:%u"
->  cg3_write(uint32_t addr, uint32_t val, unsigned size) "write addr:0x%06"=
-PRIx32" val:0x%08"PRIx32" size:%u"
-> +
-> +# dpcd.c
-> +dpcd_read(uint32_t addr, uint8_t val) "read addr:0x%"PRIx32" val:0x%02x"
-> +dpcd_write(uint32_t addr, uint8_t val) "write addr:0x%"PRIx32" val:0x%02=
-x"
 > --
 > 2.21.3
 >
