@@ -2,54 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 690DB1E2305
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 15:38:21 +0200 (CEST)
-Received: from localhost ([::1]:34504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4211E233C
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 15:45:23 +0200 (CEST)
+Received: from localhost ([::1]:51884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdZme-000074-Ew
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 09:38:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57408)
+	id 1jdZtS-0008TY-Bq
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 09:45:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jdZjz-0003OL-Lv
- for qemu-devel@nongnu.org; Tue, 26 May 2020 09:35:35 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:45693)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jdZjw-0006Iq-SP
- for qemu-devel@nongnu.org; Tue, 26 May 2020 09:35:34 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 5526274633F;
- Tue, 26 May 2020 15:35:21 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 08AA6746331; Tue, 26 May 2020 15:35:21 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 07187746335;
- Tue, 26 May 2020 15:35:21 +0200 (CEST)
-Date: Tue, 26 May 2020 15:35:21 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 5/7] sm501: Replace hand written implementation with
- pixman where possible
-In-Reply-To: <20200526104318.wmsqqtia3h52l454@sirius.home.kraxel.org>
-Message-ID: <alpine.BSF.2.22.395.2005261434540.87757@zero.eik.bme.hu>
-References: <cover.1590089984.git.balaton@eik.bme.hu>
- <58666389b6cae256e4e972a32c05cf8aa51bffc0.1590089984.git.balaton@eik.bme.hu>
- <20200526104318.wmsqqtia3h52l454@sirius.home.kraxel.org>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdZn0-0001UW-HY
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 09:38:42 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:38420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdZmz-0007Ys-Lg
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 09:38:42 -0400
+Received: by mail-ej1-x642.google.com with SMTP id h21so23851262ejq.5
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 06:38:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=s5CBopJZnvfibCq+ilG9571o+ICq6OtGHBFCGWSJyWk=;
+ b=YaCph69EY+0awUAPYPsmKZvAXSJU0PL4vAA1yrpI9kRJ2dgn8fkNRp3Rz4kbPMGCWp
+ BjT0+f2h63su7wHzibBArBjRcj9N+7xH3NWEwk71b7MoEg9pE3+TEIB0KjDijk7tM6s6
+ QQThieC4Eux3kMQO2oDiJOopL4l2t1CSUJ5Z36l/ZBnfNJrhAsf8JVemOKl3RP4w9fgL
+ nGFaMldF+LDOeKBqtEURKf71KH7UeZsGsH4SrRNwFwgG9Aw9SDZqVk0NY1gUBryzgptb
+ tmp+2O/rvrCD9oSbnSwS7ZIBF2PAanirfkhxgsd2Lhvo66bmOcz5AEmVI+jVlVar6fb0
+ Tzsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=s5CBopJZnvfibCq+ilG9571o+ICq6OtGHBFCGWSJyWk=;
+ b=S3wMVsMyI55egXIw5/CU7CMwlsf3gP4dPh1YTOMJRjdpeGAcht1rdRW/Lc2cO5wHKR
+ omv8EcjxpPbWtwjTpnok5dkpMwJ+P+IDhxAbDcTZ7lYY/g/qnJMNifr5/25W74TFcKtD
+ eHQXrrOGpiboQz4UlGWfznDm3Nl6w7Hph9G9ivIXNbAd75mmzApiaoc0uPuEUM8EaYvv
+ JrHjRm4foQ/9rtV3PofIN3gAZt1XCaBZk5kkIr/pVvUn9VMqskyvzssPOpAZB2vyjAeQ
+ TZojMa7TsYHloQWpiHxTVpMXVRZz23MKIkfJMdik0TlHQYrMbHP2rhuxFfqrC8vpMFab
+ pzPg==
+X-Gm-Message-State: AOAM530QQ+2ibUZbCbfWypWeDzTr1JxEk9TaAHHUh3j34zA+ngUF6dhy
+ 7ZPsCEQo/quhQQgdPbu1Cxs=
+X-Google-Smtp-Source: ABdhPJxiHPABUGxI2DcHajMaS+JTMpuEWEMio6xQsJ1ioIojS880Rml6KiGc/ZrLJf/9H7RoGyxHjA==
+X-Received: by 2002:a17:906:13ca:: with SMTP id
+ g10mr1167577ejc.493.1590500319870; 
+ Tue, 26 May 2020 06:38:39 -0700 (PDT)
+Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id b14sm18260962edx.93.2020.05.26.06.38.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 May 2020 06:38:37 -0700 (PDT)
+Subject: Re: [PATCH 00/14] hw/mips: patch queue for 2020-05-26
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+References: <20200526104726.11273-1-f4bug@amsat.org>
+ <CAHiYmc7_Td7hCPbkboMUZpy5HQH47DR1Jh-ux9t7MW+kt=o6Eg@mail.gmail.com>
+ <CAHiYmc5ir9JDULc2ssNLx+DQZ7jm7oY_UxYiotHV4Yh+pJH7vw@mail.gmail.com>
+ <d343aa59-625e-28c4-315d-aab79d668a95@amsat.org>
+ <CAHiYmc43oy4N++bZeTzB93Uk09eYtmcvKJNSnDtzgoFd6m6zbg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <98af6a40-f041-48bb-294f-60da6a222c81@amsat.org>
+Date: Tue, 26 May 2020 15:38:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+In-Reply-To: <CAHiYmc43oy4N++bZeTzB93Uk09eYtmcvKJNSnDtzgoFd6m6zbg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,141 +95,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sebastian Bauer <mail@sebastianbauer.info>,
- Magnus Damm <magnus.damm@gmail.com>, qemu-devel@nongnu.org,
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, libvir-list@redhat.com,
+ QEMU Developers <qemu-devel@nongnu.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Huacai Chen <chenhc@lemote.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 26 May 2020, Gerd Hoffmann wrote:
-> On Thu, May 21, 2020 at 09:39:44PM +0200, BALATON Zoltan wrote:
->> Besides being faster this should also prevent malicious guests to
->> abuse 2D engine to overwrite data or cause a crash.
->
->>          uint32_t src_base = s->twoD_source_base & 0x03FFFFFF;
->> -        uint8_t *src = s->local_mem + src_base;
->
->> -                    val = *(_pixel_type *)&src[index_s];                      \
->
-> Well, the advantage of *not* using pixman is that you can easily switch
-> the code to use offsets instead of pointers, then apply the mask to the
-> *final* offset to avoid oob data access:
+On 5/26/20 3:29 PM, Aleksandar Markovic wrote:
+> уто, 26. мај 2020. у 15:20 Philippe Mathieu-Daudé <f4bug@amsat.org> је
+> написао/ла:
+>>
+>> On 5/26/20 3:14 PM, Aleksandar Markovic wrote:
+>>> уто, 26. мај 2020. у 13:06 Aleksandar Markovic
+>>> <aleksandar.qemu.devel@gmail.com> је написао/ла:
+>>>>
+>>>> уто, 26. мај 2020. у 12:47 Philippe Mathieu-Daudé <f4bug@amsat.org> је
+>>>> написао/ла:
+>>>>>
+>>>>> Hi,
+>>>>>
+>>>>> This is the current state of my hw/mips/next tree.
+>>>>>
+>>>>> - MAINTAINERS updated to welcome Huacai Chen and Jiaxun Yang,
+>>>>>   and update Aleksandar Rikalo's email address,
+>>>>>
+>>>>> - Trivial improvements in the Bonito64 North Bridge and the
+>>>>>   Fuloong 2e machine,
+>>>>>
+>>>>> - MIPS Machines names unified without 'mips_' prefix.
+>>>>>
+>>>>> The following patches need review:
+>>>>>
+>>>>> - #6  "hw/pci-host/bonito: Map the different PCI ranges more detailled"
+>>>>> - #10 "hw/mips/fuloong2e: Fix typo in Fuloong machine name"
+>>>>>
+>>>>
+>>>> I agreed with these two patches, thanks for your help, patch 6 looks
+>>>> much better now.
+>>>>
+>>>> Hope you will be able to send pull request sooner rather than later.
+>>>> Please work with Gerd to speed up the process, resolving the
+>>>> dependencies efficiently.
+>>>>
+>>>
+>>> Hi, Gerd,
+>>>
+>>> My understanding is that a rather trivial issue (removing an #include)
+>>> from a mips-specific file, makes your potential pull request, and this
+>>> Philippe's pull request dependent between themself. I think actually
+>>> Philippe is waiting for your pull request to be sent and applied.
+>>> Could you update us on the planned timing of your pull request?
+>>
+>> Don't worry, Gerd sent his pullreq and Peter is testing it. I'm waiting
+>> Peter's testing done to rebase/send. No hurry anyway ;)
+>>
+> 
+> Peter accepted Gerd's pull request 17 mins ago.
+> 
+> There is a hurry, Philippe, because, some other pending series needs
+> to be rebased because of file name changes in this series, and I
+> really would not like to prolong and complicate your efforts in case
+> we clash with some other pull request over such trivial stuff. i
+> advice you to send a pull request as soon as you do your regular
+> preparation and tests - I would really appreciate today, if possible.
 
-The mask applied to src_base is not to prevent overflow but to implement 
-register limits. Only these bits are valid if I remember correctly, so 
-even if I use offsets I need to check for overflow. This patch basically 
-does that by changing parameters to unsigned to prevent them being 
-negative, checking values we multiply by to prevent them to be zero and 
-then calculating first and last offset and check if they are within vram. 
-(Unless of course I've made a mistake somewhere.) This should prevent 
-overflow with one check and does not need to apply a mask at every step. 
-The vram size can also be different so it's not a fixed mask anyway.
+Sorry I took a 30min break to eat something for lunch.
 
-If not using pixman then I'd need to reimplement optimised 2D ops that 
-will likely never be as good as pixman and no point in doing it several 
-times for every device model so I'd rather try to use pixman where 
-possible unless a better library is available.
-
->    val = *(_pixel_type*)(&s->local_mem[(s->twoD_source_base + index_s) & 0x03FFFFFF]);
->
->> +        if ((rop_mode && rop == 0x5) || (!rop_mode && rop == 0x55)) {
->> +            /* Invert dest, is there a way to do this with pixman? */
->
-> PIXMAN_OP_XOR maybe?
-
-Maybe, but looking at the pixman source I couldn't decide if
-
-UN8x4_MUL_UN8_ADD_UN8x4_MUL_UN8 (s, dest_ia, d, src_ia);
-
-seen here:
-https://cgit.freedesktop.org/pixman/tree/pixman/pixman-combine32.c#n396
-is really the same as s ^ d.
-
->> +            if (rtl && ((db >= sb && db <= se) || (de >= sb && de <= se))) {
->> +                /* regions may overlap: copy via temporary */
->
-> The usual way for a hardware blitter is to have a direction bit, i.e.
-> the guest os can ask to blit in top->bottom or bottom->top scanline
-> ordering.  The guest can use that to make sure the blit does not
-
-Yes, this is the rtl above (right to left) and AmigaOS sets this most of 
-the time so only relying on that to detect overlaps is not efficient.
-
-> overwrite things.  But note the guest can also intentionally use
-> overlapping regions, i.e. memset(0) the first scanline, then use a blit
-> with overlap to clear the whole screen.  The later will surely break if
-> you blit via temporary image ...
-
-Fortunately no guest code seems to do that so unless we find one needing 
-it I don't worry much about such rare cases. It would be best if pixman 
-supported this but while I've found patches were submitted they did not 
-get merged so far so using a temporary seems to be the simplest way that 
-works well enough for now.
-
->> +                pixman_blt((uint32_t *)&s->local_mem[src_base],
->> +                           (uint32_t *)&s->local_mem[dst_base],
->> +                           src_pitch * (1 << format) / sizeof(uint32_t),
->> +                           dst_pitch * (1 << format) / sizeof(uint32_t),
->> +                           8 * (1 << format), 8 * (1 << format),
->> +                           src_x, src_y, dst_x, dst_y, width, height);
->
-> See above, i'm not convinced pixman is the best way here.
-> When using pixman I'd suggest:
->
->  (1) src = pixman_image_create_bits_no_clear(...);
->  (2) dst = pixman_image_create_bits_no_clear(...);
->  (3) pixman_image_composite(PIXMAN_OP_SRC, src, NULL, dst, ...);
->  (4) pixman_image_unref(src);
->  (5) pixman_image_unref(dst);
->
-> pixman_blt() is probably doing basically the same.
-
-Actually not the same, pixman_blt is faster operating directly on pointers 
-while we need all the pixman_image overhead to use pixman_image_composite. 
-Blitter is used for a lot of small ops (I've seen AmigaOS even call it 
-with 1 pixel regions) so going through pixman_image every time does not 
-seem to be efficient. To implement more complex ops this may be needed so 
-I may try to figure that out later but I'd need some test cases to test if 
-the results are correct. The current patches do the same as before (except 
-for some rare overlapping cases as you noted above but we haven't observed 
-any yet) and fix the overflows so this was the best I could do in the time 
-I had. Maybe I try to improve this later but don't plan to rewrite it now.
-
->  The advantage of not
-> using pixman_blt() is that
->
->  (a) you can also use pixman ops other than PIXMAN_OP_SRC, and
->  (b) you can have a helper function for (1)+(2) which very carefully
->      applies sanity checks to make sure the pixman image created stays
->      completely inside s->local_mem.
->  (c) you have the option to completely rearrange the code flow, for
->      example update the src pixman image whenever the guest touches
->      src_base or src_pitch or format instead of having a
->      create/op/unref cycle on every blitter op.
-
-From traces I think most guest would write bltter related regs on every op 
-so probably not worth the hassle to try to update regions on register 
-access and we could do it on every op, possibly optimising 1 pixel blits 
-and small regions via some special cases but even then simple copy image 
-is probably the most common op that might worth doing via pixman_blt as 
-it's expected to be frequently used so the less overhead is the better. 
-Therefore I'd only use image_composite for more complex ops but that's too 
-much effort for a relatively unused device model. Maybe for ati-vga I'll 
-try to make it better but first should fix microengine for that so drivers 
-can talk to it. I'd rather spend my limited free time on that than further 
-improving sm501 unless some bugs show up.
-
->> +        pixman_fill((uint32_t *)&s->local_mem[dst_base],
->> +                    dst_pitch * (1 << format) / sizeof(uint32_t),
->> +                    8 * (1 << format), dst_x, dst_y, width, height, color);
->
->  (1) src = pixman_image_create_solid(...), otherwise same as above ;)
-
-Same argument as composite_image and for fill we don't even have any 
-advantage so while for composite implementing other ops is a reason to not 
-use pixman_blt I see no reason to not go the fastest way for fill.
+The pull request is now sent, thanks for your patience.
 
 Regards,
-BALATON Zoltan
+
+Phil.
+
+> Thanks for for your involvement, and meticulousness regarding all
+> patches in this series and future pull request!
+> 
+> Aleksandar
+> 
+> 
+>>>
+>>> Thanks,
+>>> Aleksandar
+>>>
+>>> P.S Too bad such trivial issues from time to time cause stalls in our
+>>> workflows, but I guess it is sometimes unavoidable, and we have to
+>>> live with that.
+>>>
+>>>
+>>>> Yours,
+>>>> Aleksandar
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>> Aleksandar Markovic (3):
+>>>>>   hw/mips: Rename malta/mipssim/r4k/jazz files
+>>>>>   hw/mips/malta: Add some logging for bad register offset cases
+>>>>>   MAINTAINERS: Change Aleksandar Rikalo's email address
+>>>>>
+>>>>> Huacai Chen (1):
+>>>>>   MAINTAINERS: Add Huacai Chen as fuloong2e co-maintainer
+>>>>>
+>>>>> Philippe Mathieu-Daudé (10):
+>>>>>   hw/pci-host: Use CONFIG_PCI_BONITO to select the Bonito North Bridge
+>>>>>   hw/pci-host/bonito: Fix DPRINTF() format strings
+>>>>>   hw/pci-host/bonito: Map peripheral using physical address
+>>>>>   hw/pci-host/bonito: Map all the Bonito64 I/O range
+>>>>>   hw/pci-host/bonito: Map the different PCI ranges more detailled
+>>>>>   hw/pci-host/bonito: Better describe the I/O CS regions
+>>>>>   hw/pci-host/bonito: Set the Config register reset value with
+>>>>>     FIELD_DP32
+>>>>>   hw/mips/fuloong2e: Move code and update a comment
+>>>>>   hw/mips/fuloong2e: Fix typo in Fuloong machine name
+>>>>>   hw/mips/mips_int: De-duplicate KVM interrupt delivery
+>>>>>
+>>>>>  docs/system/deprecated.rst               |  5 ++
+>>>>>  docs/system/target-mips.rst              |  2 +-
+>>>>>  default-configs/mips64el-softmmu.mak     |  2 +-
+>>>>>  hw/isa/vt82c686.c                        |  2 +-
+>>>>>  hw/mips/{mips_fulong2e.c => fuloong2e.c} | 48 ++++++-------
+>>>>>  hw/mips/{mips_jazz.c => jazz.c}          |  0
+>>>>>  hw/mips/{mips_malta.c => malta.c}        | 14 ++--
+>>>>>  hw/mips/mips_int.c                       | 11 +--
+>>>>>  hw/mips/{mips_mipssim.c => mipssim.c}    |  0
+>>>>>  hw/mips/{mips_r4k.c => r4k.c}            |  0
+>>>>>  hw/pci-host/bonito.c                     | 87 +++++++++++++++++++-----
+>>>>>  tests/qtest/endianness-test.c            |  2 +-
+>>>>>  .mailmap                                 |  3 +-
+>>>>>  MAINTAINERS                              | 26 +++----
+>>>>>  hw/mips/Kconfig                          |  3 +-
+>>>>>  hw/mips/Makefile.objs                    | 10 +--
+>>>>>  hw/pci-host/Kconfig                      |  5 ++
+>>>>>  hw/pci-host/Makefile.objs                |  2 +-
+>>>>>  18 files changed, 142 insertions(+), 80 deletions(-)
+>>>>>  rename hw/mips/{mips_fulong2e.c => fuloong2e.c} (91%)
+>>>>>  rename hw/mips/{mips_jazz.c => jazz.c} (100%)
+>>>>>  rename hw/mips/{mips_malta.c => malta.c} (99%)
+>>>>>  rename hw/mips/{mips_mipssim.c => mipssim.c} (100%)
+>>>>>  rename hw/mips/{mips_r4k.c => r4k.c} (100%)
+>>>>>
+>>>>> --
+>>>>> 2.21.3
+>>>>>
+>>>
+> 
 
