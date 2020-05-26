@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD0E1E201F
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 12:51:21 +0200 (CEST)
-Received: from localhost ([::1]:39388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 814441E2028
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 12:52:47 +0200 (CEST)
+Received: from localhost ([::1]:46768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdXB2-00046F-7B
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 06:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38790)
+	id 1jdXCQ-0006yR-J5
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 06:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdX7T-0006pM-9N
- for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:39 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:42269)
+ id 1jdX7U-0006sk-I1
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:40 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:32967)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdX7S-000296-EU
- for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:38 -0400
-Received: by mail-ej1-x644.google.com with SMTP id se13so23249527ejb.9
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 03:47:37 -0700 (PDT)
+ id 1jdX7T-00029D-N0
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 06:47:40 -0400
+Received: by mail-ej1-x643.google.com with SMTP id n24so23290455ejd.0
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 03:47:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EBoNHrdrDyvUbiQ9fa2MJcvDvpC5sCF/C8lSyKTb4Pg=;
- b=rI0c7N79EpgGDif94KaHnPV2K2hRwIZl41F3aUTU1wVVFJnTuLpkugly3NMnXOFV7I
- 08hnedGsda1Byzl5D/I5fQmpsTdsbplB9iwTF36G4aDAt5x0TTx4CZK8IL+FeiuokUWe
- SaXRWohVyZ+aGj3gI7/G15tRP5Y6mfRppAGOzGHWSfuTGvBm1qjGNX/7aTxYwEbuAG65
- 3uCjFsx0fcG+HcWtR6d8l0LL066UWi84uznWcqgU4GYbwtC1O8zeQJi1akbzkvqYVetF
- JwSowJHbxAdsgmlRMmGiD4/GAvi2I9jEDkyzo21oQkrk+Xvh70QUfmlH1gjxGWJ9ZR+U
- 1Zkg==
+ bh=W8VxI71hr8dlU8kpN6GleuQ2+cio9Eeh3dClavw718g=;
+ b=cKOPzUMESSblq/LcZNknge+VaG0pxAtqvDGt2wq9x9vNl3I1NDNi+UzMtO+Y9O3hKo
+ eaa34QWIQBL7Bwqvc7hJVDvNMyn9LkwEgIeQZqdP6PFC1OJmVBIYBrDXroEXVz8GsDcn
+ jJb2pxpSv/P4zWuSq/vgqlAYaGo1dhtlLtyLkxsd3Yl917GnUdO2VmXuSDH4s9RBJnHO
+ guqyDiI/QSK4e8l+RltyfRNVgq+uFZeKAIChU35sBttEi2jlspbUts/IymftjWiRJ+tN
+ wo6/Tc5beoYcp6RLIc5rSFVIczA6HeyxAcs9/WozTPz9QXn5rnY8z0+PzPOfabOL5pGu
+ QLMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EBoNHrdrDyvUbiQ9fa2MJcvDvpC5sCF/C8lSyKTb4Pg=;
- b=bQfljf+iBMCIMw1bPVyTHzyEJjQizWssI4ANFJ7nY84wHwQyv3uYrH4VSqD/Nx8daF
- tyTNx3rFWXVGrWqVgO14Y2bz/alica7GOGPM/I7UuoCkEsceW9nzGyCLYpvPf7wHBVoY
- hBpylhFermUCroe1ye4A7mpR06TXTRVkqd+rQk3tC9SiTYHWEULrK6rhGmx9q+m2UCO8
- J5xT8cqlAjNUKvI+CozdPgBunwtvZCt0MAXGbz0DUVq+4zn5fcbWUU8JW8JfnI5E/CC1
- iVgt/VLJRW+CCNH3S6OJ42j40/qHIsik5DyjkHoZc9NwfoC3PZzSzod8llPP5tNwGHoU
- MOjg==
-X-Gm-Message-State: AOAM532BjcfI+YGRn/jARBBwoSyqRE5n49XuoaCp+iTmy5zUhFdJ9/JF
- 2R0T9FcRx19EJ6P+vEPpNGsCGjUtAVI=
-X-Google-Smtp-Source: ABdhPJzrZGxiuixgK5Ees0G9MM1yyHNLbdJSdf/vdsELI0edNnmGhRFuZZw5qB3FKTP/ahPwb4cfjA==
-X-Received: by 2002:a17:906:a1c9:: with SMTP id
- bx9mr519464ejb.496.1590490056746; 
- Tue, 26 May 2020 03:47:36 -0700 (PDT)
+ bh=W8VxI71hr8dlU8kpN6GleuQ2+cio9Eeh3dClavw718g=;
+ b=ORHGnTEGInJDfqASI3oeY84kp9z4XQSqVN2+Wb/Sz9t4mnhQJ+IICZYDZrG3eH6Qj+
+ 3E0Lnv42AbRvQbl/QTPFL3/2h7lG509NIXBOPRy7iLB9f4ZgEng3AfMXAHhtbSaAAOmp
+ JG8en6hZ9OW68gEeogs7N/hibjZ5zj5PdAjG6jXgFAjQHNElHG/v1JIIhZtQoaqhfmhd
+ qcvrRmdOecHp8Xdugt2Af3wfIgSSy9lcxC6kocBuFEbt138Givg6ZKieQ0PYTnI6VwpV
+ KIgTuLxkR4fUtPeVaSljj4ZmeoOjDIejQkzKqhyZIYfvl6oGesPT/6QFOEAI01huq73v
+ Y0jg==
+X-Gm-Message-State: AOAM530JFksD1Bqlp5lzJ0SPHatkIVoOpufur9zOijZSSvNODAp/By6d
+ Zk6PJj/1OMa/xOxILzrzxcdLDkIqnKk=
+X-Google-Smtp-Source: ABdhPJysxEIj5mQJcqunjHYD14fn4IkDf5j5oqnDQLPJI7jYdR0p7CfygqX2pBbp92IoN5Y/5iaf7g==
+X-Received: by 2002:a17:906:f208:: with SMTP id
+ gt8mr533561ejb.358.1590490058229; 
+ Tue, 26 May 2020 03:47:38 -0700 (PDT)
 Received: from x1w.redhat.com (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id c27sm3342597ejd.19.2020.05.26.03.47.35
+ by smtp.gmail.com with ESMTPSA id c27sm3342597ejd.19.2020.05.26.03.47.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 03:47:36 -0700 (PDT)
+ Tue, 26 May 2020 03:47:37 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/14] hw/pci-host/bonito: Map the different PCI ranges more
- detailled
-Date: Tue, 26 May 2020 12:47:18 +0200
-Message-Id: <20200526104726.11273-7-f4bug@amsat.org>
+Subject: [PATCH 07/14] hw/pci-host/bonito: Better describe the I/O CS regions
+Date: Tue, 26 May 2020 12:47:19 +0200
+Message-Id: <20200526104726.11273-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200526104726.11273-1-f4bug@amsat.org>
 References: <20200526104726.11273-1-f4bug@amsat.org>
@@ -66,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -101,98 +100,48 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Better describe the Bonito64 MEM HI/LO and I/O PCI ranges,
-add more PCI regions as unimplemented.
+Better describe the I/O CS regions, add the ROMCS region.
 
-Message-id: <20200510210128.18343-10-f4bug@amsat.org>
+Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Message-id: <20200510210128.18343-11-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/pci-host/bonito.c | 32 ++++++++++++++++++++++++++++----
- 1 file changed, 28 insertions(+), 4 deletions(-)
+ hw/pci-host/bonito.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index f09bb1c6a8..52015cc2a7 100644
+index 52015cc2a7..20f2797a73 100644
 --- a/hw/pci-host/bonito.c
 +++ b/hw/pci-host/bonito.c
-@@ -39,6 +39,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "qemu/error-report.h"
- #include "hw/pci/pci.h"
- #include "hw/irq.h"
-@@ -82,7 +83,7 @@
- #define BONITO_PCILO1_BASE      0x14000000
- #define BONITO_PCILO2_BASE      0x18000000
- #define BONITO_PCIHI_BASE       0x20000000
--#define BONITO_PCIHI_SIZE       0x20000000
-+#define BONITO_PCIHI_SIZE       0x60000000
- #define BONITO_PCIHI_TOP        (BONITO_PCIHI_BASE + BONITO_PCIHI_SIZE - 1)
- #define BONITO_PCIIO_BASE       0x1fd00000
- #define BONITO_PCIIO_BASE_VA    0xbfd00000
-@@ -605,14 +606,26 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
- {
-     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
-     BonitoState *bs = BONITO_PCI_HOST_BRIDGE(dev);
-+    MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 3);
- 
--    memory_region_init(&bs->pci_mem, OBJECT(dev), "pci.mem", BONITO_PCILO_SIZE);
-+    memory_region_init(&bs->pci_mem, OBJECT(dev), "pci.mem", BONITO_PCIHI_SIZE);
-     phb->bus = pci_register_root_bus(dev, "pci",
-                                      pci_bonito_set_irq, pci_bonito_map_irq,
-                                      dev, &bs->pci_mem, get_system_io(),
-                                      0x28, 32, TYPE_PCI_BUS);
--    memory_region_add_subregion(get_system_memory(), BONITO_PCILO_BASE,
--                                &bs->pci_mem);
-+
-+    for (size_t i = 0; i < 3; i++) {
-+        char *name = g_strdup_printf("pci.lomem%zu", i);
-+
-+        memory_region_init_alias(&pcimem_lo_alias[i], NULL, name,
-+                                 &bs->pci_mem, i * 64 * MiB, 64 * MiB);
-+        memory_region_add_subregion(get_system_memory(),
-+                                    BONITO_PCILO_BASE + i * 64 * MiB,
-+                                    &pcimem_lo_alias[i]);
-+        g_free(name);
-+    }
-+
-+    create_unimplemented_device("pci.io", BONITO_PCIIO_BASE, 1 * MiB);
- }
- 
- static void bonito_realize(PCIDevice *dev, Error **errp)
-@@ -620,6 +633,8 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
-     PCIBonitoState *s = PCI_BONITO(dev);
-     SysBusDevice *sysbus = SYS_BUS_DEVICE(s->pcihost);
-     PCIHostState *phb = PCI_HOST_BRIDGE(s->pcihost);
-+    BonitoState *bs = BONITO_PCI_HOST_BRIDGE(s->pcihost);
-+    MemoryRegion *pcimem_alias = g_new(MemoryRegion, 1);
- 
-     /*
-      * Bonito North Bridge, built on FPGA,
-@@ -652,6 +667,7 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
-     sysbus_init_mmio(sysbus, &s->iomem_ldma);
-     sysbus_mmio_map(sysbus, 3, 0x1fe00200);
- 
-+    /* PCI copier */
-     memory_region_init_io(&s->iomem_cop, OBJECT(s), &bonito_cop_ops, s,
-                           "cop", 0x100);
+@@ -673,6 +673,8 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
      sysbus_init_mmio(sysbus, &s->iomem_cop);
-@@ -669,6 +685,14 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
+     sysbus_mmio_map(sysbus, 4, 0x1fe00300);
+ 
++    create_unimplemented_device("ROMCS", BONITO_FLASH_BASE, 60 * MiB);
++
+     /* Map PCI IO Space  0x1fd0 0000 - 0x1fd1 0000 */
+     memory_region_init_alias(&s->bonito_pciio, OBJECT(s), "isa_mmio",
+                              get_system_io(), 0, BONITO_PCIIO_SIZE);
+@@ -680,10 +682,17 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
+     sysbus_mmio_map(sysbus, 5, BONITO_PCIIO_BASE);
+ 
+     /* add pci local io mapping */
+-    memory_region_init_alias(&s->bonito_localio, OBJECT(s), "isa_mmio",
+-                             get_system_io(), 0, BONITO_DEV_SIZE);
++
++    memory_region_init_alias(&s->bonito_localio, OBJECT(s), "IOCS[0]",
++                             get_system_io(), 0, 256 * KiB);
      sysbus_init_mmio(sysbus, &s->bonito_localio);
      sysbus_mmio_map(sysbus, 6, BONITO_DEV_BASE);
++    create_unimplemented_device("IOCS[1]", BONITO_DEV_BASE + 1 * 256 * KiB,
++                                256 * KiB);
++    create_unimplemented_device("IOCS[2]", BONITO_DEV_BASE + 2 * 256 * KiB,
++                                256 * KiB);
++    create_unimplemented_device("IOCS[3]", BONITO_DEV_BASE + 3 * 256 * KiB,
++                                256 * KiB);
  
-+    memory_region_init_alias(pcimem_alias, NULL, "pci.mem.alias",
-+                             &bs->pci_mem, 0, BONITO_PCIHI_SIZE);
-+    memory_region_add_subregion(get_system_memory(),
-+                                BONITO_PCIHI_BASE, pcimem_alias);
-+    create_unimplemented_device("PCI_2",
-+                                (hwaddr)BONITO_PCIHI_BASE + BONITO_PCIHI_SIZE,
-+                                2 * GiB);
-+
-     /* set the default value of north bridge pci config */
-     pci_set_word(dev->config + PCI_COMMAND, 0x0000);
-     pci_set_word(dev->config + PCI_STATUS, 0x0000);
+     memory_region_init_alias(pcimem_alias, NULL, "pci.mem.alias",
+                              &bs->pci_mem, 0, BONITO_PCIHI_SIZE);
 -- 
 2.21.3
 
