@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5971E27B6
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:53:07 +0200 (CEST)
-Received: from localhost ([::1]:52742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A49D1E27B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:52:17 +0200 (CEST)
+Received: from localhost ([::1]:48324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdcp8-000322-5I
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:53:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44690)
+	id 1jdcoK-0001Et-7F
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:52:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jdciG-0001dL-Gd
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:46:00 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39737)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdciz-0002g7-HZ; Tue, 26 May 2020 12:46:45 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:42054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jdciF-00058g-66
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:46:00 -0400
-Received: by mail-wm1-x344.google.com with SMTP id y5so199190wmj.4
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 09:45:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jdciy-0005hv-M7; Tue, 26 May 2020 12:46:45 -0400
+Received: by mail-ed1-x544.google.com with SMTP id k19so18231787edv.9;
+ Tue, 26 May 2020 09:46:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0gRajJpZ1ewwCX0SexN33O83wF8F+CqSXxmSxisAFD4=;
- b=bimOXRqm18yR/GSz0jgZd9tgBlJmxkMi1UbGTc9oF1hCn31KTmCm6+hMLFD1qs6V+j
- 3Kh2CUuQ4j+C/URge393It+vFv4i8J9bH2TDp1aNFHHejmLh8CYXglOiystx0FB3ujqb
- +VJANzXxixLKu6k7AVw869WBrxhBzK2odrBGhQ6W7W86ZsTLSGJwR7K4zikrZ2QS6Uyw
- 1farXCOxJcjEoY4WJ2TN6u+5iJG6Ci9yuT9l3AELUcCGoaAeApxln7oL39m6GQ04eeW5
- NVx6UE/EI9UKrhXzZhCwTi8JJkC/tnXHr+hrkL/r2ncU+MD7PmRMkBR4SXkN8SL0nttI
- MdTw==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5dc+q+V0lscs6cXnzEkH5M+IYF1zKZogiJC+dn3t85w=;
+ b=GFDaXguavyRv45sHK3kwXd6gWaCQ24YuhbUn0za1/qb9MdXDAEUe3kHLhVhU1GV/9Q
+ HziPyj9k3iYI7QaeXfrz7hUCr+QmpyoGx3wGFSbPkQrr/wi34nOHTHNryEEHLh/ZwUV+
+ +F6e6Lms+OhsKoB3YqVC0tSk+Y0T/XeFWnZImwuckdr13zS9ipXioc6BmVQBdipCJhIa
+ XuSmjjiR/PJDDBKw2Q9bUaEU3xlgv9kPsS4WpGtgPGErCoylF777dan7uWMDuXjixivO
+ MC3BGcc5L0lTQJNJ1Y5+04g0o0mlauN8obCQO7Wj3HN5cStgy6FjKb3CE1oo3lYIpuJ5
+ tfHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0gRajJpZ1ewwCX0SexN33O83wF8F+CqSXxmSxisAFD4=;
- b=mJp/hvNmhlvzdCafQEF+WFqHV4pQDSOSosiRrLyseI9U/91fdTvhZ2xYrPB05desSM
- BCT1K+ZyulUt9JdrxzPVSvXG/omutA+6HibjVuQE2k7hPNUzkbzOX4OOuxKJbKxio6a1
- H6DyFLBrN+SYxX7VM+aLk6qd9tW4/rUEdya6lTISIw9YPpp/ftXE/WD7S1mIgQhmm221
- v/QRE8ErFQctnaVXcOh09dbMxmfrxiihXdfLkHYteVUcCMjd8kzKJgRC538VTaWK2iBh
- CYLytcDS84Ei2WdHTr0YoDvsPDXGX9IG39cg6KtWFZVafPdGnTjkOFIUnh5shgzvrCbS
- p2hQ==
-X-Gm-Message-State: AOAM530MHWNJ7HEtgXdchhKZk5Qk+pofi6fq/HwjLJiOQQXZ9fl+7uhz
- l5jvp/AXGqbBMpe+ZYT/vbCilx+1VPRxS95m9iE=
-X-Google-Smtp-Source: ABdhPJyZjm1VNW6+18mX01U/K75Tn44wY/dQodMWKJnzBjgTV/MQVthoQLA4KOsTFFRtFDl1u4pJCHocW/7N7NvZSX4=
-X-Received: by 2002:a1c:18e:: with SMTP id 136mr76847wmb.159.1590511557242;
- Tue, 26 May 2020 09:45:57 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5dc+q+V0lscs6cXnzEkH5M+IYF1zKZogiJC+dn3t85w=;
+ b=S3Ct8PbcMvYza44zY18gEk+pHeAdj1xBTWtSuXfDRdCF+iKB9/cZ+GnUCK0WqOiRGp
+ MWvkWACch7rXfNXBsNPNRwngzbdMGoam0apntouFpku3Xyl4brgAg7zqEOziOm27pfuK
+ X3oZAnu0AfR/E44BmeKXE+VfcxAy+PrckPiCXgAD4TsfC62CjnWadNE91a7O0qnOgr9n
+ hWjbcHqpB3ESDgsJ3lAdeycegBHmmdTWU/Dj83Oek9JeDZLJF8a+7NijDHwvBpC/9/Mk
+ xw3LKayvexFvBjOcE1ltDs0PV7/+8S64W24/qj+yHmQrB8o9QIlUNQ96LTYKS1uW6Rj6
+ ZJXg==
+X-Gm-Message-State: AOAM530LlGQaJle6WxuHLULFsbyzqjb7BGJz/19x37lzZ4e6MoPPHvQv
+ qTkekufV0M22FDz6xD7D0GhgBjCWqAg=
+X-Google-Smtp-Source: ABdhPJykay5hDSLsoJOR17vA7AzJ//AEN7BDDFIRx/mc6nuLklAmvNQynP9/gxQlByzVdDPkXU508g==
+X-Received: by 2002:a05:6402:c95:: with SMTP id
+ cm21mr20907665edb.81.1590511602757; 
+ Tue, 26 May 2020 09:46:42 -0700 (PDT)
+Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id dr19sm370475ejc.122.2020.05.26.09.46.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 May 2020 09:46:42 -0700 (PDT)
+Subject: Re: [PATCH] hw/registerfields: Prefix local variables with underscore
+ in macros
+To: qemu-devel@nongnu.org
+References: <20200510203457.10546-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <7bdb49c1-5396-0bf4-5f83-3849910e5d68@amsat.org>
+Date: Tue, 26 May 2020 18:46:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200519162144.10831-1-ahmedkhaledkaraman@gmail.com>
- <a0f3967f-e125-d888-bc6d-44414edbfd5b@linaro.org>
- <CALTWKrVGqVb1mjsaoxYm4Y1iQoXYwz7ToC7T6r2EDPp-_LO=LQ@mail.gmail.com>
- <4e78400c-42be-08c6-492d-dc5596551efd@linaro.org>
- <CAHiYmc6zKmxgyKHzT4gazvJvPsX3SQYLjSXwK50_2eURkR3_NA@mail.gmail.com>
- <CAHiYmc7z+OfvE7nN1j14n2O8seVtqem_hsBwq=WyFgeo=WfybA@mail.gmail.com>
- <CALTWKrXv6NQUEzKFvPN4TmDGCKxY-Zaa+Dt-z0+sTgndco+EMA@mail.gmail.com>
- <CAHiYmc6289cQZEptA=KjpMDLx3S94Au7W79DXH9KTM-MLi3ADA@mail.gmail.com>
-In-Reply-To: <CAHiYmc6289cQZEptA=KjpMDLx3S94Au7W79DXH9KTM-MLi3ADA@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Tue, 26 May 2020 18:45:42 +0200
-Message-ID: <CAHiYmc7r0GBLytokN=cyonrQAC6S8J=SpPf9KroPgG+ACJPV5Q@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Update use_goto_tb() in hppa and rx targets
-To: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x344.google.com
+In-Reply-To: <20200510203457.10546-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -87,55 +90,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-trivial@nongnu.org, Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mr. Ahmed,
+ping?
 
-The title "Changing executable page permissions with mmap causes
-user-mode failures", I know you paraphrased one of Richard's
-responses, but you picked up those pieces that don't convey the
-complete, larger, picture. So, the better, more inclusive, and much
-clearer title would be "Problems related to checking page crossing in
-use_goto_tb()"
-
-Yours,
-Mr. Aleksandar
-
-=D1=83=D1=82=D0=BE, 26. =D0=BC=D0=B0=D1=98 2020. =D1=83 18:29 Aleksandar Ma=
-rkovic
-<aleksandar.qemu.devel@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=
-=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> =D1=83=D1=82=D0=BE, 26. =D0=BC=D0=B0=D1=98 2020. =D1=83 18:08 Ahmed Karam=
-an
-> <ahmedkhaledkaraman@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=
-=81=D0=B0=D0=BE/=D0=BB=D0=B0:
-> >
-> > On Tue, May 26, 2020 at 4:14 PM Aleksandar Markovic
-> > <aleksandar.qemu.devel@gmail.com> wrote:
-> > > Ahmed, please follow the instructions on this page: How to report a Q=
-EMU bug and file the bug related to the discussion, to the best of your abi=
-lities, if possible, today.
-> >
-> > Please find the link to the bug below:
-> > https://bugs.launchpad.net/qemu/+bug/1880722
->
-> I think your last sentence in the bug report is not entirely correct.
-> It is not known what would be performance results in case of
-> correcting mmap.c. So, if possible, and unless Richard or someone else
-> disagrees, please change that last sentence to: "By doing so, a better
-> performance results could be achieved, compared to the case of the
-> workaround described above."
->
-> Also, please add the tag "linux-user".
->
-> Yours,
-> Aleksandar
+On 5/10/20 10:34 PM, Philippe Mathieu-Daudé wrote:
+> One can name a local variable holding a value as 'v', but it
+> currently clashes with the registerfields macros. To save others
+> to debug the same mistake, prefix the macro's local variables
+> with an underscore.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  include/hw/registerfields.h | 40 ++++++++++++++++++-------------------
+>  1 file changed, 20 insertions(+), 20 deletions(-)
+> 
+> diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
+> index 0407edb7ec..93fa4a84c2 100644
+> --- a/include/hw/registerfields.h
+> +++ b/include/hw/registerfields.h
+> @@ -66,35 +66,35 @@
+>  #define FIELD_DP8(storage, reg, field, val) ({                            \
+>      struct {                                                              \
+>          unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
+> -    } v = { .v = val };                                                   \
+> -    uint8_t d;                                                            \
+> -    d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
+> -                  R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
+> -    d; })
+> +    } _v = { .v = val };                                                  \
+> +    uint8_t _d;                                                           \
+> +    _d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,          \
+> +                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);              \
+> +    _d; })
+>  #define FIELD_DP16(storage, reg, field, val) ({                           \
+>      struct {                                                              \
+>          unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
+> -    } v = { .v = val };                                                   \
+> -    uint16_t d;                                                           \
+> -    d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
+> -                  R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
+> -    d; })
+> +    } _v = { .v = val };                                                  \
+> +    uint16_t _d;                                                          \
+> +    _d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,          \
+> +                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);              \
+> +    _d; })
+>  #define FIELD_DP32(storage, reg, field, val) ({                           \
+>      struct {                                                              \
+>          unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
+> -    } v = { .v = val };                                                   \
+> -    uint32_t d;                                                           \
+> -    d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
+> -                  R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
+> -    d; })
+> +    } _v = { .v = val };                                                  \
+> +    uint32_t _d;                                                          \
+> +    _d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,          \
+> +                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);              \
+> +    _d; })
+>  #define FIELD_DP64(storage, reg, field, val) ({                           \
+>      struct {                                                              \
+>          unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
+> -    } v = { .v = val };                                                   \
+> -    uint64_t d;                                                           \
+> -    d = deposit64((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
+> -                  R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
+> -    d; })
+> +    } _v = { .v = val };                                                  \
+> +    uint64_t _d;                                                          \
+> +    _d = deposit64((storage), R_ ## reg ## _ ## field ## _SHIFT,          \
+> +                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);              \
+> +    _d; })
+>  
+>  /* Deposit a field to array of registers.  */
+>  #define ARRAY_FIELD_DP32(regs, reg, field, val)                           \
+> 
 
