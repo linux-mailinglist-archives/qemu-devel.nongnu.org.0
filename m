@@ -2,67 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152871E264A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:02:16 +0200 (CEST)
-Received: from localhost ([::1]:58908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CBF1E266D
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:06:07 +0200 (CEST)
+Received: from localhost ([::1]:43532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdc1u-0001hF-At
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:02:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51628)
+	id 1jdc5a-0007lu-0i
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:06:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>)
- id 1jdbz9-0000cW-Jx; Tue, 26 May 2020 11:59:23 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:50476)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>)
- id 1jdbz7-000473-4D; Tue, 26 May 2020 11:59:23 -0400
-Received: by mail-wm1-f68.google.com with SMTP id v19so65631wmj.0;
- Tue, 26 May 2020 08:59:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdc0c-000223-2O
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 12:00:54 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41903
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdc0I-0004Lc-OC
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 12:00:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590508830;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Z4sgj3+NyEy/3+mBjY3Nt+b+4prcl2HAo8tM6GCa4FY=;
+ b=SW+g20V592lH2irpk8A7lGCXCGDTC6YKh1xKc/Akic0HMVRk7TQhUcI+dd1g48WmQg2VcX
+ nYYxL95Rk+mLwZWJPbjS3rRrb5RPhiQs2LMi22p/e2Eya8OwqoSe4ctPDZuDR7A5QopSex
+ rebviEHXj0O2AnBtbzEzbXYh1BD0FEo=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-60-r7cznSpoOg-fajyYc1uleA-1; Tue, 26 May 2020 12:00:16 -0400
+X-MC-Unique: r7cznSpoOg-fajyYc1uleA-1
+Received: by mail-ed1-f69.google.com with SMTP id w15so8533277edi.11
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 09:00:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aejmtGAVwrEf4TFhu6yPwg4dq99qmOFZ2tjTMfJwwB4=;
- b=cn09GDdwTtX5I1lZNTbR6QBVEflFCfjz47gN7i7CGw3qtaho1wxEoiV9xbLHE/QSmj
- LKhU0c5LvrlLMQDKCuVc04B/y3Hrapz3WL3mSXJUqUY91THgDgrhEE+h3QT/VeFsN4LX
- 5NjBu9/Xh9f+1q79AyduDF96hv960jl9rKhugD6bGiH+xD0kDNx/QtKBdRPYGxEWrvpz
- t5XXMuJQlGQPpTUA8Ums8eVc9zt4KngrsYhTZvF6JCj25tHtklIFUZtLAMpQM4O/iGJa
- 6ezlUQm1yeU5fr6SqKDhOS2CA2GN2QQ3ElP2zZKlmthI23Pt6/n2rGKVHwWX7MOE2P3h
- +iSg==
-X-Gm-Message-State: AOAM532Q1Ji31TPULhoiwBo668M2TCCZstJBkotyWkSYo7Fg7CDs0gcp
- N1z3HU6wDsIMXl5xUW8Sr8I=
-X-Google-Smtp-Source: ABdhPJySorQQU/qBa8tB5jIgkUjxHe2oNBvTHdWHAP6xu/59Kxca55joaQ34s+gI4U5j/LGflOJwGg==
-X-Received: by 2002:a1c:bc0a:: with SMTP id m10mr1929893wmf.173.1590508758988; 
- Tue, 26 May 2020 08:59:18 -0700 (PDT)
-Received: from thl530 (x590feeb5.dyn.telefonica.de. [89.15.238.181])
- by smtp.gmail.com with ESMTPSA id z12sm296194wrg.9.2020.05.26.08.59.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 08:59:18 -0700 (PDT)
-Date: Tue, 26 May 2020 17:59:14 +0200
-From: Thomas Huth <huth@tuxfamily.org>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3 1/2] hw/m68k/mcf5206: Reduce m5206_mbar_read/write()
- offset arg to 16-bit
-Message-ID: <20200526175914.7e3ed350@thl530>
-In-Reply-To: <20200526094052.1723-2-f4bug@amsat.org>
-References: <20200526094052.1723-1-f4bug@amsat.org>
- <20200526094052.1723-2-f4bug@amsat.org>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Z4sgj3+NyEy/3+mBjY3Nt+b+4prcl2HAo8tM6GCa4FY=;
+ b=LNleE9UB+iXJKquQoHyd7rfS1GflZwfIYKU9yqV7572ooPyPkK5ayX0aVrc6+8S/3Q
+ FJYBeUpd1EdWlgfS4kqlqawiAycsBRL/0IYuxyNovSSNLOy/UAS8kF/xcbw2LXfgmI6/
+ rL2xDdheQKhxQkolc1uxFJgjQqWOlvWc8uW+qmQl/AANArvkFqbjxllSefWsCXiRnmI1
+ 9lX8/2v36AMYvPw1zPaHcoLIsjzvs4xDBRZA6K6txUAo+p+XgphHP4ex3NHFhm9bd8ip
+ WvlE42cCgwp3xvhc/a61rlw7SxDfIlpdH+Fc1pP5al7DpcCihmp9+9fl0tMBUis5Y95h
+ CiZA==
+X-Gm-Message-State: AOAM531wPxTe5OCapj+9bdp2gJIl7UoOz/AGM5XnOYLLYhauo/nVzXGg
+ XNYSPC9FAR/AgIDp8uljDCvpCQTUfdZgcF91QOITSeJXKwJmXj5dCuwAWxiPdVO3cmjM29HbT/e
+ kkj4iOmriP+gpDIA=
+X-Received: by 2002:a17:906:7750:: with SMTP id
+ o16mr1812572ejn.12.1590508814645; 
+ Tue, 26 May 2020 09:00:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwkxg9mifNluU2U//fPO/S4BmBUg+9kjSZc/EHxG7lC+jdLnwfQ63TeVhjm0JGd98GZhbhtyQ==
+X-Received: by 2002:a17:906:7750:: with SMTP id
+ o16mr1812536ejn.12.1590508814403; 
+ Tue, 26 May 2020 09:00:14 -0700 (PDT)
+Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id ld9sm260307ejb.30.2020.05.26.09.00.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 May 2020 09:00:13 -0700 (PDT)
+Subject: Re: [PATCH RFC 06/32] python/qemu: formalize as package
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20200514055403.18902-1-jsnow@redhat.com>
+ <20200514055403.18902-7-jsnow@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <68ac7059-7890-c4a1-7280-4dc4aa52c888@redhat.com>
+Date: Tue, 26 May 2020 18:00:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.128.68; envelope-from=th.huth@gmail.com;
- helo=mail-wm1-f68.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 11:59:19
+In-Reply-To: <20200514055403.18902-7-jsnow@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:14:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,63 +123,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am Tue, 26 May 2020 11:40:51 +0200
-schrieb Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>:
+On 5/14/20 7:53 AM, John Snow wrote:
+> NB: I am choosing Python 3.6 here. Although our minimum requirement is
+> 3.5, this code is used only by iotests (so far) under which we have been
+> using a minimum version of 3.6.
 
-> All calls to m5206_mbar_read/m5206_mbar_write are used with
-> 'offset =3D hwaddr & 0x3ff', so we are sure the offset fits
-> in 16-bit.
->=20
-> Suggested-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> v3: Use PRIx16
-> ---
->  hw/m68k/mcf5206.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/m68k/mcf5206.c b/hw/m68k/mcf5206.c
-> index b155dd8170..187291e1f6 100644
-> --- a/hw/m68k/mcf5206.c
-> +++ b/hw/m68k/mcf5206.c
-> @@ -273,7 +273,7 @@ static void m5206_mbar_reset(m5206_mbar_state *s)
->  }
-> =20
->  static uint64_t m5206_mbar_read(m5206_mbar_state *s,
-> -                                uint64_t offset, unsigned size)
-> +                                uint16_t offset, unsigned size)
->  {
->      if (offset >=3D 0x100 && offset < 0x120) {
->          return m5206_timer_read(s->timer[0], offset - 0x100);
-> @@ -306,11 +306,11 @@ static uint64_t
-> m5206_mbar_read(m5206_mbar_state *s, case 0x170: return s->uivr[0];
->      case 0x1b0: return s->uivr[1];
->      }
-> -    hw_error("Bad MBAR read offset 0x%x", (int)offset);
-> +    hw_error("Bad MBAR read offset 0x%"PRIx16, offset);
->      return 0;
->  }
-> =20
-> -static void m5206_mbar_write(m5206_mbar_state *s, uint32_t offset,
-> +static void m5206_mbar_write(m5206_mbar_state *s, uint16_t offset,
->                               uint64_t value, unsigned size)
->  {
->      if (offset >=3D 0x100 && offset < 0x120) {
-> @@ -360,7 +360,7 @@ static void m5206_mbar_write(m5206_mbar_state *s,
-> uint32_t offset, s->uivr[1] =3D value;
->          break;
->      default:
-> -        hw_error("Bad MBAR write offset 0x%x", (int)offset);
-> +        hw_error("Bad MBAR write offset 0x%"PRIx16, offset);
->          break;
->      }
->  }
+Preferably with another Ack-by from someone familiar with Python iotests:
+Acked-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Reviewed-by: Thomas Huth <huth@tuxfamily.org>
+> 
+> 3.6 is being preferred here for variable type hint capability, which
+> enables us to use mypy for this package.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/README.rst |  6 ++++++
+>  python/setup.py   | 50 +++++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 56 insertions(+)
+>  create mode 100644 python/README.rst
+>  create mode 100755 python/setup.py
+> 
+> diff --git a/python/README.rst b/python/README.rst
+> new file mode 100644
+> index 0000000000..25f6d93fd5
+> --- /dev/null
+> +++ b/python/README.rst
+> @@ -0,0 +1,6 @@
+> +QEMU Python Tooling
+> +-------------------
+> +
+> +This package provides QEMU tooling used by the QEMU project to build,
+> +configure, and test QEMU. It is not a fully-fledged SDK and it is subject
+> +to change at any time.
+> diff --git a/python/setup.py b/python/setup.py
+> new file mode 100755
+> index 0000000000..f897ceac97
+> --- /dev/null
+> +++ b/python/setup.py
+> @@ -0,0 +1,50 @@
+> +#!/usr/bin/env3 python
+> +"""
+> +QEMU tooling installer script
+> +Copyright (c) 2020 John Snow for Red Hat, Inc.
+> +"""
+> +
+> +import setuptools
+> +
+> +def main():
+> +    """
+> +    QEMU tooling installer
+> +    """
+> +
+> +    kwargs = {
+> +        'name': 'qemu',
+> +        'use_scm_version': {
+> +            'root': '..',
+> +            'relative_to': __file__,
+> +        },
+> +        'maintainer': 'QEMU Developer Team',
+> +        'maintainer_email': 'qemu-devel@nongnu.org',
+> +        'url': 'https://www.qemu.org/',
+> +        'download_url': 'https://www.qemu.org/download/',
+> +        'packages': setuptools.find_namespace_packages(),
+> +        'description': 'QEMU Python Build, Debug and SDK tooling.',
+> +        'classifiers': [
+> +            'Development Status :: 5 - Production/Stable',
+> +            'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
+> +            'Natural Language :: English',
+> +            'Operating System :: OS Independent',
+> +        ],
+> +        'platforms': [],
+> +        'keywords': [],
+> +        'setup_requires': [
+> +            'setuptools',
+> +            'setuptools_scm',
+> +        ],
+> +        'install_requires': [
+> +        ],
+> +        'python_requires': '>=3.6',
+> +        'long_description_content_type': 'text/x-rst',
+> +    }
+> +
+> +    with open("README.rst", "r") as fh:
+> +        kwargs['long_description'] = fh.read()
+> +
+> +    setuptools.setup(**kwargs)
+> +
+> +if __name__ == '__main__':
+> +    main()
+> 
 
 
