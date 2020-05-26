@@ -2,82 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A208B1E1D10
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:17:39 +0200 (CEST)
-Received: from localhost ([::1]:54450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D86F41E1D20
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:19:50 +0200 (CEST)
+Received: from localhost ([::1]:60666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUmI-0001pP-OX
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:17:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47670)
+	id 1jdUoP-0004jC-UD
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:19:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdUl6-00012M-Bo; Tue, 26 May 2020 04:16:24 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37362)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdUl5-0006kf-LM; Tue, 26 May 2020 04:16:24 -0400
-Received: by mail-wm1-x343.google.com with SMTP id f5so2331379wmh.2;
- Tue, 26 May 2020 01:16:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Xtv3pfI08ph+Vnmgl5CRTzpt6lk1dLDI5NDSsSeV5NE=;
- b=XuyX8DWNsDZzoxOWgZP2RYH/wao6LBYcz3c+h9E1RlN0+O0pbtm2ZgyEPpB4HFrSZl
- Vzk9MWgufj/PgHh4bxiYnlvGKfMqBQ5Ps0gyIKNdkGQlfKdMmNy2BL1cZcfPvpMbvYeQ
- mQiK12iPqCWPNWg3+0KZqyWyt7dI6j4dEmRCDo3OO68/Rb39HqdnktXngS7aXd1Im4md
- 6PkBZZLPU9+G8qMArSJbSIEEgb8qM93Ruzrqg9adbbxe/IrUZ5G33+x6OMyWHBTL1uC2
- ZKHEgA/PTBOBzQfgqpF5pvajUhRq2R0APL36U1rneQ8GJzAFPjMKL9AEPFehz/L3qyOn
- iTdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Xtv3pfI08ph+Vnmgl5CRTzpt6lk1dLDI5NDSsSeV5NE=;
- b=Z5NCXVjPvYJ6cx5hcKDzMGWnQf0SXNSg9K9b2YFIOogXhsBMte/IkP9IbcyEVgeewK
- A0S79l1SSZFACkJeBlsB8V02MnYQAoXPC9QMxCRN7DutEy/NUWmrC0Sw1QBon1B/+S8T
- A40m83WJtp9jUJl9eZZfkhDbs8aUzf1yujfi61SmmTiHiUgimSkoofVR142iyf5xWtrL
- 1Nmtc11RdAvQR6rmAuLT2BtLgZ+4b4C/DxZ6476Y2saakad/kVDXpo98Y3BPRje/zJkW
- kgdpCzF6aWfwk8rGeFMroiZ8UznqsbBHJtz3DCUeaqNzqEIVBci1VzDMQWAtTQl3nFVV
- 6TRQ==
-X-Gm-Message-State: AOAM530u7GGOCD92/S/qMCmMQkmyEj+LDH6ZdJeZaifBfSd3Nul+vDyx
- g1+Wkf0ZIviyvotzLrIzEAw=
-X-Google-Smtp-Source: ABdhPJxFIzWUGLU+DjwiXREVvpqVyDfTwQ2HTwdQKxBbh9zXAyDl3DXP4Psk7OsNwFjlEY4/EJR5ow==
-X-Received: by 2002:a05:600c:297:: with SMTP id 23mr305757wmk.12.1590480981152; 
- Tue, 26 May 2020 01:16:21 -0700 (PDT)
-Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
- [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id b185sm170016wmd.3.2020.05.26.01.16.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 May 2020 01:16:20 -0700 (PDT)
-Subject: Re: [PATCH 11/14] hw/display/vmware_vga: Let the PCI device own its
- I/O MemoryRegion
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20200526062252.19852-1-f4bug@amsat.org>
- <20200526062252.19852-12-f4bug@amsat.org>
- <20200526080123.ul5r4abphqfi7lkq@sirius.home.kraxel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4a6478f2-6b70-40df-093f-e81d2437bfa7@amsat.org>
-Date: Tue, 26 May 2020 10:16:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1jdUmZ-0002io-JK; Tue, 26 May 2020 04:17:55 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:44422)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1jdUmW-0006rp-DB; Tue, 26 May 2020 04:17:54 -0400
+Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::162])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id B1A2C2E154B;
+ Tue, 26 May 2020 11:17:43 +0300 (MSK)
+Received: from iva8-88b7aa9dc799.qloud-c.yandex.net
+ (iva8-88b7aa9dc799.qloud-c.yandex.net [2a02:6b8:c0c:77a0:0:640:88b7:aa9d])
+ by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ wZiwTQby2j-HfTCfI2u; Tue, 26 May 2020 11:17:43 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1590481063; bh=ET/b1QGf6u2gLiF+fCrTW1vcnPdWEi6d4aEAgXzGVgc=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=qkxNQ5bMkO1U+WRzjYmd3eszif6iK7MVVCCpqOw0TyYsoGOSv6s2Uumr7gxdThp59
+ W8eMtpsm8s2PD8FJF/XJxP5qO51zg19RXqv6Mrc3rl5w001lmuEad1p5AvGBZw3HQf
+ vP/nx5b6caO7pE4GQ+IHt3s01PkfB/kz5mDSc788=
+Authentication-Results: mxbackcorp1j.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-iva.dhcp.yndx.net (dynamic-iva.dhcp.yndx.net
+ [2a02:6b8:b080:8909::1:0])
+ by iva8-88b7aa9dc799.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ eMCAEelUnS-HfXu62Nu; Tue, 26 May 2020 11:17:41 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/5] block: widen and check consistency of size-related
+ BlockConf properties
+Date: Tue, 26 May 2020 11:17:35 +0300
+Message-Id: <20200526081740.256236-1-rvkagan@yandex-team.ru>
+X-Mailer: git-send-email 2.26.2
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20200526080123.ul5r4abphqfi7lkq@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 04:17:44
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,26 +73,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Alistair Francis <alistair@alistair23.me>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/20 10:01 AM, Gerd Hoffmann wrote:
-> On Tue, May 26, 2020 at 08:22:49AM +0200, Philippe Mathieu-DaudÃƒÆ’Ã‚Â© wrote:
->> To avoid the orphan I/O memory region being added in the /unattached
->> QOM container, register the PCI device as its owner.
->>
->> Signed-off-by: Philippe Mathieu-DaudÃƒÆ’Ã‚Â© <f4bug@amsat.org>
->> ---
->> RFC: This might break migration
-> 
-> --verbose please.  This doesn't touch the live migration data stream?
-
-Oops, this is an I/O region... I was confused by this warning form Peter:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg681970.html
-
-But it is restricted to RAM regions, so this patch is harmless.
+BlockConf includes several properties counted in bytes.=0D
+=0D
+Enhance their handling in a some aspects, specifically=0D
+=0D
+- accept common size suffixes (k, m)=0D
+- perform consistency checks on the values, to prevent their silent=0D
+  truncation and rounding=0D
+- lift the upper limit on physical_block_size and logical_block_size=0D
+=0D
+Also fix the accessor for opt_io_size in virtio-blk to make it match the si=
+ze=0D
+of the field.=0D
+=0D
+History:=0D
+v4 -> v5:=0D
+- re-split the patches [Philippe]=0D
+- fix/reword error messages [Philippe, Kevin]=0D
+- do early return on failed consistency check [Philippe]=0D
+- use QEMU_IS_ALIGNED instead of open coding [Philippe]=0D
+- make all BlockConf size props support suffixes=0D
+- expand the log for virtio-blk opt_io_size [Michael]=0D
+=0D
+v3 -> v4:=0D
+- add patch to fix opt_io_size width in virtio-blk=0D
+- add patch to perform consistency checks [Kevin]=0D
+- check min_io_size against truncation [Kevin]=0D
+=0D
+v2 -> v3:=0D
+- mention qcow2 cluster size limit in the log and comment [Eric]=0D
+=0D
+v1 -> v2:=0D
+- cap the property at 2 MiB [Eric]=0D
+- accept size suffixes=0D
+=0D
+Roman Kagan (5):=0D
+  virtio-blk: store opt_io_size with correct size=0D
+  block: consolidate blocksize properties consistency checks=0D
+  qdev-properties: blocksize: use same limits in code and description=0D
+  block: make size-related BlockConf properties accept size suffixes=0D
+  block: lift blocksize property limit to 2 MiB=0D
+=0D
+ include/hw/block/block.h     |  18 +-=0D
+ include/hw/qdev-properties.h |   2 +-=0D
+ hw/block/block.c             |  64 ++++-=0D
+ hw/block/fdc.c               |   5 +-=0D
+ hw/block/nvme.c              |   5 +-=0D
+ hw/block/virtio-blk.c        |   9 +-=0D
+ hw/core/qdev-properties.c    | 109 +++----=0D
+ hw/ide/qdev.c                |   5 +-=0D
+ hw/scsi/scsi-disk.c          |  12 +-=0D
+ hw/usb/dev-storage.c         |   5 +-=0D
+ tests/qemu-iotests/172.out   | 532 +++++++++++++++++------------------=0D
+ 11 files changed, 423 insertions(+), 343 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
