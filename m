@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B0C1E2306
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 15:38:26 +0200 (CEST)
-Received: from localhost ([::1]:34764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01F731E22FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 15:36:03 +0200 (CEST)
+Received: from localhost ([::1]:50622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdZmj-0000EF-5j
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 09:38:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56930)
+	id 1jdZkQ-0003IG-2i
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 09:36:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdZhW-0006Q9-Eb
- for qemu-devel@nongnu.org; Tue, 26 May 2020 09:33:02 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:45287)
+ id 1jdZhY-0006WH-7m
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 09:33:04 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:38069)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdZhV-0005ou-LQ
- for qemu-devel@nongnu.org; Tue, 26 May 2020 09:33:02 -0400
-Received: by mail-ej1-x644.google.com with SMTP id o15so2454433ejm.12
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 06:33:01 -0700 (PDT)
+ id 1jdZhX-0005pD-Ey
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 09:33:03 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id h21so23830850ejq.5
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 06:33:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=W8VxI71hr8dlU8kpN6GleuQ2+cio9Eeh3dClavw718g=;
- b=a7ihlkZhTRLKLGFyZsvQ36Buh6wJTZf+W2AFxQyfuYcCYibpYnd1ChYO8ym8yqlcLH
- EGXIRov/blgztry/kFXip78Ycuo3HW9T6D1WU9ZNXaHrCObwHF7ANvIby4/K/ElwxUa3
- rD5q493Zw0C/u0MVdcSSAC9cyYzRsO+5jd8HxEA7Z/Pky3iUMRbsQ/rmPc/dTqVC73O7
- 3tcfrd39pVEBqAmEsGlcm5fp+tPUupInodfcb6WURDT9mBTLwKD8bBgU5xBhgX2/9OyC
- KB1Z/5Va9OyR2O+W5BnUXxZvb+r4bnNLURrGpM1hfAZJ/FRmVDaF5pYcyr8Lwm0CP8hW
- eeGQ==
+ bh=mBHAYQ31sriu1PFVXi6ty+G9pR4qR9G0hm00u+LnXSk=;
+ b=ls9NkytuxDCjnt560MkALAzIBLPxPudXqqYdA8GLnBsctjHR6onBR+fjHC8Exi6Hnq
+ HiDGrWsQ8WUdQ/UJDWuIRuArOkahXHFjBRcWTk/8spkBI2b069wevvy0fe01Sk7YY6KE
+ +JxapVUPWSOVT+j16sslZ+3QvltPHchp/OFVG4m4Pf9WTItZbVSLVoJ4JmImqBA6MwSl
+ lGLikSeruglT+oiL789WxfHUN7zwTbahljkSgAQ8OhcmaK71Y2B38MjE07tyo4qNaNsl
+ L9ozSWPwmOimrrwGvOvb4gwiG6yo1uo/tavp5tIEliLRjto2UBiR8EFGslVhqFxic8Rx
+ yfaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=W8VxI71hr8dlU8kpN6GleuQ2+cio9Eeh3dClavw718g=;
- b=TyoOFXT90zgcNvfQ4K8LcXuVJDn0Nz+jcnTy/ilaptbAopZ7Ltc98JCn162GQjxpy/
- U0DNhlQsbfmKMPZIN6Z8nT0yZgnYZabiTFwvAd5QBRTzNl2DHgCdDBstPf8a+arfFPNK
- ngaiwCslprYxv++fSOQh3Fwsv7ehMTIyTp5T7MHnLs6sQrxHKRQht1IFh6gcn1Xq4i67
- o/N4eXIF7xAW6bXdYSjzOrQi9VQBxkOd2vT/6dsA/EkZqwAQUBEkFasPTitFUiJDw72U
- dQC2Y2hQOVtbXBDyYkJzjYnzXRz6492t1xOIJ74xhm3dHQEaxnpUoXnHwbxCj1DpJ0GY
- Csvg==
-X-Gm-Message-State: AOAM531rvFKuTScmXa3SqNt6cB4HwfmDJjiBu0DA8KAKLZaWTT2H4Tf1
- QQQHGEkfKrcNBRM2N48R3PmnRuCpf6c=
-X-Google-Smtp-Source: ABdhPJzUY1mUjqfY86NxCT30EKGDVSOLNKM9YhYJAw21KF/OkFe4oJC9gCeR4bBH8SluGHqM1JaFuw==
-X-Received: by 2002:a17:906:b348:: with SMTP id
- cd8mr1127899ejb.139.1590499980033; 
- Tue, 26 May 2020 06:33:00 -0700 (PDT)
+ bh=mBHAYQ31sriu1PFVXi6ty+G9pR4qR9G0hm00u+LnXSk=;
+ b=WiLZ/CQg3xfQs6a34Qt/VcmVVXTr4PJFlrr1uKgjofBkPxpxEwVXo0aVrYvB542iQ3
+ QaRyt1DvJgOzEOaRYjSRbkWrzV/S4PWfDNSLMSlAiY2iFsqhwk3bsLw4AkKsb8exzMHO
+ nN2q8NCd0HRIQlzGN/YhGKkIVl91sMMIAaVC8cI1e2P3dshL0qK9Ufq2pIYht5qIKCs5
+ Se7UlBHcGISD1PkKvW0yoIe/Q8PH+WXVXtr0WHhH47eLs3nm1uT1r05bPJD9LL0WjrkO
+ aMHtNBsCIUvp7G8f8jp9d60Uv70+5zfwX+FNC3lK3c3phcTkNknGqsBRQPp36AuQEqKO
+ qzog==
+X-Gm-Message-State: AOAM533z8aaXqC6s6sm4DtbK3SW5IyUdnXnNhN9UyuvT1XBENjAVedDa
+ yuY8TfJJBkImIMM1BwJMEjEqOJ7yejE=
+X-Google-Smtp-Source: ABdhPJybldAC6vnDY3YrrHQfs46A6e72b/KGxAMMaVxfoZiliFeAqmoOvL16jHYuofFSbupHFeaBng==
+X-Received: by 2002:a17:906:379a:: with SMTP id
+ n26mr1100313ejc.513.1590499981758; 
+ Tue, 26 May 2020 06:33:01 -0700 (PDT)
 Received: from x1w.redhat.com (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id n25sm1623084edo.56.2020.05.26.06.32.58
+ by smtp.gmail.com with ESMTPSA id n25sm1623084edo.56.2020.05.26.06.33.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 06:32:59 -0700 (PDT)
+ Tue, 26 May 2020 06:33:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/14] hw/pci-host/bonito: Better describe the I/O CS regions
-Date: Tue, 26 May 2020 15:32:40 +0200
-Message-Id: <20200526133247.13066-8-f4bug@amsat.org>
+Subject: [PULL 08/14] hw/pci-host/bonito: Set the Config register reset value
+ with FIELD_DP32
+Date: Tue, 26 May 2020 15:32:41 +0200
+Message-Id: <20200526133247.13066-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200526133247.13066-1-f4bug@amsat.org>
 References: <20200526133247.13066-1-f4bug@amsat.org>
@@ -65,8 +66,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -100,48 +101,69 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Better describe the I/O CS regions, add the ROMCS region.
+Describe some bits of the Config registers fields with the
+registerfields API. Use the FIELD_DP32() macro to set the
+BONGENCFG register bits at reset.
 
 Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-id: <20200510210128.18343-11-f4bug@amsat.org>
+Message-id: <20200510210128.18343-12-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/pci-host/bonito.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ hw/pci-host/bonito.c | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
 diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index 52015cc2a7..20f2797a73 100644
+index 20f2797a73..d0201ce59e 100644
 --- a/hw/pci-host/bonito.c
 +++ b/hw/pci-host/bonito.c
-@@ -673,6 +673,8 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
-     sysbus_init_mmio(sysbus, &s->iomem_cop);
-     sysbus_mmio_map(sysbus, 4, 0x1fe00300);
+@@ -50,6 +50,7 @@
+ #include "sysemu/runstate.h"
+ #include "exec/address-spaces.h"
+ #include "hw/misc/unimp.h"
++#include "hw/registerfields.h"
  
-+    create_unimplemented_device("ROMCS", BONITO_FLASH_BASE, 60 * MiB);
+ /* #define DEBUG_BONITO */
+ 
+@@ -112,8 +113,19 @@
+ /* Power on register */
+ 
+ #define BONITO_BONPONCFG        (0x00 >> 2)      /* 0x100 */
 +
-     /* Map PCI IO Space  0x1fd0 0000 - 0x1fd1 0000 */
-     memory_region_init_alias(&s->bonito_pciio, OBJECT(s), "isa_mmio",
-                              get_system_io(), 0, BONITO_PCIIO_SIZE);
-@@ -680,10 +682,17 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
-     sysbus_mmio_map(sysbus, 5, BONITO_PCIIO_BASE);
++/* PCI configuration register */
+ #define BONITO_BONGENCFG_OFFSET 0x4
+ #define BONITO_BONGENCFG        (BONITO_BONGENCFG_OFFSET >> 2)   /*0x104 */
++REG32(BONGENCFG,        0x104)
++FIELD(BONGENCFG, DEBUGMODE,      0, 1)
++FIELD(BONGENCFG, SNOOP,          1, 1)
++FIELD(BONGENCFG, CPUSELFRESET,   2, 1)
++FIELD(BONGENCFG, BYTESWAP,       6, 1)
++FIELD(BONGENCFG, UNCACHED,       7, 1)
++FIELD(BONGENCFG, PREFETCH,       8, 1)
++FIELD(BONGENCFG, WRITEBEHIND,    9, 1)
++FIELD(BONGENCFG, PCIQUEUE,      12, 1)
  
-     /* add pci local io mapping */
--    memory_region_init_alias(&s->bonito_localio, OBJECT(s), "isa_mmio",
--                             get_system_io(), 0, BONITO_DEV_SIZE);
+ /* 2. IO & IDE configuration */
+ #define BONITO_IODEVCFG         (0x08 >> 2)      /* 0x108 */
+@@ -577,11 +589,18 @@ static int pci_bonito_map_irq(PCIDevice *pci_dev, int irq_num)
+ static void bonito_reset(void *opaque)
+ {
+     PCIBonitoState *s = opaque;
++    uint32_t val = 0;
+ 
+     /* set the default value of north bridge registers */
+ 
+     s->regs[BONITO_BONPONCFG] = 0xc40;
+-    s->regs[BONITO_BONGENCFG] = 0x1384;
++    val = FIELD_DP32(val, BONGENCFG, PCIQUEUE, 1);
++    val = FIELD_DP32(val, BONGENCFG, WRITEBEHIND, 1);
++    val = FIELD_DP32(val, BONGENCFG, PREFETCH, 1);
++    val = FIELD_DP32(val, BONGENCFG, UNCACHED, 1);
++    val = FIELD_DP32(val, BONGENCFG, CPUSELFRESET, 1);
++    s->regs[BONITO_BONGENCFG] = val;
 +
-+    memory_region_init_alias(&s->bonito_localio, OBJECT(s), "IOCS[0]",
-+                             get_system_io(), 0, 256 * KiB);
-     sysbus_init_mmio(sysbus, &s->bonito_localio);
-     sysbus_mmio_map(sysbus, 6, BONITO_DEV_BASE);
-+    create_unimplemented_device("IOCS[1]", BONITO_DEV_BASE + 1 * 256 * KiB,
-+                                256 * KiB);
-+    create_unimplemented_device("IOCS[2]", BONITO_DEV_BASE + 2 * 256 * KiB,
-+                                256 * KiB);
-+    create_unimplemented_device("IOCS[3]", BONITO_DEV_BASE + 3 * 256 * KiB,
-+                                256 * KiB);
+     s->regs[BONITO_IODEVCFG] = 0x2bff8010;
+     s->regs[BONITO_SDCFG] = 0x255e0091;
  
-     memory_region_init_alias(pcimem_alias, NULL, "pci.mem.alias",
-                              &bs->pci_mem, 0, BONITO_PCIHI_SIZE);
 -- 
 2.21.3
 
