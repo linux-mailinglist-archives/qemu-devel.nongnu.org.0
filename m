@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E072A1E28EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 19:35:14 +0200 (CEST)
-Received: from localhost ([::1]:54000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B85F1E28FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 19:37:33 +0200 (CEST)
+Received: from localhost ([::1]:33842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jddTt-0005Kx-QR
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 13:35:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37940)
+	id 1jddW8-0000Qx-J4
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 13:37:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jddQr-0002U2-MR; Tue, 26 May 2020 13:32:05 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:36484)
+ id 1jddRO-00035P-Ug; Tue, 26 May 2020 13:32:38 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:40598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jddQp-00010i-TV; Tue, 26 May 2020 13:32:05 -0400
-Received: by mail-qk1-x742.google.com with SMTP id 205so8323936qkg.3;
- Tue, 26 May 2020 10:31:57 -0700 (PDT)
+ id 1jddRN-0001Ki-Bo; Tue, 26 May 2020 13:32:38 -0400
+Received: by mail-qk1-x741.google.com with SMTP id c185so7337194qke.7;
+ Tue, 26 May 2020 10:32:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=PN6K5e1tyvrYhrCtBaGYgmQsUJa63MJXQBwAz/mTpnA=;
- b=KfkMh/xFWIimZxCOVVkpGTvqaonAkkcOHs+oK7834EsMXUPFiCjnOUnZs4UP4jhTGE
- nzvCl9pPaap2Wv6hNo66ox1hLn+9Xmh23ZCDzDvRZDZAGMdjHIfQbKh4VdBDhn1LVac3
- d5ZOsSjOL9JIfrrvbzP8A0jFJP+dsaSJtURPYCtGdnQBhuiY8JCDObVfjyqsRHTsTlUq
- ypGog6Pfb6wFxjMKNCHhyb+ShF1248l0ywoGbrQkkq6phhAZ6F30pJh0zMgS34MjXIml
- joSsw99vi3JybQc5JOR5L2KRP8ASs+fRBU2rNUh8G0NyIKdAbEfq7K5Jb6IWf/YSiuBr
- Lqnw==
+ bh=9TQk01LXu77Qb/2MeYsij309PkMXZLEcP4/iGwIEKpQ=;
+ b=NbyFaROVHFJvx2ICUP1UEIeCigwWBnhxDOj0rcqPq3L+y5GofiFCWhH6bacKg1R0Ix
+ k7SeIB+2eysZoA90xB7U4lFQmEkdFCVk5hBejcpFrEwUJ0QGDaSVSdapcx4C+CZcoD0M
+ 7JCM2tWdeHCeOLFfkOPN3k92bp1W4LR1c9V+Dz6Wnja9Uvnu42NVlZZ52F0UZZH+X1v1
+ PTev0JL7Wa5NDIAF/3uXEb00L+ErhgLeFPzYI3Qa38GUL0Hw3MC3zlKisvYM49/m7FcH
+ iyNoh3LCbY/9GeK21zpSykEK5GjGvGpq/f243KDDrapkhTuQlC2UHEhzqdo3tuXi4qFG
+ 02Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=PN6K5e1tyvrYhrCtBaGYgmQsUJa63MJXQBwAz/mTpnA=;
- b=N0gOQnDo9m25VKRMo4LZ68S1jFPx2rqmtNB0urDJfok7UmNyK0GBBfebQ8wdhzoyte
- xYCN8ZHgBrCjS+YuBuvP8CZlOm24Ga14GuYt3cFOjYuKPJtiWXk1aLB4syvGf0kkKEDn
- iJA5k+hRNm4cKq9bESJ6431KwdYlO2dnn0+KWKfZiNWkKKlrNu4qPbyxsOAq8Jrd/Eyf
- 5dB5uIBnTMr5CFIfMTRF9s46JWAPmnH9gBACuTfXJ8gYHQrUN847HwBioj+QXXJTY+WK
- Z/HlldxQyNu0if1N0/smOro0sN/OVi79FvdMksSAbCi4qD+7Q2+3qM1R8GX+kQULcV8X
- rJJQ==
-X-Gm-Message-State: AOAM530cU2k7bND0TvnJyGzXjqApQBNSyFCI8+jBhv3A4080zXkFW/jg
- 5xOAOCv+HrQKtH01kDwXIcaJWveHVQEHv25eR/I=
-X-Google-Smtp-Source: ABdhPJxdI/1eBoBFFXQiAA55TlaOXRIFWZVxubtUpZ/hFSBOz2VuGJ2XoBND3j1Ebn0PFWERTx+6mcWuPbMnzUdHG7s=
-X-Received: by 2002:a37:96c4:: with SMTP id y187mr2573316qkd.126.1590514316837; 
- Tue, 26 May 2020 10:31:56 -0700 (PDT)
+ bh=9TQk01LXu77Qb/2MeYsij309PkMXZLEcP4/iGwIEKpQ=;
+ b=fnz0Ofie7p1pzs5+NZUgMnRFH5K12WUPEV/ZaiHCDJ+EY9V/Vg9FJ07lGwD2Gbh6sn
+ kF2BLG6iYwgwddpZVvB7fyX3IBs7CydiMXDHGc/13YAQ7i2bqUh39qTY5UxmJdpfAaTp
+ y+a3Gifzvk5nng1LTYZLOd2L6n9NMlMPSFClqXfIZUsZ/xhDJhOnZ8Si2Cg1bs2Ab41U
+ A+5U1+kuAKh3rA9JGJIiKWE+MuKXBgd966Cn6b/H5UwZiWVhrCiVlzuN3sO14IIcM3bC
+ 5R1AesSVNQEOC6KmDRA0rRYW0ujlRqq0r1uVMbGyXazEuq2Wc/FLnkGNa+cDP+H1B0LQ
+ pNYw==
+X-Gm-Message-State: AOAM532Z5+BzYPeHXT5IT6y5IwlOH9VLSHe0SzdN0MG3aLZKGfsx8PlQ
+ yOM8nQi9iaBcVCDWAl5VT2BxtlWV22pJwX9LrGI=
+X-Google-Smtp-Source: ABdhPJx1NYW6O2vTOmD2f+L1oefE7sUJOlRdzXwtXh4f1KlLnGDUPHbu69gI5a1CMlnFvc/bDBfE3NwYidfiPuQsHHE=
+X-Received: by 2002:ae9:f804:: with SMTP id x4mr2619573qkh.164.1590514355126; 
+ Tue, 26 May 2020 10:32:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200526062252.19852-1-f4bug@amsat.org>
- <20200526062252.19852-8-f4bug@amsat.org>
-In-Reply-To: <20200526062252.19852-8-f4bug@amsat.org>
+ <20200526062252.19852-9-f4bug@amsat.org>
+In-Reply-To: <20200526062252.19852-9-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 26 May 2020 10:22:57 -0700
-Message-ID: <CAKmqyKNdWM5hwv0aK3tjFh6LSXdgZrUud-idSBp=mhapkkgO-A@mail.gmail.com>
-Subject: Re: [PATCH 07/14] hw/display/dpcd: Fix memory region size
+Date: Tue, 26 May 2020 10:23:36 -0700
+Message-ID: <CAKmqyKPz5zvPuiP7dNoni2rHq_jvo9wJ=c+Q-_xNDN91yf6gGw@mail.gmail.com>
+Subject: Re: [PATCH 08/14] hw/display/dpcd: Convert debug printf()s to trace
+ events
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
- envelope-from=alistair23@gmail.com; helo=mail-qk1-x742.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::741;
+ envelope-from=alistair23@gmail.com; helo=mail-qk1-x741.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -91,10 +92,10 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 25, 2020 at 11:27 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+On Mon, May 25, 2020 at 11:25 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
 rg> wrote:
 >
-> The memory region size is 512K.
+> Convert DPRINTF() to trace events and remove ifdef'ry.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
@@ -103,31 +104,75 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/display/dpcd.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  hw/display/dpcd.c       | 16 +++-------------
+>  hw/display/trace-events |  4 ++++
+>  2 files changed, 7 insertions(+), 13 deletions(-)
 >
 > diff --git a/hw/display/dpcd.c b/hw/display/dpcd.c
-> index 170545c605..0c1b7b35fb 100644
+> index 0c1b7b35fb..64463654a1 100644
 > --- a/hw/display/dpcd.c
 > +++ b/hw/display/dpcd.c
-> @@ -1,5 +1,5 @@
->  /*
-> - * dpcd.c
-> + * Xilinx Display Port Control Data
->   *
->   *  Copyright (C) 2015 : GreenSocs Ltd
->   *      http://www.greensocs.com/ , email: info@greensocs.com
-> @@ -137,7 +137,7 @@ static void dpcd_init(Object *obj)
->  {
->      DPCDState *s =3D DPCD(obj);
+> @@ -32,16 +32,7 @@
+>  #include "hw/misc/auxbus.h"
+>  #include "migration/vmstate.h"
+>  #include "hw/display/dpcd.h"
+> -
+> -#ifndef DEBUG_DPCD
+> -#define DEBUG_DPCD 0
+> -#endif
+> -
+> -#define DPRINTF(fmt, ...) do {                                          =
+       \
+> -    if (DEBUG_DPCD) {                                                   =
+       \
+> -        qemu_log("dpcd: " fmt, ## __VA_ARGS__);                         =
+       \
+> -    }                                                                   =
+       \
+> -} while (0)
+> +#include "trace.h"
 >
-> -    memory_region_init_io(&s->iomem, obj, &aux_ops, s, TYPE_DPCD, 0x7FFF=
-F);
-> +    memory_region_init_io(&s->iomem, obj, &aux_ops, s, TYPE_DPCD, 0x8000=
-0);
->      aux_init_mmio(AUX_SLAVE(obj), &s->iomem);
+>  #define DPCD_READABLE_AREA                      0x600
+>
+> @@ -70,8 +61,8 @@ static uint64_t dpcd_read(void *opaque, hwaddr offset, =
+unsigned size)
+>                                         offset);
+>          ret =3D 0;
+>      }
+> +    trace_dpcd_read(offset, ret);
+>
+> -    DPRINTF("read 0x%" PRIX8 " @0x%" HWADDR_PRIX "\n", ret, offset);
+>      return ret;
 >  }
 >
+> @@ -80,8 +71,7 @@ static void dpcd_write(void *opaque, hwaddr offset, uin=
+t64_t value,
+>  {
+>      DPCDState *e =3D DPCD(opaque);
+>
+> -    DPRINTF("write 0x%" PRIX8 " @0x%" HWADDR_PRIX "\n", (uint8_t)value, =
+offset);
+> -
+> +    trace_dpcd_write(offset, value);
+>      if (offset < DPCD_READABLE_AREA) {
+>          e->dpcd_info[offset] =3D value;
+>      } else {
+> diff --git a/hw/display/trace-events b/hw/display/trace-events
+> index bb089a5f5e..72d4c9812c 100644
+> --- a/hw/display/trace-events
+> +++ b/hw/display/trace-events
+> @@ -157,3 +157,7 @@ artist_draw_line(unsigned int start_x, unsigned int s=
+tart_y, unsigned int end_x,
+>  # cg3.c
+>  cg3_read(uint32_t addr, uint32_t val, unsigned size) "read addr:0x%06"PR=
+Ix32" val:0x%08"PRIx32" size:%u"
+>  cg3_write(uint32_t addr, uint32_t val, unsigned size) "write addr:0x%06"=
+PRIx32" val:0x%08"PRIx32" size:%u"
+> +
+> +# dpcd.c
+> +dpcd_read(uint32_t addr, uint8_t val) "read addr:0x%"PRIx32" val:0x%02x"
+> +dpcd_write(uint32_t addr, uint8_t val) "write addr:0x%"PRIx32" val:0x%02=
+x"
 > --
 > 2.21.3
 >
