@@ -2,70 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0DD31E2565
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 17:27:48 +0200 (CEST)
-Received: from localhost ([::1]:51442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9643F1E2558
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 17:22:13 +0200 (CEST)
+Received: from localhost ([::1]:37134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdbUZ-0006I5-Qg
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 11:27:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47716)
+	id 1jdbPA-0007pb-N7
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 11:22:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jdbSb-0004P2-BZ
- for qemu-devel@nongnu.org; Tue, 26 May 2020 11:25:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35024)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jdbSY-0005TT-Vu
- for qemu-devel@nongnu.org; Tue, 26 May 2020 11:25:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jdbSV-0000Xo-VN
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 15:25:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E99CE2E8048
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 15:25:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdbNZ-0006df-6G
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 11:20:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40833
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdbNX-0004Ka-Kt
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 11:20:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590506429;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=G4nH8AvLe5iivBUjiBQWJ2MtK4CzF0zP0YYeLCuLT6c=;
+ b=JK3TY57Bj4cwxH1O5Pjs/EghGzfG77Ih1aLSLYlFotEjHx6RpmfYaOrbYDZ8wCoxPBeIVo
+ NWQxAAHvl584ZbTnPyC12agVm0vaOW54idwWMd77mhDx2LnJEzP86BiCa7uYwp9aY2+H4D
+ lpIfucJhT8ILjByWtZHevjr+FAAz4Rk=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-282-sa3op-ygPZmEgMgG8BIxkg-1; Tue, 26 May 2020 11:20:28 -0400
+X-MC-Unique: sa3op-ygPZmEgMgG8BIxkg-1
+Received: by mail-ed1-f72.google.com with SMTP id o12so9040484edj.12
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 08:20:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=G4nH8AvLe5iivBUjiBQWJ2MtK4CzF0zP0YYeLCuLT6c=;
+ b=cAvcJNcgqjb3aZm+9Y5YMB/GpAc9hLs/81OPftKVwbXkk2MhL83ZYdCZGl+7oopFB9
+ vZ/mDfyXlQRUu5NaG0vJgDHjSh4qzI7ACeWEXNg6sR0YN1ECkKYMeXQSwn2mGG8h1MZM
+ T2EdKGy6ahwoQ2t7n64MbXbi5JJ9q3DSaQHpK3RrKbzffm6/rDqaiuKYS86PkK+meOYC
+ jJVCrZ0IdiuGlSibYIg446sO8+lyMmoXQsYnCR1XKU693BIvoKh96NkPzytq27Lhlte/
+ Rh1UU/1YhEU/iRrV0JQjBmDNSkgAEB9HXd0dACvH2a+aHn+rb7gyaL2hAaJXtnvRIO1l
+ bypg==
+X-Gm-Message-State: AOAM532UMS1cE8OxWwdQVbr5RFYhe2lZkvwEUOpNf8kjrcCHF3Eqv93T
+ fNDy6PGfSIbGy4Jeo69rFXHVR4xUW5z31ZiwPkUEjGN8fWvd7o46ELbMYYuXOIdAtX/Tq3q82DX
+ 63R6MyKRFVWSopiY=
+X-Received: by 2002:a50:c906:: with SMTP id o6mr16944754edh.95.1590506426880; 
+ Tue, 26 May 2020 08:20:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxQlCYehqml8MajuAlgzZLtsrzr7qNPOaEXYNdL9PdlNeB+iLFzHNCbq47YsYO+VkR6rNhsuA==
+X-Received: by 2002:a50:c906:: with SMTP id o6mr16944727edh.95.1590506426691; 
+ Tue, 26 May 2020 08:20:26 -0700 (PDT)
+Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id w12sm197244edj.22.2020.05.26.08.20.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 May 2020 08:20:26 -0700 (PDT)
+Subject: Re: [PATCH 6/7] block/nvme: keep BDRVNVMeState pointer in
+ NVMeQueuePair
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20200519171138.201667-1-stefanha@redhat.com>
+ <20200519171138.201667-7-stefanha@redhat.com>
+ <e10fe6ca-de77-ecec-f56c-d46918f247cf@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <cae44d45-e345-fde7-37f4-5195599e99e7@redhat.com>
+Date: Tue, 26 May 2020 17:20:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 26 May 2020 15:20:18 -0000
-From: Ottavio Caruso <1743191@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: regression
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gson kraxel-redhat ottaviocr philmd stefanha
-X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
-X-Launchpad-Bug-Modifier: Ottavio Caruso (ottaviocr)
-References: <151591854188.4596.10964938100242408667.malonedeb@wampee.canonical.com>
-Message-Id: <159050641843.20620.539925788806851332.malone@soybean.canonical.com>
-Subject: [Bug 1743191] Re: Interacting with NetBSD serial console boot blocks
- no longer works
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d8159e66fb28f3fb3a95b1e448f4ddb2ec1a997b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 11:25:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <e10fe6ca-de77-ecec-f56c-d46918f247cf@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:19:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,79 +123,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1743191 <1743191@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just to clarify my last comment, and in absence of updates, if I launch
-the VM as:
+On 5/26/20 4:55 PM, Philippe Mathieu-Daudé wrote:
+> On 5/19/20 7:11 PM, Stefan Hajnoczi wrote:
+>> Passing around both BDRVNVMeState and NVMeQueuePair is unwiedly. Reduce
 
-qemu-system-x86_64 \
--drive if=3Dvirtio,file=3D/home/oc/VM/img/openbsd.image,index=3D0,media=3Dd=
-isk \
--drive if=3Dvirtio,file=3D/home/oc/VM/img/openbsd.image.old,index=3D1,media=
-=3Ddisk \
--M q35,accel=3Dkvm,graphics=3Don -m 250M -cpu host -smp $(nproc) \
--nic user,hostfwd=3Dtcp::6666-:22,model=3Dvirtio-net-pci -nographic
+Oh, and typo "unwieldy".
 
-(note the -M q35,accel=3Dkvm,graphics=3Don), the problem still persists.
+>> the number of function arguments by keeping the BDRVNVMeState pointer in
+>> NVMeQueuePair. This will come in handly when a BH is introduced in a
+>> later patch and only one argument can be passed to it.
+>>
+>> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>> ---
+>>  block/nvme.c | 70 ++++++++++++++++++++++++++++------------------------
+>>  1 file changed, 38 insertions(+), 32 deletions(-)
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> 
 
-I'm still on version 4.2 and I haven't updated to 5.0 yet.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1743191
-
-Title:
-  Interacting with NetBSD serial console boot blocks no longer works
-
-Status in QEMU:
-  New
-
-Bug description:
-  The NetBSD boot blocks display a menu allowing the user to make a
-  selection using the keyboard.  For example, when booting a NetBSD
-  installation CD-ROM, the menu looks like this:
-
-           1. Install NetBSD
-           2. Install NetBSD (no ACPI)
-           3. Install NetBSD (no ACPI, no SMP)
-           4. Drop to boot prompt
-
-      Choose an option; RETURN for default; SPACE to stop countdown.
-      Option 1 will be chosen in 30 seconds.
-
-  When booting NetBSD in a recent qemu using an emulated serial console,
-  making this menu selection no longer works: when you type the selected
-  number, the keyboard input is ignored, and the 30-second countdown
-  continues.  In older versions of qemu, it works.
-
-  To reproduce the problem, run:
-
-     wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.1/amd64/installation/=
-cdrom/boot-com.iso
-     qemu-system-x86_64 -nographic -cdrom boot-com.iso
-
-  During the 30-second countdown, press 4
-
-  Expected behavior: The countdown stops and you get a ">" prompt
-
-  Incorrect behavior: The countdown continues
-
-  There may also be some corruption of the terminal output; for example,
-  "Option 1 will be chosen in 30 seconds" may be displayed as "Option 1
-  will be chosen in p0 seconds".
-
-  Using bisection, I have determined that the problem appeared with qemu
-  commit 083fab0290f2c40d3d04f7f22eed9c8f2d5b6787, in which seabios was
-  updated to 1.11 prerelease, and the problem is still there as of
-  commit 7398166ddf7c6dbbc9cae6ac69bb2feda14b40ac.  The host operating
-  system used for the tests was Debian 9 x86_64.
-
-  Credit for discovering this bug goes to Paul Goyette.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1743191/+subscriptions
 
