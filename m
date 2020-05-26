@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A49D1E27B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:52:17 +0200 (CEST)
-Received: from localhost ([::1]:48324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE2B41E27C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:57:14 +0200 (CEST)
+Received: from localhost ([::1]:40770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdcoK-0001Et-7F
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:52:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45672)
+	id 1jdct7-0002lC-QD
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:57:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdciz-0002g7-HZ; Tue, 26 May 2020 12:46:45 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:42054)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jdcrj-0000Ru-C1; Tue, 26 May 2020 12:55:47 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:47034)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdciy-0005hv-M7; Tue, 26 May 2020 12:46:45 -0400
-Received: by mail-ed1-x544.google.com with SMTP id k19so18231787edv.9;
- Tue, 26 May 2020 09:46:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jdcri-00037h-5Q; Tue, 26 May 2020 12:55:46 -0400
+Received: by mail-io1-xd44.google.com with SMTP id j8so22736109iog.13;
+ Tue, 26 May 2020 09:55:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5dc+q+V0lscs6cXnzEkH5M+IYF1zKZogiJC+dn3t85w=;
- b=GFDaXguavyRv45sHK3kwXd6gWaCQ24YuhbUn0za1/qb9MdXDAEUe3kHLhVhU1GV/9Q
- HziPyj9k3iYI7QaeXfrz7hUCr+QmpyoGx3wGFSbPkQrr/wi34nOHTHNryEEHLh/ZwUV+
- +F6e6Lms+OhsKoB3YqVC0tSk+Y0T/XeFWnZImwuckdr13zS9ipXioc6BmVQBdipCJhIa
- XuSmjjiR/PJDDBKw2Q9bUaEU3xlgv9kPsS4WpGtgPGErCoylF777dan7uWMDuXjixivO
- MC3BGcc5L0lTQJNJ1Y5+04g0o0mlauN8obCQO7Wj3HN5cStgy6FjKb3CE1oo3lYIpuJ5
- tfHw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=c99aHn7ARxhEy/7aKLvR6O5sUhHQpgUNKQAiS/hog2c=;
+ b=Av0d9lQx0qngdzjXS2n9oefHKZtg0qpGrQqaMnR1MrwWwpCtbiCRzZu5Db25kxJBf5
+ mjaZMCQ9UB7SVkdeUJqcGz3tybciybBRxyHmyRuQcLSVMhXyN9Y1E79RnhsZfNuSchU4
+ 8i1/kDUImULY35vC/aRBppSaeUGQm2GxDmNFQDV5O2XGiKK1nAbvB/Jck4dYkOl5LkN+
+ 5W23cHQ6NXegmQyAB20b1hdS2Fwu/4xy48CWaEdzh9gDxRZaOwhricqV8t+m0jhsq8Rx
+ 5xoAzIMAgvEpZ3VmNtWxOk6JlBahAHWerMpGct5SYBuoFCLEB5Rg0Y8D1mdQZM+jS13d
+ SlXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5dc+q+V0lscs6cXnzEkH5M+IYF1zKZogiJC+dn3t85w=;
- b=S3Ct8PbcMvYza44zY18gEk+pHeAdj1xBTWtSuXfDRdCF+iKB9/cZ+GnUCK0WqOiRGp
- MWvkWACch7rXfNXBsNPNRwngzbdMGoam0apntouFpku3Xyl4brgAg7zqEOziOm27pfuK
- X3oZAnu0AfR/E44BmeKXE+VfcxAy+PrckPiCXgAD4TsfC62CjnWadNE91a7O0qnOgr9n
- hWjbcHqpB3ESDgsJ3lAdeycegBHmmdTWU/Dj83Oek9JeDZLJF8a+7NijDHwvBpC/9/Mk
- xw3LKayvexFvBjOcE1ltDs0PV7/+8S64W24/qj+yHmQrB8o9QIlUNQ96LTYKS1uW6Rj6
- ZJXg==
-X-Gm-Message-State: AOAM530LlGQaJle6WxuHLULFsbyzqjb7BGJz/19x37lzZ4e6MoPPHvQv
- qTkekufV0M22FDz6xD7D0GhgBjCWqAg=
-X-Google-Smtp-Source: ABdhPJykay5hDSLsoJOR17vA7AzJ//AEN7BDDFIRx/mc6nuLklAmvNQynP9/gxQlByzVdDPkXU508g==
-X-Received: by 2002:a05:6402:c95:: with SMTP id
- cm21mr20907665edb.81.1590511602757; 
- Tue, 26 May 2020 09:46:42 -0700 (PDT)
-Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
- [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id dr19sm370475ejc.122.2020.05.26.09.46.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 May 2020 09:46:42 -0700 (PDT)
-Subject: Re: [PATCH] hw/registerfields: Prefix local variables with underscore
- in macros
-To: qemu-devel@nongnu.org
-References: <20200510203457.10546-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7bdb49c1-5396-0bf4-5f83-3849910e5d68@amsat.org>
-Date: Tue, 26 May 2020 18:46:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=c99aHn7ARxhEy/7aKLvR6O5sUhHQpgUNKQAiS/hog2c=;
+ b=pCw0NIb7Jp3AiSq5npvQB+C8R8SAQ0WjMN8QrhBN/uMt1FrG500j292ghw2KT2dfqg
+ uSZPUYFNJsckhCAQMnfUGAovJGJx1f5y0psWdSnpKC9RQMXZRFF9LWGeDnPAD0fjdkPP
+ NcX9cPfBJxpmgxsArNNB7zIe26P1CS5Qg72GoI368NcaPvZFvjEigYqrb2olS82ILa6j
+ rXbO0Hgn3vUnvzshrstVSskJsBeHxwVxS6BcKmYrQoFgm5u7eahBrCdMoebSQ23rjP+i
+ yXBTUYtmRY/I7xgUxFH2fQiZivazibdbGjiI3mOhJOVgdEaJ+Fw8iHryz2HxZy2CFNgQ
+ Sc4g==
+X-Gm-Message-State: AOAM533+pCUDPyQJc8ETRnenvc/cNppwPiuTDma5ce3zhCfBPpkkdmKm
+ ka3aTUmAn5Q1jg4NrXsqueI3e+GKwaBzNvPESU8=
+X-Google-Smtp-Source: ABdhPJzlOX7j2Ndcgv1Ixnu6HU/S1ZPFxu1rjY9Ks5mI3u69zUqVMYSHscD1znUzOxGoZbkB6DU1Qa1KfrkN7WWOZa0=
+X-Received: by 2002:a05:6638:dd3:: with SMTP id
+ m19mr1959002jaj.106.1590512143958; 
+ Tue, 26 May 2020 09:55:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200510203457.10546-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x544.google.com
+References: <20200526062252.19852-1-f4bug@amsat.org>
+ <20200526062252.19852-7-f4bug@amsat.org>
+In-Reply-To: <20200526062252.19852-7-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 26 May 2020 09:46:43 -0700
+Message-ID: <CAKmqyKN318+wJy63ntVnm2e98VQ1s+Yj6kz3FdASE858vUApyA@mail.gmail.com>
+Subject: Re: [PATCH 06/14] hw/display/cirrus_vga: Convert debug printf() to
+ trace event
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -90,82 +82,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Alistair Francis <alistair@alistair23.me>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping?
+On Mon, May 25, 2020 at 11:25 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
+>
+> Convert the final bit of DEBUG_BITBLT to a tracepoint.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-On 5/10/20 10:34 PM, Philippe Mathieu-Daudé wrote:
-> One can name a local variable holding a value as 'v', but it
-> currently clashes with the registerfields macros. To save others
-> to debug the same mistake, prefix the macro's local variables
-> with an underscore.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->  include/hw/registerfields.h | 40 ++++++++++++++++++-------------------
->  1 file changed, 20 insertions(+), 20 deletions(-)
-> 
-> diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
-> index 0407edb7ec..93fa4a84c2 100644
-> --- a/include/hw/registerfields.h
-> +++ b/include/hw/registerfields.h
-> @@ -66,35 +66,35 @@
->  #define FIELD_DP8(storage, reg, field, val) ({                            \
->      struct {                                                              \
->          unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
-> -    } v = { .v = val };                                                   \
-> -    uint8_t d;                                                            \
-> -    d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
-> -                  R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
-> -    d; })
-> +    } _v = { .v = val };                                                  \
-> +    uint8_t _d;                                                           \
-> +    _d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,          \
-> +                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);              \
-> +    _d; })
->  #define FIELD_DP16(storage, reg, field, val) ({                           \
->      struct {                                                              \
->          unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
-> -    } v = { .v = val };                                                   \
-> -    uint16_t d;                                                           \
-> -    d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
-> -                  R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
-> -    d; })
-> +    } _v = { .v = val };                                                  \
-> +    uint16_t _d;                                                          \
-> +    _d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,          \
-> +                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);              \
-> +    _d; })
->  #define FIELD_DP32(storage, reg, field, val) ({                           \
->      struct {                                                              \
->          unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
-> -    } v = { .v = val };                                                   \
-> -    uint32_t d;                                                           \
-> -    d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
-> -                  R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
-> -    d; })
-> +    } _v = { .v = val };                                                  \
-> +    uint32_t _d;                                                          \
-> +    _d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,          \
-> +                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);              \
-> +    _d; })
->  #define FIELD_DP64(storage, reg, field, val) ({                           \
->      struct {                                                              \
->          unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
-> -    } v = { .v = val };                                                   \
-> -    uint64_t d;                                                           \
-> -    d = deposit64((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
-> -                  R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
-> -    d; })
-> +    } _v = { .v = val };                                                  \
-> +    uint64_t _d;                                                          \
-> +    _d = deposit64((storage), R_ ## reg ## _ ## field ## _SHIFT,          \
-> +                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);              \
-> +    _d; })
->  
->  /* Deposit a field to array of registers.  */
->  #define ARRAY_FIELD_DP32(regs, reg, field, val)                           \
-> 
+>  hw/display/cirrus_vga.c | 24 ++++++++++--------------
+>  hw/display/trace-events |  1 +
+>  2 files changed, 11 insertions(+), 14 deletions(-)
+>
+> diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
+> index 76e2dc5bb6..92c197cdde 100644
+> --- a/hw/display/cirrus_vga.c
+> +++ b/hw/display/cirrus_vga.c
+> @@ -53,7 +53,6 @@
+>   */
+>
+>  //#define DEBUG_CIRRUS
+> -//#define DEBUG_BITBLT
+>
+>  /***************************************
+>   *
+> @@ -950,19 +949,16 @@ static void cirrus_bitblt_start(CirrusVGAState * s)
+>      s->cirrus_blt_dstaddr &=3D s->cirrus_addr_mask;
+>      s->cirrus_blt_srcaddr &=3D s->cirrus_addr_mask;
+>
+> -#ifdef DEBUG_BITBLT
+> -    printf("rop=3D0x%02x mode=3D0x%02x modeext=3D0x%02x w=3D%d h=3D%d dp=
+itch=3D%d spitch=3D%d daddr=3D0x%08x saddr=3D0x%08x writemask=3D0x%02x\n",
+> -           blt_rop,
+> -           s->cirrus_blt_mode,
+> -           s->cirrus_blt_modeext,
+> -           s->cirrus_blt_width,
+> -           s->cirrus_blt_height,
+> -           s->cirrus_blt_dstpitch,
+> -           s->cirrus_blt_srcpitch,
+> -           s->cirrus_blt_dstaddr,
+> -           s->cirrus_blt_srcaddr,
+> -           s->vga.gr[0x2f]);
+> -#endif
+> +    trace_vga_cirrus_bitblt_start(blt_rop,
+> +                                  s->cirrus_blt_mode,
+> +                                  s->cirrus_blt_modeext,
+> +                                  s->cirrus_blt_width,
+> +                                  s->cirrus_blt_height,
+> +                                  s->cirrus_blt_dstpitch,
+> +                                  s->cirrus_blt_srcpitch,
+> +                                  s->cirrus_blt_dstaddr,
+> +                                  s->cirrus_blt_srcaddr,
+> +                                  s->vga.gr[0x2f]);
+>
+>      switch (s->cirrus_blt_mode & CIRRUS_BLTMODE_PIXELWIDTHMASK) {
+>      case CIRRUS_BLTMODE_PIXELWIDTH8:
+> diff --git a/hw/display/trace-events b/hw/display/trace-events
+> index c3043e4ced..bb089a5f5e 100644
+> --- a/hw/display/trace-events
+> +++ b/hw/display/trace-events
+> @@ -134,6 +134,7 @@ vga_cirrus_read_io(uint32_t addr, uint32_t val) "addr=
+ 0x%x, val 0x%x"
+>  vga_cirrus_write_io(uint32_t addr, uint32_t val) "addr 0x%x, val 0x%x"
+>  vga_cirrus_write_blt(uint32_t offset, uint32_t val) "offset 0x%x, val 0x=
+%x"
+>  vga_cirrus_write_gr(uint8_t index, uint8_t val) "GR addr 0x%02x, val 0x%=
+02x"
+> +vga_cirrus_bitblt_start(uint8_t blt_rop, uint8_t blt_mode, uint8_t blt_m=
+odeext, int blt_width, int blt_height, int blt_dstpitch, int blt_srcpitch, =
+uint32_t blt_dstaddr, uint32_t blt_srcaddr, uint8_t gr_val) "rop=3D0x%02x m=
+ode=3D0x%02x modeext=3D0x%02x w=3D%d h=3D%d dpitch=3D%d spitch=3D%d daddr=
+=3D0x%08"PRIx32" saddr=3D0x%08"PRIx32" writemask=3D0x%02x"
+>
+>  # sii9022.c
+>  sii9022_read_reg(uint8_t addr, uint8_t val) "addr 0x%02x, val 0x%02x"
+> --
+> 2.21.3
+>
+>
 
