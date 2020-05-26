@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEF91E1C66
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:40:18 +0200 (CEST)
-Received: from localhost ([::1]:39968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 257971E1C69
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:42:29 +0200 (CEST)
+Received: from localhost ([::1]:46056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUC7-0007lX-IT
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:40:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42780)
+	id 1jdUEG-0002Qh-7b
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:42:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdUAI-0005hn-D3
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:38:22 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31519
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdUDA-0001dk-1Y
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:41:20 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26630
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdUAH-0007SD-Mi
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:38:22 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdUD9-00080F-Eo
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:41:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590478701;
+ s=mimecast20190719; t=1590478878;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n/0ysq4WKE40aJSH/80Y0JMcbY0wst3xs+tpmH8cQbI=;
- b=IR6nKzFRFp2ZJ9qbgorMLmIoeSr/SJEQhO0/ofPz4Cv4eyw0PjfzfhcDFVjDwBDhVmvMbY
- gOnukDzMahIqJ1kdTejD3Q6QB+k6p673nluCANWmRmzBYF3ijS0LXIPmMkY0HvnTovgYRU
- Klk6Ad+vOTO+Dc091H2wTv3OdPOsGdw=
+ bh=hG7JZdYGsyHVjWQfZe1qLoUYlASoE+J4ecAHSJKl2ew=;
+ b=bRtypIZ5hiY8zV15cAl2BkTUV6kcbwb3epKE0uG9iYEolsWQtQX7DP+iJPj4ZshpNpBSZl
+ LWyb0D8zyVeAouEPLUYpEm1WS6i0pD5mkL0nIW/SAfJylVn+FWSid9fSNGQT65AsLYbe3P
+ SaPq7STI3FECyC4xUQVuUBOXXNwU62g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-EqfP_o2XOIWTDTJgsFkW4Q-1; Tue, 26 May 2020 03:38:17 -0400
-X-MC-Unique: EqfP_o2XOIWTDTJgsFkW4Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-381-p4-bXCAoOA6QpbSo76ynTA-1; Tue, 26 May 2020 03:41:16 -0400
+X-MC-Unique: p4-bXCAoOA6QpbSo76ynTA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 287DF18A0726;
- Tue, 26 May 2020 07:38:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FB5E18A0760;
+ Tue, 26 May 2020 07:41:15 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CE2835C1BB;
- Tue, 26 May 2020 07:38:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 631DB5D9E7;
+ Tue, 26 May 2020 07:41:09 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7C56B113864A; Tue, 26 May 2020 09:38:08 +0200 (CEST)
+ id E52DD113864A; Tue, 26 May 2020 09:41:07 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 4/9] qapi/misc: Restrict balloon-related commands to
- machine code
+Subject: Re: [PATCH v3 5/9] qapi/misc: Restrict query-vm-generation-id command
+ to machine code
 References: <20200525150640.30879-1-philmd@redhat.com>
- <20200525150640.30879-5-philmd@redhat.com>
-Date: Tue, 26 May 2020 09:38:08 +0200
-In-Reply-To: <20200525150640.30879-5-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 25 May 2020 17:06:35
+ <20200525150640.30879-6-philmd@redhat.com>
+Date: Tue, 26 May 2020 09:41:07 +0200
+In-Reply-To: <20200525150640.30879-6-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 25 May 2020 17:06:36
  +0200")
-Message-ID: <87eer787tr.fsf@dusky.pond.sub.org>
+Message-ID: <87a71v87os.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
@@ -99,10 +99,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
+> Acked-by: Igor Mammedov <imammedo@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-A brief note on why restricting "to machine code" is useful would be
-nice.  Same for the other patches.
 
 Acked-by: Markus Armbruster <armbru@redhat.com>
 
