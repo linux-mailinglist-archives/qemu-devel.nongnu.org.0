@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B1A21E2715
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:32:37 +0200 (CEST)
-Received: from localhost ([::1]:57800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2EF21E274E
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:42:17 +0200 (CEST)
+Received: from localhost ([::1]:42442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdcV7-0005Ik-QP
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:32:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55726)
+	id 1jdced-0003r6-Vw
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:42:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jdcSI-0003YU-0x
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:29:30 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39346)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdcdT-0003Pi-Oc
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 12:41:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jdcSH-0002I1-3y
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:29:29 -0400
-Received: by mail-wr1-x443.google.com with SMTP id t18so6967087wru.6
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 09:29:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=V6ykpu323/hkpcPq28c3whFfHCBSSO7lfj/XeW+QWV4=;
- b=FX3AlHiIpXZcd2ugG1zpEHme9sY05qzbtR4whTlL7ywsBMlBntZwbBIIuV2QQk/b5e
- eXzWEPCh/3xHMewhBl0k8pfqsYaywF7OTRlQRU/So/RvGR4z9NnoZpLrgpE43/thPD80
- f0i2PbBtt5HG7lPvYxyApB/COgr4plbx+NIUl9nT1NsSPaISbYT7DvRkbPxEjrZTEwnv
- uxma8iDwJa06Lx/AS/Ru6UNJ0uxl3Ksz1Mm9Lk/QKg6gO26T0P0qV0k9/hCi6Jg4yuEo
- Pfl29Oag5twfO5a7DhWJM6JZdGQwgjyktGfEl02s8zZfRxhBZcGQ7lsHKD5DaYBZSdiP
- Clhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=V6ykpu323/hkpcPq28c3whFfHCBSSO7lfj/XeW+QWV4=;
- b=mv16sLPti/v7WZayxShewshuLMnfWAeoT+Ioa1r4Br2P5SPiN5kVGplrh5sTzJn3Ny
- AheJI0W5+oKkaedyuoO4wY2W5qNwexwiP2wzqAKEy+RdHe5nwa4135Gg9XWlVxEDSU/z
- nnJpBDWQ9/QfCm3hpaXlhYnqv0kMhUEr58cb/EWc5gwRLrRQ0GHFDxQmF+ZHzmttxoJR
- FDUAiRz2I+TfU+HQdW6HLrU35D8dVkimNy7oZYUMD/9ic621Br+rGRHD374UUd0RJ1nm
- dg60BngAuZr3yctLc9BYROWqqiE6DcjL+MFN+w/EdWb6NIpWqHu4uLVjdAlxjjdJjWna
- V2fA==
-X-Gm-Message-State: AOAM533fvwPHioBu7oMxbBIm7JXFD+VLbFP+bvfUiyclcgSHzA6bOQ2W
- AHaAtn37tvvEOmRNkrI9Pqz4dMSPG60MR0Vp+I8=
-X-Google-Smtp-Source: ABdhPJxOnc+9N7irJ4jfBhRzSdX9k3zinSzdw5A+hPLMYFaB10tYv4Fko1TTNej8diOucoIo4DX+b6ANDHM1YPJvE9E=
-X-Received: by 2002:a5d:4b0f:: with SMTP id v15mr20377828wrq.162.1590510567432; 
- Tue, 26 May 2020 09:29:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdcdO-0001nG-Ox
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 12:41:03 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jdcdM-0004EN-Dx
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 16:40:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6784D2E807D
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 16:40:56 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200519162144.10831-1-ahmedkhaledkaraman@gmail.com>
- <a0f3967f-e125-d888-bc6d-44414edbfd5b@linaro.org>
- <CALTWKrVGqVb1mjsaoxYm4Y1iQoXYwz7ToC7T6r2EDPp-_LO=LQ@mail.gmail.com>
- <4e78400c-42be-08c6-492d-dc5596551efd@linaro.org>
- <CAHiYmc6zKmxgyKHzT4gazvJvPsX3SQYLjSXwK50_2eURkR3_NA@mail.gmail.com>
- <CAHiYmc7z+OfvE7nN1j14n2O8seVtqem_hsBwq=WyFgeo=WfybA@mail.gmail.com>
- <CALTWKrXv6NQUEzKFvPN4TmDGCKxY-Zaa+Dt-z0+sTgndco+EMA@mail.gmail.com>
-In-Reply-To: <CALTWKrXv6NQUEzKFvPN4TmDGCKxY-Zaa+Dt-z0+sTgndco+EMA@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Tue, 26 May 2020 18:29:14 +0200
-Message-ID: <CAHiYmc6289cQZEptA=KjpMDLx3S94Au7W79DXH9KTM-MLi3ADA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Update use_goto_tb() in hppa and rx targets
-To: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Date: Tue, 26 May 2020 16:30:58 -0000
+From: Ahmed Karaman <1880722@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ahmedkrmn
+X-Launchpad-Bug-Reporter: Ahmed Karaman (ahmedkrmn)
+X-Launchpad-Bug-Modifier: Ahmed Karaman (ahmedkrmn)
+References: <159050902512.8264.16089666576245848412.malonedeb@gac.canonical.com>
+Message-Id: <159051065941.7260.13948982956962651973.launchpad@gac.canonical.com>
+Subject: [Bug 1880722] Re: Changing executable page permissions with mmap
+ causes user-mode failures
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a85e865203471ccb58d11be1133c213bf4be8547
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 11:25:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,37 +74,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1880722 <1880722@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=D1=83=D1=82=D0=BE, 26. =D0=BC=D0=B0=D1=98 2020. =D1=83 18:08 Ahmed Karaman
-<ahmedkhaledkaraman@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=
-=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> On Tue, May 26, 2020 at 4:14 PM Aleksandar Markovic
-> <aleksandar.qemu.devel@gmail.com> wrote:
-> > Ahmed, please follow the instructions on this page: How to report a QEM=
-U bug and file the bug related to the discussion, to the best of your abili=
-ties, if possible, today.
->
-> Please find the link to the bug below:
-> https://bugs.launchpad.net/qemu/+bug/1880722
+** Tags added: linux-user
 
-I think your last sentence in the bug report is not entirely correct.
-It is not known what would be performance results in case of
-correcting mmap.c. So, if possible, and unless Richard or someone else
-disagrees, please change that last sentence to: "By doing so, a better
-performance results could be achieved, compared to the case of the
-workaround described above."
+-- =
 
-Also, please add the tag "linux-user".
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1880722
 
-Yours,
-Aleksandar
+Title:
+  Changing executable page permissions with mmap causes user-mode
+  failures
+
+Status in QEMU:
+  New
+
+Bug description:
+  The discussion that led to this bug discovery can be found in this =
+
+  mailing list thread:
+  https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg05426.html
+
+  A workaround for this problem would be to check for page crossings for =
+
+  both the user and system modes in the use_goto_tb() function across =
+
+  targets. Some targets like "hppa" already implement this fix but others
+  don't.
+
+  To solve the root cause of this problem, the linux-user/mmap.c should =
+
+  be fixed to do all the invalidations required. By doing so, up to 6.93% =
+
+  performance improvements will be achieved.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1880722/+subscriptions
 
