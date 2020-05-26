@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769681E293B
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 19:41:09 +0200 (CEST)
-Received: from localhost ([::1]:46334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CF31E28DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 19:33:03 +0200 (CEST)
+Received: from localhost ([::1]:48818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jddZc-0005uu-Ei
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 13:41:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45530)
+	id 1jddRl-0002m7-V7
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 13:33:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jddW8-0001j9-Vn; Tue, 26 May 2020 13:37:33 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:36680)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jddW7-0005ll-4D; Tue, 26 May 2020 13:37:31 -0400
-Received: by mail-il1-x141.google.com with SMTP id 17so21344269ilj.3;
- Tue, 26 May 2020 10:37:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7dIEbDvjdPSgiC8KM+8KpNw2JYaYxr6R5A6LSlImonY=;
- b=jQgFVP3zBEvCFOi/6th7JnPuipZCfzltmxZv+SAGJbagvzWUylgKGdXJTbxZ/wqNIR
- 8cr9l+hXsuY3MfkvyUYE2FDHVv3Q++ZKvgJN12jdv6C11BrFVr8RuJIDJHhjKWpFlWCF
- WMiEC/9BdIics6oxDXdqi8E0eVKzqCrtmbnhAti77ZtRsYE4/M0+S/09dw474ZJKbHFi
- 9FG1QRJwvkjk8fCT7C1Yi2EFxnGD4V5TRfY/JR88nqPkikv90yNpkhvXgf0RGrpsWA0R
- hiWYEYaGOKd3+tFwn62+jvI55mmfQo+HE0MxDmAK3XsYJuGFIFHXxNzb/XBeggEgzxex
- ndkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7dIEbDvjdPSgiC8KM+8KpNw2JYaYxr6R5A6LSlImonY=;
- b=UE4WoQ+LhGxQtUFXVwXHAQreVzRAKJZjCPke00y1jxpypceB8Mf4cMqSEIZ8q95iCS
- VT8ZvSqBrtocBWLXV5bkqzZJhpYZZ2xnX18lfkDiXIi2fto2/kiPycKFurTuu0LhCGKn
- 3LyVNpQKfgCK4uoyd6Si4wZjC8yTTv92bg9FSFQ16itZ+hZXetLqOz00Bc0KgzwnLRhM
- GS5nspLPiJw8ju3DwZ/LJo8fcavkvgVbOHu+OQr5ZblghVE8igCzD3STGIIbNe7nkFy4
- aR5RPfYkB9esspp3xDJUSvRhHQ2J8oX6T9/i7Biz7QvSWp3w6gH7cNf/v5ErddFwAuGx
- PDTA==
-X-Gm-Message-State: AOAM533l0ZZO5ohZftrRntKIDgoKjrq+mBRTK+G4h1mEy6kMW8KcX4Uq
- mBO7OAI76YucMStKaluufn97Y6MQNH04jGYHil4=
-X-Google-Smtp-Source: ABdhPJzhC0PdugwaudBVQOwlxOW61qX8+Ql10z8rH3hctJ4A1vgLodp3f51KA/0/+6NrK4kpdNc3MNv2rc1Si2r2Dwg=
-X-Received: by 2002:a92:d087:: with SMTP id h7mr2336786ilh.227.1590514649527; 
- Tue, 26 May 2020 10:37:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jddPK-0001DH-UO
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 13:30:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32278
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jddPJ-0008Mt-3A
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 13:30:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590514228;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UBqdWjmEc/msbKZwVVNYZNJeNnDanGxhIaX85cc6jhY=;
+ b=C0EbywkV+nFsvX9gksSEHEc5Fdf430+9XeiOdU5hYgPtiCOCTjfD8r7+iBD/RrWaDn38kt
+ 8tnVBYVH7cvZPWaF00UkRTMyT0p0HoVncfGJOwtD9Shmy+WNMPdcej7YXI++UDms+tMg3l
+ yTKPwv9qUh05XCxJ2uZzcNnJaEN5hhM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-55-0mNBKSTLPGG9IZO9UvjDXA-1; Tue, 26 May 2020 13:30:25 -0400
+X-MC-Unique: 0mNBKSTLPGG9IZO9UvjDXA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6ECF107ACF4;
+ Tue, 26 May 2020 17:30:23 +0000 (UTC)
+Received: from work-vm (ovpn-112-104.ams2.redhat.com [10.36.112.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 74AB97A1E2;
+ Tue, 26 May 2020 17:30:00 +0000 (UTC)
+Date: Tue, 26 May 2020 18:29:57 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 5/5] virtio: enable VIRTIO_F_RING_PACKED for all devices
+Message-ID: <20200526172957.GL2864@work-vm>
+References: <20200522171726.648279-1-stefanha@redhat.com>
+ <20200522171726.648279-6-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <20200526062252.19852-1-f4bug@amsat.org>
- <20200526062252.19852-15-f4bug@amsat.org>
-In-Reply-To: <20200526062252.19852-15-f4bug@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 26 May 2020 10:28:29 -0700
-Message-ID: <CAKmqyKM9r2QXppfiEW4RVrXNbYzhx-Ds2CsODKVUk0Sxei0JwA@mail.gmail.com>
-Subject: Re: [PATCH 14/14] hw/display/pxa2xx_lcd: Replace printf() call by
- qemu_log_mask()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200522171726.648279-6-stefanha@redhat.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:51:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, T_HK_NAME_DR=0.01 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,103 +80,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ jasowang@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 25, 2020 at 11:36 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
->
-> Replace printf() calls by qemu_log_mask(UNIMP), which is
-> disabled by default. This avoid flooding the terminal when
-> fuzzing the device.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+* Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> The packed virtqueue layout was introduced in VIRTIO 1.1. It is a single
+> ring instead of a split avail/used ring design. There are CPU cache
+> advantages to this layout and it is also suited better to hardware
+> implementation.
+> 
+> The vhost-net backend has already supported packed virtqueues for some
+> time. Performance benchmarks show that virtio-blk performance on NVMe
+> drives is also improved.
+> 
+> Go ahead and enable this feature for all VIRTIO devices. Keep it
+> disabled for QEMU 5.0 and earlier machine types.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
 > ---
->  hw/display/pxa2xx_lcd.c | 26 ++++++++++++++------------
->  1 file changed, 14 insertions(+), 12 deletions(-)
->
-> diff --git a/hw/display/pxa2xx_lcd.c b/hw/display/pxa2xx_lcd.c
-> index d5f2e82a4e..ff90104b80 100644
-> --- a/hw/display/pxa2xx_lcd.c
-> +++ b/hw/display/pxa2xx_lcd.c
-> @@ -426,9 +426,10 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr o=
-ffset,
->          if ((s->control[0] & LCCR0_ENB) && !(value & LCCR0_ENB))
->              s->status[0] |=3D LCSR0_QD;
->
-> -        if (!(s->control[0] & LCCR0_LCDT) && (value & LCCR0_LCDT))
-> -            printf("%s: internal frame buffer unsupported\n", __func__);
-> -
-> +        if (!(s->control[0] & LCCR0_LCDT) && (value & LCCR0_LCDT)) {
-> +            qemu_log_mask(LOG_UNIMP,
-> +                          "%s: internal frame buffer unsupported\n", __f=
-unc__);
-> +        }
->          if ((s->control[3] & LCCR3_API) &&
->                  (value & LCCR0_ENB) && !(value & LCCR0_LCDT))
->              s->status[0] |=3D LCSR0_ABC;
-> @@ -462,9 +463,9 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr of=
-fset,
->          break;
->
->      case OVL1C1:
-> -        if (!(s->ovl1c[0] & OVLC1_EN) && (value & OVLC1_EN))
-> -            printf("%s: Overlay 1 not supported\n", __func__);
-> -
-> +        if (!(s->ovl1c[0] & OVLC1_EN) && (value & OVLC1_EN)) {
-> +            qemu_log_mask(LOG_UNIMP, "%s: Overlay 1 not supported\n", __=
-func__);
-> +        }
->          s->ovl1c[0] =3D value & 0x80ffffff;
->          s->dma_ch[1].up =3D (value & OVLC1_EN) || (s->control[0] & LCCR0=
-_SDS);
->          break;
-> @@ -474,9 +475,9 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr of=
-fset,
->          break;
->
->      case OVL2C1:
-> -        if (!(s->ovl2c[0] & OVLC1_EN) && (value & OVLC1_EN))
-> -            printf("%s: Overlay 2 not supported\n", __func__);
-> -
-> +        if (!(s->ovl2c[0] & OVLC1_EN) && (value & OVLC1_EN)) {
-> +            qemu_log_mask(LOG_UNIMP, "%s: Overlay 2 not supported\n", __=
-func__);
-> +        }
->          s->ovl2c[0] =3D value & 0x80ffffff;
->          s->dma_ch[2].up =3D !!(value & OVLC1_EN);
->          s->dma_ch[3].up =3D !!(value & OVLC1_EN);
-> @@ -488,9 +489,10 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr o=
-ffset,
->          break;
->
->      case CCR:
-> -        if (!(s->ccr & CCR_CEN) && (value & CCR_CEN))
-> -            printf("%s: Hardware cursor unimplemented\n", __func__);
-> -
-> +        if (!(s->ccr & CCR_CEN) && (value & CCR_CEN)) {
-> +            qemu_log_mask(LOG_UNIMP,
-> +                          "%s: Hardware cursor unimplemented\n", __func_=
-_);
-> +        }
->          s->ccr =3D value & 0x81ffffe7;
->          s->dma_ch[5].up =3D !!(value & CCR_CEN);
->          break;
-> --
-> 2.21.3
->
->
+>  include/hw/virtio/virtio.h |  2 +-
+>  hw/core/machine.c          | 18 +++++++++++++++++-
+>  2 files changed, 18 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index b69d517496..fd5b4a2044 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -292,7 +292,7 @@ typedef struct VirtIORNGConf VirtIORNGConf;
+>      DEFINE_PROP_BIT64("iommu_platform", _state, _field, \
+>                        VIRTIO_F_IOMMU_PLATFORM, false), \
+>      DEFINE_PROP_BIT64("packed", _state, _field, \
+> -                      VIRTIO_F_RING_PACKED, false)
+> +                      VIRTIO_F_RING_PACKED, true)
+>  
+>  hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
+>  bool virtio_queue_enabled(VirtIODevice *vdev, int n);
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index bb3a7b18b1..3598c3c825 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -28,7 +28,23 @@
+>  #include "hw/mem/nvdimm.h"
+>  #include "migration/vmstate.h"
+>  
+> -GlobalProperty hw_compat_5_0[] = {};
+> +GlobalProperty hw_compat_5_0[] = {
+> +    { "vhost-user-blk", "packed", "off" },
+> +    { "vhost-user-fs-device", "packed", "off" },
+> +    { "vhost-vsock-device", "packed", "off" },
+> +    { "virtio-9p-device", "packed", "off" },
+> +    { "virtio-balloon-device", "packed", "off" },
+> +    { "virtio-blk-device", "packed", "off" },
+> +    { "virtio-crypto-device", "packed", "off" },
+> +    { "virtio-gpu-device", "packed", "off" },
+> +    { "virtio-input-device", "packed", "off" },
+> +    { "virtio-iommu-device", "packed", "off" },
+> +    { "virtio-net-device", "packed", "off" },
+> +    { "virtio-pmem", "packed", "off" },
+> +    { "virtio-rng-device", "packed", "off" },
+> +    { "virtio-scsi-common", "packed", "off" },
+> +    { "virtio-serial-device", "packed", "off" },
+> +};
+>  const size_t hw_compat_5_0_len = G_N_ELEMENTS(hw_compat_5_0);
+>  
+>  GlobalProperty hw_compat_4_2[] = {
+> -- 
+> 2.25.3
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
