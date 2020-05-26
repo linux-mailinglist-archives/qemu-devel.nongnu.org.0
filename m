@@ -2,89 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6C01E1C67
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:40:34 +0200 (CEST)
-Received: from localhost ([::1]:40626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6001E1C88
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 09:51:39 +0200 (CEST)
+Received: from localhost ([::1]:46684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUCP-000817-M7
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:40:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42608)
+	id 1jdUN9-0006Sc-0H
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 03:51:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1jdU8x-0003yG-Pd
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:36:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28736
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1jdU8x-0007KH-2U
- for qemu-devel@nongnu.org; Tue, 26 May 2020 03:36:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590478617;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S7NJpqlZP7uKorEWA3iemh5O3gn/X14OkJ+PtixJnqI=;
- b=L11a6pKF4ie+14d4Ydw/f7/qPC+MgSca/BbLlPSb7SU8ngsWbRV3DxP+3i2ng+tLHqQzRX
- c40YSjjjzGSx8vfhKTyN5ESeiSnZtuCkcPFdEoULnQZHAIr+NnSV0arWiR4Dk4M4NeBqYa
- hNUlapxIF1nGDVTo7oEjHJsy9/gD/mY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-Vpquw_V7M8K4-UuwdzGW-w-1; Tue, 26 May 2020 03:36:56 -0400
-X-MC-Unique: Vpquw_V7M8K4-UuwdzGW-w-1
-Received: by mail-wr1-f71.google.com with SMTP id h6so8594225wrx.4
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 00:36:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=S7NJpqlZP7uKorEWA3iemh5O3gn/X14OkJ+PtixJnqI=;
- b=iNq4L6H13PJf5XrZKIhRn0kU3MqCL+w1bf50UMH2sSAs6WRnp7t/nfaD0bbJW2hLjl
- canC/uCyevzdR4gwgfwWdaeBg3HSalHFIC/njVtk77qEeiGs6CfO4ImfpdFuB1WyezAN
- yCpiEyRcclhVAcvaAwJ4AJ3jzhsJod81VDhEOIBoFED2l7VLpuY+qiGV2mUlMamX/H+E
- hOMV5100YtXPmlhYmlYpPcDXe1MevJ1kCvJZCAmolaDuSdeiSoAiui5Wop6yBwYM90GM
- HQBjMs/Pi0n0z3x/Xq2wlv/AZ/3BSgZp2fMdhbNqBJaxINyMDP8zQQzwPiyEPxImSlaU
- Omhw==
-X-Gm-Message-State: AOAM533QbbfryVszaV09AbYPlgOXLUmzNGiJfN3UaaAy5R8d9krwbl2p
- qOBPJ6Mm6JVFdh2iWkGSIIrWDSVG5SSsTPl/JYT0DJuDRdHgitszKNdL1/IEMwt40cj0XY54K+M
- 8ApQee0musd1zBS0=
-X-Received: by 2002:a7b:c14e:: with SMTP id z14mr100100wmi.9.1590478614954;
- Tue, 26 May 2020 00:36:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwGMr5OBq4767LlhnawWTpRb2Rt+7aXoeCARM5Fm61NemwSpdZnRPgmC0e9j/IS6C8C6jVgCg==
-X-Received: by 2002:a7b:c14e:: with SMTP id z14mr100082wmi.9.1590478614773;
- Tue, 26 May 2020 00:36:54 -0700 (PDT)
-Received: from steredhat ([79.49.207.108])
- by smtp.gmail.com with ESMTPSA id z6sm5853334wrh.79.2020.05.26.00.36.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 00:36:54 -0700 (PDT)
-Date: Tue, 26 May 2020 09:36:51 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Yang Zhong <yang.zhong@intel.com>
-Subject: Re: About the PVH in Seabios
-Message-ID: <20200526073651.mqnawlzjcqz2452t@steredhat>
-References: <20200526071826.GA28145@yangzhon-Virtual>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdUMH-0005qZ-MI
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:50:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38476)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdUMG-0001mi-97
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 03:50:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jdUME-0006ur-4G
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 07:50:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1EEF12E8048
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 07:50:42 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200526071826.GA28145@yangzhon-Virtual>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:19:28
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 26 May 2020 07:37:06 -0000
+From: Rajas Kakodkar <1880518@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier rajaskakodkar
+X-Launchpad-Bug-Reporter: Rajas Kakodkar (rajaskakodkar)
+X-Launchpad-Bug-Modifier: Rajas Kakodkar (rajaskakodkar)
+References: <159039304634.8018.14704731502559290875.malonedeb@gac.canonical.com>
+Message-Id: <159047862675.20620.15711660388817638757.malone@soybean.canonical.com>
+Subject: [Bug 1880518] Re: issue while installing docker inside s390x container
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0adff6e808edb0dd5c76359759631b393b3606ae
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 03:50:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,28 +73,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Reply-To: Bug 1880518 <1880518@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Yang,
+The error message that I posted above is all that I see when I go to pull a=
+nd image.
+Following is the log from docker daemon
 
-On Tue, May 26, 2020 at 03:18:26PM +0800, Yang Zhong wrote:
-> Hello all,
-> 
-> The current PVH has been implemented in Qemu and Qboot/uefi, i am not
-> familiar with the PVH implementation history, and found there is no
-> PVH support in Seabios, my question is do we have plan to support
-> PVH in Seabios? thanks.
+time=3D"2020-05-26T07:34:31.385796553Z" level=3Dinfo msg=3D"API listen on /=
+var/run/docker.sock"
+time=3D"2020-05-26T07:34:34.607431981Z" level=3Ddebug msg=3D"Calling GET /_=
+ping"
+time=3D"2020-05-26T07:34:34.635096021Z" level=3Ddebug msg=3D"Calling GET /v=
+1.38/containers/json"
+time=3D"2020-05-26T07:34:43.919894850Z" level=3Ddebug msg=3D"Calling GET /_=
+ping"
+time=3D"2020-05-26T07:34:43.963634642Z" level=3Ddebug msg=3D"Calling GET /v=
+1.38/info"
+time=3D"2020-05-26T07:34:44.702451808Z" level=3Ddebug msg=3D"Calling POST /=
+v1.38/images/create?fromImage=3Dhello-world&tag=3Dlatest"
+time=3D"2020-05-26T07:34:44.715857621Z" level=3Ddebug msg=3D"Trying to pull=
+ hello-world from https://registry-1.docker.io v2"
+time=3D"2020-05-26T07:34:46.805807639Z" level=3Ddebug msg=3D"Pulling ref fr=
+om V2 registry: hello-world:latest"
+time=3D"2020-05-26T07:34:46.806872106Z" level=3Ddebug msg=3D"docker.io/libr=
+ary/hello-world:latest resolved to a manifestList object with 9 entries; lo=
+oking for a unknown/s390x match"
+time=3D"2020-05-26T07:34:46.808815074Z" level=3Ddebug msg=3D"found match fo=
+r linux/s390x with media type application/vnd.docker.distribution.manifest.=
+v2+json, digest sha256:e49abad529e5d9bd6787f3abeab94e09ba274fe34731349556a8=
+50b9aebbf7bf"
+time=3D"2020-05-26T07:34:47.233545931Z" level=3Ddebug msg=3D"pulling blob \=
+"sha256:3c80930bfdd5b53b7ca2a6b8116ed9a273af43a6b2dd13e81e82aae7521be469\""
+time=3D"2020-05-26T07:34:47.864739182Z" level=3Ddebug msg=3D"Downloaded 3c8=
+0930bfdd5 to tempfile /var/lib/docker/tmp/GetImageBlob114078888"
+time=3D"2020-05-26T07:34:48.038875327Z" level=3Ddebug msg=3D"Cleaning up la=
+yer b3da5d545c61d65059a2190feb19ae13797338ee999542b615e93e9708b88507: Error=
+ processing tar file(exit status 1): "
+time=3D"2020-05-26T07:34:48.049928529Z" level=3Dinfo msg=3D"Attempting next=
+ endpoint for pull after error: failed to register layer: Error processing =
+tar file(exit status 1): "
 
-We developed an optionrom in QEMU (pc-bios/optionrom/pvh*) that is used
-with SeaBIOS to boot a PVH image.
+Since I am using multiarch/qemu-user-static with the latest tag, qemu
+version is 4.2.0-6.
 
-So we don't need to change SeaBIOS since it already supports optionroms.
-Currently when you use a PVH image in QEMU, SeaBIOS is used as default
-choice with the PVH optionrom.
+docker in docker works flawlessly on native s390x host. I am facing this
+issue only with qemu. Are there any other steps to follow to make docker
+in docker work under qemu?
 
-Cheers,
-Stefano
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1880518
+
+Title:
+  issue while installing docker inside s390x container
+
+Status in QEMU:
+  New
+
+Bug description:
+  This is in reference to https://github.com/multiarch/qemu-user-static/iss=
+ues/108.
+  I am facing issue while installing docker inside s390x container under qe=
+mu on Ubuntu 18.04 host running on amd64.
+  Following are the contents of /proc/sys/fs/binfmt_misc/qemu-s390x on Inte=
+l host after running =
+
+  docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  enabled
+  interpreter /usr/bin/qemu-s390x-static
+  flags: F
+  offset 0
+  magic 7f454c4602020100000000000000000000020016
+  mask ffffffffffffff00fffffffffffffffffffeffff
+  I could get docker service up with the following trick. =
+
+  printf '{"iptables": false,"ip-masq": false,"bridge": "none" }' > /etc/do=
+cker/daemon.json
+  But even though docker service comes up, images are not getting pulled, d=
+ocker pull fails with the following error.
+  failed to register layer: Error processing tar file(exit status 1):
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1880518/+subscriptions
 
