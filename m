@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B8611E2696
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:12:05 +0200 (CEST)
-Received: from localhost ([::1]:34838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 589041E26EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 18:27:58 +0200 (CEST)
+Received: from localhost ([::1]:48788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdcBQ-0000MF-4H
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:12:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52868)
+	id 1jdcQm-0000lT-Ty
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 12:27:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1jdc8D-0004kk-Lr
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:08:45 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:42416)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jdcPm-0008Tn-Us; Tue, 26 May 2020 12:26:54 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:37731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
- id 1jdc8C-0005wF-LP
- for qemu-devel@nongnu.org; Tue, 26 May 2020 12:08:45 -0400
-Received: by mail-lj1-x242.google.com with SMTP id l15so24856169lje.9
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 09:08:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jdcPl-0001HP-Mw; Tue, 26 May 2020 12:26:54 -0400
+Received: by mail-io1-xd43.google.com with SMTP id r2so12356192ioo.4;
+ Tue, 26 May 2020 09:26:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nBhNl+8065aRYnzq4Yta9UDhZD/XioKAkbYiTHNkizs=;
- b=LaBTxbiYVRoJaGKf4HBjaK/FPuTiu1QB8PVEZSjdyVxDlfUBZLdlLmgkVKjNUxoOF2
- AlqAkJGDMl2+UhrNdcrymoSWeMxfWJtHHqAdGMVzsrdcCvaO7pZPeQKLK9FBjh922sCr
- vbcWty7ssu9vRwvb02nbQKOod32oY29ueovceJA0T6yyVPbJWgdumPDt/QwYqDaEYo8O
- nNF2eknCgeQWAUV7tbr8RhK5QQSiZnUiNuSHI0TjQVu2QwC+0M728YHXXz1V9dIRI3pl
- Kqmmkre/FRPiexIAldyVq7EjXbG8UzO/2ge6PMi20HFJ0vYCKMmdnR1QMh51yW2syD+g
- 61gw==
+ :cc:content-transfer-encoding;
+ bh=xs1WdF5fP6lxE8eq6v707XjDgHgEkFuq+mQF9FJR/HM=;
+ b=a3HFgQfC2Bs99jop3X0v7/QPt2AxWe71X03l+KQ073uCwMmETMsKdGEdXdKJnbaYaT
+ AiOi5zfnp3knDP3oVhy/MLA7NH+g1LgPfWrvKrYf+VOjcxcEsOI37nIUTqBU8dh31Jct
+ MmvTMMlWDz1GYAD+1bt3I8m+0v/NrXN7QPn38CynHMVic4HBKMAyp53d1zbP7nQc+cNK
+ +95t2aCdBjAGqb2i9KqZTS144z0Doljgzz7nrUZxn5ZioYVJMjAb4F6uAGhLNvPbC8+m
+ BtiRbB+fRynLSUCC16GqVwK0X/WitvwtwIXswNcx+qsnGjfrZ7DqnWXOxn6s1c8okC9v
+ HpwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nBhNl+8065aRYnzq4Yta9UDhZD/XioKAkbYiTHNkizs=;
- b=pP5Eosri9EH5qLvgBmGyBy+jNNYHZdfA2OWD+lHiqfEGU6C2HZDmRPIghc7jxt2cTk
- wAiOLtoW3YLRpIPXvNnjz02SxvCy+w7HpjULEfF4GshMmlY4xQMJaNfx4IZ18XZkZzEA
- AMpVGuW68CfqWCKs6K7uPgPXv5b1nfG82D4pFwlvvc8DaM9Sm/ESJc+gFzIKJrDYLJCi
- 5ugW+U8J7SRU9s/BYjd7rlnsPJNJe1hbcnW6qLbhVjvnWdjtnMoQUdXUicWYkvnj2EjJ
- tWjhKJca4zMFDYK9iO75bK6pU5nYFcr7FwsxWGfjB+L6PS/2MpYgBCZknLeeF832xvfE
- pP2Q==
-X-Gm-Message-State: AOAM530eCgOxZ91cnhf6FjXZhOO9ufB9yn7F57RPv7xLQpRBFku3O/2r
- A3DdVXL2BnSzlBJSUfpNPyglm60zJjXOmeA4CpE=
-X-Google-Smtp-Source: ABdhPJyEylgiNaDriA1TPFq1h3ONjgOrKK3OBlEjuAHuhM0r28w1DGX6ZmQJy++TGyavRFfgVQGvPSfu7GPVsXYIBaA=
-X-Received: by 2002:a2e:901a:: with SMTP id h26mr1032374ljg.80.1590509322108; 
- Tue, 26 May 2020 09:08:42 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xs1WdF5fP6lxE8eq6v707XjDgHgEkFuq+mQF9FJR/HM=;
+ b=kxpbeHo2drBy+W3nFPR3q3VE7tsMyQxB0zDM367rOL671npn4Bf+0Y70ciddKpRKB1
+ crNDZkHqwWG7qDc/WFqbrc05V2UxZW6U6oj4qB3DIf9JpoxJmb+v88Cu+dTxgVHcWjUY
+ ZTiXhPl2ptVdmmeItcdwbo9gU0I1NOX25aU2BWdIsNaXeUhTZyqZ6FtN69JNmtfBbEFH
+ gB7S0Ezsh+mZ5NZ6t9GidpVwfWtbuN8uVkTk0xmZsCiO9gViB/fzdEMF1JrlAo8qFGvX
+ euBcK5UIdJ1+iei2oNDCcE5w84bHhd2NufRvS1g5BZInlkYHm3cDoDHIStU7dsJWttVk
+ IQsA==
+X-Gm-Message-State: AOAM530o08dxe23YViXu0VdQ/EIW5zfj8UkF5EKL0f78q7oEEAb1HUy4
+ UN/urQQQTAghBNS9/CYkd9xl4CvmBvkp3ju0/FI=
+X-Google-Smtp-Source: ABdhPJwU9HNHY2EYA4fuxyNw09V5EY6lQs8ZqIpczXrOCc1SBb8TLZ3dT5UNRNgZscpNzpOibapzruwdgPp7dbNQvnA=
+X-Received: by 2002:a5d:9d03:: with SMTP id j3mr4422414ioj.176.1590510411634; 
+ Tue, 26 May 2020 09:26:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200519162144.10831-1-ahmedkhaledkaraman@gmail.com>
- <a0f3967f-e125-d888-bc6d-44414edbfd5b@linaro.org>
- <CALTWKrVGqVb1mjsaoxYm4Y1iQoXYwz7ToC7T6r2EDPp-_LO=LQ@mail.gmail.com>
- <4e78400c-42be-08c6-492d-dc5596551efd@linaro.org>
- <CAHiYmc6zKmxgyKHzT4gazvJvPsX3SQYLjSXwK50_2eURkR3_NA@mail.gmail.com>
- <CAHiYmc7z+OfvE7nN1j14n2O8seVtqem_hsBwq=WyFgeo=WfybA@mail.gmail.com>
-In-Reply-To: <CAHiYmc7z+OfvE7nN1j14n2O8seVtqem_hsBwq=WyFgeo=WfybA@mail.gmail.com>
-From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Date: Tue, 26 May 2020 18:08:05 +0200
-Message-ID: <CALTWKrXv6NQUEzKFvPN4TmDGCKxY-Zaa+Dt-z0+sTgndco+EMA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Update use_goto_tb() in hppa and rx targets
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+References: <20200525034459.28535-1-f4bug@amsat.org>
+ <20200525034459.28535-2-f4bug@amsat.org>
+In-Reply-To: <20200525034459.28535-2-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 26 May 2020 09:17:52 -0700
+Message-ID: <CAKmqyKPtvUKYkdGXSNNhHSc1yW+8-Bm+caAu_ZTrOt0RzFfe9w@mail.gmail.com>
+Subject: Re: [PATCH 1/4] hw/misc/auxbus: Use qemu_log_mask(UNIMP) instead of
+ debug printf
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::242;
- envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-lj1-x242.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -83,19 +81,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 26, 2020 at 4:14 PM Aleksandar Markovic
-<aleksandar.qemu.devel@gmail.com> wrote:
-> Ahmed, please follow the instructions on this page: How to report a QEMU bug and file the bug related to the discussion, to the best of your abilities, if possible, today.
+On Sun, May 24, 2020 at 8:46 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Convert the deprecated DPRINTF() call by qemu_log_mask(LOG_UNIMP).
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Please find the link to the bug below:
-https://bugs.launchpad.net/qemu/+bug/1880722
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>  hw/misc/auxbus.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
+> index f8e7b97971..06aabf20c5 100644
+> --- a/hw/misc/auxbus.c
+> +++ b/hw/misc/auxbus.c
+> @@ -196,7 +196,7 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uin=
+t32_t address,
+>          }
+>          break;
+>      default:
+> -        DPRINTF("Not implemented!\n");
+> +        qemu_log_mask(LOG_UNIMP, "AUX cmd=3D%u not implemented\n", cmd);
+>          return AUX_NACK;
+>      }
+>
+> --
+> 2.21.3
+>
+>
 
