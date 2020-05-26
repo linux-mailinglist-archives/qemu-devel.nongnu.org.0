@@ -2,112 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 546191E1CCE
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:03:03 +0200 (CEST)
-Received: from localhost ([::1]:53652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934D61E1CE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 10:06:58 +0200 (CEST)
+Received: from localhost ([::1]:40038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdUYA-00055w-CL
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:03:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45560)
+	id 1jdUbx-0002dj-LU
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 04:06:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdUWZ-0003Z3-6B
- for qemu-devel@nongnu.org; Tue, 26 May 2020 04:01:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39056
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jdUXB-0004RH-4i; Tue, 26 May 2020 04:02:01 -0400
+Resent-Date: Tue, 26 May 2020 04:02:01 -0400
+Resent-Message-Id: <E1jdUXB-0004RH-4i@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdUWX-0003pq-P6
- for qemu-devel@nongnu.org; Tue, 26 May 2020 04:01:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590480080;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=TQTXRXEz/gMqp9X6Ttchn0696bXl6YwkmcUsYoxdUSI=;
- b=dDTouif1+EJRgSbBNFI/1m2Tw/343Z2JzSgg3QIUcK3V+SJkBLcZzhTfJwx//HwcP4NRIi
- e/YBJkAjIEs11zRQX71vdNaZCIWs9yDfWwLejXyX+xP+aUuAo6b6QQDSg7jMn+IRXeRCDL
- P3jQXjHdvWcIdC2ylBpXqbzqe8PicGE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-463-AmwuIpA3MZCZLWgfc5C4sA-1; Tue, 26 May 2020 04:01:18 -0400
-X-MC-Unique: AmwuIpA3MZCZLWgfc5C4sA-1
-Received: by mail-wr1-f72.google.com with SMTP id h12so9465456wrr.19
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 01:01:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=TQTXRXEz/gMqp9X6Ttchn0696bXl6YwkmcUsYoxdUSI=;
- b=h/YLKaclMQ+S/DgPBqHb1LNISIqId8LG494tNV0gbbtsjLuMjLdtKv9d23kWoyu7HJ
- vU8KRKqED8E1K6IuRGFY3ibTUjt276HYQ+caC37xdjAgVTzcgMLR+rlSNxpxPl/Nss25
- xcE/HxhgsoW7/Hnt7r+vWL5vVsOjmPKvPQxeur3ZmHKuH/Nvr0W94axiuWPcDh3yPs7L
- vCJywlTlpCl+k6lpaz/XRZW/xrhymgQJoToAlzXkdruKiuDbIi7yx1mDYcUOd9Sn6XYB
- nfYi/ITYh5WAYk6DIbIgwxJqSFOwVQG0/vArQEUWo8Lgws2GHFBmVijJvwd57zqPoa9I
- Koxg==
-X-Gm-Message-State: AOAM5317hWqO9itu87oy13dBDadcahueBDLxqSnfH2a860KdgAmjF4Gm
- VRXhxLTOKKhOkNINf4wZiW04L1sQgDs31FnAyYAx7oJwfgKjRgM8TjphPc/LNxSd28LGA/2XEGB
- vpGS/Q7eaL6b247c=
-X-Received: by 2002:a1c:9d09:: with SMTP id g9mr176198wme.31.1590480077824;
- Tue, 26 May 2020 01:01:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwTezZfZGX0L5pc2CVLnftyI30Qx3kbz/cu0o1ak+8NQokiUrSLXbd1JZAbNHwNuYB2zJ/p5Q==
-X-Received: by 2002:a1c:9d09:: with SMTP id g9mr176118wme.31.1590480076810;
- Tue, 26 May 2020 01:01:16 -0700 (PDT)
-Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
- [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id k17sm16209514wmj.15.2020.05.26.01.01.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 May 2020 01:01:16 -0700 (PDT)
-Subject: Re: [PATCH v3] exec: set map length to zero when returning NULL
-To: P J P <ppandit@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20200526075042.420162-1-ppandit@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <0b36df7d-06f3-1a78-4a00-12024db7ace0@redhat.com>
-Date: Tue, 26 May 2020 10:01:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jdUX9-0003uG-8R; Tue, 26 May 2020 04:02:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1590480081; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=XmXq7RAo2ppFathmAZ9VT6r3A1+EvqDnF3kmJ25/41DAVySJkde/AwjxEIWrW3eSh73BnccbNjPTPHxqwRF8yYEIWwJo0gXQ0mHsTrVdEm8tGJqGVHxqhYyKMnjOv+1FGWgctcLZLqMtRNl9sS5r0DKFKd7mZMFZW2HPl9xHZwo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1590480081;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=6yU1K5yi4PXn/bAEEOX/zYjBwTqTWnhWpfX2RJR29i0=; 
+ b=AS8XJBpxOk97tMZPngiIFGEKk8zTjMGGAgFfZ6fDkb6CdU1zQm5T3J/MhLJ+IxaZ51YJQKN7XPuOtH5pf8VCNggdP2j+qL7IM/B068x9XIZpuThdiqtWD7FS3FR4QHdMIzHH9jy12qf2yuZBuqOkWD6WvWIMOANcK41Q2ss+ZP0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1590480078839733.2454656612559;
+ Tue, 26 May 2020 01:01:18 -0700 (PDT)
+Message-ID: <159048007747.8305.13096425178050944933@45ef0f9c86ae>
+In-Reply-To: <cover.1590429901.git.berto@igalia.com>
+Subject: Re: [PATCH v7 00/32] Add subcluster allocation to qcow2
 MIME-Version: 1.0
-In-Reply-To: <20200526075042.420162-1-ppandit@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:51:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: berto@igalia.com
+Date: Tue, 26 May 2020 01:01:18 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:17:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,44 +67,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Prasad J Pandit <pjp@fedoraproject.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
- Ding Ren <rding@gatech.edu>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-block@nongnu.org, dereksu@qnap.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/20 9:50 AM, P J P wrote:
-> From: Prasad J Pandit <pjp@fedoraproject.org>
-> 
-> When mapping physical memory into host's virtual address space,
-> 'address_space_map' may return NULL if BounceBuffer is in_use.
-> Set and return '*plen = 0' to avoid later NULL pointer dereference.
-> 
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Fixes: https://bugs.launchpad.net/qemu/+bug/1878259
-> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-> ---
->  exec.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> Update v3: set *plen = 0;
->   -> https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg06249.html
-> 
-> diff --git a/exec.c b/exec.c
-> index 5162f0d12f..4eea84bf66 100644
-> --- a/exec.c
-> +++ b/exec.c
-> @@ -3538,6 +3538,7 @@ void *address_space_map(AddressSpace *as,
->  
->      if (!memory_access_is_direct(mr, is_write)) {
->          if (atomic_xchg(&bounce.in_use, true)) {
-> +            *plen = 0;
->              return NULL;
->          }
->          /* Avoid unbounded allocations */
-> 
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9jb3Zlci4xNTkwNDI5OTAxLmdp
+dC5iZXJ0b0BpZ2FsaWEuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9ja2Vy
+LXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFu
+ZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwg
+eW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBC
+RUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVUV09S
+Sz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0xNCBO
+RVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICBjaGFyZGV2L2NoYXIt
+bnVsbC5vCiAgQ0MgICAgICBjaGFyZGV2L2NoYXItcGFyYWxsZWwubwovdG1wL3FlbXUtdGVzdC9z
+cmMvYmxvY2svcWNvdzItY2x1c3Rlci5jOiBJbiBmdW5jdGlvbiAncWNvdzJfZ2V0X2hvc3Rfb2Zm
+c2V0JzoKL3RtcC9xZW11LXRlc3Qvc3JjL2Jsb2NrL3Fjb3cyLWNsdXN0ZXIuYzo0NzM6MTk6IGVy
+cm9yOiAnZXhwZWN0ZWRfdHlwZScgbWF5IGJlIHVzZWQgdW5pbml0aWFsaXplZCBpbiB0aGlzIGZ1
+bmN0aW9uIFstV2Vycm9yPW1heWJlLXVuaW5pdGlhbGl6ZWRdCiAgICAgICAgIH0gZWxzZSBpZiAo
+dHlwZSAhPSBleHBlY3RlZF90eXBlKSB7CiAgICAgICAgICAgICAgICAgICBeCi90bXAvcWVtdS10
+ZXN0L3NyYy9ibG9jay9xY293Mi1jbHVzdGVyLmM6NDQ5OjI1OiBub3RlOiAnZXhwZWN0ZWRfdHlw
+ZScgd2FzIGRlY2xhcmVkIGhlcmUKICAgICBRQ293MlN1YmNsdXN0ZXJUeXBlIGV4cGVjdGVkX3R5
+cGUsIHR5cGU7CiAgICAgICAgICAgICAgICAgICAgICAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy9i
+bG9jay9xY293Mi1jbHVzdGVyLmM6NDc1OjE5OiBlcnJvcjogJ2NoZWNrX29mZnNldCcgbWF5IGJl
+IHVzZWQgdW5pbml0aWFsaXplZCBpbiB0aGlzIGZ1bmN0aW9uIFstV2Vycm9yPW1heWJlLXVuaW5p
+dGlhbGl6ZWRdCiAgICAgICAgIH0gZWxzZSBpZiAoY2hlY2tfb2Zmc2V0KSB7CiAgICAgICAgICAg
+ICAgICAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9xY293Mi1jbHVzdGVyLmM6NDQ3OjEw
+OiBub3RlOiAnY2hlY2tfb2Zmc2V0JyB3YXMgZGVjbGFyZWQgaGVyZQogICAgIGJvb2wgY2hlY2tf
+b2Zmc2V0OwogICAgICAgICAgXgovdG1wL3FlbXUtdGVzdC9zcmMvYmxvY2svcWNvdzItY2x1c3Rl
+ci5jOjQ3NjoyOTogZXJyb3I6ICdleHBlY3RlZF9vZmZzZXQnIG1heSBiZSB1c2VkIHVuaW5pdGlh
+bGl6ZWQgaW4gdGhpcyBmdW5jdGlvbiBbLVdlcnJvcj1tYXliZS11bmluaXRpYWxpemVkXQogICAg
+ICAgICAgICAgZXhwZWN0ZWRfb2Zmc2V0ICs9IHMtPmNsdXN0ZXJfc2l6ZTsKICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBeCi90bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9xY293Mi1jbHVzdGVy
+LmM6NDQ4OjE0OiBub3RlOiAnZXhwZWN0ZWRfb2Zmc2V0JyB3YXMgZGVjbGFyZWQgaGVyZQogICAg
+IHVpbnQ2NF90IGV4cGVjdGVkX29mZnNldDsKICAgICAgICAgICAgICBeCmNjMTogYWxsIHdhcm5p
+bmdzIGJlaW5nIHRyZWF0ZWQgYXMgZXJyb3JzCm1ha2U6ICoqKiBbYmxvY2svcWNvdzItY2x1c3Rl
+ci5vXSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCiAg
+Q0MgICAgICBjaGFyZGV2L2NoYXItcGlwZS5vClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBs
+YXN0KToKLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJw
+cm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tl
+cicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPTQ5ZGU2ZjgxMDU2
+ZTRkYWRhOGZkY2IyZjM2NDc2ZDBkJywgJy11JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQnLCAn
+c2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywg
+J0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywg
+J0RFQlVHPScsICctZScsICdTSE9XX0VOVj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAv
+Y2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6
+L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWNj
+eTF5M3VnL3NyYy9kb2NrZXItc3JjLjIwMjAtMDUtMjYtMDMuNTkuMDIuMzA2NTA6L3Zhci90bXAv
+cWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LXF1
+aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1s
+YWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTQ5ZGU2ZjgxMDU2ZTRkYWRhOGZkY2IyZjM2NDc2
+ZDBkCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRp
+cmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWNjeTF5M3VnL3NyYycKbWFrZTog
+KioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICAybTE1
+LjMxOXMKdXNlciAgICAwbTguMTE2cwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0
+cDovL3BhdGNoZXcub3JnL2xvZ3MvY292ZXIuMTU5MDQyOTkwMS5naXQuYmVydG9AaWdhbGlhLmNv
+bS90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50b3M3Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
+ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
+ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
