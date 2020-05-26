@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 506991E1F57
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 12:07:17 +0200 (CEST)
-Received: from localhost ([::1]:50716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B911E1F5A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 May 2020 12:08:24 +0200 (CEST)
+Received: from localhost ([::1]:53920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdWUN-0003kI-QG
-	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 06:07:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59180)
+	id 1jdWVT-00052A-UL
+	for lists+qemu-devel@lfdr.de; Tue, 26 May 2020 06:08:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdWTV-0002ub-Na
- for qemu-devel@nongnu.org; Tue, 26 May 2020 06:06:21 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35976
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdWTT-0001NG-Rs
- for qemu-devel@nongnu.org; Tue, 26 May 2020 06:06:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590487577;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=D4rY0tGnhIq+EwhdAv0D1YWF9Ijf82UQGWP/HGFFgkg=;
- b=f6nwt7J5ORM7he02AbEWLjnJ+uGzjSZR5sv6cHz4bNGbAgo7ASShiua7JhbxocuY+q9jKd
- /NlgvRzaQanck4ZRwU8fN+YoXh+ok/KwT9KdHHi0lCByKNQHX2jaY8mpTsEnSfj7ebnfLS
- a7b4rpKNuGdt6khVou7ygYsIuSQlw/w=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-GZ3v3VvgNKWsKWwZS8B69A-1; Tue, 26 May 2020 06:06:13 -0400
-X-MC-Unique: GZ3v3VvgNKWsKWwZS8B69A-1
-Received: by mail-il1-f199.google.com with SMTP id v87so17026087ill.23
- for <qemu-devel@nongnu.org>; Tue, 26 May 2020 03:06:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jdWUn-0004cR-P6
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 06:07:41 -0400
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:33772)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jdWUm-0001a6-52
+ for qemu-devel@nongnu.org; Tue, 26 May 2020 06:07:41 -0400
+Received: by mail-oi1-x22b.google.com with SMTP id o24so18229646oic.0
+ for <qemu-devel@nongnu.org>; Tue, 26 May 2020 03:07:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=sEM1rKqQbOHjXGp8fm2clVqG69BYFcOADK/vdyBpdqQ=;
+ b=H808BuzHdd4h+tQPz+hipNawBwnOEO7Oz0uSQvxk2rOPOjcE68WHfZoYLxbpFkCofi
+ Oduu9WYQpgQV7IjR96ZXdhyyk3jyn+Dj2p3arnq/mFurCy4kYi7WAg/psmhjnWfy7VZa
+ 4P+7lENJaAtnHbPt8lLWUsOJ8RJyW/lmfWC1ZSShkCCqwrbY0mO8yTA7rKObpmqINpiD
+ 7es3FsxiWZZlqUxEi0guZCrBA4z7aOC5SeNqwa3kOEmfaitTOnvhIxJDPg4bDv78yOhV
+ qBjjNHGg3T2zNZcgdRmABQvzqP6baqZqPlMaB9xcWMuJ86X3sTWgERLa6oQCte9BgjF4
+ t3lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=D4rY0tGnhIq+EwhdAv0D1YWF9Ijf82UQGWP/HGFFgkg=;
- b=RT3yJ8dLI3sCMVX3lW0xB1/AIq4TUv+FrYQE4r5TnK45veGt4t0CCb9JT8nyvP2Qeg
- hoCRm29/ODI0SLXSqntoDWhbn99lq02kc/MVsfdIG5kBNZeVAYUoPL0ftY4/pRm05Ld0
- fiAJNi1Zn05OZbqyLD+Spaz0Q9C/J/wUtPhYUPEmgFw1AzqA13Ie7DYoQeiyHiiPrP/G
- Hx6H7qSK5W11x0aLFLeCSJDhUoZ3KKZhcRQ06ey7xn7qxP71TYgS2l2ZCfAgx1Q2LbiU
- h/sKEfyTXL6GS2/M+o/cH5qlxjcrp3gbnDCbH/WA/hXEgErh75QQwI95YA139rK01yNr
- WqyQ==
-X-Gm-Message-State: AOAM532xmefUIUecg0SDq9SGlQy/wictvJ4NBgVRkt6U/IDIjwM0saUl
- IcnmBluRIL2VCJYWfS1do60S7uWro18HqhBgKDnaCXGdXXx2pNsoz68fcuuNCRW2qRF3jtSd0pr
- NadxvTqiI3f8UoxI9p2bsDxOSnSoCs2Y=
-X-Received: by 2002:a05:6e02:589:: with SMTP id
- c9mr323983ils.271.1590487573257; 
- Tue, 26 May 2020 03:06:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwMzTQZJjuWJfWOUmCq0GfXWX00baMWDNQVQIw4oRNG03Fp4mQZ2Y6Q+475KB6xuHwG01deIwfAEm3lud2A4dY=
-X-Received: by 2002:a05:6e02:589:: with SMTP id
- c9mr323911ils.271.1590487572148; 
- Tue, 26 May 2020 03:06:12 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=sEM1rKqQbOHjXGp8fm2clVqG69BYFcOADK/vdyBpdqQ=;
+ b=WQZ43mYhmjhE7UGKNnEv8H42ywCK7k0vBN9lP3FCw1U/5HW/JFnCPnjvYVG20Gm/zp
+ b26YDcSnCcZxxuTgqZapZ31mXNOlWR47SHcEp9a4Ni9bbVtQTZeRyvUzN9g9/KPCCuK7
+ enPDUSNGRkIFakJNDnM0UQUbD8Wg5nOWGbK1RI4VSYNJFz4Owbro5gDudj/WZocKwicw
+ V6S5cl8Tvef41MjTvbpDRNfCEoDaAPVyDKj+KnEPPaizLblhqXRU0SICWDxErtoWl8it
+ +RbnhLI9mfWLb3JaihSzgKE71YgXZcrtDqjunGwUZoJtRMZZ1vw9dstTAASmN+jnHndJ
+ Y6Pg==
+X-Gm-Message-State: AOAM5306pzFALctKEpfSS8uhYaSXmqCdhOoBzAJiFKQXEGTrLpmQAgMM
+ votaVFSPWCDjvpb8p1xu8Mn+kcPlBwsccRuJXM+3UXGp/sw=
+X-Google-Smtp-Source: ABdhPJx1wMFGs0lzfqT3SRv8e8evZ0hmw2LoQs+ToWv/EhvgQbDYN/bKpwncrc2u7zi+WPt+yn7gTJ6Y+Tf6wq5GuUM=
+X-Received: by 2002:a54:469a:: with SMTP id k26mr8754956oic.163.1590487658534; 
+ Tue, 26 May 2020 03:07:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200526075042.420162-1-ppandit@redhat.com>
-In-Reply-To: <20200526075042.420162-1-ppandit@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Tue, 26 May 2020 12:06:00 +0200
-Message-ID: <CAP+75-Wb+RZu8GOUupU298Aw_Pc79b8pmSVufSWg_t5NTGRv_g@mail.gmail.com>
-Subject: Re: [PATCH v3] exec: set map length to zero when returning NULL
-To: P J P <ppandit@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 26 May 2020 11:07:27 +0100
+Message-ID: <CAFEAcA_Lr8ySUK_PUNVB+RRQhFhEQL2wFeJtdYAxZhhT1xEFNw@mail.gmail.com>
+Subject: 5.1 proposed schedule
+To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 01:14:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x22b.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,48 +75,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Prasad J Pandit <pjp@fedoraproject.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Ding Ren <rding@gatech.edu>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 26, 2020 at 9:53 AM P J P <ppandit@redhat.com> wrote:
->
-> From: Prasad J Pandit <pjp@fedoraproject.org>
->
-> When mapping physical memory into host's virtual address space,
-> 'address_space_map' may return NULL if BounceBuffer is in_use.
-> Set and return '*plen = 0' to avoid later NULL pointer dereference.
->
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Here's a draft schedule for 5.1:
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+2019-07-06: softfreeze
+2019-07-14: hardfreeze, rc0
+2019-07-21: rc1
+2019-07-28: rc2
+2019-08-04: rc3
+2019-08-11: release, or rc4 if we need it
+2019-08-18: release if we needed an rc4
 
-> Fixes: https://bugs.launchpad.net/qemu/+bug/1878259
-> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-> ---
->  exec.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> Update v3: set *plen = 0;
->   -> https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg06249.html
->
-> diff --git a/exec.c b/exec.c
-> index 5162f0d12f..4eea84bf66 100644
-> --- a/exec.c
-> +++ b/exec.c
-> @@ -3538,6 +3538,7 @@ void *address_space_map(AddressSpace *as,
->
->      if (!memory_access_is_direct(mr, is_write)) {
->          if (atomic_xchg(&bounce.in_use, true)) {
-> +            *plen = 0;
->              return NULL;
->          }
->          /* Avoid unbounded allocations */
-> --
-> 2.26.2
->
+Does that work for people? I don't think there's anything we
+particularly need to try to shift the schedule to avoid but
+we can easily move it back or forwards by a week or so.
 
+thanks
+-- PMM
 
