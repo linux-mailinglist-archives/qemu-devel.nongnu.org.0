@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0221E4B13
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 18:54:37 +0200 (CEST)
-Received: from localhost ([::1]:33674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D741E4B54
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 19:02:59 +0200 (CEST)
+Received: from localhost ([::1]:51438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdzK8-0006Hj-8m
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 12:54:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34004)
+	id 1jdzSE-00077B-C6
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 13:02:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jdzJC-00053n-HC
- for qemu-devel@nongnu.org; Wed, 27 May 2020 12:53:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53692
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jdzJB-0005e9-9u
- for qemu-devel@nongnu.org; Wed, 27 May 2020 12:53:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590598416;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SdgpVcV25VK4wq5CaCOICvSj3CuHoAuwKa/8HsBttUI=;
- b=bexXdKXsWJ0bOUFXmHyqME2MS8hYAKyUikXusPtVTdcN1ZVTGSE71kONQUZUY9EQfmk+bO
- u8d6lPE/AfQZbXl7yYRHHqg58LnhHGyjpmUivnZEk0jtn5u1wQ9sfEMk5FeXp6eP1z42i7
- 18zPODQCbc/ZzWct51bdwSRbluaiVNE=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-WCddi3xNMyq6uw1n1W4Eeg-1; Wed, 27 May 2020 12:53:34 -0400
-X-MC-Unique: WCddi3xNMyq6uw1n1W4Eeg-1
-Received: by mail-qk1-f200.google.com with SMTP id p5so84719qkg.12
- for <qemu-devel@nongnu.org>; Wed, 27 May 2020 09:53:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=SdgpVcV25VK4wq5CaCOICvSj3CuHoAuwKa/8HsBttUI=;
- b=UqO7rRyA/PNLAvWsOaRvoIjk6yPeSVOOu+BTEVSqIxP6nBBtwRCJ5xgcymiOrKUf/l
- UqynVO20mmKGMNlgDpLJGgYylULlCQ4lRthNKUmZnfXnn8XxecisFdY5rMEAT1fccEDD
- 3OsfR+EmkroONFh+DeHKvsjrBL+dnQcFQzC/FsyfmWsmfWHpAUUN29L1/LSukxuxxlZX
- jN06GvyNKCfdw6f9/jjZ43nwg7ClsRclGKXFWouKapLKALEtTjNulQWq+Gje4CBgK5pq
- tDSIJWgYZr95sNFFjDC85WoqqcKts42FDXN5zkA6U6zV8d25d6x7yAXPeFKCGK5HmZZx
- B5jw==
-X-Gm-Message-State: AOAM531mW+YRSifc45EtjL6VoiOMNvB+iSpWYdbMb3bS5F4DpO7+i8rk
- dB+RCLjCR19qq2SXFJLqxjNBtvfGsfu7wziHtz2EBMxYO6DJfEadHLT6MMGg/CXoUkkVZSDUW8q
- lOH8RKDp2ZWQVAmM=
-X-Received: by 2002:a37:8883:: with SMTP id k125mr4984395qkd.14.1590598413745; 
- Wed, 27 May 2020 09:53:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwgBV+42NvjJnCD76lQiizOO7MnePAVlhc2VSZtnkn8aK0ObJB2xEu2nemL6arKVOhPo30I4g==
-X-Received: by 2002:a37:8883:: with SMTP id k125mr4984371qkd.14.1590598413402; 
- Wed, 27 May 2020 09:53:33 -0700 (PDT)
-Received: from xz-x1 ([2607:9880:19c0:32::2])
- by smtp.gmail.com with ESMTPSA id j5sm327696qtr.73.2020.05.27.09.53.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 May 2020 09:53:32 -0700 (PDT)
-Date: Wed, 27 May 2020 12:53:30 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] hw/vfio/common: Trace in which mode a IOMMU is opened
-Message-ID: <20200527165330.GG1194141@xz-x1>
-References: <20200526173542.28710-1-philmd@redhat.com>
- <6c7c445d-0335-f67d-bb72-5b0c046bb247@redhat.com>
- <24f88212-9b32-b6dc-fcd4-685cde8bf5d7@redhat.com>
- <864ac8ab-e21e-393e-d1eb-08b3c4579bbf@redhat.com>
- <20200527161603.GF1194141@xz-x1>
- <3e364895-e5e5-09fe-ee8c-782f3632e2b8@redhat.com>
+ (Exim 4.90_1)
+ (envelope-from <prvs=40961fbaf=alistair.francis@wdc.com>)
+ id 1jdzOI-0001GQ-QA; Wed, 27 May 2020 12:58:54 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:17592)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=40961fbaf=alistair.francis@wdc.com>)
+ id 1jdzOH-0002AL-AN; Wed, 27 May 2020 12:58:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1590598733; x=1622134733;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=vDZd4fWZoZGped8sJN4wTNf8wH4Xep9G/tkQsk69CK0=;
+ b=Ue0PU/XgqLFYscUJxJicA7wt5amUxvvdSwGFHx4yykMZpwzXnSCWGlEu
+ /HCU7EayHAsB9cCS9t+bdrB6lxOS4rVQREfoGH9IJSAHPoLTOjpUkZpcW
+ ZJzEnoDUYHxFEAR1eMRArEgIKJnN/hTRspfFVpu06C/XjV76F6Q9Dr6LX
+ y1ZACwto3MUsikxoJQubXZkK6xNWgH8CSAe7sQP9hp7sDG1vbgIO6cX8j
+ I/uybCvUdWf6qSNfLcq7abXAVwSdUU+btpChtIEiii/ulr3/QIkRuJCEV
+ bwWFvSo30WV981wGynnx+MPjZ5O71z4Kfk7HjGg3QxTmSzHsuwV2X5sSs w==;
+IronPort-SDR: xFGoS2dOQJ2fxmyFFKf9b3nC/UxvBeWGLZCZLaKK1A7IuEwBSmRTojY+lUIK8vF/gS/5fHpBlv
+ bfF74CBlF5P4dMNjSVf4BCIu9Nvx04PtKY4h25ZWQqY/m/15DWQ6OPrbWYce+xbNdSNkGsNEcW
+ EFHrD4EVfjtaF4YM9xmcc9B/vIq7shru4siSvnwSmd9SAuJxBO/Jeydb2JrbVOBG14TYGBebSc
+ NyT7e0f1RGJ/WAMnHK93qZ/kchuDuw6whH03102Qt2wnWGYjMxbF0yat2SCCeEDurkqDWcLyL1
+ OyQ=
+X-IronPort-AV: E=Sophos;i="5.73,442,1583164800"; d="scan'208";a="138633214"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 28 May 2020 00:58:51 +0800
+IronPort-SDR: jGC2TgpL8JPdxtyEk7wex8zoER4tsIxmHbaXEqwrFnU+UHMpgHXX13RNE67Oo0I9XSyrKVoicM
+ H6oLmFMWNSUuSxr5KFad1ctLgUOyzGBVw=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2020 09:48:42 -0700
+IronPort-SDR: NkvRZAFV6dHsAHZKgc/JSPUzqB0QGvMcJyUu+5m+FUafBhrII8MpAPOFoUdhGzQgdvN3Fdcmb7
+ nVjZ+/w7DLnw==
+WDCIronportException: Internal
+Received: from 71vjjc2.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.57.96])
+ by uls-op-cesaip02.wdc.com with ESMTP; 27 May 2020 09:58:52 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v4 02/10] target/riscv: Don't overwrite the reset vector
+Date: Wed, 27 May 2020 09:50:17 -0700
+Message-Id: <35cda0fb7d3ad4781e47a1e7e13cce326d391570.1590598125.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <cover.1590598125.git.alistair.francis@wdc.com>
+References: <cover.1590598125.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <3e364895-e5e5-09fe-ee8c-782f3632e2b8@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=peterx@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 00:49:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=216.71.154.42;
+ envelope-from=prvs=40961fbaf=alistair.francis@wdc.com;
+ helo=esa4.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 12:58:46
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,63 +86,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Auger Eric <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 27, 2020 at 06:27:38PM +0200, Philippe Mathieu-Daudé wrote:
-> On 5/27/20 6:16 PM, Peter Xu wrote:
-> > On Wed, May 27, 2020 at 05:53:16PM +0200, Philippe Mathieu-Daudé wrote:
-> >>>>> +    for (i = 0; i < ARRAY_SIZE(iommu); i++) {
-> >>>>> +        if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu[i].type)) {
-> >>>>> +            trace_vfio_get_iommu_type(iommu[i].type, iommu[i].name);
-> >>>> Just wondering why you want to trace the type as you now have the name
-> >>>> string.
-> >>>
-> >>> You are right :)
-> >>>
-> >>>>> +            return iommu[i].type;
-> >>>>>          }
-> >>>>>      }
-> >>>>> +    trace_vfio_get_iommu_type(-1, "Not available or not supported");
-> >>>> nit: from a debugging pov, this may be not needed as
-> >>>> vfio_get_group/vfio_connect_container() fails and this leads to an error
-> >>>> output.
-> >>
-> >> But you can reach this for example using No-IOMMU. If you don't mind, I
-> >> find having this information in the trace log clearer.
-> > 
-> > I kinda agree with Eric - AFAICT QEMU vfio-pci don't work with no-iommu, then
-> > it seems meaningless to trace it...
-> > 
-> > I'm not sure whether this trace is extremely helpful because syscalls like this
-> > could be easily traced by things like strace or bpftrace as general tools (and
-> > this information should be a one-time thing rather than dynamically changing),
-> > no strong opinion though.  Also, if we want to dump something, maybe it's
-> > better to do in vfio_init_container() after vfio_get_iommu_type() succeeded, so
-> > we dump which container is enabled with what type of iommu.
-> 
-> OK. I'm a recent VFIO user so maybe I am not using the good information.
-> 
-> This trace helps me while working on a new device feature, I didn't
-> thought about gathering it in a production because there I'd expect
-> things to work.
-> 
-> Now in my case what I want is to know is if I'm using a v1 or v2 type.
-> Maybe this information is already available in /proc or /sys and we
-> don't need this patch...
+The reset vector is set in the init function don't set it again in
+realize.
 
-I don't know such /proc or /sys, so maybe it's still useful. I guess Alex would
-have the best judgement. The strace/bpftrace things are not really reasons I
-found to nak this patch, but just something I thought first that could be
-easier when any of us wants to peak at those information, probably something
-just FYI. :-)
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bin.meng@windriver.com>
+---
+ target/riscv/cpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Thanks,
-
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 059d71f2c7..5eb3c02735 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -133,6 +133,7 @@ static void riscv_base32_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, 0);
++    set_resetvec(env, DEFAULT_RSTVEC);
+ }
+ 
+ static void rv32gcsu_priv1_09_1_cpu_init(Object *obj)
+@@ -180,6 +181,7 @@ static void riscv_base64_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     /* We set this in the realise function */
+     set_misa(env, 0);
++    set_resetvec(env, DEFAULT_RSTVEC);
+ }
+ 
+ static void rv64gcsu_priv1_09_1_cpu_init(Object *obj)
+@@ -399,7 +401,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     set_priv_version(env, priv_version);
+-    set_resetvec(env, DEFAULT_RSTVEC);
+ 
+     if (cpu->cfg.mmu) {
+         set_feature(env, RISCV_FEATURE_MMU);
 -- 
-Peter Xu
+2.26.2
 
 
