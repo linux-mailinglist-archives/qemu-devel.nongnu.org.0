@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061061E38B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 08:02:18 +0200 (CEST)
-Received: from localhost ([::1]:55180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0B31E38BD
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 08:03:54 +0200 (CEST)
+Received: from localhost ([::1]:34556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdp8r-0004ec-0k
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 02:02:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51262)
+	id 1jdpAP-00083Z-4r
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 02:03:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdp6Z-0002aP-EO
- for qemu-devel@nongnu.org; Wed, 27 May 2020 01:59:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20910
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdp6d-0002bj-Mz
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 02:00:00 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42057
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdp6X-0004Fd-SA
- for qemu-devel@nongnu.org; Wed, 27 May 2020 01:59:55 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdp6W-0004De-D5
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 01:59:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590559193;
+ s=mimecast20190719; t=1590559191;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Iu2hVa8OYXTsFCh4dFJHjFuoB7UaUJNnIBrvxpNFRUU=;
- b=UrqFc4hw6RXUjHWdXLD8B1Ebtef6L+WXAXAeQWzQ+x1kzgZHH8ka6v3f2qwPzFUUkFqs7+
- NlVV1+N7tYmroJ07MI9wpAzkZkWWxJyll8O8VL2JDqiy2b+uYcMWrO6JZKSDEHAGNpW0NB
- 6zvZdyZkWpFu7L5tiFqDxo5n4zSENdg=
+ bh=IUSx1PDDw1vfrD4MhZ65qLeCnCHCsk5cDCIAJTQGhZE=;
+ b=UC18nEU921LmCIFPPOHeAgtU/XcY/typVfDynnqgtN+WdGKtKdH8/e6gwLiL+xzIEI6HfT
+ Eu/FeUVCkVegJyxZ5KtdV5pw2FQ/AE9gydF6r/o+AVKwiH1Za6zqLUj8U+o4dkLM9z7I4d
+ SzhnXq3/K1azcAVOYg6fwHeyG+g7Eh8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-C7A0SCKuOP2wvvgT1p6FNg-1; Wed, 27 May 2020 01:59:51 -0400
-X-MC-Unique: C7A0SCKuOP2wvvgT1p6FNg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-386-fFAaWCihO-GcT31r5XCh-g-1; Wed, 27 May 2020 01:59:48 -0400
+X-MC-Unique: fFAaWCihO-GcT31r5XCh-g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71E4F107ACCA
- for <qemu-devel@nongnu.org>; Wed, 27 May 2020 05:59:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F3A480183C
+ for <qemu-devel@nongnu.org>; Wed, 27 May 2020 05:59:47 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 71AD798A3F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 714321A7D2;
  Wed, 27 May 2020 05:59:47 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E823511385E2; Wed, 27 May 2020 07:59:45 +0200 (CEST)
+ id EB5B41138611; Wed, 27 May 2020 07:59:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/10] s390x/cpumodel: Fix harmless misuse of
- visit_check_struct()
-Date: Wed, 27 May 2020 07:59:38 +0200
-Message-Id: <20200527055945.6774-4-armbru@redhat.com>
+Subject: [PULL 04/10] tests/migration: Tighten error checking
+Date: Wed, 27 May 2020 07:59:39 +0200
+Message-Id: <20200527055945.6774-5-armbru@redhat.com>
 In-Reply-To: <20200527055945.6774-1-armbru@redhat.com>
 References: <20200527055945.6774-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 01:25:42
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 22:58:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,40 +80,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit e47970f51d "s390x/cpumodel: Fix query-cpu-model-FOO error API
-violations" neglected to change visit_check_struct()'s Error **
-argument along with the others.  If visit_check_struct() failed, we'd
-take the success path.  Fortunately, it can't fail here:
-qobject_input_check_struct() checks we consumed the whole dictionary,
-and to get here, we did.  Fix it anyway.
+migrate_get_socket_address() neglects to check
+visit_type_SocketAddressList() failure.  This smells like a leak, but
+it actually will crash dereferencing @addrs.  Pass &error_abort to
+remove the code smell.
 
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20200505101908.6207-4-armbru@redhat.com>
+Message-Id: <20200505101908.6207-5-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- target/s390x/cpu_models.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/migration-test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 8efe6ed514..2fa609bffe 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -524,7 +524,7 @@ static void cpu_model_from_info(S390CPUModel *model, const CpuModelInfo *info,
-             }
-         }
-         if (!err) {
--            visit_check_struct(visitor, errp);
-+            visit_check_struct(visitor, &err);
-         }
-         visit_end_struct(visitor, NULL);
-         visit_free(visitor);
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 2568c9529c..dc3490c9fa 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -13,6 +13,7 @@
+ #include "qemu/osdep.h"
+ 
+ #include "libqtest.h"
++#include "qapi/error.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+@@ -301,7 +302,6 @@ static char *migrate_get_socket_address(QTestState *who, const char *parameter)
+ {
+     QDict *rsp;
+     char *result;
+-    Error *local_err = NULL;
+     SocketAddressList *addrs;
+     Visitor *iv = NULL;
+     QObject *object;
+@@ -310,7 +310,7 @@ static char *migrate_get_socket_address(QTestState *who, const char *parameter)
+     object = qdict_get(rsp, parameter);
+ 
+     iv = qobject_input_visitor_new(object);
+-    visit_type_SocketAddressList(iv, NULL, &addrs, &local_err);
++    visit_type_SocketAddressList(iv, NULL, &addrs, &error_abort);
+     visit_free(iv);
+ 
+     /* we are only using a single address */
 -- 
 2.21.3
 
