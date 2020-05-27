@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5742E1E39E3
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 09:09:55 +0200 (CEST)
-Received: from localhost ([::1]:50648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B81031E3A4A
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 09:26:30 +0200 (CEST)
+Received: from localhost ([::1]:35258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdqCH-0006Fv-Uk
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 03:09:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38084)
+	id 1jdqSL-0006Fo-BQ
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 03:26:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jdqBU-0005pR-Fm
- for qemu-devel@nongnu.org; Wed, 27 May 2020 03:09:04 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28391
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jdqBS-0005pS-Ea
- for qemu-devel@nongnu.org; Wed, 27 May 2020 03:09:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590563340;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SRZolJFb81RjPv+UoVfVYyduR2SKxLbtN26DcNQnWoQ=;
- b=HsrDriHIvKUwgRQKUAWwX56Q7bYjivAJqg14IO/sofsh9faIPBdeNKalpJnNM0/uuYUD9M
- HuwFJJykNNAZgrNoWolVhiluO6qJ7FjJazy1bzxO+uOJqj04td/b2I5e1TEdgpj+yDctIg
- O1JuSXwF4S3dhPCk3GnxKXVe0Y7Xw3I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-89-V3X6eniLNXWPnM3WGQ97AQ-1; Wed, 27 May 2020 03:08:58 -0400
-X-MC-Unique: V3X6eniLNXWPnM3WGQ97AQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80F428018A2
- for <qemu-devel@nongnu.org>; Wed, 27 May 2020 07:08:57 +0000 (UTC)
-Received: from [10.36.113.56] (ovpn-113-56.ams2.redhat.com [10.36.113.56])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D7F912A4D;
- Wed, 27 May 2020 07:08:50 +0000 (UTC)
-Subject: Re: [PATCH] hw/vfio/common: Trace in which mode a IOMMU is opened
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200526173542.28710-1-philmd@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <6c7c445d-0335-f67d-bb72-5b0c046bb247@redhat.com>
-Date: Wed, 27 May 2020 09:08:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdqRe-0005n6-1d
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 03:25:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53826)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdqRc-000203-GJ
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 03:25:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jdqRa-0007cv-DW
+ for <qemu-devel@nongnu.org>; Wed, 27 May 2020 07:25:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6567D2E8106
+ for <qemu-devel@nongnu.org>; Wed, 27 May 2020 07:25:42 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200526173542.28710-1-philmd@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 00:45:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 27 May 2020 07:10:03 -0000
+From: P J P <1880822@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: cve qemu security
+X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: pjps
+X-Launchpad-Bug-Reporter: P J P (pjps)
+X-Launchpad-Bug-Modifier: P J P (pjps)
+Message-Id: <159056340380.1780.3709038768569765525.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1880822] [NEW] CVE-2020-13253 QEMU: sd: OOB access could crash
+ the guest resulting in DoS
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b462f7a53c7e51fe1d888bd5e40fc62d1552b95e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 01:00:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,79 +73,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>
+Reply-To: Bug 1880822 <1880822@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+*** This bug is a security vulnerability ***
 
-On 5/26/20 7:35 PM, Philippe Mathieu-Daudé wrote:
-> One might want to check which IOMMU version the host kernel
-> provide. Add a trace event to see in which mode we opened
-> our container.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  hw/vfio/common.c     | 19 ++++++++++++++-----
->  hw/vfio/trace-events |  1 +
->  2 files changed, 15 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 0b3593b3c0..6b69a259c1 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -1157,15 +1157,24 @@ static void vfio_put_address_space(VFIOAddressSpace *space)
->  static int vfio_get_iommu_type(VFIOContainer *container,
->                                 Error **errp)
->  {
-> -    int iommu_types[] = { VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
-> -                          VFIO_SPAPR_TCE_v2_IOMMU, VFIO_SPAPR_TCE_IOMMU };
-> +    static const struct {
-> +        int type;
-> +        const char *name;
-> +    } iommu[] = {
-> +        {VFIO_TYPE1v2_IOMMU, "Type1 (v2)"},
-> +        {VFIO_TYPE1_IOMMU, "Type1 (v1)"},
-> +        {VFIO_SPAPR_TCE_v2_IOMMU, "sPAPR TCE (v2)"},
-> +        {VFIO_SPAPR_TCE_IOMMU, "sPAPR TCE (v1)"}
-> +    };
->      int i;
->  
-> -    for (i = 0; i < ARRAY_SIZE(iommu_types); i++) {
-> -        if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu_types[i])) {
-> -            return iommu_types[i];
-> +    for (i = 0; i < ARRAY_SIZE(iommu); i++) {
-> +        if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu[i].type)) {
-> +            trace_vfio_get_iommu_type(iommu[i].type, iommu[i].name);
-Just wondering why you want to trace the type as you now have the name
-string.
-> +            return iommu[i].type;
->          }
->      }
-> +    trace_vfio_get_iommu_type(-1, "Not available or not supported");
-nit: from a debugging pov, this may be not needed as
-vfio_get_group/vfio_connect_container() fails and this leads to an error
-output.
+Public security bug reported:
 
-Thanks
+An out-of-bounds read access issue was found in the SD Memory Card
+emulator of the QEMU. It occurs while performing block write commands
+via sdhci_write(), if a guest user has sent 'address' which is OOB of
+'s->wp_groups'. A guest user/process may use this flaw to crash the QEMU
+process resulting in DoS.
 
-Eric
->      error_setg(errp, "No available IOMMU models");
->      return -EINVAL;
->  }
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index b1ef55a33f..8166c4c50d 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -115,6 +115,7 @@ vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) "Devic
->  vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long end) "sparse entry %d [0x%lx - 0x%lx]"
->  vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%0x8"
->  vfio_dma_unmap_overflow_workaround(void) ""
-> +vfio_get_iommu_type(int iommu_type, const char *iommu_name) "IOMMU type %d (%s)"
->  
->  # platform.c
->  vfio_platform_base_device_init(char *name, int groupid) "%s belongs to group #%d"
-> 
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
+
+** Tags: cve qemu security
+
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2020-13253
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1880822
+
+Title:
+  CVE-2020-13253 QEMU: sd: OOB access could crash the guest resulting in
+  DoS
+
+Status in QEMU:
+  New
+
+Bug description:
+  An out-of-bounds read access issue was found in the SD Memory Card
+  emulator of the QEMU. It occurs while performing block write commands
+  via sdhci_write(), if a guest user has sent 'address' which is OOB of
+  's->wp_groups'. A guest user/process may use this flaw to crash the
+  QEMU process resulting in DoS.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1880822/+subscriptions
 
