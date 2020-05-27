@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB341E3C2C
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 10:36:19 +0200 (CEST)
-Received: from localhost ([::1]:44432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D451E3C3D
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 10:40:24 +0200 (CEST)
+Received: from localhost ([::1]:51006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdrXu-00060A-Fk
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 04:36:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58748)
+	id 1jdrbr-0001A3-7u
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 04:40:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jdrXB-0005Vl-A0; Wed, 27 May 2020 04:35:33 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59564)
+ id 1jdrb3-0000gN-Nt; Wed, 27 May 2020 04:39:33 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jdrX9-0003iu-S4; Wed, 27 May 2020 04:35:32 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ id 1jdrb2-0005kg-Jk; Wed, 27 May 2020 04:39:33 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04R8XKfY118938; Wed, 27 May 2020 04:35:30 -0400
+ 04R8Ymb8187680; Wed, 27 May 2020 04:39:30 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 317hejk41d-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 316ywnksym-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 May 2020 04:35:29 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04R8XTPg119232;
- Wed, 27 May 2020 04:35:11 -0400
+ Wed, 27 May 2020 04:39:29 -0400
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04R8YtPN188381;
+ Wed, 27 May 2020 04:39:21 -0400
 Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
  [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 317hejk3ga-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 316ywnkqx4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 May 2020 04:35:10 -0400
+ Wed, 27 May 2020 04:39:21 -0400
 Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04R8VUHb020387;
- Wed, 27 May 2020 08:34:25 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03ams.nl.ibm.com with ESMTP id 316uf87gda-1
+ by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04R8VUHv020387;
+ Wed, 27 May 2020 08:35:50 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma03ams.nl.ibm.com with ESMTP id 316uf87gfv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 May 2020 08:34:25 +0000
+ Wed, 27 May 2020 08:35:50 +0000
 Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
  [9.149.105.232])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 04R8YMr22752976
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 04R8Zmj637945532
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 27 May 2020 08:34:22 GMT
+ Wed, 27 May 2020 08:35:48 GMT
 Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C24B052057;
- Wed, 27 May 2020 08:34:22 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 413BE52050;
+ Wed, 27 May 2020 08:35:48 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.145.52.97])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 6450252051;
- Wed, 27 May 2020 08:34:22 +0000 (GMT)
-Subject: Re: [PATCH v3 1/9] pc-bios: s390x: cio.c cleanup and compile fix
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id E18FE5204F;
+ Wed, 27 May 2020 08:35:47 +0000 (GMT)
+Subject: Re: [PATCH v3 3/9] pc-bios: s390x: Move sleep and yield to helper.h
 To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
 References: <20200527074920.43669-1-frankja@linux.ibm.com>
- <20200527074920.43669-2-frankja@linux.ibm.com>
- <78361bb8-5ec5-05f9-4460-76a086c06832@de.ibm.com>
+ <20200527074920.43669-4-frankja@linux.ibm.com>
+ <a4ac24a7-12c5-4ba8-8e44-0b1b73f1b7ff@de.ibm.com>
 From: Janosch Frank <frankja@linux.ibm.com>
 Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
  mQINBFubpD4BEADX0uhkRhkj2AVn7kI4IuPY3A8xKat0ihuPDXbynUC77mNox7yvK3X5QBO6
@@ -100,29 +100,30 @@ Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
  DchCqFm5adiSP5+OT4NjkKUeGpBe/aRyQSle/RropTgCi85pje/juYEn2P9UAgkfBJrOHvQ9
  Z+2Sva8FRd61NJLkCJ4LFumRn9wQlX2icFbi8UDV3do0hXJRRYTWCxrHscMhkrFWLhYiPF4i
  phX7UNdOWBQ90qpHyAxHmDazdo27gEjfvsgYMdveKknEOTEb5phwxWgg7BcIDoJf9UMC
-Message-ID: <d05d1556-034c-fd15-ee0f-c63f483adc15@linux.ibm.com>
-Date: Wed, 27 May 2020 10:34:21 +0200
+Message-ID: <f6951389-6b53-ad50-0b10-80f7f78224c4@linux.ibm.com>
+Date: Wed, 27 May 2020 10:35:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <78361bb8-5ec5-05f9-4460-76a086c06832@de.ibm.com>
+In-Reply-To: <a4ac24a7-12c5-4ba8-8e44-0b1b73f1b7ff@de.ibm.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="8ifmML2aicffvagRmOrezlhdPlbzXylck"
+ boundary="oGAVTnBSXnHKoZzVYD4eYvvd4eOeZaNuj"
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-05-27_03:2020-05-26,
+ definitions=2020-05-27_02:2020-05-26,
  2020-05-27 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 spamscore=0 cotscore=-2147483648 bulkscore=0 mlxscore=0
- suspectscore=0 mlxlogscore=999 malwarescore=0 clxscore=1015 adultscore=0
- phishscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2005270063
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 03:49:35
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+ suspectscore=0
+ mlxlogscore=999 phishscore=0 malwarescore=0 impostorscore=0 spamscore=0
+ bulkscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0 clxscore=1015
+ priorityscore=1501 cotscore=-2147483648 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005270062
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 03:49:33
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -147,127 +148,162 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---8ifmML2aicffvagRmOrezlhdPlbzXylck
-Content-Type: multipart/mixed; boundary="EPHygnNRoLMtE9obKdhXWWDcTWublt8iV"
+--oGAVTnBSXnHKoZzVYD4eYvvd4eOeZaNuj
+Content-Type: multipart/mixed; boundary="rDktYUQPeKK30ACCAb74euY4VQkDzMFO7"
 
---EPHygnNRoLMtE9obKdhXWWDcTWublt8iV
+--rDktYUQPeKK30ACCAb74euY4VQkDzMFO7
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 5/27/20 10:24 AM, Christian Borntraeger wrote:
+On 5/27/20 10:34 AM, Christian Borntraeger wrote:
 >=20
 >=20
 > On 27.05.20 09:49, Janosch Frank wrote:
->> Let's initialize the structs at the beginning to ease reading and also=
-
->> zeroing all other fields. This also makes the compiler stop
->> complaining about sense_id_ccw.flags being ored into when it's not
->> initialized.
+>> They are definitely helper functions.
 >>
 >> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
->> Reviewed-by: Thomas Huth <thuth@redhat.com>
->> Reviewed-by: David Hildenbrand <david@redhat.com>
 >> ---
->>  pc-bios/s390-ccw/cio.c | 40 ++++++++++++++++++++++------------------
->>  1 file changed, 22 insertions(+), 18 deletions(-)
+>>  pc-bios/s390-ccw/helper.h      | 17 +++++++++++++++++
+>>  pc-bios/s390-ccw/s390-ccw.h    | 16 ----------------
+>>  pc-bios/s390-ccw/virtio-net.c  |  1 +
+>>  pc-bios/s390-ccw/virtio-scsi.c |  1 +
+>>  4 files changed, 19 insertions(+), 16 deletions(-)
 >>
->> diff --git a/pc-bios/s390-ccw/cio.c b/pc-bios/s390-ccw/cio.c
->> index 339ec5fbe7..dbae1e240e 100644
->> --- a/pc-bios/s390-ccw/cio.c
->> +++ b/pc-bios/s390-ccw/cio.c
->> @@ -49,13 +49,13 @@ void enable_subchannel(SubChannelId schid)
+>> diff --git a/pc-bios/s390-ccw/helper.h b/pc-bios/s390-ccw/helper.h
+>> index 78d5bc7442..d1b8b14d30 100644
+>> --- a/pc-bios/s390-ccw/helper.h
+>> +++ b/pc-bios/s390-ccw/helper.h
+>> @@ -14,6 +14,7 @@
+>>  #define S390_CCW_HELPER_H
 >> =20
->>  uint16_t cu_type(SubChannelId schid)
->>  {
->> -    Ccw1 sense_id_ccw;
->>      SenseId sense_data;
->> -
->> -    sense_id_ccw.cmd_code =3D CCW_CMD_SENSE_ID;
->> -    sense_id_ccw.cda =3D ptr2u32(&sense_data);
->> -    sense_id_ccw.count =3D sizeof(sense_data);
->> -    sense_id_ccw.flags |=3D CCW_FLAG_SLI;
->> +    Ccw1 sense_id_ccw =3D {
->> +        .cmd_code =3D CCW_CMD_SENSE_ID,
->> +        .count =3D sizeof(sense_data),
->> +        .flags =3D CCW_FLAG_SLI,
->> +        .cda =3D ptr2u32(&sense_data),
->> +    };
->=20
-> nitpicking, since you change the order anyway you _could_ swap count an=
-d flag
-> to match the order of struct Ccw. Only necessary when redoing.
-
-Sure, if it makes you happy :-)
-
->=20
->=20
+>>  #include "s390-ccw.h"
+>> +#include "time.h"
 >> =20
->>      if (do_cio(schid, CU_TYPE_UNKNOWN, ptr2u32(&sense_id_ccw), CCW_FM=
-T1)) {
->>          panic("Failed to run SenseID CCw\n");
->> @@ -67,13 +67,13 @@ uint16_t cu_type(SubChannelId schid)
->>  int basic_sense(SubChannelId schid, uint16_t cutype, void *sense_data=
-,
->>                   uint16_t data_size)
->>  {
->> -    Ccw1 senseCcw;
->> +    Ccw1 senseCcw =3D {
->> +        .cmd_code =3D CCW_CMD_BASIC_SENSE,
->> +        .count =3D data_size,
->> +        .cda =3D ptr2u32(sense_data),
->> +    };
->>      Irb irb;
+>>  /* Avoids compiler warnings when casting a pointer to a u32 */
+>>  static inline uint32_t ptr2u32(void *ptr)
+>> @@ -28,4 +29,20 @@ static inline void *u32toptr(uint32_t n)
+>>      return (void *)(uint64_t)n;
+>>  }
 >> =20
->> -    senseCcw.cmd_code =3D CCW_CMD_BASIC_SENSE;
->> -    senseCcw.cda =3D ptr2u32(sense_data);
->> -    senseCcw.count =3D data_size;
->> -
+>> +static inline void yield(void)
+>> +{
+>> +    asm volatile ("diag 0,0,0x44"
+>> +                  : :
+>> +                  : "memory", "cc");
+>> +}
+>> +
+>> +static inline void sleep(unsigned int seconds)
+>> +{
+>> +    ulong target =3D get_time_seconds() + seconds;
+>> +
+>> +    while (get_time_seconds() < target) {
+>> +        yield();
+>> +    }
 >=20
-> here it is fine, due to the lack of flags.=20
-> Was this actually a bug before that senseCcw.flags was
-> not zeroed out?
+> This actually asks for a future cleanup patch to replace the busy wait =
+with a sleeping wait.
 
-I'd guess so, seems like the compiler went into other code paths with my
-recent changes and then started complaining.
-But it makes sense to clean them up anyway.
+Yes, already on my list, same as Pierre's busy wait in the kvm unit tests=
+=2E
+One impossible thing at a time.
 
 >=20
+> Anyway,
 >=20
-> [...]
->=20
-> Other than that
 > Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
 
 Thanks!
 
+>=20
+>> +}
+>> +
+>>  #endif
+>> diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h=
+
+>> index 9514b76596..c5820e43ae 100644
+>> --- a/pc-bios/s390-ccw/s390-ccw.h
+>> +++ b/pc-bios/s390-ccw/s390-ccw.h
+>> @@ -142,24 +142,8 @@ static inline void debug_print_addr(const char *d=
+esc, void *p)
+>>  #define KVM_S390_VIRTIO_SET_STATUS      2
+>>  #define KVM_S390_VIRTIO_CCW_NOTIFY      3
+>> =20
+>> -static inline void yield(void)
+>> -{
+>> -    asm volatile ("diag 0,0,0x44"
+>> -                  : :
+>> -                  : "memory", "cc");
+>> -}
+>> -
+>>  #define MAX_SECTOR_SIZE 4096
+>> =20
+>> -static inline void sleep(unsigned int seconds)
+>> -{
+>> -    ulong target =3D get_second() + seconds;
+>> -
+>> -    while (get_second() < target) {
+>> -        yield();
+>> -    }
+>> -}
+>> -
+>>  static inline void IPL_assert(bool term, const char *message)
+>>  {
+>>      if (!term) {
+>> diff --git a/pc-bios/s390-ccw/virtio-net.c b/pc-bios/s390-ccw/virtio-n=
+et.c
+>> index 4de03728bb..f018d58994 100644
+>> --- a/pc-bios/s390-ccw/virtio-net.c
+>> +++ b/pc-bios/s390-ccw/virtio-net.c
+>> @@ -20,6 +20,7 @@
+>>  #include "s390-ccw.h"
+>>  #include "virtio.h"
+>>  #include "time.h"
+>> +#include "helper.h"
+>> =20
+>>  #ifndef DEBUG_VIRTIO_NET
+>>  #define DEBUG_VIRTIO_NET 0
+>> diff --git a/pc-bios/s390-ccw/virtio-scsi.c b/pc-bios/s390-ccw/virtio-=
+scsi.c
+>> index 0620651da8..907f8a08bd 100644
+>> --- a/pc-bios/s390-ccw/virtio-scsi.c
+>> +++ b/pc-bios/s390-ccw/virtio-scsi.c
+>> @@ -15,6 +15,7 @@
+>>  #include "scsi.h"
+>>  #include "virtio-scsi.h"
+>>  #include "time.h"
+>> +#include "helper.h"
+>> =20
+>>  static ScsiDevice default_scsi_device;
+>>  static VirtioScsiCmdReq req;
+>>
 
 
---EPHygnNRoLMtE9obKdhXWWDcTWublt8iV--
 
---8ifmML2aicffvagRmOrezlhdPlbzXylck
+--rDktYUQPeKK30ACCAb74euY4VQkDzMFO7--
+
+--oGAVTnBSXnHKoZzVYD4eYvvd4eOeZaNuj
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl7OJg4ACgkQ41TmuOI4
-ufhw0g//cBaWwqB3kP6bQDK0SmDvEqYQQWsUaWAsNw5ZB+G2ljH3o5aHbA+Gvxs0
-tp5gCxHnmES0hBja/d6o2TBQu1Ev8Rb0o0LGGZyrl8qKK2ZLw0vKX/nngjUyPM5l
-NcwQr0yaxIrtumCA3NR2xANxF4zzlIQs1aL6c9RLvM8zqHfqCi7zDe5PNI37dWjX
-HKzXEnrZI7fOUoWWpxlzBs3BVgvdmvpjxXe+7qjt9/3mHO4syZw10/POTtEFlJe+
-4KeahwPmuXqaJ56WKe5wwu7+TSgh7ZlPNShVOmE718Y2iElpFmimoTKfznEGPg0B
-sK15OhynqQfOz4Dv5JwBQ2XnEWUH2p1PQPilYVKjMuzqvGMqzZ8WIDaEGw46pzm+
-sG8jvw+eoeYy4wiKJXyEvGxkLXj+CuCEmhowYj6DIa95VqNvsoqPm6z87bVPCObd
-6jzoztJqj5VxabAGAlCwO1PKueqXAdLtgoVgnpa6GtHIOr89B/aNqGOmpixx0H0D
-A20zOVnUrjgWEe3zppbARWsgENV4OMOVvVr3NCNNIZ//IQ7khDgKyfeDSJoYEtX+
-jgAjEXQWY27fIt4Ef/xAIMpPmslzJqjPghHn8h1EvWXUykC+NUgXlpjB39OUV4ei
-4AVgsEXRvZgeJABXsgxts6L3Oxhh7GrHQFf2XJPR/p/1xnOoOQc=
-=GDJc
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl7OJmMACgkQ41TmuOI4
+ufglZA/+KS4KYDgtwafUbb3UMiP3tMW+ZLhQ3pPAKsAlLlQEiR+yLup2BgJbjLqC
+1r6GyPxW1QAkFM59F41Q4kFbGn5bXiDcz2+jAm6BqcP9FthDdGoILMewNACN3CLI
+XEEqlPApXsw8V4mOnrzAdbuVPNT2ELi6+5jCIJ2iJYK8c6kFBQqXB2Rjb+DhO7WG
++yuOJw0SpHxbyAU5lbjm2eXkh5NeJ6pLVIozyeJAsaQwpVnCvIGLBtGI+n9QZgrD
+y0Pec5BkOafVppIAdIWqZD/Fx2glLycaJkobHVD6Kn/IlMXxH2bhQfUaS3cJPQQs
+DtMlwxy3t3qnHJRIMAKrc8/KBkK6ipaMKcV8tFXayzVzS3dYpAbdwVoytOZEYv/1
+C4JPwq9nj7geiWOxdHSitJYzIUag5RBYT4H+3ilU7ycghpVlu4MdV8RVD3pxqENp
+E92QqsAhMNIkXaQvBoZY23iRf3e8HoIhd+IIvpJaJWW0NTRoESz3nXmjlR5Re8hT
+e2f+pS34ZJ/eInr6REhIOlp7D24O7jihYKBFJu3Z9oEyAJlmxEfVWNulXyyWnBQh
+V5QHT/lvZTs0xykHb0NQVvwBrVTBzvUZw84x9ejPtBuqGo8lmdU4bvqxXwNc+XAb
+2xb+E8Ca2DpbXI10Tc3I1vGdU7e5DDs+ZxrUlR8LWH32vIoN7zs=
+=pBCC
 -----END PGP SIGNATURE-----
 
---8ifmML2aicffvagRmOrezlhdPlbzXylck--
+--oGAVTnBSXnHKoZzVYD4eYvvd4eOeZaNuj--
 
 
