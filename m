@@ -2,75 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B521E3C98
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 10:49:49 +0200 (CEST)
-Received: from localhost ([::1]:34622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1B51E3CA1
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 10:51:32 +0200 (CEST)
+Received: from localhost ([::1]:39528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdrky-0008Nx-SA
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 04:49:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33294)
+	id 1jdrmd-00025s-0N
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 04:51:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jdrjv-00072H-Vr
- for qemu-devel@nongnu.org; Wed, 27 May 2020 04:48:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57897
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jdrju-0003sG-DQ
- for qemu-devel@nongnu.org; Wed, 27 May 2020 04:48:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590569321;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0T7rmjvC6+RdYDSWsM9zFDoO3jG2AAbHjwTSfoD/mvY=;
- b=dAb+grsz+mZuDdrQe4D7hlWspfptcBHaRRiDmB5SUuUW4UJBOo464n6PAQIBCGYNPR49lA
- t0Ftv9PsRtoz5vdpw6HIs9t2aahjwKia6s2W1X0+xPnp2O8pYrGUEieP4G7JjpWsmpXFr6
- uQ6DB2Dk5RtzO2CtIS1wVP5qozIYrBk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-242-lsstOR5BMjymMzMEOZtCeA-1; Wed, 27 May 2020 04:48:36 -0400
-X-MC-Unique: lsstOR5BMjymMzMEOZtCeA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8592C107ACCA;
- Wed, 27 May 2020 08:48:33 +0000 (UTC)
-Received: from work-vm (ovpn-114-29.ams2.redhat.com [10.36.114.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CBF8D19D61;
- Wed, 27 May 2020 08:48:24 +0000 (UTC)
-Date: Wed, 27 May 2020 09:48:22 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Yan Zhao <yan.y.zhao@intel.com>
-Subject: Re: [PATCH Kernel v22 0/8] Add UAPIs to support migration for VFIO
- devices
-Message-ID: <20200527084822.GC3001@work-vm>
-References: <1589781397-28368-1-git-send-email-kwankhede@nvidia.com>
- <20200519105804.02f3cae8@x1.home>
- <20200525065925.GA698@joy-OptiPlex-7040>
- <426a5314-6d67-7cbe-bad0-e32f11d304ea@nvidia.com>
- <20200526141939.2632f100@x1.home>
- <20200527062358.GD19560@joy-OptiPlex-7040>
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1jdrls-0001dJ-Vw; Wed, 27 May 2020 04:50:45 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45508
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1jdrlr-0005Qj-IA; Wed, 27 May 2020 04:50:44 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04R8d9pO051518; Wed, 27 May 2020 04:50:42 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 316yyhmawh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 May 2020 04:50:41 -0400
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04R8fi1w058733;
+ Wed, 27 May 2020 04:50:41 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 316yyhmavu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 May 2020 04:50:41 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04R8fAED028558;
+ Wed, 27 May 2020 08:50:39 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma03ams.nl.ibm.com with ESMTP id 316uf87h84-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 May 2020 08:50:39 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 04R8ob4x53084318
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 27 May 2020 08:50:37 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 70EC74C040;
+ Wed, 27 May 2020 08:50:37 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 231E94C04A;
+ Wed, 27 May 2020 08:50:37 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.145.10.46])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 27 May 2020 08:50:37 +0000 (GMT)
+Subject: Re: [PATCH v3 4/9] pc-bios: s390x: Get rid of magic offsets into the
+ lowcore
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200527074920.43669-1-frankja@linux.ibm.com>
+ <20200527074920.43669-5-frankja@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+ nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
+Message-ID: <a69f12b8-4ade-698a-b8cf-fd1f370a7c16@de.ibm.com>
+Date: Wed, 27 May 2020 10:50:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200527062358.GD19560@joy-OptiPlex-7040>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 00:49:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20200527074920.43669-5-frankja@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
+ definitions=2020-05-27_02:2020-05-26,
+ 2020-05-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ priorityscore=1501 cotscore=-2147483648 impostorscore=0 mlxscore=0
+ lowpriorityscore=0 spamscore=0 suspectscore=0 bulkscore=0 adultscore=0
+ phishscore=0 clxscore=1015 mlxlogscore=947 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005270062
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 03:49:35
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,239 +147,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- Kirti Wankhede <kwankhede@nvidia.com>, zhi.a.wang@intel.com,
- mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
- Alex Williamson <alex.williamson@redhat.com>, eauger@redhat.com,
- felipe@nutanix.com, jonathan.davies@nutanix.com, changpeng.liu@intel.com,
- Ken.Xue@amd.com
+Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, thuth@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Yan Zhao (yan.y.zhao@intel.com) wrote:
-> On Tue, May 26, 2020 at 02:19:39PM -0600, Alex Williamson wrote:
-> > On Mon, 25 May 2020 18:50:54 +0530
-> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> > 
-> > > On 5/25/2020 12:29 PM, Yan Zhao wrote:
-> > > > On Tue, May 19, 2020 at 10:58:04AM -0600, Alex Williamson wrote:  
-> > > >> Hi folks,
-> > > >>
-> > > >> My impression is that we're getting pretty close to a workable
-> > > >> implementation here with v22 plus respins of patches 5, 6, and 8.  We
-> > > >> also have a matching QEMU series and a proposal for a new i40e
-> > > >> consumer, as well as I assume GVT-g updates happening internally at
-> > > >> Intel.  I expect all of the latter needs further review and discussion,
-> > > >> but we should be at the point where we can validate these proposed
-> > > >> kernel interfaces.  Therefore I'd like to make a call for reviews so
-> > > >> that we can get this wrapped up for the v5.8 merge window.  I know
-> > > >> Connie has some outstanding documentation comments and I'd like to make
-> > > >> sure everyone has an opportunity to check that their comments have been
-> > > >> addressed and we don't discover any new blocking issues.  Please send
-> > > >> your Acked-by/Reviewed-by/Tested-by tags if you're satisfied with this
-> > > >> interface and implementation.  Thanks!
-> > > >>  
-> > > > hi Alex
-> > > > after porting gvt/i40e vf migration code to kernel/qemu v23, we spoted
-> > > > two bugs.
-> > > > 1. "Failed to get dirty bitmap for iova: 0xfe011000 size: 0x3fb0 err: 22"
-> > > >     This is a qemu bug that the dirty bitmap query range is not the same
-> > > >     as the dma map range. It can be fixed in qemu. and I just have a little
-> > > >     concern for kernel to have this restriction.
-> > > >   
-> > > 
-> > > I never saw this unaligned size in my testing. In this case if you can 
-> > > provide vfio_* event traces, that will helpful.
-> > 
-> > Yeah, I'm curious why we're hitting such a call path, I think we were
-> > designing this under the assumption we wouldn't see these.  I also
-> that's because the algorithm for getting dirty bitmap query range is still not exactly
-> matching to that for dma map range in vfio_dma_map().
-> 
-> 
-> > wonder if we really need to enforce the dma mapping range for getting
-> > the dirty bitmap with the current implementation (unmap+dirty obviously
-> > still has the restriction).  We do shift the bitmap in place for
-> > alignment, but I'm not sure why we couldn't shift it back and only
-> > clear the range that was reported.  Kirti, do you see other issues?  I
-> > think a patch to lift that restriction is something we could plan to
-> > include after the initial series is included and before we've committed
-> > to the uapi at the v5.8 release.
-> >  
-> > > > 2. migration abortion, reporting
-> > > > "qemu-system-x86_64-lm: vfio_load_state: Error allocating buffer
-> > > > qemu-system-x86_64-lm: error while loading state section id 49(vfio)
-> > > > qemu-system-x86_64-lm: load of migration failed: Cannot allocate memory"
-> > > > 
-> > > > It's still a qemu bug and we can fixed it by
-> > > > "
-> > > > if (migration->pending_bytes == 0) {
-> > > > +            qemu_put_be64(f, 0);
-> > > > +            qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-> > > > "  
-> > > 
-> > > In which function in QEMU do you have to add this?
-> > 
-> > I think this is relative to QEMU path 09/ where Yan had the questions
-> > below on v16 and again tried to get answers to them on v22:
-> > 
-> > https://lore.kernel.org/qemu-devel/20200520031323.GB10369@joy-OptiPlex-7040/
-> > 
-> > Kirti, please address these questions.
-> > 
-> > > > and actually there are some extra concerns about this part, as reported in
-> > > > [1][2].
-> > > > 
-> > > > [1] data_size should be read ahead of data_offset
-> > > > https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg02795.html.
-> > > > [2] should not repeatedly update pending_bytes in vfio_save_iterate()
-> > > > https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg02796.html.
-> > > > 
-> > > > but as those errors are all in qemu, and we have finished basic tests in
-> > > > both gvt & i40e, we're fine with the kernel part interface in general now.
-> > > > (except for my concern [1], which needs to update kernel patch 1)
-> > > >   
-> > > 
-> > >  >> what if pending_bytes is not 0, but vendor driver just does not want  to
-> > >  >> send data in this iteration? isn't it right to get data_size first   
-> > > before
-> > >  >> getting data_offset?  
-> > > 
-> > > If vendor driver doesn't want to send data but still has data in staging 
-> > > buffer, vendor driver still can control to send pending_bytes for this 
-> > > iteration as 0 as this is a trap field.
-> > > 
-> > > I would defer this to Alex.
-> > 
-> > This is my understanding of the protocol as well, when the device is
-> > running, pending_bytes might drop to zero if no internal state has
-> > changed and may be non-zero on the next iteration due to device
-> > activity.  When the device is not running, pending_bytes reporting zero
-> > indicates the device is done, there is no further state to transmit.
-> > Does that meet your need/expectation?
-> >
-> (1) on one side, as in vfio_save_pending(),
-> vfio_save_pending()
-> {
->     ...
->     ret = vfio_update_pending(vbasedev);
->     ...
->     *res_precopy_only += migration->pending_bytes;
->     ...
-> }
-> the pending_bytes tells migration thread how much data is still hold in
-> device side.
-> the device data includes
-> device internal data + running device dirty data + device state.
-> 
-> so the pending_bytes should include device state as well, right?
-> if so, the pending_bytes should never reach 0 if there's any device
-> state to be sent after device is stopped.
 
-I hadn't expected the pending-bytes to include a fixed offset for device
-state (If you mean a few registers etc) - I'd expect pending to drop
-possibly to zero;  the heuristic as to when to switch from iteration to
-stop, is based on the total pending across all iterated devices; so it's
-got to be allowed to drop otherwise you'll never transition to stop.
 
-> (2) on the other side,
-> along side we updated the pending_bytes in vfio_save_pending() and
-> enter into the vfio_save_iterate(), if we repeatedly update
-> pending_bytes in vfio_save_iterate(), it would enter into a scenario
-> like
+On 27.05.20 09:49, Janosch Frank wrote:
+> If we have a lowcore struct that has members for offsets that we want
+> to touch, why not use it?
 > 
-> initially pending_bytes=500M.
-> vfio_save_iterate() -->
->   round 1: transmitted 500M.
->   round 2: update pending bytes, pending_bytes=50M (50M dirty data).
->   round 3: update pending bytes, pending_bytes=50M.
->   ...
->   round N: update pending bytes, pending_bytes=50M.
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> ---
+>  pc-bios/s390-ccw/cio.h  | 17 +++++++++++------
+>  pc-bios/s390-ccw/main.c |  8 +++-----
+>  2 files changed, 14 insertions(+), 11 deletions(-)
 > 
-> If there're two vfio devices, the vfio_save_iterate() for the second device
-> may never get chance to be called because there's always pending_bytes
-> produced by the first device, even the size if small.
+> diff --git a/pc-bios/s390-ccw/cio.h b/pc-bios/s390-ccw/cio.h
+> index aaa432dedd..1e5d4e92e1 100644
+> --- a/pc-bios/s390-ccw/cio.h
+> +++ b/pc-bios/s390-ccw/cio.h
+> @@ -122,12 +122,17 @@ typedef struct schib {
+>  } __attribute__ ((packed, aligned(4))) Schib;
+>  
+>  typedef struct subchannel_id {
+> -        __u32 cssid:8;
+> -        __u32:4;
+> -        __u32 m:1;
+> -        __u32 ssid:2;
+> -        __u32 one:1;
+> -        __u32 sch_no:16;
+> +    union {
+> +        struct {
+> +            __u16 cssid:8;
+> +            __u16 reserved:4;
+> +            __u16 m:1;
+> +            __u16 ssid:2;
+> +            __u16 one:1;
+> +        };
+> +        __u16 sch_id;
+> +    };
+> +    __u16 sch_no;
+>  } __attribute__ ((packed, aligned(4))) SubChannelId;
+>  >  struct chsc_header {
+> diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
+> index 4e65b411e1..8b912454c9 100644
+> --- a/pc-bios/s390-ccw/main.c
+> +++ b/pc-bios/s390-ccw/main.c
+> @@ -36,11 +36,9 @@ LowCore *lowcore; /* Yes, this *is* a pointer to address 0 */
+>   */
+>  void write_subsystem_identification(void)
+>  {
+> -    SubChannelId *schid = (SubChannelId *) 184;
+> -    uint32_t *zeroes = (uint32_t *) 188;
+> -
+> -    *schid = blk_schid;
+> -    *zeroes = 0;
+> +    lowcore->subchannel_id = blk_schid.sch_id;
+> +    lowcore->subchannel_nr = blk_schid.sch_no;
+> +    lowcore->io_int_parm = 0;
+>  }
+>  
+>  void write_iplb_location(void)
 
-And between RAM and the vfio devices?
+As an alternative, why not change the definition of Lowcore and replace both 16bit
+fields lowcore->subchannel_id and lowcore->subchannel_nr with SubChannelID.
+You can then simply assign lowcore->schid= blk_schid;
 
-> > > > so I wonder which way in your mind is better, to give our reviewed-by to
-> > > > the kernel part now, or hold until next qemu fixes?
-> > > > and as performance data from gvt is requested from your previous mail, is
-> > > > that still required before the code is accepted?
-> > 
-> > The QEMU series does not need to be perfect, I kind of expect we might
-> > see a few iterations of that beyond the kernel portion being accepted.
-> > We should have the QEMU series to the point that we've resolved any
-> > uapi issues though, which it seems like we're pretty close to having.
-> > Ideally I'd like to get the kernel series into my next branch before
-> > the merge window opens, where it seems like upstream is on schedule to
-> > have that happen this Sunday.  If you feel we're to the point were we
-> > can iron a couple details out during the v5.8 development cycle, then
-> > please provide your reviewed-by.  We haven't fully committed to a uapi
-> > until we've committed to it for a non-rc release.
-> > 
-> got it.
-> 
-> > I think the performance request was largely due to some conversations
-> > with Dave Gilbert wondering if all this actually works AND is practical
-> > for a LIVE migration.  I think we're all curious about things like how
-> > much data does a GPU have to transfer in each phase of migration, and
-> > particularly if the final phase is going to be a barrier to claiming
-> > the VM is actually sufficiently live.  I'm not sure we have many
-> > options if a device simply has a very large working set, but even
-> > anecdotal evidence that the stop-and-copy phase transfers abMB from the
-> > device while idle or xyzMB while active would give us some idea what to
-> for intel vGPU, the data is
-> single-round dirty query:
-> data to be transferred at stop-and-copy phase: 90MB+ ~ 900MB+, including
-> - device state: 9MB
-> - system dirty memory: 80MB+ ~ 900MB+ (depending on workload type)
-> 
-> multi-round dirty query :
-> -each iteration data: 60MB ~ 400MB
-> -data to be transferred at stop-and-copy phase: 70MB ~ 400MB
-> 
-> 
-> 
-> BTW, for viommu, the downtime data is as below. under the same network
-> condition and guest memory size, and no running dirty data/memory produced
-> by device.
-> (1) viommu off
-> single-round dirty query: downtime ~100ms 
-
-Fine.
-
-> (2) viommu on
-> single-round dirty query: downtime 58s 
-
-Youch.
-
-Dave
-
-> 
-> Thanks
-> Yan
-> > expect.  Kirti, have you done any of those sorts of tests for NVIDIA's
-> > driver?
-> > 
-> > > > BTW, we have also conducted some basic tests when viommu is on, and found out
-> > > > errors like
-> > > > "qemu-system-x86_64-dt: vtd_iova_to_slpte: detected slpte permission error (iova=0x0, level=0x3, slpte=0x0, write=1)
-> > > > qemu-system-x86_64-dt: vtd_iommu_translate: detected translation failure (dev=00:03:00, iova=0x0)
-> > > > qemu-system-x86_64-dt: New fault is not recorded due to compression of faults".
-> > > >   
-> > > 
-> > > I saw these errors, I'm looking into it.
-> > 
-> > Let's try to at least determine if this is a uapi issue or just a QEMU
-> > implementation bug for progressing the kernel series.  Thanks,
-> > 
-> > Alex
-> > 
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+?
 
