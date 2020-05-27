@@ -2,101 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8711E468A
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 16:56:22 +0200 (CEST)
-Received: from localhost ([::1]:46728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 963841E4691
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 16:57:58 +0200 (CEST)
+Received: from localhost ([::1]:55282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdxTh-0002oN-Kz
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 10:56:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44436)
+	id 1jdxVF-0006MS-K0
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 10:57:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jdxS7-00017Z-EO
- for qemu-devel@nongnu.org; Wed, 27 May 2020 10:54:43 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43534
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jdxS6-0007nn-Cm
- for qemu-devel@nongnu.org; Wed, 27 May 2020 10:54:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590591281;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lEeSe1IRBQZQTY6sUBsPJ4KCOPChUURqmIR/pMWuNyA=;
- b=YRhpyv3desd4DVSob51BuZRPBVCqumF+2hTYCMafsR4Ci0DzV0SgKZGKOLP4qPGKtdEUpK
- jRvkP3xLj81FqV1ZyhGxZzobW0XO/1nmcgZLohT1cHmMFKoNvsFukh2zjj0tVOU/GBpoTB
- L1SVsRHXl/kLv7o/RHKclAiND+WoBcU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-xwDPXHVbPZmxBwn3B1EBfQ-1; Wed, 27 May 2020 10:54:40 -0400
-X-MC-Unique: xwDPXHVbPZmxBwn3B1EBfQ-1
-Received: by mail-ed1-f70.google.com with SMTP id m7so10228581edr.5
- for <qemu-devel@nongnu.org>; Wed, 27 May 2020 07:54:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jdxSQ-0001iD-2e
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 10:55:02 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38387)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jdxSO-00086H-Hr
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 10:55:01 -0400
+Received: by mail-wm1-x330.google.com with SMTP id u12so3331951wmd.3
+ for <qemu-devel@nongnu.org>; Wed, 27 May 2020 07:54:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qfpC1/RfjHmpaXuQbpPq1egtyaXkQ0oE2W1wEaMuX3Y=;
+ b=Lu8yuuTmnss4Mx8X1r9hND/0vJqDYx5qjgy7vPH7trGSA2x1ZM/dfT8PaNN/6MzCF9
+ F9VgXcGsG+p9p47Ot9pkIkCIR8jq1FZ+6nK5ayJMTMA60JKmbHq6J3P8cHnbphfimz0G
+ 1A7mBuHM1p3NJWeGUsl3PR4bIPq0xphi8Q+KKJEsykEgGdyqZ61TTujz6REyKsjf0BZB
+ 8qzxKAx0Y8K04OmXpTJnuCqtLAaf52EUdk5GtwNjDWAhGJGKaNubas2NJNluNQ+E4OZh
+ Vfh3tHpw5up9clqNERikSVlzJkyr6SbqUl5CuBYRJcZKpTy4tbVve/xXJECuuWiB1JZt
+ KpDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=lEeSe1IRBQZQTY6sUBsPJ4KCOPChUURqmIR/pMWuNyA=;
- b=Zv2BnbX6KffvrTaRZqS2D24iuEPvxwOcZN6zu76jL0P4Otd5EeWOawiyr+FAqLS8ln
- t7ARitiaZKKbrYOvcoCrl3mEbdSA1ifh4npfn3bX8QARxtvceQZmV6aCr0AKDG0L4sMo
- 59Km/dcVMvHsrOk4MvLYt+wS8Z473hJiVFYtDHBglw/gRqc/X2D4y8HPeOOegIrklE3K
- Sa0HRwmJ7D4hr/y4rRbGuIXhUv3IlH2eUrFewPBiaIwf0ngt1BIx9VoREnKWg3jXFUjY
- 5xQBURwZ0T4vuZQaUIF26dEns2nd2DXktxTXwAv/WB2kxdg4eR+GhKD/azookechGLNG
- F1lw==
-X-Gm-Message-State: AOAM530lePeno5gz91/AuGnUMDsobjVEb4tFwUmti66oPSy7apBTM/jx
- GS9dQZ+LbN2bAYhOCONZo3eveZ63uFHwFz9tn0OoXJwSA6QLe9S0aHQoIfp0udziRiZ21fEvyvN
- ioSYN8gw6a0JWBcc=
-X-Received: by 2002:a17:906:bce6:: with SMTP id
- op6mr6320880ejb.337.1590591279023; 
- Wed, 27 May 2020 07:54:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzdhbrUmxczGQ/ob5QYR1T3Va4IS8PRMMQpuS4lQtRgJ1iKJdUQCgy1dGVQzKwtdebmkvwnsg==
-X-Received: by 2002:a17:906:bce6:: with SMTP id
- op6mr6320854ejb.337.1590591278625; 
- Wed, 27 May 2020 07:54:38 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:3c1c:ffba:c624:29b8?
- ([2001:b07:6468:f312:3c1c:ffba:c624:29b8])
- by smtp.gmail.com with ESMTPSA id f4sm3124661ejk.17.2020.05.27.07.54.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 May 2020 07:54:38 -0700 (PDT)
-Subject: Re: [PATCH v3 14/22] microvm: use 2G split unconditionally
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20200520132003.9492-1-kraxel@redhat.com>
- <20200520132003.9492-15-kraxel@redhat.com>
- <20200521112921.641f12bb@redhat.com>
- <20200525114508.hhvyzjiqja6knz6l@sirius.home.kraxel.org>
- <20200525183615.5f8e67d3@redhat.com>
- <20200526044839.bncj6iltugnzgfmy@sirius.home.kraxel.org>
- <20200527142545.32e91049@redhat.com>
- <58ced517-1ad4-c895-afe6-fec690791f4f@redhat.com>
- <20200527162646.694b2d47@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <cdeb8406-eb41-160e-817a-010241ccd457@redhat.com>
-Date: Wed, 27 May 2020 16:54:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ bh=qfpC1/RfjHmpaXuQbpPq1egtyaXkQ0oE2W1wEaMuX3Y=;
+ b=MWXf9OOf09GwMJSu9zsHFZI5W4czEyCRsZh9cxS8rhdpfHVwugfha+lG5gWUenAItT
+ OXuGwGEzAHKT5q35LU3QmVXBDqR/aABat9AcmkQ8mmLwgnSEDXmOtT7NIDyuYENyl3yD
+ incXdc3n6rlkDMvCCPJGsnvbzOIpEwhzlxs04hVPxZFulozWvPWDYMNVDbUWa+Cq8Ew/
+ DZgpvoX+oMiNU1M6D44WlCZyYtJgydi4kF9Q9oE2jXDoagWFAhKX9/ilmUlSwwnVdg18
+ oUfqfNp1jKO2IxkyRa64IqxlQmum0qNv+ymbz42GDrYwzsDCWjf5qYZrqP6tIkhANP14
+ Rpqw==
+X-Gm-Message-State: AOAM530H9XPQiNZG1ayHiGSIFHko+w18LLloZABA8sEje2kT1FatfQsz
+ +JpVnD2fMVNGMHEdDEnwHVAyjA==
+X-Google-Smtp-Source: ABdhPJw5YaDUK0+NlMhAvmxYOAH4sFv4tqtQwJYoWIiua3n343QWvkupt8J7Fj0hZqFFRjaRzyxnHw==
+X-Received: by 2002:a1c:a901:: with SMTP id s1mr4931395wme.66.1590591298775;
+ Wed, 27 May 2020 07:54:58 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u130sm3143568wmg.32.2020.05.27.07.54.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 May 2020 07:54:56 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 03BD81FF7E;
+ Wed, 27 May 2020 15:54:56 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/12] testing and plugin fixes
+Date: Wed, 27 May 2020 15:54:43 +0100
+Message-Id: <20200527145455.2550-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200527162646.694b2d47@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 05:46:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,39 +86,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/05/20 16:26, Igor Mammedov wrote:
-> On Wed, 27 May 2020 15:06:28 +0200
-> Paolo Bonzini <pbonzini@redhat.com> wrote:
-> 
->> On 27/05/20 14:25, Igor Mammedov wrote:
->>>>   (2) we loose a gigabyte page.  
->>>           I'm not sure waht exactly we loose in this case.
->>>           Lets assume we allocating guest 5G of continuous RAM using 1G huge pages,
->>>           in this case I'd think that on host side MMIO overlay won't affect RAM blob
->>>           on guest side pagetables will be fragmented due to MMIO holes, but guest still
->>>           could use huge pages smaller ones in fragmented area and 1G where there is no fragmentation.  
->>
->> Access to the 3G-4G area would not be able to use 1G EPT pages.
-> Could it use 2Mb pages instead of 1Gb?
+The following changes since commit ddc760832fa8cf5e93b9d9e6e854a5114ac63510:
 
-Yes, probably a mix of 2 MiB pages and 4 KiB pages around the memslot
-splits.
+  Merge remote-tracking branch 'remotes/gkurz/tags/9p-next-2020-05-26' into staging (2020-05-26 14:05:53 +0100)
 
-> Do we really care about 1 gigabyte huge page in microvm intended usecase?
-> (fast starting VMs for microservices like FaaS, which unlikely would use much memory to begin with)
+are available in the Git repository at:
 
-I honestly don't think it's measurable, but at least in theory we care
-because such workloads could have more TLB misses (relative to the
-execution time) than long-lasting VMs.
+  https://github.com/stsquad/qemu.git tags/pull-testing-tcg-plugins-270520-1
 
-Paolo
+for you to fetch changes up to 919bfbf5d6569b63a374332292cf3d2355a6d6c3:
+
+  tests/tcg: add new threadcount test (2020-05-27 14:26:49 +0100)
+
+----------------------------------------------------------------
+Testing and one plugin fix:
+
+  - support alternates for genisoimage to test/vm
+  - add clang++ to clang tests
+  - fix record/replay smoke test
+  - enable more softfloat tests
+  - better detection of hung gdb
+  - upgrade aarch64 tcg test x-compile to gcc-10
+  - fix plugin cpu_index clash vs threads
+
+----------------------------------------------------------------
+Alex Bennée (11):
+      configure: add alternate binary for genisoimage
+      tests/vm: pass --genisoimage to basevm script
+      tests/tcg: fix invocation of the memory record/replay tests
+      tests/fp: enable extf80_le_quite tests
+      tests/fp: split and audit the conversion tests
+      tests/tcg: better detect confused gdb which can't connect
+      tests/docker: add debian11 base image
+      tests/docker: use a gcc-10 based image for arm64 tests
+      cpus-common: ensure auto-assigned cpu_indexes don't clash
+      linux-user: properly "unrealize" vCPU object
+      tests/tcg: add new threadcount test
+
+Thomas Huth (1):
+      travis.yml: Use clang++ in the Clang tests
+
+ configure                                          |  2 +-
+ cpus-common.c                                      | 10 ++--
+ linux-user/syscall.c                               | 19 ++++---
+ tests/tcg/multiarch/threadcount.c                  | 64 ++++++++++++++++++++++
+ .travis.yml                                        |  8 ++-
+ tests/Makefile.include                             | 44 +++++++++++----
+ tests/docker/Makefile.include                      |  4 +-
+ .../dockerfiles/debian-arm64-test-cross.docker     | 13 +++++
+ tests/docker/dockerfiles/debian11.docker           | 18 ++++++
+ tests/tcg/aarch64/Makefile.softmmu-target          |  2 +-
+ tests/tcg/configure.sh                             |  4 +-
+ tests/tcg/multiarch/Makefile.target                |  2 +
+ tests/tcg/multiarch/gdbstub/sha1.py                |  4 ++
+ tests/vm/Makefile.include                          |  1 +
+ tests/vm/basevm.py                                 | 16 ++++--
+ 15 files changed, 172 insertions(+), 39 deletions(-)
+ create mode 100644 tests/tcg/multiarch/threadcount.c
+ create mode 100644 tests/docker/dockerfiles/debian-arm64-test-cross.docker
+ create mode 100644 tests/docker/dockerfiles/debian11.docker
+
+-- 
+2.20.1
 
 
