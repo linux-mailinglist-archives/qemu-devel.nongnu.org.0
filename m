@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F40F1E405E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 13:49:04 +0200 (CEST)
-Received: from localhost ([::1]:46554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFA71E41A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 14:12:05 +0200 (CEST)
+Received: from localhost ([::1]:58514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jduY6-0004Jl-Ne
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 07:48:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42470)
+	id 1jduug-00075r-T8
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 08:12:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jduXL-0003or-2W
- for qemu-devel@nongnu.org; Wed, 27 May 2020 07:47:55 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41562
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jduXJ-0005vW-Gf
- for qemu-devel@nongnu.org; Wed, 27 May 2020 07:47:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590580071;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vHaFoexjr9OAVa1ZOFucS+I4E6wQdIFIfMEumIDCFRw=;
- b=frWeIoLzy7gvZNDk7KnvrGocEUCZKw1B2IjFypQVRqcZNpj+qJNYtddVFktEuQa5xAbK2w
- 8sGHVR1Ot4cYOjDA8DZCEIT5DkjHgBuMAT/uE5APTomYki5LaEzqBg+9EP1bsC+K4CnW4W
- csjj6L7BoQ9gVnUxWXKQjzzbBCt5kco=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-FDpg5iZGNQmz9qQuUFwW0g-1; Wed, 27 May 2020 07:47:50 -0400
-X-MC-Unique: FDpg5iZGNQmz9qQuUFwW0g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF855BFCE;
- Wed, 27 May 2020 11:47:48 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
- [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4789691D98;
- Wed, 27 May 2020 11:47:48 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C2AF5113864A; Wed, 27 May 2020 13:47:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v2] arm/aspeed: Rework NIC attachment
-References: <20200526070802.160897-1-clg@kaod.org>
-Date: Wed, 27 May 2020 13:47:46 +0200
-In-Reply-To: <20200526070802.160897-1-clg@kaod.org> (=?utf-8?Q?=22C=C3=A9d?=
- =?utf-8?Q?ric?= Le Goater"'s
- message of "Tue, 26 May 2020 09:08:02 +0200")
-Message-ID: <871rn5r44d.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdutv-0006Pd-Mz
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 08:11:15 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38084)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdutt-0003Ft-Sg
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 08:11:15 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jdutr-0004Q6-TC
+ for <qemu-devel@nongnu.org>; Wed, 27 May 2020 12:11:11 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DB62C2E80E7
+ for <qemu-devel@nongnu.org>; Wed, 27 May 2020 12:11:11 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 00:45:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Date: Wed, 27 May 2020 12:05:38 -0000
+From: Aleksandar Markovic <1880225@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: arm testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee aleksandar-markovic
+X-Launchpad-Bug-Reporter: Aleksandar Markovic (aleksandar-markovic)
+X-Launchpad-Bug-Modifier: Aleksandar Markovic (aleksandar-markovic)
+References: <159017301531.7966.9120113243897778171.malonedeb@gac.canonical.com>
+ <20200527100546.29297-3-alex.bennee@linaro.org>
+Message-Id: <CAHiYmc7EJVxKXZ4G96cL-Bm3tT8UR_dgr7y3oisUMnuJ0u3zaw@mail.gmail.com>
+Subject: [Bug 1880225] Re: [PATCH v1 2/3] linux-user: deal with address wrap
+ for ARM_COMMPAGE on 32 bit
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e24f7068dc6ba8040720da967c371a5fa41f73eb
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 06:15:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,60 +76,313 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1880225 <1880225@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-C=C3=A9dric Le Goater <clg@kaod.org> writes:
-
-> The number of MACs supported by an Aspeed SoC is defined by "macs_num"
-> under the SoC model, that is two for the AST2400 and AST2500 and four
-> the AST2600. The model initializes the maximum number of supported
-> MACs but the number of realized devices is caped by the number of
-
-s/caped/capped/
-
-> network device back-ends defined on the command line. This can leave
-> unrealized devices hanging around in the QOM composition tree.
+=D1=81=D1=80=D0=B5, 27. =D0=BC=D0=B0=D1=98 2020. =D1=83 12:07 Alex Benn=C3=
+=A9e <alex.bennee@linaro.org> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=
+=D0=B0=D0=BE/=D0=BB=D0=B0:
 >
-> Modify the machine initialization to define which MACs are attached to
-> a network device back-end using a bit-field property "macs-mask" and
-> let the SoC realize all network devices.
+> We rely on the pointer to wrap when accessing the high address of the
+> COMMPAGE so it lands somewhere reasonable. However on 32 bit hosts we
+> cannot afford just to map the entire 4gb address range. The old mmap
+> trial and error code handled this by just checking we could map both
+> the guest_base and the computed COMMPAGE address.
 >
-> The default setting of "macs-mask" is "use MAC0" only, which works for
-> all our AST2400 and AST2500 machines. The AST2600 machines have
-> different configurations. The AST2600 EVB machine activates MAC1, MAC2
-> and MAC3 and the Tacoma BMC machine activates MAC2.
+> We can't just manipulate loadaddr to get what we want so we introduce
+> an offset which pgb_find_hole can apply when looking for a gap for
+> guest_base that ensures there is space left to map the COMMPAGE
+> afterwards.
 >
-> Inactive MACs will have no peer and QEMU will warn the user with :
+> This is arguably a little inefficient for the one 32 bit
+> value (kuser_helper_version) we need to keep there given all the
+> actual code entries are picked up during the translation phase.
 >
->     qemu-system-arm: warning: nic ftgmac100.0 has no peer
->     qemu-system-arm: warning: nic ftgmac100.1 has no peer
->     qemu-system-arm: warning: nic ftgmac100.3 has no peer
+> Fixes: ee94743034b
+> Bug: https://bugs.launchpad.net/qemu/+bug/1880225
 
-This confused me, until I realized that QEMU sometimes supresses the
-warning.
+For the scenario in this bug report, for today's master, before and after
+applying this patch:
 
-In vl.c:
+BEFORE:
 
-    if (!default_net && (!qtest_enabled() || has_defaults)) {
-        net_check_clients();
-    }
+$ ~/Build/qemu-master/build-gcc/arm-linux-user/qemu-arm ./toupper_string-arm
+qemu-arm: /home/rtrk/Build/qemu-master/linux-user/elfload.c:2294:
+probe_guest_base: Assertion `have_guest_base' failed.
+Aborted
 
-Suppressed when none of -netdev, -nic, -net, -nodefaults is specified,
-and also for -accel=3Dqtest -nodefaults.
+AFTER:
 
-Say "QEMU may warn" instead?
+$ ~/Build/qemu-master/build-gcc/arm-linux-user/qemu-arm ./toupper_string-arm
+CONTROL RESULT: (toupper_string)
+ nwlrbbmqbhcdarz owkkyhiddqscdxr jmowfrxsjybldbe fsarcbynecdyggx xpklorelln=
+mpapq
+ NWLRBBMQBHCDARZ OWKKYHIDDQSCDXR JMOWFRXSJYBLDBE FSARCBYNECDYGGX XPKLORELLN=
+MPAPQ
 
-I looked for other boards with onboard NICs.  As far as I can tell, they
-all behave the same.
+So, it works in my test bed.
 
+Tested-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+
+> Cc: Bug 1880225 <1880225@bugs.launchpad.net>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  linux-user/elfload.c | 18 ++++++++++--------
+>  1 file changed, 10 insertions(+), 8 deletions(-)
 >
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> index d6027867a1a..31defce95b5 100644
+> --- a/linux-user/elfload.c
+> +++ b/linux-user/elfload.c
+> @@ -2145,7 +2145,7 @@ static uintptr_t pgd_find_hole_fallback(uintptr_t g=
+uest_size, uintptr_t brk, lon
+>
+>  /* Return value for guest_base, or -1 if no hole found. */
+>  static uintptr_t pgb_find_hole(uintptr_t guest_loaddr, uintptr_t guest_s=
+ize,
+> -                               long align)
+> +                               long align, uintptr_t offset)
+>  {
+>      GSList *maps, *iter;
+>      uintptr_t this_start, this_end, next_start, brk;
+> @@ -2171,7 +2171,7 @@ static uintptr_t pgb_find_hole(uintptr_t guest_load=
+dr, uintptr_t guest_size,
+>
+>          this_end =3D ((MapInfo *)iter->data)->start;
+>          next_start =3D ((MapInfo *)iter->data)->end;
+> -        align_start =3D ROUND_UP(this_start, align);
+> +        align_start =3D ROUND_UP(this_start + offset, align);
+>
+>          /* Skip holes that are too small. */
+>          if (align_start >=3D this_end) {
+> @@ -2221,6 +2221,7 @@ static void pgb_static(const char *image_name, abi_=
+ulong orig_loaddr,
+>  {
+>      uintptr_t loaddr =3D orig_loaddr;
+>      uintptr_t hiaddr =3D orig_hiaddr;
+> +    uintptr_t offset =3D 0;
+>      uintptr_t addr;
+>
+>      if (hiaddr !=3D orig_hiaddr) {
+> @@ -2234,18 +2235,19 @@ static void pgb_static(const char *image_name, ab=
+i_ulong orig_loaddr,
+>      if (ARM_COMMPAGE) {
+>          /*
+>           * Extend the allocation to include the commpage.
+> -         * For a 64-bit host, this is just 4GiB; for a 32-bit host,
+> -         * the address arithmetic will wrap around, but the difference
+> -         * will produce the correct allocation size.
+> +         * For a 64-bit host, this is just 4GiB; for a 32-bit host we
+> +         * need to ensure there is space bellow the guest_base so we
+> +         * can map the commpage in the place needed when the address
+> +         * arithmetic wraps around.
+>           */
+>          if (sizeof(uintptr_t) =3D=3D 8 || loaddr >=3D 0x80000000u) {
+>              hiaddr =3D (uintptr_t)4 << 30;
+>          } else {
+> -            loaddr =3D ARM_COMMPAGE & -align;
+> +            offset =3D (128 * KiB);
+>          }
+>      }
+>
+> -    addr =3D pgb_find_hole(loaddr, hiaddr - loaddr, align);
+> +    addr =3D pgb_find_hole(loaddr, hiaddr - loaddr, align, offset);
+>      if (addr =3D=3D -1) {
+>          /*
+>           * If ARM_COMMPAGE, there *might* be a non-consecutive allocation
+> @@ -2280,7 +2282,7 @@ static void pgb_dynamic(const char *image_name, lon=
+g align)
+>           * just above that, and maximises the positive guest addresses.
+>           */
+>          commpage =3D ARM_COMMPAGE & -align;
+> -        addr =3D pgb_find_hole(commpage, -commpage, align);
+> +        addr =3D pgb_find_hole(commpage, -commpage, align, 0);
+>          assert(addr !=3D -1);
+>          guest_base =3D addr;
+>      }
+> --
+> 2.20.1
+>
+>
 
-Patch looks good, so
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1880225
+
+Title:
+  Emulation of some arm programs fail with "Assertion `have_guest_base'
+  failed."
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  This issue is observer with QEMU ToT, checked out around May 15th (but
+  I believe it is present in current master too), and wasn't present in
+  QEMU v5.0.0.
+
+  I am using 32-bit Intel(R) Pentium(R) M processor 1.73GHz host.
+
+  Arm cross-compiler is a standard cross-compiler that comes with
+  Debian-based distributions, and gcc version is:
+
+  $ arm-linux-gnueabi-gcc --version
+  arm-linux-gnueabi-gcc (Debian 8.3.0-2) 8.3.0
+
+  Compile this program with cross compiler:
+
+  $ arm-linux-gnueabi-gcc -O2 -static toupper_string.c -o
+  toupper_string-arm
+
+  Emulation with QEMU v5.0.0 is correct, and gives expected output:
+
+  $ ~/Build/qemu-5.0.0/build-gcc/arm-linux-user/qemu-arm ./toupper_string-a=
+rm
+  CONTROL RESULT: (toupper_string)
+   nwlrbbmqbhcdarz owkkyhiddqscdxr jmowfrxsjybldbe fsarcbynecdyggx xpklorel=
+lnmpapq
+   NWLRBBMQBHCDARZ OWKKYHIDDQSCDXR JMOWFRXSJYBLDBE FSARCBYNECDYGGX XPKLOREL=
+LNMPAPQ
+
+  While, in case of QEMU master it fails:
+
+  $ ~/Build/qemu-master/build-gcc/arm-linux-user/qemu-arm ./toupper_string-=
+arm
+  qemu-arm: /home/rtrk/Build/qemu-master/linux-user/elfload.c:2294: probe_g=
+uest_base: Assertion `have_guest_base' failed.
+  Aborted
+
+  There are many other programs that exibit the same behavior. The
+  failure is arm-sprecific.
+
+  =
+
+  -----------------------------------------------------
+
+  source code: (let's call this file toupper_string.c) (similar file is
+  also in attachment)
+
+  =
+
+  #include <stdlib.h>
+  #include <string.h>
+  #include <stdio.h>
+  #include <unistd.h>
+
+  =
+
+  #define MAX_STRING_LENGHT              15
+  #define NUMBER_OF_RANDOM_STRINGS       100
+  #define DEFAULT_NUMBER_OF_REPETITIONS  30000
+  #define MAX_NUMBER_OF_REPETITIONS      1000000000
+  #define NUMBER_OF_CONTROL_PRINT_ITEMS  5
+
+  /* Structure for keeping an array of strings */
+  struct StringStruct {
+      char chars[MAX_STRING_LENGHT + 1];
+  };
+
+  /**
+   * Sets characters of the given string to random small letters a-z.
+   * @param s String to get random characters.
+   * @len Length of the input string.
+   */
+  static void gen_random_string(char *chars, const int len)
+  {
+      static const char letters[] =3D "abcdefghijklmnopqrstuvwxyz";
+
+      for (size_t i =3D 0; i < len; i++) {
+          chars[i] =3D letters[rand() % (sizeof(letters) - 1)];
+      }
+      chars[len] =3D 0;
+  }
+
+  void main (int argc, char* argv[])
+  {
+      struct StringStruct random_strings[NUMBER_OF_RANDOM_STRINGS];
+      struct StringStruct strings_to_be_uppercased[NUMBER_OF_RANDOM_STRINGS=
+];
+      int32_t number_of_repetitions =3D DEFAULT_NUMBER_OF_REPETITIONS;
+      int32_t option;
+
+      /* Parse command line options */
+      while ((option =3D getopt(argc, argv, "n:")) !=3D -1) {
+          if (option =3D=3D 'n') {
+              int32_t user_number_of_repetitions =3D atoi(optarg);
+              /* Check if the value is a negative number */
+              if (user_number_of_repetitions < 1) {
+                  fprintf(stderr, "Error ... Value for option '-n' cannot b=
+e a "
+                                  "negative number.\n");
+                  exit(EXIT_FAILURE);
+              }
+              /* Check if the value is a string or zero */
+              if (user_number_of_repetitions =3D=3D 0) {
+                  fprintf(stderr, "Error ... Invalid value for option '-n'.=
+\n");
+                  exit(EXIT_FAILURE);
+              }
+              /* Check if the value is too large */
+              if (user_number_of_repetitions > MAX_NUMBER_OF_REPETITIONS) {
+                  fprintf(stderr, "Error ... Value for option '-n' cannot b=
+e "
+                                  "more than %d.\n", MAX_NUMBER_OF_REPETITI=
+ONS);
+                  exit(EXIT_FAILURE);
+              }
+              number_of_repetitions =3D user_number_of_repetitions;
+          } else {
+              exit(EXIT_FAILURE);
+          }
+      }
+
+      /* Create an array of strings with random content */
+      srand(1);
+      for (size_t i =3D 0; i < NUMBER_OF_RANDOM_STRINGS; i++) {
+          gen_random_string(random_strings[i].chars, MAX_STRING_LENGHT);
+      }
+
+      /* Perform uppercasing of a set of random strings multiple times */
+      for (size_t j =3D 0; j < number_of_repetitions; j++) {
+          /* Copy initial set of random strings to the set to be uppercased=
+ */
+          memcpy(strings_to_be_uppercased, random_strings,
+                 NUMBER_OF_RANDOM_STRINGS * (MAX_STRING_LENGHT + 1));
+          /* Do actual changing case to uppercase */
+          for (size_t i =3D 0; i < NUMBER_OF_RANDOM_STRINGS; i++) {
+              int k =3D 0;
+    =
+
+              while (strings_to_be_uppercased[i].chars[k]) { =
+
+                  char ch =3D strings_to_be_uppercased[i].chars[k] - 32; =
+
+                  memcpy((void *)strings_to_be_uppercased[i].chars + k,
+                         &ch, 1);
+                  k++; =
+
+              } =
+
+          }
+      }
+
+      /* Control printing */
+      printf("CONTROL RESULT: (toupper_string)\n");
+      for (size_t i =3D 0; i < NUMBER_OF_CONTROL_PRINT_ITEMS; i++) {
+          printf(" %s", random_strings[i].chars);
+      }
+      printf("\n");
+      for (size_t i =3D 0; i < NUMBER_OF_CONTROL_PRINT_ITEMS; i++) {
+          printf(" %s", strings_to_be_uppercased[i].chars);
+      }
+      printf("\n");
+  }
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1880225/+subscriptions
 
