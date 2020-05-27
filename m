@@ -2,113 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BDF1E3AD4
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 09:44:18 +0200 (CEST)
-Received: from localhost ([::1]:57548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A17B11E3AF8
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 09:52:45 +0200 (CEST)
+Received: from localhost ([::1]:43652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdqjY-0002Px-0H
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 03:44:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46548)
+	id 1jdqrk-0001W8-LF
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 03:52:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdqio-00020E-2W
- for qemu-devel@nongnu.org; Wed, 27 May 2020 03:43:31 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41232
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdqik-0000lG-4z
- for qemu-devel@nongnu.org; Wed, 27 May 2020 03:43:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590565404;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=eia4uyeLtaWy/VIuerGuaiUPHsXir+O/2yO46CLXa+U=;
- b=cBLutZCHiKeDAT6nDpZZJkrg2JJtd2avzjxw0XwDlmHrj72GjToi9ZEHwJqfc20hXV07fJ
- N5IbTLq0uf+k+85LObZtwC1REfco4iFa7APFj+8EY6skqjM4RCbecS2JHrX/mtS74iPsim
- XVOyvamUnL2p6EXU+hNimst9TstHEUI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-nLUTSzYYOnmwnubwGBUW4A-1; Wed, 27 May 2020 03:43:23 -0400
-X-MC-Unique: nLUTSzYYOnmwnubwGBUW4A-1
-Received: by mail-wm1-f72.google.com with SMTP id s15so562288wmc.8
- for <qemu-devel@nongnu.org>; Wed, 27 May 2020 00:43:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=eia4uyeLtaWy/VIuerGuaiUPHsXir+O/2yO46CLXa+U=;
- b=cOjgZFvIUX6DD7PDE88tHqPLUB8QLfBTFBDdHIt3kZo4ioj1lqrWJ2Pt/QnDML43xE
- ctYDyIbV2AG1aK7Qnw/Nl/ycgxu7aE3rsxaxsB8RefexaauCgoBQLVjgEWhGuumP4juX
- c497PdfeX4sxw9xkHIPf7rZqqQb4bl6Xrkm3q5PD8q1w6wk/rkJXbF0yU92nufZiJkNI
- tzNimlm6kGuTRn0fESVbGvn4T4OHNVkvek+vX8DpTWQyXT1thlqzwyUGKc40vRepRkyy
- EYdCWQKP0VtwhlnVeoQAh2vX7Ig6bq71svoWbwD8HOdkwoF2b6XiTy+UG4KRvUjAWMWi
- O9Rw==
-X-Gm-Message-State: AOAM531epDeRRgEeMBCpTpUq/siwy+LC/rZvRUZz+ExWbh3Ccq6hN7qS
- E4KaCZ3+i98/+SwPC+cpd2GwttOebhgvwFfM8yjSD6dYJ0vFbFubcMl9+Z0JQrLGwdwAMlZpOvw
- ift9fa8T1FHv3Rtk=
-X-Received: by 2002:a1c:4189:: with SMTP id o131mr3139490wma.110.1590565402186; 
- Wed, 27 May 2020 00:43:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz3kj4bt6Vi1jlIp2KeDXTVEXPMzxW8TvOnomEyoN1sjY/+vpUBGDtyNrwR0iMpxZCxN89u1g==
-X-Received: by 2002:a1c:4189:: with SMTP id o131mr3139468wma.110.1590565401923; 
- Wed, 27 May 2020 00:43:21 -0700 (PDT)
-Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
- [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id p7sm2070056wro.26.2020.05.27.00.43.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 May 2020 00:43:21 -0700 (PDT)
-Subject: Re: [PATCH] hw/vfio/common: Trace in which mode a IOMMU is opened
-To: Auger Eric <eric.auger@redhat.com>, qemu-devel@nongnu.org
-References: <20200526173542.28710-1-philmd@redhat.com>
- <6c7c445d-0335-f67d-bb72-5b0c046bb247@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <24f88212-9b32-b6dc-fcd4-685cde8bf5d7@redhat.com>
-Date: Wed, 27 May 2020 09:43:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jdqol-0004nX-BI; Wed, 27 May 2020 03:49:39 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59512)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jdqoj-0003cA-2w; Wed, 27 May 2020 03:49:39 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04R7Wtxe132637; Wed, 27 May 2020 03:49:33 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3170c6sq4b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 May 2020 03:49:33 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04R7X9dN133630;
+ Wed, 27 May 2020 03:49:32 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3170c6sq3a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 May 2020 03:49:32 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04R7fmqv011268;
+ Wed, 27 May 2020 07:49:30 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 316uf87e5p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 May 2020 07:49:30 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 04R7nSpv10879046
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 27 May 2020 07:49:28 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EF45DA4065;
+ Wed, 27 May 2020 07:49:27 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 44025A4054;
+ Wed, 27 May 2020 07:49:27 +0000 (GMT)
+Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 27 May 2020 07:49:27 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/9] pc-bios: s390x: Cleanup part 1
+Date: Wed, 27 May 2020 03:49:11 -0400
+Message-Id: <20200527074920.43669-1-frankja@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <6c7c445d-0335-f67d-bb72-5b0c046bb247@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 01:25:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
+ definitions=2020-05-27_02:2020-05-26,
+ 2020-05-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0
+ cotscore=-2147483648 priorityscore=1501 impostorscore=0 clxscore=1015
+ suspectscore=0 spamscore=0 mlxlogscore=496 adultscore=0 mlxscore=0
+ phishscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2005270053
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 03:49:33
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,89 +95,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
+ thuth@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/27/20 9:08 AM, Auger Eric wrote:
-> Hi Philippe,
-> 
-> On 5/26/20 7:35 PM, Philippe Mathieu-Daudé wrote:
->> One might want to check which IOMMU version the host kernel
->> provide. Add a trace event to see in which mode we opened
->> our container.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  hw/vfio/common.c     | 19 ++++++++++++++-----
->>  hw/vfio/trace-events |  1 +
->>  2 files changed, 15 insertions(+), 5 deletions(-)
->>
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index 0b3593b3c0..6b69a259c1 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -1157,15 +1157,24 @@ static void vfio_put_address_space(VFIOAddressSpace *space)
->>  static int vfio_get_iommu_type(VFIOContainer *container,
->>                                 Error **errp)
->>  {
->> -    int iommu_types[] = { VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
->> -                          VFIO_SPAPR_TCE_v2_IOMMU, VFIO_SPAPR_TCE_IOMMU };
->> +    static const struct {
->> +        int type;
->> +        const char *name;
->> +    } iommu[] = {
->> +        {VFIO_TYPE1v2_IOMMU, "Type1 (v2)"},
->> +        {VFIO_TYPE1_IOMMU, "Type1 (v1)"},
->> +        {VFIO_SPAPR_TCE_v2_IOMMU, "sPAPR TCE (v2)"},
->> +        {VFIO_SPAPR_TCE_IOMMU, "sPAPR TCE (v1)"}
->> +    };
->>      int i;
->>  
->> -    for (i = 0; i < ARRAY_SIZE(iommu_types); i++) {
->> -        if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu_types[i])) {
->> -            return iommu_types[i];
->> +    for (i = 0; i < ARRAY_SIZE(iommu); i++) {
->> +        if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu[i].type)) {
->> +            trace_vfio_get_iommu_type(iommu[i].type, iommu[i].name);
-> Just wondering why you want to trace the type as you now have the name
-> string.
+The bios is in dire need for a cleanup as there are still a lot of
+magic constants being used throughout as well as duplicated code.
 
-You are right :)
+In the first part of this series we consolidate constants and
+functions, as well as doing some minor cleanups and fixes.
 
->> +            return iommu[i].type;
->>          }
->>      }
->> +    trace_vfio_get_iommu_type(-1, "Not available or not supported");
-> nit: from a debugging pov, this may be not needed as
-> vfio_get_group/vfio_connect_container() fails and this leads to an error
-> output.
+The patches are available here:
+https://github.com/frankjaa/qemu/pull/new/cleanup_bios
 
-Indeed.
+v3:
+	* Dropped 0x00 to 0x0/0 patch
+	* Moved some timing functions into helper.h instead of time.h
+	* Fixed IPL psw manipulation in dasd-ipl.c
+ 	* Minor cosmetic fixes found by review
 
-Thanks for the review!
+v2:
+	* Included cio fixup to get rid of compile errors...
+	* Minor cosmetic fixes found by review
 
-> 
-> Thanks
-> 
-> Eric
->>      error_setg(errp, "No available IOMMU models");
->>      return -EINVAL;
->>  }
->> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
->> index b1ef55a33f..8166c4c50d 100644
->> --- a/hw/vfio/trace-events
->> +++ b/hw/vfio/trace-events
->> @@ -115,6 +115,7 @@ vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) "Devic
->>  vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long end) "sparse entry %d [0x%lx - 0x%lx]"
->>  vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%0x8"
->>  vfio_dma_unmap_overflow_workaround(void) ""
->> +vfio_get_iommu_type(int iommu_type, const char *iommu_name) "IOMMU type %d (%s)"
->>  
->>  # platform.c
->>  vfio_platform_base_device_init(char *name, int groupid) "%s belongs to group #%d"
->>
-> 
+Janosch Frank (9):
+  pc-bios: s390x: cio.c cleanup and compile fix
+  pc-bios: s390x: Consolidate timing functions into time.h
+  pc-bios: s390x: Move sleep and yield to helper.h
+  pc-bios: s390x: Get rid of magic offsets into the lowcore
+  pc-bios: s390x: Rename and use PSW_MASK_ZMODE constant
+  pc-bios: s390x: Use PSW masks where possible and introduce
+    PSW_MASK_SHORT_ADDR
+  pc-bios: s390x: Move panic() into header and add infinite loop
+  pc-bios: s390x: Use ebcdic2ascii table
+  pc-bios: s390x: Make u32 ptr check explicit
+
+ pc-bios/s390-ccw/bootmap.c     |  4 +---
+ pc-bios/s390-ccw/cio.c         | 40 +++++++++++++++++++---------------
+ pc-bios/s390-ccw/cio.h         | 17 ++++++++++-----
+ pc-bios/s390-ccw/dasd-ipl.c    |  5 ++---
+ pc-bios/s390-ccw/helper.h      | 19 +++++++++++++++-
+ pc-bios/s390-ccw/jump2ipl.c    | 10 ++++-----
+ pc-bios/s390-ccw/main.c        | 15 +++----------
+ pc-bios/s390-ccw/menu.c        |  1 +
+ pc-bios/s390-ccw/netmain.c     | 23 +++----------------
+ pc-bios/s390-ccw/s390-arch.h   |  4 +++-
+ pc-bios/s390-ccw/s390-ccw.h    | 27 ++++++-----------------
+ pc-bios/s390-ccw/start.S       |  5 +++--
+ pc-bios/s390-ccw/time.h        | 23 +++++++++++++++++++
+ pc-bios/s390-ccw/virtio-net.c  |  2 ++
+ pc-bios/s390-ccw/virtio-scsi.c |  2 ++
+ pc-bios/s390-ccw/virtio.c      | 18 +++------------
+ 16 files changed, 108 insertions(+), 107 deletions(-)
+ create mode 100644 pc-bios/s390-ccw/time.h
+
+-- 
+2.25.1
 
 
