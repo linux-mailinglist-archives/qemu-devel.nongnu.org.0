@@ -2,35 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D251E385B
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 07:39:43 +0200 (CEST)
-Received: from localhost ([::1]:55004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2461E3869
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 07:43:22 +0200 (CEST)
+Received: from localhost ([::1]:45690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdon0-0002jI-CN
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 01:39:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46170)
+	id 1jdoqX-0002ZA-Bo
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 01:43:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jdoli-00014v-LS; Wed, 27 May 2020 01:38:22 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:50969 helo=ozlabs.org)
+ id 1jdoln-0001DF-0i; Wed, 27 May 2020 01:38:27 -0400
+Received: from ozlabs.org ([203.11.71.1]:42241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jdolh-0001bo-D4; Wed, 27 May 2020 01:38:22 -0400
+ id 1jdoll-0001eV-JP; Wed, 27 May 2020 01:38:26 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49X03q4nq8z9sSn; Wed, 27 May 2020 15:38:15 +1000 (AEST)
+ id 49X03q6LG3z9sSs; Wed, 27 May 2020 15:38:15 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1590557895;
- bh=tM/dD/Q1dq5YeZuMnvtetIYBE7QDpqKX/IQGQsvb7Zk=;
+ bh=n1w5x4MWUM3sI147COwZWjKfkJROvjhmcH5edVfKqak=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LLFkuxTJzu5nyn9C9OjYLtrXI+iwBoYEr59MkmHQFRyiPd390C7q/aIJudm7ABI/b
- bpEA/RkknOY3krR+4ITyCGWKj9MLSuQwZ1WzGZLtV5qJ+8PkMvclIGqibBxfjlOYhN
- j0X/gLlIi0+vD+6j05B+uP1prsDuCa6yzl8X5Bs8=
+ b=GA2Ioo8kciz8KVjVpuqS5xPs6J6rCJ+nuzxn8wBO1/dH57Jt6La9YQ2iXYORGbBPJ
+ h/8aw+XVp+W90UgLIpDwRvPNEzpGglmFgep8F/hj6Lrmm1ePSVoqyf5LM4OZQdkZdk
+ gbuD1o9iLfttNnEcxs6ZgCbNs9ZxTLrGPHlnU5HM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 05/15] ppc/spapr: Add hotremovable flag on DIMM LMBs on drmem_v2
-Date: Wed, 27 May 2020 15:37:59 +1000
-Message-Id: <20200527053809.356168-6-david@gibson.dropbear.id.au>
+Subject: [PULL 06/15] target/ppc: Pass const pointer to
+ ppc_radix64_get_prot_amr()
+Date: Wed, 27 May 2020 15:38:00 +1000
+Message-Id: <20200527053809.356168-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200527053809.356168-1-david@gibson.dropbear.id.au>
 References: <20200527053809.356168-1-david@gibson.dropbear.id.au>
@@ -60,174 +61,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Leonardo Bras <leobras.c@gmail.com>,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- Leonardo Bras <leonardo@linux.ibm.com>, Bharata B Rao <bharata@linux.ibm.com>,
+Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  philmd@redhat.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Leonardo Bras <leonardo@linux.ibm.com>
+From: Greg Kurz <groug@kaod.org>
 
-On reboot, all memory that was previously added using object_add and
-device_add is placed in this DIMM area.
+This doesn't require write access to the CPU structure.
 
-The new SPAPR_LMB_FLAGS_HOTREMOVABLE flag helps Linux to put this memory in
-the correct memory zone, so no unmovable allocations are made there,
-allowing the object to be easily hot-removed by device_del and
-object_del.
-
-This new flag was accepted in Power Architecture documentation.
-
-Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
-Reviewed-by: Bharata B Rao <bharata@linux.ibm.com>
-Message-Id: <20200511200201.58537-1-leobras.c@gmail.com>
-[dwg: Fixed syntax error spotted by Cédric Le Goater]
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <158941060817.240484.14621015211317485106.stgit@bahia.lan>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c             |  8 ++++----
- hw/ppc/spapr.c           |  3 ++-
- include/hw/ppc/spapr.h   |  1 +
- target/ppc/cpu.h         | 21 +++++++++++++++++++++
- target/ppc/excp_helper.c | 16 ++++++++--------
- 5 files changed, 36 insertions(+), 13 deletions(-)
+ target/ppc/mmu-radix64.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index f48a61d6d1..806a5d9a8d 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1984,15 +1984,15 @@ static void pnv_cpu_do_nmi_on_cpu(CPUState *cs, run_on_cpu_data arg)
- 
-     cpu_synchronize_state(cs);
-     ppc_cpu_do_system_reset(cs);
--    if (env->spr[SPR_SRR1] & PPC_BITMASK(46, 47)) {
-+    if (env->spr[SPR_SRR1] & SRR1_WAKESTATE) {
-         /*
-          * Power-save wakeups, as indicated by non-zero SRR1[46:47] put the
-          * wakeup reason in SRR1[42:45], system reset is indicated with 0b0100
-          * (PPC_BIT(43)).
-          */
--        if (!(env->spr[SPR_SRR1] & PPC_BIT(43))) {
-+        if (!(env->spr[SPR_SRR1] & SRR1_WAKERESET)) {
-             warn_report("ppc_cpu_do_system_reset does not set system reset wakeup reason");
--            env->spr[SPR_SRR1] |= PPC_BIT(43);
-+            env->spr[SPR_SRR1] |= SRR1_WAKERESET;
-         }
-     } else {
-         /*
-@@ -2002,7 +2002,7 @@ static void pnv_cpu_do_nmi_on_cpu(CPUState *cs, run_on_cpu_data arg)
-          * another CPU requesting a NMI IPI) system reset exception should be
-          * 0b0010 (PPC_BIT(44)).
-          */
--        env->spr[SPR_SRR1] |= PPC_BIT(44);
-+        env->spr[SPR_SRR1] |= SRR1_WAKESCOM;
-     }
+diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
+index 96228546aa..f28c5794d0 100644
+--- a/target/ppc/mmu-radix64.h
++++ b/target/ppc/mmu-radix64.h
+@@ -55,9 +55,9 @@ static inline int ppc_radix64_get_prot_eaa(uint64_t pte)
+            (pte & R_PTE_EAA_X ? PAGE_EXEC : 0);
  }
  
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 9b358fcc60..3b1a5ed865 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -445,7 +445,8 @@ static int spapr_dt_dynamic_memory_v2(SpaprMachineState *spapr, void *fdt,
-         g_assert(drc);
-         elem = spapr_get_drconf_cell(size / lmb_size, addr,
-                                      spapr_drc_index(drc), node,
--                                     SPAPR_LMB_FLAGS_ASSIGNED);
-+                                     (SPAPR_LMB_FLAGS_ASSIGNED |
-+                                      SPAPR_LMB_FLAGS_HOTREMOVABLE));
-         QSIMPLEQ_INSERT_TAIL(&drconf_queue, elem, entry);
-         nr_entries++;
-         cur_addr = addr + size;
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index d2533e7264..c421410e3f 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -886,6 +886,7 @@ int spapr_rtc_import_offset(SpaprRtcState *rtc, int64_t legacy_offset);
- #define SPAPR_LMB_FLAGS_ASSIGNED 0x00000008
- #define SPAPR_LMB_FLAGS_DRC_INVALID 0x00000020
- #define SPAPR_LMB_FLAGS_RESERVED 0x00000080
-+#define SPAPR_LMB_FLAGS_HOTREMOVABLE 0x00000100
+-static inline int ppc_radix64_get_prot_amr(PowerPCCPU *cpu)
++static inline int ppc_radix64_get_prot_amr(const PowerPCCPU *cpu)
+ {
+-    CPUPPCState *env = &cpu->env;
++    const CPUPPCState *env = &cpu->env;
+     int amr = env->spr[SPR_AMR] >> 62; /* We only care about key0 AMR63:62 */
+     int iamr = env->spr[SPR_IAMR] >> 62; /* We only care about key0 IAMR63:62 */
  
- void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg);
- 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index c1005b04a0..1988b436cb 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -476,6 +476,27 @@ typedef struct ppc_v3_pate_t {
- #define SRR1_PROTFAULT           DSISR_PROTFAULT
- #define SRR1_IAMR                DSISR_AMR
- 
-+/* SRR1[42:45] wakeup fields for System Reset Interrupt */
-+
-+#define SRR1_WAKEMASK           0x003c0000 /* reason for wakeup */
-+
-+#define SRR1_WAKEHMI            0x00280000 /* Hypervisor maintenance */
-+#define SRR1_WAKEHVI            0x00240000 /* Hypervisor Virt. Interrupt (P9) */
-+#define SRR1_WAKEEE             0x00200000 /* External interrupt */
-+#define SRR1_WAKEDEC            0x00180000 /* Decrementer interrupt */
-+#define SRR1_WAKEDBELL          0x00140000 /* Privileged doorbell */
-+#define SRR1_WAKERESET          0x00100000 /* System reset */
-+#define SRR1_WAKEHDBELL         0x000c0000 /* Hypervisor doorbell */
-+#define SRR1_WAKESCOM           0x00080000 /* SCOM not in power-saving mode */
-+
-+/* SRR1[46:47] power-saving exit mode */
-+
-+#define SRR1_WAKESTATE          0x00030000 /* Powersave exit mask */
-+
-+#define SRR1_WS_HVLOSS          0x00030000 /* HV resources not maintained */
-+#define SRR1_WS_GPRLOSS         0x00020000 /* GPRs not maintained */
-+#define SRR1_WS_NOLOSS          0x00010000 /* All resources maintained */
-+
- /* Facility Status and Control (FSCR) bits */
- #define FSCR_EBB        (63 - 56) /* Event-Based Branch Facility */
- #define FSCR_TAR        (63 - 55) /* Target Address Register */
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 14d3902982..a988ba15f4 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -101,7 +101,7 @@ static int powerpc_reset_wakeup(CPUState *cs, CPUPPCState *env, int excp,
-     env->resume_as_sreset = false;
- 
-     /* Pretend to be returning from doze always as we don't lose state */
--    *msr |= (0x1ull << (63 - 47));
-+    *msr |= SRR1_WS_NOLOSS;
- 
-     /* Machine checks are sent normally */
-     if (excp == POWERPC_EXCP_MCHECK) {
-@@ -109,25 +109,25 @@ static int powerpc_reset_wakeup(CPUState *cs, CPUPPCState *env, int excp,
-     }
-     switch (excp) {
-     case POWERPC_EXCP_RESET:
--        *msr |= 0x4ull << (63 - 45);
-+        *msr |= SRR1_WAKERESET;
-         break;
-     case POWERPC_EXCP_EXTERNAL:
--        *msr |= 0x8ull << (63 - 45);
-+        *msr |= SRR1_WAKEEE;
-         break;
-     case POWERPC_EXCP_DECR:
--        *msr |= 0x6ull << (63 - 45);
-+        *msr |= SRR1_WAKEDEC;
-         break;
-     case POWERPC_EXCP_SDOOR:
--        *msr |= 0x5ull << (63 - 45);
-+        *msr |= SRR1_WAKEDBELL;
-         break;
-     case POWERPC_EXCP_SDOOR_HV:
--        *msr |= 0x3ull << (63 - 45);
-+        *msr |= SRR1_WAKEHDBELL;
-         break;
-     case POWERPC_EXCP_HV_MAINT:
--        *msr |= 0xaull << (63 - 45);
-+        *msr |= SRR1_WAKEHMI;
-         break;
-     case POWERPC_EXCP_HVIRT:
--        *msr |= 0x9ull << (63 - 45);
-+        *msr |= SRR1_WAKEHVI;
-         break;
-     default:
-         cpu_abort(cs, "Unsupported exception %d in Power Save mode\n",
 -- 
 2.26.2
 
