@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 841CF1E3F16
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 12:33:43 +0200 (CEST)
-Received: from localhost ([::1]:48898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 500061E3F28
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 12:35:10 +0200 (CEST)
+Received: from localhost ([::1]:57476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdtNW-0004jx-G6
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 06:33:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56100)
+	id 1jdtOv-00089Z-8V
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 06:35:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
- id 1jdtKm-0000he-Ko
- for qemu-devel@nongnu.org; Wed, 27 May 2020 06:30:53 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:33504)
+ id 1jdtKs-0000k5-NS
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 06:30:59 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:33520)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdtKl-0001m5-RR
- for qemu-devel@nongnu.org; Wed, 27 May 2020 06:30:52 -0400
+ (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdtKr-0001pr-QE
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 06:30:58 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id E8EDFCD463;
- Wed, 27 May 2020 13:30:49 +0300 (MSK)
-Subject: [PATCH v2 02/11] tests/acceptance: refactor boot_linux_console test
- to allow code reuse
+ by mail.ispras.ru (Postfix) with ESMTPSA id E0D34CD462;
+ Wed, 27 May 2020 13:30:55 +0300 (MSK)
+Subject: [PATCH v2 03/11] tests/acceptance: add base class record/replay
+ kernel tests
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 27 May 2020 13:30:49 +0300
-Message-ID: <159057544969.16818.6615283542905717210.stgit@pasha-ThinkPad-X280>
+Date: Wed, 27 May 2020 13:30:55 +0300
+Message-ID: <159057545565.16818.10615781697342502198.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <159057543840.16818.14393433996899521784.stgit@pasha-ThinkPad-X280>
 References: <159057543840.16818.14393433996899521784.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -61,54 +61,99 @@ Cc: wrampazz@redhat.com, alex.bennee@linaro.org, dovgaluk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch splits code in BootLinuxConsole class into two different
-classes to allow reusing it by record/replay tests.
+This patch adds a base for testing kernel boot recording and replaying.
+Each test has the phase of recording and phase of replaying.
+Virtual machines just boot the kernel and do not interact with
+the network.
+Structure and image links for the tests are borrowed from boot_linux_console.py
+Testing controls the message pattern at the end of the kernel
+boot for both record and replay modes. In replay mode QEMU is also
+intended to finish the execution automatically.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+
+--
+
+v2:
+ - changed default value of args to None (suggested by Willian Rampazzo)
+ - inherited common functions from boot_linux_console (suggested by Willian Rampazzo)
 ---
  0 files changed
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index c6b06a1a13..f23c5833b7 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -28,19 +28,13 @@ try:
- except CmdNotFoundError:
-     P7ZIP_AVAILABLE = False
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 47ef3139e6..e9a9ce4f66 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2497,6 +2497,7 @@ F: net/filter-replay.c
+ F: include/sysemu/replay.h
+ F: docs/replay.txt
+ F: stubs/replay.c
++F: tests/acceptance/replay_kernel.py
  
--class BootLinuxConsole(Test):
--    """
--    Boots a Linux kernel and checks that the console is operational and the
--    kernel command line is properly passed from QEMU to the kernel
--    """
--
--    timeout = 90
--
-+class LinuxKernelUtils(Test):
-     KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
- 
--    def wait_for_console_pattern(self, success_message):
-+    def wait_for_console_pattern(self, success_message, vm=None):
-         wait_for_console_pattern(self, success_message,
--                                 failure_message='Kernel panic - not syncing')
-+                                 failure_message='Kernel panic - not syncing',
-+                                 vm=vm)
- 
-     def extract_from_deb(self, deb, path):
-         """
-@@ -79,6 +73,13 @@ class BootLinuxConsole(Test):
-         os.chdir(cwd)
-         return os.path.normpath(os.path.join(self.workdir, path))
- 
-+class BootLinuxConsole(LinuxKernelUtils):
+ IOVA Tree
+ M: Peter Xu <peterx@redhat.com>
+diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+new file mode 100644
+index 0000000000..b8b277ad2f
+--- /dev/null
++++ b/tests/acceptance/replay_kernel.py
+@@ -0,0 +1,57 @@
++# Record/replay test that boots a Linux kernel
++#
++# Copyright (c) 2020 ISP RAS
++#
++# Author:
++#  Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++
++import os
++import gzip
++
++from avocado_qemu import wait_for_console_pattern
++from avocado.utils import process
++from avocado.utils import archive
++from boot_linux_console import LinuxKernelUtils
++
++class ReplayKernel(LinuxKernelUtils):
 +    """
-+    Boots a Linux kernel and checks that the console is operational and the
-+    kernel command line is properly passed from QEMU to the kernel
++    Boots a Linux kernel in record mode and checks that the console
++    is operational and the kernel command line is properly passed
++    from QEMU to the kernel.
++    Then replays the same scenario and verifies, that QEMU correctly
++    terminates.
 +    """
++
 +    timeout = 90
 +
-     def test_x86_64_pc(self):
-         """
-         :avocado: tags=arch:x86_64
++    def run_vm(self, kernel_path, kernel_command_line, console_pattern,
++               record, shift, args):
++        vm = self.get_vm()
++        vm.set_console()
++        if record:
++            mode = 'record'
++        else:
++            mode = 'replay'
++        vm.add_args('-icount', 'shift=%s,rr=%s,rrfile=%s' %
++                    (shift, mode, os.path.join(self.workdir, 'replay.bin')),
++                    '-kernel', kernel_path,
++                    '-append', kernel_command_line,
++                    '-net', 'none')
++        if args:
++            vm.add_args(*args)
++        vm.launch()
++        self.wait_for_console_pattern(console_pattern, vm)
++        if record:
++            vm.shutdown()
++        else:
++            vm.wait()
++
++    def run_rr(self, kernel_path, kernel_command_line, console_pattern,
++        shift=7, args=None):
++        self.run_vm(kernel_path, kernel_command_line, console_pattern,
++                    True, shift, args)
++        self.run_vm(kernel_path, kernel_command_line, console_pattern,
++                    False, shift, args)
 
 
