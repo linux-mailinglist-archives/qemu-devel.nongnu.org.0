@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D8201E3862
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 07:41:26 +0200 (CEST)
-Received: from localhost ([::1]:36090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E92031E385A
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 07:39:41 +0200 (CEST)
+Received: from localhost ([::1]:54846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdoof-0006XY-9g
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 01:41:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46178)
+	id 1jdomy-0002fX-FC
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 01:39:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jdolj-00015O-5W; Wed, 27 May 2020 01:38:23 -0400
-Received: from ozlabs.org ([203.11.71.1]:57935)
+ id 1jdoli-00015C-VJ; Wed, 27 May 2020 01:38:22 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52697 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jdolh-0001bq-Kn; Wed, 27 May 2020 01:38:22 -0400
+ id 1jdolg-0001bl-Sc; Wed, 27 May 2020 01:38:22 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49X03q1tpqz9sRW; Wed, 27 May 2020 15:38:15 +1000 (AEST)
+ id 49X03q2jk5z9sSg; Wed, 27 May 2020 15:38:15 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1590557895;
- bh=zC2AQ8bz3NPVon90j5g3Hah9yM8NZ5q/yFSIGF3Tb6M=;
+ bh=bZ5HAdN/qla6XhBKfc5ETaol4quDnOLMYpCgVpG8Scs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GDbfaGyk/abL4UwotvcPxgR/+fD4QaxAzGNfb9RTQ0Y6HzM9UMNoELJAchvuyzEK5
- TLHv914Ys1LbbWAbMkuCPH77Yd+q8C9QzO3S4SOo4jSDb7xaLrApjabVllgQDZJ8Na
- gIxhOD3DFu3OJ90wmvjcZ0K2ShqxTNVehn3Gwj50=
+ b=gbS+8ZTPJDyi+EmuQe6cvuoGr7GB07giin34A5ixAAMBva8ax7EAC5+ICOrCAEkjW
+ DEs0cQpJihhjltYhfTECNFcA78ajtl0j2IHuf6r0cwQxgSoAwmPfB6UUBiW8hZf1P5
+ VoCGd5sZaIG8XuMmqs5UUjstXNMUeYoDdrJLA3I8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/15] ppc/pnv: Fix NMI system reset SRR1 value
-Date: Wed, 27 May 2020 15:37:55 +1000
-Message-Id: <20200527053809.356168-2-david@gibson.dropbear.id.au>
+Subject: [PULL 02/15] ppc/spapr: add a POWER10 CPU model
+Date: Wed, 27 May 2020 15:37:56 +1000
+Message-Id: <20200527053809.356168-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200527053809.356168-1-david@gibson.dropbear.id.au>
 References: <20200527053809.356168-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 01:38:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -60,69 +60,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>, groug@kaod.org, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, philmd@redhat.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ philmd@redhat.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nicholas Piggin <npiggin@gmail.com>
+From: Cédric Le Goater <clg@kaod.org>
 
-Commit a77fed5bd926 ("ppc/pnv: Add support for NMI interface") got the
-SRR1 setting wrong for sresets that hit outside of power-save states.
-
-Fix this, better documenting the source for the bit definitions.
-
-Fixes: 01b552b05b0f ("ppc/pnv: Add support for NMI interface")
-Cc: Cédric Le Goater <clg@kaod.org>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-Message-Id: <20200507114824.788942-1-npiggin@gmail.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-[dwg: Fixed up some tab indentation]
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20200507073855.2485680-1-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c | 26 ++++++++++++++++++++------
- 1 file changed, 20 insertions(+), 6 deletions(-)
+ hw/ppc/spapr_cpu_core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index da637822f9..f48a61d6d1 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1984,12 +1984,26 @@ static void pnv_cpu_do_nmi_on_cpu(CPUState *cs, run_on_cpu_data arg)
- 
-     cpu_synchronize_state(cs);
-     ppc_cpu_do_system_reset(cs);
--    /*
--     * SRR1[42:45] is set to 0100 which the ISA defines as implementation
--     * dependent. POWER processors use this for xscom triggered interrupts,
--     * which come from the BMC or NMI IPIs.
--     */
--    env->spr[SPR_SRR1] |= PPC_BIT(43);
-+    if (env->spr[SPR_SRR1] & PPC_BITMASK(46, 47)) {
-+        /*
-+         * Power-save wakeups, as indicated by non-zero SRR1[46:47] put the
-+         * wakeup reason in SRR1[42:45], system reset is indicated with 0b0100
-+         * (PPC_BIT(43)).
-+         */
-+        if (!(env->spr[SPR_SRR1] & PPC_BIT(43))) {
-+            warn_report("ppc_cpu_do_system_reset does not set system reset wakeup reason");
-+            env->spr[SPR_SRR1] |= PPC_BIT(43);
-+        }
-+    } else {
-+        /*
-+         * For non-powersave system resets, SRR1[42:45] are defined to be
-+         * implementation-dependent. The POWER9 User Manual specifies that
-+         * an external (SCOM driven, which may come from a BMC nmi command or
-+         * another CPU requesting a NMI IPI) system reset exception should be
-+         * 0b0010 (PPC_BIT(44)).
-+         */
-+        env->spr[SPR_SRR1] |= PPC_BIT(44);
-+    }
- }
- 
- static void pnv_nmi(NMIState *n, int cpu_index, Error **errp)
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index e1f76c74f3..9c8c1b14cf 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -407,6 +407,7 @@ static const TypeInfo spapr_cpu_core_type_infos[] = {
+     DEFINE_SPAPR_CPU_CORE_TYPE("power8nvl_v1.0"),
+     DEFINE_SPAPR_CPU_CORE_TYPE("power9_v1.0"),
+     DEFINE_SPAPR_CPU_CORE_TYPE("power9_v2.0"),
++    DEFINE_SPAPR_CPU_CORE_TYPE("power10_v1.0"),
+ #ifdef CONFIG_KVM
+     DEFINE_SPAPR_CPU_CORE_TYPE("host"),
+ #endif
 -- 
 2.26.2
 
