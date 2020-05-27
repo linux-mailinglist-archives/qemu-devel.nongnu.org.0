@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7534B1E3871
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 07:46:57 +0200 (CEST)
-Received: from localhost ([::1]:58656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 769891E3874
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 07:47:47 +0200 (CEST)
+Received: from localhost ([::1]:34022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdou0-00007W-Iq
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 01:46:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46234)
+	id 1jdouo-0001c1-H3
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 01:47:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jdolp-0001L9-OS; Wed, 27 May 2020 01:38:29 -0400
-Received: from ozlabs.org ([203.11.71.1]:40021)
+ id 1jdolp-0001KW-HC; Wed, 27 May 2020 01:38:29 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:50721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jdolo-0001fs-M5; Wed, 27 May 2020 01:38:29 -0400
+ id 1jdolo-0001g6-LM; Wed, 27 May 2020 01:38:29 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49X03r4RYPz9sTP; Wed, 27 May 2020 15:38:16 +1000 (AEST)
+ id 49X03r5Rszz9sTR; Wed, 27 May 2020 15:38:16 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1590557896;
- bh=dETticln5jue/6C4D6AhTH9jzwfw913NTSrQRT2LqDk=;
+ bh=ZdziwBbHkLdIQ4OII0MTdm9IDgKyNZtOw/B7Z808atI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MkzzrtoyFhGb7Hbgl8Zqx5M1RS4Tjht/EFle+/y5qqsCiONDI/cvBhDCcX/wMzb9i
- R8gaXdwfuWqYWFV21NRIs0KIPx/eTeVZWhy4olKhNvqsHKnUfHpGdCx+8yJHLXZEBv
- h6vpzMc0UTWT1XkGXgDPA1U1wXhwnpizONc8ZZj4=
+ b=ff/+s4g1xs+5tdo88LExNQWKrbQFuOVjX6t2Fvpkl3vsiN0fTmAoc5uB2PhrilhVq
+ aKHzrXltHChI3YghCvpxI+bT3DqtMoT+elVygergxLdoEUKg1eZ8etWQaBARd3D1/2
+ U8rsqkmoLFbBWpFJgjOkCN0882Xii5N31Tzxk0cc=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 13/15] hw/nvram/mac_nvram: Convert debug printf()s to trace
- events
-Date: Wed, 27 May 2020 15:38:07 +1000
-Message-Id: <20200527053809.356168-14-david@gibson.dropbear.id.au>
+Subject: [PULL 14/15] target/ppc: Fix argument to
+ ppc_radix64_partition_scoped_xlate() again
+Date: Wed, 27 May 2020 15:38:08 +1000
+Message-Id: <20200527053809.356168-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200527053809.356168-1-david@gibson.dropbear.id.au>
 References: <20200527053809.356168-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 01:38:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -61,83 +61,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, philmd@redhat.com,
+Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, philmd@redhat.com,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Greg Kurz <groug@kaod.org>
 
-Convert NVR_DPRINTF() to trace events and remove ifdef'ry.
+The penultimate argument of function ppc_radix64_partition_scoped_xlate()
+has the bool type.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200524165126.13920-1-f4bug@amsat.org>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Fixes: d04ea940c597 "target/ppc: Add support for Radix partition-scoped translation"
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <159051003729.407106.10610703877543955831.stgit@bahia.lan>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/nvram/mac_nvram.c  | 17 +++--------------
- hw/nvram/trace-events |  4 ++++
- 2 files changed, 7 insertions(+), 14 deletions(-)
+ target/ppc/mmu-radix64.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/nvram/mac_nvram.c b/hw/nvram/mac_nvram.c
-index ff5db03e6b..beec1c4e4d 100644
---- a/hw/nvram/mac_nvram.c
-+++ b/hw/nvram/mac_nvram.c
-@@ -30,18 +30,9 @@
- #include "migration/vmstate.h"
- #include "qemu/cutils.h"
- #include "qemu/module.h"
-+#include "trace.h"
- #include <zlib.h>
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index 0d3922537c..c60bf31357 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -513,7 +513,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx,
  
--/* debug NVR */
--//#define DEBUG_NVR
--
--#ifdef DEBUG_NVR
--#define NVR_DPRINTF(fmt, ...)                                   \
--    do { printf("NVR: " fmt , ## __VA_ARGS__); } while (0)
--#else
--#define NVR_DPRINTF(fmt, ...)
--#endif
--
- #define DEF_SYSTEM_SIZE 0xc10
- 
- /* macio style NVRAM device */
-@@ -51,9 +42,8 @@ static void macio_nvram_writeb(void *opaque, hwaddr addr,
-     MacIONVRAMState *s = opaque;
- 
-     addr = (addr >> s->it_shift) & (s->size - 1);
-+    trace_macio_nvram_write(addr, value);
-     s->data[addr] = value;
--    NVR_DPRINTF("writeb addr %04" HWADDR_PRIx " val %" PRIx64 "\n",
--                addr, value);
- }
- 
- static uint64_t macio_nvram_readb(void *opaque, hwaddr addr,
-@@ -64,8 +54,7 @@ static uint64_t macio_nvram_readb(void *opaque, hwaddr addr,
- 
-     addr = (addr >> s->it_shift) & (s->size - 1);
-     value = s->data[addr];
--    NVR_DPRINTF("readb addr %04" HWADDR_PRIx " val %" PRIx32 "\n",
--                addr, value);
-+    trace_macio_nvram_read(addr, value);
- 
-     return value;
- }
-diff --git a/hw/nvram/trace-events b/hw/nvram/trace-events
-index 0dea9260ce..e023193295 100644
---- a/hw/nvram/trace-events
-+++ b/hw/nvram/trace-events
-@@ -13,3 +13,7 @@ fw_cfg_add_string(uint16_t key_value, const char *key_name, const char *value) "
- fw_cfg_add_i16(uint16_t key_value, const char *key_name, uint16_t value) "key 0x%04" PRIx16 " '%s', value 0x%" PRIx16
- fw_cfg_add_i32(uint16_t key_value, const char *key_name, uint32_t value) "key 0x%04" PRIx16 " '%s', value 0x%" PRIx32
- fw_cfg_add_i64(uint16_t key_value, const char *key_name, uint64_t value) "key 0x%04" PRIx16 " '%s', value 0x%" PRIx64
-+
-+# mac_nvram.c
-+macio_nvram_read(uint32_t addr, uint8_t val) "read addr=0x%04"PRIx32" val=0x%02x"
-+macio_nvram_write(uint32_t addr, uint8_t val) "write addr=0x%04"PRIx32" val=0x%02x"
+             ret = ppc_radix64_partition_scoped_xlate(cpu, rwx, eaddr, g_raddr,
+                                                      pate, raddr, &prot, &psize,
+-                                                     0, guest_visible);
++                                                     false, guest_visible);
+             if (ret) {
+                 return ret;
+             }
 -- 
 2.26.2
 
