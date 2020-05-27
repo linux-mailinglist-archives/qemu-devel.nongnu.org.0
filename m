@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF10A1E4734
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 17:21:28 +0200 (CEST)
-Received: from localhost ([::1]:41864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D56361E4751
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 17:28:54 +0200 (CEST)
+Received: from localhost ([::1]:49280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdxry-000579-QM
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 11:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48452)
+	id 1jdxzA-0000Qq-IS
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 11:28:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jdxr2-0004CD-6P
- for qemu-devel@nongnu.org; Wed, 27 May 2020 11:20:28 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37142)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jdxyG-0008RH-3O
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 11:27:56 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jdxr0-0007OG-8d
- for qemu-devel@nongnu.org; Wed, 27 May 2020 11:20:27 -0400
-Received: by mail-wr1-x441.google.com with SMTP id x13so9740767wrv.4
- for <qemu-devel@nongnu.org>; Wed, 27 May 2020 08:20:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=D40zoiead8lsyko8FiDG1lzYWUlFTmKK0lit1iLvge8=;
- b=MWDy33sz60/XRFHf5scz4NdjbD20cbd/C1izl3Dfn9cbBnclu3DKAzNAO8jZsVr3Gd
- 4TiNs43sMPbgLT5zStRErVARVyh3MPD9veMu4HpZwb2V4a1TFMblmOROHzerFEev8SQN
- 4i7ViWvSGtoiduTF5//MHT6Xg2Mh/7/J7DrymzciauB3gRwUVTn9NDR91zVYvf/5yOQv
- eRufdYp4P0EqcI8rauXMFwfdSZHbLO23NWK0qSQJfEDrJhJZOjDh9402KbOLECRwEpO9
- +28Fqh4GbUoPGpwWXIQpNysO0YFxcklCnrsX98WaUC3CgDztVqy5sIXJSaaTdMxP7Roq
- /uRQ==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jdxyF-00036S-30
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 11:27:55 -0400
+Received: by mail-wm1-x343.google.com with SMTP id v19so3477212wmj.0
+ for <qemu-devel@nongnu.org>; Wed, 27 May 2020 08:27:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=RmKmjceXc9rZfc29KsKqhudrbpSuuLTlySi8QbHRb20=;
+ b=I+bZOaCdE8wJS3H2Q9VWa0lohkytOC0Jq/0i45ypFPC4d0XkOoeEbw32dqY56gtj4F
+ mWqkfhd30sgpOFHsfz+bxiZfnf3MLINOsvD92cZ20FRME4RBhV/T6caIH7bRZUU500QR
+ q7I59YxHsse4HEmwqMikBDVPslJuZpS7YdYELXfyMGB2+NAwfbIceN8BaY3jCsYN39Sk
+ U3nwlNAaoccuqXowAtOdbSJXgvjxD00K6c0BShJc3r+gnQuTgEj2t4F/4E8S8S69a8eg
+ VD2BlSPEHWuc5BXex8wBriLsD6BK5zg7XYs3wQ2caMD+d95DbCXFqqMA2jgzzYQX59pt
+ ZLTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=D40zoiead8lsyko8FiDG1lzYWUlFTmKK0lit1iLvge8=;
- b=SAeZ7fIwEwX+YQnayghF34XP90znGD6uHXBO6CpyfTu7/mFBy+0/RB8UIwu5q8415A
- VTfXyAo/ph/PLCnF1EGVT6MAFLty5X6maNKRVcVr5rcbW2wBP1MPi1Kk+WNf9A5Nboiq
- z24ciAoY3xOMSchQ+r+ceMX91u06yOJbwBL1YgwJpJfGlK6aSy+7tNuAYKhNwAQG36hZ
- oVPu97Kbwf0i6VclgqoxXDH28UUvzulVaTWq1/P4RVyGR44+gXx6sbbbFoHGKiccZZx5
- SjrfDtQWlyV5Uz1ZXh1xL59xMpbbVdQ1jSSQqVSVlXtAYaQip8XrH0fu0UuGUr5wByrO
- uzyg==
-X-Gm-Message-State: AOAM533X81qZnSXhN0EA1oYrABk30htprmYzSOLJBYLpTA2FVYfiZPKf
- ob92XuL6lWaQepZIheYMu/s8Bw==
-X-Google-Smtp-Source: ABdhPJzMstQyrR9/u4xBiQaJKczEVrnhsxhWUGNq+7n8dPWWH1FK720MAv+EG+3B5g4qybxfIS7qmw==
-X-Received: by 2002:a5d:4008:: with SMTP id n8mr24708811wrp.82.1590592824364; 
- Wed, 27 May 2020 08:20:24 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e5sm3143976wrw.19.2020.05.27.08.20.22
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=RmKmjceXc9rZfc29KsKqhudrbpSuuLTlySi8QbHRb20=;
+ b=Scl77PdpJub/tODQoaCiQXbSa+cqw6zBJQbQDyjKNfgjsd31eN2X4tphEbiQ5AE9gK
+ 7oMNTVoigaj4nROpgMZICyZUvbY3XZxNGxWNpvbhsIZVHuj12pZTv7GZsDmd4OEiUY7Y
+ YXZM4AfzgEmOY4584XzIOp8T2uRkKKio0d0tH/PNu8sGgn98nJzYjIdheEossWjxvqPA
+ VATtlya2qy+Ip2C4bTGo9TAHAe9h9M3eQxGWixuwEVFPRvosEwEz25OmnerOK//1xBkX
+ a5UC7H9qS/Aef0MdJfjtAaNOBYNZZoyh17XmTPPMf/opKga5DfEdFodjcx0LJvAnd4fW
+ 70TQ==
+X-Gm-Message-State: AOAM530Mp5nH3EBZjcifTBpytizSCswDr+Ta3z+yMdyIhK6PyxAZMn6o
+ CX1Oawnv6Ag/9KcyyUzGUkE=
+X-Google-Smtp-Source: ABdhPJyM7kVHXleYh7Nqqv3Fx0tuc9qcLdPUHNyxz9la4y6N9NqS4u3GRKhR+a6GrNq20soshUm1ug==
+X-Received: by 2002:a1c:9ac1:: with SMTP id c184mr4673194wme.152.1590593272870; 
+ Wed, 27 May 2020 08:27:52 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id j135sm3650855wmj.43.2020.05.27.08.27.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 May 2020 08:20:23 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0D74E1FF7E;
- Wed, 27 May 2020 16:20:22 +0100 (BST)
-References: <159057543840.16818.14393433996899521784.stgit@pasha-ThinkPad-X280>
- <159057545565.16818.10615781697342502198.stgit@pasha-ThinkPad-X280>
-User-agent: mu4e 1.5.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
-Subject: Re: [PATCH v2 03/11] tests/acceptance: add base class record/replay
- kernel tests
-In-reply-to: <159057545565.16818.10615781697342502198.stgit@pasha-ThinkPad-X280>
-Date: Wed, 27 May 2020 16:20:22 +0100
-Message-ID: <87y2pd5rrd.fsf@linaro.org>
+ Wed, 27 May 2020 08:27:51 -0700 (PDT)
+Date: Wed, 27 May 2020 16:27:49 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH v2 6/7] scsi: Add scsi_device_get
+Message-ID: <20200527152749.GL29137@stefanha-x1.localdomain>
+References: <20200511160951.8733-1-mlevitsk@redhat.com>
+ <20200511160951.8733-7-mlevitsk@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yaPAUYI/0vT2YKpA"
+Content-Disposition: inline
+In-Reply-To: <20200511160951.8733-7-mlevitsk@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,115 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wrampazz@redhat.com, qemu-devel@nongnu.org, dovgaluk@ispras.ru,
- pavel.dovgaluk@ispras.ru, crosa@redhat.com, pbonzini@redhat.com,
- philmd@redhat.com
+Cc: Fam Zheng <fam@euphon.net>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com> writes:
+--yaPAUYI/0vT2YKpA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> This patch adds a base for testing kernel boot recording and replaying.
-> Each test has the phase of recording and phase of replaying.
-> Virtual machines just boot the kernel and do not interact with
-> the network.
-> Structure and image links for the tests are borrowed from boot_linux_cons=
-ole.py
-> Testing controls the message pattern at the end of the kernel
-> boot for both record and replay modes. In replay mode QEMU is also
-> intended to finish the execution automatically.
->
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+On Mon, May 11, 2020 at 07:09:50PM +0300, Maxim Levitsky wrote:
+> +/*
+> + * This function works like scsi_device_get but doesn't take a refernce
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 47ef3139e6..e9a9ce4f66 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2497,6 +2497,7 @@ F: net/filter-replay.c
- F: include/sysemu/replay.h
- F: docs/replay.txt
- F: stubs/replay.c
-+F: tests/acceptance/replay_kernel.py
-=20
- IOVA Tree
- M: Peter Xu <peterx@redhat.com>
-diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_ke=
-rnel.py
-new file mode 100644
-index 0000000000..b8b277ad2f
---- /dev/null
-+++ b/tests/acceptance/replay_kernel.py
-@@ -0,0 +1,57 @@
-+# Record/replay test that boots a Linux kernel
-+#
-+# Copyright (c) 2020 ISP RAS
-+#
-+# Author:
-+#  Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+import os
-+import gzip
+s/refernce/reference/
 
-Do we actually use gzip in this test?
+> + * to the returned object. Intended for legacy code
 
-+
-+from avocado_qemu import wait_for_console_pattern
-+from avocado.utils import process
-+from avocado.utils import archive
-+from boot_linux_console import LinuxKernelUtils
-+
-+class ReplayKernel(LinuxKernelUtils):
-+    """
-+    Boots a Linux kernel in record mode and checks that the console
-+    is operational and the kernel command line is properly passed
-+    from QEMU to the kernel.
-+    Then replays the same scenario and verifies, that QEMU correctly
-+    terminates.
+The following explains this in more detail. It's not necessarily legacy
+code but rather whether it runs under the QEMU global mutex or not:
 
-Shouldn't we be doing more to verify the replay behaved the same as the
-recorded session? What happens if things go wrong? Does QEMU barf out or
-just deviate from the previous run?
+Devices that run under the QEMU global mutex can use this function.
+Devices that run outside the QEMU global mutex must use
+scsi_device_get() instead.
 
-+    """
-+
-+    timeout =3D 90
-+
-+    def run_vm(self, kernel_path, kernel_command_line, console_pattern,
-+               record, shift, args):
-+        vm =3D self.get_vm()
-+        vm.set_console()
-+        if record:
-+            mode =3D 'record'
-+        else:
-+            mode =3D 'replay'
-+        vm.add_args('-icount', 'shift=3D%s,rr=3D%s,rrfile=3D%s' %
-+                    (shift, mode, os.path.join(self.workdir, 'replay.bin')=
-),
-+                    '-kernel', kernel_path,
-+                    '-append', kernel_command_line,
-+                    '-net', 'none')
-+        if args:
-+            vm.add_args(*args)
-+        vm.launch()
-+        self.wait_for_console_pattern(console_pattern, vm)
-+        if record:
-+            vm.shutdown()
-+        else:
-+            vm.wait()
-+
-+    def run_rr(self, kernel_path, kernel_command_line, console_pattern,
-+        shift=3D7, args=3DNone):
-+        self.run_vm(kernel_path, kernel_command_line, console_pattern,
-+                    True, shift, args)
-+        self.run_vm(kernel_path, kernel_command_line, console_pattern,
-+                    False, shift, args)
+--yaPAUYI/0vT2YKpA
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7OhvUACgkQnKSrs4Gr
+c8j3UQgAntOwPqIpkQWocTjtseOt9QtmOrDngRw6Gy6HKjcNce9BUJdJ+PKn/mE3
+2oIp4FcmLQzDmqCuoLCIET64Pn/atAXSNio4+3TgD5oO2KpamDIzOsFYxKgs+s0F
+5305yIuMq0Cx9OfpFFz5ndnvCtpFw38hrQzFbLBjTGs6EPS+Qy7MHaKiFVTwOyPV
+NH7SkmgcChp+RInm14SxmztQWg4WJyhxkkVQBw8h3RwApGGjD11fWVcsZMcA0fzF
+pvPjxVvpqOlhDG4D/ynEi0SjU5SoyKN9qJ5df1wAX6y5py0UD8oy0nCk9IWJWmZI
+J48bvg5av4Y6vMzvx43EdW+GljLuyQ==
+=U+e6
+-----END PGP SIGNATURE-----
 
---=20
-Alex Benn=C3=A9e
+--yaPAUYI/0vT2YKpA--
 
