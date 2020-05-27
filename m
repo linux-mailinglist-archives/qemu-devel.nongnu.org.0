@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85681E38C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 08:05:50 +0200 (CEST)
-Received: from localhost ([::1]:41158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E61661E38B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 08:02:17 +0200 (CEST)
+Received: from localhost ([::1]:55160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdpCH-0002Iq-QM
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 02:05:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51300)
+	id 1jdp8q-0004e7-DG
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 02:02:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdp6d-0002bW-3j
- for qemu-devel@nongnu.org; Wed, 27 May 2020 02:00:00 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41525)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdp6Y-0002aF-NQ
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 01:59:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28327
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdp6X-0004F1-Sx
- for qemu-devel@nongnu.org; Wed, 27 May 2020 01:59:58 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdp6X-0004Eb-OL
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 01:59:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1590559192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/ZP0qJvOwAC4h1HCMRaDbDRJbB+KSn/nLPEOMovO5Cs=;
- b=fj7lst8P4PsdsgMokekIJNeZ0CvqOkq69M+UyLVUKHsdj4sP0+Tm6Y+AO+N9Ul+lcuo3oP
- CLqDATK4i764Jxd0710exmVYiQkCY31jih2ey9gex8Rfm9Ptp0qqNtMo1Hg1AvKdmcUiiN
- OPrz8R/4l7r5mRBs0i2CrkZj4Pka9wU=
+ bh=zFFO/S/9pY3J4o3RTDNJU5p3lZ1X88+VrmeEvaoB8Ko=;
+ b=H61GpkQBbRv4/F9VPwjAZdyot7WQamiQmAwghGhsGJaASQCZW0DxC9JtX07XE1sw5p9Q0b
+ iXpPmsazQ3/+Q9zXncYYT+X80Fy1ZN4d2BkRf4JyZfLo6ebYqklbmxwY9zKbLhE4wKkfkX
+ HWjcRAFeJrdafLoiBDJVFagGtTXienQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-phsY-FpCNqSgX9IDqPgYaw-1; Wed, 27 May 2020 01:59:50 -0400
-X-MC-Unique: phsY-FpCNqSgX9IDqPgYaw-1
+ us-mta-400-HrUoReIqOwOxSQu-d5kPgQ-1; Wed, 27 May 2020 01:59:50 -0400
+X-MC-Unique: HrUoReIqOwOxSQu-d5kPgQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 685FA1005512;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A5F21855A01;
  Wed, 27 May 2020 05:59:49 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 064565D9E8;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A7675D9EF;
  Wed, 27 May 2020 05:59:49 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0869411358C0; Wed, 27 May 2020 07:59:46 +0200 (CEST)
+ id 0BAFB11358C2; Wed, 27 May 2020 07:59:46 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/10] arm/sabrelite: Consistently use &error_fatal in
- sabrelite_init()
-Date: Wed, 27 May 2020 07:59:44 +0200
-Message-Id: <20200527055945.6774-10-armbru@redhat.com>
+Subject: [PULL 10/10] i386: Fix x86_cpu_load_model() error API violation
+Date: Wed, 27 May 2020 07:59:45 +0200
+Message-Id: <20200527055945.6774-11-armbru@redhat.com>
 In-Reply-To: <20200527055945.6774-1-armbru@redhat.com>
 References: <20200527055945.6774-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 00:45:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 00:49:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,48 +80,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200505101908.6207-10-armbru@redhat.com>
-[Straightforward conflict with resolved d2623129a7 "qom: Drop
-parameter @errp of object_property_add() & friends"]
----
- hw/arm/sabrelite.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+pointer to a variable containing NULL.  Passing an argument of the
+latter kind twice without clearing it in between is wrong: if the
+first call sets an error, it no longer points to NULL for the second
+call.
 
-diff --git a/hw/arm/sabrelite.c b/hw/arm/sabrelite.c
-index 6f0e233d77..96cb30aa3c 100644
---- a/hw/arm/sabrelite.c
-+++ b/hw/arm/sabrelite.c
-@@ -41,7 +41,6 @@ static void sabrelite_reset_secondary(ARMCPU *cpu,
- static void sabrelite_init(MachineState *machine)
+x86_cpu_load_model() is wrong that way.  Harmless, because its @errp
+is always &error_abort.  To fix, cut out the @errp middleman.
+
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20200505101908.6207-11-armbru@redhat.com>
+---
+ target/i386/cpu.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
+
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 7a4a8e3847..3733d9a279 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5078,7 +5078,7 @@ static void x86_cpu_apply_version_props(X86CPU *cpu, X86CPUModel *model)
+ 
+ /* Load data from X86CPUDefinition into a X86CPU object
+  */
+-static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model, Error **errp)
++static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
  {
-     FslIMX6State *s;
--    Error *err = NULL;
+     X86CPUDefinition *def = model->cpudef;
+     CPUX86State *env = &cpu->env;
+@@ -5092,13 +5092,19 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model, Error **errp)
+      */
  
-     /* Check the amount of memory is compatible with the SOC */
-     if (machine->ram_size > FSL_IMX6_MMDC_SIZE) {
-@@ -52,11 +51,7 @@ static void sabrelite_init(MachineState *machine)
+     /* CPU models only set _minimum_ values for level/xlevel: */
+-    object_property_set_uint(OBJECT(cpu), def->level, "min-level", errp);
+-    object_property_set_uint(OBJECT(cpu), def->xlevel, "min-xlevel", errp);
++    object_property_set_uint(OBJECT(cpu), def->level, "min-level",
++                             &error_abort);
++    object_property_set_uint(OBJECT(cpu), def->xlevel, "min-xlevel",
++                             &error_abort);
  
-     s = FSL_IMX6(object_new(TYPE_FSL_IMX6));
-     object_property_add_child(OBJECT(machine), "soc", OBJECT(s));
--    object_property_set_bool(OBJECT(s), true, "realized", &err);
--    if (err != NULL) {
--        error_report("%s", error_get_pretty(err));
--        exit(1);
--    }
-+    object_property_set_bool(OBJECT(s), true, "realized", &error_fatal);
+-    object_property_set_int(OBJECT(cpu), def->family, "family", errp);
+-    object_property_set_int(OBJECT(cpu), def->model, "model", errp);
+-    object_property_set_int(OBJECT(cpu), def->stepping, "stepping", errp);
+-    object_property_set_str(OBJECT(cpu), def->model_id, "model-id", errp);
++    object_property_set_int(OBJECT(cpu), def->family, "family",
++                            &error_abort);
++    object_property_set_int(OBJECT(cpu), def->model, "model",
++                            &error_abort);
++    object_property_set_int(OBJECT(cpu), def->stepping, "stepping",
++                            &error_abort);
++    object_property_set_str(OBJECT(cpu), def->model_id, "model-id",
++                            &error_abort);
+     for (w = 0; w < FEATURE_WORDS; w++) {
+         env->features[w] = def->features[w];
+     }
+@@ -5135,7 +5141,8 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model, Error **errp)
+         vendor = host_vendor;
+     }
  
-     memory_region_add_subregion(get_system_memory(), FSL_IMX6_MMDC_ADDR,
-                                 machine->ram);
+-    object_property_set_str(OBJECT(cpu), vendor, "vendor", errp);
++    object_property_set_str(OBJECT(cpu), vendor, "vendor",
++                            &error_abort);
+ 
+     x86_cpu_apply_version_props(cpu, model);
+ }
+@@ -6975,7 +6982,7 @@ static void x86_cpu_initfn(Object *obj)
+     object_property_add_alias(obj, "sse4_2", obj, "sse4.2");
+ 
+     if (xcc->model) {
+-        x86_cpu_load_model(cpu, xcc->model, &error_abort);
++        x86_cpu_load_model(cpu, xcc->model);
+     }
+ }
+ 
 -- 
 2.21.3
 
