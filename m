@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3581E4B43
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 19:00:20 +0200 (CEST)
-Received: from localhost ([::1]:42986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D56F1E4B0F
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 18:53:49 +0200 (CEST)
+Received: from localhost ([::1]:58462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdzPf-00036L-7i
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 13:00:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35050)
+	id 1jdzJL-0004re-Nj
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 12:53:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=40961fbaf=alistair.francis@wdc.com>)
- id 1jdzOI-0001Gu-MB; Wed, 27 May 2020 12:58:54 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:17586)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=40961fbaf=alistair.francis@wdc.com>)
- id 1jdzOF-000264-Ny; Wed, 27 May 2020 12:58:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1590598731; x=1622134731;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=6RkZQFByFl8XM3HFMV8b3oaAVUpsBTmA2wZJl/MG+Jc=;
- b=f4njVSEkD3ABFYvhLrPnFc7l9o3ceyI6jeHkEGNEuwEBomjFAcYpM97V
- gjrzWXqMtGKwIvlqV3K17CvjVlmF6I98pf4AB8aa+ZU25qdPfw9oamRPs
- ACSyOQmyURF2kGVQ62j6wSgJ9K44uNiFJHKDQ8Yzal2qLT3OZCvzwi6cy
- R05tH3pj/UEPNg+pp+jX5ojgb7VHjxvebKrTtzN/qqOGMr7EV4mWeg24q
- 34kHtmdtCge4a627wA3JQzLaMCklCFcWhRIHwKyvDun+4znnAYCiD65pn
- 344fjpGgq1SzxYbi+IQpa1F+hq9gd5Fy/KWUh1eH4CKSR5MC3t9nQGFXp Q==;
-IronPort-SDR: +idNhv0EVoICSggx6a2o6C+27Txr8OHyB+vU999PGiyn8+IWdh7qk2cgE2wYIrk6aNkj83fPio
- jCLWUGm18o5f+xpgWKJr5/ofzX4AHHOLlTSk92ilineEHH6nuisdgQ1bwXspRLovPKAQKj+dNf
- Y+SDz4FE6G0//xoqfAeNhmZFrS8/wHtV4ei5bRjuOeu5G8HG94BRA7U20Gl4CneXM2V5weGPDF
- zIS4uagM0PR75WFTuBKnlgtSpJNARcTBeI5v+9YQqEboWk4FzMzOr10wB9msnYNb2M+Z3YMG5Y
- S5w=
-X-IronPort-AV: E=Sophos;i="5.73,442,1583164800"; d="scan'208";a="138633212"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 28 May 2020 00:58:48 +0800
-IronPort-SDR: PccI82+UuO4snExQjEdlAXZsard+4MSAbLHwa8wIxWW62mNZYkTH8M+424cQedqCTsJESX2D9a
- sJKSGCyKO20LYcm+jx2OLPapVg13++Cfg=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2020 09:48:39 -0700
-IronPort-SDR: ax3DnG4f9g8/B0sfTbMi6Da8pYPORoqJxBxw3CQfhgOOFdJSVfJuAm3na6OlAQvvBf+FzZRks9
- XsDgjDT22oyg==
-WDCIronportException: Internal
-Received: from 71vjjc2.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.57.96])
- by uls-op-cesaip02.wdc.com with ESMTP; 27 May 2020 09:58:49 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v4 01/10] riscv/boot: Add a missing header include
-Date: Wed, 27 May 2020 09:50:14 -0700
-Message-Id: <ed478be74ded79f99105ec53903f35cc916c4a62.1590598125.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1590598125.git.alistair.francis@wdc.com>
-References: <cover.1590598125.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jdzIJ-0003hw-Ha
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 12:52:43 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39920
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jdzII-0004Ly-7c
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 12:52:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590598360;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KDTX0b7tY/3L4GjQrASQh2YGOS8EugykDx42RaXppb4=;
+ b=iZL0HGXCMZIrQwVyVmTzRxzHTbV8p8op6fEVNTKTcK8skE1pudUhkOid8FNaLUuaTv1H9Y
+ 2AeLbe/+oiilaYGJK3RQ7yG7Y7jFp83kpNdUcK/7jb14cKXsosI0H71f0X9KtPWYiACEeB
+ pTfJJjgq+AhbUcVOZ7+4okNn64D0TeY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-467-A5Bmo3ODNAuKpDr6Z0XaLA-1; Wed, 27 May 2020 12:52:38 -0400
+X-MC-Unique: A5Bmo3ODNAuKpDr6Z0XaLA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BBD5A0BDD;
+ Wed, 27 May 2020 16:52:37 +0000 (UTC)
+Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 84AD31A912;
+ Wed, 27 May 2020 16:52:36 +0000 (UTC)
+Subject: Re: [PATCH v7 25/32] qcow2: Update L2 bitmap in
+ qcow2_alloc_cluster_link_l2()
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1590429901.git.berto@igalia.com>
+ <255326ac806cdd1796857363dd8a6b26d5735f81.1590429901.git.berto@igalia.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <c4ff8016-a1a2-fcb4-2a59-e7a29d03349b@redhat.com>
+Date: Wed, 27 May 2020 11:52:35 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.42;
- envelope-from=prvs=40961fbaf=alistair.francis@wdc.com;
- helo=esa4.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 12:58:46
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <255326ac806cdd1796857363dd8a6b26d5735f81.1590429901.git.berto@igalia.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 00:45:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,35 +83,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
- alistair23@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Derek Su <dereksu@qnap.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As the functions declared in this header use the symbol_fn_t
-typedef itself declared in "hw/loader.h", we need to include
-it here to make the header file self-contained.
+On 5/25/20 1:08 PM, Alberto Garcia wrote:
+> The L2 bitmap needs to be updated after each write to indicate what
+> new subclusters are now allocated. This needs to happen even if the
+> cluster was already allocated and the L2 entry was otherwise valid.
+> 
+> In some cases however a write operation doesn't need change the L2
+> bitmap (because all affected subclusters were already allocated). This
+> is detected in calculate_l2_meta(), and qcow2_alloc_cluster_link_l2()
+> is never called in those cases.
+> 
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> ---
+>   block/qcow2-cluster.c | 18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
+> 
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
----
- include/hw/riscv/boot.h | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index 474a940ad5..9daa98da08 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -21,6 +21,7 @@
- #define RISCV_BOOT_H
- 
- #include "exec/cpu-defs.h"
-+#include "hw/loader.h"
- 
- void riscv_find_and_load_firmware(MachineState *machine,
-                                   const char *default_machine_firmware,
 -- 
-2.26.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
