@@ -2,71 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989B61E414B
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 14:07:23 +0200 (CEST)
-Received: from localhost ([::1]:55828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A6C1E41B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 14:13:29 +0200 (CEST)
+Received: from localhost ([::1]:34440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jduq9-00051T-BP
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 08:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46034)
+	id 1jduw4-0000lC-HN
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 08:13:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jduos-0004C6-Ij; Wed, 27 May 2020 08:06:02 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jduor-0007Bs-85; Wed, 27 May 2020 08:06:02 -0400
-Received: by mail-wm1-x341.google.com with SMTP id r15so2759520wmh.5;
- Wed, 27 May 2020 05:06:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=okXHX6ENcIfDa/2JAcLHym2+LmzF+mNzbsWji9EmUfA=;
- b=rGAaKGrAUMiqpKNbj2uQ8yErDP1LgwsMtqmBatsxaZN6kDg78qqN8FszWzC2uqqTG7
- vvGky2AV83TCl/L7xsQNBI8RX0r1OAnUoj7UAhkgM1lpyCk3XMwdeY3+ehb/868roPZT
- BdJx6ndjrn/Xn8LLuNjPtHRCEGvbuxsnvSgdPK+mi51yXB7+7mq2eDk1PqIJ13kTU2T9
- Irj6tUjakkSwPgKbP6UHVvf5/mMwQhblofC016DFklawoZODtMK9I2qNgY8+I9nXv6ER
- Ra1QKjHfr+mI8VmKki2UWxCl59gbctyrt3duW6I/m9LkmhuYYp24SI9pjsYq/N7oLRQH
- C8qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=okXHX6ENcIfDa/2JAcLHym2+LmzF+mNzbsWji9EmUfA=;
- b=FXpaqNeNa2CB/1HrvcUIIvpymxGkAfVmE8dEDbJOYneBgh5+8oq4uBWKmghqVBNDSP
- ayHAqo6fFWuCzAgRfS+lxHSFslrKO+HQs7M4GlXDKLWafLBbermgcuKIpc2YFWk+iKEi
- N1fvGbC0pq4JZT8veb3Awjkq71VBxxItAuu9aw8OLjNKAtGoiqgwmXssKUQh0gS5ARbj
- mr0ZzvfMjWDKuzfQlfQMcS38o+QYvq3e7yXFFvO7JFRP+A+Dhs0Qq2M7NLSySNnJLpai
- +z6akI3Sx6df9KJp4vwjvbm5g07pnuDXUS1ALlRGMIBnyFzmEa7amUliaLn1n55yAyCC
- RmGw==
-X-Gm-Message-State: AOAM531NEEvcBtbkCkEbzs9Te9z82iCcfmjp2WS6COvV+Ih/1WL2Ws1Q
- aJwxfujHHfS3Bd0jILnfk02xevvF2kCg54d9OHs=
-X-Google-Smtp-Source: ABdhPJwMhwcbPcNgjY4sEkmFkSyN4n3h085z6p0C5Q0IxQ3e505Q6xod9fI5fxBulM/5Y7X6jjSEYPYqjRzpAU2NWJU=
-X-Received: by 2002:a1c:2e16:: with SMTP id u22mr4295840wmu.168.1590581158700; 
- Wed, 27 May 2020 05:05:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <prvs=409226bd6=Anup.Patel@wdc.com>)
+ id 1jduup-0007bT-V6; Wed, 27 May 2020 08:12:11 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:29668)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=409226bd6=Anup.Patel@wdc.com>)
+ id 1jduun-00048D-I8; Wed, 27 May 2020 08:12:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1590581529; x=1622117529;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=+nZyCNpIfFo8VHii3PbIRZQ8hqdvSvnfO5m36ZgKsEI=;
+ b=iqtcIKiRxAsWl0+egU7nQQ5HECDBg/Vee6xlh7HIsaRdXQPN1jTVQRiF
+ 3dP/HI0tqYdKcX7RVMuabgn5AwBuGTP+Y85M7DKxQkRuail+MW5x5qJqy
+ Oq4vHwAOIuIbv3SpjjXk5IbTtu2iL6UMg6BI1qy/tLz1ntijHOGzkbYNA
+ 2Oy8UpAfgvhLhr63XTOdYDjEsMPkMaOogplPFQzrSDxtiaWyMyt1WDEqj
+ yONH79qZKRt0nEdEKG1c2MpVW+71bh0BWadd4sIKCGK1fJ+6peODP7v5M
+ S+zwR+RoGcMZLCoGg59X4IjqXMPp9FVgcYsPWpKkeOgcykGJjaNTnK0Eq Q==;
+IronPort-SDR: XV4Qs8Pa5TjxXkg4sAquyyY1fPyKBVXke72GZBkg3OZkPikXA30Iixod4VvJFDAOHWFRPatro8
+ ly1oyIDm0XJ/4mw5uB/8Jfcb1s8mgGwLcyAtCshP4IFRxaO0fm97/IxyEAntA9W7zK12P/vEwj
+ ak6bmZeiTNzUgOv/nEbOMW0a9TQGCN5nj5Kyg+1BX3MpbCJtNOJLaZE01urdNm5jfDwXqRO1pX
+ EmEf9/I5EK2dlhWwXiJixcEsX+qOCxaYdWBzcKFnf3BA7w/M1atE44FY+fUIDKKpVU2kj2XV7y
+ YYw=
+X-IronPort-AV: E=Sophos;i="5.73,441,1583164800"; d="scan'208";a="138613394"
+Received: from mail-dm6nam12lp2177.outbound.protection.outlook.com (HELO
+ NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.177])
+ by ob1.hgst.iphmx.com with ESMTP; 27 May 2020 20:12:05 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FQJs63aOTteHnZzPkORCyhcFHjzCpmDfJeBrjYi33JgUki1Dpq5mOiNh8tCW0eopa96r8DMUqmpKgcfwLQlrsNxVYOd1PB59+dzcPPF6h36pDHfb1jtlylDTfcpP97fMjCkkA5Qu41oZMxPZ07wmsPeNWhiyqTzfTyXEj+NYleEGk7NS3RdQLs2t6Erajqm/4tpivQiggLTk4IU0TxKAnen9rN7FCfmQUFfVsMCjqoFbT1CJCY6gSpLreP3SL4+14u+IeQNpzU4UQVe1sor7Sn9ksNI+/Zl7UnQxwqeIhGFDj7LKDoOJYvBHWwP7KdVFrLQOF4Xx/6E5evw/oa4O3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=THhP/8uCYFPj0OhxxqWCpGMAs7Z/GkxK5ryhgkhAGWM=;
+ b=ndIRZzBW9X92/TaZJ7KHKSv59S3+Lbkaw/fz82o8bbkxXt1c4DgNnOZD9k+0tanq9iGvdNhrwiIoZsHSv3RUroAAVlh0huml1b2E37LP/UHpiqfkOM3QcQSbVd+fcdKL0S9iy8LRHjXViPXgV+7tkFtJ17rNz5C2K6BjhlDbZr1bi0Pu2KUa1pduIKaAdccLKHqGldtdKK2aCxXCEp9MkN0xo2DAcDdZcxeyfb8tgH48HEDNsK2VL9mcwyiDrG4CVCFcgBt1vlX74YsMoqXcF9u7T3DrMEE9H5uEGR8jFX2PPJPC6qStanDNa3StkTCrwES/aPmUhCCdzxcvZ7gsIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=THhP/8uCYFPj0OhxxqWCpGMAs7Z/GkxK5ryhgkhAGWM=;
+ b=jzNbbmx9avtDzmnRtohqOpzOXUpjg2obnXzf4SOX1xYZ/HIrA1nLlmxDYn+l+pfsk7BWe1gr/1PxtZAlMXQec+r9dOoYVKfTeYSjg7UT1taT3CyPImPfkLWt64AQWwEwarHLG2GS+SRxCeZR5UFjzHyeveyE+VnLB7o55u5tf/w=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=wdc.com;
+Received: from DM6PR04MB6201.namprd04.prod.outlook.com (2603:10b6:5:127::32)
+ by DM6PR04MB4473.namprd04.prod.outlook.com (2603:10b6:5:2e::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17; Wed, 27 May
+ 2020 12:12:02 +0000
+Received: from DM6PR04MB6201.namprd04.prod.outlook.com
+ ([fe80::f8b3:c124:482b:52e0]) by DM6PR04MB6201.namprd04.prod.outlook.com
+ ([fe80::f8b3:c124:482b:52e0%5]) with mapi id 15.20.3021.030; Wed, 27 May 2020
+ 12:12:02 +0000
+From: Anup Patel <anup.patel@wdc.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
+Subject: [PATCH v3 0/4] RISC-V multi-socket support
+Date: Wed, 27 May 2020 17:41:27 +0530
+Message-Id: <20200527121131.251007-1-anup.patel@wdc.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MA1PR0101CA0065.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:20::27) To DM6PR04MB6201.namprd04.prod.outlook.com
+ (2603:10b6:5:127::32)
 MIME-Version: 1.0
-References: <20200527100546.29297-1-alex.bennee@linaro.org>
- <20200527100546.29297-3-alex.bennee@linaro.org>
-In-Reply-To: <20200527100546.29297-3-alex.bennee@linaro.org>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Wed, 27 May 2020 14:05:38 +0200
-Message-ID: <CAHiYmc7EJVxKXZ4G96cL-Bm3tT8UR_dgr7y3oisUMnuJ0u3zaw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] linux-user: deal with address wrap for
- ARM_COMMPAGE on 32 bit
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from wdc.com (106.51.30.5) by
+ MA1PR0101CA0065.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:20::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.18 via Frontend
+ Transport; Wed, 27 May 2020 12:11:59 +0000
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [106.51.30.5]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 3ae991df-c6c6-438c-0943-08d8023729de
+X-MS-TrafficTypeDiagnostic: DM6PR04MB4473:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR04MB4473A353D1BE9960048685B18DB10@DM6PR04MB4473.namprd04.prod.outlook.com>
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Forefront-PRVS: 04163EF38A
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QU6/Sa8rn8426w38jLGYoQlXK8zBCgwmgb1jztg3pTKrJ/cVFbg3qGn6zGjyWn75cuvKiP2cxZdLjVlM5eEkGmIcIbP7iRwuVhzoG/nyrTovPjUc+0xRsfspcoJpqvi2fX5sFZAag93bMG5xzpyOC/hXot+F2lRcYDQbjyWfu469/4dFP7pMkKDWb+nLw3avK5YVKbJXuiN3cH2nWY5z7HYuSThgylTkkb4GZPBArwxwdEIFn8uRg/skzgmAtGW4wFUWWCnOr0/YxPTF0Z2Bn9767JrW/QL2/2PyUijmN9fIaFMaAKa2Xy+ecfy6MtEaJqmGtDADmnd7lg5Vyyn33fMtyCRq0r9S6JHv6OJImaQ5Lg7z3wJ3F9nJyslpDfTBdn4ywMhS0v8x+VU/BJ5+bQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR04MB6201.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(366004)(346002)(39860400002)(376002)(396003)(83380400001)(36756003)(5660300002)(55236004)(44832011)(1006002)(16526019)(6666004)(186003)(966005)(66946007)(8886007)(316002)(2616005)(110136005)(54906003)(52116002)(7696005)(66476007)(66556008)(86362001)(956004)(2906002)(1076003)(55016002)(8676002)(8936002)(478600001)(26005)(4326008);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: mIlbkGGoXhc0HPqNqffSWD8MDYt1G0Rwk2Ndn8MmcgOuY7lPE/v3VAnuyTtaeXpMvA34EYVmwpo8rZPTcsxpZEfldnEYyOdOYUJGWclAOf7AZDAgOyRlTJwfd2fRj6s4I7l6AX0j1W2bL/JWATG0XwGJ517+hyd/JBp5DepKmtpsGai9Rig3phO+TpL4M/kzZ7aUYDBcMu0BdL7e0VvjD/n05hsygb44zNfn9cXT0UFo5A1FAFTtaQYZRC3LCg7WO0FrQYItp41DPKO/dZaJS8Tyn1yCplmFtNPr/CwdDcaD57XohzU4aEGUTGm4mQYJSPJy65i5nzGZVuDElDL5suUaKmH4euttgShy3+45KwifVHhMMjbMO8rmrn0WDj0MvULf6rRMp8u50rTqe5IxpWprEwukZy4rtwwKwtfixbvRQm0EK8D2acBuq4YTx6zA121ikJHs/TnEcGjv7/Vo9ytMxL+0ROwIAgJgDERTfec=
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ae991df-c6c6-438c-0943-08d8023729de
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2020 12:12:02.3568 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jbuli3P6PedaaOo9DRcWfBxGNhhUv6QoNjKSO6BMMGq7yOX4unbVxndP7KriC221RuUt1arJ/OMJbj+LwDpUdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB4473
+Received-SPF: pass client-ip=216.71.154.42;
+ envelope-from=prvs=409226bd6=Anup.Patel@wdc.com; helo=esa4.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 08:12:06
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,142 +136,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Bug 1880225 <1880225@bugs.launchpad.net>, Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
- qemu-arm@nongnu.org
+Cc: Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org, Anup Patel <anup@brainfault.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=D1=81=D1=80=D0=B5, 27. =D0=BC=D0=B0=D1=98 2020. =D1=83 12:07 Alex Benn=C3=
-=A9e <alex.bennee@linaro.org> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=
-=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> We rely on the pointer to wrap when accessing the high address of the
-> COMMPAGE so it lands somewhere reasonable. However on 32 bit hosts we
-> cannot afford just to map the entire 4gb address range. The old mmap
-> trial and error code handled this by just checking we could map both
-> the guest_base and the computed COMMPAGE address.
->
-> We can't just manipulate loadaddr to get what we want so we introduce
-> an offset which pgb_find_hole can apply when looking for a gap for
-> guest_base that ensures there is space left to map the COMMPAGE
-> afterwards.
->
-> This is arguably a little inefficient for the one 32 bit
-> value (kuser_helper_version) we need to keep there given all the
-> actual code entries are picked up during the translation phase.
->
-> Fixes: ee94743034b
-> Bug: https://bugs.launchpad.net/qemu/+bug/1880225
+This series adds multi-socket support for RISC-V virt machine and
+RISC-V spike machine. The multi-socket support will help us improve
+various RISC-V operating systems, firmwares, and bootloader to
+support RISC-V NUMA systems.
 
-For the scenario in this bug report, for today's master, before and after
-applying this patch:
+These patch can be found in riscv_multi_socket_v3 branch at:
+https://github.com/avpatel/qemu.git
 
-BEFORE:
+To try this patches, we will need: Linux multi-PLIC improvements
+support which can be found in plic_imp_v2 branch at:
+https://github.com/avpatel/linux.git
 
-$ ~/Build/qemu-master/build-gcc/arm-linux-user/qemu-arm ./toupper_string-ar=
-m
-qemu-arm: /home/rtrk/Build/qemu-master/linux-user/elfload.c:2294:
-probe_guest_base: Assertion `have_guest_base' failed.
-Aborted
+Changes since v2:
+ - Dropped PATCH1 as it is not required any more
+ - Added "multi-socket" sub-option for Spike and Virt machine
+   which can be used to enable/disable mult-socket support
 
-AFTER:
+Changes since v1:
+ - Fixed checkpatch errors and warnings
+ - Added PATCH1 for knowning whether "sockets" sub-option was specified
+ - Remove SPIKE_CPUS_PER_SOCKET_MIN and SPIKE_CPUS_PER_SOCKET_MAX in PATCH3
+ - Remove VIRT_CPUS_PER_SOCKET_MIN and VIRT_CPUS_PER_SOCKET_MAX in PATCH5
 
-$ ~/Build/qemu-master/build-gcc/arm-linux-user/qemu-arm ./toupper_string-ar=
-m
-CONTROL RESULT: (toupper_string)
- nwlrbbmqbhcdarz owkkyhiddqscdxr jmowfrxsjybldbe fsarcbynecdyggx xpklorelln=
-mpapq
- NWLRBBMQBHCDARZ OWKKYHIDDQSCDXR JMOWFRXSJYBLDBE FSARCBYNECDYGGX XPKLORELLN=
-MPAPQ
+Anup Patel (4):
+  hw/riscv: Allow creating multiple instances of CLINT
+  hw/riscv: spike: Allow creating multiple sockets
+  hw/riscv: Allow creating multiple instances of PLIC
+  hw/riscv: virt: Allow creating multiple sockets
 
-So, it works in my test bed.
+ hw/riscv/sifive_clint.c         |  20 +-
+ hw/riscv/sifive_e.c             |   4 +-
+ hw/riscv/sifive_plic.c          |  24 +-
+ hw/riscv/sifive_u.c             |   4 +-
+ hw/riscv/spike.c                | 273 +++++++++++------
+ hw/riscv/virt.c                 | 523 ++++++++++++++++++--------------
+ include/hw/riscv/sifive_clint.h |   7 +-
+ include/hw/riscv/sifive_plic.h  |  12 +-
+ include/hw/riscv/spike.h        |  13 +-
+ include/hw/riscv/virt.h         |  11 +-
+ 10 files changed, 548 insertions(+), 343 deletions(-)
 
-Tested-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+-- 
+2.25.1
 
-> Cc: Bug 1880225 <1880225@bugs.launchpad.net>
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  linux-user/elfload.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
->
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index d6027867a1a..31defce95b5 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -2145,7 +2145,7 @@ static uintptr_t pgd_find_hole_fallback(uintptr_t g=
-uest_size, uintptr_t brk, lon
->
->  /* Return value for guest_base, or -1 if no hole found. */
->  static uintptr_t pgb_find_hole(uintptr_t guest_loaddr, uintptr_t guest_s=
-ize,
-> -                               long align)
-> +                               long align, uintptr_t offset)
->  {
->      GSList *maps, *iter;
->      uintptr_t this_start, this_end, next_start, brk;
-> @@ -2171,7 +2171,7 @@ static uintptr_t pgb_find_hole(uintptr_t guest_load=
-dr, uintptr_t guest_size,
->
->          this_end =3D ((MapInfo *)iter->data)->start;
->          next_start =3D ((MapInfo *)iter->data)->end;
-> -        align_start =3D ROUND_UP(this_start, align);
-> +        align_start =3D ROUND_UP(this_start + offset, align);
->
->          /* Skip holes that are too small. */
->          if (align_start >=3D this_end) {
-> @@ -2221,6 +2221,7 @@ static void pgb_static(const char *image_name, abi_=
-ulong orig_loaddr,
->  {
->      uintptr_t loaddr =3D orig_loaddr;
->      uintptr_t hiaddr =3D orig_hiaddr;
-> +    uintptr_t offset =3D 0;
->      uintptr_t addr;
->
->      if (hiaddr !=3D orig_hiaddr) {
-> @@ -2234,18 +2235,19 @@ static void pgb_static(const char *image_name, ab=
-i_ulong orig_loaddr,
->      if (ARM_COMMPAGE) {
->          /*
->           * Extend the allocation to include the commpage.
-> -         * For a 64-bit host, this is just 4GiB; for a 32-bit host,
-> -         * the address arithmetic will wrap around, but the difference
-> -         * will produce the correct allocation size.
-> +         * For a 64-bit host, this is just 4GiB; for a 32-bit host we
-> +         * need to ensure there is space bellow the guest_base so we
-> +         * can map the commpage in the place needed when the address
-> +         * arithmetic wraps around.
->           */
->          if (sizeof(uintptr_t) =3D=3D 8 || loaddr >=3D 0x80000000u) {
->              hiaddr =3D (uintptr_t)4 << 30;
->          } else {
-> -            loaddr =3D ARM_COMMPAGE & -align;
-> +            offset =3D (128 * KiB);
->          }
->      }
->
-> -    addr =3D pgb_find_hole(loaddr, hiaddr - loaddr, align);
-> +    addr =3D pgb_find_hole(loaddr, hiaddr - loaddr, align, offset);
->      if (addr =3D=3D -1) {
->          /*
->           * If ARM_COMMPAGE, there *might* be a non-consecutive allocatio=
-n
-> @@ -2280,7 +2282,7 @@ static void pgb_dynamic(const char *image_name, lon=
-g align)
->           * just above that, and maximises the positive guest addresses.
->           */
->          commpage =3D ARM_COMMPAGE & -align;
-> -        addr =3D pgb_find_hole(commpage, -commpage, align);
-> +        addr =3D pgb_find_hole(commpage, -commpage, align, 0);
->          assert(addr !=3D -1);
->          guest_base =3D addr;
->      }
-> --
-> 2.20.1
->
->
 
