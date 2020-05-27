@@ -2,81 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13451E3A3E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 09:20:39 +0200 (CEST)
-Received: from localhost ([::1]:57734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEEC31E3A89
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 09:29:40 +0200 (CEST)
+Received: from localhost ([::1]:41966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdqMd-0002aA-JE
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 03:20:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40588)
+	id 1jdqVP-0001X3-W9
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 03:29:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdqLo-00025X-Tw
- for qemu-devel@nongnu.org; Wed, 27 May 2020 03:19:45 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33271)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jdqLo-0007DN-04
- for qemu-devel@nongnu.org; Wed, 27 May 2020 03:19:44 -0400
-Received: by mail-wr1-x442.google.com with SMTP id l11so22976697wru.0
- for <qemu-devel@nongnu.org>; Wed, 27 May 2020 00:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CT1L4Qf12+U27w7c7Ps1Vz5+TjylryQnseFmxo8ZWp0=;
- b=r6Pw6DEt98ICLNC9BXb1X6tCyUcBvQXfq1g7z1iDWyNSF07licQcI7bv9S1k+I7Ppx
- r0m/D3YD4WT484VOJWT0nFzPekOh5m6SdJurD7cg1zfkJJUyoOnxDV49TcsIxaBw3EEi
- zIBKwtzZhncFrHnkq3nrcqHvC45IY2cHwsde82lHP9NrxF16NMhYNkvlSYMabgqKsgph
- 8KLuNouLTy65EkhlsoRAadijFF/YBCmKQN5k+QyLSIRi362P1MkixNW8fiXEyrmJVoDt
- 7jszVCobnvkr5jDJpEB0FkM7OXISBBfuJVise6/HpEl7u9QvaMckAde9YpTPX9HcBxM6
- rD+A==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdqTr-0008OR-7r
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 03:28:03 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39303
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdqTq-0003TM-5m
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 03:28:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590564480;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Z2/c0Aqc+jPAz37cBdOdNxUgJnmWJgrosIaFchyc4EY=;
+ b=K72FWLPpnV4Ox92ZulRldGzDuuacZvIrrjdaNxKu7OoJwDQLN0frWNrA3lJw54t5j/kB7M
+ p2SzmloTDCfJkF3l/OPAtpAb0QhaADeckCilOJMFeuf9jri9uPqY3z9dLXfbmF5+7hGo8W
+ 4xRNWmCx7YiSUwGthZeTVt8ShvXZsWE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-170-ztIALLTOO46jQ5CVqwqcnA-1; Wed, 27 May 2020 03:27:56 -0400
+X-MC-Unique: ztIALLTOO46jQ5CVqwqcnA-1
+Received: by mail-wr1-f70.google.com with SMTP id a4so1660092wrp.5
+ for <qemu-devel@nongnu.org>; Wed, 27 May 2020 00:27:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:cc:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CT1L4Qf12+U27w7c7Ps1Vz5+TjylryQnseFmxo8ZWp0=;
- b=h4XZ6j+PW49WsRSS7eTXyy/6xXa1oe2hWOXWmAtHrvMOiwEE60Jzb8Exux/BZ9JQhL
- VLAT0P/b7s6qwL4OXIB/vHVD9InwuyOQvV6Y2x7+BsGDLh1jQxIC+uQEX8ECK23KHz1B
- 2TxUTbm20GwZWBLri3HipGN6HbAm+kMW6XLsU+voxfzQyeOswVBql53STjfLUCtXx9Aw
- Q92c/fn8OdjZ9p39eunpr/EM2VqscfQWKBS6u9MjoL7ExrwYcDJpU5gw+7JSF1R6+TPB
- f8MIxJ5Z2mBt6lNPa++QqSVJ52LBaGXv682/1zLx3bqfIAcPxiM01SI6PJ3aot9yB7zA
- jghQ==
-X-Gm-Message-State: AOAM5319wfkKwUWnAPmH+lcnTgB71hIQOZeHN2g6ZLEEzNHrLuwM1qqk
- eYz6shzAugKXqkiNOBOxCsI=
-X-Google-Smtp-Source: ABdhPJzw57aM0fGr64C15U+6nv6kFCUVfYYFVniIWwpR2OJdaQT7y3DuOneIa95q79vy1XAkNOSJVg==
-X-Received: by 2002:a5d:4d01:: with SMTP id z1mr22668712wrt.29.1590563981497; 
- Wed, 27 May 2020 00:19:41 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Z2/c0Aqc+jPAz37cBdOdNxUgJnmWJgrosIaFchyc4EY=;
+ b=uYRnEu8fQKl9FqfleoAddzOPqVGRl7fdj+BA+ABqmZkfeBSSHZQedNr3SEEYWZt/Fa
+ eQMUT4paHuX9kUDYHU7fsScgZk1VyBafu8FFGqa+n/FP/amv4FgOqYI9U4IYwPFeXbFQ
+ gfm4V3gYpYIJcmaKH6a3M4dcDir8AMOEvg2HnM6x17QIV4KaOE3nbiWxdQzb4YTH5RTq
+ JwmmbT7B4Q55tKbNzCV7f+o+rAVF2XG1hXCZgr8xOlmgVLYog8KqVf4yBk1hT4WuLbqS
+ O7BCfY5WoVpt2XxGYQa1/KWgOePDuPZf3db+ro7XejUfoUnwiMBG4VHJLYUrpKpuA7WI
+ 0a5g==
+X-Gm-Message-State: AOAM530X0LdkFjm/gbRcoDy37Am5EHjrEnh09gPPYQAFthR163X2zjPS
+ YOIrohiTrXSgUTyL98k8vt3GZKPBni3xQtKQU60JY2f4Y8BwPQospmy2mKNKo2fLPlU9YtiLEUr
+ 0w6Ms6NV21Vpog58=
+X-Received: by 2002:adf:f512:: with SMTP id q18mr25332599wro.38.1590564475071; 
+ Wed, 27 May 2020 00:27:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxv00IBPjCoazyPRwkEKCJmHmxHEMZNtLkSzuQlakVZMDfuy4O0kWegqGxIfTNEJwjObNwZRg==
+X-Received: by 2002:adf:f512:: with SMTP id q18mr25332581wro.38.1590564474749; 
+ Wed, 27 May 2020 00:27:54 -0700 (PDT)
 Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id o6sm1999775wrp.3.2020.05.27.00.19.40
+ by smtp.gmail.com with ESMTPSA id o10sm1950572wrq.40.2020.05.27.00.27.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 May 2020 00:19:40 -0700 (PDT)
-Subject: Re: GDB get wrong debug infos on TI DSP architecture extension
-To: casmac <1482995675@qq.com>, qemu-devel <qemu-devel@nongnu.org>
-References: <tencent_86D9DB902C46CBAC4F3A6FD5B4CDA93B7506@qq.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8b83e11b-e593-b7db-48b6-252e23c599da@amsat.org>
-Date: Wed, 27 May 2020 09:19:39 +0200
+ Wed, 27 May 2020 00:27:54 -0700 (PDT)
+Subject: Re: [PATCH] or1k: Fix compilation hiccup
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200526185132.1652355-1-eblake@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <e6f9b1b0-2c57-4089-4907-053a553e4180@redhat.com>
+Date: Wed, 27 May 2020 09:27:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <tencent_86D9DB902C46CBAC4F3A6FD5B4CDA93B7506@qq.com>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20200526185132.1652355-1-eblake@redhat.com>
 Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/26 22:58:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,89 +120,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jia Liu <proljc@gmail.com>,
+ qemu-trivial@nongnu.org, Bug 1874073 <1874073@bugs.launchpad.net>,
+ Stafford Horne <shorne@gmail.com>, Martin Liska <mliska@suse.cz>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Xiaolei,
-
-Cc'ing more developers who might answer you.
-
-On 5/27/20 8:48 AM, casmac wrote:
-> Hi all,
->    I am working on a TI DSP architecture extension for QEMU.
-
-FYI you can find the TI TMS320C6x target implemented here:
-https://github.com/philmd/qemu/releases/tag/target-c6x-2.4
-
-I started rebasing it to QEMU 4.2 but then got distracted.
-
-> Now, we are
-> adding GDB debugging features.
->    We have done the following, but not sure we are on the right track :
->    - add a xml description file in gdb-xml, without understanding the
-> purpose of the file, why some architectures don't provide such xml file?
->    - add ***_cpu_gdb_read_register(), ***_cpu_gdb_write_register();
->    - added  dsp_cpu_get_phys_page_attrs_debug(), but uncertain about
-> what to return
->      dsp_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
-> MemTxAttrs *attrs)
->      {
->         return addr & TARGET_PAGE_MASK;  
->      }
->   
->    We run QEMU with the these arguments
->    qemu-system-dsp ... -kernel filename.out -S -s
->   
->    It turns out that gdb reads incorrect register values, and complains
-> : "warning: Target-supplied registers are not supported by the current
-> architecture".
->   
->    Something is missing here, or we do it in a wrong way.  Any advise
-> would be helpful to us.
->   
->    Thanks.
->    
-> xiaolei
+On 5/26/20 8:51 PM, Eric Blake wrote:
+> On my Fedora 32 machine, gcc 10.1.1 at -O2 (the default for a bare
+> './configure') has a false-positive complaint:
 > 
->    ----- ti_dsp.xml  -----
->   
->    <?xml version="1.0"?>
-> <!DOCTYPE feature SYSTEM "gdb-target.dtd">
-> <feature name="org.gnu.gdb.tic3x.core">
->     <reg name="r0"  bitsize="32"></reg>
->  <reg name="r1"  bitsize="32"/>
->  <reg name="r2"  bitsize="32"></reg>
->  <reg name="r3"  bitsize="32"/>
->  <reg name="r4"  bitsize="32"/>
->  <reg name="r5"  bitsize="32"/>
->  <reg name="r6"  bitsize="32"/>
->  <reg name="r7"  bitsize="32"/>
->  <reg name="ar0" bitsize="32"/>
->  <reg name="ar1" bitsize="32"/>
->  <reg name="ar2" bitsize="32"/>
->  <reg name="ar3" bitsize="32"/>
->  <reg name="ar4" bitsize="32"/>
->  <reg name="ar5" bitsize="32"/>
->  <reg name="ar6" bitsize="32"/>
->  <reg name="ar7" bitsize="32"/>
->  <reg name="dp"  bitsize="32"/>
->  <reg name="ir0" bitsize="32"/>
->  <reg name="ir1" bitsize="32"/>
->  <reg name="bk"  bitsize="32"/>
->  <reg name="sp"  bitsize="32" type="data_ptr"/>
->  <reg name="st"  bitsize="32"></reg>
->  <reg name="ie"  bitsize="32"/>
->  <reg name="if"  bitsize="32"/>
->  <reg name="iof" bitsize="32"/>
->  <reg name="rs"  bitsize="32"/>
->  <reg name="re"  bitsize="32"/>
->  <reg name="rc"  bitsize="32"/>
->  <reg name="pc"  bitsize="32" type="data_ptr"/>
->  <reg name="clk"  bitsize="32"/>
-> </feature>
->   
+>   CC      or1k-softmmu/hw/openrisc/openrisc_sim.o
+> /home/eblake/qemu/hw/openrisc/openrisc_sim.c: In function â€˜openrisc_sim_initâ€™:
+> /home/eblake/qemu/hw/openrisc/openrisc_sim.c:87:42: error: â€˜cpu_irqs[0]â€™ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>    87 |         sysbus_connect_irq(s, i, cpu_irqs[i][irq_pin]);
+>       |                                  ~~~~~~~~^~~
+> 
+> Initializing both pointers of cpu_irqs[] to NULL is sufficient to shut
+> up the compiler, even though they are definitely assigned in
+> openrisc_sim_init() prior to the inlined call to
+> openrisc_sim_ompic_init() containing the line in question.
+> 
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  hw/openrisc/openrisc_sim.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+> index d08ce6181199..95011a8015b4 100644
+> --- a/hw/openrisc/openrisc_sim.c
+> +++ b/hw/openrisc/openrisc_sim.c
+> @@ -129,7 +129,7 @@ static void openrisc_sim_init(MachineState *machine)
+>      const char *kernel_filename = machine->kernel_filename;
+>      OpenRISCCPU *cpu = NULL;
+>      MemoryRegion *ram;
+> -    qemu_irq *cpu_irqs[2];
+> +    qemu_irq *cpu_irqs[2] = {};
+
+Ah I now remembered why this warning sound familiar:
+https://bugs.launchpad.net/qemu/+bug/1874073
+
+Peter suggested a different fix, I tested it, and was expecting Martin
+Liska to post an updated patch.
+
+>      qemu_irq serial_irq;
+>      int n;
+>      unsigned int smp_cpus = machine->smp.cpus;
+> 
 
 
