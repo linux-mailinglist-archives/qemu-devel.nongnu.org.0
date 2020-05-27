@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53BA41E3A4F
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 09:27:31 +0200 (CEST)
-Received: from localhost ([::1]:37412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D38841E3A31
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 09:18:00 +0200 (CEST)
+Received: from localhost ([::1]:55092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdqTK-0007EC-Ed
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 03:27:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42174)
+	id 1jdqK5-0001Qf-Qf
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 03:17:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jdqRe-0005nE-Ck
- for qemu-devel@nongnu.org; Wed, 27 May 2020 03:25:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53838)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jdqRc-00020F-Ht
- for qemu-devel@nongnu.org; Wed, 27 May 2020 03:25:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jdqRb-0007hO-6W
- for <qemu-devel@nongnu.org>; Wed, 27 May 2020 07:25:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2BC602E8053
- for <qemu-devel@nongnu.org>; Wed, 27 May 2020 07:25:43 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdqJH-0000yz-SG
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 03:17:07 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21530
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdqJH-0005vz-3e
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 03:17:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590563825;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=fwt41HQxGw3q2WCw9tNQU1Rhs+h3NexY5fYjdEsej5M=;
+ b=I5ZCO8ejyb84uUDo4C53LyiNriw21QQrZtIMD49MTEJX8FhoRcdngAbR8LhPI5Vaswjeji
+ WRFsYzM9fNEkXRZCl0t8kCdGclOqIDOrX3Nz+O5UZVhj3D+Ks5df+GrfqPmxGBuTiXyr/l
+ kqFuSh7YpzYdqnfO1SR7TKBK7DnGp9s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-167-3HwwANu4O9KPg1e8sltlrA-1; Wed, 27 May 2020 03:17:02 -0400
+X-MC-Unique: 3HwwANu4O9KPg1e8sltlrA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 190BEEC1AE;
+ Wed, 27 May 2020 07:17:01 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-170.ams2.redhat.com [10.36.112.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 85C0E7A8A0;
+ Wed, 27 May 2020 07:16:58 +0000 (UTC)
+Subject: Re: [PATCH v3 0/3] RTISC-V: Remove deprecated ISA, CPUs and machines
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <cover.1590533156.git.alistair.francis@wdc.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <0c7494fe-f812-9ee4-6c35-bc1991d0aff2@redhat.com>
+Date: Wed, 27 May 2020 09:16:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 27 May 2020 07:15:19 -0000
-From: P J P <1880822@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: cve qemu security
-X-Launchpad-Bug-Information-Type: Public Security
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: pjps
-X-Launchpad-Bug-Reporter: P J P (pjps)
-X-Launchpad-Bug-Modifier: P J P (pjps)
-References: <159056340380.1780.3709038768569765525.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159056371953.757.12012716067130572032.malone@chaenomeles.canonical.com>
-Subject: [Bug 1880822] Re: CVE-2020-13253 QEMU: sd: OOB access could crash the
- guest resulting in DoS
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 06860c8db0f672063b1483a4da790dcf2df97eda
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 01:00:55
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <cover.1590533156.git.alistair.francis@wdc.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 00:45:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,57 +82,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1880822 <1880822@bugs.launchpad.net>
+Cc: palmer@dabbelt.com, bmeng.cn@gmail.com, philmd@redhat.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-#!/bin/sh
+On 27/05/2020 00.47, Alistair Francis wrote:
+> 
+>  include/hw/riscv/spike.h                      |   6 +-
+>  target/riscv/cpu.h                            |   8 -
+>  hw/riscv/spike.c                              | 217 ------------------
+>  target/riscv/cpu.c                            |  30 ---
+>  target/riscv/cpu_helper.c                     |  82 +++----
+>  target/riscv/csr.c                            | 118 ++--------
+>  .../riscv/insn_trans/trans_privileged.inc.c   |  18 +-
+>  target/riscv/monitor.c                        |   5 -
+>  target/riscv/op_helper.c                      |  17 +-
+>  tests/qtest/machine-none-test.c               |   4 +-
+>  10 files changed, 60 insertions(+), 445 deletions(-)
 
-cat << EOF > inp
-outl 0xcf8 0x80001810
-outl 0xcfc 0xe1068000
-outl 0xcf8 0x80001814
-outl 0xcf8 0x80001804
-outw 0xcfc 0x7
-outl 0xcf8 0x8000fa20
-write 0xe106802c 0x1 0x6d
-write 0xe106800f 0x1 0xf7
-write 0xe106800a 0x6 0x9b4b9b5a9b69
-write 0xe1068028 0x3 0x6d6d6d
-write 0xe106800f 0x1 0x02
-write 0xe1068005 0xb 0x055cfbffffff000000ff03
-write 0xe106800c 0x1d 0x050bc6c6c6c6c6c6c6c6762e4c5e0bc603040000000000e1020=
-0110000
-write 0xe1068003 0xd 0x2b6de02c3a6de02c496de02c58
-EOF
- =
+ Hi,
 
-../bin/qemu-system-x86_64 -qtest stdio -enable-kvm -monitor none \
-     -serial none -M pc-q35-5.0 -device sdhci-pci,sd-spec-version=3D3 \
-     -device sd-card,drive=3Dmydrive -nographic \
-     -drive if=3Dsd,index=3D0,file=3Dnull-co://,format=3Draw,id=3Dmydrive <=
- inp
+looking at the diffstat, I think you should also edit
+./docs/system/deprecated.rst according to your changes?
 
--- =
+ Thomas
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1880822
-
-Title:
-  CVE-2020-13253 QEMU: sd: OOB access could crash the guest resulting in
-  DoS
-
-Status in QEMU:
-  New
-
-Bug description:
-  An out-of-bounds read access issue was found in the SD Memory Card
-  emulator of the QEMU. It occurs while performing block write commands
-  via sdhci_write(), if a guest user has sent 'address' which is OOB of
-  's->wp_groups'. A guest user/process may use this flaw to crash the
-  QEMU process resulting in DoS.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1880822/+subscriptions
 
