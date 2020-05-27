@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E7C41E429B
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 14:47:07 +0200 (CEST)
-Received: from localhost ([::1]:33586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4503E1E42AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 14:51:30 +0200 (CEST)
+Received: from localhost ([::1]:44824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdvSc-0001v1-Kl
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 08:47:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52990)
+	id 1jdvWp-0000Tn-8I
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 08:51:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jdvRI-00008M-14; Wed, 27 May 2020 08:45:44 -0400
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:34932)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jdvRG-0001eS-Uc; Wed, 27 May 2020 08:45:43 -0400
-Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::119])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 05C1E2E15A3;
- Wed, 27 May 2020 15:45:41 +0300 (MSK)
-Received: from iva4-7c3d9abce76c.qloud-c.yandex.net
- (iva4-7c3d9abce76c.qloud-c.yandex.net [2a02:6b8:c0c:4e8e:0:640:7c3d:9abc])
- by mxbackcorp2j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- nqQj86Bk57-jbfq4Pkl; Wed, 27 May 2020 15:45:40 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1590583540; bh=5vTc+cYwJ0Yp/qYZkQZ2K2YBz+RbUpeML72x3NJFPMc=;
- h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=M8ZuAGhMsx+thLLDbKB6QLd0xI3uJHv/67y4TKRY/bZ+ez9EboHcOgdO7FSZX/7gx
- xj/pb4AGN2vS4pgcLBcJJgBd6ZYem3Hkwx03tMjUZRDlse10PYNpKpubdCsW5rUtkS
- Y0DVCZz3xDn0rgPyU2RF91ofdnmEY3eHdmqMoygs=
-Authentication-Results: mxbackcorp2j.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b080:8308::1:12])
- by iva4-7c3d9abce76c.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- bzO5qPtczO-jbWOOqOL; Wed, 27 May 2020 15:45:37 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 5/5] block: lift blocksize property limit to 2 MiB
-Date: Wed, 27 May 2020 15:45:11 +0300
-Message-Id: <20200527124511.986099-6-rvkagan@yandex-team.ru>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200527124511.986099-1-rvkagan@yandex-team.ru>
-References: <20200527124511.986099-1-rvkagan@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jdvVp-0008Gp-Ly; Wed, 27 May 2020 08:50:25 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53845)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jdvVo-0003bv-KA; Wed, 27 May 2020 08:50:25 -0400
+Received: by mail-wm1-x344.google.com with SMTP id l26so2922266wme.3;
+ Wed, 27 May 2020 05:50:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=cdrcJ4tWIfsVuxC8hlUvY3Vp2ojYRkqC5WIJtimHwTU=;
+ b=Qb/9EV1SoXRumIdt451LiMfrP3palf0o3pCbV9EJDh3oixF08Q02mkpTauewUEiulH
+ ck+dIphz4ZcchcqM92LxsSkr06BwJitG8uPFcRkXohnZTV8fzTtR4zBLs1WxSnYVdpb2
+ y0vSjBImfDl24Rd3++BlCvQMJXJw5+2L+vv2XTu9VBTt2VsEbrXEYbw8tcswNWlNNZ1Z
+ 7BJKC5H9d1z9ektCQxwTuLCWYxuCdRKTdh+5wQWCLesRoBtkn1NuDBsY+7mpRYmS6KjL
+ IiPPPOTIMKf1dnaM5T5IN+I4xu5PgxPID4WARUl6KvPhv7bqbcZa9JzH6ieZNBVgnvsk
+ uoUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cdrcJ4tWIfsVuxC8hlUvY3Vp2ojYRkqC5WIJtimHwTU=;
+ b=sh04wcIT0jMpTn9AYGtQyN/ObWlK0jSP48wzB8qsSSXD0JC+mzATfTiVlwOEaeYq3u
+ UjuFKmMwPFBlNSTSiH6+ZaCgm0fxW51rFkPKyAzwRNFmkpeDmshZsis5+e+QquiNaWn7
+ SQb7ZCyu8NrradIkmBqUMBsyEeMxfo5vQPRXrhAlqd7lcvFuUOMfcRofLrNy/d+TKvNX
+ 7zOVtSgivC86lIhHAhckhi9SRhZOEaccVhUXXmP9HR+4LCMzpUz7rxt0RDAqrB8rzOBl
+ QmdT9T5deESXKqxT8R2FtQsIpMeBikv3140WxK3jioL+2TNRcBfTn0OzGzRNWY6JANLm
+ lYrQ==
+X-Gm-Message-State: AOAM533ZdJEtor3ABTyJcD58+3BryujQjNcSYxIowggKvTI+2jQtkAKT
+ Akk1e0eT3nNs0o4ZOmSl8EA=
+X-Google-Smtp-Source: ABdhPJx9+sVo+lrTBMR5cFeDIxZttqP6lc8rsCm2Bj5xJirRxujFsWhyEJoqmSpv4B25OtYzyO5VMg==
+X-Received: by 2002:a1c:bb05:: with SMTP id l5mr3989327wmf.141.1590583819233; 
+ Wed, 27 May 2020 05:50:19 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id m23sm2612038wmg.45.2020.05.27.05.50.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 May 2020 05:50:17 -0700 (PDT)
+Date: Wed, 27 May 2020 13:50:16 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 0/4] memory: Add memory_region_msync() & make NVMe
+ emulated device generic
+Message-ID: <20200527125016.GF29137@stefanha-x1.localdomain>
+References: <20200508062456.23344-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=77.88.29.217; envelope-from=rvkagan@yandex-team.ru;
- helo=forwardcorp1p.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 08:45:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vKFfOv5t3oGVpiF+"
+Content-Disposition: inline
+In-Reply-To: <20200508062456.23344-1-philmd@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,58 +84,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Stefano Stabellini <sstabellini@kernel.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Beata Michalska <beata.michalska@linaro.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, qemu-arm@nongnu.org,
+ Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Logical and physical block sizes in QEMU are limited to 32 KiB.
 
-This appears unnecessary tight, and we've seen bigger block sizes handy
-at times.
+--vKFfOv5t3oGVpiF+
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Lift the limitation up to 2 MiB which appears to be good enough for
-everybody, and matches the qcow2 cluster size limit.
+On Fri, May 08, 2020 at 08:24:52AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Let the NVMe emulated device be target-agnostic.
+>=20
+> It is not clear if dccvap_writefn() really needs
+> memory_region_writeback() or could use memory_region_msync().
+>=20
+> Philippe Mathieu-Daud=E9 (4):
+>   memory: Rename memory_region_do_writeback -> memory_region_writeback
+>   memory: Extract memory_region_msync() from memory_region_writeback()
+>   hw/block: Let the NVMe emulated device be target-agnostic
+>   exec: Rename qemu_ram_writeback() as qemu_ram_msync()
+>=20
+>  include/exec/memory.h   | 15 +++++++++++++--
+>  include/exec/ram_addr.h |  4 ++--
+>  exec.c                  |  2 +-
+>  hw/block/nvme.c         |  6 ++----
+>  memory.c                | 12 +++++++++---
+>  target/arm/helper.c     |  2 +-
+>  hw/block/Makefile.objs  |  2 +-
+>  7 files changed, 29 insertions(+), 14 deletions(-)
 
-Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
----
-v4 -> v5:
-- split out into separate patch [Philippe]
-- as this patch has changed significantly lose Eric's r-b
+Thanks, applied to my block tree with Paolo's Acked-by:
+https://github.com/stefanha/qemu/commits/block
 
- hw/core/qdev-properties.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Stefan
 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index e7ccd4d276..ecd84262a9 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -784,9 +784,12 @@ const PropertyInfo qdev_prop_size32 = {
- /* lower limit is sector size */
- #define MIN_BLOCK_SIZE          512
- #define MIN_BLOCK_SIZE_STR      stringify(MIN_BLOCK_SIZE)
--/* upper limit is the max power of 2 that fits in uint16_t */
--#define MAX_BLOCK_SIZE          32768
--#define MAX_BLOCK_SIZE_STR      stringify(MAX_BLOCK_SIZE)
-+/*
-+ * upper limit is arbitrary, 2 MiB looks sufficient for all sensible uses, and
-+ * matches qcow2 cluster size limit
-+ */
-+#define MAX_BLOCK_SIZE          (2 * MiB)
-+#define MAX_BLOCK_SIZE_STR      "2 MiB"
- 
- static void set_blocksize(Object *obj, Visitor *v, const char *name,
-                           void *opaque, Error **errp)
--- 
-2.26.2
+--vKFfOv5t3oGVpiF+
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7OYggACgkQnKSrs4Gr
+c8hgRgf8CC2QMO6EXSDjEInBPXt7ihx86t6J0HKkhspJOMYpMapcV0JSSx1/IWQd
+AAUbxr9JbVNgZGImgJkSkBzeZ0JernnPpuQSPs/S1AaoeNUZp0TunXbfFFy2zoL+
+oF1R8KackG02+SktcfQ7vWvyG0NbuGam172T182qI31MQkNJ+TBBwfR9rludjfBo
+0+QkP5KmYcg/k53ryHGkmguFoZJ+VtGk4q89PH+A0lKTIEqvY6sXBGXb5EVWJYA3
+igazLJGMqQhcFF6voi1Vwn+292geGb4IVHyE1qE4pewEFoMTj0SojvRAUx0c+XSc
+oHyMC0td5UotWyrVS/CPChcovByAYw==
+=ZKmE
+-----END PGP SIGNATURE-----
+
+--vKFfOv5t3oGVpiF+--
 
