@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8271E4693
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 16:58:00 +0200 (CEST)
-Received: from localhost ([::1]:55538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 917FC1E46A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 16:59:28 +0200 (CEST)
+Received: from localhost ([::1]:35506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdxVH-0006Se-4r
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 10:57:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44558)
+	id 1jdxWh-0001Mw-LB
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 10:59:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jdxSa-0001vt-Dd
+ id 1jdxSa-0001wZ-QZ
  for qemu-devel@nongnu.org; Wed, 27 May 2020 10:55:12 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:56277)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jdxSZ-0008Dw-1Z
- for qemu-devel@nongnu.org; Wed, 27 May 2020 10:55:11 -0400
-Received: by mail-wm1-x331.google.com with SMTP id c71so3314627wmd.5
- for <qemu-devel@nongnu.org>; Wed, 27 May 2020 07:55:10 -0700 (PDT)
+ id 1jdxSY-0008DY-2f
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 10:55:12 -0400
+Received: by mail-wr1-x434.google.com with SMTP id l10so1538000wrr.10
+ for <qemu-devel@nongnu.org>; Wed, 27 May 2020 07:55:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Dm74SlTEnZyxd4hI8XjcLMpSfE87lkjOy5GE4QJMVNA=;
- b=frz0aBzywnSTSWGwvUWtphMoIDMAotS0DsPg7ncp+DhFTrjTtKSAzlUoLWbLLRs8Yk
- 2W1GH9QYRcxW8p2lzPbqoMtdtAmaeNlBMOiEgLDj7lSXtMbl54MyZ0of6Jy/fPwdh4Ft
- uuBD5RqVQcTu222W8BIoi0sl/vhy9NGFl2iC/hn79k7rYQ8cSEEvh9SNVBHz3vA4IgkB
- tmDitPqnHS15O9ORlmnoMGdjPLX2dK+NeQ8NRDKZgoy6bFeoAHg6iTH8DHui8rmY++bB
- K4cgjvGDHCDv3BcrvvlPZ8RrXZcbWxF1JQGRv4Wf6YKAaicsJBDLo6rGQHx13wGUxrYs
- d/4Q==
+ bh=aitRg9If761W1gcoFA+t9rMfX6i5VN1JLB5FFhcpUdo=;
+ b=sOuJUfkkKq21pQOAkTABGqsTn0BnRJRVoham3SoPFFyazh1d0/l6Kt1j7KNJpSJCnA
+ vsO3UNMZmR+0AfTd4CPnSro5JLqPSPVxNoJn1aBHPjDF6WABOwl+xfbc4CmCSCtnPMfs
+ ayHL27lqrTE94Jo1Cm7MCUOkTuC94SDZjqi3DdfpAc4ks5HYAZ15fa3+k26zZhyIqK4z
+ jdzArH3sJW1PLIRAMQgJ+x1h+nRd4xb+sNM1Vs8999uoK18LNKAgkbTwZc5R/VgLxaAU
+ rH4TZS2K63EO0CG61vMUKdziakvYrBrfIELPmFfdnrqoSIF7YSFMOHIUDrUHDGaScQk4
+ dOhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Dm74SlTEnZyxd4hI8XjcLMpSfE87lkjOy5GE4QJMVNA=;
- b=WwItR8Ds60/6tGi7QTM1CYWpv4J+6Fm1FnkN7jBrX9lbhU4+RBh37GHeDiN66fgV3s
- QtoNk6zf/wSzTwtL3umhHv3inRWmFysYnDNjS3DVUwtyH/SkrNQXia/b3WJMkwDhOITE
- SjwvsKHaHZXDFfgk/ckj8sjdtTRQMcN1e2ut+J5QfQeRhlC4Out1GVxhPquESiNd3NXX
- 8040vQCyu1S5ONYeUyhQvYoxewhwbB6etNPGdE1LYz0bHZJArKAqAJajqQFOVMLKqMe2
- DIOicRAhXqBHM7eNBe+452y+Otognyk3Y43FueQsKKKmUQxD2+4HTA8k0yj+ly/j3C7Y
- Tyjg==
-X-Gm-Message-State: AOAM532w8Yp4HHIMRTxb+7r99mI1AGTLD/XBI7JMPYz7EKdq42CLPcdE
- KjO+xV8gi05nfWyOrSgQYxMzDA==
-X-Google-Smtp-Source: ABdhPJxLWfwmrt9WFFKidhqVAIKb+7svcSx89nbP+VEjDN/eLF7pIkXK0rLZL45hrIvFBbl4UGddYg==
-X-Received: by 2002:a1c:a905:: with SMTP id s5mr4540623wme.120.1590591309385; 
- Wed, 27 May 2020 07:55:09 -0700 (PDT)
+ bh=aitRg9If761W1gcoFA+t9rMfX6i5VN1JLB5FFhcpUdo=;
+ b=B8+V4fHzQoZtSUe+bSTuzB7I8ilkNrDffOCugTnPdp4c804nxQ42bDTYCswwuAgOwR
+ 2svUDjRWl9fPWKOY3i2pX1XscRaxWfgieDGzgaF5SZxBmyeAX0l7yqdH6aWwXkPrIfsD
+ nXXFAMvFSIRwxfnkYpaPCy9JSWS1VSOjfcb+jleGRKBSi/QwoJgOlGAytu/0e5nGxpO8
+ 8YwLs9+aGyLnuAKOLqKMB+t4Qjh4EOsQYF2DW8aS1GyNHLmBzDFmM3TaVm6vHuHDWheM
+ mkHauKE9IqR5rUGICMii8j+TtsDI5u1pSJQAN0G2Tmu/bI0c84ywJyvWbc60n8dkLLkw
+ z2xA==
+X-Gm-Message-State: AOAM533dUys3LWqjEtVEBItG5bNYpMTCPU8Mi38SeqOjg/sxahIMPqkL
+ IWpO0tKAoAYSNvrjW0/U22FI3A==
+X-Google-Smtp-Source: ABdhPJxZmCOOrz7N+olHlbIzzfs0mHjZkUY8mnW9KQIB9wdPGGzwv12ZHz3Fvv84cFqLOVZJWBC8uw==
+X-Received: by 2002:adf:a399:: with SMTP id l25mr24502400wrb.212.1590591308201; 
+ Wed, 27 May 2020 07:55:08 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s19sm2869069wmj.21.2020.05.27.07.55.00
+ by smtp.gmail.com with ESMTPSA id x186sm3268618wmg.8.2020.05.27.07.55.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 27 May 2020 07:55:04 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DC4D61FF98;
+ by zen.linaroharston (Postfix) with ESMTP id 001111FF99;
  Wed, 27 May 2020 15:54:56 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/12] tests/docker: use a gcc-10 based image for arm64 tests
-Date: Wed, 27 May 2020 15:54:52 +0100
-Message-Id: <20200527145455.2550-10-alex.bennee@linaro.org>
+Subject: [PULL 10/12] cpus-common: ensure auto-assigned cpu_indexes don't clash
+Date: Wed, 27 May 2020 15:54:53 +0100
+Message-Id: <20200527145455.2550-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200527145455.2550-1-alex.bennee@linaro.org>
 References: <20200527145455.2550-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,71 +88,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Nikolay Igotti <igotti@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Igor Mammedow <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we enable newer features that we want to test on arm64 targets we
-need newer compilers. Split off a new debian-arm64-test-cross image
-which we can use to build these new tests.
+Basing the cpu_index on the number of currently allocated vCPUs fails
+when vCPUs aren't removed in a LIFO manner. This is especially true
+when we are allocating a cpu_index for each guest thread in
+linux-user where there is no ordering constraint on their allocation
+and de-allocation.
+
+[I've dropped the assert which is there to guard against out-of-order
+removal as this should probably be caught higher up the stack. Maybe
+we could just ifdef CONFIG_SOFTTMU it?]
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200520140541.30256-11-alex.bennee@linaro.org>
+Acked-by: Igor Mammedow <imammedo@redhat.com>
+Cc: Nikolay Igotti <igotti@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20200520140541.30256-13-alex.bennee@linaro.org>
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 3596b589307..ed46bd98eb5 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -131,9 +131,11 @@ docker-image-travis: NOUSER=1
+diff --git a/cpus-common.c b/cpus-common.c
+index 55d5df89237..70a9d12981a 100644
+--- a/cpus-common.c
++++ b/cpus-common.c
+@@ -61,13 +61,15 @@ static bool cpu_index_auto_assigned;
+ static int cpu_get_free_index(void)
+ {
+     CPUState *some_cpu;
+-    int cpu_index = 0;
++    int max_cpu_index = 0;
  
- # Specialist build images, sometimes very limited tools
- docker-image-tricore-cross: docker-image-debian9
-+docker-image-debian-arm64-test-cross: docker-image-debian11
+     cpu_index_auto_assigned = true;
+     CPU_FOREACH(some_cpu) {
+-        cpu_index++;
++        if (some_cpu->cpu_index >= max_cpu_index) {
++            max_cpu_index = some_cpu->cpu_index + 1;
++        }
+     }
+-    return cpu_index;
++    return max_cpu_index;
+ }
  
- # These images may be good enough for building tests but not for test builds
- DOCKER_PARTIAL_IMAGES += debian-alpha-cross
-+DOCKER_PARTIAL_IMAGES += debian-arm64-test-cross
- DOCKER_PARTIAL_IMAGES += debian-hppa-cross
- DOCKER_PARTIAL_IMAGES += debian-m68k-cross debian-mips64-cross
- DOCKER_PARTIAL_IMAGES += debian-powerpc-cross debian-ppc64-cross
-diff --git a/tests/docker/dockerfiles/debian-arm64-test-cross.docker b/tests/docker/dockerfiles/debian-arm64-test-cross.docker
-new file mode 100644
-index 00000000000..a44e76d9421
---- /dev/null
-+++ b/tests/docker/dockerfiles/debian-arm64-test-cross.docker
-@@ -0,0 +1,13 @@
-+#
-+# Docker arm64 cross-compiler target (tests only)
-+#
-+# This docker target builds on the debian Bullseye base image.
-+#
-+FROM qemu:debian11
-+
-+# Add the foreign architecture we want and install dependencies
-+RUN dpkg --add-architecture arm64
-+RUN apt update && \
-+    DEBIAN_FRONTEND=noninteractive eatmydata \
-+        apt install -y --no-install-recommends \
-+        crossbuild-essential-arm64 gcc-10-aarch64-linux-gnu
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index eaaaff6233a..2326f978562 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -97,8 +97,8 @@ for target in $target_list; do
-   case $target in
-     aarch64-*)
-       # We don't have any bigendian build tools so we only use this for AArch64
--      container_image=debian-arm64-cross
--      container_cross_cc=aarch64-linux-gnu-gcc
-+      container_image=debian-arm64-test-cross
-+      container_cross_cc=aarch64-linux-gnu-gcc-10
-       ;;
-     alpha-*)
-       container_image=debian-alpha-cross
+ void cpu_list_add(CPUState *cpu)
+@@ -90,8 +92,6 @@ void cpu_list_remove(CPUState *cpu)
+         return;
+     }
+ 
+-    assert(!(cpu_index_auto_assigned && cpu != QTAILQ_LAST(&cpus)));
+-
+     QTAILQ_REMOVE_RCU(&cpus, cpu, node);
+     cpu->cpu_index = UNASSIGNED_CPU_INDEX;
+ }
 -- 
 2.20.1
 
