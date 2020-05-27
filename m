@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254421E38C9
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 08:06:59 +0200 (CEST)
-Received: from localhost ([::1]:45356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3FA1E38BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 08:02:19 +0200 (CEST)
+Received: from localhost ([::1]:55416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdpDO-00043l-7O
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 02:06:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51282)
+	id 1jdp8s-0004kU-93
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 02:02:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdp6b-0002am-JA
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdp6c-0002bI-AM
  for qemu-devel@nongnu.org; Wed, 27 May 2020 01:59:58 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26107
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41818
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdp6X-0004FH-R1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdp6X-0004Ed-NG
  for qemu-devel@nongnu.org; Wed, 27 May 2020 01:59:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1590559192;
@@ -24,42 +24,42 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Iop54lm0wJKDvXW3bGCzNylCDOWFU7ilRFi9qRAVZC8=;
- b=bA8oB6LLCTZov6weyTI69ifhgm1ZgM04rzhpMOzCpyjDDblYb0gIE3yp2c4HLanM5pMwz6
- VUmbvtr55jt93v4pm13eePFrD1gUSer3U0M23G/9fB0O4vaNk2sPYQ59skDRyeq3gh/hUs
- NxSg+tiu1yjPpYfLGrjDptVcPMafr5U=
+ bh=ihIWWgHgIVEr1v+IWGigUbLF1MmjonVuW9yyX8//GSY=;
+ b=cTpOvhEVq6aztYzwE78GaR6zMrsfmgnL2T5HBcrkEe9iNYsAatyboByJy3y/hcR2E6u8yO
+ 0Sfe+9TmfqppX1MSWdS2tTeXwbOpXq2CAVJvLxC+L//ZPcNMYoTi4BlhxP8pQjLTKufZSe
+ /E0vxWmdXAZ2dceGhXfLRRQSovPPcfQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-OIsVLHqwMbC0fgXurtD8ag-1; Wed, 27 May 2020 01:59:50 -0400
-X-MC-Unique: OIsVLHqwMbC0fgXurtD8ag-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-490-6QaU5fLZNxiuDvaNTSeIAg-1; Wed, 27 May 2020 01:59:50 -0400
+X-MC-Unique: 6QaU5fLZNxiuDvaNTSeIAg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75AE1460;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68D86100A8E7;
  Wed, 27 May 2020 05:59:49 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 04C2119D7E;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 047795D9E7;
  Wed, 27 May 2020 05:59:49 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 01E6D11358BE; Wed, 27 May 2020 07:59:46 +0200 (CEST)
+ id 0525111358BF; Wed, 27 May 2020 07:59:46 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/10] mips/boston: Fix boston_mach_init() error handling
-Date: Wed, 27 May 2020 07:59:42 +0200
-Message-Id: <20200527055945.6774-8-armbru@redhat.com>
+Subject: [PULL 08/10] mips/boston: Plug memory leak in boston_mach_init()
+Date: Wed, 27 May 2020 07:59:43 +0200
+Message-Id: <20200527055945.6774-9-armbru@redhat.com>
 In-Reply-To: <20200527055945.6774-1-armbru@redhat.com>
 References: <20200527055945.6774-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 00:45:05
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 00:49:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,49 +86,38 @@ Cc: Paul Burton <pburton@wavecomp.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Error ** argument must be NULL, &error_abort, &error_fatal, or a
-pointer to a variable containing NULL.  Passing an argument of the
-latter kind twice without clearing it in between is wrong: if the
-first call sets an error, it no longer points to NULL for the second
-call.
-
-boston_mach_init() is wrong that way.  The last calls treats an error
-as fatal.  Do that for the prior ones, too.
-
 Fixes: df1d8a1f29f567567b9d20be685a4241282e7005
 Cc: Paul Burton <pburton@wavecomp.com>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200505101908.6207-8-armbru@redhat.com>
+Message-Id: <20200505101908.6207-9-armbru@redhat.com>
 Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 ---
- hw/mips/boston.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ hw/mips/boston.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index 98ecd25e8e..2832dfa6ae 100644
+index 2832dfa6ae..a896056be1 100644
 --- a/hw/mips/boston.c
 +++ b/hw/mips/boston.c
-@@ -458,14 +458,11 @@ static void boston_mach_init(MachineState *machine)
-     sysbus_init_child_obj(OBJECT(machine), "cps", OBJECT(&s->cps),
-                           sizeof(s->cps), TYPE_MIPS_CPS);
-     object_property_set_str(OBJECT(&s->cps), machine->cpu_type, "cpu-type",
--                            &err);
--    object_property_set_int(OBJECT(&s->cps), machine->smp.cpus, "num-vp", &err);
--    object_property_set_bool(OBJECT(&s->cps), true, "realized", &err);
--
--    if (err != NULL) {
--        error_report("%s", error_get_pretty(err));
--        exit(1);
--    }
-+                            &error_fatal);
-+    object_property_set_int(OBJECT(&s->cps), machine->smp.cpus, "num-vp",
-+                            &error_fatal);
-+    object_property_set_bool(OBJECT(&s->cps), true, "realized",
-+                             &error_fatal);
- 
+@@ -426,7 +426,6 @@ static void boston_mach_init(MachineState *machine)
+ {
+     DeviceState *dev;
+     BostonState *s;
+-    Error *err = NULL;
+     MemoryRegion *flash, *ddr_low_alias, *lcd, *platreg;
+     MemoryRegion *sys_mem = get_system_memory();
+     XilinxPCIEHost *pcie2;
+@@ -467,7 +466,8 @@ static void boston_mach_init(MachineState *machine)
      sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->cps), 0, 0, 1);
  
+     flash =  g_new(MemoryRegion, 1);
+-    memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB, &err);
++    memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB,
++                           &error_fatal);
+     memory_region_add_subregion_overlap(sys_mem, 0x18000000, flash, 0);
+ 
+     memory_region_add_subregion_overlap(sys_mem, 0x80000000, machine->ram, 0);
 -- 
 2.21.3
 
