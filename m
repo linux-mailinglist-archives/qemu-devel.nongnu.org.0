@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92031E385A
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 07:39:41 +0200 (CEST)
-Received: from localhost ([::1]:54846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 303F61E385D
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 07:40:01 +0200 (CEST)
+Received: from localhost ([::1]:57186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdomy-0002fX-FC
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 01:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46176)
+	id 1jdonI-0003aM-6C
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 01:40:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jdoli-00015C-VJ; Wed, 27 May 2020 01:38:22 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52697 helo=ozlabs.org)
+ id 1jdoli-00014y-M4; Wed, 27 May 2020 01:38:22 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:35859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jdolg-0001bl-Sc; Wed, 27 May 2020 01:38:22 -0400
+ id 1jdolg-0001bp-RQ; Wed, 27 May 2020 01:38:22 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49X03q2jk5z9sSg; Wed, 27 May 2020 15:38:15 +1000 (AEST)
+ id 49X03q3Tj6z9sSk; Wed, 27 May 2020 15:38:15 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1590557895;
- bh=bZ5HAdN/qla6XhBKfc5ETaol4quDnOLMYpCgVpG8Scs=;
+ bh=167hnw7FWUOfd27HKDy2X3q5Aj849B09c+brDsAAulw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gbS+8ZTPJDyi+EmuQe6cvuoGr7GB07giin34A5ixAAMBva8ax7EAC5+ICOrCAEkjW
- DEs0cQpJihhjltYhfTECNFcA78ajtl0j2IHuf6r0cwQxgSoAwmPfB6UUBiW8hZf1P5
- VoCGd5sZaIG8XuMmqs5UUjstXNMUeYoDdrJLA3I8=
+ b=YMXg1g7apy31RoWrONdM/17x1tUgeFt3X3xVXd7HnJsWPeHyu0ROLoiUGQZ+kKIc3
+ /W7xK1pJpOK8BwTyxlzpc/pJLdiTtEC+FVYW1ulCPULJZJfY+bl6/tF+4wyGXgqw/y
+ 5+MUIEaFLXGq0loIgAnJS04HAnrFHcQALof5kzbU=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 02/15] ppc/spapr: add a POWER10 CPU model
-Date: Wed, 27 May 2020 15:37:56 +1000
-Message-Id: <20200527053809.356168-3-david@gibson.dropbear.id.au>
+Subject: [PULL 03/15] target/ppc: Untabify excp_helper.c
+Date: Wed, 27 May 2020 15:37:57 +1000
+Message-Id: <20200527053809.356168-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200527053809.356168-1-david@gibson.dropbear.id.au>
 References: <20200527053809.356168-1-david@gibson.dropbear.id.au>
@@ -61,32 +61,53 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- philmd@redhat.com, David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nongnu.org, philmd@redhat.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Greg Kurz <groug@kaod.org>
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20200507073855.2485680-1-clg@kaod.org>
+Some tabs crept in with a recent change.
+
+Fixes: 6dc6b557913f "target/ppc: Improve syscall exception logging"
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <158886788307.1560068.14096740175576278978.stgit@bahia.lan>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_cpu_core.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/ppc/excp_helper.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index e1f76c74f3..9c8c1b14cf 100644
---- a/hw/ppc/spapr_cpu_core.c
-+++ b/hw/ppc/spapr_cpu_core.c
-@@ -407,6 +407,7 @@ static const TypeInfo spapr_cpu_core_type_infos[] = {
-     DEFINE_SPAPR_CPU_CORE_TYPE("power8nvl_v1.0"),
-     DEFINE_SPAPR_CPU_CORE_TYPE("power9_v1.0"),
-     DEFINE_SPAPR_CPU_CORE_TYPE("power9_v2.0"),
-+    DEFINE_SPAPR_CPU_CORE_TYPE("power10_v1.0"),
- #ifdef CONFIG_KVM
-     DEFINE_SPAPR_CPU_CORE_TYPE("host"),
- #endif
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index f052979664..ace8620026 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -70,16 +70,16 @@ static inline void dump_syscall(CPUPPCState *env)
+ static inline void dump_hcall(CPUPPCState *env)
+ {
+     qemu_log_mask(CPU_LOG_INT, "hypercall r3=%016" PRIx64
+-		  " r4=%016" PRIx64 " r5=%016" PRIx64 " r6=%016" PRIx64
+-		  " r7=%016" PRIx64 " r8=%016" PRIx64 " r9=%016" PRIx64
+-		  " r10=%016" PRIx64 " r11=%016" PRIx64 " r12=%016" PRIx64
++                  " r4=%016" PRIx64 " r5=%016" PRIx64 " r6=%016" PRIx64
++                  " r7=%016" PRIx64 " r8=%016" PRIx64 " r9=%016" PRIx64
++                  " r10=%016" PRIx64 " r11=%016" PRIx64 " r12=%016" PRIx64
+                   " nip=" TARGET_FMT_lx "\n",
+                   ppc_dump_gpr(env, 3), ppc_dump_gpr(env, 4),
+-		  ppc_dump_gpr(env, 5), ppc_dump_gpr(env, 6),
+-		  ppc_dump_gpr(env, 7), ppc_dump_gpr(env, 8),
+-		  ppc_dump_gpr(env, 9), ppc_dump_gpr(env, 10),
+-		  ppc_dump_gpr(env, 11), ppc_dump_gpr(env, 12),
+-		  env->nip);
++                  ppc_dump_gpr(env, 5), ppc_dump_gpr(env, 6),
++                  ppc_dump_gpr(env, 7), ppc_dump_gpr(env, 8),
++                  ppc_dump_gpr(env, 9), ppc_dump_gpr(env, 10),
++                  ppc_dump_gpr(env, 11), ppc_dump_gpr(env, 12),
++                  env->nip);
+ }
+ 
+ static int powerpc_reset_wakeup(CPUState *cs, CPUPPCState *env, int excp,
 -- 
 2.26.2
 
