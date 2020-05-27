@@ -2,46 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674521E3F45
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 12:40:51 +0200 (CEST)
-Received: from localhost ([::1]:54510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8712D1E3F3D
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 12:39:05 +0200 (CEST)
+Received: from localhost ([::1]:46258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdtUQ-0002zs-Fj
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 06:40:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56314)
+	id 1jdtSi-0007hc-I8
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 06:39:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
- id 1jdtLa-0002Cn-Nn
- for qemu-devel@nongnu.org; Wed, 27 May 2020 06:31:42 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:33742)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdtLZ-00028V-Iy
- for qemu-devel@nongnu.org; Wed, 27 May 2020 06:31:42 -0400
-Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 800E3CD463;
- Wed, 27 May 2020 13:31:40 +0300 (MSK)
-Subject: [PATCH v2 11/11] tests/acceptance: Linux boot test for record/replay
-From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 27 May 2020 13:31:40 +0300
-Message-ID: <159057550026.16818.11665839081165803832.stgit@pasha-ThinkPad-X280>
-In-Reply-To: <159057543840.16818.14393433996899521784.stgit@pasha-ThinkPad-X280>
-References: <159057543840.16818.14393433996899521784.stgit@pasha-ThinkPad-X280>
-User-Agent: StGit/0.17.1-dirty
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdtLw-0002cz-Fa
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 06:32:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46295
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jdtLv-0002I2-AY
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 06:32:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590575521;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=AVt01HXrdB+8fHDDTsd09q5b4DOu9jioBSw0WSFAwzk=;
+ b=hijwn8ffWArjjlxQRLNpZcIVJXDchaWpErGWPWqyDSSpEJ4GXejQsuX32yBV5/XURVMSYr
+ 4EBk/YN3AfpiFJ913y+6TnNgUcHorWPRhZWYXRzgr7OSyOY96a6Y1gN/89BPjcY9NtMH+b
+ FwKALCV7USbaOJAUOW8uU8YDF04ibjk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-29-aEQsy55aPUSYKW_fUU0MQw-1; Wed, 27 May 2020 06:32:00 -0400
+X-MC-Unique: aEQsy55aPUSYKW_fUU0MQw-1
+Received: by mail-wm1-f72.google.com with SMTP id v23so742525wmj.0
+ for <qemu-devel@nongnu.org>; Wed, 27 May 2020 03:31:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=AVt01HXrdB+8fHDDTsd09q5b4DOu9jioBSw0WSFAwzk=;
+ b=tDQrBIZQBjelo/44V4X+UDApzzSekcOlXiGuwNilMB8HjZxeQfYX9gw6wAAPZ3WRzP
+ LHcYWmdz21BIKYhkMeCIIxxNqJ/KODWkUX8ScASmfMtxrvxJtBHsgEZ6idMM/Xq30JLx
+ +szKy7jHBBP1QgbXoqFAPbzRk4sJJFMLGtaRQOFl4hDhImd2D46aPKv0q5XkmP5WOzDK
+ mkXdjYmgqr9d28lTIjD7pPlHfrvlsllA9BxdQqD4BSelEfOwVIdDTSYMgMbZakRht6y6
+ y9dfxqKXH5BM01VeNvgpdvETd7hoyO7iCAR10IxBzDcZML+ygCACgxkRJRSebAm9j/xy
+ BpVw==
+X-Gm-Message-State: AOAM530r3yKk2O+a9tgI1ip8P6wjuZ2VpzOf+qfR/rspsdkuIWdXYBcc
+ UPPtEcBvucUVSXj32opPWp5o0agvi5y5CHObLLD7kYGGYpVRy/vakiyoBgc1dsEXE5bK9Lj07W3
+ K92W5ce3M+zYNcJI=
+X-Received: by 2002:a1c:80d4:: with SMTP id b203mr3671873wmd.138.1590575519058; 
+ Wed, 27 May 2020 03:31:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx3dkURmAXEhZGPAM0MaGovjvBO8kWg5Yn+M5gS1JdYIY+vqi4ChK/O7NLA4ZVdQJgAEhBP0A==
+X-Received: by 2002:a1c:80d4:: with SMTP id b203mr3671853wmd.138.1590575518809; 
+ Wed, 27 May 2020 03:31:58 -0700 (PDT)
+Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id l5sm2247029wml.27.2020.05.27.03.31.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 May 2020 03:31:58 -0700 (PDT)
+Subject: Re: [PATCH 2/2] qom: Make "info qom-tree" show children sorted
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200527084754.7531-1-armbru@redhat.com>
+ <20200527084754.7531-3-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <ad820bc6-437f-33c9-dc6f-3f325665d7cf@redhat.com>
+Date: Wed, 27 May 2020 12:31:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: softfail client-ip=83.149.199.45;
- envelope-from=Pavel.Dovgaluk@gmail.com; helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 06:30:39
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: 7
-X-Spam_score: 0.7
-X-Spam_bar: /
-X-Spam_report: (0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
- FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, NML_ADSP_CUSTOM_MED=0.9,
- SPF_SOFTFAIL=0.665, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200527084754.7531-3-armbru@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 01:25:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,145 +121,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wrampazz@redhat.com, alex.bennee@linaro.org, dovgaluk@ispras.ru,
- pavel.dovgaluk@ispras.ru, crosa@redhat.com, pbonzini@redhat.com,
- philmd@redhat.com
+Cc: pbonzini@redhat.com, mark.cave-ayland@ilande.co.uk, berrange@redhat.com,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a test for record/replay, which boots Linux
-image from the disk and interacts with the network.
-The idea and code of this test is borrowed from boot_linux.py
-However, currently record/replay works only for x86_64,
-therefore other tests were excluded.
+On 5/27/20 10:47 AM, Markus Armbruster wrote:
+> "info qom-tree" prints children in unstable order.  This is a pain
+> when diffing output for different versions to find change.  Print it
+> sorted.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  qom/qom-hmp-cmds.c | 24 ++++++++++++++++--------
+>  1 file changed, 16 insertions(+), 8 deletions(-)
+> 
+> diff --git a/qom/qom-hmp-cmds.c b/qom/qom-hmp-cmds.c
+> index cd08233a4c..94bdee9a90 100644
+> --- a/qom/qom-hmp-cmds.c
+> +++ b/qom/qom-hmp-cmds.c
+> @@ -69,22 +69,25 @@ typedef struct QOMCompositionState {
+>  
+>  static void print_qom_composition(Monitor *mon, Object *obj, int indent);
+>  
+> -static int print_qom_composition_child(Object *obj, void *opaque)
+> +static int qom_composition_compare(const void *a, const void *b, void *ignore)
+>  {
+> -    QOMCompositionState *s = opaque;
+> +    return g_strcmp0(a ? object_get_canonical_path_component(a) : NULL,
+> +                     b ? object_get_canonical_path_component(b) : NULL);
+> +}
+>  
+> -    print_qom_composition(s->mon, obj, s->indent);
+> +static int insert_qom_composition_child(Object *obj, void *opaque)
+> +{
+> +    GQueue *children = opaque;
+>  
+> +    g_queue_insert_sorted(children, obj, qom_composition_compare, NULL);
+>      return 0;
+>  }
+>  
+>  static void print_qom_composition(Monitor *mon, Object *obj, int indent)
+>  {
+> -    QOMCompositionState s = {
+> -        .mon = mon,
+> -        .indent = indent + 2,
+> -    };
+>      char *name;
+> +    GQueue children;
+> +    Object *child;
+>  
+>      if (obj == object_get_root()) {
+>          name = g_strdup("");
+> @@ -94,7 +97,12 @@ static void print_qom_composition(Monitor *mon, Object *obj, int indent)
+>      monitor_printf(mon, "%*s/%s (%s)\n", indent, "", name,
+>                     object_get_typename(obj));
+>      g_free(name);
+> -    object_child_foreach(obj, print_qom_composition_child, &s);
+> +
+> +    g_queue_init(&children);
+> +    object_child_foreach(obj, insert_qom_composition_child, &children);
+> +    while ((child = g_queue_pop_head(&children))) {
+> +        print_qom_composition(mon, child, indent + 2);
+> +    }
+>  }
+>  
+>  void hmp_info_qom_tree(Monitor *mon, const QDict *dict)
+> 
 
-Each test consists of the following phases:
- - downloading the disk image
- - recording the execution
- - replaying the execution
-
-Replay does not validates the output, but waits until QEMU
-finishes the execution. This is reasonable, because
-QEMU usually hangs when replay goes wrong.
-
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
----
- 0 files changed
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e9a9ce4f66..97f066a9b2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2498,6 +2498,7 @@ F: include/sysemu/replay.h
- F: docs/replay.txt
- F: stubs/replay.c
- F: tests/acceptance/replay_kernel.py
-+F: tests/acceptance/replay_linux.py
- 
- IOVA Tree
- M: Peter Xu <peterx@redhat.com>
-diff --git a/tests/acceptance/replay_linux.py b/tests/acceptance/replay_linux.py
-new file mode 100644
-index 0000000000..7c5971f156
---- /dev/null
-+++ b/tests/acceptance/replay_linux.py
-@@ -0,0 +1,97 @@
-+# Record/replay test that boots a complete Linux system via a cloud image
-+#
-+# Copyright (c) 2020 ISP RAS
-+#
-+# Author:
-+#  Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+import os
-+
-+from avocado.utils import cloudinit
-+from avocado.utils import network
-+from avocado.utils import vmimage
-+from avocado.utils import datadrainer
-+from avocado.utils.path import find_command
-+from boot_linux import BootLinuxBase
-+
-+class ReplayLinux(BootLinuxBase):
-+    """
-+    Boots a Linux system, checking for a successful initialization
-+    """
-+
-+    timeout = 1800
-+    chksum = None
-+    hdd = 'ide-hd'
-+    cd = 'ide-cd'
-+    bus = 'ide'
-+
-+    def setUp(self):
-+        super(ReplayLinux, self).setUp()
-+        self.boot_path = self.download_boot()
-+        self.cloudinit_path = self.download_cloudinit()
-+
-+    def vm_add_disk(self, vm, path, id, device):
-+        bus_string = ''
-+        if self.bus:
-+            bus_string = ',bus=%s.%d' % (self.bus, id,)
-+        vm.add_args('-drive', 'file=%s,snapshot,id=disk%s,if=none' % (path, id))
-+        vm.add_args('-drive', 'driver=blkreplay,id=disk%s-rr,if=none,image=disk%s' % (id, id))
-+        vm.add_args('-device', '%s,drive=disk%s-rr%s' % (device, id, bus_string))
-+
-+    def launch_and_wait(self, record, args, shift):
-+        vm = self.get_vm()
-+        vm.add_args('-smp', '1')
-+        vm.add_args('-m', '1024')
-+        vm.add_args('-object', 'filter-replay,id=replay,netdev=hub0port0')
-+        if args:
-+            vm.add_args(*args)
-+        self.vm_add_disk(vm, self.boot_path, 0, self.hdd)
-+        self.vm_add_disk(vm, self.cloudinit_path, 1, self.cd)
-+        if record:
-+            mode = 'record'
-+        else:
-+            mode = 'replay'
-+        vm.add_args('-icount', 'shift=%s,rr=%s,rrfile=%s' %
-+                    (shift, mode, os.path.join(self.workdir, 'replay.bin')))
-+
-+        vm.set_console()
-+        vm.launch()
-+        console_drainer = datadrainer.LineLogger(vm.console_socket.fileno(),
-+                                                 logger=self.log.getChild('console'),
-+                                                 stop_check=(lambda : not vm.is_running()))
-+        console_drainer.start()
-+        if record:
-+            self.log.info('VM launched, waiting for boot confirmation from guest')
-+            cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port), self.name)
-+            vm.shutdown()
-+        else:
-+            self.log.info('VM launched, waiting the recorded execution to be replayed')
-+            vm.wait()
-+
-+    def run_rr(self, args=None, shift=7):
-+        self.launch_and_wait(True, args, shift)
-+        self.launch_and_wait(False, args, shift)
-+
-+class ReplayLinuxX8664(ReplayLinux):
-+    """
-+    :avocado: tags=arch:x86_64
-+    """
-+
-+    chksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
-+
-+    def test_pc_i440fx(self):
-+        """
-+        :avocado: tags=machine:pc
-+        :avocado: tags=accel:tcg
-+        """
-+        self.run_rr(shift=1)
-+
-+    def test_pc_q35(self):
-+        """
-+        :avocado: tags=machine:q35
-+        :avocado: tags=accel:tcg
-+        """
-+        self.run_rr(shift=3)
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
