@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25DE1E46BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 17:02:21 +0200 (CEST)
-Received: from localhost ([::1]:43240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1777F1E4705
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 17:07:27 +0200 (CEST)
+Received: from localhost ([::1]:55902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdxZU-0004n4-M1
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 11:02:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45410)
+	id 1jdxeQ-00020W-64
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 11:07:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jdxYB-0003sl-2N
- for qemu-devel@nongnu.org; Wed, 27 May 2020 11:00:59 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37957)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jdxcY-0008Q4-Be
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 11:05:31 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:41113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jdxY9-0004rv-Rk
- for qemu-devel@nongnu.org; Wed, 27 May 2020 11:00:58 -0400
-Received: by mail-wm1-x344.google.com with SMTP id u12so3362145wmd.3
- for <qemu-devel@nongnu.org>; Wed, 27 May 2020 08:00:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Ka3kKkJ5twquOq3WDD17Avta4VnskIRjLkWGz9898Lk=;
- b=RYGgWVdg6cs5EcLZSE4KB99x9dAMVYYTEuj3xNgya5CziZM3eRXM65+Clcn89vbLch
- aQOo4VJa6L8f1rCm3rpXaNARiS+O/VpATeIVEkMSpKLTSuR8owOFw9zuLGPPhE2Q/Chy
- E9JvFvv9jCXnBuruSqiBAqygAppmj4hD/JFH2ScPidZS/Y+XDxI+wFSwsooM7W5uywGO
- scW9BDYJvHAdtj6yQYSwWb2NDwRin8iOLN8Kguse0tLFD2brJuz4BVEfxsLe1aPEYFqA
- K5tFOxfXOZB8x3mL/kVTa8hbXHBnICivFFMzorcXp+Pn977KCsXZo4S2XU86hT1Q+zMY
- XRNg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jdxcV-000771-SY
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 11:05:29 -0400
+Received: by mail-oi1-x243.google.com with SMTP id 23so20767053oiq.8
+ for <qemu-devel@nongnu.org>; Wed, 27 May 2020 08:05:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Dyrz/8dGRzaAncUEaq6xyK4el1L3Q9/hNtf4U4CU7t4=;
+ b=sW+4cDGdqER7eUyLRX8+YHiKQKiueP/na32GTe1ZzVI4j+j5zpZcUu4np1xzIwBvyB
+ jB39grR39Bx78WRGGNmEdj7qnth1lRxRjmkPa9IWbCsuzBAQ1kReFVlDfyqk7T8KJ9B4
+ 6rcVnPINySo2iG08twJ8ue9lSG1coI5/siTVGUwA4zwdtTSA/pHGinvqzPdhXsfdhDDz
+ T5tyUCNHwC/Lk4SLoQ/teiWE3Xz0nV5KTvEmBgU0WIjmGAqAe1ZFg020zDUnlp93LRLG
+ I2rO5WlAJqJR1kiOS7RJSTm5RPmEmS6hcYBrm7gMEFmO7fREvZ8YzsRxxmkStmP51lEl
+ b+dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Ka3kKkJ5twquOq3WDD17Avta4VnskIRjLkWGz9898Lk=;
- b=sETRopcoNkaZhA0adMVWOtlnrzF6c7GIINP/IeB+3j11sXe4+BfDna9UT/dABj1h7E
- tzlmD6twqbjtkaUQRxEDHje3wTTXbDFNYdJ3EWJlQLo2yb7g98aXNnLNR2iLJvJFI+68
- qMOvYsF04waQGC5d1fmCPEIRaJoP1PyVKA4bIMbGmVTvia0aNA5JUo0cFIfBwlpza7IO
- +UnbY3rP8JyH0I2U2IOr+WwgMS9pcxWd0WjeuC8rlsQz+U7m1l3l49U8jZMapIItQ3IW
- /GmJLTMZL6Ycb1L5BhFu6/6sqRKTsYyDBYhru+PpVpyO0Z7nAXzQNCUEMvYaqdHK/sm/
- ALpQ==
-X-Gm-Message-State: AOAM533qdY4PtJvqdYjE/r3QS8rLdJyNwjslByRfqvOwS7NGUYvhDh+q
- mdgcHxePT0jxxbl1vuX9Blc=
-X-Google-Smtp-Source: ABdhPJwswsqgUsICdaj0/z/nuuJlNm8jGYayyVpBz22t+icFiN/b/Mh/dEXvBffZNls4XBTXibh0Ag==
-X-Received: by 2002:a05:600c:4146:: with SMTP id
- h6mr4872680wmm.170.1590591656119; 
- Wed, 27 May 2020 08:00:56 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id y80sm3340674wmc.34.2020.05.27.08.00.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 May 2020 08:00:54 -0700 (PDT)
-Date: Wed, 27 May 2020 16:00:53 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH v2 4/7] device-core: use atomic_set on .realized property
-Message-ID: <20200527150053.GJ29137@stefanha-x1.localdomain>
-References: <20200511160951.8733-1-mlevitsk@redhat.com>
- <20200511160951.8733-5-mlevitsk@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Dyrz/8dGRzaAncUEaq6xyK4el1L3Q9/hNtf4U4CU7t4=;
+ b=dIR0Czk27DPNM+uvsYfkSClkdQe5c7gcrrh/Ea207yqKrPexKdmJUSYLmYgA+grMhK
+ K7keAcwLOolpyhT7vilCi6CXA0zD5TkzSPoG8x98q1DbJo3ZdovcpdhccdAgMep5d/ul
+ w2JzGuhygzEk6BPdi4vc3gC57a1XHt1uBLj5GUPyyz51+fYpqFABT7mHMdZiVnMOUxlL
+ XSBLD13LI3y4WOi0eKb5ZO+ronctt6xmV7Yj+gnVvrwfgOTMTeZVkxquwCRYcADaysTJ
+ tIhNUZQYgOyn6WDe1pOYo2rR9njbL/CMuaZ9XrRa3vX/03lekPFf/G+1iOzGGaZ9pbuM
+ qLxQ==
+X-Gm-Message-State: AOAM532igC2SixUam1c74NOhW4IqNMeKbu95pJjlmbdWFy+I0/lszfLc
+ 8K2Dx5H1sPdvBZMcds/5y5Pq9s18CQEnk+zBMyWFlw==
+X-Google-Smtp-Source: ABdhPJw5C2Z75OyuqPS9wvoA2+dHkgypujOr27ZfQnDOOnmoNWvZABJ5wwNLO9CQRWmv4LrUUHCt0jARXP1RgMsODHw=
+X-Received: by 2002:a54:469a:: with SMTP id k26mr3001742oic.163.1590591926081; 
+ Wed, 27 May 2020 08:05:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2fjX3cMESU3XgGmZ"
-Content-Disposition: inline
-In-Reply-To: <20200511160951.8733-5-mlevitsk@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x344.google.com
+References: <20200518050408.4579-1-armbru@redhat.com>
+ <20200518050408.4579-10-armbru@redhat.com>
+ <CAFEAcA_S_JsuPG4UN-_zhhdZppBhiwm3-4bocO7O1XdjxC9bAw@mail.gmail.com>
+ <87wo4xxya0.fsf@dusky.pond.sub.org>
+In-Reply-To: <87wo4xxya0.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 27 May 2020 16:05:15 +0100
+Message-ID: <CAFEAcA-9CU8QPeafAf_VSh-Gu2WxLpEoRdUZpv+TOF0Rpq-MXQ@mail.gmail.com>
+Subject: Re: [PATCH 09/24] macio: Fix to realize "mos6522-cuda" and
+ "mos6522-pmu" devices
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,89 +82,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 27 May 2020 at 15:12, Markus Armbruster <armbru@redhat.com> wrote:
+> * PATCH 08: in a realize method.  Can't actually fail, so let's use
+>   &error_abort.
+>
+> * PATCH 09 (this one): likewise.
 
---2fjX3cMESU3XgGmZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I disagree with these. We're in a realize function, the API
+says "on errors, report them via the Error* you got passed",
+so we should do that, not blow up. &error_abort only makes
+sense if (a) we have no better way to report errors than
+to abort (which isn't the case here) or (b) if we can guarantee
+that in fact the thing we're doing won't ever fail
+(which we can't here without knowing more about the internal
+implementation details of the MOS6522 device than we
+really ought to).
 
-On Mon, May 11, 2020 at 07:09:48PM +0300, Maxim Levitsky wrote:
-> Some code might race with placement of new devices on a bus.
-> We currently first place a (unrealized) device on the bus
-> and then realize it.
->=20
-> As a workaround, users that scan the child device list, can
-> check the realized property to see if it is safe to access such a device.
-> Use an atomic write here too to aid with this.
->=20
-> A separate discussion is what to do with devices that are unrealized:
-> It looks like for this case we only call the hotplug handler's unplug
-> callback and its up to it to unrealize the device.
-> An atomic operation doesn't cause harm for this code path though.
->=20
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> ---
->  hw/core/qdev.c | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
-
-Please add a comment to struct DeviceState saying the realized field
-must be accessed with atomic_load_acquire() when used outside the QEMU
-global mutex.
-
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index 732789e2b7..d530c5922f 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -964,7 +964,20 @@ static void device_set_realized(Object *obj, bool va=
-lue, Error **errp)
->              }
->         }
-> =20
-> +       atomic_store_release(&dev->realized, value);
-> +
->      } else if (!value && dev->realized) {
-> +
-> +        /*
-> +         * Change the value so that any concurrent users are aware
-> +         * that the device is going to be unrealized
-> +         *
-> +         * TODO: change .realized property to enum that states
-> +         * each phase of the device realization/unrealization
-> +         */
-> +
-> +        atomic_store_release(&dev->realized, value);
-
-I'm not sure if atomic_store_release() is strong enough in the true ->
-false case:
-
-  Operations coming after ``atomic_store_release()`` can still be
-  reordered before it.
-
-A reader may already seen changes made to unrealize the DeviceState even
-though realized still appears to be true. A full write memory barrier
-seems safer here.
-
---2fjX3cMESU3XgGmZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7OgKUACgkQnKSrs4Gr
-c8hTrggAjoSb/eiGywtM+dpgf01M3sji2W2PLba4pu4i+Zt0hqASXgZwyQ6w9OSh
-Uigvfg7SHg1FSCfmaD+rUntIz2c/IO64X4y6MT9cbK5+g1HWdqBE9VnfwOr4VX2n
-9+2DQ99lJ85dYmobQmM6WwpT+2cj+2V53OaFNxIC02ik/fvkIHoeDTrAZcHuzFtL
-2qFE7LtMsj470yuq7r1TnCkYN69YQpFxusKt2RpFI6L8+Iuy0GdX2P3GWWECwID4
-nPrzOUcVHWZZWtBvD+CMeExaychyG13TuDTbhqq3ImYZrW7RnNZiVgGOpwHsFSEK
-WrW8ewHXK8VAtBCpjaTaDfQKxNkhEw==
-=3YVY
------END PGP SIGNATURE-----
-
---2fjX3cMESU3XgGmZ--
+thanks
+-- PMM
 
