@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61661E38B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 08:02:17 +0200 (CEST)
-Received: from localhost ([::1]:55160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57FE1E38F8
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 08:20:25 +0200 (CEST)
+Received: from localhost ([::1]:55832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdp8q-0004e7-DG
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 02:02:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51258)
+	id 1jdpQP-0002v5-1f
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 02:20:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdp6Y-0002aF-NQ
- for qemu-devel@nongnu.org; Wed, 27 May 2020 01:59:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28327
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jdp6X-0004Eb-OL
- for qemu-devel@nongnu.org; Wed, 27 May 2020 01:59:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590559192;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zFFO/S/9pY3J4o3RTDNJU5p3lZ1X88+VrmeEvaoB8Ko=;
- b=H61GpkQBbRv4/F9VPwjAZdyot7WQamiQmAwghGhsGJaASQCZW0DxC9JtX07XE1sw5p9Q0b
- iXpPmsazQ3/+Q9zXncYYT+X80Fy1ZN4d2BkRf4JyZfLo6ebYqklbmxwY9zKbLhE4wKkfkX
- HWjcRAFeJrdafLoiBDJVFagGtTXienQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-HrUoReIqOwOxSQu-d5kPgQ-1; Wed, 27 May 2020 01:59:50 -0400
-X-MC-Unique: HrUoReIqOwOxSQu-d5kPgQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A5F21855A01;
- Wed, 27 May 2020 05:59:49 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
- [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A7675D9EF;
- Wed, 27 May 2020 05:59:49 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0BAFB11358C2; Wed, 27 May 2020 07:59:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 10/10] i386: Fix x86_cpu_load_model() error API violation
-Date: Wed, 27 May 2020 07:59:45 +0200
-Message-Id: <20200527055945.6774-11-armbru@redhat.com>
-In-Reply-To: <20200527055945.6774-1-armbru@redhat.com>
-References: <20200527055945.6774-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdpPh-0002VK-HN
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 02:19:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jdpPg-0005d0-2c
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 02:19:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jdpPd-0005lz-TU
+ for <qemu-devel@nongnu.org>; Wed, 27 May 2020 06:19:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CB3412E8087
+ for <qemu-devel@nongnu.org>; Wed, 27 May 2020 06:19:37 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 00:49:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 27 May 2020 06:03:53 -0000
+From: Greg Kurz <1336794@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=None; component=None;
+ status=Confirmed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: agretha crobinso ericvh gkurz infinoid janitor
+ l-admin-o maxim-kuvyrkov
+X-Launchpad-Bug-Reporter: Cole Robinson (crobinso)
+X-Launchpad-Bug-Modifier: Greg Kurz (gkurz)
+References: <20140702135258.23882.15100.malonedeb@soybean.canonical.com>
+Message-Id: <159055943336.806.7379057394662646136.malone@chaenomeles.canonical.com>
+Subject: [Bug 1336794] Re: 9pfs does not honor open file handles on unlinked
+ files
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1f7bc749b40714a4cc10f5e4d787118a78037035";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a4b391a2f278390a1fc11040096240214498ea60
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 01:00:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,88 +77,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1336794 <1336794@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Error ** argument must be NULL, &error_abort, &error_fatal, or a
-pointer to a variable containing NULL.  Passing an argument of the
-latter kind twice without clearing it in between is wrong: if the
-first call sets an error, it no longer points to NULL for the second
-call.
+For the records.
 
-x86_cpu_load_model() is wrong that way.  Harmless, because its @errp
-is always &error_abort.  To fix, cut out the @errp middleman.
+QEMU patches:
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200505101908.6207-11-armbru@redhat.com>
----
- target/i386/cpu.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+https://lists.nongnu.org/archive/html/qemu-devel/2016-06/msg07586.html
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 7a4a8e3847..3733d9a279 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5078,7 +5078,7 @@ static void x86_cpu_apply_version_props(X86CPU *cpu, X86CPUModel *model)
- 
- /* Load data from X86CPUDefinition into a X86CPU object
-  */
--static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model, Error **errp)
-+static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
- {
-     X86CPUDefinition *def = model->cpudef;
-     CPUX86State *env = &cpu->env;
-@@ -5092,13 +5092,19 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model, Error **errp)
-      */
- 
-     /* CPU models only set _minimum_ values for level/xlevel: */
--    object_property_set_uint(OBJECT(cpu), def->level, "min-level", errp);
--    object_property_set_uint(OBJECT(cpu), def->xlevel, "min-xlevel", errp);
-+    object_property_set_uint(OBJECT(cpu), def->level, "min-level",
-+                             &error_abort);
-+    object_property_set_uint(OBJECT(cpu), def->xlevel, "min-xlevel",
-+                             &error_abort);
- 
--    object_property_set_int(OBJECT(cpu), def->family, "family", errp);
--    object_property_set_int(OBJECT(cpu), def->model, "model", errp);
--    object_property_set_int(OBJECT(cpu), def->stepping, "stepping", errp);
--    object_property_set_str(OBJECT(cpu), def->model_id, "model-id", errp);
-+    object_property_set_int(OBJECT(cpu), def->family, "family",
-+                            &error_abort);
-+    object_property_set_int(OBJECT(cpu), def->model, "model",
-+                            &error_abort);
-+    object_property_set_int(OBJECT(cpu), def->stepping, "stepping",
-+                            &error_abort);
-+    object_property_set_str(OBJECT(cpu), def->model_id, "model-id",
-+                            &error_abort);
-     for (w = 0; w < FEATURE_WORDS; w++) {
-         env->features[w] = def->features[w];
-     }
-@@ -5135,7 +5141,8 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model, Error **errp)
-         vendor = host_vendor;
-     }
- 
--    object_property_set_str(OBJECT(cpu), vendor, "vendor", errp);
-+    object_property_set_str(OBJECT(cpu), vendor, "vendor",
-+                            &error_abort);
- 
-     x86_cpu_apply_version_props(cpu, model);
- }
-@@ -6975,7 +6982,7 @@ static void x86_cpu_initfn(Object *obj)
-     object_property_add_alias(obj, "sse4_2", obj, "sse4.2");
- 
-     if (xcc->model) {
--        x86_cpu_load_model(cpu, xcc->model, &error_abort);
-+        x86_cpu_load_model(cpu, xcc->model);
-     }
- }
- 
--- 
-2.21.3
+Linux patches:
 
+https://sourceforge.net/p/v9fs/mailman/message/35175775/
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1336794
+
+Title:
+  9pfs does not honor open file handles on unlinked files
+
+Status in QEMU:
+  Confirmed
+Status in Ubuntu:
+  Confirmed
+
+Bug description:
+  This was originally filed over here:
+  https://bugzilla.redhat.com/show_bug.cgi?id=3D1114221
+
+  The open-unlink-fstat idiom used in some places to create an anonymous
+  private temporary file does not work in a QEMU guest over a virtio-9p
+  filesystem.
+
+  Version-Release number of selected component (if applicable):
+
+  qemu-kvm-1.6.2-6.fc20.x86_64
+  qemu-system-x86-1.6.2-6.fc20.x86_64
+  (those are fedora RPMs)
+
+  How reproducible:
+
+  Always. See this example C program:
+
+  https://bugzilla.redhat.com/attachment.cgi?id=3D913069
+
+  Steps to Reproduce:
+  1. Export a filesystem with virt-manager for the guest.
+        (type: mount, driver: default, mode: passthrough)
+  2. Start guest and mount that filesystem
+        (mount -t 9p -o trans=3Dvirtio,version=3D9p2000.L  ...)
+  3. Run a program that uses open-unlink-fstat
+        (in my case it was trying to compile Perl 5.20)
+
+  Actual results:
+
+  fstat fails:
+
+  open("/home/tst/filename", O_RDWR|O_CREAT|O_EXCL, 0600) =3D 3
+  unlink("/home/tst/filename")            =3D 0
+  fstat(3, 0x23aa1a8)                     =3D -1 ENOENT (No such file or di=
+rectory)
+  close(3)
+
+  Expected results:
+
+  open("/home/tst/filename", O_RDWR|O_CREAT|O_EXCL, 0600) =3D 3
+  unlink("/home/tst/filename")            =3D 0
+  fstat(3, {st_mode=3DS_IFREG|0600, st_size=3D0, ...}) =3D 0
+  fcntl(3, F_SETFD, FD_CLOEXEC)           =3D 0
+  close(3) =
+
+
+  Additional info:
+
+  There was a patch put into the kernel back in '07 to handle this very
+  problem for other filesystems; maybe its helpful:
+
+        http://lwn.net/Articles/251228/
+
+  There is also a thread on LKML from last December specifically about
+  this very problem:
+
+        https://lkml.org/lkml/2013/12/31/163
+
+  There was a discussion on the QEMU list back in '11 that doesn't seem
+  to have come to a conclusion, but did provide the test program that
+  i've attached to this report:
+
+        http://marc.info/?l=3Dqemu-devel&m=3D130443605720648&w=3D2
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1336794/+subscriptions
 
