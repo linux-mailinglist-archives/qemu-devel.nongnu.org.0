@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B831E3EA2
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 12:08:12 +0200 (CEST)
-Received: from localhost ([::1]:57090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0A61E3F05
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 12:31:19 +0200 (CEST)
+Received: from localhost ([::1]:36758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdsyp-0007ZE-Mw
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 06:08:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50278)
+	id 1jdtL8-0008Fb-3O
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 06:31:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jdswd-0003UU-UM
- for qemu-devel@nongnu.org; Wed, 27 May 2020 06:05:55 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41529)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jdswb-0005CZ-Cm
- for qemu-devel@nongnu.org; Wed, 27 May 2020 06:05:55 -0400
-Received: by mail-wr1-x441.google.com with SMTP id j10so7799058wrw.8
- for <qemu-devel@nongnu.org>; Wed, 27 May 2020 03:05:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7BwVQR+RWIzqLy1PIq/KCliSSJ727LeNTpr8QNS3EBg=;
- b=OijwdnFog7MJOKgQXuIpzoT9zTo2dRa22snN1e8PLCTgtegtiufaLSHXf31GGRSzo5
- i3EmIUqduEqP3s20UJIESHxq2Sy0zkU5gqtWbjJKOz6lqcH9VpTyX3iX4Zz+V++zEPbM
- nrWxXM6MVBIh9YyzSp12zYwLWdsWad/KhJAJMi29K+8Snk0AvjBPmvUVj3RPyduqeOGf
- yRRu5ZGGq/gO2hXnEAA2Vdp1PPdaAe0185NhbFZcH4TUfPbw3vSLf9CE7TqoWY2uGtPm
- Rt3OLk9viPuNE04H6uqTp/Y6NhiNGKB113jJejopfwxKOK0T1lrxS2uiwGQoHxT7VqfR
- Na7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7BwVQR+RWIzqLy1PIq/KCliSSJ727LeNTpr8QNS3EBg=;
- b=n9xBy2tdz3ssqYvdt7QBaMWtkRIsA4Ca69bo3zKtfEnqHlP3mJiKhjHxN7QZCS77/k
- oTaIRBVBbvyfNrg/sm2r8izx6TK9CDI9VQOCpCbppiQgaWW9y7vV9cz8FAifzPn0YCWV
- LSNHCXvvzkrHQg+aEbh0He6rZSqQ86HZZetvldJ2DG86aMhuiFJypk3PqCjHRnJGBKbK
- Ry/HPbZo9kyzCewBRFiXufnfob5NJCM+AR39jdlG1II4b6qco6W/mBDa7g+qiXMTwk5h
- pSmCG+14EGiLZcrk5z6nr9RAliQ+N7dnAoiGK1ZzhwpdBsGMIJBeeYA5wWpFY4vOuSGz
- 4qcQ==
-X-Gm-Message-State: AOAM5321Mra5RPHiL7jIovFA6i2Z4Q9PPuvO+rSSyMvVppbgOQAbadwZ
- 252NTATJR2c4YNk3Ax48D+akdg==
-X-Google-Smtp-Source: ABdhPJwGurJiv8ZSbyhr+zuL3upZs0F7DKctk9YFB3PPnoOrai7qTWgzQhABnoC9ExuVssKBuB4Lsw==
-X-Received: by 2002:adf:e38e:: with SMTP id e14mr25153823wrm.2.1590573951548; 
- Wed, 27 May 2020 03:05:51 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t6sm2202636wma.4.2020.05.27.03.05.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 May 2020 03:05:50 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 479B81FF8F;
- Wed, 27 May 2020 11:05:47 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jdtJc-0006m5-TU
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 06:29:40 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40821
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jdtJb-0000zw-AQ
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 06:29:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590575377;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CEYSJmVzTNIYluSOttOVKcndsZi4ILRg3ku5sStIvc0=;
+ b=K3Mp8yFImUj4a0THSCG4835abg1ut9FqenqJiTm9gt28Qmeq5LRXvdeMUlnsmbiTzlTK8t
+ MH0CnhqltVQP5E2xOIDFae+VyyWLL6VT04OEuy1eG8Zd1iu3r4t5JukBwVi8wBUzzeiDHm
+ sIt+TXDvZVSt/boqBtD6lrrOcxi4ozg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-EkIdHvXsM4-0usgXR7RhvA-1; Wed, 27 May 2020 06:29:33 -0400
+X-MC-Unique: EkIdHvXsM4-0usgXR7RhvA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68EFA8005AA;
+ Wed, 27 May 2020 10:29:32 +0000 (UTC)
+Received: from localhost (ovpn-114-250.ams2.redhat.com [10.36.114.250])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 574DB5C1B0;
+ Wed, 27 May 2020 10:29:26 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 3/3] tests/tcg: add simple commpage test case
-Date: Wed, 27 May 2020 11:05:46 +0100
-Message-Id: <20200527100546.29297-4-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200527100546.29297-1-alex.bennee@linaro.org>
-References: <20200527100546.29297-1-alex.bennee@linaro.org>
+Subject: [PATCH v4 0/5] virtio-pci: enable blk and scsi multi-queue by default
+Date: Wed, 27 May 2020 11:29:20 +0100
+Message-Id: <20200527102925.128013-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 05:46:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,103 +76,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The COMMPAGE are a number of kernel provided user-space routines for
-32 bit ARM systems. Add a basic series of smoke tests to ensure it is
-working as it should.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/tcg/arm/commpage.c      | 61 +++++++++++++++++++++++++++++++++++
- tests/tcg/arm/Makefile.target |  2 ++
- 2 files changed, 63 insertions(+)
- create mode 100644 tests/tcg/arm/commpage.c
-
-diff --git a/tests/tcg/arm/commpage.c b/tests/tcg/arm/commpage.c
-new file mode 100644
-index 00000000000..c76e70cb8bd
---- /dev/null
-+++ b/tests/tcg/arm/commpage.c
-@@ -0,0 +1,61 @@
-+/*
-+ * Verify the COMMPAGE emulation
-+ *
-+ * The ARM commpage is a set of user space helper functions provided
-+ * by the kernel in an effort to ease portability of user space code
-+ * between different CPUs with potentially different capabilities. It
-+ * is a 32 bit invention and similar to the vdso segment in many ways.
-+ *
-+ * The ABI is documented in the Linux kernel:
-+ *     Documentation/arm/kernel_userspace_helpers.rst
-+ *
-+ * Copyright (c) 2020 Linaro Ltd
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <stdint.h>
-+
-+#define ARM_COMMPAGE      (0xffff0f00u)
-+#define ARM_KUSER_VERSION (*(int32_t *)(ARM_COMMPAGE + 0xfc))
-+typedef void * (get_tls_fn)(void);
-+#define ARM_KUSER_GET_TLS (*(get_tls_fn *)(ARM_COMMPAGE + 0xe0))
-+typedef int (cmpxchg_fn)(int oldval, int newval, volatile int *ptr);
-+#define ARM_KUSER_CMPXCHG (*(cmpxchg_fn *)(ARM_COMMPAGE + 0xc0))
-+typedef void (dmb_fn)(void);
-+#define ARM_KUSER_DMB (*(dmb_fn *)(ARM_COMMPAGE + 0xa0))
-+typedef int (cmpxchg64_fn)(const int64_t *oldval,
-+                           const int64_t *newval,
-+                           volatile int64_t *ptr);
-+#define ARM_KUSER_CMPXCHG64 (*(cmpxchg64_fn *)(ARM_COMMPAGE + 0x60))
-+
-+#define fail_unless(x)                                                  \
-+    do {                                                                \
-+        if (!(x)) {                                                     \
-+            fprintf(stderr, "FAILED at %s:%d\n", __FILE__, __LINE__);   \
-+            exit(EXIT_FAILURE);                                         \
-+        }                                                               \
-+    } while (0)
-+
-+
-+int main(int argc, char *argv[argc])
-+{
-+    void *kuser_tls;
-+    int val = 1;
-+    const int64_t oldval = 1, newval = 2;
-+    int64_t val64 = 1;
-+
-+    fail_unless(ARM_KUSER_VERSION == 0x5);
-+    kuser_tls = ARM_KUSER_GET_TLS();
-+    printf("TLS = %p\n", kuser_tls);
-+    fail_unless(kuser_tls != 0);
-+    fail_unless(ARM_KUSER_CMPXCHG(1, 2, &val) == 0);
-+    printf("val = %d\n", val);
-+    /* this is a crash test, not checking an actual barrier occurs */
-+    ARM_KUSER_DMB();
-+    fail_unless(ARM_KUSER_CMPXCHG64(&oldval, &newval, &val64) == 0);
-+    printf("val64 = %lld\n", val64);
-+    return 0;
-+}
-diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
-index 11c39c601ea..3da09a38be7 100644
---- a/tests/tcg/arm/Makefile.target
-+++ b/tests/tcg/arm/Makefile.target
-@@ -68,6 +68,8 @@ run-semiconsole-arm: semiconsole-arm
- run-plugin-semiconsole-arm-with-%:
- 	$(call skip-test, $<, "MANUAL ONLY")
- 
-+ARM_TESTS += commpage
-+
- TESTS += $(ARM_TESTS)
- 
- # On ARM Linux only supports 4k pages
--- 
-2.20.1
+djM6DQogKiBJbnRyb2R1Y2UgdmlydGlvX3BjaV9vcHRpbWFsX251bV9xdWV1ZXMoKSBoZWxwZXIg
+dG8gZW5mb3JjZSBWSVJUSU9fUVVFVUVfTUFYDQogICBpbiBvbmUgcGxhY2UNCiAqIFVzZSBWSVJU
+SU9fU0NTSV9WUV9OVU1fRklYRUQgY29uc3RhbnQgaW4gYWxsIGNhc2VzIFtDb3JuZWxpYV0NCiAq
+IFVwZGF0ZSBody9jb3JlL21hY2hpbmUuYyBjb21wYXQgcHJvcGVydGllcyBmb3IgUUVNVSA1LjAg
+W01pY2hhZWxdDQp2MzoNCiAqIEFkZCBuZXcgcGVyZm9ybWFuY2UgcmVzdWx0cyB0aGF0IGRlbW9u
+c3RyYXRlIHRoZSBzY2FsYWJpbGl0eQ0KICogTWVudGlvbiB0aGF0IHRoaXMgaXMgUENJLXNwZWNp
+ZmljIFtDb3JuZWxpYV0NCnYyOg0KICogTGV0IHRoZSB2aXJ0aW8tREVWSUNFLXBjaSBkZXZpY2Ug
+c2VsZWN0IG51bS1xdWV1ZXMgYmVjYXVzZSB0aGUgb3B0aW1hbA0KICAgbXVsdGktcXVldWUgY29u
+ZmlndXJhdGlvbiBtYXkgZGlmZmVyIGJldHdlZW4gdmlydGlvLXBjaSwgdmlydGlvLW1taW8sIGFu
+ZA0KICAgdmlydGlvLWNjdyBbQ29ybmVsaWFdDQoNCkVuYWJsaW5nIG11bHRpLXF1ZXVlIG9uIHZp
+cnRpby1wY2kgc3RvcmFnZSBkZXZpY2VzIGltcHJvdmVzIHBlcmZvcm1hbmNlIG9uIFNNUA0KZ3Vl
+c3RzIGJlY2F1c2UgdGhlIGNvbXBsZXRpb24gaW50ZXJydXB0IGlzIGhhbmRsZWQgb24gdGhlIHZD
+UFUgdGhhdCBzdWJtaXR0ZWQNCnRoZSBJL08gcmVxdWVzdC4gIFRoaXMgYXZvaWRzIElQSXMgaW5z
+aWRlIHRoZSBndWVzdC4NCg0KTm90ZSB0aGF0IHBlcmZvcm1hbmNlIGlzIHVuY2hhbmdlZCBpbiB0
+aGVzZSBjYXNlczoNCjEuIFVuaXByb2Nlc3NvciBndWVzdHMuICBUaGV5IGRvbid0IGhhdmUgSVBJ
+cy4NCjIuIEFwcGxpY2F0aW9uIHRocmVhZHMgbWlnaHQgYmUgc2NoZWR1bGVkIG9uIHRoZSBzb2xl
+IHZDUFUgdGhhdCBoYW5kbGVzDQogICBjb21wbGV0aW9uIGludGVycnVwdHMgcHVyZWx5IGJ5IGNo
+YW5jZS4gIChUaGlzIGlzIG9uZSByZWFzb24gd2h5IGJlbmNobWFyaw0KICAgcmVzdWx0cyBjYW4g
+dmFyeSBub3RpY2FibHkgYmV0d2VlbiBydW5zLikNCjMuIFVzZXJzIG1heSBiaW5kIHRoZSBhcHBs
+aWNhdGlvbiB0byB0aGUgdkNQVSB0aGF0IGhhbmRsZXMgY29tcGxldGlvbg0KICAgaW50ZXJydXB0
+cy4NCg0KU2V0IHRoZSBudW1iZXIgb2YgcXVldWVzIHRvIHRoZSBudW1iZXIgb2YgdkNQVXMgYnkg
+ZGVmYXVsdCBvbiB2aXJ0aW8tYmxrIGFuZA0KdmlydGlvLXNjc2kgUENJIGRldmljZXMuICBPbGRl
+ciBtYWNoaW5lIHR5cGVzIGNvbnRpbnVlIHRvIGRlZmF1bHQgdG8gMSBxdWV1ZQ0KZm9yIGxpdmUg
+bWlncmF0aW9uIGNvbXBhdGliaWxpdHkuDQoNClJhbmRvbSByZWFkIHBlcmZvcm1hbmNlOg0KICAg
+ICAgSU9QUw0KcT0xICAgIDc4aw0KcT0zMiAgMTA0ayAgKzMzJQ0KDQpCb290IHRpbWU6DQogICAg
+ICBEdXJhdGlvbg0KcT0xICAgICAgICA1MXMNCnE9MzIgICAgIDFtNDFzICArOTglDQoNCkd1ZXN0
+IGNvbmZpZ3VyYXRpb246IDMyIHZDUFVzLCAxMDEgdmlydGlvLWJsay1wY2kgZGlza3MNCg0KUHJl
+dmlvdXNseSBtZWFzdXJlZCByZXN1bHRzIG9uIGEgNCB2Q1BVIGd1ZXN0IHdlcmUgYWxzbyBwb3Np
+dGl2ZSBidXQgc2hvd2VkIGENCnNtYWxsZXIgMS00JSBwZXJmb3JtYW5jZSBpbXByb3ZlbWVudC4g
+IFRoZXkgYXJlIG5vIGxvbmdlciB2YWxpZCBiZWNhdXNlDQpzaWduaWZpY2FudCBldmVudCBsb29w
+IG9wdGltaXphdGlvbnMgaGF2ZSBiZWVuIG1lcmdlZC4NCg0KU3RlZmFuIEhham5vY3ppICg1KToN
+CiAgdmlydGlvLXBjaTogYWRkIHZpcnRpb19wY2lfb3B0aW1hbF9udW1fcXVldWVzKCkgaGVscGVy
+DQogIHZpcnRpby1zY3NpOiBpbnRyb2R1Y2UgYSBjb25zdGFudCBmb3IgZml4ZWQgdmlydHF1ZXVl
+cw0KICB2aXJ0aW8tc2NzaTogZGVmYXVsdCBudW1fcXVldWVzIHRvIC1zbXAgTg0KICB2aXJ0aW8t
+YmxrOiBkZWZhdWx0IG51bV9xdWV1ZXMgdG8gLXNtcCBODQogIHZob3N0LXVzZXItYmxrOiBkZWZh
+dWx0IG51bV9xdWV1ZXMgdG8gLXNtcCBODQoNCiBody92aXJ0aW8vdmlydGlvLXBjaS5oICAgICAg
+ICAgICAgIHwgIDkgKysrKysrKysrDQogaW5jbHVkZS9ody92aXJ0aW8vdmhvc3QtdXNlci1ibGsu
+aCB8ICAyICsrDQogaW5jbHVkZS9ody92aXJ0aW8vdmlydGlvLWJsay5oICAgICB8ICAyICsrDQog
+aW5jbHVkZS9ody92aXJ0aW8vdmlydGlvLXNjc2kuaCAgICB8ICA1ICsrKysrDQogaHcvYmxvY2sv
+dmhvc3QtdXNlci1ibGsuYyAgICAgICAgICB8ICA2ICsrKysrLQ0KIGh3L2Jsb2NrL3ZpcnRpby1i
+bGsuYyAgICAgICAgICAgICAgfCAgNiArKysrKy0NCiBody9jb3JlL21hY2hpbmUuYyAgICAgICAg
+ICAgICAgICAgIHwgIDggKysrKysrKy0NCiBody9zY3NpL3Zob3N0LXNjc2kuYyAgICAgICAgICAg
+ICAgIHwgIDMgKystDQogaHcvc2NzaS92aG9zdC11c2VyLXNjc2kuYyAgICAgICAgICB8ICA1ICsr
+Ky0tDQogaHcvc2NzaS92aXJ0aW8tc2NzaS5jICAgICAgICAgICAgICB8IDEzICsrKysrKysrKy0t
+LS0NCiBody92aXJ0aW8vdmhvc3Qtc2NzaS1wY2kuYyAgICAgICAgIHwgIDkgKysrKysrKy0tDQog
+aHcvdmlydGlvL3Zob3N0LXVzZXItYmxrLXBjaS5jICAgICB8ICA0ICsrKysNCiBody92aXJ0aW8v
+dmhvc3QtdXNlci1zY3NpLXBjaS5jICAgIHwgIDkgKysrKysrKy0tDQogaHcvdmlydGlvL3ZpcnRp
+by1ibGstcGNpLmMgICAgICAgICB8ICA3ICsrKysrKy0NCiBody92aXJ0aW8vdmlydGlvLXBjaS5j
+ICAgICAgICAgICAgIHwgIDcgKysrKysrKw0KIGh3L3ZpcnRpby92aXJ0aW8tc2NzaS1wY2kuYyAg
+ICAgICAgfCAgOSArKysrKysrLS0NCiAxNiBmaWxlcyBjaGFuZ2VkLCA4NyBpbnNlcnRpb25zKCsp
+LCAxNyBkZWxldGlvbnMoLSkNCg0KLS0gDQoyLjI1LjQNCg0K
 
 
