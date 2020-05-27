@@ -2,73 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F631E383F
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 07:31:15 +0200 (CEST)
-Received: from localhost ([::1]:47720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D37721E385C
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 07:39:55 +0200 (CEST)
+Received: from localhost ([::1]:56558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdoeo-0005rf-0q
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 01:31:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44948)
+	id 1jdonC-0003Kr-QJ
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 01:39:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdodf-0005Ge-8Y
- for qemu-devel@nongnu.org; Wed, 27 May 2020 01:30:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30687
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jdode-00079W-FT
- for qemu-devel@nongnu.org; Wed, 27 May 2020 01:30:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590557401;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=tJsNjsmaqQZ4BUorC3LNkSefPwh8UwF+jZGK04g0f9Y=;
- b=d+ik8TaZf1IoZhefbYEnCUKbymbDfHJLVdScrZ90u6bHa0HGxAYulXieMzsa9m4TyroCV8
- u5UuqOnlPQZ4CujiN6+/TQCtp2HEL6AQdhSfhViCbD9QMsGpJj3G88pkF9MLLAb93hK1p4
- U2CFq/WgPVBhdM2Hj9ewLIkVUhuTAcs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-TcKEsffhN6-_5DHoTkd7BQ-1; Wed, 27 May 2020 01:29:57 -0400
-X-MC-Unique: TcKEsffhN6-_5DHoTkd7BQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A40CA800688;
- Wed, 27 May 2020 05:29:56 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-170.ams2.redhat.com [10.36.112.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C37D05D9C9;
- Wed, 27 May 2020 05:29:54 +0000 (UTC)
-Subject: Re: [PATCH] or1k: Fix compilation hiccup
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200526185132.1652355-1-eblake@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <946e5bfa-d819-22af-ac24-9141afec3a86@redhat.com>
-Date: Wed, 27 May 2020 07:29:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jdolj-00015T-6m; Wed, 27 May 2020 01:38:23 -0400
+Received: from ozlabs.org ([203.11.71.1]:35639)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jdolg-0001br-RS; Wed, 27 May 2020 01:38:22 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49X03q1Gwcz9sSd; Wed, 27 May 2020 15:38:15 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1590557895;
+ bh=P20zmXgZeVw3tlpqdOCU79Zdnez1v4tVVXdtG7lBac8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Uh44WCHJRw8jN97krDHHTwPp5M2GtQCgdN76ADE82EvtbmHXq1uyIxVsAsBZOKdQQ
+ nIJUtUWnI/x1TYKkUmt1p/79VvNw2Kwmq0zjFQ4VS2DgGzq2QS9BGGAYAAOXZD3riC
+ mTLTK6FhtrQybv4cS+xBDOBuRnDv9kskWKfG58b4=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/15] ppc-for-5.1 queue 20200527
+Date: Wed, 27 May 2020 15:37:54 +1000
+Message-Id: <20200527053809.356168-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200526185132.1652355-1-eblake@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 00:49:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 01:38:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,46 +58,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Stafford Horne <shorne@gmail.com>,
- Jia Liu <proljc@gmail.com>
+Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, philmd@redhat.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/05/2020 20.51, Eric Blake wrote:
-> On my Fedora 32 machine, gcc 10.1.1 at -O2 (the default for a bare
-> './configure') has a false-positive complaint:
-> 
->   CC      or1k-softmmu/hw/openrisc/openrisc_sim.o
-> /home/eblake/qemu/hw/openrisc/openrisc_sim.c: In function ‘openrisc_sim_init’:
-> /home/eblake/qemu/hw/openrisc/openrisc_sim.c:87:42: error: ‘cpu_irqs[0]’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
->    87 |         sysbus_connect_irq(s, i, cpu_irqs[i][irq_pin]);
->       |                                  ~~~~~~~~^~~
-> 
-> Initializing both pointers of cpu_irqs[] to NULL is sufficient to shut
-> up the compiler, even though they are definitely assigned in
-> openrisc_sim_init() prior to the inlined call to
-> openrisc_sim_ompic_init() containing the line in question.
-> 
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->  hw/openrisc/openrisc_sim.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-> index d08ce6181199..95011a8015b4 100644
-> --- a/hw/openrisc/openrisc_sim.c
-> +++ b/hw/openrisc/openrisc_sim.c
-> @@ -129,7 +129,7 @@ static void openrisc_sim_init(MachineState *machine)
->      const char *kernel_filename = machine->kernel_filename;
->      OpenRISCCPU *cpu = NULL;
->      MemoryRegion *ram;
-> -    qemu_irq *cpu_irqs[2];
-> +    qemu_irq *cpu_irqs[2] = {};
->      qemu_irq serial_irq;
->      int n;
->      unsigned int smp_cpus = machine->smp.cpus;
-> 
+The following changes since commit ddc760832fa8cf5e93b9d9e6e854a5114ac63510:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+  Merge remote-tracking branch 'remotes/gkurz/tags/9p-next-2020-05-26' into staging (2020-05-26 14:05:53 +0100)
 
+are available in the Git repository at:
+
+  git://github.com/dgibson/qemu.git tags/ppc-for-5.1-20200527
+
+for you to fetch changes up to 9c7c0407028355ca83349b8a60fddfad46f2ebd8:
+
+  vfio/nvlink: Remove exec permission to avoid SELinux AVCs (2020-05-27 15:29:36 +1000)
+
+----------------------------------------------------------------
+ppc patch queue 2020-05-27
+
+Here's the next pull request for qemu-5.1.  It includes:
+ * Support for the scv and rfscv POWER9 instructions in TCG
+ * Support for the new SPAPR_LMB_FLAGS_HOTREMOVABLE flag, which
+   provides a way for guests to know memory which should be removable
+   (so the guest can avoid putting immovable allocations there).
+ * Some fixes for the recently added partition scope radix translation
+   in softmmu
+ * Assorted minor fixes and cleanups
+
+It includes one patch to avoid a clash with SELinux when using NVLink
+VFIO devices.  That's not technically within the files under my
+maintainership, but it is in a section of the VFIO quirks code that's
+specific to the POWER-only NVLink devices, and has an ack from Alex
+Williamson.
+
+----------------------------------------------------------------
+Cédric Le Goater (1):
+      ppc/spapr: add a POWER10 CPU model
+
+Greg Kurz (8):
+      target/ppc: Untabify excp_helper.c
+      target/ppc: Pass const pointer to ppc_radix64_get_prot_amr()
+      target/ppc: Pass const pointer to ppc_radix64_get_fully_qualified_addr()
+      target/ppc: Don't initialize some local variables in ppc_radix64_xlate()
+      target/ppc: Add missing braces in ppc_radix64_partition_scoped_xlate()
+      target/ppc: Fix arguments to ppc_radix64_partition_scoped_xlate()
+      target/ppc: Don't update radix PTE R/C bits with gdbstub
+      target/ppc: Fix argument to ppc_radix64_partition_scoped_xlate() again
+
+Leonardo Bras (2):
+      ppc/spapr: Add hotremovable flag on DIMM LMBs on drmem_v2
+      vfio/nvlink: Remove exec permission to avoid SELinux AVCs
+
+Nicholas Piggin (2):
+      ppc/pnv: Fix NMI system reset SRR1 value
+      target/ppc: Add support for scv and rfscv instructions
+
+Philippe Mathieu-Daudé (2):
+      hw/pci-bridge/dec: Remove dead debug code
+      hw/nvram/mac_nvram: Convert debug printf()s to trace events
+
+ hw/nvram/mac_nvram.c            |  17 +-----
+ hw/nvram/trace-events           |   4 ++
+ hw/pci-bridge/dec.c             |  10 ----
+ hw/ppc/pnv.c                    |  26 ++++++--
+ hw/ppc/spapr.c                  |   3 +-
+ hw/ppc/spapr_cpu_core.c         |   1 +
+ hw/vfio/pci-quirks.c            |   4 +-
+ include/hw/ppc/spapr.h          |   1 +
+ linux-user/ppc/cpu_loop.c       |   1 +
+ target/ppc/cpu.h                |  28 ++++++++-
+ target/ppc/excp_helper.c        | 130 +++++++++++++++++++++++++++-------------
+ target/ppc/helper.h             |   1 +
+ target/ppc/mmu-radix64.c        |  53 +++++++++-------
+ target/ppc/mmu-radix64.h        |   4 +-
+ target/ppc/translate.c          |  53 +++++++++++++++-
+ target/ppc/translate_init.inc.c |   3 +-
+ 16 files changed, 237 insertions(+), 102 deletions(-)
 
