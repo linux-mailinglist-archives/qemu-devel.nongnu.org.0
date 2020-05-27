@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F1611E3F32
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 12:37:00 +0200 (CEST)
-Received: from localhost ([::1]:37960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64C261E3F2E
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 12:36:37 +0200 (CEST)
+Received: from localhost ([::1]:35850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdtQh-0003JF-AC
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 06:36:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56144)
+	id 1jdtQK-0002SI-Bv
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 06:36:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
- id 1jdtL3-0000t7-1S
- for qemu-devel@nongnu.org; Wed, 27 May 2020 06:31:09 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:33564)
+ id 1jdtL8-000174-OK
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 06:31:14 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:33592)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdtL2-0001rH-4J
- for qemu-devel@nongnu.org; Wed, 27 May 2020 06:31:08 -0400
+ (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jdtL7-0001ts-OC
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 06:31:14 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 2988ECD463;
- Wed, 27 May 2020 13:31:07 +0300 (MSK)
-Subject: [PATCH v2 05/11] tests/acceptance: add record/replay test for aarch64
+ by mail.ispras.ru (Postfix) with ESMTPSA id 9D25ACD463;
+ Wed, 27 May 2020 13:31:12 +0300 (MSK)
+Subject: [PATCH v2 06/11] tests/acceptance: add record/replay test for arm
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 27 May 2020 13:31:06 +0300
-Message-ID: <159057546689.16818.17382569698039249168.stgit@pasha-ThinkPad-X280>
+Date: Wed, 27 May 2020 13:31:12 +0300
+Message-ID: <159057547239.16818.850423603268442335.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <159057543840.16818.14393433996899521784.stgit@pasha-ThinkPad-X280>
 References: <159057543840.16818.14393433996899521784.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
@@ -61,37 +61,65 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch adds a test for record/replay of the kernel
-image boot for aarch64 platform.
+image boot for two different arm platforms.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 ---
  0 files changed
 
 diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index c7526f1aba..deca69d6cb 100644
+index deca69d6cb..d715ee7ca9 100644
 --- a/tests/acceptance/replay_kernel.py
 +++ b/tests/acceptance/replay_kernel.py
-@@ -71,3 +71,21 @@ class ReplayKernel(LinuxKernelUtils):
-         console_pattern = 'Kernel command line: %s' % kernel_command_line
+@@ -89,3 +89,49 @@ class ReplayKernel(LinuxKernelUtils):
  
-         self.run_rr(kernel_path, kernel_command_line, console_pattern)
+         self.run_rr(kernel_path, kernel_command_line, console_pattern,
+             args=('-cpu', 'cortex-a53'))
 +
-+    def test_aarch64_virt(self):
++    def test_arm_virt(self):
 +        """
-+        :avocado: tags=arch:aarch64
++        :avocado: tags=arch:arm
 +        :avocado: tags=machine:virt
 +        """
 +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
++                      '/linux/releases/29/Everything/armhfp/os/images/pxeboot'
 +                      '/vmlinuz')
-+        kernel_hash = '8c73e469fc6ea06a58dc83a628fc695b693b8493'
++        kernel_hash = 'e9826d741b4fb04cadba8d4824d1ed3b7fb8b4d4'
 +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
 +
 +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
 +                               'console=ttyAMA0')
 +        console_pattern = 'Kernel command line: %s' % kernel_command_line
 +
++        self.run_rr(kernel_path, kernel_command_line, console_pattern)
++
++    def test_arm_cubieboard_initrd(self):
++        """
++        :avocado: tags=arch:arm
++        :avocado: tags=machine:cubieboard
++        """
++        deb_url = ('https://apt.armbian.com/pool/main/l/'
++                   'linux-4.20.7-sunxi/linux-image-dev-sunxi_5.75_armhf.deb')
++        deb_hash = '1334c29c44d984ffa05ed10de8c3361f33d78315'
++        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
++        kernel_path = self.extract_from_deb(deb_path,
++                                            '/boot/vmlinuz-4.20.7-sunxi')
++        dtb_path = '/usr/lib/linux-image-dev-sunxi/sun4i-a10-cubieboard.dtb'
++        dtb_path = self.extract_from_deb(deb_path, dtb_path)
++        initrd_url = ('https://github.com/groeck/linux-build-test/raw/'
++                      '2eb0a73b5d5a28df3170c546ddaaa9757e1e0848/rootfs/'
++                      'arm/rootfs-armv5.cpio.gz')
++        initrd_hash = '2b50f1873e113523967806f4da2afe385462ff9b'
++        initrd_path_gz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
++        initrd_path = os.path.join(self.workdir, 'rootfs.cpio')
++        archive.gzip_uncompress(initrd_path_gz, initrd_path)
++
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'console=ttyS0,115200 '
++                               'usbcore.nousb '
++                               'panic=-1 noreboot')
++        console_pattern = 'Boot successful.'
 +        self.run_rr(kernel_path, kernel_command_line, console_pattern,
-+            args=('-cpu', 'cortex-a53'))
++            args=('-dtb', dtb_path, '-initrd', initrd_path, '-no-reboot'))
 
 
