@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FAB31E3DEB
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 11:47:27 +0200 (CEST)
-Received: from localhost ([::1]:53380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF3301E3DF1
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 11:48:08 +0200 (CEST)
+Received: from localhost ([::1]:55428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdsek-0006q2-4E
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 05:47:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46674)
+	id 1jdsfP-0007gr-Ro
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 05:48:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jdsdi-0006Q1-1m
- for qemu-devel@nongnu.org; Wed, 27 May 2020 05:46:22 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30904
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jdse6-0006ov-Vl
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 05:46:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45136
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jdsdg-0002uk-Ul
- for qemu-devel@nongnu.org; Wed, 27 May 2020 05:46:21 -0400
+ id 1jdse6-0003MU-4n
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 05:46:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590572779;
+ s=mimecast20190719; t=1590572805;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JGWU5b1GocXNyTNMO2lRvIwtMz+KbkqvYivgwe6Yr7o=;
- b=ZdnZ3sN8M7Ef3Pv509WeIG0fcXCXQ7F2b0Jm6WQrhMc94ibR/F4o/NHSll8ybGFkRuzSJt
- HNnyVCFsmsRh5FFCouRtLfzImJhKZ2kh4qk67nf4Ma/WnobmB34l7kRH0tMCIvlywI4TCp
- fmtLatkXpeekqsUoprOWnxSCoRNqt9I=
+ bh=aS3a3lLhZzb4rIJMlp0ZNEL+UgYEaQbyZcwv3XJn0LE=;
+ b=DJHldZLbyXhs++wpWepIuNKjoweFpkj7ONzsULGdoJ4qmNhh9fL07R9bkdax9lgwy3Y4dv
+ gEVq08qnsaqGCkAMXrIkDNEcBFBCmBqmRVRr0bINIc5twulpE7gTG45jvdrgEI1nm54+5h
+ IWvwk1JIFoosVRuQBSAvSwHTE7OB08Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-hMpAc6ONNWuVusGpURWz0w-1; Wed, 27 May 2020 05:46:17 -0400
-X-MC-Unique: hMpAc6ONNWuVusGpURWz0w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-153-awIoQ05FN_S_YxXmOMLIPA-1; Wed, 27 May 2020 05:46:43 -0400
+X-MC-Unique: awIoQ05FN_S_YxXmOMLIPA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3DC818FE873;
- Wed, 27 May 2020 09:46:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E9E2460;
+ Wed, 27 May 2020 09:46:42 +0000 (UTC)
 Received: from redhat.com (unknown [10.36.110.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 743635D9E5;
- Wed, 27 May 2020 09:46:15 +0000 (UTC)
-Date: Wed, 27 May 2020 10:46:12 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2197974E86;
+ Wed, 27 May 2020 09:46:40 +0000 (UTC)
+Date: Wed, 27 May 2020 10:46:38 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Alexey Krasikov <alex-krasikov@yandex-team.ru>
-Subject: Re: [PATCH v4 2/3] crypto/linux_keyring: add 'secret_keyring' secret
- object.
-Message-ID: <20200527094612.GF2665520@redhat.com>
+Subject: Re: [PATCH v4 3/3] test-crypto-secret: add 'secret_keyring' object
+ tests.
+Message-ID: <20200527094638.GG2665520@redhat.com>
 References: <20200525111913.4274-1-alex-krasikov@yandex-team.ru>
+ <20200525111913.4274-2-alex-krasikov@yandex-team.ru>
 MIME-Version: 1.0
-In-Reply-To: <20200525111913.4274-1-alex-krasikov@yandex-team.ru>
+In-Reply-To: <20200525111913.4274-2-alex-krasikov@yandex-team.ru>
 User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 05:46:19
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 01:25:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
 X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,55 +90,26 @@ Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 25, 2020 at 02:19:12PM +0300, Alexey Krasikov wrote:
-> Add the ability for the secret object to obtain secret data from the
-> Linux in-kernel key managment and retention facility, as an extra option
-> to the existing ones: reading from a file or passing directly as a
-> string.
+On Mon, May 25, 2020 at 02:19:13PM +0300, Alexey Krasikov wrote:
+> Add tests:
+>   test_secret_keyring_good;
+>   test_secret_keyring_revoked_key;
+>   test_secret_keyring_expired_key;
+>   test_secret_keyring_bad_serial_key;
+>   test_secret_keyring_bad_key_access_right;
 > 
-> The secret is identified by the key serial number. The upper layers
-> need to instantiate the key and make sure the QEMU process has access
-> permissions to read it.
+> Added tests require libkeyutils. The absence of this library is not
+> critical, because these tests will be skipped in this case.
 > 
 > Signed-off-by: Alexey Krasikov <alex-krasikov@yandex-team.ru>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  configure                       |  38 ++++++++
->  crypto/Makefile.objs            |   1 +
->  crypto/secret_keyring.c         | 148 ++++++++++++++++++++++++++++++++
->  include/crypto/secret_keyring.h |  52 +++++++++++
->  4 files changed, 239 insertions(+)
->  create mode 100644 crypto/secret_keyring.c
->  create mode 100644 include/crypto/secret_keyring.h
-
-> diff --git a/crypto/secret_keyring.c b/crypto/secret_keyring.c
-> new file mode 100644
-> index 0000000000..aa29004639
-> --- /dev/null
-> +++ b/crypto/secret_keyring.c
-
-
-> +static void
-> +qcrypto_secret_keyring_class_init(ObjectClass *oc, void *data)
-> +{
-> +    QCryptoSecretCommonClass *sic = QCRYPTO_SECRET_COMMON_CLASS(oc);
-> +    sic->load_data = qcrypto_secret_keyring_load_data;
-> +
-> +    UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
-> +    ucc->complete = qcrypto_secret_keyring_complete;
-> +
-> +    object_class_property_add(oc, "serial", "int32_t",
-> +                                  qcrypto_secret_prop_get_key,
-> +                                  qcrypto_secret_prop_set_key,
-> +                                  NULL, NULL, NULL);
-
-This doesn't compile because of the extra arg, so not sure how
-you tested this.
-
-Since this is the only mistake, I'll fix it myself when quueing
-these patches.
+>  configure                  |  24 ++++++
+>  tests/Makefile.include     |   4 +
+>  tests/test-crypto-secret.c | 158 +++++++++++++++++++++++++++++++++++++
+>  3 files changed, 186 insertions(+)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
 
 Regards,
 Daniel
