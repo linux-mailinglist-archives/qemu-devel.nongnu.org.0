@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5514F1E4FB6
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 22:57:23 +0200 (CEST)
-Received: from localhost ([::1]:39924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86BE21E4F5B
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 22:34:02 +0200 (CEST)
+Received: from localhost ([::1]:32812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1je373-0004uF-Su
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 16:57:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37606)
+	id 1je2kT-0000ac-4z
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 16:34:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hoychris01@gmail.com>)
- id 1je36G-0004UU-R6
- for qemu-devel@nongnu.org; Wed, 27 May 2020 16:56:32 -0400
-Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b]:40410)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hoychris01@gmail.com>)
- id 1je36F-0001PZ-86
- for qemu-devel@nongnu.org; Wed, 27 May 2020 16:56:32 -0400
-Received: by mail-lj1-x22b.google.com with SMTP id z13so21001520ljn.7
- for <qemu-devel@nongnu.org>; Wed, 27 May 2020 13:56:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=A3ZP7dktoAf/Ss3upPYdDDeiFBdzevienUzcEUz6OZU=;
- b=tW3F3YdyiVb2NQ7AiGOcCbAZ/VT5Ps4vHM55GG+VLz83X9gYX6RfDBjUxaTjtZI+EH
- 1DPnML3ABJRFmoH0iC33fNI+wGofzqnYnSUD6/Nf5w+AePfsEzZVErK3FA0I5esHQck3
- nfcdHgwDHskblcInEyxfCcG2iypW22LnOfL51zEPs/j695Hk2MVeoUV2kQQRzlYg/GRY
- Kjny6OCRtyGj3meiwPKpOS+qQ5lyViUbbp0thY4eyP9pe2KIReD/1zjKg9HHWLDSsdSj
- sZE8rL44/oyYuNCz9jKmWdXZ/HGalyAETuot0xnP5Po3tVLi4U/cOgASu81ZM7f/V1of
- BdGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=A3ZP7dktoAf/Ss3upPYdDDeiFBdzevienUzcEUz6OZU=;
- b=MOLUIPpiW+WRRZ6DZkK+AFZR7FrssS1tXmon/7ZRo5t5OPV0p/RfYF2XrOZvwt9DWF
- 0Ox2rRSCNNkfn1mzocaP5UtcobfcGRIseu0WyIljXKu1ug5k8KZGeR74+l3xtqSXx/Ct
- Rooa1d77OD6YgjhYo+O5DQz2b/9lGsHttKbpreSx59mTVUNcbh8chw5vX0vL/U+O7wdK
- Id5OIH8X727L0CRiku7yNLzN6OkcnR5O8w8FtCFLt6M2+a4KzRRWrXe6rCqYF1VmfGZn
- a6w6HtSaIJUkukuSzZ6Tx4kuFi0Y8VP0498MhhaaJOHcFuo1KgiH79e4lgfRRbhsUvqB
- onZQ==
-X-Gm-Message-State: AOAM530rf9qObOZDxo5lAypiX2zMG3tHi8HWrIXhOu2iuoCFWqV62tZb
- yJG7AsoaIFYG2NuBwdYsAUwTpWA4xmF7PpBRgeCsqfV2
-X-Google-Smtp-Source: ABdhPJyZO6s7xiZfyKZ2k3Akz9v4uCnHOO0+cPw32gx/Dfp66sOmrxcIW4kKymK0qBK/rJNhmouBo+VbjUQ5Xw6VjoA=
-X-Received: by 2002:a2e:870b:: with SMTP id m11mr3506132lji.315.1590612988616; 
- Wed, 27 May 2020 13:56:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1je2jT-0008IE-RB
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 16:32:59 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59386
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1je2jS-0006BD-8T
+ for qemu-devel@nongnu.org; Wed, 27 May 2020 16:32:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590611576;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x3qAVKWQeAyGu2yVoDGxQAbTY0cR/FFSka/cdeevAQ4=;
+ b=ihzCjdkuFn5kzAYBr0eqgaMZkTVgTaPabMmPVauPcw5cbG+H4EqjdN3Ca3Ikkdss/PxTmN
+ 7tdQvS4WE8PvR2vP3+1YC/ChrJfWyILVihz0NsNONGWo/0E1zl6en8sqHBmPYMUkt2GswY
+ oQXCrVqOZ8KLZ9StQuVxJavbRIAaQeU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-475-IL5JbJkJOUKDlFaqa7bbRw-1; Wed, 27 May 2020 16:32:49 -0400
+X-MC-Unique: IL5JbJkJOUKDlFaqa7bbRw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 949C4800053;
+ Wed, 27 May 2020 20:32:48 +0000 (UTC)
+Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 534ED98A21;
+ Wed, 27 May 2020 20:32:48 +0000 (UTC)
+Subject: Re: [PULL 00/11] bitmaps patches for 2020-05-26
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200526164211.1569366-1-eblake@redhat.com>
+ <CAFEAcA_zO06wPw=iZ-AGMF1YJp1htMJOy0_Nensn3GhWafr=EQ@mail.gmail.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <b2bd3045-c49b-132f-b0c8-d928135dd226@redhat.com>
+Date: Wed, 27 May 2020 15:32:47 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-From: Chris Hoy <hoychris01@gmail.com>
-Date: Wed, 27 May 2020 12:52:42 -0700
-Message-ID: <CADAnahmxeveTRvoN9TN3qgi+_gy5PpSCULy+Cp3Rzj0gaE-p7A@mail.gmail.com>
-Subject: Fully operable build post
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000002968c705a6a77276"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
- envelope-from=hoychris01@gmail.com; helo=mail-lj1-x22b.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAFEAcA_zO06wPw=iZ-AGMF1YJp1htMJOy0_Nensn3GhWafr=EQ@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 00:45:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,41 +82,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002968c705a6a77276
-Content-Type: text/plain; charset="UTF-8"
+On 5/27/20 3:07 PM, Peter Maydell wrote:
 
-Hello all,
+> 
+> iotest 190 failed on freebsd:
+> 
 
-I am proud to see that I have my barebones implementation of qemu finally
-working. After starting earlier this year, I have slowly made progress to
-fully integrate my kernel hardware into a gpu-passthrough vm. I went
-through many settings and templates from various sources and finally have
-something that works for me for a start and would be really interested in
-lining out my experiences. It is my observation that the documentation may
-be a bit unevenly distributed on the official page as far as templates go
-and so if I could help I would like to send my template through the
-official forum. Any help or advice with this would be greatly appreciated.
+> +++ /home/qemu/qemu-test.BE3Bvf/build/tests/qemu-iotests/190.out.bad
+>   2020-05-27 15:30:50.377759533 +0000
+> @@ -17,7 +17,7 @@
+>   fully allocated size: 10813440
+>   required size: 2199023255552
+>   fully allocated size: 2199023255552
+> -required size: 7012352
+> +required size: 17170432
+>   fully allocated size: 17170432
 
-Best Regards
+Thanks for the heads up.  That was on:
 
---0000000000002968c705a6a77276
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+# No bitmap output, since no bitmaps on raw source
+$QEMU_IMG measure -O qcow2 -f raw "$TEST_IMG"
 
-<div dir=3D"ltr">Hello all,<div><br></div><div>I am proud to see that I hav=
-e my barebones implementation of qemu finally working. After starting earli=
-er this year, I have slowly made progress to fully integrate my kernel hard=
-ware into a gpu-passthrough vm. I went through many settings and templates =
-from various sources and finally have something that works for me for a sta=
-rt and would be really interested in lining out my experiences. It is my ob=
-servation that the documentation may be a bit unevenly distributed on the o=
-fficial page as far as templates go and so if I could help I would like to =
-send my template through the official forum. Any help or advice with this w=
-ould be greatly appreciated.</div><div><br></div><div>Best Regards</div></d=
-iv>
+and indicates that on FreeBSD, the qcow2 image is not as sparse as it is 
+on other platforms.  Where Linux was able to punch holes in the 
+underlying filesystem, FreeBSD did not.  But even though I'm not sure if 
+that is due to file system hole granularity, choice of APIs used to 
+write all-zero bitmaps, or something else, I am certain that it less 
+important (the qcow2 file is still quite sparse in comparison to the 2T 
+guest-visible data it is representing, even if it differs in sparseness 
+between the systems).
 
---0000000000002968c705a6a77276--
+I'll post a v2 that filters out the required size for just that command, 
+as viewing a qcow2 file as if raw is unusual.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
