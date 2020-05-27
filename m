@@ -2,125 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F281E509C
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 23:43:26 +0200 (CEST)
-Received: from localhost ([::1]:40532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3791E50B3
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 23:48:32 +0200 (CEST)
+Received: from localhost ([::1]:46492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1je3pd-0003p5-RR
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 17:43:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46668)
+	id 1je3uZ-0007dM-Pp
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 17:48:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1je3oM-0003MZ-Q7
- for qemu-devel@nongnu.org; Wed, 27 May 2020 17:42:06 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:57198)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1je3oI-0004k0-RS
- for qemu-devel@nongnu.org; Wed, 27 May 2020 17:42:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1590615722; x=1622151722;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=5Vfvp53uzoRKk+BNjVJdYBRJpjNl7iQIooD9fuP4fQ0=;
- b=vASWqXPCpyr2YyEK1SNLeVGp0eLkKffReOkcTbjpjzIMej1a5zI1oJYq
- Y6CjL3kKx0fed3OjoJKw97hM/WaRYDoW7V16DDQeQ4G4PoHYQjrmmwDSo
- mA5ewMHp347OsHfLaEZfRJd2dzROQ7KXaYa15CdJhlIgeIol/PduGQrw8 M=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 27 May 2020 14:41:59 -0700
-Received: from nasanexm01e.na.qualcomm.com ([10.85.0.31])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 27 May 2020 14:41:59 -0700
-Received: from eusanexr01b.eu.qualcomm.com (10.85.0.99) by
- NASANEXM01E.na.qualcomm.com (10.85.0.31) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 27 May 2020 14:41:59 -0700
-Received: from NASANEXM01F.na.qualcomm.com (10.85.0.32) by
- eusanexr01b.eu.qualcomm.com (10.85.0.99) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 27 May 2020 14:41:56 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (199.106.107.6)
- by NASANEXM01F.na.qualcomm.com (10.85.0.32) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2 via Frontend Transport; Wed, 27 May 2020 14:41:56 -0700
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
- by BYAPR02MB4454.namprd02.prod.outlook.com (2603:10b6:a03:5f::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23; Wed, 27 May
- 2020 21:41:55 +0000
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::3594:3599:aab9:8b8e]) by BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::3594:3599:aab9:8b8e%6]) with mapi id 15.20.3045.018; Wed, 27 May 2020
- 21:41:55 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, casmac
- <1482995675@qq.com>, qemu-devel <qemu-devel@nongnu.org>
-Subject: RE: GDB get wrong debug infos on TI DSP architecture extension
-Thread-Topic: GDB get wrong debug infos on TI DSP architecture extension
-Thread-Index: AQHWM/MU+bq357d/D0q6Pp60ylYupqi7hneAgADj35A=
-Date: Wed, 27 May 2020 21:41:55 +0000
-Message-ID: <BYAPR02MB4886DAC33FB41B53887E029DDEB10@BYAPR02MB4886.namprd02.prod.outlook.com>
-References: <tencent_86D9DB902C46CBAC4F3A6FD5B4CDA93B7506@qq.com>
- <8b83e11b-e593-b7db-48b6-252e23c599da@amsat.org>
-In-Reply-To: <8b83e11b-e593-b7db-48b6-252e23c599da@amsat.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: amsat.org; dkim=none (message not signed)
- header.d=none;amsat.org; dmarc=none action=none header.from=quicinc.com;
-x-originating-ip: [70.115.140.19]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0239993f-e3df-4f6d-1ab4-08d80286c6cd
-x-ms-traffictypediagnostic: BYAPR02MB4454:
-x-microsoft-antispam-prvs: <BYAPR02MB4454509E47498DBE6FA82B4BDEB10@BYAPR02MB4454.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 04163EF38A
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3Iuajegtfjkjpy5QW5xp1LX+1StA+frllpIi2FnmXxWj1vFpTLWzILy5ikHGsuAZX0oRli2AmeKQa28vl7jglZcpmYZBjvBeKF9IpFRcUad6GckDmFN2vDfK9vsEquv54ULfRToK5Nc1aadFexW2y+9LwNASfsgW6gn7iMCoE/S9PNXpKwu36ZGySzz/ofQvoqZf9OIyYmRtTnK7so7v6mAoKc44WoO61eb/tNN5V1IyOIRGPFDXPJkx5CC3dzjLJ9xLY/8KC4LANmf1YOeWxEbsxLeqUW9lalYiUEdPahsXagE/qhEwAoRpRlhse96uWNe/+EtlBKm6iRgC7YTPahrT+YZ/FVP1JxsrEBNCLsYZbF+5EwL2oJ1dPBqjKa1dgvgJfmeAhb0KwLd3lq3jdg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(396003)(39860400002)(346002)(366004)(376002)(136003)(66446008)(64756008)(86362001)(52536014)(6506007)(5660300002)(7696005)(26005)(66574014)(33656002)(186003)(53546011)(83380400001)(9686003)(8676002)(8936002)(76116006)(66556008)(966005)(71200400001)(2906002)(4326008)(55016002)(478600001)(66476007)(54906003)(66946007)(316002)(110136005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 9QnY4Ov052wLhYM9KJ/w7p6smyfAdkIYQj8XgdoX7uDhw9eeGAIBGErtdIYJSkOws55R96pSTueNUhJen5jpdC1XjEmmcBHnpElYvPnAFnXnOiF/fNi4sxv4dPF16fuA5ktn32kyNS74UrJnkYrfOzQRCSiyJWF2McxCMRMNVMD19brhYXjrTIxuYrpte0plHp3uMo1RRRl+mnzMOr17st777hv0QgvwGS3EZwQsr2rNHuCzYv2KvYXFO/A7nhIfWVkKD/gOuChPUw+hurE+fUtmlBU1Mv6w/g4kBsmo+QdlAVQm2fTjHHk5U//HQOjhFMozl7Z3qE1otQJEEZtrNEK3DYroVkUxVYgzUyNT+hPV5cskhit9cBmDosAfQFsL9ZvUkeenfbksAqrmjrwY0fW3Eu+abHdK1ZJJl3dH8eVjeKOMWcoTEiWKPzguzkQaM3fUAS+DtPaDkRqKOIZALgD2XYKBIrrGap1PMapgtH8=
-x-ms-exchange-transport-forked: True
-arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DPeT+N1Uyl8O1JCulAUhXzD/utKMtITCet4nIkSqZ6hHG8W65BKqXXov791FsmorJ74QSx6duqUtItc05f/7XSHVg4lSwRI6uJuvXQrX2N/eZBsN/LXGQ1CdkpialiBv/bNFvPr9wB17v9h5eaU1P7tuTvIFvgXaZ++TF5o+K0ibdJzumL7YlXvbnWCr6TwBzTdyuWqqZCr9li6gxZA8Kpf9oAhPBEDvY0QHZ/TVtKfW4pKJdBF1gaeAgMhaVPQ0TfaBH6Lp630SYnXDo/r4cqccd45eFloThZLRiAzQzh/5CSqXTeWa5UTyxD4gkq33uUu5ey5WBpxwvtb0/uOP6w==
-arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5JzJWle50Z3tRWHRmECEIJQsi45RA6lsaJbSR5QTg3c=;
- b=lSRNHcz6WW3H1K2ZRIsyEI5PwI1Redmr8JvP60p2nhnD7B7W1wfrAm0Ag74PXkGG6+1HWNhQoFTY2iidDhByhYspJvIfc1rdZUnDJO9pTtat6jkBuadnBecmqcJA3Nv5FKKn26D288oHo5bBul0Wd1Hp6sT/UxMrcJDSv1rlGszZnFuxWNfkO4A275sP5iMJ8PItXmQCbqWNaSS+FJp4Absq5uI3NXFigrCRyHxxPTxr+aKKOzQJlT3r1gcCbdaHsV2x/QJ6F0cpVnHJII9rMXhh+VkqwJihHdcnCzQBIn87g9gD3HLrtcXdKoGXCQ6q0tmjIKsrz5bhpfb8ujVBjA==
-arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5JzJWle50Z3tRWHRmECEIJQsi45RA6lsaJbSR5QTg3c=;
- b=ebDQT7mHzBt20WJUMv22G0WZC51g4Oy5ktW6LfPBQYvOfh5r3GeWUf0WGbH1WdDX4VPJwRaMOpcZMAenwK7RCR5PabZ+5aW2zHhBVSBQ8YXbwZQQMhShi41vzc7oTMUWi7CJkNxBRzyJas/WjRwsNae10zh2hrTrci/kgRfQMh4=
-x-ms-exchange-crosstenant-network-message-id: 0239993f-e3df-4f6d-1ab4-08d80286c6cd
-x-ms-exchange-crosstenant-originalarrivaltime: 27 May 2020 21:41:55.6099 (UTC)
-x-ms-exchange-crosstenant-fromentityheader: Hosted
-x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-x-ms-exchange-crosstenant-mailboxtype: HOSTED
-x-ms-exchange-crosstenant-userprincipalname: Zbwmkehlgkt1kDaLSSNPT8acXUNOfOhpSNsbpGpcJxEQzEeuNsM5p6r7LMzsgh2HUaVb7mE2469ch5cDdvTOvg==
-x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB4454
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1je3tB-0005rX-It; Wed, 27 May 2020 17:47:06 -0400
+Resent-Date: Wed, 27 May 2020 17:47:05 -0400
+Resent-Message-Id: <E1je3tB-0005rX-It@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21751)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1je3t9-0006oM-FV; Wed, 27 May 2020 17:47:05 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1590616001; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=UjySlMA6vLamnAXS6AlIKHpr3OpN3/QHcTDvNscKsE8xrhHcyfE9x7y+/E+2A0JcAS5vGu544esbe9i7olT2h35jwj3XZQU5w7Xk0ayZgJasv/+0JVkaiclnFkKA3uLLQxnyj8OQxApRC0U5QaMX/BHT0kYpcOhhR3ka6nhxFNc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1590616001;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=bIP/2R+mk9vAUrZq0/XvKMNIqIV+8GuJpVAahO9OpAc=; 
+ b=MaBeqvg41tJ40mQvLI3Ov1vRBp0i8IeNDIhlrA/rtQLRSy0T2gfHjQYBi8JkkoZtYNFic4r3XztDXzlrT7gTYpopuNlS3w4PRrvXDfzcZ1uYpw00vVdOPgb3V571X9Xa3Wt7DAEVY0h1TYPKnRjlps/tPWV4Fw5/DfTR0uKT9Y0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1590615999101252.9370545416176;
+ Wed, 27 May 2020 14:46:39 -0700 (PDT)
+Message-ID: <159061599705.16318.11961887809600256765@45ef0f9c86ae>
+In-Reply-To: <20200527203733.16129-1-vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v5 0/7] coroutines: generate wrapper code
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-Received-SPF: pass client-ip=199.106.114.39; envelope-from=tsimpson@quicinc.com;
- helo=alexa-out-sd-02.qualcomm.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 16:16:02
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vsementsov@virtuozzo.com
+Date: Wed, 27 May 2020 14:46:39 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/27 17:46:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -134,128 +67,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
- Luc Michel <luc.michel@greensocs.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, stefanha@redhat.com, crosa@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For Hexagon, we have LLDB, not GDB.  I tinkered with getting LLDB to talk t=
-o qemu but never got if fully functional.  I'm planning to get back to it a=
-t some point.
-
-With that caveat, I'll try to answer Xiaolei's questions
-- The xml file is returned from qemu to gdb in response to the Xfer:feature=
-s:read command.  Providing it should be optional unless your debugger requi=
-res the target to support that command.  If the target doesn't support this=
- command, the debugger will generally use the qRegisterInfo command.
-- I don't think get_phys_page_debug is used for gdb debugging.  Which mode =
-are you implementing?  In linux-user mode, it's not needed.  In softmmu mod=
-e, it is used when you use "-d in_asm" to find the memory to disassemble.  =
-If you have an MMU, you need to map the virtual address passed in to the ph=
-ysical address or return -1 if there is no mapping.  If there isn't a MMU, =
-return the virtual address.
-- The error you are getting from gdb sounds like a mismatch between the ver=
-sion of the processor that qemu is emulating and gdb thinks it is debugging=
-.  In other words, qemu thinks there is a register that gdb know about.  To=
- see what's going on, try adding "-d trace:gdbstub_io_command,trace:gdbstub=
-_io_reply" to your qemu command line.  This will show you the commands from=
- gdb and qemu's response.  Look for the commands I described above and see =
-if qemu is giving a register that doesn't exist.
-
-HTH,
-Taylor
-
-
-> -----Original Message-----
-> From: Philippe Mathieu-Daud=E9 <philippe.mathieu.daude@gmail.com> On
-> Behalf Of Philippe Mathieu-Daud=E9
-> Sent: Wednesday, May 27, 2020 2:20 AM
-> To: casmac <1482995675@qq.com>; qemu-devel <qemu-
-> devel@nongnu.org>
-> Cc: Luc Michel <luc.michel@greensocs.com>; Alex Benn=E9e
-> <alex.bennee@linaro.org>; Taylor Simpson <tsimpson@quicinc.com>
-> Subject: Re: GDB get wrong debug infos on TI DSP architecture extension
->
->
-> Hi Xiaolei,
->
-> Cc'ing more developers who might answer you.
->
-> On 5/27/20 8:48 AM, casmac wrote:
-> > Hi all,
-> >    I am working on a TI DSP architecture extension for QEMU.
->
-> FYI you can find the TI TMS320C6x target implemented here:
-> https://github.com/philmd/qemu/releases/tag/target-c6x-2.4
->
-> I started rebasing it to QEMU 4.2 but then got distracted.
->
-> > Now, we are
-> > adding GDB debugging features.
-> >    We have done the following, but not sure we are on the right track :
-> >    - add a xml description file in gdb-xml, without understanding the
-> > purpose of the file, why some architectures don't provide such xml file=
-?
-> >    - add ***_cpu_gdb_read_register(), ***_cpu_gdb_write_register();
-> >    - added  dsp_cpu_get_phys_page_attrs_debug(), but uncertain about
-> > what to return
-> >      dsp_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
-> > MemTxAttrs *attrs)
-> >      {
-> >         return addr & TARGET_PAGE_MASK;
-> >      }
-> >
-> >    We run QEMU with the these arguments
-> >    qemu-system-dsp ... -kernel filename.out -S -s
-> >
-> >    It turns out that gdb reads incorrect register values, and complains
-> > : "warning: Target-supplied registers are not supported by the current
-> > architecture".
-> >
-> >    Something is missing here, or we do it in a wrong way.  Any advise
-> > would be helpful to us.
-> >
-> >    Thanks.
-> >
-> > xiaolei
-> >
-> >    ----- ti_dsp.xml  -----
-> >
-> >    <?xml version=3D"1.0"?>
-> > <!DOCTYPE feature SYSTEM "gdb-target.dtd">
-> > <feature name=3D"org.gnu.gdb.tic3x.core">
-> >     <reg name=3D"r0"  bitsize=3D"32"></reg>
-> >  <reg name=3D"r1"  bitsize=3D"32"/>
-> >  <reg name=3D"r2"  bitsize=3D"32"></reg>
-> >  <reg name=3D"r3"  bitsize=3D"32"/>
-> >  <reg name=3D"r4"  bitsize=3D"32"/>
-> >  <reg name=3D"r5"  bitsize=3D"32"/>
-> >  <reg name=3D"r6"  bitsize=3D"32"/>
-> >  <reg name=3D"r7"  bitsize=3D"32"/>
-> >  <reg name=3D"ar0" bitsize=3D"32"/>
-> >  <reg name=3D"ar1" bitsize=3D"32"/>
-> >  <reg name=3D"ar2" bitsize=3D"32"/>
-> >  <reg name=3D"ar3" bitsize=3D"32"/>
-> >  <reg name=3D"ar4" bitsize=3D"32"/>
-> >  <reg name=3D"ar5" bitsize=3D"32"/>
-> >  <reg name=3D"ar6" bitsize=3D"32"/>
-> >  <reg name=3D"ar7" bitsize=3D"32"/>
-> >  <reg name=3D"dp"  bitsize=3D"32"/>
-> >  <reg name=3D"ir0" bitsize=3D"32"/>
-> >  <reg name=3D"ir1" bitsize=3D"32"/>
-> >  <reg name=3D"bk"  bitsize=3D"32"/>
-> >  <reg name=3D"sp"  bitsize=3D"32" type=3D"data_ptr"/>
-> >  <reg name=3D"st"  bitsize=3D"32"></reg>
-> >  <reg name=3D"ie"  bitsize=3D"32"/>
-> >  <reg name=3D"if"  bitsize=3D"32"/>
-> >  <reg name=3D"iof" bitsize=3D"32"/>
-> >  <reg name=3D"rs"  bitsize=3D"32"/>
-> >  <reg name=3D"re"  bitsize=3D"32"/>
-> >  <reg name=3D"rc"  bitsize=3D"32"/>
-> >  <reg name=3D"pc"  bitsize=3D"32" type=3D"data_ptr"/>
-> >  <reg name=3D"clk"  bitsize=3D"32"/>
-> > </feature>
-> >
->
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUyNzIwMzczMy4xNjEy
+OS0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
+dGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0
+aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBp
+bnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVT
+VCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcg
+Vj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VO
+Vj0xIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpUeXBlRXJyb3I6IF9f
+aW5pdF9fKCkgZ290IGFuIHVuZXhwZWN0ZWQga2V5d29yZCBhcmd1bWVudCAnY2FwdHVyZV9vdXRw
+dXQnCiAgQ0MgICAgICAvdG1wL3FlbXUtdGVzdC9idWlsZC9zbGlycC9zcmMvYm9vdHAubwogIEdF
+TiAgICAgdWkvaW5wdXQta2V5bWFwLXVzYi10by1xY29kZS5jCm1ha2U6ICoqKiBbYmxvY2svYmxv
+Y2stZ2VuLmNdIEVycm9yIDEKbWFrZTogKioqIERlbGV0aW5nIGZpbGUgYGJsb2NrL2Jsb2NrLWdl
+bi5jJwptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIEdFTiAgICAg
+dWkvaW5wdXQta2V5bWFwLXdpbjMyLXRvLXFjb2RlLmMKLS0tCiAgICByYWlzZSBDYWxsZWRQcm9j
+ZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29t
+bWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVt
+dS5pbnN0YW5jZS51dWlkPTdhNGM5Yzg3YmI3YjRiNjFhZTk5MTQyYjhjY2Q0YzEyJywgJy11Jywg
+JzEwMDEnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAn
+LWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScs
+ICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0xJywg
+Jy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcv
+LmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFy
+L3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtdnc1dzdrNnovc3JjL2RvY2tlci1zcmMuMjAyMC0wNS0y
+Ny0xNy40NC40MC41NzM6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFy
+L3RtcC9xZW11L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3Rh
+dHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTdhNGM5
+Yzg3YmI3YjRiNjFhZTk5MTQyYjhjY2Q0YzEyCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJy
+b3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXIt
+dG1wLXZ3NXc3azZ6L3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9z
+N10gRXJyb3IgMgoKcmVhbCAgICAxbTU3LjkwNnMKdXNlciAgICAwbTguNDc1cwoKClRoZSBmdWxs
+IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA1MjcyMDM3
+MzMuMTYxMjktMS12c2VtZW50c292QHZpcnR1b3p6by5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tA
+Y2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkg
+YnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRi
+YWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
