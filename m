@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2461E3869
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 07:43:22 +0200 (CEST)
-Received: from localhost ([::1]:45690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9F981E3864
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 May 2020 07:41:35 +0200 (CEST)
+Received: from localhost ([::1]:37204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jdoqX-0002ZA-Bo
-	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 01:43:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46212)
+	id 1jdooo-00076Q-Or
+	for lists+qemu-devel@lfdr.de; Wed, 27 May 2020 01:41:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jdoln-0001DF-0i; Wed, 27 May 2020 01:38:27 -0400
-Received: from ozlabs.org ([203.11.71.1]:42241)
+ id 1jdoln-0001DX-2s; Wed, 27 May 2020 01:38:27 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:41791 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jdoll-0001eV-JP; Wed, 27 May 2020 01:38:26 -0400
+ id 1jdoll-0001ea-OV; Wed, 27 May 2020 01:38:26 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49X03q6LG3z9sSs; Wed, 27 May 2020 15:38:15 +1000 (AEST)
+ id 49X03q6tHZz9sSy; Wed, 27 May 2020 15:38:15 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1590557895;
- bh=n1w5x4MWUM3sI147COwZWjKfkJROvjhmcH5edVfKqak=;
+ bh=bbcPOiyOzJWVXNkTbS8c1k0vm+Znts6m8wOzfSzt/4U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GA2Ioo8kciz8KVjVpuqS5xPs6J6rCJ+nuzxn8wBO1/dH57Jt6La9YQ2iXYORGbBPJ
- h/8aw+XVp+W90UgLIpDwRvPNEzpGglmFgep8F/hj6Lrmm1ePSVoqyf5LM4OZQdkZdk
- gbuD1o9iLfttNnEcxs6ZgCbNs9ZxTLrGPHlnU5HM=
+ b=IL6XwZzfFQzdaGLJDUlhsy4qNl2Tj0jHmCstEgQzxgE/aDFIZPydMknpbT5AgRaml
+ VtE0Q08Jrfo2t/yhFUcgg4Oknmic7MAg/yFis2rdL4p3Btrw3ezUjw3df2LTx4mckC
+ WwIAUodfQTJIxgnEVCN8imiU8mlMh7qIUVU4uLRA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/15] target/ppc: Pass const pointer to
- ppc_radix64_get_prot_amr()
-Date: Wed, 27 May 2020 15:38:00 +1000
-Message-Id: <20200527053809.356168-7-david@gibson.dropbear.id.au>
+Subject: [PULL 07/15] target/ppc: Pass const pointer to
+ ppc_radix64_get_fully_qualified_addr()
+Date: Wed, 27 May 2020 15:38:01 +1000
+Message-Id: <20200527053809.356168-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200527053809.356168-1-david@gibson.dropbear.id.au>
 References: <20200527053809.356168-1-david@gibson.dropbear.id.au>
@@ -69,32 +69,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-This doesn't require write access to the CPU structure.
+This doesn't require write access to the CPU registers.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <158941060817.240484.14621015211317485106.stgit@bahia.lan>
+Message-Id: <158941061434.240484.10700096396035994133.stgit@bahia.lan>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/mmu-radix64.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/ppc/mmu-radix64.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
-index 96228546aa..f28c5794d0 100644
---- a/target/ppc/mmu-radix64.h
-+++ b/target/ppc/mmu-radix64.h
-@@ -55,9 +55,9 @@ static inline int ppc_radix64_get_prot_eaa(uint64_t pte)
-            (pte & R_PTE_EAA_X ? PAGE_EXEC : 0);
- }
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index 1404e53dec..c76879f65b 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -28,7 +28,8 @@
+ #include "mmu-radix64.h"
+ #include "mmu-book3s-v3.h"
  
--static inline int ppc_radix64_get_prot_amr(PowerPCCPU *cpu)
-+static inline int ppc_radix64_get_prot_amr(const PowerPCCPU *cpu)
+-static bool ppc_radix64_get_fully_qualified_addr(CPUPPCState *env, vaddr eaddr,
++static bool ppc_radix64_get_fully_qualified_addr(const CPUPPCState *env,
++                                                 vaddr eaddr,
+                                                  uint64_t *lpid, uint64_t *pid)
  {
--    CPUPPCState *env = &cpu->env;
-+    const CPUPPCState *env = &cpu->env;
-     int amr = env->spr[SPR_AMR] >> 62; /* We only care about key0 AMR63:62 */
-     int iamr = env->spr[SPR_IAMR] >> 62; /* We only care about key0 IAMR63:62 */
- 
+     if (msr_hv) { /* MSR[HV] -> Hypervisor/bare metal */
 -- 
 2.26.2
 
