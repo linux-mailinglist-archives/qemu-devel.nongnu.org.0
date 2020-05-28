@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1101E615B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 14:50:36 +0200 (CEST)
-Received: from localhost ([::1]:38992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9846C1E614A
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 14:48:36 +0200 (CEST)
+Received: from localhost ([::1]:60658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeHzX-0003rO-Nf
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 08:50:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33714)
+	id 1jeHxb-0001Wv-Ew
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 08:48:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHm0-0001w7-Ee
- for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:36 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32554
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHly-0001pm-7b
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:34 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50234
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHlt-0005Fd-Ex
- for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:36 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHlr-0005Cu-P9
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590669388;
+ s=mimecast20190719; t=1590669386;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vhaGpItVAJY0Kh28EoW+iZj4wIKFYfoIVL8Ul9ZNK3k=;
- b=hkkgMXlbdb0Oepm/iBUriTasZTFEI2ZdEAQG8t8l5O9NJLoB+GPaCg9YvpFAaU5+KY5pTG
- FkbIBaoCFLSfbz7NeI07SaKibkoBMRZO8vApL8YTaRyKXDzUmnWuaA0kGj0p8p6VewqAK1
- po8e/eHDmQ2sFof7fiV22b3pHwCel3o=
+ bh=FTTWm2Ie3ZetkYcgR/YsLvRvE6iLrx2iZOgaTJeYsuo=;
+ b=YEtR0YeeCHy33ZC7cz110CQGB4nG/VlQUNm0X4W5s+tW/+jUrZTzyGeHovQKOt5ABC0u7k
+ vYADVK9KthLmEOQxY21ciGFbubwVSGiSbt7jtj9NtSZ3AdifEOrd1mimyiv9NenXw+ILXO
+ YmdfRIo4XfVdEg43EZGdIwkl9+srBQE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-613lVL-COoqGZLJCqhXdvQ-1; Thu, 28 May 2020 08:36:19 -0400
-X-MC-Unique: 613lVL-COoqGZLJCqhXdvQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-299-WqQZlz30MHmC6OHdIHC5jw-1; Thu, 28 May 2020 08:36:22 -0400
+X-MC-Unique: WqQZlz30MHmC6OHdIHC5jw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D7DC8015CF;
- Thu, 28 May 2020 12:36:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65DD3835B40;
+ Thu, 28 May 2020 12:36:20 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
  [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D3242A102D;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BBBFA610AB;
  Thu, 28 May 2020 12:36:17 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id AE16D9D58; Thu, 28 May 2020 14:36:09 +0200 (CEST)
+ id B6F089D59; Thu, 28 May 2020 14:36:09 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/21] hw/display/xlnx_dp: Replace disabled DPRINTF() by
- error_report()
-Date: Thu, 28 May 2020 14:35:57 +0200
-Message-Id: <20200528123609.27362-10-kraxel@redhat.com>
+Subject: [PULL 10/21] hw/display/vmware_vga: Replace printf() calls by
+ qemu_log_mask(ERROR)
+Date: Thu, 28 May 2020 14:35:58 +0200
+Message-Id: <20200528123609.27362-11-kraxel@redhat.com>
 In-Reply-To: <20200528123609.27362-1-kraxel@redhat.com>
 References: <20200528123609.27362-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -93,77 +93,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-DPRINTF() calls are disabled by default, so when unexpected
-data is used, the whole process abort without information.
-
-Display a bit of information with error_report() before crashing.
+Avoid flooding stdio by converting printf() calls to
+qemu_log_mask(GUEST_ERROR), which are disabled by default.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200526062252.19852-10-f4bug@amsat.org
+Message-id: 20200526062252.19852-11-f4bug@amsat.org
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/xlnx_dp.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ hw/display/vmware_vga.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index 3e5fb44e06ee..8d940cd8d1a5 100644
---- a/hw/display/xlnx_dp.c
-+++ b/hw/display/xlnx_dp.c
-@@ -1,5 +1,5 @@
- /*
-- * xlnx_dp.c
-+ * Xilinx Display Port
-  *
-  *  Copyright (C) 2015 : GreenSocs Ltd
-  *      http://www.greensocs.com/ , email: info@greensocs.com
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/error-report.h"
- #include "qemu/log.h"
+diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
+index 58ea82e3e581..5c0fc49d9d6e 100644
+--- a/hw/display/vmware_vga.c
++++ b/hw/display/vmware_vga.c
+@@ -26,6 +26,7 @@
  #include "qemu/module.h"
- #include "hw/display/xlnx_dp.h"
-@@ -465,7 +466,7 @@ static uint8_t xlnx_dp_aux_pop_tx_fifo(XlnxDPState *s)
-     uint8_t ret;
- 
-     if (fifo8_is_empty(&s->tx_fifo)) {
--        DPRINTF("tx_fifo underflow..\n");
-+        error_report("%s: TX_FIFO underflow", __func__);
-         abort();
-     }
-     ret = fifo8_pop(&s->tx_fifo);
-@@ -525,6 +526,7 @@ static void xlnx_dp_aux_set_command(XlnxDPState *s, uint32_t value)
-         qemu_log_mask(LOG_UNIMP, "xlnx_dp: Write i2c status not implemented\n");
+ #include "qemu/units.h"
+ #include "qapi/error.h"
++#include "qemu/log.h"
+ #include "hw/loader.h"
+ #include "trace.h"
+ #include "ui/vnc.h"
+@@ -953,7 +954,8 @@ static uint32_t vmsvga_value_read(void *opaque, uint32_t address)
+             ret = s->scratch[s->index - SVGA_SCRATCH_BASE];
+             break;
+         }
+-        printf("%s: Bad register %02x\n", __func__, s->index);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad register %02x\n", __func__, s->index);
+         ret = 0;
          break;
-     default:
-+        error_report("%s: invalid command: %u", __func__, cmd);
-         abort();
      }
- 
-@@ -631,8 +633,8 @@ static void xlnx_dp_change_graphic_fmt(XlnxDPState *s)
-         s->g_plane.format = PIXMAN_b8g8r8;
+@@ -1002,7 +1004,8 @@ static void vmsvga_value_write(void *opaque, uint32_t address, uint32_t value)
+             s->new_width = value;
+             s->invalidated = 1;
+         } else {
+-            printf("%s: Bad width: %i\n", __func__, value);
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: Bad width: %i\n", __func__, value);
+         }
          break;
-     default:
--        DPRINTF("error: unsupported graphic format %u.\n",
--                s->avbufm_registers[AV_BUF_FORMAT] & DP_GRAPHIC_MASK);
-+        error_report("%s: unsupported graphic format %u", __func__,
-+                     s->avbufm_registers[AV_BUF_FORMAT] & DP_GRAPHIC_MASK);
-         abort();
-     }
  
-@@ -647,8 +649,8 @@ static void xlnx_dp_change_graphic_fmt(XlnxDPState *s)
-         s->v_plane.format = PIXMAN_x8b8g8r8;
+@@ -1011,13 +1014,15 @@ static void vmsvga_value_write(void *opaque, uint32_t address, uint32_t value)
+             s->new_height = value;
+             s->invalidated = 1;
+         } else {
+-            printf("%s: Bad height: %i\n", __func__, value);
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: Bad height: %i\n", __func__, value);
+         }
          break;
-     default:
--        DPRINTF("error: unsupported video format %u.\n",
--                s->avbufm_registers[AV_BUF_FORMAT] & DP_NL_VID_FMT_MASK);
-+        error_report("%s: unsupported video format %u", __func__,
-+                     s->avbufm_registers[AV_BUF_FORMAT] & DP_NL_VID_FMT_MASK);
-         abort();
+ 
+     case SVGA_REG_BITS_PER_PIXEL:
+         if (value != 32) {
+-            printf("%s: Bad bits per pixel: %i bits\n", __func__, value);
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: Bad bits per pixel: %i bits\n", __func__, value);
+             s->config = 0;
+             s->invalidated = 1;
+         }
+@@ -1082,7 +1087,8 @@ static void vmsvga_value_write(void *opaque, uint32_t address, uint32_t value)
+             s->scratch[s->index - SVGA_SCRATCH_BASE] = value;
+             break;
+         }
+-        printf("%s: Bad register %02x\n", __func__, s->index);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad register %02x\n", __func__, s->index);
      }
+ }
  
 -- 
 2.18.4
