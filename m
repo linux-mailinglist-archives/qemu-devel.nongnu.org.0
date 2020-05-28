@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4415C1E5F37
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 14:01:41 +0200 (CEST)
-Received: from localhost ([::1]:33816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA421E5FDC
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 14:08:40 +0200 (CEST)
+Received: from localhost ([::1]:43878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeHEB-0006JQ-RH
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 08:01:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56702)
+	id 1jeHKx-0004lE-Tm
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 08:08:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeHCu-0005iv-C3
- for qemu-devel@nongnu.org; Thu, 28 May 2020 08:00:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43129
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeHJb-0002mN-Cl
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 08:07:15 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29406
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeHCs-0004Pp-Es
- for qemu-devel@nongnu.org; Thu, 28 May 2020 08:00:19 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeHJZ-0005le-Ld
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 08:07:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590667217;
+ s=mimecast20190719; t=1590667632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Rxh2h2hSr9D6priQvYcc5MMy17vDMzXvGGSx6ycb+l4=;
- b=bRhlZDa1D/q+/eoWtJChG8zyWbu46s78wBz8ORmW4hXQ/Izkel0EfvthjdUs6ih02PMLnB
- caxg9xxFbeYqHkHvOQbN26exsOkHNDJ8t/XXoSoM1jW6TiCxgyLtfKWlVBeVcgs4PlVpz3
- lzsobsvgnYP4y/FXphEhsOBXdIkNeHA=
+ bh=WhZ1PqdStw7dynAMKPNKscbS/4zMe+ZtwfVbjIlBU5g=;
+ b=NrAhA71/1+R2ZMn9g2DQ93HtGqoimS5Yvb1WiXngzm5aSq0BUCwKiGJY2daYO31PonoHwL
+ 1JlGnBkzvyctZEwFqxrXtaPkKlvniihDT9FxBDvOyHhwtZoVD+6ghR5ylIWu1p58Wo9oxK
+ LnwmJDI9xYlHsPNFWny9xH9avSVdnjA=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-n5-llKG0N2KB-KmOlh99Gg-1; Thu, 28 May 2020 08:00:15 -0400
-X-MC-Unique: n5-llKG0N2KB-KmOlh99Gg-1
-Received: by mail-wr1-f71.google.com with SMTP id l1so8833309wrc.8
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 05:00:15 -0700 (PDT)
+ us-mta-506-iOnhk7bZOuq7fyjjk740cg-1; Thu, 28 May 2020 08:07:10 -0400
+X-MC-Unique: iOnhk7bZOuq7fyjjk740cg-1
+Received: by mail-wr1-f71.google.com with SMTP id e1so10058354wrm.3
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 05:07:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=Rxh2h2hSr9D6priQvYcc5MMy17vDMzXvGGSx6ycb+l4=;
- b=hcl+4yuIUHJrKC+yDUYbVear5c9hHht6R0UDp5ycmtZ4xDn1OcJ5F8oxduZywxdxR5
- YJ0lbmaAM20c57qTTYUhifZCmLTvtG9YZBb0ijxXkOIxjXnYyuU+1SzihyQ+KVsO5ZpY
- o+DA6sFwUJXHqJiRb3iVNVZtzOcYK5cbshufZeC1/I8d2qI259MTFQSXuxqewtVGiw8l
- b1W3wDMLdC0wusA29vSEc8pGkuo8dYQg8vLV46Jv3izO7nPxsjoxlA9mPEFz6h6hRrZE
- 0+UqGI5qX1QKk8XfaB8t5vz8fLJYY6EHhdFwJkJT4/vNAfduNEASsv8v59/J/vpjDmy6
- OdqQ==
-X-Gm-Message-State: AOAM5307C9xOc/zR6+KrxtpSV06VYw+Xj7qcWCyQKEkBTn8Fd1GWApxW
- O87k0ziMlGDG5MmvfmX1M8U46edLQvePPf5cMyJnlNsGMAFK07BQrSPYIbOH2C6o2ODfq2ywvA+
- 6h0rUv4Z5poDo7qc=
-X-Received: by 2002:adf:a407:: with SMTP id d7mr3232314wra.368.1590667214142; 
- Thu, 28 May 2020 05:00:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyk7wjTwpsqEx60C6vGP6sinaOPmmbNcLrShVCLoUfJrtLVbdo17Vx3g8O9q6vRNAn41H76QA==
-X-Received: by 2002:adf:a407:: with SMTP id d7mr3232292wra.368.1590667213848; 
- Thu, 28 May 2020 05:00:13 -0700 (PDT)
+ bh=WhZ1PqdStw7dynAMKPNKscbS/4zMe+ZtwfVbjIlBU5g=;
+ b=kvEf2/m2jGZoBn6HAn+pP8phPcAe0GUbrZH8t2t/Shai5BJn79SwLI9av71FdTBz8n
+ 94Pv4xRL5/TtI9QKB5WCkefE8IFdV1k7NBHHMcBWq56M1kk8JJoK3exaxU4U48qXAfbH
+ l6ZeD7glsUxjBMHPM/2EKLj4nX+jrLUDJBfahEQmhXeiKeyY0qinMRCL76xjIo3kMWgI
+ 954t6blHye44XnFRMeTC1cHo1RhVb8KlHHPWwGY4HkRpcvZUBXQZV80Yigd188Pw3b7V
+ f3xrGpEje8hIY/TqYEXd8ctbNOvChOG5UtZyibaonTx9PpyAp9Ee9fwzSDMoKjaIDYGx
+ 2bOQ==
+X-Gm-Message-State: AOAM53220vb2s+Le93Fe4zrP24C3N/vwMSS0mOd7qEgJj8oXitaARAnl
+ fMjPfkCcUD9Z4UVCG4yrpCIIuzqwzO1J6UML9WPOJQ0mjoaptI8p1v59VL65No36Xg0JS+WelC8
+ n6Rj/3sHC+1GPOGY=
+X-Received: by 2002:a1c:230f:: with SMTP id j15mr3268821wmj.100.1590667629057; 
+ Thu, 28 May 2020 05:07:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx8XPs8O9vT+FEEe6CRCk5LsomZzN0mmaZIbD+/omLy0bVxaHKh1/tkRHnxwnifcVtW+dFcNQ==
+X-Received: by 2002:a1c:230f:: with SMTP id j15mr3268796wmj.100.1590667628762; 
+ Thu, 28 May 2020 05:07:08 -0700 (PDT)
 Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id p16sm5512125wru.27.2020.05.28.05.00.12
+ by smtp.gmail.com with ESMTPSA id g82sm6573588wmf.1.2020.05.28.05.07.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 May 2020 05:00:12 -0700 (PDT)
-Subject: Re: [RFC] some semihosting interrogation
-To: Fred Konrad <konrad@adacore.com>, QEMU Developers <qemu-devel@nongnu.org>
-References: <141c5b32-31cd-1a1d-b1aa-692b9002dac9@adacore.com>
+ Thu, 28 May 2020 05:07:07 -0700 (PDT)
+Subject: Re: [PATCH v6 2/5] softmmu/vl: Let -fw_cfg option take a 'blob_id'
+ argument
+To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
+References: <20200519182024.14638-1-philmd@redhat.com>
+ <20200519182024.14638-3-philmd@redhat.com>
+ <ce1f0c80-f26b-40de-6d5b-2dc8f92fcfa2@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -86,27 +89,27 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <8771e99e-764b-52aa-55c4-a528d0804a34@redhat.com>
-Date: Thu, 28 May 2020 14:00:11 +0200
+Message-ID: <41f963dc-ac0f-7a7d-9d19-fcbd2e846926@redhat.com>
+Date: Thu, 28 May 2020 14:07:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <141c5b32-31cd-1a1d-b1aa-692b9002dac9@adacore.com>
+In-Reply-To: <ce1f0c80-f26b-40de-6d5b-2dc8f92fcfa2@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 01:51:20
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 06:31:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,84 +123,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Fred,
+On 5/20/20 12:34 AM, Laszlo Ersek wrote:
+> On 05/19/20 20:20, Philippe Mathieu-Daudé wrote:
+>> The 'blob_id' argument refers to a QOM object able to produce
+>> data consumable by the fw_cfg device. The producer object must
+>> implement the FW_CFG_DATA_GENERATOR interface.
+> 
+> OK, this answers my OBJECT_CHECK() question under patch #1 (in the
+> negative -- an assert would be wrong).
+> 
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  softmmu/vl.c | 17 +++++++++++++----
+>>  1 file changed, 13 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/softmmu/vl.c b/softmmu/vl.c
+>> index ae5451bc23..f76c53ad2e 100644
+>> --- a/softmmu/vl.c
+>> +++ b/softmmu/vl.c
+>> @@ -489,6 +489,10 @@ static QemuOptsList qemu_fw_cfg_opts = {
+>>              .name = "string",
+>>              .type = QEMU_OPT_STRING,
+>>              .help = "Sets content of the blob to be inserted from a string",
+>> +        }, {
+>> +            .name = "blob_id",
+>> +            .type = QEMU_OPT_STRING,
+>> +            .help = "Sets id of the object generating fw_cfg blob to be used",
+>>          },
+>>          { /* end of list */ }
+>>      },
+>> @@ -2020,7 +2024,7 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
+>>  {
+>>      gchar *buf;
+>>      size_t size;
+>> -    const char *name, *file, *str;
+>> +    const char *name, *file, *str, *blob_id;
+>>      FWCfgState *fw_cfg = (FWCfgState *) opaque;
+>>
+>>      if (fw_cfg == NULL) {
+>> @@ -2030,14 +2034,17 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
+>>      name = qemu_opt_get(opts, "name");
+>>      file = qemu_opt_get(opts, "file");
+>>      str = qemu_opt_get(opts, "string");
+>> +    blob_id = qemu_opt_get(opts, "blob_id");
+>>
+>>      /* we need name and either a file or the content string */
+> 
+> (1) Please update this comment. If the option is given, we need the
+> name, and exactly one of: file, content string, blob_id.
+> 
+>> -    if (!(nonempty_str(name) && (nonempty_str(file) || nonempty_str(str)))) {
+>> +    if (!(nonempty_str(name)
+>> +          && (nonempty_str(file) || nonempty_str(str) || nonempty_str(blob_id)))
+>> +         ) {
+>>          error_setg(errp, "invalid argument(s)");
+>>          return -1;
+>>      }
+> 
+> (2) Coding style: does QEMU keep operators on the left or on the right
+> when breaking subconditions to new lines? (I vaguely recall "to the
+> right", but I could be wrong... Well, "hw/nvram/fw_cfg.c" has at least 7
+> examples of the operator being on the right.)
 
-On 5/28/20 11:44 AM, Fred Konrad wrote:
-> Hi all,
-> 
-> Just wonderring if there is any reason not to be able to defer
-> qemu_semihosting_connect_chardevs a little more to be able to specify
-> chardev=serial0?
-> 
-> Like:
-> 
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 6390cf0..9fa1553 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -4333,8 +4333,6 @@ void qemu_init(int argc, char **argv, char **envp)
-> 
->      qemu_opts_foreach(qemu_find_opts("chardev"),
->                        chardev_init_func, NULL, &error_fatal);
-> -    /* now chardevs have been created we may have semihosting to
-> connect */
-> -    qemu_semihosting_connect_chardevs();
-> 
->  #ifdef CONFIG_VIRTFS
->      qemu_opts_foreach(qemu_find_opts("fsdev"),
-> @@ -4484,6 +4482,9 @@ void qemu_init(int argc, char **argv, char **envp)
->      if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
->          exit(1);
-> 
-> +    /* now chardevs have been created we may have semihosting to
-> connect */
-> +    qemu_semihosting_connect_chardevs();
-
-Cc'ing Markus for this part because he had headaches recently moving
-things around there; but the change looks.
-
-> +
->      /* If no default VGA is requested, the default is "none".  */
->      if (default_vga) {
->          vga_model = get_default_vga_model(machine_class);
-> 
-> Also I found out that the trailing \0 is sent to the chardev
-> (console.c:copy_user_string) is that expected in case of semihosting?
-
-No, your patch fixes a bug.
+You are right, I have been confused with a recommendation from Eric
+Blake, but it was about shell script, not C.
 
 > 
-> static GString *copy_user_string(CPUArchState *env, target_ulong addr)
-> {
->     CPUState *cpu = env_cpu(env);
->     GString *s = g_string_sized_new(128);
->     uint8_t c;
+>> -    if (nonempty_str(file) && nonempty_str(str)) {
+>> -        error_setg(errp, "file and string are mutually exclusive");
+>> +    if (nonempty_str(file) && nonempty_str(str) && nonempty_str(blob_id)) {
+>> +        error_setg(errp, "file, string and blob_id are mutually exclusive");
+>>          return -1;
+>>      }
 > 
->     do {
->         if (cpu_memory_rw_debug(cpu, addr++, &c, 1, 0) == 0) {
->             if (c) {
->                 s = g_string_append_c(s, c);
->             }
->         } else {
->             qemu_log_mask(LOG_GUEST_ERROR,
->                           "%s: passed inaccessible address " TARGET_FMT_lx,
->                           __func__, addr);
->             break;
->         }
->     } while (c!=0);
+> (3) I believe this catches only when all three of name/string/blob_id
+> are given. But we should continue catching "two given".
 > 
->     return s;
-> }
+> How about reworking both "if"s, *and* the comment at (1) at the same
+> time, into:
 > 
-> I can roll out two patches if needed..
+>     if (!nonempty_str(name) ||
+>         nonempty_str(file) + nonempty_str(str) + nonempty_str(blob_id) != 1) {
+>         error_setg(errp, "name, plus exactly one of file, string and blob_id, "
+>                    "are needed");
+>         return -1;
+>     }
 > 
-> Cheers,
-> Fred
+> (Regarding the addition, nonempty_str() returns a "bool", which is a
+> macro to _Bool, which is promoted to "int" or "unsigned int".)
+> 
+>>      if (strlen(name) > FW_CFG_MAX_FILE_PATH - 1) {
+>> @@ -2052,6 +2059,8 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
+>>      if (nonempty_str(str)) {
+>>          size = strlen(str); /* NUL terminator NOT included in fw_cfg blob */
+>>          buf = g_memdup(str, size);
+>> +    } else if (nonempty_str(blob_id)) {
+>> +        return fw_cfg_add_from_generator(fw_cfg, name, blob_id, errp);
+>>      } else {
+>>          GError *err = NULL;
+>>          if (!g_file_get_contents(file, &buf, &size, &err)) {
+>>
+> 
+> (4) The "-fw_cfg" command line option is documented in both the qemu(1)
+> manual, and the "docs/specs/fw_cfg.txt" file.
+> 
+> I think we may have to update those. In particular I mean *where* the
+> option is documented (in both texts).
+
+Oh I forgot this part, thanks.
+
+> 
+> In the manual, "-fw_cfg" is currently under "Debug/Expert options", but
+> that will no longer apply (I think?) after this series.
+
+Well I'm not sure, the intent is the same, targeting mostly libvirt as
+management interface; other uses are for "experts".
+
+> 
+> Similarly, in "docs/specs/fw_cfg.txt", the section is called "Externally
+> Provided Items" -- but that might not be strictly true any more either.
+> 
+> Maybe leave the current "-fw_cfg" mentions in peace, and document
+> "-fw_cfg blob_id=..." separately (in different docs sections)? The
+> "fw_cfg generators" concept could deserve dedicated sections.
+> 
+> Sorry that I can't make a good concrete suggestion. :(
+
+Thanks for the detailed review!
+
+> 
+> Thanks,
+> Laszlo
 > 
 
 
