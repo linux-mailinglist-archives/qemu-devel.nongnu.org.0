@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C4A1E611A
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 14:39:44 +0200 (CEST)
-Received: from localhost ([::1]:42856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9191E6136
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 14:45:44 +0200 (CEST)
+Received: from localhost ([::1]:46350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeHp1-0006mb-9B
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 08:39:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33476)
+	id 1jeHup-0003ka-2K
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 08:45:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHln-0001Rh-ED
- for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28007
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHmC-0002WW-Vr
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:49 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29057
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHll-000585-SF
- for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:23 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHmC-0005P4-4g
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590669380;
+ s=mimecast20190719; t=1590669407;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=mVjZqVP0wAt2HnF0eXAfdRGW3Pml22lYIIaHBGNUwSg=;
- b=OetrZItr4n6kU20Gm0pe6tvTbTVv9TZTPQifJKfUH1q3AsFzZ95JclK5V0sVQy+Af14TkP
- 52GnnnUSUYbreh46DSjaBlNg7wI+ACsUiJp492NL3ldQI37OTuoMoDDSuObedCVx8kZT6c
- zRlowFiwzBsIplS6Uo+tEf5kVBASbis=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O28inHDVpVZDhPHiuyyYR/itAk5vSTfRey6DnLy0yh4=;
+ b=E8NaT+hUItrs1yZqDLNS4YXuxG22wibDOJh6B1sHM56TuFdbbreuai1zQABJT9CQFc5x29
+ qIti6sBPr1TTVgiOi7hcnrklKUgpyjIBPxniRwJsDHil2zUvKccoYo4DMqzUwHKYE4QpdU
+ p9LAV45ji/02RjjDnIC+7q0Jp/ITUv4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-178-6xIn2NcANOmoCGYmTlSLFQ-1; Thu, 28 May 2020 08:36:18 -0400
-X-MC-Unique: 6xIn2NcANOmoCGYmTlSLFQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-405-agnOQl7SOzCNxWJBmamIUQ-1; Thu, 28 May 2020 08:36:18 -0400
+X-MC-Unique: agnOQl7SOzCNxWJBmamIUQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E964B8014D4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8B6E8005AA;
  Thu, 28 May 2020 12:36:16 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
  [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 650AF10013C3;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2BFBF5C1C8;
  Thu, 28 May 2020 12:36:13 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 589CE1753B; Thu, 28 May 2020 14:36:09 +0200 (CEST)
+ id 606A19DAD; Thu, 28 May 2020 14:36:09 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/21] Vga 20200528 patches
-Date: Thu, 28 May 2020 14:35:48 +0200
-Message-Id: <20200528123609.27362-1-kraxel@redhat.com>
+Subject: [PULL 01/21] hw/display/edid: Add missing 'qdev-properties.h' header
+Date: Thu, 28 May 2020 14:35:49 +0200
+Message-Id: <20200528123609.27362-2-kraxel@redhat.com>
+In-Reply-To: <20200528123609.27362-1-kraxel@redhat.com>
+References: <20200528123609.27362-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 01:51:20
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 02:50:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,75 +83,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Igor Mitsyanko <i.mitsyanko@gmail.com>,
  Alistair Francis <alistair@alistair23.me>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 06539ebc76b8625587aa78d646a9d8d5fddf84f3=
-:
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/mips-hw-next-202=
-00526' into staging (2020-05-26 20:25:06 +0100)
+When trying to consume the DEFINE_EDID_PROPERTIES() macro
+by including "hw/display/edid.h", we get this build failure:
 
-are available in the Git repository at:
+  include/hw/display/edid.h:24:5: error: implicit declaration of
+  function ‘DEFINE_PROP_UINT32’ [-Werror=implicit-function-declaration]
+     24 |     DEFINE_PROP_UINT32("xres", _state, _edid_info.prefx, 0),    \
+        |     ^~~~~~~~~~~~~~~~~~
 
-  git://git.kraxel.org/qemu tags/vga-20200528-pull-request
+Headers should be self-contained, and one shouldn't have to
+dig to find the missing headers.
+In this case "hw/qdev-properties.h" is missing. Add it.
 
-for you to fetch changes up to fa0013a1bc5f6011a1017e0e655740403e5555d9:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20200526062252.19852-2-f4bug@amsat.org
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ include/hw/display/edid.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-  sm501: Remove obsolete changelog and todo comment (2020-05-28 11:38:57 +0=
-200)
-
-----------------------------------------------------------------
-hw/dispaly/sm501: bugfixes, add sanity checks.
-hw/display: use tracepoints, misc cleanups.
-
-----------------------------------------------------------------
-
-BALATON Zoltan (7):
-  sm501: Convert printf + abort to qemu_log_mask
-  sm501: Shorten long variable names in sm501_2d_operation
-  sm501: Use BIT(x) macro to shorten constant
-  sm501: Clean up local variables in sm501_2d_operation
-  sm501: Replace hand written implementation with pixman where possible
-  sm501: Optimize small overlapping blits
-  sm501: Remove obsolete changelog and todo comment
-
-Philippe Mathieu-Daud=C3=A9 (14):
-  hw/display/edid: Add missing 'qdev-properties.h' header
-  hw/display/cg3: Convert debug printf()s to trace events
-  hw/display/cirrus_vga: Convert debug printf() to trace event
-  hw/display/cirrus_vga: Use qemu_log_mask(UNIMP) instead of debug
-    printf
-  hw/display/cirrus_vga: Use qemu_log_mask(ERROR) instead of debug
-    printf
-  hw/display/cirrus_vga: Convert debug printf() to trace event
-  hw/display/dpcd: Fix memory region size
-  hw/display/dpcd: Convert debug printf()s to trace events
-  hw/display/xlnx_dp: Replace disabled DPRINTF() by error_report()
-  hw/display/vmware_vga: Replace printf() calls by qemu_log_mask(ERROR)
-  hw/display/vmware_vga: Let the PCI device own its I/O MemoryRegion
-  hw/display/exynos4210_fimd: Use qemu_log_mask(GUEST_ERROR)
-  hw/display/omap_dss: Replace fprintf() call by
-    qemu_log_mask(LOG_UNIMP)
-  hw/display/pxa2xx_lcd: Replace printf() call by qemu_log_mask()
-
- include/hw/display/edid.h    |   1 +
- hw/display/cg3.c             |  14 +-
- hw/display/cirrus_vga.c      | 119 ++++++-------
- hw/display/dpcd.c            |  20 +--
- hw/display/exynos4210_fimd.c |  46 +++--
- hw/display/omap_dss.c        |   2 +-
- hw/display/pxa2xx_lcd.c      |  26 +--
- hw/display/sm501.c           | 313 ++++++++++++++++++-----------------
- hw/display/vmware_vga.c      |  18 +-
- hw/display/xlnx_dp.c         |  14 +-
- hw/display/trace-events      |  10 ++
- 11 files changed, 301 insertions(+), 282 deletions(-)
-
---=20
+diff --git a/include/hw/display/edid.h b/include/hw/display/edid.h
+index ff99dc0a052b..23371ee82c63 100644
+--- a/include/hw/display/edid.h
++++ b/include/hw/display/edid.h
+@@ -2,6 +2,7 @@
+ #define EDID_H
+ 
+ #include "qom/object.h"
++#include "hw/qdev-properties.h"
+ 
+ typedef struct qemu_edid_info {
+     const char *vendor; /* http://www.uefi.org/pnp_id_list */
+-- 
 2.18.4
 
 
