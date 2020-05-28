@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 772211E6B64
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 21:44:00 +0200 (CEST)
-Received: from localhost ([::1]:47990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D240A1E6B78
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 21:45:50 +0200 (CEST)
+Received: from localhost ([::1]:54384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeORb-0000Zw-5h
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 15:43:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49320)
+	id 1jeOTN-0003HH-SM
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 15:45:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jeOMB-0000j5-Ao
- for qemu-devel@nongnu.org; Thu, 28 May 2020 15:38:23 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:35562 helo=mta-01.yadro.com)
+ id 1jeOMC-0000lS-CW
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 15:38:24 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:35572 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jeOM9-000765-Vr
- for qemu-devel@nongnu.org; Thu, 28 May 2020 15:38:23 -0400
+ id 1jeOMB-00076T-6H
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 15:38:24 -0400
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id CA6E54C86D;
- Thu, 28 May 2020 19:38:08 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id ED9E74C864;
+ Thu, 28 May 2020 19:38:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-type:content-type:content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:date:subject
  :subject:from:from:received:received:received; s=mta-01; t=
- 1590694687; x=1592509088; bh=T0t6gbTnmCkqEgp2YRNFtSbij8dlok9p59/
- 5W+zsOyI=; b=I7zbaMRlwixKbtNZ10K7gkK1GQz4S0Qt6KhvBKKg8UpC/ovJX+J
- feMgiDj2bNDcRjfXLSR+4fGodjgSEbYN+qzCWsEaeJw4eoJcKTAS2kNyWvk7mz/P
- 9NJfulgmljg2uHWQOternHHDVt6VpQokPfYScE/8i5e+w7CQu+I3IDBI=
+ 1590694688; x=1592509089; bh=HgjR93uelGBoFdHjqGPepD4JvDATupwEFyC
+ LV/jL4pY=; b=WCYXZ5NydBa7e1t+dr4cFSBDazWVWr96zU5YDyk+Hy4sx5Fj9Rn
+ 4ckP5MFxkmNxUUCKv1vqt5rNlk5DLNPhWttHJ9kdMxtqXWDPFJSzBSBwRij2HSAv
+ xTR30StgTk2KFxlI6CoweBhSjntJk1SgCXKpD0SWpWCYn3xhb8Ud5EG0=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id a3q_noxyg_Lx; Thu, 28 May 2020 22:38:07 +0300 (MSK)
+ with ESMTP id PXKA1WLIC0Ab; Thu, 28 May 2020 22:38:08 +0300 (MSK)
 Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
  [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 5EBF04C864;
+ by mta-01.yadro.com (Postfix) with ESMTPS id E94B14C861;
  Thu, 28 May 2020 22:38:05 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
@@ -46,9 +46,9 @@ Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  May 2020 22:38:07 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 11/13] i386: hvf: Move lazy_flags into CPUX86State
-Date: Thu, 28 May 2020 22:37:56 +0300
-Message-ID: <20200528193758.51454-12-r.bolshakov@yadro.com>
+Subject: [PATCH 12/13] i386: hvf: Move mmio_buf into CPUX86State
+Date: Thu, 28 May 2020 22:37:57 +0300
+Message-ID: <20200528193758.51454-13-r.bolshakov@yadro.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200528193758.51454-1-r.bolshakov@yadro.com>
 References: <20200528193758.51454-1-r.bolshakov@yadro.com>
@@ -86,227 +86,103 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The lazy flags are still needed for instruction decoder.
+There's no similar field in CPUX86State, but it's needed for MMIO traps.
 
 Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
 ---
- include/sysemu/hvf.h        |  7 +++++
- target/i386/cpu.h           |  2 ++
- target/i386/hvf/x86.h       |  6 ----
- target/i386/hvf/x86_flags.c | 57 ++++++++++++++++++-------------------
- 4 files changed, 37 insertions(+), 35 deletions(-)
+ target/i386/cpu.h         |  1 +
+ target/i386/hvf/hvf.c     |  5 +++++
+ target/i386/hvf/x86.h     |  1 -
+ target/i386/hvf/x86_emu.c | 12 ++++++------
+ 4 files changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index cf579e1592..41f5470c96 100644
---- a/include/sysemu/hvf.h
-+++ b/include/sysemu/hvf.h
-@@ -15,9 +15,16 @@
- 
- extern bool hvf_allowed;
- #ifdef CONFIG_HVF
-+#include "exec/cpu-defs.h"
-+
- uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
-                                  int reg);
- #define hvf_enabled() (hvf_allowed)
-+
-+typedef struct hvf_lazy_flags {
-+    target_ulong result;
-+    target_ulong auxbits;
-+} hvf_lazy_flags;
- #else
- #define hvf_enabled() 0
- #define hvf_get_supported_cpuid(func, idx, reg) 0
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 408392dbf6..7e6566565a 100644
+index 7e6566565a..be44e19154 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -20,6 +20,7 @@
- #ifndef I386_CPU_H
- #define I386_CPU_H
- 
-+#include "sysemu/hvf.h"
- #include "sysemu/tcg.h"
- #include "cpu-qom.h"
- #include "hyperv-proto.h"
-@@ -1591,6 +1592,7 @@ typedef struct CPUX86State {
-     struct kvm_nested_state *nested_state;
+@@ -1593,6 +1593,7 @@ typedef struct CPUX86State {
  #endif
  #if defined(CONFIG_HVF)
-+    hvf_lazy_flags hvf_lflags;
+     hvf_lazy_flags hvf_lflags;
++    void *hvf_mmio_buf;
      HVFX86EmulatorState *hvf_emul;
  #endif
  
+diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+index 4cee496d71..57696c46c7 100644
+--- a/target/i386/hvf/hvf.c
++++ b/target/i386/hvf/hvf.c
+@@ -533,7 +533,11 @@ void hvf_reset_vcpu(CPUState *cpu) {
+ 
+ void hvf_vcpu_destroy(CPUState *cpu)
+ {
++    X86CPU *x86_cpu = X86_CPU(cpu);
++    CPUX86State *env = &x86_cpu->env;
++
+     hv_return_t ret = hv_vcpu_destroy((hv_vcpuid_t)cpu->hvf_fd);
++    g_free(env->hvf_mmio_buf);
+     assert_hvf_ok(ret);
+ }
+ 
+@@ -563,6 +567,7 @@ int hvf_init_vcpu(CPUState *cpu)
+     init_decoder();
+ 
+     hvf_state->hvf_caps = g_new0(struct hvf_vcpu_caps, 1);
++    env->hvf_mmio_buf = g_new(char, 4096);
+     env->hvf_emul = g_new0(HVFX86EmulatorState, 1);
+ 
+     r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf_fd, HV_VCPU_DEFAULT);
 diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
-index 6048b5cc74..2363616c07 100644
+index 2363616c07..483fcea762 100644
 --- a/target/i386/hvf/x86.h
 +++ b/target/i386/hvf/x86.h
-@@ -228,14 +228,8 @@ typedef struct x68_segment_selector {
-     };
- } __attribute__ ((__packed__)) x68_segment_selector;
+@@ -230,7 +230,6 @@ typedef struct x68_segment_selector {
  
--typedef struct lazy_flags {
--    target_ulong result;
--    target_ulong auxbits;
--} lazy_flags;
--
  /* Definition of hvf_x86_state is here */
  struct HVFX86EmulatorState {
--    struct lazy_flags   lflags;
-     uint8_t mmio_buf[4096];
+-    uint8_t mmio_buf[4096];
  };
  
-diff --git a/target/i386/hvf/x86_flags.c b/target/i386/hvf/x86_flags.c
-index 1152cd7234..5ca4f41f5c 100644
---- a/target/i386/hvf/x86_flags.c
-+++ b/target/i386/hvf/x86_flags.c
-@@ -63,7 +63,7 @@
- #define SET_FLAGS_OSZAPC_SIZE(size, lf_carries, lf_result) { \
-     target_ulong temp = ((lf_carries) & (LF_MASK_AF)) | \
-     (((lf_carries) >> (size - 2)) << LF_BIT_PO); \
--    env->hvf_emul->lflags.result = (target_ulong)(int##size##_t)(lf_result); \
-+    env->hvf_lflags.result = (target_ulong)(int##size##_t)(lf_result); \
-     if ((size) == 32) { \
-         temp = ((lf_carries) & ~(LF_MASK_PDB | LF_MASK_SD)); \
-     } else if ((size) == 16) { \
-@@ -73,7 +73,7 @@
-     } else { \
-         VM_PANIC("unimplemented");  \
-     } \
--    env->hvf_emul->lflags.auxbits = (target_ulong)(uint32_t)temp; \
-+    env->hvf_lflags.auxbits = (target_ulong)(uint32_t)temp; \
- }
+ /* useful register access  macros */
+diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
+index 1ad2c30e16..d3e289ed87 100644
+--- a/target/i386/hvf/x86_emu.c
++++ b/target/i386/hvf/x86_emu.c
+@@ -187,8 +187,8 @@ void write_val_ext(struct CPUX86State *env, target_ulong ptr, target_ulong val,
  
- /* carries, result */
-@@ -100,10 +100,10 @@
-     } else { \
-         VM_PANIC("unimplemented");      \
-     } \
--    env->hvf_emul->lflags.result = (target_ulong)(int##size##_t)(lf_result); \
--    target_ulong delta_c = (env->hvf_emul->lflags.auxbits ^ temp) & LF_MASK_CF; \
-+    env->hvf_lflags.result = (target_ulong)(int##size##_t)(lf_result); \
-+    target_ulong delta_c = (env->hvf_lflags.auxbits ^ temp) & LF_MASK_CF; \
-     delta_c ^= (delta_c >> 1); \
--    env->hvf_emul->lflags.auxbits = (target_ulong)(uint32_t)(temp ^ delta_c); \
-+    env->hvf_lflags.auxbits = (target_ulong)(uint32_t)(temp ^ delta_c); \
- }
- 
- /* carries, result */
-@@ -117,9 +117,8 @@
- void SET_FLAGS_OxxxxC(CPUX86State *env, uint32_t new_of, uint32_t new_cf)
+ uint8_t *read_mmio(struct CPUX86State *env, target_ulong ptr, int bytes)
  {
-     uint32_t temp_po = new_of ^ new_cf;
--    env->hvf_emul->lflags.auxbits &= ~(LF_MASK_PO | LF_MASK_CF);
--    env->hvf_emul->lflags.auxbits |= (temp_po << LF_BIT_PO) |
--                                     (new_cf << LF_BIT_CF);
-+    env->hvf_lflags.auxbits &= ~(LF_MASK_PO | LF_MASK_CF);
-+    env->hvf_lflags.auxbits |= (temp_po << LF_BIT_PO) | (new_cf << LF_BIT_CF);
+-    vmx_read_mem(env_cpu(env), env->hvf_emul->mmio_buf, ptr, bytes);
+-    return env->hvf_emul->mmio_buf;
++    vmx_read_mem(env_cpu(env), env->hvf_mmio_buf, ptr, bytes);
++    return env->hvf_mmio_buf;
  }
  
- void SET_FLAGS_OSZAPC_SUB32(CPUX86State *env, uint32_t v1, uint32_t v2,
-@@ -215,27 +214,27 @@ void SET_FLAGS_OSZAPC_LOGIC8(CPUX86State *env, uint8_t v1, uint8_t v2,
  
- bool get_PF(CPUX86State *env)
+@@ -489,9 +489,9 @@ static void exec_ins_single(struct CPUX86State *env, struct x86_decode *decode)
+     target_ulong addr = linear_addr_size(env_cpu(env), RDI(env),
+                                          decode->addressing_size, R_ES);
+ 
+-    hvf_handle_io(env_cpu(env), DX(env), env->hvf_emul->mmio_buf, 0,
++    hvf_handle_io(env_cpu(env), DX(env), env->hvf_mmio_buf, 0,
+                   decode->operand_size, 1);
+-    vmx_write_mem(env_cpu(env), addr, env->hvf_emul->mmio_buf,
++    vmx_write_mem(env_cpu(env), addr, env->hvf_mmio_buf,
+                   decode->operand_size);
+ 
+     string_increment_reg(env, R_EDI, decode);
+@@ -512,9 +512,9 @@ static void exec_outs_single(struct CPUX86State *env, struct x86_decode *decode)
  {
--    uint32_t temp = (255 & env->hvf_emul->lflags.result);
--    temp = temp ^ (255 & (env->hvf_emul->lflags.auxbits >> LF_BIT_PDB));
-+    uint32_t temp = (255 & env->hvf_lflags.result);
-+    temp = temp ^ (255 & (env->hvf_lflags.auxbits >> LF_BIT_PDB));
-     temp = (temp ^ (temp >> 4)) & 0x0F;
-     return (0x9669U >> temp) & 1;
- }
+     target_ulong addr = decode_linear_addr(env, decode, RSI(env), R_DS);
  
- void set_PF(CPUX86State *env, bool val)
- {
--    uint32_t temp = (255 & env->hvf_emul->lflags.result) ^ (!val);
--    env->hvf_emul->lflags.auxbits &= ~(LF_MASK_PDB);
--    env->hvf_emul->lflags.auxbits |= (temp << LF_BIT_PDB);
-+    uint32_t temp = (255 & env->hvf_lflags.result) ^ (!val);
-+    env->hvf_lflags.auxbits &= ~(LF_MASK_PDB);
-+    env->hvf_lflags.auxbits |= (temp << LF_BIT_PDB);
- }
+-    vmx_read_mem(env_cpu(env), env->hvf_emul->mmio_buf, addr,
++    vmx_read_mem(env_cpu(env), env->hvf_mmio_buf, addr,
+                  decode->operand_size);
+-    hvf_handle_io(env_cpu(env), DX(env), env->hvf_emul->mmio_buf, 1,
++    hvf_handle_io(env_cpu(env), DX(env), env->hvf_mmio_buf, 1,
+                   decode->operand_size, 1);
  
- bool get_OF(CPUX86State *env)
- {
--    return ((env->hvf_emul->lflags.auxbits + (1U << LF_BIT_PO)) >> LF_BIT_CF) & 1;
-+    return ((env->hvf_lflags.auxbits + (1U << LF_BIT_PO)) >> LF_BIT_CF) & 1;
- }
- 
- bool get_CF(CPUX86State *env)
- {
--    return (env->hvf_emul->lflags.auxbits >> LF_BIT_CF) & 1;
-+    return (env->hvf_lflags.auxbits >> LF_BIT_CF) & 1;
- }
- 
- void set_OF(CPUX86State *env, bool val)
-@@ -252,45 +251,45 @@ void set_CF(CPUX86State *env, bool val)
- 
- bool get_AF(CPUX86State *env)
- {
--    return (env->hvf_emul->lflags.auxbits >> LF_BIT_AF) & 1;
-+    return (env->hvf_lflags.auxbits >> LF_BIT_AF) & 1;
- }
- 
- void set_AF(CPUX86State *env, bool val)
- {
--    env->hvf_emul->lflags.auxbits &= ~(LF_MASK_AF);
--    env->hvf_emul->lflags.auxbits |= val << LF_BIT_AF;
-+    env->hvf_lflags.auxbits &= ~(LF_MASK_AF);
-+    env->hvf_lflags.auxbits |= val << LF_BIT_AF;
- }
- 
- bool get_ZF(CPUX86State *env)
- {
--    return !env->hvf_emul->lflags.result;
-+    return !env->hvf_lflags.result;
- }
- 
- void set_ZF(CPUX86State *env, bool val)
- {
-     if (val) {
--        env->hvf_emul->lflags.auxbits ^=
--         (((env->hvf_emul->lflags.result >> LF_SIGN_BIT) & 1) << LF_BIT_SD);
-+        env->hvf_lflags.auxbits ^=
-+         (((env->hvf_lflags.result >> LF_SIGN_BIT) & 1) << LF_BIT_SD);
-         /* merge the parity bits into the Parity Delta Byte */
--        uint32_t temp_pdb = (255 & env->hvf_emul->lflags.result);
--        env->hvf_emul->lflags.auxbits ^= (temp_pdb << LF_BIT_PDB);
-+        uint32_t temp_pdb = (255 & env->hvf_lflags.result);
-+        env->hvf_lflags.auxbits ^= (temp_pdb << LF_BIT_PDB);
-         /* now zero the .result value */
--        env->hvf_emul->lflags.result = 0;
-+        env->hvf_lflags.result = 0;
-     } else {
--        env->hvf_emul->lflags.result |= (1 << 8);
-+        env->hvf_lflags.result |= (1 << 8);
-     }
- }
- 
- bool get_SF(CPUX86State *env)
- {
--    return ((env->hvf_emul->lflags.result >> LF_SIGN_BIT) ^
--            (env->hvf_emul->lflags.auxbits >> LF_BIT_SD)) & 1;
-+    return ((env->hvf_lflags.result >> LF_SIGN_BIT) ^
-+            (env->hvf_lflags.auxbits >> LF_BIT_SD)) & 1;
- }
- 
- void set_SF(CPUX86State *env, bool val)
- {
-     bool temp_sf = get_SF(env);
--    env->hvf_emul->lflags.auxbits ^= (temp_sf ^ val) << LF_BIT_SD;
-+    env->hvf_lflags.auxbits ^= (temp_sf ^ val) << LF_BIT_SD;
- }
- 
- void lflags_to_rflags(CPUX86State *env)
-@@ -305,7 +304,7 @@ void lflags_to_rflags(CPUX86State *env)
- 
- void rflags_to_lflags(CPUX86State *env)
- {
--    env->hvf_emul->lflags.auxbits = env->hvf_emul->lflags.result = 0;
-+    env->hvf_lflags.auxbits = env->hvf_lflags.result = 0;
-     set_OF(env, env->eflags & CC_O);
-     set_SF(env, env->eflags & CC_S);
-     set_ZF(env, env->eflags & CC_Z);
+     string_increment_reg(env, R_ESI, decode);
 -- 
 2.26.1
 
