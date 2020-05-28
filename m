@@ -2,77 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E99721E5C50
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 11:45:37 +0200 (CEST)
-Received: from localhost ([::1]:35714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5516B1E5C6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 11:51:49 +0200 (CEST)
+Received: from localhost ([::1]:33112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeF6V-0000oe-GE
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 05:45:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37578)
+	id 1jeFCW-0004Uv-Ew
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 05:51:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
- id 1jeF5E-0007vI-5L
- for qemu-devel@nongnu.org; Thu, 28 May 2020 05:44:16 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:38059)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
- id 1jeF5C-0002W9-Rm
- for qemu-devel@nongnu.org; Thu, 28 May 2020 05:44:15 -0400
-Received: by mail-wm1-x335.google.com with SMTP id f185so1329283wmf.3
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 02:44:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=adacore-com.20150623.gappssmtp.com; s=20150623;
- h=from:subject:to:cc:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=5j/vmYegqPghKDia8OOQxLyOBC7VOwqwEuCRC9v9smg=;
- b=WpRJq3KkARWuMlF7HqAsdC6ijO/Z4+j6PY5kp2wmx1KZfy5W90R0abQedy74BrtUGR
- 3kDV0B07ROWyBKGQHyECltW8xQZfwswaYjdbu61nfyraRUSG0bq3R4fsCwgM7S9eN+f6
- pku6f1EkN0dGsTWxMdlK2vUveor42e5VmgCFtNiIgRFFuOchrr5GTIsbXANSOWe2Ddvv
- CacbuKNq9t+OumsgEZxw29vF53r505+uxGZg3iqlpNZ1VAdP5o6jjKwNwBMX97kSol4n
- Zd5QXvu4Lu68YqATwoX6JQ5O2bYAiGvU3/OBIfWGtwEuxXTr9TlhDzcwVZRLB6+lNvrv
- /miQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=5j/vmYegqPghKDia8OOQxLyOBC7VOwqwEuCRC9v9smg=;
- b=qUjxTx9uReZml9OQllMEWxF5fY+IxOhBSZ8f4eqayh5ifTXGiFOmHRPyREoLbEXC2D
- bK4BSkNC5O3tQPfVwTaEHyr8oho+XeU8wuDs0Jpo6rJ1PTRFwSRaKMxVyXTc67SGUgEz
- zNpdSeP2vwHdWPPBaKz+6jsAk3SGwRu9OId4/6aMBaZi4iM56ABxIEfGaVmEw3ROXBgZ
- L2iUux01nVr624elp7uqRLxshJ/h3OHgUvgXdC0E6+SIiben/PbQVTEYvHyNwsmgXTB6
- YKA/p7BQOsyp6SfP0sdKkfDaEvCiFXbaZa25RYiKe+wFAcf34RubtHQAPoVCBQs3LgAv
- JL1g==
-X-Gm-Message-State: AOAM532weajvT/+43vwDPLsSsx+KRVyjSf1b0c89y1md8LjSFl/oPusD
- NZw8DUxKrOH45IxafhseMiR+7w==
-X-Google-Smtp-Source: ABdhPJz+bWJHmZMdZBnF5bvcBV5GqoJns+dAgG2xN9rzta0sj2Lg5lNdXj0DQuSerqpgR9sMEFYuxg==
-X-Received: by 2002:a1c:1fc2:: with SMTP id f185mr2340091wmf.4.1590659052796; 
- Thu, 28 May 2020 02:44:12 -0700 (PDT)
-Received: from linux.home ([2a01:cb19:867e:2100:7eef:23e0:9210:3e8])
- by smtp.gmail.com with ESMTPSA id y37sm6119738wrd.55.2020.05.28.02.44.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 May 2020 02:44:12 -0700 (PDT)
-From: Fred Konrad <konrad@adacore.com>
-Subject: [RFC] some semihosting interrogation
-To: QEMU Developers <qemu-devel@nongnu.org>
-Message-ID: <141c5b32-31cd-1a1d-b1aa-692b9002dac9@adacore.com>
-Date: Thu, 28 May 2020 11:44:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=konrad@adacore.com; helo=mail-wm1-x335.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <1482995675@qq.com>) id 1jeFBL-0003Ti-EE
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 05:50:35 -0400
+Received: from smtpbgsg2.qq.com ([54.254.200.128]:57072)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <1482995675@qq.com>) id 1jeFBF-0000AE-By
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 05:50:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+ t=1590659360; bh=44Z24dqlDFsZqELSQzWek1sgoarAwm/bdlz3ZnDiGAE=;
+ h=From:To:Subject:Mime-Version:Date:Message-ID;
+ b=geu5FJGFw2pW2qfrf8lNo4J6KGPgpI4oFX2mgrjjbKK0SzzZO08hEjuoPpr3JunO1
+ ODQSztMxrrC6WH5zC7kQR3YJwc/O1cp2FDM1+Y7yMED+jA35zAaKpRS+xXKIqhEoaS
+ J2Oq/0aDgvcOs+wPOFPrQNOwDMoQ5uxsFzaHj8fU=
+X-QQ-FEAT: x+dxIIhayxc7bWx795aFCB++y2HmnqaeIPZilhPwexkJA2Zgd/8XHPse6E2Iw
+ SNsMkJxdtaxLFJplm9LDr9b7jaVqOrLgGhWmy3phxO97QcuTI1CWvzHpFbBbAUSCTXQH8oE
+ orpJ76xHQO1pHEIArTitTqlBV3nxBwdenzTfmjGU7ZOsYCqDDQO+KGoYtS6pK/lrgwOZRvS
+ T2gyZFnoOSeH+42YBtIBCb4L2Yvx1bkpvoPu6EUCdeO/yw6eV5ugqB87DUSslXpNSKijGUV
+ vrh+KjjUdQU1eN3d4I3iOYjkxGdfVBViQyrQ==
+X-QQ-SSF: 00010000000000F000000000000000D
+X-QQ-XMAILINFO: MoPlkZp6QhD4jiIcaunVKoWp0mUXcD3x4E12ELeDOGpRx1L/eswa/4CUxaZiJl
+ gkVtsahP7LkPRk4yUAIRCBtt2kF3tQmBiUUzq4CvRxRB3gJJDBHR5/2jb+Z90dLmjKoJjFZuNOXrY
+ 5bK94379mSEs2W2rEi0Y8KNr1U3eBlMKlKHIwnU5tz8Q+O+S6bDOROe9FyXQWEZv/xxYRzU3RFIgi
+ 4PGWF0kfNeQ4xt7oyQZFEZCS0QEiKZuya5UFb8hWZ+YS63CrnU4SH2AFR34X28m2jRTOCWkmPywX5
+ i9vsnyuD/YPx9b+jcieuT8ZvkcKp9u+6yHJmg3bTfzYiMARmCKudU1KCn3vtUwUdBnzb5EVW28rmM
+ N3BIiIN0hzosQ0MlOhFol3MSuTyKznhtxfqD5OgbwPFXl/+y9O/gczKe0+dAlcfFJaXWoPccw6/kR
+ 3Jw7kRIlKzOuvBUntbaOu1IYEldRz74r7rfmfh4oStQe5ZHurXJibBR9AYR5H9GyPO0GahQuFto6z
+ TYzSxfhK3+8vqnf9vRHUirWTbVydYUUFmGUxZIjvZfan7VmdOpjJH/yKMoZlCV+F/8Gor2nb+wL/h
+ QBIeM3Vm4VoogOt7U19o7Xb+5OeNTvcXCfWQ65jxvvib+7hmMQ8rlxE9qWHuDavcfc+nhYlCRjGSK
+ WTP7Ex27eSvGBG3sL7qc+hrMBIloGsz8u2UMZADfuWaapLDt6AsvA5DwWn+w==
+X-HAS-ATTACH: no
+X-QQ-BUSINESS-ORIGIN: 2
+X-Originating-IP: 124.64.70.219
+In-Reply-To: <87v9kg4fw4.fsf@linaro.org>
+References: <tencent_86D9DB902C46CBAC4F3A6FD5B4CDA93B7506@qq.com>
+ <8b83e11b-e593-b7db-48b6-252e23c599da@amsat.org>
+ <tencent_B0E453026AE8377459F3162D9F7D5ECE6907@qq.com>
+ <87v9kg4fw4.fsf@linaro.org>
+X-QQ-STYLE: 
+X-QQ-mid: webmail725t1590659359t7467700
+From: "=?gb18030?B?eGlhb2xlaQ==?=" <1482995675@qq.com>
+To: "=?gb18030?B?QWxleCBCZW5uqKZl?=" <alex.bennee@linaro.org>,
+ "=?gb18030?B?cWVtdS1kZXZlbA==?=" <qemu-devel@nongnu.org>
+Subject: =?gb18030?B?u9i4tKO6IEdEQiBnZXQgd3JvbmcgZGVidWcgaW5m?=
+ =?gb18030?B?b3Mgb24gVEkgRFNQIGFyY2hpdGVjdHVyZSBleHRl?=
+ =?gb18030?B?bnNpb24=?=
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="gb18030"
+Content-Transfer-Encoding: base64
+Date: Thu, 28 May 2020 17:49:19 +0800
+X-Priority: 3
+Message-ID: <tencent_1EBC79D30BA701D4EC6F31B2442DFE3E5C08@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+X-QQ-ReplyHash: 2160357922
+X-QQ-SENDSIZE: 520
+Received: from qq.com (unknown [127.0.0.1]) by smtp.qq.com (ESMTP) with SMTP
+ id ; Thu, 28 May 2020 17:49:20 +0800 (CST)
+Feedback-ID: webmail:qq.com:bgforeign:bgforeign12
+X-QQ-Bgrelay: 1
+Received-SPF: pass client-ip=54.254.200.128; envelope-from=1482995675@qq.com;
+ helo=smtpbgsg2.qq.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 05:50:24
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: 48
+X-Spam_score: 4.8
+X-Spam_bar: ++++
+X-Spam_report: (4.8 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, FROM_EXCESS_BASE64=0.979,
+ MIME_CHARSET_FARAWAY=2.45, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,69 +96,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+SGkgLAogICBUaGFua3MgZm9yIHRoZSBoaW50LgogICBJIGhhdmUgYmVlbiBsb29raW5nIGZv
+ciBob3cgUUVNVSBkZXRlcm1pbmUgdGhlIHRhcmdldCBwcm9ncmFtIHRlcm1pbmF0ZXMgYnkg
+Y2hlY2tpbmcgdGhlIGhvc3QgaW1wbGVtZW50YXRpb24gKGVnICBpMzg2KS4gSSB0aG91Z2h0
+IHRoZSB0YXJnZXQgcHJvZ3JhbSB0ZXJtaW5hdGlvbiBpcyBjb25uZWN0ZWQgdG8gdGhlIGlu
+aXRpYWwgRlAgcHVzaGVkIHRvIHN0YWNrLCBJIGFtIG5vdCBzdXJlIHRoaXMgaXMgaG93IFFF
+TVUgZG9lcy4gIENvdWxkIHlvdSBiZSBtb3JlIHNwZWNpZmljIG9uIHRoZSB0ZXJtaW5hdGlv
+biBjaGVjayA/ICBpcyBpdCB0YXJnZXQgIGFyY2hpdGVjdHVyZSBkZXBlbmRlbnQoIGFuIGFk
+ZGVkIERTUCB0YXJnZXQgYXJjaGl0ZWN0dXJlIHNob3VsZCBkZWFsIHdpdGggaXQgZXhwbGlj
+aXRseSk/CiAgIFRoYW5rcyBhZ2FpbgoKeGlhb2xlaSAKCi0tLS0tLS0tLS0tLS0tLS0tLSDU
+rcq808q8/iAtLS0tLS0tLS0tLS0tLS0tLS0Kt6K8/sjLOiAiQWxleCBCZW5uqKZlIjxhbGV4
+LmJlbm5lZUBsaW5hcm8ub3JnPjsKt6LLzcqxvOQ6IDIwMjDE6jXUwjI4yNUo0MfG2svEKSDP
+ws7nNDozNArK1bz+yMs6ICJjYXNtYWMiPDE0ODI5OTU2NzVAcXEuY29tPjsKs63LzTogIlBo
+aWxpcHBlIE1hdGhpZXUtRGF1ZKimIjxmNGJ1Z0BhbXNhdC5vcmc+OyJxZW11LWRldmVsIjxx
+ZW11LWRldmVsQG5vbmdudS5vcmc+OwrW98ziOiBSZTogR0RCIGdldCB3cm9uZyBkZWJ1ZyBp
+bmZvcyBvbiBUSSBEU1AgYXJjaGl0ZWN0dXJlIGV4dGVuc2lvbgoKCmNhc21hYyA8MTQ4Mjk5
+NTY3NUBxcS5jb20+IHdyaXRlczoKCj4gSGksClRoYW5rIHlvdSBmb3IgZm9yd2FyZGluZyBt
+eSBxdWVzdGlvbiB0byBkZXZlbG9wZXJzIGFuZCBzaGFyaW5nIHRoZSBDNnggaW1wbGVtZW50
+YXRpb24uCj4gJm5ic3A7Jm5ic3A7IFBlcmhhcHMgSSBzaG91bGQgZm9sbG93IHVwIHdpdGgg
+YW5vdGhlciBwcm9ibGVtIEkgZW5jb3VudGVyZWQuIFRoZSBzZW5lcmlvIGlzIHRoZSZuYnNw
+OyBlbXVsYXRvciBrZWVwcyBydW5uaW5nIGV2ZW50aG91Z2ggdGhlIHByb2dyYW0gaXQgZW11
+bGF0ZXMgaGFzIGFscmVhZHkgZXhpdGVkLiBBbmQgaXQga2VlcHMgcmV0cmlldmluZyBpbnN0
+cnVjdGlvbnMgd2hpY2ggYXJlIGFsbCB6ZXJvICJpbnN0cnVjdGlvbiIoMHgwMDAwMDAwMCku
+IAo+Cj4gIEl0IGxvb2tzIHRvIG1lIHRoYXQgaW4gZnVuY3Rpb24gY3B1X2V4ZWMoQ1BVU3Rh
+dGUgKmNwdSksIHRoZSBmb2xsb3dpbmcgbG9vcCBuZXZlciB0ZXJtaW5hdGU6Cj4gd2hpbGUg
+KCFjcHVfaGFuZGxlX2V4Y2VwdGlvbihjcHUsICZhbXA7cmV0KSkgewo+IFRyYW5zbGF0aW9u
+QmxvY2sgKmxhc3RfdGIgPSBOVUxMOwogPiBpbnQgdGJfZXhpdCA9IDA7Cj4gd2hpbGUgKCFj
+cHVfaGFuZGxlX2ludGVycnVwdChjcHUsICZhbXA7bGFzdF90YikpIHsgLi4uIH0KPiBJcyBp
+dCBiZWNhdXNlIGNwdS0mZ3Q7ZXhpdF9yZXF1ZXN0IHJlbWFpbnMgMCA/Cj4KPiBBdCB3aGF0
+IHBvaW50IHNob3VsZCB3ZSBtYWtlIGNwdS0mZ3Q7ZXhpdF9yZXF1ZXN0PTEgPwoKY3B1LT5l
+eGl0X3JlcXVlc3QgaXMgc2V0IGZvciBhc3luY2hyb251cyBjb25kaXRpb25zIChlLmcuIHRp
+bWVyIElSUXMgb3IKSU8gZXZlbnRzKS4gQSBudW1iZXIgb2YgaGVscGVycyB3aWxsICJraWNr
+IiB0aGUgY3B1IGJ5IGNhbGxpbmcKY3B1X2V4aXQoKS4KCj4gJm5ic3A7Jm5ic3A7IFRoYW5r
+cyBhZ2FpbiEhCj4KPgo+IHJlZ2FyZHMKPiB4aWFvbGVpCj4KPgo+
 
-Just wonderring if there is any reason not to be able to defer
-qemu_semihosting_connect_chardevs a little more to be able to specify
-chardev=serial0?
 
-Like:
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 6390cf0..9fa1553 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -4333,8 +4333,6 @@ void qemu_init(int argc, char **argv, char **envp)
-
-      qemu_opts_foreach(qemu_find_opts("chardev"),
-                        chardev_init_func, NULL, &error_fatal);
--    /* now chardevs have been created we may have semihosting to connect */
--    qemu_semihosting_connect_chardevs();
-
-  #ifdef CONFIG_VIRTFS
-      qemu_opts_foreach(qemu_find_opts("fsdev"),
-@@ -4484,6 +4482,9 @@ void qemu_init(int argc, char **argv, char **envp)
-      if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
-          exit(1);
-
-+    /* now chardevs have been created we may have semihosting to connect */
-+    qemu_semihosting_connect_chardevs();
-+
-      /* If no default VGA is requested, the default is "none".  */
-      if (default_vga) {
-          vga_model = get_default_vga_model(machine_class);
-
-Also I found out that the trailing \0 is sent to the chardev 
-(console.c:copy_user_string) is that expected in case of semihosting?
-
-static GString *copy_user_string(CPUArchState *env, target_ulong addr)
-{
-     CPUState *cpu = env_cpu(env);
-     GString *s = g_string_sized_new(128);
-     uint8_t c;
-
-     do {
-         if (cpu_memory_rw_debug(cpu, addr++, &c, 1, 0) == 0) {
-             if (c) {
-                 s = g_string_append_c(s, c);
-             }
-         } else {
-             qemu_log_mask(LOG_GUEST_ERROR,
-                           "%s: passed inaccessible address " TARGET_FMT_lx,
-                           __func__, addr);
-             break;
-         }
-     } while (c!=0);
-
-     return s;
-}
-
-I can roll out two patches if needed..
-
-Cheers,
-Fred
 
