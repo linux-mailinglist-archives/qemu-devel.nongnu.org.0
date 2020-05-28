@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3501E6E3F
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 23:58:52 +0200 (CEST)
-Received: from localhost ([::1]:48850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 888FF1E6EDE
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 00:27:26 +0200 (CEST)
+Received: from localhost ([::1]:45910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeQY7-0005IL-CI
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 17:58:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49908)
+	id 1jeQzl-0007Sa-Gh
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 18:27:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jeQWv-0004WI-Mg
- for qemu-devel@nongnu.org; Thu, 28 May 2020 17:57:37 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59922
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jeQWu-0005Ww-4S
- for qemu-devel@nongnu.org; Thu, 28 May 2020 17:57:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590703054;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Uy2/hCClOi0N+cvDZXjD2eV1wRJxIY+lbAjkHKJLR28=;
- b=im42uxp3H7bs3W5+FyNNiBqlnv71bBfgIhfG52fZJYqCNmMKxKTyPYi95/VwGDpEWaJZhz
- jp4LKueYagwrCugmhOOEdRaZn4o21l7SyCB10d6Hzb5lLVidYYR9Z+6sqlQnnslQcNYad9
- gDR3WVVdGGhRpmF5UPpE8GWjcZHX3w8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-r5kJoFc-NyGbktdslDHbpA-1; Thu, 28 May 2020 17:57:33 -0400
-X-MC-Unique: r5kJoFc-NyGbktdslDHbpA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CC2218FF660;
- Thu, 28 May 2020 21:57:31 +0000 (UTC)
-Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F1F689CA0;
- Thu, 28 May 2020 21:57:22 +0000 (UTC)
-Subject: Re: [PATCH v7 7/8] qdev-properties: add getter for size32 and
- blocksize
-To: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org
-References: <20200528213946.1636444-1-rvkagan@yandex-team.ru>
- <20200528213946.1636444-8-rvkagan@yandex-team.ru>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <d727b621-071e-e061-2c7f-d14798bdf681@redhat.com>
-Date: Thu, 28 May 2020 16:57:22 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1)
+ (envelope-from <prvs=4104b2603=alistair.francis@wdc.com>)
+ id 1jeQvM-00026z-1S; Thu, 28 May 2020 18:22:52 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:48454)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=4104b2603=alistair.francis@wdc.com>)
+ id 1jeQvJ-0005c9-90; Thu, 28 May 2020 18:22:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1590704570; x=1622240570;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=dwFF3Z9fw75SKPqpg4WJ6RijqvXlAFJWRkvVUQeWXLw=;
+ b=FUd7xZmZq8uypeJykbf4K0gh2qjN5Rc+pZaHzeRRF2lF/zX7ccB1ZFi3
+ aNFQ6Yk7CkUHOeAtWzJGVA+ErH//98laCcxYf8CYwXV2rRihmlaeNS0mn
+ fYfFtbO1bW+8zxk3SIyjSpNxsx63H1+P2vByFtJyfGNesM6mYCCcMq6pH
+ MzgvuwowZs/LM+12srvD6ribjQSmL4U+EPN5SixzeFq25IX6EN5o8KpCD
+ RIojWG/WF1qs+Jz3JEAh8ErYlglDXY1BOyMnBRNTzDZXaUC2DvHnFjnDp
+ 7YB59KgBwSGS3SAKaRRgrlzwXj9SCXesf6g/az7J+BLHvcNqh97i8EblE A==;
+IronPort-SDR: 38QKzF5Nzmmu2RfLuJZiD6jT3itQLtV7VLXVDoYJI3wV9IIuZWJgwjfPFPYLa2lvEiiaSJeFdn
+ pOMRFYzJ8VMgBD7ooHqLIaoOloWftvoM1U6cfJLLzeCVRRfbSIrdncRJVNsmR2jZwArUL3T6CG
+ QKAXbsdTYXrMB49LJZ7E5atU/qy25agb6/q9SjTw+JJBEziwSVwaO8L7KSk/w5uYZAzJr+RruG
+ MzyCKUYbRolwQlcpmkC7KX4UuuQXs7WR/bqZhQsFvhUgXbkg++36IoHhTQVmN9QrArmGRyQrQK
+ kwk=
+X-IronPort-AV: E=Sophos;i="5.73,446,1583164800"; d="scan'208";a="139073324"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 29 May 2020 06:22:44 +0800
+IronPort-SDR: hV6I6KI81wGkkF6IaUsvYPGxgpkG3AWWzsWZHO05rSKNb9WKToLuGa+uyZ331TTAv32/OHULLJ
+ wIdrQSoYLpuk9JnWKJBRM0ThrknKLWJ80=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2020 15:11:58 -0700
+IronPort-SDR: EefalmEMV67jml+B2WWe/avhBMuYKzMcIoXHibqk8nu+Egv0NTEN4s28atWce6VE1OraazZviZ
+ tsyvyRI90Wmw==
+WDCIronportException: Internal
+Received: from 6xf7cg2.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.57.123])
+ by uls-op-cesaip02.wdc.com with ESMTP; 28 May 2020 15:22:42 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v5 00/11]  RISC-V Add the OpenTitan Machine
+Date: Thu, 28 May 2020 15:14:06 -0700
+Message-Id: <cover.1590704015.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200528213946.1636444-8-rvkagan@yandex-team.ru>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 17:57:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=4104b2603=alistair.francis@wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 18:22:43
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,39 +85,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Stefano Stabellini <sstabellini@kernel.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Paul Durrant <paul@xen.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Max Reitz <mreitz@redhat.com>, Anthony Perard <anthony.perard@citrix.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keith Busch <kbusch@kernel.org>,
- xen-devel@lists.xenproject.org, John Snow <jsnow@redhat.com>
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/28/20 4:39 PM, Roman Kagan wrote:
-> Add getter for size32, and use it for blocksize, too.
-> 
-> In its human-readable branch, it reports approximate size in
-> human-readable units next to the exact byte value, like the getter for
-> 64bit size does.
-> 
-> Adjust the expected test output accordingly.
-> 
-> Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
-> ---
-> v6 -> v7:
-> - split out into separate patch [Eric]
+OpenTitan is an open source silicon Root of Trust (RoT) project. This
+series adds initial support for the OpenTitan machine to QEMU.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+This series add the Ibex CPU to the QEMU RISC-V target. It then adds the
+OpenTitan machine, the Ibex UART and the Ibex PLIC.
+
+The UART has been tested sending and receiving data.
+
+With this series QEMU can boot the OpenTitan ROM, Tock OS and a Tock
+userspace app.
+
+The Ibex PLIC is similar to the RISC-V PLIC (and is based on the QEMU
+implementation) with some differences. The hope is that the Ibex PLIC
+will converge to follow the RISC-V spec. As that happens I want to
+update the QEMU Ibex PLIC and hopefully eventually replace the current
+PLIC as the implementation is a little overlay complex.
+
+For more details on OpenTitan, see here: https://docs.opentitan.org/
+
+v5:
+ - Add some of the missing unimplemented devices
+ - Don't set PMP feature in init() function
+v4:
+ - Don't set the reset vector in realise
+ - Fix a bug where the MMU is always enabled
+ - Fixup the PMP/MMU size logic
+v3:
+ - Small fixes pointed out in review
+v2:
+ - Rebase on master
+ - Get uart receive working
+
+
+
+Alistair Francis (11):
+  riscv/boot: Add a missing header include
+  target/riscv: Don't overwrite the reset vector
+  target/riscv: Disable the MMU correctly
+  target/riscv: Don't set PMP feature in the cpu init
+  target/riscv: Add the lowRISC Ibex CPU
+  riscv: Initial commit of OpenTitan machine
+  hw/char: Initial commit of Ibex UART
+  hw/intc: Initial commit of lowRISC Ibex PLIC
+  riscv/opentitan: Connect the PLIC device
+  riscv/opentitan: Connect the UART device
+  target/riscv: Use a smaller guess size for no-MMU PMP
+
+ default-configs/riscv32-softmmu.mak |   1 +
+ default-configs/riscv64-softmmu.mak |  11 +-
+ include/hw/char/ibex_uart.h         | 110 +++++++
+ include/hw/intc/ibex_plic.h         |  63 ++++
+ include/hw/riscv/boot.h             |   1 +
+ include/hw/riscv/opentitan.h        |  84 +++++
+ target/riscv/cpu.h                  |   1 +
+ hw/char/ibex_uart.c                 | 492 ++++++++++++++++++++++++++++
+ hw/intc/ibex_plic.c                 | 261 +++++++++++++++
+ hw/riscv/opentitan.c                | 219 +++++++++++++
+ target/riscv/cpu.c                  |  27 +-
+ target/riscv/pmp.c                  |  14 +-
+ MAINTAINERS                         |  13 +
+ hw/char/Makefile.objs               |   1 +
+ hw/intc/Makefile.objs               |   1 +
+ hw/riscv/Kconfig                    |   9 +
+ hw/riscv/Makefile.objs              |   1 +
+ 17 files changed, 1291 insertions(+), 18 deletions(-)
+ create mode 100644 include/hw/char/ibex_uart.h
+ create mode 100644 include/hw/intc/ibex_plic.h
+ create mode 100644 include/hw/riscv/opentitan.h
+ create mode 100644 hw/char/ibex_uart.c
+ create mode 100644 hw/intc/ibex_plic.c
+ create mode 100644 hw/riscv/opentitan.c
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.26.2
 
 
