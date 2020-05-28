@@ -2,66 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F28C81E5785
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 08:26:28 +0200 (CEST)
-Received: from localhost ([::1]:36874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9572B1E576B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 08:18:47 +0200 (CEST)
+Received: from localhost ([::1]:54458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeBzo-0000Mi-31
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 02:26:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41384)
+	id 1jeBsL-0002eR-9c
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 02:18:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jeBya-0007ae-2d
- for qemu-devel@nongnu.org; Thu, 28 May 2020 02:25:12 -0400
-Received: from mga04.intel.com ([192.55.52.120]:56942)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jeByW-0002DN-Qb
- for qemu-devel@nongnu.org; Thu, 28 May 2020 02:25:10 -0400
-IronPort-SDR: 3heAl5P/EwIJvE+AwpnT3Wvuy+etmVsvdLxXy13yUxnon6Q7aYZWUN6/4e7A4gPE+fthLTCBK9
- UQkSW1Zl1nQw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 May 2020 23:25:06 -0700
-IronPort-SDR: qL0T7noB9UY7PX/VMOCTKl/M+fXvOaePPK+FseXED/0Al7pYK0lYW/xRBt/f5BMUcWke3tF9CA
- Yo7Uu8gHIckw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,443,1583222400"; d="scan'208";a="310818881"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by FMSMGA003.fm.intel.com with ESMTP; 27 May 2020 23:25:04 -0700
-Date: Thu, 28 May 2020 02:15:11 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v6 1/3] memory: drop guest writes to read-only ram device
- regions
-Message-ID: <20200528061511.GC1378@joy-OptiPlex-7040>
-References: <20200430080744.31232-1-yan.y.zhao@intel.com>
- <20200430080946.31286-1-yan.y.zhao@intel.com>
- <CAFEAcA-8NH_4ZV0J9urBZdQWmqOe-Nyy4y2gLAjTJ08MpfFY0g@mail.gmail.com>
- <9dd7f00b-1199-1097-80d4-1b700c0f28d6@redhat.com>
- <20200525011853.GB8867@joy-OptiPlex-7040>
- <f836eeb3-0655-2842-2e8a-b8a42710a765@redhat.com>
- <CAFEAcA9vG8RO1A3mSkHGN+ZMisDHzAu3QM5GfCkrDaK-A0Tw9w@mail.gmail.com>
- <20200528043529.GA1378@joy-OptiPlex-7040>
- <bec3aa98-2df2-f1e9-3188-b7c0e395c934@redhat.com>
+ (Exim 4.90_1) (envelope-from <dovgaluk@ispras.ru>)
+ id 1jeBrY-00023O-35
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 02:17:56 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:48300)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <dovgaluk@ispras.ru>) id 1jeBrW-0000M3-Cx
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 02:17:55 -0400
+Received: from [192.168.0.183] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id E358DCD461;
+ Thu, 28 May 2020 09:17:49 +0300 (MSK)
+Subject: Re: [PATCH v2 11/11] tests/acceptance: Linux boot test for
+ record/replay
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
+References: <159057543840.16818.14393433996899521784.stgit@pasha-ThinkPad-X280>
+ <159057550026.16818.11665839081165803832.stgit@pasha-ThinkPad-X280>
+ <87ftbl5nvt.fsf@linaro.org>
+From: Pavel Dovgalyuk <dovgaluk@ispras.ru>
+Message-ID: <817484e7-e2e7-2eef-92ad-c68e94a237c1@ispras.ru>
+Date: Thu, 28 May 2020 09:17:49 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bec3aa98-2df2-f1e9-3188-b7c0e395c934@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=yan.y.zhao@intel.com;
- helo=mga04.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 02:25:06
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <87ftbl5nvt.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=83.149.199.45; envelope-from=dovgaluk@ispras.ru;
+ helo=mail.ispras.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 02:12:01
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,42 +59,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>, xin.zeng@intel.com,
- QEMU Developers <qemu-devel@nongnu.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: wrampazz@redhat.com, qemu-devel@nongnu.org, pavel.dovgaluk@ispras.ru,
+ crosa@redhat.com, pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 28, 2020 at 07:10:46AM +0200, Paolo Bonzini wrote:
-> On 28/05/20 06:35, Yan Zhao wrote:
-> > On Tue, May 26, 2020 at 10:26:35AM +0100, Peter Maydell wrote:
-> >> On Mon, 25 May 2020 at 11:20, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >>> Not all of them, only those that need to return MEMTX_ERROR.  I would
-> >>> like some guidance from Peter as to whether (or when) reads from ROMs
-> >>> should return MEMTX_ERROR.  This way, we can use that information to
-> >>> device  what the read-only ram-device regions should do.
-> >>
-> >> In general I think writes to ROMs (and indeed reads from ROMs) should
-> >> not return MEMTX_ERROR. I think that in real hardware you could have
-> >> a ROM that behaved either way; so our default behaviour should probably
-> >> be to do what we've always done and not report a MEMTX_ERROR. (If we
-> >> needed to I suppose we should implement a MEMTX_ERROR-reporting ROM,
-> >> but to be honest there aren't really many real ROMs in systems these
-> >> days: it's more often flash, whose response to writes is defined
-> >> by the spec and is I think to ignore writes which aren't the
-> >> magic "shift to program-the-flash-mode" sequence.)
-> >>
-> > then should I just drop the writes to read-only ram-device regions and
-> > vfio regions without returning MEMTX_ERROR?
-> > do you think it's good?
-> 
-> I am not really sure, I have to think more about it.  I think read-only
-> RAMD regions are slightly different because the guest can expect "magic"
-> behavior from RAMD regions (e.g. registers that trigger I/O on writes)
-> that are simply not there for ROM.  So I'm still inclined to queue your
-> v6 patch series.
-> 
-ok. thank you Paolo. :) 
+
+On 27.05.2020 19:44, Alex Bennée wrote:
+> Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com> writes:
+>
+>> This patch adds a test for record/replay, which boots Linux
+>> image from the disk and interacts with the network.
+>> The idea and code of this test is borrowed from boot_linux.py
+>> However, currently record/replay works only for x86_64,
+>> therefore other tests were excluded.
+>>
+>> Each test consists of the following phases:
+>>   - downloading the disk image
+>>   - recording the execution
+>>   - replaying the execution
+>>
+>> Replay does not validates the output, but waits until QEMU
+>> finishes the execution. This is reasonable, because
+>> QEMU usually hangs when replay goes wrong.
+> Two things:
+>
+>   - We need to tag these tests as slow so they aren't run by default
+
+Which flag is responsible for this?
+
+>   - 1800s is a long timeout to wait for to know it's a problem
+
+Right, I just doubled boot_linux timeout. I think, that it could be reduced.
+
+>
+> Looking at the log shows my test is still running? Maybe we can check
+> the output as we go?
+
+How this could look like?
+
+>
+>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+>> ---
+>>   0 files changed
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index e9a9ce4f66..97f066a9b2 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -2498,6 +2498,7 @@ F: include/sysemu/replay.h
+>>   F: docs/replay.txt
+>>   F: stubs/replay.c
+>>   F: tests/acceptance/replay_kernel.py
+>> +F: tests/acceptance/replay_linux.py
+>>   
+>>   IOVA Tree
+>>   M: Peter Xu <peterx@redhat.com>
+>> diff --git a/tests/acceptance/replay_linux.py b/tests/acceptance/replay_linux.py
+>> new file mode 100644
+>> index 0000000000..7c5971f156
+>> --- /dev/null
+>> +++ b/tests/acceptance/replay_linux.py
+>> @@ -0,0 +1,97 @@
+>> +# Record/replay test that boots a complete Linux system via a cloud image
+>> +#
+>> +# Copyright (c) 2020 ISP RAS
+>> +#
+>> +# Author:
+>> +#  Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+>> +#
+>> +# This work is licensed under the terms of the GNU GPL, version 2 or
+>> +# later.  See the COPYING file in the top-level directory.
+>> +
+>> +import os
+>> +
+>> +from avocado.utils import cloudinit
+>> +from avocado.utils import network
+>> +from avocado.utils import vmimage
+>> +from avocado.utils import datadrainer
+>> +from avocado.utils.path import find_command
+>> +from boot_linux import BootLinuxBase
+>> +
+>> +class ReplayLinux(BootLinuxBase):
+>> +    """
+>> +    Boots a Linux system, checking for a successful initialization
+>> +    """
+>> +
+>> +    timeout = 1800
+>> +    chksum = None
+>> +    hdd = 'ide-hd'
+>> +    cd = 'ide-cd'
+>> +    bus = 'ide'
+>> +
+>> +    def setUp(self):
+>> +        super(ReplayLinux, self).setUp()
+>> +        self.boot_path = self.download_boot()
+>> +        self.cloudinit_path = self.download_cloudinit()
+>> +
+>> +    def vm_add_disk(self, vm, path, id, device):
+>> +        bus_string = ''
+>> +        if self.bus:
+>> +            bus_string = ',bus=%s.%d' % (self.bus, id,)
+>> +        vm.add_args('-drive', 'file=%s,snapshot,id=disk%s,if=none' % (path, id))
+>> +        vm.add_args('-drive', 'driver=blkreplay,id=disk%s-rr,if=none,image=disk%s' % (id, id))
+>> +        vm.add_args('-device', '%s,drive=disk%s-rr%s' % (device, id, bus_string))
+>> +
+>> +    def launch_and_wait(self, record, args, shift):
+>> +        vm = self.get_vm()
+>> +        vm.add_args('-smp', '1')
+>> +        vm.add_args('-m', '1024')
+>> +        vm.add_args('-object', 'filter-replay,id=replay,netdev=hub0port0')
+>> +        if args:
+>> +            vm.add_args(*args)
+>> +        self.vm_add_disk(vm, self.boot_path, 0, self.hdd)
+>> +        self.vm_add_disk(vm, self.cloudinit_path, 1, self.cd)
+>> +        if record:
+>> +            mode = 'record'
+>> +        else:
+>> +            mode = 'replay'
+>> +        vm.add_args('-icount', 'shift=%s,rr=%s,rrfile=%s' %
+>> +                    (shift, mode, os.path.join(self.workdir, 'replay.bin')))
+>> +
+>> +        vm.set_console()
+>> +        vm.launch()
+>> +        console_drainer = datadrainer.LineLogger(vm.console_socket.fileno(),
+>> +                                                 logger=self.log.getChild('console'),
+>> +                                                 stop_check=(lambda : not vm.is_running()))
+>> +        console_drainer.start()
+>> +        if record:
+>> +            self.log.info('VM launched, waiting for boot confirmation from guest')
+>> +            cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port), self.name)
+>> +            vm.shutdown()
+>> +        else:
+>> +            self.log.info('VM launched, waiting the recorded execution to be replayed')
+>> +            vm.wait()
+>> +
+>> +    def run_rr(self, args=None, shift=7):
+>> +        self.launch_and_wait(True, args, shift)
+>> +        self.launch_and_wait(False, args, shift)
+>> +
+>> +class ReplayLinuxX8664(ReplayLinux):
+>> +    """
+>> +    :avocado: tags=arch:x86_64
+>> +    """
+>> +
+>> +    chksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
+>> +
+>> +    def test_pc_i440fx(self):
+>> +        """
+>> +        :avocado: tags=machine:pc
+>> +        :avocado: tags=accel:tcg
+>> +        """
+>> +        self.run_rr(shift=1)
+>> +
+>> +    def test_pc_q35(self):
+>> +        """
+>> +        :avocado: tags=machine:q35
+>> +        :avocado: tags=accel:tcg
+>> +        """
+>> +        self.run_rr(shift=3)
+>
 
