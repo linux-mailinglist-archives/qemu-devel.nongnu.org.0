@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97181E6B74
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 21:45:07 +0200 (CEST)
-Received: from localhost ([::1]:52050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE491E6B54
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 21:43:20 +0200 (CEST)
+Received: from localhost ([::1]:45584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeOSh-0002Fh-0H
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 15:45:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49328)
+	id 1jeOQx-0007yp-6g
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 15:43:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jeOMC-0000lu-Ho
- for qemu-devel@nongnu.org; Thu, 28 May 2020 15:38:24 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:35578 helo=mta-01.yadro.com)
+ id 1jeOLz-0000EU-SL
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 15:38:11 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:35550 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jeOMB-00076V-AI
- for qemu-devel@nongnu.org; Thu, 28 May 2020 15:38:24 -0400
+ id 1jeOLy-00075b-Ok
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 15:38:11 -0400
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 2035F4C861;
- Thu, 28 May 2020 19:38:10 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id 77C774C869;
+ Thu, 28 May 2020 19:38:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-type:content-type:content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:date:subject
  :subject:from:from:received:received:received; s=mta-01; t=
- 1590694684; x=1592509085; bh=NKFcYE5L699uPHjvHDqV4i9kX8ozuDFlECW
- 9ew8jO0c=; b=Tfwt5eIMU5A8CnyOa7KdZEKL8lpLqv2UvjkuVyczSk889E/CU+b
- akDQd0f5aSSQ9D9YCWn0A6rLN7mvxUpCykQ/5FgrPVVWG0ug/8dcg7IvRthEUn4F
- rfFHeNckOZH3BiH4sabqSz81PGNVETAkJUYrIAkX+1XNkTIdPzwPiKDE=
+ 1590694686; x=1592509087; bh=MDOpHat93jWYyvJkzwlZq9JxpeU/Q4XrPyV
+ em3gyozQ=; b=Owx5hPsM+q8UJEwIDVmOjHs0CL7XIOHwQbNLXqQ03pbC/fNWB8W
+ o+2irlHm6qcDVcxSQ/yWvlj3a3cDZJJ3GEcqUeI+vlL4mmDaIibsd5CSzpFrvakU
+ vy2v1kWNX/lSdek9Jtst1nZA8VkEP2TbdoWVQJuwE4vYUB3L0cIkU60s=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BarkcSVXlCOi; Thu, 28 May 2020 22:38:04 +0300 (MSK)
+ with ESMTP id qbhOnV_96yFf; Thu, 28 May 2020 22:38:06 +0300 (MSK)
 Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
  [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 407A04C863;
+ by mta-01.yadro.com (Postfix) with ESMTPS id C90B44C86D;
  Thu, 28 May 2020 22:38:04 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
@@ -46,9 +46,9 @@ Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  May 2020 22:38:06 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 09/13] i386: hvf: Drop copy of RFLAGS defines
-Date: Thu, 28 May 2020 22:37:54 +0300
-Message-ID: <20200528193758.51454-10-r.bolshakov@yadro.com>
+Subject: [PATCH 10/13] i386: hvf: Drop regs in HVFX86EmulatorState
+Date: Thu, 28 May 2020 22:37:55 +0300
+Message-ID: <20200528193758.51454-11-r.bolshakov@yadro.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200528193758.51454-1-r.bolshakov@yadro.com>
 References: <20200528193758.51454-1-r.bolshakov@yadro.com>
@@ -86,100 +86,122 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the ones provided in target/i386/cpu.h instead.
+HVFX86EmulatorState carries it's own copy of x86 registers. It can be
+dropped in favor of regs in generic CPUX86State.
 
 Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
 ---
- target/i386/hvf/x86.c        |  2 +-
- target/i386/hvf/x86.h        | 20 --------------------
- target/i386/hvf/x86_decode.c | 16 +++++++---------
- target/i386/hvf/x86_task.c   |  2 +-
- 4 files changed, 9 insertions(+), 31 deletions(-)
+ target/i386/hvf/x86.h     | 13 +++++++------
+ target/i386/hvf/x86_emu.c | 18 +++++++++---------
+ 2 files changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/target/i386/hvf/x86.c b/target/i386/hvf/x86.c
-index 7ebb5b45bd..fdb11c8db9 100644
---- a/target/i386/hvf/x86.c
-+++ b/target/i386/hvf/x86.c
-@@ -131,7 +131,7 @@ bool x86_is_v8086(struct CPUState *cpu)
- {
-     X86CPU *x86_cpu = X86_CPU(cpu);
-     CPUX86State *env = &x86_cpu->env;
--    return x86_is_protected(cpu) && (env->eflags & RFLAGS_VM);
-+    return x86_is_protected(cpu) && (env->eflags & VM_MASK);
- }
- 
- bool x86_is_long_mode(struct CPUState *cpu)
 diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
-index e309b8f203..f0d03faff9 100644
+index f0d03faff9..6048b5cc74 100644
 --- a/target/i386/hvf/x86.h
 +++ b/target/i386/hvf/x86.h
-@@ -42,26 +42,6 @@ typedef struct x86_register {
-     };
- } __attribute__ ((__packed__)) x86_register;
+@@ -235,13 +235,14 @@ typedef struct lazy_flags {
  
--typedef enum x86_rflags {
--    RFLAGS_CF       = (1L << 0),
--    RFLAGS_PF       = (1L << 2),
--    RFLAGS_AF       = (1L << 4),
--    RFLAGS_ZF       = (1L << 6),
--    RFLAGS_SF       = (1L << 7),
--    RFLAGS_TF       = (1L << 8),
--    RFLAGS_IF       = (1L << 9),
--    RFLAGS_DF       = (1L << 10),
--    RFLAGS_OF       = (1L << 11),
--    RFLAGS_IOPL     = (3L << 12),
--    RFLAGS_NT       = (1L << 14),
--    RFLAGS_RF       = (1L << 16),
--    RFLAGS_VM       = (1L << 17),
--    RFLAGS_AC       = (1L << 18),
--    RFLAGS_VIF      = (1L << 19),
--    RFLAGS_VIP      = (1L << 20),
--    RFLAGS_ID       = (1L << 21),
--} x86_rflags;
--
- typedef enum x86_reg_cr0 {
-     CR0_PE =            (1L << 0),
-     CR0_MP =            (1L << 1),
-diff --git a/target/i386/hvf/x86_decode.c b/target/i386/hvf/x86_decode.c
-index d881542181..34c5e3006c 100644
---- a/target/i386/hvf/x86_decode.c
-+++ b/target/i386/hvf/x86_decode.c
-@@ -697,15 +697,13 @@ static void decode_db_4(CPUX86State *env, struct x86_decode *decode)
+ /* Definition of hvf_x86_state is here */
+ struct HVFX86EmulatorState {
+-    struct x86_register regs[16];
+     struct lazy_flags   lflags;
+     uint8_t mmio_buf[4096];
+ };
  
+ /* useful register access  macros */
+-#define RRX(cpu, reg) (cpu->hvf_emul->regs[reg].rrx)
++#define x86_reg(cpu, reg) ((x86_register *) &cpu->regs[reg])
++
++#define RRX(cpu, reg)   (x86_reg(cpu, reg)->rrx)
+ #define RAX(cpu)        RRX(cpu, R_EAX)
+ #define RCX(cpu)        RRX(cpu, R_ECX)
+ #define RDX(cpu)        RRX(cpu, R_EDX)
+@@ -259,7 +260,7 @@ struct HVFX86EmulatorState {
+ #define R14(cpu)        RRX(cpu, R_R14)
+ #define R15(cpu)        RRX(cpu, R_R15)
  
- #define RFLAGS_MASK_NONE    0
--#define RFLAGS_MASK_OSZAPC  (RFLAGS_OF | RFLAGS_SF | RFLAGS_ZF | RFLAGS_AF | \
--                             RFLAGS_PF | RFLAGS_CF)
--#define RFLAGS_MASK_LAHF    (RFLAGS_SF | RFLAGS_ZF | RFLAGS_AF | RFLAGS_PF | \
--                             RFLAGS_CF)
--#define RFLAGS_MASK_CF      (RFLAGS_CF)
--#define RFLAGS_MASK_IF      (RFLAGS_IF)
--#define RFLAGS_MASK_TF      (RFLAGS_TF)
--#define RFLAGS_MASK_DF      (RFLAGS_DF)
--#define RFLAGS_MASK_ZF      (RFLAGS_ZF)
-+#define RFLAGS_MASK_OSZAPC  (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C)
-+#define RFLAGS_MASK_LAHF    (CC_S | CC_Z | CC_A | CC_P | CC_C)
-+#define RFLAGS_MASK_CF      (CC_C)
-+#define RFLAGS_MASK_IF      (IF_MASK)
-+#define RFLAGS_MASK_TF      (TF_MASK)
-+#define RFLAGS_MASK_DF      (DF_MASK)
-+#define RFLAGS_MASK_ZF      (CC_Z)
+-#define ERX(cpu, reg)   (cpu->hvf_emul->regs[reg].erx)
++#define ERX(cpu, reg)   (x86_reg(cpu, reg)->erx)
+ #define EAX(cpu)        ERX(cpu, R_EAX)
+ #define ECX(cpu)        ERX(cpu, R_ECX)
+ #define EDX(cpu)        ERX(cpu, R_EDX)
+@@ -269,7 +270,7 @@ struct HVFX86EmulatorState {
+ #define ESI(cpu)        ERX(cpu, R_ESI)
+ #define EDI(cpu)        ERX(cpu, R_EDI)
  
- struct decode_tbl _1op_inst[] = {
-     {0x0, X86_DECODE_CMD_ADD, 1, true, decode_modrm_rm, decode_modrm_reg, NULL,
-diff --git a/target/i386/hvf/x86_task.c b/target/i386/hvf/x86_task.c
-index 6ea8508946..6f04478b3a 100644
---- a/target/i386/hvf/x86_task.c
-+++ b/target/i386/hvf/x86_task.c
-@@ -158,7 +158,7 @@ void vmx_handle_task_switch(CPUState *cpu, x68_segment_selector tss_sel, int rea
+-#define RX(cpu, reg)   (cpu->hvf_emul->regs[reg].rx)
++#define RX(cpu, reg)   (x86_reg(cpu, reg)->rx)
+ #define AX(cpu)        RX(cpu, R_EAX)
+ #define CX(cpu)        RX(cpu, R_ECX)
+ #define DX(cpu)        RX(cpu, R_EDX)
+@@ -279,13 +280,13 @@ struct HVFX86EmulatorState {
+ #define SI(cpu)        RX(cpu, R_ESI)
+ #define DI(cpu)        RX(cpu, R_EDI)
+ 
+-#define RL(cpu, reg)   (cpu->hvf_emul->regs[reg].lx)
++#define RL(cpu, reg)   (x86_reg(cpu, reg)->lx)
+ #define AL(cpu)        RL(cpu, R_EAX)
+ #define CL(cpu)        RL(cpu, R_ECX)
+ #define DL(cpu)        RL(cpu, R_EDX)
+ #define BL(cpu)        RL(cpu, R_EBX)
+ 
+-#define RH(cpu, reg)   (cpu->hvf_emul->regs[reg].hx)
++#define RH(cpu, reg)   (x86_reg(cpu, reg)->hx)
+ #define AH(cpu)        RH(cpu, R_EAX)
+ #define CH(cpu)        RH(cpu, R_ECX)
+ #define DH(cpu)        RH(cpu, R_EDX)
+diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
+index 04fac64e72..1ad2c30e16 100644
+--- a/target/i386/hvf/x86_emu.c
++++ b/target/i386/hvf/x86_emu.c
+@@ -95,13 +95,13 @@ target_ulong read_reg(CPUX86State *env, int reg, int size)
+ {
+     switch (size) {
+     case 1:
+-        return env->hvf_emul->regs[reg].lx;
++        return x86_reg(env, reg)->lx;
+     case 2:
+-        return env->hvf_emul->regs[reg].rx;
++        return x86_reg(env, reg)->rx;
+     case 4:
+-        return env->hvf_emul->regs[reg].erx;
++        return x86_reg(env, reg)->erx;
+     case 8:
+-        return env->hvf_emul->regs[reg].rrx;
++        return x86_reg(env, reg)->rrx;
+     default:
+         abort();
      }
+@@ -112,16 +112,16 @@ void write_reg(CPUX86State *env, int reg, target_ulong val, int size)
+ {
+     switch (size) {
+     case 1:
+-        env->hvf_emul->regs[reg].lx = val;
++        x86_reg(env, reg)->lx = val;
+         break;
+     case 2:
+-        env->hvf_emul->regs[reg].rx = val;
++        x86_reg(env, reg)->rx = val;
+         break;
+     case 4:
+-        env->hvf_emul->regs[reg].rrx = (uint32_t)val;
++        x86_reg(env, reg)->rrx = (uint32_t)val;
+         break;
+     case 8:
+-        env->hvf_emul->regs[reg].rrx = val;
++        x86_reg(env, reg)->rrx = val;
+         break;
+     default:
+         abort();
+@@ -173,7 +173,7 @@ void write_val_to_reg(target_ulong reg_ptr, target_ulong val, int size)
  
-     if (reason == TSR_IRET)
--        env->eflags &= ~RFLAGS_NT;
-+        env->eflags &= ~NT_MASK;
+ static bool is_host_reg(struct CPUX86State *env, target_ulong ptr)
+ {
+-    return (ptr - (target_ulong)&env->hvf_emul->regs[0]) < sizeof(env->hvf_emul->regs);
++    return (ptr - (target_ulong)&env->regs[0]) < sizeof(env->regs);
+ }
  
-     if (reason != TSR_CALL && reason != TSR_IDT_GATE)
-         old_tss_sel.sel = 0xffff;
+ void write_val_ext(struct CPUX86State *env, target_ulong ptr, target_ulong val, int size)
 -- 
 2.26.1
 
