@@ -2,105 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA52F1E5C31
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 11:37:08 +0200 (CEST)
-Received: from localhost ([::1]:57388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F17F1E5C55
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 11:47:30 +0200 (CEST)
+Received: from localhost ([::1]:44658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeEyJ-0004MY-Tr
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 05:37:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36822)
+	id 1jeF8L-0004YA-DF
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 05:47:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jeEx5-0003JG-5i
- for qemu-devel@nongnu.org; Thu, 28 May 2020 05:35:51 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:43067)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jeF5L-000819-Ln; Thu, 28 May 2020 05:44:23 -0400
+Received: from mail-eopbgr80134.outbound.protection.outlook.com
+ ([40.107.8.134]:2978 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jeEx4-0003QX-9m
- for qemu-devel@nongnu.org; Thu, 28 May 2020 05:35:50 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MumVX-1imYAZ0rKN-00rpNo; Thu, 28 May 2020 11:35:48 +0200
-Subject: Re: [PATCH] linux-user/mmap.c: fix integer underflow in target_mremap
-To: Jonathan Marler <johnnymarler@gmail.com>, qemu-devel@nongnu.org
-References: <20200502161225.14346-1-johnnymarler@gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <1d18c0cc-b967-ffd9-1c28-49b59c25ac42@vivier.eu>
-Date: Thu, 28 May 2020 11:35:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jeF5J-0002k0-Cb; Thu, 28 May 2020 05:44:22 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mOS2Egn3bfH6nojYVC5xqkKRN1s3ULKmn9TM6QA34rts5VuVtDJK4q6JeQIg6U0PqbLVnA6kXxIUqY8yKrJtdzY6pQ5gMuypvHX/db39fEHasDspOB50WJfBI+zbTPqT60ONfQySUWLpOzlJTQmdPstnhi0tPRT1uhWA2H6ld5G6pehsSKAxvjB9CFnMvMjSt4e+hv8BgFNSchBvZMKP5AOAmWlYBix7eU2pilAx71GlD1xQi/PJbnwJdGwO+H351obXXis/Qg+8HHAvdraCfNMqTvlWvAP2XPuei7txAZQJE+sAG6J2dKC88giGOWLMkbGlosPVre1DeptfxJoMQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N7RKyG7Lv7j8ZfVHW1iNVi1k82366Wml5DByxru1Ow8=;
+ b=OXPvM64Acz/3qKXclFMvH5KA0Z/Rt4YcmCg1yPM9E4NLr4YRDEOwQ0S8lZgOIJEnCQEM/UHZhGxX5+1pQ7fUdT4dNDSNRPQoumYCiCwMBGMVonBd2LaFFH+c3myEDzKnmOANSmiqRhrWeCNvfinbkU600sH0Guji8UFsT26rbpqV4tjyFf1UTWpTT6fIPNhgck883gh6zcxBPQzw8ziLin6Z3eptSfZdxfZ2QUPyYxEPghkl76rHqehVu/Pws7CRfY3BdT0qkASCf544mvJ1gkqE9lvwcLGq1f1MWcHqPZgYpv0SOkQ2UjxA83iLS6aMdQ1ml3LVFgVPgq71wDimrg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N7RKyG7Lv7j8ZfVHW1iNVi1k82366Wml5DByxru1Ow8=;
+ b=dFQjDyRq64x0Ks6h/uf0HRQ4CxwVupx1L900MEerb+kriWv68h/eQgHjBjJChPBAp6lbOWiy+MPYlQymaL+dpU/6shNyaFEoXgFKZ26j0DUZEngVfWupqWojn6rYb1enxL5oC6XBVIPOifzp5fsJrobPs2HHHf51UA/gqHUiZys=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5366.eurprd08.prod.outlook.com (2603:10a6:20b:10b::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17; Thu, 28 May
+ 2020 09:44:17 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3045.018; Thu, 28 May 2020
+ 09:44:17 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v3 00/10] drop unallocated_blocks_are_zero
+Date: Thu, 28 May 2020 12:43:55 +0300
+Message-Id: <20200528094405.145708-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+Content-Type: text/plain
+X-ClientProxiedBy: AM3PR05CA0089.eurprd05.prod.outlook.com
+ (2603:10a6:207:1::15) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <20200502161225.14346-1-johnnymarler@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bfWlHlpCIdk86cM/QjBlx1sVnl/l7Fp8wnNt6BHEOTM0oi3VS29
- EFgKP+VNQ4PyTCHBvNgZDbLjPyr2rKIPA1gHwNWZPiqOvuGHbXmHvOVhztf0hMkw2qanuPG
- OjFpkBQAKnI1mD3hr/YEhf00kEe2PlVxuDohwrCyQv0pekrXDd8UHs3sZ1Gb8DUtyQMjdeq
- iUcQ92gLJKLVMVX+z4JZg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qdiu1nu1+R4=:y9Tb5TmyYey7JZxxwJM6DE
- pBxstm4o8AvQl3UG3iQLjbXtVHg36221FWmWKr+VcMp6eUD47+zyCTNW4R1vbO0rUSu/n0czQ
- yAsib4bl2CMWC+e6DM5laPDUIsojmf8/WVFX+KOM4wLHFK+asLVzi+vSctwIA3vw57Mm2Kpvj
- xFyS93HE0razNyM84Ou4foMI7S333PdY8sx7NmGxoAkJlwQ4qBJujv4uEBIbqnQ4nqdQJ5rgm
- mIpcUCCV1UqvmBTxhChhzZYG3dMFcZs3qEFcGkPEED7ltWSohnqDw+1VzTU4QViMS0Y+ATqFY
- hDjxkJ1Sqxg3K4jIcg2CEJp/zTiDc30gSdoFSHGo/JDz6TT+s/cQHqwM75QlrdgXOjWxhjlVE
- 1XjmBXheUuyVXX6E2mTzX7Jx1lRadegb14AsQ7HfV08656GKMSJEO6MIQsygSmmmc6gO3xr+P
- ToTbg0ZXnu/9SZy0yOAAaH4vqDFPEZY/Z3kfFY9M9ILAIckhcIdqSX83kLgahT9UCC4KEZfvc
- cC0NQ9NiFlJMSCgWIcKcKPMaTjpW+xGprcB2RHlFUWBxq/ERKz//20sGjXb7aCQP9MTv4aWPC
- cSUKCsFQxvUmVEk9U5MmwX169wvmW5p/EXSBxkXkYB7SPHZSssBRONehFqpScAIPJ0aq2yfRb
- p16LSC68Wwiv2a2Ef6zqK4dqrsTXQBgNAAYx36usDyH7vjR/M+uEtg//+YFYH33BVnPF2HcHW
- 4ybcJjLVXFSblaAmmEydjQFVMqk95PeKP78G446Z+X8dY25pWoOArAmldt10R48sPxzCXYImP
- MyH0+Sh8c+8CnpXvuxdahb7btAxR234twkb0KiVlHtoWEmyxe6Tcqzi3dAK7CvW3rfoXRvR
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 05:34:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kvm.localdomain (185.215.60.178) by
+ AM3PR05CA0089.eurprd05.prod.outlook.com (2603:10a6:207:1::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3045.19 via Frontend Transport; Thu, 28 May 2020 09:44:16 +0000
+X-Mailer: git-send-email 2.18.0
+X-Originating-IP: [185.215.60.178]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e3108b26-c39a-42e3-e7ad-08d802ebb085
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5366:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5366E00BF85E435F1FE53033C18E0@AM7PR08MB5366.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-Forefront-PRVS: 0417A3FFD2
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JJBby08n/7UnGbQNTMU8kCwvzlPqv6mfc2kJYIJcGbsNSeXT0b11WjcwXtZdJ/YVXswpqiUElnHSxrvWJ3J7MuqJeuTdWVZqgJBdQPSXoAYteZ7Z8BjesLMsE7LtK3Mc6Y9dA19xQTM4lfdBcWqQscCxkuGUeYjTbM6f9p37JbCbnIeB6gsKYYXXu6bK8+n0TeR00zp0+7zg9w+qTPsmMjmJ0pY82I7zcAeLub3XhoF6orePNOhBWDGOTZC8Usx0XBzp7cACjMlzJWGRBdPAo7HxMQTb3Ax9+B/vNP/U9iQ3ybpn0Udvb4DL1+P9NLcsGYLnteWx9aILVW40QvvfbRRstNyIi2zZsIFkrKq7vkcqmYXAI7nqSaxQsa3ApN+4Qn1uyEhOG+vDhBqfHI5wPw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39850400004)(366004)(136003)(346002)(376002)(396003)(2616005)(86362001)(316002)(5660300002)(7416002)(956004)(1076003)(6916009)(66946007)(83380400001)(6666004)(66476007)(66556008)(8936002)(966005)(4326008)(6512007)(36756003)(478600001)(8676002)(26005)(186003)(16526019)(2906002)(52116002)(6486002)(6506007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: AWJa+HIPEymial7AYU8gboj5kQECfTBZ8jmTAqW2B2cPenqMJQQmOdjiWzUwGWl/on01hG7MCkl++LCgUP0Ow6s3ArVcyTLxrqXJYmp92L7KC+YKCV9Ky12U9+jlQO9rpWqNBu6y6L1c7wWKZ/Y3YRd4pPEMDM7diUKWdHURrGippNzvwodNh8k7aB+leH/YrEVUKGB+ovDDaA987V3Z+MQWAjR6MsYY/D/Ag2MdsWvGeBpLX69CE26Nk+HGPfPYc8tQYADiGUsBqj06P0fN8S0SpKE7TGOsOHcpKyfvH7eVsnnRn2ineMQJhbWUiDfPChXowgpHBmFwkazajh/EE1Q/wrV6YYFDCTgBJ0ryKWUDE8FLgkHQoPLkNHTSVVxq51Rm3kVKuIJpltwm9KcKqGqpRFuJYqm3DcpwxVQUXqelOTmeg8uL7NvwAWq1PIDpf1evxpAQVzzcXSmPl9hmgWvHa+DhPyA5L+LhYR3COdBq7PFPDlEvk7P4TA6jWZfF
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3108b26-c39a-42e3-e7ad-08d802ebb085
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2020 09:44:17.7077 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qw/qqspRWa6codLmgsQr5mrxzCEH9yZoRl9b/a98UwqMgsc2SaDuTLFNkaUkKgd9TSKrDlwvMo8DdFRPsAXNUGfmjnBay2Rjp1CFJyHjCMM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5366
+Received-SPF: pass client-ip=40.107.8.134;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 05:44:18
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,37 +111,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ ronniesahlberg@gmail.com, codyprime@gmail.com, sw@weilnetz.de, pl@kamp.de,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 02/05/2020 à 18:12, Jonathan Marler a écrit :
-> Fixes: https://bugs.launchpad.net/bugs/1876373
-> 
-> This code path in mmap occurs when a page size is decreased with mremap.  When a section of pages is shrunk, qemu calls mmap_reserve on the pages that were released.  However, it has the diff operation reversed, subtracting the larger old_size from the smaller new_size.  Instead, it should be subtracting the smaller new_size from the larger old_size.  You can also see in the previous line of the change that this mmap_reserve call only occurs when old_size > new_size.
-> 
-> Signed-off-by: Jonathan Marler <johnnymarler@gmail.com>
-> ---
->  linux-user/mmap.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-> index e378033797..caab62909e 100644
-> --- a/linux-user/mmap.c
-> +++ b/linux-user/mmap.c
-> @@ -708,7 +708,7 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
->          if (prot == 0) {
->              host_addr = mremap(g2h(old_addr), old_size, new_size, flags);
->              if (host_addr != MAP_FAILED && reserved_va && old_size > new_size) {
-> -                mmap_reserve(old_addr + old_size, new_size - old_size);
-> +                mmap_reserve(old_addr + old_size, old_size - new_size);
->              }
->          } else {
->              errno = ENOMEM;
-> 
+This is first step to block-status refactoring, and solves most simple
+problem mentioned in my investigation of block-status described in
+the thread "backing chain & block status & filters":
+  https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg04706.html
 
-Applied to my linux-user branch.
+The whole series is reviewed, let's proceed with it please!
 
-Thanks,
-Laurent
+v3: rebase on master
+02: grammar fix in commit msg, add Eric's r-b
+03,04,09: add Eric's r-b
+10: add my r-b
+
+Eric Blake (1):
+  qed: Simplify backing reads
+
+Vladimir Sementsov-Ogievskiy (9):
+  qemu-img: convert: don't use unallocated_blocks_are_zero
+  block: inline bdrv_unallocated_blocks_are_zero()
+  block/vdi: return ZERO block-status when appropriate
+  block/vpc: return ZERO block-status when appropriate
+  block/crypto: drop unallocated_blocks_are_zero
+  block/iscsi: drop unallocated_blocks_are_zero
+  block/file-posix: drop unallocated_blocks_are_zero
+  block/vhdx: drop unallocated_blocks_are_zero
+  block: drop unallocated_blocks_are_zero
+
+ block/qed.h               |  1 -
+ include/block/block.h     |  6 ----
+ include/block/block_int.h | 12 +++++++-
+ block.c                   | 15 ---------
+ block/crypto.c            |  1 -
+ block/file-posix.c        |  3 --
+ block/io.c                |  8 ++---
+ block/iscsi.c             |  1 -
+ block/qcow2.c             |  1 -
+ block/qed.c               | 65 ++++-----------------------------------
+ block/vdi.c               |  3 +-
+ block/vhdx.c              |  3 --
+ block/vpc.c               |  3 +-
+ qemu-img.c                |  4 +--
+ 14 files changed, 24 insertions(+), 102 deletions(-)
+
+-- 
+2.18.0
 
 
