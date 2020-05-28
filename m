@@ -2,67 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E231E6269
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 15:38:36 +0200 (CEST)
-Received: from localhost ([::1]:42574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6081E6285
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 15:43:26 +0200 (CEST)
+Received: from localhost ([::1]:53588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeIjz-0000uO-Mh
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 09:38:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43516)
+	id 1jeIof-00061v-Vy
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 09:43:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jeIjF-000096-C4
- for qemu-devel@nongnu.org; Thu, 28 May 2020 09:37:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32978
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeImC-00031q-TS
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 09:40:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44563
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jeIjD-0005V3-Ro
- for qemu-devel@nongnu.org; Thu, 28 May 2020 09:37:48 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeImB-0007vp-PQ
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 09:40:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590673065;
+ s=mimecast20190719; t=1590673250;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IkaZOOBjKKshBBjSRRMWXw/48nYmDJhhZzdR2EL7beY=;
- b=MFZgpZ1UhSmrdO8ucAvTrordBINVg31tvPc9jmxl9pFs40awLBthaIxrWkycDmwbQEGEnm
- 8olSeSNMwVQPIHd8NgIpHyo7Gbq/rezYZwQLyh5eZR8dKFtTvXEolHgNn9ALs6jZ8NhNnl
- 1JtXpyIPa4rPVIBYSG+NmtqZVGHq/x4=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XXcvi8h2ZWKbN9Rca/s2qHJwT8gMiWoYV55xCnPQTso=;
+ b=Mceci/9ZCcDLO3HnCXmJFJ0aqa5fU7JlbCEj+VnR29RUWutegdEtZ/KrQ1R65sM6NfTIVQ
+ LRC6p1nS7q2CUSWr4rNrF6RYbrRKHiMPj2MOjjKIttj2myNNqrPcn62KRPfAoMvQDINL1h
+ 1vPmTEjMy+dUPjVBOnLHryiwTV/rsxw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-hodvGw2HPMC8lfATVHRbKw-1; Thu, 28 May 2020 09:37:37 -0400
-X-MC-Unique: hodvGw2HPMC8lfATVHRbKw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-37-miaqVOifMiei5UhbPRwADg-1; Thu, 28 May 2020 09:40:47 -0400
+X-MC-Unique: miaqVOifMiei5UhbPRwADg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06C8D1054F98;
- Thu, 28 May 2020 13:37:36 +0000 (UTC)
-Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E2C8360F88;
- Thu, 28 May 2020 13:37:34 +0000 (UTC)
-Subject: Re: [PATCH v2] fpu/softfloat: Silent 'bitwise negation of a boolean
- expression' warning
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20200528084833.9531-1-philmd@redhat.com>
- <288fd554-67e2-bfd9-4b51-ac03e565161f@redhat.com>
- <fb5c69f1-af4c-2f6e-b47a-3b964675318a@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <1809e3cf-5750-e21e-88bf-d27f9d1fb3c3@redhat.com>
-Date: Thu, 28 May 2020 08:37:34 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2F32107ACCD;
+ Thu, 28 May 2020 13:40:45 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
+ [10.36.113.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB3667E467;
+ Thu, 28 May 2020 13:40:36 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 7E23D16E2C; Thu, 28 May 2020 15:40:35 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/4] microvm: memory config tweaks
+Date: Thu, 28 May 2020 15:40:31 +0200
+Message-Id: <20200528134035.32025-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <fb5c69f1-af4c-2f6e-b47a-3b964675318a@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 03:11:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -72,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,83 +77,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com, philmd@redhat.com,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/28/20 4:00 AM, Philippe Mathieu-Daudé wrote:
-> On 5/28/20 10:57 AM, Thomas Huth wrote:
->> On 28/05/2020 10.48, Philippe Mathieu-Daudé wrote:
->>> When building with clang version 10.0.0-4ubuntu1, we get:
+With more microvm memory config tweaks split this into its owns series,
+the microvm acpi patch series is already big enough ...
 
-In the subject, I'd suggest s/Silent/Silence/
+v2:
+ - use 3G split.
+ - add patch to move virtio-mmio region.
+ - pick up acks & reviews.
 
->>>
->>>      CC      lm32-softmmu/fpu/softfloat.o
->>>    fpu/softfloat.c:3365:13: error: bitwise negation of a boolean expression; did you mean logical negation? [-Werror,-Wbool-operation]
->>>        absZ &= ~ ( ( ( roundBits ^ 0x40 ) == 0 ) & roundNearestEven );
->>>                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>
->>>    fpu/softfloat.c:3423:18: error: bitwise negation of a boolean expression; did you mean logical negation? [-Werror,-Wbool-operation]
->>>            absZ0 &= ~ ( ( (uint64_t) ( absZ1<<1 ) == 0 ) & roundNearestEven );
->>>                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>
+take care,
+  Gerd
 
-Also, do you need to list all errors, or will just one or two 
-representative errors be sufficient?
+Gerd Hoffmann (4):
+  microvm: use 3G split unconditionally
+  microvm: drop max-ram-below-4g support
+  x86: move max-ram-below-4g to pc
+  microvm: move virtio base to 0xfeb00000
 
->>>
->>> Fix by rewriting the fishy bitwise AND of two bools as an int.
->>>
->>> Suggested-by: Eric Blake <eblake@redhat.com>
->>> Buglink: https://bugs.launchpad.net/bugs/1881004
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
-
->>> +++ b/fpu/softfloat.c
->>> @@ -3362,7 +3362,9 @@ static int32_t roundAndPackInt32(bool zSign, uint64_t absZ,
->>>       }
->>>       roundBits = absZ & 0x7F;
->>>       absZ = ( absZ + roundIncrement )>>7;
->>> -    absZ &= ~ ( ( ( roundBits ^ 0x40 ) == 0 ) & roundNearestEven );
->>> +    if (((roundBits ^ 0x40) == 0) && roundNearestEven) {
->>> +        absZ &= ~1;
->>> +    }
->>
->> You could get rid of some more parentheses now:
->>
->>     if ((roundBits ^ 0x40) == 0 && roundNearestEven)
->>
->> ... also in the other hunks.
-> 
-> I first wrote
-> 
->      if (!(roundBits ^ 0x40) && roundNearestEven)
-> 
-> But then thought this would diverge from Eric suggestion, so I kept what
-> he wrote (which is a bit closer to the style of rest of this file).
-
-I don't mind the patch as-is for minimizing churn and matching existing 
-style, but I also would not be opposed if you wanted to elide 
-unnecessary ().
-
-> 
->>
->> Anyway:
->> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>
-> 
-> Thanks!
-> 
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
+ include/hw/i386/microvm.h |  2 +-
+ include/hw/i386/pc.h      |  2 ++
+ include/hw/i386/x86.h     |  4 ----
+ hw/i386/microvm.c         | 35 +----------------------------
+ hw/i386/pc.c              | 46 +++++++++++++++++++++++++++++++++++++++
+ hw/i386/pc_piix.c         | 10 ++++-----
+ hw/i386/pc_q35.c          | 10 ++++-----
+ hw/i386/x86.c             | 46 ---------------------------------------
+ 8 files changed, 60 insertions(+), 95 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.18.4
 
 
