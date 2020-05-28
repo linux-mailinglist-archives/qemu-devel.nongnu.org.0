@@ -2,51 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8434B1E574C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 08:13:01 +0200 (CEST)
-Received: from localhost ([::1]:45576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28C81E5785
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 08:26:28 +0200 (CEST)
+Received: from localhost ([::1]:36874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeBml-0006OU-Be
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 02:12:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39422)
+	id 1jeBzo-0000Mi-31
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 02:26:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovgaluk@ispras.ru>)
- id 1jeBlv-0005zD-6t
- for qemu-devel@nongnu.org; Thu, 28 May 2020 02:12:07 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:47640)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dovgaluk@ispras.ru>) id 1jeBlt-0007K4-F1
- for qemu-devel@nongnu.org; Thu, 28 May 2020 02:12:06 -0400
-Received: from [192.168.0.183] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 913C2CD461;
- Thu, 28 May 2020 09:12:00 +0300 (MSK)
-Subject: Re: [PATCH v2 04/11] tests/acceptance: add kernel record/replay test
- for x86_64
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
-References: <159057543840.16818.14393433996899521784.stgit@pasha-ThinkPad-X280>
- <159057546117.16818.15607496040935344350.stgit@pasha-ThinkPad-X280>
- <87sgfl5qsl.fsf@linaro.org>
-From: Pavel Dovgalyuk <dovgaluk@ispras.ru>
-Message-ID: <e9b00219-e7f2-a109-dcc1-f5a325cfae40@ispras.ru>
-Date: Thu, 28 May 2020 09:12:00 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jeBya-0007ae-2d
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 02:25:12 -0400
+Received: from mga04.intel.com ([192.55.52.120]:56942)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jeByW-0002DN-Qb
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 02:25:10 -0400
+IronPort-SDR: 3heAl5P/EwIJvE+AwpnT3Wvuy+etmVsvdLxXy13yUxnon6Q7aYZWUN6/4e7A4gPE+fthLTCBK9
+ UQkSW1Zl1nQw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 May 2020 23:25:06 -0700
+IronPort-SDR: qL0T7noB9UY7PX/VMOCTKl/M+fXvOaePPK+FseXED/0Al7pYK0lYW/xRBt/f5BMUcWke3tF9CA
+ Yo7Uu8gHIckw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,443,1583222400"; d="scan'208";a="310818881"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by FMSMGA003.fm.intel.com with ESMTP; 27 May 2020 23:25:04 -0700
+Date: Thu, 28 May 2020 02:15:11 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v6 1/3] memory: drop guest writes to read-only ram device
+ regions
+Message-ID: <20200528061511.GC1378@joy-OptiPlex-7040>
+References: <20200430080744.31232-1-yan.y.zhao@intel.com>
+ <20200430080946.31286-1-yan.y.zhao@intel.com>
+ <CAFEAcA-8NH_4ZV0J9urBZdQWmqOe-Nyy4y2gLAjTJ08MpfFY0g@mail.gmail.com>
+ <9dd7f00b-1199-1097-80d4-1b700c0f28d6@redhat.com>
+ <20200525011853.GB8867@joy-OptiPlex-7040>
+ <f836eeb3-0655-2842-2e8a-b8a42710a765@redhat.com>
+ <CAFEAcA9vG8RO1A3mSkHGN+ZMisDHzAu3QM5GfCkrDaK-A0Tw9w@mail.gmail.com>
+ <20200528043529.GA1378@joy-OptiPlex-7040>
+ <bec3aa98-2df2-f1e9-3188-b7c0e395c934@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87sgfl5qsl.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=83.149.199.45; envelope-from=dovgaluk@ispras.ru;
- helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 02:12:01
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bec3aa98-2df2-f1e9-3188-b7c0e395c934@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=yan.y.zhao@intel.com;
+ helo=mga04.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 02:25:06
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,76 +74,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wrampazz@redhat.com, qemu-devel@nongnu.org, pavel.dovgaluk@ispras.ru,
- crosa@redhat.com, pbonzini@redhat.com, philmd@redhat.com
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>, xin.zeng@intel.com,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 27.05.2020 18:41, Alex Bennée wrote:
-> Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com> writes:
->
->> This patch adds a test for record/replay an execution of x86_64 machine.
->> Execution scenario includes simple kernel boot, which allows testing
->> basic hardware interaction in RR mode.
->>
->> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
->> ---
->>   0 files changed
->>
->> diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
->> index b8b277ad2f..c7526f1aba 100644
->> --- a/tests/acceptance/replay_kernel.py
->> +++ b/tests/acceptance/replay_kernel.py
->> @@ -55,3 +55,19 @@ class ReplayKernel(LinuxKernelUtils):
->>                       True, shift, args)
->>           self.run_vm(kernel_path, kernel_command_line, console_pattern,
->>                       False, shift, args)
->> +
->> +    def test_x86_64_pc(self):
->> +        """
->> +        :avocado: tags=arch:x86_64
->> +        :avocado: tags=machine:pc
->> +        """
->> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
->> +                      '/linux/releases/29/Everything/x86_64/os/images/pxeboot'
->> +                      '/vmlinuz')
->> +        kernel_hash = '23bebd2680757891cf7adedb033532163a792495'
->> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
->> +
->> +        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=ttyS0'
->> +        console_pattern = 'Kernel command line: %s' % kernel_command_line
->> +
->> +        self.run_rr(kernel_path, kernel_command_line, console_pattern)
-> This test fails for me on the replay:
-
-Have you applied latest RR patches?
-
-
->
->    2020-05-27 16:22:21,658 machine          L0326 DEBUG| VM launch command: 'x86_64-softmmu/qemu-system-x86_64 -display none -vga none -chardev socket,id=mon,path=/var/tmp/tmp4n_geosi/qemu-9516-monitor.sock -mon chardev=mon,mode=control -machine pc -chardev socket,id=console,path=/var/tmp/tmp4n_geosi/qemu-9516-console.sock,server,nowait -serial chardev:console -icount shift=7,rr=replay,rrfile=/var/tmp/avocado_b85h3ycg/avocado_job_8xrxksgj/1-._tests_acceptance_replay_kernel.py_ReplayKernel.test_x86_64_pc/replay.bin -kernel /home/alex/avocado/data/cache/by_location/df533120a0e0ffda2626bed6e8a975d3b07e3f05/vmlinuz -append printk.time=0 console=ttyS0 -net none'
->    2020-05-27 16:22:21,725 qmp              L0194 DEBUG| >>> {'execute': 'qmp_capabilities'}
->    2020-05-27 16:22:21,736 qmp              L0202 DEBUG| <<< {'return': {}}
->    2020-05-27 16:23:49,372 stacktrace       L0039 ERROR|
->    2020-05-27 16:23:49,372 stacktrace       L0042 ERROR| Reproduced traceback from: /home/alex/lsrc/qemu.git/builds/all/tests/venv/lib/python3.7/site-packages/avocado/core/test.py:860
->    2020-05-27 16:23:49,373 stacktrace       L0045 ERROR| Traceback (most recent call last):
->    2020-05-27 16:23:49,373 stacktrace       L0045 ERROR|   File "/home/alex/lsrc/qemu.git/builds/all/tests/acceptance/replay_kernel.py", line 73, in test_x86_64_pc
->    2020-05-27 16:23:49,373 stacktrace       L0045 ERROR|     self.run_rr(kernel_path, kernel_command_line, console_pattern)
->    2020-05-27 16:23:49,373 stacktrace       L0045 ERROR|   File "/home/alex/lsrc/qemu.git/builds/all/tests/acceptance/replay_kernel.py", line 57, in run_rr
->    2020-05-27 16:23:49,373 stacktrace       L0045 ERROR|     False, shift, args)
->    2020-05-27 16:23:49,373 stacktrace       L0045 ERROR|   File "/home/alex/lsrc/qemu.git/builds/all/tests/acceptance/replay_kernel.py", line 46, in run_vm
->    2020-05-27 16:23:49,373 stacktrace       L0045 ERROR|     self.wait_for_console_pattern(console_pattern, vm)
->    2020-05-27 16:23:49,373 stacktrace       L0045 ERROR|   File "/home/alex/lsrc/qemu.git/builds/all/tests/acceptance/boot_linux_console.py", line 37, in wait_for_console_pattern
->    2020-05-27 16:23:49,373 stacktrace       L0045 ERROR|     vm=vm)
->    2020-05-27 16:23:49,374 stacktrace       L0045 ERROR|   File "/home/alex/lsrc/qemu.git/builds/all/tests/acceptance/avocado_qemu/__init__.py", line 131, in wait_for_console_pattern
->    2020-05-27 16:23:49,374 stacktrace       L0045 ERROR|     _console_interaction(test, success_message, failure_message, None, vm=vm)
->    2020-05-27 16:23:49,374 stacktrace       L0045 ERROR|   File "/home/alex/lsrc/qemu.git/builds/all/tests/acceptance/avocado_qemu/__init__.py", line 83, in _console_interaction
->    2020-05-27 16:23:49,374 stacktrace       L0045 ERROR|     msg = console.readline().strip()
->    2020-05-27 16:23:49,374 stacktrace       L0045 ERROR|   File "/usr/lib/python3.7/socket.py", line 589, in readinto
->    2020-05-27 16:23:49,374 stacktrace       L0045 ERROR|     return self._sock.recv_into(b)
->    2020-05-27 16:23:49,374 stacktrace       L0045 ERROR|   File "/home/alex/lsrc/qemu.git/builds/all/tests/venv/lib/python3.7/site-packages/avocado/plugins/runner.py", line 89, in sigterm_handler
->    2020-05-27 16:23:49,374 stacktrace       L0045 ERROR|     raise RuntimeError("Test interrupted by SIGTERM")
->    2020-05-27 16:23:49,374 stacktrace       L0045 ERROR| RuntimeError: Test interrupted by SIGTERM
->
->
+On Thu, May 28, 2020 at 07:10:46AM +0200, Paolo Bonzini wrote:
+> On 28/05/20 06:35, Yan Zhao wrote:
+> > On Tue, May 26, 2020 at 10:26:35AM +0100, Peter Maydell wrote:
+> >> On Mon, 25 May 2020 at 11:20, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >>> Not all of them, only those that need to return MEMTX_ERROR.  I would
+> >>> like some guidance from Peter as to whether (or when) reads from ROMs
+> >>> should return MEMTX_ERROR.  This way, we can use that information to
+> >>> device  what the read-only ram-device regions should do.
+> >>
+> >> In general I think writes to ROMs (and indeed reads from ROMs) should
+> >> not return MEMTX_ERROR. I think that in real hardware you could have
+> >> a ROM that behaved either way; so our default behaviour should probably
+> >> be to do what we've always done and not report a MEMTX_ERROR. (If we
+> >> needed to I suppose we should implement a MEMTX_ERROR-reporting ROM,
+> >> but to be honest there aren't really many real ROMs in systems these
+> >> days: it's more often flash, whose response to writes is defined
+> >> by the spec and is I think to ignore writes which aren't the
+> >> magic "shift to program-the-flash-mode" sequence.)
+> >>
+> > then should I just drop the writes to read-only ram-device regions and
+> > vfio regions without returning MEMTX_ERROR?
+> > do you think it's good?
+> 
+> I am not really sure, I have to think more about it.  I think read-only
+> RAMD regions are slightly different because the guest can expect "magic"
+> behavior from RAMD regions (e.g. registers that trigger I/O on writes)
+> that are simply not there for ROM.  So I'm still inclined to queue your
+> v6 patch series.
+> 
+ok. thank you Paolo. :) 
 
