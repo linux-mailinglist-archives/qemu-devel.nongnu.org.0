@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82131E5E16
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 13:19:19 +0200 (CEST)
-Received: from localhost ([::1]:34580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 611531E5DDF
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 13:06:43 +0200 (CEST)
+Received: from localhost ([::1]:59860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeGZC-0000O2-Th
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 07:19:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49884)
+	id 1jeGN0-0007eB-B8
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 07:06:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLR-0005uh-UK
- for qemu-devel@nongnu.org; Thu, 28 May 2020 07:05:05 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52820
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLI-0005nA-4b
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 07:04:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31965
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLH-0006pB-F6
- for qemu-devel@nongnu.org; Thu, 28 May 2020 07:05:05 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLE-0006gf-LK
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 07:04:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590663894;
+ s=mimecast20190719; t=1590663892;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C4A42VZrvhks9hEexhTsNXied8TgdkW0Qb1x2XypbtU=;
- b=WJdlOfYWxqahOw4nG+tMx210aIiE67MOjCEkn8XfdXjqo1lzMKgQKz/r0BaBaM06NKDTVj
- MQ39/KBHRPcyhrql/dxMSr29vRKq6uzIrvREXt+DvgBfrcSM4KsC4TeQ+IdU9+VpPnmHdE
- puJMO1IiUgeDslDxkQ8pGVV3y8XBKH4=
+ bh=cM2KcMTrD5F95rLiMUatA7icdyVLlbFC7tN4WzWCJXY=;
+ b=LvfMTewUIoE1mM2PchMMnxDm9dcQ1a7UdhW9JpD+7fazRyRTJJYcRiwu7U+9woKerRqb03
+ OHbG0Ui4DUua6/0xIhOxdzauPOJoG1QzUSS+8qXIXL7DzuLrpA35r++jPLm2EXKcstX/7H
+ uVt3DbT+ePSVjnUo7BHLzzHPkWWJXFM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-ywa2xU4qPzmIc0qp4qWctw-1; Thu, 28 May 2020 07:04:51 -0400
-X-MC-Unique: ywa2xU4qPzmIc0qp4qWctw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-38-cl5BDPCMNp-aawKKygrlnw-1; Thu, 28 May 2020 07:04:50 -0400
+X-MC-Unique: cl5BDPCMNp-aawKKygrlnw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6313107ACF6;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87AA38018A4;
  Thu, 28 May 2020 11:04:49 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9418DA09AD;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 56A4260C05;
  Thu, 28 May 2020 11:04:49 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2A16811358D4; Thu, 28 May 2020 13:04:45 +0200 (CEST)
+ id 2FDE211358D5; Thu, 28 May 2020 13:04:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 21/24] sparc/leon3: Fix to put grlib,* devices on sysbus
-Date: Thu, 28 May 2020 13:04:41 +0200
-Message-Id: <20200528110444.20456-22-armbru@redhat.com>
+Subject: [PATCH v2 22/24] qdev: Assert devices are plugged into a bus that can
+ take them
+Date: Thu, 28 May 2020 13:04:42 +0200
+Message-Id: <20200528110444.20456-23-armbru@redhat.com>
 In-Reply-To: <20200528110444.20456-1-armbru@redhat.com>
 References: <20200528110444.20456-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 02:50:32
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 01:51:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,61 +81,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Fabien Chouteau <chouteau@adacore.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, pbonzini@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: pbonzini@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ berrange@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-leon3_generic_hw_init() creates a "grlib,ahbpnp" and a "grlib,apbpnp"
-sysbus device in a way that leaves them unplugged.
+This would have caught some of the bugs I just fixed.
 
-Create them the common way that puts them into the main system bus.
-Affects machine leon3_generic.  Visible in "info qtree":
-
-     bus: main-system-bus
-       type System
-    +  dev: grlib,ahbpnp, id ""
-    +    mmio 00000000fffff000/0000000000001000
-    +  dev: grlib,apbpnp, id ""
-    +    mmio 00000000800ff000/0000000000001000
-       dev: grlib,irqmp, id ""
-
-Cc: Fabien Chouteau <chouteau@adacore.com>
-Cc: KONRAD Frederic <frederic.konrad@adacore.com>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Artyom Tarasenko <atar4qemu@gmail.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/sparc/leon3.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/core/qdev.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
-index 8f024dab7b..3facb8c2ae 100644
---- a/hw/sparc/leon3.c
-+++ b/hw/sparc/leon3.c
-@@ -213,14 +213,14 @@ static void leon3_generic_hw_init(MachineState *machine)
-     reset_info->sp    = LEON3_RAM_OFFSET + ram_size;
-     qemu_register_reset(main_cpu_reset, reset_info);
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 9e5538aeae..b5b42b2616 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -97,6 +97,9 @@ static void bus_add_child(BusState *bus, DeviceState *child)
+ void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
+ {
+     BusState *old_parent_bus = dev->parent_bus;
++    DeviceClass *dc = DEVICE_GET_CLASS(dev);
++
++    assert(dc->bus_type && object_dynamic_cast(OBJECT(bus), dc->bus_type));
  
--    ahb_pnp = GRLIB_AHB_PNP(object_new(TYPE_GRLIB_AHB_PNP));
-+    ahb_pnp = GRLIB_AHB_PNP(qdev_create(NULL, TYPE_GRLIB_AHB_PNP));
-     object_property_set_bool(OBJECT(ahb_pnp), true, "realized", &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(ahb_pnp), 0, LEON3_AHB_PNP_OFFSET);
-     grlib_ahb_pnp_add_entry(ahb_pnp, 0, 0, GRLIB_VENDOR_GAISLER,
-                             GRLIB_LEON3_DEV, GRLIB_AHB_MASTER,
-                             GRLIB_CPU_AREA);
- 
--    apb_pnp = GRLIB_APB_PNP(object_new(TYPE_GRLIB_APB_PNP));
-+    apb_pnp = GRLIB_APB_PNP(qdev_create(NULL, TYPE_GRLIB_APB_PNP));
-     object_property_set_bool(OBJECT(apb_pnp), true, "realized", &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(apb_pnp), 0, LEON3_APB_PNP_OFFSET);
-     grlib_ahb_pnp_add_entry(ahb_pnp, LEON3_APB_PNP_OFFSET, 0xFFF,
+     if (old_parent_bus) {
+         trace_qdev_update_parent_bus(dev, object_get_typename(OBJECT(dev)),
 -- 
 2.21.3
 
