@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDE11E5DEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 13:10:06 +0200 (CEST)
-Received: from localhost ([::1]:49624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7631E5E04
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 13:14:33 +0200 (CEST)
+Received: from localhost ([::1]:41724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeGQH-0007FI-Ij
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 07:10:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49836)
+	id 1jeGUa-0007sV-BE
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 07:14:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLJ-0005nx-S2
- for qemu-devel@nongnu.org; Thu, 28 May 2020 07:04:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21756
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLP-0005u1-I2
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 07:05:04 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51655
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLE-0006hC-Og
- for qemu-devel@nongnu.org; Thu, 28 May 2020 07:04:57 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLF-0006jo-LT
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 07:05:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1590663892;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bfy+Oh8nlUt028pTCxJbbHy0rLw3m3T63uQUxAuRSvM=;
- b=hMSlqtQvpM3h6knP+FYDmFBpQ55GlVr2l5O1wyajgh8pJ4NSNI3Aq6yjoBaA94LYqtvQgM
- 2ex8j7EIIBNwfjW5EJ/Xzoo0tZAudmLxjJR3YTua4nRgEA0Ew4/MwYA9g35dlUJW357Kjy
- Byo1129h/t+hbicWEVWtwqVLQVvmNno=
+ bh=H83OaysL/sZWH5evVwMxpINm9CXFIom9c+q8wa7qfx4=;
+ b=ahrnakuhGtmGwyK8+KVG3083XSiSui7y98apr4n2+XXTpCRJi/mTaff0tWOQXURiDIwkWd
+ 3hhLocz8Q9iDUr2oXb4RzK0dau6owORC0LijzLrY3C+F2xEeSWocwzYXtFCNQj1oIfdbJ7
+ NVH1FYiO1fXvB8i59fHNil0j+iGtFNs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-113-ra6mxHWPO3qs9n-Rjisggg-1; Thu, 28 May 2020 07:04:50 -0400
-X-MC-Unique: ra6mxHWPO3qs9n-Rjisggg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-281-bHgttIUHMSuqd-nfiH2rYA-1; Thu, 28 May 2020 07:04:50 -0400
+X-MC-Unique: bHgttIUHMSuqd-nfiH2rYA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 571051005512;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59CAC835B45;
  Thu, 28 May 2020 11:04:49 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 259C35D9EF;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 27A3B19D71;
  Thu, 28 May 2020 11:04:49 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0B85B11358CB; Thu, 28 May 2020 13:04:45 +0200 (CEST)
+ id 117AE11358CF; Thu, 28 May 2020 13:04:45 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/24] ppc/pnv: Put "*-pnv-chip" and "pnv-xive" on the main
- system bus
-Date: Thu, 28 May 2020 13:04:36 +0200
-Message-Id: <20200528110444.20456-17-armbru@redhat.com>
+Subject: [PATCH v2 17/24] pnv/psi: Correct the pnv-psi* devices not to be
+ sysbus devices
+Date: Thu, 28 May 2020 13:04:37 +0200
+Message-Id: <20200528110444.20456-18-armbru@redhat.com>
 In-Reply-To: <20200528110444.20456-1-armbru@redhat.com>
 References: <20200528110444.20456-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 03:11:04
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 02:50:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,35 +87,12 @@ Cc: berrange@redhat.com, ehabkost@redhat.com, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pnv_init() creates "power10_v1.0-pnv-chip", "power8_v2.0-pnv-chip",
-"power8e_v2.1-pnv-chip", "power8nvl_v1.0-pnv-chip", or
-"power9_v2.0-pnv-chip" sysbus devices in a way that leaves them
-unplugged.
+pnv_chip_power8_instance_init() creates a "pnv-psi-POWER8" sysbus
+device in a way that leaves it unplugged.
+pnv_chip_power9_instance_init() and pnv_chip_power10_instance_init()
+do the same for "pnv-psi-POWER9" and "pnv-psi-POWER10", respectively.
 
-pnv_chip_power9_instance_init() creates a "pnv-xive" sysbus device in
-a way that leaves it unplugged.
-
-Create them the common way that puts them into the main system bus.
-Affects machines powernv8, powernv9, and powernv10.  Visible in "info
-qtree".  Here's the change for powernv9:
-
-     bus: main-system-bus
-       type System
-    +  dev: power9_v2.0-pnv-chip, id ""
-    +    chip-id = 0 (0x0)
-    +    ram-start = 0 (0x0)
-    +    ram-size = 1879048192 (0x70000000)
-    +    nr-cores = 1 (0x1)
-    +    cores-mask = 72057594037927935 (0xffffffffffffff)
-    +    nr-threads = 1 (0x1)
-    +    num-phbs = 6 (0x6)
-    +    mmio 000603fc00000000/0000000400000000
-    [...]
-    +  dev: pnv-xive, id ""
-    +    ic-bar = 1692157036462080 (0x6030203100000)
-    +    vc-bar = 1689949371891712 (0x6010000000000)
-    +    pc-bar = 1690499127705600 (0x6018000000000)
-    +    tm-bar = 1692157036986368 (0x6030203180000)
+These devices aren't actually sysbus devices.  Correct that.
 
 Cc: "Cédric Le Goater" <clg@kaod.org>
 Cc: David Gibson <david@gibson.dropbear.id.au>
@@ -123,33 +100,36 @@ Cc: qemu-ppc@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ppc/pnv.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/hw/ppc/pnv_psi.h | 2 +-
+ hw/ppc/pnv_psi.c         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index da637822f9..8d4fc8109a 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -818,7 +818,7 @@ static void pnv_init(MachineState *machine)
-     pnv->chips = g_new0(PnvChip *, pnv->num_chips);
-     for (i = 0; i < pnv->num_chips; i++) {
-         char chip_name[32];
--        Object *chip = object_new(chip_typename);
-+        Object *chip = OBJECT(qdev_create(NULL, chip_typename));
+diff --git a/include/hw/ppc/pnv_psi.h b/include/hw/ppc/pnv_psi.h
+index f0f5b55197..979fc59f33 100644
+--- a/include/hw/ppc/pnv_psi.h
++++ b/include/hw/ppc/pnv_psi.h
+@@ -31,7 +31,7 @@
+ #define PSIHB_XSCOM_MAX         0x20
  
-         pnv->chips[i] = PNV_CHIP(chip);
+ typedef struct PnvPsi {
+-    SysBusDevice parent;
++    DeviceState parent;
  
-@@ -1317,8 +1317,8 @@ static void pnv_chip_power9_instance_init(Object *obj)
-     PnvChipClass *pcc = PNV_CHIP_GET_CLASS(obj);
-     int i;
+     MemoryRegion regs_mr;
+     uint64_t bar;
+diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
+index cfd5b7bc25..82f0769465 100644
+--- a/hw/ppc/pnv_psi.c
++++ b/hw/ppc/pnv_psi.c
+@@ -943,7 +943,7 @@ static void pnv_psi_class_init(ObjectClass *klass, void *data)
  
--    object_initialize_child(obj, "xive", &chip9->xive, sizeof(chip9->xive),
--                            TYPE_PNV_XIVE, &error_abort, NULL);
-+    sysbus_init_child_obj(obj, "xive", &chip9->xive, sizeof(chip9->xive),
-+                          TYPE_PNV_XIVE);
-     object_property_add_alias(obj, "xive-fabric", OBJECT(&chip9->xive),
-                               "xive-fabric");
- 
+ static const TypeInfo pnv_psi_info = {
+     .name          = TYPE_PNV_PSI,
+-    .parent        = TYPE_SYS_BUS_DEVICE,
++    .parent        = TYPE_DEVICE,
+     .instance_size = sizeof(PnvPsi),
+     .class_init    = pnv_psi_class_init,
+     .class_size    = sizeof(PnvPsiClass),
 -- 
 2.21.3
 
