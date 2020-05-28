@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09C61E68D8
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 19:50:21 +0200 (CEST)
-Received: from localhost ([::1]:57522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4E4E1E68F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 19:59:21 +0200 (CEST)
+Received: from localhost ([::1]:38380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeMfc-00016g-F2
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 13:50:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54494)
+	id 1jeMoK-0007xK-CT
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 13:59:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jeMem-0000bz-0I
- for qemu-devel@nongnu.org; Thu, 28 May 2020 13:49:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57675
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jeMek-0003qy-Pq
- for qemu-devel@nongnu.org; Thu, 28 May 2020 13:49:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590688165;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=c9gJY3tvU7YgpfZBy8a55Jd/r5FTXf2Rr8gGTFdkuNU=;
- b=UuUiXr7yezs60ZMlFVNDR75/S7AaiaB0nridKL9p72WJA/RVF3g8uYI199fGwCHtUgSs2t
- UqeB/AtDedNzSCz7pVDu8843Vj7yd+OXOYP21garcDg8mMDdojjDmpeYNTPyHwlDqBIkfp
- i7KsbeTWpWtxW92yJB4kyfrxU9YTNYo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-107--mxuYaQqPY-nS9cCiYx8nw-1; Thu, 28 May 2020 13:49:23 -0400
-X-MC-Unique: -mxuYaQqPY-nS9cCiYx8nw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 422431005510;
- Thu, 28 May 2020 17:49:22 +0000 (UTC)
-Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BFA17C081;
- Thu, 28 May 2020 17:49:21 +0000 (UTC)
-Subject: Re: [PULL v2 00/11] bitmaps patches for 2020-05-26
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200527213708.1783644-1-eblake@redhat.com>
- <CAFEAcA-30_q6ZtFnpocVh9PH8qroZbqem6NYSRsGRCD7dzp8Ew@mail.gmail.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <eda79152-942a-fc2d-1859-77aea9c6d497@redhat.com>
-Date: Thu, 28 May 2020 12:49:21 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jeMnX-0007UJ-Nk; Thu, 28 May 2020 13:58:31 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:42784)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jeMnW-0007RE-Vy; Thu, 28 May 2020 13:58:31 -0400
+Received: by mail-io1-xd43.google.com with SMTP id d5so21545856ios.9;
+ Thu, 28 May 2020 10:58:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EGe9Ywrs3nE/D+XuH1ujGw3nF49U5tpU8vnerZYJLtM=;
+ b=WC3rd0QkY4Re6hjbU50cC99vVbtBTOq2SyTIuIzVvREX0mhMwTrvltlUzs/JTP3VW5
+ zul4E6iDZYF6WrbE85VhWw4xZTb74vYbMDzrBdYI21kokHaSt1zWnHv62I5MFvEA0Mtx
+ OyK7ul+qz9zx9XyfM41zzJC6rccZSDgOeBl88cSiBxYOZrRTsB5Mlq5ongjRdrUewoK9
+ cZrQsp/YDp+Y+Wz3K+zjorUlAkHwgOJcHKDZvP4gZXE7ePrm01Xap3DvnNbnbK7WxvZs
+ IBhcpT4eHqqNLFdGQA0MRWLiQSiOwmBM2pGQuNlbIqSchZAUIsU+W7ksUpdQrc+swKIj
+ 4q2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EGe9Ywrs3nE/D+XuH1ujGw3nF49U5tpU8vnerZYJLtM=;
+ b=k0bs85UVj78RVTW1aCoeuAztS+EjxujcGJ0cet85X0mlofnUb6Inl0ZTpXAF0uddAW
+ rNRLZOPgNH+C/ougW04QKzDstU5pzPLcBtGinePzAD0JpgJdnL59RHoGK/MnLWHqrYaS
+ IOvgqiHg1XZZvG/5nP9gB8ssH902NKLh877JCgenDclgLhUN65OsM6Y2Vod+tHBa4WTo
+ rDNz1UsXgaXZM8xQhs17pfShtgpcfumEHBMeuHP12p/av0OjGxjbGVwu++12xZbIy9nS
+ DhGxpkd13/BBL9UeqYxfhw0uGFdb9gvO+UHdCTuZHYCsnlIDK3bpXIc7hZp/7uR1qjRz
+ IVaw==
+X-Gm-Message-State: AOAM532QwjiC0DA4VKxkpVawwGFZAnkgVHGKTTYHsJT0lKtnAyKoW2QL
+ Bea7iXytP1A8g0JlPLHRuPdQDIRYiv8qRf2LLqE=
+X-Google-Smtp-Source: ABdhPJwZNpPwHw9SYGijLf4u8swdCFcYkUi3a59yuB11zd/kTvhzTel/4sE6T/j8HYaoKZrJk5LLqIC0IZXuTE4fdMY=
+X-Received: by 2002:a02:6543:: with SMTP id u64mr3770441jab.26.1590688709067; 
+ Thu, 28 May 2020 10:58:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-30_q6ZtFnpocVh9PH8qroZbqem6NYSRsGRCD7dzp8Ew@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 03:11:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <cover.1590533156.git.alistair.francis@wdc.com>
+ <0c7494fe-f812-9ee4-6c35-bc1991d0aff2@redhat.com>
+ <CAKmqyKOY0m0uZMLH1wcS=vaJqy-EEBG=Sm0t5uLaLt8u366Miw@mail.gmail.com>
+ <35fdd2c8-0951-07f4-2b4c-27e6da53d38c@redhat.com>
+In-Reply-To: <35fdd2c8-0951-07f4-2b4c-27e6da53d38c@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 28 May 2020 10:49:27 -0700
+Message-ID: <CAKmqyKM=RzCeScDgQswMJexXRFuGUM8f3fFR0ymufBdqa+5qig@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] RTISC-V: Remove deprecated ISA, CPUs and machines
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,51 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/28/20 12:13 PM, Peter Maydell wrote:
+On Wed, May 27, 2020 at 10:51 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 27/05/2020 19.35, Alistair Francis wrote:
+> > On Wed, May 27, 2020 at 12:17 AM Thomas Huth <thuth@redhat.com> wrote:
+> >>
+> >> On 27/05/2020 00.47, Alistair Francis wrote:
+> >>>
+> >>>  include/hw/riscv/spike.h                      |   6 +-
+> >>>  target/riscv/cpu.h                            |   8 -
+> >>>  hw/riscv/spike.c                              | 217 ------------------
+> >>>  target/riscv/cpu.c                            |  30 ---
+> >>>  target/riscv/cpu_helper.c                     |  82 +++----
+> >>>  target/riscv/csr.c                            | 118 ++--------
+> >>>  .../riscv/insn_trans/trans_privileged.inc.c   |  18 +-
+> >>>  target/riscv/monitor.c                        |   5 -
+> >>>  target/riscv/op_helper.c                      |  17 +-
+> >>>  tests/qtest/machine-none-test.c               |   4 +-
+> >>>  10 files changed, 60 insertions(+), 445 deletions(-)
+> >>
+> >>  Hi,
+> >>
+> >> looking at the diffstat, I think you should also edit
+> >> ./docs/system/deprecated.rst according to your changes?
+> >
+> > I'm not sure what I should edit there. These are already marked as
+> > deprecated, do I need to make a change when they are removed?
+>
+> Yes, you should move the features to the "Recently removed features"
+> section at the end of the file. See e.g. commit b4983c570c7a5848c9df.
 
->> v2: fix iotest 190 to not be as sensitive to different sparseness of
->> qcow2 file on various filesystems, such as FreeBSD (sending only the
->> changed patch)
->>
->> ----------------------------------------------------------------
->> bitmaps patches for 2020-05-26
->>
->> - fix non-blockdev migration of bitmaps when mirror job is in use
->> - add bitmap sizing to 'qemu-img measure'
->> - add 'qemu-img convert --bitmaps'
->>
-> 
-> Your fix for iotest 190 doesn't seem to work. Here's the new output
-> (same on openbsd, freebsd, netbsd):
+Ah, I didn't see that. Fixed in the next version.
 
-> -required size: SIZE
-> +required size: 17170432
->   fully allocated size: 17170432
->   required size: 335806464
->   fully allocated size: 2199359062016
-> 
-> I think this is an issue with your sed expression:
-> +$QEMU_IMG measure -O qcow2 -f raw "$TEST_IMG" |
-> +    sed '/^required size:/ s/[0-9]\+/SIZE/'
-> 
-> BSD sed seems to strictly implement POSIX basic regexes,
-> in which '+' is not handled. Compare:
-> 
-> $ echo "required size: 17170432" | sed '/^required size:/ s/[0-9]+/SIZE/'
-> required size: 17170432
-> $
-> $ echo "required size: 17170432" | sed '/^required size:/ s/[0-9][0-9]*/SIZE/'
-> required size: SIZE
+Alistair
 
-D'oh.  v3 coming up with the long-hand more portable sed usage.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+>
+>  Thomas
+>
 
