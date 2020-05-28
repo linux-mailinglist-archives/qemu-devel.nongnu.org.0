@@ -2,72 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5586B1E5FD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 14:07:36 +0200 (CEST)
-Received: from localhost ([::1]:40982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4415C1E5F37
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 14:01:41 +0200 (CEST)
+Received: from localhost ([::1]:33816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeHJv-0002gT-EB
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 08:07:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57444)
+	id 1jeHEB-0006JQ-RH
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 08:01:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jeHI6-0001L6-Ec
- for qemu-devel@nongnu.org; Thu, 28 May 2020 08:05:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55378)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jeHI5-0005Up-KJ
- for qemu-devel@nongnu.org; Thu, 28 May 2020 08:05:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jeHI4-00055w-22
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 12:05:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0D9452E8105
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 12:05:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeHCu-0005iv-C3
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 08:00:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43129
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeHCs-0004Pp-Es
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 08:00:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590667217;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Rxh2h2hSr9D6priQvYcc5MMy17vDMzXvGGSx6ycb+l4=;
+ b=bRhlZDa1D/q+/eoWtJChG8zyWbu46s78wBz8ORmW4hXQ/Izkel0EfvthjdUs6ih02PMLnB
+ caxg9xxFbeYqHkHvOQbN26exsOkHNDJ8t/XXoSoM1jW6TiCxgyLtfKWlVBeVcgs4PlVpz3
+ lzsobsvgnYP4y/FXphEhsOBXdIkNeHA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-210-n5-llKG0N2KB-KmOlh99Gg-1; Thu, 28 May 2020 08:00:15 -0400
+X-MC-Unique: n5-llKG0N2KB-KmOlh99Gg-1
+Received: by mail-wr1-f71.google.com with SMTP id l1so8833309wrc.8
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 05:00:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Rxh2h2hSr9D6priQvYcc5MMy17vDMzXvGGSx6ycb+l4=;
+ b=hcl+4yuIUHJrKC+yDUYbVear5c9hHht6R0UDp5ycmtZ4xDn1OcJ5F8oxduZywxdxR5
+ YJ0lbmaAM20c57qTTYUhifZCmLTvtG9YZBb0ijxXkOIxjXnYyuU+1SzihyQ+KVsO5ZpY
+ o+DA6sFwUJXHqJiRb3iVNVZtzOcYK5cbshufZeC1/I8d2qI259MTFQSXuxqewtVGiw8l
+ b1W3wDMLdC0wusA29vSEc8pGkuo8dYQg8vLV46Jv3izO7nPxsjoxlA9mPEFz6h6hRrZE
+ 0+UqGI5qX1QKk8XfaB8t5vz8fLJYY6EHhdFwJkJT4/vNAfduNEASsv8v59/J/vpjDmy6
+ OdqQ==
+X-Gm-Message-State: AOAM5307C9xOc/zR6+KrxtpSV06VYw+Xj7qcWCyQKEkBTn8Fd1GWApxW
+ O87k0ziMlGDG5MmvfmX1M8U46edLQvePPf5cMyJnlNsGMAFK07BQrSPYIbOH2C6o2ODfq2ywvA+
+ 6h0rUv4Z5poDo7qc=
+X-Received: by 2002:adf:a407:: with SMTP id d7mr3232314wra.368.1590667214142; 
+ Thu, 28 May 2020 05:00:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyk7wjTwpsqEx60C6vGP6sinaOPmmbNcLrShVCLoUfJrtLVbdo17Vx3g8O9q6vRNAn41H76QA==
+X-Received: by 2002:adf:a407:: with SMTP id d7mr3232292wra.368.1590667213848; 
+ Thu, 28 May 2020 05:00:13 -0700 (PDT)
+Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id p16sm5512125wru.27.2020.05.28.05.00.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 May 2020 05:00:12 -0700 (PDT)
+Subject: Re: [RFC] some semihosting interrogation
+To: Fred Konrad <konrad@adacore.com>, QEMU Developers <qemu-devel@nongnu.org>
+References: <141c5b32-31cd-1a1d-b1aa-692b9002dac9@adacore.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <8771e99e-764b-52aa-55c4-a528d0804a34@redhat.com>
+Date: Thu, 28 May 2020 14:00:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 28 May 2020 11:59:30 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1877052@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Incomplete; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: qemu-20.10
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: paelzer weller-andreas-weller
-X-Launchpad-Bug-Reporter: Andreas Weller (weller-andreas-weller)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
- =?utf-8?q?=29?=
-References: <158875190128.5304.17617014708809905297.malonedeb@soybean.canonical.com>
-Message-Id: <159066717057.5894.6102475423891864517.malone@wampee.canonical.com>
-Subject: [Bug 1877052] Re: KVM Win 10 guest pauses after kernel upgrade
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="275d46a24253e557e4403d52832837e4bfa425b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2e04138c3442156dfeca9071d623816c7d937f9b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 08:05:38
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <141c5b32-31cd-1a1d-b1aa-692b9002dac9@adacore.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 01:51:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,61 +120,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1877052 <1877052@bugs.launchpad.net>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-@Andreas - If we find nothing else to try I'll ping you when I have a
-newer qemu&libvirt build for Ubuntu 20.10 for you to try.
+Hi Fred,
 
-** Tags added: qemu-20.10
+On 5/28/20 11:44 AM, Fred Konrad wrote:
+> Hi all,
+> 
+> Just wonderring if there is any reason not to be able to defer
+> qemu_semihosting_connect_chardevs a little more to be able to specify
+> chardev=serial0?
+> 
+> Like:
+> 
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 6390cf0..9fa1553 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -4333,8 +4333,6 @@ void qemu_init(int argc, char **argv, char **envp)
+> 
+>      qemu_opts_foreach(qemu_find_opts("chardev"),
+>                        chardev_init_func, NULL, &error_fatal);
+> -    /* now chardevs have been created we may have semihosting to
+> connect */
+> -    qemu_semihosting_connect_chardevs();
+> 
+>  #ifdef CONFIG_VIRTFS
+>      qemu_opts_foreach(qemu_find_opts("fsdev"),
+> @@ -4484,6 +4482,9 @@ void qemu_init(int argc, char **argv, char **envp)
+>      if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
+>          exit(1);
+> 
+> +    /* now chardevs have been created we may have semihosting to
+> connect */
+> +    qemu_semihosting_connect_chardevs();
 
--- =
+Cc'ing Markus for this part because he had headaches recently moving
+things around there; but the change looks.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1877052
+> +
+>      /* If no default VGA is requested, the default is "none".  */
+>      if (default_vga) {
+>          vga_model = get_default_vga_model(machine_class);
+> 
+> Also I found out that the trailing \0 is sent to the chardev
+> (console.c:copy_user_string) is that expected in case of semihosting?
 
-Title:
-  KVM Win 10 guest pauses after kernel upgrade
+No, your patch fixes a bug.
 
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  Incomplete
+> 
+> static GString *copy_user_string(CPUArchState *env, target_ulong addr)
+> {
+>     CPUState *cpu = env_cpu(env);
+>     GString *s = g_string_sized_new(128);
+>     uint8_t c;
+> 
+>     do {
+>         if (cpu_memory_rw_debug(cpu, addr++, &c, 1, 0) == 0) {
+>             if (c) {
+>                 s = g_string_append_c(s, c);
+>             }
+>         } else {
+>             qemu_log_mask(LOG_GUEST_ERROR,
+>                           "%s: passed inaccessible address " TARGET_FMT_lx,
+>                           __func__, addr);
+>             break;
+>         }
+>     } while (c!=0);
+> 
+>     return s;
+> }
+> 
+> I can roll out two patches if needed..
+> 
+> Cheers,
+> Fred
+> 
 
-Bug description:
-  Hello!
-  Unfortunately the bug has apparently reappeared. I have a Windows 10 runn=
-ing in a VM, which after my today's "apt upgrade" goes into pause mode afte=
-r a few seconds of running time.
-
-  Until yesterday it used to work and I was able to boot the VM. During
-  the kernel update (from 5.4.0-28.33 to 5.4.0-29.34) the VM was active
-  and then went into pause mode. Even after a reboot of my host system
-  the problem still persists: the VM boots for a few seconds and then
-  switches to pause mode.
-
-  Current Kernel: Linux andreas-laptop 5.4.0-29-generic #33-Ubuntu SMP
-  Wed Apr 29 14:32:27 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
-
-  Maybe relevant logfile lines:
-  2020-05-06T07:46:42.857574Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
-  2020-05-06T07:46:42.857718Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
-  2020-05-06T07:46:42.860567Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
-  2020-05-06T07:46:42.860582Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
-  2020-05-06T07:47:22.901057Z qemu-system-x86_64: terminating on signal 15 =
-from pid 1593 (/usr/sbin/libvirtd)
-  2020-05-06 07:47:23.101+0000: shutting down, reason=3Ddestroyed
-
-
-  Kind regards,
-  =C2=A0=C2=A0=C2=A0Andreas
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1877052/+subscriptions
 
