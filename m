@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322891E7005
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 01:07:22 +0200 (CEST)
-Received: from localhost ([::1]:57918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49FCA1E6FEB
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 01:04:09 +0200 (CEST)
+Received: from localhost ([::1]:52120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeRcO-000832-Ol
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 19:07:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57962)
+	id 1jeRZH-0002FL-OY
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 19:04:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jeRam-0006Vn-QF
- for qemu-devel@nongnu.org; Thu, 28 May 2020 19:05:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45624)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jeRal-0006O6-IQ
- for qemu-devel@nongnu.org; Thu, 28 May 2020 19:05:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jeRaj-0001AP-Gv
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 23:05:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7EBFB2E8033
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 23:05:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1jeRUe-000566-AE
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 18:59:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20250
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1jeRUc-000519-T6
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 18:59:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590706755;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Jzbxq2mlHqD0DlEQ0FYL4cGWSmL4FdNDgfV81d/7bRI=;
+ b=OSXhydIcoQhjWIWdGJqBnDzfjm8S4libiA16Hzq3z9l/TCzFi/aDSsipJNz0Dcc6pcTRwZ
+ P1NuzQldT9pi2RQcOxZdRcAKLwKVfK17XhowL3Z2HInzKeG7xfq+/l4Eec+uJr+O6Up4Tw
+ rbBIntq+O9mWt8LM4J5uqDKSAVdX0ws=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-111-sNEQlx0IOQOQbn7UfuparQ-1; Thu, 28 May 2020 18:59:11 -0400
+X-MC-Unique: sNEQlx0IOQOQbn7UfuparQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 812C7107ACF4;
+ Thu, 28 May 2020 22:59:09 +0000 (UTC)
+Received: from x1.home (ovpn-112-195.phx2.redhat.com [10.3.112.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4229C10013D0;
+ Thu, 28 May 2020 22:59:07 +0000 (UTC)
+Date: Thu, 28 May 2020 16:59:06 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH Kernel v22 0/8] Add UAPIs to support migration for VFIO
+ devices
+Message-ID: <20200528165906.7d03f689@x1.home>
+In-Reply-To: <20200527084822.GC3001@work-vm>
+References: <1589781397-28368-1-git-send-email-kwankhede@nvidia.com>
+ <20200519105804.02f3cae8@x1.home>
+ <20200525065925.GA698@joy-OptiPlex-7040>
+ <426a5314-6d67-7cbe-bad0-e32f11d304ea@nvidia.com>
+ <20200526141939.2632f100@x1.home>
+ <20200527062358.GD19560@joy-OptiPlex-7040>
+ <20200527084822.GC3001@work-vm>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 28 May 2020 22:55:54 -0000
-From: John Snow <1872790@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jnsnow sxtf
-X-Launchpad-Bug-Reporter: a (sxtf)
-X-Launchpad-Bug-Modifier: John Snow (jnsnow)
-References: <158688621326.6027.1278663333852888209.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159070655430.5073.1052279742416408045.malone@wampee.canonical.com>
-Subject: [Bug 1872790] Re: empty qcow2
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="275d46a24253e557e4403d52832837e4bfa425b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 020b5612c4f81116fe9727eed17dd221cad572bb
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 18:25:41
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=207.211.31.120;
+ envelope-from=alex.williamson@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 17:46:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,64 +85,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1872790 <1872790@bugs.launchpad.net>
+Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ cohuck@redhat.com, shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org,
+ zhi.a.wang@intel.com, mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, Yan Zhao <yan.y.zhao@intel.com>,
+ changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It sounds like maybe these disks have been partitioned in a format that
-only Windows understands. Can you tell me what the windows disk manager
-claims the partition table format to be?
+On Wed, 27 May 2020 09:48:22 +0100
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> * Yan Zhao (yan.y.zhao@intel.com) wrote:
+> > BTW, for viommu, the downtime data is as below. under the same network
+> > condition and guest memory size, and no running dirty data/memory produced
+> > by device.
+> > (1) viommu off
+> > single-round dirty query: downtime ~100ms   
+> 
+> Fine.
+> 
+> > (2) viommu on
+> > single-round dirty query: downtime 58s   
+> 
+> Youch.
 
-If you still think that maybe there's a QEMU bug, please give more
-details:
+Double Youch!  But we believe this is because we're getting the dirty
+bitmap one IOMMU leaf page at a time, right?  We've enable the kernel
+to get a dirty bitmap across multiple mappings, but QEMU isn't yet
+taking advantage of it.  Do I have this correct?  Thanks,
 
-- host kernel version
+Alex
 
-- qemu version
-
-- qemu command line
-
-- how were these qcow2 files created?
-
-- What version of qcow2 file does `qemu-img info` say they are?
-
-- What version of windows? (10?)
-
-- Can you name one of the third party disk managers so we can try to
-reproduce it?
-
-
-** Changed in: qemu
-       Status: New =3D> Incomplete
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1872790
-
-Title:
-  empty qcow2
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  I plugged multiple qcow2 to a Windows guest. On the Windows disk
-  manager all disks are listed perfectly, with their data, their real
-  space, I even can explore all files on the Explorer, all cool
-
-  On third party disk manager (all of them), I only have the C:\ HDD who
-  act normally, all the other plugged qcow2 are seen as fully
-  unallocated, so I can't manipulate them
-
-  I want to move some partitions, create others, but on Windows disk
-  manager I can't extend or create partition and on third party I didn't
-  see the partitions at all
-
-  Even guestfs doesn't recognize any partition table `libguestfs: error:
-  inspect_os: /dev/sda: not a partitioned device`
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1872790/+subscriptions
 
