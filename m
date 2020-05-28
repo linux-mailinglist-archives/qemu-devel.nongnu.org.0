@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4291E5E0C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 13:15:59 +0200 (CEST)
-Received: from localhost ([::1]:48474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6C31E5E1C
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 13:20:54 +0200 (CEST)
+Received: from localhost ([::1]:37106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeGVy-00029x-VZ
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 07:15:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50516)
+	id 1jeGaj-0002Qz-JR
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 07:20:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jeGQy-0001X2-51; Thu, 28 May 2020 07:10:48 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40355)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jeGQw-0004i8-1L; Thu, 28 May 2020 07:10:47 -0400
-Received: by mail-wr1-x443.google.com with SMTP id j16so14982959wrb.7;
- Thu, 28 May 2020 04:10:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pnRkSu0SM+ZLY61obT+Ixt0Toi3xI882oeYpRICjbBc=;
- b=GlYtLabEoZOvJLFMrpXf1RnpxK4DS979lnmBsVQ1hVDIuEgHekce1edo6woK/vE9CX
- RvnVAUahvHh5hkoAODqEIDgWYKgzHiv7OJ0s2Tl6biQ30hUI1tqsAJrpK+Ft6WReOaUU
- 6T331/0TSm21MioDJ0EC1zWQmywUOMvb4g+Klz+8uuF4xk6s/Dd9ZDtuoSKlA4XZR84g
- wv/W5j195OITai9jUGWlodyKLyF/QCPZB3LsILiaSY309CHNMdW2UC/6ire2HM3Ws0c+
- G084F131XSr5NiwQXG0BGNZ8nK2UUlCnELJlKniMVgZ+2a50+SkPtwNRjc8UfWE2lfUK
- TCXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pnRkSu0SM+ZLY61obT+Ixt0Toi3xI882oeYpRICjbBc=;
- b=eEwuryXpDAJqz7azFAo7idRAe+FT2Q/TiK1DCVNJNnD8LjLDtfIupxfsMyW0ajyzqh
- hXABX3ZSNlBlwr2CesJma7Vw0/O99oXu5eH3wUa3fg8XnsXUSbcw7X6qOiUQoaCgxOj/
- 0thGRlKWrvILKQNIvNCzoaAi5iAIl+RUAzMfkG+X+GiDlpUbm48AFG49UvUHEHg/dKd+
- iW0oy7Isa7TlDux8ohCjjHiKgEUjL9flTTJ/n+X2lIqRVWU+7uVfkB/OWPWu9unIfq0J
- SN1Aaffr5YL2cg0uFljhxA0/qkQYVZcJ/KE6Gj8EHvcpqfm7bz3WwNxeq3VC/F6/Ic/3
- Ej2g==
-X-Gm-Message-State: AOAM5308d/XixA/PQr18PSLfO+4bPfvKR00VXJSZw3w48AIvF44gDAnG
- /0s+KzZBO8HgM+e7BeVs0jQGUcWnUKxOPHebzJw=
-X-Google-Smtp-Source: ABdhPJwF25Gi+0zqJH8SPOoBajsEFyvC8jm5HUzK3WQpvKNEFDahYZbjR34FvDW71CVVNn5CrAcK4n5OFCJKwtBzSIw=
-X-Received: by 2002:a5d:54c7:: with SMTP id x7mr306409wrv.162.1590664243302;
- Thu, 28 May 2020 04:10:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jeGZz-0001wn-So
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 07:20:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40736
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jeGZy-0003ww-Dk
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 07:20:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590664805;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vMRO/HwcxcZPCUWpxJpahNSpNOHRa6o617UVKbeFqMk=;
+ b=RSM0ua9heWKscZbmy2iO18H+KSWsmAoSGaekgjXnvDiYjUwWyeNuHOHHh3yTgxzT1PWGlb
+ W2sQFkvdGlRZNjmYNEItddxWtHS+/GUccytFMpdb+XGT+KCkOeNMCcoc713inXVX/WmJsp
+ al7t7u9rh5vWf20bsBhxNVP4g8EPIVE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-hUzjcTwRPy6WQBkQPKIjlg-1; Thu, 28 May 2020 07:19:59 -0400
+X-MC-Unique: hUzjcTwRPy6WQBkQPKIjlg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AA67107ACCD;
+ Thu, 28 May 2020 11:19:58 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9E51101E673;
+ Thu, 28 May 2020 11:19:49 +0000 (UTC)
+Date: Thu, 28 May 2020 13:19:46 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Vishal Verma <vishal.l.verma@intel.com>
+Subject: Re: [PATCH v2 2/3] hw/acpi-build: account for NVDIMM numa nodes in
+ SRAT
+Message-ID: <20200528131946.3a09cd20@redhat.com>
+In-Reply-To: <20200528054807.21278-3-vishal.l.verma@intel.com>
+References: <20200528054807.21278-1-vishal.l.verma@intel.com>
+ <20200528054807.21278-3-vishal.l.verma@intel.com>
 MIME-Version: 1.0
-References: <20200528110444.20456-1-armbru@redhat.com>
- <20200528110444.20456-19-armbru@redhat.com>
-In-Reply-To: <20200528110444.20456-19-armbru@redhat.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Thu, 28 May 2020 13:08:53 +0200
-Message-ID: <CAHiYmc5DrMfeztrpnds0YwLetHYoPgfJbMytgMnEERmufcg8HA@mail.gmail.com>
-Subject: Re: [PATCH v2 18/24] display/sm501 display/ati: Fix to realize
- "i2c-ddc"
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000002dd5ca05a6b36106"
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 03:11:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,210 +81,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Huacai Chen <chenhuacai@gmail.com>,
- Magnus Damm <magnus.damm@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-ppc@nongnu.org, Huacai Chen <chenhc@lemote.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, jingqi.liu@intel.com,
+ Dave Hansen <dave.hansen@linux.intel.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002dd5ca05a6b36106
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, 27 May 2020 23:48:06 -0600
+Vishal Verma <vishal.l.verma@intel.com> wrote:
 
-Just adding Huacai, the original author and the new maintainer for Fuloong
-2E machine.
-
-1:04 PM =C4=8Cet, 28.05.2020. Markus Armbruster <armbru@redhat.com> =D1=98=
-=D0=B5
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> sm501_init() and ati_vga_realize() create an "i2c-ddc" device, but
-> neglect to realize it.  Affects machines sam460ex, shix, r2d, and
-> fulong2e.
->
-> In theory, a device becomes real only on realize.  In practice, the
-> transition from unreal to real is a fuzzy one.  The work to make a
-> device real can be spread between realize methods (fine),
-> instance_init methods (wrong), and board code wiring up the device
-> (fine as long as it effectively happens on realize).  Depending on
-> what exactly is done where, a device can work even when we neglect
-> to realize it.
->
-> This one appears to work.  Nevertheless, it's a clear misuse of the
-> interface.  Even when it works today (more or less by chance), it can
-> break tomorrow.
->
-> Fix by realizing it right away.  Visible in "info qom-tree"; here's
-> the change for sam460ex:
->
->      /machine (sam460ex-machine)
->        [...]
->        /unattached (container)
->          [...]
->     -    /device[14] (sii3112)
->     +    /device[14] (i2c-ddc)
->     +    /device[15] (sii3112)
->          [rest of device[*] renumbered...]
->
-> Fixes: 4a1f253adb45ac6019971193d5077c4d5d55886a
-> Fixes: c82c7336de58876862e6b4dccbda29e9240fd388
-> Cc: BALATON Zoltan <balaton@eik.bme.hu>
-> Cc: qemu-ppc@nongnu.org
-> Cc: Magnus Damm <magnus.damm@gmail.com>
-> Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+> NVDIMMs can belong to their own proximity domains, as described by the
+> NFIT. In such cases, the SRAT needs to have Memory Affinity structures
+> in the SRAT for these NVDIMMs, otherwise Linux doesn't populate node
+> data structures properly during NUMA initialization. See the following
+> for an example failure case.
+> 
+> https://lore.kernel.org/linux-nvdimm/20200416225438.15208-1-vishal.l.verma@intel.com/
+> 
+> Fix this by adding device address range and node information from
+> NVDIMMs to the SRAT in build_srat().
+> 
+> The relevant command line options to exercise this are below. Nodes 0-1
+> contain CPUs and regular memory, and nodes 2-3 are the NVDIMM address
+> space.
+> 
+>   -numa node,nodeid=0,mem=2048M,
+>   -numa node,nodeid=1,mem=2048M,
+>   -numa node,nodeid=2,mem=0,
+>   -object memory-backend-file,id=nvmem0,share,mem-path=nvdimm-0,size=16384M,align=128M
+>   -device nvdimm,memdev=nvmem0,id=nv0,label-size=2M,node=2
+>   -numa node,nodeid=3,mem=0,
+>   -object memory-backend-file,id=nvmem1,share,mem-path=nvdimm-1,size=16384M,align=128M
+>   -device nvdimm,memdev=nvmem1,id=nv1,label-size=2M,node=3
+> 
+> Cc: Jingqi Liu <jingqi.liu@intel.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
+> Signed-off-by: Vishal Verma <vishal.l.verma@intel.com>
 > ---
->  hw/display/ati.c   | 2 ++
->  hw/display/sm501.c | 2 ++
->  2 files changed, 4 insertions(+)
->
-> diff --git a/hw/display/ati.c b/hw/display/ati.c
-> index 065f197678..5c71e5f295 100644
-> --- a/hw/display/ati.c
-> +++ b/hw/display/ati.c
-> @@ -929,6 +929,8 @@ static void ati_vga_realize(PCIDevice *dev, Error
-**errp)
->      bitbang_i2c_init(&s->bbi2c, i2cbus);
->      I2CSlave *i2cddc =3D I2C_SLAVE(qdev_create(BUS(i2cbus), TYPE_I2CDDC)=
-);
->      i2c_set_slave_address(i2cddc, 0x50);
-> +    object_property_set_bool(OBJECT(i2cddc), true, "realized",
-> +                             &error_abort);
->
->      /* mmio register space */
->      memory_region_init_io(&s->mm, OBJECT(s), &ati_mm_ops, s,
-> diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-> index acc692531a..fbedc56715 100644
-> --- a/hw/display/sm501.c
-> +++ b/hw/display/sm501.c
-> @@ -1816,6 +1816,8 @@ static void sm501_init(SM501State *s, DeviceState
-*dev,
->      /* ddc */
->      I2CDDCState *ddc =3D I2CDDC(qdev_create(BUS(s->i2c_bus), TYPE_I2CDDC=
-));
->      i2c_set_slave_address(I2C_SLAVE(ddc), 0x50);
-> +    object_property_set_bool(OBJECT(ddc), true, "realized",
-> +                             &error_abort);
->
->      /* mmio */
->      memory_region_init(&s->mmio_region, OBJECT(dev), "sm501.mmio",
-MMIO_SIZE);
-> --
-> 2.21.3
->
+>  hw/acpi/nvdimm.c        | 26 ++++++++++++++++++++++++++
+>  hw/i386/acpi-build.c    | 10 ++++++++++
+>  include/hw/mem/nvdimm.h |  1 +
+>  3 files changed, 37 insertions(+)
+> 
+> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+> index 9316d12b70..d322c6a7a7 100644
+> --- a/hw/acpi/nvdimm.c
+> +++ b/hw/acpi/nvdimm.c
+> @@ -28,6 +28,7 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "qemu/uuid.h"
+> +#include "qapi/error.h"
+>  #include "hw/acpi/acpi.h"
+>  #include "hw/acpi/aml-build.h"
+>  #include "hw/acpi/bios-linker-loader.h"
+> @@ -1334,6 +1335,31 @@ static void nvdimm_build_ssdt(GArray *table_offsets, GArray *table_data,
+>      free_aml_allocator();
+>  }
+>  
+> +void *nvdimm_build_srat(GArray *table_data)
+> +{
+> +    AcpiSratMemoryAffinity *numamem = NULL;
+> +    GSList *device_list = nvdimm_get_device_list();
+> +
+> +    for (; device_list; device_list = device_list->next) {
+> +        DeviceState *dev = device_list->data;
+I'd use Object here with OBJECT() cast and drop casts beolw in property getters
 
---0000000000002dd5ca05a6b36106
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> +        uint64_t addr, size;
+> +        int node;
+> +
+> +        node = object_property_get_int(OBJECT(dev), PC_DIMM_NODE_PROP,
+> +                                       &error_abort);
+> +        addr = object_property_get_uint(OBJECT(dev), PC_DIMM_ADDR_PROP,
+> +                                        &error_abort);
+> +        size = object_property_get_uint(OBJECT(dev), PC_DIMM_SIZE_PROP,
+> +                                        &error_abort);
+> +
+> +        numamem = acpi_data_push(table_data, sizeof *numamem);
+> +        build_srat_memory(numamem, addr, size, node,
+> +                          MEM_AFFINITY_ENABLED | MEM_AFFINITY_NON_VOLATILE);
+> +    }
+> +    g_slist_free(device_list);
+> +    return numamem;
+> +}
+> +
+>  void nvdimm_build_acpi(GArray *table_offsets, GArray *table_data,
+>                         BIOSLinker *linker, NVDIMMState *state,
+>                         uint32_t ram_slots)
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 2e15f6848e..1461d8a718 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -2428,6 +2428,16 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>                                MEM_AFFINITY_ENABLED);
+>          }
+>      }
+> +
+> +    if (machine->nvdimms_state->is_enabled) {
+> +        void *ret;
+> +
+> +        ret = nvdimm_build_srat(table_data);
+> +        if (ret != NULL) {
+> +            numamem = ret;
+> +        }
 
-<p dir=3D"ltr">Just adding Huacai, the original author and the new maintain=
-er for Fuloong 2E machine.</p>
-<p dir=3D"ltr">1:04 PM =C4=8Cet, 28.05.2020. Markus Armbruster &lt;<a href=
-=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; =D1=98=D0=B5 =D0=BD=
-=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
-&gt;<br>
-&gt; sm501_init() and ati_vga_realize() create an &quot;i2c-ddc&quot; devic=
-e, but<br>
-&gt; neglect to realize it.=C2=A0 Affects machines sam460ex, shix, r2d, and=
-<br>
-&gt; fulong2e.<br>
-&gt;<br>
-&gt; In theory, a device becomes real only on realize.=C2=A0 In practice, t=
-he<br>
-&gt; transition from unreal to real is a fuzzy one.=C2=A0 The work to make =
-a<br>
-&gt; device real can be spread between realize methods (fine),<br>
-&gt; instance_init methods (wrong), and board code wiring up the device<br>
-&gt; (fine as long as it effectively happens on realize).=C2=A0 Depending o=
-n<br>
-&gt; what exactly is done where, a device can work even when we neglect<br>
-&gt; to realize it.<br>
-&gt;<br>
-&gt; This one appears to work.=C2=A0 Nevertheless, it&#39;s a clear misuse =
-of the<br>
-&gt; interface.=C2=A0 Even when it works today (more or less by chance), it=
- can<br>
-&gt; break tomorrow.<br>
-&gt;<br>
-&gt; Fix by realizing it right away.=C2=A0 Visible in &quot;info qom-tree&q=
-uot;; here&#39;s<br>
-&gt; the change for sam460ex:<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0/machine (sam460ex-machine)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0[...]<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0/unattached (container)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[...]<br>
-&gt; =C2=A0 =C2=A0 -=C2=A0 =C2=A0 /device[14] (sii3112)<br>
-&gt; =C2=A0 =C2=A0 +=C2=A0 =C2=A0 /device[14] (i2c-ddc)<br>
-&gt; =C2=A0 =C2=A0 +=C2=A0 =C2=A0 /device[15] (sii3112)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[rest of device[*] renumbered...]<br=
->
-&gt;<br>
-&gt; Fixes: 4a1f253adb45ac6019971193d5077c4d5d55886a<br>
-&gt; Fixes: c82c7336de58876862e6b4dccbda29e9240fd388<br>
-&gt; Cc: BALATON Zoltan &lt;<a href=3D"mailto:balaton@eik.bme.hu">balaton@e=
-ik.bme.hu</a>&gt;<br>
-&gt; Cc: <a href=3D"mailto:qemu-ppc@nongnu.org">qemu-ppc@nongnu.org</a><br>
-&gt; Cc: Magnus Damm &lt;<a href=3D"mailto:magnus.damm@gmail.com">magnus.da=
-mm@gmail.com</a>&gt;<br>
-&gt; Cc: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org"=
->f4bug@amsat.org</a>&gt;<br>
-&gt; Cc: Aleksandar Markovic &lt;<a href=3D"mailto:aleksandar.qemu.devel@gm=
-ail.com">aleksandar.qemu.devel@gmail.com</a>&gt;<br>
-&gt; Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.c=
-om">armbru@redhat.com</a>&gt;<br>
-&gt; Tested-by: BALATON Zoltan &lt;<a href=3D"mailto:balaton@eik.bme.hu">ba=
-laton@eik.bme.hu</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0hw/display/ati.c=C2=A0 =C2=A0| 2 ++<br>
-&gt; =C2=A0hw/display/sm501.c | 2 ++<br>
-&gt; =C2=A02 files changed, 4 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/hw/display/ati.c b/hw/display/ati.c<br>
-&gt; index 065f197678..5c71e5f295 100644<br>
-&gt; --- a/hw/display/ati.c<br>
-&gt; +++ b/hw/display/ati.c<br>
-&gt; @@ -929,6 +929,8 @@ static void ati_vga_realize(PCIDevice *dev, Error =
-**errp)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0bitbang_i2c_init(&amp;s-&gt;bbi2c, i2cbus);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0I2CSlave *i2cddc =3D I2C_SLAVE(qdev_create(BUS(i2c=
-bus), TYPE_I2CDDC));<br>
-&gt; =C2=A0 =C2=A0 =C2=A0i2c_set_slave_address(i2cddc, 0x50);<br>
-&gt; +=C2=A0 =C2=A0 object_property_set_bool(OBJECT(i2cddc), true, &quot;re=
-alized&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;error_abort);<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0/* mmio register space */<br>
-&gt; =C2=A0 =C2=A0 =C2=A0memory_region_init_io(&amp;s-&gt;mm, OBJECT(s), &a=
-mp;ati_mm_ops, s,<br>
-&gt; diff --git a/hw/display/sm501.c b/hw/display/sm501.c<br>
-&gt; index acc692531a..fbedc56715 100644<br>
-&gt; --- a/hw/display/sm501.c<br>
-&gt; +++ b/hw/display/sm501.c<br>
-&gt; @@ -1816,6 +1816,8 @@ static void sm501_init(SM501State *s, DeviceStat=
-e *dev,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0/* ddc */<br>
-&gt; =C2=A0 =C2=A0 =C2=A0I2CDDCState *ddc =3D I2CDDC(qdev_create(BUS(s-&gt;=
-i2c_bus), TYPE_I2CDDC));<br>
-&gt; =C2=A0 =C2=A0 =C2=A0i2c_set_slave_address(I2C_SLAVE(ddc), 0x50);<br>
-&gt; +=C2=A0 =C2=A0 object_property_set_bool(OBJECT(ddc), true, &quot;reali=
-zed&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;error_abort);<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0/* mmio */<br>
-&gt; =C2=A0 =C2=A0 =C2=A0memory_region_init(&amp;s-&gt;mmio_region, OBJECT(=
-dev), &quot;sm501.mmio&quot;, MMIO_SIZE);<br>
-&gt; -- <br>
-&gt; 2.21.3<br>
-&gt;<br>
-</p>
+why do we need return value here and a test condition and assign 'ret' to numamem?
 
---0000000000002dd5ca05a6b36106--
+> +    }
+> +
+>      slots = (table_data->len - numa_start) / sizeof *numamem;
+>      for (; slots < pcms->numa_nodes + 2; slots++) {
+>          numamem = acpi_data_push(table_data, sizeof *numamem);
+> diff --git a/include/hw/mem/nvdimm.h b/include/hw/mem/nvdimm.h
+> index a3c08955e8..fbe56509b8 100644
+> --- a/include/hw/mem/nvdimm.h
+> +++ b/include/hw/mem/nvdimm.h
+> @@ -155,6 +155,7 @@ typedef struct NVDIMMState NVDIMMState;
+>  void nvdimm_init_acpi_state(NVDIMMState *state, MemoryRegion *io,
+>                              struct AcpiGenericAddress dsm_io,
+>                              FWCfgState *fw_cfg, Object *owner);
+> +void *nvdimm_build_srat(GArray *table_data);
+>  void nvdimm_build_acpi(GArray *table_offsets, GArray *table_data,
+>                         BIOSLinker *linker, NVDIMMState *state,
+>                         uint32_t ram_slots);
+
 
