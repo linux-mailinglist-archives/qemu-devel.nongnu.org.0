@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED58D1E6EA5
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 00:23:52 +0200 (CEST)
-Received: from localhost ([::1]:37364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6AD1E6EE0
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 00:27:27 +0200 (CEST)
+Received: from localhost ([::1]:45946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeQwJ-0002X0-Vh
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 18:23:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42886)
+	id 1jeQzm-0007Tr-NJ
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 18:27:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jeQuB-0000Ml-2a
- for qemu-devel@nongnu.org; Thu, 28 May 2020 18:21:40 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50199
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jeQuD-0000NB-0b
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 18:21:41 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22135
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jeQuA-0004gm-58
- for qemu-devel@nongnu.org; Thu, 28 May 2020 18:21:38 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jeQuB-0004gw-Bl
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 18:21:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590704497;
+ s=mimecast20190719; t=1590704498;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZlKzXzaxKdIc00dT0HjE4rtei8SOeWDN3csi9Jn8sMg=;
- b=L/eIXbhzBUfwusKsldO45mZIgTd4p2oohQ2xk7Zutj1Vf8t5h8yDpjkIAFlQVYjKjrGoiO
- Vo6ZbYBKpsNwG4cKbjeVY9TRD1sZY6g9J9QMwLUp9tZEJcLMCXNU+mgszU/V1gQgDdqvJ8
- wM/edz0IdSibzM4uYv1TzhfUfnWQGlQ=
+ bh=f/Sx5BuiUlNWTdj3wmMkIrPNFech+S0eO6Jy8W5tmI8=;
+ b=awbWqFLwUrWuGqm6YF1Wgtb3eQmpNYlSi6I5JIAg2/TvVljn5od/72GCpGcu6BmO7bpPyz
+ +hAnvPo+qJqAhkH5tZ5aCe3CpShLvi1nm/iZNL8ZA93xPA3ZnL2VyVt4mJ5qycq7sqic5y
+ gdc3Dvmou+ZcnbeZHvU9E9i09yB6A84=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-dQQcxKW8NtKwcSM9cw3S7w-1; Thu, 28 May 2020 18:21:35 -0400
-X-MC-Unique: dQQcxKW8NtKwcSM9cw3S7w-1
+ us-mta-326-wkdaG7VSPPKscGydJdTQsg-1; Thu, 28 May 2020 18:21:36 -0400
+X-MC-Unique: wkdaG7VSPPKscGydJdTQsg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C1F61005510
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 22:21:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71623EC1AA
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 22:21:35 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-142.rdu2.redhat.com [10.10.112.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 658875D9CD;
- Thu, 28 May 2020 22:21:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9AE5A5D9CD;
+ Thu, 28 May 2020 22:21:34 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] python/machine.py: remove bare except
-Date: Thu, 28 May 2020 18:21:27 -0400
-Message-Id: <20200528222129.23826-3-jsnow@redhat.com>
+Subject: [PATCH 3/4] python/qemu: delint and add pylintrc
+Date: Thu, 28 May 2020 18:21:28 -0400
+Message-Id: <20200528222129.23826-4-jsnow@redhat.com>
 In-Reply-To: <20200528222129.23826-1-jsnow@redhat.com>
 References: <20200528222129.23826-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -54,17 +54,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 17:42:57
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 17:57:34
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,66 +83,191 @@ Cc: John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Catch only the timeout error; if there are other problems, allow the
-stack trace to be visible.
+Bring our these files up to speed with pylint 2.5.0.
+Add a pylintrc file to formalize which pylint subset
+we are targeting.
+
+The similarity ignore is there to suppress similarity
+reports across imports, which for typing constants,
+are going to trigger this report erroneously.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- python/qemu/machine.py | 33 +++++++++++++++++++++------------
- 1 file changed, 21 insertions(+), 12 deletions(-)
+ python/qemu/machine.py |  6 ++---
+ python/qemu/pylintrc   | 58 ++++++++++++++++++++++++++++++++++++++++++
+ python/qemu/qtest.py   | 42 +++++++++++++++++++-----------
+ 3 files changed, 88 insertions(+), 18 deletions(-)
+ create mode 100644 python/qemu/pylintrc
 
 diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index b9a98e2c862..e3ea5235713 100644
+index e3ea5235713..c79fc8fb89a 100644
 --- a/python/qemu/machine.py
 +++ b/python/qemu/machine.py
-@@ -342,7 +342,26 @@ def wait(self):
-         self._load_io_log()
-         self._post_shutdown()
+@@ -58,7 +58,7 @@ def __init__(self, reply):
+         self.reply = reply
  
--    def shutdown(self, has_quit=False):
-+    def _issue_shutdown(self, has_quit: bool = False) -> None:
-+        """
-+        Shutdown the VM.
-+        """
-+        if not self.is_running():
-+            return
-+
-+        if self._qmp is not None:
-+            if not has_quit:
-+                self._qmp.cmd('quit')
-+            self._qmp.close()
-+
-+            try:
-+                self._popen.wait(timeout=3)
-+            except subprocess.TimeoutExpired:
-+                self._popen.kill()
-+
-+        self._popen.wait()
-+
-+    def shutdown(self, has_quit: bool = False) -> None:
-         """
-         Terminate the VM and clean up
-         """
-@@ -353,17 +372,7 @@ def shutdown(self, has_quit=False):
-             self._console_socket.close()
-             self._console_socket = None
  
--        if self.is_running():
--            if self._qmp:
--                try:
--                    if not has_quit:
--                        self._qmp.cmd('quit')
--                    self._qmp.close()
--                    self._popen.wait(timeout=3)
--                except:
--                    self._popen.kill()
--            self._popen.wait()
+-class QEMUMachine(object):
++class QEMUMachine:
+     """
+     A QEMU VM
+ 
+@@ -242,7 +242,7 @@ def _base_args(self):
+                          'chardev=mon,mode=control'])
+         if self._machine is not None:
+             args.extend(['-machine', self._machine])
+-        for i in range(self._console_index):
++        for _ in range(self._console_index):
+             args.extend(['-serial', 'null'])
+         if self._console_set:
+             self._console_address = os.path.join(self._sock_dir,
+@@ -383,7 +383,7 @@ def shutdown(self, has_quit: bool = False) -> None:
+                 command = ' '.join(self._qemu_full_args)
+             else:
+                 command = ''
+-            LOG.warning(msg, -exitcode, command)
++            LOG.warning(msg, -int(exitcode), command)
+ 
+         self._launched = False
+ 
+diff --git a/python/qemu/pylintrc b/python/qemu/pylintrc
+new file mode 100644
+index 00000000000..5d6ae7367d8
+--- /dev/null
++++ b/python/qemu/pylintrc
+@@ -0,0 +1,58 @@
++[MASTER]
++
++[MESSAGES CONTROL]
++
++# Disable the message, report, category or checker with the given id(s). You
++# can either give multiple identifiers separated by comma (,) or put this
++# option multiple times (only on the command line, not in the configuration
++# file where it should appear only once). You can also use "--disable=all" to
++# disable everything first and then reenable specific checks. For example, if
++# you want to run only the similarities checker, you can use "--disable=all
++# --enable=similarities". If you want to run only the classes checker, but have
++# no Warning level messages displayed, use "--disable=all --enable=classes
++# --disable=W".
++disable=too-many-arguments,
++        too-many-instance-attributes,
++        too-many-public-methods,
++
++[REPORTS]
++
++[REFACTORING]
++
++[MISCELLANEOUS]
++
++[LOGGING]
++
++[BASIC]
++
++# Good variable names which should always be accepted, separated by a comma.
++good-names=i,
++           j,
++           k,
++           ex,
++           Run,
++           _,
++           fd,
++
++[VARIABLES]
++
++[STRING]
++
++[SPELLING]
++
++[FORMAT]
++
++[SIMILARITIES]
++
++# Ignore imports when computing similarities.
++ignore-imports=yes
++
++[TYPECHECK]
++
++[CLASSES]
++
++[IMPORTS]
++
++[DESIGN]
++
++[EXCEPTIONS]
+diff --git a/python/qemu/qtest.py b/python/qemu/qtest.py
+index d24ad04256b..53d814c0641 100644
+--- a/python/qemu/qtest.py
++++ b/python/qemu/qtest.py
+@@ -1,5 +1,11 @@
+-# QEMU qtest library
+-#
++"""
++QEMU qtest library
++
++qtest offers the QEMUQtestProtocol and QEMUQTestMachine classes, which
++offer a connection to QEMU's qtest protocol socket, and a qtest-enabled
++subclass of QEMUMachine, respectively.
++"""
++
+ # Copyright (C) 2015 Red Hat Inc.
+ #
+ # Authors:
+@@ -17,19 +23,21 @@
+ from .machine import QEMUMachine
+ 
+ 
+-class QEMUQtestProtocol(object):
++class QEMUQtestProtocol:
++    """
++    QEMUQtestProtocol implements a connection to a qtest socket.
++
++    :param address: QEMU address, can be either a unix socket path (string)
++                    or a tuple in the form ( address, port ) for a TCP
++                    connection
++    :param server: server mode, listens on the socket (bool)
++    :raise socket.error: on socket connection errors
++
++    .. note::
++       No conection is estabalished by __init__(), this is done
++       by the connect() or accept() methods.
++    """
+     def __init__(self, address, server=False):
+-        """
+-        Create a QEMUQtestProtocol object.
 -
-+        self._issue_shutdown(has_quit)
-         self._load_io_log()
-         self._post_shutdown()
+-        @param address: QEMU address, can be either a unix socket path (string)
+-                        or a tuple in the form ( address, port ) for a TCP
+-                        connection
+-        @param server: server mode, listens on the socket (bool)
+-        @raise socket.error on socket connection errors
+-        @note No connection is established, this is done by the connect() or
+-              accept() methods
+-        """
+         self._address = address
+         self._sock = self._get_sock()
+         self._sockfile = None
+@@ -73,15 +81,19 @@ def cmd(self, qtest_cmd):
+         return resp
  
+     def close(self):
++        """Close this socket."""
+         self._sock.close()
+         self._sockfile.close()
+ 
+     def settimeout(self, timeout):
++        """Set a timeout, in seconds."""
+         self._sock.settimeout(timeout)
+ 
+ 
+ class QEMUQtestMachine(QEMUMachine):
+-    '''A QEMU VM'''
++    """
++    A QEMU VM, with a qtest socket available.
++    """
+ 
+     def __init__(self, binary, args=None, name=None, test_dir="/var/tmp",
+                  socket_scm_helper=None, sock_dir=None):
 -- 
 2.21.3
 
