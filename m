@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09661E68B0
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6471E68AF
 	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 19:33:14 +0200 (CEST)
-Received: from localhost ([::1]:57438 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:57402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeMP3-00035c-I7
+	id 1jeMP3-00034j-6H
 	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 13:33:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52110)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeMNo-0001k6-Cq
- for qemu-devel@nongnu.org; Thu, 28 May 2020 13:31:56 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22491
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeMNp-0001l9-N7
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 13:31:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33263
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeMNn-0006ZN-5D
- for qemu-devel@nongnu.org; Thu, 28 May 2020 13:31:56 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeMNo-0006a0-PQ
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 13:31:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590687111;
+ s=mimecast20190719; t=1590687115;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kU2svaZnrFOGWDjc7Q+D6Mn9iKCVlh3hTcGdEw3fjr0=;
- b=fywnfw4wRYtz8A5jSno24mtRWWA7c5T43n+aDLK8BBfWkTRS0FsVRcpBNgI+fAE8CSB4nj
- wLQtqOVsgELhKOPkFhSYSZtnCHcsEx7s3g4zI5W1gqWaUIwmTjhyuWW/eL5eQk21JfrUka
- qsURc88AIrgZTeNhQkOLKvgzYLsaFsw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-JP-h2zBXPP6MA_jiWFArWQ-1; Thu, 28 May 2020 13:31:49 -0400
-X-MC-Unique: JP-h2zBXPP6MA_jiWFArWQ-1
-Received: by mail-wr1-f70.google.com with SMTP id e1so10389807wrm.3
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 10:31:49 -0700 (PDT)
+ bh=pNWcMMGvcPsGIqzvnJg0g/df4+AMY8fbfR6SYbmn6mQ=;
+ b=hs1Cw86y/TC3Vuv7QJCyeoG1IxIpevXkacLLEasNJOXzGT9OJ0RpRQ8OQkFaYPN4SSuZNd
+ GIop8i6hm0xHgb/p0UnBtpLjBccKjK8o0cNh3B76hJMJfKLUXyMZQM/LtcWHv8Nyol1a9M
+ +rFpSuJf/gRpEplvqfEu+T2FTKZdglo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-j3Sab-S_PbqY20_qhVCLRQ-1; Thu, 28 May 2020 13:31:54 -0400
+X-MC-Unique: j3Sab-S_PbqY20_qhVCLRQ-1
+Received: by mail-wr1-f72.google.com with SMTP id w4so7203577wrl.13
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 10:31:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kU2svaZnrFOGWDjc7Q+D6Mn9iKCVlh3hTcGdEw3fjr0=;
- b=kHAADedlIxNxmOTdaM8bu6h9BvSE1glJW5PlPXo8sKVpx7uP1tgWnO1SeLA0SJf0F1
- 3M8tI45IhmxLVdAUVjY/f2RVUqIVF1mbjPM8BXyTsHdi3yw+EboIdCmZeDdQYboS1G/H
- NbcI1XbymTe4Sn8hQoUmFwHQlJJxelpnoc07PjgwJ8wNH7goWIL8ErqUpzcjT5LwLfeR
- wt5Q//xnTHb8qN0vBdvVYU+RZQbMerXxTjHbXtHe/8VAIvqiMd/iI761VwvfGwH8sFvI
- fehJ70HflvUhS/pTIxP3dgiWiIyFZxvq6NPtDsJXPPl8NQul5ByyPnEPECBWhA5rZUci
- CBGg==
-X-Gm-Message-State: AOAM532IjsvUA9n3fqCJuUZcXGxDnHOxrdIj9sfRQpvypOjZlRKYukII
- +i+/+RqxKNy4H9az3PVwqLyX+vN/kLWUuPI93qWCzorrGhbBY9VhUp/rNnDOsXi09uofUIrXCpg
- h1wU/H0CQfuld4Ko=
-X-Received: by 2002:a1c:b7d5:: with SMTP id h204mr4393453wmf.100.1590687108468; 
- Thu, 28 May 2020 10:31:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzki1XaUYQYFBsTVxwEg48tCV2CFYEOyjBLGLVimwR1QQjXzmjdDGWM98ePxq7AkxCPi/NgpQ==
-X-Received: by 2002:a1c:b7d5:: with SMTP id h204mr4393431wmf.100.1590687108141; 
- Thu, 28 May 2020 10:31:48 -0700 (PDT)
+ bh=pNWcMMGvcPsGIqzvnJg0g/df4+AMY8fbfR6SYbmn6mQ=;
+ b=Q7Puw/RYO0FakxJ/8lJSLXMX5O7Lk3xTgUFIleyothuHk99AoqE9BGNgPSCCXl058e
+ 78J1kCpFBoaSiDalrHPgEGnx2wQRCwXJV6Kd0sZWygOle8e+E7M0zXRY8dwkEaxwqnDS
+ BbTf8GldzatFqMOtxaEo83DxdrID+iSnUhR3uSIU0kXWnwyKxKrfP00MHvrKBl8zSf30
+ tTTz9KnwT04mRzlQiNvDU0bGQCQPfx5B643KDEPqCnY/vNdAUigoDk5frV3NF0FgONjS
+ rBAvsGiugR1Ee6C/gw9PDnkQEMFb0SqG+cGrseP8rnXLPMekrz66/dFigtSELKotzwCp
+ eMRg==
+X-Gm-Message-State: AOAM531zJL77WrhJI4LosxVkQU4bnAmH+wbM54I1nlCVeWYvceG5xoEL
+ sGD2jtVblkDqSthdVvzrtOPtsyBomMItg8M/WwXM6pUmR/OoHmg/IAGu8P2a4nG3LgOqVqr+kGX
+ 5E4GcXCjb+Jv3dI8=
+X-Received: by 2002:a05:6000:1292:: with SMTP id
+ f18mr4606425wrx.208.1590687112989; 
+ Thu, 28 May 2020 10:31:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwO2PL3PDOqvmlVAOsQOD8a0pCjdbrwzn8ZaEdr/CRUizS2/QXcJqOpuhKQ3iQYfr4QOivhGA==
+X-Received: by 2002:a05:6000:1292:: with SMTP id
+ f18mr4606412wrx.208.1590687112757; 
+ Thu, 28 May 2020 10:31:52 -0700 (PDT)
 Received: from localhost.localdomain (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id u4sm7321052wmb.48.2020.05.28.10.31.47
+ by smtp.gmail.com with ESMTPSA id h7sm7784915wml.24.2020.05.28.10.31.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 May 2020 10:31:47 -0700 (PDT)
+ Thu, 28 May 2020 10:31:52 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 1/5] hw/nvram/fw_cfg: Add the FW_CFG_DATA_GENERATOR
- interface
-Date: Thu, 28 May 2020 19:31:37 +0200
-Message-Id: <20200528173141.17495-2-philmd@redhat.com>
+Subject: [PATCH v7 2/5] softmmu/vl: Let -fw_cfg option take a 'gen_id' argument
+Date: Thu, 28 May 2020 19:31:38 +0200
+Message-Id: <20200528173141.17495-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200528173141.17495-1-philmd@redhat.com>
 References: <20200528173141.17495-1-philmd@redhat.com>
@@ -103,181 +104,76 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The FW_CFG_DATA_GENERATOR allows any object to produce
-blob of data consumable by the fw_cfg device.
+The 'gen_id' argument refers to a QOM object able to produce
+data consumable by the fw_cfg device. The producer object must
+implement the FW_CFG_DATA_GENERATOR interface.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-v7: addressed Laszlo's comments
-- fixed typos in description
-- return size_t instead of ssize_t; 0 for error
-- do not use 1-letter variable names
-- do not open-code 'fw_cfg-data-generator'
-- cast g_memdup() size argument as 'guint'
-- improved documentation
+v7:
+- renamed 'blob_id' -> 'gen_id' (danpb)
+- update comment in code (lersek)
+- fixed CODING_STYLE (lersek)
+- use Laszlo's if (SUM(options)) != 1 { error } form
 ---
- docs/specs/fw_cfg.txt     |  9 ++++++-
- include/hw/nvram/fw_cfg.h | 52 +++++++++++++++++++++++++++++++++++++++
- hw/nvram/fw_cfg.c         | 31 +++++++++++++++++++++++
- 3 files changed, 91 insertions(+), 1 deletion(-)
+ softmmu/vl.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/docs/specs/fw_cfg.txt b/docs/specs/fw_cfg.txt
-index 8f1ebc66fa..bc16daa38a 100644
---- a/docs/specs/fw_cfg.txt
-+++ b/docs/specs/fw_cfg.txt
-@@ -219,7 +219,7 @@ To check the result, read the "control" field:
- 
- = Externally Provided Items =
- 
--As of v2.4, "file" fw_cfg items (i.e., items with selector keys above
-+Since v2.4, "file" fw_cfg items (i.e., items with selector keys above
- FW_CFG_FILE_FIRST, and with a corresponding entry in the fw_cfg file
- directory structure) may be inserted via the QEMU command line, using
- the following syntax:
-@@ -230,6 +230,13 @@ Or
- 
-     -fw_cfg [name=]<item_name>,string=<string>
- 
-+Since v5.1, QEMU allows some objects to generate fw_cfg-specific content,
-+the content is then associated with a "file" item using the 'gen_id' option
-+in the command line, using the following syntax:
-+
-+    -object <generator-type>,id=<generated_id>,[generator-specific-options] \
-+    -fw_cfg [name=]<item_name>,gen_id=<generated_id>
-+
- See QEMU man page for more documentation.
- 
- Using item_name with plain ASCII characters only is recommended.
-diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
-index 25d9307018..8fbf2446c1 100644
---- a/include/hw/nvram/fw_cfg.h
-+++ b/include/hw/nvram/fw_cfg.h
-@@ -9,11 +9,43 @@
- #define TYPE_FW_CFG     "fw_cfg"
- #define TYPE_FW_CFG_IO  "fw_cfg_io"
- #define TYPE_FW_CFG_MEM "fw_cfg_mem"
-+#define TYPE_FW_CFG_DATA_GENERATOR_INTERFACE "fw_cfg-data-generator"
- 
- #define FW_CFG(obj)     OBJECT_CHECK(FWCfgState,    (obj), TYPE_FW_CFG)
- #define FW_CFG_IO(obj)  OBJECT_CHECK(FWCfgIoState,  (obj), TYPE_FW_CFG_IO)
- #define FW_CFG_MEM(obj) OBJECT_CHECK(FWCfgMemState, (obj), TYPE_FW_CFG_MEM)
- 
-+#define FW_CFG_DATA_GENERATOR_CLASS(class) \
-+    OBJECT_CLASS_CHECK(FWCfgDataGeneratorClass, (class), \
-+                       TYPE_FW_CFG_DATA_GENERATOR_INTERFACE)
-+#define FW_CFG_DATA_GENERATOR_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(FWCfgDataGeneratorClass, (obj), \
-+                     TYPE_FW_CFG_DATA_GENERATOR_INTERFACE)
-+
-+typedef struct FWCfgDataGeneratorClass {
-+    /*< private >*/
-+    InterfaceClass parent_class;
-+    /*< public >*/
-+
-+    /**
-+     * get_data:
-+     * @obj: the object implementing this interface
-+     *
-+     * Returns: pointer to start of the generated item data
-+     *
-+     * The returned pointer is a QObject weak reference, @obj owns
-+     * the reference and may free it at any time in the future.
-+     */
-+    const void *(*get_data)(Object *obj);
-+    /**
-+     * get_length:
-+     * @obj: the object implementing this interface
-+     *
-+     * Returns: the size of the generated item data in bytes
-+     */
-+    size_t (*get_length)(Object *obj);
-+} FWCfgDataGeneratorClass;
-+
- typedef struct fw_cfg_file FWCfgFile;
- 
- #define FW_CFG_ORDER_OVERRIDE_VGA    70
-@@ -263,6 +295,26 @@ void fw_cfg_add_file_callback(FWCfgState *s, const char *filename,
- void *fw_cfg_modify_file(FWCfgState *s, const char *filename, void *data,
-                          size_t len);
- 
-+/**
-+ * fw_cfg_add_from_generator:
-+ * @s: fw_cfg device being modified
-+ * @filename: name of new fw_cfg file item
-+ * @gen_id: name of object implementing FW_CFG_DATA_GENERATOR interface
-+ * @errp: pointer to a NULL initialized error object
-+ *
-+ * Add a new NAMED fw_cfg item with the content generated from the
-+ * @gen_id object. The data generated by the @gen_id object/ is copied
-+ * into the data structure of the fw_cfg device.
-+ * The next available (unused) selector key starting at FW_CFG_FILE_FIRST
-+ * will be used; also, a new entry will be added to the file directory
-+ * structure residing at key value FW_CFG_FILE_DIR, containing the item name,
-+ * data size, and assigned selector key value.
-+ *
-+ * Returns: the size of the device tree image on success, or 0 on errors.
-+ */
-+size_t fw_cfg_add_from_generator(FWCfgState *s, const char *filename,
-+                                 const char *gen_id, Error **errp);
-+
- FWCfgState *fw_cfg_init_io_dma(uint32_t iobase, uint32_t dma_iobase,
-                                 AddressSpace *dma_as);
- FWCfgState *fw_cfg_init_io(uint32_t iobase);
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index 8dd50c2c72..6d2fa13042 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -1032,6 +1032,31 @@ void *fw_cfg_modify_file(FWCfgState *s, const char *filename,
-     return NULL;
- }
- 
-+size_t fw_cfg_add_from_generator(FWCfgState *s, const char *filename,
-+                                 const char *gen_id, Error **errp)
-+{
-+    FWCfgDataGeneratorClass *klass;
-+    Object *obj;
-+    size_t size;
-+
-+    obj = object_resolve_path_component(object_get_objects_root(), gen_id);
-+    if (!obj) {
-+        error_setg(errp, "Cannot find object ID %s", gen_id);
-+        return 0;
-+    }
-+    if (!object_dynamic_cast(obj, TYPE_FW_CFG_DATA_GENERATOR_INTERFACE)) {
-+        error_setg(errp, "Object '%s' is not a '%s' subclass",
-+                   TYPE_FW_CFG_DATA_GENERATOR_INTERFACE, gen_id);
-+        return 0;
-+    }
-+    klass = FW_CFG_DATA_GENERATOR_GET_CLASS(obj);
-+    size = klass->get_length(obj);
-+    fw_cfg_add_file(s, filename, g_memdup(klass->get_data(obj), (guint)size),
-+                    size);
-+
-+    return size;
-+}
-+
- static void fw_cfg_machine_reset(void *opaque)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index ae5451bc23..cdb1d187ed 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -489,6 +489,11 @@ static QemuOptsList qemu_fw_cfg_opts = {
+             .name = "string",
+             .type = QEMU_OPT_STRING,
+             .help = "Sets content of the blob to be inserted from a string",
++        }, {
++            .name = "gen_id",
++            .type = QEMU_OPT_STRING,
++            .help = "Sets id of the object generating the fw_cfg blob "
++                    "to be inserted",
+         },
+         { /* end of list */ }
+     },
+@@ -2020,7 +2025,7 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
  {
-     MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
-@@ -1333,12 +1358,18 @@ static const TypeInfo fw_cfg_mem_info = {
-     .class_init    = fw_cfg_mem_class_init,
- };
+     gchar *buf;
+     size_t size;
+-    const char *name, *file, *str;
++    const char *name, *file, *str, *gen_id;
+     FWCfgState *fw_cfg = (FWCfgState *) opaque;
  
-+static const TypeInfo fw_cfg_data_generator_interface_info = {
-+    .name = TYPE_FW_CFG_DATA_GENERATOR_INTERFACE,
-+    .parent = TYPE_INTERFACE,
-+    .class_size = sizeof(FWCfgDataGeneratorClass),
-+};
+     if (fw_cfg == NULL) {
+@@ -2030,14 +2035,13 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
+     name = qemu_opt_get(opts, "name");
+     file = qemu_opt_get(opts, "file");
+     str = qemu_opt_get(opts, "string");
++    gen_id = qemu_opt_get(opts, "gen_id");
  
- static void fw_cfg_register_types(void)
- {
-     type_register_static(&fw_cfg_info);
-     type_register_static(&fw_cfg_io_info);
-     type_register_static(&fw_cfg_mem_info);
-+    type_register_static(&fw_cfg_data_generator_interface_info);
- }
- 
- type_init(fw_cfg_register_types)
+-    /* we need name and either a file or the content string */
+-    if (!(nonempty_str(name) && (nonempty_str(file) || nonempty_str(str)))) {
+-        error_setg(errp, "invalid argument(s)");
+-        return -1;
+-    }
+-    if (nonempty_str(file) && nonempty_str(str)) {
+-        error_setg(errp, "file and string are mutually exclusive");
++    /* we need the name, and exactly one of: file, content string, gen_id */
++    if (!nonempty_str(name) ||
++          nonempty_str(file) + nonempty_str(str) + nonempty_str(gen_id) != 1) {
++        error_setg(errp, "name, plus exactly one of file,"
++                         " string and gen_id, are needed");
+         return -1;
+     }
+     if (strlen(name) > FW_CFG_MAX_FILE_PATH - 1) {
+@@ -2052,6 +2056,8 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
+     if (nonempty_str(str)) {
+         size = strlen(str); /* NUL terminator NOT included in fw_cfg blob */
+         buf = g_memdup(str, size);
++    } else if (nonempty_str(gen_id)) {
++        return fw_cfg_add_from_generator(fw_cfg, name, gen_id, errp);
+     } else {
+         GError *err = NULL;
+         if (!g_file_get_contents(file, &buf, &size, &err)) {
 -- 
 2.21.3
 
