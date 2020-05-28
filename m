@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1891E6891
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 19:21:07 +0200 (CEST)
-Received: from localhost ([::1]:49668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4188B1E68B2
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 19:34:32 +0200 (CEST)
+Received: from localhost ([::1]:34604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeMDJ-0004E0-Rh
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 13:21:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48922)
+	id 1jeMQJ-0005Y2-Ac
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 13:34:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jeMBt-0003Zc-1H
- for qemu-devel@nongnu.org; Thu, 28 May 2020 13:19:37 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:37964)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jeMBr-0007oq-F2
- for qemu-devel@nongnu.org; Thu, 28 May 2020 13:19:36 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id f185so3086132wmf.3
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 10:19:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=rChDjX1koIKuBkiHmvCNose3ExYQuzyWL7z4JzRZkr0=;
- b=IDg3Ke69mZkO7/6ik5WuNEWhabYu/pGFTR0/0P3qEX7MsDP4UJO8Fqvweh2+dNfYRz
- wieYJKj0FAJEZF7N6O/o8vHXOCI6zpmtS0T8KyX4f3e94g49D9TBdQ+BQUBCEKGnPqpS
- AMccbj+6G1pOPnsX/E+TGUArF6Red8yjnOL2stR2t/xKmSmyUDuSjWP0BGvi65/E17sM
- 71Nuwgnn+3/JyEGgpv0jhywfYn89Jx9CEPIoYK+yX0tvUAg6z/QLJAksABdMIsY/Jsos
- Q0b6YSRsZ7XBiIO4CfL8bqk4bVKLgKiXo2abKuG4bJiT4Tc8pPYXKBMuBKNDDFlcpZtK
- 0pFw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeMNn-0001jm-SP
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 13:31:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37763
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeMNi-0006Yv-IJ
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 13:31:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590687109;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Tdo8m2WVUovw0X6HlawNwv4oagN2kdyg6ba2ebJLWtg=;
+ b=Q5kTUQDxERezn6qLqy419770YQqZCbon6ddT/1BNCvidUWRq4fGfwNsy14zMBfhXDV+qhY
+ l0yIr2sjoDpHBdqyTfMEmrkOOJufoZKJ6CBDMwN/5eHf5YL8gfhvWScb/UWs1pu23j7XvE
+ LiWnu6QIPLBXcLONREadsfGaxQjuwBA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-274-SvtaVyRKPH2b-u_uIGGm1A-1; Thu, 28 May 2020 13:31:45 -0400
+X-MC-Unique: SvtaVyRKPH2b-u_uIGGm1A-1
+Received: by mail-wr1-f69.google.com with SMTP id e1so10389735wrm.3
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 10:31:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=rChDjX1koIKuBkiHmvCNose3ExYQuzyWL7z4JzRZkr0=;
- b=nL+fMHTY64K131626LdI7sSfMGZ/vknXhF9ozRlhwFhvv/f4SDqQ1/RrV+X7bx6lo3
- v2dc3HDghb/S76CicSthvRIEJcaH4LgWIa+ClerdA9+W4W6yq2CJA5AhD9lew/HZFW1W
- q0wnrC2GZrK7YMTMXSMTT607RjBiMlMpbj2MB/w58dLPtRbwqUocZpTEtqiBzjBfQw+q
- u6eszKMVX0kUa/8Xbw6HgZswrlwsSHCD/GpCCTKlNPzjBRAVRll3YJI4qdSktt8nUoJp
- Q4EZA/MJNZSVECFGVVvoCRgpRZl/9aSSX1wArmqZm85KJFM5czucQqmgIqnyWlFvTLlN
- jsHw==
-X-Gm-Message-State: AOAM533eCy1MC3M6fQ6u8zL+fuSBUY2nda9qYDyTIzsEwoIj/+F6I2b2
- 8A5V/5au/owUjz7lfycZZXW3SA==
-X-Google-Smtp-Source: ABdhPJwK+LyDzPqopUq2RjUApJ9a1oBJdHy3xGwvCrPrY8P3iPNPISYVaIIIT1zwDJ4xSrQJPxrsgQ==
-X-Received: by 2002:a1c:dc02:: with SMTP id t2mr4315988wmg.8.1590686373780;
- Thu, 28 May 2020 10:19:33 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 88sm7096050wre.45.2020.05.28.10.19.32
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Tdo8m2WVUovw0X6HlawNwv4oagN2kdyg6ba2ebJLWtg=;
+ b=tTL+QZ1hRJto66g7/99t2gGjTieI9pGG4SJHZsoIurPLucBUdO2Fco+7OH0S8SUmSt
+ 4Hst/I5nSqEVszqFOgCX3FqzPwbBDshiQmOTRGbiH9pysAoUs48wELLksHLU0KS4WnIP
+ DX/xxc7BaSuFOgqG2+vT128ztnqm+/KUVTWbjK+PydXpiv04evHRlrfubi+iuthZsFxM
+ zLvNY/jcfwrTr3eYn3v1Gohc18E8rN6Shvhz2G28IVglK+Jq0osh4A7GwVvgltXew2s2
+ kNl2LCr6El7pmMv/ag1wiV6b42+6d6zo0r8eCHbEiNvq+Lyz6hhq/VaGOrSjlgdniV9r
+ Agbw==
+X-Gm-Message-State: AOAM5300J7SDypQz/rD+65Axba2cjLbZbSMle+nAH2FDPNMMbS08EJe6
+ tZ1GsuPIZVtVo9V9+W2wyxL1CGzM3cHHMOzPPWbQotaHx3X0svnYGzJSLYiTd2XI30UNdZWSa1/
+ i4ZdFpfweAU98Bz0=
+X-Received: by 2002:adf:8b0c:: with SMTP id n12mr4942816wra.340.1590687103655; 
+ Thu, 28 May 2020 10:31:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyS3kxO3VCljbrnD1iU0wiWI1lY+Bsg1wGWRO7w77oNCingJggaOBXkVr6bU+5TpP06nor6Tw==
+X-Received: by 2002:adf:8b0c:: with SMTP id n12mr4942796wra.340.1590687103454; 
+ Thu, 28 May 2020 10:31:43 -0700 (PDT)
+Received: from localhost.localdomain (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id g82sm7781827wmf.1.2020.05.28.10.31.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 May 2020 10:19:32 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3D4A11FF7E;
- Thu, 28 May 2020 18:19:31 +0100 (BST)
-References: <20200527145455.2550-1-alex.bennee@linaro.org>
- <CAFEAcA_LrZjBY_y3UR=fdOtDvnY=zGG-10Yeq0ZjbBc=EsvRfw@mail.gmail.com>
- <87blm83y5v.fsf@linaro.org>
- <CAFEAcA_QTkWA7eBwORWMmpcH1E5bF4A3mFtkzdstkucd-2+p3A@mail.gmail.com>
- <591d2690-c2e7-98aa-8569-5f99737c5f71@redhat.com>
- <CAFEAcA-EZ_c01599j+NJH1Vd0aJ4cQzwPYynx=rBZP7x_3h3jg@mail.gmail.com>
-User-agent: mu4e 1.5.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/12] testing and plugin fixes
-In-reply-to: <CAFEAcA-EZ_c01599j+NJH1Vd0aJ4cQzwPYynx=rBZP7x_3h3jg@mail.gmail.com>
-Date: Thu, 28 May 2020 18:19:31 +0100
-Message-ID: <877dww3rks.fsf@linaro.org>
+ Thu, 28 May 2020 10:31:42 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 0/5] fw_cfg: Add FW_CFG_DATA_GENERATOR;
+ crypto: Add tls-cipher-suites
+Date: Thu, 28 May 2020 19:31:36 +0200
+Message-Id: <20200528173141.17495-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 01:51:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,43 +93,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+This series has two parts:
 
-> On Thu, 28 May 2020 at 16:18, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com> wrote:
->>
->> +Gerd
->>
->> On 5/28/20 5:09 PM, Peter Maydell wrote:
->> > Yes. I see them also now on the next pullreq I'm trying to
->> > process. How do I get back to an environment that doesn't
->> > produce all these warnings?
->>
->> Maybe building back NetBSD 8.1?
->
-> Did that change not itself trigger the VM to be rebuilt ?
-> If not, can we make it so that updates to the images always
-> do trigger rebuilds, so that we can catch new warnings
-> that they introduce at the time rather than later?
+- First we add the ability to QOM objects to produce data
+  consumable by the fw_cfg device,
 
-$(IMAGES_DIR)/%.img:	$(SRC_PATH)/tests/vm/% \
+- Then we add the tls-cipher-suites object, and let it
+  implement the FW_CFG_DATA_GENERATOR interface.
 
-So netbsdb.img should have been rebuilt when tests/vm/netbsd was
-touched. However maybe the packages have been updated upstream since? As
-we also have:
+This is required by EDK2 'HTTPS Boot' feature [*] to tell
+the guest which TLS ciphers it can use.
 
-			$(SRC_PATH)/tests/vm/basevm.py \
-			$(SRC_PATH)/tests/vm/Makefile.include
+[*]: https://github.com/tianocore/edk2/blob/master/OvmfPkg/README
 
-I suspect the genisoimage change to basevm triggered a re-build grabbing
-the latest packages.
+Since v6:
+- addressed Laszlo & Daniel review comments
+  (changes describe in each patch).
+Since v5:
+- Complete rewrite after chatting with Daniel Berrangé
+Since v4:
+- Addressed Laszlo comments (see patch#1 description)
+Since v3:
+- Addressed Markus' comments (do not care about heap)
+Since v2:
+- Split of
+Since v1:
+- Addressed Michael and Laszlo comments.
 
---=20
-Alex Benn=C3=A9e
+Please review,
+
+Phil.
+
+v6: https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg05448.html
+v5: https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg04525.html
+v4: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg04300.html
+v3: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg02965.html
+v2: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg02522.html
+v1: https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg01598.html
+
+Philippe Mathieu-Daudé (5):
+  hw/nvram/fw_cfg: Add the FW_CFG_DATA_GENERATOR interface
+  softmmu/vl: Let -fw_cfg option take a 'gen_id' argument
+  softmmu/vl: Allow -fw_cfg 'gen_id' option to use the 'etc/' namespace
+  crypto: Add tls-cipher-suites object
+  crypto/tls-cipher-suites: Produce fw_cfg consumable blob
+
+ docs/specs/fw_cfg.txt              |   9 +-
+ include/crypto/tls-cipher-suites.h |  38 ++++++++
+ include/hw/nvram/fw_cfg.h          |  52 ++++++++++
+ crypto/tls-cipher-suites.c         | 146 +++++++++++++++++++++++++++++
+ hw/nvram/fw_cfg.c                  |  31 ++++++
+ softmmu/vl.c                       |  30 ++++--
+ crypto/Makefile.objs               |   1 +
+ crypto/trace-events                |   5 +
+ 8 files changed, 302 insertions(+), 10 deletions(-)
+ create mode 100644 include/crypto/tls-cipher-suites.h
+ create mode 100644 crypto/tls-cipher-suites.c
+
+-- 
+2.21.3
+
 
