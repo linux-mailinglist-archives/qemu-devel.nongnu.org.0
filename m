@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280FF1E5CC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 12:13:33 +0200 (CEST)
-Received: from localhost ([::1]:57060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F011E5CC0
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 12:12:31 +0200 (CEST)
+Received: from localhost ([::1]:52442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeFXY-0003F0-70
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 06:13:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42576)
+	id 1jeFWY-0001Nn-4T
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 06:12:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jeFVD-0007o7-HV
- for qemu-devel@nongnu.org; Thu, 28 May 2020 06:11:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48819
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jeFVI-0007vp-De
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 06:11:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56106
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jeFVC-0003P8-MM
- for qemu-devel@nongnu.org; Thu, 28 May 2020 06:11:07 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jeFVH-0003Rg-Ji
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 06:11:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590660666;
+ s=mimecast20190719; t=1590660670;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L6l/Pyxp3UNeqwPyE5zJPTavGtjyIEE5ZZIqpmgPSeE=;
- b=iC3/P9jWzclH6EQuntOfnF9AhfkOTCmC3YliLvu2z0L3w2E3GLuXXIOnIHi4V8T+uWAymR
- L0O0WG12j7r6YvHJVw6F2ZWSf0qGi1I0821RmP9VwA31tk67jJN3cbJhOZYn4wYy3niuld
- lgeGImE5EwvEmzw4LshOgrAXVvnJK0k=
+ bh=gPm5/FMQqnaW8HNt8jo86Olr1SMefReSPK7R+kU8ln0=;
+ b=K702EMKdGWiojkRwzfjQ13eWFNxzdc5TIcdFD6TwzzpPvfQ9sv/nebVXUd+ZZ5P15AXGAD
+ Q+xtGRpUycH/EBCXhh8JSo/CKRa3U/CKnTH0chNgOite3P7q6v2Soixdn3USLPpRQWDdEh
+ UtuQY32KwTZW6Sf7I75qd0o+i0RSRPo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-bolhuVtCNYuqzzkmIhjWBg-1; Thu, 28 May 2020 06:11:01 -0400
-X-MC-Unique: bolhuVtCNYuqzzkmIhjWBg-1
+ us-mta-198-60_PRLl5OKiXM9z2WekZmA-1; Thu, 28 May 2020 06:11:07 -0400
+X-MC-Unique: 60_PRLl5OKiXM9z2WekZmA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D45F518FE860;
- Thu, 28 May 2020 10:11:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2EDD835B40;
+ Thu, 28 May 2020 10:11:06 +0000 (UTC)
 Received: from thuth.com (ovpn-112-213.ams2.redhat.com [10.36.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 25EC45D9EF;
- Thu, 28 May 2020 10:10:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D5AA5D9EF;
+ Thu, 28 May 2020 10:11:01 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 4/7] GitLab CI: avoid calling before_scripts on unintended jobs
-Date: Thu, 28 May 2020 12:10:36 +0200
-Message-Id: <20200528101039.24600-5-thuth@redhat.com>
+Subject: [PULL 5/7] gitlab-ci: Move edk2 and opensbi YAML files to
+ .gitlab-ci.d folder
+Date: Thu, 28 May 2020 12:10:37 +0200
+Message-Id: <20200528101039.24600-6-thuth@redhat.com>
 In-Reply-To: <20200528101039.24600-1-thuth@redhat.com>
 References: <20200528101039.24600-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +56,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 03:11:04
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 01:51:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,93 +86,56 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cleber Rosa <crosa@redhat.com>
+We have a dedicated folder for the gitlab-ci - so there is no need
+to clutter the top directory with these .yml files.
 
-At this point it seems that all jobs depend on those steps, with
-maybe the EDK2 jobs as exceptions.
-
-The jobs that will be added later will not want those scripts to be
-run, so let's move these steps to the appropriate jobs, while
-still trying to avoid repetition.
-
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20200525131823.715-4-thuth@redhat.com>
+Message-Id: <20200525131823.715-5-thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-[thuth: Rebased to current master branch, use separate template]
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.yml | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ .gitlab-ci-edk2.yml => .gitlab-ci.d/edk2.yml       | 0
+ .gitlab-ci-opensbi.yml => .gitlab-ci.d/opensbi.yml | 0
+ .gitlab-ci.yml                                     | 4 ++--
+ MAINTAINERS                                        | 2 +-
+ 4 files changed, 3 insertions(+), 3 deletions(-)
+ rename .gitlab-ci-edk2.yml => .gitlab-ci.d/edk2.yml (100%)
+ rename .gitlab-ci-opensbi.yml => .gitlab-ci.d/opensbi.yml (100%)
 
+diff --git a/.gitlab-ci-edk2.yml b/.gitlab-ci.d/edk2.yml
+similarity index 100%
+rename from .gitlab-ci-edk2.yml
+rename to .gitlab-ci.d/edk2.yml
+diff --git a/.gitlab-ci-opensbi.yml b/.gitlab-ci.d/opensbi.yml
+similarity index 100%
+rename from .gitlab-ci-opensbi.yml
+rename to .gitlab-ci.d/opensbi.yml
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 994774250f..bc6aee6aba 100644
+index bc6aee6aba..5208d93ff8 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -2,11 +2,13 @@ include:
-   - local: '/.gitlab-ci-edk2.yml'
-   - local: '/.gitlab-ci-opensbi.yml'
+@@ -1,6 +1,6 @@
+ include:
+-  - local: '/.gitlab-ci-edk2.yml'
+-  - local: '/.gitlab-ci-opensbi.yml'
++  - local: '/.gitlab-ci.d/edk2.yml'
++  - local: '/.gitlab-ci.d/opensbi.yml'
  
--before_script:
-- - apt-get update -qq
-- - apt-get install -y -qq libglib2.0-dev libpixman-1-dev genisoimage
-+.update_apt_template: &before_script_apt
-+ before_script:
-+  - apt-get update -qq
-+  - apt-get install -y -qq libglib2.0-dev libpixman-1-dev genisoimage
+ .update_apt_template: &before_script_apt
+  before_script:
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 71a0438843..0944d9c731 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2542,7 +2542,7 @@ F: roms/edk2
+ F: roms/edk2-*
+ F: tests/data/uefi-boot-images/
+ F: tests/uefi-test-tools/
+-F: .gitlab-ci-edk2.yml
++F: .gitlab-ci.d/edk2.yml
+ F: .gitlab-ci.d/edk2/
  
- build-system1:
-+ <<: *before_script_apt
-  script:
-  - apt-get install -y -qq libgtk-3-dev libvte-dev nettle-dev libcacard-dev
-       libusb-dev libvde-dev libspice-protocol-dev libgl1-mesa-dev libvdeplug-dev
-@@ -19,6 +21,7 @@ build-system1:
-  - make -j2 check
- 
- build-system2:
-+ <<: *before_script_apt
-  script:
-  - apt-get install -y -qq libsdl2-dev libgcrypt-dev libbrlapi-dev libaio-dev
-       libfdt-dev liblzo2-dev librdmacm-dev libibverbs-dev libibumad-dev
-@@ -32,6 +35,7 @@ build-system2:
-  - make -j2 check
- 
- build-disabled:
-+ <<: *before_script_apt
-  script:
-  - mkdir build
-  - cd build
-@@ -46,6 +50,7 @@ build-disabled:
-  - make -j2 check-qtest SPEED=slow
- 
- build-tcg-disabled:
-+ <<: *before_script_apt
-  script:
-  - apt-get install -y -qq clang libgtk-3-dev libusb-dev
-  - mkdir build
-@@ -64,6 +69,7 @@ build-tcg-disabled:
-             260 261 262 263 264 270 272 273 277 279
- 
- build-user:
-+ <<: *before_script_apt
-  script:
-  - mkdir build
-  - cd build
-@@ -73,6 +79,7 @@ build-user:
-  - make run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
- 
- build-clang:
-+ <<: *before_script_apt
-  script:
-  - apt-get install -y -qq clang libsdl2-dev libattr1-dev libcap-ng-dev
-       xfslibs-dev libiscsi-dev libnfs-dev libseccomp-dev gnutls-dev librbd-dev
-@@ -85,6 +92,7 @@ build-clang:
-  - make -j2 check
- 
- build-tci:
-+ <<: *before_script_apt
-  script:
-  - TARGETS="aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x86_64"
-  - mkdir build
+ Usermode Emulation
 -- 
 2.18.1
 
