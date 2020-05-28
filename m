@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE921E6755
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 18:22:11 +0200 (CEST)
-Received: from localhost ([::1]:50254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B981E6757
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 18:23:48 +0200 (CEST)
+Received: from localhost ([::1]:54516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeLIH-0002Qh-MW
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 12:22:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39400)
+	id 1jeLJr-0004Cm-BE
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 12:23:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vishal.l.verma@intel.com>)
- id 1jeLGn-0000aO-El
- for qemu-devel@nongnu.org; Thu, 28 May 2020 12:20:38 -0400
-Received: from mga11.intel.com ([192.55.52.93]:35626)
+ id 1jeLGo-0000av-LP
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 12:20:40 -0400
+Received: from mga11.intel.com ([192.55.52.93]:35633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vishal.l.verma@intel.com>)
- id 1jeLGl-0000wN-A2
- for qemu-devel@nongnu.org; Thu, 28 May 2020 12:20:36 -0400
-IronPort-SDR: S7XnlczygA0sOm+KBmMDm4ldFjD/yW8R+J90GADM/cLRxgzTTrNmF6D+BP4btgAf44IzpWx/mg
- 7Fp0I4qV2wvw==
+ id 1jeLGl-0000zC-DR
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 12:20:37 -0400
+IronPort-SDR: j8ZfTHyRLP3p/VoR5RRrtqPlE9ACGcAbadZ/b/EABdMr2tRLgSwqOGJ8d+jZGxGEXXexMgNSLA
+ ygYEPumWpN+A==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2020 09:20:29 -0700
-IronPort-SDR: jicqewMCwhyKJJhxYx+5eMIVaXJtND2Y5YvvxQXb9L3pm035qHIDorfdx5mKabMYsxGdTJ2MEP
- EEwUQp+xOP9g==
+ 28 May 2020 09:20:30 -0700
+IronPort-SDR: x/swKN3hSmD32SFeNwZDjVLz+puMBpgvydbffcRFNF2ikv2HzajuFTX85LVrJSc7RwKlqxL5bO
+ 9RGwG8BDKLGA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,445,1583222400"; d="scan'208";a="270903767"
+X-IronPort-AV: E=Sophos;i="5.73,445,1583222400"; d="scan'208";a="270903771"
 Received: from vverma7-mobl4.lm.intel.com ([10.251.139.189])
- by orsmga006.jf.intel.com with ESMTP; 28 May 2020 09:20:28 -0700
+ by orsmga006.jf.intel.com with ESMTP; 28 May 2020 09:20:29 -0700
 From: Vishal Verma <vishal.l.verma@intel.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v3 0/3] account for NVDIMM nodes during SRAT generation
-Date: Thu, 28 May 2020 10:20:08 -0600
-Message-Id: <20200528162011.16258-1-vishal.l.verma@intel.com>
+Subject: [PATCH v3 1/3] diffs-allowed: add the SRAT AML to diffs-allowed
+Date: Thu, 28 May 2020 10:20:09 -0600
+Message-Id: <20200528162011.16258-2-vishal.l.verma@intel.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200528162011.16258-1-vishal.l.verma@intel.com>
+References: <20200528162011.16258-1-vishal.l.verma@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.93;
@@ -48,7 +50,7 @@ X-Spam_score_int: -68
 X-Spam_score: -6.9
 X-Spam_bar: ------
 X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,46 +73,21 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes since v2:
-- Change a repetitive OBJECT(dev) to a stored 'Object' (Igor)
-- No need to return 'numamem' back to build_srat (Igor)
+In anticipation of a change to the SRAT generation in qemu, add the AML
+file to diffs-allowed.
 
-Changes since v1:
-- Use error_abort for getters (Igor)
-- Free the device list (Igor)
-- Refactor the NVDIMM related portion into hw/acpi/nvdimm.c (Igor)
-- Rebase onto latest master
-- Add Jingqi's Reviewed-by
+Signed-off-by: Vishal Verma <vishal.l.verma@intel.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-On the command line, one can specify a NUMA node for NVDIMM devices. If
-we set up the topology to give NVDIMMs their own nodes, i.e. not
-containing any CPUs or regular memory, qemu doesn't populate SRAT memory
-affinity structures for these nodes. However the NFIT does reference
-those proximity domains.
-
-As a result, Linux, while parsing the SRAT, fails to initialize node
-related structures for these nodes, and they never end up in the
-nodes_possible map. When these are onlined at a later point (via
-hotplug), this causes problems.
-
-I've followed the instructions in bios-tables-test.c to update the
-expected SRAT binary, and the tests (make check) pass. Patches 1 and 3
-are the relevant ones for the binary update.
-
-Patch 2 is the main patch which changes SRAT generation.
-
-Vishal Verma (3):
-  diffs-allowed: add the SRAT AML to diffs-allowed
-  hw/acpi-build: account for NVDIMM numa nodes in SRAT
-  tests/acpi: update expected SRAT files
-
- hw/acpi/nvdimm.c                 |  23 +++++++++++++++++++++++
- hw/i386/acpi-build.c             |   5 +++++
- include/hw/mem/nvdimm.h          |   1 +
- tests/data/acpi/pc/SRAT.dimmpxm  | Bin 392 -> 392 bytes
- tests/data/acpi/q35/SRAT.dimmpxm | Bin 392 -> 392 bytes
- 5 files changed, 29 insertions(+)
-
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..83d3ea5032 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,2 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/SRAT.dimmpxm",
 -- 
 2.26.2
 
