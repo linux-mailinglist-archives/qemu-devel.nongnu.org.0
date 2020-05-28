@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B20631E5C26
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 11:35:26 +0200 (CEST)
-Received: from localhost ([::1]:53098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA52F1E5C31
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 11:37:08 +0200 (CEST)
+Received: from localhost ([::1]:57388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeEwf-0001gt-I5
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 05:35:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36684)
+	id 1jeEyJ-0004MY-Tr
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 05:37:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jeEvf-0001Gr-7h
- for qemu-devel@nongnu.org; Thu, 28 May 2020 05:34:23 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:35289)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jeEx5-0003JG-5i
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 05:35:51 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:43067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jeEvc-0001cy-Cb
- for qemu-devel@nongnu.org; Thu, 28 May 2020 05:34:22 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jeEx4-0003QX-9m
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 05:35:50 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mn2eN-1jBoH01gX9-00k9SI; Thu, 28 May 2020 11:34:17 +0200
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MumVX-1imYAZ0rKN-00rpNo; Thu, 28 May 2020 11:35:48 +0200
 Subject: Re: [PATCH] linux-user/mmap.c: fix integer underflow in target_mremap
 To: Jonathan Marler <johnnymarler@gmail.com>, qemu-devel@nongnu.org
 References: <20200502161225.14346-1-johnnymarler@gmail.com>
@@ -66,8 +66,8 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <e1dd114f-101a-4024-df35-1a0e8bcd0ea2@vivier.eu>
-Date: Thu, 28 May 2020 11:34:16 +0200
+Message-ID: <1d18c0cc-b967-ffd9-1c28-49b59c25ac42@vivier.eu>
+Date: Thu, 28 May 2020 11:35:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
@@ -75,23 +75,23 @@ In-Reply-To: <20200502161225.14346-1-johnnymarler@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:kMj23APA2PWy8O1XZDg4Yzm7146isw8bPhML6WBG6ljBPKIZXLL
- PIc8hexNfTag7yrKpr3WoCckdD1tSLb5DthwK+vAY1pcOOOwXINjrXUzx9wjWbeTbWj1Lu3
- rNoSUOIr119lk9Ctikd5KxSBPRRDoIRY0wTZgMXJwLdyu8Ed6XZVijaApWWIdPz8a6+ICqA
- bLDkHqg8yLJ74B5fdFv4Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pV9DyJ+L5Xc=:ZdFkahCcI/tatrPYuKLp1W
- hL3Drd0dxuIdiYvD0FraH3VGV1CXNfHQkeduFoTd2V23FVilOez0dWYI818BFj8I/gKvG9y3F
- KQyAjNTcSwHgktUjOJJQcFHd8g+0rnB+pPIn3Iy/bmTuaP0OGgN5Fi6LFlHwuTEoBziNO5gRJ
- shqKY7cvexDg6Z3zlKEvlsQE/s0qZVZWI+sHACGce4mlZP7bxFe/27rRoq3W0511YDGwLha63
- 3fJFweNQAw01su3ujyWEg/gzvdA2AxN/Moc6fS9pqv2O07PMHgvVwKEQY9EmVwyzoTdXR6hoT
- 0UmwXU0W/8QELSOsW/BIp186eh0zvBTvYqOYTy1UkIUXfbXDrvyjgAZXB839wJ94nj8b+ItDX
- ImyuGaHCjw/lWX/HsGFRd4Rqx700/iyr0UOMMDGJVwadQWeaXmx2M9iSkg5DXY0J/EeYL2oZu
- HjKcyE2FFKbEKB0bGMIOpv8PWCFVP4rcQ8Oo4jGdURQr2JIXIm/BXFvBCK4ogTOaAS+qBu63U
- CEBbM22YSXKpIjYr8/tVCTjTCqz02yiM7PJmMEqGIQGw4HCIpWVSfJXZ0k/tMITiSN2TEjwyR
- SIkxDQLJ5FKoKdAWCf9xOqbhJ8EfMHcsq/EkIn52AF6R3XOZUFvmxk9NkAQW337D/SdA2BLMS
- RM+6UbNSb9qnIlIbL0JgtIgoanClzM+nmDWVeae6CCqtiS+FMYd0411lHV2TjV9Yp9/HvUDM7
- 0drGjRYOrk1pYc4A3tI34XMsJAzZpmWbl8FPUO2vJ3S8iONwvogiI7G0bTo02KhSGDypZxB+t
- Uod2yOHRYHo9FP1hf/72S5KM15pBIGGs07+l+ceFwnTLcDqtD0C2OA6G8anbTV+0O1wvrDx
+X-Provags-ID: V03:K1:bfWlHlpCIdk86cM/QjBlx1sVnl/l7Fp8wnNt6BHEOTM0oi3VS29
+ EFgKP+VNQ4PyTCHBvNgZDbLjPyr2rKIPA1gHwNWZPiqOvuGHbXmHvOVhztf0hMkw2qanuPG
+ OjFpkBQAKnI1mD3hr/YEhf00kEe2PlVxuDohwrCyQv0pekrXDd8UHs3sZ1Gb8DUtyQMjdeq
+ iUcQ92gLJKLVMVX+z4JZg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qdiu1nu1+R4=:y9Tb5TmyYey7JZxxwJM6DE
+ pBxstm4o8AvQl3UG3iQLjbXtVHg36221FWmWKr+VcMp6eUD47+zyCTNW4R1vbO0rUSu/n0czQ
+ yAsib4bl2CMWC+e6DM5laPDUIsojmf8/WVFX+KOM4wLHFK+asLVzi+vSctwIA3vw57Mm2Kpvj
+ xFyS93HE0razNyM84Ou4foMI7S333PdY8sx7NmGxoAkJlwQ4qBJujv4uEBIbqnQ4nqdQJ5rgm
+ mIpcUCCV1UqvmBTxhChhzZYG3dMFcZs3qEFcGkPEED7ltWSohnqDw+1VzTU4QViMS0Y+ATqFY
+ hDjxkJ1Sqxg3K4jIcg2CEJp/zTiDc30gSdoFSHGo/JDz6TT+s/cQHqwM75QlrdgXOjWxhjlVE
+ 1XjmBXheUuyVXX6E2mTzX7Jx1lRadegb14AsQ7HfV08656GKMSJEO6MIQsygSmmmc6gO3xr+P
+ ToTbg0ZXnu/9SZy0yOAAaH4vqDFPEZY/Z3kfFY9M9ILAIckhcIdqSX83kLgahT9UCC4KEZfvc
+ cC0NQ9NiFlJMSCgWIcKcKPMaTjpW+xGprcB2RHlFUWBxq/ERKz//20sGjXb7aCQP9MTv4aWPC
+ cSUKCsFQxvUmVEk9U5MmwX169wvmW5p/EXSBxkXkYB7SPHZSssBRONehFqpScAIPJ0aq2yfRb
+ p16LSC68Wwiv2a2Ef6zqK4dqrsTXQBgNAAYx36usDyH7vjR/M+uEtg//+YFYH33BVnPF2HcHW
+ 4ybcJjLVXFSblaAmmEydjQFVMqk95PeKP78G446Z+X8dY25pWoOArAmldt10R48sPxzCXYImP
+ MyH0+Sh8c+8CnpXvuxdahb7btAxR234twkb0KiVlHtoWEmyxe6Tcqzi3dAK7CvW3rfoXRvR
 Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 05:34:18
@@ -141,5 +141,9 @@ Le 02/05/2020 à 18:12, Jonathan Marler a écrit :
 >              errno = ENOMEM;
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Applied to my linux-user branch.
+
+Thanks,
+Laurent
+
 
