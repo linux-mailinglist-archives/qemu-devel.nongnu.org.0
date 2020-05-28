@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7131E5E0E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 13:16:56 +0200 (CEST)
-Received: from localhost ([::1]:53320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023231E5E13
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 13:18:17 +0200 (CEST)
+Received: from localhost ([::1]:59596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeGWu-0004M3-08
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 07:16:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50096)
+	id 1jeGYC-00071A-25
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 07:18:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jeGNc-0001ne-Vm
- for qemu-devel@nongnu.org; Thu, 28 May 2020 07:07:21 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40325)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jeGOi-0004sk-SI
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 07:08:28 -0400
+Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:35089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jeGNb-0001CQ-Ep
- for qemu-devel@nongnu.org; Thu, 28 May 2020 07:07:20 -0400
-Received: by mail-wr1-x444.google.com with SMTP id j16so14973267wrb.7
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 04:07:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jeGOg-00026t-KV
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 07:08:28 -0400
+Received: by mail-ot1-x331.google.com with SMTP id 69so2059345otv.2
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 04:08:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=uMy6Cq+D48z3kraLYS/BScyi7sgCqbRC4qX92FrlzTU=;
- b=IKyvP8u7gOPki3fkPuypU3fgm4oJJISg8yXbdI9s8gq8XlOsSzrbs5JHlsEgvqX9Pt
- MKS9z1lokldrCQhhCD+Cc8lu+Juy1pvZeHe93V3pbkuxbn4rNAezpEznVjL+Spm18ztM
- wY0Z+R+VYT/bToQYXEREa5DRBz5Kx4Y+dF7EcTItcs9fusKo683Ify34eBMUMojU8xQu
- oS8fXCjfwvSyk0iboeuUzIlB8QZu2VNNHJmmrHT9jF1NYOfKrrwax1uJscA1qw+P5lZV
- m4se8Y5tfnKL5B3+s6vhDihPggebfK3SREpaD4ptD7NgLDHLR93tUAyXBr5FBWDISATo
- tUYQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VF55JyiLxFX+mWfo0rSeK//gt3CCDUORiL1ewkjhkBw=;
+ b=k4d1/PMVLVQlZi3ByjWbdm/VwMGmABPYR+j8r1dE8ToydBtiWmkqiK4CxMNpNxYbes
+ FeP4+Sgy8NY1o67RQXU0pCyXNfz7/NVusDvG/gdJll8qg3BuSvK5u80ar73rfoslw38q
+ 0B51UDpRDxOpsz+c/X1dArebs3+XpEfVH7Vf4NHbrp9I1Ui56RfZXa26562Z8bGkBucg
+ bq0LaZYw/xLxfZtImXxmoHsM2KpmYPRrylyVIfWIALSaHpLbA+cBEX1lgCg/tf7J8h6A
+ PvLHTK5w0mx83MutEFzMHMWhx/PL/0llQffz5U5uGQ8gA0o17p9Ld85rGlorEZDGHLn1
+ +gZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=uMy6Cq+D48z3kraLYS/BScyi7sgCqbRC4qX92FrlzTU=;
- b=aeJzOuLNaCqIt00hZSlkAmPZprXj/xFv9kK+Bus/TPGedPfRiebvA/ZgLpv+xobu21
- 68OLNEw+IdhEZpt0qrnRcYKa1kfw2nIGuzuarIfIYCFtelmPnM18fS1w6aLEAZZYf5co
- FsbigQ9DPJoXuY5p3yx7gkQB9pAy624NkSDeyI6WB4n+odl1pHpMsQwKDP9ozzCxQwlZ
- SepmiroVLmg2Rv0zbKbUiF3Vf5jb8Bb7SZkrrW22VclrfD1q4C4ouctVWBqjt0eHuy+/
- 3T0K0Bo2SYuCaDEDU3V6OzLDmMNuOcFFG4+h+8eFE3/N43QbC2zrabi6Cnn3lDugnVtj
- 1LrQ==
-X-Gm-Message-State: AOAM531bHyEp0J4VvTiBePs8CfEO6992KJFPSWS36lGTG0iyGDWvmfb1
- +5oj3D1TZ9/wns3odY0CVXOHRA==
-X-Google-Smtp-Source: ABdhPJx1Scwsi3ATBBq+JnbKEiwbmMoCPhekcYwhVLwPabL9M5QMzXgKxRBtIOBd+eDFAb7R4UUcLg==
-X-Received: by 2002:a5d:4282:: with SMTP id k2mr2967183wrq.196.1590664036395; 
- Thu, 28 May 2020 04:07:16 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k16sm3774439wrp.66.2020.05.28.04.07.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 May 2020 04:07:14 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2AC471FF7E;
- Thu, 28 May 2020 12:07:14 +0100 (BST)
-References: <159057543840.16818.14393433996899521784.stgit@pasha-ThinkPad-X280>
- <159057546117.16818.15607496040935344350.stgit@pasha-ThinkPad-X280>
- <1510a96e-2768-32c9-44f5-465ed9b0d859@redhat.com>
- <19507b45-b8d5-0bab-c0bf-a9ae161281f6@ispras.ru>
- <d03e2479-a341-c3e2-247b-797bc7d24a9b@redhat.com>
-User-agent: mu4e 1.5.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 04/11] tests/acceptance: add kernel record/replay
- test for x86_64
-In-reply-to: <d03e2479-a341-c3e2-247b-797bc7d24a9b@redhat.com>
-Date: Thu, 28 May 2020 12:07:14 +0100
-Message-ID: <87k10w48t9.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VF55JyiLxFX+mWfo0rSeK//gt3CCDUORiL1ewkjhkBw=;
+ b=AnJohG8ytynX+pBUKe+72nvkefQMGNgxY3O+CB6RY7kUN+ouut+5XU7ber6LpnuLnN
+ DmkspxbXkPhKBN3+nTqTAknf/FSR92RVU+T/dsPH9qfq93D5PgprHJt1/o3BmsHMvsAV
+ QeEANl2FYdkYwH44gp4u/tBAXdOg3xx9C2cOkBHYhjmN3sDgcnbo/z/s0RA7CoD8Igz7
+ tRGezoBUx7+bDA8savmsDead19PRqt2dSJPeQEomhzwYbtXYGc6nn2vxthpw/jfxaCHG
+ bTD/bVJNpurZazCeSVWessdkm8gJITqYr7JJpHoR3McP7Z70/g6VtwngCS3Bw0rQL97N
+ Kpfw==
+X-Gm-Message-State: AOAM532Rx1tzF4zImSlXfOXePPg/jUn96jJYCGYo8WgIvvK2RL8MYbtO
+ cESuss5N4uiR6Tvvh99qUfQFfLZIXIrHTYWyJJj3tg==
+X-Google-Smtp-Source: ABdhPJwMUaPumm/xN1JhI0DAKq405e/BtHGjiUEtbcCupZQ542/yB6ttjhD2huvqlDMkzRSZrlp9nJhnWLGRbdbRyc4=
+X-Received: by 2002:a05:6830:158b:: with SMTP id
+ i11mr1899691otr.135.1590664105149; 
+ Thu, 28 May 2020 04:08:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+References: <20200527055945.6774-1-armbru@redhat.com>
+In-Reply-To: <20200527055945.6774-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 May 2020 12:08:13 +0100
+Message-ID: <CAFEAcA-rPQsrMHRfjt656bu=Gw2-d7E40uwVYFqjmxnG=Bt2Wg@mail.gmail.com>
+Subject: Re: [PULL 00/10] Error reporting patches for 2020-05-27
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x331.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,100 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, pavel.dovgaluk@ispras.ru,
- qemu-devel@nongnu.org, Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>, wrampazz@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, Robert Foley <robert.foley@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-
-> On 5/28/20 9:12 AM, Pavel Dovgalyuk wrote:
->>=20
->> On 27.05.2020 17:53, Philippe Mathieu-Daud=C3=A9 wrote:
->>> On 5/27/20 12:31 PM, Pavel Dovgalyuk wrote:
->>>> This patch adds a test for record/replay an execution of x86_64 machin=
-e.
->>>> Execution scenario includes simple kernel boot, which allows testing
->>>> basic hardware interaction in RR mode.
->>>>
->>>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
->>>> ---
->>>>   0 files changed
->>>>
->>>> diff --git a/tests/acceptance/replay_kernel.py
->>>> b/tests/acceptance/replay_kernel.py
->>>> index b8b277ad2f..c7526f1aba 100644
->>>> --- a/tests/acceptance/replay_kernel.py
->>>> +++ b/tests/acceptance/replay_kernel.py
->>>> @@ -55,3 +55,19 @@ class ReplayKernel(LinuxKernelUtils):
->>>>                       True, shift, args)
->>>>           self.run_vm(kernel_path, kernel_command_line, console_patter=
-n,
->>>>                       False, shift, args)
->>>> +
->>>> +    def test_x86_64_pc(self):
->>>> +        """
->>>> +        :avocado: tags=3Darch:x86_64
->>>> +        :avocado: tags=3Dmachine:pc
->>>> +        """
->>>> +        kernel_url =3D
->>>> ('https://archives.fedoraproject.org/pub/archive/fedora'
->>>> +=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
->>>> '/linux/releases/29/Everything/x86_64/os/images/pxeboot'
->>>> +                      '/vmlinuz')
->>>> +        kernel_hash =3D '23bebd2680757891cf7adedb033532163a792495'
->>>> +        kernel_path =3D self.fetch_asset(kernel_url,
->>>> asset_hash=3Dkernel_hash)
->>>> +
->>>> +        kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE +
->>>> 'console=3DttyS0'
->>>> +        console_pattern =3D 'Kernel command line: %s' %
->>>> kernel_command_line
->>>> +
->>>> +        self.run_rr(kernel_path, kernel_command_line, console_pattern)
->>>>
->>> This one timeouted (I build with --enable-debug):
->>=20
->> I've got the strange behavior for the couple of times.
->>=20
->> Console output was correct (I saw 'Kernel command line' in logs), but
->> _console_interation function didn't notice it.
->>=20
->> Therefore the test finished with timeout.
->>=20
->> How this could be possible?
+On Wed, 27 May 2020 at 07:03, Markus Armbruster <armbru@redhat.com> wrote:
 >
-> IIRC there is a problem in how Avocado consume the chardev output.
-
-Is this the same problem Robert has tried to work around in tests/vm?
-
-  From: Robert Foley <robert.foley@linaro.org>
-  Subject: [PATCH v7 12/12] tests/vm: Add workaround to consume console
-  Date: Tue, 19 May 2020 09:22:59 -0400
-  Message-Id: <20200519132259.405-13-robert.foley@linaro.org>
-
+> The following changes since commit ddc760832fa8cf5e93b9d9e6e854a5114ac63510:
 >
-> Cleber has been working on some PoC / kludge.
+>   Merge remote-tracking branch 'remotes/gkurz/tags/9p-next-2020-05-26' into staging (2020-05-26 14:05:53 +0100)
 >
-> Cleber/Eduardo do you remember the problem?
+> are available in the Git repository at:
 >
->>=20
->>>   (1/1) tests/acceptance/replay_kernel.py:ReplayKernel.test_x86_64_pc:
->>> replay: recording...
->>> replay: replaying...
->>> INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: Timeout
->>> reached\nOriginal status: ERROR\n{'name':
->>> '1-tests/acceptance/replay_kernel.py:ReplayKernel.test_x86_64_pc',
->>> 'logdir':
->>> 'avocado/job-results/job-2020-05-27T16.48-71d7bf4/test-results/1-tes...
->>> (90.68 s)
->>>
->>=20
+>   git://repo.or.cz/qemu/armbru.git tags/pull-error-2020-05-27
+>
+> for you to fetch changes up to 49e2fa85ff04a9be89ed15f922c7d8dae2be9e74:
+>
+>   i386: Fix x86_cpu_load_model() error API violation (2020-05-27 07:45:45 +0200)
+>
+> ----------------------------------------------------------------
+> Error reporting patches for 2020-05-27
+>
+> ----------------------------------------------------------------
+> Markus Armbruster (10):
+>       nvdimm: Plug memory leak in uuid property setter
+>       xen: Fix and improve handling of device_add usb-host errors
+>       s390x/cpumodel: Fix harmless misuse of visit_check_struct()
+>       tests/migration: Tighten error checking
+>       error: Use error_reportf_err() where appropriate
+>       mips/malta: Fix create_cps() error handling
+>       mips/boston: Fix boston_mach_init() error handling
+>       mips/boston: Plug memory leak in boston_mach_init()
+>       arm/sabrelite: Consistently use &error_fatal in sabrelite_init()
+>       i386: Fix x86_cpu_load_model() error API violation
 
 
---=20
-Alex Benn=C3=A9e
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
+
+-- PMM
 
