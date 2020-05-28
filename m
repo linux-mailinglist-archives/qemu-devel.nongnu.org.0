@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D611E6F07
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 00:30:10 +0200 (CEST)
-Received: from localhost ([::1]:57962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 340661E6EA1
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 00:23:49 +0200 (CEST)
+Received: from localhost ([::1]:37264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeR2P-00041Z-3Y
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 18:30:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45430)
+	id 1jeQwF-0002UT-IT
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 18:23:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=4104b2603=alistair.francis@wdc.com>)
- id 1jeQvw-0003Lf-1o; Thu, 28 May 2020 18:23:28 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:48497)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=4104b2603=alistair.francis@wdc.com>)
- id 1jeQvu-0006IY-0T; Thu, 28 May 2020 18:23:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1590704607; x=1622240607;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=6FATJBjY3MEsYgFLnJ2w8QG6m7aF0O7YWGLLllI2F4A=;
- b=r4ss8FpTt6yUzS0zNHcA++vE+hwkIcCjijeA7ea1JYrgeKNQ8+xgIA9L
- POMoH5FYnLhgQraKXo0IC+T37YnsYs66Mx9wi/QlMUZ16UfiFNgF/IqeW
- A7H9JD0ov5x0aaSVfTLk/7zuCGTyxtIbauYK3Vf7gpoQQ6euLOZ0678MB
- ZS6owT0ioHPFdkRYexIHUvZM1BV3qDKkQhxkJvX1l08WIsb5mmjMzL0Wn
- NcTq/g6wm6Mv5d3FZscO/jwITO4IqEo+EJPbZ2Zaj5PoIh4c0GIdO0jZT
- XkTW98lI6D5qexkQDuFfDQhaL46Bu621TdECy719iRuLpIqK3VYG+SW1t w==;
-IronPort-SDR: UwUDBSvsJQOg29TQbKbLDS1ZR9QiKnnDrQ22p5isPT+Uwq5iFl3xPsPYg9VCKIbgBmXVzdmk1c
- iiq0pbgS+KnrnWywZDoNonMiCv8d6stTmT0cZPeI8SEAFCXJ1DdBx4CGXAPuGnhOpRYMauW3Bw
- hzIiehEfNJ4eohgx8LyLgnsCS1lxGqx4CPF9nPutgQTj1nlOvFP6y6SwKeiHJIsjOKNz2urNUw
- 6RqpWG5TLGIQywBVCQbPKIwG9P5vqmpm+PDpiQGLfCNamkFWXlnrPdttCeaW41OjF+bsTbyc3t
- tp4=
-X-IronPort-AV: E=Sophos;i="5.73,446,1583164800"; d="scan'208";a="139073358"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 29 May 2020 06:23:14 +0800
-IronPort-SDR: KCiwM/VVW3mn7KHWN1Kovjl7nD7pkkW4WAre/CgP6mZX/mX00ywaJdvGdB63R87HkUi2msZyll
- yLCMn4q53T1jZIb72Ff5TBl/FbevT0Oj0=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2020 15:13:01 -0700
-IronPort-SDR: 0d0iMb9OJowJMvUW7MJ8E/BmF6O6JUPE4NYem3LcCqm6BG5STgBzWMTy5QUPfbF2a3PPPXgoRF
- M9g/pH5L0Arg==
-WDCIronportException: Internal
-Received: from 6xf7cg2.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.57.123])
- by uls-op-cesaip02.wdc.com with ESMTP; 28 May 2020 15:23:12 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v5 11/11] target/riscv: Use a smaller guess size for no-MMU PMP
-Date: Thu, 28 May 2020 15:14:36 -0700
-Message-Id: <f59080ded69fd3a9bf3502a7c9d28f154e57da87.1590704015.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1590704015.git.alistair.francis@wdc.com>
-References: <cover.1590704015.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jeQu9-0000LO-HK
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 18:21:38 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53104
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jeQu7-0004fy-Uo
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 18:21:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590704493;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1dwXqei3FbPvf+eQsWAP8NdYrU9hcPq14hfaB/uQXMU=;
+ b=KEEKd3exOVELs3OwMuSFDjBghqTbkhziZduCtsdQDKJKHM48Q2JhQhtOYUzAbXTzbvbMkB
+ T4u+xn0t856WtxomH3uZyNbVI0q1tf03n0qG9mJt2/YinxrQq6mnK9lJjV2jD97dOqS2WC
+ rZC9OS3Appyg8FgmkYxHcAycAl9+VEs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-jIENEA-FP4SLm2A0NeagJw-1; Thu, 28 May 2020 18:21:32 -0400
+X-MC-Unique: jIENEA-FP4SLm2A0NeagJw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D301107ACCA
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 22:21:31 +0000 (UTC)
+Received: from probe.redhat.com (ovpn-112-142.rdu2.redhat.com [10.10.112.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E3B35D9CD;
+ Thu, 28 May 2020 22:21:30 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] python: pylint and flake8 support
+Date: Thu, 28 May 2020 18:21:25 -0400
+Message-Id: <20200528222129.23826-1-jsnow@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=4104b2603=alistair.francis@wdc.com;
- helo=esa5.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 18:22:43
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 17:57:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,44 +74,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
- alistair23@gmail.com
+Cc: John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ philmd@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
----
- target/riscv/pmp.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+This is a quick series to delint the files under python/qemu, with one
+extra fix outside of that domain.
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 0e6b640fbd..9418660f1b 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -233,12 +233,16 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-         return true;
-     }
- 
--    /*
--     * if size is unknown (0), assume that all bytes
--     * from addr to the end of the page will be accessed.
--     */
-     if (size == 0) {
--        pmp_size = -(addr | TARGET_PAGE_MASK);
-+        if (riscv_feature(env, RISCV_FEATURE_MMU)) {
-+            /*
-+             * If size is unknown (0), assume that all bytes
-+             * from addr to the end of the page will be accessed.
-+             */
-+            pmp_size = -(addr | TARGET_PAGE_MASK);
-+        } else {
-+            pmp_size = sizeof(target_ulong);
-+        }
-     } else {
-         pmp_size = size;
-     }
+This was split out from my longer series attempting to package
+python/qemu. This part is a nice standalone chunk.
+
+John Snow (4):
+  scripts/qmp: Fix shebang and imports
+  python/machine.py: remove bare except
+  python/qemu: delint and add pylintrc
+  python/qemu: delint; add flake8 config
+
+ python/qemu/.flake8    |  2 ++
+ python/qemu/accel.py   |  9 ++++---
+ python/qemu/machine.py | 52 +++++++++++++++++++++++--------------
+ python/qemu/pylintrc   | 58 ++++++++++++++++++++++++++++++++++++++++++
+ python/qemu/qmp.py     |  4 +--
+ python/qemu/qtest.py   | 42 +++++++++++++++++++-----------
+ scripts/qmp/qmp        |  4 ++-
+ scripts/qmp/qom-fuse   |  4 ++-
+ scripts/qmp/qom-get    |  6 +++--
+ scripts/qmp/qom-list   |  6 +++--
+ scripts/qmp/qom-set    |  6 +++--
+ scripts/qmp/qom-tree   |  6 +++--
+ 12 files changed, 150 insertions(+), 49 deletions(-)
+ create mode 100644 python/qemu/.flake8
+ create mode 100644 python/qemu/pylintrc
+
 -- 
-2.26.2
+2.21.3
 
 
