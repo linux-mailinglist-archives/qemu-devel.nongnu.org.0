@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780A11E5FD6
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 14:06:29 +0200 (CEST)
-Received: from localhost ([::1]:38840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5586B1E5FD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 14:07:36 +0200 (CEST)
+Received: from localhost ([::1]:40982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeHIq-0001na-3U
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 08:06:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57440)
+	id 1jeHJv-0002gT-EB
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 08:07:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jeHI5-0001KV-8B
- for qemu-devel@nongnu.org; Thu, 28 May 2020 08:05:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55258)
+ id 1jeHI6-0001L6-Ec
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 08:05:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jeHI4-0005U5-0d
- for qemu-devel@nongnu.org; Thu, 28 May 2020 08:05:40 -0400
+ id 1jeHI5-0005Up-KJ
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 08:05:42 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jeHI1-00055w-Su
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 12:05:37 +0000
+ id 1jeHI4-00055w-22
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 12:05:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D2F112E8105
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 12:05:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0D9452E8105
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 12:05:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 28 May 2020 11:58:25 -0000
+Date: Thu, 28 May 2020 11:59:30 -0000
 From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1877052@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,7 +45,7 @@ X-Launchpad-Bug-Reporter: Andreas Weller (weller-andreas-weller)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
  =?utf-8?q?=29?=
 References: <158875190128.5304.17617014708809905297.malonedeb@soybean.canonical.com>
-Message-Id: <159066710517.13516.998216433280668112.malone@soybean.canonical.com>
+Message-Id: <159066717057.5894.6102475423891864517.malone@wampee.canonical.com>
 Subject: [Bug 1877052] Re: KVM Win 10 guest pauses after kernel upgrade
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="275d46a24253e557e4403d52832837e4bfa425b6";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: dd89e901be88a4ac5b74d7dac748456f7cedbbf5
+X-Launchpad-Hash: 2e04138c3442156dfeca9071d623816c7d937f9b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 08:05:38
@@ -80,24 +80,10 @@ Reply-To: Bug 1877052 <1877052@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The warnings in the report like "MSR(48FH).vmx-exit-load-perf-global-ctrl" =
-are unrelated (in regard to guest hang).
-Those happen on
-a) too old kernels that don't support the feature
-b) mismatch of expectations of a chips vs its actual capabilities
-E.g. if libvirt thinks a feature should be supported by a chip, but isn't.
-There are toomany SKUs out there to be perfect - so these are red-herrings =
-at best.
+@Andreas - If we find nothing else to try I'll ping you when I have a
+newer qemu&libvirt build for Ubuntu 20.10 for you to try.
 
-I have not seen similar reports recently nor anyone else chiming in on this=
- one.
-After loosing what e thought could be a track to the bgu I'm puzzled what t=
-o do now on this?
-
-@Andreas - did you in the meantime find any new insight on this?
-
-** Changed in: qemu (Ubuntu)
-       Status: New =3D> Incomplete
+** Tags added: qemu-20.10
 
 -- =
 
