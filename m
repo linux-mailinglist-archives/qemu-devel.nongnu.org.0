@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD9A1E65DC
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 17:20:27 +0200 (CEST)
-Received: from localhost ([::1]:60884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42CF81E65E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 17:22:56 +0200 (CEST)
+Received: from localhost ([::1]:36732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeKKY-0002Bo-FS
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 11:20:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58188)
+	id 1jeKMx-0004OU-BT
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 11:22:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jeKHm-00083Z-5O
- for qemu-devel@nongnu.org; Thu, 28 May 2020 11:17:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22958
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jeKHj-0000sM-Vh
- for qemu-devel@nongnu.org; Thu, 28 May 2020 11:17:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590679050;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Y0jm0K0F8sSwtWejfl4hbQDGAI3u1gvDdlODusRovPE=;
- b=BXdZV3pDuCA2e2sRFy7EnWNk94kLqVVLxTZgQKWMn4RfHODjDgU9b5Kz9PieKhMceASRP9
- S4NmEYNHnuORavUSlAs9zgDqGs2/pz0bmavK5d/bjhSHFu+WaKd1GRe43epWxG9FaNjoG3
- pfz+7LoonvKILNomnfvD+BkhqD3lBJ4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-oy2Xq6b0MQe-DfCfbDhsFw-1; Thu, 28 May 2020 11:17:11 -0400
-X-MC-Unique: oy2Xq6b0MQe-DfCfbDhsFw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE7FE107ACCA;
- Thu, 28 May 2020 15:17:09 +0000 (UTC)
-Received: from localhost (ovpn-114-90.ams2.redhat.com [10.36.114.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB9F25F7EA;
- Thu, 28 May 2020 15:17:08 +0000 (UTC)
-Date: Thu, 28 May 2020 16:17:07 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3] block: Factor out bdrv_run_co()
-Message-ID: <20200528151707.GH158218@stefanha-x1.localdomain>
-References: <20200520144901.16589-1-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jeKIC-0008R5-S1
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 11:18:01 -0400
+Received: from mail-oo1-xc29.google.com ([2607:f8b0:4864:20::c29]:43737)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jeKIB-00012C-9X
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 11:18:00 -0400
+Received: by mail-oo1-xc29.google.com with SMTP id u190so5786719ooa.10
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 08:17:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xqL5+lFiOehshGmdO3WlGflxD2371215xA9kGAmA0no=;
+ b=Tc6QmSVefxCYzguKHCjCbLC1T4eHPHSsVpacDK68oQ+QcpJdeyUanXYwuBMD6piAo0
+ 6Z50jzCIVi0GqgZHt8fBDkoxCIbq4XZlmi5hBSvkFhjmS/nvZLeGANGiGok+luiR57G9
+ C17tQ7IYxw/d/SXPVNmr131qdK4Hkjc3XOMOiHhlXW/NuScb0sr1G9D0yqhALInKrRLn
+ VAznBT6Dtfi1WcCIdVutSZ0i1cj4PbASuLMEOJAOI6dy0Ruczee6cOkNL3HfYXh1VaKS
+ dEXlrsEi1ZnvCBjQzLfucVwzEVojObwBU7BBOyO/BQZovM6jiaPvrcT0XBdSAbPMpGKF
+ b3wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xqL5+lFiOehshGmdO3WlGflxD2371215xA9kGAmA0no=;
+ b=MSbYsDF3ghyF9c3mBI28lRTFvcP4tznHwmixdTMh4KWlrlnXK62izJsJ6sJq1x50Vc
+ 2LyMXUIgcDqAjswFFTcx/QzodGbxDKRBH271N+MD6kKnDFiYMIEhevCq/71xzeoNQ2fT
+ 5FuSQIPY+jaDkp/0c8n+qq0mEIU35ApZ13C51xHFTo97xjfZ34x+HWEiV/fvQzPh2hPb
+ ylbDqAIYRPq9Gd3aCqSObuxlbMj7/FN1r5gzA4lQyADV8yyBumzwZ7TcYA3WQPzD8YhG
+ iiPYWHqk4XUnWsUBGKeWVCC8zUs1dE0ouvak5No3ylozUZowD4GMlI1mAZSJ1zE5I9lB
+ Dnig==
+X-Gm-Message-State: AOAM533ItFgWpNzQ8LYYPU4fUUM/jLnUpYDdA1rljPbnpFutrYAypfeG
+ VK8slnA3FAcP6zF17pa5eAOR0TEnBIFf+nN5qeKO3Q==
+X-Google-Smtp-Source: ABdhPJwcnAvwYEwyz6cY7jyAgMe1QXv3FLuAoIbqVPv1oGgZZ5+c+9Auy9PhbYKa9J9vGS0oUhS41pAEQgQPkychqs0=
+X-Received: by 2002:a4a:381:: with SMTP id 123mr960031ooi.85.1590679077643;
+ Thu, 28 May 2020 08:17:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200520144901.16589-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EemXnrF2ob+xzFeB"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 03:11:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200527182617.1979018-1-alistair.francis@wdc.com>
+In-Reply-To: <20200527182617.1979018-1-alistair.francis@wdc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 May 2020 16:17:46 +0100
+Message-ID: <CAFEAcA9faRTHp5+jhEi=m=p-+kstCUZif-k2xN9b8K=hFukVBg@mail.gmail.com>
+Subject: Re: [PULL 0/1] register-api queue
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c29;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc29.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,55 +80,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org, philmd@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org
+Cc: Alistair Francis <alistair23@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---EemXnrF2ob+xzFeB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 27 May 2020 at 19:35, Alistair Francis <alistair.francis@wdc.com> w=
+rote:
+>
+> The following changes since commit 06539ebc76b8625587aa78d646a9d8d5fddf84=
+f3:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/mips-hw-next-2=
+0200526' into staging (2020-05-26 20:25:06 +0100)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:alistair23/qemu.git tags/pull-register-api-20200527
+>
+> for you to fetch changes up to 5932a46c8a419db4a6402ac8ae42953b4d4fef1e:
+>
+>   hw/registerfields: Prefix local variables with underscore in macros (20=
+20-05-27 11:23:07 -0700)
+>
+> ----------------------------------------------------------------
+> A single patch to avoid clashes with the regiser field macros.
+>
+> ----------------------------------------------------------------
+> Philippe Mathieu-Daud=C3=A9 (1):
+>       hw/registerfields: Prefix local variables with underscore in macros
 
-On Wed, May 20, 2020 at 05:49:01PM +0300, Vladimir Sementsov-Ogievskiy wrot=
-e:
-> We have a few bdrv_*() functions that can either spawn a new coroutine
-> and wait for it with BDRV_POLL_WHILE() or use a fastpath if they are
-> alreeady running in a coroutine. All of them duplicate basically the
-> same code.
->=20
-> Factor the common code into a new function bdrv_run_co().
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->    [Factor out bdrv_run_co_entry too]
-> ---
->=20
-> v3: keep created coroutine in BdrvRunCo struct for debugging [Kevin]
->=20
->  block/io.c | 193 ++++++++++++++++++++---------------------------------
->  1 file changed, 72 insertions(+), 121 deletions(-)
 
-Thanks, applied to my block tree:
-https://github.com/stefanha/qemu/commits/block
+Applied, thanks.
 
-Stefan
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
---EemXnrF2ob+xzFeB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7P1fMACgkQnKSrs4Gr
-c8jN5ggAp1cvSjZ4n3dNNGroHhkQEFVwmwsGqRkvnxCa82I7RlsNeweNrs+QkktV
-McooEIilhd4gc04XFD+Mz6klubsaoLm9/7E4nZdsQ58aVduAk4NpGCy2CE8+O+VR
-XDBIuOijB4U9RlKU01WUV2Ak/ecwVwt2vMiRSrPoW3kZumRisjrtroO91h9oe881
-S+2frPwZiOBCsoQITuGVapQQMpLzhuey/iPRX2EEptXWCkbBq+zBa8l0OoJ/d2TM
-7Nw98chE8TK6hw+j2KECc1zt6vFsrprWhOJkvzUt9fBhzdccg4We0T2vc0mrzBww
-cfNDhnRID4a1nlHGR8rSJM9JQd4G4Q==
-=0Rdf
------END PGP SIGNATURE-----
-
---EemXnrF2ob+xzFeB--
-
+-- PMM
 
