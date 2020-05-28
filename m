@@ -2,77 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C791E6F4E
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 00:42:43 +0200 (CEST)
-Received: from localhost ([::1]:40058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7631E6F60
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 00:44:59 +0200 (CEST)
+Received: from localhost ([::1]:47746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeREZ-000768-0C
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 18:42:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56114)
+	id 1jeRGk-0002jj-Gq
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 18:44:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1jeR6s-0003kG-O2
- for qemu-devel@nongnu.org; Thu, 28 May 2020 18:34:46 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21051
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1jeR6r-0007nD-2E
- for qemu-devel@nongnu.org; Thu, 28 May 2020 18:34:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590705282;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MGEMI9Vj4Mh8n+qQYr8YPoyEED1uKKipY2p67IVhIE0=;
- b=JxbHKAwiMR5ftIi5UtrTGYKHuS7D2r5PHCJ/LmGGSzoHQ+ZTVlWjbNMOgwbVHcwNo9AIZA
- qiC7mGerqdXzVdoYTdvfUKi6JUsgY/C8tnhYjQyf9LfWbXdfcTt/ElA9+AkvS/5680FfmH
- hLvOuZifr02LzfUyPED6BiNrUaTRJUI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-Hht4diWUP3GMYYsiACn6Hg-1; Thu, 28 May 2020 18:34:41 -0400
-X-MC-Unique: Hht4diWUP3GMYYsiACn6Hg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6362180183C
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 22:34:40 +0000 (UTC)
-Received: from x1.home (ovpn-112-195.phx2.redhat.com [10.3.112.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 667C75D9EF;
- Thu, 28 May 2020 22:34:34 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <vishal.l.verma@intel.com>)
+ id 1jeR75-00044d-D9
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 18:34:59 -0400
+Received: from mga14.intel.com ([192.55.52.115]:41310)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vishal.l.verma@intel.com>)
+ id 1jeR6z-0007vj-BY
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 18:34:59 -0400
+IronPort-SDR: YtzSeLxoQvU9XQPqLX6rNKGsp7kM1qPpLUrUbaps76LZ58uiDiqXxUAvZCZFkmThQW7uaNth6b
+ G230Uu7j9LHg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2020 15:34:49 -0700
+IronPort-SDR: eBb8xL9QU/glFNIdEl8w7NISHJf3A/St9TcdeufUaJJrjHfkZbqbxa4EHyHEC5LXQg3LrizVvZ
+ rYqM8rnwi9SQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,446,1583222400"; d="scan'208";a="256314828"
+Received: from vverma7-mobl4.lm.intel.com ([10.251.139.189])
+ by orsmga007.jf.intel.com with ESMTP; 28 May 2020 15:34:48 -0700
+From: Vishal Verma <vishal.l.verma@intel.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v4 0/3] account for NVDIMM nodes during SRAT generation
 Date: Thu, 28 May 2020 16:34:34 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH] hw/vfio/common: Trace in which mode a IOMMU is opened
-Message-ID: <20200528163434.2a65513b@x1.home>
-In-Reply-To: <20200527165330.GG1194141@xz-x1>
-References: <20200526173542.28710-1-philmd@redhat.com>
- <6c7c445d-0335-f67d-bb72-5b0c046bb247@redhat.com>
- <24f88212-9b32-b6dc-fcd4-685cde8bf5d7@redhat.com>
- <864ac8ab-e21e-393e-d1eb-08b3c4579bbf@redhat.com>
- <20200527161603.GF1194141@xz-x1>
- <3e364895-e5e5-09fe-ee8c-782f3632e2b8@redhat.com>
- <20200527165330.GG1194141@xz-x1>
-Organization: Red Hat
+Message-Id: <20200528223437.12568-1-vishal.l.verma@intel.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81;
- envelope-from=alex.williamson@redhat.com; helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 17:42:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.115;
+ envelope-from=vishal.l.verma@intel.com; helo=mga14.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 18:34:49
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,88 +61,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Auger Eric <eric.auger@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, jingqi.liu@intel.com,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 May 2020 12:53:30 -0400
-Peter Xu <peterx@redhat.com> wrote:
+Changes since v3:
+- Add the SRAT augmentation for ARM's virt-acpi-build as well (Igor)
+- Update patches 1 and 3 for the test binaries to include ARM tests.
 
-> On Wed, May 27, 2020 at 06:27:38PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
-te:
-> > On 5/27/20 6:16 PM, Peter Xu wrote: =20
-> > > On Wed, May 27, 2020 at 05:53:16PM +0200, Philippe Mathieu-Daud=C3=A9=
- wrote: =20
-> > >>>>> +    for (i =3D 0; i < ARRAY_SIZE(iommu); i++) {
-> > >>>>> +        if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu[i].=
-type)) {
-> > >>>>> +            trace_vfio_get_iommu_type(iommu[i].type, iommu[i].na=
-me); =20
-> > >>>> Just wondering why you want to trace the type as you now have the =
-name
-> > >>>> string. =20
-> > >>>
-> > >>> You are right :)
-> > >>> =20
-> > >>>>> +            return iommu[i].type;
-> > >>>>>          }
-> > >>>>>      }
-> > >>>>> +    trace_vfio_get_iommu_type(-1, "Not available or not supporte=
-d"); =20
-> > >>>> nit: from a debugging pov, this may be not needed as
-> > >>>> vfio_get_group/vfio_connect_container() fails and this leads to an=
- error
-> > >>>> output. =20
-> > >>
-> > >> But you can reach this for example using No-IOMMU. If you don't mind=
-, I
-> > >> find having this information in the trace log clearer. =20
-> > >=20
-> > > I kinda agree with Eric - AFAICT QEMU vfio-pci don't work with no-iom=
-mu, then
-> > > it seems meaningless to trace it...
-> > >=20
-> > > I'm not sure whether this trace is extremely helpful because syscalls=
- like this
-> > > could be easily traced by things like strace or bpftrace as general t=
-ools (and
-> > > this information should be a one-time thing rather than dynamically c=
-hanging),
-> > > no strong opinion though.  Also, if we want to dump something, maybe =
-it's
-> > > better to do in vfio_init_container() after vfio_get_iommu_type() suc=
-ceeded, so
-> > > we dump which container is enabled with what type of iommu. =20
-> >=20
-> > OK. I'm a recent VFIO user so maybe I am not using the good information=
-.
-> >=20
-> > This trace helps me while working on a new device feature, I didn't
-> > thought about gathering it in a production because there I'd expect
-> > things to work.
-> >=20
-> > Now in my case what I want is to know is if I'm using a v1 or v2 type.
-> > Maybe this information is already available in /proc or /sys and we
-> > don't need this patch... =20
+Changes since v2:
+- Change a repetitive OBJECT(dev) to a stored 'Object' (Igor)
+- No need to return 'numamem' back to build_srat (Igor)
 
-You're using v2 unless you're on a very old kernel.
+Changes since v1:
+- Use error_abort for getters (Igor)
+- Free the device list (Igor)
+- Refactor the NVDIMM related portion into hw/acpi/nvdimm.c (Igor)
+- Rebase onto latest master
+- Add Jingqi's Reviewed-by
 
-> I don't know such /proc or /sys, so maybe it's still useful. I guess Alex=
- would
-> have the best judgement. The strace/bpftrace things are not really reason=
-s I
-> found to nak this patch, but just something I thought first that could be
-> easier when any of us wants to peak at those information, probably someth=
-ing
-> just FYI. :-)
+On the command line, one can specify a NUMA node for NVDIMM devices. If
+we set up the topology to give NVDIMMs their own nodes, i.e. not
+containing any CPUs or regular memory, qemu doesn't populate SRAT memory
+affinity structures for these nodes. However the NFIT does reference
+those proximity domains.
 
-I appreciate good trace code, but I don't appreciate code bloat for the
-sake of tracing, which is what I'd consider the name fields here.  Do
-it in the trace-event or require that the user needs to cross reference
-the header to turn the integer type into a name themselves.  Thanks,
+As a result, Linux, while parsing the SRAT, fails to initialize node
+related structures for these nodes, and they never end up in the
+nodes_possible map. When these are onlined at a later point (via
+hotplug), this causes problems.
 
-Alex
+I've followed the instructions in bios-tables-test.c to update the
+expected SRAT binary, and the tests (make check) pass. Patches 1 and 3
+are the relevant ones for the binary update.
+
+Patch 2 is the main patch which changes SRAT generation.
+
+
+Vishal Verma (3):
+  diffs-allowed: add the SRAT AML to diffs-allowed
+  hw/acpi/nvdimm: add a helper to augment SRAT generation
+  tests/acpi: update expected SRAT files
+
+ hw/acpi/nvdimm.c                 |  23 +++++++++++++++++++++++
+ hw/arm/virt-acpi-build.c         |   4 ++++
+ hw/i386/acpi-build.c             |   5 +++++
+ include/hw/mem/nvdimm.h          |   1 +
+ tests/data/acpi/pc/SRAT.dimmpxm  | Bin 392 -> 392 bytes
+ tests/data/acpi/q35/SRAT.dimmpxm | Bin 392 -> 392 bytes
+ tests/data/acpi/virt/SRAT.memhp  | Bin 186 -> 226 bytes
+ 7 files changed, 33 insertions(+)
+
+-- 
+2.26.2
 
 
