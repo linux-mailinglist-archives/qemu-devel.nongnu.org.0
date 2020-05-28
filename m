@@ -2,51 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F021E5897
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 09:27:45 +0200 (CEST)
-Received: from localhost ([::1]:35120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB7C1E5A72
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 10:11:58 +0200 (CEST)
+Received: from localhost ([::1]:49638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeCx5-0005Bx-6a
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 03:27:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50408)
+	id 1jeDdt-0006hc-1F
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 04:11:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovgaluk@ispras.ru>)
- id 1jeCwA-0004Xj-N8
- for qemu-devel@nongnu.org; Thu, 28 May 2020 03:26:46 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:57540)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dovgaluk@ispras.ru>) id 1jeCw9-0000ul-C7
- for qemu-devel@nongnu.org; Thu, 28 May 2020 03:26:46 -0400
-Received: from [192.168.0.183] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 2600DCD462;
- Thu, 28 May 2020 10:26:42 +0300 (MSK)
-Subject: Re: [PATCH v2 04/11] tests/acceptance: add kernel record/replay test
- for x86_64
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
-References: <159057543840.16818.14393433996899521784.stgit@pasha-ThinkPad-X280>
- <159057546117.16818.15607496040935344350.stgit@pasha-ThinkPad-X280>
- <87v9kh5qtm.fsf@linaro.org> <87lfld5ozj.fsf@linaro.org>
-From: Pavel Dovgalyuk <dovgaluk@ispras.ru>
-Message-ID: <bb6c3804-256b-d8cb-7535-dbd90ab176dd@ispras.ru>
-Date: Thu, 28 May 2020 10:26:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jeDdA-0005cN-V3
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 04:11:13 -0400
+Received: from mga12.intel.com ([192.55.52.136]:24438)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jeDd8-0008Um-KV
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 04:11:12 -0400
+IronPort-SDR: ROr7wZyacJah5MbawAOiQjsvv0hRb6P/Ul5OHWsbHazCFUNIYMDgJvdAJCVBRImnKnr0FgYB9E
+ oaZJiJufF1Hg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 May 2020 01:11:00 -0700
+IronPort-SDR: bRgydiOtZ9X+tvZBEcFWcYWu54Zt+rX1J2USsgGjc8eh1+jjQqAJPCDIfAEtsekT/rDVTO77Ok
+ B1JIGWLyQ/RQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,444,1583222400"; d="scan'208";a="291916623"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by fmsmga004.fm.intel.com with ESMTP; 28 May 2020 01:10:55 -0700
+Date: Thu, 28 May 2020 04:01:02 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH Kernel v22 0/8] Add UAPIs to support migration for VFIO
+ devices
+Message-ID: <20200528080101.GD1378@joy-OptiPlex-7040>
+References: <1589781397-28368-1-git-send-email-kwankhede@nvidia.com>
+ <20200519105804.02f3cae8@x1.home>
+ <20200525065925.GA698@joy-OptiPlex-7040>
+ <426a5314-6d67-7cbe-bad0-e32f11d304ea@nvidia.com>
+ <20200526141939.2632f100@x1.home>
+ <20200527062358.GD19560@joy-OptiPlex-7040>
+ <20200527084822.GC3001@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <87lfld5ozj.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=83.149.199.45; envelope-from=dovgaluk@ispras.ru;
- helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 02:12:01
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200527084822.GC3001@work-vm>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=yan.y.zhao@intel.com;
+ helo=mga12.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 04:11:00
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,65 +72,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wrampazz@redhat.com, qemu-devel@nongnu.org, pavel.dovgaluk@ispras.ru,
- crosa@redhat.com, pbonzini@redhat.com, philmd@redhat.com
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ Kirti Wankhede <kwankhede@nvidia.com>, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ Alex Williamson <alex.williamson@redhat.com>, eauger@redhat.com,
+ felipe@nutanix.com, jonathan.davies@nutanix.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+> > > This is my understanding of the protocol as well, when the device is
+> > > running, pending_bytes might drop to zero if no internal state has
+> > > changed and may be non-zero on the next iteration due to device
+> > > activity.  When the device is not running, pending_bytes reporting zero
+> > > indicates the device is done, there is no further state to transmit.
+> > > Does that meet your need/expectation?
+> > >
+> > (1) on one side, as in vfio_save_pending(),
+> > vfio_save_pending()
+> > {
+> >     ...
+> >     ret = vfio_update_pending(vbasedev);
+> >     ...
+> >     *res_precopy_only += migration->pending_bytes;
+> >     ...
+> > }
+> > the pending_bytes tells migration thread how much data is still hold in
+> > device side.
+> > the device data includes
+> > device internal data + running device dirty data + device state.
+> > 
+> > so the pending_bytes should include device state as well, right?
+> > if so, the pending_bytes should never reach 0 if there's any device
+> > state to be sent after device is stopped.
+> 
+> I hadn't expected the pending-bytes to include a fixed offset for device
+> state (If you mean a few registers etc) - I'd expect pending to drop
+> possibly to zero;  the heuristic as to when to switch from iteration to
+> stop, is based on the total pending across all iterated devices; so it's
+> got to be allowed to drop otherwise you'll never transition to stop.
+> 
+ok. got it.
 
-On 27.05.2020 19:20, Alex Bennée wrote:
-> Alex Bennée <alex.bennee@linaro.org> writes:
->
->> Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com> writes:
->>
->>> This patch adds a test for record/replay an execution of x86_64 machine.
->>> Execution scenario includes simple kernel boot, which allows testing
->>> basic hardware interaction in RR mode.
->>>
->>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
->>> ---
->>>   0 files changed
->>>
->>> diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
->>> index b8b277ad2f..c7526f1aba 100644
->>> --- a/tests/acceptance/replay_kernel.py
->>> +++ b/tests/acceptance/replay_kernel.py
->>> @@ -55,3 +55,19 @@ class ReplayKernel(LinuxKernelUtils):
->>>                       True, shift, args)
->>>           self.run_vm(kernel_path, kernel_command_line, console_pattern,
->>>                       False, shift, args)
->>> +
->>> +    def test_x86_64_pc(self):
->>> +        """
->>> +        :avocado: tags=arch:x86_64
->>> +        :avocado: tags=machine:pc
->>> +        """
->>> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
->>> +                      '/linux/releases/29/Everything/x86_64/os/images/pxeboot'
->>> +                      '/vmlinuz')
->>> +        kernel_hash = '23bebd2680757891cf7adedb033532163a792495'
->>> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
->>> +
->>> +        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE +
->>> 'console=ttyS0'
->> I note that:
->>
->>    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
->>
->> and given we are looking for repeatability here maybe we should use our
->> own command line so we can compare the recorded and replayed boot?
-> To build on that I think a command line like:
->
->    KERNEL_COMMON_COMMAND_LINE = 'printk.time=1 panic=-1 '
->
-> called with --no-reboot and a pattern:
->
->    console_pattern = 'VFS: Cannot open root device'
->
-> You will run more of the kernel (importantly with timestamps > 0.000) so
-> we can have a better compare between the recorded and replayed run.
->
-This is reasonable, thank you.
+> > (2) on the other side,
+> > along side we updated the pending_bytes in vfio_save_pending() and
+> > enter into the vfio_save_iterate(), if we repeatedly update
+> > pending_bytes in vfio_save_iterate(), it would enter into a scenario
+> > like
+> > 
+> > initially pending_bytes=500M.
+> > vfio_save_iterate() -->
+> >   round 1: transmitted 500M.
+> >   round 2: update pending bytes, pending_bytes=50M (50M dirty data).
+> >   round 3: update pending bytes, pending_bytes=50M.
+> >   ...
+> >   round N: update pending bytes, pending_bytes=50M.
+> > 
+> > If there're two vfio devices, the vfio_save_iterate() for the second device
+> > may never get chance to be called because there's always pending_bytes
+> > produced by the first device, even the size if small.
+> 
+> And between RAM and the vfio devices?
 
+yes, is that right?
 
+Thanks
+Yan
 
