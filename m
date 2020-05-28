@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23FA61E5DF6
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 13:11:03 +0200 (CEST)
-Received: from localhost ([::1]:53456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A49811E5DE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 13:09:14 +0200 (CEST)
+Received: from localhost ([::1]:44870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeGRC-0000LL-6U
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 07:11:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49806)
+	id 1jeGPR-0005NH-Mr
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 07:09:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLH-0005kE-71
- for qemu-devel@nongnu.org; Thu, 28 May 2020 07:04:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35817
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLG-0005ix-Ip
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 07:04:54 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38130
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLE-0006eu-8L
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLD-0006eS-KQ
  for qemu-devel@nongnu.org; Thu, 28 May 2020 07:04:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590663891;
+ s=mimecast20190719; t=1590663890;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=791xB3bIhnmA94pE0vzJpWoq5hrHM3MtEJgzlo62QlI=;
- b=bBlndOJoUmNHCCyi6qmfb65fcvb00SD5pKdrFC3Il7TRxz0ZxPM4+FkwgFyyvbWJ2jKJsH
- Gw48h8Ac6opU10U+90vN1QGjXlmRpN/etCQmVpq4isLP3jhfxGxaXpM9TD6qpo9bqUvg9K
- APb85zqTwdaN6O/WETdDPb3yYs4rxBo=
+ bh=AIkdQS9pj4j1ItpXU0icT5OdJ7ajxaVwCX3j8UN49TQ=;
+ b=Sw4tysi5Be7j1WP4na8lC4H1vrFgluRsnGz+PKG0HUhqCV+abSI3ekq8Q8tSGw/zdIBZQk
+ AI6lJBbmYY6XBJxd7BMwL0KMBGk//FtyUfULu2oTqVZ9tzH45p46f8pZvCKNmB57f+MzNY
+ GntFU0QoFiQbhrDhvP6YQ4mIG6rojb4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-ramdDYJwNvuPkzhJOfuYMg-1; Thu, 28 May 2020 07:04:49 -0400
-X-MC-Unique: ramdDYJwNvuPkzhJOfuYMg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-263-VIrYnpmgMCCN0xm6Z5AZEw-1; Thu, 28 May 2020 07:04:49 -0400
+X-MC-Unique: VIrYnpmgMCCN0xm6Z5AZEw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6011E1855A0E;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 336298014D7;
  Thu, 28 May 2020 11:04:48 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C546768D0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 00EA77A8B4;
  Thu, 28 May 2020 11:04:47 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E052811358C3; Thu, 28 May 2020 13:04:44 +0200 (CEST)
+ id E710411358C4; Thu, 28 May 2020 13:04:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/24] pnv/phb4: Delete unused "pnv-phb4-pec-stack" devices
-Date: Thu, 28 May 2020 13:04:31 +0200
-Message-Id: <20200528110444.20456-12-armbru@redhat.com>
+Subject: [PATCH v2 12/24] MAINTAINERS: Make section PowerNV cover
+ pci-host/pnv* as well
+Date: Thu, 28 May 2020 13:04:32 +0200
+Message-Id: <20200528110444.20456-13-armbru@redhat.com>
 In-Reply-To: <20200528110444.20456-1-armbru@redhat.com>
 References: <20200528110444.20456-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -80,83 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- pbonzini@redhat.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: berrange@redhat.com, ehabkost@redhat.com, qemu-ppc@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, pbonzini@redhat.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
-The number of stacks is controlled by property "num-stacks".
-pnv_pec_instance_init() creates the maximum supported number, because
-the property has not been set then.  pnv_pec_realize() realizes only
-the wanted number.  Works, although it can leave unrealized devices
-hanging around in the QOM composition tree.  Affects machine powernv9.
-
-Delete the unused devices by making pnv_pec_realize() unparent them.
-Visible in "info qom-tree":
-
-     /machine (powernv9-machine)
-       /chip[0] (power9_v2.0-pnv-chip)
-         [...]
-         /pec[0] (pnv-phb4-pec)
-           /stack[0] (pnv-phb4-pec-stack)
-             [...]
-    -      /stack[1] (pnv-phb4-pec-stack)
-    -        /phb (pnv-phb4)
-    -          /pcie-mmcfg-mmio[0] (qemu:memory-region)
-    -          /root (pnv-phb4-root-port)
-    -          /source (xive-source)
-    -      /stack[2] (pnv-phb4-pec-stack)
-    -        /phb (pnv-phb4)
-    -          /pcie-mmcfg-mmio[0] (qemu:memory-region)
-    -          /root (pnv-phb4-root-port)
-    -          /source (xive-source)
-           /xscom-pec-0.0-nest[0] (qemu:memory-region)
-           /xscom-pec-0.0-pci[0] (qemu:memory-region)
-         /pec[1] (pnv-phb4-pec)
-           /stack[0] (pnv-phb4-pec-stack)
-             [...]
-           /stack[1] (pnv-phb4-pec-stack)
-             [...]
-    -      /stack[2] (pnv-phb4-pec-stack)
-    -        /phb (pnv-phb4)
-    -          /pcie-mmcfg-mmio[0] (qemu:memory-region)
-    -          /root (pnv-phb4-root-port)
-    -          /source (xive-source)
-           /xscom-pec-0.1-nest[0] (qemu:memory-region)
-           /xscom-pec-0.1-pci[0] (qemu:memory-region)
-         /pec[2] (pnv-phb4-pec)
-           /stack[0] (pnv-phb4-pec-stack)
-             [...]
-           /stack[1] (pnv-phb4-pec-stack)
-             [...]
-           /stack[2] (pnv-phb4-pec-stack)
-             [...]
 
 Cc: Cédric Le Goater <clg@kaod.org>
 Cc: David Gibson <david@gibson.dropbear.id.au>
 Cc: qemu-ppc@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/pci-host/pnv_phb4_pec.c | 3 +++
- 1 file changed, 3 insertions(+)
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index 911d147ffd..565345a018 100644
---- a/hw/pci-host/pnv_phb4_pec.c
-+++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -397,6 +397,9 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
-             return;
-         }
-     }
-+    for (; i < PHB4_PEC_MAX_STACKS; i++) {
-+        object_unparent(OBJECT(&pec->stacks[i]));
-+    }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3690f313c3..3bd5c613f5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1213,7 +1213,9 @@ S: Maintained
+ F: hw/ppc/pnv*
+ F: hw/intc/pnv*
+ F: hw/intc/xics_pnv.c
++F: hw/pci-host/pnv*
+ F: include/hw/ppc/pnv*
++F: include/hw/pci-host/pnv*
+ F: pc-bios/skiboot.lid
+ F: tests/qtest/pnv*
  
-     /* Initialize the XSCOM regions for the PEC registers */
-     snprintf(name, sizeof(name), "xscom-pec-%d.%d-nest", pec->chip_id,
 -- 
 2.21.3
 
