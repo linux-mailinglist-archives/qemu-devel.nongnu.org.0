@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 333EE1E6F56
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 00:43:59 +0200 (CEST)
-Received: from localhost ([::1]:43750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8280D1E6FB1
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 00:54:56 +0200 (CEST)
+Received: from localhost ([::1]:54378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeRFl-00015v-M5
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 18:43:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57004)
+	id 1jeRQN-0006te-4P
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 18:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jeR7Y-0004zh-ME; Thu, 28 May 2020 18:35:28 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:54222)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1jeR7U-0008Un-JM; Thu, 28 May 2020 18:35:26 -0400
-Received: from mxbackcorp1o.mail.yandex.net (mxbackcorp1o.mail.yandex.net
- [IPv6:2a02:6b8:0:1a2d::301])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id ACCCD2E0E4D;
- Fri, 29 May 2020 01:35:19 +0300 (MSK)
-Received: from sas1-9998cec34266.qloud-c.yandex.net
- (sas1-9998cec34266.qloud-c.yandex.net [2a02:6b8:c14:3a0e:0:640:9998:cec3])
- by mxbackcorp1o.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- BuNyaWpDN3-ZFxKo312; Fri, 29 May 2020 01:35:19 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1590705319; bh=8cadgulWOGNTQdBMKpVo058EzTWu105wWXqXNmDyI2Q=;
- h=In-Reply-To:Message-ID:Subject:To:From:References:Date:Cc;
- b=sYf34wspRvEm3uY0kJIMbV/vm1gg+TU5JxAbj4M8vapwXTBr32eWTdNBhLvq6bb6U
- Hod9ijXHn9stbImabjisBTH/JszZKMdPX4/OHYmcMAw6QWFoXs6gk20Vmsq0qf8rhQ
- eHr35kE05eJVjVk9Dj46B1n6R5mibG0sH1ks+Bh0=
-Authentication-Results: mxbackcorp1o.mail.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:1318::1:10])
- by sas1-9998cec34266.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 9jfGj8qT6B-ZFXuqeYQ; Fri, 29 May 2020 01:35:15 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Date: Fri, 29 May 2020 01:35:14 +0300
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v7 4/8] qdev-properties: add size32 property type
-Message-ID: <20200528223514.GA1255099@rvkaganb.lan>
-Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Paul Durrant <paul@xen.org>, xen-devel@lists.xenproject.org,
- Anthony Perard <anthony.perard@citrix.com>,
- Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <20200528213946.1636444-1-rvkagan@yandex-team.ru>
- <20200528213946.1636444-5-rvkagan@yandex-team.ru>
- <78e3587a-efea-970a-b47e-8d187464d955@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1jeRPN-0006TZ-Bx
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 18:53:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29244
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1jeRPL-0005bo-M5
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 18:53:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590706430;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0fP2ApTtN9i4VyxWY+o5Q36Obi7PmYNpALvuVo0SLA8=;
+ b=f4XUUBc0/Xymv24TTXQ1LcWPWeu5x7xFTSj4xQJHf/qDkRavDhvR1HTK8Rj6XwGxgFDDLV
+ rYl2I8sUL0YlOR/mMfxGi5kmuFc/DG3HGW42/XBiMGHCy4xkjij+ACIJcal4zU+WOT1kKF
+ WsuuOdb8thh1cCLLEJLTqdhXd6fqfVs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-LeE-_7KEOYCMqSIgEvVNUQ-1; Thu, 28 May 2020 18:53:46 -0400
+X-MC-Unique: LeE-_7KEOYCMqSIgEvVNUQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 133148014D7;
+ Thu, 28 May 2020 22:53:43 +0000 (UTC)
+Received: from x1.home (ovpn-112-195.phx2.redhat.com [10.3.112.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E9CFA7A8BB;
+ Thu, 28 May 2020 22:53:40 +0000 (UTC)
+Date: Thu, 28 May 2020 16:53:40 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Subject: Re: [PATCH Kernel v22 0/8] Add UAPIs to support migration for VFIO
+ devices
+Message-ID: <20200528165340.53a57e22@x1.home>
+In-Reply-To: <20200528080101.GD1378@joy-OptiPlex-7040>
+References: <1589781397-28368-1-git-send-email-kwankhede@nvidia.com>
+ <20200519105804.02f3cae8@x1.home>
+ <20200525065925.GA698@joy-OptiPlex-7040>
+ <426a5314-6d67-7cbe-bad0-e32f11d304ea@nvidia.com>
+ <20200526141939.2632f100@x1.home>
+ <20200527062358.GD19560@joy-OptiPlex-7040>
+ <20200527084822.GC3001@work-vm>
+ <20200528080101.GD1378@joy-OptiPlex-7040>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <78e3587a-efea-970a-b47e-8d187464d955@redhat.com>
-Received-SPF: pass client-ip=5.45.199.163; envelope-from=rvkagan@yandex-team.ru;
- helo=forwardcorp1j.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 17:40:21
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=207.211.31.120;
+ envelope-from=alex.williamson@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 17:46:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,69 +86,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Paul Durrant <paul@xen.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Anthony Perard <anthony.perard@citrix.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Keith Busch <kbusch@kernel.org>,
- xen-devel@lists.xenproject.org, John Snow <jsnow@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 28, 2020 at 04:45:19PM -0500, Eric Blake wrote:
-> On 5/28/20 4:39 PM, Roman Kagan wrote:
-> > Introduce size32 property type which handles size suffixes (k, m) just
-> > like size property, but is uint32_t rather than uint64_t.
-> 
-> Does it handle 'g' as well? (even though the set of valid 32-bit sizes with
-> a g suffix is rather small ;)
-> 
-> >  It's going to
-> > be useful for properties that are byte sizes but are inherently 32bit,
-> > like BlkConf.opt_io_size or .discard_granularity (they are switched to
-> > this new property type in a followup commit).
-> > 
-> > The getter for size32 is left out for a separate patch as its benefit is
-> > less obvious, and it affects test output; for now the regular uint32
-> > getter is used.
-> > 
-> > Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
-> > ---
-> > 
-> 
-> > +static void set_size32(Object *obj, Visitor *v, const char *name, void *opaque,
-> > +                       Error **errp)
-> > +{
-> > +    DeviceState *dev = DEVICE(obj);
-> > +    Property *prop = opaque;
-> > +    uint32_t *ptr = qdev_get_prop_ptr(dev, prop);
-> > +    uint64_t value;
-> > +    Error *local_err = NULL;
-> > +
-> > +    if (dev->realized) {
-> > +        qdev_prop_set_after_realize(dev, name, errp);
-> > +        return;
-> > +    }
-> > +
-> > +    visit_type_size(v, name, &value, &local_err);
-> 
-> Yes, it does.
-> 
-> Whether or not the commit message is tweaked,
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+On Thu, 28 May 2020 04:01:02 -0400
+Yan Zhao <yan.y.zhao@intel.com> wrote:
 
-I did this stupid stringify(UINT32_MAX) here too.  It's even uglier
-here, with an 'U' appended to the number in the brackets, but somehow it
-didn't strike me in the eye while testing.
+> > > > This is my understanding of the protocol as well, when the device is
+> > > > running, pending_bytes might drop to zero if no internal state has
+> > > > changed and may be non-zero on the next iteration due to device
+> > > > activity.  When the device is not running, pending_bytes reporting zero
+> > > > indicates the device is done, there is no further state to transmit.
+> > > > Does that meet your need/expectation?
+> > > >  
+> > > (1) on one side, as in vfio_save_pending(),
+> > > vfio_save_pending()
+> > > {
+> > >     ...
+> > >     ret = vfio_update_pending(vbasedev);
+> > >     ...
+> > >     *res_precopy_only += migration->pending_bytes;
+> > >     ...
+> > > }
+> > > the pending_bytes tells migration thread how much data is still hold in
+> > > device side.
+> > > the device data includes
+> > > device internal data + running device dirty data + device state.
+> > > 
+> > > so the pending_bytes should include device state as well, right?
+> > > if so, the pending_bytes should never reach 0 if there's any device
+> > > state to be sent after device is stopped.  
+> > 
+> > I hadn't expected the pending-bytes to include a fixed offset for device
+> > state (If you mean a few registers etc) - I'd expect pending to drop
+> > possibly to zero;  the heuristic as to when to switch from iteration to
+> > stop, is based on the total pending across all iterated devices; so it's
+> > got to be allowed to drop otherwise you'll never transition to stop.
+> >   
+> ok. got it.
 
-So I'll fix this too in the respin, and drop the r-b.
+Yeah, as I understand it, a device is not required to participate in
+reporting data available while (_SAVING | _RUNNING), there will always
+be an iteration while the device is !_RUNNING.  Therefore if you have
+fixed device state that you're always going to send, it should only be
+sent once when called during !_RUNNING.  The iterative phase should be
+used where you have a good chance to avoid re-sending data at the
+stop-and-copy phase.  Thanks,
 
-Thanks,
-Roman.
+Alex
+
 
