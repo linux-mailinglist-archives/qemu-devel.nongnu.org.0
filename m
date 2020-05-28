@@ -2,104 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12FBD1E68E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 19:54:27 +0200 (CEST)
-Received: from localhost ([::1]:60974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B4A1E6942
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 20:25:26 +0200 (CEST)
+Received: from localhost ([::1]:59776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeMjZ-0002x5-JB
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 13:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54796)
+	id 1jeNDZ-00072e-IW
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 14:25:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1jeMiW-00027D-DG; Thu, 28 May 2020 13:53:20 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1jeMiU-0004zz-Km; Thu, 28 May 2020 13:53:19 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04SHW0cZ193907; Thu, 28 May 2020 13:53:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=9oj3Be8hW8yN/B2cMToHQyO1OpeRFuzuLBK3wZqm4Kc=;
- b=k3S9n80WvEOSSxszjVm8yipdt7GMMTUxnRkLfoio6P51AxDn/FAOgmEtvsFCFOL8nO7r
- jgAwgf4Z1TyijJCqtcsii1U/JQM+rQpugg7QFh5SzboKe16KUJueIyQn0BXwYcSaNf/P
- fclO6Q1xfxqAXrUp8QR0DqEkr5dfMNbEEmJvfvMtL4LBVyRJjNXzpXm30KqwnW+kw5j4
- dMgoch7+siDqWXPnQBZ91rASbZVONN8viCr/7Lml83/ZXTOarXjKJIKs0cGk0fRKcrd8
- NTAXorkxS+ef1nO6H/w7YILVT8HNhyn6FUgGqzDgogrAOplA06OdN826TF+tpI6BegMy ww== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 319xxskesr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 28 May 2020 13:53:14 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04SHg3Qd036004;
- Thu, 28 May 2020 13:53:13 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 319xxskerw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 28 May 2020 13:53:13 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04SHZPuK006545;
- Thu, 28 May 2020 17:53:11 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03ams.nl.ibm.com with ESMTP id 316uf8ac85-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 28 May 2020 17:53:11 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 04SHr8QT61014368
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 28 May 2020 17:53:08 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5E23B5204E;
- Thu, 28 May 2020 17:53:08 +0000 (GMT)
-Received: from oc2783563651 (unknown [9.145.21.214])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id BB61E5204F;
- Thu, 28 May 2020 17:53:07 +0000 (GMT)
-Date: Thu, 28 May 2020 19:52:51 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v2 1/1] virtio-ccw: auto-manage VIRTIO_F_IOMMU_PLATFORM
- if PV
-Message-ID: <20200528195251.3f17a70e.pasic@linux.ibm.com>
-In-Reply-To: <20200528132112.2a1fdf45.cohuck@redhat.com>
-References: <20200514221155.32079-1-pasic@linux.ibm.com>
- <20200520121507-mutt-send-email-mst@kernel.org>
- <20200522230451.632a3787.pasic@linux.ibm.com>
- <20200528132112.2a1fdf45.cohuck@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jeNBF-0005W0-N8; Thu, 28 May 2020 14:23:01 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:35074)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jeNBE-0001EU-Ok; Thu, 28 May 2020 14:23:01 -0400
+Received: by mail-io1-xd42.google.com with SMTP id s18so17178041ioe.2;
+ Thu, 28 May 2020 11:23:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ImvoxFhKSDSHWMHuGftf6lJGiwX1MOPpAeuT8BKaklI=;
+ b=iIJ7MwbUGX1vKbIE9Z+fYpuVxrkmLt5m1dslxE/U9yJba25VID6Q9fTcyeJefSB3nP
+ 6OB7/gTVCusKWlBu5PT4Z62k9Chh+CPvtKGAuMV0EwFoY3+P1x/YDUz0/+axi8lhc5hg
+ v43zIxRFjuYFyg/7SBigpebdkyMZEhhKXBO7NgFPtQbx2UI3nAH+FTiSJlQ0uZIYSF2n
+ lcCpICw6KgOl3bOzj+lrRsX6RZieD9vGMn9aiCcZPCSTmXWWv700VQXoKGPn8euiKdZN
+ 6vC5nlaUrh+H2QTMnAi21TmNrYEXPQoRMwWGjSyA+LI6wpOu9BTRX2iQ7sFqH6DXdrfx
+ nNrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ImvoxFhKSDSHWMHuGftf6lJGiwX1MOPpAeuT8BKaklI=;
+ b=ZU5K1nNatIEf5/Sqn/izVxJkKFcM+0irdTcprEOTP7IeUm4Ky5gRQ/Y1M+b32QMxS4
+ 0ggGBxNFGkikwxs8bU1t0Us65YEeJqE2W8GlCFTNcWcKLYGJM8Q7bG5xYIswqj63apIy
+ /3v02emmhE+OymS3YFvL8k/MF3T2QgVNOMoKZmR+9IhdW6GjLEzKXLLt5Eiqw09PDaJk
+ Dtc8aIYc7kfcPyweCRDo7eLsIwyDxCGIHABffHFcuEsYxxz+BmjKaNibp6pkVbhxnRos
+ wPc8LSJUPiI9KIUlTeHObwk3WRU3Q0JH54Z7tl1xMET4UzeMrE1Vc3Qir8WzCwAjFl1V
+ ZuMw==
+X-Gm-Message-State: AOAM531bxGSoHNfGO5iioLnL5Q4SogyZnGT9A08xHUBuZw4l25d8O0A5
+ h4LtWRIlwn0g7omnrrkA8chJP+r5XE4YL5wXyl4=
+X-Google-Smtp-Source: ABdhPJwQepYTP3EZ/kDeBTFzgHLLZJlOV1FSordGoVcQAfj50WDGf1iTuUoiuFRS8Q9V80+pdzuScmCAsxTT33LOqis=
+X-Received: by 2002:a05:6638:dd3:: with SMTP id
+ m19mr3880754jaj.106.1590690179218; 
+ Thu, 28 May 2020 11:22:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-05-28_03:2020-05-28,
- 2020-05-28 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- clxscore=1015 mlxscore=0 malwarescore=0 lowpriorityscore=0
- cotscore=-2147483648 impostorscore=0 priorityscore=1501 suspectscore=0
- phishscore=0 spamscore=0 mlxlogscore=999 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005280118
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 13:53:14
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <925bdcd2b3536014306a8800975fb63592fd051a.1589489213.git.alistair.francis@wdc.com>
+ <mhng-8a09dc11-68b8-4e28-9b50-3fc5a52837e6@palmerdabbelt-glaptop1>
+ <CAKmqyKM7G+b0cZ2a0MGtqRCKc5WbCcAkTfzYfF+gbvYDyOMidA@mail.gmail.com>
+In-Reply-To: <CAKmqyKM7G+b0cZ2a0MGtqRCKc5WbCcAkTfzYfF+gbvYDyOMidA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 28 May 2020 11:13:57 -0700
+Message-ID: <CAKmqyKP_Z=8gYqviEAveCd18OL0YXHW8k3k652KvTbJ9zbXPog@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] sifive_e: Support the revB machine
+To: Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,218 +80,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x@nongnu.org, Viktor Mihajlovski <mihajlov@linux.ibm.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 May 2020 13:21:12 +0200
-Cornelia Huck <cohuck@redhat.com> wrote:
+On Thu, May 21, 2020 at 8:57 AM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Wed, May 20, 2020 at 4:08 PM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+> >
+> > On Thu, 14 May 2020 13:47:10 PDT (-0700), Alistair Francis wrote:
+> > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > > ---
+> > >  hw/riscv/sifive_e.c         | 35 +++++++++++++++++++++++++++++++----
+> > >  include/hw/riscv/sifive_e.h |  1 +
+> > >  2 files changed, 32 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> > > index 472a98970b..cb7818341b 100644
+> > > --- a/hw/riscv/sifive_e.c
+> > > +++ b/hw/riscv/sifive_e.c
+> > > @@ -98,10 +98,14 @@ static void riscv_sifive_e_init(MachineState *machine)
+> > >          memmap[SIFIVE_E_DTIM].base, main_mem);
+> > >
+> > >      /* Mask ROM reset vector */
+> > > -    uint32_t reset_vec[2] = {
+> > > -        0x204002b7,        /* 0x1000: lui     t0,0x20400 */
+> > > -        0x00028067,        /* 0x1004: jr      t0 */
+> > > -    };
+> > > +    uint32_t reset_vec[2];
+> > > +
+> > > +    if (s->revb) {
+> > > +        reset_vec[0] = 0x200102b7;        /* 0x1000: lui     t0,0x20010 */
+> > > +    } else {
+> > > +        reset_vec[0] = 0x204002b7;        /* 0x1000: lui     t0,0x20400 */
+> > > +    }
+> > > +    reset_vec[1] = 0x00028067;        /* 0x1004: jr      t0 */
+> > >
+> > >      /* copy in the reset vector in little_endian byte order */
+> > >      for (i = 0; i < sizeof(reset_vec) >> 2; i++) {
+> > > @@ -115,8 +119,31 @@ static void riscv_sifive_e_init(MachineState *machine)
+> > >      }
+> > >  }
+> > >
+> > > +static bool sifive_e_machine_get_revb(Object *obj, Error **errp)
+> > > +{
+> > > +    SiFiveEState *s = RISCV_E_MACHINE(obj);
+> > > +
+> > > +    return s->revb;
+> > > +}
+> > > +
+> > > +static void sifive_e_machine_set_revb(Object *obj, bool value, Error **errp)
+> > > +{
+> > > +    SiFiveEState *s = RISCV_E_MACHINE(obj);
+> > > +
+> > > +    s->revb = value;
+> > > +}
+> > > +
+> > >  static void sifive_e_machine_instance_init(Object *obj)
+> > >  {
+> > > +    SiFiveEState *s = RISCV_E_MACHINE(obj);
+> > > +
+> > > +    s->revb = false;
+> > > +    object_property_add_bool(obj, "revb", sifive_e_machine_get_revb,
+> > > +                             sifive_e_machine_set_revb, NULL);
+> > > +    object_property_set_description(obj, "revb",
+> > > +                                    "Set on to tell QEMU that it should model "
+> > > +                                    "the revB HiFive1 board",
+> > > +                                    NULL);
+> > >  }
+> > >
+> > >  static void sifive_e_machine_class_init(ObjectClass *oc, void *data)
+> > > diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
+> > > index 414992119e..0d3cd07fcc 100644
+> > > --- a/include/hw/riscv/sifive_e.h
+> > > +++ b/include/hw/riscv/sifive_e.h
+> > > @@ -45,6 +45,7 @@ typedef struct SiFiveEState {
+> > >
+> > >      /*< public >*/
+> > >      SiFiveESoCState soc;
+> > > +    bool revb;
+> > >  } SiFiveEState;
+> > >
+> > >  #define TYPE_RISCV_E_MACHINE MACHINE_TYPE_NAME("sifive_e")
+> >
+> > IIRC there are way more differences between the un-suffixed FE310 and the Rev
+> > B, specifically the interrupt map is all different.
+>
+> The three IRQs that QEMU uses for the SiFive E (UART0, UART1 and GPIO)
+> all seem to be the same.
 
-> On Fri, 22 May 2020 23:04:51 +0200
-> Halil Pasic <pasic@linux.ibm.com> wrote:
->=20
-> > On Wed, 20 May 2020 12:23:24 -0400
-> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-[..]
-> > > So, how about this: switch iommu to on/off/auto. =20
-> >=20
-> > Many thanks for the reveiw, and sorry about the delay on my side. We
-> > have holidays here in Germany and I was not motivated enough up until
-> > now to check on my mails.
-> >=20
-> >=20
-> > I've actually played  with the thought of switching iommu_platform to=20
-> > 'on/off/auto', but I didn't find an easy way to do it. I will look
-> > again. This would be the first property of this kind in QEMU, or?
->=20
-> virtio-pci uses it for 'disable-legacy'.
->=20
+Ping!
 
-Thank you very much! This makes tinging about 'on/off/auto' much easier.
-
-> >=20
-> > The 'on/off/auto' would be certainly much cleaner form user-interface
-> > perspective. The downsides are that it is more invasive, and more
-> > complicated. I'm afraid that it would also leave more possibilities for
-> > user error.
->=20
-> To me, on/off/auto sounds like a reasonable thing to do.
->=20
-> What possibilities of 'user error' do you see?=20
-
-I will whip up a prototype first and then come back to you with more
-details.
-
-The short answer is if the user isn't very careful about all the whistles
-and bells, I understand that the user will end up with a partially or
-fully non-PV-compatible VM.
-
-I had an internal bugreport where there was a nic generated by default
-that of course did not have iommu_platform=3D'on'.
-
-
-
-> Shouldn't we fence off
-> misconfigurations, if the consequences would be disastrous?
->=20
-
-I fully agree! This is unfortunately currently not the case. My patch
-takes the approach of avoiding miss-configuration in the first place,
-instead of sapping the user for it.
-
-> >=20
-> > >  Add a property with a
-> > > reasonable name "allow protected"?  If set allow switch to protected
-> > > memory and also set iommu auto to on by default.  If not set then don=
-'t.
-> > > =20
-> >=20
-> > I think we have "allow protected" already expressed via cpu models. I'm
-> > also not sure how libvirt would react to the idea of a new machine
-> > property for this. You did mean "allow protected" as machine property,
-> > or?
->=20
-> "Unpack facility in cpu model" means "guest may transition into pv
-> mode", right? What does it look like when the guest actually has
-> transitioned?
-
-Janosch has answered these. Will add my thoughts there.
-
->=20
-> >=20
-> > AFAIU "allow protected" would be required for the !PV to PV switch, and
-> > we would have to reject paravirtualized devices with iommu_platform=3D'=
-off'
-> > on VM construction or hotplug (iommu_platform=3D'auto/on' would be fine=
-).
-> >=20
-> > Could you please confirm that I understood this correctly?
-> >=20
-> >=20
-> > > This will come handy for other things like migrating to hosts without
-> > > protected memory support.
-> > >  =20
-> >=20
-> > This is already covered by cpu model AFAIK.
->=20
-> I don't think we'd want to migrate between pv and non-pv anyway?
->=20
-
-ditto
-
-[..]
-> > >=20
-> > > I don't really understand things fully but it looks like you are
-> > > changing features of a device.  If so this bothers me, resets
-> > > happen at random times while driver is active, and we never
-> > > expect features to change.
-> > > =20
-> >=20
-> > Changing the device features is IMHO all right because the features can
-> > change only immediately after a system reset and before the first vCPU
-> > is run. That is ensured by two facts.
-> >=20
-> >=20
-> > First, the feature can only change when ms->pv changes. That is on the
-> > first reset after the VM entered or left the "protected virtualization"
-> > mode of operation. And that switch requires a system reset. Because the
-> > PV switch is initiated by the guest, and the guest is rebooted as a
-> > consequence, the guest will never observe the change in features.
->=20
-> This really needs more comments, as it is not obvious to the casual
-> reader. (I also stumbled over the resets.)
-
-Sorry, where exactly would you like to have those extra comments?
-
->=20
-> But I wonder whether we are actually missing those subsystems resets
-> today?
->=20
-
-If I have to settle for yes or no, my answer is no.
-
-We need at least one subsystem reset during the conversion. Without
-my patch applied things look like this
-
-$ git grep -p -B 5 -e subsystem_reset HEAD~1 -- hw/s390x/s390-virtio-ccw.c
-HEAD~1:hw/s390x/s390-virtio-ccw.c=3Dstatic const char *const reset_dev_type=
-s[] =3D {
---
-HEAD~1:hw/s390x/s390-virtio-ccw.c-    "s390-sclp-event-facility",
-HEAD~1:hw/s390x/s390-virtio-ccw.c-    "s390-flic",
-HEAD~1:hw/s390x/s390-virtio-ccw.c-    "diag288",
-HEAD~1:hw/s390x/s390-virtio-ccw.c-};
-HEAD~1:hw/s390x/s390-virtio-ccw.c-
-HEAD~1:hw/s390x/s390-virtio-ccw.c:static void subsystem_reset(void)
---
-HEAD~1:hw/s390x/s390-virtio-ccw.c=3Dstatic void s390_machine_reset(MachineS=
-tate *machine)
---
-HEAD~1:hw/s390x/s390-virtio-ccw.c-    case S390_RESET_MODIFIED_CLEAR:
-HEAD~1:hw/s390x/s390-virtio-ccw.c-        /*
-HEAD~1:hw/s390x/s390-virtio-ccw.c-         * Susbsystem reset needs to be d=
-one before we unshare memory
-HEAD~1:hw/s390x/s390-virtio-ccw.c-         * and lose access to VIRTIO stru=
-ctures in guest memory.
-HEAD~1:hw/s390x/s390-virtio-ccw.c-         */
-HEAD~1:hw/s390x/s390-virtio-ccw.c:        subsystem_reset();
---
-HEAD~1:hw/s390x/s390-virtio-ccw.c-    case S390_RESET_LOAD_NORMAL:
-HEAD~1:hw/s390x/s390-virtio-ccw.c-        /*
-HEAD~1:hw/s390x/s390-virtio-ccw.c-         * Susbsystem reset needs to be d=
-one before we unshare memory
-HEAD~1:hw/s390x/s390-virtio-ccw.c-         * and lose access to VIRTIO stru=
-ctures in guest memory.
-HEAD~1:hw/s390x/s390-virtio-ccw.c-         */
-HEAD~1:hw/s390x/s390-virtio-ccw.c:        subsystem_reset();
---
-HEAD~1:hw/s390x/s390-virtio-ccw.c-        }
-HEAD~1:hw/s390x/s390-virtio-ccw.c-        run_on_cpu(cs, s390_do_cpu_initia=
-l_reset, RUN_ON_CPU_NULL);
-HEAD~1:hw/s390x/s390-virtio-ccw.c-        run_on_cpu(cs, s390_do_cpu_load_n=
-ormal, RUN_ON_CPU_NULL);
-HEAD~1:hw/s390x/s390-virtio-ccw.c-        break;
-HEAD~1:hw/s390x/s390-virtio-ccw.c-    case S390_RESET_PV: /* Subcode 10 */
-HEAD~1:hw/s390x/s390-virtio-ccw.c:        subsystem_reset();
-
-That is except for=20
-hw/s390x/s390-virtio-ccw.c-    case S390_RESET_EXTERNAL:
-hw/s390x/s390-virtio-ccw.c-    case S390_RESET_REIPL:
-hw/s390x/s390-virtio-ccw.c-        if (s390_is_pv()) {
-hw/s390x/s390-virtio-ccw.c-            s390_machine_unprotect(ms);
-hw/s390x/s390-virtio-ccw.c-        }
-hw/s390x/s390-virtio-ccw.c-
-hw/s390x/s390-virtio-ccw.c-        qemu_devices_reset();
-
-Which does a qemu_devices_reset(), we already have a subsystem_reset(),
-but for the cases with a PV transition this reset happens before mc->pv
-is changed, so I can't react properly in the callback. For my purposes
-the qemu_devices_reset() is sufficient, but I'm not sure.
-
-The qemu_devices_reset() seems to come form db3b2566e0 ("s390x: machine
-reset function with new ipl cpu handling") authored by David and reviewed by
-you.
-
-The subsystem reset from 4e872a3fb0 ("s390: provide I/O subsystem
-reset") authored by Christian.
-
-=46rom I quick look, I believe what is done by subsystem_reset() should
-be a real subset of what is done by qemu_devices_reset().
-
-Maybe the subsystem_reset() can be just moved and the extra
-subsystem_reset() calls added by me can be removed. I didn't look into
-that, because it would have been wasted effort if the community rejects this
-approach.
-
-I hope this answers your questions!
-
-Thanks for having a look!
-
-Regards,
-Halil
+>
+> Alistair
 
