@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FEAB1E611B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 14:39:50 +0200 (CEST)
-Received: from localhost ([::1]:43718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A8F21E612F
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 14:44:03 +0200 (CEST)
+Received: from localhost ([::1]:38020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeHp7-00076W-LN
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 08:39:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33500)
+	id 1jeHtC-0008H1-IW
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 08:44:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHlo-0001SM-UU
- for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24526
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHm1-0001zU-IC
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57583
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHln-000598-OK
- for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:24 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHlt-0005Ff-Mm
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590669382;
+ s=mimecast20190719; t=1590669388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SmcnOXujQdxKBlY0ohrOanJahBeVviXSktXX+AxdziI=;
- b=Cg/kh/7TrGEpe+1SvvBgrcc726pwdqvtT2mfCN4whzOVVM3nejAtsf8edD73erTmr4XqP+
- EnaL18gbh59bX81vLGd7P4dDI95h+mNUVx9SugXqNKCLZWvJRxgic0CgrVFPxTG5fkORHQ
- Oa5/ODS/xu2g3mNz+cbwjO6fpOrE/A4=
+ bh=RfYTyIs8StHB7o2N0JQA2LgTuiRGRst0nDa6SImXiJ0=;
+ b=BalwCH6Qxn5cfkkuH4UIDXCh7YN0rt+vDF5V7mZRDOKljm29p/Wtq0YmM1On2dekjYkrgL
+ eN5H8kfNKCb/hG5PkcjSPvXTHIzQvN7q0kMKEsz5VRa1Y7zQzSQr/qzcb8Lx14yNS0pkA4
+ rKVVnytP7AUlNGeVrd65K8CwXEdfFTs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-pSVE4-8gPFa9fZPlJ6mYDQ-1; Thu, 28 May 2020 08:36:20 -0400
-X-MC-Unique: pSVE4-8gPFa9fZPlJ6mYDQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-288-dWZhFjqXPP2CTOPKbzhjyw-1; Thu, 28 May 2020 08:36:23 -0400
+X-MC-Unique: dWZhFjqXPP2CTOPKbzhjyw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADC69107ACCA;
- Thu, 28 May 2020 12:36:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DD511855A08;
+ Thu, 28 May 2020 12:36:21 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
  [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 629CB7E467;
- Thu, 28 May 2020 12:36:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 19E3E2B4CC;
+ Thu, 28 May 2020 12:36:19 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D15D59D60; Thu, 28 May 2020 14:36:09 +0200 (CEST)
+ id DA5479D61; Thu, 28 May 2020 14:36:09 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/21] hw/display/omap_dss: Replace fprintf() call by
- qemu_log_mask(LOG_UNIMP)
-Date: Thu, 28 May 2020 14:36:01 +0200
-Message-Id: <20200528123609.27362-14-kraxel@redhat.com>
+Subject: [PULL 14/21] hw/display/pxa2xx_lcd: Replace printf() call by
+ qemu_log_mask()
+Date: Thu, 28 May 2020 14:36:02 +0200
+Message-Id: <20200528123609.27362-15-kraxel@redhat.com>
 In-Reply-To: <20200528123609.27362-1-kraxel@redhat.com>
 References: <20200528123609.27362-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -93,31 +93,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Replace fprintf() call by qemu_log_mask(LOG_UNIMP), which is
+Replace printf() calls by qemu_log_mask(UNIMP), which is
 disabled by default. This avoid flooding the terminal when
 fuzzing the device.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200526062252.19852-14-f4bug@amsat.org
+Message-id: 20200526062252.19852-15-f4bug@amsat.org
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/omap_dss.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/display/pxa2xx_lcd.c | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
 
-diff --git a/hw/display/omap_dss.c b/hw/display/omap_dss.c
-index 32dc0d6aa716..21fde58a2602 100644
---- a/hw/display/omap_dss.c
-+++ b/hw/display/omap_dss.c
-@@ -619,7 +619,7 @@ static void omap_rfbi_transfer_start(struct omap_dss_s *s)
-     if (s->rfbi.control & (1 << 1)) {				/* BYPASS */
-         /* TODO: in non-Bypass mode we probably need to just assert the
-          * DRQ and wait for DMA to write the pixels.  */
--        fprintf(stderr, "%s: Bypass mode unimplemented\n", __func__);
-+        qemu_log_mask(LOG_UNIMP, "%s: Bypass mode unimplemented\n", __func__);
-         return;
-     }
+diff --git a/hw/display/pxa2xx_lcd.c b/hw/display/pxa2xx_lcd.c
+index d5f2e82a4ec3..ff90104b8011 100644
+--- a/hw/display/pxa2xx_lcd.c
++++ b/hw/display/pxa2xx_lcd.c
+@@ -426,9 +426,10 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr offset,
+         if ((s->control[0] & LCCR0_ENB) && !(value & LCCR0_ENB))
+             s->status[0] |= LCSR0_QD;
  
+-        if (!(s->control[0] & LCCR0_LCDT) && (value & LCCR0_LCDT))
+-            printf("%s: internal frame buffer unsupported\n", __func__);
+-
++        if (!(s->control[0] & LCCR0_LCDT) && (value & LCCR0_LCDT)) {
++            qemu_log_mask(LOG_UNIMP,
++                          "%s: internal frame buffer unsupported\n", __func__);
++        }
+         if ((s->control[3] & LCCR3_API) &&
+                 (value & LCCR0_ENB) && !(value & LCCR0_LCDT))
+             s->status[0] |= LCSR0_ABC;
+@@ -462,9 +463,9 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr offset,
+         break;
+ 
+     case OVL1C1:
+-        if (!(s->ovl1c[0] & OVLC1_EN) && (value & OVLC1_EN))
+-            printf("%s: Overlay 1 not supported\n", __func__);
+-
++        if (!(s->ovl1c[0] & OVLC1_EN) && (value & OVLC1_EN)) {
++            qemu_log_mask(LOG_UNIMP, "%s: Overlay 1 not supported\n", __func__);
++        }
+         s->ovl1c[0] = value & 0x80ffffff;
+         s->dma_ch[1].up = (value & OVLC1_EN) || (s->control[0] & LCCR0_SDS);
+         break;
+@@ -474,9 +475,9 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr offset,
+         break;
+ 
+     case OVL2C1:
+-        if (!(s->ovl2c[0] & OVLC1_EN) && (value & OVLC1_EN))
+-            printf("%s: Overlay 2 not supported\n", __func__);
+-
++        if (!(s->ovl2c[0] & OVLC1_EN) && (value & OVLC1_EN)) {
++            qemu_log_mask(LOG_UNIMP, "%s: Overlay 2 not supported\n", __func__);
++        }
+         s->ovl2c[0] = value & 0x80ffffff;
+         s->dma_ch[2].up = !!(value & OVLC1_EN);
+         s->dma_ch[3].up = !!(value & OVLC1_EN);
+@@ -488,9 +489,10 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr offset,
+         break;
+ 
+     case CCR:
+-        if (!(s->ccr & CCR_CEN) && (value & CCR_CEN))
+-            printf("%s: Hardware cursor unimplemented\n", __func__);
+-
++        if (!(s->ccr & CCR_CEN) && (value & CCR_CEN)) {
++            qemu_log_mask(LOG_UNIMP,
++                          "%s: Hardware cursor unimplemented\n", __func__);
++        }
+         s->ccr = value & 0x81ffffe7;
+         s->dma_ch[5].up = !!(value & CCR_CEN);
+         break;
 -- 
 2.18.4
 
