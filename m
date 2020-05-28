@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7DB1E5B8D
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 11:13:52 +0200 (CEST)
-Received: from localhost ([::1]:38802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 724D41E5BD6
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 11:27:56 +0200 (CEST)
+Received: from localhost ([::1]:45822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeEbn-0007bs-F0
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 05:13:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34306)
+	id 1jeEpO-0005fh-8T
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 05:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jeEaE-0005uG-Jz
- for qemu-devel@nongnu.org; Thu, 28 May 2020 05:12:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35746
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jeEaC-0000vb-QE
- for qemu-devel@nongnu.org; Thu, 28 May 2020 05:12:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590657131;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=TaTxXQ6axHKnh/mazii4ExK9ajTJNjt03EelnBn6764=;
- b=BqKPVaryLvbOGREmYOs9u+7dbsye6SEIMZ00iyqTf0y/2lmH7dZB29pYyERtlbWoJtJR6i
- oAHrNvrUq9nK38j63TY+wAz1llL/OP2UyT3ZUwULbF8X8PK+0pajg4kqDJgmR9iIHQJFth
- f4r0XkBEwHdMry6N/Mm6hxV99FsxmIE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-223-dgg6hFYvPhe7FnhuFAHBOw-1; Thu, 28 May 2020 05:12:07 -0400
-X-MC-Unique: dgg6hFYvPhe7FnhuFAHBOw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E30A0464;
- Thu, 28 May 2020 09:12:06 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-213.ams2.redhat.com [10.36.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D82A35D9F7;
- Thu, 28 May 2020 09:11:54 +0000 (UTC)
-Subject: Re: [PATCH 6/7] gitlab-ci: Determine the number of jobs dynamically
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200525131823.715-1-thuth@redhat.com>
- <20200525131823.715-7-thuth@redhat.com> <87pnao4fjs.fsf@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <db3e3dfe-f0b8-4947-1fd7-c50e57bb2040@redhat.com>
-Date: Thu, 28 May 2020 11:11:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jeEoZ-0004nR-5Y
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 05:27:03 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40124)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jeEoY-0006nK-9j
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 05:27:02 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id j16so14669754wrb.7
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 02:27:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:to:from:cc:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=1qhYvGuZTQPD8o2QnUs5/dW5vtW/qmlZCwg44sTW0J8=;
+ b=Pjf9uqkV4SRKfNaVTy9TFtQyheOdddMWMmcP7Tf2L+0apCbPPNwDu7DhAZSArTBiDW
+ pWuZC9fIUiakeBJT+yMCx8F1TkoeWJ6DyE3SP9UoQSO31g9dxDiDsMJmA5GvIFoKcDY/
+ Y0POFVrtMBigDXMZhX35HX01SsvYS1+xgeZWHZzH/1yuUndPCXHQrexmtrZhjCGyzvy1
+ hE6zGgNsYeGDrpJoCsGu4m/5y5hRoD1RbhVg3QPzZoEwXpvYhhi0XrgdbFkuy9IJ9xMi
+ guSOD6ggZsamk9hK2vSTGOkxCM+Q6G5/wK6g5f2Q+YmYZehGn1KdbhrZGgureXMOW0Fw
+ 3z3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:to:from:cc:subject:message-id:date
+ :user-agent:mime-version:content-language:content-transfer-encoding;
+ bh=1qhYvGuZTQPD8o2QnUs5/dW5vtW/qmlZCwg44sTW0J8=;
+ b=F5p9tcQrOmYnfLYF7IbAee5u9Vnk6f09lfRh4O1FSHFdh1snBDAMnEN9h7qkReEYXB
+ nwz5ygkN0Fz3nHlKt3Zt1rsMVjE9Xl0+TSbL8JaxO0OnLIK54+5UVOL0hu4WApa560nv
+ y44Q1reMnKOjQMyCZldVdRhkTkliOZyaHvIOESREGb90DQQrxYUrghL7E74Mdwi9GIfh
+ kxpjYGqcgSBFENVA6Td+OepZj3P2rdYH+6A7ocbDEshmMHGruLdXMwZs2m89/IA2U+u5
+ EwwJBMTOd9wAyFUgynWRxJu3Vav7ef4980uyIaORyToL+K5TtHELhxMHr/TmCtN66FhI
+ 504w==
+X-Gm-Message-State: AOAM532Rp7EmwUS9DwHPbEB1WO52Y/JvHBUPTfdWUy2v+dPbuGUJJYm3
+ 9fcTBqWu+BNh1xoJ7Dup7G5BlFRE
+X-Google-Smtp-Source: ABdhPJzWN/uC5EVJrYA/QRHOchweh37Oa+SuALa32Fsr+BwvYPYGjlISTFIhnDRAPUsYeSYGQPHVzA==
+X-Received: by 2002:a05:6000:12c8:: with SMTP id
+ l8mr2731990wrx.148.1590658019641; 
+ Thu, 28 May 2020 02:26:59 -0700 (PDT)
+Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
+ [88.21.204.71])
+ by smtp.gmail.com with ESMTPSA id t129sm1100728wmf.41.2020.05.28.02.26.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 May 2020 02:26:58 -0700 (PDT)
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, "Oleinik, Alexander"
+ <alxndr@bu.edu>, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Artem Pisarenko <artem.k.pisarenko@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Subject: How to fuzz devices that use timers?
+Message-ID: <93600c7c-ccd5-01b9-36d1-5631bfb63b7e@amsat.org>
+Date: Thu, 28 May 2020 11:26:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <87pnao4fjs.fsf@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=thuth@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 03:11:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,63 +93,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/05/2020 10.41, Alex Bennée wrote:
-> 
-> Thomas Huth <thuth@redhat.com> writes:
-> 
->> Some people might want to run the gitlab CI pipelines in an environment
->> where multiple CPUs are available to the runners, so let's rather get
->> the number for "-j" from the "nproc" program (increased by 1 to compensate
->> for jobs that wait for I/O) instead of hard-coding it.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> <snip>
->> @@ -25,8 +27,8 @@ build-system1:
->>   - ../configure --enable-werror --target-list="aarch64-softmmu alpha-softmmu
->>        cris-softmmu hppa-softmmu lm32-softmmu moxie-softmmu microblazeel-softmmu
->>        mips64el-softmmu m68k-softmmu ppc-softmmu riscv64-softmmu sparc-softmmu"
->> - - make -j2
->> - - make -j2 check
->> + - make -j"$JOBS"
->> + - make -j"$JOBS" check
->>  
->>  build-system2:
->>   image: fedora:latest
->> @@ -40,8 +42,8 @@ build-system2:
->>   - ../configure --enable-werror --target-list="tricore-softmmu unicore32-softmmu
->>        microblaze-softmmu mips-softmmu riscv32-softmmu s390x-softmmu sh4-softmmu
->>        sparc64-softmmu x86_64-softmmu xtensa-softmmu nios2-softmmu or1k-softmmu"
->> - - make -j2
->> - - make -j2 check
->> + - make -j"$JOBS"
->> + - make -j"$JOBS" check
->>  
->>  build-disabled:
->>   image: fedora:latest
->> @@ -56,8 +58,8 @@ build-disabled:
->>        --disable-qom-cast-debug --disable-spice --disable-vhost-vsock
->>        --disable-vhost-net --disable-vhost-crypto --disable-vhost-user
->>        --target-list="i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user"
->> - - make -j2
->> - - make -j2 check-qtest SPEED=slow
->> + - make -j"$JOBS"
->> + - make -j"$JOBS" check-qtest SPEED=slow
-> 
-> I would make all the check jobs use a single core as it otherwise gets
-> hard to figure out exactly where something broke/hung.
+Hi,
 
-It's a somewhat double-edged sword ... either faster CI test times, or
-more deterministic output ... so far I didn't suffer the problem with
-the deterministic output in the gitlab-CI yet (unlike with Travis), so
-I'd rather keep the -j here for now. We can still remove it later if we
-hit a bug that is hard to debug otherwise.
+Some devices use timers (QEMUTimer) to emulate hardware precise timings.
+i.e. with a flash device, the guest orders erasing it, the physical
+erasure takes some time - let say 200ms - and upon completion a bit is
+set in a register, and an interruption is eventually raised.
+When not multi-tasking, a guest usually poll the register until bit set.
 
- Thomas
+While fuzzing, a payload schedule triggers an erase, then (if we don't
+reset the device) thousands of payloads are tested in vain until the
+device is ready to process further requests. It is then hard to
+understand the patterns used (in 200ms libFuzzer tried ~5000 I/O
+other accesses). Even if we can reproduce the pattern with proper
+timings, it is also hard to reproduce.
 
+Since we run the fuzzer with the QTest accelerator, my first idea was to
+check for 'if (qtest_enabled())' in the timer code, and directly expire
+a timer instead of scheduling it. This way we can test reproducers.
+However various tests require/verify precise timing, so this would break
+various qtests.
+
+Second idea was to add a fuzzer_enabled() method, and check it. But then
+I noticed some devices use timers the other way, they start a timer and
+wait an event to happen in a correct amount of time, else the timer kick
+and error bit is set (this is the watchdog style). If I modify the
+timers to directly expire checking fuzzer_enabled(), then these devices
+enter failure mode directly without processing further requests.
+
+So I guess I have to go thru each device and check for fuzzer_enabled()
+where appropriate...
+Any clever ideas?
+
+Thanks
+
+Phil.
 
