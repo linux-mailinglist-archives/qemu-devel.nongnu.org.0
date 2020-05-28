@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7361E6B4C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 21:41:12 +0200 (CEST)
-Received: from localhost ([::1]:39160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC1341E6B53
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 21:43:15 +0200 (CEST)
+Received: from localhost ([::1]:45302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeOOt-00050J-4d
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 15:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49276)
+	id 1jeOQs-0007rZ-Uy
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 15:43:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jeOLw-00006O-8d
+ id 1jeOLw-00006x-Pc
  for qemu-devel@nongnu.org; Thu, 28 May 2020 15:38:08 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:35502 helo=mta-01.yadro.com)
+Received: from mta-02.yadro.com ([89.207.88.252]:35526 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jeOLu-000737-8F
+ id 1jeOLw-00074X-11
  for qemu-devel@nongnu.org; Thu, 28 May 2020 15:38:08 -0400
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 0EDB14C86A;
+ by mta-01.yadro.com (Postfix) with ESMTP id A714A4C86B;
  Thu, 28 May 2020 19:38:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-type:content-type:content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:date:subject
  :subject:from:from:received:received:received; s=mta-01; t=
- 1590694682; x=1592509083; bh=FYq1VPMqZAipbMnr+8xKfor5/R7QwuFU9b+
- kj1fVnB0=; b=AahGP9Ke5JAlOwe11Nc/azsCj3jYdjxZzhPtDx1yy4NaDMaMnVU
- gq6fKchhHcoHdo7vsOUR5s6U6qwXmiFZebwCiv9b67LTeczcpbkQ9dwshOFN/1CI
- XvKLl8pEE/uVsTsTS7sqG/ixf1vomjvH186e/OCjbDA+2wAXTCf6DF3w=
+ 1590694682; x=1592509083; bh=W8Kgvsd76VGfFmRb8XjLzor2J196K6wsA0Z
+ Va77ZJ68=; b=AS3QLJYHfMqy4KrDVHHrPGoqVd0nitoP4lLZzLWKZGaw16+tMXj
+ bUN+LdOAoUs8sGE065IYMKBMG+5Z9EK9mogthWEAbG3myXqfWbx9radoqZpI1WYG
+ Z7LJVrKC7V5M6mSHqMO1uxrnHsdKqxAdHndxqAwJFSURCRib/3IDj5ng=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ej_Pys-bcGwK; Thu, 28 May 2020 22:38:02 +0300 (MSK)
+ with ESMTP id TMMmTQ6Pyzkb; Thu, 28 May 2020 22:38:02 +0300 (MSK)
 Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
  [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 35A094C865;
+ by mta-01.yadro.com (Postfix) with ESMTPS id C7B904C863;
  Thu, 28 May 2020 22:38:01 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 28
- May 2020 22:38:02 +0300
+ May 2020 22:38:03 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 04/13] i386: hvf: Drop unused variable
-Date: Thu, 28 May 2020 22:37:49 +0300
-Message-ID: <20200528193758.51454-5-r.bolshakov@yadro.com>
+Subject: [PATCH 05/13] i386: hvf: Use ins_len to advance IP
+Date: Thu, 28 May 2020 22:37:50 +0300
+Message-ID: <20200528193758.51454-6-r.bolshakov@yadro.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200528193758.51454-1-r.bolshakov@yadro.com>
 References: <20200528193758.51454-1-r.bolshakov@yadro.com>
@@ -86,23 +86,27 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+There's no need to read VMCS twice, instruction length is already
+available in ins_len.
+
 Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
 ---
- target/i386/hvf/x86.h | 1 -
- 1 file changed, 1 deletion(-)
+ target/i386/hvf/hvf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
-index c95d5b2116..56fcde13c6 100644
---- a/target/i386/hvf/x86.h
-+++ b/target/i386/hvf/x86.h
-@@ -293,7 +293,6 @@ typedef struct lazy_flags {
- 
- /* Definition of hvf_x86_state is here */
- struct HVFX86EmulatorState {
--    int interruptable;
-     uint64_t fetch_rip;
-     uint64_t rip;
-     struct x86_register regs[16];
+diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+index 9ccdb7e7c7..8ff1d25521 100644
+--- a/target/i386/hvf/hvf.c
++++ b/target/i386/hvf/hvf.c
+@@ -871,7 +871,7 @@ int hvf_vcpu_exec(CPUState *cpu)
+             } else {
+                 simulate_wrmsr(cpu);
+             }
+-            RIP(env) += rvmcs(cpu->hvf_fd, VMCS_EXIT_INSTRUCTION_LENGTH);
++            RIP(env) += ins_len;
+             store_regs(cpu);
+             break;
+         }
 -- 
 2.26.1
 
