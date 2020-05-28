@@ -2,89 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724D41E5BD6
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 11:27:56 +0200 (CEST)
-Received: from localhost ([::1]:45822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4604B1E5C2A
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 11:36:20 +0200 (CEST)
+Received: from localhost ([::1]:55262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeEpO-0005fh-8T
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 05:27:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35788)
+	id 1jeExX-0003WG-BF
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 05:36:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jeEoZ-0004nR-5Y
- for qemu-devel@nongnu.org; Thu, 28 May 2020 05:27:03 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40124)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jeEwq-0002b4-IO
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 05:35:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jeEoY-0006nK-9j
- for qemu-devel@nongnu.org; Thu, 28 May 2020 05:27:02 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id j16so14669754wrb.7
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 02:27:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:to:from:cc:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=1qhYvGuZTQPD8o2QnUs5/dW5vtW/qmlZCwg44sTW0J8=;
- b=Pjf9uqkV4SRKfNaVTy9TFtQyheOdddMWMmcP7Tf2L+0apCbPPNwDu7DhAZSArTBiDW
- pWuZC9fIUiakeBJT+yMCx8F1TkoeWJ6DyE3SP9UoQSO31g9dxDiDsMJmA5GvIFoKcDY/
- Y0POFVrtMBigDXMZhX35HX01SsvYS1+xgeZWHZzH/1yuUndPCXHQrexmtrZhjCGyzvy1
- hE6zGgNsYeGDrpJoCsGu4m/5y5hRoD1RbhVg3QPzZoEwXpvYhhi0XrgdbFkuy9IJ9xMi
- guSOD6ggZsamk9hK2vSTGOkxCM+Q6G5/wK6g5f2Q+YmYZehGn1KdbhrZGgureXMOW0Fw
- 3z3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:to:from:cc:subject:message-id:date
- :user-agent:mime-version:content-language:content-transfer-encoding;
- bh=1qhYvGuZTQPD8o2QnUs5/dW5vtW/qmlZCwg44sTW0J8=;
- b=F5p9tcQrOmYnfLYF7IbAee5u9Vnk6f09lfRh4O1FSHFdh1snBDAMnEN9h7qkReEYXB
- nwz5ygkN0Fz3nHlKt3Zt1rsMVjE9Xl0+TSbL8JaxO0OnLIK54+5UVOL0hu4WApa560nv
- y44Q1reMnKOjQMyCZldVdRhkTkliOZyaHvIOESREGb90DQQrxYUrghL7E74Mdwi9GIfh
- kxpjYGqcgSBFENVA6Td+OepZj3P2rdYH+6A7ocbDEshmMHGruLdXMwZs2m89/IA2U+u5
- EwwJBMTOd9wAyFUgynWRxJu3Vav7ef4980uyIaORyToL+K5TtHELhxMHr/TmCtN66FhI
- 504w==
-X-Gm-Message-State: AOAM532Rp7EmwUS9DwHPbEB1WO52Y/JvHBUPTfdWUy2v+dPbuGUJJYm3
- 9fcTBqWu+BNh1xoJ7Dup7G5BlFRE
-X-Google-Smtp-Source: ABdhPJzWN/uC5EVJrYA/QRHOchweh37Oa+SuALa32Fsr+BwvYPYGjlISTFIhnDRAPUsYeSYGQPHVzA==
-X-Received: by 2002:a05:6000:12c8:: with SMTP id
- l8mr2731990wrx.148.1590658019641; 
- Thu, 28 May 2020 02:26:59 -0700 (PDT)
-Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
- [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id t129sm1100728wmf.41.2020.05.28.02.26.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 May 2020 02:26:58 -0700 (PDT)
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, "Oleinik, Alexander"
- <alxndr@bu.edu>, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Artem Pisarenko <artem.k.pisarenko@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Subject: How to fuzz devices that use timers?
-Message-ID: <93600c7c-ccd5-01b9-36d1-5631bfb63b7e@amsat.org>
-Date: Thu, 28 May 2020 11:26:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jeEwp-0003Ez-Cw
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 05:35:36 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jeEwm-00072w-Sc
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 09:35:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D3EF52E80E7
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 09:35:32 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 28 May 2020 09:28:38 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1881004@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: eblake philmd pmaydell
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <159060681483.5838.13632051970488338647.malonedeb@wampee.canonical.com>
+Message-Id: <159065811819.13027.1538818594138568940.malone@gac.canonical.com>
+Subject: [Bug 1881004] Re: fpu/softfloat.c: error: bitwise negation of a
+ boolean expression
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="275d46a24253e557e4403d52832837e4bfa425b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 21561cb0d9c0bb2bb47be9714c31493fb53509e0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 05:35:33
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,43 +75,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Bug 1881004 <1881004@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Patch sent:
+https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg07861.html
 
-Some devices use timers (QEMUTimer) to emulate hardware precise timings.
-i.e. with a flash device, the guest orders erasing it, the physical
-erasure takes some time - let say 200ms - and upon completion a bit is
-set in a register, and an interruption is eventually raised.
-When not multi-tasking, a guest usually poll the register until bit set.
+-- =
 
-While fuzzing, a payload schedule triggers an erase, then (if we don't
-reset the device) thousands of payloads are tested in vain until the
-device is ready to process further requests. It is then hard to
-understand the patterns used (in 200ms libFuzzer tried ~5000 I/O
-other accesses). Even if we can reproduce the pattern with proper
-timings, it is also hard to reproduce.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1881004
 
-Since we run the fuzzer with the QTest accelerator, my first idea was to
-check for 'if (qtest_enabled())' in the timer code, and directly expire
-a timer instead of scheduling it. This way we can test reproducers.
-However various tests require/verify precise timing, so this would break
-various qtests.
+Title:
+  fpu/softfloat.c: error: bitwise negation of a boolean expression
 
-Second idea was to add a fuzzer_enabled() method, and check it. But then
-I noticed some devices use timers the other way, they start a timer and
-wait an event to happen in a correct amount of time, else the timer kick
-and error bit is set (this is the watchdog style). If I modify the
-timers to directly expire checking fuzzer_enabled(), then these devices
-enter failure mode directly without processing further requests.
+Status in QEMU:
+  New
 
-So I guess I have to go thru each device and check for fuzzer_enabled()
-where appropriate...
-Any clever ideas?
+Bug description:
+  Last time I built QEMU was on commit d5c75ec500d96f1d93447f990cd5a4ef5ba2=
+7fae,
+  I just pulled to fea8f3ed739536fca027cf56af7f5576f37ef9cd and now get:
+   =
 
-Thanks
+    CC      lm32-softmmu/fpu/softfloat.o
+  fpu/softfloat.c:3365:13: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+      absZ &=3D ~ ( ( ( roundBits ^ 0x40 ) =3D=3D 0 ) & roundNearestEven );
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              !
+  fpu/softfloat.c:3423:18: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+          absZ0 &=3D ~ ( ( (uint64_t) ( absZ1<<1 ) =3D=3D 0 ) & roundNeares=
+tEven );
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                   !
+  fpu/softfloat.c:3483:18: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+          absZ0 &=3D ~(((uint64_t)(absZ1<<1) =3D=3D 0) & roundNearestEven);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                   !
+  fpu/softfloat.c:3606:13: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+      zSig &=3D ~ ( ( ( roundBits ^ 0x40 ) =3D=3D 0 ) & roundNearestEven );
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              !
+  fpu/softfloat.c:3760:13: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+      zSig &=3D ~ ( ( ( roundBits ^ 0x200 ) =3D=3D 0 ) & roundNearestEven );
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              !
+  fpu/softfloat.c:3987:21: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+                      ~ ( ( (uint64_t) ( zSig1<<1 ) =3D=3D 0 ) & roundNeare=
+stEven );
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+                      !
+  fpu/softfloat.c:4003:22: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+              zSig0 &=3D ~ ( ( (uint64_t) ( zSig1<<1 ) =3D=3D 0 ) & roundNe=
+arestEven );
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+                       !
+  fpu/softfloat.c:4273:18: error: bitwise negation of a boolean expression;=
+ did you mean logical negation? [-Werror,-Wbool-operation]
+          zSig1 &=3D ~ ( ( zSig2 + zSig2 =3D=3D 0 ) & roundNearestEven );
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                   !
+  8 errors generated.
 
-Phil.
+  $ clang -v
+  clang version 10.0.0-4ubuntu1 =
+
+  Target: aarch64-unknown-linux-gnu
+
+  $ lsb_release -a
+  No LSB modules are available.
+  Distributor ID: Ubuntu
+  Description:    Ubuntu 20.04 LTS
+  Release:        20.04
+  Codename:       focal
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1881004/+subscriptions
 
