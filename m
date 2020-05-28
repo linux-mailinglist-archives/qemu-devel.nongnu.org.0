@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2020A1E616D
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 14:51:55 +0200 (CEST)
-Received: from localhost ([::1]:41652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523F41E6156
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 14:49:39 +0200 (CEST)
+Received: from localhost ([::1]:36258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeI0o-0004xd-6E
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 08:51:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33772)
+	id 1jeHyc-0002qz-DR
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 08:49:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHmB-0002Sr-Jo
- for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:47 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40691
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHlz-0001tf-GQ
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:35 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40049
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHm7-0005NW-59
- for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:47 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeHls-0005E0-BT
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 08:36:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590669402;
+ s=mimecast20190719; t=1590669387;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=alJWWguzMdAxzeeZpfBMp4t+t9rEX1QSKuKtB7IIv5E=;
- b=MuLaLznVahQ31texZ5QnalElOdTj0/3a71rltmXwcR5hs8nobjojtb0YYPvYNjVRFiWG3a
- oEZNRKDXry7I0S70yNJYlr5Nn6puh79dZBoyPD6alBHYluybptmxVWKE9ltNgPhU+ZVIOm
- iYWpZIlabnhEvHU8GM+r/qJgJcObjj4=
+ bh=H/6seJUaK2U1QNuJEnB6P9QD85AsJH8sJzJwLeDEzLE=;
+ b=POKOjD1elzK1+9E2TrR45qg4hQ5tmLW1qPdjq/iMDRsVlyEWpxJ5FG/YSySRKfGDVYBCxP
+ zDQKypCNg5zcfDDmLvpY1N9RtFQuu1lTmtDafdATUqxHODVLlJxcv/FAxc6r/fOal7JZVC
+ W7+Q/NGu60Snvxudxy8BVfexP5BzLdc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-JuWgx9MlNF20MyKJL9fEuA-1; Thu, 28 May 2020 08:36:22 -0400
-X-MC-Unique: JuWgx9MlNF20MyKJL9fEuA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-234-OlkcRaAEMI-HYdXL3Mt_tg-1; Thu, 28 May 2020 08:36:23 -0400
+X-MC-Unique: OlkcRaAEMI-HYdXL3Mt_tg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFD301855A10;
- Thu, 28 May 2020 12:36:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E79E8018A7;
+ Thu, 28 May 2020 12:36:21 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
  [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7179A60FC2;
- Thu, 28 May 2020 12:36:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 846915C1D6;
+ Thu, 28 May 2020 12:36:20 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 871139D54; Thu, 28 May 2020 14:36:09 +0200 (CEST)
+ id 9155C9D55; Thu, 28 May 2020 14:36:09 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/21] hw/display/cirrus_vga: Use qemu_log_mask(ERROR) instead
- of debug printf
-Date: Thu, 28 May 2020 14:35:53 +0200
-Message-Id: <20200528123609.27362-6-kraxel@redhat.com>
+Subject: [PULL 06/21] hw/display/cirrus_vga: Convert debug printf() to trace
+ event
+Date: Thu, 28 May 2020 14:35:54 +0200
+Message-Id: <20200528123609.27362-7-kraxel@redhat.com>
 In-Reply-To: <20200528123609.27362-1-kraxel@redhat.com>
 References: <20200528123609.27362-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 06:31:20
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 01:51:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,189 +93,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Replace some debug printf() calls by qemu_log_mask(LOG_GUEST_ERROR).
+Convert the final bit of DEBUG_BITBLT to a tracepoint.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200526062252.19852-6-f4bug@amsat.org
+Message-id: 20200526062252.19852-7-f4bug@amsat.org
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/cirrus_vga.c | 77 ++++++++++++++++++-----------------------
- 1 file changed, 33 insertions(+), 44 deletions(-)
+ hw/display/cirrus_vga.c | 24 ++++++++++--------------
+ hw/display/trace-events |  1 +
+ 2 files changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-index f9f837b8508c..76e2dc5bb604 100644
+index 76e2dc5bb604..92c197cdde1d 100644
 --- a/hw/display/cirrus_vga.c
 +++ b/hw/display/cirrus_vga.c
-@@ -978,9 +978,8 @@ static void cirrus_bitblt_start(CirrusVGAState * s)
- 	s->cirrus_blt_pixelwidth = 4;
- 	break;
-     default:
+@@ -53,7 +53,6 @@
+  */
+ 
+ //#define DEBUG_CIRRUS
+-//#define DEBUG_BITBLT
+ 
+ /***************************************
+  *
+@@ -950,19 +949,16 @@ static void cirrus_bitblt_start(CirrusVGAState * s)
+     s->cirrus_blt_dstaddr &= s->cirrus_addr_mask;
+     s->cirrus_blt_srcaddr &= s->cirrus_addr_mask;
+ 
 -#ifdef DEBUG_BITBLT
--	printf("cirrus: bitblt - pixel width is unknown\n");
+-    printf("rop=0x%02x mode=0x%02x modeext=0x%02x w=%d h=%d dpitch=%d spitch=%d daddr=0x%08x saddr=0x%08x writemask=0x%02x\n",
+-           blt_rop,
+-           s->cirrus_blt_mode,
+-           s->cirrus_blt_modeext,
+-           s->cirrus_blt_width,
+-           s->cirrus_blt_height,
+-           s->cirrus_blt_dstpitch,
+-           s->cirrus_blt_srcpitch,
+-           s->cirrus_blt_dstaddr,
+-           s->cirrus_blt_srcaddr,
+-           s->vga.gr[0x2f]);
 -#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "cirrus: bitblt - pixel width is unknown\n");
- 	goto bitblt_ignore;
-     }
-     s->cirrus_blt_mode &= ~CIRRUS_BLTMODE_PIXELWIDTHMASK;
-@@ -1037,7 +1036,9 @@ static void cirrus_bitblt_start(CirrusVGAState * s)
-         } else {
- 	    if (s->cirrus_blt_mode & CIRRUS_BLTMODE_TRANSPARENTCOMP) {
- 		if (s->cirrus_blt_pixelwidth > 2) {
--		    printf("src transparent without colorexpand must be 8bpp or 16bpp\n");
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "cirrus: src transparent without colorexpand "
-+                          "must be 8bpp or 16bpp\n");
- 		    goto bitblt_ignore;
- 		}
- 		if (s->cirrus_blt_mode & CIRRUS_BLTMODE_BACKWARDS) {
-@@ -1135,10 +1136,9 @@ static uint32_t cirrus_get_bpp16_depth(CirrusVGAState * s)
- 	ret = 16;
- 	break;			/* XGA HiColor */
-     default:
--#ifdef DEBUG_CIRRUS
--	printf("cirrus: invalid DAC value %x in 16bpp\n",
--	       (s->cirrus_hidden_dac_data & 0xf));
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "cirrus: invalid DAC value 0x%x in 16bpp\n",
-+                      (s->cirrus_hidden_dac_data & 0xf));
- 	ret = 15;		/* XXX */
- 	break;
-     }
-@@ -1307,11 +1307,9 @@ static int cirrus_vga_read_sr(CirrusVGAState * s)
- #endif
- 	return s->vga.sr[s->vga.sr_index];
-     default:
--#ifdef DEBUG_CIRRUS
--	printf("cirrus: inport sr_index %02x\n", s->vga.sr_index);
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "cirrus: inport sr_index 0x%02x\n", s->vga.sr_index);
- 	return 0xff;
--	break;
-     }
- }
++    trace_vga_cirrus_bitblt_start(blt_rop,
++                                  s->cirrus_blt_mode,
++                                  s->cirrus_blt_modeext,
++                                  s->cirrus_blt_width,
++                                  s->cirrus_blt_height,
++                                  s->cirrus_blt_dstpitch,
++                                  s->cirrus_blt_srcpitch,
++                                  s->cirrus_blt_dstaddr,
++                                  s->cirrus_blt_srcaddr,
++                                  s->vga.gr[0x2f]);
  
-@@ -1400,10 +1398,9 @@ static void cirrus_vga_write_sr(CirrusVGAState * s, uint32_t val)
-         cirrus_update_memory_access(s);
-         break;
-     default:
--#ifdef DEBUG_CIRRUS
--	printf("cirrus: outport sr_index %02x, sr_value %02x\n",
--               s->vga.sr_index, val);
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "cirrus: outport sr_index 0x%02x, sr_value 0x%02x\n",
-+                      s->vga.sr_index, val);
- 	break;
-     }
- }
-@@ -1501,9 +1498,8 @@ static int cirrus_vga_read_gr(CirrusVGAState * s, unsigned reg_index)
-     if (reg_index < 0x3a) {
- 	return s->vga.gr[reg_index];
-     } else {
--#ifdef DEBUG_CIRRUS
--	printf("cirrus: inport gr_index %02x\n", reg_index);
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "cirrus: inport gr_index 0x%02x\n", reg_index);
- 	return 0xff;
-     }
- }
-@@ -1590,10 +1586,9 @@ cirrus_vga_write_gr(CirrusVGAState * s, unsigned reg_index, int reg_value)
- 	cirrus_write_bitblt(s, reg_value);
- 	break;
-     default:
--#ifdef DEBUG_CIRRUS
--	printf("cirrus: outport gr_index %02x, gr_value %02x\n", reg_index,
--	       reg_value);
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "cirrus: outport gr_index 0x%02x, gr_value 0x%02x\n",
-+                      reg_index, reg_value);
- 	break;
-     }
- }
-@@ -1648,9 +1643,8 @@ static int cirrus_vga_read_cr(CirrusVGAState * s, unsigned reg_index)
- 	return s->vga.ar_index & 0x3f;
- 	break;
-     default:
--#ifdef DEBUG_CIRRUS
--	printf("cirrus: inport cr_index %02x\n", reg_index);
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "cirrus: inport cr_index 0x%02x\n", reg_index);
- 	return 0xff;
-     }
- }
-@@ -1721,10 +1715,9 @@ static void cirrus_vga_write_cr(CirrusVGAState * s, int reg_value)
- 	break;
-     case 0x25:			// Part Status
-     default:
--#ifdef DEBUG_CIRRUS
--	printf("cirrus: outport cr_index %02x, cr_value %02x\n",
--               s->vga.cr_index, reg_value);
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "cirrus: outport cr_index 0x%02x, cr_value 0x%02x\n",
-+                      s->vga.cr_index, reg_value);
- 	break;
-     }
- }
-@@ -1834,9 +1827,8 @@ static uint8_t cirrus_mmio_blt_read(CirrusVGAState * s, unsigned address)
- 	value = cirrus_vga_read_gr(s, 0x31);
- 	break;
-     default:
--#ifdef DEBUG_CIRRUS
--	printf("cirrus: mmio read - address 0x%04x\n", address);
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "cirrus: mmio read - address 0x%04x\n", address);
- 	break;
-     }
+     switch (s->cirrus_blt_mode & CIRRUS_BLTMODE_PIXELWIDTHMASK) {
+     case CIRRUS_BLTMODE_PIXELWIDTH8:
+diff --git a/hw/display/trace-events b/hw/display/trace-events
+index c3043e4ced19..bb089a5f5e0c 100644
+--- a/hw/display/trace-events
++++ b/hw/display/trace-events
+@@ -134,6 +134,7 @@ vga_cirrus_read_io(uint32_t addr, uint32_t val) "addr 0x%x, val 0x%x"
+ vga_cirrus_write_io(uint32_t addr, uint32_t val) "addr 0x%x, val 0x%x"
+ vga_cirrus_write_blt(uint32_t offset, uint32_t val) "offset 0x%x, val 0x%x"
+ vga_cirrus_write_gr(uint8_t index, uint8_t val) "GR addr 0x%02x, val 0x%02x"
++vga_cirrus_bitblt_start(uint8_t blt_rop, uint8_t blt_mode, uint8_t blt_modeext, int blt_width, int blt_height, int blt_dstpitch, int blt_srcpitch, uint32_t blt_dstaddr, uint32_t blt_srcaddr, uint8_t gr_val) "rop=0x%02x mode=0x%02x modeext=0x%02x w=%d h=%d dpitch=%d spitch=%d daddr=0x%08"PRIx32" saddr=0x%08"PRIx32" writemask=0x%02x"
  
-@@ -1946,10 +1938,9 @@ static void cirrus_mmio_blt_write(CirrusVGAState * s, unsigned address,
- 	cirrus_vga_write_gr(s, 0x31, value);
- 	break;
-     default:
--#ifdef DEBUG_CIRRUS
--	printf("cirrus: mmio write - addr 0x%04x val 0x%02x (ignored)\n",
--	       address, value);
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "cirrus: mmio write - addr 0x%04x val 0x%02x (ignored)\n",
-+                      address, value);
- 	break;
-     }
- }
-@@ -2047,9 +2038,8 @@ static uint64_t cirrus_vga_mem_read(void *opaque,
- 	}
-     } else {
- 	val = 0xff;
--#ifdef DEBUG_CIRRUS
--	printf("cirrus: mem_readb " TARGET_FMT_plx "\n", addr);
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "cirrus: mem_readb 0x" TARGET_FMT_plx "\n", addr);
-     }
-     return val;
- }
-@@ -2112,10 +2102,9 @@ static void cirrus_vga_mem_write(void *opaque,
- 	    cirrus_mmio_blt_write(s, addr & 0xff, mem_value);
- 	}
-     } else {
--#ifdef DEBUG_CIRRUS
--        printf("cirrus: mem_writeb " TARGET_FMT_plx " value 0x%02" PRIu64 "\n", addr,
--               mem_value);
--#endif
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "cirrus: mem_writeb 0x" TARGET_FMT_plx " "
-+                      "value 0x%02" PRIu64 "\n", addr, mem_value);
-     }
- }
- 
+ # sii9022.c
+ sii9022_read_reg(uint8_t addr, uint8_t val) "addr 0x%02x, val 0x%02x"
 -- 
 2.18.4
 
