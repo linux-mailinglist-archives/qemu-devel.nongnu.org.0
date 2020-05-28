@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D06E1E5DFF
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 13:13:53 +0200 (CEST)
-Received: from localhost ([::1]:38676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB971E5E0B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 13:15:39 +0200 (CEST)
+Received: from localhost ([::1]:47192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeGTw-0006fx-Kr
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 07:13:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49872)
+	id 1jeGVe-0001dG-0g
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 07:15:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLP-0005u0-6c
- for qemu-devel@nongnu.org; Thu, 28 May 2020 07:05:04 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57698
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLR-0005ug-T7
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 07:05:05 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39547
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLG-0006lK-7N
- for qemu-devel@nongnu.org; Thu, 28 May 2020 07:05:02 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeGLF-0006kN-Sq
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 07:05:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1590663893;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OYidYnDI2p3H7kKvYlxCHJA+V3LjwOLpkoIpU+UA0lU=;
- b=CMHV9hVz9di9rsVsDA6Lk2wnBDDszPHXEk83dH/h6iokxF1WcSYUtAu5tabqBi5iIBqVpq
- PwFFPCoPmiYmnb2+Zi1e7+u9NeTKUaeV2RxPz/sFLCrW60ndAPxfxkuzgwAOqHnTGlFbOO
- zr3BQdBU+9HMRdLgsWeZfI6NyPWe1k0=
+ bh=p+CXXh5pkicxbYmi19dREXQYrShpoktzDD+TxIdSpEA=;
+ b=Bex/newZGBvAFyWYcJfOIF6v89cs394EjSEIOFWQ3Ohr9Objrl6gydcrwFSQA5Atu18VLL
+ Q09NoGxYSF0v3cPMJxaaOjDZq4sNnl374jr+m7pqLIuuHGb5gGuLPWkKqvOJj9bDKyaWAU
+ /T6bv+x9H3WhpW7PXDRlgCt00nonpfU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-sl6wnlhTMSWaWEUsoNA2Cw-1; Thu, 28 May 2020 07:04:48 -0400
-X-MC-Unique: sl6wnlhTMSWaWEUsoNA2Cw-1
+ us-mta-321-k269-Bk-NACYrCnRKoiH_A-1; Thu, 28 May 2020 07:04:49 -0400
+X-MC-Unique: k269-Bk-NACYrCnRKoiH_A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB51D835B42;
- Thu, 28 May 2020 11:04:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3824C835B44;
+ Thu, 28 May 2020 11:04:48 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A7DD060CD1;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 00F8F60C05;
  Thu, 28 May 2020 11:04:47 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D2B5611358C0; Thu, 28 May 2020 13:04:44 +0200 (CEST)
+ id D6B0811358C2; Thu, 28 May 2020 13:04:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/24] macio: Fix to realize "mos6522-cuda" and
- "mos6522-pmu" devices
-Date: Thu, 28 May 2020 13:04:29 +0200
-Message-Id: <20200528110444.20456-10-armbru@redhat.com>
+Subject: [PATCH v2 10/24] macio: Delete unused "macio-gpio" devices
+Date: Thu, 28 May 2020 13:04:30 +0200
+Message-Id: <20200528110444.20456-11-armbru@redhat.com>
 In-Reply-To: <20200528110444.20456-1-armbru@redhat.com>
 References: <20200528110444.20456-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -81,104 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- Laurent Vivier <laurent@vivier.eu>
+Cc: berrange@redhat.com, ehabkost@redhat.com,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org,
+ pbonzini@redhat.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cuda_init() creates a "mos6522-cuda" device, but it's never realized.
-Affects machines mac99 with via=cuda (default) and g3beige.
+These devices go with the "via-pmu" device, which is controlled by
+property "has-pmu".  macio_newworld_init() creates it unconditionally,
+because the property has not been set then.  macio_newworld_realize()
+realizes it only when the property is true.  Works, although it can
+leave an unrealized device hanging around in the QOM composition tree.
+Affects machine mac99 with via=cuda (default).
 
-pmu_init() creates a "mos6522-pmu" device, but it's never realized.
-Affects machine mac99 with via=pmu and via=pmu-adb,
+Delete the unused device by making macio_newworld_realize() unparent
+it.  Visible in "info qom-tree":
 
-In theory, a device becomes real only on realize.  In practice, the
-transition from unreal to real is a fuzzy one.  The work to make a
-device real can be spread between realize methods (fine),
-instance_init methods (wrong), and board code wiring up the device
-(fine as long as it effectively happens on realize).  Depending on
-what exactly is done where, a device can work even when we neglect
-to realize it.
+     /machine (mac99-machine)
+       [...]
+       /unattached (container)
+         /device[9] (macio-newworld)
+           [...]
+           /escc-legacy-port[8] (qemu:memory-region)
+           /escc-legacy-port[9] (qemu:memory-region)
+           /escc-legacy[0] (qemu:memory-region)
+    -      /gpio (macio-gpio)
+    -        /gpio[0] (qemu:memory-region)
+           /ide[0] (macio-ide)
+             /ide.0 (IDE)
+             /pmac-ide[0] (qemu:memory-region)
 
-These onetwo appear to work.  Nevertheless, it's a clear misuse of the
-interface.  Even when it works today (more or less by chance), it can
-break tomorrow.
-
-Fix by realizing them in cuda_realize() and pmu_realize(),
-respectively.
-
-Fixes: 6dca62a0000f95e0b7020aa00d0ca9b2c421f341
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-ppc@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/misc/macio/cuda.c | 10 +++++-----
- hw/misc/macio/pmu.c  | 10 +++++-----
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ hw/misc/macio/macio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
-index e0cc0aac5d..763a785f1a 100644
---- a/hw/misc/macio/cuda.c
-+++ b/hw/misc/macio/cuda.c
-@@ -33,6 +33,7 @@
- #include "hw/misc/macio/cuda.h"
- #include "qemu/timer.h"
- #include "sysemu/runstate.h"
-+#include "qapi/error.h"
- #include "qemu/cutils.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-@@ -523,15 +524,14 @@ static void cuda_realize(DeviceState *dev, Error **errp)
- {
-     CUDAState *s = CUDA(dev);
-     SysBusDevice *sbd;
--    MOS6522State *ms;
--    DeviceState *d;
-     struct tm tm;
- 
-+    object_property_set_bool(OBJECT(&s->mos6522_cuda), true, "realized",
-+                             &error_abort);
+diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+index 3779865ab2..b3dddf8be7 100644
+--- a/hw/misc/macio/macio.c
++++ b/hw/misc/macio/macio.c
+@@ -368,6 +368,8 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
+         memory_region_add_subregion(&s->bar, 0x16000,
+                                     sysbus_mmio_get_region(sysbus_dev, 0));
+     } else {
++        object_unparent(OBJECT(&ns->gpio));
 +
-     /* Pass IRQ from 6522 */
--    d = DEVICE(&s->mos6522_cuda);
--    ms = MOS6522(d);
-     sbd = SYS_BUS_DEVICE(s);
--    sysbus_pass_irq(sbd, SYS_BUS_DEVICE(ms));
-+    sysbus_pass_irq(sbd, SYS_BUS_DEVICE(&s->mos6522_cuda));
- 
-     qemu_get_timedate(&tm, 0);
-     s->tick_offset = (uint32_t)mktimegm(&tm) + RTC_OFFSET;
-diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
-index 9a9cd427e1..4264779396 100644
---- a/hw/misc/macio/pmu.c
-+++ b/hw/misc/macio/pmu.c
-@@ -40,6 +40,7 @@
- #include "hw/misc/macio/pmu.h"
- #include "qemu/timer.h"
- #include "sysemu/runstate.h"
-+#include "qapi/error.h"
- #include "qemu/cutils.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-@@ -740,15 +741,14 @@ static void pmu_realize(DeviceState *dev, Error **errp)
- {
-     PMUState *s = VIA_PMU(dev);
-     SysBusDevice *sbd;
--    MOS6522State *ms;
--    DeviceState *d;
-     struct tm tm;
- 
-+    object_property_set_bool(OBJECT(&s->mos6522_pmu), true, "realized",
-+                             &error_abort);
-+
-     /* Pass IRQ from 6522 */
--    d = DEVICE(&s->mos6522_pmu);
--    ms = MOS6522(d);
-     sbd = SYS_BUS_DEVICE(s);
--    sysbus_pass_irq(sbd, SYS_BUS_DEVICE(ms));
-+    sysbus_pass_irq(sbd, SYS_BUS_DEVICE(&s->mos6522_pmu));
- 
-     qemu_get_timedate(&tm, 0);
-     s->tick_offset = (uint32_t)mktimegm(&tm) + RTC_OFFSET;
+         /* CUDA */
+         object_initialize_child(OBJECT(s), "cuda", &s->cuda, sizeof(s->cuda),
+                                 TYPE_CUDA, &error_abort, NULL);
 -- 
 2.21.3
 
