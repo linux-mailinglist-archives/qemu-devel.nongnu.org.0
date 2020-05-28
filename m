@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358971E6F3B
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 00:37:05 +0200 (CEST)
-Received: from localhost ([::1]:52406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE231E6F44
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 00:39:30 +0200 (CEST)
+Received: from localhost ([::1]:33366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeR96-0006rc-4p
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 18:37:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47044)
+	id 1jeRBR-0002ip-1f
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 18:39:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=4104b2603=alistair.francis@wdc.com>)
- id 1jeQxQ-0005Sg-CZ; Thu, 28 May 2020 18:25:00 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:17153)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=4104b2603=alistair.francis@wdc.com>)
- id 1jeQxN-0008AD-L0; Thu, 28 May 2020 18:24:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1590704697; x=1622240697;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=eTDNgqGnduUaARXdpYrJlPRsQmtdi54c1YGYJojQbCg=;
- b=SGsmlU6xN/q//Lr6+bRl5pBEatnFqwzCArvf7ytG4AtLFQPavLRKdQye
- Ll3qXH0QjWWzLrTJq248nWSRFxqJouhQB5P+HA/Twtmr0ob67b/OL6Mwr
- zYQYddK/0Vc959IqtshVw9U1KM4LCA+F9553IjWxwidW+GH6ah6ge3p/V
- WDWbKwyNJy184xJbMbT5qf/2TrpIkIUgpSde8M0RN5JvVeQDgkqgIQ+gi
- R42ryun3guS71M2mhigqTLBxEuVtPB6YY/y7WhXjdFDCa6/B1FI4AhWLt
- GfvyrTyeP2XHtGbl1QfO4RwEfezf2eg2RSY4nG6mhnXpChw9M+8d0GtbD g==;
-IronPort-SDR: eImOvrdJj2MdTb+JaRfYS3qlEtVBN0i+fIa1FgUPbf+5/gfoj1wG2P4iH3ARtsAefy3Jorn/Rp
- b7syw5a9L2D5WPxoqUxeYVEWdjJAjCxOo1tFtPZRen7EZza1gTiejF/WEZsa+zPHJvJNYNDPLz
- BKze2TiVIPccKdCWxmcxHu4NLjFjLaUnABtKCUSNmpwXc3/TlgG6IOrr699xw6RyTod86wUBgb
- vxRHMlseQ335JYvGmNX+8k2/R4uLHFz/Ky562QQ7t4w5wGwsw6hzT3U80lDjMukt3lXxxLnYXy
- iVk=
-X-IronPort-AV: E=Sophos;i="5.73,446,1583164800"; d="scan'208";a="247810988"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 29 May 2020 06:24:52 +0800
-IronPort-SDR: R6V5KDBObRN3/EsiaZ9KnaVk+IgtYzGhpBX4hH1ZrZMWDQczxduMkt0L83PA04fVPQseqJaBN7
- I3/ZOQ+LnwInpZ1tRrFFB+bMGKHjBVhBg=
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 May 2020 15:14:08 -0700
-IronPort-SDR: ttZi74bTETIr8rvr2ibn30S+zW8Ywm4VXedrLKdmwVOoDtsaitIQdOoJTjzCGqDG8Otc7MpSju
- ysD/C8vCJqcw==
-WDCIronportException: Internal
-Received: from 6xf7cg2.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.57.123])
- by uls-op-cesaip01.wdc.com with ESMTP; 28 May 2020 15:24:53 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v4 4/4] docs: deprecated: Update the -bios documentation
-Date: Thu, 28 May 2020 15:16:16 -0700
-Message-Id: <dec5eeaaaea2f9ea5776a3a31d41fd8ec246a06c.1590704110.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1590704110.git.alistair.francis@wdc.com>
-References: <cover.1590704110.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jeQyB-0006TF-Bg
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 18:25:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41880)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jeQy9-0000Ln-Ql
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 18:25:46 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jeQy5-0005mE-Ad
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 22:25:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4C8872E8105
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 22:25:41 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=4104b2603=alistair.francis@wdc.com;
- helo=esa1.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 18:24:44
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 28 May 2020 22:17:21 -0000
+From: John Snow <1877418@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=btrfs-progs; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bump55 jnsnow
+X-Launchpad-Bug-Reporter: Bump (bump55)
+X-Launchpad-Bug-Modifier: John Snow (jnsnow)
+References: <158887096525.4808.16857448132122344597.malonedeb@soybean.canonical.com>
+Message-Id: <159070424107.14155.13915357337529578312.malone@gac.canonical.com>
+Subject: [Bug 1877418] Re: qemu-nbd freezes access to VDI file
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="275d46a24253e557e4403d52832837e4bfa425b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: deae7df2225ed4325927b3966265b6de93c36628
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 18:25:41
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,63 +74,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
- alistair23@gmail.com
+Reply-To: Bug 1877418 <1877418@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the -bios deprecation documentation to describe the new
-behaviour.
+I don't recommend you use VDI images in this way; we do not intend to
+support performant RW access; support for VDI images is there to convert
+to qcow2 or raw, generally.
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- docs/system/deprecated.rst | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+That said, some questions that might be interesting to know the answer
+to:
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 38865daafc..8c445d4062 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -138,25 +138,23 @@ the backing storage specified with ``-mem-path`` can actually provide
- the guest RAM configured with ``-m`` and QEMU will fail to start up if
- RAM allocation is unsuccessful.
- 
--RISC-V ``-bios`` (since 4.1)
-+RISC-V ``-bios`` (since 5.1)
- ''''''''''''''''''''''''''''
- 
- QEMU 4.1 introduced support for the -bios option in QEMU for RISC-V for the
--RISC-V virt machine and sifive_u machine.
--
--QEMU 4.1 has no changes to the default behaviour to avoid breakages. This
--default will change in a future QEMU release, so please prepare now. All users
--of the virt or sifive_u machine must change their command line usage.
--
--QEMU 4.1 has three options, please migrate to one of these three:
-- 1. ``-bios none`` - This is the current default behavior if no -bios option
--      is included. QEMU will not automatically load any firmware. It is up
-+RISC-V virt machine and sifive_u machine. QEMU 4.1 had no changes to the
-+default behaviour to avoid breakages.
-+
-+QEMU 5.1 changes the default behaviour from ``-bios none`` to ``-bios default``.
-+
-+QEMU 5.1 has three options:
-+ 1. ``-bios default`` - This is the current default behavior if no -bios option
-+      is included. This option will load the default OpenSBI firmware automatically.
-+      The firmware is included with the QEMU release and no user interaction is
-+      required. All a user needs to do is specify the kernel they want to boot
-+      with the -kernel option
-+ 2. ``-bios none`` - QEMU will not automatically load any firmware. It is up
-       to the user to load all the images they need.
-- 2. ``-bios default`` - In a future QEMU release this will become the default
--      behaviour if no -bios option is specified. This option will load the
--      default OpenSBI firmware automatically. The firmware is included with
--      the QEMU release and no user interaction is required. All a user needs
--      to do is specify the kernel they want to boot with the -kernel option
-  3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
- 
- ``-tb-size`` option (since 5.0)
--- 
-2.26.2
+- Try converting your VDI image to raw or qcow2 and mounting that instead. =
+Does the conversion work successfully? Can you export that image via qemu-n=
+bd and mount it? Does it work?
+- Do non-BTRFS filesystems cause any problems?
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877418
+
+Title:
+  qemu-nbd freezes access to VDI file
+
+Status in QEMU:
+  New
+Status in btrfs-progs package in Ubuntu:
+  New
+
+Bug description:
+  Mounted Oracle Virtualbox .vdi drive (dynamically allocated), which has G=
+TP+BTRFS:
+  sudo modprobe nbd max_part=3D16
+  sudo qemu-nbd -c /dev/nbd0 /storage/btrfs.vdi
+  mount /dev/nbd0p1 /mydata/
+
+  Then I am operating on the btrfs filesystem and suddenly it freezes.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877418/+subscriptions
 
