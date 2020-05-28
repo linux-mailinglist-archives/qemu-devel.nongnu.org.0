@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 793E11E5D8C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 12:59:56 +0200 (CEST)
-Received: from localhost ([::1]:49564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D57601E5D94
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 13:01:37 +0200 (CEST)
+Received: from localhost ([::1]:51834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeGGR-0001le-0I
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 06:59:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49086)
+	id 1jeGI4-0003Ek-VQ
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 07:01:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jeGFd-0000uV-NA
- for qemu-devel@nongnu.org; Thu, 28 May 2020 06:59:05 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:40731)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jeGGt-0002kr-UM
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 07:00:23 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:32905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jeGFc-0003oR-ET
- for qemu-devel@nongnu.org; Thu, 28 May 2020 06:59:05 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jeGGt-0004TL-1S
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 07:00:23 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MYvse-1jZwly0VjE-00UuUX; Thu, 28 May 2020 12:58:54 +0200
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MfbwW-1j76Ff46Ey-00g2hZ; Thu, 28 May 2020 13:00:20 +0200
 Subject: Re: [PATCH] linux-user: implement OFD locks
 To: Andreas Schwab <schwab@suse.de>, qemu-devel@nongnu.org
 References: <mvm7dx0cun3.fsf@suse.de>
@@ -66,8 +66,8 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <b9149709-f248-b460-7415-80fd5caca307@vivier.eu>
-Date: Thu, 28 May 2020 12:58:53 +0200
+Message-ID: <5d2cf647-fcae-785d-0d10-257787e78004@vivier.eu>
+Date: Thu, 28 May 2020 13:00:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
@@ -75,26 +75,26 @@ In-Reply-To: <mvm7dx0cun3.fsf@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:l3BMyI82E0JnP1OMaOcDAUgk80D/sO+1oNEme2RUNWpQTqT9mgl
- qZbFYzKiznV1mD5vhFgHB11sat7CJYJDzWhRJFSlHXsgIIkKnG1MuVUS7xqiAXWAV7jOg9x
- MOkH870gGKbf5q75jxYMdRDtZtZGiYK7y8JzaZ+RzSBlpH5t7g6hPDSeIVVOThpmEowDwcu
- WwWlQA6xDs4D2DBAjtKgQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:k2hrEPchLJ8=:R9YZEnInOi3RA+RRLOwOiI
- k83jB/f9oN3xnqq54obTUPb0fIpVgxP7XHAkzbsnMMSc0/+CcBxGgGoPAH+Y1GxLnbMsJsG6N
- cuL+5lOMu8ueeY4oGTDrOQexeT2HorguCKiT312dFHSJPHkQDoqXyaDMRWT2zt86BbF/whh4q
- ZFlaeQob8bRhxV11pS5FKhWFx7AufeYsbULXtTXnRPVovf33WiA5ACdPJhM/rcvWjUr+SeWef
- eBFQJnnpZmjRSBf5Yt0+ieBfNDkFmI1FuCx8067turohj+lK9gphoaJ6P4ryHLGg5vPcYICps
- SS/DpoX6T0AXluIk3IvBOaCWijUecKjGqUw6sAd/NSTX7P3NvPzUf8LczRKSEqXXdyQvDjA81
- ANsb0sItQCGC4iu1lHcjTghSTIePN6qIrYobT3Z4f1kWAgz4nPOSTEJ67zG9UeOlXVjbpH1IP
- KaYZNpBplf6ka9MG+g28Vfd5FHQ9mmAcOlpbsnY35Ao9IkXqnI/zKn2pKQBBkDC++w4HdKVh6
- EH9Jm51KVJbi4PUyzBDCyyUKSgF3+WFOgQAkDA6A0caICSclDPv2YAJOMXtYVT399BsD77Pil
- hbsajzNFEr53dE9K5DRa6fOR+wZJRu8aOiXbo3JCINff7pm6mLlW2JOacjZd7u6vAtJ0+t2+U
- 1E+bJ8KboUbyIww6h1UBnGluRWWfrbuFwnXX4KbL8hPCx3MzB5G4dGmrqsGastFkvM2qMDI13
- 3YZGjxGHe+V6CbKTd/a2vVewIiVIae8w8pU293MJNVlK3Ul4e0VyaJQ4iJ5jwG61f25wN8aU9
- nNzRpHd62FTb7HuCqd4M3hF2HojHhbrk7ASH8Ys6siaMZ34UAz50FXxEZlaHu/SHREMBXpD
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:2hqnKH5NEgTp7jiOblFxHAHOPMjXfMtvido8vq7WhzDbjYP0RB+
+ iUC48qKCoTHeNDOSwjRHchgtyHSsbs7AHUFliUHvzjePWSJKmMab/UrJs//930/iE4Mqx32
+ aoWluIAsfOBOmgN6A4F/XCISt4mODdd9fJcYMT7ouEtNPt4kMJaSu7hOAZxmc20E4vfVg0g
+ KArLOP/WGvh0pS68WyOoA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IAa+PXhhIic=:E9DsZay2/N71N+VNcPLc6E
+ xWrEXWTT7RnKVkszTu/+6X0J1OcGahEOEG2AAb1lQG0/z8kvpcsNNIUbRY/9MmB5i+twcGkHH
+ dApBFfowCxslTK1rHO5XT/eabHHpKF6WQQWA2aR9qdsg4fMmRJIRCZuAAyWEAXW4ftFzbMdfC
+ 2iZXNdWGDNMf5Zskbd7ulBbNHS0lNsjf61FneZmtGHTLip4i0pwbPjJrowsl7rGXZm3OFdlT7
+ TDQvzJHz6ioXx+WsaHUc1Ba3BLcpjU2AayLZS5jYfPlzUxba36SfTp6otM8GGDG93TCevbeyG
+ Mikx9bNXSjGZJjd/gzoNcrLpX93LwT1Ig2jiU/2RfU/QjgJraGN3Ajj2LYAKrhdTnMkPrCLlA
+ Ev/jHu4QVxfxm5aAvpnsGSameCruzoMNtrlJkyRcKVaDVa3qBa9jZkTReAlDofVXJRrrngeG6
+ O7HBm93P/py05wbs9wQavIdz2YytE+rQBLG6nQpnejMnyVRk3EaAAbWQ+Zl5b/0fviivPlu5Q
+ vgFrYvFUVe9WgQ1tZ0iiq+70XlUz98Mc4nZ4oCaAARGgXIBFkifoKpHwtYgtA35Js33a2z+w6
+ 0I1WMrmUIPxv/kXysvmpTDDYyHsUTz0C8yqdTkrn9PPlOVHemH3O7RYi/Os+xtqvmVNGYATL/
+ aveWYqGj5GPNtiyVxE+oThtplijVPlh7y5Df171nCQ8Ty6RsFkrJWRDztXxGS0dxQbldMuMYc
+ ZocBk1cewDVPtLVBm3ngUroLNOECB/bAV81Mjs770pn2MIY9l1A2yD8Ir9x1dfYwUdlZlcFqi
+ n/D6K/e3xt/PjKzY7ySHyRBHaj+uo10PweCP1f5Dt1j0NidCIDEWQmiVS2/VQn0KNmq6N3K
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 05:54:34
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 07:00:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -172,5 +172,8 @@ Le 25/05/2020 à 09:59, Andreas Schwab a écrit :
 >              return ret;
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Applied to my linux-user branch.
+
+Thanks,
+Laurent
 
