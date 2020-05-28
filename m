@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE4B1E6299
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 15:45:02 +0200 (CEST)
-Received: from localhost ([::1]:60552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370261E628F
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 15:44:04 +0200 (CEST)
+Received: from localhost ([::1]:55360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeIqD-00018P-Ql
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 09:45:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44150)
+	id 1jeIpH-0006gS-8h
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 09:44:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeImk-0003ot-Km
- for qemu-devel@nongnu.org; Thu, 28 May 2020 09:41:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20927
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeInn-0005Bc-Rp
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 09:42:31 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55814
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeImj-0000B0-LD
- for qemu-devel@nongnu.org; Thu, 28 May 2020 09:41:26 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeInm-0000qV-2e
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 09:42:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590673284;
+ s=mimecast20190719; t=1590673348;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jgPn5/3SiL/BCQPNp12ubi6VF4npbAkeKNN8iWkmpwM=;
- b=hGJQRw525hfpHz5pnnT1eqTRtST/v6MfPgHbXhHqZfB8+kVLiE7z5fYREghKRzjtWUoJAG
- xb9K5GzA7cWgXyZhcyWmoJV/EdJREdkPXf8iYB4HqWanmfw/bxRzU/WFyY9si1t0vhZ09W
- xVQz4npi0wyHQFSJc7tcMkybxk6NrxI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-Y1fAQSAlNkmYSUnWpJ2SFg-1; Thu, 28 May 2020 09:41:22 -0400
-X-MC-Unique: Y1fAQSAlNkmYSUnWpJ2SFg-1
-Received: by mail-wm1-f71.google.com with SMTP id k185so978683wme.8
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 06:41:22 -0700 (PDT)
+ bh=rlJVqEiH7Fw2PY6F9zDlLiwb9QanHmUIHaflSWvE1+Q=;
+ b=CnRLO4pljq7jSL/F1ocRN/8Y0icNkcpk39cO70hovnWyulFd8SA5D/c38/ua8VeBTB9vyK
+ /g7pt/J+QvIFGtjh1/U84aCnmJxq49301RKNwcetPRMWcxiv7FKH79dKj0PZmzbXgxeJ0c
+ 5GAvUX/xjyKti6cIDhseu6Fj1ZT+AWA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-32-0nn6tL7kPXG9BuAh0bz6rg-1; Thu, 28 May 2020 09:42:26 -0400
+X-MC-Unique: 0nn6tL7kPXG9BuAh0bz6rg-1
+Received: by mail-wm1-f72.google.com with SMTP id j128so746379wmj.6
+ for <qemu-devel@nongnu.org>; Thu, 28 May 2020 06:42:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=jgPn5/3SiL/BCQPNp12ubi6VF4npbAkeKNN8iWkmpwM=;
- b=nFtmwpC6f4aT8iki9YLStelUQTzGw4JZLJvrBoH7hFOVM+1fzcviEXJjs9gTHUMB/A
- CzUq4F6pp+++EkTozCPj6gdnwz0MdhzymO8Cp/XBX0PAe4Q1pbVV1i6xAqOalKgv/pqz
- Np6J9iOI/ufmmdF4Xzo9tkIctFKLBGtPOTebzumGMaJpZMr9V5+/gJsRN+6ajCExt1Dq
- zrmV8NS+3X7UpmdEw07CE3u4urcQdAtgGI6QE7zqHgeLXO73dGZ9fbCD/ngXonK04FTd
- 1ykf8YCt7ZPUkNdcVwPAWhrVtunle8VdSSt7bfjav3KqISUc6tcX7tTQTCLlywcrmKCM
- qQ5Q==
-X-Gm-Message-State: AOAM533UE9FQBdnX7zGv3eS0WA1gizb9oqaUuetS7ZNZDZ6K0qPDzvXt
- XWQY+uqJfcKd3gSVGyCR30NtHZZWYm1tsmEgfRSHu1vIww7RZF06hb5MuoS1nJPXv9eLVuzpnF7
- yW5+CjGGU2I1L9fY=
-X-Received: by 2002:a1c:67c3:: with SMTP id b186mr3265439wmc.167.1590673281441; 
- Thu, 28 May 2020 06:41:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwLNHeGKXfXiKHPipF3uxvDPGQYppfKN06c5ZTuiUH/EiQaA9araHxHXW98hAplgKuQc93HQA==
-X-Received: by 2002:a1c:67c3:: with SMTP id b186mr3265421wmc.167.1590673281219; 
- Thu, 28 May 2020 06:41:21 -0700 (PDT)
+ bh=rlJVqEiH7Fw2PY6F9zDlLiwb9QanHmUIHaflSWvE1+Q=;
+ b=QoDDFwGVPN9tUOD+vUYnRtqgJ2brgXvNOFNtGjCna+q2Z4S17S+nXwHDbi1JAdVnWr
+ hdJJ7peK1gef1xNVOoDiJThvgNQyKW4065OReEnyA+9RHgQl84VEsW3RvTQwcJ27GPlb
+ g7HrFdYe/WFcuLfsgiS0uHyZviWyGjhwbhTKkBR7jMCK5oU/NxaTSvPwUFvkuYKFA0Rn
+ 9UfQ3Tlr+ykkez2nry9UwtDPBE4fzHDUsPssBvsIqVG8eK7fqhzJEY8S5/fmpM1eS5di
+ CAxK5k7NFLWvCa+sk9i4LZ1WG6g83sHY+KLRd5jigUtWgBiQE/TXQich97F0l22eJjUg
+ G/zA==
+X-Gm-Message-State: AOAM532/oYerDRHFcyglxVTCKUDWdXwQuznVz5C4NyV4psuSz/qYyfJX
+ krhdoNtSOy9DIIKqukE87K2PzFtH1SwUPUZ5aHKWjjWNc7alFdh4m7+EAkI76ulH2MckS7Xnint
+ 3ozqMiaVayyG/Q8g=
+X-Received: by 2002:a1c:27c2:: with SMTP id n185mr3778399wmn.68.1590673345210; 
+ Thu, 28 May 2020 06:42:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzhj7RjXC16QN0NkKGR+M5/a9BwJ5hX0pVccgYYXQCLXMU7UdIJ0a1bGEmNR8m4e4nup25Qcw==
+X-Received: by 2002:a1c:27c2:: with SMTP id n185mr3778383wmn.68.1590673344974; 
+ Thu, 28 May 2020 06:42:24 -0700 (PDT)
 Received: from [192.168.1.36] (71.red-88-21-204.staticip.rima-tde.net.
  [88.21.204.71])
- by smtp.gmail.com with ESMTPSA id d6sm6278328wrj.90.2020.05.28.06.41.20
+ by smtp.gmail.com with ESMTPSA id r5sm6288901wrq.0.2020.05.28.06.42.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 May 2020 06:41:20 -0700 (PDT)
-Subject: Re: [PATCH v2] fpu/softfloat: Silent 'bitwise negation of a boolean
- expression' warning
-To: Eric Blake <eblake@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200528084833.9531-1-philmd@redhat.com>
- <288fd554-67e2-bfd9-4b51-ac03e565161f@redhat.com>
- <fb5c69f1-af4c-2f6e-b47a-3b964675318a@redhat.com>
- <1809e3cf-5750-e21e-88bf-d27f9d1fb3c3@redhat.com>
+ Thu, 28 May 2020 06:42:24 -0700 (PDT)
+Subject: Re: [PATCH v2 2/4] microvm: drop max-ram-below-4g support
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20200528134035.32025-1-kraxel@redhat.com>
+ <20200528134035.32025-3-kraxel@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -91,28 +87,28 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <1c6f1813-afc4-95e1-65c6-a6ae68b54690@redhat.com>
-Date: Thu, 28 May 2020 15:41:19 +0200
+Message-ID: <16e2f252-741e-59ec-9e02-aaf5363bc9f3@redhat.com>
+Date: Thu, 28 May 2020 15:42:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <1809e3cf-5750-e21e-88bf-d27f9d1fb3c3@redhat.com>
+In-Reply-To: <20200528134035.32025-3-kraxel@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 03:11:04
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 06:31:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,94 +121,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ imammedo@redhat.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/28/20 3:37 PM, Eric Blake wrote:
-> On 5/28/20 4:00 AM, Philippe Mathieu-Daudé wrote:
->> On 5/28/20 10:57 AM, Thomas Huth wrote:
->>> On 28/05/2020 10.48, Philippe Mathieu-Daudé wrote:
->>>> When building with clang version 10.0.0-4ubuntu1, we get:
+On 5/28/20 3:40 PM, Gerd Hoffmann wrote:
+> Not useful for microvm and allows users to shoot themself
+> into the foot (make ram + mmio overlap).
 > 
-> In the subject, I'd suggest s/Silent/Silence/
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  hw/i386/microvm.c | 19 -------------------
+>  1 file changed, 19 deletions(-)
+> 
+> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> index 44f940813b07..5e931975a06d 100644
+> --- a/hw/i386/microvm.c
+> +++ b/hw/i386/microvm.c
+> @@ -173,25 +173,6 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+>      ram_addr_t lowmem = 0xc0000000; /* 3G */
+>      int i;
+>  
+> -    /*
+> -     * Handle the machine opt max-ram-below-4g.  It is basically doing
+> -     * min(qemu limit, user limit).
+> -     */
+> -    if (!x86ms->max_ram_below_4g) {
+> -        x86ms->max_ram_below_4g = 4 * GiB;
+> -    }
+> -    if (lowmem > x86ms->max_ram_below_4g) {
+> -        lowmem = x86ms->max_ram_below_4g;
+> -        if (machine->ram_size - lowmem > lowmem &&
+> -            lowmem & (1 * GiB - 1)) {
+> -            warn_report("There is possibly poor performance as the ram size "
+> -                        " (0x%" PRIx64 ") is more then twice the size of"
+> -                        " max-ram-below-4g (%"PRIu64") and"
+> -                        " max-ram-below-4g is not a multiple of 1G.",
+> -                        (uint64_t)machine->ram_size, x86ms->max_ram_below_4g);
+> -        }
+> -    }
+> -
+>      if (machine->ram_size > lowmem) {
+>          x86ms->above_4g_mem_size = machine->ram_size - lowmem;
+>          x86ms->below_4g_mem_size = lowmem;
+> 
 
-Don't fit... 73 chars :S I'll use 'Avoid' (or 'Remove'?) instead.
-
-> 
->>>>
->>>>      CC      lm32-softmmu/fpu/softfloat.o
->>>>    fpu/softfloat.c:3365:13: error: bitwise negation of a boolean
->>>> expression; did you mean logical negation? [-Werror,-Wbool-operation]
->>>>        absZ &= ~ ( ( ( roundBits ^ 0x40 ) == 0 ) & roundNearestEven );
->>>>                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>>
->>>>    fpu/softfloat.c:3423:18: error: bitwise negation of a boolean
->>>> expression; did you mean logical negation? [-Werror,-Wbool-operation]
->>>>            absZ0 &= ~ ( ( (uint64_t) ( absZ1<<1 ) == 0 ) &
->>>> roundNearestEven );
->>>>                    
->>>> ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>>
-> 
-> Also, do you need to list all errors, or will just one or two
-> representative errors be sufficient?
-
-Fair :)
-
-> 
->>>>
->>>> Fix by rewriting the fishy bitwise AND of two bools as an int.
->>>>
->>>> Suggested-by: Eric Blake <eblake@redhat.com>
->>>> Buglink: https://bugs.launchpad.net/bugs/1881004
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>> ---
-> 
->>>> +++ b/fpu/softfloat.c
->>>> @@ -3362,7 +3362,9 @@ static int32_t roundAndPackInt32(bool zSign,
->>>> uint64_t absZ,
->>>>       }
->>>>       roundBits = absZ & 0x7F;
->>>>       absZ = ( absZ + roundIncrement )>>7;
->>>> -    absZ &= ~ ( ( ( roundBits ^ 0x40 ) == 0 ) & roundNearestEven );
->>>> +    if (((roundBits ^ 0x40) == 0) && roundNearestEven) {
->>>> +        absZ &= ~1;
->>>> +    }
->>>
->>> You could get rid of some more parentheses now:
->>>
->>>     if ((roundBits ^ 0x40) == 0 && roundNearestEven)
->>>
->>> ... also in the other hunks.
->>
->> I first wrote
->>
->>      if (!(roundBits ^ 0x40) && roundNearestEven)
->>
->> But then thought this would diverge from Eric suggestion, so I kept what
->> he wrote (which is a bit closer to the style of rest of this file).
-> 
-> I don't mind the patch as-is for minimizing churn and matching existing
-> style, but I also would not be opposed if you wanted to elide
-> unnecessary ().
-
-OK, thanks for the review!
-
-> 
->>
->>>
->>> Anyway:
->>> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>>
->>
->> Thanks!
->>
-> 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
