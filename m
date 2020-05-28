@@ -2,101 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEEAF1E6DC7
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 23:37:47 +0200 (CEST)
-Received: from localhost ([::1]:32982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D8991E6DE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 23:42:56 +0200 (CEST)
+Received: from localhost ([::1]:42756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeQDh-0005Oa-9d
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 17:37:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60472)
+	id 1jeQIh-0002t6-1u
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 17:42:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1jePdL-0004Yi-HC
- for qemu-devel@nongnu.org; Thu, 28 May 2020 17:00:11 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42346)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1jeQFv-0000z2-OB; Thu, 28 May 2020 17:40:04 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:36748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1jePdK-0004ZQ-2J
- for qemu-devel@nongnu.org; Thu, 28 May 2020 17:00:11 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04SKbCXc078489
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 17:00:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=+dW+vPE30EIX2bgUN+dNUE4nh8+kdwYv8SIHTjjAi/E=;
- b=sX+NTzweWXRoJa/h3G53/Az2HLEb/aeLH6/lwefnXmUcpBFKgeswaTaHFrR3+kBckUnm
- np6EdDlhaq7RuWvmgqQ8qCM9CjNmw2pdxgkWo5ze2MNXmwfnC0LiXJ9XQyAg7S6FVJAz
- 8h3UqIjA4ab3gtjCRocCjPAe3ELqbeYqvceXbVACtJr3ObtmrwnjCbKYKYS2D6iVGM/t
- QyUSS/qQ9coylnPGTrZgaea3lKHvTC/tWh4O0LrwKK/VFMaeqLBDjCnV0nS/KEnEQG4u
- 6LaUmpHPLnjE7YLqtdfEp8XFvFPYTe0jvhnfhsx6yPfGDRWv9j/RsQuYMytOiiu0YT7N QA== 
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 319shjr05u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 17:00:06 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04SKf8ts031292
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 21:00:05 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma02dal.us.ibm.com with ESMTP id 316ufb9ef5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 28 May 2020 21:00:05 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 04SL02Vx22872352
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 28 May 2020 21:00:02 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C59A578063;
- Thu, 28 May 2020 21:00:03 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0AD207805E;
- Thu, 28 May 2020 21:00:02 +0000 (GMT)
-Received: from [153.66.254.194] (unknown [9.85.161.209])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 28 May 2020 21:00:02 +0000 (GMT)
-Message-ID: <1590699601.3449.48.camel@linux.ibm.com>
-Subject: Re: [PATCH 1/2] sev: add sev-inject-launch-secret
-From: James Bottomley <jejb@linux.ibm.com>
-To: Tobin Feldman-Fitzthum <tobin@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-Date: Thu, 28 May 2020 14:00:01 -0700
-In-Reply-To: <20200528205114.42078-2-tobin@linux.vnet.ibm.com>
-References: <20200528205114.42078-1-tobin@linux.vnet.ibm.com>
- <20200528205114.42078-2-tobin@linux.vnet.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-05-28_07:2020-05-28,
- 2020-05-28 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0
- malwarescore=0 impostorscore=0 cotscore=-2147483648 mlxscore=0
- mlxlogscore=999 priorityscore=1501 clxscore=1011 spamscore=0
- lowpriorityscore=0 suspectscore=0 phishscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005280132
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 16:51:19
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1jeQFs-0000SI-DQ; Thu, 28 May 2020 17:40:02 -0400
+Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::119])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 1C63E2E15FE;
+ Fri, 29 May 2020 00:39:53 +0300 (MSK)
+Received: from vla5-58875c36c028.qloud-c.yandex.net
+ (vla5-58875c36c028.qloud-c.yandex.net [2a02:6b8:c18:340b:0:640:5887:5c36])
+ by mxbackcorp2j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ 5g6CXdTwEO-dlf0DWeC; Fri, 29 May 2020 00:39:53 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1590701993; bh=YGsXreK94O+yIKcs4mqo5YoWnIMbpywJxpUDcqMPHyM=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=ARN/Ahb1iWocNosGtI4XVj/i308SMpysWnO9d5NcrMDPN0Gfu0WcxG0+XXyk7TDT5
+ sqH9gEp4qd8FIY3dQjC+/KVlI2L4r0lQUrWoyrPoYub0XOD3+jH9kiLqOJKBLAROLu
+ 4QjGmOmaG2DXqdSS8vNZy78uuku819U6oJvMEPls=
+Authentication-Results: mxbackcorp2j.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:1318::1:10])
+ by vla5-58875c36c028.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ KqoauPPys3-dlXqUjYH; Fri, 29 May 2020 00:39:47 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 0/8] block: enhance handling of size-related BlockConf
+ properties
+Date: Fri, 29 May 2020 00:39:38 +0300
+Message-Id: <20200528213946.1636444-1-rvkagan@yandex-team.ru>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 17:39:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 28 May 2020 17:35:50 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,141 +73,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
-Cc: tobin@ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Max Reitz <mreitz@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, xen-devel@lists.xenproject.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2020-05-28 at 16:51 -0400, Tobin Feldman-Fitzthum wrote:
-> --- a/qapi/misc-target.json
-> +++ b/qapi/misc-target.json
-> @@ -200,6 +200,26 @@
->  { 'command': 'query-sev-capabilities', 'returns': 'SevCapability',
->    'if': 'defined(TARGET_I386)' }
->  
-> +##
-> +# @sev-inject-launch-secret:
-> +#
-> +# This command injects a secret blob into memory of SEV guest.
-> +#
-> +# @packet-header: the launch secret packet header encoded in base64
-> +#
-> +# @secret: the launch secret data to be injected encoded in base64
-> +#
-> +# @gpa: the guest physical address where secret will be injected.
-> +        GPA provided here will be ignored if guest ROM specifies 
-> +        the a launch secret GPA.
-
-Shouldn't we eliminate the gpa argument to this now the gpa is
-extracted from OVMF?  You add it here but don't take it out in the next
-patch.
-
-> +# Since: 5.0.0
-> +#
-> +##
-> +{ 'command': 'sev-inject-launch-secret',
-> +  'data': { 'packet_hdr': 'str', 'secret': 'str', 'gpa': 'uint64' },
-
-Java (i.e. Json) people hate underscores and abbreviations.  I bet
-they'll want this to be 'packet-header'
-
-> +  'if': 'defined(TARGET_I386)' }
-> +
->  ##
->  # @dump-skeys:
->  #
-> diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-> index 27ebfa3ad2..5c2b7d2c17 100644
-> --- a/target/i386/monitor.c
-> +++ b/target/i386/monitor.c
-> @@ -736,3 +736,11 @@ SevCapability *qmp_query_sev_capabilities(Error
-> **errp)
->  
->      return data;
->  }
-> +
-> +void qmp_sev_inject_launch_secret(const char *packet_hdr,
-> +                                  const char *secret, uint64_t gpa,
-> +                                  Error **errp)
-> +{
-> +    if (sev_inject_launch_secret(packet_hdr,secret,gpa) != 0)
-> +      error_setg(errp, "SEV inject secret failed");
-> +}
-> diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
-> index e5ee13309c..2b8c5f1f53 100644
-> --- a/target/i386/sev-stub.c
-> +++ b/target/i386/sev-stub.c
-> @@ -48,3 +48,8 @@ SevCapability *sev_get_capabilities(void)
->  {
->      return NULL;
->  }
-> +int sev_inject_launch_secret(const char *hdr, const char *secret,
-> +		                             uint64_t gpa)
-> +{
-> +	    return 1;
-> +}
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 846018a12d..774e47d9d1 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -28,6 +28,7 @@
->  #include "sysemu/runstate.h"
->  #include "trace.h"
->  #include "migration/blocker.h"
-> +#include "exec/address-spaces.h"
->  
->  #define DEFAULT_GUEST_POLICY    0x1 /* disable debug */
->  #define DEFAULT_SEV_DEVICE      "/dev/sev"
-> @@ -743,6 +744,88 @@ sev_encrypt_data(void *handle, uint8_t *ptr,
-> uint64_t len)
->      return 0;
->  }
->  
-> +
-> +static void *
-> +gpa2hva(hwaddr addr, uint64_t size)
-> +{
-> +    MemoryRegionSection mrs =
-> memory_region_find(get_system_memory(),
-> +                                                 addr, size);
-> +
-> +    if (!mrs.mr) {
-> +        error_report("No memory is mapped at address 0x%"
-> HWADDR_PRIx, addr);
-> +        return NULL;
-> +    }
-> +
-> +    if (!memory_region_is_ram(mrs.mr) &&
-> !memory_region_is_romd(mrs.mr)) {
-> +        error_report("Memory at address 0x%" HWADDR_PRIx "is not
-> RAM", addr);
-> +        memory_region_unref(mrs.mr);
-> +        return NULL;
-> +    }
-
-We can still check this, but it should be like an assertion failure. 
-Since the GPA is selected by the OVMF build there should be no way it
-can't be mapped into the host.
-
-[...]
-> --- a/tests/qtest/qmp-cmd-test.c
-> +++ b/tests/qtest/qmp-cmd-test.c
-> @@ -93,10 +93,10 @@ static bool query_is_blacklisted(const char *cmd)
->          /* Success depends on target-specific build configuration:
-> */
->          "query-pci",              /* CONFIG_PCI */
->          /* Success depends on launching SEV guest */
-> -        "query-sev-launch-measure",
-> +        // "query-sev-launch-measure",
->          /* Success depends on Host or Hypervisor SEV support */
-> -        "query-sev",
-> -        "query-sev-capabilities",
-> +        // "query-sev",
-> +        // "query-sev-capabilities",
-
-We're eliminating existing tests ... is that just a stray hunk that you
-forgot to remove?
-
-James
-
+BlockConf includes several properties counted in bytes.=0D
+=0D
+Enhance their handling in some aspects, specifically=0D
+=0D
+- accept common size suffixes (k, m)=0D
+- perform consistency checks on the values=0D
+- lift the upper limit on physical_block_size and logical_block_size=0D
+=0D
+Also fix the accessor for opt_io_size in virtio-blk to make it consistent w=
+ith=0D
+the size of the field.=0D
+=0D
+History:=0D
+v6 -> v7:=0D
+- avoid overflow in min_io_size check [Eric]=0D
+- try again to perform the art form in patch splitting [Eric]=0D
+=0D
+v5 -> v6:=0D
+- fix forgotten xen-block and swim=0D
+- add prop_size32 instead of going with 64bit=0D
+=0D
+v4 -> v5:=0D
+- re-split the patches [Philippe]=0D
+- fix/reword error messages [Philippe, Kevin]=0D
+- do early return on failed consistency check [Philippe]=0D
+- use QEMU_IS_ALIGNED instead of open coding [Philippe]=0D
+- make all BlockConf size props support suffixes=0D
+- expand the log for virtio-blk opt_io_size [Michael]=0D
+=0D
+v3 -> v4:=0D
+- add patch to fix opt_io_size width in virtio-blk=0D
+- add patch to perform consistency checks [Kevin]=0D
+- check min_io_size against truncation [Kevin]=0D
+=0D
+v2 -> v3:=0D
+- mention qcow2 cluster size limit in the log and comment [Eric]=0D
+=0D
+v1 -> v2:=0D
+- cap the property at 2 MiB [Eric]=0D
+- accept size suffixes=0D
+=0D
+Roman Kagan (8):=0D
+  virtio-blk: store opt_io_size with correct size=0D
+  block: consolidate blocksize properties consistency checks=0D
+  qdev-properties: blocksize: use same limits in code and description=0D
+  qdev-properties: add size32 property type=0D
+  qdev-properties: make blocksize accept size suffixes=0D
+  block: make BlockConf size props 32bit and accept size suffixes=0D
+  qdev-properties: add getter for size32 and blocksize=0D
+  block: lift blocksize property limit to 2 MiB=0D
+=0D
+ include/hw/block/block.h     |  14 +-=0D
+ include/hw/qdev-properties.h |   5 +-=0D
+ hw/block/block.c             |  41 ++-=0D
+ hw/block/fdc.c               |   5 +-=0D
+ hw/block/nvme.c              |   5 +-=0D
+ hw/block/swim.c              |   5 +-=0D
+ hw/block/virtio-blk.c        |   9 +-=0D
+ hw/block/xen-block.c         |   6 +-=0D
+ hw/core/qdev-properties.c    |  85 +++++-=0D
+ hw/ide/qdev.c                |   5 +-=0D
+ hw/scsi/scsi-disk.c          |  12 +-=0D
+ hw/usb/dev-storage.c         |   5 +-=0D
+ tests/qemu-iotests/172.out   | 532 +++++++++++++++++------------------=0D
+ 13 files changed, 420 insertions(+), 309 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
