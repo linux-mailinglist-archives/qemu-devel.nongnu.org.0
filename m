@@ -2,70 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DE7C1E5CC5
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 12:14:00 +0200 (CEST)
-Received: from localhost ([::1]:58942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9F11E5CF0
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 12:16:51 +0200 (CEST)
+Received: from localhost ([::1]:39566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeFXz-000408-52
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 06:13:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42594)
+	id 1jeFak-0008JR-6Y
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 06:16:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jeFVN-00086x-4h
- for qemu-devel@nongnu.org; Thu, 28 May 2020 06:11:17 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46672
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jeFVM-0003Tq-3m
- for qemu-devel@nongnu.org; Thu, 28 May 2020 06:11:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590660675;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fA/aOdTZYOe4tkHV6oQL79sbDJCrso6VigZdl6PZCk0=;
- b=YXYiSjghuNUa2OLvSmcd8Aa/s/4uhwX/kNKtIV5sqqnL+bZny4tOJGh1plmYBFPgLxAVFd
- S1sJCzLzS8+CNgAhuOkzRA4q9E7WjuRDB47iiSy0iq46vpBR6dIvleWpLXY/3fyMOeZOhp
- AFaWhFw0IkKPlHECa1AU8D0oATcbAw0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-461-IMDzrXp5Pwqb9WM2TXuWXw-1; Thu, 28 May 2020 06:11:13 -0400
-X-MC-Unique: IMDzrXp5Pwqb9WM2TXuWXw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 636BA835B40;
- Thu, 28 May 2020 10:11:12 +0000 (UTC)
-Received: from thuth.com (ovpn-112-213.ams2.redhat.com [10.36.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A51B5D9EF;
- Thu, 28 May 2020 10:11:09 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 7/7] gitlab-ci: Determine the number of jobs dynamically
-Date: Thu, 28 May 2020 12:10:39 +0200
-Message-Id: <20200528101039.24600-8-thuth@redhat.com>
-In-Reply-To: <20200528101039.24600-1-thuth@redhat.com>
-References: <20200528101039.24600-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jeFZJ-0006OL-GR; Thu, 28 May 2020 06:15:21 -0400
+Received: from mail-eopbgr140105.outbound.protection.outlook.com
+ ([40.107.14.105]:20613 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jeFZG-0005Iy-Ax; Thu, 28 May 2020 06:15:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xsesurl1Ud0x60X/168fXOmPw2LpBdIe6aGqs8Ql17qq2f4peoxDLmgO0eGCdEZrnKj0vR+lCfb/fg32ovPCOMtGTihtSpZeAm7DfYz8NXDWvWh1zYmYeI2gUy7SHC3J97VMmTiYRjDnVa1zJ8WSS8ZZfw5mlQx2+Tz/psMsus3PgkX/LkmDOvPcJUb8OOa09PBMD/O2U4pGQtKQHKj3RZHorQbgk9gIVFWpu5lo54Hw0VRr6D7Su6G5Sg0LZp3mftt8U1fQeYf/DBEhumy4Tj0KPxTpvfZLWYZszMlShhzQ5W+qItR5i8JbcwZwhTBTRezHi65MVIeW/082BPTZbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mfobrG8o5y2BR64unD6GAknc7EAwCa3RuuyuVAXXeM8=;
+ b=VIdUKwKlKs4tL0cGJXxHZQePUL1dEJWie4507FfmYOGKArwzmJgPr2+qod6P/n062ZfmXSOY0p7Kaajd098RnBl9bJE2GfhvKO+I/CLXeydV6+oY/zWy9laPl30t9yBd6XFk2d0xCinyXU/ZqHgPhH/xIvku94frN4/U4pGWHMDSlzUQvEPait91tWC/Ya/jR5KhZc05jpC2X0mgdnQ/Ujr6hcs/jVFMM5fOohKcWQVpFFE5uS+t0p7MZgW6AwHvPswcJ4krRfNmmVQcuOkkAWyu+j0LXqpERx5xuk+MQZQdY3iFk6wqG16v0cImOvS/STkxE+zQjN9MWUZothv+ZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mfobrG8o5y2BR64unD6GAknc7EAwCa3RuuyuVAXXeM8=;
+ b=FCAl+9ZHfHJHqbfqiVHDQOAz7DeVzCrpWt529nNabiWrZYmjdV6fWUJFL9f3YsPdlUhgKLhLwEyv7Iwf7keZvk5/T13xg/o7pzbLCHXm2+cmEgs8fBakwYe+ZWIsV9KGrkrd55VqsestFhVaT8H7Or/srVACtf+vVH2S0nyyTKY=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5317.eurprd08.prod.outlook.com (2603:10a6:20b:101::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.19; Thu, 28 May
+ 2020 10:15:14 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3045.018; Thu, 28 May 2020
+ 10:15:14 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v4 0/5] fix & merge block_status_above and is_allocated_above
+Date: Thu, 28 May 2020 13:15:02 +0300
+Message-Id: <20200528101507.151161-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+Content-Type: text/plain
+X-ClientProxiedBy: AM0PR07CA0018.eurprd07.prod.outlook.com
+ (2603:10a6:208:ac::31) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 02:50:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kvm.sw.ru (185.215.60.178) by
+ AM0PR07CA0018.eurprd07.prod.outlook.com (2603:10a6:208:ac::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3066.7 via Frontend Transport; Thu, 28 May 2020 10:15:14 +0000
+X-Mailer: git-send-email 2.18.0
+X-Originating-IP: [185.215.60.178]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 007a6981-1fdc-4fa8-2242-08d802f0037c
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5317:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB531766B27081516F8DED7CFCC18E0@AM7PR08MB5317.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
+X-Forefront-PRVS: 0417A3FFD2
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IkvBiaD71IJjgOADEoEj0jJsweBbdTopyReVoDVXYM66wBwaP7E2nUVZ1uCfMKSU/wlu8aCQpJoEnpXa7AUo2KiO9jqlgkVKegZc+7As/hY+9alRkM/ScX1REdFC5A0TzYVjaJkMVDhXqhGOM782q9F/H1XvdKERKTMrK4Avul0gutamMmUpZIV7xoz7ITw5AM8PJ1w2KKlKNCuECPQTYcQtttZk1uG97c7BNG+BWv+WJdyyEBQTXrQYrjxrhZsiSdiGfcXynfuKEWUNhuLH4NinQTtg+igHjBF8F92FFrdLrTBfIS+hrHvVtBoEkB1xqtg1SVv4yH8GKy/97MP+aW34jcAUNyfnNKJwAiMLVarHN+GhHr/zBVNgZJ/3iW3oXfUa/lxKjGcszFQzjaUc8w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39840400004)(396003)(366004)(376002)(136003)(346002)(1076003)(26005)(6486002)(5660300002)(8936002)(6916009)(52116002)(6506007)(478600001)(83380400001)(16526019)(966005)(186003)(4326008)(2616005)(6666004)(66946007)(36756003)(107886003)(6512007)(8676002)(66476007)(956004)(316002)(66556008)(2906002)(86362001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 0dKvRjzUCrufjtiKRDxcrjKdURXZpL2nBnNlN85V3ZWztzSilTsKhcrR+CyzcrNYV5sJ7gEgZGmVwDmfsVSE2pXU4tQcQEe3u/DdQ3aInErkAmoEtEctOPpCxP2t/7iZHdq4OTqbiO32qJMzs4iC7kmJA6T5F9JRsJCFKRHyzB16kWc36ZpgkdyvEaMvngHBpqszojgGCj5alyT3LiwhtCiBVKwGOFDIgiIDa+XjThd3HeKdv66xLADHVpOHT4YnO+8liL6Xf6wHBcwNhQqhmiMJlmi/4xs9XAYuK4wHgDozi2J2s2rMwpymO+XA33eh3R32Rxyrz19vcQmzW+bxWFUqBBrymkx0Bpq6i6ezd8WUdfE6LenN3F9dPBjilzxEe0E1clyAONMbDNV2F+V9rR5x/xLOc3/Uxl6FNtqE4NBY9v/61LJj3mLS3igqedGhZkhbBM6vWCowKqLFGZLyYaDrLd+7ogdsKc3DVAala/M=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 007a6981-1fdc-4fa8-2242-08d802f0037c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2020 10:15:14.8471 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qemHSWcJinbVW9eXPmw7YXtc7lQiTrQqMo3qiv2PAOomR/MK7ui4EYqAoKpbVaSKah4naVI/nGglQF8yNd86IDZ/5dBMzC/MLz5GRo9Ch4w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5317
+Received-SPF: pass client-ip=40.107.14.105;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 06:15:15
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,116 +111,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some people might want to run the gitlab CI pipelines in an environment
-where multiple CPUs are available to the runners, so let's rather get
-the number for "-j" from the "nproc" program (increased by 1 to compensate
-for jobs that wait for I/O) instead of hard-coding it.
+Thanks to Eric, the whole series is reviewed now!
 
-Message-Id: <20200525131823.715-7-thuth@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .gitlab-ci.yml | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+v4:
+01: fix grammar in comment, add Eric's r-b
+02-05: add Eric's r-b
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 559ec2ab4d..349c77aa58 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -7,12 +7,14 @@ include:
-   - apt-get update -qq
-   - apt-get install -y -qq git gcc libglib2.0-dev libpixman-1-dev make
-         genisoimage
-+  - JOBS=$(expr $(nproc) + 1)
- 
- .update_dnf_template: &before_script_dnf
-  before_script:
-   - dnf update -y
-   - dnf install -y bzip2 diffutils gcc git genisoimage findutils glib2-devel
-         make python3 perl-podlators perl-Test-Harness pixman-devel zlib-devel
-+  - JOBS=$(expr $(nproc) + 1)
- 
- build-system1:
-  image: ubuntu:19.10
-@@ -25,8 +27,8 @@ build-system1:
-  - ../configure --enable-werror --target-list="aarch64-softmmu alpha-softmmu
-       cris-softmmu hppa-softmmu lm32-softmmu moxie-softmmu microblazeel-softmmu
-       mips64el-softmmu m68k-softmmu ppc-softmmu riscv64-softmmu sparc-softmmu"
-- - make -j2
-- - make -j2 check
-+ - make -j"$JOBS"
-+ - make -j"$JOBS" check
- 
- build-system2:
-  image: fedora:latest
-@@ -40,8 +42,8 @@ build-system2:
-  - ../configure --enable-werror --target-list="tricore-softmmu unicore32-softmmu
-       microblaze-softmmu mips-softmmu riscv32-softmmu s390x-softmmu sh4-softmmu
-       sparc64-softmmu x86_64-softmmu xtensa-softmmu nios2-softmmu or1k-softmmu"
-- - make -j2
-- - make -j2 check
-+ - make -j"$JOBS"
-+ - make -j"$JOBS" check
- 
- build-disabled:
-  image: fedora:latest
-@@ -56,8 +58,8 @@ build-disabled:
-       --disable-qom-cast-debug --disable-spice --disable-vhost-vsock
-       --disable-vhost-net --disable-vhost-crypto --disable-vhost-user
-       --target-list="i386-softmmu ppc64-softmmu mips64-softmmu i386-linux-user"
-- - make -j2
-- - make -j2 check-qtest SPEED=slow
-+ - make -j"$JOBS"
-+ - make -j"$JOBS" check-qtest SPEED=slow
- 
- build-tcg-disabled:
-  image: centos:8
-@@ -67,7 +69,7 @@ build-tcg-disabled:
-  - mkdir build
-  - cd build
-  - ../configure --cc=clang --enable-werror --disable-tcg --audio-drv-list=""
-- - make -j2
-+ - make -j"$JOBS"
-  - make check-unit
-  - make check-qapi-schema
-  - cd tests/qemu-iotests/
-@@ -86,7 +88,7 @@ build-user:
-  - cd build
-  - ../configure --enable-werror --disable-system --disable-guest-agent
-                --disable-capstone --disable-slirp --disable-fdt
-- - make -j2
-+ - make -j"$JOBS"
-  - make run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
- 
- build-clang:
-@@ -100,8 +102,8 @@ build-clang:
-  - ../configure --cc=clang --cxx=clang++ --enable-werror
-       --target-list="alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
-                      ppc-softmmu s390x-softmmu x86_64-softmmu arm-linux-user"
-- - make -j2
-- - make -j2 check
-+ - make -j"$JOBS"
-+ - make -j"$JOBS" check
- 
- build-tci:
-  image: centos:8
-@@ -112,7 +114,7 @@ build-tci:
-  - cd build
-  - ../configure --enable-tcg-interpreter
-       --target-list="$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '; done)"
-- - make -j2
-+ - make -j"$JOBS"
-  - make run-tcg-tests-x86_64-softmmu
-  - make tests/qtest/boot-serial-test tests/qtest/cdrom-test tests/qtest/pxe-test
-  - for tg in $TARGETS ; do
+Hi all!
+
+These series are here to address the following problem:
+block-status-above functions may consider space after EOF of
+intermediate backing files as unallocated, which is wrong, as these
+backing files are the reason of producing zeroes, we never go further by
+backing chain after a short backing file. So, if such short-backing file
+is _inside_ requested sub-chain of the backing chain, we should never
+report space after its EOF as unallocated.
+
+See patches 01,04,05 for details.
+
+Note, that this series leaves for another day the general problem
+around block-status: misuse of BDRV_BLOCK_ALLOCATED as is-fs-allocated
+vs go-to-backing.
+Audit for this problem is done here:
+"backing chain & block status & filters"
+https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg04706.html
+And I'm going to prepare series to address this problem.
+
+Also, get_block_status func have same disease, but remains unfixed here:
+I want to make separate series for it, as it need some more refactoring,
+which should be based on series
+"[PATCH v5 0/7] coroutines: generate wrapper code"
+
+Vladimir Sementsov-Ogievskiy (5):
+  block/io: fix bdrv_co_block_status_above
+  block/io: bdrv_common_block_status_above: support include_base
+  block/io: bdrv_common_block_status_above: support bs == base
+  block/io: fix bdrv_is_allocated_above
+  iotests: add commit top->base cases to 274
+
+ block/io.c                 | 105 +++++++++++++++++++------------------
+ block/qcow2.c              |  16 +++++-
+ tests/qemu-iotests/274     |  20 +++++++
+ tests/qemu-iotests/274.out |  65 +++++++++++++++++++++++
+ 4 files changed, 152 insertions(+), 54 deletions(-)
+
 -- 
-2.18.1
+2.18.0
 
 
