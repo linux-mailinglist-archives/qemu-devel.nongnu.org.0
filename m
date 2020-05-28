@@ -2,108 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA8E1E5784
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 08:25:56 +0200 (CEST)
-Received: from localhost ([::1]:35216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 022841E57B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 08:41:39 +0200 (CEST)
+Received: from localhost ([::1]:43164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeBzG-0007jG-9V
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 02:25:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41314)
+	id 1jeCET-0007XH-M6
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 02:41:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jeBxz-0007AJ-MA; Thu, 28 May 2020 02:24:35 -0400
-Received: from mail-eopbgr80117.outbound.protection.outlook.com
- ([40.107.8.117]:53634 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jeBxw-00024H-1a; Thu, 28 May 2020 02:24:34 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ItBjp88GK3qtsHcfv1+WWWck19drfI+lcAtEkfMu2SKxl6R+jzv0s/nNRUgFrZvpHzaO81v+WG807k9YZIqyfBKskUF4apdlrwKhdIYJbFzqRppkKY6AHWuxBLZcIruH4wDuMgnsdCxuHeiEAdWluiml4DsvULzVV7AHTm63I8qsjkA5kfVqcclD41VRtrc0++uO4g8KMXJTaBLmK9Ny9qd9gQYylgIz+V1K55iOUNC31uA6fPJl5H5kj/ZTh1ITnH7B6FxSyP1AnlIDGUl6QcfRTjHFrXf5U96EB0plm/OyXIQMB6NRl5g9vaeSDMqsvE2TGkbzRp6+kxAPwaZWaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DLUCRp1YhCYPAGcZXcGDl1Q80R1M7xMEzATyiUGuPW8=;
- b=fHCs8pu7e9hYuBXHjPorFv34vooHzoH+zqlJXqBE5vsMmMnn5dWiWkguwFCQYdf+scE5iJetoKvAfIOwC4bHMQwq9a5OPPItcC4Rvy9uX9Cy/nZVCqrwBdzHSeusv0FxVrCj8fx5geSanlc/ZRkZ5DDZ48mFjUYpOZnT1xob3ejA7gLxNZvRAOseAI+jLtNdm81I88DxO7MuyBIo4t5Nx8mV77J3bqBbd3C9nQW0berGfneN9KK6XcRyvxGKDESdypG3sXTjWlSsWlMMk8OGEVmyYw5+2tuCKGEgaev5pPYoeelruyyc/IaVGmyKFlvTTIBtdY+jnkowHjDy7ejgiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DLUCRp1YhCYPAGcZXcGDl1Q80R1M7xMEzATyiUGuPW8=;
- b=ep0SReSm+pGPXb+nVkmEBteroObWEnjN7XWcCcOR15AAIYh3oY9eEZp4kuc6Yb2JM7nMJFCwcymk/QCKJR4pALX+6iyjhbZnLTbtl1Uf+v0MYmksE40k7JVayZzJY5mE5lWLbnOCv66csL6iTM9/ICEzrnFSLtcsDQA3AmnRrWU=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5463.eurprd08.prod.outlook.com (2603:10a6:20b:106::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.27; Thu, 28 May
- 2020 06:24:28 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3045.018; Thu, 28 May 2020
- 06:24:28 +0000
-Subject: Re: [PATCH v5 0/7] coroutines: generate wrapper code
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <159061599705.16318.11961887809600256765@45ef0f9c86ae>
- <4a4d5dc4-4cab-ad59-a4d3-6f84de1aa1e3@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <dca82885-3a38-3c32-7915-0291c4642888@virtuozzo.com>
-Date: Thu, 28 May 2020 09:24:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
-In-Reply-To: <4a4d5dc4-4cab-ad59-a4d3-6f84de1aa1e3@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM4PR05CA0007.eurprd05.prod.outlook.com (2603:10a6:205::20)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeCDi-00075S-2A
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 02:40:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22660
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jeCDd-0007UR-Fl
+ for qemu-devel@nongnu.org; Thu, 28 May 2020 02:40:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590648044;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lL2azkr6dKea3GStfcQMYrBjdCXke6sLNc46mp7zYAc=;
+ b=b57YbCAruG9OJAot7lvS7HJgHMx/mS2Vti9ysLhmuWqUP0o9kCMuMB/uZZ9V6ESe7HDsjR
+ jWz8g65Qd6fx7B+4Jg7ixKynhrJmPuey4e1DM6PQBmn8rI56s4FdqVgSGSkdjGPJJxelej
+ 7mfHpyaYpRtMka2nt9BN29QFDmRNtbM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-N5rq_NpOOTyeFyV8EYeAJw-1; Thu, 28 May 2020 02:40:42 -0400
+X-MC-Unique: N5rq_NpOOTyeFyV8EYeAJw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15EBE1005510;
+ Thu, 28 May 2020 06:40:41 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
+ [10.36.113.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B22F89F9BA;
+ Thu, 28 May 2020 06:40:40 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8189A1753B; Thu, 28 May 2020 08:40:39 +0200 (CEST)
+Date: Thu, 28 May 2020 08:40:39 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: USB pass-through problems
+Message-ID: <20200528064039.yw5in3whgjvlni4z@sirius.home.kraxel.org>
+References: <alpine.BSF.2.22.395.2005272129480.93454@zero.eik.bme.hu>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.178) by
- AM4PR05CA0007.eurprd05.prod.outlook.com (2603:10a6:205::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3045.17 via Frontend Transport; Thu, 28 May 2020 06:24:27 +0000
-X-Originating-IP: [185.215.60.178]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0b193b0b-557a-4e96-2e17-08d802cfc611
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5463:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5463B715759233C29D89191BC18E0@AM7PR08MB5463.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-Forefront-PRVS: 0417A3FFD2
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: E3jnsCInJBqS4IObMcopllJkMBNIVQz3z3vuPSmn7Kuo4uaEIxBM/aYpxw/1Zhx5Co5+Zvsk+rwIIBM1wb13oGdS6gSkOIxrMxAK/h6vZvzgo2uGLUcgmL0pcQ3MNs8sy07u5/j7bCHLU9gWmtpTHrHaC1svWvEyfPxsXCgssWyKbF1kvPK3UzK9rx3bq9x/C4Hst0QlorTYp+OgaG61TJcbD+ubP1LVuajXT9vHDFld7ExDUi+7PahTYreOk1j79ps+tNkkkoKQ5x0NSYGJrLSFZBu0Arwn8KrVcUWq7WpfYEeOxhGpbp0PQ3JNvUl3lODzyIE23+zgSNblMuHfoNwctY512ftBSY8NCKuj6W6Ta2vGPHxYvR/RPW71xDKbO3fJLoXCQIC8nvoiyfNCoNDDebarRXvw073dyjarp38LAUb1CLtQKzjp9rSxI51jn/qhV9veH0J0q5UaXu4nwQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(376002)(396003)(39850400004)(346002)(366004)(6486002)(8936002)(31686004)(4326008)(186003)(956004)(16526019)(107886003)(316002)(66946007)(66476007)(66556008)(2616005)(16576012)(26005)(5660300002)(83380400001)(53546011)(31696002)(2906002)(966005)(52116002)(86362001)(36756003)(8676002)(478600001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: x6DKu7IHzfC2Cgq0GC+W1X+/woZJbAY4qDXTHndHjHHWIpaBddyUw/dYAPXFQYInttks04ggoNFFZ+oGC9l5pgtc9kzLVfeNu3DY2dHLPgqXy9p8ayxi5jXb22DVJm2Q3hasHqxU0WBHMFjkjti5UUpOSJ2EuEZfXZI2ib/2SK8Mo18dCJaH1RkLEsh40CnHuBW5OJwcmTJ86hN03XIAclLUoblw8hDN8Xi07HfrN7ABvsBtgZkm1ju++VOALJN9EeSaqViavaQFF76FQBSDcyjDxvirm38VkCLdIFQr/QTETKgP+e52+uYlLxNFLYg9Tlg8HCuydr8rmrr89f/uRPL7gybVpOoYCDND1JWK9yi2KE04poUekm+cIu4RAEcnJIeXmU71zsKL43cbq+RxnklTXzhi5Y3GMRbTyUZMozLm2pxWBvkoEUvHp/JUlX7OW5/IJi2YUbwyw5tHX7m1gbt43yKybmkGPu2szwRZUn758zxZ2fGqRjSCLJ0Ya65q
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b193b0b-557a-4e96-2e17-08d802cfc611
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2020 06:24:27.9436 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aCEZOVx1kGXsABWabOdDFa4i4CRbECgAHsvgTnj92QXG0lw1zN6Nvuz/5f7VJ2in6aMkrr2eeiIcCx/16000l0bfvQn7TMNERdEFp9skB/8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5463
-Received-SPF: pass client-ip=40.107.8.117;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 02:24:28
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <alpine.BSF.2.22.395.2005272129480.93454@zero.eik.bme.hu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 01:51:20
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,58 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, ehabkost@redhat.com,
- qemu-block@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, den@openvz.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-28.05.2020 00:57, Eric Blake wrote:
-> On 5/27/20 4:46 PM, no-reply@patchew.org wrote:
->> Patchew URL: https://patchew.org/QEMU/20200527203733.16129-1-vsementsov@virtuozzo.com/
->>
->>
->>
->> Hi,
->>
->> This series failed the docker-quick@centos7 build test. Please find the testing commands and
->> their output below. If you have Docker installed, you can probably reproduce it
->> locally.
->>
->> === TEST SCRIPT BEGIN ===
->> #!/bin/bash
->> make docker-image-centos7 V=1 NETWORK=1
->> time make docker-test-quick@centos7 SHOW_ENV=1 J=14 NETWORK=1
->> === TEST SCRIPT END ===
->>
->> TypeError: __init__() got an unexpected keyword argument 'capture_output'
->>    CC      /tmp/qemu-test/build/slirp/src/bootp.o
->>    GEN     ui/input-keymap-usb-to-qcode.c
->> make: *** [block/block-gen.c] Error 1
->> make: *** Deleting file `block/block-gen.c'
->> make: *** Waiting for unfinished jobs....
->>    GEN     ui/input-keymap-win32-to-qcode.c
+On Wed, May 27, 2020 at 09:44:54PM +0200, BALATON Zoltan wrote:
+> Hello,
 > 
-> The more interesting part of the failure:
+> I've seen a case when QEMU hangs with a passed through USB device. This is
+> with -device usb-ehci and pass through with usb-host. This works until the
+> attached USB device reboots (so likely it disconnects and reconnects) at
+> which point QEMU hangs and need to be SIGKILL-ed to end (that's a bit hard
+> to do with mouse and keyboard grabbed). I've got this stack trace:
 > 
->    File "/tmp/qemu-test/src/scripts/coroutine-wrapper.py", line 173, in <module>
->      print(gen_wrappers_file(sys.stdin.read()))
->    File "/tmp/qemu-test/src/scripts/coroutine-wrapper.py", line 169, in gen_wrappers_file
->      return prettify(res)  # prettify to wrap long lines
->    File "/tmp/qemu-test/src/scripts/coroutine-wrapper.py", line 40, in prettify
->      encoding='utf-8', input=code, capture_output=True)
->    File "/usr/lib64/python3.6/subprocess.py", line 423, in run
->      with Popen(*popenargs, **kwargs) as process:
-> TypeError: __init__() got an unexpected keyword argument 'capture_output'
+> #0  0x00007f23e7bd4949 in poll () at /lib64/libc.so.6
+> #1  0x00007f23e8bfa9a5 in  () at /lib64/libusb-1.0.so.0
+> #2  0x00007f23e8bfbb13 in libusb_handle_events_timeout_completed () at /lib64/libusb-1.0.so.0
+> #3  0x000055e09854b7da in usb_host_abort_xfers (s=0x55e09b036dd0) at hw/usb/host-libusb.c:963
+> #4  0x000055e09854b87a in usb_host_close (s=0x55e09b036dd0) at hw/usb/host-libusb.c:977
+> #5  0x000055e09854b92e in usb_host_nodev_bh (opaque=0x55e09b036dd0) at hw/usb/host-libusb.c:998
+> #6  0x000055e098757500 in aio_bh_call (bh=0x55e099ad9cc0) at util/async.c:136
+> #7  0x000055e09875760a in aio_bh_poll (ctx=0x55e0996c2620) at util/async.c:164
+> #8  0x000055e09875cb2a in aio_dispatch (ctx=0x55e0996c2620) at util/aio-posix.c:380
+> #9  0x000055e098757a3d in aio_ctx_dispatch (source=0x55e0996c2620, callback=0x0, user_data=0x0) at util/async.c:306
+> #10 0x00007f23e8c59665 in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+> #11 0x000055e09875b0a9 in glib_pollfds_poll () at util/main-loop.c:219
+> #12 0x000055e09875b123 in os_host_main_loop_wait (timeout=0) at util/main-loop.c:242
+> #13 0x000055e09875b228 in main_loop_wait (nonblocking=0) at util/main-loop.c:518
+> #14 0x000055e0982c91f8 in qemu_main_loop () at softmmu/vl.c:1664
+> #15 0x000055e098162e7e in main (argc=<optimized out>, argv=<optimized out>, envp=<optimized out>) at softmmu/main.c:49
 > 
-> which indeed looks like a bug in the patch.
-> 
+> so the problem may be in libusb but QEMU should not hang completely. The
+> host is Linux with libusb 1.0.22.
 
-Ah, yes, capture_output is since python 3.7.
+Hmm, does reverting 76d0a9362c6a6a7d88aa18c84c4186c9107ecaef change
+behavior?
 
-So, s/capture_output=True/stdout=subprocess.PIPE/ .
+cheers,
+  Gerd
 
--- 
-Best regards,
-Vladimir
 
