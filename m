@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2941E6B45
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 21:39:30 +0200 (CEST)
-Received: from localhost ([::1]:59716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE631E6B43
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 May 2020 21:39:28 +0200 (CEST)
+Received: from localhost ([::1]:59504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeONF-0001m8-Qc
-	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 15:39:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49266)
+	id 1jeONC-0001h5-Vm
+	for lists+qemu-devel@lfdr.de; Thu, 28 May 2020 15:39:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jeOLv-000069-MA
+ id 1jeOLv-000065-Gk
  for qemu-devel@nongnu.org; Thu, 28 May 2020 15:38:07 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:35472 helo=mta-01.yadro.com)
+Received: from mta-02.yadro.com ([89.207.88.252]:35486 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jeOLt-00072Q-Vx
+ id 1jeOLt-00072e-Od
  for qemu-devel@nongnu.org; Thu, 28 May 2020 15:38:07 -0400
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id ABF864C867;
- Thu, 28 May 2020 19:38:01 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id 17D114C868;
+ Thu, 28 May 2020 19:38:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-type:content-type:content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:date:subject
  :subject:from:from:received:received:received; s=mta-01; t=
- 1590694680; x=1592509081; bh=ZHRo1yGQWqHJv1jzVldNfQ9zjTc2RvhceAU
- N8X+8weg=; b=eAtKeWGPLcmpv+sZ7gWvGHNxua9ottxcFFyNJ7xOHrTl3IhftuI
- 55zIPvBdK7ddSLPmHB7ju0iXVRnOGdT8Dhcbkn4rk+rCQky75dRQlKwQ+LtQdwF7
- B4Hna5Zi9rXz+5i3dhXFyA57zJBZHnoZRkVpmdZcEMES5tnX/oB3qJek=
+ 1590694680; x=1592509081; bh=yRdfGU9O+jIl5jsoVFny8UUmigYXZvuMb+P
+ sqxYq3VY=; b=sPN0nEcdPLV8Tf1RAtTKR7owFwpuYCOCetSxlBaVx2SOPisoMOp
+ CNt8ewUsh5GGlD9GYW7wgNXWiHPUCJ+3k7N3I6iTgcnGKGwMMw5KuI9BZK/GEDGP
+ rhTJ56mkKeurOeUgr4U7M42EL3W4+pLv8BUheqTDyouJCjTxcqbvngek=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dagtGO4IHQhb; Thu, 28 May 2020 22:38:00 +0300 (MSK)
+ with ESMTP id FCN5hINCjKg8; Thu, 28 May 2020 22:38:00 +0300 (MSK)
 Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
  [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id B008F4C863;
- Thu, 28 May 2020 22:37:59 +0300 (MSK)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 865E741227;
+ Thu, 28 May 2020 22:38:00 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
  (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 28
  May 2020 22:38:01 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 01/13] i386: hvf: Move HVFState definition into hvf
-Date: Thu, 28 May 2020 22:37:46 +0300
-Message-ID: <20200528193758.51454-2-r.bolshakov@yadro.com>
+Subject: [PATCH 02/13] i386: hvf: Drop useless declarations in sysemu
+Date: Thu, 28 May 2020 22:37:47 +0300
+Message-ID: <20200528193758.51454-3-r.bolshakov@yadro.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200528193758.51454-1-r.bolshakov@yadro.com>
 References: <20200528193758.51454-1-r.bolshakov@yadro.com>
@@ -86,126 +86,89 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"sysemu/hvf.h" is intended for inclusion in generic code. However it
-also contains several hvf definitions and declarations, including
-HVFState that are used only inside "hvf.c". "hvf-i386.h" would be more
-appropriate place to define HVFState as it's only included by "hvf.c"
-and "x86_task.c".
+They're either declared elsewhere or have no use.
+
+While at it, rename _hvf_cpu_synchronize_post_init() to
+do_hvf_cpu_synchronize_post_init().
 
 Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
 ---
- include/sysemu/hvf.h       | 37 -------------------------------------
- target/i386/hvf/hvf-i386.h | 35 +++++++++++++++++++++++++++++++++++
- 2 files changed, 35 insertions(+), 37 deletions(-)
+ include/sysemu/hvf.h  | 22 ----------------------
+ target/i386/hvf/hvf.c |  7 ++++---
+ 2 files changed, 4 insertions(+), 25 deletions(-)
 
 diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index d211e808e9..30a565ab73 100644
+index 30a565ab73..03f3cd7db3 100644
 --- a/include/sysemu/hvf.h
 +++ b/include/sysemu/hvf.h
-@@ -15,8 +15,6 @@
- 
- #include "cpu.h"
- #include "qemu/bitops.h"
--#include "exec/memory.h"
--#include "sysemu/accel.h"
- 
- extern bool hvf_allowed;
- #ifdef CONFIG_HVF
-@@ -32,41 +30,6 @@ uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
+@@ -30,35 +30,13 @@ uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
  #define hvf_get_supported_cpuid(func, idx, reg) 0
  #endif
  
--/* hvf_slot flags */
--#define HVF_SLOT_LOG (1 << 0)
+-/* Disable HVF if |disable| is 1, otherwise, enable it iff it is supported by
+- * the host CPU. Use hvf_enabled() after this to get the result. */
+-void hvf_disable(int disable);
 -
--typedef struct hvf_slot {
--    uint64_t start;
--    uint64_t size;
--    uint8_t *mem;
--    int slot_id;
--    uint32_t flags;
--    MemoryRegion *region;
--} hvf_slot;
+-/* Returns non-0 if the host CPU supports the VMX "unrestricted guest" feature
+- * which allows the virtual CPU to directly run in "real mode". If true, this
+- * allows QEMU to run several vCPU threads in parallel (see cpus.c). Otherwise,
+- * only a a single TCG thread can run, and it will call HVF to run the current
+- * instructions, except in case of "real mode" (paging disabled, typically at
+- * boot time), or MMIO operations. */
 -
--typedef struct hvf_vcpu_caps {
--    uint64_t vmx_cap_pinbased;
--    uint64_t vmx_cap_procbased;
--    uint64_t vmx_cap_procbased2;
--    uint64_t vmx_cap_entry;
--    uint64_t vmx_cap_exit;
--    uint64_t vmx_cap_preemption_timer;
--} hvf_vcpu_caps;
+-int hvf_sync_vcpus(void);
 -
--typedef struct HVFState {
--    AccelState parent;
--    hvf_slot slots[32];
--    int num_slots;
+ int hvf_init_vcpu(CPUState *);
+ int hvf_vcpu_exec(CPUState *);
+-int hvf_smp_cpu_exec(CPUState *);
+ void hvf_cpu_synchronize_state(CPUState *);
+ void hvf_cpu_synchronize_post_reset(CPUState *);
+ void hvf_cpu_synchronize_post_init(CPUState *);
+-void _hvf_cpu_synchronize_post_init(CPUState *, run_on_cpu_data);
 -
--    hvf_vcpu_caps *hvf_caps;
--} HVFState;
--extern HVFState *hvf_state;
--
--void hvf_set_phys_mem(MemoryRegionSection *, bool);
--void hvf_handle_io(CPUArchState *, uint16_t, void *,
--                  int, int, int);
--hvf_slot *hvf_find_overlap_slot(uint64_t, uint64_t);
--
- /* Disable HVF if |disable| is 1, otherwise, enable it iff it is supported by
-  * the host CPU. Use hvf_enabled() after this to get the result. */
- void hvf_disable(int disable);
-diff --git a/target/i386/hvf/hvf-i386.h b/target/i386/hvf/hvf-i386.h
-index 15ee4835cf..7cdf256649 100644
---- a/target/i386/hvf/hvf-i386.h
-+++ b/target/i386/hvf/hvf-i386.h
-@@ -16,6 +16,7 @@
- #ifndef HVF_I386_H
- #define HVF_I386_H
+ void hvf_vcpu_destroy(CPUState *);
+-void hvf_raise_event(CPUState *);
+-/* void hvf_reset_vcpu_state(void *opaque); */
+ void hvf_reset_vcpu(CPUState *);
+-void vmx_update_tpr(CPUState *);
+-void update_apic_tpr(CPUState *);
+-int hvf_put_registers(CPUState *);
+-void vmx_clear_int_window_exiting(CPUState *cpu);
  
-+#include "sysemu/accel.h"
- #include "sysemu/hvf.h"
- #include "cpu.h"
- #include "x86.h"
-@@ -37,6 +38,40 @@ struct hvf_state {
-     uint64_t mem_quota;
- };
+ #define TYPE_HVF_ACCEL ACCEL_CLASS_NAME("hvf")
  
-+/* hvf_slot flags */
-+#define HVF_SLOT_LOG (1 << 0)
-+
-+typedef struct hvf_slot {
-+    uint64_t start;
-+    uint64_t size;
-+    uint8_t *mem;
-+    int slot_id;
-+    uint32_t flags;
-+    MemoryRegion *region;
-+} hvf_slot;
-+
-+typedef struct hvf_vcpu_caps {
-+    uint64_t vmx_cap_pinbased;
-+    uint64_t vmx_cap_procbased;
-+    uint64_t vmx_cap_procbased2;
-+    uint64_t vmx_cap_entry;
-+    uint64_t vmx_cap_exit;
-+    uint64_t vmx_cap_preemption_timer;
-+} hvf_vcpu_caps;
-+
-+typedef struct HVFState {
-+    AccelState parent;
-+    hvf_slot slots[32];
-+    int num_slots;
-+
-+    hvf_vcpu_caps *hvf_caps;
-+} HVFState;
-+extern HVFState *hvf_state;
-+
-+void hvf_set_phys_mem(MemoryRegionSection *, bool);
-+void hvf_handle_io(CPUArchState *, uint16_t, void *, int, int, int);
-+hvf_slot *hvf_find_overlap_slot(uint64_t, uint64_t);
-+
- #ifdef NEED_CPU_H
- /* Functions exported to host specific mode */
+diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+index d72543dc31..9ccdb7e7c7 100644
+--- a/target/i386/hvf/hvf.c
++++ b/target/i386/hvf/hvf.c
+@@ -251,7 +251,7 @@ void vmx_update_tpr(CPUState *cpu)
+     }
+ }
  
+-void update_apic_tpr(CPUState *cpu)
++static void update_apic_tpr(CPUState *cpu)
+ {
+     X86CPU *x86_cpu = X86_CPU(cpu);
+     int tpr = rreg(cpu->hvf_fd, HV_X86_TPR) >> 4;
+@@ -312,7 +312,8 @@ void hvf_cpu_synchronize_post_reset(CPUState *cpu_state)
+     run_on_cpu(cpu_state, do_hvf_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
+ }
+ 
+-void _hvf_cpu_synchronize_post_init(CPUState *cpu, run_on_cpu_data arg)
++static void do_hvf_cpu_synchronize_post_init(CPUState *cpu,
++                                             run_on_cpu_data arg)
+ {
+     CPUState *cpu_state = cpu;
+     hvf_put_registers(cpu_state);
+@@ -321,7 +322,7 @@ void _hvf_cpu_synchronize_post_init(CPUState *cpu, run_on_cpu_data arg)
+ 
+ void hvf_cpu_synchronize_post_init(CPUState *cpu_state)
+ {
+-    run_on_cpu(cpu_state, _hvf_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
++    run_on_cpu(cpu_state, do_hvf_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
+ }
+ 
+ static bool ept_emulation_fault(hvf_slot *slot, uint64_t gpa, uint64_t ept_qual)
 -- 
 2.26.1
 
