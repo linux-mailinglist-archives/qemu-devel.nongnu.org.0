@@ -2,106 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B61B1E8B1C
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 May 2020 00:16:51 +0200 (CEST)
-Received: from localhost ([::1]:54222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4151E8B32
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 May 2020 00:21:01 +0200 (CEST)
+Received: from localhost ([::1]:33202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jenJ4-0002Pb-Kh
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 18:16:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59112)
+	id 1jenN5-0005f1-Nf
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 18:20:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jenHT-0000yP-3t
- for qemu-devel@nongnu.org; Fri, 29 May 2020 18:15:11 -0400
-Received: from mail-eopbgr760094.outbound.protection.outlook.com
- ([40.107.76.94]:12454 helo=NAM02-CY1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <sean.j.christopherson@intel.com>)
+ id 1jenLn-0004xn-Kz; Fri, 29 May 2020 18:19:40 -0400
+Received: from mga17.intel.com ([192.55.52.151]:38610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jenHS-0000fW-ER
- for qemu-devel@nongnu.org; Fri, 29 May 2020 18:15:10 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tp1+uHuCq2sIfsqM/weMjNpe0zA6xMq3n2WA9VCuI2KwsLafLVMyQN+B9LJhaw8Oa3SXN9P4iWzWc+Vs+Cthl4kJuoTG1kNAzE0vSIw8UodJEPvi1zOIdSWsBov7uz0T3jG5XnjWqPv7KksZU15T9th0WXVN7PFxDksnKFkdh/xzKS/GYHGA8VLlTnwUMBnKZHzTe9m6Mmw1nkYJ7OooesLgi7TQ14/mw5njQStXdDc3F4k8xGmM+ZlaF5Qdju/9AOqqnGomm3rppNc6hg2pPOfdf6/kVYcr2HSHC+M9Dvkr2NZYTDY1hZ9kRk0vyZ8O93ueXxppQV9KMMJw/sG0Xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LkYmuz8kDA7F2Kn8uptN2fW/fXl5fFurvL1F+hSxfkg=;
- b=Sobk6A1F4QpVq1iGkGIWqv12OSKVb82tAPFGKxaolvavNbFR1vwnZtRNsYmSGucQ1k9kwH0EaP+4fMNZ5YdjF3lkG31IiVDR+bo8LUO0eXD7LF6HON0ZiPNpUbq12JmYOuYHrC97BGKISL2W+/tJ29FpZjE2j1YsoDgJ1Qwi3QA7wJVI5T1vkBBWIzu1GU8uzt7VWK5j31og4SgMumih8AhQN0i7lqkPtRkDYl5Ed/Brd5lNqOdYdI46A8XZkddwQUG6gotUo8iKiaxP2ifCWLBw12jfInCoOVlFn1twCA6IvV6hpupLT0IXYxOyD4cAnQC5iWnC7jruxGEKViH2kQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LkYmuz8kDA7F2Kn8uptN2fW/fXl5fFurvL1F+hSxfkg=;
- b=Zhptw4j/QTKuep7DS2ybMPoIC3WkElicOpcNFsNVPBXYZX5yi+6MnIZYJRiGD4BfE6PNpIZneT9N5tjDbPhQduvCYesIr7gWSddL3jvQqERAFIABKCyEXs5p6/ckd3EeAyEoCSubEGGBSebC46zox6f8C97rKpSZ7IPw1CK6BSM=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SN6PR03MB3455.namprd03.prod.outlook.com (2603:10b6:805:3f::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.19; Fri, 29 May
- 2020 22:15:06 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::640a:1123:37c1:42db]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::640a:1123:37c1:42db%3]) with mapi id 15.20.3045.018; Fri, 29 May 2020
- 22:15:06 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] fuzz: Add support for logging QTest commands
-Date: Fri, 29 May 2020 18:14:50 -0400
-Message-Id: <20200529221450.26673-3-alxndr@bu.edu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200529221450.26673-1-alxndr@bu.edu>
-References: <20200529221450.26673-1-alxndr@bu.edu>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR19CA0031.namprd19.prod.outlook.com
- (2603:10b6:208:178::44) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+ (Exim 4.90_1) (envelope-from <sean.j.christopherson@intel.com>)
+ id 1jenLk-0004GB-KW; Fri, 29 May 2020 18:19:38 -0400
+IronPort-SDR: PNgEdyY2gAeNVs6qnbsHe3ImsnjY7Mcg7BsAAXyxc8C7UuHe01kONWwU2UG7IFZ1wpqaurcTP5
+ X2X//WYQ3hkg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 May 2020 15:19:26 -0700
+IronPort-SDR: 8fsBnJ8/eVoxsb0uNjg6+LtIBoIDkvbbx2dRkZ02g8tdonPt1pulU3aJFOiVwrMeUtOnyIWz/P
+ cbGQOEhN0mfQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,450,1583222400"; d="scan'208";a="469643380"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com)
+ ([10.54.74.152])
+ by fmsmga006.fm.intel.com with ESMTP; 29 May 2020 15:19:26 -0700
+Date: Fri, 29 May 2020 15:19:26 -0700
+From: Sean Christopherson <sean.j.christopherson@intel.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [RFC v2 00/18] Refactor configuration of guest memory protection
+Message-ID: <20200529221926.GA3168@linux.intel.com>
+References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mozz.bu.edu (128.197.127.33) by
- MN2PR19CA0031.namprd19.prod.outlook.com (2603:10b6:208:178::44) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.21 via Frontend
- Transport; Fri, 29 May 2020 22:15:05 +0000
-X-Mailer: git-send-email 2.26.2
-X-Originating-IP: [128.197.127.33]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 16e46e3b-fd8a-4087-f75b-08d8041dbdb2
-X-MS-TrafficTypeDiagnostic: SN6PR03MB3455:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB3455B04D74AB5C2EAA4F91F2BA8F0@SN6PR03MB3455.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:747;
-X-Forefront-PRVS: 04180B6720
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JJ/cH55hrUvoeh/jTqb154hRecwnffw57m5/AacVkKEWXXm4jt8P5Ua0ZZfyKGSTVrTGd74OipWStjIrltANAZYlhNRrRTxlgwA23ouITcOkLzR7NDHWs4Qt8Qa6Es2VmVuT5XM8LcIXYPjQ6vp/igDOKhAeaMFyzWyNMi973CqzO4Lo2MlVGE1KVg2yaUBzLojT03Yj8fKV0mNI2YSO496duWuFbrjUqSCG1f3ZjrTbcny2GY/31SIUX0bDhQHs5ov31wsSR0Hsn+whYXVIB8WvXVQvLKZLz231+lgZOfa9EPdagEbQ6nofcRXKb7l2dbp3cezJd5yLtRPZ8OVLFw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(346002)(376002)(396003)(366004)(39860400002)(86362001)(6666004)(6916009)(478600001)(956004)(36756003)(26005)(75432002)(16526019)(186003)(7696005)(5660300002)(66556008)(54906003)(1076003)(8936002)(8676002)(2906002)(316002)(2616005)(4326008)(6486002)(83380400001)(66946007)(52116002)(786003)(66476007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: vPdyHKJGF7xN9LDZIeK/DDDXXiI3ptckT2UGnv/DcO4rNZ0QXa4jZJy+Cacibuqb4ZqHV/biWPQXkXzLp2TEGX6RQIEMotxm0av6iyv5YmNB3e5E5H3qDrQp75025TQwkuwHE8ikVUON/UAV5xo1AoVm7U8TqTGgEVpcx9CVkKJuVrEQMKVgz7kRqaZdbrZdtDat8JTA8++CQW8PeFe69b6EshoZVUqTnA5F1K9y3Au1D85oK1gHqYGx1Fbrixn2KrCnAjGeBryvYv6x9+o5a88qNcDwXOgDQ4t4UIZ799W7ik3rjDkDqESJ5Ei/gKGAMWFjwVW+GNsxgAOfLYBPP7JdO4OH303WlGZOlZbv5SkGVDGzACCQy6Kw/6QMxcmSZ8sFVpZaq1B5cysNYTOB9Qtz8286xtwji3N/DNZietN/ASw8+WT+y/+Du1Wfgqs6CGnmGu/xsH99EIOtf2hHaBeu+206ECoVZf1A2k8KCtw=
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16e46e3b-fd8a-4087-f75b-08d8041dbdb2
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2020 22:15:05.8728 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +aUZBriaIdJFbF5+3AhMkZGPtWo39cwDsbwj2Nkl2hG+E13/QYzWZV2iueXULfep
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3455
-Received-SPF: pass client-ip=40.107.76.94; envelope-from=alxndr@bu.edu;
- helo=NAM02-CY1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 18:15:05
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200521034304.340040-1-david@gibson.dropbear.id.au>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Received-SPF: pass client-ip=192.55.52.151;
+ envelope-from=sean.j.christopherson@intel.com; helo=mga17.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 18:19:26
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,45 +63,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org, darren.kenny@oracle.com,
- bsd@redhat.com, stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ dgilbert@redhat.com, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ mdroth@linux.vnet.ibm.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- tests/qtest/fuzz/fuzz.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+On Thu, May 21, 2020 at 01:42:46PM +1000, David Gibson wrote:
+> A number of hardware platforms are implementing mechanisms whereby the
+> hypervisor does not have unfettered access to guest memory, in order
+> to mitigate the security impact of a compromised hypervisor.
+> 
+> AMD's SEV implements this with in-cpu memory encryption, and Intel has
+> its own memory encryption mechanism.  POWER has an upcoming mechanism
+> to accomplish this in a different way, using a new memory protection
+> level plus a small trusted ultravisor.  s390 also has a protected
+> execution environment.
+> 
+> The current code (committed or draft) for these features has each
+> platform's version configured entirely differently.  That doesn't seem
+> ideal for users, or particularly for management layers.
+> 
+> AMD SEV introduces a notionally generic machine option
+> "machine-encryption", but it doesn't actually cover any cases other
+> than SEV.
+> 
+> This series is a proposal to at least partially unify configuration
+> for these mechanisms, by renaming and generalizing AMD's
+> "memory-encryption" property.  It is replaced by a
+> "guest-memory-protection" property pointing to a platform specific
+> object which configures and manages the specific details.
+> 
+> For now this series covers just AMD SEV and POWER PEF.  I'm hoping it
+> can be extended to cover the Intel and s390 mechanisms as well,
+> though.
+> 
+> Note: I'm using the term "guest memory protection" throughout to refer
+> to mechanisms like this.  I don't particular like the term, it's both
+> long and not really precise.  If someone can think of a succinct way
+> of saying "a means of protecting guest memory from a possibly
+> compromised hypervisor", I'd be grateful for the suggestion.
 
-diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-index 88ac88bca9..21cdee53db 100644
---- a/tests/qtest/fuzz/fuzz.c
-+++ b/tests/qtest/fuzz/fuzz.c
-@@ -94,7 +94,9 @@ static void usage(char *path)
-     printf("Alternatively, add -target-FUZZ_TARGET to the executable name\n\n"
-            "Set the environment variable FUZZ_SERIALIZE_QTEST=1 to serialize\n"
-            "QTest commands into an ASCII protocol. Useful for building crash\n"
--           "reproducers, but slows down execution.\n");
-+           "reproducers, but slows down execution.\n\n"
-+           "Set the environment variable QTEST_LOG=1 to log all qtest commands"
-+           "\n");
-     exit(0);
- }
- 
-@@ -182,6 +184,11 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
- 
-     /* Run QEMU's softmmu main with the fuzz-target dependent arguments */
-     const char *init_cmdline = fuzz_target->get_init_cmdline(fuzz_target);
-+    init_cmdline = g_strdup_printf("%s -qtest /dev/null -qtest-log %s",
-+                                   init_cmdline,
-+                                   getenv("QTEST_LOG") ? "/dev/fd/2"
-+                                                       : "/dev/null");
-+
- 
-     /* Split the runcmd into an argv and argc */
-     wordexp_t result;
--- 
-2.26.2
+Many of the features are also going far beyond just protecting memory, so
+even the "memory" part feels wrong.  Maybe something like protected-guest
+or secure-guest?
 
+A little imprecision isn't necessarily a bad thing, e.g. memory-encryption
+is quite precise, but also wrong once it encompasses anything beyond plain
+old encryption.
 
