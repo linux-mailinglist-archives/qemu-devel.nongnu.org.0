@@ -2,87 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627681E776A
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 09:47:51 +0200 (CEST)
-Received: from localhost ([::1]:45608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF7171E778B
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 09:56:28 +0200 (CEST)
+Received: from localhost ([::1]:50596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeZk6-0007Oi-Gc
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 03:47:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50920)
+	id 1jeZsR-0002av-F8
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 03:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
- id 1jeZj6-0006xG-LO
- for qemu-devel@nongnu.org; Fri, 29 May 2020 03:46:48 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51395)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jeZrh-00029n-Cc
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 03:55:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55360)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <konrad@adacore.com>)
- id 1jeZj5-00057K-AI
- for qemu-devel@nongnu.org; Fri, 29 May 2020 03:46:48 -0400
-Received: by mail-wm1-x332.google.com with SMTP id u13so2115904wml.1
- for <qemu-devel@nongnu.org>; Fri, 29 May 2020 00:46:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=adacore-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iPS5eCZFJCx/xXMkp96aabirCUbWUF2Amn+L5sqfQVs=;
- b=zw7q1vpuf5AuzJqPVXoDq2gPgx9kU4IHBBu1pbEd/rrx3XDxDIMHBnpwPI9/k6exfn
- JsUWekRRAD2XRQUThsjFoQNJY+xDsQAzmSpBQLRrV0eHM5OG5h8Udgx6Jxg1ANK9sU09
- RWpK6bz1ZM/mAW7WQcbDs65kcFogoyf1EYd/9qlSanHszRUuUVMDsRry16blmk084UO7
- GfI8/9y6/3cmbvtNxSmDPMFbrKobKqSkjc+CkpuLMDD+i/0PeejrvEMt8pBKJ+CH4ces
- OwRqF6ljNdpnUsBSU+8q4FzI/RZE0WFz2FVJI1i4doT8+E7B8bbbV2ngHy1ZQ2536S6r
- MNDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iPS5eCZFJCx/xXMkp96aabirCUbWUF2Amn+L5sqfQVs=;
- b=m/L2QNSXLWY7RhBWEybPckqqKO4SQITKOyFswU05ypnIUJtt6pGzNyWVp+oHdoQGsS
- PHMB6CrrgX4WRpevxftsLOQO+awd6TDwr5fOUrqTadp69Ch2dYDpbpzR219a0j5RSNkF
- yP80Lni1GMDvfHSPsVq4x4AiKmC9O/KgEfFSumEwMl57GMdz8x5/92tFvgjEuki0FvPW
- zLZhoGZsGSA+05XtfGS3AvanYWUhwAJlTY6vETpBbUTFeiybR8/aViCYs1lMCwZ82Poj
- NQAhotpfia1yCbedpWu+pH7baoBV1Q5hZD+yHvEZBuiWSL8CpaHqPXtOG0WJIQUCwlsA
- uMig==
-X-Gm-Message-State: AOAM533AVXaScsVbOUnj2RGIjOMsf5K7HJuF4aNxuB0cqbfwV0oZaVLJ
- aCITLFFq0wgCXRVvLR5jt9FLoA==
-X-Google-Smtp-Source: ABdhPJyzgDMbwacbtZ8oaznwL4wI1r4Euo3/AmfDaRZgATqU+dXJ8UCjO8tpQAyyBWLc0nC1SJ65pw==
-X-Received: by 2002:a05:600c:c3:: with SMTP id
- u3mr6928198wmm.108.1590738405236; 
- Fri, 29 May 2020 00:46:45 -0700 (PDT)
-Received: from linux.home ([2a01:cb19:867e:2100:7eef:23e0:9210:3e8])
- by smtp.gmail.com with ESMTPSA id z25sm9997514wmf.10.2020.05.29.00.46.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 May 2020 00:46:44 -0700 (PDT)
-Subject: Re: [RFC] some semihosting interrogation
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <141c5b32-31cd-1a1d-b1aa-692b9002dac9@adacore.com>
- <8771e99e-764b-52aa-55c4-a528d0804a34@redhat.com>
-From: Fred Konrad <konrad@adacore.com>
-Message-ID: <cb021a9c-df71-42af-5862-7c44cb4544db@adacore.com>
-Date: Fri, 29 May 2020 09:46:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jeZrg-0002RO-42
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 03:55:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jeZre-0003bE-5m
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 07:55:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 28D472E80E7
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 07:55:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <8771e99e-764b-52aa-55c4-a528d0804a34@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=konrad@adacore.com; helo=mail-wm1-x332.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 29 May 2020 07:47:40 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1881249@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm m68k reset
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <159073846050.5787.14804870953764762248.malonedeb@wampee.canonical.com>
+Subject: [Bug 1881249] [NEW] CPU fetch from unpopulated ROM on reset
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="275d46a24253e557e4403d52832837e4bfa425b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 072ff8a614a7de33da06e5c13d4431b0da5385ac
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 02:40:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,60 +74,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
+Reply-To: Bug 1881249 <1881249@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
+
+Some architectures fetch the $PC/$SP register as vectors in memory, usually=
+ ROM.
+The CPU reset() handler is called before the ROM code is populated, resulti=
+ng in fetching incorrect PC/SP.
+
+Architectures affected:
+- M68K
+- RX
+- ARM M-profile
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 
-Le 5/28/20 à 2:00 PM, Philippe Mathieu-Daudé a écrit :
-> Hi Fred,
-> 
-> On 5/28/20 11:44 AM, Fred Konrad wrote:
->> Hi all,
->>
->> Just wonderring if there is any reason not to be able to defer
->> qemu_semihosting_connect_chardevs a little more to be able to specify
->> chardev=serial0?
->>
->> Like:
->>
->> diff --git a/softmmu/vl.c b/softmmu/vl.c
->> index 6390cf0..9fa1553 100644
->> --- a/softmmu/vl.c
->> +++ b/softmmu/vl.c
->> @@ -4333,8 +4333,6 @@ void qemu_init(int argc, char **argv, char **envp)
->>
->>       qemu_opts_foreach(qemu_find_opts("chardev"),
->>                         chardev_init_func, NULL, &error_fatal);
->> -    /* now chardevs have been created we may have semihosting to
->> connect */
->> -    qemu_semihosting_connect_chardevs();
->>
->>   #ifdef CONFIG_VIRTFS
->>       qemu_opts_foreach(qemu_find_opts("fsdev"),
->> @@ -4484,6 +4482,9 @@ void qemu_init(int argc, char **argv, char **envp)
->>       if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
->>           exit(1);
->>
->> +    /* now chardevs have been created we may have semihosting to
->> connect */
->> +    qemu_semihosting_connect_chardevs();
-> 
-> Cc'ing Markus for this part because he had headaches recently moving
-> things around there; but the change looks.
-> 
->> +
->>       /* If no default VGA is requested, the default is "none".  */
->>       if (default_vga) {
->>           vga_model = get_default_vga_model(machine_class);
->>
->> Also I found out that the trailing \0 is sent to the chardev
->> (console.c:copy_user_string) is that expected in case of semihosting?
-> 
-> No, your patch fixes a bug.
+** Tags: arm m68k reset
 
-Great thanks for your feedback.
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1881249
+
+Title:
+  CPU fetch from unpopulated ROM on reset
+
+Status in QEMU:
+  New
+
+Bug description:
+  Some architectures fetch the $PC/$SP register as vectors in memory, usual=
+ly ROM.
+  The CPU reset() handler is called before the ROM code is populated, resul=
+ting in fetching incorrect PC/SP.
+
+  Architectures affected:
+  - M68K
+  - RX
+  - ARM M-profile
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1881249/+subscriptions
 
