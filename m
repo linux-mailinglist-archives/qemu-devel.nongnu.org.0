@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DFB1E7ABD
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 12:38:57 +0200 (CEST)
-Received: from localhost ([::1]:56918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A831E7AC1
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 12:40:43 +0200 (CEST)
+Received: from localhost ([::1]:33484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jecPg-0003Ju-31
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 06:38:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59122)
+	id 1jecRO-0005HP-E8
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 06:40:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jecN3-00079m-KM
- for qemu-devel@nongnu.org; Fri, 29 May 2020 06:36:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27713
- helo=us-smtp-1.mimecast.com)
+ id 1jecN7-0007BS-1W
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 06:36:17 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36869
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jecMx-0004wc-VS
- for qemu-devel@nongnu.org; Fri, 29 May 2020 06:36:12 -0400
+ id 1jecN2-0004xK-Ne
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 06:36:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590748567;
+ s=mimecast20190719; t=1590748570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B7DE749+q1fvMao8lVVHDqzxvMOn8AXc5dYlGBoHMw0=;
- b=ZGCzFNoqKWozOdbyrZsTbR9NZ8fDPDvD9M7HBurNuPJuFoFjU2QdK2QhogMuKp8GzX8wHK
- hxTTyM6gxa7LOKmiE2SVahkl5lyuaBcaf7fdT4XRDV05gX45/Y8L2+3z1lvWyBOmyK8SX5
- UQuwi0N+c9kedscR9+5CsaV6r+KVCvE=
+ bh=JU4N+xCmEl4LFT3IKsV7DZx5wVwce7+UUJUf0SQebJQ=;
+ b=JJgSKzWPlRZexdHfJ2VSe06P1a7+88onJbO1BXDVkT8M3EtLjr3AitdPfL3+COohGJGnNG
+ iu2SyiqprJ3W1TDuRu4GX3VPcNnaUcn/PHtxO8Yeygp2+FpGetIYXaOqNIRDiaKw0rTxqH
+ iM5VlxnWFOylOLAyAI4eAs9rXMVmQcM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-jDKwLwr7PxGHYmgW9KZZXw-1; Fri, 29 May 2020 06:36:04 -0400
-X-MC-Unique: jDKwLwr7PxGHYmgW9KZZXw-1
+ us-mta-79-tuRa-3SzM3eTKi9I9iUzUg-1; Fri, 29 May 2020 06:36:06 -0400
+X-MC-Unique: tuRa-3SzM3eTKi9I9iUzUg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1068C107ACCA;
- Fri, 29 May 2020 10:36:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9252A872FE0;
+ Fri, 29 May 2020 10:36:05 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.36.110.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 926F51A7C8;
- Fri, 29 May 2020 10:36:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 843991A7C8;
+ Fri, 29 May 2020 10:36:04 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/5] crypto/linux_keyring: add 'secret_keyring' secret object.
-Date: Fri, 29 May 2020 11:35:53 +0100
-Message-Id: <20200529103555.2759928-4-berrange@redhat.com>
+Subject: [PULL 4/5] test-crypto-secret: add 'secret_keyring' object tests.
+Date: Fri, 29 May 2020 11:35:54 +0100
+Message-Id: <20200529103555.2759928-5-berrange@redhat.com>
 In-Reply-To: <20200529103555.2759928-1-berrange@redhat.com>
 References: <20200529103555.2759928-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -56,9 +56,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 23:43:13
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:27:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,327 +86,264 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexey Krasikov <alex-krasikov@yandex-team.ru>
 
-Add the ability for the secret object to obtain secret data from the
-Linux in-kernel key managment and retention facility, as an extra option
-to the existing ones: reading from a file or passing directly as a
-string.
+Add tests:
+  test_secret_keyring_good;
+  test_secret_keyring_revoked_key;
+  test_secret_keyring_expired_key;
+  test_secret_keyring_bad_serial_key;
+  test_secret_keyring_bad_key_access_right;
 
-The secret is identified by the key serial number. The upper layers
-need to instantiate the key and make sure the QEMU process has access
-permissions to read it.
+Added tests require libkeyutils. The absence of this library is not
+critical, because these tests will be skipped in this case.
 
 Signed-off-by: Alexey Krasikov <alex-krasikov@yandex-team.ru>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- configure                       |  38 ++++++++
- crypto/Makefile.objs            |   1 +
- crypto/secret_keyring.c         | 148 ++++++++++++++++++++++++++++++++
- include/crypto/secret_keyring.h |  52 +++++++++++
- 4 files changed, 239 insertions(+)
- create mode 100644 crypto/secret_keyring.c
- create mode 100644 include/crypto/secret_keyring.h
+ configure                  |  24 ++++++
+ tests/Makefile.include     |   4 +
+ tests/test-crypto-secret.c | 158 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 186 insertions(+)
 
 diff --git a/configure b/configure
-index 2ffe365e2c..d95ff4e0b3 100755
+index d95ff4e0b3..f2ff722f7e 100755
 --- a/configure
 +++ b/configure
-@@ -510,6 +510,7 @@ default_devices="yes"
- plugins="no"
- fuzzing="no"
- rng_none="no"
-+secret_keyring="yes"
- 
- supported_cpu="no"
- supported_os="no"
-@@ -1606,6 +1607,10 @@ for opt do
-   ;;
-   --disable-rng-none) rng_none=no
-   ;;
-+  --enable-keyring) secret_keyring="yes"
-+  ;;
-+  --disable-keyring) secret_keyring="no"
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -6272,6 +6277,34 @@ case "$slirp" in
-     ;;
- esac
+@@ -6305,6 +6305,27 @@ but not implemented on your system"
+     fi
+ fi
  
 +##########################################
-+# check for usable __NR_keyctl syscall
++# check for usable keyutils.h
 +
 +if test "$linux" = "yes" ; then
 +
-+    have_keyring=no
++    have_keyutils=no
 +    cat > $TMPC << EOF
 +#include <errno.h>
 +#include <asm/unistd.h>
-+#include <linux/keyctl.h>
 +#include <unistd.h>
++#include <sys/types.h>
++#include <keyutils.h>
 +int main(void) {
-+    return syscall(__NR_keyctl, KEYCTL_READ, 0, NULL, NULL, 0);
++    return request_key("user", NULL, NULL, 0);
 +}
 +EOF
-+    if compile_prog "" "" ; then
-+        have_keyring=yes
-+    fi
-+fi
-+if test "$secret_keyring" = "yes"
-+then
-+    if test "$have_keyring" != "yes"
-+    then
-+    error_exit "syscall __NR_keyctl requested, \
-+but not implemented on your system"
++    if compile_prog "" "-lkeyutils"; then
++        have_keyutils=yes
 +    fi
 +fi
 +
  
  ##########################################
  # End of CC checks
-@@ -6756,6 +6789,7 @@ echo "plugin support    $plugins"
- echo "fuzzing support   $fuzzing"
- echo "gdb               $gdb_bin"
- echo "rng-none          $rng_none"
-+echo "Linux keyring     $secret_keyring"
+@@ -7674,6 +7695,9 @@ fi
  
- if test "$supported_cpu" = "no"; then
-     echo
-@@ -7638,6 +7672,10 @@ if test -n "$gdb_bin" ; then
-     echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
+ if test "$secret_keyring" = "yes" ; then
+   echo "CONFIG_SECRET_KEYRING=y" >> $config_host_mak
++  if test "$have_keyutils" = "yes" ; then
++    echo "CONFIG_TEST_SECRET_KEYRING=y" >> $config_host_mak
++  fi
  fi
  
-+if test "$secret_keyring" = "yes" ; then
-+  echo "CONFIG_SECRET_KEYRING=y" >> $config_host_mak
-+fi
-+
  if test "$tcg_interpreter" = "yes"; then
-   QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
- elif test "$ARCH" = "sparc64" ; then
-diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
-index 110dec1b87..707c02ad37 100644
---- a/crypto/Makefile.objs
-+++ b/crypto/Makefile.objs
-@@ -20,6 +20,7 @@ crypto-obj-y += tlscredsx509.o
- crypto-obj-y += tlssession.o
- crypto-obj-y += secret_common.o
- crypto-obj-y += secret.o
-+crypto-obj-$(CONFIG_SECRET_KEYRING) += secret_keyring.o
- crypto-obj-y += pbkdf.o
- crypto-obj-$(CONFIG_NETTLE) += pbkdf-nettle.o
- crypto-obj-$(if $(CONFIG_NETTLE),n,$(CONFIG_GCRYPT)) += pbkdf-gcrypt.o
-diff --git a/crypto/secret_keyring.c b/crypto/secret_keyring.c
-new file mode 100644
-index 0000000000..4f132d6370
---- /dev/null
-+++ b/crypto/secret_keyring.c
-@@ -0,0 +1,148 @@
-+/*
-+ * QEMU crypto secret support
-+ *
-+ * Copyright 2020 Yandex N.V.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ */
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 03a74b60f6..de13908701 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -538,6 +538,10 @@ tests/benchmark-crypto-cipher$(EXESUF): tests/benchmark-crypto-cipher.o $(test-c
+ tests/test-crypto-secret$(EXESUF): tests/test-crypto-secret.o $(test-crypto-obj-y)
+ tests/test-crypto-xts$(EXESUF): tests/test-crypto-xts.o $(test-crypto-obj-y)
+ 
++ifeq ($(CONFIG_TEST_SECRET_KEYRING),y)
++tests/test-crypto-secret.o-libs := -lkeyutils
++endif
 +
-+#include "qemu/osdep.h"
-+#include <asm/unistd.h>
-+#include <linux/keyctl.h>
-+#include "qapi/error.h"
-+#include "qom/object_interfaces.h"
-+#include "trace.h"
+ tests/crypto-tls-x509-helpers.o-cflags := $(TASN1_CFLAGS)
+ tests/crypto-tls-x509-helpers.o-libs := $(TASN1_LIBS)
+ tests/pkix_asn1_tab.o-cflags := $(TASN1_CFLAGS)
+diff --git a/tests/test-crypto-secret.c b/tests/test-crypto-secret.c
+index 13fc6c4c75..603a093f10 100644
+--- a/tests/test-crypto-secret.c
++++ b/tests/test-crypto-secret.c
+@@ -24,6 +24,10 @@
+ #include "crypto/secret.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
++#ifdef CONFIG_TEST_SECRET_KEYRING
 +#include "crypto/secret_keyring.h"
++#include <keyutils.h>
++#endif
+ 
+ static void test_secret_direct(void)
+ {
+@@ -124,6 +128,147 @@ static void test_secret_indirect_emptyfile(void)
+     g_free(fname);
+ }
+ 
++#ifdef CONFIG_TEST_SECRET_KEYRING
++
++#define DESCRIPTION "qemu_test_secret"
++#define PAYLOAD "Test Payload"
 +
 +
-+static inline
-+long keyctl_read(int32_t key, uint8_t *buffer, size_t buflen)
++static void test_secret_keyring_good(void)
 +{
-+    return syscall(__NR_keyctl, KEYCTL_READ, key, buffer, buflen, 0);
++    char key_str[16];
++    Object *sec;
++    int32_t key = add_key("user", DESCRIPTION, PAYLOAD,
++                          strlen(PAYLOAD), KEY_SPEC_PROCESS_KEYRING);
++
++    g_assert(key >= 0);
++
++    snprintf(key_str, sizeof(key_str), "0x%08x", key);
++    sec = object_new_with_props(
++        TYPE_QCRYPTO_SECRET_KEYRING,
++        object_get_objects_root(),
++        "sec0",
++        &error_abort,
++        "serial", key_str,
++        NULL);
++
++    assert(0 <= keyctl_unlink(key, KEY_SPEC_PROCESS_KEYRING));
++    char *pw = qcrypto_secret_lookup_as_utf8("sec0",
++                                             &error_abort);
++    g_assert_cmpstr(pw, ==, PAYLOAD);
++
++    object_unparent(sec);
++    g_free(pw);
 +}
 +
 +
-+static void
-+qcrypto_secret_keyring_load_data(QCryptoSecretCommon *sec_common,
-+                                 uint8_t **output,
-+                                 size_t *outputlen,
-+                                 Error **errp)
++static void test_secret_keyring_revoked_key(void)
 +{
-+    QCryptoSecretKeyring *secret = QCRYPTO_SECRET_KEYRING(sec_common);
-+    uint8_t *buffer = NULL;
-+    long retcode;
++    char key_str[16];
++    Object *sec;
++    int32_t key = add_key("user", DESCRIPTION, PAYLOAD,
++                          strlen(PAYLOAD), KEY_SPEC_PROCESS_KEYRING);
++    g_assert(key >= 0);
++    g_assert_false(keyctl_revoke(key));
 +
-+    *output = NULL;
-+    *outputlen = 0;
++    snprintf(key_str, sizeof(key_str), "0x%08x", key);
++    sec = object_new_with_props(
++        TYPE_QCRYPTO_SECRET_KEYRING,
++        object_get_objects_root(),
++        "sec0",
++        NULL,
++        "serial", key_str,
++        NULL);
 +
-+    if (!secret->serial) {
-+        error_setg(errp, "'serial' parameter must be provided");
-+        return;
-+    }
++    g_assert(errno == EKEYREVOKED);
++    g_assert(sec == NULL);
 +
-+    retcode = keyctl_read(secret->serial, NULL, 0);
-+    if (retcode <= 0) {
-+        goto keyctl_error;
-+    }
++    keyctl_unlink(key, KEY_SPEC_PROCESS_KEYRING);
++}
 +
-+    buffer = g_new0(uint8_t, retcode);
 +
-+    retcode = keyctl_read(secret->serial, buffer, retcode);
-+    if (retcode < 0) {
-+        g_free(buffer);
-+        goto keyctl_error;
-+    }
++static void test_secret_keyring_expired_key(void)
++{
++    char key_str[16];
++    Object *sec;
++    int32_t key = add_key("user", DESCRIPTION, PAYLOAD,
++                          strlen(PAYLOAD), KEY_SPEC_PROCESS_KEYRING);
++    g_assert(key >= 0);
++    g_assert_false(keyctl_set_timeout(key, 1));
++    sleep(1);
 +
-+    *outputlen = retcode;
-+    *output = buffer;
++    snprintf(key_str, sizeof(key_str), "0x%08x", key);
++    sec = object_new_with_props(
++        TYPE_QCRYPTO_SECRET_KEYRING,
++        object_get_objects_root(),
++        "sec0",
++        NULL,
++        "serial", key_str,
++        NULL);
++
++    g_assert(errno == EKEYEXPIRED);
++    g_assert(sec == NULL);
++
++    keyctl_unlink(key, KEY_SPEC_PROCESS_KEYRING);
++}
++
++
++static void test_secret_keyring_bad_serial_key(void)
++{
++    Object *sec;
++
++    sec = object_new_with_props(
++        TYPE_QCRYPTO_SECRET_KEYRING,
++        object_get_objects_root(),
++        "sec0",
++        NULL,
++        "serial", "1",
++        NULL);
++
++    g_assert(errno == ENOKEY);
++    g_assert(sec == NULL);
++}
++
++/*
++ * TODO
++ * test_secret_keyring_bad_key_access_right() is not working yet.
++ * We don't know yet if this due a bug in the Linux kernel or
++ * whether it's normal syscall behavior.
++ * We've requested information from kernel maintainers.
++ * See: <https://www.spinics.net/lists/keyrings/index.html>
++ * Thread: 'security/keys: remove possessor verify after key permission check'
++ */
++
++static void test_secret_keyring_bad_key_access_right(void)
++{
++    char key_str[16];
++    Object *sec;
++
++    g_test_skip("TODO: Need responce from Linux kernel maintainers");
 +    return;
 +
-+keyctl_error:
-+    error_setg_errno(errp, errno,
-+                     "Unable to read serial key %08x",
-+                     secret->serial);
++    int32_t key = add_key("user", DESCRIPTION, PAYLOAD,
++                          strlen(PAYLOAD), KEY_SPEC_PROCESS_KEYRING);
++    g_assert(key >= 0);
++    g_assert_false(keyctl_setperm(key, KEY_POS_ALL & (~KEY_POS_READ)));
++
++    snprintf(key_str, sizeof(key_str), "0x%08x", key);
++
++    sec = object_new_with_props(
++        TYPE_QCRYPTO_SECRET_KEYRING,
++        object_get_objects_root(),
++        "sec0",
++        NULL,
++        "serial", key_str,
++        NULL);
++
++    g_assert(errno == EACCES);
++    g_assert(sec == NULL);
++
++    keyctl_unlink(key, KEY_SPEC_PROCESS_KEYRING);
 +}
 +
++#endif /* CONFIG_TEST_SECRET_KEYRING */
+ 
+ static void test_secret_noconv_base64_good(void)
+ {
+@@ -426,6 +571,19 @@ int main(int argc, char **argv)
+     g_test_add_func("/crypto/secret/indirect/emptyfile",
+                     test_secret_indirect_emptyfile);
+ 
++#ifdef CONFIG_TEST_SECRET_KEYRING
++    g_test_add_func("/crypto/secret/keyring/good",
++                    test_secret_keyring_good);
++    g_test_add_func("/crypto/secret/keyring/revoked_key",
++                    test_secret_keyring_revoked_key);
++    g_test_add_func("/crypto/secret/keyring/expired_key",
++                    test_secret_keyring_expired_key);
++    g_test_add_func("/crypto/secret/keyring/bad_serial_key",
++                    test_secret_keyring_bad_serial_key);
++    g_test_add_func("/crypto/secret/keyring/bad_key_access_right",
++                    test_secret_keyring_bad_key_access_right);
++#endif /* CONFIG_TEST_SECRET_KEYRING */
 +
-+static void
-+qcrypto_secret_prop_set_key(Object *obj, Visitor *v,
-+                            const char *name, void *opaque,
-+                            Error **errp)
-+{
-+    QCryptoSecretKeyring *secret = QCRYPTO_SECRET_KEYRING(obj);
-+    int32_t value;
-+    visit_type_int32(v, name, &value, errp);
-+    if (!value) {
-+        error_setg(errp, "'serial' should not be equal to 0");
-+    }
-+    secret->serial = value;
-+}
-+
-+
-+static void
-+qcrypto_secret_prop_get_key(Object *obj, Visitor *v,
-+                            const char *name, void *opaque,
-+                            Error **errp)
-+{
-+    QCryptoSecretKeyring *secret = QCRYPTO_SECRET_KEYRING(obj);
-+    int32_t value = secret->serial;
-+    visit_type_int32(v, name, &value, errp);
-+}
-+
-+
-+static void
-+qcrypto_secret_keyring_complete(UserCreatable *uc, Error **errp)
-+{
-+    object_property_set_bool(OBJECT(uc), true, "loaded", errp);
-+}
-+
-+
-+static void
-+qcrypto_secret_keyring_class_init(ObjectClass *oc, void *data)
-+{
-+    QCryptoSecretCommonClass *sic = QCRYPTO_SECRET_COMMON_CLASS(oc);
-+    sic->load_data = qcrypto_secret_keyring_load_data;
-+
-+    UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
-+    ucc->complete = qcrypto_secret_keyring_complete;
-+
-+    object_class_property_add(oc, "serial", "int32_t",
-+                                  qcrypto_secret_prop_get_key,
-+                                  qcrypto_secret_prop_set_key,
-+                                  NULL, NULL);
-+}
-+
-+
-+static const TypeInfo qcrypto_secret_info = {
-+    .parent = TYPE_QCRYPTO_SECRET_COMMON,
-+    .name = TYPE_QCRYPTO_SECRET_KEYRING,
-+    .instance_size = sizeof(QCryptoSecretKeyring),
-+    .class_size = sizeof(QCryptoSecretKeyringClass),
-+    .class_init = qcrypto_secret_keyring_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_USER_CREATABLE },
-+        { }
-+    }
-+};
-+
-+
-+static void
-+qcrypto_secret_register_types(void)
-+{
-+    type_register_static(&qcrypto_secret_info);
-+}
-+
-+
-+type_init(qcrypto_secret_register_types);
-diff --git a/include/crypto/secret_keyring.h b/include/crypto/secret_keyring.h
-new file mode 100644
-index 0000000000..9f371ad251
---- /dev/null
-+++ b/include/crypto/secret_keyring.h
-@@ -0,0 +1,52 @@
-+/*
-+ * QEMU crypto secret support
-+ *
-+ * Copyright 2020 Yandex N.V.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#ifndef QCRYPTO_SECRET_KEYRING_H
-+#define QCRYPTO_SECRET_KEYRING_H
-+
-+#include "qapi/qapi-types-crypto.h"
-+#include "qom/object.h"
-+#include "crypto/secret_common.h"
-+
-+#define TYPE_QCRYPTO_SECRET_KEYRING "secret_keyring"
-+#define QCRYPTO_SECRET_KEYRING(obj) \
-+    OBJECT_CHECK(QCryptoSecretKeyring, (obj), \
-+                 TYPE_QCRYPTO_SECRET_KEYRING)
-+#define QCRYPTO_SECRET_KEYRING_CLASS(class) \
-+    OBJECT_CLASS_CHECK(QCryptoSecretKeyringClass, \
-+                       (class), TYPE_QCRYPTO_SECRET_KEYRING)
-+#define QCRYPTO_SECRET_KEYRING_GET_CLASS(class) \
-+    OBJECT_GET_CLASS(QCryptoSecretKeyringClass, \
-+                     (class), TYPE_QCRYPTO_SECRET_KEYRING)
-+
-+typedef struct QCryptoSecretKeyring QCryptoSecretKeyring;
-+typedef struct QCryptoSecretKeyringClass QCryptoSecretKeyringClass;
-+
-+typedef struct QCryptoSecretKeyring {
-+    QCryptoSecretCommon parent;
-+    int32_t serial;
-+} QCryptoSecretKeyring;
-+
-+
-+typedef struct QCryptoSecretKeyringClass {
-+    QCryptoSecretCommonClass parent;
-+} QCryptoSecretKeyringClass;
-+
-+#endif /* QCRYPTO_SECRET_KEYRING_H */
+     g_test_add_func("/crypto/secret/noconv/base64/good",
+                     test_secret_noconv_base64_good);
+     g_test_add_func("/crypto/secret/noconv/base64/bad",
 -- 
 2.26.2
 
