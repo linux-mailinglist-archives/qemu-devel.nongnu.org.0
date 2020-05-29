@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6461E8041
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 16:32:07 +0200 (CEST)
-Received: from localhost ([::1]:50794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD9B1E8047
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 16:33:37 +0200 (CEST)
+Received: from localhost ([::1]:54450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeg3L-0004sX-1t
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 10:32:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55874)
+	id 1jeg4m-0006MY-CV
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 10:33:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jefiv-00068B-Sm
- for qemu-devel@nongnu.org; Fri, 29 May 2020 10:11:01 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43269
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jefjC-0006aE-0B
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 10:11:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56674
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jefit-0006Xb-DF
- for qemu-devel@nongnu.org; Fri, 29 May 2020 10:11:01 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jefjA-0006jb-LU
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 10:11:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590761458;
+ s=mimecast20190719; t=1590761476;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bz9b5juc7V9v2vJKnzXvYtlE5iOj/g+oFZdIycEig90=;
- b=iZntzHWT4PTh4cnolk3mNKjAy6dtv8PstqgUtfHF3URuMoloUjpHLHP3Iv0tbGdyVpo0/v
- QGYdkaYlcDq3suq965nNCIvHg92ntqzd/bDd9vr8i5E6OCHs4x/JlqHHYXqYA/9N90+u0i
- aN9oKUDzbgRtIGdmEuVY1PuYD8XXyow=
+ bh=wCflfqrrR6gmFCMKbYRm5BpEmAm6JtXxYfaEMe8E5gQ=;
+ b=M3/gGM1U0v1IXt8YWsXHMa1N1KVMhWtdR8+8KR/xRqXXrbip2PoUlDECkTW18oftfYoKhW
+ VFKfaP+wsbjjqLZ77M2awIHY82zNF7chBQDcHR7n7yj6FOxc9dSe0PE3ZVej6Sc1Mbgzkk
+ rEwaULAPZPyQMnYZYhFrs/kDuU151Zk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-IDJvz7tWPxWE7D3lJmeU2g-1; Fri, 29 May 2020 10:10:51 -0400
-X-MC-Unique: IDJvz7tWPxWE7D3lJmeU2g-1
+ us-mta-47-tTpuiPanOEKll8v6eduRtg-1; Fri, 29 May 2020 10:11:11 -0400
+X-MC-Unique: tTpuiPanOEKll8v6eduRtg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EE7918A8231;
- Fri, 29 May 2020 14:10:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D146108BD09;
+ Fri, 29 May 2020 14:11:08 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-13-84.pek2.redhat.com [10.72.13.84])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5DF385D9D5;
- Fri, 29 May 2020 14:10:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 066D25D9D5;
+ Fri, 29 May 2020 14:10:51 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
  jasowang@redhat.com
-Subject: [RFC v3 7/8] vhost-vdpa: introduce vhost-vdpa backend
-Date: Fri, 29 May 2020 22:06:19 +0800
-Message-Id: <20200529140620.28759-8-lulu@redhat.com>
+Subject: [RFC v3 8/8] vhost-vdpa: introduce vhost-vdpa net client
+Date: Fri, 29 May 2020 22:06:20 +0800
+Message-Id: <20200529140620.28759-9-lulu@redhat.com>
 In-Reply-To: <20200529140620.28759-1-lulu@redhat.com>
 References: <20200529140620.28759-1-lulu@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:27:49
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=lulu@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:34:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,795 +91,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tiwei Bie <tiwei.bie@intel.com>
 
-Currently we have 2 types of vhost backends in QEMU: vhost kernel and
-vhost-user. The above patch provides a generic device for vDPA purpose,
-this vDPA device exposes to user space a non-vendor-specific configuration
-interface for setting up a vhost HW accelerator, this patch set introduces
-a third vhost backend called vhost-vdpa based on the vDPA interface.
+This patch set introduces a new net client type: vhost-vdpa.
+vhost-vdpa net client will set up a vDPA device which is specified
+by a "vhostdev" parameter.
 
-Vhost-vdpa usage:
-
-  qemu-system-x86_64 -cpu host -enable-kvm \
-    ......
-  -netdev type=vhost-vdpa,vhostdev=/dev/vhost-vdpa-id,id=vhost-vdpa0 \
-  -device virtio-net-pci,netdev=vhost-vdpa0,page-per-vq=on \
-
-Co-Authored-By: Lingshan zhu <lingshan.zhu@intel.com>
+Co-authored-by: Lingshan Zhu <lingshan.zhu@intel.com>
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- configure                         |  21 ++
- hw/net/vhost_net-stub.c           |   5 +
- hw/net/vhost_net.c                |  47 +++-
- hw/virtio/Makefile.objs           |   1 +
- hw/virtio/vhost-backend.c         |   5 +
- hw/virtio/vhost-vdpa.c            | 399 ++++++++++++++++++++++++++++++
- hw/virtio/vhost.c                 |  37 ++-
- include/hw/virtio/vhost-backend.h |  10 +-
- include/hw/virtio/vhost-vdpa.h    |  26 ++
- include/hw/virtio/vhost.h         |   2 +
- include/net/vhost_net.h           |   4 +-
- qemu-options.hx                   |  15 ++
- 12 files changed, 566 insertions(+), 6 deletions(-)
- create mode 100644 hw/virtio/vhost-vdpa.c
- create mode 100644 include/hw/virtio/vhost-vdpa.h
+ include/net/vhost-vdpa.h |  19 ++++
+ include/net/vhost_net.h  |   2 +-
+ net/Makefile.objs        |   2 +-
+ net/clients.h            |   2 +
+ net/net.c                |   3 +
+ net/vhost-vdpa.c         | 235 +++++++++++++++++++++++++++++++++++++++
+ qapi/net.json            |  26 ++++-
+ 7 files changed, 285 insertions(+), 4 deletions(-)
+ create mode 100644 include/net/vhost-vdpa.h
+ create mode 100644 net/vhost-vdpa.c
 
-diff --git a/configure b/configure
-index 23b5e93752..53679ee57f 100755
---- a/configure
-+++ b/configure
-@@ -1557,6 +1557,10 @@ for opt do
-   ;;
-   --enable-vhost-user) vhost_user="yes"
-   ;;
-+  --disable-vhost-vdpa) vhost_vdpa="no"
-+  ;;
-+  --enable-vhost-vdpa) vhost_vdpa="yes"
-+  ;;
-   --disable-vhost-kernel) vhost_kernel="no"
-   ;;
-   --enable-vhost-kernel) vhost_kernel="yes"
-@@ -1846,6 +1850,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   vhost-crypto    vhost-user-crypto backend support
-   vhost-kernel    vhost kernel backend support
-   vhost-user      vhost-user backend support
-+  vhost-vdpa      vhost-vdpa kernel backend support
-   spice           spice
-   rbd             rados block device (rbd)
-   libiscsi        iscsi support
-@@ -2336,6 +2341,10 @@ test "$vhost_user" = "" && vhost_user=yes
- if test "$vhost_user" = "yes" && test "$mingw32" = "yes"; then
-   error_exit "vhost-user isn't available on win32"
- fi
-+test "$vhost_vdpa" = "" && vhost_vdpa=$linux
-+if test "$vhost_vdpa" = "yes" && test "$linux" != "yes"; then
-+  error_exit "vhost-vdpa is only available on Linux"
-+fi
- test "$vhost_kernel" = "" && vhost_kernel=$linux
- if test "$vhost_kernel" = "yes" && test "$linux" != "yes"; then
-   error_exit "vhost-kernel is only available on Linux"
-@@ -2364,6 +2373,11 @@ test "$vhost_user_fs" = "" && vhost_user_fs=$vhost_user
- if test "$vhost_user_fs" = "yes" && test "$vhost_user" = "no"; then
-   error_exit "--enable-vhost-user-fs requires --enable-vhost-user"
- fi
-+#vhost-vdpa backends
-+test "$vhost_net_vdpa" = "" && vhost_net_vdpa=$vhost_vdpa
-+if test "$vhost_net_vdpa" = "yes" && test "$vhost_vdpa" = "no"; then
-+  error_exit "--enable-vhost-net-vdpa requires --enable-vhost-vdpa"
-+fi
- 
- # OR the vhost-kernel and vhost-user values for simplicity
- if test "$vhost_net" = ""; then
-@@ -6673,6 +6687,7 @@ echo "vhost-scsi support $vhost_scsi"
- echo "vhost-vsock support $vhost_vsock"
- echo "vhost-user support $vhost_user"
- echo "vhost-user-fs support $vhost_user_fs"
-+echo "vhost-vdpa support $vhost_vdpa"
- echo "Trace backends    $trace_backends"
- if have_backend "simple"; then
- echo "Trace output file $trace_file-<pid>"
-@@ -7170,6 +7185,9 @@ fi
- if test "$vhost_net_user" = "yes" ; then
-   echo "CONFIG_VHOST_NET_USER=y" >> $config_host_mak
- fi
-+if test "$vhost_net_vdpa" = "yes" ; then
-+  echo "CONFIG_VHOST_NET_VDPA=y" >> $config_host_mak
-+fi
- if test "$vhost_crypto" = "yes" ; then
-   echo "CONFIG_VHOST_CRYPTO=y" >> $config_host_mak
- fi
-@@ -7182,6 +7200,9 @@ fi
- if test "$vhost_user" = "yes" ; then
-   echo "CONFIG_VHOST_USER=y" >> $config_host_mak
- fi
-+if test "$vhost_vdpa" = "yes" ; then
-+  echo "CONFIG_VHOST_VDPA=y" >> $config_host_mak
-+fi
- if test "$vhost_user_fs" = "yes" ; then
-   echo "CONFIG_VHOST_USER_FS=y" >> $config_host_mak
- fi
-diff --git a/hw/net/vhost_net-stub.c b/hw/net/vhost_net-stub.c
-index 43e93e1a9a..ab77a92a7d 100644
---- a/hw/net/vhost_net-stub.c
-+++ b/hw/net/vhost_net-stub.c
-@@ -94,3 +94,8 @@ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu)
- {
-     return 0;
- }
-+int vhost_net_get_device_id(struct vhost_net *net, uint32_t * device_id)
-+{
-+    return 0;
-+}
-+
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index e2bc7de2eb..25045cff59 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -17,8 +17,10 @@
- #include "net/net.h"
- #include "net/tap.h"
- #include "net/vhost-user.h"
-+#include "net/vhost-vdpa.h"
- 
- #include "standard-headers/linux/vhost_types.h"
-+#include "linux-headers/linux/vhost.h"
- #include "hw/virtio/virtio-net.h"
- #include "net/vhost_net.h"
- #include "qemu/error-report.h"
-@@ -85,6 +87,30 @@ static const int user_feature_bits[] = {
-     VHOST_INVALID_FEATURE_BIT
- };
- 
-+static const int vdpa_feature_bits[] = {
-+    VIRTIO_F_NOTIFY_ON_EMPTY,
-+    VIRTIO_RING_F_INDIRECT_DESC,
-+    VIRTIO_RING_F_EVENT_IDX,
-+    VIRTIO_F_ANY_LAYOUT,
-+    VIRTIO_F_VERSION_1,
-+    VIRTIO_NET_F_CSUM,
-+    VIRTIO_NET_F_GUEST_CSUM,
-+    VIRTIO_NET_F_GSO,
-+    VIRTIO_NET_F_GUEST_TSO4,
-+    VIRTIO_NET_F_GUEST_TSO6,
-+    VIRTIO_NET_F_GUEST_ECN,
-+    VIRTIO_NET_F_GUEST_UFO,
-+    VIRTIO_NET_F_HOST_TSO4,
-+    VIRTIO_NET_F_HOST_TSO6,
-+    VIRTIO_NET_F_HOST_ECN,
-+    VIRTIO_NET_F_HOST_UFO,
-+    VIRTIO_NET_F_MRG_RXBUF,
-+    VIRTIO_NET_F_MTU,
-+    VIRTIO_F_IOMMU_PLATFORM,
-+    VIRTIO_F_RING_PACKED,
-+    VIRTIO_NET_F_GUEST_ANNOUNCE,
-+    VHOST_INVALID_FEATURE_BIT
-+};
- static const int *vhost_net_get_feature_bits(struct vhost_net *net)
- {
-     const int *feature_bits = 0;
-@@ -96,6 +122,9 @@ static const int *vhost_net_get_feature_bits(struct vhost_net *net)
-     case NET_CLIENT_DRIVER_VHOST_USER:
-         feature_bits = user_feature_bits;
-         break;
-+    case NET_CLIENT_DRIVER_VHOST_VDPA:
-+        feature_bits = vdpa_feature_bits;
-+        break;
-     default:
-         error_report("Feature bits not defined for this type: %d",
-                 net->nc->info->type);
-@@ -110,7 +139,10 @@ uint64_t vhost_net_get_features(struct vhost_net *net, uint64_t features)
-     return vhost_get_features(&net->dev, vhost_net_get_feature_bits(net),
-             features);
- }
--
-+int vhost_net_get_device_id(struct vhost_net *net, uint32_t * device_id)
-+{
-+    return vhost_dev_get_device_id(&net->dev, device_id);
-+}
- void vhost_net_ack_features(struct vhost_net *net, uint64_t features)
- {
-     net->dev.acked_features = net->dev.backend_features;
-@@ -337,6 +369,11 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-     }
- 
-     for (i = 0; i < total_queues; i++) {
-+
-+        if (virtio_queue_enabled(dev, i)) {
-+            vhost_set_vring_ready(peer);
-+        }
-+
-         peer = qemu_get_peer(ncs, i);
-         r = vhost_net_start_one(get_vhost_net(peer), dev);
- 
-@@ -433,6 +470,12 @@ VHostNetState *get_vhost_net(NetClientState *nc)
-         vhost_net = vhost_user_get_vhost_net(nc);
-         assert(vhost_net);
-         break;
-+#endif
-+#ifdef CONFIG_VHOST_NET_VDPA
-+    case NET_CLIENT_DRIVER_VHOST_VDPA:
-+        vhost_net = vhost_vdpa_get_vhost_net(nc);
-+        assert(vhost_net);
-+        break;
- #endif
-     default:
-         break;
-@@ -474,3 +517,5 @@ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu)
- 
-     return vhost_ops->vhost_net_set_mtu(&net->dev, mtu);
- }
-+
-+
-diff --git a/hw/virtio/Makefile.objs b/hw/virtio/Makefile.objs
-index 4e4d39a0a4..6b1b1a5fce 100644
---- a/hw/virtio/Makefile.objs
-+++ b/hw/virtio/Makefile.objs
-@@ -5,6 +5,7 @@ obj-y += virtio.o
- obj-$(CONFIG_VHOST) += vhost.o vhost-backend.o
- common-obj-$(call lnot,$(CONFIG_VHOST)) += vhost-stub.o
- obj-$(CONFIG_VHOST_USER) += vhost-user.o
-+obj-$(CONFIG_VHOST_VDPA) += vhost-vdpa.o
- 
- common-obj-$(CONFIG_VIRTIO_RNG) += virtio-rng.o
- common-obj-$(CONFIG_VIRTIO_PCI) += virtio-pci.o
-diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
-index 42efb4967b..420341e8c5 100644
---- a/hw/virtio/vhost-backend.c
-+++ b/hw/virtio/vhost-backend.c
-@@ -291,6 +291,11 @@ int vhost_set_backend_type(struct vhost_dev *dev, VhostBackendType backend_type)
-     case VHOST_BACKEND_TYPE_USER:
-         dev->vhost_ops = &user_ops;
-         break;
-+#endif
-+#ifdef CONFIG_VHOST_VDPA
-+    case VHOST_BACKEND_TYPE_VDPA:
-+        dev->vhost_ops = &vdpa_ops;
-+        break;
- #endif
-     default:
-         error_report("Unknown vhost backend type");
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+diff --git a/include/net/vhost-vdpa.h b/include/net/vhost-vdpa.h
 new file mode 100644
-index 0000000000..2d136a8565
+index 0000000000..6ce0d04f72
 --- /dev/null
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -0,0 +1,399 @@
-+/*
-+ * vhost-vdpa
-+ *
-+ *  Copyright(c) 2017-2018 Intel Corporation.
-+ *  Copyright(c) 2020 Red Hat, Inc.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include <linux/vhost.h>
-+#include <linux/vfio.h>
-+#include <sys/eventfd.h>
-+#include <sys/ioctl.h>
-+#include "hw/virtio/vhost.h"
-+#include "hw/virtio/vhost-backend.h"
-+#include "hw/virtio/virtio-net.h"
-+#include "hw/virtio/vhost-vdpa.h"
-+#include "qemu/main-loop.h"
-+#include <linux/kvm.h>
-+#include "sysemu/kvm.h"
-+
-+
-+static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section)
-+{
-+    return (!memory_region_is_ram(section->mr) &&
-+            !memory_region_is_iommu(section->mr)) ||
-+           /*
-+            * Sizing an enabled 64-bit BAR can cause spurious mappings to
-+            * addresses in the upper part of the 64-bit address space.  These
-+            * are never accessed by the CPU and beyond the address width of
-+            * some IOMMU hardware.  TODO: VDPA should tell us the IOMMU width.
-+            */
-+           section->offset_within_address_space & (1ULL << 63);
-+}
-+
-+static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-+                              void *vaddr, bool readonly)
-+{
-+    struct vhost_msg_v2 msg;
-+    int fd = v->device_fd;
-+    int ret = 0;
-+
-+    msg.type =  v->msg_type;
-+    msg.iotlb.iova = iova;
-+    msg.iotlb.size = size;
-+    msg.iotlb.uaddr = (uint64_t)vaddr;
-+    msg.iotlb.perm = readonly ? VHOST_ACCESS_RO : VHOST_ACCESS_RW;
-+    msg.iotlb.type = VHOST_IOTLB_UPDATE;
-+
-+    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-+        error_report("failed to write, fd=%d, errno=%d (%s)",
-+            fd, errno, strerror(errno));
-+        return -EIO ;
-+    }
-+
-+    return ret;
-+}
-+
-+static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
-+                                hwaddr size)
-+{
-+    struct vhost_msg_v2 msg;
-+    int fd = v->device_fd;
-+    int ret = 0;
-+
-+    msg.type =  v->msg_type;
-+    msg.iotlb.iova = iova;
-+    msg.iotlb.size = size;
-+    msg.iotlb.type = VHOST_IOTLB_INVALIDATE;
-+
-+    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-+        error_report("failed to write, fd=%d, errno=%d (%s)",
-+            fd, errno, strerror(errno));
-+        return -EIO ;
-+    }
-+
-+    return ret;
-+}
-+
-+static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-+                                           MemoryRegionSection *section)
-+{
-+    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
-+    hwaddr iova;
-+    Int128 llend, llsize;
-+    void *vaddr;
-+    int ret;
-+
-+    if (vhost_vdpa_listener_skipped_section(section)) {
-+        return;
-+    }
-+
-+    if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
-+                 (section->offset_within_region & ~TARGET_PAGE_MASK))) {
-+        error_report("%s received unaligned region", __func__);
-+        return;
-+    }
-+
-+    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
-+    llend = int128_make64(section->offset_within_address_space);
-+    llend = int128_add(llend, section->size);
-+    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
-+
-+    if (int128_ge(int128_make64(iova), llend)) {
-+        return;
-+    }
-+
-+    memory_region_ref(section->mr);
-+
-+    /* Here we assume that memory_region_is_ram(section->mr)==true */
-+
-+    vaddr = memory_region_get_ram_ptr(section->mr) +
-+            section->offset_within_region +
-+            (iova - section->offset_within_address_space);
-+
-+    llsize = int128_sub(llend, int128_make64(iova));
-+
-+    ret = vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
-+                             vaddr, section->readonly);
-+    if (ret) {
-+        error_report("vhost vdpa map fail!");
-+        if (memory_region_is_ram_device(section->mr)) {
-+            /* Allow unexpected mappings not to be fatal for RAM devices */
-+            error_report("map ram fail!");
-+          return ;
-+        }
-+        goto fail;
-+    }
-+
-+    return;
-+
-+fail:
-+    if (memory_region_is_ram_device(section->mr)) {
-+        error_report("failed to vdpa_dma_map. pci p2p may not work");
-+        return;
-+
-+    }
-+    /*
-+     * On the initfn path, store the first error in the container so we
-+     * can gracefully fail.  Runtime, there's not much we can do other
-+     * than throw a hardware error.
-+     */
-+    error_report("vhost-vdpa: DMA mapping failed, unable to continue");
-+    return;
-+
-+}
-+
-+static void vhost_vdpa_listener_region_del(MemoryListener *listener,
-+                                           MemoryRegionSection *section)
-+{
-+    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
-+    hwaddr iova;
-+    Int128 llend, llsize;
-+    int ret;
-+    bool try_unmap = true;
-+
-+    if (vhost_vdpa_listener_skipped_section(section)) {
-+        return;
-+    }
-+
-+    if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
-+                 (section->offset_within_region & ~TARGET_PAGE_MASK))) {
-+        error_report("%s received unaligned region", __func__);
-+        return;
-+    }
-+
-+    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
-+    llend = int128_make64(section->offset_within_address_space);
-+    llend = int128_add(llend, section->size);
-+    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
-+
-+    if (int128_ge(int128_make64(iova), llend)) {
-+        return;
-+    }
-+
-+    llsize = int128_sub(llend, int128_make64(iova));
-+
-+    if (try_unmap) {
-+        ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
-+        if (ret) {
-+            error_report("vhost_vdpa dma unmap error!");
-+        }
-+    }
-+
-+    memory_region_unref(section->mr);
-+}
-+/* Register a new memory listener, only to get diffs from qemu,
-+ * this help to reduce the tricky codes in vhost
-+ * (e.g generating diffs of two rbtree as usnic did).*/
-+static const MemoryListener vhost_vdpa_memory_listener = {
-+    .region_add = vhost_vdpa_listener_region_add,
-+    .region_del = vhost_vdpa_listener_region_del,
-+};
-+
-+static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
-+                             void *arg)
-+{
-+    struct vhost_vdpa *v = dev->opaque;
-+    int fd = v->device_fd;
-+
-+    assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
-+
-+    return ioctl(fd, request, arg);
-+}
-+
-+static void vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
-+{
-+    uint8_t s;
-+
-+    if (vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &s)) {
-+        return;
-+    }
-+
-+    s |= status;
-+
-+    vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
-+}
-+
-+static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque)
-+{
-+    struct vhost_vdpa *v;
-+
-+    assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
-+
-+    v = opaque;
-+    dev->opaque =  opaque ;
-+
-+    v->listener = vhost_vdpa_memory_listener;
-+    v->msg_type = VHOST_IOTLB_MSG_V2;
-+    memory_listener_register(&v->listener, &address_space_memory);
-+
-+    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-+                               VIRTIO_CONFIG_S_DRIVER);
-+
-+    return 0;
-+}
-+
-+static int vhost_vdpa_cleanup(struct vhost_dev *dev)
-+{
-+    struct vhost_vdpa *v;
-+    assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
-+
-+    v = dev->opaque;
-+    memory_listener_unregister(&v->listener);
-+
-+    dev->opaque = NULL;
-+    return 0;
-+}
-+
-+static int vhost_vdpa_memslots_limit(struct vhost_dev *dev)
-+{
-+    return INT_MAX;
-+}
-+
-+static int vhost_vdpa_set_mem_table(struct vhost_dev *dev,
-+                                    struct vhost_memory *mem)
-+{
-+
-+    if (mem->padding) {
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+static int vhost_vdpa_set_features(struct vhost_dev *dev,
-+                                   uint64_t features)
-+{
-+    int ret = vhost_vdpa_call(dev, VHOST_SET_FEATURES, &features);
-+    uint8_t status = 0;
-+
-+    if (ret) {
-+        return ret;
-+    }
-+    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_FEATURES_OK);
-+    vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
-+
-+    return !(status & VIRTIO_CONFIG_S_FEATURES_OK);
-+}
-+
-+int vhost_vdpa_get_device_id(struct vhost_dev *dev,
-+                                   uint32_t *device_id)
-+{
-+    return vhost_vdpa_call(dev, VHOST_VDPA_GET_DEVICE_ID, device_id);
-+}
-+
-+static int vhost_vdpa_reset_device(struct vhost_dev *dev)
-+{
-+    uint8_t status = 0;
-+
-+    return vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
-+}
-+
-+static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
-+{
-+    assert(idx >= dev->vq_index && idx < dev->vq_index + dev->nvqs);
-+
-+    return idx - dev->vq_index;
-+}
-+
-+static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
-+{
-+    int i;
-+    for (i = 0; i < dev->nvqs; ++i) {
-+        struct vhost_vring_state state = {
-+            .index = dev->vq_index + i,
-+            .num = 1,
-+        };
-+        vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
-+    }
-+    return 0;
-+}
-+
-+static int vhost_vdpa_set_config(struct vhost_dev *dev, const uint8_t *data,
-+                                   uint32_t offset, uint32_t size,
-+                                   uint32_t flags)
-+{
-+    struct vhost_vdpa_config config;
-+    int ret;
-+    if ((size > VHOST_VDPA_MAX_CONFIG_SIZE) || (data == NULL)) {
-+        return -1;
-+    }
-+    memset(&config, 0, sizeof(struct vhost_vdpa_config));
-+    config.off = 0;
-+    config.len = size;
-+    memcpy(&config.buf, data, size);
-+    ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG, &config);
-+    return ret;
-+}
-+
-+static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
-+                                   uint32_t config_len)
-+{
-+    struct vhost_vdpa_config v_config;
-+    int ret;
-+
-+    memset(&v_config, 0, sizeof(struct vhost_vdpa_config));
-+    if (config == NULL) {
-+        return -1;
-+    }
-+    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_CONFIG, &v_config);
-+    if ((v_config.len > config_len) || (v_config.len == 0)) {
-+        return -EINVAL;
-+    }
-+    memcpy(config, &v_config.buf, config_len);
-+    return ret;
-+ }
-+
-+static int vhost_vdpa_set_state(struct vhost_dev *dev, bool started)
-+{
-+    if (started) {
-+        uint8_t status = 0;
-+
-+        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-+        vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
-+
-+        return !(status & VIRTIO_CONFIG_S_DRIVER_OK);
-+    } else {
-+        vhost_vdpa_reset_device(dev);
-+        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-+                                   VIRTIO_CONFIG_S_DRIVER);
-+        return 0;
-+    }
-+}
-+
-+const VhostOps vdpa_ops = {
-+        .backend_type = VHOST_BACKEND_TYPE_VDPA,
-+        .vhost_backend_init = vhost_vdpa_init,
-+        .vhost_backend_cleanup = vhost_vdpa_cleanup,
-+        .vhost_set_log_base = vhost_kernel_set_log_base,
-+        .vhost_set_vring_addr = vhost_kernel_set_vring_addr,
-+        .vhost_set_vring_num = vhost_kernel_set_vring_num,
-+        .vhost_set_vring_base = vhost_kernel_set_vring_base,
-+        .vhost_get_vring_base = vhost_kernel_get_vring_base,
-+        .vhost_set_vring_kick = vhost_kernel_set_vring_kick,
-+        .vhost_set_vring_call = vhost_kernel_set_vring_call,
-+        .vhost_get_features = vhost_kernel_get_features,
-+        .vhost_set_owner = vhost_kernel_set_owner,
-+        .vhost_set_vring_endian = NULL,
-+        .vhost_backend_memslots_limit = vhost_vdpa_memslots_limit,
-+        .vhost_set_mem_table = vhost_vdpa_set_mem_table,
-+        .vhost_set_features = vhost_vdpa_set_features,
-+        .vhost_reset_device = vhost_vdpa_reset_device,
-+        .vhost_get_vq_index = vhost_vdpa_get_vq_index,
-+        .vhost_set_vring_ready = vhost_vdpa_set_vring_ready,
-+        .vhost_get_config  = vhost_vdpa_get_config,
-+        .vhost_set_config = vhost_vdpa_set_config,
-+        .vhost_requires_shm_log = NULL,
-+        .vhost_migration_done = NULL,
-+        .vhost_backend_can_merge = NULL,
-+        .vhost_net_set_mtu = NULL,
-+        .vhost_set_iotlb_callback = NULL,
-+        .vhost_send_device_iotlb_msg = NULL,
-+        .vhost_set_state = vhost_vdpa_set_state,
-+        .vhost_get_device_id = vhost_vdpa_get_device_id,
-+};
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 01ebe12f28..b97aa02a4c 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -756,6 +756,12 @@ static int vhost_virtqueue_set_addr(struct vhost_dev *dev,
-         .log_guest_addr = vq->used_phys,
-         .flags = enable_log ? (1 << VHOST_VRING_F_LOG) : 0,
-     };
-+    /*vDPA need to use the phys address here to set to hardware*/
-+    if (dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA) {
-+        addr.desc_user_addr = (uint64_t)(unsigned long)vq->desc_phys;
-+        addr.avail_user_addr = (uint64_t)(unsigned long)vq->avail_phys;
-+        addr.used_user_addr = (uint64_t)(unsigned long)vq->used_phys;
-+    }
-     int r = dev->vhost_ops->vhost_set_vring_addr(dev, &addr);
-     if (r < 0) {
-         VHOST_OPS_DEBUG("vhost_set_vring_addr failed");
-@@ -1506,6 +1512,14 @@ int vhost_dev_set_config(struct vhost_dev *hdev, const uint8_t *data,
-     return -1;
- }
- 
-+int vhost_dev_get_device_id(struct vhost_dev *hdev, uint32_t *device_id)
-+{
-+    assert(hdev->vhost_ops);
-+    if (hdev->vhost_ops->vhost_get_device_id) {
-+        return hdev->vhost_ops->vhost_get_device_id(hdev, device_id);
-+    }
-+    return -1;
-+}
- void vhost_dev_set_config_notifier(struct vhost_dev *hdev,
-                                    const VhostDevConfigOps *ops)
- {
-@@ -1661,7 +1675,13 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
-         }
-     }
- 
--    if (vhost_dev_has_iommu(hdev)) {
-+    r = vhost_set_state(hdev, true);
-+    if (r) {
-+        goto fail_log;
-+    }
-+
-+    if (vhost_dev_has_iommu(hdev) &&
-+        hdev->vhost_ops->vhost_set_iotlb_callback) {
-         hdev->vhost_ops->vhost_set_iotlb_callback(hdev, true);
- 
-         /* Update used ring information for IOTLB to work correctly,
-@@ -1697,6 +1717,8 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
-     /* should only be called after backend is connected */
-     assert(hdev->vhost_ops);
- 
-+    vhost_set_state(hdev, false);
-+
-     for (i = 0; i < hdev->nvqs; ++i) {
-         vhost_virtqueue_stop(hdev,
-                              vdev,
-@@ -1705,7 +1727,9 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
-     }
- 
-     if (vhost_dev_has_iommu(hdev)) {
--        hdev->vhost_ops->vhost_set_iotlb_callback(hdev, false);
-+        if (hdev->vhost_ops->vhost_set_iotlb_callback) {
-+            hdev->vhost_ops->vhost_set_iotlb_callback(hdev, false);
-+        }
-         memory_listener_unregister(&hdev->iommu_listener);
-     }
-     vhost_log_put(hdev, true);
-@@ -1722,3 +1746,12 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
- 
-     return -1;
- }
-+
-+int vhost_set_state(struct vhost_dev *hdev, bool started)
-+{
-+    if (hdev->vhost_ops->vhost_set_state) {
-+        return hdev->vhost_ops->vhost_set_state(hdev, started);
-+    }
-+
-+    return 0;
-+}
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index 300b59c172..1ebe3785cf 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -17,7 +17,8 @@ typedef enum VhostBackendType {
-     VHOST_BACKEND_TYPE_NONE = 0,
-     VHOST_BACKEND_TYPE_KERNEL = 1,
-     VHOST_BACKEND_TYPE_USER = 2,
--    VHOST_BACKEND_TYPE_MAX = 3,
-+    VHOST_BACKEND_TYPE_VDPA = 3,
-+    VHOST_BACKEND_TYPE_MAX = 4,
- } VhostBackendType;
- 
- typedef enum VhostSetConfigType {
-@@ -77,6 +78,7 @@ typedef int (*vhost_reset_device_op)(struct vhost_dev *dev);
- typedef int (*vhost_get_vq_index_op)(struct vhost_dev *dev, int idx);
- typedef int (*vhost_set_vring_enable_op)(struct vhost_dev *dev,
-                                          int enable);
-+typedef int (*vhost_set_vring_ready_op)(struct vhost_dev *dev);
- typedef bool (*vhost_requires_shm_log_op)(struct vhost_dev *dev);
- typedef int (*vhost_migration_done_op)(struct vhost_dev *dev,
-                                        char *mac_addr);
-@@ -112,6 +114,8 @@ typedef int (*vhost_get_inflight_fd_op)(struct vhost_dev *dev,
- typedef int (*vhost_set_inflight_fd_op)(struct vhost_dev *dev,
-                                         struct vhost_inflight *inflight);
- 
-+typedef int (*vhost_set_state_op)(struct vhost_dev *dev, bool started);
-+typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
- typedef struct VhostOps {
-     VhostBackendType backend_type;
-     vhost_backend_init vhost_backend_init;
-@@ -138,6 +142,7 @@ typedef struct VhostOps {
-     vhost_reset_device_op vhost_reset_device;
-     vhost_get_vq_index_op vhost_get_vq_index;
-     vhost_set_vring_enable_op vhost_set_vring_enable;
-+    vhost_set_vring_ready_op vhost_set_vring_ready;
-     vhost_requires_shm_log_op vhost_requires_shm_log;
-     vhost_migration_done_op vhost_migration_done;
-     vhost_backend_can_merge_op vhost_backend_can_merge;
-@@ -152,9 +157,12 @@ typedef struct VhostOps {
-     vhost_backend_mem_section_filter_op vhost_backend_mem_section_filter;
-     vhost_get_inflight_fd_op vhost_get_inflight_fd;
-     vhost_set_inflight_fd_op vhost_set_inflight_fd;
-+    vhost_set_state_op vhost_set_state;
-+    vhost_get_device_id_op vhost_get_device_id;
- } VhostOps;
- 
- extern const VhostOps user_ops;
-+extern const VhostOps vdpa_ops;
- 
- int vhost_set_backend_type(struct vhost_dev *dev,
-                            VhostBackendType backend_type);
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-new file mode 100644
-index 0000000000..6455663388
---- /dev/null
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -0,0 +1,26 @@
++++ b/include/net/vhost-vdpa.h
+@@ -0,0 +1,19 @@
 +/*
 + * vhost-vdpa.h
 + *
@@ -891,91 +126,354 @@ index 0000000000..6455663388
 + *
 + */
 +
-+#ifndef HW_VIRTIO_VHOST_VDPA_H
-+#define HW_VIRTIO_VHOST_VDPA_H
++#ifndef VHOST_VDPA_H
++#define VHOST_VDPA_H
 +
-+#include "hw/virtio/virtio.h"
++struct vhost_net;
++struct vhost_net *vhost_vdpa_get_vhost_net(NetClientState *nc);
++uint64_t vhost_vdpa_get_acked_features(NetClientState *nc);
 +
-+typedef struct vhost_vdpa {
-+    int device_fd;
-+    uint32_t msg_type;
-+    MemoryListener listener;
-+} VhostVDPA;
-+
-+extern AddressSpace address_space_memory;
-+extern int vhost_vdpa_get_device_id(struct vhost_dev *dev,
-+                                   uint32_t *device_id);
-+#endif
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 085450c6f8..b682545f51 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -124,6 +124,7 @@ int vhost_dev_get_config(struct vhost_dev *dev, uint8_t *config,
-                          uint32_t config_len);
- int vhost_dev_set_config(struct vhost_dev *dev, const uint8_t *data,
-                          uint32_t offset, uint32_t size, uint32_t flags);
-+int vhost_dev_get_device_id(struct vhost_dev *hdev, uint32_t *device_id);
- /* notifier callback in case vhost device config space changed
-  */
- void vhost_dev_set_config_notifier(struct vhost_dev *dev,
-@@ -137,4 +138,5 @@ int vhost_dev_set_inflight(struct vhost_dev *dev,
-                            struct vhost_inflight *inflight);
- int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
-                            struct vhost_inflight *inflight);
-+int vhost_set_state(struct vhost_dev *dev, bool started);
- #endif
++#endif /* VHOST_VDPA_H */
 diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
-index 8a6f208189..56e67fe164 100644
+index 56e67fe164..0b87d3c6e9 100644
 --- a/include/net/vhost_net.h
 +++ b/include/net/vhost_net.h
-@@ -40,5 +40,5 @@ int vhost_set_vring_ready(NetClientState *nc);
- uint64_t vhost_net_get_acked_features(VHostNetState *net);
+@@ -41,4 +41,4 @@ uint64_t vhost_net_get_acked_features(VHostNetState *net);
  
  int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
+ int vhost_net_get_device_id(struct vhost_net *net, uint32_t *device_id);
+-endif
++#endif
+diff --git a/net/Makefile.objs b/net/Makefile.objs
+index c5d076d19c..5ab45545db 100644
+--- a/net/Makefile.objs
++++ b/net/Makefile.objs
+@@ -26,7 +26,7 @@ tap-obj-$(CONFIG_SOLARIS) = tap-solaris.o
+ tap-obj-y ?= tap-stub.o
+ common-obj-$(CONFIG_POSIX) += tap.o $(tap-obj-y)
+ common-obj-$(CONFIG_WIN32) += tap-win32.o
 -
--#endif
-+int vhost_net_get_device_id(struct vhost_net *net, uint32_t *device_id);
-+endif
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 292d4e7c0c..c19e10ce9c 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2409,6 +2409,10 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
- #ifdef CONFIG_POSIX
-     "-netdev vhost-user,id=str,chardev=dev[,vhostforce=on|off]\n"
-     "                configure a vhost-user network, backed by a chardev 'dev'\n"
-+#endif
-+#ifdef CONFIG_POSIX
-+    "-netdev vhost-vdpa,id=str,vhostdev=/path/to/dev\n"
-+    "                configure a vhost-vdpa network,Establish a vhost-vdpa netdev\n"
- #endif
-     "-netdev hubport,id=str,hubid=n[,netdev=nd]\n"
-     "                configure a hub port on the hub with ID 'n'\n", QEMU_ARCH_ALL)
-@@ -2428,6 +2432,9 @@ DEF("nic", HAS_ARG, QEMU_OPTION_nic,
- #endif
- #ifdef CONFIG_POSIX
-     "vhost-user|"
-+#endif
-+#ifdef CONFIG_POSIX
-+    "vhost-vdpa|"
- #endif
-     "socket][,option][,...][mac=macaddr]\n"
-     "                initialize an on-board / default host NIC (using MAC address\n"
-@@ -2896,6 +2903,14 @@ SRST
-     hubport to another netdev with ID nd by using the ``netdev=nd``
-     option.
++common-obj-$(CONFIG_VHOST_NET_VDPA) += vhost-vdpa.o
+ vde.o-libs = $(VDE_LIBS)
  
-+``-netdev vhost-vdpa,vhostdev=/path/to/dev ``
-+    Establish a vhost-vdpa netdev.
+ common-obj-$(CONFIG_CAN_BUS) += can/
+diff --git a/net/clients.h b/net/clients.h
+index a6ef267e19..92f9b59aed 100644
+--- a/net/clients.h
++++ b/net/clients.h
+@@ -61,4 +61,6 @@ int net_init_netmap(const Netdev *netdev, const char *name,
+ int net_init_vhost_user(const Netdev *netdev, const char *name,
+                         NetClientState *peer, Error **errp);
+ 
++int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
++                        NetClientState *peer, Error **errp);
+ #endif /* QEMU_NET_CLIENTS_H */
+diff --git a/net/net.c b/net/net.c
+index 599fb61028..82624ea9ac 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -965,6 +965,9 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+ #ifdef CONFIG_VHOST_NET_USER
+         [NET_CLIENT_DRIVER_VHOST_USER] = net_init_vhost_user,
+ #endif
++#ifdef CONFIG_VHOST_NET_VDPA
++        [NET_CLIENT_DRIVER_VHOST_VDPA] = net_init_vhost_vdpa,
++#endif
+ #ifdef CONFIG_L2TPV3
+         [NET_CLIENT_DRIVER_L2TPV3]    = net_init_l2tpv3,
+ #endif
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+new file mode 100644
+index 0000000000..7b98c142b5
+--- /dev/null
++++ b/net/vhost-vdpa.c
+@@ -0,0 +1,235 @@
++/*
++ * vhost-vdpa.c
++ *
++ * Copyright(c) 2017-2018 Intel Corporation.
++ * Copyright(c) 2020 Red Hat, Inc.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
 +
-+    vDPA device is a device that uses a datapath which complies with
-+    the virtio specifications with a vendor specific control path.
-+    vDPA devices can be both physically located on the hardware or
-+    emulated by software.
++#include "qemu/osdep.h"
++#include "clients.h"
++#include "net/vhost_net.h"
++#include "net/vhost-vdpa.h"
++#include "hw/virtio/vhost-vdpa.h"
++#include "qemu/config-file.h"
++#include "qemu/error-report.h"
++#include "qemu/option.h"
++#include "qapi/error.h"
++#include <sys/ioctl.h>
++#include <err.h>
++#include "standard-headers/linux/virtio_net.h"
++#include "monitor/monitor.h"
++#include "hw/virtio/vhost.h"
 +
- ``-net nic[,netdev=nd][,macaddr=mac][,model=type] [,name=name][,addr=addr][,vectors=v]``
-     Legacy option to configure or create an on-board (or machine
-     default) Network Interface Card(NIC) and connect it either to the
++/* Todo:need to add the multiqueue support here */
++typedef struct VhostVDPAState {
++    NetClientState nc;
++    struct vhost_vdpa vhost_vdpa;
++    VHostNetState *vhost_net;
++    uint64_t acked_features;
++    bool started;
++} VhostVDPAState;
++
++VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
++{
++    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
++    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
++    return s->vhost_net;
++}
++
++uint64_t vhost_vdpa_get_acked_features(NetClientState *nc)
++{
++    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
++    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
++    return s->acked_features;
++}
++
++static int vhost_vdpa_check_device_id(NetClientState *nc)
++{
++    uint32_t device_id;
++    int ret;
++    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
++    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
++    /* Get the device id from hw*/
++    ret = vhost_net_get_device_id(s->vhost_net, &device_id);
++    if (device_id != VIRTIO_ID_NET) {
++        return -ENOTSUP;
++    }
++    return ret;
++}
++
++static void vhost_vdpa_del(NetClientState *ncs)
++{
++    VhostVDPAState *s;
++
++    assert(ncs->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
++
++    s = DO_UPCAST(VhostVDPAState, nc, ncs);
++
++    if (s->vhost_net) {
++        /* save acked features */
++        uint64_t features = vhost_net_get_acked_features(s->vhost_net);
++        if (features) {
++            s->acked_features = features;
++        }
++        vhost_net_cleanup(s->vhost_net);
++    }
++}
++
++static int vhost_vdpa_add(NetClientState *ncs, void *be)
++{
++    VhostNetOptions options;
++    struct vhost_net *net = NULL;
++    VhostVDPAState *s;
++    int ret;
++
++    options.backend_type = VHOST_BACKEND_TYPE_VDPA;
++
++    assert(ncs->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
++
++    s = DO_UPCAST(VhostVDPAState, nc, ncs);
++
++    options.net_backend = ncs;
++    options.opaque      = be;
++    options.busyloop_timeout = 0;
++    net = vhost_net_init(&options);
++    if (!net) {
++        error_report("failed to init vhost_net for queue");
++        goto err;
++    }
++
++    if (s->vhost_net) {
++        vhost_net_cleanup(s->vhost_net);
++        g_free(s->vhost_net);
++    }
++    s->vhost_net = net;
++    /* check the device id for vdpa */
++    ret = vhost_vdpa_check_device_id(ncs);
++    if (ret) {
++        goto err;
++    }
++    return 0;
++err:
++    if (net) {
++        vhost_net_cleanup(net);
++    }
++    vhost_vdpa_del(ncs);
++    return -1;
++}
++
++static void vhost_vdpa_cleanup(NetClientState *nc)
++{
++    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
++
++    if (s->vhost_net) {
++        vhost_net_cleanup(s->vhost_net);
++        g_free(s->vhost_net);
++        s->vhost_net = NULL;
++    }
++
++    qemu_purge_queued_packets(nc);
++}
++
++static bool vhost_vdpa_has_vnet_hdr(NetClientState *nc)
++{
++    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
++
++    return true;
++}
++
++static bool vhost_vdpa_has_ufo(NetClientState *nc)
++{
++    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
++    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
++    uint64_t  features = 0;
++
++    features |= (1ULL << VIRTIO_NET_F_HOST_UFO);
++    features = vhost_net_get_features(s->vhost_net, features);
++    return !!(features & (1ULL << VIRTIO_NET_F_HOST_UFO));
++
++}
++
++static NetClientInfo net_vhost_vdpa_info = {
++        .type = NET_CLIENT_DRIVER_VHOST_VDPA,
++        .size = sizeof(VhostVDPAState),
++        .cleanup = vhost_vdpa_cleanup,
++        .has_vnet_hdr = vhost_vdpa_has_vnet_hdr,
++        .has_ufo = vhost_vdpa_has_ufo,
++};
++
++static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
++                               const char *name, const char *vhostdev,
++                               bool has_fd, char *fd)
++{
++    NetClientState *nc = NULL;
++    VhostVDPAState *s;
++    int vdpa_device_fd = -1;
++    Error *err = NULL;
++    int ret = 0;
++    assert(name);
++
++    nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device, name);
++    snprintf(nc->info_str, sizeof(nc->info_str), "vhost-vdpa");
++    nc->queue_index = 0;
++
++    s = DO_UPCAST(VhostVDPAState, nc, nc);
++
++    if (has_fd) {
++        vdpa_device_fd = monitor_fd_param(cur_mon, fd, &err);
++    } else{
++        vdpa_device_fd = open(vhostdev, O_RDWR);
++    }
++
++    if (vdpa_device_fd == -1) {
++        return -errno;
++    }
++    s->vhost_vdpa.device_fd = vdpa_device_fd;
++    ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa);
++    assert(s->vhost_net);
++
++    if (ret) {
++        if (has_fd) {
++            close(vdpa_device_fd);
++        }
++    }
++    return ret;
++}
++
++static int net_vhost_check_net(void *opaque, QemuOpts *opts, Error **errp)
++{
++    const char *name = opaque;
++    const char *driver, *netdev;
++
++    driver = qemu_opt_get(opts, "driver");
++    netdev = qemu_opt_get(opts, "netdev");
++    if (!driver || !netdev) {
++        return 0;
++    }
++
++    if (strcmp(netdev, name) == 0 &&
++        !g_str_has_prefix(driver, "virtio-net-")) {
++        error_setg(errp, "vhost-vdpa requires frontend driver virtio-net-*");
++        return -1;
++    }
++
++    return 0;
++}
++
++int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
++                        NetClientState *peer, Error **errp)
++{
++    const NetdevVhostVDPAOptions *opts;
++
++    assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
++    opts = &netdev->u.vhost_vdpa;
++    /* verify net frontend */
++    if (qemu_opts_foreach(qemu_find_opts("device"), net_vhost_check_net,
++                          (char *)name, errp)) {
++        return -1;
++    }
++    return net_vhost_vdpa_init(peer, "vhost_vdpa", name, opts->vhostdev,
++                    opts->has_fd, opts->fd);
++}
+diff --git a/qapi/net.json b/qapi/net.json
+index cebb1b52e3..37507ce9ba 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -428,6 +428,27 @@
+     '*vhostforce':    'bool',
+     '*queues':        'int' } }
+ 
++##
++# @NetdevVhostVDPAOptions:
++#
++# Vhost-vdpa network backend
++#
++# @vhostdev: name of a vdpa dev path in sysfs
++#            (default path:/dev/vhost-vdpa-$ID)
++#
++# @fd: file descriptor of an already opened vdpa device
++#
++# @queues: number of queues to be created for multiqueue vhost-vdpa
++#          (default: 1)
++#
++# Since: 5.1
++##
++{ 'struct': 'NetdevVhostVDPAOptions',
++  'data': {
++    '*vhostdev':     'str',
++    '*fd':           'str',
++    '*queues':       'int' } }
++
+ ##
+ # @NetClientDriver:
+ #
+@@ -437,7 +458,7 @@
+ ##
+ { 'enum': 'NetClientDriver',
+   'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+-            'bridge', 'hubport', 'netmap', 'vhost-user' ] }
++            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
+ 
+ ##
+ # @Netdev:
+@@ -465,7 +486,8 @@
+     'bridge':   'NetdevBridgeOptions',
+     'hubport':  'NetdevHubPortOptions',
+     'netmap':   'NetdevNetmapOptions',
+-    'vhost-user': 'NetdevVhostUserOptions' } }
++    'vhost-user': 'NetdevVhostUserOptions',
++    'vhost-vdpa': 'NetdevVhostVDPAOptions' } }
+ 
+ ##
+ # @NetLegacy:
 -- 
 2.21.1
 
