@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 458061E77EF
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 10:12:13 +0200 (CEST)
-Received: from localhost ([::1]:36540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4919E1E786C
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 10:32:58 +0200 (CEST)
+Received: from localhost ([::1]:47570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jea7f-0004Pv-Mv
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 04:12:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56958)
+	id 1jeaRR-0007WB-Gu
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 04:32:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jea6R-0003in-6y
- for qemu-devel@nongnu.org; Fri, 29 May 2020 04:10:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57914)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jeaQ8-00075N-9C
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 04:31:16 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40496)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jea6P-0008CO-Ux
- for qemu-devel@nongnu.org; Fri, 29 May 2020 04:10:54 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jea6N-0006EG-My
- for <qemu-devel@nongnu.org>; Fri, 29 May 2020 08:10:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id ACDD02E80E7
- for <qemu-devel@nongnu.org>; Fri, 29 May 2020 08:10:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jeaQ7-0007V0-4K
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 04:31:15 -0400
+Received: by mail-wm1-x341.google.com with SMTP id r15so2342360wmh.5
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 01:31:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Q15pkxLoNW0siDV3tqKTbyoCaayDbCzMhARK3OPwees=;
+ b=poWPHWm2LZMe+S0atWBC6j5cpL21l6wdfj/AscO0tuHARsi3UnzmFt6QA3avU7iGoG
+ O19zxnxyhaZvmlpkjZERTNBJDzjBvn109D/kVj+7r9MRAFOEJeJHV2YBIzZLMl8cULaD
+ SAjthVo46Es36DgaOBnw0l5PRH6+DCWJroxy6hym7uanTZr7bGB0/Y8pgwztYYZYrsn2
+ 5ECIa2ka38Wgy/KPj2gaq1lpdn6ADUPJr3TCAtNJ0zT/Kz1XfE9rpMVBJihssYC0Y4KL
+ 4WbAAQfdxXGA2YmFKAYHUolPaUSADOBjC965OwXk1dFRdq7kx/eOSe6Oq8HjpT1CLfK3
+ 0l5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Q15pkxLoNW0siDV3tqKTbyoCaayDbCzMhARK3OPwees=;
+ b=sl6rYmy35fM33FHjUnpxg2kTc1sv7WumZU78GumAsodw7aCw4Q8wyvr3/b96MYw0/X
+ 10RoBsF3SrdvWNOJ4ukevzkyzthqvbPvKdoTTMf9GT3cu++dYKy04tjMdwl4klPRWHZ1
+ BD9oXDEQT7OoO0plQ4T7icHKWv0Gu9dpwqy87vdcOB2G1KmhmOCwLEwuPes3f7VAWOfo
+ ZmqY8rPAkWYdSa/vOMmoIUGetKw8QX3ko5WGeuSipUf+kVCdyFAvaAj1UQDy4dGO6qt/
+ Rqo7NEQLPET2rmzNz2uYa2rf9ZMLl4IBXsxatGIdOOXUXPNnlFa6jYIJiglCwueceyzw
+ dvcA==
+X-Gm-Message-State: AOAM530g6wI9gdG4bcdg5JjgYDaWzaHv0ukzSU5ogDGieHaGH8BUPZSj
+ /6p505thsbIIY4ku1uF2pe9TDg==
+X-Google-Smtp-Source: ABdhPJy/s38kVEHkqq9RWE/rWzn5hUkxHrgeB+M18ikLDvWgQfRDO9QTey1oFCLLDHyBOHFlxkJxmg==
+X-Received: by 2002:a1c:de46:: with SMTP id v67mr7368547wmg.146.1590741072753; 
+ Fri, 29 May 2020 01:31:12 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j190sm10497501wmb.33.2020.05.29.01.31.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 May 2020 01:31:11 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AF5FE1FF7E;
+ Fri, 29 May 2020 09:31:10 +0100 (BST)
+References: <20200529072148.284037-1-kbastian@mail.uni-paderborn.de>
+ <20200529072148.284037-6-kbastian@mail.uni-paderborn.de>
+User-agent: mu4e 1.5.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Subject: Re: [PATCH v2 5/5] target/tricore: Implement gdbstub
+In-reply-to: <20200529072148.284037-6-kbastian@mail.uni-paderborn.de>
+Date: Fri, 29 May 2020 09:31:10 +0100
+Message-ID: <87y2pb2ldd.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 29 May 2020 08:02:26 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1881249@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm m68k reset
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <159073846050.5787.14804870953764762248.malonedeb@wampee.canonical.com>
-Message-Id: <159073934667.14426.6841764443030028250.malone@soybean.canonical.com>
-Subject: [Bug 1881249] Re: CPU fetch from unpopulated ROM on reset
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="275d46a24253e557e4403d52832837e4bfa425b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 957c28b18d0d2bbbab2376a3a1ba5d8e8f83d9d6
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 02:40:58
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,55 +89,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1881249 <1881249@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Related (invalidated thus rejected) series:
 
-- https://www.mail-archive.com/qemu-devel@nongnu.org/msg683763.html
+Bastian Koppelmann <kbastian@mail.uni-paderborn.de> writes:
 
-"Support device reset handler priority configuration"
+> Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 
-This series adds support for configuring device reset handler priority, and =
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-uses it to ensure that the ARMv7-M CPU reset handler is invoked after the R=
-OM =
-
-reset handler.
-
-- https://www.mail-archive.com/qemu-devel@nongnu.org/msg686413.html
-
-"Avoid latent bug calling cpu_reset() on uninitialized vCPU"
-
-cpu_reset() might modify architecture-specific fields allocated
-by qemu_init_vcpu(). To avoid bugs similar to the one fixed in
-commit 00d0f7cb66 when introducing new architectures, move the
-cpu_reset() calls after qemu_init_vcpu().
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1881249
-
-Title:
-  CPU fetch from unpopulated ROM on reset
-
-Status in QEMU:
-  New
-
-Bug description:
-  Some architectures fetch the $PC/$SP register as vectors in memory, usual=
-ly ROM.
-  The CPU reset() handler is called before the ROM code is populated, resul=
-ting in fetching incorrect PC/SP.
-
-  Architectures affected:
-  - M68K
-  - RX
-  - ARM M-profile
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1881249/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
