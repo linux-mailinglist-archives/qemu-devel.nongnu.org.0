@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14EF41E8014
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 16:21:03 +0200 (CEST)
-Received: from localhost ([::1]:45390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F241E8021
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 16:24:29 +0200 (CEST)
+Received: from localhost ([::1]:58118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jefsc-00038n-4B
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 10:21:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55740)
+	id 1jefvw-0000Fg-Rn
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 10:24:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jefiT-0005BP-0N
- for qemu-devel@nongnu.org; Fri, 29 May 2020 10:10:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37087
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jefus-00070M-Vv
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 10:23:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25623
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jefiQ-0006B5-PF
- for qemu-devel@nongnu.org; Fri, 29 May 2020 10:10:31 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jefur-00086g-D9
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 10:23:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590761429;
+ s=mimecast20190719; t=1590762198;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Opb4ICj/RJNY7bhW1ya4SaMYB/sKjJiaXY0i6jq720A=;
- b=h2Pb2wbXKWtITJ1DVOPJrUo8mUryTxXccbcLUv+gMY3WtKeumBEVP+rFkxdldalDLvqsUh
- do2pLIjtt4RRRLPX/N8/vzXCyojoO44LvtdVNNZV7yllRFCPsM2yXhOTbtBLuQmNXs3PL2
- jq0cRmmK3UAZWv9kE21r8kYFHMU+0NI=
+ bh=iXIE7hG/7ijwz7IRFpnESy894umcO9H/9SZv7iyp8FA=;
+ b=AKpYNdHeHLIIbtbfMN2Mp5uVfuHzH0OPhmYXI6fOzj85FU07SGCCoZnG4sZGam3TP179gH
+ W3FccBxiqY2iA4rU7CF6/5UuqS+Xrhr/r+Ya4/kbxNYaU2bt+s11gM53PubvNngtXJFBLW
+ pd+hu4qprJkvNetCHnC0PvNtTc7KDig=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-1dgEwCNxMVecpWGz7q4VMg-1; Fri, 29 May 2020 10:10:28 -0400
-X-MC-Unique: 1dgEwCNxMVecpWGz7q4VMg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-335-spV136MGPh-CgK9fhVt9_A-1; Fri, 29 May 2020 10:23:09 -0400
+X-MC-Unique: spV136MGPh-CgK9fhVt9_A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79E5518A8223;
- Fri, 29 May 2020 14:10:25 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-13-84.pek2.redhat.com [10.72.13.84])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E4905D9D5;
- Fri, 29 May 2020 14:10:08 +0000 (UTC)
-From: Cindy Lu <lulu@redhat.com>
-To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
- jasowang@redhat.com
-Subject: [RFC v3 6/8] vhost-backend: export the vhost backend helper
-Date: Fri, 29 May 2020 22:06:18 +0800
-Message-Id: <20200529140620.28759-7-lulu@redhat.com>
-In-Reply-To: <20200529140620.28759-1-lulu@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DF15800D24;
+ Fri, 29 May 2020 14:23:07 +0000 (UTC)
+Received: from [10.3.112.88] (ovpn-112-88.phx2.redhat.com [10.3.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D5AB1001B0B;
+ Fri, 29 May 2020 14:22:50 +0000 (UTC)
+Subject: Re: [RFC v3 8/8] vhost-vdpa: introduce vhost-vdpa net client
+To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, armbru@redhat.com,
+ cohuck@redhat.com, jasowang@redhat.com
 References: <20200529140620.28759-1-lulu@redhat.com>
+ <20200529140620.28759-9-lulu@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <5595226b-dd22-9dc8-fa82-cdabb7a7df52@redhat.com>
+Date: Fri, 29 May 2020 09:22:49 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200529140620.28759-9-lulu@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=lulu@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:34:27
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -65,7 +70,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,167 +84,92 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
- saugatm@xilinx.com, lulu@redhat.com, hanand@xilinx.com, hch@infradead.org,
- eperezma@redhat.com, jgg@mellanox.com, shahafs@mellanox.com,
- kevin.tian@intel.com, parav@mellanox.com, vmireyno@marvell.com,
- cunming.liang@intel.com, gdawar@xilinx.com, jiri@mellanox.com,
- xiao.w.wang@intel.com, stefanha@redhat.com, zhihong.wang@intel.com,
+ saugatm@xilinx.com, hanand@xilinx.com, hch@infradead.org, eperezma@redhat.com,
+ jgg@mellanox.com, shahafs@mellanox.com, kevin.tian@intel.com,
+ parav@mellanox.com, vmireyno@marvell.com, cunming.liang@intel.com,
+ gdawar@xilinx.com, jiri@mellanox.com, xiao.w.wang@intel.com,
+ stefanha@redhat.com, zhihong.wang@intel.com, Tiwei Bie <tiwei.bie@intel.com>,
  aadam@redhat.com, rdunlap@infradead.org, maxime.coquelin@redhat.com,
  lingshan.zhu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-export the helper then we can reuse some of them in vhost-vdpa
+On 5/29/20 9:06 AM, Cindy Lu wrote:
+> From: Tiwei Bie <tiwei.bie@intel.com>
+> 
+> This patch set introduces a new net client type: vhost-vdpa.
+> vhost-vdpa net client will set up a vDPA device which is specified
+> by a "vhostdev" parameter.
+> 
+> Co-authored-by: Lingshan Zhu <lingshan.zhu@intel.com>
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> ---
 
-Signed-off-by: Cindy Lu <lulu@redhat.com>
----
- hw/virtio/vhost-backend.c         | 34 ++++++++++++++++++-------------
- include/hw/virtio/vhost-backend.h | 28 +++++++++++++++++++++++++
- 2 files changed, 48 insertions(+), 14 deletions(-)
+> +static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
+> +                               const char *name, const char *vhostdev,
+> +                               bool has_fd, char *fd)
+> +{
 
-diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
-index 48905383f8..42efb4967b 100644
---- a/hw/virtio/vhost-backend.c
-+++ b/hw/virtio/vhost-backend.c
-@@ -14,7 +14,7 @@
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
- #include "standard-headers/linux/vhost_types.h"
--
-+#include "hw/virtio/vhost-vdpa.h"
- #ifdef CONFIG_VHOST_KERNEL
- #include <linux/vhost.h>
- #include <sys/ioctl.h>
-@@ -22,10 +22,16 @@
- static int vhost_kernel_call(struct vhost_dev *dev, unsigned long int request,
-                              void *arg)
- {
--    int fd = (uintptr_t) dev->opaque;
--
--    assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_KERNEL);
--
-+    int fd = -1;
-+    struct vhost_vdpa *v = NULL;
-+    if (dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_KERNEL) {
-+        fd  = (uintptr_t) dev->opaque;
-+    }
-+    if (dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA) {
-+        v = dev->opaque;
-+        fd = v->device_fd;
-+    }
-+    assert(fd != -1);
-     return ioctl(fd, request, arg);
- }
- 
-@@ -89,7 +95,7 @@ static int vhost_kernel_scsi_get_abi_version(struct vhost_dev *dev, int *version
-     return vhost_kernel_call(dev, VHOST_SCSI_GET_ABI_VERSION, version);
- }
- 
--static int vhost_kernel_set_log_base(struct vhost_dev *dev, uint64_t base,
-+int vhost_kernel_set_log_base(struct vhost_dev *dev, uint64_t base,
-                                      struct vhost_log *log)
- {
-     return vhost_kernel_call(dev, VHOST_SET_LOG_BASE, &base);
-@@ -101,7 +107,7 @@ static int vhost_kernel_set_mem_table(struct vhost_dev *dev,
-     return vhost_kernel_call(dev, VHOST_SET_MEM_TABLE, mem);
- }
- 
--static int vhost_kernel_set_vring_addr(struct vhost_dev *dev,
-+int vhost_kernel_set_vring_addr(struct vhost_dev *dev,
-                                        struct vhost_vring_addr *addr)
- {
-     return vhost_kernel_call(dev, VHOST_SET_VRING_ADDR, addr);
-@@ -113,31 +119,31 @@ static int vhost_kernel_set_vring_endian(struct vhost_dev *dev,
-     return vhost_kernel_call(dev, VHOST_SET_VRING_ENDIAN, ring);
- }
- 
--static int vhost_kernel_set_vring_num(struct vhost_dev *dev,
-+int vhost_kernel_set_vring_num(struct vhost_dev *dev,
-                                       struct vhost_vring_state *ring)
- {
-     return vhost_kernel_call(dev, VHOST_SET_VRING_NUM, ring);
- }
- 
--static int vhost_kernel_set_vring_base(struct vhost_dev *dev,
-+int vhost_kernel_set_vring_base(struct vhost_dev *dev,
-                                        struct vhost_vring_state *ring)
- {
-     return vhost_kernel_call(dev, VHOST_SET_VRING_BASE, ring);
- }
- 
--static int vhost_kernel_get_vring_base(struct vhost_dev *dev,
-+int vhost_kernel_get_vring_base(struct vhost_dev *dev,
-                                        struct vhost_vring_state *ring)
- {
-     return vhost_kernel_call(dev, VHOST_GET_VRING_BASE, ring);
- }
- 
--static int vhost_kernel_set_vring_kick(struct vhost_dev *dev,
-+int vhost_kernel_set_vring_kick(struct vhost_dev *dev,
-                                        struct vhost_vring_file *file)
- {
-     return vhost_kernel_call(dev, VHOST_SET_VRING_KICK, file);
- }
- 
--static int vhost_kernel_set_vring_call(struct vhost_dev *dev,
-+int vhost_kernel_set_vring_call(struct vhost_dev *dev,
-                                        struct vhost_vring_file *file)
- {
-     return vhost_kernel_call(dev, VHOST_SET_VRING_CALL, file);
-@@ -155,13 +161,13 @@ static int vhost_kernel_set_features(struct vhost_dev *dev,
-     return vhost_kernel_call(dev, VHOST_SET_FEATURES, &features);
- }
- 
--static int vhost_kernel_get_features(struct vhost_dev *dev,
-+int vhost_kernel_get_features(struct vhost_dev *dev,
-                                      uint64_t *features)
- {
-     return vhost_kernel_call(dev, VHOST_GET_FEATURES, features);
- }
- 
--static int vhost_kernel_set_owner(struct vhost_dev *dev)
-+int vhost_kernel_set_owner(struct vhost_dev *dev)
- {
-     return vhost_kernel_call(dev, VHOST_SET_OWNER, NULL);
- }
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index 6f6670783f..300b59c172 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -172,4 +172,32 @@ int vhost_backend_handle_iotlb_msg(struct vhost_dev *dev,
- 
- int vhost_user_gpu_set_socket(struct vhost_dev *dev, int fd);
- 
-+
-+int vhost_kernel_set_log_base(struct vhost_dev *dev, uint64_t base,
-+                                     struct vhost_log *log);
-+
-+int vhost_kernel_set_vring_addr(struct vhost_dev *dev,
-+                                       struct vhost_vring_addr *addr);
-+
-+int vhost_kernel_set_vring_num(struct vhost_dev *dev,
-+                                      struct vhost_vring_state *ring);
-+
-+int vhost_kernel_set_vring_base(struct vhost_dev *dev,
-+                                       struct vhost_vring_state *ring);
-+
-+int vhost_kernel_get_vring_base(struct vhost_dev *dev,
-+                                       struct vhost_vring_state *ring);
-+
-+int vhost_kernel_set_vring_kick(struct vhost_dev *dev,
-+                                       struct vhost_vring_file *file);
-+
-+int vhost_kernel_set_vring_call(struct vhost_dev *dev,
-+                                       struct vhost_vring_file *file);
-+
-+int vhost_kernel_set_owner(struct vhost_dev *dev);
-+
-+int vhost_kernel_get_features(struct vhost_dev *dev,
-+                                     uint64_t *features);
-+
-+
- #endif /* VHOST_BACKEND_H */
+fd is usually an int, not a string.
+
+> +    NetClientState *nc = NULL;
+> +    VhostVDPAState *s;
+> +    int vdpa_device_fd = -1;
+> +    Error *err = NULL;
+> +    int ret = 0;
+> +    assert(name);
+> +
+> +    nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device, name);
+> +    snprintf(nc->info_str, sizeof(nc->info_str), "vhost-vdpa");
+> +    nc->queue_index = 0;
+> +
+> +    s = DO_UPCAST(VhostVDPAState, nc, nc);
+> +
+> +    if (has_fd) {
+> +        vdpa_device_fd = monitor_fd_param(cur_mon, fd, &err);
+> +    } else{
+> +        vdpa_device_fd = open(vhostdev, O_RDWR);
+> +    }
+
+Oh, you're trying to use the old way for passing in fds.  The preferred 
+way is to use qemu_open(), at which point you can pass in fds via the 
+add-fd QMP command, and then pass the string "/dev/fdset/NNN" as 
+vhostdev.  Then you don't need a special fd parameter here.
+
+> +++ b/qapi/net.json
+> @@ -428,6 +428,27 @@
+>       '*vhostforce':    'bool',
+>       '*queues':        'int' } }
+>   
+> +##
+> +# @NetdevVhostVDPAOptions:
+> +#
+> +# Vhost-vdpa network backend
+> +#
+> +# @vhostdev: name of a vdpa dev path in sysfs
+> +#            (default path:/dev/vhost-vdpa-$ID)
+> +#
+> +# @fd: file descriptor of an already opened vdpa device
+> +#
+> +# @queues: number of queues to be created for multiqueue vhost-vdpa
+> +#          (default: 1)
+> +#
+> +# Since: 5.1
+> +##
+> +{ 'struct': 'NetdevVhostVDPAOptions',
+> +  'data': {
+> +    '*vhostdev':     'str',
+> +    '*fd':           'str',
+> +    '*queues':       'int' } }
+
+Instead of having vhostdev and fd both be optional (but where the user 
+has to specify exactly one of them), you should only have vhostdev be 
+mandatory, and rely on the /dev/fdset/NNN string as a way to get 
+vhostdev to point to a previously-passed fd.
+
 -- 
-2.21.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
