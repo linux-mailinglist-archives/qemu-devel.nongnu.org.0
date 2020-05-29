@@ -2,71 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3A61E876D
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 21:14:43 +0200 (CEST)
-Received: from localhost ([::1]:36020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 312521E87AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 21:24:54 +0200 (CEST)
+Received: from localhost ([::1]:41162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jekSo-0002Lv-7E
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 15:14:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59402)
+	id 1jekce-00009c-Q5
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 15:24:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jekRq-0001w7-H2
- for qemu-devel@nongnu.org; Fri, 29 May 2020 15:13:42 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:44681)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jekRo-0001e0-UJ
- for qemu-devel@nongnu.org; Fri, 29 May 2020 15:13:42 -0400
-Received: by mail-il1-x143.google.com with SMTP id j3so3527350ilk.11
- for <qemu-devel@nongnu.org>; Fri, 29 May 2020 12:13:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=18PMaFGqx3ZQQaSbzUFmorqZGVmmD38umv1uirOCgAE=;
- b=fBzRthNa2BvKUu6iAfW9BY+ICOzqC8dlooQyAElhYnsJV4V4wbQfAQ+3VGvFuCD5Hd
- +wt+UmwGcJyLu2xHG0UFT2YneoECKirfMc8dy6gSRhqhX2A+63vge3u7MpdmF+nhR3zQ
- rV8W7qXHbL6fRzFZpkY2rPgV2PqBRAoDM1K2Bdrna35Qtr0uNNxrc66EWuDnmuwpnFuj
- I3lG7yzUbcoE5Fs62tju/vGpFxOZ80ihN3gsp1cV82GGadWDKKnlg5ZrYdtpBjk/yHmA
- GVd63uMBasscPFhN4wuxTAatVOTKRR3Mjzov0c0AJtMg4AOKEA7Onk83yRqtArqlc7V2
- MdtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=18PMaFGqx3ZQQaSbzUFmorqZGVmmD38umv1uirOCgAE=;
- b=abAbcQmoXJg+FBU4aLdCmICYXrMkHlovVtDRlTRSPs8uOxdTqY3k6raS8ThkXG0RC+
- wBhHznmT9RFCQIhNvlyCf2xCHF83IA8CqNSdVNex80+A+P9AvIr6n5ONXfCDqIRLvF00
- KcwlaxU9r1ykVicAfVODh96liIxZ/ZXpLks1Nm/zP6hX9gHQxvZiod/hXfx7IOotT00o
- scizb5BWtfHu2d8xnH4klhtp0GYsgp9XVh5DY5SpQiMi2EZfCIvOGVNs8RR9tKx+QhMh
- t6q/tYTl8uLMoaZ39Hsss/I/hAMko2Bxw1QYmAVU8CGw6CXhIAb2lcw4XOkKLAoY1BD9
- EXEw==
-X-Gm-Message-State: AOAM530gSkmyxARGplB49cEULUfzJ7vUIRuVZm/HkgBBjixb6SgoNJhS
- F9QP1LwYlA5JCSIXDNQrgDcXVNzRXXrSssyrPmo=
-X-Google-Smtp-Source: ABdhPJxvLnpELtDZ/pkjQheofdjvo0ZIC0bcY23F5Q7u45WEIPfRVlQyU5WNXuLlijcfLgvpPs5ZqRyHaDLu/vZJG98=
-X-Received: by 2002:a92:aa07:: with SMTP id j7mr9148059ili.40.1590779618528;
- Fri, 29 May 2020 12:13:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1jekbe-00089H-FL
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 15:23:50 -0400
+Received: from mail-bn8nam11on2078.outbound.protection.outlook.com
+ ([40.107.236.78]:19555 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1jekbd-0000B1-2K
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 15:23:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NcdOcHBg6O8HVZ3AQ07kQh7rNWXkjm92Zi4fbHuWy8Y95Cao/iw96UyUeaHBs1M6AT8UbXDwaP7CVtdB3oZAZIqIvjmp+O5ZnDVhF/Y7kPi31jhgUwN0dBmHlaaJtTxPakL9AMVY4gXABndt1NlFtej4ccy/BlewHcyHwgkjsdU9JZHpbxz1tEgBpKY1CWrFj3KXEEUBvzA1cWf/Ah8zHzT6jTQyA7DfsPeS9PF0OEOm3eJrosRwjx6ONNZ1qZfXP3h8IDfqa/m8xVif2jw0GeCtf/XKzIjz2weB0x0pkmm077exf55/Gc82gT3vPqhvEFXmopi/5G60N8ZPFGoy4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i5nrEOuVGjTcJAJvUnzlMg3F8ngwWr0XKHlAKI+ymlk=;
+ b=egckA9bOmLMZ85BqTJayRhLZiXF3CHfUWcfkcX1xMOKy9hk8rByIqebV3I2FXhJTh+GHrQDLuRsUnTXq2k7lmuRwXUWuLypGOxT+R2ASIQGl1QnPujG/Hu0s/zN0otNHNV2YCpHZ7FxetYBIf3UQrX282FtkvZv/JRWHoiMy0PugVXxnOrpIYa5GUesHpktlul227MF5iJh2N31mw45iU5yKxCzr0Zj/bRATWlQq/BsdER2tv3UAwh6fbbEbkzDr1KKC++QF2H6WPpgsT7//d5dpjRgY7SPf7tT8+xYdlGEQbKPK9hyy/dqvPmN2facAVGA8nmmh5NnS/N1lRCxUfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i5nrEOuVGjTcJAJvUnzlMg3F8ngwWr0XKHlAKI+ymlk=;
+ b=XQ97t6BptQ7KT3Wy81WBg1DPwN8awwav5wdULUVKB2Cl3ZAFFBpCjYbe5YAiueREvpzFyQYRaGiPaQ6sHmYfrKbnyYeedlu2qTAb3b3TWZBBC9Y5zkQ4alw+59wxLuJonRk2MnwMr9EJUaJtiz4F121VBR/0ntgtaXP5t3clDRA=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
+ DM5PR12MB1321.namprd12.prod.outlook.com (2603:10b6:3:78::10) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3021.27; Fri, 29 May 2020 19:08:43 +0000
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::4ce1:9947:9681:c8b1]) by DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::4ce1:9947:9681:c8b1%10]) with mapi id 15.20.3021.030; Fri, 29 May
+ 2020 19:08:43 +0000
+Subject: Re: [PATCH 2/2] sev: scan guest ROM for launch secret address
+To: Tobin Feldman-Fitzthum <tobin@linux.vnet.ibm.com>, jejb@linux.ibm.com,
+ qemu-devel@nongnu.org
+References: <20200528205114.42078-1-tobin@linux.vnet.ibm.com>
+ <20200528205114.42078-3-tobin@linux.vnet.ibm.com>
+From: Tom Lendacky <thomas.lendacky@amd.com>
+Message-ID: <c40c2f7c-3506-2827-9420-0a78ffaa6460@amd.com>
+Date: Fri, 29 May 2020 14:08:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+In-Reply-To: <20200528205114.42078-3-tobin@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN4PR0501CA0120.namprd05.prod.outlook.com
+ (2603:10b6:803:42::37) To DM5PR12MB1355.namprd12.prod.outlook.com
+ (2603:10b6:3:6e::7)
 MIME-Version: 1.0
-References: <20200529134523.8477-1-armbru@redhat.com>
- <20200529134523.8477-5-armbru@redhat.com>
-In-Reply-To: <20200529134523.8477-5-armbru@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 29 May 2020 12:04:35 -0700
-Message-ID: <CAKmqyKMRn4oaw747JN+kAt69SzwNChKua_ndTjetmSABho=sPw@mail.gmail.com>
-Subject: Re: [PATCH v2 04/58] qdev: New qdev_new(), qdev_realize(), etc.
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from office-linux.texastahm.com (67.79.209.213) by
+ SN4PR0501CA0120.namprd05.prod.outlook.com (2603:10b6:803:42::37) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.8 via Frontend
+ Transport; Fri, 29 May 2020 19:08:42 +0000
+X-Originating-IP: [67.79.209.213]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: bfa34373-f557-43b1-9126-08d80403b42e
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1321:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM5PR12MB13212AE20D3BBC3AAC835CFBEC8F0@DM5PR12MB1321.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 04180B6720
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: v8dZkuoheR9vGgCcslXB52ALvX3L+Y0goDmu6a7Lp+MH2IyAd7AfRkvCjVnFu62PyHQd0HoxwvGZSgh/rzAp6FphYVprDpZ/n5lTK1tsIX+K40wJybFqltLE9Ju9MTrewO/fLByIuZ+b+I8meYmiEOK/DQW/kRfJFid17UqNrEVYpQSj0KvIw+JnIawh70UXIA4R8aHLQte0SQlF1BSbhHC3Cp8BSUiShUASrzWTBYqF9ad9CMSPxq+Iquq2EG14Au9276ynj/UWNwm8YSuUmY2YTvZv5xq8oa4ClLQbAIBOxdoV65DVj3vHw9uLVvBK+CkBl55zS386461uIS0tcyfgdwVmgocB7Nq8pF2KQIGXaBlBLkReUEIQC+5kznvVreEMMui69C2Ce9NSYXp3ZTonWOS5mRfOF26mrFCt2CZDeVSKclEj5iwczc0tIMu6cdZjjny1umwt40XqY+QXkgy8B384qJkREM+0epTY4/Y=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(366004)(376002)(136003)(39860400002)(396003)(4326008)(31696002)(2906002)(6512007)(66946007)(66556008)(16526019)(6506007)(66476007)(316002)(956004)(26005)(2616005)(186003)(53546011)(52116002)(5660300002)(478600001)(966005)(36756003)(86362001)(6486002)(31686004)(8936002)(83380400001)(8676002)(219293001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: JJufGNbc3wOyUifOOdrJpS+Yb3jbi5YgEhaSinnFvv8OoxZOGnK0Cfrax6hgTJRB2CMBxO/uMtrY6/tNdvKY2oi/biETDU0cWISBvpKqt5ibYrS8r4dVIm3vQ3+8ecLrK+jJj1pPU+Fr7Obm79ZU4lhP0tZkUfxG3VBWNrsgWxO23SSuavK0SGmyJjaH+IMlbLleDCVMsqGIH4znYVYdOkNezacWP7pJg1HEM3eEKEraqHLLXWsU84UVUZ8BblDM4f6pghSkJ2xY0vEvAm8iO20r42y7CACPs4IHsMCFBalYhy4psR5qqNXkwBFlpCcF6SZzcZ+kOn+romJQct5FmQbGzggHHUg2WMD6PfvDAY+Em/zKWdL1lq89WXtob5u7HGe2opL6ZWUBpNiCbuFRuqaYn7WsEx87EX515hJb+bOiqG5SQLgLLPMsbzk3BMn4/S/k7veiqd5DGNxWXDVoFfdW4z1QQ5i9dV8QIhxsrTCaiJY/SOriqPK4qf74QKA5
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfa34373-f557-43b1-9126-08d80403b42e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2020 19:08:43.2356 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3uIvWZdX6fX0FdP5xiNmtlw+RQncXagb9gbNzwvL67TY5rW/wUx/q6mUGA1krbfZTpngSHkhdh82v5pO0C7qXA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1321
+Received-SPF: none client-ip=40.107.236.78;
+ envelope-from=Thomas.Lendacky@amd.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 15:23:47
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,265 +120,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Brijesh Singh <brijesh.singh@amd.com>, tobin@ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 29, 2020 at 7:03 AM Markus Armbruster <armbru@redhat.com> wrote:
->
-> We commonly plug devices into their bus right when we create them,
-> like this:
->
->     dev = qdev_create(bus, type_name);
->
-> Note that @dev is a weak reference.  The reference from @bus to @dev
-> is the only strong one.
->
-> We realize at some later time, either with
->
->     object_property_set_bool(OBJECT(dev), true, "realized", errp);
->
-> or its convenience wrapper
->
->     qdev_init_nofail(dev);
->
-> If @dev still has no QOM parent then, realizing makes the
-> /machine/unattached/ orphanage its QOM parent.
->
-> Note that the device returned by qdev_create() is plugged into a bus,
-> but doesn't have a QOM parent, yet.  Until it acquires one,
-> unrealizing the bus will hang in bus_unparent():
->
->     while ((kid = QTAILQ_FIRST(&bus->children)) != NULL) {
->         DeviceState *dev = kid->child;
->         object_unparent(OBJECT(dev));
->     }
->
-> object_unparent() does nothing when its argument has no QOM parent,
-> and the loop spins forever.
->
-> Device state "no QOM parent, but plugged into bus" is dangerous.
->
-> Paolo suggested to delay plugging into the bus until realize.  We need
-> to plug into the parent bus before we call the device's realize
-> method, in case it uses the parent bus.  So the dangerous state still
-> exists, but only within realization, where we can manage it safely.
->
-> This commit creates infrastructure to do this:
->
->     dev = qdev_new(type_name);
->     ...
->     qdev_realize_and_unref(dev, bus, errp)
->
-> Note that @dev becomes a strong reference here.
-> qdev_realize_and_unref() drops it.  There is also plain
-> qdev_realize(), which doesn't drop it.
->
-> The remainder of this series will convert all users to this new
-> interface.
->
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> Cc: Alistair Francis <alistair@alistair23.me>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+On 5/28/20 3:51 PM, Tobin Feldman-Fitzthum wrote:
+> From: Tobin Feldman-Fitzthum <tobin@ibm.com>
+> 
+> In addition to using QMP to provide the guest memory address
+> that the launch secret blob will be injected into, the
+> secret address can also be specified in the guest ROM. This
+> patch adds sev_find_secret_gpa, which scans the ROM page by
+> page to find a launch secret table identified by a GUID. If
+> the table is found, the address it contains will be used
+> in place of any address specified via QMP.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+I'm working on something similar for SEV-ES support in OVMF (see 
+https://www.mail-archive.com/devel@edk2.groups.io/msg20716.html). The GUID 
+is placed at a fixed location from the end of the ROM. One of the OVMF 
+maintainers recommended the approach and I think we should work to support 
+the guest LAUNCH SECRET GPA using the same GUID. This particular patch 
+should be delayed until an OVMF method is accepted, so that it doesn't 
+have to be reworked.
 
-Alistair
+Thanks,
+Tom
 
+> 
+> Signed-off-by: Tobin Feldman-Fitzthum <tobin@linux.vnet.ibm.com>
 > ---
->  include/hw/qdev-core.h | 11 +++++-
->  hw/core/bus.c          | 14 +++++++
->  hw/core/qdev.c         | 90 ++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 114 insertions(+), 1 deletion(-)
->
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index b870b27966..fba29308f7 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -57,7 +57,7 @@ typedef void (*BusUnrealize)(BusState *bus);
->   * After successful realization, setting static properties will fail.
->   *
->   * As an interim step, the #DeviceState:realized property can also be
-> - * set with qdev_init_nofail().
-> + * set with qdev_realize() or qdev_init_nofail().
->   * In the future, devices will propagate this state change to their children
->   * and along busses they expose.
->   * The point in time will be deferred to machine creation, so that values
-> @@ -322,7 +322,13 @@ compat_props_add(GPtrArray *arr,
->
->  DeviceState *qdev_create(BusState *bus, const char *name);
->  DeviceState *qdev_try_create(BusState *bus, const char *name);
-> +DeviceState *qdev_new(const char *name);
-> +DeviceState *qdev_try_new(const char *name);
->  void qdev_init_nofail(DeviceState *dev);
-> +bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp);
-> +bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp);
-> +void qdev_unrealize(DeviceState *dev);
+>   target/i386/sev.c      | 34 ++++++++++++++++++++++++++++++++--
+>   target/i386/sev_i386.h | 16 ++++++++++++++++
+>   2 files changed, 48 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index 774e47d9d1..4adc56d7e3 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -706,6 +706,8 @@ sev_guest_init(const char *id)
+>       s->api_major = status.api_major;
+>       s->api_minor = status.api_minor;
+>   
+> +    s->secret_gpa = 0;
 > +
->  void qdev_set_legacy_instance_id(DeviceState *dev, int alias_id,
->                                   int required_for_version);
->  HotplugHandler *qdev_get_bus_hotplug_handler(DeviceState *dev);
-> @@ -411,6 +417,9 @@ typedef int (qdev_walkerfn)(DeviceState *dev, void *opaque);
->  void qbus_create_inplace(void *bus, size_t size, const char *typename,
->                           DeviceState *parent, const char *name);
->  BusState *qbus_create(const char *typename, DeviceState *parent, const char *name);
-> +bool qbus_realize(BusState *bus, Error **errp);
-> +void qbus_unrealize(BusState *bus);
-> +
->  /* Returns > 0 if either devfn or busfn skip walk somewhere in cursion,
->   *         < 0 if either devfn or busfn terminate walk somewhere in cursion,
->   *           0 otherwise. */
-> diff --git a/hw/core/bus.c b/hw/core/bus.c
-> index 33a4443217..6f6071f5fa 100644
-> --- a/hw/core/bus.c
-> +++ b/hw/core/bus.c
-> @@ -164,6 +164,20 @@ BusState *qbus_create(const char *typename, DeviceState *parent, const char *nam
->      return bus;
->  }
->
-> +bool qbus_realize(BusState *bus, Error **errp)
+>       trace_kvm_sev_init();
+>       ret = sev_ioctl(s->sev_fd, KVM_SEV_INIT, NULL, &fw_error);
+>       if (ret) {
+> @@ -731,6 +733,28 @@ err:
+>       return NULL;
+>   }
+>   
+> +static void
+> +sev_find_secret_gpa(uint8_t *ptr, uint64_t len)
 > +{
-> +    Error *err = NULL;
+> +    uint64_t offset;
 > +
-> +    object_property_set_bool(OBJECT(bus), true, "realized", &err);
-> +    error_propagate(errp, err);
-> +    return !err;
-> +}
+> +    SevROMSecretTable *secret_table;
+> +    QemuUUID secret_table_guid;
 > +
-> +void qbus_unrealize(BusState *bus)
-> +{
-> +    object_property_set_bool(OBJECT(bus), false, "realized", &error_abort);
-> +}
+> +    qemu_uuid_parse(SEV_ROM_SECRET_GUID,&secret_table_guid);
+> +    secret_table_guid = qemu_uuid_bswap(secret_table_guid);
 > +
->  static bool bus_get_realized(Object *obj, Error **errp)
->  {
->      BusState *bus = BUS(obj);
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index a68ba674db..f2c5cee278 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -176,6 +176,32 @@ DeviceState *qdev_try_create(BusState *bus, const char *type)
->      return dev;
->  }
->
-> +/*
-> + * Create a device on the heap.
-> + * A type @name must exist.
-> + * This only initializes the device state structure and allows
-> + * properties to be set.  The device still needs to be realized.  See
-> + * qdev-core.h.
-> + */
-> +DeviceState *qdev_new(const char *name)
-> +{
-> +    return DEVICE(object_new(name));
-> +}
-> +
-> +/*
-> + * Try to create a device on the heap.
-> + * This is like qdev_new(), except it returns %NULL when type @name
-> + * does not exist.
-> + */
-> +DeviceState *qdev_try_new(const char *name)
-> +{
-> +    if (!object_class_by_name(name)) {
-> +        return NULL;
+> +    offset = len - 0x1000;
+> +    while(offset > 0) {
+> +        secret_table = (SevROMSecretTable *)(ptr + offset);
+> +        if(qemu_uuid_is_equal(&secret_table_guid, (QemuUUID *) secret_table)){
+> +            sev_state->secret_gpa = (long unsigned int) secret_table->base;
+> +            break;
+> +        }
+> +        offset -= 0x1000;
 > +    }
-> +
-> +    return DEVICE(object_new(name));
 > +}
 > +
->  static QTAILQ_HEAD(, DeviceListener) device_listeners
->      = QTAILQ_HEAD_INITIALIZER(device_listeners);
->
-> @@ -427,6 +453,66 @@ void qdev_init_nofail(DeviceState *dev)
->      object_unref(OBJECT(dev));
->  }
->
-> +/*
-> + * Realize @dev.
-> + * @dev must not be plugged into a bus.
-> + * Plug @dev into @bus if non-null, else into the main system bus.
-> + * This takes a reference to @dev.
-> + * If @dev has no QOM parent, make one up, taking another reference.
-> + * On success, return true.
-> + * On failure, store an error through @errp and return false.
+>   int
+>   sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len)
+>   {
+> @@ -738,6 +762,9 @@ sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len)
+>   
+>       /* if SEV is in update state then encrypt the data else do nothing */
+>       if (sev_check_state(SEV_STATE_LAUNCH_UPDATE)) {
+> +        if(!sev_state->secret_gpa) {
+> +            sev_find_secret_gpa(ptr, len);
+> +	    }
+>           return sev_launch_update_data(ptr, len);
+>       }
+>   
+> @@ -776,8 +803,8 @@ int sev_inject_launch_secret(const char *packet_hdr,
+>   
+>       /* secret can be inject only in this state */
+>       if (!sev_check_state(SEV_STATE_LAUNCH_SECRET)) {
+> -	error_report("Not in correct state. %x",sev_state->state);
+> -	return 1;
+> +        error_report("Not in correct state. %x",sev_state->state);
+> +        return 1;
+>       }
+>   
+>       hdr = g_base64_decode(packet_hdr, &hdr_sz);
+> @@ -792,6 +819,9 @@ int sev_inject_launch_secret(const char *packet_hdr,
+>           goto err;
+>       }
+>   
+> +    if(sev_state->secret_gpa)
+> +        gpa = sev_state->secret_gpa;
+> +
+>       hva = gpa2hva(gpa, data_sz);
+>       if (!hva) {
+>           goto err;
+> diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
+> index 8ada9d385d..b1f9ab93bb 100644
+> --- a/target/i386/sev_i386.h
+> +++ b/target/i386/sev_i386.h
+> @@ -19,6 +19,7 @@
+>   #include "sysemu/kvm.h"
+>   #include "sysemu/sev.h"
+>   #include "qemu/error-report.h"
+> +#include "qemu/uuid.h"
+>   #include "qapi/qapi-types-misc-target.h"
+>   
+>   #define SEV_POLICY_NODBG        0x1
+> @@ -28,6 +29,8 @@
+>   #define SEV_POLICY_DOMAIN       0x10
+>   #define SEV_POLICY_SEV          0x20
+>   
+> +#define SEV_ROM_SECRET_GUID "adf956ad-e98c-484c-ae11-b51c7d336447"
+> +
+>   #define TYPE_QSEV_GUEST_INFO "sev-guest"
+>   #define QSEV_GUEST_INFO(obj)                  \
+>       OBJECT_CHECK(QSevGuestInfo, (obj), TYPE_QSEV_GUEST_INFO)
+> @@ -42,6 +45,18 @@ extern SevCapability *sev_get_capabilities(void);
+>   
+>   typedef struct QSevGuestInfo QSevGuestInfo;
+>   typedef struct QSevGuestInfoClass QSevGuestInfoClass;
+> +typedef struct SevROMSecretTable SevROMSecretTable;
+> +
+> +/**
+> + * If guest physical address for the launch secret is
+> + * provided in the ROM, it should be in the following
+> + * page-aligned structure.
 > + */
-> +bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
-> +{
-> +    Error *err = NULL;
-> +
-> +    assert(!dev->realized && !dev->parent_bus);
-> +
-> +    if (!bus) {
-> +        /*
-> +         * Assert that the device really is a SysBusDevice before we
-> +         * put it onto the sysbus.  Non-sysbus devices which aren't
-> +         * being put onto a bus should be realized with
-> +         * object_property_set_bool(OBJECT(dev), true, "realized",
-> +         * errp);
-> +         */
-> +        g_assert(object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE));
-> +        bus = sysbus_get_default();
-> +    }
-> +
-> +    qdev_set_parent_bus(dev, bus);
-> +
-> +    object_property_set_bool(OBJECT(dev), true, "realized", &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +    }
-> +    return !err;
-> +}
-> +
-> +/*
-> + * Realize @dev and drop a reference.
-> + * This is like qdev_realize(), except the caller must hold a
-> + * (private) reference, which is dropped on return regardless of
-> + * success or failure.  Intended use:
-> + *     dev = qdev_new();
-> + *     [...]
-> + *     qdev_realize_and_unref(dev, bus, errp);
-> + * Now @dev can go away without further ado.
-> + */
-> +bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp)
-> +{
-> +    bool ret;
-> +
-> +    ret = qdev_realize(dev, bus, errp);
-> +    object_unref(OBJECT(dev));
-> +    return ret;
-> +}
-> +
-> +void qdev_unrealize(DeviceState *dev)
-> +{
-> +    object_property_set_bool(OBJECT(dev), false, "realized", &error_abort);
-> +}
-> +
->  static int qdev_assert_realized_properly(Object *obj, void *opaque)
->  {
->      DeviceState *dev = DEVICE(object_dynamic_cast(obj, TYPE_DEVICE));
-> @@ -1002,6 +1088,10 @@ post_realize_fail:
->  fail:
->      error_propagate(errp, local_err);
->      if (unattached_parent) {
-> +        /*
-> +         * Beware, this doesn't just revert
-> +         * object_property_add_child(), it also runs bus_remove()!
-> +         */
->          object_unparent(OBJECT(dev));
->          unattached_count--;
->      }
-> --
-> 2.21.3
->
->
+> +struct SevROMSecretTable {
+> +    QemuUUID guid;
+> +    unsigned int base;
+> +    unsigned int size;
+> +};
+>   
+>   /**
+>    * QSevGuestInfo:
+> @@ -78,6 +93,7 @@ struct SEVState {
+>       uint32_t cbitpos;
+>       uint32_t reduced_phys_bits;
+>       uint32_t handle;
+> +    uint64_t secret_gpa;
+>       int sev_fd;
+>       SevState state;
+>       gchar *measurement;
+> 
 
