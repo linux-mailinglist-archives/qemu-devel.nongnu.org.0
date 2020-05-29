@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7217F1E7C4E
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 13:51:23 +0200 (CEST)
-Received: from localhost ([::1]:34010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B941E7C43
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 13:49:28 +0200 (CEST)
+Received: from localhost ([::1]:54576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jedXm-00076g-Gy
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 07:51:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48528)
+	id 1jedVv-0003yw-Sq
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 07:49:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=411e18819=Anup.Patel@wdc.com>)
- id 1jedU9-0002JB-Jm; Fri, 29 May 2020 07:47:39 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:28700)
+ id 1jedU4-0002EX-Al; Fri, 29 May 2020 07:47:32 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:30157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=411e18819=Anup.Patel@wdc.com>)
- id 1jedU8-00076e-4G; Fri, 29 May 2020 07:47:37 -0400
+ id 1jedU2-0006ru-4W; Fri, 29 May 2020 07:47:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1590752856; x=1622288856;
+ t=1590752850; x=1622288850;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=fcl2/s4taLYbTTKslRBqqC8oTwWKwM22EGfD/3R2t9E=;
- b=ENZO9k4lzdqwNYXliVchaRcowzBC5W3Iv65Oa7lGNQMp1tUW/aQshsVq
- cWZGF5e0Yw71UlCNRWMJwIsWVdzSf5aW85OmPpjt6Hdww20IbcZ6Hlnp6
- RoKEhYC+h6R8tOUB70Vm+yvOQ3gToqIKCh7HxrZ6Oms6YUv7jQKsS9jov
- 8H7RrRtVB+rIqK3dm0EP+Wcn/nzumHvobuaWaC+8y7CzZZZHXjPrbXh02
- Dh9tzyi7lszRqhOVQgOU4cUjJMPPzxHsPfjymsfcXo3amGk1ENoIqIr2m
- a+v+GX9APW0QHzRQgGg3xhBzNC1z0BCCZ6li9NILmPWTuQFoJVhDAvBEp w==;
-IronPort-SDR: mRubj2FRTRaK5VahYse8QyHF+U9eTqhD2+FTr3A5QkqNUPmwddMW+gLfnZmQvAvO0esl2YqImx
- ZcCoo3Osjb8grcRTwWXEX7uFmgCRhS9LlV58MKTpptnuTKBWWXpub1oMlzpk4xBZfD+Mr9gToK
- 3LlFnwIl9h7q+ZDEtKBA2FaI338xWAE4DQPTVeyoz8KwXMZA1E2PaLZC5ws3WrRO4/Ab0I/QFh
- KPRq8n/JKaCzmEbi3QDUNVnz+5Ds4ydSxF50lnt2bX/V23BOo1dpNPNQ03eukJBwJ6iWDhNuGs
- kzE=
-X-IronPort-AV: E=Sophos;i="5.73,448,1583164800"; d="scan'208";a="139120671"
-Received: from mail-dm6nam12lp2171.outbound.protection.outlook.com (HELO
- NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.171])
- by ob1.hgst.iphmx.com with ESMTP; 29 May 2020 19:47:24 +0800
+ bh=bSWrfP3p0heSsTsHJoGNwSHjerOBRrtPKfQDgzY6ezs=;
+ b=ldSE/CsxFwLSSsmqDXQ5LIBdfY9l3owONdOaqSlp+uXeVWdp/QddEKOk
+ 90czAjcULSYNjPgczjBh0qVyIe/dZ796Egew7qd47dhYGJTcoln+ZqOc7
+ d9wb79DCzJG1tH4Mny4sCGxuvzidp6BWL4wypM+eoxFeHQjiTt5H/LyY0
+ wJxM/su+Kmb0cXD0Rhr+eoJXYyTBnAxmklwoHyp6FcEcztiTLLDY4YH19
+ zZcaxZQvvH5HUP1tRHdagkX7zE08m0Fp+oF+EZkXBEBX2Yyu44T+LdS26
+ tIqcmcZvyICBwH3ZkeqU7tb1AnGal2dbxmeFiEQYbL5P6YIdflpQrbetc Q==;
+IronPort-SDR: f/efXZ/7xurPuBK6YabvAItnIXDxFCZRRSDUM9R1cOLWxP6Vnf8/Fza++4Y7IhL+JKaIDXyyT9
+ wc6FIouxfrN+XYAnC3uf1Ca9OUwNbnC2NYlBdr2QBHXKfrv1Cz0C1dBckWBEsJB2Dx8o+B1pEA
+ YBrmuHkXxHQl0K+uv3yEqr+YkeSg79MXg+NcWoXT0yjEWu6bRB1tVng6mlA8mIUXj2srIYdXlQ
+ glO6SvAGLISV9IRvV6DFVm/bSR+T0xugCyXXIqvkveCMh19GhlOX0rPd2N19n8CDqiBz5+fE1F
+ 9Ls=
+X-IronPort-AV: E=Sophos;i="5.73,448,1583164800"; d="scan'208";a="247863263"
+Received: from mail-dm6nam12lp2177.outbound.protection.outlook.com (HELO
+ NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.177])
+ by ob1.hgst.iphmx.com with ESMTP; 29 May 2020 19:47:27 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iDx8Jn2Vj1dNSP511teByWvKdffrOgKqTisP0erfw1eplo3UwTdNjEpK/RofVFyeuvXosilddmuknQwOLIxfPbR4B5VsT6NatL/o+VP9hpLAujvMqXAXiE2QzwgWJkUyZQRQqy9H4POyDqGf8fCeLwRJEwkxAR6R/m8OI0Mc3fVHZYaGMghha7Ep4sqKnRHo8tB7vA3X5z+knmK82xP07w+X7tgvdJ+dfwyGoO9QZeMi+dLoXG1t2fYaP6ChW0UBpYVAG5JN8PZq9w5Q1zJOvGTtBaOixY2uMge2GRehcvihm6+JMFA5xC6ROoCQShqfZZDf/pe2DIHlWARxquP1Vw==
+ b=BpLtNjHB3MF74y/hrye2jGC34TodwkCO2KJ9QzKw4CbdKTwoKga8qPXSvkZoXjpDiQ0p7h7KYwyxAW9hes3fkDOsF31/DLw1+Vq3oMGcbvIc5qIUr4N7AlLuCzWMADmc/xas8iUo2CYzr/SjDy8dsHopMYKjGp8gqarlrLk+HxtOPTj1MVeBu7J9c0jxLcA26if6cb9p7ZIugLU/lp2k0v61rLg+BgujRuUSA44rs2QQCxZYEHGfXnJgAb7h8Mp092r63hImRy2Fvu+jdWrDxkuKwzHY2GLNJ20A0Lk5+9g+LHvA1tthB6CX4sRfijFHLITp1kInd7rb4ssc0RuQYA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tSqZwf+oGC6GnqJHzn0BQlbEQMiydC/gkmw6w1nYSYI=;
- b=cVDVIbW98Y8j81SldP+o3PjRg63r8SI0TeZWQsabGnXJMXinNR6YsUICrfdzk1jXoSu/MTMJpGB+u7PMaolop1O7sBlozfo3oCLrp9P4kxDMOgPWvPv3eALuhW8FJ951u4wT0AmXRNjNoVz3UblZ+fCvti+AKWYV5PTFgmZ8qjLyaZy0vzgoW4tJvDzRvK+ySqL9K7WBk9BSaN/48YqWAAGPpne72k/e4GiFN/pqbgeLWgT2QjKumR7RIhHucmC95ado/eMkbv2x3/8T+rfThXc0Ij0jUb5HeG9UELS9XDsQT+UZfqsQI2pASJCJDXkQTp52Qzgfrz1+NYCayOgPfw==
+ bh=YHqKaAifzipknqEXcN8FNL0zpu7q9dCi8JQdXMLJHw4=;
+ b=LE9Ubt/LtbO/c//y3Wo8cba7uvO3S6dnuweTehKuQ0IkwSBcaEEIWjBhnO3VZQcoT+LrO+rIIWJ82P9JN2DaZa+pmWshhBkz3mSpF3vwSbDWUYkKbOzvY9aPzMCVll6g1YzcbfI0FS+SYR2IN1/SeBB2k9TZyWEC4GGDTGpWzm3zB5PwAd12+x2GTTty1sS8HsVvJLEhqtngwet38pjPwpsxXu22g/cTB2uL/ynrlOZ2hrdADqiCPZTYVucW0KddVPnCA0XdnO59zCWnb9Yd0cfBTrAjnqj13U3999uUOopTBiIIfmEsdFzAt20RY6Ma2IbqMa1WK4orRFU/ExNfhA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tSqZwf+oGC6GnqJHzn0BQlbEQMiydC/gkmw6w1nYSYI=;
- b=LNFrDgItGe4d6Q8RJXeNTht/3m9Yq/xSUfPN5tOzI6z/cTo5HOlHJ3DlPBBTfoekE4nrMpTRMkoyVzh469nLxh4cEMwIZGmwYnb1DwuhSj1vz03t5NdqIExbX5zykRg6zYjXOTufizPc6USqoHD/i52WkT7FTbKWxscOmwtu9+Y=
+ bh=YHqKaAifzipknqEXcN8FNL0zpu7q9dCi8JQdXMLJHw4=;
+ b=dAHc8ckXMdHZ7ULEoQc6uhNO8WbBLfs9ljty4bLb52HwTYwV6LoxfMzQzmT/Gz6ckr/zHWpoapyAz98FR+1jXnS5FVa20Moeo/u9KVFL/ATxaAJR9Jg3vvNSfEKczwLmm3w8iAGer9XlyYOPmRJOqR/Fju92vfeDBl76NM7LfzM=
 Authentication-Results: linaro.org; dkim=none (message not signed)
  header.d=none;linaro.org; dmarc=none action=none header.from=wdc.com;
 Received: from DM6PR04MB6201.namprd04.prod.outlook.com (2603:10b6:5:127::32)
  by DM6PR04MB7019.namprd04.prod.outlook.com (2603:10b6:5:246::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17; Fri, 29 May
- 2020 11:47:22 +0000
+ 2020 11:47:26 +0000
 Received: from DM6PR04MB6201.namprd04.prod.outlook.com
  ([fe80::f8b3:c124:482b:52e0]) by DM6PR04MB6201.namprd04.prod.outlook.com
  ([fe80::f8b3:c124:482b:52e0%5]) with mapi id 15.20.3045.018; Fri, 29 May 2020
- 11:47:22 +0000
+ 11:47:26 +0000
 From: Anup Patel <anup.patel@wdc.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH v5 2/5] hw/riscv: Allow creating multiple instances of PLIC
-Date: Fri, 29 May 2020 17:16:38 +0530
-Message-Id: <20200529114641.121332-3-anup.patel@wdc.com>
+Subject: [PATCH v5 3/5] hw/riscv: Add helpers for RISC-V multi-socket NUMA
+ machines
+Date: Fri, 29 May 2020 17:16:39 +0530
+Message-Id: <20200529114641.121332-4-anup.patel@wdc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200529114641.121332-1-anup.patel@wdc.com>
 References: <20200529114641.121332-1-anup.patel@wdc.com>
@@ -85,38 +86,38 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from wdc.com (106.51.109.153) by
  MAXPR01CA0101.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:5d::19) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3045.18 via Frontend Transport; Fri, 29 May 2020 11:47:18 +0000
+ 15.20.3045.18 via Frontend Transport; Fri, 29 May 2020 11:47:22 +0000
 X-Mailer: git-send-email 2.25.1
 X-Originating-IP: [106.51.109.153]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 7fe73b2f-567e-4ac6-2710-08d803c60c87
+X-MS-Office365-Filtering-Correlation-Id: cb55a4c5-44d0-497a-c0bc-08d803c60f07
 X-MS-TrafficTypeDiagnostic: DM6PR04MB7019:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR04MB7019DE0688092F802232B11B8D8F0@DM6PR04MB7019.namprd04.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DM6PR04MB70197455FE2CEF8A0140494E8D8F0@DM6PR04MB7019.namprd04.prod.outlook.com>
 WDCIPOUTBOUND: EOP-TRUE
-X-MS-Oob-TLC-OOBClassifiers: OLM:14;
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
 X-Forefront-PRVS: 04180B6720
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NuFzG2luYRyc0j7xyZkkKftY9NDDfd4oeIP3sPEHBpjx8DE63NPghpbsiES0UdU3jIxDtF+u7xc2tLkyruY3MZQzc0/e70B4Pu6GzQIExyrhNJDCNmCCcJaTghXe2ng8vQuWNGfSE+s++yttkZOdz5Ybrn4WV7tI0993/aEYznhv1OB8KfeN+sENsynI7kij+a1Stuw9svEbK6TfddWUt08RIqIcMFAfiosg8DFynMGoFbmW/4c7/n/NEmEr6JPCEyZtlTMT2ha19tM080i71slmvGCEuZEw/lqGjfxUtW6ied6OkARPdsLAm8fh/jwPVrv1BzgGGjPLZ0cxoojEqQ==
+X-Microsoft-Antispam-Message-Info: HFu1RmVLxVrx2hTgue9e5GBxW5y/brm8tYAfF2H60GrhtPYlGs16DIHO0ItKHFQApo8tUlb+nm9kcO2oySYFOe8wuEfJk7IRcOb7cWdMVP+936h0DL4QlIUXZF5SSkmIesTmQMfNd42/5PhpHLPGaRcrpDzovaNM2Fliqqn6oQTTOLngpjZRVOGbDyX2ENierfrLfucn/syFmwUepRik+j32IovtCiagDK5va9j+qVFZKjuRPYjzQRmUlmSwmYlGdmoxQU3m9RaakJ+bV4wQrGt+gyevs5dFyGqRInNVOl/MIVqOOYwWtie/He9GgsF47vLfFLT2tvpEA18cAJHpVIr1LIkP6SIFHJVuM+ygDCmQ0ydubn+tkOVghyy/fcfIT3+5aypMgR0/UAm5GS635Itp9XIc+O8eKaWC8CJLHo2FHNhewKCQXuQMlkspSOj0OTFd/sh7BGIOVQJ2iAmmnQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR04MB6201.namprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(39860400002)(396003)(366004)(136003)(346002)(376002)(8936002)(83380400001)(8886007)(2906002)(186003)(478600001)(6666004)(316002)(1006002)(36756003)(54906003)(55016002)(1076003)(110136005)(66946007)(26005)(16526019)(956004)(86362001)(2616005)(66476007)(66556008)(5660300002)(7696005)(52116002)(4326008)(55236004)(44832011)(8676002);
+ SFS:(4636009)(39860400002)(396003)(366004)(136003)(346002)(376002)(8936002)(83380400001)(8886007)(2906002)(186003)(478600001)(6666004)(316002)(1006002)(36756003)(54906003)(55016002)(1076003)(110136005)(66946007)(26005)(16526019)(956004)(86362001)(2616005)(66476007)(66556008)(5660300002)(7696005)(52116002)(4326008)(55236004)(44832011)(8676002)(2004002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 9LJbDxtAiXd5fBl0gygbGSiSh8WaG46Ylsi8M+SMIKoOpMaVId2hkc78mJ3smRuL5idW2fcYA/uUb6OXWsM/KDu5oxvAGtDtn8+2iW4tYOaIeSYtrMpz9qAjq+lib6ICb66Q40xIAzBAXYzy4ROLdy4NCsjhXDzzgxxMHHWyZ+aKvKf7Pmlj8kIJGQWzlUFz2H5CIXx9kSVCYcmzvFjOv16O+ShI6hIGLb5PzgQKQdCXEOnUM+XX9RgaeYANrUYdfpVae7fUNEdPYvoGemYzY4igrgVzgWXRnrbTY4sTS3CtoIKqY2GgLfOE96+rjeMKAj24ac7jAgqSDI2odMKqhigGBk93tlUBAvgs11pZVAts/CBZqz1mlTWGpYWE+m5zqk2+ymD3PYxsIDIDX3evVmOtl1TxroeLZHbuL+ARrLAS8iVb/wd7ar46yzRP5uMMsvuk28WqfuknAJuIAk1AVvm2JDxW9wqRzbDTWT9md1g=
+X-MS-Exchange-AntiSpam-MessageData: 1kJZVsdrJiTic/9HXFp3kDxba9T6SjAO/qeKC9eK/myFgIfDqcwOaJKZdIsdn/dJmT+cEtzDhyzIVtQ0EX017pA73aH0HwtxY4Wi/2d3K8zZBctgD9fCGrC6kuXYP1tPha2GWzTF+duJu5w2yh4f74YcLPiqNqTFKa+ED385SFbJ3zFxD56zilqz5yQHq9VL1gqT8MhJxZvhtWwr4EXFVMWcZMf5aDe1a5gAG6Dt1PZKYqCl7V3o3z/L3gB1JOhaRhwxL0JnQ1p4YZRxPzUet43IDWmZYKJi8z0lg0JQi3ZTxLTyls8oqL8Gaw38H5N5+DEJcZKjPjd/xCDQxq8UNEk2zW+Ibs6uc+etXiiy4Fy2fg4b0mJc7skJpbubFk1Pc5RH16BkjbvzLDxlnv7d9ezRh9B49AHE6yq6Uuxv6ms35axQ6b5SliboimafsXh5n9zj1SHQ9Irti5IWBuKt+JbOH2hZeVbEcwQyHnGX+Y8=
 X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7fe73b2f-567e-4ac6-2710-08d803c60c87
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2020 11:47:22.2926 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb55a4c5-44d0-497a-c0bc-08d803c60f07
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2020 11:47:26.5468 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jqJRZDXsfN2gGFIhfeopTcfqvWIRl5zJtXMynhTNZZGiNRbu6lZM2gsg0nWXyaMEM1v80PWlVePafxzRSMfQMA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: LfzfMGldFM+q4F1qSn3jAV0921OTouTKK7XSBNlXPgcw9XjeREcf6d4kZFZ9nqv5UqGwFgUVKwxqGu8L64ezkw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB7019
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=411e18819=Anup.Patel@wdc.com; helo=esa5.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 07:47:33
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=411e18819=Anup.Patel@wdc.com; helo=esa1.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 07:47:15
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -137,173 +138,344 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <anup.patel@wdc.com>, qemu-riscv@nongnu.org,
- Anup Patel <anup@brainfault.org>, Palmer Dabbelt <palmerdabbelt@google.com>,
- qemu-devel@nongnu.org, Atish Patra <atish.patra@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org, Anup Patel <anup@brainfault.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We extend PLIC emulation to allow multiple instances of PLIC in
-a QEMU RISC-V machine. To achieve this, we remove first HART id
-zero assumption from PLIC emulation.
+We add common helper routines which can be shared by RISC-V
+multi-socket NUMA machines.
+
+We have two types of helpers:
+1. riscv_socket_xyz() - These helper assist managing multiple
+   sockets irrespective whether QEMU NUMA is enabled/disabled
+2. riscv_numa_xyz() - These helpers assist in providing
+   necessary QEMU machine callbacks for QEMU NUMA emulation
 
 Signed-off-by: Anup Patel <anup.patel@wdc.com>
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_e.c            |  2 +-
- hw/riscv/sifive_plic.c         | 24 +++++++++++++-----------
- hw/riscv/sifive_u.c            |  2 +-
- hw/riscv/virt.c                |  2 +-
- include/hw/riscv/sifive_plic.h | 12 +++++++-----
- 5 files changed, 23 insertions(+), 19 deletions(-)
+ hw/riscv/Makefile.objs  |   1 +
+ hw/riscv/numa.c         | 242 ++++++++++++++++++++++++++++++++++++++++
+ include/hw/riscv/numa.h |  51 +++++++++
+ 3 files changed, 294 insertions(+)
+ create mode 100644 hw/riscv/numa.c
+ create mode 100644 include/hw/riscv/numa.h
 
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 1c3b37d0ba..bd122e71ae 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -152,7 +152,7 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
- 
-     /* MMIO */
-     s->plic = sifive_plic_create(memmap[SIFIVE_E_PLIC].base,
--        (char *)SIFIVE_E_PLIC_HART_CONFIG,
-+        (char *)SIFIVE_E_PLIC_HART_CONFIG, 0,
-         SIFIVE_E_PLIC_NUM_SOURCES,
-         SIFIVE_E_PLIC_NUM_PRIORITIES,
-         SIFIVE_E_PLIC_PRIORITY_BASE,
-diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
-index c1e04cbb98..f88bb48053 100644
---- a/hw/riscv/sifive_plic.c
-+++ b/hw/riscv/sifive_plic.c
-@@ -352,6 +352,7 @@ static const MemoryRegionOps sifive_plic_ops = {
- 
- static Property sifive_plic_properties[] = {
-     DEFINE_PROP_STRING("hart-config", SiFivePLICState, hart_config),
-+    DEFINE_PROP_UINT32("hartid-base", SiFivePLICState, hartid_base, 0),
-     DEFINE_PROP_UINT32("num-sources", SiFivePLICState, num_sources, 0),
-     DEFINE_PROP_UINT32("num-priorities", SiFivePLICState, num_priorities, 0),
-     DEFINE_PROP_UINT32("priority-base", SiFivePLICState, priority_base, 0),
-@@ -400,10 +401,12 @@ static void parse_hart_config(SiFivePLICState *plic)
-     }
-     hartid++;
- 
--    /* store hart/mode combinations */
-     plic->num_addrs = addrid;
-+    plic->num_harts = hartid;
+diff --git a/hw/riscv/Makefile.objs b/hw/riscv/Makefile.objs
+index fc3c6dd7c8..4483e61879 100644
+--- a/hw/riscv/Makefile.objs
++++ b/hw/riscv/Makefile.objs
+@@ -1,4 +1,5 @@
+ obj-y += boot.o
++obj-y += numa.o
+ obj-$(CONFIG_SPIKE) += riscv_htif.o
+ obj-$(CONFIG_HART) += riscv_hart.o
+ obj-$(CONFIG_SIFIVE_E) += sifive_e.o
+diff --git a/hw/riscv/numa.c b/hw/riscv/numa.c
+new file mode 100644
+index 0000000000..4f92307102
+--- /dev/null
++++ b/hw/riscv/numa.c
+@@ -0,0 +1,242 @@
++/*
++ * QEMU RISC-V NUMA Helper
++ *
++ * Copyright (c) 2020 Western Digital Corporation or its affiliates.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+    /* store hart/mode combinations */
-     plic->addr_config = g_new(PLICAddr, plic->num_addrs);
--    addrid = 0, hartid = 0;
-+    addrid = 0, hartid = plic->hartid_base;
-     p = plic->hart_config;
-     while ((c = *p++)) {
-         if (c == ',') {
-@@ -429,8 +432,6 @@ static void sifive_plic_irq_request(void *opaque, int irq, int level)
- 
- static void sifive_plic_realize(DeviceState *dev, Error **errp)
- {
--    MachineState *ms = MACHINE(qdev_get_machine());
--    unsigned int smp_cpus = ms->smp.cpus;
-     SiFivePLICState *plic = SIFIVE_PLIC(dev);
-     int i;
- 
-@@ -451,8 +452,8 @@ static void sifive_plic_realize(DeviceState *dev, Error **errp)
-      * lost a interrupt in the case a PLIC is attached. The SEIP bit must be
-      * hardware controlled when a PLIC is attached.
-      */
--    for (i = 0; i < smp_cpus; i++) {
--        RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(i));
-+    for (i = 0; i < plic->num_harts; i++) {
-+        RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(plic->hartid_base + i));
-         if (riscv_cpu_claim_interrupts(cpu, MIP_SEIP) < 0) {
-             error_report("SEIP already claimed");
-             exit(1);
-@@ -488,16 +489,17 @@ type_init(sifive_plic_register_types)
-  * Create PLIC device.
-  */
- DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
--    uint32_t num_sources, uint32_t num_priorities,
--    uint32_t priority_base, uint32_t pending_base,
--    uint32_t enable_base, uint32_t enable_stride,
--    uint32_t context_base, uint32_t context_stride,
--    uint32_t aperture_size)
-+    uint32_t hartid_base, uint32_t num_sources,
-+    uint32_t num_priorities, uint32_t priority_base,
-+    uint32_t pending_base, uint32_t enable_base,
-+    uint32_t enable_stride, uint32_t context_base,
-+    uint32_t context_stride, uint32_t aperture_size)
- {
-     DeviceState *dev = qdev_create(NULL, TYPE_SIFIVE_PLIC);
-     assert(enable_stride == (enable_stride & -enable_stride));
-     assert(context_stride == (context_stride & -context_stride));
-     qdev_prop_set_string(dev, "hart-config", hart_config);
-+    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
-     qdev_prop_set_uint32(dev, "num-sources", num_sources);
-     qdev_prop_set_uint32(dev, "num-priorities", num_priorities);
-     qdev_prop_set_uint32(dev, "priority-base", priority_base);
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index c193761916..53e48e2ff5 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -586,7 +586,7 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
- 
-     /* MMIO */
-     s->plic = sifive_plic_create(memmap[SIFIVE_U_PLIC].base,
--        plic_hart_config,
-+        plic_hart_config, 0,
-         SIFIVE_U_PLIC_NUM_SOURCES,
-         SIFIVE_U_PLIC_NUM_PRIORITIES,
-         SIFIVE_U_PLIC_PRIORITY_BASE,
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 51afe7e23b..421815081d 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -584,7 +584,7 @@ static void riscv_virt_board_init(MachineState *machine)
- 
-     /* MMIO */
-     s->plic = sifive_plic_create(memmap[VIRT_PLIC].base,
--        plic_hart_config,
-+        plic_hart_config, 0,
-         VIRT_PLIC_NUM_SOURCES,
-         VIRT_PLIC_NUM_PRIORITIES,
-         VIRT_PLIC_PRIORITY_BASE,
-diff --git a/include/hw/riscv/sifive_plic.h b/include/hw/riscv/sifive_plic.h
-index 4421e81249..ace76d0f1b 100644
---- a/include/hw/riscv/sifive_plic.h
-+++ b/include/hw/riscv/sifive_plic.h
-@@ -48,6 +48,7 @@ typedef struct SiFivePLICState {
-     /*< public >*/
-     MemoryRegion mmio;
-     uint32_t num_addrs;
-+    uint32_t num_harts;
-     uint32_t bitfield_words;
-     PLICAddr *addr_config;
-     uint32_t *source_priority;
-@@ -58,6 +59,7 @@ typedef struct SiFivePLICState {
- 
-     /* config */
-     char *hart_config;
-+    uint32_t hartid_base;
-     uint32_t num_sources;
-     uint32_t num_priorities;
-     uint32_t priority_base;
-@@ -70,10 +72,10 @@ typedef struct SiFivePLICState {
- } SiFivePLICState;
- 
- DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
--    uint32_t num_sources, uint32_t num_priorities,
--    uint32_t priority_base, uint32_t pending_base,
--    uint32_t enable_base, uint32_t enable_stride,
--    uint32_t context_base, uint32_t context_stride,
--    uint32_t aperture_size);
-+    uint32_t hartid_base, uint32_t num_sources,
-+    uint32_t num_priorities, uint32_t priority_base,
-+    uint32_t pending_base, uint32_t enable_base,
-+    uint32_t enable_stride, uint32_t context_base,
-+    uint32_t context_stride, uint32_t aperture_size);
- 
- #endif
++#include "qemu/osdep.h"
++#include "qemu/units.h"
++#include "qemu/log.h"
++#include "qemu/error-report.h"
++#include "qapi/error.h"
++#include "hw/boards.h"
++#include "hw/qdev-properties.h"
++#include "hw/riscv/numa.h"
++#include "sysemu/device_tree.h"
++
++static bool numa_enabled(const MachineState *ms)
++{
++    return (ms->numa_state && ms->numa_state->num_nodes) ? true : false;
++}
++
++int riscv_socket_count(const MachineState *ms)
++{
++    return (numa_enabled(ms)) ? ms->numa_state->num_nodes : 1;
++}
++
++int riscv_socket_first_hartid(const MachineState *ms, int socket_id)
++{
++    int i, first_hartid = ms->smp.cpus;
++
++    if (!numa_enabled(ms)) {
++        return (!socket_id) ? 0 : -1;
++    }
++
++    for (i = 0; i < ms->smp.cpus; i++) {
++        if (ms->possible_cpus->cpus[i].props.node_id != socket_id) {
++            continue;
++        }
++        if (i < first_hartid) {
++            first_hartid = i;
++        }
++    }
++
++    return (first_hartid < ms->smp.cpus) ? first_hartid : -1;
++}
++
++int riscv_socket_last_hartid(const MachineState *ms, int socket_id)
++{
++    int i, last_hartid = -1;
++
++    if (!numa_enabled(ms)) {
++        return (!socket_id) ? ms->smp.cpus - 1 : -1;
++    }
++
++    for (i = 0; i < ms->smp.cpus; i++) {
++        if (ms->possible_cpus->cpus[i].props.node_id != socket_id) {
++            continue;
++        }
++        if (i > last_hartid) {
++            last_hartid = i;
++        }
++    }
++
++    return (last_hartid < ms->smp.cpus) ? last_hartid : -1;
++}
++
++int riscv_socket_hart_count(const MachineState *ms, int socket_id)
++{
++    int first_hartid, last_hartid;
++
++    if (!numa_enabled(ms)) {
++        return (!socket_id) ? ms->smp.cpus : -1;
++    }
++
++    first_hartid = riscv_socket_first_hartid(ms, socket_id);
++    if (first_hartid < 0) {
++        return -1;
++    }
++
++    last_hartid = riscv_socket_last_hartid(ms, socket_id);
++    if (last_hartid < 0) {
++        return -1;
++    }
++
++    if (first_hartid > last_hartid) {
++        return -1;
++    }
++
++    return last_hartid - first_hartid + 1;
++}
++
++bool riscv_socket_check_hartids(const MachineState *ms, int socket_id)
++{
++    int i, first_hartid, last_hartid;
++
++    if (!numa_enabled(ms)) {
++        return (!socket_id) ? true : false;
++    }
++
++    first_hartid = riscv_socket_first_hartid(ms, socket_id);
++    if (first_hartid < 0) {
++        return false;
++    }
++
++    last_hartid = riscv_socket_last_hartid(ms, socket_id);
++    if (last_hartid < 0) {
++        return false;
++    }
++
++    for (i = first_hartid; i <= last_hartid; i++) {
++        if (ms->possible_cpus->cpus[i].props.node_id != socket_id) {
++            return false;
++        }
++    }
++
++    return true;
++}
++
++uint64_t riscv_socket_mem_offset(const MachineState *ms, int socket_id)
++{
++    int i;
++    uint64_t mem_offset = 0;
++
++    if (!numa_enabled(ms)) {
++        return 0;
++    }
++
++    for (i = 0; i < ms->numa_state->num_nodes; i++) {
++        if (i == socket_id) {
++            break;
++        }
++        mem_offset += ms->numa_state->nodes[i].node_mem;
++    }
++
++    return (i == socket_id) ? mem_offset : 0;
++}
++
++uint64_t riscv_socket_mem_size(const MachineState *ms, int socket_id)
++{
++    if (!numa_enabled(ms)) {
++        return (!socket_id) ? ms->ram_size : 0;
++    }
++
++    return (socket_id < ms->numa_state->num_nodes) ?
++            ms->numa_state->nodes[socket_id].node_mem : 0;
++}
++
++void riscv_socket_fdt_write_id(const MachineState *ms, void *fdt,
++                               const char *node_name, int socket_id)
++{
++    if (numa_enabled(ms)) {
++        qemu_fdt_setprop_cell(fdt, node_name, "numa-node-id", socket_id);
++    }
++}
++
++void riscv_socket_fdt_write_distance_matrix(const MachineState *ms, void *fdt)
++{
++    int i, j, idx;
++    uint32_t *dist_matrix, dist_matrix_size;
++
++    if (numa_enabled(ms) && ms->numa_state->have_numa_distance) {
++        dist_matrix_size = riscv_socket_count(ms) * riscv_socket_count(ms);
++        dist_matrix_size *= (3 * sizeof(uint32_t));
++        dist_matrix = g_malloc0(dist_matrix_size);
++
++        for (i = 0; i < riscv_socket_count(ms); i++) {
++            for (j = 0; j < riscv_socket_count(ms); j++) {
++                idx = (i * riscv_socket_count(ms) + j) * 3;
++                dist_matrix[idx + 0] = cpu_to_be32(i);
++                dist_matrix[idx + 1] = cpu_to_be32(j);
++                dist_matrix[idx + 2] =
++                    cpu_to_be32(ms->numa_state->nodes[i].distance[j]);
++            }
++        }
++
++        qemu_fdt_add_subnode(fdt, "/distance-map");
++        qemu_fdt_setprop_string(fdt, "/distance-map", "compatible",
++                                "numa-distance-map-v1");
++        qemu_fdt_setprop(fdt, "/distance-map", "distance-matrix",
++                         dist_matrix, dist_matrix_size);
++        g_free(dist_matrix);
++    }
++}
++
++CpuInstanceProperties
++riscv_numa_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
++{
++    MachineClass *mc = MACHINE_GET_CLASS(ms);
++    const CPUArchIdList *possible_cpus = mc->possible_cpu_arch_ids(ms);
++
++    assert(cpu_index < possible_cpus->len);
++    return possible_cpus->cpus[cpu_index].props;
++}
++
++int64_t riscv_numa_get_default_cpu_node_id(const MachineState *ms, int idx)
++{
++    int64_t nidx = 0;
++
++    if (ms->numa_state->num_nodes) {
++        nidx = idx / (ms->smp.cpus / ms->numa_state->num_nodes);
++        if (ms->numa_state->num_nodes <= nidx) {
++            nidx = ms->numa_state->num_nodes - 1;
++        }
++    }
++
++    return nidx;
++}
++
++const CPUArchIdList *riscv_numa_possible_cpu_arch_ids(MachineState *ms)
++{
++    int n;
++    unsigned int max_cpus = ms->smp.max_cpus;
++
++    if (ms->possible_cpus) {
++        assert(ms->possible_cpus->len == max_cpus);
++        return ms->possible_cpus;
++    }
++
++    ms->possible_cpus = g_malloc0(sizeof(CPUArchIdList) +
++                                  sizeof(CPUArchId) * max_cpus);
++    ms->possible_cpus->len = max_cpus;
++    for (n = 0; n < ms->possible_cpus->len; n++) {
++        ms->possible_cpus->cpus[n].type = ms->cpu_type;
++        ms->possible_cpus->cpus[n].arch_id = n;
++        ms->possible_cpus->cpus[n].props.has_core_id = true;
++        ms->possible_cpus->cpus[n].props.core_id = n;
++    }
++
++    return ms->possible_cpus;
++}
+diff --git a/include/hw/riscv/numa.h b/include/hw/riscv/numa.h
+new file mode 100644
+index 0000000000..fd9517a315
+--- /dev/null
++++ b/include/hw/riscv/numa.h
+@@ -0,0 +1,51 @@
++/*
++ * QEMU RISC-V NUMA Helper
++ *
++ * Copyright (c) 2020 Western Digital Corporation or its affiliates.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef RISCV_NUMA_H
++#define RISCV_NUMA_H
++
++#include "hw/sysbus.h"
++#include "sysemu/numa.h"
++
++int riscv_socket_count(const MachineState *ms);
++
++int riscv_socket_first_hartid(const MachineState *ms, int socket_id);
++
++int riscv_socket_last_hartid(const MachineState *ms, int socket_id);
++
++int riscv_socket_hart_count(const MachineState *ms, int socket_id);
++
++uint64_t riscv_socket_mem_offset(const MachineState *ms, int socket_id);
++
++uint64_t riscv_socket_mem_size(const MachineState *ms, int socket_id);
++
++bool riscv_socket_check_hartids(const MachineState *ms, int socket_id);
++
++void riscv_socket_fdt_write_id(const MachineState *ms, void *fdt,
++                               const char *node_name, int socket_id);
++
++void riscv_socket_fdt_write_distance_matrix(const MachineState *ms, void *fdt);
++
++CpuInstanceProperties
++riscv_numa_cpu_index_to_props(MachineState *ms, unsigned cpu_index);
++
++int64_t riscv_numa_get_default_cpu_node_id(const MachineState *ms, int idx);
++
++const CPUArchIdList *riscv_numa_possible_cpu_arch_ids(MachineState *ms);
++
++#endif /* RISCV_NUMA_H */
 -- 
 2.25.1
 
