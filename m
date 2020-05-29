@@ -2,59 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDBB61E758E
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 07:48:57 +0200 (CEST)
-Received: from localhost ([::1]:41482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE9D61E75AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 07:57:37 +0200 (CEST)
+Received: from localhost ([::1]:47668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeXt2-0006EJ-E7
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 01:48:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54090)
+	id 1jeY1Q-0001o8-9R
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 01:57:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jeXsJ-0005ph-Ir
- for qemu-devel@nongnu.org; Fri, 29 May 2020 01:48:11 -0400
-Received: from 4.mo177.mail-out.ovh.net ([46.105.37.72]:52043)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jeXsI-00036J-E8
- for qemu-devel@nongnu.org; Fri, 29 May 2020 01:48:11 -0400
-Received: from player697.ha.ovh.net (unknown [10.108.42.119])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id 27D18135A4E
- for <qemu-devel@nongnu.org>; Fri, 29 May 2020 07:48:05 +0200 (CEST)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player697.ha.ovh.net (Postfix) with ESMTPSA id F37F012D5E7E7;
- Fri, 29 May 2020 05:48:00 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G0034b3fc16a-4c9b-4633-9e67-6b451a230320,E8A128A1AF80B485D2678A34BACBEE7037B50529)
- smtp.auth=clg@kaod.org
-Subject: Re: [PATCH] spapr: Fix typos in comments and macro indentation
-To: Gustavo Romero <gromero@linux.ibm.com>, qemu-ppc@nongnu.org,
- QEMU Developers <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <1590710681-12873-1-git-send-email-gromero@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <17b397c4-f138-d844-45dd-1b2a6079440e@kaod.org>
-Date: Fri, 29 May 2020 07:47:59 +0200
+ (Exim 4.90_1) (envelope-from <dovgaluk@ispras.ru>)
+ id 1jeY0H-00017P-PH
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 01:56:25 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:52904)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <dovgaluk@ispras.ru>) id 1jeY0G-0000rZ-81
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 01:56:25 -0400
+Received: from [192.168.0.183] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id A1699CD460;
+ Fri, 29 May 2020 08:56:21 +0300 (MSK)
+Subject: Re: [PATCH v2 04/11] tests/acceptance: add kernel record/replay test
+ for x86_64
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <159057543840.16818.14393433996899521784.stgit@pasha-ThinkPad-X280>
+ <159057546117.16818.15607496040935344350.stgit@pasha-ThinkPad-X280>
+ <87sgfl5qsl.fsf@linaro.org> <e9b00219-e7f2-a109-dcc1-f5a325cfae40@ispras.ru>
+ <87h7w042d7.fsf@linaro.org>
+From: Pavel Dovgalyuk <dovgaluk@ispras.ru>
+Message-ID: <f9906fce-55fd-1fe2-0a9b-ff5d8d91c0fa@ispras.ru>
+Date: Fri, 29 May 2020 08:56:21 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <1590710681-12873-1-git-send-email-gromero@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <87h7w042d7.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 11679241210006506470
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedruddvjedgleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefffdvtddugeeifeduuefghfejgfeigeeigeeltedthefgieeiveeuiefhgeefgfenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=46.105.37.72; envelope-from=clg@kaod.org;
- helo=4.mo177.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:48:06
+Content-Language: en-US
+Received-SPF: pass client-ip=83.149.199.45; envelope-from=dovgaluk@ispras.ru;
+ helo=mail.ispras.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:56:22
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,74 +59,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: wrampazz@redhat.com, qemu-devel@nongnu.org,
+ Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>, pavel.dovgaluk@ispras.ru,
+ crosa@redhat.com, pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All QEMU patches should be sent to the qemu-devel mailing list also 
-and to David as he is the PPC maintainer.
 
-On 5/29/20 2:04 AM, Gustavo Romero wrote:
-> This commit fixes typos in spapr_vio_reg_to_irq() comments and a macro
-> indentation.
-> 
-> Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
+On 28.05.2020 16:26, Alex Bennée wrote:
+> Pavel Dovgalyuk <dovgaluk@ispras.ru> writes:
+>
+>> On 27.05.2020 18:41, Alex Bennée wrote:
+>>> Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com> writes:
+>>>
+>>>> This patch adds a test for record/replay an execution of x86_64 machine.
+>>>> Execution scenario includes simple kernel boot, which allows testing
+>>>> basic hardware interaction in RR mode.
+>>>>
+>>>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+>>>> ---
+>>>>    0 files changed
+>>>>
+>>>> diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+>>>> index b8b277ad2f..c7526f1aba 100644
+>>>> --- a/tests/acceptance/replay_kernel.py
+>>>> +++ b/tests/acceptance/replay_kernel.py
+>>>> @@ -55,3 +55,19 @@ class ReplayKernel(LinuxKernelUtils):
+>>>>                        True, shift, args)
+>>>>            self.run_vm(kernel_path, kernel_command_line, console_pattern,
+>>>>                        False, shift, args)
+>>>> +
+>>>> +    def test_x86_64_pc(self):
+>>>> +        """
+>>>> +        :avocado: tags=arch:x86_64
+>>>> +        :avocado: tags=machine:pc
+>>>> +        """
+>>>> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+>>>> +                      '/linux/releases/29/Everything/x86_64/os/images/pxeboot'
+>>>> +                      '/vmlinuz')
+>>>> +        kernel_hash = '23bebd2680757891cf7adedb033532163a792495'
+>>>> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>>>> +
+>>>> +        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=ttyS0'
+>>>> +        console_pattern = 'Kernel command line: %s' % kernel_command_line
+>>>> +
+>>>> +        self.run_rr(kernel_path, kernel_command_line, console_pattern)
+>>> This test fails for me on the replay:
+>> Have you applied latest RR patches?
+> I have the following on top of the acceptance patches:
+>
+> a36c23042fe * review/record-replay-acceptance-v2 icount: fix shift=auto for record/replay
+> 4ab2164c10b * replay: synchronize on every virtual timer callback
+> 66104ce6e4b * replay: notify the main loop when there are no instructions
+>
+Please also try adding "replay: implement fair mutex"
 
-Acked-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C. 
-
-
-> ---
->  hw/ppc/spapr_vio.c         | 6 +++---
->  include/hw/ppc/xive_regs.h | 2 +-
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
-> index 0b085ea..741fdbf 100644
-> --- a/hw/ppc/spapr_vio.c
-> +++ b/hw/ppc/spapr_vio.c
-> @@ -420,7 +420,7 @@ static void spapr_vio_busdev_reset(DeviceState *qdev)
->  }
->  
->  /*
-> - * The register property of a VIO device is defined in livirt using
-> + * The register property of a VIO device is defined in libvirt using
->   * 0x1000 as a base register number plus a 0x1000 increment. For the
->   * VIO tty device, the base number is changed to 0x30000000. QEMU uses
->   * a base register number of 0x71000000 and then a simple increment.
-> @@ -450,7 +450,7 @@ static inline uint32_t spapr_vio_reg_to_irq(uint32_t reg)
->  
->      } else if (reg >= 0x30000000) {
->          /*
-> -         * VIO tty devices register values, when allocated by livirt,
-> +         * VIO tty devices register values, when allocated by libvirt,
->           * are mapped in range [0xf0 - 0xff], gives us a maximum of 16
->           * vtys.
->           */
-> @@ -459,7 +459,7 @@ static inline uint32_t spapr_vio_reg_to_irq(uint32_t reg)
->      } else {
->          /*
->           * Other VIO devices register values, when allocated by
-> -         * livirt, should be mapped in range [0x00 - 0xef]. Conflicts
-> +         * libvirt, should be mapped in range [0x00 - 0xef]. Conflicts
->           * will be detected when IRQ is claimed.
->           */
->          irq = (reg >> 12) & 0xff;
-> diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
-> index 09f2436..7879692 100644
-> --- a/include/hw/ppc/xive_regs.h
-> +++ b/include/hw/ppc/xive_regs.h
-> @@ -71,7 +71,7 @@
->   * QW word 2 contains the valid bit at the top and other fields
->   * depending on the QW.
->   */
-> -#define TM_WORD2                0x8
-> +#define   TM_WORD2              0x8
->  #define   TM_QW0W2_VU           PPC_BIT32(0)
->  #define   TM_QW0W2_LOGIC_SERV   PPC_BITMASK32(1, 31) /* XX 2,31 ? */
->  #define   TM_QW1W2_VO           PPC_BIT32(0)
-> 
 
 
