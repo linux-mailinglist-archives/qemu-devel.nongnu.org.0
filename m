@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441901E75FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 08:37:25 +0200 (CEST)
-Received: from localhost ([::1]:40364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2C81E7643
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 08:58:33 +0200 (CEST)
+Received: from localhost ([::1]:51466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeYdv-0005EF-TC
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 02:37:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34048)
+	id 1jeYyO-0007Di-7k
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 02:58:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jeYce-00042H-8L
- for qemu-devel@nongnu.org; Fri, 29 May 2020 02:36:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42780
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeYxE-0005r4-2l
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 02:57:21 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21825
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jeYcc-0007RU-Rx
- for qemu-devel@nongnu.org; Fri, 29 May 2020 02:36:03 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jeYxB-0003Do-CW
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 02:57:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590734161;
+ s=mimecast20190719; t=1590735436;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RxPSWTdJuvfPvSoAEprWkIPM+gF1S/GudfHLBFG6hp8=;
- b=eQ6/xkHmQBcPD/03VqVQu39q4NaErcQjGDX5pKPIA3oZKPasPAXKYge7ZX9GcyRUKrcvED
- MU7Dpi2iS6cYhbML+FkpuUmLv8nrr0pkZaXXzhIvu4b0D0Vmo5iM1p6ftrRKKR+GtBpV1m
- FBmrRLeQpz40Zjhl+WSmsb9RZTB3qcU=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=Xldoz2VXICzp9M9jMEBN3dnzdtVGVvd1JVzTpFBIf4k=;
+ b=GA96mKWpvJ2/mJtlgYkVnUYD/qYnSUkAwYOvJRCH24Z4md58CiiDEzNAVotId88SJAmhAb
+ SBJ7FJ5wngU0VM7eCgJskux/eEtz3ocNuS/+2MiYqHyODN+NuMo7YuVMP07Rik09YlYqZU
+ 2hYuSJKuSsM0aRxm6JtlExw+Jj/FYtY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-2HT8p8WiNAWm2_s5_G-UpA-1; Fri, 29 May 2020 02:35:57 -0400
-X-MC-Unique: 2HT8p8WiNAWm2_s5_G-UpA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-143-CxpfI7s-NwyUNUbGN-d9BA-1; Fri, 29 May 2020 02:57:14 -0400
+X-MC-Unique: CxpfI7s-NwyUNUbGN-d9BA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 302BF464;
- Fri, 29 May 2020 06:35:56 +0000 (UTC)
-Received: from [10.72.13.231] (ovpn-13-231.pek2.redhat.com [10.72.13.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B81195D9D5;
- Fri, 29 May 2020 06:35:50 +0000 (UTC)
-Subject: Re: [RFC PATCH] hw/net/e1000e: Do not abort() on invalid PSRCTL
- register value
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200525122330.3691-1-f4bug@amsat.org>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <2623aab1-355a-a5dc-3fc1-e22f795b98a0@redhat.com>
-Date: Fri, 29 May 2020 14:35:48 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87A0B80B700;
+ Fri, 29 May 2020 06:57:13 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
+ [10.36.112.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E19019930;
+ Fri, 29 May 2020 06:57:13 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id AF620113864A; Fri, 29 May 2020 08:57:11 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: QMP qom-get feels useless for child properties
+Date: Fri, 29 May 2020 08:57:11 +0200
+Message-ID: <87lflbns8o.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200525122330.3691-1-f4bug@amsat.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 23:43:13
+Content-Type: text/plain
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:27:49
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -71,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,123 +77,57 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>,
+ =?utf-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+QMP qom-get for a link property returns the canonical path of the link's
+target:
 
-On 2020/5/25 下午8:23, Philippe Mathieu-Daudé wrote:
-> libFuzzer found using 'qemu-system-i386 -M q35':
->
-> qemu: hardware error: e1000e: PSRCTL.BSIZE0 cannot be zero
-> CPU #0:
-> EAX=00000000 EBX=00000000 ECX=00000000 EDX=00000663
-> ESI=00000000 EDI=00000000 EBP=00000000 ESP=00000000
-> EIP=0000fff0 EFL=00000002 [-------] CPL=0 II=0 A20=1 SMM=0 HLT=0
-> ES =0000 00000000 0000ffff 00009300
-> CS =f000 ffff0000 0000ffff 00009b00
-> SS =0000 00000000 0000ffff 00009300
-> DS =0000 00000000 0000ffff 00009300
-> FS =0000 00000000 0000ffff 00009300
-> GS =0000 00000000 0000ffff 00009300
-> LDT=0000 00000000 0000ffff 00008200
-> TR =0000 00000000 0000ffff 00008b00
-> GDT=     00000000 0000ffff
-> IDT=     00000000 0000ffff
-> CR0=60000010 CR2=00000000 CR3=00000000 CR4=00000000
-> DR0=00000000 DR1=00000000 DR2=00000000 DR3=00000000
-> DR6=ffff0ff0 DR7=00000400
-> EFER=0000000000000000
-> FCW=037f FSW=0000 [ST=0] FTW=00 MXCSR=00001f80
-> FPR0=0000000000000000 0000 FPR1=0000000000000000 0000
-> FPR2=0000000000000000 0000 FPR3=0000000000000000 0000
-> FPR4=0000000000000000 0000 FPR5=0000000000000000 0000
-> FPR6=0000000000000000 0000 FPR7=0000000000000000 0000
-> XMM00=00000000000000000000000000000000 XMM01=00000000000000000000000000000000
-> XMM02=00000000000000000000000000000000 XMM03=00000000000000000000000000000000
-> XMM04=00000000000000000000000000000000 XMM05=00000000000000000000000000000000
-> XMM06=00000000000000000000000000000000 XMM07=00000000000000000000000000000000
-> ==1988== ERROR: libFuzzer: deadly signal
->      #6 0x7fae4d3ea894 in __GI_abort (/lib64/libc.so.6+0x22894)
->      #7 0x563f4cc59a1d in hw_error (qemu-fuzz-i386+0xe8ca1d)
->      #8 0x563f4d7c93f2 in e1000e_set_psrctl (qemu-fuzz-i386+0x19fc3f2)
->      #9 0x563f4d7b798f in e1000e_core_write (qemu-fuzz-i386+0x19ea98f)
->      #10 0x563f4d7afc46 in e1000e_mmio_write (qemu-fuzz-i386+0x19e2c46)
->      #11 0x563f4cc9a0a7 in memory_region_write_accessor (qemu-fuzz-i386+0xecd0a7)
->      #12 0x563f4cc99c13 in access_with_adjusted_size (qemu-fuzz-i386+0xeccc13)
->      #13 0x563f4cc987b4 in memory_region_dispatch_write (qemu-fuzz-i386+0xecb7b4)
->
-> It simply sent the following 2 I/O command to the e1000e
-> PCI BAR #2 I/O region:
->
->    writew 0x0100 0x0c00 # RCTL =   E1000_RCTL_DTYP_MASK
->    writeb 0x2170 0x00   # PSRCTL = 0
->
-> 2813 static void
-> 2814 e1000e_set_psrctl(E1000ECore *core, int index, uint32_t val)
-> 2815 {
-> 2816     if (core->mac[RCTL] & E1000_RCTL_DTYP_MASK) {
-> 2817
-> 2818         if ((val & E1000_PSRCTL_BSIZE0_MASK) == 0) {
-> 2819             hw_error("e1000e: PSRCTL.BSIZE0 cannot be zero");
-> 2820         }
->
-> Instead of calling hw_error() which abort the process (it is
-> meant for CPU fatal error condition, not for device logging),
-> log the invalid request with qemu_log_mask(LOG_GUEST_ERROR)
-> and return ignoring the request.
->
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> RFC because there might be something clever than returning...
-> Probably worth a Cc:qemu-stable@ tag
+    $ socat "READLINE,history=$HOME/.qmp_history,prompt=QMP> " UNIX-CONNECT:$HOME/work/images/test-qmp
+    [...]
+    QMP> {"execute": "qom-get", "arguments": {"path": "/machine", "property": "acpi-device"}}
+    {"return": "/machine/unattached/device[23]"}
 
+This makes sense.
 
-I can't think of a better solution here. And the code looks safe if we 
-accept zero value.
+Fine print: it returns "" for dangling links, I think.  See
+object_get_link_property().
 
-So I applied this patch.
+qom-get behaves the same for child properties:
 
-Thanks
+    QMP> {"execute": "qom-get", "arguments": {"path": "/machine", "property": "peripheral"}}
+    {"return": "/machine/peripheral"}
 
+This surprised me.  I'm writing to the list in the hope of saving
+somebody else the surprise and the time to figure out what's going on
+here.
 
-> ---
->   hw/net/e1000e_core.c | 10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-> index d5676871fa..bcd186cac5 100644
-> --- a/hw/net/e1000e_core.c
-> +++ b/hw/net/e1000e_core.c
-> @@ -34,9 +34,9 @@
->   */
->   
->   #include "qemu/osdep.h"
-> +#include "qemu/log.h"
->   #include "net/net.h"
->   #include "net/tap.h"
-> -#include "hw/hw.h"
->   #include "hw/pci/msi.h"
->   #include "hw/pci/msix.h"
->   #include "sysemu/runstate.h"
-> @@ -2816,11 +2816,15 @@ e1000e_set_psrctl(E1000ECore *core, int index, uint32_t val)
->       if (core->mac[RCTL] & E1000_RCTL_DTYP_MASK) {
->   
->           if ((val & E1000_PSRCTL_BSIZE0_MASK) == 0) {
-> -            hw_error("e1000e: PSRCTL.BSIZE0 cannot be zero");
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                          "e1000e: PSRCTL.BSIZE0 cannot be zero");
-> +            return;
->           }
->   
->           if ((val & E1000_PSRCTL_BSIZE1_MASK) == 0) {
-> -            hw_error("e1000e: PSRCTL.BSIZE1 cannot be zero");
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                          "e1000e: PSRCTL.BSIZE1 cannot be zero");
-> +            return;
->           }
->       }
->   
+Returning the canonical path feels useless here.  The only explanation
+that comes to my mind is we have to return something, the canonical path
+is something, therefore we have to return it ;)
+
+Fine print: child properties cannot dangle.  See
+object_get_child_property().
+
+To get the actual contents, you need to use another command:
+
+    QMP> {"execute": "qom-list", "arguments": {"path": "/machine/peripheral"}}
+    {"return": [{"name": "type", "type": "string"}, {"name": "vga", "type": "child<VGA>"}, {"name": "nic.0", "type": "child<virtio-net-pci>"}, {"name": "ide2", "type": "child<ide-cd>"}, {"name": "vd0", "type": "child<virtio-blk-pci>"}]}
+
+You either just know that /machine/peripheral is a child property, or
+you recognize the pattern "type": "child<T>" in output of qom-list one
+level up:
+
+    QMP>{"execute":"qom-list","arguments":{"path":"/machine"}}
+    {"return": [... {"name": "peripheral", "type": "child<container>"}, ...]}
+
+I believe ad hoc matching of type strings is necessary in other cases to
+make sense of qom-get output.
+
+I wish QOM introspection described types like QAPI introspection does.
+Sadly, -ENOTIME.
 
 
