@@ -2,55 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4151E8B32
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 May 2020 00:21:01 +0200 (CEST)
-Received: from localhost ([::1]:33202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7927E1E8B45
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 May 2020 00:24:25 +0200 (CEST)
+Received: from localhost ([::1]:37666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jenN5-0005f1-Nf
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 18:20:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59840)
+	id 1jenQN-00082D-Gm
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 18:24:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sean.j.christopherson@intel.com>)
- id 1jenLn-0004xn-Kz; Fri, 29 May 2020 18:19:40 -0400
-Received: from mga17.intel.com ([192.55.52.151]:38610)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1jenPS-0007HU-CB
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 18:23:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15638
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sean.j.christopherson@intel.com>)
- id 1jenLk-0004GB-KW; Fri, 29 May 2020 18:19:38 -0400
-IronPort-SDR: PNgEdyY2gAeNVs6qnbsHe3ImsnjY7Mcg7BsAAXyxc8C7UuHe01kONWwU2UG7IFZ1wpqaurcTP5
- X2X//WYQ3hkg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2020 15:19:26 -0700
-IronPort-SDR: 8fsBnJ8/eVoxsb0uNjg6+LtIBoIDkvbbx2dRkZ02g8tdonPt1pulU3aJFOiVwrMeUtOnyIWz/P
- cbGQOEhN0mfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,450,1583222400"; d="scan'208";a="469643380"
-Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com)
- ([10.54.74.152])
- by fmsmga006.fm.intel.com with ESMTP; 29 May 2020 15:19:26 -0700
-Date: Fri, 29 May 2020 15:19:26 -0700
-From: Sean Christopherson <sean.j.christopherson@intel.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [RFC v2 00/18] Refactor configuration of guest memory protection
-Message-ID: <20200529221926.GA3168@linux.intel.com>
-References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1jenPQ-00067T-PQ
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 18:23:25 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04TM2aIr079175
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 18:23:22 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 31as1e7qjk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 18:23:21 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04TMMjwJ132669
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 18:23:21 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 31as1e7qje-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 May 2020 18:23:21 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04TML2KI010174;
+ Fri, 29 May 2020 22:23:20 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma02dal.us.ibm.com with ESMTP id 316ufbtd1u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 May 2020 22:23:20 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 04TMNIA212649166
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 29 May 2020 22:23:18 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6E9AA6E050;
+ Fri, 29 May 2020 22:23:19 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 01B316E04E;
+ Fri, 29 May 2020 22:23:18 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 29 May 2020 22:23:18 +0000 (GMT)
+Subject: Re: [PATCH] acpi: tpm: Do not build TCPA table for TPM 2
+To: Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ mst@redhat.com
+References: <20200529192840.3921141-1-stefanb@linux.vnet.ibm.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <5df0df78-817d-d80e-648b-c4f733972ff2@linux.ibm.com>
+Date: Fri, 29 May 2020 18:23:18 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200521034304.340040-1-david@gibson.dropbear.id.au>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Received-SPF: pass client-ip=192.55.52.151;
- envelope-from=sean.j.christopherson@intel.com; helo=mga17.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 18:19:26
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200529192840.3921141-1-stefanb@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
+ definitions=2020-05-29_10:2020-05-28,
+ 2020-05-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 spamscore=0
+ cotscore=-2147483648 phishscore=0 impostorscore=0 malwarescore=0
+ priorityscore=1501 lowpriorityscore=0 suspectscore=0 adultscore=0
+ mlxscore=0 clxscore=1015 mlxlogscore=941 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005290155
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 15:28:52
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,54 +106,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- dgilbert@redhat.com, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- mdroth@linux.vnet.ibm.com, Richard Henderson <rth@twiddle.net>
+Cc: eric.auger@redhat.com, marcandre.lureau@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 21, 2020 at 01:42:46PM +1000, David Gibson wrote:
-> A number of hardware platforms are implementing mechanisms whereby the
-> hypervisor does not have unfettered access to guest memory, in order
-> to mitigate the security impact of a compromised hypervisor.
-> 
-> AMD's SEV implements this with in-cpu memory encryption, and Intel has
-> its own memory encryption mechanism.  POWER has an upcoming mechanism
-> to accomplish this in a different way, using a new memory protection
-> level plus a small trusted ultravisor.  s390 also has a protected
-> execution environment.
-> 
-> The current code (committed or draft) for these features has each
-> platform's version configured entirely differently.  That doesn't seem
-> ideal for users, or particularly for management layers.
-> 
-> AMD SEV introduces a notionally generic machine option
-> "machine-encryption", but it doesn't actually cover any cases other
-> than SEV.
-> 
-> This series is a proposal to at least partially unify configuration
-> for these mechanisms, by renaming and generalizing AMD's
-> "memory-encryption" property.  It is replaced by a
-> "guest-memory-protection" property pointing to a platform specific
-> object which configures and manages the specific details.
-> 
-> For now this series covers just AMD SEV and POWER PEF.  I'm hoping it
-> can be extended to cover the Intel and s390 mechanisms as well,
-> though.
-> 
-> Note: I'm using the term "guest memory protection" throughout to refer
-> to mechanisms like this.  I don't particular like the term, it's both
-> long and not really precise.  If someone can think of a succinct way
-> of saying "a means of protecting guest memory from a possibly
-> compromised hypervisor", I'd be grateful for the suggestion.
+On 5/29/20 3:28 PM, Stefan Berger wrote:
+> From: Stefan Berger <stefanb@linux.ibm.com>
+>
+> Do not build a TCPA table for TPM 2 anymore but create the log area when
+> building the TPM2 table. The TCPA table is only needed for TPM 1.2.
 
-Many of the features are also going far beyond just protecting memory, so
-even the "memory" part feels wrong.  Maybe something like protected-guest
-or secure-guest?
+Specs are here: 
+https://trustedcomputinggroup.org/wp-content/uploads/TCG_ACPIGeneralSpecification_v1.20_r8.pdf
 
-A little imprecision isn't necessarily a bad thing, e.g. memory-encryption
-is quite precise, but also wrong once it encompasses anything beyond plain
-old encryption.
+TCPA is a TPM 1.2 table and TPM2 tables is sufficient for TPM 2.0.
+
+
+
 
