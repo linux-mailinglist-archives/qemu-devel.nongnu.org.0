@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CA01E7685
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 09:21:10 +0200 (CEST)
-Received: from localhost ([::1]:46170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2898E1E7691
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 09:25:23 +0200 (CEST)
+Received: from localhost ([::1]:57206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeZKH-0000Qx-VB
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 03:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43646)
+	id 1jeZOM-0006mK-14
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 03:25:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jeZIA-0006cx-7V
- for qemu-devel@nongnu.org; Fri, 29 May 2020 03:18:58 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26342
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jeZHj-0007Rr-R0
- for qemu-devel@nongnu.org; Fri, 29 May 2020 03:18:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590736710;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TuaqtisDSBKm7YZLwfnfdtBwnrjw4+rbSUpEYkq4uh0=;
- b=idPbmEcB2Aerk0hjGahmIM49/m2qa9wFQqhrcbhw9wUmfrGk8X25mdOzh/53oLk/dKZ5Fa
- 6EP+TucyVfRKNvj+4B6g+wdv3hCJ/z1A3l63zkEzac27qpmlnYy87krXcHoJ7z3f775zvw
- l28JgAu0AcAOWus4UCpa7mzPJZvDEqw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-zm4RX5xZOqKkkL3JHEzapA-1; Fri, 29 May 2020 03:18:28 -0400
-X-MC-Unique: zm4RX5xZOqKkkL3JHEzapA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4E2980183C;
- Fri, 29 May 2020 07:18:27 +0000 (UTC)
-Received: from [10.72.13.231] (ovpn-13-231.pek2.redhat.com [10.72.13.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 725B72E020;
- Fri, 29 May 2020 07:18:26 +0000 (UTC)
-Subject: Re: [PATCH 1/1] e1000e: Added ICR clearing by corresponding IMS bit.
-To: andrew@daynix.com, qemu-devel@nongnu.org
-References: <20200513113125.1465650-1-andrew@daynix.com>
- <20200513113125.1465650-2-andrew@daynix.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <57ab1532-c3a6-e631-5b0e-e89fc4d82873@redhat.com>
-Date: Fri, 29 May 2020 15:18:24 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <linus.walleij@linaro.org>)
+ id 1jeZLX-000356-9M
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 03:22:27 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:39445)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <linus.walleij@linaro.org>)
+ id 1jeZLW-0000nj-08
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 03:22:26 -0400
+Received: by mail-lj1-x242.google.com with SMTP id o9so1341899ljj.6
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 00:22:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dl25yjAmJuE5AxkRwc5qz4dWHRUh+gkJVzHXFvs+rfg=;
+ b=hswH03OEBTEgok3PtkSVa8NSZO20xTjVRoaF6RX18g3v51a3hFRNQq1utdUpGr9Z+q
+ X0d8OiqCQkSgY7tBpDOoibOwLHpXeCKtZIfzhxr6OXnsSFPaccLBqztx6eRQDL6nQA96
+ R7Gh7KWcHd0rcO+5eyuklKCsu2JYny3gaHcv7QnG5kdWnIe1mi12m0EC/ShEZa9D/27y
+ Wt8TPxDCkKvjnK61EJeBc1ygn05qOqGBeSquohq7VPUR0fRff9mPKPVyr5aK7UVkIGkj
+ xH5lh580rUwSSMLJCkZZM8WZLHeb5HXjjF5A/8ck/w7RyZP/fxxukcleq03s9CqprG8h
+ JUzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dl25yjAmJuE5AxkRwc5qz4dWHRUh+gkJVzHXFvs+rfg=;
+ b=mIif90hi+PF200shcW5mpte2USZO2U7HYqXRcqyzqU5zH7nVVzlZgvlqH6QvAvMrO3
+ UYZvQAjOw0VqpCPvhUr/bXXp/w+sJ/eKwih5UUuyRD232PLgvzbGXwygzkoFBvQ0DoGr
+ kdKIdCYQnp2H0ZIT0wSc2ZF10z5w3ii/xzLqvmhErDZJj56WYQ6YzJp1Y+SOSGrS7xxu
+ PaPEr9PC2zrPOkdGAFm4XOm6GMeobDwK7FyZa7CMfFAzG2gLx9BbhYHhqjC7M3rWIJ0D
+ +0/arFKGN1UQoR3aCdsQIX7n4Hxd2GJU0CdxWjZeGbQUT57tzPibCFItVNmjmtLCTLxa
+ 8rqg==
+X-Gm-Message-State: AOAM530+V1sK0aFBZ0ULhNj6IA/wcJdpWq1fWjM+DVhUxuP/j7W9HLyW
+ DbQlVnnYQZ7JU42Hsa0YxN88EA==
+X-Google-Smtp-Source: ABdhPJw41qmTFNR1CsfUZRyTyoeD0cdsQ+X861XvpuY9BXFNpuN+0C0bxdkiKXtLjIsMiCEHv54kPQ==
+X-Received: by 2002:a2e:870b:: with SMTP id m11mr3122624lji.315.1590736943242; 
+ Fri, 29 May 2020 00:22:23 -0700 (PDT)
+Received: from localhost.localdomain ([92.34.219.140])
+ by smtp.gmail.com with ESMTPSA id k27sm2068399lfe.88.2020.05.29.00.22.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 May 2020 00:22:22 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>
+Subject: [PATCH v2] fcntl: Add 32bit filesystem mode
+Date: Fri, 29 May 2020 09:20:17 +0200
+Message-Id: <20200529072017.2906-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-In-Reply-To: <20200513113125.1465650-2-andrew@daynix.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 03:05:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=linus.walleij@linaro.org; helo=mail-lj1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,69 +83,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dmitry.fleytman@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, linux-api@vger.kernel.org,
+ Linus Walleij <linus.walleij@linaro.org>, qemu-devel@nongnu.org,
+ Florian Weimer <fw@deneb.enyo.de>, Andy Lutomirski <luto@kernel.org>,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+It was brought to my attention that this bug from 2018 was
+still unresolved: 32 bit emulators like QEMU were given
+64 bit hashes when running 32 bit emulation on 64 bit systems.
 
-On 2020/5/13 下午7:31, andrew@daynix.com wrote:
-> From: Andrew Melnychenko <andrew@daynix.com>
->
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1707441
-> Added ICR clearing if there is IMS bit - according to the note by
-> section 13.3.27 of the 8257X developers manual.
->
-> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> ---
->   hw/net/e1000e_core.c | 10 ++++++++++
->   hw/net/trace-events  |  1 +
->   2 files changed, 11 insertions(+)
->
-> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-> index d5676871fa..10212d7932 100644
-> --- a/hw/net/e1000e_core.c
-> +++ b/hw/net/e1000e_core.c
-> @@ -2624,6 +2624,16 @@ e1000e_mac_icr_read(E1000ECore *core, int index)
->           e1000e_clear_ims_bits(core, core->mac[IAM]);
->       }
->   
-> +    /*
-> +     * PCIe* GbE Controllers Open Source Software Developer's Manual
-> +     * 13.3.27 Interrupt Cause Read Register
-> +     */
-> +    if ((core->mac[ICR] & E1000_ICR_ASSERTED) &&
-> +        (core->mac[ICR] & core->mac[IMS])) {
-> +        trace_e1000e_irq_icr_clear_icr_bit_ims(core->mac[ICR], core->mac[IMS]);
-> +        core->mac[ICR] = 0;
-> +    }
-> +
+This adds a flag to the fcntl() F_GETFD and F_SETFD operations
+to set the underlying filesystem into 32bit mode even if the
+file handle was opened using 64bit mode without the compat
+syscalls.
 
+Programs that need the 32 bit file system behavior need to
+issue a fcntl() system call such as in this example:
 
-Hi Andrew:
+  #define FD_32BIT_MODE 2
 
-So my comments still. I think we need to implement 82574l behavior (if 
-you go through e1000e.c all chapters it mentioned is for 82574l 
-datasheet not the one you pointed to me).
+  int main(int argc, char** argv) {
+    DIR* dir;
+    int err;
+    int fd;
 
-And actually the 82574l behavior is much more simpler.
+    dir = opendir("/boot");
+    fd = dirfd(dir);
+    err = fcntl(fd, F_SETFD, FD_32BIT_MODE);
+    if (err) {
+      printf("fcntl() failed! err=%d\n", err);
+      return 1;
+    }
+    printf("dir=%p\n", dir);
+    printf("readdir(dir)=%p\n", readdir(dir));
+    printf("errno=%d: %s\n", errno, strerror(errno));
+    return 0;
+  }
 
-Thanks
+This can be pretty hard to test since C libraries and linux
+userspace security extensions aggressively filter the parameters
+that are passed down and allowed to commit into actual system
+calls.
 
+Cc: Florian Weimer <fw@deneb.enyo.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Andy Lutomirski <luto@kernel.org>
+Suggested-by: Theodore Ts'o <tytso@mit.edu>
+Link: https://bugs.launchpad.net/qemu/+bug/1805913
+Link: https://lore.kernel.org/lkml/87bm56vqg4.fsf@mid.deneb.enyo.de/
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=205957
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v1->v2:
+- Use a new flag FD_32BIT_MODE to F_GETFD and F_SETFD
+  instead of a new fcntl operation, there is already a fcntl
+  operation to set random flags.
+- Sorry for taking forever to respin this patch :(
+---
+ fs/fcntl.c                       | 5 +++++
+ include/uapi/asm-generic/fcntl.h | 8 ++++++++
+ 2 files changed, 13 insertions(+)
 
->       trace_e1000e_irq_icr_read_exit(core->mac[ICR]);
->       e1000e_update_interrupt_state(core);
->       return ret;
-> diff --git a/hw/net/trace-events b/hw/net/trace-events
-> index e18f883cfd..46e40fcfa9 100644
-> --- a/hw/net/trace-events
-> +++ b/hw/net/trace-events
-> @@ -237,6 +237,7 @@ e1000e_irq_icr_read_entry(uint32_t icr) "Starting ICR read. Current ICR: 0x%x"
->   e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read. Current ICR: 0x%x"
->   e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on read due to zero IMS"
->   e1000e_irq_icr_clear_iame(void) "Clearing ICR on read due to IAME"
-> +e1000e_irq_icr_clear_icr_bit_ims(uint32_t icr, uint32_t ims) "Clearing ICR on read due corresponding IMS bit: 0x%x & 0x%x"
->   e1000e_irq_iam_clear_eiame(uint32_t iam, uint32_t cause) "Clearing IMS due to EIAME, IAM: 0x%X, cause: 0x%X"
->   e1000e_irq_icr_clear_eiac(uint32_t icr, uint32_t eiac) "Clearing ICR bits due to EIAC, ICR: 0x%X, EIAC: 0x%X"
->   e1000e_irq_ims_clear_set_imc(uint32_t val) "Clearing IMS bits due to IMC write 0x%x"
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index 2e4c0fa2074b..10a6b712d3a7 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -335,10 +335,15 @@ static long do_fcntl(int fd, unsigned int cmd, unsigned long arg,
+ 		break;
+ 	case F_GETFD:
+ 		err = get_close_on_exec(fd) ? FD_CLOEXEC : 0;
++		/* Report 32bit file system mode */
++		if (filp->f_mode & FMODE_32BITHASH)
++			err |= FD_32BIT_MODE;
+ 		break;
+ 	case F_SETFD:
+ 		err = 0;
+ 		set_close_on_exec(fd, arg & FD_CLOEXEC);
++		if (arg & FD_32BIT_MODE)
++			filp->f_mode |= FMODE_32BITHASH;
+ 		break;
+ 	case F_GETFL:
+ 		err = filp->f_flags;
+diff --git a/include/uapi/asm-generic/fcntl.h b/include/uapi/asm-generic/fcntl.h
+index 9dc0bf0c5a6e..edd3573cb7ef 100644
+--- a/include/uapi/asm-generic/fcntl.h
++++ b/include/uapi/asm-generic/fcntl.h
+@@ -160,6 +160,14 @@ struct f_owner_ex {
+ 
+ /* for F_[GET|SET]FL */
+ #define FD_CLOEXEC	1	/* actually anything with low bit set goes */
++/*
++ * This instructs the kernel to provide 32bit semantics (such as hashes) from
++ * the file system layer, when running a userland that depend on 32bit
++ * semantics on a kernel that supports 64bit userland, but does not use the
++ * compat ioctl() for e.g. open(), so that the kernel would otherwise assume
++ * that the userland process is capable of dealing with 64bit semantics.
++ */
++#define FD_32BIT_MODE	2
+ 
+ /* for posix fcntl() and lockf() */
+ #ifndef F_RDLCK
+-- 
+2.25.4
 
 
