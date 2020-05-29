@@ -2,46 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3FBE1E7667
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 09:14:10 +0200 (CEST)
-Received: from localhost ([::1]:58726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EFC41E7676
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 09:17:56 +0200 (CEST)
+Received: from localhost ([::1]:39380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeZDV-0000zr-P6
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 03:14:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40958)
+	id 1jeZH9-0005Jg-Ct
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 03:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
- id 1jeZ5I-0005Gc-Iy
- for qemu-devel@nongnu.org; Fri, 29 May 2020 03:05:40 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:33430)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jeZ5G-0001cY-Rq
- for qemu-devel@nongnu.org; Fri, 29 May 2020 03:05:40 -0400
-Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id C016CCD461;
- Fri, 29 May 2020 10:05:37 +0300 (MSK)
-Subject: [PATCH v3 11/11] tests/acceptance: Linux boot test for record/replay
-From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 29 May 2020 10:05:37 +0300
-Message-ID: <159073593747.20809.8077489762546010193.stgit@pasha-ThinkPad-X280>
-In-Reply-To: <159073587336.20809.5404476664125786279.stgit@pasha-ThinkPad-X280>
-References: <159073587336.20809.5404476664125786279.stgit@pasha-ThinkPad-X280>
-User-Agent: StGit/0.17.1-dirty
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jeZFp-0004JU-EU
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 03:16:33 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45438
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jeZFo-0006cG-5C
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 03:16:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590736590;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GBb70j/ph5L8XwC8EC70AY94OVuiC1I3+b3G+d2pSU0=;
+ b=YSsNH1ZKBSW0kSjphOIuZ8WBdE2W3IS+g9an+SI7MmeOFDxEwAyko/YnIzTLWR76EgMxs4
+ G/7E5QP2zyZ2xbwLSgUE8Kf7VX9QqL8/BCYqj8ZtCjBOLHKJrHUYS1mfdMoI+JDEJsXc0l
+ S4OJtP4oVcUXxoprUBV6ILAWtwzcZBs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-157-yzvqyTF5OBuolf0QFqzrjg-1; Fri, 29 May 2020 03:16:25 -0400
+X-MC-Unique: yzvqyTF5OBuolf0QFqzrjg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 057A8A0BDB;
+ Fri, 29 May 2020 07:16:24 +0000 (UTC)
+Received: from [10.72.13.231] (ovpn-13-231.pek2.redhat.com [10.72.13.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F87E5C1B0;
+ Fri, 29 May 2020 07:16:00 +0000 (UTC)
+Subject: Re: [PATCH 5/5] virtio: enable VIRTIO_F_RING_PACKED for all devices
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20200522171726.648279-1-stefanha@redhat.com>
+ <20200522171726.648279-6-stefanha@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <8e3a0ac5-9294-ca7e-071e-3074c43204c3@redhat.com>
+Date: Fri, 29 May 2020 15:15:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: softfail client-ip=83.149.199.45;
- envelope-from=Pavel.Dovgaluk@gmail.com; helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:56:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: 7
-X-Spam_score: 0.7
-X-Spam_bar: /
-X-Spam_report: (0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
- FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, NML_ADSP_CUSTOM_MED=0.9,
- SPF_SOFTFAIL=0.665, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200522171726.648279-6-stefanha@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:34:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,162 +83,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wrampazz@redhat.com, alex.bennee@linaro.org, dovgaluk@ispras.ru,
- pavel.dovgaluk@ispras.ru, crosa@redhat.com, pbonzini@redhat.com,
- philmd@redhat.com, ehabkost@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ cohuck@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a test for record/replay, which boots Linux
-image from the disk and interacts with the network.
-The idea and code of this test is borrowed from boot_linux.py
-However, currently record/replay works only for x86_64,
-therefore other tests were excluded.
 
-Each test consists of the following phases:
- - downloading the disk image
- - recording the execution
- - replaying the execution
+On 2020/5/23 上午1:17, Stefan Hajnoczi wrote:
+> The packed virtqueue layout was introduced in VIRTIO 1.1. It is a single
+> ring instead of a split avail/used ring design. There are CPU cache
+> advantages to this layout and it is also suited better to hardware
+> implementation.
+>
+> The vhost-net backend has already supported packed virtqueues for some
+> time. Performance benchmarks show that virtio-blk performance on NVMe
+> drives is also improved.
+>
+> Go ahead and enable this feature for all VIRTIO devices. Keep it
+> disabled for QEMU 5.0 and earlier machine types.
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   include/hw/virtio/virtio.h |  2 +-
+>   hw/core/machine.c          | 18 +++++++++++++++++-
+>   2 files changed, 18 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index b69d517496..fd5b4a2044 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -292,7 +292,7 @@ typedef struct VirtIORNGConf VirtIORNGConf;
+>       DEFINE_PROP_BIT64("iommu_platform", _state, _field, \
+>                         VIRTIO_F_IOMMU_PLATFORM, false), \
+>       DEFINE_PROP_BIT64("packed", _state, _field, \
+> -                      VIRTIO_F_RING_PACKED, false)
+> +                      VIRTIO_F_RING_PACKED, true)
+>   
+>   hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
+>   bool virtio_queue_enabled(VirtIODevice *vdev, int n);
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index bb3a7b18b1..3598c3c825 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -28,7 +28,23 @@
+>   #include "hw/mem/nvdimm.h"
+>   #include "migration/vmstate.h"
+>   
+> -GlobalProperty hw_compat_5_0[] = {};
+> +GlobalProperty hw_compat_5_0[] = {
+> +    { "vhost-user-blk", "packed", "off" },
+> +    { "vhost-user-fs-device", "packed", "off" },
+> +    { "vhost-vsock-device", "packed", "off" },
+> +    { "virtio-9p-device", "packed", "off" },
+> +    { "virtio-balloon-device", "packed", "off" },
+> +    { "virtio-blk-device", "packed", "off" },
+> +    { "virtio-crypto-device", "packed", "off" },
+> +    { "virtio-gpu-device", "packed", "off" },
+> +    { "virtio-input-device", "packed", "off" },
+> +    { "virtio-iommu-device", "packed", "off" },
+> +    { "virtio-net-device", "packed", "off" },
+> +    { "virtio-pmem", "packed", "off" },
+> +    { "virtio-rng-device", "packed", "off" },
+> +    { "virtio-scsi-common", "packed", "off" },
+> +    { "virtio-serial-device", "packed", "off" },
 
-Replay does not validates the output, but waits until QEMU
-finishes the execution. This is reasonable, because
-QEMU usually hangs when replay goes wrong.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
----
- 0 files changed
+Missing "vhost-user-gpu" here?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e9a9ce4f66..97f066a9b2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2498,6 +2498,7 @@ F: include/sysemu/replay.h
- F: docs/replay.txt
- F: stubs/replay.c
- F: tests/acceptance/replay_kernel.py
-+F: tests/acceptance/replay_linux.py
- 
- IOVA Tree
- M: Peter Xu <peterx@redhat.com>
-diff --git a/tests/acceptance/replay_linux.py b/tests/acceptance/replay_linux.py
-new file mode 100644
-index 0000000000..328b03bb33
---- /dev/null
-+++ b/tests/acceptance/replay_linux.py
-@@ -0,0 +1,114 @@
-+# Record/replay test that boots a complete Linux system via a cloud image
-+#
-+# Copyright (c) 2020 ISP RAS
-+#
-+# Author:
-+#  Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+import os
-+import logging
-+import time
-+
-+from avocado.utils import cloudinit
-+from avocado.utils import network
-+from avocado.utils import vmimage
-+from avocado.utils import datadrainer
-+from avocado.utils.path import find_command
-+from boot_linux import BootLinuxBase
-+
-+class ReplayLinux(BootLinuxBase):
-+    """
-+    Boots a Linux system, checking for a successful initialization
-+    """
-+
-+    timeout = 1800
-+    chksum = None
-+    hdd = 'ide-hd'
-+    cd = 'ide-cd'
-+    bus = 'ide'
-+
-+    def setUp(self):
-+        super(ReplayLinux, self).setUp()
-+        self.boot_path = self.download_boot()
-+        self.cloudinit_path = self.download_cloudinit()
-+
-+    def vm_add_disk(self, vm, path, id, device):
-+        bus_string = ''
-+        if self.bus:
-+            bus_string = ',bus=%s.%d' % (self.bus, id,)
-+        vm.add_args('-drive', 'file=%s,snapshot,id=disk%s,if=none' % (path, id))
-+        vm.add_args('-drive',
-+            'driver=blkreplay,id=disk%s-rr,if=none,image=disk%s' % (id, id))
-+        vm.add_args('-device',
-+            '%s,drive=disk%s-rr%s' % (device, id, bus_string))
-+
-+    def launch_and_wait(self, record, args, shift):
-+        vm = self.get_vm()
-+        vm.add_args('-smp', '1')
-+        vm.add_args('-m', '1024')
-+        vm.add_args('-object', 'filter-replay,id=replay,netdev=hub0port0')
-+        if args:
-+            vm.add_args(*args)
-+        self.vm_add_disk(vm, self.boot_path, 0, self.hdd)
-+        self.vm_add_disk(vm, self.cloudinit_path, 1, self.cd)
-+        logger = logging.getLogger('replay')
-+        if record:
-+            logger.info('recording the execution...')
-+            mode = 'record'
-+        else:
-+            logger.info('replaying the execution...')
-+            mode = 'replay'
-+        replay_path = os.path.join(self.workdir, 'replay.bin')
-+        vm.add_args('-icount', 'shift=%s,rr=%s,rrfile=%s' %
-+                    (shift, mode, replay_path))
-+
-+        start_time = time.time()
-+
-+        vm.set_console()
-+        vm.launch()
-+        console_drainer = datadrainer.LineLogger(vm.console_socket.fileno(),
-+                                    logger=self.log.getChild('console'),
-+                                    stop_check=(lambda : not vm.is_running()))
-+        console_drainer.start()
-+        if record:
-+            cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port),
-+                                          self.name)
-+            vm.shutdown()
-+            logger.info('finished the recording with log size %s bytes'
-+                % os.path.getsize(replay_path))
-+        else:
-+            vm.wait()
-+            logger.info('successfully fihished the replay')
-+        elapsed = time.time() - start_time
-+        logger.info('elapsed time %.2f sec' % elapsed)
-+        return elapsed
-+
-+    def run_rr(self, args=None, shift=7):
-+        t1 = self.launch_and_wait(True, args, shift)
-+        t2 = self.launch_and_wait(False, args, shift)
-+        logger = logging.getLogger('replay')
-+        logger.info('replay overhead {:.2%}'.format(t2 / t1 - 1))
-+
-+class ReplayLinuxX8664(ReplayLinux):
-+    """
-+    :avocado: tags=arch:x86_64
-+    """
-+
-+    chksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
-+
-+    def test_pc_i440fx(self):
-+        """
-+        :avocado: tags=machine:pc
-+        :avocado: tags=accel:tcg
-+        """
-+        self.run_rr(shift=1)
-+
-+    def test_pc_q35(self):
-+        """
-+        :avocado: tags=machine:q35
-+        :avocado: tags=accel:tcg
-+        """
-+        self.run_rr(shift=3)
+I try to do something like this in the past but give up since I end up 
+with similar list.
+
+It would be better to consider something more smart, probably need some 
+refactor for a common parent class.
+
+Thanks
+
+
+> +};
+>   const size_t hw_compat_5_0_len = G_N_ELEMENTS(hw_compat_5_0);
+>   
+>   GlobalProperty hw_compat_4_2[] = {
 
 
