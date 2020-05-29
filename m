@@ -2,53 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBE91E8393
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 18:24:36 +0200 (CEST)
-Received: from localhost ([::1]:52908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA521E8390
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 18:23:27 +0200 (CEST)
+Received: from localhost ([::1]:54352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jehoB-0002Ts-6c
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 12:24:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56754)
+	id 1jehn2-0003DE-1c
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 12:23:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lorenzo.pieralisi@arm.com>)
- id 1jehiO-0001E1-3O
- for qemu-devel@nongnu.org; Fri, 29 May 2020 12:18:36 -0400
-Received: from foss.arm.com ([217.140.110.172]:59968)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lorenzo.pieralisi@arm.com>) id 1jehiM-0003w8-9I
- for qemu-devel@nongnu.org; Fri, 29 May 2020 12:18:35 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4EFBE55D;
- Fri, 29 May 2020 09:18:32 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com
- [10.1.196.255])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 140983F6C4;
- Fri, 29 May 2020 09:18:30 -0700 (PDT)
-Date: Fri, 29 May 2020 17:18:24 +0100
-From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To: "Derrick, Jonathan" <jonathan.derrick@intel.com>
-Subject: Re: [PATCH v3 1/2] PCI: vmd: Filter resource type bits from shadow
- register
-Message-ID: <20200529161824.GA17642@e121166-lin.cambridge.arm.com>
-References: <20200528030240.16024-1-jonathan.derrick@intel.com>
- <20200528030240.16024-3-jonathan.derrick@intel.com>
- <20200529103315.GC12270@e121166-lin.cambridge.arm.com>
- <163e8cb37ece0c8daa6d6e5fd7fcae47ba4fa437.camel@intel.com>
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1jehmA-0002ee-23
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 12:22:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22161
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1jehm7-0005P5-Iw
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 12:22:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590769345;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6LiA7IcTgcwXaLS54JAhevAXGEaouaGh4rapnm2otjE=;
+ b=a6pE4ysCfLixFskzodb1e/BOsBeTe60Sucz5+c5+0UNPAloBFAT0DFlbXndOddXDkUctJr
+ zBaUkhAoKZhyQpo6guBaJGqCZsaVlgjv3Lw4qO1KT109fk1kC+pD/jiS+x/Nqnta0M6Ad8
+ GHqw4EZSr6pDzOzLTGNIfCYe8xfLfIg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-IhMZgKo8P2CG_A5usDDPnA-1; Fri, 29 May 2020 12:22:22 -0400
+X-MC-Unique: IhMZgKo8P2CG_A5usDDPnA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0F3D1902EA0;
+ Fri, 29 May 2020 16:22:20 +0000 (UTC)
+Received: from ptitpuce (ovpn-113-93.ams2.redhat.com [10.36.113.93])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EB555D9EF;
+ Fri, 29 May 2020 16:22:03 +0000 (UTC)
+References: <20200526185132.1652355-1-eblake@redhat.com>
+User-agent: mu4e 1.3.9; emacs 26.2
+From: Christophe de Dinechin <dinechin@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH] or1k: Fix compilation hiccup
+In-reply-to: <20200526185132.1652355-1-eblake@redhat.com>
+Date: Fri, 29 May 2020 18:21:54 +0200
+Message-ID: <m1d06msod9.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <163e8cb37ece0c8daa6d6e5fd7fcae47ba4fa437.camel@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=lorenzo.pieralisi@arm.com; helo=foss.arm.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 12:18:32
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=dinechin@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 23:43:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,58 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "andrzej.jakowski@linux.intel.com" <andrzej.jakowski@linux.intel.com>,
- "helgaas@kernel.org" <helgaas@kernel.org>, "hch@lst.de" <hch@lst.de>
+Cc: qemu-trivial@nongnu.org, Stafford Horne <shorne@gmail.com>,
+ Jia Liu <proljc@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 29, 2020 at 03:53:37PM +0000, Derrick, Jonathan wrote:
-> On Fri, 2020-05-29 at 11:33 +0100, Lorenzo Pieralisi wrote:
-> > On Wed, May 27, 2020 at 11:02:39PM -0400, Jon Derrick wrote:
-> > > Versions of VMD with the Host Physical Address shadow register use this
-> > > register to calculate the bus address offset needed to do guest
-> > > passthrough of the domain. This register shadows the Host Physical
-> > > Address registers including the resource type bits. After calculating
-> > > the offset, the extra resource type bits lead to the VMD resources being
-> > > over-provisioned at the front and under-provisioned at the back.
-> > > 
-> > > Example:
-> > > pci 10000:80:02.0: reg 0x10: [mem 0xf801fffc-0xf803fffb 64bit]
-> > > 
-> > > Expected:
-> > > pci 10000:80:02.0: reg 0x10: [mem 0xf8020000-0xf803ffff 64bit]
-> > > 
-> > > If other devices are mapped in the over-provisioned front, it could lead
-> > > to resource conflict issues with VMD or those devices.
-> > > 
-> > > Fixes: a1a30170138c9 ("PCI: vmd: Fix shadow offsets to reflect spec changes")
-> > > Signed-off-by: Jon Derrick <jonathan.derrick@intel.com>
-> > > ---
-> > >  drivers/pci/controller/vmd.c | 6 ++++--
-> > >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > 
-> > Hi Jon,
-> > 
-> > it looks like I can take this patch for v5.8 whereas patch 2 depends
-> > on the QEMU changes acceptance and should probably wait.
-> > 
-> > Please let me know your thoughts asap and I will try to at least
-> > squeeze this patch in.
-> > 
-> > Lorenzo
-> 
-> Hi Lorenzo,
-> 
-> This is fine. Please take Patch 1.
-> Patch 2 is harmless without the QEMU changes, but may always need a
-> different approach.
 
-Pulled patch 1 into pci/vmd, thanks.
+On 2020-05-26 at 20:51 CEST, Eric Blake wrote...
+> On my Fedora 32 machine, gcc 10.1.1 at -O2 (the default for a bare
+> './configure') has a false-positive complaint:
+>
+>   CC      or1k-softmmu/hw/openrisc/openrisc_sim.o
+> /home/eblake/qemu/hw/openrisc/openrisc_sim.c: In function =E2=80=98openri=
+sc_sim_init=E2=80=99:
+> /home/eblake/qemu/hw/openrisc/openrisc_sim.c:87:42: error: =E2=80=98cpu_i=
+rqs[0]=E2=80=99 may be used uninitialized in this function [-Werror=3Dmaybe=
+-uninitialized]
+>    87 |         sysbus_connect_irq(s, i, cpu_irqs[i][irq_pin]);
+>       |                                  ~~~~~~~~^~~
+>
+> Initializing both pointers of cpu_irqs[] to NULL is sufficient to shut
+> up the compiler, even though they are definitely assigned in
+> openrisc_sim_init() prior to the inlined call to
+> openrisc_sim_ompic_init() containing the line in question.
+>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  hw/openrisc/openrisc_sim.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+> index d08ce6181199..95011a8015b4 100644
+> --- a/hw/openrisc/openrisc_sim.c
+> +++ b/hw/openrisc/openrisc_sim.c
+> @@ -129,7 +129,7 @@ static void openrisc_sim_init(MachineState *machine)
+>      const char *kernel_filename =3D machine->kernel_filename;
+>      OpenRISCCPU *cpu =3D NULL;
+>      MemoryRegion *ram;
+> -    qemu_irq *cpu_irqs[2];
+> +    qemu_irq *cpu_irqs[2] =3D {};
 
-Lorenzo
+Why is the value [2] correct here? The loop that initializes loops over
+machine->smp.cpus. Is it always less than 2 on this machine?
+
+
+>      qemu_irq serial_irq;
+>      int n;
+>      unsigned int smp_cpus =3D machine->smp.cpus;
+
+
+--
+Cheers,
+Christophe de Dinechin (IRC c3d)
+
 
