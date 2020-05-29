@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340961E79EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 11:56:58 +0200 (CEST)
-Received: from localhost ([::1]:40188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC7E1E79DC
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 11:52:04 +0200 (CEST)
+Received: from localhost ([::1]:60636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jebl3-0005dN-9f
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 05:56:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51162)
+	id 1jebgI-0000uy-TO
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 05:52:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jebjq-0003yX-Af
- for qemu-devel@nongnu.org; Fri, 29 May 2020 05:55:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53262)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jebjp-0008R5-81
- for qemu-devel@nongnu.org; Fri, 29 May 2020 05:55:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jebjn-0006BA-Lj
- for <qemu-devel@nongnu.org>; Fri, 29 May 2020 09:55:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A13BE2E8105
- for <qemu-devel@nongnu.org>; Fri, 29 May 2020 09:55:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jebeu-0000J4-Go
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 05:50:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38851
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jebet-00053E-0Z
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 05:50:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590745833;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zStkw5ExJGFNvLMbc+vIpYYonaA9qNEItzqPGmrxPr8=;
+ b=CGDBgHh57T3zsT4AopcRn/685/cHCBNT5lU9NLFyfn1xzsmqxt68dVY5+FB6BzWO4p4yVT
+ MnK9L4J6LoJClathsLydm+xz0EWp3Oq7kOie2BVy/RVpjqy65FliJfmzA44DqhJApypv2y
+ kkeF0OrufjkRYR31rQfh2UhtpOmYMi0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-KtYZogPEOuurPO_1E5nIaA-1; Fri, 29 May 2020 05:50:30 -0400
+X-MC-Unique: KtYZogPEOuurPO_1E5nIaA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF964108BD18;
+ Fri, 29 May 2020 09:50:29 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-152.ams2.redhat.com
+ [10.36.112.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A696910013C2;
+ Fri, 29 May 2020 09:50:25 +0000 (UTC)
+Subject: Re: [PATCH v7 2/5] softmmu/vl: Let -fw_cfg option take a 'gen_id'
+ argument
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Corey Minyard <minyard@acm.org>
+References: <20200528173141.17495-1-philmd@redhat.com>
+ <20200528173141.17495-3-philmd@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <f3f6154e-bbc1-98bd-0f44-77b28c74915f@redhat.com>
+Date: Fri, 29 May 2020 11:50:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 29 May 2020 09:49:54 -0000
-From: "ye.zou" <1881231@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alanjager2321
-X-Launchpad-Bug-Reporter: ye.zou (alanjager2321)
-X-Launchpad-Bug-Modifier: ye.zou (alanjager2321)
-References: <159072520391.13844.465385675639953986.malonedeb@soybean.canonical.com>
-Message-Id: <159074579420.29937.1643486335650066497.malone@chaenomeles.canonical.com>
-Subject: [Bug 1881231] Re: colo: Can not recover colo after svm failover twice
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="275d46a24253e557e4403d52832837e4bfa425b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: f167320c88bc3797a600c4a5c253c66be76c85c9
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 02:40:58
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200528173141.17495-3-philmd@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=lersek@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:34:27
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,102 +85,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1881231 <1881231@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "=?UTF-8?Q?Daniel_P._Berrang=c3=a9?=" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-primary vm command:
-./qemu-system-x86_64 -L /usr/share/qemu-kvm/ -enable-kvm -cpu qemu64,+kvmcl=
-ock -m 2048 -smp 2 -qmp stdio -vnc :0 -device piix3-usb-uhci -device usb-ta=
-blet -name primary -netdev tap,id=3Dhn0,vhost=3Doff,br=3Dbr_bond1,helper=3D=
-/usr/libexec/qemu-bridge-helper -device rtl8139,id=3De0,netdev=3Dhn0,romfil=
-e=3D"" -chardev socket,id=3Dmirror0,host=3D169.254.66.11,port=3D9003,server=
-,nowait -chardev socket,id=3Dcompare1,host=3D169.254.66.11,port=3D9004,serv=
-er,wait -chardev socket,id=3Dcompare0,host=3D169.254.66.11,port=3D9001,serv=
-er,nowait -chardev socket,id=3Dcompare0-0,host=3D169.254.66.11,port=3D9001 =
--chardev socket,id=3Dcompare_out,host=3D169.254.66.11,port=3D9005,server,no=
-wait -chardev socket,id=3Dcompare_out0,host=3D169.254.66.11,port=3D9005 -ob=
-ject filter-mirror,id=3Dm0,netdev=3Dhn0,queue=3Dtx,outdev=3Dmirror0 -object=
- filter-redirector,netdev=3Dhn0,id=3Dredire0,queue=3Drx,indev=3Dcompare_out=
- -object filter-redirector,netdev=3Dhn0,id=3Dredire1,queue=3Drx,outdev=3Dco=
-mpare0 -object iothread,id=3Diothread1 -object colo-compare,id=3Dcomp0,prim=
-ary_in=3Dcompare0-0,secondary_in=3Dcompare1,outdev=3Dcompare_out0,iothread=
-=3Diothread1 -drive if=3Dide,id=3Dcolo-disk0,driver=3Dquorum,read-pattern=
-=3Dfifo,vote-threshold=3D1,children.0.file.filename=3D/root/Centos7.4.qcow2=
-,children.0.driver=3Dqcow2 -S
+Gerd, Corey: there's a question for you near the end, please.
 
-secondary vm:
-./qemu-system-x86_64 -L /usr/share/qemu-kvm/ -enable-kvm -cpu qemu64,+kvmcl=
-ock -m 2048 -smp 2 -qmp stdio -vnc :1 -device piix3-usb-uhci -device usb-ta=
-blet -name secondary -netdev tap,id=3Dhn0,vhost=3Doff,br=3Dbr_bond1,helper=
-=3D/usr/libexec/qemu-bridge-helper -device rtl8139,id=3De0,netdev=3Dhn0,rom=
-file=3D"" -chardev socket,id=3Dred0,host=3D169.254.66.11,port=3D9003,reconn=
-ect=3D1 -chardev socket,id=3Dred1,host=3D169.254.66.11,port=3D9004,reconnec=
-t=3D1 -object filter-redirector,id=3Df1,netdev=3Dhn0,queue=3Dtx,indev=3Dred=
-0 -object filter-redirector,id=3Df2,netdev=3Dhn0,queue=3Drx,outdev=3Dred1 -=
-object filter-rewriter,id=3Drew0,netdev=3Dhn0,queue=3Dall -drive if=3Dnone,=
-id=3Dparent0,file.filename=3D/root/Centos7.4.qcow2,driver=3Dqcow2 -drive if=
-=3Dnone,id=3Dchilds0,driver=3Dreplication,mode=3Dsecondary,file.driver=3Dqc=
-ow2,top-id=3Dchilds0,file.file.filename=3D/root/active.qcow2,file.backing.d=
-river=3Dqcow2,file.backing.file.filename=3D/root/hidden.qcow2,file.backing.=
-backing=3Dparent0 -drive if=3Dnone,id=3Dcolo-disk0,driver=3Dquorum,read-pat=
-tern=3Dfifo,vote-threshold=3D1,children.0=3Dchilds0 -incoming tcp:0:9998
+On 05/28/20 19:31, Philippe Mathieu-Daudé wrote:
+> The 'gen_id' argument refers to a QOM object able to produce
+> data consumable by the fw_cfg device. The producer object must
+> implement the FW_CFG_DATA_GENERATOR interface.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> v7:
+> - renamed 'blob_id' -> 'gen_id' (danpb)
+> - update comment in code (lersek)
+> - fixed CODING_STYLE (lersek)
+> - use Laszlo's if (SUM(options)) != 1 { error } form
+> ---
+>  softmmu/vl.c | 22 ++++++++++++++--------
+>  1 file changed, 14 insertions(+), 8 deletions(-)
+>
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index ae5451bc23..cdb1d187ed 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -489,6 +489,11 @@ static QemuOptsList qemu_fw_cfg_opts = {
+>              .name = "string",
+>              .type = QEMU_OPT_STRING,
+>              .help = "Sets content of the blob to be inserted from a string",
+> +        }, {
+> +            .name = "gen_id",
+> +            .type = QEMU_OPT_STRING,
+> +            .help = "Sets id of the object generating the fw_cfg blob "
+> +                    "to be inserted",
+>          },
+>          { /* end of list */ }
+>      },
+> @@ -2020,7 +2025,7 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
+>  {
+>      gchar *buf;
+>      size_t size;
+> -    const char *name, *file, *str;
+> +    const char *name, *file, *str, *gen_id;
+>      FWCfgState *fw_cfg = (FWCfgState *) opaque;
+>
+>      if (fw_cfg == NULL) {
+> @@ -2030,14 +2035,13 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
+>      name = qemu_opt_get(opts, "name");
+>      file = qemu_opt_get(opts, "file");
+>      str = qemu_opt_get(opts, "string");
+> +    gen_id = qemu_opt_get(opts, "gen_id");
+>
+> -    /* we need name and either a file or the content string */
+> -    if (!(nonempty_str(name) && (nonempty_str(file) || nonempty_str(str)))) {
+> -        error_setg(errp, "invalid argument(s)");
+> -        return -1;
+> -    }
+> -    if (nonempty_str(file) && nonempty_str(str)) {
+> -        error_setg(errp, "file and string are mutually exclusive");
+> +    /* we need the name, and exactly one of: file, content string, gen_id */
+> +    if (!nonempty_str(name) ||
+> +          nonempty_str(file) + nonempty_str(str) + nonempty_str(gen_id) != 1) {
 
--- =
+(1) I believe the indentation of this line is not correct. I think it
+should be out-dented by 2 spaces.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1881231
+> +        error_setg(errp, "name, plus exactly one of file,"
+> +                         " string and gen_id, are needed");
+>          return -1;
+>      }
+>      if (strlen(name) > FW_CFG_MAX_FILE_PATH - 1) {
+> @@ -2052,6 +2056,8 @@ static int parse_fw_cfg(void *opaque, QemuOpts *opts, Error **errp)
+>      if (nonempty_str(str)) {
+>          size = strlen(str); /* NUL terminator NOT included in fw_cfg blob */
+>          buf = g_memdup(str, size);
+> +    } else if (nonempty_str(gen_id)) {
+> +        return fw_cfg_add_from_generator(fw_cfg, name, gen_id, errp);
 
-Title:
-  colo: Can not  recover colo after svm failover twice
+(2) This is no longer correct: fw_cfg_add_from_generator() now returns 0
+on failure, but parse_fw_cfg() is supposed to return nonzer on failure.
+See the comment on qemu_opts_foreach() -- "parse_fw_cfg" is passed as
+the loop callback to qemu_opts_foreach().
 
-Status in QEMU:
-  New
+Technically, we could simply write
 
-Bug description:
-  Hi Expert,
-  x-blockdev-change met some error, during testing colo
+        return !fw_cfg_add_from_generator(fw_cfg, name, gen_id, errp);
 
-  Host os:
-  CentOS Linux release 7.6.1810 (Core)
+but that wouldn't be consistent with the -1 error codes returned
+elsewhere from parse_fw_cfg(). So how about:
 
-  Reproduce steps:
-  1. create colo vm following https://github.com/qemu/qemu/blob/master/docs=
-/COLO-FT.txt
-  2. kill secondary vm and remove the nbd child from the quorum to wait for=
- recover
-    type those commands on primary vm console:
-    { 'execute': 'x-blockdev-change', 'arguments': {'parent': 'colo-disk0',=
- 'child': 'children.1'}}
-    { 'execute': 'human-monitor-command','arguments': {'command-line': 'dri=
-ve_del replication0'}}
-    { 'execute': 'x-colo-lost-heartbeat'}
-  3. recover colo
-  4. kill secondary vm again after recover colo and type same commands as s=
-tep 2:
-    { 'execute': 'x-blockdev-change', 'arguments': {'parent': 'colo-disk0',=
- 'child': 'children.1'}}
-    { 'execute': 'human-monitor-command','arguments': {'command-line': 'dri=
-ve_del replication0'}}
-    { 'execute': 'x-colo-lost-heartbeat'}
-    but the first command got error
-    { 'execute': 'x-blockdev-change', 'arguments': {'parent': 'colo-disk0',=
- 'child': 'children.1'}}
-  {"error": {"class": "GenericError", "desc": "Node 'colo-disk0' does not h=
-ave child 'children.1'"}}
+        size_t fw_cfg_size;
 
-  according to https://www.qemu.org/docs/master/qemu-qmp-ref.html
-  Command: x-blockdev-change
-  Dynamically reconfigure the block driver state graph. It can be used to a=
-dd, remove, insert or replace a graph node. Currently only the Quorum drive=
-r implements this feature to add or remove its child. This is useful to fix=
- a broken quorum child.
+        fw_cfg_size = fw_cfg_add_from_generator(fw_cfg, name, gen_id, errp);
+        return (fw_cfg_size > 0) ? 0 : -1;
 
-  It seems x-blockdev-change not worked as expected.
+I think your testing may have missed this because the problem is only
+visible if you have *another* -fw_cfg option on the QEMU command line.
+Returning the wrong status code from here terminates the
+qemu_opts_foreach() loop, without attempting to set "error_fatal".
+Therefore the loop is silently terminated, thus the only symptom would
+be that -fw_cfg options beyond the "gen_id" one wouldn't take effect.
 
-  Thanks.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1881231/+subscriptions
+(3) I've noticed another *potential* issue, from looking at the larger
+context. I apologize for missing it in v6.
+
+See commit bab47d9a75a3 ("Sort the fw_cfg file list", 2016-04-07). (I'm
+copying Corey; Gerd is already copied.) From that commit, we have, at
+the end of this function:
+
+    /* For legacy, keep user files in a specific global order. */
+    fw_cfg_set_order_override(fw_cfg, FW_CFG_ORDER_OVERRIDE_USER);
+    fw_cfg_add_file(fw_cfg, name, buf, size);
+    fw_cfg_reset_order_override(fw_cfg);
+
+This takes effect for "file" and "string", but not for "gen_id". Should
+we apply it to "gen_id" as well? (Sorry, I really don't understand what
+commit bab47d9a75a3 is about!)
+
+*IF* we want to apply the same logic to "gen_id", then we should
+*perhaps* do, on the "nonempty_str(gen_id)" branch:
+
+        size_t fw_cfg_size;
+
+        fw_cfg_set_order_override(fw_cfg, FW_CFG_ORDER_OVERRIDE_USER);
+        fw_cfg_size = fw_cfg_add_from_generator(fw_cfg, name, gen_id, errp);
+        fw_cfg_reset_order_override(fw_cfg);
+        return (fw_cfg_size > 0) ? 0 : -1;
+
+I think???
+
+Or maybe even use FW_CFG_ORDER_OVERRIDE_DEVICE rather than
+FW_CFG_ORDER_OVERRIDE_USER? I don't have the slightest clue.
+
+(I guess if I understood what commit bab47d9a75a3 was about, I'd be less
+in doubt now. But that commit only hints at "avoid[ing] any future
+issues of moving the file creation" -- I don't know what those issues
+were in the first place!)
+
+With (1) optionally fixed, and (2) fixed, I'd be willing to R-b this
+patch; but I'm really thrown off by (3).
+
+Thanks,
+Laszlo
+
+
+>      } else {
+>          GError *err = NULL;
+>          if (!g_file_get_contents(file, &buf, &size, &err)) {
+>
+
 
