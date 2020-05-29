@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE2F1E78F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 11:03:14 +0200 (CEST)
-Received: from localhost ([::1]:42440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7E61E78FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 11:05:00 +0200 (CEST)
+Received: from localhost ([::1]:44878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeav2-0002OG-Lz
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 05:03:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40390)
+	id 1jeawl-0003R2-27
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 05:04:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeatr-0001Od-Qk
- for qemu-devel@nongnu.org; Fri, 29 May 2020 05:01:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34653
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeavg-0002tu-T6
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 05:03:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58776
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeatr-0006mB-4k
- for qemu-devel@nongnu.org; Fri, 29 May 2020 05:01:59 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeavf-0001VN-MT
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 05:03:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590742918;
+ s=mimecast20190719; t=1590743030;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1fL5wfeIwGE12GxlumPph1/jcS+wHqC7Tch9KeZY/8g=;
- b=cpZMNo5An9G8gbfacKd1mZkQs5UzVeVdrGDUROO19BVRpFn9w/aIsBW/tqW8Ui+TjuqAnO
- xH4lIaGWg4qDGU5Nx9gn9MXZw364mJvi/SuikcTsZDI3yWufSiX/8RnlIhFx8my2jsbCMh
- iBS0dx0IY/o8rk7vR5KOoueB6Nm6rH4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-sr9mH1nOM72SkziD65_zbg-1; Fri, 29 May 2020 05:01:54 -0400
-X-MC-Unique: sr9mH1nOM72SkziD65_zbg-1
-Received: by mail-wm1-f70.google.com with SMTP id f62so535018wme.3
- for <qemu-devel@nongnu.org>; Fri, 29 May 2020 02:01:54 -0700 (PDT)
+ bh=naQYmC0gxQ8OHJgIbB7LClKCK1MMSYkhwGitHp7AcpI=;
+ b=f6yFqG071E4j3qDWZKqz4EjX50tIqlwAfEn24PS2AX5mKDdr7mgBF7PYDu5Gwd0wDwYwbb
+ IJpHKijTaBDFVGdaBp2lpvVuO0Ym4rCBSrl8RB1EN12elMcz64PHEJ9JKXmqkYztKTg4oN
+ eXozfcJ83a6P6NWJKdE39Soug3sBv6w=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-136-AtcJOqP5MCOTcxL41uO55g-1; Fri, 29 May 2020 05:03:48 -0400
+X-MC-Unique: AtcJOqP5MCOTcxL41uO55g-1
+Received: by mail-wm1-f72.google.com with SMTP id t9so535712wml.4
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 02:03:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=1fL5wfeIwGE12GxlumPph1/jcS+wHqC7Tch9KeZY/8g=;
- b=FnzFsNl0rbweX/ecmaSz+gied3miTHCfIaz/Awo0YUaOzQ1crsV0t8FTdakRBaPUzH
- HI/MqmF0oGjza2KcokOA9aFskAefMPx0yCBOmBxJzmVDPqt/J56Ko2mdva2N0nhkbGZG
- gKuJRklztI878r0NTFLcri22rtRg9mUNVy4BiBjFWzvT1FkXO66M70kXJFpnNhvz41QM
- PQMvbkPPO5Rc+tg7LQiTVt9AJDg/kmQzwsuK2uED3TH+Zns1OwKb3kycpHgEd1nEGAE1
- Nfqp1vy0LNl88qoh2JekrXcQPr0Pbh5Ul/XX2yIIxscrW9pDkepwcEmfWN0ZAxzdGXvo
- 65Tw==
-X-Gm-Message-State: AOAM531CsQlNxwOuO7FVk1b4ZF/dOPd/fQUJkgO190iZVzuPXh9BJKoM
- c0zfYP3z6RVUXsy1OpVcw1+bKc5h3MauGZOFAPJzpSOPFWLntuAl2bg424/aLcnLsqv/Sz0q6+Q
- JBIVFNHRsJ3OZJws=
-X-Received: by 2002:a5d:42cd:: with SMTP id t13mr7504868wrr.355.1590742913062; 
- Fri, 29 May 2020 02:01:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzlyySbxKCORRgSd+HqtInsBA/mHuUjU/XFB7HZ98TCEAZ5DkcMiHIamHigGb42Vcg46KCFjQ==
-X-Received: by 2002:a5d:42cd:: with SMTP id t13mr7504851wrr.355.1590742912841; 
- Fri, 29 May 2020 02:01:52 -0700 (PDT)
+ bh=naQYmC0gxQ8OHJgIbB7LClKCK1MMSYkhwGitHp7AcpI=;
+ b=IaiMCJT9r9xSdafevxcQ0ULEcvyVHZPwl/fVWOdDgMt3wdEYkBAWOTZsdHl2VfRT0S
+ cqhnpgtarBkccDYVmTDW8igGtCodt31TTpVz/Q2Z+q3yeIrORx9Be/k5QsC3PfKMFMdS
+ N1yFA1KpvXTbLP60F0CXMEnVKDni23B6h60cIxcxs+xVWA0ck+YcVUzvvdvXO/ZH8Lol
+ nZM27CCHcoNhcIdj0xhBkZzLI+l9Eu1pLc4yiBtd8SUgzzJxgEcrAYtKHFZpDHrxVuRR
+ UtE5d3KckwBeYKwGVsJHzazqNlBvQnRDv9hKsdwdz0DBqf8Huk2EOupD+KVvZyQWMioT
+ DEYg==
+X-Gm-Message-State: AOAM531LaOVONnkZi0ry4DGRc7ZyS1pv3jDiHbSOWZTY5V6+n+0C1uBP
+ EuIaP/cEatj90Golwra8+C9umRd9849lQdf25T145V4IboZnRCwpq1ZGrsSvFE82h1hUfmejTWe
+ qr2jQAHFgVabFKQs=
+X-Received: by 2002:a5d:4008:: with SMTP id n8mr7492702wrp.82.1590743027346;
+ Fri, 29 May 2020 02:03:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx4/zoE02cbZMsJJWKYfDHXKSXsqs52R/ZdT34PIKamzk+2Jwo0OhPmf2WgXA9EvKx9PpA9Qg==
+X-Received: by 2002:a5d:4008:: with SMTP id n8mr7492676wrp.82.1590743027119;
+ Fri, 29 May 2020 02:03:47 -0700 (PDT)
 Received: from [192.168.1.34] (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id i15sm9419176wml.47.2020.05.29.02.01.51
+ by smtp.gmail.com with ESMTPSA id d17sm8606539wrg.75.2020.05.29.02.03.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 May 2020 02:01:52 -0700 (PDT)
-Subject: Re: [RFC v2 01/18] target/i386: sev: Remove unused QSevGuestInfoClass
+ Fri, 29 May 2020 02:03:46 -0700 (PDT)
+Subject: Re: [RFC v2 02/18] target/i386: sev: Move local structure definitions
+ into .c file
 To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
  brijesh.singh@amd.com, frankja@linux.ibm.com, dgilbert@redhat.com,
  pair@us.ibm.com
 References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
- <20200521034304.340040-2-david@gibson.dropbear.id.au>
+ <20200521034304.340040-3-david@gibson.dropbear.id.au>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -89,27 +90,27 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <e351ef56-4cdf-bc8c-4fc8-9583df7ab836@redhat.com>
-Date: Fri, 29 May 2020 11:01:50 +0200
+Message-ID: <45133315-1e1e-e13c-a8df-6a9d972c90a1@redhat.com>
+Date: Fri, 29 May 2020 11:03:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200521034304.340040-2-david@gibson.dropbear.id.au>
+In-Reply-To: <20200521034304.340040-3-david@gibson.dropbear.id.au>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:34:27
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 23:43:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -131,51 +132,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/21/20 5:42 AM, David Gibson wrote:
-> This structure is nothing but an empty wrapper around the parent class,
-> which by QOM conventions means we don't need it at all.
+> Neither QSevGuestInfo nor SEVState (not to be confused with SevState) is
+> used anywhere outside target/i386/sev.c, so they might as well live in
+> there rather than in a (somewhat) exposed header.
 > 
 > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 > ---
->  target/i386/sev.c      | 1 -
->  target/i386/sev_i386.h | 5 -----
->  2 files changed, 6 deletions(-)
-> 
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 51cdbe5496..2312510cf2 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -287,7 +287,6 @@ static const TypeInfo qsev_guest_info = {
->      .name = TYPE_QSEV_GUEST_INFO,
->      .instance_size = sizeof(QSevGuestInfo),
->      .instance_finalize = qsev_guest_finalize,
-> -    .class_size = sizeof(QSevGuestInfoClass),
->      .class_init = qsev_guest_class_init,
->      .instance_init = qsev_guest_init,
->      .interfaces = (InterfaceInfo[]) {
-> diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
-> index 8ada9d385d..4f193642ac 100644
-> --- a/target/i386/sev_i386.h
-> +++ b/target/i386/sev_i386.h
-> @@ -41,7 +41,6 @@ extern char *sev_get_launch_measurement(void);
->  extern SevCapability *sev_get_capabilities(void);
->  
->  typedef struct QSevGuestInfo QSevGuestInfo;
-> -typedef struct QSevGuestInfoClass QSevGuestInfoClass;
->  
->  /**
->   * QSevGuestInfo:
-> @@ -64,10 +63,6 @@ struct QSevGuestInfo {
->      uint32_t reduced_phys_bits;
->  };
->  
-> -struct QSevGuestInfoClass {
-> -    ObjectClass parent_class;
-> -};
-> -
->  struct SEVState {
->      QSevGuestInfo *sev_info;
->      uint8_t api_major;
-> 
+>  target/i386/sev.c      | 44 ++++++++++++++++++++++++++++++++++++++++++
+>  target/i386/sev_i386.h | 44 ------------------------------------------
+>  2 files changed, 44 insertions(+), 44 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
