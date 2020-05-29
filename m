@@ -2,105 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE5281E7E8C
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 15:21:59 +0200 (CEST)
-Received: from localhost ([::1]:41478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F12BB1E7DC2
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 15:02:06 +0200 (CEST)
+Received: from localhost ([::1]:52430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeexR-0000lK-KR
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 09:21:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35502)
+	id 1jeeeD-0004ks-Il
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 09:02:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hakangurbuz.hg@hotmail.com>)
- id 1jeeZa-0001Wq-ET
- for qemu-devel@nongnu.org; Fri, 29 May 2020 08:57:18 -0400
-Received: from mail-db8eur05olkn2058.outbound.protection.outlook.com
- ([40.92.89.58]:52065 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hakangurbuz.hg@hotmail.com>)
- id 1jeeZZ-0007n6-00
- for qemu-devel@nongnu.org; Fri, 29 May 2020 08:57:17 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lFWrIuULV6PnNjH5wDd3xOwaRWneWxqDhV4z3VttTbRcRO6BHHeftvi0JuL0anvAohc/oNld8ECd99Oc1JB1ovdgZAiCAoJANIjX8+ZNJYLmXuzS/qZ9lnnSje4v4Z/b3Yjyt3yfjU/DSmFSbLYJfQDAM8bEz3VjUZbdfm26JjMl8KXx046Q7o5lyl/r+FLKauwrBPhxD5jDPg15A9YWBYUM/9fJh4q8tNMYS6F09lNUrikUmmuiwG0nBvNphq381LHcprw+0ZMIkXrdx99urwKCJme+7PNlR1nDvckGc+C93Q6fGzFGl8ErQKwZ2MYhD2SSlYutXeocFI991k0gTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vioOKn4YM8PuoygmAUyRiKj2p8KemXhB6/1/Lsdw6LI=;
- b=j9VOZHBnki522gX7emVEBv/Ujv49kaWP9b6g1Y+RGsDNnL8XeB1P1q7mZvcPMeBiOLmM3wrke7UFf1FCubFHvKlZLbgv7vPkXkP3glI91+RY5wfH8vYHI48iaOwcRosYru3223tYUErH2AgetGUZsRt3D1mCV8S1vuCMxLacee63Fuv0ps8lNu1v9RoU7vjOPhkpYED1MhV+Pv8EcvSZ9V5WFKxe19BU3XXr5JEGr7NWkvdCaLwwtN6Py+WITDKYWxmmoxqrD3go8WGPfr/ubgJbYP9Ou4K1JkHqv1JQNZTa8EqT1JZw+7Uy6uC0zNhfxmaChxMVBfwYz2XVeqGExA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vioOKn4YM8PuoygmAUyRiKj2p8KemXhB6/1/Lsdw6LI=;
- b=R5P8i+STKVN69WKg1ch2bFqrNcffr4P1Y3EoT7Ndc7hYxVuIPjaUAgMOhmD8L1t1i6TT4qLuLFk6VgF9jEYg7srdTAh31R8yGOSLL1qID8vSG6xi3Aw8Sr8ijycJk9pRsleXgmVMG6nIhf5DlRxrHrLNoRWEyFgPI3S3dKRZK/qcEntWv64zoiz6U6pgYr7JXX9+smZJ8n6VLVIptPINMXwnE41JNfq1lJ7nrFHMM1ToYpZ1xS8xpCbjIhL2bwf513R0BQnWImq9JDHhh2tEdErUCGbmbUx3memZer6tQ0DdIiqWT/CAdIitl4+rUf+Lz0JHY0ik4Lg+gQD+1EGL1A==
-Received: from AM6EUR05FT024.eop-eur05.prod.protection.outlook.com
- (2a01:111:e400:fc11::42) by
- AM6EUR05HT026.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::291)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17; Fri, 29 May
- 2020 12:42:12 +0000
-Received: from AM0PR06MB4514.eurprd06.prod.outlook.com
- (2a01:111:e400:fc11::41) by AM6EUR05FT024.mail.protection.outlook.com
- (2a01:111:e400:fc11::90) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17 via Frontend
- Transport; Fri, 29 May 2020 12:42:12 +0000
-Received: from AM0PR06MB4514.eurprd06.prod.outlook.com
- ([fe80::98ea:ee00:4973:d472]) by AM0PR06MB4514.eurprd06.prod.outlook.com
- ([fe80::98ea:ee00:4973:d472%6]) with mapi id 15.20.3045.018; Fri, 29 May 2020
- 12:42:11 +0000
-From: =?iso-8859-9?Q?Hakan_G=DCRB=DCZ?= <hakangurbuz.hg@hotmail.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Qemu Help
-Thread-Topic: Qemu Help
-Thread-Index: AQHWNbY7zGGTz2lcakuufE+tV0lq5A==
-Date: Fri, 29 May 2020 12:42:11 +0000
-Message-ID: <AM0PR06MB4514F5FD24459E9E2740A0078E8F0@AM0PR06MB4514.eurprd06.prod.outlook.com>
-Accept-Language: tr-TR, en-US
-Content-Language: tr-TR
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-incomingtopheadermarker: OriginalChecksum:39DA2334B7BDE9F8A00BAA320A9A17CCB1B11959AB2CC9A695DB6ABBEF8B24B3;
- UpperCasedChecksum:D78EC92B90ABAF83D2E8859FC9C03194BE7C6BDCFEA4D0679951098C85B82555;
- SizeAsReceived:6663; Count:42
-x-tmn: [NgNfsaWj2x+9ErsUgV2GjPBW5Y1z6hlG]
-x-ms-publictraffictype: Email
-x-incomingheadercount: 42
-x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: 1a762e33-b5ae-4de7-e2d7-08d803cdb55a
-x-ms-traffictypediagnostic: AM6EUR05HT026:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 1EXg7+XDCy8wu4oFzAJ81r9g0pMGVwqzKNOPBBAieCHKiihm+P6ezchWkhvdX9GQ14oiQvlBarqZE9gm7EWUKXGbxz/H9EDzlNHP7yjWd81ASizTKo+6NmiKAFOmdKZ5ftwiwpziwabwMsyOlarW0BrHRi9k/91u864VGwrhask28OmobhjCd6qA/3aDPWUcGudd0Zsv+CVo46viE1mnYQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:0; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR06MB4514.eurprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:; SFS:; DIR:OUT; SFP:1901; 
-x-ms-exchange-antispam-messagedata: Ju0Ga4pYnTdjS+JKqXeOuqMhtag/Bqa4eq2zzjUbHIUp2IrF5d76WszN611uToTDR8U0E6+AQZKEMsBh1vBNrKqOfvnmY0PNe3BD8QkNpjwruZ8cW37qWIHyTmRXc42YqgKxTpGZBA0FkDuClpyb5A==
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_AM0PR06MB4514F5FD24459E9E2740A0078E8F0AM0PR06MB4514eurp_"
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jeecY-0003ph-Ad
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 09:00:23 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46046
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jeecV-0000K6-EJ
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 09:00:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590757217;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VzL67TkNMMFyFj64fc4jnl9Nk70EwY6EbAtyobGH6JU=;
+ b=Tc/mTdH8w25P0ImWQQS4PhImhRuraHJUw8VhqU0tm97/svuB/bDf38d5VQKMlCODQOME1Q
+ rz2olEqjGatNWipJ0ezMALpaLgMFasbACEbiKCedoitNH9dUpXREc15hp8Use3z4WvOU+M
+ +eHnnmk5rQtTiiF30Y6UVv/w/KWyIiI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-307-RLoTctnLMP6EYQdsQEpvhQ-1; Fri, 29 May 2020 09:00:13 -0400
+X-MC-Unique: RLoTctnLMP6EYQdsQEpvhQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9C8B18A822F
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 13:00:12 +0000 (UTC)
+Received: from localhost (ovpn-114-38.ams2.redhat.com [10.36.114.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8029BA103F;
+ Fri, 29 May 2020 13:00:07 +0000 (UTC)
+Date: Fri, 29 May 2020 14:00:06 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH] virtio-pci: fix queue_enable write
+Message-ID: <20200529130006.GA367530@stefanha-x1.localdomain>
+References: <20200529030728.7687-1-jasowang@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: hotmail.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a762e33-b5ae-4de7-e2d7-08d803cdb55a
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 May 2020 12:42:11.7857 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT026
-Received-SPF: pass client-ip=40.92.89.58;
- envelope-from=hakangurbuz.hg@hotmail.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 08:57:15
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+In-Reply-To: <20200529030728.7687-1-jasowang@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dDRMvlgZJXvWKvBx"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:27:49
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 29 May 2020 09:20:11 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,39 +79,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_AM0PR06MB4514F5FD24459E9E2740A0078E8F0AM0PR06MB4514eurp_
-Content-Type: text/plain; charset="iso-8859-9"
+--dDRMvlgZJXvWKvBx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Is it possible to run the .elf file produced from non-Linux operating syste=
-m kernel in Qemu?
-I could not find a solution anywhere, please I am waiting for your help. Th=
-e information you provide is very valuable for me.
+On Fri, May 29, 2020 at 11:07:28AM +0800, Jason Wang wrote:
+> Spec said: The driver uses this to selectively prevent the device from
+> executing requests from this virtqueue. 1 - enabled; 0 - disabled.
+>=20
+> Though write 0 to queue_enable is forbidden by the sepc, we should not
+> assume that the value is 1.
+>=20
+> Fix this by ignoring the write value other than 1.
+>=20
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>  hw/virtio/virtio-pci.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 
---_000_AM0PR06MB4514F5FD24459E9E2740A0078E8F0AM0PR06MB4514eurp_
-Content-Type: text/html; charset="iso-8859-9"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-9">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
- color: rgb(0, 0, 0);">
-<span>Is it possible to run the .elf file produced from non-Linux operating=
- system kernel in Qemu?<br>
-</span><span>I could not find a solution anywhere, please I am waiting for =
-your help. The information you provide is very valuable for me.</span><br>
-</div>
-</body>
-</html>
+--dDRMvlgZJXvWKvBx
+Content-Type: application/pgp-signature; name="signature.asc"
 
---_000_AM0PR06MB4514F5FD24459E9E2740A0078E8F0AM0PR06MB4514eurp_--
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7RB1YACgkQnKSrs4Gr
+c8gOEwf+OPbDIWhvZ3ViB81vj2s2CyX9rY1qqCfyd/bj19XJcFYpFzD/ITvntArU
+b8x9Wl9huYY9upl81hAYu6/dt2+pw11XwwLzDo0YG8Ntp7dSjAxEjDSQS+lgVRKF
+nPIqPRd5F2obxDK+Kdxe0Wghus8BmcS63OgReLykI+9mOsTskv+TC+V/jA80s5AK
+FdFZwWjAG1UhKJDTXD4CqL8jDrIV0XMxbk5+/6YFWxwgQQ+QowAr02erAgDY4d69
+cwqNw/nJb1/3rbrXfgx1WBeDVjCv5SF384Z2ct8l3NzNlUG6op12tsoUUfFPsyGa
+JJRvO0zrNhRmbqUfDwgPxLf0oXulsw==
+=UvWN
+-----END PGP SIGNATURE-----
+
+--dDRMvlgZJXvWKvBx--
+
 
