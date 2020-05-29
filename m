@@ -2,30 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD351E7656
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 09:06:34 +0200 (CEST)
-Received: from localhost ([::1]:60996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DCC51E7653
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 09:05:59 +0200 (CEST)
+Received: from localhost ([::1]:59730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeZ69-0005BE-PX
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 03:06:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40702)
+	id 1jeZ5a-0004Yt-Cx
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 03:05:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
- id 1jeZ4I-0003Ab-1u
- for qemu-devel@nongnu.org; Fri, 29 May 2020 03:04:38 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:33198)
+ id 1jeZ4M-0003En-Bv
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 03:04:42 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:33216)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jeZ4G-0000is-Vv
- for qemu-devel@nongnu.org; Fri, 29 May 2020 03:04:37 -0400
+ (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jeZ4L-0000mB-GV
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 03:04:42 -0400
 Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id EDD6BCD461;
- Fri, 29 May 2020 10:04:33 +0300 (MSK)
-Subject: [PATCH v3 00/11] Record/replay acceptance tests
+ by mail.ispras.ru (Postfix) with ESMTPSA id 9872DCD461;
+ Fri, 29 May 2020 10:04:39 +0300 (MSK)
+Subject: [PATCH v3 01/11] tests/acceptance: allow console interaction with
+ specific VMs
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 29 May 2020 10:04:33 +0300
-Message-ID: <159073587336.20809.5404476664125786279.stgit@pasha-ThinkPad-X280>
+Date: Fri, 29 May 2020 10:04:39 +0300
+Message-ID: <159073587933.20809.5122618715976660635.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <159073587336.20809.5404476664125786279.stgit@pasha-ThinkPad-X280>
+References: <159073587336.20809.5404476664125786279.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -39,7 +42,7 @@ X-Spam_score: 0.7
 X-Spam_bar: /
 X-Spam_report: (0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
  FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, NML_ADSP_CUSTOM_MED=0.9,
- SPF_SOFTFAIL=0.665 autolearn=_AUTOLEARN
+ SPF_SOFTFAIL=0.665, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,45 +61,58 @@ Cc: wrampazz@redhat.com, alex.bennee@linaro.org, dovgaluk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following series adds record/replay tests to the acceptance group.
-Test pass successfully with the latest submitted record/replay fixes:
- - replay: notify the main loop when there are no instructions
- - replay: synchronize on every virtual timer callback
+Console interaction in avocado scripts was possible only with single
+default VM.
+This patch modifies the function parameters to allow passing a specific
+VM as a parameter to interact with it.
 
-The provided tests perform kernel boot and disk image boot scenarios.
-For all of them recording and replaying phases are executed.
-Tests were borrowed from existing boot_linux*.py tests. But some
-of the platforms and images were excluded, because icount for them
-still has some issues.
-
-Tested-by: Philippe Mathieu-Daude <philmd@redhat.com>
-
-v3 changes:
- - Added record/replay logging (suggested by Philippe Mathieu-Daudé)
- - Changed the console pattern to get longer kernel execution (suggested by Alex Bennée)
- - Coding style fixes
- - Other minor changes
-v2 changes:
- - Some test structure refactoring (suggested by Willian Rampazzo)
-
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
-
-Pavel Dovgaluk (11):
-      tests/acceptance: allow console interaction with specific VMs
-      tests/acceptance: refactor boot_linux_console test to allow code reuse
-      tests/acceptance: add base class record/replay kernel tests
-      tests/acceptance: add kernel record/replay test for x86_64
-      tests/acceptance: add record/replay test for aarch64
-      tests/acceptance: add record/replay test for arm
-      tests/acceptance: add record/replay test for ppc64
-      tests/acceptance: add record/replay test for m68k
-      tests/acceptance: record/replay tests with advcal images
-      tests/acceptance: refactor boot_linux to allow code reuse
-      tests/acceptance: Linux boot test for record/replay
-
-
  0 files changed
 
---
-Pavel Dovgalyuk
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+index 59e7b4f763..77d1c1d9ff 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -69,13 +69,15 @@ def pick_default_qemu_bin(arch=None):
+ 
+ 
+ def _console_interaction(test, success_message, failure_message,
+-                         send_string, keep_sending=False):
++                         send_string, keep_sending=False, vm=None):
+     assert not keep_sending or send_string
+-    console = test.vm.console_socket.makefile()
++    if vm is None:
++        vm = test.vm
++    console = vm.console_socket.makefile()
+     console_logger = logging.getLogger('console')
+     while True:
+         if send_string:
+-            test.vm.console_socket.sendall(send_string.encode())
++            vm.console_socket.sendall(send_string.encode())
+             if not keep_sending:
+                 send_string = None # send only once
+         msg = console.readline().strip()
+@@ -115,7 +117,8 @@ def interrupt_interactive_console_until_pattern(test, success_message,
+     _console_interaction(test, success_message, failure_message,
+                          interrupt_string, True)
+ 
+-def wait_for_console_pattern(test, success_message, failure_message=None):
++def wait_for_console_pattern(test, success_message, failure_message=None,
++                             vm=None):
+     """
+     Waits for messages to appear on the console, while logging the content
+ 
+@@ -125,7 +128,7 @@ def wait_for_console_pattern(test, success_message, failure_message=None):
+     :param success_message: if this message appears, test succeeds
+     :param failure_message: if this message appears, test fails
+     """
+-    _console_interaction(test, success_message, failure_message, None)
++    _console_interaction(test, success_message, failure_message, None, vm=vm)
+ 
+ def exec_command_and_wait_for_pattern(test, command,
+                                       success_message, failure_message=None):
+
 
