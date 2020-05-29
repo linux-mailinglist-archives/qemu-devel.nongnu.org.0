@@ -2,95 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 198441E779E
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 10:01:29 +0200 (CEST)
-Received: from localhost ([::1]:53048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7257E1E77F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 10:12:25 +0200 (CEST)
+Received: from localhost ([::1]:37350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeZxH-0005qG-HB
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 04:01:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54544)
+	id 1jea7s-0004m2-Hd
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 04:12:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
- id 1jeZvv-0005JF-ME; Fri, 29 May 2020 04:00:03 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56000)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
- id 1jeZvt-0005Wj-1u; Fri, 29 May 2020 04:00:02 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04T7W6i0105906; Fri, 29 May 2020 03:59:52 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31aucad42r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 May 2020 03:59:52 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04T7XWfV112862;
- Fri, 29 May 2020 03:59:52 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 31aucad41v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 May 2020 03:59:51 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 04T7tabT010099;
- Fri, 29 May 2020 07:59:49 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03ams.nl.ibm.com with ESMTP id 316uf8bg8h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 May 2020 07:59:49 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 04T7xlRf25297348
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 29 May 2020 07:59:47 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3DFA211C050;
- Fri, 29 May 2020 07:59:47 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EE5D611C04A;
- Fri, 29 May 2020 07:59:43 +0000 (GMT)
-Received: from oc0525413822.ibm.com (unknown [9.163.45.230])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Fri, 29 May 2020 07:59:43 +0000 (GMT)
-Date: Fri, 29 May 2020 00:59:40 -0700
-From: Ram Pai <linuxram@us.ibm.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Message-ID: <20200529075940.GA26785@oc0525413822.ibm.com>
-References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
- <20200521034304.340040-18-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jea6f-0003qt-1Q
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 04:11:09 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58684)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jea6d-0008UC-So
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 04:11:08 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jea6c-0006aH-CQ
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 08:11:06 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5CCA72E8105
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 08:11:06 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200521034304.340040-18-david@gibson.dropbear.id.au>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-Subject: Re:  [RFC v2 17/18] spapr: Added PEF based guest memory protection
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-05-29_02:2020-05-28,
- 2020-05-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- malwarescore=0 spamscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 clxscore=1011
- cotscore=-2147483648 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2005290055
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=linuxram@us.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 03:59:58
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 29 May 2020 08:01:42 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1805256@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=kunpeng920; status=In Progress; importance=Undecided; 
+ assignee=ike.pan@canonical.com; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-18.04; status=Triaged;
+ importance=Undecided; assignee=ike.pan@canonical.com; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-18.04-hwe;
+ status=Triaged; importance=Undecided; assignee=ike.pan@canonical.com; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-19.10; status=Triaged;
+ importance=Undecided; assignee=ike.pan@canonical.com; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-20.04; status=Triaged;
+ importance=Undecided; assignee=ike.pan@canonical.com; 
+X-Launchpad-Bug: product=kunpeng920; productseries=upstream-kernel;
+ status=Fix Committed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
+ component=main; status=In Progress; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=In Progress; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=In Progress; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug-Tags: ikeradar patch qemu-img
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andrew-cloke dannf ikepanhc iveskim jan-glauber-i
+ janitor jnsnow kongzizaixian lizhengui paelzer
+ philmd rafaeldtinoco ying-fang
+X-Launchpad-Bug-Reporter: dann frazier (dannf)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
+Message-Id: <159073930232.29796.15282995056536658874.malone@chaenomeles.canonical.com>
+Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
+ Aarch64 when converting images
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="275d46a24253e557e4403d52832837e4bfa425b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 30fe1f1cb323840d30ae24f9e773431c95d7263e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 02:40:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -99,171 +100,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Ram Pai <linuxram@us.ibm.com>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- mdroth@linux.vnet.ibm.com, frankja@linux.ibm.com
+Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 21, 2020 at 01:43:03PM +1000, David Gibson wrote:
-> Some upcoming POWER machines have a system called PEF (Protected
-> Execution Framework) which uses a small ultravisor to allow guests to
+Migrated right now, sponsoring the related SRU portions into B/E/F ...
+for consideration by the SRU Team.
 
-Framework -> Facility
+-- =
 
-> run in a way that they can't be eavesdropped by the hypervisor.  The
-> effect is roughly similar to AMD SEV, although the mechanisms are
-> quite different.
-> 
-> Most of the work of this is done between the guest, KVM and the
-> ultravisor, with little need for involvement by qemu.  However qemu
-> does need to tell KVM to allow secure VMs.
-> 
-> Because the availability of secure mode is a guest visible difference
-> which depends on havint the right hardware and firmware, we don't
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1805256
 
-havint -> having
+Title:
+  qemu-img hangs on rcu_call_ready_event logic in Aarch64 when
+  converting images
 
-> enable this by default.  In order to run a secure guest you need to
-> create a "pef-guest" object and set the guest-memory-protection machine property to point to it.
-> 
-> Note that this just *allows* secure guests, the architecture of PEF is
-> such that the guest still needs to talk to the ultravisor to enter
-> secure mode, so we can't know if the guest actually is secure until
-> well after machine creation time.
+Status in kunpeng920:
+  In Progress
+Status in kunpeng920 ubuntu-18.04 series:
+  Triaged
+Status in kunpeng920 ubuntu-18.04-hwe series:
+  Triaged
+Status in kunpeng920 ubuntu-19.10 series:
+  Triaged
+Status in kunpeng920 ubuntu-20.04 series:
+  Triaged
+Status in kunpeng920 upstream-kernel series:
+  Fix Committed
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Bionic:
+  In Progress
+Status in qemu source package in Eoan:
+  In Progress
+Status in qemu source package in Focal:
+  In Progress
 
-In fact, Qemu has no direct way of knowing if the guest has turned
-secure or not, even after machine creation time. There are indirect ways
-for Qemu to know that, but nothing informs Qemu explicitly about it. 
+Bug description:
+  [Impact]
 
-So maybe we should just say...
+  * QEMU locking primitives might face a race condition in QEMU Async
+  I/O bottom halves scheduling. This leads to a dead lock making either
+  QEMU or one of its tools to hang indefinitely.
 
-"..
- such that the guest still needs to talk to the ultravisor to enter
- secure mode, so we can't directly know if the guest actually is secure." 
+  [Test Case]
 
+  * qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
 
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  target/ppc/Makefile.objs |  2 +-
->  target/ppc/pef.c         | 81 ++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 82 insertions(+), 1 deletion(-)
->  create mode 100644 target/ppc/pef.c
-> 
-> diff --git a/target/ppc/Makefile.objs b/target/ppc/Makefile.objs
-> index e8fa18ce13..ac93b9700e 100644
-> --- a/target/ppc/Makefile.objs
-> +++ b/target/ppc/Makefile.objs
-> @@ -6,7 +6,7 @@ obj-y += machine.o mmu_helper.o mmu-hash32.o monitor.o arch_dump.o
->  obj-$(TARGET_PPC64) += mmu-hash64.o mmu-book3s-v3.o compat.o
->  obj-$(TARGET_PPC64) += mmu-radix64.o
->  endif
-> -obj-$(CONFIG_KVM) += kvm.o
-> +obj-$(CONFIG_KVM) += kvm.o pef.o
->  obj-$(call lnot,$(CONFIG_KVM)) += kvm-stub.o
->  obj-y += dfp_helper.o
->  obj-y += excp_helper.o
-> diff --git a/target/ppc/pef.c b/target/ppc/pef.c
-> new file mode 100644
-> index 0000000000..823daf3e9c
-> --- /dev/null
-> +++ b/target/ppc/pef.c
-> @@ -0,0 +1,81 @@
-> +/*
-> + * PEF (Protected Execution Framework) for POWER support
-> + *
-> + * Copyright David Gibson, Redhat Inc. 2020
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +
-> +#define TYPE_PEF_GUEST "pef-guest"
-> +#define PEF_GUEST(obj)                                  \
-> +    OBJECT_CHECK(PefGuestState, (obj), TYPE_SEV_GUEST)
-> +
-> +typedef struct PefGuestState PefGuestState;
-> +
-> +/**
-> + * PefGuestState:
-> + *
-> + * The PefGuestState object is used for creating and managing a PEF
-> + * guest.
-> + *
-> + * # $QEMU \
-> + *         -object pef-guest,id=pef0 \
-> + *         -machine ...,guest-memory-protection=pef0
-> + */
-> +struct PefGuestState {
-> +    Object parent_obj;
-> +};
-> +
-> +static Error *pef_mig_blocker;
-> +
-> +static int pef_kvm_init(GuestMemoryProtection *gmpo, Error **errp)
-> +{
-> +    PefGuestState *pef = PEF_GUEST(gmpo);
-> +
-> +    if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURE_GUEST)) {
-> +        error_setg(errp,
-> +                   "KVM implementation does not support Secure VMs (is an ultravisor running?)");
-> +        return -1;
-> +    } else {
-> +        int ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_PPC_SECURE_GUEST, 0, 1);
-> +
-> +        if (ret < 0) {
-> +            error_setg(errp,
-> +                       "Error enabling PEF with KVM");
-> +            return -1;
-> +        }
-> +    }
-> +
-> +    return 0;
-> +}
+  Hangs indefinitely approximately 30% of the runs in Aarch64.
 
-This looks correct to me.
+  [Regression Potential]
 
-> +
-> +static void pef_guest_class_init(ObjectClass *oc, void *data)
-> +{
-> +    GuestMemoryProtectionClass *gmpc = GUEST_MEMORY_PROTECTION_CLASS(oc);
-> +
-> +    gmpc->kvm_init = pef_kvm_init;
-> +}
-> +
-> +static const TypeInfo pef_guest_info = {
-> +    .parent = TYPE_OBJECT,
-> +    .name = TYPE_PEF_GUEST,
-> +    .instance_size = sizeof(PefGuestState),
-> +    .class_init = pef_guest_class_init,
-> +    .interfaces = (InterfaceInfo[]) {
-> +        { TYPE_GUEST_MEMORY_PROTECTION },
-> +        { TYPE_USER_CREATABLE },
-> +        { }
-> +    }
-> +};
-> +
-> +static void
-> +pef_register_types(void)
-> +{
-> +    type_register_static(&pef_guest_info);
-> +}
-> +
-> +type_init(pef_register_types);
+  * This is a change to a core part of QEMU: The AIO scheduling. It
+  works like a "kernel" scheduler, whereas kernel schedules OS tasks,
+  the QEMU AIO code is responsible to schedule QEMU coroutines or event
+  listeners callbacks.
 
-Acked-by: Ram Pai <linuxram@us.ibm.com>
+  * There was a long discussion upstream about primitives and Aarch64.
+  After quite sometime Paolo released this patch and it solves the
+  issue. Tested platforms were: amd64 and aarch64 based on his commit
+  log.
 
-Thanks for doing this!
+  * Christian suggests that this fix stay little longer in -proposed to
+  make sure it won't cause any regressions.
 
-BTW: Will there be a new machine type defined for running secure VMs?
+  * dannf suggests we also check for performance regressions; e.g. how
+  long it takes to convert a cloud image on high-core systems.
 
-RP
+  [Other Info]
+
+  =C2=A0* Original Description bellow:
+
+  Command:
+
+  qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Hangs indefinitely approximately 30% of the runs.
+
+  ----
+
+  Workaround:
+
+  qemu-img convert -m 1 -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Run "qemu-img convert" with "a single coroutine" to avoid this issue.
+
+  ----
+
+  (gdb) thread 1
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf1ad81c in __GI_ppoll
+  #1 0x0000aaaaaabcf73c in ppoll
+  #2 qemu_poll_ns
+  #3 0x0000aaaaaabd0764 in os_host_main_loop_wait
+  #4 main_loop_wait
+  ...
+
+  (gdb) thread 2
+  ...
+  (gdb) bt
+  #0 syscall ()
+  #1 0x0000aaaaaabd41cc in qemu_futex_wait
+  #2 qemu_event_wait (ev=3Dev@entry=3D0xaaaaaac86ce8 <rcu_call_ready_event>)
+  #3 0x0000aaaaaabed05c in call_rcu_thread
+  #4 0x0000aaaaaabd34c8 in qemu_thread_start
+  #5 0x0000ffffbf25c880 in start_thread
+  #6 0x0000ffffbf1b6b9c in thread_start ()
+
+  (gdb) thread 3
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf11aa20 in __GI___sigtimedwait
+  #1 0x0000ffffbf2671b4 in __sigwait
+  #2 0x0000aaaaaabd1ddc in sigwait_compat
+  #3 0x0000aaaaaabd34c8 in qemu_thread_start
+  #4 0x0000ffffbf25c880 in start_thread
+  #5 0x0000ffffbf1b6b9c in thread_start
+
+  ----
+
+  (gdb) run
+  Starting program: /usr/bin/qemu-img convert -f qcow2 -O qcow2
+  ./disk01.ext4.qcow2 ./output.qcow2
+
+  [New Thread 0xffffbec5ad90 (LWP 72839)]
+  [New Thread 0xffffbe459d90 (LWP 72840)]
+  [New Thread 0xffffbdb57d90 (LWP 72841)]
+  [New Thread 0xffffacac9d90 (LWP 72859)]
+  [New Thread 0xffffa7ffed90 (LWP 72860)]
+  [New Thread 0xffffa77fdd90 (LWP 72861)]
+  [New Thread 0xffffa6ffcd90 (LWP 72862)]
+  [New Thread 0xffffa67fbd90 (LWP 72863)]
+  [New Thread 0xffffa5ffad90 (LWP 72864)]
+
+  [Thread 0xffffa5ffad90 (LWP 72864) exited]
+  [Thread 0xffffa6ffcd90 (LWP 72862) exited]
+  [Thread 0xffffa77fdd90 (LWP 72861) exited]
+  [Thread 0xffffbdb57d90 (LWP 72841) exited]
+  [Thread 0xffffa67fbd90 (LWP 72863) exited]
+  [Thread 0xffffacac9d90 (LWP 72859) exited]
+  [Thread 0xffffa7ffed90 (LWP 72860) exited]
+
+  <HUNG w/ 3 threads in the stack trace showed before>
+  """
+
+  All the tasks left are blocked in a system call, so no task left to call
+  qemu_futex_wake() to unblock thread #2 (in futex()), which would unblock
+  thread #1 (doing poll() in a pipe with thread #2).
+
+  Those 7 threads exit before disk conversion is complete (sometimes in
+  the beginning, sometimes at the end).
+
+  ----
+
+  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
+  frequently hangs (~50% of the time) with this command:
+
+  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
+
+  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
+  qcow2->qcow2 conversion happens to be something uvtool does every time
+  it fetches images.
+
+  Once hung, attaching gdb gives the following backtrace:
+
+  (gdb) bt
+  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
+274213760,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3D<optimized out>, timeout@entry=3D0x0, s=
+igmask=3D0xffffc123b950)
+  =C2=A0=C2=A0=C2=A0=C2=A0at ../sysdeps/unix/sysv/linux/ppoll.c:39
+  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
+ptimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0__fds=3D<optimized out>) at /usr/include/aarch64-=
+linux-gnu/bits/poll2.h:77
+  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.=
+c:322
+  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
+  =C2=A0=C2=A0=C2=A0=C2=A0at util/main-loop.c:233
+  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
+  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
+g.c:1980
+  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
+img.c:2456
+  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
+-img.c:4975
+
+  Reproduced w/ latest QEMU git (@ 53744e0a182)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/kunpeng920/+bug/1805256/+subscriptions
 
