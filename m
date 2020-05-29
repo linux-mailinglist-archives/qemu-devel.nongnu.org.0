@@ -2,67 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5211E8B3D
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 May 2020 00:22:04 +0200 (CEST)
-Received: from localhost ([::1]:35452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B081E8AEF
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 May 2020 00:06:42 +0200 (CEST)
+Received: from localhost ([::1]:45968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jenO7-0006ag-9R
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 18:22:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50040)
+	id 1jen9E-0003Nm-Ne
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 18:06:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nbd@lists.ewheeler.net>)
- id 1jemFW-0004sF-1O
- for qemu-devel@nongnu.org; Fri, 29 May 2020 17:09:06 -0400
-Received: from mx.ewheeler.net ([173.205.220.69]:36935 helo=mail.ewheeler.net)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nbd@lists.ewheeler.net>) id 1jemFU-0007Tq-Lg
- for qemu-devel@nongnu.org; Fri, 29 May 2020 17:09:05 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.ewheeler.net (Postfix) with ESMTP id E9CB5A0415;
- Fri, 29 May 2020 21:08:56 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at ewheeler.net
-Received: from mail.ewheeler.net ([127.0.0.1])
- by localhost (mail.ewheeler.net [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id dzMYA0b7eKmB; Fri, 29 May 2020 21:08:35 +0000 (UTC)
-Received: from mx.ewheeler.net (mx.ewheeler.net [173.205.220.69])
- (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mail.ewheeler.net (Postfix) with ESMTPSA id 85FA5A0633;
- Fri, 29 May 2020 21:08:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ewheeler.net 85FA5A0633
-Date: Fri, 29 May 2020 21:08:29 +0000 (UTC)
-From: Eric Wheeler <nbd@lists.ewheeler.net>
-X-X-Sender: lists@mail.ewheeler.net
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Subject: Re: [Libguestfs] Provide NBD via Browser over Websockets
-In-Reply-To: <20200529141315.GU3888@redhat.com>
-Message-ID: <alpine.LRH.2.11.2005292107180.10871@mail.ewheeler.net>
-References: <alpine.LRH.2.11.1810131833150.18520@mx.ewheeler.net>
- <CAMRbyytcufK8-XdFu7LU+UwO_FRoGJO2FhhBHtH9etf3A2htwQ@mail.gmail.com>
- <alpine.LRH.2.11.2005280014150.13970@mail.ewheeler.net>
- <20200528090443.GN7304@redhat.com>
- <alpine.LRH.2.11.2005282147410.13970@mail.ewheeler.net>
- <20200529093744.GS3888@redhat.com>
- <13571029-5bf4-2dfa-6879-0ad2642afb3f@redhat.com>
- <20200529135042.GJ2755532@redhat.com>
- <ff2e7dd1-c8b2-b46c-3c3b-ed88d9ad9689@redhat.com>
- <20200529141315.GU3888@redhat.com>
-User-Agent: Alpine 2.11 (LRH 23 2013-08-11)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jen88-0002uT-Ax
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 18:05:32 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:60716)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jen86-0004yu-Ub
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 18:05:31 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 04TM4loo011561
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Fri, 29 May 2020 18:04:51 -0400
+Date: Fri, 29 May 2020 18:04:47 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 1/2] fuzz: skip QTest serialization
+Message-ID: <20200529220447.6jd4l3mk5pncn5hm@mozz.bu.edu>
+References: <20200529180210.28120-1-alxndr@bu.edu>
+ <20200529180210.28120-2-alxndr@bu.edu>
 MIME-Version: 1.0
-Content-Type: MULTIPART/MIXED;
- BOUNDARY="1514185278-310523577-1590786510=:10871"
-Received-SPF: none client-ip=173.205.220.69;
- envelope-from=nbd@lists.ewheeler.net; helo=mail.ewheeler.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 17:09:02
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200529180210.28120-2-alxndr@bu.edu>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 18:05:29
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 29 May 2020 18:20:08 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,86 +59,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, nbd@other.debian.org,
- Nir Soffer <nsoffer@redhat.com>, libguestfs <libguestfs@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ f4bug@amsat.org, darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+This is missing the actual wrapper functions... Sending v3
 
---1514185278-310523577-1590786510=:10871
-Content-Type: TEXT/PLAIN; charset=iso-8859-1
-Content-Transfer-Encoding: 8BIT
-
-On Fri, 29 May 2020, Richard W.M. Jones wrote:
-> On Fri, May 29, 2020 at 08:58:06AM -0500, Eric Blake wrote:
-> > On 5/29/20 8:50 AM, Daniel P. Berrangé wrote:
-> > 
-> > >>>(2) You need to persuade qemu's NBD client to read from a WebSocket.
-> > >>>I didn't really know anything about WebSockets until today but it
-> > >>>seems as if they are a full-duplex protocol layered on top of HTTP [a].
-> > >>>Is there a WebSocket proxy that turns WS into plain TCP (a bit like
-> > >>>stunnel)?  Google suggests [b].
-> > >>>
-> > >>>[a] https://en.wikipedia.org/wiki/WebSocket#Protocol_handshake
-> > >>>[b] https://github.com/novnc/websockify
-> > >>
-> > >>qemu already knows how to connect as a client to websockets; Dan Berrange
-> > >>knows more about that setup.  I suspect it would not be too difficult to
-> > >>teach the qemu NBD client code to use a WebSocket instead of a Unix or TCP
-> > >>socket as its data source.
-> > >
-> > >Actually the inverse. The QIOChannelWebsocket impl is only the server
-> > >side of the problem, as used by QEMU's VNC server. We've never implemented
-> > >the client side. There is nothing especially stopping us doing that - just
-> > >needs someone motivated with time to work on it.
-> > 
-> > In the meantime, you may still be able to set up something like:
-> > 
-> > local machine:
-> > iso -> NBD server -> Unix socket -> websockify -> WebSocket
+On 200529 1402, Alexander Bulekov wrote:
+> The QTest server usually parses ASCII commands from clients. Since we
+> fuzz within the QEMU process, skip the QTest serialization and server
+> for most QTest commands. Leave the option to use the ASCII protocol, to
+> generate readable traces for crash reproducers.
 > 
-> I guess the idea is to have a zero-install solution for the browser.
-> As I said in the email earlier this is very common for IPMI-type
-> remote access to blade servers and in my experience is implemented
-> using a Java applet and a proprietary protocol terminated at the BMC
-> (which then emulates a virtual CDROM to the server).  There are some
-> HP blade servers on Red Hat's internal Beaker instance where you can
-> play with this.  For qemu we wouldn't need to invent a new protocol
-> when NBD is available and already implemented (albeit not yet on top
-> of WebSockets).
+> Inspired-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>  tests/qtest/fuzz/Makefile.include | 21 +++++++++++++++++++++
+>  tests/qtest/fuzz/fuzz.c           | 14 +++++++++++++-
+>  tests/qtest/fuzz/fuzz.h           |  3 +++
+>  3 files changed, 37 insertions(+), 1 deletion(-)
 > 
-> The NBD server must run inside the browser and therefore be either
-> written from scratch in Javascript, or an existing server
-> cross-compiled to WASM (if that is possible - I don't really know).
-
-Interesting idea about WASM.  I'll see if I can build one of the simple 
-nbd servers that are around.  Not sure how to link it to the JS file IO, 
-however.
-
---
-Eric Wheeler
-
-
-> > remote machine:
-> > WebSocket -> websockify -> Unix socket -> qemu NBD client
-> > 
-> > Adding websocket client support into qemu would reduce the length of
-> > the chain slightly (for less data copying) by getting rid of a
-> > websockify proxy middleman, but would not necessarily improve
-> > performance (it's hard to say where the latency bottlenecks will be
-> > in the chain).
-> 
-> Rich.
-> 
+> diff --git a/tests/qtest/fuzz/Makefile.include b/tests/qtest/fuzz/Makefile.include
+> index f259d866c9..5bde793bf2 100644
+> --- a/tests/qtest/fuzz/Makefile.include
+> +++ b/tests/qtest/fuzz/Makefile.include
+> @@ -5,6 +5,7 @@ fuzz-obj-y += $(libqos-obj-y)
+>  fuzz-obj-y += tests/qtest/fuzz/fuzz.o # Fuzzer skeleton
+>  fuzz-obj-y += tests/qtest/fuzz/fork_fuzz.o
+>  fuzz-obj-y += tests/qtest/fuzz/qos_fuzz.o
+> +fuzz-obj-y += tests/qtest/fuzz/qtest_wrappers.o
+>  
+>  # Targets
+>  fuzz-obj-$(CONFIG_PCI_I440FX) += tests/qtest/fuzz/i440fx_fuzz.o
+> @@ -16,3 +17,23 @@ FUZZ_CFLAGS += -I$(SRC_PATH)/tests -I$(SRC_PATH)/tests/qtest
+>  # Linker Script to force coverage-counters into known regions which we can mark
+>  # shared
+>  FUZZ_LDFLAGS += -Xlinker -T$(SRC_PATH)/tests/qtest/fuzz/fork_fuzz.ld
+> +
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_inb
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_inw
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_inl
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_outb
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_outw
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_outl
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_readb
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_readw
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_readl
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_readq
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_writeb
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_writew
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_writel
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_writeq
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_memread
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_bufread
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_memwrite
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_bufwrite
+> +FUZZ_LDFLAGS += -Wl,-wrap,qtest_memset
+> diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+> index f5c923852e..cf76a6636f 100644
+> --- a/tests/qtest/fuzz/fuzz.c
+> +++ b/tests/qtest/fuzz/fuzz.c
+> @@ -91,7 +91,10 @@ static void usage(char *path)
+>          printf(" * %s  : %s\n", tmp->target->name,
+>                  tmp->target->description);
+>      }
+> -    printf("Alternatively, add -target-FUZZ_TARGET to the executable name\n");
+> +    printf("Alternatively, add -target-FUZZ_TARGET to the executable name\n\n"
+> +           "Set the environment variable FUZZ_SERIALIZE_QTEST=1 to serialize\n"
+> +           "QTest commands into an ASCII protocol. Useful for building crash\n"
+> +           "reproducers, but slows down execution.\n");
+>      exit(0);
+>  }
+>  
+> @@ -137,6 +140,8 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+>  {
+>  
+>      char *target_name;
+> +    char *dir;
+> +    bool serialize = false;
+>  
+>      /* Initialize qgraph and modules */
+>      qos_graph_init();
+> @@ -157,6 +162,13 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+>          usage(**argv);
+>      }
+>  
+> +    /* Should we always serialize qtest commands? */
+> +    if (getenv("FUZZ_SERIALIZE_QTEST")) {
+> +        serialize = true;
+> +    }
+> +
+> +    fuzz_qtest_set_serialize(serialize);
+> +
+>      /* Identify the fuzz target */
+>      fuzz_target = fuzz_get_target(target_name);
+>      if (!fuzz_target) {
+> diff --git a/tests/qtest/fuzz/fuzz.h b/tests/qtest/fuzz/fuzz.h
+> index 03901d414e..72d5710f6c 100644
+> --- a/tests/qtest/fuzz/fuzz.h
+> +++ b/tests/qtest/fuzz/fuzz.h
+> @@ -82,6 +82,9 @@ typedef struct FuzzTarget {
+>  void flush_events(QTestState *);
+>  void reboot(QTestState *);
+>  
+> +/* Use the QTest ASCII protocol or call address_space API directly?*/
+> +void fuzz_qtest_set_serialize(bool option);
+> +
+>  /*
+>   * makes a copy of *target and adds it to the target-list.
+>   * i.e. fine to set up target on the caller's stack
 > -- 
-> Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-> Read my programming and virtualization blog: http://rwmj.wordpress.com
-> libguestfs lets you edit virtual machines.  Supports shell scripting,
-> bindings from many languages.  http://libguestfs.org
+> 2.26.2
 > 
-> 
---1514185278-310523577-1590786510=:10871--
 
