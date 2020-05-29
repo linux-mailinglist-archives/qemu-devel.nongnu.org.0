@@ -2,161 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E3F1E7D1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 14:25:07 +0200 (CEST)
-Received: from localhost ([::1]:60910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D901E7CAF
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 14:10:09 +0200 (CEST)
+Received: from localhost ([::1]:55260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jee4Q-0001ys-F3
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 08:25:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55894)
+	id 1jedpt-0004Sp-0s
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 08:10:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Szabolcs.Nagy@arm.com>)
- id 1jedzL-0000Qc-Cr
- for qemu-devel@nongnu.org; Fri, 29 May 2020 08:19:51 -0400
-Received: from mail-eopbgr70072.outbound.protection.outlook.com
- ([40.107.7.72]:65170 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Szabolcs.Nagy@arm.com>)
- id 1jedzI-0007F4-NW
- for qemu-devel@nongnu.org; Fri, 29 May 2020 08:19:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YH/J/gzUIJEm+pF3Hp8rTAZXipJ/vp6o61BkkFcLHws=;
- b=gBpodSW9MGrr20wzrxI+PFCk8WeT8h7Z+s31iRbHNlDbJaUDsiMkytDoFDBBHTWcXgozJ2+5nVGzANt/Q2N/Dm4QkjOeqmM/Jz8emudeSy78rEb7WvDiwFW0RQS0s+iVOmmlk63A+7ol5v7iAboOA2V6RZ8gk1/qOlVl5Vh9KmY=
-Received: from AM6P191CA0028.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:8b::41)
- by DBBPR08MB4284.eurprd08.prod.outlook.com (2603:10a6:10:d0::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.19; Fri, 29 May
- 2020 12:04:42 +0000
-Received: from AM5EUR03FT016.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:209:8b:cafe::a2) by AM6P191CA0028.outlook.office365.com
- (2603:10a6:209:8b::41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.18 via Frontend
- Transport; Fri, 29 May 2020 12:04:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; nongnu.org; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;nongnu.org; dmarc=bestguesspass action=none
- header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM5EUR03FT016.mail.protection.outlook.com (10.152.16.142) with
- Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3021.23 via Frontend Transport; Fri, 29 May 2020 12:04:42 +0000
-Received: ("Tessian outbound facc38080784:v57");
- Fri, 29 May 2020 12:04:42 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: e953ead542e20f99
-X-CR-MTA-TID: 64aa7808
-Received: from d7904f9ed9d7.1
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 69667B83-4941-4C23-8E48-F7F582F73BDC.1; 
- Fri, 29 May 2020 12:04:36 +0000
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id d7904f9ed9d7.1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Fri, 29 May 2020 12:04:36 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Uyhby7KUAJ11SFnTsJ7yUklDvk32zc3D0e/eQGNoRkkJpSeYsTnWtsZ+puQVxozMYVoXTzFjYAhSYFpVfjz25twBwdV3vBF2cH2XfjEfncbPh/0YyEUBMWUs3A55T/kc5dT5MKYaJDxngjihaKO+JoFBvy+7mE9F0GmC47EtEf+ZvZH4d1rfD/cqity9vyWeLQ2OmDGL/Ua04Axv8cKfyjX7PbDfxqCpdOOvOMVqemFcHIxEQppHMOi+/lJH2zjNJVeHjVyKLSE5TkQqR0Fv1TRA86+vWJbbk94L+qhicaa9BSD0NJw6DAUPVFS+rSUIMOTS0Ht/dZpZbH5IG4jBOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YH/J/gzUIJEm+pF3Hp8rTAZXipJ/vp6o61BkkFcLHws=;
- b=GgtazQKVtxC81tHvS5vNhXV5ZW4nYoYK0xipNdmWKQ3/QvQvRLOwXajPUJ9L27CsOZg7H+7y8xc/wWq1vW9UHT73RAr2xN0YOry44j1gsZmAWzM284NEjnR+Q5tipblfadUlLBMWIqaGOGkEpUuep69zd7mvlONeppIsy76bCcLzazkmC2dc4nEsJWER1Fmesb6OzPyK3UiWDmsnQ4QjHrdEKCewQ4vaJ0XCzCTfEnwN3FkSuGaW10O/RrqslHujNyLsWMqv9OGW9wextmXOZaIqygnQZy6IqRFHuhqLQfDvigbT+QCDsdnaP7LHcXEHS7dm55Tudv/B8aqjKZvLjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YH/J/gzUIJEm+pF3Hp8rTAZXipJ/vp6o61BkkFcLHws=;
- b=gBpodSW9MGrr20wzrxI+PFCk8WeT8h7Z+s31iRbHNlDbJaUDsiMkytDoFDBBHTWcXgozJ2+5nVGzANt/Q2N/Dm4QkjOeqmM/Jz8emudeSy78rEb7WvDiwFW0RQS0s+iVOmmlk63A+7ol5v7iAboOA2V6RZ8gk1/qOlVl5Vh9KmY=
-Authentication-Results-Original: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=arm.com;
-Received: from AM6PR08MB3047.eurprd08.prod.outlook.com (2603:10a6:209:4c::23)
- by AM6PR08MB4455.eurprd08.prod.outlook.com (2603:10a6:20b:70::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.19; Fri, 29 May
- 2020 12:04:35 +0000
-Received: from AM6PR08MB3047.eurprd08.prod.outlook.com
- ([fe80::49fd:6ded:4da7:8862]) by AM6PR08MB3047.eurprd08.prod.outlook.com
- ([fe80::49fd:6ded:4da7:8862%7]) with mapi id 15.20.3045.018; Fri, 29 May 2020
- 12:04:35 +0000
-Date: Fri, 29 May 2020 13:04:28 +0100
-From: Szabolcs Nagy <szabolcs.nagy@arm.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: another tst-arm-mte bug: qemu-system segfaults
-Message-ID: <20200529120427.GB18623@arm.com>
-Content-Type: multipart/mixed; boundary="mYCpIKhGyMATD0i+"
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: DM5PR04CA0040.namprd04.prod.outlook.com
- (2603:10b6:3:12b::26) To AM6PR08MB3047.eurprd08.prod.outlook.com
- (2603:10a6:209:4c::23)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jedow-00042D-2D
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 08:09:06 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22660
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1jedou-00016R-J1
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 08:09:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590754142;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G7Oj2+Z6HCruLNZVCo7FAQr8Pq7rats2Ecqb+f8WBGE=;
+ b=P+TNZlSW9DK+3+GO1vx1Pf+IqHjhenVHFtX4ZYtP+7Va0FbWdOvzU73+pRT897z+uAKjxY
+ MRF7xxr14oKYWRU7J9NKOPMI7VpV/WV06K6ZtkuTZnUEMx45wIBXSruIqFw6Nt7nbToVKF
+ s2rjEBOtE1IsY5t0JxmOxjl/ZB0dGaE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-338-ApQfdc6jPPe2KOtUdQ1tZw-1; Fri, 29 May 2020 08:09:01 -0400
+X-MC-Unique: ApQfdc6jPPe2KOtUdQ1tZw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DAC5461
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 12:09:00 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-152.ams2.redhat.com
+ [10.36.112.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E24CD784AF;
+ Fri, 29 May 2020 12:08:55 +0000 (UTC)
+Subject: Re: [PATCH v7 4/5] crypto: Add tls-cipher-suites object
+To: =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>
+References: <20200528173141.17495-1-philmd@redhat.com>
+ <20200528173141.17495-5-philmd@redhat.com>
+ <81c61004-cccc-2ece-91a7-de96012a8ebf@redhat.com>
+ <20200529111840.GE2755532@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <3ca0c0ec-8b21-d7c5-776f-01502282d821@redhat.com>
+Date: Fri, 29 May 2020 14:08:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from arm.com (217.140.106.55) by
- DM5PR04CA0040.namprd04.prod.outlook.com (2603:10b6:3:12b::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3045.17 via Frontend Transport; Fri, 29 May 2020 12:04:33 +0000
-X-Originating-IP: [217.140.106.55]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: da84d085-2069-414d-bd26-08d803c87880
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4455:|DBBPR08MB4284:
-X-Microsoft-Antispam-PRVS: <DBBPR08MB4284EDEC5ECB23570E73A71FED8F0@DBBPR08MB4284.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Oob-TLC-OOBClassifiers: OLM:1388;OLM:1388;
-X-Forefront-PRVS: 04180B6720
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: DDjR8K7/valVPST1trYekaJt7rB/GE8j7Fbc7bo5HX1P7JPnM++phzv5SuhBzCD0HXddX1ybEaS7t/yAe+YGAXSWGlHFmtzoV2+u0xNOpDfnGQj6xwmcq8k9N0HF+f8FbMa4c69wFHpuxD8pV92+V9LTqrFS7CYPnVsZnyGxxPSkhGyXhKtrlRtTXj3QfyIA+Z99T9A2AHyc1oEujaTJ2+1bYNBxYsllQGsCeglV8cLMJ1QCAfbgsC1oDovWx8WpuACY/pa5ZHHfXINur572yNdMmE8jFOLhQrbyK4iOq6Yar/9wv3Wr//03HcSEZRwmYgROHPKjWmXSwGi4Mh+hJNftevISx9Y0WTGYoK+TltCZbrHRTg6zmPdjV5z0ml1JmlT+S2NUv9Y68SrGnFYE3rT5iygkMnOT4hM1Ez6yLW0inF8sTbd+M0SN7OY1ctCNmKhCaylDfXZ0/97zHNJ4QA==
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM6PR08MB3047.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE; SFTY:;
- SFS:(4636009)(376002)(136003)(366004)(346002)(39860400002)(396003)(6666004)(8886007)(33964004)(66476007)(66576008)(1076003)(66946007)(52116002)(7696005)(26005)(66556008)(186003)(235185007)(956004)(5660300002)(33656002)(44144004)(2616005)(44832011)(16526019)(86362001)(478600001)(316002)(966005)(2906002)(4326008)(6916009)(8936002)(8676002)(55016002)(36756003)(2700100001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: ceDzXvVPW2KFHx98PvmIZjQz7MGdQbv31rYW8xqc1FekXPMmQ0r6h7a/vyT1PKwlYFj9cLCtSl+41truec5rcrzp3//2M4p9CzKE1Ci6tRj8RxGGcUA6gESf9DjRkmmfR9uZ3sYj3P/DFHbILoEK6fc/H+6yiZzdn6Sb7Z8wSYzzmMC+ZehCPISgSwmcw9vbjUZUs7EgI+QCKHgAwJYFRZbDI7zwObeatFjVQ0sYPSg0pUBbBLsBcr8GsAtastS6wrcW89ZBRo9LzGQXfTYEnWlWqX8vSPKXfyVB7SR+iojGQJ2caGCDflmC9XO69xCoBGGTW/2+4gM/e5dF5HA8mY1OPZI/hSilyHx1VFH9Omkw+e93E8s2laBYjQn/aw1dFKPTtvC2tebj7wARRsS0pgWATQWs7tqPESAXO83WSADaI7HcOk9Uaq1aSyXd/BamVkg45FdkIKCGCThKJ1fXw65Cp8KAaZQAY2qM2PFPZRuAo4cjqWUJINJF52UeRn/F
-X-MS-Exchange-Transport-Forked: True
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4455
-Original-Authentication-Results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM5EUR03FT016.eop-EUR03.prod.protection.outlook.com
-X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE; SFTY:;
- SFS:(4636009)(39860400002)(376002)(396003)(346002)(136003)(46966005)(6666004)(478600001)(7696005)(966005)(356005)(8886007)(4326008)(6862004)(81166007)(47076004)(86362001)(36756003)(82310400002)(1076003)(33656002)(316002)(82740400003)(36906005)(5660300002)(2906002)(70206006)(66576008)(26005)(70586007)(235185007)(16526019)(8676002)(956004)(8936002)(44832011)(186003)(44144004)(55016002)(336012)(2616005)(33964004)(2700100001);
- DIR:OUT; SFP:1101; 
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 6aae7829-6aca-4cee-4907-08d803c87413
-X-Forefront-PRVS: 04180B6720
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: z+8OFdTkMSgzngpm4MfkGgPknayAUSSTQBVAtShKURuJ1ldCZW8GJ9CU9j6lqCabPUqKZMeJ4kAzRN8WfRaEO5c8HocJGzPfYUuA11BgQMR2VPEzxsvFylAzhiVCSCJBMDlptZtl8F6oLoYcEVyJW3mBTEefQXH7qyQCdNx41Uytf96WDHmhcm7doPjUvBtDbmAhTt8HlrpSSZCBScyECzWEOmM706+63qlrpEN16WKtZaex5eCBsHNRVQq/xaPnMKGUZB+W4QuAKV7aoZR/xmYuqqbrmva1GLX42XgbCzdW6JN2WjHL+pljoxmNhLGCScNm7PHEF7ewzG8A4u81UYmZW4NDnNWgcEXksFonoyWDbBRQ55OV5MGIHmQlEkN2k2VzBqPQPfc9qgalvR0vSJe8L/yQHvsiWZ6I76kUprE0JoApumBJy4NDRTnrymJsjBwsIgdShWGcpR+3HL11AYOopwbBukFcJESX1ZY3yr0rJls09n/sjfGWlkkI7130
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2020 12:04:42.2171 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: da84d085-2069-414d-bd26-08d803c87880
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4284
-Received-SPF: pass client-ip=40.107.7.72; envelope-from=Szabolcs.Nagy@arm.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 08:19:45
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+In-Reply-To: <20200529111840.GE2755532@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 03:05:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -169,234 +84,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: nd@arm.com, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---mYCpIKhGyMATD0i+
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+On 05/29/20 13:18, Daniel P. Berrangé wrote:
+> On Fri, May 29, 2020 at 01:09:22PM +0200, Laszlo Ersek wrote:
+>> On 05/28/20 19:31, Philippe Mathieu-Daudé wrote:
+>> (2) We need an actual commit message for this patch. How about the
+>> following -- I have liberally stolen and edited comments that Daniel
+>> made earlier in the Red Hat Bugzilla:
+>>
+>> ---v--- ---v--- ---v--- ---v---
+>> On the host OS, various aspects of TLS operation are configurable. In
+>> particular it is possible for the sysadmin to control the TLS
+>> cipher/protocol algorithms that applications are permitted to use.
+>>
+>> * Any given crypto library has a built-in default priority list defined by
+>>   the distro maintainer of the libary package (or by upstream).
+>>
+>> * The "crypto-policies" RPM (or equivalent host OS package) provides a
+>>   config file such as "/etc/crypto-policies/config", where the sysadmin
+>>   can set a high level (library-independent) policy.
+>>
+>>   The "update-crypto-policies --set" command (or equivalent) is used to
+>>   translate the global policy to individual library representations,
+>>   producing files such as "/etc/crypto-policies/back-ends/*.config". The
+>>   generated files, if present, are loaded by the various crypto libraries
+>>   to override their own built-in defaults.
+>>
+>>   For example, the GNUTLS library may read
+>>   "/etc/crypto-policies/back-ends/gnutls.config".
+>>
+>> * A management application (or the QEMU user) may overide the system-wide
+>>   crypto-policies config via their own config, if they need to diverge
+>>   from the former.
+>>
+>> Thus the priority order is "QEMU user config" > "crypto-policies system
+>> config" > "library built-in config".
+>>
+>> Introduce the "tls-cipher-suites" object for exposing the ordered list of
+>> permitted TLS cipher suites from the host side to the firmware, via
+>> fw_cfg. The list is represented as an array of IANA_TLS_CIPHER objects.
+>> The firmware uses the IANA_TLS_CIPHER array for configuring guest-side
+>> TLS, for example in UEFI HTTPS Boot.
+>>
+>> The priority at which the host-side policy is retrieved is given by the
+>> "priority" property of the new object type. For example,
+>> "priority=@SYSTEM" may be used to refer to
+>> "/etc/crypto-policies/back-ends/gnutls.config" (given that QEMU uses
+>> GNUTLS).
+>> ---^--- ---^--- ---^--- ---^---
+>>
+>> (3) I think I have now at least formed an idea about where we should
+>> document -fw_cfg / "gen_id" in the *manual*.
+>>
+>> The various -object types are already documented extensively; namely in
+>> section "Generic object creation". Thus, I think we should document
+>> "tls-cipher-suites" there -- near the already existent "-object tls-*"
+>> ones.
+>>
+>> I suggest including a manual update to that effect. I think we can mostly
+>> copy the suggested commit message into the manual as well.
+>>
+>> And then, we can include the new "-fw_cfg" command line option (with
+>> "gen_id") *right there*. Consequently, we won't need to modify the
+>> existent "-fw_cfg" documentation bits (about "file" and "string") under
+>> section "Debug/Expert options".
+>>
+>> Dan: please comment!
+> 
+> I don't really have anything else to say. More docs == better
 
-again i'm using the branch at
+Thanks! Just wanted to be sure I wasn't suggesting something egregious.
 
-https://github.com/rth7680/qemu/tree/tgt-arm-mte
+Laszlo
 
-to test armv8.5-a mte, now qemu-system-aarch64 segfaults
-and it's easy to reproduce: minimal source and static
-linked binary is attached (should be executed on linux
-with mte support, i used mte-v4 kernel with reverted
-memory property check).
-
-the __aarch64_memchr function referenced is from
-https://github.com/ARM-software/optimized-routines
-
-and the bug was originally observed when running the
-test executables built with gcc-10 and a config.mk like
-
-SUBS = string
-ARCH = aarch64
-srcdir = .
-CROSS_COMPILE = aarch64-none-linux-gnu-
-CC = $(CROSS_COMPILE)gcc
-CFLAGS = -std=c99 -pipe -O3
-CFLAGS += -march=armv8.5-a+memtag -DWANT_MTE_TEST=1
-CFLAGS += -Wall -Wno-missing-braces
-CFLAGS += -Werror=implicit-function-declaration
-CFLAGS += -g
-
---mYCpIKhGyMATD0i+
-Content-Type: text/x-csrc; charset=utf-8
-Content-Disposition: attachment; filename="bug.c"
-
-#include <stddef.h>
-#include <sys/mman.h>
-#include <sys/prctl.h>
-
-void *__memchr_aarch64 (const void *, int, size_t);
-
-#define PR_SET_TAGGED_ADDR_CTRL 55
-#define PR_TAGGED_ADDR_ENABLE (1UL << 0)
-#define PR_MTE_TCF_SHIFT 1
-#define PR_MTE_TCF_SYNC (1UL << PR_MTE_TCF_SHIFT)
-#define PR_MTE_TAG_SHIFT 3
-#define PROT_MTE 0x20
-
-int main (void)
-{
-  int r = prctl (PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE | PR_MTE_TCF_SYNC | (0xfffe << PR_MTE_TAG_SHIFT), 0, 0, 0);
-  if (r < 0) return -1;
-  char *s = mmap (NULL, 4096, PROT_READ | PROT_WRITE | PROT_MTE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-  if (s == MAP_FAILED) return -1;
-  s[0] = 1;
-  __memchr_aarch64(s, 1, 4096);
-  return 0;
-}
-
---mYCpIKhGyMATD0i+
-Content-Type: application/octet-stream
-Content-Disposition: attachment; filename=bug
-Content-Transfer-Encoding: base64
-
-f0VMRgIBAQAAAAAAAAAAAAIAtwABAAAA1AFAAAAAAABAAAAAAAAAAHAgAAAAAAAAAAAAAEAAOAAE
-AEAADAALAAEAAAAFAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAAAGBAAAAAAAAAYEAAAAAAAAAAA
-AQAAAAAAAQAAAAYAAADYHwAAAAAAANgfQQAAAAAA2B9BAAAAAAAgAAAAAAAAAIgCAAAAAAAAAAAB
-AAAAAABR5XRkBgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA
-AAAAAFLldGQEAAAA2B8AAAAAAADYH0EAAAAAANgfQQAAAAAAKAAAAAAAAAAoAAAAAAAAAAEAAAAA
-AAAA/Xu/qf0DAJH9e8GowANf1gAAAAAAAAAAAAAAAAAAAADze7+p8wMAKkwBAJRMAQCUSgEAlOAD
-EyqkAgCUHyAD1f17v6lh/p/SBACAUv0DAJHhAKDyAwCAUgIAgFLgBoBSTQEAlEAC+DcFAIDSBACA
-EkMEgFJiBIBSAQCC0gAAgNJtAQCUHwQAsSABAFQiAIBSAgAAOSEAgFICAILSYQAAlAAAgFL9e8Go
-wANf1gAAgBL9//8XHQCA0h4AgNLgAwCRAQAAkCEAAJEf7HySAQAAFOIDAKoAAACQBQCA0gR8R/kA
-AACQQYRA+AOAR/kAAACQAIAFkQcBABQfIAPVHyAD1YAAALAA4D+RgQAAsCHgP5E/AADrwAAAVAEA
-AJAhhEf5YQAAtPADAaoAAh/WwANf1oAAALAA4D+RgQAAsCHgP5EhAADLIvx/00EMgYsh/EGTwQAA
-tAIAAJBCiEf5YgAAtPADAqoAAh/WwANf1h8gA9X9e76p/QMAkfMLAPmTAACwYOJ/OUABADXe//+X
-AAAAkACMR/mAAAC0AAAAkACAPZEfIAPVIACAUmDiPznzC0D5/XvCqMADX9YfIAPVHyAD1QAAAJAA
-kEf5QAEAtP17v6mBAADQAAAAkP0DAJEhAACRAIA9kR8gA9X9e8Go0f//F9D//xcfIAPVHyAD1R8g
-A9UfIAPVHyAD1R8gA9UfIAPVHyAD1R8gA9UfIAPVHyAD1V8kA9WCBgC0JYCAUgUCqHIgDAFOA+h7
-kqUMBE4JEEDyShBAkgACAFRhoN9MJIEA0UIABKsjjCBuRIwgbmMcJU6EHCVOZrwkTsa8Jk7GPAhO
-JPl/08YkxJrGIMSaKQIAVMYCALVhoN9MQoAA8SOMIG5EjCBuqQAAVGYcpE7GvOZOxjwITgb//7Rj
-HCVOhBwlTma8JE7GvCZOxjwITuIAAFREAQmLhBBAkoSAANHkBwTLxiDEmsYkxJrGAMDaY4AA0d8A
-APHGEMDaYARGi+ADgJrAA1/WAACA0sADX9bAA1/WwANf1vNTqKkCJoDS9AMAquNDAZHzAwGq4AMD
-qgEAgFL1ewGp9wAAlOMDAKqAAADQAQCA0hRcAPmAemH4IQQAkcD//7WVAADQtQIBkYAOAYugBgD5
-FABA+bQCALWAAADQ4WtA+QEcAPngq0D5YAAAtIEAANAgGAD54ENA+aAaAPnTAAC14adA+RMAAJBz
-xjyRPwAA8XMCgZqAAADQE1gA+YAAANATVAD5CQAAFJ+WAPFoAABUAQRA+WF4NPgAQACR5f//Fz+8
-AHHg/v9UYQJAOXMGAJGB//814AMDqlABAJTgj0D5x///l+GDSqk/AADrwQAAVOGDS6k/AADrYQAA
-VOCHQPlgBAC0IACAUv//A6niowCR4EMAuUAAgFL/JwD5KAmA0mEAgNIDAIDSBAGA0v//AqngSwC5
-4OMAkQEAANSAAfg3AQAAkCGgPJHg4wCRAAAUiwAMQHkgASg2CAeA0mAMgJLigw8yAQAA1IAA+LYA
-AIDSHwAAOQB9INSUIgCRn2IA8UH+/1QgAIBSoAoAOfV7QanzU9iowANf1vNTvqkUAACQ/gsA+db+
-/5cAAACQE5xH+YCiR/l/AgDrgwAAVP4LQPnzU8KowANf1mCGQPgAAD/W+P//F/NTvanzAwEq9AMC
-qvVbAalWzCGL9QMAqtYiAJH+EwD56f//l+IDFqrhAxSq4AMTKqACP9bF/v+X81O+qfQDASrzAwKq
-9XsBqfUDAKpAzCGLQQBA+QAgAJF1//+X4gMTquEDFCrgAxWqAwAAkGPgF5H1e0Gp8AMDqvNTwqgA
-Ah/WwANf1gAAAJDzU76pFAAAkBOkR/n+CwD5gKpH+X8CAOuIAABU/gtA+fNTwqgRAgAUYI5f+AAA
-P9b4//8X/g8b+OMTBKnjQwGR5AGAEuMPAanjwwCR4xMA+eNDAZHkKwC5/y8AueELA6lEAvg3ZCAA
-keQLAPnlK0C5YwBA+eQLQPmlAPg2vxwAMWoAAFTkD0D5hMAli+gUgNIAfECThABA+QEAANQ5AQCU
-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
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AOACQAAAAAAAkAJAAAAAAAAAAAAAAAAAAAAgAAAAAAIAR0NDOiAoR05VKSAxMC4xLjEgMjAyMDA1
-MjkAAC5zaHN0cnRhYgAuaW5pdAAudGV4dAAuZmluaQAucm9kYXRhAC5laF9mcmFtZQAuaW5pdF9h
-cnJheQAuZmluaV9hcnJheQAuZGF0YQAuYnNzAC5jb21tZW50AAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAsAAAABAAAABgAA
-AAAAAAAgAUAAAAAAACABAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAARAAAA
-AQAAAAYAAAAAAAAAQAFAAAAAAABAAQAAAAAAAKgNAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA
-AAAAFwAAAAEAAAAGAAAAAAAAAOgOQAAAAAAA6A4AAAAAAAAQAAAAAAAAAAAAAAAAAAAABAAAAAAA
-AAAAAAAAAAAAAB0AAAABAAAAAgAAAAAAAAD4DkAAAAAAAPgOAAAAAAAAaAAAAAAAAAAAAAAAAAAA
-AAgAAAAAAAAAAAAAAAAAAAAlAAAAAQAAAAIAAAAAAAAAYA9AAAAAAABgDwAAAAAAALgAAAAAAAAA
-AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAALwAAAA4AAAADAAAAAAAAANgfQQAAAAAA2B8AAAAAAAAI
-AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAIAAAAAAAAADsAAAAPAAAAAwAAAAAAAADgH0EAAAAAAOAf
-AAAAAAAACAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAACAAAAAAAAABHAAAAAQAAAAMAAAAAAAAA6B9B
-AAAAAADoHwAAAAAAABAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAATQAAAAgAAAADAAAA
-AAAAAPgfQQAAAAAA+B8AAAAAAABoAgAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAFIAAAAB
-AAAAMAAAAAAAAAAAAAAAAAAAAPgfAAAAAAAAGwAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAA
-AAABAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAATIAAAAAAAAFsAAAAAAAAAAAAAAAAAAAABAAAAAAAA
-AAAAAAAAAAAA
-
---mYCpIKhGyMATD0i+--
 
