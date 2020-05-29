@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01111E7BD0
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 13:30:16 +0200 (CEST)
-Received: from localhost ([::1]:35998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBCD41E7C34
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 13:47:06 +0200 (CEST)
+Received: from localhost ([::1]:48438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jedDL-0007UT-Nd
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 07:30:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44894)
+	id 1jedTd-0000wo-El
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 07:47:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <beata.michalska@linaro.org>)
- id 1jedCH-00063x-W4
- for qemu-devel@nongnu.org; Fri, 29 May 2020 07:29:10 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40392)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jedSN-0008V3-Vo
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 07:45:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <beata.michalska@linaro.org>)
- id 1jedCH-0003Mp-3r
- for qemu-devel@nongnu.org; Fri, 29 May 2020 07:29:09 -0400
-Received: by mail-wm1-x343.google.com with SMTP id r15so3015621wmh.5
- for <qemu-devel@nongnu.org>; Fri, 29 May 2020 04:29:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=WUfOcXJAnXaTvHBUV4+ST9pVt8KDLof7ZLOxX713Sc4=;
- b=Ynv9dnVeopA7ES4scGTQNxzolvTDB9Yw+I4ft7wmVjAc5kl8VNjNk+BUNf2MA9mK9G
- rBI/zrGWW+Pv15D2HYXgrpjo5k+K3S28rE382G21D22NUc9nHcJn4lHie8oLX/KxZqdO
- LPg3MROzMR80tu6T6ze5BVgW1HJTcj8+P6FcezEmIrJE3eaH19PFI+V3dugYCi3mhmIm
- XyQ+da555XQwNUlkLuMSHLQvZsGrlHi0eqHwKv/N4T1jXzDCIKriRxp/vX8a/0AUQqYR
- wODD+jdxpIfFN8/WGLdvPizVdtv2w3/NNdEtO3zdi9j7e7RgeN1GdN2hUir5lCGlwAVW
- gJuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=WUfOcXJAnXaTvHBUV4+ST9pVt8KDLof7ZLOxX713Sc4=;
- b=YZn9acoveT7VzEMTpACX4N9IsplBvui54bKiaURfxyClhY3mJZzFrDEN1BnD4wGxYS
- EUrpq3Azs60nqAtaATU8BIOhi43d1nJ1+QBGWau9cgvi9UgutYuqevG9MnFflYatsyH3
- ymUZGus++6CB8yyoB3uQKVdmLNBouBEyT13aDL19qgshXC3Qa9iFfHg3JbzWFrgjRSho
- MgUr40wqxg31KgPqrcfb4qK3ZZfTIr/4+Uh+NC/q1DMz8jRhQuFabm7ZQqniQZoJBnar
- P481sO/Y3N8IzQA3nKPH2Q0xfbXJSSFfLwOq0Oy5+voJO60fHcjEdIIQkE54WtTq8+so
- 4vRw==
-X-Gm-Message-State: AOAM5321POhAX1hlji3roEXLg/liQ6jjIPzYYnBYEzZCLGrrceEdUyJF
- KNoTOPxrxhDso40spblj9mZCIEQxnyXUrw==
-X-Google-Smtp-Source: ABdhPJz3Eyy2vrYCaoYDtbt2AeOxlH59cH+nZx9/BwTAyO+sDkn+siO2waJcggvPisEtHU9b5SEEow==
-X-Received: by 2002:a1c:7308:: with SMTP id d8mr8477723wmb.6.1590751747450;
- Fri, 29 May 2020 04:29:07 -0700 (PDT)
-Received: from moi-limbo-9350.home
- (host86-151-121-39.range86-151.btcentralplus.com. [86.151.121.39])
- by smtp.gmail.com with ESMTPSA id h188sm6449053wmh.2.2020.05.29.04.29.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 May 2020 04:29:07 -0700 (PDT)
-From: Beata Michalska <beata.michalska@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jedSM-0000wV-Ag
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 07:45:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jedSH-0006J2-PX
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 11:45:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BD7B22E8111
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 11:45:41 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 29 May 2020 11:39:09 -0000
+From: a <1872790@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 2/2] target/arm: kvm: Handle misconfigured dabt injection
-Date: Fri, 29 May 2020 12:27:57 +0100
-Message-Id: <20200529112757.32235-3-beata.michalska@linaro.org>
-In-Reply-To: <20200529112757.32235-1-beata.michalska@linaro.org>
-References: <20200529112757.32235-1-beata.michalska@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=beata.michalska@linaro.org; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jnsnow sxtf
+X-Launchpad-Bug-Reporter: a (sxtf)
+X-Launchpad-Bug-Modifier: a (sxtf)
+References: <158688621326.6027.1278663333852888209.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159075234914.13135.13261135257737046699.malone@gac.canonical.com>
+Subject: [Bug 1872790] Re: empty qcow2
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="275d46a24253e557e4403d52832837e4bfa425b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a7bd6ff1abdf04f245a76a912f3f02ca889d5cb7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 02:40:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,216 +73,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, Christoffer.Dall@arm.com,
- qemu-arm@nongnu.org, pbonzini@redhat.com, kvmarm@lists.cs.columbia.edu
+Reply-To: Bug 1872790 <1872790@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Injecting external data abort through KVM might trigger
-an issue on kernels that do not get updated to include the KVM fix.
-For those and aarch32 guests, the injected abort gets misconfigured
-to be an implementation defined exception. This leads to the guest
-repeatedly re-running the faulting instruction.
+WDM claims it to be a MBR
 
-Add support for handling that case.
+Linux 5.6.14
 
-[
-  Fixed-by: 018f22f95e8a
-	('KVM: arm: Fix DFSR setting for non-LPAE aarch32 guests')
-  Fixed-by: 21aecdbd7f3a
-	('KVM: arm: Make inject_abt32() inject an external abort instead')
-]
+QEMU 5.0.0-6
 
-Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
----
- target/arm/cpu.h     |  1 +
- target/arm/kvm.c     | 30 +++++++++++++++++++++++++++++-
- target/arm/kvm32.c   | 34 ++++++++++++++++++++++++++++++++++
- target/arm/kvm64.c   | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
- target/arm/kvm_arm.h | 10 ++++++++++
- 5 files changed, 123 insertions(+), 1 deletion(-)
+`nobody     19023  109 21.1 7151512 3462300 ?     Sl   13:18   0:32
+/usr/bin/qemu-system-x86_64 -name guest=3Dwin10machine,debug-threads=3Don -S
+-object
+secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-4-w=
+in10machine
+/master-key.aes -machine pc-q35-4.2,accel=3Dkvm,usb=3Doff,vmport=3Doff,dump-
+guest-core=3Doff -cpu Haswell-
+noTSX,vme=3Don,ss=3Don,vmx=3Don,f16c=3Don,rdrand=3Don,hypervisor=3Don,arat=
+=3Don,tsc-
+adjust=3Don,umip=3Don,arch-capabilities=3Don,xsaveopt=3Don,pdpe1gb=3Don,abm=
+=3Don
+,skip-l1dfl-vmentry=3Don,hv-time,hv-relaxed,hv-vapic,hv-spinlocks=3D0x1fff
+-m 4096 -overcommit mem-lock=3Doff -smp 2,sockets=3D2,cores=3D1,threads=3D1
+-uuid db88f5fc-47f0-439c-9192-a5991df2d8f8 -no-user-config -nodefaults
+-chardev socket,id=3Dcharmonitor,fd=3D34,server,nowait -mon
+chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc
+base=3Dlocaltime,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddelay -=
+no-
+hpet -no-shutdown -global ICH9-LPC.disable_s3=3D1 -global
+ICH9-LPC.disable_s4=3D1 -boot strict=3Don -device pcie-root-
+port,port=3D0x10,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,multifunction=3Don,add=
+r=3D0x2
+-device pcie-root-
+port,port=3D0x11,chassis=3D2,id=3Dpci.2,bus=3Dpcie.0,addr=3D0x2.0x1 -device=
+ pcie-
+root-port,port=3D0x12,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0,addr=3D0x2.0x2 -d=
+evice
+pcie-root-port,port=3D0x13,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0,addr=3D0x2.0=
+x3
+-device pcie-root-
+port,port=3D0x14,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,addr=3D0x2.0x4 -device=
+ qemu-
+xhci,p2=3D15,p3=3D15,id=3Dusb,bus=3Dpci.2,addr=3D0x0 -device virtio-serial-=
+pci,id
+=3Dvirtio-serial0,bus=3Dpci.3,addr=3D0x0 -blockdev
+{"driver":"file","filename":"/home/user/nvme0n1/p1/win10.qcow2","node-
+name":"libvirt-3-storage","auto-read-only":true,"discard":"unmap"}
+-blockdev {"node-name":"libvirt-3-format","read-
+only":false,"driver":"qcow2","file":"libvirt-3-storage","backing":null}
+-device ide-hd,bus=3Dide.0,drive=3Dlibvirt-3-format,id=3Dsata0-0-0,bootinde=
+x=3D1
+-blockdev {"driver":"file","filename":"/home/user/nvme0n1/p1/dump1.qcow2
+","node-name":"libvirt-2-storage","auto-read-
+only":true,"discard":"unmap"} -blockdev {"node-name":"libvirt-2-format
+","read-
+only":false,"driver":"qcow2","file":"libvirt-2-storage","backing":null}
+-device ide-hd,bus=3Dide.1,drive=3Dlibvirt-2-format,id=3Dsata0-0-1 -blockdev
+{"driver":"file","filename":"/home/user/nvme0n1/p1/dump2.qcow2","node-
+name":"libvirt-1-storage","auto-read-only":true,"discard":"unmap"}
+-blockdev {"node-name":"libvirt-1-format","read-
+only":false,"driver":"qcow2","file":"libvirt-1-storage","backing":null}
+-device ide-hd,bus=3Dide.2,drive=3Dlibvirt-1-format,id=3Dsata0-0-2 -netdev
+tap,fd=3D36,id=3Dhostnet0 -device
+e1000e,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:b5:3a:ca,bus=3Dpci.1,addr=
+=3D0x0
+-chardev pty,id=3Dcharserial0 -device isa-
+serial,chardev=3Dcharserial0,id=3Dserial0 -chardev
+spicevmc,id=3Dcharchannel0,name=3Dvdagent -device virtserialport,bus=3Dvirt=
+io-
+serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,name=3Dcom.redhat.spi=
+ce.0
+-device usb-tablet,id=3Dinput0,bus=3Dusb.0,port=3D1 -spice
+port=3D5900,addr=3D127.0.0.1,disable-ticketing,image-compression=3Doff
+,seamless-migration=3Don -device qxl-
+vga,id=3Dvideo0,ram_size=3D67108864,vram_size=3D67108864,vram64_size_mb=3D0=
+,vgamem_mb=3D16,max_outputs=3D1,bus=3Dpcie.0,addr=3D0x1
+-device ich9-intel-hda,id=3Dsound0,bus=3Dpcie.0,addr=3D0x1b -device hda-
+duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -chardev
+spicevmc,id=3Dcharredir0,name=3Dusbredir -device usb-
+redir,chardev=3Dcharredir0,id=3Dredir0,bus=3Dusb.0,port=3D2 -chardev
+spicevmc,id=3Dcharredir1,name=3Dusbredir -device usb-
+redir,chardev=3Dcharredir1,id=3Dredir1,bus=3Dusb.0,port=3D3 -device virtio-
+balloon-pci,id=3Dballoon0,bus=3Dpci.4,addr=3D0x0 -sandbox
+on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=3D=
+deny
+-msg timestamp=3Don`
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 3702f21..5ebfb72 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -571,6 +571,7 @@ typedef struct CPUARMState {
-     } serror;
- 
-     uint8_t ext_dabt_pending; /* Request for injecting ext DABT */
-+    uint8_t ext_dabt_raised; /* Tracking/verifying injection of ext DABT */
- 
-     /* State of our input IRQ/FIQ/VIRQ/VFIQ lines */
-     uint32_t irq_line_state;
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index bf84224..ac73c67 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -721,7 +721,12 @@ int kvm_put_vcpu_events(ARMCPU *cpu)
-     ret = kvm_vcpu_ioctl(CPU(cpu), KVM_SET_VCPU_EVENTS, &events);
-     if (ret) {
-         error_report("failed to put vcpu events");
--    } else {
-+    } else if (env->ext_dabt_pending) {
-+        /*
-+         * Mark that the external DABT has been injected,
-+         * if one has been requested
-+         */
-+        env->ext_dabt_raised = env->ext_dabt_pending;
-         /* Clear instantly if the call was successful */
-         env->ext_dabt_pending = 0;
-     }
-@@ -755,6 +760,29 @@ int kvm_get_vcpu_events(ARMCPU *cpu)
- 
- void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
- {
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    CPUARMState *env = &cpu->env;
-+
-+    if (unlikely(env->ext_dabt_raised)) {
-+        /*
-+         * Verifying that the ext DABT has been properly injected,
-+         * otherwise risking indefinitely re-running the faulting instruction
-+         * Covering a very narrow case for kernels 5.5..5.5.4
-+         * when injected abort was misconfigured to be
-+         * an IMPLEMENTATION DEFINED exception (for 32-bit EL1)
-+         */
-+        if (!arm_feature(env, ARM_FEATURE_AARCH64) &&
-+            unlikely(!kvm_arm_verify_ext_dabt_pending(cs))) {
-+
-+            error_report("Data abort exception with no valid ISS generated by "
-+                   "guest memory access. KVM unable to emulate faulting "
-+                   "instruction. Failed to inject an external data abort "
-+                   "into the guest.");
-+            abort();
-+       }
-+       /* Clear the status */
-+       env->ext_dabt_raised = 0;
-+    }
- }
- 
- MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
-diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
-index 7b3a19e..0af46b4 100644
---- a/target/arm/kvm32.c
-+++ b/target/arm/kvm32.c
-@@ -559,3 +559,37 @@ void kvm_arm_pmu_init(CPUState *cs)
- {
-     qemu_log_mask(LOG_UNIMP, "%s: not implemented\n", __func__);
- }
-+
-+#define ARM_REG_DFSR  ARM_CP15_REG32(0, 5, 0, 0)
-+#define ARM_REG_TTBCR ARM_CP15_REG32(0, 2, 0, 2)
-+/*
-+ *DFSR:
-+ *      TTBCR.EAE == 0
-+ *          FS[4]   - DFSR[10]
-+ *          FS[3:0] - DFSR[3:0]
-+ *      TTBCR.EAE == 1
-+ *          FS, bits [5:0]
-+ */
-+#define DFSR_FSC(lpae, v) \
-+    ((lpae) ? ((v) & 0x3F) : (((v) >> 6) | ((v) & 0x1F)))
-+
-+#define DFSC_EXTABT(lpae) ((lpae) ? 0x10 : 0x08)
-+
-+bool kvm_arm_verify_ext_dabt_pending(CPUState *cs)
-+{
-+    uint32_t dfsr_val;
-+
-+    if (!kvm_get_one_reg(cs, ARM_REG_DFSR, &dfsr_val)) {
-+        ARMCPU *cpu = ARM_CPU(cs);
-+        CPUARMState *env = &cpu->env;
-+        uint32_t ttbcr;
-+        int lpae = 0;
-+
-+        if (!kvm_get_one_reg(cs, ARM_REG_TTBCR, &ttbcr)) {
-+            lpae = arm_feature(env, ARM_FEATURE_LPAE) && (ttbcr & TTBCR_EAE);
-+        }
-+        /* The verification is based on FS filed of the DFSR reg only*/
-+        return (DFSR_FSC(lpae, dfsr_val) == DFSC_EXTABT(lpae));
-+    }
-+    return false;
-+}
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index f09ed9f..88cf10c 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -1497,3 +1497,52 @@ bool kvm_arm_handle_debug(CPUState *cs, struct kvm_debug_exit_arch *debug_exit)
- 
-     return false;
- }
-+
-+#define ARM64_REG_ESR_EL1 ARM64_SYS_REG(3, 0, 5, 2, 0)
-+#define ARM64_REG_TCR_EL1 ARM64_SYS_REG(3, 0, 2, 0, 2)
-+
-+/*
-+ * ESR_EL1
-+ * ISS encoding
-+ * AARCH64: DFSC,   bits [5:0]
-+ * AARCH32:
-+ *      TTBCR.EAE == 0
-+ *          FS[4]   - DFSR[10]
-+ *          FS[3:0] - DFSR[3:0]
-+ *      TTBCR.EAE == 1
-+ *          FS, bits [5:0]
-+ */
-+#define ESR_DFSC(aarch64, lpae, v)        \
-+    ((aarch64 || (lpae)) ? ((v) & 0x3F)   \
-+               : (((v) >> 6) | ((v) & 0x1F)))
-+
-+#define ESR_DFSC_EXTABT(aarch64, lpae) \
-+    ((aarch64) ? 0x10 : (lpae) ? 0x10 : 0x8)
-+
-+bool kvm_arm_verify_ext_dabt_pending(CPUState *cs)
-+{
-+    uint64_t dfsr_val;
-+
-+    if (!kvm_get_one_reg(cs, ARM64_REG_ESR_EL1, &dfsr_val)) {
-+        ARMCPU *cpu = ARM_CPU(cs);
-+        CPUARMState *env = &cpu->env;
-+        int aarch64_mode = arm_feature(env, ARM_FEATURE_AARCH64);
-+        int lpae = 0;
-+
-+        if (!aarch64_mode) {
-+            uint64_t ttbcr;
-+
-+            if (!kvm_get_one_reg(cs, ARM64_REG_TCR_EL1, &ttbcr)) {
-+                lpae = arm_feature(env, ARM_FEATURE_LPAE)
-+                        && (ttbcr & TTBCR_EAE);
-+            }
-+        }
-+        /*
-+         * The verification here is based on the DFSC bits
-+         * of the ESR_EL1 reg only
-+         */
-+         return (ESR_DFSC(aarch64_mode, lpae, dfsr_val) ==
-+                ESR_DFSC_EXTABT(aarch64_mode, lpae));
-+    }
-+    return false;
-+}
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index e939e51..bdb34f3 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -464,6 +464,16 @@ void kvm_arm_copy_hw_debug_data(struct kvm_guest_debug_arch *ptr);
- int kvm_arm_handle_dabt_nisv(CPUState *cs, uint64_t esr_iss,
-                             uint64_t fault_ipa);
- /**
-+ * kvm_arm_verify_ext_dabt_pending:
-+ * @cs: CPUState
-+ *
-+ * Verify the fault status code wrt the Ext DABT injection
-+ *
-+ * Returns: true if the fault status code is as expected, false otherwise
-+ */
-+bool kvm_arm_verify_ext_dabt_pending(CPUState *cs);
-+
-+/**
-  * its_class_name:
-  *
-  * Return the ITS class name to use depending on whether KVM acceleration
--- 
-2.7.4
+The qcow2 of the guest was created in VMM and the qcow2 that I can't
+manipulate was created with (if I remember well) something like `qemu-
+img convert /dev/sda2 -O image.qcow2` from a Windows physical machine
 
+Format specific information:
+    compat: 1.1
+    lazy refcounts: false
+    refcount bits: 16
+    corrupt: false
+
+W10
+
+All the managers that i've tried were the same, but you can try for
+example MiniTool or EaseUS
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1872790
+
+Title:
+  empty qcow2
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  I plugged multiple qcow2 to a Windows guest. On the Windows disk
+  manager all disks are listed perfectly, with their data, their real
+  space, I even can explore all files on the Explorer, all cool
+
+  On third party disk manager (all of them), I only have the C:\ HDD who
+  act normally, all the other plugged qcow2 are seen as fully
+  unallocated, so I can't manipulate them
+
+  I want to move some partitions, create others, but on Windows disk
+  manager I can't extend or create partition and on third party I didn't
+  see the partitions at all
+
+  Even guestfs doesn't recognize any partition table `libguestfs: error:
+  inspect_os: /dev/sda: not a partitioned device`
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1872790/+subscriptions
 
