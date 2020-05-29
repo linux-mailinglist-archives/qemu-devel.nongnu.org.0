@@ -2,70 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C3F1E8046
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 16:33:26 +0200 (CEST)
-Received: from localhost ([::1]:53872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E9581E8053
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 16:35:48 +0200 (CEST)
+Received: from localhost ([::1]:33912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeg4b-00067t-J1
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 10:33:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33222)
+	id 1jeg6t-00016j-60
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 10:35:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jeg3Q-0005J2-CR
- for qemu-devel@nongnu.org; Fri, 29 May 2020 10:32:12 -0400
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:37728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jeg3O-0006QT-PS
- for qemu-devel@nongnu.org; Fri, 29 May 2020 10:32:12 -0400
-Received: by mail-qt1-x831.google.com with SMTP id x29so2064488qtv.4
- for <qemu-devel@nongnu.org>; Fri, 29 May 2020 07:32:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jnpTxrfSXNIJkmdzmpimZ464OMn2JbsIujGl0aMEKes=;
- b=hloUZfpT9OVJb8JLjnRYXHtdYX/ndGJVIeYyZc355XHT399ZSPLdAKt2/7d4XaSg3Y
- bEMqa12fxLM1qr1edYwJM2LLRWZe4VHK81WTVFkxnqdNwvPh9MlQVSP0AfqKG7gFhJw0
- RgrDlhgvA2hc60VRGnZBwegFuLw5sWDUt0gzabh3FtB7QG6WZ1BWL26H4o4ON0VXVvvs
- 49xAOZLhvPR1VqesjS00dVpO2cAsd8SSk64+6TN78yCghcmJ+UEZfehJVLkXjzMagqxr
- lFZbPGnw+oxX4cF1l30FMGBIb4/LMa8t9o5rb+Vlubsu2jrzWTPdixEKPvWVahSZcL4F
- KC0A==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jeg5x-0000Ef-EE
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 10:34:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60243
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1jeg5v-0008TA-Qw
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 10:34:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590762883;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VUVIe/NHQit/VrQ2/P/zdE2NeSykLQpVrW1fvOOq7tM=;
+ b=NnuSrOepSugBoNsKt0wIgzaf7AmWLcU9jvShN/JdF96t0q4kJDb2PIDQlibhjSGyZF+bxR
+ T9OIEH3Qvf1PNABiF0OAacQRFkGbJOpda8Y8erri2J6eqbWDYxBjApVAKiID8aJUVOfH5R
+ GpzDSiuOn8aSWDP5lgltDiic8F3gMwY=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-394-o2Xx-MkfOue06CoHjgo5gg-1; Fri, 29 May 2020 10:34:42 -0400
+X-MC-Unique: o2Xx-MkfOue06CoHjgo5gg-1
+Received: by mail-qk1-f199.google.com with SMTP id y64so2063129qkc.19
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 07:34:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jnpTxrfSXNIJkmdzmpimZ464OMn2JbsIujGl0aMEKes=;
- b=Vf3SrTBdDBpEUat+QwzpK1iPZNAzn0aS46W8AvVo3zgoNNyQzJ/My+yb//mc69nhri
- wNU9Bvgup4J/K5JeTJcvyzQZcP4+LOczAlO2M5fHJDyV4r/5Qm0lKP7Nz+9Ot4IvQpoJ
- +xVjYxFfg05ueQL2wLHXzo44pHpU+Znz+C02y10jFTRfARrWnYA9uCMqYTit0LU75F2X
- 9BN19KFmCSuiwxeyGJuEQmCbFnQnWvdgxJddFmMnqNT6KReBxz04Hf4n+b0NZPZa0Zyq
- WIRxghffPaK218Ahy+V7wIYTT0aEY03ZIron/Emgv6gqIL1N++mP0fOS92wREfUomGMW
- DtPw==
-X-Gm-Message-State: AOAM532JRVw25AtU/ko7h8bNQHWdbqRbBhs/mg/IHMkOHcOB/II/w/zj
- hAP10P0j/AgYV3S26br5BfhiGM9lpOYCgX0/YBc=
-X-Google-Smtp-Source: ABdhPJwp1gWiTuUNHfBvNFQKPPi7YfeqKQx9gOOUJi37+CY0O3CFm4zAtzUZp3hgUrI4JUi07HTjxlGVyquEmZkRTyI=
-X-Received: by 2002:ac8:5148:: with SMTP id h8mr8752565qtn.316.1590762729552; 
- Fri, 29 May 2020 07:32:09 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=VUVIe/NHQit/VrQ2/P/zdE2NeSykLQpVrW1fvOOq7tM=;
+ b=YGDR38C9Zlt7XjDtT/zdrWtlmk7EcNC6saZTx+Pm9ud208ifUFeXX3j0/Gwt+lm9uI
+ 0OZa/Jdis3pH17ZCg4T2u5fHUgomm2vM6FWmjcW+89VWv4n/+cFt4NmksRRi74Oxg9VV
+ vh5zO0M0vb7aGI/BJvr+NZtQyEVrxRPpvmiNWP9LD23MfwtBktnYs7yklaxTvPPKZj9V
+ S0p5b5ZHmpaDgZKm8jUzaeSobJs49YujotvMFqYHGrcg8Xiv3G/kRtg/ZwG6N2wybTLn
+ 9/k4RsT4AQzXJy71patKxBx7fHIm/EThvlmTXGG3pc4lGq3c7jNyIMUblSJbAUPnTJT6
+ L0YA==
+X-Gm-Message-State: AOAM533SZ/blXY+foSGXOTe88yrID/jXix9eWG8BuVh4d8cfHsiwfAGI
+ KwFjRJK5PqyjLmQXYswAr41cf5SwNENpjkJjODXO0NkEIrIuIE9f4I19XcHbG0c705wIjlHFNHe
+ YSAdch1gOUV0WB+s=
+X-Received: by 2002:a0c:b492:: with SMTP id c18mr8797137qve.139.1590762881687; 
+ Fri, 29 May 2020 07:34:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyTfsrcSXxnR3g/KrcTT4/BtMcnl0qYSzWRpknsZ5jDm86uBhnAncVDQ2veniajerzTxJEHzw==
+X-Received: by 2002:a0c:b492:: with SMTP id c18mr8797033qve.139.1590762880523; 
+ Fri, 29 May 2020 07:34:40 -0700 (PDT)
+Received: from xz-x1 ([2607:9880:19c0:32::2])
+ by smtp.gmail.com with ESMTPSA id g64sm7711674qtd.39.2020.05.29.07.34.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 May 2020 07:34:39 -0700 (PDT)
+Date: Fri, 29 May 2020 10:34:36 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] memory: Make 'info mtree' not display disabled regions
+ by default
+Message-ID: <20200529143436.GA1374520@xz-x1>
+References: <20200529125325.11916-1-philmd@redhat.com>
 MIME-Version: 1.0
-References: <CAFEAcA_Lr8ySUK_PUNVB+RRQhFhEQL2wFeJtdYAxZhhT1xEFNw@mail.gmail.com>
-In-Reply-To: <CAFEAcA_Lr8ySUK_PUNVB+RRQhFhEQL2wFeJtdYAxZhhT1xEFNw@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Fri, 29 May 2020 15:31:57 +0100
-Message-ID: <CAJSP0QVBKWrSMx9t2Z=nhJcuqD+nuGgins=r-+hOp7T2zkrhrQ@mail.gmail.com>
-Subject: Re: 5.1 proposed schedule
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=stefanha@gmail.com; helo=mail-qt1-x831.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20200529125325.11916-1-philmd@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=peterx@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 23:43:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,26 +95,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 26, 2020 at 11:07 AM Peter Maydell <peter.maydell@linaro.org> wrote:
-> Here's a draft schedule for 5.1:
->
-> 2019-07-06: softfreeze
-> 2019-07-14: hardfreeze, rc0
-> 2019-07-21: rc1
-> 2019-07-28: rc2
-> 2019-08-04: rc3
-> 2019-08-11: release, or rc4 if we need it
-> 2019-08-18: release if we needed an rc4
->
-> Does that work for people? I don't think there's anything we
-> particularly need to try to shift the schedule to avoid but
-> we can easily move it back or forwards by a week or so.
+On Fri, May 29, 2020 at 02:53:25PM +0200, Philippe Mathieu-Daudé wrote:
+> @@ -2920,35 +2916,46 @@ static void mtree_print_mr(const MemoryRegion *mr, unsigned int level,
+>              ml->mr = mr->alias;
+>              QTAILQ_INSERT_TAIL(alias_print_queue, ml, mrqueue);
+>          }
+> -        qemu_printf(TARGET_FMT_plx "-" TARGET_FMT_plx
+> -                    " (prio %d, %s%s): alias %s @%s " TARGET_FMT_plx
+> -                    "-" TARGET_FMT_plx "%s",
+> -                    cur_start, cur_end,
+> -                    mr->priority,
+> -                    mr->nonvolatile ? "nv-" : "",
+> -                    memory_region_type((MemoryRegion *)mr),
+> -                    memory_region_name(mr),
+> -                    memory_region_name(mr->alias),
+> -                    mr->alias_offset,
+> -                    mr->alias_offset + MR_SIZE(mr->size),
+> -                    mr->enabled ? "" : " [disabled]");
+> -        if (owner) {
+> -            mtree_print_mr_owner(mr);
+> +        if (mr->enabled || display_disabled) {
+> +            for (i = 0; i < level; i++) {
+> +                qemu_printf(MTREE_INDENT);
+> +            }
+> +            qemu_printf(TARGET_FMT_plx "-" TARGET_FMT_plx
+> +                        " (prio %d, %s%s): alias %s @%s " TARGET_FMT_plx
+> +                        "-" TARGET_FMT_plx "%s",
+> +                        cur_start, cur_end,
+> +                        mr->priority,
+> +                        mr->nonvolatile ? "nv-" : "",
+> +                        memory_region_type((MemoryRegion *)mr),
+> +                        memory_region_name(mr),
+> +                        memory_region_name(mr->alias),
+> +                        mr->alias_offset,
+> +                        mr->alias_offset + MR_SIZE(mr->size),
+> +                        mr->enabled ? "" : " [disabled]");
+> +            if (owner) {
+> +                mtree_print_mr_owner(mr);
+> +            }
 
-Sounds good, thanks!
+It'll not only change the default output for "info mtree", but also "-o" too
+because disabled regions won't be dumped any more.  Not sure whether it's
+expected - just raise this question up, because I mostly only use "-f"..
 
-Stefan
+Thanks,
+
+-- 
+Peter Xu
+
 
