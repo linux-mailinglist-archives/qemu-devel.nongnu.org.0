@@ -2,60 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 698C31E8902
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 22:38:33 +0200 (CEST)
-Received: from localhost ([::1]:34786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 215451E8938
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 22:50:48 +0200 (CEST)
+Received: from localhost ([::1]:59900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jellv-00014Y-Vg
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 16:38:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45728)
+	id 1jelxn-0007RN-5B
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 16:50:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jelkx-0000e6-28
- for qemu-devel@nongnu.org; Fri, 29 May 2020 16:37:32 -0400
-Resent-Date: Fri, 29 May 2020 16:37:31 -0400
-Resent-Message-Id: <E1jelkx-0000e6-28@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21717)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jelkt-0004Pt-Di
- for qemu-devel@nongnu.org; Fri, 29 May 2020 16:37:30 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1590784627; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Rl5wlPpwvZexASfJ1aNri9K5dcQWSEolpFYINOTZw0QXXu/kqws4crkH2wquoGJ4j5ODfI2qZcCVI5jN4CwjWelmU3zix/tyjTB7XjdSroiJ6Yyizf5r2dSm1WHuZ8AX1lvVhM43fl263YRB0YxF1fKYsRxis7DrP0gsXC7bSOI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1590784627;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=n7Uep5GmWnNfC1hwaPHRbjpmq9WgHmZSEs56etps05I=; 
- b=eBAnuXfA4Bs3Zrb6UHd37S2BZv8WHzgJtcnAaEn0yzCuJGLR7VzEX1V2VEJEyZDyNUQuvfWEEScFhzC96WVqBSuMVNHC09XBl1b3tYg5CYpD2Kb9jcdVZqDw5cdxCw7ncqD6Gm930SdM0RWJ7StSf6O2yYcHL+Y5fgXIuSeC52U=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1590784626806439.24765494294115;
- Fri, 29 May 2020 13:37:06 -0700 (PDT)
-Message-ID: <159078462335.27167.17200430374234267995@45ef0f9c86ae>
-In-Reply-To: <20200529140620.28759-1-lulu@redhat.com>
-Subject: Re: [RFC v3 0/8] vDPA support in qemu
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jelwD-0006Ah-H6; Fri, 29 May 2020 16:49:09 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:39337)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jelwC-0005mI-5J; Fri, 29 May 2020 16:49:09 -0400
+Received: by mail-io1-xd41.google.com with SMTP id c8so788266iob.6;
+ Fri, 29 May 2020 13:49:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lfYJwYbsf3viRq0jEi9p4en5sgc/dXFv1cABxe72Y4g=;
+ b=JHWgApFQkhmQYyEayQNbTMfv279Hd4HPuMm+4riC6elGKmxwNAaMIRI1PmEs57DyKj
+ Xqi81eklcZ6QWW6epFnV1zYd/ZFsGhFeaFERC89Plh4Q9t1Y8wAhke+jBfMkCYaAGumH
+ XRJffhebNBBo0OC01AMMqZeGAGC9UgIP5tYyGqVs0TgTXhkwuZvS+Glg6kIzoCrls9wS
+ bY3TugfIG2TPGwGm/kVromoTwn1U6OCyZNVMVzttpo40bOpm5RyEC9WWqymV919FDqcw
+ adUCLvimikG+akLYqtV8Qhw6LkhUTSAu1O50voeWt2heEpBCBFNrACEWXt/M21blcBOT
+ S3dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lfYJwYbsf3viRq0jEi9p4en5sgc/dXFv1cABxe72Y4g=;
+ b=JuaOdOx46AvGR3MxAYP+04sXy+sdrJyJuaCgtT1YA1LLpDnJcuxV670KQa04CJMwre
+ KzDg4m4WG8P2Q4NZgdGFdOdECcZMLAlJbtiwcwR0bCfNgExkSU+wnfJcBane1GQjgrMw
+ f9d96Bpyb07WJd8GjdNlidPqdEH5gvHlsLFEnlJEbUaXTrviZFLQ+ZzSSxgfh14suhqI
+ xeXIsrCCMOlibKr3QLJq8VanDqvxrSTiskCpyLBXFF/FCpPeNsCRj8Ggh3yp/mcb2s8X
+ XrtaAVx5kGYSYGbJ5LQCYNibqeZa/G6ZZDEi5XJXm49Rx3jnPmAWXMBBfoQa55MGlFaP
+ K1ng==
+X-Gm-Message-State: AOAM530uyJv0GMSC5+5hjj9yAHp32/KEk7lsO6rVrE1bBgGUpKVx832b
+ TfT8cPBAFFA885dVBxYXoZ4S2GJwbGA48+nxXv4=
+X-Google-Smtp-Source: ABdhPJxA/O8VOQj6PvtK9fw3e1ssHI4WUV3LYuHb7eB7X/sn2OdgVRcUgW2Axg/AobVkoHKFmw2cEUp0hRjrKV7TppA=
+X-Received: by 2002:a5e:dd45:: with SMTP id u5mr7142530iop.118.1590785346588; 
+ Fri, 29 May 2020 13:49:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: lulu@redhat.com
-Date: Fri, 29 May 2020 13:37:06 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 16:30:28
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20200521094413.10425-1-zhiwei_liu@c-sky.com>
+ <20200521094413.10425-44-zhiwei_liu@c-sky.com>
+In-Reply-To: <20200521094413.10425-44-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 29 May 2020 13:40:01 -0700
+Message-ID: <CAKmqyKP04ZQ-EwURWVQDoe2on_NqNkW-OoqNOBk136+WG1L5+w@mail.gmail.com>
+Subject: Re: [PATCH v8 43/62] target/riscv: vector floating-point/integer
+ type-convert instructions
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,63 +79,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: rdunlap@infradead.org, mst@redhat.com, mhabets@solarflare.com,
- qemu-devel@nongnu.org, rob.miller@broadcom.com, saugatm@xilinx.com,
- lulu@redhat.com, armbru@redhat.com, hch@infradead.org, eperezma@redhat.com,
- jgg@mellanox.com, jasowang@redhat.com, shahafs@mellanox.com,
- kevin.tian@intel.com, parav@mellanox.com, vmireyno@marvell.com,
- cunming.liang@intel.com, gdawar@xilinx.com, jiri@mellanox.com,
- xiao.w.wang@intel.com, stefanha@redhat.com, zhihong.wang@intel.com,
- maxime.coquelin@redhat.com, aadam@redhat.com, cohuck@redhat.com,
- hanand@xilinx.com, lingshan.zhu@intel.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wxy194768@alibaba-inc.com, wenmeng_zhang@c-sky.com,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUyOTE0MDYyMC4yODc1
-OS0xLWx1bHVAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRvY2tl
-ci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFu
-ZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwg
-eW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBC
-RUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRvY2tlci1pbWFn
-ZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtbWluZ3dAZmVkb3Jh
-IEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAgICAgaW8vY2hh
-bm5lbC13ZWJzb2NrLm8KICBDQyAgICAgIGlvL2NoYW5uZWwtdXRpbC5vCgpXYXJuaW5nLCB0cmVh
-dGVkIGFzIGVycm9yOgovdG1wL3FlbXUtdGVzdC9zcmMvZG9jcy8uLi9xZW11LW9wdGlvbnMuaHg6
-MjkyMDpJbmxpbmUgbGl0ZXJhbCBzdGFydC1zdHJpbmcgd2l0aG91dCBlbmQtc3RyaW5nLgogIEND
-ICAgICAgaW8vZG5zLXJlc29sdmVyLm8KICBDQyAgICAgIGlvL25ldC1saXN0ZW5lci5vCi0tLQog
-IENDICAgICAgcW9tL2NvbnRhaW5lci5vCiAgQ0MgICAgICBxb20vcW9tLXFvYmplY3QubwoKV2Fy
-bmluZywgdHJlYXRlZCBhcyBlcnJvcjoKL3RtcC9xZW11LXRlc3Qvc3JjL2RvY3MvLi4vcWVtdS1v
-cHRpb25zLmh4OjI5MjA6SW5saW5lIGxpdGVyYWwgc3RhcnQtc3RyaW5nIHdpdGhvdXQgZW5kLXN0
-cmluZy4KICBDQyAgICAgIHFvbS9vYmplY3RfaW50ZXJmYWNlcy5vCiAgQ0MgICAgICBxZW11LWlv
-Lm8KLS0tCiAgQ0MgICAgICBpb3RocmVhZC5vCiAgQ0MgICAgICBqb2ItcW1wLm8KICBDQyAgICAg
-IG9zLXdpbjMyLm8KbWFrZTogKioqIFtNYWtlZmlsZToxMTAzOiBkb2NzL3N5c3RlbS9pbmRleC5o
-dG1sXSBFcnJvciAyCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCm1h
-a2U6ICoqKiBbTWFrZWZpbGU6MTExNDogLmRvY3Nfc3lzdGVtX3FlbXUuMV9kb2NzX3N5c3RlbV9x
-ZW11LWJsb2NrLWRyaXZlcnMuN19kb2NzX3N5c3RlbV9xZW11LWNwdS1tb2RlbHMuNy5zZW50aW5l
-bC5dIEVycm9yIDIKbWFrZTogKioqIERlbGV0aW5nIGZpbGUgJy5kb2NzX3N5c3RlbV9xZW11LjFf
-ZG9jc19zeXN0ZW1fcWVtdS1ibG9jay1kcml2ZXJzLjdfZG9jc19zeXN0ZW1fcWVtdS1jcHUtbW9k
-ZWxzLjcuc2VudGluZWwuJwpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6CiAgRmls
-ZSAiLi90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5IiwgbGluZSA2NjQsIGluIDxtb2R1bGU+Ci0tLQog
-ICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxs
-ZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywg
-Jy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD0xYjA1ZTBmNjcxMDA0OGM3OGRhMjhl
-OGRiN2FkZGM4NycsICctdScsICcxMDAxJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5j
-b25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05G
-SUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAn
-LWUnLCAnU0hPV19FTlY9JywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12
-JywgJy9ob21lL3BhdGNoZXcvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2Fj
-aGU6eicsICctdicsICcvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtOW1mZmo3eTQvc3JjL2Rv
-Y2tlci1zcmMuMjAyMC0wNS0yOS0xNi4zNS4xMy43ODY5Oi92YXIvdG1wL3FlbXU6eixybycsICdx
-ZW11OmZlZG9yYScsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LW1pbmd3J10nIHJldHVybmVk
-IG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5p
-bnN0YW5jZS51dWlkPTFiMDVlMGY2NzEwMDQ4Yzc4ZGEyOGU4ZGI3YWRkYzg3Cm1ha2VbMV06ICoq
-KiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90
-bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTltZmZqN3k0L3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVu
-LXRlc3QtbWluZ3dAZmVkb3JhXSBFcnJvciAyCgpyZWFsICAgIDFtNTAuNTUycwp1c2VyICAgIDBt
-OC42ODBzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcv
-bG9ncy8yMDIwMDUyOTE0MDYyMC4yODc1OS0xLWx1bHVAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tl
-ci1taW5nd0BmZWRvcmEvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0
-aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91
-ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Thu, May 21, 2020 at 4:11 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>  target/riscv/helper.h                   | 13 ++++++++++
+>  target/riscv/insn32.decode              |  4 +++
+>  target/riscv/insn_trans/trans_rvv.inc.c |  6 +++++
+>  target/riscv/vector_helper.c            | 33 +++++++++++++++++++++++++
+>  4 files changed, 56 insertions(+)
+>
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index 21054cc957..05f8fb5ffc 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -998,3 +998,16 @@ DEF_HELPER_5(vfclass_v_d, void, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_6(vfmerge_vfm_h, void, ptr, ptr, i64, ptr, env, i32)
+>  DEF_HELPER_6(vfmerge_vfm_w, void, ptr, ptr, i64, ptr, env, i32)
+>  DEF_HELPER_6(vfmerge_vfm_d, void, ptr, ptr, i64, ptr, env, i32)
+> +
+> +DEF_HELPER_5(vfcvt_xu_f_v_h, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfcvt_xu_f_v_w, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfcvt_xu_f_v_d, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfcvt_x_f_v_h, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfcvt_x_f_v_w, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfcvt_x_f_v_d, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfcvt_f_xu_v_h, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfcvt_f_xu_v_w, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfcvt_f_xu_v_d, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfcvt_f_x_v_h, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfcvt_f_x_v_w, void, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_5(vfcvt_f_x_v_d, void, ptr, ptr, ptr, env, i32)
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index 14cb4e2e66..53562c6663 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -515,6 +515,10 @@ vmford_vf       011010 . ..... ..... 101 ..... 1010111 @r_vm
+>  vfclass_v       100011 . ..... 10000 001 ..... 1010111 @r2_vm
+>  vfmerge_vfm     010111 0 ..... ..... 101 ..... 1010111 @r_vm_0
+>  vfmv_v_f        010111 1 00000 ..... 101 ..... 1010111 @r2
+> +vfcvt_xu_f_v    100010 . ..... 00000 001 ..... 1010111 @r2_vm
+> +vfcvt_x_f_v     100010 . ..... 00001 001 ..... 1010111 @r2_vm
+> +vfcvt_f_xu_v    100010 . ..... 00010 001 ..... 1010111 @r2_vm
+> +vfcvt_f_x_v     100010 . ..... 00011 001 ..... 1010111 @r2_vm
+>
+>  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
+>  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
+> diff --git a/target/riscv/insn_trans/trans_rvv.inc.c b/target/riscv/insn_trans/trans_rvv.inc.c
+> index dfa2177331..6db460177d 100644
+> --- a/target/riscv/insn_trans/trans_rvv.inc.c
+> +++ b/target/riscv/insn_trans/trans_rvv.inc.c
+> @@ -2215,3 +2215,9 @@ static bool trans_vfmv_v_f(DisasContext *s, arg_vfmv_v_f *a)
+>      }
+>      return false;
+>  }
+> +
+> +/* Single-Width Floating-Point/Integer Type-Convert Instructions */
+> +GEN_OPFV_TRANS(vfcvt_xu_f_v, opfv_check)
+> +GEN_OPFV_TRANS(vfcvt_x_f_v, opfv_check)
+> +GEN_OPFV_TRANS(vfcvt_f_xu_v, opfv_check)
+> +GEN_OPFV_TRANS(vfcvt_f_x_v, opfv_check)
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 018293570d..34b21c8deb 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -4217,3 +4217,36 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2, \
+>  GEN_VFMERGE_VF(vfmerge_vfm_h, int16_t, H2, clearh)
+>  GEN_VFMERGE_VF(vfmerge_vfm_w, int32_t, H4, clearl)
+>  GEN_VFMERGE_VF(vfmerge_vfm_d, int64_t, H8, clearq)
+> +
+> +/* Single-Width Floating-Point/Integer Type-Convert Instructions */
+> +/* vfcvt.xu.f.v vd, vs2, vm # Convert float to unsigned integer. */
+> +RVVCALL(OPFVV1, vfcvt_xu_f_v_h, OP_UU_H, H2, H2, float16_to_uint16)
+> +RVVCALL(OPFVV1, vfcvt_xu_f_v_w, OP_UU_W, H4, H4, float32_to_uint32)
+> +RVVCALL(OPFVV1, vfcvt_xu_f_v_d, OP_UU_D, H8, H8, float64_to_uint64)
+> +GEN_VEXT_V_ENV(vfcvt_xu_f_v_h, 2, 2, clearh)
+> +GEN_VEXT_V_ENV(vfcvt_xu_f_v_w, 4, 4, clearl)
+> +GEN_VEXT_V_ENV(vfcvt_xu_f_v_d, 8, 8, clearq)
+> +
+> +/* vfcvt.x.f.v vd, vs2, vm # Convert float to signed integer. */
+> +RVVCALL(OPFVV1, vfcvt_x_f_v_h, OP_UU_H, H2, H2, float16_to_int16)
+> +RVVCALL(OPFVV1, vfcvt_x_f_v_w, OP_UU_W, H4, H4, float32_to_int32)
+> +RVVCALL(OPFVV1, vfcvt_x_f_v_d, OP_UU_D, H8, H8, float64_to_int64)
+> +GEN_VEXT_V_ENV(vfcvt_x_f_v_h, 2, 2, clearh)
+> +GEN_VEXT_V_ENV(vfcvt_x_f_v_w, 4, 4, clearl)
+> +GEN_VEXT_V_ENV(vfcvt_x_f_v_d, 8, 8, clearq)
+> +
+> +/* vfcvt.f.xu.v vd, vs2, vm # Convert unsigned integer to float. */
+> +RVVCALL(OPFVV1, vfcvt_f_xu_v_h, OP_UU_H, H2, H2, uint16_to_float16)
+> +RVVCALL(OPFVV1, vfcvt_f_xu_v_w, OP_UU_W, H4, H4, uint32_to_float32)
+> +RVVCALL(OPFVV1, vfcvt_f_xu_v_d, OP_UU_D, H8, H8, uint64_to_float64)
+> +GEN_VEXT_V_ENV(vfcvt_f_xu_v_h, 2, 2, clearh)
+> +GEN_VEXT_V_ENV(vfcvt_f_xu_v_w, 4, 4, clearl)
+> +GEN_VEXT_V_ENV(vfcvt_f_xu_v_d, 8, 8, clearq)
+> +
+> +/* vfcvt.f.x.v vd, vs2, vm # Convert integer to float. */
+> +RVVCALL(OPFVV1, vfcvt_f_x_v_h, OP_UU_H, H2, H2, int16_to_float16)
+> +RVVCALL(OPFVV1, vfcvt_f_x_v_w, OP_UU_W, H4, H4, int32_to_float32)
+> +RVVCALL(OPFVV1, vfcvt_f_x_v_d, OP_UU_D, H8, H8, int64_to_float64)
+> +GEN_VEXT_V_ENV(vfcvt_f_x_v_h, 2, 2, clearh)
+> +GEN_VEXT_V_ENV(vfcvt_f_x_v_w, 4, 4, clearl)
+> +GEN_VEXT_V_ENV(vfcvt_f_x_v_d, 8, 8, clearq)
+> --
+> 2.23.0
+>
+>
 
