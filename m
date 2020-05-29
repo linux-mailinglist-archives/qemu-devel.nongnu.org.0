@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879221E8913
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 22:44:39 +0200 (CEST)
-Received: from localhost ([::1]:40658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99D91E8919
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 22:45:17 +0200 (CEST)
+Received: from localhost ([::1]:42860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jelrq-0006sU-JO
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 16:44:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46442)
+	id 1jelsS-0007l3-MJ
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 16:45:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jelqG-0005CL-OU
- for qemu-devel@nongnu.org; Fri, 29 May 2020 16:43:00 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:37851)
+ id 1jelqX-0005hX-43
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 16:43:18 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:35677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jelqF-0000V8-Cz
- for qemu-devel@nongnu.org; Fri, 29 May 2020 16:43:00 -0400
-Received: by mail-pg1-x542.google.com with SMTP id d10so477720pgn.4
- for <qemu-devel@nongnu.org>; Fri, 29 May 2020 13:42:58 -0700 (PDT)
+ id 1jelqV-0000e7-S3
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 16:43:16 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id q16so1705757plr.2
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 13:43:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OpkqySJ2UWknivaVvWru7lRhHenDyIjLkmIyDYeODKY=;
- b=Ih3a/VbqvNCorNFDtAaBsYYrCADdVUE0sfaXIG2/3LUFIDlbEH9IwEvtpAMI0v1GqH
- reHVplAGTfrF583XNxmhAQxuzaaD7mdWl/gRJoqWiwdDO42j3KJ3qOsFS5kLDafntkHc
- XChUf+ebR+fLrQfGQ4DtFdRg0PHI9Fj7TjMviFQrlB/wS3k9RodwRlVWFPNng2KLWwba
- lFg2xA5dS5SeYbAlP8648mMrFx1UKI3taspLX/SiQbZ1xbF3isoA29yztkF8q3VCfNzB
- Xv6MEXEzvvpjClqa9lIWjHesSn9AJrCde+BS4jB9ekHLQGENYAG+yijhUV6uswXsuFtH
- XBfw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=w1W80LI37XifJiBdMXsN+sad+Phr9kWINJYefaK6VIg=;
+ b=YIFsw/933SZGKHjIxCRowbAJrjVgXRPOYxhX6ZRqwZ8uZ7cZxDC2y2f6LVKf39hU+6
+ wI+VBa6CtG4f2xT++AlnSDuSq0Opp7KvccvCVOmhjqYbcfT/Eo1wuV7vnfpXN2QIDVdu
+ CT4UooXQULl/y9Un94ZTYsgisJxz4Uvh1NemLeRMATbzB++P8AVyFEJZJ6xB+XYCaXJK
+ L8ImYoqEJC+xRv2tkitiz7bwQ3REGTzcei9ZHKBAd/dPxI7RhqsS6ctMOFfLlRGlXriN
+ kJVdSGmHDgrEZmnQOXZR03qAD91LWqWPdt+V0sw7xziI6IeMiDOFr2LlfdX5ylycCU5A
+ heoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OpkqySJ2UWknivaVvWru7lRhHenDyIjLkmIyDYeODKY=;
- b=sA0YdPGneGXo0K5jQOqrmd0fM6WnvMWgVFut7jOqvFCrVH2gmmzjZvjO3IPmmVu/Dl
- skkxXpgjFqS0+NCBB+xMdqt26kXvtJJvQ+VZ+ZF1gjSE8GLpm/tZ1nI9JmAi3O9/zkXt
- /gcgUB319oaartaoBWAZwXx6YpdjMMW8sP+pa93cVK6fE1l8XymVohqlASuf0uFdK303
- CCz6vzSqKbT6WEvi3mHq8+Mc9WGy6AnWa6GruSKlY7zBwOQCJzEjedV1mSXydTUySVcp
- 8TIcRX8HO4oj4+y9UCgP+vc4LFjmMaAQD70IeYY0eeLMutMGYp8+APIaPm8yZWLxUdFV
- 4bfA==
-X-Gm-Message-State: AOAM530ByP7zcpgvnOGqansYDMpO4qpCL6S7NekJhYxVQqjrxrtPuX7p
- TX8jLfo3ClJh+VE7nbAHdRgeZQEAYKj1UA==
-X-Google-Smtp-Source: ABdhPJzuj05qQL0Dv6fk7IfFb01yQUVU5y1pPjRXmTfnFz2OQDAv8T/LFPePa5SnhJuRS0qB0WU7yg==
-X-Received: by 2002:a63:cd0d:: with SMTP id i13mr9987873pgg.292.1590784977367; 
- Fri, 29 May 2020 13:42:57 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=w1W80LI37XifJiBdMXsN+sad+Phr9kWINJYefaK6VIg=;
+ b=f0CUAfFL+Vb6oaDQOaDxsv3cyFYJh5k+wB8Fjw9n25L63nAzYGBTfO6RnJevYQsXdS
+ L9vgI1A+oiBoKuMfystKPqRVfiO7WBsNy2kj2/5Wy7BH0W0NeuPk+UoEZOylEpdpubH4
+ cluXMTucWqzj1bQBPUuiW6M36w5+mpKqSRdRq7G47OlyklK7BtikaU3yU5U/QWpL0Tax
+ fQ/vKDIKFdxNTvm9KZ9/LDDB+Tm6zweVmQhe7NGyDFFwTB90mUMQESBI1OdIDKXtot2z
+ z0sIRPZj+/Pw3P2547equXC9+LL7LejEJqzVVk6rGByyiGHwCfuzoQcHndERf9ABvIW4
+ KcxQ==
+X-Gm-Message-State: AOAM5330vTMx8/gpa3ChSX0oDPcXrQl38dQIJTXaMG6O/LxaPTbEiX0m
+ rGH7w2ETD18N5WHsRpyVHhZRhR2pS5y34A==
+X-Google-Smtp-Source: ABdhPJxd1DLu4DFPBmciN+lGl5ugd7q607oXD+KBn/A6X7eClLeNFVMoU4TZlPQAgZDG5S6crM0O5w==
+X-Received: by 2002:a17:902:6b4b:: with SMTP id
+ g11mr10668820plt.9.1590784994156; 
+ Fri, 29 May 2020 13:43:14 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:75ac:d268:da04:dde4])
- by smtp.gmail.com with ESMTPSA id t12sm282839pjf.3.2020.05.29.13.42.55
+ by smtp.gmail.com with ESMTPSA id t12sm282839pjf.3.2020.05.29.13.43.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 May 2020 13:42:56 -0700 (PDT)
+ Fri, 29 May 2020 13:43:13 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 00/12] tests/vm: Add support for aarch64 VMs
-Date: Fri, 29 May 2020 16:34:46 -0400
-Message-Id: <20200529203458.1038-1-robert.foley@linaro.org>
+Subject: [PATCH v8 01/12] tests/vm: pass args through to BaseVM's __init__
+Date: Fri, 29 May 2020 16:34:47 -0400
+Message-Id: <20200529203458.1038-2-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200529203458.1038-1-robert.foley@linaro.org>
+References: <20200529203458.1038-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=robert.foley@linaro.org; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=robert.foley@linaro.org; helo=mail-pl1-x62b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,68 +87,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, alex.bennee@linaro.org, robert.foley@linaro.org,
- peter.puhov@linaro.org
+Cc: Fam Zheng <fam@euphon.net>, philmd@redhat.com, alex.bennee@linaro.org,
+ robert.foley@linaro.org, peter.puhov@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is version 8 of the patch series to
-add support for aarch64 VMs in the vm-build infrastructure.
- - Ubuntu 18.04 aarch64 VM
- - CentOS 8 aarch64 VM
+Adding the args parameter to BaseVM's __init__.
+We will shortly need to pass more parameters to the class
+so let's just pass args rather than growing the parameter list.
 
-v7: https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg05286.html
+Signed-off-by: Robert Foley <robert.foley@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/vm/basevm.py | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-Changes in v8:
-- Added Ubuntu common module in tests/vm.
-- Changed ubuntu.i386 and ubuntu.aarch64 to use new common module.
-- Split out ConsoleSocket addition (python/qemu) to separate patch
-  from changes to use it in tests/vm.
-- Adjustments in configure when checking for aarch64 efi images.
-- Remove use of QEMU_LOCAL in basevm.py.  We will use the
-  presence of the --build-path argument instead.
-
-Robert Foley (12):
-  tests/vm: pass args through to BaseVM's __init__
-  tests/vm: Add configuration to basevm.py
-  tests/vm: Added configuration file support
-  tests/vm: Pass --debug through for vm-boot-ssh.
-  tests/vm: Add ability to select QEMU from current build.
-  tests/vm: allow wait_ssh() to specify command
-  tests/vm: Add common Ubuntu python module
-  tests/vm: Added a new script for ubuntu.aarch64.
-  tests/vm: Added a new script for centos.aarch64.
-  tests/vm: change scripts to use self._config
-  python/qemu: Add ConsoleSocket for optional use in QEMUMachine
-  tests/vm: Add workaround to consume console
-
- configure                         |  29 +++
- python/qemu/console_socket.py     | 118 +++++++++++++
- python/qemu/machine.py            |  23 ++-
- tests/vm/Makefile.include         |  27 +++
- tests/vm/aarch64vm.py             | 106 +++++++++++
- tests/vm/basevm.py                | 284 +++++++++++++++++++++++-------
- tests/vm/centos-8-aarch64.ks      |  51 ++++++
- tests/vm/centos.aarch64           | 227 ++++++++++++++++++++++++
- tests/vm/conf_example_aarch64.yml |  51 ++++++
- tests/vm/conf_example_x86.yml     |  50 ++++++
- tests/vm/fedora                   |  17 +-
- tests/vm/freebsd                  |  16 +-
- tests/vm/netbsd                   |  19 +-
- tests/vm/openbsd                  |  17 +-
- tests/vm/ubuntu.aarch64           |  68 +++++++
- tests/vm/ubuntu.i386              |  46 ++---
- tests/vm/ubuntuvm.py              |  58 ++++++
- 17 files changed, 1077 insertions(+), 130 deletions(-)
- create mode 100644 python/qemu/console_socket.py
- create mode 100644 tests/vm/aarch64vm.py
- create mode 100644 tests/vm/centos-8-aarch64.ks
- create mode 100755 tests/vm/centos.aarch64
- create mode 100644 tests/vm/conf_example_aarch64.yml
- create mode 100644 tests/vm/conf_example_x86.yml
- create mode 100755 tests/vm/ubuntu.aarch64
- create mode 100644 tests/vm/ubuntuvm.py
-
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index a2d4054d72..fbefda0595 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -61,9 +61,9 @@ class BaseVM(object):
+     # 4 is arbitrary, but greater than 2,
+     # since we found we need to wait more than twice as long.
+     tcg_ssh_timeout_multiplier = 4
+-    def __init__(self, debug=False, vcpus=None, genisoimage=None):
++    def __init__(self, args):
+         self._guest = None
+-        self._genisoimage = genisoimage
++        self._genisoimage = args.genisoimage
+         self._tmpdir = os.path.realpath(tempfile.mkdtemp(prefix="vm-test-",
+                                                          suffix=".tmp",
+                                                          dir="."))
+@@ -76,7 +76,7 @@ class BaseVM(object):
+         self._ssh_pub_key_file = os.path.join(self._tmpdir, "id_rsa.pub")
+         open(self._ssh_pub_key_file, "w").write(SSH_PUB_KEY)
+ 
+-        self.debug = debug
++        self.debug = args.debug
+         self._stderr = sys.stderr
+         self._devnull = open(os.devnull, "w")
+         if self.debug:
+@@ -90,8 +90,8 @@ class BaseVM(object):
+                        (",ipv6=no" if not self.ipv6 else ""),
+             "-device", "virtio-net-pci,netdev=vnet",
+             "-vnc", "127.0.0.1:0,to=20"]
+-        if vcpus and vcpus > 1:
+-            self._args += ["-smp", "%d" % vcpus]
++        if args.jobs and args.jobs > 1:
++            self._args += ["-smp", "%d" % args.jobs]
+         if kvm_available(self.arch):
+             self._args += ["-enable-kvm"]
+         else:
+@@ -438,8 +438,7 @@ def main(vmcls):
+             return 1
+         logging.basicConfig(level=(logging.DEBUG if args.debug
+                                    else logging.WARN))
+-        vm = vmcls(debug=args.debug, vcpus=args.jobs,
+-                   genisoimage=args.genisoimage)
++        vm = vmcls(args)
+         if args.build_image:
+             if os.path.exists(args.image) and not args.force:
+                 sys.stderr.writelines(["Image file exists: %s\n" % args.image,
 -- 
 2.17.1
 
