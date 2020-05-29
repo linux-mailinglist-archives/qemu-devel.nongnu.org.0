@@ -2,72 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3AF1E7650
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 09:04:45 +0200 (CEST)
-Received: from localhost ([::1]:55838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCD351E7656
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 09:06:34 +0200 (CEST)
+Received: from localhost ([::1]:60996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeZ4N-0002wo-Pb
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 03:04:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40504)
+	id 1jeZ69-0005BE-PX
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 03:06:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jeZ3Z-00029g-1p
- for qemu-devel@nongnu.org; Fri, 29 May 2020 03:03:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31777
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jeZ3X-000861-Ao
- for qemu-devel@nongnu.org; Fri, 29 May 2020 03:03:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590735829;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W6iLFqHAo/qnpyNxIKgh8FlqBjsUDy2IkWF6BrDBzRo=;
- b=OpNZeGxyTL1DOAlmKHXZxSu8gCn/xOen+gUj1dMRG1HV9Wf+fOVJkuc42FOdwfFERtTNZI
- dXW5XDgu2JEAo7M7mP/Q6VDIGSvEoz1mOQNNGtArebYpu2B2FzAoLbqoI3VFkRy5+YWjXM
- eakRnXIdutbl+7tREbXczBsjvQfojYg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-INLTVkQzPp6NruwvApUgyA-1; Fri, 29 May 2020 03:03:44 -0400
-X-MC-Unique: INLTVkQzPp6NruwvApUgyA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46AEA1855A0E;
- Fri, 29 May 2020 07:03:42 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1097799DE6;
- Fri, 29 May 2020 07:03:30 +0000 (UTC)
-Date: Fri, 29 May 2020 09:03:26 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: no-reply@patchew.org
-Subject: Re: [PATCH v2 0/4] microvm: memory config tweaks
-Message-ID: <20200529090326.799f9d27@redhat.com>
-In-Reply-To: <159069951375.20666.2158681200854299959@45ef0f9c86ae>
-References: <20200528134035.32025-1-kraxel@redhat.com>
- <159069951375.20666.2158681200854299959@45ef0f9c86ae>
+ (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
+ id 1jeZ4I-0003Ab-1u
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 03:04:38 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:33198)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jeZ4G-0000is-Vv
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 03:04:37 -0400
+Received: from [127.0.1.1] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id EDD6BCD461;
+ Fri, 29 May 2020 10:04:33 +0300 (MSK)
+Subject: [PATCH v3 00/11] Record/replay acceptance tests
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 29 May 2020 10:04:33 +0300
+Message-ID: <159073587336.20809.5404476664125786279.stgit@pasha-ThinkPad-X280>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 23:43:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: softfail client-ip=83.149.199.45;
+ envelope-from=Pavel.Dovgaluk@gmail.com; helo=mail.ispras.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:56:22
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: 7
+X-Spam_score: 0.7
+X-Spam_bar: /
+X-Spam_report: (0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
+ FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, NML_ADSP_CUSTOM_MED=0.9,
+ SPF_SOFTFAIL=0.665 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,68 +52,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, slp@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, pbonzini@redhat.com, philmd@redhat.com, rth@twiddle.net
+Cc: wrampazz@redhat.com, alex.bennee@linaro.org, dovgaluk@ispras.ru,
+ pavel.dovgaluk@ispras.ru, crosa@redhat.com, pbonzini@redhat.com,
+ philmd@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 May 2020 13:58:35 -0700 (PDT)
-no-reply@patchew.org wrote:
+The following series adds record/replay tests to the acceptance group.
+Test pass successfully with the latest submitted record/replay fixes:
+ - replay: notify the main loop when there are no instructions
+ - replay: synchronize on every virtual timer callback
 
-> Patchew URL: https://patchew.org/QEMU/20200528134035.32025-1-kraxel@redhat.com/
-> 
-> 
-> 
-> Hi,
-> 
-> This series failed the docker-quick@centos7 build test. Please find the testing commands and
-> their output below. If you have Docker installed, you can probably reproduce it
-> locally.
-> 
-> === TEST SCRIPT BEGIN ===
-> #!/bin/bash
-> make docker-image-centos7 V=1 NETWORK=1
-> time make docker-test-quick@centos7 SHOW_ENV=1 J=14 NETWORK=1
-> === TEST SCRIPT END ===
-> 
->   CC      x86_64-softmmu/target/i386/translate.o
->   CC      aarch64-softmmu/hw/arm/omap1.o
-> /tmp/qemu-test/src/hw/i386/xen/xen-hvm.c: In function 'xen_ram_init':
-> /tmp/qemu-test/src/hw/i386/xen/xen-hvm.c:206:34: error: 'X86_MACHINE_MAX_RAM_BELOW_4G' undeclared (first use in this function)
->                                   X86_MACHINE_MAX_RAM_BELOW_4G,
+The provided tests perform kernel boot and disk image boot scenarios.
+For all of them recording and replaying phases are executed.
+Tests were borrowed from existing boot_linux*.py tests. But some
+of the platforms and images were excluded, because icount for them
+still has some issues.
 
-it seems the build is still broken
+Tested-by: Philippe Mathieu-Daude <philmd@redhat.com>
 
->                                   ^
-> /tmp/qemu-test/src/hw/i386/xen/xen-hvm.c:206:34: note: each undeclared identifier is reported only once for each function it appears in
-> make[1]: *** [hw/i386/xen/xen-hvm.o] Error 1
->   CC      aarch64-softmmu/hw/arm/omap2.o
-> make[1]: *** Waiting for unfinished jobs....
->   CC      aarch64-softmmu/hw/arm/strongarm.o
-> ---
->   CC      aarch64-softmmu/target/arm/gdbstub64.o
->   CC      aarch64-softmmu/target/arm/machine.o
->   CC      aarch64-softmmu/target/arm/arch_dump.o
-> make: *** [x86_64-softmmu/all] Error 2
-> make: *** Waiting for unfinished jobs....
->   CC      aarch64-softmmu/target/arm/monitor.o
->   CC      aarch64-softmmu/target/arm/arm-powerctl.o
-> ---
->     raise CalledProcessError(retcode, cmd)
-> subprocess.CalledProcessError: Command '['sudo', '-n', 'docker', 'run', '--label', 'com.qemu.instance.uuid=74ab42ef34594fdb988f724e8efaa96d', '-u', '1003', '--security-opt', 'seccomp=unconfined', '--rm', '-e', 'TARGET_LIST=', '-e', 'EXTRA_CONFIGURE_OPTS=', '-e', 'V=', '-e', 'J=14', '-e', 'DEBUG=', '-e', 'SHOW_ENV=1', '-e', 'CCACHE_DIR=/var/tmp/ccache', '-v', '/home/patchew2/.cache/qemu-docker-ccache:/var/tmp/ccache:z', '-v', '/var/tmp/patchew-tester-tmp-fky5lt0a/src/docker-src.2020-05-28-16.55.24.5056:/var/tmp/qemu:z,ro', 'qemu:centos7', '/var/tmp/qemu/run', 'test-quick']' returned non-zero exit status 2.
-> filter=--filter=label=com.qemu.instance.uuid=74ab42ef34594fdb988f724e8efaa96d
-> make[1]: *** [docker-run] Error 1
-> make[1]: Leaving directory `/var/tmp/patchew-tester-tmp-fky5lt0a/src'
-> make: *** [docker-run-test-quick@centos7] Error 2
-> 
-> real    3m8.799s
-> user    0m4.488s
-> 
-> 
-> The full log is available at
-> http://patchew.org/logs/20200528134035.32025-1-kraxel@redhat.com/testing.docker-quick@centos7/?type=message.
-> ---
-> Email generated automatically by Patchew [https://patchew.org/].
-> Please send your feedback to patchew-devel@redhat.com
+v3 changes:
+ - Added record/replay logging (suggested by Philippe Mathieu-Daudé)
+ - Changed the console pattern to get longer kernel execution (suggested by Alex Bennée)
+ - Coding style fixes
+ - Other minor changes
+v2 changes:
+ - Some test structure refactoring (suggested by Willian Rampazzo)
 
+---
+
+Pavel Dovgaluk (11):
+      tests/acceptance: allow console interaction with specific VMs
+      tests/acceptance: refactor boot_linux_console test to allow code reuse
+      tests/acceptance: add base class record/replay kernel tests
+      tests/acceptance: add kernel record/replay test for x86_64
+      tests/acceptance: add record/replay test for aarch64
+      tests/acceptance: add record/replay test for arm
+      tests/acceptance: add record/replay test for ppc64
+      tests/acceptance: add record/replay test for m68k
+      tests/acceptance: record/replay tests with advcal images
+      tests/acceptance: refactor boot_linux to allow code reuse
+      tests/acceptance: Linux boot test for record/replay
+
+
+ 0 files changed
+
+--
+Pavel Dovgalyuk
 
