@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 695AE1E7FAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 16:06:09 +0200 (CEST)
-Received: from localhost ([::1]:42834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E821E7FD1
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 16:11:31 +0200 (CEST)
+Received: from localhost ([::1]:40082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jefeC-0001n7-Bu
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 10:06:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49250)
+	id 1jefjO-0005YU-PU
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 10:11:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jefKR-0002rF-Fo
- for qemu-devel@nongnu.org; Fri, 29 May 2020 09:45:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48087
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jefKW-00034g-CY
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 09:45:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20174
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jefKI-000726-W5
- for qemu-devel@nongnu.org; Fri, 29 May 2020 09:45:43 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jefKM-00076Q-Gs
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 09:45:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590759934;
+ s=mimecast20190719; t=1590759936;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pXI+EB3cAT5GKotMcn/5/3S0rTrVh4AkTgV2CNn2MZE=;
- b=aF0FBw2EpOv0f/dLZKbNEoDwI6nZtM4Cb0HJlqHRTWAM3Rfn4K7usG5tuvsLeKj+Vd9c0l
- TEUwNbsI/oZ5NtR7T8zZ1pssabcThRRKfTkI/ctipciQpA70OTN+JCAoSzOZNE3jqwFVnF
- 1cHF/UuMZ9b/OO6Kj8+X6EbQsd6UviA=
+ bh=RzUfjTeiVVBWaDglLGp//oKx+vHDe7ioBDgbVfUvLMs=;
+ b=g3AAA5ESjQtRDvIqZRAy9CC6XJi6fKL0koLbIya0OhGG/ypUHhxQ6BBNW7bcewsQxMWt4w
+ xikaP3uUMIx09hpLDrY+TnQi9s07Ighg4LcTuWr6QEHMkEnwoEflcj9aY+mHMXPO73NU0r
+ aB4btTG97gJy2M2bv0mzO9crzuCZRkU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-kmdmtx9RPkyha2gNmco0ag-1; Fri, 29 May 2020 09:45:32 -0400
-X-MC-Unique: kmdmtx9RPkyha2gNmco0ag-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-312-Q9V19hLcN-CH0yWNWyI9HA-1; Fri, 29 May 2020 09:45:34 -0400
+X-MC-Unique: Q9V19hLcN-CH0yWNWyI9HA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 619A78014D4;
- Fri, 29 May 2020 13:45:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB5C28014D4
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 13:45:33 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 277217A8C5;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 28A395C1C8;
  Fri, 29 May 2020 13:45:31 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2CF0E11358D8; Fri, 29 May 2020 15:45:24 +0200 (CEST)
+ id 340E711358DA; Fri, 29 May 2020 15:45:24 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 24/58] ssi: Convert last use of ssi_create_slave_no_init()
- manually
-Date: Fri, 29 May 2020 15:44:49 +0200
-Message-Id: <20200529134523.8477-25-armbru@redhat.com>
+Subject: [PATCH v2 26/58] usb: New usb_new(), usb_realize_and_unref()
+Date: Fri, 29 May 2020 15:44:51 +0200
+Message-Id: <20200529134523.8477-27-armbru@redhat.com>
 In-Reply-To: <20200529134523.8477-1-armbru@redhat.com>
 References: <20200529134523.8477-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:34:27
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 23:43:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,45 +80,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Same transformation as in the previous commit.  Manual, because
-convincing Coccinelle to transform this case is not worthwhile.
+I'm converting from qdev_create()/qdev_init_nofail() to
+qdev_new()/qdev_realize_and_unref(); recent commit "qdev: New
+qdev_new(), qdev_realize(), etc." explains why.
 
-Cc: Alistair Francis <alistair@alistair23.me>
+USB devices use qdev_create() through usb_create().
+
+Provide usb_new() and usb_realize_and_unref() for converting USB
+devices.
+
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/ssi/ssi.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ include/hw/usb.h |  2 ++
+ hw/usb/bus.c     | 10 ++++++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
-index 54106f5ef8..58e7d904db 100644
---- a/hw/ssi/ssi.c
-+++ b/hw/ssi/ssi.c
-@@ -16,6 +16,7 @@
- #include "hw/ssi/ssi.h"
- #include "migration/vmstate.h"
- #include "qemu/module.h"
-+#include "qapi/error.h"
- 
- struct SSIBus {
-     BusState parent_obj;
-@@ -96,9 +97,9 @@ DeviceState *ssi_create_slave_no_init(SSIBus *bus, const char *name)
- 
- DeviceState *ssi_create_slave(SSIBus *bus, const char *name)
- {
--    DeviceState *dev = ssi_create_slave_no_init(bus, name);
-+    DeviceState *dev = qdev_new(name);
- 
--    qdev_init_nofail(dev);
-+    qdev_realize_and_unref(dev, &bus->parent_obj, &error_fatal);
-     return dev;
+diff --git a/include/hw/usb.h b/include/hw/usb.h
+index 1cf1cd9584..2d2730f161 100644
+--- a/include/hw/usb.h
++++ b/include/hw/usb.h
+@@ -534,6 +534,8 @@ USBBus *usb_bus_find(int busnr);
+ void usb_legacy_register(const char *typename, const char *usbdevice_name,
+                          USBDevice *(*usbdevice_init)(USBBus *bus,
+                                                       const char *params));
++USBDevice *usb_new(const char *name);
++bool usb_realize_and_unref(USBDevice *dev, USBBus *bus, Error **errp);
+ USBDevice *usb_create(USBBus *bus, const char *name);
+ USBDevice *usb_create_simple(USBBus *bus, const char *name);
+ USBDevice *usbdevice_create(const char *cmdline);
+diff --git a/hw/usb/bus.c b/hw/usb/bus.c
+index d28eff1b5c..6b0d9f9e4d 100644
+--- a/hw/usb/bus.c
++++ b/hw/usb/bus.c
+@@ -314,6 +314,16 @@ void usb_legacy_register(const char *typename, const char *usbdevice_name,
+     }
  }
  
++USBDevice *usb_new(const char *name)
++{
++    return USB_DEVICE(qdev_new(name));
++}
++
++bool usb_realize_and_unref(USBDevice *dev, USBBus *bus, Error **errp)
++{
++    return qdev_realize_and_unref(&dev->qdev, &bus->qbus, errp);
++}
++
+ USBDevice *usb_create(USBBus *bus, const char *name)
+ {
+     DeviceState *dev;
 -- 
 2.21.3
 
