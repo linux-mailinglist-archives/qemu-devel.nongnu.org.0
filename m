@@ -2,58 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285BA1E8438
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 18:59:51 +0200 (CEST)
-Received: from localhost ([::1]:60334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 253D61E8471
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 19:13:41 +0200 (CEST)
+Received: from localhost ([::1]:46362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeiMI-0007R1-5v
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 12:59:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37528)
+	id 1jeiZf-0007LF-6J
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 13:13:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jeiKi-0006N3-G4
- for qemu-devel@nongnu.org; Fri, 29 May 2020 12:58:12 -0400
-Received: from mail-dm6nam12on2098.outbound.protection.outlook.com
- ([40.107.243.98]:17697 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jeiYg-0006rp-DR
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 13:12:38 -0400
+Received: from mail-bn8nam11on2095.outbound.protection.outlook.com
+ ([40.107.236.95]:55649 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jeiKh-0003lv-Nd
- for qemu-devel@nongnu.org; Fri, 29 May 2020 12:58:12 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jeiYe-0008IF-Nr
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 13:12:38 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PHD2e9oB9Alk6NO1AmvyFd7X/dcbRU8IuqBL1+yadReOu+ywbDHhJZ/pM7n52YgkrqbFHyTymRQgyyKOnXVbLyszgNSxlmK9tCojox6fRxT1+7u4+lW7ZRTCNTJW263nuUcmgyAxedsILwPE0v4heW+0seEVfh1ujViFpF+PjIfIDL89S0WIInExAVREx0h3+5HxJaKA6qKMwJpx5iuJNWAKNtWvi2IyitQWqe/4+uaUwFE4DMGQVau+mTyaYXU0ehpj6dt1uAecD7iB2THwPtWzXqNzMF0aAkLENPpdXwRhMdCEOa51g5bWgc9CIBQluG5g22U9rs2LZBLIs9KpYw==
+ b=lpXakFwWQMtSTWvHbe9tVRFirT3SOvqK1FIqXMLheg18Hi65CxE2/m54ap/dzhvPHHT0/2vkcCOhccF7p92MNxqDYKEdETkamp+9tnifuo+nSLYTj9Rn+OL4OaGcRSv4HTKJvWc5LtUFTI2//RM92zMULERcI93YjVvD2FX5KFqM76fxS4NH79aI4tmKKDD+mBwdZpW0oK2Z8ZmXWCG6Y5rz2u7QtLIREBxEW3/Qxowz35DOAhsYD80lmvHVbnvcx2laxBF0datuOUkvmzdRP50+T9OXTNRw0fO8FUzvIOWiD5rS4LH450RMsPONJUVdyJFj9079lTosSEA5/Nvcmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VF43pmbK7Aodes9LVekcIcCYpaa+Gq3Lxpdu8DvOzm4=;
- b=bf6/508CyzlVq53tdywK6Z2E9DE6J68u6jfw+I2V9wPgKXFrDL3IL9ubtrcg06STgCONqozRcC16RF+2+peMsUUwSLdHc3NBC1eMEvDuBim1+fGeYCP24+GQLrxBvrcTgtap1nxUYWW6NeQgKyGoedJJgxjzhhjB3nkTFik/isWGFn7kaAZW31gDhpmgVPGeZzmogOxd7K0uD03ocW1isyyzRtpCCO0uLUSa65sBpO1qXtaVjnSk34NTmtuC6Bll+ItFPZthohcTx9OM4RbUSpXjfzuSoFX7jbT/OYAuzQXGGn5mSFnsd1dfb4RXiLoI48/y9Rtn+uybAx5XpVNgRA==
+ bh=yrDNM7gv/HvmbAKArBx6YgRWd8wldDcX9lx7V4O3S+s=;
+ b=kvpe+um7+3dubte5LaMUxrrtOL9CfoTlbOICMQU/PzUsNNdgyX99On2Kc+5PeUkyZ5JlBt4dYpOq44gdBTilxA9yZMERdjk65FheiW8553wIcGbkRef1/FD42YFqVdpofRBgsEBfzIbQUHvd8wCzVdXia05y3pT7CGrwPU3lt21yzU4rGFrQLUihUHncAepIRSWmwB4twtAyAz36J9arRzRSSDf27STUSONKX+wDU3jHYqOiaGURAYHBUJnsF5epliW4EwCU4tYEtrw5ENWI6n5OzWAk4XYy2dX9c0+QJffPc95SPuLbG2s2+maf3ohd7/CShJevrhKctMDRcw61WQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VF43pmbK7Aodes9LVekcIcCYpaa+Gq3Lxpdu8DvOzm4=;
- b=MoSS9AFHajWdNnxAeLcvf5u+s3z/GiXL8fEpBE1pIjUTzTckXBMC6OWtvYvkRzxOmjBflnJFV5eE/6npaOBM8SUQezjulBYLuQhGzTlbSWbfGV3WKWzTo+7TOxXQWzhudFxdSeDnt4ocCr9ayebJDjurxW4vFNBglgMHLuCnOoY=
+ bh=yrDNM7gv/HvmbAKArBx6YgRWd8wldDcX9lx7V4O3S+s=;
+ b=tyV4V4u+GNjqaIZKTwIanewQJaOs7L+cQDkY5qzb9f0oDDKOJQLVFWMs3fCFELETScyMButICUabenYjfQniyfQa/z/wtkJe+meYJir30HLaglgmxTAnBenB8wbPEyrnl8aFWbHgZUYkSmpaWWkSNILg8XcMu62zFmbm1T4aixc=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SN6PR03MB3504.namprd03.prod.outlook.com (2603:10b6:805:4e::28)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.21; Fri, 29 May
- 2020 16:57:36 +0000
+ 2020 16:57:33 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::640a:1123:37c1:42db]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::640a:1123:37c1:42db%3]) with mapi id 15.20.3045.018; Fri, 29 May 2020
- 16:57:36 +0000
+ 16:57:33 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] fuzz: Add support for logging QTest commands
-Date: Fri, 29 May 2020 12:57:19 -0400
-Message-Id: <20200529165719.19262-3-alxndr@bu.edu>
+Subject: [PATCH 0/2] fuzz: Skip QTest serialization
+Date: Fri, 29 May 2020 12:57:17 -0400
+Message-Id: <20200529165719.19262-1-alxndr@bu.edu>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200529165719.19262-1-alxndr@bu.edu>
-References: <20200529165719.19262-1-alxndr@bu.edu>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: BL0PR02CA0077.namprd02.prod.outlook.com
  (2603:10b6:208:51::18) To SN6PR03MB3871.namprd03.prod.outlook.com
  (2603:10b6:805:6d::32)
@@ -62,36 +60,36 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from mozz.bu.edu (128.197.127.33) by
  BL0PR02CA0077.namprd02.prod.outlook.com (2603:10b6:208:51::18) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3045.17 via Frontend Transport; Fri, 29 May 2020 16:57:34 +0000
+ 15.20.3045.17 via Frontend Transport; Fri, 29 May 2020 16:57:32 +0000
 X-Mailer: git-send-email 2.26.2
 X-Originating-IP: [128.197.127.33]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a54be189-ad8e-4694-a33b-08d803f162d0
+X-MS-Office365-Filtering-Correlation-Id: b4fc6038-a110-4d12-8195-08d803f16194
 X-MS-TrafficTypeDiagnostic: SN6PR03MB3504:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB35040750269A19A6ADCD56F8BA8F0@SN6PR03MB3504.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:747;
+X-Microsoft-Antispam-PRVS: <SN6PR03MB3504CB56C366015AB49F381ABA8F0@SN6PR03MB3504.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
 X-Forefront-PRVS: 04180B6720
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KHtwfqW5k227XdZKzM9yhVvh2Koyzlh0CReauNY4AFynRKnPlN+5pFh3Zw0XKTxdxAM71fF+B4yX1sOlePbO2xUQX+GLk0/rJAjb/1MyTIDbmI//4IkFuXXdlD33HeSIQ1cv5kWjovXicN8u0QGlA6pQSejQTFdPm93FRiEMpovTOORzhll1cgWvivPYU1sSqri+VgYJAkBnilJg30w+/0N5L0rsdxexo3C+3rE0p0AUVNTyHBMzqbEPcblwWQmPd7eBI4LTxJqjTZP+qhI1yifmJVSsoDnyw7E1ExdwM9PLVc/o75BDy9fnJhx902E0VcQESSDVNCXiFRR2UmFuTg==
+X-Microsoft-Antispam-Message-Info: u3JUIiWhmCdseMip1LeDuY7Canm+HfkhXT2OaNo5S10gtgXD8Ol+UyXMtJKfqMPuQ6REcBKJq8wLuAuaPTUiKEhwn4zkEiwzIdx6LnSVYk4jdFm+iSD4/ThCJ+y6cXdWV/zuWf5vcA/VUVRGVKvyPHg1czg2wwRlvajEbFxn5xdQ5rxvzzQHrmZ7KxgL5oGznqf9SDIKlWZczlIRSuMzk1Wk/BIpdLmcCdjODZW67EnUgjcDlhNDtkl15u8/yabFYs90anwLO3Gmzayu+OwNWbBzCbIplpKaz9ag/i/zp2pXX6SkcCkfTRNh9NI1EDS/haNcVmZF5/t8F8VIfO0kdFwLs10X712XKE5tZJ1Uoye3T4kmXpAPmjzO6xLQoQuxxR2U3ak/ViTvwuYiP3fJ3A==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(136003)(376002)(346002)(39860400002)(396003)(366004)(478600001)(5660300002)(6486002)(26005)(4326008)(6666004)(36756003)(75432002)(54906003)(2906002)(86362001)(16526019)(786003)(316002)(8676002)(8936002)(66556008)(66946007)(1076003)(2616005)(66476007)(83380400001)(956004)(52116002)(6916009)(186003)(7696005);
+ SFS:(4636009)(136003)(376002)(346002)(39860400002)(396003)(366004)(478600001)(5660300002)(6486002)(26005)(966005)(4326008)(6666004)(36756003)(75432002)(2906002)(86362001)(16526019)(786003)(316002)(8676002)(8936002)(66556008)(66946007)(4744005)(1076003)(2616005)(66476007)(83380400001)(956004)(52116002)(6916009)(186003)(7696005);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: gPzLLitiW4FN0i23E/t210WoPq3iDaNfJTwo2oOksuxaU0EkDSGGYOjxTQfNrNo95bceLjJI4eKHt7c5A3Hn5fXTuz14GKM7VVB+fKO4HA84nnu8PmOGk7yMs7M2/jmLRU0UOEy+Viyp+d44fmASVWKTNO7zYT5BqWdE5zNHs4xE6wrwrdiobh0sO6I+x8R45zWwqh05yfUSy14y12ButW24Fbwmyor6ast2jidQeDLfcWA58z5JRqWadwH4QVL+BY17lkJ28S2V5+dIt9MHGGs9KT0pkj0WWHUXxr6Cwg2DEiklahw16H68gPO3ZENjPEbRWDGLQfJXhMw5NvDj7/wwAbYY0xaLPqpnIVkXfcl9dT7HNnSIoPpxZ837B/pIVnUZhRS3FndBW0T71kJvm6g8b+bX371zHXq6ghQWYmpGnDxSonC2tnlFtMTcgtCj2XcdtwbmPRA4/oPXDojwl6pXJqngcPbi9NJ4gM0Oia0=
+X-MS-Exchange-AntiSpam-MessageData: sOLoXAqKrrByi76/W9q67iujnAL275tUm9Xm30Ms9jlGHCJI1kgBX1MxEpS98V4mkj17LfBYauzxE9sRM3oVurpx5Q1/uvU65EpgfoSaAqkGBvRzJpt74yU19rv9pzJJJiM9ZS7kpx8MdVUhBVeTqXIrK0z4J3O0f2JC9sTZS71YI12+dTq+0p5QFEiA2v/fBNcimpyeDKHMmY8krGO/S0+Xo9xAHD6be4tLMVPVBxt3JyppR817v1N5VuGUGNGnSBQteLsQ2Z16s26CgWk4eC6yGAh0VOixMbfrgJI8Bf0eiMLPGDLgzT5qZw0aDHP63VoY6NE4bfyubs1W82xxCfgxBJTFOat+Nq8QgrEZ+sn/MW1aiZRCwaVUgaXNQb1tuHkA4mTZZGM5GQMRuuYaacn7nA0tgCNZ7m6u2iixHfL8PDL/IaBQq/vhw0JInfYt18r3OPNMysmnDlYUfPW8sI81IzSgJ9CC/YgP5jqr00M=
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: a54be189-ad8e-4694-a33b-08d803f162d0
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2020 16:57:36.3790 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4fc6038-a110-4d12-8195-08d803f16194
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2020 16:57:33.4377 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BG9BkFotNUNwmPn9watJGb/JY29gy5m4AND+cwcway3A1GHfIY/CvJCdYRVblEac
+X-MS-Exchange-CrossTenant-UserPrincipalName: Kq8dFK5XbvFObkvyNZeWWFOxqi0OJ9CF7Pqd9UIVsPLRl+IbFgQaztn6cTjjXcw9
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3504
-Received-SPF: pass client-ip=40.107.243.98; envelope-from=alxndr@bu.edu;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 12:58:10
+Received-SPF: pass client-ip=40.107.236.95; envelope-from=alxndr@bu.edu;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 13:12:35
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -113,44 +111,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org, darren.kenny@oracle.com,
- bsd@redhat.com, stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
+Cc: darren.kenny@oracle.com, bsd@redhat.com, f4bug@amsat.org,
+ stefanha@redhat.com, Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- tests/qtest/fuzz/fuzz.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+In the same vein as Philippe's patch:
 
-diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-index ea630ddb9b..2c9e2ee7b7 100644
---- a/tests/qtest/fuzz/fuzz.c
-+++ b/tests/qtest/fuzz/fuzz.c
-@@ -94,7 +94,9 @@ static void usage(char *path)
-     printf("Alternatively, add -target-FUZZ_TARGET to the executable name\n\n"
-            "Set the environment variable FUZZ_SERIALIZE_QTEST=1 to serialize\n"
-            "QTest commands into an ASCII protocol. Useful for building crash\n"
--           "reproducers, but slows down execution.\n");
-+           "reproducers, but slows down execution.\n\n"
-+           "Set the environment variable QTEST_LOG=1 to log all qtest commands"
-+           "\n");
-     exit(0);
- }
- 
-@@ -198,6 +200,11 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
-     /* Run QEMU's softmmu main with the fuzz-target dependent arguments */
-     const char *init_cmdline = fuzz_target->get_init_cmdline(fuzz_target);
- 
-+    init_cmdline = g_strdup_printf("%s -qtest /dev/null -qtest-log %s",
-+                                   init_cmdline,
-+                                   getenv("QTEST_LOG") ? "/dev/fd/2"
-+                                                       : "/dev/null");
-+
-     /* Split the runcmd into an argv and argc */
-     wordexp_t result;
-     wordexp(init_cmdline, &result, 0);
+https://patchew.org/QEMU/20200528165303.1877-1-f4bug@amsat.org/
+
+This uses linker trickery to wrap calls to libqtest functions and
+directly call the corresponding read/write functions, rather than
+relying on the ASCII-serialized QTest protocol.
+
+
+Alexander Bulekov (2):
+  fuzz: skip QTest serialization
+  fuzz: Add support for logging QTest commands
+
+ tests/qtest/fuzz/Makefile.include |  21 +++
+ tests/qtest/fuzz/fuzz.c           |  20 ++-
+ tests/qtest/fuzz/fuzz.h           |   3 +
+ tests/qtest/fuzz/qtest_wrappers.c | 252 ++++++++++++++++++++++++++++++
+ 4 files changed, 295 insertions(+), 1 deletion(-)
+ create mode 100644 tests/qtest/fuzz/qtest_wrappers.c
+
 -- 
 2.26.2
 
