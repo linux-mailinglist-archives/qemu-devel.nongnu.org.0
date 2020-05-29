@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87F801E7F36
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 15:51:08 +0200 (CEST)
-Received: from localhost ([::1]:60158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ABDF1E7F60
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 15:56:50 +0200 (CEST)
+Received: from localhost ([::1]:60268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jefPf-0003VF-If
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 09:51:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49194)
+	id 1jefVB-0006ua-5e
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 09:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jefKN-0002hj-1y
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jefKN-0002jS-U0
  for qemu-devel@nongnu.org; Fri, 29 May 2020 09:45:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36470
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60427
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jefKJ-00072h-7U
- for qemu-devel@nongnu.org; Fri, 29 May 2020 09:45:38 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jefKK-00074E-8A
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 09:45:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590759934;
+ s=mimecast20190719; t=1590759935;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yWRSH4/N4GjugNYyAOlTmd1YdiMf79ynZ4LMx/O9gLc=;
- b=JL8j4W+9R+W2Jp89uC+pe43dY3WXS5/nYXg26Ubop272tZQ9hEtMHT9VnuAdDuVSKygnbA
- 4JJgAon/p/39oS2A4+UrTXcqPjdGJHXR3lyb2EQjx5zFDiKkLPkoRoDEYmo7k6+PDHqLRB
- BS5Qphi9AUjXt4QC1IgvZl135f01spA=
+ bh=6S7+JPJ8j8tzkG+v/sTWN/FMS0x9NSD7BNkzFuRFdL4=;
+ b=T5jDvDVpn6w3ZpHbOLtsziW6IadKPqQfuhTlYwK/1BkCFirpCwzt7tiZ7v7dEvR9ZMJIKD
+ VvhYz0Vlt65adw85UgqvWVg81+wShk6fQcmQ4m19nuTBPll/nCZOo2lbzvv5xhgkd3Co7j
+ md//bsufivngm8jG/sXHnPirC6hknkM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-6jdlBx4FM6mn2w5A5wHWEQ-1; Fri, 29 May 2020 09:45:32 -0400
-X-MC-Unique: 6jdlBx4FM6mn2w5A5wHWEQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-302-YRpNZdHNOT2CwExmPbejaA-1; Fri, 29 May 2020 09:45:33 -0400
+X-MC-Unique: YRpNZdHNOT2CwExmPbejaA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF191EC1A1
- for <qemu-devel@nongnu.org>; Fri, 29 May 2020 13:45:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 126C818FE866;
+ Fri, 29 May 2020 13:45:32 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-32.ams2.redhat.com
  [10.36.112.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B1D8519C79;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D7B637A8D3;
  Fri, 29 May 2020 13:45:31 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5091A113522A; Fri, 29 May 2020 15:45:24 +0200 (CEST)
+ id 543A0113522B; Fri, 29 May 2020 15:45:24 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 34/58] auxbus: Eliminate aux_create_slave()
-Date: Fri, 29 May 2020 15:44:59 +0200
-Message-Id: <20200529134523.8477-35-armbru@redhat.com>
+Subject: [PATCH v2 35/58] qom: Tidy up a few object_initialize_child() calls
+Date: Fri, 29 May 2020 15:45:00 +0200
+Message-Id: <20200529134523.8477-36-armbru@redhat.com>
 In-Reply-To: <20200529134523.8477-1-armbru@redhat.com>
 References: <20200529134523.8477-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:34:27
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/28 23:43:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,72 +80,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-aux_create_slave() has become a trivial wrapper around qdev_new().
-There's just one user.  Eliminate.
+The callers of object_initialize_child() commonly  pass either
+&child, sizeof(child), or pchild, sizeof(*pchild).  Tidy up the few
+that don't, mostly to keep the next commit simpler.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/misc/auxbus.h | 7 -------
- hw/display/xlnx_dp.c     | 2 +-
- hw/misc/auxbus.c         | 9 ---------
- 3 files changed, 1 insertion(+), 17 deletions(-)
+ hw/arm/aspeed.c                 | 2 +-
+ hw/microblaze/xlnx-zynqmp-pmu.c | 3 +--
+ hw/pci-host/pnv_phb4.c          | 2 +-
+ hw/riscv/riscv_hart.c           | 2 +-
+ 4 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/misc/auxbus.h b/include/hw/misc/auxbus.h
-index 0d849d9d89..15a8973517 100644
---- a/include/hw/misc/auxbus.h
-+++ b/include/hw/misc/auxbus.h
-@@ -131,13 +131,6 @@ I2CBus *aux_get_i2c_bus(AUXBus *bus);
-  */
- void aux_init_mmio(AUXSlave *aux_slave, MemoryRegion *mmio);
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 9c25d5da96..296057b1ab 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -268,7 +268,7 @@ static void aspeed_machine_init(MachineState *machine)
+     memory_region_add_subregion(&bmc->ram_container, 0, machine->ram);
  
--/* aux_create_slave: Create a new device on an AUX bus
-- *
-- * @bus The AUX bus for the new device.
-- * @name The type of the device to be created.
-- */
--DeviceState *aux_create_slave(AUXBus *bus, const char *name);
--
- /* aux_map_slave: Map the mmio for an AUX slave on the bus.
-  *
-  * @dev The AUX slave.
-diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index e6e7f0037f..d1f9dc7595 100644
---- a/hw/display/xlnx_dp.c
-+++ b/hw/display/xlnx_dp.c
-@@ -1247,7 +1247,7 @@ static void xlnx_dp_init(Object *obj)
-     /*
-      * Initialize DPCD and EDID..
-      */
--    s->dpcd = DPCD(aux_create_slave(s->aux_bus, "dpcd"));
-+    s->dpcd = DPCD(qdev_new("dpcd"));
-     object_property_add_child(OBJECT(s), "dpcd", OBJECT(s->dpcd));
+     object_initialize_child(OBJECT(machine), "soc", &bmc->soc,
+-                            (sizeof(bmc->soc)), amc->soc_name, &error_abort,
++                            sizeof(bmc->soc), amc->soc_name, &error_abort,
+                             NULL);
  
-     s->edid = I2CDDC(qdev_new("i2c-ddc"));
-diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
-index e7a5d26158..d631266903 100644
---- a/hw/misc/auxbus.c
-+++ b/hw/misc/auxbus.c
-@@ -273,15 +273,6 @@ static void aux_slave_dev_print(Monitor *mon, DeviceState *dev, int indent)
-                    memory_region_size(s->mmio));
- }
+     sc = ASPEED_SOC_GET_CLASS(&bmc->soc);
+diff --git a/hw/microblaze/xlnx-zynqmp-pmu.c b/hw/microblaze/xlnx-zynqmp-pmu.c
+index 028f31894d..aa90b9d1be 100644
+--- a/hw/microblaze/xlnx-zynqmp-pmu.c
++++ b/hw/microblaze/xlnx-zynqmp-pmu.c
+@@ -174,8 +174,7 @@ static void xlnx_zynqmp_pmu_init(MachineState *machine)
+                                 pmu_ram);
  
--DeviceState *aux_create_slave(AUXBus *bus, const char *type)
--{
--    DeviceState *dev;
--
--    dev = qdev_new(type);
--    assert(dev);
--    return dev;
--}
--
- void aux_init_mmio(AUXSlave *aux_slave, MemoryRegion *mmio)
- {
-     assert(!aux_slave->mmio);
+     /* Create the PMU device */
+-    object_initialize_child(OBJECT(machine), "pmu", pmu,
+-                            sizeof(XlnxZynqMPPMUSoCState),
++    object_initialize_child(OBJECT(machine), "pmu", pmu, sizeof(*pmu),
+                             TYPE_XLNX_ZYNQMP_PMU_SOC, &error_abort, NULL);
+     object_property_set_bool(OBJECT(pmu), true, "realized", &error_fatal);
+ 
+diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+index e30ae9ad5b..aba710fd1f 100644
+--- a/hw/pci-host/pnv_phb4.c
++++ b/hw/pci-host/pnv_phb4.c
+@@ -1155,7 +1155,7 @@ static void pnv_phb4_instance_init(Object *obj)
+     QLIST_INIT(&phb->dma_spaces);
+ 
+     /* XIVE interrupt source object */
+-    object_initialize_child(obj, "source", &phb->xsrc, sizeof(XiveSource),
++    object_initialize_child(obj, "source", &phb->xsrc, sizeof(phb->xsrc),
+                             TYPE_XIVE_SOURCE, &error_abort, NULL);
+ 
+     /* Root Port */
+diff --git a/hw/riscv/riscv_hart.c b/hw/riscv/riscv_hart.c
+index 276a9baca0..61e88e2e37 100644
+--- a/hw/riscv/riscv_hart.c
++++ b/hw/riscv/riscv_hart.c
+@@ -46,7 +46,7 @@ static void riscv_hart_realize(RISCVHartArrayState *s, int idx,
+     Error *err = NULL;
+ 
+     object_initialize_child(OBJECT(s), "harts[*]", &s->harts[idx],
+-                            sizeof(RISCVCPU), cpu_type,
++                            sizeof(s->harts[idx]), cpu_type,
+                             &error_abort, NULL);
+     s->harts[idx].env.mhartid = s->hartid_base + idx;
+     qemu_register_reset(riscv_harts_cpu_reset, &s->harts[idx]);
 -- 
 2.21.3
 
