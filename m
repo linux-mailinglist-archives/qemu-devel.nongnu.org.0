@@ -2,86 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E0F1E7DB1
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 14:54:34 +0200 (CEST)
-Received: from localhost ([::1]:46228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE5281E7E8C
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 15:21:59 +0200 (CEST)
+Received: from localhost ([::1]:41478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeeWu-0008SM-GN
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 08:54:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34652)
+	id 1jeexR-0000lK-KR
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 09:21:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeeW1-0007wS-J8
- for qemu-devel@nongnu.org; Fri, 29 May 2020 08:53:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39165
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jeeVz-00064N-1f
- for qemu-devel@nongnu.org; Fri, 29 May 2020 08:53:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590756814;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Imd9OM3BOpjnolVWdADoVavNUSv5BdspcgDMJvj7jGw=;
- b=LLGGajW0ilQnh3vi2aZnyNdlN15JZiVpg9hwIME9RJCuMRSN81MdOCnMguOw6Uwb3xSPDR
- 7yuHmIeWkvls27HaBdqSAlIZmRbCwK9ZC+5PH9Sb2uCsPIMxdwhAPMuhkOUuOrQ5MxFIJp
- M21jdCdPlHS3fYB5C2QwVFKUsq/rneM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-Lj5qT0MEM2-SNeSa72aATA-1; Fri, 29 May 2020 08:53:30 -0400
-X-MC-Unique: Lj5qT0MEM2-SNeSa72aATA-1
-Received: by mail-wm1-f70.google.com with SMTP id l2so771325wmi.2
- for <qemu-devel@nongnu.org>; Fri, 29 May 2020 05:53:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Imd9OM3BOpjnolVWdADoVavNUSv5BdspcgDMJvj7jGw=;
- b=sGJ7/3vsNbQmGD0KaAIulnc/iFR2cLIdGCl3BwvaWnL7B4srs0ZdfyKgXwD056Uip9
- nuBIZqHOPp9dsbgt6PMrHGO0btbfTB/ZGJCklgh3NgVlWe1+P7EWska2VesV3SkGZAgY
- h599t0SHOn9R6zvlxH1msKgQ6/xeJXW/ORwkdv6Mq9FbTCZ5lgd4J/yWeu4K+PdRAvqk
- oek1JlnZfi1uyHeV74xDQAy91ydpgTJrUqgbhJVflGXpfqri4PWpJ7kYuYSAo6uNIXuj
- 8KvGIoLLCn4mtrcxGesGeFQd6mNIERkOewOp28NMBZ0FY+5AOCBqt0qfSkIW2k9Drdhx
- /dxQ==
-X-Gm-Message-State: AOAM5330trAPMWad0vAcn5YWRcI7+hFgj1Y2GxOdsAzoEsdWIj6aJImJ
- k3ugLwn8hS6Pr3Jt6xh1JyLdVSCIwKdp58TGevCJ2xs1foubYNTaigrERdivxr0J35xFRXVzDBX
- FILpBUo2Q5iebfDo=
-X-Received: by 2002:a1c:4d11:: with SMTP id o17mr8195806wmh.37.1590756808762; 
- Fri, 29 May 2020 05:53:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx7ufT1xAAUs5XfGN3mKVhzcxM9W+t2RxSUJIUVFvdyqxSw/uM3eHD3xnmIWdmQ6gLGYy9DsA==
-X-Received: by 2002:a1c:4d11:: with SMTP id o17mr8195776wmh.37.1590756808268; 
- Fri, 29 May 2020 05:53:28 -0700 (PDT)
-Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id z206sm11982063wmg.30.2020.05.29.05.53.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 May 2020 05:53:27 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] memory: Make 'info mtree' not display disabled regions by
- default
-Date: Fri, 29 May 2020 14:53:25 +0200
-Message-Id: <20200529125325.11916-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
+ (Exim 4.90_1) (envelope-from <hakangurbuz.hg@hotmail.com>)
+ id 1jeeZa-0001Wq-ET
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 08:57:18 -0400
+Received: from mail-db8eur05olkn2058.outbound.protection.outlook.com
+ ([40.92.89.58]:52065 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hakangurbuz.hg@hotmail.com>)
+ id 1jeeZZ-0007n6-00
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 08:57:17 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lFWrIuULV6PnNjH5wDd3xOwaRWneWxqDhV4z3VttTbRcRO6BHHeftvi0JuL0anvAohc/oNld8ECd99Oc1JB1ovdgZAiCAoJANIjX8+ZNJYLmXuzS/qZ9lnnSje4v4Z/b3Yjyt3yfjU/DSmFSbLYJfQDAM8bEz3VjUZbdfm26JjMl8KXx046Q7o5lyl/r+FLKauwrBPhxD5jDPg15A9YWBYUM/9fJh4q8tNMYS6F09lNUrikUmmuiwG0nBvNphq381LHcprw+0ZMIkXrdx99urwKCJme+7PNlR1nDvckGc+C93Q6fGzFGl8ErQKwZ2MYhD2SSlYutXeocFI991k0gTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vioOKn4YM8PuoygmAUyRiKj2p8KemXhB6/1/Lsdw6LI=;
+ b=j9VOZHBnki522gX7emVEBv/Ujv49kaWP9b6g1Y+RGsDNnL8XeB1P1q7mZvcPMeBiOLmM3wrke7UFf1FCubFHvKlZLbgv7vPkXkP3glI91+RY5wfH8vYHI48iaOwcRosYru3223tYUErH2AgetGUZsRt3D1mCV8S1vuCMxLacee63Fuv0ps8lNu1v9RoU7vjOPhkpYED1MhV+Pv8EcvSZ9V5WFKxe19BU3XXr5JEGr7NWkvdCaLwwtN6Py+WITDKYWxmmoxqrD3go8WGPfr/ubgJbYP9Ou4K1JkHqv1JQNZTa8EqT1JZw+7Uy6uC0zNhfxmaChxMVBfwYz2XVeqGExA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vioOKn4YM8PuoygmAUyRiKj2p8KemXhB6/1/Lsdw6LI=;
+ b=R5P8i+STKVN69WKg1ch2bFqrNcffr4P1Y3EoT7Ndc7hYxVuIPjaUAgMOhmD8L1t1i6TT4qLuLFk6VgF9jEYg7srdTAh31R8yGOSLL1qID8vSG6xi3Aw8Sr8ijycJk9pRsleXgmVMG6nIhf5DlRxrHrLNoRWEyFgPI3S3dKRZK/qcEntWv64zoiz6U6pgYr7JXX9+smZJ8n6VLVIptPINMXwnE41JNfq1lJ7nrFHMM1ToYpZ1xS8xpCbjIhL2bwf513R0BQnWImq9JDHhh2tEdErUCGbmbUx3memZer6tQ0DdIiqWT/CAdIitl4+rUf+Lz0JHY0ik4Lg+gQD+1EGL1A==
+Received: from AM6EUR05FT024.eop-eur05.prod.protection.outlook.com
+ (2a01:111:e400:fc11::42) by
+ AM6EUR05HT026.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::291)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17; Fri, 29 May
+ 2020 12:42:12 +0000
+Received: from AM0PR06MB4514.eurprd06.prod.outlook.com
+ (2a01:111:e400:fc11::41) by AM6EUR05FT024.mail.protection.outlook.com
+ (2a01:111:e400:fc11::90) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17 via Frontend
+ Transport; Fri, 29 May 2020 12:42:12 +0000
+Received: from AM0PR06MB4514.eurprd06.prod.outlook.com
+ ([fe80::98ea:ee00:4973:d472]) by AM0PR06MB4514.eurprd06.prod.outlook.com
+ ([fe80::98ea:ee00:4973:d472%6]) with mapi id 15.20.3045.018; Fri, 29 May 2020
+ 12:42:11 +0000
+From: =?iso-8859-9?Q?Hakan_G=DCRB=DCZ?= <hakangurbuz.hg@hotmail.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Qemu Help
+Thread-Topic: Qemu Help
+Thread-Index: AQHWNbY7zGGTz2lcakuufE+tV0lq5A==
+Date: Fri, 29 May 2020 12:42:11 +0000
+Message-ID: <AM0PR06MB4514F5FD24459E9E2740A0078E8F0@AM0PR06MB4514.eurprd06.prod.outlook.com>
+Accept-Language: tr-TR, en-US
+Content-Language: tr-TR
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-incomingtopheadermarker: OriginalChecksum:39DA2334B7BDE9F8A00BAA320A9A17CCB1B11959AB2CC9A695DB6ABBEF8B24B3;
+ UpperCasedChecksum:D78EC92B90ABAF83D2E8859FC9C03194BE7C6BDCFEA4D0679951098C85B82555;
+ SizeAsReceived:6663; Count:42
+x-tmn: [NgNfsaWj2x+9ErsUgV2GjPBW5Y1z6hlG]
+x-ms-publictraffictype: Email
+x-incomingheadercount: 42
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: 1a762e33-b5ae-4de7-e2d7-08d803cdb55a
+x-ms-traffictypediagnostic: AM6EUR05HT026:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 1EXg7+XDCy8wu4oFzAJ81r9g0pMGVwqzKNOPBBAieCHKiihm+P6ezchWkhvdX9GQ14oiQvlBarqZE9gm7EWUKXGbxz/H9EDzlNHP7yjWd81ASizTKo+6NmiKAFOmdKZ5ftwiwpziwabwMsyOlarW0BrHRi9k/91u864VGwrhask28OmobhjCd6qA/3aDPWUcGudd0Zsv+CVo46viE1mnYQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:0; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR06MB4514.eurprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:; SFS:; DIR:OUT; SFP:1901; 
+x-ms-exchange-antispam-messagedata: Ju0Ga4pYnTdjS+JKqXeOuqMhtag/Bqa4eq2zzjUbHIUp2IrF5d76WszN611uToTDR8U0E6+AQZKEMsBh1vBNrKqOfvnmY0PNe3BD8QkNpjwruZ8cW37qWIHyTmRXc42YqgKxTpGZBA0FkDuClpyb5A==
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+ boundary="_000_AM0PR06MB4514F5FD24459E9E2740A0078E8F0AM0PR06MB4514eurp_"
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 01:34:27
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-OriginatorOrg: hotmail.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a762e33-b5ae-4de7-e2d7-08d803cdb55a
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 May 2020 12:42:11.7857 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT026
+Received-SPF: pass client-ip=40.92.89.58;
+ envelope-from=hakangurbuz.hg@hotmail.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 08:57:15
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 29 May 2020 09:20:11 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,308 +112,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We might have many disabled memory regions, making the 'info mtree'
-output too verbose to be useful.
-Remove the disabled regions in the default output, but allow the
-monitor user to display them using the '-D' option.
+--_000_AM0PR06MB4514F5FD24459E9E2740A0078E8F0AM0PR06MB4514eurp_
+Content-Type: text/plain; charset="iso-8859-9"
+Content-Transfer-Encoding: quoted-printable
 
-Before:
+Is it possible to run the .elf file produced from non-Linux operating syste=
+m kernel in Qemu?
+I could not find a solution anywhere, please I am waiting for your help. Th=
+e information you provide is very valuable for me.
 
-  (qemu) info mtree
-  memory-region: system
-    0000000000000000-ffffffffffffffff (prio 0, i/o): system
-      0000000000000000-0000000007ffffff (prio 0, ram): alias ram-below-4g @pc.ram 0000000000000000-0000000007ffffff
-      0000000000000000-ffffffffffffffff (prio -1, i/o): pci
-        00000000000a0000-00000000000bffff (prio 1, i/o): vga-lowmem
-        00000000000c0000-00000000000dffff (prio 1, rom): pc.rom
-        00000000000e0000-00000000000fffff (prio 1, rom): alias isa-bios @pc.bios 0000000000020000-000000000003ffff
-        00000000fffc0000-00000000ffffffff (prio 0, rom): pc.bios
-      00000000000a0000-00000000000bffff (prio 1, i/o): alias smram-region @pci 00000000000a0000-00000000000bffff
-      00000000000c0000-00000000000c3fff (prio 1, ram): alias pam-ram @pc.ram 00000000000c0000-00000000000c3fff [disabled]
-      00000000000c0000-00000000000c3fff (prio 1, ram): alias pam-pci @pc.ram 00000000000c0000-00000000000c3fff [disabled]
-      00000000000c0000-00000000000c3fff (prio 1, ram): alias pam-rom @pc.ram 00000000000c0000-00000000000c3fff [disabled]
-      00000000000c0000-00000000000c3fff (prio 1, i/o): alias pam-pci @pci 00000000000c0000-00000000000c3fff
-      00000000000c4000-00000000000c7fff (prio 1, ram): alias pam-ram @pc.ram 00000000000c4000-00000000000c7fff [disabled]
-      00000000000c4000-00000000000c7fff (prio 1, ram): alias pam-pci @pc.ram 00000000000c4000-00000000000c7fff [disabled]
-      00000000000c4000-00000000000c7fff (prio 1, ram): alias pam-rom @pc.ram 00000000000c4000-00000000000c7fff [disabled]
-      00000000000c4000-00000000000c7fff (prio 1, i/o): alias pam-pci @pci 00000000000c4000-00000000000c7fff
-      00000000000c8000-00000000000cbfff (prio 1, ram): alias pam-ram @pc.ram 00000000000c8000-00000000000cbfff [disabled]
-      00000000000c8000-00000000000cbfff (prio 1, ram): alias pam-pci @pc.ram 00000000000c8000-00000000000cbfff [disabled]
-      00000000000c8000-00000000000cbfff (prio 1, ram): alias pam-rom @pc.ram 00000000000c8000-00000000000cbfff [disabled]
-      00000000000c8000-00000000000cbfff (prio 1, i/o): alias pam-pci @pci 00000000000c8000-00000000000cbfff
-      00000000000cc000-00000000000cffff (prio 1, ram): alias pam-ram @pc.ram 00000000000cc000-00000000000cffff [disabled]
-      00000000000cc000-00000000000cffff (prio 1, ram): alias pam-pci @pc.ram 00000000000cc000-00000000000cffff [disabled]
-      00000000000cc000-00000000000cffff (prio 1, ram): alias pam-rom @pc.ram 00000000000cc000-00000000000cffff [disabled]
-      00000000000cc000-00000000000cffff (prio 1, i/o): alias pam-pci @pci 00000000000cc000-00000000000cffff
-      00000000000d0000-00000000000d3fff (prio 1, ram): alias pam-ram @pc.ram 00000000000d0000-00000000000d3fff [disabled]
-      00000000000d0000-00000000000d3fff (prio 1, ram): alias pam-pci @pc.ram 00000000000d0000-00000000000d3fff [disabled]
-      00000000000d0000-00000000000d3fff (prio 1, ram): alias pam-rom @pc.ram 00000000000d0000-00000000000d3fff [disabled]
-      00000000000d0000-00000000000d3fff (prio 1, i/o): alias pam-pci @pci 00000000000d0000-00000000000d3fff
-      00000000000d4000-00000000000d7fff (prio 1, ram): alias pam-ram @pc.ram 00000000000d4000-00000000000d7fff [disabled]
-      00000000000d4000-00000000000d7fff (prio 1, ram): alias pam-pci @pc.ram 00000000000d4000-00000000000d7fff [disabled]
-      00000000000d4000-00000000000d7fff (prio 1, ram): alias pam-rom @pc.ram 00000000000d4000-00000000000d7fff [disabled]
-      00000000000d4000-00000000000d7fff (prio 1, i/o): alias pam-pci @pci 00000000000d4000-00000000000d7fff
-      00000000000d8000-00000000000dbfff (prio 1, ram): alias pam-ram @pc.ram 00000000000d8000-00000000000dbfff [disabled]
-      00000000000d8000-00000000000dbfff (prio 1, ram): alias pam-pci @pc.ram 00000000000d8000-00000000000dbfff [disabled]
-      00000000000d8000-00000000000dbfff (prio 1, ram): alias pam-rom @pc.ram 00000000000d8000-00000000000dbfff [disabled]
-      00000000000d8000-00000000000dbfff (prio 1, i/o): alias pam-pci @pci 00000000000d8000-00000000000dbfff
-      00000000000dc000-00000000000dffff (prio 1, ram): alias pam-ram @pc.ram 00000000000dc000-00000000000dffff [disabled]
-      00000000000dc000-00000000000dffff (prio 1, ram): alias pam-pci @pc.ram 00000000000dc000-00000000000dffff [disabled]
-      00000000000dc000-00000000000dffff (prio 1, ram): alias pam-rom @pc.ram 00000000000dc000-00000000000dffff [disabled]
-      00000000000dc000-00000000000dffff (prio 1, i/o): alias pam-pci @pci 00000000000dc000-00000000000dffff
-      00000000000e0000-00000000000e3fff (prio 1, ram): alias pam-ram @pc.ram 00000000000e0000-00000000000e3fff [disabled]
-      00000000000e0000-00000000000e3fff (prio 1, ram): alias pam-pci @pc.ram 00000000000e0000-00000000000e3fff [disabled]
-      00000000000e0000-00000000000e3fff (prio 1, ram): alias pam-rom @pc.ram 00000000000e0000-00000000000e3fff [disabled]
-      00000000000e0000-00000000000e3fff (prio 1, i/o): alias pam-pci @pci 00000000000e0000-00000000000e3fff
-      00000000000e4000-00000000000e7fff (prio 1, ram): alias pam-ram @pc.ram 00000000000e4000-00000000000e7fff [disabled]
-      00000000000e4000-00000000000e7fff (prio 1, ram): alias pam-pci @pc.ram 00000000000e4000-00000000000e7fff [disabled]
-      00000000000e4000-00000000000e7fff (prio 1, ram): alias pam-rom @pc.ram 00000000000e4000-00000000000e7fff [disabled]
-      00000000000e4000-00000000000e7fff (prio 1, i/o): alias pam-pci @pci 00000000000e4000-00000000000e7fff
-      00000000000e8000-00000000000ebfff (prio 1, ram): alias pam-ram @pc.ram 00000000000e8000-00000000000ebfff [disabled]
-      00000000000e8000-00000000000ebfff (prio 1, ram): alias pam-pci @pc.ram 00000000000e8000-00000000000ebfff [disabled]
-      00000000000e8000-00000000000ebfff (prio 1, ram): alias pam-rom @pc.ram 00000000000e8000-00000000000ebfff [disabled]
-      00000000000e8000-00000000000ebfff (prio 1, i/o): alias pam-pci @pci 00000000000e8000-00000000000ebfff
-      00000000000ec000-00000000000effff (prio 1, ram): alias pam-ram @pc.ram 00000000000ec000-00000000000effff [disabled]
-      00000000000ec000-00000000000effff (prio 1, ram): alias pam-pci @pc.ram 00000000000ec000-00000000000effff [disabled]
-      00000000000ec000-00000000000effff (prio 1, ram): alias pam-rom @pc.ram 00000000000ec000-00000000000effff [disabled]
-      00000000000ec000-00000000000effff (prio 1, i/o): alias pam-pci @pci 00000000000ec000-00000000000effff
-      00000000000f0000-00000000000fffff (prio 1, ram): alias pam-ram @pc.ram 00000000000f0000-00000000000fffff [disabled]
-      00000000000f0000-00000000000fffff (prio 1, ram): alias pam-pci @pc.ram 00000000000f0000-00000000000fffff [disabled]
-      00000000000f0000-00000000000fffff (prio 1, ram): alias pam-rom @pc.ram 00000000000f0000-00000000000fffff [disabled]
-      00000000000f0000-00000000000fffff (prio 1, i/o): alias pam-pci @pci 00000000000f0000-00000000000fffff
-      00000000fec00000-00000000fec00fff (prio 0, i/o): ioapic
-      00000000fed00000-00000000fed003ff (prio 0, i/o): hpet
-      00000000fee00000-00000000feefffff (prio 4096, i/o): apic-msi
+--_000_AM0PR06MB4514F5FD24459E9E2740A0078E8F0AM0PR06MB4514eurp_
+Content-Type: text/html; charset="iso-8859-9"
+Content-Transfer-Encoding: quoted-printable
 
-After:
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+9">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);">
+<span>Is it possible to run the .elf file produced from non-Linux operating=
+ system kernel in Qemu?<br>
+</span><span>I could not find a solution anywhere, please I am waiting for =
+your help. The information you provide is very valuable for me.</span><br>
+</div>
+</body>
+</html>
 
-  (qemu) info mtree
-  memory-region: system
-    0000000000000000-ffffffffffffffff (prio 0, i/o): system
-      0000000000000000-0000000007ffffff (prio 0, ram): alias ram-below-4g @pc.ram 0000000000000000-0000000007ffffff
-      0000000000000000-ffffffffffffffff (prio -1, i/o): pci
-        00000000000a0000-00000000000bffff (prio 1, i/o): vga-lowmem
-        00000000000c0000-00000000000dffff (prio 1, rom): pc.rom
-        00000000000e0000-00000000000fffff (prio 1, rom): alias isa-bios @pc.bios 0000000000020000-000000000003ffff
-        00000000fffc0000-00000000ffffffff (prio 0, rom): pc.bios
-      00000000000a0000-00000000000bffff (prio 1, i/o): alias smram-region @pci 00000000000a0000-00000000000bffff
-      00000000000c0000-00000000000c3fff (prio 1, i/o): alias pam-pci @pci 00000000000c0000-00000000000c3fff
-      00000000000c4000-00000000000c7fff (prio 1, i/o): alias pam-pci @pci 00000000000c4000-00000000000c7fff
-      00000000000c8000-00000000000cbfff (prio 1, i/o): alias pam-pci @pci 00000000000c8000-00000000000cbfff
-      00000000000cc000-00000000000cffff (prio 1, i/o): alias pam-pci @pci 00000000000cc000-00000000000cffff
-      00000000000d0000-00000000000d3fff (prio 1, i/o): alias pam-pci @pci 00000000000d0000-00000000000d3fff
-      00000000000d4000-00000000000d7fff (prio 1, i/o): alias pam-pci @pci 00000000000d4000-00000000000d7fff
-      00000000000d8000-00000000000dbfff (prio 1, i/o): alias pam-pci @pci 00000000000d8000-00000000000dbfff
-      00000000000dc000-00000000000dffff (prio 1, i/o): alias pam-pci @pci 00000000000dc000-00000000000dffff
-      00000000000e0000-00000000000e3fff (prio 1, i/o): alias pam-pci @pci 00000000000e0000-00000000000e3fff
-      00000000000e4000-00000000000e7fff (prio 1, i/o): alias pam-pci @pci 00000000000e4000-00000000000e7fff
-      00000000000e8000-00000000000ebfff (prio 1, i/o): alias pam-pci @pci 00000000000e8000-00000000000ebfff
-      00000000000ec000-00000000000effff (prio 1, i/o): alias pam-pci @pci 00000000000ec000-00000000000effff
-      00000000000f0000-00000000000fffff (prio 1, i/o): alias pam-pci @pci 00000000000f0000-00000000000fffff
-      00000000fec00000-00000000fec00fff (prio 0, i/o): ioapic
-      00000000fed00000-00000000fed003ff (prio 0, i/o): hpet
-      00000000fee00000-00000000feefffff (prio 4096, i/o): apic-msi
-
-The old behavior is preserved using 'info mtree -D'.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/exec/memory.h |  2 +-
- memory.c              | 75 +++++++++++++++++++++++--------------------
- monitor/misc.c        |  3 +-
- hmp-commands-info.hx  |  7 ++--
- 4 files changed, 48 insertions(+), 39 deletions(-)
-
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index e000bd2f97..27f3bb59e0 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -1973,7 +1973,7 @@ void memory_global_dirty_log_start(void);
-  */
- void memory_global_dirty_log_stop(void);
- 
--void mtree_info(bool flatview, bool dispatch_tree, bool owner);
-+void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled);
- 
- /**
-  * memory_region_dispatch_read: perform a read directly to the specified
-diff --git a/memory.c b/memory.c
-index fd6f3d6aca..e79526f8ad 100644
---- a/memory.c
-+++ b/memory.c
-@@ -2876,7 +2876,7 @@ static void mtree_print_mr_owner(const MemoryRegion *mr)
- static void mtree_print_mr(const MemoryRegion *mr, unsigned int level,
-                            hwaddr base,
-                            MemoryRegionListHead *alias_print_queue,
--                           bool owner)
-+                           bool owner, bool display_disabled)
- {
-     MemoryRegionList *new_ml, *ml, *next_ml;
-     MemoryRegionListHead submr_print_queue;
-@@ -2888,10 +2888,6 @@ static void mtree_print_mr(const MemoryRegion *mr, unsigned int level,
-         return;
-     }
- 
--    for (i = 0; i < level; i++) {
--        qemu_printf(MTREE_INDENT);
--    }
--
-     cur_start = base + mr->addr;
-     cur_end = cur_start + MR_SIZE(mr->size);
- 
-@@ -2920,35 +2916,46 @@ static void mtree_print_mr(const MemoryRegion *mr, unsigned int level,
-             ml->mr = mr->alias;
-             QTAILQ_INSERT_TAIL(alias_print_queue, ml, mrqueue);
-         }
--        qemu_printf(TARGET_FMT_plx "-" TARGET_FMT_plx
--                    " (prio %d, %s%s): alias %s @%s " TARGET_FMT_plx
--                    "-" TARGET_FMT_plx "%s",
--                    cur_start, cur_end,
--                    mr->priority,
--                    mr->nonvolatile ? "nv-" : "",
--                    memory_region_type((MemoryRegion *)mr),
--                    memory_region_name(mr),
--                    memory_region_name(mr->alias),
--                    mr->alias_offset,
--                    mr->alias_offset + MR_SIZE(mr->size),
--                    mr->enabled ? "" : " [disabled]");
--        if (owner) {
--            mtree_print_mr_owner(mr);
-+        if (mr->enabled || display_disabled) {
-+            for (i = 0; i < level; i++) {
-+                qemu_printf(MTREE_INDENT);
-+            }
-+            qemu_printf(TARGET_FMT_plx "-" TARGET_FMT_plx
-+                        " (prio %d, %s%s): alias %s @%s " TARGET_FMT_plx
-+                        "-" TARGET_FMT_plx "%s",
-+                        cur_start, cur_end,
-+                        mr->priority,
-+                        mr->nonvolatile ? "nv-" : "",
-+                        memory_region_type((MemoryRegion *)mr),
-+                        memory_region_name(mr),
-+                        memory_region_name(mr->alias),
-+                        mr->alias_offset,
-+                        mr->alias_offset + MR_SIZE(mr->size),
-+                        mr->enabled ? "" : " [disabled]");
-+            if (owner) {
-+                mtree_print_mr_owner(mr);
-+            }
-+            qemu_printf("\n");
-         }
-     } else {
--        qemu_printf(TARGET_FMT_plx "-" TARGET_FMT_plx
--                    " (prio %d, %s%s): %s%s",
--                    cur_start, cur_end,
--                    mr->priority,
--                    mr->nonvolatile ? "nv-" : "",
--                    memory_region_type((MemoryRegion *)mr),
--                    memory_region_name(mr),
--                    mr->enabled ? "" : " [disabled]");
--        if (owner) {
--            mtree_print_mr_owner(mr);
-+        if (mr->enabled || display_disabled) {
-+            for (i = 0; i < level; i++) {
-+                qemu_printf(MTREE_INDENT);
-+            }
-+            qemu_printf(TARGET_FMT_plx "-" TARGET_FMT_plx
-+                        " (prio %d, %s%s): %s%s",
-+                        cur_start, cur_end,
-+                        mr->priority,
-+                        mr->nonvolatile ? "nv-" : "",
-+                        memory_region_type((MemoryRegion *)mr),
-+                        memory_region_name(mr),
-+                        mr->enabled ? "" : " [disabled]");
-+            if (owner) {
-+                mtree_print_mr_owner(mr);
-+            }
-+            qemu_printf("\n");
-         }
-     }
--    qemu_printf("\n");
- 
-     QTAILQ_INIT(&submr_print_queue);
- 
-@@ -2971,7 +2978,7 @@ static void mtree_print_mr(const MemoryRegion *mr, unsigned int level,
- 
-     QTAILQ_FOREACH(ml, &submr_print_queue, mrqueue) {
-         mtree_print_mr(ml->mr, level + 1, cur_start,
--                       alias_print_queue, owner);
-+                       alias_print_queue, owner, display_disabled);
-     }
- 
-     QTAILQ_FOREACH_SAFE(ml, &submr_print_queue, mrqueue, next_ml) {
-@@ -3082,7 +3089,7 @@ static gboolean mtree_info_flatview_free(gpointer key, gpointer value,
-     return true;
- }
- 
--void mtree_info(bool flatview, bool dispatch_tree, bool owner)
-+void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
- {
-     MemoryRegionListHead ml_head;
-     MemoryRegionList *ml, *ml2;
-@@ -3130,14 +3137,14 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner)
- 
-     QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
-         qemu_printf("address-space: %s\n", as->name);
--        mtree_print_mr(as->root, 1, 0, &ml_head, owner);
-+        mtree_print_mr(as->root, 1, 0, &ml_head, owner, disabled);
-         qemu_printf("\n");
-     }
- 
-     /* print aliased regions */
-     QTAILQ_FOREACH(ml, &ml_head, mrqueue) {
-         qemu_printf("memory-region: %s\n", memory_region_name(ml->mr));
--        mtree_print_mr(ml->mr, 1, 0, &ml_head, owner);
-+        mtree_print_mr(ml->mr, 1, 0, &ml_head, owner, disabled);
-         qemu_printf("\n");
-     }
- 
-diff --git a/monitor/misc.c b/monitor/misc.c
-index f5207cd242..89bb970b00 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -957,8 +957,9 @@ static void hmp_info_mtree(Monitor *mon, const QDict *qdict)
-     bool flatview = qdict_get_try_bool(qdict, "flatview", false);
-     bool dispatch_tree = qdict_get_try_bool(qdict, "dispatch_tree", false);
-     bool owner = qdict_get_try_bool(qdict, "owner", false);
-+    bool disabled = qdict_get_try_bool(qdict, "disabled", false);
- 
--    mtree_info(flatview, dispatch_tree, owner);
-+    mtree_info(flatview, dispatch_tree, owner, disabled);
- }
- 
- #ifdef CONFIG_PROFILER
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index ca5198438d..30209e3903 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -254,11 +254,12 @@ ERST
- 
-     {
-         .name       = "mtree",
--        .args_type  = "flatview:-f,dispatch_tree:-d,owner:-o",
--        .params     = "[-f][-d][-o]",
-+        .args_type  = "flatview:-f,dispatch_tree:-d,owner:-o,disabled:-D",
-+        .params     = "[-f][-d][-o][-D]",
-         .help       = "show memory tree (-f: dump flat view for address spaces;"
-                       "-d: dump dispatch tree, valid with -f only);"
--                      "-o: dump region owners/parents",
-+                      "-o: dump region owners/parents;"
-+                      "-D: dump disabled regions",
-         .cmd        = hmp_info_mtree,
-     },
- 
--- 
-2.21.3
-
+--_000_AM0PR06MB4514F5FD24459E9E2740A0078E8F0AM0PR06MB4514eurp_--
 
