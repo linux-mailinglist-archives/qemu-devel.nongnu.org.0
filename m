@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C1A81E88FA
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 22:35:01 +0200 (CEST)
-Received: from localhost ([::1]:58980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 879221E8913
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 May 2020 22:44:39 +0200 (CEST)
+Received: from localhost ([::1]:40658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jeliV-00076y-KP
-	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 16:34:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45344)
+	id 1jelrq-0006sU-JO
+	for lists+qemu-devel@lfdr.de; Fri, 29 May 2020 16:44:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jelhc-0006Gz-8a
- for qemu-devel@nongnu.org; Fri, 29 May 2020 16:34:04 -0400
-Resent-Date: Fri, 29 May 2020 16:34:04 -0400
-Resent-Message-Id: <E1jelhc-0006Gz-8a@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21782)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jelhZ-0000RS-I5
- for qemu-devel@nongnu.org; Fri, 29 May 2020 16:34:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1590784421; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=AeqpZQryj4VxUptP6c6dL2Lrxt543dN+iGONwaNOn0wwz3+OIhNLV4Jtd74mZqKOIDF0GAD3wzjIwFgAMlTZH4qk0gmIFlTUj/z0mmwzR3qklQEAij6dTXumiA90i3ZAOdjg2D9r/FK4Lt46X25dyFgIPOgE71zQA6l5zmqSWww=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1590784421;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Sp/yk3lTx1nMXoDxkiHxNV3d7rAqz2Fhhr85DQo4Km8=; 
- b=QIeCrSLO4V4jmvsUDESreYEuWwM1PQL5wUjjBYqxK6pvfXnIrAav5Yfv3/IXEowatX3+Y5kG3xnZtk2X3YDwpGJUqM5vgYG3miBcMW3f53pUo+kcqqiJ9vSCh5HekJSzUIXTXIKUVlTh3F30ZT7v85EQTXpCdtuAZ6lKaIAcalQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1590784419454405.1762031759382;
- Fri, 29 May 2020 13:33:39 -0700 (PDT)
-Message-ID: <159078441621.27167.16238722568778352476@45ef0f9c86ae>
-In-Reply-To: <20200529140620.28759-1-lulu@redhat.com>
-Subject: Re: [RFC v3 0/8] vDPA support in qemu
+ (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
+ id 1jelqG-0005CL-OU
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 16:43:00 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:37851)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
+ id 1jelqF-0000V8-Cz
+ for qemu-devel@nongnu.org; Fri, 29 May 2020 16:43:00 -0400
+Received: by mail-pg1-x542.google.com with SMTP id d10so477720pgn.4
+ for <qemu-devel@nongnu.org>; Fri, 29 May 2020 13:42:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OpkqySJ2UWknivaVvWru7lRhHenDyIjLkmIyDYeODKY=;
+ b=Ih3a/VbqvNCorNFDtAaBsYYrCADdVUE0sfaXIG2/3LUFIDlbEH9IwEvtpAMI0v1GqH
+ reHVplAGTfrF583XNxmhAQxuzaaD7mdWl/gRJoqWiwdDO42j3KJ3qOsFS5kLDafntkHc
+ XChUf+ebR+fLrQfGQ4DtFdRg0PHI9Fj7TjMviFQrlB/wS3k9RodwRlVWFPNng2KLWwba
+ lFg2xA5dS5SeYbAlP8648mMrFx1UKI3taspLX/SiQbZ1xbF3isoA29yztkF8q3VCfNzB
+ Xv6MEXEzvvpjClqa9lIWjHesSn9AJrCde+BS4jB9ekHLQGENYAG+yijhUV6uswXsuFtH
+ XBfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OpkqySJ2UWknivaVvWru7lRhHenDyIjLkmIyDYeODKY=;
+ b=sA0YdPGneGXo0K5jQOqrmd0fM6WnvMWgVFut7jOqvFCrVH2gmmzjZvjO3IPmmVu/Dl
+ skkxXpgjFqS0+NCBB+xMdqt26kXvtJJvQ+VZ+ZF1gjSE8GLpm/tZ1nI9JmAi3O9/zkXt
+ /gcgUB319oaartaoBWAZwXx6YpdjMMW8sP+pa93cVK6fE1l8XymVohqlASuf0uFdK303
+ CCz6vzSqKbT6WEvi3mHq8+Mc9WGy6AnWa6GruSKlY7zBwOQCJzEjedV1mSXydTUySVcp
+ 8TIcRX8HO4oj4+y9UCgP+vc4LFjmMaAQD70IeYY0eeLMutMGYp8+APIaPm8yZWLxUdFV
+ 4bfA==
+X-Gm-Message-State: AOAM530ByP7zcpgvnOGqansYDMpO4qpCL6S7NekJhYxVQqjrxrtPuX7p
+ TX8jLfo3ClJh+VE7nbAHdRgeZQEAYKj1UA==
+X-Google-Smtp-Source: ABdhPJzuj05qQL0Dv6fk7IfFb01yQUVU5y1pPjRXmTfnFz2OQDAv8T/LFPePa5SnhJuRS0qB0WU7yg==
+X-Received: by 2002:a63:cd0d:: with SMTP id i13mr9987873pgg.292.1590784977367; 
+ Fri, 29 May 2020 13:42:57 -0700 (PDT)
+Received: from Rfoley-MA01.hsd1.ma.comcast.net
+ ([2601:199:4480:60c0:75ac:d268:da04:dde4])
+ by smtp.gmail.com with ESMTPSA id t12sm282839pjf.3.2020.05.29.13.42.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 May 2020 13:42:56 -0700 (PDT)
+From: Robert Foley <robert.foley@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 00/12] tests/vm: Add support for aarch64 VMs
+Date: Fri, 29 May 2020 16:34:46 -0400
+Message-Id: <20200529203458.1038-1-robert.foley@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: lulu@redhat.com
-Date: Fri, 29 May 2020 13:33:39 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/29 16:30:28
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=robert.foley@linaro.org; helo=mail-pg1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,62 +84,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: rdunlap@infradead.org, mst@redhat.com, mhabets@solarflare.com,
- qemu-devel@nongnu.org, rob.miller@broadcom.com, saugatm@xilinx.com,
- lulu@redhat.com, armbru@redhat.com, hch@infradead.org, eperezma@redhat.com,
- jgg@mellanox.com, jasowang@redhat.com, shahafs@mellanox.com,
- kevin.tian@intel.com, parav@mellanox.com, vmireyno@marvell.com,
- cunming.liang@intel.com, gdawar@xilinx.com, jiri@mellanox.com,
- xiao.w.wang@intel.com, stefanha@redhat.com, zhihong.wang@intel.com,
- maxime.coquelin@redhat.com, aadam@redhat.com, cohuck@redhat.com,
- hanand@xilinx.com, lingshan.zhu@intel.com
+Cc: philmd@redhat.com, alex.bennee@linaro.org, robert.foley@linaro.org,
+ peter.puhov@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUyOTE0MDYyMC4yODc1
-OS0xLWx1bHVAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGFzYW4g
-YnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFuZHMgYW5kCnRoZWlyIG91
-dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwgeW91IGNhbiBwcm9iYWJs
-eSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmlu
-L2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2VyLWltYWdlLWZlZG9yYSBWPTEgTkVU
-V09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1kZWJ1Z0BmZWRvcmEgVEFSR0VUX0xJU1Q9eDg2
-XzY0LXNvZnRtbXUgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0Mg
-ICAgICBhY2NlbC90Y2cvdHJhY2UubwogIENDICAgICAgYmFja2VuZHMvdHJhY2UubwoKV2Fybmlu
-ZywgdHJlYXRlZCBhcyBlcnJvcjoKL3RtcC9xZW11LXRlc3Qvc3JjL2RvY3MvLi4vcWVtdS1vcHRp
-b25zLmh4OjI5MjA6SW5saW5lIGxpdGVyYWwgc3RhcnQtc3RyaW5nIHdpdGhvdXQgZW5kLXN0cmlu
-Zy4KICBDQyAgICAgIGNyeXB0by90cmFjZS5vCiAgQ0MgICAgICBtb25pdG9yL3RyYWNlLm8KLS0t
-CiAgQ0MgICAgICBibG9jay90cmFjZS5vCiAgQ0MgICAgICBpby90cmFjZS5vCiAgQ0MgICAgICBu
-YmQvdHJhY2UubwptYWtlOiAqKiogW01ha2VmaWxlOjExMTQ6IC5kb2NzX3N5c3RlbV9xZW11LjFf
-ZG9jc19zeXN0ZW1fcWVtdS1ibG9jay1kcml2ZXJzLjdfZG9jc19zeXN0ZW1fcWVtdS1jcHUtbW9k
-ZWxzLjcuc2VudGluZWwuXSBFcnJvciAyCm1ha2U6ICoqKiBEZWxldGluZyBmaWxlICcuZG9jc19z
-eXN0ZW1fcWVtdS4xX2RvY3Nfc3lzdGVtX3FlbXUtYmxvY2stZHJpdmVycy43X2RvY3Nfc3lzdGVt
-X3FlbXUtY3B1LW1vZGVscy43LnNlbnRpbmVsLicKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmlu
-aXNoZWQgam9icy4uLi4KCldhcm5pbmcsIHRyZWF0ZWQgYXMgZXJyb3I6Ci90bXAvcWVtdS10ZXN0
-L3NyYy9kb2NzLy4uL3FlbXUtb3B0aW9ucy5oeDoyOTIwOklubGluZSBsaXRlcmFsIHN0YXJ0LXN0
-cmluZyB3aXRob3V0IGVuZC1zdHJpbmcuCm1ha2U6ICoqKiBbTWFrZWZpbGU6MTEwMzogZG9jcy9z
-eXN0ZW0vaW5kZXguaHRtbF0gRXJyb3IgMgpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFz
-dCk6CiAgRmlsZSAiLi90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5IiwgbGluZSA2NjQsIGluIDxtb2R1
-bGU+CiAgICBzeXMuZXhpdChtYWluKCkpCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9y
-KHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1sn
-c3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFu
-Y2UudXVpZD05N2FjZmRhYjY4ZDM0ZWQ0YWJkOGZkY2JmZjcyNzkzYycsICctdScsICcxMDAxJywg
-Jy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RB
-UkdFVF9MSVNUPXg4Nl82NC1zb2Z0bW11JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScs
-ICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VO
-Vj0nLCAnLWUnLCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0
-Y2hldy8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12Jywg
-Jy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1sM2NsZ3Yyay9zcmMvZG9ja2VyLXNyYy4yMDIw
-LTA1LTI5LTE2LjMwLjA0LjIwOTc6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6ZmVkb3JhJywg
-Jy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtZGVidWcnXScgcmV0dXJuZWQgbm9uLXplcm8gZXhp
-dCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9
-OTdhY2ZkYWI2OGQzNGVkNGFiZDhmZGNiZmY3Mjc5M2MKbWFrZVsxXTogKioqIFtkb2NrZXItcnVu
-XSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRl
-c3Rlci10bXAtbDNjbGd2Mmsvc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1kZWJ1Z0Bm
-ZWRvcmFdIEVycm9yIDIKCnJlYWwgICAgM20zMi42NjBzCnVzZXIgICAgMG04LjMxMHMKCgpUaGUg
-ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwNTI5
-MTQwNjIwLjI4NzU5LTEtbHVsdUByZWRoYXQuY29tL3Rlc3RpbmcuYXNhbi8/dHlwZT1tZXNzYWdl
-LgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9w
-YXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxA
-cmVkaGF0LmNvbQ==
+This is version 8 of the patch series to
+add support for aarch64 VMs in the vm-build infrastructure.
+ - Ubuntu 18.04 aarch64 VM
+ - CentOS 8 aarch64 VM
+
+v7: https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg05286.html
+
+Changes in v8:
+- Added Ubuntu common module in tests/vm.
+- Changed ubuntu.i386 and ubuntu.aarch64 to use new common module.
+- Split out ConsoleSocket addition (python/qemu) to separate patch
+  from changes to use it in tests/vm.
+- Adjustments in configure when checking for aarch64 efi images.
+- Remove use of QEMU_LOCAL in basevm.py.  We will use the
+  presence of the --build-path argument instead.
+
+Robert Foley (12):
+  tests/vm: pass args through to BaseVM's __init__
+  tests/vm: Add configuration to basevm.py
+  tests/vm: Added configuration file support
+  tests/vm: Pass --debug through for vm-boot-ssh.
+  tests/vm: Add ability to select QEMU from current build.
+  tests/vm: allow wait_ssh() to specify command
+  tests/vm: Add common Ubuntu python module
+  tests/vm: Added a new script for ubuntu.aarch64.
+  tests/vm: Added a new script for centos.aarch64.
+  tests/vm: change scripts to use self._config
+  python/qemu: Add ConsoleSocket for optional use in QEMUMachine
+  tests/vm: Add workaround to consume console
+
+ configure                         |  29 +++
+ python/qemu/console_socket.py     | 118 +++++++++++++
+ python/qemu/machine.py            |  23 ++-
+ tests/vm/Makefile.include         |  27 +++
+ tests/vm/aarch64vm.py             | 106 +++++++++++
+ tests/vm/basevm.py                | 284 +++++++++++++++++++++++-------
+ tests/vm/centos-8-aarch64.ks      |  51 ++++++
+ tests/vm/centos.aarch64           | 227 ++++++++++++++++++++++++
+ tests/vm/conf_example_aarch64.yml |  51 ++++++
+ tests/vm/conf_example_x86.yml     |  50 ++++++
+ tests/vm/fedora                   |  17 +-
+ tests/vm/freebsd                  |  16 +-
+ tests/vm/netbsd                   |  19 +-
+ tests/vm/openbsd                  |  17 +-
+ tests/vm/ubuntu.aarch64           |  68 +++++++
+ tests/vm/ubuntu.i386              |  46 ++---
+ tests/vm/ubuntuvm.py              |  58 ++++++
+ 17 files changed, 1077 insertions(+), 130 deletions(-)
+ create mode 100644 python/qemu/console_socket.py
+ create mode 100644 tests/vm/aarch64vm.py
+ create mode 100644 tests/vm/centos-8-aarch64.ks
+ create mode 100755 tests/vm/centos.aarch64
+ create mode 100644 tests/vm/conf_example_aarch64.yml
+ create mode 100644 tests/vm/conf_example_x86.yml
+ create mode 100755 tests/vm/ubuntu.aarch64
+ create mode 100644 tests/vm/ubuntuvm.py
+
+-- 
+2.17.1
+
 
