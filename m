@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34CD61E9004
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 May 2020 11:26:16 +0200 (CEST)
-Received: from localhost ([::1]:34118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98F61E900B
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 May 2020 11:28:40 +0200 (CEST)
+Received: from localhost ([::1]:40070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jexkt-0006Cd-8O
-	for lists+qemu-devel@lfdr.de; Sat, 30 May 2020 05:26:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49010)
+	id 1jexnD-0001CG-SU
+	for lists+qemu-devel@lfdr.de; Sat, 30 May 2020 05:28:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jexi2-00021f-0z; Sat, 30 May 2020 05:23:18 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jexi1-00074d-BE; Sat, 30 May 2020 05:23:17 -0400
-Received: by mail-wm1-x341.google.com with SMTP id f5so6496785wmh.2;
- Sat, 30 May 2020 02:23:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RyB5laGZqcuqh7DkQBAguo9SE2App1lOHf/woViMpfs=;
- b=lz04JjqD7Lqv1Vfd9A2mVmwF02navKfjGKq8Rv9ZaWoSoc/BzdZnF3TxOguDWlPZ5E
- G9Lt2d2UvPR0ieKmAYkN4cfXoShCRVpmQW/B2nglXKXv3r4MQFp+9S5QC1PM3v0oxzS1
- 69tQTfOv6cOEKtI6qywhjeUr99vnD9t4PUjH0fHGMk4agNyWgtBg420rRz+EpWsv+pk/
- A/j6nbe0Vzr1nE4o+wuvG2kZNQ6QeJFJrmUN6w/iPRGOe5enUKGztqhd3IXhpZDmQNID
- hF7xx0ZLB7aQCDNYm4BbQzV8aAz3EsaaBcolcmYYHlqrMrXe1F2DH0hyhgOklv7SFrdo
- nnkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RyB5laGZqcuqh7DkQBAguo9SE2App1lOHf/woViMpfs=;
- b=RYtYVg6H4hJN7vQ+7udquHUf+j9tDU1ZZrYLvsh0Yq1x5lIYvqE1O9WTq6cU7g2s48
- 3c10WLDI76FNx/iQTVSOHn/W7ELMlsbeRCLFB3FUUfl9swLmvK6tDgCp3QvVPiQ3X4Av
- AeYgWOiKxxiwLxEZRRFlcBD0df7GNAMTlpfx8bD7kfADmSYMKYwF9ijPuZFBi5lg57wA
- 0XfyrWuHgei6SoTdyhBpqJow+inSm2+3yQB0fk0cJsII3AQEgCIy1NrhKtkNiWHI9Bpy
- A9tuUUtZyBuqku/ciyymC8pL3CJtc5BfAc9e4TCJUy2ub+8eKy3br157bgTDB2wKMUtT
- PwkA==
-X-Gm-Message-State: AOAM530fMqWCQSwlduHYXAiWnpdkU2eeoZwEZYABTfFrBwtqtCtJ8IlD
- ERFO+GQj3DYmImcBac7F8ivH683t
-X-Google-Smtp-Source: ABdhPJyix5Qby6MEN91R2dhbegH44Eww60AxIjww16Grua/Kj+pdYpSL63TrUSGpzNB3LACyTZhyig==
-X-Received: by 2002:a1c:acc8:: with SMTP id
- v191mr13160900wme.154.1590830595534; 
- Sat, 30 May 2020 02:23:15 -0700 (PDT)
-Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id h1sm3195237wme.42.2020.05.30.02.23.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 May 2020 02:23:15 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] .travis.yml: Test SH4 QEMU advent calendar image
-Date: Sat, 30 May 2020 11:23:06 +0200
-Message-Id: <20200530092306.26628-6-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200530092306.26628-1-f4bug@amsat.org>
-References: <20200530092306.26628-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1jexm2-0000U1-KJ
+ for qemu-devel@nongnu.org; Sat, 30 May 2020 05:27:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46191
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1jexm0-0000Sr-6S
+ for qemu-devel@nongnu.org; Sat, 30 May 2020 05:27:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590830842;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QNCBlcfXesRsi7EHYn/qiLEFZSVhVTbggu1BTv3xExs=;
+ b=b2FAE5bsmCQfP6gCz0OWSG2qHMPcZ3jzyxEJsMOXWFig1iw7fJ0KbityaiRXoPWJUDPFYY
+ u9ix3/DQ0M7PGnh4mE9mejEjHhMq8UWsYBCwh8WyyrZL7c4jTokFDDw5TdMQNMDsLeJZlJ
+ 9vgHpC/rPvW+PO0dCYfbtUMNA0wLuBg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-91-divcMtUfP3iseg-lNCdiTw-1; Sat, 30 May 2020 05:27:20 -0400
+X-MC-Unique: divcMtUfP3iseg-lNCdiTw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECEA7107ACCA;
+ Sat, 30 May 2020 09:27:18 +0000 (UTC)
+Received: from localhost (ovpn-112-79.ams2.redhat.com [10.36.112.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 064A978366;
+ Sat, 30 May 2020 09:27:15 +0000 (UTC)
+Date: Sat, 30 May 2020 10:27:15 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Eric Wheeler <nbd@lists.ewheeler.net>
+Subject: Re: [Libguestfs] Provide NBD via Browser over Websockets
+Message-ID: <20200530092715.GX3888@redhat.com>
+References: <CAMRbyytcufK8-XdFu7LU+UwO_FRoGJO2FhhBHtH9etf3A2htwQ@mail.gmail.com>
+ <alpine.LRH.2.11.2005280014150.13970@mail.ewheeler.net>
+ <20200528090443.GN7304@redhat.com>
+ <alpine.LRH.2.11.2005282147410.13970@mail.ewheeler.net>
+ <20200529093744.GS3888@redhat.com>
+ <13571029-5bf4-2dfa-6879-0ad2642afb3f@redhat.com>
+ <20200529135042.GJ2755532@redhat.com>
+ <ff2e7dd1-c8b2-b46c-3c3b-ed88d9ad9689@redhat.com>
+ <20200529141315.GU3888@redhat.com>
+ <alpine.LRH.2.11.2005292107180.10871@mail.ewheeler.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <alpine.LRH.2.11.2005292107180.10871@mail.ewheeler.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=rjones@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/30 05:27:22
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,46 +88,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, nbd@other.debian.org,
+ Nir Soffer <nsoffer@redhat.com>, libguestfs <libguestfs@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+On Fri, May 29, 2020 at 09:08:29PM +0000, Eric Wheeler wrote:
+> On Fri, 29 May 2020, Richard W.M. Jones wrote:
+> > On Fri, May 29, 2020 at 08:58:06AM -0500, Eric Blake wrote:
+> > > On 5/29/20 8:50 AM, Daniel P. BerrangÃ© wrote:
+> > > 
+> > > >>>(2) You need to persuade qemu's NBD client to read from a WebSocket.
+> > > >>>I didn't really know anything about WebSockets until today but it
+> > > >>>seems as if they are a full-duplex protocol layered on top of HTTP [a].
+> > > >>>Is there a WebSocket proxy that turns WS into plain TCP (a bit like
+> > > >>>stunnel)?  Google suggests [b].
+> > > >>>
+> > > >>>[a] https://en.wikipedia.org/wiki/WebSocket#Protocol_handshake
+> > > >>>[b] https://github.com/novnc/websockify
+> > > >>
+> > > >>qemu already knows how to connect as a client to websockets; Dan Berrange
+> > > >>knows more about that setup.  I suspect it would not be too difficult to
+> > > >>teach the qemu NBD client code to use a WebSocket instead of a Unix or TCP
+> > > >>socket as its data source.
+> > > >
+> > > >Actually the inverse. The QIOChannelWebsocket impl is only the server
+> > > >side of the problem, as used by QEMU's VNC server. We've never implemented
+> > > >the client side. There is nothing especially stopping us doing that - just
+> > > >needs someone motivated with time to work on it.
+> > > 
+> > > In the meantime, you may still be able to set up something like:
+> > > 
+> > > local machine:
+> > > iso -> NBD server -> Unix socket -> websockify -> WebSocket
+> > 
+> > I guess the idea is to have a zero-install solution for the browser.
+> > As I said in the email earlier this is very common for IPMI-type
+> > remote access to blade servers and in my experience is implemented
+> > using a Java applet and a proprietary protocol terminated at the BMC
+> > (which then emulates a virtual CDROM to the server).  There are some
+> > HP blade servers on Red Hat's internal Beaker instance where you can
+> > play with this.  For qemu we wouldn't need to invent a new protocol
+> > when NBD is available and already implemented (albeit not yet on top
+> > of WebSockets).
+> > 
+> > The NBD server must run inside the browser and therefore be either
+> > written from scratch in Javascript, or an existing server
+> > cross-compiled to WASM (if that is possible - I don't really know).
+> 
+> Interesting idea about WASM.  I'll see if I can build one of the simple 
+> nbd servers that are around.  Not sure how to link it to the JS file IO, 
+> however.
 
-Now that we can select the second serial console in the acceptance tests
-(see commit 746f244d9720 "Allow to use other serial consoles than default"),
-we can also test the sh4 image from the QEMU advent calendar 2018.
+After reading a bit about compiling to WebSockets it sounds like you
+can cross-compile a C program, but there's no library support at all.
+IOW to port an existing server you'd have to implement enough of POSIX
+to make it work.  nbdkit has a liberal license deliberately to make it
+possible to chop it up and incorporate it into completely forked
+codebases (nbdkit is a plot to make NBD more popular).
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200515164337.4899-1-thuth@redhat.com>
-[PMD: Split tests/acceptance/boot_linux_console.py in previous commit]
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- .travis.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+But since NBD is pretty simple, a fresh Javascript server might be
+easier, especially if you stick to only implementing reads.
 
-diff --git a/.travis.yml b/.travis.yml
-index 564be50a3c..e2003565d8 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -293,7 +293,7 @@ jobs:
-     - name: "GCC check-acceptance"
-       dist: bionic
-       env:
--        - CONFIG="--enable-tools --target-list=aarch64-softmmu,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
-+        - CONFIG="--enable-tools --target-list=aarch64-softmmu,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu,sh4-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
-         - TEST_CMD="make check-acceptance"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-acceptance"
-       after_script:
+Rich.
+
 -- 
-2.21.3
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-top is 'top' for virtual machines.  Tiny program with many
+powerful monitoring features, net stats, disk stats, logging, etc.
+http://people.redhat.com/~rjones/virt-top
 
 
