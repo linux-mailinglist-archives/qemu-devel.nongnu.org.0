@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5031E92D9
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 May 2020 19:26:17 +0200 (CEST)
-Received: from localhost ([::1]:42742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA361E92F0
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 May 2020 19:42:47 +0200 (CEST)
+Received: from localhost ([::1]:52364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jf5FP-0004hW-S5
-	for lists+qemu-devel@lfdr.de; Sat, 30 May 2020 13:26:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57324)
+	id 1jf5VO-0002SM-6N
+	for lists+qemu-devel@lfdr.de; Sat, 30 May 2020 13:42:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jf5Ed-0004D4-MR
- for qemu-devel@nongnu.org; Sat, 30 May 2020 13:25:27 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49302
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jf5UK-0001sr-7S
+ for qemu-devel@nongnu.org; Sat, 30 May 2020 13:41:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29126
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jf5Ec-0007Qw-BM
- for qemu-devel@nongnu.org; Sat, 30 May 2020 13:25:26 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1jf5UI-0007D2-CI
+ for qemu-devel@nongnu.org; Sat, 30 May 2020 13:41:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590859524;
+ s=mimecast20190719; t=1590860497;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=+Lp8UyUfZGWp/JtelO0zUKQdScBiLCqoPkGHMnQON1w=;
- b=bBkyVsbA2DxBOCqJKHULGWw52tQE+r8bWnyxCKGkhMoiUQ1u4AlBgiS0AhcUQv0fBDf8Sn
- PZh5f43UgNdnS4AU4lOgI4coUYACAUw5YqBfdDa2l7O/wpjtco4bTL7djXCRIGP9YiwgwW
- IKpJbzutSXfdsGjm9DzQUhTaTi5n9Qg=
+ bh=C8+O4jKfZw2x6/nZ3z91acMOF/azKglpza49Rye/lx0=;
+ b=jGIZhSR1G1gBSbZQzJVh3hYek9Xd5LCEuNR+SvTN11GU12XtnsozykfzL9S6rokml9GTvZ
+ piU8bFEL6s+/XPSfjXtieCPZIZx8KS3Pc68fJkJcC+N8Nq28qktByU4svfneDEe/11EPrF
+ 28DVa99q+BE/thv7rvx12iOzZhIYTUg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-Xrphb0gzMq6LZOVn9AP8MA-1; Sat, 30 May 2020 13:25:22 -0400
-X-MC-Unique: Xrphb0gzMq6LZOVn9AP8MA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-500-lF9vksptM72L1wPVfZYQ8A-1; Sat, 30 May 2020 13:41:34 -0400
+X-MC-Unique: lF9vksptM72L1wPVfZYQ8A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE755460;
- Sat, 30 May 2020 17:25:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D293880B700;
+ Sat, 30 May 2020 17:41:32 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-47.ams2.redhat.com [10.36.112.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B88F65D9C5;
- Sat, 30 May 2020 17:25:14 +0000 (UTC)
-Subject: Re: [PATCH] tests/acceptance: Add boot tests for sh4 QEMU advent
- calendar image
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-References: <20200515164337.4899-1-thuth@redhat.com>
- <CAHiYmc72cA9Va_JCbzq+E0M3wUuxedH2=BdE-YqAqWF8DBD_kA@mail.gmail.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0ADF710013C1;
+ Sat, 30 May 2020 17:41:28 +0000 (UTC)
+Subject: Re: [PATCH] hw/display/cirrus_vga: Fix code mis-indentation
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200529165436.23573-1-f4bug@amsat.org>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <658ce012-150d-40ee-0689-0262971e20b4@redhat.com>
-Date: Sat, 30 May 2020 19:25:03 +0200
+Message-ID: <17c858f1-dbd0-42b9-f2fa-22954133891a@redhat.com>
+Date: Sat, 30 May 2020 19:41:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAHiYmc72cA9Va_JCbzq+E0M3wUuxedH2=BdE-YqAqWF8DBD_kA@mail.gmail.com>
+In-Reply-To: <20200529165436.23573-1-f4bug@amsat.org>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/30 12:00:48
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=thuth@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/30 12:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,43 +82,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/05/2020 10.54, Aleksandar Markovic wrote:
-> 18:44 Pet, 15.05.2020. Thomas Huth <thuth@redhat.com
-> <mailto:thuth@redhat.com>> је написао/ла:
->>
->> Now that we can select the second serial console in the acceptance tests
->> (see commit 746f244d9720 "Allow to use other serial consoles than
-> default"),
->> we can also test the sh4 image from the QEMU advent calendar 2018.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com <mailto:thuth@redhat.com>>
->> ---
->>  I've split my original patch that also added yet another mips64 test...
->>  I hope it's easier to review/ack/merge this way this only addresses
-> sh4 here.
->>
+On 29/05/2020 18.54, Philippe Mathieu-Daudé wrote:
+> While replacing fprintf() by qemu_log_mask() in commit
+> 2b55f4d3504, we incorrectly used a 'tab = 4 spaces'
+> alignment, leading to misindented new code. Fix now.
 > 
-> It makes sense to me, Thomas. If I were you, I would do the same.
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  hw/display/cirrus_vga.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> But, sorry, do you intend to send mips64 counterpart in future, or it is
-> already sent, but I somehow missed it?
+> diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
+> index 92c197cdde..212d6f5e61 100644
+> --- a/hw/display/cirrus_vga.c
+> +++ b/hw/display/cirrus_vga.c
+> @@ -1032,9 +1032,9 @@ static void cirrus_bitblt_start(CirrusVGAState * s)
+>          } else {
+>  	    if (s->cirrus_blt_mode & CIRRUS_BLTMODE_TRANSPARENTCOMP) {
+>  		if (s->cirrus_blt_pixelwidth > 2) {
+> -            qemu_log_mask(LOG_GUEST_ERROR,
+> -                          "cirrus: src transparent without colorexpand "
+> -                          "must be 8bpp or 16bpp\n");
+> +                    qemu_log_mask(LOG_GUEST_ERROR,
+> +                                  "cirrus: src transparent without colorexpand "
+> +                                  "must be 8bpp or 16bpp\n");
+>  		    goto bitblt_ignore;
+>  		}
+>  		if (s->cirrus_blt_mode & CIRRUS_BLTMODE_BACKWARDS) {
+> 
 
- Hi Aleksandar,
-
-I was planning to send a separate patch, but then I noticed that there
-are already quite a lot of tests for the various flavors of the
-mips-malta machine in tests/acceptance/boot_linux_console.py ... so I
-currently doubt that the malta advent calendar image will add much value
-here?
+I think it would be better to fix the TABs in the whole surounding area,
+too. Or maybe even in the whole file. Otherwise this problem will happen
+soon again...
 
  Thomas
 
