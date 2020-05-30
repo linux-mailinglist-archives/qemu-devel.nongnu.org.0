@@ -2,114 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFAF41E8F5B
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 May 2020 10:01:03 +0200 (CEST)
-Received: from localhost ([::1]:42258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F7F21E8F5E
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 May 2020 10:04:39 +0200 (CEST)
+Received: from localhost ([::1]:46788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jewQP-0002Gz-L8
-	for lists+qemu-devel@lfdr.de; Sat, 30 May 2020 04:01:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38438)
+	id 1jewTu-000693-5V
+	for lists+qemu-devel@lfdr.de; Sat, 30 May 2020 04:04:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jewPO-0001cF-8s
- for qemu-devel@nongnu.org; Sat, 30 May 2020 03:59:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54849
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jewPM-0008H5-UU
- for qemu-devel@nongnu.org; Sat, 30 May 2020 03:59:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590825596;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=uB/o9fqNrCLaZeek7URsSglCRgQFsRi2htD+jSgn7Zo=;
- b=dWaMOctWLaPvTjV2QUn7MDvBqSSgLdjBRVHriYwKwo2DN/3ypKgsRDL71bWzdi3Pzu4e8r
- B+KpK1+/nG2VHOlm4Or9jRygFjvGW+zjCEzv4377Rgtc46EEAgvyXnTtEOCYimLqtsw2/0
- b9ad5ZQ0Q1O7KmSLhKLcpr7xKtM+Iv8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-sZYxl2KoMKS1Ps9DYeVjBQ-1; Sat, 30 May 2020 03:59:54 -0400
-X-MC-Unique: sZYxl2KoMKS1Ps9DYeVjBQ-1
-Received: by mail-wm1-f69.google.com with SMTP id 18so1698401wmu.1
- for <qemu-devel@nongnu.org>; Sat, 30 May 2020 00:59:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1jewSO-0004U4-PO
+ for qemu-devel@nongnu.org; Sat, 30 May 2020 04:03:04 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:37498)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1jewSO-0001Ca-0v
+ for qemu-devel@nongnu.org; Sat, 30 May 2020 04:03:04 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id k8so3494992edq.4
+ for <qemu-devel@nongnu.org>; Sat, 30 May 2020 01:03:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=k8k8OBg8bqGEosRL+L+9I7oHaBOyEwB78osFf0AxB/M=;
+ b=mFOh0oUqmcCl/UOA59EoIA3dd0YbnlaikAscZCtHEEbR+zIUZ/9l48EYMwRQreCaLY
+ wOuUVPI2kRq5peKMG+YCvhytM8JR2X6NkW7iX80lIypfPPHGvoQHWeRfJ3kQeDGjD++e
+ YJD6RWDYjxE2drhfsLfUwE7xbR4E4ueOqKiePRD7LLIrfycGo1YKs2tCJoDrmxjywgLY
+ 97tsyX+1SL/azHi90nXp4xI8sfDVYNgmIkVCNIt6z6/CEa/tsm5iGiyxf1WtH7jUJZzi
+ fyfKVON5Lky2rq8ht3pAGwH/EqcqnE6x0qdJGFfEKkcCj24DjTaJQNwJIDrSRnbbjUt8
+ 7MMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uB/o9fqNrCLaZeek7URsSglCRgQFsRi2htD+jSgn7Zo=;
- b=H4pNX/hrR9DlxaBMQ5RM8HwZONxoJn9K5mxoJoK9/iRKm1KGWPu5AQM29KB00vO6Ly
- jjnx7j6qQRXA3Q1Rn3bEf25Ar2kf4PQhUso31abc2RfI3VaEXXpNhy8jTQwC80aFb79C
- 9pivk/WO+NVOY9zH2zHvwjjOk0arAjuFdarPWGwEQHLRxukvAqrn7wFfCiX/7+fymDNe
- 2zExn7C0SHKqSIfs5tsXrFfquFBwIS7NrDJaBafEil/jugT8obXQLqxzP52+1KMK3ZrX
- lpYlI+s2QFXtmgQ8MAoxuJ3ujZRnxtAB70IrxgqpGEz8TyZf21HXA3r8FIUk5BidNi9d
- 7fIw==
-X-Gm-Message-State: AOAM533+0GCGtA1AB1Ypwc5xB7Htb3PsmKEnPY3uRyJJOLlGSWBaTuTf
- pysP7r1iwh8rScdTgOpomHKOCPyJU+RI6T+QsU7IbQo6UF8pmFzwBTZTqcRhcWZrPbiLgHxHrcJ
- D09Zcq9U4/bo09x0=
-X-Received: by 2002:adf:ce02:: with SMTP id p2mr13347257wrn.152.1590825592931; 
- Sat, 30 May 2020 00:59:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzwtm4e7qMnljltirIwJmmkVjac4e2uRrvhCoTwlxQ/o4XTeMuBiaVXx3VuE36gTqS6DF25Pg==
-X-Received: by 2002:adf:ce02:: with SMTP id p2mr13347240wrn.152.1590825592664; 
- Sat, 30 May 2020 00:59:52 -0700 (PDT)
-Received: from [192.168.1.34] (43.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id m129sm2620627wmf.2.2020.05.30.00.59.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 May 2020 00:59:52 -0700 (PDT)
-Subject: Re: [PATCH v2 54/58] qdev: Make qdev_realize() support bus-less
- devices
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200529134523.8477-1-armbru@redhat.com>
- <20200529134523.8477-55-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <1ef7e53a-c2b0-5c4f-8317-04c5129b4073@redhat.com>
-Date: Sat, 30 May 2020 09:59:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=k8k8OBg8bqGEosRL+L+9I7oHaBOyEwB78osFf0AxB/M=;
+ b=YqgY5evSvkn3djSK0UPo3dZcchpjfrfeOD1CGUzxF7D1pQYNIuPu8nw+HRerHhsmU9
+ SArxKltIb/VhBQtThQCKTZuGr73zd78k98CXzD3wz/zAOMkBK/uUfLavKN8FJLKwBJGR
+ hS5GktLGsZN6jBEof+Um6XlM+iB++v1X5s4dEcJn9gFjtcaMtBadD0VaIwVHFbtmYLkJ
+ 0wwq4fuf96oB8HlAT8A0xwVn8aiUa9RangNe23EETRT4gCNfq+UHdbH16TEAScUDw0qx
+ UqoBOjEvMJge4FFRDlrMmV2O/dA76TodxT2TQXwkjYwLv+xuhHDstIX8kQPa566ddeKo
+ vVSw==
+X-Gm-Message-State: AOAM5309B+BsBNrPF3iCAVddxX9bcvUPw5taF4KjYk5jFhugkI/k6GO8
+ Ffe18Pw9gy29Wwgz3tpz3wZTQu5H7+w7eCMVfAnPEw==
+X-Google-Smtp-Source: ABdhPJwGkcRpvHxw+nuABA14HAq9QIx1NHm70iDZLLS5CGV7JZiXkAjBHDbFFmjBD1z2EsaoE7/eE5IglYwek48L95g=
+X-Received: by 2002:a05:6402:549:: with SMTP id
+ i9mr5257665edx.159.1590825781849; 
+ Sat, 30 May 2020 01:03:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200529134523.8477-55-armbru@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/30 01:07:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <CAFEAcA_Lr8ySUK_PUNVB+RRQhFhEQL2wFeJtdYAxZhhT1xEFNw@mail.gmail.com>
+ <CAFEAcA_qiz6fa7sGJmqcHEwX9CirqXVrbVP6XaLcxfskrb6wYg@mail.gmail.com>
+In-Reply-To: <CAFEAcA_qiz6fa7sGJmqcHEwX9CirqXVrbVP6XaLcxfskrb6wYg@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Sat, 30 May 2020 10:02:44 +0200
+Message-ID: <CAL1e-=jThKOGtG=tJT4ponkkZRTig1ZFAwJyH0vwrqxrr4Yaew@mail.gmail.com>
+Subject: Re: 5.1 proposed schedule
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000a0707405a6d8fd46"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=aleksandar.m.mail@gmail.com; helo=mail-ed1-x52c.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -122,57 +80,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/29/20 3:45 PM, Markus Armbruster wrote:
-> So far, qdev_realize() supports only devices that plug into a bus:
-> argument @bus cannot be null.  Extend it to support bus-less devices,
-> too.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  hw/core/qdev.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index 78a06db76e..50336168f2 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -408,7 +408,7 @@ void qdev_init_nofail(DeviceState *dev)
->  /*
->   * Realize @dev.
->   * @dev must not be plugged into a bus.
-> - * Plug @dev into @bus.  This takes a reference to @dev.
-> + * If @bus, plug @dev into @bus.  This takes a reference to @dev.
->   * If @dev has no QOM parent, make one up, taking another reference.
->   * On success, return true.
->   * On failure, store an error through @errp and return false.
-> @@ -418,9 +418,12 @@ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp)
->      Error *err = NULL;
->  
->      assert(!dev->realized && !dev->parent_bus);
-> -    assert(bus);
+--000000000000a0707405a6d8fd46
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This simpler form is easier to review IMHO:
+16:36 Pet, 29.05.2020. Peter Maydell <peter.maydell@linaro.org> =D1=98=D0=
+=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> On Tue, 26 May 2020 at 11:07, Peter Maydell <peter.maydell@linaro.org>
+wrote:
+> >
+> > Here's a draft schedule for 5.1:
+> >
+> > 2019-07-06: softfreeze
+>
+> this should have read 2020-07-07 (Tuesday)...
+>
 
-       if (!bus) {
-            assert(!DEVICE_GET_CLASS(dev)->bus_type);
-       }
+I really like "Tuesdays" concept. It worked very well for me as a
+submaintainer. I don't know its origin, but it works, bringing some degree
+of order and predictability, and at the same seemingly not imposing larger
+than necessary burden, and the end-of-week rush.
 
-Whichever you prefer (the simpler the better):
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Just from my gut feeling, "Mondays" or "Fridays" wouldn't work that well.
 
->  
-> -    qdev_set_parent_bus(dev, bus);
-> +    if (bus) {
-> +        qdev_set_parent_bus(dev, bus);
-> +    } else {
-> +        assert(!DEVICE_GET_CLASS(dev)->bus_type);
-> +    }
->  
->      object_property_set_bool(OBJECT(dev), true, "realized", &err);
->      if (err) {
-> 
+Aleksandar
 
+> > 2019-07-14: hardfreeze, rc0
+> > 2019-07-21: rc1
+> > 2019-07-28: rc2
+> > 2019-08-04: rc3
+> > 2019-08-11: release, or rc4 if we need it
+> > 2019-08-18: release if we needed an rc4
+>
+> ...and these are all obviously supposed to be 2020,
+> though the month/day numbers are otherwise correct.
+>
+> thanks
+> -- PMM
+>
+
+--000000000000a0707405a6d8fd46
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<p dir=3D"ltr"></p>
+<p dir=3D"ltr">16:36 Pet, 29.05.2020. Peter Maydell &lt;<a href=3D"mailto:p=
+eter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; =D1=98=D0=B5 =D0=
+=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
+&gt;<br>
+&gt; On Tue, 26 May 2020 at 11:07, Peter Maydell &lt;<a href=3D"mailto:pete=
+r.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; Here&#39;s a draft schedule for 5.1:<br>
+&gt; &gt;<br>
+&gt; &gt; 2019-07-06: softfreeze<br>
+&gt;<br>
+&gt; this should have read 2020-07-07 (Tuesday)...<br>
+&gt;</p>
+<p dir=3D"ltr">I really like &quot;Tuesdays&quot; concept. It worked very w=
+ell for me as a submaintainer. I don&#39;t know its origin, but it works, b=
+ringing some degree of order and predictability, and at the same seemingly =
+not imposing larger than necessary burden, and the end-of-week rush.</p>
+<p dir=3D"ltr">Just from my gut feeling, &quot;Mondays&quot; or &quot;Frida=
+ys&quot; wouldn&#39;t work that well.</p>
+<p dir=3D"ltr">Aleksandar</p>
+<p dir=3D"ltr">&gt; &gt; 2019-07-14: hardfreeze, rc0<br>
+&gt; &gt; 2019-07-21: rc1<br>
+&gt; &gt; 2019-07-28: rc2<br>
+&gt; &gt; 2019-08-04: rc3<br>
+&gt; &gt; 2019-08-11: release, or rc4 if we need it<br>
+&gt; &gt; 2019-08-18: release if we needed an rc4<br>
+&gt;<br>
+&gt; ...and these are all obviously supposed to be 2020,<br>
+&gt; though the month/day numbers are otherwise correct.<br>
+&gt;<br>
+&gt; thanks<br>
+&gt; -- PMM<br>
+&gt;<br>
+</p>
+
+--000000000000a0707405a6d8fd46--
 
