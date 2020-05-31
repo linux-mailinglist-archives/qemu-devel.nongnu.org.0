@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4229D1E96D7
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 12:06:58 +0200 (CEST)
-Received: from localhost ([::1]:32874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9930F1E96CD
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 12:04:34 +0200 (CEST)
+Received: from localhost ([::1]:53894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfKrp-0000tC-AT
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 06:06:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47502)
+	id 1jfKpV-0006CR-MB
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 06:04:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfKmp-00047d-1b
- for qemu-devel@nongnu.org; Sun, 31 May 2020 06:01:47 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21281
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfKo4-0004mK-SD
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 06:03:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43635
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfKmo-0000cL-1f
- for qemu-devel@nongnu.org; Sun, 31 May 2020 06:01:46 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfKo4-0000iw-2E
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 06:03:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590919305;
+ s=mimecast20190719; t=1590919379;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=i4qb4TAa4QL6WGXIFzaWFXFPg2RrjKKF/YAA1i+EIoU=;
- b=h3Qmxw2ujS4ZWHHQyYH5ZowQ2VFp9+i4OzYhOyNmFgix4COd0aulEQ25lopIOmNCRUIx2W
- OSLy5JhgH4hi3ObDMuh0sjG3rGB5FtzWMy2mXLIj3HvqgNOtoUq90H+LWy7fbH0ovpCc0t
- CF46qrjewl6WEaHal4ZBXVbfU1ypBXo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-7BHp2QMmOKeu0y-XjUkSsQ-1; Sun, 31 May 2020 06:01:41 -0400
-X-MC-Unique: 7BHp2QMmOKeu0y-XjUkSsQ-1
-Received: by mail-wr1-f72.google.com with SMTP id c14so3270384wrw.11
- for <qemu-devel@nongnu.org>; Sun, 31 May 2020 03:01:41 -0700 (PDT)
+ bh=bp3nEbZDCmo9JKcfmDtXPCFDc0/9yGwFjD9XMzZ+0hk=;
+ b=i4JKaFF265+K7cWNBvpk7VIp0r/Z9Pv9LSscD74U0F8+k4Y+Pg1IvqdriPfCPGM5A+YPJx
+ HAsV0sWCQQzlftRv8QGPQnlD2ApjJNfO5d2iJ6CQ39J9ewXRyEyu3eMEQdNPTCw8GUMJzU
+ PF1VDd01UIHvSiA3+qYv9GlQqetIyFY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-243-XbvdF0ANNEGnbpYM_Dbn5Q-1; Sun, 31 May 2020 06:02:57 -0400
+X-MC-Unique: XbvdF0ANNEGnbpYM_Dbn5Q-1
+Received: by mail-wr1-f69.google.com with SMTP id h92so3276761wrh.23
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 03:02:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=i4qb4TAa4QL6WGXIFzaWFXFPg2RrjKKF/YAA1i+EIoU=;
- b=I2TsQvXC7/AhVPECUz0cWnJGPkFIV8Fqp9XtYHullAOGFecFsrWvbbsldBSkYrbwKJ
- 4XeT7wYoYXMgYN22NkSyOGBtT3cM2xO/dNiHo9ReRwEDjo+kEIcmi3uXOFQxeLOtMvam
- lCsOv6fEmVPK61FJ6Te9MjrrnhJvmYppZL4n6BIzNer3G4K67sppZvH2tS83WKUkX/M1
- hwWQOvs8sxwmD7BUEtL1PitIM9cbk+Xt0tW17N/yn7H+MhgcJvdFmo8T685rcqfKm7i4
- UrJ7qRqoFObufhgXUYHYng8uRPjpNibGtCnFo2Qn9ansWCMTGStiBhLzNlrXl4OKY7j5
- 3F3A==
-X-Gm-Message-State: AOAM5330YiyaZFz233LULkS8YUF3TCZMg+eDs7Kcr5wzEcbDAKVTAlmN
- e+ohzz/OiOOc4FEL4lA/aDfq1A+x7OjEld7F8JwnF6gb2oEERbd1Btc0rJeIEZp6uhKZzyGZQBL
- TjucSweRBnnT2UUc=
-X-Received: by 2002:a1c:7e52:: with SMTP id z79mr17505361wmc.104.1590919300219; 
- Sun, 31 May 2020 03:01:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzrskUbdXarYC6hNyXuyF2xOXt/xC+BpukfYKYhCncI9G+dAjJiRWsY7xnVX6sCQHkzcHRjtQ==
-X-Received: by 2002:a1c:7e52:: with SMTP id z79mr17505337wmc.104.1590919299894; 
- Sun, 31 May 2020 03:01:39 -0700 (PDT)
+ bh=bp3nEbZDCmo9JKcfmDtXPCFDc0/9yGwFjD9XMzZ+0hk=;
+ b=DPf0dZjU0Rx3uimWL8x27JyMGe5SipIOwPglVb6ys8XEHo3RB6+fSsYKB2D+pV2BgG
+ 6zP/fWnGhQ7Rwv/onOR08wDo91a6pGuEjQ3TWgFQOj6OX4qqJ02tvj1cpqFXeVK4xwGQ
+ LUZQLpd0v4iQUR4MSRSR6RLp9TWSGs2GzPnrfv1RKw5iAiLdJPkQ03bsKlTtBD2/G7AH
+ kclVBYeMpugQNjdQ/SVTFeByK9cXrfshoclNyUQR8rL2Y0rJe4ujKOOGYGb5J0sWCGfk
+ joDwKVlzUqoJyhP0jP0nSA2aY3pW1cVrvJ08OsEFASzuNQAJw/SXHe42+LExYtJtrwyO
+ KsHQ==
+X-Gm-Message-State: AOAM532E7AbkXdRvLSydKt0bQEV06hUZo+B1NIdc0YM0qj6Y+Lk37SNJ
+ szikprQqbWPwsS9tG0jKhZEYBnZ01S0aUKZ4lyqyMaRuVttb2aGxKypdtmtvd/ii5h4Rtd/rWfX
+ 7LzKF4SZxwVUNqBc=
+X-Received: by 2002:adf:e2c9:: with SMTP id d9mr16863386wrj.227.1590919376397; 
+ Sun, 31 May 2020 03:02:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx2c4SJFjzcpPGWgOoJYAh40QQncEpwM4wH+XYeSEwr7YfAEyGBRbIpIbm6L3bOojTyQiu4tw==
+X-Received: by 2002:adf:e2c9:: with SMTP id d9mr16863366wrj.227.1590919376202; 
+ Sun, 31 May 2020 03:02:56 -0700 (PDT)
 Received: from [192.168.1.34] (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id n19sm6624792wmi.33.2020.05.31.03.01.38
+ by smtp.gmail.com with ESMTPSA id h74sm17461319wrh.76.2020.05.31.03.02.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 31 May 2020 03:01:38 -0700 (PDT)
-Subject: Re: [PATCH RFC 14/32] python//qmp.py: use True/False for non/blocking
- modes
+ Sun, 31 May 2020 03:02:55 -0700 (PDT)
+Subject: Re: [PATCH RFC 20/32] python//qmp.py: assert sockfile is not None
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20200514055403.18902-1-jsnow@redhat.com>
- <20200514055403.18902-15-jsnow@redhat.com>
+ <20200514055403.18902-21-jsnow@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -88,27 +87,27 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <a8cc9691-5c39-71ac-170a-50952de2a84f@redhat.com>
-Date: Sun, 31 May 2020 12:01:37 +0200
+Message-ID: <fccbb68c-9949-725f-d9c7-68bacb18c2ee@redhat.com>
+Date: Sun, 31 May 2020 12:02:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200514055403.18902-15-jsnow@redhat.com>
+In-Reply-To: <20200514055403.18902-21-jsnow@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 05:58:14
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 05:57:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -132,34 +131,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/14/20 7:53 AM, John Snow wrote:
-> The type system doesn't want integers.
+> In truth, if you don't do this, you'll just get a TypeError
+> exception. Now, you'll get an AssertionError.
+> 
+> Is this tangibly better? No.
+> Does mypy complain less? Yes.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/lib/qmp.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  python/qemu/lib/qmp.py | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 > diff --git a/python/qemu/lib/qmp.py b/python/qemu/lib/qmp.py
-> index b91c9d5c1c..a634c4e26c 100644
+> index 5fb16f4b42..1aefc00c93 100644
 > --- a/python/qemu/lib/qmp.py
 > +++ b/python/qemu/lib/qmp.py
-> @@ -120,14 +120,14 @@ def __get_events(self, wait=False):
->          """
+> @@ -132,6 +132,7 @@ def __negotiate_capabilities(self):
+>          raise QMPCapabilitiesError
 >  
->          # Check for new events regardless and pull them into the cache:
-> -        self.__sock.setblocking(0)
-> +        self.__sock.setblocking(False)
->          try:
->              self.__json_read()
->          except OSError as err:
->              if err.errno == errno.EAGAIN:
->                  # No data available
->                  pass
-> -        self.__sock.setblocking(1)
-> +        self.__sock.setblocking(True)
->  
->          # Wait for new events, if needed.
->          # if wait is 0.0, this means "no wait" and is also implicitly false.
+>      def __json_read(self, only_event=False):
+> +        assert self.__sockfile is not None
+>          while True:
+>              data = self.__sockfile.readline()
+>              if not data:
 > 
 
 Thanks, applied to my python-next tree:
