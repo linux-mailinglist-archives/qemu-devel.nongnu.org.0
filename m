@@ -2,49 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC92E1E98D8
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:32:01 +0200 (CEST)
-Received: from localhost ([::1]:38014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC6C1E98FB
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:40:44 +0200 (CEST)
+Received: from localhost ([::1]:48598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfQsT-0005wl-0U
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:32:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53700)
+	id 1jfR0s-0002Kt-2w
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:40:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
- id 1jfQlQ-0004Ly-Lo
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:24:44 -0400
-Received: from mail01.asahi-net.or.jp ([202.224.55.13]:36015)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1jfQlP-0004KE-CK
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:24:44 -0400
-Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
- [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
- by mail01.asahi-net.or.jp (Postfix) with ESMTPA id AD8E5105239;
- Mon,  1 Jun 2020 01:24:34 +0900 (JST)
-Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
- [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id 7417A1C0DB6;
- Mon,  1 Jun 2020 01:24:34 +0900 (JST)
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzD-0000lO-BB
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:38:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23526
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzB-0006dr-7e
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:38:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590943134;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Cqps2Xy/wDwgHeQZtBDDKwWdymxWmUMf4khG6NEjU0s=;
+ b=BYGVmiRaOznuTKgWAzaUi/N+rvV/HJj9JneDb++DVfHDn/XJYR7PDQNRq3UjJ+VfpmxqOl
+ MhwU6WhVmSBx6p/8E0BCsjO7WDvnqpKyS+mMTDPfeIAcvW34IfQSuphirbOXaG7XIBvdFw
+ ugmjBx9JhizzM8/on7WHvXkMtChf2Hk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-340-gV0PkRh0NxWINclhf0aDRA-1; Sun, 31 May 2020 12:38:51 -0400
+X-MC-Unique: gV0PkRh0NxWINclhf0aDRA-1
+Received: by mail-wr1-f69.google.com with SMTP id p10so3618867wrn.19
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:38:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Cqps2Xy/wDwgHeQZtBDDKwWdymxWmUMf4khG6NEjU0s=;
+ b=DNKbqp3wUyMgTjxwIhnBa1pZGMjitfshEYDjaZ5izV+GGrOC4TWnXuvL76KasQh9k3
+ OqaaOd4tzBPQkBCaPGAZ3XQzQJR9z5n5TmdJRXIBXpT+zyBQXWUFN4Eb26Z3xm4FY2CP
+ w20jWBwVYa7zh0KtkYbPSN423uNvEhjjKu1bxe/fp66pHEPeN7UV323z+QNohJYmQD1K
+ kvmcbjCehfu4hUGNq9A2vazhOylQnDjwisnP/MKIgRwvitOtLgjR+XlcNG4VvWaJBJ51
+ odJH5/CR5/pTZ+v7hBnyz42ImTYSOjs+SUf/E/d25M+4StqeUAiw+qMsSKWCAeQU/Dq1
+ jo6g==
+X-Gm-Message-State: AOAM531Xeu3L0lFzHEcbpp87elaeZhIqEHhRFTsdjrKv3LQEYrZ0bJ7a
+ bSfsg73BLGqxq9hscLae6UfTLC66pW0Hu2sVx8NLVxIMPfNWzhQdiFG7mS8jYhj8Sn1KWg/8qGY
+ pRNSwrbixNHcT3Ss=
+X-Received: by 2002:a1c:e914:: with SMTP id q20mr3019038wmc.145.1590943129756; 
+ Sun, 31 May 2020 09:38:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyD/VAdm6bALQItTxdHOkN9cmdqlhgWpmq4GftYVKQFfyiuufz0LwlGo+Qn5wNF96G2siY3sg==
+X-Received: by 2002:a1c:e914:: with SMTP id q20mr3019016wmc.145.1590943129519; 
+ Sun, 31 May 2020 09:38:49 -0700 (PDT)
+Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.43])
+ by smtp.gmail.com with ESMTPSA id 5sm8192953wmd.19.2020.05.31.09.38.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 31 May 2020 09:38:48 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/10] hw/char: remove sh_serial.c
-Date: Mon,  1 Jun 2020 01:24:25 +0900
-Message-Id: <20200531162427.57410-9-ysato@users.sourceforge.jp>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200531162427.57410-1-ysato@users.sourceforge.jp>
-References: <20200531162427.57410-1-ysato@users.sourceforge.jp>
+Subject: [PULL 00/25] python-next patches for 2020-05-31
+Date: Sun, 31 May 2020 18:38:21 +0200
+Message-Id: <20200531163846.25363-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=202.224.55.13;
- envelope-from=ysato@users.sourceforge.jp; helo=mail01.asahi-net.or.jp
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 12:24:33
-X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_SOFTFAIL=0.665, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 11:09:45
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,457 +91,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SH4 SCI module convert to renesas_sci.c.
-This file is obsolute.
+The following changes since commit c86274bc2e34295764fb44c2aef3cf29623f9b4b:
 
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
----
- hw/char/sh_serial.c | 431 --------------------------------------------
- 1 file changed, 431 deletions(-)
- delete mode 100644 hw/char/sh_serial.c
+  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-tcg-plugins=
+-270520-1' into staging (2020-05-29 17:41:45 +0100)
 
-diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
-deleted file mode 100644
-index 167f4d8cb9..0000000000
---- a/hw/char/sh_serial.c
-+++ /dev/null
-@@ -1,431 +0,0 @@
--/*
-- * QEMU SCI/SCIF serial port emulation
-- *
-- * Copyright (c) 2007 Magnus Damm
-- *
-- * Based on serial.c - QEMU 16450 UART emulation
-- * Copyright (c) 2003-2004 Fabrice Bellard
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a copy
-- * of this software and associated documentation files (the "Software"), to deal
-- * in the Software without restriction, including without limitation the rights
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-- * copies of the Software, and to permit persons to whom the Software is
-- * furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-- * THE SOFTWARE.
-- */
--
--#include "qemu/osdep.h"
--#include "hw/irq.h"
--#include "hw/sh4/sh.h"
--#include "chardev/char-fe.h"
--#include "qapi/error.h"
--#include "qemu/timer.h"
--
--//#define DEBUG_SERIAL
--
--#define SH_SERIAL_FLAG_TEND (1 << 0)
--#define SH_SERIAL_FLAG_TDE  (1 << 1)
--#define SH_SERIAL_FLAG_RDF  (1 << 2)
--#define SH_SERIAL_FLAG_BRK  (1 << 3)
--#define SH_SERIAL_FLAG_DR   (1 << 4)
--
--#define SH_RX_FIFO_LENGTH (16)
--
--typedef struct {
--    MemoryRegion iomem;
--    MemoryRegion iomem_p4;
--    MemoryRegion iomem_a7;
--    uint8_t smr;
--    uint8_t brr;
--    uint8_t scr;
--    uint8_t dr; /* ftdr / tdr */
--    uint8_t sr; /* fsr / ssr */
--    uint16_t fcr;
--    uint8_t sptr;
--
--    uint8_t rx_fifo[SH_RX_FIFO_LENGTH]; /* frdr / rdr */
--    uint8_t rx_cnt;
--    uint8_t rx_tail;
--    uint8_t rx_head;
--
--    int freq;
--    int feat;
--    int flags;
--    int rtrg;
--
--    CharBackend chr;
--    QEMUTimer *fifo_timeout_timer;
--    uint64_t etu; /* Elementary Time Unit (ns) */
--
--    qemu_irq eri;
--    qemu_irq rxi;
--    qemu_irq txi;
--    qemu_irq tei;
--    qemu_irq bri;
--} sh_serial_state;
--
--static void sh_serial_clear_fifo(sh_serial_state * s)
--{
--    memset(s->rx_fifo, 0, SH_RX_FIFO_LENGTH);
--    s->rx_cnt = 0;
--    s->rx_head = 0;
--    s->rx_tail = 0;
--}
--
--static void sh_serial_write(void *opaque, hwaddr offs,
--                            uint64_t val, unsigned size)
--{
--    sh_serial_state *s = opaque;
--    unsigned char ch;
--
--#ifdef DEBUG_SERIAL
--    printf("sh_serial: write offs=0x%02x val=0x%02x\n",
--           offs, val);
--#endif
--    switch(offs) {
--    case 0x00: /* SMR */
--        s->smr = val & ((s->feat & SH_SERIAL_FEAT_SCIF) ? 0x7b : 0xff);
--        return;
--    case 0x04: /* BRR */
--        s->brr = val;
--        return;
--    case 0x08: /* SCR */
--        /* TODO : For SH7751, SCIF mask should be 0xfb. */
--        s->scr = val & ((s->feat & SH_SERIAL_FEAT_SCIF) ? 0xfa : 0xff);
--        if (!(val & (1 << 5)))
--            s->flags |= SH_SERIAL_FLAG_TEND;
--        if ((s->feat & SH_SERIAL_FEAT_SCIF) && s->txi) {
--            qemu_set_irq(s->txi, val & (1 << 7));
--        }
--        if (!(val & (1 << 6))) {
--            qemu_set_irq(s->rxi, 0);
--        }
--        return;
--    case 0x0c: /* FTDR / TDR */
--        if (qemu_chr_fe_backend_connected(&s->chr)) {
--            ch = val;
--            /* XXX this blocks entire thread. Rewrite to use
--             * qemu_chr_fe_write and background I/O callbacks */
--            qemu_chr_fe_write_all(&s->chr, &ch, 1);
--        }
--        s->dr = val;
--        s->flags &= ~SH_SERIAL_FLAG_TDE;
--        return;
--#if 0
--    case 0x14: /* FRDR / RDR */
--        ret = 0;
--        break;
--#endif
--    }
--    if (s->feat & SH_SERIAL_FEAT_SCIF) {
--        switch(offs) {
--        case 0x10: /* FSR */
--            if (!(val & (1 << 6)))
--                s->flags &= ~SH_SERIAL_FLAG_TEND;
--            if (!(val & (1 << 5)))
--                s->flags &= ~SH_SERIAL_FLAG_TDE;
--            if (!(val & (1 << 4)))
--                s->flags &= ~SH_SERIAL_FLAG_BRK;
--            if (!(val & (1 << 1)))
--                s->flags &= ~SH_SERIAL_FLAG_RDF;
--            if (!(val & (1 << 0)))
--                s->flags &= ~SH_SERIAL_FLAG_DR;
--
--            if (!(val & (1 << 1)) || !(val & (1 << 0))) {
--                if (s->rxi) {
--                    qemu_set_irq(s->rxi, 0);
--                }
--            }
--            return;
--        case 0x18: /* FCR */
--            s->fcr = val;
--            switch ((val >> 6) & 3) {
--            case 0:
--                s->rtrg = 1;
--                break;
--            case 1:
--                s->rtrg = 4;
--                break;
--            case 2:
--                s->rtrg = 8;
--                break;
--            case 3:
--                s->rtrg = 14;
--                break;
--            }
--            if (val & (1 << 1)) {
--                sh_serial_clear_fifo(s);
--                s->sr &= ~(1 << 1);
--            }
--
--            return;
--        case 0x20: /* SPTR */
--            s->sptr = val & 0xf3;
--            return;
--        case 0x24: /* LSR */
--            return;
--        }
--    }
--    else {
--        switch(offs) {
--#if 0
--        case 0x0c:
--            ret = s->dr;
--            break;
--        case 0x10:
--            ret = 0;
--            break;
--#endif
--        case 0x1c:
--            s->sptr = val & 0x8f;
--            return;
--        }
--    }
--
--    fprintf(stderr, "sh_serial: unsupported write to 0x%02"
--            HWADDR_PRIx "\n", offs);
--    abort();
--}
--
--static uint64_t sh_serial_read(void *opaque, hwaddr offs,
--                               unsigned size)
--{
--    sh_serial_state *s = opaque;
--    uint32_t ret = ~0;
--
--#if 0
--    switch(offs) {
--    case 0x00:
--        ret = s->smr;
--        break;
--    case 0x04:
--        ret = s->brr;
--        break;
--    case 0x08:
--        ret = s->scr;
--        break;
--    case 0x14:
--        ret = 0;
--        break;
--    }
--#endif
--    if (s->feat & SH_SERIAL_FEAT_SCIF) {
--        switch(offs) {
--        case 0x00: /* SMR */
--            ret = s->smr;
--            break;
--        case 0x08: /* SCR */
--            ret = s->scr;
--            break;
--        case 0x10: /* FSR */
--            ret = 0;
--            if (s->flags & SH_SERIAL_FLAG_TEND)
--                ret |= (1 << 6);
--            if (s->flags & SH_SERIAL_FLAG_TDE)
--                ret |= (1 << 5);
--            if (s->flags & SH_SERIAL_FLAG_BRK)
--                ret |= (1 << 4);
--            if (s->flags & SH_SERIAL_FLAG_RDF)
--                ret |= (1 << 1);
--            if (s->flags & SH_SERIAL_FLAG_DR)
--                ret |= (1 << 0);
--
--            if (s->scr & (1 << 5))
--                s->flags |= SH_SERIAL_FLAG_TDE | SH_SERIAL_FLAG_TEND;
--
--            break;
--        case 0x14:
--            if (s->rx_cnt > 0) {
--                ret = s->rx_fifo[s->rx_tail++];
--                s->rx_cnt--;
--                if (s->rx_tail == SH_RX_FIFO_LENGTH)
--                    s->rx_tail = 0;
--                if (s->rx_cnt < s->rtrg)
--                    s->flags &= ~SH_SERIAL_FLAG_RDF;
--            }
--            break;
--        case 0x18:
--            ret = s->fcr;
--            break;
--        case 0x1c:
--            ret = s->rx_cnt;
--            break;
--        case 0x20:
--            ret = s->sptr;
--            break;
--        case 0x24:
--            ret = 0;
--            break;
--        }
--    }
--    else {
--        switch(offs) {
--#if 0
--        case 0x0c:
--            ret = s->dr;
--            break;
--        case 0x10:
--            ret = 0;
--            break;
--        case 0x14:
--            ret = s->rx_fifo[0];
--            break;
--#endif
--        case 0x1c:
--            ret = s->sptr;
--            break;
--        }
--    }
--#ifdef DEBUG_SERIAL
--    printf("sh_serial: read offs=0x%02x val=0x%x\n",
--           offs, ret);
--#endif
--
--    if (ret & ~((1 << 16) - 1)) {
--        fprintf(stderr, "sh_serial: unsupported read from 0x%02"
--                HWADDR_PRIx "\n", offs);
--        abort();
--    }
--
--    return ret;
--}
--
--static int sh_serial_can_receive(sh_serial_state *s)
--{
--    return s->scr & (1 << 4);
--}
--
--static void sh_serial_receive_break(sh_serial_state *s)
--{
--    if (s->feat & SH_SERIAL_FEAT_SCIF)
--        s->sr |= (1 << 4);
--}
--
--static int sh_serial_can_receive1(void *opaque)
--{
--    sh_serial_state *s = opaque;
--    return sh_serial_can_receive(s);
--}
--
--static void sh_serial_timeout_int(void *opaque)
--{
--    sh_serial_state *s = opaque;
--
--    s->flags |= SH_SERIAL_FLAG_RDF;
--    if (s->scr & (1 << 6) && s->rxi) {
--        qemu_set_irq(s->rxi, 1);
--    }
--}
--
--static void sh_serial_receive1(void *opaque, const uint8_t *buf, int size)
--{
--    sh_serial_state *s = opaque;
--
--    if (s->feat & SH_SERIAL_FEAT_SCIF) {
--        int i;
--        for (i = 0; i < size; i++) {
--            if (s->rx_cnt < SH_RX_FIFO_LENGTH) {
--                s->rx_fifo[s->rx_head++] = buf[i];
--                if (s->rx_head == SH_RX_FIFO_LENGTH) {
--                    s->rx_head = 0;
--                }
--                s->rx_cnt++;
--                if (s->rx_cnt >= s->rtrg) {
--                    s->flags |= SH_SERIAL_FLAG_RDF;
--                    if (s->scr & (1 << 6) && s->rxi) {
--                        timer_del(s->fifo_timeout_timer);
--                        qemu_set_irq(s->rxi, 1);
--                    }
--                } else {
--                    timer_mod(s->fifo_timeout_timer,
--                        qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 15 * s->etu);
--                }
--            }
--        }
--    } else {
--        s->rx_fifo[0] = buf[0];
--    }
--}
--
--static void sh_serial_event(void *opaque, QEMUChrEvent event)
--{
--    sh_serial_state *s = opaque;
--    if (event == CHR_EVENT_BREAK)
--        sh_serial_receive_break(s);
--}
--
--static const MemoryRegionOps sh_serial_ops = {
--    .read = sh_serial_read,
--    .write = sh_serial_write,
--    .endianness = DEVICE_NATIVE_ENDIAN,
--};
--
--void sh_serial_init(MemoryRegion *sysmem,
--                    hwaddr base, int feat,
--                    uint32_t freq, Chardev *chr,
--                    qemu_irq eri_source,
--                    qemu_irq rxi_source,
--                    qemu_irq txi_source,
--                    qemu_irq tei_source,
--                    qemu_irq bri_source)
--{
--    sh_serial_state *s;
--
--    s = g_malloc0(sizeof(sh_serial_state));
--
--    s->feat = feat;
--    s->flags = SH_SERIAL_FLAG_TEND | SH_SERIAL_FLAG_TDE;
--    s->rtrg = 1;
--
--    s->smr = 0;
--    s->brr = 0xff;
--    s->scr = 1 << 5; /* pretend that TX is enabled so early printk works */
--    s->sptr = 0;
--
--    if (feat & SH_SERIAL_FEAT_SCIF) {
--        s->fcr = 0;
--    }
--    else {
--        s->dr = 0xff;
--    }
--
--    sh_serial_clear_fifo(s);
--
--    memory_region_init_io(&s->iomem, NULL, &sh_serial_ops, s,
--                          "serial", 0x100000000ULL);
--
--    memory_region_init_alias(&s->iomem_p4, NULL, "serial-p4", &s->iomem,
--                             0, 0x28);
--    memory_region_add_subregion(sysmem, P4ADDR(base), &s->iomem_p4);
--
--    memory_region_init_alias(&s->iomem_a7, NULL, "serial-a7", &s->iomem,
--                             0, 0x28);
--    memory_region_add_subregion(sysmem, A7ADDR(base), &s->iomem_a7);
--
--    if (chr) {
--        qemu_chr_fe_init(&s->chr, chr, &error_abort);
--        qemu_chr_fe_set_handlers(&s->chr, sh_serial_can_receive1,
--                                 sh_serial_receive1,
--                                 sh_serial_event, NULL, s, NULL, true);
--    }
--
--    s->fifo_timeout_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
--                                         sh_serial_timeout_int, s);
--    s->etu = NANOSECONDS_PER_SECOND / 9600;
--    s->eri = eri_source;
--    s->rxi = rxi_source;
--    s->txi = txi_source;
--    s->tei = tei_source;
--    s->bri = bri_source;
--}
--- 
-2.20.1
+are available in the Git repository at:
+
+  https://gitlab.com/philmd/qemu.git tags/python-next-20200531
+
+for you to fetch changes up to 1c80c87c8c2489e4318c93c844aa29bc1d014146:
+
+  tests/acceptance: refactor boot_linux to allow code reuse (2020-05-31 18:25=
+:31 +0200)
+
+----------------------------------------------------------------
+Python queue:
+
+* migration acceptance test fix
+* introduce pylintrc & flake8 config
+* various cleanups (Python3, style)
+* vm-test can set QEMU_LOCAL=3D1 to use locally built binaries
+* refactored BootLinuxBase & LinuxKernelTest acceptance classes
+
+https://gitlab.com/philmd/qemu/pipelines/151323210
+https://travis-ci.org/github/philmd/qemu/builds/693157969
+
+----------------------------------------------------------------
+
+Dr. David Alan Gilbert (1):
+  tests/acceptance/migration.py: Wait for both sides
+
+John Snow (11):
+  scripts/qmp: Fix shebang and imports
+  python: remove more instances of sys.version_info
+  python/qemu/machine: remove logging configuration
+  python/qemu: delint and add pylintrc
+  python/qemu: delint; add flake8 config
+  python/qemu: remove Python2 style super() calls
+  python/qemu: fix socket.makefile() typing
+  python/qemu: Adjust traceback typing
+  python/qemu/qmp: use True/False for non/blocking modes
+  python/qemu/qmp: assert sockfile is not None
+  python/qemu/qtest: Check before accessing _qtest
+
+Pavel Dovgaluk (3):
+  tests/acceptance: allow console interaction with specific VMs
+  tests/acceptance: refactor boot_linux_console test to allow code reuse
+  tests/acceptance: refactor boot_linux to allow code reuse
+
+Philippe Mathieu-Daud=C3=A9 (6):
+  scripts/qemugdb: Remove shebang header
+  scripts/qemu-gdb: Use Python 3 interpreter
+  scripts/qmp: Use Python 3 interpreter
+  scripts/kvm/vmxcap: Use Python 3 interpreter and add pseudo-main()
+  scripts/modules/module_block: Use Python 3 interpreter & add
+    pseudo-main
+  tests/migration/guestperf: Use Python 3 interpreter
+
+Robert Foley (3):
+  tests/vm: Pass --debug through for vm-boot-ssh
+  tests/vm: Add ability to select QEMU from current build
+  tests/vm: allow wait_ssh() to specify command
+
+Vladimir Sementsov-Ogievskiy (1):
+  python/qemu/machine: add kill() method
+
+ python/qemu/.flake8                       |  2 +
+ python/qemu/accel.py                      |  9 ++-
+ python/qemu/machine.py                    | 44 +++++++-----
+ python/qemu/pylintrc                      | 58 ++++++++++++++++
+ python/qemu/qmp.py                        | 29 +++++---
+ python/qemu/qtest.py                      | 83 +++++++++++++++--------
+ scripts/analyze-migration.py              |  5 --
+ scripts/decodetree.py                     | 25 +++----
+ scripts/kvm/vmxcap                        |  7 +-
+ scripts/modules/module_block.py           | 29 ++++----
+ scripts/qemu-gdb.py                       |  4 +-
+ scripts/qemugdb/__init__.py               |  3 +-
+ scripts/qemugdb/aio.py                    |  3 +-
+ scripts/qemugdb/coroutine.py              |  3 +-
+ scripts/qemugdb/mtree.py                  |  4 +-
+ scripts/qemugdb/tcg.py                    |  1 -
+ scripts/qemugdb/timers.py                 |  1 -
+ scripts/qmp/qmp                           |  4 +-
+ scripts/qmp/qmp-shell                     |  3 -
+ scripts/qmp/qom-fuse                      |  4 +-
+ scripts/qmp/qom-get                       |  6 +-
+ scripts/qmp/qom-list                      |  6 +-
+ scripts/qmp/qom-set                       |  6 +-
+ scripts/qmp/qom-tree                      |  6 +-
+ tests/acceptance/avocado_qemu/__init__.py | 13 ++--
+ tests/acceptance/boot_linux.py            | 49 +++++++------
+ tests/acceptance/boot_linux_console.py    | 21 +++---
+ tests/acceptance/migration.py             |  4 ++
+ tests/docker/docker.py                    |  5 +-
+ tests/migration/guestperf-batch.py        |  2 +-
+ tests/migration/guestperf-plot.py         |  2 +-
+ tests/migration/guestperf.py              |  2 +-
+ tests/qemu-iotests/nbd-fault-injector.py  |  5 +-
+ tests/vm/Makefile.include                 |  5 ++
+ tests/vm/basevm.py                        | 42 ++++++++----
+ 35 files changed, 317 insertions(+), 178 deletions(-)
+ create mode 100644 python/qemu/.flake8
+ create mode 100644 python/qemu/pylintrc
+
+--=20
+2.21.3
 
 
