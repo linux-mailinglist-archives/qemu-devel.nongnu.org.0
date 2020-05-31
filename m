@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B6B1E98D9
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:32:51 +0200 (CEST)
-Received: from localhost ([::1]:40596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A4FA1E98D7
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:31:04 +0200 (CEST)
+Received: from localhost ([::1]:36116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfQtG-00070M-Uv
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:32:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53690)
+	id 1jfQrX-00052F-DX
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:31:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
- id 1jfQlN-0004FS-4N
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:24:41 -0400
-Received: from mail02.asahi-net.or.jp ([202.224.55.14]:58729)
+ id 1jfQlM-0004E4-P4
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:24:40 -0400
+Received: from mail02.asahi-net.or.jp ([202.224.55.14]:58732)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1jfQlK-0004K3-0B
+ (envelope-from <ysato@users.sourceforge.jp>) id 1jfQlJ-0004K5-V1
  for qemu-devel@nongnu.org; Sun, 31 May 2020 12:24:40 -0400
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
- by mail02.asahi-net.or.jp (Postfix) with ESMTPA id B7334EB8B4;
- Mon,  1 Jun 2020 01:24:33 +0900 (JST)
+ by mail02.asahi-net.or.jp (Postfix) with ESMTPA id 17590EB8BA;
+ Mon,  1 Jun 2020 01:24:34 +0900 (JST)
 Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
  [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id 30F381C05D2;
+ by sakura.ysato.name (Postfix) with ESMTPSA id A25511C0DB3;
  Mon,  1 Jun 2020 01:24:33 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/10] hw/char: Renesas SCI module.
-Date: Mon,  1 Jun 2020 01:24:21 +0900
-Message-Id: <20200531162427.57410-5-ysato@users.sourceforge.jp>
+Subject: [PATCH 05/10] hw/rx: RX MCU and target
+Date: Mon,  1 Jun 2020 01:24:22 +0900
+Message-Id: <20200531162427.57410-6-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200531162427.57410-1-ysato@users.sourceforge.jp>
 References: <20200531162427.57410-1-ysato@users.sourceforge.jp>
@@ -61,122 +61,146 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This module supported SCI / SCIa / SCIF.
-
-Hardware manual.
-SCI / SCIF
-https://www.renesas.com/us/en/doc/products/mpumcu/001/r01uh0457ej0401_sh7751.pdf
-SCIa
-https://www.renesas.com/us/en/doc/products/mpumcu/doc/rx_family/r01uh0033ej0140_rx62n.pdf
+rx62n - RX62N MCU.
+rx-virt - RX QEMU virtual target.
+ This has the same specifications as the gdb simulator.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- include/hw/char/renesas_sci.h |  77 ++++
- hw/char/renesas_sci.c         | 786 ++++++++++++++++++++++++++++++++++
- hw/char/Kconfig               |   3 +
- hw/char/Makefile.objs         |   3 +-
- 4 files changed, 868 insertions(+), 1 deletion(-)
- create mode 100644 include/hw/char/renesas_sci.h
- create mode 100644 hw/char/renesas_sci.c
+ include/hw/rx/rx.h    |   7 ++
+ include/hw/rx/rx62n.h |  91 ++++++++++++++++
+ hw/rx/rx-virt.c       | 143 +++++++++++++++++++++++++
+ hw/rx/rx62n.c         | 240 ++++++++++++++++++++++++++++++++++++++++++
+ hw/rx/Kconfig         |  13 +++
+ hw/rx/Makefile.objs   |   2 +
+ 6 files changed, 496 insertions(+)
+ create mode 100644 include/hw/rx/rx.h
+ create mode 100644 include/hw/rx/rx62n.h
+ create mode 100644 hw/rx/rx-virt.c
+ create mode 100644 hw/rx/rx62n.c
+ create mode 100644 hw/rx/Kconfig
+ create mode 100644 hw/rx/Makefile.objs
 
-diff --git a/include/hw/char/renesas_sci.h b/include/hw/char/renesas_sci.h
+diff --git a/include/hw/rx/rx.h b/include/hw/rx/rx.h
 new file mode 100644
-index 0000000000..9152faff6c
+index 0000000000..ff5924b81f
 --- /dev/null
-+++ b/include/hw/char/renesas_sci.h
-@@ -0,0 +1,77 @@
-+/*
-+ * Renesas Serial Communication Interface
-+ *
-+ * Copyright (c) 2020 Yoshinori Sato
-+ *
-+ * This code is licensed under the GPL version 2 or later.
-+ *
-+ */
++++ b/include/hw/rx/rx.h
+@@ -0,0 +1,7 @@
++#ifndef QEMU_RX_H
++#define QEMU_RX_H
++/* Definitions for RX board emulation.  */
 +
-+#include "chardev/char-fe.h"
-+#include "qemu/timer.h"
-+#include "qemu/fifo8.h"
-+#include "hw/sysbus.h"
++#include "target/rx/cpu-qom.h"
 +
-+#define TYPE_RENESAS_SCI "renesas-sci"
-+#define RSCI(obj) OBJECT_CHECK(RSCIState, (obj), TYPE_RENESAS_SCI)
-+
-+enum {
-+    ERI = 0,
-+    RXI = 1,
-+    TXI = 2,
-+    TEI = 3,
-+    BRI = 3,
-+    SCI_NR_IRQ = 4,
-+};
-+
-+enum {
-+    SCI_FEAT_SCI = 0x00,
-+    SCI_FEAT_SCIA = 0x01,
-+    SCI_FEAT_SCIF = 0x10,
-+};
-+
-+enum {
-+    RXTOUT,
-+    RXNEXT,
-+    TXEMPTY,
-+    TXEND,
-+    NR_SCI_EVENT,
-+};
-+
-+typedef struct RSCIState {
-+    SysBusDevice parent_obj;
-+    MemoryRegion memory;
-+    MemoryRegion memory_p4;
-+    MemoryRegion memory_a7;
-+
-+    /* SCI register */
-+    uint8_t smr;
-+    uint8_t brr;
-+    uint8_t scr;
-+    uint8_t tdr;
-+    uint16_t Xsr;
-+    uint8_t scmr;
-+    uint8_t semr;
-+    uint16_t fcr;
-+    uint16_t sptr;
-+    uint16_t lsr;
-+
-+    /* internal use */
-+    uint16_t read_Xsr;
-+    uint16_t read_lsr;
-+    int64_t etu;
-+    int64_t trtime;
-+    int64_t tx_start_time;
-+    int tdcnt;
-+    int regsize;
-+    struct {
-+        int64_t time;
-+        int64_t (*handler)(struct RSCIState *sci);
-+    } event[NR_SCI_EVENT];
-+    QEMUTimer *event_timer;
-+    CharBackend chr;
-+    uint64_t input_freq;
-+    int feature;
-+    qemu_irq irq[SCI_NR_IRQ];
-+    Fifo8 rxfifo;
-+} RSCIState;
-diff --git a/hw/char/renesas_sci.c b/hw/char/renesas_sci.c
++#endif
+diff --git a/include/hw/rx/rx62n.h b/include/hw/rx/rx62n.h
 new file mode 100644
-index 0000000000..6b23055a40
+index 0000000000..11176eadf3
 --- /dev/null
-+++ b/hw/char/renesas_sci.c
-@@ -0,0 +1,786 @@
++++ b/include/hw/rx/rx62n.h
+@@ -0,0 +1,91 @@
 +/*
-+ * Renesas Serial Communication Interface (SCI / SCIa / SCIF)
++ * RX62N MCU Object
 + *
 + * Datasheet: RX62N Group, RX621 Group User's Manual: Hardware
 + * (Rev.1.40 R01UH0033EJ0140)
-+ * And SH7751 Group, SH7751R Group User's Manual: Hardware
-+ * (Rev.4.01 R01UH0457EJ0401)
 + *
-+ * Copyright (c) 2020 Yoshinori Sato
++ * Copyright (c) 2019 Yoshinori Sato
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef HW_RX_RX62N_H
++#define HW_RX_RX62N_H
++
++#include "hw/sysbus.h"
++#include "hw/intc/rx_icu.h"
++#include "hw/timer/renesas_8timer.h"
++#include "hw/timer/renesas_timer.h"
++#include "hw/char/renesas_sci.h"
++#include "target/rx/cpu.h"
++#include "qemu/units.h"
++
++#define TYPE_RX62N "rx62n"
++#define RX62N(obj) OBJECT_CHECK(RX62NState, (obj), TYPE_RX62N)
++
++#define RX62N_NR_TMR    2
++#define RX62N_NR_CMT    2
++#define RX62N_NR_SCI    6
++
++typedef struct RX62NState {
++    SysBusDevice parent_obj;
++
++    RXCPU cpu;
++    RXICUState icu;
++    RTMRState tmr[RX62N_NR_TMR];
++    RTIMERState cmt[RX62N_NR_CMT];
++    RSCIState sci[RX62N_NR_SCI];
++
++    MemoryRegion *sysmem;
++    bool kernel;
++
++    MemoryRegion iram;
++    MemoryRegion iomem1;
++    MemoryRegion d_flash;
++    MemoryRegion iomem2;
++    MemoryRegion iomem3;
++    MemoryRegion c_flash;
++    qemu_irq irq[NR_IRQS];
++} RX62NState;
++
++/*
++ * RX62N Peripheral Address
++ * See users manual section 5
++ */
++#define RX62N_ICUBASE 0x00087000
++#define RX62N_TMRBASE 0x00088200
++#define RX62N_CMTBASE 0x00088000
++#define RX62N_SCIBASE 0x00088240
++
++/*
++ * RX62N Peripheral IRQ
++ * See users manual section 11
++ */
++#define RX62N_TMR_IRQBASE 174
++#define RX62N_CMT_IRQBASE 28
++#define RX62N_SCI_IRQBASE 214
++
++/*
++ * RX62N Internal Memory
++ * It is the value of R5F562N8.
++ * Please change the size for R5F562N7.
++ */
++#define RX62N_IRAM_BASE 0x00000000
++#define RX62N_IRAM_SIZE (96 * KiB)
++#define RX62N_DFLASH_BASE 0x00100000
++#define RX62N_DFLASH_SIZE (32 * KiB)
++#define RX62N_CFLASH_BASE 0xfff80000
++#define RX62N_CFLASH_SIZE (512 * KiB)
++
++#define RX62N_PCLK (48 * 1000 * 1000)
++#endif
+diff --git a/hw/rx/rx-virt.c b/hw/rx/rx-virt.c
+new file mode 100644
+index 0000000000..3168a85b83
+--- /dev/null
++++ b/hw/rx/rx-virt.c
+@@ -0,0 +1,143 @@
++/*
++ * RX QEMU virtual platform
++ *
++ * Copyright (c) 2019 Yoshinori Sato
 + *
 + * This program is free software; you can redistribute it and/or modify it
 + * under the terms and conditions of the GNU General Public License,
@@ -192,800 +216,403 @@ index 0000000000..6b23055a40
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/log.h"
 +#include "qapi/error.h"
 +#include "qemu-common.h"
++#include "cpu.h"
 +#include "hw/hw.h"
-+#include "hw/irq.h"
 +#include "hw/sysbus.h"
-+#include "hw/registerfields.h"
++#include "hw/loader.h"
++#include "hw/rx/rx62n.h"
++#include "sysemu/sysemu.h"
++#include "sysemu/qtest.h"
++#include "sysemu/device_tree.h"
++#include "hw/boards.h"
++
++/* Same address of GDB integrated simulator */
++#define SDRAM_BASE 0x01000000
++
++static void rx_load_image(RXCPU *cpu, const char *filename,
++                          uint32_t start, uint32_t size)
++{
++    static uint32_t extable[32];
++    long kernel_size;
++    int i;
++
++    kernel_size = load_image_targphys(filename, start, size);
++    if (kernel_size < 0) {
++        fprintf(stderr, "qemu: could not load kernel '%s'\n", filename);
++        exit(1);
++    }
++    cpu->env.pc = start;
++
++    /* setup exception trap trampoline */
++    /* linux kernel only works little-endian mode */
++    for (i = 0; i < ARRAY_SIZE(extable); i++) {
++        extable[i] = cpu_to_le32(0x10 + i * 4);
++    }
++    rom_add_blob_fixed("extable", extable, sizeof(extable), 0xffffff80);
++}
++
++static void rxvirt_init(MachineState *machine)
++{
++    RX62NState *s = g_new(RX62NState, 1);
++    MemoryRegion *sysmem = get_system_memory();
++    MemoryRegion *sdram = g_new(MemoryRegion, 1);
++    const char *kernel_filename = machine->kernel_filename;
++    const char *dtb_filename = machine->dtb;
++    void *dtb = NULL;
++    int dtb_size;
++    ram_addr_t kernel_offset;
++    ram_addr_t dtb_offset;
++    MachineClass *mc = MACHINE_GET_CLASS(machine);
++
++    if (machine->ram_size < mc->default_ram_size) {
++        error_report("Invalid RAM size, should be more than %" PRIi64 " Bytes",
++                     mc->default_ram_size);
++    }
++
++    /* Allocate memory space */
++    memory_region_init_ram(sdram, NULL, "rx-virt.sdram", machine->ram_size,
++                           &error_fatal);
++    memory_region_add_subregion(sysmem, SDRAM_BASE, sdram);
++
++    /* Initialize MCU */
++    object_initialize_child(OBJECT(machine), "mcu", s,
++                            sizeof(RX62NState), TYPE_RX62N,
++                            &error_fatal, NULL);
++    object_property_set_link(OBJECT(s), OBJECT(sysmem),
++                             "memory", &error_abort);
++    object_property_set_bool(OBJECT(s), kernel_filename != NULL,
++                             "load-kernel", &error_abort);
++    object_property_set_bool(OBJECT(s), true, "realized", &error_abort);
++
++    /* Load kernel and dtb */
++    if (kernel_filename) {
++        /*
++         * The kernel image is loaded into
++         * the latter half of the SDRAM space.
++         */
++        kernel_offset = machine->ram_size / 2;
++        rx_load_image(RXCPU(first_cpu), kernel_filename,
++                      SDRAM_BASE + kernel_offset, kernel_offset);
++        if (dtb_filename) {
++            dtb = load_device_tree(dtb_filename, &dtb_size);
++            if (dtb == NULL) {
++                error_report("Couldn't open dtb file %s", dtb_filename);
++                exit(1);
++            }
++            if (machine->kernel_cmdline &&
++                qemu_fdt_setprop_string(dtb, "/chosen", "bootargs",
++                                        machine->kernel_cmdline) < 0) {
++                error_report("Couldn't set /chosen/bootargs");
++                exit(1);
++            }
++            /* DTB is located at the end of SDRAM space. */
++            dtb_offset = machine->ram_size - dtb_size;
++            rom_add_blob_fixed("dtb", dtb, dtb_size,
++                               SDRAM_BASE + dtb_offset);
++            /* Set dtb address to R1 */
++            RXCPU(first_cpu)->env.regs[1] = SDRAM_BASE + dtb_offset;
++        }
++    }
++}
++
++static void rxvirt_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    mc->desc = "RX QEMU Virtual Target";
++    mc->init = rxvirt_init;
++    mc->is_default = 1;
++    mc->default_cpu_type = TYPE_RX62N_CPU;
++    mc->default_ram_size = 16 * MiB;
++}
++
++static const TypeInfo rxvirt_type = {
++    .name = MACHINE_TYPE_NAME("rx-virt"),
++    .parent = TYPE_MACHINE,
++    .class_init = rxvirt_class_init,
++};
++
++static void rxvirt_machine_init(void)
++{
++    type_register_static(&rxvirt_type);
++}
++
++type_init(rxvirt_machine_init)
+diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
+new file mode 100644
+index 0000000000..effd6d4f12
+--- /dev/null
++++ b/hw/rx/rx62n.c
+@@ -0,0 +1,240 @@
++/*
++ * RX62N Microcontroller
++ *
++ * Datasheet: RX62N Group, RX621 Group User's Manual: Hardware
++ * (Rev.1.40 R01UH0033EJ0140)
++ *
++ * Copyright (c) 2019 Yoshinori Sato
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "hw/hw.h"
++#include "hw/rx/rx62n.h"
++#include "hw/loader.h"
++#include "hw/sysbus.h"
 +#include "hw/qdev-properties.h"
-+#include "hw/char/renesas_sci.h"
-+#include "migration/vmstate.h"
-+#include "qemu/error-report.h"
++#include "sysemu/sysemu.h"
++#include "cpu.h"
 +
-+/* SCI register map */
-+REG8(SMR, 0)
-+  FIELD(SMR, CKS,  0, 2)
-+  FIELD(SMR, MP,   2, 1)
-+  FIELD(SMR, STOP, 3, 1)
-+  FIELD(SMR, PM,   4, 1)
-+  FIELD(SMR, PE,   5, 1)
-+  FIELD(SMR, CHR,  6, 1)
-+  FIELD(SMR, CM,   7, 1)
-+REG16(BRR, 2)
-+REG16(SCR, 4)
-+  FIELD(SCR, CKE, 0, 2)
-+  FIELD(SCR, TEIE, 2, 1)
-+  FIELD(SCR, MPIE, 3, 1)
-+  FIELD(SCR, REIE, 3, 1)
-+  FIELD(SCR, RE,   4, 1)
-+  FIELD(SCR, TE,   5, 1)
-+  FIELD(SCR, RIE,  6, 1)
-+  FIELD(SCR, TIE,  7, 1)
-+REG16(TDR, 6)
-+REG16(SSR, 8)
-+  FIELD(SSR, MPBT, 0, 1)
-+  FIELD(SSR, MPB,  1, 1)
-+  FIELD(SSR, TEND, 2, 1)
-+  FIELD(SSR, ERR, 3, 3)
-+    FIELD(SSR, PER,  3, 1)
-+    FIELD(SSR, FER,  4, 1)
-+    FIELD(SSR, ORER, 5, 1)
-+  FIELD(SSR, RDRF, 6, 1)
-+  FIELD(SSR, TDRE, 7, 1)
-+REG16(FSR, 8)
-+  FIELD(FSR, DR, 0, 1)
-+  FIELD(FSR, RDF, 1, 1)
-+  FIELD(FSR, RDF_DR, 0, 2)
-+  FIELD(FSR, PER, 2, 1)
-+  FIELD(FSR, FER, 3, 1)
-+  FIELD(FSR, BRK, 4, 1)
-+  FIELD(FSR, TDFE, 5, 1)
-+  FIELD(FSR, TEND, 6, 1)
-+  FIELD(FSR, ER, 7, 1)
-+  FIELD(FSR, FERn, 8, 4)
-+  FIELD(FSR, PERn, 12, 4)
-+REG16(RDR, 10)
-+REG16(SCMR, 12)
-+  FIELD(SCMR, SMIF, 0, 1)
-+  FIELD(SCMR, SINV, 2, 1)
-+  FIELD(SCMR, SDIR, 3, 1)
-+  FIELD(SCMR, BCP2, 7, 1)
-+REG16(FCR, 12)
-+  FIELD(FCR, LOOP, 0, 1)
-+  FIELD(FCR, RFRST, 1, 1)
-+  FIELD(FCR, TFRST, 2, 1)
-+  FIELD(FCR, MCE, 3, 1)
-+  FIELD(FCR, TTRG, 4, 2)
-+  FIELD(FCR, RTRG, 6, 2)
-+  FIELD(FCR, RSTRG, 8, 3)
-+REG16(SEMR, 14)
-+  FIELD(SEMR, ACS0, 0, 1)
-+  FIELD(SEMR, ABCS, 4, 1)
-+REG16(FDR, 14)
-+  FIELD(FDR, Rn, 0, 4)
-+  FIELD(FDR, Tn, 8, 4)
-+REG16(SPTR, 16)
-+  FIELD(SPTR, SPB2DT, 0, 1)
-+  FIELD(SPTR, SPB2IO, 1, 1)
-+  FIELD(SPTR, SCKDT, 2, 1)
-+  FIELD(SPTR, SCKIO, 3, 1)
-+  FIELD(SPTR, CTSDT, 4, 1)
-+  FIELD(SPTR, CTSIO, 5, 1)
-+  FIELD(SPTR, RTSDT, 6, 1)
-+  FIELD(SPTR, RTSIO, 7, 1)
-+  FIELD(SPTR, EIO, 7, 1)
-+REG16(LSR, 18)
-+  FIELD(LSR, ORER, 0, 1)
-+
-+#define SCIF_FIFO_DEPTH 16
-+#define IS_SCI(sci) (sci->feature < SCI_FEAT_SCIF)
-+#define IS_SCIA(sci) (IS_SCI(sci) && sci->feature >= SCI_FEAT_SCIA)
-+#define IS_SCIF(sci) (!IS_SCI(sci))
-+
-+static const int sci_rtrg[] = {1, 4, 8, 14};
-+
-+static void update_event_time(RSCIState *sci, int evt, int64_t t)
-+{
-+    if (t > 0) {
-+        t +=  qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+        sci->event[evt].time = t;
-+        if (timer_expire_time_ns(sci->event_timer) > t) {
-+            timer_mod(sci->event_timer, t);
-+        }
-+    } else {
-+        sci->event[evt].time = 0;
-+    }
-+}
-+
-+static int sci_is_rxi(RSCIState *sci)
-+{
-+    int eio;
-+    int enable;
-+    enable = FIELD_EX16(sci->scr, SCR, RIE);
-+    if (IS_SCI(sci)) {
-+        eio = (sci->feature != SCI_FEAT_SCI) ||
-+            (FIELD_EX16(sci->sptr, SPTR, EIO) == 0);
-+        return FIELD_EX16(sci->Xsr, SSR, RDRF) && enable && eio;
-+    } else {
-+        return (FIELD_EX16(sci->Xsr, FSR, RDF_DR) != 0) && enable;
-+    }
-+}
-+
-+static int sci_is_txi(RSCIState *sci)
-+{
-+    int enable = FIELD_EX16(sci->scr, SCR, TIE);
-+    if (IS_SCI(sci)) {
-+        return enable && FIELD_EX16(sci->Xsr, SSR, TDRE);
-+    } else {
-+        return enable && FIELD_EX16(sci->Xsr, FSR, TDFE);
-+    }
-+}
-+
-+static void sci_irq(RSCIState *sci, int req)
-+{
-+    int br;
-+    int irq;
-+    int rie;
-+
-+    switch (req) {
-+    case ERI:
-+        rie = FIELD_EX16(sci->scr, SCR, RIE);
-+        if (IS_SCI(sci)) {
-+            irq = rie && (FIELD_EX16(sci->Xsr, SSR, ERR) != 0);
-+        } else {
-+            irq = (rie || FIELD_EX16(sci->scr, SCR, REIE)) &&
-+                FIELD_EX16(sci->Xsr, FSR, ER);
-+        }
-+        qemu_set_irq(sci->irq[ERI], irq);
-+        break;
-+    case RXI:
-+        if (IS_SCIA(sci)) {
-+            if (sci_is_rxi(sci)) {
-+                qemu_irq_pulse(sci->irq[RXI]);
-+            }
-+        } else {
-+            qemu_set_irq(sci->irq[RXI], sci_is_rxi(sci));
-+        }
-+        break;
-+    case TXI:
-+        if (IS_SCIA(sci)) {
-+            if (sci_is_txi(sci)) {
-+                qemu_irq_pulse(sci->irq[TXI]);
-+            }
-+        } else {
-+            qemu_set_irq(sci->irq[TXI], sci_is_txi(sci));
-+        }
-+        break;
-+    case BRI: /* TEI */
-+        if (IS_SCI(sci)) {
-+            qemu_set_irq(sci->irq[TEI],
-+                         FIELD_EX16(sci->Xsr, SSR, TEND) &&
-+                         FIELD_EX16(sci->scr, SCR, TEIE));
-+        } else {
-+            rie = FIELD_EX16(sci->scr, SCR, RIE);
-+            br = (rie || FIELD_EX16(sci->scr, SCR, REIE)) &&
-+                FIELD_EX16(sci->Xsr, FSR, BRK);
-+            qemu_set_irq(sci->irq[BRI], br);
-+        }
-+        break;
-+    }
-+}
-+
-+static int can_receive(void *opaque)
-+{
-+    RSCIState *sci = RSCI(opaque);
-+    int fifo_free = 0;
-+    if (FIELD_EX16(sci->scr, SCR, RE)) {
-+        /* Receiver enabled */
-+        fifo_free = fifo8_num_free(&sci->rxfifo);
-+        if (IS_SCIF(sci) && fifo_free == 0) {
-+            /* FIFO overrun */
-+            sci->lsr = FIELD_DP16(sci->lsr, LSR, ORER, 1);
-+            sci_irq(sci, ERI);
-+        }
-+    }
-+    return fifo_free;
-+}
-+
-+static void sci_receive(void *opaque, const uint8_t *buf, int size)
-+{
-+    RSCIState *sci = RSCI(opaque);
-+    int rtrg;
-+
-+    fifo8_push_all(&sci->rxfifo, buf, size);
-+    if (sci->event[RXNEXT].time == 0) {
-+        if (IS_SCI(sci)) {
-+            sci->Xsr = FIELD_DP16(sci->Xsr, SSR, RDRF, 1);
-+            update_event_time(sci, RXNEXT, sci->trtime);
-+        } else {
-+            rtrg = sci_rtrg[FIELD_EX16(sci->fcr, FCR, RTRG)];
-+            if (fifo8_num_used(&sci->rxfifo) >= rtrg) {
-+                sci->Xsr = FIELD_DP16(sci->Xsr, FSR, RDF, 1);
-+            } else {
-+                update_event_time(sci, RXTOUT, 15 * sci->etu);
-+            }
-+        }
-+        sci_irq(sci, RXI);
-+    }
-+}
-+
-+static void sci_send_byte(RSCIState *sci)
-+{
-+    if (IS_SCI(sci)) {
-+        if (qemu_chr_fe_backend_connected(&sci->chr)) {
-+            qemu_chr_fe_write_all(&sci->chr, &sci->tdr, 1);
-+        }
-+        sci->Xsr = FIELD_DP16(sci->Xsr, SSR, TEND, 0);
-+        sci->Xsr = FIELD_DP16(sci->Xsr, SSR, TDRE, 1);
-+    }
-+}
-+
-+static int transmit_byte(RSCIState *sci)
-+{
-+    int64_t elapsed;
-+    int byte = 0;
-+    if (sci->tx_start_time > 0) {
-+        elapsed = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - sci->tx_start_time;
-+        byte = elapsed / sci->trtime;
-+        if (byte > sci->tdcnt) {
-+            byte = sci->tdcnt;
-+        }
-+    }
-+    return byte;
-+}
-+
-+static int64_t sci_rx_timeout(RSCIState *sci)
-+{
-+    if (IS_SCIF(sci)) {
-+        sci->Xsr = FIELD_DP16(sci->Xsr, FSR, DR, 1);
-+        sci_irq(sci, RXI);
-+    }
-+    return 0;
-+}
-+
-+static int64_t sci_rx_next(RSCIState *sci)
-+{
-+    int64_t next_event = 0;
-+    if (IS_SCI(sci) && !fifo8_is_empty(&sci->rxfifo)) {
-+        if (FIELD_EX16(sci->Xsr, SSR, RDRF)) {
-+            /* Receiver overrun */
-+            sci->Xsr = FIELD_DP16(sci->Xsr, SSR, ORER, 1);
-+            sci_irq(sci, ERI);
-+        } else {
-+            /* Trigger next event */
-+            sci->Xsr = FIELD_DP16(sci->Xsr, SSR, RDRF, 1);
-+            sci_irq(sci, RXI);
-+            next_event = sci->trtime;
-+        }
-+    }
-+    return next_event;
-+}
-+
-+static int64_t sci_tx_empty(RSCIState *sci)
-+{
-+    int64_t ret = 0;
-+    if (IS_SCI(sci)) {
-+        if (!FIELD_EX16(sci->Xsr, SSR, TDRE)) {
-+            sci_send_byte(sci);
-+            ret = sci->trtime;
-+            sci_irq(sci, TXI);
-+        } else {
-+            sci->Xsr = FIELD_DP16(sci->Xsr, SSR, TEND, 1);
-+            sci_irq(sci, TEI);
-+        }
-+    } else {
-+        sci->tdcnt -= transmit_byte(sci);
-+        sci->Xsr = FIELD_DP16(sci->Xsr, FSR, TDFE, 1);
-+        sci_irq(sci, TXI);
-+    }
-+    return ret;
-+}
-+
-+static int64_t sci_tx_end(RSCIState *sci)
-+{
-+    if (IS_SCIF(sci)) {
-+        sci->tdcnt = 0;
-+        sci->Xsr = FIELD_DP16(sci->Xsr, FSR, TEND, 1);
-+        sci_irq(sci, TEI);
-+    }
-+    return 0;
-+}
-+
-+static void sci_timer_event(void *opaque)
-+{
-+    RSCIState *sci = RSCI(opaque);
-+    int64_t now, next, t;
-+    int i;
-+
-+    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    next = INT64_MAX;
-+    for (i = 0; i < NR_SCI_EVENT; i++) {
-+        if (sci->event[i].time > 0 && sci->event[i].time <= now) {
-+            t = sci->event[i].handler(sci);
-+            sci->event[i].time = (t > 0) ? now + t : 0;
-+        }
-+        if (sci->event[i].time > 0) {
-+            next = MIN(next, sci->event[i].time);
-+        }
-+    }
-+    if (next < INT64_MAX) {
-+        timer_mod(sci->event_timer, next);
-+    } else {
-+        timer_del(sci->event_timer);
-+    }
-+}
-+
-+static void update_trtime(RSCIState *sci)
-+{
-+    int divrate;
-+    if (IS_SCIA(sci)) {
-+        divrate = 16 * (2 - FIELD_EX8(sci->semr, SEMR, ABCS));
-+    } else {
-+        divrate = 32;
-+    }
-+
-+    /* x bit transmit time (divrate * brr) / base freq */
-+    sci->etu = divrate * 1 << (2 * FIELD_EX16(sci->smr, SMR, CKS));
-+    sci->etu *= sci->brr + 1;
-+    sci->etu *= NANOSECONDS_PER_SECOND;
-+    sci->etu /= sci->input_freq;
-+
-+    /* char per bits */
-+    sci->trtime = 8 - FIELD_EX16(sci->smr, SMR, CHR);
-+    sci->trtime += FIELD_EX16(sci->smr, SMR, PE);
-+    sci->trtime += FIELD_EX16(sci->smr, SMR, STOP) + 1 + 1;
-+    sci->trtime *= sci->etu;
-+}
-+
-+#define IS_TR_ENABLED(scr) \
-+    (FIELD_EX16(scr, SCR, TE) || FIELD_EX16(scr, SCR, RE))
-+
-+#define SCI_IS_NOT_SUPPORTED(sci, name)                                 \
-+    if (sci->feature == SCI_FEAT_SCI) {                                 \
-+        qemu_log_mask(LOG_GUEST_ERROR,                                  \
-+                      "reneas_sci: " #name " is not supported.\n");     \
-+    }
-+
-+static void sci_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-+{
-+    RSCIState *sci = RSCI(opaque);
-+    int txtrg;
-+    int rxtrg;
-+    uint8_t txd;
-+    uint16_t ssr_mask;
-+    bool tx_start = false;
-+
-+    if (IS_SCI(sci)) {
-+        txtrg = 1;
-+    } else {
-+        txtrg = 1 << (3 - FIELD_EX16(sci->fcr, FCR, TTRG));
-+    }
-+    switch (sci->regsize) {
-+    case 8:
-+        addr <<= 1; break;
-+    case 32:
-+        addr >>= 1; break;
-+    }
-+    switch (addr) {
-+    case A_SMR:
-+        if (IS_SCIA(sci) && IS_TR_ENABLED(sci->scr)) {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "reneas_sci: SMR write protected.\n");
-+            break;
-+        }
-+        sci->smr = val;
-+        update_trtime(sci);
-+        break;
-+    case A_BRR:
-+        if (IS_SCIA(sci) && IS_TR_ENABLED(sci->scr)) {
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "reneas_sci: BRR write protected.\n");
-+            break;
-+        }
-+        sci->brr = val;
-+        update_trtime(sci);
-+        break;
-+    case A_SCR:
-+        sci->scr = val;
-+        if (FIELD_EX16(sci->scr, SCR, TE)) {
-+            /* Transmitter enable */
-+            if (IS_SCI(sci)) {
-+                sci->Xsr = FIELD_DP16(sci->Xsr, SSR, TDRE, 1);
-+                sci->Xsr = FIELD_DP16(sci->Xsr, SSR, TEND, 1);
-+            } else {
-+                sci->Xsr = FIELD_DP16(sci->Xsr, FSR, TEND, 1);
-+                sci->Xsr = FIELD_DP16(sci->Xsr, FSR, TDFE, 1);
-+                sci->tx_start_time = 0;
-+            }
-+            sci_irq(sci, TXI);
-+            sci_irq(sci, TEI);
-+        } else {
-+            /* Transmitter disable  */
-+            update_event_time(sci, TXEND, 0);
-+            update_event_time(sci, TXEMPTY, 0);
-+        }
-+        break;
-+    case A_TDR:
-+        if (IS_SCI(sci)) {
-+            sci->tdr = val;
-+            if (IS_SCIA(sci)) {
-+                if (FIELD_EX16(sci->Xsr, SSR, TEND)) {
-+                    update_event_time(sci, TXEMPTY, sci->trtime);
-+                    sci_send_byte(sci);
-+                } else {
-+                    sci->Xsr = FIELD_DP16(sci->Xsr, SSR, TDRE, 0);
-+                }
-+                sci_irq(sci, TXI);
-+                sci_irq(sci, TEI);
-+            }
-+        } else {
-+            if (sci->tx_start_time > 0) {
-+                sci->tdcnt -= transmit_byte(sci);
-+            } else {
-+                sci->tx_start_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+            }
-+            if (sci->tdcnt >= SCIF_FIFO_DEPTH) {
-+                break;
-+            }
-+            txd = val;
-+            if (qemu_chr_fe_backend_connected(&sci->chr)) {
-+                qemu_chr_fe_write_all(&sci->chr, &txd, 1);
-+            }
-+            if (FIELD_EX16(sci->fcr, FCR, LOOP) && can_receive(sci) > 0) {
-+                /* Loopback mode */
-+                sci_receive(sci, &txd, 1);
-+            }
-+            sci->tdcnt++;
-+            sci->Xsr = FIELD_DP16(sci->Xsr, FSR, TEND, 0);
-+            update_event_time(sci, TXEND, sci->tdcnt);
-+            if (sci->tdcnt > txtrg) {
-+                sci->Xsr = FIELD_DP16(sci->Xsr, FSR, TDFE, 0);
-+                update_event_time(sci, TXEMPTY, sci->tdcnt - txtrg + 1);
-+                sci_irq(sci, TXI);
-+            }
-+        }
-+        break;
-+    case A_FSR: /* A_SSR */
-+        if (IS_SCI(sci)) {
-+            /* Mask for read only bits */
-+            ssr_mask = IS_SCIA(sci) ? 0xc7 : 0x07;
-+            sci->Xsr = FIELD_DP16(sci->Xsr, SSR, MPBT,
-+                                 FIELD_EX16(val, SSR, MPBT));
-+            sci->Xsr &= (val | ssr_mask);
-+            /* Clear ERI */
-+            sci_irq(sci, ERI);
-+            if (sci->feature == SCI_FEAT_SCI) {
-+                tx_start = FIELD_EX16(sci->read_Xsr, SSR, TDRE) &&
-+                    !FIELD_EX16(sci->Xsr, SSR, TDRE) &&
-+                    (FIELD_EX16(sci->Xsr, SSR, ERR) == 0);
-+                if (tx_start) {
-+                    sci_send_byte(sci);
-+                    update_event_time(sci, TXEMPTY, sci->trtime);
-+                    sci_irq(sci, TXI);
-+                }
-+            }
-+        } else {
-+            rxtrg = sci_rtrg[FIELD_EX16(sci->fcr, FCR, RTRG)];
-+            ssr_mask = ~(sci->read_Xsr & 0xf3);
-+            sci->tdcnt -= transmit_byte(sci);
-+            if (sci->tdcnt < txtrg) {
-+                ssr_mask = FIELD_DP16(ssr_mask, FSR, TDFE, 1);
-+            }
-+            if (fifo8_num_used(&sci->rxfifo) >= rxtrg) {
-+                ssr_mask = FIELD_DP16(ssr_mask, FSR, RDF, 1);
-+            }
-+            sci->Xsr &= (val | ssr_mask);
-+            sci_irq(sci, ERI);
-+            sci_irq(sci, RXI);
-+            sci_irq(sci, TXI);
-+        }
-+        break;
-+    case A_RDR:
-+        qemu_log_mask(LOG_GUEST_ERROR, "reneas_sci: RDR is read only.\n");
-+        break;
-+    case A_FCR: /* A_SCMR / A_SPTR */
-+        if (IS_SCI(sci)) {
-+            if (sci->feature == SCI_FEAT_SCI) {
-+                sci->sptr = val;
-+            } else {
-+                sci->scmr = val;
-+            }
-+        } else {
-+            sci->fcr = val;
-+            if (FIELD_EX16(sci->fcr, FCR, RFRST)) {
-+                fifo8_reset(&sci->rxfifo);
-+                update_event_time(sci, RXTOUT, 0);
-+                update_event_time(sci, RXNEXT, 0);
-+            }
-+            if (FIELD_EX16(sci->fcr, FCR, TFRST)) {
-+                sci->tdcnt = 0;
-+            }
-+        }
-+        break;
-+    case A_FDR: /* A_SEMR */
-+        if (IS_SCI(sci)) {
-+            SCI_IS_NOT_SUPPORTED(sci, SEMR);
-+            sci->semr = val;
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "reneas_sci: FDR is read only.\n");
-+        }
-+        break;
-+    case A_SPTR:
-+        if (IS_SCI(sci)) {
-+            goto error;
-+        } else {
-+            sci->sptr = val;
-+        }
-+        break;
-+    case A_LSR:
-+        if (IS_SCI(sci)) {
-+            goto error;
-+        } else {
-+            if (FIELD_EX16(sci->read_lsr, LSR, ORER) != 1) {
-+                val = FIELD_DP16(val, LSR, ORER, 1);
-+            }
-+            sci->lsr &= val;
-+            sci_irq(sci, ERI);
-+        }
-+        break;
-+    default:
-+    error:
-+        qemu_log_mask(LOG_UNIMP, "renesas_sci: Register 0x%" HWADDR_PRIX
-+                      " not implemented\n", addr);
-+    }
-+}
-+
-+static uint64_t sci_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    RSCIState *sci = RSCI(opaque);
-+    uint64_t ret;
-+
-+    switch (sci->regsize) {
-+    case 8:
-+        addr <<= 1; break;
-+    case 32:
-+        addr >>= 1; break;
-+    }
-+
-+    switch (addr) {
-+    case A_SMR:
-+        return sci->smr;
-+    case A_BRR:
-+        return sci->brr;
-+    case A_SCR:
-+        return sci->scr;
-+    case A_TDR:
-+        if (IS_SCI(sci)) {
-+            return sci->tdr;
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "reneas_sci: TDR is write only.\n");
-+            return UINT64_MAX;
-+        }
-+    case A_FSR: /* A_SSR */
-+        sci->read_Xsr = sci->Xsr;
-+        return sci->Xsr;
-+    case A_RDR:
-+        ret = fifo8_pop(&sci->rxfifo);
-+        if (IS_SCIA(sci)) {
-+            sci->Xsr = FIELD_DP16(sci->Xsr, SSR, RDRF, 0);
-+        }
-+        return ret;
-+    case A_FCR: /* A_SCMR / A_SPTR */
-+        if (IS_SCI(sci)) {
-+            if (IS_SCIA(sci)) {
-+                return sci->scmr;
-+            } else {
-+                return sci->sptr;
-+            }
-+        } else {
-+            return sci->fcr & 0x7ff;
-+        }
-+    case A_FDR: /* A_SEMR */
-+        if (IS_SCI(sci)) {
-+            SCI_IS_NOT_SUPPORTED(sci, SEMR);
-+            return sci->semr;
-+        } else {
-+            ret = 0;
-+            ret = FIELD_DP16(ret, FDR, Rn, fifo8_num_used(&sci->rxfifo));
-+            ret = FIELD_DP16(ret, FDR, Tn, sci->tdcnt - transmit_byte(sci));
-+            return ret;
-+        }
-+    case A_SPTR:
-+        if (IS_SCI(sci)) {
-+            goto error;
-+        } else {
-+            return sci->sptr;
-+        }
-+    case A_LSR:
-+        if (IS_SCI(sci)) {
-+            goto error;
-+        } else {
-+            sci->read_lsr = sci->lsr;
-+            return sci->lsr;
-+        }
-+    default:
-+    error:
-+        qemu_log_mask(LOG_UNIMP, "renesas_sci: Register 0x%" HWADDR_PRIX
-+                      " not implemented.\n", addr);
-+    }
-+    return UINT64_MAX;
-+}
-+
-+static const MemoryRegionOps sci_ops = {
-+    .write = sci_write,
-+    .read  = sci_read,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .impl = {
-+        .max_access_size = 4,
-+    },
++/*
++ * IRQ -> IPR mapping table
++ * 0x00 - 0x91: IPR no (IPR00 to IPR91)
++ * 0xff: IPR not assigned
++ * See "11.3.1 Interrupt Vector Table" in hardware manual.
++ */
++static const int ipr_table[NR_IRQS] = {
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, /* 15 */
++    0x00, 0xff, 0xff, 0xff, 0xff, 0x01, 0xff, 0x02,
++    0xff, 0xff, 0xff, 0x03, 0x04, 0x05, 0x06, 0x07, /* 31 */
++    0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
++    0x10, 0x11, 0x12, 0x13, 0x14, 0x14, 0x14, 0x14, /* 47 */
++    0x15, 0x15, 0x15, 0x15, 0xff, 0xff, 0xff, 0xff,
++    0x18, 0x18, 0x18, 0x18, 0x18, 0x1d, 0x1e, 0x1f, /* 63 */
++    0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,
++    0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f, /* 79 */
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0x3a, 0x3b, 0x3c, 0xff, 0xff, 0xff, /* 95 */
++    0x40, 0xff, 0x44, 0x45, 0xff, 0xff, 0x48, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, /* 111 */
++    0xff, 0xff, 0x51, 0x51, 0x51, 0x51, 0x52, 0x52,
++    0x52, 0x53, 0x53, 0x54, 0x54, 0x55, 0x55, 0x56, /* 127 */
++    0x56, 0x57, 0x57, 0x57, 0x57, 0x58, 0x59, 0x59,
++    0x59, 0x59, 0x5a, 0x5b, 0x5b, 0x5b, 0x5c, 0x5c, /* 143 */
++    0x5c, 0x5c, 0x5d, 0x5d, 0x5d, 0x5e, 0x5e, 0x5f,
++    0x5f, 0x60, 0x60, 0x61, 0x61, 0x62, 0x62, 0x62, /* 159 */
++    0x62, 0x63, 0x64, 0x64, 0x64, 0x64, 0x65, 0x66,
++    0x66, 0x66, 0x67, 0x67, 0x67, 0x67, 0x68, 0x68, /* 175 */
++    0x68, 0x69, 0x69, 0x69, 0x6a, 0x6a, 0x6a, 0x6b,
++    0x6b, 0x6b, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, /* 191 */
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x70, 0x71,
++    0x72, 0x73, 0x74, 0x75, 0xff, 0xff, 0xff, 0xff, /* 207 */
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x80, 0x80,
++    0x80, 0x80, 0x81, 0x81, 0x81, 0x81, 0x82, 0x82, /* 223 */
++    0x82, 0x82, 0x83, 0x83, 0x83, 0x83, 0xff, 0xff,
++    0xff, 0xff, 0x85, 0x85, 0x85, 0x85, 0x86, 0x86, /* 239 */
++    0x86, 0x86, 0xff, 0xff, 0xff, 0xff, 0x88, 0x89,
++    0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, /* 255 */
 +};
 +
-+static void sci_register_init(RSCIState *sci)
++/*
++ * Level triggerd IRQ list
++ * Not listed IRQ is Edge trigger.
++ * See "11.3.1 Interrupt Vector Table" in hardware manual.
++ */
++static const uint32_t levelirq[] = {
++     16,  21,  32,  44,  47,  48,  51,  64,  65,  66,
++     67,  68,  69,  70,  71,  72,  73,  74,  75,  76,
++     77,  78,  79,  90,  91, 170, 171, 172, 173, 214,
++    217, 218, 221, 222, 225, 226, 229, 234, 237, 238,
++    241, 246, 249, 250, 253,
++};
++
++static void register_icu(RX62NState *s)
 +{
 +    int i;
-+    sci->smr = sci->scr = 0x00;
-+    sci->brr = 0xff;
-+    if (IS_SCI(sci)) {
-+        sci->tdr = 0xff;
-+        sci->Xsr = 0x84;
-+        sci->scmr = 0x00;
-+        sci->semr = 0x00;
-+        sci->sptr = 0x00;
-+    } else {
-+        sci->Xsr = 0x0060;
-+        sci->fcr = 0x0000;
-+        sci->sptr = 0x0000;
-+        sci->lsr = 0x0000;
++    SysBusDevice *icu;
++
++    object_initialize_child(OBJECT(s), "icu", &s->icu, sizeof(RXICUState),
++                            TYPE_RXICU, &error_abort, NULL);
++
++    icu = SYS_BUS_DEVICE(&s->icu);
++    sysbus_mmio_map(SYS_BUS_DEVICE(icu), 0, RX62N_ICUBASE);
++    qdev_prop_set_uint32(DEVICE(icu), "len-ipr-map", NR_IRQS);
++    for (i = 0; i < NR_IRQS; i++) {
++        char propname[32];
++        snprintf(propname, sizeof(propname), "ipr-map[%d]", i);
++        qdev_prop_set_uint32(DEVICE(icu), propname, ipr_table[i]);
 +    }
-+    update_trtime(sci);
-+    for (i = 0; i < NR_SCI_EVENT; i++) {
-+        sci->event[i].time = 0;
++    qdev_prop_set_uint32(DEVICE(icu), "len-trigger-level",
++                         ARRAY_SIZE(levelirq));
++    for (i = 0; i < ARRAY_SIZE(levelirq); i++) {
++        char propname[32];
++        snprintf(propname, sizeof(propname), "trigger-level[%d]", i);
++        qdev_prop_set_uint32(DEVICE(icu), propname, levelirq[i]);
++    }
++
++    for (i = 0; i < NR_IRQS; i++) {
++        s->irq[i] = qdev_get_gpio_in(DEVICE(icu), i);
++    }
++
++    qdev_init_nofail(DEVICE(icu));
++    sysbus_connect_irq(icu, 0, qdev_get_gpio_in(DEVICE(&s->cpu), RX_CPU_IRQ));
++    sysbus_connect_irq(icu, 1, qdev_get_gpio_in(DEVICE(&s->cpu), RX_CPU_FIR));
++    sysbus_connect_irq(icu, 2, s->irq[SWI]);
++
++}
++
++static void register_tmr(RX62NState *s, int unit)
++{
++    SysBusDevice *tmr;
++    int i, irqbase;
++
++    object_initialize_child(OBJECT(s), "tmr[*]", &s->tmr[unit],
++                            sizeof(RTMRState), TYPE_RENESAS_8TMR,
++                            &error_abort, NULL);
++
++    tmr = SYS_BUS_DEVICE(&s->tmr[unit]);
++    qdev_prop_set_uint64(DEVICE(tmr), "input-freq", RX62N_PCLK);
++
++    qdev_init_nofail(DEVICE(tmr));
++    sysbus_mmio_map(tmr, 0, RX62N_TMRBASE + unit * 0x10);
++    irqbase = RX62N_TMR_IRQBASE + TMR_NR_IRQ * unit;
++    for (i = 0; i < TMR_NR_IRQ; i++) {
++        sysbus_connect_irq(tmr, i, s->irq[irqbase + i]);
 +    }
 +}
 +
-+static void sci_event(void *opaque, QEMUChrEvent event)
++static void register_cmt(RX62NState *s, int unit)
 +{
-+    RSCIState *sci = RSCI(opaque);
-+    if (event == CHR_EVENT_BREAK) {
-+        if (IS_SCI(sci)) {
-+            sci->Xsr = FIELD_DP16(sci->Xsr, SSR, FER, 1);
-+        } else {
-+            sci->Xsr = FIELD_DP16(sci->Xsr, FSR, BRK, 1);
-+        }
-+        sci_irq(sci, ERI);
++    SysBusDevice *cmt;
++    int i, irqbase;
++
++    object_initialize_child(OBJECT(s), "cmt[*]", &s->cmt[unit],
++                            sizeof(RTIMERState), TYPE_RENESAS_TIMER,
++                            &error_abort, NULL);
++
++    cmt = SYS_BUS_DEVICE(&s->cmt[unit]);
++    qdev_prop_set_uint64(DEVICE(cmt), "input-freq", RX62N_PCLK);
++    qdev_prop_set_int32(DEVICE(cmt), "feature", RTIMER_FEAT_CMT);
++    qdev_init_nofail(DEVICE(cmt));
++    sysbus_mmio_map(cmt, 0, RX62N_CMTBASE + unit * 0x10);
++    irqbase = RX62N_CMT_IRQBASE + TIMER_CH_CMT * unit;
++    for (i = 0; i < TIMER_CH_CMT; i++) {
++        sysbus_connect_irq(cmt, i, s->irq[irqbase + i]);
 +    }
 +}
 +
-+static void rsci_realize(DeviceState *dev, Error **errp)
++static void register_sci(RX62NState *s, int unit)
 +{
-+    SysBusDevice *d = SYS_BUS_DEVICE(dev);
-+    RSCIState *sci = RSCI(dev);
-+    int i;
-+    int size;
++    SysBusDevice *sci;
++    int i, irqbase;
 +
-+    if (sci->input_freq == 0) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "renesas_sci: input-freq property must be set.");
-+        return;
-+    }
-+    if (sci->regsize != 8 && sci->regsize != 16 && sci->regsize != 32) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "renesas_sci: Invalid regsize.");
-+        return;
-+    }
++    object_initialize_child(OBJECT(s), "sci[*]", &s->sci[unit],
++                            sizeof(RSCIState), TYPE_RENESAS_SCI,
++                            &error_abort, NULL);
++    sci = SYS_BUS_DEVICE(&s->sci[unit]);
 +
-+    size = IS_SCI(sci) ? 16 : 20;
-+    switch (sci->regsize) {
-+    case 8:
-+        size >>= 1;
-+        break;
-+    case 32:
-+        size <<= 1;
-+        break;
-+    }
-+    memory_region_init_io(&sci->memory, OBJECT(sci), &sci_ops,
-+                          sci, "renesas-sci", size);
-+    sysbus_init_mmio(d, &sci->memory);
-+    memory_region_init_alias(&sci->memory_p4, NULL, "renesas-sci-p4",
-+                             &sci->memory, 0, size);
-+    sysbus_init_mmio(d, &sci->memory_p4);
-+    memory_region_init_alias(&sci->memory_a7, NULL, "renesas-sci-a7",
-+                             &sci->memory, 0, size);
-+    sysbus_init_mmio(d, &sci->memory_a7);
-+
++    qdev_prop_set_chr(DEVICE(sci), "chardev", serial_hd(unit));
++    qdev_prop_set_uint64(DEVICE(sci), "input-freq", RX62N_PCLK);
++    qdev_prop_set_int32(DEVICE(sci), "feature", SCI_FEAT_SCIA);
++    qdev_prop_set_int32(DEVICE(sci), "register-size", 8);
++    qdev_init_nofail(DEVICE(sci));
++    sysbus_mmio_map(sci, 0, RX62N_SCIBASE + unit * 0x08);
++    irqbase = RX62N_SCI_IRQBASE + SCI_NR_IRQ * unit;
 +    for (i = 0; i < SCI_NR_IRQ; i++) {
-+        sysbus_init_irq(d, &sci->irq[i]);
++        sysbus_connect_irq(sci, i, s->irq[irqbase + i]);
 +    }
-+    sci->event_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, sci_timer_event, sci);
-+
-+    qemu_chr_fe_set_handlers(&sci->chr, can_receive, sci_receive,
-+                             sci_event, NULL, sci, NULL, true);
-+    fifo8_create(&sci->rxfifo, SCIF_FIFO_DEPTH);
-+    sci_register_init(sci);
 +}
 +
-+static const VMStateDescription vmstate_rsci = {
-+    .name = "renesas-sci",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
++static void rx62n_realize(DeviceState *dev, Error **errp)
++{
++    RX62NState *s = RX62N(dev);
 +
-+static Property rsci_properties[] = {
-+    DEFINE_PROP_UINT64("input-freq", RSCIState, input_freq, 0),
-+    DEFINE_PROP_INT32("register-size", RSCIState, regsize, 8),
-+    DEFINE_PROP_INT32("feature", RSCIState, feature, 0),
-+    DEFINE_PROP_CHR("chardev", RSCIState, chr),
++    memory_region_init_ram(&s->iram, NULL, "iram", RX62N_IRAM_SIZE, errp);
++    memory_region_add_subregion(s->sysmem, RX62N_IRAM_BASE, &s->iram);
++    memory_region_init_rom(&s->d_flash, NULL, "dataflash",
++                           RX62N_DFLASH_SIZE, errp);
++    memory_region_add_subregion(s->sysmem, RX62N_DFLASH_BASE, &s->d_flash);
++    memory_region_init_rom(&s->c_flash, NULL, "codeflash",
++                           RX62N_CFLASH_SIZE, errp);
++    memory_region_add_subregion(s->sysmem, RX62N_CFLASH_BASE, &s->c_flash);
++    if (!s->kernel) {
++        rom_add_file_fixed(bios_name, RX62N_CFLASH_BASE, 0);
++    }
++
++    /* Initialize CPU */
++    object_initialize_child(OBJECT(s), "cpu", &s->cpu, sizeof(RXCPU),
++                            TYPE_RX62N_CPU, errp, NULL);
++
++    register_icu(s);
++    s->cpu.env.ack = qdev_get_gpio_in_named(DEVICE(&s->icu), "ack", 0);
++    register_tmr(s, 0);
++    register_tmr(s, 1);
++    register_cmt(s, 0);
++    register_cmt(s, 1);
++    register_sci(s, 0);
++    object_property_set_bool(OBJECT(&s->cpu), true, "realized", errp);
++}
++
++static Property rx62n_properties[] = {
++    DEFINE_PROP_LINK("memory", RX62NState, sysmem, TYPE_MEMORY_REGION,
++                     MemoryRegion *),
++    DEFINE_PROP_BOOL("load-kernel", RX62NState, kernel, false),
 +    DEFINE_PROP_END_OF_LIST(),
 +};
 +
-+static void rsci_init(Object *obj)
-+{
-+    RSCIState *sci = RSCI(obj);
-+    sci->event[RXTOUT].handler = sci_rx_timeout;
-+    sci->event[RXNEXT].handler = sci_rx_next;
-+    sci->event[TXEMPTY].handler = sci_tx_empty;
-+    sci->event[TXEND].handler = sci_tx_end;
-+}
-+static void rsci_class_init(ObjectClass *klass, void *data)
++static void rx62n_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
 +
-+    dc->realize = rsci_realize;
-+    dc->vmsd = &vmstate_rsci;
-+    device_class_set_props(dc, rsci_properties);
++    dc->realize = rx62n_realize;
++    device_class_set_props(dc, rx62n_properties);
 +}
 +
-+static const TypeInfo rsci_info = {
-+    .name       = TYPE_RENESAS_SCI,
-+    .parent     = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(RSCIState),
-+    .instance_init = rsci_init,
-+    .class_init = rsci_class_init,
++static const TypeInfo rx62n_info = {
++    .name = TYPE_RX62N,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(RX62NState),
++    .class_init = rx62n_class_init,
 +};
 +
-+static void rsci_register_types(void)
++static void rx62n_register_types(void)
 +{
-+    type_register_static(&rsci_info);
++    type_register_static(&rx62n_info);
 +}
 +
-+type_init(rsci_register_types)
-diff --git a/hw/char/Kconfig b/hw/char/Kconfig
-index 40e7a8b8bb..874627520c 100644
---- a/hw/char/Kconfig
-+++ b/hw/char/Kconfig
-@@ -46,3 +46,6 @@ config SCLPCONSOLE
- 
- config TERMINAL3270
-     bool
-+
-+config RENESAS_SCI
++type_init(rx62n_register_types)
+diff --git a/hw/rx/Kconfig b/hw/rx/Kconfig
+new file mode 100644
+index 0000000000..43af11be46
+--- /dev/null
++++ b/hw/rx/Kconfig
+@@ -0,0 +1,13 @@
++config RX
 +    bool
-diff --git a/hw/char/Makefile.objs b/hw/char/Makefile.objs
-index 9e9a6c1aff..b07ce63c6f 100644
---- a/hw/char/Makefile.objs
-+++ b/hw/char/Makefile.objs
-@@ -16,7 +16,6 @@ common-obj-$(CONFIG_CADENCE) += cadence_uart.o
- common-obj-$(CONFIG_EXYNOS4) += exynos4210_uart.o
- common-obj-$(CONFIG_COLDFIRE) += mcf_uart.o
- common-obj-$(CONFIG_OMAP) += omap_uart.o
--common-obj-$(CONFIG_SH4) += sh_serial.o
- common-obj-$(CONFIG_DIGIC) += digic-uart.o
- common-obj-$(CONFIG_STM32F2XX_USART) += stm32f2xx_usart.o
- common-obj-$(CONFIG_RASPI) += bcm2835_aux.o
-@@ -31,6 +30,8 @@ common-obj-$(CONFIG_LM32) += lm32_uart.o
- common-obj-$(CONFIG_MILKYMIST) += milkymist-uart.o
- common-obj-$(CONFIG_SCLPCONSOLE) += sclpconsole.o sclpconsole-lm.o
- 
-+common-obj-$(CONFIG_RENESAS_SCI) += renesas_sci.o
 +
- obj-$(CONFIG_VIRTIO) += virtio-serial-bus.o
- obj-$(CONFIG_PSERIES) += spapr_vty.o
- obj-$(CONFIG_TERMINAL3270) += terminal3270.o
++config RX62N
++    bool
++    select RX
++    select RENESAS_8TMR
++    select RENESAS_TIMER
++    select RENESAS_SCI
++
++config RX_VIRT
++    bool
++    select RX62N
+diff --git a/hw/rx/Makefile.objs b/hw/rx/Makefile.objs
+new file mode 100644
+index 0000000000..63f8be0e82
+--- /dev/null
++++ b/hw/rx/Makefile.objs
+@@ -0,0 +1,2 @@
++obj-$(CONFIG_RX62N) += rx62n.o
++obj-$(CONFIG_RX_VIRT) += rx-virt.o
 -- 
 2.20.1
 
