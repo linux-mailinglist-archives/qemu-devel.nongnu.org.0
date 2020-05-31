@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10ED1E9915
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:50:33 +0200 (CEST)
-Received: from localhost ([::1]:56164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE09B1E9919
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:53:09 +0200 (CEST)
+Received: from localhost ([::1]:37116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfRAK-0000Y9-1d
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:50:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55396)
+	id 1jfRCu-0004XS-Qj
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:53:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0b-0003QD-MU
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25150
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0m-0003fU-1C
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46318
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0a-000721-Np
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:25 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0h-00074l-MF
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590943224;
+ s=mimecast20190719; t=1590943230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q4vVNWwGJ6X+mCxN22qm0JQKHOJ0PdAaDdcsNO2TkXQ=;
- b=CB4lIwa6Lnb5guiHSGOGs/5a3xowk44fIHL5Om/bfa816EEdzecYOxj3+2AOFGupnjPoTc
- 743hOlVri7Rsz5pCumrAMgjwJku3KcypR32X/MUOkMiwB7cvnxfgAUZWz2VYjGZCtP1MQA
- 7dZALHmB0zIwAoBKui70G4hw8uqcd5o=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-1b8HRgV4Nv6hHSwjLPJ7NQ-1; Sun, 31 May 2020 12:40:22 -0400
-X-MC-Unique: 1b8HRgV4Nv6hHSwjLPJ7NQ-1
-Received: by mail-wr1-f70.google.com with SMTP id o1so3590482wrm.17
- for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:40:22 -0700 (PDT)
+ bh=s8Rk2ct1SwmXVJV/wHXYbsX6rV3XnYQXBZW0Chu6BIg=;
+ b=fhf4PI9vs31LS+Iorxow1wFT3sP1epGkjO9aNJLC/M80DKYrIFjn/+9HdF9s4TAEH5WGtq
+ 9w67YAWh3r9qKmQNBay4nCzaev6+qPmmkH4Wz2fFHdtTgyABd1drMQeUljGAh5jZphjYyL
+ fuHmNQ+bEVlfS6yyuw7Ee/0IRYurVLU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-276-rwSre_RkM3u_yhMWRe1QpQ-1; Sun, 31 May 2020 12:40:27 -0400
+X-MC-Unique: rwSre_RkM3u_yhMWRe1QpQ-1
+Received: by mail-wr1-f71.google.com with SMTP id c14so3604197wrm.15
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:40:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q4vVNWwGJ6X+mCxN22qm0JQKHOJ0PdAaDdcsNO2TkXQ=;
- b=blqPPuFQgRPRq6xoAr4FKpci7b38mwK9VnrIjW78AJVA+cuRoX2yD9gvOUS10/beDU
- 0Zg3ijZW4BJ9SISTCXhlNulJr+8H+6oXWGDC5nv6rFI47b8BWqkJsYfR8aNrxFi1dlP5
- 6KrtkNWaWGiDoFyQ2skiLcioopqI93Ohb10pa222GVJxYIwltK5TOStGt5A3KVQhhWBk
- dMmh0KEUaKQZmU/GGrhi1CyKhofMQMqkTFpBcPPjKiFAAmAs26o1dayDeW4IMzCcMnti
- 4zonuZ8mxYre/K2gu3H4jCPRcYVaIiLLse7FS8jxWfnbHHmi5CYhA1gle6EUDGl/l66S
- I5og==
-X-Gm-Message-State: AOAM532W2M5rUS+ylQl6TRJ7bVk271xU783CGiH6MNcY1MiExWh7HAS0
- 06UL202S3QMr7V/U7B0/e2yw6ZM6zMFNhJ9MxTZWxDLRgX4Js0XiZLeARV+rFWs2hKIJc7VtRED
- aHhRsJWR9jO0dCm0=
-X-Received: by 2002:adf:eec2:: with SMTP id a2mr17399488wrp.136.1590943221349; 
- Sun, 31 May 2020 09:40:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzTbjh1kanaHu4mvEz5G2IetIDATr+AlkqOK/pFPgvXTE/QruP8PTveawBN85Yr0c5UV+YrRQ==
-X-Received: by 2002:adf:eec2:: with SMTP id a2mr17399473wrp.136.1590943221141; 
- Sun, 31 May 2020 09:40:21 -0700 (PDT)
+ bh=s8Rk2ct1SwmXVJV/wHXYbsX6rV3XnYQXBZW0Chu6BIg=;
+ b=FAXGJek6jaDPCo0056xRg9/SufTADAbQJdcto7y+/pd1Taam6+A/JvR+TEl+nA+qQn
+ TUCyfmO/WlLBHt7Q05l39Off7Y2gYIsda871n8+Z1qlsGc79obMfC3XKUvGcTBwie+eY
+ xqrKtGvtpGKxGYzStKN7HjzwwBHdUVubzIAEPTPddMOmKzC+x3qEO+ZaqUAZinYfG8OA
+ 3XpJEmJVv82EF2uXlm0MrD1OAOaKmuuNY1DKtRjUVRhKf35d+2xUDRcKZYKZcIlpKkUW
+ 1SbawOF7nMHoGltahuCoV3L3SI+MKZCibnZfquAwQxEQzzpdzdG/mC9eLSQ1QmoUXgr0
+ r7NA==
+X-Gm-Message-State: AOAM531B2GVo/bsNITlEjnH9nhKDqjMDj3MqtXfiPPpqul6M84uyO4Fr
+ ctocKF7I3rhTND3+F2klr1Nz16BIkJI1zKyjvxAnkToTuoIy5YELzUB9MdGQhwo/AQhmt8Dl8dD
+ nRpiEtBLXf+9KzMY=
+X-Received: by 2002:adf:fb0f:: with SMTP id c15mr19211122wrr.410.1590943226362; 
+ Sun, 31 May 2020 09:40:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJze0FR0rffg96Z21CHxAOunsqXM7ThaI5OCZlRFyIOIHJ0snfCaqtZZHfecy2V9OYUxse0UKA==
+X-Received: by 2002:adf:fb0f:: with SMTP id c15mr19211104wrr.410.1590943226147; 
+ Sun, 31 May 2020 09:40:26 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id a1sm10072069wmd.28.2020.05.31.09.40.19
+ by smtp.gmail.com with ESMTPSA id y25sm9023876wmi.2.2020.05.31.09.40.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 09:40:20 -0700 (PDT)
+ Sun, 31 May 2020 09:40:25 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/25] tests/vm: Pass --debug through for vm-boot-ssh
-Date: Sun, 31 May 2020 18:38:39 +0200
-Message-Id: <20200531163846.25363-19-philmd@redhat.com>
+Subject: [PULL 19/25] tests/vm: Add ability to select QEMU from current build
+Date: Sun, 31 May 2020 18:38:40 +0200
+Message-Id: <20200531163846.25363-20-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200531163846.25363-1-philmd@redhat.com>
 References: <20200531163846.25363-1-philmd@redhat.com>
@@ -72,16 +72,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 12:38:54
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 11:09:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,31 +109,133 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Robert Foley <robert.foley@linaro.org>
 
-This helps debug issues that occur during the boot sequence.
+Added a new special variable QEMU_LOCAL=1, which
+will indicate to take the QEMU binary from the current
+build.
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200529203458.1038-5-robert.foley@linaro.org>
+Message-Id: <20200529203458.1038-6-robert.foley@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/vm/Makefile.include | 1 +
- 1 file changed, 1 insertion(+)
+ tests/vm/Makefile.include |  4 ++++
+ tests/vm/basevm.py        | 28 +++++++++++++++++++++++-----
+ 2 files changed, 27 insertions(+), 5 deletions(-)
 
 diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index 74ab522c55..80f7f6bdee 100644
+index 80f7f6bdee..a253aba457 100644
 --- a/tests/vm/Makefile.include
 +++ b/tests/vm/Makefile.include
-@@ -91,6 +91,7 @@ vm-boot-ssh-%: $(IMAGES_DIR)/%.img
- 	$(call quiet-command, \
+@@ -41,6 +41,7 @@ endif
+ 	@echo "    J=[0..9]*            	 - Override the -jN parameter for make commands"
+ 	@echo "    DEBUG=1              	 - Enable verbose output on host and interactive debugging"
+ 	@echo "    V=1				 - Enable verbose ouput on host and guest commands"
++	@echo "    QEMU_LOCAL=1                 - Use QEMU binary local to this build."
+ 	@echo "    QEMU=/path/to/qemu		 - Change path to QEMU binary"
+ 	@echo "    QEMU_IMG=/path/to/qemu-img	 - Change path to qemu-img tool"
+ 
+@@ -57,6 +58,7 @@ $(IMAGES_DIR)/%.img:	$(SRC_PATH)/tests/vm/% \
+ 		$(PYTHON) $< \
+ 		$(if $(V)$(DEBUG), --debug) \
+ 		$(if $(GENISOIMAGE),--genisoimage $(GENISOIMAGE)) \
++		$(if $(QEMU_LOCAL),--build-path $(BUILD_DIR)) \
+ 		--image "$@" \
+ 		--force \
+ 		--build-image $@, \
+@@ -71,6 +73,7 @@ vm-build-%: $(IMAGES_DIR)/%.img
+ 		$(if $(DEBUG), --interactive) \
+ 		$(if $(J),--jobs $(J)) \
+ 		$(if $(V),--verbose) \
++		$(if $(QEMU_LOCAL),--build-path $(BUILD_DIR)) \
+ 		--image "$<" \
+ 		$(if $(BUILD_TARGET),--build-target $(BUILD_TARGET)) \
+ 		--snapshot \
+@@ -92,6 +95,7 @@ vm-boot-ssh-%: $(IMAGES_DIR)/%.img
  		$(PYTHON) $(SRC_PATH)/tests/vm/$* \
  		$(if $(J),--jobs $(J)) \
-+		$(if $(V)$(DEBUG), --debug) \
+ 		$(if $(V)$(DEBUG), --debug) \
++		$(if $(QEMU_LOCAL),--build-path $(BUILD_DIR)) \
  		--image "$<" \
  		--interactive \
  		false, \
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index a2d4054d72..5a3ce42281 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -61,9 +61,11 @@ class BaseVM(object):
+     # 4 is arbitrary, but greater than 2,
+     # since we found we need to wait more than twice as long.
+     tcg_ssh_timeout_multiplier = 4
+-    def __init__(self, debug=False, vcpus=None, genisoimage=None):
++    def __init__(self, debug=False, vcpus=None, genisoimage=None,
++                 build_path=None):
+         self._guest = None
+         self._genisoimage = genisoimage
++        self._build_path = build_path
+         self._tmpdir = os.path.realpath(tempfile.mkdtemp(prefix="vm-test-",
+                                                          suffix=".tmp",
+                                                          dir="."))
+@@ -184,15 +186,15 @@ def boot(self, img, extra_args=[]):
+             "-device", "virtio-blk,drive=drive0,bootindex=0"]
+         args += self._data_args + extra_args
+         logging.debug("QEMU args: %s", " ".join(args))
+-        qemu_bin = os.environ.get("QEMU", "qemu-system-" + self.arch)
+-        guest = QEMUMachine(binary=qemu_bin, args=args)
++        qemu_path = get_qemu_path(self.arch, self._build_path)
++        guest = QEMUMachine(binary=qemu_path, args=args)
+         guest.set_machine('pc')
+         guest.set_console()
+         try:
+             guest.launch()
+         except:
+             logging.error("Failed to launch QEMU, command line:")
+-            logging.error(" ".join([qemu_bin] + args))
++            logging.error(" ".join([qemu_path] + args))
+             logging.error("Log:")
+             logging.error(guest.get_log())
+             logging.error("QEMU version >= 2.10 is required")
+@@ -391,6 +393,19 @@ def gen_cloud_init_iso(self):
+ 
+         return os.path.join(cidir, "cloud-init.iso")
+ 
++def get_qemu_path(arch, build_path=None):
++    """Fetch the path to the qemu binary."""
++    # If QEMU environment variable set, it takes precedence
++    if "QEMU" in os.environ:
++        qemu_path = os.environ["QEMU"]
++    elif build_path:
++        qemu_path = os.path.join(build_path, arch + "-softmmu")
++        qemu_path = os.path.join(qemu_path, "qemu-system-" + arch)
++    else:
++        # Default is to use system path for qemu.
++        qemu_path = "qemu-system-" + arch
++    return qemu_path
++
+ def parse_args(vmcls):
+ 
+     def get_default_jobs():
+@@ -421,6 +436,9 @@ def get_default_jobs():
+                       help="build QEMU from source in guest")
+     parser.add_option("--build-target",
+                       help="QEMU build target", default="check")
++    parser.add_option("--build-path", default=None,
++                      help="Path of build directory, "\
++                           "for using build tree QEMU binary. ")
+     parser.add_option("--interactive", "-I", action="store_true",
+                       help="Interactively run command")
+     parser.add_option("--snapshot", "-s", action="store_true",
+@@ -439,7 +457,7 @@ def main(vmcls):
+         logging.basicConfig(level=(logging.DEBUG if args.debug
+                                    else logging.WARN))
+         vm = vmcls(debug=args.debug, vcpus=args.jobs,
+-                   genisoimage=args.genisoimage)
++                   genisoimage=args.genisoimage, build_path=args.build_path)
+         if args.build_image:
+             if os.path.exists(args.image) and not args.force:
+                 sys.stderr.writelines(["Image file exists: %s\n" % args.image,
 -- 
 2.21.3
 
