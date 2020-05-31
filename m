@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C911E9917
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:51:52 +0200 (CEST)
-Received: from localhost ([::1]:59740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4021E991B
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:53:46 +0200 (CEST)
+Received: from localhost ([::1]:40020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfRBe-0002FD-UQ
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:51:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55464)
+	id 1jfRDU-0005ij-W5
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:53:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0m-0003fY-AT
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:36 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47003
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0s-0003lt-BL
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27851
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0k-00075g-Vv
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:36 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0r-00077Z-GS
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590943234;
+ s=mimecast20190719; t=1590943240;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NeYhFc6juZkPrqvPgAt2uIQTGjMzeewfSJodiqWwwkw=;
- b=M6krOIEyp+NONDO30S7ZKr5lEfDMnujgBDcVgt3KSk5kdovvN84KQtLMPQd85iiCCyHsP1
- nLT9sn0+xUm4f01nvBdcwBQ61pNKpsmxX7UI4u9zszOVGpLZuHR/Ex1XSgV+FyxlWrHFL0
- yBKjjaqSFmWm54gTEly8w+vMClwWadM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-GlhV1XoaO8aiRkjSiqQ3jQ-1; Sun, 31 May 2020 12:40:32 -0400
-X-MC-Unique: GlhV1XoaO8aiRkjSiqQ3jQ-1
-Received: by mail-wr1-f72.google.com with SMTP id l18so3650913wrm.0
- for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:40:32 -0700 (PDT)
+ bh=VtnVaYYGa7/aqTUYxIxdKhEN8NJpUIW8xv7x+iz9PNM=;
+ b=PQO9oomHuKQXAetbNgAG2bFhyMYaVLgaIEhbWrbaxERj8G+zmR4/rsz9J7D9T6zvUPOb3k
+ EQUVcTkbQX4GFgkpG5dAHWIpRXnynEXahueYwh4UkpyZaw6fpYeHg7FDfxsMIcFbX1u3hg
+ 2w8eizMPrw4oDMLqyn8EVvg97QGo5NM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-WYOkyo1POT6I94oeh47AYw-1; Sun, 31 May 2020 12:40:37 -0400
+X-MC-Unique: WYOkyo1POT6I94oeh47AYw-1
+Received: by mail-wr1-f69.google.com with SMTP id h6so3649462wrx.4
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:40:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NeYhFc6juZkPrqvPgAt2uIQTGjMzeewfSJodiqWwwkw=;
- b=pg6Q5/BJlc6i/iURgYsDx9L28Lu/PW0YRE/gA07kw2ShcK+97YnQ90tWStXjusw3en
- 6EaRUp4LNRgr3RM9LfPPus+XCnlMpBjLP4L0mE3O+Hj0RRF3rqOZZmSzvNnOGga326yJ
- UYq8tIsDpINTEl01a5KXi9FRBRQf5Ah3F5H7EZpcWsjOIP/zpVPeASLlnkt3WpmswyOk
- kkS8oTM6HtGbpX0HJ0/audRX3D0xeUa9rYwZzvHAz/UuRJ30dFjRi75kf2SAHrQArj1I
- PQH8HgS5qMAKa8yqwNc4EyNuGJurNrPkfo792/jwI51RxWs+ZfNXpsyc9f0EU3BnMxuZ
- JYFQ==
-X-Gm-Message-State: AOAM533RqkghEYKWLWHtIDSYoWogTg9l95IVkBV3rYRxQDrUR+VMrRD/
- Hq5xTZIgJPPq3Dl1ZNSM26gQfLD3mt/qrqDeizjLk2QaGTv4JgkcpAFsP6TfBOowACc6/GBnQ8b
- t5qv0zV73zVJhgW0=
-X-Received: by 2002:a5d:628c:: with SMTP id k12mr17814523wru.211.1590943231326; 
- Sun, 31 May 2020 09:40:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwQhmvCd9JeaOCqg0GzXFrykGN6A9vNWGNP+OY36M63eNUdY7+avBRNroyItWUmvC8DxOTmCA==
-X-Received: by 2002:a5d:628c:: with SMTP id k12mr17814494wru.211.1590943231095; 
- Sun, 31 May 2020 09:40:31 -0700 (PDT)
+ bh=VtnVaYYGa7/aqTUYxIxdKhEN8NJpUIW8xv7x+iz9PNM=;
+ b=AZD8Ilbz5Fyz/9qVoBwWNhQ5FfIScy2murvKY21qnfJCoIilWWOKA5mYzl38zoPQoe
+ VUBmSPEPKeAUrhAtiKCgoIocOwFWzpL3Ydb8whI8brTn57mjHL9GmCRK8G+V07IkZ1O0
+ SxUGlxWODvdcNYKWYRkPZbExo7DU0ODPd1pzDCyJ81s5840livT/qwaGuurNZnwWtOD8
+ 7veEDYAEm/vZ5QEKrZILW+qvOD7ANqPgYqfwOHxbaqeYHxCn6aP5h9mCiuEvpkNsQT27
+ IkJ2VivswpvgUFTjBD5wbrEsbTYsDiHfRgRGOb89BpoEatcvDywdfcxX6c2FHcOrVtk0
+ z/ZA==
+X-Gm-Message-State: AOAM533GxlGlzoOcXImw5CnZ+52WHnjgWqFV1FyVKPFBwv+1fgCnmhsm
+ y9Cvbd8i6HPJFS+Lbdbbe8WO3HNktFQg9P5kP31Zppn9r3sTHldAZTHlLD6Q49xmE/ViQYzb3NP
+ RGvmGX5kFWWyiazY=
+X-Received: by 2002:a5d:4484:: with SMTP id j4mr17681268wrq.325.1590943236590; 
+ Sun, 31 May 2020 09:40:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxgZwwOTcr688HaliXjwVILCgXMwwdoueLVIOVtH/2dXXqGIkOpERxl7rjGuHjeNfqMMGldnQ==
+X-Received: by 2002:a5d:4484:: with SMTP id j4mr17681252wrq.325.1590943236436; 
+ Sun, 31 May 2020 09:40:36 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id q4sm9026212wma.47.2020.05.31.09.40.29
+ by smtp.gmail.com with ESMTPSA id d13sm8390301wmb.39.2020.05.31.09.40.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 09:40:30 -0700 (PDT)
+ Sun, 31 May 2020 09:40:35 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/25] tests/vm: allow wait_ssh() to specify command
-Date: Sun, 31 May 2020 18:38:41 +0200
-Message-Id: <20200531163846.25363-21-philmd@redhat.com>
+Subject: [PULL 21/25] tests/migration/guestperf: Use Python 3 interpreter
+Date: Sun, 31 May 2020 18:38:42 +0200
+Message-Id: <20200531163846.25363-22-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200531163846.25363-1-philmd@redhat.com>
 References: <20200531163846.25363-1-philmd@redhat.com>
@@ -72,17 +72,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 12:39:08
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 12:38:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,68 +96,57 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Robert Foley <robert.foley@linaro.org>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, Peter Puhov <peter.puhov@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Robert Foley <robert.foley@linaro.org>
-
-This allows for waiting for completion of arbitrary commands.
-
-Signed-off-by: Robert Foley <robert.foley@linaro.org>
-Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200529203458.1038-7-robert.foley@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20200512103238.7078-7-philmd@redhat.com>
 ---
- tests/vm/basevm.py | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ tests/migration/guestperf-batch.py | 2 +-
+ tests/migration/guestperf-plot.py  | 2 +-
+ tests/migration/guestperf.py       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 5a3ce42281..a80b616a08 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -320,24 +320,24 @@ def console_sshd_config(self, prompt):
-     def print_step(self, text):
-         sys.stderr.write("### %s ...\n" % text)
- 
--    def wait_ssh(self, wait_root=False, seconds=300):
-+    def wait_ssh(self, wait_root=False, seconds=300, cmd="exit 0"):
-         # Allow more time for VM to boot under TCG.
-         if not kvm_available(self.arch):
-             seconds *= self.tcg_ssh_timeout_multiplier
-         starttime = datetime.datetime.now()
-         endtime = starttime + datetime.timedelta(seconds=seconds)
--        guest_up = False
-+        cmd_success = False
-         while datetime.datetime.now() < endtime:
--            if wait_root and self.ssh_root("exit 0") == 0:
--                guest_up = True
-+            if wait_root and self.ssh_root(cmd) == 0:
-+                cmd_success = True
-                 break
--            elif self.ssh("exit 0") == 0:
--                guest_up = True
-+            elif self.ssh(cmd) == 0:
-+                cmd_success = True
-                 break
-             seconds = (endtime - datetime.datetime.now()).total_seconds()
-             logging.debug("%ds before timeout", seconds)
-             time.sleep(1)
--        if not guest_up:
-+        if not cmd_success:
-             raise Exception("Timeout while waiting for guest ssh")
- 
-     def shutdown(self):
+diff --git a/tests/migration/guestperf-batch.py b/tests/migration/guestperf-batch.py
+index cb150ce804..f1e900908d 100755
+--- a/tests/migration/guestperf-batch.py
++++ b/tests/migration/guestperf-batch.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python3
+ #
+ # Migration test batch comparison invokation
+ #
+diff --git a/tests/migration/guestperf-plot.py b/tests/migration/guestperf-plot.py
+index d70bb7a557..907151011a 100755
+--- a/tests/migration/guestperf-plot.py
++++ b/tests/migration/guestperf-plot.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python3
+ #
+ # Migration test graph plotting command
+ #
+diff --git a/tests/migration/guestperf.py b/tests/migration/guestperf.py
+index 99b027e8ba..ba1c4bc4ca 100755
+--- a/tests/migration/guestperf.py
++++ b/tests/migration/guestperf.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python3
+ #
+ # Migration test direct invokation command
+ #
 -- 
 2.21.3
 
