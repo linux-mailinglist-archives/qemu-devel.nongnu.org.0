@@ -2,58 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929BF1E97D0
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 15:21:26 +0200 (CEST)
-Received: from localhost ([::1]:60974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA7311E97EA
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 15:46:51 +0200 (CEST)
+Received: from localhost ([::1]:45230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfNu1-0005pJ-LJ
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 09:21:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38102)
+	id 1jfOIc-00057s-Ej
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 09:46:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jfNsa-0005ES-Rq
- for qemu-devel@nongnu.org; Sun, 31 May 2020 09:19:56 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:57203)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jfNsZ-0002v6-QB
- for qemu-devel@nongnu.org; Sun, 31 May 2020 09:19:56 -0400
-Received: from localhost.localdomain ([82.252.135.106]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mz9hF-1ijJF41nGt-00wHqT; Sun, 31 May 2020 15:19:53 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/m68k: implement opcode fetoxm1
-Date: Sun, 31 May 2020 15:19:51 +0200
-Message-Id: <20200531131951.631902-1-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5leHTlG1pCom/TOd29aCcdHH4V71+cbHvz6npuDqcPq0xUDOm7d
- IwA1RUXz907inHyQ5ZHwe8DpVacIPqDaEBSRqw6AdNuLsIEHKu4NbP1VXi9TfSWWPGCuFlR
- Sj2HmFaVrDCprzpoLRZbElovWy+n0O9FgwhQUZkNfnPUNEyvr+yiTkDmHP3CLlzA2ynLmmF
- gMmh/VmXpz7zHPC9lnsyg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/XYQQfUyNHg=:QitNltI511sdn2YSwxT9wB
- MVe7aVSSvoNl+dXdreix4VRS5OE/AWwV7r5dEnFTTWIiiwJ6tccFL3poozCK5OocE+1xKvJoU
- T7x/rKBPLN2d8v1uFXDXHm3Nky+MwsgN7K2+EGEPkJ0LcQkJrLZYbOw3ip2dYtDoHzjwDHYgZ
- SW/GxmSML8xnn0QxckHQNlmkq4jUVsWmP1aqTWK6MeCgPv+ALFANUZuZFpCfXLW7IC4HY35KO
- aD+06yCBbnppGfWJx3DjunoFq4+HUsrrZSVZ5VLnp7NW6ThSqUj0uwre3r6ZeoRLQUB4vj9F3
- d6ybxEiQhK+2+67VXhpt1zdKFrJyN/IRR9t+rlpmAn9JtTq/RA1wqBOyHCPbYvEV7KMghPFzz
- i2DdZ0Ij8XncJvDgiOdhlW7Xvn4b8+Q9AZRTgM7hvB8Q+8xcoN/e7Q7RD0ft742iBqYbR4Coq
- 7aH9NkAkU4XrN6bnSc/YG7YqEVRZR+NmsECo/1/ncOg//w/t+97s0cBWKZb5Qw3XPW6Mti+AK
- GUYDuSb7H3g70zK/fJB+IRX0tqYSn+RorVbbuRT4+cCQuygJnbxy6y6aO77SSueQW+a8M1LKM
- uhJBIB7c7ga/3+Tp/U4ypbE2I1L+PMJJjLSAvw7zpoiZalQsjXcaUYjEdl1PU8Wzpj43Vk8ff
- OKct8+/TpDWZf+FsA7475nmg/roLciWMTXxPLXtvExWV+5NCfoCg3sMFRZoKtMiyq2Yg4dUsW
- RDREYQinf2JRv6ziv/osMQq6hrQpy/uwFtBHxznx4AvVOpJP4fdoDnrNGcIz/PJTgoEBnZMRL
- xRcTMNdQ2aQug2vFrQweCiek1BmekbrDI5rLcIsCsmi+6uNUStu9mSnZDwwVRccgCbxnQko
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 09:19:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1jfOHQ-0004LJ-5k
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 09:45:36 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45125)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ahmedkhaledkaraman@gmail.com>)
+ id 1jfOHP-0001Ba-9V
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 09:45:35 -0400
+Received: by mail-wr1-x429.google.com with SMTP id c3so8745342wru.12
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 06:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=UdJMKgP7HXvJifz7OblobespMlN2m0Hmu5IlCva16ZU=;
+ b=Au/MK1hVrf5wmHqh15ROCO5++zPmxokm6uY1+2hJ51bdubhyTgoYqU2wM4ktd79LEe
+ F8AWer9sRoCVxXssehuLJ6mRi5YRLQd/u92/OO3Hz/q4HC/6aZz79Tm0R08aXlRdhVmm
+ l2bhNWbHZrQtrCAWACFTZumAqIvbF3v3DF+7iakY8P2S9dLY/eMqndGnHdxXcCdMe789
+ ATXw9wM0LVfl0OrKZo4iRHIDILLuHX+BWKxy0AcIOByLOXAH62mu1Qo9+aX6/ie5TFSm
+ mza1wQKzWLvsyZHIw0AGw43xdkCJjRp28Mvv33+P653jqCBMQBu0+mDHwp9y9JkaTNuZ
+ FmeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=UdJMKgP7HXvJifz7OblobespMlN2m0Hmu5IlCva16ZU=;
+ b=FGAT1r1E8koDYTz93/PqnrlvIbVvTwpBlL8loVgr3Yz8VszVbiqToJ4oNlEG6qIpTO
+ 35Nnztc/ITL0JcanPgmQMVucaGC/ThF3DoGoOQVnRxe55Jpj91CxhTq1AcgL8XX2sUz5
+ Rn7pCEJtix20xtPlJAyHoWd4T48d8S8WR64O4uEIs2XwAmk4s6zizdRwG1mpDmuCFde5
+ /wF2LBpQ7vIxqQ+iHekwEI1yMpZzq6RKyUzn3qjl78p7tOVbdSfvepXdkos4shfNerPv
+ b8eWjaN29uUvOWqqCcVinzeDZFppmgdDkwkrsIkidwTtFx+bTngsY5NlxDpBpskpMHum
+ CM1A==
+X-Gm-Message-State: AOAM530NPYsz35/LGUsw24VHuksXzeTDiFIe+cde/7nVBW8Mc07ehO5i
+ Xptj5AvWb6dI1bwnPBDXyGgLD90ngNU=
+X-Google-Smtp-Source: ABdhPJzxf1wuUF/HKD96RVZUlTWzmw3sRiO5P9BFRcNwKCLyWEYulOD5Rl5KpUqA/dKjkrzHt2vJJw==
+X-Received: by 2002:adf:f790:: with SMTP id q16mr17836147wrp.399.1590932733286; 
+ Sun, 31 May 2020 06:45:33 -0700 (PDT)
+Received: from AK-L.domain.name ([41.232.117.148])
+ by smtp.gmail.com with ESMTPSA id a15sm18006483wra.86.2020.05.31.06.45.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 31 May 2020 06:45:32 -0700 (PDT)
+From: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+To: qemu-devel@nongnu.org,
+	rth@twiddle.net,
+	ysato@users.sourceforge.jp
+Subject: [PATCH v2 0/1] Check for page crossings in use_goto_tb() for rx target
+Date: Sun, 31 May 2020 15:45:11 +0200
+Message-Id: <20200531134512.7923-1-ahmedkhaledkaraman@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=ahmedkhaledkaraman@gmail.com; helo=mail-wr1-x429.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,78 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
+ aleksandar.qemu.devel@gmail.com, alex.bennee@linaro.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Example provided in the launchpad bug fails with:
+Hi,
 
-   qemu: uncaught target signal 4 (Illegal instruction) - core dumped
-   Illegal instruction (core dumped)
+After discussion on v1 of this series, the conclusion was that page
+crossings must be done for all targets and for both user and system
+mode. This series deals with rx target, that is the only target that
+does not perform this check in system mode.
 
-It appears fetoxm1 is not implemented:
+In version two of this series, the original use_goto_tb() function in
+the hppa target is left unchanged. For the rx target, it's modified to
+check for the page crossings in both modes along with other minor
+fixes.
 
-   IN: expm1f
-   0x800005cc: fetoxm1x %fp2,%fp0
-   Disassembler disagrees with translator over instruction decoding
-   Please report this to qemu-devel@nongnu.org
+First version of the series:
+https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg05426.html
 
-   (gdb) x/2hx 0x800005cc
-   0x800005cc: 0xf200 0x0808
+Best regards,
+Ahmed Karaman
 
-This patch adds the instruction.
+v1->v2:
+- Skip the patch related to the use_goto_tb() of the hppa target.
+- Apply the page crossings check in use_goto_tb() in both modes for
+  the rx target.
+- Add appropriate comments in rx use_goto_tb().
 
-Bug: https://bugs.launchpad.net/qemu/+bug/1881450
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- target/m68k/helper.h     | 1 +
- target/m68k/fpu_helper.c | 5 +++++
- target/m68k/translate.c  | 3 +++
- 3 files changed, 9 insertions(+)
+Ahmed Karaman (1):
+  target/rx: Check for page crossings in use_goto_tb()
 
-diff --git a/target/m68k/helper.h b/target/m68k/helper.h
-index feee7be62655..77808497a95c 100644
---- a/target/m68k/helper.h
-+++ b/target/m68k/helper.h
-@@ -83,6 +83,7 @@ DEF_HELPER_3(fatan, void, env, fp, fp)
- DEF_HELPER_3(fasin, void, env, fp, fp)
- DEF_HELPER_3(facos, void, env, fp, fp)
- DEF_HELPER_3(fatanh, void, env, fp, fp)
-+DEF_HELPER_3(fetoxm1, void, env, fp, fp)
- DEF_HELPER_3(ftanh, void, env, fp, fp)
- DEF_HELPER_3(fsinh, void, env, fp, fp)
- DEF_HELPER_3(fcosh, void, env, fp, fp)
-diff --git a/target/m68k/fpu_helper.c b/target/m68k/fpu_helper.c
-index 36e6c704d1d0..9acf60dfd443 100644
---- a/target/m68k/fpu_helper.c
-+++ b/target/m68k/fpu_helper.c
-@@ -641,6 +641,11 @@ void HELPER(fatanh)(CPUM68KState *env, FPReg *res, FPReg *val)
-     res->d = floatx80_atanh(val->d, &env->fp_status);
- }
- 
-+void HELPER(fetoxm1)(CPUM68KState *env, FPReg *res, FPReg *val)
-+{
-+    res->d = floatx80_etoxm1(val->d, &env->fp_status);
-+}
-+
- void HELPER(ftanh)(CPUM68KState *env, FPReg *res, FPReg *val)
- {
-     res->d = floatx80_tanh(val->d, &env->fp_status);
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 0f80888203d3..db4e69bac195 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -5146,6 +5146,9 @@ DISAS_INSN(fpu)
-     case 0x06: /* flognp1 */
-         gen_helper_flognp1(cpu_env, cpu_dest, cpu_src);
-         break;
-+    case 0x08: /* fetoxm1 */
-+        gen_helper_fetoxm1(cpu_env, cpu_dest, cpu_src);
-+        break;
-     case 0x09: /* ftanh */
-         gen_helper_ftanh(cpu_env, cpu_dest, cpu_src);
-         break;
+ target/rx/translate.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
 -- 
-2.26.2
+2.17.1
 
 
