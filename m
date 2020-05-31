@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 398221E99B8
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 19:58:30 +0200 (CEST)
-Received: from localhost ([::1]:54056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 146E51E99BC
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 20:01:18 +0200 (CEST)
+Received: from localhost ([::1]:60722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfSE9-0000Wl-7R
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 13:58:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36540)
+	id 1jfSGr-0003TA-4Q
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 14:01:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jfSAQ-0003nX-RP; Sun, 31 May 2020 13:54:38 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54318)
+ id 1jfSAP-0003jM-GT; Sun, 31 May 2020 13:54:37 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jfSAP-0007gj-Tf; Sun, 31 May 2020 13:54:38 -0400
-Received: by mail-wm1-x342.google.com with SMTP id g10so1003202wmh.4;
- Sun, 31 May 2020 10:54:36 -0700 (PDT)
+ id 1jfSAO-0007fm-Lg; Sun, 31 May 2020 13:54:37 -0400
+Received: by mail-wr1-x442.google.com with SMTP id p5so3278603wrw.9;
+ Sun, 31 May 2020 10:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=o8b6+X1LLYHejSweB/c4hEC47Dl6kTi087mc3N8TiLA=;
- b=ldCRS+zcerY/fL38TEcn9Q/4Q/0bc5RQ01rWlVEoyJuZZcK7/AEPS3jwvEfR88dPIy
- yGmY36bBRNcPQhwhu5rz7K6UQuJVi0+k42YRwMRofsKi42xDxawpqH0fxIsbTn3VxKSb
- ojCEt/l0qS+xgZFDl5L3/AV4sx5XmsTvY7A1jlXoiTP3bDh4+V0nm0xinG23YDGeK3M1
- ckCvNNit8cPrs1IRIct+DRtIF7S8UQP/05bDBI4d5LeDyC4HOVS8isSkvz/hZamciIiO
- MI/hflFE3377syDgWbAHIYC8tdYuwWf11AbL1bKMQE3+KBCWKupkKJhWT3/4w+a/vxJj
- +s5Q==
+ bh=RxLw4QcKrYbunBKOIFiXjKfQ22xYQIVcbponl1x6BVE=;
+ b=Khbp+GoBcISHb5ous2OLktoshnUtyXO/ouTWpf/PhYqSW0AtUiYvKIzqIdaug01Cxg
+ fTpFIwHFS6evRAuvnZ27wTkYQnQ3Q0OqV8+FPc4ug494g4jC2Rp7mROG/cFWw6Kl3nCK
+ kbUtdrZASaOx5EU7mVZObufiIVd2Wu+s7v4BKmUnP1Za1CGghP4qzeaeVMsPwIQUs154
+ d6L4QoK4LOKQFOxbhtlY0TLzcJOh3C8wNTlNvSRVK20adYtNnyUxdNqbYjmVO3cERhT0
+ NJ5Wx8DP6pcJXzfjRpowbkQUfV7hyoX2EdXSGOm3ACVpwDFLhrlhKTPRYSrohjIavf/l
+ PPUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=o8b6+X1LLYHejSweB/c4hEC47Dl6kTi087mc3N8TiLA=;
- b=BieQXDhJ37r0eON0xyC0UMXMVNWHU+63/iS2J1SbZUT+zemlS6uO5FhdK4/M2/2Pwq
- QkUSI0kZPINBXTonWNdEcR7UNO2a3g+0VCuZwDzmBsQSf/qZepLQhx+jlZMYKRSUSU20
- CEDY35B1or+1D/VEaC3ZpvKbhFgcNGN75os+9a8Zq08tNKVFqnuEcVW5/q8IqEoOa0VA
- 2Egpqc04UqYK54xTPbOUDWk6tictlp+lmL3X+e8az3GOCn7xwdpWpILv0MpFCv+RTXhn
- zqbDD6ar04Pt6yFOr1HfDAhZ+YLaTAraQZgRyiirsF8ZjOTF/fgDQ9OBbfVPfFU0iEOA
- a8Tw==
-X-Gm-Message-State: AOAM533u+tpLiMsaNwx04UafYX9PMlt61YDSbnWGlIqzIdYTHTe0n+Oy
- lxUl/CpiP584YFphou4QRsNbX3DK
-X-Google-Smtp-Source: ABdhPJyFXiBmYlgd9smjQLW518laiLxXT1vvTA3PiyU15lWvlXIgEa+2EZnAY3GF2/sJXehrqbTcYA==
-X-Received: by 2002:a7b:cb99:: with SMTP id m25mr17938496wmi.0.1590947675719; 
- Sun, 31 May 2020 10:54:35 -0700 (PDT)
+ bh=RxLw4QcKrYbunBKOIFiXjKfQ22xYQIVcbponl1x6BVE=;
+ b=VynKJoefzWUemcwXH3XPa8X+8Rt5hG2SAoczOlygBsa7oj5+eGm7ZOidMuHdxNS+kI
+ QaYiHulTszcCvs4GKJSNehDwW5I7L7rps3GWCXJLtiEXSvPg/cu6adngSJe7sHyvJVU3
+ TCKCDDiKi5QM134UiHx0+h+XAL/vru56XsoSQ8Nbmpzu8DwAMxYn2dGySrjMYbNZ2Cs+
+ e+XFeRVlfcZmkCwrsVMwhsfNvCfz1zE3W2z2qSKlUApR6Ndk18VZqj/Q5aZmuRgIh9F8
+ R45IYRWh2Qum6qWB2uZ1Gg6IlCoCzEbrxa8Cugz0iqQGlNta/FeEgKgQ1FGVIg8uOzyt
+ +ZEA==
+X-Gm-Message-State: AOAM532t/XupDdfQyOK1dwKe9vKjXdBalq31rxoDTwdkZlp8IcVdQ+og
+ 7ZxL1oljziNhWua6OAlUFp6bhjAk
+X-Google-Smtp-Source: ABdhPJxl1aJq3cAYSE4P6/JdRm/0LgJ/b8rKZ5O2K5msI/CQp2WAN7YjBCpYwlMQJu79VOyByRsOFQ==
+X-Received: by 2002:adf:fe07:: with SMTP id n7mr10524769wrr.240.1590947674465; 
+ Sun, 31 May 2020 10:54:34 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id z7sm17862531wrt.6.2020.05.31.10.54.34
+ by smtp.gmail.com with ESMTPSA id z7sm17862531wrt.6.2020.05.31.10.54.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 10:54:35 -0700 (PDT)
+ Sun, 31 May 2020 10:54:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 6/6] memory: Use CPU register size as default
- access_size_max
-Date: Sun, 31 May 2020 19:54:25 +0200
-Message-Id: <20200531175425.10329-7-f4bug@amsat.org>
+Subject: [PATCH 5/6] exec: Restrict 32-bit CPUs to 32-bit address space
+Date: Sun, 31 May 2020 19:54:24 +0200
+Message-Id: <20200531175425.10329-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200531175425.10329-1-f4bug@amsat.org>
 References: <20200531175425.10329-1-f4bug@amsat.org>
@@ -63,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -99,32 +98,43 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not restrict 64-bit CPU to 32-bit max access by default.
+It is pointless to have 32-bit CPUs see a 64-bit address
+space, when they can only address the 32 lower bits.
+
+Only create CPU address space with a size it can address.
+This makes HMP 'info mtree' command easier to understand
+(on 32-bit CPUs).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-RFC because this probably require an audit of all devices
-used on 64-bit targets.
-But if we find such problematic devices, they should instead
-enforce their access_size_max = 4 rather than expecting the
-default value to be valid...
+This is particularly helpful with the AVR cores.
 ---
- memory.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ exec.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/memory.c b/memory.c
-index fd6f3d6aca..1d6bb5cdb0 100644
---- a/memory.c
-+++ b/memory.c
-@@ -1370,7 +1370,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
+diff --git a/exec.c b/exec.c
+index 5162f0d12f..d6809a9447 100644
+--- a/exec.c
++++ b/exec.c
+@@ -2962,9 +2962,17 @@ static void tcg_commit(MemoryListener *listener)
  
-     access_size_max = mr->ops->valid.max_access_size;
-     if (!mr->ops->valid.max_access_size) {
--        access_size_max = 4;
-+        access_size_max = TARGET_LONG_SIZE;
-     }
+ static void memory_map_init(void)
+ {
++    uint64_t system_memory_size;
++
++#if TARGET_LONG_BITS >= 64
++    system_memory_size = UINT64_MAX;
++#else
++    system_memory_size = 1ULL << TARGET_LONG_BITS;
++#endif
++
+     system_memory = g_malloc(sizeof(*system_memory));
  
-     access_size = MAX(MIN(size, access_size_max), access_size_min);
+-    memory_region_init(system_memory, NULL, "system", UINT64_MAX);
++    memory_region_init(system_memory, NULL, "system", system_memory_size);
+     address_space_init(&address_space_memory, system_memory, "memory");
+ 
+     system_io = g_malloc(sizeof(*system_io));
 -- 
 2.21.3
 
