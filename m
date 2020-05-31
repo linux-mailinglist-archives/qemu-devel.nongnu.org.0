@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF0B1E99FE
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 21:00:56 +0200 (CEST)
-Received: from localhost ([::1]:33322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 097681E9A0C
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 21:17:01 +0200 (CEST)
+Received: from localhost ([::1]:44712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfTCX-00045O-3y
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 15:00:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43436)
+	id 1jfTS8-0001r6-4t
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 15:17:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jfTBI-0003X7-7R
- for qemu-devel@nongnu.org; Sun, 31 May 2020 14:59:36 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56316)
+ id 1jfTQp-0000x8-HV
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 15:15:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jfTBF-0005Mq-NC
- for qemu-devel@nongnu.org; Sun, 31 May 2020 14:59:35 -0400
+ id 1jfTQo-00009C-7J
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 15:15:39 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jfTBC-0002TV-8y
- for <qemu-devel@nongnu.org>; Sun, 31 May 2020 18:59:30 +0000
+ id 1jfTQl-000586-Ng
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 19:15:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3839F2E8109
- for <qemu-devel@nongnu.org>; Sun, 31 May 2020 18:59:30 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AF49B2E8033
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 19:15:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 31 May 2020 18:50:13 -0000
-From: 123p <1377095@bugs.launchpad.net>
+Date: Sun, 31 May 2020 19:08:15 -0000
+From: Ethin Probst <1881506@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: hotplug pass-through printer usb
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 123p th-huth
-X-Launchpad-Bug-Reporter: 123p (123p)
-X-Launchpad-Bug-Modifier: 123p (123p)
-References: <20141003105035.5331.35277.malonedeb@wampee.canonical.com>
-Message-Id: <159095101318.29529.4718433364226189154.malone@chaenomeles.canonical.com>
-Subject: [Bug 1377095] Re: KVM guest VM does not reattach a throughpassed USB
- printer from Host after switching printer off and on
+X-Launchpad-Bug-Commenters: harlydavidsen
+X-Launchpad-Bug-Reporter: Ethin Probst (harlydavidsen)
+X-Launchpad-Bug-Modifier: Ethin Probst (harlydavidsen)
+Message-Id: <159095209581.29684.17955799234221982572.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1881506] [NEW] TCG doesn't support a lot of features that should
+ be supported
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="275d46a24253e557e4403d52832837e4bfa425b6";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ae2f3ac36300557e21f35aa9d11d946d9acabfa5
+X-Launchpad-Hash: b8bee8ec780bed5d4a58cc0af581802e00e7234c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 14:59:30
@@ -74,150 +72,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1377095 <1377095@bugs.launchpad.net>
+Reply-To: Bug 1881506 <1881506@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks Thomas for Your suggestion. Unfortunately I cannot achieve the
-reconnection:
+Public bug reported:
 
-KVM runs with following parameters:
+This is quite odd, and I'm not sure about how to get around it. I'm writing=
+ an OS in Rust and require APIC support. When I boot my kernel with qemu-sy=
+stem-x86_64, however, it dumps out a [lot] of warnings; it claims that TCG =
+doesn't support FMA, X2APIC, AVX, F16C, AVX2, RDSEED, SHA-NI, FXSR-OPT, mis=
+alignsse, 3dnowprefetch, osvw, topoext, perfctr-core, clzero, xsaveerptr, i=
+bpb, nrip-save, xsavec, and xsaves, but prints these warnings over 80 times=
+ before finally doing what I told it to do. Running QEMU 5.0.0 (unknown com=
+mit hash), as follows:
+qemu-system-x86_64 -drive format=3Draw,file=3Dtarget\x86_64-kernel-none\deb=
+ug\bootimage-kernel.bin -serial stdio -no-reboot -hdb disk.img -s -m 4G -us=
+b -rtc base=3Dutc,clock=3Dhost -cpu EPYC-v3,+acpi,+apic,+rdrand,+rdseed,+ss=
+e,+sse2,+sse4.1,+sse4.2,+sse4a,+ssse3,+syscall,+x2apic -smp cpus=3D8 -sound=
+hw all
+I would run using HAXM, but my kernel requires RDRAND, and QEMU does not, t=
+o my knowledge, automatically support RDRAND (and I don't know how to enabl=
+e it).
 
--usb -device usb-host,vendorid=3D0x04e8,productid=3D0x3242,id=3Ddrucker
--monitor unix:qemu-monitor-socket,server,nowait
-
-With the Unix socket, I can now pipe commands to the qemu monitor. This
-info command works:
-
-echo 'info status' | socat - unix-connect:/qemu-monitor-socket
-QEMU 4.2.0 monitor - type 'help' for more information
-(qemu) info status
-VM status: running
-
-What I have is this:
-- disconnect USB printer (Product Samsung ML-1510_700)
-- stop KVM
-- connect USB printer
-- start KVM
-
-echo 'info usb' | socat - unix-connect:/qemu-monitor-socket
-QEMU 4.2.0 monitor - type 'help' for more information
-(qemu) info usb
-  Device 0.1, Port 1, Speed 12 Mb/s, Product QEMU USB Tablet
-  Device 0.2, Port 2, Speed 12 Mb/s, Product QEMU USB Hub
-  Device 0.3, Port 2.1, Speed 12 Mb/s, Product Samsung ML-1510_700, ID: dru=
-cker
-
-Printer works.
-- disconnect printer
-
-echo 'info usb' | socat - unix-connect:/qemu-monitor-socket
-QEMU 4.2.0 monitor - type 'help' for more information
-(qemu) info usb
-  Device 0.2, Port 1, Speed 12 Mb/s, Product QEMU USB Tablet
-  Device 0.3, Port 2, Speed 12 Mb/s, Product QEMU USB Hub
-  Device 0.4, Port 2.1, Speed 12 Mb/s, Product Samsung ML-1510_700, ID: dru=
-cker
-
-USB Info still shows the printer, allthough it is disconnected.
-
-Remove device from KVM:
-
-echo 'device_del drucker' | socat - unix-connect:/qemu-monitor-socket
-
-Printer is removed from the device list:
-
-info usbdrucker' | socat - unix-connect:/qemu-monitor-socket
-QEMU 4.2.0 monitor - type 'help' for more information
-(qemu) info usb
-  Device 0.2, Port 1, Speed 12 Mb/s, Product QEMU USB Tablet
-  Device 0.3, Port 2, Speed 12 Mb/s, Product QEMU USB Hub
-
--connect printer
-
-printer is not shown:
-
-echo 'info usb' | socat - unix-connect:/qemu-monitor-socket
-QEMU 4.2.0 monitor - type 'help' for more information
-(qemu) info usb
-  Device 0.2, Port 1, Speed 12 Mb/s, Product QEMU USB Tablet
-  Device 0.3, Port 2, Speed 12 Mb/s, Product QEMU USB Hub
-
-Add printer device:
-
-echo 'device_add usb-host,vendorid=3D0x04e8,productid=3D0x3242,id=3Ddrucker=
- ' | socat - unix-connect:/qemu-monitor-socket
-QEMU 4.2.0 monitor - type 'help' for more information
-(qemu) device_add usb-host,vendorid=3D0x04e8,productid=3D0x3242,id=3Ddrucker
-
-echo 'info usb' | socat - unix-connect:/qemu-monitor-socket
-QEMU 4.2.0 monitor - type 'help' for more information
-(qemu) info usb
-  Device 0.2, Port 1, Speed 12 Mb/s, Product QEMU USB Tablet
-  Device 0.3, Port 2, Speed 12 Mb/s, Product QEMU USB Hub
-  Device 0.0, Port 2.2, Speed 1.5 Mb/s, Product USB Host Device, ID: drucker
-
-Device is shown, but not like when KVM is started with connected
-printer: Speed only 1.5 Mb/s, no vendor and product info.
-
-Printer does _not_ work.
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1377095
+https://bugs.launchpad.net/bugs/1881506
 
 Title:
-  KVM guest VM does not reattach a throughpassed USB printer from Host
-  after switching printer off and on
+  TCG doesn't support a lot of features that should be supported
 
 Status in QEMU:
   New
 
 Bug description:
-  =
-
-  Host OS: Gentoo, all packages built 2014-10-01
-
-  qemu version 2.1.0-r1
-
-  Linux kernel 3.14.14   x86_64 Intel(R) Core(TM) i3-3220T CPU @ 2.80GHz
-  GenuineIntel GNU/Linux
-
-  =
-
-  Guest VM: Debian 7 (Wheezy) Linux 3.2.0 686
-
-  =
-
-  Start command:
-  /usr/bin/qemu-system-i386 -enable-kvm -name wheezy -k de -serial null -pa=
-rallel null -hda /var/kvm/wheezy.kvm-img -daemonize -net nic,macaddr=3D02:0=
-0:00:00:01:31 -net tap,ifname=3Dtap3,script=3Dno,downscript=3Dno -m 512 -pi=
-dfile /var/run/kvm/wheezy.pid -usb -usbdevice tablet -runas myuser -vnc 127=
-.0.0.1:3 -usbdevice host:04e8:3242
-
-  Problem:
-  USB printer pass-through from KVM host to guest vm only works if I start =
-the qemu kvm when the USB printer (vendor/product ID 04e8:3242) is switched=
- on and therefore shown in lsusb on the host. Then it is available in the s=
-tarted VM.
-
-  But when I switch the usb printer attached to the host off, it
-  disappears in lsusb both on the host and the VM (as expected) but when
-  I switch the USB printer on again, it is shown on the host and also on
-  the QEMU Monitor (Crtl Alt Shift 2 -> info usbhost), but in the VM
-  lsusb does not show it again- so USB pass-through / hot plugging does
-  not work. It worked with a previous Version of qemu (1.0 or
-  something).
-
-  That is very annoying, because every time I want to print something, I ne=
-ed to shutdown the VM, start the printer, and then start the VM (which runs=
- cups as printer server).
-  But after printing, I do not want the printer to keep running, so I switc=
-h it off.
+  This is quite odd, and I'm not sure about how to get around it. I'm writi=
+ng an OS in Rust and require APIC support. When I boot my kernel with qemu-=
+system-x86_64, however, it dumps out a [lot] of warnings; it claims that TC=
+G doesn't support FMA, X2APIC, AVX, F16C, AVX2, RDSEED, SHA-NI, FXSR-OPT, m=
+isalignsse, 3dnowprefetch, osvw, topoext, perfctr-core, clzero, xsaveerptr,=
+ ibpb, nrip-save, xsavec, and xsaves, but prints these warnings over 80 tim=
+es before finally doing what I told it to do. Running QEMU 5.0.0 (unknown c=
+ommit hash), as follows:
+  qemu-system-x86_64 -drive format=3Draw,file=3Dtarget\x86_64-kernel-none\d=
+ebug\bootimage-kernel.bin -serial stdio -no-reboot -hdb disk.img -s -m 4G -=
+usb -rtc base=3Dutc,clock=3Dhost -cpu EPYC-v3,+acpi,+apic,+rdrand,+rdseed,+=
+sse,+sse2,+sse4.1,+sse4.2,+sse4a,+ssse3,+syscall,+x2apic -smp cpus=3D8 -sou=
+ndhw all
+  I would run using HAXM, but my kernel requires RDRAND, and QEMU does not,=
+ to my knowledge, automatically support RDRAND (and I don't know how to ena=
+ble it).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1377095/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1881506/+subscriptions
 
