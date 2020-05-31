@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71DE21E9989
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 19:40:43 +0200 (CEST)
-Received: from localhost ([::1]:37764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3242B1E9992
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 19:44:22 +0200 (CEST)
+Received: from localhost ([::1]:52556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfRww-0006Ks-Dv
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 13:40:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34142)
+	id 1jfS0T-0003xr-68
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 13:44:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jfRuo-0004As-DB; Sun, 31 May 2020 13:38:30 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40474)
+ id 1jfRup-0004CV-BP; Sun, 31 May 2020 13:38:33 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33223)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jfRun-0004Fs-Fr; Sun, 31 May 2020 13:38:30 -0400
-Received: by mail-wm1-x344.google.com with SMTP id r15so9106216wmh.5;
- Sun, 31 May 2020 10:38:27 -0700 (PDT)
+ id 1jfRuo-0004G7-Ir; Sun, 31 May 2020 13:38:30 -0400
+Received: by mail-wm1-x343.google.com with SMTP id j198so10509957wmj.0;
+ Sun, 31 May 2020 10:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iYvFEgksB/BdazMa4Cs2c4jhXMbkN0WXaFJS9CHNgVo=;
- b=mLOiMHew1qF2hGdISfFnUSQy6ouAsSbwhEJxg/OGYSPf9xv1xTbVr8mBMRqJHP0j55
- yBAV5qmG/+djftEUqMiPwGr4Bh3GmX3ZVamOeBJXaKaDNXOaK/dz/G5T07RNwS0DFgrY
- c6bALnWU6nCvGXRvmEhcQH90po/UBDda62lpMh8uL/oBuNFtkrZ/+WZD/xRTxEPgKh8w
- YobGHA9manrtqDfq5TIha9eaxMdsJWURJqAn1SCZ+ZvWMz1ywD46nuh/+b1NyAbjDy7+
- GWlf7/+f8s9uLntj5m+01uzRU7k+D/zt9t5VXEvBWhKQ9MlGmJn6WzbC/VlmhCnqS0u0
- g/ng==
+ bh=nx6i+AHtHhOPOYC0ludmYEcyPCtH+R6fArfoXhgX/80=;
+ b=ecRtJ9+dMcz6HFcCrjMA79m2NLL9pLTe3YlR6u/5U8B/pDwEZnHkpthloUcJD9mdeX
+ z4NzrruZHIQ5BDed7AH8zcr/JzgBoZ1wQmFBvCf0zqPlH2VDi3PlRQEl/z3dTDw8CP0R
+ VEh2hNdQFoGTa0ucGgNoDbeocX77DmNTTR7f1AuNpakZHtfsid+pCIBY0so133aao2cN
+ b+i37OA+ThO+bxJeMeXuuwDMmwuLCLkIY+kfFnePWYnEWyGruAmEtPG2VehLleFSgTQF
+ GNo4UF310Aboap3C76RpTvPD64wZq/2auDdcnjb13FWLdoOod69RR73rZOQlRY4ZML6K
+ vZmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iYvFEgksB/BdazMa4Cs2c4jhXMbkN0WXaFJS9CHNgVo=;
- b=GIqEE6VSJVDHFKaIqWl6zYhXNW3evJEIKNysFoHKGaIcFSfBsHMsCjNCALd7L0Hrq0
- SoVay5vEOnzTm9bjVoa6/K87IIM+ozri7YJBmbTKansAdgMK/opZ0rrru7ikiVXf6d14
- Kjz+F3b/tqf5yxq19c3RhepU7Mqt2luzrm8CJWXSuaV0irSaqcpt4Q6D20a4TvsjdSR3
- W336Lrm7armB6Mh2Hha5CAIfHYpAZ3nq8ctM0TWGFA61sLfhUEkXNyaoNWGajNqjq51c
- 1JvnnFOkgJAX33S9ZP5jNHN0RN93xuMDVzod/O42mNlOOYujlvhtL/DYvB5HeoihvZNC
- 7woA==
-X-Gm-Message-State: AOAM533RaHWBf6iLBbz/EKv9R9F2YL47+wvoWuP1C4iEQfdl6vx2UtSv
- m5M4O/ErAHnyXoMtA99xNAyH/L6p
-X-Google-Smtp-Source: ABdhPJwhb/IFbThB/tKVOWT/s2NPGR4HDMLpVaDysxOxobXYSvPIAsMTEGuw+7HN9OrZnw/sT/Aqyw==
-X-Received: by 2002:a1c:4d0c:: with SMTP id o12mr18594700wmh.181.1590946706678; 
- Sun, 31 May 2020 10:38:26 -0700 (PDT)
+ bh=nx6i+AHtHhOPOYC0ludmYEcyPCtH+R6fArfoXhgX/80=;
+ b=XSMgWox6hoVu9S4yXtAk5SJre4jJzi/4ERPAu2rmLHnbIwnvvb7xZSslaNLGdBQNIo
+ HtgkObwZ0kSOajHg1HRbCDaR2o3+oUTJp+ZgdIFYX4VEFH9Ae+3J1vfF1k9FFYOullux
+ 1gNR2p8vHE1ERaUPkf9Ji6Eoa9KmJt97woF4hyZKPzpMFSUmzEfTHP5SOtmMx9Ujqnii
+ yCtSqkjqaq8vVLBAM9g6ZRju3QEzNxN3fOifYzThmX532vPDgwGek8N8YBA1nzIajrgQ
+ P3ZQhRfoIKKbQGjd/AQJq1nTQet/K0LFxUjta7Htz/ftgVQIsSYQXuv+ZMzSAN5TMI9Q
+ sn1w==
+X-Gm-Message-State: AOAM532n3Vra+8Shyun1KHsiHCcwFJ7vYgGzL2rDeZ9ks7PQw3v3obUw
+ mD5pBP9sIs3ogASRzr06URZmyYX4
+X-Google-Smtp-Source: ABdhPJwrR3vwdIenjSppjEGj76X18jhrVpnPd8ljKzuiMJUGDNuZXGPyuZJVIrkrS466Afme7Vb7pg==
+X-Received: by 2002:a1c:39c1:: with SMTP id g184mr17816585wma.9.1590946708068; 
+ Sun, 31 May 2020 10:38:28 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id l19sm7973121wmj.14.2020.05.31.10.38.25
+ by smtp.gmail.com with ESMTPSA id l19sm7973121wmj.14.2020.05.31.10.38.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 10:38:26 -0700 (PDT)
+ Sun, 31 May 2020 10:38:27 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/8] hw/hppa/dino: Use the IEC binary prefix definitions
-Date: Sun, 31 May 2020 19:38:12 +0200
-Message-Id: <20200531173814.8734-7-f4bug@amsat.org>
+Subject: [PATCH 7/8] hw/i386/xen/xen-hvm: Use the IEC binary prefix definitions
+Date: Sun, 31 May 2020 19:38:13 +0200
+Message-Id: <20200531173814.8734-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200531173814.8734-1-f4bug@amsat.org>
 References: <20200531173814.8734-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -105,31 +105,30 @@ IEC binary prefixes ease code review: the unit is explicit.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/hppa/dino.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/i386/xen/xen-hvm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/hppa/dino.c b/hw/hppa/dino.c
-index 2b1b38c58a..7290f23962 100644
---- a/hw/hppa/dino.c
-+++ b/hw/hppa/dino.c
-@@ -542,7 +542,7 @@ PCIBus *dino_init(MemoryRegion *addr_space,
-                                 &s->parent_obj.data_mem);
+diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+index 82ece6b9e7..679d74e6a3 100644
+--- a/hw/i386/xen/xen-hvm.c
++++ b/hw/i386/xen/xen-hvm.c
+@@ -9,6 +9,7 @@
+  */
  
-     /* Dino PCI bus memory.  */
--    memory_region_init(&s->pci_mem, OBJECT(s), "pci-memory", 1ull << 32);
-+    memory_region_init(&s->pci_mem, OBJECT(s), "pci-memory", 4 * GiB);
+ #include "qemu/osdep.h"
++#include "qemu/units.h"
  
-     b = pci_register_root_bus(dev, "pci", dino_set_irq, dino_pci_map_irq, s,
-                               &s->pci_mem, get_system_io(),
-@@ -561,7 +561,7 @@ PCIBus *dino_init(MemoryRegion *addr_space,
+ #include "cpu.h"
+ #include "hw/pci/pci.h"
+@@ -230,7 +231,7 @@ static void xen_ram_init(PCMachineState *pcms,
+          * Xen does not allocate the memory continuously, it keeps a
+          * hole of the size computed above or passed in.
+          */
+-        block_len = (1ULL << 32) + x86ms->above_4g_mem_size;
++        block_len = 4 * GiB + x86ms->above_4g_mem_size;
      }
- 
-     /* Set up PCI view of memory: Bus master address space.  */
--    memory_region_init(&s->bm, OBJECT(s), "bm-dino", 1ull << 32);
-+    memory_region_init(&s->bm, OBJECT(s), "bm-dino", 4 * GiB);
-     memory_region_init_alias(&s->bm_ram_alias, OBJECT(s),
-                              "bm-system", addr_space, 0,
-                              0xf0000000 + DINO_MEM_CHUNK_SIZE);
+     memory_region_init_ram(&ram_memory, NULL, "xen.ram", block_len,
+                            &error_fatal);
 -- 
 2.21.3
 
