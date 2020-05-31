@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC4E71E9900
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:41:02 +0200 (CEST)
-Received: from localhost ([::1]:50164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3DD91E9906
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:42:55 +0200 (CEST)
+Received: from localhost ([::1]:58858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfR1B-00030U-RS
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:41:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55170)
+	id 1jfR30-0006fV-Ul
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:42:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzP-00011i-61
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60587
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQza-000197-I3
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:22 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51519
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzN-0006fA-0A
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:10 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzU-0006gk-NW
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590943148;
+ s=mimecast20190719; t=1590943155;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yBN0He0hnRiO6mOUWUzXjmIAL9Om1ymVuyqwTdVM/HE=;
- b=Txazxr2ARYnX8O+IdPGDS0Bl40FOjSbD25QITJXgWHe4mZlZzp9R05b5WRisVjn48HRnG6
- 65L6uoWhZEloj5ZrzSGfSIHZlOvAVX5ygexm5/t+hiYnbQOcQWclDSzg2duHnErPsM95aB
- gfPaWqs36HniTS4dNfE3eOGXULNpkmQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-16JEslUKPqa6Uoiq5BsMzg-1; Sun, 31 May 2020 12:39:06 -0400
-X-MC-Unique: 16JEslUKPqa6Uoiq5BsMzg-1
-Received: by mail-wr1-f71.google.com with SMTP id e1so3634105wrm.3
- for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:39:06 -0700 (PDT)
+ bh=sMv0WAWso8oUAufIgFUwjed/SkQYQOJci7UGvUEGULg=;
+ b=cE15pxvRiqkc/NU4pvs3nnWDZKb6HIQdJ7y78MjgIRTMu9dD4O1kkQA2pTp9Qx5BOFT2BA
+ 8oBz1gFPJJYx5aCy4+25mCvcDZ54Avc/FzsD2oPPA8rpzd2stzMzbmZWTtb2ecsJOPneoj
+ UL/ru94byQsQlrmS4twdQTeGSYc/60g=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-62-uNXenVtOMGK0ECoTk_yG2w-1; Sun, 31 May 2020 12:39:11 -0400
+X-MC-Unique: uNXenVtOMGK0ECoTk_yG2w-1
+Received: by mail-wr1-f72.google.com with SMTP id s17so3598612wrt.7
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:39:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yBN0He0hnRiO6mOUWUzXjmIAL9Om1ymVuyqwTdVM/HE=;
- b=q+d99xjW3rhOW8iYs5e348ZKW4LFOov3RBhMGY+F3UzoYVXC87fVf/Kz+I5I0Eb5hy
- BWGVi90NecZwxjmuNb+9//mAj2icHczSmjxBWu/t9fM28+bVEweiyvJ8sKsrPXxUV716
- PtZHSRuZqaDp8AoiMooLUdOIJvlQEYHiQz5TOuFtIPcKoEOfJQkQIJGBJh8PD5vhhri9
- BNsd0dAzFQRQRbGxAwKroLbtGc8d8LiIsQxxJipT6mAEvP+QCQXPaIzz/AXcvGpxeTRp
- VNrPdQAPFVrGrGVdvnwvsX96P+8Cbg1d0292zkC/CARiSYXbQHVNHws1B0iMRHmFlEdV
- u2fw==
-X-Gm-Message-State: AOAM533OAfDw/vnWF5MljjfxMSuOa2YlZWfBKiFvlNtA1EYdLHjoH191
- PCIA9rmgvD88vomsaBq7PqNUAXVC+oKd02xnL3XMj0wYJCodu5o4BaQTPInollBwa60hIP1RGI+
- 4ZlvCtZyoMYR/smM=
-X-Received: by 2002:adf:f0d2:: with SMTP id x18mr17834383wro.250.1590943145500; 
- Sun, 31 May 2020 09:39:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz+gCJF6HcUNgazMBl80tT6OrlhUIFDpGWEUH3j0u8boakYALkjhYWx7zPVPFdQkkPf5lo8sQ==
-X-Received: by 2002:adf:f0d2:: with SMTP id x18mr17834358wro.250.1590943145303; 
- Sun, 31 May 2020 09:39:05 -0700 (PDT)
+ bh=sMv0WAWso8oUAufIgFUwjed/SkQYQOJci7UGvUEGULg=;
+ b=UeQKivVy2pV0x3xbNCHftVqlmQv7ftcvTIYQCKXiBIrK66F7seqM1p/w/p6gk5U3va
+ ChHmca5raYuMRxO/iBkUEdqEoG5eKVGH8Lost3wO52Qn0oNihozvJ70EKVKpcxb2QU6w
+ gnaZZEcCL8enyFejctpEoJ9PYKeGITxLx/e095CK3e6+VU1qbQ05IleamnZU9CvQPp2o
+ +4zENlOXBt9i/0JBtb4E0fym8hC8J9l/390nlL4zzXG4u8EbmqHsem33bDAD+T6KEeU/
+ mD8fDTqjayEe20KqEIAu4zkA8bs3eWUEok8yxKHbNj5NO+2kL6wIS0SZ66lnHlVAzIx8
+ pprw==
+X-Gm-Message-State: AOAM532mU7n45IAIIMA0oGnpAxem3KaeOb6+djlwLNRbEX4L55i0nrQH
+ 9PgZ0eAa7FFVxY96zJjpQInyi5BnQz7EYIBGgerAveDDNtBi9aYwOzujGEEBl0g7KIU59FCFKCD
+ BIDlQyu6cfwVeFOA=
+X-Received: by 2002:a5d:514f:: with SMTP id u15mr19116180wrt.132.1590943150626; 
+ Sun, 31 May 2020 09:39:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyG/iDkpGxrVd4v54lbHxHsAujyHTlU/e7fh0d4gw7L74BATUg8tOFaSEYyfJzJ1sFZwdHjKQ==
+X-Received: by 2002:a5d:514f:: with SMTP id u15mr19116175wrt.132.1590943150481; 
+ Sun, 31 May 2020 09:39:10 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id 5sm7692633wmz.16.2020.05.31.09.39.03
+ by smtp.gmail.com with ESMTPSA id v7sm8920858wme.46.2020.05.31.09.39.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 09:39:04 -0700 (PDT)
+ Sun, 31 May 2020 09:39:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/25] scripts/qmp: Use Python 3 interpreter
-Date: Sun, 31 May 2020 18:38:24 +0200
-Message-Id: <20200531163846.25363-4-philmd@redhat.com>
+Subject: [PULL 04/25] scripts/kvm/vmxcap: Use Python 3 interpreter and add
+ pseudo-main()
+Date: Sun, 31 May 2020 18:38:25 +0200
+Message-Id: <20200531163846.25363-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200531163846.25363-1-philmd@redhat.com>
 References: <20200531163846.25363-1-philmd@redhat.com>
@@ -72,17 +73,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 11:09:45
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 12:39:08
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,7 +99,6 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
@@ -108,60 +108,34 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200512103238.7078-4-philmd@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200512103238.7078-5-philmd@redhat.com>
 ---
- scripts/qmp/qom-get  | 2 +-
- scripts/qmp/qom-list | 2 +-
- scripts/qmp/qom-set  | 2 +-
- scripts/qmp/qom-tree | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ scripts/kvm/vmxcap | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/qmp/qom-get b/scripts/qmp/qom-get
-index 007b4cd442..7c5ede91bb 100755
---- a/scripts/qmp/qom-get
-+++ b/scripts/qmp/qom-get
+diff --git a/scripts/kvm/vmxcap b/scripts/kvm/vmxcap
+index 971ed0e721..6fe66d5f57 100755
+--- a/scripts/kvm/vmxcap
++++ b/scripts/kvm/vmxcap
 @@ -1,4 +1,4 @@
 -#!/usr/bin/python
 +#!/usr/bin/env python3
- ##
- # QEMU Object Model test tools
  #
-diff --git a/scripts/qmp/qom-list b/scripts/qmp/qom-list
-index 03bda3446b..bb68fd65d4 100755
---- a/scripts/qmp/qom-list
-+++ b/scripts/qmp/qom-list
-@@ -1,4 +1,4 @@
--#!/usr/bin/python
-+#!/usr/bin/env python3
- ##
- # QEMU Object Model test tools
+ # tool for querying VMX capabilities
  #
-diff --git a/scripts/qmp/qom-set b/scripts/qmp/qom-set
-index c37fe78b00..19881d85e9 100755
---- a/scripts/qmp/qom-set
-+++ b/scripts/qmp/qom-set
-@@ -1,4 +1,4 @@
--#!/usr/bin/python
-+#!/usr/bin/env python3
- ##
- # QEMU Object Model test tools
- #
-diff --git a/scripts/qmp/qom-tree b/scripts/qmp/qom-tree
-index 1c8acf61e7..fa91147a03 100755
---- a/scripts/qmp/qom-tree
-+++ b/scripts/qmp/qom-tree
-@@ -1,4 +1,4 @@
--#!/usr/bin/python
-+#!/usr/bin/env python3
- ##
- # QEMU Object Model test tools
- #
+@@ -275,5 +275,6 @@ controls = [
+         ),
+     ]
+ 
+-for c in controls:
+-    c.show()
++if __name__ == '__main__':
++    for c in controls:
++        c.show()
 -- 
 2.21.3
 
