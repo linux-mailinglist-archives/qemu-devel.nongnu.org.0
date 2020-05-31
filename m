@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4021E991B
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:53:46 +0200 (CEST)
-Received: from localhost ([::1]:40020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4551E9921
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:56:35 +0200 (CEST)
+Received: from localhost ([::1]:51338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfRDU-0005ij-W5
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:53:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55472)
+	id 1jfRGE-00026J-5D
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:56:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0s-0003lt-BL
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27851
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0x-0003rK-AS
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42147
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0r-00077Z-GS
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:41 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0v-0007Ak-97
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590943240;
+ s=mimecast20190719; t=1590943244;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VtnVaYYGa7/aqTUYxIxdKhEN8NJpUIW8xv7x+iz9PNM=;
- b=PQO9oomHuKQXAetbNgAG2bFhyMYaVLgaIEhbWrbaxERj8G+zmR4/rsz9J7D9T6zvUPOb3k
- EQUVcTkbQX4GFgkpG5dAHWIpRXnynEXahueYwh4UkpyZaw6fpYeHg7FDfxsMIcFbX1u3hg
- 2w8eizMPrw4oDMLqyn8EVvg97QGo5NM=
+ bh=KEU6cF8wx9dT9DR4quAwHsy5LYVVtSbv+hQRMIt0K90=;
+ b=DL30hmNnw+DbtkdxO6YB852G4ah6lBOdXFixbJOGeV+dU4lh0JU5gVPKnLPossdoqqxFFF
+ 5z3poLvfMgqYDWMc16XDYCMpZzX/nsZXpkpL7z7A9v+A7V2CkxEZY6vqY9Vo9RXhRsP217
+ EVsRB01qU77PeWbwYh85AN2I9k48Kjg=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-WYOkyo1POT6I94oeh47AYw-1; Sun, 31 May 2020 12:40:37 -0400
-X-MC-Unique: WYOkyo1POT6I94oeh47AYw-1
-Received: by mail-wr1-f69.google.com with SMTP id h6so3649462wrx.4
- for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:40:37 -0700 (PDT)
+ us-mta-499-a-x1-tnYOCOSz5yLSATC-Q-1; Sun, 31 May 2020 12:40:43 -0400
+X-MC-Unique: a-x1-tnYOCOSz5yLSATC-Q-1
+Received: by mail-wr1-f69.google.com with SMTP id j16so3579728wre.22
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:40:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VtnVaYYGa7/aqTUYxIxdKhEN8NJpUIW8xv7x+iz9PNM=;
- b=AZD8Ilbz5Fyz/9qVoBwWNhQ5FfIScy2murvKY21qnfJCoIilWWOKA5mYzl38zoPQoe
- VUBmSPEPKeAUrhAtiKCgoIocOwFWzpL3Ydb8whI8brTn57mjHL9GmCRK8G+V07IkZ1O0
- SxUGlxWODvdcNYKWYRkPZbExo7DU0ODPd1pzDCyJ81s5840livT/qwaGuurNZnwWtOD8
- 7veEDYAEm/vZ5QEKrZILW+qvOD7ANqPgYqfwOHxbaqeYHxCn6aP5h9mCiuEvpkNsQT27
- IkJ2VivswpvgUFTjBD5wbrEsbTYsDiHfRgRGOb89BpoEatcvDywdfcxX6c2FHcOrVtk0
- z/ZA==
-X-Gm-Message-State: AOAM533GxlGlzoOcXImw5CnZ+52WHnjgWqFV1FyVKPFBwv+1fgCnmhsm
- y9Cvbd8i6HPJFS+Lbdbbe8WO3HNktFQg9P5kP31Zppn9r3sTHldAZTHlLD6Q49xmE/ViQYzb3NP
- RGvmGX5kFWWyiazY=
-X-Received: by 2002:a5d:4484:: with SMTP id j4mr17681268wrq.325.1590943236590; 
- Sun, 31 May 2020 09:40:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxgZwwOTcr688HaliXjwVILCgXMwwdoueLVIOVtH/2dXXqGIkOpERxl7rjGuHjeNfqMMGldnQ==
-X-Received: by 2002:a5d:4484:: with SMTP id j4mr17681252wrq.325.1590943236436; 
- Sun, 31 May 2020 09:40:36 -0700 (PDT)
+ bh=KEU6cF8wx9dT9DR4quAwHsy5LYVVtSbv+hQRMIt0K90=;
+ b=V7RJhqmFmszGEcoFUFlyQ7XaxM09gnFGok99AqQaSbsfZ3kp6IDObbN7TAVCxiKsMO
+ vKagEp3EtsEjX2juRJSnTUtGzB1sSTiH1Yb2DnnkmhTKtkTRYndQ/oNWZu5r7sex1Gbf
+ e/KIyHdNGH8cpFnb2d/liKb3AhBikgJSSsfKrK8g7W81xeeXohq9XhnqmXHVW1ZcutgB
+ 1GmjBOQRwjYaZcf8nPr5pG3n/CG8VHv6wGu9C4Ru8sCDUtscgoI7BGUTCUwac90j2AIF
+ iXcoOxe+ZjExkeUG1MTi+KtA0gGf+zyhyXtgEfxRf1P4JFBmfjDMQ+DE9mrWuCeUcFcF
+ 304Q==
+X-Gm-Message-State: AOAM531Q4wzMRcVNzMo0g/XFqZQZXEKbuHGl3MzdRoh0rmc5gmwZ0x7Q
+ 2eztNF++yR+q/xcsZ/Sy19qkIvZzzSP/eDCxG1/GaewGgqk9jiKEVYzJGSmlLEszYtZbIPwnLFX
+ JIpi5QxYM4WIgqfo=
+X-Received: by 2002:adf:8041:: with SMTP id 59mr17259541wrk.278.1590943241715; 
+ Sun, 31 May 2020 09:40:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzImNvZeAhhQ1GMFMgecKFJ9XA4/OBogYQBVHGi7VCZ3PzFb8gTmqybziOivHHumywOwku1CA==
+X-Received: by 2002:adf:8041:: with SMTP id 59mr17259527wrk.278.1590943241554; 
+ Sun, 31 May 2020 09:40:41 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id d13sm8390301wmb.39.2020.05.31.09.40.34
+ by smtp.gmail.com with ESMTPSA id z25sm8585383wmf.10.2020.05.31.09.40.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 09:40:35 -0700 (PDT)
+ Sun, 31 May 2020 09:40:41 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/25] tests/migration/guestperf: Use Python 3 interpreter
-Date: Sun, 31 May 2020 18:38:42 +0200
-Message-Id: <20200531163846.25363-22-philmd@redhat.com>
+Subject: [PULL 22/25] tests/acceptance/migration.py: Wait for both sides
+Date: Sun, 31 May 2020 18:38:43 +0200
+Message-Id: <20200531163846.25363-23-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200531163846.25363-1-philmd@redhat.com>
 References: <20200531163846.25363-1-philmd@redhat.com>
@@ -99,54 +99,50 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200512103238.7078-7-philmd@redhat.com>
----
- tests/migration/guestperf-batch.py | 2 +-
- tests/migration/guestperf-plot.py  | 2 +-
- tests/migration/guestperf.py       | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-diff --git a/tests/migration/guestperf-batch.py b/tests/migration/guestperf-batch.py
-index cb150ce804..f1e900908d 100755
---- a/tests/migration/guestperf-batch.py
-+++ b/tests/migration/guestperf-batch.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/python
-+#!/usr/bin/env python3
- #
- # Migration test batch comparison invokation
- #
-diff --git a/tests/migration/guestperf-plot.py b/tests/migration/guestperf-plot.py
-index d70bb7a557..907151011a 100755
---- a/tests/migration/guestperf-plot.py
-+++ b/tests/migration/guestperf-plot.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/python
-+#!/usr/bin/env python3
- #
- # Migration test graph plotting command
- #
-diff --git a/tests/migration/guestperf.py b/tests/migration/guestperf.py
-index 99b027e8ba..ba1c4bc4ca 100755
---- a/tests/migration/guestperf.py
-+++ b/tests/migration/guestperf.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/python
-+#!/usr/bin/env python3
- #
- # Migration test direct invokation command
- #
+When the source finishes migration the destination will still be
+receiving the data sent by the source, so it might not have quite
+finished yet, so won't quite have reached 'completed'.
+This lead to occasional asserts in the next few checks.
+
+After the source has finished, check the destination as well.
+(We can't just switch to checking the destination, because it doesn't
+give a status until it has started receiving the migration).
+
+Reported-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200528112404.121972-1-dgilbert@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ tests/acceptance/migration.py | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
+index 0365289cda..792639cb69 100644
+--- a/tests/acceptance/migration.py
++++ b/tests/acceptance/migration.py
+@@ -35,6 +35,10 @@ def assert_migration(self, src_vm, dst_vm):
+                       timeout=self.timeout,
+                       step=0.1,
+                       args=(src_vm,))
++        wait.wait_for(self.migration_finished,
++                      timeout=self.timeout,
++                      step=0.1,
++                      args=(dst_vm,))
+         self.assertEqual(src_vm.command('query-migrate')['status'], 'completed')
+         self.assertEqual(dst_vm.command('query-migrate')['status'], 'completed')
+         self.assertEqual(dst_vm.command('query-status')['status'], 'running')
 -- 
 2.21.3
 
