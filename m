@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555661E990C
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:47:52 +0200 (CEST)
-Received: from localhost ([::1]:47756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8290E1E9907
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:44:03 +0200 (CEST)
+Received: from localhost ([::1]:35900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfR7m-0005Zm-RE
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:47:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55320)
+	id 1jfR46-0000Lc-Fl
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:44:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0H-0002dh-D9
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29260
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0I-0002hD-Qf
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:06 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25380
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0D-0006tG-DR
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:05 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfR0H-0006ta-PI
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:40:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590943200;
+ s=mimecast20190719; t=1590943205;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZGJCD3WtpxESapRsldRYyPkWs2bF0ehM3T5fdkPvFFk=;
- b=TSu9kky/5xdS9F+dCqW/bNd8nnphs8gjD2hzz42LaISvch537aUNHyIIewvfI9W8sHSYzk
- EwggN1GgaNVRu2yKgk0N1eRxRyMI7YVXC4OLIHkOR6II8Hg6iHj/phY+zpJ0n6CVoQZ7jR
- pIx9cD1wH3LK0eoDwaF3jzgtnV3ySag=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-at6wA1JqMreU_Jt8MehhQw-1; Sun, 31 May 2020 12:39:57 -0400
-X-MC-Unique: at6wA1JqMreU_Jt8MehhQw-1
-Received: by mail-wr1-f71.google.com with SMTP id s7so3619086wrm.16
- for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:39:57 -0700 (PDT)
+ bh=ssulewpBrPPL8AloNMkgJXTsJOTpzeqWq+VA42pqYDs=;
+ b=XWvbj1D85UL2lqIEe248yC8q0WMVmVSze081OkDsVl4R2mLiZzq8lnhxm5beCCdLi0RJ7D
+ xmkHfPtIUxGCC1XwKLNuaagt50lMySf83Zs93x0/l928/5mWv3YakCAilGiMVqgm0ZiW4e
+ KHQS/0rn7zHAZTWVMRi97NoqzNV9zig=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-341-hGp2kGzjMdmaTSUtToySag-1; Sun, 31 May 2020 12:40:02 -0400
+X-MC-Unique: hGp2kGzjMdmaTSUtToySag-1
+Received: by mail-wr1-f69.google.com with SMTP id o1so3590178wrm.17
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:40:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZGJCD3WtpxESapRsldRYyPkWs2bF0ehM3T5fdkPvFFk=;
- b=iVSQq9+C2npHNSNNy/u+s/vNZHESmq80uEmgtwN9PnieXQAEL81UZHMmGrkyEbjJnd
- Hn6yMVUqevd57wNbyRtDoagzwu8UN9XhD4l+F66cHIP2Bi8CKnnMcSdLpupWjvxe1BIs
- hyldv8ibKQ2wNwGBixECKJlhflsRgNwp2T/Ekt3deOwbqvsdATLvEu2jldtGDdcWZB6p
- AkMjiPf3Fy+kmVLPPorfHpoj0+89UFIoZ8NR/N8dmaagm15FikeqIX4vIcp3z9r6Xr+4
- FNzJPkhI7QaqQUh2xiIAE41x5W6SKAVP1Aapzw9uReFlaXU6+CnIMOH+YWoC6fJh+7qC
- SgPw==
-X-Gm-Message-State: AOAM532It77JBfTr/H/UxRBWoMpP+TTLSSD8CYIZaCegk8W0hjHGK+SG
- iQhqpbhr5k8R+7Pqv/ShpVmvdDexD5CE5x3EnjZlvrVIJZR711hx5yl0+mhJU/gOPKNn/2PjyhJ
- 3k3Hk3AozNjvTSD4=
-X-Received: by 2002:a7b:c201:: with SMTP id x1mr17564255wmi.58.1590943195858; 
- Sun, 31 May 2020 09:39:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyOEXwNNL/vFr901ND3jDCNFYuC5Y9R8OiJUy3KhCsCICPZclc2nGHqbOnLRtzqs9ghv2iSEA==
-X-Received: by 2002:a7b:c201:: with SMTP id x1mr17564238wmi.58.1590943195679; 
- Sun, 31 May 2020 09:39:55 -0700 (PDT)
+ bh=ssulewpBrPPL8AloNMkgJXTsJOTpzeqWq+VA42pqYDs=;
+ b=I/DBAzG8EGUAPlRoNVoX5jg0DZy1WPlx7fEJh5hDfumseISHz10I0nsk45XaFE1Rmu
+ 2bRpP6HBfMGwjRHNxP3fxASKvvJbCCef92hMyvSf4ep/FFCe3/K52bVxZivnPAxBA5v2
+ m5y+PSDA6uDbqmJGrzlWwBXIlSCR3zzFDFpK/YdtC9FCt1ZpcMTk6rkNiEfq/MBosA7a
+ 4CgEEgtbWuMKTa9O3YbTFEsmZAGOuMNEKyM9DOijxkcJwecdQ4cz3doDAFxXokMwEIJO
+ roztQRTm9iOPaPlCMRZbGfR8yhegpTTrRQYUpw/vrRPz2koq28mriBYH7i+70RqwkWEv
+ /lJA==
+X-Gm-Message-State: AOAM5311gAk8XmJmgYy/mSkPmaZ024RRGIh5mP0qUMphDZE5CaqytOOx
+ tuP4A7SZXCvTr+upEbPmOfgYls3YtzOfMbufeWEhe1Um8NZCdY3ijTwB4Na11muWDDbsm064iE7
+ yWl2aiROksFaF1gw=
+X-Received: by 2002:a7b:c046:: with SMTP id u6mr17054029wmc.57.1590943201017; 
+ Sun, 31 May 2020 09:40:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzIdvNLMI//OZsjdo+C0sjBhIjuTUkjfNnTxiKuC1ShLlJgATsXVMG+s/5lIguCBK7zduo/Bw==
+X-Received: by 2002:a7b:c046:: with SMTP id u6mr17054012wmc.57.1590943200820; 
+ Sun, 31 May 2020 09:40:00 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id d13sm8387945wmb.39.2020.05.31.09.39.54
+ by smtp.gmail.com with ESMTPSA id o9sm8676600wmh.37.2020.05.31.09.39.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 09:39:55 -0700 (PDT)
+ Sun, 31 May 2020 09:40:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/25] python/qemu: fix socket.makefile() typing
-Date: Sun, 31 May 2020 18:38:34 +0200
-Message-Id: <20200531163846.25363-14-philmd@redhat.com>
+Subject: [PULL 14/25] python/qemu: Adjust traceback typing
+Date: Sun, 31 May 2020 18:38:35 +0200
+Message-Id: <20200531163846.25363-15-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200531163846.25363-1-philmd@redhat.com>
 References: <20200531163846.25363-1-philmd@redhat.com>
@@ -72,16 +72,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 11:09:45
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 12:39:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, T_DKIM_INVALID=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,121 +109,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-Note:
+mypy considers it incorrect to use `bool` to statically return false,
+because it will assume that it could conceivably return True, and gives
+different analysis in that case. Use a None return to achieve the same
+effect, but make mypy happy.
 
-A bug in typeshed (https://github.com/python/typeshed/issues/3977)
-misinterprets the type of makefile(). Work around this by explicitly
-stating that we are opening a text-mode file.
+Note: Pylint considers function signatures as code that might trip the
+duplicate-code checker. I'd rather not disable this as it does not
+trigger often in practice, so I'm disabling it as a one-off and filed a
+change request; see https://github.com/PyCQA/pylint/issues/3619
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200514055403.18902-13-jsnow@redhat.com>
+Acked-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200514055403.18902-14-jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- python/qemu/qmp.py   | 10 +++++++---
- python/qemu/qtest.py | 12 ++++++++----
- 2 files changed, 15 insertions(+), 7 deletions(-)
+ python/qemu/machine.py |  8 ++++++--
+ python/qemu/qmp.py     | 10 ++++++++--
+ 2 files changed, 14 insertions(+), 4 deletions(-)
 
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 95a20a17f9..041c615052 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -24,6 +24,8 @@
+ import shutil
+ import socket
+ import tempfile
++from typing import Optional, Type
++from types import TracebackType
+ 
+ from . import qmp
+ 
+@@ -124,9 +126,11 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
+     def __enter__(self):
+         return self
+ 
+-    def __exit__(self, exc_type, exc_val, exc_tb):
++    def __exit__(self,
++                 exc_type: Optional[Type[BaseException]],
++                 exc_val: Optional[BaseException],
++                 exc_tb: Optional[TracebackType]) -> None:
+         self.shutdown()
+-        return False
+ 
+     def add_monitor_null(self):
+         """
 diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-index 6ae7693965..73d49050ed 100644
+index 73d49050ed..b91c9d5c1c 100644
 --- a/python/qemu/qmp.py
 +++ b/python/qemu/qmp.py
-@@ -11,6 +11,10 @@
- import errno
- import socket
- import logging
-+from typing import (
-+    Optional,
-+    TextIO,
-+)
+@@ -14,7 +14,9 @@
+ from typing import (
+     Optional,
+     TextIO,
++    Type,
+ )
++from types import TracebackType
  
  
  class QMPError(Exception):
-@@ -61,7 +65,7 @@ def __init__(self, address, server=False, nickname=None):
-         self.__events = []
-         self.__address = address
-         self.__sock = self.__get_sock()
--        self.__sockfile = None
-+        self.__sockfile: Optional[TextIO] = None
-         self._nickname = nickname
-         if self._nickname:
-             self.logger = logging.getLogger('QMP').getChild(self._nickname)
-@@ -157,7 +161,7 @@ def connect(self, negotiate=True):
-         @raise QMPCapabilitiesError if fails to negotiate capabilities
+@@ -146,10 +148,14 @@ def __enter__(self):
+         # Implement context manager enter function.
+         return self
+ 
+-    def __exit__(self, exc_type, exc_value, exc_traceback):
++    def __exit__(self,
++                 # pylint: disable=duplicate-code
++                 # see https://github.com/PyCQA/pylint/issues/3619
++                 exc_type: Optional[Type[BaseException]],
++                 exc_val: Optional[BaseException],
++                 exc_tb: Optional[TracebackType]) -> None:
+         # Implement context manager exit function.
+         self.close()
+-        return False
+ 
+     def connect(self, negotiate=True):
          """
-         self.__sock.connect(self.__address)
--        self.__sockfile = self.__sock.makefile()
-+        self.__sockfile = self.__sock.makefile(mode='r')
-         if negotiate:
-             return self.__negotiate_capabilities()
-         return None
-@@ -180,7 +184,7 @@ def accept(self, timeout=15.0):
-         """
-         self.__sock.settimeout(timeout)
-         self.__sock, _ = self.__sock.accept()
--        self.__sockfile = self.__sock.makefile()
-+        self.__sockfile = self.__sock.makefile(mode='r')
-         return self.__negotiate_capabilities()
- 
-     def cmd_obj(self, qmp_cmd):
-diff --git a/python/qemu/qtest.py b/python/qemu/qtest.py
-index 7943487c2b..4c88590eb0 100644
---- a/python/qemu/qtest.py
-+++ b/python/qemu/qtest.py
-@@ -19,6 +19,7 @@
- 
- import socket
- import os
-+from typing import Optional, TextIO
- 
- from .machine import QEMUMachine
- 
-@@ -40,7 +41,7 @@ class QEMUQtestProtocol:
-     def __init__(self, address, server=False):
-         self._address = address
-         self._sock = self._get_sock()
--        self._sockfile = None
-+        self._sockfile: Optional[TextIO] = None
-         if server:
-             self._sock.bind(self._address)
-             self._sock.listen(1)
-@@ -59,7 +60,7 @@ def connect(self):
-         @raise socket.error on socket connection errors
-         """
-         self._sock.connect(self._address)
--        self._sockfile = self._sock.makefile()
-+        self._sockfile = self._sock.makefile(mode='r')
- 
-     def accept(self):
-         """
-@@ -68,7 +69,7 @@ def accept(self):
-         @raise socket.error on socket connection errors
-         """
-         self._sock, _ = self._sock.accept()
--        self._sockfile = self._sock.makefile()
-+        self._sockfile = self._sock.makefile(mode='r')
- 
-     def cmd(self, qtest_cmd):
-         """
-@@ -76,6 +77,7 @@ def cmd(self, qtest_cmd):
- 
-         @param qtest_cmd: qtest command text to be sent
-         """
-+        assert self._sockfile is not None
-         self._sock.sendall((qtest_cmd + "\n").encode('utf-8'))
-         resp = self._sockfile.readline()
-         return resp
-@@ -83,7 +85,9 @@ def cmd(self, qtest_cmd):
-     def close(self):
-         """Close this socket."""
-         self._sock.close()
--        self._sockfile.close()
-+        if self._sockfile:
-+            self._sockfile.close()
-+            self._sockfile = None
- 
-     def settimeout(self, timeout):
-         """Set a timeout, in seconds."""
 -- 
 2.21.3
 
