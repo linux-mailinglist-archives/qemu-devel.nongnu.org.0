@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097681E9A0C
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 21:17:01 +0200 (CEST)
-Received: from localhost ([::1]:44712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66EC1E9A09
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 21:11:20 +0200 (CEST)
+Received: from localhost ([::1]:38144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfTS8-0001r6-4t
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 15:17:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44674)
+	id 1jfTMd-0007CY-3m
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 15:11:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jfTQp-0000x8-HV
- for qemu-devel@nongnu.org; Sun, 31 May 2020 15:15:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:59636)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jfTL7-0006Rw-Ui
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 15:09:45 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jfTQo-00009C-7J
- for qemu-devel@nongnu.org; Sun, 31 May 2020 15:15:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jfTQl-000586-Ng
- for <qemu-devel@nongnu.org>; Sun, 31 May 2020 19:15:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AF49B2E8033
- for <qemu-devel@nongnu.org>; Sun, 31 May 2020 19:15:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jfTL6-0007U4-Hv
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 15:09:45 -0400
+Received: by mail-ot1-x342.google.com with SMTP id 69so6263234otv.2
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 12:09:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=n2w956jMdsw0P8qO81PAt7xkN4qJuBxhJ3z6uUclMiY=;
+ b=qXs3PDcEIsr00VmppHIy8ksP0cFD7Pqej1UQ+PLdpVloFNJC9YpYqjABIQ17gwUH08
+ qgw2CG7wEdSPdc63UXVQmAJNvHPfE/6ojahsu7UTZ5gKLZq6d2vZih0MsveqyEpiWi2K
+ ZwCssbdPwMXDG6Nq/iEs/uknC2a9TK6//qv2BzbADY0is01LouB+8LFhkQoUI0OlTBOf
+ qyc1KiEzHBLqRjpK22Vy6iOc+ETjprEl7Dy3J66SmRo0XucmxoibF84ukgc7Qjq7yAYQ
+ xVh0sX+d/ZaMIu/XTsZpxkBl5IHrcMVS2r81TWqR9BF1Wsi5Vey7naA3TgQCOG5xouyT
+ +oqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=n2w956jMdsw0P8qO81PAt7xkN4qJuBxhJ3z6uUclMiY=;
+ b=ucHUmnsbnPgWw/J+K6LTusH0GK4C6nJ3fLdjdm6Dfrbe2jm+WyveZ53HMVHcpm25bn
+ 5nwp0qbFPA7l/00hf/SLDv29seUz4FEMESLH6d9A51LWGdVirpX287JKY3Pl0Fhw9HNT
+ mrzaHy1XigSjcGgJup6irFUq/CY7nG0TFwsiVDhzIQ9/y3vwo31LI6+SlhXkcp9NKWH/
+ opfCUxjJvP5dx9S68m8aIXX4MKAawOSk6MUgRJRgLQP1ub/aRSZBn3Q8OJZe8hRkrqR/
+ MRZqwdRLj0h7xbGBlSy0VsW0CRPPp8SLqYomTgSVJ2VrqY2a/D+LJi9tFHZZ//erpx+P
+ xO0w==
+X-Gm-Message-State: AOAM532pVEKGY3AYgM5ppPCR/RROsL5Jhqbn+6XhywndJDFtuhl/XtI6
+ 5uqnMgWcL5Bgq95UA9sk6L78WoFcQSRq2BWaKRftkQ==
+X-Google-Smtp-Source: ABdhPJzrRkfO7MvBFoBD+niNJSwFovl/93vstAHh2dStkPg7lhujDi4o59P11ZetCE6Wk37/yYl1/YaO5kcWteFoZ/I=
+X-Received: by 2002:a9d:b82:: with SMTP id 2mr13378596oth.221.1590952183170;
+ Sun, 31 May 2020 12:09:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20200531175425.10329-1-f4bug@amsat.org>
+ <20200531175425.10329-6-f4bug@amsat.org>
+In-Reply-To: <20200531175425.10329-6-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 31 May 2020 20:09:32 +0100
+Message-ID: <CAFEAcA9CkBy=e3EmJhKko9XGbL7A_E_vedm8jt_H3+Gr6yzbhA@mail.gmail.com>
+Subject: Re: [PATCH 5/6] exec: Restrict 32-bit CPUs to 32-bit address space
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 31 May 2020 19:08:15 -0000
-From: Ethin Probst <1881506@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: harlydavidsen
-X-Launchpad-Bug-Reporter: Ethin Probst (harlydavidsen)
-X-Launchpad-Bug-Modifier: Ethin Probst (harlydavidsen)
-Message-Id: <159095209581.29684.17955799234221982572.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1881506] [NEW] TCG doesn't support a lot of features that should
- be supported
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="275d46a24253e557e4403d52832837e4bfa425b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b8bee8ec780bed5d4a58cc0af581802e00e7234c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 14:59:30
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,63 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1881506 <1881506@bugs.launchpad.net>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Sun, 31 May 2020 at 18:54, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> It is pointless to have 32-bit CPUs see a 64-bit address
+> space, when they can only address the 32 lower bits.
+>
+> Only create CPU address space with a size it can address.
+> This makes HMP 'info mtree' command easier to understand
+> (on 32-bit CPUs).
 
-This is quite odd, and I'm not sure about how to get around it. I'm writing=
- an OS in Rust and require APIC support. When I boot my kernel with qemu-sy=
-stem-x86_64, however, it dumps out a [lot] of warnings; it claims that TCG =
-doesn't support FMA, X2APIC, AVX, F16C, AVX2, RDSEED, SHA-NI, FXSR-OPT, mis=
-alignsse, 3dnowprefetch, osvw, topoext, perfctr-core, clzero, xsaveerptr, i=
-bpb, nrip-save, xsavec, and xsaves, but prints these warnings over 80 times=
- before finally doing what I told it to do. Running QEMU 5.0.0 (unknown com=
-mit hash), as follows:
-qemu-system-x86_64 -drive format=3Draw,file=3Dtarget\x86_64-kernel-none\deb=
-ug\bootimage-kernel.bin -serial stdio -no-reboot -hdb disk.img -s -m 4G -us=
-b -rtc base=3Dutc,clock=3Dhost -cpu EPYC-v3,+acpi,+apic,+rdrand,+rdseed,+ss=
-e,+sse2,+sse4.1,+sse4.2,+sse4a,+ssse3,+syscall,+x2apic -smp cpus=3D8 -sound=
-hw all
-I would run using HAXM, but my kernel requires RDRAND, and QEMU does not, t=
-o my knowledge, automatically support RDRAND (and I don't know how to enabl=
-e it).
+> diff --git a/exec.c b/exec.c
+> index 5162f0d12f..d6809a9447 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -2962,9 +2962,17 @@ static void tcg_commit(MemoryListener *listener)
+>
+>  static void memory_map_init(void)
+>  {
+> +    uint64_t system_memory_size;
+> +
+> +#if TARGET_LONG_BITS >=3D 64
+> +    system_memory_size =3D UINT64_MAX;
+> +#else
+> +    system_memory_size =3D 1ULL << TARGET_LONG_BITS;
+> +#endif
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+TARGET_LONG_BITS is a description of the CPU's virtual
+address size; but the size of the system_memory memory
+region is related to the CPU's physical address size[*].
+In particular, for the Arm Cortex-A15 (and any other
+32-bit CPU with LPAE) TARGET_LONG_BITS is 32 but the CPU
+can address more than 32 bits of physical memory.
 
--- =
+[*] Strictly speaking, it would depend on the
+maximum physical address size used by any transaction
+master in the system -- in theory you could have a
+32-bit-only CPU and a DMA controller that could be
+programmed with 64-bit addresses. In practice the
+CPU can generally address at least as much of the
+physical address space as any other transaction master.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1881506
-
-Title:
-  TCG doesn't support a lot of features that should be supported
-
-Status in QEMU:
-  New
-
-Bug description:
-  This is quite odd, and I'm not sure about how to get around it. I'm writi=
-ng an OS in Rust and require APIC support. When I boot my kernel with qemu-=
-system-x86_64, however, it dumps out a [lot] of warnings; it claims that TC=
-G doesn't support FMA, X2APIC, AVX, F16C, AVX2, RDSEED, SHA-NI, FXSR-OPT, m=
-isalignsse, 3dnowprefetch, osvw, topoext, perfctr-core, clzero, xsaveerptr,=
- ibpb, nrip-save, xsavec, and xsaves, but prints these warnings over 80 tim=
-es before finally doing what I told it to do. Running QEMU 5.0.0 (unknown c=
-ommit hash), as follows:
-  qemu-system-x86_64 -drive format=3Draw,file=3Dtarget\x86_64-kernel-none\d=
-ebug\bootimage-kernel.bin -serial stdio -no-reboot -hdb disk.img -s -m 4G -=
-usb -rtc base=3Dutc,clock=3Dhost -cpu EPYC-v3,+acpi,+apic,+rdrand,+rdseed,+=
-sse,+sse2,+sse4.1,+sse4.2,+sse4a,+ssse3,+syscall,+x2apic -smp cpus=3D8 -sou=
-ndhw all
-  I would run using HAXM, but my kernel requires RDRAND, and QEMU does not,=
- to my knowledge, automatically support RDRAND (and I don't know how to ena=
-ble it).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1881506/+subscriptions
+thanks
+-- PMM
 
