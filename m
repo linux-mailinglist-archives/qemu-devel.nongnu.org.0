@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0AEC1E98FD
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:40:49 +0200 (CEST)
-Received: from localhost ([::1]:48978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C621E9904
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:42:42 +0200 (CEST)
+Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfR0y-0002VB-MI
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:40:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55152)
+	id 1jfR2n-0006AV-UP
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:42:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzG-0000ng-Cr
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27819
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzJ-0000vb-Ie
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27371
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzF-0006eU-JH
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:02 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzI-0006et-PP
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590943141;
+ s=mimecast20190719; t=1590943144;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ly/BNyoFscwcUlEdMi1CDGrrxngHJB98Yaq6NCa8Sss=;
- b=RCQMDnUdyBjsa1xhJ27PLnBho2J+oTh3+9/ISOo7cLxTmcrmMYeJcyXFZL5DoQPfUDeIJh
- ikAHqYgN2DSW/VinzTlsgJC6TJ/V8ESJyKsMWRwXhq4Zx4oFucT05vbbTWoPWjsmBadBdA
- ZGMCqIDzpQWXjP2ONQXJUICLKldoJpY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-NFJOCalZNWOMDdvzVfd3Hg-1; Sun, 31 May 2020 12:38:57 -0400
-X-MC-Unique: NFJOCalZNWOMDdvzVfd3Hg-1
-Received: by mail-wr1-f70.google.com with SMTP id a4so3614456wrp.5
- for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:38:57 -0700 (PDT)
+ bh=C/VDoQzlI3PMEip7rZs9mnHodIncfMhzQDNkbQhv2i8=;
+ b=HrBc+RfnUyN+2cMol2wvSFsEXguNkdPTYEHArcXcZafDlVconFtGN/yO/wWhV7J0o8mnTY
+ Yl9gbB+bnskmX2liS8+K6x6Yi/MQkDfYJj3ASB0pixL7mDaQMcsmfnXxePVLp/aqKkwxVe
+ 0n3JT04X0Iw3K6EwDr4Z1j88gQcExI0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-v20ZcIOeOsCxvQ5ZU-IkHA-1; Sun, 31 May 2020 12:39:01 -0400
+X-MC-Unique: v20ZcIOeOsCxvQ5ZU-IkHA-1
+Received: by mail-wm1-f71.google.com with SMTP id u11so1912763wmc.7
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:39:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ly/BNyoFscwcUlEdMi1CDGrrxngHJB98Yaq6NCa8Sss=;
- b=ZSnUyaK8QgJ0oLRQAK6B8rXpWzINkSdMIsVfucfWvFTmUgk57lJ7r7/h76CbNlwlBj
- pivvjaLJcEnVo9CsTkzOX5syEub9EuM4Gpm/CWIw0GjiChGZqKJhnMmfi8kS4CN9QHOT
- 3xvqGIVn8qM4jDFhy9K/r7TdfSjPs2fFgCzhuZpgZAHraefIsmppncjAKAwPYaEL+rI3
- zvpSFkvaU+0OvOJ0PzMzUD7pY4Y0F5RDFmq7Dmk+VtEk0ZdUzHZ1MJZN9jOfcuxXvpR7
- gdsDF/OFHbffJJrV0y2fy0dd59ZQ3BuyF0FVUkrQEJlqR+vo0hoz0enbTSnrmADJE2/C
- OJ9w==
-X-Gm-Message-State: AOAM531OHG+WSNf5+stLPndhF7l4inuhhj8CqaipTb1WhJM2VHXo9UR9
- LO4m04R26HOCkQU+at2NBenml6tsG4I6CHNLYQTDsJ/ZejkGS+BjGgB2iim8STpwrnZDUWhYKWH
- KJR+CAyAfYHcGbTY=
-X-Received: by 2002:a5d:4e03:: with SMTP id p3mr18519117wrt.350.1590943135211; 
- Sun, 31 May 2020 09:38:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxe7sJn4ZGtJgKpS26KNwTyhpDQC9oFjhczDjqsHEXGXaRKqr+VepBPJMpNihdteRynA8wNuA==
-X-Received: by 2002:a5d:4e03:: with SMTP id p3mr18519096wrt.350.1590943134994; 
- Sun, 31 May 2020 09:38:54 -0700 (PDT)
+ bh=C/VDoQzlI3PMEip7rZs9mnHodIncfMhzQDNkbQhv2i8=;
+ b=K/JWNvgFwAoZqRQICT9kZ13cLE/SVoOUxe4QmLfXDOEgolIaZ/VG9EdDPjiFR09qvw
+ fjmli14XaIC2EyGRCI6nMzbovaMAyDeDBsoFxMaNmuc573IPU55Ntk9ZqJeMHtGTsC53
+ CENUJnF/pE9SIA/xPGHhTip+g2vcDVn9B4EuIWBcF613SN0sJiwgv4BDpR73YTbfyMTw
+ FNCq8Wvl8vzSorzpKKaTdVQ+leFu9P1pCGFEnKIS6Sqeeg3lc3JPUiF+hqbnF+228Tzj
+ C0jo4oPGFNbKTUPIXR5/8/7hYsb7L7t0VQ8bPqU3v7RDmlXwCIhjVEJMfIglOSSZLctt
+ 3oHQ==
+X-Gm-Message-State: AOAM530AUNSE4jM1E0cICeY0FiZxakPGyTNXIwxjmalYufEFQUr9ELk1
+ TtW+Irw3i7rLZhvOLGWoSGDoy0/w6yHtkHxiuaHG/GOyDYJrF0mc3s3tprjt8Bpzk4UCJFc34pX
+ 3soUiVglZe8l+Ovk=
+X-Received: by 2002:a1c:29c4:: with SMTP id p187mr17760836wmp.73.1590943140357; 
+ Sun, 31 May 2020 09:39:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwIEiALGuV93Ro6dhnxfm0LVwVkfTLG/HYDNsHae0Cpu2iwY0tKkx4JmUw+UJ4NEDJTtGPkpg==
+X-Received: by 2002:a1c:29c4:: with SMTP id p187mr17760818wmp.73.1590943140155; 
+ Sun, 31 May 2020 09:39:00 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id v7sm8920008wme.46.2020.05.31.09.38.53
+ by smtp.gmail.com with ESMTPSA id d2sm17217183wrs.95.2020.05.31.09.38.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 09:38:54 -0700 (PDT)
+ Sun, 31 May 2020 09:38:59 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/25] scripts/qemugdb: Remove shebang header
-Date: Sun, 31 May 2020 18:38:22 +0200
-Message-Id: <20200531163846.25363-2-philmd@redhat.com>
+Subject: [PULL 02/25] scripts/qemu-gdb: Use Python 3 interpreter
+Date: Sun, 31 May 2020 18:38:23 +0200
+Message-Id: <20200531163846.25363-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200531163846.25363-1-philmd@redhat.com>
 References: <20200531163846.25363-1-philmd@redhat.com>
@@ -72,16 +72,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 12:38:54
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 11:09:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,91 +110,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-These scripts are loaded as plugin by GDB (and they don't
-have any __main__ entry point). Remove the shebang header.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Acked-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200512103238.7078-2-philmd@redhat.com>
+Message-Id: <20200512103238.7078-3-philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- scripts/qemugdb/__init__.py  | 3 +--
- scripts/qemugdb/aio.py       | 3 +--
- scripts/qemugdb/coroutine.py | 3 +--
- scripts/qemugdb/mtree.py     | 4 +---
- scripts/qemugdb/tcg.py       | 1 -
- scripts/qemugdb/timers.py    | 1 -
- 6 files changed, 4 insertions(+), 11 deletions(-)
+ scripts/qemu-gdb.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/qemugdb/__init__.py b/scripts/qemugdb/__init__.py
-index 969f552b26..da8ff612e5 100644
---- a/scripts/qemugdb/__init__.py
-+++ b/scripts/qemugdb/__init__.py
-@@ -1,5 +1,4 @@
+diff --git a/scripts/qemu-gdb.py b/scripts/qemu-gdb.py
+index f2a305c42e..e0bfa7b5a4 100644
+--- a/scripts/qemu-gdb.py
++++ b/scripts/qemu-gdb.py
+@@ -1,5 +1,5 @@
 -#!/usr/bin/python
 -
-+#
- # GDB debugging support
- #
- # Copyright (c) 2015 Linaro Ltd
-diff --git a/scripts/qemugdb/aio.py b/scripts/qemugdb/aio.py
-index 2ba00c4444..d7c1ba0c28 100644
---- a/scripts/qemugdb/aio.py
-+++ b/scripts/qemugdb/aio.py
-@@ -1,5 +1,4 @@
--#!/usr/bin/python
--
-+#
- # GDB debugging support: aio/iohandler debug
- #
- # Copyright (c) 2015 Red Hat, Inc.
-diff --git a/scripts/qemugdb/coroutine.py b/scripts/qemugdb/coroutine.py
-index 41e079d0e2..db61389022 100644
---- a/scripts/qemugdb/coroutine.py
-+++ b/scripts/qemugdb/coroutine.py
-@@ -1,5 +1,4 @@
--#!/usr/bin/python
--
++#!/usr/bin/env python3
 +#
  # GDB debugging support
  #
  # Copyright 2012 Red Hat, Inc. and/or its affiliates
-diff --git a/scripts/qemugdb/mtree.py b/scripts/qemugdb/mtree.py
-index 3030a60d3f..8fe42c3c12 100644
---- a/scripts/qemugdb/mtree.py
-+++ b/scripts/qemugdb/mtree.py
-@@ -1,5 +1,4 @@
--#!/usr/bin/python
--
-+#
- # GDB debugging support
- #
- # Copyright 2012 Red Hat, Inc. and/or its affiliates
-@@ -84,4 +83,3 @@ def print_item(self, ptr, offset = gdb.Value(0), level = 0):
-         while not isnull(subregion):
-             self.print_item(subregion, addr, level)
-             subregion = subregion['subregions_link']['tqe_next']
--
-diff --git a/scripts/qemugdb/tcg.py b/scripts/qemugdb/tcg.py
-index 18880fc9a7..16c03c06a9 100644
---- a/scripts/qemugdb/tcg.py
-+++ b/scripts/qemugdb/tcg.py
-@@ -1,4 +1,3 @@
--#!/usr/bin/python
- # -*- coding: utf-8 -*-
- #
- # GDB debugging support, TCG status
-diff --git a/scripts/qemugdb/timers.py b/scripts/qemugdb/timers.py
-index f0e132d27a..46537b27cf 100644
---- a/scripts/qemugdb/timers.py
-+++ b/scripts/qemugdb/timers.py
-@@ -1,4 +1,3 @@
--#!/usr/bin/python
- # -*- coding: utf-8 -*-
- # GDB debugging support
- #
 -- 
 2.21.3
 
