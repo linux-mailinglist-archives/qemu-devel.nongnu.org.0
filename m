@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860501E991F
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:55:15 +0200 (CEST)
-Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961601E9922
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:57:01 +0200 (CEST)
+Received: from localhost ([::1]:53600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfREw-00085z-H5
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:55:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55756)
+	id 1jfRGe-00030G-Jd
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:57:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jfR2o-0007Q5-IP
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:42:42 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46276)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jfR5q-0003cW-UM
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:45:50 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jfR2n-0008EV-Ap
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:42:42 -0400
-Received: by mail-wr1-x441.google.com with SMTP id x6so9001093wrm.13
- for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:42:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jfR5q-0001Lk-3S
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:45:50 -0400
+Received: by mail-wr1-x443.google.com with SMTP id j10so9065981wrw.8
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:45:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=rseQoM8S/ilqhsOjzIqn6qyFwjwe1nbpud1Jd9Oo5qQ=;
- b=NT/3yk3AKcuA6pvXovLnyNkO2Y7YiAUsGW/M49227UWZPafVEWOyUK9RAaAH0DBZ1s
- IAG4xp8QVGCddPXYU8yT6krns5va1qvvJcpLBCugUFziQNn1/XhS9SCwfrBqSMsbx2Xy
- cn1v3pFHH7pi/bnZv2t+42QZqSvqANojZx5fWG6Bk5Q6KNsyDWH5Wk8kSM7KNN6wPUQV
- eRUExah1wmuhDOskeX2bQNtMaGt1I1Tvq+wtDXsi8NMMFy7Q7oaB7yapKc5c3Yu7KRL6
- gnT/3PXP7VqcQMG0xgZTkNF+3tpeSqZHgaS723Y/8sNY84kd33LFec+MOpWU5D6GYIXi
- I9Nw==
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=rcRt5hRKYsOCngwFksCi7aIsGDFquSF0YGSBXyIu96E=;
+ b=XtTIbCsEugHvb4M5iVBxMjvBH5J6lD2lJOhs0nyDpgqOQ/ISz5vFEWbKoM+ALdxWV2
+ x7DCGUYIujlA4vUHcpiTz+3e4rJbjzt03BMXLNJjdTmjbC3J/73HPw5Q6/EeaeorTraf
+ TGLOke4ZHMQ9t0S0ANhmGi9Gw7bPrQV6XgAkDNcP+jOIxZhLh6m58ReiPmHWQnOMkx/9
+ +kcfu9jrDq0nbJVvIxEDdx4uRLRmmo5zeWEFGMBslVPHPyH6ukm1NRoUy4Ifo0InR1tv
+ hR6PnYcr+uXrlKoJugJmKK2RXJQznTm4Hl1uAK1OfueA6zel8DyAFPl7GaDBNw7wy9qo
+ 47Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=rseQoM8S/ilqhsOjzIqn6qyFwjwe1nbpud1Jd9Oo5qQ=;
- b=NrF9htMFNi8bMJ7eOQ0FLTLWo57TBdtI/VvUmchVMfIe68+I0M8HNy7yQqIQoJbukM
- wgobhhMh1g+RciQ31+vBLeylcdwJQu0agtIOk7NnJ5dygrOAjxOv9oHklfuoiU8nsJQw
- 2WFKdYxF5dPKky0q+967wdxTE0xiMpSE80IUWRgtBatqnkyEUj+O9c1K/q5sM9CiRkUU
- P8NK5Bq92di5+9zPUw2lkPKZVBfyTS0zDaNvhGfqLoNekKmlnX5Km9nfr6P44K9Rjf46
- HdPehElRWDXTNgd+1y5xn+zux90DRgyoX9+QlaqnUY0NZVO3ZMlCcq98llB94uQ72es5
- Pcgg==
-X-Gm-Message-State: AOAM531LfF43E9+uCJeX8eJh7CY1gItdkCpM1RMfAvNVw3RzKLDZ7qg9
- 090rHWHiM/i4R+xbZSZ1tfg=
-X-Google-Smtp-Source: ABdhPJzVlZq1xqvk2sOUzbP1LcHX4bVDsD1qlnWofMZF3Z6EuMpigF8olYmfw4iafoGWaslDw0CqZg==
-X-Received: by 2002:a5d:4a04:: with SMTP id m4mr19701481wrq.153.1590943358948; 
- Sun, 31 May 2020 09:42:38 -0700 (PDT)
-Received: from jondnuc (IGLD-84-229-154-20.inter.net.il. [84.229.154.20])
- by smtp.gmail.com with ESMTPSA id k14sm17753437wrq.97.2020.05.31.09.42.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 09:42:38 -0700 (PDT)
-Date: Sun, 31 May 2020 19:42:36 +0300
-From: Jon Doron <arilou@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH-for-5.0] gdbstub: Use correct address space with
- Qqemu.PhyMemMode packet
-Message-ID: <20200531164236.GF3071@jondnuc>
-References: <20200330153016.2959-1-f4bug@amsat.org>
- <CAFEAcA8i1W7ss2hQjaFbVHXzqhV81M8U4Fkaj_Te5JK8JO8+mg@mail.gmail.com>
- <f1fd3384-8653-c2e2-7248-457ae873cc27@redhat.com>
- <CAFEAcA_BJf3k-O4j73kNaPtSHfhqmgtm9LH=nAmNj46kMjbkCA@mail.gmail.com>
- <d5ce42bc-a236-512f-dbbe-7327527419e0@amsat.org>
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rcRt5hRKYsOCngwFksCi7aIsGDFquSF0YGSBXyIu96E=;
+ b=mMKtnDXhbMsvZSS/xQ7uqj/3ZCJXaaeRrYSKByXaYFUqTHLrr2DkqgNz8ywLb9mNJK
+ UE7QHIjpOSH6/xuHjHRnX2EwOTlEEfB7xC9ugNwAIzFGmoH2f3LwHuqid7ATMz41IX3V
+ TB5TyUmRvEW65EfKuiCHi+Rpfpcl9zP4GXS3KEjzMD6o8I4tdz7dwitPT8tU0Y1076op
+ DAz0M6VENObOjMl6tWGzBaYHs2VPmasZ5LqVjl2oUQFASCwvJYuofQPO39K0IAXsoUiP
+ mN+UvtWhbRmNieggNUVhaXNmqaD/9LoRiImYrrvHo+S5qdvtyTqPD1OR+tStXVgjP8Pf
+ N51Q==
+X-Gm-Message-State: AOAM532LDyZViP6m84h5//92WKd4MuQXt57DKONb8T7odrMLOB1aC5W4
+ OM4on2gL+oDOCN5eyTvpH6AorkSI
+X-Google-Smtp-Source: ABdhPJypbDyrB4limgqD157g8NGrz9XvGMgcXFYdiC2UQkRKPj65XffaiXF8V8s5o6veTfbL5JvBbw==
+X-Received: by 2002:a05:6000:12c8:: with SMTP id
+ l8mr18641744wrx.148.1590943548190; 
+ Sun, 31 May 2020 09:45:48 -0700 (PDT)
+Received: from [192.168.1.34] (43.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.43])
+ by smtp.gmail.com with ESMTPSA id m24sm8788098wmi.14.2020.05.31.09.45.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 31 May 2020 09:45:47 -0700 (PDT)
+Subject: Re: [PATCH 00/10] Add RX hardware emulation
+To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
+References: <20200531162427.57410-1-ysato@users.sourceforge.jp>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d7fc8b59-5a22-8383-b939-1cc73f8c2e66@amsat.org>
+Date: Sun, 31 May 2020 18:45:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d5ce42bc-a236-512f-dbbe-7327527419e0@amsat.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=arilou@gmail.com; helo=mail-wr1-x441.google.com
+In-Reply-To: <20200531162427.57410-1-ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -89,152 +91,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/05/2020, Philippe Mathieu-Daudé wrote:
->On 3/30/20 6:41 PM, Peter Maydell wrote:
->> On Mon, 30 Mar 2020 at 17:21, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>> On 3/30/20 6:08 PM, Peter Maydell wrote:
->>>> On Mon, 30 Mar 2020 at 16:30, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>>>>
->>>>> Since commit 3f940dc98, we added support for vAttach packet
->>>>> to select a particular thread/cpu/core. However when using
->>>>> the GDB physical memory mode, it is not clear which CPU
->>>>> address space is used.
->>>>> Since the CPU address space is stored in CPUState::as, use
->>>>> address_space_rw() instead of cpu_physical_memory_rw().
->>>>>
->>>>> Fixes: ab4752ec8d9
->>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>> ---
->>>>>   gdbstub.c | 7 ++-----
->>>>>   1 file changed, 2 insertions(+), 5 deletions(-)
->>>>>
->>>>> diff --git a/gdbstub.c b/gdbstub.c
->>>>> index 013fb1ac0f..3baaef50e3 100644
->>>>> --- a/gdbstub.c
->>>>> +++ b/gdbstub.c
->>>>> @@ -69,11 +69,8 @@ static inline int target_memory_rw_debug(CPUState *cpu, target_ulong addr,
->>>>>
->>>>>   #ifndef CONFIG_USER_ONLY
->>>>>       if (phy_memory_mode) {
->>>>> -        if (is_write) {
->>>>> -            cpu_physical_memory_write(addr, buf, len);
->>>>> -        } else {
->>>>> -            cpu_physical_memory_read(addr, buf, len);
->>>>> -        }
->>>>> +        address_space_rw(cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
->>>>> +                         buf, len, is_write);
->>>>>           return 0;
->>>>
->>>> There's an argument here for using
->>>>     int asidx = cpu_asidx_from_attrs(cpu, MEMTXATTRS_UNSPECIFIED);
->>>>     AddressSpace *as = cpu_get_address_space(cpu, asidx);
->>>>
->>>> though it will effectively boil down to the same thing in the end
->>>> as there's no way for the gdbstub to specify whether it wanted
->>>> eg the Arm secure or non-secure physical address space.
->>>
->>> https://static.docs.arm.com/ihi0074/a/debug_interface_v6_0_architecture_specification_IHI0074A.pdf
->>>
->>> * Configuration of hypervisor noninvasive debug.
->>>
->>> This field can have one of the following values:
->>>
->>> - 0b00
->>> Separate controls for hypervisor noninvasive debug are not implemented,
->>> or no hypervisor is implemented. For ARMv7 PEs that implement the
->>> Virtualization Extensions, and for ARMv8 PEs that implement EL2, if
->>> separate controls for hypervisor debug visibility are not implemented,
->>> the hypervisor debug visibility is indicated by the relevant Non-secure
->>> debug visibility fields NSNID and NSID.
->>>
->>> OK so for ARM "noninvasive debug is not implemented" and we would use
->>> the core secure address space?
->>
->> I'm not very familiar with the debug interface (we don't model
->> it in QEMU), but I think that is the wrong end of it. These
->> are bits in AUTHSTATUS, which is a read-only register provided
->> by the CPU to the debugger. It basically says "am I, the CPU,
->> going to permit you, the debugger, to debug code running
->> in secure mode, or in EL2". (The CPU gets to decide this:
->> for security some h/w will not want any random with access
->> to the jtag debug port to be able to just read out code from
->> the secure world, for instance.)
->>
->> What the debugger gets to control is bits in the CSW register
->> in the "MEM-AP"; it can use these to specify the size of
->> a memory access it wants to make to the guest, and also
->> the 'type', which is IMPDEF but typically lets the debugger
->> say "code access vs data access", "privileged vs usermode"
->> and "secure vs non-secure".
->>
->> The equivalent in the QEMU world is that the debugger can
->> specify the memory transaction attributes. The question is
->> whether the gdb protocol provides any equivalent of that:
->> if it doesn't then gdbstub.c has to make up an attribute and
->> use that.
->>
->>> Instead of MEMTXATTRS_UNSPECIFIED I should use a crafted MemTxAttrs with
->>> .secure = 1, .unspecified = 1?
->>
->> You shouldn't set 'unspecified = 1', because that indicates
->> "this is MEMTXATTRS_UNSPECIFIED". The default set of
->> unspecified-attributes are probably good enough,
->> though, so you can just use MEMTXATTRS_UNSPECIFIED.
->>
->>> The idea of this command is to use the
->>> CPU AS but not the MMU/MPU, maybe it doesn't make sense...
->>
->> The trouble is that the command isn't precise enough.
->> "read/write to physical memory" is fine if the CPU has
->> exactly one physical address space, but it's ambiguous if the CPU
->> has more than one physical address space. Either we need the
->> user to be able to tell us which one they wanted somehow
->> (which for QEMU more or less means that they should tell
->> us what tx attributes they wanted), or we need to make an
->> arbitrary decision.
->>
->> PS: do we have any documentation of this new command ?
->> ab4752ec8d9 has the implementation but no documentation...
->
->Jon, do you have documentation on the Qqemu.PhyMemMode packet?
->
->>
->> thanks
->> -- PMM
->>
+On 5/31/20 6:24 PM, Yoshinori Sato wrote:
+> Hello.
+> 
+> This series add to hardware emulation module for RX target.
+> 
+> Details below.
+> Interrupt controller, 8bit timer, 16bit comapare match timer and
+> SCI is RX62N integrated peripheral.
+> rx-virt - RX62N MCU and external RAM. It like gdb simulator.
+> 
+> The compare match timer has a CPU interface similar to the SH4 timer.
+> sh_timer will be deprecated and integrated into this module.
+> SCI is also implemented in sh_serial, but the functionality is omitted.
+> I implemented the complete one as renesas_sci.
+> 
+> git repository here.
+> git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/hw-rx-20200601
 
-Hi, there is no documentation for this mode, but in general the idea was 
-very simple.
+Sigh. It is a bit unfortunate and demotivating that we can not
+coordinate this. I was going to send a pre-merge for this today.
 
-I want to have GDB the option to see the physical memory and examine it 
-and have this option toggled.
+What is positive is you unified some SH4/RX peripherals.
 
-This was useful to me when I was working on nested virtual machine and I 
-wanted to examine different states of the VMCS12 and EPTs.
+I'll try to merge both series. If it takes too long, I might send my
+current queue for you to review, then go back to this one you just sent.
 
-I used this in the following commands:
-// Enable
-maint packet Qqemu.PhyMemMode:1
+Regards,
 
-// Disable
-maint packet Qqemu.PhyMemMode:0
-
-It was mostly used part of a GDB script I played with to help me find 
-the VMCS12 and EPTs.
-
-The architecture was x86_64.
-
-Let me know if you have any further questions.
-
-Cheers,
--- Jon.
+Phil.
 
