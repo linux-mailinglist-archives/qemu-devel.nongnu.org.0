@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448671E99B4
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 19:56:52 +0200 (CEST)
-Received: from localhost ([::1]:45948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 884BF1E99BA
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 19:59:43 +0200 (CEST)
+Received: from localhost ([::1]:57520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfSCZ-0005c5-9h
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 13:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36524)
+	id 1jfSFK-000244-L2
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 13:59:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jfSAM-0003cm-SH; Sun, 31 May 2020 13:54:34 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41815)
+ id 1jfSAO-0003g9-6j; Sun, 31 May 2020 13:54:36 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jfSAM-0007dB-40; Sun, 31 May 2020 13:54:34 -0400
-Received: by mail-wr1-x444.google.com with SMTP id j10so9178453wrw.8;
- Sun, 31 May 2020 10:54:33 -0700 (PDT)
+ id 1jfSAN-0007dS-Ei; Sun, 31 May 2020 13:54:35 -0400
+Received: by mail-wm1-x344.google.com with SMTP id d128so9187218wmc.1;
+ Sun, 31 May 2020 10:54:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Dvh9ZlB2YzrPmnRo8g2PXiL+qQpysab7ZLFeTg1BN6M=;
- b=m5FOWe+F0mJ3nRIzM6rEIVG4pL/paYIdc8LcC9s2mubExfLa4bP3mScZBfKAFFlUCY
- HIqNbm/Vk8F60YK32Vz5eWU63PJnA7aRiqMKB/qFdoCCcHoWyRMkgA2E2LqMbwO2ckVj
- fTEaC20FNMY/T0tAD71jDyN01kpx80Zbu/eS5yqISplqbdq9UPpALGcov8FUJlUjd3KE
- DHKOk31OCux1I5V1zczEOUvOlx/137Jy4+Z45uKvwV5TrvH1p9KFohLM+iMpYwCwPVYw
- qUU6gpbMU2tX5oLZjKVyyupdBFhAEH6MAGTUQ7OV9snrozylipWc5p0/+xU2SeRLcd4Q
- R6vA==
+ bh=RUMqPKblWHjVxZ98nIqqASbuDI8vJG3qcSLvSLKCBt8=;
+ b=X+8eI/C4OhMfctTsS73+OghNMtcX/UEvdJo2GwriLZwNzWr6kcvX7lAzZaBK/UOsLR
+ QNV34xFe+hb1aFe1WxT+liWxk8XdVB+xkrJxHZ4V6Zpycz6bBCoOXmNIYc1ueiVCM7OV
+ GAnFaLBS4kA8vdtTQyiTgn/EFiATZUbk0tce6OPAS7bPLAWBeVE8ZonfKKTZLDYYglHS
+ +9ejhU+BBCnY6Gd1X/bK1LedC75UiWzR5CZ3dE7AaTFPGduYnaSI00iEnye7fSZZ/fsn
+ mi1b2v2HsfdAWhoLO/lXNPq6xJ73BR5j3KRxu1B5ImPH4JoEsBUXLWq3PUBb9TrwX6+a
+ 2t7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Dvh9ZlB2YzrPmnRo8g2PXiL+qQpysab7ZLFeTg1BN6M=;
- b=WozwpQOKYax+UDpJUplxUnxehVv3UZcnd3vT3kahvGWeKZ60ooqkvAq/6XhY6rX6gm
- N4Ie8y8z/zvhs9DVyu47vCviVroyE8G1nJ0fSMhj9HeMhhTifSgINiGNO76Chc8mKtJz
- 3w8zTR24u71i6RZmVANbyne6Z8z1UG4h1BSoj7w7iJrwWZlwiEsb9LX42rg+vACI4cvr
- kFsxkuq+eMU1tZjKdCRBoZM/EJN9qSRGlwsDPr45wVCStIxVQy6BCLE5LsvxOt/WKQSg
- mbQk8a1hs7fZd3gbC1MvEopfpcRKVExYAPsWY7VFybrv82jK+gsCF0cifuAYBRuIQSM8
- A4Kw==
-X-Gm-Message-State: AOAM532jJYtMK+eAoVqcP3YzzKGssoKND5vHy4cvacQ4L1O/p5hZjb6M
- GYil6mFqaSO91fs0Ey/knIV/IDGo
-X-Google-Smtp-Source: ABdhPJz1GxV/uSud2mIcv0IYegcyrgtYn8yN7VsULEQJnNJnzS/9BP3ki2V6Kb4lwBWxdAKacleCzg==
-X-Received: by 2002:a5d:6283:: with SMTP id k3mr17748351wru.422.1590947671873; 
- Sun, 31 May 2020 10:54:31 -0700 (PDT)
+ bh=RUMqPKblWHjVxZ98nIqqASbuDI8vJG3qcSLvSLKCBt8=;
+ b=NrXDrCavVU0PtPw00P+y32HnofRpoE5VyjCSwJOnmv8yDNN6hSwfQI8VkJKgGJxoHY
+ 3eLBmFj4UvR4syzDNbo3SvPkkkuJaO3oOyl+cmBj8Fd2qtCJk0SuPqWaX8oX92wngWrH
+ +sW5N/qk8COoShcl44DFG+MkGPcWetWXYnUzpJi3TubcbJ+3YQ5jVORz9ZYu5TLjS4Y+
+ x3eP3fqO+w5FLBKYHV7kPdCah7nrwQ9gjOYHkP0Wrn864OyFue2AiKUzYJ43tToPKWxB
+ uRLdGd5p06FN9OPAy+wzE/jd4yAYdxdw4r9fHaf1KS48mKWUcXkyhd4IX8vVVUf7zs2I
+ hixQ==
+X-Gm-Message-State: AOAM532TXkrvdyN59tiuEGrOHVIODvR9uIp0V8LBMcmE9dSx5lU72gA9
+ 2xkjxUa0818As1iOWbd7mgRTzBwl
+X-Google-Smtp-Source: ABdhPJwCaiuZuI9J6B7vunUSeiqVjQhHpoq0Dhwc6Ep+Qgglfz6RGDoUPVR5vT5eCKikFH0pqMvm4w==
+X-Received: by 2002:a1c:96c3:: with SMTP id y186mr17785194wmd.60.1590947673231; 
+ Sun, 31 May 2020 10:54:33 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id z7sm17862531wrt.6.2020.05.31.10.54.30
+ by smtp.gmail.com with ESMTPSA id z7sm17862531wrt.6.2020.05.31.10.54.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 10:54:31 -0700 (PDT)
+ Sun, 31 May 2020 10:54:32 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] hw/sd/allwinner-sdhost: Do DMA accesses via DMA address
- space
-Date: Sun, 31 May 2020 19:54:22 +0200
-Message-Id: <20200531175425.10329-4-f4bug@amsat.org>
+Subject: [PATCH 4/6] exec/cpu-common: Do not restrict CPU to 32-bit memory
+ access maximum
+Date: Sun, 31 May 2020 19:54:23 +0200
+Message-Id: <20200531175425.10329-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200531175425.10329-1-f4bug@amsat.org>
 References: <20200531175425.10329-1-f4bug@amsat.org>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -99,129 +99,88 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The DMA operations should not use the CPU address space, but
-the DMA address space. Add support for a DMA address space,
-and replace the cpu_physical_memory API calls by equivalent
-dma_memory_read/write calls.
+Most CPUs can do 64-bit operations. Update the CPUReadMemoryFunc
+and CPUWriteMemoryFunc prototypes.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/sd/allwinner-sdhost.h |  4 ++++
- hw/sd/allwinner-sdhost.c         | 36 ++++++++++++++++++++++++++------
- 2 files changed, 34 insertions(+), 6 deletions(-)
+ include/exec/cpu-common.h |  4 ++--
+ hw/usb/hcd-musb.c         | 12 ++++++------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/sd/allwinner-sdhost.h b/include/hw/sd/allwinner-sdhost.h
-index d94606a853..ae1125c026 100644
---- a/include/hw/sd/allwinner-sdhost.h
-+++ b/include/hw/sd/allwinner-sdhost.h
-@@ -68,6 +68,10 @@ typedef struct AwSdHostState {
-     /** Maps I/O registers in physical memory */
-     MemoryRegion iomem;
+diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+index b47e5630e7..5ac766e3b6 100644
+--- a/include/exec/cpu-common.h
++++ b/include/exec/cpu-common.h
+@@ -43,8 +43,8 @@ extern ram_addr_t ram_size;
  
-+    /** DMA physical memory */
-+    MemoryRegion *dma_mr;
-+    AddressSpace dma_as;
-+
-     /** Interrupt output signal to notify CPU */
-     qemu_irq irq;
+ /* memory API */
  
-diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
-index f404e1fdb4..9a2b5fcaeb 100644
---- a/hw/sd/allwinner-sdhost.c
-+++ b/hw/sd/allwinner-sdhost.c
-@@ -21,7 +21,10 @@
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "qemu/units.h"
-+#include "qapi/error.h"
- #include "sysemu/blockdev.h"
-+#include "sysemu/dma.h"
-+#include "hw/qdev-properties.h"
- #include "hw/irq.h"
- #include "hw/sd/allwinner-sdhost.h"
- #include "migration/vmstate.h"
-@@ -306,7 +309,7 @@ static uint32_t allwinner_sdhost_process_desc(AwSdHostState *s,
-     uint8_t buf[1024];
+-typedef void CPUWriteMemoryFunc(void *opaque, hwaddr addr, uint32_t value);
+-typedef uint32_t CPUReadMemoryFunc(void *opaque, hwaddr addr);
++typedef void CPUWriteMemoryFunc(void *opaque, hwaddr addr, uint64_t value);
++typedef uint64_t CPUReadMemoryFunc(void *opaque, hwaddr addr);
  
-     /* Read descriptor */
--    cpu_physical_memory_read(desc_addr, desc, sizeof(*desc));
-+    dma_memory_read(&s->dma_as, desc_addr, desc, sizeof(*desc));
-     if (desc->size == 0) {
-         desc->size = klass->max_desc_size;
-     } else if (desc->size > klass->max_desc_size) {
-@@ -331,8 +334,9 @@ static uint32_t allwinner_sdhost_process_desc(AwSdHostState *s,
- 
-         /* Write to SD bus */
-         if (is_write) {
--            cpu_physical_memory_read((desc->addr & DESC_SIZE_MASK) + num_done,
--                                      buf, buf_bytes);
-+            dma_memory_read(&s->dma_as,
-+                            (desc->addr & DESC_SIZE_MASK) + num_done,
-+                            buf, buf_bytes);
- 
-             for (uint32_t i = 0; i < buf_bytes; i++) {
-                 sdbus_write_data(&s->sdbus, buf[i]);
-@@ -343,15 +347,16 @@ static uint32_t allwinner_sdhost_process_desc(AwSdHostState *s,
-             for (uint32_t i = 0; i < buf_bytes; i++) {
-                 buf[i] = sdbus_read_data(&s->sdbus);
-             }
--            cpu_physical_memory_write((desc->addr & DESC_SIZE_MASK) + num_done,
--                                       buf, buf_bytes);
-+            dma_memory_write(&s->dma_as,
-+                             (desc->addr & DESC_SIZE_MASK) + num_done,
-+                             buf, buf_bytes);
-         }
-         num_done += buf_bytes;
-     }
- 
-     /* Clear hold flag and flush descriptor */
-     desc->status &= ~DESC_STATUS_HOLD;
--    cpu_physical_memory_write(desc_addr, desc, sizeof(*desc));
-+    dma_memory_write(&s->dma_as, desc_addr, desc, sizeof(*desc));
- 
-     return num_done;
- }
-@@ -742,6 +747,17 @@ static void allwinner_sdhost_init(Object *obj)
-     sysbus_init_irq(SYS_BUS_DEVICE(s), &s->irq);
+ void qemu_ram_remap(ram_addr_t addr, ram_addr_t length);
+ /* This should not be used by devices.  */
+diff --git a/hw/usb/hcd-musb.c b/hw/usb/hcd-musb.c
+index c29fbef6fc..4063cbccf8 100644
+--- a/hw/usb/hcd-musb.c
++++ b/hw/usb/hcd-musb.c
+@@ -1243,7 +1243,7 @@ static void musb_ep_writeh(void *opaque, int ep, int addr, uint16_t value)
  }
  
-+static void allwinner_sdhost_realize(DeviceState *dev, Error **errp)
-+{
-+    AwSdHostState *s = AW_SDHOST(dev);
-+
-+    if (!s->dma_mr) {
-+        error_setg(errp, "\"dma\" property must be provided.");
-+        return;
-+    }
-+    address_space_init(&s->dma_as, s->dma_mr, "sdhost-dma");
-+}
-+
- static void allwinner_sdhost_reset(DeviceState *dev)
+ /* Generic control */
+-static uint32_t musb_readb(void *opaque, hwaddr addr)
++static uint64_t musb_readb(void *opaque, hwaddr addr)
  {
-     AwSdHostState *s = AW_SDHOST(dev);
-@@ -787,6 +803,12 @@ static void allwinner_sdhost_reset(DeviceState *dev)
-     s->status_crc = REG_SD_CRC_STA_RST;
+     MUSBState *s = (MUSBState *) opaque;
+     int ep, i;
+@@ -1305,7 +1305,7 @@ static uint32_t musb_readb(void *opaque, hwaddr addr)
+     };
  }
  
-+static Property allwinner_sdhost_properties[] = {
-+    DEFINE_PROP_LINK("dma", AwSdHostState,
-+                     dma_mr, TYPE_MEMORY_REGION, MemoryRegion *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void allwinner_sdhost_bus_class_init(ObjectClass *klass, void *data)
+-static void musb_writeb(void *opaque, hwaddr addr, uint32_t value)
++static void musb_writeb(void *opaque, hwaddr addr, uint64_t value)
  {
-     SDBusClass *sbc = SD_BUS_CLASS(klass);
-@@ -798,7 +820,9 @@ static void allwinner_sdhost_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-+    device_class_set_props(dc, allwinner_sdhost_properties);
-     dc->reset = allwinner_sdhost_reset;
-+    dc->realize = allwinner_sdhost_realize;
-     dc->vmsd = &vmstate_allwinner_sdhost;
+     MUSBState *s = (MUSBState *) opaque;
+     int ep;
+@@ -1392,7 +1392,7 @@ static void musb_writeb(void *opaque, hwaddr addr, uint32_t value)
+     };
  }
  
+-static uint32_t musb_readh(void *opaque, hwaddr addr)
++static uint64_t musb_readh(void *opaque, hwaddr addr)
+ {
+     MUSBState *s = (MUSBState *) opaque;
+     int ep, i;
+@@ -1446,7 +1446,7 @@ static uint32_t musb_readh(void *opaque, hwaddr addr)
+     };
+ }
+ 
+-static void musb_writeh(void *opaque, hwaddr addr, uint32_t value)
++static void musb_writeh(void *opaque, hwaddr addr, uint64_t value)
+ {
+     MUSBState *s = (MUSBState *) opaque;
+     int ep;
+@@ -1502,7 +1502,7 @@ static void musb_writeh(void *opaque, hwaddr addr, uint32_t value)
+     };
+ }
+ 
+-static uint32_t musb_readw(void *opaque, hwaddr addr)
++static uint64_t musb_readw(void *opaque, hwaddr addr)
+ {
+     MUSBState *s = (MUSBState *) opaque;
+     int ep;
+@@ -1520,7 +1520,7 @@ static uint32_t musb_readw(void *opaque, hwaddr addr)
+     };
+ }
+ 
+-static void musb_writew(void *opaque, hwaddr addr, uint32_t value)
++static void musb_writew(void *opaque, hwaddr addr, uint64_t value)
+ {
+     MUSBState *s = (MUSBState *) opaque;
+     int ep;
 -- 
 2.21.3
 
