@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A52C1E99B5
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 19:58:03 +0200 (CEST)
-Received: from localhost ([::1]:53056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397C21E99B3
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 19:56:33 +0200 (CEST)
+Received: from localhost ([::1]:44786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfSDi-0008VA-9L
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 13:58:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36510)
+	id 1jfSCG-00055H-4h
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 13:56:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jfSAK-0003c5-4h; Sun, 31 May 2020 13:54:32 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51294)
+ id 1jfSAL-0003cM-ME; Sun, 31 May 2020 13:54:33 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38983)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jfSAJ-0007b5-FL; Sun, 31 May 2020 13:54:31 -0400
-Received: by mail-wm1-x343.google.com with SMTP id u13so8639648wml.1;
- Sun, 31 May 2020 10:54:30 -0700 (PDT)
+ id 1jfSAK-0007cs-Pn; Sun, 31 May 2020 13:54:33 -0400
+Received: by mail-wr1-x443.google.com with SMTP id t18so9214904wru.6;
+ Sun, 31 May 2020 10:54:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1hu7DwCrcdSlatzn9Imjz1Afklu0mU2pvXW+JIC/CUI=;
- b=mWlqM6b9/BHwoA0IIMk6EvG4IZKUZy+M481W1L5fMaOfUoAyf/oZyIEBcI0p/rJ2Pm
- T5O4FDD2RyR3+NG8/mMcWThSQLF4wc/XQ5gGD7cqZc14u5qfccO/MQbI6He6SE4qyIMI
- iv+XlwkMhYfWyV3uJYfbftwElcMfVdNhdhHEe6/fDglOPOJkl4T91adYLY7phf1lgO2T
- yJsEGJvdRYr6H/hPsVQyJpQI5Jm+1A7XORDd9kfbh/NO8xYkfz4XO1Q8z4v8CGBbN2zr
- 3O+ckKK4GC5B+UpvXC2yK+K9Xximkm2CDxwE0QjBG4dTqV/Ucb7yfNbpwCgJEHXFXcn1
- hwkQ==
+ bh=DBQUDGRuCGTWntTIf+/3MDtftJR4gTvYShUP8HbRMhY=;
+ b=P1bjHqaZWE44yroDGPGV25akgfIYjPuGLihF6RHZT8HDl0TtROZ3yDCm/0dxAPMmHW
+ YIdgBhJiTUjWhFMYt0AIoLqQuiVw/Og550Qk9OJ8FcB0/lljfXf1P5LcVNgZhpivblTK
+ soCIirx7gqk9sv6jnMLtuBkamYEljqIYgXVnTjxA7yz/K7j0D2FEDl7myIIkm8IOZ+BH
+ Cud28U4PmnaaEg9atppXL0QUD0siM4OIMridWgG1qbLhM4GMBbZYSs7IAZm//dftOBcV
+ E0eG0xuoSia7GTR4BvwpIAwxX603cNi/mJNc99NsA373ECpUZ3AgcyAy03XvOZgO7brj
+ 9N7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=1hu7DwCrcdSlatzn9Imjz1Afklu0mU2pvXW+JIC/CUI=;
- b=N6U+bbW77VvrKRBOkH/w4JsagbY+L0HaLZ9CxwaAoGNHRc0IH7kjiCCyFLsCVseOLt
- BIEKvovbF9pwXAOF+sj4EhN4pj7cBZcUlAyTyFXx0j9lkvP2A8kiPDxCLfm3NmOPhCOx
- 8LWkiOq+K+aDIwuHEYbRRjdJQ/DsNNigdnIlc/zElcOWuIJ5b6erG08+eoxJJ1RVLK+G
- Pdw5EppL2vUoQ9ytyyD5q2ZOyJey0ybEW3GvRoRzGBZ4ink+S/QMJ2RkEEH0zLjNqQuF
- mfCCwUp0sY327zRUPQ+okQ1q7Y7mMl3BgeI0gkZzCRHLiez1TDgURVCTXRIxfp6tGsHn
- VNJA==
-X-Gm-Message-State: AOAM533VKbHUboMGaZn796sxEzxtOS39oEbHwl7nYvIiDV/ptTWk96s9
- GLRxrb+rHjS2MbDCukYsusG3TCQ2
-X-Google-Smtp-Source: ABdhPJzz/ulACo/1WfFbWBit9hOLo0uQYfC6wcVx9x4bYnRdwzQ1IZ7kqd652hpHKAlYEM6mooyAWA==
-X-Received: by 2002:a1c:c2c5:: with SMTP id s188mr18162355wmf.18.1590947669222; 
- Sun, 31 May 2020 10:54:29 -0700 (PDT)
+ bh=DBQUDGRuCGTWntTIf+/3MDtftJR4gTvYShUP8HbRMhY=;
+ b=DlzuR43D1nG9vyjA0rNQ+TNqpVFzIUlrvi2f/9vEwwEPosLHtWXYC42GlzRqRLrXsi
+ atZ9DEs9SdKBpefF312n1lCtR0zbtaRsDew7QSTBey8CfDEy8PotjngNNGPxUkdvrXx5
+ aF8oyj4aPt/GPqllM++cA7p5oNVvaiIDsB1KV8UkyZcQVmBm1ud4fp96fI4arZy1FyMx
+ 9YBy9PHSYVGnXnYVFGAmP8tzVuylQtuaSL9TG2F0CFog9eAjgrI5ypJzrxPlDyoRhr/b
+ sqPRW4VyUOOM3tGV/nlAOtINpJZu+XMDtWUEOaB+1JPlRPxAW29ArGJeyeXRsGNZ3FY5
+ VQ+Q==
+X-Gm-Message-State: AOAM532ewBwPOZlzg9bdVcpuM6VkGMstE3wcYjlyRwlEh+7QKIS+3N2X
+ BK84g1l1Pkusv2ikRPWdouLxe2eV
+X-Google-Smtp-Source: ABdhPJytI2CNMDNjMq8ZFRMNVmEv8gdBBAxqVsiqsYyIK0qBiIp1jl4HClPeskoN0yIUV2a0GsdPFA==
+X-Received: by 2002:adf:b354:: with SMTP id k20mr18343908wrd.412.1590947670503; 
+ Sun, 31 May 2020 10:54:30 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id z7sm17862531wrt.6.2020.05.31.10.54.28
+ by smtp.gmail.com with ESMTPSA id z7sm17862531wrt.6.2020.05.31.10.54.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 10:54:28 -0700 (PDT)
+ Sun, 31 May 2020 10:54:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/6] target/s390x/mmu_helper: Use address_space_rw() in place
-Date: Sun, 31 May 2020 19:54:20 +0200
-Message-Id: <20200531175425.10329-2-f4bug@amsat.org>
+Subject: [PATCH 2/6] hw/dma/rc4030: Use DMA address space to do DMA accesses
+Date: Sun, 31 May 2020 19:54:21 +0200
+Message-Id: <20200531175425.10329-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200531175425.10329-1-f4bug@amsat.org>
 References: <20200531175425.10329-1-f4bug@amsat.org>
@@ -62,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -98,32 +98,37 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In an effort to remove the cpu_physical_memory_rw() API,
-update s390_cpu_virt_mem_rw() to use a more recent
-address_space_rw() API.
+The DMA device should not use the CPU address space
+to do its operation, but its own address space.
+Replace cpu_physical_memory_write() by dma_memory_read()
+since we already have the DMA address space available.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/s390x/mmu_helper.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/dma/rc4030.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 7d9f3059cd..632e8a8af4 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -529,8 +529,10 @@ int s390_cpu_virt_mem_rw(S390CPU *cpu, vaddr laddr, uint8_t ar, void *hostbuf,
-         /* Copy data by stepping through the area page by page */
-         for (i = 0; i < nr_pages; i++) {
-             currlen = MIN(len, TARGET_PAGE_SIZE - (laddr % TARGET_PAGE_SIZE));
--            cpu_physical_memory_rw(pages[i] | (laddr & ~TARGET_PAGE_MASK),
--                                   hostbuf, currlen, is_write);
-+            address_space_rw(CPU(cpu)->as,
-+                             pages[i] | (laddr & ~TARGET_PAGE_MASK),
-+                             MEMTXATTRS_UNSPECIFIED,
-+                             hostbuf, currlen, is_write);
-             laddr += currlen;
-             hostbuf += currlen;
-             len -= currlen;
+diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c
+index eefbabd758..c39fe2bb69 100644
+--- a/hw/dma/rc4030.c
++++ b/hw/dma/rc4030.c
+@@ -24,6 +24,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
++#include "sysemu/dma.h"
+ #include "hw/irq.h"
+ #include "hw/mips/mips.h"
+ #include "hw/sysbus.h"
+@@ -301,7 +302,7 @@ static void rc4030_write(void *opaque, hwaddr addr, uint64_t data,
+         if (s->cache_ltag == 0x80000001 && s->cache_bmask == 0xf0f0f0f) {
+             hwaddr dest = s->cache_ptag & ~0x1;
+             dest += (s->cache_maint & 0x3) << 3;
+-            cpu_physical_memory_write(dest, &val, 4);
++            dma_memory_read(&s->dma_as, dest, &val, 4);
+         }
+         break;
+     /* Remote Speed Registers */
 -- 
 2.21.3
 
