@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40131E9902
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:41:12 +0200 (CEST)
-Received: from localhost ([::1]:51120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D2051E9909
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:45:16 +0200 (CEST)
+Received: from localhost ([::1]:38886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfR1L-0003RY-N2
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55268)
+	id 1jfR5H-0001ZC-By
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:45:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzs-0001da-09
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39484
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzx-0001sh-K4
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:45 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43272
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzr-0006kx-6m
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:39 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzw-0006mJ-CI
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590943178;
+ s=mimecast20190719; t=1590943183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gbfmbJetD8UXBRyHPiWp2CZGSyL0yCJiZ8wSWR7Ajrc=;
- b=WWgHRcTauvbPDjd2H4idUM9PvClm6ie1dsT5v3I5FbRT4WEPQWca3sYHkVYW++tGPocT9l
- E+FUUUvima4ckm66DTEuIWQ2JK/3ySHoKQn3avhK2oLPGo2HcthAi/CFpteAa3wTMaAdQz
- F0jmMdK3h0rBIMSyCF8S44RAjyGRhO0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-Ioi2TqhyMkKHRozy2hLV8A-1; Sun, 31 May 2020 12:39:36 -0400
-X-MC-Unique: Ioi2TqhyMkKHRozy2hLV8A-1
-Received: by mail-wr1-f71.google.com with SMTP id n6so3624099wrv.6
- for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:39:36 -0700 (PDT)
+ bh=3OcgS+8uizQs2BB2jjqHl6ry4DnKvgwh0XUrC24oYQg=;
+ b=MeHl9HsJQKSCyXDBtBMb4Xh+LB2x5Z9jkrvWZx/2FX+HEF0v5RlmqMM/s3uO0lOd/X+1ny
+ GVI3EMHNKextxy4l5WikNSWVDXyIty6wKJx3YlDa4IqjYO5watSBunqx/brWEa23oAupAE
+ OUFEEfYi/kD02mUEWzfJn0jGJGJePyk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-r2IoNabbOGKz6D0bsQpiCg-1; Sun, 31 May 2020 12:39:42 -0400
+X-MC-Unique: r2IoNabbOGKz6D0bsQpiCg-1
+Received: by mail-wr1-f69.google.com with SMTP id c14so3603547wrm.15
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:39:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gbfmbJetD8UXBRyHPiWp2CZGSyL0yCJiZ8wSWR7Ajrc=;
- b=MH9ADqAlJrx+HP+9xa2oBiffr0bPEXnz/MUl8xHeN/ID0CW93r5aOSVhz4oyLTiWyn
- jhHdD+dEwhEKQIrRfZHSsXzvVfAB4joD8I9DGXqfSyZMGD4SxPfo7aKzpVF+FPVgq2ie
- Vxcy9KynconmOaMWjiUclLNliwAaLPI8QrgqH/vlgQERKgEbvs15RnuuS9nwOpffTGwV
- V97PxNo9Xn5SOgVWtdcUr+ZsKPkQ3R2GR99Zgakh/8LL3ZKOCidvoEF7UQiYtYGA8ixt
- Z3PiTjYg8oZ9E2Z3tKSLHVDFoAcEtnXCIYXBAyHtWpdEc4z4wyTT8vwQHPmZmR+i+zeM
- R97A==
-X-Gm-Message-State: AOAM530gAh9oySby+eQ23B6vpJd15HoKpia7rsmRyL4eaEpLBsMnuwbP
- Ck0EiXWeMXwgvuu4pVHvNfSv7bZo95CYM7+2/WzkLp4yjLi/HZ06ayPMd6I1HFxHQbW4hAu3AaA
- 3F6sm0QbYOCcI65A=
-X-Received: by 2002:a5d:6905:: with SMTP id t5mr17760709wru.113.1590943175696; 
- Sun, 31 May 2020 09:39:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyR0WKTSgw9DfCBwsj7WS7gvkIpsMb9ekd4IwqI/sxgbznb+YzTnTNNzeC4sMj2PMSV+Th05w==
-X-Received: by 2002:a5d:6905:: with SMTP id t5mr17760696wru.113.1590943175563; 
- Sun, 31 May 2020 09:39:35 -0700 (PDT)
+ bh=3OcgS+8uizQs2BB2jjqHl6ry4DnKvgwh0XUrC24oYQg=;
+ b=LzBm9OQFSUf4hRdH7RwPLLauhnO1ltgBoNp4Ua5rTIQWuzqbTKTag/pwPScJxvXmBQ
+ cHWSXga4x9cd21S8j5vUqorPKfIp72k72G6TKv/mg62BrRPQme5/YkF5o8GcpTWPlTyn
+ o/sCENLI91jIygaoF0t0QcnC+EvBJXsfEQKks/A+dI8jyizohb0VHShh5v0/2P3zv5BQ
+ E6y4Hpml7gbou44ivB9e31bGO1vdlNBRkn4MgTM0ylNkkas+b+l51auZkBXsUmLUuc3E
+ vk3iB+RVozshMhO8nF/QvHFAhTRGW1a0Mmhz+8Zgs7HI0EF7rqZO0jEwBaEfxyA6FU2z
+ Euhg==
+X-Gm-Message-State: AOAM533kisDSXwAAROgRmHHavXzL0yIityaq4UK3AVTLGlpq4JvZrNAy
+ EtxqdWU+/0pQ8kDVBI8lMDL74y4/ADsEDv278ZgheYQjt7DSfGBXcwzamRktfK1QdAEQi+7SrlO
+ ZZqxxPX3gzcq/Pyo=
+X-Received: by 2002:a1c:230a:: with SMTP id j10mr17544796wmj.124.1590943180768; 
+ Sun, 31 May 2020 09:39:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzwjt9ib7xJBDUlj2i2d+LbU8yd4lrgg9+eyZSY61K4oGbjGUzzZ/w68ViV2DfDZ4MNSeL8Yw==
+X-Received: by 2002:a1c:230a:: with SMTP id j10mr17544774wmj.124.1590943180526; 
+ Sun, 31 May 2020 09:39:40 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id s7sm17688910wrr.60.2020.05.31.09.39.34
+ by smtp.gmail.com with ESMTPSA id 23sm8942553wmo.18.2020.05.31.09.39.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 09:39:35 -0700 (PDT)
+ Sun, 31 May 2020 09:39:40 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/25] python/qemu/machine: remove logging configuration
-Date: Sun, 31 May 2020 18:38:30 +0200
-Message-Id: <20200531163846.25363-10-philmd@redhat.com>
+Subject: [PULL 10/25] python/qemu: delint and add pylintrc
+Date: Sun, 31 May 2020 18:38:31 +0200
+Message-Id: <20200531163846.25363-11-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200531163846.25363-1-philmd@redhat.com>
 References: <20200531163846.25363-1-philmd@redhat.com>
@@ -72,16 +72,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 12:38:54
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 12:39:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,32 +109,193 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-Python 3.5 and above do not print a warning when logging is not
-configured. As a library, it's best practice to leave logging
-configuration to the client executable.
+Bring our these files up to speed with pylint 2.5.0.
+Add a pylintrc file to formalize which pylint subset
+we are targeting.
+
+The similarity ignore is there to suppress similarity
+reports across imports, which for typing constants,
+are going to trigger this report erroneously.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200514055403.18902-22-jsnow@redhat.com>
+Message-Id: <20200528222129.23826-4-jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- python/qemu/machine.py | 3 ---
- 1 file changed, 3 deletions(-)
+ python/qemu/machine.py |  6 ++---
+ python/qemu/pylintrc   | 58 ++++++++++++++++++++++++++++++++++++++++++
+ python/qemu/qtest.py   | 42 +++++++++++++++++++-----------
+ 3 files changed, 88 insertions(+), 18 deletions(-)
+ create mode 100644 python/qemu/pylintrc
 
 diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index d2f531f1b4..41554de533 100644
+index 41554de533..8e4ecd1837 100644
 --- a/python/qemu/machine.py
 +++ b/python/qemu/machine.py
-@@ -119,9 +119,6 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
-         self._console_socket = None
-         self._remove_files = []
+@@ -58,7 +58,7 @@ def __init__(self, reply):
+         self.reply = reply
  
--        # just in case logging wasn't configured by the main script:
--        logging.basicConfig()
--
-     def __enter__(self):
-         return self
  
+-class QEMUMachine(object):
++class QEMUMachine:
+     """
+     A QEMU VM
+ 
+@@ -239,7 +239,7 @@ def _base_args(self):
+                          'chardev=mon,mode=control'])
+         if self._machine is not None:
+             args.extend(['-machine', self._machine])
+-        for i in range(self._console_index):
++        for _ in range(self._console_index):
+             args.extend(['-serial', 'null'])
+         if self._console_set:
+             self._console_address = os.path.join(self._sock_dir,
+@@ -374,7 +374,7 @@ def shutdown(self, has_quit=False, hard=False):
+                 command = ' '.join(self._qemu_full_args)
+             else:
+                 command = ''
+-            LOG.warning(msg, -exitcode, command)
++            LOG.warning(msg, -int(exitcode), command)
+ 
+         self._launched = False
+ 
+diff --git a/python/qemu/pylintrc b/python/qemu/pylintrc
+new file mode 100644
+index 0000000000..5d6ae7367d
+--- /dev/null
++++ b/python/qemu/pylintrc
+@@ -0,0 +1,58 @@
++[MASTER]
++
++[MESSAGES CONTROL]
++
++# Disable the message, report, category or checker with the given id(s). You
++# can either give multiple identifiers separated by comma (,) or put this
++# option multiple times (only on the command line, not in the configuration
++# file where it should appear only once). You can also use "--disable=all" to
++# disable everything first and then reenable specific checks. For example, if
++# you want to run only the similarities checker, you can use "--disable=all
++# --enable=similarities". If you want to run only the classes checker, but have
++# no Warning level messages displayed, use "--disable=all --enable=classes
++# --disable=W".
++disable=too-many-arguments,
++        too-many-instance-attributes,
++        too-many-public-methods,
++
++[REPORTS]
++
++[REFACTORING]
++
++[MISCELLANEOUS]
++
++[LOGGING]
++
++[BASIC]
++
++# Good variable names which should always be accepted, separated by a comma.
++good-names=i,
++           j,
++           k,
++           ex,
++           Run,
++           _,
++           fd,
++
++[VARIABLES]
++
++[STRING]
++
++[SPELLING]
++
++[FORMAT]
++
++[SIMILARITIES]
++
++# Ignore imports when computing similarities.
++ignore-imports=yes
++
++[TYPECHECK]
++
++[CLASSES]
++
++[IMPORTS]
++
++[DESIGN]
++
++[EXCEPTIONS]
+diff --git a/python/qemu/qtest.py b/python/qemu/qtest.py
+index d24ad04256..53d814c064 100644
+--- a/python/qemu/qtest.py
++++ b/python/qemu/qtest.py
+@@ -1,5 +1,11 @@
+-# QEMU qtest library
+-#
++"""
++QEMU qtest library
++
++qtest offers the QEMUQtestProtocol and QEMUQTestMachine classes, which
++offer a connection to QEMU's qtest protocol socket, and a qtest-enabled
++subclass of QEMUMachine, respectively.
++"""
++
+ # Copyright (C) 2015 Red Hat Inc.
+ #
+ # Authors:
+@@ -17,19 +23,21 @@
+ from .machine import QEMUMachine
+ 
+ 
+-class QEMUQtestProtocol(object):
+-    def __init__(self, address, server=False):
+-        """
+-        Create a QEMUQtestProtocol object.
++class QEMUQtestProtocol:
++    """
++    QEMUQtestProtocol implements a connection to a qtest socket.
+ 
+-        @param address: QEMU address, can be either a unix socket path (string)
+-                        or a tuple in the form ( address, port ) for a TCP
+-                        connection
+-        @param server: server mode, listens on the socket (bool)
+-        @raise socket.error on socket connection errors
+-        @note No connection is established, this is done by the connect() or
+-              accept() methods
+-        """
++    :param address: QEMU address, can be either a unix socket path (string)
++                    or a tuple in the form ( address, port ) for a TCP
++                    connection
++    :param server: server mode, listens on the socket (bool)
++    :raise socket.error: on socket connection errors
++
++    .. note::
++       No conection is estabalished by __init__(), this is done
++       by the connect() or accept() methods.
++    """
++    def __init__(self, address, server=False):
+         self._address = address
+         self._sock = self._get_sock()
+         self._sockfile = None
+@@ -73,15 +81,19 @@ def cmd(self, qtest_cmd):
+         return resp
+ 
+     def close(self):
++        """Close this socket."""
+         self._sock.close()
+         self._sockfile.close()
+ 
+     def settimeout(self, timeout):
++        """Set a timeout, in seconds."""
+         self._sock.settimeout(timeout)
+ 
+ 
+ class QEMUQtestMachine(QEMUMachine):
+-    '''A QEMU VM'''
++    """
++    A QEMU VM, with a qtest socket available.
++    """
+ 
+     def __init__(self, binary, args=None, name=None, test_dir="/var/tmp",
+                  socket_scm_helper=None, sock_dir=None):
 -- 
 2.21.3
 
