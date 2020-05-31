@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393141E9905
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:42:45 +0200 (CEST)
-Received: from localhost ([::1]:57822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1844B1E9916
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 May 2020 18:51:50 +0200 (CEST)
+Received: from localhost ([::1]:59560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfR2q-0006Fj-5o
-	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:42:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55252)
+	id 1jfRBY-0002Az-Kt
+	for lists+qemu-devel@lfdr.de; Sun, 31 May 2020 12:51:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzj-0001RX-3L
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:31 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30088
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzq-0001aF-EE
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:38 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57330
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzi-0006kF-2v
- for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:30 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfQzp-0006ki-Lu
+ for qemu-devel@nongnu.org; Sun, 31 May 2020 12:39:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590943169;
+ s=mimecast20190719; t=1590943175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VZt0ZLdOqej/uZqX1RjbopdK4bZJfrI0RxnWBLQtXiE=;
- b=OuselYMm46O+4dmTF2bjf/vy4WChrV8meRbbv/5O/5Y70H/0e6L3CvmUwCNQ2vM0VH4YH3
- 3PEW++eYcXE5vt/FDtJBlMgx4JKKnLvWcANY+zcoP9oetsS/emXNPenmaYbY5WypdUQPR2
- oXex4YM1d3gs+bFyKrFFJz5XqwOTbwo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-wVKKWPf1Mw28g6SYqmprDg-1; Sun, 31 May 2020 12:39:27 -0400
-X-MC-Unique: wVKKWPf1Mw28g6SYqmprDg-1
-Received: by mail-wr1-f71.google.com with SMTP id d6so3623144wrn.1
- for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:39:26 -0700 (PDT)
+ bh=rjbH7teVMtjBh+T5ufCfzeY9CyBEBHGmfbosO+YUVTM=;
+ b=LJMOogfas/QwkWNesSoisfhrcvCctKiljwog5gh0Z8LiVo/IGG6ygEcRIQc10oEMcLnqgA
+ jg2wes8RT9fiehXoyQWqr7UmCv0aYX8P2jp9tlR0YsZQTcdeiGSOHaPtvOqorpUPo9FY1o
+ VjXvf52bUwqPZEJzYo5B71POwLb4u1Y=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-xVuduibAOY2n20UrIfFcMg-1; Sun, 31 May 2020 12:39:32 -0400
+X-MC-Unique: xVuduibAOY2n20UrIfFcMg-1
+Received: by mail-wr1-f70.google.com with SMTP id c14so3591278wrw.11
+ for <qemu-devel@nongnu.org>; Sun, 31 May 2020 09:39:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VZt0ZLdOqej/uZqX1RjbopdK4bZJfrI0RxnWBLQtXiE=;
- b=dPCHXuGh7/X7FBzrXGW9eRq5VyAILIPLAir6veHeWDyineR9aIZ0agqG/MEGereHTL
- VdsTIXg5kmy/OFdDltATApvtPDla+jyj297ACZLiKo4tzeIzpCdh3B0ZCWwXWzGj83FR
- cbhYIMRYY515N/DJMi498N0vy4RY81kaqKyqL71Hd96N9DgJK9NbKg65L61Ty7MVWtj3
- EymcW1IGNfTTqk/dxkM3R+hKfQSsl+LRopKmU4Ebva0xJu4Xxsej8m1pAJkpuaUeUlKV
- TuN/SRUM1Q71+gxzwT+N71ZV8csoB7xLjIJ8VbdYxPVY+/Y3hRts5Q58Oa8sUxK3ECU6
- 0AIQ==
-X-Gm-Message-State: AOAM532GoEol1Xe/xkF2Hq+biaqcsfQthRxlqwyFcXYUyatZNYMs6ehH
- digbIbj5+epwToDphlAcpw+oWNqoNE+TAnc+0bnah5VcXJWCM0AP9GL/TLI2vhqcfNDcptfsgMq
- 9HgECwLdReNuF2PY=
-X-Received: by 2002:a7b:cb4e:: with SMTP id v14mr17434900wmj.164.1590943165706; 
- Sun, 31 May 2020 09:39:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyIDhiif77BD+2zEWATjb7OO4Dc+CJOan/ZMSwN3fOg17GLcrYigbcO8xtgQZm9pifBoM5w8w==
-X-Received: by 2002:a7b:cb4e:: with SMTP id v14mr17434886wmj.164.1590943165498; 
- Sun, 31 May 2020 09:39:25 -0700 (PDT)
+ bh=rjbH7teVMtjBh+T5ufCfzeY9CyBEBHGmfbosO+YUVTM=;
+ b=PrC2Pfqx6/NexE/RcWPWPhstlxsr5voM0bxWai9F9rggC4AqSwHgKx/v+GoOSX+1MH
+ kOPFlgdyq0iT/o+jufl6TKl3rXxMeJOHnmz8NqXrOlBdsM1C568oqZMX4OsUFwSAq2Nm
+ CXwtWypQnZu/dOZw7Ox+SIWEvLuNkuWg+MObrf1yFPSvNiWcGA2m/rZAH9pxFbyiONsd
+ AzXxAX4N7txFfOEom7BN6/1TJh0rkhQfbUALltiTSrg0RJFTFqabeRz+79XDXa/IZFUQ
+ CDpbUBI6QHkg3x15ce04GdOqLQ22wQ1ZE6NkjnTXRj3caiACs/MI1ORYzjLqjgvjzTkm
+ FnUw==
+X-Gm-Message-State: AOAM5321jWf7whiltzmZgBwMjQYPlSLiVL/qvto0WpgJuE2mb4SYOnu4
+ F7R0A4rXVBcYDmU2iKahbQ4uWoOI1ZjStog/YJQmuDyqBHVZoyUOfIXTobV5MZLMK1Pg1KcFcvo
+ QVWqql3ZqJKIV5XE=
+X-Received: by 2002:a5d:5112:: with SMTP id s18mr17632632wrt.160.1590943170818; 
+ Sun, 31 May 2020 09:39:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxviLkgXrjUX2NcNJC5mie2lsvP1IrSShLdDDtm64dQg0NFzJSb44/ioBt+ym943Nm0qZ2SIA==
+X-Received: by 2002:a5d:5112:: with SMTP id s18mr17632616wrt.160.1590943170658; 
+ Sun, 31 May 2020 09:39:30 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id d18sm17660706wrn.34.2020.05.31.09.39.24
+ by smtp.gmail.com with ESMTPSA id k26sm9409518wmi.27.2020.05.31.09.39.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 May 2020 09:39:24 -0700 (PDT)
+ Sun, 31 May 2020 09:39:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/25] python: remove more instances of sys.version_info
-Date: Sun, 31 May 2020 18:38:28 +0200
-Message-Id: <20200531163846.25363-8-philmd@redhat.com>
+Subject: [PULL 08/25] python/qemu/machine: add kill() method
+Date: Sun, 31 May 2020 18:38:29 +0200
+Message-Id: <20200531163846.25363-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200531163846.25363-1-philmd@redhat.com>
 References: <20200531163846.25363-1-philmd@redhat.com>
@@ -72,17 +72,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 12:39:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/31 12:39:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,10 +96,12 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -107,178 +109,62 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-We guarantee 3.5+ everywhere; remove more dead checks. In general, try
-to avoid using version checks and instead prefer to attempt behavior
-when possible.
+Add method to hard-kill vm, without any quit commands.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200514035230.25756-1-jsnow@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-Id: <20200217150246.29180-19-vsementsov@virtuozzo.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- scripts/analyze-migration.py             |  5 -----
- scripts/decodetree.py                    | 25 +++++++++---------------
- scripts/qmp/qmp-shell                    |  3 ---
- tests/docker/docker.py                   |  5 +++--
- tests/qemu-iotests/nbd-fault-injector.py |  5 +----
- 5 files changed, 13 insertions(+), 30 deletions(-)
+ python/qemu/machine.py | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/analyze-migration.py b/scripts/analyze-migration.py
-index 96a31d3974..95838cbff3 100755
---- a/scripts/analyze-migration.py
-+++ b/scripts/analyze-migration.py
-@@ -25,11 +25,6 @@
- import sys
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index b9a98e2c86..d2f531f1b4 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -342,7 +342,7 @@ def wait(self):
+         self._load_io_log()
+         self._post_shutdown()
  
+-    def shutdown(self, has_quit=False):
++    def shutdown(self, has_quit=False, hard=False):
+         """
+         Terminate the VM and clean up
+         """
+@@ -354,7 +354,9 @@ def shutdown(self, has_quit=False):
+             self._console_socket = None
  
--MIN_PYTHON = (3, 2)
--if sys.version_info < MIN_PYTHON:
--    sys.exit("Python %s.%s or later is required.\n" % MIN_PYTHON)
--
--
- def mkdir_p(path):
-     try:
-         os.makedirs(path)
-diff --git a/scripts/decodetree.py b/scripts/decodetree.py
-index 46ab917807..f9d204aa36 100755
---- a/scripts/decodetree.py
-+++ b/scripts/decodetree.py
-@@ -75,13 +75,6 @@ def output(*args):
-         output_fd.write(a)
+         if self.is_running():
+-            if self._qmp:
++            if hard:
++                self._popen.kill()
++            elif self._qmp:
+                 try:
+                     if not has_quit:
+                         self._qmp.cmd('quit')
+@@ -368,7 +370,8 @@ def shutdown(self, has_quit=False):
+         self._post_shutdown()
  
+         exitcode = self.exitcode()
+-        if exitcode is not None and exitcode < 0:
++        if exitcode is not None and exitcode < 0 and \
++                not (exitcode == -9 and hard):
+             msg = 'qemu received signal %i: %s'
+             if self._qemu_full_args:
+                 command = ' '.join(self._qemu_full_args)
+@@ -378,6 +381,9 @@ def shutdown(self, has_quit=False):
  
--if sys.version_info >= (3, 4):
--    re_fullmatch = re.fullmatch
--else:
--    def re_fullmatch(pat, str):
--        return re.match('^' + pat + '$', str)
--
--
- def output_autogen():
-     output('/* This file is autogenerated by scripts/decodetree.py.  */\n\n')
+         self._launched = False
  
-@@ -428,18 +421,18 @@ def parse_field(lineno, name, toks):
-     width = 0
-     func = None
-     for t in toks:
--        if re_fullmatch('!function=' + re_ident, t):
-+        if re.fullmatch('!function=' + re_ident, t):
-             if func:
-                 error(lineno, 'duplicate function')
-             func = t.split('=')
-             func = func[1]
-             continue
- 
--        if re_fullmatch('[0-9]+:s[0-9]+', t):
-+        if re.fullmatch('[0-9]+:s[0-9]+', t):
-             # Signed field extract
-             subtoks = t.split(':s')
-             sign = True
--        elif re_fullmatch('[0-9]+:[0-9]+', t):
-+        elif re.fullmatch('[0-9]+:[0-9]+', t):
-             # Unsigned field extract
-             subtoks = t.split(':')
-             sign = False
-@@ -488,11 +481,11 @@ def parse_arguments(lineno, name, toks):
-     flds = []
-     extern = False
-     for t in toks:
--        if re_fullmatch('!extern', t):
-+        if re.fullmatch('!extern', t):
-             extern = True
-             anyextern = True
-             continue
--        if not re_fullmatch(re_ident, t):
-+        if not re.fullmatch(re_ident, t):
-             error(lineno, 'invalid argument set token "{0}"'.format(t))
-         if t in flds:
-             error(lineno, 'duplicate argument "{0}"'.format(t))
-@@ -621,13 +614,13 @@ def parse_generic(lineno, is_format, name, toks):
-             continue
- 
-         # 'Foo=%Bar' imports a field with a different name.
--        if re_fullmatch(re_ident + '=%' + re_ident, t):
-+        if re.fullmatch(re_ident + '=%' + re_ident, t):
-             (fname, iname) = t.split('=%')
-             flds = add_field_byname(lineno, flds, fname, iname)
-             continue
- 
-         # 'Foo=number' sets an argument field to a constant value
--        if re_fullmatch(re_ident + '=[+-]?[0-9]+', t):
-+        if re.fullmatch(re_ident + '=[+-]?[0-9]+', t):
-             (fname, value) = t.split('=')
-             value = int(value)
-             flds = add_field(lineno, flds, fname, ConstField(value))
-@@ -635,7 +628,7 @@ def parse_generic(lineno, is_format, name, toks):
- 
-         # Pattern of 0s, 1s, dots and dashes indicate required zeros,
-         # required ones, or dont-cares.
--        if re_fullmatch('[01.-]+', t):
-+        if re.fullmatch('[01.-]+', t):
-             shift = len(t)
-             fms = t.replace('0', '1')
-             fms = fms.replace('.', '0')
-@@ -652,7 +645,7 @@ def parse_generic(lineno, is_format, name, toks):
-             fixedmask = (fixedmask << shift) | fms
-             undefmask = (undefmask << shift) | ubm
-         # Otherwise, fieldname:fieldwidth
--        elif re_fullmatch(re_ident + ':s?[0-9]+', t):
-+        elif re.fullmatch(re_ident + ':s?[0-9]+', t):
-             (fname, flen) = t.split(':')
-             sign = False
-             if flen[0] == 's':
-diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index a01d31de1e..c5eef06f3f 100755
---- a/scripts/qmp/qmp-shell
-+++ b/scripts/qmp/qmp-shell
-@@ -77,9 +77,6 @@ import re
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
- from qemu import qmp
- 
--if sys.version_info[0] == 2:
--    input = raw_input
--
- class QMPCompleter(list):
-     def complete(self, text, state):
-         for cmd in self:
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index d8268c1111..5a9735db78 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -258,12 +258,13 @@ def _kill_instances(self, *args, **kwargs):
-         return self._do_kill_instances(True)
- 
-     def _output(self, cmd, **kwargs):
--        if sys.version_info[1] >= 6:
-+        try:
-             return subprocess.check_output(self._command + cmd,
-                                            stderr=subprocess.STDOUT,
-                                            encoding='utf-8',
-                                            **kwargs)
--        else:
-+        except TypeError:
-+            # 'encoding' argument was added in 3.6+
-             return subprocess.check_output(self._command + cmd,
-                                            stderr=subprocess.STDOUT,
-                                            **kwargs).decode('utf-8')
-diff --git a/tests/qemu-iotests/nbd-fault-injector.py b/tests/qemu-iotests/nbd-fault-injector.py
-index 588d62aebf..78f42c4214 100755
---- a/tests/qemu-iotests/nbd-fault-injector.py
-+++ b/tests/qemu-iotests/nbd-fault-injector.py
-@@ -47,10 +47,7 @@
- import socket
- import struct
- import collections
--if sys.version_info.major >= 3:
--    import configparser
--else:
--    import ConfigParser as configparser
-+import configparser
- 
- FAKE_DISK_SIZE = 8 * 1024 * 1024 * 1024 # 8 GB
- 
++    def kill(self):
++        self.shutdown(hard=True)
++
+     def set_qmp_monitor(self, enabled=True):
+         """
+         Set the QMP monitor.
 -- 
 2.21.3
 
