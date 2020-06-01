@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B87F1E9FA1
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 09:56:26 +0200 (CEST)
-Received: from localhost ([::1]:46138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCAB1E9FCD
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 10:08:25 +0200 (CEST)
+Received: from localhost ([::1]:52190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jffJ3-0007Ui-5q
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 03:56:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49746)
+	id 1jffUe-0002LN-Ib
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 04:08:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jffGr-0004Xs-UP
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 03:54:09 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:56037)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jffGr-0003nF-5H
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 03:54:09 -0400
-Received: by mail-wm1-x343.google.com with SMTP id c71so9729395wmd.5
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 00:54:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=qIaVQcM8g4+k990uhebVSTEuTami8Xbb/Exe9m7N3F0=;
- b=rtglodC+M7ycyijwz/p8HSQw8WBbaZx2/nu27IGJKU3I5BepOGqDjUYxAjV3IYgagn
- NZmBGRJiieee5DSJsPzi1GJlLawG9NF9mBDtJJaarGzg+kqFRQMOcltVKnk2+rd3+xTo
- w64zleQ8KB2ktAdqhIIQ4VSTnV5DeXdKqJT75Ge/OJCbtQ3DI1PVkGR7NHfO7qu7A7ei
- /mpvCPsHBPvMDB8XfNFFQTSIa1+fCn3tBZykfQXRkDUE+4eJ02I7yivpO4KmsCqfBgpP
- OnnVOlRP8IioOAt6B3qL5GeERGJpQPLE63199DDCWMYz9PnJTVfoNBQFIMH76m9H1yUO
- FpzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qIaVQcM8g4+k990uhebVSTEuTami8Xbb/Exe9m7N3F0=;
- b=Ihdr1halRmd7RwAejrOKrAY8EIj3SecNKl3qJOwrQKcj9h/reJooVm+GflrlhMVdDQ
- gdmkELcPiuE6bu8UmT83yvxFRAY8h2VWxlrsRAuG37syD7a8L+Z1vnxn5RieMuGxKCqk
- /kqycTUMZ/6OzwTqdfU9FcdWCjXxTuT7Qvb2WrTnE5dY4ALqFcDePZjiFOb1TnCDLYe+
- F4iWpdGhSlLIdfZOnye20S7nlzt16XdmxnVy0NWs/EsLnjo5fIyFi8hOvo6fzuLmNfrs
- O2QMPp9ue+2t4n96S9n1z5w1lkzuoi1Mw9W5J1UDYt92wKNERxp8wahanDGtx2n9s8Kw
- eeOw==
-X-Gm-Message-State: AOAM532P8shM8eDeihC2E8irhBdS5u9MzTanFihSw/zWtA4Jwu0LbQQK
- FHREBq8WshEr7Rhq1b/BRa0IuK/P
-X-Google-Smtp-Source: ABdhPJxDULYAQrfePoPBFwEyskWhOaczq8BQx/huhaDQGrNnFu38FQK6yaFQfE81+rCjs8u7IAHTeg==
-X-Received: by 2002:a1c:4302:: with SMTP id q2mr20423265wma.54.1590998047778; 
- Mon, 01 Jun 2020 00:54:07 -0700 (PDT)
-Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id b18sm19294949wrn.88.2020.06.01.00.54.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Jun 2020 00:54:07 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] exec/cpu-common: Move MUSB specific typedefs to
- 'hw/usb/musb.h'
-Date: Mon,  1 Jun 2020 09:54:00 +0200
-Message-Id: <20200601075400.2043-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200601075400.2043-1-f4bug@amsat.org>
-References: <20200601075400.2043-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1jffTq-0001ow-69
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 04:07:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35151
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1jffTo-0006Nt-Jc
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 04:07:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1590998850;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Cqn/+oCqCDOsPXDEw+nqqcFn1owjVnj7bHKeyOuO38U=;
+ b=IIKddao/Fg15HK+a7iLo5VRzlYgVuDg3KeXbvH6YJIF38UY8cjmYmejXE52VuwOKr/Cwtt
+ dQBpTDvjJSfFVs1W/sAolFn3Wq4QZhAwRf65Lt9WIRqIcHPv9FEsla0oywthJHUy8R+0hz
+ SjJUrhjuvCJXcAT7a8kh2uJwy6Wy/E8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-99-THQpFcpbNg25J_-cSO8iZA-1; Mon, 01 Jun 2020 04:07:29 -0400
+X-MC-Unique: THQpFcpbNg25J_-cSO8iZA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F36D8108BD15;
+ Mon,  1 Jun 2020 08:07:27 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.194.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BF7E5C1BB;
+ Mon,  1 Jun 2020 08:07:23 +0000 (UTC)
+Date: Mon, 1 Jun 2020 10:07:18 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Ying Fang <fangying1@huawei.com>
+Subject: Re: About the kvm-no-adjvtime CPU property
+Message-ID: <20200601080718.jul5r4qebpeieyfl@kamzik.brq.redhat.com>
+References: <b4389848-10fd-a906-9901-d1d354ce4842@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <b4389848-10fd-a906-9901-d1d354ce4842@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=drjones@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 02:19:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,88 +78,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <rth@twiddle.net>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wu.wubin@huawei.com,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CPUReadMemoryFunc/CPUWriteMemoryFunc typedefs are legacy
-remnant from before the conversion to MemoryRegions.
-Since they are now only used in tusb6010.c and hcd-musb.c,
-move them to "hw/usb/musb.h" and rename them appropriately.
+On Sat, May 30, 2020 at 04:56:26PM +0800, Ying Fang wrote:
+> About the kvm-no-adjvtime CPU property
+> 
+> Hi Andrew,
+> To adjust virutal time, a new kvm cpu property kvm-no-adjvtime
+> was introduced to 5.0 virt machine types. However the cpu
+> property was enabled only for host-passthrough and max cpu model.
+> As for other cpu model like cortex-a57, cortex-a53, cortex-a72,
+> this kvm-adjvtime is not enabled by default, which means the
+> virutal time can not be adjust for them.
+> 
+> Here, for example, if VM is configured with kvm enabled:
+> 
+>   <cpu mode='custom' match='exact' check='partial'>
+>     <model fallback='allow'>cortex-a72</model>
+>     <topology sockets='2' dies='1' cores='2' threads='1'/>
+>     <numa>
+>       <cell id='0' cpus='0-1' memory='16777216' unit='KiB'/>
+>       <cell id='1' cpus='2-3' memory='16777216' unit='KiB'/>
+>     </numa>
+>   </cpu>
+> 
+> We cannot adjust virtual time even if 5.0 virt machine is used.
+> So i'd like to add it to other cpu model, do you have any
+> suggestions here ?
+> 
+>
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/exec/cpu-common.h | 3 ---
- include/hw/usb/musb.h     | 9 +++++----
- hw/usb/hcd-musb.c         | 4 ++--
- 3 files changed, 7 insertions(+), 9 deletions(-)
+Hi Fang,
 
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index b47e5630e7..d5e285d2b5 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -43,9 +43,6 @@ extern ram_addr_t ram_size;
- 
- /* memory API */
- 
--typedef void CPUWriteMemoryFunc(void *opaque, hwaddr addr, uint32_t value);
--typedef uint32_t CPUReadMemoryFunc(void *opaque, hwaddr addr);
--
- void qemu_ram_remap(ram_addr_t addr, ram_addr_t length);
- /* This should not be used by devices.  */
- ram_addr_t qemu_ram_addr_from_host(void *ptr);
-diff --git a/include/hw/usb/musb.h b/include/hw/usb/musb.h
-index 26b50132ff..c874b9f292 100644
---- a/include/hw/usb/musb.h
-+++ b/include/hw/usb/musb.h
-@@ -13,8 +13,6 @@
- #ifndef HW_USB_MUSB_H
- #define HW_USB_MUSB_H
- 
--#include "exec/cpu-common.h"
--
- enum musb_irq_source_e {
-     musb_irq_suspend = 0,
-     musb_irq_resume,
-@@ -32,8 +30,11 @@ enum musb_irq_source_e {
-     musb_irq_max /* total number of interrupts defined */
- };
- 
--extern CPUReadMemoryFunc * const musb_read[];
--extern CPUWriteMemoryFunc * const musb_write[];
-+/* TODO convert hcd-musb to QOM/qdev and remove MUSBReadFunc/MUSBWriteFunc */
-+typedef void MUSBWriteFunc(void *opaque, hwaddr addr, uint32_t value);
-+typedef uint32_t MUSBReadFunc(void *opaque, hwaddr addr);
-+extern MUSBReadFunc * const musb_read[];
-+extern MUSBWriteFunc * const musb_write[];
- 
- typedef struct MUSBState MUSBState;
- 
-diff --git a/hw/usb/hcd-musb.c b/hw/usb/hcd-musb.c
-index ea7a89fd0c..82865abe65 100644
---- a/hw/usb/hcd-musb.c
-+++ b/hw/usb/hcd-musb.c
-@@ -1540,13 +1540,13 @@ static void musb_writew(void *opaque, hwaddr addr, uint32_t value)
-     };
- }
- 
--CPUReadMemoryFunc * const musb_read[] = {
-+MUSBReadFunc * const musb_read[] = {
-     musb_readb,
-     musb_readh,
-     musb_readw,
- };
- 
--CPUWriteMemoryFunc * const musb_write[] = {
-+MUSBWriteFunc * const musb_write[] = {
-     musb_writeb,
-     musb_writeh,
-     musb_writew,
--- 
-2.21.3
+The cpu feature only requires kvm.  If a cpu model may be used with kvm,
+then the feature can be allowed to be used with the model.  What I find
+interesting is that the cpu model is being used with kvm instead of 'host'
+or 'max'.  Can you explain the reasons for that?  Currently, when using
+kvm, the guest will always effectively get 'host' anyway, even when a
+model is provided. Indeed, for a model to work, kvm requires it to exactly
+match the host cpu and even then the ID registers are passed through from
+the host CPU, not taken from QEMU's model.
+
+Thanks,
+drew
 
 
