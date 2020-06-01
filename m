@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 743001E9F67
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 09:41:41 +0200 (CEST)
-Received: from localhost ([::1]:34894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D991E9F9D
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 09:55:07 +0200 (CEST)
+Received: from localhost ([::1]:41284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jff4m-0001nC-0n
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 03:41:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48450)
+	id 1jffHm-0005MZ-9V
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 03:55:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jff43-0001MA-Gs
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 03:40:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34892)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jffGo-0004UQ-U7
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 03:54:06 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:39622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jff42-0000a7-BW
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 03:40:55 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jff3z-0002wU-Ba
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 07:40:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 513572E8033
- for <qemu-devel@nongnu.org>; Mon,  1 Jun 2020 07:40:51 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 01 Jun 2020 07:34:43 -0000
-From: Zhang Chen <1881231@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jffGn-0003m5-Sz
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 03:54:06 -0400
+Received: by mail-wm1-x335.google.com with SMTP id k26so10341678wmi.4
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 00:54:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jJ/v/EysUDhGfZCpBwRkB6y1RGEXcHe/UG8wv9qC27o=;
+ b=lf6WSvaS+g8Msb9x+5SalmyMSEdr/ywIFABE17VkNJqn1xPaV3+/eZ/ST2cHrn+Zfo
+ grXX4hiPD0WDCwMoWfo9YckRgHBPIbl9FcVg3m0nd5KvEiihTCwSN/E7muwXfmiA1Xbi
+ +clmc2IGYsRwku/Yls2U1Zx9mPVIgrjClnLF2HwTnv4L1HWhs0jdCoA+p8nlXcrNNBNK
+ jAAGNuNuMZ9myEFe+kXETGdDEJbqPzcFR0qDpjNVNN/AgdDWWn8P5uifRD6JfItvgQAj
+ vRcoA5a3kQ5q0aoKTev7yuizOeuQV2jyfzHaoS3pF62slgHkkzBkV+vms5HO8L+UwL44
+ bpYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=jJ/v/EysUDhGfZCpBwRkB6y1RGEXcHe/UG8wv9qC27o=;
+ b=YxMtVOB3UPUAWQbNMCVoPcVmcY3AR9gL2CN2nKQAnWYl0rpsHKUA8kn+7xxInlsfXs
+ m44fkQAWXoaYSfn+MvMY6Er8ZNcb5PAWuTTvK3FMuMMB9A/cWdbQYQ7Viuf0wkO+xKSa
+ RYf08eQZ+uMQzWwWt09uamkMSzwd/ULQCurLxYcZmk/LBTJJvy/nITWjar/iyoiZ/+s3
+ lEChb1ZfoazS20odD2hVC0SXw9JguuWln5967a2CBGPmj2KNR80Zl4/Wshjym3ygXsXC
+ az4ed7VIH+sdJNwGQRBBGHff7pSaKlTPSfXVrRXDDasA5Pxi4vzq7u1LTGU++7G5SOs8
+ +xdw==
+X-Gm-Message-State: AOAM532b9Dh5vnD4cXn3PvFhUbSUOTdhvs6a0204WXsZrIxhrZufVAmM
+ Bo1bmmfQDQ4J99uxZWsMiDZEu8W9
+X-Google-Smtp-Source: ABdhPJzGjBrYWa9vnhxxu0yncxw4Mbo45S/n1bqrnqkbqZA8B8wic0JF+lA4cmVNuZFyl5Pbvg90qw==
+X-Received: by 2002:a1c:9a57:: with SMTP id c84mr13023717wme.62.1590998043832; 
+ Mon, 01 Jun 2020 00:54:03 -0700 (PDT)
+Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.43])
+ by smtp.gmail.com with ESMTPSA id b18sm19294949wrn.88.2020.06.01.00.54.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Jun 2020 00:54:03 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alanjager2321 zhangckid
-X-Launchpad-Bug-Reporter: ye.zou (alanjager2321)
-X-Launchpad-Bug-Modifier: Zhang Chen (zhangckid)
-References: <159072520391.13844.465385675639953986.malonedeb@soybean.canonical.com>
-Message-Id: <159099688384.30099.4062664006881786394.malone@chaenomeles.canonical.com>
-Subject: [Bug 1881231] Re: colo: Can not recover colo after svm failover twice
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="275d46a24253e557e4403d52832837e4bfa425b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5357b9b2542ccfacc1515feadf5ed8493ed5e409
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 03:40:51
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Subject: [PATCH 0/3] exec: Kill CPUReadMemoryFunc/CPUWriteMemoryFunc typedefs
+Date: Mon,  1 Jun 2020 09:53:57 +0200
+Message-Id: <20200601075400.2043-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,71 +86,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1881231 <1881231@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <rth@twiddle.net>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please try this patch:
-https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg00016.html
+Followed Peter's suggestions:
 
-Thanks
-Zhang Chen
+ * delete the unused MmeoryRegionMmio
+ * move these typedefs into include/hw/usb.h and rename them
+   to MUSBReadFunc and MUSBWriteFunc, since that's all they're
+   used for now
 
--- =
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg708165.html
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1881231
+Philippe Mathieu-Daudé (3):
+  exec/memory: Remove unused MemoryRegionMmio type
+  hw/usb: Move device-specific declarations to new 'musb.h' header
+  exec/cpu-common: Move MUSB specific typedefs to 'hw/usb/musb.h'
 
-Title:
-  colo: Can not  recover colo after svm failover twice
+ include/exec/cpu-common.h |  3 ---
+ include/exec/memory.h     |  6 -----
+ include/hw/usb.h          | 30 -------------------------
+ include/hw/usb/musb.h     | 47 +++++++++++++++++++++++++++++++++++++++
+ hw/usb/hcd-musb.c         |  5 +++--
+ hw/usb/tusb6010.c         |  1 +
+ 6 files changed, 51 insertions(+), 41 deletions(-)
+ create mode 100644 include/hw/usb/musb.h
 
-Status in QEMU:
-  New
+-- 
+2.21.3
 
-Bug description:
-  Hi Expert,
-  x-blockdev-change met some error, during testing colo
-
-  Host os:
-  CentOS Linux release 7.6.1810 (Core)
-
-  Reproduce steps:
-  1. create colo vm following https://github.com/qemu/qemu/blob/master/docs=
-/COLO-FT.txt
-  2. kill secondary vm and remove the nbd child from the quorum to wait for=
- recover
-    type those commands on primary vm console:
-    { 'execute': 'x-blockdev-change', 'arguments': {'parent': 'colo-disk0',=
- 'child': 'children.1'}}
-    { 'execute': 'human-monitor-command','arguments': {'command-line': 'dri=
-ve_del replication0'}}
-    { 'execute': 'x-colo-lost-heartbeat'}
-  3. recover colo
-  4. kill secondary vm again after recover colo and type same commands as s=
-tep 2:
-    { 'execute': 'x-blockdev-change', 'arguments': {'parent': 'colo-disk0',=
- 'child': 'children.1'}}
-    { 'execute': 'human-monitor-command','arguments': {'command-line': 'dri=
-ve_del replication0'}}
-    { 'execute': 'x-colo-lost-heartbeat'}
-    but the first command got error
-    { 'execute': 'x-blockdev-change', 'arguments': {'parent': 'colo-disk0',=
- 'child': 'children.1'}}
-  {"error": {"class": "GenericError", "desc": "Node 'colo-disk0' does not h=
-ave child 'children.1'"}}
-
-  according to https://www.qemu.org/docs/master/qemu-qmp-ref.html
-  Command: x-blockdev-change
-  Dynamically reconfigure the block driver state graph. It can be used to a=
-dd, remove, insert or replace a graph node. Currently only the Quorum drive=
-r implements this feature to add or remove its child. This is useful to fix=
- a broken quorum child.
-
-  It seems x-blockdev-change not worked as expected.
-
-  Thanks.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1881231/+subscriptions
 
