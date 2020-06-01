@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE5F1EAF90
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 21:26:49 +0200 (CEST)
-Received: from localhost ([::1]:43520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A209A1EAFBB
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 21:36:40 +0200 (CEST)
+Received: from localhost ([::1]:50546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfq5A-0005Im-EF
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 15:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47630)
+	id 1jfqEh-0000Xz-8Y
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 15:36:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jfq47-0004ir-BI
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 15:25:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58168)
+ id 1jfqDd-0008OP-JH
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 15:35:33 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jfq42-00015M-3A
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 15:25:42 -0400
+ id 1jfqDc-0002LU-21
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 15:35:33 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jfq40-0007QA-2X
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 19:25:36 +0000
+ id 1jfqDZ-0000Tz-Ab
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 19:35:29 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EDD172E810A
- for <qemu-devel@nongnu.org>; Mon,  1 Jun 2020 19:25:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 4CADF2E8109
+ for <qemu-devel@nongnu.org>; Mon,  1 Jun 2020 19:35:29 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 01 Jun 2020 19:18:37 -0000
-From: Adriano Pinaffo <1881645@bugs.launchpad.net>
+Date: Mon, 01 Jun 2020 19:25:44 -0000
+From: Graham Christensen <1881648@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: adrianopinaffo
-X-Launchpad-Bug-Reporter: Adriano Pinaffo (adrianopinaffo)
-X-Launchpad-Bug-Modifier: Adriano Pinaffo (adrianopinaffo)
-Message-Id: <159103911759.13896.350911340978783530.malonedeb@soybean.canonical.com>
-Subject: [Bug 1881645] [NEW] qemu-system-x86_64 --help (or --version) gives no
- output
+X-Launchpad-Bug-Commenters: gchristensen
+X-Launchpad-Bug-Reporter: Graham Christensen (gchristensen)
+X-Launchpad-Bug-Modifier: Graham Christensen (gchristensen)
+Message-Id: <159103954472.29684.2828352310168270873.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1881648] [NEW] `qemu-img info` reports an incorrect actual-size
+ when the underlying posix filesystem has transparent compression
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="275d46a24253e557e4403d52832837e4bfa425b6";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 51e2f4ed15c9e36e984abdf023a2cb8bca24d334
+X-Launchpad-Hash: 025dfd57274ef4b660638ae1a78792fe005a4c56
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 13:41:01
@@ -72,18 +72,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1881645 <1881645@bugs.launchpad.net>
+Reply-To: Bug 1881648 <1881648@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Public bug reported:
 
-I have Arch Linux with qemu 5.0.0-6 (seen with pacman). Running VMs work ju=
-st fine, but when I run qemu-system-x86_64 --version or qemu-system-x86_64 =
---help, there is no feedback on the screen. This behavior messes up other a=
-pplications (GNS3 in my case that cannot recognize qemu as correctly instal=
-led because there is no feedback.
-My kernel is 5.6.11.
+qemu-img info reports the same thing as `du`*1024:
+
+$ qemu-img info --output json ./my.qcow2  | jq '."actual-size"'
+558619648
+
+$ du ./my.qcow2
+545527	./my.qcow2
+
+$ echo $((558619648 / 545527))
+1024
+
+and this is correct in terms of bytes on disk, but due to transparent
+compression implemented by the filesystem, it is not the actual byte
+count:
+
+$ du -h --apparent-size ./my.qcow2
+1346568192	my.qcow2
 
 ** Affects: qemu
      Importance: Undecided
@@ -93,22 +104,34 @@ My kernel is 5.6.11.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1881645
+https://bugs.launchpad.net/bugs/1881648
 
 Title:
-  qemu-system-x86_64 --help (or --version) gives no output
+  `qemu-img info` reports an incorrect actual-size when the underlying
+  posix filesystem has transparent compression
 
 Status in QEMU:
   New
 
 Bug description:
-  I have Arch Linux with qemu 5.0.0-6 (seen with pacman). Running VMs work =
-just fine, but when I run qemu-system-x86_64 --version or qemu-system-x86_6=
-4 --help, there is no feedback on the screen. This behavior messes up other=
- applications (GNS3 in my case that cannot recognize qemu as correctly inst=
-alled because there is no feedback.
-  My kernel is 5.6.11.
+  qemu-img info reports the same thing as `du`*1024:
+
+  $ qemu-img info --output json ./my.qcow2  | jq '."actual-size"'
+  558619648
+
+  $ du ./my.qcow2
+  545527	./my.qcow2
+
+  $ echo $((558619648 / 545527))
+  1024
+
+  and this is correct in terms of bytes on disk, but due to transparent
+  compression implemented by the filesystem, it is not the actual byte
+  count:
+
+  $ du -h --apparent-size ./my.qcow2
+  1346568192	my.qcow2
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1881645/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1881648/+subscriptions
 
