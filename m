@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A461EA10F
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 11:39:02 +0200 (CEST)
-Received: from localhost ([::1]:43028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B27B1EA11A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 11:42:33 +0200 (CEST)
+Received: from localhost ([::1]:47608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfguL-0005P4-RC
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 05:39:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59998)
+	id 1jfgxk-0007W6-Cg
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 05:42:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfgtc-0004xc-K5
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 05:38:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24275
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1jfgwf-0006dY-3n
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 05:41:25 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29278
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jfgtb-0007S0-Lq
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 05:38:16 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1jfgwe-0007xh-9e
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 05:41:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591004295;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=A6IuMVBo3w0VRUGSdpAL1rExyTTAdFr6jjDb7IBj4CA=;
- b=Wt+JgJ0cROSHJ89sMxqiRXgGmKx4t+WRWL6MO0yLz7zEGbT0Vsq5Wn7OiCcVpnIEczwOM2
- HEbkrB7GC4xwjQche863/MRSp0XWzMC9zCJ8zRMtFUE3RI7tF5YzcY6pVGHRpJu/cMNyjN
- K1cQ2eZY9ZSVlDUnZkYVCQ8kiXiMn40=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-KVeX3DGHMCuURFhkW2EXjA-1; Mon, 01 Jun 2020 05:38:11 -0400
-X-MC-Unique: KVeX3DGHMCuURFhkW2EXjA-1
-Received: by mail-wr1-f69.google.com with SMTP id n6so4675055wrv.6
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 02:38:11 -0700 (PDT)
+ s=mimecast20190719; t=1591004482;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type: content-transfer-encoding:content-transfer-encoding;
+ bh=7R4WkhjnWyeLH0UmRJ4/Cy6AU8TkX7D45y5OIgQ9Iqs=;
+ b=W78FLHJP4pgzC3xYlKlmz766Sra2q8xZafMngtI1MkYFq01yYzv/V1db7CFgQ0OU+W7XcI
+ HunAWKh0eJyQefODm4G6vTIft83tDcM0HXMGisYs4qY6KollzaGPmGQRnhNpZePp9oyrGI
+ 03KK02F53aqMocc4PhGfjpulavv6Mq0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-_aNYYLFrO3qKw91Ot2gvFA-1; Mon, 01 Jun 2020 05:41:19 -0400
+X-MC-Unique: _aNYYLFrO3qKw91Ot2gvFA-1
+Received: by mail-wm1-f72.google.com with SMTP id v23so2465527wmj.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 02:41:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=A6IuMVBo3w0VRUGSdpAL1rExyTTAdFr6jjDb7IBj4CA=;
- b=Gryl0EPAqG0BhBtUyFtc/IaDzBuhZGWI07PMBMMAyGOzYhLrN/22W0EmvVaiAVjy9W
- 6Sm8p5ngU6TzMktB1YEkZckxU+QEmI0JN5K107/p/5uvmwEdSTLioH0F5nhf00oIXVj6
- FDNctiXxefQ36d4PKg99Jtkev01Xmgt3sN6d912WDLAMKjjL0mhVIq206PnytjCOWWA0
- ELvN1ajL1fskmyqQIOxSrK/YXgQRFQnL0kP8/+9HDg0FZIgVBo7q67qEErJUFIokxdH2
- tHvQ913Q6dBzS8ZDVELcljuLH4cEOX9qy9MfWAXEceODi/xNIhNdiw8LuG0RgeqCPCB8
- 3IIg==
-X-Gm-Message-State: AOAM533mQuGhQfJa7KkenpLg0SIxF55MG4Np979cIem2jpV6zNKXiZCh
- Gtv3LE4UhhPhInvJBdDWJGf8Z0JkqHH5rlvk5n8E1AxQol78V96jUlU/YG7cL8G9qleHC/WMJqy
- PTjJwXW8BGgzeCdg=
-X-Received: by 2002:adf:ec03:: with SMTP id x3mr21025452wrn.297.1591004290231; 
- Mon, 01 Jun 2020 02:38:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwm5iK+NWZaCD7/vg4ESVQf5wukLhK2K6zrbITsXuHe0e2Tbz5zoIcXjdBgWMTHQEpFTkT41w==
-X-Received: by 2002:adf:ec03:: with SMTP id x3mr21025442wrn.297.1591004290036; 
- Mon, 01 Jun 2020 02:38:10 -0700 (PDT)
-Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id z132sm13020375wmc.29.2020.06.01.02.38.09
+ h=x-gm-message-state:from:to:subject:user-agent:reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=7R4WkhjnWyeLH0UmRJ4/Cy6AU8TkX7D45y5OIgQ9Iqs=;
+ b=nlQ7MsPpglk4tsnkfU5CcDENGz6xzg4l9/Gz6q+DqiDUetts5e/iCTVogXCK066XMN
+ vI6BClLtb454oZrhmuQafN2bRaDoZhevqU9fMZs/TsQHIkpYddImdWtOP65pPvDD+I76
+ yCLiwIo3IiOge1KkVSY6n0r+9WkfjVh0wPHKG5SaGiJFfAQ3ZjQlA3PoIi4bfzq0aiew
+ rbJXbbrGTyubZRT/Ad1LCrPZ1PnA98/QuSdLJL7WIekY5b0PKiTi6xcfehRpkuljUaI1
+ H64xM8e+7yv1z+BUFg2w3oxSMy06l3pnKNsID+xkIRT2M2dq8K8cQasOAjANFZ/cEk8F
+ sUPQ==
+X-Gm-Message-State: AOAM531UNFh6TZ3AahSTO1Fjr51QC0DED4s4AfZxANuTEVPcWGTvCmFp
+ /JY+x+qQox46FqhxhxJ1KfYNTGFzc8kxpSLnUsdWLjjKzKrTZ7I7cjH3Ci4fYJjl+IxhH5YcMM3
+ UnmZJ+EE6ZDH11Yc=
+X-Received: by 2002:a1c:4189:: with SMTP id
+ o131mr21627419wma.110.1591004478351; 
+ Mon, 01 Jun 2020 02:41:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJziNYdM6TkUvDrPEzTBfStQSm0MdutJAH9KY3s9OZM/1yICCnZTsfEWrLEkKI4yAzKNPgsN/Q==
+X-Received: by 2002:a1c:4189:: with SMTP id
+ o131mr21627407wma.110.1591004478098; 
+ Mon, 01 Jun 2020 02:41:18 -0700 (PDT)
+Received: from localhost (trasno.trasno.org. [83.165.45.250])
+ by smtp.gmail.com with ESMTPSA id f11sm14276205wrj.2.2020.06.01.02.41.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Jun 2020 02:38:09 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] qemu/thread: Mark qemu_thread_exit() with 'noreturn'
- attribute
-Date: Mon,  1 Jun 2020 11:38:08 +0200
-Message-Id: <20200601093808.13102-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
+ Mon, 01 Jun 2020 02:41:17 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
+Subject: KVM call for 2020-06-02
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Mon, 01 Jun 2020 11:41:16 +0200
+Message-ID: <87d06j6s3n.fsf@secure.mitica>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 05:35:47
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 02:05:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,7 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,44 +94,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After upgrading to Ubuntu 20.04 LTS, GCC 9.3 complains:
 
-  util/qemu-thread-posix.c: In function ‘qemu_thread_exit’:
-  util/qemu-thread-posix.c:577:6: error: function might be candidate for attribute ‘noreturn’ [-Werror=suggest-attribute=noreturn]
-    577 | void qemu_thread_exit(void *retval)
-        |      ^~~~~~~~~~~~~~~~
 
-Fix by marking the qemu_thread_exit function with QEMU_NORETURN
-to set the 'noreturn' attribute.
+Hi
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-RFC because I'm not sure the error is correct, or we should
-simply ignore it by default with -Wno-suggest-attribute=noreturn.
----
- include/qemu/thread.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Please, send any topic that you are interested in covering.
+There is already a topic from last call:
 
-diff --git a/include/qemu/thread.h b/include/qemu/thread.h
-index d22848138e..06c058fb58 100644
---- a/include/qemu/thread.h
-+++ b/include/qemu/thread.h
-@@ -177,7 +177,7 @@ void qemu_thread_create(QemuThread *thread, const char *name,
- void *qemu_thread_join(QemuThread *thread);
- void qemu_thread_get_self(QemuThread *thread);
- bool qemu_thread_is_self(QemuThread *thread);
--void qemu_thread_exit(void *retval);
-+void qemu_thread_exit(void *retval) QEMU_NORETURN;
- void qemu_thread_naming(bool enable);
- 
- struct Notifier;
--- 
-2.21.3
+Last minute suggestion after recent IRC chat with Alex Benn=C3=A9e and
+Thomas Huth:
+
+"Move some of the build/CI infrastructure to GitLab."
+
+Pro/Con?
+
+ - GitLab does not offer s390x/ppc64el =3D> keep Travis for these?
+
+How to coordinate efforts?
+
+What we want to improve? Priorities?
+
+Who can do which task / is motivated.
+
+What has bugged us recently:
+- Cross-build images (currently rebuilt all the time on Shippable)
+
+Long term interests:
+
+- Collect quality metrics
+  . build time
+  . test duration
+  . performances
+  . binary size
+  . runtime memory used
+
+- Collect code coverage
+
+Note, this is orthogonal to the "Gating CI" task Cleber is working on:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg688150.html
+
+
+
+
+At the end of Monday I will send an email with the agenda or the
+cancellation of the call, so hurry up.
+
+After discussions on the QEMU Summit, we are going to have always open a
+KVM call where you can add topics.
+
+ Call details:
+
+By popular demand, a google calendar public entry with it
+
+  https://www.google.com/calendar/embed?src=3DdG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a=
+3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
+
+(Let me know if you have any problems with the calendar entry.  I just
+gave up about getting right at the same time CEST, CET, EDT and DST).
+
+If you need phone number details,  contact me privately
+
+Thanks, Juan.
 
 
