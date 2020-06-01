@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77DEA1EABE7
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 20:23:45 +0200 (CEST)
-Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0010A1EABEE
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 20:26:30 +0200 (CEST)
+Received: from localhost ([::1]:35166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfp68-0002iz-FF
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 14:23:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37742)
+	id 1jfp8n-0007ZU-Vr
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 14:26:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jfouh-0005Qn-8h; Mon, 01 Jun 2020 14:11:55 -0400
-Received: from mail-eopbgr70117.outbound.protection.outlook.com
- ([40.107.7.117]:10211 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ id 1jfov2-00068A-JS; Mon, 01 Jun 2020 14:12:16 -0400
+Received: from mail-eopbgr70093.outbound.protection.outlook.com
+ ([40.107.7.93]:39047 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jfoug-00027N-8D; Mon, 01 Jun 2020 14:11:54 -0400
+ id 1jfov1-00026c-CZ; Mon, 01 Jun 2020 14:12:16 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R53cB136DB3Eg+/dxd9tX+LvQ6bbCTXobvg0Q5wN9YW94fzTmz9WqCg5VbGoik5XDnyorNuqRWC5VFd8wSPt4ILVJ0GvxrxCLjSnDdC+P0teZqxzanKLS+TnHLca2p0DfbY4qZ1cUxB9lvgldai3DWmNr/nlRImL4uhjBSXuHUc6peyJQKJP12RNmVuMf0LeEyDtqpVqX84JSwbzpyiSC2r4OSvSDZ0xW9IGnk3WzNG26GiGJg83gAMbLg0YlxuwBlhuYdtKwtuw1OPbKsrGXjFgkFWHlRLFcWtWm9cdqRVp+EzqHQtbr3ow7TVfqL4Z1jTwuoPjTaf+vOtjhH+iJg==
+ b=XNAY83t2OTCyCQOymN3eGJoNm7Cz9RytKHxSpTqC4vhjS65EPU4+Y6Y1wllG0RI4hDogVKstDddiL6V/FUb2/S8AwROsixoV2rQnn1YARcN+ZmmECeQhBDuM1bxwB1qRcyRS5eFVTAQJZnuq0vO6kp7DstM9bAyfdqM6qfFwCHFZYeJ81pVYgvG6jlPC3C9seTwJtId4lsYwPGhrXqPYZZ5qD6Ilhi9vA/de4VomITXec81bjWz/1GToq5uv+Wdxlf3HtrOou8VDObT5G1/7aFoD+FNBfOtXhCwrj4xycHaktgdHNP8bNc+Mz8mOm7j4LxYSXnMoqPC+MTgGz+xilw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cRYGwYFnRiNvUOKySjXGOxsgPnCdKbAgtWwjjH0icW4=;
- b=T6ojhMi6vKuwR3LBBgjjGfoFB6dxkJo+a6Y8Cy2iWLRnvQ4NVNGtLJTCXHqSytwNy+lbfYsiBR6w/aI2iZSFwXUF6i51MTCN6XaGnN2mhL/UANCWIH9LJAskNDYdevkuZcej+kvh+2R8PuvK0W4MfEBhC+XYigOI6aR98adoYfmqg9Orjc+YIsTw5hKvb6bnS/RHa/MUUS/JGIroMgoPUPoKCk+4W71fry3Drv6/iBru/7+EmqpIgLsG+6dElQ/egM4uZRQrdNtfbQj8rpx+RSmOgscTWffXzHW/tvPvquzQvMlVLG5Pw7phhGxLJVDuTsSA0wFO3Xz/RMcM/DVdew==
+ bh=JuoEurP90kYN5NvdWyFGpyZ0Z+G5YuQ4ObNKY8rXjBY=;
+ b=nzSJ1bA5BCS+7KWdeaZ6pRzAS2vvgPyL0ILYdWrDbwRKHxpG2EiI4/s1QZWICNYJK3thOox4T50c4yuFi+J+pfoQX9ofSkYdcciEcPE57RoehF7JzvHK8c37KYMqaFGdFTpYp9CqNqWT8PfeuRQCNFBguZaG03FoavhDdSZJVfR7Z2pBolithQNsNFhzHOwvpAni6u+ZdUqHnO70NS1q8E9E9G+nIV9hXcU4UGx0zD5vd8qH2GR6IBAO3NKCVuZ/oMzhrE1eZS3QT4aLPaLdRS5hzr7FvhHoQRlle8H2qNAxpgtiv4woAQIJuKSVl9+lzn45sNqJbXkEQcXveiWNRw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cRYGwYFnRiNvUOKySjXGOxsgPnCdKbAgtWwjjH0icW4=;
- b=F5IzlBusOH4M2WKvHzCTkc0Y1mclw3PZLkRbov6aQx2r9BczhIOD356QJpRjTKIvvv3BTV4nItbXS9IsvbXn2+CtnajRclhMfVf1pvN7DX9yKrReioY4uOUHmiQxGreucqqgFDtQVbB6Iq/DGiqAyKlapIABtxPZPF8B/6NrTfk=
+ bh=JuoEurP90kYN5NvdWyFGpyZ0Z+G5YuQ4ObNKY8rXjBY=;
+ b=T6v30bRvmX0oETG/uon095dsCtlDdJLxQ1lysYldmw2s+ax0GteRcf8NtSi+F3WcF2YaSyBUyqgbf9GgfJSJwGP7KzA/4Mdo7oB0n/RSp2kREjjTkrhJp5pxPk6Shj9O23ZpSlhZqB93tTyHPSfo8+/Ffq4JW3cuewkhreS8RQk=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5317.eurprd08.prod.outlook.com (2603:10a6:20b:101::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.19; Mon, 1 Jun
- 2020 18:11:48 +0000
+ 2020 18:11:49 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3045.024; Mon, 1 Jun 2020
- 18:11:48 +0000
+ 18:11:49 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 19/20] simplebench: bench_block_job: add cmd_options
- argument
-Date: Mon,  1 Jun 2020 21:11:17 +0300
-Message-Id: <20200601181118.579-20-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 20/20] simplebench: add bench-backup.py
+Date: Mon,  1 Jun 2020 21:11:18 +0300
+Message-Id: <20200601181118.579-21-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200601181118.579-1-vsementsov@virtuozzo.com>
 References: <20200601181118.579-1-vsementsov@virtuozzo.com>
@@ -63,37 +62,37 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.170) by
  AM0P190CA0028.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::38) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3045.18 via Frontend Transport; Mon, 1 Jun 2020 18:11:47 +0000
+ 15.20.3045.18 via Frontend Transport; Mon, 1 Jun 2020 18:11:48 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.170]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e7597b3b-2e1b-49ff-fa49-08d80657400f
+X-MS-Office365-Filtering-Correlation-Id: 41057229-1195-4c55-0fa3-08d806574095
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5317:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB53170B978BA3002B86DBD637C18A0@AM7PR08MB5317.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1751;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5317FF0F252ABB293B012B24C18A0@AM7PR08MB5317.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-Forefront-PRVS: 0421BF7135
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yK4ZQGfVRhUTdLZOW2tyye4dmcl3uKXeq51E1PS7XjuvWlcJeiZRTBuz16gGef1GYbFmPhUTYweBWqqZmHdLBnZkcjWTeQf40eCYL2Zv95AYNzbWGuGJuIPU7GoeZJtmPn2nnV67eP5P8Awoouh4kgYAho8wqpW24rFny9cr3SZbYOiIUP9iyFQ+zmMTfR38saOzaZOr/U5exl6UTX7V3XkKCTdSBccUFYd1MlFERAKCIqrp56N60WELQlw4mv9pH/E5qH3keTsbZgTkq9+zVa8Q5J7M1OAUnlZAXAxG9AQI+hPG5WLwMrqA1J3WzOR1hQjNNeirAAfFB4N8zvrMJxWc6vz5btC8R5mH4PEguWEY+2mq1T+08UM/2d+t0z8p
+X-Microsoft-Antispam-Message-Info: /pz5LwcDfwij/C3nZb0eusAdGwAW3WgLkKidsnWmmgtiFQcvm/X9ZAGTBa1uGxRT8wFdQxMTapR16tb8yOO9EzDXE9p5MFlv4wIgKX4YPLZgTmkJkmXkOuD194bYEUYoA+QhDYlFUiGYiwihiEWbMllSgJWQwhvrctTLCd5RGODl/gZ4CwceazDmYtC53i99nQYbVkVMbiJE7I69NV1b/rgP25ZHYEjpEJDgf2Y1orC3sIFesRYvdzlmdVCK2Qd9j+oePs/wx+zFkaxjyA4HVzAHboQ3ElzVuVoUx7hfnmEXmgg5vmigIeQxCULXWU9U42yLUMVYmKno7gL7/piR/bbc4Wc3zBMEdNACMZVueT2F2P8ZMFzb0x/r0qHvrettHzN7LWE8V7uOgGsxVNNGYkbM+LktuVbeZJWxOCG4z+EyrewthNwwrz2LBd/whMMeMlcbq3WoMaJDggQSxE7Ol41NMad3I77GqSyIFMEYix8=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(136003)(396003)(376002)(39840400004)(346002)(366004)(186003)(16526019)(8936002)(2906002)(8676002)(26005)(107886003)(36756003)(316002)(6916009)(52116002)(2616005)(956004)(478600001)(4326008)(86362001)(6486002)(66946007)(66476007)(66556008)(6512007)(6666004)(1076003)(69590400007)(5660300002)(83380400001)(6506007);
+ SFS:(4636009)(136003)(396003)(376002)(39840400004)(346002)(366004)(186003)(16526019)(8936002)(2906002)(8676002)(26005)(107886003)(36756003)(316002)(6916009)(52116002)(2616005)(956004)(478600001)(4326008)(86362001)(6486002)(66946007)(66476007)(66556008)(6512007)(6666004)(1076003)(69590400007)(5660300002)(83380400001)(6506007)(2004002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: FlR9tnOaFcncFPkTkGjyZHu8JKXbT2pDTdHs/hIpsHR/2pX1rsD6qH9+cb11JytCHwJjqmbUAKd17PKzF0KGHkOruLQXy0JpGIHcvGT4CUkIum/TfsUZOhaAqiD5vDIszn9psReVLxprGnqK4n617ymOVVIPHMlVr1XAtWgSQiMl9ss5h5qjgmX21T4X8YWhJWlNuJ2rDiMr16siHy+6z09buJXs+WxoGpCP5tMkFjUSjmIuOe2P3H47ntlQg16kpzGEs4FywEsAqTgPQRUzdJ6kguUQsIZskLx9CueupbASIz4ifvzqpBJzR+1LkXV0gv/mh+kgpZmg3wrZO9JNiSTBVOA9LWm6esSP6WznLfBKs0mzSo/nHBeLpVP9rFmY63KW4mQsAIPqTST2UgHghE85OhAGSawivhATbR6wEtiTbX4D14dYn7c/zUx5lkRC10GwxymYjbrtxtk2wlAffY8jBaMfbAWUtFasCdwng1M=
+X-MS-Exchange-AntiSpam-MessageData: A/9HkfnLnLVEzTHfj1PVPgaA0aO4OLSBoO7j2udIvK+Hhj2SS0Gv1ClO8T/FWp0AE+JcXUWvB0xKVAzpoTQYxXAzhEB3hSczCOXJzLIacgiw5ZPQAxv6EcpSjgeUUqyna38X5heuV6TWYTFSAo0v6ZoDoqF1cc4vYwofofdP8QzL9BKrQVcqECGL+5i5eViFV7BwaI5Rpq4TTmp4IPz4m9d22bf85x3kWYkXnKj+1eFNZd+1ak7tWPZnTW5HsLgzSiEmpA5uU15huV1FbkPsngOq5ya8yDY7Ae+lBc44vT4C/SPac0Uli6beAE6qIMdc7XdcmAAhKmFLl21rjA+ImiVGk2csOtk/91dS1kQvYsf1RJ04/ndXcViGYxGnw+oMW8QzuEYWl26PtKR2bRy4CIwBhR2CzCFzjKtLJ9WfTamtzP1Zou5GfLcLX2KCPTlyzPLOK0dg3u8yr/WvinlcTfPvtjNfrK/bVv2PeLWKHtU=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7597b3b-2e1b-49ff-fa49-08d80657400f
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2020 18:11:48.1104 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41057229-1195-4c55-0fa3-08d806574095
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2020 18:11:48.9631 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uFP/aXrtLP16xBdjrCxgLf3fbmTso1gNClhWeBk3iFsthSrJ21YY/x8wDQgKZRNciuAG1qs5g6RjsfNTiQto2tJPusy7IJ0LrmGYaBri2CI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9G5ONW4AqIQYCvog2Y2wfqNnN4eA4FzdpFxB5GeG+ly5snpf1dj+r72L4ExntPz8DD3WUjf24YxI6IdrH+nylEKl0XIZUv+3kY7MU+pdoIE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5317
-Received-SPF: pass client-ip=40.107.7.117;
+Received-SPF: pass client-ip=40.107.7.93;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 14:11:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 14:11:32
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -121,61 +120,152 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add argument to allow additional block-job options.
+Add script to benchmark new backup architecture.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- scripts/simplebench/bench-example.py   |  2 +-
- scripts/simplebench/bench_block_job.py | 13 ++++++++-----
- 2 files changed, 9 insertions(+), 6 deletions(-)
+ scripts/simplebench/bench-backup.py | 132 ++++++++++++++++++++++++++++
+ 1 file changed, 132 insertions(+)
+ create mode 100755 scripts/simplebench/bench-backup.py
 
-diff --git a/scripts/simplebench/bench-example.py b/scripts/simplebench/bench-example.py
-index c642a5b891..c3d17213e3 100644
---- a/scripts/simplebench/bench-example.py
-+++ b/scripts/simplebench/bench-example.py
-@@ -24,7 +24,7 @@ from bench_block_job import bench_block_copy, drv_file, drv_nbd
- 
- def bench_func(env, case):
-     """ Handle one "cell" of benchmarking table. """
--    return bench_block_copy(env['qemu_binary'], env['cmd'],
-+    return bench_block_copy(env['qemu_binary'], env['cmd'], {}
-                             case['source'], case['target'])
- 
- 
-diff --git a/scripts/simplebench/bench_block_job.py b/scripts/simplebench/bench_block_job.py
-index 9808d696cf..7332845c1c 100755
---- a/scripts/simplebench/bench_block_job.py
-+++ b/scripts/simplebench/bench_block_job.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python
+diff --git a/scripts/simplebench/bench-backup.py b/scripts/simplebench/bench-backup.py
+new file mode 100755
+index 0000000000..8930d23887
+--- /dev/null
++++ b/scripts/simplebench/bench-backup.py
+@@ -0,0 +1,132 @@
 +#!/usr/bin/env python3
- #
- # Benchmark block jobs
- #
-@@ -78,16 +78,19 @@ def bench_block_job(cmd, cmd_args, qemu_args):
- 
- 
- # Bench backup or mirror
--def bench_block_copy(qemu_binary, cmd, source, target):
-+def bench_block_copy(qemu_binary, cmd, cmd_options, source, target):
-     """Helper to run bench_block_job() for mirror or backup"""
-     assert cmd in ('blockdev-backup', 'blockdev-mirror')
- 
-     source['node-name'] = 'source'
-     target['node-name'] = 'target'
- 
--    return bench_block_job(cmd,
--                           {'job-id': 'job0', 'device': 'source',
--                            'target': 'target', 'sync': 'full'},
-+    cmd_options['job-id'] = 'job0'
-+    cmd_options['device'] = 'source'
-+    cmd_options['target'] = 'target'
-+    cmd_options['sync'] = 'full'
++#
++# Bench backup block-job
++#
++# Copyright (c) 2020 Virtuozzo International GmbH.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-+    return bench_block_job(cmd, cmd_options,
-                            [qemu_binary,
-                             '-blockdev', json.dumps(source),
-                             '-blockdev', json.dumps(target)])
++import argparse
++import simplebench
++from bench_block_job import bench_block_copy, drv_file, drv_nbd
++
++
++def bench_func(env, case):
++    """ Handle one "cell" of benchmarking table. """
++    cmd_options = env['cmd-options'] if 'cmd-options' in env else {}
++    return bench_block_copy(env['qemu-binary'], env['cmd'],
++                            cmd_options,
++                            case['source'], case['target'])
++
++
++def bench(args):
++    test_cases = []
++
++    sources = {}
++    targets = {}
++    for d in args.dir:
++        label, path = d.split(':')
++        sources[label] = drv_file(path + '/test-source')
++        targets[label] = drv_file(path + '/test-target')
++
++    if args.nbd:
++        nbd = args.nbd.split(':')
++        host = nbd[0]
++        port = '10809' if len(nbd) == 1 else nbd[1]
++        drv = drv_nbd(host, port)
++        sources['nbd'] = drv
++        targets['nbd'] = drv
++
++    for t in args.test:
++        src, dst = t.split(':')
++
++        test_cases.append({
++            'id': t,
++            'source': sources[src],
++            'target': targets[dst]
++        })
++
++    binaries = []
++    upstream = None
++    for i, q in enumerate(args.qemu):
++        name_path = q.split(':')
++        if len(name_path) == 1:
++            binaries.append((f'q{i}', name_path[0]))
++        else:
++            binaries.append((name_path[0], name_path[1]))
++            if name_path[0] == 'upstream' or name_path[0] == 'master':
++                upstream = binaries[-1]
++
++    test_envs = []
++    if upstream:
++        label, path = upstream
++        test_envs.append({
++                'id': f'mirror({label})',
++                'cmd': 'blockdev-mirror',
++                'qemu-binary': path
++            })
++
++    for label, path in binaries:
++        test_envs.append({
++            'id': f'backup({label})',
++            'cmd': 'blockdev-backup',
++            'qemu-binary': path
++        })
++        test_envs.append({
++            'id': f'backup({label}, no-copy-range)',
++            'cmd': 'blockdev-backup',
++            'cmd-options': {'x-use-copy-range': False},
++            'qemu-binary': path
++        })
++        if label == 'new':
++            test_envs.append({
++                'id': f'backup({label}, copy-range-1w)',
++                'cmd': 'blockdev-backup',
++                'cmd-options': {'x-use-copy-range': True,
++                                'x-max-workers': 1},
++                'qemu-binary': path
++            })
++
++    result = simplebench.bench(bench_func, test_envs, test_cases, count=3)
++    print(simplebench.ascii(result))
++
++
++class ExtendAction(argparse.Action):
++    def __call__(self, parser, namespace, values, option_string=None):
++        items = getattr(namespace, self.dest) or []
++        items.extend(values)
++        setattr(namespace, self.dest, items)
++
++
++if __name__ == '__main__':
++    p = argparse.ArgumentParser('Backup benchmark')
++    p.add_argument('--qemu', nargs='+', help='Qemu binaries to compare, just '
++                   'file path with label, like label:/path/to/qemu. Qemu '
++                   'labeled "new" should support x-max-workers argument for '
++                   'backup job, labeled "upstream" will be used also to run '
++                   'mirror benchmark for comparison.',
++                   action=ExtendAction)
++    p.add_argument('--dir', nargs='+', help='Directories, each containing '
++                   '"test-source" and/or "test-target" files, raw images to '
++                   'used in benchmarking. File path with label, like '
++                   'label:/path/to/directory', action=ExtendAction)
++    p.add_argument('--nbd', help='host:port for remote NBD '
++                   'image, (or just host, for default port 10809). Use it in '
++                   'tests, label is "nbd" (but you cannot create test '
++                   'nbd:nbd).')
++    p.add_argument('--test', nargs='+', help='Tests, in form '
++                   'source-dir-label:target-dir-label', action=ExtendAction)
++
++    bench(p.parse_args())
 -- 
 2.21.0
 
