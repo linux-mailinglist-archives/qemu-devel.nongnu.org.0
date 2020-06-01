@@ -2,31 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE131EA549
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 15:49:27 +0200 (CEST)
-Received: from localhost ([::1]:49180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB14B1EA54B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 15:50:54 +0200 (CEST)
+Received: from localhost ([::1]:53446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfkof-0004oO-VH
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 09:49:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33140)
+	id 1jfkq6-0006Y6-0b
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 09:50:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jfknd-0003oP-St; Mon, 01 Jun 2020 09:48:21 -0400
-Received: from relay.sw.ru ([185.231.240.75]:38780 helo=relay3.sw.ru)
+ id 1jfknd-0003oQ-UC; Mon, 01 Jun 2020 09:48:21 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38778 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jfknc-0001k8-4a; Mon, 01 Jun 2020 09:48:21 -0400
+ id 1jfknc-0001k5-5H; Mon, 01 Jun 2020 09:48:21 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.93)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jfknN-0005dY-Lf; Mon, 01 Jun 2020 16:48:05 +0300
+ id 1jfknN-0005dY-Mq; Mon, 01 Jun 2020 16:48:05 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 2/6] iotests: move check for printable data to
- QcowHeaderExtension class
-Date: Mon,  1 Jun 2020 16:48:09 +0300
-Message-Id: <1591019293-211155-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v3 3/6] iotests: dump bitmap extension data with qcow2.py
+Date: Mon,  1 Jun 2020 16:48:10 +0300
+Message-Id: <1591019293-211155-4-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1591019293-211155-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1591019293-211155-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -56,55 +55,91 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let us differ binary data type from string one for the extension data
-variable and keep the string as the QcowHeaderExtension class member
-in the script qcow2.py.
+Add bitmap header extension data, if any, to the dump in qcow2.py.
+
+Header extension:         Bitmaps
+magic                     0x23852875
+length                    24
+nb_bitmaps                2
+reserved32                0
+bitmap_directory_size     0x40
+bitmap_directory_offset   0x100000
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- tests/qemu-iotests/qcow2.py | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ tests/qemu-iotests/qcow2.py | 42 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 41 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qemu-iotests/qcow2.py b/tests/qemu-iotests/qcow2.py
-index e824b09..18e4923 100755
+index 18e4923..8286115 100755
 --- a/tests/qemu-iotests/qcow2.py
 +++ b/tests/qemu-iotests/qcow2.py
-@@ -13,6 +13,12 @@ class QcowHeaderExtension:
+@@ -4,6 +4,39 @@ import sys
+ import struct
+ import string
+ 
++
++class Qcow2BitmapExt:
++
++    uint32_t = 'I'
++    uint64_t = 'Q'
++
++    fields = [
++        [uint32_t, '%d',  'nb_bitmaps'],
++        [uint32_t, '%d',  'reserved32'],
++        [uint64_t, '%#x', 'bitmap_directory_size'],
++        [uint64_t, '%#x', 'bitmap_directory_offset']
++    ]
++
++    fmt = '>' + ''.join(field[0] for field in fields)
++
++    def __init__(self, data):
++
++        extension = struct.unpack(Qcow2BitmapExt.fmt, data)
++        self.__dict__ = dict((field[2], extension[i])
++                             for i, field in enumerate(Qcow2BitmapExt.fields))
++
++    def dump_bitmap_ext(self):
++        for f in Qcow2BitmapExt.fields:
++            value = self.__dict__[f[2]]
++            value_str = f[1] % value
++
++            print("%-25s" % f[2], value_str)
++        print("")
++
++    def dump_ext(self):
++        self.dump_bitmap_ext()
++
++
+ class QcowHeaderExtension:
+ 
+     QCOW2_EXT_MAGIC_BACKING_FORMAT = 0xE2792ACA
+@@ -13,12 +46,16 @@ class QcowHeaderExtension:
      QCOW2_EXT_MAGIC_DATA_FILE = 0x44415441
  
      def __init__(self, magic, length, data):
-+        data_str = data[:length]
-+        if all(c in string.printable.encode('ascii') for c in data_str):
-+            data_str = "'%s'" % data_str.decode('ascii')
-+        else:
-+            data_str = "<binary>"
++        self.obj = None
+         data_str = data[:length]
+         if all(c in string.printable.encode('ascii') for c in data_str):
+             data_str = "'%s'" % data_str.decode('ascii')
+         else:
+             data_str = "<binary>"
+ 
++        if magic == self.QCOW2_EXT_MAGIC_BITMAPS:
++            self.obj = Qcow2BitmapExt(data)
 +
          if length % 8 != 0:
              padding = 8 - (length % 8)
              data += b"\0" * padding
-@@ -21,6 +27,7 @@ class QcowHeaderExtension:
-         self.length = length
-         self.data = data
-         self.name = self.extension_name(magic)
-+        self.data_str = data_str
- 
-     @classmethod
-     def create(cls, magic, data):
-@@ -162,16 +169,10 @@ class QcowHeader:
-     def dump_extensions(self):
-         for ex in self.extensions:
- 
--            data = ex.data[:ex.length]
--            if all(c in string.printable.encode('ascii') for c in data):
--                data = "'%s'" % data.decode('ascii')
--            else:
--                data = "<binary>"
--
+@@ -172,7 +209,10 @@ class QcowHeader:
              print("%-25s %s" % ("Header extension:", ex.name))
              print("%-25s %#x" % ("magic", ex.magic))
              print("%-25s %d" % ("length", ex.length))
--            print("%-25s %s" % ("data", data))
-+            print("%-25s %s" % ("data", ex.data_str))
+-            print("%-25s %s" % ("data", ex.data_str))
++            if ex.obj is not None:
++                ex.obj.dump_ext()
++            else:
++                print("%-25s %s" % ("data", ex.data_str))
              print("")
  
  
