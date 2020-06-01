@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E21E91EA0E7
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 11:21:50 +0200 (CEST)
-Received: from localhost ([::1]:60478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6EF1EA119
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 11:41:40 +0200 (CEST)
+Received: from localhost ([::1]:45338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfgdh-0000Dl-Vm
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 05:21:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58566)
+	id 1jfgwt-0006YL-CS
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 05:41:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jfgcw-0008FX-Ft
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 05:21:02 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34319)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jfgwA-00069F-HO
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 05:40:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jfgcv-0004ye-L4
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 05:21:02 -0400
-Received: by mail-wm1-x341.google.com with SMTP id u26so11618546wmn.1
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 02:21:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cL+z9ENGszbmzKhGYjXFXL3yrpeAIly6RVP2vHyWxN8=;
- b=viGyjhZowV1NMeQn9LYe3deoTpqIo0cnGhhonSzF7hEMIHID/6kmHt+h+P5lIPI0k2
- Dcd0mxJXO554upWAdY3PVM22pUtdY2z15HvXsJaRWKcjRa+6HD3jCTfy2CZH/zKSc8Qo
- JcSyr1QE6ljq6MBIc/zRIR7ZTocoYE2EDywCUGsAxeCbO9kX5FA1LYEGxSnrZYfGNPso
- f2gWmX2WmJpnyVyMmjRVyFYirwhrs4kME5h042CT8XhO4kGJ9/SE2GvcKQ6QXxfczFWR
- ubQCArIzsO2xeu9XMNB+c3aAGqYZiX53Yixf3CDQLU/KgNbi5Wj4410Xb6o9NlCKJJhS
- l/kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=cL+z9ENGszbmzKhGYjXFXL3yrpeAIly6RVP2vHyWxN8=;
- b=BUM/vSL5Vq7JyAYokBAbiuI0ELPpIC7M01NFvfrMdrhxZ10ynVt5xZN77QtBG8QQCf
- ur7+ZpJrPuq+cvshspz+NIsR3PrsyraVJ49ibvrck0UB9JTvZK29uSlTb6VDaJ0gLBHN
- sxAs/5axbMRdzqLX2G1Tr67fvQ7vhjQDivdMTc8LKDhd6A47uQOM4vueexvn5O/H+iBr
- nNWbgLjLMs7LFMjVx4R/xlKWHOH/TpAvBFTqfVbstkGTwDkuV/a1MZT3vPZAvfCP9Cuc
- KrLaqlddyhxDRs6Ec+TxRX0ZcTnbCMuyZYgKpxa81kEjv9eusbvLziGfLqIlfeWzI8/P
- ZGPg==
-X-Gm-Message-State: AOAM5324zqjHSK16PzLMFSTagUj6Gj5kcq6C1SjNZB5onJ477OkwAyao
- J2pskLRZBPnrwcwUOhtYKstuX2Vk
-X-Google-Smtp-Source: ABdhPJyEHFFrTE4zdB3f4Q1aUo1pZfehrJtxtOgggwy8UwXVu3L99QXAGYe7LFYKV3rix4IUMFXOtQ==
-X-Received: by 2002:a1c:154:: with SMTP id 81mr13017516wmb.23.1591003259919;
- Mon, 01 Jun 2020 02:20:59 -0700 (PDT)
-Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
- [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id u13sm20129982wrp.53.2020.06.01.02.20.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Jun 2020 02:20:59 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org,
-	Aurelien Jarno <aurelien@aurel32.net>
-Subject: [PATCH] MAINTAINERS: Volunteer for maintaining the Renesas hardware
-Date: Mon,  1 Jun 2020 11:20:57 +0200
-Message-Id: <20200601092057.10555-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jfgw9-0007re-7H
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 05:40:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jfgw6-0005tN-9r
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 09:40:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 28F722E8106
+ for <qemu-devel@nongnu.org>; Mon,  1 Jun 2020 09:40:50 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 01 Jun 2020 09:35:14 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1881552@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <159100411428.13844.7436264299080242287.malonedeb@soybean.canonical.com>
+Subject: [Bug 1881552] [NEW] potential AArch64 ABI bug wrt handling of 128-bit
+ bit-fields
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="275d46a24253e557e4403d52832837e4bfa425b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a0ca961d102285725cb1c69c6665f92041c7938a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 03:40:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,65 +74,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Reply-To: Bug 1881552 <1881552@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I don't have much clue about the Renesas hardware, but at least
-I know now the source files a little bit, so I volunteer to pick
-up patches and send pull-requests for them during my scarce
-hobbyist time, until someone else with more knowledge steps up
-to do this job instead.
+Public bug reported:
 
-Suggested-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- MAINTAINERS | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+After upgrading to Ubuntu 20.04 LTS, GCC 9.3 displays a lot of notes:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0944d9c731..cbba3ac757 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -298,9 +298,7 @@ SH4 TCG CPUs
- M: Aurelien Jarno <aurelien@aurel32.net>
- S: Odd Fixes
- F: target/sh4/
--F: hw/sh4/
- F: disas/sh4.c
--F: include/hw/sh4/
- 
- SPARC TCG CPUs
- M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-@@ -1238,6 +1236,18 @@ F: pc-bios/canyonlands.dt[sb]
- F: pc-bios/u-boot-sam460ex-20100605.bin
- F: roms/u-boot-sam460ex
- 
-+Renesas Hardware
-+----------------
-+SH4 Hardware
-+M: Aurelien Jarno <aurelien@aurel32.net>
-+M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+S: Odd Fixes
-+F: hw/sh4/
-+F: hw/char/sh_serial.c
-+F: hw/intc/sh_intc.c
-+F: hw/timer/sh_timer.c
-+F: include/hw/sh4/
-+
- SH4 Machines
- ------------
- R2D
-@@ -1246,6 +1256,7 @@ S: Maintained
- F: hw/sh4/r2d.c
- F: hw/intc/sh_intc.c
- F: hw/timer/sh_timer.c
-+F: include/hw/sh4/sh_intc.h
- 
- Shix
- M: Magnus Damm <magnus.damm@gmail.com>
--- 
-2.21.3
+hw/block/pflash_cfi01.c: In function =E2=80=98pflash_mem_read_with_attrs=E2=
+=80=99:
+hw/block/pflash_cfi01.c:663:20: note: parameter passing for argument of typ=
+e =E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} ch=
+anged in GCC 9.1
+  663 | static MemTxResult pflash_mem_read_with_attrs(void *opaque, hwaddr =
+addr, uint64_t *value,
+      |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+hw/block/pflash_cfi01.c: In function =E2=80=98pflash_mem_write_with_attrs=
+=E2=80=99:
+hw/block/pflash_cfi01.c:677:20: note: parameter passing for argument of typ=
+e =E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} ch=
+anged in GCC 9.1
+  677 | static MemTxResult pflash_mem_write_with_attrs(void *opaque, hwaddr=
+ addr, uint64_t value,
+      |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_dma_mem_valid=E2=80=99:
+hw/nvram/fw_cfg.c:475:13: note: parameter passing for argument of type =E2=
+=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} changed=
+ in GCC 9.1
+  475 | static bool fw_cfg_dma_mem_valid(void *opaque, hwaddr addr,
+      |             ^~~~~~~~~~~~~~~~~~~~
+hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_data_mem_valid=E2=80=99:
+hw/nvram/fw_cfg.c:483:13: note: parameter passing for argument of type =E2=
+=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} changed=
+ in GCC 9.1
+  483 | static bool fw_cfg_data_mem_valid(void *opaque, hwaddr addr,
+      |             ^~~~~~~~~~~~~~~~~~~~~
+hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_ctl_mem_valid=E2=80=99:
+hw/nvram/fw_cfg.c:501:13: note: parameter passing for argument of type =E2=
+=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} changed=
+ in GCC 9.1
+  501 | static bool fw_cfg_ctl_mem_valid(void *opaque, hwaddr addr,
+      |             ^~~~~~~~~~~~~~~~~~~~
+hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_comb_valid=E2=80=99:
+hw/nvram/fw_cfg.c:521:13: note: parameter passing for argument of type =E2=
+=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} changed=
+ in GCC 9.1
+  521 | static bool fw_cfg_comb_valid(void *opaque, hwaddr addr,
+      |             ^~~~~~~~~~~~~~~~~
+hw/intc/arm_gic.c: In function =E2=80=98gic_do_hyp_read=E2=80=99:
+hw/intc/arm_gic.c:1996:20: note: parameter passing for argument of type =E2=
+=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} changed=
+ in GCC 9.1
+ 1996 | static MemTxResult gic_do_hyp_read(void *opaque, hwaddr addr, uint6=
+4_t *data,
+      |                    ^~~~~~~~~~~~~~~
+hw/intc/arm_gic.c: In function =E2=80=98gic_thiscpu_hyp_read=E2=80=99:
+hw/intc/arm_gic.c:1979:20: note: parameter passing for argument of type =E2=
+=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} changed=
+ in GCC 9.1
+ 1979 | static MemTxResult gic_thiscpu_hyp_read(void *opaque, hwaddr addr, =
+uint64_t *data,
+      |                    ^~~~~~~~~~~~~~~~~~~~
+hw/intc/arm_gic.c: In function =E2=80=98gic_get_current_pending_irq=E2=80=
+=99:
+hw/intc/arm_gic.c:419:17: note: parameter passing for argument of type =E2=
+=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} changed=
+ in GCC 9.1
+  419 | static uint16_t gic_get_current_pending_irq(GICState *s, int cpu,
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+This seems related to:
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D88469
+https://gcc.gnu.org/git/?p=3Dgcc.git&a=3Dcommit;h=3Dc590597c45
+
+  This is pretty unlikely in real code, but similar to Arm, the AArch64
+  ABI has a bug with the handling of 128-bit bit-fields, where if the
+  bit-field dominates the overall alignment the back-end code may end up
+  passing the argument correctly.  This is a regression that started in
+  gcc-6 when the ABI support code was updated to support overaligned
+  types.  The fix is very similar in concept to the Arm fix.  128-bit
+  bit-fields are fortunately extremely rare, so I'd be very surprised if
+  anyone has been bitten by this.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1881552
+
+Title:
+  potential AArch64 ABI bug wrt handling of 128-bit bit-fields
+
+Status in QEMU:
+  New
+
+Bug description:
+  After upgrading to Ubuntu 20.04 LTS, GCC 9.3 displays a lot of notes:
+
+  hw/block/pflash_cfi01.c: In function =E2=80=98pflash_mem_read_with_attrs=
+=E2=80=99:
+  hw/block/pflash_cfi01.c:663:20: note: parameter passing for argument of t=
+ype =E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} =
+changed in GCC 9.1
+    663 | static MemTxResult pflash_mem_read_with_attrs(void *opaque, hwadd=
+r addr, uint64_t *value,
+        |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+  hw/block/pflash_cfi01.c: In function =E2=80=98pflash_mem_write_with_attrs=
+=E2=80=99:
+  hw/block/pflash_cfi01.c:677:20: note: parameter passing for argument of t=
+ype =E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} =
+changed in GCC 9.1
+    677 | static MemTxResult pflash_mem_write_with_attrs(void *opaque, hwad=
+dr addr, uint64_t value,
+        |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+  hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_dma_mem_valid=E2=80=99:
+  hw/nvram/fw_cfg.c:475:13: note: parameter passing for argument of type =
+=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
+ged in GCC 9.1
+    475 | static bool fw_cfg_dma_mem_valid(void *opaque, hwaddr addr,
+        |             ^~~~~~~~~~~~~~~~~~~~
+  hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_data_mem_valid=E2=80=99:
+  hw/nvram/fw_cfg.c:483:13: note: parameter passing for argument of type =
+=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
+ged in GCC 9.1
+    483 | static bool fw_cfg_data_mem_valid(void *opaque, hwaddr addr,
+        |             ^~~~~~~~~~~~~~~~~~~~~
+  hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_ctl_mem_valid=E2=80=99:
+  hw/nvram/fw_cfg.c:501:13: note: parameter passing for argument of type =
+=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
+ged in GCC 9.1
+    501 | static bool fw_cfg_ctl_mem_valid(void *opaque, hwaddr addr,
+        |             ^~~~~~~~~~~~~~~~~~~~
+  hw/nvram/fw_cfg.c: In function =E2=80=98fw_cfg_comb_valid=E2=80=99:
+  hw/nvram/fw_cfg.c:521:13: note: parameter passing for argument of type =
+=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
+ged in GCC 9.1
+    521 | static bool fw_cfg_comb_valid(void *opaque, hwaddr addr,
+        |             ^~~~~~~~~~~~~~~~~
+  hw/intc/arm_gic.c: In function =E2=80=98gic_do_hyp_read=E2=80=99:
+  hw/intc/arm_gic.c:1996:20: note: parameter passing for argument of type =
+=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
+ged in GCC 9.1
+   1996 | static MemTxResult gic_do_hyp_read(void *opaque, hwaddr addr, uin=
+t64_t *data,
+        |                    ^~~~~~~~~~~~~~~
+  hw/intc/arm_gic.c: In function =E2=80=98gic_thiscpu_hyp_read=E2=80=99:
+  hw/intc/arm_gic.c:1979:20: note: parameter passing for argument of type =
+=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
+ged in GCC 9.1
+   1979 | static MemTxResult gic_thiscpu_hyp_read(void *opaque, hwaddr addr=
+, uint64_t *data,
+        |                    ^~~~~~~~~~~~~~~~~~~~
+  hw/intc/arm_gic.c: In function =E2=80=98gic_get_current_pending_irq=E2=80=
+=99:
+  hw/intc/arm_gic.c:419:17: note: parameter passing for argument of type =
+=E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct MemTxAttrs=E2=80=99} chan=
+ged in GCC 9.1
+    419 | static uint16_t gic_get_current_pending_irq(GICState *s, int cpu,
+        |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  This seems related to:
+  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D88469
+  https://gcc.gnu.org/git/?p=3Dgcc.git&a=3Dcommit;h=3Dc590597c45
+
+    This is pretty unlikely in real code, but similar to Arm, the AArch64
+    ABI has a bug with the handling of 128-bit bit-fields, where if the
+    bit-field dominates the overall alignment the back-end code may end up
+    passing the argument correctly.  This is a regression that started in
+    gcc-6 when the ABI support code was updated to support overaligned
+    types.  The fix is very similar in concept to the Arm fix.  128-bit
+    bit-fields are fortunately extremely rare, so I'd be very surprised if
+    anyone has been bitten by this.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1881552/+subscriptions
 
