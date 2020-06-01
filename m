@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D26491EA605
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 16:39:42 +0200 (CEST)
-Received: from localhost ([::1]:39940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0721EA5F7
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 16:35:04 +0200 (CEST)
+Received: from localhost ([::1]:55124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jflbJ-00062Y-VG
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 10:39:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38620)
+	id 1jflWp-0000LX-GF
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 10:35:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jflRh-0002Xn-GA; Mon, 01 Jun 2020 10:29:45 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38926)
+ id 1jflRi-0002a2-1W; Mon, 01 Jun 2020 10:29:46 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jflRe-0002cK-WB; Mon, 01 Jun 2020 10:29:43 -0400
-Received: by mail-wm1-x343.google.com with SMTP id k26so11591858wmi.4;
- Mon, 01 Jun 2020 07:29:41 -0700 (PDT)
+ id 1jflRg-0002cj-CG; Mon, 01 Jun 2020 10:29:45 -0400
+Received: by mail-wm1-x342.google.com with SMTP id f5so11595340wmh.2;
+ Mon, 01 Jun 2020 07:29:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R1c6Ywd2WY7bkeebkfpfDjPJtSo9TSSd8GLZEIuba7M=;
- b=KOMpvQ1h+cZ/GQVz8Qxdx0mis+TlMoxKHuaO2rSRSRaGWhvUFWWUqHiwcfE323UL85
- aFEytOww3L6zSlWIZYTfxs/42vrUDiv9C6o/n7DgZcVeQbTpRmEyDlSCBhRvyEEe/q1E
- KTruiQ5Yb9wpzHMcL/S5jvbB3uNWlV8t7A15KU5YJuRpiEXQ8HrJAra1lGOBEpLrTZ3O
- 642Vmt3sR4HbgPjDypLJB8+Ui1R+27mPnBXP523uszOrtFVLjhJkd3kdzmV8PrhICcHq
- x0ChezwGeMAvWpPgfm2AcOw/MfHwRzWWgyDUEAGIrSzdPEIsC91vU304u1JiiHnltmvV
- YGWw==
+ bh=XKZlJlfX9Xx9NUQxmLIoeX0hJAW9cFlHOUMdlpNFhrg=;
+ b=uSgMGz3lX/zCVeS5N2hb8kMocWnJrBQD0iyV3MRylloSoTofEcoBsiR9QFxYNgbzRV
+ qh0sLJ+RiNFsR4CIT2VAg2+CO6sT0D0sdl/G2m5Iu6v6cM/TOGhGbYSr5Xo9r6pD1DWI
+ jp1YxowX9bE34rtK9aLe4e++e+a7K+9LrUMvhpkWmyyTfu/5M+ku9VfHOVsT2oZAMGk3
+ HGgIDmQRereUYlDCOeFKcsvo8+Dw2V7uUTFwNprKVWgTj5Q3a/RSyWhg2iXQiIdBfQbq
+ Z2Of3QPTdmADNKrA5GfKeIcMFruSd5R0KWbHfTnHTzjpjE0TMDAyXSj/8s5aY1AanxyN
+ xwyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=R1c6Ywd2WY7bkeebkfpfDjPJtSo9TSSd8GLZEIuba7M=;
- b=BHInmlzzDjYfv+7X/hjKTVXkS+Sl5PSXB9J5eeiyLrA9xj7u0egwQP9KRSmgXGuZkD
- Gl6Re551G0EJFiuETyCkcX6EgQcqjGeUhd6emwAKR871aWhwQ9XifzPr5tMoEmwgKIrs
- JtrJrA+fllVOeaEhvMbyvgZQK5c9dFju/ywhm1+y0tUzfqgNcURybWxkc1LcvGnwjXQ0
- HaJwlmNZz6pYLOW/XtNjTSALgHjIA0GE7cW3Fd/eQI14lj6GhR0yWm6BWEaD9auok+h+
- xWIrJwRFkdeJ+v2qmEFAx0iTgBQoN7JalwG+YRkmeSeyx+gvkRlQV9/WbLjZ/BfP3bej
- DjBg==
-X-Gm-Message-State: AOAM531qekWiU/FofUDLch21IPDoDqIL/+onNTg5PiSfg4w4+ezWfY29
- bEX/+m79UP8cJw67JOgyxr5EMd1r
-X-Google-Smtp-Source: ABdhPJwdSMIYLsZyoLFaZUJVXdLPvSbS6G1a5vB2dplcqD0mIzzFuz5/mh32BbsK8QB7xfYYy+wUTQ==
-X-Received: by 2002:a1c:7f96:: with SMTP id
- a144mr21650923wmd.176.1591021780425; 
- Mon, 01 Jun 2020 07:29:40 -0700 (PDT)
+ bh=XKZlJlfX9Xx9NUQxmLIoeX0hJAW9cFlHOUMdlpNFhrg=;
+ b=nAvCJBYXbqhuG+a8QxDY7/A2Fj5bVMu41f2mQVxT6yF855Ra/ZCfnCnMo75QG3b7NX
+ uQC3dvlLYnsv7S8OAaBxJpKpYb6KS1M8LpI9IsMQ66ujBtL8UOv8gGZrmbBcSa4Pw+KG
+ mcKF/9vD7F4IXYHZ32Xdi20phqGQBRhnBRxKzgrB6m6se6/hy9GrEe/zFYOvYevPd+En
+ Pi7c05FYroI1w2F4DRDUt1Y851Mq5+TXzXXbUTkQgjRDBjsGEw897EYDKQyvHdzp9R4H
+ UZl379Cy3qpje2U1G2VoCtvu0zcevtSk2VROG/G81G7QzzbsqXG4sKBHzo1AId3hikpc
+ 2OhQ==
+X-Gm-Message-State: AOAM530MW4r0Z99WWyFjB5SB5OLbQA4USjgC3OyFwuHpS71HCceKggiE
+ m8YkdwHBU5dzZwfShlE6q9z9KrlT
+X-Google-Smtp-Source: ABdhPJyt8wH6JL4N0YS0dHM+IbzIPnoHhEte70jcFfAz1FX5YUjQQxAFfQgPQNYsKKu4k4TKF2I/Wg==
+X-Received: by 2002:a1c:f006:: with SMTP id a6mr21730886wmb.106.1591021781801; 
+ Mon, 01 Jun 2020 07:29:41 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id u12sm6824954wrq.90.2020.06.01.07.29.39
+ by smtp.gmail.com with ESMTPSA id u12sm6824954wrq.90.2020.06.01.07.29.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Jun 2020 07:29:39 -0700 (PDT)
+ Mon, 01 Jun 2020 07:29:41 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/8] hw/pci-host: Use the IEC binary prefix definitions
-Date: Mon,  1 Jun 2020 16:29:27 +0200
-Message-Id: <20200601142930.29408-6-f4bug@amsat.org>
+Subject: [PATCH v2 6/8] hw/hppa/dino: Use the IEC binary prefix definitions
+Date: Mon,  1 Jun 2020 16:29:28 +0200
+Message-Id: <20200601142930.29408-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200601142930.29408-1-f4bug@amsat.org>
 References: <20200601142930.29408-1-f4bug@amsat.org>
@@ -63,8 +62,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -107,68 +106,31 @@ IEC binary prefixes ease code review: the unit is explicit.
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/pci-host/i440fx.c    | 3 ++-
- hw/pci-host/q35.c       | 2 +-
- hw/pci-host/versatile.c | 5 +++--
- 3 files changed, 6 insertions(+), 4 deletions(-)
+ hw/hppa/dino.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-index 0adbd77553..aefb416c8f 100644
---- a/hw/pci-host/i440fx.c
-+++ b/hw/pci-host/i440fx.c
-@@ -23,6 +23,7 @@
-  */
+diff --git a/hw/hppa/dino.c b/hw/hppa/dino.c
+index 2b1b38c58a..7290f23962 100644
+--- a/hw/hppa/dino.c
++++ b/hw/hppa/dino.c
+@@ -542,7 +542,7 @@ PCIBus *dino_init(MemoryRegion *addr_space,
+                                 &s->parent_obj.data_mem);
  
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "qemu/range.h"
- #include "hw/i386/pc.h"
- #include "hw/pci/pci.h"
-@@ -301,7 +302,7 @@ PCIBus *i440fx_init(const char *host_type, const char *pci_type,
-     memory_region_set_enabled(&f->smram_region, true);
+     /* Dino PCI bus memory.  */
+-    memory_region_init(&s->pci_mem, OBJECT(s), "pci-memory", 1ull << 32);
++    memory_region_init(&s->pci_mem, OBJECT(s), "pci-memory", 4 * GiB);
  
-     /* smram, as seen by SMM CPUs */
--    memory_region_init(&f->smram, OBJECT(d), "smram", 1ull << 32);
-+    memory_region_init(&f->smram, OBJECT(d), "smram", 4 * GiB);
-     memory_region_set_enabled(&f->smram, true);
-     memory_region_init_alias(&f->low_smram, OBJECT(d), "smram-low",
-                              f->ram_memory, 0xa0000, 0x20000);
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index 352aeecfa7..b788f17b2c 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -589,7 +589,7 @@ static void mch_realize(PCIDevice *d, Error **errp)
-     memory_region_set_enabled(&mch->open_high_smram, false);
+     b = pci_register_root_bus(dev, "pci", dino_set_irq, dino_pci_map_irq, s,
+                               &s->pci_mem, get_system_io(),
+@@ -561,7 +561,7 @@ PCIBus *dino_init(MemoryRegion *addr_space,
+     }
  
-     /* smram, as seen by SMM CPUs */
--    memory_region_init(&mch->smram, OBJECT(mch), "smram", 1ull << 32);
-+    memory_region_init(&mch->smram, OBJECT(mch), "smram", 4 * GiB);
-     memory_region_set_enabled(&mch->smram, true);
-     memory_region_init_alias(&mch->low_smram, OBJECT(mch), "smram-low",
-                              mch->ram_memory, MCH_HOST_BRIDGE_SMRAM_C_BASE,
-diff --git a/hw/pci-host/versatile.c b/hw/pci-host/versatile.c
-index cfb9a78ea6..8ddfb8772a 100644
---- a/hw/pci-host/versatile.c
-+++ b/hw/pci-host/versatile.c
-@@ -8,6 +8,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
- #include "hw/irq.h"
-@@ -399,8 +400,8 @@ static void pci_vpb_realize(DeviceState *dev, Error **errp)
-     pci_map_irq_fn mapfn;
-     int i;
- 
--    memory_region_init(&s->pci_io_space, OBJECT(s), "pci_io", 1ULL << 32);
--    memory_region_init(&s->pci_mem_space, OBJECT(s), "pci_mem", 1ULL << 32);
-+    memory_region_init(&s->pci_io_space, OBJECT(s), "pci_io", 4 * GiB);
-+    memory_region_init(&s->pci_mem_space, OBJECT(s), "pci_mem", 4 * GiB);
- 
-     pci_root_bus_new_inplace(&s->pci_bus, sizeof(s->pci_bus), dev, "pci",
-                              &s->pci_mem_space, &s->pci_io_space,
+     /* Set up PCI view of memory: Bus master address space.  */
+-    memory_region_init(&s->bm, OBJECT(s), "bm-dino", 1ull << 32);
++    memory_region_init(&s->bm, OBJECT(s), "bm-dino", 4 * GiB);
+     memory_region_init_alias(&s->bm_ram_alias, OBJECT(s),
+                              "bm-system", addr_space, 0,
+                              0xf0000000 + DINO_MEM_CHUNK_SIZE);
 -- 
 2.21.3
 
