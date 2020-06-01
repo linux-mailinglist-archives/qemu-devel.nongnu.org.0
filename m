@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F2E1EA692
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 17:13:41 +0200 (CEST)
-Received: from localhost ([::1]:51212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338471EA697
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 17:14:07 +0200 (CEST)
+Received: from localhost ([::1]:53268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfm8C-0000qP-2k
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 11:13:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43612)
+	id 1jfm8c-0001dv-97
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 11:14:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jfm6Z-0007vj-0n
+ id 1jfm6Z-0007wF-9r
  for qemu-devel@nongnu.org; Mon, 01 Jun 2020 11:11:59 -0400
-Received: from nylar.uni-paderborn.de ([2001:638:502:c003::18]:42074)
+Received: from nylar.uni-paderborn.de ([2001:638:502:c003::18]:42082)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jfm6X-0004e1-Io
+ id 1jfm6X-0004e6-Pj
  for qemu-devel@nongnu.org; Mon, 01 Jun 2020 11:11:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:Content-Type
- :MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=gY+o9cHB0gvGgjGcHAjZ952VtjKigAwDnma5OxIhsdc=; b=gn5NpdNPIcy4t1YExoCpeScPC6
- w6wvOPolDpciDkZtLdEMr2QiSm5r/IbcrniJJWEMA4ycvBvLiyKABV97o65vnwntFi4F+6XVXIcsa
- uYleMBm3QSvW3uAcZ+jR96q4VSBloMTD61NXDpzGkJTApjz2pjGOjugWKZsgSYM+Nbrg=;
+ d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
+ :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=zQ2ZbxZi2QkV1rcFsEXnNbWnbVQZ4muPXiXcMCPVsM4=; b=THikc3ZoMpQKxemHEefOj/wSiv
+ PMClKurFH7aIMSwg2DTvElVgHbqOGt+D2qW5U3fA/HAqPzIXWpHE8hirL87i7J7I48Hyajkfn1PWj
+ w1z+pfYIg87CDsy7AqFlbOErJgBP2rO9SIf8zAsZERb9ZenU3SpKLZ2Ypqjc0nieOPsk=;
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/5] tricore queue
-Date: Mon,  1 Jun 2020 17:11:14 +0200
-Message-Id: <20200601151119.33196-1-kbastian@mail.uni-paderborn.de>
+Subject: [PULL 1/5] target/tricore: Don't save pc in generate_qemu_excp
+Date: Mon,  1 Jun 2020 17:11:15 +0200
+Message-Id: <20200601151119.33196-2-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200601151119.33196-1-kbastian@mail.uni-paderborn.de>
+References: <20200601151119.33196-1-kbastian@mail.uni-paderborn.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-IMT-Spam-Score: 0.0 ()
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=6661696, da=78633377,
+ mc=164, sc=3, hc=161, sp=1, fso=6661696, re=0, sd=0, hd=0
 X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
  Antispam-Data: 2020.6.1.150616, AntiVirus-Engine: 5.74.0,
  AntiVirus-Data: 2020.6.1.5740002
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=6661694, da=78633375,
- mc=163, sc=3, hc=160, sp=1, fso=6661694, re=0, sd=0, hd=0
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
 Received-SPF: pass client-ip=2001:638:502:c003::18;
  envelope-from=kbastian@mail.uni-paderborn.de; helo=nylar.uni-paderborn.de
@@ -70,35 +71,28 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 7ea32024c6b3ad9c88d6200e73dbf76c8e160024:
+EXCP_DEBUG is the only user. If we encounter a jump in tricore-gdb it's
+target was overwritten by generate_qemu_excp() and we would never leave.
 
-  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-june-01-2020' into staging (2020-06-01 13:43:59 +0100)
+Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Message-Id: <20200529072148.284037-2-kbastian@mail.uni-paderborn.de>
+---
+ target/tricore/translate.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-are available in the Git repository at:
+diff --git a/target/tricore/translate.c b/target/tricore/translate.c
+index 609d75ae8a..65a33e5ad8 100644
+--- a/target/tricore/translate.c
++++ b/target/tricore/translate.c
+@@ -3264,7 +3264,6 @@ static void generate_trap(DisasContext *ctx, int class, int tin)
+ static void generate_qemu_excp(DisasContext *ctx, int excp)
+ {
+     TCGv_i32 tmp = tcg_const_i32(excp);
+-    gen_save_pc(ctx->base.pc_next);
+     gen_helper_qemu_excp(cpu_env, tmp);
+     ctx->base.is_jmp = DISAS_NORETURN;
+     tcg_temp_free(tmp);
+-- 
+2.26.2
 
-  https://github.com/bkoppelmann/qemu.git tags/pull-tricore-20200601
-
-for you to fetch changes up to d127de3baa64d1cabc8e1994e658688abb577ba9:
-
-  target/tricore: Implement gdbstub (2020-06-01 16:55:13 +0200)
-
-----------------------------------------------------------------
-Remove ctx->env ptr, add TriCore gdb stub
-
-----------------------------------------------------------------
-Bastian Koppelmann (5):
-      target/tricore: Don't save pc in generate_qemu_excp
-      target/tricore: Move translate feature check to ctx
-      target/tricore: Raise EXCP_DEBUG in gen_goto_tb() for singlestep
-      target/tricore: Implement tricore_cpu_get_phys_page_debug
-      target/tricore: Implement gdbstub
-
- target/tricore/Makefile.objs |   2 +-
- target/tricore/cpu.c         |  18 +++---
- target/tricore/cpu.h         |   2 +
- target/tricore/gdbstub.c     | 139 +++++++++++++++++++++++++++++++++++++++++++
- target/tricore/helper.c      |  13 ++++
- target/tricore/translate.c   |  79 ++++++++++++------------
- 6 files changed, 207 insertions(+), 46 deletions(-)
- create mode 100644 target/tricore/gdbstub.c
 
