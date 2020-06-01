@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D151EA432
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 14:47:28 +0200 (CEST)
-Received: from localhost ([::1]:49388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BAA51EA43C
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 14:51:59 +0200 (CEST)
+Received: from localhost ([::1]:32832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfjqh-0002J5-57
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 08:47:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54346)
+	id 1jfjv4-0007UK-A1
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 08:51:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jfjmu-00069L-3S
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:43:35 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42030)
+ id 1jfjmy-0006BP-6v
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:43:36 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jfjmt-00055s-C4
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:43:31 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id p5so5429960wrw.9
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 05:43:30 -0700 (PDT)
+ id 1jfjmx-00056Q-F7
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:43:35 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id c3so11295330wru.12
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 05:43:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=//oQPQNfOG3Cowa0+33C2vqPBy/QAFTT+RnBfWuuERs=;
- b=rdLFkJlmdO4KvA141V/SnaEgJwdxO0WwkFocYeZ8ATYV2xSlE8bCvL3RPD7+Ozw3s2
- EJzHmENaBIZXh7lKmBVpD3r3IBklAqNxLejsnWtIWb9RVc5hZE3bP6pMe7XIgDGgtMAJ
- eB6fTjK1msHpkvEuaGKqr5GFlfF49/86Hhpu7V1n8GZ2VUXCe1E86cGr8wyMjfMoIhoI
- qppPLcudlVhLoE/bGCnVRXTV88REOCIjQFL2CFsscOic91AE4I/Y69aOdK3PYEeuFRoE
- ey1ZHdfJx81BADZIBOQlPwejMp6ZWthXYJX/h/nbXbq2SfWuMqql4LHm0lFtp/sk6ex8
- ZEQQ==
+ bh=aNhfYIaY3OUVVYH83lAIrkbP3NWpAGizZOAzH/eH6ZY=;
+ b=N/SPzpS0QF4aYs3+nSvt1Z2rBWWbxebQ4yvlmvVoTnirt+Re6W1F8sxiV1ahhU78xL
+ oA68VDM5ozJwGXZtajRunLnMwB4AVgs6ChnCwJodHi4FnYN689cMjGRZHuBkeGpAI5E7
+ HRzfh67+BQIC5pZbdWN3s7t56Da56Gea9Zl45f1doSKOg/+R2/Ahtr6M75vYJm0rttL+
+ llWeoN0h/vQiP6M8/pTZ53XleL5mx6IvG7Nbe4ipMX62wYW1l6wQOkgeeqITDlHUfhU8
+ AkzZK9gpf0XTTMaDJItnCizrbkh/wriiwsNqBLaMjm12StwLgANJQhNO3n4Srn23O84M
+ F1DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=//oQPQNfOG3Cowa0+33C2vqPBy/QAFTT+RnBfWuuERs=;
- b=X7LLnUVfjSpzYyd0qiBjjYud8SxYiT1fL7iWrm4wyzRjwmnrcWtl09s//OmHzdPuUW
- EK84i9EqEFlyrGd2moHEgt/9HjJktZpU8X5HRy3K42xT2SJ7vJevRgt1hqSPlCaW36A3
- jrfK+VP55vZiW2dBqHTJHVEOQoQYDxHHucBmoEXns5PaaCUhUVeOrBZLX6vpMkHCShQC
- hV1yGmuqbqrS3t7lCGaI55V50ZsUseDjQ9aQZSVq8WdIcHuOje7m03QG2uujQVfCIvS6
- Tm37a3BTT++EuO6snFsARZQZI3bU9EOJJfpGixfxuq1+aSZaHcQ1EfHsaSeii46NbD5K
- /jtA==
-X-Gm-Message-State: AOAM531YawV/r2qsLSJtECXdrB7tBK7DdsQEceKmqC4LcVVj5mIT+miB
- hf33R1TiPVD66wHePOy+b1OxYkyedss=
-X-Google-Smtp-Source: ABdhPJwysEuReEscVqp5IvIQT6oVDbcodv/Xy+XNdKbmxxS2R+Sd+YgjvEYL8jvKAJJD5vvzlSwS0Q==
-X-Received: by 2002:adf:dd06:: with SMTP id a6mr22554401wrm.142.1591015409998; 
- Mon, 01 Jun 2020 05:43:29 -0700 (PDT)
+ bh=aNhfYIaY3OUVVYH83lAIrkbP3NWpAGizZOAzH/eH6ZY=;
+ b=KInZRxPwGLY33ddiimh54amK4I8Mfslfm10Cry/3Y+c5HEFqu/f8Wk0j7xuJnTwIHD
+ dP9uR4SiJiF5lgKfZs63OLCSrhU8gSsCAkhHlZNuvB211J0htaLzb66pIg8v5vlQtonJ
+ HJuKi8dj8YRTTtWchDI6XQMdnsme7UKiaZTz98EWwsWXDLPk5v802cWx7JIj/oyvwq6F
+ Wk3ExRJ0/15xCAKbQKhHVCz6Ntbx/DcAygjfwtR1nup2X6V8VWP32HVKCMTPYvkImV/Q
+ SJjA730cwEwwTLUmSXqDen0Qt6zpXchIsNaOsGHSW2pnLcFAAB7aTHHFgyfZ9Ud+CvVl
+ B5xg==
+X-Gm-Message-State: AOAM5332FEko46TtvqzDihLnIEV8CJFgsF2+beDzQ6LpjuiJeHS+QMBE
+ mE4rAC6/XtmTcXM2zZQTp67Q/6VPon0=
+X-Google-Smtp-Source: ABdhPJxeJKLlv0d0Io7p4iohL4w4GIXNw7te6nZPoD3mXU/HSWMcj9sM1VzpnEHeyDKPGvugu48VOQ==
+X-Received: by 2002:a05:6000:108d:: with SMTP id
+ y13mr23234834wrw.180.1591015410659; 
+ Mon, 01 Jun 2020 05:43:30 -0700 (PDT)
 Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
- by smtp.gmail.com with ESMTPSA id n23sm10948474wmc.0.2020.06.01.05.43.29
+ by smtp.gmail.com with ESMTPSA id n23sm10948474wmc.0.2020.06.01.05.43.30
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Jun 2020 05:43:29 -0700 (PDT)
+ Mon, 01 Jun 2020 05:43:30 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/6] target/mips: Support variable page size
-Date: Mon,  1 Jun 2020 14:43:24 +0200
-Message-Id: <1591015405-19651-6-git-send-email-aleksandar.qemu.devel@gmail.com>
+Subject: [PULL 6/6] hw/mips: fuloong2e: Set preferred page size to 16KB
+Date: Mon,  1 Jun 2020 14:43:25 +0200
+Message-Id: <1591015405-19651-7-git-send-email-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1591015405-19651-1-git-send-email-aleksandar.qemu.devel@gmail.com>
 References: <1591015405-19651-1-git-send-email-aleksandar.qemu.devel@gmail.com>
@@ -87,36 +88,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Huacai Chen <chenhc@lemote.com>
 
-Traditionally, MIPS use 4KB page size, but Loongson prefer 16KB page
-size in system emulator. So, let's define TARGET_PAGE_BITS_VARY and
-TARGET_PAGE_BITS_MIN to support variable page size.
+Loongson processor prefers 16KB page size in system emulator, so let's
+define mc->minimum_page_bits to 14.
 
 Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
 Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-Id: <1586337380-25217-1-git-send-email-chenhc@lemote.com>
+Message-Id: <1586337380-25217-2-git-send-email-chenhc@lemote.com>
 ---
- target/mips/cpu-param.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/mips/fuloong2e.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/mips/cpu-param.h b/target/mips/cpu-param.h
-index 308660d..9c4a6ea 100644
---- a/target/mips/cpu-param.h
-+++ b/target/mips/cpu-param.h
-@@ -23,7 +23,12 @@
- #  define TARGET_VIRT_ADDR_SPACE_BITS 32
- #endif
- #endif
-+#ifdef CONFIG_USER_ONLY
- #define TARGET_PAGE_BITS 12
-+#else
-+#define TARGET_PAGE_BITS_VARY
-+#define TARGET_PAGE_BITS_MIN 12
-+#endif
- #define NB_MMU_MODES 4
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index f583c44..7a65166 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -392,6 +392,7 @@ static void mips_fuloong2e_machine_init(MachineClass *mc)
+     mc->default_cpu_type = MIPS_CPU_TYPE_NAME("Loongson-2E");
+     mc->default_ram_size = 256 * MiB;
+     mc->default_ram_id = "fuloong2e.ram";
++    mc->minimum_page_bits = 14;
+ }
  
- #endif
+ DEFINE_MACHINE("fuloong2e", mips_fuloong2e_machine_init)
 -- 
 2.7.4
 
