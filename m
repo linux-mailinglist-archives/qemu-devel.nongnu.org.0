@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17F41EA7A3
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 18:16:35 +0200 (CEST)
-Received: from localhost ([::1]:55630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 400681EA7A4
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 18:16:37 +0200 (CEST)
+Received: from localhost ([::1]:55786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfn74-0006a0-DO
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 12:16:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50868)
+	id 1jfn76-0006e8-4r
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 12:16:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jfn5J-0004xl-MO
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:14:45 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35565)
+ id 1jfn5K-0004z6-Bm
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:14:46 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jfn5I-0001V2-S2
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:14:45 -0400
-Received: by mail-wr1-x431.google.com with SMTP id x14so432532wrp.2
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 09:14:44 -0700 (PDT)
+ id 1jfn5J-0001VC-Pz
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:14:46 -0400
+Received: by mail-wr1-x433.google.com with SMTP id x14so432594wrp.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 09:14:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zt7j9vF8Hau4riPOBYBgg1sjKWlFGcMGJn48Mme/0Lc=;
- b=FhFiN2p9MbUxSzIIpdyJ1FhpZ/xB7uGNCn1VRFKSukyUowHxst/JHq6dWetpmbXBQq
- BIP2mNMryY53qlLdAYgscUK+WTB8+NMMI+looj2G1NeFCwp3yZpIz7BNsWj2CRXFLwmc
- mDqLAhSZqQPKh+/c13YdnNapzUxWE75w8Ar5D2jjRupFKfYIpaIzND+9TeZOa3MRoGwK
- Vi45/0RaNtpcFxHPvERt2e1MCEfk+lXXEBf1JdVLFd6J1oyHkBM87PJ7PdACVsR5CPYT
- l7pyKg8PfxfOJi6N0IKV8yiDbjk37HFnFRCZNS2FemngAMv19QilJlr8QtJ8YkEKNAM5
- y9yA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=+3b+5SquQNrYRWCky6Vcuzoplfy5gaB+l1kP79OUD1M=;
+ b=J5oWOZM4c5aVx2F2tZ1RUBaqy7KDLXKVPtA7yJfqwE6ZHbeKuQ2eHT9+qQHug2UGh1
+ ys3YCilOQCdZtFkVcRqqt3Q0eTU9JTIXv+lwSkLV2g7v7HsehpMC7CRto4JV0iVICndT
+ YvZFla64gpfVVwzS94GTY3glQjPrXhwWODkzdYWoU4iovu3iBoHu/xlSpJyfuO+AH6Lh
+ ypBes4kY432xORByFcNXd+APiLan6Uu8kcF4PGG3xzjaXtTvLSA7V3LvU58vdorD42O5
+ RDEpWUQQiOZg3qSvERsDPQT1ErponkTUKUgsIy6ha9DnLcq+UZANvnIbeDTzkd3ueMF2
+ u2vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=zt7j9vF8Hau4riPOBYBgg1sjKWlFGcMGJn48Mme/0Lc=;
- b=kqm9JCsRSbO17tIyVwTu4sXbsHJIag/T2eKZhdrJiKUb2i5RSkkaSdIGCEeTW66kZH
- 9+UiTsHZukdfVPCKozjVVJHZHDDMYHS9p7wmEwDe2vxe5Y+ArXU7gv+D44P+uGRNJg+W
- B0O8ac/eYk3gkuKkyiA9EgmWszAsrtJEMujiJnnCLu+MTxvqYh4xWISslmRmxyZOvRsQ
- T/o5XZl/iqh4ih5YQ7nVxTyJ0RoYmqyFYZw4WfQxkJIKvgqndMimthL1xd0A/BkapsJN
- 92py6NObRRa9s221XQCfyMBJ8Vd1zgR+r420Ml73TIOCgqb+g5vE5kQpUKLeB7ZGrnFU
- SMsg==
-X-Gm-Message-State: AOAM533UVYxMbJ0snMsBfs+HE2VuRhrL3r98o4k2Zmc7/1CNTzE4/ElV
- go9wmqrj4jXmxCJTcu0BxjA=
-X-Google-Smtp-Source: ABdhPJzQcMMe9LmK91YqJt19Xe2goJ+EF7QmgAWyprMjTNfCDHrFUXX11zuNK3Fj8IL2GRn5q5G4yA==
-X-Received: by 2002:a5d:6986:: with SMTP id g6mr23255991wru.27.1591028083407; 
- Mon, 01 Jun 2020 09:14:43 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=+3b+5SquQNrYRWCky6Vcuzoplfy5gaB+l1kP79OUD1M=;
+ b=aNVnGSiaVMQbMaxMz7AIWcSlY3Al87SQ8dJQTaSU426YRpQ5P/ahETxFhYC+jb8QvD
+ t+LyBOmde0dEpA3XX+vS7ADRjvhWRhubd2OlnQv/x8Vu4ossQ//f77VpcbRcQWZ6DfqC
+ kBzdCSxrpvotZzWKhUExFSPKBhgr0jLQOSclF0X9SAxZz7xVAZmkyN7XzgXVCafsPF3d
+ 1WKt/2OOjsU1ES741XTp73RV60Ih2oBS6tpYYhgHvnOVKHuS5mEIZ9ReRQPbJS2Kk79m
+ otCQcYOHQicbrvWoJAPR2IxC3l+JZ6mvHk8g39jD8AfQ2l3o571apcP6HoIKYfZG5PwY
+ uWsg==
+X-Gm-Message-State: AOAM531d3/2Qf8J/07eB6aD4Yyigfskd4jeuUcieeuwdJszHih3/At+Y
+ yqjld7vcSs8jEINLTyfQD7UpMU10
+X-Google-Smtp-Source: ABdhPJxSYllWxLaqx72g79D3rLgGptETz7/EQaTl6UaHubhRC4XbQoUWtIa0M1Hlscgmj33Zzgxj5w==
+X-Received: by 2002:adf:fc0c:: with SMTP id i12mr22296411wrr.365.1591028084575; 
+ Mon, 01 Jun 2020 09:14:44 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id a6sm21309896wrn.38.2020.06.01.09.14.42
+ by smtp.gmail.com with ESMTPSA id a6sm21309896wrn.38.2020.06.01.09.14.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Jun 2020 09:14:42 -0700 (PDT)
+ Mon, 01 Jun 2020 09:14:44 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Richard Henderson <rth@twiddle.net>, qemu-devel@nongnu.org,
  Yoshinori Sato <ysato@users.sourceforge.jp>
-Subject: [PATCH 00/12] hw/rx: Add RX GDB simulator machine
-Date: Mon,  1 Jun 2020 18:14:29 +0200
-Message-Id: <20200601161441.8086-1-f4bug@amsat.org>
+Subject: [PATCH 01/12] target/rx/cpu: Remove unused headers
+Date: Mon,  1 Jun 2020 18:14:30 +0200
+Message-Id: <20200601161441.8086-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200601161441.8086-1-f4bug@amsat.org>
+References: <20200601161441.8086-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -94,92 +96,24 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/rx/cpu.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-This is the RX series I was preparing for merge-request candidate,
-rebased over the last 3 months with some API updates addressed,
-from Yoshinori v32:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg682290.html
-
-Unfortunately we didn't sync with Yoshinori so he diverged and
-send another reworked series:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg708102.html
-
-I'm sorry the timing is so bad, but I let other maintainance duties
-invert priorities, delaying the RX hardware integration.
-
-Changes are noted in [PMD: ...] comments before my S-o-b.
-
-Patches missing review:
-
- #1: target/rx/cpu: Remove unused headers
- #9:  hw/rx: Register R5F562N7 and R5F562N8 MCUs
-
-Regard,
-
-Phil.
-
-Philippe Mathieu-Daudé (3):
-  target/rx/cpu: Remove unused headers
-  hw/rx: Register R5F562N7 and R5F562N8 MCUs
-  BootLinuxConsoleTest: Test the RX GDB simulator
-
-Richard Henderson (1):
-  hw/rx: Honor -accel qtest
-
-Yoshinori Sato (8):
-  MAINTAINERS: Add entry for RX hardware
-  hw/intc: RX62N interrupt controller (ICUa)
-  hw/timer: RX62N 8-Bit timer (TMR)
-  hw/timer: RX62N compare match timer (CMT)
-  hw/char: RX62N serial communication interface (SCI)
-  hw/rx: RX62N microcontroller (MCU)
-  hw/rx: Add RX GDB simulator
-  docs: Document the RX target
-
- docs/system/target-rx.rst             |  36 ++
- docs/system/targets.rst               |   1 +
- default-configs/rx-softmmu.mak        |   1 +
- include/hw/char/renesas_sci.h         |  51 +++
- include/hw/intc/rx_icu.h              |  76 ++++
- include/hw/rx/rx62n.h                 |  78 +++++
- include/hw/timer/renesas_cmt.h        |  40 +++
- include/hw/timer/renesas_tmr.h        |  55 +++
- target/rx/cpu.h                       |   2 -
- hw/char/renesas_sci.c                 | 350 +++++++++++++++++++
- hw/intc/rx_icu.c                      | 397 +++++++++++++++++++++
- hw/rx/rx-gdbsim.c                     | 198 +++++++++++
- hw/rx/rx62n.c                         | 328 ++++++++++++++++++
- hw/timer/renesas_cmt.c                | 283 +++++++++++++++
- hw/timer/renesas_tmr.c                | 477 ++++++++++++++++++++++++++
- MAINTAINERS                           |  15 +
- hw/Kconfig                            |   1 +
- hw/char/Kconfig                       |   3 +
- hw/char/Makefile.objs                 |   1 +
- hw/intc/Kconfig                       |   3 +
- hw/intc/Makefile.objs                 |   1 +
- hw/rx/Kconfig                         |  10 +
- hw/rx/Makefile.objs                   |   2 +
- hw/timer/Kconfig                      |   6 +
- hw/timer/Makefile.objs                |   2 +
- tests/acceptance/machine_rx_gdbsim.py |  68 ++++
- 26 files changed, 2483 insertions(+), 2 deletions(-)
- create mode 100644 docs/system/target-rx.rst
- create mode 100644 include/hw/char/renesas_sci.h
- create mode 100644 include/hw/intc/rx_icu.h
- create mode 100644 include/hw/rx/rx62n.h
- create mode 100644 include/hw/timer/renesas_cmt.h
- create mode 100644 include/hw/timer/renesas_tmr.h
- create mode 100644 hw/char/renesas_sci.c
- create mode 100644 hw/intc/rx_icu.c
- create mode 100644 hw/rx/rx-gdbsim.c
- create mode 100644 hw/rx/rx62n.c
- create mode 100644 hw/timer/renesas_cmt.c
- create mode 100644 hw/timer/renesas_tmr.c
- create mode 100644 hw/rx/Kconfig
- create mode 100644 hw/rx/Makefile.objs
- create mode 100644 tests/acceptance/machine_rx_gdbsim.py
-
+diff --git a/target/rx/cpu.h b/target/rx/cpu.h
+index d1fb1ef3ca..0645ba3b6f 100644
+--- a/target/rx/cpu.h
++++ b/target/rx/cpu.h
+@@ -19,8 +19,6 @@
+ #ifndef RX_CPU_H
+ #define RX_CPU_H
+ 
+-#include "qemu/bitops.h"
+-#include "qemu-common.h"
+ #include "hw/registerfields.h"
+ #include "cpu-qom.h"
+ 
 -- 
 2.21.3
 
