@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28A91EA3E9
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 14:30:40 +0200 (CEST)
-Received: from localhost ([::1]:57666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DF361EA423
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 14:42:28 +0200 (CEST)
+Received: from localhost ([::1]:36796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfjaR-00013W-Es
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 08:30:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53026)
+	id 1jfjlr-0004oR-2L
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 08:42:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1jfjZJ-000079-W7
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:29:30 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24683
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1jfjZI-0001x8-PT
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:29:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591014567;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y2AYaxn/6IwGDHHB/RW0wmGgaHhVlO6z2tV/aerIGeQ=;
- b=Nm6s4OMdNE6ASn+uO0sGx8O9ujWxE86KnqFyfAwHo9tcHsTAHQ1uGehSPEPLy4T6AS0I3l
- EzrqcxGY+NRe6xJHiEjIlUAp0NkHkjsDxoPsJClyGeexqf0rkj52Z/+D4z0uPpRtV9LJiQ
- /SySjdSXgu6WhUtnzxmefSe3oN/S+qg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-P6yltwKhOSK0U390joYZDg-1; Mon, 01 Jun 2020 08:29:25 -0400
-X-MC-Unique: P6yltwKhOSK0U390joYZDg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 835F5A0BD7;
- Mon,  1 Jun 2020 12:29:24 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.193.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A5C005C1D4;
- Mon,  1 Jun 2020 12:29:22 +0000 (UTC)
-Date: Mon, 1 Jun 2020 14:29:17 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Ying Fang <fangying1@huawei.com>
-Subject: Re: About the kvm-no-adjvtime CPU property
-Message-ID: <20200601122917.fyp2kwqzsodahnzu@kamzik.brq.redhat.com>
-References: <b4389848-10fd-a906-9901-d1d354ce4842@huawei.com>
- <20200601080718.jul5r4qebpeieyfl@kamzik.brq.redhat.com>
- <3d8729db-067c-31f9-dd69-02a218f1b53e@huawei.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jfjkU-0003xY-EN
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:41:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58334)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jfjkT-0004oj-2w
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:41:02 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jfjkP-0000kq-Kc
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 12:40:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E21DD2E8131
+ for <qemu-devel@nongnu.org>; Mon,  1 Jun 2020 12:40:55 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <3d8729db-067c-31f9-dd69-02a218f1b53e@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=drjones@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 02:19:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 01 Jun 2020 12:33:16 -0000
+From: sles <1844053@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jamespharvey20 slesru
+X-Launchpad-Bug-Reporter: James Harvey (jamespharvey20)
+X-Launchpad-Bug-Modifier: sles (slesru)
+References: <156855280668.581.6516749257263798071.malonedeb@wampee.canonical.com>
+Message-Id: <159101479636.13151.4189723858312481406.malone@soybean.canonical.com>
+Subject: [Bug 1844053] Re: task blocked for more than X seconds - events
+ drm_fb_helper_dirty_work
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="275d46a24253e557e4403d52832837e4bfa425b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ce297d88a7f64596d6fdf0a717d3f3849df7ce68
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 08:40:59
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,67 +73,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wu.wubin@huawei.com,
- zhang.zhanghailiang@huawei.com
+Reply-To: Bug 1844053 <1844053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 01, 2020 at 08:07:31PM +0800, Ying Fang wrote:
-> 
-> 
-> On 2020/6/1 16:07, Andrew Jones wrote:
-> > On Sat, May 30, 2020 at 04:56:26PM +0800, Ying Fang wrote:
-> > > About the kvm-no-adjvtime CPU property
-> > > 
-> > > Hi Andrew,
-> > > To adjust virutal time, a new kvm cpu property kvm-no-adjvtime
-> > > was introduced to 5.0 virt machine types. However the cpu
-> > > property was enabled only for host-passthrough and max cpu model.
-> > > As for other cpu model like cortex-a57, cortex-a53, cortex-a72,
-> > > this kvm-adjvtime is not enabled by default, which means the
-> > > virutal time can not be adjust for them.
-> > > 
-> > > Here, for example, if VM is configured with kvm enabled:
-> > > 
-> > >    <cpu mode='custom' match='exact' check='partial'>
-> > >      <model fallback='allow'>cortex-a72</model>
-> > >      <topology sockets='2' dies='1' cores='2' threads='1'/>
-> > >      <numa>
-> > >        <cell id='0' cpus='0-1' memory='16777216' unit='KiB'/>
-> > >        <cell id='1' cpus='2-3' memory='16777216' unit='KiB'/>
-> > >      </numa>
-> > >    </cpu>
-> > > 
-> > > We cannot adjust virtual time even if 5.0 virt machine is used.
-> > > So i'd like to add it to other cpu model, do you have any
-> > > suggestions here ?
-> > > 
-> > > 
-> > 
-> > Hi Fang,
-> > 
-> > The cpu feature only requires kvm.  If a cpu model may be used with kvm,
-> > then the feature can be allowed to be used with the model.  What I find
-> > interesting is that the cpu model is being used with kvm instead of 'host'
-> > or 'max'.  Can you explain the reasons for that?  Currently, when using
-> yes，the cpu model is indeed used with kvm.
-> 
-> There is a situation where the host cpu model is Cortex-A72 and
-> a 'custom' cpu mode is used to keep insrtuction set compatible between
-> the source and destination host machine when doing live migration.
-> So the host physical machine cpu model is Cortex-A72 but
-> host-passthrough model is mode used here.
+I have the same problem running ubuntu 20.04 on Centos 7 host with
+qlx...
 
-Are the source and destinations hosts used in the migration identical?
-If so, then the guest can use cpu 'host' and disable cpu features that
-should not be exposed (e.g. -cpu host,pmu=off).  If the source and
-destination hosts are not identical, then I'm curious what those exact
-differences are.  With the way AArch64 KVM works today, even using the
-Cortex-A72 cpu model should require identical hosts when migrating.  Or,
-at least both hosts must be compatible with Cortex-A72 and any difference
-in ID registers must be somehow getting hidden from the guest.
+-- =
 
-Thanks,
-drew
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1844053
 
+Title:
+  task blocked for more than X seconds - events drm_fb_helper_dirty_work
+
+Status in QEMU:
+  New
+
+Bug description:
+  I've had bunches of these errors on 9 different boots, between
+  2019-08-21 and now, with Arch host and guest, from linux 5.1.16 to
+  5.2.14 on host and guest, with QEMU 4.0.0 and 4.1.0.  spice 0.14.2,
+  spice-gtk 0.37, spice-protocol 0.14.0, virt-viewer 8.0.
+
+  I've been fighting with some other issues related to a 5.2 btrfs
+  regression, a QEMU qxl regression (see bug 1843151) which I ran into
+  when trying to temporarily abandon virtio-vga, and I haven't paid
+  enough attention to what impact specifically this virtio_gpu issue has
+  on the system In journalctl, I can see I often rebooted minutes after
+  they occurred, but sometimes much later.  That must mean whenever I
+  saw it happen that I rebooted the VM, or potentially it impacted
+  functionality of the system.
+
+  Please let me know if and how I can get more information for you if
+  needed.
+
+  I've replicated this on both a system with integrated ASPEED video,
+  and on an AMD Vega 64 running amdgpu.
+
+  As an example, I have one boot which reported at 122 seconds, 245,
+  368, 491, 614, 737, 860, 983, 1105, 1228, then I rebooted.
+
+  I have another that reported 122/245/368/491/614/737, went away for 10
+  minutes, then started reporting again 122/245/368/491, and went away.
+  Then, I rebooted about 20 hours later.
+
+  Host system has no graphical impact when this happens, and logs
+  nothing in its journalctl.
+
+  Guest is tty mode only, with kernel argument "video=3D1280x1024".  No x
+  server.
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+  INFO: task kworker/0:1:15 blocked for more than 122 seconds.
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Not tainted 5.2.14-1 #1
+  "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+  kworker/0:1     D    0    15      2 0x800004000
+  Workqueue: events drm_fb_helper_dirty_work [drm_kms_helper]
+  Call Trace:
+  =C2=A0? __schedule+0x27f/0x6d0
+  =C2=A0schedule+0x3d/0xc0
+  =C2=A0virtio_gpu_queue_fenced_ctrl_buffer+0xa1/0x130 [virtio_gpu]
+  =C2=A0? wait_woken+0x80/0x80
+  =C2=A0virtio_gpu_surface_dirty+0x2a5/0x300 [virtio_gpu]
+  =C2=A0drm_fb_helper_dirty_work+0x156/0x160 [drm_kms_helper]
+  =C2=A0process_one_work+0x19a/0x3b0
+  =C2=A0worker_tread+0x50/0x3a0
+  =C2=A0kthread+0xfd/0x130
+  =C2=A0? process_one_work+0x3b0/0x3b0
+  =C2=A0? kthread_park+0x80/0x80
+  =C2=A0ret_from_fork+0x35/0x40
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+  /usr/bin/qemu-system-x86_64 \
+  =C2=A0=C2=A0=C2=A0-name vm,process=3Dqemu:vm \
+  =C2=A0=C2=A0=C2=A0-no-user-config \
+  =C2=A0=C2=A0=C2=A0-nodefaults \
+  =C2=A0=C2=A0=C2=A0-nographic \
+  =C2=A0=C2=A0=C2=A0-uuid <uuid> \
+  =C2=A0=C2=A0=C2=A0-pidfile <pidfile> \
+  =C2=A0=C2=A0=C2=A0-machine q35,accel=3Dkvm,vmport=3Doff,dump-guest-core=
+=3Doff \
+  =C2=A0=C2=A0=C2=A0-cpu SandyBridge-IBRS \
+  =C2=A0=C2=A0=C2=A0-smp cpus=3D4,cores=3D2,threads=3D1,sockets=3D2 \
+  =C2=A0=C2=A0=C2=A0-m 4G \
+  =C2=A0=C2=A0=C2=A0-drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/sh=
+are/ovmf/x64/OVMF_CODE.fd \
+  =C2=A0=C2=A0=C2=A0-drive if=3Dpflash,format=3Draw,file=3D/var/qemu/efivar=
+s/vm.fd \
+  =C2=A0=C2=A0=C2=A0-monitor telnet:localhost:8000,server,nowait,nodelay \
+  =C2=A0=C2=A0=C2=A0-spice unix,addr=3D/tmp/spice.vm.sock,disable-ticketing=
+ \
+  =C2=A0=C2=A0=C2=A0-device ioh3420,id=3Dpcie.1,bus=3Dpcie.0,slot=3D0 \
+  =C2=A0=C2=A0=C2=A0-device virtio-vga,bus=3Dpcie.1,addr=3D0 \
+  =C2=A0=C2=A0=C2=A0-usbdevice tablet \
+  =C2=A0=C2=A0=C2=A0-netdev bridge,id=3Dnetwork0,br=3Dbr0 \
+  =C2=A0=C2=A0=C2=A0-device virtio-net-pci,netdev=3Dnetwork0,mac=3DF4:F6:34=
+:F6:34:2d,bus=3Dpcie.0,addr=3D3 \
+  =C2=A0=C2=A0=C2=A0-device virtio-scsi-pci,id=3Dscsi1 \
+  =C2=A0=C2=A0=C2=A0-drive driver=3Draw,node-name=3Dhd0,file=3D/dev/lvm/vm,=
+if=3Dnone,discard=3Dunmap,cache=3Dnone,aio=3Dthreads
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1844053/+subscriptions
 
