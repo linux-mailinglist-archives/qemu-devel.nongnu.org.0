@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357581EAD35
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 20:44:05 +0200 (CEST)
-Received: from localhost ([::1]:36344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB6F1EADA0
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 20:47:07 +0200 (CEST)
+Received: from localhost ([::1]:48552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfpPo-0003uy-73
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 14:44:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42150)
+	id 1jfpSk-0000nO-Ra
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 14:47:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jfpMV-0007b9-0J
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 14:40:39 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35629
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jfpMW-0007el-9w
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 14:40:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51368
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jfpMT-0000SF-V1
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 14:40:38 -0400
+ id 1jfpMT-0000SD-UV
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 14:40:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1591036837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E7M+J/2znzkx8+cKiqPdzPYOAgBpJPS+zBZ02z45Olk=;
- b=KxrvJP98oTSaVe/aG3gMYT8ulO1EfTelCIkkRq/4nvqrh21CK26lRXBE+W0AiwR8gEg1Ab
- 0bxWo+2OV8lYywKsaOYBmBVmbEXhWYobaClcb682P8LT5sdW6mlZcnpLVsjOjUpWtYj0Ir
- 3NCTCQeTEABx4f316zqaJ0xsZxvyr64=
+ bh=W+FN1zcapjr0sEz7A/6P3XkfnOZi9u0bL8Y57NhZZIc=;
+ b=deGkgGybuWqr3jE7rlsN0oAoVtdx7IqIKK8bhOPRluDN5Di1Nw+P9VUQH76nIUHDpKe/hb
+ 8Md4LrbTbkDGcL3T6ABByOcDZRjkrt9Yx2XsKGlOaQiJCRYE65+jYVSzcrCvztUbBQSgha
+ JdsVL4zaX0RHHfgnLrqAyRvzvIasSOs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-XfOcel0SOIeP4x87JDiAIA-1; Mon, 01 Jun 2020 14:40:33 -0400
-X-MC-Unique: XfOcel0SOIeP4x87JDiAIA-1
+ us-mta-48-kv0ee3l6POSFxU3bf43szw-1; Mon, 01 Jun 2020 14:40:35 -0400
+X-MC-Unique: kv0ee3l6POSFxU3bf43szw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C85D107ACF7;
- Mon,  1 Jun 2020 18:40:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5010835B40;
+ Mon,  1 Jun 2020 18:40:33 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-113-144.ams2.redhat.com
  [10.36.113.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE26E10021B3;
- Mon,  1 Jun 2020 18:40:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5BD1010021B3;
+ Mon,  1 Jun 2020 18:40:32 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/12] migration/colo.c: Flush ram cache only after receiving
- device state
-Date: Mon,  1 Jun 2020 19:40:01 +0100
-Message-Id: <20200601184004.272784-10-dgilbert@redhat.com>
+Subject: [PULL 10/12] migration/colo.c: Relaunch failover even if there was an
+ error
+Date: Mon,  1 Jun 2020 19:40:02 +0100
+Message-Id: <20200601184004.272784-11-dgilbert@redhat.com>
 In-Reply-To: <20200601184004.272784-1-dgilbert@redhat.com>
 References: <20200601184004.272784-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -58,9 +58,9 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 14:40:33
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 05:35:47
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -88,69 +88,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lukas Straub <lukasstraub2@web.de>
 
-If we suceed in receiving ram state, but fail receiving the device
-state, there will be a mismatch between the two.
+If vmstate_loading is true, secondary_vm_do_failover will set failover
+status to FAILOVER_STATUS_RELAUNCH and return success without initiating
+failover. However, if there is an error during the vmstate_loading
+section, failover isn't relaunched. Instead we then wait for
+failover on colo_incoming_sem.
 
-Fix this by flushing the ram cache only after the vmstate has been
-received.
+Fix this by relaunching failover even if there was an error. Also,
+to make this work properly, set vmstate_loading to false when
+returning during the vmstate_loading section.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Message-Id: <3289d007d494cb0e2f05b1cf4ae6a78d300fede3.1589193382.git.lukasstraub2@web.de>
+Message-Id: <f60b0a8e2fadaaec792e04819dfc46951842d6ba.1589193382.git.lukasstraub2@web.de>
 Reviewed-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/colo.c | 1 +
- migration/ram.c  | 5 +----
- migration/ram.h  | 1 +
- 3 files changed, 3 insertions(+), 4 deletions(-)
+ migration/colo.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
 diff --git a/migration/colo.c b/migration/colo.c
-index d00b3b9d6b..4105999634 100644
+index 4105999634..59639f519f 100644
 --- a/migration/colo.c
 +++ b/migration/colo.c
-@@ -748,6 +748,7 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
- 
-     qemu_mutex_lock_iothread();
-     vmstate_loading = true;
-+    colo_flush_ram_cache();
+@@ -752,6 +752,7 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
      ret = qemu_load_device_state(fb);
      if (ret < 0) {
          error_setg(errp, "COLO: load device state failed");
-diff --git a/migration/ram.c b/migration/ram.c
-index 859f835f1a..41cc530d9d 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3360,7 +3360,7 @@ static bool postcopy_is_running(void)
-  * Flush content of RAM cache into SVM's memory.
-  * Only flush the pages that be dirtied by PVM or SVM or both.
-  */
--static void colo_flush_ram_cache(void)
-+void colo_flush_ram_cache(void)
- {
-     RAMBlock *block = NULL;
-     void *dst_host;
-@@ -3632,9 +3632,6 @@ static int ram_load(QEMUFile *f, void *opaque, int version_id)
++        vmstate_loading = false;
+         qemu_mutex_unlock_iothread();
+         return;
      }
-     trace_ram_load_complete(ret, seq_iter);
+@@ -760,6 +761,7 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
+     replication_get_error_all(&local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
++        vmstate_loading = false;
+         qemu_mutex_unlock_iothread();
+         return;
+     }
+@@ -768,6 +770,7 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
+     replication_do_checkpoint_all(&local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
++        vmstate_loading = false;
+         qemu_mutex_unlock_iothread();
+         return;
+     }
+@@ -779,6 +782,7 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
  
--    if (!ret  && migration_incoming_in_colo_state()) {
--        colo_flush_ram_cache();
--    }
-     return ret;
- }
+     if (local_err) {
+         error_propagate(errp, local_err);
++        vmstate_loading = false;
+         qemu_mutex_unlock_iothread();
+         return;
+     }
+@@ -789,9 +793,6 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
+     qemu_mutex_unlock_iothread();
  
-diff --git a/migration/ram.h b/migration/ram.h
-index 5ceaff7cb4..2eeaacfa13 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -65,6 +65,7 @@ int ram_dirty_bitmap_reload(MigrationState *s, RAMBlock *rb);
+     if (failover_get_state() == FAILOVER_STATUS_RELAUNCH) {
+-        failover_set_state(FAILOVER_STATUS_RELAUNCH,
+-                        FAILOVER_STATUS_NONE);
+-        failover_request_active(NULL);
+         return;
+     }
  
- /* ram cache */
- int colo_init_ram_cache(void);
-+void colo_flush_ram_cache(void);
- void colo_release_ram_cache(void);
- void colo_incoming_start_dirty_log(void);
+@@ -890,6 +891,14 @@ void *colo_process_incoming_thread(void *opaque)
+             error_report_err(local_err);
+             break;
+         }
++
++        if (failover_get_state() == FAILOVER_STATUS_RELAUNCH) {
++            failover_set_state(FAILOVER_STATUS_RELAUNCH,
++                            FAILOVER_STATUS_NONE);
++            failover_request_active(NULL);
++            break;
++        }
++
+         if (failover_get_state() != FAILOVER_STATUS_NONE) {
+             error_report("failover request");
+             break;
+@@ -897,8 +906,6 @@ void *colo_process_incoming_thread(void *opaque)
+     }
  
+ out:
+-    vmstate_loading = false;
+-
+     /*
+      * There are only two reasons we can get here, some error happened
+      * or the user triggered failover.
 -- 
 2.26.2
 
