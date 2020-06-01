@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1621D1EAD34
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 20:43:56 +0200 (CEST)
-Received: from localhost ([::1]:35596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6464F1EACEC
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 20:41:59 +0200 (CEST)
+Received: from localhost ([::1]:55676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfpPf-0003a1-5N
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 14:43:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42124)
+	id 1jfpNl-00008R-QR
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 14:41:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jfpMH-00078I-3f
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 14:40:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27483
- helo=us-smtp-1.mimecast.com)
+ id 1jfpMD-000768-U8
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 14:40:21 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47233
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jfpMG-0000Og-A3
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 14:40:24 -0400
+ id 1jfpMC-0000NP-TO
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 14:40:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591036823;
+ s=mimecast20190719; t=1591036819;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7IilwtTIGucuZ+gmpKnC2btYQwg+/emdQgburwkuF3U=;
- b=PPd5yRrTBvMS4XzBaLlEy32L3OfZXB7uCFkHN8p40yMvGPJqfH+SDiWFbFgtv8m6CoT6Co
- Fl6kF6eQ9bmlzAVI+aFqp4UX+LZgbkDEwhg/QSt/1tJNlGJuY2OAg8cmheiQUsXYE2sTFA
- soFF0lujpc4Kgjilo2zBTTwrP4IyTUo=
+ bh=GMgXmwsT0ZMPDuvgnPnj8GTOcKiU1qr0vzAPPB73P1Q=;
+ b=NJaXMXmBdbhI1b5E9V5WAbHmVrjftf0eE74s3jE4NkP0xPEQpG9sdZ6F1FAScv0q26Ylwo
+ S25CVldoCFBti4kyoPvg3+AqsvaxJNUeTOmk6l1TQnT7xK5Hd5ZqgUYG0UqFRIIVjbvw/v
+ j6xQUKBM3PkrrJsSx8jok1szhh+6/Jk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-0urXWhINOgOpQlyOO1q_rA-1; Mon, 01 Jun 2020 14:40:15 -0400
-X-MC-Unique: 0urXWhINOgOpQlyOO1q_rA-1
+ us-mta-142-RUubKlE8MQCQNt9GYhO5Mw-1; Mon, 01 Jun 2020 14:40:17 -0400
+X-MC-Unique: RUubKlE8MQCQNt9GYhO5Mw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEB3119057A8;
- Mon,  1 Jun 2020 18:40:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94731107ACF6;
+ Mon,  1 Jun 2020 18:40:16 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-113-144.ams2.redhat.com
  [10.36.113.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 403F010016DA;
- Mon,  1 Jun 2020 18:40:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1624110016DA;
+ Mon,  1 Jun 2020 18:40:14 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/12] migration/rdma: fix potential nullptr access in
- rdma_start_incoming_migration
-Date: Mon,  1 Jun 2020 19:39:53 +0100
-Message-Id: <20200601184004.272784-2-dgilbert@redhat.com>
+Subject: [PULL 02/12] migration/rdma: cleanup rdma context before g_free to
+ avoid memleaks
+Date: Mon,  1 Jun 2020 19:39:54 +0100
+Message-Id: <20200601184004.272784-3-dgilbert@redhat.com>
 In-Reply-To: <20200601184004.272784-1-dgilbert@redhat.com>
 References: <20200601184004.272784-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -58,17 +58,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 11:55:48
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 13:44:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,34 +88,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pan Nengyuan <pannengyuan@huawei.com>
 
-'rdma' is NULL when taking the first error branch in rdma_start_incoming_migration.
-And it will cause a null pointer access in label 'err'. Fix that.
+When error happen in initializing 'rdma_return_path', we should cleanup rdma context
+before g_free(rdma) to avoid some memleaks. This patch fix that.
 
-Fixes: 59c59c67ee6b0327ae932deb303caa47919aeb1e
+Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Message-Id: <20200508100755.7875-2-pannengyuan@huawei.com>
+Message-Id: <20200508100755.7875-3-pannengyuan@huawei.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  Note this is CID 1428762
 ---
- migration/rdma.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ migration/rdma.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/migration/rdma.c b/migration/rdma.c
-index 967fda5b0c..72e8b1c95b 100644
+index 72e8b1c95b..ec45d33ba3 100644
 --- a/migration/rdma.c
 +++ b/migration/rdma.c
-@@ -4056,7 +4056,9 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+@@ -4094,20 +4094,20 @@ void rdma_start_outgoing_migration(void *opaque,
+         rdma_return_path = qemu_rdma_data_init(host_port, errp);
+ 
+         if (rdma_return_path == NULL) {
+-            goto err;
++            goto return_path_err;
+         }
+ 
+         ret = qemu_rdma_source_init(rdma_return_path,
+             s->enabled_capabilities[MIGRATION_CAPABILITY_RDMA_PIN_ALL], errp);
+ 
+         if (ret) {
+-            goto err;
++            goto return_path_err;
+         }
+ 
+         ret = qemu_rdma_connect(rdma_return_path, errp);
+ 
+         if (ret) {
+-            goto err;
++            goto return_path_err;
+         }
+ 
+         rdma->return_path = rdma_return_path;
+@@ -4120,6 +4120,8 @@ void rdma_start_outgoing_migration(void *opaque,
+     s->to_dst_file = qemu_fopen_rdma(rdma, "wb");
+     migrate_fd_connect(s, NULL);
      return;
++return_path_err:
++    qemu_rdma_cleanup(rdma);
  err:
-     error_propagate(errp, local_err);
--    g_free(rdma->host);
-+    if (rdma) {
-+        g_free(rdma->host);
-+    }
      g_free(rdma);
      g_free(rdma_return_path);
- }
 -- 
 2.26.2
 
