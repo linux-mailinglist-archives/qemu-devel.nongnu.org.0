@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5907F1EA1F3
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 12:36:56 +0200 (CEST)
-Received: from localhost ([::1]:34582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A65A1EA1FF
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 12:38:18 +0200 (CEST)
+Received: from localhost ([::1]:39784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfhoN-0000Br-Cb
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 06:36:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38160)
+	id 1jfhph-0002Ls-6h
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 06:38:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovgaluk@ispras.ru>)
- id 1jfhnO-0007iI-UK
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:35:54 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:33152)
+ id 1jfhnZ-0007x3-Jh
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:36:05 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:33188)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dovgaluk@ispras.ru>) id 1jfhnN-0003Jm-58
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:35:54 -0400
+ (envelope-from <dovgaluk@ispras.ru>) id 1jfhnY-0003QA-Oh
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:36:05 -0400
 Received: from [192.168.0.183] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id B0833CD461;
- Mon,  1 Jun 2020 13:35:48 +0300 (MSK)
-Subject: Re: [PATCH] replay: notify the main loop when there are no
- instructions
+ by mail.ispras.ru (Postfix) with ESMTPSA id 0D1ABCD461;
+ Mon,  1 Jun 2020 13:36:02 +0300 (MSK)
+Subject: Re: [PATCH] replay: fix replay shutdown for console mode
 To: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>, qemu-devel@nongnu.org
-References: <159013007895.28110.2020104406699709721.stgit@pasha-ThinkPad-X280>
+References: <159012995470.27967.18129611453659045726.stgit@pasha-ThinkPad-X280>
 From: Pavel Dovgalyuk <dovgaluk@ispras.ru>
-Message-ID: <c0867841-ae6c-5190-ab43-80b4c8e0fe43@ispras.ru>
-Date: Mon, 1 Jun 2020 13:35:48 +0300
+Message-ID: <9d0d9986-e225-104b-b83d-fb7dd14f25d7@ispras.ru>
+Date: Mon, 1 Jun 2020 13:36:02 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <159013007895.28110.2020104406699709721.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <159012995470.27967.18129611453659045726.stgit@pasha-ThinkPad-X280>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -56,62 +55,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, pavel.dovgaluk@ispras.ru
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, pavel.dovgaluk@ispras.ru,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 ping
 
-On 22.05.2020 09:47, Pavel Dovgalyuk wrote:
-> When QEMU is executed in console mode without any external event sources,
-> main loop may sleep for a very long time. But in case of replay
-> there is another event source - event log.
-> This patch adds main loop notification when the vCPU loop has nothing
-> to do and main loop should process the inputs from the event log.
+On 22.05.2020 09:45, Pavel Dovgalyuk wrote:
+> When QEMU is used without any graphical window,
+> QEMU execution is terminated with the signal (e.g., Ctrl-C).
+> Signal processing in QEMU does not include
+> qemu_system_shutdown_request call. That is why shutdown
+> event is not recorded by record/replay in this case.
+> This patch adds shutdown event to the end of the record log.
+> Now every replay will shutdown the machine at the end.
 >
 > Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 > ---
 >   0 files changed
 >
-> diff --git a/cpus.c b/cpus.c
-> index 7ce0d569b3..b4d0d9f21b 100644
-> --- a/cpus.c
-> +++ b/cpus.c
-> @@ -1362,6 +1362,13 @@ static int64_t tcg_get_icount_limit(void)
->       }
->   }
->   
-> +static void notify_aio_contexts(void)
-> +{
-> +    /* Wake up other AioContexts.  */
-> +    qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
-> +    qemu_clock_run_timers(QEMU_CLOCK_VIRTUAL);
-> +}
-> +
->   static void handle_icount_deadline(void)
->   {
->       assert(qemu_in_vcpu_thread());
-> @@ -1370,9 +1377,7 @@ static void handle_icount_deadline(void)
->                                                         QEMU_TIMER_ATTR_ALL);
->   
->           if (deadline == 0) {
-> -            /* Wake up other AioContexts.  */
-> -            qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
-> -            qemu_clock_run_timers(QEMU_CLOCK_VIRTUAL);
-> +            notify_aio_contexts();
->           }
->       }
->   }
-> @@ -1395,6 +1400,10 @@ static void prepare_icount_for_run(CPUState *cpu)
->           cpu->icount_extra = cpu->icount_budget - insns_left;
->   
->           replay_mutex_lock();
-> +
-> +        if (cpu->icount_budget == 0 && replay_has_checkpoint()) {
-> +            notify_aio_contexts();
-> +        }
->       }
->   }
+> diff --git a/replay/replay.c b/replay/replay.c
+> index 53edad1377..83ed9e0e24 100644
+> --- a/replay/replay.c
+> +++ b/replay/replay.c
+> @@ -366,6 +366,11 @@ void replay_finish(void)
+>       /* finalize the file */
+>       if (replay_file) {
+>           if (replay_mode == REPLAY_MODE_RECORD) {
+> +            /*
+> +             * Can't do it in the signal handler, therefore
+> +             * add shutdown event here for the case of Ctrl-C.
+> +             */
+> +            replay_shutdown_request(SHUTDOWN_CAUSE_HOST_SIGNAL);
+>               /* write end event */
+>               replay_put_event(EVENT_END);
 >   
 >
 
