@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A723C1EAB2C
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 20:17:20 +0200 (CEST)
-Received: from localhost ([::1]:60834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A09651EAB86
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 20:20:52 +0200 (CEST)
+Received: from localhost ([::1]:41724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfozv-0002hy-Hk
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 14:17:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37704)
+	id 1jfp3L-0006g7-IH
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 14:20:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jfouZ-00056f-PG; Mon, 01 Jun 2020 14:11:47 -0400
-Received: from mail-eopbgr70093.outbound.protection.outlook.com
- ([40.107.7.93]:39047 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ id 1jfoua-00058n-GK; Mon, 01 Jun 2020 14:11:48 -0400
+Received: from mail-eopbgr70117.outbound.protection.outlook.com
+ ([40.107.7.117]:10211 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jfouY-00026c-QH; Mon, 01 Jun 2020 14:11:47 -0400
+ id 1jfouZ-00027N-KR; Mon, 01 Jun 2020 14:11:48 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mnCuatbqJJB8fVad7xCQKQ7JHiVIL/DfHCyJ9mcKHn+FA01YkI6kIBbxc2p9qCQjJ4eAoCPCJsrKVcKRjVqY3oJSQVBQTheMqzbHm8omVK1MonT98pjrNfnZitgc+RrXGHFD8cQHiviLodFoKy5Kgcz6UNlpzze3QYE31lJpEqEbrI1PfhMue/0Z9lVcTzVwyBL79CaKEWACbuUeUyffCuBcbGC7lolOc67SxJqtx3hJoNdgFOT0EOfdebtmAzFlVI9Rs2qXzLUGov4REAtZDXWxq78+WDPSqRiJkST/qMSAEd25h3AUrrb4sKYHnKCmao0tmplDbNVed6T3bhUN7w==
+ b=ROWhTxOolZmx9FWSkkelPxAL9GkrtxJhDZFlF+oftlViK2sjigx2nEB2YE0ibga8CHaq7bPqLABw788HiZAK1KG17zZSVJLdRL4IkzYWjYJSZ/3uXv2tRlsMjBfKT8kc0DAvUBbQ5YHeF8BQxcWHuRvq/VQk/CfAQd0Hb2F7qvu6HN816jZAnG2LTeYoI0gaxvFENFCIbNV6wb0v38PkmtCIrprJB4x86fgIZTMWaLtxVB9XTyJnheb7s/D4WqAiTwLU8l1i3tQ6xiNAG81qerMVH1sA/nziF0JBy6aAyGqMcqM6cn+8JmNRxkgUVFebD1WJn+l1v1VFMunfw4NTMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=znFRNezH6Gtp7Y4DMShKTwpnLuEmwzp2+Pc99rpaJ/g=;
- b=nwNQSbQfpJMOz4pnqZ0gmxq08piyJ9rElAzq86NY7rQFaA4ueEeqCD8wuPEYnLnVjTYMbspTwrWqTHb6S38g7oJiUytXPoLqOXdMDuB+fgHxj3aeeJvQ7wLoo//WB1DA4TpEGZsLg1qyyYfqmK6FHBdhw2mbQlZGlbIAgjaiO9RKtKRYPitWG8xSALR6I8ULlnvyvj/EMOmSWvKQC7WmDAeXBOy5T/Kxhypr/LAvNHeAmNfO9cGZ3KgbylczamJgtJHJE0ZE+AIDIY6S3L8N+5TTXuEc8wD69P5zW4c5rECTLPCAe8ovHZ3hUJa0gM5nWJOHliSYjoxlCSN1Rtk0BQ==
+ bh=TEy0Pt/3jNPnZgXnM+NB+VMQBzQbqKsa5rmxkfRi2Dw=;
+ b=Mu6wocMB1/cbUQKFpGHqfYlAvNHoaJop5QQjhdDXmvTMIIFY778xbIZBb+JUjV4M1RIjU6HW77cMMJG3icpBjNIuxVjgnCP/ynfEJzXPyrFZSnqafYSeKkbVvMgqFuB7C//ndrANDp9k5gMOHvcDTOqM0blmbaJ56FpAo+34P8IOupqqu7PKHvXO5PAVgNaDZoHQv6mKKqeCmD62/ImqZY66dyV2pMpBS71lxkCFRBr/twRTO94AzNdBG3hiwA6oKHU7u8Z7ElHP7l/53dDHEYSZN/CMX+Kr8Sjd1P9THajXP+Sl7CzjUSzGQtTFP5UwLg0jjuiv/u/oPJRx4+9r1w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=znFRNezH6Gtp7Y4DMShKTwpnLuEmwzp2+Pc99rpaJ/g=;
- b=RyhmMp7Y7/R28OaqstmLuFRgHSYWhVtegQSaWsc4LghHbuGVZZ41GK6Nqy3N0bm6jrBNZVK5OwkFNhqdBwvTW1/1M9JJd9s1Hc+S/R43Uw9sMtudIpsehK3IOMh00jn112weZm0sNk8ZvMjPB9NWG2Y18vo5VWVlU4Yo8K7Eers=
+ bh=TEy0Pt/3jNPnZgXnM+NB+VMQBzQbqKsa5rmxkfRi2Dw=;
+ b=nuJT8T+2+cyuFg4070yBF1NI1E2UTd0nYu7IycYUqq1UwYCZUyNkAHL/BEPzaeXble3fIIQgl5oeqR3DpXNpUsbFCuSuW6INmny0OLtJgft1Tgbg9tZgrEIHySakFK8cLeWbFvDAMWwB/z+LlACBTIJJDZwGijqXeJZYhD5W+5k=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5317.eurprd08.prod.outlook.com (2603:10a6:20b:101::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.19; Mon, 1 Jun
- 2020 18:11:39 +0000
+ 2020 18:11:40 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3045.024; Mon, 1 Jun 2020
- 18:11:39 +0000
+ 18:11:40 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 09/20] blockjob: add set_speed to BlockJobDriver
-Date: Mon,  1 Jun 2020 21:11:07 +0300
-Message-Id: <20200601181118.579-10-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 10/20] job: call job_enter from job_user_pause
+Date: Mon,  1 Jun 2020 21:11:08 +0300
+Message-Id: <20200601181118.579-11-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200601181118.579-1-vsementsov@virtuozzo.com>
 References: <20200601181118.579-1-vsementsov@virtuozzo.com>
@@ -62,37 +62,37 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.170) by
  AM0P190CA0028.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::38) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3045.18 via Frontend Transport; Mon, 1 Jun 2020 18:11:38 +0000
+ 15.20.3045.18 via Frontend Transport; Mon, 1 Jun 2020 18:11:39 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.170]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 01ed54af-27e3-4d86-efa0-08d806573ab0
+X-MS-Office365-Filtering-Correlation-Id: 51c0654e-d6b7-462d-f4a8-08d806573b34
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5317:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB53170C5F4A305513AC78AAE7C18A0@AM7PR08MB5317.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1227;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB53172254595AACF5B5B7557CC18A0@AM7PR08MB5317.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
 X-Forefront-PRVS: 0421BF7135
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3I9nsrUqyrp8jcJaN4AWnbRxIA0gZWBRnDCTaRsQ3ajk6U181z1U9p1NbfAnD81SnT/ua+tbuc5ryY7MlHfWuNZ1HPP0rGAEW0H0oBDbe9+8yXiEi9hD4qeQffC8vvt1canB0lvG0cDgmr2suRdiPr5LdYDWqH9SzipO3l2AeKyq8FUY0p8F4P76GTU8CI/iljb/pmt/ysLmkAwdPlOzLz4+tm7scsGJLMG6u4qZzxIcDIzUb8rc8Fi9FP6KelNk9NCAYCf4LxxC8zsPwIUqrR8ssqeiHDta4PI+u9XplmvoUg1FfelACkX56iz+HgeJtC+ILJMz+QZpnqgVWQARlL4gcSwjr8WlqyIuyoaC91KHGbj1F5pqH2mQiaZ75/D9
+X-Microsoft-Antispam-Message-Info: YHEGSCjmfzASv5cvW1D5p8LLW4fRXxcEB6jy7rU+6g1svs4NAIwV5HxiZYsa0Z2ngLErN+58rAWz63tJb8kvuMPrerz61m42N122rlBDUGeUBrU2N3XEXm+umxCo28lH+XNF/UlPn3pNJcU6FtQ385s9p588nLICrGRnT62hfgK++g43XkkFy8RGl9clYhDUNyZCPJ1zLj2EguH3U1kTMvab/DTs3ba+nvCztD6JUo4SrqT1sLFyCB0M87GNG5noI4EemJJWxtxFLJygDz/r9iXE5hlVLad/P2I5Qt7FeZcgGD8LsE9KZs+JV0G2MPfHwieiBokDavw0rAqHk80ogMV11b+UZuS4Wd3L1bHm+dVYAPUID7pghwDLRGt4K2nH
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(136003)(396003)(376002)(39840400004)(346002)(366004)(186003)(16526019)(8936002)(2906002)(8676002)(26005)(107886003)(36756003)(316002)(6916009)(52116002)(2616005)(956004)(478600001)(4326008)(86362001)(6486002)(66946007)(66476007)(66556008)(6512007)(6666004)(1076003)(69590400007)(5660300002)(83380400001)(6506007);
+ SFS:(4636009)(136003)(396003)(376002)(39840400004)(346002)(366004)(186003)(16526019)(8936002)(2906002)(8676002)(26005)(107886003)(36756003)(316002)(6916009)(52116002)(2616005)(956004)(478600001)(4326008)(86362001)(6486002)(66946007)(66476007)(66556008)(4744005)(6512007)(6666004)(1076003)(69590400007)(5660300002)(83380400001)(6506007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: pMDDGYn1Q0LRTh5Rlxk3enp3SVACN0Tpm3Qnifwx0g59XfnSknSCkj10eemPauPE/Vj74AFB3m6n23Dtms1mW1df0vb6XXmNo50bDv9IQ2cAyajkJXaOg/QJF8+uTPMuANs2/k6n9eF4+0xaXs4qHFQ1Vpr8nIeWtq5i66IwFE8HTKE2BWWdlmiI5EYsWkAye1+w+gk/tPJAvoNC+qntczqc59ORmTnnCIh9TWyYdAKWERY+y8H5hUOph4g0fbiskW3qXSMBwK2spuoIyeR7QypDZv410xChkY/y+6uGInWIx/LEc6MIOPeTRq9ef0r8phptBre445JsIFDHMmB1vuJbghaT+Cjw6Bn3854VKD365jc5L0VKLzVdMKygnzOh2xqdqyDrXqNSNTkY5JFUxeWxHfYivxh9GuIy4Boqdh3WwwxxHIGUUU43aVTu4+X6N69EJSDazbzUICaGmt7IM/BBK745GdSNPUDtCvectBU=
+X-MS-Exchange-AntiSpam-MessageData: j/NAzrZyCfr7z6LYzlZyM+Wfi0Sjq5NbaTldXxX9uQR4lKPQfyPJdhm1QRapDro7b1H85mjtPqI9dEvl6slGWw+93zRGddz7W7RQA9cVD/2vGT/jAvmSp1hAVbSoxdCLr1qcDfrc4qx82th2zhvmSU5dIwRZcSJrLtuckDQWEKe4PA188l1/gb6FqHJRYL1h9uQJKQhyutgCxai8XSJu8ZWMDCAxi2kCDgRK4mYcZTelljSMQPtvhcFbyjdhdK4FETO7mQUrMDVfLP+3OreyCHbqCRwhxEmMHRZZP4kwyYWBa2czhwakHne3hHeTIWIRQxdPxWIVtQxDnLUUL2G86zf9jI609ZDCFKWtc59WBD8F5fJYH39nRf8+MiVvf8NXL3IwHn/TL3YLzFqfGdeel1B+P8THn74yIOEV06RxAXodByLU3dDpZVPPVFXPROKVDhUvzNJtbkRUiz2maKioBYD3D+cjzEfJXM8KTrQNV8Q=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01ed54af-27e3-4d86-efa0-08d806573ab0
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2020 18:11:39.0810 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51c0654e-d6b7-462d-f4a8-08d806573b34
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2020 18:11:40.0422 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9y3zb8noGlsVzFfr+96h3p5lfo2sc9ZCX+yRjefECSiNwlJgvsmXID0EGnD68lqGLNnhmQ1RrUwwhfLKhxl+T78pB902IXI7rFxoN9tpLJg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: BEdeZFG8AZA2MbU7aRk1ZBTQjKU9EddAfQ6WVr5jnyR1VcWZy52O+wA2EOOUIJFv/tWYjRXDErzXB1jLF1+xGM3rJ3WS0eHHJU9wXTqRUF4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5317
-Received-SPF: pass client-ip=40.107.7.93;
+Received-SPF: pass client-ip=40.107.7.117;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 14:11:32
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 14:11:40
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -120,52 +120,27 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to use async block-copy call in backup, so we'll need to
-passthrough setting backup speed to block-copy call.
+If main job coroutine called job_yield (while some background process
+is in progress), we should give it a chance to call job_pause_point().
+It will be used in backup, when moved on async block-copy.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/blockjob_int.h | 2 ++
- blockjob.c                   | 6 ++++++
- 2 files changed, 8 insertions(+)
+ job.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/block/blockjob_int.h b/include/block/blockjob_int.h
-index e2824a36a8..6633d83da2 100644
---- a/include/block/blockjob_int.h
-+++ b/include/block/blockjob_int.h
-@@ -52,6 +52,8 @@ struct BlockJobDriver {
-      * besides job->blk to the new AioContext.
-      */
-     void (*attached_aio_context)(BlockJob *job, AioContext *new_context);
-+
-+    void (*set_speed)(BlockJob *job, int64_t speed);
- };
- 
- /**
-diff --git a/blockjob.c b/blockjob.c
-index 470facfd47..6a0cd392e2 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -256,6 +256,7 @@ static bool job_timer_pending(Job *job)
- 
- void block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
- {
-+    const BlockJobDriver *drv = block_job_driver(job);
-     int64_t old_speed = job->speed;
- 
-     if (job_apply_verb(&job->job, JOB_VERB_SET_SPEED, errp)) {
-@@ -270,6 +271,11 @@ void block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
-     ratelimit_set_speed(&job->limit, speed, BLOCK_JOB_SLICE_TIME);
- 
-     job->speed = speed;
-+
-+    if (drv->set_speed) {
-+        drv->set_speed(job, speed);
-+    }
-+
-     if (speed && speed <= old_speed) {
-         return;
+diff --git a/job.c b/job.c
+index 53be57a3a0..0a9510ece1 100644
+--- a/job.c
++++ b/job.c
+@@ -578,6 +578,7 @@ void job_user_pause(Job *job, Error **errp)
      }
+     job->user_paused = true;
+     job_pause(job);
++    job_enter(job);
+ }
+ 
+ bool job_user_paused(Job *job)
 -- 
 2.21.0
 
