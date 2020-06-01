@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D01CC1EA1CC
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 12:23:55 +0200 (CEST)
-Received: from localhost ([::1]:57508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A331EA1D5
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 12:27:08 +0200 (CEST)
+Received: from localhost ([::1]:38106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfhbm-0002SK-QU
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 06:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36646)
+	id 1jfhes-0006F0-W2
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 06:27:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1jfha5-0000jL-CH
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:22:09 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:37894)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jfhbZ-00038q-8D
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:23:41 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1jfha4-0000Am-3y
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:22:08 -0400
-Received: by mail-ed1-x541.google.com with SMTP id c35so6854838edf.5
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 03:22:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jfhbY-0000KG-5A
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:23:40 -0400
+Received: by mail-wr1-x444.google.com with SMTP id t18so10936732wru.6
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 03:23:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7TLfC61BZIEPg1gcb/c/Cd8nDCCT9O4paWqKPZU4zKg=;
- b=VeADWRQ6Evq6hopaNo1d/UqKNAmDQzSxbrNoShICXZ3cP7nv+1Ufr0LKV5Qk+2NwlJ
- D7kXf8IGSPVFhcQauPaPLuy74hyKKkTKunFIXEWMgRj8lUhyTkAUCAS6ptPD/NhR6qg0
- UzVxRkB5j2Qzx3vCC07zWpW/FvMRJ0lmZ1Oaa4NRVXcz3uGQasAMPPUsjnxQsU38ikrv
- Kbo9aZ118LotOv6E+6gduv8Qec/J/GR1MXifkPFTJU9LfDezRQd4JgilA8Lku5jk8Rvz
- WTDnXG4LV7sK5jQjFXy3AHRj7q9VQbUdsnH8SnqWCWxqZdDDAFja2u9SZjBe/IwzsrVS
- FlhQ==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=BaaEAR4+T1nNevZCI9Kr7D12LbrysM/iuYkv4CH3Wz8=;
+ b=duEmt+yF+7s8l1wmEorJStS3VWQc8pRG4vY5hG1n1SSrzCVsOEmXutLrVhZFrdtEqc
+ ZXF1BJmYP5Zx3m1CusS9ejpCNZrj/GBe+eyuAmfdUfH2QIQC8RuCYvT1522Xpgnj1zC2
+ bQAB4f9AIlEgwFu+1DtRBcxK6a5vcIf8nqAiGecAgFrqwZO7LejBrEY5ZPl2VCpp8XEq
+ NLnCe+KgzmDZ0w8QO+o9wOPbzNuQVRfVd1B4x1ZYWqy39rliaQXU7WhuxLjtDNMWSWEB
+ GIon7odpbKDs1gP+aetid9EQgEY3iWl5u3/ikthsH36Mhat1tej/bDf7Ru88dg26HeEL
+ 3d5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7TLfC61BZIEPg1gcb/c/Cd8nDCCT9O4paWqKPZU4zKg=;
- b=SL8XG9L5eHGJ51O/R2SN2y4NWIYmApw3d6QzvXtd+qZFRvK2gA5OtfgdHduNpIsH3W
- Wl/r+4P+io86ezx7eK/ExXbIMBxaCSPjuKDjwmqBWqeFDzBzVmkqRZIf+deNNDl7H50X
- fCJRvieoh74HOHrwwxxQpKp/XCBnqU4UiPoGuZX/dtIB19jmS1R4NLZjd+BHi0SjfwIe
- g1E8eGhNVfXXZu3Vt/8KdBRA57irLy5W3vWCxBLxOCT51wqllTtLtobvwqC+2cCbWnV/
- eH1xaYRqfi/GVXsuCL44CPvwiPF1s4o54xvW4rWWBN7H5gPENHP4xujRuymiLAHFtgOm
- z4Qg==
-X-Gm-Message-State: AOAM5321jTGdhKtMlimk8EbVaeTkobndqqHxqMdYlFoEsRtP+w+H74UI
- yQeGRKgFm/r042aLwxfcL/qQKjpx6XB4EujyYz8=
-X-Google-Smtp-Source: ABdhPJwabUOMkTjsHZpww/gQLUknAJycgyH9+aAPEgOzQQe6BSuqeWyzpSmph7N7UPOaKK3wvAnC9aNFoAlsokMcCf8=
-X-Received: by 2002:a05:6402:549:: with SMTP id
- i9mr14174617edx.159.1591006926688; 
- Mon, 01 Jun 2020 03:22:06 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BaaEAR4+T1nNevZCI9Kr7D12LbrysM/iuYkv4CH3Wz8=;
+ b=UjyptHJEr9/tvI+mlpXC/oEDr7T/W2HE2M54tIL2dzi667a2Hso6Uecu/TDm25++Ug
+ jqBg2f+IjPh4YrtjZgR924rGltSieuK8wiw+ikTE4kxV2DNFu+mTlU2Sf018ztuMiSKU
+ Q4qkRRbiD3dshFWA0ln4vWXoQmo2p7d8rngw+qXq1Jsbb7QkHwhiPuEnEy1k4wjLY9ei
+ sq4Y3TDjMEmongxj0CRBwVmAcG8F4bn0szuofBMQBKk7SoObwDlDgppYu85Q3Dog7EPx
+ NWnXsbQOCZsvYJsoXQOOmsq4Ig//S9pCIApTTNwHZxhjgSdK80unQcU5CMJYhKLG8hc8
+ qIIw==
+X-Gm-Message-State: AOAM533Ux5JDK+gtpCRhr1C81OAV3+ojW5V9VcrLgVXC7ALi45hpmq4F
+ yk7Ik/NFK+FKuObvsfmhOyg=
+X-Google-Smtp-Source: ABdhPJywIpafIc4PSdZi7z2zt2f5JQinHiB4PJhMO4ndPVFA2ocr8l8t5paX6XqK5Pvkoodjeukq5w==
+X-Received: by 2002:adf:eec2:: with SMTP id a2mr20402066wrp.136.1591007018628; 
+ Mon, 01 Jun 2020 03:23:38 -0700 (PDT)
+Received: from [192.168.1.34] (43.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.43])
+ by smtp.gmail.com with ESMTPSA id a126sm8543147wme.28.2020.06.01.03.23.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Jun 2020 03:23:38 -0700 (PDT)
+Subject: Re: [PATCH] MAINTAINERS: Volunteer for maintaining the Renesas
+ hardware
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+References: <20200601092057.10555-1-f4bug@amsat.org>
+ <CAL1e-=ju88pJcXiK_KN1w5qbFR5MBNJqbGCo-ZtYnDmVo7O+ZQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ee1b80b2-3d8c-4b73-1164-7beb4fa866d7@amsat.org>
+Date: Mon, 1 Jun 2020 12:23:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <1586337380-25217-1-git-send-email-chenhc@lemote.com>
-In-Reply-To: <1586337380-25217-1-git-send-email-chenhc@lemote.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 1 Jun 2020 12:21:55 +0200
-Message-ID: <CAL1e-=i0W1AQXKVijiZC6DRXZvXRDoix1UqvezrYwh_-wNARbA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] target/mips: Support variable page size
-To: Huacai Chen <chenhc@lemote.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=aleksandar.m.mail@gmail.com; helo=mail-ed1-x541.google.com
+In-Reply-To: <CAL1e-=ju88pJcXiK_KN1w5qbFR5MBNJqbGCo-ZtYnDmVo7O+ZQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -79,53 +92,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 8, 2020 at 4:41 PM Huacai Chen <chenhc@lemote.com> wrote:
->
-> Traditionally, MIPS use 4KB page size, but Loongson prefer 16KB page
-> size in system emulator. So, let's define TARGET_PAGE_BITS_VARY and
-> TARGET_PAGE_BITS_MIN to support variable page size.
->
-> Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> Signed-off-by: Huacai Chen <chenhc@lemote.com>
-> ---
++Peter +Markus as neutral and experienced contributors.
 
-Applied to MIPS queue.
+On 6/1/20 11:56 AM, Aleksandar Markovic wrote:
+> On Mon, Jun 1, 2020 at 11:21 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> I don't have much clue about the Renesas hardware, but at least
+>> I know now the source files a little bit, so I volunteer to pick
+>> up patches and send pull-requests for them during my scarce
+>> hobbyist time, until someone else with more knowledge steps up
+>> to do this job instead.
+>>
+>> Suggested-by: Alex Bennée <alex.bennee@linaro.org>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+> 
+> There is alive and well Renesas target maintainer that obviously has
+> the access to Renesas hardware, and I have no idea why you should
+> be the maintainer for something that you say do not have much clue,
+> while at the same time omitting the original Renesas contributor.
 
-I hope this email will find you and all citizens of China in good
-health and spirits!
+The last time Magnus was active was more than 10years ago...
 
-Aleksandar
+commit fc8e320ef5831dc0b0d744e369537893a4379753
+Author: Magnus Damm <damm@opensource.se>
+Date:   Fri Nov 13 18:51:05 2009 +0900
 
->  target/mips/cpu-param.h | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/target/mips/cpu-param.h b/target/mips/cpu-param.h
-> index 308660d..9c4a6ea 100644
-> --- a/target/mips/cpu-param.h
-> +++ b/target/mips/cpu-param.h
-> @@ -23,7 +23,12 @@
->  #  define TARGET_VIRT_ADDR_SPACE_BITS 32
->  #endif
->  #endif
-> +#ifdef CONFIG_USER_ONLY
->  #define TARGET_PAGE_BITS 12
-> +#else
-> +#define TARGET_PAGE_BITS_VARY
-> +#define TARGET_PAGE_BITS_MIN 12
-> +#endif
->  #define NB_MMU_MODES 4
->
->  #endif
-> --
-> 2.7.0
->
->
+    fix make clean targets
+
+    This patch fixes clean in case of missing directories and
+    also adds code to distclean that removes the following files:
+     qemu-monitor.texi roms/seabios/config.mak roms/vgabios/config.mak
+
+    Signed-off-by: Magnus Damm <damm@opensource.se>
+    Signed-off-by: Aurelien Jarno <aurelien@aurel32.net>
+
+There are SH4 patches on the list:
+https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg08519.html
+
+Who is going to pick them?
+
+> 
+> Scandalous.
+
+I don't understand your attitude, I'm simply trying to help everyone by
+giving time to the project, relieving overloaded maintainers. You only
+keep tracking my activity and yelling about all my contributions. What
+do you expect with all your critics? They are not very constructive and
+don't improve much the project in general.
+
+Regards,
+
+Phil.
+
+> 
+> Regards,
+> Aleksandar
+> 
+>>  MAINTAINERS | 15 +++++++++++++--
+>>  1 file changed, 13 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 0944d9c731..cbba3ac757 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -298,9 +298,7 @@ SH4 TCG CPUs
+>>  M: Aurelien Jarno <aurelien@aurel32.net>
+>>  S: Odd Fixes
+>>  F: target/sh4/
+>> -F: hw/sh4/
+>>  F: disas/sh4.c
+>> -F: include/hw/sh4/
+>>
+>>  SPARC TCG CPUs
+>>  M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> @@ -1238,6 +1236,18 @@ F: pc-bios/canyonlands.dt[sb]
+>>  F: pc-bios/u-boot-sam460ex-20100605.bin
+>>  F: roms/u-boot-sam460ex
+>>
+>> +Renesas Hardware
+>> +----------------
+>> +SH4 Hardware
+>> +M: Aurelien Jarno <aurelien@aurel32.net>
+>> +M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> +S: Odd Fixes
+>> +F: hw/sh4/
+>> +F: hw/char/sh_serial.c
+>> +F: hw/intc/sh_intc.c
+>> +F: hw/timer/sh_timer.c
+>> +F: include/hw/sh4/
+>> +
+>>  SH4 Machines
+>>  ------------
+>>  R2D
+>> @@ -1246,6 +1256,7 @@ S: Maintained
+>>  F: hw/sh4/r2d.c
+>>  F: hw/intc/sh_intc.c
+>>  F: hw/timer/sh_timer.c
+>> +F: include/hw/sh4/sh_intc.h
+>>
+>>  Shix
+>>  M: Magnus Damm <magnus.damm@gmail.com>
+>> --
+>> 2.21.3
+>>
+>>
+> 
 
