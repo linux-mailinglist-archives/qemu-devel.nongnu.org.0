@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BAA51EA43C
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 14:51:59 +0200 (CEST)
-Received: from localhost ([::1]:32832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B05201EA43A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 14:50:32 +0200 (CEST)
+Received: from localhost ([::1]:56272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfjv4-0007UK-A1
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 08:51:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54354)
+	id 1jfjtf-0005FG-NX
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 08:50:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jfjmy-0006BP-6v
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:43:36 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45945)
+ (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1jfjpF-0001qj-1D
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:45:58 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:44582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jfjmx-00056Q-F7
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:43:35 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id c3so11295330wru.12
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 05:43:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1jfjpE-0005iy-5C
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:45:56 -0400
+Received: by mail-ej1-x643.google.com with SMTP id gl26so9045823ejb.11
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 05:45:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=aNhfYIaY3OUVVYH83lAIrkbP3NWpAGizZOAzH/eH6ZY=;
- b=N/SPzpS0QF4aYs3+nSvt1Z2rBWWbxebQ4yvlmvVoTnirt+Re6W1F8sxiV1ahhU78xL
- oA68VDM5ozJwGXZtajRunLnMwB4AVgs6ChnCwJodHi4FnYN689cMjGRZHuBkeGpAI5E7
- HRzfh67+BQIC5pZbdWN3s7t56Da56Gea9Zl45f1doSKOg/+R2/Ahtr6M75vYJm0rttL+
- llWeoN0h/vQiP6M8/pTZ53XleL5mx6IvG7Nbe4ipMX62wYW1l6wQOkgeeqITDlHUfhU8
- AkzZK9gpf0XTTMaDJItnCizrbkh/wriiwsNqBLaMjm12StwLgANJQhNO3n4Srn23O84M
- F1DA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jr0xc/2sWUN4QoEyVCv5X8k5gtIoLCiFRIzV6bdie10=;
+ b=garHZD5KN3c3SEP1BMXgJr65flVJ8hFgMWza3RBBdVFG+08N/QYHOg29KKz45APoZF
+ 17MHiur2Nk0OgfDIvqpZiTdM00wUJx3gBvVMx5WHMM/tdvW6L1nUPG0el/igN5fXTTXc
+ kmxRJrvw6YHSmDOl3FNGnJIqW+Ys2pcR6GVi/cY37critP3Gaj2HZhCKXd6NY2rftJE0
+ Cd0l/ws1zdx8aPo72IvzyZJp2cb4zvhSapcS4QIQYOADoOeQZvtnI1CE/jkZPy0txBDe
+ hjWS921gF2x+laqfGMnCdkjOQ0bFIvNGETAHnO7o7BIcmJwk2lwi1eleeNqgC3Ob9rUg
+ YueA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=aNhfYIaY3OUVVYH83lAIrkbP3NWpAGizZOAzH/eH6ZY=;
- b=KInZRxPwGLY33ddiimh54amK4I8Mfslfm10Cry/3Y+c5HEFqu/f8Wk0j7xuJnTwIHD
- dP9uR4SiJiF5lgKfZs63OLCSrhU8gSsCAkhHlZNuvB211J0htaLzb66pIg8v5vlQtonJ
- HJuKi8dj8YRTTtWchDI6XQMdnsme7UKiaZTz98EWwsWXDLPk5v802cWx7JIj/oyvwq6F
- Wk3ExRJ0/15xCAKbQKhHVCz6Ntbx/DcAygjfwtR1nup2X6V8VWP32HVKCMTPYvkImV/Q
- SJjA730cwEwwTLUmSXqDen0Qt6zpXchIsNaOsGHSW2pnLcFAAB7aTHHFgyfZ9Ud+CvVl
- B5xg==
-X-Gm-Message-State: AOAM5332FEko46TtvqzDihLnIEV8CJFgsF2+beDzQ6LpjuiJeHS+QMBE
- mE4rAC6/XtmTcXM2zZQTp67Q/6VPon0=
-X-Google-Smtp-Source: ABdhPJxeJKLlv0d0Io7p4iohL4w4GIXNw7te6nZPoD3mXU/HSWMcj9sM1VzpnEHeyDKPGvugu48VOQ==
-X-Received: by 2002:a05:6000:108d:: with SMTP id
- y13mr23234834wrw.180.1591015410659; 
- Mon, 01 Jun 2020 05:43:30 -0700 (PDT)
-Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
- by smtp.gmail.com with ESMTPSA id n23sm10948474wmc.0.2020.06.01.05.43.30
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Jun 2020 05:43:30 -0700 (PDT)
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 6/6] hw/mips: fuloong2e: Set preferred page size to 16KB
-Date: Mon,  1 Jun 2020 14:43:25 +0200
-Message-Id: <1591015405-19651-7-git-send-email-aleksandar.qemu.devel@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1591015405-19651-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-References: <1591015405-19651-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x42f.google.com
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jr0xc/2sWUN4QoEyVCv5X8k5gtIoLCiFRIzV6bdie10=;
+ b=GfBAfmm/JqU+h8eaYWxXHp8tZOCiYoT/Vu61K/tFQl8MTrbZo4LxNEev44OZjfInGQ
+ sFdhBVH16/jCyGw/apD28PG0ApYACQm6S8VWEQzjqmfmjyYBHp+ScAzHhbQ1QvD6l2U8
+ yVIyGQPUcTALT2DFRR2WWcMZRHOBcTnJou4xTagP7teqG4eXmD0oOwe3tJtOCX9P4VkP
+ bq+aWliJ8sNUJ7N7WERi/p0DQcUlc5wfzRYDedPlDVsyjk4V/TjetEJwMXhfeCv8+r6+
+ lhwJJm+aQsZEXihhhj1TpR9fWRaD73upJSvqzM6FUFbbfVDw6BppSArDVq/J2nJEL4Fv
+ 9eMA==
+X-Gm-Message-State: AOAM533q4tsQO3PhzfIvrugZ9P9pVdbw0HNHOFmxpF9uMrWEUoqzdyEj
+ RewZ6jxhH/tXU/1iujNgFsGnVzGDm63hpoIcd/M=
+X-Google-Smtp-Source: ABdhPJwlUnmpSEGgsE7UwohtGV+aHLpQvfCYXpmMKXxh6PNYErt2ujS/PzkgnC9ofn4iNKtgc0LzYUoZuGQ8yCdSWz0=
+X-Received: by 2002:a17:906:e47:: with SMTP id
+ q7mr5868992eji.279.1591015554700; 
+ Mon, 01 Jun 2020 05:45:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <1591013898-23391-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+ <CAFEAcA-Z6bcXW3nAqnv+CCTqy1JhZjdqJcdwHApFuUejutH+BA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-Z6bcXW3nAqnv+CCTqy1JhZjdqJcdwHApFuUejutH+BA@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Mon, 1 Jun 2020 14:45:43 +0200
+Message-ID: <CAL1e-=gLnVJgCWVGBWQZdezBwAGDEpEUHf6MuaVOTvTJFiLHVw@mail.gmail.com>
+Subject: Re: [PULL 0/6] MIPS queue for June 1st, 2020
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=aleksandar.m.mail@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,37 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, aleksandar.qemu.devel@gmail.com
+Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Huacai Chen <chenhc@lemote.com>
+On Mon, Jun 1, 2020 at 2:21 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Mon, 1 Jun 2020 at 13:18, Aleksandar Markovic
+> <aleksandar.qemu.devel@gmail.com> wrote:
+> >
+> > The following changes since commit 4ec2a1f53e8aaa22924614b64dde97321126943e:
+> >
+> >   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-05-30' into staging (2020-05-31 20:43:45 +0100)
+> >
+> > are available in the git repository at:
+> >
+> >   https://github.com/AMarkovic/qemu
+> >
+> > for you to fetch changes up to a08d60bc6c2b6469368fff3d38dd5ddd16dd36be:
+> >
+> >   hw/mips: fuloong2e: Set preferred page size to 16KB (2020-06-01 13:28:21 +0200)
+>
+> Hi; something seems to have gone wrong with your pullreq: it is
+> missing the tag name after the git repository URL...
+>
 
-Loongson processor prefers 16KB page size in system emulator, so let's
-define mc->minimum_page_bits to 14.
+True. Wrong "git request-pull" command. My bad, truly sorry. Just sent
+v2, since there was no problem with patches by themselves. Hopefully
+it will work.
 
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Signed-off-by: Huacai Chen <chenhc@lemote.com>
-Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-Id: <1586337380-25217-2-git-send-email-chenhc@lemote.com>
----
- hw/mips/fuloong2e.c | 1 +
- 1 file changed, 1 insertion(+)
+I have recently problems of various kinds related to remote work, and
+changing email address(es) (again). I really hope this v2 will be good
+for you.
 
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index f583c44..7a65166 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -392,6 +392,7 @@ static void mips_fuloong2e_machine_init(MachineClass *mc)
-     mc->default_cpu_type = MIPS_CPU_TYPE_NAME("Loongson-2E");
-     mc->default_ram_size = 256 * MiB;
-     mc->default_ram_id = "fuloong2e.ram";
-+    mc->minimum_page_bits = 14;
- }
- 
- DEFINE_MACHINE("fuloong2e", mips_fuloong2e_machine_init)
--- 
-2.7.4
+Thanks,
+Aleksandar
 
+> thanks
+> -- PMM
+>
 
