@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50BB1EB0E4
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 23:22:33 +0200 (CEST)
-Received: from localhost ([::1]:55986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA481EB0FB
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 23:33:20 +0200 (CEST)
+Received: from localhost ([::1]:35396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfrtA-0001BT-RP
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 17:22:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33202)
+	id 1jfs3a-0005Cr-MN
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 17:33:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jfroD-0004GE-NB
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 17:17:25 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:43785)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jfs1n-0004X7-G7; Mon, 01 Jun 2020 17:31:29 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:42750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jfroB-00073y-H6
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 17:17:24 -0400
-Received: by mail-pg1-x543.google.com with SMTP id 185so4052291pgb.10
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 14:17:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=2Hx7yi3K7A6K/V4V2tSXSqAMGTLaOeKielJjDmHRNjA=;
- b=oU7b/LQ06ZL6Oy8ccra+d+92vblbl0pwxuHYVyWmXtfNTLXmXnHpKsbRooWg/dKyzr
- J1KLuFMaKvgU7vA6G8sRTVfzOTF2faSLCnRbjqR98quabf/plAKGLRzNISaGmKlYfjD8
- GvBqwHDECzgCtof3qZch64Pirs2GhbM4wH6JLlqTr5OVE4Wh5Yh7ctqlkoWQzcl39eGm
- LaNMyVboJeLG7SeV0dKTfkLGpddMjR6xW6ueGHqwnRRhcBjtBAOQPU3pHfinlaDx+p+F
- Q93WPBaTrS/zhFc4YpQs5TfYmHd4QX1Dpzc6YRh6BX6a0uC2e0tx8wTnGhPrc/tCfFRA
- CECw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jfs1g-0000cL-Cw; Mon, 01 Jun 2020 17:31:25 -0400
+Received: by mail-il1-x144.google.com with SMTP id 18so10826730iln.9;
+ Mon, 01 Jun 2020 14:31:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jP/3dXSbxgRicClhxwF+kWA7sGYvLvpEOVmeGSG+W3U=;
+ b=NfSUZsX3PRmYD7ZqKnspe8HvrM2OkDtYvjF5IOGLkhUfWKoaQvvPOAvwZ9w5mk01pP
+ b6qRJVgLfP0KpCM244TXz3qO+oVpodzA+OSnye4yBVYcA/9zfRQwzj8hJ0bcbhk0BpRl
+ wN6tdcoharIQuFZNm8mTr9pGvqH5Q/lpofRZLbQmbceQnmUpuiop0NiuifqfN1lRN1LI
+ SZW0ucnEJv5QTQEj1tpW2ih/XujfxNIP5FyOOwE1nBGHWoNVNhoJvk0OIDURnsSQvLUL
+ sZ8Y5w9liapJHFjuFUrRpLLeD7rcRxdl+R3a8Fi31ArifVRvRdW8sHqVY+qReitjD6NG
+ L9YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2Hx7yi3K7A6K/V4V2tSXSqAMGTLaOeKielJjDmHRNjA=;
- b=qrlzYX/kXWP/q8kiGj08VSPdRE7qZ2kwo3TpD2sw+9fWny+mAQ3DsAfwicxL7cPcNK
- DPKYEAq6b5jekhecJH/a/7cdALsSfXNJQ00HSeQ8aleYfKGuDRuC3fW0JTF17TCKxkET
- 41Mg7Z/pR8JfjwsTKG14s9rEuufz2UI594cqGV2GspvBl1IJFuUIF2VRg+nql/ZDSFew
- jBzTwUEDt0ditU3tdjgW47pf4NOQVdKOQJbJz9S7c9m0ZVjYUhy32UEEh6Ijs3hxSKHO
- VBFRduqQJyg0kQOMvKWrtbszt5G0I+jPEyKP/R5DMt/KZV5999mMiMi11mnn3PAVSRtw
- UREA==
-X-Gm-Message-State: AOAM5317SFXTtLWx+iyObu6ZHJIsvwxL/cZTBbtcioAsXuaDgfWuZTNr
- SPKjh1H7ZjgyX3+eH9Z+/kuxEnk5ocA=
-X-Google-Smtp-Source: ABdhPJyizSRtYQUy9j/yeKeZHU+M7nxLhDIOaIaIaA/OYpwj23FAvQorPx6h2U59F/d/S8uDYGta3Q==
-X-Received: by 2002:a65:5645:: with SMTP id m5mr20277194pgs.434.1591046241700; 
- Mon, 01 Jun 2020 14:17:21 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id h3sm331135pgk.67.2020.06.01.14.17.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Jun 2020 14:17:21 -0700 (PDT)
-Subject: Re: [PATCH v2 4/5] target/tricore: Implement
- tricore_cpu_get_phys_page_debug
-To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org
-References: <20200529072148.284037-1-kbastian@mail.uni-paderborn.de>
- <20200529072148.284037-5-kbastian@mail.uni-paderborn.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <08bd83ab-1d92-b0af-04e5-b2b755ee1528@linaro.org>
-Date: Mon, 1 Jun 2020 14:17:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jP/3dXSbxgRicClhxwF+kWA7sGYvLvpEOVmeGSG+W3U=;
+ b=nsMw71xTbBhsFhJCGQwuoX/C6kE2EDcfbaGIWCe0f6KZ5MUivYjz4tkEXHuxSSyhbQ
+ Wi6IwHB0uhptRPr2g5ZoBiqu5JtaNgGid+z6yYh/NxwNNv68TO5r1BM2Vyq3utP3jNDE
+ LC3yV7F3mKsHlgPuiDaGyfb/T6sQ3PTw5w9eEysd2bLzStvLP/r2t9ij1aQbkv58F1++
+ iecVS3no9C4gqHM0xV12DJ4uZ+iiR5Ohpj1sWImA7HPhTM+HU8rDWAHbWSNAEZQA/1Py
+ gWePIUCgEsvPy+LS/VDkoiDtQ/Kf8+vfk3z1iC2c6jN9WLPSujLLZ3l77Ef/U/7Nm22L
+ w2Xg==
+X-Gm-Message-State: AOAM533SjinOwwYj3RbbXgEfX39cH59ANwJIQrHBPaA6nQ9tMeloE3ke
+ 4126E5toHBTnnuY/jMzV6mBwU5GIfJhinYH7xTU=
+X-Google-Smtp-Source: ABdhPJxIXeOe8xpoGaljDc3rKf7brmo3sIGQySVPyfBRB+TbyPDzdqBNB+miQOWhyfZUTAUla3qbHa0WU9uS+HTIvzY=
+X-Received: by 2002:a92:d647:: with SMTP id x7mr6308086ilp.267.1591047078853; 
+ Mon, 01 Jun 2020 14:31:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200529072148.284037-5-kbastian@mail.uni-paderborn.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+References: <cover.1590704110.git.alistair.francis@wdc.com>
+ <0cc377a397d5e22123545e397a9bd443fadaf43f.1590704110.git.alistair.francis@wdc.com>
+ <CAEUhbmWktWX1CjS3qnDrVC9JHwz6MFC-oOAN-DvvsFbRC148cA@mail.gmail.com>
+In-Reply-To: <CAEUhbmWktWX1CjS3qnDrVC9JHwz6MFC-oOAN-DvvsFbRC148cA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 1 Jun 2020 14:22:10 -0700
+Message-ID: <CAKmqyKP_4G4ojCtKt3YK=Meo52TPsYwrKOaKgU7mEpAoZMq32g@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] target/riscv: Remove the deprecated CPUs
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -90,21 +79,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/29/20 12:21 AM, Bastian Koppelmann wrote:
-> this also removes tricore_cpu_get_phys_page_attrs_debug() as it was a
-> temporary fix from b190f477e29c7cd03a8fee49c96d27f160e3f5b0.
-> 
-> Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-> ---
->  target/tricore/cpu.c    | 10 +---------
->  target/tricore/helper.c | 13 +++++++++++++
->  2 files changed, 14 insertions(+), 9 deletions(-)
+On Sun, May 31, 2020 at 9:51 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Fri, May 29, 2020 at 6:24 AM Alistair Francis
+> <alistair.francis@wdc.com> wrote:
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > Reviewed-by: Bin Meng <bin.meng@windriver.com>
+> > ---
+> >  docs/system/deprecated.rst      | 33 ++++++++++++++++++---------------
+> >  target/riscv/cpu.h              |  7 -------
+> >  target/riscv/cpu.c              | 28 ----------------------------
+> >  tests/qtest/machine-none-test.c |  4 ++--
+> >  4 files changed, 20 insertions(+), 52 deletions(-)
+> >
+> > diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> > index 50927bad74..a6664bfca9 100644
+> > --- a/docs/system/deprecated.rst
+> > +++ b/docs/system/deprecated.rst
+> > @@ -314,21 +314,6 @@ should be used instead of the 1.09.1 version.
+> >  System emulator CPUS
+> >  --------------------
+> >
+> > -RISC-V ISA CPUs (since 4.1)
+> > -'''''''''''''''''''''''''''
+> > -
+> > -The RISC-V cpus with the ISA version in the CPU name have been depcreated. The
+> > -four CPUs are: ``rv32gcsu-v1.9.1``, ``rv32gcsu-v1.10.0``, ``rv64gcsu-v1.9.1`` and
+> > -``rv64gcsu-v1.10.0``. Instead the version can be specified via the CPU ``priv_spec``
+> > -option when using the ``rv32`` or ``rv64`` CPUs.
+> > -
+> > -RISC-V ISA CPUs (since 4.1)
+>
+> Not sure if this is a typo. Should we say: RISC-V no MMU CPUs ? If
+> not, since the subsection titles are the same, should we merge the
+> following description to above?
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Good point.
+
+To be more clear I have changed this to:
+
+RISC-V ISA Specific CPUs (removed in 5.1)
+...
+RISC-V no MMU CPUs (removed in 5.1)
 
 
-r~
+>
+> > -'''''''''''''''''''''''''''
+> > -
+> > -The RISC-V no MMU cpus have been depcreated. The two CPUs: ``rv32imacu-nommu`` and
+> > -``rv64imacu-nommu`` should no longer be used. Instead the MMU status can be specified
+> > -via the CPU ``mmu`` option when using the ``rv32`` or ``rv64`` CPUs.
+> > -
+> >  ``compat`` property of server class POWER CPUs (since 5.0)
+> >  ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> >
+> > @@ -486,6 +471,24 @@ The ``hub_id`` parameter of ``hostfwd_add`` / ``hostfwd_remove`` (removed in 5.0
+> >  The ``[hub_id name]`` parameter tuple of the 'hostfwd_add' and
+> >  'hostfwd_remove' HMP commands has been replaced by ``netdev_id``.
+> >
+> > +System emulator CPUS
+> > +--------------------
+> > +
+> > +RISC-V ISA CPUs (removed in 5.1)
+> > +''''''''''''''''''''''''''''''''
+> > +
+> > +The RISC-V cpus with the ISA version in the CPU name have been removed. The
+> > +four CPUs are: ``rv32gcsu-v1.9.1``, ``rv32gcsu-v1.10.0``, ``rv64gcsu-v1.9.1`` and
+> > +``rv64gcsu-v1.10.0``. Instead the version can be specified via the CPU ``priv_spec``
+> > +option when using the ``rv32`` or ``rv64`` CPUs.
+> > +
+> > +RISC-V ISA CPUs (removed in 5.1)
+> > +''''''''''''''''''''''''''''''''
+> > +
+> > +The RISC-V no MMU cpus have been removed. The two CPUs: ``rv32imacu-nommu`` and
+> > +``rv64imacu-nommu`` can no longer be used. Instead the MMU status can be specified
+> > +via the CPU ``mmu`` option when using the ``rv32`` or ``rv64`` CPUs.
+> > +
+> >  System emulator machines
+> >  ------------------------
+> >
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index d0e7f5b9c5..76b98d7a33 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -40,13 +40,6 @@
+> >  #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51")
+> >  #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34")
+> >  #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54")
+> > -/* Deprecated */
+> > -#define TYPE_RISCV_CPU_RV32IMACU_NOMMU  RISCV_CPU_TYPE_NAME("rv32imacu-nommu")
+> > -#define TYPE_RISCV_CPU_RV32GCSU_V1_09_1 RISCV_CPU_TYPE_NAME("rv32gcsu-v1.9.1")
+> > -#define TYPE_RISCV_CPU_RV32GCSU_V1_10_0 RISCV_CPU_TYPE_NAME("rv32gcsu-v1.10.0")
+> > -#define TYPE_RISCV_CPU_RV64IMACU_NOMMU  RISCV_CPU_TYPE_NAME("rv64imacu-nommu")
+> > -#define TYPE_RISCV_CPU_RV64GCSU_V1_09_1 RISCV_CPU_TYPE_NAME("rv64gcsu-v1.9.1")
+> > -#define TYPE_RISCV_CPU_RV64GCSU_V1_10_0 RISCV_CPU_TYPE_NAME("rv64gcsu-v1.10.0")
+> >
+> >  #define RV32 ((target_ulong)1 << (TARGET_LONG_BITS - 2))
+> >  #define RV64 ((target_ulong)2 << (TARGET_LONG_BITS - 2))
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index 059d71f2c7..112f2e3a2f 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -135,16 +135,6 @@ static void riscv_base32_cpu_init(Object *obj)
+> >      set_misa(env, 0);
+> >  }
+> >
+> > -static void rv32gcsu_priv1_09_1_cpu_init(Object *obj)
+> > -{
+> > -    CPURISCVState *env = &RISCV_CPU(obj)->env;
+> > -    set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+> > -    set_priv_version(env, PRIV_VERSION_1_09_1);
+> > -    set_resetvec(env, DEFAULT_RSTVEC);
+> > -    set_feature(env, RISCV_FEATURE_MMU);
+> > -    set_feature(env, RISCV_FEATURE_PMP);
+> > -}
+> > -
+> >  static void rv32gcsu_priv1_10_0_cpu_init(Object *obj)
+> >  {
+> >      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> > @@ -182,16 +172,6 @@ static void riscv_base64_cpu_init(Object *obj)
+> >      set_misa(env, 0);
+> >  }
+> >
+> > -static void rv64gcsu_priv1_09_1_cpu_init(Object *obj)
+> > -{
+> > -    CPURISCVState *env = &RISCV_CPU(obj)->env;
+> > -    set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+> > -    set_priv_version(env, PRIV_VERSION_1_09_1);
+> > -    set_resetvec(env, DEFAULT_RSTVEC);
+> > -    set_feature(env, RISCV_FEATURE_MMU);
+> > -    set_feature(env, RISCV_FEATURE_PMP);
+> > -}
+> > -
+> >  static void rv64gcsu_priv1_10_0_cpu_init(Object *obj)
+> >  {
+> >      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> > @@ -621,18 +601,10 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+> >      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32imacu_nommu_cpu_init),
+> >      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32imafcu_nommu_cpu_init),
+> >      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32gcsu_priv1_10_0_cpu_init),
+> > -    /* Depreacted */
+> > -    DEFINE_CPU(TYPE_RISCV_CPU_RV32IMACU_NOMMU,  rv32imacu_nommu_cpu_init),
+> > -    DEFINE_CPU(TYPE_RISCV_CPU_RV32GCSU_V1_09_1, rv32gcsu_priv1_09_1_cpu_init),
+> > -    DEFINE_CPU(TYPE_RISCV_CPU_RV32GCSU_V1_10_0, rv32gcsu_priv1_10_0_cpu_init)
+> >  #elif defined(TARGET_RISCV64)
+> >      DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base64_cpu_init),
+> >      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64imacu_nommu_cpu_init),
+> >      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64gcsu_priv1_10_0_cpu_init),
+> > -    /* Deprecated */
+> > -    DEFINE_CPU(TYPE_RISCV_CPU_RV64IMACU_NOMMU,  rv64imacu_nommu_cpu_init),
+> > -    DEFINE_CPU(TYPE_RISCV_CPU_RV64GCSU_V1_09_1, rv64gcsu_priv1_09_1_cpu_init),
+> > -    DEFINE_CPU(TYPE_RISCV_CPU_RV64GCSU_V1_10_0, rv64gcsu_priv1_10_0_cpu_init)
+> >  #endif
+> >  };
+> >
+> > diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-test.c
+> > index 8bb54a6360..b52311ec2e 100644
+> > --- a/tests/qtest/machine-none-test.c
+> > +++ b/tests/qtest/machine-none-test.c
+> > @@ -54,8 +54,8 @@ static struct arch2cpu cpus_map[] = {
+> >      { "xtensa", "dc233c" },
+> >      { "xtensaeb", "fsf" },
+> >      { "hppa", "hppa" },
+> > -    { "riscv64", "rv64gcsu-v1.10.0" },
+> > -    { "riscv32", "rv32gcsu-v1.9.1" },
+> > +    { "riscv64", "sifive-u54" },
+> > +    { "riscv32", "sifive-u34" },
+>
+> I believe we should use "rv32" and "rv64" here.
+
+Done.
+
+Alistair
+
+>
+> >      { "rx", "rx62n" },
+> >  };
+>
+> Regards,
+> Bin
 
