@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0363F1EACEF
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 20:42:30 +0200 (CEST)
-Received: from localhost ([::1]:56920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 357581EAD35
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 20:44:05 +0200 (CEST)
+Received: from localhost ([::1]:36344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfpOH-0000fP-0S
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 14:42:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42136)
+	id 1jfpPo-0003uy-73
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 14:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jfpMO-0007KY-Bl
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 14:40:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36646
- helo=us-smtp-1.mimecast.com)
+ id 1jfpMV-0007b9-0J
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 14:40:39 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35629
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jfpMN-0000Ru-JZ
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 14:40:32 -0400
+ id 1jfpMT-0000SF-V1
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 14:40:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591036831;
+ s=mimecast20190719; t=1591036837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lZ7A3P+PwIYLctkAyC7UJgyIv7xUHiwVdokylR25WsU=;
- b=P0+Ucr8TsCoYSQDP+N7fGm6HOcBtS8oBb9/3S6PimOYKkgp4yBWM1oEv+8hn4qquaw5Tgo
- ZnijqCkGJ2MFtjBOvRgzoj8MV5G0JeDxBnp7Ui/2kja1L7VBxA45hXHgcgfkvDRY4vwEZ6
- sJwAsEZVSNjLdVbcyL4kctYQoz/YQqU=
+ bh=E7M+J/2znzkx8+cKiqPdzPYOAgBpJPS+zBZ02z45Olk=;
+ b=KxrvJP98oTSaVe/aG3gMYT8ulO1EfTelCIkkRq/4nvqrh21CK26lRXBE+W0AiwR8gEg1Ab
+ 0bxWo+2OV8lYywKsaOYBmBVmbEXhWYobaClcb682P8LT5sdW6mlZcnpLVsjOjUpWtYj0Ir
+ 3NCTCQeTEABx4f316zqaJ0xsZxvyr64=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-69-DsewDDCIP8CR9g65TeXVyQ-1; Mon, 01 Jun 2020 14:40:28 -0400
-X-MC-Unique: DsewDDCIP8CR9g65TeXVyQ-1
+ us-mta-281-XfOcel0SOIeP4x87JDiAIA-1; Mon, 01 Jun 2020 14:40:33 -0400
+X-MC-Unique: XfOcel0SOIeP4x87JDiAIA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 726DE107B7D1;
- Mon,  1 Jun 2020 18:40:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C85D107ACF7;
+ Mon,  1 Jun 2020 18:40:32 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-113-144.ams2.redhat.com
  [10.36.113.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE3DC1001281;
- Mon,  1 Jun 2020 18:40:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE26E10021B3;
+ Mon,  1 Jun 2020 18:40:27 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/12] migration/colo.c: Use cpu_synchronize_all_states()
-Date: Mon,  1 Jun 2020 19:40:00 +0100
-Message-Id: <20200601184004.272784-9-dgilbert@redhat.com>
+Subject: [PULL 09/12] migration/colo.c: Flush ram cache only after receiving
+ device state
+Date: Mon,  1 Jun 2020 19:40:01 +0100
+Message-Id: <20200601184004.272784-10-dgilbert@redhat.com>
 In-Reply-To: <20200601184004.272784-1-dgilbert@redhat.com>
 References: <20200601184004.272784-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -57,17 +58,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 11:55:48
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 14:40:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, T_HK_NAME_DR=0.01 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,37 +88,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lukas Straub <lukasstraub2@web.de>
 
-cpu_synchronize_all_pre_loadvm() marks all vcpus as dirty, so the
-registers are loaded from CPUState before we continue running
-the vm. However if we failover during checkpoint, CPUState is not
-initialized and the registers are loaded with garbage. This causes
-guest hangs and crashes.
+If we suceed in receiving ram state, but fail receiving the device
+state, there will be a mismatch between the two.
 
-Fix this by using cpu_synchronize_all_states(), which initializes
-CPUState from the current cpu registers additionally to marking
-the vcpus as dirty.
+Fix this by flushing the ram cache only after the vmstate has been
+received.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Message-Id: <9675031ce557b73ebd10e7bd20ebbf57f30b177c.1589193382.git.lukasstraub2@web.de>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+Message-Id: <3289d007d494cb0e2f05b1cf4ae6a78d300fede3.1589193382.git.lukasstraub2@web.de>
+Reviewed-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/colo.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ migration/colo.c | 1 +
+ migration/ram.c  | 5 +----
+ migration/ram.h  | 1 +
+ 3 files changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/migration/colo.c b/migration/colo.c
-index fe0d6e93e5..d00b3b9d6b 100644
+index d00b3b9d6b..4105999634 100644
 --- a/migration/colo.c
 +++ b/migration/colo.c
-@@ -705,7 +705,7 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
-     }
+@@ -748,6 +748,7 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
  
      qemu_mutex_lock_iothread();
--    cpu_synchronize_all_pre_loadvm();
-+    cpu_synchronize_all_states();
-     ret = qemu_loadvm_state_main(mis->from_src_file, mis);
-     qemu_mutex_unlock_iothread();
+     vmstate_loading = true;
++    colo_flush_ram_cache();
+     ret = qemu_load_device_state(fb);
+     if (ret < 0) {
+         error_setg(errp, "COLO: load device state failed");
+diff --git a/migration/ram.c b/migration/ram.c
+index 859f835f1a..41cc530d9d 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3360,7 +3360,7 @@ static bool postcopy_is_running(void)
+  * Flush content of RAM cache into SVM's memory.
+  * Only flush the pages that be dirtied by PVM or SVM or both.
+  */
+-static void colo_flush_ram_cache(void)
++void colo_flush_ram_cache(void)
+ {
+     RAMBlock *block = NULL;
+     void *dst_host;
+@@ -3632,9 +3632,6 @@ static int ram_load(QEMUFile *f, void *opaque, int version_id)
+     }
+     trace_ram_load_complete(ret, seq_iter);
+ 
+-    if (!ret  && migration_incoming_in_colo_state()) {
+-        colo_flush_ram_cache();
+-    }
+     return ret;
+ }
+ 
+diff --git a/migration/ram.h b/migration/ram.h
+index 5ceaff7cb4..2eeaacfa13 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -65,6 +65,7 @@ int ram_dirty_bitmap_reload(MigrationState *s, RAMBlock *rb);
+ 
+ /* ram cache */
+ int colo_init_ram_cache(void);
++void colo_flush_ram_cache(void);
+ void colo_release_ram_cache(void);
+ void colo_incoming_start_dirty_log(void);
  
 -- 
 2.26.2
