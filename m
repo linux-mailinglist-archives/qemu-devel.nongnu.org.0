@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3531EA15E
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 11:57:24 +0200 (CEST)
-Received: from localhost ([::1]:54780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8B81EA168
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 11:59:13 +0200 (CEST)
+Received: from localhost ([::1]:59274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfhC7-0003Xb-1N
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 05:57:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33908)
+	id 1jfhDs-0005Ut-EN
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 05:59:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1jfhBA-00036z-C3
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 05:56:24 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:39926)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1jfhB8-00024s-BG
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 05:56:24 -0400
-Received: by mail-ej1-x644.google.com with SMTP id f7so8635969ejq.6
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 02:56:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=NYC6Ebdmwf7RZyIAMfm0Dysd6AENpI1O+6NVUSvgJsc=;
- b=KcVwRkyn1LTBz+nY05gQXUxXM0I9GI56mGGk6gVllBl2HYgFDhKBsndDUnHk1HnxCk
- swfOrU8ck9vZSzCHVe/b4hI/VOOEV7TMartvcrXN0kD15hQI0yzr8+xRoM9Nd0Ud6JzB
- COFB744zoBdVnNDsRTX0d5Ln4eE2XESLJz5LI1Q2sJNoMnlPnDNr7dl4OH2KyLTHAJkT
- D+Amf0/uxQGu1hSDUEPDoZkZ/wjJ+4jdOpJYkd9nIycTJuKhmGomHnHaNJyWp8ptqyun
- tj+N1F2lpZiMj8aV/SbHss5gpR73kGePDJe7EhY/jLs5YCtWChfT7wJRZPWC/k5bSV0L
- x1Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=NYC6Ebdmwf7RZyIAMfm0Dysd6AENpI1O+6NVUSvgJsc=;
- b=AvGX3/plZS6Hw2ZrVUTe+uEOPK+mJvKFhf+RvTDqrVVmeYLvSjaTPorVXDboG+QTE0
- ephrQM5U9lydzucGpCsV/ezWlHSqxf+fgZaRRH18glkObqjNQ0f/tghtqhwET44lVZzp
- Om6pkJOcS0EMhdeenJavB6slB7cEfByIwZjlCWwm+FQkUsWYGp+egwr8Wii3MLheItWN
- QPT6wv3yIAuDG4VeF4vJQNZbhIiJYXKK4zfjk8a075Zu+KduJleVSkVgcTFI3VHjui07
- tBVUC4xasD88igFXTAZhFuFQfFywIZWvKzHOA+HQX4/iiFpbKsMCgyy1V3efRcL0R4fa
- Xwnw==
-X-Gm-Message-State: AOAM5314lou5GasgDw2UUxF3d8mwHwDcg9HhUsdiB6TtI72BmZRcXfkg
- 8ujGsCHDjRf/qhSO/OvM+PsoIN/CP8Qhj/Ti82I=
-X-Google-Smtp-Source: ABdhPJxf5L5GstBQdNT0MX+HYwUomlcW9Gg8ry30Ckxqgu8QS4M9X+tR0lfu7OBILqdcWdfwVVKlXCWNOvAhmmKYZDQ=
-X-Received: by 2002:a17:906:f20b:: with SMTP id
- gt11mr11213616ejb.307.1591005380817; 
- Mon, 01 Jun 2020 02:56:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jfhCd-00046X-LN
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 05:57:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42744
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jfhCd-0002JY-1n
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 05:57:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591005474;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pIV856h8IDKbJSiGhboDFaODzNkh/5/k7bOv0FQhaok=;
+ b=ddYpkv4zlW662vlFlnoyzgFPHxdy1Qgae+poRsp+E+qeUEX2pifvis2W/wB0dldsIaKc40
+ 6YO45kNzfwJ9E6Mrq5GovAJ5LQd4mF02Xxl50auSRZjBpv/fwiJTkLdvLKtk1ES91+Wnp4
+ 6/a2znzCLRzw2VhI9DUB04cYgUzWhyw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-dRRw2bU4PcmvTC1ReOIV-Q-1; Mon, 01 Jun 2020 05:57:50 -0400
+X-MC-Unique: dRRw2bU4PcmvTC1ReOIV-Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A4CE800053;
+ Mon,  1 Jun 2020 09:57:49 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-113-56.ams2.redhat.com [10.36.113.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82C7C5C1B2;
+ Mon,  1 Jun 2020 09:57:40 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, stefanb@linux.ibm.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
+Subject: [PATCH v3 0/4] vTPM/aarch64 ACPI support
+Date: Mon,  1 Jun 2020 11:57:33 +0200
+Message-Id: <20200601095737.32671-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-References: <20200601092057.10555-1-f4bug@amsat.org>
-In-Reply-To: <20200601092057.10555-1-f4bug@amsat.org>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 1 Jun 2020 11:56:10 +0200
-Message-ID: <CAL1e-=ju88pJcXiK_KN1w5qbFR5MBNJqbGCo-ZtYnDmVo7O+ZQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Volunteer for maintaining the Renesas
- hardware
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=aleksandar.m.mail@gmail.com; helo=mail-ej1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 02:19:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,80 +77,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: marcandre.lureau@redhat.com, drjones@redhat.com, lersek@redhat.com,
+ ardb@kernel.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 1, 2020 at 11:21 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> I don't have much clue about the Renesas hardware, but at least
-> I know now the source files a little bit, so I volunteer to pick
-> up patches and send pull-requests for them during my scarce
-> hobbyist time, until someone else with more knowledge steps up
-> to do this job instead.
->
-> Suggested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
+Those patches bring MMIO TPM TIS ACPI support in machvirt.
+The TPM2 build function is converted to build_append style.
+Then the code is moved to the generic part.
 
-There is alive and well Renesas target maintainer that obviously has
-the access to Renesas hardware, and I have no idea why you should
-be the maintainer for something that you say do not have much clue,
-while at the same time omitting the original Renesas contributor.
+On ARM, the TPM2 table is added when the TPM TIS sysbus
+device is dynamically instantiated in machvirt.
 
-Scandalous.
+Also the TPM2 device object is described in the DSDT.
 
-Regards,
-Aleksandar
+Many thanks to Ard for his support.
 
->  MAINTAINERS | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0944d9c731..cbba3ac757 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -298,9 +298,7 @@ SH4 TCG CPUs
->  M: Aurelien Jarno <aurelien@aurel32.net>
->  S: Odd Fixes
->  F: target/sh4/
-> -F: hw/sh4/
->  F: disas/sh4.c
-> -F: include/hw/sh4/
->
->  SPARC TCG CPUs
->  M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> @@ -1238,6 +1236,18 @@ F: pc-bios/canyonlands.dt[sb]
->  F: pc-bios/u-boot-sam460ex-20100605.bin
->  F: roms/u-boot-sam460ex
->
-> +Renesas Hardware
-> +----------------
-> +SH4 Hardware
-> +M: Aurelien Jarno <aurelien@aurel32.net>
-> +M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> +S: Odd Fixes
-> +F: hw/sh4/
-> +F: hw/char/sh_serial.c
-> +F: hw/intc/sh_intc.c
-> +F: hw/timer/sh_timer.c
-> +F: include/hw/sh4/
-> +
->  SH4 Machines
->  ------------
->  R2D
-> @@ -1246,6 +1256,7 @@ S: Maintained
->  F: hw/sh4/r2d.c
->  F: hw/intc/sh_intc.c
->  F: hw/timer/sh_timer.c
-> +F: include/hw/sh4/sh_intc.h
->
->  Shix
->  M: Magnus Damm <magnus.damm@gmail.com>
-> --
-> 2.21.3
->
->
+Tested with LUKS partition automatic decryption. Also
+tested with new bios-tables-test dedicated tests,
+sent separately.
+
+Depends on "acpi: tpm: Do not build TCPA table for TPM 2"
+
+Best Regards
+
+Eric
+
+This series can be found at:
+https://github.com/eauger/qemu/tree/v5.0-tpm-acpi-v3
+
+History:
+v2 -> v3:
+- Rebase on top of Stefan's
+  "acpi: tpm: Do not build TCPA table for TPM 2"
+- brings conversion to build_append
+
+v1 -> v2:
+- move build_tpm2() in the generic code (Michael)
+- collect Stefan's R-b on 3/3
+
+Eric Auger (4):
+  acpi: Convert build_tpm2() to build_append* API
+  acpi: Move build_tpm2() in the generic part
+  arm/acpi: TPM2 ACPI table support
+  arm/acpi: Add the TPM2.0 device under the DSDT
+
+ include/hw/acpi/aml-build.h |  2 ++
+ include/sysemu/tpm.h        |  2 ++
+ hw/acpi/aml-build.c         | 45 +++++++++++++++++++++++++++++++++++++
+ hw/arm/virt-acpi-build.c    | 39 ++++++++++++++++++++++++++++++++
+ hw/i386/acpi-build.c        | 34 ----------------------------
+ 5 files changed, 88 insertions(+), 34 deletions(-)
+
+-- 
+2.20.1
+
 
