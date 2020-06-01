@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02EF31EA439
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 14:50:00 +0200 (CEST)
-Received: from localhost ([::1]:55084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CEDF1EA42A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 14:44:56 +0200 (CEST)
+Received: from localhost ([::1]:42888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfjt9-0004jU-2K
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 08:49:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54332)
+	id 1jfjoF-0007Yz-Bt
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 08:44:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jfjmr-00066A-DB
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:43:29 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:35946)
+ id 1jfjms-00066p-0J
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:43:30 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:37100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jfjmq-000553-Cw
+ id 1jfjmr-000559-8E
  for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:43:29 -0400
-Received: by mail-wm1-x336.google.com with SMTP id d128so11247181wmc.1
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 05:43:27 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id f5so11220662wmh.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 05:43:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=nBjzGdklMexKb/6JWGFmjUnmUd5clhjwawZNup6d0kc=;
- b=HA7Os5utpMJ6K5ebFO3TxMCYc4cK79e9DMTw9txAPs5N0hEL8GpUzTZPCGQBFCbfft
- SGUvqnUgT+5tevMoUIdsMIrrOsiYAZwj5gWeDzP303GC0QO8pTJyghUE/XEe7ibJ9D3n
- Hkt1W3RSmluVknf8SEvgZoNvsywYxmgisSKrJqeyUNKS4SxhgZCir8KJWR7XUz7jbN+M
- cE2bSW8R/1img46ueaupMI3IvSuvDDfzFUSXsQ8UZgwUiu806i2A/XPHotTNQPqWhT6w
- I0rZah2n6v49dt/uOcAoFodmqueikB0HXYLY/UShnB1ES7vexRdPOblMRnL6PpJ56QQ1
- aD9A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=jkTOq2PXmEwc1GxRKr+8vq1tSIfxuDyzzjRCTdzClcU=;
+ b=eKM8Yzdu9FFGC8WYSLPmvD9/ddR+KkjdNCSYUWRHAgoqQ+Vm6+/sfZcj8BrsG1kO1E
+ SxD1cKTOj4H7ryjkU2JyoCSsr96Y2JV3Bt0T1y1b6TVx7MerkBu1WbhSSLG72S+LyQik
+ WLvi7SaKAaMCKrXlkD460nbp91HdOgd+ck89oezYH/LGtHnjpoasDKRTUbRhDCj6yFob
+ GLQ/NxmRxpQN/l5eOA6lxAnB40aX2AKhA7XxqE5i21AhwbfpqfH2qFEh5+tjYa7Hj9U9
+ tDzOmY/ZQFO+IQaY0PvTFwUVpsHnqATIT85zNydwDbjv369EXZZlK5+Too/NEoYA4uyg
+ NrhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nBjzGdklMexKb/6JWGFmjUnmUd5clhjwawZNup6d0kc=;
- b=eEi/FkepCS8eLspDljqZGgM+lqtGYdr7YNAnidFwvYcYAWFr9eXR5m+AE1pG6whqHV
- oybS18iChtDiQWpRZSxx2P2PGQHGVNIC726b1k5ywh4JDyuJmNNSd9NXnSWlpcwyOid3
- Tp644wGnxIpfEQw+QWwVSuKESXmul2cbe4Z3tz3sqjpDGI1K/B6cxn7c/+l3hXuBDUBj
- rSwGOGBSst4UyiOLe/Sey+JakLWnxNuDd2mhlym6OVmt6BWa/juFBp19dc92Abd2Ed+y
- o9X2NcPEftCyfNP79F90OKOj0dyQ+/CFgeJHZlhSpQVeiQdiVGbn/0fJpysED7Wq021q
- EmmQ==
-X-Gm-Message-State: AOAM531bUVLIXwXmE8/Ul3QnUPZ9TtHJuVAaKNn+GXGwoyNOMaDuJDnt
- /4VaZVHMtxeZ2dDJ9ibLGVWOXCzOylY=
-X-Google-Smtp-Source: ABdhPJw19BJJITyC6pSG9g2LKsP4MEWbB/E06UB4GqgeSIloPA3RqcAagpZ+IpExvcf6sNII9Gsp/w==
-X-Received: by 2002:a1c:a3c1:: with SMTP id m184mr23025164wme.91.1591015406783; 
- Mon, 01 Jun 2020 05:43:26 -0700 (PDT)
+ :references;
+ bh=jkTOq2PXmEwc1GxRKr+8vq1tSIfxuDyzzjRCTdzClcU=;
+ b=iPSP7Cn+zrklbThwNyjB6BakYivi8gU/qFlRvDFjdLrZUdmkWxhMit55TktWwqKIDp
+ P3zTcbaUxvS6q8FscWSu/AyfMZaviADJwDpUT1ICqrm0e6nJH1CGOUM3lrH95sSaJKd9
+ JZHpe5ggKIjVq5DotN/kB31tdktfHeltCU1TfrqW8rtqKgnO0p8kW7bqRHebcfw5s3VY
+ TwrqNWExfXl7RfsADv+Cb6jxUaLua7KZS9X8QwRktHsXyg5VIPOg1dqcExsR5/4NjVOB
+ JTnDi40C5DYEFxWYCSIykXV1nWek4zj7WvQ8CipeMvArQ6AZ0QkE+VSwPT3xFNJjUYfq
+ OMhA==
+X-Gm-Message-State: AOAM530A8nKhYJuaQb1HaaMefRaO8vcDe+E+czlk3K/rFRjLsMKy8ubF
+ H9QEMMpt+qhCBogosjcHCPcD/oikuk4=
+X-Google-Smtp-Source: ABdhPJyp31wQS7iMbHzaBxuNBH6b65gtxM0nMCiVCgsiQs0gmhb0qpjgCdMMdYJQKnM0Pk70zQd9TQ==
+X-Received: by 2002:a1c:7fc5:: with SMTP id a188mr22838975wmd.59.1591015407752; 
+ Mon, 01 Jun 2020 05:43:27 -0700 (PDT)
 Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
  by smtp.gmail.com with ESMTPSA id n23sm10948474wmc.0.2020.06.01.05.43.26
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Jun 2020 05:43:26 -0700 (PDT)
+ Mon, 01 Jun 2020 05:43:27 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/6] tests/Makefile: Fix description of "make check"
-Date: Mon,  1 Jun 2020 14:43:20 +0200
-Message-Id: <1591015405-19651-2-git-send-email-aleksandar.qemu.devel@gmail.com>
+Subject: [PULL 2/6] configure: Add KVM target support for MIPS64
+Date: Mon,  1 Jun 2020 14:43:21 +0200
+Message-Id: <1591015405-19651-3-git-send-email-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1591015405-19651-1-git-send-email-aleksandar.qemu.devel@gmail.com>
 References: <1591015405-19651-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x32f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,33 +87,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Huacai Chen <zltjiangshi@gmail.com>
 
-The description of "make check" is out-of-date, so fix it by adding
-block and softfloat.
+Preparing for Loongson-3 virtualization, add KVM target support for
+MIPS64 in configure script.
 
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Message-Id: <1588674291-6486-1-git-send-email-chenhc@lemote.com>
+Message-Id: <1588501221-1205-2-git-send-email-chenhc@lemote.com>
 ---
- tests/Makefile.include | 2 +-
+ configure | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index a00ccc9..6e3d637 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -4,7 +4,7 @@
- check-help:
- 	@echo "Regression testing targets:"
- 	@echo
--	@echo " $(MAKE) check                Run unit, qapi-schema, qtest and decodetree"
-+	@echo " $(MAKE) check                Run block, qapi-schema, unit, softfloat, qtest and decodetree tests"
- 	@echo
- 	@echo " $(MAKE) check-qtest-TARGET   Run qtest tests for given target"
- 	@echo " $(MAKE) check-qtest          Run qtest tests"
+diff --git a/configure b/configure
+index af2ba83..f087d2b 100755
+--- a/configure
++++ b/configure
+@@ -198,7 +198,7 @@ supported_kvm_target() {
+         arm:arm | aarch64:aarch64 | \
+         i386:i386 | i386:x86_64 | i386:x32 | \
+         x86_64:i386 | x86_64:x86_64 | x86_64:x32 | \
+-        mips:mips | mipsel:mips | \
++        mips:mips | mipsel:mips | mips64:mips | mips64el:mips | \
+         ppc:ppc | ppc64:ppc | ppc:ppc64 | ppc64:ppc64 | ppc64:ppc64le | \
+         s390x:s390x)
+             return 0
 -- 
 2.7.4
 
