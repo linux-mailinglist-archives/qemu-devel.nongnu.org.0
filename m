@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85CC91EA402
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 14:37:40 +0200 (CEST)
-Received: from localhost ([::1]:33458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC8F71EA425
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 14:42:44 +0200 (CEST)
+Received: from localhost ([::1]:37476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfjhD-00033x-4e
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 08:37:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53752)
+	id 1jfjm7-00056v-VK
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 08:42:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jfjg3-0002XH-AL
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:36:27 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:36008)
+ id 1jfjkh-00047P-N4
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:41:15 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:36353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jfjg1-0004EJ-MR
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:36:26 -0400
-Received: by mail-ot1-x342.google.com with SMTP id h7so7849960otr.3
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 05:36:25 -0700 (PDT)
+ id 1jfjkf-0004qT-HC
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:41:15 -0400
+Received: by mail-oi1-x241.google.com with SMTP id a137so8739884oii.3
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 05:41:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oS7X3UM0cDsOHtmoDeeRuhqXolSqqpib7E+LUPLgV+0=;
- b=OPVeeAXOeYf2tbmkOH0K+8hAvHQmqcGzSUWVKXvefBR+5rS8GK0g0GUpDYxgH0/VUK
- t291ziLPuG8XNFVUJxVMvtL9W86QaNls/EcN8IhqCqFEMUw7Z9a86anX87fxJ1GhEtOY
- P+4X0wwXnyg9tGB84Kkgkt/YbcQxCmDH3SUtdAdZtHOSlRw+uql9phA62THfJ3SNm4iq
- Od/eNHVdMrCTuDR3bylOSUiXhNF06iLXicxZw7n9gb5jgs60LdCvC/5cFbGh5x9MuoFh
- VubasIkcqhlDoBC9EhKd+D/xHFiuXDfUMfRyMhdVlweZLAc8dMOHP3T8JTYJhmz8eUlU
- 5qcQ==
+ :cc; bh=7cQwu++5r97GefBBbzXmn7DEQRMqtA0rO8DZSn+gEpo=;
+ b=G6KW+VUiLGIR6D2R8dhWyJ8YxJrD4RLr/E/DFzz22yFJ5wAB+bZmKCR/i2uIcyLIOi
+ dMACfGV8ca8aJ4y3lxkva+LUdk1TwEENIYABdiJaacgPN7Knx7jgZAK5+lVKzdbtkq6q
+ rrTFUbRkvY/4GhGrEsYgnP2QJfHuUE+HajOrMFws4Hg9tagFQ7uirJlC54iYCwzvt5iH
+ sViC/IMgu+upMKlgJz8YuDmHM83z3k51zmdThm6nwL5WLFjJgFCeF2EguOZBcFPwzdI3
+ fR0h7D9hUPVMWa1qxJiWERp1tEmcOFJzkDoKaqCnXn83Oi/39RiPi0Iz2i1pSgavA8XQ
+ MxtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=oS7X3UM0cDsOHtmoDeeRuhqXolSqqpib7E+LUPLgV+0=;
- b=fwzQIMSayO9GZRtfoNQdi0VKOosPmRgQUU04ktXXmcTy9p1yGxAz3toXi3btCZ3Rtg
- AO1v622fJz8V2fJvc9Ft2120YpUpYVGdbuv9yJ3wueRBAbLEr/Jj27ObYUEV9QC5tQWR
- vbLBQv/eH2eL/zQ7hs4HY4mA368LUVXSeh3byIllXvX4kOYCH8/irA1Z9TYJ1/mATy8j
- YmWKxKSn9bYr3r9hbq56jaYKmw7WsM7yUAYgoVrFMPwQJaOGuyrDF+1Sgc2fg7Fko6va
- dN6OjIX14ogMnjRQDoqDKYFZ394lhrS3b2Si5JTh0kHMDRLFEz7w32KwACnZJ2ITVFJe
- gPcg==
-X-Gm-Message-State: AOAM530yjmdQnKWYz/fLACSwWnfaHHXLVHF4RdzHFInn76S3nuXL/x1J
- 8DM8Vtlq+T2cP1kbR9bi+1GYHCh5j7AAEHUjVSS1GB5uvJw=
-X-Google-Smtp-Source: ABdhPJwHv3a+JBxKzkTElY9ZSRpGWNZOKwd/4ywaWaSGZBr0X4QFTXn5ZvRNg6JblbwtCN5dAm3R/WqTeLkhfmUR6+8=
-X-Received: by 2002:a9d:b82:: with SMTP id 2mr15678958oth.221.1591014983774;
- Mon, 01 Jun 2020 05:36:23 -0700 (PDT)
+ bh=7cQwu++5r97GefBBbzXmn7DEQRMqtA0rO8DZSn+gEpo=;
+ b=hLNt1NNrC3cwb+7uFnza2U4lcOZRElmQZpC80K4R0bC5l/usKT7swWrBIVJJbrC/47
+ ZANuXCNWhaqfvWi3JJp9pSjQ3pI/a55rrBdmaWPz57xTjS9XralzcFTRMaXGnLMBb0jG
+ IB/plCiEn8valwN/U6h+20krFUjxa6ZjNBcBMyBBrEXZY0nf4N3f6ifcY3winqID10SN
+ DzdzK4RP5TdqH2YVKQUoTXbSwVXar1B9M3hLq7KwgXg8DmBSF30ko2daRuN0HYhZR7oc
+ L7FDoGJi3pyqI0htmRoJBM1H6r9g1psNDI58zA5K4gsY7bSXELq/zecp2Vpqzqum0bRU
+ 4Z9g==
+X-Gm-Message-State: AOAM5303Velh7+a3Okp43EKuxp9O7vFObGUbqgBky2nXBmj0EbBLV+LL
+ tscz7s0VXsO8vqxW2t0fWhf3vv8c3aIuYrCLp0PjoYBs4BQ=
+X-Google-Smtp-Source: ABdhPJwfNRNd84DfrB4SmvQ3sbqcDHqbpxeHpjQj7M0mZ6ibGBjnuNs9d6GvujSjUTB2MpvTc4Yrzw0w/VW10iBhn28=
+X-Received: by 2002:aca:5152:: with SMTP id f79mr3697194oib.146.1591015272318; 
+ Mon, 01 Jun 2020 05:41:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200529230653.GD776951@os.inf.tu-dresden.de>
-In-Reply-To: <20200529230653.GD776951@os.inf.tu-dresden.de>
+References: <20200530092204.1746-1-fangying1@huawei.com>
+In-Reply-To: <20200530092204.1746-1-fangying1@huawei.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jun 2020 13:36:13 +0100
-Message-ID: <CAFEAcA--vg0iPZmHacGUxkF7tOP9iFeei4rSksQO_fFh3wjtMA@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Init GIC CPU IF regs for A15/A7
-To: Adam Lackorzynski <adam@l4re.org>
+Date: Mon, 1 Jun 2020 13:41:01 +0100
+Message-ID: <CAFEAcA91gsTpkeH6SVPoGKDFOgCJVxV=wvBOT57eagcYeMiarQ@mail.gmail.com>
+Subject: Re: [PATCH] target/arm/cpu: adjust virtual time for cortex series cpu
+To: Ying Fang <fangying1@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,27 +78,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Andrew Jones <drjones@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, wu.wubin@huawei.com,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 30 May 2020 at 00:07, Adam Lackorzynski <adam@l4re.org> wrote:
+On Sat, 30 May 2020 at 10:22, Ying Fang <fangying1@huawei.com> wrote:
 >
-> Initialize the CPU interface registers also
-> for Cortex-A15 and Cortex-A7 CPU models, in
-> the same way as done for 64bit CPU models.
-> This fixes usage of GICv3 in virtualization
-> contexts in 32bit configurations.
+> Virtual time adjustment was implemented for virt-5.0 machine type,
+> but the cpu property was enabled only for host-passthrough and
+> max cpu model. Let's add it for arm cortex series cpu which has
+> the gernic timer feature enabled.
 >
-> Signed-off-by: Adam Lackorzynski <adam@l4re.org>
+> Signed-off-by: Ying Fang <fangying1@huawei.com>
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 32bec156f2..a564141b22 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -1973,6 +1973,9 @@ static void cortex_a7_initfn(Object *obj)
+>      cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
+>      cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
+>      define_arm_cp_regs(cpu, cortexa15_cp_reginfo); /* Same as A15 */
+> +    if (kvm_enabled()) {
+> +        kvm_arm_add_vcpu_properties(obj);
+> +    }
+>  }
 
-Hi; I'm confused by this patch. The Cortex-A15 and Cortex-A7
-do not have or support the GICv3, so why would we need
-to set GICv3-specific settings for them?
-
-We're probably missing a sanity-check somewhere
-to forbid user attempts to use non-GICv3 CPUs with
-the GICv3.
+If we have the same bit of code in all these initfns,
+that suggests we should probably actually be doing this
+in some more generic place conditional on some cpu feature
+or other test. The commit message suggests we should add
+this property for every CPU which is using KVM and has
+the generic timers, in which case we could perhaps
+have the call to kvm_arm_add_vcpu_properties moved to
+arm_cpu_post_init(), and then have the kvm_arm_add_vcpu_properties
+function check the ARM_FEATURE_GENERIC_TIMER flag to see
+whether to add the property or not.
 
 thanks
 -- PMM
