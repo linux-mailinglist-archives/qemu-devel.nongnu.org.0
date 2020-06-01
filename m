@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A4E1E9F44
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 09:30:57 +0200 (CEST)
-Received: from localhost ([::1]:51656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 825041E9F4F
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 09:32:46 +0200 (CEST)
+Received: from localhost ([::1]:56628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfeuO-0004pq-S5
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 03:30:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47542)
+	id 1jfew9-0006t4-Hg
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 03:32:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jfetN-00048h-7G
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 03:29:53 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:52101)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jfeu9-0004zx-Sl; Mon, 01 Jun 2020 03:30:41 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jfetM-0006Zx-Aa
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 03:29:52 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id u13so9714674wml.1
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 00:29:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jfeu8-0006or-Vc; Mon, 01 Jun 2020 03:30:41 -0400
+Received: by mail-wr1-x444.google.com with SMTP id x14so10447791wrp.2;
+ Mon, 01 Jun 2020 00:30:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=k60Ki+0d+huittbFp4TGfReShSbjpNeL+RQ/phNEPxg=;
- b=tzeQ0AFORE8x6nOohflCYO2dEMRHzTAWgDxiGQbHAc0q6trHkuYxCYu63YOG1z9qky
- hlTfzB9CrN5Eg0CnGvJgXJf0+znlEFlgGz6fIuqV/316mPf2fdKYQv6WDbkVpL1Sjj2E
- 8OSVGRe94xJ4Mpo/oJ4ZgkJzCyCwpVh6CaOsc5Nfqfhl6lIgJSskKGzMF0OVM3INzk0h
- wxxx0PNl2iwESeTdX3SRw9z0dtPxpP32XB+IpszZzW6kTDG4bDcYATlEKZuGQxx7zRpk
- 3CBDUWpLxOj74Ok4SJz7sHc3J+7NUd834PCaO9onGko4hIR2STS9hgru/1hI6lZbqyE6
- 38HA==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=t6CZAjpKvay5efhgiUihqDKzDXLlIyFmAam5uOA+cz8=;
+ b=C1u27jNwhBi2EhwdP8TKxbFuLZNgUzojprZaL2cVyOQkw4ZraQorN7AlfEh7CWg2c0
+ 8tnOZH4hjyD9YdwpJ54yMWDdbg/aO6o85jdxRRKpRKsr2HBlxjhtmslPjWoBDA4B3rRI
+ 3f76/q03DFkyfH8cMJ9Gto8sXq5rQfaC2moePn5bypWLwB5qQxrngtOtlVSO0j2yUshb
+ PDuihwHZWh3uiKyM93ngRV6iBARN3X0wHisyyGGq9mJaLcRzN7apMTJp9yaS8bThiZlJ
+ DNt9pWOnp9ApI6cj4epw+ZZJVRT9huS6akpNuwRF3csK1dRr+jfPQqe4kK7vlRVaF2JC
+ MQZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=k60Ki+0d+huittbFp4TGfReShSbjpNeL+RQ/phNEPxg=;
- b=JyjnsZP8kvB199N3uL/YnEpbntlQNme+gZ4jf0qswgZQn1RRiomrkz1JvIl2HHxL3f
- 9PhWwQGhmjx+SuVLaCtIWIxBhJcpbxUtW9vFBzXsO9ASMJc3dr7+ktxRPkPdMZNQkxSI
- zZhAtsFl6oEw8K577DhpNho3ckEVhxhxImxIOiTT+BP8b1InCvSOUeBntFSlCyShoU7h
- 1fzJtre+d0t5gs92WYH2TLmgxLHI2f04NR0FyhkeTMYA/Pq7UEVS1xuH1/djedMWG8xN
- L+D5MLQjeIipeaG5ueXGAkWP4UCSgsitV5yNe89zXX0YQkTCBnrPl7XSykCOWZOti+Hr
- X//A==
-X-Gm-Message-State: AOAM533quQKxeIermng2e26VqTkipPdwOnHOvLn5n9sxy9qpeHPlmSmA
- u9dkajM7yvI8e0M08SlZmtY=
-X-Google-Smtp-Source: ABdhPJz9EU727b1Im5JoEnWMWFBKhVwjUur/oEI0hDM4GiLn9ccICnw/cOTp0IseWty0IMNDTqnHew==
-X-Received: by 2002:a7b:c8d6:: with SMTP id f22mr20422297wml.188.1590996590834; 
- Mon, 01 Jun 2020 00:29:50 -0700 (PDT)
-Received: from jondnuc (IGLD-84-229-154-20.inter.net.il. [84.229.154.20])
- by smtp.gmail.com with ESMTPSA id 1sm10941303wms.25.2020.06.01.00.29.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Jun 2020 00:29:50 -0700 (PDT)
-Date: Mon, 1 Jun 2020 10:29:48 +0300
-From: Jon Doron <arilou@gmail.com>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=t6CZAjpKvay5efhgiUihqDKzDXLlIyFmAam5uOA+cz8=;
+ b=P3VOo2t3XBKmrJdm27kYt8q6Kj2jYlbNm79wtpAQdchEHKSZJmuLUWmw/yuDxuW3j+
+ Cz4MQW/hAQeo95N746SVp7xY/HaO9nAVvqEhMHCtzER3/X1MkiEWJBzU1FSBFAo6jQdl
+ 7K0K3CF6x+ikFxxxddPlzClywLJ+GVA8ykEbzVa4diMG1lNsIdqQ6VxSwKhq10svc3kP
+ +YS3Y3EwLuNRULPunluWA8NsoN+sB6PNYCNAOpMxVldDBdReVq9u0Zh5NJUCqI9atHqo
+ jnJRHp5M1Ib0sjQ+kBHg7vmTxLcJ642aZDAk8iHr+Vp8CvOMvXp662hU2/GZ6SrIZCMr
+ xnrw==
+X-Gm-Message-State: AOAM5334//oUNV+4QG0sGfHrLnC4iR2etgpkPlvVVVe60eayGQ0hfh2B
+ +7LgLlGUwm7MW1sHPyhBW+0=
+X-Google-Smtp-Source: ABdhPJwzgT5jD5UKJDfVzKlbO18pehVKjWTmZsizlm7VfZ+gyAEyOb6krlFGryDTeoFdff65jCaEYg==
+X-Received: by 2002:adf:ed51:: with SMTP id u17mr19044328wro.285.1590996638485; 
+ Mon, 01 Jun 2020 00:30:38 -0700 (PDT)
+Received: from [192.168.1.34] (43.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.43])
+ by smtp.gmail.com with ESMTPSA id s5sm10401894wme.37.2020.06.01.00.30.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Jun 2020 00:30:37 -0700 (PDT)
+Subject: Re: [PATCH 4/6] exec/cpu-common: Do not restrict CPU to 32-bit memory
+ access maximum
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH-for-5.0] gdbstub: Use correct address space with
- Qqemu.PhyMemMode packet
-Message-ID: <20200601072948.GG3071@jondnuc>
-References: <20200330153016.2959-1-f4bug@amsat.org>
- <CAFEAcA8i1W7ss2hQjaFbVHXzqhV81M8U4Fkaj_Te5JK8JO8+mg@mail.gmail.com>
- <f1fd3384-8653-c2e2-7248-457ae873cc27@redhat.com>
- <CAFEAcA_BJf3k-O4j73kNaPtSHfhqmgtm9LH=nAmNj46kMjbkCA@mail.gmail.com>
- <d5ce42bc-a236-512f-dbbe-7327527419e0@amsat.org>
- <20200531164236.GF3071@jondnuc>
- <CAFEAcA95hfnjBjUT0hCxPUzBnGL9xKDkEjBqDcyVBD6spVZ_4w@mail.gmail.com>
+References: <20200531175425.10329-1-f4bug@amsat.org>
+ <20200531175425.10329-5-f4bug@amsat.org>
+ <CAFEAcA9bDjiQnr7bw8QiixGtFmFszN6RuN3D-jNEL8mNmk987Q@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f1e075e7-bf80-054a-4b44-69984c637c2f@amsat.org>
+Date: Mon, 1 Jun 2020 09:30:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
+In-Reply-To: <CAFEAcA9bDjiQnr7bw8QiixGtFmFszN6RuN3D-jNEL8mNmk987Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA95hfnjBjUT0hCxPUzBnGL9xKDkEjBqDcyVBD6spVZ_4w@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=arilou@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,53 +91,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Luc Michel <luc.michel@greensocs.com>
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/05/2020, Peter Maydell wrote:
->On Sun, 31 May 2020 at 17:42, Jon Doron <arilou@gmail.com> wrote:
+On 5/31/20 9:41 PM, Peter Maydell wrote:
+> On Sun, 31 May 2020 at 18:54, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
 >>
->> On 31/05/2020, Philippe Mathieu-Daud� wrote:
->> >On 3/30/20 6:41 PM, Peter Maydell wrote:
->> >> PS: do we have any documentation of this new command ?
->> >> ab4752ec8d9 has the implementation but no documentation...
->> >
->> >Jon, do you have documentation on the Qqemu.PhyMemMode packet?
->
->> Hi, there is no documentation for this mode, but in general the idea was
->> very simple.
+>> Most CPUs can do 64-bit operations. Update the CPUReadMemoryFunc
+>> and CPUWriteMemoryFunc prototypes.
 >>
->> I want to have GDB the option to see the physical memory and examine it
->> and have this option toggled.
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  include/exec/cpu-common.h |  4 ++--
+>>  hw/usb/hcd-musb.c         | 12 ++++++------
+>>  2 files changed, 8 insertions(+), 8 deletions(-)
 >>
->> This was useful to me when I was working on nested virtual machine and I
->> wanted to examine different states of the VMCS12 and EPTs.
+>> diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+>> index b47e5630e7..5ac766e3b6 100644
+>> --- a/include/exec/cpu-common.h
+>> +++ b/include/exec/cpu-common.h
+>> @@ -43,8 +43,8 @@ extern ram_addr_t ram_size;
 >>
->> I used this in the following commands:
->> // Enable
->> maint packet Qqemu.PhyMemMode:1
+>>  /* memory API */
 >>
->> // Disable
->> maint packet Qqemu.PhyMemMode:0
->
->docs/system/gdb.rst would be the place to document QEMU-specific
->extensions to the gdb protocol (there's an "advanced debugging
->options" section where we document things like the single-step
->stuff you can also change via 'maint packet').
->
->thanks
->-- PMM
+>> -typedef void CPUWriteMemoryFunc(void *opaque, hwaddr addr, uint32_t value);
+>> -typedef uint32_t CPUReadMemoryFunc(void *opaque, hwaddr addr);
+>> +typedef void CPUWriteMemoryFunc(void *opaque, hwaddr addr, uint64_t value);
+>> +typedef uint64_t CPUReadMemoryFunc(void *opaque, hwaddr addr);
+> 
+> I don't think the type of these functions has anything to do with the
+> CPU's capabilities, does it? The typedefs are a legacy remnant from before
+> the conversion to MemoryRegions:
+>  * before MemoryRegions, devices provided separate functions for
+>    byte/word/long reads and writes (64-bit writes were simply
+>    impossible with the ancient APIs, which required a 3-element
+>    function pointer array for read and the same for write)
+>  * the initial MemoryRegion conversion introduced the new-style
+>    "one read/write fn for all widths" APIs, but also supported
+>    old-style six-function devices, for ease of conversion, using
+>    MemoryRegionOps::old_mmio.
+>  * in commit 62a0db942dec6ebfe we were finally able to drop the
+>    old_mmio (having changed over the last devices using old-style).
+>    (I see I forgot to delete the now-unused MemoryRegionMmio typedef.)
+> 
+> The only remaining user of these typedefs is hw/usb/hcd-musb.c,
+> which is still not converted to QOM/qdev. It uses them to allow
+> its one user (hw/usb/tusb6010.c) to perform reads/writes on the
+> underlying musb registers.
 
-Thanks, I'll know for next time, when I did all that work and 
-re-factored gdbstub, that doc did not exist.
+Indeed you are correct, I have been short-sighted.
 
-Perhaps Peter can just add the documentation to this commit?
+> 
+> There's no point in changing these typedefs to pass or return
+> a 64-bit data type, because their sole use is in the musb_read[]
+> and musb_write[] arrays, which only allow for 1, 2 or 4 byte
+> accesses, depending on which array element you use.
+> 
+> Possible cleanups here:
+> Easy:
+>  * delete the unused MmeoryRegionMmio
+>  * move these typedefs into include/hw/usb.h and rename them
+>    to MUSBReadFunc and MUSBWriteFunc, since that's all they're
+>    used for now
 
--- Jon.
+Agreed.
+
+> Tricky:
+>  * convert the hw/usb/hcd-musb.c code to QOM/qdev, which would
+>    include refactoring the current musb_read/musb_write so that
+>    instead of the tusb6010.c code calling function entries in these
+>    arrays the hcd-musb.c code exposed a MemoryRegion; the tusb6010
+>    code would access it via memory_region_dispatch_read/write
+
+Left as TODO.
+
+Thanks for reviewing this patch.
+
+> 
+> thanks
+> -- PMM
+> 
 
