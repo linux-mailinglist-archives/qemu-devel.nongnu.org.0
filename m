@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56881EA1D4
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 12:26:37 +0200 (CEST)
-Received: from localhost ([::1]:36978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7755A1EA1CE
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 12:24:18 +0200 (CEST)
+Received: from localhost ([::1]:58252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfheO-0005dm-Nu
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 06:26:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36610)
+	id 1jfhc9-0002ko-A5
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 06:24:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jfhZq-0000XO-RN
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:21:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30267
+ id 1jfhZy-0000f7-1C
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:22:02 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58969
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jfhZq-00008D-48
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:21:54 -0400
+ id 1jfhZv-00008x-Sb
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:22:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591006913;
+ s=mimecast20190719; t=1591006918;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HTSaCdeUAu1HcnT2Agf6LlwsvyK0ifJSU70lffYSgu4=;
- b=K/WNcTQ4jfHFGwJ6WgJWnmn3R28OFvIf5hMyYtq5E8zYdyjcdk/hITi1ymaLFIMEblY20w
- HfqziDOU6KesT4oNXy/dUOhSqvb5Q580TZI56UAcC+TD6K53+1jb8KeiMgUyvjoAbieNLH
- 8YpRR/vxVMu8U5dlA1YWLnaiCv0s3f0=
+ bh=/NpTU5zlaOPP5faG9sGOrDhbPa5zzlwMZvrXG9/B+A8=;
+ b=g4c+pe52LWiukR9GeuVHID3pYird3Y4cD7mQoqHI2AF8rDsnqb0orTdPpt3O4F02YE6eKe
+ x0vN7iANNF+xBYqa8tTCpN/K07FDjOXOf2GvK7RoU4D5UB2LVOimDnNbSEDAvJWvvtRL7u
+ AEidaL3ao8niRjf4LAMH1mu2SBRXSjw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-_YcLJhhcMi2jzPNFQbz81Q-1; Mon, 01 Jun 2020 06:21:51 -0400
-X-MC-Unique: _YcLJhhcMi2jzPNFQbz81Q-1
+ us-mta-105-vfBdJMV3OXWrEBSydX1zBA-1; Mon, 01 Jun 2020 06:21:55 -0400
+X-MC-Unique: vfBdJMV3OXWrEBSydX1zBA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68179107ACCD;
- Mon,  1 Jun 2020 10:21:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE5F8A0BD7;
+ Mon,  1 Jun 2020 10:21:53 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-113-56.ams2.redhat.com [10.36.113.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 624E9D01F6;
- Mon,  1 Jun 2020 10:21:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD742D01E3;
+ Mon,  1 Jun 2020 10:21:50 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, stefanb@linux.ibm.com,
  qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
  mst@redhat.com, shannon.zhaosl@gmail.com, imammedo@redhat.com
-Subject: [RFC 4/6] tests: tpm-emu: Remove assert on TPM2_ST_NO_SESSIONS
-Date: Mon,  1 Jun 2020 12:21:11 +0200
-Message-Id: <20200601102113.1207-5-eric.auger@redhat.com>
+Subject: [RFC 5/6] bios-tables-test: Add Q35/TPM-TIS test
+Date: Mon,  1 Jun 2020 12:21:12 +0200
+Message-Id: <20200601102113.1207-6-eric.auger@redhat.com>
 In-Reply-To: <20200601102113.1207-1-eric.auger@redhat.com>
 References: <20200601102113.1207-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +58,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 05:58:00
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 02:05:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,31 +86,121 @@ Cc: marcandre.lureau@redhat.com, drjones@redhat.com, lersek@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While writing tests for checking the content of TPM2 and DSDT
-along with TPM-TIS instantiation I attempted to reuse the
-framework used for TPM-TIS tests. However While dumping the
-ACPI tables I get an assert on TPM2_ST_NO_SESSIONS. My assumption
-is maybe the other tests did not execute long enough to encounter
-this. So I tentatively propose to remove the assert as it
-does not seem to break other tests and enable the new ones.
+Test tables specific to the TPM-TIS instantiation.
+The TPM2 is added in the framework. Also the DSDT
+is updated with the TPM. The new function should be
+be usable for CRB as well, later one.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
- tests/qtest/tpm-emu.c | 1 -
- 1 file changed, 1 deletion(-)
+ tests/qtest/bios-tables-test.c | 60 ++++++++++++++++++++++++++++++++++
+ tests/qtest/Makefile.include   |  1 +
+ 2 files changed, 61 insertions(+)
 
-diff --git a/tests/qtest/tpm-emu.c b/tests/qtest/tpm-emu.c
-index c43ac4aef8..298d0eec74 100644
---- a/tests/qtest/tpm-emu.c
-+++ b/tests/qtest/tpm-emu.c
-@@ -49,7 +49,6 @@ static void *tpm_emu_tpm_thread(void *data)
-         s->tpm_msg->tag = be16_to_cpu(s->tpm_msg->tag);
-         s->tpm_msg->len = be32_to_cpu(s->tpm_msg->len);
-         g_assert_cmpint(s->tpm_msg->len, >=, minhlen);
--        g_assert_cmpint(s->tpm_msg->tag, ==, TPM2_ST_NO_SESSIONS);
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index c9843829b3..bbba98342c 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -57,6 +57,9 @@
+ #include "qemu/bitmap.h"
+ #include "acpi-utils.h"
+ #include "boot-sector.h"
++#include "tpm-emu.h"
++#include "hw/acpi/tpm.h"
++
  
-         s->tpm_msg = g_realloc(s->tpm_msg, s->tpm_msg->len);
-         qio_channel_read(ioc, (char *)&s->tpm_msg->code,
+ #define MACHINE_PC "pc"
+ #define MACHINE_Q35 "q35"
+@@ -874,6 +877,60 @@ static void test_acpi_piix4_tcg_numamem(void)
+     free_test_data(&data);
+ }
+ 
++uint64_t tpm_tis_base_addr;
++
++struct tpm_test_data {
++    const char *machine;
++    const char *tpm_if;
++};
++
++static void test_acpi_tcg_tpm(const void *context)
++{
++    struct tpm_test_data *c = (struct tpm_test_data *)context;
++    gchar *tmp_dir_name = g_strdup_printf("qemu-test_acpi_%s_tcg_%s.XXXXXX",
++                                          c->machine, c->tpm_if);
++    char *tmp_path = g_dir_make_tmp(tmp_dir_name, NULL);
++    TestState test;
++    test_data data;
++    GThread *thread;
++    char *args, *variant = g_strdup_printf(".%s", c->tpm_if);
++
++    tpm_tis_base_addr = TPM_TIS_ADDR_BASE;
++
++    module_call_init(MODULE_INIT_QOM);
++
++    test.addr = g_new0(SocketAddress, 1);
++    test.addr->type = SOCKET_ADDRESS_TYPE_UNIX;
++    test.addr->u.q_unix.path = g_build_filename(tmp_path, "sock", NULL);
++    g_mutex_init(&test.data_mutex);
++    g_cond_init(&test.data_cond);
++    test.data_cond_signal = false;
++
++    thread = g_thread_new(NULL, tpm_emu_ctrl_thread, &test);
++    tpm_emu_test_wait_cond(&test);
++
++    memset(&data, 0, sizeof(data));
++    data.machine = c->machine;
++    data.variant = variant;
++
++    args = g_strdup_printf(
++        " -chardev socket,id=chr,path=%s"
++        " -tpmdev emulator,id=dev,chardev=chr"
++        " -device tpm-%s,tpmdev=dev",
++        test.addr->u.q_unix.path, c->tpm_if);
++
++    test_acpi_one(args, &data);
++
++    g_thread_join(thread);
++    g_unlink(test.addr->u.q_unix.path);
++    qapi_free_SocketAddress(test.addr);
++    g_rmdir(tmp_path);
++    g_free(variant);
++    g_free(tmp_path);
++    g_free(tmp_dir_name);
++    free_test_data(&data);
++}
++
+ static void test_acpi_tcg_dimm_pxm(const char *machine)
+ {
+     test_data data;
+@@ -1028,6 +1085,7 @@ int main(int argc, char *argv[])
+ {
+     const char *arch = qtest_get_arch();
+     int ret;
++    struct tpm_test_data tpm_q35_tis = {MACHINE_Q35, "tis"};
+ 
+     g_test_init(&argc, &argv, NULL);
+ 
+@@ -1037,6 +1095,8 @@ int main(int argc, char *argv[])
+             return ret;
+         }
+ 
++        qtest_add_data_func("acpi/q35/tpm-tis",
++                            &tpm_q35_tis, test_acpi_tcg_tpm);
+         qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
+         qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
+         qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
+index 9e5a51d033..5023fa413d 100644
+--- a/tests/qtest/Makefile.include
++++ b/tests/qtest/Makefile.include
+@@ -262,6 +262,7 @@ tests/qtest/hd-geo-test$(EXESUF): tests/qtest/hd-geo-test.o $(libqos-obj-y)
+ tests/qtest/boot-order-test$(EXESUF): tests/qtest/boot-order-test.o $(libqos-obj-y)
+ tests/qtest/boot-serial-test$(EXESUF): tests/qtest/boot-serial-test.o $(libqos-obj-y)
+ tests/qtest/bios-tables-test$(EXESUF): tests/qtest/bios-tables-test.o \
++        tests/qtest/tpm-emu.o $(test-io-obj-y) \
+ 	tests/qtest/boot-sector.o tests/qtest/acpi-utils.o $(libqos-obj-y)
+ tests/qtest/pxe-test$(EXESUF): tests/qtest/pxe-test.o tests/qtest/boot-sector.o $(libqos-obj-y)
+ tests/qtest/microbit-test$(EXESUF): tests/qtest/microbit-test.o
 -- 
 2.20.1
 
