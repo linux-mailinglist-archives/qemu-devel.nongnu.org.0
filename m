@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531651EA1D2
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 12:25:25 +0200 (CEST)
-Received: from localhost ([::1]:35070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F32F11EA1D7
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 12:27:59 +0200 (CEST)
+Received: from localhost ([::1]:41426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfhdE-0004od-9l
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 06:25:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36576)
+	id 1jfhfj-0007gY-1g
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 06:27:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jfhZY-0008PR-Am
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:21:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26080
+ id 1jfhZb-0008VL-MG
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:21:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53740
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jfhZW-000071-Jr
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:21:36 -0400
+ id 1jfhZa-00007O-UY
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:21:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591006893;
+ s=mimecast20190719; t=1591006898;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/UPpAUpUtL2KKWoVITJwwgcCt+9zGDDeAEZ4zANm72E=;
- b=ciTWmaX+ot+ET2hN5xMC2New7stMOLhYfbDzaBIv5N7cwAgdNv+C+6UUIVV9DJ9iUv76Rd
- 2am+AM6i1yhsgZ38YUC6mOWPw/5j+tEpOhclWGb48RVS1wXUoI6IBrRGSI+mUiIY2+NBx1
- ulvWw8QyZHIZZ2KOBjUx33Mn0teThw0=
+ bh=kVzOlvoCeo/ehpQPUov0zPQskx1LEwWkUqulsiySQwI=;
+ b=eu8rNgi4CEFkvqc8hHfjP1oCdkXMrybSmn17GCdY9zrniPab3oz+GjAyasFmaYzbAoNQFe
+ ZmRhbTiJSMkxxanqPEj67my9pLZHs7cbQIMuH+otirILOuj6++kpu11H9H3BuNRWDnrgXz
+ Ihb4LId+D7hL0bguqzk7O/3IXHRnSjI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-l44rh5czObW89bthdVDfRQ-1; Mon, 01 Jun 2020 06:21:32 -0400
-X-MC-Unique: l44rh5czObW89bthdVDfRQ-1
+ us-mta-121-2PLduN31P2-Vmw8MuIrp2A-1; Mon, 01 Jun 2020 06:21:35 -0400
+X-MC-Unique: 2PLduN31P2-Vmw8MuIrp2A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD7DFA0BD9;
- Mon,  1 Jun 2020 10:21:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8427D100CCC1;
+ Mon,  1 Jun 2020 10:21:33 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-113-56.ams2.redhat.com [10.36.113.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B472D01E1;
- Mon,  1 Jun 2020 10:21:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 805AAD01EB;
+ Mon,  1 Jun 2020 10:21:30 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, stefanb@linux.ibm.com,
  qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
  mst@redhat.com, shannon.zhaosl@gmail.com, imammedo@redhat.com
-Subject: [RFC 1/6] test/tpm-emu: include sockets and channel headers in
- tpm-emu header
-Date: Mon,  1 Jun 2020 12:21:08 +0200
-Message-Id: <20200601102113.1207-2-eric.auger@redhat.com>
+Subject: [RFC 2/6] tests/acpi: Add void tables for Q35/TPM-TIS bios-tables-test
+Date: Mon,  1 Jun 2020 12:21:09 +0200
+Message-Id: <20200601102113.1207-3-eric.auger@redhat.com>
 In-Reply-To: <20200601102113.1207-1-eric.auger@redhat.com>
 References: <20200601102113.1207-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -87,28 +86,23 @@ Cc: marcandre.lureau@redhat.com, drjones@redhat.com, lersek@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Include sockets and channel headers to that the header is
-self-contained.
+Add placeholders for TPM and DSDT reference tables for
+Q35 TPM-TIS tests.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
- tests/qtest/tpm-emu.h | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/data/acpi/q35/DSDT.tis | Bin
+ tests/data/acpi/q35/TPM2.tis | Bin
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 tests/data/acpi/q35/DSDT.tis
+ create mode 100644 tests/data/acpi/q35/TPM2.tis
 
-diff --git a/tests/qtest/tpm-emu.h b/tests/qtest/tpm-emu.h
-index a4f1d64226..73f3bed0c4 100644
---- a/tests/qtest/tpm-emu.h
-+++ b/tests/qtest/tpm-emu.h
-@@ -16,6 +16,9 @@
- #define TPM_RC_FAILURE 0x101
- #define TPM2_ST_NO_SESSIONS 0x8001
- 
-+#include "qemu/sockets.h"
-+#include "io/channel.h"
-+
- struct tpm_hdr {
-     uint16_t tag;
-     uint32_t len;
+diff --git a/tests/data/acpi/q35/DSDT.tis b/tests/data/acpi/q35/DSDT.tis
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/tests/data/acpi/q35/TPM2.tis b/tests/data/acpi/q35/TPM2.tis
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 -- 
 2.20.1
 
