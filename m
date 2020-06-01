@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C7A1EA1CA
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 12:23:48 +0200 (CEST)
-Received: from localhost ([::1]:56626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B56881EA1D4
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 12:26:37 +0200 (CEST)
+Received: from localhost ([::1]:36978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfhbe-00024s-Jr
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 06:23:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36600)
+	id 1jfheO-0005dm-Nu
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 06:26:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jfhZn-0000Ro-Db
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:21:51 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49251
+ id 1jfhZq-0000XO-RN
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:21:54 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30267
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jfhZm-00007q-NL
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:21:51 -0400
+ id 1jfhZq-00008D-48
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:21:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591006909;
+ s=mimecast20190719; t=1591006913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3ix7laFcZDqSSMMGZDE0PHXmSoYhXSqBlDP2AmRi/iM=;
- b=Tmnv+ChPdBebKjNM5Ah/xUeM81Sno0dYq0WnkQu/Zp7D0TMZWGr5HOmO1OMyWxBMJPFH/K
- U6Ycl/7z+8A96aRHpVKfKDh1hdsPgUuOuLienoJQXupBZJQTJAuybw672261xPAdUvXOcK
- KILJG1+7I5zlrnhNSaevcJOTOTdWXGQ=
+ bh=HTSaCdeUAu1HcnT2Agf6LlwsvyK0ifJSU70lffYSgu4=;
+ b=K/WNcTQ4jfHFGwJ6WgJWnmn3R28OFvIf5hMyYtq5E8zYdyjcdk/hITi1ymaLFIMEblY20w
+ HfqziDOU6KesT4oNXy/dUOhSqvb5Q580TZI56UAcC+TD6K53+1jb8KeiMgUyvjoAbieNLH
+ 8YpRR/vxVMu8U5dlA1YWLnaiCv0s3f0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-4L_aq5O_Mq--rJXw1uKo2A-1; Mon, 01 Jun 2020 06:21:48 -0400
-X-MC-Unique: 4L_aq5O_Mq--rJXw1uKo2A-1
+ us-mta-398-_YcLJhhcMi2jzPNFQbz81Q-1; Mon, 01 Jun 2020 06:21:51 -0400
+X-MC-Unique: _YcLJhhcMi2jzPNFQbz81Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DFC0100CCC1;
- Mon,  1 Jun 2020 10:21:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68179107ACCD;
+ Mon,  1 Jun 2020 10:21:50 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-113-56.ams2.redhat.com [10.36.113.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D9D8DD01E1;
- Mon,  1 Jun 2020 10:21:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 624E9D01F6;
+ Mon,  1 Jun 2020 10:21:47 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, stefanb@linux.ibm.com,
  qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
  mst@redhat.com, shannon.zhaosl@gmail.com, imammedo@redhat.com
-Subject: [RFC 3/6] tests/acpi: Ignore TPM2.tis and DSDT.tis
-Date: Mon,  1 Jun 2020 12:21:10 +0200
-Message-Id: <20200601102113.1207-4-eric.auger@redhat.com>
+Subject: [RFC 4/6] tests: tpm-emu: Remove assert on TPM2_ST_NO_SESSIONS
+Date: Mon,  1 Jun 2020 12:21:11 +0200
+Message-Id: <20200601102113.1207-5-eric.auger@redhat.com>
 In-Reply-To: <20200601102113.1207-1-eric.auger@redhat.com>
 References: <20200601102113.1207-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -86,23 +86,31 @@ Cc: marcandre.lureau@redhat.com, drjones@redhat.com, lersek@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Subsequent patches will alter the content of TPM2.tis
-and DSDT.tis so let's ignore them until the references
-are generated.
+While writing tests for checking the content of TPM2 and DSDT
+along with TPM-TIS instantiation I attempted to reuse the
+framework used for TPM-TIS tests. However While dumping the
+ACPI tables I get an assert on TPM2_ST_NO_SESSIONS. My assumption
+is maybe the other tests did not execute long enough to encounter
+this. So I tentatively propose to remove the assert as it
+does not seem to break other tests and enable the new ones.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/qtest/tpm-emu.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..a2a45d1d31 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,3 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/DSDT.tis",
-+"tests/data/acpi/q35/TPM2.tis",
+diff --git a/tests/qtest/tpm-emu.c b/tests/qtest/tpm-emu.c
+index c43ac4aef8..298d0eec74 100644
+--- a/tests/qtest/tpm-emu.c
++++ b/tests/qtest/tpm-emu.c
+@@ -49,7 +49,6 @@ static void *tpm_emu_tpm_thread(void *data)
+         s->tpm_msg->tag = be16_to_cpu(s->tpm_msg->tag);
+         s->tpm_msg->len = be32_to_cpu(s->tpm_msg->len);
+         g_assert_cmpint(s->tpm_msg->len, >=, minhlen);
+-        g_assert_cmpint(s->tpm_msg->tag, ==, TPM2_ST_NO_SESSIONS);
+ 
+         s->tpm_msg = g_realloc(s->tpm_msg, s->tpm_msg->len);
+         qio_channel_read(ioc, (char *)&s->tpm_msg->code,
 -- 
 2.20.1
 
