@@ -2,59 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9650C1EA788
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 18:08:12 +0200 (CEST)
-Received: from localhost ([::1]:47270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17F41EA7A3
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 18:16:35 +0200 (CEST)
+Received: from localhost ([::1]:55630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfmyx-0002ck-60
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 12:08:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50100)
+	id 1jfn74-0006a0-DO
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 12:16:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jfmy4-0001pW-QP
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:07:16 -0400
-Received: from 1.mo173.mail-out.ovh.net ([178.33.111.180]:36141)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jfmy2-0000Gd-BI
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:07:16 -0400
-Received: from player695.ha.ovh.net (unknown [10.108.54.38])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id 79B3113AF9E
- for <qemu-devel@nongnu.org>; Mon,  1 Jun 2020 18:07:04 +0200 (CEST)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player695.ha.ovh.net (Postfix) with ESMTPSA id 55E0D12CAB066;
- Mon,  1 Jun 2020 16:06:43 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002b8d09b32-b5d3-4353-abb8-6409bc852004,83E988B7E4CB5EF414800AC4A3AAD9DE61AE43FA)
- smtp.auth=clg@kaod.org
-Subject: Re: [PATCH v2 1/8] hw/arm/aspeed: Correct DRAM container region size
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200601142930.29408-1-f4bug@amsat.org>
- <20200601142930.29408-2-f4bug@amsat.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <10b20388-ee7a-9a61-83d5-7686369dab20@kaod.org>
-Date: Mon, 1 Jun 2020 18:06:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jfn5J-0004xl-MO
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:14:45 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35565)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jfn5I-0001V2-S2
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:14:45 -0400
+Received: by mail-wr1-x431.google.com with SMTP id x14so432532wrp.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 09:14:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zt7j9vF8Hau4riPOBYBgg1sjKWlFGcMGJn48Mme/0Lc=;
+ b=FhFiN2p9MbUxSzIIpdyJ1FhpZ/xB7uGNCn1VRFKSukyUowHxst/JHq6dWetpmbXBQq
+ BIP2mNMryY53qlLdAYgscUK+WTB8+NMMI+looj2G1NeFCwp3yZpIz7BNsWj2CRXFLwmc
+ mDqLAhSZqQPKh+/c13YdnNapzUxWE75w8Ar5D2jjRupFKfYIpaIzND+9TeZOa3MRoGwK
+ Vi45/0RaNtpcFxHPvERt2e1MCEfk+lXXEBf1JdVLFd6J1oyHkBM87PJ7PdACVsR5CPYT
+ l7pyKg8PfxfOJi6N0IKV8yiDbjk37HFnFRCZNS2FemngAMv19QilJlr8QtJ8YkEKNAM5
+ y9yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=zt7j9vF8Hau4riPOBYBgg1sjKWlFGcMGJn48Mme/0Lc=;
+ b=kqm9JCsRSbO17tIyVwTu4sXbsHJIag/T2eKZhdrJiKUb2i5RSkkaSdIGCEeTW66kZH
+ 9+UiTsHZukdfVPCKozjVVJHZHDDMYHS9p7wmEwDe2vxe5Y+ArXU7gv+D44P+uGRNJg+W
+ B0O8ac/eYk3gkuKkyiA9EgmWszAsrtJEMujiJnnCLu+MTxvqYh4xWISslmRmxyZOvRsQ
+ T/o5XZl/iqh4ih5YQ7nVxTyJ0RoYmqyFYZw4WfQxkJIKvgqndMimthL1xd0A/BkapsJN
+ 92py6NObRRa9s221XQCfyMBJ8Vd1zgR+r420Ml73TIOCgqb+g5vE5kQpUKLeB7ZGrnFU
+ SMsg==
+X-Gm-Message-State: AOAM533UVYxMbJ0snMsBfs+HE2VuRhrL3r98o4k2Zmc7/1CNTzE4/ElV
+ go9wmqrj4jXmxCJTcu0BxjA=
+X-Google-Smtp-Source: ABdhPJzQcMMe9LmK91YqJt19Xe2goJ+EF7QmgAWyprMjTNfCDHrFUXX11zuNK3Fj8IL2GRn5q5G4yA==
+X-Received: by 2002:a5d:6986:: with SMTP id g6mr23255991wru.27.1591028083407; 
+ Mon, 01 Jun 2020 09:14:43 -0700 (PDT)
+Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
+ [83.51.162.43])
+ by smtp.gmail.com with ESMTPSA id a6sm21309896wrn.38.2020.06.01.09.14.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Jun 2020 09:14:42 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: Richard Henderson <rth@twiddle.net>, qemu-devel@nongnu.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
+Subject: [PATCH 00/12] hw/rx: Add RX GDB simulator machine
+Date: Mon,  1 Jun 2020 18:14:29 +0200
+Message-Id: <20200601161441.8086-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <20200601142930.29408-2-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 2857533967562673072
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudefhedgkeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefffdvtddugeeifeduuefghfejgfeigeeigeeltedthefgieeiveeuiefhgeefgfenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=178.33.111.180; envelope-from=clg@kaod.org;
- helo=1.mo173.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 12:07:04
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,66 +87,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Helge Deller <deller@gmx.de>,
- Paul Durrant <paul@xen.org>, qemu-trivial@nongnu.org, qemu-arm@nongnu.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- qemu-ppc@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/1/20 4:29 PM, Philippe Mathieu-Daudé wrote:
-> memory_region_set_size() handle the 16 Exabytes limit by
-> special-casing the UINT64_MAX value. This is not a problem
-> for the 32-bit maximum, 4 GiB.
-> By using the UINT32_MAX value, the aspeed-ram-container
-> MemoryRegion ends up missing 1 byte:
-> 
->  $ qemu-system-arm -M ast2600-evb -S -monitor stdio
->  (qemu) info mtree
-> 
->   address-space: aspeed.fmc-ast2600-dma-dram
->     0000000080000000-000000017ffffffe (prio 0, i/o): aspeed-ram-container
->       0000000080000000-00000000bfffffff (prio 0, ram): ram
->       00000000c0000000-ffffffffffffffff (prio 0, i/o): max_ram
-> 
-> Fix by using the correct value. We now have:
-> 
->   address-space: aspeed.fmc-ast2600-dma-dram
->     0000000080000000-000000017fffffff (prio 0, i/o): aspeed-ram-container
->       0000000080000000-00000000bfffffff (prio 0, ram): ram
->       00000000c0000000-ffffffffffffffff (prio 0, i/o): max_ram
-> 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Hi Richard,
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+This is the RX series I was preparing for merge-request candidate,
+rebased over the last 3 months with some API updates addressed,
+from Yoshinori v32:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg682290.html
 
-Thanks,
+Unfortunately we didn't sync with Yoshinori so he diverged and
+send another reworked series:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg708102.html
 
-C.
+I'm sorry the timing is so bad, but I let other maintainance duties
+invert priorities, delaying the RX hardware integration.
 
-> ---
->  hw/arm/aspeed.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 2c23297edf..62344ac6a3 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -262,7 +262,7 @@ static void aspeed_machine_init(MachineState *machine)
->      bmc = g_new0(AspeedBoardState, 1);
->  
->      memory_region_init(&bmc->ram_container, NULL, "aspeed-ram-container",
-> -                       UINT32_MAX);
-> +                       4 * GiB);
->      memory_region_add_subregion(&bmc->ram_container, 0, machine->ram);
->  
->      object_initialize_child(OBJECT(machine), "soc", &bmc->soc,
-> 
+Changes are noted in [PMD: ...] comments before my S-o-b.
+
+Patches missing review:
+
+ #1: target/rx/cpu: Remove unused headers
+ #9:  hw/rx: Register R5F562N7 and R5F562N8 MCUs
+
+Regard,
+
+Phil.
+
+Philippe Mathieu-Daudé (3):
+  target/rx/cpu: Remove unused headers
+  hw/rx: Register R5F562N7 and R5F562N8 MCUs
+  BootLinuxConsoleTest: Test the RX GDB simulator
+
+Richard Henderson (1):
+  hw/rx: Honor -accel qtest
+
+Yoshinori Sato (8):
+  MAINTAINERS: Add entry for RX hardware
+  hw/intc: RX62N interrupt controller (ICUa)
+  hw/timer: RX62N 8-Bit timer (TMR)
+  hw/timer: RX62N compare match timer (CMT)
+  hw/char: RX62N serial communication interface (SCI)
+  hw/rx: RX62N microcontroller (MCU)
+  hw/rx: Add RX GDB simulator
+  docs: Document the RX target
+
+ docs/system/target-rx.rst             |  36 ++
+ docs/system/targets.rst               |   1 +
+ default-configs/rx-softmmu.mak        |   1 +
+ include/hw/char/renesas_sci.h         |  51 +++
+ include/hw/intc/rx_icu.h              |  76 ++++
+ include/hw/rx/rx62n.h                 |  78 +++++
+ include/hw/timer/renesas_cmt.h        |  40 +++
+ include/hw/timer/renesas_tmr.h        |  55 +++
+ target/rx/cpu.h                       |   2 -
+ hw/char/renesas_sci.c                 | 350 +++++++++++++++++++
+ hw/intc/rx_icu.c                      | 397 +++++++++++++++++++++
+ hw/rx/rx-gdbsim.c                     | 198 +++++++++++
+ hw/rx/rx62n.c                         | 328 ++++++++++++++++++
+ hw/timer/renesas_cmt.c                | 283 +++++++++++++++
+ hw/timer/renesas_tmr.c                | 477 ++++++++++++++++++++++++++
+ MAINTAINERS                           |  15 +
+ hw/Kconfig                            |   1 +
+ hw/char/Kconfig                       |   3 +
+ hw/char/Makefile.objs                 |   1 +
+ hw/intc/Kconfig                       |   3 +
+ hw/intc/Makefile.objs                 |   1 +
+ hw/rx/Kconfig                         |  10 +
+ hw/rx/Makefile.objs                   |   2 +
+ hw/timer/Kconfig                      |   6 +
+ hw/timer/Makefile.objs                |   2 +
+ tests/acceptance/machine_rx_gdbsim.py |  68 ++++
+ 26 files changed, 2483 insertions(+), 2 deletions(-)
+ create mode 100644 docs/system/target-rx.rst
+ create mode 100644 include/hw/char/renesas_sci.h
+ create mode 100644 include/hw/intc/rx_icu.h
+ create mode 100644 include/hw/rx/rx62n.h
+ create mode 100644 include/hw/timer/renesas_cmt.h
+ create mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 hw/char/renesas_sci.c
+ create mode 100644 hw/intc/rx_icu.c
+ create mode 100644 hw/rx/rx-gdbsim.c
+ create mode 100644 hw/rx/rx62n.c
+ create mode 100644 hw/timer/renesas_cmt.c
+ create mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 hw/rx/Kconfig
+ create mode 100644 hw/rx/Makefile.objs
+ create mode 100644 tests/acceptance/machine_rx_gdbsim.py
+
+-- 
+2.21.3
 
 
