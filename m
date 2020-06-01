@@ -2,53 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12B771EA204
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 12:40:32 +0200 (CEST)
-Received: from localhost ([::1]:42650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D80971EA209
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 12:41:14 +0200 (CEST)
+Received: from localhost ([::1]:44452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfhrq-0003lP-Tt
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 06:40:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38542)
+	id 1jfhsX-0004Za-UZ
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 06:41:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>) id 1jfhqd-0003Bz-69
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:39:15 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:52196)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jfhrC-0003iI-GM
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:39:50 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>) id 1jfhqZ-0003zu-IW
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:39:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=mYCZydrMv1/WP7UppoKWXJsNG7S2kPka0AV9INxFnsU=; 
- b=ptdVFYzbvd8mjZopLBaGQfew4lK3xiHd3SZIAun8JlTNYN9lsEtYPGmr7aSq74RdGIz6tLIkFZiFF7I5y2WLn6XQJM9Mq5Y1dMSNp3IU9X+tkPGEGGzUDiu9NFf1BS1cvaHgwwXuZP0WC8SoLpACP/JMFb7waRm0FzHDpAxmKFmi8EO+bMwdU0fUKsuCTCurHQNGSitDoprZR/5T1IoC9TcIu3imQ1sYdRI15yQ46K1PR9jw3vbe69BYJeNJfkkVsTcrG4E8usorKR/J7Or97UvqUlhO7bVsOxxI6XU6VJChQpDd3LSuKNFBsyfPaggMPm+8XXuW2CeWCkWvznACyA==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1jfhpw-0002kO-BG; Mon, 01 Jun 2020 12:38:32 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1jfhpw-0005RZ-1h; Mon, 01 Jun 2020 12:38:32 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Zhang Chen <chen.zhang@intel.com>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-dev <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] block/quorum.c: Decrease child index when del_child
-In-Reply-To: <20200601071956.18006-1-chen.zhang@intel.com>
-References: <20200601071956.18006-1-chen.zhang@intel.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Mon, 01 Jun 2020 12:38:32 +0200
-Message-ID: <w515zcbm5p3.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jfhrB-0004HO-60
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 06:39:50 -0400
+Received: by mail-wr1-x442.google.com with SMTP id l10so10951125wrr.10
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 03:39:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=122JmFOPRqu5VXkEmA/NrQx0zkFAhVLLoKXS68h4JMU=;
+ b=W32VO3JjPESgMtcj8tAxP8pkpAu/G4jDH/dY9PLlkobI+gykePHUWiUSOTkuaqC3kI
+ peDCrfblcr9v9mKuzb5lC77k1c44sv6l6/6N5nGQ4/qKTc31o9akCqydn/6eRVVh5euj
+ pn5AxxKBQKuMSaAyexI3aGo0oYDpl3uGMhGij6rwU8hifflqYzjpfnDXRYXhjbeEOoJk
+ 5vwb+Lvzskrd5oE9zZKijsdDFY/H0C9h/VKNAgn1SN3Sk2NlJFfMMXVOwBQpR1dbWjsG
+ OMs0g3yYGU/eG9wt97NYHY5zy0DDrq906kK/KjU0bazQC1wTtGpQlDdctgGWCOUoh/dM
+ cFRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=122JmFOPRqu5VXkEmA/NrQx0zkFAhVLLoKXS68h4JMU=;
+ b=O9v/TdYvgTaWwHFN/fJSywPI8rZTzrnnXm3ZpKUZq5j57WI0AquNZ4fq2PbZAwOEdg
+ bgTjrRcYCoYNoENNuRc0+LLSk5/owLnBvwbFV8CR8SsL/lje1GLA52JbejNAsfPf3aJC
+ IcwbYUq16foGeilfWVGGqjPu6PJDqsbzy07V/P7fUoTxF+7vfCcd9/UvrXw7xoqdSvOu
+ rAq6l0NFM5G+pigXmwrwOf8kB7MvuIxGf9Wx0R9GUeJQy9/jkw6XWawbkVrUUA2dVoS1
+ hZmLZT4NA8ju0NdfSzO6OEqRuZG41BOv4FKqJ8SsDL0KKA7NvpP/T3cFey4jrjSWmDFn
+ Bl1g==
+X-Gm-Message-State: AOAM5336/v6Q4E6UGF3GKEnYa2wC+zqjSTIJLTQw2Bll6aCG30wvtfJB
+ cLAdmEG/3bpS/ba2qPFk1FZrZw==
+X-Google-Smtp-Source: ABdhPJwRqJ305GtQ3pyIfveJtMTLhSoNqXy7lCC3xRnPGv2mz9jyy2ZT4oA/8k0d8LvKAxhkxo6lLw==
+X-Received: by 2002:a5d:4c81:: with SMTP id z1mr23059620wrs.371.1591007986193; 
+ Mon, 01 Jun 2020 03:39:46 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z6sm20071252wrh.79.2020.06.01.03.39.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Jun 2020 03:39:44 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 175F91FF7E;
+ Mon,  1 Jun 2020 11:39:44 +0100 (BST)
+References: <20200330153016.2959-1-f4bug@amsat.org>
+ <CAFEAcA8i1W7ss2hQjaFbVHXzqhV81M8U4Fkaj_Te5JK8JO8+mg@mail.gmail.com>
+ <f1fd3384-8653-c2e2-7248-457ae873cc27@redhat.com>
+ <CAFEAcA_BJf3k-O4j73kNaPtSHfhqmgtm9LH=nAmNj46kMjbkCA@mail.gmail.com>
+ <d5ce42bc-a236-512f-dbbe-7327527419e0@amsat.org>
+ <20200531164236.GF3071@jondnuc>
+ <CAFEAcA95hfnjBjUT0hCxPUzBnGL9xKDkEjBqDcyVBD6spVZ_4w@mail.gmail.com>
+ <20200601072948.GG3071@jondnuc>
+User-agent: mu4e 1.5.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jon Doron <arilou@gmail.com>
+Subject: Re: [PATCH-for-5.0] gdbstub: Use correct address space with
+ Qqemu.PhyMemMode packet
+In-reply-to: <20200601072948.GG3071@jondnuc>
+Date: Mon, 01 Jun 2020 11:39:44 +0100
+Message-ID: <87r1uz6pe7.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 06:38:46
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,46 +96,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Zhang Chen <chen.zhang@intel.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Zhang Chen <zhangckid@gmail.com>
+Cc: "Edgar E .
+ Iglesias" <edgar.iglesias@xilinx.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-D?= =?utf-8?Q?aud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon 01 Jun 2020 09:19:56 AM CEST, Zhang Chen wrote:
-> From: Zhang Chen <chen.zhang@intel.com>
->
-> Fix this bug:
-> colo: Can not recover colo after svm failover twice
-> https://bugs.launchpad.net/bugs/1881231
->
-> The child index still be hold when it be deleted, the max num is 32.
->
-> Reported-by: Ye.Zou <ye.zou@zstack.io>
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> ---
->  block/quorum.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/block/quorum.c b/block/quorum.c
-> index 7cf7ab1546..f71bd4e19d 100644
-> --- a/block/quorum.c
-> +++ b/block/quorum.c
-> @@ -1099,6 +1099,7 @@ static void quorum_del_child(BlockDriverState *bs, BdrvChild *child,
->              (s->num_children - i - 1) * sizeof(BdrvChild *));
->      s->children = g_renew(BdrvChild *, s->children, --s->num_children);
->      bdrv_unref_child(bs, child);
-> +    s->next_child_index--;
->  
->      bdrv_drained_end(bs);
->  }
 
-As I explained a few weeks ago this patch is not correct.
-quorum_del_child() allows you to remove any child from the Quorum
-device, so nothing guarantees that next_child_index-1 is free.
+Jon Doron <arilou@gmail.com> writes:
 
-https://lists.gnu.org/archive/html/qemu-block/2020-05/msg00634.html
+> On 31/05/2020, Peter Maydell wrote:
+>>On Sun, 31 May 2020 at 17:42, Jon Doron <arilou@gmail.com> wrote:
+>>>
+>>> On 31/05/2020, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> >On 3/30/20 6:41 PM, Peter Maydell wrote:
+>>> >> PS: do we have any documentation of this new command ?
+>>> >> ab4752ec8d9 has the implementation but no documentation...
+>>> >
+>>> >Jon, do you have documentation on the Qqemu.PhyMemMode packet?
+>>
+>>> Hi, there is no documentation for this mode, but in general the idea was
+>>> very simple.
+>>>
+>>> I want to have GDB the option to see the physical memory and examine it
+>>> and have this option toggled.
+>>>
+>>> This was useful to me when I was working on nested virtual machine and I
+>>> wanted to examine different states of the VMCS12 and EPTs.
+>>>
+>>> I used this in the following commands:
+>>> // Enable
+>>> maint packet Qqemu.PhyMemMode:1
+>>>
+>>> // Disable
+>>> maint packet Qqemu.PhyMemMode:0
+>>
+>>docs/system/gdb.rst would be the place to document QEMU-specific
+>>extensions to the gdb protocol (there's an "advanced debugging
+>>options" section where we document things like the single-step
+>>stuff you can also change via 'maint packet').
+>>
+>>thanks
+>>-- PMM
+>
+> Thanks, I'll know for next time, when I did all that work and
+> re-factored gdbstub, that doc did not exist.
 
-Berto
+The documentation existed in our old texinfo docs, however they have
+been recently updated to rst and are now considerably easier to find and
+hack on now.
+
+> Perhaps Peter can just add the documentation to this commit?
+
+Please don't impose extra burden on our overworked maintainer when he's
+already given review feedback. Generally maintainers have more work to
+do than time to do it in so the easiest way to expedite patches with
+features you want added is to send well formed complete patches which
+can be easily merged. Otherwise patches tend to end up deep in a pile of
+"must get around to that when I can".
+
+--=20
+Alex Benn=C3=A9e
 
