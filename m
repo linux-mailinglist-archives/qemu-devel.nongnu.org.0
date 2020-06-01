@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6221EAAE4
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 20:16:22 +0200 (CEST)
-Received: from localhost ([::1]:59022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC12B1EAB8A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 20:21:09 +0200 (CEST)
+Received: from localhost ([::1]:43006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfoyz-0001tG-G7
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 14:16:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37686)
+	id 1jfp3c-0007FE-QF
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 14:21:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jfouW-0004ws-Bh; Mon, 01 Jun 2020 14:11:44 -0400
-Received: from mail-eopbgr70093.outbound.protection.outlook.com
- ([40.107.7.93]:39047 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ id 1jfouX-0004z9-C5; Mon, 01 Jun 2020 14:11:45 -0400
+Received: from mail-eopbgr70117.outbound.protection.outlook.com
+ ([40.107.7.117]:10211 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jfouV-00026c-C9; Mon, 01 Jun 2020 14:11:44 -0400
+ id 1jfouW-00027N-8f; Mon, 01 Jun 2020 14:11:44 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QsEqA4FZmwCbOz9Cq9bcRo1VZ4tlGjWPQ+6k9sRZ3VhUg54Mp6tIe/SWX9ySoaAdKKGo8JsW84OQg2+KnZumqp9RfRGIXjcopNvtIrTEmh+Qv9Vf776a3+vynMdCxMJ7DZkAjxExCanlkfO7j2rm2trYFI8nNbJ9xcHNIhRV40IAM2olT73S2KywePzfS3zzvm0N8hCOPu3eQaZpvPW90hzbuCIGPsxO+c/7WNkZhgEUQYfnt1lw/Fy79RU83LxYQty3PlHkpBXbD3DH4eK/ID+3SPEG/YXRFE/K8yLJvPNBxoyVSXxED91b+W9t6AHdLYnIrOD4+8awZku59nIR8Q==
+ b=OfHboGmhLqzKoczWKLksxaej9PyU8ZdvQVhJpIy0a/QpfdpsIcfbaKdNUsNgFyyjPTEjqAVT64VCiSwq5l+Jz3+OgG8JTPKmmjK9vr4+QWpSLD0D1HQyxsgGhAhlIENOKCIF8AJ8rmm0NQiBCzpO6BHpwcfGIoepzmOurxaYR9oDlIu9saftl+umwhb9dqw7ETOYTb2EmA3PuqtyYWcvMseXQDytvHAUhuCRI0pwW2TQUGgh62KMVmN+wcvobujgdWckcmI/fMoRYoJflRF/QfAKlxmvNCNvMKRoji/dtf+eo0JnzLtdB75xF6Y2iGJWm1xDMa+tHcOB7iohftu4zA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B7Eoq722JIj/34+zavBcv7aOy9uvQayxsFq2nYvNM6M=;
- b=moxEfACG2rwHgTNgcIUz073/Qf+mK4XVZZ/J8ujARy3u7c0R8/SHYfw54erj6HB8hPrQSt+Ot8V6ZT2lWk6SL6yqDNGBXlMuFoYW6U1f9GgRJE4AYZuLY5aqNIbjqJacATdcXX+VWKzR63QTfavqH84PTs8RpYvz39vnvNBTuo8qkA5xU06vi4kSmR2wIj+YM6oaMIbynKwhsklEP1fFjpnKSOA9+VToh/erMSlZ/svB29Lss8BL6dLb9II1XirJq1FooHJpB3gSiqnCVDCFnZDQxBg9MBor8k1DWQ9FqoP0rDKyPmZzh4ruR/OnDgiiXVqR8UMMvlCSrvJf3cI2HQ==
+ bh=fbWcWBodNTDqeMIQ+YBmYo2fU7QxMBZqhNvrfjzyMSA=;
+ b=b5embH5l/A9N79L8NUQIwmOSj2AjK740tfJAhgzsuhFguN9Nte1lTu/VCftKIZI37FZEAx4S9ZTChMeMx3L197aavovBNi/O1vg8QW5pyl61XFPJJaSsNaEQAvrc7Rtm0100pRbW3bs3IF1eM6mGfj6JXD4BV+v8kKabQIRA7u9o9vCkdRf1qSF88iTueu4M8S+gYXKd+36o0si0TycOzXAwCsgXpStqlfx0qqd0ePnIGrgSz8Q23t5Zp+mm9fpSy7HZejcnoAPwM5Ly61tDVKaQz3BDSucND6xqOCHgyMAZ34OQJHr+LjCsvxQG3UvCM6hgU++fxq8fQKpDKX3m2w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B7Eoq722JIj/34+zavBcv7aOy9uvQayxsFq2nYvNM6M=;
- b=co2Ut2upqfwnsML7NApViB8b2dMQc0J7O1+Sg4nr47mQNJeOk20wxVSIvbVNWCAto0LjjFtgWT+bB1btG03yPH0T7g9Wzk8m7amUnECrN7f+Gx5hgcsZcL/Zx8rWIvc2b/G4DyoSpmCBghXjyb+hFZy8mK1ZLx1WktJQ0sgZRiA=
+ bh=fbWcWBodNTDqeMIQ+YBmYo2fU7QxMBZqhNvrfjzyMSA=;
+ b=fj6UlBx7fbpS/2VMCqWH4kZv0WQfEXi5I/toMAX3KrxtaG166TdyOqX8fANe/zE/2191LLWCaOvjQYw/He2DnB180RbDdC3C3mjYaRrvScHvD9hmmN4HoEdxAY+oxEBcDWOmnwRTxNQepk23rdfPNwxUoMXAfN9dHw45bMdj1lY=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5317.eurprd08.prod.outlook.com (2603:10a6:20b:101::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.19; Mon, 1 Jun
- 2020 18:11:35 +0000
+ 2020 18:11:36 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3045.024; Mon, 1 Jun 2020
- 18:11:35 +0000
+ 18:11:36 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 05/20] block/block-copy: implement block_copy_async
-Date: Mon,  1 Jun 2020 21:11:03 +0300
-Message-Id: <20200601181118.579-6-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 06/20] block/block-copy: add max_chunk and max_workers
+ parameters
+Date: Mon,  1 Jun 2020 21:11:04 +0300
+Message-Id: <20200601181118.579-7-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200601181118.579-1-vsementsov@virtuozzo.com>
 References: <20200601181118.579-1-vsementsov@virtuozzo.com>
@@ -62,37 +63,37 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.170) by
  AM0P190CA0028.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::38) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3045.18 via Frontend Transport; Mon, 1 Jun 2020 18:11:34 +0000
+ 15.20.3045.18 via Frontend Transport; Mon, 1 Jun 2020 18:11:35 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.170]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3b7f00bb-0765-46d2-9a95-08d8065738a2
+X-MS-Office365-Filtering-Correlation-Id: 45762ee3-8c0d-409c-ac6c-08d806573922
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5317:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB531753293A3DC0F72999251FC18A0@AM7PR08MB5317.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:22;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB53175094FDBE8B09C2B0207BC18A0@AM7PR08MB5317.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:20;
 X-Forefront-PRVS: 0421BF7135
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: O387vFOASovECo9qBGVW3epKQDBwLzFAIHjNNe7lYjtNwdCrgCgMyf1jvE4RHh2ALG8lii55Z6J5ZarEzMfIdlgNQQGYlPf/yDJuxEm5z1Ced7wtgi69nurD5iL/hUL7sDp5KNowse7WiRszp+SURMswMyqFhOYjpm0uQJ/CTV1dlNmkn1MdVdxjhO/+tkp8STrWO/6rpGrkkfvX7Sv0nUI106JzoSqmUFRlQt0uTSZWludgb1OrRry3fRoECCqKk4Ra9Jo+UFO1K4wNqZon7LzsI/OAX6KHeYElai/yBrnmUl8pCn0BN1NwbO1pNKXOQGEaBgMR3oPtocRJoXQJckySfncHMI+VjyRB4nHd+fIPUCzuhCWWAKdBQNBkSWGU
+X-Microsoft-Antispam-Message-Info: 8AXyk0Sf10ncue1a1+sTcz3Oea3YIBpWakJmliCo6LGsVBem+CYEf7rb3nP5oHZ4YZG5frHX796bYdC0L5+4RzRCR+90L8IoEzPD5JL7/H/Ijc2yhpnIhRl+aBMOVgQi1SJN8k+Py8ryiYwHv3PwTDR24B3AIZ07kGyAx7o/T+s7LIXSwmEsU9vudGElCD3NDomAPjwwMxVIyc9RTpccTWcFvdMDhH73I1l0Db8a2B99eSrgyhIs/1qVGRe07fRS74YzfNFTadtt67KL2Es3G3wwyfp3d5G0bBJj2LJDHnOTr83bIDB+dRWTGcZ83QfXIb60/00g6D90uGwFFUJLGnY+JKdufo0Po9U+jC/Hzm9Gc0IS8rMrVbbVDtx3ggLu
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(4636009)(136003)(396003)(376002)(39840400004)(346002)(366004)(186003)(16526019)(8936002)(2906002)(8676002)(26005)(107886003)(36756003)(316002)(6916009)(52116002)(2616005)(956004)(478600001)(4326008)(86362001)(6486002)(66946007)(66476007)(66556008)(6512007)(6666004)(1076003)(69590400007)(5660300002)(83380400001)(6506007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: eGEfu+LIfNTyv0tlixfSGZ3I7x090VjfWe0ynaTHmMoo7FNDwU+mkEZjtXnobO3cjLqlQFkCDBk7KuY5xq9Qb1SZeR8QIhSGGe8nEpr9LbAxKmC6Oec4vWWkups3Xzqd4xCers1jBA3UgctC2ula3NYcU8Bp2hwsH4iHpuoH7BV0+Wqpxih3C2uKbM/YqBS7hK6kg03dWSkxlskoM1EH6CeB1I8ag46V7mUPDmqrm+R3uPWbDsX+ikly+3EG6069t7Q1Z871Q6ymvJuX0b+MuhD+e0Z5grHFFYyLYHfQqfX6wbHMy7p4oCwQIKbJgUl7ZuWI4EFnRxFzfAesguKCCrqHWlAo+hN5SCZL7PAEpwkGIT9PjdkJMiMjcnfEm7laNMaZdqAvGNMLROF0cZc9P9IUp+iEa8nuJzh+uiv2jaW8FMZJV1N7NhsRTL4IJ12vZ1O+IY2s8gy8d3ipbPpEwW8KSomkm7cx26sDjn2y21s=
+X-MS-Exchange-AntiSpam-MessageData: Lz/bSZuqgGoLRwNI4gT0K5bn5ZUIWrmqYtXKjoqRasMuvcJo8q0ZaqCz/wIBflaSssj16APWjZD+a7yWjxTHBJiaJViG/M5YB3MRMMnwdMgUme5ZroV8fgI74slkH9gkm909OGIii3FbVcLROaGxTozWBb4p95R2mjXJuJ7J3BSEwRJ8P2nVJdH9P5ZyHX+VpHVb0WdDAOmvKq7j5VP+ZrTzUiJEe66Re6NlcJIvFmFy0vRZd7z7ndU8AVqLLYxpK+oQvKadyIj5QLE432RJVIYyafNezdeDa7hckTu0/BOHbwxdP7iXgYZS2HBoDpBHpxInOmacp047baStXmkFDsOV9qmCyu6UumbNicoaLSZ9DvZBABIebaz40mxsl2m/PqmMnPDErqaTuIWJndMLfS4Vt67mNbmm5hC8huUSAKGjkFlZmEHM3RifeVgiJGk5F3ZjkS0dk3ysbLIB3SoOw1RnzIf/82HeS8AxL7ZLEUk=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b7f00bb-0765-46d2-9a95-08d8065738a2
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2020 18:11:35.6216 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45762ee3-8c0d-409c-ac6c-08d806573922
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2020 18:11:36.4739 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tAlVUYrcQlCRkR4NGHIQg6UjimEfYhaZEACvGRtZSOzF/O7DOsR0Rg62eTo8RIrZdNVRfRDCwsM0wRaN8GxucsNqMLs1ISeznlGJLtFGfpw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6iUEST8dVetaSsyORvbbREW4PU0/4MeOnxXjoO//ARsDOUlBSMdyGVW8k7nSTVXnc0rbJzjMs71KlTGt9sPfvKvsMWNYnUjY35skudyHR3k=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5317
-Received-SPF: pass client-ip=40.107.7.93;
+Received-SPF: pass client-ip=40.107.7.117;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 14:11:32
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 14:11:40
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -120,114 +121,82 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We'll need async block-copy invocation to use in backup directly.
+They will be used for backup.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block-copy.h | 13 +++++++++++++
- block/block-copy.c         | 40 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 53 insertions(+)
+ include/block/block-copy.h |  5 +++++
+ block/block-copy.c         | 10 ++++++++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index 6397505f30..ada0d99566 100644
+index ada0d99566..600984c733 100644
 --- a/include/block/block-copy.h
 +++ b/include/block/block-copy.h
-@@ -19,7 +19,10 @@
- #include "qemu/co-shared-resource.h"
- 
- typedef void (*ProgressBytesCallbackFunc)(int64_t bytes, void *opaque);
-+typedef void (*BlockCopyAsyncCallbackFunc)(int ret, bool error_is_read,
-+                                           void *opaque);
- typedef struct BlockCopyState BlockCopyState;
-+typedef struct BlockCopyCallState BlockCopyCallState;
- 
- BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-                                      int64_t cluster_size, bool use_copy_range,
-@@ -41,6 +44,16 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
- int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t bytes,
-                             bool *error_is_read);
- 
-+/*
-+ * Run block-copy in a coroutine, return state pointer. If finished early
-+ * returns NULL (@cb is called anyway).
-+ */
-+BlockCopyCallState *block_copy_async(BlockCopyState *s,
-+                                     int64_t offset, int64_t bytes,
-+                                     bool ratelimit, int max_workers,
-+                                     int64_t max_chunk,
-+                                     BlockCopyAsyncCallbackFunc cb);
-+
- BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s);
- void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip);
- 
+@@ -47,6 +47,11 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t bytes,
+ /*
+  * Run block-copy in a coroutine, return state pointer. If finished early
+  * returns NULL (@cb is called anyway).
++ *
++ * @max_workers means maximum of parallel coroutines to execute sub-requests,
++ * must be > 0.
++ *
++ * @max_chunk means maximum length for one IO operation. Zero means unlimited.
+  */
+ BlockCopyCallState *block_copy_async(BlockCopyState *s,
+                                      int64_t offset, int64_t bytes,
 diff --git a/block/block-copy.c b/block/block-copy.c
-index 75882a094c..a0477d90f3 100644
+index a0477d90f3..4114d1fd25 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -34,9 +34,11 @@ typedef struct BlockCopyCallState {
+@@ -34,6 +34,8 @@ typedef struct BlockCopyCallState {
      BlockCopyState *s;
      int64_t offset;
      int64_t bytes;
-+    BlockCopyAsyncCallbackFunc cb;
++    int max_workers;
++    int64_t max_chunk;
+     BlockCopyAsyncCallbackFunc cb;
  
      /* State */
-     bool failed;
-+    bool finished;
- 
-     /* OUT parameters */
-     bool error_is_read;
-@@ -676,6 +678,13 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
-          */
-     } while (ret > 0);
- 
-+    if (call_state->cb) {
-+        call_state->cb(ret, call_state->error_is_read,
-+                       call_state->s->progress_opaque);
-+    }
-+
-+    call_state->finished = true;
-+
-     return ret;
- }
- 
-@@ -697,6 +706,37 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, int64_t bytes,
-     return ret;
- }
- 
-+static void coroutine_fn block_copy_async_co_entry(void *opaque)
-+{
-+    block_copy_common(opaque);
-+}
-+
-+BlockCopyCallState *block_copy_async(BlockCopyState *s,
-+                                     int64_t offset, int64_t bytes,
-+                                     bool ratelimit, int max_workers,
-+                                     int64_t max_chunk,
-+                                     BlockCopyAsyncCallbackFunc cb)
-+{
-+    BlockCopyCallState *call_state = g_new(BlockCopyCallState, 1);
-+    Coroutine *co = qemu_coroutine_create(block_copy_async_co_entry,
-+                                          call_state);
-+
-+    *call_state = (BlockCopyCallState) {
-+        .s = s,
-+        .offset = offset,
-+        .bytes = bytes,
-+        .cb = cb,
-+    };
-+
-+    qemu_coroutine_enter(co);
-+
-+    if (call_state->finished) {
-+        g_free(call_state);
-+        return NULL;
-+    }
-+
-+    return call_state;
-+}
- BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s)
+@@ -144,10 +146,11 @@ static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
+                                              int64_t offset, int64_t bytes)
  {
-     return s->copy_bitmap;
+     BlockCopyTask *task;
++    int64_t max_chunk = MIN_NON_ZERO(s->copy_size, call_state->max_chunk);
+ 
+     if (!bdrv_dirty_bitmap_next_dirty_area(s->copy_bitmap,
+                                            offset, offset + bytes,
+-                                           s->copy_size, &offset, &bytes))
++                                           max_chunk, &offset, &bytes))
+     {
+         return NULL;
+     }
+@@ -616,7 +619,7 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
+         bytes = end - offset;
+ 
+         if (!aio && bytes) {
+-            aio = aio_task_pool_new(BLOCK_COPY_MAX_WORKERS);
++            aio = aio_task_pool_new(call_state->max_workers);
+         }
+ 
+         ret = block_copy_task_run(aio, task);
+@@ -695,6 +698,7 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, int64_t bytes,
+         .s = s,
+         .offset = start,
+         .bytes = bytes,
++        .max_workers = BLOCK_COPY_MAX_WORKERS,
+     };
+ 
+     int ret = block_copy_common(&call_state);
+@@ -726,6 +730,8 @@ BlockCopyCallState *block_copy_async(BlockCopyState *s,
+         .offset = offset,
+         .bytes = bytes,
+         .cb = cb,
++        .max_workers = max_workers ?: BLOCK_COPY_MAX_WORKERS,
++        .max_chunk = max_chunk,
+     };
+ 
+     qemu_coroutine_enter(co);
 -- 
 2.21.0
 
