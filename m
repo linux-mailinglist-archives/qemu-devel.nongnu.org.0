@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2A11EA4CB
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 15:18:49 +0200 (CEST)
-Received: from localhost ([::1]:55350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 762831EA50A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 15:34:41 +0200 (CEST)
+Received: from localhost ([::1]:39486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfkL1-0001si-SW
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 09:18:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57908)
+	id 1jfkaO-0008Cq-3T
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 09:34:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jfkJw-0000yQ-7r
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 09:17:40 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:33412)
+ id 1jfkZY-0007UY-CK
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 09:33:48 -0400
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:46420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jfkJt-00048N-PP
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 09:17:39 -0400
-Received: by mail-oi1-x241.google.com with SMTP id r67so8854275oih.0
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 06:17:37 -0700 (PDT)
+ id 1jfkZW-0006Ha-Ly
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 09:33:47 -0400
+Received: by mail-oi1-x231.google.com with SMTP id b3so8820850oib.13
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 06:33:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4C/5yuYGY2B/jGeB3PtoygER48eV8fi+r8zaeFfcQtI=;
- b=p7e7BSsvddqw8JA2MA9YsWWiamK5h77AHaFDJpG3YnP7Djwk08QmiNuUdDY1mCkDc9
- gh7weaVFWR6uIGpbgn1+GvGVyqf2F1iSrEl97kqENKU1SGGY4JZKRG7WAP7cPEK1jYBm
- E+P6ltggXPUwHyXRukVpqjXAhSJkgLxYpzzEQGZDziCJ5pha33vfmshhPlOOlp6TJWrJ
- EnLbekpBxO680oK76/Rg+cZbwfx/32H/RPlmV1UMr5lNLmuOBT1kBc1nnHx9Ue+7E4o/
- lV5I0RvSPsrz93fPoD8QOjcbLqLy4gGs/n+4ifTbUE6kuasQjr8GOmTxdLKzwLcQGfLr
- YGSQ==
+ :cc; bh=jIwRVaSlTQZNp4dIrhW5HnjtET1AnbtrzIJg71h8Rfw=;
+ b=rONyzkL1BtO6IfKGnwrAt8HlED0SezWF8vvb/6Yok3g6iBhm0XU153Q4yBnZBW21jd
+ OU85VmASvveViGJs2GNRScpEALuvwzQIfyCXzO1Mff1Gfvg31Bg6zwfvwv/EDb+Hdci2
+ g/+Jv1XWXz1y4uNk+n4C2CJwJaUEjv1hs1NndWpvohYu+Y9iqz7WR50ZrRwArW91ShqE
+ /t+u7ZEiI9ybJGkX4HYI3czWTZORxGGnA04u+Jz3VeU2bZ6M4gun7EJNWtWHu5EtigPg
+ O74HsVjUA6m7+aeh7Sxy5YdttCGJ5pIdIYegInh7Mw1tW3W+CsnWg5+KMO4/ZeQDnhVd
+ BdMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=4C/5yuYGY2B/jGeB3PtoygER48eV8fi+r8zaeFfcQtI=;
- b=h3f9lXaiRfs7fJm9C37gKdWMYGpvGqknznhcf+/xPteXbJnv/52ErozNXAQ/7P1l59
- BjLBmlfQOW2ZZRkBU6oWCunXSxiJJjsl+7ro+MFq2YMLQpNogehv0iA0Aa/jYMTHoSLh
- V1czJnz+LLg9Fx4nOkL2d9U5JohPHExYNNvbSfxKw25m5pem4y11bxW3wdvSj9lBLQ3s
- wIEh2dYchfJeeESUEdVtuub5oHOkz0IATb0hT62Tv4xW81j/ZqbEY/gnin9tXryRbxaR
- idDduLnYC5ix7mkrSa3cK7dZmo0KcmaH8u58dIKoFVn6u3AWrhG1WWO+szxMkYAH0KST
- 6Ijg==
-X-Gm-Message-State: AOAM530BfceQd+3QqwOZNNcJgE2Ov/IEKWk40ghmaMm3BitEu1oCAKcR
- xVjFGUwKpldImKyRN5TNcc5s2KTDh+lj/1eLmxOO0KdUTGM=
-X-Google-Smtp-Source: ABdhPJxiGAMAehHm0gg0IzJYoxkfSnuB9VDjEJAvAciJZ3ARBM4UZqtZ4QLlJW3CrmFPSGay7Wg9TMtQMKsAcbtwXwM=
-X-Received: by 2002:a54:469a:: with SMTP id k26mr14197122oic.163.1591017456195; 
- Mon, 01 Jun 2020 06:17:36 -0700 (PDT)
+ bh=jIwRVaSlTQZNp4dIrhW5HnjtET1AnbtrzIJg71h8Rfw=;
+ b=BJcqEEIiGYvQVuEf5QaOTAuI7fVB1zcmYk8N16l5XuJCa/r6FJlsOvIul/5qkMOJDr
+ Qo9Z/I2v8VheRiFRy+Aj7hnAWy6sHlXHKOsrfFDGsog1mqGnkM04SWCl9ZY6WGnr1toe
+ hfIPZOAx69Wbhwn714DmWwYkUwgl+RPmUlnfHalCNkGbXYuoCSRb5QwBDZFzx9VruPeW
+ OSdnmf/K48Xi3YJ6P/R1X28JJS5ZHktB+P4ZQcStp1/2WnRZa9d+GxUK/szRoCQL7xDf
+ hWhIRqbqnJzasWDO8uy2d50p0GLko9iLV3OlOJsdfHrpAU1px1C9oAPNJYEOV/NVdXIm
+ 98wg==
+X-Gm-Message-State: AOAM530gLzt5/k4NQSvbnO7SQfbPDQbrvl5id9k9Asv/8bpLoAX7QRBp
+ K2BhU6GBJ6dQ7SiEWtrMOWLRzomxEetcCVmTufnP+A==
+X-Google-Smtp-Source: ABdhPJxCFArEmO/h8qkOX37cTOW3C2ioNZIxObh2mHCJPpddvGPcMFIMKSAdyHc1JUvYuVIFQWpzX5LL61xoM19t8Jw=
+X-Received: by 2002:aca:5152:: with SMTP id f79mr3861838oib.146.1591018425083; 
+ Mon, 01 Jun 2020 06:33:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200529230653.GD776951@os.inf.tu-dresden.de>
- <CAFEAcA--vg0iPZmHacGUxkF7tOP9iFeei4rSksQO_fFh3wjtMA@mail.gmail.com>
- <20200601130135.GA284778@os.inf.tu-dresden.de>
-In-Reply-To: <20200601130135.GA284778@os.inf.tu-dresden.de>
+References: <1591015405-19651-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+In-Reply-To: <1591015405-19651-1-git-send-email-aleksandar.qemu.devel@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jun 2020 14:17:25 +0100
-Message-ID: <CAFEAcA_cc+xgmsnrdhkMV2CPdRZMOvD5yB9NON1C4hgfFqbJQg@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Init GIC CPU IF regs for A15/A7
-To: Adam Lackorzynski <adam@l4re.org>
+Date: Mon, 1 Jun 2020 14:33:34 +0100
+Message-ID: <CAFEAcA-LpX0XA25m3gx0swkRXf8_v0=9oHuNucFNVnGXAfmt=g@mail.gmail.com>
+Subject: Re: [PULL 0/6] MIPS queue for June 1st, 2020
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x231.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -84,16 +82,38 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Jun 2020 at 14:01, Adam Lackorzynski <adam@l4re.org> wrote:
-> Indeed that's another option. Besides that A15+GICv3 currently just
-> works with this.
+On Mon, 1 Jun 2020 at 13:43, Aleksandar Markovic
+<aleksandar.qemu.devel@gmail.com> wrote:
+>
+> The following changes since commit 4ec2a1f53e8aaa22924614b64dde97321126943e:
+>
+>   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-05-30' into staging (2020-05-31 20:43:45 +0100)
+>
+> are available in the git repository at:
+>
+>   https://github.com/AMarkovic/qemu tags/mips-queue-june-01-2020
+>
+> for you to fetch changes up to a08d60bc6c2b6469368fff3d38dd5ddd16dd36be:
+>
+>   hw/mips: fuloong2e: Set preferred page size to 16KB (2020-06-01 13:28:21 +0200)
+>
+> ----------------------------------------------------------------
+>
+> MIPS queue for June 1st, 2020
+>
+>   Highlights:
+>
+>   - setting Fuloong 2E preffered page size to a different value
+>   - preparation for adding KVM support for Longsoon 3
+>   - other minor changes
+>   - a checkpatch warning is known and should be ignored
+>
 
-Not sure how...
 
-> So I guess the alternative is to switch to 32bit from EL3 when using an A57?
+Applied, thanks.
 
-If you're using KVM then you can use -cpu host,aarch64=off
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
-thanks
 -- PMM
 
