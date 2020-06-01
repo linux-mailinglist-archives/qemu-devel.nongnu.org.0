@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB5F41EA3A6
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 14:20:06 +0200 (CEST)
-Received: from localhost ([::1]:38148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 357801EA3B7
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 14:22:02 +0200 (CEST)
+Received: from localhost ([::1]:45440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfjQE-000141-05
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 08:20:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51702)
+	id 1jfjS5-00046r-7G
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 08:22:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jfjOa-0007sU-6H
+ id 1jfjOa-0007t5-Pa
  for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:18:24 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42839)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jfjOZ-0007ll-Bj
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:18:23 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id p5so5351272wrw.9
+ id 1jfjOZ-0007ln-Cv
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 08:18:24 -0400
+Received: by mail-wr1-x435.google.com with SMTP id x13so11299184wrv.4
  for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 05:18:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=wgwj03KL0WjOS7N2QAqcl9k2+YR3+3N4uxwgRB/mLME=;
- b=WSNDMVHQ1tGGL6uxfK/33Kq16vGV7dCD5dzwMSpaJyrV+vk9Pa5x4Jtvdk/ktpe+3E
- Xw0lMFbTVF0jgvDMbFxLR0VKkcKGSlLrJWT2E4YCt80gjiHvBzA8GIh9CrDWHsf8eelC
- 3Qs8LoHc5256iNDVL0ON1NasylsLoXN4pvaUjWaxrburJKvOZQzoEnGsDIEEnOhuAwRY
- 2Hfa68Pft9D0xOynfSlMesgGsVMv4ZYZpFdWeIDA0Jn/WDYBGfiWyTa+OId7eIKwnRP2
- BChu3dkevAZ8GmEVe6vOW1+cGtByQ1Za/i0MSMeGNfjFVrm77LzhPJkTVQJnldECJRdi
- 409Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=nBjzGdklMexKb/6JWGFmjUnmUd5clhjwawZNup6d0kc=;
+ b=q12Klci94bQLSwvtIvi3d5KLFfcW6pzYrbMPJA9RTXZCEanXUcGW2rcBiLT+V8dC5g
+ FDEXH7DQO8pQsMrF8VD0EoU+Rf23m9tj6bKHSWIbk9JwX/m/GJl1sY8fpzVrkyTzTT91
+ I/TwJ9ZNRKCX/yIeK1JT86JjNkeQ20+F1hrrcp0VkhSaSBtpZqC811k1rG9K7CjFEYqp
+ aKMcGOpneCNM7giMCnuJutl+n4kypaqR7bCEJELk0dVtYWYzgipNc5ZfiW7pYk7EiPtA
+ +Q0KD7bbHu9wWiCDaVj6Ss0+5BbbCsSoJ8/NwP6BlxEx3UsJEIfsGwleVwFBTo27vIpV
+ Kydw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=wgwj03KL0WjOS7N2QAqcl9k2+YR3+3N4uxwgRB/mLME=;
- b=JUaGR4Ivql0466FoS1dYKiw9bm4IkBF+ttWqxRbblgxcNHyWfo3Sk00GjyhZrWrvL4
- ACj3lBxnibK4b5hloylVrOfjpI5kxsmDMpA3sbfgql2iApFNoHSnclFz1YZ9MP4UUrgM
- nEaouKTmSEzwHHGDiIOjfdr5D/v852MwC2aRZGoS4F4AWiTGL0j0MRR95GNvCyViCq5g
- g4onjMUebeKKCG8Cm4mdoBa4JDDANCmshBPrXtGgNExzfXdTa2h3sKwPCBvMM0gDhC6v
- lC4Qwg3vcE0lVPsgvxdbc3lR5MEWenm++8Att8nvuv2JjyebgUnIYoX6PiCTdugV6pO+
- tWaQ==
-X-Gm-Message-State: AOAM530ysGXmDN2zlVo6oPJ6wvcws2G0krYx8UVGs+CC4ShwkIRgbjIn
- ot3k3X7ImWdT2t5kIGwRtNcpNo4h6To=
-X-Google-Smtp-Source: ABdhPJyMa65SLRfuji/TbqeMJ2nkXaz8DDOevKCXzHBJE4O/23sTMPhJ3e0vesKezQVFaEJy49Skpw==
-X-Received: by 2002:adf:9c84:: with SMTP id d4mr20396156wre.327.1591013899939; 
- Mon, 01 Jun 2020 05:18:19 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=nBjzGdklMexKb/6JWGFmjUnmUd5clhjwawZNup6d0kc=;
+ b=n2JGxdtzH8cRF97BMwG8Xdxb70aCOvuFJqmmHPEWfn00dvNftMxFWKY0iHTYkY9x8r
+ icDwS5rqOc3P4rOCUSyiz/1WhAhDaqphB8VvJpIrWzRYRESqhtANOxstFkl0+gRGRGKG
+ oDABQEXdD6WWTFCpBxdy7RjBOCCYzNXQvvR6mPv/uJqhgCi4mFCCehnaW9LbHogR8TqA
+ hQ47/CREVEj9mvRPK+JInqTNkUQbF5d3a1eCH2VvtMHtdUEFfshxHEfXlUigo9rUlj8h
+ 1UTyzZ8ZkY5azc9gj5k/4X1p1C7k/81iLlel6PWGq5mn2+gVCOcTCaRgdradMZIefmeO
+ ar8w==
+X-Gm-Message-State: AOAM533SY8pOCVDhRiDCSiqJDlZ5HjJ/Lw6UCw+vVKURCikxmA8nhE6h
+ /Na/d7pNz3HefGcNzOay70nzAeBmL18=
+X-Google-Smtp-Source: ABdhPJzCWKDCOewTjt4W2dM2UIlxLtxeF8kyJ/pZiRyoCTlS9q1HvuYDhBYAKQF2tIyfXw4M6DOUoA==
+X-Received: by 2002:adf:ab08:: with SMTP id q8mr2937029wrc.216.1591013900556; 
+ Mon, 01 Jun 2020 05:18:20 -0700 (PDT)
 Received: from rtrkw774-lin.syrmia.com ([46.240.135.226])
- by smtp.gmail.com with ESMTPSA id y185sm12332136wmy.11.2020.06.01.05.18.19
+ by smtp.gmail.com with ESMTPSA id y185sm12332136wmy.11.2020.06.01.05.18.20
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Jun 2020 05:18:19 -0700 (PDT)
+ Mon, 01 Jun 2020 05:18:20 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/6] MIPS queue for June 1st, 2020
-Date: Mon,  1 Jun 2020 14:18:12 +0200
-Message-Id: <1591013898-23391-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+Subject: [PULL 1/6] tests/Makefile: Fix description of "make check"
+Date: Mon,  1 Jun 2020 14:18:13 +0200
+Message-Id: <1591013898-23391-2-git-send-email-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x42c.google.com
+In-Reply-To: <1591013898-23391-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+References: <1591013898-23391-1-git-send-email-aleksandar.qemu.devel@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x435.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,48 +89,35 @@ Cc: peter.maydell@linaro.org, aleksandar.qemu.devel@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 4ec2a1f53e8aaa22924614b64dde97321126943e:
+From: Huacai Chen <zltjiangshi@gmail.com>
 
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-05-30' into staging (2020-05-31 20:43:45 +0100)
+The description of "make check" is out-of-date, so fix it by adding
+block and softfloat.
 
-are available in the git repository at:
+Reviewed-by: Claudio Fontana <cfontana@suse.de>
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Message-Id: <1588674291-6486-1-git-send-email-chenhc@lemote.com>
+---
+ tests/Makefile.include | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  https://github.com/AMarkovic/qemu 
-
-for you to fetch changes up to a08d60bc6c2b6469368fff3d38dd5ddd16dd36be:
-
-  hw/mips: fuloong2e: Set preferred page size to 16KB (2020-06-01 13:28:21 +0200)
-
-----------------------------------------------------------------
-
-MIPS queue for June 1st, 2020
-
-  Highlights:
-
-  - setting Fuloong 2E preffered page size to a different value
-  - preparation for adding KVM support for Longsoon 3
-  - other minor changes
-  - a checkpatch warning is known and should be ignored
-
-----------------------------------------------------------------
-
-Huacai Chen (6):
-  tests/Makefile: Fix description of "make check"
-  configure: Add KVM target support for MIPS64
-  hw/mips: Add CPU IRQ3 delivery for KVM
-  target/mips: Add more CP0 register for save/restore
-  target/mips: Support variable page size
-  hw/mips: fuloong2e: Set preferred page size to 16KB
-
- configure               |   2 +-
- target/mips/cpu-param.h |   5 ++
- hw/mips/fuloong2e.c     |   1 +
- hw/mips/mips_int.c      |   2 +-
- target/mips/kvm.c       | 212 ++++++++++++++++++++++++++++++++++++++++++++++++
- target/mips/machine.c   |   6 +-
- tests/Makefile.include  |   2 +-
- 7 files changed, 225 insertions(+), 5 deletions(-)
-
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index a00ccc9..6e3d637 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -4,7 +4,7 @@
+ check-help:
+ 	@echo "Regression testing targets:"
+ 	@echo
+-	@echo " $(MAKE) check                Run unit, qapi-schema, qtest and decodetree"
++	@echo " $(MAKE) check                Run block, qapi-schema, unit, softfloat, qtest and decodetree tests"
+ 	@echo
+ 	@echo " $(MAKE) check-qtest-TARGET   Run qtest tests for given target"
+ 	@echo " $(MAKE) check-qtest          Run qtest tests"
 -- 
 2.7.4
 
