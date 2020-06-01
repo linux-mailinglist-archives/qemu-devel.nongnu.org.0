@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3C31EA678
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 17:06:09 +0200 (CEST)
-Received: from localhost ([::1]:41550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F2E1EA692
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 17:13:41 +0200 (CEST)
+Received: from localhost ([::1]:51212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfm0u-0004au-G8
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 11:06:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42898)
+	id 1jfm8C-0000qP-2k
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 11:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jflzc-0003vT-Bo; Mon, 01 Jun 2020 11:04:48 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2101 helo=huawei.com)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1jfm6Z-0007vj-0n
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 11:11:59 -0400
+Received: from nylar.uni-paderborn.de ([2001:638:502:c003::18]:42074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jflzb-0003GK-3J; Mon, 01 Jun 2020 11:04:47 -0400
-Received: from lhreml707-chm.china.huawei.com (unknown [172.18.7.107])
- by Forcepoint Email with ESMTP id 41EB44215281041623E2;
- Mon,  1 Jun 2020 16:04:34 +0100 (IST)
-Received: from lhreml703-chm.china.huawei.com (10.201.108.52) by
- lhreml707-chm.china.huawei.com (10.201.108.56) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Mon, 1 Jun 2020 16:04:33 +0100
-Received: from lhreml703-chm.china.huawei.com ([10.201.68.198]) by
- lhreml703-chm.china.huawei.com ([10.201.68.198]) with mapi id 15.01.1913.007; 
- Mon, 1 Jun 2020 16:04:33 +0100
-From: Salil Mehta <salil.mehta@huawei.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-arm@nongnu.org"
- <qemu-arm@nongnu.org>
-Subject: [Question] Regarding PMU initialization within the QEMU for ARM VCPUs
-Thread-Topic: [Question] Regarding PMU initialization within the QEMU for ARM
- VCPUs
-Thread-Index: AdY3+/mIYt1+TQdDQmymnxAa7PkUWw==
-Date: Mon, 1 Jun 2020 15:04:33 +0000
-Message-ID: <b2e401cd17fe49d792d09b31bd726e35@huawei.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.47.30.0]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1jfm6X-0004e1-Io
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 11:11:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:Content-Type
+ :MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=gY+o9cHB0gvGgjGcHAjZ952VtjKigAwDnma5OxIhsdc=; b=gn5NpdNPIcy4t1YExoCpeScPC6
+ w6wvOPolDpciDkZtLdEMr2QiSm5r/IbcrniJJWEMA4ycvBvLiyKABV97o65vnwntFi4F+6XVXIcsa
+ uYleMBm3QSvW3uAcZ+jR96q4VSBloMTD61NXDpzGkJTApjz2pjGOjugWKZsgSYM+Nbrg=;
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] tricore queue
+Date: Mon,  1 Jun 2020 17:11:14 +0200
+Message-Id: <20200601151119.33196-1-kbastian@mail.uni-paderborn.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.76.210;
- envelope-from=salil.mehta@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 11:04:34
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-IMT-Spam-Score: 0.0 ()
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2020.6.1.150616, AntiVirus-Engine: 5.74.0,
+ AntiVirus-Data: 2020.6.1.5740002
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=6661694, da=78633375,
+ mc=163, sc=3, hc=160, sp=1, fso=6661694, re=0, sd=0, hd=0
+X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
+Received-SPF: pass client-ip=2001:638:502:c003::18;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=nylar.uni-paderborn.de
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,78 +66,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, "mst@redhat.com" <mst@redhat.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
-I could see below within function fdt_add_pmu_nodes() part of
-hw/arm/virt.c during virt machine initialization time:
+The following changes since commit 7ea32024c6b3ad9c88d6200e73dbf76c8e160024:
 
-Observation:
-In below function, support of PMU feature is being checked for
-each vcpu and if the PMU is found part of the features then PMU
-is initialized with in the host/KVM. But if there is even one
-vcpu which is found to not support the PMU then loop is exited
-and PMU is not initialized for the rest of the vcpus as well.
+  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-june-01-2020' into staging (2020-06-01 13:43:59 +0100)
 
-static void fdt_add_pmu_nodes(const VirtMachineState *vms)
-{
-    CPUState *cpu;
-    ARMCPU *armcpu;
-    uint32_t irqflags =3D GIC_FDT_IRQ_FLAGS_LEVEL_HI;
+are available in the Git repository at:
 
-    CPU_FOREACH(cpu) {
-        armcpu =3D ARM_CPU(cpu);
-        if (!arm_feature(&armcpu->env, ARM_FEATURE_PMU)) {
-            return; ------> Here, loop exits & function returns
-        }
-        if (kvm_enabled()) {
-            if (kvm_irqchip_in_kernel()) {
-                kvm_arm_pmu_set_irq(cpu, PPI(VIRTUAL_PMU_IRQ));
-            }
-            kvm_arm_pmu_init(cpu);
-        }
-    }
+  https://github.com/bkoppelmann/qemu.git tags/pull-tricore-20200601
 
-    if (vms->gic_version =3D=3D VIRT_GIC_VERSION_2) {
-        irqflags =3D deposit32(irqflags, GIC_FDT_IRQ_PPI_CPU_START,
-                             GIC_FDT_IRQ_PPI_CPU_WIDTH,
-                             (1 << vms->smp_cpus) - 1);
-    }
+for you to fetch changes up to d127de3baa64d1cabc8e1994e658688abb577ba9:
 
-    armcpu =3D ARM_CPU(qemu_get_cpu(0));
-    qemu_fdt_add_subnode(vms->fdt, "/pmu");
-    if (arm_feature(&armcpu->env, ARM_FEATURE_V8)) {
-        const char compat[] =3D "arm,armv8-pmuv3";
-        qemu_fdt_setprop(vms->fdt, "/pmu", "compatible",
-                         compat, sizeof(compat));
-        qemu_fdt_setprop_cells(vms->fdt, "/pmu", "interrupts",
-                               GIC_FDT_IRQ_TYPE_PPI, VIRTUAL_PMU_IRQ, irqfl=
-ags);
-    }
-}
+  target/tricore: Implement gdbstub (2020-06-01 16:55:13 +0200)
 
-Questions:
-Q1. Not sure what is the logic of the premature exit and not
-    continuing with further checks and initialization of other
-    VCPU PMUs?
-Q2. Does it even makes sense to have PMUs initialized for some
-    vcpus and not for others unless we have heterogeneous system?=20
-Q3. Also, there is a per virt machine knob of vcc->no_pmu.
-    This is something which user could specify at the init time
-    and perhaps only once but we don't use it for ARM. Perhaps
-    should have been used even before entering this function
-    to enable or disable the support as per user config?
-Q4. This function  fdt_* looks to be wrongly named. The info
-    being initialized here shall be used even when ACPI is
-    being used. Initialization part and FDT info looked
-    mixed up here if I am right?
+----------------------------------------------------------------
+Remove ctx->env ptr, add TriCore gdb stub
 
+----------------------------------------------------------------
+Bastian Koppelmann (5):
+      target/tricore: Don't save pc in generate_qemu_excp
+      target/tricore: Move translate feature check to ctx
+      target/tricore: Raise EXCP_DEBUG in gen_goto_tb() for singlestep
+      target/tricore: Implement tricore_cpu_get_phys_page_debug
+      target/tricore: Implement gdbstub
 
-Best regards
-Salil
-
-
+ target/tricore/Makefile.objs |   2 +-
+ target/tricore/cpu.c         |  18 +++---
+ target/tricore/cpu.h         |   2 +
+ target/tricore/gdbstub.c     | 139 +++++++++++++++++++++++++++++++++++++++++++
+ target/tricore/helper.c      |  13 ++++
+ target/tricore/translate.c   |  79 ++++++++++++------------
+ 6 files changed, 207 insertions(+), 46 deletions(-)
+ create mode 100644 target/tricore/gdbstub.c
 
