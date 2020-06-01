@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304721EA7C3
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 18:24:22 +0200 (CEST)
-Received: from localhost ([::1]:51994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7C71EA7AD
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 18:19:13 +0200 (CEST)
+Received: from localhost ([::1]:37436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfnEb-0008Mm-8R
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 12:24:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50952)
+	id 1jfn9c-0002C1-NJ
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 12:19:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jfn5Y-0005Tl-Sx
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:15:00 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38121)
+ id 1jfn5a-0005Wq-C3
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:15:02 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jfn5X-0001XV-LL
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:15:00 -0400
-Received: by mail-wm1-x344.google.com with SMTP id f185so91399wmf.3
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 09:14:59 -0700 (PDT)
+ id 1jfn5Z-0001Xd-5z
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:15:02 -0400
+Received: by mail-wm1-x342.google.com with SMTP id g10so77353wmh.4
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 09:15:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RWdudFnYi0EUSMbnOj3UHoO35ptoSzGdI/tJkRX1nw8=;
- b=r6Wf/8EY9Luxf6B8WKIgqElxzWm5aqquJiEyKEaSAv4F6J03dWmjk98l8CrgK9gJ+p
- 10+QmunAOVAISmZ9q+MNpk0TBUlbUVg9RFPKhcwyZP28ysIdwurtlFM9LD9kFv7Gdxv8
- PQa6W8R4yjfq6AjavM7o510tUoq/TL+C2J9FMO9ajx86+anPB/LFdkHmvWlaBdpDMkQq
- YVFkoC+MfiwPBIWj3Wt9h6yEVmPla3iAVYuhIZO9fC43ZYkhLfyFwCV9SjlJcG6mShdT
- bG2y7jUHp0CBguG9L5XIfbHCO4f320pyXtM09WhIJyqY3U2hLSYlxN3068K3RxJfIC9E
- dq1w==
+ bh=KLSUgMn8z8HS4y/cukG+SgOuvLLwHPQH27GL6WIk32I=;
+ b=Go/t8RajS17By99j6nkDCUHNpn/QouXOmEjpwegiBZaEU1PeGxUm+9ZRG6PtmZafjM
+ PNbw0Mm7XmRI0NR47+/w32qkCrbDyMM2XLNYfTwZI8nnznIxTOqscYYKH6UaF/jF2PEe
+ 3Z0XtkSJx3bP4SMGKQnAkr8vqcJLsIODgjszIOBpqZV2q/lh2RAClw8l+LzqbjQ0ZZnZ
+ 7TMI4vsEhZW5M1/Jf/t+E9qLx+cLAHug7ztPSD6Um6HneSdMRGyVGBvcuxPVzke/xMDy
+ IPrCwrf2lWMu3RtDsKxnr82I/uQIzAYWZF7a5ZA3UZGO/uwsTIMEUmlfqMB+lrwWOk5a
+ rYVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RWdudFnYi0EUSMbnOj3UHoO35ptoSzGdI/tJkRX1nw8=;
- b=PCa8/pmTCcO4K/yZL3pdehijRZPnG/XY6G+11I4Dn/lCXpAzP7wFPXwzWW3SMLCdEl
- JF9+zqfNyToB7avYxom1klFkEhVpzOTwhF/1Uhp1E++/qw+PAI+qBuEik6zvkBCsuR/s
- 5xTG9ywMSZfj484AVJbqQYrF4SOSrkZmwwDxNwVcY6l5gnlF5eZoGLkGiZOcmEKvFOSj
- 5ShD1xXJb8eqkZmXKZL9XHUEdq0fuspnukSZ03VBIZMnBXOfOKvPZufuXQDVoZICw8VO
- AX0e3tbh/WOWmsDM8aX1l+L1SNq5xEuz3KCXhCXW0VxvTbgGH1oyMY7H936aeZVIq4cb
- oYCQ==
-X-Gm-Message-State: AOAM530tqhFQPrvc7q5fuT4lLeXwyPMdm7LfU9DpE1opgKBdX7nIrTSL
- iVMk62yZRIBASD6vuuJuvlI=
-X-Google-Smtp-Source: ABdhPJx1QqnsgsSyopoZc9LyyuPHSK3VVOI2xr1cppW9cxXo+MIpNaVH4NRcHZqIz1wYEFBjsfhOBQ==
-X-Received: by 2002:a1c:9d09:: with SMTP id g9mr84056wme.31.1591028098209;
- Mon, 01 Jun 2020 09:14:58 -0700 (PDT)
+ bh=KLSUgMn8z8HS4y/cukG+SgOuvLLwHPQH27GL6WIk32I=;
+ b=k566SI3wwcsklwkRTikskIj3sECx1YH0f3iMdrJ6npu/5T1tpWaaWh0aFx38PEkcCG
+ NwW+2eQj/YSJjRcemLOcEzA1X8IU9REVqx7bU/mE/YgH/iHcqarSnhAhA5Ck6yIVIgHK
+ 3xGaY3oY903HklC9E0xv8E6X67MkoFVh2Jyl7rhEYXOtS9GJzodQ/2amvJep3GgV5+v3
+ M7ckUK44D/0cNzu4coJWJrOLfJ2iCGYoSK/nOnEuRGp0xMYqR14F+Z7bMox9rUqGJFat
+ ZdDqTBPfBHL4XtSiwslGpGMWsB9YDZOcpIZkzmSAmJP01+IMD//jowghqP1Ra8x/Rpap
+ PTfw==
+X-Gm-Message-State: AOAM532bQKRnWf3V0/XrMsKJYvCvkuDbbOHCKOzHGsb9h+0FX2h7SOEe
+ lCveo4aL5LX+QzdE8U8OXr4bfP44
+X-Google-Smtp-Source: ABdhPJxWvkwmuoqyRA0855EZkzqYXeAjyIPllAr9yL5XsvZ9u0misUFmsEydLef0++iCAumqJXRzRg==
+X-Received: by 2002:a1c:c2c5:: with SMTP id s188mr122949wmf.18.1591028099721; 
+ Mon, 01 Jun 2020 09:14:59 -0700 (PDT)
 Received: from localhost.localdomain (43.red-83-51-162.dynamicip.rima-tde.net.
  [83.51.162.43])
- by smtp.gmail.com with ESMTPSA id a6sm21309896wrn.38.2020.06.01.09.14.57
+ by smtp.gmail.com with ESMTPSA id a6sm21309896wrn.38.2020.06.01.09.14.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Jun 2020 09:14:57 -0700 (PDT)
+ Mon, 01 Jun 2020 09:14:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Richard Henderson <rth@twiddle.net>, qemu-devel@nongnu.org,
  Yoshinori Sato <ysato@users.sourceforge.jp>
-Subject: [PATCH 10/12] hw/rx: Add RX GDB simulator
-Date: Mon,  1 Jun 2020 18:14:39 +0200
-Message-Id: <20200601161441.8086-11-f4bug@amsat.org>
+Subject: [PATCH 11/12] BootLinuxConsoleTest: Test the RX GDB simulator
+Date: Mon,  1 Jun 2020 18:14:40 +0200
+Message-Id: <20200601161441.8086-12-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200601161441.8086-1-f4bug@amsat.org>
 References: <20200601161441.8086-1-f4bug@amsat.org>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -89,284 +89,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Add the RX machine internally simulated in GDB.
+Add two tests for the rx-gdbsim machine, based on the recommended
+test setup from Yoshinori Sato:
+https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03586.html
 
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-[PMD: Use TYPE_RX62N_CPU, use #define for RX62N_NR_TMR/CMT/SCI,
- renamed CPU -> MCU, device -> microcontroller]
+- U-Boot prompt
+- Linux kernel with Sash shell
+
+These are very quick tests:
+
+  $ avocado run -t arch:rx tests/acceptance/machine_rx_gdbsim.py
+  JOB ID     : 84a6ef01c0b87975ecbfcb31a920afd735753ace
+  JOB LOG    : /home/phil/avocado/job-results/job-2019-05-24T05.02-84a6ef0/job.log
+   (1/2) tests/acceptance/machine_rx_gdbsim.py:RxVirtMachine.test_uboot: PASS (0.11 s)
+   (2/2) tests/acceptance/machine_rx_gdbsim.py:RxVirtMachine.test_linux_sash: PASS (0.45 s)
+  RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+
+Tests can also be run with:
+
+  $ avocado --show=console run -t arch:rx tests/acceptance/machine_rx_gdbsim.py
+  console: U-Boot 2016.05-rc3-23705-ga1ef3c71cb-dirty (Feb 05 2019 - 21:56:06 +0900)
+  console: Linux version 4.19.0+ (yo-satoh@yo-satoh-debian) (gcc version 9.0.0 20181105 (experimental) (GCC)) #137 Wed Feb 20 23:20:02 JST 2019
+  console: Built 1 zonelists, mobility grouping on.  Total pages: 8128
+  ...
+  console: SuperH (H)SCI(F) driver initialized
+  console: 88240.serial: ttySC0 at MMIO 0x88240 (irq = 215, base_baud = 0) is a sci
+  console: console [ttySC0] enabled
+  console: 88248.serial: ttySC1 at MMIO 0x88248 (irq = 219, base_baud = 0) is a sci
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200224141923.82118-18-ysato@users.sourceforge.jp>
-[PMD: Split of MCU, rename gdbsim, Add gdbsim-r5f562n7/r5f562n8]
+Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Message-Id: <20200224141923.82118-22-ysato@users.sourceforge.jp>
+[PMD: Replace obsolete set_machine() by machine tag, and rename as gdbsim]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- default-configs/rx-softmmu.mak |   1 +
- include/hw/rx/rx62n.h          |   4 +
- hw/rx/rx-gdbsim.c              | 198 +++++++++++++++++++++++++++++++++
- hw/rx/Kconfig                  |   4 +
- hw/rx/Makefile.objs            |   1 +
- 5 files changed, 208 insertions(+)
- create mode 100644 hw/rx/rx-gdbsim.c
+ tests/acceptance/machine_rx_gdbsim.py | 68 +++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
+ create mode 100644 tests/acceptance/machine_rx_gdbsim.py
 
-diff --git a/default-configs/rx-softmmu.mak b/default-configs/rx-softmmu.mak
-index 7c4eb2c1a0..df2b4e4f42 100644
---- a/default-configs/rx-softmmu.mak
-+++ b/default-configs/rx-softmmu.mak
-@@ -1,2 +1,3 @@
- # Default configuration for rx-softmmu
- 
-+CONFIG_RX_GDBSIM=y
-diff --git a/include/hw/rx/rx62n.h b/include/hw/rx/rx62n.h
-index 0421cd6d4d..121caedbe9 100644
---- a/include/hw/rx/rx62n.h
-+++ b/include/hw/rx/rx62n.h
-@@ -37,6 +37,10 @@
- #define TYPE_R5F562N7_MCU "r5f562n7-mcu"
- #define TYPE_R5F562N8_MCU "r5f562n8-mcu"
- 
-+#define EXT_CS_BASE         0x01000000
-+#define VECTOR_TABLE_BASE   0xffffff80
-+#define RX62N_CFLASH_BASE   0xfff80000
-+
- #define RX62N_NR_TMR    2
- #define RX62N_NR_CMT    2
- #define RX62N_NR_SCI    6
-diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
+diff --git a/tests/acceptance/machine_rx_gdbsim.py b/tests/acceptance/machine_rx_gdbsim.py
 new file mode 100644
-index 0000000000..01751790ed
+index 0000000000..a44f2c87da
 --- /dev/null
-+++ b/hw/rx/rx-gdbsim.c
-@@ -0,0 +1,198 @@
-+/*
-+ * RX QEMU GDB simulator
-+ *
-+ * Copyright (c) 2019 Yoshinori Sato
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
++++ b/tests/acceptance/machine_rx_gdbsim.py
+@@ -0,0 +1,68 @@
++# Functional test that boots a Linux kernel and checks the console
++#
++# Copyright (c) 2018 Red Hat, Inc.
++#
++# Author:
++#  Cleber Rosa <crosa@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
 +
-+#include "qemu/osdep.h"
-+#include "qemu/error-report.h"
-+#include "qapi/error.h"
-+#include "qemu-common.h"
-+#include "cpu.h"
-+#include "hw/hw.h"
-+#include "hw/sysbus.h"
-+#include "hw/loader.h"
-+#include "hw/rx/rx62n.h"
-+#include "sysemu/sysemu.h"
-+#include "sysemu/qtest.h"
-+#include "sysemu/device_tree.h"
-+#include "hw/boards.h"
++from avocado_qemu import Test
++from avocado_qemu import exec_command_and_wait_for_pattern
++from avocado_qemu import wait_for_console_pattern
++from avocado.utils import archive
 +
-+/* Same address of GDB integrated simulator */
-+#define SDRAM_BASE  EXT_CS_BASE
 +
-+typedef struct RxGdbSimMachineClass {
-+    /*< private >*/
-+    MachineClass parent_class;
-+    /*< public >*/
-+    const char *mcu_name;
-+    uint32_t xtal_freq_hz;
-+} RxGdbSimMachineClass;
++class RxGdbSimMachine(Test):
 +
-+typedef struct RxGdbSimMachineState {
-+    /*< private >*/
-+    MachineState parent_obj;
-+    /*< public >*/
-+    RX62NState mcu;
-+} RxGdbSimMachineState;
++    timeout = 30
++    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
 +
-+#define TYPE_RX_GDBSIM_MACHINE MACHINE_TYPE_NAME("rx62n-common")
++    def test_uboot(self):
++        """
++        U-Boot and checks that the console is operational.
 +
-+#define RX_GDBSIM_MACHINE(obj) \
-+    OBJECT_CHECK(RxGdbSimMachineState, (obj), TYPE_RX_GDBSIM_MACHINE)
++        :avocado: tags=arch:rx
++        :avocado: tags=machine:gdbsim-r5f562n8
++        :avocado: tags=endian:little
++        """
++        uboot_url = ('https://acc.dl.osdn.jp/users/23/23888/u-boot.bin.gz')
++        uboot_hash = '9b78dbd43b40b2526848c0b1ce9de02c24f4dcdb'
++        uboot_path = self.fetch_asset(uboot_url, asset_hash=uboot_hash)
++        uboot_path = archive.uncompress(uboot_path, self.workdir)
 +
-+#define RX_GDBSIM_MACHINE_CLASS(klass) \
-+    OBJECT_CLASS_CHECK(RxGdbSimMachineClass, (klass), TYPE_RX_GDBSIM_MACHINE)
-+#define RX_GDBSIM_MACHINE_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(RxGdbSimMachineClass, (obj), TYPE_RX_GDBSIM_MACHINE)
++        self.vm.set_console()
++        self.vm.add_args('-bios', uboot_path,
++                         '-no-reboot')
++        self.vm.launch()
++        uboot_version = 'U-Boot 2016.05-rc3-23705-ga1ef3c71cb-dirty'
++        wait_for_console_pattern(self, uboot_version)
++        gcc_version = 'rx-unknown-linux-gcc (GCC) 9.0.0 20181105 (experimental)'
++        # FIXME limit baudrate on chardev, else we type too fast
++        #exec_command_and_wait_for_pattern(self, 'version', gcc_version)
 +
-+static void rx_load_image(RXCPU *cpu, const char *filename,
-+                          uint32_t start, uint32_t size)
-+{
-+    static uint32_t extable[32];
-+    long kernel_size;
-+    int i;
++    def test_linux_sash(self):
++        """
++        Boots a Linux kernel and checks that the console is operational.
 +
-+    kernel_size = load_image_targphys(filename, start, size);
-+    if (kernel_size < 0) {
-+        fprintf(stderr, "qemu: could not load kernel '%s'\n", filename);
-+        exit(1);
-+    }
-+    cpu->env.pc = start;
++        :avocado: tags=arch:rx
++        :avocado: tags=machine:gdbsim-r5f562n7
++        :avocado: tags=endian:little
++        """
++        dtb_url = ('https://acc.dl.osdn.jp/users/23/23887/rx-qemu.dtb')
++        dtb_hash = '7b4e4e2c71905da44e86ce47adee2210b026ac18'
++        dtb_path = self.fetch_asset(dtb_url, asset_hash=dtb_hash)
++        kernel_url = ('http://acc.dl.osdn.jp/users/23/23845/zImage')
++        kernel_hash = '39a81067f8d72faad90866ddfefa19165d68fc99'
++        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
 +
-+    /* setup exception trap trampoline */
-+    /* linux kernel only works little-endian mode */
-+    for (i = 0; i < ARRAY_SIZE(extable); i++) {
-+        extable[i] = cpu_to_le32(0x10 + i * 4);
-+    }
-+    rom_add_blob_fixed("extable", extable, sizeof(extable), VECTOR_TABLE_BASE);
-+}
-+
-+static void rx_gdbsim_init(MachineState *machine)
-+{
-+    MachineClass *mc = MACHINE_GET_CLASS(machine);
-+    RxGdbSimMachineState *s = RX_GDBSIM_MACHINE(machine);
-+    RxGdbSimMachineClass *rxc = RX_GDBSIM_MACHINE_GET_CLASS(machine);
-+    MemoryRegion *sysmem = get_system_memory();
-+    const char *kernel_filename = machine->kernel_filename;
-+    const char *dtb_filename = machine->dtb;
-+
-+    if (machine->ram_size < mc->default_ram_size) {
-+        error_report("Invalid RAM size, should be more than %" PRIi64 " Bytes",
-+                     mc->default_ram_size);
-+    }
-+
-+    /* Allocate memory space */
-+    memory_region_add_subregion(sysmem, SDRAM_BASE, machine->ram);
-+
-+    /* Initialize MCU */
-+    object_initialize_child(OBJECT(machine), "mcu", &s->mcu,
-+                            sizeof(RX62NState), rxc->mcu_name,
-+                            &error_fatal, NULL);
-+    object_property_set_link(OBJECT(&s->mcu), OBJECT(sysmem),
-+                             "main-bus", &error_abort);
-+    object_property_set_uint(OBJECT(&s->mcu), rxc->xtal_freq_hz,
-+                             "xtal-frequency-hz", &error_abort);
-+    object_property_set_bool(OBJECT(&s->mcu), kernel_filename != NULL,
-+                             "load-kernel", &error_abort);
-+    object_property_set_bool(OBJECT(&s->mcu), true, "realized", &error_abort);
-+
-+    /* Load kernel and dtb */
-+    if (kernel_filename) {
-+        ram_addr_t kernel_offset;
-+
-+        /*
-+         * The kernel image is loaded into
-+         * the latter half of the SDRAM space.
-+         */
-+        kernel_offset = machine->ram_size / 2;
-+        rx_load_image(RXCPU(first_cpu), kernel_filename,
-+                      SDRAM_BASE + kernel_offset, kernel_offset);
-+        if (dtb_filename) {
-+            ram_addr_t dtb_offset;
-+            int dtb_size;
-+            void *dtb;
-+
-+            dtb = load_device_tree(dtb_filename, &dtb_size);
-+            if (dtb == NULL) {
-+                error_report("Couldn't open dtb file %s", dtb_filename);
-+                exit(1);
-+            }
-+            if (machine->kernel_cmdline &&
-+                qemu_fdt_setprop_string(dtb, "/chosen", "bootargs",
-+                                        machine->kernel_cmdline) < 0) {
-+                error_report("Couldn't set /chosen/bootargs");
-+                exit(1);
-+            }
-+            /* DTB is located at the end of SDRAM space. */
-+            dtb_offset = machine->ram_size - dtb_size;
-+            rom_add_blob_fixed("dtb", dtb, dtb_size,
-+                               SDRAM_BASE + dtb_offset);
-+            /* Set dtb address to R1 */
-+            RXCPU(first_cpu)->env.regs[1] = SDRAM_BASE + dtb_offset;
-+        }
-+    }
-+}
-+
-+static void rx_gdbsim_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    mc->init = rx_gdbsim_init;
-+    mc->default_cpu_type = TYPE_RX62N_CPU;
-+    mc->default_ram_size = 16 * MiB;
-+    mc->default_ram_id = "ext-sdram";
-+}
-+
-+static void rx62n7_class_init(ObjectClass *oc, void *data)
-+{
-+    RxGdbSimMachineClass *rxc = RX_GDBSIM_MACHINE_CLASS(oc);
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    rxc->mcu_name = TYPE_R5F562N7_MCU;
-+    rxc->xtal_freq_hz = 12 * 1000 * 1000;
-+    mc->desc = "gdb simulator (R5F562N7 MCU and external RAM)";
-+};
-+
-+static void rx62n8_class_init(ObjectClass *oc, void *data)
-+{
-+    RxGdbSimMachineClass *rxc = RX_GDBSIM_MACHINE_CLASS(oc);
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    rxc->mcu_name = TYPE_R5F562N8_MCU;
-+    rxc->xtal_freq_hz = 12 * 1000 * 1000;
-+    mc->desc = "gdb simulator (R5F562N8 MCU and external RAM)";
-+};
-+
-+static const TypeInfo rx_gdbsim_types[] = {
-+    {
-+        .name           = MACHINE_TYPE_NAME("gdbsim-r5f562n7"),
-+        .parent         = TYPE_RX_GDBSIM_MACHINE,
-+        .class_init     = rx62n7_class_init,
-+    }, {
-+        .name           = MACHINE_TYPE_NAME("gdbsim-r5f562n8"),
-+        .parent         = TYPE_RX_GDBSIM_MACHINE,
-+        .class_init     = rx62n8_class_init,
-+    }, {
-+        .name           = TYPE_RX_GDBSIM_MACHINE,
-+        .parent         = TYPE_MACHINE,
-+        .instance_size  = sizeof(RxGdbSimMachineState),
-+        .class_size     = sizeof(RxGdbSimMachineClass),
-+        .class_init     = rx_gdbsim_class_init,
-+        .abstract       = true,
-+     }
-+};
-+
-+DEFINE_TYPES(rx_gdbsim_types)
-diff --git a/hw/rx/Kconfig b/hw/rx/Kconfig
-index e7b1c59516..2b297c5a6a 100644
---- a/hw/rx/Kconfig
-+++ b/hw/rx/Kconfig
-@@ -4,3 +4,7 @@ config RX62N_MCU
-     select RENESAS_TMR
-     select RENESAS_CMT
-     select RENESAS_SCI
-+
-+config RX_GDBSIM
-+    bool
-+    select RX62N_MCU
-diff --git a/hw/rx/Makefile.objs b/hw/rx/Makefile.objs
-index fe19ee7984..4ef6b9e5b1 100644
---- a/hw/rx/Makefile.objs
-+++ b/hw/rx/Makefile.objs
-@@ -1 +1,2 @@
- obj-$(CONFIG_RX62N_MCU) += rx62n.o
-+obj-$(CONFIG_RX_GDBSIM) += rx-gdbsim.o
++        self.vm.set_console()
++        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'earlycon'
++        self.vm.add_args('-kernel', kernel_path,
++                         '-dtb', dtb_path,
++                         '-no-reboot')
++        self.vm.launch()
++        wait_for_console_pattern(self, 'Sash command shell (version 1.1.1)',
++                                 failure_message='Kernel panic - not syncing')
++        exec_command_and_wait_for_pattern(self, 'printenv', 'TERM=linux')
 -- 
 2.21.3
 
