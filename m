@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612D81EB250
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 01:41:20 +0200 (CEST)
-Received: from localhost ([::1]:49438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A471EB251
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 01:42:11 +0200 (CEST)
+Received: from localhost ([::1]:52356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfu3T-0006wy-Az
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 19:41:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47370)
+	id 1jfu4I-0008AG-1r
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 19:42:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jftzi-0002iF-Fo
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 19:37:26 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:42809)
+ id 1jfu00-0003HL-HX
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 19:37:44 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jftzh-00066G-Gc
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 19:37:26 -0400
-Received: by mail-pl1-x643.google.com with SMTP id x11so555094plv.9
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 16:37:25 -0700 (PDT)
+ id 1jftzy-0006PJ-Nu
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 19:37:43 -0400
+Received: by mail-pf1-x444.google.com with SMTP id a4so4171051pfo.4
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 16:37:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PlBT1B/hjs0RZ4Sv/xaBn5v/munjW/EVMnZ0HWetFtY=;
- b=h0ouO/8u5iRqZlDoPrAMhkSSqFRTrfSwQdo19a4i9ahzvmGjW0r6DS5w0CXaMbbJtL
- /So9QK85DTtEQdWnTr0axxftFQZvGnF2jLt5EJ82ylkw5vJgvgWrdemTxnGl2T/EDVPy
- tkR6x9ZtBtuv7G7WnqinFAypKDbsLrHF/El7N5SmOAmTwcd1ObkvDQR+XLnQz3/9dSLv
- 0ZcCXDtQJwZmlIpqQUJaKcsDiDMKHRBkg+3uD47Izs61TD3fhbbFgPUiS3tX1lMruyO8
- oXK1ML5f8Zah4SLGKt/6mY+IX6klJBO8Hynj6yjeHoSrie0ul9t9XWocNqYuw8RjfcaO
- h/iw==
+ bh=KUapqzqKD/nil8AJP/KRmcd5zCFEf0jfxXrXYdNEGQI=;
+ b=FatqtVOR5hD/fcjlHQiJxex0C6zQusiasYEb/yEipsUHJ8XYLQsy5xfoCZP0e+yu2k
+ iuyeevu0q7AhEwUlWsJu32GG5SazukklQ7e67apLyPFjt5a/kRoa7XobmxW3KegBIMKP
+ ENP/BSizdgxJ2u8Tvh8iFJAyCgLU5iLwR4aQ1m509XvSedk9+fo6MComm8rgpnGt+o0N
+ Q98WvROsPGMZBjMcvm6JrmLaNrnVanswonOdPV+SMxS43AgLRfuApjZXh5bhpv+tDGdz
+ MMCTMQ66HTYSfiIMqxA5Ki+niSFNrxoUK9Dpm02g07u76J4kojC7ItRwfO6gs62s6NM6
+ DARQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PlBT1B/hjs0RZ4Sv/xaBn5v/munjW/EVMnZ0HWetFtY=;
- b=MTQ8iuIV+RXCRnZ+fRrVqtRFfyyF5fsc96ZPQg/Co4KeKMix3r2Qoo6VU5WRn8X9lx
- GBtC+f4x7USAaOChAkcmWCrMj6yWdncpabPEr4i2+DPLSOMFxAFhPy+mq3pI+fQG+Pzy
- Ow8BVrakMvaibermxvwCiPALpU50zZUjn1GGhTOau/bT4J5xwUKAul69ep6BbMyLt4S1
- aipbA0aOWFSd4nc5kzd59R3daMJ3XbGaUSDSOrZDCWeHNuwtLoDWq1cEGYbJL/jkpLU6
- MOxHb9/XMXEhYueyUfkGATmGfs06WzOAE5ZyuzH6stg0hul00p14uBoxxIKbeNz6JCbw
- taBg==
-X-Gm-Message-State: AOAM531NmxubYCqUlCAKr7lOkXZ9GA2paInfDhIwi/vFAszdseVrSCbl
- 9kOcGqfm0qUQoV4En9q7hb4Muw==
-X-Google-Smtp-Source: ABdhPJzzzU+9Uf4BtnV7qNbKvl+iUuKO6qwD6miyTuur8YHPtfQ7XV0BnKoxEbCJaOSgLcuxhYk+Pw==
-X-Received: by 2002:a17:902:710b:: with SMTP id
- a11mr6593788pll.156.1591054644135; 
- Mon, 01 Jun 2020 16:37:24 -0700 (PDT)
+ bh=KUapqzqKD/nil8AJP/KRmcd5zCFEf0jfxXrXYdNEGQI=;
+ b=pfJspHua+bwQ1olMeIUl6qvo8i/QiSSJ4Thh8/pYhG0Z2D5Ez9EO0oEK27x2BjPjVK
+ tJrPmXxy+WIYwr+cexdZXLaxzdoZt8de4M/aDj5tSdcuHUaHPe+wTLkHGhx5CkW1p1Hf
+ OtiGb9T1lO9oMQAHia/vMYEf9mAnQpMdNxv329IhNh6tDvbjc4v7TKSfCwawCvxwHFmZ
+ jVErto6jItokWlt+dDiTung5jn09W0Sp2ii1eF35Uu+9IkQcaMA5cMNO4kfkaCdOsjI2
+ 5fGr1DRkY0HMWyFHtNygmhJtu3OXZLqH5/B2gNpYQzSxZ3LAY1VzZg8XAwQAZkYWgznI
+ U7KA==
+X-Gm-Message-State: AOAM531trh9B0FInOKfUnQEF0o1PFLv4UESRWtRWJ9a0ltzIec38JdFB
+ pcJxk7eThUsFfmrn8Okb86QLBA==
+X-Google-Smtp-Source: ABdhPJxhd+PX2dAfPlV44Fx/pz/N3NFXKQtVkApW6bgZq/7EFs6cRCLgC6WvnR+4RiTgTsBqwCGGXQ==
+X-Received: by 2002:a63:6345:: with SMTP id x66mr20915001pgb.156.1591054659488; 
+ Mon, 01 Jun 2020 16:37:39 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id l187sm400253pfl.218.2020.06.01.16.37.22
+ by smtp.gmail.com with ESMTPSA id g19sm415680pfo.209.2020.06.01.16.37.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Jun 2020 16:37:23 -0700 (PDT)
-Subject: Re: [PATCH v2 6/8] hw/hppa/dino: Use the IEC binary prefix definitions
+ Mon, 01 Jun 2020 16:37:38 -0700 (PDT)
+Subject: Re: [PATCH v2 7/8] hw/i386/xen/xen-hvm: Use the IEC binary prefix
+ definitions
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20200601142930.29408-1-f4bug@amsat.org>
- <20200601142930.29408-7-f4bug@amsat.org>
+ <20200601142930.29408-8-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <57783e28-09e5-8545-7a90-e52ad0dac9d8@linaro.org>
-Date: Mon, 1 Jun 2020 16:37:20 -0700
+Message-ID: <403c7efe-bfa4-c6e3-7ab7-0592bc16bfc8@linaro.org>
+Date: Mon, 1 Jun 2020 16:37:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200601142930.29408-7-f4bug@amsat.org>
+In-Reply-To: <20200601142930.29408-8-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -111,8 +111,8 @@ On 6/1/20 7:29 AM, Philippe Mathieu-Daudé wrote:
 > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/hppa/dino.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  hw/i386/xen/xen-hvm.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
