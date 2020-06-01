@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602141EA489
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 15:12:52 +0200 (CEST)
-Received: from localhost ([::1]:50852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B2A11EA4CB
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 15:18:49 +0200 (CEST)
+Received: from localhost ([::1]:55350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfkFH-00083v-0U
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 09:12:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57452)
+	id 1jfkL1-0001si-SW
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 09:18:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jfkEM-0007bi-T6
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 09:11:54 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:35296)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jfkJw-0000yQ-7r
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 09:17:40 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:33412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jfkEL-0003UD-QW
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 09:11:54 -0400
-Received: by mail-lj1-x243.google.com with SMTP id c11so8077291ljn.2
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 06:11:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jfkJt-00048N-PP
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 09:17:39 -0400
+Received: by mail-oi1-x241.google.com with SMTP id r67so8854275oih.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 06:17:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=1iT2pOBXp3eLUD3uypKfu4vPN6DJMP/+obMKt/Y+Po0=;
- b=p2gI8yF//WVHEDWzsN6tkEsIuDyh3R40ZHDEZlP6gw6QmotX5euHYThiCVut0reJxF
- aMGPqmSpYlYPqSAXXBBHL3TE78sIrYVTuDLYGtxZNrqxNhNTu0hdrA0Hzk3NYxLXQ0Yn
- nLrt9oulLU9dUwuMZyHXTjIOJsoDiNmXPIbuyG1tR8/MCsu6m2Y2uwi+VBB3E+clKRfj
- dRY9j8jqtZ9B/57REX+V5sDa4Eyviuuu1nwe/oIqyRa21io7vIabuGR/yfxWV88fVALQ
- P8k9byu9jvcgpfg4y1WJWKjf2Nl8CtWjLeir3yfLC2OrX+fzH/CSV0WNwRjayjdIAHCq
- z72g==
+ :cc; bh=4C/5yuYGY2B/jGeB3PtoygER48eV8fi+r8zaeFfcQtI=;
+ b=p7e7BSsvddqw8JA2MA9YsWWiamK5h77AHaFDJpG3YnP7Djwk08QmiNuUdDY1mCkDc9
+ gh7weaVFWR6uIGpbgn1+GvGVyqf2F1iSrEl97kqENKU1SGGY4JZKRG7WAP7cPEK1jYBm
+ E+P6ltggXPUwHyXRukVpqjXAhSJkgLxYpzzEQGZDziCJ5pha33vfmshhPlOOlp6TJWrJ
+ EnLbekpBxO680oK76/Rg+cZbwfx/32H/RPlmV1UMr5lNLmuOBT1kBc1nnHx9Ue+7E4o/
+ lV5I0RvSPsrz93fPoD8QOjcbLqLy4gGs/n+4ifTbUE6kuasQjr8GOmTxdLKzwLcQGfLr
+ YGSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1iT2pOBXp3eLUD3uypKfu4vPN6DJMP/+obMKt/Y+Po0=;
- b=IGeXr1Csf8ZR41am9Tys1RyIbT94PmUFr2DQ88+OlLvLZelqG1+OXzowfbfpPyPybW
- BAjYnyonoViRZpUzwpVpENRRZ3KPSx+bDlHlmxgpMvT+OmQPsg1wnjWUn27jRnMALLlV
- d14xvyNv1j4mY68SH2sp4oIRP8YWUWfJcDTC3AK76uzyP0NzmTPiUCpQmbu3xoKvjZIU
- dyIfdEYNjpmrrlIUTCexVJ1z7yZuvyWj3HgZxUR5EqSadhwg3mSCmTQXXjoF2UW7c0MK
- tAMZl+I4Yd8DWb1Jz9a0IxQ+rbcCP3hU4JoFt8y7jKjRkYVbl0XCRFwPWRTTXlv/xn0Q
- ZtXg==
-X-Gm-Message-State: AOAM531WXvbLpMc/3SAo5Qfd+kTETHDFqMiAeYGS4xoI1j7X20PHOVZx
- N98WElmCMuRvklRZIE61baUY0ZDu5UygKd3Rm5UbQw==
-X-Google-Smtp-Source: ABdhPJycQ3vbaafjm4kd3hdpnjz4MOATiezt8oaNrkpR4rqPAiQfdFv7MTOsYc4Agj77PsuGxnMlS8fekREPW6gE62c=
-X-Received: by 2002:a2e:150f:: with SMTP id s15mr10292986ljd.102.1591017112187; 
- Mon, 01 Jun 2020 06:11:52 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=4C/5yuYGY2B/jGeB3PtoygER48eV8fi+r8zaeFfcQtI=;
+ b=h3f9lXaiRfs7fJm9C37gKdWMYGpvGqknznhcf+/xPteXbJnv/52ErozNXAQ/7P1l59
+ BjLBmlfQOW2ZZRkBU6oWCunXSxiJJjsl+7ro+MFq2YMLQpNogehv0iA0Aa/jYMTHoSLh
+ V1czJnz+LLg9Fx4nOkL2d9U5JohPHExYNNvbSfxKw25m5pem4y11bxW3wdvSj9lBLQ3s
+ wIEh2dYchfJeeESUEdVtuub5oHOkz0IATb0hT62Tv4xW81j/ZqbEY/gnin9tXryRbxaR
+ idDduLnYC5ix7mkrSa3cK7dZmo0KcmaH8u58dIKoFVn6u3AWrhG1WWO+szxMkYAH0KST
+ 6Ijg==
+X-Gm-Message-State: AOAM530BfceQd+3QqwOZNNcJgE2Ov/IEKWk40ghmaMm3BitEu1oCAKcR
+ xVjFGUwKpldImKyRN5TNcc5s2KTDh+lj/1eLmxOO0KdUTGM=
+X-Google-Smtp-Source: ABdhPJxiGAMAehHm0gg0IzJYoxkfSnuB9VDjEJAvAciJZ3ARBM4UZqtZ4QLlJW3CrmFPSGay7Wg9TMtQMKsAcbtwXwM=
+X-Received: by 2002:a54:469a:: with SMTP id k26mr14197122oic.163.1591017456195; 
+ Mon, 01 Jun 2020 06:17:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200529203458.1038-1-robert.foley@linaro.org>
- <20200529203458.1038-9-robert.foley@linaro.org>
- <6f29b51c-b8d6-772c-eb24-b4c88c6c2d62@redhat.com>
- <878sh8v0h5.fsf@linaro.org>
-In-Reply-To: <878sh8v0h5.fsf@linaro.org>
-From: Robert Foley <robert.foley@linaro.org>
-Date: Mon, 1 Jun 2020 09:11:50 -0400
-Message-ID: <CAEyhzFv_UPbzDxfuj5gQdpz+EKVBN_9nzhVUPJrvs2h=d2zKmQ@mail.gmail.com>
-Subject: Re: [PATCH v8 08/12] tests/vm: Added a new script for ubuntu.aarch64.
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+References: <20200529230653.GD776951@os.inf.tu-dresden.de>
+ <CAFEAcA--vg0iPZmHacGUxkF7tOP9iFeei4rSksQO_fFh3wjtMA@mail.gmail.com>
+ <20200601130135.GA284778@os.inf.tu-dresden.de>
+In-Reply-To: <20200601130135.GA284778@os.inf.tu-dresden.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jun 2020 14:17:25 +0100
+Message-ID: <CAFEAcA_cc+xgmsnrdhkMV2CPdRZMOvD5yB9NON1C4hgfFqbJQg@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Init GIC CPU IF regs for A15/A7
+To: Adam Lackorzynski <adam@l4re.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=robert.foley@linaro.org; helo=mail-lj1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,117 +80,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Puhov <peter.puhov@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 31 May 2020 at 06:54, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
->
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->
-> > Hi Robert,
-> >
-> > On 5/29/20 10:34 PM, Robert Foley wrote:
-> <snip>
-> >> diff --git a/configure b/configure
-> >> index d82de47fdd..8a286e75a5 100755
-> >> --- a/configure
-> >> +++ b/configure
-> >> @@ -411,6 +411,7 @@ prefix=3D"/usr/local"
-> >>  mandir=3D"\${prefix}/share/man"
-> >>  datadir=3D"\${prefix}/share"
-> >>  firmwarepath=3D"\${prefix}/share/qemu-firmware"
-> >> +efi_aarch64=3D""
-> >>  qemu_docdir=3D"\${prefix}/share/doc/qemu"
-> >>  bindir=3D"\${prefix}/bin"
-> >>  libdir=3D"\${prefix}/lib"
-> >> @@ -1099,6 +1100,8 @@ for opt do
-> >>    ;;
-> >>    --firmwarepath=3D*) firmwarepath=3D"$optarg"
-> >>    ;;
-> >> +  --efi-aarch64=3D*) efi_aarch64=3D"$optarg"
-> >> +  ;;
-> >>    --host=3D*|--build=3D*|\
-> >>    --disable-dependency-tracking|\
-> >>    --sbindir=3D*|--sharedstatedir=3D*|\
-> >> @@ -1753,6 +1756,7 @@ Advanced options (experts only):
-> >>    --sysconfdir=3DPATH        install config in PATH$confsuffix
-> >>    --localstatedir=3DPATH     install local state in PATH (set at runt=
-ime on win32)
-> >>    --firmwarepath=3DPATH      search PATH for firmware files
-> >> +  --efi-aarch64=3DPATH       PATH of efi file to use for aarch64 VMs.
-> >>    --with-confsuffix=3DSUFFIX suffix for QEMU data inside datadir/libd=
-ir/sysconfdir [$confsuffix]
-> >>    --with-pkgversion=3DVERS   use specified string as sub-version of t=
-he package
-> >>    --enable-debug           enable common debug build options
-> >> @@ -3548,6 +3552,20 @@ EOF
-> >>    fi
-> >>  fi
-> >>
-> >> +############################################
-> >> +# efi-aarch64 probe
-> >> +# Check for efi files needed by aarch64 VMs.
-> >> +# By default we will use the efi included with QEMU.
-> >> +# Allow user to override the path for efi also.
-> >> +if ! test -f "$efi_aarch64"; then
-> >> +    if test -f $source_path/pc-bios/edk2-aaarch64-code.fd.bz2; then
-> >> +        # valid after build
-> >> +        efi_aarch64=3D$PWD/pc-bios/edk2-aarch64-code.fd
-> >> +    else
-> >> +        efi_aarch64=3D""
-> >> +    fi
-> >> +fi
-> >> +
-> <snip>
-> >>
-> >>  IMAGES_DIR :=3D $(HOME)/.cache/qemu-vm/images
-> >> @@ -23,6 +26,11 @@ vm-help vm-test:
-> >>  ifneq ($(GENISOIMAGE),)
-> >>      @echo "  vm-build-centos                 - Build QEMU in CentOS V=
-M, with Docker"
-> >>      @echo "  vm-build-ubuntu.i386            - Build QEMU in ubuntu i=
-386 VM"
-> >> +ifneq ($(EFI_AARCH64),)
-> >> +    @echo "  vm-build-ubuntu.aarch64         - Build QEMU in ubuntu a=
-arch64 VM"
-> >> +else
-> >> +    @echo "  (install qemu-efi-aarch64 to build centos/ubuntu aarch64=
- images.)"
-> >
-> > I'm not sure your test is working well, I have qemu-efi-aarch64
-> > installed and it not automatically discovered.
-> >
-> > # apt install qemu-efi-aarch64
-> > qemu-efi-aarch64 is already the newest version
-> > (0~20191122.bd85bf54-2ubuntu3).
-> >
-> > Hint: I'm using out-of-tree builds.
->
-> I think efi_aarch64=3D"" needs to be the default path, which can then be
-> overridden by the command line or finally fall back to the built in
-> image.
+On Mon, 1 Jun 2020 at 14:01, Adam Lackorzynski <adam@l4re.org> wrote:
+> Indeed that's another option. Besides that A15+GICv3 currently just
+> works with this.
 
-I think what we are saying here is that if we want to use the qemu-efi-aarc=
-h64
-package's image we should override it on the command line via --efi-aarch64=
-.
+Not sure how...
 
-Seems like the text above needs adjustment to something like:
-> +ifneq ($(EFI_AARCH64),)
-> +    @echo "  vm-build-ubuntu.aarch64         - Build QEMU in ubuntu aarc=
-h64 VM"
-> +else
-       @echo "  to build centos/ubuntu aarch64 images use configure
---efi-aarch64"
+> So I guess the alternative is to switch to 32bit from EL3 when using an A57?
 
-Thanks & Regards,
--Rob
->
-> --
-> Alex Benn=C3=A9e
+If you're using KVM then you can use -cpu host,aarch64=off
+
+thanks
+-- PMM
 
