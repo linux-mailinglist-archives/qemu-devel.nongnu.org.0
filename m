@@ -2,69 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 762831EA50A
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 15:34:41 +0200 (CEST)
-Received: from localhost ([::1]:39486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5011EA553
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 15:52:44 +0200 (CEST)
+Received: from localhost ([::1]:59292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfkaO-0008Cq-3T
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 09:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59768)
+	id 1jfkrr-0000Xr-8q
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 09:52:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jfkZY-0007UY-CK
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 09:33:48 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:46420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jfkZW-0006Ha-Ly
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 09:33:47 -0400
-Received: by mail-oi1-x231.google.com with SMTP id b3so8820850oib.13
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 06:33:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jIwRVaSlTQZNp4dIrhW5HnjtET1AnbtrzIJg71h8Rfw=;
- b=rONyzkL1BtO6IfKGnwrAt8HlED0SezWF8vvb/6Yok3g6iBhm0XU153Q4yBnZBW21jd
- OU85VmASvveViGJs2GNRScpEALuvwzQIfyCXzO1Mff1Gfvg31Bg6zwfvwv/EDb+Hdci2
- g/+Jv1XWXz1y4uNk+n4C2CJwJaUEjv1hs1NndWpvohYu+Y9iqz7WR50ZrRwArW91ShqE
- /t+u7ZEiI9ybJGkX4HYI3czWTZORxGGnA04u+Jz3VeU2bZ6M4gun7EJNWtWHu5EtigPg
- O74HsVjUA6m7+aeh7Sxy5YdttCGJ5pIdIYegInh7Mw1tW3W+CsnWg5+KMO4/ZeQDnhVd
- BdMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jIwRVaSlTQZNp4dIrhW5HnjtET1AnbtrzIJg71h8Rfw=;
- b=BJcqEEIiGYvQVuEf5QaOTAuI7fVB1zcmYk8N16l5XuJCa/r6FJlsOvIul/5qkMOJDr
- Qo9Z/I2v8VheRiFRy+Aj7hnAWy6sHlXHKOsrfFDGsog1mqGnkM04SWCl9ZY6WGnr1toe
- hfIPZOAx69Wbhwn714DmWwYkUwgl+RPmUlnfHalCNkGbXYuoCSRb5QwBDZFzx9VruPeW
- OSdnmf/K48Xi3YJ6P/R1X28JJS5ZHktB+P4ZQcStp1/2WnRZa9d+GxUK/szRoCQL7xDf
- hWhIRqbqnJzasWDO8uy2d50p0GLko9iLV3OlOJsdfHrpAU1px1C9oAPNJYEOV/NVdXIm
- 98wg==
-X-Gm-Message-State: AOAM530gLzt5/k4NQSvbnO7SQfbPDQbrvl5id9k9Asv/8bpLoAX7QRBp
- K2BhU6GBJ6dQ7SiEWtrMOWLRzomxEetcCVmTufnP+A==
-X-Google-Smtp-Source: ABdhPJxCFArEmO/h8qkOX37cTOW3C2ioNZIxObh2mHCJPpddvGPcMFIMKSAdyHc1JUvYuVIFQWpzX5LL61xoM19t8Jw=
-X-Received: by 2002:aca:5152:: with SMTP id f79mr3861838oib.146.1591018425083; 
- Mon, 01 Jun 2020 06:33:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <1591015405-19651-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-In-Reply-To: <1591015405-19651-1-git-send-email-aleksandar.qemu.devel@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jun 2020 14:33:34 +0100
-Message-ID: <CAFEAcA-LpX0XA25m3gx0swkRXf8_v0=9oHuNucFNVnGXAfmt=g@mail.gmail.com>
-Subject: Re: [PULL 0/6] MIPS queue for June 1st, 2020
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x231.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jfkne-0003oM-68; Mon, 01 Jun 2020 09:48:22 -0400
+Received: from relay.sw.ru ([185.231.240.75]:38784 helo=relay3.sw.ru)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jfknb-0001k6-WA; Mon, 01 Jun 2020 09:48:21 -0400
+Received: from [172.16.25.136] (helo=localhost.sw.ru)
+ by relay3.sw.ru with esmtp (Exim 4.93)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jfknN-0005dY-JG; Mon, 01 Jun 2020 16:48:05 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v3 0/6] iotests: Dump QCOW2 dirty bitmaps metadata
+Date: Mon,  1 Jun 2020 16:48:07 +0300
+Message-Id: <1591019293-211155-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 09:48:16
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,42 +48,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Jun 2020 at 13:43, Aleksandar Markovic
-<aleksandar.qemu.devel@gmail.com> wrote:
->
-> The following changes since commit 4ec2a1f53e8aaa22924614b64dde97321126943e:
->
->   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-05-30' into staging (2020-05-31 20:43:45 +0100)
->
-> are available in the git repository at:
->
->   https://github.com/AMarkovic/qemu tags/mips-queue-june-01-2020
->
-> for you to fetch changes up to a08d60bc6c2b6469368fff3d38dd5ddd16dd36be:
->
->   hw/mips: fuloong2e: Set preferred page size to 16KB (2020-06-01 13:28:21 +0200)
->
-> ----------------------------------------------------------------
->
-> MIPS queue for June 1st, 2020
->
->   Highlights:
->
->   - setting Fuloong 2E preffered page size to a different value
->   - preparation for adding KVM support for Longsoon 3
->   - other minor changes
->   - a checkpatch warning is known and should be ignored
->
+Add dirty bitmap information to QCOW2 metadata dump in qcow2.py script.
 
+v3:
+  01: JSON format output possibility added.
 
-Applied, thanks.
+v2:
+  01: Refactoring of the Python code in the script qcow2.py.
+      New methods were added. The bitmap dictionary was instantiated.
+      The all of bitmaps information is read completely before
+      printing the dictionary.
+  02: The outputs of the tests 031, 036 and 061 were modified.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+Andrey Shinkevich (6):
+  iotests: Add extension names to qcow2.py dump
+  iotests: move check for printable data to QcowHeaderExtension class
+  iotests: dump bitmap extension data with qcow2.py
+  iotests: Dump bitmap directory info with qcow2.py
+  iotests: Dump bitmap table entries serialized in QCOW2 image
+  iotests: Dump QCOW2 image metadata in JSON format with qcow2.py
 
--- PMM
+ tests/qemu-iotests/031.out  |  22 +--
+ tests/qemu-iotests/036.out  |   4 +-
+ tests/qemu-iotests/061.out  |  18 +--
+ tests/qemu-iotests/qcow2.py | 338 ++++++++++++++++++++++++++++++++++++++++++--
+ 4 files changed, 346 insertions(+), 36 deletions(-)
+
+-- 
+1.8.3.1
+
 
