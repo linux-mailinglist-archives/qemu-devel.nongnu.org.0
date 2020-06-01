@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9042A1EA7BA
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 18:21:15 +0200 (CEST)
-Received: from localhost ([::1]:45230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214251EA7D4
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jun 2020 18:31:20 +0200 (CEST)
+Received: from localhost ([::1]:33300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfnBa-0005T8-KI
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 12:21:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51460)
+	id 1jfnLK-0004OF-Ue
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 12:31:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jfn9x-00048S-EH
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:19:33 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35063)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jfn9v-0002dU-Pf
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:19:33 -0400
-Received: by mail-wm1-x344.google.com with SMTP id q25so128377wmj.0
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 09:19:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QjbvqPqlTxweDiYh6hL4FyvTRuce4kixdpG5MpPpZSw=;
- b=BCvXW+AyOB/Gjjmr0mZnWB2/DxC2EFX+vtwh9TUah+fCaoe9QKAYNL7J5ckpG8rt8F
- wp1cDq08GE4JpHsR1M03GtV8MJCZBtECAGvCjixqRruCM/8VfqF7I4iFQrtg7LyjDA0q
- lQlSXWhjhFFr2FFqExVW2ULCTWqiXO/WEYS+s2n66G/e8QH4LfuvajJpP1FB0NPaO2py
- qd2NAdlI5wTK0Y1kKYLXjxk/0MVToOukKR+9agNhTl8qBiI3jIxBlz2J1syPaGGJ8kVB
- Mmgq1Dn6vuJh2n+fktKqfX9JKgqcUWlUW0FBwCDPyuBqB1+i0cSnOlwDfv4zSaq+Zq83
- 3c7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QjbvqPqlTxweDiYh6hL4FyvTRuce4kixdpG5MpPpZSw=;
- b=SxTgTTgdBf4/F8zqHuBz8bChlsAs7lhH6ku3KZGrg4J5itj4u0LWvJaV9Qrb9bwCFt
- 2kBNsXOvIXc8fmymAqlW87i3PJxVz9OgnhssjpKQ1JmjIZs7uHOjKhYpkzRfwJB39oYQ
- Arxmq+z1pLlwylK17PoV4yLve2KTau0ETxI5+Y/TuBaE6tQ1Xxgw+ywnljae0tUuB37a
- N/HEIj3AcaU80dTNwVj4w3iXZIXCnj8i58lUkco7sAz1ZL5xpEU6TL/7EB94evfzpzkY
- yoM3AZnB18mayx+eHex0BWoJPolmbYqKSNZTGT2zWagoe6ddzLOqPmZeOVjXQ4yCx82r
- jQVA==
-X-Gm-Message-State: AOAM533CyBLJ55Z9mtzFlwmbQqeCwxIAbFObMvS3nH+M+1dADeWntngK
- ULuGdQucJYt0Lc8GMeY6NwYlq7lJhXuL/9JSK4pgkQ==
-X-Google-Smtp-Source: ABdhPJyJALuXwxb3omjMAnZCm7B5Wz/jZZ8pt5vCsPzF2f6b9D+aryHDz4fO4BFQZjVbUIXMxxRmBzXesTy3/BENSik=
-X-Received: by 2002:a05:600c:4401:: with SMTP id
- u1mr131950wmn.36.1591028370338; 
- Mon, 01 Jun 2020 09:19:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1jfnJz-0003QZ-Jl
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:29:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35611
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1jfnJy-0005FH-Pe
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 12:29:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591028993;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Hp6g3usZEvqE7RTho6vJhMIGHGMEOVc/ycYHFOFJyrg=;
+ b=GMa5m4brq3vVhVyBttd5QX2T75I+qRS8/irJgK1gxnjXsOsUHWArsJFruV7Fv+oDBMcdkg
+ ZgmUB3ca2NohMX77f+WPV2ze7+Q3XG/IjfLayFjgRwUsbKzZiPnGVT44yq4SwTrBxIr8iv
+ dn+7mk2svfSYJt/BD5yqVkDD+uLAfOE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-410-Elr_PoayNCqdiq7IeLTDmg-1; Mon, 01 Jun 2020 12:29:51 -0400
+X-MC-Unique: Elr_PoayNCqdiq7IeLTDmg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0349464;
+ Mon,  1 Jun 2020 16:29:50 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.40.193.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EE64B1002389;
+ Mon,  1 Jun 2020 16:29:43 +0000 (UTC)
+From: Julia Suvorova <jusual@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/pci/pcie: Move hot plug capability check to pre_plug
+ callback
+Date: Mon,  1 Jun 2020 18:29:34 +0200
+Message-Id: <20200601162934.842648-1-jusual@redhat.com>
 MIME-Version: 1.0
-References: <20200513113125.1465650-1-andrew@daynix.com>
- <20200513113125.1465650-2-andrew@daynix.com>
- <57ab1532-c3a6-e631-5b0e-e89fc4d82873@redhat.com>
- <7d8202a5-58ad-d7e9-db29-3316834547b8@redhat.com>
-In-Reply-To: <7d8202a5-58ad-d7e9-db29-3316834547b8@redhat.com>
-From: Andrew Melnichenko <andrew@daynix.com>
-Date: Mon, 1 Jun 2020 19:47:47 +0300
-Message-ID: <CABcq3pGy1yPiEusHnQMwFOwa3hbqXaMWGUi0TnrMLhetMXzq9w@mail.gmail.com>
-Subject: Re: [PATCH 1/1] e1000e: Added ICR clearing by corresponding IMS bit.
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000d784ca05a7082860"
-Received-SPF: none client-ip=2a00:1450:4864:20::344;
- envelope-from=andrew@daynix.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jusual@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 05:35:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,207 +75,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dmitry.fleytman@gmail.com, qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d784ca05a7082860
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Check for hot plug capability earlier to avoid removing devices attached
+during the initialization process.
 
-As I understand it, the e1000e.c was implemented by 82574L spec(
-https://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datas=
-heet.pdf
-).
-In the same spec there is 10.2.4 paragraph which provides more details when
-ICR should be cleared.
+Run qemu with an unattached drive:
+  -drive file=$FILE,if=none,id=drive0 \
+  -device pcie-root-port,id=rp0,slot=3,bus=pcie.0,hotplug=off
+Hotplug a block device:
+  device_add virtio-blk-pci,id=blk0,drive=drive0,bus=rp0
+If hotplug fails on plug_cb, drive0 will be deleted.
 
-> =E2=80=A2 Case 1 - Interrupt Mask register equals 0x0000 (mask all): ICR =
-content
-> is cleared.
-> =E2=80=A2 Case 2 - Interrupt was asserted (ICR.INT_ASSERT=3D1) and auto m=
-ask is
-> active: ICR
-> content is cleared, and the IAM register is written to the IMC register.
-> =E2=80=A2 Case 3 - Interrupt was not asserted (ICR.INT_ASSERT=3D0): Read =
-has no side
-> affect.
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+---
+Hard to say if it's a bug or generally acceptable behaviour, but seems like
+hotplug_handler_plug should never fail.
 
+ hw/pci/pcie.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-On Fri, May 29, 2020 at 10:35 AM Jason Wang <jasowang@redhat.com> wrote:
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index f50e10b8fb..5b9c022d91 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -407,6 +407,17 @@ static void pcie_cap_slot_plug_common(PCIDevice *hotplug_dev, DeviceState *dev,
+ void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+                                Error **errp)
+ {
++    PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
++    uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
++    uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
++
++    /* Check if hot-plug is disabled on the slot */
++    if (dev->hotplugged && (sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
++        error_setg(errp, "Hot-plug failed: unsupported by the port device '%s'",
++                         DEVICE(hotplug_pdev)->id);
++        return;
++    }
++
+     pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, errp);
+ }
+ 
+@@ -415,7 +426,6 @@ void pcie_cap_slot_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+ {
+     PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
+     uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
+-    uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
+     PCIDevice *pci_dev = PCI_DEVICE(dev);
+ 
+     /* Don't send event when device is enabled during qemu machine creation:
+@@ -431,13 +441,6 @@ void pcie_cap_slot_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
+         return;
+     }
+ 
+-    /* Check if hot-plug is disabled on the slot */
+-    if ((sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
+-        error_setg(errp, "Hot-plug failed: unsupported by the port device '%s'",
+-                         DEVICE(hotplug_pdev)->id);
+-        return;
+-    }
+-
+     /* To enable multifunction hot-plug, we just ensure the function
+      * 0 added last. When function 0 is added, we set the sltsta and
+      * inform OS via event notification.
+-- 
+2.25.4
 
->
-> On 2020/5/29 =E4=B8=8B=E5=8D=883:18, Jason Wang wrote:
-> >
-> > On 2020/5/13 =E4=B8=8B=E5=8D=887:31, andrew@daynix.com wrote:
-> >> From: Andrew Melnychenko <andrew@daynix.com>
-> >>
-> >> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1707441
-> >> Added ICR clearing if there is IMS bit - according to the note by
-> >> section 13.3.27 of the 8257X developers manual.
-> >>
-> >> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> >> ---
-> >>   hw/net/e1000e_core.c | 10 ++++++++++
-> >>   hw/net/trace-events  |  1 +
-> >>   2 files changed, 11 insertions(+)
-> >>
-> >> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-> >> index d5676871fa..10212d7932 100644
-> >> --- a/hw/net/e1000e_core.c
-> >> +++ b/hw/net/e1000e_core.c
-> >> @@ -2624,6 +2624,16 @@ e1000e_mac_icr_read(E1000ECore *core, int index=
-)
-> >>           e1000e_clear_ims_bits(core, core->mac[IAM]);
-> >>       }
-> >>   +    /*
-> >> +     * PCIe* GbE Controllers Open Source Software Developer's Manual
-> >> +     * 13.3.27 Interrupt Cause Read Register
-> >> +     */
-> >> +    if ((core->mac[ICR] & E1000_ICR_ASSERTED) &&
-> >> +        (core->mac[ICR] & core->mac[IMS])) {
-> >> + trace_e1000e_irq_icr_clear_icr_bit_ims(core->mac[ICR],
-> >> core->mac[IMS]);
-> >> +        core->mac[ICR] =3D 0;
-> >> +    }
-> >> +
-> >
-> >
-> > Hi Andrew:
-> >
-> > So my comments still. I think we need to implement 82574l behavior (if
-> > you go through e1000e.c all chapters it mentioned is for 82574l
-> > datasheet not the one you pointed to me).
-> >
-> > And actually the 82574l behavior is much more simpler.
->
->
-> To be more specific.
->
-> See chapter 7.4.5 which describes the ICR clearing.
->
-> It has three methods for clearing: auto-clear, clear-on-write and
-> clear-on-read.
->
-> And in the part of "Read to clear" it said:
->
-> """
-> All bits in the ICR register are cleared on a read to ICR.
->
-> """
->
-> So there's no need to IMS and other stuffs here.
->
-> Thanks
->
->
-> >
-> > Thanks
->
->
-
---000000000000d784ca05a7082860
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>As I understand it, the e1000e.c was implemented by 8=
-2574L spec(<a href=3D"https://www.intel.com/content/dam/doc/datasheet/82574=
-l-gbe-controller-datasheet.pdf">https://www.intel.com/content/dam/doc/datas=
-heet/82574l-gbe-controller-datasheet.pdf</a>).</div><div>In the same spec t=
-here is 10.2.4 paragraph which provides more details when ICR should be cle=
-ared.</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=E2=80=A2 Case=
- 1 - Interrupt Mask register equals 0x0000 (mask all): ICR content is clear=
-ed.<br>=E2=80=A2 Case 2 - Interrupt was asserted (ICR.INT_ASSERT=3D1) and a=
-uto mask is active: ICR<br>content is cleared, and the IAM register is writ=
-ten to the IMC register.<br>=E2=80=A2 Case 3 - Interrupt was not asserted (=
-ICR.INT_ASSERT=3D0): Read has no side affect.</blockquote></div><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 29, 2=
-020 at 10:35 AM Jason Wang &lt;<a href=3D"mailto:jasowang@redhat.com">jasow=
-ang@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex"><br>
-On 2020/5/29 =E4=B8=8B=E5=8D=883:18, Jason Wang wrote:<br>
-&gt;<br>
-&gt; On 2020/5/13 =E4=B8=8B=E5=8D=887:31, <a href=3D"mailto:andrew@daynix.c=
-om" target=3D"_blank">andrew@daynix.com</a> wrote:<br>
-&gt;&gt; From: Andrew Melnychenko &lt;<a href=3D"mailto:andrew@daynix.com" =
-target=3D"_blank">andrew@daynix.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Buglink: <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D=
-1707441" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/s=
-how_bug.cgi?id=3D1707441</a><br>
-&gt;&gt; Added ICR clearing if there is IMS bit - according to the note by<=
-br>
-&gt;&gt; section 13.3.27 of the 8257X developers manual.<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Andrew Melnychenko &lt;<a href=3D"mailto:andrew@day=
-nix.com" target=3D"_blank">andrew@daynix.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt; =C2=A0 hw/net/e1000e_core.c | 10 ++++++++++<br>
-&gt;&gt; =C2=A0 hw/net/trace-events=C2=A0 |=C2=A0 1 +<br>
-&gt;&gt; =C2=A0 2 files changed, 11 insertions(+)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c<br>
-&gt;&gt; index d5676871fa..10212d7932 100644<br>
-&gt;&gt; --- a/hw/net/e1000e_core.c<br>
-&gt;&gt; +++ b/hw/net/e1000e_core.c<br>
-&gt;&gt; @@ -2624,6 +2624,16 @@ e1000e_mac_icr_read(E1000ECore *core, int i=
-ndex)<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 e1000e_clea=
-r_ims_bits(core, core-&gt;mac[IAM]);<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
-&gt;&gt; =C2=A0 +=C2=A0=C2=A0=C2=A0 /*<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0 * PCIe* GbE Controllers Open Source Soft=
-ware Developer&#39;s Manual<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0 * 13.3.27 Interrupt Cause Read Register<=
-br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0 */<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0 if ((core-&gt;mac[ICR] &amp; E1000_ICR_ASSERTE=
-D) &amp;&amp;<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (core-&gt;mac[ICR] &am=
-p; core-&gt;mac[IMS])) {<br>
-&gt;&gt; + trace_e1000e_irq_icr_clear_icr_bit_ims(core-&gt;mac[ICR], <br>
-&gt;&gt; core-&gt;mac[IMS]);<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 core-&gt;mac[ICR] =3D =
-0;<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0 }<br>
-&gt;&gt; +<br>
-&gt;<br>
-&gt;<br>
-&gt; Hi Andrew:<br>
-&gt;<br>
-&gt; So my comments still. I think we need to implement 82574l behavior (if=
- <br>
-&gt; you go through e1000e.c all chapters it mentioned is for 82574l <br>
-&gt; datasheet not the one you pointed to me).<br>
-&gt;<br>
-&gt; And actually the 82574l behavior is much more simpler.<br>
-<br>
-<br>
-To be more specific.<br>
-<br>
-See chapter 7.4.5 which describes the ICR clearing.<br>
-<br>
-It has three methods for clearing: auto-clear, clear-on-write and <br>
-clear-on-read.<br>
-<br>
-And in the part of &quot;Read to clear&quot; it said:<br>
-<br>
-&quot;&quot;&quot;<br>
-All bits in the ICR register are cleared on a read to ICR.<br>
-<br>
-&quot;&quot;&quot;<br>
-<br>
-So there&#39;s no need to IMS and other stuffs here.<br>
-<br>
-Thanks<br>
-<br>
-<br>
-&gt;<br>
-&gt; Thanks<br>
-<br>
-</blockquote></div>
-
---000000000000d784ca05a7082860--
 
