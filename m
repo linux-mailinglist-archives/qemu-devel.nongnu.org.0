@@ -2,61 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F831EC294
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 21:18:22 +0200 (CEST)
-Received: from localhost ([::1]:33984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2421EC29F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 21:21:08 +0200 (CEST)
+Received: from localhost ([::1]:41250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgCQX-0001M2-EF
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 15:18:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58628)
+	id 1jgCTD-0004ZN-6j
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 15:21:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jgCP2-0007xM-R7
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 15:16:48 -0400
-Received: from mail-oo1-xc42.google.com ([2607:f8b0:4864:20::c42]:35641)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jgCS9-0003zv-Sd
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 15:20:01 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:45597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jgCP1-0002kf-W3
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 15:16:48 -0400
-Received: by mail-oo1-xc42.google.com with SMTP id e12so848oou.2
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 12:16:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jgCS8-00035y-C4
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 15:20:01 -0400
+Received: by mail-pf1-x442.google.com with SMTP id a127so3549560pfa.12
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 12:19:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ic7fPz06RaWkgr64ftTjkfkKW1JNWUsa+NLTMAHbEVw=;
- b=iSaG6kJg1zB6sYpmQfl2djcDyKuTV2hjSzG2mQGK2BQ/ydnGysR0s/kXWH8WqNYqAM
- h9RoMtolIS7L9xGLZBdO4fbq8k9oZjAPeuZfMwbqhx6nhnylCqq86u8a8zhHwISBA/Sk
- hfd1YeglDcJOHwJpxnyDmYBm1B8+vcSP2P36CXcfuwSbiWmu9PbarwMLebgUAQTcx7gn
- CkPJXbyhq2Bn/lMmM54/U19TLvcR9Z7+wAkzLhywR4tw2yOTYsXrnQBjx/5r9vbBqy0f
- LftmfHXkQ4BXnVw6wBGjUXvxnD/DwBynkthJBLwqLd8S6tP90wunp3XMW7F+wTkb86dN
- 8evw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1Snt2MuRNtA8FjEWhTYKly8HzdU4HIoXdYBdbSThMQ0=;
+ b=NB8uBapd+UH+BAYMJsdx2lcqy4qbiD79Pv+mUmFv5gwYIbx86qw9vjW9EPYAJTD6Xq
+ x3Akx7bq5e2m5fGa0IFMLC21ULwGELZe9tIEv0havDK28Fi3dk7bhZ2eW9yPCMUoVJor
+ bnKicDrekKrrWe6GtS7nQo2a00cUKD1MeDzxG5zHosWlnOSULx+l/JLjStcQzQJWgwDg
+ p9vM2VAawIRs5SkRfMNa0KgME+1pgRbeiXyM+gcYHvm9kH0U++V8781OwCHMt4VLjJqE
+ cqt++T+WFIXa8Rgp40Tjw0zc7jh+tKyA+7+0ISGAsvATSqMvHgQ2/4nCFZ0MoMHPqvLu
+ oOLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ic7fPz06RaWkgr64ftTjkfkKW1JNWUsa+NLTMAHbEVw=;
- b=sDbLXXCKWStuPT7/RhmAsvI5aQF1U1pYX8kDQkBZnm01lXpRK37CZgUBnVjTKFnpOK
- fbQv5Cz1QxaJmFOenJQCtbrCd9zm6sj9E+qqkX18y3/8yScesnv/5IW+4+oI1+sLJubT
- YHC6LR82DQ+g2zfV+1w5CTL2ECLnV8ll6XhFlVqjmiGfXOTfxq9enExdBjwP/t/DgVWk
- G3iWqRZZR79qXlNN3QaiNu/QRjTt/U9CkjZbxlUUR/r+Qg4CWiHcAcqt7avfLO1L+pCQ
- u4rcb6YUlnYHoH7g/D75AFgpFRwgtoLAJS6LqnbdY6LdyrxIui2XfO0tIwdLnflCrL3T
- 93Wg==
-X-Gm-Message-State: AOAM531C0XhDofyHO29F+OZK9dP5rA3SjtABUIa1XLFCJ47gNHpQMpli
- fUdsZrODjHi6MWl5D3pVBgVG7jbW/UAlIH+CbmU6OA==
-X-Google-Smtp-Source: ABdhPJx4P1ej7L1wdHVmiBYmKcrTBjuOF594ddNMuG9VR+8NqnPfqOi3YffEXrPOyVS/zF1P0da7MdNbeNHQ1ILOI5Q=
-X-Received: by 2002:a4a:381:: with SMTP id 123mr19822854ooi.85.1591125406730; 
- Tue, 02 Jun 2020 12:16:46 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1Snt2MuRNtA8FjEWhTYKly8HzdU4HIoXdYBdbSThMQ0=;
+ b=uBDTc0VAzYzsiDfUHZKUc+XWta0l7E40Cbm8fL7zP+/xqW7Wikf+BVvb6kq6p/+ggv
+ SCRd1yAmHSnPugzqWn9NdC2RyOOXMJY1FuQ9HR/+tyPgZ2gV1dHVGDxYSIoPlL2hjUW3
+ NDLLuj+I2en9SugEqB0Tq0hH2q6WufWEMFronA976EZj93mA2rPGbmADfp4qZ/Rq3UNZ
+ tWDLkffYS+AugueGsFdJjPspq+6mH7HxQRIZxIwuGak8DVtpFTJFiLvBlYb9/0Sn8Uwl
+ PRMTVNbqobMZWkGsYVZKa/zaec5cqxaKX0HQEgSRa5gp4N1A3CZMdkQJrFUXehAv6XWW
+ xCfA==
+X-Gm-Message-State: AOAM53254gx2SRk/VGv/DL2UZXEiZqaWCyRZofgqaXoXNLft9ShuQncP
+ r9B2hzZ5z90Upzk510fBVUuvT7naX9E=
+X-Google-Smtp-Source: ABdhPJy/4pUMMyuDpgLIBqWKFHMlt4FL0rzDE7B0xUI6zu2FVyuo1u61VAtfbEjbGrSbFfQ15rfNYA==
+X-Received: by 2002:a62:1d48:: with SMTP id d69mr27526190pfd.27.1591125598297; 
+ Tue, 02 Jun 2020 12:19:58 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id w12sm3249403pjb.11.2020.06.02.12.19.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Jun 2020 12:19:57 -0700 (PDT)
+Subject: Re: [PATCH 7/8] decodetree: Implement non-overlapping groups
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200518164052.18689-1-richard.henderson@linaro.org>
+ <20200518164052.18689-8-richard.henderson@linaro.org>
+ <CAFEAcA9goz6quKG7zEGtOkYEUhfX10PB_MNMr6Vzvfz1OCZgSw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e52bbe8e-8da3-8527-ea08-3f895e8fba77@linaro.org>
+Date: Tue, 2 Jun 2020 12:19:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200514212831.31248-1-richard.henderson@linaro.org>
-In-Reply-To: <20200514212831.31248-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Jun 2020 20:16:36 +0100
-Message-ID: <CAFEAcA8y=oF7N2NZCsw818rs__uviQgs7gdrfwC9iA7KvwFZDA@mail.gmail.com>
-Subject: Re: [PATCH 0/6] target/arm: Convert crypto to gvec
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c42;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc42.google.com
+In-Reply-To: <CAFEAcA9goz6quKG7zEGtOkYEUhfX10PB_MNMr6Vzvfz1OCZgSw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,30 +90,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 May 2020 at 22:28, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> In addition, this fixes the missing tail clearing for SVE.
->
-> The sha1, sha256, sm3 routines that are not fully generalized
-> are not used by sve -- it only supports the newer algorithms.
->
-> I'm not sure that this:
->
-> Based-on: <20200508151055.5832-1-richard.henderson@linaro.org>
-> ("tcg vector rotate operations")
->
-> will be sufficient for patchew, because it also relies on
-> today's target-arm.next merge to master.  But you get the idea.
+On 6/2/20 12:13 PM, Peter Maydell wrote:
+> On Mon, 18 May 2020 at 17:41, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Intended to be nested within overlapping groups.
+>>
+>> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>  scripts/decodetree.py | 21 ++++++++++++++-------
+>>  1 file changed, 14 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+>> index 0ba01e049c..a9739f671d 100755
+>> --- a/scripts/decodetree.py
+>> +++ b/scripts/decodetree.py
+>> @@ -1021,21 +1021,22 @@ def parse_file(f, parent_pat):
+>>          del toks[0]
+>>
+>>          # End nesting?
+>> -        if name == '}':
+>> +        if name == '}' or name == ']':
+>>              if len(toks) != 0:
+>>                  error(start_lineno, 'extra tokens after close brace')
+>>              if len(parent_pat.pats) < 2:
+>>                  error(lineno, 'less than two patterns within braces')
+>>
+>> +            # Make sure { } and [ ] nest properly.
+>> +            if (name == '}') != isinstance(parent_pat, IncMultiPattern):
+>> +                error(lineno, 'mismatched close brace')
+>> +
+>>              try:
+>>                  parent_pat = nesting_pats.pop()
+>>              except:
+>> -                error(lineno, 'mismatched close brace')
+>> +                error(lineno, 'extra close brace')
+>>
+>>              nesting -= 2
+>> -            if indent != nesting:
+>> -                error(lineno, 'indentation ', indent, ' != ', nesting)
+>> -
+> 
+> Why do we lose this error check ?
 
-Now I've just applied your latest tcg pull, are all the
-prerequisites for this series in master?
+Hmm, wasn't supposed to.  Will fix.
 
-thanks
--- PMM
+
+r~
 
