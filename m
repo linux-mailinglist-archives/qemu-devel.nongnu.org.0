@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E571EBF5C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 17:50:32 +0200 (CEST)
-Received: from localhost ([::1]:40088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB271EBF5E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 17:51:37 +0200 (CEST)
+Received: from localhost ([::1]:42914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jg9BP-0000LZ-V7
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 11:50:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55712)
+	id 1jg9CS-0001fx-7t
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 11:51:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jg97d-0003ey-7B
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 11:46:37 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35380)
+ id 1jg97f-0003jI-4q
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 11:46:39 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jg97c-0007dP-38
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 11:46:36 -0400
-Received: by mail-wr1-x444.google.com with SMTP id x14so3922732wrp.2
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 08:46:35 -0700 (PDT)
+ id 1jg97e-0007da-0N
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 11:46:38 -0400
+Received: by mail-wr1-x441.google.com with SMTP id x13so3922638wrv.4
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 08:46:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ieiufg3+rZeSqlWjO6C+srZMnCXRrjzqU0qc19RSOzQ=;
- b=JR3b8t6FMRb/PPNshBv9i/pSevLTzh4toO8FfG9UYFX+85SPBuOe2SoKFsC0UaZ3h2
- VssMokhms1MhCLF6Swp20D8M2WrCjg2WOnMQUK70RTqvBKmFGMd+TTX7fkOu3mN5Wfay
- MS+MdyLS6OWErZZtSBz/M7W7E5qnp9bEHDqxhBHOjb5phOue+gGb6K9Dv62U4YdCWar/
- PsbVYsqRniPR5fAx4sXYHE00GuIKDYgSO+Uppsri7sCaiOjo7bXfYjGOWoi6VZbIxoGw
- Lf6Ep95SEXwiBrTY2XAOqqDCgNf3TbLzSEwesvd4Bg4BkuwVHRJorLu95rmo5z+LJ0LW
- 6gMg==
+ bh=D98gPKyXYpHfK2vdgoTLIOCcijD4DQVmE2DVfMIiR4I=;
+ b=Ul2p16782znMcbsKpUw0Xm/g/AeHDL2ZSBciVmljZk8//OPHCBdPCJk8dnfLFihx06
+ XODtINTxB+ww5N3Dtuh/8jUv4RxmvrXbstAVsUpELiIGNfjDYIFW9AQSOkteAEw10Y1c
+ dA3YpTnWkBxU99/HzeQlDImeyyGJG8OVaPOR0orp2UqLxt5YuJvBy4kO2VgYUWkyXDTD
+ VC4HANX9Uy5euDTNSBVdaSXJcR/0MZm+AAdNyEPdKDtZO74FG1CUChHAPLq2wI3wuNrc
+ Jq+1IITF1y1vW4m90iDZt4Hp+8lksjqrnrPRstKfug1T+Ozwip98K4crr0vxr+B4mHTS
+ 4eYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ieiufg3+rZeSqlWjO6C+srZMnCXRrjzqU0qc19RSOzQ=;
- b=Zrw2YfwrImY8U1/uV85jtIXKiXSPsbOW2aNBsXFmK0URXj8r6yppeaj3pthD+WY2Dd
- x6CNv5phq5/YzSIFUvPwxc+RBpf7qpfqsO/tUnhsTV7uL0rAIJQaCSG53ViawTIkO2R0
- yKIakQXfMBCtztqlVBv0iaXUZ30HAYvtUj7aacrvcREM6Sk1VVIxoTmjNjiR1wZnDe19
- g1FXIVmVlFSYfNfWzpKE3uVQ2zzQIW7jCe7xcYoP4TrO9BjndfDNXpaLTdLoPSNkIW1A
- aRQRaHbopeyTB8lXasMSJL3ZMD2Dlj4n/HYptHwCYUJJKmyDkbvHVY8m+758hDQDx7Uf
- WegA==
-X-Gm-Message-State: AOAM5316MtKO6gLx7qkpJwdGGbLQIOy3rvIQAatbUAdYhXWKi/j9s2cM
- 4/7foDckslaEbVBybScH8xNd6g==
-X-Google-Smtp-Source: ABdhPJwNxdFcw8xWzgyALv1S9aKur2516yAV57PV4KK+iJl767vJDmewMdKPeNfgP0DckEf316MAxQ==
-X-Received: by 2002:adf:f0d2:: with SMTP id x18mr26578126wro.250.1591112794706; 
- Tue, 02 Jun 2020 08:46:34 -0700 (PDT)
+ bh=D98gPKyXYpHfK2vdgoTLIOCcijD4DQVmE2DVfMIiR4I=;
+ b=Hm2D5bMNFVfKI54TmKszaFBe9fr/JKHSC79X11rUzsRJmKTQMlrQ15KFT1imomxn57
+ 2/69NMOoDIpYHsdwy7SVCp34ZSXxP632zpcNNezFF5vSRHlwyQYHMXxWsDO6736Rylj8
+ vBxTvJl6V5yOAt4w2N3D+7Ij9pKnJDgA/TrB3axmyfn5d7EdRgjZl5w/J+zWPs6UBRqo
+ IJFC1QDLoHrG571ik0Rn1HaDRjrYMfGlj4s7aeEYseeB9lTQRvTev/Su1lCLTfG9SBtE
+ 73vRzdEBAz1wqzgmcH5Ks0fOn9WcrbaDz83NNFK+yQIauv8+wa79wahud9tFYQ2lpOzO
+ DuTQ==
+X-Gm-Message-State: AOAM530spmD5C4eoWXg8JibMuWZEEW1W4pqEVYP4kZh4+q58LFpp2auK
+ /4PpD6l9OVSK9mg+wjfvYn8J+w==
+X-Google-Smtp-Source: ABdhPJwdCD/FKV7MGBtwwb4puXuOLX3KQGY5CnARp56Juo109Rc9iXy/Hp5mpC81H6r/K0rNujFcCw==
+X-Received: by 2002:adf:a50e:: with SMTP id i14mr15141142wrb.21.1591112796558; 
+ Tue, 02 Jun 2020 08:46:36 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i10sm4421436wrw.51.2020.06.02.08.46.27
+ by smtp.gmail.com with ESMTPSA id l17sm186818wmi.16.2020.06.02.08.46.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 08:46:30 -0700 (PDT)
+ Tue, 02 Jun 2020 08:46:32 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C157E1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id D7B241FF93;
  Tue,  2 Jun 2020 16:46:24 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 6/9] hw/virtio/pci: include vdev name in registered PCI
- sections
-Date: Tue,  2 Jun 2020 16:46:21 +0100
-Message-Id: <20200602154624.4460-7-alex.bennee@linaro.org>
+Subject: [PATCH  v1 7/9] plugins: add API to return a name for a IO device
+Date: Tue,  2 Jun 2020 16:46:22 +0100
+Message-Id: <20200602154624.4460-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200602154624.4460-1-alex.bennee@linaro.org>
 References: <20200602154624.4460-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,92 +88,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, "Michael S. Tsirkin" <mst@redhat.com>,
- robhenry@microsoft.com, aaron@os.amperecomputing.com, cota@braap.org,
- kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
+Cc: robert.foley@linaro.org, robhenry@microsoft.com,
+ aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
+ peter.puhov@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When viewing/debugging memory regions it is sometimes hard to figure
-out which PCI device something belongs to. Make the names unique by
-including the vdev name in the name string.
+This may well end up being anonymous but it should always be unique.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/virtio/virtio-pci.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ include/qemu/qemu-plugin.h |  5 +++++
+ plugins/api.c              | 18 ++++++++++++++++++
+ 2 files changed, 23 insertions(+)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index d028c17c240..9ee4ab26cfe 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1390,7 +1390,7 @@ static void virtio_pci_device_write(void *opaque, hwaddr addr,
-     }
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index bab8b0d4b3a..43c6a9e857f 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -335,6 +335,11 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
+ bool qemu_plugin_hwaddr_is_io(const struct qemu_plugin_hwaddr *haddr);
+ uint64_t qemu_plugin_hwaddr_device_offset(const struct qemu_plugin_hwaddr *haddr);
+ 
++/*
++ * Returns a string representing the device. Plugin must free() it
++ */
++char * qemu_plugin_hwaddr_device_name(const struct qemu_plugin_hwaddr *haddr);
++
+ typedef void
+ (*qemu_plugin_vcpu_mem_cb_t)(unsigned int vcpu_index,
+                              qemu_plugin_meminfo_t info, uint64_t vaddr,
+diff --git a/plugins/api.c b/plugins/api.c
+index bbdc5a4eb46..3c73de8c1c2 100644
+--- a/plugins/api.c
++++ b/plugins/api.c
+@@ -303,6 +303,24 @@ uint64_t qemu_plugin_hwaddr_device_offset(const struct qemu_plugin_hwaddr *haddr
+     return 0;
  }
  
--static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy)
-+static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy, const char *vdev_name)
- {
-     static const MemoryRegionOps common_ops = {
-         .read = virtio_pci_common_read,
-@@ -1437,36 +1437,41 @@ static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy)
-         },
-         .endianness = DEVICE_LITTLE_ENDIAN,
-     };
-+    g_autoptr(GString) name = g_string_new(NULL);
- 
--
-+    g_string_printf(name, "virtio-pci-common(%s)", vdev_name);
-     memory_region_init_io(&proxy->common.mr, OBJECT(proxy),
-                           &common_ops,
-                           proxy,
--                          "virtio-pci-common",
-+                          name->str,
-                           proxy->common.size);
- 
-+    g_string_printf(name, "virtio-pci-isr(%s)", vdev_name);
-     memory_region_init_io(&proxy->isr.mr, OBJECT(proxy),
-                           &isr_ops,
-                           proxy,
--                          "virtio-pci-isr",
-+                          name->str,
-                           proxy->isr.size);
- 
-+    g_string_printf(name, "virtio-pci-device(%s)", vdev_name);
-     memory_region_init_io(&proxy->device.mr, OBJECT(proxy),
-                           &device_ops,
-                           virtio_bus_get_device(&proxy->bus),
--                          "virtio-pci-device",
-+                          name->str,
-                           proxy->device.size);
- 
-+    g_string_printf(name, "virtio-pci-notify(%s)", vdev_name);
-     memory_region_init_io(&proxy->notify.mr, OBJECT(proxy),
-                           &notify_ops,
-                           virtio_bus_get_device(&proxy->bus),
--                          "virtio-pci-notify",
-+                          name->str,
-                           proxy->notify.size);
- 
-+    g_string_printf(name, "virtio-pci-notify-pio(%s)", vdev_name);
-     memory_region_init_io(&proxy->notify_pio.mr, OBJECT(proxy),
-                           &notify_pio_ops,
-                           virtio_bus_get_device(&proxy->bus),
--                          "virtio-pci-notify-pio",
-+                          name->str,
-                           proxy->notify_pio.size);
- }
- 
-@@ -1607,7 +1612,7 @@ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
- 
-         struct virtio_pci_cfg_cap *cfg_mask;
- 
--        virtio_pci_modern_regions_init(proxy);
-+        virtio_pci_modern_regions_init(proxy, vdev->name);
- 
-         virtio_pci_modern_mem_region_map(proxy, &proxy->common, &cap);
-         virtio_pci_modern_mem_region_map(proxy, &proxy->isr, &cap);
++char * qemu_plugin_hwaddr_device_name(const struct qemu_plugin_hwaddr *haddr)
++{
++#ifdef CONFIG_SOFTMMU
++    if (haddr && haddr->is_io) {
++        MemoryRegionSection *mrs = haddr->v.io.section;
++        if (!mrs->mr->name) {
++            return g_strdup_printf("anon%08lx", 0xffffffff & (uintptr_t) mrs->mr);
++        } else {
++            return g_strdup(mrs->mr->name);
++        }
++    } else {
++        return g_strdup("RAM");
++    }
++#else
++    return g_strdup("Invalid");
++#endif
++}
++
+ /*
+  * Queries to the number and potential maximum number of vCPUs there
+  * will be. This helps the plugin dimension per-vcpu arrays.
 -- 
 2.20.1
 
