@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00E641EB3B0
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 05:13:56 +0200 (CEST)
-Received: from localhost ([::1]:52820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F26ED1EB3B9
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 05:18:11 +0200 (CEST)
+Received: from localhost ([::1]:57714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfxND-0004hD-1h
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 23:13:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44004)
+	id 1jfxRL-000791-2d
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 23:18:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jfxMP-00049l-Cw
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 23:13:05 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:40571)
+ (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jfxPd-0005mj-UT
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 23:16:25 -0400
+Received: from mail-vs1-xe41.google.com ([2607:f8b0:4864:20::e41]:44681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jfxMO-0004i0-10
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 23:13:05 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id t16so753639plo.7
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 20:13:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gOfNfr4/NHG9KND+o0a1b/Gj7rxxI014ehcAKIZjcMs=;
- b=boYq3m8nCPLXRifOJ1WwC2ljtjG6XWKE9h/sumj5nnr2ZW1l0SiqOafj5cYF2Lboe1
- 3TiPzISIdIUiIbN1PwvKO6DPPaJqH3n8ZqM0otGLILLBsCJT7Gx3ZEiZcr3jviJacz7l
- 0FkDeOykZ7wY/QSQWdRCFx8CN3xIlbGrZAkEgA7c4UpY4wpMKsE4V9l02Sl1tkEOpqEl
- +1kmL50irun4eCx+oCmipk16bgrdKsn7Se7+wel4a5oo3H6m/6PcBX1wR9gdg8evRo9G
- kZ0WVVXFcqmAnfYIvjwHeti39vGIfpNvRFzHXUXwTmclBuIQpYNbnfPAJ+qc0PURoGKC
- P3Ug==
+ (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jfxPb-0005xj-E7
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 23:16:25 -0400
+Received: by mail-vs1-xe41.google.com with SMTP id c1so1180975vsc.11
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 20:16:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=smartx-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=MDQP7mTgcCXs1qtC9gQGAE0TFgnUXJJVU7QraOKMJsM=;
+ b=go83NRrUaxfKMkoDNgnw691ogUoRU2EmHmYBFJY9MFrNCVUoCenzG4JFuiOaEmf7V8
+ +9HXZR856QvwB9pmjdei5lk9uwpkCPT3vIPIFylMPfOg6j8CiZQn254g32Yl46fJxGBr
+ bWL92BUL44HbYgED9pgeJsZCYKjEqylj2azwakvBBOCRbeIZ5wlLAeQVCtYIHx2EV+4N
+ f6Z6fdNygRFS8vmNJjySDkTi1IEZ62yyBgzzsu1EiRiB6V9op5g82/nxUlArRpDCkxaV
+ LmkN56hqlgqyk0Il3G/B5bgAQC8qQaywxGKAhXgk4N3pU0PAIJnyfZ+tcuUbV/Uwhipt
+ 4nKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gOfNfr4/NHG9KND+o0a1b/Gj7rxxI014ehcAKIZjcMs=;
- b=nkbpkkYUDft7QuuW3jO0kvYym36qCQXiupHB4znvQBW13fiqS88WZklbh3BWOjz+yM
- rog7cUfoU8W8rstpP4LG+asFzGR5yrxHIVWxB9m06M+ujMWfuca9gxs8d6RXP/xHTeVy
- l3jX6yumVsyqu5b8QqJJZ99A86rB7pbFgsJU2LQUcAo5fdttiyXgkPpDssJUSX8cb6Yk
- 6Nb4LIMV+EvGr0QjdJvN1jmf+diTSEOY5bh0qqfWCi5Lh+U7gdCO+rHtbfmi8in3ESYB
- pmrMxkRoiUwo1tX54UFEQYK1AdgAg0HLJdW4+ERR0d/2tk4Qmn+4fI4ta9J42Od3LqAF
- whBA==
-X-Gm-Message-State: AOAM531M4rp91d1MyIVqOkEVNEF40S8sqy55FM7719IrA0fuX3b0sNll
- 3li/FUhGE8xex9UCyKpJzIGO4Q==
-X-Google-Smtp-Source: ABdhPJzy5GxChjWEy3NR09rs23TaguUIEtLZW0NK73L6fQJahVPYQn+4SBYsycjw6w7PkoFOLWkAbg==
-X-Received: by 2002:a17:90a:218c:: with SMTP id
- q12mr2692924pjc.116.1591067582586; 
- Mon, 01 Jun 2020 20:13:02 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id hb3sm729170pjb.57.2020.06.01.20.13.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Jun 2020 20:13:01 -0700 (PDT)
-Subject: Re: [RFC v2 07/18] target/i386: sev: Remove redundant policy field
-To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
- brijesh.singh@amd.com, frankja@linux.ibm.com, dgilbert@redhat.com,
- pair@us.ibm.com
-References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
- <20200521034304.340040-8-david@gibson.dropbear.id.au>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <cad6754f-1014-3d77-fd21-113c4f73409b@linaro.org>
-Date: Mon, 1 Jun 2020 20:13:00 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=MDQP7mTgcCXs1qtC9gQGAE0TFgnUXJJVU7QraOKMJsM=;
+ b=lBA4V+RiXbPG/06xIastesNXNHQi6VNTTZUYgmpwtCMOfzX0Tdz145FCR5Aef3fBeH
+ eAEifwmDlfL75tg7w6fBsGmPbh9Ml/tmkZcdav7wtIJdSSSFZwEpcnjicf4hKjL0G0Ra
+ 455Mna3Jpn5sWfdLaLAeHzbHq6aGMyRRDd2J5wNGhXW2Wmg9LE7XM+OC3q5HXy6k0DCa
+ q5f1qSa9EtcL8re4ILb33Uie2JXOrpit7zyQ7zYHyC1TT+9PIEB7+mpmG1tFjLGstsTh
+ JxYafEQlIOsIr9C9S4T8x0U6BUdmn8mWF1Vb6CmbTvpFv5g91JxEFH0R++vBRGI2Qha+
+ +zIw==
+X-Gm-Message-State: AOAM531xDpKDM8InhPFd24fFX6HJakpmzYfL2+EkPhTCpHBowTQG8Vtb
+ d3y9ZGF2JM+oX/gfsJh4iG3nWl3MlUeKHSy42N7s9Q==
+X-Google-Smtp-Source: ABdhPJy/nzTkXv6O0QgBMagJK3I+ZT4C0CJ20oufnMwpjyTT6BvIYEQETgoG91zCO8wzMH8nbRafi4Njd9DDNz9O4mA=
+X-Received: by 2002:a67:1703:: with SMTP id 3mr17080915vsx.169.1591067780924; 
+ Mon, 01 Jun 2020 20:16:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200521034304.340040-8-david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+References: <cover.1590396396.git.dimastep@yandex-team.ru>
+ <69b73b94dcd066065595266c852810e0863a0895.1590396396.git.dimastep@yandex-team.ru>
+ <CAFubqFvOU-ZFnhmCUNGH9gyuwa4us0UNPvZ6QTggDLwUr7y=RA@mail.gmail.com>
+In-Reply-To: <CAFubqFvOU-ZFnhmCUNGH9gyuwa4us0UNPvZ6QTggDLwUr7y=RA@mail.gmail.com>
+From: Li Feng <fengli@smartx.com>
+Date: Tue, 2 Jun 2020 11:16:10 +0800
+Message-ID: <CAHckoCxjW3Udm0YGdkRGj85b4jz+cvM9HWpbMuWkCrxL8Xv5VA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] vhost-user-blk: delay vhost_user_blk_disconnect
+To: Raphael Norwitz <raphael.s.norwitz@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::e41;
+ envelope-from=fengli@smartx.com; helo=mail-vs1-xe41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,28 +80,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
- mdroth@linux.vnet.ibm.com, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, yc-core@yandex-team.ru,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Dima Stepanov <dimastep@yandex-team.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/20/20 8:42 PM, David Gibson wrote:
-> SEVState::policy is set from the final value of the policy field in the
-> parameter structure for the KVM_SEV_LAUNCH_START ioctl().  But, AFAICT
-> that ioctl() won't ever change it from the original supplied value which
-> comes from SevGuestState::policy.
-> 
-> So, remove this field and just use SevGuestState::policy directly.
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  target/i386/sev.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
+Hi Raphael,
+I'm sorry. I just end my journey today.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Yes, pls sign off me here.
+this patch is nearly the same as my previous patch.
 
-r~
+Thanks,
+Feng Li
 
+Raphael Norwitz <raphael.s.norwitz@gmail.com> =E4=BA=8E2020=E5=B9=B45=E6=9C=
+=8831=E6=97=A5=E5=91=A8=E6=97=A5 =E4=B8=8A=E5=8D=888:55=E5=86=99=E9=81=93=
+=EF=BC=9A
+>
+> On Thu, May 28, 2020 at 5:13 AM Dima Stepanov <dimastep@yandex-team.ru> w=
+rote:
+> >
+> > A socket write during vhost-user communication may trigger a disconnect
+> > event, calling vhost_user_blk_disconnect() and clearing all the
+> > vhost_dev structures holding data that vhost-user functions expect to
+> > remain valid to roll back initialization correctly. Delay the cleanup t=
+o
+> > keep vhost_dev structure valid.
+> > There are two possible states to handle:
+> > 1. RUN_STATE_PRELAUNCH: skip bh oneshot call and perform disconnect in
+> > the caller routine.
+> > 2. RUN_STATE_RUNNING: delay by using bh
+> >
+> > BH changes are based on the similar changes for the vhost-user-net
+> > device:
+> >   commit e7c83a885f865128ae3cf1946f8cb538b63cbfba
+> >   "vhost-user: delay vhost_user_stop"
+> >
+> > Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
+>
+> Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+>
+> Li Feng - would you also like to sign off here?
+>
+> > ---
+> >  hw/block/vhost-user-blk.c | 38 +++++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 37 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> > index 9d8c0b3..76838e7 100644
+> > --- a/hw/block/vhost-user-blk.c
+> > +++ b/hw/block/vhost-user-blk.c
+> > @@ -349,6 +349,19 @@ static void vhost_user_blk_disconnect(DeviceState =
+*dev)
+> >      vhost_dev_cleanup(&s->dev);
+> >  }
+> >
+> > +static void vhost_user_blk_event(void *opaque, QEMUChrEvent event);
+> > +
+> > +static void vhost_user_blk_chr_closed_bh(void *opaque)
+> > +{
+> > +    DeviceState *dev =3D opaque;
+> > +    VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
+> > +    VHostUserBlk *s =3D VHOST_USER_BLK(vdev);
+> > +
+> > +    vhost_user_blk_disconnect(dev);
+> > +    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, vhost_user_blk_e=
+vent,
+> > +            NULL, opaque, NULL, true);
+> > +}
+> > +
+> >  static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
+> >  {
+> >      DeviceState *dev =3D opaque;
+> > @@ -363,7 +376,30 @@ static void vhost_user_blk_event(void *opaque, QEM=
+UChrEvent event)
+> >          }
+> >          break;
+> >      case CHR_EVENT_CLOSED:
+> > -        vhost_user_blk_disconnect(dev);
+> > +        /*
+> > +         * A close event may happen during a read/write, but vhost
+> > +         * code assumes the vhost_dev remains setup, so delay the
+> > +         * stop & clear. There are two possible paths to hit this
+> > +         * disconnect event:
+> > +         * 1. When VM is in the RUN_STATE_PRELAUNCH state. The
+> > +         * vhost_user_blk_device_realize() is a caller.
+> > +         * 2. In tha main loop phase after VM start.
+> > +         *
+> > +         * For p2 the disconnect event will be delayed. We can't
+> > +         * do the same for p1, because we are not running the loop
+> > +         * at this moment. So just skip this step and perform
+> > +         * disconnect in the caller function.
+> > +         *
+> > +         * TODO: maybe it is a good idea to make the same fix
+> > +         * for other vhost-user devices.
+> > +         */
+> > +        if (runstate_is_running()) {
+> > +            AioContext *ctx =3D qemu_get_current_aio_context();
+> > +
+> > +            qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL, NU=
+LL,
+> > +                    NULL, NULL, false);
+> > +            aio_bh_schedule_oneshot(ctx, vhost_user_blk_chr_closed_bh,=
+ opaque);
+> > +        }
+> >          break;
+> >      case CHR_EVENT_BREAK:
+> >      case CHR_EVENT_MUX_IN:
+> > --
+> > 2.7.4
+> >
+> >
 
