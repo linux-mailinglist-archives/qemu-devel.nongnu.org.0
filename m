@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A971EBF6E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 17:55:10 +0200 (CEST)
-Received: from localhost ([::1]:52352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A819F1EBF66
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 17:53:29 +0200 (CEST)
+Received: from localhost ([::1]:47558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jg9Ft-0006qD-Eg
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 11:55:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55732)
+	id 1jg9EG-0004FT-OR
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 11:53:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jg97h-0003p9-Qa
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 11:46:41 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:54511)
+ id 1jg97g-0003m9-IY
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 11:46:40 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jg97g-0007dx-DQ
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 11:46:41 -0400
-Received: by mail-wm1-x332.google.com with SMTP id g10so3402146wmh.4
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 08:46:39 -0700 (PDT)
+ id 1jg97e-0007dh-Uc
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 11:46:40 -0400
+Received: by mail-wr1-x444.google.com with SMTP id x14so3922887wrp.2
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 08:46:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TTAp5rDD3D05lpMYKygwT+EZBLy9H09vRzxjadlC3og=;
- b=boJLOshUdKXGZfw665tFYM4A4pCjHkOuSLRwmpolEJ1R0ind9XcaALkQ4LcriVcjj4
- I1Q1cs5XA0/7S+2W9lYhrEQnTXzY6Gs8Dba9RgIkd2OVpvHebJG0pizNUVkf72fXl6bB
- POYPkewda46q8tBX5ZYhluUdIGsqcJe4TEkDo1fx5lOB3DDUnq+UIbZ/iMHdhlSe2IPt
- z/W4ZpeAYAE6xd8RwcfSEZAuQUEJZ/ocnY2ZKNqAK0Qde48+9VHckBM46Q0MwDSTC0SV
- 0ubnhpToIFoI0xshuKpnHJJUpqrlQgJNuc00fQTUzkCLZ9kQCYI5PxZ2Nwg7oDDeyXo4
- ke0w==
+ bh=D7IUd/fMXoOGoaV/5qSVVzKkzaDzbDEGnaTAgX8XWeQ=;
+ b=W65GZhjnZ98xwCzBbH0fHzuuUkAIA01tNSHq/Alu6fN+EyyuvKkcLCdAt+278dEtDe
+ 0+k/ch+rEK6wYrP0EAWYowzRCfgz1/keWSt1+beEc+/SqG4jC4+vqSqH7024pgM6872R
+ z4pXloEmu4sKFxCiNrcugWNfF0At/sO4LANKLsRpvBVNpNHUnqK14pM14eCTRnJ6f8x1
+ VkVVQKjBnizmQEKccSUJyVw3rtHAQS9IxL22OBiAD52Yr/ZGf0Ho94Cp+Fe28XmZPBIR
+ ayU5x7AJAdoZf/k/UqImCpYsxFkHMXumgpW2807LQ6FM6DzlPI3TF951XFsB6n7enTSZ
+ W0Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TTAp5rDD3D05lpMYKygwT+EZBLy9H09vRzxjadlC3og=;
- b=C/5UCFOLEQNt3DRA2l3zHYuvlHRMWNXrbCYkKIDdEQ9+8qpTiKxAQbZwyOA/vdAYfU
- 3gbTuDjJJ2y7IihQQfwxdTd70RrjX9m4p4k+SrPkST42W5Nwpq+GClDB6vKMz20T2tkk
- K9vXsc09Uk1CnMjWCYw00tAB9dNTJpok4Xn/lr+GSjB5R0tW/tJgdKsKC5QThQ7mDVF4
- uD+FvpwMaCFN2OQeb/4ubYxaX3SeqAjl3GITV6pI31MJ7BnfBXUGnbM8pSuTZNpriLRd
- nHfOMIij8SKxOZaf8b+ku3og4bvycJ9is3XQTBgQbsg8d6UgKuBRKeglKtSiMe/JIE21
- Lrlg==
-X-Gm-Message-State: AOAM533yCZoXkhKrP2eYe+u8g7/DdH6BjxIw3ydNYX5wxngQZ9HPtHlM
- rpcwQHDaTpEi8J8QGoxqxX/j4Q==
-X-Google-Smtp-Source: ABdhPJwdPDGoSWra5z8RM/5Zyyfwctln64NN1VHieXtwCE2X/+RQPsjFlUGgT9kd98a3DlZu/QTHWA==
-X-Received: by 2002:a1c:bc84:: with SMTP id m126mr5004966wmf.159.1591112798854; 
- Tue, 02 Jun 2020 08:46:38 -0700 (PDT)
+ bh=D7IUd/fMXoOGoaV/5qSVVzKkzaDzbDEGnaTAgX8XWeQ=;
+ b=BDBT/ZiwpUc6f4FevCcD2alw+Xk1XdleceFhbzAQVPnEj+wA04gRpV9JTPF3nNSo6t
+ Vxca52OKQV4xsqo6aeEPyCyV5QgOOhJWfZQ3hCvn2XNxTe7mQRQPlierMiAWYkjgq5tc
+ XBcXhs00fMrUpwLEabg5SD71nbMzw/KPsNCWVKPA5uMf+Jd7J+qy+Wui+nuXaEe5upS9
+ F5ALB1bCqTUX0NVaJPQhRbgO6Ca3uJRrQ5pME8M2BkNiQwHHzWOaE4IgFFDOf2dcQblk
+ skz5nEwHTAvfj2fGFuqQ8BDSC+kG3Id9w2GwLhJ3IHxyI/nfhKhr/nxkLaLZQ0kyj3WU
+ hZGQ==
+X-Gm-Message-State: AOAM531Tcr+/UbbjIZSpzcgEBHMywItjcYHrKHt0TGwribt8kgUVXBmi
+ BzGbXbBoIX8JxUwTmjBvy+7EbA==
+X-Google-Smtp-Source: ABdhPJwXTKriSjywj7DPAmySKxgQ5vcoi4Iv/lES/7bRkQ6tS7IQsvgbHA3J5VqLG1z9zsVZvgioBg==
+X-Received: by 2002:adf:fdcd:: with SMTP id i13mr25544969wrs.190.1591112797582; 
+ Tue, 02 Jun 2020 08:46:37 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b136sm283700wme.1.2020.06.02.08.46.28
+ by smtp.gmail.com with ESMTPSA id 37sm4682599wrk.61.2020.06.02.08.46.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 02 Jun 2020 08:46:32 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F09D61FF96;
- Tue,  2 Jun 2020 16:46:24 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 10D451FF98;
+ Tue,  2 Jun 2020 16:46:25 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 8/9] plugins: new hwprofile plugin
-Date: Tue,  2 Jun 2020 16:46:23 +0100
-Message-Id: <20200602154624.4460-9-alex.bennee@linaro.org>
+Subject: [PATCH  v1 9/9] .travis.yml: allow failure for unreliable hosts
+Date: Tue,  2 Jun 2020 16:46:24 +0100
+Message-Id: <20200602154624.4460-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200602154624.4460-1-alex.bennee@linaro.org>
 References: <20200602154624.4460-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,293 +88,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.foley@linaro.org, robhenry@microsoft.com,
- aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
- peter.puhov@linaro.org,
+Cc: Fam Zheng <fam@euphon.net>, robert.foley@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ robhenry@microsoft.com, aaron@os.amperecomputing.com, cota@braap.org,
+ kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a plugin intended to help with profiling access to various
-bits of system hardware. It only really makes sense for system
-emulation.
-
-It takes advantage of the recently exposed helper API that allows us
-to see the device name (memory region name) associated with a device.
+They will still run but they won't get in the way of the result.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/plugin/hwprofile.c | 248 +++++++++++++++++++++++++++++++++++++++
- tests/plugin/Makefile    |   1 +
- 2 files changed, 249 insertions(+)
- create mode 100644 tests/plugin/hwprofile.c
+ .travis.yml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/tests/plugin/hwprofile.c b/tests/plugin/hwprofile.c
-new file mode 100644
-index 00000000000..f5e0639e762
---- /dev/null
-+++ b/tests/plugin/hwprofile.c
-@@ -0,0 +1,248 @@
-+/*
-+ * Copyright (C) 2020, Alex Bennée <alex.bennee@linaro.org>
-+ *
-+ * HW Profile - breakdown access patterns for IO to devices
-+ *
-+ * License: GNU GPL, version 2 or later.
-+ *   See the COPYING file in the top-level directory.
-+ */
-+
-+#include <inttypes.h>
-+#include <assert.h>
-+#include <stdlib.h>
-+#include <inttypes.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <stdio.h>
-+#include <glib.h>
-+
-+#include <qemu-plugin.h>
-+
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
-+#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
-+
-+typedef struct {
-+    uint64_t offset;
-+    int size;
-+    int cpu_read;
-+    int cpu_write;
-+    uint64_t reads;
-+    uint64_t writes;
-+} IOLocationCounts;
-+
-+typedef struct {
-+    const char *name;
-+    uint64_t base;
-+    int cpu_read;
-+    int cpu_write;
-+    uint64_t total_writes;
-+    uint64_t total_reads;
-+    GHashTable *access_pattern;
-+} DeviceCounts;
-+
-+static GMutex lock;
-+static GHashTable *devices;
-+static bool detail;
-+
-+static enum qemu_plugin_mem_rw rw = QEMU_PLUGIN_MEM_RW;
-+
-+static inline bool track_reads(void)
-+{
-+    return rw == QEMU_PLUGIN_MEM_RW || rw == QEMU_PLUGIN_MEM_R;
-+}
-+
-+static inline bool track_writes(void)
-+{
-+    return rw == QEMU_PLUGIN_MEM_RW || rw == QEMU_PLUGIN_MEM_W;
-+}
-+
-+static void plugin_init(void)
-+{
-+    devices = g_hash_table_new(g_str_hash, g_str_equal);
-+}
-+
-+static gint sort_cmp(gconstpointer a, gconstpointer b)
-+{
-+    DeviceCounts *ea = (DeviceCounts *) a;
-+    DeviceCounts *eb = (DeviceCounts *) b;
-+    return ea->total_reads + ea->total_writes >
-+        eb->total_reads + eb->total_writes ? -1 : 1;
-+}
-+
-+static gint sort_off(gconstpointer a, gconstpointer b)
-+{
-+    IOLocationCounts *ea = (IOLocationCounts *) a;
-+    IOLocationCounts *eb = (IOLocationCounts *) b;
-+    return ea->offset > eb->offset;
-+}
-+
-+static void plugin_exit(qemu_plugin_id_t id, void *p)
-+{
-+    g_autoptr(GString) report = g_string_new("");
-+    GList *counts;
-+
-+    if (!detail) {
-+        g_string_printf(report, "Device, Address");
-+        if (track_reads()) {
-+            g_string_append_printf(report, ", RCPUs, Reads");
-+        }
-+        if (track_writes()) {
-+            g_string_append_printf(report, ",  WCPUs, Writes");
-+        }
-+        g_string_append_c(report, '\n');
-+    }
-+
-+    counts = g_hash_table_get_values(devices);
-+    if (counts && g_list_next(counts)) {
-+        GList *it;
-+
-+        it = g_list_sort(counts, sort_cmp);
-+
-+        while (it) {
-+            DeviceCounts *rec = (DeviceCounts *) it->data;
-+            if (detail) {
-+                GList *accesses = g_hash_table_get_values(rec->access_pattern);
-+                GList *io_it = g_list_sort(accesses, sort_off);
-+                g_string_append_printf(report, "%s @ 0x%"PRIx64"\n", rec->name, rec->base);
-+                while (io_it) {
-+                    IOLocationCounts *loc = (IOLocationCounts *) io_it->data;
-+                    g_string_append_printf(report, "  off:%08"PRIx64, loc->offset);
-+                    if (track_reads()) {
-+                        g_string_append_printf(report, ", 0x%04x, %"PRId64,
-+                                               loc->cpu_read, loc->reads);
-+                    }
-+                    if (track_writes()) {
-+                       g_string_append_printf(report, ", 0x%04x, %"PRId64,
-+                                               loc->cpu_write, loc->writes);
-+                    }
-+                    g_string_append_c(report,'\n');
-+                    io_it = io_it->next;
-+                }
-+            } else {
-+                g_string_append_printf(report, "%s, 0x%"PRIx64,
-+                                       rec->name, rec->base);
-+                if (track_reads()) {
-+                    g_string_append_printf(report, ", 0x%04x, %"PRId64,
-+                                           rec->cpu_read, rec->total_reads);
-+                }
-+                if (track_writes()) {
-+                    g_string_append_printf(report, ", 0x%04x, %"PRId64,
-+                                           rec->cpu_write, rec->total_writes);
-+                }
-+                g_string_append_c(report, '\n');
-+            }
-+            it = it->next;
-+        };
-+        g_list_free(it);
-+    }
-+
-+    qemu_plugin_outs(report->str);
-+}
-+
-+static DeviceCounts * new_count(char *name, uint64_t base)
-+{
-+    DeviceCounts *count = g_new0(DeviceCounts, 1);
-+    count->name = name;
-+    count->base = base;
-+    if (detail) {
-+        count->access_pattern = g_hash_table_new(g_int64_hash, g_int64_equal);
-+    }
-+    g_hash_table_insert(devices, name, count);
-+    return count;
-+}
-+
-+static IOLocationCounts * new_location(uint64_t offset)
-+{
-+    IOLocationCounts *loc = g_new0(IOLocationCounts, 1);
-+    loc->offset = offset;
-+    return loc;
-+}
-+
-+static void vcpu_haddr(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
-+                       uint64_t vaddr, void *udata)
-+{
-+    struct qemu_plugin_hwaddr *hwaddr = qemu_plugin_get_hwaddr(meminfo, vaddr);
-+
-+    if (!hwaddr || !qemu_plugin_hwaddr_is_io(hwaddr)) {
-+        return;
-+    } else {
-+        char *name = qemu_plugin_hwaddr_device_name(hwaddr);
-+        DeviceCounts *counts;
-+
-+        g_mutex_lock(&lock);
-+        counts = (DeviceCounts *) g_hash_table_lookup(devices, name);
-+        if (!counts) {
-+            uint64_t off = qemu_plugin_hwaddr_device_offset(hwaddr);
-+            uint64_t base = vaddr - off;
-+            counts = new_count(name, base);
-+        } else {
-+            g_free(name);
-+        }
-+
-+        if (detail) {
-+            uint64_t off = qemu_plugin_hwaddr_device_offset(hwaddr);
-+            IOLocationCounts *io_count = g_hash_table_lookup(counts->access_pattern, &off);
-+            if (!io_count) {
-+                io_count = new_location(off);
-+                g_hash_table_insert(counts->access_pattern, &off, io_count);
-+            }
-+            if (qemu_plugin_mem_is_store(meminfo)) {
-+                io_count->writes++;
-+                io_count->cpu_write |= (1 << cpu_index);
-+            } else {
-+                io_count->reads++;
-+                io_count->cpu_read |= (1 << cpu_index);
-+            }
-+        } else {
-+            if (qemu_plugin_mem_is_store(meminfo)) {
-+                counts->total_writes++;
-+                counts->cpu_write |= (1 << cpu_index);
-+            } else {
-+                counts->total_reads++;
-+                counts->cpu_read |= (1 << cpu_index);
-+            }
-+        }
-+        g_mutex_unlock(&lock);
-+    }
-+}
-+
-+static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-+{
-+    size_t n = qemu_plugin_tb_n_insns(tb);
-+    size_t i;
-+
-+    for (i = 0; i < n; i++) {
-+        struct qemu_plugin_insn *insn = qemu_plugin_tb_get_insn(tb, i);
-+        qemu_plugin_register_vcpu_mem_cb(insn, vcpu_haddr,
-+                                         QEMU_PLUGIN_CB_NO_REGS,
-+                                         rw, NULL);
-+    }
-+}
-+
-+QEMU_PLUGIN_EXPORT
-+int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
-+                        int argc, char **argv)
-+{
-+    int i;
-+
-+    for (i = 0; i < argc; i++) {
-+        char *opt = argv[i];
-+        if (g_strcmp0(opt, "read") == 0) {
-+            rw = QEMU_PLUGIN_MEM_R;
-+        } else if (g_strcmp0(opt, "write") == 0) {
-+            rw = QEMU_PLUGIN_MEM_W;
-+        } else if (g_strcmp0(opt, "detail") == 0) {
-+            detail = true;
-+        } else {
-+            fprintf(stderr, "option parsing failed: %s\n", opt);
-+            return -1;
-+        }
-+    }
-+
-+    plugin_init();
-+
-+    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
-+    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
-+    return 0;
-+}
-diff --git a/tests/plugin/Makefile b/tests/plugin/Makefile
-index b3250e2504c..d87b8d40699 100644
---- a/tests/plugin/Makefile
-+++ b/tests/plugin/Makefile
-@@ -14,6 +14,7 @@ NAMES += hotblocks
- NAMES += howvec
- NAMES += hotpages
- NAMES += lockstep
-+NAMES += hwprofile
+diff --git a/.travis.yml b/.travis.yml
+index 564be50a3c1..ec6367af1f0 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -429,6 +429,7 @@ jobs:
+       env:
+         - TEST_CMD="make check check-tcg V=1"
+         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS}"
++        - UNRELIABLE=true
  
- SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
+     - name: "[ppc64] GCC check-tcg"
+       arch: ppc64le
+@@ -493,6 +494,7 @@ jobs:
+       env:
+         - TEST_CMD="make check check-tcg V=1"
+         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
++        - UNRELIABLE=true
+       script:
+         - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
+         - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
+@@ -535,6 +537,7 @@ jobs:
+         - TEST_CMD="make check-unit"
+         - CONFIG="--disable-containers --disable-tcg --enable-kvm
+                   --disable-tools --host-cc=clang --cxx=clang++"
++        - UNRELIABLE=true
  
+     # Release builds
+     # The make-release script expect a QEMU version, so our tag must start with a 'v'.
+@@ -556,3 +559,5 @@ jobs:
+         - mkdir -p release-build && cd release-build
+         - ../configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
+         - make install
++  allow_failures:
++    - env: UNRELIABLE=true
 -- 
 2.20.1
 
