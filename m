@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7018E1EC498
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 23:50:30 +0200 (CEST)
-Received: from localhost ([::1]:35624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E70851EC485
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 23:48:12 +0200 (CEST)
+Received: from localhost ([::1]:56184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgEnl-0001nc-FJ
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 17:50:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47312)
+	id 1jgElX-00072g-Vl
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 17:48:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgEj7-0004p8-00
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 17:45:41 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39659
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgEj6-0004oN-1B
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 17:45:40 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48580
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgEj3-0008Gz-VI
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 17:45:40 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgEj3-0008H2-Ta
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 17:45:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1591134334;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rqZB51V3cTzy1njpNQQHBgWPqmvG1ZQB9vTn6Cngork=;
- b=Xm4//WFgVVFUM4IYjdUc7oyc3pJP3pHYMYMmcaHn/Q7yWmGWZZOETVDAtEzKINN+6U1mHN
- rCQLt2Ak6zzmRra2o28zUDnhsHVkR3aMs+66F5dsLMeJWOXFoIKsT65BdCfXg3clkNm6Tw
- 2thkYN3ayhnAgNer79resn0rPvBs6hs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AffFvAJ982E8rMg3USDtpzSTkHD0X9KrviRMhx0uy5A=;
+ b=IN53GaNnq2qzzG/e7FgPAyeG02WyrxZ0Jzv8/HIugET2fyN2M6enlR/P4UjbJnj4QRYwDD
+ 4fCzujTwDI1DLHdxUwGCIfXPNMOfLVI1sM22qYRXohjfgDkN8tFDoy+0sd+1go6p0QOGO7
+ CwERNjxeD45PTg6s2rsASk4xfzNqk5M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-UvKpFAQdMimtL2ndIk8Lsg-1; Tue, 02 Jun 2020 17:45:31 -0400
-X-MC-Unique: UvKpFAQdMimtL2ndIk8Lsg-1
+ us-mta-118-KNH124CNO8qj6vIC_KslmA-1; Tue, 02 Jun 2020 17:45:32 -0400
+X-MC-Unique: KNH124CNO8qj6vIC_KslmA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B14F80474D;
- Tue,  2 Jun 2020 21:45:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5FFCA0BD8;
+ Tue,  2 Jun 2020 21:45:31 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-142.rdu2.redhat.com [10.10.112.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E26060BE1;
- Tue,  2 Jun 2020 21:45:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9084860BE1;
+ Tue,  2 Jun 2020 21:45:30 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/16] python: add mypy support to python/qemu
-Date: Tue,  2 Jun 2020 17:45:12 -0400
-Message-Id: <20200602214528.12107-1-jsnow@redhat.com>
+Subject: [PATCH v2 01/16] python/qmp.py: Define common types
+Date: Tue,  2 Jun 2020 17:45:13 -0400
+Message-Id: <20200602214528.12107-2-jsnow@redhat.com>
+In-Reply-To: <20200602214528.12107-1-jsnow@redhat.com>
+References: <20200602214528.12107-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -81,70 +84,50 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Requires: 20200602194844.15258-1-jsnow@redhat.com
+Define some common types that we'll need to annotate a lot of other
+functions going forward.
 
-This series is extracted from my larger series that attempted to bundle
-our python module as an installable module. These fixes don't require that,
-so they are being sent first as I think there's less up for debate in here.
-
-This requires my "refactor shutdown" patch as a pre-requisite.
-
-"v2":
-- This version supports iotests 297
-- Many patches merged by Phil are removed
-- Replaces iotests.py type aliases with centralized ones
-  (See patch 2)
-- Imports etc are reworked to use the non-installable
-  package layout instead. (Mostly important for patch 3)
-
-Testing this out:
-- You'll need Python3.6+
-- I encourage you to use a virtual environment!
-- You don't necessarily need these exact versions, but I didn't test the
-  lower bounds, use older versions at your peril:
-  - pylint==2.5.0
-  - mypy=0.770
-  - flake8=3.7.8
-
-> cd ~/src/qemu/python/
-> flake8 qemu
-> mypy --strict qemu
-> cd qemu
-> pylint *.py
-
-These should all 100% pass.
-
+Signed-off-by: John Snow <jsnow@redhat.com>
 ---
+ python/qemu/qmp.py | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Open RFC: What's the right way to hook this into make check to prevent
-regressions?
-
-John Snow (16):
-  python/qmp.py: Define common types
-  iotests.py: use qemu.qmp type aliases
-  python/qmp.py: re-absorb MonitorResponseError
-  python/qmp.py: Do not return None from cmd_obj
-  python/qmp.py: add casts to JSON deserialization
-  python/qmp.py: add QMPProtocolError
-  python/machine.py: Fix monitor address typing
-  python/machine.py: reorder __init__
-  python/machine.py: Don't modify state in _base_args()
-  python/machine.py: Handle None events in event_wait
-  python/machine.py: use qmp.command
-  python/machine.py: Add _qmp access shim
-  python/machine.py: fix _popen access
-  python/qemu: make 'args' style arguments immutable
-  iotests.py: Adjust HMP kwargs typing
-  python/qemu: Add mypy type annotations
-
- python/qemu/accel.py          |   8 +-
- python/qemu/machine.py        | 267 ++++++++++++++++++++--------------
- python/qemu/qmp.py            | 111 ++++++++++----
- python/qemu/qtest.py          |  54 ++++---
- scripts/render_block_graph.py |   7 +-
- tests/qemu-iotests/iotests.py |  11 +-
- 6 files changed, 285 insertions(+), 173 deletions(-)
-
+diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
+index e64b6b5faa7..8388c7b6030 100644
+--- a/python/qemu/qmp.py
++++ b/python/qemu/qmp.py
+@@ -12,13 +12,31 @@
+ import socket
+ import logging
+ from typing import (
++    Any,
++    Dict,
+     Optional,
+     TextIO,
+     Type,
++    Tuple,
++    Union,
+ )
+ from types import TracebackType
+ 
+ 
++# QMPMessage is a QMP Message of any kind.
++# e.g. {'yee': 'haw'}
++#
++# QMPReturnValue is the inner value of return values only.
++# {'return': {}} is the QMPMessage,
++# {} is the QMPReturnValue.
++QMPMessage = Dict[str, Any]
++QMPReturnValue = Dict[str, Any]
++
++InternetAddrT = Tuple[str, str]
++UnixAddrT = str
++SocketAddrT = Union[InternetAddrT, UnixAddrT]
++
++
+ class QMPError(Exception):
+     """
+     QMP base exception
 -- 
 2.21.3
 
