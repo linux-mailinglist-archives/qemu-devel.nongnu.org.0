@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74EF61EB6AA
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 09:43:47 +0200 (CEST)
-Received: from localhost ([::1]:54492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5983E1EB6B1
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 09:45:32 +0200 (CEST)
+Received: from localhost ([::1]:33320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jg1aM-0005Jn-HV
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 03:43:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54778)
+	id 1jg1c3-0008Lm-Eu
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 03:45:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <morecache@gmail.com>)
- id 1jg1ZB-0003lZ-9j
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 03:42:33 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43724)
+ id 1jg1ZG-0003sv-3n
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 03:42:38 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <morecache@gmail.com>)
- id 1jg1ZA-0000Ym-LY
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 03:42:33 -0400
-Received: by mail-wr1-x442.google.com with SMTP id l10so2269927wrr.10
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 00:42:32 -0700 (PDT)
+ id 1jg1ZF-0000ZB-CE
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 03:42:37 -0400
+Received: by mail-wm1-x341.google.com with SMTP id c71so1870180wmd.5
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 00:42:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bFt0WsKi9YCNdM7hkyu3tuuPZYw4VooHNM+xovmMUSU=;
- b=UjHXT5b+mAHucrJN+ZcFcwlt4a7/rA+EDtXusPHC+3wo7dFu0POHseQ/H2tSunibjN
- eg6As0H9nuVDoyV6r2L0lx69QjH/mC87krqnX4yMN2YU/688/F8hVL17UJdH8C8zO5NO
- DTvZTClUy1Lw+Af0bI++6Zpxelkm8Z+YXQQgAEkWV/Ij7lKU16ls6/Yh10ge+qU9IjhF
- g5x+3fbZq25ChZNqGN8C1JV456pfzIaDpFaQExtMFASuw7yUCrNJIB2h6d0OA9Nps+VZ
- 0ma2bmy9F55JEE78QnIQq2thqOGOnlBqUjNUDZJlWZ7/YyuTd12cAbwgWRvbM12P/mx0
- /5iQ==
+ bh=jhAbJ4GRGhtDDVKIxTwS8TPvMGErkabeXRmJPRzEdzM=;
+ b=HH64tEcTh2bYLaAwptSA5cSoe0GnCZleCtOT+lWyHEDZe+ZE6bwAqxFczuBRNRa62J
+ 4fAkk83vTdEUfHfkSiQkVxzRUhsk3ddXak0mQRNl5QM4u7m08tVJQv4v/wOc+ybMhEUo
+ 0s/ge9ChCFGiNogcpyW7cuQHgLLvPdLYO7uAPsaXWDpITr1yoDizOsxB3W3NUaPE22PM
+ q0J9R+ElNGW5pNu5u8Yamk4UhNBtQzqeHWjLpobIj//N4+8H63fTotFQ5wSkfz3Kknx5
+ NZmESQSfYp9X2hnB16LJglKpPCqWNJWt9Vj8peYjX+UcQUXHp1dy+77kmEZdPWvYc7vD
+ e9rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=bFt0WsKi9YCNdM7hkyu3tuuPZYw4VooHNM+xovmMUSU=;
- b=Irjf4pJFYbrDcQKYigU5rHWo9gi3Rlv2Afg2F3pcRE7uIFFIujWN7hxo0+3+ppPKL2
- eC1xbsSJfRpucJz21ouSC5x/tRAIV8RoVmt3PdKSq3oiCIuNM4/71rf2BNQzh0SntO41
- VmhLphLHBqQ+A4T1IbYTHLwbdGWUun0uaebX7bXkSjX9H6YtIQJNQmSl5hOVHHG3j5GQ
- c6iCW4NA+Emd4+Qol+6hLmgKWBsPBDzYMIegOK+UUwV6UGCXHpc3N0ppRcO2dTWsArHJ
- 3TSryPCCe2HzDqg48Nu7kf795kBulAVNfXHrvZG7fGiDgC8bi69WB7be5cgSJzBSvo3S
- MbrQ==
-X-Gm-Message-State: AOAM5324mg2R1b6RTRRYrGZbpeb6+yFTTRWxYCcH++X7mBIfklaeM4U3
- SPEjz5D+xSEypFzx2K8Pj5OOLz+jZwE=
-X-Google-Smtp-Source: ABdhPJxicM6rpPP9PklDqcsi02NSQb1Yq9AysFhDVJeVZg4YJVUxyEu056EqBOTCBgwNAIRJ/vZOdw==
-X-Received: by 2002:adf:f389:: with SMTP id m9mr23676786wro.195.1591083751265; 
- Tue, 02 Jun 2020 00:42:31 -0700 (PDT)
+ bh=jhAbJ4GRGhtDDVKIxTwS8TPvMGErkabeXRmJPRzEdzM=;
+ b=WPnqr95D96awvb8Ap4XXs/Gq/g8v9tozzOIRPvN4kN7+6J+pVTm4XKoZdHUSYp8oIK
+ fyipJBGAUOBrl2Pa6oU/kaPOd0E21M63saluG3z1QXGpfm2HZnb1zASt4j4ZkwQrKyH5
+ U1cQrUPyqj7zCFsZwuWhevka90r8Tb2ejjd7aGehV+Pvon5I0ZKGZW09EXW/6QzWlCyy
+ Z4xOVUHY6jwBzCgCzimnYCQMj5/b9fAU1bl6PEKfnMGK9UVdWVLLCJCNxv3yUaRrmb6g
+ Vd22DukKxKHTevstZs4i61ShS9e8P9r+uQ0ry5GI/6i7+hmW/0wG554V4rrnGBGoU6N9
+ c0oA==
+X-Gm-Message-State: AOAM533uPUtfGuD+SXB6wb+gPcYUQL6KGKddLhJcWVZFjkGZ+30B2Mqv
+ z69z4WOpg4hzAyU+PvJWLvaMNaUo3UM=
+X-Google-Smtp-Source: ABdhPJyFD57ySBj1mj6h6wHYgqD+b1Ksjg2wi6MMtqvOj/WUHNl+4VOZ801yFkyo4cp30jRG/Wo9MA==
+X-Received: by 2002:a1c:3c89:: with SMTP id j131mr2820557wma.59.1591083754653; 
+ Tue, 02 Jun 2020 00:42:34 -0700 (PDT)
 Received: from t440p.suse.asia (60-251-47-115.HINET-IP.hinet.net.
  [60.251.47.115])
- by smtp.gmail.com with ESMTPSA id w3sm2294518wmg.44.2020.06.02.00.42.28
+ by smtp.gmail.com with ESMTPSA id w3sm2294518wmg.44.2020.06.02.00.42.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 00:42:30 -0700 (PDT)
+ Tue, 02 Jun 2020 00:42:34 -0700 (PDT)
 From: Lin Ma <lma@suse.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] block: Add bdrv_co_get_lba_status
-Date: Tue,  2 Jun 2020 15:41:58 +0800
-Message-Id: <20200602074201.10879-2-lma@suse.com>
+Subject: [PATCH 2/4] block: Add GET LBA STATUS support
+Date: Tue,  2 Jun 2020 15:41:59 +0800
+Message-Id: <20200602074201.10879-3-lma@suse.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200602074201.10879-1-lma@suse.com>
 References: <20200602074201.10879-1-lma@suse.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=morecache@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=morecache@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -90,68 +90,74 @@ Cc: pbonzini@redhat.com, stefanha@redhat.com, Lin Ma <lma@suse.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The get lba status wrapper based on the bdrv_block_status. The following
-patches will add GET LBA STATUS 16 support for scsi emulation layer.
-
 Signed-off-by: Lin Ma <lma@suse.com>
 ---
- block/io.c | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ block/block-backend.c          | 38 ++++++++++++++++++++++++++++++++++
+ include/sysemu/block-backend.h |  2 ++
+ 2 files changed, 40 insertions(+)
 
-diff --git a/block/io.c b/block/io.c
-index 121ce17a49..dacc3c2471 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2186,6 +2186,49 @@ int coroutine_fn bdrv_co_pwrite_zeroes(BdrvChild *child, int64_t offset,
-                            BDRV_REQ_ZERO_WRITE | flags);
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 6936b25c83..feb1f38b98 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1650,6 +1650,44 @@ int blk_pdiscard(BlockBackend *blk, int64_t offset, int bytes)
+     return blk_prw(blk, offset, NULL, bytes, blk_pdiscard_entry, 0);
  }
  
-+int coroutine_fn
-+bdrv_co_get_lba_status(BdrvChild *child, int64_t offset, int64_t bytes,
-+                       uint32_t *num_blocks, uint32_t *is_deallocated)
++static int coroutine_fn
++blk_do_get_lba_status(BlockBackend *blk, int64_t offset, int bytes,
++                      uint32_t *num_blocks, uint32_t *is_deallocated)
 +{
-+    BlockDriverState *bs = child->bs;
 +    int ret;
-+    int64_t target_size, count = 0;
-+    bool first = true;
-+    uint8_t wanted_bit1 = 0;
 +
-+    target_size = bdrv_getlength(bs);
-+    if (target_size < 0) {
-+        return -EIO;
++    blk_wait_while_drained(blk);
++
++    ret = blk_check_byte_request(blk, offset, bytes);
++    if (ret < 0) {
++        return ret;
 +    }
 +
-+    if (offset < 0 || bytes < 0) {
-+        return -EIO;
-+    }
-+
-+    for ( ; offset <= target_size - bytes; offset += count) {
-+        ret = bdrv_block_status(bs, offset, bytes, &count, NULL, NULL);
-+        if (ret < 0) {
-+            goto out;
-+        }
-+        if (first) {
-+            if (ret & BDRV_BLOCK_ZERO) {
-+                wanted_bit1 = BDRV_BLOCK_ZERO >> 1;;
-+                *is_deallocated = 1;
-+            } else {
-+                wanted_bit1 = 0;
-+            }
-+            first = false;
-+        }
-+        if ((ret & BDRV_BLOCK_ZERO) >> 1 == wanted_bit1) {
-+            (*num_blocks)++;
-+        } else {
-+            break;
-+        }
-+    }
-+out:
-+    return ret;
++    return bdrv_co_get_lba_status(blk->root, offset, bytes, num_blocks,
++                                  is_deallocated);
 +}
 +
- /*
-  * Flush ALL BDSes regardless of if they are reachable via a BlkBackend or not.
-  */
++static void blk_aio_get_lba_status_entry(void *opaque)
++{
++    BlkAioEmAIOCB *acb = opaque;
++    BlkRwCo *rwco = &acb->rwco;
++
++    void *data = acb->common.opaque;
++    uint32_t *num_blocks = &data[0];
++    uint32_t *is_deallocated = &data[sizeof(uint32_t)];
++
++    rwco->ret = blk_do_get_lba_status(rwco->blk, rwco->offset, acb->bytes,
++                                      num_blocks, is_deallocated);
++    blk_aio_complete(acb);
++}
++
++BlockAIOCB *blk_aio_get_lba_status(BlockBackend *blk, int64_t offset, int bytes,
++                                   BlockCompletionFunc *cb, void *opaque)
++{
++    return blk_aio_prwv(blk, offset, bytes, NULL, blk_aio_get_lba_status_entry,
++                        0, cb, opaque);
++}
++
+ /* To be called between exactly one pair of blk_inc/dec_in_flight() */
+ static int coroutine_fn blk_do_flush(BlockBackend *blk)
+ {
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+index 8203d7f6f9..cd527ec0c9 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -171,6 +171,8 @@ BlockAIOCB *blk_aio_flush(BlockBackend *blk,
+                           BlockCompletionFunc *cb, void *opaque);
+ BlockAIOCB *blk_aio_pdiscard(BlockBackend *blk, int64_t offset, int bytes,
+                              BlockCompletionFunc *cb, void *opaque);
++BlockAIOCB *blk_aio_get_lba_status(BlockBackend *blk, int64_t offset, int bytes,
++                                   BlockCompletionFunc *cb, void *opaque);
+ void blk_aio_cancel(BlockAIOCB *acb);
+ void blk_aio_cancel_async(BlockAIOCB *acb);
+ int blk_ioctl(BlockBackend *blk, unsigned long int req, void *buf);
 -- 
 2.24.0
 
