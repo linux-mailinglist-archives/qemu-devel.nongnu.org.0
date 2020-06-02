@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F0C1EB3B6
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 05:17:11 +0200 (CEST)
-Received: from localhost ([::1]:55550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A281EB3BB
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 05:19:20 +0200 (CEST)
+Received: from localhost ([::1]:60114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfxQM-0006EL-N9
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 23:17:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44730)
+	id 1jfxSR-00088e-Qk
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 23:19:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jfxPX-0005cH-29
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 23:16:19 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:38368)
+ id 1jfxRX-0007cX-PC
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 23:18:23 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:40781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jfxPU-0005vz-Te
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 23:16:17 -0400
-Received: by mail-pl1-x632.google.com with SMTP id m7so763148plt.5
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 20:16:16 -0700 (PDT)
+ id 1jfxRW-0006te-FT
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 23:18:23 -0400
+Received: by mail-pf1-x429.google.com with SMTP id v2so4390054pfv.7
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 20:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6vwdZtJMYIy5H75dzhNT2X27UM1ZC8bhL7w9ePOSU7U=;
- b=DkUpgVcA4ocMJ3P6LDdPJF2w2nlgpDXJf4KD43TmyrCUK/17aiwh/EDXZ8Pbf/Ikw3
- +LaHWWMwnLWIXLHFNu6UnsiY0/UpjkHlndRdJNXwq4ycQdcUS3FvUlZbARiLBtQHUYjy
- BVRVfH8FAEYi4uwHnfxMHeXubEZI4LDoPiSGkjIA3oRCQKPM9xmDTJ8xrgj4m9ApGmJq
- EOVucwEetRCstU8Vix5n8KhPP60i3WlyYJIuwjCFfL52EhORvrBzPdFqUHginKKqVpA6
- 1s1Fv2pctgnmB111PNZDA8seKNEDJzS6kBkoRvOgd/z7Z0KBDCcG7P8OQcCqjeCqG7mo
- ZHwg==
+ bh=OkFIi5Mxf3fvPsHj+oX7KiNnRIh3rdVzURh4uHgDtIY=;
+ b=M//U9dV1UjwjmeNNOods+7qc5yBfWVVW6bBZXVhq0Kobt83OuicJO4gCwgjjJWgkJD
+ e0SUe3iPCahcHuKTnOVsSO3kPJxYw9a2S1LvvQ5hAmgFKFf+kjOvQfwOfRp2JeWE3yeI
+ KNF0FGwnIcat1L20aKdEwD9IIjpJMqUMOWufMRZAdA5hWA1GyBEFVh86ERcMGa0yC5km
+ NSfp4jMGmP+7FKgXRmhcBNCWM89a6PHgsR7uxfkJ3B6jRPAhAlTYl0DoHQfqXHV9GaBd
+ OkHxa2pUMW8mljYyFBLJ3bGNeg4+UXu5wh4AOwDklzYeAHJa7YN3AwKh0NshrygfWYAE
+ PtAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=6vwdZtJMYIy5H75dzhNT2X27UM1ZC8bhL7w9ePOSU7U=;
- b=BL15K9DKJmJ+lBetQz9RTTW2ADZ8VJysiB0aPx2iffrmlhXNwSsmfuR4z+qJny4sDO
- UO0BLCrceCcyK3xtJ8Ky32mlB+vZ0iXLXS4bsv5t+1tln88v+fBiDW+RARDly0yNQqP2
- Tkr0DzqXPklBWDgAo7qcjg0sI3jb+4sXw6zHjKUN4KuUmOQG+Fg8XJ6Tx8WN/MOlzZxf
- DU8c1Izls0RiRxy8AtcCEK4OcG7ytuPF9rjElHvsU2NBsrh2TFjKWsSlpWpkus7eFSum
- WPuILpakmRINmLxTWlUZQVmzAKaThcib796o+NGGrTAxFiptPIsjPGyu/t7XP+286ZF5
- 8yMA==
-X-Gm-Message-State: AOAM532WCyinr6uJxcTfp6+4G4qP93UIwD7FsbY7UqZ3YNkFoyeWuPvH
- jvDNvvdEwlz7O+IKgbuCGOSX4A==
-X-Google-Smtp-Source: ABdhPJx44UFfX+t1vNjTWxJU2WH3P2v7BuF8Sg+OatY+uEu13V3i6KaN3tFTA8tLmrDCjUg7erFDuw==
-X-Received: by 2002:a17:90b:b14:: with SMTP id
- bf20mr2897250pjb.231.1591067775270; 
- Mon, 01 Jun 2020 20:16:15 -0700 (PDT)
+ bh=OkFIi5Mxf3fvPsHj+oX7KiNnRIh3rdVzURh4uHgDtIY=;
+ b=Oemomky8aVDEtCoRGzaxGTUaosMwCW/4t4HfcVXgl7R49H1BIMc81iRCS8ldWk9z4L
+ d+Sz7y5B0YMuHRTiXUj7vSjcPbyXbQpxKjxNHYCFfMbYPGNzdgpj/LvJYVBHI/sMSsWm
+ laQ0e+VhfI4WHmvqAmgubr+uDb9SVRDluMrdSkpvNh6x1orus7vRgbjmmZQe7Z6zNfN9
+ y6IaoFbhanWbE4PDiscodEPRegaxvACGgx1gXn27BzxupPmUllAnuahW1OgzK/U+bXnB
+ Uo6wDbW/6hU+wjC2FU350v4fSGBfrLzz71JFCSPW672UkHvaLQBcP8zqK+NLALGqVdxL
+ zKXQ==
+X-Gm-Message-State: AOAM532V70seJO2OuVbeJhPRy0Xb5k1QzHMpKtAloOSStMKhz0MMG91G
+ yykkpDLwUB8MT6/obQ19Mo6GCw==
+X-Google-Smtp-Source: ABdhPJwNGG9GWJajoXpr3g6vvaivD/1cTPCj7p9XmmjiW6KU7Do9GR3B4HKwd3VTxsbJtG+W28/q8w==
+X-Received: by 2002:a62:8c42:: with SMTP id m63mr23039485pfd.106.1591067901032; 
+ Mon, 01 Jun 2020 20:18:21 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id gd1sm748295pjb.14.2020.06.01.20.16.14
+ by smtp.gmail.com with ESMTPSA id e124sm709630pfh.140.2020.06.01.20.18.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Jun 2020 20:16:14 -0700 (PDT)
-Subject: Re: [RFC v2 08/18] target/i386: sev: Remove redundant handle field
+ Mon, 01 Jun 2020 20:18:20 -0700 (PDT)
+Subject: Re: [RFC v2 09/18] target/i386: sev: Unify SEVState and SevGuestState
 To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
  brijesh.singh@amd.com, frankja@linux.ibm.com, dgilbert@redhat.com,
  pair@us.ibm.com
 References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
- <20200521034304.340040-9-david@gibson.dropbear.id.au>
+ <20200521034304.340040-10-david@gibson.dropbear.id.au>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2de86b15-8a79-3609-8101-c9cc4dcaf255@linaro.org>
-Date: Mon, 1 Jun 2020 20:16:12 -0700
+Message-ID: <fc66c595-9a10-65f0-37c0-83ff1d5e42ed@linaro.org>
+Date: Mon, 1 Jun 2020 20:18:18 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200521034304.340040-9-david@gibson.dropbear.id.au>
+In-Reply-To: <20200521034304.340040-10-david@gibson.dropbear.id.au>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -100,19 +99,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/20/20 8:42 PM, David Gibson wrote:
-> The user can explicitly specify a handle via the "handle" property wired
-> to SevGuestState::handle.  That gets passed to the KVM_SEV_LAUNCH_START
-> ioctl() which may update it, the final value being copied back to both
-> SevGuestState::handle and SEVState::handle.
+> SEVState is contained with SevGuestState.  We've now fixed redundancies
+> and name conflicts, so there's no real point to the nested structure.  Just
+> move all the fields of SEVState into SevGuestState.
 > 
-> AFAICT, nothing will be looking SEVState::handle before it and
-> SevGuestState::handle have been updated from the ioctl().  So, remove the
-> field and just use SevGuestState::handle directly.
+> This eliminates the SEVState structure, which as a bonus removes the
+> confusion with the SevState enum.
 > 
 > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 > ---
->  target/i386/sev.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
+>  target/i386/sev.c | 79 ++++++++++++++++++++---------------------------
+>  1 file changed, 34 insertions(+), 45 deletions(-)
+
+Yay!
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
