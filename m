@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80BAB1EC562
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 01:02:19 +0200 (CEST)
-Received: from localhost ([::1]:58850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D30CE1EC564
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 01:02:31 +0200 (CEST)
+Received: from localhost ([::1]:59920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgFvG-0004XQ-IK
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 19:02:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55810)
+	id 1jgFvS-00050V-UH
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 19:02:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jgFu8-0003at-GM
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 19:01:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51128)
+ id 1jgFuI-0003jx-H2
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 19:01:18 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jgFu6-00073A-Tv
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 19:01:08 -0400
+ id 1jgFuC-00073b-Jo
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 19:01:18 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jgFu4-0003KG-TL
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 23:01:04 +0000
+ id 1jgFu9-0003RN-RS
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 23:01:09 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DCDF32E8109
- for <qemu-devel@nongnu.org>; Tue,  2 Jun 2020 23:01:04 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id CB6B32E8114
+ for <qemu-devel@nongnu.org>; Tue,  2 Jun 2020 23:01:09 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 02 Jun 2020 22:45:31 -0000
+Date: Tue, 02 Jun 2020 22:49:11 -0000
 From: Brian Murray <1805256@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -69,16 +69,15 @@ X-Launchpad-Bug-Commenters: andrew-cloke brian-murray dannf ikepanhc iveskim
 X-Launchpad-Bug-Reporter: dann frazier (dannf)
 X-Launchpad-Bug-Modifier: Brian Murray (brian-murray)
 References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
-Message-Id: <159113793178.29166.14543422798213606692.malone@chaenomeles.canonical.com>
-Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
- Aarch64 when converting images
+Message-Id: <159113815213.5458.8360662394484641146.malone@wampee.canonical.com>
+Subject: [Bug 1805256] Please test proposed package
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="275d46a24253e557e4403d52832837e4bfa425b6";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 812b29b75e1d20c032d21345339aecbfae6492e4
+X-Launchpad-Hash: 46cd8b4a6c6d0162cc8499eff1091e17cb6b99fc
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 19:01:05
@@ -107,9 +106,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hello dann, or anyone else affected,
 
-Accepted qemu into focal-proposed. The package will build now and be
-available at https://launchpad.net/ubuntu/+source/qemu/1:4.2-3ubuntu6.2
-in a few hours, and then in the -proposed repository.
+Accepted qemu into eoan-proposed. The package will build now and be
+available at https://launchpad.net/ubuntu/+source/qemu/1:4.0+dfsg-
+0ubuntu9.7 in a few hours, and then in the -proposed repository.
 
 Please help us by testing this new package.  See
 https://wiki.ubuntu.com/Testing/EnableProposed for documentation on how
@@ -119,10 +118,10 @@ update out to other Ubuntu users.
 If this package fixes the bug for you, please add a comment to this bug,
 mentioning the version of the package you tested, what testing has been
 performed on the package and change the tag from verification-needed-
-focal to verification-done-focal. If it does not fix the bug for you,
+eoan to verification-done-eoan. If it does not fix the bug for you,
 please add a comment stating that, and change the tag to verification-
-failed-focal. In either case, without details of your testing we will
-not be able to proceed.
+failed-eoan. In either case, without details of your testing we will not
+be able to proceed.
 
 Further information regarding the verification process can be found at
 https://wiki.ubuntu.com/QATeam/PerformingSRUVerification .  Thank you in
@@ -132,17 +131,12 @@ N.B. The updated package will be released to -updates after the bug(s)
 fixed by this package have been verified and the package has been in
 -proposed for a minimum of 7 days.
 
-** Tags added: block-proposed-focal
+** Tags added: block-proposed-eoan
 
-** Changed in: qemu (Ubuntu Focal)
+** Changed in: qemu (Ubuntu Bionic)
        Status: In Progress =3D> Fix Committed
 
-** Tags added: verification-needed verification-needed-focal
-
-** Changed in: qemu (Ubuntu Eoan)
-       Status: In Progress =3D> Fix Committed
-
-** Tags added: verification-needed-eoan
+** Tags added: verification-needed-bionic
 
 -- =
 
