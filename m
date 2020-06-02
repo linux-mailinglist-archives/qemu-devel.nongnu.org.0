@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD4B1EBF02
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 17:29:23 +0200 (CEST)
-Received: from localhost ([::1]:33798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8711EBF26
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 17:36:51 +0200 (CEST)
+Received: from localhost ([::1]:44566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jg8qw-0000oN-Dx
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 11:29:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51104)
+	id 1jg8yA-00066D-2p
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 11:36:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jg8ps-0000Ng-EQ
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 11:28:16 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36142)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jg8wv-0005Xz-T4
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 11:35:33 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jg8pr-0001qS-2z
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 11:28:15 -0400
-Received: by mail-wr1-x442.google.com with SMTP id q11so3852545wrp.3
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 08:28:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=xOS5Vdd1CuaNmlrGTv+unkVsjpZ8zcR6/RwStctFfBQ=;
- b=jbJemOs7qnddyfl8TFriI4v2X7t1mOcciLHNFI6TQb7p1amkuxDK9RkaAd1toXMsz+
- 4nya9lnSxIFgg8Rv65lQQlprH92i3OLx9tGjq7A5OEd0Ok8nx3XEqtiFH1hnOoMiWTRo
- //XNEIR1bgkkhYgDFz9560y4VD3wOCkb8UJ9fljyGabo74kjaRAC5LeTLE56TQmyaqdv
- rN3GjE/WiZwsxa6gjuzB0dJMG+2d2LJDV2pHArR1FGSfVNriZxDObj6KUpzNFXDxgfZ7
- 3uS+Q9o18HvOxq7QfRAwtqFrW27VLucsX1JZ6tPCrmZbTvm5AWCiVVOGynl0pTdO2BLp
- A+AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=xOS5Vdd1CuaNmlrGTv+unkVsjpZ8zcR6/RwStctFfBQ=;
- b=TTzgMkwOK5jDaX70To37+YHwfrMgFSqAPdh+8WdoJTNEnJOabybl/VZGHDqK0Apb5Z
- uWlbhniwNAq2gNE4LBeorVbuszWB111hc4Dz6F4B8NeiEkDRqihFFWNhgnN45kGc5qsW
- EZr5AdzIGH/777re5x2DlI3/1Q9b2mJ/D1iW7Y679Q+J7OxTkdpsYgGuFYqocsFbiuzZ
- C4vlzlO+TD1d5iIe6XAyhS90pnjY8EFqeVcSyXHtH/CJx+XxPBy8ysAjAWPkcziKov3/
- VpDxJgFb6sgna7MAgaI/VQSZFQU8Sjk13eI/9jVquqYfmoFiRPtCp23HOxcPC2sKxLfI
- 2USg==
-X-Gm-Message-State: AOAM532JN17Pol1aTngdIHajoT3FCcgLIGNpoAadCKPyfdVwqRN5G43c
- TmbBkVLIGSeNcjeM685/lbfBeg==
-X-Google-Smtp-Source: ABdhPJxFcItQTiGXOoRQdSO4P/AaHcs8JfKu/1uJkBkNdXIPRjavHhde4LX/sMHiXp458totbvXJcA==
-X-Received: by 2002:adf:8041:: with SMTP id 59mr25645961wrk.278.1591111692419; 
- Tue, 02 Jun 2020 08:28:12 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b80sm53219wme.43.2020.06.02.08.28.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 08:28:11 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 57E7D1FF7E;
- Tue,  2 Jun 2020 16:28:10 +0100 (BST)
-References: <20200602113702.28549-1-f4bug@amsat.org>
-User-agent: mu4e 1.5.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] .travis.yml: Temporarily disable the aarch64 job
-In-reply-to: <20200602113702.28549-1-f4bug@amsat.org>
-Date: Tue, 02 Jun 2020 16:28:10 +0100
-Message-ID: <87lfl57aid.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jg8wu-0004Fj-2M
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 11:35:33 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jg8ws-0005Bi-2z
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 15:35:30 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0B8322E8110
+ for <qemu-devel@nongnu.org>; Tue,  2 Jun 2020 15:35:30 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Date: Tue, 02 Jun 2020 15:24:00 -0000
+From: Max Reitz <1881648@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gchristensen xanclic
+X-Launchpad-Bug-Reporter: Graham Christensen (gchristensen)
+X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
+References: <159103954472.29684.2828352310168270873.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159111144063.13999.5188274223424239586.malone@soybean.canonical.com>
+Subject: [Bug 1881648] Re: `qemu-img info` reports an incorrect actual-size
+ when the underlying posix filesystem has transparent compression
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="275d46a24253e557e4403d52832837e4bfa425b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: eaa963ddc8faa9ccf9142f7d872fc69b8f4e1363
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 11:35:30
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,119 +74,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1881648 <1881648@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+But that=E2=80=99s the point of that field, to show the amount of space use=
+d by
+the image on the host.
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+The man page documents it as: =E2=80=9Cdisk size: How much space the image =
+file
+occupies on the host file system (may be shown as 0 if this information
+is unavailable, e.g. because there is no file system)=E2=80=9D, and the QAPI
+definition of ImageInfo documents the actual-size field as =E2=80=9Cactual =
+size
+on disk in bytes of the image=E2=80=9D.
 
-> Travis-CI Aarch64 runners are currently broken, the build fails
-> because the filesystem quota is full [1]:
->
->     AR      libqemuutil.a
->   nm: qemu-sockets.o: Bad value
->     LINK    qemu-ga
->   qga/main.o: In function `main':
->   /home/travis/build/qemu/qemu/qga/main.c:1494: undefined reference to `s=
-ocket_local_address'
->   qga/channel-posix.o: In function `ga_channel_open':
->   /home/travis/build/qemu/qemu/qga/channel-posix.c:210: undefined referen=
-ce to `socket_parse'
->   /home/travis/build/qemu/qemu/qga/channel-posix.c:193: undefined referen=
-ce to `unix_listen'
->   /home/travis/build/qemu/qemu/qga/channel-posix.c:218: undefined referen=
-ce to `socket_listen'
->   collect2: error: ld returned 1 exit status
->   Makefile:686: recipe for target 'qemu-ga' failed
->   make: *** [qemu-ga] Error 1
->
-> Per [2], LXD container have 'approx 18GB' of storage, but our runner show:
->
->   $ df -h
->   Filesystem                                                             =
-                            Size  Used Avail Use% Mounted on
->   /var/snap/lxd/common/lxd/storage-pools/instances/containers/travis-job-=
-qemu-qemu-693775643/rootfs  895G   38G  854G   5% /
->
-> As we suppose a filesystem quota makes our build fail,
-> disable the aarch64 job as a temporary kludge.
->
-> [1] https://travis-ci.org/github/qemu/qemu/jobs/693775643
-> [2] https://docs.travis-ci.com/user/reference/overview/#virtualisation-en=
-vironment-vs-operating-system
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  .travis.yml | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/.travis.yml b/.travis.yml
-> index 564be50a3c..3569ee99b3 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -399,6 +399,7 @@ jobs:
->          - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
->=20=20
->      - name: "[aarch64] GCC check-tcg"
-> +      if: false # Temporarily disabled due to problem in aarch64 runner.
->        arch: arm64
->        dist: xenial
->        addons:
+So it is documented as and intended to be the number of bytes used, not
+the length of the file.
 
-I was experimenting with something along the lines of:
+Max
 
---8<---------------cut here---------------start------------->8---
-.travis.yml: allow failure for unreliable hosts
+** Changed in: qemu
+       Status: New =3D> Invalid
 
-They will still run but they won't get in the way of the result.
+-- =
 
-Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1881648
 
-1 file changed, 5 insertions(+)
-.travis.yml | 5 +++++
+Title:
+  `qemu-img info` reports an incorrect actual-size when the underlying
+  posix filesystem has transparent compression
 
-modified   .travis.yml
-@@ -429,6 +429,7 @@ jobs:
-       env:
-         - TEST_CMD=3D"make check check-tcg V=3D1"
-         - CONFIG=3D"--disable-containers --target-list=3D${MAIN_SOFTMMU_TA=
-RGETS}"
-+        - UNRELIABLE=3Dtrue
-=20
-     - name: "[ppc64] GCC check-tcg"
-       arch: ppc64le
-@@ -493,6 +494,7 @@ jobs:
-       env:
-         - TEST_CMD=3D"make check check-tcg V=3D1"
-         - CONFIG=3D"--disable-containers --target-list=3D${MAIN_SOFTMMU_TA=
-RGETS},s390x-linux-user"
-+        - UNRELIABLE=3Dtrue
-       script:
-         - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
-         - BUILD_RC=3D0 && make -j${JOBS} || BUILD_RC=3D$?
-@@ -535,6 +537,7 @@ jobs:
-         - TEST_CMD=3D"make check-unit"
-         - CONFIG=3D"--disable-containers --disable-tcg --enable-kvm
-                   --disable-tools --host-cc=3Dclang --cxx=3Dclang++"
-+        - UNRELIABLE=3Dtrue
-=20
-     # Release builds
-     # The make-release script expect a QEMU version, so our tag must start=
- with a 'v'.
-@@ -556,3 +559,5 @@ jobs:
-         - mkdir -p release-build && cd release-build
-         - ../configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exi=
-t 1; }
-         - make install
-+  allow_failures:
-+    - env: UNRELIABLE=3Dtrue
---8<---------------cut here---------------end--------------->8---
+Status in QEMU:
+  Invalid
 
+Bug description:
+  qemu-img info reports the same thing as `du`*1024:
 
+  $ qemu-img info --output json ./my.qcow2  | jq '."actual-size"'
+  558619648
 
---=20
-Alex Benn=C3=A9e
+  $ du ./my.qcow2
+  545527	./my.qcow2
+
+  $ echo $((558619648 / 545527))
+  1024
+
+  and this is correct in terms of bytes on disk, but due to transparent
+  compression implemented by the filesystem, it is not the actual byte
+  count:
+
+  $ du -h --apparent-size ./my.qcow2
+  1346568192	my.qcow2
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1881648/+subscriptions
 
