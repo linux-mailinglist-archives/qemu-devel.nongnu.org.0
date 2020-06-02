@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450D81EB6AD
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 09:44:00 +0200 (CEST)
-Received: from localhost ([::1]:55734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F311EB6B3
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 09:45:35 +0200 (CEST)
+Received: from localhost ([::1]:33564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jg1aZ-0005pT-8s
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 03:43:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54800)
+	id 1jg1c7-0008Ro-1R
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 03:45:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <morecache@gmail.com>)
- id 1jg1ZM-00046k-HL
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 03:42:44 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43726)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <morecache@gmail.com>)
- id 1jg1ZL-0000a3-QE
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 03:42:44 -0400
-Received: by mail-wr1-x442.google.com with SMTP id l10so2270514wrr.10
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 00:42:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lSNxJ+he1VqHG88avCPlJcq6eRPaf7eHxjBV+zd6EhI=;
- b=kZTuFCuMjB3ghBIgMQ0K9uRPLmJWGOcOVynrHoAsZqekzg/xKbK9woa7hBqkXtDmJv
- Nenln085oeOakQLqltvMCp/FEdcoF6FSZraZNdWi0Ev5vgY3r83h0Yx6c3AVm/LlFkiC
- PuUxtPkjAV8OKXzpdnklCc2389JpCA2jYO78tc49XWHiyMyqeLN6rSnql0PlduiFKkIh
- 8vSs5s4JPyBA3VAWc6kArp426KNNBlc6ecfk4bqe6gSN5cy6OZolxz+VxD4KFv7fTZOA
- BwPRZN2mnMCO9Tsyba3Mn/dvlEJmXKMNI/bpCsPUUOPL1FAsDZHq2yj+FQUJprRqp9U/
- Ruqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=lSNxJ+he1VqHG88avCPlJcq6eRPaf7eHxjBV+zd6EhI=;
- b=Oen859da21EblgiYqXIybhwRY4eTXTTROBULNTJdR4nKG6UM9YcgNg5KGi5/FNec1R
- cTeOgzwTYV0DpDY4JOZzLFEz6KHrbmg7IHNFj7l87DUIUf8xIFGNnlRFIYmtUzOTVWd4
- Bj/Uf4Pt2JUz1L48Bi6aklvPJBMtfKpuMqNkpZxVHNCs+8b2pJv8gIP5f00Mic3HPTF9
- yuZPEeOEnZQSmk35OgdSNx+pctF3KWb0D6ZeAaVFJAa/m0xtTo1tXtbb1C2xqJBYX0u5
- I39j7Tu9IvLJhaFnw6zSTHQKSXNzgMlN8+TQvufQ8sUoJGZr5njBKCSs28EhHsLXqI9e
- bB9Q==
-X-Gm-Message-State: AOAM5302A6k4y4OqI30SlV3aPrECB7qoYSxSJPb30g478PohyPZZRX/G
- S+doFAzLhBnwFJMBpC6whcYNhXSOOiI=
-X-Google-Smtp-Source: ABdhPJx37iEAkXIMtWiY0UI6lVC5EbjpCaKyW+Z5CJuc7DiZR3OYR5+09G5Q1OcpEB+B/L4Il0+Agw==
-X-Received: by 2002:adf:f186:: with SMTP id h6mr23913799wro.22.1591083762300; 
- Tue, 02 Jun 2020 00:42:42 -0700 (PDT)
-Received: from t440p.suse.asia (60-251-47-115.HINET-IP.hinet.net.
- [60.251.47.115])
- by smtp.gmail.com with ESMTPSA id w3sm2294518wmg.44.2020.06.02.00.42.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 00:42:41 -0700 (PDT)
-From: Lin Ma <lma@suse.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] scsi-disk: Add support for the GET LBA STATUS 16 command
-Date: Tue,  2 Jun 2020 15:42:01 +0800
-Message-Id: <20200602074201.10879-5-lma@suse.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200602074201.10879-1-lma@suse.com>
-References: <20200602074201.10879-1-lma@suse.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jg1Zy-0005cC-9s
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 03:43:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56713
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jg1Zw-0000d8-Q4
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 03:43:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591083799;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rxEci3SraURpvMMKuampjpZ6OL25wIO5CjxZ9eSfK+E=;
+ b=huwaBlBObwsxlx4Z+quUnZ16PbfqCmX5fwexTgkc0098bnRkPsXbn4RBAsCAV1d2AkPFwY
+ OVNXHSL3P7LuKL0zrmVMec4Z329KAi8t1fHz3XOxpfLWLInxUSdbHhqIsIK2uyEKtf8YFx
+ vnM1bXGU7NYkEwcYC4wM87kLgevbfE4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-Y7qwrmzmPZGr972foAjb8A-1; Tue, 02 Jun 2020 03:43:16 -0400
+X-MC-Unique: Y7qwrmzmPZGr972foAjb8A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 082F69126F;
+ Tue,  2 Jun 2020 07:43:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-121.ams2.redhat.com
+ [10.36.112.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 54ED411A9DF;
+ Tue,  2 Jun 2020 07:43:10 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BD32E1138601; Tue,  2 Jun 2020 09:43:08 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] or1k: Fix compilation hiccup
+References: <20200526185132.1652355-1-eblake@redhat.com>
+ <m1d06msod9.fsf@redhat.com>
+ <CAFEAcA9Huery0AeUFsLVrcK4bUGibg1f-m8gMuMiJgnr+Hj7CA@mail.gmail.com>
+Date: Tue, 02 Jun 2020 09:43:08 +0200
+In-Reply-To: <CAFEAcA9Huery0AeUFsLVrcK4bUGibg1f-m8gMuMiJgnr+Hj7CA@mail.gmail.com>
+ (Peter Maydell's message of "Fri, 29 May 2020 17:40:13 +0100")
+Message-ID: <87eeqx9alv.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=morecache@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 23:49:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,139 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, stefanha@redhat.com, Lin Ma <lma@suse.com>
+Cc: Jia Liu <proljc@gmail.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Stafford Horne <shorne@gmail.com>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Lin Ma <lma@suse.com>
----
- hw/scsi/scsi-disk.c      | 92 ++++++++++++++++++++++++++++++++++++++++
- include/scsi/constants.h |  1 +
- 2 files changed, 93 insertions(+)
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 387503e11b..2d2c6b4b82 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -1866,6 +1866,91 @@ static void scsi_disk_emulate_write_data(SCSIRequest *req)
-     }
- }
- 
-+typedef struct GetLbaStatusCBData {
-+    uint32_t num_blocks;
-+    uint32_t is_deallocated;
-+    SCSIDiskReq *r;
-+} GetLbaStatusCBData;
-+
-+static void scsi_get_lba_status_complete(void *opaque, int ret);
-+
-+static void scsi_get_lba_status_complete_noio(GetLbaStatusCBData *data, int ret)
-+{
-+    SCSIDiskReq *r = data->r;
-+    SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
-+
-+    assert(r->req.aiocb == NULL);
-+
-+    block_acct_start(blk_get_stats(s->qdev.conf.blk), &r->acct,
-+                     s->qdev.blocksize, BLOCK_ACCT_GET_LBA_STATUS);
-+
-+    r->req.aiocb = blk_aio_get_lba_status(s->qdev.conf.blk,
-+                                          r->req.cmd.lba * s->qdev.blocksize,
-+                                          s->qdev.blocksize,
-+                                          scsi_get_lba_status_complete, data);
-+    return;
-+}
-+
-+static void scsi_get_lba_status_complete(void *opaque, int ret)
-+{
-+    GetLbaStatusCBData *data = opaque;
-+    SCSIDiskReq *r = data->r;
-+    SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
-+
-+    assert(r->req.aiocb != NULL);
-+    r->req.aiocb = NULL;
-+
-+    aio_context_acquire(blk_get_aio_context(s->qdev.conf.blk));
-+    if (scsi_disk_req_check_error(r, ret, true)) {
-+        g_free(data);
-+        goto done;
-+    }
-+
-+    block_acct_done(blk_get_stats(s->qdev.conf.blk), &r->acct);
-+    scsi_req_unref(&r->req);
-+    g_free(data);
-+
-+done:
-+    aio_context_release(blk_get_aio_context(s->qdev.conf.blk));
-+}
-+
-+static void scsi_disk_emulate_get_lba_status(SCSIRequest *req, uint8_t *outbuf)
-+{
-+    SCSIDiskReq *r = DO_UPCAST(SCSIDiskReq, req, req);
-+    GetLbaStatusCBData *data;
-+    uint32_t *num_blocks;
-+    uint32_t *is_deallocated;
-+
-+    data = g_new0(GetLbaStatusCBData, 1);
-+    data->r = r;
-+    num_blocks = &(data->num_blocks);
-+    is_deallocated = &(data->is_deallocated);
-+
-+    scsi_req_ref(&r->req);
-+    scsi_get_lba_status_complete_noio(data, 0);
-+
-+    /* 8 + 16 is the length in bytes of response header and
-+     * one LBA status descriptor
-+     */
-+    memset(outbuf, 0, 8 + 16);
-+    outbuf[3] = 20;
-+    outbuf[8] = (req->cmd.lba >> 56) & 0xff;
-+    outbuf[9] = (req->cmd.lba >> 48) & 0xff;
-+    outbuf[10] = (req->cmd.lba >> 40) & 0xff;
-+    outbuf[11] = (req->cmd.lba >> 32) & 0xff;
-+    outbuf[12] = (req->cmd.lba >> 24) & 0xff;
-+    outbuf[13] = (req->cmd.lba >> 16) & 0xff;
-+    outbuf[14] = (req->cmd.lba >> 8) & 0xff;
-+    outbuf[15] = req->cmd.lba & 0xff;
-+    outbuf[16] = (*num_blocks >> 24) & 0xff;
-+    outbuf[17] = (*num_blocks >> 16) & 0xff;
-+    outbuf[18] = (*num_blocks >> 8) & 0xff;
-+    outbuf[19] = *num_blocks & 0xff;
-+    outbuf[20] = *is_deallocated ? 1 : 0;
-+
-+    return;
-+}
-+
- static int32_t scsi_disk_emulate_command(SCSIRequest *req, uint8_t *buf)
- {
-     SCSIDiskReq *r = DO_UPCAST(SCSIDiskReq, req, req);
-@@ -2076,6 +2161,13 @@ static int32_t scsi_disk_emulate_command(SCSIRequest *req, uint8_t *buf)
- 
-             /* Protection, exponent and lowest lba field left blank. */
-             break;
-+        } else if ((req->cmd.buf[1] & 31) == SAI_GET_LBA_STATUS) {
-+            if (req->cmd.lba > s->qdev.max_lba) {
-+                goto illegal_lba;
-+            }
-+            scsi_disk_emulate_get_lba_status(req, outbuf);
-+            r->iov.iov_len = req->cmd.xfer;
-+            return r->iov.iov_len;
-         }
-         trace_scsi_disk_emulate_command_SAI_unsupported();
-         goto illegal_request;
-diff --git a/include/scsi/constants.h b/include/scsi/constants.h
-index 874176019e..1b6417898a 100644
---- a/include/scsi/constants.h
-+++ b/include/scsi/constants.h
-@@ -154,6 +154,7 @@
-  * SERVICE ACTION IN subcodes
-  */
- #define SAI_READ_CAPACITY_16  0x10
-+#define SAI_GET_LBA_STATUS  0x12
- 
- /*
-  * READ POSITION service action codes
--- 
-2.24.0
+> On Fri, 29 May 2020 at 17:23, Christophe de Dinechin
+> <dinechin@redhat.com> wrote:
+>> On 2020-05-26 at 20:51 CEST, Eric Blake wrote...
+>> > diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+>> > index d08ce6181199..95011a8015b4 100644
+>> > --- a/hw/openrisc/openrisc_sim.c
+>> > +++ b/hw/openrisc/openrisc_sim.c
+>> > @@ -129,7 +129,7 @@ static void openrisc_sim_init(MachineState *machine)
+>> >      const char *kernel_filename = machine->kernel_filename;
+>> >      OpenRISCCPU *cpu = NULL;
+>> >      MemoryRegion *ram;
+>> > -    qemu_irq *cpu_irqs[2];
+>> > +    qemu_irq *cpu_irqs[2] = {};
+>>
+>> Why is the value [2] correct here? The loop that initializes loops over
+>> machine->smp.cpus. Is it always less than 2 on this machine?
+>
+> Yes: openrisc_sim_machine_init() sets mc->max_cpus = 2.
+> My suggestion of adding an assert() is essentially telling the
+> compiler that indeed smp_cpus must always be in the range [1,2],
+> which we can tell but it can't.
+
+Do we have a proper patch for this on the list?
 
 
