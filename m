@@ -2,106 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885FD1EBC5F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 15:06:13 +0200 (CEST)
-Received: from localhost ([::1]:36522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0211F1EBCA1
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 15:10:05 +0200 (CEST)
+Received: from localhost ([::1]:48158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jg6cO-000683-Fi
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 09:06:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53276)
+	id 1jg6g8-0002Ql-2k
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 09:10:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jg41J-0000TT-K0
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 06:19:45 -0400
-Received: from mail-db8eur05on2111.outbound.protection.outlook.com
- ([40.107.20.111]:56761 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1jg5UL-0000Qg-Dg
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 07:53:49 -0400
+Received: from mail-db8eur05on2098.outbound.protection.outlook.com
+ ([40.107.20.98]:20705 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jg41H-0006OM-QP
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 06:19:45 -0400
+ id 1jg5UJ-0000f1-3E
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 07:53:48 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IBYaY3Au6czt/cZThiO0nf62sDu7cvdwzyG4ZNzFMKNH/ZdnJ3I0dInchB5AaWOFr25mMUGiJnUfpRttd9WILF7AYu20swOSFXvK4oNokvPSJGOuwJ1lL6ndd+lRx7nT/ifbTMMnzRxnlp0EeZsgBCvfN9jcfoMsCE7y9zE10Ordsq9wgg5fJBkKDdG65jfSmDBgKjMBIs9HtWcgsmw3oUgz6RrI6yHZOJFuEkAGisGyUUynEwvFVt6/oz6TsEz8+0GMXdu6lNDXtRJ/bu/pzhz4lyyB1rdQohITH4yXuU9XO4J931HTAvgaPJe6WSrzrneAskOm4IMb3BHivjMpfg==
+ b=K2uAMxaGH/cxftezCxVKdC1G2Z0dkdB9+6xahOa99Vfnlkke4qmh2YAYvdeLmxMNFSomfraVY9HMCTiDOAbpPlbMgoeUxdB1IKtnbzYPOMyds1mGNLWODaaQevs8w4O1LDdZlstOge2KTYYoTKD0lVhb3FzuKe0Bb73Mo4uglSvMx7BXEVxC3ycpBlYsxCuVMmSpWyAMxD21Vq0xYkIGbjBkF7Twd7WMPP+YYOxmFXYVSQpZEAUMHQuYaZs8+PY4jNpmIXAM1WEJDOm5CTQ+IWACEKHTyOjef+T5VFQxru8NNLmZEdZCSb8ND+gPbUeINMODiBRVUWTCVL4pr4Jnvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sr6ycZF1ceQ2RBy1iEJnam659WHVTMd4mrdCT0t9BqA=;
- b=m/JwFa00BirvXSzyT/GpYHPjNstRp/Sx/NayR7hVDK3fxyj+o7QyL7C7gQV9qt5r1nclL7o50dGBcw3PMEavmtkGUd1zGkP2yRPLXicX/92ktsJ87KTi3NEg0d6G/pMOK7QSdzUahtV9vzxTXiY0OXQz+gjvc1I8v2m2GqmsNqUTu016rT5692y4aQL99lGOQSTRB7lNshQJbYf6P9cJ7vD8wO+xDAsYHCc95pBeZaFeF5MyvxC4Rs/FUOaZNBHvpMufMHjnDZNAbKaWy53urr8MII0/ec2iKpYAWK5NL5oEvbMRUv/p1tdAW3oLZCY/9UdbRpSp8ajWE8WnsZA/3w==
+ bh=XXiVoXd7EWS+6kkRgluOHzIPh2UVxT6GxUsKB6G9vaw=;
+ b=WV/Vriw0O1HZwHJgFGdE2KtniwMB6PIXqmDImy3foSb1PW8KaTjeRtVmh8N+pF/DvZTCCGeBZdmLtxhmTVcqKZZ0dn4dZ+BgWO+iUm0VwobNzr+6XexXkbtmI+dGTG2VL4rauCfZA6jhbOq11I/HalIOSlKBeh4FWX0yGAjG6rYOEnjskUgaBo+s8zws5r0018PrEsejerQ+5sIjrtn8DOD3EvK1LKBqN/zZ0a2B+Q7dcth+boGMyn7xee+igI3AweM9eOGSiwqpQLPXOZjaSgvzOEpcmB9IX0DhIqPqIABYL4JvYdWOZuxx6xSV0Q1ARHvIwlLIkhmN9Jxk06k+Zw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sr6ycZF1ceQ2RBy1iEJnam659WHVTMd4mrdCT0t9BqA=;
- b=DGW19FCg0L4NQev1Sesk3JgXLDuCEbQ5/jVsMGMzihn//lkK67axldNqBV0dcQH82mQ21A//qY+p0m+k73eDYkPoEMtEw6y+73U26Kg+hEukPIrsnBRz+biqz1QaEy46GBLESpgrq1ZAiKkQ8NyTeaWKugeQ2pSIRnaJcPBgQyI=
+ bh=XXiVoXd7EWS+6kkRgluOHzIPh2UVxT6GxUsKB6G9vaw=;
+ b=MPipzm5DoWFCb3HpWZ0xRKyMZqDe2X3rukrRRfjkGFq1IrssyozL8RLajs9sDmius+cMs9I5c6ESlcXEAjS2SW7W9UbWd33Vu9O6kjr/0pvvO4rOMRUMZuKkK/Qi94fQ0lmgpulO0DbukY6BUW7i0mQl0fzcpRFAR7MYyPhTDYU=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
- by AM6PR03MB6104.eurprd03.prod.outlook.com (2603:10a6:20b:ec::24)
+ by AM6PR03MB4022.eurprd03.prod.outlook.com (2603:10a6:20b:22::27)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17; Tue, 2 Jun
- 2020 10:04:37 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.22; Tue, 2 Jun
+ 2020 11:53:43 +0000
 Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
  ([fe80::7935:50dd:e879:bca8]) by AM6PR03MB5233.eurprd03.prod.outlook.com
  ([fe80::7935:50dd:e879:bca8%7]) with mapi id 15.20.3045.024; Tue, 2 Jun 2020
- 10:04:37 +0000
-From: Filip Bozuta <Filip.Bozuta@syrmia.com>
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 1/2] mailmap: Change email address of Filip Bozuta
-Thread-Topic: [PATCH 1/2] mailmap: Change email address of Filip Bozuta
-Thread-Index: AQHWOLs1M9+0h9C6gU+anhj+gcP/EajFGPuA
-Date: Tue, 2 Jun 2020 10:04:37 +0000
-Message-ID: <86c8f35e-083f-4015-7bf9-43c014f6ee35@syrmia.com>
-References: <20200602085215.12585-1-aleksandar.qemu.devel@gmail.com>
- <20200602085215.12585-2-aleksandar.qemu.devel@gmail.com>
-In-Reply-To: <20200602085215.12585-2-aleksandar.qemu.devel@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=syrmia.com;
-x-originating-ip: [46.240.135.226]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 06318936-34a2-418f-a5ef-08d806dc5c00
-x-ms-traffictypediagnostic: AM6PR03MB6104:
-x-microsoft-antispam-prvs: <AM6PR03MB6104247F0F6F1166CE0D5566EB8B0@AM6PR03MB6104.eurprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1388;
-x-forefront-prvs: 0422860ED4
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: jIINh+VjmrGM4r8Qsw/r5g6BWH+bpRn0fIQ5/6gWKFP8vmKxPhGFkWfv1SNeZ7PBUj6mucPfym1o7Qn7JmVgwof8l9tOVJsgL5FDmGyjRBh8O4teN0CqAcRNNq8jOWVvObs8JUQb4D7I/mDzxB2hr2Ed6CrDhhS0N0MSFpIxJBg9HWANOzqPAZEJ+WP06qtLiErHzSSwEeCLZnLJ+BUhStb/XRcwEEUTHKgs6XOkdZ+W6n3hp36UWJHxvWIRG2peFDb3T2sHHHkbuFYOQABPBFA4cdxpDeTlGhT6t2gvzDzE5eH+jy3tNgleiJi0oNLn
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ 11:53:43 +0000
+From: Filip Bozuta <filip.bozuta@syrmia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/5] Add strace support for printing arguments of selected
+ syscalls
+Date: Tue,  2 Jun 2020 13:53:26 +0200
+Message-Id: <20200602115331.1659-1-filip.bozuta@syrmia.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: LO2P265CA0116.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:c::32) To AM6PR03MB5233.eurprd03.prod.outlook.com
+ (2603:10a6:20b:d1::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from bozuta-ubuntu-18.syrmia.com (46.240.135.226) by
+ LO2P265CA0116.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:c::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3045.19 via Frontend Transport; Tue, 2 Jun 2020 11:53:43 +0000
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [46.240.135.226]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: af26a941-b453-4d4c-83e2-08d806eb998f
+X-MS-TrafficTypeDiagnostic: AM6PR03MB4022:
+X-Microsoft-Antispam-PRVS: <AM6PR03MB40227EFAA312BDF2BA303A10EB8B0@AM6PR03MB4022.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:261;
+X-Forefront-PRVS: 0422860ED4
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bj7xdXEbqDlTBum9bu8vNlKdHiSkFEr2V7jM+4YRz6l3b6LBbZ/9OZSFO5QCpS8wV6QgHJKcjnh9PvJcN3/5dfbV+2oBjE2V+O29T0mB0uVr+A+P8+jKUThIXl8CcWzQU6+SBFDWdH/weYf4O151AiJHjqbA9P1jXZ0I12OnXwJvQHMYCT8b+SGiNlL3jngpPbhMXpCPrLr7itM3zm/vlSf6YJxpEqAuQerm3COK7fdSy+JpnjvZ3PFRbJDKrwjKWKee9meu9CQejfGRE2QIhCbSei7CCnPVI9PFeozYyAYF5U2ie9jW8gd9jU0+Mf2tnGo0jMCOifQBeL0l3H1Exw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(366004)(396003)(376002)(39830400003)(346002)(136003)(508600001)(71200400001)(2616005)(6506007)(31686004)(26005)(66446008)(66556008)(2906002)(186003)(64756008)(66946007)(4744005)(6486002)(86362001)(5660300002)(110136005)(66476007)(31696002)(76116006)(6512007)(91956017)(8936002)(8676002)(316002)(36756003);
+ SFS:(366004)(376002)(346002)(39830400003)(136003)(396003)(44832011)(956004)(2906002)(4326008)(36756003)(2616005)(86362001)(508600001)(66556008)(66476007)(7696005)(66946007)(26005)(8676002)(52116002)(6666004)(6916009)(8936002)(316002)(1076003)(5660300002)(16526019)(83380400001)(186003)(6486002);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: cwjlGQT42eiy8dpkmUqUcOKILIkm9DQ/S7XwOdNDI4DFdp0ykDMiL8zGdVwXW6HW8FmQJrJgGYaQzcVHZ7VeSZk/hQU0pXrkX33Svicpj4uSVX8e+IQGPFfC5wLhMyXJi6+rZAn6KRpWBtcdQrJ+TsyeoQPmoZUjJY3vO6CZB20bh8XLLClSEamYTavhPY3yj6mcz22NHo/BC3Rb/qOQ/J7pTynXlkPCobnLTnE7yeY835B3jXr8O5jmmr8pzrKmecdkkT5COIv7usY+xKipycCEVyELtZeS5vbwJyTfXzKizDsKHwJT1gyM9nXP+wMGJWGRohQpIpwq3ivl/lys9hrI4S3yDa60vDnWk4IKv+FJD8hQGD1XWS6vfmIa0DaOlJ3q8NtEa+O3YrpqrpH3xmq/KSwLgbxN2OWWUvxb0C7Zkpw9IYNdW8XYL6M8Oq/eNLQV8Qtyhe1I/40+n5AZ8LDHrg+nsV9GIY/g5L4xciZuIfx19nzu//3N7v60UIWv
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0CD78217460D0E4AB25C1658E30DAB43@eurprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-MessageData: qKoQOwRUKTgRvxzH4cVCk8IA9wbZLAAW668MPdTIBWGmBv2KbKnH4TR9sj+lS0Q7c8dNXDJ7MaKUm9j8yLHYbOUsoMNTnzYflAZA0X6RIDBGI7uCXQ+xBKLY44eHm1jmVzu/qH3sZrxmRR4aDg1AqWnj2mahpHdF0+kU6a13/noiojlsuaeuNKa0lQQJv1Aj3cM3Zj273i2gIlwOr6+oGCYcJxaI3p2RV6QzXaIi6scgi7Yhc6SvK6+9hoJw/WD1QP27IdYAf/Zv22qwhlnWV/239AJ6Ld51mJZC8Z6+ru1E7pNIwxrCFzlGxEcPLEJGJprPGL0VVlgt4cdngZzGtUu1RWLxmd+EEYHjDjnkFAOaG63hLlfWrTHuDmd/Uh2M5iFpn1zAC7C0gvcZLGRV/I9FflpFzaUPESUqICtPCY5jw6qvtiV5HcsAxJ6JfQuMReJuTcHAlJwbQZQxzk6YnCX2SmJ7RlTEvImdyOqI724=
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06318936-34a2-418f-a5ef-08d806dc5c00
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2020 10:04:37.8593 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VJdpL5SzjF97+KwWL3+6C3N7VoTuyI5Gu0YG3TEcn8aWvUlQBm38hukpuwGF7FhRKJScc0jbRdqV222sqfqLzA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB6104
-Received-SPF: pass client-ip=40.107.20.111;
+X-MS-Exchange-CrossTenant-Network-Message-Id: af26a941-b453-4d4c-83e2-08d806eb998f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2020 11:53:43.8494 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SC6vCwZ4L9dBlkrNFUebXHfv4Qim3C2eHzOOzzKGQHmKVZl2c7/lRwbrbzQu/l6fYolA9VsQub1a6+uUNc63YA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB4022
+Received-SPF: pass client-ip=40.107.20.98;
  envelope-from=Filip.Bozuta@syrmia.com;
  helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 06:19:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 07:53:45
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-Mailman-Approved-At: Tue, 02 Jun 2020 09:04:50 -0400
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,27 +114,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMi42LjIwLiAxMDo1MiwgQWxla3NhbmRhciBNYXJrb3ZpYyB3cm90ZToNCj4gRmlsaXAgQnV6
-dXRhIHdhbnRzIHRvIHVzZSBoaXMgbmV3IGVtYWlsIGFkZHJlc3MgZm9yIGhpcyBmdXR1cmUNCj4g
-d29yayBpbiBRRU1VLg0KPg0KPiBDQzogRmlsaXAgQm96dXRhIDxmaWxpcC5ib3p1dGFAc3lybWlh
-LmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogQWxla3NhbmRhciBNYXJrb3ZpYyA8YWxla3NhbmRhci5x
-ZW11LmRldmVsQGdtYWlsLmNvbT4NClJldmlld2VkLWJ5OiBGaWxpcCBCb3p1dGEgPGZpbGlwLmJv
-enV0YUBzeXJtaWEuY29tPg0KPiAtLS0NCj4gICAubWFpbG1hcCB8IDEgKw0KPiAgIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvLm1haWxtYXAgYi8ubWFp
-bG1hcA0KPiBpbmRleCBlMzYyOGM3YTY2Li45ZjJhM2E1NWY5IDEwMDY0NA0KPiAtLS0gYS8ubWFp
-bG1hcA0KPiArKysgYi8ubWFpbG1hcA0KPiBAQCAtNDUsNiArNDUsNyBAQCBBbGVrc2FuZGFyIE1h
-cmtvdmljIDxhbGVrc2FuZGFyLnFlbXUuZGV2ZWxAZ21haWwuY29tPiA8YW1hcmtvdmljQHdhdmVj
-b21wLmNvbT4NCj4gICBBbGVrc2FuZGFyIFJpa2FsbyA8YWxla3NhbmRhci5yaWthbG9Ac3lybWlh
-LmNvbT4gPGFyaWthbG9Ad2F2ZWNvbXAuY29tPg0KPiAgIEFsZWtzYW5kYXIgUmlrYWxvIDxhbGVr
-c2FuZGFyLnJpa2Fsb0BzeXJtaWEuY29tPiA8YWxla3NhbmRhci5yaWthbG9AcnQtcmsuY29tPg0K
-PiAgIEFudGhvbnkgTGlndW9yaSA8YW50aG9ueUBjb2RlbW9ua2V5LndzPiBBbnRob255IExpZ3Vv
-cmkgPGFsaWd1b3JpQHVzLmlibS5jb20+DQo+ICtGaWxpcCBCb3p1dGEgPGZpbGlwLmJvenV0YUBz
-eXJtaWEuY29tPiA8ZmlsaXAuYm96dXRhQHJ0LXJrLmNvbS5jb20+DQo+ICAgSmFtZXMgSG9nYW4g
-PGpob2dhbkBrZXJuZWwub3JnPiA8amFtZXMuaG9nYW5AaW1ndGVjLmNvbT4NCj4gICBMZWlmIExp
-bmRob2xtIDxsZWlmQG51dmlhaW5jLmNvbT4gPGxlaWYubGluZGhvbG1AbGluYXJvLm9yZz4NCj4g
-ICBQYXVsIEJ1cnRvbiA8cGJ1cnRvbkB3YXZlY29tcC5jb20+IDxwYXVsLmJ1cnRvbkBtaXBzLmNv
-bT4NCg0KDQo=
+From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+
+This series covers strace support for printing arguments of following syscalls:
+
+    *acct()         *lgetxattr()        *lseek()
+    *fsync()        *fgetxattr()        *chown()
+    *fdatasync()    *listxattr()        *lchown()
+    *listen()       *llistxattr()       *fallocate()
+    *getxattr()     *flistxattr()
+
+The implementation details for strace support is described in this series patch
+commit messages.
+
+Testing method:
+
+    Mini test programs were written that run these syscalls for different arguments.
+    Those programs were compiled (sometimes using cross-compilers) for the following
+    architectures:
+
+        * Intel 64-bit (little endian) (gcc)
+        * Power pc 32-bit (big endian) (powerpc-linux-gnu-gcc)
+        * Power pc 64-bit (big endian) (powerpc64-linux-gnu-gcc)
+        * Mips 32-bit (little endian) (mipsel-linux-gnu-gcc)
+        * Mips 64-bit (little endian) (mips64el-linux-gnuabi64-gcc)
+
+    The corresponding native programs were executed with strace, without using
+    QEMU, on Intel Core i7-4790K (x86_64) host.
+
+    All applicable compiled programs were in turn executed with "-strace"
+    through QEMU and the strace printing results obtained were the same 
+    ones gotten for native execution.
+
+Filip Bozuta (5):
+  linux-user: Add strace support for a group of syscalls
+  linux-user: Add strace support for printing argument of syscalls used
+    for extend attributes
+  linux-user: Add strace support for printing arguments of lseek()
+  linux-user: Add strace support for printing arguments of
+    chown()/lchown()
+  linux-user: Add strace support for printing arguments of fallocate()
+
+ linux-user/strace.c    | 174 +++++++++++++++++++++++++++++++++++++++++
+ linux-user/strace.list |  28 +++----
+ 2 files changed, 188 insertions(+), 14 deletions(-)
+
+-- 
+2.17.1
+
 
