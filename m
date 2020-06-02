@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DEFA1EC0A3
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 19:03:55 +0200 (CEST)
-Received: from localhost ([::1]:48502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C5B1EC0BB
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 19:08:10 +0200 (CEST)
+Received: from localhost ([::1]:39988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgAKQ-0000HV-7x
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 13:03:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39824)
+	id 1jgAOX-00005j-Rq
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 13:08:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgAIk-0005wT-6P
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:02:10 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:39357)
+ id 1jgAIl-00060q-U6
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:02:11 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:46880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgAIi-0007R2-Qv
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:02:09 -0400
-Received: by mail-pl1-x641.google.com with SMTP id v24so1579696plo.6
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 10:02:08 -0700 (PDT)
+ id 1jgAIk-0007R9-UV
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:02:11 -0400
+Received: by mail-pg1-x542.google.com with SMTP id p21so5331777pgm.13
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 10:02:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tHqpToSLuNmT3+mxdztxkjY6kBf+OhopPIY/mAzI0FM=;
- b=zWXRad9lLOfYB1kXttHNm+JcpktLPnPGpwp7jC0FwNZQCg6PRYkS/OIVgOKccBA2TM
- /B3USpHFUcUsyinpJiow+8rOYAwHUbDr0Kud7Ec3k6gZS6qdKFZoUcZn4ptlBgxUdB7W
- G4olbpY4UX7ECn4Cn4SAhG56tycAYLDCdztHq+w4kDvn5QknpsGq/VPBwo+utQNttTwv
- HvL1uKdBB6QEUi0MZkegsskymKLBSe4rcdMvLZ0OBL3FH4/bwyQ+0sSrXdBPlUT2jCo+
- avA56rJnHa07OjSF05fUoGSlAJKy/WbsLlkm3SW3oV3ehkBE3RIu3Rn5cbiCKuHG1K86
- O8kQ==
+ bh=v9PYVllY3D8WNVt+/GwKgHsq/9t/7VocWb4hJT0OXq8=;
+ b=DUdqWApC0mD3QNG3NHWDAoEp6AeMLviM5Ltzd//uViT8ztuR4zhDiIqWpXr8/67See
+ DBbv3ps0XeHWqfy5gDGJKoSe3w0SkUw6rBUX/HcbMMA1UuYVlqL0YPjmsYT1Ygp0SZ/i
+ gicj2s4i7z9llKYQXZtGzUiSRxHLHoGsxZAJTt8+Kb5td8eV2pscyBNwTfW05KMG5uxq
+ iCMwW9APn96zQABSKcKQrd9xiEdjX8J1Djh5/Qd7bGE27yGlQhX2Zm3Z7yN6T7UiB/xX
+ fLp3MljyRaQDUs6opaP3wuWiJUnsyg2l0rpuZx26hMTpLTHNGAMu0RlRM+g/EsWXhSWs
+ gmFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tHqpToSLuNmT3+mxdztxkjY6kBf+OhopPIY/mAzI0FM=;
- b=NQFBf2cJmqAPtL6+9fwPI33WfWDniJiincnKqoa9pEPcxEpMp8jzpR7ftUd4EUG1hb
- o/iIQzqmTXcPKV4OkLuW6nF3QR9kn2kqW2sDM29VKpZI2g/YmCpv/Lis7Tg3Kto1kIlJ
- AUferlV8GEIYUoZ37uooOUgfCJ2pZGHcH4uqz1iIZljI9RSSiGQFEmflgWx9rpU/K14u
- 5tyGtcYe0Ky4Stw0gdREz0Euv8QuABIoieFm5yXtopQzWYyOCPfIYnb8njQJNmTb0BdI
- pudmBGjKHMY6vmAKR9INEqaAEtx42LTvM73h7oHP7CooGfYAGI0i7mPF+htdFVjLstRC
- v9aA==
-X-Gm-Message-State: AOAM530079jYTOFzhNDxuGs9fI6fG7H/shnAfdiYVAbcHztXZH5SJiin
- jzqboaJJaeTf5rE+Si6R+Q4jSf6pVcA=
-X-Google-Smtp-Source: ABdhPJxGjH5MdEur0AM3tXciVZgUXl0C6kbK91WqbKJVgQU1pkO91xxYk7KNGEg0Y6LfueCl8a05DQ==
-X-Received: by 2002:a17:902:c3d3:: with SMTP id
- j19mr26285210plj.47.1591117326991; 
- Tue, 02 Jun 2020 10:02:06 -0700 (PDT)
+ bh=v9PYVllY3D8WNVt+/GwKgHsq/9t/7VocWb4hJT0OXq8=;
+ b=adnptLaXCCpg3TrKqa90JRjmlCJrH5PtgwxD3RxDxcWExqRTv+BTkEar6tDybZZs0k
+ 2P9IhhFQ9SgEs1GMdY1mtZwjvn9Pb9QmtLXqKlebhNzVAUCZnxbn2+3NmlnGuZqu+4cy
+ JMNfha9NFaT3tvtPqReNAtqrL/OOnujankwG9rNAxUhvLvwW11ylqfscehYhC7puWRtM
+ X23UECNUZtM9gfayG3/3fFbZwtQvBu++4fpa2yzkqy4LWjLwgKrQZPOHaBw88J5nPUEM
+ C2i0Jx99Oc9fSfRe+V+xmvj1C2Rfa1t/MiA6R9a9Sa4qMogJIEIE0fDJsMcfeJuNbWYi
+ 04ew==
+X-Gm-Message-State: AOAM533yVJRc7WBYXYhp091KzKPsLNRFcCsHsdD0A0ZR9zw2atarrK6i
+ ukvczWTgGTXYucd50KQYMK/fJrISv2A=
+X-Google-Smtp-Source: ABdhPJxoPtaqaA0Y5mlpcLKtnsmfYi2cp5VbxYGp+2HlAU6LEsWJ3NWxdThCpMZSdrSE2iiuNHGFlQ==
+X-Received: by 2002:a63:724a:: with SMTP id c10mr24670392pgn.130.1591117328540; 
+ Tue, 02 Jun 2020 10:02:08 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id h11sm2723630pjk.20.2020.06.02.10.02.05
+ by smtp.gmail.com with ESMTPSA id h11sm2723630pjk.20.2020.06.02.10.02.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 10:02:06 -0700 (PDT)
+ Tue, 02 Jun 2020 10:02:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/12] tcg: Improve move ops in liveness_pass_2
-Date: Tue,  2 Jun 2020 10:01:49 -0700
-Message-Id: <20200602170151.321389-11-richard.henderson@linaro.org>
+Subject: [PULL 11/12] accel/tcg: Adjust cpu_signal_handler for NetBSD/arm
+Date: Tue,  2 Jun 2020 10:01:50 -0700
+Message-Id: <20200602170151.321389-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200602170151.321389-1-richard.henderson@linaro.org>
 References: <20200602170151.321389-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,114 +85,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Nick Hudson <skrll@netbsd.org>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the output of the move is dead, then the last use is in
-the store.  If we propagate the input to the store, then we
-can remove the move opcode entirely.
+From: Nick Hudson <skrll@netbsd.org>
 
+Fix building on NetBSD/arm by extracting the FSR value from the
+correct siginfo_t field.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Nick Hudson <skrll@netbsd.org>
+Message-Id: <20200516154147.24842-1-skrll@netbsd.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 78 +++++++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 56 insertions(+), 22 deletions(-)
+ accel/tcg/user-exec.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 97558ec068..1aa6cb47f2 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -2982,34 +2982,68 @@ static bool liveness_pass_2(TCGContext *s)
-         }
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 52359949df..bc391eb454 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -517,6 +517,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
  
-         /* Outputs become available.  */
--        for (i = 0; i < nb_oargs; i++) {
--            arg_ts = arg_temp(op->args[i]);
-+        if (opc == INDEX_op_mov_i32 || opc == INDEX_op_mov_i64) {
-+            arg_ts = arg_temp(op->args[0]);
-             dir_ts = arg_ts->state_ptr;
--            if (!dir_ts) {
--                continue;
-+            if (dir_ts) {
-+                op->args[0] = temp_arg(dir_ts);
-+                changes = true;
-+
-+                /* The output is now live and modified.  */
-+                arg_ts->state = 0;
-+
-+                if (NEED_SYNC_ARG(0)) {
-+                    TCGOpcode sopc = (arg_ts->type == TCG_TYPE_I32
-+                                      ? INDEX_op_st_i32
-+                                      : INDEX_op_st_i64);
-+                    TCGOp *sop = tcg_op_insert_after(s, op, sopc);
-+                    TCGTemp *out_ts = dir_ts;
-+
-+                    if (IS_DEAD_ARG(0)) {
-+                        out_ts = arg_temp(op->args[1]);
-+                        arg_ts->state = TS_DEAD;
-+                        tcg_op_remove(s, op);
-+                    } else {
-+                        arg_ts->state = TS_MEM;
-+                    }
-+
-+                    sop->args[0] = temp_arg(out_ts);
-+                    sop->args[1] = temp_arg(arg_ts->mem_base);
-+                    sop->args[2] = arg_ts->mem_offset;
-+                } else {
-+                    tcg_debug_assert(!IS_DEAD_ARG(0));
-+                }
-             }
--            op->args[i] = temp_arg(dir_ts);
--            changes = true;
-+        } else {
-+            for (i = 0; i < nb_oargs; i++) {
-+                arg_ts = arg_temp(op->args[i]);
-+                dir_ts = arg_ts->state_ptr;
-+                if (!dir_ts) {
-+                    continue;
-+                }
-+                op->args[i] = temp_arg(dir_ts);
-+                changes = true;
+ #if defined(__NetBSD__)
+ #include <ucontext.h>
++#include <sys/siginfo.h>
+ #endif
  
--            /* The output is now live and modified.  */
--            arg_ts->state = 0;
-+                /* The output is now live and modified.  */
-+                arg_ts->state = 0;
+ int cpu_signal_handler(int host_signum, void *pinfo,
+@@ -525,10 +526,12 @@ int cpu_signal_handler(int host_signum, void *pinfo,
+     siginfo_t *info = pinfo;
+ #if defined(__NetBSD__)
+     ucontext_t *uc = puc;
++    siginfo_t *si = pinfo;
+ #else
+     ucontext_t *uc = puc;
+ #endif
+     unsigned long pc;
++    uint32_t fsr;
+     int is_write;
  
--            /* Sync outputs upon their last write.  */
--            if (NEED_SYNC_ARG(i)) {
--                TCGOpcode sopc = (arg_ts->type == TCG_TYPE_I32
--                                  ? INDEX_op_st_i32
--                                  : INDEX_op_st_i64);
--                TCGOp *sop = tcg_op_insert_after(s, op, sopc);
-+                /* Sync outputs upon their last write.  */
-+                if (NEED_SYNC_ARG(i)) {
-+                    TCGOpcode sopc = (arg_ts->type == TCG_TYPE_I32
-+                                      ? INDEX_op_st_i32
-+                                      : INDEX_op_st_i64);
-+                    TCGOp *sop = tcg_op_insert_after(s, op, sopc);
+ #if defined(__NetBSD__)
+@@ -539,10 +542,17 @@ int cpu_signal_handler(int host_signum, void *pinfo,
+     pc = uc->uc_mcontext.arm_pc;
+ #endif
  
--                sop->args[0] = temp_arg(dir_ts);
--                sop->args[1] = temp_arg(arg_ts->mem_base);
--                sop->args[2] = arg_ts->mem_offset;
-+                    sop->args[0] = temp_arg(dir_ts);
-+                    sop->args[1] = temp_arg(arg_ts->mem_base);
-+                    sop->args[2] = arg_ts->mem_offset;
+-    /* error_code is the FSR value, in which bit 11 is WnR (assuming a v6 or
+-     * later processor; on v5 we will always report this as a read).
++#ifdef __NetBSD__
++    fsr = si->si_trap;
++#else
++    fsr = uc->uc_mcontext.error_code;
++#endif
++    /*
++     * In the FSR, bit 11 is WnR, assuming a v6 or
++     * later processor.  On v5 we will always report
++     * this as a read, which will fail later.
+      */
+-    is_write = extract32(uc->uc_mcontext.error_code, 11, 1);
++    is_write = extract32(fsr, 11, 1);
+     return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
+ }
  
--                arg_ts->state = TS_MEM;
--            }
--            /* Drop outputs that are dead.  */
--            if (IS_DEAD_ARG(i)) {
--                arg_ts->state = TS_DEAD;
-+                    arg_ts->state = TS_MEM;
-+                }
-+                /* Drop outputs that are dead.  */
-+                if (IS_DEAD_ARG(i)) {
-+                    arg_ts->state = TS_DEAD;
-+                }
-             }
-         }
-     }
 -- 
 2.25.1
 
