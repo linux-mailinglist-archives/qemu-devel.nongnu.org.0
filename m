@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4198B1EB3DB
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 05:42:28 +0200 (CEST)
-Received: from localhost ([::1]:42478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 432291EB3E1
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 05:46:48 +0200 (CEST)
+Received: from localhost ([::1]:45376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jfxop-0006OO-BJ
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 23:42:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47918)
+	id 1jfxt1-00085F-Bv
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jun 2020 23:46:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jfxnr-0005qJ-RO
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 23:41:27 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:43105)
+ id 1jfxsE-0007aI-28
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 23:45:58 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:33319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jfxnq-0003pH-Vq
- for qemu-devel@nongnu.org; Mon, 01 Jun 2020 23:41:27 -0400
-Received: by mail-pg1-x544.google.com with SMTP id 185so4446154pgb.10
- for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 20:41:26 -0700 (PDT)
+ id 1jfxsC-0004hh-QF
+ for qemu-devel@nongnu.org; Mon, 01 Jun 2020 23:45:57 -0400
+Received: by mail-pf1-x444.google.com with SMTP id b201so318729pfb.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Jun 2020 20:45:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=18PjvpBvSRFINqo26hMwWXabctIYaLUjgZxMJeJ8oos=;
- b=nh85xS/jOfs88spkBMWMknsA8QnbyEIzRTx5mOUanNRFkrVcrKEAt4k2aVHCJoGCES
- Cca6K7kUKgK+H5sbkXxXlvyrWQ0KY6fs9FBtJAMOhfPGN63jXmBekcKDf/5pk2OQen06
- h5d69+8CYHBOmlnO4pwY0qh2929+HC1FV3zlURCdCbcyI8ClQWCJIM73MtFbyxoqBV6g
- fQRTZjvJgYNIm4huhaaZ8haOurZVCPNLS+KSVGqJRYHdGxL93vbEhTHvKOlsQ7AWqJpE
- PiVYa1/1pml2YR0iSwI7OzPYCPeevs0RHw6wMnXkEdsqJJZUGwD9cYvHQgS3b2Q587wm
- ZCmQ==
+ bh=ItflNdMwIRaawQi3pcaC3Y6lcggQtCOHcO+2o5/8u9Y=;
+ b=RABucGXppEqr6KP8YySKLXXwWfhW4TuuAqqX0clnVOZlWoR3IMmRs54S8ktD1x+qUH
+ wkZKZNivTkp7c4bARAXNKTkGlmB/pX6aw4mcxI8NLB1uamfjYkSfly6FE0zYtRq3yGwn
+ w/Pn4DAQkjd9m8IAUqKOhCcS81Q23wTFrv7U8+Zau9EICZMl6a3arB/XfTAY4/7gJCfV
+ 8J7FIBuF9sSjPWup0eKMK7FNm4NmhTQ8AgdSsPU4bLjoNdcAjkxclde8KC7mp2pmF4aG
+ MgoUoWxIMV8RjCOujM9eQfqDnpUpOyqfRmk45QARp+1b7pXbibLEl/tlfUb3w1cuiLuy
+ 1KXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=18PjvpBvSRFINqo26hMwWXabctIYaLUjgZxMJeJ8oos=;
- b=NRgdh6Es24bwxUlqQW9l5VKbW9EDy8QjsoipTLNVoEWRUlHMF3c6e1Qvevp9tV5YyE
- SyfiiP76P8RsEQ7BMPn9ec4WuYI1wNAIU2OzCll35G45EbActFCESwtFxSR8KWhprkbG
- Wdb9k5dFApKchpgR9A4R0jegATKDUhIcuLWe1y7LgOBPgZO2fXeku1a3si2wz+ytYqFJ
- ZTqyl284dgbBlVP0HHWXw7cxkLQ7HydriiNoebLTvXYecMmQcckVmCxsZ5v1+fU1i4JS
- +SwzSqcAXgxpc83EOYMkm2DZqpKLq44GNuPrg4Osx9ZqgggYHfZVX30LfctwVWhI2Gy9
- oI5Q==
-X-Gm-Message-State: AOAM531XJLlOXp5qN4cBX2XWn1laS0M+ztwO66b2LDbBsZtHF7Sfl65z
- KQ5lvpQ+nO+f+dt/FzxrhcaDPw==
-X-Google-Smtp-Source: ABdhPJyqwBKsVS4JT12+c/ue6jKjq4BqQGl3IV/nDOd8YsTNsAVqxl51uPlWXMCwLvZx7eXkW+1Agw==
-X-Received: by 2002:a63:ec0c:: with SMTP id j12mr3788513pgh.255.1591069285547; 
- Mon, 01 Jun 2020 20:41:25 -0700 (PDT)
+ bh=ItflNdMwIRaawQi3pcaC3Y6lcggQtCOHcO+2o5/8u9Y=;
+ b=R9heGFD59LgxB0cdnTvE3W56DtIdaUFRxCIZb+w4aC/qFpwAJBqhJ7D6HO75zqbKHN
+ wj9Z4T2MKDWlwHLTrOdVR+nq3MPnRP1LH5RSuSdrkcGarC209eNzK5Y1aEgKafATyDSp
+ 8GhkZLrFCBNO2C5zXpmCmEnVlSJj+Kpn6Z+iSTiIxqPM4qHiKT7Mq3GdvJrhbFfRDsiD
+ l0YqRPohIo73TnBKhC2+Zir58UqZQhDRALCMqFQRrjF8zaBh1mtEo5EH6Kta5cQUetaO
+ izPur0HcbSl5KTBkKdE72UiCGObVrhxtaDHTB9gTtjIK4hiSAWKCFTVpgq9swqedk3uq
+ jwPQ==
+X-Gm-Message-State: AOAM5339sSxxPeieA22tRPMczS6iKuIKgrKNhcp5HkptCd7YWmldSfBA
+ 7W46OXh3ySlotocVLzweO2juDw==
+X-Google-Smtp-Source: ABdhPJxbtCtKw8B937zuejhJH7SobzbyDGXbiVJ0onKcN68MtLpmF+MBKNAWPHGMs5R4PeXBDDQ6jA==
+X-Received: by 2002:a63:5b63:: with SMTP id l35mr21756340pgm.34.1591069555169; 
+ Mon, 01 Jun 2020 20:45:55 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id x2sm790090pfr.186.2020.06.01.20.41.24
+ by smtp.gmail.com with ESMTPSA id x8sm747847pfm.202.2020.06.01.20.45.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Jun 2020 20:41:24 -0700 (PDT)
-Subject: Re: [RFC v2 13/18] guest memory protection: Move side effect out of
- machine_set_memory_encryption()
+ Mon, 01 Jun 2020 20:45:54 -0700 (PDT)
+Subject: Re: [RFC v2 12/18] guest memory protection: Perform KVM init via
+ interface
 To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
  brijesh.singh@amd.com, frankja@linux.ibm.com, dgilbert@redhat.com,
  pair@us.ibm.com
 References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
- <20200521034304.340040-14-david@gibson.dropbear.id.au>
+ <20200521034304.340040-13-david@gibson.dropbear.id.au>
+ <e0b5be25-db1f-ab7d-681b-bd8afdecf4e2@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7af2f786-d1be-c77b-08db-cdf2dd513aa8@linaro.org>
-Date: Mon, 1 Jun 2020 20:41:22 -0700
+Message-ID: <4a8eda0a-22de-57bf-254a-4289931a2293@linaro.org>
+Date: Mon, 1 Jun 2020 20:45:52 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200521034304.340040-14-david@gibson.dropbear.id.au>
+In-Reply-To: <e0b5be25-db1f-ab7d-681b-bd8afdecf4e2@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -99,23 +100,20 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/20/20 8:42 PM, David Gibson wrote:
-> When the "memory-encryption" property is set, we also disable KSM
-> merging for the guest, since it won't accomplish anything.
+On 6/1/20 8:39 PM, Richard Henderson wrote:
+> On 5/20/20 8:42 PM, David Gibson wrote:
+>> +        if (object_dynamic_cast(obj, TYPE_GUEST_MEMORY_PROTECTION)) {
+>> +            GuestMemoryProtection *gmpo = GUEST_MEMORY_PROTECTION(obj);
 > 
-> We want that, but doing it in the property set function itself is
-> thereoretically incorrect, in the unlikely event of some configuration
-> environment that set the property then cleared it again before
-> constructing the guest.
+> This duplicates the interface check.  You should use
 > 
-> But more important, it makes some other cleanups we want more
-> difficult.  So, instead move this logic to machine_run_board_init()
-> conditional on the final value of the property.
+>   gmpo = (GuestMemoryProtection *)
+>     object_dynamic_cast(obj, TYPE_GUEST_MEMORY_PROTECTION);
+>   if (gmpo) {
 > 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  hw/core/machine.c | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
+> AFICT.
+
+Or ignore this nit, since you clean it up in patch 14.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
