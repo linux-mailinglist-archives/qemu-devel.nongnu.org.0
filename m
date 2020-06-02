@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 345281EC4A3
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 23:53:32 +0200 (CEST)
-Received: from localhost ([::1]:46758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A341EC4B2
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 23:56:58 +0200 (CEST)
+Received: from localhost ([::1]:59090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgEqh-0006XD-8L
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 17:53:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47424)
+	id 1jgEu1-0003WL-Qd
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 17:56:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgEjW-0005Se-IG
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgEjW-0005Sh-UJ
  for qemu-devel@nongnu.org; Tue, 02 Jun 2020 17:46:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56304
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58268
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgEjV-0008Uh-D7
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgEjV-00004t-GB
  for qemu-devel@nongnu.org; Tue, 02 Jun 2020 17:46:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591134361;
+ s=mimecast20190719; t=1591134363;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uYyZQxaNvqDH/hr1wmR0qZCpuu1PPwy8ELRv1oSawx8=;
- b=LmyHK7hfI76oAZSbo10BtvopG8ZPB3W6B1Nin7IjVpw4DQ1f9kHVUA3ba2Z1tc4QMrPeN0
- PJHuKAaj3GKs4plU4dyrunlw08hOmeRxFFurFOpDMEcBPpxH/vSF70x783TzlZ2HZ6DwDd
- L3vCrGJNiZ/pXX/UTqWDlsuDfGG/F98=
+ bh=0iGSpQJVJCdKjrWxqDYE2XmRQvkmLt6rW5uM+LnGK5c=;
+ b=QEH4Q38CIiHCvoPdFdtbCROluO448/GjSUWlX4SQhH36YYW4lni+EjTSwHb4DCe53TRwzZ
+ 7df2g8g68Intl+ye2aQVuMH16nZA/r5p6T0+kevZtCziOjog7C2pQJvBsdLy8wByhq2v5E
+ iJ3Xf753A8IwpH7eDnYG2ISJ/5rWvqk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-H-ApTCLVOL2XoD5eVemT0g-1; Tue, 02 Jun 2020 17:45:59 -0400
-X-MC-Unique: H-ApTCLVOL2XoD5eVemT0g-1
+ us-mta-378-CY2zF2epM6i2REwh6ocz0A-1; Tue, 02 Jun 2020 17:46:01 -0400
+X-MC-Unique: CY2zF2epM6i2REwh6ocz0A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDA41835B41;
- Tue,  2 Jun 2020 21:45:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D841EA0BD9;
+ Tue,  2 Jun 2020 21:46:00 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-112-142.rdu2.redhat.com [10.10.112.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B6F5261984;
- Tue,  2 Jun 2020 21:45:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 712AC60BE1;
+ Tue,  2 Jun 2020 21:45:59 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/16] python/qemu: make 'args' style arguments immutable
-Date: Tue,  2 Jun 2020 17:45:26 -0400
-Message-Id: <20200602214528.12107-15-jsnow@redhat.com>
+Subject: [PATCH v2 15/16] iotests.py: Adjust HMP kwargs typing
+Date: Tue,  2 Jun 2020 17:45:27 -0400
+Message-Id: <20200602214528.12107-16-jsnow@redhat.com>
 In-Reply-To: <20200602214528.12107-1-jsnow@redhat.com>
 References: <20200602214528.12107-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -54,17 +54,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 17:45:34
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 03:23:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,146 +84,39 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These arguments don't need to be mutable and aren't really used as
-such. Clarify their types as immutable and adjust code to match where
-necessary.
+mypy wants to ensure there's consistency between the kwargs arguments
+types and any unspecified keyword arguments. In this case, conv_keys is
+a bool, but the remaining keys are Any type. Mypy (correctly) infers the
+**kwargs type to be **Dict[str, str], which is not compatible with
+conv_keys: bool.
 
-In general, It's probably best not to accept a user-defined mutable
-object and store it as internal object state unless there's a strong
-justification for doing so. Instead, try to use generic types as input
-with empty tuples as the default, and coerce to list where necessary.
+Because QMP typing is a little fraught right now anyway, re-type kwargs
+to Dict[str, Any] which has the benefit of silencing this check right
+now.
+
+A future re-design might type these more aggressively, but this will
+give us a baseline to work from with minimal disruption.
+
+(Thanks Kevin Wolf for the debugging assist here)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine.py | 30 +++++++++++++++++-------------
- python/qemu/qtest.py   | 16 ++++++++++++----
- 2 files changed, 29 insertions(+), 17 deletions(-)
+ tests/qemu-iotests/iotests.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 64197fc8492..d32e5599ce3 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -18,6 +18,7 @@
- #
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 7c1773bba37..19b22bee618 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -553,7 +553,7 @@ def add_incoming(self, addr):
  
- import errno
-+from itertools import chain
- import logging
- import os
- import subprocess
-@@ -29,6 +30,8 @@
-     Dict,
-     List,
-     Optional,
-+    Sequence,
-+    Tuple,
-     Type,
- )
- from types import TracebackType
-@@ -67,8 +70,12 @@ class QEMUMachine:
-         # vm is guaranteed to be shut down here
-     """
- 
--    def __init__(self, binary, args=None, wrapper=None, name=None,
--                 test_dir="/var/tmp",
-+    def __init__(self,
-+                 binary: str,
-+                 args: Sequence[str] = (),
-+                 wrapper: Sequence[str] = (),
-+                 name: Optional[str] = None,
-+                 test_dir: str = "/var/tmp",
-                  monitor_address: Optional[SocketAddrT] = None,
-                  socket_scm_helper=None, sock_dir=None):
-         '''
-@@ -86,14 +93,7 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
-         # Direct user configuration
- 
-         self._binary = binary
--
--        if args is None:
--            args = []
--        # Copy mutable input: we will be modifying our copy
-         self._args = list(args)
--
--        if wrapper is None:
--            wrapper = []
-         self._wrapper = wrapper
- 
-         self._name = name or "qemu-%d" % os.getpid()
-@@ -118,7 +118,7 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
-         self._iolog = None
-         self._qmp_set = True   # Enable QMP monitor by default.
-         self._qmp_connection: Optional[qmp.QEMUMonitorProtocol] = None
--        self._qemu_full_args = None
-+        self._qemu_full_args: Tuple[str, ...] = ()
-         self._temp_dir = None
-         self._launched = False
-         self._machine = None
-@@ -336,7 +336,7 @@ def launch(self):
-             raise QEMUMachineError('VM already launched')
- 
-         self._iolog = None
--        self._qemu_full_args = None
-+        self._qemu_full_args = ()
-         try:
-             self._launch()
-             self._launched = True
-@@ -356,8 +356,12 @@ def _launch(self):
-         """
-         devnull = open(os.path.devnull, 'rb')
-         self._pre_launch()
--        self._qemu_full_args = (self._wrapper + [self._binary] +
--                                self._base_args + self._args)
-+        self._qemu_full_args = tuple(
-+            chain(self._wrapper,
-+                  [self._binary],
-+                  self._base_args,
-+                  self._args)
-+        )
-         LOG.debug('VM launch command: %r', ' '.join(self._qemu_full_args))
-         self._popen = subprocess.Popen(self._qemu_full_args,
-                                        stdin=devnull,
-diff --git a/python/qemu/qtest.py b/python/qemu/qtest.py
-index 05c63a1d583..ae4661d4d3e 100644
---- a/python/qemu/qtest.py
-+++ b/python/qemu/qtest.py
-@@ -22,6 +22,7 @@
- from typing import (
-     List,
-     Optional,
-+    Sequence,
-     TextIO,
- )
- 
-@@ -103,8 +104,13 @@ class QEMUQtestMachine(QEMUMachine):
-     A QEMU VM, with a qtest socket available.
-     """
- 
--    def __init__(self, binary, args=None, name=None, test_dir="/var/tmp",
--                 socket_scm_helper=None, sock_dir=None):
-+    def __init__(self,
-+                 binary: str,
-+                 args: Sequence[str] = (),
-+                 name: Optional[str] = None,
-+                 test_dir: str = "/var/tmp",
-+                 socket_scm_helper: Optional[str] = None,
-+                 sock_dir: Optional[str] = None):
-         if name is None:
-             name = "qemu-%d" % os.getpid()
-         if sock_dir is None:
-@@ -118,8 +124,10 @@ def __init__(self, binary, args=None, name=None, test_dir="/var/tmp",
-     @property
-     def _base_args(self) -> List[str]:
-         args = super()._base_args
--        args.extend(['-qtest', 'unix:path=' + self._qtest_path,
--                     '-accel', 'qtest'])
-+        args.extend([
-+            '-qtest', f"unix:path={self._qtest_path}",
-+            '-accel', 'qtest'
-+        ])
-         return args
- 
-     def _pre_launch(self):
+     def hmp(self, command_line: str, use_log: bool = False) -> QMPMessage:
+         cmd = 'human-monitor-command'
+-        kwargs = {'command-line': command_line}
++        kwargs: Dict[str, Any] = {'command-line': command_line}
+         if use_log:
+             return self.qmp_log(cmd, **kwargs)
+         else:
 -- 
 2.21.3
 
