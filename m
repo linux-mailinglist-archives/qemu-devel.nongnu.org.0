@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BAA91EBFE9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 18:25:20 +0200 (CEST)
-Received: from localhost ([::1]:53654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED3D1EBFFB
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 18:29:37 +0200 (CEST)
+Received: from localhost ([::1]:32800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jg9j5-0008F2-32
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 12:25:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34552)
+	id 1jg9nE-0003Aw-BM
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 12:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chouteau@adacore.com>)
- id 1jg9iH-0007lk-0B
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 12:24:29 -0400
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:38346)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chouteau@adacore.com>)
- id 1jg9iF-00080n-QM
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 12:24:28 -0400
-Received: by mail-io1-xd2f.google.com with SMTP id d7so11489102ioq.5
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 09:24:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=adacore-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:from:date:message-id:subject:to;
- bh=hOC4euejTBaAmNdHY26JjKCLitchZSJaHBT2DxiVxGk=;
- b=zcnJ0Ar4hV5YD7Nnvejm+DxBxd5eo4bkmDJVCB6CmYdwKaM8ULRwL1mCxICjy0ANfY
- OkmOldSpKlmOo74ZAdCgrrU3lNHwiQWqSX25IFgN9xat0OLMvReqOyvJAe321mVVUZ1F
- ketg77jDzNSKXAoG+NxAp00TT4um0OwqUPOM2/DTwwodgy9Sl125gZOJAJbADBSLTim4
- NdaIjPZF1jzb8z+D6f3CzO9oOiM3rjZ/7q2ydZ+fJ+XkAi/1Kb2fD4yGZyhGyu5+tvfI
- CengtSM684EupuRunODnfa1g5RTFqSbzbsWcRtnczqOMZGFtKKb7+3UfRDnVIhdaEGRA
- T1Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=hOC4euejTBaAmNdHY26JjKCLitchZSJaHBT2DxiVxGk=;
- b=bhmgPOngRUdDFKQs98soagadHT/MfQNFCeoI0V401Eqs8OgoRmnGQnQ+8bOYeUDKFD
- 0HnQRoztg8IIKn7EtwLBOjDXn5iXfZGPjVotciH1BABdu+eUUg2zgKKjF+9/BKPFS7o6
- Y3Ym3bh/7ZpE1zF8JPHPUskldgsr7A/vD2uQE7yGm7V4IlKgOy8T38Do1ELgXCoRbO13
- mj5FIEg3JoqwthvC8Z8SG7koQnD0DlPuyTvA73T3+oflCDa8UxuTl89o//oPJ9FRkYqi
- yGlVAYs4FAT3gmnN8APEVOV0ObjH2v75+QrjpOZr69xRi3svQv4xFMYzm/q01510has3
- iQyQ==
-X-Gm-Message-State: AOAM533qT02uGIyk42wbDq+MIIePA77kCIkapQ6EPDaLpkHgbwaFxz/r
- k9k74i0CPD0fCijJliR22ITbexCpMFeUsI2xkAbXsd6W3nX7hw==
-X-Google-Smtp-Source: ABdhPJyMg71rFFFip5iq1NksE9lzWSYg0I5pnq+YWfUECvLvWVh4RC46iH6b9DirRVjqUapBMGuQSkOWn5EbQ4eXFt0=
-X-Received: by 2002:a05:6602:2055:: with SMTP id
- z21mr217211iod.60.1591115065704; 
- Tue, 02 Jun 2020 09:24:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jg9m4-0002Q6-6V
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 12:28:24 -0400
+Received: from 2.mo5.mail-out.ovh.net ([178.33.109.111]:60745)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jg9m2-00008O-JR
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 12:28:23 -0400
+Received: from player758.ha.ovh.net (unknown [10.108.57.211])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id 4266E285211
+ for <qemu-devel@nongnu.org>; Tue,  2 Jun 2020 18:28:18 +0200 (CEST)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player758.ha.ovh.net (Postfix) with ESMTPSA id 2C03112FB74E0;
+ Tue,  2 Jun 2020 16:28:11 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R003bd1027cd-cf5f-4c14-b96a-2280f8de35ee,5E62BD569A294C88FEF25C709A17CDFB03A24EB6)
+ smtp.auth=clg@kaod.org
+Subject: Re: [PATCH] docs/system: Document Aspeed boards
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20200602135050.593692-1-clg@kaod.org>
+ <a46437ce-1be4-3c0a-8403-1c279ad8b90b@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <80e5403f-a842-4542-41d3-d1d8236af637@kaod.org>
+Date: Tue, 2 Jun 2020 18:28:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-From: Fabien Chouteau <chouteau@adacore.com>
-Date: Tue, 2 Jun 2020 18:24:15 +0200
-Message-ID: <CALQG_Wh7eMt9U3gWkZZGDq0RFvWfuSVoiNBRNnPS_cDVfUc30w@mail.gmail.com>
-Subject: gdbstub.c CPU clusters not handled for ThreadInfo packets
-To: qemu-devel@nongnu.org, Luc Michel <luc.michel@greensocs.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000049e00b05a71c58cc"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=chouteau@adacore.com; helo=mail-io1-xd2f.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <a46437ce-1be4-3c0a-8403-1c279ad8b90b@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 9088545526973958976
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -77
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudefjedgjeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegfrhhlucfvnfffucdlvdefmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephfevvdehieeftdevfeelleffgfehtdfgvdegteeijeetudejgedutdduudfhteeknecuffhomhgrihhnpehophgvnhhpohifvghrrdighiiinecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeehkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=178.33.109.111; envelope-from=clg@kaod.org;
+ helo=2.mo5.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 12:28:18
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,72 +68,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000049e00b05a71c58cc
-Content-Type: text/plain; charset="UTF-8"
+On 6/2/20 5:00 PM, Philippe Mathieu-Daudé wrote:
+> On 6/2/20 3:50 PM, Cédric Le Goater wrote:
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>  docs/system/arm/aspeed.rst | 85 ++++++++++++++++++++++++++++++++++++++
+>>  docs/system/target-arm.rst |  1 +
+>>  2 files changed, 86 insertions(+)
+>>  create mode 100644 docs/system/arm/aspeed.rst
+>>
+>> diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+>> new file mode 100644
+>> index 000000000000..45f891eb3cad
+>> --- /dev/null
+>> +++ b/docs/system/arm/aspeed.rst
+>> @@ -0,0 +1,85 @@
+>> +Aspeed family boards (``*-bmc``, ``ast2500-evb``, ``ast2600-evb``)
+>> +==================================================================
+>> +
+>> +The QEMU Aspeed machines model BMCs of various OpenPOWER systems and
+>> +Aspeed evaluation boards. They are based on different releases of the
+>> +Aspeed SoC : the AST2400 integrating an ARM926EJ-S CPU (400MHz), the
+>> +AST2500 with an ARM1176JZS CPU (800MHz) and more recently the AST2600
+>> +with dual cores ARM Cortex A7 CPUs (1.2GHz).
+>> +
+>> +The SoC comes with RAM, Gigabit ethernet, USB, SD/MMC, USB, SPI, I2C,
+>> +etc.
+>> +
+>> +AST2400 SoC based machines :
+>> +
+>> +- ``palmetto-bmc``         OpenPOWER Palmetto POWER8 BMC
+>> +
+>> +AST2500 SoC based machines :
+>> +
+>> +- ``ast2500-evb``          Aspeed AST2500 Evaluation board
+>> +- ``romulus-bmc``          OpenPOWER Romulus POWER9 BMC
+>> +- ``witherspoon-bmc``      OpenPOWER Witherspoon POWER9 BMC
+>> +- ``sonorapass-bmc``       OCP SonoraPass BMC
+>> +- ``swift-bmc``            OpenPOWER Swift BMC POWER9
+>> +
+>> +AST2600 SoC based machines :
+>> +
+>> +- ``ast2600-evb``          Aspeed AST2600 Evaluation board (Cortex A7)
+>> +- ``tacoma-bmc``           OpenPOWER Witherspoon POWER9 AST2600 BMC
+>> +
+>> +Supported devices
+>> +-----------------
+>> +
+>> + * SMP (for the AST2600 Cortex-A7)
+>> + * Interrupt Controller (VIC)
+>> + * Timer Controller
+>> + * RTC Controller
+>> + * I2C Controller
+>> + * System Control Unit (SCU)
+>> + * SRAM mapping
+>> + * X-DMA Controller (basic interface)
+>> + * Static Memory Controller (SMC or FMC) - Only SPI Flash support
+>> + * SPI Memory Controller
+>> + * USB 2.0 Controller
+>> + * SD/MMC storage controllers
+>> + * SDRAM controller (dummy interface for basic settings and training)
+>> + * Watchdog Controller
+>> + * GPIO Controller (Master only)
+>> + * UART
+>> + * Ethernet controllers
+>> +
+>> +
+>> +Missing devices
+>> +---------------
+>> +
+>> + * Coprocessor support
+>> + * ADC (out of tree implementation)
+>> + * PWM and Fan Controller
+>> + * LPC Bus Controller
+>> + * Slave GPIO Controller
+>> + * Super I/O Controller
+> 
+> Is there public datasheet for this?
 
-Hi all,
+Nope.
 
-(Luc, I am putting in copy because from the logs it looks like you
-implemented the multiprocess support)
+>> + * Hash/Crypto Engine
+>> + * PCI-Express 1 Controller
+>> + * Graphic Display Controller
+>> + * PECI Controller
+>> + * MCTP Controller
+>> + * Mailbox Controller
+>> + * Virtual UART
+> 
+> Uh what is that? :)
 
-Using the sifive_u machine on qemu-system-riscv64 which has 2 clusters of 1
-and 4 CPUs respectively, when I use the "info threads" command in GDB only
-one thread is displayed.
-This thread is the only CPU of the 1st cluster, the CPUs of cluster 2nd are
-not listed at all.
+It is the host console. 
 
-Looking at the GDB remote packets (see below) we can see that indeed only
-one thread is listed (mp01.01). It seems to me that the functions
-handle_query_first_threads() and handle_query_threads() of gdbstub.c are
-not handling the new multiprocess implementation. I would like to fix it
-but I am lost between cpus, processes, threads, etc.
+>> + * eSPI Controller
+>> + * I3C Controller
+>> +
+>> +Boot options
+>> +------------
+>> +
+>> +The Aspeed machines can be started using the -kernel option to load a
+>> +Linux kernel or from a firmare image which can be downloaded from the
+>> +OpenPOWER jenkins :
+>> +
+>> +   https://openpower.xyz/
+>> +
+>> +The image should be attached as an MTD drive. Run :
+>> +
+>> +.. code-block:: bash
+>> +
+>> +  $ qemu-system-arm -M romulus-bmc -nic user \
+>> +	-drive file=flash-romulus,format=raw,if=mtd -nographic
+>> diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
+>> index dce384cb0e3e..1bd477a2936c 100644
+>> --- a/docs/system/target-arm.rst
+>> +++ b/docs/system/target-arm.rst
+>> @@ -81,6 +81,7 @@ undocumented; you can get a complete list by running
+>>     arm/realview
+>>     arm/versatile
+>>     arm/vexpress
+>> +   arm/aspeed
+> 
+> Maybe we should keep this section sorted.
 
-Does anyone have an idea how to fix this?
+They are, using the title in the file : "Aspeed family boards"
 
-Regards,
+Thanks
 
-(gdb) info threads
-Sending packet: $qfThreadInfo#bb...Ack
-Packet received: mp01.01
-Sending packet: $qsThreadInfo#c8...Ack
-Packet received: l
-Sending packet: $qThreadExtraInfo,p1.1#85...Ack
-Packet received:
-7369666976652d6535312d72697363762d6370752068617274735b305d205b72756e6e696e675d
-  Id   Target Id                                            Frame
-* 1    Thread 1.1 (sifive-e51-riscv-cpu harts[0] [running])
-0x0000000000001000 in ?? ()
-(gdb)
+C.
+ 
+> Otherwise:
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+>>     arm/musicpal
+>>     arm/nseries
+>>     arm/orangepi
+>>
 
---00000000000049e00b05a71c58cc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi all,</div><div><br></div><div>(Luc, I am putting i=
-n copy  because from the logs it looks like you implemented the multiproces=
-s support)</div><div><br></div><div>Using the sifive_u machine on qemu-syst=
-em-riscv64 which has 2 clusters of 1 and 4 CPUs respectively, when I use th=
-e &quot;info threads&quot; command in GDB only one thread is displayed.</di=
-v><div>This thread is the only CPU of the 1st cluster, the CPUs of cluster =
-2nd are not listed at all.</div><div><br></div><div>Looking at the GDB remo=
-te packets (see below) we can see that indeed only one thread is listed (mp=
-01.01). It seems to me that the functions handle_query_first_threads() and =
-handle_query_threads() of gdbstub.c are not handling the new multiprocess i=
-mplementation. I would like to fix it but I am lost between cpus, processes=
-, threads, etc.</div><div><br></div><div>Does anyone have an idea how to fi=
-x this?<br></div><div><br></div><div>Regards,</div><div><br></div><div>(gdb=
-) info threads <br>Sending packet: $qfThreadInfo#bb...Ack<br>Packet receive=
-d: mp01.01<br>Sending packet: $qsThreadInfo#c8...Ack<br>Packet received: l<=
-br>Sending packet: $qThreadExtraInfo,p1.1#85...Ack<br>Packet received: 7369=
-666976652d6535312d72697363762d6370752068617274735b305d205b72756e6e696e675d<=
-br>=C2=A0 Id =C2=A0 Target Id =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Frame <br>* 1 =C2=A0 =C2=A0Thread 1.1 (si=
-five-e51-riscv-cpu harts[0] [running]) 0x0000000000001000 in ?? ()<br>(gdb)=
- </div><div><br></div></div>
-
---00000000000049e00b05a71c58cc--
 
