@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B141EC0EA
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 19:26:41 +0200 (CEST)
-Received: from localhost ([::1]:52108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 915B51EC0D7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 19:19:41 +0200 (CEST)
+Received: from localhost ([::1]:45094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgAgS-0001H4-8d
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 13:26:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43458)
+	id 1jgAZg-0006Kk-F3
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 13:19:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jgAfb-0000UH-Vl
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:25:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36670)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jgAfa-0004EH-Jr
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:25:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jgAfY-00079n-06
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 17:25:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CE7672E8106
- for <qemu-devel@nongnu.org>; Tue,  2 Jun 2020 17:25:43 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jgAYs-0005tL-Es
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:18:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24023
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jgAYr-0002Bq-8D
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:18:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591118328;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SYCYylt73zAm4Z0YIZSJT/5gykRVZ8fXgPKYhU1W7Kw=;
+ b=URWuc9H0WeipDmT63S936VFqFQ4EaaYqIQZK+n7ykkx4SVirHIAM8mY3Gj4gYZrJCn08ce
+ BPLqmSzQCLZI6FKsr7FB24bkJkfIlNtjrJvFdQuk7JjVTzFb59IunR/kr7dTN68+xNMyiy
+ RhXzw4ZZjEcUAv0JgK1MdMMO+IG0Rz0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-413-0hI3zwjePPyrsfcUo0mK2Q-1; Tue, 02 Jun 2020 13:18:44 -0400
+X-MC-Unique: 0hI3zwjePPyrsfcUo0mK2Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 705AB19200C8;
+ Tue,  2 Jun 2020 17:18:43 +0000 (UTC)
+Received: from localhost (ovpn-113-102.phx2.redhat.com [10.3.113.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B62E78EFE;
+ Tue,  2 Jun 2020 17:18:40 +0000 (UTC)
+Date: Tue, 2 Jun 2020 13:18:38 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Babu Moger <babu.moger@amd.com>
+Subject: Re: [PATCH v7 07/13] hw/386: Add EPYC mode topology decoding functions
+Message-ID: <20200602171838.GG577771@habkost.net>
+References: <158396702138.58170.7920458595372792959.stgit@naples-babu.amd.com>
+ <158396721426.58170.2930696192478912976.stgit@naples-babu.amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 02 Jun 2020 17:16:35 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1835865@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: acpi piix
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: amarkovic philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <156264634854.21327.17484948855790653898.malonedeb@gac.canonical.com>
-Message-Id: <159111819569.13351.12855388495695350552.launchpad@gac.canonical.com>
-Subject: [Bug 1835865] Re: piix crashes on mips when accessing acpi-pci-hotplug
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="275d46a24253e557e4403d52832837e4bfa425b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c6e70d8a778d54b7a9013d8ff7df511b7403ee02
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 11:35:30
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <158396721426.58170.2930696192478912976.stgit@naples-babu.amd.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 23:49:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,114 +79,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1835865 <1835865@bugs.launchpad.net>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, imammedo@redhat.com,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-     Assignee: Philippe Mathieu-Daud=C3=A9 (philmd) =3D> (unassigned)
+Hi,
 
--- =
+It looks like this series breaks -device and CPU hotplug:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1835865
+On Wed, Mar 11, 2020 at 05:53:34PM -0500, Babu Moger wrote:
+> These functions add support for building EPYC mode topology given the smp
+> details like numa nodes, cores, threads and sockets.
+> 
+> The new apic id decoding is mostly similar to current apic id decoding
+> except that it adds a new field node_id when numa configured. Removes all
+> the hardcoded values. Subsequent patches will use these functions to build
+> the topology.
+> 
+> Following functions are added.
+> apicid_llc_width_epyc
+> apicid_llc_offset_epyc
+> apicid_pkg_offset_epyc
+> apicid_from_topo_ids_epyc
+> x86_topo_ids_from_idx_epyc
+> x86_topo_ids_from_apicid_epyc
+> x86_apicid_from_cpu_idx_epyc
+> 
+> The topology details are available in Processor Programming Reference (PPR)
+> for AMD Family 17h Model 01h, Revision B1 Processors. The revision guides are
+> available from the bugzilla Link below.
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+> 
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> Acked-by: Igor Mammedov <imammedo@redhat.com>
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+[...]
+>  typedef struct X86CPUTopoIDs {
+>      unsigned pkg_id;
+> +    unsigned node_id;
 
-Title:
-  piix crashes on mips when accessing acpi-pci-hotplug
+You have added a new field here.
 
-Status in QEMU:
-  In Progress
+>      unsigned die_id;
+>      unsigned core_id;
+>      unsigned smt_id;
+[...]
+> +static inline apic_id_t
+> +x86_apicid_from_topo_ids_epyc(X86CPUTopoInfo *topo_info,
+> +                              const X86CPUTopoIDs *topo_ids)
+> +{
+> +    return (topo_ids->pkg_id  << apicid_pkg_offset_epyc(topo_info)) |
+> +           (topo_ids->node_id << apicid_node_offset_epyc(topo_info)) |
 
-Bug description:
-  $ qemu-system-mips --version
-  QEMU emulator version 4.0.50 (v4.0.0-1975-gf34edbc760)
+You are using the new field here.
 
-  $ qemu-system-mips -machine malta -bios /dev/null -nodefaults -monitor st=
-dio -S
-  (qemu) o 0xaf00 0
-  qemu-system-mips: hw/acpi/cpu.c:197: cpu_hotplug_hw_init: Assertion `mc->=
-possible_cpu_arch_ids' failed.
-  Aborted (core dumped)
+> +           (topo_ids->die_id  << apicid_die_offset(topo_info)) |
+> +           (topo_ids->core_id << apicid_core_offset(topo_info)) |
+> +           topo_ids->smt_id;
+> +}
 
-  (gdb) bt
-  #0  0x00007f6fd748957f in raise () at /lib64/libc.so.6
-  #1  0x00007f6fd7473895 in abort () at /lib64/libc.so.6
-  #2  0x00007f6fd7473769 in _nl_load_domain.cold.0 () at /lib64/libc.so.6
-  #3  0x00007f6fd7481a26 in .annobin_assert.c_end () at /lib64/libc.so.6
-  #4  0x00005646d58ca7bd in cpu_hotplug_hw_init (as=3D0x5646d6ae3300, owner=
-=3D0x5646d6fd5b10, state=3D0x5646d6fd7a30, base_addr=3D44800) at hw/acpi/cp=
-u.c:197
-  #5  0x00005646d58c5284 in acpi_switch_to_modern_cphp (gpe_cpu=3D0x5646d6f=
-d7910, cpuhp_state=3D0x5646d6fd7a30, io_port=3D44800) at hw/acpi/cpu_hotplu=
-g.c:107
-  #6  0x00005646d58c3431 in piix4_set_cpu_hotplug_legacy (obj=3D0x5646d6fd5=
-b10, value=3Dfalse, errp=3D0x5646d61cdb28 <error_abort>) at hw/acpi/piix4.c=
-:617
-  #7  0x00005646d5b00c70 in property_set_bool (obj=3D0x5646d6fd5b10, v=3D0x=
-5646d7697d30, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", opaque=3D0x5646d7=
-07d110, errp=3D0x5646d61cdb28 <error_abort>) at qom/object.c:2076
-  #8  0x00005646d5afeee6 in object_property_set (obj=3D0x5646d6fd5b10, v=3D=
-0x5646d7697d30, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", errp=3D0x5646d6=
-1cdb28 <error_abort>) at qom/object.c:1268
-  #9  0x00005646d5b01fb8 in object_property_set_qobject (obj=3D0x5646d6fd5b=
-10, value=3D0x5646d75b5450, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", err=
-p=3D0x5646d61cdb28 <error_abort>) at qom/qom-qobject.c:26
-  #10 0x00005646d5aff1cb in object_property_set_bool (obj=3D0x5646d6fd5b10,=
- value=3Dfalse, name=3D0x5646d5cf3a90 "cpu-hotplug-legacy", errp=3D0x5646d6=
-1cdb28 <error_abort>) at qom/object.c:1334
-  #11 0x00005646d58c4fce in cpu_status_write (opaque=3D0x5646d6fd7910, addr=
-=3D0, data=3D0, size=3D1) at hw/acpi/cpu_hotplug.c:44
-  #12 0x00005646d569c707 in memory_region_write_accessor (mr=3D0x5646d6fd79=
-20, addr=3D0, value=3D0x7ffc18053068, size=3D1, shift=3D0, mask=3D255, attr=
-s=3D...) at memory.c:503
-  #13 0x00005646d569c917 in access_with_adjusted_size (addr=3D0, value=3D0x=
-7ffc18053068, size=3D1, access_size_min=3D1, access_size_max=3D4, access_fn=
-=3D0x5646d569c61e <memory_region_write_accessor>, mr=3D0x5646d6fd7920, attr=
-s=3D...)
-      at memory.c:569
-  #14 0x00005646d569f8f3 in memory_region_dispatch_write (mr=3D0x5646d6fd79=
-20, addr=3D0, data=3D0, size=3D1, attrs=3D...) at memory.c:1497
-  #15 0x00005646d563e5c5 in flatview_write_continue (fv=3D0x5646d751b000, a=
-ddr=3D44800, attrs=3D..., buf=3D0x7ffc180531d4 "", len=3D4, addr1=3D0, l=3D=
-1, mr=3D0x5646d6fd7920) at exec.c:3324
-  #16 0x00005646d563e70a in flatview_write (fv=3D0x5646d751b000, addr=3D448=
-00, attrs=3D..., buf=3D0x7ffc180531d4 "", len=3D4) at exec.c:3363
-  #17 0x00005646d563ea0f in address_space_write (as=3D0x5646d618abc0 <addre=
-ss_space_io>, addr=3D44800, attrs=3D..., buf=3D0x7ffc180531d4 "", len=3D4) =
-at exec.c:3453
-  #18 0x00005646d5696ee5 in cpu_outl (addr=3D44800, val=3D0) at ioport.c:80
-  #19 0x00005646d57585d0 in hmp_ioport_write (mon=3D0x5646d6bc70e0, qdict=
-=3D0x5646d6cf7140) at monitor/misc.c:1058
-  #20 0x00005646d5a77b99 in handle_hmp_command (mon=3D0x5646d6bc70e0, cmdli=
-ne=3D0x5646d6bc2542 "0xaf00 0") at monitor/hmp.c:1082
-  #21 0x00005646d5a7540a in monitor_command_cb (opaque=3D0x5646d6bc70e0, cm=
-dline=3D0x5646d6bc2540 "o 0xaf00 0", readline_opaque=3D0x0) at monitor/hmp.=
-c:47
-  #22 0x00005646d5c71450 in readline_handle_byte (rs=3D0x5646d6bc2540, ch=
-=3D13) at util/readline.c:408
-  #23 0x00005646d5a7858f in monitor_read (opaque=3D0x5646d6bc70e0, buf=3D0x=
-7ffc180533d0 "\rtc\327FV", size=3D1) at monitor/hmp.c:1312
-  #24 0x00005646d5bc8d17 in qemu_chr_be_write_impl (s=3D0x5646d6add000, buf=
-=3D0x7ffc180533d0 "\rtc\327FV", len=3D1) at chardev/char.c:177
-  #25 0x00005646d5bc8d7b in qemu_chr_be_write (s=3D0x5646d6add000, buf=3D0x=
-7ffc180533d0 "\rtc\327FV", len=3D1) at chardev/char.c:189
-  #26 0x00005646d5bcb6bf in fd_chr_read (chan=3D0x5646d6a80d60, cond=3DG_IO=
-_IN, opaque=3D0x5646d6add000) at chardev/char-fd.c:68
-  #27 0x00005646d5bec485 in qio_channel_fd_source_dispatch (source=3D0x5646=
-d765a480, callback=3D0x5646d5bcb561 <fd_chr_read>, user_data=3D0x5646d6add0=
-00) at io/channel-watch.c:84
-  #28 0x00007f6fd9c1606d in g_main_context_dispatch () at /lib64/libglib-2.=
-0.so.0
-  #29 0x00005646d5c5323a in glib_pollfds_poll () at util/main-loop.c:213
-  #30 0x00005646d5c532b4 in os_host_main_loop_wait (timeout=3D29821719) at =
-util/main-loop.c:236
-  #31 0x00005646d5c533b9 in main_loop_wait (nonblocking=3D0) at util/main-l=
-oop.c:512
-  #32 0x00005646d581d1a1 in main_loop () at vl.c:1791
-  #33 0x00005646d582485f in main (argc=3D11, argv=3D0x7ffc18054868, envp=3D=
-0x7ffc180548c8) at vl.c:4473
+But you are not initializing node_id in one caller of apicid_from_topo_ids():
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1835865/+subscriptions
+static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+                            DeviceState *dev, Error **errp)
+{
+    [...]
+    X86CPUTopoIDs topo_ids;
+    [...]
+    if (cpu->apic_id == UNASSIGNED_APIC_ID) {
+        [...]
+        topo_ids.pkg_id = cpu->socket_id;
+        topo_ids.die_id = cpu->die_id;
+        topo_ids.core_id = cpu->core_id;
+        topo_ids.smt_id = cpu->thread_id;
+        cpu->apic_id = x86ms->apicid_from_topo_ids(&topo_info, &topo_ids);
+    }
+    [...]
+}
+
+Result: -device is broken when using -cpu EPYC:
+
+  $ qemu-system-x86_64 -machine q35,accel=kvm -smp 1,maxcpus=2,cores=1,threads=1,sockets=2 -cpu EPYC -device EPYC-x86_64-cpu,core-id=0,socket-id=1,thread-id=0
+  qemu-system-x86_64: -device EPYC-x86_64-cpu,core-id=0,socket-id=1,thread-id=0: Invalid CPU [socket: 21855, die: 0, core: 0, thread: 0] with APIC ID 21855, valid index range 0:1
+
+This happens because APIC ID is calculated using uninitialized
+memory.
+
+-- 
+Eduardo
+
 
