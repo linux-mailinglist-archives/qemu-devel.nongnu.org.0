@@ -2,139 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D97B71EC04C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 18:46:28 +0200 (CEST)
-Received: from localhost ([::1]:50318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 582071EC049
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 18:45:47 +0200 (CEST)
+Received: from localhost ([::1]:47632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgA3X-0004bh-SR
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 12:46:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37534)
+	id 1jgA2r-0003P2-OT
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 12:45:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgA1M-000291-Gd
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 12:44:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54884
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1jgA1S-0002Gz-Dp
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 12:44:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43386
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgA1L-0003Td-KU
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 12:44:12 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1jgA1Q-0003U6-T8
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 12:44:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591116250;
+ s=mimecast20190719; t=1591116256;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=7zks8Pg2USUyBWa/KTgyij6tgPSnSQcS7T1di8GfPDQ=;
- b=Y4BnyUy5MVUOzBVLG+rwyxwguwHJaD+LVT3AkurB/hooxQl/K37fIpx6zhvR68hMTmIqLg
- fE+pfeb9GjXUXpVk9WJlZFCfOypTaWDHbJBmXl52V9y+28mImy34y7kByzzS/NZCxWuY4p
- sDwMoqga6jkgCGEH+0DIPuIgHCza95E=
+ in-reply-to:in-reply-to:references:references;
+ bh=OykQTSme1DURd1XoRtz/wBvVe8UpxVS98+5LYsdTS/8=;
+ b=X6JTeGPOsHHskZTGppQA+i/OdTQBEN2kTgOagY/Q32wnyBshpG5Y0vw4sErHaNVmCcZudD
+ enhWI0KS5MDAJN3JVveD3gKSxKpaU1dA797dr/FmZi68Yh1UD1u7r6a6uIZbLU/hjKeo+D
+ oqHby/8BsuZUeiXbQuN2oTH46IZwZ8c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-xbyUlNbYNpWSvGn-PARHlg-1; Tue, 02 Jun 2020 12:44:08 -0400
-X-MC-Unique: xbyUlNbYNpWSvGn-PARHlg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-514-3zHW-ekhPTi85CJ_BF1vZA-1; Tue, 02 Jun 2020 12:44:12 -0400
+X-MC-Unique: 3zHW-ekhPTi85CJ_BF1vZA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BD7C100CCD7;
- Tue,  2 Jun 2020 16:44:07 +0000 (UTC)
-Received: from [10.10.112.142] (ovpn-112-142.rdu2.redhat.com [10.10.112.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 42BCD6116F;
- Tue,  2 Jun 2020 16:44:04 +0000 (UTC)
-Subject: Re: [PATCH RFC 01/32] python/qemu: create qemu.lib module
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200514055403.18902-1-jsnow@redhat.com>
- <20200514055403.18902-2-jsnow@redhat.com>
- <20200602100837.GA5940@linux.fritz.box>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
- IYzhgrPEe7ZmPxbCSe4iMykjhwMh5byIHDoPGDU+FsQty2KXuoxto+ZdrP9gymAgmyqdk3aV
- vzzmCa3cOppcqKvA0Kqr10UeX/z4OMVV390V+DVWUvzXpda45/Sxup57pk+hyY52wxxjIqef
- rj8u5BN93s5uCVTus0oiVA6W+iXYzTvVDStMFVqnTxSxlpZoH5RGKvmoWV3uutByQyBPHW2U
- 1Y6n6iEZ9MlP3hcDqlo0S8jeP03HaD4gOqCuqLceWF5+2WyHzNfylpNMFVi+Hp0H/nSDtCvQ
- ua7j+6Pt7q5rvqgHvRipkDDVsjqwasuNc3wyoHexrBeLU/iJBuDld5iLy+dHXoYMB3HmjMxj
- 3K5/8XhGrDx6BDFeO3HIpi3u2z1jniB7RtyVEtdupED6lqsDj0oSz9NxaOFZrS3Jf6z/kHIf
- h42mM9Sx7+s4c07N2LieUxcfqhFTaa/voRibF4cmkBVUhOD1AKXNfhEsTvmcz9NbUchCkcvA
- T9119CrsxfVsE7bXiGvdXnzyGLXdsoosjzwacKdOrVaDmN3Uy+SHiQXo6TlkSdV0XH2PUxTM
- LsBFIO9qXO43Ai6J6iPAP/01l8fuZfpJE0/L/c25yyaND7xA3wARAQABtCpKb2huIFNub3cg
- KEpvaG4gSHVzdG9uKSA8anNub3dAcmVkaGF0LmNvbT6JAlQEEwECAD4CGwMCHgECF4AFCwkI
- BwMFFQoJCAsFFgIDAQAWIQT665cRoSz0dYEvGPKIqQZNGDVh6wUCXF392gUJC1Xq3gAKCRCI
- qQZNGDVh6558D/9pM4pu4njX5aT6uUW3vAmbWLF1jfPxiTQgSHAnm9EBMZED/fsvkzj97clo
- LN7JKmbYZNgJmR01A7flG45V4iOR/249qAfaVuD+ZzZi1R4jFzr13WS+IEdn0hYp9ITndb7R
- ezW+HGu6/rP2PnfmDnNowgJu6Dp6IUEabq8SXXwGHXZPuMIrsXJxUdKJdGnh1o2u7271yNO7
- J9PEMuMDsgjsdnaGtv7aQ9CECtXvBleAc06pLW2HU10r5wQyBMZGITemJdBhhdzGmbHAL0M6
- vKi/bafHRWqfMqOAdDkv3Jg4arl2NCG/uNateR1z5e529+UlB4XVAQT+f5T/YyI65DFTY940
- il3aZhA8u788jZEPMXmt94u7uPZbEYp7V0jt68SrTaOgO7NaXsboXFjwEa42Ug5lB5d5/Qdp
- 1AITUv0NJ51kKwhHL1dEagGeloIsGVQILmpS0MLdtitBHqZLsnJkRvtMaxo47giyBlv2ewmq
- tIGTlVLxHx9xkc9aVepOuiGlZaZB72c9AvZs9rKaAjgU2UfJHlB/Hr4uSk/1EY0IgMv4vnsG
- 1sA5gvS7A4T4euu0PqHtn2sZEWDrk5RDbw0yIb53JYdXboLFmFXKzVASfKh2ZVeXRBlQQSJi
- 3PBR1GzzqORlfryby7mkY857xzCI2NkIkD2eq+HhzFTfFOTdGrkCDQRUynn8ARAAwbhP45BE
- d/zAMBPV2dk2WwIwKRSKULElP3kXpcuiDWYQob3UODUUqClO+3aXVRndaNmZX9WbzGYexVo3
- 5j+CVBCGr3DlU8AL9pp3KQ3SJihWcDed1LSmUf8tS+10d6mdGxDqgnd/OWU214isvhgWZtZG
- MM/Xj7cx5pERIiP+jqu7PT1cibcfcEKhPjYdyV1QnLtKNGrTg/UMKaL+qkWBUI/8uBoa0HLs
- NH63bXsRtNAG8w6qG7iiueYZUIXKc4IHINUguqYQJVdSe+u8b2N5XNhDSEUhdlqFYraJvX6d
- TjxMTW5lzVG2KjztfErRNSUmu2gezbw1/CV0ztniOKDA7mkQi6UIUDRh4LxRm5mflfKiCyDQ
- L6P/jxHBxFv+sIgjuLrfNhIC1p3z9rvCh+idAVJgtHtYl8p6GAVrF+4xQV2zZH45tgmHo2+S
- JsLPjXZtWVsWANpepXnesyabWtNAV4qQB7/SfC77zZwsVX0OOY2Qc+iohmXo8U7DgXVDgl/R
- /5Qgfnlv0/3rOdMt6ZPy5LJr8D9LJmcP0RvX98jyoBOf06Q9QtEwJsNLCOCo2LKNL71DNjZr
- nXEwjUH66CXiRXDbDKprt71BiSTitkFhGGU88XCtrp8R9yArXPf4MN+wNYBjfT7K29gWTzxt
- 9DYQIvEf69oZD5Z5qHYGp031E90AEQEAAYkCPAQYAQIAJgIbDBYhBPrrlxGhLPR1gS8Y8oip
- Bk0YNWHrBQJcXf3JBQkLVerNAAoJEIipBk0YNWHrU1AP/1FOK2SBGbyhHa5vDHuf47fgLipC
- e0/h1E0vdSonzlhPxuZoQ47FjzG9uOhqqQG6/PqtWs/FJIyz8aGG4aV+pSA/9Ko3/2ND8MSY
- ZflWs7Y8Peg08Ro01GTHFITjEUgHpTpHiT6TNcZB5aZNJ8jqCtW5UlqvXXbVeSTmO70ZiVtc
- vUJbpvSxYmzhFfZWaXIPcNcKWL1rnmnzs67lDhMLdkYVf91aml/XtyMUlfB8Iaejzud9Ht3r
- C0pA9MG57pLblX7okEshxAC0+tUdY2vANWFeX0mgqRt1GSuG9XM9H/cKP1czfUV/FgaWo/Ya
- fM4eMhUAlL/y+/AJxxumPhBXftM4yuiktp2JMezoIMJI9fmhjfWDw7+2jVrx9ze1joLakFD1
- rVAoHxVJ7ORfQ4Ni/qWbQm3T6qQkSMt4N/scNsMczibdTPxU7qtwQwIeFOOc3wEwmJ9Qe3ox
- TODQ0agXiWVj0OXYCHJ6MxTDswtyTGQW+nUHpKBgHGwUaR6d1kr/LK9+5LpOfRlK9VRfEu7D
- PGNiRkr8Abp8jHsrBqQWfUS1bAf62bq6XUel0kUCtb7qCq024aOczXYWPFpJFX+nhp4d7NeH
- Edq+wlC13sBSiSHC7T5yssJ+7JPa2ATLlSKhEvBsLe2TsSTTtFlA0nBclqhfJXzimiuge9qU
- E40lvMWBuQINBFTKimUBEADDbJ+pQ5M4QBMWkaWImRj7c598xIZ37oKM6rGaSnuB1SVb7YCr
- Ci2MTwQcrQscA2jm80O8VFqWk+/XsEp62dty47GVwSfdGje/3zv3VTH2KhOCKOq3oPP5ZXWY
- rz2d2WnTvx++o6lU7HLHDEC3NGLYNLkL1lyVxLhnhvcMxkf1EGA1DboEcMgnJrNB1pGP27ww
- cSfvdyPGseV+qZZa8kuViDga1oxmnYDxFKMGLxrClqHrRt8geQL1Wj5KFM5hFtGTK4da5lPn
- wGNd6/CINMeCT2AWZY5ySz7/tSZe5F22vPvVZGoPgQicYWdNc3ap7+7IKP86JNjmec/9RJcz
- jvrYjJdiqBVldXou72CtDydKVLVSKv8c2wBDJghYZitfYIaL8cTvQfUHRYTfo0n5KKSec8Vo
- vjDuxmdbOUBA+SkRxqmneP5OxGoZ92VusrwWCjry8HRsNdR+2T+ClDCO6Wpihu4V3CPkQwTy
- eCuMHPAT0ka5paTwLrnZIxsdfnjUa96T10vzmQgAxpbbiaLvgKJ8+76OPdDnhddyxd2ldYfw
- RkF5PEGg3mqZnYKNNBtwjvX49SAvgETQvLzQ8IKVgZS0m4z9qHHvtc1BsQnFfe+LJOFjzZr7
- CrDNJMqk1JTHYsSi2JcN3vY32WMezXSQ0TzeMK4kdnclSQyp/h23GWod5QARAQABiQRbBBgB
- AgAmAhsCFiEE+uuXEaEs9HWBLxjyiKkGTRg1YesFAlxd/coFCQtV2mQCKcFdIAQZAQIABgUC
- VMqKZQAKCRB974EGqvw5DiJoEACLmuiRq9ifvOh5DyBFwRS7gvA14DsGQngmC57EzV0EFcfM
- XVi1jX5OtwUyUe0Az5r6lHyyHDsDsIpLKBlWrYCeLpUhRR3oy181T7UNxvujGFeTkzvLAOo6
- Hs3b8Wv9ARg+7acRYkQRNY7k0GIJ6YZz149tRyRKAy/vSjsaB9Lt0NOd1wf2EQMKwRVELwJD
- y0AazGn+0PRP7Bua2YbtxaBmhBBDb2tPpwn8U9xdckB4Vlft9lcWNsC/18Gi9bpjd9FSbdH/
- sOUI+3ToWYENeoT4IP09wn6EkgWaJS3nAUN/MOycNej2i4Yhy2wDDSKyTAnVkSSSoXk+tK91
- HfqtokbDanB8daP+K5LgoiWHzjfWzsxA2jKisI4YCGjrYQzTyGOT6P6u6SEeoEx10865B/zc
- 8/vN50kncdjYz2naacIDEKQNZlnGLsGkpCbfmfdi3Zg4vuWKNdWr0wGUzDUcpqW0y/lUXna+
- 6uyQShX5e4JD2UPuf9WAQ9HtgSAkaDd4O1I2J41sleePzZOVB3DmYgy+ECRJJ5nw3ihdxpgc
- y/v3lfcJaqiyCv0PF+K/gSOvwhH7CbVqARmptT7yhhxqFdaYWo2Z2ksuKyoKSRMFCXQY5oac
- uTmyPIT4STFyUQFeqSCWDum/NFNoSKhmItw2Td+4VSJHShRVbg39KNFPZ7mXYAkQiKkGTRg1
- YesWJA/+PV3qDUtPNEGwjVvjQqHSbrBy94tu6gJvPHgGPtRDYvxnCaJsmgiC0pGB2KFRsnfl
- 2zBNBEWF/XwsI081jQE5UO60GKmHTputChLXpVobyuc+lroG2YhknXRBAV969SLnZR4BS/1s
- Gi046gOXfaKYatve8BiZr5it5Foq3FMPDNgZMit1H9Dk8rkKFfDMRf8EGS/Z+TmyEsIf99H7
- TH3n7lco8qO81fSFwkh4pvo2kWRFYTC5vsIVQ+GqVUp+W1DZJHxX8LwWuF1AzUt4MUTtNAvy
- TXl5EgsmoY9mpNNL7ZnW65oG63nEP5KNiybvuQJzXVxR8eqzOh2Mod4nHg3PE7UCd3DvLNsn
- GXFRo44WyT/G2lArBtjpkut7bDm0i1nENABy2UgS+1QvdmgNu6aEZxdNthwRjUhuuvCCDMA4
- rCDQYyakH2tJNQgkXkeLodBKF4bHiBbuwj0E39S9wmGgg+q4OTnAO/yhQGknle7a7G5xHBwE
- i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
- RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
- glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <864d1ab3-3f57-1d10-1f46-19cd7856d99a@redhat.com>
-Date: Tue, 2 Jun 2020 12:44:03 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CC998014D4;
+ Tue,  2 Jun 2020 16:44:10 +0000 (UTC)
+Received: from x1.home (ovpn-112-195.phx2.redhat.com [10.3.112.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53BC17E7C0;
+ Tue,  2 Jun 2020 16:44:08 +0000 (UTC)
+Date: Tue, 2 Jun 2020 10:44:07 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH Kernel v24 5/8] vfio iommu: Implementation of ioctl for
+ dirty pages tracking
+Message-ID: <20200602104407.31e87e08@x1.home>
+In-Reply-To: <1591113090-23640-1-git-send-email-kwankhede@nvidia.com>
+References: <1590697854-21364-6-git-send-email-kwankhede@nvidia.com>
+ <1591113090-23640-1-git-send-email-kwankhede@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-In-Reply-To: <20200602100837.GA5940@linux.fritz.box>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=205.139.110.120;
+ envelope-from=alex.williamson@redhat.com; helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 06:26:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
@@ -143,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -156,58 +80,467 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 2 Jun 2020 21:21:30 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-
-On 6/2/20 6:08 AM, Kevin Wolf wrote:
-> Am 14.05.2020 um 07:53 hat John Snow geschrieben:
->> move python/qemu/*.py to python/qemu/lib/*.py.
->>
->> To create a namespace package, the 'qemu' directory itself shouldn't
->> have module files in it. Thus, these files will go under a 'lib' package
->> directory instead.
->>
->> Bolster the lib/__init__.py file a little bit, Make the top-level
->> classes and functions available directly inside the `qemu.lib`
->> namespace, to facilitate a convenient shorthand:
->>
->>> from qemu.lib import QEMUQtestMachine, QEMUMonitorProtocol
->>
->> Lastly, update all of the existing import directives.
->>
->> (Note: these scripts were not necessarily tested to see if they still
->> work. Some of these scripts are in obvious states of disrepair and it is
->> beyond the scope of this patch to attempt to fix them.)
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>  python/qemu/__init__.py                   | 11 -----
+> VFIO_IOMMU_DIRTY_PAGES ioctl performs three operations:
+> - Start dirty pages tracking while migration is active
+> - Stop dirty pages tracking.
+> - Get dirty pages bitmap. Its user space application's responsibility to
+>   copy content of dirty pages from source to destination during migration.
 > 
-> When trying to reproduce your mypy problem, I was wondering why mypy was
-> complaining that it couldn't find qemu.lib. The reason is that removing
-> __init__.py from qemu means it's not a valid module any more. If I
-> recreate it locally, mypy stops complaining.
+> To prevent DoS attack, memory for bitmap is allocated per vfio_dma
+> structure. Bitmap size is calculated considering smallest supported page
+> size. Bitmap is allocated for all vfio_dmas when dirty logging is enabled
 > 
-> So I think we need to leave this file here.
+> Bitmap is populated for already pinned pages when bitmap is allocated for
+> a vfio_dma with the smallest supported page size. Update bitmap from
+> pinning functions when tracking is enabled. When user application queries
+> bitmap, check if requested page size is same as page size used to
+> populated bitmap. If it is equal, copy bitmap, but if not equal, return
+> error.
 > 
-> Kevin
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> Reviewed-by: Yan Zhao <yan.y.zhao@intel.com>
 > 
+> Fixed error reported by build bot by changing pgsize type from uint64_t
+> to size_t.
+> Reported-by: kbuild test robot <lkp@intel.com>
+> ---
+> 
+> Fixed errors and sparse warnings reported by kbuild test robot
+> Reported-by: kbuild test robot <lkp@intel.com>
+> 
+> ld: drivers/vfio/vfio_iommu_type1.o: in function `vfio_dma_populate_bitmap':
+> >> vfio_iommu_type1.c:(.text+0x666): undefined reference to `__udivdi3'  
 
-Depends. You'll want --namespace-packages to parse a PEP420 namespace.
+Hi Kirti,
 
-(It's not a given we definitely want a PEP420 namespace, but that's what
-I created here.)
+This is already in linux-next, could you please send just the
+incremental fix with a Fixes: tag?  Thanks,
 
---js
+Alex
+
+>  drivers/vfio/vfio_iommu_type1.c | 315 +++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 309 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+> index 814c795a2543..8362a36c0de4 100644
+> --- a/drivers/vfio/vfio_iommu_type1.c
+> +++ b/drivers/vfio/vfio_iommu_type1.c
+> @@ -72,6 +72,7 @@ struct vfio_iommu {
+>  	uint64_t		pgsize_bitmap;
+>  	bool			v2;
+>  	bool			nesting;
+> +	bool			dirty_page_tracking;
+>  };
+>  
+>  struct vfio_domain {
+> @@ -92,6 +93,7 @@ struct vfio_dma {
+>  	bool			lock_cap;	/* capable(CAP_IPC_LOCK) */
+>  	struct task_struct	*task;
+>  	struct rb_root		pfn_list;	/* Ex-user pinned pfn list */
+> +	unsigned long		*bitmap;
+>  };
+>  
+>  struct vfio_group {
+> @@ -126,6 +128,19 @@ struct vfio_regions {
+>  #define IS_IOMMU_CAP_DOMAIN_IN_CONTAINER(iommu)	\
+>  					(!list_empty(&iommu->domain_list))
+>  
+> +#define DIRTY_BITMAP_BYTES(n)	(ALIGN(n, BITS_PER_TYPE(u64)) / BITS_PER_BYTE)
+> +
+> +/*
+> + * Input argument of number of bits to bitmap_set() is unsigned integer, which
+> + * further casts to signed integer for unaligned multi-bit operation,
+> + * __bitmap_set().
+> + * Then maximum bitmap size supported is 2^31 bits divided by 2^3 bits/byte,
+> + * that is 2^28 (256 MB) which maps to 2^31 * 2^12 = 2^43 (8TB) on 4K page
+> + * system.
+> + */
+> +#define DIRTY_BITMAP_PAGES_MAX	 ((u64)INT_MAX)
+> +#define DIRTY_BITMAP_SIZE_MAX	 DIRTY_BITMAP_BYTES(DIRTY_BITMAP_PAGES_MAX)
+> +
+>  static int put_pfn(unsigned long pfn, int prot);
+>  
+>  /*
+> @@ -176,6 +191,81 @@ static void vfio_unlink_dma(struct vfio_iommu *iommu, struct vfio_dma *old)
+>  	rb_erase(&old->node, &iommu->dma_list);
+>  }
+>  
+> +
+> +static int vfio_dma_bitmap_alloc(struct vfio_dma *dma, size_t pgsize)
+> +{
+> +	uint64_t npages = dma->size / pgsize;
+> +
+> +	if (npages > DIRTY_BITMAP_PAGES_MAX)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Allocate extra 64 bits that are used to calculate shift required for
+> +	 * bitmap_shift_left() to manipulate and club unaligned number of pages
+> +	 * in adjacent vfio_dma ranges.
+> +	 */
+> +	dma->bitmap = kvzalloc(DIRTY_BITMAP_BYTES(npages) + sizeof(u64),
+> +			       GFP_KERNEL);
+> +	if (!dma->bitmap)
+> +		return -ENOMEM;
+> +
+> +	return 0;
+> +}
+> +
+> +static void vfio_dma_bitmap_free(struct vfio_dma *dma)
+> +{
+> +	kfree(dma->bitmap);
+> +	dma->bitmap = NULL;
+> +}
+> +
+> +static void vfio_dma_populate_bitmap(struct vfio_dma *dma, size_t pgsize)
+> +{
+> +	struct rb_node *p;
+> +	unsigned long pgshift = __ffs(pgsize);
+> +
+> +	for (p = rb_first(&dma->pfn_list); p; p = rb_next(p)) {
+> +		struct vfio_pfn *vpfn = rb_entry(p, struct vfio_pfn, node);
+> +
+> +		bitmap_set(dma->bitmap, (vpfn->iova - dma->iova) >> pgshift, 1);
+> +	}
+> +}
+> +
+> +static int vfio_dma_bitmap_alloc_all(struct vfio_iommu *iommu, size_t pgsize)
+> +{
+> +	struct rb_node *n;
+> +
+> +	for (n = rb_first(&iommu->dma_list); n; n = rb_next(n)) {
+> +		struct vfio_dma *dma = rb_entry(n, struct vfio_dma, node);
+> +		int ret;
+> +
+> +		ret = vfio_dma_bitmap_alloc(dma, pgsize);
+> +		if (ret) {
+> +			struct rb_node *p;
+> +
+> +			for (p = rb_prev(n); p; p = rb_prev(p)) {
+> +				struct vfio_dma *dma = rb_entry(n,
+> +							struct vfio_dma, node);
+> +
+> +				vfio_dma_bitmap_free(dma);
+> +			}
+> +			return ret;
+> +		}
+> +		vfio_dma_populate_bitmap(dma, pgsize);
+> +	}
+> +	return 0;
+> +}
+> +
+> +static void vfio_dma_bitmap_free_all(struct vfio_iommu *iommu)
+> +{
+> +	struct rb_node *n;
+> +
+> +	for (n = rb_first(&iommu->dma_list); n; n = rb_next(n)) {
+> +		struct vfio_dma *dma = rb_entry(n, struct vfio_dma, node);
+> +
+> +		vfio_dma_bitmap_free(dma);
+> +	}
+> +}
+> +
+>  /*
+>   * Helper Functions for host iova-pfn list
+>   */
+> @@ -598,6 +688,17 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
+>  			vfio_unpin_page_external(dma, iova, do_accounting);
+>  			goto pin_unwind;
+>  		}
+> +
+> +		if (iommu->dirty_page_tracking) {
+> +			unsigned long pgshift = __ffs(iommu->pgsize_bitmap);
+> +
+> +			/*
+> +			 * Bitmap populated with the smallest supported page
+> +			 * size
+> +			 */
+> +			bitmap_set(dma->bitmap,
+> +				   (iova - dma->iova) >> pgshift, 1);
+> +		}
+>  	}
+>  
+>  	ret = i;
+> @@ -832,6 +933,7 @@ static void vfio_remove_dma(struct vfio_iommu *iommu, struct vfio_dma *dma)
+>  	vfio_unmap_unpin(iommu, dma, true);
+>  	vfio_unlink_dma(iommu, dma);
+>  	put_task_struct(dma->task);
+> +	vfio_dma_bitmap_free(dma);
+>  	kfree(dma);
+>  	iommu->dma_avail++;
+>  }
+> @@ -859,6 +961,94 @@ static void vfio_update_pgsize_bitmap(struct vfio_iommu *iommu)
+>  	}
+>  }
+>  
+> +static int update_user_bitmap(u64 __user *bitmap, struct vfio_dma *dma,
+> +			      dma_addr_t base_iova, size_t pgsize)
+> +{
+> +	unsigned long pgshift = __ffs(pgsize);
+> +	unsigned long nbits = dma->size >> pgshift;
+> +	unsigned long bit_offset = (dma->iova - base_iova) >> pgshift;
+> +	unsigned long copy_offset = bit_offset / BITS_PER_LONG;
+> +	unsigned long shift = bit_offset % BITS_PER_LONG;
+> +	unsigned long leftover;
+> +
+> +	/* mark all pages dirty if all pages are pinned and mapped. */
+> +	if (dma->iommu_mapped)
+> +		bitmap_set(dma->bitmap, 0, nbits);
+> +
+> +	if (shift) {
+> +		bitmap_shift_left(dma->bitmap, dma->bitmap, shift,
+> +				  nbits + shift);
+> +
+> +		if (copy_from_user(&leftover,
+> +				   (void __user *)(bitmap + copy_offset),
+> +				   sizeof(leftover)))
+> +			return -EFAULT;
+> +
+> +		bitmap_or(dma->bitmap, dma->bitmap, &leftover, shift);
+> +	}
+> +
+> +	if (copy_to_user((void __user *)(bitmap + copy_offset), dma->bitmap,
+> +			 DIRTY_BITMAP_BYTES(nbits + shift)))
+> +		return -EFAULT;
+> +
+> +	return 0;
+> +}
+> +
+> +static int vfio_iova_dirty_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
+> +				  dma_addr_t iova, size_t size, size_t pgsize)
+> +{
+> +	struct vfio_dma *dma;
+> +	struct rb_node *n;
+> +	unsigned long pgshift = __ffs(pgsize);
+> +	int ret;
+> +
+> +	/*
+> +	 * GET_BITMAP request must fully cover vfio_dma mappings.  Multiple
+> +	 * vfio_dma mappings may be clubbed by specifying large ranges, but
+> +	 * there must not be any previous mappings bisected by the range.
+> +	 * An error will be returned if these conditions are not met.
+> +	 */
+> +	dma = vfio_find_dma(iommu, iova, 1);
+> +	if (dma && dma->iova != iova)
+> +		return -EINVAL;
+> +
+> +	dma = vfio_find_dma(iommu, iova + size - 1, 0);
+> +	if (dma && dma->iova + dma->size != iova + size)
+> +		return -EINVAL;
+> +
+> +	for (n = rb_first(&iommu->dma_list); n; n = rb_next(n)) {
+> +		struct vfio_dma *dma = rb_entry(n, struct vfio_dma, node);
+> +
+> +		if (dma->iova < iova)
+> +			continue;
+> +
+> +		if (dma->iova > iova + size - 1)
+> +			break;
+> +
+> +		ret = update_user_bitmap(bitmap, dma, iova, pgsize);
+> +		if (ret)
+> +			return ret;
+> +
+> +		/*
+> +		 * Re-populate bitmap to include all pinned pages which are
+> +		 * considered as dirty but exclude pages which are unpinned and
+> +		 * pages which are marked dirty by vfio_dma_rw()
+> +		 */
+> +		bitmap_clear(dma->bitmap, 0, dma->size >> pgshift);
+> +		vfio_dma_populate_bitmap(dma, pgsize);
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int verify_bitmap_size(uint64_t npages, uint64_t bitmap_size)
+> +{
+> +	if (!npages || !bitmap_size || (bitmap_size > DIRTY_BITMAP_SIZE_MAX) ||
+> +	    (bitmap_size < DIRTY_BITMAP_BYTES(npages)))
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+>  static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+>  			     struct vfio_iommu_type1_dma_unmap *unmap)
+>  {
+> @@ -1076,7 +1266,7 @@ static int vfio_dma_do_map(struct vfio_iommu *iommu,
+>  	unsigned long vaddr = map->vaddr;
+>  	size_t size = map->size;
+>  	int ret = 0, prot = 0;
+> -	uint64_t mask;
+> +	size_t pgsize;
+>  	struct vfio_dma *dma;
+>  
+>  	/* Verify that none of our __u64 fields overflow */
+> @@ -1091,11 +1281,11 @@ static int vfio_dma_do_map(struct vfio_iommu *iommu,
+>  
+>  	mutex_lock(&iommu->lock);
+>  
+> -	mask = ((uint64_t)1 << __ffs(iommu->pgsize_bitmap)) - 1;
+> +	pgsize = (size_t)1 << __ffs(iommu->pgsize_bitmap);
+>  
+> -	WARN_ON(mask & PAGE_MASK);
+> +	WARN_ON((pgsize - 1) & PAGE_MASK);
+>  
+> -	if (!prot || !size || (size | iova | vaddr) & mask) {
+> +	if (!prot || !size || (size | iova | vaddr) & (pgsize - 1)) {
+>  		ret = -EINVAL;
+>  		goto out_unlock;
+>  	}
+> @@ -1172,6 +1362,12 @@ static int vfio_dma_do_map(struct vfio_iommu *iommu,
+>  	else
+>  		ret = vfio_pin_map_dma(iommu, dma, size);
+>  
+> +	if (!ret && iommu->dirty_page_tracking) {
+> +		ret = vfio_dma_bitmap_alloc(dma, pgsize);
+> +		if (ret)
+> +			vfio_remove_dma(iommu, dma);
+> +	}
+> +
+>  out_unlock:
+>  	mutex_unlock(&iommu->lock);
+>  	return ret;
+> @@ -2318,6 +2514,104 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
+>  
+>  		return copy_to_user((void __user *)arg, &unmap, minsz) ?
+>  			-EFAULT : 0;
+> +	} else if (cmd == VFIO_IOMMU_DIRTY_PAGES) {
+> +		struct vfio_iommu_type1_dirty_bitmap dirty;
+> +		uint32_t mask = VFIO_IOMMU_DIRTY_PAGES_FLAG_START |
+> +				VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP |
+> +				VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP;
+> +		int ret = 0;
+> +
+> +		if (!iommu->v2)
+> +			return -EACCES;
+> +
+> +		minsz = offsetofend(struct vfio_iommu_type1_dirty_bitmap,
+> +				    flags);
+> +
+> +		if (copy_from_user(&dirty, (void __user *)arg, minsz))
+> +			return -EFAULT;
+> +
+> +		if (dirty.argsz < minsz || dirty.flags & ~mask)
+> +			return -EINVAL;
+> +
+> +		/* only one flag should be set at a time */
+> +		if (__ffs(dirty.flags) != __fls(dirty.flags))
+> +			return -EINVAL;
+> +
+> +		if (dirty.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_START) {
+> +			size_t pgsize;
+> +
+> +			mutex_lock(&iommu->lock);
+> +			pgsize = 1 << __ffs(iommu->pgsize_bitmap);
+> +			if (!iommu->dirty_page_tracking) {
+> +				ret = vfio_dma_bitmap_alloc_all(iommu, pgsize);
+> +				if (!ret)
+> +					iommu->dirty_page_tracking = true;
+> +			}
+> +			mutex_unlock(&iommu->lock);
+> +			return ret;
+> +		} else if (dirty.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP) {
+> +			mutex_lock(&iommu->lock);
+> +			if (iommu->dirty_page_tracking) {
+> +				iommu->dirty_page_tracking = false;
+> +				vfio_dma_bitmap_free_all(iommu);
+> +			}
+> +			mutex_unlock(&iommu->lock);
+> +			return 0;
+> +		} else if (dirty.flags &
+> +				 VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP) {
+> +			struct vfio_iommu_type1_dirty_bitmap_get range;
+> +			unsigned long pgshift;
+> +			size_t data_size = dirty.argsz - minsz;
+> +			size_t iommu_pgsize;
+> +
+> +			if (!data_size || data_size < sizeof(range))
+> +				return -EINVAL;
+> +
+> +			if (copy_from_user(&range, (void __user *)(arg + minsz),
+> +					   sizeof(range)))
+> +				return -EFAULT;
+> +
+> +			if (range.iova + range.size < range.iova)
+> +				return -EINVAL;
+> +			if (!access_ok((void __user *)range.bitmap.data,
+> +				       range.bitmap.size))
+> +				return -EINVAL;
+> +
+> +			pgshift = __ffs(range.bitmap.pgsize);
+> +			ret = verify_bitmap_size(range.size >> pgshift,
+> +						 range.bitmap.size);
+> +			if (ret)
+> +				return ret;
+> +
+> +			mutex_lock(&iommu->lock);
+> +
+> +			iommu_pgsize = (size_t)1 << __ffs(iommu->pgsize_bitmap);
+> +
+> +			/* allow only smallest supported pgsize */
+> +			if (range.bitmap.pgsize != iommu_pgsize) {
+> +				ret = -EINVAL;
+> +				goto out_unlock;
+> +			}
+> +			if (range.iova & (iommu_pgsize - 1)) {
+> +				ret = -EINVAL;
+> +				goto out_unlock;
+> +			}
+> +			if (!range.size || range.size & (iommu_pgsize - 1)) {
+> +				ret = -EINVAL;
+> +				goto out_unlock;
+> +			}
+> +
+> +			if (iommu->dirty_page_tracking)
+> +				ret = vfio_iova_dirty_bitmap(range.bitmap.data,
+> +						iommu, range.iova, range.size,
+> +						range.bitmap.pgsize);
+> +			else
+> +				ret = -EINVAL;
+> +out_unlock:
+> +			mutex_unlock(&iommu->lock);
+> +
+> +			return ret;
+> +		}
+>  	}
+>  
+>  	return -ENOTTY;
+> @@ -2385,10 +2679,19 @@ static int vfio_iommu_type1_dma_rw_chunk(struct vfio_iommu *iommu,
+>  
+>  	vaddr = dma->vaddr + offset;
+>  
+> -	if (write)
+> +	if (write) {
+>  		*copied = copy_to_user((void __user *)vaddr, data,
+>  					 count) ? 0 : count;
+> -	else
+> +		if (*copied && iommu->dirty_page_tracking) {
+> +			unsigned long pgshift = __ffs(iommu->pgsize_bitmap);
+> +			/*
+> +			 * Bitmap populated with the smallest supported page
+> +			 * size
+> +			 */
+> +			bitmap_set(dma->bitmap, offset >> pgshift,
+> +				   *copied >> pgshift);
+> +		}
+> +	} else
+>  		*copied = copy_from_user(data, (void __user *)vaddr,
+>  					   count) ? 0 : count;
+>  	if (kthread)
 
 
