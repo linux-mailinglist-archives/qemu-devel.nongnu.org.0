@@ -2,60 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DB01EC0AE
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 19:06:00 +0200 (CEST)
-Received: from localhost ([::1]:57976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BEB81EC0BE
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 19:09:23 +0200 (CEST)
+Received: from localhost ([::1]:46306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgAMQ-0004Bp-Tq
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 13:05:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40158)
+	id 1jgAPi-0002l5-D7
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 13:09:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jgAKq-0002XA-4A
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:04:20 -0400
-Resent-Date: Tue, 02 Jun 2020 13:04:20 -0400
-Resent-Message-Id: <E1jgAKq-0002XA-4A@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jgAKo-0007iD-5m
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:04:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1591117434; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=kYM26SYXz5yIGEagzD+MR/ZC/bNMjkALMIM9I2aJTbici9HkewAYsvx1KIoEhKZto2pUnx75h/OFmoPB4dR5JxPpVkWoLmIEwg5/zznWT31mg+RYzXrgL1nzCjKCLfirPQ1/x263+RPyeYM8d0/cTVPyIWhpFy2DtaBSnFgdPN4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1591117434;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=W2HWu/In7czg7bmnz7434PsjtrdxJBWN5TvHdnJB5oQ=; 
- b=iFGQSBGUoskEPnlODAcQCLc+T9v3POuDHEl4wF7KTUGv9byZtPY+spT+sS3qr/1okpzZ4Bq50FZQakOzipCR3EiR6Kdgcpxpv0adgbCbm2deo2uDcGSexWAVGFaAtlbY/+Uft0jT7voPwYxWw2jOZMpvbectDbhUumkYLxwDDlE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1591117432202511.9014287854742;
- Tue, 2 Jun 2020 10:03:52 -0700 (PDT)
-Message-ID: <159111743069.18153.186235773058362729@45ef0f9c86ae>
-In-Reply-To: <20200602154624.4460-1-alex.bennee@linaro.org>
-Subject: Re: [PATCH  v1 0/9] plugins/next (bug fixes, hwprofile, lockstep)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jgAKx-0002ne-7p
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:04:27 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33505)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jgAKw-0007jC-9n
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:04:26 -0400
+Received: by mail-wr1-x444.google.com with SMTP id l11so4181768wru.0
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 10:04:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TAtBZ9LmSFvncfGWbBMfAxu7cgDs/GE8yqsBZ01qbP4=;
+ b=lmghepCXGvtjgefjAoeBRLPiCM7QQb99s+UhOd5cL0QkrECbbeQDVsPTVAT2M0vr6W
+ 8gUS9Z0Jw3fk9hy50EZo8VhJbiMuKyY6hQEuyAKZHjS85JmFyMsK/SDjLXbfI0+3g5tQ
+ 9p/Sqq5buJ7i9B/YZwp41eCKwEc8radjww7siGGxFXhMkimQmwbhQLUHxeMfQBq4+97B
+ u395TApVP4ELTk4Ay1g9Rra7loim6+MnG0bacWbkegnslPE+Mkboi7GpYZtEaWlz9erw
+ UdtiAYc0y4BuFBQr24zeAetnzLAtqpqbl+N2FhIdtSXxf2SFCc28R/sLVe0NyZ8obOa9
+ hV1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TAtBZ9LmSFvncfGWbBMfAxu7cgDs/GE8yqsBZ01qbP4=;
+ b=eXMeYlLpQdBkGOgD1GkvsiFf6V4S+ZTHX5XGs0IDhfuouQso4MiJgVE1Zw94eEmFR4
+ m9pBjsjJJ+6jR1+uIN9m4380YJuTK8DQyRA+6ZnuXsCO+xp6EVcuZmCb7WE8jbSBrYAE
+ 275Bv5+cainxEjMMPkUZp6ytWOjY0bRqqSyoonY5UepCZ/1TmQXiLHSUllKybDtWIjox
+ 4MYcCKrhBdn8P8QjFrN24XPxWQ8VeHI6tl0jOvkSNXgHPGVunlaBtJ2987uGi8uC6GV3
+ ESw09mGhXqzzHDRJNFC4bHSg8LrBCKplgRjnwO4RKzCzDRGQ/fKbMGrOfAApOb/x21AQ
+ MFYw==
+X-Gm-Message-State: AOAM530VIH91SFaHv56srr1frVOvweAlB22Y/gp8AtGzGG9AIee22Wpw
+ rK05UpRkL547bKrPD/Etzgc=
+X-Google-Smtp-Source: ABdhPJwo4KkU4tA/K9NXUTGuFa6mcelry0WdFYGB1CF62u0GzaHNWtqXUo6oMraGrQPIiIHQuoGJPQ==
+X-Received: by 2002:a5d:6986:: with SMTP id g6mr28166232wru.27.1591117464472; 
+ Tue, 02 Jun 2020 10:04:24 -0700 (PDT)
+Received: from [192.168.1.43] (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id q128sm467243wma.38.2020.06.02.10.04.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Jun 2020 10:04:23 -0700 (PDT)
+Subject: Re: [PATCH 00/10] Add RX hardware emulation
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+References: <20200531162427.57410-1-ysato@users.sourceforge.jp>
+ <d7fc8b59-5a22-8383-b939-1cc73f8c2e66@amsat.org>
+ <87zh9mn9g5.wl-ysato@users.sourceforge.jp>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b0c9bbb1-1a4f-e682-7d0a-ea622fc5a1af@amsat.org>
+Date: Tue, 2 Jun 2020 19:04:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: alex.bennee@linaro.org
-Date: Tue, 2 Jun 2020 10:03:52 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 13:04:15
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+In-Reply-To: <87zh9mn9g5.wl-ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,105 +92,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: robert.foley@linaro.org, qemu-devel@nongnu.org, robhenry@microsoft.com,
- aaron@os.amperecomputing.com, cota@braap.org, peter.puhov@linaro.org,
- kuhn.chenqun@huawei.com, alex.bennee@linaro.org
+Cc: qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDYwMjE1NDYyNC40NDYw
-LTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
-YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
-IGluZm9ybWF0aW9uOgoKTWVzc2FnZS1pZDogMjAyMDA2MDIxNTQ2MjQuNDQ2MC0xLWFsZXguYmVu
-bmVlQGxpbmFyby5vcmcKU3ViamVjdDogW1BBVENIICB2MSAwLzldIHBsdWdpbnMvbmV4dCAoYnVn
-IGZpeGVzLCBod3Byb2ZpbGUsIGxvY2tzdGVwKQpUeXBlOiBzZXJpZXMKCj09PSBURVNUIFNDUklQ
-VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8
-IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcg
-LS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0
-aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09
-PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVm
-N2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9x
-ZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDA2MDIxNjQ5MTEuNTcwNi0xLWFs
-ZXguYmVubmVlQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIwMDYwMjE2NDkxMS41NzA2LTEtYWxl
-eC5iZW5uZWVAbGluYXJvLm9yZwpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjU0ZjJm
-YzAgLnRyYXZpcy55bWw6IGFsbG93IGZhaWx1cmUgZm9yIHVucmVsaWFibGUgaG9zdHMKZTNiYTkw
-ZSBwbHVnaW5zOiBuZXcgaHdwcm9maWxlIHBsdWdpbgowODRhZDAxIHBsdWdpbnM6IGFkZCBBUEkg
-dG8gcmV0dXJuIGEgbmFtZSBmb3IgYSBJTyBkZXZpY2UKNzdhMjM3NCBody92aXJ0aW8vcGNpOiBp
-bmNsdWRlIHZkZXYgbmFtZSBpbiByZWdpc3RlcmVkIFBDSSBzZWN0aW9ucwoxOGVjMzZlIGNwdXRs
-YjogZW5zdXJlIHdlIHJlLWZpbGwgdGhlIFRMQiBpZiBpdCBoYXMgcmVzZXQKZTM0MWM1ZSB0ZXN0
-cy9wbHVnaW46IGNvcnJlY3RseSBob25vdXIgaW9fY291bnQKY2YwNzgwYyBzY3JpcHRzL2NsZWFu
-LWluY2x1ZGVzOiBNYXJrICdxZW11L3FlbXUtcGx1Z2luLmgnIGFzIHNwZWNpYWwgaGVhZGVyCjFl
-YzUzNjIgcWVtdS1wbHVnaW4uaDogYWRkIG1pc3NpbmcgaW5jbHVkZSA8c3RkZGVmLmg+IHRvIGRl
-ZmluZSBzaXplX3QKM2UyYzUyMyBwbHVnaW5zOiBuZXcgbG9ja3N0ZXAgcGx1Z2luIGZvciBkZWJ1
-Z2dpbmcgVENHIGNoYW5nZXMKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvOSBDaGVja2luZyBjb21t
-aXQgM2UyYzUyMzcxNmQ5IChwbHVnaW5zOiBuZXcgbG9ja3N0ZXAgcGx1Z2luIGZvciBkZWJ1Z2dp
-bmcgVENHIGNoYW5nZXMpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyks
-IGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzU1OiAKbmV3IGZpbGUgbW9kZSAxMDA2
-NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMzU1IGxpbmVzIGNoZWNrZWQKClBhdGNo
-IDEvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2Ug
-ZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIs
-IHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyLzkgQ2hlY2tpbmcgY29tbWl0IDFlYzUz
-NjI4MWIyZCAocWVtdS1wbHVnaW4uaDogYWRkIG1pc3NpbmcgaW5jbHVkZSA8c3RkZGVmLmg+IHRv
-IGRlZmluZSBzaXplX3QpCjMvOSBDaGVja2luZyBjb21taXQgY2YwNzgwYzE3ZDNjIChzY3JpcHRz
-L2NsZWFuLWluY2x1ZGVzOiBNYXJrICdxZW11L3FlbXUtcGx1Z2luLmgnIGFzIHNwZWNpYWwgaGVh
-ZGVyKQo0LzkgQ2hlY2tpbmcgY29tbWl0IGUzNDFjNWU3NTRmNCAodGVzdHMvcGx1Z2luOiBjb3Jy
-ZWN0bHkgaG9ub3VyIGlvX2NvdW50KQo1LzkgQ2hlY2tpbmcgY29tbWl0IDE4ZWMzNmU0MjRmNSAo
-Y3B1dGxiOiBlbnN1cmUgd2UgcmUtZmlsbCB0aGUgVExCIGlmIGl0IGhhcyByZXNldCkKNi85IENo
-ZWNraW5nIGNvbW1pdCA3N2EyMzc0ZTJjODggKGh3L3ZpcnRpby9wY2k6IGluY2x1ZGUgdmRldiBu
-YW1lIGluIHJlZ2lzdGVyZWQgUENJIHNlY3Rpb25zKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hh
-cmFjdGVycwojMjM6IEZJTEU6IGh3L3ZpcnRpby92aXJ0aW8tcGNpLmM6MTM5MzoKK3N0YXRpYyB2
-b2lkIHZpcnRpb19wY2lfbW9kZXJuX3JlZ2lvbnNfaW5pdChWaXJ0SU9QQ0lQcm94eSAqcHJveHks
-IGNvbnN0IGNoYXIgKnZkZXZfbmFtZSkKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNjMg
-bGluZXMgY2hlY2tlZAoKUGF0Y2ggNi85IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
-dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
-bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjcvOSBD
-aGVja2luZyBjb21taXQgMDg0YWQwMTlkZDBiIChwbHVnaW5zOiBhZGQgQVBJIHRvIHJldHVybiBh
-IG5hbWUgZm9yIGEgSU8gZGV2aWNlKQpFUlJPUjogImZvbyAqIGJhciIgc2hvdWxkIGJlICJmb28g
-KmJhciIKIzIzOiBGSUxFOiBpbmNsdWRlL3FlbXUvcWVtdS1wbHVnaW4uaDozNDE6CitjaGFyICog
-cWVtdV9wbHVnaW5faHdhZGRyX2RldmljZV9uYW1lKGNvbnN0IHN0cnVjdCBxZW11X3BsdWdpbl9o
-d2FkZHIgKmhhZGRyKTsKCkVSUk9SOiAiZm9vICogYmFyIiBzaG91bGQgYmUgImZvbyAqYmFyIgoj
-MzY6IEZJTEU6IHBsdWdpbnMvYXBpLmM6MzA2OgorY2hhciAqIHFlbXVfcGx1Z2luX2h3YWRkcl9k
-ZXZpY2VfbmFtZShjb25zdCBzdHJ1Y3QgcWVtdV9wbHVnaW5faHdhZGRyICpoYWRkcikKCldBUk5J
-Tkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM0MjogRklMRTogcGx1Z2lucy9hcGkuYzozMTI6
-CisgICAgICAgICAgICByZXR1cm4gZ19zdHJkdXBfcHJpbnRmKCJhbm9uJTA4bHgiLCAweGZmZmZm
-ZmZmICYgKHVpbnRwdHJfdCkgbXJzLT5tcik7Cgp0b3RhbDogMiBlcnJvcnMsIDEgd2FybmluZ3Ms
-IDM1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDcvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
-ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
-IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoK
-OC85IENoZWNraW5nIGNvbW1pdCBlM2JhOTBlY2JmNWIgKHBsdWdpbnM6IG5ldyBod3Byb2ZpbGUg
-cGx1Z2luKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1B
-SU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMzMDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpFUlJP
-UjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzE0MTogRklMRTogdGVzdHMvcGx1Z2luL2h3cHJv
-ZmlsZS5jOjEwNzoKKyAgICAgICAgICAgICAgICBnX3N0cmluZ19hcHBlbmRfcHJpbnRmKHJlcG9y
-dCwgIiVzIEAgMHglIlBSSXg2NCJcbiIsIHJlYy0+bmFtZSwgcmVjLT5iYXNlKTsKCldBUk5JTkc6
-IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxNDQ6IEZJTEU6IHRlc3RzL3BsdWdpbi9od3Byb2Zp
-bGUuYzoxMTA6CisgICAgICAgICAgICAgICAgICAgIGdfc3RyaW5nX2FwcGVuZF9wcmludGYocmVw
-b3J0LCAiICBvZmY6JTA4IlBSSXg2NCwgbG9jLT5vZmZzZXQpOwoKRVJST1I6IHN1c3BlY3QgY29k
-ZSBpbmRlbnQgZm9yIGNvbmRpdGlvbmFsIHN0YXRlbWVudHMgKDIwLCAyMykKIzE0OTogRklMRTog
-dGVzdHMvcGx1Z2luL2h3cHJvZmlsZS5jOjExNToKKyAgICAgICAgICAgICAgICAgICAgaWYgKHRy
-YWNrX3dyaXRlcygpKSB7CisgICAgICAgICAgICAgICAgICAgICAgIGdfc3RyaW5nX2FwcGVuZF9w
-cmludGYocmVwb3J0LCAiLCAweCUwNHgsICUiUFJJZDY0LAoKRVJST1I6IHNwYWNlIHJlcXVpcmVk
-IGFmdGVyIHRoYXQgJywnIChjdHg6VnhWKQojMTUzOiBGSUxFOiB0ZXN0cy9wbHVnaW4vaHdwcm9m
-aWxlLmM6MTE5OgorICAgICAgICAgICAgICAgICAgICBnX3N0cmluZ19hcHBlbmRfYyhyZXBvcnQs
-J1xuJyk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVS
-Uk9SOiAiZm9vICogYmFyIiBzaG91bGQgYmUgImZvbyAqYmFyIgojMTc3OiBGSUxFOiB0ZXN0cy9w
-bHVnaW4vaHdwcm9maWxlLmM6MTQzOgorc3RhdGljIERldmljZUNvdW50cyAqIG5ld19jb3VudChj
-aGFyICpuYW1lLCB1aW50NjRfdCBiYXNlKQoKRVJST1I6ICJmb28gKiBiYXIiIHNob3VsZCBiZSAi
-Zm9vICpiYXIiCiMxODk6IEZJTEU6IHRlc3RzL3BsdWdpbi9od3Byb2ZpbGUuYzoxNTU6CitzdGF0
-aWMgSU9Mb2NhdGlvbkNvdW50cyAqIG5ld19sb2NhdGlvbih1aW50NjRfdCBvZmZzZXQpCgpFUlJP
-UjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzIxOTogRklMRTogdGVzdHMvcGx1Z2luL2h3cHJv
-ZmlsZS5jOjE4NToKKyAgICAgICAgICAgIElPTG9jYXRpb25Db3VudHMgKmlvX2NvdW50ID0gZ19o
-YXNoX3RhYmxlX2xvb2t1cChjb3VudHMtPmFjY2Vzc19wYXR0ZXJuLCAmb2ZmKTsKCnRvdGFsOiA2
-IGVycm9ycywgMiB3YXJuaW5ncywgMjU1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDgvOSBoYXMgc3R5
-bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
-YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
-VENIIGluIE1BSU5UQUlORVJTLgoKOS85IENoZWNraW5nIGNvbW1pdCA1NGYyZmMwOTM1YzQgKC50
-cmF2aXMueW1sOiBhbGxvdyBmYWlsdXJlIGZvciB1bnJlbGlhYmxlIGhvc3RzKQo9PT0gT1VUUFVU
-IEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9n
-IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDYwMjE1NDYyNC40
-NDYwLTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVz
-c2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBz
-Oi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRl
-dmVsQHJlZGhhdC5jb20=
+Hi Yoshinori,
+
+On 6/1/20 4:32 PM, Yoshinori Sato wrote:
+> On Mon, 01 Jun 2020 01:45:47 +0900,
+> Philippe Mathieu-Daudé wrote:
+>>
+>> On 5/31/20 6:24 PM, Yoshinori Sato wrote:
+>>> Hello.
+>>>
+>>> This series add to hardware emulation module for RX target.
+>>>
+>>> Details below.
+>>> Interrupt controller, 8bit timer, 16bit comapare match timer and
+>>> SCI is RX62N integrated peripheral.
+>>> rx-virt - RX62N MCU and external RAM. It like gdb simulator.
+>>>
+>>> The compare match timer has a CPU interface similar to the SH4 timer.
+>>> sh_timer will be deprecated and integrated into this module.
+>>> SCI is also implemented in sh_serial, but the functionality is omitted.
+>>> I implemented the complete one as renesas_sci.
+>>>
+>>> git repository here.
+>>> git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/hw-rx-20200601
+>>
+>> Sigh. It is a bit unfortunate and demotivating that we can not
+>> coordinate this. I was going to send a pre-merge for this today.
+>>
+>> What is positive is you unified some SH4/RX peripherals.
+>>
+>> I'll try to merge both series. If it takes too long, I might send my
+>> current queue for you to review, then go back to this one you just sent.
+>>
+>> Regards,
+>>
+>> Phil.
+>>
+> 
+> Oh. Sorry.
+> 
+> The old code had some spec differences.
+> I have fixed those mistakes here.
+
+Yes, I am glad to see how it evolved, in particular how you merged the
+SH4/RX common peripherals :)
+
+> 
+> I would like to merge this if possible.
+
+I posted the v33 of your v32:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg708317.html
+
+As it is mostly reviewed and tested, it seems more reasonable to merge
+what is reviewed, and then apply your latest patches on top. It took us
+already a long time to get there, and I'd not start again to review 30
+more times this version.
+
+I believe if would be easier this way, you review/ack the v33 and we get
+the peripheral cleanup on top. My 2 cents, feel free to disagree and
+insist on restarting the whole review process.
+
+Regards,
+
+Phil.
 
