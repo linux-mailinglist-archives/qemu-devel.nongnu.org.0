@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357851EC0A9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 19:04:52 +0200 (CEST)
-Received: from localhost ([::1]:53192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1491EC0BA
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 19:08:08 +0200 (CEST)
+Received: from localhost ([::1]:39854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgALL-0002EE-3u
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 13:04:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39808)
+	id 1jgAOV-0008Ty-P7
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 13:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgAIg-0005mX-5D
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:02:06 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:43510)
+ id 1jgAIh-0005pX-Fl
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:02:07 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:47015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgAIf-0007Qe-3j
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:02:05 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id g5so5319794pfm.10
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 10:02:04 -0700 (PDT)
+ id 1jgAIg-0007Qo-CI
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:02:07 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id n2so1562091pld.13
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 10:02:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k8C/GQtIdOwZhYe9ry4RvUtTwTpZcqFEriAcRPm0GJU=;
- b=zOUfDWf1AOBCC2PM8rvcswZBtoNEenEmDJD7AT0WoGH0Eovhlhofh3YsNYnTkIeO4s
- 6vqyh+EelLsDMF5IUCrCBS4gjoHVWc44LxVYQyE4KYJNISpniZJyCIEpVI8af0dDH5UO
- lpyocWIPih8wLciHcmQUqIZVlQ1IaOyDCekVSgCSEAiHVU46QktMQEMHTaLTx31Ty83o
- zPJxtDQLYTMUWrcIJqZNIBgRdPQ66la6UYM3HxBkBVA9EusdArKXjzgIPJsv/S4KH2Md
- jHYqSicLPvtCMfVimB+/cwQm29eR1Yz88ZghF/hw+3FQtdIkTt3lYLEQN2x5NUlNqoCT
- cbGQ==
+ bh=P9h5TBP5WOCBKRHaXQjwNWHN1Wi1jSCendyQQuP2OXQ=;
+ b=AWwripP2uew25jcpCAwg5gJKHfGBL7kGuv8QztR8MCcuT3QUvu5G2QzDfOvPT55z+6
+ 2K4j/Zus2l6rVUP/nwxaeN2lZ2W0xY7T3RXQlLcdH0Y4ShjPo/vyi4TuxfpZBg59tpeE
+ 6b+IE8QnPG6cwZeA47gVbqfD6m7gRsJ8wA9zE7KEtffunuulc2S4OzO/mMUSgtDK/Als
+ Lx6V2hjwWnmSxLAzz8h4kPy614wIreyw7zVfY/UjU4gwBpMIytPFKKja2gUkwBTKNMev
+ Q1+8crvJOkclsI/DrA6zEjTthLdeEbjArEpdvECpzSRENLpEVthHHNhzFJqqN1WPOXhR
+ xjgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k8C/GQtIdOwZhYe9ry4RvUtTwTpZcqFEriAcRPm0GJU=;
- b=JnFKLiayuAx0Ap/XbFhyoYRz+rF4RAsCxV2jX53+LfMmVAI91PWcrKyhvY5x6F/nNE
- +EIfXFzTAuGdRY7sdOyDIm4B7eCKQJf0vSAWvliYT6DFhIlytbmtTwJ3Lp4bM8Du6uAF
- ZZzhitcXnwWwIutMjgjY+7v2cafZ+VGQqW7JKTFhMn+g4vLPULg0x9ngcNq5mlAKRIO2
- sRHg6z413X+knh41fIpD27b+upqQ2kX+FqagLkI/JwYcS8vrKl6/n6Kww+ATwWi2lkWd
- 40NBqz/00UnoDVedMbzc1W3KFx90E8dLGzWi/9j/oMEIXwevhezAfjH8uBg2xK/uKFC1
- H0Mg==
-X-Gm-Message-State: AOAM532NNjJFY2YaDP3MfgOyFXN5uTWAXVpGsHRfFeqoZrH9AWwwyOSF
- rZ2hvuGIhYJ7JEB21Cx/khaO2tA0MOk=
-X-Google-Smtp-Source: ABdhPJwipHm0xuOYXp8zqZoEfh/Dlg3ShCakNWLXsUxg4f1H4clp48eLwDK2r7UWEv3BOSUXwrNiAA==
-X-Received: by 2002:a63:6dc9:: with SMTP id
- i192mr22560694pgc.402.1591117323072; 
- Tue, 02 Jun 2020 10:02:03 -0700 (PDT)
+ bh=P9h5TBP5WOCBKRHaXQjwNWHN1Wi1jSCendyQQuP2OXQ=;
+ b=QjRJWaaPTDXmJoNPN4RJYVFMaOL3kgh8LG6H72UNdi+uZPWi6JCHprIdYe7kK3JjmM
+ 0ZeXDDzsjyILtgmg9sFDDE/03O0qaw+D9NdXQWOWqxDFfAaneg5wYQ1Nxm5DDriWon80
+ V6YnDALwKVrbzlxvrHVOLXYMxmEU9QfqbOCtCj2FGv/XJ06tyTRhsm+Xw/4MCapVk1vy
+ 3nqcP0kPVh8kE3hvezuho6UYKFCmL3YY/N8VwDzY5ayuSVH0UhSKuEINaJH+XP2Rt8Sj
+ yYKh2FLfmgjEcbj81UnTCS+Jbf7gAfYb3/aZFRc3WU1HJ5c1xg5tFUGgmvXvvomVtPp6
+ UjXA==
+X-Gm-Message-State: AOAM530bOeXyECIR/ksK97UJY7InXcapaeNodHAK1XS50h1lW2ta8xrm
+ XsLWAWF4fO/oXh1wkcxqmGMhH0fLKNY=
+X-Google-Smtp-Source: ABdhPJyQ12tKqLqXIMJxpPjr9RtEc2+5OyQIDlUYDXORokxa9geVHBY4xSkWORV92UVNWoyzBIgfAg==
+X-Received: by 2002:a17:90a:64ce:: with SMTP id
+ i14mr170177pjm.48.1591117324565; 
+ Tue, 02 Jun 2020 10:02:04 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id h11sm2723630pjk.20.2020.06.02.10.02.01
+ by smtp.gmail.com with ESMTPSA id h11sm2723630pjk.20.2020.06.02.10.02.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 10:02:02 -0700 (PDT)
+ Tue, 02 Jun 2020 10:02:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/12] tcg/ppc: Implement INDEX_op_rot[lr]v_vec
-Date: Tue,  2 Jun 2020 10:01:46 -0700
-Message-Id: <20200602170151.321389-8-richard.henderson@linaro.org>
+Subject: [PULL 08/12] target/ppc: Use tcg_gen_gvec_rotlv
+Date: Tue,  2 Jun 2020 10:01:47 -0700
+Message-Id: <20200602170151.321389-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200602170151.321389-1-richard.henderson@linaro.org>
 References: <20200602170151.321389-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,137 +86,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already had support for rotlv, using a target-specific opcode;
-convert to use the generic opcode.  Handle rotrv via simple negation.
-
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/ppc/tcg-target.h     |  2 +-
- tcg/ppc/tcg-target.opc.h |  1 -
- tcg/ppc/tcg-target.inc.c | 23 +++++++++++++++++++----
- 3 files changed, 20 insertions(+), 6 deletions(-)
+ target/ppc/helper.h                 |  4 ----
+ target/ppc/int_helper.c             | 17 -----------------
+ target/ppc/translate/vmx-impl.inc.c |  8 ++++----
+ 3 files changed, 4 insertions(+), 25 deletions(-)
 
-diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-index 4a17aebc5a..be5b2901c3 100644
---- a/tcg/ppc/tcg-target.h
-+++ b/tcg/ppc/tcg-target.h
-@@ -163,7 +163,7 @@ extern bool have_vsx;
- #define TCG_TARGET_HAS_abs_vec          0
- #define TCG_TARGET_HAS_roti_vec         0
- #define TCG_TARGET_HAS_rots_vec         0
--#define TCG_TARGET_HAS_rotv_vec         0
-+#define TCG_TARGET_HAS_rotv_vec         1
- #define TCG_TARGET_HAS_shi_vec          0
- #define TCG_TARGET_HAS_shs_vec          0
- #define TCG_TARGET_HAS_shv_vec          1
-diff --git a/tcg/ppc/tcg-target.opc.h b/tcg/ppc/tcg-target.opc.h
-index 1373f77e82..db514403c3 100644
---- a/tcg/ppc/tcg-target.opc.h
-+++ b/tcg/ppc/tcg-target.opc.h
-@@ -30,4 +30,3 @@ DEF(ppc_msum_vec, 1, 3, 0, IMPLVEC)
- DEF(ppc_muleu_vec, 1, 2, 0, IMPLVEC)
- DEF(ppc_mulou_vec, 1, 2, 0, IMPLVEC)
- DEF(ppc_pkum_vec, 1, 2, 0, IMPLVEC)
--DEF(ppc_rotl_vec, 1, 2, 0, IMPLVEC)
-diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-index ee1f9227c1..7da67086c6 100644
---- a/tcg/ppc/tcg-target.inc.c
-+++ b/tcg/ppc/tcg-target.inc.c
-@@ -2995,6 +2995,7 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-     case INDEX_op_shlv_vec:
-     case INDEX_op_shrv_vec:
-     case INDEX_op_sarv_vec:
-+    case INDEX_op_rotlv_vec:
-         return vece <= MO_32 || have_isa_2_07;
-     case INDEX_op_ssadd_vec:
-     case INDEX_op_sssub_vec:
-@@ -3005,6 +3006,7 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-     case INDEX_op_shli_vec:
-     case INDEX_op_shri_vec:
-     case INDEX_op_sari_vec:
-+    case INDEX_op_rotli_vec:
-         return vece <= MO_32 || have_isa_2_07 ? -1 : 0;
-     case INDEX_op_neg_vec:
-         return vece >= MO_32 && have_isa_3_00;
-@@ -3019,6 +3021,8 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-         return 0;
-     case INDEX_op_bitsel_vec:
-         return have_vsx;
-+    case INDEX_op_rotrv_vec:
-+        return -1;
-     default:
-         return 0;
-     }
-@@ -3301,7 +3305,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_ppc_pkum_vec:
-         insn = pkum_op[vece];
-         break;
--    case INDEX_op_ppc_rotl_vec:
-+    case INDEX_op_rotlv_vec:
-         insn = rotl_op[vece];
-         break;
-     case INDEX_op_ppc_msum_vec:
-@@ -3409,7 +3413,7 @@ static void expand_vec_mul(TCGType type, unsigned vece, TCGv_vec v0,
-         t3 = tcg_temp_new_vec(type);
-         t4 = tcg_temp_new_vec(type);
-         tcg_gen_dupi_vec(MO_8, t4, -16);
--        vec_gen_3(INDEX_op_ppc_rotl_vec, type, MO_32, tcgv_vec_arg(t1),
-+        vec_gen_3(INDEX_op_rotlv_vec, type, MO_32, tcgv_vec_arg(t1),
-                   tcgv_vec_arg(v2), tcgv_vec_arg(t4));
-         vec_gen_3(INDEX_op_ppc_mulou_vec, type, MO_16, tcgv_vec_arg(t2),
-                   tcgv_vec_arg(v1), tcgv_vec_arg(v2));
-@@ -3434,7 +3438,7 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
-                        TCGArg a0, ...)
- {
-     va_list va;
--    TCGv_vec v0, v1, v2;
-+    TCGv_vec v0, v1, v2, t0;
-     TCGArg a2;
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 2dfa1c6942..90166cbabd 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -214,10 +214,6 @@ DEF_HELPER_3(vsubuqm, void, avr, avr, avr)
+ DEF_HELPER_4(vsubecuq, void, avr, avr, avr, avr)
+ DEF_HELPER_4(vsubeuqm, void, avr, avr, avr, avr)
+ DEF_HELPER_3(vsubcuq, void, avr, avr, avr)
+-DEF_HELPER_3(vrlb, void, avr, avr, avr)
+-DEF_HELPER_3(vrlh, void, avr, avr, avr)
+-DEF_HELPER_3(vrlw, void, avr, avr, avr)
+-DEF_HELPER_3(vrld, void, avr, avr, avr)
+ DEF_HELPER_4(vsldoi, void, avr, avr, avr, i32)
+ DEF_HELPER_3(vextractub, void, avr, avr, i32)
+ DEF_HELPER_3(vextractuh, void, avr, avr, i32)
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index be53cd6f68..d8bd3c234a 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1348,23 +1348,6 @@ VRFI(p, float_round_up)
+ VRFI(z, float_round_to_zero)
+ #undef VRFI
  
-     va_start(va, a0);
-@@ -3452,6 +3456,9 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
-     case INDEX_op_sari_vec:
-         expand_vec_shi(type, vece, v0, v1, a2, INDEX_op_sarv_vec);
-         break;
-+    case INDEX_op_rotli_vec:
-+        expand_vec_shi(type, vece, v0, v1, a2, INDEX_op_rotlv_vec);
-+        break;
-     case INDEX_op_cmp_vec:
-         v2 = temp_tcgv_vec(arg_temp(a2));
-         expand_vec_cmp(type, vece, v0, v1, v2, va_arg(va, TCGArg));
-@@ -3460,6 +3467,13 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
-         v2 = temp_tcgv_vec(arg_temp(a2));
-         expand_vec_mul(type, vece, v0, v1, v2);
-         break;
-+    case INDEX_op_rotlv_vec:
-+        v2 = temp_tcgv_vec(arg_temp(a2));
-+        t0 = tcg_temp_new_vec(type);
-+        tcg_gen_neg_vec(vece, t0, v2);
-+        tcg_gen_rotlv_vec(vece, v0, v1, t0);
-+        tcg_temp_free_vec(t0);
-+        break;
-     default:
-         g_assert_not_reached();
-     }
-@@ -3664,12 +3678,13 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_shlv_vec:
-     case INDEX_op_shrv_vec:
-     case INDEX_op_sarv_vec:
-+    case INDEX_op_rotlv_vec:
-+    case INDEX_op_rotrv_vec:
-     case INDEX_op_ppc_mrgh_vec:
-     case INDEX_op_ppc_mrgl_vec:
-     case INDEX_op_ppc_muleu_vec:
-     case INDEX_op_ppc_mulou_vec:
-     case INDEX_op_ppc_pkum_vec:
--    case INDEX_op_ppc_rotl_vec:
-     case INDEX_op_dup2_vec:
-         return &v_v_v;
-     case INDEX_op_not_vec:
+-#define VROTATE(suffix, element, mask)                                  \
+-    void helper_vrl##suffix(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)   \
+-    {                                                                   \
+-        int i;                                                          \
+-                                                                        \
+-        for (i = 0; i < ARRAY_SIZE(r->element); i++) {                  \
+-            unsigned int shift = b->element[i] & mask;                  \
+-            r->element[i] = (a->element[i] << shift) |                  \
+-                (a->element[i] >> (sizeof(a->element[0]) * 8 - shift)); \
+-        }                                                               \
+-    }
+-VROTATE(b, u8, 0x7)
+-VROTATE(h, u16, 0xF)
+-VROTATE(w, u32, 0x1F)
+-VROTATE(d, u64, 0x3F)
+-#undef VROTATE
+-
+ void helper_vrsqrtefp(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *b)
+ {
+     int i;
+diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
+index 403ed3a01c..de2fd136ff 100644
+--- a/target/ppc/translate/vmx-impl.inc.c
++++ b/target/ppc/translate/vmx-impl.inc.c
+@@ -900,13 +900,13 @@ GEN_VXFORM3(vsubeuqm, 31, 0);
+ GEN_VXFORM3(vsubecuq, 31, 0);
+ GEN_VXFORM_DUAL(vsubeuqm, PPC_NONE, PPC2_ALTIVEC_207, \
+             vsubecuq, PPC_NONE, PPC2_ALTIVEC_207)
+-GEN_VXFORM(vrlb, 2, 0);
+-GEN_VXFORM(vrlh, 2, 1);
+-GEN_VXFORM(vrlw, 2, 2);
++GEN_VXFORM_V(vrlb, MO_8, tcg_gen_gvec_rotlv, 2, 0);
++GEN_VXFORM_V(vrlh, MO_16, tcg_gen_gvec_rotlv, 2, 1);
++GEN_VXFORM_V(vrlw, MO_32, tcg_gen_gvec_rotlv, 2, 2);
+ GEN_VXFORM(vrlwmi, 2, 2);
+ GEN_VXFORM_DUAL(vrlw, PPC_ALTIVEC, PPC_NONE, \
+                 vrlwmi, PPC_NONE, PPC2_ISA300)
+-GEN_VXFORM(vrld, 2, 3);
++GEN_VXFORM_V(vrld, MO_64, tcg_gen_gvec_rotlv, 2, 3);
+ GEN_VXFORM(vrldmi, 2, 3);
+ GEN_VXFORM_DUAL(vrld, PPC_NONE, PPC2_ALTIVEC_207, \
+                 vrldmi, PPC_NONE, PPC2_ISA300)
 -- 
 2.25.1
 
