@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8025A1EC28E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 21:17:34 +0200 (CEST)
-Received: from localhost ([::1]:58286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09491EC277
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 21:13:10 +0200 (CEST)
+Received: from localhost ([::1]:48690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgCPl-0008E5-Fv
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 15:17:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58538)
+	id 1jgCLV-0003xV-HE
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 15:13:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jgCOJ-0006n5-90
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 15:16:03 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:7509)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jgCOI-0002fy-Cg
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 15:16:02 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ed6a51a0000>; Tue, 02 Jun 2020 12:14:34 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Tue, 02 Jun 2020 12:16:01 -0700
-X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Tue, 02 Jun 2020 12:16:01 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 2 Jun
- 2020 19:15:54 +0000
-Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 2 Jun 2020 19:15:48 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH 2/2] vfio iommu: typecast corrections
-Date: Wed, 3 Jun 2020 00:12:37 +0530
-Message-ID: <1591123357-18297-2-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1591123357-18297-1-git-send-email-kwankhede@nvidia.com>
-References: <1591123357-18297-1-git-send-email-kwankhede@nvidia.com>
-X-NVConfidentiality: public
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jgCKX-00036r-Ro
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 15:12:09 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:34556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jgCKW-000229-Pc
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 15:12:09 -0400
+Received: by mail-oi1-x242.google.com with SMTP id b8so2372689oic.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 12:12:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7OHcp8h7Z6ZzhagFhbtwh2wTcuEnlLY56sb30y87t84=;
+ b=JvelaOwhjcB7uSciSr9xm/2E3fzcLNbcQh0nTruuIQ6EZPJ9yVQsYEKHtb9BSS2gwb
+ jEnXgG64leFuTMR5AHB6abwaCs4ucngi5mWOxPiPYkzORWfyVaU9I95AJv/PJzmDhqlR
+ ka1ZwnBIJ4vPbm5O3nLBKw36RVNzB8YhXjmShVJmmAllPAIsLWvXNl2GQKGrX+A/iohl
+ aOdZoT53BU/LMR8LLnv4IH8PLs7H6uEV20aWqLyyCpmiK47tb/FsVnO00uafC9YbeLsV
+ crAQova4NcfGGWI8t5yc/ooclQQwuWNt2epPSv2b5QRFS5zNhfbP2OSyXoHp+bQ1sEg4
+ ywMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7OHcp8h7Z6ZzhagFhbtwh2wTcuEnlLY56sb30y87t84=;
+ b=UQZbm2mqfDGawun3wNdWBqj5r18vr0TTp14V6kogaybR7eeppvmTMcZu55MndXijSG
+ 9/nMeiB/weFAbbbHMKUoiueyCEavwTrsBZoMkCbqku/YcwsOKma7xkKD+pUwGQUqMxlG
+ WI7fmiUbJVP0bU0flfxt4eA1NI6/+IeEfTSUcw2ejdvW4fMLrP4cdDln1vrn9D2z3dRb
+ XH2D+aDO8TTWcDqi7m1rN9nxDBSj/ZARib7cR8DWT3GVcbRRrRukWPtUy1Age3gMWBtP
+ 5LjvK1JZ+M/1zu+tUqeiyi66szKmMSwJbBpXBKNw4hyrgHWlhD49DvaTK/T/aCx5RQC/
+ 24ng==
+X-Gm-Message-State: AOAM533PM419P/OMMpgVaHQyW8uRN7rO5IPwgcIqsaYeKKrixfDSDQJL
+ /U2XbjqHoP6LmXapfm7X100bZCrK0yNSt8FCwBRuBg==
+X-Google-Smtp-Source: ABdhPJwgA/0BmX/mo/gq+77HeNrma/uPThqGWLwAcvymR63F2OcUmYzV0yoGvY4V3fvel/QPW22XwdSs0zRx7AsZ9FI=
+X-Received: by 2002:a54:469a:: with SMTP id k26mr3956717oic.163.1591125127459; 
+ Tue, 02 Jun 2020 12:12:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1591125274; bh=5Wj2K9vuNloUX1WzMLTNpeDsMst3FebRuyzK2zg0M7M=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- In-Reply-To:References:X-NVConfidentiality:MIME-Version:
- Content-Type;
- b=cBo7n2xs0y/XG43Pmp4cE0XDWwFN6CRR0/k2U0QvCqC2wiK0KeAwjcCQokSzPLZ9D
- AkJAtp0iaTQxQuJ9GPiQjcIQzxYz6bq7N9FmJ9fzgchpCNYBB2sxFkVmDtS6PboWx3
- tz8tgfiI3THfQoqwU+yLY6+oQm+3wlG6IwXsUaAf/VojEIDUhCpT0HBa3/RCTrlOMJ
- o2C7bfcnViThvxtrwAqfy8OR3w7JNn/8tTqlkeTpaNpXpyS4HNWBKVCNmyw5QmTZGE
- 0faAGCCNt1IGuJzIbCvtx1IWHtOVeVDbX9yX16/8VREkYattFwQxN0Sk6oSS2gALAy
- 12pHpWs2kZ7qQ==
-Received-SPF: pass client-ip=216.228.121.64; envelope-from=kwankhede@nvidia.com;
- helo=hqnvemgate25.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 15:15:59
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <20200518164052.18689-1-richard.henderson@linaro.org>
+ <20200518164052.18689-6-richard.henderson@linaro.org>
+In-Reply-To: <20200518164052.18689-6-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Jun 2020 20:11:56 +0100
+Message-ID: <CAFEAcA9hdb5uXV7bAS644LWyv27gk0E5DNTApAGfLgNw-Bh2Dw@mail.gmail.com>
+Subject: Re: [PATCH 5/8] decodetree: Allow group covering the entire insn space
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,49 +79,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- yan.y.zhao@intel.com, kvm@vger.kernel.org, eskultet@redhat.com,
- ziye.yang@intel.com, qemu-devel@nongnu.org, cohuck@redhat.com,
- shuangtai.tst@alibaba-inc.com, dgilbert@redhat.com, zhi.a.wang@intel.com,
- mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
- Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes sparse warnings by adding '__user' in typecast for
-copy_[from,to]_user()
+On Mon, 18 May 2020 at 17:41, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This is an edge case for sure, but the logic that disallowed
+> this case was faulty.  Further, a few fixes scattered about
+> can allow this to work.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> --
 
-Fixes: d6a4c185660c (vfio iommu: Implementation of ioctl for dirty pages tracking)
 
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reported-by: kbuild test robot <lkp@intel.com>
----
- drivers/vfio/vfio_iommu_type1.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index 9d9c8709a24c..5e556ac9102a 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -998,14 +998,14 @@ static int update_user_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
- 				  nbits + shift);
- 
- 		if (copy_from_user(&leftover,
--				   (const void *)(bitmap + copy_offset),
-+				   (void __user *)(bitmap + copy_offset),
- 				   sizeof(leftover)))
- 			return -EFAULT;
- 
- 		bitmap_or(dma->bitmap, dma->bitmap, &leftover, shift);
- 	}
- 
--	if (copy_to_user((void *)(bitmap + copy_offset), dma->bitmap,
-+	if (copy_to_user((void __user *)(bitmap + copy_offset), dma->bitmap,
- 			 DIRTY_BITMAP_BYTES(nbits + shift)))
- 		return -EFAULT;
- 
--- 
-2.7.0
-
+thanks
+-- PMM
 
