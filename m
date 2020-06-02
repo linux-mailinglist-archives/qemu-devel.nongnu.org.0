@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F621EC194
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 20:04:11 +0200 (CEST)
-Received: from localhost ([::1]:41788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAEC91EC1F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 20:37:15 +0200 (CEST)
+Received: from localhost ([::1]:57348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgBGj-0007gV-RA
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 14:04:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49466)
+	id 1jgBml-00018u-21
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 14:37:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jgBFt-0007Bd-FM; Tue, 02 Jun 2020 14:03:17 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:33161)
+ id 1jgBlh-0000EI-25
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 14:36:09 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:43512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jgBFs-0003MK-74; Tue, 02 Jun 2020 14:03:17 -0400
-Received: by mail-io1-xd41.google.com with SMTP id k18so11850838ion.0;
- Tue, 02 Jun 2020 11:03:15 -0700 (PDT)
+ id 1jgBlf-0003VU-Um
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 14:36:08 -0400
+Received: by mail-io1-xd41.google.com with SMTP id h4so8633366iob.10
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 11:36:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Tot7BqAZgE26wisKNZH8IiM145nTTs7/T+hwQ7OlKjE=;
- b=rqeEW7pc9xcjTf1gLFxidKjq06VJj0Ds3D+Y+Qk+tLHMQrtHn0IbQxl32sgr5G4JVU
- 1Wb40DE/oggs0nG2+tnxy6fwAHA4JXniQXJAbeVoyuOmbpxTYOhARzTnInwlaPz6KSM0
- IRNDulMffiLOl/2/3Eh7IFTSxzkQJ+v1xlMIBVU8QBndXcCjtxipbnyzG8f2dYnN0X7r
- JyZ29EmUcKcZ33JfZ8F11dhVLXVkXMrocNCPYgnfl2f/bz325LIRD07cl69aJxOpRJIy
- D1jjAsnvrvMYrv4OUtlV1woOJnKqsMOXYNCPgtZEGzwAWsdIXkVRIs7dJEzLsRAT1F/x
- C/pA==
+ :cc:content-transfer-encoding;
+ bh=E5kB349qPSwX27+o8Rqn2/Bjfsyq6rA2EO1yuyc7SpA=;
+ b=ul2nTHtuF8gusCJZLu83Lv3b+fZkn1KOH36ssL+MMu+a93ukM8Rkk9ux9F3X5Ubeg1
+ rPZUYwVr7yl7XJWBC00wADV+p3r5sn6DlPhDxxx26vL0JQGnHNKO+4bbrdeyaamdgc0G
+ dXbJxdo9qR93AEyo8Fcm/3qGYHam2bt9FrUES0wL4sk7GIYgLlQwSTBHkx7lhkdXdHuC
+ inhkPKhQD/62av2Z8QU3VKcsa0ao8qwSDZxTCRwsk+0jKeyo6wC0pTTdvNL0hCj5P4Ul
+ b+biIaxDPxDQeg9A1fDxZ66gZ5LtDjp/SimARivrgO38xJdemxhN7DStgMHo0nrO7oAR
+ mmCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Tot7BqAZgE26wisKNZH8IiM145nTTs7/T+hwQ7OlKjE=;
- b=FiLI4vwk9gvgyU4LBhiXAJ7Q2p05ui0LQNIzsh9ZQRceDGYKQoWljcYLnErX756Yji
- Zqt6QRoJl74MPeKSjHVGByI1DARBWK9SOYwau3QJwnRBE43zHKBPQfDaHVUEZqK3uuFB
- 2iZJSJdxtoQa7VyIbuzOSjUU9EnjrJIeetetQPENcl8vRyfKukUwTJzA9CN4OuqCr1Lm
- L7fgQ78q0lawCJHYRNxu7C3f0AaWIH7Y4GSKd04niE9neRJsSHLLmyZ+eXjj9pEokrSw
- gbrLYv8AX2oR63TZg1Y6iT7d2WqnKek0v9rrXMeqjpObnq/aGMzBihm9ikhubPnR73rf
- SwYQ==
-X-Gm-Message-State: AOAM533QJZFPL0eWu8SFeA/G0UIqasUzGTNb3tSqN946pj7T1gobuK/E
- Y7ky2LAno59wb235VYU85Wk1QyoIU9y/mD0qABg=
-X-Google-Smtp-Source: ABdhPJxHEkWNFo1ROa44jo8Qwo2YrTPcqDCtdJdWDKukGul7jF6rmmEmZMVUwV4fIp+DO+n/WJva72EohPGu1FSEqn0=
-X-Received: by 2002:a6b:6a13:: with SMTP id x19mr458540iog.175.1591120994848; 
- Tue, 02 Jun 2020 11:03:14 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=E5kB349qPSwX27+o8Rqn2/Bjfsyq6rA2EO1yuyc7SpA=;
+ b=la6pcULUlao2EBTQzP1+SplWMOboGhHCgP7rm6bNi/xyFi43jGdp2Na/PpbbzGUQf4
+ /j/rWnEAbG9jNDkWKpyo9OE0j7HyNkX9i3aCzYrNBanfcCvgEiHMYaGq660cfu2aRXMY
+ mkltznw3dAGyEIT8ffF72amssA2jvjLAo3A83ZMYvxzgFRRqMS4CxtCmZJbHS4IMrh9h
+ UJv2Xb9HcsHdEW4TWW8xeWYphkakrLNJiaCBEGQHggBOwzY452lZiJztSmzvdSVTBLND
+ 3+N1Qe0oHij9ogeaU0p7rSZl/wBCuAnf4DyjoSVgKA0aVzwdRaCXT7Mo9HJmetgrN2tg
+ eDXA==
+X-Gm-Message-State: AOAM53344XNwqhmpISEg1ZVQZg0bGAO6dMJRUb19VY/MkxT8H9Iu/HKM
+ mupH2+16oPbdMf3nrzHTetKvyHQlBDc/75VNXq0=
+X-Google-Smtp-Source: ABdhPJxUXq5CEVyt0HJ4kxbmuFH9U/Oab5TklJwR1+1uzVNnhBSTGuPIMBzdX0LEKtgW2KPaHn5jTsK9gswLePrj9SU=
+X-Received: by 2002:a05:6638:dd3:: with SMTP id
+ m19mr27212294jaj.106.1591122966438; 
+ Tue, 02 Jun 2020 11:36:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1590704015.git.alistair.francis@wdc.com>
- <73cce2d0edd0d41ba15df403a2096bfa70bf0565.1590704015.git.alistair.francis@wdc.com>
- <cc1a1671-b926-bb31-1ed2-d2920f0faf38@c-sky.com>
- <c9f16143-4e9b-a3a8-ffd3-12d43fd2e343@c-sky.com>
-In-Reply-To: <c9f16143-4e9b-a3a8-ffd3-12d43fd2e343@c-sky.com>
+References: <CALQG_Wh7eMt9U3gWkZZGDq0RFvWfuSVoiNBRNnPS_cDVfUc30w@mail.gmail.com>
+ <CAFEAcA_1+rDcjD7Lyk9ESSkPAKmJwF=0ZdwkgQYUDp8Gtn6jHA@mail.gmail.com>
+ <CALQG_WgP=ZebEMrXh_EpQJXqJPi48i6nwZU_yWq7VqhV_=eTVQ@mail.gmail.com>
+ <CAFEAcA_iW_0jTk=9hCh+UatyhY_HFgzmZeSxqqyUCH19Vv1jCA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_iW_0jTk=9hCh+UatyhY_HFgzmZeSxqqyUCH19Vv1jCA@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 2 Jun 2020 10:54:05 -0700
-Message-ID: <CAKmqyKM6rigjbDoFh0bfq8gJXJ=+H+onh=DXjCzhAijMCvR16Q@mail.gmail.com>
-Subject: Re: [PATCH v5 07/11] hw/char: Initial commit of Ibex UART
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Date: Tue, 2 Jun 2020 11:26:56 -0700
+Message-ID: <CAKmqyKPHsLtp09kmydg+JawJm67ryW5h+Am3hu2Jx-T0K_xtDg@mail.gmail.com>
+Subject: Re: gdbstub.c CPU clusters not handled for ThreadInfo packets
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
  envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
@@ -80,70 +85,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bmeng.cn@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Luc Michel <luc.michel@greensocs.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Fabien Chouteau <chouteau@adacore.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 2, 2020 at 5:28 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+On Tue, Jun 2, 2020 at 10:27 AM Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
 >
-> Hi Alistair,
+> On Tue, 2 Jun 2020 at 18:19, Fabien Chouteau <chouteau@adacore.com> wrote=
+:
+> > Le mar. 2 juin 2020 =C3=A0 18:44, Peter Maydell <peter.maydell@linaro.o=
+rg> a =C3=A9crit :
+> > >
+> > > By default gdb does not attach to all clusters (this is IIRC somethin=
+g
+> > > that can't
+> > > be influenced on the QEMU end);
+> >
+> > You mean I cannot have QEMU attach all clusters by default?
 >
-> There are still some questions I don't understand.
+> I mean that the end of the gdb remote protocol connection that
+> decides what to attach to is gdb, not QEMU. In theory gdb could
+> be improved to automatically attach to all available inferiors,
+> or the remote protocol could be improved to allow the QEMU end
+> to say "I recommend you attach to inferiors X, Y and Z". But
+> at the moment that doesn't exist so the best you can do I suspect
+> is going to be to script gdb to do the attaching without you
+> having to type the commands yourself.
 >
-> 1. Is the baud rate  or fifo a necessary feature to simulate?
-> As you can see, qemu_chr_fe_write will send the byte as soon as possible.
-> When you want to transmit a byte through WDATA,  you can call
-> qemu_chr_fe_write directly.
-
-So qemu_chr_fe_write() will send the data straight away. This doesn't
-match what teh hardware does though. So by modelling a FIFO and a
-delay in sending we can better match the hardware.
-
+> > > are you explicitly asking it to attach to the second cluster?
+> >
+> > So far the behavior that we had was to see all the CPUs without asking
+> > explicitly.
+> > I want to go back to that behavior because the current situation is a
+> > huge drawback for our users.
 >
-> 2.  The baud rate calculation method is not strictly right.
-> I think when a byte write to FIFO,  char_tx_time * 8 is the correct time
-> to send the byte instead of
-> char_tx_time * 4.
-
-Do you mind explaining why 8 is correct instead of 4?
-
+> That works when there's only one cluster. When there's multiple
+> clusters, by default gdb will show you all the CPUs in the first
+> cluster. Would the behaviour be better if the other cluster in
+> this machine was the first (default) one?
 >
-> 3.  Why add a watch here?
+> > > https://lists.nongnu.org/archive/html/qemu-devel/2020-01/msg07035.htm=
+l
+> > > is a mailing list post from January which gives the gdb commands whic=
+h
+> > > ought to cause it to attach to the second cluster on this machine.
+> >
+> > The commands:
+> >         target extended-remote :1234
+> >         add-inferior
+> >         inferior 2
+> >         attach 2
+> >         set schedule-multiple
+> >         info threads
 
-This is based on the Cadence UART implementation in QEMU (which does
-the same thing). This will trigger a callback when we can write more
-data or when the backend has hung up.
+I just updated the QEMU RISC-V wiki to include these steps:
+
+https://wiki.qemu.org/Documentation/Platforms/RISCV#Attaching_GDB
 
 Alistair
 
-> > +        s->uart_status |= UART_STATUS_TXEMPTY;
-> > +        s->uart_intr_state |= INTR_STATE_TX_EMPTY;
-> > +        s->uart_intr_state &= ~INTR_STATE_TX_WATERMARK;
-> > +        ibex_uart_update_irqs(s);
-> > +        return FALSE;
-> > +    }
-> > +
-> > +    ret = qemu_chr_fe_write(&s->chr, s->tx_fifo, s->tx_level);
-> > +
-> > +    if (ret >= 0) {
-> > +        s->tx_level -= ret;
-> > +        memmove(s->tx_fifo, s->tx_fifo + ret, s->tx_level);
-> > +    }
-> > +
-> > +    if (s->tx_level) {
-> > +        guint r = qemu_chr_fe_add_watch(&s->chr, G_IO_OUT | G_IO_HUP,
-> > +                                        ibex_uart_xmit, s);
-> > +        if (!r) {
-> > +            s->tx_level = 0;
-> > +            return FALSE;
-> > +        }
-> > +    }
-> > +
+> >
+> > Do not work for me, "attach 2" in GDB asks me to kill the debugged prog=
+ram.
 >
-> Zhiwei
+> Hmm. That's the behavior for 'target remote' but 'target extended-remote'
+> ought to support multiple inferiors. What gdb version is this?
 >
+> thanks
+> -- PMM
 >
 
