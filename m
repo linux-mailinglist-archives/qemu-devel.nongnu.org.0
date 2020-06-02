@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5268E1EBC88
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 15:07:51 +0200 (CEST)
-Received: from localhost ([::1]:41936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6321EBCBA
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 15:12:23 +0200 (CEST)
+Received: from localhost ([::1]:52668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jg6dx-0008JM-O5
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 09:07:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40860)
+	id 1jg6iM-0004Se-Bd
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 09:12:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jg5UN-0000Ta-Vq
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 07:53:51 -0400
-Received: from mail-db8eur05on2098.outbound.protection.outlook.com
- ([40.107.20.98]:20705 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1jg5UO-0000Tl-3f
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 07:53:52 -0400
+Received: from mail-eopbgr140120.outbound.protection.outlook.com
+ ([40.107.14.120]:62970 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Filip.Bozuta@syrmia.com>)
- id 1jg5UM-0000f1-8p
+ id 1jg5UN-0000gD-Aa
  for qemu-devel@nongnu.org; Tue, 02 Jun 2020 07:53:51 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g43R9V5ivuHZVMWxB1V58cG2i5daayqAiSsreByhMpBRiuUTJaFPHOxscssA75QrkVAB0y4Olk8LrLZRGf9O/hMtVjOFmmaHXizBnNbb5sZCJXRkXZloI1TCHiTpR70SYFp/y0ySWnxpBw2lhVDi4RF8KoyrRkTjmLku9R17czlBHixAdjp8rZ+E4U/0XVa0Qzt+Gk/tvvIpHf9coxwJQt1fWMKR1Uz8rjCDILaR1ItdwH1EeYFEPbv6ZVFLHQfVs447V+5pTRdQtM6sGaC0jYfvAfmgmdhYHnIuPdG/9TY0l3PEte4Copyfa/HKBnv3YLlVu/2/8AaG+7KkFoepKg==
+ b=VtQ/9pNJb/iba7i01lFD9djz1WIj9lWy5w6V0lHQU1qQ0WaNof+via5PZFGUb0BV+9a7Q7ZNvcKhHIhgIxAgA58pa9fmtCP0b8C9D5teg9jBNCVKVP0G1F2dqrTnoetzj5CtrjJhVeK6qDkaDlS3GuejtKSoa+UjWPk5KkmeopuP20tE5io1t8KMuj+hksnBedO48yrlCn/Jx7QBNP5xaTjqnS4SFqBDvbloakSSYrPAv8FlIdKE1QhKCVsdUa3b6jCD5pg+ffJ4dqlEABdVBC0o7chuWeU88XOR5kD4UOU300ZRLkhJstOQLSIjeIRtE3DRAswbLBzSAKb6N+6ZKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TY44iFpp45jA4aUldAT2cU45SX6PumUBvKPAEPX4oBE=;
- b=S2k+Ao59VEhLVLe0YVOd398pLMAQzKpYCCDNjZ0WAWqHEEmYmgh6ouhzPt1DgpY8VjMNnfdB11vAAiZr6let/VdLtt8tBKTsYMGmw+wIj73dxTdzozPpdqvXhXdJLeJA2MuqdBSOQEZs9bGlEIBeJrFCjhuQ72j13A7ZG2/SjesNm4S0XqLFMz5D/m9fqqV32PD6rVaq3MBpbziy+5VCshanH0MoJwXTGZSBqOLzpW05Uigff2C8HKofeOARyqxHmUI+lXyem9SFxIw9B9YUfiI9RzbKyZDqj94EVtAd3XbCeRStyMRuBaO08jiagtdMEWdUavGuTt2FR8UTQqEYeA==
+ bh=hAl752kyM1B1Z/Fmsw6lGIhRmCjuXq8U+QzWIJvLX3g=;
+ b=Dc19adaO+3Jyb4V1Rt3IOyGif1J3iM7uOT6psYe16T92c4ifGWxLG49WFjIHcmnYym4KJozcxwLnmHkUIOW+YvPpHbpryZBCAWtSL3pxB8o14svGwdAFUAOo9nE53g5xWOWxyzQHuECE3+heWP4n1+rYzwRcjbSiLshXEyE5fHUGW0PqMZYG5znDijPXiZgARZhaMdwhmmynh/XlI42CGn2LdeltWPR/HPKaizBTcNp93gG3pWbXFCcxG+pS50zr8SZed8iPReyJ5rIgcGU0sv5vLyO9p013faeMDu8x3YTMmJEjM2/mGtt93wxJ4XA8WHSeg3HRu4WZfdYUk/cLmQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TY44iFpp45jA4aUldAT2cU45SX6PumUBvKPAEPX4oBE=;
- b=a1HBFNgc2ZOSYinITR0a0H/PdfiaAPHCAVlSUiBNMWIHLcqdRZ7/4+Bx03z/N88dm1pR4USTftg3YXByZy+ql3I51KIUzSRra58gF16oF5kHkCtNytInEyZUqjOn+1yhc+2U43K2pngiqccNgTdSOPBx2jt2l41ovRKFWMYdej4=
+ bh=hAl752kyM1B1Z/Fmsw6lGIhRmCjuXq8U+QzWIJvLX3g=;
+ b=mCVIMDJ6b4NuJBclp3miL0Y5EzhmqDp9Mb58biW9TGLBKseBGU8huGx9kZBIL8WYc8XrDMcvlJA3zVJYi5sTwcOoK5OinFDXaKjOt1ekdOyBthb3ALDeHCps/LdxF0FSfXj+h527C79bGWLQuEwtAp//Mz1uztaaNG2errIcwNQ=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
 Received: from AM6PR03MB5233.eurprd03.prod.outlook.com (2603:10a6:20b:d1::19)
  by AM6PR03MB4022.eurprd03.prod.outlook.com (2603:10a6:20b:22::27)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.22; Tue, 2 Jun
- 2020 11:53:45 +0000
+ 2020 11:53:46 +0000
 Received: from AM6PR03MB5233.eurprd03.prod.outlook.com
  ([fe80::7935:50dd:e879:bca8]) by AM6PR03MB5233.eurprd03.prod.outlook.com
  ([fe80::7935:50dd:e879:bca8%7]) with mapi id 15.20.3045.024; Tue, 2 Jun 2020
- 11:53:45 +0000
+ 11:53:46 +0000
 From: Filip Bozuta <filip.bozuta@syrmia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] linux-user: Add strace support for printing arguments of
- lseek()
-Date: Tue,  2 Jun 2020 13:53:29 +0200
-Message-Id: <20200602115331.1659-4-filip.bozuta@syrmia.com>
+Subject: [PATCH 4/5] linux-user: Add strace support for printing arguments of
+ chown()/lchown()
+Date: Tue,  2 Jun 2020 13:53:30 +0200
+Message-Id: <20200602115331.1659-5-filip.bozuta@syrmia.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200602115331.1659-1-filip.bozuta@syrmia.com>
 References: <20200602115331.1659-1-filip.bozuta@syrmia.com>
@@ -68,32 +68,32 @@ Received: from bozuta-ubuntu-18.syrmia.com (46.240.135.226) by
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [46.240.135.226]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8ff77803-ffb1-48d1-c095-08d806eb9a9d
+X-MS-Office365-Filtering-Correlation-Id: 63a1652b-3abc-40d8-c32e-08d806eb9afc
 X-MS-TrafficTypeDiagnostic: AM6PR03MB4022:
-X-Microsoft-Antispam-PRVS: <AM6PR03MB402250E78E9FCA995A233880EB8B0@AM6PR03MB4022.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Microsoft-Antispam-PRVS: <AM6PR03MB4022360A9D8F8B386FCD9FDEEB8B0@AM6PR03MB4022.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
 X-Forefront-PRVS: 0422860ED4
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mqBxfN3cH2/KL2b3sbGbDDM9TTgJ6YEWc9iDPMo4I+whjvVTwSSaFtAGLDHrpUEh9IU6iTnJus6ejhk2A/vBpxtuX/TgdPUM0p75ztU75WDZB3rhT4andeLEwe8quoJNzgfYPaatpKzPeiY/NibwyutxgLNoNToYU+QZIWZV+TpzXvU72ZG4HZJlCDsZyJp4yFHtkPMEpJYor4wP+glDRD8FW65Ws2uaYZ3NmFoykAE/mL4k4QHy4dyNOWJQ18Gj1jxTU6DQ7Wyd2Uhgrg+6D2p7eZGWV9I4MlVHvGuhOzFkxvw9jS2k8uqI/Qevh0PTfyj4LFVOR3gFmI7zTpW6mG8IgL9jrpAzVhxc8K/m19W2cq6UvNT95tEmRLReTdGyrsIczTxHn7+lGu6CFsDvWQ==
+X-Microsoft-Antispam-Message-Info: IP3QHs9clb8uDxc8+w2pJf46Vl5aNIcr4ZFMI1H/JhLLKTsYVRY7QZyOYLrZbfL1aS6WcrYTLONa2n52owgn1FTrWDrV2GTLPegrIwOkVGnc8ekqbXcNyHhJRFEHX6up0nyCY5/qE3COIcflKSGJZqnUdNr6rMndBeLG5s7Svq/EbTxKvKPzo188tLF4veKHHw2Mw5M72Riuz2X8G9yu7ov/6ItLwU3o1FIs+qnWNKEtIvQ78ZMvG86z2KyZ9BMHlK2W6t53s63LNKWN799zaOq4dE3RbPJO2QZ9xp7j0EaMrsxr6mW0MgCgyOGH0FHKVx7eOsGNry+jdOykJaraGvr0eTpJnwf1iV2u0AjY0Ovu5qfdNwb2ZbMCjhXBIQ+zkxEZBKNJ/2BZh/JgLvdt+Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM6PR03MB5233.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(366004)(376002)(346002)(39830400003)(136003)(396003)(966005)(44832011)(956004)(2906002)(4326008)(36756003)(2616005)(86362001)(508600001)(66556008)(66476007)(7696005)(66946007)(26005)(8676002)(52116002)(6666004)(6916009)(8936002)(316002)(1076003)(5660300002)(16526019)(83380400001)(186003)(6486002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: MVdfOyOCc8H+oDkAELDIVokZcsgcQGWKMqQYG1mCfMjDEyafCHRAepTF3eGsQKUCNFrpMU1GcofznuUwL6TOez6Gv9lyLn9P6m1lqpRX633DdfZyqG4X3P1PdQS3dsXDbYYa98zolfBN5JclDyUENBcxVI4MI2L1H3PJ4IOHF6Zty74GgecKMudQ4UoKu6wuok4VGE/WhAEn+nxVp1wpq5E+f6TeUjeqZX4Rq5fJ00tjG54Dy13HaPaYwPOxkVD5k2Ig6EMb7oIGQ1jKcP0m4R1wBKyDNq7zhp6kdo1k2wLsYsp2/cDhX6SsMjhElLIW9TpPXXQOlsjv7E0JCrqes3i2TcC8B+LAHhuRQeNGppzEu+A7EexXEulIh4R4/GqzLdnqAzvxPNygwSnVjKJ/ddn9hV6PFiiobj4roSNfcLdy7BCGyRr0WLFX6SO3LqrSiweWMXMaaZX+cr/6ORawWn0nyRI2eMkC+knU+bF56Ko=
+X-MS-Exchange-AntiSpam-MessageData: CPqvehuHs+R0HK+3lmn2bB1jjxyYKvK8vQ/K8qRlRDauogjp9Q+nhbC7fbx11u6NAMK4Vngc1PCNdDIatK7IfcJ3hdXCsgFcQSBHOyH1MvC5IPQzy3SNcr+vuRe1PDtlFEN7otU6/kIqVK/t51JiZFjB19puCzZNkdfZ1R8zCQxuAEwfJDtZn0vlvLe4VC4UysTVMxoQWxq6TZx3zDAQCvRPo7802YtBW4lMY/DPVuzzKRlYZFT7tnKVXHyVCX291w3Qzji6xBQh3+uSxQleSGJZW1H6LcTIlT9xH2+xvacvUkNB5EPOsOcyroSvqsAssCEZlOjb5q4+/XaiX/fmoBtoejhKqy6oi+crskA/S3cHG6u+NIgVVxLUAewxjwYY2Lnoh/gRKVLskcUIaEO0iEt/RfA9QiykztQsbtM+VAuRL2A2ApoY8NehyXxCQ4n5EU6cEWWr9Txy0UKLgBnyOsKney8Y1OzaZypPdy0iPZ0=
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ff77803-ffb1-48d1-c095-08d806eb9a9d
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2020 11:53:45.6264 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63a1652b-3abc-40d8-c32e-08d806eb9afc
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2020 11:53:46.2251 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oLTDXS0C7jrVwGlt7zS+Hqp75Gk5m4Q4TP+TTFe/r17PFeDML1ZhNVb9aA5e5hwDy7LgRYUB+faZOLZYkIhN+A==
+X-MS-Exchange-CrossTenant-UserPrincipalName: PyBa/KrDdw9NrIdFd8ItRbIAY9E124HBVLeowhhZ/HBDZ24SjRJUWTQXSE0hOKIOh+zOgTzTl+lEKmnMHyxiFA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB4022
-Received-SPF: pass client-ip=40.107.20.98;
+Received-SPF: pass client-ip=40.107.14.120;
  envelope-from=Filip.Bozuta@syrmia.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 07:53:45
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 07:53:48
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -122,88 +122,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@syrmia.com>
 
-This patch implements strace argument printing functionality for syscall:
+This patch implements strace argument printing functionality for syscalls:
 
-    *lseek - reposition read/write file offset
+    *chown, lchown - change ownership of a file
 
-         off_t lseek(int fd, off_t offset, int whence)
-         man page: https://www.man7.org/linux/man-pages/man2/lseek.2.html
+        int chown(const char *pathname, uid_t owner, gid_t group)
+        int lchown(const char *pathname, uid_t owner, gid_t group)
+        man page: https://www.man7.org/linux/man-pages/man2/lchown.2.html
 
 Implementation notes:
 
-    The syscall's third argument "whence" has predefined values:
-    "SEEK_SET","SEEK_CUR","SEEK_END","SEEK_DATA","SEEK_HOLE"
-    and thus a separate printing function "print_lseek" was stated
-    in file "strace.list". This function is defined in "strace.c"
-    by using an existing function "print_raw_param()" to print
-    the first and second argument and a switch(case) statement
-    for the predefined values of the third argument.
-    Values "SEEK_DATA" and "SEEK_HOLE" are defined in kernel version 3.1.
-    That is the reason why case statements for these values are
-    enwrapped in #ifdef directive.
+    Both syscalls use strings as arguments and thus a separate
+    printing function was stated in "strace.list" for them.
+    Both syscalls share the same number and types of arguments
+    and thus share a same definition in file "syscall.c".
+    This defintion uses existing functions "print_string()" to
+    print the string argument and "print_raw_param()" to print
+    other two arguments that are of basic types.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
 ---
- linux-user/strace.c    | 32 ++++++++++++++++++++++++++++++++
- linux-user/strace.list |  2 +-
- 2 files changed, 33 insertions(+), 1 deletion(-)
+ linux-user/strace.c    | 15 +++++++++++++++
+ linux-user/strace.list |  4 ++--
+ 2 files changed, 17 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 5cf419989c..b7f012f1b5 100644
+index b7f012f1b5..542bfdeb91 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -1768,6 +1768,38 @@ print__llseek(const struct syscallname *name,
+@@ -1414,6 +1414,21 @@ print_chmod(const struct syscallname *name,
  }
  #endif
  
-+#ifdef TARGET_NR_lseek
++#if defined(TARGET_NR_chown) || defined(TARGET_NR_lchown)
 +static void
-+print_lseek(const struct syscallname *name,
++print_chown(const struct syscallname *name,
 +    abi_long arg0, abi_long arg1, abi_long arg2,
 +    abi_long arg3, abi_long arg4, abi_long arg5)
 +{
 +    print_syscall_prologue(name);
-+    print_raw_param("%d", arg0, 0);
-+    print_raw_param("%ld", arg1, 0);
-+    switch (arg2) {
-+    case SEEK_SET:
-+        qemu_log("SEEK_SET"); break;
-+    case SEEK_CUR:
-+        qemu_log("SEEK_CUR"); break;
-+    case SEEK_END:
-+        qemu_log("SEEK_END"); break;
-+#ifdef SEEK_DATA
-+    case SEEK_DATA:
-+        qemu_log("SEEK_DATA"); break;
-+#endif
-+#ifdef SEEK_HOLE
-+    case SEEK_HOLE:
-+        qemu_log("SEEK_HOLE"); break;
-+#endif
-+    default:
-+        print_raw_param("%#x", arg2, 1);
-+        qemu_log(" /* SEEK_??? */");
-+    }
++    print_string(arg0, 0);
++    print_raw_param("%d", arg1, 0);
++    print_raw_param("%d", arg2, 1);
 +    print_syscall_epilogue(name);
 +}
++#define print_lchown     print_chown
 +#endif
 +
- #if defined(TARGET_NR_socket)
+ #ifdef TARGET_NR_clock_adjtime
  static void
- print_socket(const struct syscallname *name,
+ print_clock_adjtime(const struct syscallname *name,
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 8d51c54bca..5a56212532 100644
+index 5a56212532..b72f757d3f 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -513,7 +513,7 @@
- { TARGET_NR_lremovexattr, "lremovexattr" , NULL, NULL, NULL },
+@@ -71,7 +71,7 @@
+ { TARGET_NR_chmod, "chmod" , NULL, print_chmod, NULL },
  #endif
- #ifdef TARGET_NR_lseek
--{ TARGET_NR_lseek, "lseek" , NULL, NULL, NULL },
-+{ TARGET_NR_lseek, "lseek" , NULL, print_lseek, NULL },
+ #ifdef TARGET_NR_chown
+-{ TARGET_NR_chown, "chown" , NULL, NULL, NULL },
++{ TARGET_NR_chown, "chown" , NULL, print_chown, NULL },
  #endif
- #ifdef TARGET_NR_lsetxattr
- { TARGET_NR_lsetxattr, "lsetxattr" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_chown32
+ { TARGET_NR_chown32, "chown32" , NULL, NULL, NULL },
+@@ -474,7 +474,7 @@
+ { TARGET_NR_kill, "kill", NULL, print_kill, NULL },
+ #endif
+ #ifdef TARGET_NR_lchown
+-{ TARGET_NR_lchown, "lchown" , NULL, NULL, NULL },
++{ TARGET_NR_lchown, "lchown" , NULL, print_lchown, NULL },
+ #endif
+ #ifdef TARGET_NR_lchown32
+ { TARGET_NR_lchown32, "lchown32" , NULL, NULL, NULL },
 -- 
 2.17.1
 
