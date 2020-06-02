@@ -2,113 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2EDB1EC0C0
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 19:11:16 +0200 (CEST)
-Received: from localhost ([::1]:53256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C291EC0C5
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 19:13:31 +0200 (CEST)
+Received: from localhost ([::1]:60940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgARX-0005do-QK
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 13:11:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40814)
+	id 1jgATi-0000bA-6N
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 13:13:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jgAPK-0002rB-NE; Tue, 02 Jun 2020 13:08:58 -0400
-Received: from mail-eopbgr70102.outbound.protection.outlook.com
- ([40.107.7.102]:55173 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jgAPH-0000Eo-9M; Tue, 02 Jun 2020 13:08:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MrlPpZ8NFfnF/XsxUDM0XAvuFUXeSy7id5Q09v3ADSC6vb9cRWjXtLt1YaMhRO3NUUiL8OstKnFCS8rQ8zES577lRDJHil+7TymSX6ZAVwx6J56UQZsiW0xlx7R1yCSaR/rmQ5XjYWGDpGT9wKeSX59wTUnlQg33GoZKCC9gFa580YdnsMl48j7mA+IcQ7zEeQz8P7dGitdClrb0m/RZfcSpHo1Fqd/wP3CQ8WNyyqPCBajz0uhPdndBeb/8H/lFAwV1z14oiEIu0RlMaiQwCKZVwDy9UwGKtiNNJp09dpkFpOCCT2SF56HK90LdZujHgUjl/QRmvm44sqQJljZRWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nlfkp5NEa6NqeQRrlUYsiV4ui6CS4kUhciwqiC3SEew=;
- b=TAwX00MCD64E38O7IKDMoetQrt7iCKzsNX3DI/CV4GkgHGcxrbhgICRa4AEQWhZ/7mUbJM91MOSFIWy4o1F4Eimpt+fAyzRjvUAaz7OTfqGAwK7OGs/GX6MIpswPRnZ6glWpt78TvjZj7LDlUvTCuvJdrq1EWYX/0cJNSQ6LZuWMyxGeiD+vHujNmfqLXydFAHb2zxLpxm727cgfCesSXMxNRH9RiKFFPA6NPR3jChvmy6QdwYGcME7OhbX8MaNh5Y/Xyp6djzYz+At0sqgR3N4VtWU1BrxPFfr/jGBuy/N/xvf34YzbkjNL40TRsEBZhaKJroj0MR8tt3gn4QecNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nlfkp5NEa6NqeQRrlUYsiV4ui6CS4kUhciwqiC3SEew=;
- b=Mm+QX7mL5Z/lLQyxtkpwA71z8UPqcqZjtGij03GcFo3JXzosrLEP+hPnZYC/11oki6hvtAyJto6kYPU+cRw/t++YMWDOtkGrpgg49DJGG8iPJzYHykFkRFklkE4MMXgj1TGApDRjRJ8ag2anaCKqMhUG2+jr74q89bGxk237ttQ=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5302.eurprd08.prod.outlook.com (2603:10a6:20b:103::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.19; Tue, 2 Jun
- 2020 17:08:51 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%4]) with mapi id 15.20.3045.024; Tue, 2 Jun 2020
- 17:08:51 +0000
-Subject: Re: [PATCH for-4.2 v2 3/3] block/file-posix: Let post-EOF fallocate
- serialize
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20191101152510.11719-1-mreitz@redhat.com>
- <20191101152510.11719-4-mreitz@redhat.com>
- <dfe5fbff-ce04-504e-542b-11095a57fd78@virtuozzo.com>
- <50115120-9d1a-79f7-64f4-cd45508c0e7c@redhat.com>
- <19babc97-3cc9-e924-ef0b-cca3c8cefcae@virtuozzo.com>
- <562a7703-184c-36b6-3b9e-da5fcb3b9174@redhat.com>
- <975faf57-b4d9-870c-a47f-ca40e8902043@virtuozzo.com>
-Message-ID: <1e271c22-eabd-c367-c327-49ca1b8ca542@virtuozzo.com>
-Date: Tue, 2 Jun 2020 20:08:49 +0300
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jgASr-0008Vm-0l
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:12:37 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:35114)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jgASp-0000uG-Tr
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:12:36 -0400
+Received: by mail-pl1-x643.google.com with SMTP id q16so1600353plr.2
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 10:12:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5A54PLF2iJC05EiEeoJfztH20cLXk7epHiPhOmo37QI=;
+ b=WagqZt8xeCsTJZg3UkF6H7TQmS/jbdbwf5jWmfmG0unJEAhzpQck5mCieNQC0ppuLJ
+ g9ZbKlkSaGYUHMqpi2OJ6oz5Jmn87+XpIwBzlfEwDT0a6mcHdcoXMd/GYn4RbLEO0DqU
+ jbtdq2U5vlJYV92nJ4y079rk26VoWQbjVkGVra3meVewQHwskM0pqVfnX1JpT+heKlTN
+ +R9fKfFAtiYdh8dsgJlLMv8LJ34IChiSRqz9JNq5ADFXFR5vY2JC8W3TK1OdglVKEFd6
+ zW8591My08z7kacdEAQiBlQeL4eYPx6JgzvGry/t4scuA35tS3xnfyVUG66WJ2EYpm+K
+ xCCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5A54PLF2iJC05EiEeoJfztH20cLXk7epHiPhOmo37QI=;
+ b=qdxnaV2t3aB/MTHzXWWfu4SGb+4Pb9t39xxp29UroHlTpU0q6Yk+tu9AHZCq3ANZfM
+ h9E3ZaOjkPSUJJmbwEHgSTFtNn1TwesraS9bK4trQ4NA/U8sj6unQHRW3EhkQJwyJ9KA
+ gbbKXOjjb9bNNcXnBybHbK5RH/fOWdT9ahWOgX8Teb5z8NCtkj2i7LWXtdITWAlg7I/h
+ klHf/NJfP1qgw1JzuWqihGwT+xvRTGKFFHDzoMOXxVIz3T4oTgdDjGDMSKEVwOR8le/Y
+ +P89ow9F6tNWgSaMYICm9hVDVjo06I62rrDs1YRHJedPhzmJsWPr+ONjFZVnph+U0Wuw
+ WNSQ==
+X-Gm-Message-State: AOAM532sKcYcgZt5RjT/QzT/XOWpaBADNcyU6JXuFSoEhDKZVX/GAOwD
+ TkywRUYdkDcSwSW//qhoca+3Ew==
+X-Google-Smtp-Source: ABdhPJwVYCLEvXMksjiyR6ULIEIspQYLxsBcAv8+6DwXkvlrrYWBUCRrb8OZ91MTqI6rmsYRxGNfsw==
+X-Received: by 2002:a17:90a:ea05:: with SMTP id w5mr190772pjy.37.1591117954260; 
+ Tue, 02 Jun 2020 10:12:34 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id t4sm2673011pgj.39.2020.06.02.10.12.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Jun 2020 10:12:33 -0700 (PDT)
+Subject: Re: [RFC PATCH] exec: flush the whole TLB if a watchpoint crosses a
+ page boundary
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200602164911.5706-1-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <77d39647-d6da-35d3-cdc5-6db39d727e4b@linaro.org>
+Date: Tue, 2 Jun 2020 10:12:31 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
-In-Reply-To: <975faf57-b4d9-870c-a47f-ca40e8902043@virtuozzo.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <20200602164911.5706-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM3PR04CA0148.eurprd04.prod.outlook.com (2603:10a6:207::32)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.153) by
- AM3PR04CA0148.eurprd04.prod.outlook.com (2603:10a6:207::32) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3066.18 via Frontend Transport; Tue, 2 Jun 2020 17:08:50 +0000
-X-Originating-IP: [185.215.60.153]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 281ec1cb-063f-4dc3-73dd-08d807179f73
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5302:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5302883F31EBCDB44117CA18C18B0@AM7PR08MB5302.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 0422860ED4
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 59eC+fA7CG0U3DKp2N8PSzGf1qm0U23KIBwx9HAkxKsSQnOrTuf5oFXl+ubKdpvGbcCN1+wgcExdh8O256n6Gb4h963zmHjXuUmEUzGiSt/fAwZZiMQf+J2OfomR3HzWVux9We9e7ojUGdww+a33lTMiKdABaNn/g0A083NvpAt+1amBtGJc0jZD/iJIPv9bycpmNKeX9XZV2p5BxeahGrb6vWCITdMBPbHDEMztdOSWuq3s2N/CiumIUVZWHjgDuHwgC/TVEPfQgfVrUUSPXwVtsBulL1I8jIW2HpD/sLo21WKlrbJ/QSafUNTZB0/kSXbCFHBh1gvzHV4xM6hkA+wm9fIOzm1s2JTjIdzwhYoe+YROPYBWw/MVMm4FQwiT
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(346002)(366004)(396003)(39850400004)(136003)(16526019)(86362001)(66946007)(66556008)(66476007)(52116002)(186003)(31696002)(53546011)(36756003)(26005)(83380400001)(4326008)(54906003)(16576012)(5660300002)(316002)(2906002)(31686004)(956004)(2616005)(8936002)(8676002)(107886003)(478600001)(6486002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: QDdfaB9kuv9NmxSlXN1NbRXa8A1Y/yAFmCU6UVNiLarBSp+rf7e/0mmssBTuzZN0tjjyuzNWlz8cTGT+SAFsegEpKYm3wJ09K+zhhA21sA99CGxYsT7P3lML6EzbbOLIYQQu3X3FtqpNhk2wTvZDZNQSmxb2dOaMzKewNyLFSwJ18L9X78HYgm9/p1w4SpThGv6tzB+QKlDqZMJ5cxKvN1UXDa2ta+Mspgt1lZJLvX4JAHlQiHrb01G+PwuB1t/iwC6TAjsn5lN4IaUOmEntBCa8WBIaUPU6QqynZrKJHm5OCtZFkJ5JZTlEPIiUr3PC1skCsc8iVRPHSHFX1Sv0vRwo+R+fzQwqEKWvgF6OP1yNigwN5oEQMEDhxqRBaJOy9sMV+A/5JlLLV5ZziRLR/Q9VHfpJHCPfuM5gOcO0YEmpVZhAktpWL0sTSwx7NvdtW6niTXWDkhe4Vda+oeZ2+q8JSDAsEE5rO6T0kWYWhs+Vn9Vds84Wz5Q6jXRl1G7h
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 281ec1cb-063f-4dc3-73dd-08d807179f73
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2020 17:08:51.4437 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ngp4rg255snAnSxxSi0QsHeCwStBgJ51iwQA0blsnWiIkKyhWbUltpbSq+TZCI4dfB6XMn1onSQchoAR9VGD9hV5k2cYJkwyno5toQKvyIE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5302
-Received-SPF: pass client-ip=40.107.7.102;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 13:08:52
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001, T_DKIM_INVALID=0.01,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,196 +90,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V . Lunev" <den@openvz.org>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-02.06.2020 20:01, Vladimir Sementsov-Ogievskiy wrote:
-> 02.06.2020 19:38, Max Reitz wrote:
->> On 02.06.20 18:16, Vladimir Sementsov-Ogievskiy wrote:
->>> 02.06.2020 18:46, Max Reitz wrote:
->>>> On 02.06.20 16:43, Vladimir Sementsov-Ogievskiy wrote:
->>>>> 01.11.2019 18:25, Max Reitz wrote:
->>>>>
->>>>> Sorry for being late, I have some comments
->>>>
->>>> Uh, well.† Reasonable, but I hope you donít mind me having no longer
->>>> having this patch fresh on my mind.
->>>>
->>>>>> The XFS kernel driver has a bug that may cause data corruption for
->>>>>> qcow2
->>>>>> images as of qemu commit c8bb23cbdbe32f.† We can work around it by
->>>>>> treating post-EOF fallocates as serializing up until infinity
->>>>>> (INT64_MAX
->>>>>> in practice).
->>>>>>
->>>>>> Cc: qemu-stable@nongnu.org
->>>>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>>>>> ---
->>>>>> ††† block/file-posix.c | 36 ++++++++++++++++++++++++++++++++++++
->>>>>> ††† 1 file changed, 36 insertions(+)
->>>>>>
->>>>>> diff --git a/block/file-posix.c b/block/file-posix.c
->>>>>> index 0b7e904d48..1f0f61a02b 100644
->>>>>> --- a/block/file-posix.c
->>>>>> +++ b/block/file-posix.c
->>>>>> @@ -2721,6 +2721,42 @@ raw_do_pwrite_zeroes(BlockDriverState *bs,
->>>>>> int64_t offset, int bytes,
->>>>>> ††††††† RawPosixAIOData acb;
->>>>>> ††††††† ThreadPoolFunc *handler;
->>>>>> ††† +#ifdef CONFIG_FALLOCATE
->>>>>> +††† if (offset + bytes > bs->total_sectors * BDRV_SECTOR_SIZE) {
->>>>>> +††††††† BdrvTrackedRequest *req;
->>>>>> +††††††† uint64_t end;
->>>>>> +
->>>>>> +††††††† /*
->>>>>> +†††††††† * This is a workaround for a bug in the Linux XFS driver,
->>>>>> +†††††††† * where writes submitted through the AIO interface will be
->>>>>> +†††††††† * discarded if they happen beyond a concurrently running
->>>>>> +†††††††† * fallocate() that increases the file length (i.e., both the
->>>>>> +†††††††† * write and the fallocate() happen beyond the EOF).
->>>>>> +†††††††† *
->>>>>> +†††††††† * To work around it, we extend the tracked request for this
->>>>>> +†††††††† * zero write until INT64_MAX (effectively infinity), and mark
->>>>>> +†††††††† * it as serializing.
->>>>>> +†††††††† *
->>>>>> +†††††††† * We have to enable this workaround for all filesystems and
->>>>>> +†††††††† * AIO modes (not just XFS with aio=native), because for
->>>>>> +†††††††† * remote filesystems we do not know the host configuration.
->>>>>> +†††††††† */
->>>>>> +
->>>>>> +††††††† req = bdrv_co_get_self_request(bs);
->>>>>> +††††††† assert(req);
->>>>>> +††††††† assert(req->type == BDRV_TRACKED_WRITE);
->>>>>> +††††††† assert(req->offset <= offset);
->>>>>> +††††††† assert(req->offset + req->bytes >= offset + bytes);
->>>>>
->>>>> Why these assertions?
->>>>
->>>> Mostly to see that bdrv_co_get_self_request() (introduced by the same
->>>> series) actually got the right request.† (I suppose.)
->>>>
->>>>> TrackedRequest offset and bytes fields correspond
->>>>> to the original request. When request is being expanded to satisfy
->>>>> request_alignment, these fields are not updated.
->>>>
->>>> Well, shrunk in this case, but OK.
->>>>
->>>>> So, maybe, we should assert overlap_offset and overlap_bytes?
->>>>
->>>> Maybe, but would that have any benefit?† Especially after this patch
->>>> having been in qemu for over half a year?
->>>>
->>>> (Also, intuitively off the top of my head I donít see how it would make
->>>> more sense to check overlap_offset and overlap_bytes, if all the
->>>> assertions are for is to see that we got the right request.
->>>> overlap_offset and overlap_bytes may still not exactly match @offset or
->>>> @bytes, respectively.)
->>>>
->>>> Your suggestion makes it sound a bit like you have a different purpose
->>>> in mind what these assertions might be useful for...?
->>>
->>> No I just think it may have false-positives, when actual request is larger
->>> than original.
->>
->> Seems like a bug.† Why would we zero more than originally requested?
+On 6/2/20 9:49 AM, Alex Benn√©e wrote:
+> There is no particular reason why you can't have a watchpoint in TCG
+> that covers a large chunk of the address space. We could be clever
+> about it but these cases are pretty rare and we can assume the user
+> will expect a little performance degradation.
 > 
-> Hmm, you are right, seems it's not possible. We may expand the request to do COW,
-> but it will never produce write-zero request larger than original one.
+> NB: In my testing gdb will silently squash a watchpoint like:
 > 
-> (I really tried to reproduce to understand it :)
+>   watch (char[0x7fffffffff]) *0x0
 > 
->>
->>> So offset may be < req->offset and req->offset +
->>> req->bytes may be
->>> less than offset + bytes. And we will crash. I should make a reproducer to
->>> prove it, but it seems possible.
->>
->> Iím definitely curious.
->>
->>>>>> +
->>>>>> +††††††† end = INT64_MAX & -(uint64_t)bs->bl.request_alignment;
->>>>>> +††††††† req->bytes = end - req->offset;
->>>>>
->>>>> And I doubt that we should update req->bytes. We never updated it in
->>>>> other places, it corresponds to original request. It's enough to update
->>>>> overlap_bytes to achieve corresponding serialising.
->>>>
->>>> Does it hurt?† If so, would you send a patch?
->>>>
->>>> I assume you reply to this patch instead of writing a patch because you
->>>> have the same feeling of ìIt probably doesnít really matter, so letís
->>>> have a discussion firstî.
->>>
->>> 1. yes, and
->>> 2. I probably don't see the full picture around tracked requests
->>
->> Neither do I, thatís for sure.
->>
->>>> My stance is: I donít think it matters and this whole piece of code is a
->>>> hack that shouldnít exist, obviously.† So I donít really care how it
->>>> fits into all of our other code.
->>>>
->>>> I would like to say I wouldnít mind a patch to drop the req->bytes
->>>> assignment, but OTOH it would mean Iíd have to review it and verify that
->>>> itís indeed sufficient to set overlap_bytes.
->>>>
->>>> If itís in any way inconvenient for you that req->bytes is adjusted,
->>>> then of course please send one.
->>>>
->>>>>> +††††††† req->overlap_bytes = req->bytes;
->>>>>> +
->>>>>> +††††††† bdrv_mark_request_serialising(req, bs->bl.request_alignment);
->>>>>
->>>>> Not sure, how much should we care about request_alignment here, I think,
->>>>> it's enough to just set req->overlap_bytes = INT64_MAX -
->>>>> req->overlap_offest, but it doesn't really matter.
->>>>
->>>> As long as req->bytes is adjusted, we have to care, or the overlap_bytes
->>>> calculation in bdrv_mark_request_serialising will overflow.
->>>>
->>>> Well, one could argue that it doesnít matter because the MAX() will
->>>> still do the right thing, but overflowing is never nice.
->>>
->>> Hmm I think, if reduce it to just INT64_MAX, we should pass 1 as align
->>> to bdrv_mark_request_serialising.
->>
->> True.
->>
->>>> (Of course, it probably doesnít matter at all if we just wouldnít touch
->>>> req->bytes.)
->>>>
->>>
->>> OK, thanks for the answer, I'll prepare a patch.
->>
->> OK?† Iím not sure where the benefit is (apart from the perhaps failing
->> assertions).† So it still looks to me like putting too much energy into
->> a hack.
->>
+> to a 4 byte watchpoint. Practically it will limit the maximum size
+> based on max-value-size. However given enough of a tweak the sky is
+> the limit.
+> 
+> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> Signed-off-by: Alex Benn√©e <alex.bennee@linaro.org>
+> ---
+>  exec.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/exec.c b/exec.c
+> index 5162f0d12f9..851ac180fe7 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -1056,7 +1056,11 @@ int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+>          QTAILQ_INSERT_TAIL(&cpu->watchpoints, wp, entry);
+>      }
+>  
+> -    tlb_flush_page(cpu, addr);
+> +    if (((addr + len) & TARGET_PAGE_MASK) != (addr & TARGET_PAGE_MASK)) {
 
-Yes, now when I see that assertions should not fail I don't want to care
-more neither send a patch :)
+This computation will be false when adding a watchpoint for the last len bytes
+in the page, and no actual page crossing is required.  For this reason I prefer
 
->> (I think the original reason I set both req->bytes and
->> req->overlap_bytes was actually because I just wanted to be sure, and
->> didnít want to have to look too hard whether either would be sufficient.)
->>
->> ((Please also note that I canít guarantee I will review your patch in a
->> timely manner, for one thing because I can already rarely give that
->> promise (as you are probably painfully aware...); and now thereís also
->> two weeks of mail on top for me to wade through after PTO.† So if
->> thereís no reason to change anything apart from saving two LoC, well.
->> Failing assertions are a different matter altogether, though, of course.))
->>
->> Max
->>
-> 
-> 
+    in_page = -(addr | TARGET_PAGE_MASK);
+    if (len <= in_page)
 
 
--- 
-Best regards,
-Vladimir
+r~
+
+> +        tlb_flush(cpu);
+> +    } else {
+> +        tlb_flush_page(cpu, addr);
+> +    }
+>  
+>      if (watchpoint)
+>          *watchpoint = wp;
+> 
+
 
