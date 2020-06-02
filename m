@@ -2,102 +2,148 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE661EC037
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 18:39:57 +0200 (CEST)
-Received: from localhost ([::1]:43362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D97B71EC04C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 18:46:28 +0200 (CEST)
+Received: from localhost ([::1]:50318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jg9xE-0000L8-Lb
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 12:39:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36736)
+	id 1jgA3X-0004bh-SR
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 12:46:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jg9w1-00086L-U7
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 12:38:41 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27140
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgA1M-000291-Gd
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 12:44:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54884
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jg9w0-0001wU-9d
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 12:38:41 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgA1L-0003Td-KU
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 12:44:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591115918;
+ s=mimecast20190719; t=1591116250;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=p+CSE2ul/8zMqOPGR4sRWHLHclTMwPXudGJTbwnSqCc=;
- b=TAv2G5jZbnWM3wtHuBfi+m8PhGt4IgMiRKqPglwlfnfvhvqrvJIvFuzmx95tFdOmCs6q1N
- jEfL2TniwpUlFXnO0R+kdRV8n5bwSaPoqVRyLurNbD++o9PSGW75WZxJODCgNbgVIMnNus
- quomtPFwW6K25rh3ysyx1rmQtZ9seuk=
+ bh=7zks8Pg2USUyBWa/KTgyij6tgPSnSQcS7T1di8GfPDQ=;
+ b=Y4BnyUy5MVUOzBVLG+rwyxwguwHJaD+LVT3AkurB/hooxQl/K37fIpx6zhvR68hMTmIqLg
+ fE+pfeb9GjXUXpVk9WJlZFCfOypTaWDHbJBmXl52V9y+28mImy34y7kByzzS/NZCxWuY4p
+ sDwMoqga6jkgCGEH+0DIPuIgHCza95E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-PfsYgSDtOROZcCsZcpZZAQ-1; Tue, 02 Jun 2020 12:38:36 -0400
-X-MC-Unique: PfsYgSDtOROZcCsZcpZZAQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-256-xbyUlNbYNpWSvGn-PARHlg-1; Tue, 02 Jun 2020 12:44:08 -0400
+X-MC-Unique: xbyUlNbYNpWSvGn-PARHlg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2060461;
- Tue,  2 Jun 2020 16:38:34 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-81.ams2.redhat.com
- [10.36.114.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D8917E7E6;
- Tue,  2 Jun 2020 16:38:29 +0000 (UTC)
-Subject: Re: [PATCH for-4.2 v2 3/3] block/file-posix: Let post-EOF fallocate
- serialize
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20191101152510.11719-1-mreitz@redhat.com>
- <20191101152510.11719-4-mreitz@redhat.com>
- <dfe5fbff-ce04-504e-542b-11095a57fd78@virtuozzo.com>
- <50115120-9d1a-79f7-64f4-cd45508c0e7c@redhat.com>
- <19babc97-3cc9-e924-ef0b-cca3c8cefcae@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <562a7703-184c-36b6-3b9e-da5fcb3b9174@redhat.com>
-Date: Tue, 2 Jun 2020 18:38:27 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BD7C100CCD7;
+ Tue,  2 Jun 2020 16:44:07 +0000 (UTC)
+Received: from [10.10.112.142] (ovpn-112-142.rdu2.redhat.com [10.10.112.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 42BCD6116F;
+ Tue,  2 Jun 2020 16:44:04 +0000 (UTC)
+Subject: Re: [PATCH RFC 01/32] python/qemu: create qemu.lib module
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20200514055403.18902-1-jsnow@redhat.com>
+ <20200514055403.18902-2-jsnow@redhat.com>
+ <20200602100837.GA5940@linux.fritz.box>
+From: John Snow <jsnow@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <864d1ab3-3f57-1d10-1f46-19cd7856d99a@redhat.com>
+Date: Tue, 2 Jun 2020 12:44:03 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <19babc97-3cc9-e924-ef0b-cca3c8cefcae@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20200602100837.GA5940@linux.fritz.box>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="QyEbfyiQGRfR2Kl6LG7rW3uJCx6esIMo2"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 03:23:32
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 06:26:55
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,231 +156,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V . Lunev" <den@openvz.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---QyEbfyiQGRfR2Kl6LG7rW3uJCx6esIMo2
-Content-Type: multipart/mixed; boundary="ST76PPKWyA71gXNva10g5Do9ovM8cVJ22"
 
---ST76PPKWyA71gXNva10g5Do9ovM8cVJ22
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
 
-On 02.06.20 18:16, Vladimir Sementsov-Ogievskiy wrote:
-> 02.06.2020 18:46, Max Reitz wrote:
->> On 02.06.20 16:43, Vladimir Sementsov-Ogievskiy wrote:
->>> 01.11.2019 18:25, Max Reitz wrote:
->>>
->>> Sorry for being late, I have some comments
+On 6/2/20 6:08 AM, Kevin Wolf wrote:
+> Am 14.05.2020 um 07:53 hat John Snow geschrieben:
+>> move python/qemu/*.py to python/qemu/lib/*.py.
 >>
->> Uh, well.=A0 Reasonable, but I hope you don=92t mind me having no longer
->> having this patch fresh on my mind.
+>> To create a namespace package, the 'qemu' directory itself shouldn't
+>> have module files in it. Thus, these files will go under a 'lib' package
+>> directory instead.
 >>
->>>> The XFS kernel driver has a bug that may cause data corruption for
->>>> qcow2
->>>> images as of qemu commit c8bb23cbdbe32f.=A0 We can work around it by
->>>> treating post-EOF fallocates as serializing up until infinity
->>>> (INT64_MAX
->>>> in practice).
->>>>
->>>> Cc: qemu-stable@nongnu.org
->>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>>> ---
->>>> =A0=A0 block/file-posix.c | 36 ++++++++++++++++++++++++++++++++++++
->>>> =A0=A0 1 file changed, 36 insertions(+)
->>>>
->>>> diff --git a/block/file-posix.c b/block/file-posix.c
->>>> index 0b7e904d48..1f0f61a02b 100644
->>>> --- a/block/file-posix.c
->>>> +++ b/block/file-posix.c
->>>> @@ -2721,6 +2721,42 @@ raw_do_pwrite_zeroes(BlockDriverState *bs,
->>>> int64_t offset, int bytes,
->>>> =A0=A0=A0=A0=A0=A0 RawPosixAIOData acb;
->>>> =A0=A0=A0=A0=A0=A0 ThreadPoolFunc *handler;
->>>> =A0=A0 +#ifdef CONFIG_FALLOCATE
->>>> +=A0=A0=A0 if (offset + bytes > bs->total_sectors * BDRV_SECTOR_SIZE) =
-{
->>>> +=A0=A0=A0=A0=A0=A0=A0 BdrvTrackedRequest *req;
->>>> +=A0=A0=A0=A0=A0=A0=A0 uint64_t end;
->>>> +
->>>> +=A0=A0=A0=A0=A0=A0=A0 /*
->>>> +=A0=A0=A0=A0=A0=A0=A0=A0 * This is a workaround for a bug in the Linu=
-x XFS driver,
->>>> +=A0=A0=A0=A0=A0=A0=A0=A0 * where writes submitted through the AIO int=
-erface will be
->>>> +=A0=A0=A0=A0=A0=A0=A0=A0 * discarded if they happen beyond a concurre=
-ntly running
->>>> +=A0=A0=A0=A0=A0=A0=A0=A0 * fallocate() that increases the file length=
- (i.e., both the
->>>> +=A0=A0=A0=A0=A0=A0=A0=A0 * write and the fallocate() happen beyond th=
-e EOF).
->>>> +=A0=A0=A0=A0=A0=A0=A0=A0 *
->>>> +=A0=A0=A0=A0=A0=A0=A0=A0 * To work around it, we extend the tracked r=
-equest for this
->>>> +=A0=A0=A0=A0=A0=A0=A0=A0 * zero write until INT64_MAX (effectively in=
-finity), and mark
->>>> +=A0=A0=A0=A0=A0=A0=A0=A0 * it as serializing.
->>>> +=A0=A0=A0=A0=A0=A0=A0=A0 *
->>>> +=A0=A0=A0=A0=A0=A0=A0=A0 * We have to enable this workaround for all =
-filesystems and
->>>> +=A0=A0=A0=A0=A0=A0=A0=A0 * AIO modes (not just XFS with aio=3Dnative)=
-, because for
->>>> +=A0=A0=A0=A0=A0=A0=A0=A0 * remote filesystems we do not know the host=
- configuration.
->>>> +=A0=A0=A0=A0=A0=A0=A0=A0 */
->>>> +
->>>> +=A0=A0=A0=A0=A0=A0=A0 req =3D bdrv_co_get_self_request(bs);
->>>> +=A0=A0=A0=A0=A0=A0=A0 assert(req);
->>>> +=A0=A0=A0=A0=A0=A0=A0 assert(req->type =3D=3D BDRV_TRACKED_WRITE);
->>>> +=A0=A0=A0=A0=A0=A0=A0 assert(req->offset <=3D offset);
->>>> +=A0=A0=A0=A0=A0=A0=A0 assert(req->offset + req->bytes >=3D offset + b=
-ytes);
->>>
->>> Why these assertions?
+>> Bolster the lib/__init__.py file a little bit, Make the top-level
+>> classes and functions available directly inside the `qemu.lib`
+>> namespace, to facilitate a convenient shorthand:
 >>
->> Mostly to see that bdrv_co_get_self_request() (introduced by the same
->> series) actually got the right request.=A0 (I suppose.)
+>>> from qemu.lib import QEMUQtestMachine, QEMUMonitorProtocol
 >>
->>> TrackedRequest offset and bytes fields correspond
->>> to the original request. When request is being expanded to satisfy
->>> request_alignment, these fields are not updated.
+>> Lastly, update all of the existing import directives.
 >>
->> Well, shrunk in this case, but OK.
+>> (Note: these scripts were not necessarily tested to see if they still
+>> work. Some of these scripts are in obvious states of disrepair and it is
+>> beyond the scope of this patch to attempt to fix them.)
 >>
->>> So, maybe, we should assert overlap_offset and overlap_bytes?
->>
->> Maybe, but would that have any benefit?=A0 Especially after this patch
->> having been in qemu for over half a year?
->>
->> (Also, intuitively off the top of my head I don=92t see how it would mak=
-e
->> more sense to check overlap_offset and overlap_bytes, if all the
->> assertions are for is to see that we got the right request.
->> overlap_offset and overlap_bytes may still not exactly match @offset or
->> @bytes, respectively.)
->>
->> Your suggestion makes it sound a bit like you have a different purpose
->> in mind what these assertions might be useful for...?
->=20
-> No I just think it may have false-positives, when actual request is large=
-r
-> than original.
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>  python/qemu/__init__.py                   | 11 -----
+> 
+> When trying to reproduce your mypy problem, I was wondering why mypy was
+> complaining that it couldn't find qemu.lib. The reason is that removing
+> __init__.py from qemu means it's not a valid module any more. If I
+> recreate it locally, mypy stops complaining.
+> 
+> So I think we need to leave this file here.
+> 
+> Kevin
+> 
 
-Seems like a bug.  Why would we zero more than originally requested?
+Depends. You'll want --namespace-packages to parse a PEP420 namespace.
 
-> So offset may be < req->offset and req->offset +
-> req->bytes may be
-> less than offset + bytes. And we will crash. I should make a reproducer t=
-o
-> prove it, but it seems possible.
+(It's not a given we definitely want a PEP420 namespace, but that's what
+I created here.)
 
-I=92m definitely curious.
-
->>>> +
->>>> +=A0=A0=A0=A0=A0=A0=A0 end =3D INT64_MAX & -(uint64_t)bs->bl.request_a=
-lignment;
->>>> +=A0=A0=A0=A0=A0=A0=A0 req->bytes =3D end - req->offset;
->>>
->>> And I doubt that we should update req->bytes. We never updated it in
->>> other places, it corresponds to original request. It's enough to update
->>> overlap_bytes to achieve corresponding serialising.
->>
->> Does it hurt?=A0 If so, would you send a patch?
->>
->> I assume you reply to this patch instead of writing a patch because you
->> have the same feeling of =93It probably doesn=92t really matter, so let=
-=92s
->> have a discussion first=94.
->=20
-> 1. yes, and
-> 2. I probably don't see the full picture around tracked requests
-
-Neither do I, that=92s for sure.
-
->> My stance is: I don=92t think it matters and this whole piece of code is=
- a
->> hack that shouldn=92t exist, obviously.=A0 So I don=92t really care how =
-it
->> fits into all of our other code.
->>
->> I would like to say I wouldn=92t mind a patch to drop the req->bytes
->> assignment, but OTOH it would mean I=92d have to review it and verify th=
-at
->> it=92s indeed sufficient to set overlap_bytes.
->>
->> If it=92s in any way inconvenient for you that req->bytes is adjusted,
->> then of course please send one.
->>
->>>> +=A0=A0=A0=A0=A0=A0=A0 req->overlap_bytes =3D req->bytes;
->>>> +
->>>> +=A0=A0=A0=A0=A0=A0=A0 bdrv_mark_request_serialising(req, bs->bl.reque=
-st_alignment);
->>>
->>> Not sure, how much should we care about request_alignment here, I think=
-,
->>> it's enough to just set req->overlap_bytes =3D INT64_MAX -
->>> req->overlap_offest, but it doesn't really matter.
->>
->> As long as req->bytes is adjusted, we have to care, or the overlap_bytes
->> calculation in bdrv_mark_request_serialising will overflow.
->>
->> Well, one could argue that it doesn=92t matter because the MAX() will
->> still do the right thing, but overflowing is never nice.
->=20
-> Hmm I think, if reduce it to just INT64_MAX, we should pass 1 as align
-> to bdrv_mark_request_serialising.
-
-True.
-
->> (Of course, it probably doesn=92t matter at all if we just wouldn=92t to=
-uch
->> req->bytes.)
->>
->=20
-> OK, thanks for the answer, I'll prepare a patch.
-
-OK?  I=92m not sure where the benefit is (apart from the perhaps failing
-assertions).  So it still looks to me like putting too much energy into
-a hack.
-
-(I think the original reason I set both req->bytes and
-req->overlap_bytes was actually because I just wanted to be sure, and
-didn=92t want to have to look too hard whether either would be sufficient.)
-
-((Please also note that I can=92t guarantee I will review your patch in a
-timely manner, for one thing because I can already rarely give that
-promise (as you are probably painfully aware...); and now there=92s also
-two weeks of mail on top for me to wade through after PTO.  So if
-there=92s no reason to change anything apart from saving two LoC, well.
-Failing assertions are a different matter altogether, though, of course.))
-
-Max
-
-
---ST76PPKWyA71gXNva10g5Do9ovM8cVJ22--
-
---QyEbfyiQGRfR2Kl6LG7rW3uJCx6esIMo2
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl7WgIMACgkQ9AfbAGHV
-z0Aaagf9G9GPV4BGaomISINtu8QzLxJyT/2Tt9VvuKNVG1AJUKlPYuoXFkmEwyxE
-SwVfGitgo4Dvx5p/gS8FFk4bhkaUPGudaABoZiLrQqmlmPh0cFq3tf4OjBvklh8O
-RJnxZLmLgrTlu4Fi/c20Jrmx1QnVMaWeGspny/l2a/FTwVfOBB1xjnkO8Q1cNh5I
-tPSgQ7A2zXCqsKpsuiiAQB08lqdAR+YnhG1Aum4KolKfwHdU+XXOGzpAhvmrEzlQ
-mXYww540vGVgNX+t4PgAzuNKxGk22QoMVMWa3K/+VIZ06mOKv4HySksZLyOFWcv1
-f9ktXR2gj8HisholrX84tr/OCE7Yjw==
-=mMY7
------END PGP SIGNATURE-----
-
---QyEbfyiQGRfR2Kl6LG7rW3uJCx6esIMo2--
+--js
 
 
