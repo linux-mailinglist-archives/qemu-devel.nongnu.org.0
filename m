@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 731621EC170
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 19:53:27 +0200 (CEST)
-Received: from localhost ([::1]:60050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F621EC194
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 20:04:11 +0200 (CEST)
+Received: from localhost ([::1]:41788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgB6M-0002Nj-0i
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 13:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46846)
+	id 1jgBGj-0007gV-RA
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 14:04:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jgB5J-0001U1-PI
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:52:21 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29282
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jgB5I-0000Fd-FG
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:52:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591120339;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=URgOspDtaF5Lg52G4wR8tB6sjeqRqyEK+U8R2hZLan4=;
- b=KqRreJtk+qWsQ/MnOMRPUFjaxU+puZDIWSvOwCg8Gw91JbPXD7dz98atc7P5YjZDMSlb1E
- tuqBNFPx3HwuJWcmFApf/x/Q7E+hOfHSNNak86A9ZnSx4UKh3GbvMM6Lx92+mIol5eXtvx
- KjtIBsInLBD/8z9mT2dS8RkE0lBerXQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-A4xhvWFMOUS5cvkMeNxwzw-1; Tue, 02 Jun 2020 13:52:17 -0400
-X-MC-Unique: A4xhvWFMOUS5cvkMeNxwzw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68B4E872FE2;
- Tue,  2 Jun 2020 17:52:16 +0000 (UTC)
-Received: from localhost (ovpn-113-102.phx2.redhat.com [10.3.113.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2032278EF6;
- Tue,  2 Jun 2020 17:52:12 +0000 (UTC)
-Date: Tue, 2 Jun 2020 13:52:12 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Babu Moger <babu.moger@amd.com>
-Subject: Re: [PATCH v13 1/5] i386: Add support for CPUID_8000_001E for AMD
-Message-ID: <20200602175212.GH577771@habkost.net>
-References: <1528498581-131037-1-git-send-email-babu.moger@amd.com>
- <1528498581-131037-2-git-send-email-babu.moger@amd.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jgBFt-0007Bd-FM; Tue, 02 Jun 2020 14:03:17 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:33161)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jgBFs-0003MK-74; Tue, 02 Jun 2020 14:03:17 -0400
+Received: by mail-io1-xd41.google.com with SMTP id k18so11850838ion.0;
+ Tue, 02 Jun 2020 11:03:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Tot7BqAZgE26wisKNZH8IiM145nTTs7/T+hwQ7OlKjE=;
+ b=rqeEW7pc9xcjTf1gLFxidKjq06VJj0Ds3D+Y+Qk+tLHMQrtHn0IbQxl32sgr5G4JVU
+ 1Wb40DE/oggs0nG2+tnxy6fwAHA4JXniQXJAbeVoyuOmbpxTYOhARzTnInwlaPz6KSM0
+ IRNDulMffiLOl/2/3Eh7IFTSxzkQJ+v1xlMIBVU8QBndXcCjtxipbnyzG8f2dYnN0X7r
+ JyZ29EmUcKcZ33JfZ8F11dhVLXVkXMrocNCPYgnfl2f/bz325LIRD07cl69aJxOpRJIy
+ D1jjAsnvrvMYrv4OUtlV1woOJnKqsMOXYNCPgtZEGzwAWsdIXkVRIs7dJEzLsRAT1F/x
+ C/pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Tot7BqAZgE26wisKNZH8IiM145nTTs7/T+hwQ7OlKjE=;
+ b=FiLI4vwk9gvgyU4LBhiXAJ7Q2p05ui0LQNIzsh9ZQRceDGYKQoWljcYLnErX756Yji
+ Zqt6QRoJl74MPeKSjHVGByI1DARBWK9SOYwau3QJwnRBE43zHKBPQfDaHVUEZqK3uuFB
+ 2iZJSJdxtoQa7VyIbuzOSjUU9EnjrJIeetetQPENcl8vRyfKukUwTJzA9CN4OuqCr1Lm
+ L7fgQ78q0lawCJHYRNxu7C3f0AaWIH7Y4GSKd04niE9neRJsSHLLmyZ+eXjj9pEokrSw
+ gbrLYv8AX2oR63TZg1Y6iT7d2WqnKek0v9rrXMeqjpObnq/aGMzBihm9ikhubPnR73rf
+ SwYQ==
+X-Gm-Message-State: AOAM533QJZFPL0eWu8SFeA/G0UIqasUzGTNb3tSqN946pj7T1gobuK/E
+ Y7ky2LAno59wb235VYU85Wk1QyoIU9y/mD0qABg=
+X-Google-Smtp-Source: ABdhPJxHEkWNFo1ROa44jo8Qwo2YrTPcqDCtdJdWDKukGul7jF6rmmEmZMVUwV4fIp+DO+n/WJva72EohPGu1FSEqn0=
+X-Received: by 2002:a6b:6a13:: with SMTP id x19mr458540iog.175.1591120994848; 
+ Tue, 02 Jun 2020 11:03:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1528498581-131037-2-git-send-email-babu.moger@amd.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/01 22:14:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <cover.1590704015.git.alistair.francis@wdc.com>
+ <73cce2d0edd0d41ba15df403a2096bfa70bf0565.1590704015.git.alistair.francis@wdc.com>
+ <cc1a1671-b926-bb31-1ed2-d2920f0faf38@c-sky.com>
+ <c9f16143-4e9b-a3a8-ffd3-12d43fd2e343@c-sky.com>
+In-Reply-To: <c9f16143-4e9b-a3a8-ffd3-12d43fd2e343@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 2 Jun 2020 10:54:05 -0700
+Message-ID: <CAKmqyKM6rigjbDoFh0bfq8gJXJ=+H+onh=DXjCzhAijMCvR16Q@mail.gmail.com>
+Subject: Re: [PATCH v5 07/11] hw/char: Initial commit of Ibex UART
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,54 +80,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: geoff@hostfission.com, kvm@vger.kernel.org, mst@redhat.com,
- kash@tripleback.net, mtosatti@redhat.com, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, pbonzini@redhat.com,
- rth@twiddle.net
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bmeng.cn@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 08, 2018 at 06:56:17PM -0400, Babu Moger wrote:
-> Add support for cpuid leaf CPUID_8000_001E. Build the config that closely
-> match the underlying hardware. Please refer to the Processor Programming
-> Reference (PPR) for AMD Family 17h Model for more details.
-> 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-[...]
-> +    case 0x8000001E:
-> +        assert(cpu->core_id <= 255);
+On Tue, Jun 2, 2020 at 5:28 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> Hi Alistair,
+>
+> There are still some questions I don't understand.
+>
+> 1. Is the baud rate  or fifo a necessary feature to simulate?
+> As you can see, qemu_chr_fe_write will send the byte as soon as possible.
+> When you want to transmit a byte through WDATA,  you can call
+> qemu_chr_fe_write directly.
 
-It is possible to trigger this assert using:
+So qemu_chr_fe_write() will send the data straight away. This doesn't
+match what teh hardware does though. So by modelling a FIFO and a
+delay in sending we can better match the hardware.
 
-$ qemu-system-x86_64 -machine q35,accel=kvm,kernel-irqchip=split -device intel-iommu,intremap=on,eim=on -smp 1,maxcpus=258,cores=258,threads=1,sockets=1 -cpu qemu64,xlevel=0x8000001e -device qemu64-x86_64-cpu,apic-id=257
-qemu-system-x86_64: warning: Number of hotpluggable cpus requested (258) exceeds the recommended cpus supported by KVM (240)
-qemu-system-x86_64: /home/ehabkost/rh/proj/virt/qemu/target/i386/cpu.c:5888: cpu_x86_cpuid: Assertion `cpu->core_id <= 255' failed.
-Aborted (core dumped)
+>
+> 2.  The baud rate calculation method is not strictly right.
+> I think when a byte write to FIFO,  char_tx_time * 8 is the correct time
+> to send the byte instead of
+> char_tx_time * 4.
 
-See bug report and discussion at
-https://bugzilla.redhat.com/show_bug.cgi?id=1834200
+Do you mind explaining why 8 is correct instead of 4?
 
-Also, it looks like encode_topo_cpuid8000001e() assumes core_id
-has only 3 bits, so the existing assert() is not even sufficient.
-We need to decide what to do if the user requests nr_cores > 8.
+>
+> 3.  Why add a watch here?
 
-Probably omitting CPUID[0x8000001E] if the VCPU topology is
-incompatible with encode_topo_cpuid8000001e() (and printing a
-warning) is the safest thing to do right now.
+This is based on the Cadence UART implementation in QEMU (which does
+the same thing). This will trigger a callback when we can write more
+data or when the backend has hung up.
 
+Alistair
 
-
-> +        encode_topo_cpuid8000001e(cs, cpu,
-> +                                  eax, ebx, ecx, edx);
-> +        break;
->      case 0xC0000000:
->          *eax = env->cpuid_xlevel2;
->          *ebx = 0;
-> -- 
-> 1.8.3.1
-> 
-
--- 
-Eduardo
-
+> > +        s->uart_status |= UART_STATUS_TXEMPTY;
+> > +        s->uart_intr_state |= INTR_STATE_TX_EMPTY;
+> > +        s->uart_intr_state &= ~INTR_STATE_TX_WATERMARK;
+> > +        ibex_uart_update_irqs(s);
+> > +        return FALSE;
+> > +    }
+> > +
+> > +    ret = qemu_chr_fe_write(&s->chr, s->tx_fifo, s->tx_level);
+> > +
+> > +    if (ret >= 0) {
+> > +        s->tx_level -= ret;
+> > +        memmove(s->tx_fifo, s->tx_fifo + ret, s->tx_level);
+> > +    }
+> > +
+> > +    if (s->tx_level) {
+> > +        guint r = qemu_chr_fe_add_watch(&s->chr, G_IO_OUT | G_IO_HUP,
+> > +                                        ibex_uart_xmit, s);
+> > +        if (!r) {
+> > +            s->tx_level = 0;
+> > +            return FALSE;
+> > +        }
+> > +    }
+> > +
+>
+> Zhiwei
+>
+>
 
