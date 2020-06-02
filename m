@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 342F31EC0D9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 19:20:38 +0200 (CEST)
-Received: from localhost ([::1]:47240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62F31EC0EC
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jun 2020 19:28:03 +0200 (CEST)
+Received: from localhost ([::1]:54280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgAab-0007Dd-AE
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 13:20:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42828)
+	id 1jgAhm-0002L7-TK
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 13:28:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chouteau@adacore.com>)
- id 1jgAZo-0006m2-1c
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:19:48 -0400
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:43687)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jgAgg-0001jB-10
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:26:54 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:41042)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chouteau@adacore.com>)
- id 1jgAZm-0002P8-VK
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:19:47 -0400
-Received: by mail-io1-xd2d.google.com with SMTP id h4so8376011iob.10
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 10:19:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=adacore-com.20150623.gappssmtp.com; s=20150623;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jgAgd-0004YL-KQ
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 13:26:52 -0400
+Received: by mail-oi1-x243.google.com with SMTP id a21so6343394oic.8
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 10:26:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=naT145SaWxXJx4cfmQmrA0LvsRtIewFrmKNYrZxFSgw=;
- b=gEjSSEus1xPNEmC3jti7++EKMhZAi12+HIuhH1hz6ekOz+sFWeaAyvhvUnlmuGxQAC
- 1wRtyBXdm+ztV52OsQPSZ8auNosyTTplHKA9IqeW9xJtHzILVFbgxoj2PZ3fGnJSCofI
- 8Omc53SgLmyVcGaiZopLRJ1Yj+aBkuhcR5OUNpmBmwNJglMIHXDEGkuYcJ092Gz63x9e
- VfmbBcL3lYAv8bkcqHdlMc6e4gpnhqj6kCkAqXa2YLzozPScyfWgdx9sfjVd04vorCrW
- +N6G/9ZTkKcYG08w7eC9OHhWPVUBs74ApYbQ4X+Alcvn02Emat9JJdnOHrBxtupNAVFH
- aSGw==
+ bh=L0leHX2ehTsHfJecJjDI6d8/S15qM5czrJL/+Mp4PQc=;
+ b=pBrmCf86ert2IW7q4ulJDj34QhGFE7S+GKLydo+X3jgkcNLWBfP1NeGCwWu1v2x3F3
+ qtA2h82hjVFs2pFjG1Lpdqv87vozdydQEGxba1ef+80Imacph1oK9Db2artnNBlJXn1X
+ gFPXAoezApTpksthUjXcmJvgu0gm183aYCA9Ct7GHy78vsSDHCLFZfzQCFq/8Sj6/+2U
+ j+U0v0xIVv7oV9ol9KNREjW3lGocsTtknlv95fWMgNsKfTXFmOyslcKh+ua3joqiKZXG
+ cdrcnm2Tz/bAjm/24cv0W7YAiZfaJgYiTFZeOgReTNzAsPK2hq0DUSVLlJep63BuK8Pu
+ qQ8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=naT145SaWxXJx4cfmQmrA0LvsRtIewFrmKNYrZxFSgw=;
- b=bPgL0tahQf8uCAQ5E79eTNQiYLJ4+GUWTT1r08thTZX7h7jWH8kVUd4qG1h/MpVyH2
- UgdHMkRW6HaNtb4ROZCFqq2v0gZXKrBQj59ZFBUPcck6b+v8o2LFZMmk57Qc1qmuM5mt
- hF4mvbzPzM1iLY+W79Ii5MwADdKxOfXhLXkw9V1BALTmNr8opUGOVCtfVmfPT+G8pDlM
- rWW3OhBvK15u0yRbVSVXGtKiRdj2XMzOG7v3+n23XXk8oan64JCbz8fIrflAamF6eo4T
- Ov/Bk/PQu+fC0ugTcmX65OkRcO8vOL7JAZBVGySdrhkZKCZhMw5VOVQSMPHGg1yHxcRB
- HmqA==
-X-Gm-Message-State: AOAM530WTooLNxqa0YYiZ3wC9dq32Kr5iptgdtyrUWk1DstrxGmDpFXf
- RDuTkeR8oqWB9IGqTwhmvEbOpMH7oWbvC4uAq158Yw==
-X-Google-Smtp-Source: ABdhPJxr4NbeJ+k7h02ednpn5Kyhs3cTSsv4is9cm9d1bn0PzSbbtPFPz1N2EvIb3tXoZhZ5y43k6zkYCI1qFiCcevY=
-X-Received: by 2002:a05:6638:d05:: with SMTP id
- q5mr25647189jaj.2.1591118385795; 
- Tue, 02 Jun 2020 10:19:45 -0700 (PDT)
+ bh=L0leHX2ehTsHfJecJjDI6d8/S15qM5czrJL/+Mp4PQc=;
+ b=bbqq6JZhvtXQqb4ga8zwGdeluJcRddHlLvPI/pvcpC4DKbS0BDtO+j6oiDvqlnt1sF
+ i4Uu5femHDU/lh8Z0sQVaYvsBYqL+OBf+5egycEbq7SIW+t9Y50tABxo62JxE6bITJDM
+ CUnAQECRrV8cvl0p2n6lVSZMWCiU5lCeM9ipaXtbaNIlq3ftN3HMcCI6SI61gn9+qZHv
+ 976jbV+57dge8YkkDY6XdTgYzKl//G3TqqDA/UKDmnvmNKlW4YgUGPJu6YSARlsHkhmw
+ rcufNtjGLy61JZotPa79WwOueb+MMw8RkrKwcknVJ6w6FEseGiXhiKQDJLHNxrSv5PsL
+ DJ4w==
+X-Gm-Message-State: AOAM531aIBbcJc7hQN9w3Ae1+e8LuNBTC+1pM1XjHPnhgywOb4XzF71w
+ HIZm4QdZxf9ZofA1Jm9LpXqKdueAtfkAtJo/DdTTGw==
+X-Google-Smtp-Source: ABdhPJyyDwgVE1a1khAUFLiXZgSR76k7E6dKTSpgW+tg8jgUUoMjwr9VhWj2I7P4AuPu4vCziPErarCsk63+nGzql9k=
+X-Received: by 2002:aca:5152:: with SMTP id f79mr3561939oib.146.1591118808614; 
+ Tue, 02 Jun 2020 10:26:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <CALQG_Wh7eMt9U3gWkZZGDq0RFvWfuSVoiNBRNnPS_cDVfUc30w@mail.gmail.com>
  <CAFEAcA_1+rDcjD7Lyk9ESSkPAKmJwF=0ZdwkgQYUDp8Gtn6jHA@mail.gmail.com>
-In-Reply-To: <CAFEAcA_1+rDcjD7Lyk9ESSkPAKmJwF=0ZdwkgQYUDp8Gtn6jHA@mail.gmail.com>
-From: Fabien Chouteau <chouteau@adacore.com>
-Date: Tue, 2 Jun 2020 19:19:35 +0200
-Message-ID: <CALQG_WgP=ZebEMrXh_EpQJXqJPi48i6nwZU_yWq7VqhV_=eTVQ@mail.gmail.com>
+ <CALQG_WgP=ZebEMrXh_EpQJXqJPi48i6nwZU_yWq7VqhV_=eTVQ@mail.gmail.com>
+In-Reply-To: <CALQG_WgP=ZebEMrXh_EpQJXqJPi48i6nwZU_yWq7VqhV_=eTVQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Jun 2020 18:26:37 +0100
+Message-ID: <CAFEAcA_iW_0jTk=9hCh+UatyhY_HFgzmZeSxqqyUCH19Vv1jCA@mail.gmail.com>
 Subject: Re: gdbstub.c CPU clusters not handled for ThreadInfo packets
-To: Peter Maydell <peter.maydell@linaro.org>
+To: Fabien Chouteau <chouteau@adacore.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=chouteau@adacore.com; helo=mail-io1-xd2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,37 +88,55 @@ Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thank you Peter,
-
-Le mar. 2 juin 2020 =C3=A0 18:44, Peter Maydell <peter.maydell@linaro.org> =
-a =C3=A9crit :
+On Tue, 2 Jun 2020 at 18:19, Fabien Chouteau <chouteau@adacore.com> wrote:
+> Le mar. 2 juin 2020 =C3=A0 18:44, Peter Maydell <peter.maydell@linaro.org=
+> a =C3=A9crit :
+> >
+> > By default gdb does not attach to all clusters (this is IIRC something
+> > that can't
+> > be influenced on the QEMU end);
 >
-> By default gdb does not attach to all clusters (this is IIRC something
-> that can't
-> be influenced on the QEMU end);
+> You mean I cannot have QEMU attach all clusters by default?
 
-You mean I cannot have QEMU attach all clusters by default?
+I mean that the end of the gdb remote protocol connection that
+decides what to attach to is gdb, not QEMU. In theory gdb could
+be improved to automatically attach to all available inferiors,
+or the remote protocol could be improved to allow the QEMU end
+to say "I recommend you attach to inferiors X, Y and Z". But
+at the moment that doesn't exist so the best you can do I suspect
+is going to be to script gdb to do the attaching without you
+having to type the commands yourself.
 
-> are you explicitly asking it to attach to the second cluster?
+> > are you explicitly asking it to attach to the second cluster?
+>
+> So far the behavior that we had was to see all the CPUs without asking
+> explicitly.
+> I want to go back to that behavior because the current situation is a
+> huge drawback for our users.
 
-So far the behavior that we had was to see all the CPUs without asking
-explicitly.
-I want to go back to that behavior because the current situation is a
-huge drawback for our users.
+That works when there's only one cluster. When there's multiple
+clusters, by default gdb will show you all the CPUs in the first
+cluster. Would the behaviour be better if the other cluster in
+this machine was the first (default) one?
 
-> https://lists.nongnu.org/archive/html/qemu-devel/2020-01/msg07035.html
-> is a mailing list post from January which gives the gdb commands which
-> ought to cause it to attach to the second cluster on this machine.
+> > https://lists.nongnu.org/archive/html/qemu-devel/2020-01/msg07035.html
+> > is a mailing list post from January which gives the gdb commands which
+> > ought to cause it to attach to the second cluster on this machine.
+>
+> The commands:
+>         target extended-remote :1234
+>         add-inferior
+>         inferior 2
+>         attach 2
+>         set schedule-multiple
+>         info threads
+>
+> Do not work for me, "attach 2" in GDB asks me to kill the debugged progra=
+m.
 
-The commands:
-        target extended-remote :1234
-        add-inferior
-        inferior 2
-        attach 2
-        set schedule-multiple
-        info threads
+Hmm. That's the behavior for 'target remote' but 'target extended-remote'
+ought to support multiple inferiors. What gdb version is this?
 
-Do not work for me, "attach 2" in GDB asks me to kill the debugged program.
-
-Thanks for your help,
+thanks
+-- PMM
 
