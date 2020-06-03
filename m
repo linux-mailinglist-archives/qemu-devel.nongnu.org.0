@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7723F1ED459
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 18:29:04 +0200 (CEST)
-Received: from localhost ([::1]:56224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F3A1ED44B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 18:26:13 +0200 (CEST)
+Received: from localhost ([::1]:48050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgWGF-00080Z-Fr
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 12:29:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46942)
+	id 1jgWDU-0004Ah-94
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 12:26:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=416cc4bc0=alistair.francis@wdc.com>)
- id 1jgWAE-0007fJ-1y
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:50 -0400
+ id 1jgWAF-0007ge-7o
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:51 -0400
 Received: from esa3.hgst.iphmx.com ([216.71.153.141]:49275)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=416cc4bc0=alistair.francis@wdc.com>)
- id 1jgWA9-00060l-07
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:49 -0400
+ id 1jgWAE-00060l-6z
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1591201365; x=1622737365;
+ t=1591201370; x=1622737370;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Fhc/PEMZMN4A6kCgXybLzUY3iXO9Ks3M99zkjxMv3/M=;
- b=eDq0I1oQcWMP/2zIkB9o0B9Tw0uK5EikxbBZzxy1ieY+r+8t7dPsvpHt
- kVqeBdMoYE8gKLiodV3wjzPvGvTPUpBJbyKV7vFftnMOmE4aoWYcJiqef
- 9tiMJPDQQoMwiYmmvgAvIl9iGLysQFFK/s/+f5GWbwc9ogz9OJKND5ieM
- w9g5SS1IBjFZ7tPYRpK7fSQ03xnhDn1a971oZMBFotZG3OzkKTtOfGYbO
- +6cVBf0pmcDLBjNTARwh9VUf3V1dmrb4CbENeOr18O7XDHqfxQi9j8iXb
- CgL/1CDr/vPMbQ69HpkpnSNljHazqzQWhCYLv6rytOp8Cl/mWnbVNl9Dk Q==;
-IronPort-SDR: JFsx564uUlStgfzX+yUg4zgv720vJ7IMKmRpElh8iHuWqU+nQPRt5tYB0uRqTIVFdYB+F+p1rA
- 4nvapXP41i8kPtc6tRhDiv6ef3r5AmrQ394Ni9ymQirfvaRhP3cHStRok5MVvXoi4hLuxdZjje
- vGTOEpmxW/ld30WbNVXA0AHqklO5VacAuGjSs8p/Rmcvm4daHX1+Piu6TmoSMj9Uar49pzSBmv
- tR7OyAn//5aBX/RrxRxRix4SNKndB3DnhkqAMLSMavCG/4CcrY0FeqOEktZuEqDI0smrN1VMbr
- tb8=
-X-IronPort-AV: E=Sophos;i="5.73,468,1583164800"; d="scan'208";a="143451355"
+ bh=PtGShkqlLQHF8j/jMpdV9t9d4QzcKFqH3498gOMEzz8=;
+ b=ByuDQD6DNcjpYReyGTkAUOI5JhBjvougXE1/FVhaJsGRTx9QTTjRiruL
+ yBeUmOvp04DUdbPSEzb3h4aCdQA0V//FBW+HBMaO9sZJXU282K1irroAa
+ xk9osOL1P1z7DSufwTJBd3y9VPgKRMOKRp4bRI+5D9mskoPnrsO3TEEUZ
+ pl4NxrU6iXhxIdjiHvBtlM+9mfZ52r4WDb09yFxaZXohktm/0PyxvexUB
+ FQsEcB37UXBE4AyKC0YRjddDvn/rzn8UHesGNsUzB3d11jdooIP1YXYJx
+ efcnrEttkiZQqj2dKH0e5c2dBQ4QkAmKMZSLJqWJM6//XD0t0sx+wxdkE g==;
+IronPort-SDR: +9gNHU7UaCeYMzj85zkAoFUmRB+17t1bzYftsf+zwLzT69UTupvEkRnzVuDHZBCfIBDVxwW6p4
+ nL949D9slprgFpqkKsIw729bbifJkOruD/o3h3Ka0QPs5qsga9oCVnH5URFPU5Jt0oimJHZxDT
+ iOosa5QSx8H2JAstxPcQJgp2evY6eASdohbEtiF+D11I58UWHh65vDCE0syjbfZrYkNtRBxnqD
+ ff6UH8oIUjvuTQQw2TeDrOqVbahAx0I17lSB8v9ocbj3pi5N0RScWw1QmfwVkBGBAr2stHurXc
+ +HI=
+X-IronPort-AV: E=Sophos;i="5.73,468,1583164800"; d="scan'208";a="143451357"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 04 Jun 2020 00:22:41 +0800
-IronPort-SDR: iZjjxU+1DsRLjizgX6DmDaVCAS/1VqqTGhXMFpsJW3pjcZ2B0nVbzL6dHfFbkc+uzjuWrxjVQa
- yQGpjQYhH1QdB2oE7uNoH5t2JtRfWepSI=
+IronPort-SDR: Eh7RjRQiWsl+00DO6zlYtS2AqUSFlV3EoA91LJTNDgv1t3kRdSEg454XFugnqjtVrKasLiARVK
+ 1boaCWO8Ajqzk24T6VjOap2vdjTXhVn84=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2020 09:11:45 -0700
-IronPort-SDR: 74BRW8siS13FjY8SICfBNSASpabUQESUyrnqfNJybEL982TcvQqgh4p/dtHV4wB4WQ83tMQqVB
- /ufSBnjqYTVA==
+ 03 Jun 2020 09:11:46 -0700
+IronPort-SDR: iGA2RTzoPzC3+W7xv2WwLItxPKAVJsvzFOvuW1NIJLW/1RDQt13oXebq2uSXMa3wQn84hnG6bI
+ 3ReKknJ2v4Vw==
 WDCIronportException: Internal
 Received: from cne220230.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.57.144])
@@ -56,10 +56,10 @@ Received: from cne220230.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 01/15] riscv: Suppress the error report for QEMU testing with
- riscv_find_firmware()
-Date: Wed,  3 Jun 2020 09:13:44 -0700
-Message-Id: <20200603161352.744204-2-alistair.francis@wdc.com>
+Subject: [PULL 02/15] riscv: Change the default behavior if no -bios option is
+ specified
+Date: Wed,  3 Jun 2020 09:13:45 -0700
+Message-Id: <20200603161352.744204-3-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200603161352.744204-1-alistair.francis@wdc.com>
 References: <20200603161352.744204-1-alistair.francis@wdc.com>
@@ -90,49 +90,75 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>, Anup Patel <anup@brainfault.org>
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-We only ship plain binary bios images in the QEMU source. With Spike
-machine that uses ELF images as the default bios, running QEMU test
-will complain hence let's suppress the error report for QEMU testing.
+Per QEMU deprecated doc, QEMU 4.1 introduced support for the -bios
+option in QEMU for RISC-V for the virt machine and sifive_u machine.
+The default behavior has been that QEMU does not automatically load
+any firmware if no -bios option is included.
+
+Now 2 releases passed, it's time to change the default behavior to
+load the default OpenSBI firmware automatically. The firmware is
+included with the QEMU release and no user interaction is required.
+All a user needs to do is specify the kernel they want to boot with
+the -kernel option.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Anup Patel <anup@brainfault.org>
-Message-Id: <1588348254-7241-6-git-send-email-bmeng.cn@gmail.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 1588335545-649-1-git-send-email-bmeng.cn@gmail.com
+Message-Id: <1588335545-649-1-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/boot.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ hw/riscv/boot.c | 31 ++++---------------------------
+ 1 file changed, 4 insertions(+), 27 deletions(-)
 
 diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 726300a171..da5817d438 100644
+index da5817d438..adb421b91b 100644
 --- a/hw/riscv/boot.c
 +++ b/hw/riscv/boot.c
-@@ -88,9 +88,17 @@ char *riscv_find_firmware(const char *firmware_filename)
+@@ -41,34 +41,11 @@ void riscv_find_and_load_firmware(MachineState *machine,
+ {
+     char *firmware_filename = NULL;
  
-     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, firmware_filename);
-     if (filename == NULL) {
--        error_report("Unable to load the RISC-V firmware \"%s\"",
--                     firmware_filename);
--        exit(1);
-+        if (!qtest_enabled()) {
-+            /*
-+             * We only ship plain binary bios images in the QEMU source.
-+             * With Spike machine that uses ELF images as the default bios,
-+             * running QEMU test will complain hence let's suppress the error
-+             * report for QEMU testing.
-+             */
-+            error_report("Unable to load the RISC-V firmware \"%s\"",
-+                         firmware_filename);
-+            exit(1);
-+        }
-     }
- 
-     return filename;
+-    if (!machine->firmware) {
++    if ((!machine->firmware) || (!strcmp(machine->firmware, "default"))) {
+         /*
+-         * The user didn't specify -bios.
+-         * At the moment we default to loading nothing when this hapens.
+-         * In the future this defaul will change to loading the prebuilt
+-         * OpenSBI firmware. Let's warn the user and then continue.
+-        */
+-        if (!qtest_enabled()) {
+-            warn_report("No -bios option specified. Not loading a firmware.");
+-            warn_report("This default will change in a future QEMU release. " \
+-                        "Please use the -bios option to avoid breakages when "\
+-                        "this happens.");
+-            warn_report("See QEMU's deprecation documentation for details.");
+-        }
+-        return;
+-    }
+-
+-    if (!strcmp(machine->firmware, "default")) {
+-        /*
+-         * The user has specified "-bios default". That means we are going to
+-         * load the OpenSBI binary included in the QEMU source.
+-         *
+-         * We can't load the binary by default as it will break existing users
+-         * as users are already loading their own firmware.
+-         *
+-         * Let's try to get everyone to specify the -bios option at all times,
+-         * so then in the future we can make "-bios default" the default option
+-         * if no -bios option is set without breaking anything.
++         * The user didn't specify -bios, or has specified "-bios default".
++         * That means we are going to load the OpenSBI binary included in
++         * the QEMU source.
+          */
+         firmware_filename = riscv_find_firmware(default_machine_firmware);
+     } else if (strcmp(machine->firmware, "none")) {
 -- 
 2.26.2
 
