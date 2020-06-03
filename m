@@ -2,77 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2421ED2DF
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 17:00:11 +0200 (CEST)
-Received: from localhost ([::1]:42048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3731C1ED2D4
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 16:58:50 +0200 (CEST)
+Received: from localhost ([::1]:33788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgUsD-0004X7-S2
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 11:00:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35740)
+	id 1jgUqv-0001Cb-6E
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 10:58:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1jgUlO-0007RQ-7c; Wed, 03 Jun 2020 10:53:06 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37382)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1jgUlN-0000XH-Bd; Wed, 03 Jun 2020 10:53:05 -0400
-Received: by mail-pg1-x544.google.com with SMTP id d10so1924123pgn.4;
- Wed, 03 Jun 2020 07:53:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Kr3HUN5/YkECxPtjDxbpJDVaFQAB0Lcue4RVnkTaxI4=;
- b=FTHGmDYx15mPMYum2iUIhLJjAnlYqWq5IaLMBXrbMHu4Xm0PULiknnnuuR00P9+rsn
- iSUQhpn/6fLIsmSaH1nZMRACpDodQ6Y03AFKdqphOO8huPdzFom8ln6wjnWFW4FQKCfG
- jVQBCAo9ZbVrv6DkhG9t4sn2obDMFLcrnEGwhB0MxfsHAVIMICJXvVZMKi5ahvW/YXS1
- xpylBEvsnO544QxUxv95pIJ66tO+CKtIuQ1P5r9bNwypO4/yvs+6tOjP/IbLo1KUWygb
- awM9JtJXe35VAXOdfIqa0w3/hX/m5Izsomd6jpx9aycVapjlmvfGtirUZ2x596NLaBtJ
- ZNcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Kr3HUN5/YkECxPtjDxbpJDVaFQAB0Lcue4RVnkTaxI4=;
- b=JnwVObRdNTp7H9KlFJ5ABzOuVIHxi3ZwOCKWmlmDhCfd9L8/mh9VFenVtNsz+ZCeEK
- kMmIA0avn/N00R6AisbveBg2Ii2GnDPukorxjXA5SXR5vdTntvobCYyaRymLo+7vUxcM
- CInVPNXqiPnaJF/oCvo6BmvRcBNAVYwSbaaVrdKCEhKEbDlNoNmtq3zOCadvx02+0R4c
- XTjJzGve1DIlYl701B53XG0AFEn12aOaXYY8X+ffn8vHiJeth9mY8qx/9/UVgxkZ1eEL
- gxIXseBcmUuf4tjG9JV9uURbLPFjL4ihdQ7fGL5VJlSzezbtAagq8Rz3mSQCuqslycos
- muDg==
-X-Gm-Message-State: AOAM532DcgpMuxuxzE3bmTo2VYKKGWjFgdy0+xSMBum7SIBAUf+SmczR
- EQTpsweC8PmTYZTdINZyJHg=
-X-Google-Smtp-Source: ABdhPJx7dCZhPOf7/dogx3NdQyPWlsYb0KRH8Kg4gmXSsvNSgCbMfPnO+SFKuYP3dBkbkH3FypgTuA==
-X-Received: by 2002:a63:e454:: with SMTP id i20mr28733828pgk.440.1591195983522; 
- Wed, 03 Jun 2020 07:53:03 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id e124sm2141068pfh.140.2020.06.03.07.53.02
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 03 Jun 2020 07:53:03 -0700 (PDT)
-From: Guenter Roeck <linux@roeck-us.net>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 1/2] sd: sdhci: Implement basic vendor specific register
- support
-Date: Wed,  3 Jun 2020 07:52:57 -0700
-Message-Id: <20200603145258.195920-2-linux@roeck-us.net>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200603145258.195920-1-linux@roeck-us.net>
-References: <20200603145258.195920-1-linux@roeck-us.net>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jgUmd-0002X5-K2
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 10:54:23 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:58219)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jgUmc-0000d9-9s
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 10:54:23 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N8ojI-1isKoG44rm-015sV6; Wed, 03 Jun 2020 16:54:19 +0200
+Subject: Re: [PATCH 5/5] linux-user: Add strace support for printing arguments
+ of fallocate()
+To: Filip Bozuta <filip.bozuta@syrmia.com>, qemu-devel@nongnu.org
+References: <20200602115331.1659-1-filip.bozuta@syrmia.com>
+ <20200602115331.1659-6-filip.bozuta@syrmia.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <fc9e6b01-82e7-c50c-f19c-d2a7e0209802@vivier.eu>
+Date: Wed, 3 Jun 2020 16:54:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20200602115331.1659-6-filip.bozuta@syrmia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=groeck7@gmail.com; helo=mail-pg1-x544.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Provags-ID: V03:K1:bSArjMDeGBOjyEZH+b6gYsyI0OM10ni3PNRa69Q+YyRmvA0CI04
+ TCi9biQ2+Tfq1er/uDCXpG+8GmHi7Bq9CXNRekFDEknDXdCHxEK32KSzauZH9ZHCXsJhAde
+ 2mGXNGG3IwATdGrSwILZdasiSxY1jUlVXRv8c/P8AEHnx1aqSqJyXgJF8/CLH/613mA3E+f
+ rYsQhQpdWmfPJCLKvPoHA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+T63v/8FQ6A=:dtCl6tQWxN3hkAT+Z8T8ME
+ c3YeWbEDzGeEIFQgW7AXpeNpAYoKU/al5Z0dHtkFg+gURjy4YsBKUJdOGHq2h9nj01OeEQ7Yu
+ S+mAXB8repsRqkRYJBJ04cp3K4a3UXYDM4oyPSonb/skiErf+r9FCZF0/95OrWlZ7Kn79ehU/
+ DX8iuNlVzQMRHc4qlKKGjz4PJDiWpAVMD+weWuenWEQxaz8EfA8CER6PiD6e+xABsP66vXDfv
+ lFTAZXy2Nc1/SsStkMWi7S8CPCKFsS4DtVZKosrsVW09p3UC+BnvtZ9xn7IQwIWNU1LZYXRSo
+ 5DMy3c1hYTJhdzvC5nL8zWFHU7hjjTf9LmGSBK+tD66eCxLdR0KpkwZII/5reGnEZvnpH5P0D
+ vYAAeyivHCzH/U5S2eRYbdEfPO944bu/svvs+ywo0+6qK+ShC5ujW/Vcm6f2OfdXYUn1PehbL
+ gd85RPvExlo/YRlFqLIU4DaNZvZ1xPtOjqa3Tz+mCoZ85/v8zbeynj9jp9we2QqRbm1JPBT00
+ wFpL4H8wd+0EsiqtZcReVuYHjw5j6c6icGNeMStlP9iJBr7UccQEKHETUMdCw3cZ3LhJX34HO
+ Ew0T0wy/NQeoqn2MdblFRYRQe4C3ZU2DxGarlBYYgM+QCslcIpjv2LgkHvfqLr7x0fkdnLca+
+ TuM+viGOr/UgZmcoCNpdyRRFyb1Ui2NDEaflLESBze1FUePP4HU4j7jpUkYCQoOTrTUtFVUDX
+ 7gQsmv8eT1kf1RzjRQzQPW3A0OEGNxP7kQkkTRtiYPK/1fNgC4bRxXaB4pgY72XHrz3SUkBZX
+ foA2BlXd3/PGi6apHS+MC0Ok8WwymMijG3LYySM7ebepdRLykIotkpQxYndEG/wRjhXSFTI
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 10:44:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,131 +115,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrey Smirnov <andrew.smirnov@gmail.com>, qemu-devel@nongnu.org,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Linux kernel's IMX code now uses vendor specific commands.
-This results in endless warnings when booting the Linux kernel.
+Le 02/06/2020 à 13:53, Filip Bozuta a écrit :
+> From: Filip Bozuta <Filip.Bozuta@syrmia.com>
+> 
+> This patch implements strace argument printing functionality for following syscall:
+> 
+>     *fallocate - manipulate file space
+> 
+>         int fallocate(int fd, int mode, off_t offset, off_t len)
+>         man page: https://www.man7.org/linux/man-pages/man2/fallocate.2.html
+> 
+> Implementation notes:
+> 
+>     This syscall's second argument "mode" is composed of predefined values
+>     which represent flags that determine the type of operation that is
+>     to be performed on the file space. For that reason, a printing
+>     function "print_fallocate" was stated in file "strace.list". This printing
+>     function uses an already existing function "print_flags()" to print flags of
+>     the "mode" argument. These flags are stated inside an array "falloc_flags"
+>     that contains values of type "struct flags". These values are instantiated
+>     using an existing macro "FLAG_GENERIC()". Most of these flags are defined
+>     after kernel version 3.0 which is why they are enwrapped in an #ifdef
+>     directive.
+>     The syscall's third ant fourth argument are of type "off_t" which can
+>     cause variations between 32/64-bit architectures. To handle this variation,
+>     function "target_offset64()" was copied from file "strace.c" and used in
+>     "print_fallocate" to print "off_t" arguments for 32-bit architectures.
+> 
+> Signed-off-by: Filip Bozuta <Filip.Bozuta@syrmia.com>
+> ---
+>  linux-user/strace.c    | 56 ++++++++++++++++++++++++++++++++++++++++++
+>  linux-user/strace.list |  2 +-
+>  2 files changed, 57 insertions(+), 1 deletion(-)
+> 
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index 542bfdeb91..3998a00bb4 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -34,6 +34,22 @@ struct syscallname {
+>  #define UNUSED
+>  #endif
+>  
+> +#if TARGET_ABI_BITS == 32
+> +static inline uint64_t target_offset64(uint32_t word0, uint32_t word1)
+> +{
+> +#ifdef TARGET_WORDS_BIGENDIAN
+> +    return ((uint64_t)word0 << 32) | word1;
+> +#else
+> +    return ((uint64_t)word1 << 32) | word0;
+> +#endif
+> +}
+> +#else /* TARGET_ABI_BITS == 32 */
+> +static inline uint64_t target_offset64(uint64_t word0, uint64_t word1)
+> +{
+> +    return word0;
+> +}
+> +#endif /* TARGET_ABI_BITS != 32 */
+> +
 
-sdhci-esdhc-imx 2194000.usdhc: esdhc_wait_for_card_clock_gate_off:
-	card clock still not gate off in 100us!.
+Rather than copying that from syscall.c perhaps you can move the
+definition from linux-user/syscall.c to linux-user/qemu.h?
 
-Implement support for the vendor specific command implemented in IMX hardware
-to be able to avoid this warning.
+>  /*
+>   * Structure used to translate flag values into strings.  This is
+>   * similar that is in the actual strace tool.
+> @@ -1097,6 +1113,26 @@ UNUSED static struct flags statx_mask[] = {
+>      FLAG_END,
+>  };
+>  
+> +UNUSED static struct flags falloc_flags[] = {
+> +    FLAG_GENERIC(FALLOC_FL_KEEP_SIZE),
+> +    FLAG_GENERIC(FALLOC_FL_PUNCH_HOLE),
+> +#ifdef FALLOC_FL_NO_HIDE_STALE
+> +    FLAG_GENERIC(FALLOC_FL_NO_HIDE_STALE),
+> +#endif
+> +#ifdef FALLOC_FL_COLLAPSE_RANGE
+> +    FLAG_GENERIC(FALLOC_FL_COLLAPSE_RANGE),
+> +#endif
+> +#ifdef FALLOC_FL_ZERO_RANGE
+> +    FLAG_GENERIC(FALLOC_FL_ZERO_RANGE),
+> +#endif
+> +#ifdef FALLOC_FL_INSERT_RANGE
+> +    FLAG_GENERIC(FALLOC_FL_INSERT_RANGE),
+> +#endif
+> +#ifdef FALLOC_FL_UNSHARE_RANGE
+> +    FLAG_GENERIC(FALLOC_FL_UNSHARE_RANGE),
+> +#endif
+> +};
+> +
+>  /*
+>   * print_xxx utility functions.  These are used to print syscall
+>   * parameters in certain format.  All of these have parameter
+> @@ -1514,6 +1550,26 @@ print_faccessat(const struct syscallname *name,
+>  }
+>  #endif
+>  
+> +#ifdef TARGET_NR_fallocate
+> +static void
+> +print_fallocate(const struct syscallname *name,
+> +    abi_long arg0, abi_long arg1, abi_long arg2,
+> +    abi_long arg3, abi_long arg4, abi_long arg5)
+> +{
+> +    print_syscall_prologue(name);
+> +    print_raw_param("%d", arg0, 0);
+> +    print_flags(falloc_flags, arg1, 0);
+> +#if TARGET_ABI_BITS == 32
+> +    print_raw_param("%ld", target_offset64(arg2, arg3), 0);
+> +    print_raw_param("%ld", target_offset64(arg4, arg5), 1);
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
-v2: Added Philippe's Tested-by: and Reviewed-by: tags
+target_offset64 returns uint64_t so use PRIu64 rather than "%ld"
 
- hw/sd/sdhci-internal.h |  5 +++++
- hw/sd/sdhci.c          | 18 +++++++++++++++++-
- include/hw/sd/sdhci.h  |  5 +++++
- 3 files changed, 27 insertions(+), 1 deletion(-)
+> +#else
+> +    print_raw_param("%ld", arg2, 0);
+> +    print_raw_param("%ld", arg3, 1);
 
-diff --git a/hw/sd/sdhci-internal.h b/hw/sd/sdhci-internal.h
-index e7c8a523b5..e8c753d6d1 100644
---- a/hw/sd/sdhci-internal.h
-+++ b/hw/sd/sdhci-internal.h
-@@ -75,6 +75,7 @@
- #define SDHC_CMD_INHIBIT               0x00000001
- #define SDHC_DATA_INHIBIT              0x00000002
- #define SDHC_DAT_LINE_ACTIVE           0x00000004
-+#define SDHC_IMX_CLOCK_GATE_OFF        0x00000080
- #define SDHC_DOING_WRITE               0x00000100
- #define SDHC_DOING_READ                0x00000200
- #define SDHC_SPACE_AVAILABLE           0x00000400
-@@ -289,7 +290,10 @@ extern const VMStateDescription sdhci_vmstate;
- 
- 
- #define ESDHC_MIX_CTRL                  0x48
-+
- #define ESDHC_VENDOR_SPEC               0xc0
-+#define ESDHC_IMX_FRC_SDCLK_ON          (1 << 8)
-+
- #define ESDHC_DLL_CTRL                  0x60
- 
- #define ESDHC_TUNING_CTRL               0xcc
-@@ -326,6 +330,7 @@ extern const VMStateDescription sdhci_vmstate;
- #define DEFINE_SDHCI_COMMON_PROPERTIES(_state) \
-     DEFINE_PROP_UINT8("sd-spec-version", _state, sd_spec_version, 2), \
-     DEFINE_PROP_UINT8("uhs", _state, uhs_mode, UHS_NOT_SUPPORTED), \
-+    DEFINE_PROP_UINT8("vendor", _state, vendor, SDHCI_VENDOR_NONE), \
-     \
-     /* Capabilities registers provide information on supported
-      * features of this specific host controller implementation */ \
-diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index 1b75d7bab9..eb2be6529e 100644
---- a/hw/sd/sdhci.c
-+++ b/hw/sd/sdhci.c
-@@ -1569,11 +1569,13 @@ static uint64_t usdhc_read(void *opaque, hwaddr offset, unsigned size)
-         }
-         break;
- 
-+    case ESDHC_VENDOR_SPEC:
-+        ret = s->vendor_spec;
-+        break;
-     case ESDHC_DLL_CTRL:
-     case ESDHC_TUNE_CTRL_STATUS:
-     case ESDHC_UNDOCUMENTED_REG27:
-     case ESDHC_TUNING_CTRL:
--    case ESDHC_VENDOR_SPEC:
-     case ESDHC_MIX_CTRL:
-     case ESDHC_WTMK_LVL:
-         ret = 0;
-@@ -1596,7 +1598,21 @@ usdhc_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
-     case ESDHC_UNDOCUMENTED_REG27:
-     case ESDHC_TUNING_CTRL:
-     case ESDHC_WTMK_LVL:
-+        break;
-+
-     case ESDHC_VENDOR_SPEC:
-+        s->vendor_spec = value;
-+        switch (s->vendor) {
-+        case SDHCI_VENDOR_IMX:
-+            if (value & ESDHC_IMX_FRC_SDCLK_ON) {
-+                s->prnsts &= ~SDHC_IMX_CLOCK_GATE_OFF;
-+            } else {
-+                s->prnsts |= SDHC_IMX_CLOCK_GATE_OFF;
-+            }
-+            break;
-+        default:
-+            break;
-+        }
-         break;
- 
-     case SDHC_HOSTCTL:
-diff --git a/include/hw/sd/sdhci.h b/include/hw/sd/sdhci.h
-index c6868c9699..5d9275f3d6 100644
---- a/include/hw/sd/sdhci.h
-+++ b/include/hw/sd/sdhci.h
-@@ -74,6 +74,7 @@ typedef struct SDHCIState {
-     uint16_t acmd12errsts; /* Auto CMD12 error status register */
-     uint16_t hostctl2;     /* Host Control 2 */
-     uint64_t admasysaddr;  /* ADMA System Address Register */
-+    uint16_t vendor_spec;  /* Vendor specific register */
- 
-     /* Read-only registers */
-     uint64_t capareg;      /* Capabilities Register */
-@@ -96,8 +97,12 @@ typedef struct SDHCIState {
-     uint32_t quirks;
-     uint8_t sd_spec_version;
-     uint8_t uhs_mode;
-+    uint8_t vendor;        /* For vendor specific functionality */
- } SDHCIState;
- 
-+#define SDHCI_VENDOR_NONE       0
-+#define SDHCI_VENDOR_IMX        1
-+
- /*
-  * Controller does not provide transfer-complete interrupt when not
-  * busy.
--- 
-2.17.1
+TARGET_ABI_FMT_ld rather than "%ld"
 
+> +#endif
+> +    print_syscall_epilogue(name);
+> +}
+> +#endif
+> +
+>  #ifdef TARGET_NR_fchmodat
+>  static void
+>  print_fchmodat(const struct syscallname *name,
+> diff --git a/linux-user/strace.list b/linux-user/strace.list
+> index b72f757d3f..d7458ce884 100644
+> --- a/linux-user/strace.list
+> +++ b/linux-user/strace.list
+> @@ -182,7 +182,7 @@
+>  { TARGET_NR_fadvise64_64, "fadvise64_64" , NULL, NULL, NULL },
+>  #endif
+>  #ifdef TARGET_NR_fallocate
+> -{ TARGET_NR_fallocate, "fallocate" , NULL, NULL, NULL },
+> +{ TARGET_NR_fallocate, "fallocate" , NULL, print_fallocate, NULL },
+>  #endif
+>  #ifdef TARGET_NR_fanotify_init
+>  { TARGET_NR_fanotify_init, "fanotify_init" , NULL, NULL, NULL },
+> 
+
+Thanks,
+Laurent
 
