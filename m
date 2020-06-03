@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6A441ED403
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 18:13:14 +0200 (CEST)
-Received: from localhost ([::1]:49346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 072CE1ED435
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 18:24:25 +0200 (CEST)
+Received: from localhost ([::1]:40140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgW0v-0007xE-WA
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 12:13:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45552)
+	id 1jgWBj-0000q7-Ug
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 12:24:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgVzz-0007VX-Rj
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:12:15 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:36546)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgVzy-0003Ot-EK
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:12:15 -0400
-Received: by mail-pf1-x444.google.com with SMTP id x22so1917377pfn.3
- for <qemu-devel@nongnu.org>; Wed, 03 Jun 2020 09:12:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DI/6qUylfopUN2h+tUyaByoCaFs1JPylzBNRTIc+Ak0=;
- b=AzUM2XXvt5I0j4eCzdqMHqPs2xO+FCXSuybdR05uXyGu0QVWcskGuo7bChE2+J8MJt
- F4lG9TH8DoHQZBepg/tnEUj4SNat8IsexTTa1+q2ge2WaBu/Rr5htxhszIdphTqDIpIM
- 44z+XY2P17ZG2ZFpMUXJHjs3LpMoBwIwo01r6W3hOPUDHaVVlHVeVKDC7zbAX44NUV8p
- FjNkktiKuikKBG2p0VrgMGdlKj1LHRglEmVBoObwn0mNDHFTUgNKZOZe0dwjXC/OjyCm
- NBB9cbQa2YHNuqcna+bS0034wH2rSthMrJkfIcAGz3llTIWeDHO8ZWayDmCgPRbl5ts1
- sGbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=DI/6qUylfopUN2h+tUyaByoCaFs1JPylzBNRTIc+Ak0=;
- b=Mvhz1jFf/WZk1kohkfXH4B5Ooo5BVFpGncvoxZ1rDPgl/4/9albqxysv/rKG9FOv6V
- PKuNK7KaITYnksDNrj98ofTqPSbpLR6gS3jKa1DuBbhBW0mLGIKCGwZc20MTuy+jecHJ
- WSUtXX8sP203MjFNI7bZaGlkROjK0yEjhPUmaKA2t0JS/0dojrnKA7U40teQ/IcpyLUm
- w5hCgpEpgsqvhl7vbynfFJRPpwr8mQh5kVfzaaU3zUornhN4eNHCWg/GboGeDslzZ3Fe
- 5HZSvxWak7mkG+0CJntDIOGfeNruftfpZc9LS3ivMAFCjcpaXFuxQPUzQIp/VA7tJcgc
- Xe6A==
-X-Gm-Message-State: AOAM530O3CWObWaq0oCUgewI6/rvxVT4xCrsn7w89Y6dKT6UFmrp4kWQ
- EEL2kcFH10001xtnPg/RFIuwZA==
-X-Google-Smtp-Source: ABdhPJwQc3vOF0Z4T0/JYtEQnPigAxJYveiZOcExbN/U//XGwIu0mU/SdBq3giYXMadMAOHDbb55yw==
-X-Received: by 2002:a17:90a:f508:: with SMTP id
- cs8mr529526pjb.16.1591200732872; 
- Wed, 03 Jun 2020 09:12:12 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id fv7sm1870685pjb.41.2020.06.03.09.12.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Jun 2020 09:12:11 -0700 (PDT)
-Subject: Re: [PATCH v2] exec: flush the whole TLB if a watchpoint crosses a
- page boundary
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200603112442.22833-1-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1d870b62-91fd-3065-43a3-d033d5e646ac@linaro.org>
-Date: Wed, 3 Jun 2020 09:12:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1)
+ (envelope-from <prvs=416cc4bc0=alistair.francis@wdc.com>)
+ id 1jgWAE-0007g4-Ld
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:50 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:49270)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=416cc4bc0=alistair.francis@wdc.com>)
+ id 1jgWA8-00060J-Oh
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1591201365; x=1622737365;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=tZ9wGSapWYWJy8E5B+mTHvinWTbr7aWDWaZ3GOgkX4E=;
+ b=Y0UVN9w/WxUwJdetTlBbPd/fv6+9WxCxaHr/X5Zdjp+8C8OjcD/LVkHJ
+ dz7Fy1Q6+dueyI+LAZd914gEjledvZH7x3ZYVp8Sy6/P3BFkt/NGJkz+7
+ KEwoyMLuOjyfqEl3p+ibTpWjXawlsqzxc5ggvkqu44iVKeKjoNW9qmCoT
+ kPGjYD9igF4NIwo3CG/mP4ubaFyMnC9DzO92TBqRqU1rcV+qbEk4Mgike
+ ngmIo+wyawOYqbnj44DkX91NE761G5SzuHc10igy9iMw7SgJ7FkHf17Jp
+ /fH2FETuar+gEad1x4wavFpUsQfbXTaGyylH74NiM+GaH4j019B0AqcQw A==;
+IronPort-SDR: ThNe8d3oHPo1bsQQpQOTQTB22yYJZGAGPckU1h/ixnhDXu07+ioB13T25cAHJJd1cOJKBjezfX
+ UgAMhdSyLHzKF2bq/k+fLaboBhMjrBeCQ/A8BCtdAULnXhsn0e9D1zIIX/2u1zGZYMy1mgn28D
+ FDI9uZbq4rodGKJ7streOCZugdwULdgnRbGl2Of+2dava/8Ir4ZOiuDGuV5KUmDSKrqoZAQ8Xr
+ Ucj8tf+nG7aRPQ1+S2qfnRYw6QSRVYNSOIb0KgHHWvz7+qIGROcar0Cxpf8LAStwXIaETnTt6i
+ 9vk=
+X-IronPort-AV: E=Sophos;i="5.73,468,1583164800"; d="scan'208";a="143451350"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 04 Jun 2020 00:22:40 +0800
+IronPort-SDR: FYz67G5l41Lr1+8TFXx2BAm2PVHN24lDzM0pLo1PuLxMezcV5SOR6z0QHcXD3HqspB7v8hgduV
+ wBzSqeeF40lh2bbdPeViSyKuclBYlmq18=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2020 09:11:45 -0700
+IronPort-SDR: 1UBSxz9gQnM0rfphzZG42u7q84lnJIlY2MhtcNpD05c3jsWYrgz+WQynw+ywEN75Ppb35L5Sdy
+ p1+is+Na1poA==
+WDCIronportException: Internal
+Received: from cne220230.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.57.144])
+ by uls-op-cesaip02.wdc.com with ESMTP; 03 Jun 2020 09:22:40 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL 00/15] riscv-to-apply queue
+Date: Wed,  3 Jun 2020 09:13:43 -0700
+Message-Id: <20200603161352.744204-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200603112442.22833-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=216.71.153.141;
+ envelope-from=prvs=416cc4bc0=alistair.francis@wdc.com;
+ helo=esa3.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 12:22:40
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,38 +87,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/3/20 4:24 AM, Alex Bennée wrote:
-> There is no particular reason why you can't have a watchpoint in TCG
-> that covers a large chunk of the address space. We could be clever
-> about it but these cases are pretty rare and we can assume the user
-> will expect a little performance degradation.
-> 
-> NB: In my testing gdb will silently squash a watchpoint like:
-> 
->   watch (char[0x7fffffffff]) *0x0
-> 
-> to a 4 byte watchpoint. Practically it will limit the maximum size
-> based on max-value-size. However given enough of a tweak the sky is
-> the limit.
-> 
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-> ---
-> v2
->   - use cleaner in_page = -(addr | TARGET_PAGE_MASK) logic per rth
-> ---
->  exec.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+The following changes since commit 5cc7a54c2e91d82cb6a52e4921325c511fd90712:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+  Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20200602' into staging (2020-06-02 18:16:38 +0100)
 
-Queued to tcg-next.
+are available in the Git repository at:
 
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200603
 
-r~
+for you to fetch changes up to fe0fe4735e798578097758781166cc221319b93d:
+
+  riscv: Initial commit of OpenTitan machine (2020-06-03 09:11:51 -0700)
+
+----------------------------------------------------------------
+This is a collection of RISC-V patches for 5.1.
+
+This incldues removing deprecated features and part of the OpenTitan
+support series.
+
+----------------------------------------------------------------
+Alistair Francis (11):
+      hw/riscv: spike: Remove deprecated ISA specific machines
+      target/riscv: Remove the deprecated CPUs
+      target/riscv: Drop support for ISA spec version 1.09.1
+      docs: deprecated: Update the -bios documentation
+      riscv: sifive_e: Manually define the machine
+      riscv/boot: Add a missing header include
+      target/riscv: Don't overwrite the reset vector
+      target/riscv: Disable the MMU correctly
+      target/riscv: Don't set PMP feature in the cpu init
+      target/riscv: Add the lowRISC Ibex CPU
+      riscv: Initial commit of OpenTitan machine
+
+Bin Meng (4):
+      riscv: Suppress the error report for QEMU testing with riscv_find_firmware()
+      riscv: Change the default behavior if no -bios option is specified
+      hw/riscv: sifive_u: Remove the riscv_ prefix of the soc* functions
+      hw/riscv: virt: Remove the riscv_ prefix of the machine* functions
+
+ docs/system/deprecated.rst                     |  98 +++++------
+ default-configs/riscv32-softmmu.mak            |   1 +
+ default-configs/riscv64-softmmu.mak            |  11 +-
+ include/hw/riscv/boot.h                        |   1 +
+ include/hw/riscv/opentitan.h                   |  68 ++++++++
+ include/hw/riscv/sifive_e.h                    |   4 +
+ include/hw/riscv/spike.h                       |   6 +-
+ target/riscv/cpu.h                             |   9 +-
+ hw/riscv/boot.c                                |  45 ++---
+ hw/riscv/opentitan.c                           | 184 +++++++++++++++++++++
+ hw/riscv/sifive_e.c                            |  41 +++--
+ hw/riscv/sifive_u.c                            |  24 +--
+ hw/riscv/spike.c                               | 217 -------------------------
+ hw/riscv/virt.c                                |  20 +--
+ target/riscv/cpu.c                             |  45 ++---
+ target/riscv/cpu_helper.c                      |  82 ++++------
+ target/riscv/csr.c                             | 138 +++-------------
+ target/riscv/insn_trans/trans_privileged.inc.c |  18 +-
+ target/riscv/monitor.c                         |   5 -
+ target/riscv/op_helper.c                       |  17 +-
+ tests/qtest/machine-none-test.c                |   4 +-
+ MAINTAINERS                                    |   9 +
+ hw/riscv/Kconfig                               |   5 +
+ hw/riscv/Makefile.objs                         |   1 +
+ 24 files changed, 480 insertions(+), 573 deletions(-)
+ create mode 100644 include/hw/riscv/opentitan.h
+ create mode 100644 hw/riscv/opentitan.c
 
