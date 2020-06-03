@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27151ED2EB
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 17:05:00 +0200 (CEST)
-Received: from localhost ([::1]:57400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 329F81ED2E0
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 17:01:36 +0200 (CEST)
+Received: from localhost ([::1]:47238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgUwt-00039q-Pz
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 11:04:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35748)
+	id 1jgUtb-0006nb-87
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 11:01:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1jgUlP-0007V5-KA; Wed, 03 Jun 2020 10:53:07 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:41110)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1jgUlO-0000XT-OF; Wed, 03 Jun 2020 10:53:07 -0400
-Received: by mail-pf1-x443.google.com with SMTP id 64so1755875pfg.8;
- Wed, 03 Jun 2020 07:53:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZOFbPO8NF0Qt4pG213J4v1h/uFGzFUhLJULtgTQw8KA=;
- b=FHv1hnt4ZS4Y4rmRV1IDn8cKMySJHpNxxKmvFTfXnyjGXrgWsbvASSV+9bAgmTs0wL
- uxQXLTyDxZeZeHEv3v+bFP5SeMJCDvUYF2DxuChwqTC72oUd5fOv7dPPHyx6T6PLpwbe
- VgIb9I267EJcQF4rsqXf1o0aMEjRg0rQvfJPDDIFEl3OWRqWr3yyHsECP58J2H42hz0t
- SOzXpLH2bKdlDTWM8JkE4Yto9RM1s5BR4qHjv2jJKHXnozGqNc359Yt34IoNkmr3V3+k
- swsaI45DlaX2tvuJPTrY8fKn3giyD4elDLRoPHrmAlZgjnQVKv3YSPHAK6oV1u//m3ec
- zYZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZOFbPO8NF0Qt4pG213J4v1h/uFGzFUhLJULtgTQw8KA=;
- b=UMEaBknKkZsujRZWp2vyR0jWQocvV3seeBoPIfq0t+vKxPo6xWOBIwcKZ3ZMq6dA1I
- ZEo7hu2lcKjydtziMgwdRi0C+CSl6fmleN5UfeqjS9DzsGgiklUwbfhicFcGy5siV4lb
- UGa+ZS0CdqNJq19kHq1ZWUbM4R+45UzWIABZ3oTJHzmfq7YR3nBiaXZ0tBTadmL0qGJs
- SSa7w4Y/C9xrZiE/3fIcIB5ZXb1ppqMacbfTmxR1yM7l4TP4lPsC6rzklixSX/Asv606
- x99tmTzLeSoX9y4+ZRbG99CbTKW5foVcZ9cBaaSlAgeBIDO3gjfCC7UX4vMzTxIUP6CS
- gaPw==
-X-Gm-Message-State: AOAM533ul15S8SYX+GUARVSQWDdj3TaAzCMZYScjiYTzrKvZqYnczo0j
- NpYO1AiWStFLvGRwM/M1gxk=
-X-Google-Smtp-Source: ABdhPJwv+jGbLoBGvUGrS3dUV5BKN9DIaqcekDo5k672cRM1hMaaM3bJpo8VLBeZe2Q5/RUY8aFi5Q==
-X-Received: by 2002:a17:90a:8815:: with SMTP id
- s21mr53173pjn.154.1591195985044; 
- Wed, 03 Jun 2020 07:53:05 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id m2sm2827173pjk.52.2020.06.03.07.53.04
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 03 Jun 2020 07:53:04 -0700 (PDT)
-From: Guenter Roeck <linux@roeck-us.net>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 2/2] hw: arm: Set vendor property for IMX SDHCI emulations
-Date: Wed,  3 Jun 2020 07:52:58 -0700
-Message-Id: <20200603145258.195920-3-linux@roeck-us.net>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200603145258.195920-1-linux@roeck-us.net>
-References: <20200603145258.195920-1-linux@roeck-us.net>
+ (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
+ id 1jgUlk-0008PH-OT; Wed, 03 Jun 2020 10:53:28 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2106 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
+ id 1jgUlj-0000Z9-1B; Wed, 03 Jun 2020 10:53:28 -0400
+Received: from lhreml701-chm.china.huawei.com (unknown [172.18.7.108])
+ by Forcepoint Email with ESMTP id 123029BDA1E0E550BEA2;
+ Wed,  3 Jun 2020 15:53:22 +0100 (IST)
+Received: from lhreml703-chm.china.huawei.com (10.201.108.52) by
+ lhreml701-chm.china.huawei.com (10.201.108.50) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Wed, 3 Jun 2020 15:53:21 +0100
+Received: from lhreml703-chm.china.huawei.com ([10.201.68.198]) by
+ lhreml703-chm.china.huawei.com ([10.201.68.198]) with mapi id 15.01.1913.007; 
+ Wed, 3 Jun 2020 15:53:21 +0100
+From: Salil Mehta <salil.mehta@huawei.com>
+To: Andrew Jones <drjones@redhat.com>
+Subject: RE: [Question] Regarding PMU initialization within the QEMU for ARM
+ VCPUs
+Thread-Topic: [Question] Regarding PMU initialization within the QEMU for ARM
+ VCPUs
+Thread-Index: AdY3+/mIYt1+TQdDQmymnxAa7PkUWwBhkdKAAAS79tAAAMvMAAAC6ahgAAIBWIAAAj9tUA==
+Date: Wed, 3 Jun 2020 14:53:21 +0000
+Message-ID: <70ab2e21085844999f5f8615b32dde1d@huawei.com>
+References: <b2e401cd17fe49d792d09b31bd726e35@huawei.com>
+ <20200603093745.dwfb55ny34az7rez@kamzik.brq.redhat.com>
+ <6bacdd359e504ed8924e67ed125bf15d@huawei.com>
+ <20200603121606.bj3mjlqsstzbu7py@kamzik.brq.redhat.com>
+ <5cb329f13566411eadfeca7c9a1b4bf5@huawei.com>
+ <20200603143655.vk3uqw5lvgv6sm5p@kamzik.brq.redhat.com>
+In-Reply-To: <20200603143655.vk3uqw5lvgv6sm5p@kamzik.brq.redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.47.30.55]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=groeck7@gmail.com; helo=mail-pf1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.76.210;
+ envelope-from=salil.mehta@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 07:45:22
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,89 +74,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrey Smirnov <andrew.smirnov@gmail.com>, qemu-devel@nongnu.org,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "gshan@redhat.com" <gshan@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set vendor property to IMX to enable IMX specific functionality
-in sdhci code.
 
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
-v2: Added missing error checks
-    Added Philippe's Tested-by: tag
+> From: Qemu-arm [mailto:qemu-arm-bounces+salil.mehta=3Dhuawei.com@nongnu.o=
+rg]
+> On Behalf Of Andrew Jones
+> Sent: Wednesday, June 3, 2020 3:37 PM
+> To: Salil Mehta <salil.mehta@huawei.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>; mst@redhat.com;
+> qemu-devel@nongnu.org; eric.auger@redhat.com; qemu-arm@nongnu.org; Igor
+> Mammedov <imammedo@redhat.com>
+> Subject: Re: [Question] Regarding PMU initialization within the QEMU for =
+ARM
+> VCPUs
+>=20
+> On Wed, Jun 03, 2020 at 01:48:10PM +0000, Salil Mehta wrote:
+> > (Maybe I should float the ARM VCPU Hotplug patches and let this
+> >  discussion be held over there?)
+> >
+>=20
+> Yes, I think that would be best. Keep in mind that the 'pmu' CPU property
+> is just one CPU property that we require all CPUs to have, if any have it=
+.
+> 'aarch64' and 'sve' are two other examples. And, likely any CPU feature
+> that comes down the line that we want to use with KVM will fit that
+> pattern. I think the hotplug patch series will need to handle those
+> features in some way other than to push them all into machine properties.
 
- hw/arm/fsl-imx25.c  | 6 ++++++
- hw/arm/fsl-imx6.c   | 6 ++++++
- hw/arm/fsl-imx6ul.c | 2 ++
- hw/arm/fsl-imx7.c   | 2 ++
- 4 files changed, 16 insertions(+)
+Sure, I do have realization about that. I have for now used a per virt
+machine flag for PMU to do a workaround of the problem I discussed.
+Maybe once I float the patches further comments on the ways to improve
+the design would be very helpful. So for now I will keep the flag and
+use this approach and invite everyone for open discussion about this
+and we could evolve the design as we discuss there.
 
-diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
-index cdaa79c26b..a853ffcc00 100644
---- a/hw/arm/fsl-imx25.c
-+++ b/hw/arm/fsl-imx25.c
-@@ -274,6 +274,12 @@ static void fsl_imx25_realize(DeviceState *dev, Error **errp)
-                                  &err);
-         object_property_set_uint(OBJECT(&s->esdhc[i]), IMX25_ESDHC_CAPABILITIES,
-                                  "capareg", &err);
-+        object_property_set_uint(OBJECT(&s->esdhc[i]), SDHCI_VENDOR_IMX,
-+                                 "vendor", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-         object_property_set_bool(OBJECT(&s->esdhc[i]), true, "realized", &err);
-         if (err) {
-             error_propagate(errp, err);
-diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-index f58c85aa8c..29677cfd59 100644
---- a/hw/arm/fsl-imx6.c
-+++ b/hw/arm/fsl-imx6.c
-@@ -350,6 +350,12 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
-                                  &err);
-         object_property_set_uint(OBJECT(&s->esdhc[i]), IMX6_ESDHC_CAPABILITIES,
-                                  "capareg", &err);
-+        object_property_set_uint(OBJECT(&s->esdhc[i]), SDHCI_VENDOR_IMX,
-+                                 "vendor", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-         object_property_set_bool(OBJECT(&s->esdhc[i]), true, "realized", &err);
-         if (err) {
-             error_propagate(errp, err);
-diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
-index 3ecb212da6..ce1462927c 100644
---- a/hw/arm/fsl-imx6ul.c
-+++ b/hw/arm/fsl-imx6ul.c
-@@ -505,6 +505,8 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
-             FSL_IMX6UL_USDHC2_IRQ,
-         };
- 
-+        object_property_set_uint(OBJECT(&s->usdhc[i]), SDHCI_VENDOR_IMX,
-+                                        "vendor", &error_abort);
-         object_property_set_bool(OBJECT(&s->usdhc[i]), true, "realized",
-                                  &error_abort);
- 
-diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
-index 89c3b64c06..dbf16b2814 100644
---- a/hw/arm/fsl-imx7.c
-+++ b/hw/arm/fsl-imx7.c
-@@ -416,6 +416,8 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
-             FSL_IMX7_USDHC3_IRQ,
-         };
- 
-+        object_property_set_uint(OBJECT(&s->usdhc[i]), SDHCI_VENDOR_IMX,
-+                                 "vendor", &error_abort);
-         object_property_set_bool(OBJECT(&s->usdhc[i]), true, "realized",
-                                  &error_abort);
- 
--- 
-2.17.1
 
+Many thanks
+Salil.
 
