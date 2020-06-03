@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58ADB1EC6C4
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:33:51 +0200 (CEST)
-Received: from localhost ([::1]:57546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7E41EC6CD
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:35:47 +0200 (CEST)
+Received: from localhost ([::1]:36496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgIHu-0000y7-E0
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:33:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49054)
+	id 1jgIJm-0003za-Uk
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:35:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHyt-0005BZ-Ns
+ id 1jgHyt-0005AP-Bd
  for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:11 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:35919)
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:39719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHyr-0003h8-FS
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:11 -0400
-Received: by mail-pg1-x542.google.com with SMTP id t7so572993pgt.3
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:14:09 -0700 (PDT)
+ id 1jgHys-0003hK-JE
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:10 -0400
+Received: by mail-pl1-x644.google.com with SMTP id v24so199532plo.6
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:14:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CSv1KeR8menjHwPFPDbJzuFwzIdMp1D6EtoFs3JeUrg=;
- b=cTI/2G4xtLZWFI74ebrmfOp+95jUiunM6RjKXxwCHPVrtNVaCIBNTMhtpACOMNWsUA
- En42YXxQrHeCj2YRftrnCowP8VAY47gnwc8IEnEPZ15BVQBWbiZvjpUAP4nX8tbfHc2N
- gMLxjGY801ATYOsNPHzIT8pmXGrNSFoM94nAM1HE+r5OqTWUMCWV6LXUY4wikWtMPiat
- NRi+8AU1f8lGeZJMppvNWGQRgi5e6UNo820ki8gu7yhSMStaYwxeBqxH8NJ/VxdCdsYr
- w3WjeGNsV31OzeQ9QDKunb5Y7dvqZVQUUAbn+uV4885fngZcIoY+NuRPZ0PwG8pwzHvT
- J2TQ==
+ bh=uaH1sngv9xlWH/X8rZjic7q7Jho9e1jf1ezwAdUAR9c=;
+ b=W2VpHdhlmXjJWldCJJ/AWBtSxY3UTYaz44DqxLhKEiskonM1uXUpPuN29hCgBFhPvP
+ gA7YjjtvTHhJ8fx92XaeSMXl0EFMTDiukC9LU3Yk9lybiGySoCD1FPyYl6zvjVsQjQ/1
+ bQ2EaThf9TApdkDsf/53X/YavAdnEWivRfC/g5t8sKJoQ31aoYdEOBXNRTkUlsEOj/HF
+ pEy7asfNnWtpbtpB+r/l0jBmQgdZTeeqoGSkuw3PxtzqKW4l1RH1ulpfwhNN323u4vCQ
+ 18fu0Mjvz++aU6Vdi5E0zAATT6NdUkmOwx78uuxXr/TJyE2Pn5x+g6UZwh7ulqF3O9zU
+ EG3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CSv1KeR8menjHwPFPDbJzuFwzIdMp1D6EtoFs3JeUrg=;
- b=AYfATEeFsI1yFKzrGw1JTvu+WfAbPpIqdm6Y6vVdK4Oy8mG7np43aGwj20iqQrV8Ue
- jxCGBgzHOSbDSaMChWd9M/eL1cM763bz3qqN9W6wrL+McmkXK7ngy/y2xrz0ppFZMHtQ
- xbDpdNdCEURRbyJRqLwg48USTXWbBqr2xRCMWP/6BYr8U/oZNYZb+DhLg2k5VeGQ+8xb
- ckTnEFWfzvIghmuVznchBoLVu+G+QpfObwqFOu3q618a0gpnF5QFgzURkYG6rTq/3eBl
- xMKBLScjc7+o6s5stnExsPLKbpG10G2nUyH4wfoCyI+DjdIS+MBHbkS2PRxuZ0i5vaAT
- 3STw==
-X-Gm-Message-State: AOAM533C/S2GiaaA6UPpAN/D0kMYp8aBM8fVVtYfWpOCd4N7GT85wvXB
- Y/R6f0d53857SuIqTz3ExJObUAMAc4Q=
-X-Google-Smtp-Source: ABdhPJwdHe0IHg1RWDRu9Cs+uUEHMQT0VG20w4AnWv4IPc9i+f6WQRNgNybO2w5ZV178A0ZsHCNQGw==
-X-Received: by 2002:aa7:868f:: with SMTP id d15mr6072371pfo.166.1591146847684; 
- Tue, 02 Jun 2020 18:14:07 -0700 (PDT)
+ bh=uaH1sngv9xlWH/X8rZjic7q7Jho9e1jf1ezwAdUAR9c=;
+ b=iNPNSEr/nAz5FBq2KlQyYWCeL7FNzZx1c1toZhctfds+lBE7pvQ0QLf8rpeBKbqc4w
+ y885PdDp2PO2Dy7zXb8j/BfuFPsIpqQIybwmm4IJBfHCcu9scbJhOnmrXPFsA6Czmj5T
+ jLnHmfVZuBdZweEUWZdve1lWahpz1+HByT7koJg4u+jBmIbBeWLOA7DADh+ZRooTP3ZM
+ FIRbToJQAJkD/N9aUZb1AL7XR2yCycraAvdcVG8k1VszUs6H+3wunhc00+gd491DT0zW
+ cDOUycMtQ8LXz51jUtKBlLWsgXwj4qWVTD/otBGahvR8ph2uglQzy5t3zcOSuzbYC4Di
+ K9Tg==
+X-Gm-Message-State: AOAM530swloX/ZJovSUyoEUyU1IGuG88WYwVpW+Tos02HvzVLz+0VfhQ
+ nDk/dImhWe18qn+I+9hx37fVKyD57HE=
+X-Google-Smtp-Source: ABdhPJxlz0U+OGynw30ChSMQGFOTZv+xNdIiO/NkvaO1oF/jXC+QHVGJok/SKi6Wu0syZRMm+Lp/AA==
+X-Received: by 2002:a17:902:d711:: with SMTP id
+ w17mr28235658ply.122.1591146848946; 
+ Tue, 02 Jun 2020 18:14:08 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.14.06
+ by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.14.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 18:14:06 -0700 (PDT)
+ Tue, 02 Jun 2020 18:14:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 37/42] target/arm: Implement data cache set allocation tags
-Date: Tue,  2 Jun 2020 18:13:12 -0700
-Message-Id: <20200603011317.473934-38-richard.henderson@linaro.org>
+Subject: [PATCH v7 38/42] target/arm: Set PSTATE.TCO on exception entry
+Date: Tue,  2 Jun 2020 18:13:13 -0700
+Message-Id: <20200603011317.473934-39-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200603011317.473934-1-richard.henderson@linaro.org>
 References: <20200603011317.473934-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,112 +90,30 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is DC GVA and DC GZVA, and the tag check for DC ZVA.
+D1.10 specifies that exception handlers begin with tag checks overridden.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Use allocation_tag_mem + memset.
-v3: Require pre-cleaned addresses.
-v6: Move DCZ block size assert to cpu realize.
-    Perform a tag check for DC ZVA.
+v2: Only set if MTE feature present.
 ---
- target/arm/cpu.h           |  4 +++-
- target/arm/helper.c        | 16 ++++++++++++++++
- target/arm/translate-a64.c | 39 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 58 insertions(+), 1 deletion(-)
+ target/arm/helper.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index a5d3b6c9ee..17594226eb 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2360,7 +2360,9 @@ static inline uint64_t cpreg_to_kvm_id(uint32_t cpregid)
- #define ARM_CP_NZCV              (ARM_CP_SPECIAL | 0x0300)
- #define ARM_CP_CURRENTEL         (ARM_CP_SPECIAL | 0x0400)
- #define ARM_CP_DC_ZVA            (ARM_CP_SPECIAL | 0x0500)
--#define ARM_LAST_SPECIAL         ARM_CP_DC_ZVA
-+#define ARM_CP_DC_GVA            (ARM_CP_SPECIAL | 0x0600)
-+#define ARM_CP_DC_GZVA           (ARM_CP_SPECIAL | 0x0700)
-+#define ARM_LAST_SPECIAL         ARM_CP_DC_GZVA
- #define ARM_CP_FPU               0x1000
- #define ARM_CP_SVE               0x2000
- #define ARM_CP_NO_GDB            0x4000
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c56e8e500b..3adafc07f0 100644
+index 3adafc07f0..50717afa4a 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6996,6 +6996,22 @@ static const ARMCPRegInfo mte_el0_cacheop_reginfo[] = {
-       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 14, .opc2 = 5,
-       .type = ARM_CP_NOP, .access = PL0_W,
-       .accessfn = aa64_cacheop_poc_access },
-+    { .name = "DC_GVA", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 4, .opc2 = 3,
-+      .access = PL0_W, .type = ARM_CP_DC_GVA,
-+#ifndef CONFIG_USER_ONLY
-+      /* Avoid overhead of an access check that always passes in user-mode */
-+      .accessfn = aa64_zva_access,
-+#endif
-+    },
-+    { .name = "DC_GZVA", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 4, .opc2 = 4,
-+      .access = PL0_W, .type = ARM_CP_DC_GZVA,
-+#ifndef CONFIG_USER_ONLY
-+      /* Avoid overhead of an access check that always passes in user-mode */
-+      .accessfn = aa64_zva_access,
-+#endif
-+    },
-     REGINFO_SENTINEL
- };
- 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 394633babd..009cea6ed1 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1865,6 +1865,45 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+@@ -9702,6 +9702,9 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
+             break;
          }
-         gen_helper_dc_zva(cpu_env, tcg_rt);
-         return;
-+    case ARM_CP_DC_GVA:
-+        {
-+            TCGv_i64 clean_addr, tag;
-+
-+            /*
-+             * DC_GVA, like DC_ZVA, requires that we supply the original
-+             * pointer for an invalid page.  Probe that address first.
-+             */
-+            tcg_rt = cpu_reg(s, rt);
-+            clean_addr = clean_data_tbi(s, tcg_rt);
-+            gen_probe_access(s, clean_addr, MMU_DATA_STORE, MO_8);
-+
-+            if (s->ata) {
-+                /* Extract the tag from the register to match STZGM.  */
-+                tag = tcg_temp_new_i64();
-+                tcg_gen_shri_i64(tag, tcg_rt, 56);
-+                gen_helper_stzgm_tags(cpu_env, clean_addr, tag);
-+                tcg_temp_free_i64(tag);
-+            }
-+        }
-+        return;
-+    case ARM_CP_DC_GZVA:
-+        {
-+            TCGv_i64 clean_addr, tag;
-+
-+            /* For DC_GZVA, we can rely on DC_ZVA for the proper fault. */
-+            tcg_rt = cpu_reg(s, rt);
-+            clean_addr = clean_data_tbi(s, tcg_rt);
-+            gen_helper_dc_zva(cpu_env, clean_addr);
-+
-+            if (s->ata) {
-+                /* Extract the tag from the register to match STZGM.  */
-+                tag = tcg_temp_new_i64();
-+                tcg_gen_shri_i64(tag, tcg_rt, 56);
-+                gen_helper_stzgm_tags(cpu_env, clean_addr, tag);
-+                tcg_temp_free_i64(tag);
-+            }
-+        }
-+        return;
-     default:
-         break;
      }
++    if (cpu_isar_feature(aa64_mte, cpu)) {
++        new_mode |= PSTATE_TCO;
++    }
+ 
+     pstate_write(env, PSTATE_DAIF | new_mode);
+     env->aarch64 = 1;
 -- 
 2.25.1
 
