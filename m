@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD7E41EC6CD
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:35:47 +0200 (CEST)
-Received: from localhost ([::1]:36496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12CAA1EC6B7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:31:33 +0200 (CEST)
+Received: from localhost ([::1]:45046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgIJm-0003za-Uk
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:35:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49048)
+	id 1jgIFg-0004Ok-2W
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:31:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHyt-0005AP-Bd
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:11 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:39719)
+ id 1jgHyu-0005Dr-Go
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:12 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:36974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHys-0003hK-JE
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:10 -0400
-Received: by mail-pl1-x644.google.com with SMTP id v24so199532plo.6
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:14:10 -0700 (PDT)
+ id 1jgHyt-0003hd-QA
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:12 -0400
+Received: by mail-pl1-x644.google.com with SMTP id y18so202368plr.4
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:14:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uaH1sngv9xlWH/X8rZjic7q7Jho9e1jf1ezwAdUAR9c=;
- b=W2VpHdhlmXjJWldCJJ/AWBtSxY3UTYaz44DqxLhKEiskonM1uXUpPuN29hCgBFhPvP
- gA7YjjtvTHhJ8fx92XaeSMXl0EFMTDiukC9LU3Yk9lybiGySoCD1FPyYl6zvjVsQjQ/1
- bQ2EaThf9TApdkDsf/53X/YavAdnEWivRfC/g5t8sKJoQ31aoYdEOBXNRTkUlsEOj/HF
- pEy7asfNnWtpbtpB+r/l0jBmQgdZTeeqoGSkuw3PxtzqKW4l1RH1ulpfwhNN323u4vCQ
- 18fu0Mjvz++aU6Vdi5E0zAATT6NdUkmOwx78uuxXr/TJyE2Pn5x+g6UZwh7ulqF3O9zU
- EG3g==
+ bh=DWHyTpGlKBuharmhIu7/0HNfc6hnYtHUc2NhnIgEMGo=;
+ b=mmOMn8K6m384XUfdOljdjRtVgurc7mmaDh4q5305ZT+DX+9zE7CHgUDWhfxAgu1War
+ oqTa5to9WH5JJAEL4i/7kpkHMLj6SDRxZcBpkyvBkQb3gUGRrVMD0my4Amkit+/nthO+
+ cqnOTIty9NPcoVZsoYNhBEUdMqwy9ccjOA0GfxYW3+0XY6aZXWd0WI57uBEwfbebLQ9y
+ 4DaUwiu77oIk32TL+3LhYo4lubrGSMZ401oIg3gS+I3IncQ3HNkE0XnfEtq8sa86cY/e
+ QAcnwujJCpxFOvYgg3LAKHzLc60+JVyRdkBGztARLLQiRb5qS8YKQSdOZjcORVxwVa9y
+ Sldw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uaH1sngv9xlWH/X8rZjic7q7Jho9e1jf1ezwAdUAR9c=;
- b=iNPNSEr/nAz5FBq2KlQyYWCeL7FNzZx1c1toZhctfds+lBE7pvQ0QLf8rpeBKbqc4w
- y885PdDp2PO2Dy7zXb8j/BfuFPsIpqQIybwmm4IJBfHCcu9scbJhOnmrXPFsA6Czmj5T
- jLnHmfVZuBdZweEUWZdve1lWahpz1+HByT7koJg4u+jBmIbBeWLOA7DADh+ZRooTP3ZM
- FIRbToJQAJkD/N9aUZb1AL7XR2yCycraAvdcVG8k1VszUs6H+3wunhc00+gd491DT0zW
- cDOUycMtQ8LXz51jUtKBlLWsgXwj4qWVTD/otBGahvR8ph2uglQzy5t3zcOSuzbYC4Di
- K9Tg==
-X-Gm-Message-State: AOAM530swloX/ZJovSUyoEUyU1IGuG88WYwVpW+Tos02HvzVLz+0VfhQ
- nDk/dImhWe18qn+I+9hx37fVKyD57HE=
-X-Google-Smtp-Source: ABdhPJxlz0U+OGynw30ChSMQGFOTZv+xNdIiO/NkvaO1oF/jXC+QHVGJok/SKi6Wu0syZRMm+Lp/AA==
-X-Received: by 2002:a17:902:d711:: with SMTP id
- w17mr28235658ply.122.1591146848946; 
- Tue, 02 Jun 2020 18:14:08 -0700 (PDT)
+ bh=DWHyTpGlKBuharmhIu7/0HNfc6hnYtHUc2NhnIgEMGo=;
+ b=JozGNN9lAL8dwqvTya1Qnj5tbNM+8dSLmr2bZejZyKMDuxJQxnNV1hfJATQHxBWEtO
+ VZO9NBoaEdbTtVxdxwTXK3GXDcxL5+7oJs4kaVBLbqhTHhY5PfRYB3NrUIZ4tjyQhG3v
+ j/QwgqySZqAiLBoso7sVKo4ElBvP+8RX5yq2/NR0cDb4d2k3XB7su3UCO2QusjaiqOAU
+ FMdIuUZadBY0FDPQ2tscPKDLJvUTx2gNxj74/GWjC4Mwfay5mp6IViZhLpjv4pAmTSIG
+ pyxm0He1UsIXrX8qx0wCSZWw7DjmbAzVC4kx6LZtJm8CZpiymEXVBJfIUkExJkDZQX1X
+ d4mg==
+X-Gm-Message-State: AOAM532U0ePJ5VGdxsnmjt1VmDBnBtZXCi7n5DT5ewaTih1WuvoSuhZQ
+ sgKM5tOckoY+ySu96plBy8dnMv5L+YA=
+X-Google-Smtp-Source: ABdhPJyPPg3L9peo2OjUm0bp7zdJa1mdYObMtF/1QIr7uwb86yyLze80mNH5yEBkY5dSLypFG678dw==
+X-Received: by 2002:a17:902:6541:: with SMTP id
+ d1mr25523754pln.96.1591146850191; 
+ Tue, 02 Jun 2020 18:14:10 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.14.07
+ by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.14.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 18:14:08 -0700 (PDT)
+ Tue, 02 Jun 2020 18:14:09 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 38/42] target/arm: Set PSTATE.TCO on exception entry
-Date: Tue,  2 Jun 2020 18:13:13 -0700
-Message-Id: <20200603011317.473934-39-richard.henderson@linaro.org>
+Subject: [PATCH v7 39/42] target/arm: Enable MTE
+Date: Tue,  2 Jun 2020 18:13:14 -0700
+Message-Id: <20200603011317.473934-40-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200603011317.473934-1-richard.henderson@linaro.org>
 References: <20200603011317.473934-1-richard.henderson@linaro.org>
@@ -90,30 +90,29 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-D1.10 specifies that exception handlers begin with tag checks overridden.
+We now implement all of the components of MTE, without actually
+supporting any tagged memory.  All MTE instructions will work,
+trivially, so we can enable support.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Only set if MTE feature present.
+v6: Delay user-only cpu reset bits to the user-only patch set.
 ---
- target/arm/helper.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/arm/cpu64.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 3adafc07f0..50717afa4a 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -9702,6 +9702,9 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
-             break;
-         }
-     }
-+    if (cpu_isar_feature(aa64_mte, cpu)) {
-+        new_mode |= PSTATE_TCO;
-+    }
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index cbc5c3868f..e4bce55c5f 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -655,6 +655,7 @@ static void aarch64_max_initfn(Object *obj)
  
-     pstate_write(env, PSTATE_DAIF | new_mode);
-     env->aarch64 = 1;
+         t = cpu->isar.id_aa64pfr1;
+         t = FIELD_DP64(t, ID_AA64PFR1, BT, 1);
++        t = FIELD_DP64(t, ID_AA64PFR1, MTE, 2);
+         cpu->isar.id_aa64pfr1 = t;
+ 
+         t = cpu->isar.id_aa64mmfr1;
 -- 
 2.25.1
 
