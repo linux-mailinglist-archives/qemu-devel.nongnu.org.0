@@ -2,98 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE361ED1B1
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 16:07:18 +0200 (CEST)
-Received: from localhost ([::1]:46410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17EAB1ED1BD
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 16:10:26 +0200 (CEST)
+Received: from localhost ([::1]:51718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgU32-00038L-UU
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 10:07:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58064)
+	id 1jgU65-0005NJ-5V
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 10:10:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jgU23-0002Ni-9d
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 10:06:15 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31239
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jgU22-00070f-CS
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 10:06:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591193173;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OG1vvzLZG24bWYH+4tldMKGMs4ZSq4cL4tzR70rFGKI=;
- b=ie564MZHQVNISaUluiYIYQqhlPpEOofHpbnLRwStoDvheh5V5mRk0Ld3CNPSaG89IwCWSs
- WIVj9k/j+/9LH5kSyw6mu9C1/IBSyAKtqv/28G6SBeG+ktMX+WbK7uwE5nGGuc3mDFp5El
- bH3wX8mv2dvV38OdPm4FtZsNsM4507I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-Fppl_Tb9NSm_dsasWZ6v1w-1; Wed, 03 Jun 2020 10:05:58 -0400
-X-MC-Unique: Fppl_Tb9NSm_dsasWZ6v1w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A977461;
- Wed,  3 Jun 2020 14:05:57 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-115-6.ams2.redhat.com
- [10.36.115.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 56A7410013D6;
- Wed,  3 Jun 2020 14:05:56 +0000 (UTC)
-Subject: Re: [PATCH] block/block-copy: block_copy_dirty_clusters: fix failure
- check
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200526181347.489557-1-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <1ded3ee1-b112-6d26-6f02-d405b2306932@redhat.com>
-Date: Wed, 3 Jun 2020 16:05:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <chmeeedalf@gmail.com>)
+ id 1jgU58-0004mf-3m; Wed, 03 Jun 2020 10:09:26 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:42600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chmeeedalf@gmail.com>)
+ id 1jgU57-0007og-9c; Wed, 03 Jun 2020 10:09:25 -0400
+Received: by mail-il1-x142.google.com with SMTP id 18so2586119iln.9;
+ Wed, 03 Jun 2020 07:09:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=8ERd7pPWfhRkjffTKffryj1PaQqKf6favNu1AKnJBBY=;
+ b=WPO9qid2wK/IbyEAGgx2GT5Kw6bx/2OkkBUH3Oih484IeirKH6zIHYEEHOEEP2sZvj
+ 6jzXC52VqxhiycW5/1W+rN2A8e0ijmXoIYs3dXtiwCnE+m0iS1zY+cUPGEAqJ6kDOB6Q
+ 6MBLCgiUu9z4Ux/WnH8Pz5RAmZ7Ap86ONMAR5D/trJIRSWuga1iTt4tSVsdclT21lwcp
+ lYbGed5j6gL5GEFi5z2/rhnM26O3j0OlicpkwLqKdiJCp+u15xc9jtckd6sdw+g2BlOb
+ 7Ye5W7+TZCNSLi1cIsf6Elj0sQe5p71xcJHqT5JEiVlWsMaoFe1/KbWyuWgpMfVYOTJs
+ 1dRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8ERd7pPWfhRkjffTKffryj1PaQqKf6favNu1AKnJBBY=;
+ b=ldPA/O2iF2SW/kqsGpXK0muH/SfiBdmUnQ8pOcx1/Y6/4V3HDM06YMmKfUr4XlfPAT
+ eXGbeHWQ3UB7wrEVCoGJn2Iuq8OJTQd7fxoAgq8cYzG/q5a/09ZO3FqoNwfBDgKqmWCI
+ KK2JlJH+iKftpzCkYh9wVO1ANXcyRma26eGuq7GaNb/Qz2P9JJwSG972Xb7itYR8ax5t
+ cFWYHIWKsP7Ws8yQNu7ikcg5aBd9K83I3TejpSOjImy2Ok8Ix96k0AMwYyZNR9UIH0DC
+ 2EbQNzwXrrdeJhny7Mi2Q72LL+nSiBcqIiocLnJmwhuWj86PVEGcWfIkTUIGwuxb71Xl
+ JM4g==
+X-Gm-Message-State: AOAM531jBPGFP0IXS1RVz+u46m59Zq7V4aE+5HK1gswu2Cf+Hj3QK6uK
+ IR66X4w5THcdWDzmwjmKERI=
+X-Google-Smtp-Source: ABdhPJwsFDDhsB3kCmAQWrUMOYi2iDtFn2LFlJY7+FUUQSM4Yjolj3FudkorwzCEVGnrZnTASIdlQQ==
+X-Received: by 2002:a92:de41:: with SMTP id e1mr3879238ilr.199.1591193362572; 
+ Wed, 03 Jun 2020 07:09:22 -0700 (PDT)
+Received: from titan.knownspace (173-19-125-130.client.mchsi.com.
+ [173.19.125.130])
+ by smtp.gmail.com with ESMTPSA id g21sm1026714ioc.14.2020.06.03.07.09.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Jun 2020 07:09:22 -0700 (PDT)
+Date: Wed, 3 Jun 2020 09:09:21 -0500
+From: Justin Hibbits <chmeeedalf@gmail.com>
+To: Philippe =?UTF-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] util/oslib-posix : qemu_init_exec_dir implementation
+ for MacOS
+Message-ID: <20200603090921.64351a28@titan.knownspace>
+In-Reply-To: <76587685-fa03-6dd6-5ca3-caeaf3c7504b@redhat.com>
+References: <CA+XhMqwH6btbKFD0Ei47e+QHN2eBPG5H2PTS92MAje2Tij4Y=A@mail.gmail.com>
+ <76587685-fa03-6dd6-5ca3-caeaf3c7504b@redhat.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; powerpc64-portbld-freebsd13.0)
 MIME-Version: 1.0
-In-Reply-To: <20200526181347.489557-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="SaiXl1LfliFMkHK3oCtSfQa1sHbEFjjGo"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 01:04:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=chmeeedalf@gmail.com; helo=mail-il1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,53 +85,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-devel@nongnu.org, John Arbuckle <programmingkidx@gmail.com>,
+ David CARLIER <devnexen@gmail.com>, Izik Eidus <izik@veertu.com>,
+ pbonzini@redhat.com, Mikhail Gusarov <dottedmag@dottedmag.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---SaiXl1LfliFMkHK3oCtSfQa1sHbEFjjGo
-Content-Type: multipart/mixed; boundary="ATl44S7oTbL9ZeMQAT6XmNs9P6bMJuAhS"
+On Wed, 3 Jun 2020 08:08:42 +0200
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
---ATl44S7oTbL9ZeMQAT6XmNs9P6bMJuAhS
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 26.05.20 20:13, Vladimir Sementsov-Ogievskiy wrote:
-> ret may be > 0 on success path at this point. Fix assertion, which may
-> crash currently.
+> Cc'ing more developers.
 >=20
-> Fixes: 4ce5dd3e9b5ee0fac18625860eb3727399ee965e
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/block-copy.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> On 5/26/20 10:40 PM, David CARLIER wrote:
+> > From b24a6702beb2a4e2a9c1c03b69c6d1dd07d4cf08 Mon Sep 17 00:00:00
+> > 2001 From: David Carlier <devnexen@gmail.com>
+> > Date: Tue, 26 May 2020 21:35:27 +0100
+> > Subject: [PATCH] util/oslib: current process full path resolution
+> > on MacOS
+> >=20
+> > Using existing libproc to fill the path.
+> >=20
+> > Signed-off-by: David Carlier <devnexen@gmail.com>
+> > ---
+> >  util/oslib-posix.c | 13 +++++++++++++
+> >  1 file changed, 13 insertions(+)
+> >=20
+> > diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> > index 062236a1ab..96f0405ee6 100644
+> > --- a/util/oslib-posix.c
+> > +++ b/util/oslib-posix.c
+> > @@ -55,6 +55,10 @@
+> >  #include <sys/sysctl.h>
+> >  #endif
+> >=20
+> > +#ifdef __APPLE__
+> > +#include <libproc.h>
+> > +#endif
+> > +
+> >  #include "qemu/mmap-alloc.h"
+> >=20
+> >  #ifdef CONFIG_DEBUG_STACK_USAGE
+> > @@ -366,6 +370,15 @@ void qemu_init_exec_dir(const char *argv0)
+> >              p =3D buf;
+> >          }
+> >      }
+> > +#elif defined(__APPLE__)
+> > +    {
+> > +        uint32_t len;
+> > +        len =3D proc_pidpath(getpid(), buf, sizeof(buf) - 1);
+> > +        if (len > 0) {
+> > +            buf[len] =3D 0;
+> > +            p =3D buf;
+> > +        }
+> > +    }
+> >  #endif
+> >      /* If we don't have any way of figuring out the actual
+> > executable location then try argv[0].  */
+> >  =20
+>=20
 
-Thanks, applied to my block branch:
+Apologies, I don't have context for this.  Why was I CC'd on this?
 
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+Does proc_pidpath() not NUL-terminate its written string?  And, given
+from my quick google search, it looks like this function is private and
+subject to change, so can you guarantee that the returned length is the
+*written* length, not the full string length?  If not, you could be
+overwriting other arbitrary data.
 
-
---ATl44S7oTbL9ZeMQAT6XmNs9P6bMJuAhS--
-
---SaiXl1LfliFMkHK3oCtSfQa1sHbEFjjGo
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl7XrkIACgkQ9AfbAGHV
-z0DivAf/U7gwItDOfwmQN6f9bUK2ompbsGvod3S2aa4nx9YBRqrLXCBXkpDlc37a
-ny1fLlWOFGxMpyVx20npL1lq7TwEPRw/lSnNu81eJ0oyJZdRO9/iWxMOoMjS0sO/
-fa8aiN+TIQbC86tC0LyuDpu1CyL03gOp8FdtAUdDScX9mmwTk5r0i408vYFMFhxa
-GRQq/8RDTIMm+vzCR84xxBJu3gwOLoZbegsdlJFAasxQcwjdtFu5fiwuFXz/a/tC
-lkMYpKCeeW0xSmpeWZbTWP1Lsx8fEZt/t6p9r+8ZV6sBMQsQZduGumKahW+0hVXz
-hVugLD8NdllRMzVYM1do/Gu7moAZug==
-=XO3g
------END PGP SIGNATURE-----
-
---SaiXl1LfliFMkHK3oCtSfQa1sHbEFjjGo--
-
+- Justin
 
