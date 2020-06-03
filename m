@@ -2,64 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845B81ECBAB
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 10:39:02 +0200 (CEST)
-Received: from localhost ([::1]:36898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 232C61ECBE7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 10:52:08 +0200 (CEST)
+Received: from localhost ([::1]:45584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgOvN-0007YI-Kr
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 04:39:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42712)
+	id 1jgP83-0004Qy-7X
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 04:52:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jgOuf-0006yo-Tu; Wed, 03 Jun 2020 04:38:17 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2102 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jgOue-0005o3-K8; Wed, 03 Jun 2020 04:38:17 -0400
-Received: from lhreml706-chm.china.huawei.com (unknown [172.18.7.106])
- by Forcepoint Email with ESMTP id 82256929B881A35E64F9;
- Wed,  3 Jun 2020 09:38:07 +0100 (IST)
-Received: from lhreml703-chm.china.huawei.com (10.201.108.52) by
- lhreml706-chm.china.huawei.com (10.201.108.55) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Wed, 3 Jun 2020 09:38:07 +0100
-Received: from lhreml703-chm.china.huawei.com ([10.201.68.198]) by
- lhreml703-chm.china.huawei.com ([10.201.68.198]) with mapi id 15.01.1913.007; 
- Wed, 3 Jun 2020 09:38:06 +0100
-From: Salil Mehta <salil.mehta@huawei.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-arm@nongnu.org"
- <qemu-arm@nongnu.org>
-Subject: RE: [Question] Regarding PMU initialization within the QEMU for ARM
- VCPUs
-Thread-Topic: [Question] Regarding PMU initialization within the QEMU for ARM
- VCPUs
-Thread-Index: AdY3+/mIYt1+TQdDQmymnxAa7PkUWwBhLxBA
-Date: Wed, 3 Jun 2020 08:38:06 +0000
-Message-ID: <97cd83a6eee449779c193ac9fd3bbea3@huawei.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.47.64.231]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jgP7G-00041O-R4
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 04:51:18 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45196)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jgP7F-0008PH-6N
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 04:51:18 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jgP7D-0001dX-1x
+ for <qemu-devel@nongnu.org>; Wed, 03 Jun 2020 08:51:15 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0DC832E806D
+ for <qemu-devel@nongnu.org>; Wed,  3 Jun 2020 08:51:15 +0000 (UTC)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.76.210;
- envelope-from=salil.mehta@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 04:38:07
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 03 Jun 2020 08:40:27 -0000
+From: Ubuntu SRU Bot <1805256@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=kunpeng920; status=In Progress; importance=Undecided; 
+ assignee=None; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-18.04;
+ status=In Progress; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-18.04-hwe;
+ status=In Progress; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-19.10;
+ status=In Progress; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-20.04;
+ status=In Progress; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=kunpeng920; productseries=upstream-kernel;
+ status=Invalid; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
+ component=main; status=Fix Committed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=Fix Committed; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Fix Committed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug-Tags: block-proposed-bionic block-proposed-eoan
+ block-proposed-focal ikeradar patch qemu-img verification-done-bionic
+ verification-done-eoan verification-done-focal
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andrew-cloke brian-murray dannf ikepanhc iveskim
+ jan-glauber-i janitor jnsnow kongzizaixian lizhengui paelzer philmd
+ rafaeldtinoco ubuntu-sru-bot ying-fang
+X-Launchpad-Bug-Reporter: dann frazier (dannf)
+X-Launchpad-Bug-Modifier: Ubuntu SRU Bot (ubuntu-sru-bot)
+References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
+Message-Id: <20200603084027.1036C2402B4@snakefruit.canonical.com>
+Subject: [Bug 1805256] Autopkgtest regression report (qemu/1:4.2-3ubuntu6.2)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="275d46a24253e557e4403d52832837e4bfa425b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 334eeee16d77a832e665e82209a64854d119194d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 04:51:15
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,97 +100,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Gavin Shan <gshan@redhat.com>,
- "drjones@redhat.com" <drjones@redhat.com>, "mst@redhat.com" <mst@redhat.com>
+Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
-Any comments on this would be really helpful & much appreciated.
+All autopkgtests for the newly accepted qemu (1:4.2-3ubuntu6.2) for focal h=
+ave finished running.
+The following regressions have been reported in tests triggered by the pack=
+age:
+
+systemd/245.4-4ubuntu3.1 (arm64)
 
 
-Thanks in anticipation!
+Please visit the excuses page listed below and investigate the failures, pr=
+oceeding afterwards as per the StableReleaseUpdates policy regarding autopk=
+gtest regressions [1].
 
-Best regards
-Salil
-> -----Original Message-----
-> From: Salil Mehta
-> Sent: Monday, June 1, 2020 4:00 PM
-> To: qemu-devel@nongnu.org; qemu-arm@nongnu.org
-> Cc: Peter Maydell <peter.maydell@linaro.org>; mst@redhat.com; Igor Mammed=
-ov
-> <imammedo@redhat.com>
-> Subject: [Question] Regarding PMU initialization within the QEMU for ARM =
-VCPUs
->=20
-> Hello,
-> I could see below within function fdt_add_pmu_nodes() part of
-> hw/arm/virt.c during virt machine initialization time:
->=20
-> Observation:
-> In below function, support of PMU feature is being checked for
-> each vcpu and if the PMU is found part of the features then PMU
-> is initialized with in the host/KVM. But if there is even one
-> vcpu which is found to not support the PMU then loop is exited
-> and PMU is not initialized for the rest of the vcpus as well.
->=20
-> static void fdt_add_pmu_nodes(const VirtMachineState *vms)
-> {
->     CPUState *cpu;
->     ARMCPU *armcpu;
->     uint32_t irqflags =3D GIC_FDT_IRQ_FLAGS_LEVEL_HI;
->=20
->     CPU_FOREACH(cpu) {
->         armcpu =3D ARM_CPU(cpu);
->         if (!arm_feature(&armcpu->env, ARM_FEATURE_PMU)) {
->             return; ------> Here, loop exits & function returns
->         }
->         if (kvm_enabled()) {
->             if (kvm_irqchip_in_kernel()) {
->                 kvm_arm_pmu_set_irq(cpu, PPI(VIRTUAL_PMU_IRQ));
->             }
->             kvm_arm_pmu_init(cpu);
->         }
->     }
->=20
->     if (vms->gic_version =3D=3D VIRT_GIC_VERSION_2) {
->         irqflags =3D deposit32(irqflags, GIC_FDT_IRQ_PPI_CPU_START,
->                              GIC_FDT_IRQ_PPI_CPU_WIDTH,
->                              (1 << vms->smp_cpus) - 1);
->     }
->=20
->     armcpu =3D ARM_CPU(qemu_get_cpu(0));
->     qemu_fdt_add_subnode(vms->fdt, "/pmu");
->     if (arm_feature(&armcpu->env, ARM_FEATURE_V8)) {
->         const char compat[] =3D "arm,armv8-pmuv3";
->         qemu_fdt_setprop(vms->fdt, "/pmu", "compatible",
->                          compat, sizeof(compat));
->         qemu_fdt_setprop_cells(vms->fdt, "/pmu", "interrupts",
->                                GIC_FDT_IRQ_TYPE_PPI, VIRTUAL_PMU_IRQ, irq=
-flags);
->     }
-> }
->=20
-> Questions:
-> Q1. Not sure what is the logic of the premature exit and not
->     continuing with further checks and initialization of other
->     VCPU PMUs?
-> Q2. Does it even makes sense to have PMUs initialized for some
->     vcpus and not for others unless we have heterogeneous system?
-> Q3. Also, there is a per virt machine knob of vcc->no_pmu.
->     This is something which user could specify at the init time
->     and perhaps only once but we don't use it for ARM. Perhaps
->     should have been used even before entering this function
->     to enable or disable the support as per user config?
-> Q4. This function  fdt_* looks to be wrongly named. The info
->     being initialized here shall be used even when ACPI is
->     being used. Initialization part and FDT info looked
->     mixed up here if I am right?
->=20
->=20
-> Best regards
-> Salil
->=20
+https://people.canonical.com/~ubuntu-archive/proposed-
+migration/focal/update_excuses.html#qemu
 
+[1] https://wiki.ubuntu.com/StableReleaseUpdates#Autopkgtest_Regressions
+
+Thank you!
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1805256
+
+Title:
+  qemu-img hangs on rcu_call_ready_event logic in Aarch64 when
+  converting images
+
+Status in kunpeng920:
+  In Progress
+Status in kunpeng920 ubuntu-18.04 series:
+  In Progress
+Status in kunpeng920 ubuntu-18.04-hwe series:
+  In Progress
+Status in kunpeng920 ubuntu-19.10 series:
+  In Progress
+Status in kunpeng920 ubuntu-20.04 series:
+  In Progress
+Status in kunpeng920 upstream-kernel series:
+  Invalid
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Bionic:
+  Fix Committed
+Status in qemu source package in Eoan:
+  Fix Committed
+Status in qemu source package in Focal:
+  Fix Committed
+
+Bug description:
+  [Impact]
+
+  * QEMU locking primitives might face a race condition in QEMU Async
+  I/O bottom halves scheduling. This leads to a dead lock making either
+  QEMU or one of its tools to hang indefinitely.
+
+  [Test Case]
+
+  * qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Hangs indefinitely approximately 30% of the runs in Aarch64.
+
+  [Regression Potential]
+
+  * This is a change to a core part of QEMU: The AIO scheduling. It
+  works like a "kernel" scheduler, whereas kernel schedules OS tasks,
+  the QEMU AIO code is responsible to schedule QEMU coroutines or event
+  listeners callbacks.
+
+  * There was a long discussion upstream about primitives and Aarch64.
+  After quite sometime Paolo released this patch and it solves the
+  issue. Tested platforms were: amd64 and aarch64 based on his commit
+  log.
+
+  * Christian suggests that this fix stay little longer in -proposed to
+  make sure it won't cause any regressions.
+
+  * dannf suggests we also check for performance regressions; e.g. how
+  long it takes to convert a cloud image on high-core systems.
+
+  [Other Info]
+
+  =C2=A0* Original Description bellow:
+
+  Command:
+
+  qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Hangs indefinitely approximately 30% of the runs.
+
+  ----
+
+  Workaround:
+
+  qemu-img convert -m 1 -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Run "qemu-img convert" with "a single coroutine" to avoid this issue.
+
+  ----
+
+  (gdb) thread 1
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf1ad81c in __GI_ppoll
+  #1 0x0000aaaaaabcf73c in ppoll
+  #2 qemu_poll_ns
+  #3 0x0000aaaaaabd0764 in os_host_main_loop_wait
+  #4 main_loop_wait
+  ...
+
+  (gdb) thread 2
+  ...
+  (gdb) bt
+  #0 syscall ()
+  #1 0x0000aaaaaabd41cc in qemu_futex_wait
+  #2 qemu_event_wait (ev=3Dev@entry=3D0xaaaaaac86ce8 <rcu_call_ready_event>)
+  #3 0x0000aaaaaabed05c in call_rcu_thread
+  #4 0x0000aaaaaabd34c8 in qemu_thread_start
+  #5 0x0000ffffbf25c880 in start_thread
+  #6 0x0000ffffbf1b6b9c in thread_start ()
+
+  (gdb) thread 3
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf11aa20 in __GI___sigtimedwait
+  #1 0x0000ffffbf2671b4 in __sigwait
+  #2 0x0000aaaaaabd1ddc in sigwait_compat
+  #3 0x0000aaaaaabd34c8 in qemu_thread_start
+  #4 0x0000ffffbf25c880 in start_thread
+  #5 0x0000ffffbf1b6b9c in thread_start
+
+  ----
+
+  (gdb) run
+  Starting program: /usr/bin/qemu-img convert -f qcow2 -O qcow2
+  ./disk01.ext4.qcow2 ./output.qcow2
+
+  [New Thread 0xffffbec5ad90 (LWP 72839)]
+  [New Thread 0xffffbe459d90 (LWP 72840)]
+  [New Thread 0xffffbdb57d90 (LWP 72841)]
+  [New Thread 0xffffacac9d90 (LWP 72859)]
+  [New Thread 0xffffa7ffed90 (LWP 72860)]
+  [New Thread 0xffffa77fdd90 (LWP 72861)]
+  [New Thread 0xffffa6ffcd90 (LWP 72862)]
+  [New Thread 0xffffa67fbd90 (LWP 72863)]
+  [New Thread 0xffffa5ffad90 (LWP 72864)]
+
+  [Thread 0xffffa5ffad90 (LWP 72864) exited]
+  [Thread 0xffffa6ffcd90 (LWP 72862) exited]
+  [Thread 0xffffa77fdd90 (LWP 72861) exited]
+  [Thread 0xffffbdb57d90 (LWP 72841) exited]
+  [Thread 0xffffa67fbd90 (LWP 72863) exited]
+  [Thread 0xffffacac9d90 (LWP 72859) exited]
+  [Thread 0xffffa7ffed90 (LWP 72860) exited]
+
+  <HUNG w/ 3 threads in the stack trace showed before>
+  """
+
+  All the tasks left are blocked in a system call, so no task left to call
+  qemu_futex_wake() to unblock thread #2 (in futex()), which would unblock
+  thread #1 (doing poll() in a pipe with thread #2).
+
+  Those 7 threads exit before disk conversion is complete (sometimes in
+  the beginning, sometimes at the end).
+
+  ----
+
+  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
+  frequently hangs (~50% of the time) with this command:
+
+  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
+
+  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
+  qcow2->qcow2 conversion happens to be something uvtool does every time
+  it fetches images.
+
+  Once hung, attaching gdb gives the following backtrace:
+
+  (gdb) bt
+  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
+274213760,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3D<optimized out>, timeout@entry=3D0x0, s=
+igmask=3D0xffffc123b950)
+  =C2=A0=C2=A0=C2=A0=C2=A0at ../sysdeps/unix/sysv/linux/ppoll.c:39
+  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
+ptimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0__fds=3D<optimized out>) at /usr/include/aarch64-=
+linux-gnu/bits/poll2.h:77
+  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.=
+c:322
+  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
+  =C2=A0=C2=A0=C2=A0=C2=A0at util/main-loop.c:233
+  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
+  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
+g.c:1980
+  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
+img.c:2456
+  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
+-img.c:4975
+
+  Reproduced w/ latest QEMU git (@ 53744e0a182)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/kunpeng920/+bug/1805256/+subscriptions
 
