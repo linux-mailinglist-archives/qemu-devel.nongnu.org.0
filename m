@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868AE1EC69D
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:21:25 +0200 (CEST)
-Received: from localhost ([::1]:52836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4B51EC6A3
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:23:10 +0200 (CEST)
+Received: from localhost ([::1]:33192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgI5s-0001OM-I0
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:21:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48646)
+	id 1jgI7Z-0004rc-A6
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:23:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHyM-0003qb-2J
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:39 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:42494)
+ id 1jgHyN-0003rc-QN
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:41 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:33270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHyJ-0003YW-QE
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:36 -0400
-Received: by mail-pl1-x641.google.com with SMTP id x11so194106plv.9
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:13:34 -0700 (PDT)
+ id 1jgHyJ-0003Yk-RF
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:39 -0400
+Received: by mail-pl1-x642.google.com with SMTP id t7so209382plr.0
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:13:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e60Bq5SlAYtW55DZqRQCRGGXcLnTZe8NHr+quQk/wbA=;
- b=NtTPwYY9PU7sn13lSWl2GMDyhBoH9IxK9qoGwFkNqo4bECzelUhm29RunktbGUOOHm
- AftSaMCpkEW2V7h9I0hct+lLkKdxu+OvHcTUXhYqf0q3xXNzR4CJlz4Pw0a1FKqdZ+H3
- 6xoRoleY5oPiG3/qh0KUe5u/jaTDNFOWxrxhctPlmbINs3Dc6h/LM02IP9SYOX1DcOBa
- 0cqiDPLxUXcVdGhhHawA5cMMVfLfu2RyrzrKNbSMjZWqrxsitWfo8B8mTgXI86c1XKce
- JMYgc6wi1EgFXBDfEZrTtPEyetq8toYyxIacCaXzfHWAvgPWno3GAZoXcdj9MJRyNOsh
- YBew==
+ bh=TDw09kqIkbskRr4/kNgVUuxCkd+nzaukf7UqdETf1U0=;
+ b=yUo6adD8xnB39ooYZVKvAMUokWhucdRFGYuFbSDUjdog0eTz3gh6UKycWetGt9Q+fB
+ CgLP6dzFgmkT/9YSLPYp1iqba8ULo7ZkZNDC/NBIxXJFKw/Q7cBKQq84btLmQw4qX42p
+ vZsQH52cJjxoP8w2wNaLAzr7jD788JtY+nkwld5Hyjv+cLpz/5PDleNX0LBVjDpzfiFZ
+ ZRXk5w6qBa2KWaAE5hd6qCTKihBIX73UVJfFBsnW7k//6EAyVDfU0zwjevbgKDqzaNqT
+ AyeIhnzyjMp/hNFOVF+dyUou6/sG0RNFNXY5BJ4AweqwQSNPb8+0iqGAU9VM1bk5mZFl
+ kbYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e60Bq5SlAYtW55DZqRQCRGGXcLnTZe8NHr+quQk/wbA=;
- b=DAZWH02HhgjXEBzkYrlp96KZGIEAHkvA2W6XZ+wnyLQZFN9FvbuI84QKzy0lErmYz6
- Roufs6d46eWYg3oHbyE9UxQA2XHB/07AiFqMrveCIFDvzjbrfMGnvldbhoAy0XYQQPas
- imacr4BWruFRLPEvMf2e+5JemSAnXr0Mg+nTXLOZlIG7vAXqxKBku3moWoISKj0YgB0w
- Bl4KIJmYj6dcxVINh73XW1slrcvmF+dAXLv3CUKiMNZ4A0rVFEQ8QDaeV+8M9X/+w/4p
- co+wcXQblNwat7MUbcMblDzdp/1o8m/9NFi5TfK/d6l/ghKEkSGPnoJaBZ8WWmNcL01N
- nUOA==
-X-Gm-Message-State: AOAM5303wAm/aGi/olhsS37d2UDQ+Qg+uw0uQtZC+EYn771oQ26TVdTq
- sQFAN8PURa6goAXrZdjiZrD1qFyKT5E=
-X-Google-Smtp-Source: ABdhPJzLfpuSIRqS8IAt+4d64agFwbmnwUx6o225SdLRG3hMYKrKqY3Y8yXiICEbmjy+GA1PHJg44w==
-X-Received: by 2002:a17:902:7783:: with SMTP id
- o3mr26908788pll.286.1591146812885; 
- Tue, 02 Jun 2020 18:13:32 -0700 (PDT)
+ bh=TDw09kqIkbskRr4/kNgVUuxCkd+nzaukf7UqdETf1U0=;
+ b=kV7fDp7YBYjw5ZiynsRSt083j4o7PrEKmCksXWUpOSNJjI/q2uFCWqAKC+A0J95SQ4
+ CpIcjNlM9bbR9WmhXYnRO0HNpcEY2c0TlDjch70CY2r9wJ6gmuMSpwJe+S4kkQa8I7/4
+ sDKRr3z3WhntaikNmhIsfxTPp485WpaWuagWqpfAhLSHHiBCyFoFcudJCdUiaVaz5U/e
+ rAayjcZQHjpSG2C/m4N8THs7x/PzOhgC8Jv+/IXq/QPrBGxW2dGV73MAlgcDvnIGgi/9
+ oDj3x6CGDhIzX8+7gpsoB2VLinJgfE+X7+MYe0FTI0L5/6eQamxGU1graCAyqL9IsjmR
+ Wqgw==
+X-Gm-Message-State: AOAM533ExE2trNdVylyWP5q/P4pygCRyilCN8SeOad+JHQb57PI399Ww
+ Uodv0scrX+bhq9hTdvGC4+mpWNs/Zrw=
+X-Google-Smtp-Source: ABdhPJzgNdTGtQxa9HHnlt2EnoPWiqWzL9n+zX745GSbf/gyE82PykEK21BZw3yI/CbnINR0nZhXPw==
+X-Received: by 2002:a17:902:aa92:: with SMTP id
+ d18mr27914389plr.127.1591146814331; 
+ Tue, 02 Jun 2020 18:13:34 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.13.31
+ by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.13.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 18:13:32 -0700 (PDT)
+ Tue, 02 Jun 2020 18:13:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 11/42] target/arm: Implement the GMI instruction
-Date: Tue,  2 Jun 2020 18:12:46 -0700
-Message-Id: <20200603011317.473934-12-richard.henderson@linaro.org>
+Subject: [PATCH v7 12/42] target/arm: Implement the SUBP instruction
+Date: Tue,  2 Jun 2020 18:12:47 -0700
+Message-Id: <20200603011317.473934-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200603011317.473934-1-richard.henderson@linaro.org>
 References: <20200603011317.473934-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,38 +90,59 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v6: Inline the operation.
+v2: Fix extraction length.
 ---
- target/arm/translate-a64.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ target/arm/translate-a64.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index a18d71ad98..7d0b7d5b58 100644
+index 7d0b7d5b58..0ee2ef403e 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -5325,6 +5325,21 @@ static void disas_data_proc_2src(DisasContext *s, uint32_t insn)
-                                              cpu_reg_sp(s, rn));
-         }
-         break;
-+    case 5: /* GMI */
+@@ -5294,19 +5294,39 @@ static void handle_crc32(DisasContext *s,
+  */
+ static void disas_data_proc_2src(DisasContext *s, uint32_t insn)
+ {
+-    unsigned int sf, rm, opcode, rn, rd;
++    unsigned int sf, rm, opcode, rn, rd, setflag;
+     sf = extract32(insn, 31, 1);
++    setflag = extract32(insn, 29, 1);
+     rm = extract32(insn, 16, 5);
+     opcode = extract32(insn, 10, 6);
+     rn = extract32(insn, 5, 5);
+     rd = extract32(insn, 0, 5);
+ 
+-    if (extract32(insn, 29, 1)) {
++    if (setflag && opcode != 0) {
+         unallocated_encoding(s);
+         return;
+     }
+ 
+     switch (opcode) {
++    case 0: /* SUBP(S) */
 +        if (sf == 0 || !dc_isar_feature(aa64_mte_insn_reg, s)) {
 +            goto do_unallocated;
 +        } else {
-+            TCGv_i64 t1 = tcg_const_i64(1);
-+            TCGv_i64 t2 = tcg_temp_new_i64();
++            TCGv_i64 tcg_n, tcg_m, tcg_d;
 +
-+            tcg_gen_extract_i64(t2, cpu_reg_sp(s, rn), 56, 4);
-+            tcg_gen_shl_i64(t1, t1, t2);
-+            tcg_gen_or_i64(cpu_reg(s, rd), cpu_reg(s, rm), t1);
++            tcg_n = read_cpu_reg_sp(s, rn, true);
++            tcg_m = read_cpu_reg_sp(s, rm, true);
++            tcg_gen_sextract_i64(tcg_n, tcg_n, 0, 56);
++            tcg_gen_sextract_i64(tcg_m, tcg_m, 0, 56);
++            tcg_d = cpu_reg(s, rd);
 +
-+            tcg_temp_free_i64(t1);
-+            tcg_temp_free_i64(t2);
++            if (setflag) {
++                gen_sub_CC(true, tcg_d, tcg_n, tcg_m);
++            } else {
++                tcg_gen_sub_i64(tcg_d, tcg_n, tcg_m);
++            }
 +        }
 +        break;
-     case 8: /* LSLV */
-         handle_shift_reg(s, A64_SHIFT_TYPE_LSL, sf, rm, rn, rd);
+     case 2: /* UDIV */
+         handle_div(s, false, sf, rm, rn, rd);
          break;
 -- 
 2.25.1
