@@ -2,63 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB5D1ECF0E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 13:51:59 +0200 (CEST)
-Received: from localhost ([::1]:53544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5821ECF76
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 14:09:28 +0200 (CEST)
+Received: from localhost ([::1]:37178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgRw6-0000de-LB
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 07:51:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39358)
+	id 1jgSD1-0008O4-Ti
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 08:09:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jgRv6-0008Qt-H2; Wed, 03 Jun 2020 07:50:56 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2104 helo=huawei.com)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jgSBe-0006oD-5f; Wed, 03 Jun 2020 08:08:02 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43381 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
- id 1jgRv5-0003qS-Cw; Wed, 03 Jun 2020 07:50:56 -0400
-Received: from lhreml706-chm.china.huawei.com (unknown [172.18.7.108])
- by Forcepoint Email with ESMTP id DF1B79064C5E8DFC0116;
- Wed,  3 Jun 2020 12:50:48 +0100 (IST)
-Received: from lhreml703-chm.china.huawei.com (10.201.108.52) by
- lhreml706-chm.china.huawei.com (10.201.108.55) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Wed, 3 Jun 2020 12:50:48 +0100
-Received: from lhreml703-chm.china.huawei.com ([10.201.68.198]) by
- lhreml703-chm.china.huawei.com ([10.201.68.198]) with mapi id 15.01.1913.007; 
- Wed, 3 Jun 2020 12:50:48 +0100
-From: Salil Mehta <salil.mehta@huawei.com>
-To: Auger Eric <eric.auger@redhat.com>, Andrew Jones <drjones@redhat.com>
-Subject: RE: [Question] Regarding PMU initialization within the QEMU for ARM
- VCPUs
-Thread-Topic: [Question] Regarding PMU initialization within the QEMU for ARM
- VCPUs
-Thread-Index: AdY3+/mIYt1+TQdDQmymnxAa7PkUWwBhkdKAAADBa4AABaxxMA==
-Date: Wed, 3 Jun 2020 11:50:48 +0000
-Message-ID: <c282b7adf50b4e06bf30d7944c1f0c06@huawei.com>
-References: <b2e401cd17fe49d792d09b31bd726e35@huawei.com>
- <20200603093745.dwfb55ny34az7rez@kamzik.brq.redhat.com>
- <fb9cf73c-e94b-b7f9-1d11-dc0353dd3996@redhat.com>
-In-Reply-To: <fb9cf73c-e94b-b7f9-1d11-dc0353dd3996@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.47.30.55]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jgSBb-0007yu-QW; Wed, 03 Jun 2020 08:08:01 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49cSN426Smz9sSc; Wed,  3 Jun 2020 22:07:48 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1591186068;
+ bh=/8OHMiJYf9fsWc/S8JvslYN4IuSO+nUpOmIPBciWWek=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=W4s6JcXcU7N66PtMVZVa79cn/fiI8+C+Sgd1/1mTXtHUBUDyWnWGeyHyhcol86/1w
+ xk50FEpRc77mxtIpTFfBKD2GmM/6G+z5VHq0d8VqroZwlTZZTYyFlnpcweHdOgCGCF
+ UYqzp8kUX+OY7xqhRhwckvcGqadancJGeyTbgnCQ=
+Date: Wed, 3 Jun 2020 20:09:10 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [RFC v2 10/18] guest memory protection: Add guest memory
+ protection interface
+Message-ID: <20200603100910.GA11091@umbus.fritz.box>
+References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
+ <20200521034304.340040-11-david@gibson.dropbear.id.au>
+ <20200525122735.1d4a45c7@bahia.lan>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.76.210;
- envelope-from=salil.mehta@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 07:45:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HlL+5n6rz5pIUxbD"
+Content-Disposition: inline
+In-Reply-To: <20200525122735.1d4a45c7@bahia.lan>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,61 +63,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ mdroth@linux.vnet.ibm.com, frankja@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgRXJpYywNCg0KPiBGcm9tOiBRZW11LWFybSBbbWFpbHRvOnFlbXUtYXJtLWJvdW5jZXMrc2Fs
-aWwubWVodGE9aHVhd2VpLmNvbUBub25nbnUub3JnXQ0KPiBPbiBCZWhhbGYgT2YgQXVnZXIgRXJp
-Yw0KPiBTZW50OiBXZWRuZXNkYXksIEp1bmUgMywgMjAyMCAxMDo1OSBBTQ0KPiBUbzogQW5kcmV3
-IEpvbmVzIDxkcmpvbmVzQHJlZGhhdC5jb20+OyBTYWxpbCBNZWh0YSA8c2FsaWwubWVodGFAaHVh
-d2VpLmNvbT4NCj4gQ2M6IFBldGVyIE1heWRlbGwgPHBldGVyLm1heWRlbGxAbGluYXJvLm9yZz47
-IElnb3IgTWFtbWVkb3YNCj4gPGltYW1tZWRvQHJlZGhhdC5jb20+OyBxZW11LWFybUBub25nbnUu
-b3JnOyBxZW11LWRldmVsQG5vbmdudS5vcmc7DQo+IG1zdEByZWRoYXQuY29tDQo+IFN1YmplY3Q6
-IFJlOiBbUXVlc3Rpb25dIFJlZ2FyZGluZyBQTVUgaW5pdGlhbGl6YXRpb24gd2l0aGluIHRoZSBR
-RU1VIGZvciBBUk0NCj4gVkNQVXMNCj4gDQo+IEhpIERyZXcsDQo+IA0KPiBPbiA2LzMvMjAgMTE6
-MzcgQU0sIEFuZHJldyBKb25lcyB3cm90ZToNCj4gPiBPbiBNb24sIEp1biAwMSwgMjAyMCBhdCAw
-MzowNDozM1BNICswMDAwLCBTYWxpbCBNZWh0YSB3cm90ZToNCj4gPj4gSGVsbG8sDQo+ID4+IEkg
-Y291bGQgc2VlIGJlbG93IHdpdGhpbiBmdW5jdGlvbiBmZHRfYWRkX3BtdV9ub2RlcygpIHBhcnQg
-b2YNCj4gPj4gaHcvYXJtL3ZpcnQuYyBkdXJpbmcgdmlydCBtYWNoaW5lIGluaXRpYWxpemF0aW9u
-IHRpbWU6DQo+ID4+DQo+ID4+IE9ic2VydmF0aW9uOg0KPiA+PiBJbiBiZWxvdyBmdW5jdGlvbiwg
-c3VwcG9ydCBvZiBQTVUgZmVhdHVyZSBpcyBiZWluZyBjaGVja2VkIGZvcg0KPiA+PiBlYWNoIHZj
-cHUgYW5kIGlmIHRoZSBQTVUgaXMgZm91bmQgcGFydCBvZiB0aGUgZmVhdHVyZXMgdGhlbiBQTVUN
-Cj4gPj4gaXMgaW5pdGlhbGl6ZWQgd2l0aCBpbiB0aGUgaG9zdC9LVk0uIEJ1dCBpZiB0aGVyZSBp
-cyBldmVuIG9uZQ0KPiA+PiB2Y3B1IHdoaWNoIGlzIGZvdW5kIHRvIG5vdCBzdXBwb3J0IHRoZSBQ
-TVUgdGhlbiBsb29wIGlzIGV4aXRlZA0KPiA+PiBhbmQgUE1VIGlzIG5vdCBpbml0aWFsaXplZCBm
-b3IgdGhlIHJlc3Qgb2YgdGhlIHZjcHVzIGFzIHdlbGwuDQo+ID4+DQo+ID4+IFF1ZXN0aW9uczoN
-Cj4gPj4gUTEuIE5vdCBzdXJlIHdoYXQgaXMgdGhlIGxvZ2ljIG9mIHRoZSBwcmVtYXR1cmUgZXhp
-dCBhbmQgbm90DQo+ID4+ICAgICBjb250aW51aW5nIHdpdGggZnVydGhlciBjaGVja3MgYW5kIGlu
-aXRpYWxpemF0aW9uIG9mIG90aGVyDQo+ID4+ICAgICBWQ1BVIFBNVXM/DQo+ID4NCj4gPiBLVk0g
-cmVxdWlyZXMgYWxsIFZDUFVzIHRvIGhhdmUgYSBQTVUgaWYgb25lIGRvZXMuDQo+IA0KPiBJIGZh
-aWwgdG8gZmluZCB3aGVyZSB0aGlzIGlzIGVuZm9yY2VkPyBEbyB5b3Uga25vdyB0aGUgcGxhY2U/
-DQo+IA0KPiAgSWYgdGhlIEFSTSBBUk0NCj4gPiBzYXlzIGl0J3MgcG9zc2libGUgdG8gaGF2ZSBQ
-TVVzIGZvciBvbmx5IHNvbWUgQ1BVcywgdGhlbiwgZm9yIFRDRywNCj4gPiB0aGUgcmVzdHJpY3Rp
-b24gY291bGQgYmUgcmVsYXhlZC4gSSBleHBlY3QgaXQgd2lsbCB0YWtlIG1vcmUgdGhhbg0KPiA+
-IGp1c3QgcmVtb3ZpbmcgdGhlIGNoZWNrIGZvciB0aGluZ3MgdG8gd29yayB0aG91Z2guPg0KPiA+
-PiBRMi4gRG9lcyBpdCBldmVuIG1ha2VzIHNlbnNlIHRvIGhhdmUgUE1VcyBpbml0aWFsaXplZCBm
-b3Igc29tZQ0KPiA+PiAgICAgdmNwdXMgYW5kIG5vdCBmb3Igb3RoZXJzIHVubGVzcyB3ZSBoYXZl
-IGhldGVyb2dlbmVvdXMgc3lzdGVtPw0KPiA+DQo+ID4gSSBkb24ndCBrbm93LCBidXQgaXQgZG9l
-c24ndCBzb3VuZCBsaWtlIGEgY29uZmlndXJhdGlvbiBJJ2QgbGlrZQ0KPiA+IHRvIHNlZS4NCj4g
-Pg0KPiA+PiBRMy4gQWxzbywgdGhlcmUgaXMgYSBwZXIgdmlydCBtYWNoaW5lIGtub2Igb2YgdmNj
-LT5ub19wbXUuDQo+ID4+ICAgICBUaGlzIGlzIHNvbWV0aGluZyB3aGljaCB1c2VyIGNvdWxkIHNw
-ZWNpZnkgYXQgdGhlIGluaXQgdGltZQ0KPiA+PiAgICAgYW5kIHBlcmhhcHMgb25seSBvbmNlIGJ1
-dCB3ZSBkb24ndCB1c2UgaXQgZm9yIEFSTS4gUGVyaGFwcw0KPiA+PiAgICAgc2hvdWxkIGhhdmUg
-YmVlbiB1c2VkIGV2ZW4gYmVmb3JlIGVudGVyaW5nIHRoaXMgZnVuY3Rpb24NCj4gPj4gICAgIHRv
-IGVuYWJsZSBvciBkaXNhYmxlIHRoZSBzdXBwb3J0IGFzIHBlciB1c2VyIGNvbmZpZz8NCj4gPg0K
-PiA+IEl0J3MgcHVycG9zZSBpcyB0byBrZWVwIHVzZXJzIGZyb20gZG9pbmcgJ3BtdT1vbicgb24g
-Mi42IG1hY2hpbmUNCj4gPiB0eXBlcy4gT24gMi43IGFuZCBsYXRlciBtYWNoaW5lIHR5cGVzIGlm
-IHlvdSBkb24ndCB3YW50IGEgUE1VDQo+ID4geW91IHNob3VsZCB1c2UgJ3BtdT1vZmYnLg0KPiAN
-Cj4gZXh0cmEgbm90ZToNCj4gdGhlIGNwdSBwbXUgcHJvcGVydHkgc2V0cyB0aGUgZmVhdHVyZSBh
-dCB2Y3B1IGxldmVsLiBUaGlzIGlzIHdoYXQgaXMNCj4gcmV0cmlldmVkIHdoZW4gKCFhcm1fZmVh
-dHVyZSgmYXJtY3B1LT5lbnYsIEFSTV9GRUFUVVJFX1BNVSkpIGdldHMgY2FsbGVkLg0KPiANCj4g
-U2VlIHRoZSBjcHUgb3B0aW9uIHNldHRlcjogYXJtX3NldF9wbXUgaW4gdGFyZ2V0L2FybS9jcHUu
-Yw0KDQoNCkluZGVlZC4gSXQgaXMgYmVpbmcgc2V0IG9uIHBlci12Y3B1IGxldmVsIGJ1dCBhY3R1
-YWxseSBhbGwgb2YNCnRoZSB2Y3B1cyB3aWxsIGVpdGhlciBoYXZlIE9OIG9yIE9GRiBQTVUgZmVh
-dHVyZSAtIGF0IGxlYXN0IGZvcg0Kbm93LiBOb3Qgc3VyZSBpZiB3ZSBldmVyIHdhbnQgdG8gY2hh
-bmdlIHRoaXMgaW4gZnV0dXJlPw0KDQpUaGFua3MNClNhbGlsLg0KDQo=
+
+--HlL+5n6rz5pIUxbD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, May 25, 2020 at 12:27:35PM +0200, Greg Kurz wrote:
+> On Thu, 21 May 2020 13:42:56 +1000
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > Several architectures have mechanisms which are designed to protect gue=
+st
+> > memory from interference or eavesdropping by a compromised hypervisor. =
+ AMD
+> > SEV does this with in-chip memory encryption and Intel has a similar
+> > mechanism.  POWER's Protected Execution Framework (PEF) accomplishes a
+> > similar goal using an ultravisor and new memory protection features,
+> > instead of encryption.
+> >=20
+> > This introduces a new GuestMemoryProtection QOM interface which we'll u=
+se
+> > to (partially) unify handling of these various mechanisms.
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > ---
+> >  backends/Makefile.objs                 |  2 ++
+> >  backends/guest-memory-protection.c     | 29 +++++++++++++++++++++
+> >  include/exec/guest-memory-protection.h | 36 ++++++++++++++++++++++++++
+> >  3 files changed, 67 insertions(+)
+> >  create mode 100644 backends/guest-memory-protection.c
+> >  create mode 100644 include/exec/guest-memory-protection.h
+> >=20
+> > diff --git a/backends/Makefile.objs b/backends/Makefile.objs
+> > index 28a847cd57..e4fb4f5280 100644
+> > --- a/backends/Makefile.objs
+> > +++ b/backends/Makefile.objs
+> > @@ -21,3 +21,5 @@ common-obj-$(CONFIG_LINUX) +=3D hostmem-memfd.o
+> >  common-obj-$(CONFIG_GIO) +=3D dbus-vmstate.o
+> >  dbus-vmstate.o-cflags =3D $(GIO_CFLAGS)
+> >  dbus-vmstate.o-libs =3D $(GIO_LIBS)
+> > +
+> > +common-obj-y +=3D guest-memory-protection.o
+> > diff --git a/backends/guest-memory-protection.c b/backends/guest-memory=
+-protection.c
+> > new file mode 100644
+> > index 0000000000..7e538214f7
+> > --- /dev/null
+> > +++ b/backends/guest-memory-protection.c
+> > @@ -0,0 +1,29 @@
+> > +#/*
+> > + * QEMU Guest Memory Protection interface
+> > + *
+> > + * Copyright: David Gibson, Red Hat Inc. 2020
+> > + *
+> > + * Authors:
+> > + *  David Gibson <david@gibson.dropbear.id.au>
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or
+> > + * later.  See the COPYING file in the top-level directory.
+> > + *
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +
+> > +#include "exec/guest-memory-protection.h"
+> > +
+> > +static const TypeInfo guest_memory_protection_info =3D {
+> > +    .name =3D TYPE_GUEST_MEMORY_PROTECTION,
+> > +    .parent =3D TYPE_INTERFACE,
+> > +    .class_size =3D sizeof(GuestMemoryProtectionClass),
+> > +};
+> > +
+> > +static void guest_memory_protection_register_types(void)
+> > +{
+> > +    type_register_static(&guest_memory_protection_info);
+> > +}
+> > +
+> > +type_init(guest_memory_protection_register_types)
+> > diff --git a/include/exec/guest-memory-protection.h b/include/exec/gues=
+t-memory-protection.h
+> > new file mode 100644
+> > index 0000000000..38e9b01667
+> > --- /dev/null
+> > +++ b/include/exec/guest-memory-protection.h
+> > @@ -0,0 +1,36 @@
+> > +#/*
+> > + * QEMU Guest Memory Protection interface
+> > + *
+> > + * Copyright: David Gibson, Red Hat Inc. 2020
+> > + *
+> > + * Authors:
+> > + *  David Gibson <david@gibson.dropbear.id.au>
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or
+> > + * later.  See the COPYING file in the top-level directory.
+> > + *
+> > + */
+> > +#ifndef QEMU_GUEST_MEMORY_PROTECTION_H
+> > +#define QEMU_GUEST_MEMORY_PROTECTION_H
+> > +
+> > +#include "qom/object.h"
+> > +
+> > +typedef struct GuestMemoryProtection GuestMemoryProtection;
+> > +
+> > +#define TYPE_GUEST_MEMORY_PROTECTION "guest-memory-protection"
+> > +#define GUEST_MEMORY_PROTECTION(obj)                                  =
+  \
+> > +    INTERFACE_CHECK(GuestMemoryProtection, (obj),                     =
+  \
+> > +                    TYPE_GUEST_MEMORY_PROTECTION)
+> > +#define GUEST_MEMORY_PROTECTION_CLASS(klass)                          =
+  \
+> > +    OBJECT_CLASS_CHECK(GuestMemoryProtectionClass, (klass),           =
+  \
+> > +                       TYPE_GUEST_MEMORY_PROTECTION)
+> > +#define GUEST_MEMORY_PROTECTION_GET_CLASS(obj)                        =
+  \
+> > +    OBJECT_GET_CLASS(GuestMemoryProtectionClass, (obj),               =
+  \
+> > +                     TYPE_GUEST_MEMORY_PROTECTION)
+> > +
+> > +typedef struct GuestMemoryProtectionClass {
+> > +    InterfaceClass parent;
+> > +} GuestMemoryProtectionClass;
+> > +
+> > +#endif /* QEMU_GUEST_MEMORY_PROTECTION_H */
+> > +
+>=20
+> Applying patch #1294935 using "git am -s -m"
+> Description: [RFC,v2,10/18] guest memory protection: Add guest memory pro=
+tection
+> Applying: guest memory protection: Add guest memory protection interface
+> .git/rebase-apply/patch:95: new blank line at EOF.
+> +
+> warning: 1 line adds whitespace errors.
+
+Oops, fixed.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--HlL+5n6rz5pIUxbD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7XdsMACgkQbDjKyiDZ
+s5K/hBAA1/nV1iP+BSJxo3zR4Q52aEImFYxuD6PEoIQ0BQczE0qNK6HW2Uqe4w0H
+PclvgiMHwprTIIiQVQo4vu98mQvhpHTnYVZbjH0ww+oIBponyDA/aHBSNsKvNF76
+ovkfC/nZ11GvHUA1FQzEKvnn4qiU2qv0N6aoKetxHmSUMSCUYomxdGKJOIVxa754
+TMJvR0DuxcmEnY5/1bXah0QN9c4luvP3k7HVOJq5xSvz/4pK47znpvVaT9ZtX+h0
+2Dq4vUWLlCgBKzOD859xLAdA8BdR0Ju8xpRmfdtkJSVQyb1rPprNRQWhi1YKO6SP
+4uRwgRmlynNpVj3/MoWnBYFrXRKTYuAboPZZPf2mCTuErLEv6M4b20ZNvtAt93u+
+4AFKYOweqivywCFdu6aDszC3ja2lwMxxlcc1TBYX/OVzjpPlzghpEEv4h79tgC6o
+cIqde6lNeUxZ1VPScsW7fHsopIOW6ZLZs1vcg2raqqC76zmSek/JltMOmRUabUAj
+7lUjIEgn9EGJZ3kc8KEXPl89H1rjmd4P4EmEkfNfasorEz7HCe6KtoSRCLBSblUx
+iZ30ECn3MMF+Ptu9j9xWr53+Du4ldLOsWQYQjd7e318rhp7XfGFHerLEQachMhoH
+ObHRq66/cP1XsRRcOEPYRxHZ+sFZJoJWDyCilG99tbokuT+OZtM=
+=6G9C
+-----END PGP SIGNATURE-----
+
+--HlL+5n6rz5pIUxbD--
 
