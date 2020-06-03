@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F3A1ED44B
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 18:26:13 +0200 (CEST)
-Received: from localhost ([::1]:48050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7334F1ED457
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 18:28:27 +0200 (CEST)
+Received: from localhost ([::1]:54502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgWDU-0004Ah-94
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 12:26:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46960)
+	id 1jgWFe-00076b-Hj
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 12:28:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=416cc4bc0=alistair.francis@wdc.com>)
- id 1jgWAF-0007ge-7o
+ id 1jgWAF-0007hJ-PC
  for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:51 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:49275)
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:49287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=416cc4bc0=alistair.francis@wdc.com>)
- id 1jgWAE-00060l-6z
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:50 -0400
+ id 1jgWAE-000625-PY
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1591201370; x=1622737370;
+ t=1591201371; x=1622737371;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=PtGShkqlLQHF8j/jMpdV9t9d4QzcKFqH3498gOMEzz8=;
- b=ByuDQD6DNcjpYReyGTkAUOI5JhBjvougXE1/FVhaJsGRTx9QTTjRiruL
- yBeUmOvp04DUdbPSEzb3h4aCdQA0V//FBW+HBMaO9sZJXU282K1irroAa
- xk9osOL1P1z7DSufwTJBd3y9VPgKRMOKRp4bRI+5D9mskoPnrsO3TEEUZ
- pl4NxrU6iXhxIdjiHvBtlM+9mfZ52r4WDb09yFxaZXohktm/0PyxvexUB
- FQsEcB37UXBE4AyKC0YRjddDvn/rzn8UHesGNsUzB3d11jdooIP1YXYJx
- efcnrEttkiZQqj2dKH0e5c2dBQ4QkAmKMZSLJqWJM6//XD0t0sx+wxdkE g==;
-IronPort-SDR: +9gNHU7UaCeYMzj85zkAoFUmRB+17t1bzYftsf+zwLzT69UTupvEkRnzVuDHZBCfIBDVxwW6p4
- nL949D9slprgFpqkKsIw729bbifJkOruD/o3h3Ka0QPs5qsga9oCVnH5URFPU5Jt0oimJHZxDT
- iOosa5QSx8H2JAstxPcQJgp2evY6eASdohbEtiF+D11I58UWHh65vDCE0syjbfZrYkNtRBxnqD
- ff6UH8oIUjvuTQQw2TeDrOqVbahAx0I17lSB8v9ocbj3pi5N0RScWw1QmfwVkBGBAr2stHurXc
- +HI=
-X-IronPort-AV: E=Sophos;i="5.73,468,1583164800"; d="scan'208";a="143451357"
+ bh=ORE7QyYcMOsNvtsv4aawW11202e/vbLm4srPqvw5q60=;
+ b=POMB9JDJC+RqUKT7oRNVpmCuApG4enMK1PN5lpJ9Oe0d/laDilCynFv+
+ FAh654lgqinuVLm1kkYaiOH925Y7AzSnS7f56T7XD0SmYeTC8G4AJgsy2
+ gLakgMyhA6NLQqgzzEMRM636gxdfRiXN1rMsTOrXM8MeO9ypu6qnQz9PL
+ oRJmdXN/Zc0oRc+6RJMB67TiEePVvrH6tSw/TUUr901FAWNL9OIeZEckE
+ 1Z3bAfhkR7zsRudiw9s/Yd/9vp37YrUKRW8C5TyzUaMQD08Fgh/CW+Ysf
+ tXXfDfZi1ISXiDMhWLwxdWfg3d9rB0bZZqMGiG0uj00tENvdQSYZTEvln A==;
+IronPort-SDR: l715QZFRMjJEK6tMQoibHZpmIoUhZxqgR1myE1VlM8RRKTnb61H/kBR3B+ZAwZ2/h7qA8Sbfp8
+ rGzB8z79yOCbJ4mOhRiNaNfa5W0aAL0IFJZXmMHixx5XNUV2EjXCclgrh7+NvUxf1tSF+JR8/M
+ OLXaLe/ApJpxQ1hgM2i5QeA59UWIJTUZTYXVA+1VAf5PApkCntBUZmnb9r39ByWvrT9PG1R54E
+ vq8h5UMuTNGqC4gshjaK/3263anl7WRmdtTYmh7jlKT7EAbJ+2H+Wp+XTv86q3Mm29FNOuWFmf
+ fjs=
+X-IronPort-AV: E=Sophos;i="5.73,468,1583164800"; d="scan'208";a="143451360"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 04 Jun 2020 00:22:41 +0800
-IronPort-SDR: Eh7RjRQiWsl+00DO6zlYtS2AqUSFlV3EoA91LJTNDgv1t3kRdSEg454XFugnqjtVrKasLiARVK
- 1boaCWO8Ajqzk24T6VjOap2vdjTXhVn84=
+IronPort-SDR: zkpshR5Fj4ZWu+Nq5u/vYWpXBQYV5l09qjSC0TJs6OVG6Md++c8z4wVjWgqKaeousY1W6uX8+P
+ nv9f0YWpklvpvooFQq0gCuZQG2PpZ0L2w=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Jun 2020 09:11:46 -0700
-IronPort-SDR: iGA2RTzoPzC3+W7xv2WwLItxPKAVJsvzFOvuW1NIJLW/1RDQt13oXebq2uSXMa3wQn84hnG6bI
- 3ReKknJ2v4Vw==
+IronPort-SDR: m+akeVPDYEp1yj8EzI7aBcd3oHiEjprWTzBk0VNv07WwAlrwRRrsbqDA1tLs+B0Cnc7hvnbafK
+ glnhmwTzGVOA==
 WDCIronportException: Internal
 Received: from cne220230.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.57.144])
@@ -56,14 +56,15 @@ Received: from cne220230.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 02/15] riscv: Change the default behavior if no -bios option is
- specified
-Date: Wed,  3 Jun 2020 09:13:45 -0700
-Message-Id: <20200603161352.744204-3-alistair.francis@wdc.com>
+Subject: [PULL 03/15] hw/riscv: sifive_u: Remove the riscv_ prefix of the soc*
+ functions
+Date: Wed,  3 Jun 2020 09:13:46 -0700
+Message-Id: <20200603161352.744204-4-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200603161352.744204-1-alistair.francis@wdc.com>
 References: <20200603161352.744204-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.141;
  envelope-from=prvs=416cc4bc0=alistair.francis@wdc.com;
@@ -90,75 +91,91 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Per QEMU deprecated doc, QEMU 4.1 introduced support for the -bios
-option in QEMU for RISC-V for the virt machine and sifive_u machine.
-The default behavior has been that QEMU does not automatically load
-any firmware if no -bios option is included.
-
-Now 2 releases passed, it's time to change the default behavior to
-load the default OpenSBI firmware automatically. The firmware is
-included with the QEMU release and no user interaction is required.
-All a user needs to do is specify the kernel they want to boot with
-the -kernel option.
+To keep consistency with the machine* functions, remove the riscv_
+prefix of the soc* functions.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 1588335545-649-1-git-send-email-bmeng.cn@gmail.com
-Message-Id: <1588335545-649-1-git-send-email-bmeng.cn@gmail.com>
+Message-id: 1590072147-13035-1-git-send-email-bmeng.cn@gmail.com
+Message-Id: <1590072147-13035-1-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/boot.c | 31 ++++---------------------------
- 1 file changed, 4 insertions(+), 27 deletions(-)
+ hw/riscv/sifive_u.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index da5817d438..adb421b91b 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -41,34 +41,11 @@ void riscv_find_and_load_firmware(MachineState *machine,
- {
-     char *firmware_filename = NULL;
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 4299bdf480..f9fef2be91 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -481,7 +481,7 @@ static void sifive_u_machine_init_register_types(void)
  
--    if (!machine->firmware) {
-+    if ((!machine->firmware) || (!strcmp(machine->firmware, "default"))) {
-         /*
--         * The user didn't specify -bios.
--         * At the moment we default to loading nothing when this hapens.
--         * In the future this defaul will change to loading the prebuilt
--         * OpenSBI firmware. Let's warn the user and then continue.
--        */
--        if (!qtest_enabled()) {
--            warn_report("No -bios option specified. Not loading a firmware.");
--            warn_report("This default will change in a future QEMU release. " \
--                        "Please use the -bios option to avoid breakages when "\
--                        "this happens.");
--            warn_report("See QEMU's deprecation documentation for details.");
--        }
--        return;
--    }
--
--    if (!strcmp(machine->firmware, "default")) {
--        /*
--         * The user has specified "-bios default". That means we are going to
--         * load the OpenSBI binary included in the QEMU source.
--         *
--         * We can't load the binary by default as it will break existing users
--         * as users are already loading their own firmware.
--         *
--         * Let's try to get everyone to specify the -bios option at all times,
--         * so then in the future we can make "-bios default" the default option
--         * if no -bios option is set without breaking anything.
-+         * The user didn't specify -bios, or has specified "-bios default".
-+         * That means we are going to load the OpenSBI binary included in
-+         * the QEMU source.
-          */
-         firmware_filename = riscv_find_firmware(default_machine_firmware);
-     } else if (strcmp(machine->firmware, "none")) {
+ type_init(sifive_u_machine_init_register_types)
+ 
+-static void riscv_sifive_u_soc_init(Object *obj)
++static void sifive_u_soc_instance_init(Object *obj)
+ {
+     MachineState *ms = MACHINE(qdev_get_machine());
+     SiFiveUSoCState *s = RISCV_U_SOC(obj);
+@@ -520,7 +520,7 @@ static void riscv_sifive_u_soc_init(Object *obj)
+                           TYPE_CADENCE_GEM);
+ }
+ 
+-static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
++static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+ {
+     MachineState *ms = MACHINE(qdev_get_machine());
+     SiFiveUSoCState *s = RISCV_U_SOC(dev);
+@@ -635,32 +635,32 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
+         memmap[SIFIVE_U_GEM_MGMT].base, memmap[SIFIVE_U_GEM_MGMT].size);
+ }
+ 
+-static Property riscv_sifive_u_soc_props[] = {
++static Property sifive_u_soc_props[] = {
+     DEFINE_PROP_UINT32("serial", SiFiveUSoCState, serial, OTP_SERIAL),
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
+-static void riscv_sifive_u_soc_class_init(ObjectClass *oc, void *data)
++static void sifive_u_soc_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+ 
+-    device_class_set_props(dc, riscv_sifive_u_soc_props);
+-    dc->realize = riscv_sifive_u_soc_realize;
++    device_class_set_props(dc, sifive_u_soc_props);
++    dc->realize = sifive_u_soc_realize;
+     /* Reason: Uses serial_hds in realize function, thus can't be used twice */
+     dc->user_creatable = false;
+ }
+ 
+-static const TypeInfo riscv_sifive_u_soc_type_info = {
++static const TypeInfo sifive_u_soc_type_info = {
+     .name = TYPE_RISCV_U_SOC,
+     .parent = TYPE_DEVICE,
+     .instance_size = sizeof(SiFiveUSoCState),
+-    .instance_init = riscv_sifive_u_soc_init,
+-    .class_init = riscv_sifive_u_soc_class_init,
++    .instance_init = sifive_u_soc_instance_init,
++    .class_init = sifive_u_soc_class_init,
+ };
+ 
+-static void riscv_sifive_u_soc_register_types(void)
++static void sifive_u_soc_register_types(void)
+ {
+-    type_register_static(&riscv_sifive_u_soc_type_info);
++    type_register_static(&sifive_u_soc_type_info);
+ }
+ 
+-type_init(riscv_sifive_u_soc_register_types)
++type_init(sifive_u_soc_register_types)
 -- 
 2.26.2
 
