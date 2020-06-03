@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 487681ECB2B
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 10:12:46 +0200 (CEST)
-Received: from localhost ([::1]:52570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F811ECB35
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 10:15:19 +0200 (CEST)
+Received: from localhost ([::1]:60884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgOVx-0005Cz-CO
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 04:12:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39550)
+	id 1jgOYQ-0000Mw-9E
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 04:15:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maozhongyi@cmss.chinamobile.com>)
- id 1jgOTE-0000Yl-4D
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 04:09:56 -0400
-Received: from cmccmta1.chinamobile.com ([221.176.66.79]:3995)
+ id 1jgOTU-00014e-QR
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 04:10:12 -0400
+Received: from cmccmta1.chinamobile.com ([221.176.66.79]:7103)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jgOT9-0000Dh-R1
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 04:09:55 -0400
+ (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jgOTT-0000Gz-87
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 04:10:12 -0400
 Received: from spf.mail.chinamobile.com (unknown[172.16.121.15]) by
- rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee15ed75ab36a7-8ad9a;
+ rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee45ed75ab47af-8b1ff;
  Wed, 03 Jun 2020 16:09:24 +0800 (CST)
-X-RM-TRANSID: 2ee15ed75ab36a7-8ad9a
+X-RM-TRANSID: 2ee45ed75ab47af-8b1ff
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG: 00000000
 Received: from localhost.localdomain (unknown[112.25.154.146])
- by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee85ed75aae43e-61016;
+ by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee85ed75aae43e-6101a;
  Wed, 03 Jun 2020 16:09:24 +0800 (CST)
-X-RM-TRANSID: 2ee85ed75aae43e-61016
+X-RM-TRANSID: 2ee85ed75aae43e-6101a
 From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/9] tests/migration: fix unreachable path in stress test
-Date: Wed,  3 Jun 2020 16:08:57 +0800
-Message-Id: <20200603080904.997083-3-maozhongyi@cmss.chinamobile.com>
+Subject: [PATCH 3/9] monitor/hmp-cmds: add units for migrate_parameters
+Date: Wed,  3 Jun 2020 16:08:58 +0800
+Message-Id: <20200603080904.997083-4-maozhongyi@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200603080904.997083-1-maozhongyi@cmss.chinamobile.com>
 References: <20200603080904.997083-1-maozhongyi@cmss.chinamobile.com>
@@ -61,68 +61,57 @@ Cc: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If stressone() or stress() exits it's because of a failure
-because the test runs forever otherwise, so change stressone
-and stress type to void to make the exit_failure() as the exit
-function of main().
+When running:
+(qemu) info migrate_parameters
+announce-initial: 50 ms
+announce-max: 550 ms
+announce-step: 100 ms
+compress-wait-thread: on
+...
+max-bandwidth: 33554432 bytes/second
+downtime-limit: 300 milliseconds
+x-checkpoint-delay: 20000
+...
+xbzrle-cache-size: 67108864
+
+add units for the parameters 'x-checkpoint-delay' and
+'xbzrle-cache-size', it's easier to read, also move
+milliseconds to ms to keep the same style.
 
 Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
- tests/migration/stress.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ monitor/hmp-cmds.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/migration/stress.c b/tests/migration/stress.c
-index f9626d50ee..a062ef6b55 100644
---- a/tests/migration/stress.c
-+++ b/tests/migration/stress.c
-@@ -167,7 +167,7 @@ static unsigned long long now(void)
-     return (tv.tv_sec * 1000ull) + (tv.tv_usec / 1000ull);
- }
- 
--static int stressone(unsigned long long ramsizeMB)
-+static void stressone(unsigned long long ramsizeMB)
- {
-     size_t pagesPerMB = 1024 * 1024 / PAGE_SIZE;
-     g_autofree char *ram = g_malloc(ramsizeMB * 1024 * 1024);
-@@ -186,7 +186,7 @@ static int stressone(unsigned long long ramsizeMB)
-     memset(ram, 0xfe, ramsizeMB * 1024 * 1024);
- 
-     if (random_bytes(data, PAGE_SIZE) < 0) {
--        return -1;
-+        return;
-     }
- 
-     before = now();
-@@ -225,7 +225,7 @@ static void *stressthread(void *arg)
-     return NULL;
- }
- 
--static int stress(unsigned long long ramsizeGB, int ncpus)
-+static void stress(unsigned long long ramsizeGB, int ncpus)
- {
-     size_t i;
-     unsigned long long ramsizeMB = ramsizeGB * 1024 / ncpus;
-@@ -238,8 +238,6 @@ static int stress(unsigned long long ramsizeGB, int ncpus)
-     }
- 
-     stressone(ramsizeMB);
--
--    return 0;
- }
- 
- 
-@@ -335,8 +333,7 @@ int main(int argc, char **argv)
-     fprintf(stdout, "%s (%05d): INFO: RAM %llu GiB across %d CPUs\n",
-             argv0, gettid(), ramsizeGB, ncpus);
- 
--    if (stress(ramsizeGB, ncpus) < 0)
--        exit_failure();
-+    stress(ramsizeGB, ncpus);
- 
--    exit_success();
-+    exit_failure();
- }
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 9c61e769ca..8c3e436b39 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -443,11 +443,11 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
+             MigrationParameter_str(MIGRATION_PARAMETER_MAX_BANDWIDTH),
+             params->max_bandwidth);
+         assert(params->has_downtime_limit);
+-        monitor_printf(mon, "%s: %" PRIu64 " milliseconds\n",
++        monitor_printf(mon, "%s: %" PRIu64 " ms\n",
+             MigrationParameter_str(MIGRATION_PARAMETER_DOWNTIME_LIMIT),
+             params->downtime_limit);
+         assert(params->has_x_checkpoint_delay);
+-        monitor_printf(mon, "%s: %u\n",
++        monitor_printf(mon, "%s: %u ms\n",
+             MigrationParameter_str(MIGRATION_PARAMETER_X_CHECKPOINT_DELAY),
+             params->x_checkpoint_delay);
+         assert(params->has_block_incremental);
+@@ -460,7 +460,7 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
+         monitor_printf(mon, "%s: %s\n",
+             MigrationParameter_str(MIGRATION_PARAMETER_MULTIFD_COMPRESSION),
+             MultiFDCompression_str(params->multifd_compression));
+-        monitor_printf(mon, "%s: %" PRIu64 "\n",
++        monitor_printf(mon, "%s: %" PRIu64 " bytes\n",
+             MigrationParameter_str(MIGRATION_PARAMETER_XBZRLE_CACHE_SIZE),
+             params->xbzrle_cache_size);
+         monitor_printf(mon, "%s: %" PRIu64 "\n",
 -- 
 2.17.1
 
