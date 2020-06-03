@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512751ECFF6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 14:40:51 +0200 (CEST)
-Received: from localhost ([::1]:40822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E29B51ED006
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 14:43:47 +0200 (CEST)
+Received: from localhost ([::1]:45962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgShO-0000mp-54
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 08:40:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49176)
+	id 1jgSkF-0003Gq-0h
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 08:43:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jgSek-0005en-Gg; Wed, 03 Jun 2020 08:38:06 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41730)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jgSej-0006Oj-KN; Wed, 03 Jun 2020 08:38:06 -0400
-Received: by mail-wr1-x443.google.com with SMTP id j10so2180598wrw.8;
- Wed, 03 Jun 2020 05:38:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=wVQrGfjTa1sxgMd1d+bkjIGbptx0TWESvdgxR7VrhSM=;
- b=ckfr5LgoZfi0o7wuYngz3NrYLphDXGCvOGG9f6Qa+RGXCDUTLi7SuDfE+loKFqkGqr
- cptkc061vEqz5Xyc8UFrh8DSrOtW+zV+Ejp+wmVTqvOBD6+2XqV/pKd7EeFsl7NAcJ1e
- 5YIkCM6Q6eQ/5p5sQbkP3mmBox7WjbBj+9ZwU41+vC1pqTW6y2DDu9cAjaPnXH7U4eP+
- DAiJWeuobOAKD+o/KwQXEhBIsNcnuJmMHhhuNOzlVdUsPpNIwMsPI4HghPlgzQfY9JzG
- iy3oCS7RbdYucjCvb3U2hyiNCdZHSPNCYwpm70tiSmAUZCcd9rOg1/7y7pAEqWECBJoS
- lr1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wVQrGfjTa1sxgMd1d+bkjIGbptx0TWESvdgxR7VrhSM=;
- b=XzmK1ogf8Eic5iKvUn5+rIS0TlCHHSAiOn82aLnmU9it6zBs4yBRIYWLcCQsiVbwxi
- PcNBrHJapSNCmA2GkOFqDD2AcOAdhzbOu7UuRBq6lWLsKRuP6EBCojo6TUXrV4Jn9u/x
- Hbq1x4nEcgjqVY62z3BDG2iDgrWQ/FwEQ09xex/XvvQvEutaK+4ytHCHaMwZIOuNO+4p
- 2USBdJI3UnA0jnaS3O7+FPyGL6YCw7GGWot4c+le6LPBqg6FfMyMy2EjCTf8ws7e8Goh
- CjubviOOYsaxHC9OYM1bH1Araff+ozQIkQVD+tTcyspP/E45TX8yvgVqYaqMPKh3uo43
- bfEA==
-X-Gm-Message-State: AOAM533i8rvGW67a++JiWRphX890nW36hBoDgLPFlHjNbxLrtWC/mWdS
- 8++PvTM3HyvElKC1QKui2FeeZOCW
-X-Google-Smtp-Source: ABdhPJzHGMjbe6t67I38yLD4Lk2j62mJjqkuhcOmj2OKn0A2RfaKPt0Kx/dUAz2+1lYMR+epF/XWRQ==
-X-Received: by 2002:adf:dd06:: with SMTP id a6mr32001218wrm.142.1591187882758; 
- Wed, 03 Jun 2020 05:38:02 -0700 (PDT)
-Received: from localhost.localdomain
- (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id r5sm3370983wrq.0.2020.06.03.05.38.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Jun 2020 05:38:02 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] target/unicore32: Prefer qemu_semihosting_log_out() over
- curses
-Date: Wed,  3 Jun 2020 14:37:54 +0200
-Message-Id: <20200603123754.19059-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200603123754.19059-1-f4bug@amsat.org>
-References: <20200603123754.19059-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1jgSjR-0002q9-NK
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 08:42:57 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48229
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1jgSjP-0007J9-U4
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 08:42:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591188174;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nH15nRUs00Ze2dTLkPXBQ8fi6RmKfZ38xVpf0WYT+2o=;
+ b=WuI8eVwHA58NuWSbMNTxQkqR5OWmsH1AL90hEPIg9i5ZhGRYuDShfhAOrNeYzMQZrN70ys
+ oALtfay7NYD5LDwt4P2MhIeobKzQjsYby74LfgIR7rG4J6VWJ0N8SMJveKjA60ZWlzE0Ad
+ VtA5CHwxr//qFiDj2ng8ttZVTZmvL7M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-RJj7PU-5OWyNeKHOlzTf5w-1; Wed, 03 Jun 2020 08:42:51 -0400
+X-MC-Unique: RJj7PU-5OWyNeKHOlzTf5w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 897B0100A8EF;
+ Wed,  3 Jun 2020 12:42:50 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.74.8.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D63E78EFF;
+ Wed,  3 Jun 2020 12:42:44 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: "Michael S . Tsirkin" <mst@redhat.com>
+Subject: [PATCH] pci: check address before reading configuration bytes
+Date: Wed,  3 Jun 2020 18:10:41 +0530
+Message-Id: <20200603124041.1137464-1-ppandit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 01:12:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,110 +76,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Prasad J Pandit <pjp@fedoraproject.org>, Yi Ren <c4tren@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Ren Ding <rding@gatech.edu>,
+ Hanqing Zhao <hanqing@gatech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the common API for semihosting logging.
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+While reading PCI configuration bytes, a guest may send an
+address towards the end of the configuration space. It may lead
+to an OOB access issue. Add check to ensure 'address + len' is
+within PCI configuration space.
+
+Reported-by: Ren Ding <rding@gatech.edu>
+Reported-by: Hanqing Zhao <hanqing@gatech.edu>
+Reported-by: Yi Ren <c4tren@gmail.com>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 ---
- default-configs/unicore32-softmmu.mak |  1 +
- target/unicore32/helper.c             | 57 +++------------------------
- 2 files changed, 6 insertions(+), 52 deletions(-)
+ hw/pci/pci.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/default-configs/unicore32-softmmu.mak b/default-configs/unicore32-softmmu.mak
-index 0bfce48c6d..899288e3d7 100644
---- a/default-configs/unicore32-softmmu.mak
-+++ b/default-configs/unicore32-softmmu.mak
-@@ -3,3 +3,4 @@
- # Boards:
- #
- CONFIG_PUV3=y
-+CONFIG_SEMIHOSTING=y
-diff --git a/target/unicore32/helper.c b/target/unicore32/helper.c
-index 00371a7da6..54c26871fe 100644
---- a/target/unicore32/helper.c
-+++ b/target/unicore32/helper.c
-@@ -14,9 +14,7 @@
- #include "cpu.h"
- #include "exec/exec-all.h"
- #include "exec/helper-proto.h"
--#ifndef CONFIG_USER_ONLY
--#include "ui/console.h"
--#endif
-+#include "hw/semihosting/console.h"
- 
- #undef DEBUG_UC32
- 
-@@ -161,58 +159,13 @@ uint32_t helper_cp0_get(CPUUniCore32State *env, uint32_t creg, uint32_t cop)
-     return 0;
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 70c66965f5..4429fa9401 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1385,7 +1385,9 @@ uint32_t pci_default_read_config(PCIDevice *d,
+         ranges_overlap(address, len, d->exp.exp_cap + PCI_EXP_LNKSTA, 2)) {
+         pcie_sync_bridge_lnk(d);
+     }
+-    memcpy(&val, d->config + address, len);
++    if (address + len <= pci_config_size(d)) {
++        memcpy(&val, d->config + address, len);
++    }
+     return le32_to_cpu(val);
  }
  
--#ifdef CONFIG_CURSES
--
--/* KEY_EVENT is defined in wincon.h and in curses.h. Avoid redefinition. */
--#undef KEY_EVENT
--#include <curses.h>
--#undef KEY_EVENT
--
--/*
-- * FIXME:
-- *     1. curses windows will be blank when switching back
-- *     2. backspace is not handled yet
-- */
--static void putc_on_screen(unsigned char ch)
-+void helper_cp1_putc(target_ulong regval)
- {
--    static WINDOW *localwin;
--    static int init;
-+    const char c = regval;
- 
--    if (!init) {
--        /* Assume 80 * 30 screen to minimize the implementation */
--        localwin = newwin(30, 80, 0, 0);
--        scrollok(localwin, TRUE);
--        init = TRUE;
--    }
--
--    if (isprint(ch)) {
--        wprintw(localwin, "%c", ch);
--    } else {
--        switch (ch) {
--        case '\n':
--            wprintw(localwin, "%c", ch);
--            break;
--        case '\r':
--            /* If '\r' is put before '\n', the curses window will destroy the
--             * last print line. And meanwhile, '\n' implifies '\r' inside. */
--            break;
--        default: /* Not handled, so just print it hex code */
--            wprintw(localwin, "-- 0x%x --", ch);
--        }
--    }
--
--    wrefresh(localwin);
-+    qemu_semihosting_log_out(&c, sizeof(c));
- }
--#else
--#define putc_on_screen(c)               do { } while (0)
--#endif
--
--void helper_cp1_putc(target_ulong x)
--{
--    putc_on_screen((unsigned char)x);   /* Output to screen */
--    DPRINTF("%c", x);                   /* Output to stdout */
--}
--#endif
-+#endif /* !CONFIG_USER_ONLY */
- 
- bool uc32_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
- {
 -- 
-2.21.3
+2.26.2
 
 
