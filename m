@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75CD31EC68E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:15:05 +0200 (CEST)
-Received: from localhost ([::1]:50276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4311EC68B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:14:58 +0200 (CEST)
+Received: from localhost ([::1]:49282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgHzk-0005lU-FB
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:15:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48508)
+	id 1jgHzd-0005IK-1j
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:14:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHy7-0003Hg-EF
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:23 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44130)
+ id 1jgHy8-0003JJ-Ko
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:24 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHy6-0003Vb-RJ
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:23 -0400
-Received: by mail-pf1-x444.google.com with SMTP id f3so400817pfd.11
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:13:22 -0700 (PDT)
+ id 1jgHy8-0003W6-0o
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:24 -0400
+Received: by mail-pf1-x444.google.com with SMTP id j1so258215pfe.4
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:13:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LadquP7zcJjQQG0Yfbt1ahthtHYVsuxaqjQXIxyHC+g=;
- b=u+UtE/59Le3pHvHBcznGutnq/Jy4yqyhDnjhwwE2lSJCdgfZbgodRX9j6tPmJ8hYKu
- IdnRKB4rB+wkqH4mUHceRFWxAwA+OTsvl5tx9+IxRUKNtL/4HY+/h+gai/CrpCZUKGFx
- sXxt/WII8p055eMQ/Dm1e5pf5eP6XrWQ4CDJ1VxgJeuheWUqgN5SRZacYXE5ch5p1Foj
- CY0nbaC9gUtZq6E8FIlCYYLpocgWCSsuaEqkJICoVySJnHBjSDAzuGqyN0yd4LJGlfI2
- v6Z6hlFEDsmlcA/6XIIPTglrdWZc0V3ii2qMN1ZSq8V2NknLycAiPVMV89694bIa2l/O
- u4TQ==
+ bh=w0iAAPJiPUMN5WMvx91TGcplu0Afl0eDKA3EhLW5gNo=;
+ b=PFmMIelkaLMfRJ69igouLY4t2p0h6QeXvGx/htpKH8meFoeZa6CHwBtSs8fnerkGZi
+ 1Ip6W5CFanpbjzkUSueDx7t5yRm9nYJ4X/ekZZZBskew3VrMo/5tS1/C+hYtH7NmBZw0
+ pLK04b01a4DazOrnUcyaZVwnwXmzf7omD5n+/CPR9DEenRrHGCNo1RG6sTRP39s4R1Pj
+ sXiDeJHCGeFS0PVSZ7HRY4wotTlvApfdsvQwOD+B3twvbdVLydn0CVfBl9dKUq0BUlou
+ vKc72Lhjg100ZorDtU1rqVT8CYAgjg5Lwwri4fh/z3zQ9f1ph/yXG25dRtQlsP9Jrg9c
+ foTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LadquP7zcJjQQG0Yfbt1ahthtHYVsuxaqjQXIxyHC+g=;
- b=UtAgpIZwRsH/Myv7jW5ITZ9SFs1QHP2K64lknYLGJvDbGQw2K2NE31k8FRdkcK3HR2
- PQRV5Kx1yfwLCokmC8tDBw2Dam8+BkO8NELuafRKa749sE4iuI+Umq7duYAqUhi5o2Vf
- lTl33WAfgY1xpxfXGF/+K4t2ZX7vxdr5SGBF+zZdIIfe2kIqUgdiMKvLKspcyWd5R/eL
- ap8Ju9uMTh/pmsb4S13B8OYrmpAuWJRQ1vEPEGwb9v226VFL3xN43v42rctYrVhpMSIc
- rpaxo0m/wS/FQej96jzCU5+IU0/ctTi9mGXkASuYMWMOE3/ay28p8Xxhc9LB4x8g7MFz
- NNVw==
-X-Gm-Message-State: AOAM533uokG329KsTWsvYr0Fgj4iTLjU5Cb0f+cBKyuRRfV0nApa7gde
- 2lQZmA5MGUAHrhnPmeZ5fKAqQ1+oFKo=
-X-Google-Smtp-Source: ABdhPJyX/l+L+JG4K4imMNobf9ZnhFq3Qt7rSWZ4VIJZVW1+fq427UFslJ6o+XvYZShoHhkwMWtpbw==
-X-Received: by 2002:a17:90a:df16:: with SMTP id
- gp22mr2327443pjb.6.1591146801223; 
- Tue, 02 Jun 2020 18:13:21 -0700 (PDT)
+ bh=w0iAAPJiPUMN5WMvx91TGcplu0Afl0eDKA3EhLW5gNo=;
+ b=C0QS7wbbWiG8MB9GYQCp9lyfmdhj8ulNDWt5iTFNsxb6JqU7Z/IJDbU82fLWf9yKWg
+ FEyM3kLSSjwmRipzQSAjeMLdHQZqR38uzKwRMKgpE6Geo+JqTscgSfl+DlZHsIyWQWn3
+ 02P4K/gZ0Y2KtvlfGVyb8Z/ZeiVHJQFja+6byxmm9JAqBX64jIgfQj30pGtoxmhK0mBO
+ ECv58HFMo0rkYyRDskM4omfctLOxBLOy2hF/GtwkcWBNvXdO75vorL1cQHmhAKpHrx7c
+ 5urMjtVPIKgsL8WPk2x9LO8v2D4jSp6U7uZ3AkrslsPPNokVE0fPvHSB4cBnH5qkI+YP
+ k0pg==
+X-Gm-Message-State: AOAM530xxnQxGeXY1k3AWvC2+DshbTZ4iLbrrsIFB7IfzHcxRyj3cRfp
+ HjSqjg+wTU5UD6Twkvrxd1gqJkpP378=
+X-Google-Smtp-Source: ABdhPJz9o+tWaxHAagWadiaRxHwzrSu56FFTyg6CSpbysvfdiAs5/YXa7rfM3nbQ9azSmm+XQ2VLIg==
+X-Received: by 2002:a17:90a:5806:: with SMTP id
+ h6mr2442263pji.66.1591146802500; 
+ Tue, 02 Jun 2020 18:13:22 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.13.20
+ by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.13.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 18:13:20 -0700 (PDT)
+ Tue, 02 Jun 2020 18:13:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 02/42] target/arm: Improve masking of SCR RES0 bits
-Date: Tue,  2 Jun 2020 18:12:37 -0700
-Message-Id: <20200603011317.473934-3-richard.henderson@linaro.org>
+Subject: [PATCH v7 03/42] target/arm: Add support for MTE to SCTLR_ELx
+Date: Tue,  2 Jun 2020 18:12:38 -0700
+Message-Id: <20200603011317.473934-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200603011317.473934-1-richard.henderson@linaro.org>
 References: <20200603011317.473934-1-richard.henderson@linaro.org>
@@ -90,50 +90,57 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Protect reads of aa64 id registers with ARM_CP_STATE_AA64.
-Use this as a simpler test than arm_el_is_aa64, since EL3
-cannot change mode.
+This does not attempt to rectify all of the res0 bits, but does
+clear the mte bits when not enabled.  Since there is no high-part
+mapping of SCTLR, aa32 mode cannot write to these bits.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ target/arm/helper.c | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index a92ae55672..2ec49c1a55 100644
+index 2ec49c1a55..7862bf502d 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -2011,9 +2011,16 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
-     uint32_t valid_mask = 0x3fff;
+@@ -4698,6 +4698,22 @@ static void sctlr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+ {
      ARMCPU *cpu = env_archcpu(env);
  
--    if (arm_el_is_aa64(env, 3)) {
-+    if (ri->state == ARM_CP_STATE_AA64) {
-         value |= SCR_FW | SCR_AW;   /* these two bits are RES1.  */
-         valid_mask &= ~SCR_NET;
++    if (arm_feature(env, ARM_FEATURE_PMSA) && !cpu->has_mpu) {
++        /* M bit is RAZ/WI for PMSA with no MPU implemented */
++        value &= ~SCTLR_M;
++    }
 +
-+        if (cpu_isar_feature(aa64_lor, cpu)) {
-+            valid_mask |= SCR_TLOR;
++    /* ??? Lots of these bits are not implemented.  */
++
++    if (ri->state == ARM_CP_STATE_AA64 && !cpu_isar_feature(aa64_mte, cpu)) {
++        if (ri->opc1 == 6) { /* SCTLR_EL3 */
++            value &= ~(SCTLR_ITFSB | SCTLR_TCF | SCTLR_ATA);
++        } else {
++            value &= ~(SCTLR_ITFSB | SCTLR_TCF0 | SCTLR_TCF |
++                       SCTLR_ATA0 | SCTLR_ATA);
 +        }
-+        if (cpu_isar_feature(aa64_pauth, cpu)) {
-+            valid_mask |= SCR_API | SCR_APK;
-+        }
-     } else {
-         valid_mask &= ~(SCR_RW | SCR_ST);
++    }
++
+     if (raw_read(env, ri) == value) {
+         /* Skip the TLB flush if nothing actually changed; Linux likes
+          * to do a lot of pointless SCTLR writes.
+@@ -4705,13 +4721,8 @@ static void sctlr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+         return;
      }
-@@ -2032,12 +2039,6 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
-             valid_mask &= ~SCR_SMD;
-         }
-     }
--    if (cpu_isar_feature(aa64_lor, cpu)) {
--        valid_mask |= SCR_TLOR;
--    }
--    if (cpu_isar_feature(aa64_pauth, cpu)) {
--        valid_mask |= SCR_API | SCR_APK;
--    }
  
-     /* Clear all-context RES0 bits.  */
-     value &= valid_mask;
+-    if (arm_feature(env, ARM_FEATURE_PMSA) && !cpu->has_mpu) {
+-        /* M bit is RAZ/WI for PMSA with no MPU implemented */
+-        value &= ~SCTLR_M;
+-    }
+-
+     raw_write(env, ri, value);
+-    /* ??? Lots of these bits are not implemented.  */
++
+     /* This may enable/disable the MMU, so do a TLB flush.  */
+     tlb_flush(CPU(cpu));
+ 
 -- 
 2.25.1
 
