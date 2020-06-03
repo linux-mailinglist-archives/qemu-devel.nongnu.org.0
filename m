@@ -2,55 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1391ECEE1
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 13:48:43 +0200 (CEST)
-Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB5D1ECF0E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 13:51:59 +0200 (CEST)
+Received: from localhost ([::1]:53544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgRsw-0005yj-Mc
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 07:48:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38514)
+	id 1jgRw6-0000de-LB
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 07:51:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1jgRrn-0004iV-Nq
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 07:47:31 -0400
-Received: from mga03.intel.com ([134.134.136.65]:46654)
+ (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
+ id 1jgRv6-0008Qt-H2; Wed, 03 Jun 2020 07:50:56 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2104 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1jgRrm-0002y4-Fg
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 07:47:31 -0400
-IronPort-SDR: sdaMFo4kfBhD8ZfBXZ0CkwquBsp4VacMi1wh6zSf7dpaw+ePDiaZ04tWFC7HyfvDua0LjmgVip
- BJKcWUD6jmwA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2020 04:47:26 -0700
-IronPort-SDR: Jpmr2lN0RAxFiS1Lgvm8akkWybml+3tSGhL2qsbQ50JRWwVfAp20Jvx6zQLHP4kQah6kbpOHnZ
- NAHtnw03mX5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,467,1583222400"; d="scan'208";a="304582619"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by orsmga008.jf.intel.com with ESMTP; 03 Jun 2020 04:47:23 -0700
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: pbonzini@redhat.com, rth@twiddle.net, ehabkost@redhat.com,
- eblake@redhat.com, armbru@redhat.com
-Subject: [PATCH 2/2] Mark Icelake-Client CPU models deprecated
-Date: Wed,  3 Jun 2020 19:47:03 +0800
-Message-Id: <1591184823-140846-2-git-send-email-robert.hu@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1591184823-140846-1-git-send-email-robert.hu@linux.intel.com>
-References: <1591184823-140846-1-git-send-email-robert.hu@linux.intel.com>
-Received-SPF: none client-ip=134.134.136.65;
- envelope-from=robert.hu@linux.intel.com; helo=mga03.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 07:47:24
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <salil.mehta@huawei.com>)
+ id 1jgRv5-0003qS-Cw; Wed, 03 Jun 2020 07:50:56 -0400
+Received: from lhreml706-chm.china.huawei.com (unknown [172.18.7.108])
+ by Forcepoint Email with ESMTP id DF1B79064C5E8DFC0116;
+ Wed,  3 Jun 2020 12:50:48 +0100 (IST)
+Received: from lhreml703-chm.china.huawei.com (10.201.108.52) by
+ lhreml706-chm.china.huawei.com (10.201.108.55) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Wed, 3 Jun 2020 12:50:48 +0100
+Received: from lhreml703-chm.china.huawei.com ([10.201.68.198]) by
+ lhreml703-chm.china.huawei.com ([10.201.68.198]) with mapi id 15.01.1913.007; 
+ Wed, 3 Jun 2020 12:50:48 +0100
+From: Salil Mehta <salil.mehta@huawei.com>
+To: Auger Eric <eric.auger@redhat.com>, Andrew Jones <drjones@redhat.com>
+Subject: RE: [Question] Regarding PMU initialization within the QEMU for ARM
+ VCPUs
+Thread-Topic: [Question] Regarding PMU initialization within the QEMU for ARM
+ VCPUs
+Thread-Index: AdY3+/mIYt1+TQdDQmymnxAa7PkUWwBhkdKAAADBa4AABaxxMA==
+Date: Wed, 3 Jun 2020 11:50:48 +0000
+Message-ID: <c282b7adf50b4e06bf30d7944c1f0c06@huawei.com>
+References: <b2e401cd17fe49d792d09b31bd726e35@huawei.com>
+ <20200603093745.dwfb55ny34az7rez@kamzik.brq.redhat.com>
+ <fb9cf73c-e94b-b7f9-1d11-dc0353dd3996@redhat.com>
+In-Reply-To: <fb9cf73c-e94b-b7f9-1d11-dc0353dd3996@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.47.30.55]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.76.210;
+ envelope-from=salil.mehta@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 07:45:22
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,47 +71,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.hu@intel.com, Robert Hoo <robert.hu@linux.intel.com>,
- xiaoyao.li@intel.com, qemu-devel@nongnu.org, chenyi.qiang@intel.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Going to obsolete Icelake-Client CPU models in the future.
-
-Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
----
- target/i386/cpu.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index d7ac22f..6c34ea3 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -3350,7 +3350,12 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         .xlevel = 0x80000008,
-         .model_id = "Intel Core Processor (Icelake)",
-         .versions = (X86CPUVersionDefinition[]) {
--            { .version = 1 },
-+            {
-+                .version = 1,
-+                .deprecated = true,
-+                .note = "Deprecated. Will be obsoleted in v5.1. Please use "
-+                        "'Icelake-Server-v1' CPU model",
-+            },
-             {
-                 .version = 2,
-                 .alias = "Icelake-Client-noTSX",
-@@ -3359,6 +3364,9 @@ static X86CPUDefinition builtin_x86_defs[] = {
-                     { "rtm", "off" },
-                     { /* end of list */ }
-                 },
-+                .deprecated = true,
-+                .note = "Deprecated. Will be obsoleted in v5.1. Please use "
-+                        "'Icelake-Server-v2' CPU model",
-             },
-             { /* end of list */ }
-         }
--- 
-1.8.3.1
-
+SGkgRXJpYywNCg0KPiBGcm9tOiBRZW11LWFybSBbbWFpbHRvOnFlbXUtYXJtLWJvdW5jZXMrc2Fs
+aWwubWVodGE9aHVhd2VpLmNvbUBub25nbnUub3JnXQ0KPiBPbiBCZWhhbGYgT2YgQXVnZXIgRXJp
+Yw0KPiBTZW50OiBXZWRuZXNkYXksIEp1bmUgMywgMjAyMCAxMDo1OSBBTQ0KPiBUbzogQW5kcmV3
+IEpvbmVzIDxkcmpvbmVzQHJlZGhhdC5jb20+OyBTYWxpbCBNZWh0YSA8c2FsaWwubWVodGFAaHVh
+d2VpLmNvbT4NCj4gQ2M6IFBldGVyIE1heWRlbGwgPHBldGVyLm1heWRlbGxAbGluYXJvLm9yZz47
+IElnb3IgTWFtbWVkb3YNCj4gPGltYW1tZWRvQHJlZGhhdC5jb20+OyBxZW11LWFybUBub25nbnUu
+b3JnOyBxZW11LWRldmVsQG5vbmdudS5vcmc7DQo+IG1zdEByZWRoYXQuY29tDQo+IFN1YmplY3Q6
+IFJlOiBbUXVlc3Rpb25dIFJlZ2FyZGluZyBQTVUgaW5pdGlhbGl6YXRpb24gd2l0aGluIHRoZSBR
+RU1VIGZvciBBUk0NCj4gVkNQVXMNCj4gDQo+IEhpIERyZXcsDQo+IA0KPiBPbiA2LzMvMjAgMTE6
+MzcgQU0sIEFuZHJldyBKb25lcyB3cm90ZToNCj4gPiBPbiBNb24sIEp1biAwMSwgMjAyMCBhdCAw
+MzowNDozM1BNICswMDAwLCBTYWxpbCBNZWh0YSB3cm90ZToNCj4gPj4gSGVsbG8sDQo+ID4+IEkg
+Y291bGQgc2VlIGJlbG93IHdpdGhpbiBmdW5jdGlvbiBmZHRfYWRkX3BtdV9ub2RlcygpIHBhcnQg
+b2YNCj4gPj4gaHcvYXJtL3ZpcnQuYyBkdXJpbmcgdmlydCBtYWNoaW5lIGluaXRpYWxpemF0aW9u
+IHRpbWU6DQo+ID4+DQo+ID4+IE9ic2VydmF0aW9uOg0KPiA+PiBJbiBiZWxvdyBmdW5jdGlvbiwg
+c3VwcG9ydCBvZiBQTVUgZmVhdHVyZSBpcyBiZWluZyBjaGVja2VkIGZvcg0KPiA+PiBlYWNoIHZj
+cHUgYW5kIGlmIHRoZSBQTVUgaXMgZm91bmQgcGFydCBvZiB0aGUgZmVhdHVyZXMgdGhlbiBQTVUN
+Cj4gPj4gaXMgaW5pdGlhbGl6ZWQgd2l0aCBpbiB0aGUgaG9zdC9LVk0uIEJ1dCBpZiB0aGVyZSBp
+cyBldmVuIG9uZQ0KPiA+PiB2Y3B1IHdoaWNoIGlzIGZvdW5kIHRvIG5vdCBzdXBwb3J0IHRoZSBQ
+TVUgdGhlbiBsb29wIGlzIGV4aXRlZA0KPiA+PiBhbmQgUE1VIGlzIG5vdCBpbml0aWFsaXplZCBm
+b3IgdGhlIHJlc3Qgb2YgdGhlIHZjcHVzIGFzIHdlbGwuDQo+ID4+DQo+ID4+IFF1ZXN0aW9uczoN
+Cj4gPj4gUTEuIE5vdCBzdXJlIHdoYXQgaXMgdGhlIGxvZ2ljIG9mIHRoZSBwcmVtYXR1cmUgZXhp
+dCBhbmQgbm90DQo+ID4+ICAgICBjb250aW51aW5nIHdpdGggZnVydGhlciBjaGVja3MgYW5kIGlu
+aXRpYWxpemF0aW9uIG9mIG90aGVyDQo+ID4+ICAgICBWQ1BVIFBNVXM/DQo+ID4NCj4gPiBLVk0g
+cmVxdWlyZXMgYWxsIFZDUFVzIHRvIGhhdmUgYSBQTVUgaWYgb25lIGRvZXMuDQo+IA0KPiBJIGZh
+aWwgdG8gZmluZCB3aGVyZSB0aGlzIGlzIGVuZm9yY2VkPyBEbyB5b3Uga25vdyB0aGUgcGxhY2U/
+DQo+IA0KPiAgSWYgdGhlIEFSTSBBUk0NCj4gPiBzYXlzIGl0J3MgcG9zc2libGUgdG8gaGF2ZSBQ
+TVVzIGZvciBvbmx5IHNvbWUgQ1BVcywgdGhlbiwgZm9yIFRDRywNCj4gPiB0aGUgcmVzdHJpY3Rp
+b24gY291bGQgYmUgcmVsYXhlZC4gSSBleHBlY3QgaXQgd2lsbCB0YWtlIG1vcmUgdGhhbg0KPiA+
+IGp1c3QgcmVtb3ZpbmcgdGhlIGNoZWNrIGZvciB0aGluZ3MgdG8gd29yayB0aG91Z2guPg0KPiA+
+PiBRMi4gRG9lcyBpdCBldmVuIG1ha2VzIHNlbnNlIHRvIGhhdmUgUE1VcyBpbml0aWFsaXplZCBm
+b3Igc29tZQ0KPiA+PiAgICAgdmNwdXMgYW5kIG5vdCBmb3Igb3RoZXJzIHVubGVzcyB3ZSBoYXZl
+IGhldGVyb2dlbmVvdXMgc3lzdGVtPw0KPiA+DQo+ID4gSSBkb24ndCBrbm93LCBidXQgaXQgZG9l
+c24ndCBzb3VuZCBsaWtlIGEgY29uZmlndXJhdGlvbiBJJ2QgbGlrZQ0KPiA+IHRvIHNlZS4NCj4g
+Pg0KPiA+PiBRMy4gQWxzbywgdGhlcmUgaXMgYSBwZXIgdmlydCBtYWNoaW5lIGtub2Igb2YgdmNj
+LT5ub19wbXUuDQo+ID4+ICAgICBUaGlzIGlzIHNvbWV0aGluZyB3aGljaCB1c2VyIGNvdWxkIHNw
+ZWNpZnkgYXQgdGhlIGluaXQgdGltZQ0KPiA+PiAgICAgYW5kIHBlcmhhcHMgb25seSBvbmNlIGJ1
+dCB3ZSBkb24ndCB1c2UgaXQgZm9yIEFSTS4gUGVyaGFwcw0KPiA+PiAgICAgc2hvdWxkIGhhdmUg
+YmVlbiB1c2VkIGV2ZW4gYmVmb3JlIGVudGVyaW5nIHRoaXMgZnVuY3Rpb24NCj4gPj4gICAgIHRv
+IGVuYWJsZSBvciBkaXNhYmxlIHRoZSBzdXBwb3J0IGFzIHBlciB1c2VyIGNvbmZpZz8NCj4gPg0K
+PiA+IEl0J3MgcHVycG9zZSBpcyB0byBrZWVwIHVzZXJzIGZyb20gZG9pbmcgJ3BtdT1vbicgb24g
+Mi42IG1hY2hpbmUNCj4gPiB0eXBlcy4gT24gMi43IGFuZCBsYXRlciBtYWNoaW5lIHR5cGVzIGlm
+IHlvdSBkb24ndCB3YW50IGEgUE1VDQo+ID4geW91IHNob3VsZCB1c2UgJ3BtdT1vZmYnLg0KPiAN
+Cj4gZXh0cmEgbm90ZToNCj4gdGhlIGNwdSBwbXUgcHJvcGVydHkgc2V0cyB0aGUgZmVhdHVyZSBh
+dCB2Y3B1IGxldmVsLiBUaGlzIGlzIHdoYXQgaXMNCj4gcmV0cmlldmVkIHdoZW4gKCFhcm1fZmVh
+dHVyZSgmYXJtY3B1LT5lbnYsIEFSTV9GRUFUVVJFX1BNVSkpIGdldHMgY2FsbGVkLg0KPiANCj4g
+U2VlIHRoZSBjcHUgb3B0aW9uIHNldHRlcjogYXJtX3NldF9wbXUgaW4gdGFyZ2V0L2FybS9jcHUu
+Yw0KDQoNCkluZGVlZC4gSXQgaXMgYmVpbmcgc2V0IG9uIHBlci12Y3B1IGxldmVsIGJ1dCBhY3R1
+YWxseSBhbGwgb2YNCnRoZSB2Y3B1cyB3aWxsIGVpdGhlciBoYXZlIE9OIG9yIE9GRiBQTVUgZmVh
+dHVyZSAtIGF0IGxlYXN0IGZvcg0Kbm93LiBOb3Qgc3VyZSBpZiB3ZSBldmVyIHdhbnQgdG8gY2hh
+bmdlIHRoaXMgaW4gZnV0dXJlPw0KDQpUaGFua3MNClNhbGlsLg0KDQo=
 
