@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD4C1EC6A6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:25:07 +0200 (CEST)
-Received: from localhost ([::1]:41690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739A51EC6AB
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:27:33 +0200 (CEST)
+Received: from localhost ([::1]:51994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgI9S-0008Mi-U2
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:25:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48818)
+	id 1jgIBo-0004Ep-F7
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:27:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHya-0004G1-Qm
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:52 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:45168)
+ id 1jgHyZ-0004Ao-1v
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:51 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:45652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHyU-0003aq-VI
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:52 -0400
-Received: by mail-pf1-x444.google.com with SMTP id a127so397775pfa.12
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:13:46 -0700 (PDT)
+ id 1jgHyV-0003az-TE
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:50 -0400
+Received: by mail-pl1-x631.google.com with SMTP id y11so187214plt.12
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:13:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cf68FCAzJTbpJLd19R46t9jMSqR5E/27UO36TFsKmfE=;
- b=DXIha4Y+kZZ0jwtry5maEHtc4leXvNE/8F5mrjkukxbgt17m5nWPgXa0F3cO6mjEQF
- i/GT53cj97p4ydXdKPosc+DegwTAhdpBayLuUYcE9FvGQWK53P2BF4sHo7WlLsBxMwxn
- 0GAwTzyJHdRaYC8BsBoWyaGpQVY0siYATZRycZshKpBJcM08iajnkPLMBF5Aim8yZdO0
- n1lnGBLTAxu28tosEuMu8QTMpdyIXr+oCGkm8b1s10q8zbv2m+nIS3EdtkRzqfUXxolP
- OBJakcVXO2XGbueCmdHDHFs9+8s3GPTwn8BWjwN1zIMptBwf8LlUaln6vr3AtielOxjS
- 5iPg==
+ bh=AEdNLYFCyfyMqsP9U02w6IsvCKyLZbP9JA6vNA4o+yc=;
+ b=PGfxWPg8A1ZHVs+Pwb/SugE/9/Q8U0LxulnXFVjawH4hRZaDumiiZn3ZUdyua63jpg
+ n57CX7aHu0LX4mzYqCACULh4KfDwfF7kKGZgiISeaviByx2mjRpvsMUTuUnk0IDV1oF1
+ A/Hjays5tdQMQ4ZN8GS8CVbC88fRc84tgaUxHzRlj/mJlKeudMATl3TKQMxe5QX7TDJd
+ zIPh55y5e0ttT7MrLE+sJUpvu+J3p3sOlwx0UUKad21fZ68OwOLvq+n61ndyMrDttBSE
+ uQPC37xd9nR1ZzBGraq3Nd3CDbYR31hqdOnkgSJdq0ciY/x3MwVxEsjPXMpkcReGIOFu
+ c8Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cf68FCAzJTbpJLd19R46t9jMSqR5E/27UO36TFsKmfE=;
- b=aGH/dXvZA0Fycu9s0cV3PsS5Cf0uHa0jj/vYcIBngJnwMfAUoBobnMAHHhUMwLGvk9
- CeviOQg9GT9xCFd8JsCcWE/4uWpuYII5LcVslTc+VN4Unewnoze2CpHMBKMHm9KRiqw4
- lxRn+unkWlhM80guFSed10c+TEvupMA29qp8NH4qGd+YXuVRKDI/8AUap8Q+zkn9/kvN
- 28Xp7Oui17Gt8xi/rVpkXxCeXblNmFQoLOmI6BDuFVh73UCfe95j0ONf4xd6yiJLHj1e
- jZO/pMd9xpfzAB0QJ1sjUI3S5PRs4pPcZ+I4EaYZ5i+SREEkePmq8t1xwlp5uP/VyKGW
- n+2g==
-X-Gm-Message-State: AOAM531RZWH9Fz6P7zAY55FSQHsKQtdyZVHNa0kumm3aoKSJs1g+jK6y
- VXkHIfXtJBxjREWard3XGyQQmpohAQU=
-X-Google-Smtp-Source: ABdhPJyyVPO+5Kt05kV6YZ0VLA/GjNt1LZ08H8v4zXPjoi0z9DHgA/zB97SKnnFcDTqgDuPFB4JWSQ==
-X-Received: by 2002:a17:90a:dd43:: with SMTP id
- u3mr2120129pjv.221.1591146824770; 
- Tue, 02 Jun 2020 18:13:44 -0700 (PDT)
+ bh=AEdNLYFCyfyMqsP9U02w6IsvCKyLZbP9JA6vNA4o+yc=;
+ b=CBrIZBl213Yl57zIcRwxRlYFD7JckJceMjQKx8oyjfIpL/zJHm7X9dJAXydkQJYDI4
+ 3Bxnr5JKL47EuNu919WKh57h/iGjuyXuMP2lltDBwesj1DhzfPFU5MbOzWLIUREYenLe
+ dDnqQs7tB73FC/KyQpHCn8b1TGX1QmhL3ebiEYTUdedbpH19tit+nCOjA/QEVm0eaxhA
+ UHL4hY9ahpTvBx8nwHwJfy/Zio4SDu56tbe8za4hc4K9Hv4bFUrGtw9O56zOqvnshkl6
+ +lxROpW0iJbrWxkdwwASqrcQkzfjPUvvzYLqt2ZlQqvLMb9h/h1nkA4HOe/2Hl1E0L1y
+ RuOg==
+X-Gm-Message-State: AOAM533MrtBVD038eWkwg+AbzLUiYzeUBFrJj6z9RVCi4lI0foeFCxe8
+ hs0QYp1qmXVsTgLMG89VrztdHby+ZMk=
+X-Google-Smtp-Source: ABdhPJzR6KTxYmf21JAZWQpHajbPCb+eNDuvApwIabNYvVoYpEhssBUnSt2j/VVpTeRPbVmJVa51vA==
+X-Received: by 2002:a17:902:694b:: with SMTP id
+ k11mr25067287plt.77.1591146825964; 
+ Tue, 02 Jun 2020 18:13:45 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.13.43
+ by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.13.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 18:13:43 -0700 (PDT)
+ Tue, 02 Jun 2020 18:13:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 20/42] target/arm: Implement the access tag cache flushes
-Date: Tue,  2 Jun 2020 18:12:55 -0700
-Message-Id: <20200603011317.473934-21-richard.henderson@linaro.org>
+Subject: [PATCH v7 21/42] target/arm: Move regime_el to internals.h
+Date: Tue,  2 Jun 2020 18:12:56 -0700
+Message-Id: <20200603011317.473934-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200603011317.473934-1-richard.henderson@linaro.org>
 References: <20200603011317.473934-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,107 +90,108 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Like the regular data cache flushes, these are nops within qemu.
+We will shortly need this in mte_helper.c as well.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v6: Split out and handle el0 cache ops properly.
----
- target/arm/helper.c | 65 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
+ target/arm/internals.h | 36 ++++++++++++++++++++++++++++++++++++
+ target/arm/helper.c    | 36 ------------------------------------
+ 2 files changed, 36 insertions(+), 36 deletions(-)
 
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 5c69d4e5a5..c36fcb151b 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -913,6 +913,42 @@ static inline bool regime_is_pan(CPUARMState *env, ARMMMUIdx mmu_idx)
+     }
+ }
+ 
++/* Return the exception level which controls this address translation regime */
++static inline uint32_t regime_el(CPUARMState *env, ARMMMUIdx mmu_idx)
++{
++    switch (mmu_idx) {
++    case ARMMMUIdx_E20_0:
++    case ARMMMUIdx_E20_2:
++    case ARMMMUIdx_E20_2_PAN:
++    case ARMMMUIdx_Stage2:
++    case ARMMMUIdx_E2:
++        return 2;
++    case ARMMMUIdx_SE3:
++        return 3;
++    case ARMMMUIdx_SE10_0:
++        return arm_el_is_aa64(env, 3) ? 1 : 3;
++    case ARMMMUIdx_SE10_1:
++    case ARMMMUIdx_SE10_1_PAN:
++    case ARMMMUIdx_Stage1_E0:
++    case ARMMMUIdx_Stage1_E1:
++    case ARMMMUIdx_Stage1_E1_PAN:
++    case ARMMMUIdx_E10_0:
++    case ARMMMUIdx_E10_1:
++    case ARMMMUIdx_E10_1_PAN:
++    case ARMMMUIdx_MPrivNegPri:
++    case ARMMMUIdx_MUserNegPri:
++    case ARMMMUIdx_MPriv:
++    case ARMMMUIdx_MUser:
++    case ARMMMUIdx_MSPrivNegPri:
++    case ARMMMUIdx_MSUserNegPri:
++    case ARMMMUIdx_MSPriv:
++    case ARMMMUIdx_MSUser:
++        return 1;
++    default:
++        g_assert_not_reached();
++    }
++}
++
+ /* Return the FSR value for a debug exception (watchpoint, hardware
+  * breakpoint or BKPT insn) targeting the specified exception level.
+  */
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 8aaa6f22b2..20d7bf4ee1 100644
+index 20d7bf4ee1..bad639e2a7 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6927,6 +6927,32 @@ static const ARMCPRegInfo mte_reginfo[] = {
-       .opc0 = 3, .opc1 = 3, .crn = 4, .crm = 2, .opc2 = 7,
-       .type = ARM_CP_NO_RAW,
-       .access = PL0_RW, .readfn = tco_read, .writefn = tco_write },
-+    { .name = "DC_IGVAC", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 6, .opc2 = 3,
-+      .type = ARM_CP_NOP, .access = PL1_W,
-+      .accessfn = aa64_cacheop_poc_access },
-+    { .name = "DC_IGSW", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 6, .opc2 = 4,
-+      .type = ARM_CP_NOP, .access = PL1_W, .accessfn = access_tsw },
-+    { .name = "DC_IGDVAC", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 6, .opc2 = 5,
-+      .type = ARM_CP_NOP, .access = PL1_W,
-+      .accessfn = aa64_cacheop_poc_access },
-+    { .name = "DC_IGDSW", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 6, .opc2 = 6,
-+      .type = ARM_CP_NOP, .access = PL1_W, .accessfn = access_tsw },
-+    { .name = "DC_CGSW", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 10, .opc2 = 4,
-+      .type = ARM_CP_NOP, .access = PL1_W, .accessfn = access_tsw },
-+    { .name = "DC_CGDSW", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 10, .opc2 = 6,
-+      .type = ARM_CP_NOP, .access = PL1_W, .accessfn = access_tsw },
-+    { .name = "DC_CIGSW", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 14, .opc2 = 4,
-+      .type = ARM_CP_NOP, .access = PL1_W, .accessfn = access_tsw },
-+    { .name = "DC_CIGDSW", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 14, .opc2 = 6,
-+      .type = ARM_CP_NOP, .access = PL1_W, .accessfn = access_tsw },
-     REGINFO_SENTINEL
- };
+@@ -9791,42 +9791,6 @@ void arm_cpu_do_interrupt(CPUState *cs)
+ }
+ #endif /* !CONFIG_USER_ONLY */
  
-@@ -6936,6 +6962,43 @@ static const ARMCPRegInfo mte_tco_ro_reginfo[] = {
-       .type = ARM_CP_CONST, .access = PL0_RW, },
-     REGINFO_SENTINEL
- };
-+
-+static const ARMCPRegInfo mte_el0_cacheop_reginfo[] = {
-+    { .name = "DC_CGVAC", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 10, .opc2 = 3,
-+      .type = ARM_CP_NOP, .access = PL0_W,
-+      .accessfn = aa64_cacheop_poc_access },
-+    { .name = "DC_CGDVAC", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 10, .opc2 = 5,
-+      .type = ARM_CP_NOP, .access = PL0_W,
-+      .accessfn = aa64_cacheop_poc_access },
-+    { .name = "DC_CGVAP", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 12, .opc2 = 3,
-+      .type = ARM_CP_NOP, .access = PL0_W,
-+      .accessfn = aa64_cacheop_poc_access },
-+    { .name = "DC_CGDVAP", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 12, .opc2 = 5,
-+      .type = ARM_CP_NOP, .access = PL0_W,
-+      .accessfn = aa64_cacheop_poc_access },
-+    { .name = "DC_CGVADP", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 13, .opc2 = 3,
-+      .type = ARM_CP_NOP, .access = PL0_W,
-+      .accessfn = aa64_cacheop_poc_access },
-+    { .name = "DC_CGDVADP", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 13, .opc2 = 5,
-+      .type = ARM_CP_NOP, .access = PL0_W,
-+      .accessfn = aa64_cacheop_poc_access },
-+    { .name = "DC_CIGVAC", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 14, .opc2 = 3,
-+      .type = ARM_CP_NOP, .access = PL0_W,
-+      .accessfn = aa64_cacheop_poc_access },
-+    { .name = "DC_CIGDVAC", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 14, .opc2 = 5,
-+      .type = ARM_CP_NOP, .access = PL0_W,
-+      .accessfn = aa64_cacheop_poc_access },
-+    REGINFO_SENTINEL
-+};
-+
- #endif
- 
- static CPAccessResult access_predinv(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -8069,8 +8132,10 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-      */
-     if (cpu_isar_feature(aa64_mte, cpu)) {
-         define_arm_cp_regs(cpu, mte_reginfo);
-+        define_arm_cp_regs(cpu, mte_el0_cacheop_reginfo);
-     } else if (cpu_isar_feature(aa64_mte_insn_reg, cpu)) {
-         define_arm_cp_regs(cpu, mte_tco_ro_reginfo);
-+        define_arm_cp_regs(cpu, mte_el0_cacheop_reginfo);
-     }
- #endif
- 
+-/* Return the exception level which controls this address translation regime */
+-static uint32_t regime_el(CPUARMState *env, ARMMMUIdx mmu_idx)
+-{
+-    switch (mmu_idx) {
+-    case ARMMMUIdx_E20_0:
+-    case ARMMMUIdx_E20_2:
+-    case ARMMMUIdx_E20_2_PAN:
+-    case ARMMMUIdx_Stage2:
+-    case ARMMMUIdx_E2:
+-        return 2;
+-    case ARMMMUIdx_SE3:
+-        return 3;
+-    case ARMMMUIdx_SE10_0:
+-        return arm_el_is_aa64(env, 3) ? 1 : 3;
+-    case ARMMMUIdx_SE10_1:
+-    case ARMMMUIdx_SE10_1_PAN:
+-    case ARMMMUIdx_Stage1_E0:
+-    case ARMMMUIdx_Stage1_E1:
+-    case ARMMMUIdx_Stage1_E1_PAN:
+-    case ARMMMUIdx_E10_0:
+-    case ARMMMUIdx_E10_1:
+-    case ARMMMUIdx_E10_1_PAN:
+-    case ARMMMUIdx_MPrivNegPri:
+-    case ARMMMUIdx_MUserNegPri:
+-    case ARMMMUIdx_MPriv:
+-    case ARMMMUIdx_MUser:
+-    case ARMMMUIdx_MSPrivNegPri:
+-    case ARMMMUIdx_MSUserNegPri:
+-    case ARMMMUIdx_MSPriv:
+-    case ARMMMUIdx_MSUser:
+-        return 1;
+-    default:
+-        g_assert_not_reached();
+-    }
+-}
+-
+ uint64_t arm_sctlr(CPUARMState *env, int el)
+ {
+     /* Only EL0 needs to be adjusted for EL1&0 or EL2&0. */
 -- 
 2.25.1
 
