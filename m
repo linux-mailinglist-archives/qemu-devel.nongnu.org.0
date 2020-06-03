@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C9881ED463
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 18:30:47 +0200 (CEST)
-Received: from localhost ([::1]:33298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACF8F1ED465
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 18:32:28 +0200 (CEST)
+Received: from localhost ([::1]:37676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgWHu-0001vd-Kc
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 12:30:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46972)
+	id 1jgWJX-0003oi-Oe
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 12:32:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=416cc4bc0=alistair.francis@wdc.com>)
- id 1jgWAG-0007hn-0m
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:52 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:49270)
+ id 1jgWAH-0007kX-8q
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:53 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:49287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=416cc4bc0=alistair.francis@wdc.com>)
- id 1jgWAF-00060J-1D
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:51 -0400
+ id 1jgWAG-000625-1P
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1591201371; x=1622737371;
+ t=1591201372; x=1622737372;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=wwPImWk1wm0+wyKyb3GoOt99XLA5qpd/VeaKzQuuvmk=;
- b=MCmdh6WrmuP4LX/MAsNC4NnyBWOt12Yp3QPrtzkGJIKwlo3RasyzO9cT
- t9/G7+N5I5HHfm/1xykh5bpFgpZJ6Gav5jzuAedHP0YzoYYwmhtO4svZt
- /cgBWG2PzeFqXQNQHY3CP4zAl2j8K1Jd5zp7R2ZO5nYyvOtuzh5z9iHp8
- bYV/6k5EnXFJJfyHPlN8cpJNyIOVPR/6Zi2n5SRflGYG1rSpyRFj2erXE
- 9USGNPnlBsctHdtSqcIcEL+3mUoBlo3OLiCFg3T1UvM5LM67dNt2gCp2W
- Hfj99E2i6/+z70RFeDiywg5tyBO3DwDqu6KSXEMoAp0t97aTuVToYs3yc A==;
-IronPort-SDR: td39yrFRXqRDUDAZemdPvhUpc4hd94iwlZ3uvnniygqzhAtThFgpUc4Yun/YWoW7E4jdjZN/ut
- I69VUWdI7TrWDICtxLcoYPTKZ9ENRVAjkzTinqcKH0bGLpmZT7bW+cRFTHMU0GG24C/0KtA270
- oRux30GnT4okO5/cpMUv7XCqDB+RcUBzHCA6S6DEL9CMGlKpFD28wd+nTJytxkle+W/8ILGN8+
- 8sJH/2vDhlUCDe+Boe6YZjsQaTmCn6JU4XlImX7cJqebX3+T0s1ZBR1sMIDsJ9aFAsk5tbB6oJ
- iI4=
-X-IronPort-AV: E=Sophos;i="5.73,468,1583164800"; d="scan'208";a="143451362"
+ bh=3Fgg3345956zxk99n2jIXknf1y0dvGyV+F26ZZmZZlA=;
+ b=cTH4zhn+jRBsqxJC3yeZhvhhsYFeCg2idW10OndTVYVlie72NS8WPvCi
+ ljTFS1kghlNzef4EluO83W5lOrOihHt9QfNCHOAeMJ0TztWyKWnQI46mB
+ RRWk20MH+aaipXrytlWs1xns9w8H7BN9ddhrMInR6aBmBxZrLYGCehgIW
+ ielCrfAH3eDgehmweHKlPfA7Og7xXbgaSIkkt6s04MtOvYHJ7DwnxsamQ
+ FQEniYjVDStmemBc68ojpj+7olAMqYC+7IsrEedIRwn4t+EqnzgDpnTMP
+ EiBrO1r8EbpUIO8myU66dWwvxjoX4KLx7L7p4G6BgZiPWdcI1F5GCQGdV w==;
+IronPort-SDR: f0KAtwOifeEqydTVgnZCJA+7bpmUMFVXu7d+hjxyxIEuRm6gPhAT/+Ee9hcxTYqxPNkiBTMdtn
+ BrDZGoIbKauxfQRduCUrZ3MOBtL7JOXZU6QOlRMTQvZcoxRYg303Astd4a0DLLKxvSLBDaUwNW
+ MwcM2zjBN2evfG3Y/rmI0ZrWK1Wr+f9w6haRZuzL+GLea5dBYs/wmZjCYNAf7Svg3I/LKuAlMx
+ riX2elC1F5ohEXEM8sGzcz5ckMzxiyBJa+TXRoUCCXtf9xIrPC7P8UWyzbr9mKJKU5IRpVs8ah
+ 2bQ=
+X-IronPort-AV: E=Sophos;i="5.73,468,1583164800"; d="scan'208";a="143451365"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 04 Jun 2020 00:22:41 +0800
-IronPort-SDR: NIXqGhn9H+dFo/A1LdAPFLopVQKPtzw68GN4nfb17ryiCM8LsyfrezRSIhm9q0S8Vz6PJV7kj5
- 2aQXusE/xoi7WF9iQuFdXkL3Zh6S560vc=
+ by ob1.hgst.iphmx.com with ESMTP; 04 Jun 2020 00:22:42 +0800
+IronPort-SDR: hF04aASCRbQ5u1yXyyfBVkkVkj3Oo+nU2ngtIPnswKdr0weAAMwVeTTHIfv3oE5EezBTxfvcqm
+ bNi+dHcr4pkC7MlWCvhB//6sYVj/fXPOU=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2020 09:11:46 -0700
-IronPort-SDR: Xvzz8rb+vgMaP4LwuwdQzNnxyZ91NAt41mfJ7VRA2Zypq+df/wPBNOziWyvKJDVEdKewO/QIdk
- INoXBj8PnQYA==
+ 03 Jun 2020 09:11:47 -0700
+IronPort-SDR: gTrNAOaiHCsNwEHUNG85rreKH1WQSf97T4iUVOk83wT7JdMFeBSCjy9iZkgmAeDjYfsb5OuC9I
+ BcZxt5F6+gmA==
 WDCIronportException: Internal
 Received: from cne220230.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.57.144])
@@ -56,15 +56,13 @@ Received: from cne220230.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 04/15] hw/riscv: virt: Remove the riscv_ prefix of the machine*
- functions
-Date: Wed,  3 Jun 2020 09:13:47 -0700
-Message-Id: <20200603161352.744204-5-alistair.francis@wdc.com>
+Subject: [PULL 06/15] target/riscv: Remove the deprecated CPUs
+Date: Wed,  3 Jun 2020 09:13:49 -0700
+Message-Id: <20200603161352.744204-7-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200603161352.744204-1-alistair.francis@wdc.com>
 References: <20200603161352.744204-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.141;
  envelope-from=prvs=416cc4bc0=alistair.francis@wdc.com;
@@ -91,80 +89,160 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
-
-Remove the riscv_ prefix of the machine* functions.
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 1590072147-13035-2-git-send-email-bmeng.cn@gmail.com
-Message-Id: <1590072147-13035-2-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bin.meng@windriver.com>
 ---
- hw/riscv/virt.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ docs/system/deprecated.rst      | 33 ++++++++++++++++++---------------
+ target/riscv/cpu.h              |  7 -------
+ target/riscv/cpu.c              | 28 ----------------------------
+ tests/qtest/machine-none-test.c |  4 ++--
+ 4 files changed, 20 insertions(+), 52 deletions(-)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 7ce28895bc..4e4c494a70 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -471,7 +471,7 @@ static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
-     return dev;
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 50927bad74..bb14de9848 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -314,21 +314,6 @@ should be used instead of the 1.09.1 version.
+ System emulator CPUS
+ --------------------
+ 
+-RISC-V ISA CPUs (since 4.1)
+-'''''''''''''''''''''''''''
+-
+-The RISC-V cpus with the ISA version in the CPU name have been depcreated. The
+-four CPUs are: ``rv32gcsu-v1.9.1``, ``rv32gcsu-v1.10.0``, ``rv64gcsu-v1.9.1`` and
+-``rv64gcsu-v1.10.0``. Instead the version can be specified via the CPU ``priv_spec``
+-option when using the ``rv32`` or ``rv64`` CPUs.
+-
+-RISC-V ISA CPUs (since 4.1)
+-'''''''''''''''''''''''''''
+-
+-The RISC-V no MMU cpus have been depcreated. The two CPUs: ``rv32imacu-nommu`` and
+-``rv64imacu-nommu`` should no longer be used. Instead the MMU status can be specified
+-via the CPU ``mmu`` option when using the ``rv32`` or ``rv64`` CPUs.
+-
+ ``compat`` property of server class POWER CPUs (since 5.0)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+@@ -486,6 +471,24 @@ The ``hub_id`` parameter of ``hostfwd_add`` / ``hostfwd_remove`` (removed in 5.0
+ The ``[hub_id name]`` parameter tuple of the 'hostfwd_add' and
+ 'hostfwd_remove' HMP commands has been replaced by ``netdev_id``.
+ 
++System emulator CPUS
++--------------------
++
++RISC-V ISA Specific CPUs (removed in 5.1)
++'''''''''''''''''''''''''''''''''''''''''
++
++The RISC-V cpus with the ISA version in the CPU name have been removed. The
++four CPUs are: ``rv32gcsu-v1.9.1``, ``rv32gcsu-v1.10.0``, ``rv64gcsu-v1.9.1`` and
++``rv64gcsu-v1.10.0``. Instead the version can be specified via the CPU ``priv_spec``
++option when using the ``rv32`` or ``rv64`` CPUs.
++
++RISC-V no MMU CPUs (removed in 5.1)
++'''''''''''''''''''''''''''''''''''
++
++The RISC-V no MMU cpus have been removed. The two CPUs: ``rv32imacu-nommu`` and
++``rv64imacu-nommu`` can no longer be used. Instead the MMU status can be specified
++via the CPU ``mmu`` option when using the ``rv32`` or ``rv64`` CPUs.
++
+ System emulator machines
+ ------------------------
+ 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index d0e7f5b9c5..76b98d7a33 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -40,13 +40,6 @@
+ #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51")
+ #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34")
+ #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54")
+-/* Deprecated */
+-#define TYPE_RISCV_CPU_RV32IMACU_NOMMU  RISCV_CPU_TYPE_NAME("rv32imacu-nommu")
+-#define TYPE_RISCV_CPU_RV32GCSU_V1_09_1 RISCV_CPU_TYPE_NAME("rv32gcsu-v1.9.1")
+-#define TYPE_RISCV_CPU_RV32GCSU_V1_10_0 RISCV_CPU_TYPE_NAME("rv32gcsu-v1.10.0")
+-#define TYPE_RISCV_CPU_RV64IMACU_NOMMU  RISCV_CPU_TYPE_NAME("rv64imacu-nommu")
+-#define TYPE_RISCV_CPU_RV64GCSU_V1_09_1 RISCV_CPU_TYPE_NAME("rv64gcsu-v1.9.1")
+-#define TYPE_RISCV_CPU_RV64GCSU_V1_10_0 RISCV_CPU_TYPE_NAME("rv64gcsu-v1.10.0")
+ 
+ #define RV32 ((target_ulong)1 << (TARGET_LONG_BITS - 2))
+ #define RV64 ((target_ulong)2 << (TARGET_LONG_BITS - 2))
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 059d71f2c7..112f2e3a2f 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -135,16 +135,6 @@ static void riscv_base32_cpu_init(Object *obj)
+     set_misa(env, 0);
  }
  
--static void riscv_virt_board_init(MachineState *machine)
-+static void virt_machine_init(MachineState *machine)
+-static void rv32gcsu_priv1_09_1_cpu_init(Object *obj)
+-{
+-    CPURISCVState *env = &RISCV_CPU(obj)->env;
+-    set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+-    set_priv_version(env, PRIV_VERSION_1_09_1);
+-    set_resetvec(env, DEFAULT_RSTVEC);
+-    set_feature(env, RISCV_FEATURE_MMU);
+-    set_feature(env, RISCV_FEATURE_PMP);
+-}
+-
+ static void rv32gcsu_priv1_10_0_cpu_init(Object *obj)
  {
-     const struct MemmapEntry *memmap = virt_memmap;
-     RISCVVirtState *s = RISCV_VIRT_MACHINE(machine);
-@@ -632,32 +632,32 @@ static void riscv_virt_board_init(MachineState *machine)
-     g_free(plic_hart_config);
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+@@ -182,16 +172,6 @@ static void riscv_base64_cpu_init(Object *obj)
+     set_misa(env, 0);
  }
  
--static void riscv_virt_machine_instance_init(Object *obj)
-+static void virt_machine_instance_init(Object *obj)
+-static void rv64gcsu_priv1_09_1_cpu_init(Object *obj)
+-{
+-    CPURISCVState *env = &RISCV_CPU(obj)->env;
+-    set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+-    set_priv_version(env, PRIV_VERSION_1_09_1);
+-    set_resetvec(env, DEFAULT_RSTVEC);
+-    set_feature(env, RISCV_FEATURE_MMU);
+-    set_feature(env, RISCV_FEATURE_PMP);
+-}
+-
+ static void rv64gcsu_priv1_10_0_cpu_init(Object *obj)
  {
- }
- 
--static void riscv_virt_machine_class_init(ObjectClass *oc, void *data)
-+static void virt_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
-     mc->desc = "RISC-V VirtIO board";
--    mc->init = riscv_virt_board_init;
-+    mc->init = virt_machine_init;
-     mc->max_cpus = 8;
-     mc->default_cpu_type = VIRT_CPU;
-     mc->pci_allow_0_address = true;
- }
- 
--static const TypeInfo riscv_virt_machine_typeinfo = {
-+static const TypeInfo virt_machine_typeinfo = {
-     .name       = MACHINE_TYPE_NAME("virt"),
-     .parent     = TYPE_MACHINE,
--    .class_init = riscv_virt_machine_class_init,
--    .instance_init = riscv_virt_machine_instance_init,
-+    .class_init = virt_machine_class_init,
-+    .instance_init = virt_machine_instance_init,
-     .instance_size = sizeof(RISCVVirtState),
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+@@ -621,18 +601,10 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32imacu_nommu_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32imafcu_nommu_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32gcsu_priv1_10_0_cpu_init),
+-    /* Depreacted */
+-    DEFINE_CPU(TYPE_RISCV_CPU_RV32IMACU_NOMMU,  rv32imacu_nommu_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_RV32GCSU_V1_09_1, rv32gcsu_priv1_09_1_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_RV32GCSU_V1_10_0, rv32gcsu_priv1_10_0_cpu_init)
+ #elif defined(TARGET_RISCV64)
+     DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base64_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64imacu_nommu_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64gcsu_priv1_10_0_cpu_init),
+-    /* Deprecated */
+-    DEFINE_CPU(TYPE_RISCV_CPU_RV64IMACU_NOMMU,  rv64imacu_nommu_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_RV64GCSU_V1_09_1, rv64gcsu_priv1_09_1_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_RV64GCSU_V1_10_0, rv64gcsu_priv1_10_0_cpu_init)
+ #endif
  };
  
--static void riscv_virt_machine_init_register_types(void)
-+static void virt_machine_init_register_types(void)
- {
--    type_register_static(&riscv_virt_machine_typeinfo);
-+    type_register_static(&virt_machine_typeinfo);
- }
+diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-test.c
+index 8bb54a6360..10d8ec26a9 100644
+--- a/tests/qtest/machine-none-test.c
++++ b/tests/qtest/machine-none-test.c
+@@ -54,8 +54,8 @@ static struct arch2cpu cpus_map[] = {
+     { "xtensa", "dc233c" },
+     { "xtensaeb", "fsf" },
+     { "hppa", "hppa" },
+-    { "riscv64", "rv64gcsu-v1.10.0" },
+-    { "riscv32", "rv32gcsu-v1.9.1" },
++    { "riscv64", "rv64" },
++    { "riscv32", "rv32" },
+     { "rx", "rx62n" },
+ };
  
--type_init(riscv_virt_machine_init_register_types)
-+type_init(virt_machine_init_register_types)
 -- 
 2.26.2
 
