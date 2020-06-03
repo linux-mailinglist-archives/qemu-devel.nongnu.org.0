@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A88B1EC6A7
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:25:44 +0200 (CEST)
-Received: from localhost ([::1]:43014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A68521EC6AA
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:27:31 +0200 (CEST)
+Received: from localhost ([::1]:51728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgIA3-0000SD-AR
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:25:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48898)
+	id 1jgIBm-00048a-Ng
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:27:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHyg-0004WE-95
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:58 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:46897)
+ id 1jgHyh-0004Zk-9j
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:59 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:43258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHyf-0003eD-3v
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:57 -0400
-Received: by mail-pf1-x443.google.com with SMTP id b16so396227pfi.13
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:13:56 -0700 (PDT)
+ id 1jgHyg-0003eV-Bc
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:58 -0400
+Received: by mail-pg1-x543.google.com with SMTP id 185so529575pgb.10
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:13:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p2/SXxqi/mpzPKEmHvCWYtwtCXux2aJOwAbCs1scM98=;
- b=i4zYhcGzr8zq6qOUKRVqD5zmliiA3slbkyILaQ+Lj4p75hh6PFbWc/h0hRPICTdBby
- 4KoKCIHU5omb7UW3jhU0lej9yNTD1GUyVWj0DauSp8B5KRnR35TyY5AFVvRk2sHLSneR
- 3gNv6nv5YSvz6v6shT98Dv6r6SN5EI+a9sQgdrNFKnimOzr43qmroLXPrInBpwLwii4m
- c2bXNPu5q2Aq5djP4L9ezhnsF1tm75T9VZksuq1ZnTlDTj3OPxn18R1Jl6f6YxKEIc4c
- inDMJiUyIHkXTMxAgKZOb5sMjyOf58MH5teW9RLcRRGRikU63W9mVp9frpgoi1bOf4Dc
- nWIA==
+ bh=uyR9T9oGRaQ7j6mqreds6AjvFFxk3QgOhv9SfFUw7cA=;
+ b=wsGXO/XY41ZrbUG+OMMBSYVNXWVkXfimq3NIwi4b97AUZJblU8SLzcNJSGgGZnBPiD
+ FxD6ecT+9Z8vOrXsGYHhwRd/YnKHc62hOIe+ygzjh5uLxmXwsx42hflX1t5uLi8X9JKH
+ cCtMKPmnhAcDihnGs6DK5CfsAfFLDHK4HmuGFYMCAa3LDmSy05iLJ+8Kc0sK+zG61gvw
+ sLqbtnu01tL4MumIvExJ3bAgpe7Rn87Pm+k9uJPwYiSfDVAlH29agAlnf7tpexb+QiLs
+ 8GTtwhJwFCEL8M1HtCpGHvGiecRSJcjcJuEGFn7L/aDACom6YU9CF8kihAwX4D5tCRH4
+ 4ZtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p2/SXxqi/mpzPKEmHvCWYtwtCXux2aJOwAbCs1scM98=;
- b=Orr3uAMX835FXKOoXBzGZOkdwow6zo3jwzxmB9XyLtpUZFwuub7PCkVFD8WaawwC/m
- JUonw81qd0kz12GrlLUB4b8ZZIOa9w9tXCI5gZE5iuxdwRypIuskLPFGMt8lijENknwe
- ga4OtItED9YFAcQlusuZ5Ici+myy25NDZeR/0xFlVHvelyd5V7qaWYtGLJPlaOlnJ1hM
- Vt6Qycp4ew5YX2sMsTllc7+rGPqLzmsH52qNFaUYoQ2IK1CdabogrJZkeELaCSgOgJO8
- KZFVCdkb3bQFqaV6WEXs09Y7ELrbRCq9+pAWJgAfgb+E/b5dOaz1d+DgTlnPc/T8yhIw
- +LJA==
-X-Gm-Message-State: AOAM533APVpm4o8oy6v4EGe6yBoUO1j01Pc1yrswtykNLuaQ+D+FybYX
- dCOy91oRTXHjI/VLG0WLvMpUMKfJzA4=
-X-Google-Smtp-Source: ABdhPJx28Vx1Xg9Io8LVBkzjR2O3pxnYM5QQcRaIaeBIrDrAjF88v45blHUdc2PwC9u0/XMirR6nOg==
-X-Received: by 2002:a17:90b:234c:: with SMTP id
- ms12mr2486958pjb.164.1591146835254; 
- Tue, 02 Jun 2020 18:13:55 -0700 (PDT)
+ bh=uyR9T9oGRaQ7j6mqreds6AjvFFxk3QgOhv9SfFUw7cA=;
+ b=uKR1EusC2UAmWl28aHwiyCI7BKCB3TKWGzodMvaiqb0UZTH9VPP+tPfrH4BJyDu2uN
+ SpdnhkPWY3pA+cdBegwtgR6yhpImnsBfgee6kEX+88BXGokW2NUqPPXRZ+OOEEl3Kvh6
+ QGKpSTFxyIRH4Yr34LNCZs0Tnf4OxioHkuPB7XUWvT7pIuMHgNsJUDmEZtSiBpjLl4Zj
+ J16fv6EQsngIWmE7iRNkJ1Ghe2gWve0+EWO632N+AAPouNwKCfg59XUELzQ34Bp3amzK
+ kNwpELDRSbd19CqOW+hy3sjfco8xyC5xy690ZGexyHjahEkb1Qa383Sdq0k2QyYUCndU
+ O/9g==
+X-Gm-Message-State: AOAM533hsequ6dbGHVriqqUzv11i9O09MdDJJ7k8Wp/ro6jbh0cnQEp6
+ n7I0BLmT85822IAwCCtXxLuJdrgWvQE=
+X-Google-Smtp-Source: ABdhPJxXvukZrAnfT4SONmnuu50kFg8kC6QrQ2sABkjctQVpshrXJA476djFtDj0AFOjpufHKjxX1A==
+X-Received: by 2002:a17:90a:5a07:: with SMTP id
+ b7mr2247945pjd.130.1591146836561; 
+ Tue, 02 Jun 2020 18:13:56 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.13.54
+ by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.13.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 18:13:54 -0700 (PDT)
+ Tue, 02 Jun 2020 18:13:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 28/42] target/arm: Use mte_checkN for sve unpredicated loads
-Date: Tue,  2 Jun 2020 18:13:03 -0700
-Message-Id: <20200603011317.473934-29-richard.henderson@linaro.org>
+Subject: [PATCH v7 29/42] target/arm: Use mte_checkN for sve unpredicated
+ stores
+Date: Tue,  2 Jun 2020 18:13:04 -0700
+Message-Id: <20200603011317.473934-30-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200603011317.473934-1-richard.henderson@linaro.org>
 References: <20200603011317.473934-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,240 +93,213 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-sve.h    |  2 +
- target/arm/sve_helper.c    | 70 +++++++++++++++++++++++++++-
- target/arm/translate-sve.c | 93 ++++++++++++++++----------------------
- 3 files changed, 109 insertions(+), 56 deletions(-)
+ target/arm/helper-sve.h    |  1 +
+ target/arm/sve_helper.c    | 63 ++++++++++++++++++++++++++-
+ target/arm/translate-sve.c | 88 ++++++++++++++------------------------
+ 3 files changed, 94 insertions(+), 58 deletions(-)
 
 diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
-index 7a200755ac..550ae7f7e6 100644
+index 550ae7f7e6..197cd72999 100644
 --- a/target/arm/helper-sve.h
 +++ b/target/arm/helper-sve.h
-@@ -1138,6 +1138,8 @@ DEF_HELPER_FLAGS_5(sve_ftmad_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_5(sve_ftmad_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
+@@ -1139,6 +1139,7 @@ DEF_HELPER_FLAGS_5(sve_ftmad_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
  DEF_HELPER_FLAGS_5(sve_ftmad_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
  
-+DEF_HELPER_FLAGS_4(sve_ldr, TCG_CALL_NO_WG, void, env, ptr, tl, int)
-+
+ DEF_HELPER_FLAGS_4(sve_ldr, TCG_CALL_NO_WG, void, env, ptr, tl, int)
++DEF_HELPER_FLAGS_4(sve_str, TCG_CALL_NO_WG, void, env, ptr, tl, int)
+ 
  DEF_HELPER_FLAGS_4(sve_ld1bb_r, TCG_CALL_NO_WG, void, env, ptr, tl, i32)
  DEF_HELPER_FLAGS_4(sve_ld2bb_r, TCG_CALL_NO_WG, void, env, ptr, tl, i32)
- DEF_HELPER_FLAGS_4(sve_ld3bb_r, TCG_CALL_NO_WG, void, env, ptr, tl, i32)
 diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index e590db6637..04340cbe0c 100644
+index 04340cbe0c..507fba37c9 100644
 --- a/target/arm/sve_helper.c
 +++ b/target/arm/sve_helper.c
-@@ -3935,7 +3935,7 @@ void HELPER(sve_fcmla_zpzzz_d)(void *vd, void *vn, void *vm, void *va,
-  */
- 
- /*
-- * Load one element into @vd + @reg_off from @host.
-+ * Load one element into @vd + @reg_off, from @host.
-  * The controlling predicate is known to be true.
-  */
- typedef void sve_ldst1_host_fn(void *vd, intptr_t reg_off, void *host);
-@@ -4129,6 +4129,74 @@ static bool sve_probe_page(SVEHostPage *info, bool nofault,
-     return true;
+@@ -4130,7 +4130,7 @@ static bool sve_probe_page(SVEHostPage *info, bool nofault,
  }
  
-+/*
-+ * Load contiguous data, unpredicated.
-+ *
-+ * Note that unpredicated load/store of vector/predicate registers
-+ * are defined as a stream of bytes, which equates to little-endian
-+ * operations on larger quantities.
-+ *
-+ * Note any MTE check is already handled.
-+ */
-+
-+void HELPER(sve_ldr)(CPUARMState *env, void *vd, target_ulong addr, int size)
+ /*
+- * Load contiguous data, unpredicated.
++ * Load/store contiguous data, unpredicated.
+  *
+  * Note that unpredicated load/store of vector/predicate registers
+  * are defined as a stream of bytes, which equates to little-endian
+@@ -4198,6 +4198,67 @@ void HELPER(sve_ldr)(CPUARMState *env, void *vd, target_ulong addr, int size)
+     }
+ }
+ 
++void HELPER(sve_str)(CPUARMState *env, void *vd, target_ulong addr, int size)
 +{
-+    int mmu_idx = cpu_mmu_index(env, false);
++    int mem_idx = cpu_mmu_index(env, false);
 +    int in_page = -((int)addr | TARGET_PAGE_MASK);
 +    uintptr_t ra = GETPC();
 +    uint64_t val;
++    void *host;
 +    int i;
 +
-+    /* Small loads are expanded inline. */
++    /* Small stores are expanded inline. */
 +    tcg_debug_assert(size > 2 * 8);
 +
-+    /* Bulk copy the data from memory to the register. */
 +    if (likely(size <= in_page)) {
-+        void *host = probe_read(env, addr, size, mmu_idx, ra);
++        host = probe_write(env, addr, size, mem_idx, ra);
++        if (likely(host != NULL)) {
++            for (i = 0; i + 8 <= size; i += 8) {
++                stq_le_p(host + i, *(uint64_t *)(vd + i));
++            }
 +
-+        if (unlikely(!host)) {
-+            goto mmio;
++            /* Predicate load length may be any multiple of 2. */
++            if (unlikely(i != size)) {
++                val = *(uint64_t *)(vd + i);
++                if (size & 4) {
++                    stl_le_p(host + i, val);
++                    i += 4;
++                    val >>= 32;
++                }
++                if (size & 2) {
++                    stw_le_p(host + i, val);
++                }
++            }
++            return;
 +        }
-+        memcpy(vd, host, size);
 +    } else {
-+        void *h1 = probe_read(env, addr, in_page, mmu_idx, ra);
-+        void *h2 = probe_read(env, addr + in_page, size - in_page, mmu_idx, ra);
-+
-+        if (unlikely(!h1 || !h2)) {
-+            goto mmio;
-+        }
-+        memcpy(vd, h1, in_page);
-+        memcpy(vd + in_page, h2, size - in_page);
-+    }
-+
-+    /* Predicate load length may be any multiple of 2; ensure high bits 0. */
-+    if (unlikely(size & 7)) {
-+        memset(vd + size, 0, 8 - (size & 7));
++        (void)probe_write(env, addr, in_page, mem_idx, ra);
++        (void)probe_write(env, addr + in_page, size - in_page, mem_idx, ra);
 +    }
 +
 +    /*
-+     * The memcpy and memset above kept the bytes in memory order.
-+     * The in-register format has uint64_t in host order, so for
-+     * big-endian host we need to bswap.
++     * Note there is no endian-specific target store function, so to handle
++     * aarch64_be-linux-user we need to bswap the big-endian store.
 +     */
-+    for (i = 0; i < size; i += 8) {
-+        le64_to_cpus(vd + i);
-+    }
-+    return;
-+
-+ mmio:
 +    for (i = 0; i + 8 <= size; i += 8) {
-+        val = cpu_ldq_le_data_ra(env, addr + i, ra);
-+        *(uint64_t *)(vd + i) = val;
++        val = *(uint64_t *)(vd + i);
++        cpu_stq_le_data_ra(env, addr + i, val, ra);
 +    }
 +
 +    /* Predicate load length may be any multiple of 2. */
 +    if (unlikely(i != size)) {
-+        val = cpu_ldq_le_data_ra(env, addr + size - 8, ra);
-+        val >>= (size - i) * 8;
-+        *(uint64_t *)(vd + i + 8) = val;
++        val = *(uint64_t *)(vd + i);
++        if (size & 4) {
++            cpu_stl_le_data_ra(env, addr + i, val, ra);
++            i += 4;
++            val >>= 32;
++        }
++        if (size & 2) {
++            cpu_stw_le_data_ra(env, addr + i, val, ra);
++        }
 +    }
 +}
- 
++
  /*
   * Analyse contiguous data, protected by a governing predicate.
+  */
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index ac7b3119e5..35b979fa13 100644
+index 35b979fa13..e515646db2 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -4332,8 +4332,13 @@ static bool trans_UCVTF_dd(DisasContext *s, arg_rpr_esz *a)
-  *** SVE Memory - 32-bit Gather and Unsized Contiguous Group
-  */
- 
--/* Subroutine loading a vector register at VOFS of LEN bytes.
-+/*
-+ * Subroutine loading a vector register at VOFS of LEN bytes.
-  * The load should begin at the address Rn + IMM.
-+ *
-+ * Note that unpredicated load/store of vector/predicate registers
-+ * are defined as a stream of bytes, which equates to little-endian
-+ * operations on larger quantities.
-  */
- 
- static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
-@@ -4342,81 +4347,59 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
+@@ -4410,78 +4410,52 @@ static void do_str(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
      int len_remain = len % 8;
      int nparts = len / 8 + ctpop8(len_remain);
      int midx = get_mem_index(s);
--    TCGv_i64 addr, t0, t1;
-+    TCGv_i64 dirty_addr, clean_addr, t0, t1;
+-    TCGv_i64 addr, t0;
++    TCGv_i64 dirty_addr, clean_addr, t0;
 +    int i;
- 
--    addr = tcg_temp_new_i64();
--    t0 = tcg_temp_new_i64();
++
 +    dirty_addr = read_cpu_reg_sp(s, rn, true);
 +    tcg_gen_addi_i64(dirty_addr, dirty_addr, imm);
++
++    clean_addr = gen_mte_checkN(s, dirty_addr, true, rn != 31, len, MO_8);
++
++    /* Limit tcg code expansion by doing large loads out of line. */
++    if (nparts > 4) {
++        TCGv_ptr t_rd = tcg_temp_new_ptr();
++        TCGv_i32 t_len = tcg_const_i32(len);
++
++        tcg_gen_addi_ptr(t_rd, cpu_env, vofs);
++        gen_helper_sve_str(cpu_env, t_rd, clean_addr, t_len);
++        tcg_temp_free_ptr(t_rd);
++        tcg_temp_free_i32(t_len);
++        return;
++    }
  
+-    addr = tcg_temp_new_i64();
+     t0 = tcg_temp_new_i64();
+-
 -    /* Note that unpredicated load/store of vector/predicate registers
 -     * are defined as a stream of bytes, which equates to little-endian
 -     * operations on larger quantities.  There is no nice way to force
--     * a little-endian load for aarch64_be-linux-user out of line.
+-     * a little-endian store for aarch64_be-linux-user out of line.
 -     *
 -     * Attempt to keep code expansion to a minimum by limiting the
 -     * amount of unrolling done.
 -     */
 -    if (nparts <= 4) {
 -        int i;
-+    clean_addr = gen_mte_checkN(s, dirty_addr, false, rn != 31, len, MO_8);
- 
+-
 -        for (i = 0; i < len_align; i += 8) {
+-            tcg_gen_ld_i64(t0, cpu_env, vofs + i);
 -            tcg_gen_addi_i64(addr, cpu_reg_sp(s, rn), imm + i);
--            tcg_gen_qemu_ld_i64(t0, addr, midx, MO_LEQ);
--            tcg_gen_st_i64(t0, cpu_env, vofs + i);
+-            tcg_gen_qemu_st_i64(t0, addr, midx, MO_LEQ);
 -        }
 -    } else {
 -        TCGLabel *loop = gen_new_label();
--        TCGv_ptr tp, i = tcg_const_local_ptr(0);
-+    /* Limit tcg code expansion by doing large loads out of line. */
-+    if (nparts > 4) {
-+        TCGv_ptr t_rd = tcg_temp_new_ptr();
-+        TCGv_i32 t_len = tcg_const_i32(len);
- 
+-        TCGv_ptr t2, i = tcg_const_local_ptr(0);
+-
 -        gen_set_label(loop);
+-
+-        t2 = tcg_temp_new_ptr();
+-        tcg_gen_add_ptr(t2, cpu_env, i);
+-        tcg_gen_ld_i64(t0, t2, vofs);
 -
 -        /* Minimize the number of local temps that must be re-read from
 -         * the stack each iteration.  Instead, re-compute values other
 -         * than the loop counter.
 -         */
--        tp = tcg_temp_new_ptr();
--        tcg_gen_addi_ptr(tp, i, imm);
--        tcg_gen_extu_ptr_i64(addr, tp);
+-        tcg_gen_addi_ptr(t2, i, imm);
+-        tcg_gen_extu_ptr_i64(addr, t2);
 -        tcg_gen_add_i64(addr, addr, cpu_reg_sp(s, rn));
+-        tcg_temp_free_ptr(t2);
 -
--        tcg_gen_qemu_ld_i64(t0, addr, midx, MO_LEQ);
+-        tcg_gen_qemu_st_i64(t0, addr, midx, MO_LEQ);
 -
--        tcg_gen_add_ptr(tp, cpu_env, i);
 -        tcg_gen_addi_ptr(i, i, 8);
--        tcg_gen_st_i64(t0, tp, vofs);
--        tcg_temp_free_ptr(tp);
 -
 -        tcg_gen_brcondi_ptr(TCG_COND_LTU, i, len_align, loop);
 -        tcg_temp_free_ptr(i);
-+        tcg_gen_addi_ptr(t_rd, cpu_env, vofs);
-+        gen_helper_sve_ldr(cpu_env, t_rd, clean_addr, t_len);
-+        tcg_temp_free_ptr(t_rd);
-+        tcg_temp_free_i32(t_len);
-+        return;
++    for (i = 0; i < len_align; i += 8) {
++        tcg_gen_ld_i64(t0, cpu_env, vofs + i);
++        tcg_gen_qemu_st_i64(t0, clean_addr, midx, MO_LEQ);
++        tcg_gen_addi_i64(clean_addr, clean_addr, 8);
      }
  
--    /* Predicate register loads can be any multiple of 2.
--     * Note that we still store the entire 64-bit unit into cpu_env.
-+    t0 = tcg_temp_new_i64();
-+    for (i = 0; i < len_align; i += 8) {
-+        tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEQ);
-+        tcg_gen_st_i64(t0, cpu_env, vofs + i);
-+        tcg_gen_addi_i64(clean_addr, clean_addr, 8);
-+    }
-+
-+    /*
-+     * Predicate register loads can be any multiple of 2.
-+     * Note that we still store the entire 64-bit unit into cpu_env
-+     * so that the high bits are zeroed.
-      */
+     /* Predicate register stores can be any multiple of 2.  */
      if (len_remain) {
+         tcg_gen_ld_i64(t0, cpu_env, vofs + len_align);
 -        tcg_gen_addi_i64(addr, cpu_reg_sp(s, rn), imm + len_align);
 -
          switch (len_remain) {
-         case 2:
+-        case 2:
 -        case 4:
 -        case 8:
--            tcg_gen_qemu_ld_i64(t0, addr, midx, MO_LE | ctz32(len_remain));
-+            tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEUW);
-+            break;
-+        case 4:
-+            tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEUL);
-             break;
+-            tcg_gen_qemu_st_i64(t0, addr, midx, MO_LE | ctz32(len_remain));
+-            break;
 -
          case 6:
-             t1 = tcg_temp_new_i64();
--            tcg_gen_qemu_ld_i64(t0, addr, midx, MO_LEUL);
+-            tcg_gen_qemu_st_i64(t0, addr, midx, MO_LEUL);
 -            tcg_gen_addi_i64(addr, addr, 4);
--            tcg_gen_qemu_ld_i64(t1, addr, midx, MO_LEUW);
-+            tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEUL);
++            tcg_gen_qemu_st_i64(t0, clean_addr, midx, MO_LEUL);
 +            tcg_gen_addi_i64(clean_addr, clean_addr, 4);
-+            tcg_gen_qemu_ld_i64(t1, clean_addr, midx, MO_LEUW);
-             tcg_gen_deposit_i64(t0, t0, t1, 32, 32);
-             tcg_temp_free_i64(t1);
+             tcg_gen_shri_i64(t0, t0, 32);
+-            tcg_gen_qemu_st_i64(t0, addr, midx, MO_LEUW);
++            /* fall through */
++        case 2:
++            tcg_gen_qemu_st_i64(t0, clean_addr, midx, MO_LEUW);
++            break;
++        case 4:
++            tcg_gen_qemu_st_i64(t0, clean_addr, midx, MO_LEUL);
              break;
 -
          default:
              g_assert_not_reached();
          }
-         tcg_gen_st_i64(t0, cpu_env, vofs + len_align);
      }
 -    tcg_temp_free_i64(addr);
      tcg_temp_free_i64(t0);
