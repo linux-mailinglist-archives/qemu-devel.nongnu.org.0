@@ -2,83 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A113D1EC9AC
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 08:44:50 +0200 (CEST)
-Received: from localhost ([::1]:32906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 471921EC9BD
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 08:52:59 +0200 (CEST)
+Received: from localhost ([::1]:39428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgN8r-0000vG-OF
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 02:44:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60526)
+	id 1jgNGk-0004V2-Bs
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 02:52:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jgN7f-00007l-G8
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 02:43:35 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46081)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jgN7e-0000ma-Hc
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 02:43:35 -0400
-Received: by mail-wr1-x444.google.com with SMTP id x6so1004661wrm.13
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 23:43:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cXlxmiVWVVH9wxRrHYbj8hfaoBI6Fen5UD/9euxmmoc=;
- b=nPQqXiFGsljr7Qr+RsFXAVut03wSdKJnSIDsW7QfOJ4JCbowgQwQDRwlGhqqdECqh8
- KihgPYRfoxxiqQ62LsF1F5Ez+Vd1tCOWuipVedIxfMekQ3lbv1bozjJbk6zNquoAOQGj
- iz22Gmo2lf6OpcuEbZsRG9CYwYlpvaSyQgrRCMTMLh13Wm4jnOiDhQ0ZbsX/3yob4ygi
- yWuS0fHHdWRvYWegzZVFt/YM1kpy0okX3Jd4wzCx41zIK/j9VoW3GbgD8p1wtvSWGVlS
- e/l6nLjkfvOlQLdcnws5a+TqI4w0FuRpYyJADUNVZ7Cn20OBfu47h9oTvmNyZ4jYXbG8
- Cqdg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgNFt-0003zl-VD
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 02:52:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44030
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgNFs-0002AV-Rw
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 02:52:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591167123;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Fst5dhvTrn6XZZ/VCzfPPMEO7a0ttJGYJX13bpNPh2A=;
+ b=iFNcRdlDNK5l7v56VECzw8cQyJcezuI75/kiHggn+nwgptDAiTPVmjijcr0iJrXn7Z/HS6
+ 0AyIRMjn5EL4FTuEwTLARHDnGzx8uCO7cBjNzFAlqm429AK1yVmhI2Fc1RMjsvWDBd1rNP
+ coyg5GNJJo96OpjJmT5rF2X41vRna8M=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-366-Rb3D9_FNO6W0S_EDoDsdgA-1; Wed, 03 Jun 2020 02:52:00 -0400
+X-MC-Unique: Rb3D9_FNO6W0S_EDoDsdgA-1
+Received: by mail-wr1-f72.google.com with SMTP id l1so686750wrc.8
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 23:52:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cXlxmiVWVVH9wxRrHYbj8hfaoBI6Fen5UD/9euxmmoc=;
- b=AhVauLLfPppWPaDEr+hFEOfZOWMJ6wEuJzKLV+yfWboi/g3j7VXOHdqu1r3Dnkx53H
- k4gGXuug1f6HSrI76d/WZJBIVFr6iv9HmfugL3kbBufxqnSXRkcWxsjtZY0vXxOgc967
- U2RTOtkC9HpwkE6PsmWvgmOj8mV8Vv7TB4byYh/1tJb0g36oDpmV4Fvs01iMb9YOQby1
- jpSdrHYkXtxN+PLXS1dWh8cvMx/eAHs43j0sKYUN3F252DOr3tRkSqY87M3HDsTfID64
- xjTj5kg+V5nkpcV0bHDbcpvyagqWYshSsl+/2NaeVqFMzk2TmqlLyqGocxh67dsW9wTb
- yqMA==
-X-Gm-Message-State: AOAM533T6r/I886mW1l1DZ5lC7eqPOyWzLvbI/JmjXKuzIVz8kS8nxJG
- 6csCwfoYFavVqHIRkkw2N2s=
-X-Google-Smtp-Source: ABdhPJxntra5CiBbQUjrOyXXFcEwDlEm8vI34jjMH5LYSwbnVJiUPSlbEyU3Tn981dLEGiNOIqeTZw==
-X-Received: by 2002:adf:f8cc:: with SMTP id f12mr28917089wrq.418.1591166613070; 
- Tue, 02 Jun 2020 23:43:33 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Fst5dhvTrn6XZZ/VCzfPPMEO7a0ttJGYJX13bpNPh2A=;
+ b=XDLpFLZLydDpMHbzMODNU7yt5/tpQ8WiunGjTXS8OzykzjvFAZP2HAlUBs6JTan64t
+ WMD+uh0rjS52RB2C6NkC5YYupvWIcSlKEt286kfDc4NFnYaSjVLi8O9NIX19vFX7YJsi
+ xAsxxmdzVSiSrFO6BFpByRSptsOIlhMFRiAyP/Pk5xGgiQWfzSbmL8iaeuDgvJmcPckc
+ bCJfMIuSa70rbjm71B2nhnSRNnrcx+lqQdI0LVk0Xqxw7RLYDJHVf5ZpRVAsQ9uPO7QE
+ 9gA0y+erwjQJt5rQJgj98HVgU0HKoILoHdPOKII8u1rbIX0Qyqh6lwSuuHoDvZJUn0pz
+ B0pQ==
+X-Gm-Message-State: AOAM530bW7fzZAjRMTvuOj+algsWo7ql1k9Z/LFi37KwpXQolOkWMUQk
+ xsknt2yJ17kuuJQLNLqvAZrmHMqFQhhNY3FQ4zulOd0iYUleYkYJx5jgl3CmHsm2ckhx6yJd1QX
+ K/hWo0d/evR8C/sg=
+X-Received: by 2002:a05:600c:2153:: with SMTP id
+ v19mr7026014wml.47.1591167119575; 
+ Tue, 02 Jun 2020 23:51:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJySKwzyUKVxnoHMH7M/i4B80R9ATGvJ+ffHsq7rGFihSAtl/b4O2caSWme+s+bNJoREz8hbdg==
+X-Received: by 2002:a05:600c:2153:: with SMTP id
+ v19mr7025994wml.47.1591167119325; 
+ Tue, 02 Jun 2020 23:51:59 -0700 (PDT)
 Received: from [192.168.1.43] (181.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id u130sm1543505wmg.32.2020.06.02.23.43.31
+ by smtp.gmail.com with ESMTPSA id d24sm1410455wmb.45.2020.06.02.23.51.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Jun 2020 23:43:31 -0700 (PDT)
-Subject: Re: [PATCH] tcg: Sanitize shift constants on ppc64le so that shift
- operations with large constants don't generate invalid instructions.
-To: agrecascino123@gmail.com, qemu-devel@nongnu.org
-References: <20200603052308.11744-1-agrecascino123@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2a0fa3cb-9527-ae8b-e89b-2af08e2f54f4@amsat.org>
-Date: Wed, 3 Jun 2020 08:43:31 +0200
+ Tue, 02 Jun 2020 23:51:58 -0700 (PDT)
+Subject: Re: [PATCH] qom-hmp-cmds: fix a memleak in hmp_qom_get
+To: Pan Nengyuan <pannengyuan@huawei.com>, pbonzini@redhat.com,
+ berrange@redhat.com, ehabkost@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20200603070338.7922-1-pannengyuan@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <de3c8dc7-b039-71d7-6c33-5794a7ed9eb8@redhat.com>
+Date: Wed, 3 Jun 2020 08:51:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200603052308.11744-1-agrecascino123@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200603070338.7922-1-pannengyuan@huawei.com>
 Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 01:04:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,53 +125,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Catherine A. Frederick" <chocola@animebitch.es>, rth@twiddle.net
+Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Pan,
 
-Hi Catherine,
-
-On 6/3/20 7:23 AM, agrecascino123@gmail.com wrote:
-> From: "Catherine A. Frederick" <chocola@animebitch.es>
+On 6/3/20 9:03 AM, Pan Nengyuan wrote:
+> 'obj' forgot to free at the end of hmp_qom_get(). Fix that.
 > 
-> Signed-off-by: "Catherine A. Frederick" <chocola@animebitch.es>
+> The leak stack:
+> Direct leak of 40 byte(s) in 1 object(s) allocated from:
+>     #0 0x7f4e3a779ae8 in __interceptor_malloc (/lib64/libasan.so.5+0xefae8)
+>     #1 0x7f4e398f91d5 in g_malloc (/lib64/libglib-2.0.so.0+0x531d5)
+>     #2 0x55c9fd9a3999 in qstring_from_substr /build/qemu/src/qobject/qstring.c:45
+>     #3 0x55c9fd894bd3 in qobject_output_type_str /build/qemu/src/qapi/qobject-output-visitor.c:175
+>     #4 0x55c9fd894bd3 in qobject_output_type_str /build/qemu/src/qapi/qobject-output-visitor.c:168
+>     #5 0x55c9fd88b34d in visit_type_str /build/qemu/src/qapi/qapi-visit-core.c:308
+>     #6 0x55c9fd59aa6b in property_get_str /build/qemu/src/qom/object.c:2064
+>     #7 0x55c9fd5adb8a in object_property_get_qobject /build/qemu/src/qom/qom-qobject.c:38
+>     #8 0x55c9fd4a029d in hmp_qom_get /build/qemu/src/qom/qom-hmp-cmds.c:66
+> 
+> Fixes: 89cf4fe34f4
+
+When you fix a bug in a specific commit, please Cc the commit author and
+the reviewers, so they have a chance to 1/ review your fix and 2/ learn
+from their mistake.
+
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
 > ---
->  tcg/ppc/tcg-target.inc.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  qom/qom-hmp-cmds.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-> index ee1f9227c1..a5450a5e67 100644
-> --- a/tcg/ppc/tcg-target.inc.c
-> +++ b/tcg/ppc/tcg-target.inc.c
-> @@ -790,21 +790,25 @@ static inline void tcg_out_ext32u(TCGContext *s, TCGReg dst, TCGReg src)
+> diff --git a/qom/qom-hmp-cmds.c b/qom/qom-hmp-cmds.c
+> index f704b6949a..3d2a23292d 100644
+> --- a/qom/qom-hmp-cmds.c
+> +++ b/qom/qom-hmp-cmds.c
+> @@ -71,6 +71,7 @@ void hmp_qom_get(Monitor *mon, const QDict *qdict)
+>          qobject_unref(str);
+>      }
 >  
->  static inline void tcg_out_shli32(TCGContext *s, TCGReg dst, TCGReg src, int c)
->  {
-> +    c = ((unsigned)c > 32) ? 32 : c;
->      tcg_out_rlw(s, RLWINM, dst, src, c, 0, 31 - c);
->  }
->  
->  static inline void tcg_out_shli64(TCGContext *s, TCGReg dst, TCGReg src, int c)
->  {
-> +    c = ((unsigned)c > 64) ? 64 : c;
->      tcg_out_rld(s, RLDICR, dst, src, c, 63 - c);
->  }
->  
->  static inline void tcg_out_shri32(TCGContext *s, TCGReg dst, TCGReg src, int c)
->  {
-> +    c = ((unsigned)c > 32) ? 32 : c;
->      tcg_out_rlw(s, RLWINM, dst, src, 32 - c, c, 31);
->  }
->  
->  static inline void tcg_out_shri64(TCGContext *s, TCGReg dst, TCGReg src, int c)
->  {
-> +    c = ((unsigned)c > 64) ? 64 : c;
->      tcg_out_rld(s, RLDICL, dst, src, 64 - c, c);
->  }
+> +    qobject_unref(obj);
 
-I agree there is a bug, but I am not sure we should silently cap the
-value this way. I'd rather see the caller provide a value in range, and
-maybe the callee use 'tcg_debug_assert(c <= RANGE);' to catch future new
-caller added missing the range check.
+The object_resolve_path() documentation is not clear about that...
+Can we get the documentation clarified?
+
+>      hmp_handle_error(mon, err);
+>  }
+>  
+> 
+
 
