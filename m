@@ -2,43 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45B9F1ECB32
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 10:13:43 +0200 (CEST)
-Received: from localhost ([::1]:56822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 487681ECB2B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 10:12:46 +0200 (CEST)
+Received: from localhost ([::1]:52570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgOWs-0006wT-BO
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 04:13:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39582)
+	id 1jgOVx-0005Cz-CO
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 04:12:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maozhongyi@cmss.chinamobile.com>)
- id 1jgOTV-00016H-VM
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 04:10:13 -0400
-Received: from cmccmta1.chinamobile.com ([221.176.66.79]:7105)
+ id 1jgOTE-0000Yl-4D
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 04:09:56 -0400
+Received: from cmccmta1.chinamobile.com ([221.176.66.79]:3995)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jgOTU-0000Gy-Dn
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 04:10:13 -0400
+ (envelope-from <maozhongyi@cmss.chinamobile.com>) id 1jgOT9-0000Dh-R1
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 04:09:55 -0400
 Received: from spf.mail.chinamobile.com (unknown[172.16.121.15]) by
- rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee45ed75ab37ac-8b1fc;
- Wed, 03 Jun 2020 16:09:23 +0800 (CST)
-X-RM-TRANSID: 2ee45ed75ab37ac-8b1fc
+ rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee15ed75ab36a7-8ad9a;
+ Wed, 03 Jun 2020 16:09:24 +0800 (CST)
+X-RM-TRANSID: 2ee15ed75ab36a7-8ad9a
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG: 00000000
 Received: from localhost.localdomain (unknown[112.25.154.146])
- by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee85ed75aae43e-61014;
- Wed, 03 Jun 2020 16:09:23 +0800 (CST)
-X-RM-TRANSID: 2ee85ed75aae43e-61014
+ by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee85ed75aae43e-61016;
+ Wed, 03 Jun 2020 16:09:24 +0800 (CST)
+X-RM-TRANSID: 2ee85ed75aae43e-61016
 From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/9] tests/migration: mem leak fix
-Date: Wed,  3 Jun 2020 16:08:56 +0800
-Message-Id: <20200603080904.997083-2-maozhongyi@cmss.chinamobile.com>
+Subject: [PATCH 2/9] tests/migration: fix unreachable path in stress test
+Date: Wed,  3 Jun 2020 16:08:57 +0800
+Message-Id: <20200603080904.997083-3-maozhongyi@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200603080904.997083-1-maozhongyi@cmss.chinamobile.com>
 References: <20200603080904.997083-1-maozhongyi@cmss.chinamobile.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=221.176.66.79;
  envelope-from=maozhongyi@cmss.chinamobile.com; helo=cmccmta1.chinamobile.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 04:09:40
@@ -64,70 +61,68 @@ Cc: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-‘data’ has the possibility of memory leaks， so use the
-glib macros g_autofree recommended by CODING_STYLE.rst
-to automatically release the memory that returned from
-g_malloc().
+If stressone() or stress() exits it's because of a failure
+because the test runs forever otherwise, so change stressone
+and stress type to void to make the exit_failure() as the exit
+function of main().
 
 Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tests/migration/stress.c | 21 ++-------------------
- 1 file changed, 2 insertions(+), 19 deletions(-)
+ tests/migration/stress.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
 diff --git a/tests/migration/stress.c b/tests/migration/stress.c
-index 0c23964693..f9626d50ee 100644
+index f9626d50ee..a062ef6b55 100644
 --- a/tests/migration/stress.c
 +++ b/tests/migration/stress.c
-@@ -170,26 +170,14 @@ static unsigned long long now(void)
- static int stressone(unsigned long long ramsizeMB)
+@@ -167,7 +167,7 @@ static unsigned long long now(void)
+     return (tv.tv_sec * 1000ull) + (tv.tv_usec / 1000ull);
+ }
+ 
+-static int stressone(unsigned long long ramsizeMB)
++static void stressone(unsigned long long ramsizeMB)
  {
      size_t pagesPerMB = 1024 * 1024 / PAGE_SIZE;
--    char *ram = malloc(ramsizeMB * 1024 * 1024);
-+    g_autofree char *ram = g_malloc(ramsizeMB * 1024 * 1024);
-     char *ramptr;
-     size_t i, j, k;
--    char *data = malloc(PAGE_SIZE);
-+    g_autofree char *data = g_malloc(PAGE_SIZE);
-     char *dataptr;
-     size_t nMB = 0;
-     unsigned long long before, after;
- 
--    if (!ram) {
--        fprintf(stderr, "%s (%05d): ERROR: cannot allocate %llu MB of RAM: %s\n",
--                argv0, gettid(), ramsizeMB, strerror(errno));
--        return -1;
--    }
--    if (!data) {
--        fprintf(stderr, "%s (%d): ERROR: cannot allocate %d bytes of RAM: %s\n",
--                argv0, gettid(), PAGE_SIZE, strerror(errno));
--        free(ram);
--        return -1;
--    }
--
-     /* We don't care about initial state, but we do want
-      * to fault it all into RAM, otherwise the first iter
-      * of the loop below will be quite slow. We can't use
-@@ -198,8 +186,6 @@ static int stressone(unsigned long long ramsizeMB)
+     g_autofree char *ram = g_malloc(ramsizeMB * 1024 * 1024);
+@@ -186,7 +186,7 @@ static int stressone(unsigned long long ramsizeMB)
      memset(ram, 0xfe, ramsizeMB * 1024 * 1024);
  
      if (random_bytes(data, PAGE_SIZE) < 0) {
--        free(ram);
--        free(data);
-         return -1;
+-        return -1;
++        return;
      }
  
-@@ -227,9 +213,6 @@ static int stressone(unsigned long long ramsizeMB)
-             }
-         }
+     before = now();
+@@ -225,7 +225,7 @@ static void *stressthread(void *arg)
+     return NULL;
+ }
+ 
+-static int stress(unsigned long long ramsizeGB, int ncpus)
++static void stress(unsigned long long ramsizeGB, int ncpus)
+ {
+     size_t i;
+     unsigned long long ramsizeMB = ramsizeGB * 1024 / ncpus;
+@@ -238,8 +238,6 @@ static int stress(unsigned long long ramsizeGB, int ncpus)
      }
+ 
+     stressone(ramsizeMB);
 -
--    free(data);
--    free(ram);
+-    return 0;
  }
  
  
+@@ -335,8 +333,7 @@ int main(int argc, char **argv)
+     fprintf(stdout, "%s (%05d): INFO: RAM %llu GiB across %d CPUs\n",
+             argv0, gettid(), ramsizeGB, ncpus);
+ 
+-    if (stress(ramsizeGB, ncpus) < 0)
+-        exit_failure();
++    stress(ramsizeGB, ncpus);
+ 
+-    exit_success();
++    exit_failure();
+ }
 -- 
 2.17.1
 
