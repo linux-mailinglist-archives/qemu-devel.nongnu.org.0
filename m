@@ -2,63 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3165F1EC668
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:09:32 +0200 (CEST)
-Received: from localhost ([::1]:42858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1941EC68C
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:14:58 +0200 (CEST)
+Received: from localhost ([::1]:49412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgHuN-0001ww-8Y
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:09:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47790)
+	id 1jgHzd-0005Nf-W6
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:14:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chengang@emindsoft.com.cn>)
- id 1jgHtM-0001TW-F0
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:08:28 -0400
-Received: from lucky1.263xmail.com ([211.157.147.133]:54380)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chengang@emindsoft.com.cn>)
- id 1jgHtJ-0002rU-SH
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:08:27 -0400
-Received: from localhost (unknown [192.168.167.16])
- by lucky1.263xmail.com (Postfix) with ESMTP id BD205BE8D0;
- Wed,  3 Jun 2020 09:08:17 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED4: 1
-X-ANTISPAM-LEVEL: 2
-X-ABS-CHECKED: 0
-Received: from localhost.localdomain (unknown [223.72.72.58])
- by smtp.263.net (postfix) whith ESMTP id
- P761T139943940695808S1591146491618573_; 
- Wed, 03 Jun 2020 09:08:18 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <d0f552a632c88d22ab7a7ff9664e8195>
-X-RL-SENDER: chengang@emindsoft.com.cn
-X-SENDER: chengang@emindsoft.com.cn
-X-LOGIN-NAME: chengang@emindsoft.com.cn
-X-FST-TO: laurent@vivier.eu
-X-SENDER-IP: 223.72.72.58
-X-ATTACHMENT-NUM: 0
-X-DNS-TYPE: 0
-X-System-Flag: 0
-From: chengang@emindsoft.com.cn
-To: laurent@vivier.eu,
-	riku.voipio@iki.fi
-Subject: [PATCH v5] linux-user: syscall: ioctls: support DRM_IOCTL_VERSION
-Date: Wed,  3 Jun 2020 09:08:09 +0800
-Message-Id: <20200603010809.32139-1-chengang@emindsoft.com.cn>
-X-Mailer: git-send-email 2.24.0.308.g228f53135a
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jgHy7-0003HW-4t
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:23 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:34180)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jgHy4-0003Tv-MC
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:22 -0400
+Received: by mail-pf1-x442.google.com with SMTP id z64so432730pfb.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:13:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PzrD96dOtD3NK1lLspXRiLRSKjspuQFil7VkeAR8vEY=;
+ b=LpwZ1wHmMMyHeQuYGskrwbuGrTgDRCSUlwVE1NrYcEo6QGFE9bLw3ALS3Wm70SVVbD
+ hLwTQcqTWMd7xM4Atk5Rgs4JRUof/iLLhNJOvTfMo7r2WzOYah+iJS6ABXcOaPnsCvK8
+ RjlPhFqKnn6HJN+Zi6GlLHGlo5MuFUGYV5iLzG0mCIGNd9eR0MPvFDGIa6rCGL8qvbY3
+ slye8rDOup3CJtyvY+7z1Xqb72oTC0XqHWsXQHm//e+m1JMBmWjEOQ3fCYX9T4l2hW22
+ KTkEO54PLGFv3Z7iUPVHB3tgxuAbiBU67hzVK1lzaNRvpL5mPgSXwrwb8nUcpnAeVrZ2
+ kpoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PzrD96dOtD3NK1lLspXRiLRSKjspuQFil7VkeAR8vEY=;
+ b=bsgtayXn1e7PFG88StapBiL+2HnXO+lbeNZ1PQc8d2mQ1ZpuZrp2XELQ8k/9P8eWQg
+ FgP8QeppAwT7SxPeRR1/96oLH6cXg5qcdUhDUrWfceTv93DJezauu0i9dAwt1/HPI4Oj
+ G/nN96zAROivuhVKxfOYsc9sAPFuSpO6/x00O3xI2LVnq+8EaMdSqrlN6IpiLzt3H0+n
+ IDNcDCVG7UHQmOBNWXf6CTOEQJZhyqD4BJr4iKJGnM7YLqDrkD8aMx7nGDshyKT+lT0W
+ QSh3tL+nDGmjy3FHyMEnBWjRW3vk7ck2q0zagVo58vmad95qAWPODWPY9WBAIMa7yo/Q
+ Regg==
+X-Gm-Message-State: AOAM533zB5ty1updPWViOQcWStpbWUb7P6p/IQCvXwNhC3Ta6TDXmAgZ
+ v0whoJc9OLA2Qxj3zG5Xm1ZFUk8+mHk=
+X-Google-Smtp-Source: ABdhPJwVgbAcHyQvP7i4vhIxYRCHrhC62RuoEF/vbQYOoDdzi4rpEVPJjK7HBcM+cPJmZu+J9qtQzQ==
+X-Received: by 2002:a17:90b:23cb:: with SMTP id
+ md11mr2383208pjb.108.1591146798833; 
+ Tue, 02 Jun 2020 18:13:18 -0700 (PDT)
+Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
+ [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.13.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Jun 2020 18:13:18 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 00/42] target/arm: Implement ARMv8.5-MemTag, system mode
+Date: Tue,  2 Jun 2020 18:12:35 -0700
+Message-Id: <20200603011317.473934-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=211.157.147.133;
- envelope-from=chengang@emindsoft.com.cn; helo=lucky1.263xmail.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 21:08:18
-X-ACL-Warn: Detected OS   = ???
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,260 +84,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chengang@emindsoft.com.cn, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Gang <chengang@emindsoft.com.cn>
+Version 6 was back in March:
+https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg03790.html
 
-Another DRM_IOCTL_* commands will be done later.
+Version 7 is a rebase on master, which now contains all prereqs.
+In addition, two bugs fixed, pointed out by users of the branch.
 
-Signed-off-by: Chen Gang <chengang@emindsoft.com.cn>
----
- configure                  |  10 ++++
- linux-user/ioctls.h        |   5 ++
- linux-user/syscall.c       | 117 +++++++++++++++++++++++++++++++++++++
- linux-user/syscall_defs.h  |  15 +++++
- linux-user/syscall_types.h |  11 ++++
- 5 files changed, 158 insertions(+)
+I've done light testing against
 
-diff --git a/configure b/configure
-index e225a1e3ff..3cf28a649a 100755
---- a/configure
-+++ b/configure
-@@ -3140,6 +3140,13 @@ if ! check_include "ifaddrs.h" ; then
-   have_ifaddrs_h=no
- fi
+https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=devel/mte-v4
+
+I still have not implemented the arm,armv8.5-memtag OF property
+expected by that branch, so I have been disabling it.
+
+
+r~
+
+
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index b297a37c1b13..b5f18e63f8d1 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -155,6 +155,7 @@ s64 mte_ftr_filter
+                return ID_AA64PFR1_MTE_NI;
+        }
  
-+#########################################
-+# libdrm check
-+have_drm_h=no
-+if check_include "libdrm/drm.h" ; then
-+    have_drm_h=yes
-+fi
-+
- ##########################################
- # VTE probe
- 
-@@ -7149,6 +7156,9 @@ fi
- if test "$have_ifaddrs_h" = "yes" ; then
-     echo "HAVE_IFADDRS_H=y" >> $config_host_mak
- fi
-+if test "$have_drm_h" = "yes" ; then
-+  echo "HAVE_DRM_H=y" >> $config_host_mak
-+fi
- if test "$have_broken_size_max" = "yes" ; then
-     echo "HAVE_BROKEN_SIZE_MAX=y" >> $config_host_mak
- fi
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 0defa1d8c1..f2e2fa9c87 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -574,6 +574,11 @@
-   IOCTL_SPECIAL(SIOCDELRT, IOC_W, do_ioctl_rt,
-                 MK_PTR(MK_STRUCT(STRUCT_rtentry)))
- 
-+#ifdef HAVE_DRM_H
-+  IOCTL_SPECIAL(DRM_IOCTL_VERSION, IOC_RW, do_ioctl_drm,
-+                MK_PTR(MK_STRUCT(STRUCT_drm_version)))
++#if 0
+        /* check the DT "memory" nodes for MTE support */
+        for_each_node_by_type(np, "memory") {
+                memory_checked = true;
+@@ -167,6 +168,7 @@ s64 mte_ftr_filter
+                mte_capable = false;
+                return ID_AA64PFR1_MTE_NI;
+        }
 +#endif
-+
- #ifdef TARGET_TIOCSTART
-   IOCTL_IGNORE(TIOCSTART)
-   IOCTL_IGNORE(TIOCSTOP)
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 5af55fca78..07b7596e0f 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -112,6 +112,9 @@
- #include <linux/if_alg.h>
- #include <linux/rtc.h>
- #include <sound/asound.h>
-+#ifdef HAVE_DRM_H
-+#include <libdrm/drm.h>
-+#endif
- #include "linux_loop.h"
- #include "uname.h"
  
-@@ -5275,6 +5278,120 @@ static abi_long do_ioctl_tiocgptpeer(const IOCTLEntry *ie, uint8_t *buf_temp,
+        return val;
  }
- #endif
- 
-+#ifdef HAVE_DRM_H
-+
-+static void unlock_drm_version(struct drm_version *host_ver)
-+{
-+    if (host_ver->name) {
-+        unlock_user(host_ver->name, 0UL, 0);
-+    }
-+    if (host_ver->date) {
-+        unlock_user(host_ver->date, 0UL, 0);
-+    }
-+    if (host_ver->desc) {
-+        unlock_user(host_ver->desc, 0UL, 0);
-+    }
-+}
-+
-+static inline abi_long target_to_host_drmversion(struct drm_version *host_ver,
-+                                                abi_long target_addr)
-+{
-+    struct target_drm_version *target_ver;
-+
-+    if (!lock_user_struct(VERIFY_READ, target_ver, target_addr, 0)) {
-+        return -TARGET_EFAULT;
-+    }
-+
-+    memset(host_ver, 0, sizeof(*host_ver));
-+
-+    __get_user(host_ver->name_len, &target_ver->name_len);
-+    if (host_ver->name_len) {
-+        host_ver->name = lock_user(VERIFY_WRITE, target_ver->name,
-+                                   target_ver->name_len, 0);
-+        if (!host_ver->name) {
-+            goto err;
-+        }
-+    }
-+
-+    __get_user(host_ver->date_len, &target_ver->date_len);
-+    if (host_ver->date_len) {
-+        host_ver->date = lock_user(VERIFY_WRITE, target_ver->date,
-+                                   target_ver->date_len, 0);
-+        if (!host_ver->date) {
-+            goto err;
-+        }
-+    }
-+
-+    __get_user(host_ver->desc_len, &target_ver->desc_len);
-+    if (host_ver->desc_len) {
-+        host_ver->desc = lock_user(VERIFY_WRITE, target_ver->desc,
-+                                   target_ver->desc_len, 0);
-+        if (!host_ver->desc) {
-+            goto err;
-+        }
-+    }
-+
-+    unlock_user_struct(target_ver, target_addr, 0);
-+    return 0;
-+err:
-+    unlock_drm_version(host_ver);
-+    unlock_user_struct(target_ver, target_addr, 0);
-+    return -ENOMEM;
-+}
-+
-+static inline abi_long host_to_target_drmversion(abi_ulong target_addr,
-+                                                 struct drm_version *host_ver)
-+{
-+    struct target_drm_version *target_ver;
-+
-+    if (!lock_user_struct(VERIFY_WRITE, target_ver, target_addr, 0)) {
-+        unlock_drm_version(host_ver);
-+        return -TARGET_EFAULT;
-+    }
-+    __put_user(host_ver->version_major, &target_ver->version_major);
-+    __put_user(host_ver->version_minor, &target_ver->version_minor);
-+    __put_user(host_ver->version_patchlevel, &target_ver->version_patchlevel);
-+    __put_user(host_ver->name_len, &target_ver->name_len);
-+    __put_user(host_ver->date_len, &target_ver->date_len);
-+    __put_user(host_ver->desc_len, &target_ver->desc_len);
-+    if (host_ver->name) {
-+        unlock_user(host_ver->name, target_ver->name, host_ver->name_len);
-+    }
-+    if (host_ver->date) {
-+        unlock_user(host_ver->date, target_ver->date, host_ver->date_len);
-+    }
-+    if (host_ver->desc) {
-+        unlock_user(host_ver->desc, target_ver->desc, host_ver->desc_len);
-+    }
-+    unlock_user_struct(target_ver, target_addr, 0);
-+    return 0;
-+}
-+
-+static abi_long do_ioctl_drm(const IOCTLEntry *ie, uint8_t *buf_temp,
-+                             int fd, int cmd, abi_long arg)
-+{
-+    struct drm_version *ver;
-+    abi_long ret;
-+
-+    switch (ie->host_cmd) {
-+    case DRM_IOCTL_VERSION:
-+        ver = (struct drm_version *)buf_temp;
-+        ret = target_to_host_drmversion(ver, arg);
-+        if (is_error(ret)) {
-+            return ret;
-+        }
-+        ret = get_errno(safe_ioctl(fd, ie->host_cmd, ver));
-+        if (is_error(ret)) {
-+            unlock_drm_version(ver);
-+            return ret;
-+        }
-+        return host_to_target_drmversion(arg, ver);
-+    }
-+    return -TARGET_EFAULT;
-+}
-+
-+#endif
-+
- static IOCTLEntry ioctl_entries[] = {
- #define IOCTL(cmd, access, ...) \
-     { TARGET_ ## cmd, cmd, #cmd, access, 0, {  __VA_ARGS__ } },
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 152ec637cb..3c261cff0e 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -1167,6 +1167,9 @@ struct target_rtc_pll_info {
- #define TARGET_DM_TARGET_MSG          TARGET_IOWRU(0xfd, 0x0e)
- #define TARGET_DM_DEV_SET_GEOMETRY    TARGET_IOWRU(0xfd, 0x0f)
- 
-+/* drm ioctls */
-+#define TARGET_DRM_IOCTL_VERSION      TARGET_IOWRU('d', 0x00)
-+
- /* from asm/termbits.h */
- 
- #define TARGET_NCC 8
-@@ -2598,6 +2601,18 @@ struct target_mq_attr {
-     abi_long mq_curmsgs;
- };
- 
-+struct target_drm_version {
-+    int version_major;
-+    int version_minor;
-+    int version_patchlevel;
-+    abi_ulong name_len;
-+    abi_ulong name;
-+    abi_ulong date_len;
-+    abi_ulong date;
-+    abi_ulong desc_len;
-+    abi_ulong desc;
-+};
-+
- #include "socket.h"
- 
- #include "errno_defs.h"
-diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-index 4e12c1661e..e2b0484f50 100644
---- a/linux-user/syscall_types.h
-+++ b/linux-user/syscall_types.h
-@@ -292,6 +292,17 @@ STRUCT(dm_target_versions,
- STRUCT(dm_target_msg,
-        TYPE_ULONGLONG) /* sector */
- 
-+STRUCT(drm_version,
-+       TYPE_INT, /* version_major */
-+       TYPE_INT, /* version_minor */
-+       TYPE_INT, /* version_patchlevel */
-+       TYPE_ULONG, /* name_len */
-+       TYPE_PTRVOID, /* name */
-+       TYPE_ULONG, /* date_len */
-+       TYPE_PTRVOID, /* date */
-+       TYPE_ULONG, /* desc_len */
-+       TYPE_PTRVOID) /* desc */
-+
- STRUCT(file_clone_range,
-        TYPE_LONGLONG, /* src_fd */
-        TYPE_ULONGLONG, /* src_offset */
+
+
+Richard Henderson (42):
+  target/arm: Add isar tests for mte
+  target/arm: Improve masking of SCR RES0 bits
+  target/arm: Add support for MTE to SCTLR_ELx
+  target/arm: Add support for MTE to HCR_EL2 and SCR_EL3
+  target/arm: Rename DISAS_UPDATE to DISAS_UPDATE_EXIT
+  target/arm: Add DISAS_UPDATE_NOCHAIN
+  target/arm: Add MTE system registers
+  target/arm: Add MTE bits to tb_flags
+  target/arm: Implement the IRG instruction
+  target/arm: Implement the ADDG, SUBG instructions
+  target/arm: Implement the GMI instruction
+  target/arm: Implement the SUBP instruction
+  target/arm: Define arm_cpu_do_unaligned_access for user-only
+  target/arm: Add helper_probe_access
+  target/arm: Implement LDG, STG, ST2G instructions
+  target/arm: Implement the STGP instruction
+  target/arm: Restrict the values of DCZID.BS under TCG
+  target/arm: Simplify DC_ZVA
+  target/arm: Implement the LDGM, STGM, STZGM instructions
+  target/arm: Implement the access tag cache flushes
+  target/arm: Move regime_el to internals.h
+  target/arm: Move regime_tcr to internals.h
+  target/arm: Add gen_mte_check1
+  target/arm: Add gen_mte_checkN
+  target/arm: Implement helper_mte_check1
+  target/arm: Implement helper_mte_checkN
+  target/arm: Add helper_mte_check_zva
+  target/arm: Use mte_checkN for sve unpredicated loads
+  target/arm: Use mte_checkN for sve unpredicated stores
+  target/arm: Use mte_check1 for sve LD1R
+  target/arm: Add mte helpers for sve scalar + int loads
+  target/arm: Add mte helpers for sve scalar + int stores
+  target/arm: Add mte helpers for sve scalar + int ff/nf loads
+  target/arm: Handle TBI for sve scalar + int memory ops
+  target/arm: Add mte helpers for sve scatter/gather memory ops
+  target/arm: Complete TBI clearing for user-only for SVE
+  target/arm: Implement data cache set allocation tags
+  target/arm: Set PSTATE.TCO on exception entry
+  target/arm: Enable MTE
+  target/arm: Cache the Tagged bit for a page in MemTxAttrs
+  target/arm: Create tagged ram when MTE is enabled
+  target/arm: Add allocation tag storage for system mode
+
+ target/arm/cpu.h               |   36 +-
+ target/arm/helper-a64.h        |   16 +
+ target/arm/helper-sve.h        |  491 +++++++++++
+ target/arm/helper.h            |    2 +
+ target/arm/internals.h         |  148 ++++
+ target/arm/translate-a64.h     |    5 +
+ target/arm/translate.h         |   23 +-
+ hw/arm/virt.c                  |   52 ++
+ linux-user/aarch64/cpu_loop.c  |    7 +
+ linux-user/arm/cpu_loop.c      |    7 +
+ target/arm/cpu.c               |   77 +-
+ target/arm/cpu64.c             |    1 +
+ target/arm/helper-a64.c        |   94 +--
+ target/arm/helper.c            |  350 ++++++--
+ target/arm/mte_helper.c        |  897 ++++++++++++++++++++
+ target/arm/op_helper.c         |   16 +
+ target/arm/sve_helper.c        |  746 ++++++++++++++---
+ target/arm/tlb_helper.c        |   41 +-
+ target/arm/translate-a64.c     |  607 ++++++++++++--
+ target/arm/translate-sve.c     | 1421 ++++++++++++++++++++------------
+ target/arm/translate-vfp.inc.c |    2 +-
+ target/arm/translate.c         |   16 +-
+ target/arm/Makefile.objs       |    1 +
+ 23 files changed, 4206 insertions(+), 850 deletions(-)
+ create mode 100644 target/arm/mte_helper.c
+
 -- 
-2.24.0.308.g228f53135a
-
-
+2.25.1
 
 
