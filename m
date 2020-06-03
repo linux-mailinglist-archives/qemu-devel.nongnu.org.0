@@ -2,54 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077E01ED3EB
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 18:06:13 +0200 (CEST)
-Received: from localhost ([::1]:35464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0B91ED3F0
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 18:07:52 +0200 (CEST)
+Received: from localhost ([::1]:41056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgVu7-0001Y2-Hj
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 12:06:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44710)
+	id 1jgVvj-0003vS-Gs
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 12:07:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1jgVsr-0000DD-NB
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:04:53 -0400
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:6636)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1jgVsq-0001CS-Fy
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:04:53 -0400
-Authentication-Results: esa6.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: iclSOewnqgMnEYbbuNZOrWgIki0MUWsRaG9w+d9ZEdBdU2pNLfDnytVvDhdvgBBZhAPGG+paFg
- AY+e3TVmPNe2G00vsJU9M4vl0KXn5UYtoq22C6YiYpWkBHTZjO0tmmDF9buWjcgViyifwacrd7
- vXBYSHhzT26BbNF9ZsWLVcg4u5G6bX+NTocDLVXAbOCsxcNgfILfw6v/zk91Z0+cVfDyNKfbBk
- k/dMcjig/zOJYrzqqyqaEJPJKnMWTCGVSgZ0AIcOoTPqHbBIElMFD9VmmHSHCeLbc08R9PZdqE
- FoQ=
-X-SBRS: 2.7
-X-MesageID: 19489761
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.73,468,1583211600"; d="scan'208";a="19489761"
-From: Anthony PERARD <anthony.perard@citrix.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v3] xen: fix build without pci passthrough
-Date: Wed, 3 Jun 2020 17:04:42 +0100
-Message-ID: <20200603160442.3151170-1-anthony.perard@citrix.com>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jgVuu-0003Km-Aq
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:07:00 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54968
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jgVut-0001eT-0L
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:06:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591200417;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5g0xWKQHK3OchzfH5fA/OUO7nHT8833CftAc9cSmOI0=;
+ b=XvLMgkEDHKBbQEpmrXsymSXZf7xUajyCpdfBUUETiO+7nSiaNoGM/+hW/s31RVOw6UeMeI
+ 3BNeuY/7jaZMziHZrkuI7YCwoeyNGglK4agprwKjaAPusTzsvR8aMJhgP3KrYnKj+utd7o
+ SsT33D2Bnrq4qIQAbY2NHvnjqZB5w4Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-cDavETnrNDaZM4xnKFeQ3g-1; Wed, 03 Jun 2020 12:06:55 -0400
+X-MC-Unique: cDavETnrNDaZM4xnKFeQ3g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF55718A0764;
+ Wed,  3 Jun 2020 16:06:53 +0000 (UTC)
+Received: from [10.3.113.22] (ovpn-113-22.phx2.redhat.com [10.3.113.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E41F5C298;
+ Wed,  3 Jun 2020 16:06:50 +0000 (UTC)
+Subject: Re: [RFC PATCH 2/2] linux-user/mmap: Fix Clang 'type-limit-compare'
+ warning
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200503113220.30808-1-f4bug@amsat.org>
+ <20200503113220.30808-3-f4bug@amsat.org>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <7529763d-1f4a-5077-14ed-98753c8db288@redhat.com>
+Date: Wed, 3 Jun 2020 11:06:50 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200503113220.30808-3-f4bug@amsat.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.155.175;
- envelope-from=anthony.perard@citrix.com; helo=esa6.hc3370-68.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 12:04:48
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 01:12:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,175 +84,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paul Durrant <paul@xen.org>, xen-devel@lists.xenproject.org,
- Anthony PERARD <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Roger Pau Monne <roger.pau@citrix.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-trivial@nongnu.org, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Roger Pau Monne <roger.pau@citrix.com>
+On 5/3/20 6:32 AM, Philippe Mathieu-Daudé wrote:
+> When building with Clang 10 on Fedora 32, we get:
+> 
+>      CC      linux-user/mmap.o
+>    linux-user/mmap.c:720:49: error: result of comparison 'unsigned long' > 18446744073709551615 is always false [-Werror,-Wtautological-type-limit-compare]
+>            if ((unsigned long)host_addr + new_size > (abi_ulong)-1) {
+>                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
+> 
+> Fix by restricting the check for when target sizeof(abi_ulong) is
+> smaller than target sizeof(unsigned long).
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   linux-user/mmap.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+> index e378033797..b14652d894 100644
+> --- a/linux-user/mmap.c
+> +++ b/linux-user/mmap.c
+> @@ -714,6 +714,7 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
+>               errno = ENOMEM;
+>               host_addr = MAP_FAILED;
+>           }
+> +#if TARGET_ABI_BITS < TARGET_LONG_BITS
+>           /* Check if address fits target address space */
+>           if ((unsigned long)host_addr + new_size > (abi_ulong)-1) {
 
-Xen PCI passthrough support may not be available and thus the global
-variable "has_igd_gfx_passthru" might be compiled out. Common code
-should not access it in that case.
+Instead of using #if, the following suffices to shut up clang:
 
-Unfortunately, we can't use CONFIG_XEN_PCI_PASSTHROUGH directly in
-xen-common.c so this patch instead move access to the
-has_igd_gfx_passthru variable via function and those functions are
-also implemented as stubs. The stubs will be used when QEMU is built
-without passthrough support.
+diff --git c/linux-user/mmap.c w/linux-user/mmap.c
+index e37803379747..8d9ba201625d 100644
+--- c/linux-user/mmap.c
++++ w/linux-user/mmap.c
+@@ -715,7 +715,7 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong 
+old_size,
+              host_addr = MAP_FAILED;
+          }
+          /* Check if address fits target address space */
+-        if ((unsigned long)host_addr + new_size > (abi_ulong)-1) {
++        if ((unsigned long)host_addr > (abi_ulong)-1 - new_size) {
+              /* Revert mremap() changes */
+              host_addr = mremap(g2h(old_addr), new_size, old_size, flags);
+              errno = ENOMEM;
 
-Now, when one will want to enable igd-passthru via the -machine
-property, they will get an error message if QEMU is built without
-passthrough support.
 
-Fixes: 46472d82322d0 ('xen: convert "-machine igd-passthru" to an accelerator property')
-Reported-by: Roger Pau Monné <roger.pau@citrix.com>
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
----
+That is, it is no longer a tautological type compare if you commute the 
+operations so that neither side is a compile-time constant.
 
-Notes:
-    Changes in v3:
-    - reworked to use stubs instead of #ifdef CONFIG_XEN_PCI_PASSTHROUGH
-      CONFIG_XEN_PCI_PASSTHROUGH isn't available in xen-common.c
-    
-      moving CONFIG_XEN_PCI_PASSTHROUGH to be in config_host_mak isn't
-      really possible, or at least I didn't managed to make that work.
-
- hw/i386/pc_piix.c   |  2 +-
- hw/xen/xen-common.c |  4 ++--
- hw/xen/xen_pt.c     | 12 +++++++++++-
- hw/xen/xen_pt.h     |  6 ++++--
- stubs/Makefile.objs |  1 +
- stubs/xen-pt.c      | 22 ++++++++++++++++++++++
- 6 files changed, 41 insertions(+), 6 deletions(-)
- create mode 100644 stubs/xen-pt.c
-
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index f66e1d73ce0b..347fb8c6c807 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -375,7 +375,7 @@ static void pc_init_isa(MachineState *machine)
- #ifdef CONFIG_XEN
- static void pc_xen_hvm_init_pci(MachineState *machine)
- {
--    const char *pci_type = has_igd_gfx_passthru ?
-+    const char *pci_type = xen_igd_gfx_pt_enabled() ?
-                 TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE : TYPE_I440FX_PCI_DEVICE;
- 
-     pc_init1(machine,
-diff --git a/hw/xen/xen-common.c b/hw/xen/xen-common.c
-index 70564cc952d5..dd2c22cc4c0b 100644
---- a/hw/xen/xen-common.c
-+++ b/hw/xen/xen-common.c
-@@ -129,12 +129,12 @@ static void xen_change_state_handler(void *opaque, int running,
- 
- static bool xen_get_igd_gfx_passthru(Object *obj, Error **errp)
- {
--    return has_igd_gfx_passthru;
-+    return xen_igd_gfx_pt_enabled();
- }
- 
- static void xen_set_igd_gfx_passthru(Object *obj, bool value, Error **errp)
- {
--    has_igd_gfx_passthru = value;
-+    xen_igd_gfx_pt_set(value, errp);
- }
- 
- static void xen_setup_post(MachineState *ms, AccelState *accel)
-diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-index 81d5ad8da7f0..ab84443d5ec8 100644
---- a/hw/xen/xen_pt.c
-+++ b/hw/xen/xen_pt.c
-@@ -65,7 +65,17 @@
- #include "qemu/range.h"
- #include "exec/address-spaces.h"
- 
--bool has_igd_gfx_passthru;
-+static bool has_igd_gfx_passthru;
-+
-+bool xen_igd_gfx_pt_enabled(void)
-+{
-+    return has_igd_gfx_passthru;
-+}
-+
-+void xen_igd_gfx_pt_set(bool value, Error **errp)
-+{
-+    has_igd_gfx_passthru = value;
-+}
- 
- #define XEN_PT_NR_IRQS (256)
- static uint8_t xen_pt_mapped_machine_irq[XEN_PT_NR_IRQS] = {0};
-diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
-index 179775db7b22..6e9cec95f3b7 100644
---- a/hw/xen/xen_pt.h
-+++ b/hw/xen/xen_pt.h
-@@ -5,6 +5,9 @@
- #include "hw/pci/pci.h"
- #include "xen-host-pci-device.h"
- 
-+bool xen_igd_gfx_pt_enabled(void);
-+void xen_igd_gfx_pt_set(bool value, Error **errp);
-+
- void xen_pt_log(const PCIDevice *d, const char *f, ...) GCC_FMT_ATTR(2, 3);
- 
- #define XEN_PT_ERR(d, _f, _a...) xen_pt_log(d, "%s: Error: "_f, __func__, ##_a)
-@@ -322,10 +325,9 @@ extern void *pci_assign_dev_load_option_rom(PCIDevice *dev,
-                                             unsigned int domain,
-                                             unsigned int bus, unsigned int slot,
-                                             unsigned int function);
--extern bool has_igd_gfx_passthru;
- static inline bool is_igd_vga_passthrough(XenHostPCIDevice *dev)
- {
--    return (has_igd_gfx_passthru
-+    return (xen_igd_gfx_pt_enabled()
-             && ((dev->class_code >> 0x8) == PCI_CLASS_DISPLAY_VGA));
- }
- int xen_pt_register_vga_regions(XenHostPCIDevice *dev);
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 6a9e3135e8f9..564527e00997 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -40,6 +40,7 @@ stub-obj-y += target-get-monitor-def.o
- stub-obj-y += vmgenid.o
- stub-obj-y += xen-common.o
- stub-obj-y += xen-hvm.o
-+stub-obj-y += xen-pt.o
- stub-obj-y += pci-host-piix.o
- stub-obj-y += ram-block.o
- stub-obj-y += ramfb.o
-diff --git a/stubs/xen-pt.c b/stubs/xen-pt.c
-new file mode 100644
-index 000000000000..2d8cac8d54b9
---- /dev/null
-+++ b/stubs/xen-pt.c
-@@ -0,0 +1,22 @@
-+/*
-+ * Copyright (C) 2020       Citrix Systems UK Ltd.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/xen/xen_pt.h"
-+#include "qapi/error.h"
-+
-+bool xen_igd_gfx_pt_enabled(void)
-+{
-+    return false;
-+}
-+
-+void xen_igd_gfx_pt_set(bool value, Error **errp)
-+{
-+    if (value) {
-+        error_setg(errp, "Xen PCI passthrough support not built in");
-+    }
-+}
 -- 
-Anthony PERARD
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
