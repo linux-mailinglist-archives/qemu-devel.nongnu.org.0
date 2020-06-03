@@ -2,71 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7571ED233
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 16:37:06 +0200 (CEST)
-Received: from localhost ([::1]:35432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C99CF1ED236
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 16:38:15 +0200 (CEST)
+Received: from localhost ([::1]:39216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgUVt-0007vJ-8T
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 10:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33636)
+	id 1jgUX0-0001AC-Rk
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 10:38:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jgUUz-0007N2-RN
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 10:36:09 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27791
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgUVR-0007hW-Vr
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 10:36:37 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43538
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jgUUw-0005Sy-P9
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 10:36:09 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgUVQ-0005lu-9I
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 10:36:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591194964;
+ s=mimecast20190719; t=1591194995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UGpF+TaOk5L0CyYti80AWYHu6h/shp3aOggYFlntv2Q=;
- b=ik8f7vBk+EXqDd6b2n7WePgtAIqG4/Bd0s/dOxH2CdGLfVmK4ckUg09RQGbDhcXq3hpqLz
- 9fKMTYu0x7uAuM0vt48KNUXFh6WMIOTaeYKdkeen+Wq0GK2svqBjFXfZn+tSHXHBIufO72
- WbHJgdThpcEyM+gt/YA2CpqGx5ZVPWs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-ZnQHrChTPVKTaHN7-rnABg-1; Wed, 03 Jun 2020 10:36:01 -0400
-X-MC-Unique: ZnQHrChTPVKTaHN7-rnABg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E07B918A0761;
- Wed,  3 Jun 2020 14:35:59 +0000 (UTC)
-Received: from kaapi (unknown [10.74.8.119])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 08ABD78FC9;
- Wed,  3 Jun 2020 14:35:52 +0000 (UTC)
-Date: Wed, 3 Jun 2020 20:05:50 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-X-X-Sender: pjp@kaapi
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] ati-vga: increment mm_index in ati_mm_read/write
-In-Reply-To: <20200603134404.xdb2koul7fatv4ez@sirius.home.kraxel.org>
-Message-ID: <nycvar.YSQ.7.77.849.2006031952260.62159@xnncv>
-References: <20200603124732.1137892-1-ppandit@redhat.com>
- <20200603134404.xdb2koul7fatv4ez@sirius.home.kraxel.org>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=jShcf6r14QddKNgr+dD5dhGl+o2Cd2OLCwje7MJIWkg=;
+ b=bE9GzoPXYt722kHENreU+AYN3I1GZ9CyGZOwhvATmUM+TLPQ8ZjvbmqPJsyxfrBQcR+SR6
+ BpdjIdb+YOmxNgBdqF9wvO9WfTDrob9xMqDuX/tFB9Hvh1gEmFbaQuJ772A6GeVTvLX/k1
+ sGf+nDOXk1U1P6DXrF3e38Cl4BIdlaI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-377-8-D7DFelMiKYM4cX37_6bg-1; Wed, 03 Jun 2020 10:36:31 -0400
+X-MC-Unique: 8-D7DFelMiKYM4cX37_6bg-1
+Received: by mail-wm1-f69.google.com with SMTP id v23so953282wmj.0
+ for <qemu-devel@nongnu.org>; Wed, 03 Jun 2020 07:36:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=jShcf6r14QddKNgr+dD5dhGl+o2Cd2OLCwje7MJIWkg=;
+ b=G1cTKK2W9m+BBSqCs35gdsO7UMDqU0njFkxTe4GhTjksfeh85vJ/16h6rFW1DTGHlj
+ fKUlFef38FcythtJilhI7d6UNuO/Ksq39mNxqYJtcW0k7LtgjhegYHtTGzx8rrgh0meu
+ 7tQ7vaYmEtuyAkIB2XYfD7nr3BNj6ISpezFO7PJyzju51YYaeqE641NA0R/8dsU6DtJu
+ UGNZXQdlWIRdZiQoQlScRQ8zErxJGu0+JM4AmeRHSvgoWNqdwf4SunR7iopwe3+DI95u
+ qtx4Y5luct0CEH/7/xje+r0DZcr+eSEVHPV41gCrnwLXZWUsJu010ExUVnAC7AgSccZx
+ M4UQ==
+X-Gm-Message-State: AOAM530yFtjvY94IwlXnWuu4IQOreW5bO/IQ+hUXWR1e4KSAejtQlJOo
+ 9sCDvH+DDaYqH3KvxksjfyIgNPx1pRWzhcDevP1OL0yrDv+H3jWdpMVjnO7nfbuw38GjWmorBQ5
+ vmE9goq8uQYyNe8I=
+X-Received: by 2002:adf:c6c5:: with SMTP id c5mr22074362wrh.13.1591194990106; 
+ Wed, 03 Jun 2020 07:36:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzPutnxG1HHD8y19dFBrP6wucJatLWt1wRleaIoIPFcdgVbjmkKG2Ls4DhLT5gM07jYZ24Ntw==
+X-Received: by 2002:adf:c6c5:: with SMTP id c5mr22074348wrh.13.1591194989915; 
+ Wed, 03 Jun 2020 07:36:29 -0700 (PDT)
+Received: from [192.168.1.43] (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id t8sm3139950wmi.46.2020.06.03.07.36.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Jun 2020 07:36:29 -0700 (PDT)
+Subject: Re: [PATCH] util/oslib-posix : qemu_init_exec_dir implementation for
+ MacOS
+To: Justin Hibbits <chmeeedalf@gmail.com>
+References: <CA+XhMqwH6btbKFD0Ei47e+QHN2eBPG5H2PTS92MAje2Tij4Y=A@mail.gmail.com>
+ <76587685-fa03-6dd6-5ca3-caeaf3c7504b@redhat.com>
+ <20200603090921.64351a28@titan.knownspace>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <4e3b6904-5dfe-0608-88e9-2e051265fcd2@redhat.com>
+Date: Wed, 3 Jun 2020 16:36:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200603090921.64351a28@titan.knownspace>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ppandit@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 01:04:34
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 01:12:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,27 +123,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ren Ding <rding@gatech.edu>, Yi Ren <c4tren@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Hanqing Zhao <hanqing@gatech.edu>
+Cc: qemu-trivial@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-devel@nongnu.org, John Arbuckle <programmingkidx@gmail.com>,
+ David CARLIER <devnexen@gmail.com>, Izik Eidus <izik@veertu.com>,
+ pbonzini@redhat.com, Mikhail Gusarov <dottedmag@dottedmag.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+-- On Wed, 3 Jun 2020, Gerd Hoffmann wrote --+
-| Hmm, why modify mm_index?  Shouldn't we just check it is non-zero
-| before calling ati_mm_read/ati_mm_write?
+On 6/3/20 4:09 PM, Justin Hibbits wrote:
+> On Wed, 3 Jun 2020 08:08:42 +0200
+> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+> 
+>> Cc'ing more developers.
+>>
+>> On 5/26/20 10:40 PM, David CARLIER wrote:
+>>> From b24a6702beb2a4e2a9c1c03b69c6d1dd07d4cf08 Mon Sep 17 00:00:00
+>>> 2001 From: David Carlier <devnexen@gmail.com>
+>>> Date: Tue, 26 May 2020 21:35:27 +0100
+>>> Subject: [PATCH] util/oslib: current process full path resolution
+>>> on MacOS
+>>>
+>>> Using existing libproc to fill the path.
+>>>
+>>> Signed-off-by: David Carlier <devnexen@gmail.com>
+>>> ---
+>>>  util/oslib-posix.c | 13 +++++++++++++
+>>>  1 file changed, 13 insertions(+)
+>>>
+>>> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+>>> index 062236a1ab..96f0405ee6 100644
+>>> --- a/util/oslib-posix.c
+>>> +++ b/util/oslib-posix.c
+>>> @@ -55,6 +55,10 @@
+>>>  #include <sys/sysctl.h>
+>>>  #endif
+>>>
+>>> +#ifdef __APPLE__
+>>> +#include <libproc.h>
+>>> +#endif
+>>> +
+>>>  #include "qemu/mmap-alloc.h"
+>>>
+>>>  #ifdef CONFIG_DEBUG_STACK_USAGE
+>>> @@ -366,6 +370,15 @@ void qemu_init_exec_dir(const char *argv0)
+>>>              p = buf;
+>>>          }
+>>>      }
+>>> +#elif defined(__APPLE__)
+>>> +    {
+>>> +        uint32_t len;
+>>> +        len = proc_pidpath(getpid(), buf, sizeof(buf) - 1);
+>>> +        if (len > 0) {
+>>> +            buf[len] = 0;
+>>> +            p = buf;
+>>> +        }
+>>> +    }
+>>>  #endif
+>>>      /* If we don't have any way of figuring out the actual
+>>> executable location then try argv[0].  */
+>>>   
+>>
+> 
+> Apologies, I don't have context for this.  Why was I CC'd on this?
 
-  if (s->regs.mm_index & BIT(31)) {
-     ...
-  } else {
-     ati_mm_write(s, s->regs.mm_index + addr - MM_DATA, data, size);
-  }
+I did after finding this patch of yours:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg639033.html
 
-Exit condition for recursion is to set (mm_index & BIT(31)), so recursion 
-would continue even with non-zero values I think.
-
-Thank you.
---
-Prasad J Pandit / Red Hat Product Security Team
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+> 
+> Does proc_pidpath() not NUL-terminate its written string?  And, given
+> from my quick google search, it looks like this function is private and
+> subject to change, so can you guarantee that the returned length is the
+> *written* length, not the full string length?  If not, you could be
+> overwriting other arbitrary data.
+> 
+> - Justin
+> 
 
 
