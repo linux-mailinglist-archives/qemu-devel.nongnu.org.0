@@ -2,80 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 373F41ED464
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 18:30:54 +0200 (CEST)
-Received: from localhost ([::1]:33688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7938C1ED468
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 18:33:12 +0200 (CEST)
+Received: from localhost ([::1]:40198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgWI1-00028W-9B
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 12:30:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46994)
+	id 1jgWKF-0004qO-HR
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 12:33:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=416cc4bc0=alistair.francis@wdc.com>)
- id 1jgWAI-0007mi-6z
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:54 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:49275)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=416cc4bc0=alistair.francis@wdc.com>)
- id 1jgWAH-00060l-5T
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:22:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1591201373; x=1622737373;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=orsSXLrSQIMi3TMC0jSYfH0EWLV9WQAZfn7IxsH8lEI=;
- b=iXGSbqNPZYLr5Bo8FJ2nnHtSyFi1dTIg4Nh7QghToueE+A5K+QDA18/d
- 4gnejhdEPvNPLODW962m11tfuaty28bX9VfCTxFkkNYH3qmEDKbKI5KYu
- in5mHNvPy5BmTUhgCVR2ZC/H+VdXsoxsT6TLv2vy+N2U9si+078z5lzzk
- R8QkzltygOkFnRPYWXhEpGDlIt3qjBPRQMAwXYH4sC5f5GrSkCL0jMuWS
- v7adAR8TiFG5p1xv1qSZCQaxAvopVoz7RJIYB483PL2yT2t2XlIq90tiz
- q2AJ/oFX4meeJdgqKI5Z9JCJt2kvhk9QaVU4fxanfoN9+f/mow58t4ZWY A==;
-IronPort-SDR: GiOIdaKP4sbgOBLAvzLb/PbW3KylqiDftXzXM82Ri08/GeYST4mckclgU8vfn8dQ9RrgRRqilX
- EaDdEywoLlCAo9SUDHuL2tB1Qk64B10ZBCbqPTcowaK2Mbqswyabuomg5XMvSM8PNjCXpX5w48
- 9sZuWnbDPv5Qu7xaL98oHFuJynHCssMu7tLGXPsPNl7O1d/3xwe4sYRiup/NJxDioqvIVkMMSB
- W6cppjEUmjlReYSgp77X43BO3Eq2wENrhR+zNN10FFe30POc4KapdBQr2FcyjICB7mj+wGW33m
- QE8=
-X-IronPort-AV: E=Sophos;i="5.73,468,1583164800"; d="scan'208";a="143451370"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 04 Jun 2020 00:22:43 +0800
-IronPort-SDR: SVRO/mhh2FxdYEoRiRaLpCXhwLJ+lYO35+P7HqyvwC+SR9jgIxLjpwBQVq5RVCN82H9vOdx7eg
- xdc36mgMXopyG8HQ1kT3dJEgrZaeGc87M=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2020 09:11:47 -0700
-IronPort-SDR: mOn2pcKJxsmA1xzKaajakd2WOAxotvI8qvHqEPvDzJQT4NPh1KLf2vWEPKPzVb2L6QKi9AxYkt
- YEIpUkqUwbkg==
-WDCIronportException: Internal
-Received: from cne220230.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.57.144])
- by uls-op-cesaip02.wdc.com with ESMTP; 03 Jun 2020 09:22:42 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Subject: [PULL 08/15] docs: deprecated: Update the -bios documentation
-Date: Wed,  3 Jun 2020 09:13:51 -0700
-Message-Id: <20200603161352.744204-9-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200603161352.744204-1-alistair.francis@wdc.com>
-References: <20200603161352.744204-1-alistair.francis@wdc.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.141;
- envelope-from=prvs=416cc4bc0=alistair.francis@wdc.com;
- helo=esa3.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 12:22:40
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1jgWHJ-0001yJ-FQ
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:30:09 -0400
+Received: from mail-m975.mail.163.com ([123.126.97.5]:52790)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <liq3ea@163.com>) id 1jgWHC-0007mR-AT
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 12:30:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=w0qGcowd9x8TqbX6yJ
+ 0T0CA8Zf4P1IdC+K0kSwC9fYI=; b=TQkexZoJPz3DUz0bbgLY6l1DXCkzAYCKE5
+ 2+mlDbqhdSCoEq0ZumrBhnMgGKbpc5QwDSvvqeyr3fEquzEz6RNcCkBWbvlbahPr
+ ic5n3hAljBlePuG4RtpwoHOOwYDILM6RjEZnY7BLYh7VTwEhaSYQplYIaLAruaDI
+ CA47cSR9U=
+Received: from localhost.localdomain (unknown [115.200.200.105])
+ by smtp5 (Coremail) with SMTP id HdxpCgDneQpXzNdeUoupAQ--.290S4;
+ Thu, 04 Jun 2020 00:14:18 +0800 (CST)
+From: Li Qiang <liq3ea@163.com>
+To: berrange@redhat.com,
+	marcandre.lureau@redhat.com,
+	zxq_yx_007@163.com
+Subject: [PATCH] tests: fix a memory in test_socket_unix_abstract_good
+Date: Wed,  3 Jun 2020 09:14:09 -0700
+Message-Id: <20200603161409.54682-1-liq3ea@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: HdxpCgDneQpXzNdeUoupAQ--.290S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Jr4UKryxXF4UuryxZFy5urg_yoW8Jr13pw
+ n8JFyIkr4xJrykuF4DG3W7KrW8Aa97Cw4Yvry8Aw1UZF4DCF1kJwn5tryUt34DGr4rZr1a
+ yFyDKrn09w1UAF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRHv3nUUUUU=
+X-Originating-IP: [115.200.200.105]
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/1tbiFBg4bVaD58wyUQABsF
+Received-SPF: pass client-ip=123.126.97.5; envelope-from=liq3ea@163.com;
+ helo=mail-m975.mail.163.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/03 12:14:23
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,64 +63,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Li Qiang <liq3ea@163.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the -bios deprecation documentation to describe the new
-behaviour.
+After build qemu with '-fsanitize=address' extra-cflags,
+'make check' show following leak:
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
+=================================================================
+==44580==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 2500 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b5a8b8d28 in __interceptor_calloc (/usr/lib/x86_64-linux-gnu/libasan.so.4+0xded28)
+    #1 0x7f1b5a514b10 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x51b10)
+    #2 0xd79ea4e4c0ad31c3  (<unknown module>)
+
+SUMMARY: AddressSanitizer: 2500 byte(s) leaked in 1 allocation(s).
+
+Call 'g_rand_free' in the end of function to avoid this.
+
+Fixes: 4d3a329af59("tests/util-sockets: add abstract unix socket cases")
+Signed-off-by: Li Qiang <liq3ea@163.com>
 ---
- docs/system/deprecated.rst | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ tests/test-util-sockets.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index d177609cbc..544ece0a45 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -138,25 +138,23 @@ the backing storage specified with ``-mem-path`` can actually provide
- the guest RAM configured with ``-m`` and QEMU will fail to start up if
- RAM allocation is unsuccessful.
+diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
+index 2ca1e99f17..ca6671f9bf 100644
+--- a/tests/test-util-sockets.c
++++ b/tests/test-util-sockets.c
+@@ -312,6 +312,7 @@ static void test_socket_unix_abstract_good(void)
+     g_thread_join(serv);
  
--RISC-V ``-bios`` (since 4.1)
-+RISC-V ``-bios`` (since 5.1)
- ''''''''''''''''''''''''''''
+     g_free(abstract_sock_name);
++    g_rand_free(r);
+ }
+ #endif
  
- QEMU 4.1 introduced support for the -bios option in QEMU for RISC-V for the
--RISC-V virt machine and sifive_u machine.
--
--QEMU 4.1 has no changes to the default behaviour to avoid breakages. This
--default will change in a future QEMU release, so please prepare now. All users
--of the virt or sifive_u machine must change their command line usage.
--
--QEMU 4.1 has three options, please migrate to one of these three:
-- 1. ``-bios none`` - This is the current default behavior if no -bios option
--      is included. QEMU will not automatically load any firmware. It is up
-+RISC-V virt machine and sifive_u machine. QEMU 4.1 had no changes to the
-+default behaviour to avoid breakages.
-+
-+QEMU 5.1 changes the default behaviour from ``-bios none`` to ``-bios default``.
-+
-+QEMU 5.1 has three options:
-+ 1. ``-bios default`` - This is the current default behavior if no -bios option
-+      is included. This option will load the default OpenSBI firmware automatically.
-+      The firmware is included with the QEMU release and no user interaction is
-+      required. All a user needs to do is specify the kernel they want to boot
-+      with the -kernel option
-+ 2. ``-bios none`` - QEMU will not automatically load any firmware. It is up
-       to the user to load all the images they need.
-- 2. ``-bios default`` - In a future QEMU release this will become the default
--      behaviour if no -bios option is specified. This option will load the
--      default OpenSBI firmware automatically. The firmware is included with
--      the QEMU release and no user interaction is required. All a user needs
--      to do is specify the kernel they want to boot with the -kernel option
-  3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
- 
- ``-tb-size`` option (since 5.0)
 -- 
-2.26.2
+2.17.1
 
 
