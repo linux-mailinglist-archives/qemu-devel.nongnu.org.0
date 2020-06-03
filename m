@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70ADB1EC6A4
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:23:11 +0200 (CEST)
-Received: from localhost ([::1]:33264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B871EC6A8
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:26:22 +0200 (CEST)
+Received: from localhost ([::1]:45934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgI7a-0004tz-EN
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:23:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48890)
+	id 1jgIAf-0001gD-EJ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:26:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHyf-0004Tq-CO
+ id 1jgHyf-0004T1-4Q
  for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:57 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:39332)
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHyc-0003dG-OR
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:57 -0400
-Received: by mail-pf1-x442.google.com with SMTP id d66so417483pfd.6
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:13:54 -0700 (PDT)
+ id 1jgHye-0003ds-7M
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:13:56 -0400
+Received: by mail-pg1-x542.google.com with SMTP id w20so546267pga.6
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:13:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+uzIV7dO8JDXOF8PjdnP8vAM1Vj2wACSpWbkwbf2z7U=;
- b=sSjsr+lTcFtP2ELmksFBwo00Fxek3vqLxh1hRKW31fRIIBna1iLOjNn9CWnIRBVu25
- c7LtCRvwypAzYdkL+bzzd/3znmTgxy9Jbiv3r6V0IJ7P71pEKWGWHKAy0L4ax1xY40YX
- Y7OjTX/qJnBAMcUx6U6v3pcGNkdqcUSn/kXnH+RfMgfqKIjcf54pe9EiR9dV/DDaaDfW
- F5O/JTWEGYMbqpGzBuhH/Fv+fQ9dtG6JRB3P67p1/TEGqQ2YTRN1qw6bIDCriP6kICY7
- nhp4Ldq4qEFhShN6fi3ziY9mshdehsodsgPUGQ939x0+xrRvqHdMQX7VzfVSk5aZBVS5
- k0Gg==
+ bh=hOZXrSo9cXF1wY4dgGHftC4urn5UGRE1IwLPUAUKWmU=;
+ b=MvVqF6OBkeoC7W7h08RMRuLfXBstRCnyDWGZZBg0/lIKMj0flbgH6EwhwJtk7aCiDM
+ 1IdN6FD6z7YqYNJl0nsS9Y5vmcbmILfZVtwPpujLKOohSG1a745yCeZlawFZpdW63oHm
+ dzN1wPJ4XLHYG39f3VsDzDDnJCvnOWxWRZjCi7Ags7+cJagoTbzAXYXUbmbZgiml89Mu
+ wmOAi4C9EF9GI1u/p2gbQlNwnuThGkiAMFIJUSXXfsw5RrcGP/DWeojXfYG09DQgGx/5
+ audiKz/+aj4pnf2XwT9PtcDfXNqksim8x4fQsG2T465afPVdlT5eew5p4PByTC52zvBy
+ 51sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+uzIV7dO8JDXOF8PjdnP8vAM1Vj2wACSpWbkwbf2z7U=;
- b=uIRFeXYFGsvBO1DC5iANcVflbQ7rMOLF6Z+OE6VOHzkL6pJ2lyvTVEViYW9o3w+itT
- 5vJ+IWu9VFQEAHGFvfWEpRasUN/Eij4l/JZ3ydJFkobI9P4zjlYzS2Nq/PLzsfEGF1xN
- KYdIechOE2qsu4nW0FwajUwWL9PQeAAokhTrIcB5CPnys0eSKl5WUnHf1P4DojPvqUB8
- eauDdTdY6FlDYir7XMJmzwm5sp6czuCYp2MxQmhSuTHiXB+W3EzgOaDES41wrGzuy6gq
- +DXoqAIB07gAIeJYFeexv3DhDVEFNtZ7Uvg+EOnKiq4vIZ0vSEspTOVMmJsYP0dyl7LR
- 7hnw==
-X-Gm-Message-State: AOAM530SXatL49kvSrvU89Z4OzS6dC4+T8Sa85MvXOhVtA8rtYk0sCA+
- 61dgmmDm8+pi9L6v9jL+ZeuTeYwaFMc=
-X-Google-Smtp-Source: ABdhPJw7EuoPDnTMAlcxmOKy/BsjdsoZScM0PQCRs4+ybUSxmvYMyL2MIQ5VyQufH22UWsq3RRVSRQ==
-X-Received: by 2002:a65:5206:: with SMTP id o6mr25443433pgp.16.1591146832722; 
- Tue, 02 Jun 2020 18:13:52 -0700 (PDT)
+ bh=hOZXrSo9cXF1wY4dgGHftC4urn5UGRE1IwLPUAUKWmU=;
+ b=YWuARX6vShzWLmBHTnJJhxqde1peapoSZ1jslZU7FYlvMvgxnciP/sqoxsjWZ8bMxV
+ Jsz9SAGgf/8pUVLeu6KqHurJ7YbH6jNNTt6NCpKn0BcyEFf52KmAMzsrYLFnYwAag7wz
+ IUaxIyoX6a7jMQTqjwn3Zij4HSamN32sGDGdj7wrQQCtuvxGhYCMBeHUHlR7mSuPCuGj
+ i6p9UGI0j7gicjlH3u++Whq8rvNh9/tPGtg9EEbX0wf8Ltj6lEkliCbbEzJBcstCxy03
+ 7e5MhWB6vHm9fxT1s3xHiCjpz3mwUo7v/n9S7OlOp8TToBTD1hrBBlzbO3/iJLaUTq0r
+ G0DA==
+X-Gm-Message-State: AOAM533BlW8i9wJwOjZmYh6KEML5/QXNiZ+8tKHnW7W7s3lfr9mrgzpE
+ +s6jXPkvifH7q6kvN8qqxiwJq62JMNs=
+X-Google-Smtp-Source: ABdhPJxBZ/wj479TAw7rLf90xlPYShkXlAm6MVJzls3UFIgaAXNFW5KNBA0EygaDbR3Kh57ED1CS/g==
+X-Received: by 2002:a17:90a:c293:: with SMTP id
+ f19mr1350383pjt.91.1591146834107; 
+ Tue, 02 Jun 2020 18:13:54 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.13.51
+ by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.13.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 18:13:52 -0700 (PDT)
+ Tue, 02 Jun 2020 18:13:53 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 26/42] target/arm: Implement helper_mte_checkN
-Date: Tue,  2 Jun 2020 18:13:01 -0700
-Message-Id: <20200603011317.473934-27-richard.henderson@linaro.org>
+Subject: [PATCH v7 27/42] target/arm: Add helper_mte_check_zva
+Date: Tue,  2 Jun 2020 18:13:02 -0700
+Message-Id: <20200603011317.473934-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200603011317.473934-1-richard.henderson@linaro.org>
 References: <20200603011317.473934-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,109 +90,48 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fill out the stub that was added earlier.
+Use a special helper for DC_ZVA, rather than the more
+general mte_checkN.  Leave the helper blank for now.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v7: Fix page crossing test (szabolcs nagy).
----
- target/arm/internals.h  |   1 +
- target/arm/mte_helper.c | 165 +++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 165 insertions(+), 1 deletion(-)
+ target/arm/helper-a64.h    |   1 +
+ target/arm/mte_helper.c    | 106 +++++++++++++++++++++++++++++++++++++
+ target/arm/translate-a64.c |  16 +++++-
+ 3 files changed, 122 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 8ae80f3945..cc485603a8 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1320,6 +1320,7 @@ FIELD(MTEDESC, TSIZE, 14, 10)  /* mte_checkN only */
+diff --git a/target/arm/helper-a64.h b/target/arm/helper-a64.h
+index 005af678c7..5b0b699a50 100644
+--- a/target/arm/helper-a64.h
++++ b/target/arm/helper-a64.h
+@@ -106,6 +106,7 @@ DEF_HELPER_FLAGS_2(xpacd, TCG_CALL_NO_RWG_SE, i64, env, i64)
  
- bool mte_probe1(CPUARMState *env, uint32_t desc, uint64_t ptr, uintptr_t ra);
- uint64_t mte_check1(CPUARMState *env, uint32_t desc, uint64_t ptr, uintptr_t ra);
-+uint64_t mte_checkN(CPUARMState *env, uint32_t desc, uint64_t ptr, uintptr_t ra);
- 
- static inline int allocation_tag_from_addr(uint64_t ptr)
- {
+ DEF_HELPER_FLAGS_3(mte_check1, TCG_CALL_NO_WG, i64, env, i32, i64)
+ DEF_HELPER_FLAGS_3(mte_checkN, TCG_CALL_NO_WG, i64, env, i32, i64)
++DEF_HELPER_FLAGS_3(mte_check_zva, TCG_CALL_NO_WG, i64, env, i32, i64)
+ DEF_HELPER_FLAGS_3(irg, TCG_CALL_NO_RWG, i64, env, i64, i64)
+ DEF_HELPER_FLAGS_4(addsubg, TCG_CALL_NO_RWG_SE, i64, env, i64, s32, i32)
+ DEF_HELPER_FLAGS_3(ldg, TCG_CALL_NO_WG, i64, env, i64, i64)
 diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index 72ff5543cf..c8a523ed4e 100644
+index c8a523ed4e..175da11e01 100644
 --- a/target/arm/mte_helper.c
 +++ b/target/arm/mte_helper.c
-@@ -494,7 +494,170 @@ uint64_t HELPER(mte_check1)(CPUARMState *env, uint32_t desc, uint64_t ptr)
- /*
-  * Perform an MTE checked access for multiple logical accesses.
-  */
+@@ -661,3 +661,109 @@ uint64_t HELPER(mte_checkN)(CPUARMState *env, uint32_t desc, uint64_t ptr)
+ {
+     return mte_checkN(env, desc, ptr, GETPC());
+ }
 +
-+/**
-+ * checkN:
-+ * @tag: tag memory to test
-+ * @odd: true to begin testing at tags at odd nibble
-+ * @cmp: the tag to compare against
-+ * @count: number of tags to test
-+ *
-+ * Return the number of successful tests.
-+ * Thus a return value < @count indicates a failure.
-+ *
-+ * A note about sizes: count is expected to be small.
-+ *
-+ * The most common use will be LDP/STP of two integer registers,
-+ * which means 16 bytes of memory touching at most 2 tags, but
-+ * often the access is aligned and thus just 1 tag.
-+ *
-+ * Using AdvSIMD LD/ST (multiple), one can access 64 bytes of memory,
-+ * touching at most 5 tags.  SVE LDR/STR (vector) with the default
-+ * vector length is also 64 bytes; the maximum architectural length
-+ * is 256 bytes touching at most 9 tags.
-+ *
-+ * The loop below uses 7 logical operations and 1 memory operation
-+ * per tag pair.  An implementation that loads an aligned word and
-+ * uses masking to ignore adjacent tags requires 18 logical operations
-+ * and thus does not begin to pay off until 6 tags.
-+ * Which, according to the survey above, is unlikely to be common.
++/*
++ * Perform an MTE checked access for DC_ZVA.
 + */
-+
-+static int checkN(uint8_t *mem, int odd, int cmp, int count)
++uint64_t HELPER(mte_check_zva)(CPUARMState *env, uint32_t desc, uint64_t ptr)
 +{
-+    int n = 0, diff;
-+
-+    /* Replicate the test tag and compare.  */
-+    cmp *= 0x11;
-+    diff = *mem++ ^ cmp;
-+
-+    if (odd) {
-+        goto start_odd;
-+    }
-+
-+    while (1) {
-+        /* Test even tag. */
-+        if (unlikely((diff) & 0x0f)) {
-+            break;
-+        }
-+        if (++n == count) {
-+            break;
-+        }
-+
-+    start_odd:
-+        /* Test odd tag. */
-+        if (unlikely((diff) & 0xf0)) {
-+            break;
-+        }
-+        if (++n == count) {
-+            break;
-+        }
-+
-+        diff = *mem++ ^ cmp;
-+    }
-+    return n;
-+}
-+
-+uint64_t mte_checkN(CPUARMState *env, uint32_t desc, uint64_t ptr, uintptr_t ra)
-+{
-+    int mmu_idx, ptr_tag, bit55;
-+    uint64_t ptr_last, ptr_end, prev_page, next_page;
-+    uint64_t tag_first, tag_end;
-+    uint64_t tag_byte_first, tag_byte_end;
-+    uint32_t esize, total, tag_count, tag_size, n, c;
-+    uint8_t *mem1, *mem2;
-+    MMUAccessType type;
++    uintptr_t ra = GETPC();
++    int log2_dcz_bytes, log2_tag_bytes;
++    int mmu_idx, bit55;
++    intptr_t dcz_bytes, tag_bytes, i;
++    void *mem;
++    uint64_t ptr_tag, mem_tag, align_ptr;
 +
 +    bit55 = extract64(ptr, 55, 1);
 +
@@ -206,87 +146,113 @@ index 72ff5543cf..c8a523ed4e 100644
 +        goto done;
 +    }
 +
++    /*
++     * In arm_cpu_realizefn, we asserted that dcz > LOG2_TAG_GRANULE+1,
++     * i.e. 32 bytes, which is an unreasonably small dcz anyway, to make
++     * sure that we can access one complete tag byte here.
++     */
++    log2_dcz_bytes = env_archcpu(env)->dcz_blocksize + 2;
++    log2_tag_bytes = log2_dcz_bytes - (LOG2_TAG_GRANULE + 1);
++    dcz_bytes = (intptr_t)1 << log2_dcz_bytes;
++    tag_bytes = (intptr_t)1 << log2_tag_bytes;
++    align_ptr = ptr & -dcz_bytes;
++
++    /*
++     * Trap if accessing an invalid page.  DC_ZVA requires that we supply
++     * the original pointer for an invalid page.  But watchpoints require
++     * that we probe the actual space.  So do both.
++     */
 +    mmu_idx = FIELD_EX32(desc, MTEDESC, MIDX);
-+    type = FIELD_EX32(desc, MTEDESC, WRITE) ? MMU_DATA_STORE : MMU_DATA_LOAD;
-+    esize = FIELD_EX32(desc, MTEDESC, ESIZE);
-+    total = FIELD_EX32(desc, MTEDESC, TSIZE);
-+
-+    /* Find the addr of the end of the access, and of the last element. */
-+    ptr_end = ptr + total;
-+    ptr_last = ptr_end - esize;
-+
-+    /* Round the bounds to the tag granule, and compute the number of tags. */
-+    tag_first = QEMU_ALIGN_DOWN(ptr, TAG_GRANULE);
-+    tag_end = QEMU_ALIGN_UP(ptr_last, TAG_GRANULE);
-+    tag_count = (tag_end - tag_first) / TAG_GRANULE;
-+
-+    /* Round the bounds to twice the tag granule, and compute the bytes. */
-+    tag_byte_first = QEMU_ALIGN_DOWN(ptr, 2 * TAG_GRANULE);
-+    tag_byte_end = QEMU_ALIGN_UP(ptr_last, 2 * TAG_GRANULE);
-+
-+    /* Locate the page boundaries. */
-+    prev_page = ptr & TARGET_PAGE_MASK;
-+    next_page = prev_page + TARGET_PAGE_SIZE;
-+
-+    if (likely(tag_end - prev_page <= TARGET_PAGE_SIZE)) {
-+        /* Memory access stays on one page. */
-+        tag_size = (tag_byte_end - tag_byte_first) / (2 * TAG_GRANULE);
-+        mem1 = allocation_tag_mem(env, mmu_idx, ptr, type, total,
-+                                  MMU_DATA_LOAD, tag_size, ra);
-+        if (!mem1) {
-+            goto done;
-+        }
-+        /* Perform all of the comparisons. */
-+        n = checkN(mem1, ptr & TAG_GRANULE, ptr_tag, tag_count);
-+    } else {
-+        /* Memory access crosses to next page. */
-+        tag_size = (next_page - tag_byte_first) / (2 * TAG_GRANULE);
-+        mem1 = allocation_tag_mem(env, mmu_idx, ptr, type, next_page - ptr,
-+                                  MMU_DATA_LOAD, tag_size, ra);
-+
-+        tag_size = (tag_byte_end - next_page) / (2 * TAG_GRANULE);
-+        mem2 = allocation_tag_mem(env, mmu_idx, next_page, type,
-+                                  ptr_end - next_page,
-+                                  MMU_DATA_LOAD, tag_size, ra);
-+
-+        /*
-+         * Perform all of the comparisons.
-+         * Note the possible but unlikely case of the operation spanning
-+         * two pages that do not both have tagging enabled.
-+         */
-+        n = c = (next_page - tag_first) / TAG_GRANULE;
-+        if (mem1) {
-+            n = checkN(mem1, ptr & TAG_GRANULE, ptr_tag, c);
-+        }
-+        if (n == c) {
-+            if (!mem2) {
-+                goto done;
-+            }
-+            n += checkN(mem2, 0, ptr_tag, tag_count - c);
-+        }
++    (void) probe_write(env, ptr, 1, mmu_idx, ra);
++    mem = allocation_tag_mem(env, mmu_idx, align_ptr, MMU_DATA_STORE,
++                             dcz_bytes, MMU_DATA_LOAD, tag_bytes, ra);
++    if (!mem) {
++        goto done;
 +    }
 +
 +    /*
-+     * If we failed, we know which granule.  Compute the element that
-+     * is first in that granule, and signal failure on that element.
++     * Unlike the reasoning for checkN, DC_ZVA is always aligned, and thus
++     * it is quite easy to perform all of the comparisons at once without
++     * any extra masking.
++     *
++     * The most common zva block size is 64; some of the thunderx cpus use
++     * a block size of 128.  For user-only, aarch64_max_initfn will set the
++     * block size to 512.  Fill out the other cases for future-proofing.
++     *
++     * In order to be able to find the first miscompare later, we want the
++     * tag bytes to be in little-endian order.
 +     */
-+    if (unlikely(n < tag_count)) {
-+        uint64_t fail_ofs;
++    switch (log2_tag_bytes) {
++    case 0: /* zva_blocksize 32 */
++        mem_tag = *(uint8_t *)mem;
++        ptr_tag *= 0x11u;
++        break;
++    case 1: /* zva_blocksize 64 */
++        mem_tag = cpu_to_le16(*(uint16_t *)mem);
++        ptr_tag *= 0x1111u;
++        break;
++    case 2: /* zva_blocksize 128 */
++        mem_tag = cpu_to_le32(*(uint32_t *)mem);
++        ptr_tag *= 0x11111111u;
++        break;
++    case 3: /* zva_blocksize 256 */
++        mem_tag = cpu_to_le64(*(uint64_t *)mem);
++        ptr_tag *= 0x1111111111111111ull;
++        break;
 +
-+        fail_ofs = tag_first + n * TAG_GRANULE - ptr;
-+        fail_ofs = ROUND_UP(fail_ofs, esize);
-+        mte_check_fail(env, mmu_idx, ptr + fail_ofs, ra);
++    default: /* zva_blocksize 512, 1024, 2048 */
++        ptr_tag *= 0x1111111111111111ull;
++        i = 0;
++        do {
++            mem_tag = cpu_to_le64(*(uint64_t *)(mem + i));
++            if (unlikely(mem_tag != ptr_tag)) {
++                goto fail;
++            }
++            i += 8;
++            align_ptr += 16 * TAG_GRANULE;
++        } while (i < tag_bytes);
++        goto done;
 +    }
++
++    if (likely(mem_tag == ptr_tag)) {
++        goto done;
++    }
++
++ fail:
++    /* Locate the first nibble that differs. */
++    i = ctz64(mem_tag ^ ptr_tag) >> 4;
++    mte_check_fail(env, mmu_idx, align_ptr + i * TAG_GRANULE, ra);
 +
 + done:
 +    return useronly_clean_ptr(ptr);
 +}
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index f40eee5a14..c7deeca86a 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1848,7 +1848,21 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+         return;
+     case ARM_CP_DC_ZVA:
+         /* Writes clear the aligned block of memory which rt points into. */
+-        tcg_rt = clean_data_tbi(s, cpu_reg(s, rt));
++        if (s->mte_active[0]) {
++            TCGv_i32 t_desc;
++            int desc = 0;
 +
- uint64_t HELPER(mte_checkN)(CPUARMState *env, uint32_t desc, uint64_t ptr)
- {
--    return ptr;
-+    return mte_checkN(env, desc, ptr, GETPC());
- }
++            desc = FIELD_DP32(desc, MTEDESC, MIDX, get_mem_index(s));
++            desc = FIELD_DP32(desc, MTEDESC, TBI, s->tbid);
++            desc = FIELD_DP32(desc, MTEDESC, TCMA, s->tcma);
++            t_desc = tcg_const_i32(desc);
++
++            tcg_rt = new_tmp_a64(s);
++            gen_helper_mte_check_zva(tcg_rt, cpu_env, t_desc, cpu_reg(s, rt));
++            tcg_temp_free_i32(t_desc);
++        } else {
++            tcg_rt = clean_data_tbi(s, cpu_reg(s, rt));
++        }
+         gen_helper_dc_zva(cpu_env, tcg_rt);
+         return;
+     default:
 -- 
 2.25.1
 
