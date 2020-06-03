@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0841ED2D3
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 16:58:48 +0200 (CEST)
-Received: from localhost ([::1]:33444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2421ED2DF
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 17:00:11 +0200 (CEST)
+Received: from localhost ([::1]:42048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgUqt-00013S-5U
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 10:58:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35736)
+	id 1jgUsD-0004X7-S2
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 11:00:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1jgUlN-0007Oa-AF; Wed, 03 Jun 2020 10:53:05 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:45945)
+ id 1jgUlO-0007RQ-7c; Wed, 03 Jun 2020 10:53:06 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1jgUlM-0000X8-50; Wed, 03 Jun 2020 10:53:04 -0400
-Received: by mail-pf1-x444.google.com with SMTP id a127so1741968pfa.12;
- Wed, 03 Jun 2020 07:53:03 -0700 (PDT)
+ id 1jgUlN-0000XH-Bd; Wed, 03 Jun 2020 10:53:05 -0400
+Received: by mail-pg1-x544.google.com with SMTP id d10so1924123pgn.4;
+ Wed, 03 Jun 2020 07:53:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=YYfsQEI6mVVlenNuylQvqBQ8xAkbBa0s1Rzkbdr9zHg=;
- b=NTEbjkWR8sQo/c8oTzTusq/4q3wfwmes5QEGIuRenmemPVTH56u1p192YuJrcPYjGx
- FLRoTLq9zKLSx03O2ROMVfWq2mLxIyXKz56PYiHXWYgxCx4xMM9y3FYbRC86CaT4d9FO
- DGrQGthsMeYRuRm/Cbh98V+0KHAbygJTBv6mzRfGzjMUoJsvbfBRBFDxyx9INiq++MKD
- eMo2HpI6F9KNPk/R/PZtOLhyAcPU2Xffg4ZuVWRgSPd89gijES8byw0zjRtVGKVj3wIX
- lrJLp6wQDoVQzXWVSqsdliavAnTU8N+pQ047fV0Uo9wGdkeKO9qOA1qwgcwmEuDbPXrm
- 7DgA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Kr3HUN5/YkECxPtjDxbpJDVaFQAB0Lcue4RVnkTaxI4=;
+ b=FTHGmDYx15mPMYum2iUIhLJjAnlYqWq5IaLMBXrbMHu4Xm0PULiknnnuuR00P9+rsn
+ iSUQhpn/6fLIsmSaH1nZMRACpDodQ6Y03AFKdqphOO8huPdzFom8ln6wjnWFW4FQKCfG
+ jVQBCAo9ZbVrv6DkhG9t4sn2obDMFLcrnEGwhB0MxfsHAVIMICJXvVZMKi5ahvW/YXS1
+ xpylBEvsnO544QxUxv95pIJ66tO+CKtIuQ1P5r9bNwypO4/yvs+6tOjP/IbLo1KUWygb
+ awM9JtJXe35VAXOdfIqa0w3/hX/m5Izsomd6jpx9aycVapjlmvfGtirUZ2x596NLaBtJ
+ ZNcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=YYfsQEI6mVVlenNuylQvqBQ8xAkbBa0s1Rzkbdr9zHg=;
- b=oVKcjLbCLENuTXEdPBasov8FfFdaC0dJWezNy1Cutc6mIPkrb1yy4I95Oc73QuCqp2
- HzrSkInfSWTn8B/dfrFSsNkWCHAYnyKGLo8Tlea4LUK0Opa8eW6L18gQAU4JC1/lqBdR
- Bu/KW0TQWxQo4Gw9rgdH3riySG7/7sBwrjui7mDLgvqCuTc7+Zn6P8g85JZqraXRW77d
- 80tlm1Jwk6X+MsXCPuf6SAsLukGj/1smvdvjVQ9ig4hx/yovwVdd2LwfNRGqJIBuCQwH
- 1z7cFdwjBocKYcl42ujhy3ripCeEMUzRfPEB6+cbQ3rb5Q4g7ienTU5IEJh7bUtWB2CB
- tFtA==
-X-Gm-Message-State: AOAM5330nwDIjdJD8e+Gj9ZD6jNUWVXyedfBq8mXzaA/CeeN7OfGyqM/
- Bq/1KsLoG7e95bI8LKwTkac=
-X-Google-Smtp-Source: ABdhPJwi1AfGaoWkMN/i2xvo1UhP/V9wWBNzeKymJYbrkESSYuMopkeH1rXzKI2C4Q45h6XCK+wYgw==
-X-Received: by 2002:a63:3503:: with SMTP id c3mr28232188pga.371.1591195981870; 
- Wed, 03 Jun 2020 07:53:01 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=Kr3HUN5/YkECxPtjDxbpJDVaFQAB0Lcue4RVnkTaxI4=;
+ b=JnwVObRdNTp7H9KlFJ5ABzOuVIHxi3ZwOCKWmlmDhCfd9L8/mh9VFenVtNsz+ZCeEK
+ kMmIA0avn/N00R6AisbveBg2Ii2GnDPukorxjXA5SXR5vdTntvobCYyaRymLo+7vUxcM
+ CInVPNXqiPnaJF/oCvo6BmvRcBNAVYwSbaaVrdKCEhKEbDlNoNmtq3zOCadvx02+0R4c
+ XTjJzGve1DIlYl701B53XG0AFEn12aOaXYY8X+ffn8vHiJeth9mY8qx/9/UVgxkZ1eEL
+ gxIXseBcmUuf4tjG9JV9uURbLPFjL4ihdQ7fGL5VJlSzezbtAagq8Rz3mSQCuqslycos
+ muDg==
+X-Gm-Message-State: AOAM532DcgpMuxuxzE3bmTo2VYKKGWjFgdy0+xSMBum7SIBAUf+SmczR
+ EQTpsweC8PmTYZTdINZyJHg=
+X-Google-Smtp-Source: ABdhPJx7dCZhPOf7/dogx3NdQyPWlsYb0KRH8Kg4gmXSsvNSgCbMfPnO+SFKuYP3dBkbkH3FypgTuA==
+X-Received: by 2002:a63:e454:: with SMTP id i20mr28733828pgk.440.1591195983522; 
+ Wed, 03 Jun 2020 07:53:03 -0700 (PDT)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id p12sm2230061pfq.69.2020.06.03.07.53.00
+ by smtp.gmail.com with ESMTPSA id e124sm2141068pfh.140.2020.06.03.07.53.02
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 03 Jun 2020 07:53:00 -0700 (PDT)
+ Wed, 03 Jun 2020 07:53:03 -0700 (PDT)
 From: Guenter Roeck <linux@roeck-us.net>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 0/2] sd: sdhci: Implement basic vendor specific register
+Subject: [PATCH v2 1/2] sd: sdhci: Implement basic vendor specific register
  support
-Date: Wed,  3 Jun 2020 07:52:56 -0700
-Message-Id: <20200603145258.195920-1-linux@roeck-us.net>
+Date: Wed,  3 Jun 2020 07:52:57 -0700
+Message-Id: <20200603145258.195920-2-linux@roeck-us.net>
 X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=groeck7@gmail.com; helo=mail-pf1-x444.google.com
+In-Reply-To: <20200603145258.195920-1-linux@roeck-us.net>
+References: <20200603145258.195920-1-linux@roeck-us.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=groeck7@gmail.com; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -65,7 +72,7 @@ X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
  FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
  HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,31 +98,118 @@ This results in endless warnings when booting the Linux kernel.
 sdhci-esdhc-imx 2194000.usdhc: esdhc_wait_for_card_clock_gate_off:
 	card clock still not gate off in 100us!.
 
-Implement support for the vendor specific command implemented in IMX
-SDHCI hardware to be able to avoid this warning.
+Implement support for the vendor specific command implemented in IMX hardware
+to be able to avoid this warning.
 
-Patch 1/2 implements vendor specific command support in the SDHCI core
-code. At this time, only IMX vendor command support is implemented,
-but the implementation is written with expandability in mind.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+v2: Added Philippe's Tested-by: and Reviewed-by: tags
 
-Patch 2/2 enables IMX SDHCI vendor extensions for all affected emulations.
-
-v2:
-- Added Reviewed-by: and Tested-by: tags to patch 1/2
-- Added missing error checks to patch 2/2
-- Added Tested-by: tag to patch 2/2
-
-----------------------------------------------------------------
-Guenter Roeck (2):
-      sd: sdhci: Implement basic vendor specific register support
-      hw: arm: Set vendor property for IMX SDHCI emulations
-
- hw/arm/fsl-imx25.c     |  6 ++++++
- hw/arm/fsl-imx6.c      |  6 ++++++
- hw/arm/fsl-imx6ul.c    |  2 ++
- hw/arm/fsl-imx7.c      |  2 ++
  hw/sd/sdhci-internal.h |  5 +++++
  hw/sd/sdhci.c          | 18 +++++++++++++++++-
  include/hw/sd/sdhci.h  |  5 +++++
- 7 files changed, 43 insertions(+), 1 deletion(-)
+ 3 files changed, 27 insertions(+), 1 deletion(-)
+
+diff --git a/hw/sd/sdhci-internal.h b/hw/sd/sdhci-internal.h
+index e7c8a523b5..e8c753d6d1 100644
+--- a/hw/sd/sdhci-internal.h
++++ b/hw/sd/sdhci-internal.h
+@@ -75,6 +75,7 @@
+ #define SDHC_CMD_INHIBIT               0x00000001
+ #define SDHC_DATA_INHIBIT              0x00000002
+ #define SDHC_DAT_LINE_ACTIVE           0x00000004
++#define SDHC_IMX_CLOCK_GATE_OFF        0x00000080
+ #define SDHC_DOING_WRITE               0x00000100
+ #define SDHC_DOING_READ                0x00000200
+ #define SDHC_SPACE_AVAILABLE           0x00000400
+@@ -289,7 +290,10 @@ extern const VMStateDescription sdhci_vmstate;
+ 
+ 
+ #define ESDHC_MIX_CTRL                  0x48
++
+ #define ESDHC_VENDOR_SPEC               0xc0
++#define ESDHC_IMX_FRC_SDCLK_ON          (1 << 8)
++
+ #define ESDHC_DLL_CTRL                  0x60
+ 
+ #define ESDHC_TUNING_CTRL               0xcc
+@@ -326,6 +330,7 @@ extern const VMStateDescription sdhci_vmstate;
+ #define DEFINE_SDHCI_COMMON_PROPERTIES(_state) \
+     DEFINE_PROP_UINT8("sd-spec-version", _state, sd_spec_version, 2), \
+     DEFINE_PROP_UINT8("uhs", _state, uhs_mode, UHS_NOT_SUPPORTED), \
++    DEFINE_PROP_UINT8("vendor", _state, vendor, SDHCI_VENDOR_NONE), \
+     \
+     /* Capabilities registers provide information on supported
+      * features of this specific host controller implementation */ \
+diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+index 1b75d7bab9..eb2be6529e 100644
+--- a/hw/sd/sdhci.c
++++ b/hw/sd/sdhci.c
+@@ -1569,11 +1569,13 @@ static uint64_t usdhc_read(void *opaque, hwaddr offset, unsigned size)
+         }
+         break;
+ 
++    case ESDHC_VENDOR_SPEC:
++        ret = s->vendor_spec;
++        break;
+     case ESDHC_DLL_CTRL:
+     case ESDHC_TUNE_CTRL_STATUS:
+     case ESDHC_UNDOCUMENTED_REG27:
+     case ESDHC_TUNING_CTRL:
+-    case ESDHC_VENDOR_SPEC:
+     case ESDHC_MIX_CTRL:
+     case ESDHC_WTMK_LVL:
+         ret = 0;
+@@ -1596,7 +1598,21 @@ usdhc_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+     case ESDHC_UNDOCUMENTED_REG27:
+     case ESDHC_TUNING_CTRL:
+     case ESDHC_WTMK_LVL:
++        break;
++
+     case ESDHC_VENDOR_SPEC:
++        s->vendor_spec = value;
++        switch (s->vendor) {
++        case SDHCI_VENDOR_IMX:
++            if (value & ESDHC_IMX_FRC_SDCLK_ON) {
++                s->prnsts &= ~SDHC_IMX_CLOCK_GATE_OFF;
++            } else {
++                s->prnsts |= SDHC_IMX_CLOCK_GATE_OFF;
++            }
++            break;
++        default:
++            break;
++        }
+         break;
+ 
+     case SDHC_HOSTCTL:
+diff --git a/include/hw/sd/sdhci.h b/include/hw/sd/sdhci.h
+index c6868c9699..5d9275f3d6 100644
+--- a/include/hw/sd/sdhci.h
++++ b/include/hw/sd/sdhci.h
+@@ -74,6 +74,7 @@ typedef struct SDHCIState {
+     uint16_t acmd12errsts; /* Auto CMD12 error status register */
+     uint16_t hostctl2;     /* Host Control 2 */
+     uint64_t admasysaddr;  /* ADMA System Address Register */
++    uint16_t vendor_spec;  /* Vendor specific register */
+ 
+     /* Read-only registers */
+     uint64_t capareg;      /* Capabilities Register */
+@@ -96,8 +97,12 @@ typedef struct SDHCIState {
+     uint32_t quirks;
+     uint8_t sd_spec_version;
+     uint8_t uhs_mode;
++    uint8_t vendor;        /* For vendor specific functionality */
+ } SDHCIState;
+ 
++#define SDHCI_VENDOR_NONE       0
++#define SDHCI_VENDOR_IMX        1
++
+ /*
+  * Controller does not provide transfer-complete interrupt when not
+  * busy.
+-- 
+2.17.1
+
 
