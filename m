@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12CAA1EC6B7
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:31:33 +0200 (CEST)
-Received: from localhost ([::1]:45046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB591EC6D5
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:37:18 +0200 (CEST)
+Received: from localhost ([::1]:41008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgIFg-0004Ok-2W
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:31:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49062)
+	id 1jgILG-0005wn-1y
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:37:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHyu-0005Dr-Go
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:12 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:36974)
+ id 1jgHyv-0005HZ-Sa
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:13 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:45838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHyt-0003hd-QA
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:12 -0400
-Received: by mail-pl1-x644.google.com with SMTP id y18so202368plr.4
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:14:11 -0700 (PDT)
+ id 1jgHyv-0003hx-13
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:13 -0400
+Received: by mail-pl1-x644.google.com with SMTP id y11so187605plt.12
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:14:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DWHyTpGlKBuharmhIu7/0HNfc6hnYtHUc2NhnIgEMGo=;
- b=mmOMn8K6m384XUfdOljdjRtVgurc7mmaDh4q5305ZT+DX+9zE7CHgUDWhfxAgu1War
- oqTa5to9WH5JJAEL4i/7kpkHMLj6SDRxZcBpkyvBkQb3gUGRrVMD0my4Amkit+/nthO+
- cqnOTIty9NPcoVZsoYNhBEUdMqwy9ccjOA0GfxYW3+0XY6aZXWd0WI57uBEwfbebLQ9y
- 4DaUwiu77oIk32TL+3LhYo4lubrGSMZ401oIg3gS+I3IncQ3HNkE0XnfEtq8sa86cY/e
- QAcnwujJCpxFOvYgg3LAKHzLc60+JVyRdkBGztARLLQiRb5qS8YKQSdOZjcORVxwVa9y
- Sldw==
+ bh=665wfLrYyWEoos7hXDIalhn/FRb4JzUf+uVTCWnMdBk=;
+ b=RFFLM/rPkSHJRM3cLpBsW4J6geKJtqaYvcYaPsKmbGkUSntjNheN2i6CmXaiEZDUZC
+ qt5SLmlnwXT2YesWxKx0duZ5XYB1hco2WwNNUz3/GPyzOHhSLAiZov5fAi5Gs9g+8L+M
+ mc6t6nmYxdr8mvCz05SOKbGo4FJdWqTYamuh4T+f7HWe9o1y97j6xG+MTPAKdNtc1Dyl
+ SUFtnemT3RBwHfGMAAWSvdBmXM/Qtw3pNMM1bKteFL3wJ+j9MUqtUSXXVLXqXr1ObDWQ
+ /QWFbz806gw43sw+ZfK6UVlfOHo8+tk02rwXZNjTSQkbaaTRc6DmyGkvbVo7wQk9pQwm
+ LlMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DWHyTpGlKBuharmhIu7/0HNfc6hnYtHUc2NhnIgEMGo=;
- b=JozGNN9lAL8dwqvTya1Qnj5tbNM+8dSLmr2bZejZyKMDuxJQxnNV1hfJATQHxBWEtO
- VZO9NBoaEdbTtVxdxwTXK3GXDcxL5+7oJs4kaVBLbqhTHhY5PfRYB3NrUIZ4tjyQhG3v
- j/QwgqySZqAiLBoso7sVKo4ElBvP+8RX5yq2/NR0cDb4d2k3XB7su3UCO2QusjaiqOAU
- FMdIuUZadBY0FDPQ2tscPKDLJvUTx2gNxj74/GWjC4Mwfay5mp6IViZhLpjv4pAmTSIG
- pyxm0He1UsIXrX8qx0wCSZWw7DjmbAzVC4kx6LZtJm8CZpiymEXVBJfIUkExJkDZQX1X
- d4mg==
-X-Gm-Message-State: AOAM532U0ePJ5VGdxsnmjt1VmDBnBtZXCi7n5DT5ewaTih1WuvoSuhZQ
- sgKM5tOckoY+ySu96plBy8dnMv5L+YA=
-X-Google-Smtp-Source: ABdhPJyPPg3L9peo2OjUm0bp7zdJa1mdYObMtF/1QIr7uwb86yyLze80mNH5yEBkY5dSLypFG678dw==
-X-Received: by 2002:a17:902:6541:: with SMTP id
- d1mr25523754pln.96.1591146850191; 
- Tue, 02 Jun 2020 18:14:10 -0700 (PDT)
+ bh=665wfLrYyWEoos7hXDIalhn/FRb4JzUf+uVTCWnMdBk=;
+ b=uAEWLYzTjPk8ayFnPxh4olPrZdFmb2X6aUOxbKNlNTbuJUzqny1Z5UlsPJCp/3Bohd
+ 2H+nR1B0qRSH7MKvOeB048V/Q0idSpibO4n6s3jJgJTK6q/y+tUcrXAMbjuVGLm9FBch
+ osOTpyPbacBAxP9NCnEmGmPmo7P4hgWBhI0x6y+nshU7Q2ttPI6j1lD6twO7UOiMeA3e
+ oDCKerq1qK93CthXagkCBWQgxhtLaORUMGgh5bXMtnSzhY9U127k/5cCTrcLiptyetBg
+ j7/3quWBS5Xo/Hi16p6hUQjB9y+CBucKxotPETEmMQJUBIe54zlbrlEfM31BRblwhDCD
+ coRA==
+X-Gm-Message-State: AOAM530fGuM1lwoY7ltGWnypYYBgg+m39L3lpzhsIv0yrcE7qMbh8u68
+ GPI+rfLBlxYsO6qS9ShFO25rPlOhz8I=
+X-Google-Smtp-Source: ABdhPJzRWcv/W8K9djxN3gAqswxhOHrJ1c8DQYptTMX9YpbZM2mXvEWWk6PgB9FjsDN0Yq3ShCGOCQ==
+X-Received: by 2002:a17:902:a412:: with SMTP id
+ p18mr27270100plq.111.1591146851410; 
+ Tue, 02 Jun 2020 18:14:11 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.14.09
+ by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.14.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 18:14:09 -0700 (PDT)
+ Tue, 02 Jun 2020 18:14:10 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 39/42] target/arm: Enable MTE
-Date: Tue,  2 Jun 2020 18:13:14 -0700
-Message-Id: <20200603011317.473934-40-richard.henderson@linaro.org>
+Subject: [PATCH v7 40/42] target/arm: Cache the Tagged bit for a page in
+ MemTxAttrs
+Date: Tue,  2 Jun 2020 18:13:15 -0700
+Message-Id: <20200603011317.473934-41-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200603011317.473934-1-richard.henderson@linaro.org>
 References: <20200603011317.473934-1-richard.henderson@linaro.org>
@@ -90,29 +91,86 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We now implement all of the components of MTE, without actually
-supporting any tagged memory.  All MTE instructions will work,
-trivially, so we can enable support.
+This "bit" is a particular value of the page's MemAttr.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v6: Delay user-only cpu reset bits to the user-only patch set.
+v6: Test HCR_EL2.{DC,DCT}; test Stage2 attributes.
 ---
- target/arm/cpu64.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/arm/helper.c | 43 +++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 35 insertions(+), 8 deletions(-)
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index cbc5c3868f..e4bce55c5f 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -655,6 +655,7 @@ static void aarch64_max_initfn(Object *obj)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 50717afa4a..74925010ea 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -10875,6 +10875,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
+     uint64_t descaddrmask;
+     bool aarch64 = arm_el_is_aa64(env, el);
+     bool guarded = false;
++    uint8_t memattr;
  
-         t = cpu->isar.id_aa64pfr1;
-         t = FIELD_DP64(t, ID_AA64PFR1, BT, 1);
-+        t = FIELD_DP64(t, ID_AA64PFR1, MTE, 2);
-         cpu->isar.id_aa64pfr1 = t;
+     /* TODO: This code does not support shareability levels. */
+     if (aarch64) {
+@@ -11099,17 +11100,32 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
+         txattrs->target_tlb_bit0 = true;
+     }
  
-         t = cpu->isar.id_aa64mmfr1;
+-    if (cacheattrs != NULL) {
++    if (mmu_idx == ARMMMUIdx_Stage2) {
++        memattr = convert_stage2_attrs(env, extract32(attrs, 0, 4));
++    } else {
++        /* Index into MAIR registers for cache attributes */
++        uint64_t mair = env->cp15.mair_el[el];
++        memattr = extract64(mair, extract32(attrs, 0, 3) * 8, 8);
++    }
++
++    /* When MTE is enabled, remember Tagged Memory in IOTLB. */
++    if (aarch64 && cpu_isar_feature(aa64_mte, cpu)) {
+         if (mmu_idx == ARMMMUIdx_Stage2) {
+-            cacheattrs->attrs = convert_stage2_attrs(env,
+-                                                     extract32(attrs, 0, 4));
++            /*
++             * Require Normal, I+O Shareable, WB, NT, RA, WA (0xff).
++             * If not, squash stage1 tagged normal setting.
++             */
++            if (memattr != 0xff) {
++                txattrs->target_tlb_bit1 = false;
++            }
+         } else {
+-            /* Index into MAIR registers for cache attributes */
+-            uint8_t attrindx = extract32(attrs, 0, 3);
+-            uint64_t mair = env->cp15.mair_el[regime_el(env, mmu_idx)];
+-            assert(attrindx <= 7);
+-            cacheattrs->attrs = extract64(mair, attrindx * 8, 8);
++            /* Tagged Normal Memory (0xf0).  */
++            txattrs->target_tlb_bit1 = (memattr == 0xf0);
+         }
++    }
++
++    if (cacheattrs != NULL) {
++        cacheattrs->attrs = memattr;
+         cacheattrs->shareability = extract32(attrs, 6, 2);
+     }
+ 
+@@ -12065,6 +12081,17 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+         *phys_ptr = address;
+         *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+         *page_size = TARGET_PAGE_SIZE;
++
++        /* Stage1 translations are Tagged or Untagged based on HCR_DCT. */
++        if (cpu_isar_feature(aa64_mte, env_archcpu(env))
++            && (mmu_idx == ARMMMUIdx_Stage1_E0 ||
++                mmu_idx == ARMMMUIdx_Stage1_E1 ||
++                mmu_idx == ARMMMUIdx_Stage1_E1_PAN)) {
++            uint64_t hcr = arm_hcr_el2_eff(env);
++            if ((hcr & (HCR_DC | HCR_DCT)) == (HCR_DC | HCR_DCT)) {
++                attrs->target_tlb_bit1 = true;
++            }
++        }
+         return 0;
+     }
+ 
 -- 
 2.25.1
 
