@@ -2,109 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2593E1ECFFD
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 14:41:50 +0200 (CEST)
-Received: from localhost ([::1]:43688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94221ED008
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 14:45:00 +0200 (CEST)
+Received: from localhost ([::1]:48088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgSiL-00027r-7g
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 08:41:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49592)
+	id 1jgSlQ-0004Ge-1g
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 08:45:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jgShR-0001Fj-U9
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 08:40:55 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52816)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jgShR-00076h-7E
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 08:40:53 -0400
-Received: by mail-wm1-x344.google.com with SMTP id r9so1779026wmh.2
- for <qemu-devel@nongnu.org>; Wed, 03 Jun 2020 05:40:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5VWXnlAvFTozn+Qjv+aQSs3J1xLmhPNMl7lS1SpUHrA=;
- b=l02zR06f507ucS8qBzmhKbG9XBT+4G+oEyeijuuEkR//zDUN/GM43be77uHC2RWs2t
- APGtFfsCsortqUK13/16FGd4Y2PoKHlzp1Q1/m3TOIIZ9C6HUClrm30UDJoGGjli47WG
- +Tz5L1nQGWldQsA+g6OhGUn6Mx2b2PU+ZdYbNtEPQSy+6wW9xsHjtahMZVsSYpPdTvYL
- Do7vZqhmEZh6O7i86WiIw5/p9KJHHefnWakzBo2kxinfDssWgxYZVpReumFky9pSuUXq
- Uyn+4Ps34AAazXgr44zPypHt6BW5L2SU5D5mQKuwuLs55D0Q/XZbIdy54q6nKB0nQXOY
- cC6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=5VWXnlAvFTozn+Qjv+aQSs3J1xLmhPNMl7lS1SpUHrA=;
- b=PAKzKioXUEBr5K7ljzarsEWh0r+2qvWeqDIk4O+KC+LJ9syAqdP/mamWiq6ZQ4LeYC
- 9Mj1KvRGD6WdPN8ZrDx5p2UPKIootxzC2gF3R9QsOoIMbwKBJc8IJhUJuksnl00AOAUp
- 7p/iBElD/Lnv7BHL1AJgnq4SiLS1z5XiCKKV5vw20IN/6Cq9ORlicDDsfqHW2sx/rMmB
- i/kSfYnFVCVjkJFfS9kG6kJ8ZpRVDp3SqwWyVj40F5nrD3BOaBX3ZGudf53G2Gm14jIC
- aPtUqBjcNarnk6qLAbG95veaHvVfHlgQPCauKA1//Cc5Qg6XfqfaV00s9OT8w7Rg27jQ
- Sdeg==
-X-Gm-Message-State: AOAM533MGozSIEiwtErWhLu2JqVdWeG3jazj5RsGjCSyJTT6R3oF2fLi
- EusDzZfHywPQeJBIIcDg1zM=
-X-Google-Smtp-Source: ABdhPJxa/ztBS3OI9UzQlD2bNOaq3u/zZ+U+FabKOTUQpQwEJtJWgK1EaNSAxZ0ej9WsfQ6Hw3Wkzw==
-X-Received: by 2002:a1c:1b17:: with SMTP id b23mr8335256wmb.3.1591188050979;
- Wed, 03 Jun 2020 05:40:50 -0700 (PDT)
-Received: from [192.168.1.43] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id x66sm2857811wmb.40.2020.06.03.05.40.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Jun 2020 05:40:50 -0700 (PDT)
-Subject: Re: [PATCH v1 9/9] .travis.yml: allow failure for unreliable hosts
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200602154624.4460-1-alex.bennee@linaro.org>
- <20200602154624.4460-10-alex.bennee@linaro.org>
- <7783d10d-faa9-b454-a0cd-dba51be1a9af@amsat.org>
-Autocrypt: addr=f4bug@amsat.org; keydata=
- mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
- u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
- HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
- YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
- ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
- dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
- ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
- Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
- HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
- Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
- klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
- jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
- 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
- loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
- sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
- JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
- 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
- K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
- n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
- CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
-Message-ID: <d3dda4be-a358-1444-a068-b10243683ef5@amsat.org>
-Date: Wed, 3 Jun 2020 14:40:49 +0200
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jgSjo-0003En-Nw
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 08:43:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32941
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jgSjn-0007KK-K7
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 08:43:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591188198;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=XcYin7y35jYYXdWG/kUD+2Hivo6bryddO48GMZMd/F0=;
+ b=jB5ScUKPEGKnYXF+IISyfLi4BrMb0kCRZ4Yt0pOj6vdKQ7MIKsiQYKSYiDiUEuG766Im3C
+ yWETM5bmmOiaGsschzaMvNVpTCjVyo55cUpIdNNBFPJOvUrG4a+NFzVH0+7elbwu1dCokm
+ H0It1KgomUnKgnDOyILuEnZFddymSrU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-147-RwLgTo13MD-qderhwcAvLQ-1; Wed, 03 Jun 2020 08:43:16 -0400
+X-MC-Unique: RwLgTo13MD-qderhwcAvLQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA51C80058E;
+ Wed,  3 Jun 2020 12:43:15 +0000 (UTC)
+Received: from [10.36.113.192] (ovpn-113-192.ams2.redhat.com [10.36.113.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3A95610F2;
+ Wed,  3 Jun 2020 12:43:10 +0000 (UTC)
+Subject: Re: [PULL 04/12] hmp: Simplify qom-set
+From: David Hildenbrand <david@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20200601184004.272784-1-dgilbert@redhat.com>
+ <20200601184004.272784-5-dgilbert@redhat.com>
+ <87pnai7ymz.fsf@dusky.pond.sub.org> <20200602092601.GD2758@work-vm>
+ <847cb8b5-1507-46cf-495a-952d41a3c2b2@redhat.com>
+ <20200603104306.GC2974@work-vm>
+ <457c1ac7-3281-5e98-481b-34d44e5174de@redhat.com>
+ <20200603114317.GD2974@work-vm>
+ <728b8cf4-7574-776c-c7fe-3ed5e20b33d2@redhat.com>
+ <20200603122413.GE2974@work-vm>
+ <b7914ae9-ffb1-cc5d-9112-c8e9607ce9c5@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <8c6b3fae-a74c-effa-2d38-5e8cd4c72066@redhat.com>
+Date: Wed, 3 Jun 2020 14:43:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <7783d10d-faa9-b454-a0cd-dba51be1a9af@amsat.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <b7914ae9-ffb1-cc5d-9112-c8e9607ce9c5@redhat.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=david@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/02 23:55:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,71 +133,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, robert.foley@linaro.org, robhenry@microsoft.com,
- aaron@os.amperecomputing.com, cota@braap.org, peter.puhov@linaro.org,
- kuhn.chenqun@huawei.com
+Cc: mszeredi@redhat.com, lukasstraub2@web.de, quintela@redhat.com,
+ qemu-devel@nongnu.org, pannengyuan@huawei.com, f4bug@amsat.org,
+ Markus Armbruster <armbru@redhat.com>, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/3/20 10:18 AM, Philippe Mathieu-Daudé wrote:
-> On 6/2/20 5:46 PM, Alex Bennée wrote:
->> They will still run but they won't get in the way of the result.
+On 03.06.20 14:26, David Hildenbrand wrote:
+> On 03.06.20 14:24, Dr. David Alan Gilbert wrote:
+>> * David Hildenbrand (david@redhat.com) wrote:
+>>> On 03.06.20 13:43, Dr. David Alan Gilbert wrote:
+>>>> * David Hildenbrand (david@redhat.com) wrote:
+>>>>> On 03.06.20 12:43, Dr. David Alan Gilbert wrote:
+>>>>>> * David Hildenbrand (david@redhat.com) wrote:
+>>>>>>> On 02.06.20 11:26, Dr. David Alan Gilbert wrote:
+>>>>>>>> * Markus Armbruster (armbru@redhat.com) wrote:
+>>>>>>>>> "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> writes:
+>>>>>>>>>
+>>>>>>>>>> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>>>>>>>>>>
+>>>>>>>>>> Simplify qom_set by making it use qmp_qom_set and the JSON parser.
+>>>>>>>>>>
+>>>>>>>>>> (qemu) qom-get /machine smm
+>>>>>>>>>> "auto"
+>>>>>>>>>> (qemu) qom-set /machine smm "auto"
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>>>>>>>>>> Message-Id: <20200520151108.160598-3-dgilbert@redhat.com>
+>>>>>>>>>> Reviewed-by: Philippe Mathieu-DaudÃƒÂ© <philmd@redhat.com>
+>>>>>>>>>> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>>>>>>>>>> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>>>>>>>>>>   With 's'->'S' type change suggested by Paolo and Markus
+>>>>>>>>>
+>>>>>>>>> This is actually more than just simplification, it's disarming a bear
+>>>>>>>>> trap: the string visitor is restricted to a subset of the QAPI types,
+>>>>>>>>> and when you qom-set a property with a type it can't handle, QEMU
+>>>>>>>>> aborts.  I mentioned this in the discussion of possible ways out of the
+>>>>>>>>> qom-get impasse, but missed reraising it in patch review.
+>>>>>>>>>
+>>>>>>>>> A suitably amended commit would be nice, but respinning the PR just for
+>>>>>>>>> that may not be worthwhile.
+>>>>>>>>
+>>>>>>>> A bit late; still as long as we're removing bear traps not adding them.
+>>>>>>>
+>>>>>>> This breaks qom-set for my (virtio-mem) use case:
+>>>>>>>
+>>>>>>> echo "qom-set vm0 requested-size 300M" | sudo nc -U /var/tmp/mon_src
+>>>>>>> QEMU 5.0.50 monitor - type 'help' for more information
+>>>>>>> (qemu) qom-set vm0 requested-size 300M
+>>>>>>> Error: Expecting at most one JSON value
+>>>>>>
+>>>>>> Does qom-set vm0 requested-size 300e6 do the same thing?
+>>>>>
+>>>>> The property is defined to be of type "size".
+>>>>>
+>>>>> (qemu) qom-set vm0 requested-size 300e6
+>>>>> Error: Parameter 'requested-size' expects uint64
+>>>>>
+>>>>> (not sure how "size" and "uint64" are mapped here)
+>>>>
+>>>> I think the problem here is that the JSON parser is converting anything
+>>>> with an 'e' as a float; JSON itself doesn't have the distinction
+>>>> between int and float.
+>>>>
+>>>
+>>> (and just to clarify - I assume you are aware - 300e6 != 300M. So the
+>>> interface becomes way harder to use in case one wants to specify
+>>> properly aligned sizes - 300M vs 314572800)
 >>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> ---
->>  .travis.yml | 5 +++++
->>  1 file changed, 5 insertions(+)
+>> Oops, yes, good point.
 >>
->> diff --git a/.travis.yml b/.travis.yml
->> index 564be50a3c1..ec6367af1f0 100644
->> --- a/.travis.yml
->> +++ b/.travis.yml
->> @@ -429,6 +429,7 @@ jobs:
->>        env:
->>          - TEST_CMD="make check check-tcg V=1"
->>          - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS}"
->> +        - UNRELIABLE=true
->>  
->>      - name: "[ppc64] GCC check-tcg"
->>        arch: ppc64le
->> @@ -493,6 +494,7 @@ jobs:
->>        env:
->>          - TEST_CMD="make check check-tcg V=1"
->>          - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
->> +        - UNRELIABLE=true
->>        script:
->>          - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
->>          - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
->> @@ -535,6 +537,7 @@ jobs:
->>          - TEST_CMD="make check-unit"
->>          - CONFIG="--disable-containers --disable-tcg --enable-kvm
->>                    --disable-tools --host-cc=clang --cxx=clang++"
->> +        - UNRELIABLE=true
->>  
->>      # Release builds
->>      # The make-release script expect a QEMU version, so our tag must start with a 'v'.
->> @@ -556,3 +559,5 @@ jobs:
->>          - mkdir -p release-build && cd release-build
->>          - ../configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
->>          - make install
->> +  allow_failures:
->> +    - env: UNRELIABLE=true
->>
+>> I think on balance it's probably best that this keeps supporting JSON;
+>> although tbh I'm not convinced there are any complex types that can be
+>> set.
+>> I'm not seeing a prettier answer.
 > 
-> It is frustrating when you are expecting Travis to fail to see test this
-> patch, but Travis is back working correctly...
+> So, I have to use a calculator from now on to set a property that I can
+> set on the QEMU cmdline just fine without it? :(
 > 
+> This feels like a step backwards, @Markus any way to keep supporting sizes?
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Or what about adding qom-set-json instead for complex types instead of
+changing the behavior if an existing interface?
 
-Apparently Travis fixed their problem:
+-- 
+Thanks,
 
-$ df -h
-Filesystem
-                             Size  Used Avail Use% Mounted on
-/var/snap/lxd/common/lxd/storage-pools/instances/containers/travis-job-philmd-qemu-694161395/rootfs
-  19G  2.8G   16G  15% /
+David / dhildenb
 
-I couldn't test if allow_failures works as expected, anyway:
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
