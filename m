@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB591EC6D5
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:37:18 +0200 (CEST)
-Received: from localhost ([::1]:41008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92AFE1EC6C0
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Jun 2020 03:32:52 +0200 (CEST)
+Received: from localhost ([::1]:51960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgILG-0005wn-1y
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:37:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49074)
+	id 1jgIGx-00079v-LX
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jun 2020 21:32:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHyv-0005HZ-Sa
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:13 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:45838)
+ id 1jgHyx-0005Nx-G4
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:15 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:44494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgHyv-0003hx-13
- for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:13 -0400
-Received: by mail-pl1-x644.google.com with SMTP id y11so187605plt.12
- for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:14:12 -0700 (PDT)
+ id 1jgHyw-0003iC-Bl
+ for qemu-devel@nongnu.org; Tue, 02 Jun 2020 21:14:15 -0400
+Received: by mail-pg1-x544.google.com with SMTP id p30so526560pgl.11
+ for <qemu-devel@nongnu.org>; Tue, 02 Jun 2020 18:14:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=665wfLrYyWEoos7hXDIalhn/FRb4JzUf+uVTCWnMdBk=;
- b=RFFLM/rPkSHJRM3cLpBsW4J6geKJtqaYvcYaPsKmbGkUSntjNheN2i6CmXaiEZDUZC
- qt5SLmlnwXT2YesWxKx0duZ5XYB1hco2WwNNUz3/GPyzOHhSLAiZov5fAi5Gs9g+8L+M
- mc6t6nmYxdr8mvCz05SOKbGo4FJdWqTYamuh4T+f7HWe9o1y97j6xG+MTPAKdNtc1Dyl
- SUFtnemT3RBwHfGMAAWSvdBmXM/Qtw3pNMM1bKteFL3wJ+j9MUqtUSXXVLXqXr1ObDWQ
- /QWFbz806gw43sw+ZfK6UVlfOHo8+tk02rwXZNjTSQkbaaTRc6DmyGkvbVo7wQk9pQwm
- LlMQ==
+ bh=pJfY0SD5Bvg4zcu/wLj7Ethd3vdK/dfygcX+yAzAWwA=;
+ b=mmp5lRt3osAcx6TYFx/zaDZMVAWtr4g5vJ21BqwyqI/6hEjZR+CJH7PLrbSRRT7V4Q
+ cQoteJ4MTtKe0TbI+Cd9C7qeyIZuwJpYT6cy0U4ZfVZjVLOKU4Dh85XGtR/VvXFJrrwg
+ ityZISOOlnnjYVs1brt2+LTnvBTPA4s5rJtyrvGBfzrj73Vib/sV0yaq5MMJmBUfxFwS
+ jqRxQA4QghZGOe6e8Mc8dsvvMEqxvos/CTcqQHEvrwP4AAHSpMtK08xube7R9Tv1zEcL
+ zMmKq7k2vbjgQO/DdjsEQYPmJcPBMDHRYv/8Fc6+S0dc8p1T+2Wgr9xH58TGtsqEOGXh
+ 3P8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=665wfLrYyWEoos7hXDIalhn/FRb4JzUf+uVTCWnMdBk=;
- b=uAEWLYzTjPk8ayFnPxh4olPrZdFmb2X6aUOxbKNlNTbuJUzqny1Z5UlsPJCp/3Bohd
- 2H+nR1B0qRSH7MKvOeB048V/Q0idSpibO4n6s3jJgJTK6q/y+tUcrXAMbjuVGLm9FBch
- osOTpyPbacBAxP9NCnEmGmPmo7P4hgWBhI0x6y+nshU7Q2ttPI6j1lD6twO7UOiMeA3e
- oDCKerq1qK93CthXagkCBWQgxhtLaORUMGgh5bXMtnSzhY9U127k/5cCTrcLiptyetBg
- j7/3quWBS5Xo/Hi16p6hUQjB9y+CBucKxotPETEmMQJUBIe54zlbrlEfM31BRblwhDCD
- coRA==
-X-Gm-Message-State: AOAM530fGuM1lwoY7ltGWnypYYBgg+m39L3lpzhsIv0yrcE7qMbh8u68
- GPI+rfLBlxYsO6qS9ShFO25rPlOhz8I=
-X-Google-Smtp-Source: ABdhPJzRWcv/W8K9djxN3gAqswxhOHrJ1c8DQYptTMX9YpbZM2mXvEWWk6PgB9FjsDN0Yq3ShCGOCQ==
-X-Received: by 2002:a17:902:a412:: with SMTP id
- p18mr27270100plq.111.1591146851410; 
- Tue, 02 Jun 2020 18:14:11 -0700 (PDT)
+ bh=pJfY0SD5Bvg4zcu/wLj7Ethd3vdK/dfygcX+yAzAWwA=;
+ b=mslfA4v21IWic9a6YWDzSJF/7PZOQvpezbitTwGbRQIBqaiXxTh+ulac+DSNAQGyCk
+ 8BfBEqBRiQKtVkRfcGkuYvC8Z9Q5vHHnVraQiAyOQAPhirrWG31pJZxz3W4PQd2GDCe9
+ QiGR8+G53Cl+cGy93Sbnfv4fAojV6dFsgl/kburBaAeYZNaWnYpv0qk/oMJZSkSfB/EM
+ lX92jY9hJ/qmm2gwQlaF3W5oso2UGcRMBe/ia/oO7krNZyjqDrOnrAk1b2kx7YtFlMML
+ LiPIpHoJ3I3kvL3oWomDygYn2aRJbJobsC1arlRs52fDNv3877K6GC3aNGC8ZYLgYi3L
+ jhVw==
+X-Gm-Message-State: AOAM533Pl0XfSjXg9sT/aCUPl01Nz9h1nFvd8xh6zSJA2OgGVjGdywpN
+ mksHiF8kHSLcoPzTnHB7e8B8BHK6U1I=
+X-Google-Smtp-Source: ABdhPJwxn9d7DS90nNZTTlLaCp/teou0LlVb46lDdqgJggjht5QtLqDNRXYehAWrD3BWbrWlsRY6kA==
+X-Received: by 2002:a17:90a:950e:: with SMTP id
+ t14mr2112024pjo.99.1591146852605; 
+ Tue, 02 Jun 2020 18:14:12 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.14.10
+ by smtp.gmail.com with ESMTPSA id 3sm290067pfe.85.2020.06.02.18.14.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Jun 2020 18:14:10 -0700 (PDT)
+ Tue, 02 Jun 2020 18:14:12 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 40/42] target/arm: Cache the Tagged bit for a page in
- MemTxAttrs
-Date: Tue,  2 Jun 2020 18:13:15 -0700
-Message-Id: <20200603011317.473934-41-richard.henderson@linaro.org>
+Subject: [PATCH v7 41/42] target/arm: Create tagged ram when MTE is enabled
+Date: Tue,  2 Jun 2020 18:13:16 -0700
+Message-Id: <20200603011317.473934-42-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200603011317.473934-1-richard.henderson@linaro.org>
 References: <20200603011317.473934-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,86 +90,202 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This "bit" is a particular value of the page's MemAttr.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v6: Test HCR_EL2.{DC,DCT}; test Stage2 attributes.
+v5: Assign cs->num_ases to the final value first.
+    Downgrade to ID_AA64PFR1.MTE=1 if tag memory is not available.
+v6: Add secure tag memory for EL3.
 ---
- target/arm/helper.c | 43 +++++++++++++++++++++++++++++++++++--------
- 1 file changed, 35 insertions(+), 8 deletions(-)
+ target/arm/cpu.h |  6 ++++++
+ hw/arm/virt.c    | 52 ++++++++++++++++++++++++++++++++++++++++++++++++
+ target/arm/cpu.c | 51 ++++++++++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 106 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 50717afa4a..74925010ea 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -10875,6 +10875,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
-     uint64_t descaddrmask;
-     bool aarch64 = arm_el_is_aa64(env, el);
-     bool guarded = false;
-+    uint8_t memattr;
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 17594226eb..deb270f25b 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -792,6 +792,10 @@ struct ARMCPU {
+     /* MemoryRegion to use for secure physical accesses */
+     MemoryRegion *secure_memory;
  
-     /* TODO: This code does not support shareability levels. */
-     if (aarch64) {
-@@ -11099,17 +11100,32 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
-         txattrs->target_tlb_bit0 = true;
-     }
- 
--    if (cacheattrs != NULL) {
-+    if (mmu_idx == ARMMMUIdx_Stage2) {
-+        memattr = convert_stage2_attrs(env, extract32(attrs, 0, 4));
-+    } else {
-+        /* Index into MAIR registers for cache attributes */
-+        uint64_t mair = env->cp15.mair_el[el];
-+        memattr = extract64(mair, extract32(attrs, 0, 3) * 8, 8);
-+    }
++    /* MemoryRegion to use for allocation tag accesses */
++    MemoryRegion *tag_memory;
++    MemoryRegion *secure_tag_memory;
 +
-+    /* When MTE is enabled, remember Tagged Memory in IOTLB. */
-+    if (aarch64 && cpu_isar_feature(aa64_mte, cpu)) {
-         if (mmu_idx == ARMMMUIdx_Stage2) {
--            cacheattrs->attrs = convert_stage2_attrs(env,
--                                                     extract32(attrs, 0, 4));
-+            /*
-+             * Require Normal, I+O Shareable, WB, NT, RA, WA (0xff).
-+             * If not, squash stage1 tagged normal setting.
-+             */
-+            if (memattr != 0xff) {
-+                txattrs->target_tlb_bit1 = false;
-+            }
-         } else {
--            /* Index into MAIR registers for cache attributes */
--            uint8_t attrindx = extract32(attrs, 0, 3);
--            uint64_t mair = env->cp15.mair_el[regime_el(env, mmu_idx)];
--            assert(attrindx <= 7);
--            cacheattrs->attrs = extract64(mair, attrindx * 8, 8);
-+            /* Tagged Normal Memory (0xf0).  */
-+            txattrs->target_tlb_bit1 = (memattr == 0xf0);
+     /* For v8M, pointer to the IDAU interface provided by board/SoC */
+     Object *idau;
+ 
+@@ -2985,6 +2989,8 @@ typedef enum ARMMMUIdxBit {
+ typedef enum ARMASIdx {
+     ARMASIdx_NS = 0,
+     ARMASIdx_S = 1,
++    ARMASIdx_TagNS = 2,
++    ARMASIdx_TagS = 3,
+ } ARMASIdx;
+ 
+ /* Return the Exception Level targeted by debug exceptions. */
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 37462a6f78..c74cc3d78d 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1412,6 +1412,16 @@ static void create_secure_ram(VirtMachineState *vms,
+     g_free(nodename);
+ }
+ 
++static void create_tag_ram(MemoryRegion *tag_sysmem,
++                           hwaddr base, hwaddr size,
++                           const char *name)
++{
++    MemoryRegion *tagram = g_new(MemoryRegion, 1);
++
++    memory_region_init_ram(tagram, NULL, name, size / 32, &error_fatal);
++    memory_region_add_subregion(tag_sysmem, base / 32, tagram);
++}
++
+ static void *machvirt_dtb(const struct arm_boot_info *binfo, int *fdt_size)
+ {
+     const VirtMachineState *board = container_of(binfo, VirtMachineState,
+@@ -1665,6 +1675,8 @@ static void machvirt_init(MachineState *machine)
+     const CPUArchIdList *possible_cpus;
+     MemoryRegion *sysmem = get_system_memory();
+     MemoryRegion *secure_sysmem = NULL;
++    MemoryRegion *tag_sysmem = NULL;
++    MemoryRegion *secure_tag_sysmem = NULL;
+     int n, virt_max_cpus;
+     bool firmware_loaded;
+     bool aarch64 = true;
+@@ -1819,6 +1831,35 @@ static void machvirt_init(MachineState *machine)
+                                      "secure-memory", &error_abort);
          }
-+    }
-+
-+    if (cacheattrs != NULL) {
-+        cacheattrs->attrs = memattr;
-         cacheattrs->shareability = extract32(attrs, 6, 2);
-     }
  
-@@ -12065,6 +12081,17 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-         *phys_ptr = address;
-         *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-         *page_size = TARGET_PAGE_SIZE;
++        /*
++         * The cpu adds the property if and only if MemTag is supported.
++         * If it is, we must allocate the ram to back that up.
++         */
++        if (object_property_find(cpuobj, "tag-memory", NULL)) {
++            if (!tag_sysmem) {
++                tag_sysmem = g_new(MemoryRegion, 1);
++                memory_region_init(tag_sysmem, OBJECT(machine),
++                                   "tag-memory", UINT64_MAX / 32);
 +
-+        /* Stage1 translations are Tagged or Untagged based on HCR_DCT. */
-+        if (cpu_isar_feature(aa64_mte, env_archcpu(env))
-+            && (mmu_idx == ARMMMUIdx_Stage1_E0 ||
-+                mmu_idx == ARMMMUIdx_Stage1_E1 ||
-+                mmu_idx == ARMMMUIdx_Stage1_E1_PAN)) {
-+            uint64_t hcr = arm_hcr_el2_eff(env);
-+            if ((hcr & (HCR_DC | HCR_DCT)) == (HCR_DC | HCR_DCT)) {
-+                attrs->target_tlb_bit1 = true;
++                if (vms->secure) {
++                    secure_tag_sysmem = g_new(MemoryRegion, 1);
++                    memory_region_init(secure_tag_sysmem, OBJECT(machine),
++                                       "secure-tag-memory", UINT64_MAX / 32);
++
++                    /* As with ram, secure-tag takes precedence over tag.  */
++                    memory_region_add_subregion_overlap(secure_tag_sysmem, 0,
++                                                        tag_sysmem, -1);
++                }
++            }
++
++            object_property_set_link(cpuobj, OBJECT(tag_sysmem),
++                                     "tag-memory", &error_abort);
++            if (vms->secure) {
++                object_property_set_link(cpuobj, OBJECT(secure_tag_sysmem),
++                                         "secure-tag-memory", &error_abort);
 +            }
 +        }
-         return 0;
++
+         object_property_set_bool(cpuobj, true, "realized", &error_fatal);
+         object_unref(cpuobj);
+     }
+@@ -1861,6 +1902,17 @@ static void machvirt_init(MachineState *machine)
+         create_uart(vms, VIRT_SECURE_UART, secure_sysmem, serial_hd(1));
      }
  
++    if (tag_sysmem) {
++        create_tag_ram(tag_sysmem, vms->memmap[VIRT_MEM].base,
++                       machine->ram_size, "mach-virt.tag");
++        if (vms->secure) {
++            create_tag_ram(secure_tag_sysmem,
++                           vms->memmap[VIRT_SECURE_MEM].base,
++                           vms->memmap[VIRT_SECURE_MEM].size,
++                           "mach-virt.secure-tag");
++        }
++    }
++
+     vms->highmem_ecam &= vms->highmem && (!firmware_loaded || aarch64);
+ 
+     create_rtc(vms);
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 8e6d4371cb..37b7cc2c9c 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1245,6 +1245,25 @@ void arm_cpu_post_init(Object *obj)
+     if (arm_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER)) {
+         qdev_property_add_static(DEVICE(cpu), &arm_cpu_gt_cntfrq_property);
+     }
++
++#ifndef CONFIG_USER_ONLY
++    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64) &&
++        cpu_isar_feature(aa64_mte, cpu)) {
++        object_property_add_link(obj, "tag-memory",
++                                 TYPE_MEMORY_REGION,
++                                 (Object **)&cpu->tag_memory,
++                                 qdev_prop_allow_set_link_before_realize,
++                                 OBJ_PROP_LINK_STRONG);
++
++        if (arm_feature(&cpu->env, ARM_FEATURE_EL3)) {
++            object_property_add_link(obj, "secure-tag-memory",
++                                     TYPE_MEMORY_REGION,
++                                     (Object **)&cpu->secure_tag_memory,
++                                     qdev_prop_allow_set_link_before_realize,
++                                     OBJ_PROP_LINK_STRONG);
++        }
++    }
++#endif
+ }
+ 
+ static void arm_cpu_finalizefn(Object *obj)
+@@ -1735,17 +1754,43 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+     MachineState *ms = MACHINE(qdev_get_machine());
+     unsigned int smp_cpus = ms->smp.cpus;
+ 
+-    if (cpu->has_el3 || arm_feature(env, ARM_FEATURE_M_SECURITY)) {
++    /*
++     * We must set cs->num_ases to the final value before
++     * the first call to cpu_address_space_init.
++     */
++    if (cpu->tag_memory != NULL) {
++        cs->num_ases = 4;
++    } else if (cpu->has_el3 || arm_feature(env, ARM_FEATURE_M_SECURITY)) {
+         cs->num_ases = 2;
++    } else {
++        cs->num_ases = 1;
++    }
+ 
++    if (cpu->has_el3 || arm_feature(env, ARM_FEATURE_M_SECURITY)) {
+         if (!cpu->secure_memory) {
+             cpu->secure_memory = cs->memory;
+         }
+         cpu_address_space_init(cs, ARMASIdx_S, "cpu-secure-memory",
+                                cpu->secure_memory);
+-    } else {
+-        cs->num_ases = 1;
+     }
++
++    if (cpu->tag_memory != NULL) {
++        cpu_address_space_init(cs, ARMASIdx_TagNS, "cpu-tag-memory",
++                               cpu->tag_memory);
++        if (cpu->has_el3) {
++            cpu_address_space_init(cs, ARMASIdx_TagS, "cpu-tag-memory",
++                                   cpu->secure_tag_memory);
++        }
++    } else if (cpu_isar_feature(aa64_mte, cpu)) {
++        /*
++         * Since there is no tag memory, we can't meaningfully support MTE
++         * to its fullest.  To avoid problems later, when we would come to
++         * use the tag memory, downgrade support to insns only.
++         */
++        cpu->isar.id_aa64pfr1 =
++            FIELD_DP64(cpu->isar.id_aa64pfr1, ID_AA64PFR1, MTE, 1);
++    }
++
+     cpu_address_space_init(cs, ARMASIdx_NS, "cpu-memory", cs->memory);
+ 
+     /* No core_count specified, default to smp_cpus. */
 -- 
 2.25.1
 
