@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC191EE529
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 15:19:55 +0200 (CEST)
-Received: from localhost ([::1]:35396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B70C41EE534
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 15:21:20 +0200 (CEST)
+Received: from localhost ([::1]:42104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgpmk-0004XM-J0
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 09:19:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58724)
+	id 1jgpo7-0007b0-QF
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 09:21:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jgpk2-0007wC-QS
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 09:17:06 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47124
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1jgpl7-0002Gg-C3
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 09:18:13 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33947
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jgpk1-00023y-32
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 09:17:06 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1jgpl5-0002GB-FK
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 09:18:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591276624;
+ s=mimecast20190719; t=1591276690;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=7dtnhAMur6O1hPZfDxsUXSZTfj0D83DZ5mYC+o3CW9k=;
- b=Yi1gPgZZEBDzZB/LQgL1XDPjyoJ+IUUmtDTK+eWjgSc0lItM6TQN35JFp6T4RVZ9gC850x
- YkeK8va6jMLY8xW4H5qiRthHgUjlFmU/wJSIWhVuv4s4Qb1/9JI+Igwzq3dH2Ivli7G6XV
- DscRaMScbrYEyhsTx2Vs4i3NjCdDhXo=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5OO84Zk9/39gLXAr4u/jE+x4haOtgHqFI0yJva+EN5U=;
+ b=P3Or8R9Rp0OzLDcq+ds9pCj7BDELFPBMTg6f7ojKausCGrJuqcP4PIdiqV1iYXD6IwmlAE
+ CKqQz6AMv3KskX3Z5rtKoaGK7H3+WiBLkM/ukzogMqOtMyJ373xnLLdmL8Sru+tpmTerO8
+ HiQvE4BflUwhlQsnN+0u2cTItwFaojQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-Awld3qPcNDaww1PNyHgxbQ-1; Thu, 04 Jun 2020 09:16:56 -0400
-X-MC-Unique: Awld3qPcNDaww1PNyHgxbQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-228-5_3XzSYxO7Si3ilUbxh6sg-1; Thu, 04 Jun 2020 09:18:08 -0400
+X-MC-Unique: 5_3XzSYxO7Si3ilUbxh6sg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AE37107B29A
- for <qemu-devel@nongnu.org>; Thu,  4 Jun 2020 13:16:55 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
- [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0445761B7A;
- Thu,  4 Jun 2020 13:16:54 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 275181753B; Thu,  4 Jun 2020 15:16:44 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/7] vga: build virtio-gpu as module
-Date: Thu,  4 Jun 2020 15:16:43 +0200
-Message-Id: <20200604131643.1776-8-kraxel@redhat.com>
-In-Reply-To: <20200604131643.1776-1-kraxel@redhat.com>
-References: <20200604131643.1776-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5B83107ACF7;
+ Thu,  4 Jun 2020 13:18:07 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.193.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 509FA60BF4;
+ Thu,  4 Jun 2020 13:18:05 +0000 (UTC)
+Date: Thu, 4 Jun 2020 15:18:02 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Leif Lindholm <leif@nuviainc.com>
+Subject: Re: kvm_target, QEMU_KVM_ARM_TARGET_GENERIC_V8 questions
+Message-ID: <20200604131802.7w4hncgq2gopbw6z@kamzik.brq.redhat.com>
+References: <20200604125544.GW28566@vanye>
+MIME-Version: 1.0
+In-Reply-To: <20200604125544.GW28566@vanye>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:08:38
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=drjones@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:12:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,72 +78,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dinechin@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drops libvirglrenderer.so dependency from core qemu.
+On Thu, Jun 04, 2020 at 01:55:44PM +0100, Leif Lindholm wrote:
+> Hi there,
+> 
+> (all this done on current HEAD: 66234fee9c)
+> 
+> I was looking through the definition of the aarch64 "max" cpu, and
+> noticed it invokes aarch64_a57_initfn as a template, followed by
+> overriding some feature and ID fields to enable additional
+> functionality.
+> 
+> I then noticed it does not override kvm_target, which hence remains
+> set as QEMU_KVM_ARM_TARGET_CORTEX_A57. Of course, this only happens on
+> the else side of the if (kvm_enabled()) branch, so doesn't affect it.
+> 
+> However, while looking at this, I noticed aarch64_a72_initfn doesn't
+> initialise kvm_target at all.
+> 
+> Then I looked at the definition of QEMU_KVM_ARM_TARGET_CORTEX_A57,
+> found there was also a KVM_ARM_TARGET_CORTEX_A57, and then I noticed
+> there exists a KVM_ARM_TARGET_CORTEX_A57 (in
+> linux-headers/asm-arm64/kvm.h), and *then* I noticed there exists a
+> KVM_ARM_TARGET_GENERIC_V8 definition there as well - plus a comment
+> saying "please don't add any more targets unless you really need to".
+> Then I noticed there isn't a corresponding
+> QEMU_KVM_ARM_TARGET_GENERIC_V8 in target/arm/kvm-consts.h.
+> 
+> So, then I decided to actually test things, and found that
+> (with -enable-kvm):
+> - on Cortex-A53 hardware
+>   - "max" kvm_target gets initialized to 4 (KVM_ARM_TARGET_CORTEX_A53)
+>     by kvm_arm_get_host_cpu_features (as returned from the kernel for
+>     vm_arm_create_scratch_host_vcpu)
+>   - cortex-A72 fails to start with "KVM is not supported for this guest
+>     CPU type"
+>   (fair enough, it's later than A53)
+> - on Cortex-A72 hardware
+>   - "max" kvm_target gets initialized to 5 (KVM_ARM_TARGET_GENERIC_V8)
+>     by kvm_arm_get_host_cpu_features
+>   - "cortex-A72" fails to start (umm...)
+> 
+> However ... if I haven't managed to confuse myself somewhere in here
+> (which is completely possible), would it be OK if I submitted a set of
+> patches that:
+> - add a QEMU_KVM_ARM_TARGET_GENERIC_V8 to match the kernel one
+> - set kvm_target for Cortex-A72 to QEMU_KVM_ARM_TARGET_GENERIC_V8
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/core/qdev.c           |  6 ++++++
- hw/display/Makefile.objs | 23 +++++++++++++----------
- 2 files changed, 19 insertions(+), 10 deletions(-)
+I'd rather not do that. AArch64 KVM doesn't support CPU models, so we
+shouldn't try to fake it by allowing '-cpu cortex-a72' to work, even when
+using it on a host with Cortex-A72 CPUs. I'd rather all AArch64 KVM users
+use 'host' or 'max' (which is the same as 'host' when used with KVM) until
+CPU models truly work.
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 70cf84bb67d0..bc4485e93675 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -161,6 +161,12 @@ static struct {
-     { .type = "usb-redir",             .mod = "usb-redirect"          },
-     { .type = "qxl-vga",               .mod = "display-qxl"           },
-     { .type = "qxl",                   .mod = "display-qxl"           },
-+    { .type = "virtio-gpu-device",     .mod = "display-virtio-gpu"    },
-+    { .type = "virtio-gpu-pci",        .mod = "display-virtio-gpu"    },
-+    { .type = "virtio-vga",            .mod = "display-virtio-gpu"    },
-+    { .type = "vhost-user-gpu-device", .mod = "display-virtio-gpu"    },
-+    { .type = "vhost-user-gpu-pci",    .mod = "display-virtio-gpu"    },
-+    { .type = "vhost-user-vga",        .mod = "display-virtio-gpu"    },
- };
- 
- static bool qdev_module_loaded_all;
-diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
-index d619594ad4d3..e907f3182b0c 100644
---- a/hw/display/Makefile.objs
-+++ b/hw/display/Makefile.objs
-@@ -49,16 +49,19 @@ common-obj-m += qxl.mo
- qxl.mo-objs = qxl.o qxl-logger.o qxl-render.o
- endif
- 
--common-obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
--common-obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
--common-obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
--common-obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
--common-obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
--common-obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
--virtio-gpu.o-cflags := $(VIRGL_CFLAGS)
--virtio-gpu.o-libs += $(VIRGL_LIBS)
--virtio-gpu-3d.o-cflags := $(VIRGL_CFLAGS)
--virtio-gpu-3d.o-libs += $(VIRGL_LIBS)
-+ifeq ($(CONFIG_VIRTIO_GPU),y)
-+common-obj-m += virtio-gpu.mo
-+virtio-gpu-obj-$(CONFIG_VIRTIO_GPU) += virtio-gpu-base.o virtio-gpu.o virtio-gpu-3d.o
-+virtio-gpu-obj-$(CONFIG_VHOST_USER_GPU) += vhost-user-gpu.o
-+virtio-gpu-obj-$(call land,$(CONFIG_VIRTIO_GPU),$(CONFIG_VIRTIO_PCI)) += virtio-gpu-pci.o
-+virtio-gpu-obj-$(call land,$(CONFIG_VHOST_USER_GPU),$(CONFIG_VIRTIO_PCI)) += vhost-user-gpu-pci.o
-+virtio-gpu-obj-$(CONFIG_VIRTIO_VGA) += virtio-vga.o
-+virtio-gpu-obj-$(CONFIG_VHOST_USER_VGA) += vhost-user-vga.o
-+virtio-gpu.mo-objs := $(virtio-gpu-obj-y)
-+virtio-gpu.mo-cflags := $(VIRGL_CFLAGS)
-+virtio-gpu.mo-libs := $(VIRGL_LIBS)
-+endif
-+
- common-obj-$(CONFIG_DPCD) += dpcd.o
- common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx_dp.o
- 
--- 
-2.18.4
+>   - alternatively drop the explicit settings for A57/A53
+
+The A57 and A53 KVM targets would have to be exactly the same as the
+KVM generic target in order to do that. And, even then we can't remove
+them from KVM, as they're API, so it doesn't help much to change them
+in QEMU.
+
+> - drop the call from aarch64_max_initfn to aarch64_a57_initfn, and
+>   copy the relevant bits into the former for the !kvm case
+
+I don't have a strong preference here, but if the naming is what's
+troublesome, then I'd think we're better off creating something like
+an aarch64_aXX_initfn() function and then calling it from both a57
+and max, and anywhere else it fits.
+
+Thanks,
+drew
 
 
