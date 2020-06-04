@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D157D1EEC1B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 22:36:03 +0200 (CEST)
-Received: from localhost ([::1]:37914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 356611EEC12
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 22:33:56 +0200 (CEST)
+Received: from localhost ([::1]:60196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgwao-0007Wh-Ta
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 16:36:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49548)
+	id 1jgwYl-0004ps-6k
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 16:33:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgwOB-0004YG-QE
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 16:22:59 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46439
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgwO9-0005YO-MF
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 16:22:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591302176;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K/N7zFS0sfDyagMr1aPHZhu9dDd/uMAQtie5yWZMVa8=;
- b=hP2vVAUkcB3aYsPKUWrtj+s6rGAZXpdO8PYE76/Gv7Jw9hAQZVN+LQTvMXF8ZaPdOiExrL
- psEQqrsrdX0UBJjjWhCM3XuCLmPwdlSVrzcRVBIbP9HnWv27EiLlckIEb913Ub9wPoyPy0
- V/gy443qK3MZkk7Q7LTMudd718ETaV0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-TBhhnbVYM0uCHNAzvT5fvg-1; Thu, 04 Jun 2020 16:22:55 -0400
-X-MC-Unique: TBhhnbVYM0uCHNAzvT5fvg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C75581F0A4;
- Thu,  4 Jun 2020 20:22:54 +0000 (UTC)
-Received: from probe.redhat.com (ovpn-117-188.rdu2.redhat.com [10.10.117.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 283435D9D3;
- Thu,  4 Jun 2020 20:22:53 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 16/16] python/qemu: Add mypy type annotations
-Date: Thu,  4 Jun 2020 16:22:36 -0400
-Message-Id: <20200604202236.25039-17-jsnow@redhat.com>
-In-Reply-To: <20200604202236.25039-1-jsnow@redhat.com>
-References: <20200604202236.25039-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jgwS1-00047e-0j
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 16:26:57 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:39813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jgwRz-0006Te-01
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 16:26:56 -0400
+Received: by mail-pf1-x443.google.com with SMTP id d66so3794014pfd.6
+ for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 13:26:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wPHuLyhdI9K6tKUn0jL6BmlikqNCx/CY/2TYID7RL8w=;
+ b=DGM7KJcVIhzXTSNeUtiuZUnpQhnKtAJLHj7iNx4y9qBqkXj/dkevxdCKlRf254wykT
+ 30TGNNwtZsCKxvDdNw7V49cTcCKm6ioRXSlV5sGBl/X/skmv4zH8wrLKnfdvSjOa42Gg
+ BQG79Tbl7AbsIhwB2/abLxejm/847sfysY31Y7zOmLW1hEystTwT/4Prz7sfP6YgqFqj
+ an4NnZ/D7du/VYJktpxDBrUoFzQaZ3pXz1q0VuAmF32rOP+UKQMrt42PM7mkZnk961J5
+ BZNATQY5a+akAJPCKAVglzxy6lyJ55vJaReuXGvq/ZaSRGSa2f7HsbyBxHtHBgKk6ouC
+ lvVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wPHuLyhdI9K6tKUn0jL6BmlikqNCx/CY/2TYID7RL8w=;
+ b=ej/dVap05uPQ5VGWGxhC4lPtTvtL0BtTqpxMaRNTS9LaxozbBVLcc1BjZrX9yoRWE8
+ Q6SWaUcEQQW0v7zbMzNmaarO+IUpmUwLLdLql6iwCguRu0fPwfXFNhGuc5KN0BXeLfCN
+ GTAh/VI24mdt1lE/wdIXuwg0pmGh/3a7XHDooJBiFmf54R/zyR/mkBwc8ETqKREkozAW
+ EYdzbzNZRMBVKlNn+QYMAKn1qodW+DCmKNM0Tvctwmyg/kL1Pw7vX+xwej567T+QK8c+
+ DXnXvxV8LXi9/MAytvd+bcHbT/X2PHB7j7nPSFTkkR0mvWojhddb2E8PYiA4BH5n5ICZ
+ w7MA==
+X-Gm-Message-State: AOAM532qk7sfeOEgWFMxtGWecfrkldfAxRss/5siKGwzUaXhXioskBua
+ SrbBMNU614NG+AMJmiO1vjBQ2A==
+X-Google-Smtp-Source: ABdhPJw3wAaHI24KJWkDJrRh5zuQ1ebOSCJ56r6nBeOJaWBoWEIzG/cs7sRE0GaOU++jXmXAvvSjyg==
+X-Received: by 2002:aa7:9839:: with SMTP id q25mr5973957pfl.291.1591302413349; 
+ Thu, 04 Jun 2020 13:26:53 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id x8sm1895103pje.31.2020.06.04.13.26.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Jun 2020 13:26:52 -0700 (PDT)
+Subject: Re: [PATCH v8 26/62] target/riscv: vector single-width fractional
+ multiply with rounding and saturation
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20200521094413.10425-1-zhiwei_liu@c-sky.com>
+ <20200521094413.10425-27-zhiwei_liu@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1b8dfb1c-a8b4-0d3c-b727-0a640e400c74@linaro.org>
+Date: Thu, 4 Jun 2020 13:26:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:08:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+In-Reply-To: <20200521094413.10425-27-zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,680 +91,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- philmd@redhat.com
+Cc: palmer@dabbelt.com, wenmeng_zhang@c-sky.com, alistair.francis@wdc.com,
+ wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These should all be purely annotations with no changes in behavior at
-all. You need to be in the python folder, but you should be able to
-confirm that these annotations are correct (or at least self-consistent)
-by running `mypy --strict qemu`.
+On 5/21/20 2:43 AM, LIU Zhiwei wrote:
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/helper.h                   |   9 ++
+>  target/riscv/insn32.decode              |   2 +
+>  target/riscv/insn_trans/trans_rvv.inc.c |   4 +
+>  target/riscv/vector_helper.c            | 107 ++++++++++++++++++++++++
+>  4 files changed, 122 insertions(+)
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- python/qemu/accel.py   |  8 ++--
- python/qemu/machine.py | 94 ++++++++++++++++++++++++------------------
- python/qemu/qmp.py     | 44 +++++++++++---------
- python/qemu/qtest.py   | 26 +++++++-----
- 4 files changed, 98 insertions(+), 74 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/python/qemu/accel.py b/python/qemu/accel.py
-index 7fabe629208..4325114e51f 100644
---- a/python/qemu/accel.py
-+++ b/python/qemu/accel.py
-@@ -17,6 +17,7 @@
- import logging
- import os
- import subprocess
-+from typing import List, Optional
- 
- LOG = logging.getLogger(__name__)
- 
-@@ -29,7 +30,7 @@
- }
- 
- 
--def list_accel(qemu_bin):
-+def list_accel(qemu_bin: str) -> List[str]:
-     """
-     List accelerators enabled in the QEMU binary.
- 
-@@ -49,7 +50,8 @@ def list_accel(qemu_bin):
-     return [acc.strip() for acc in out.splitlines()[1:]]
- 
- 
--def kvm_available(target_arch=None, qemu_bin=None):
-+def kvm_available(target_arch: Optional[str] = None,
-+                  qemu_bin: Optional[str] = None) -> bool:
-     """
-     Check if KVM is available using the following heuristic:
-       - Kernel module is present in the host;
-@@ -72,7 +74,7 @@ def kvm_available(target_arch=None, qemu_bin=None):
-     return True
- 
- 
--def tcg_available(qemu_bin):
-+def tcg_available(qemu_bin: str) -> bool:
-     """
-     Check if TCG is available.
- 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index c053c946401..d4da4e8ce15 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -28,6 +28,7 @@
- import tempfile
- from typing import (
-     Any,
-+    BinaryIO,
-     Dict,
-     List,
-     Optional,
-@@ -38,7 +39,7 @@
- from types import TracebackType
- 
- from . import qmp
--from .qmp import SocketAddrT, QMPMessage
-+from .qmp import QMPMessage, QMPReturnValue, SocketAddrT
- 
- LOG = logging.getLogger(__name__)
- 
-@@ -61,7 +62,7 @@ class QEMUMachineAddDeviceError(QEMUMachineError):
- 
- class QEMUMachine:
-     """
--    A QEMU VM
-+    A QEMU VM.
- 
-     Use this object as a context manager to ensure
-     the QEMU process terminates::
-@@ -78,7 +79,8 @@ def __init__(self,
-                  name: Optional[str] = None,
-                  test_dir: str = "/var/tmp",
-                  monitor_address: Optional[SocketAddrT] = None,
--                 socket_scm_helper=None, sock_dir=None):
-+                 socket_scm_helper: Optional[str] = None,
-+                 sock_dir: Optional[str] = None):
-         '''
-         Initialize a QEMUMachine
- 
-@@ -112,28 +114,28 @@ def __init__(self,
-             self._remove_monitor_sockfile = True
- 
-         # Runstate
--        self._qemu_log_path = None
--        self._qemu_log_file = None
-+        self._qemu_log_path: Optional[str] = None
-+        self._qemu_log_file: Optional[BinaryIO] = None
-         self._popen: Optional['subprocess.Popen[bytes]'] = None
--        self._events = []
--        self._iolog = None
-+        self._events: List[QMPMessage] = []
-+        self._iolog: Optional[str] = None
-         self._qmp_set = True   # Enable QMP monitor by default.
-         self._qmp_connection: Optional[qmp.QEMUMonitorProtocol] = None
-         self._qemu_full_args: Tuple[str, ...] = ()
--        self._temp_dir = None
-+        self._temp_dir: Optional[str] = None
-         self._launched = False
--        self._machine = None
-+        self._machine: Optional[str] = None
-         self._console_index = 0
-         self._console_set = False
--        self._console_device_type = None
-+        self._console_device_type: Optional[str] = None
-         self._console_address = os.path.join(
-             self._sock_dir, f"{self._name}-console.sock"
-         )
--        self._console_socket = None
--        self._remove_files = []
-+        self._console_socket: Optional[socket.socket] = None
-+        self._remove_files: List[str] = []
-         self._killed = False
- 
--    def __enter__(self):
-+    def __enter__(self) -> 'QEMUMachine':
-         return self
- 
-     def __exit__(self,
-@@ -142,14 +144,15 @@ def __exit__(self,
-                  exc_tb: Optional[TracebackType]) -> None:
-         self.shutdown()
- 
--    def add_monitor_null(self):
-+    def add_monitor_null(self) -> None:
-         """
-         This can be used to add an unused monitor instance.
-         """
-         self._args.append('-monitor')
-         self._args.append('null')
- 
--    def add_fd(self, fd, fdset, opaque, opts=''):
-+    def add_fd(self, fd: int, fdset: int,
-+               opaque: str, opts: str = '') -> 'QEMUMachine':
-         """
-         Pass a file descriptor to the VM
-         """
-@@ -168,7 +171,8 @@ def add_fd(self, fd, fdset, opaque, opts=''):
-         self._args.append(','.join(options))
-         return self
- 
--    def send_fd_scm(self, fd=None, file_path=None):
-+    def send_fd_scm(self, fd: Optional[int] = None,
-+                    file_path: Optional[str] = None) -> int:
-         """
-         Send an fd or file_path to socket_scm_helper.
- 
-@@ -212,7 +216,7 @@ def send_fd_scm(self, fd=None, file_path=None):
-         return proc.returncode
- 
-     @staticmethod
--    def _remove_if_exists(path):
-+    def _remove_if_exists(path: str) -> None:
-         """
-         Remove file object at path if it exists
-         """
-@@ -223,7 +227,7 @@ def _remove_if_exists(path):
-                 return
-             raise
- 
--    def is_running(self):
-+    def is_running(self) -> bool:
-         """Returns true if the VM is running."""
-         return self._popen is not None and self._popen.poll() is None
- 
-@@ -233,19 +237,19 @@ def _subp(self) -> 'subprocess.Popen[bytes]':
-             raise QEMUMachineError('Subprocess pipe not present')
-         return self._popen
- 
--    def exitcode(self):
-+    def exitcode(self) -> Optional[int]:
-         """Returns the exit code if possible, or None."""
-         if self._popen is None:
-             return None
-         return self._popen.poll()
- 
--    def get_pid(self):
-+    def get_pid(self) -> Optional[int]:
-         """Returns the PID of the running process, or None."""
-         if not self.is_running():
-             return None
-         return self._subp.pid
- 
--    def _load_io_log(self):
-+    def _load_io_log(self) -> None:
-         if self._qemu_log_path is not None:
-             with open(self._qemu_log_path, "r") as iolog:
-                 self._iolog = iolog.read()
-@@ -279,7 +283,7 @@ def _base_args(self) -> List[str]:
-                 args.extend(['-device', device])
-         return args
- 
--    def _pre_launch(self):
-+    def _pre_launch(self) -> None:
-         self._temp_dir = tempfile.mkdtemp(dir=self._test_dir)
-         self._qemu_log_path = os.path.join(self._temp_dir, self._name + ".log")
-         self._qemu_log_file = open(self._qemu_log_path, 'wb')
-@@ -297,7 +301,7 @@ def _pre_launch(self):
-                 nickname=self._name
-             )
- 
--    def _post_launch(self):
-+    def _post_launch(self) -> None:
-         if self._qmp:
-             self._qmp.accept()
- 
-@@ -330,7 +334,7 @@ def _post_shutdown(self) -> None:
-         self._killed = False
-         self._launched = False
- 
--    def launch(self):
-+    def launch(self) -> None:
-         """
-         Launch the VM and make sure we cleanup and expose the
-         command line/output in case of exception
-@@ -354,7 +358,7 @@ def launch(self):
-                 LOG.debug('Output: %r', self._iolog)
-             raise
- 
--    def _launch(self):
-+    def _launch(self) -> None:
-         """
-         Launch the VM and establish a QMP connection
-         """
-@@ -375,7 +379,7 @@ def _launch(self):
-                                        close_fds=False)
-         self._post_launch()
- 
--    def wait(self):
-+    def wait(self) -> None:
-         """
-         Wait for the VM to power off
-         """
-@@ -446,13 +450,13 @@ def shutdown(self, has_quit: bool = False, hard: bool = False) -> None:
-         finally:
-             self._post_shutdown()
- 
--    def kill(self):
-+    def kill(self) -> None:
-         """
-         Terminate the VM forcefully and perform cleanup.
-         """
-         self.shutdown(hard=True)
- 
--    def set_qmp_monitor(self, enabled=True):
-+    def set_qmp_monitor(self, enabled: bool = True) -> None:
-         """
-         Set the QMP monitor.
- 
-@@ -492,7 +496,9 @@ def qmp(self, cmd: str,
-         qmp_args = self._qmp_args(conv_keys, **args)
-         return self._qmp.cmd(cmd, args=qmp_args)
- 
--    def command(self, cmd, conv_keys=True, **args):
-+    def command(self, cmd: str,
-+                conv_keys: bool = True,
-+                **args: Any) -> QMPReturnValue:
-         """
-         Invoke a QMP command.
-         On success return the response dict.
-@@ -501,7 +507,7 @@ def command(self, cmd, conv_keys=True, **args):
-         qmp_args = self._qmp_args(conv_keys, **args)
-         return self._qmp.command(cmd, **qmp_args)
- 
--    def get_qmp_event(self, wait=False):
-+    def get_qmp_event(self, wait: bool = False) -> Optional[QMPMessage]:
-         """
-         Poll for one queued QMP events and return it
-         """
-@@ -509,7 +515,7 @@ def get_qmp_event(self, wait=False):
-             return self._events.pop(0)
-         return self._qmp.pull_event(wait=wait)
- 
--    def get_qmp_events(self, wait=False):
-+    def get_qmp_events(self, wait: bool = False) -> List[QMPMessage]:
-         """
-         Poll for queued QMP events and return a list of dicts
-         """
-@@ -520,7 +526,7 @@ def get_qmp_events(self, wait=False):
-         return events
- 
-     @staticmethod
--    def event_match(event, match=None):
-+    def event_match(event: Any, match: Optional[Any]) -> bool:
-         """
-         Check if an event matches optional match criteria.
- 
-@@ -550,9 +556,11 @@ def event_match(event, match=None):
-             return True
-         except TypeError:
-             # either match or event wasn't iterable (not a dict)
--            return match == event
-+            return bool(match == event)
- 
--    def event_wait(self, name, timeout=60.0, match=None):
-+    def event_wait(self, name: str,
-+                   timeout: float = 60.0,
-+                   match: Optional[QMPMessage] = None) -> Optional[QMPMessage]:
-         """
-         event_wait waits for and returns a named event from QMP with a timeout.
- 
-@@ -562,7 +570,9 @@ def event_wait(self, name, timeout=60.0, match=None):
-         """
-         return self.events_wait([(name, match)], timeout)
- 
--    def events_wait(self, events, timeout=60.0):
-+    def events_wait(self,
-+                    events: Sequence[Tuple[str, Any]],
-+                    timeout: float = 60.0) -> Optional[QMPMessage]:
-         """
-         events_wait waits for and returns a single named event from QMP.
-         In the case of multiple qualifying events, this function returns the
-@@ -579,7 +589,7 @@ def events_wait(self, events, timeout=60.0):
-         :return: A QMP event matching the filter criteria.
-                  If timeout was 0 and no event matched, None.
-         """
--        def _match(event):
-+        def _match(event: QMPMessage) -> bool:
-             for name, match in events:
-                 if event['event'] == name and self.event_match(event, match):
-                     return True
-@@ -606,20 +616,20 @@ def _match(event):
- 
-         return None
- 
--    def get_log(self):
-+    def get_log(self) -> Optional[str]:
-         """
-         After self.shutdown or failed qemu execution, this returns the output
-         of the qemu process.
-         """
-         return self._iolog
- 
--    def add_args(self, *args):
-+    def add_args(self, *args: str) -> None:
-         """
-         Adds to the list of extra arguments to be given to the QEMU binary
-         """
-         self._args.extend(args)
- 
--    def set_machine(self, machine_type):
-+    def set_machine(self, machine_type: str) -> None:
-         """
-         Sets the machine type
- 
-@@ -628,7 +638,9 @@ def set_machine(self, machine_type):
-         """
-         self._machine = machine_type
- 
--    def set_console(self, device_type=None, console_index=0):
-+    def set_console(self,
-+                    device_type: Optional[str] = None,
-+                    console_index: int = 0) -> None:
-         """
-         Sets the device type for a console device
- 
-@@ -659,7 +671,7 @@ def set_console(self, device_type=None, console_index=0):
-         self._console_index = console_index
- 
-     @property
--    def console_socket(self):
-+    def console_socket(self) -> socket.socket:
-         """
-         Returns a socket connected to the console
-         """
-diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-index 7935dababbf..303e82ee6b4 100644
---- a/python/qemu/qmp.py
-+++ b/python/qemu/qmp.py
-@@ -15,6 +15,7 @@
-     Any,
-     cast,
-     Dict,
-+    List,
-     Optional,
-     TextIO,
-     Type,
-@@ -90,7 +91,9 @@ class QEMUMonitorProtocol:
-     #: Logger object for debugging messages
-     logger = logging.getLogger('QMP')
- 
--    def __init__(self, address, server=False, nickname=None):
-+    def __init__(self, address: SocketAddrT,
-+                 server: bool = False,
-+                 nickname: Optional[str] = None):
-         """
-         Create a QEMUMonitorProtocol class.
- 
-@@ -102,7 +105,7 @@ def __init__(self, address, server=False, nickname=None):
-         @note No connection is established, this is done by the connect() or
-               accept() methods
-         """
--        self.__events = []
-+        self.__events: List[QMPMessage] = []
-         self.__address = address
-         self.__sock = self.__get_sock()
-         self.__sockfile: Optional[TextIO] = None
-@@ -114,14 +117,14 @@ def __init__(self, address, server=False, nickname=None):
-             self.__sock.bind(self.__address)
-             self.__sock.listen(1)
- 
--    def __get_sock(self):
-+    def __get_sock(self) -> socket.socket:
-         if isinstance(self.__address, tuple):
-             family = socket.AF_INET
-         else:
-             family = socket.AF_UNIX
-         return socket.socket(family, socket.SOCK_STREAM)
- 
--    def __negotiate_capabilities(self):
-+    def __negotiate_capabilities(self) -> QMPMessage:
-         greeting = self.__json_read()
-         if greeting is None or "QMP" not in greeting:
-             raise QMPConnectError
-@@ -131,7 +134,7 @@ def __negotiate_capabilities(self):
-             return greeting
-         raise QMPCapabilitiesError
- 
--    def __json_read(self, only_event=False):
-+    def __json_read(self, only_event: bool = False) -> Optional[QMPMessage]:
-         assert self.__sockfile is not None
-         while True:
-             data = self.__sockfile.readline()
-@@ -148,7 +151,7 @@ def __json_read(self, only_event=False):
-                     continue
-             return resp
- 
--    def __get_events(self, wait=False):
-+    def __get_events(self, wait: Union[bool, float] = False) -> None:
-         """
-         Check for new events in the stream and cache them in __events.
- 
-@@ -186,7 +189,7 @@ def __get_events(self, wait=False):
-                 raise QMPConnectError("Error while reading from socket")
-             self.__sock.settimeout(None)
- 
--    def __enter__(self):
-+    def __enter__(self) -> 'QEMUMonitorProtocol':
-         # Implement context manager enter function.
-         return self
- 
-@@ -199,7 +202,7 @@ def __exit__(self,
-         # Implement context manager exit function.
-         self.close()
- 
--    def connect(self, negotiate=True):
-+    def connect(self, negotiate: bool = True) -> Optional[QMPMessage]:
-         """
-         Connect to the QMP Monitor and perform capabilities negotiation.
- 
-@@ -214,7 +217,7 @@ def connect(self, negotiate=True):
-             return self.__negotiate_capabilities()
-         return None
- 
--    def accept(self, timeout=15.0):
-+    def accept(self, timeout: float = 15.0) -> QMPMessage:
-         """
-         Await connection from QMP Monitor and perform capabilities negotiation.
- 
-@@ -250,7 +253,9 @@ def cmd_obj(self, qmp_cmd: QMPMessage) -> QMPMessage:
-         self.logger.debug("<<< %s", resp)
-         return resp
- 
--    def cmd(self, name, args=None, cmd_id=None):
-+    def cmd(self, name: str,
-+            args: Optional[Dict[str, Any]] = None,
-+            cmd_id: Optional[Any] = None) -> QMPMessage:
-         """
-         Build a QMP command and send it to the QMP Monitor.
- 
-@@ -258,14 +263,14 @@ def cmd(self, name, args=None, cmd_id=None):
-         @param args: command arguments (dict)
-         @param cmd_id: command id (dict, list, string or int)
-         """
--        qmp_cmd = {'execute': name}
-+        qmp_cmd: QMPMessage = {'execute': name}
-         if args:
-             qmp_cmd['arguments'] = args
-         if cmd_id:
-             qmp_cmd['id'] = cmd_id
-         return self.cmd_obj(qmp_cmd)
- 
--    def command(self, cmd, **kwds):
-+    def command(self, cmd: str, **kwds: Any) -> QMPReturnValue:
-         """
-         Build and send a QMP command to the monitor, report errors if any
-         """
-@@ -278,7 +283,8 @@ def command(self, cmd, **kwds):
-             )
-         return cast(QMPReturnValue, ret['return'])
- 
--    def pull_event(self, wait=False):
-+    def pull_event(self,
-+                   wait: Union[bool, float] = False) -> Optional[QMPMessage]:
-         """
-         Pulls a single event.
- 
-@@ -298,7 +304,7 @@ def pull_event(self, wait=False):
-             return self.__events.pop(0)
-         return None
- 
--    def get_events(self, wait=False):
-+    def get_events(self, wait: bool = False) -> List[QMPMessage]:
-         """
-         Get a list of available QMP events.
- 
-@@ -315,13 +321,13 @@ def get_events(self, wait=False):
-         self.__get_events(wait)
-         return self.__events
- 
--    def clear_events(self):
-+    def clear_events(self) -> None:
-         """
-         Clear current list of pending events.
-         """
-         self.__events = []
- 
--    def close(self):
-+    def close(self) -> None:
-         """
-         Close the socket and socket file.
-         """
-@@ -330,7 +336,7 @@ def close(self):
-         if self.__sockfile:
-             self.__sockfile.close()
- 
--    def settimeout(self, timeout):
-+    def settimeout(self, timeout: float) -> None:
-         """
-         Set the socket timeout.
- 
-@@ -339,7 +345,7 @@ def settimeout(self, timeout):
-         """
-         self.__sock.settimeout(timeout)
- 
--    def get_sock_fd(self):
-+    def get_sock_fd(self) -> int:
-         """
-         Get the socket file descriptor.
- 
-@@ -347,7 +353,7 @@ def get_sock_fd(self):
-         """
-         return self.__sock.fileno()
- 
--    def is_scm_available(self):
-+    def is_scm_available(self) -> bool:
-         """
-         Check if the socket allows for SCM_RIGHTS.
- 
-diff --git a/python/qemu/qtest.py b/python/qemu/qtest.py
-index ae4661d4d3e..49c04bc98d9 100644
---- a/python/qemu/qtest.py
-+++ b/python/qemu/qtest.py
-@@ -27,6 +27,7 @@
- )
- 
- from .machine import QEMUMachine
-+from .qmp import SocketAddrT
- 
- 
- class QEMUQtestProtocol:
-@@ -43,7 +44,8 @@ class QEMUQtestProtocol:
-        No conection is estabalished by __init__(), this is done
-        by the connect() or accept() methods.
-     """
--    def __init__(self, address, server=False):
-+    def __init__(self, address: SocketAddrT,
-+                 server: bool = False):
-         self._address = address
-         self._sock = self._get_sock()
-         self._sockfile: Optional[TextIO] = None
-@@ -51,14 +53,14 @@ def __init__(self, address, server=False):
-             self._sock.bind(self._address)
-             self._sock.listen(1)
- 
--    def _get_sock(self):
-+    def _get_sock(self) -> socket.socket:
-         if isinstance(self._address, tuple):
-             family = socket.AF_INET
-         else:
-             family = socket.AF_UNIX
-         return socket.socket(family, socket.SOCK_STREAM)
- 
--    def connect(self):
-+    def connect(self) -> None:
-         """
-         Connect to the qtest socket.
- 
-@@ -67,7 +69,7 @@ def connect(self):
-         self._sock.connect(self._address)
-         self._sockfile = self._sock.makefile(mode='r')
- 
--    def accept(self):
-+    def accept(self) -> None:
-         """
-         Await connection from QEMU.
- 
-@@ -76,7 +78,7 @@ def accept(self):
-         self._sock, _ = self._sock.accept()
-         self._sockfile = self._sock.makefile(mode='r')
- 
--    def cmd(self, qtest_cmd):
-+    def cmd(self, qtest_cmd: str) -> str:
-         """
-         Send a qtest command on the wire.
- 
-@@ -87,14 +89,16 @@ def cmd(self, qtest_cmd):
-         resp = self._sockfile.readline()
-         return resp
- 
--    def close(self):
--        """Close this socket."""
-+    def close(self) -> None:
-+        """
-+        Close this socket.
-+        """
-         self._sock.close()
-         if self._sockfile:
-             self._sockfile.close()
-             self._sockfile = None
- 
--    def settimeout(self, timeout):
-+    def settimeout(self, timeout: Optional[float]) -> None:
-         """Set a timeout, in seconds."""
-         self._sock.settimeout(timeout)
- 
-@@ -118,7 +122,7 @@ def __init__(self,
-         super().__init__(binary, args, name=name, test_dir=test_dir,
-                          socket_scm_helper=socket_scm_helper,
-                          sock_dir=sock_dir)
--        self._qtest = None
-+        self._qtest: Optional[QEMUQtestProtocol] = None
-         self._qtest_path = os.path.join(sock_dir, name + "-qtest.sock")
- 
-     @property
-@@ -130,7 +134,7 @@ def _base_args(self) -> List[str]:
-         ])
-         return args
- 
--    def _pre_launch(self):
-+    def _pre_launch(self) -> None:
-         super()._pre_launch()
-         self._qtest = QEMUQtestProtocol(self._qtest_path, server=True)
- 
-@@ -139,7 +143,7 @@ def _post_launch(self) -> None:
-         super()._post_launch()
-         self._qtest.accept()
- 
--    def _post_shutdown(self):
-+    def _post_shutdown(self) -> None:
-         super()._post_shutdown()
-         self._remove_if_exists(self._qtest_path)
- 
--- 
-2.21.3
-
+r~
 
