@@ -2,83 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356611EEC12
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 22:33:56 +0200 (CEST)
-Received: from localhost ([::1]:60196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 710C91EEC24
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 22:39:09 +0200 (CEST)
+Received: from localhost ([::1]:42102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgwYl-0004ps-6k
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 16:33:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49986)
+	id 1jgwdo-0001Lp-IU
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 16:39:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgwS1-00047e-0j
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 16:26:57 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:39813)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jgwRz-0006Te-01
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 16:26:56 -0400
-Received: by mail-pf1-x443.google.com with SMTP id d66so3794014pfd.6
- for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 13:26:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wPHuLyhdI9K6tKUn0jL6BmlikqNCx/CY/2TYID7RL8w=;
- b=DGM7KJcVIhzXTSNeUtiuZUnpQhnKtAJLHj7iNx4y9qBqkXj/dkevxdCKlRf254wykT
- 30TGNNwtZsCKxvDdNw7V49cTcCKm6ioRXSlV5sGBl/X/skmv4zH8wrLKnfdvSjOa42Gg
- BQG79Tbl7AbsIhwB2/abLxejm/847sfysY31Y7zOmLW1hEystTwT/4Prz7sfP6YgqFqj
- an4NnZ/D7du/VYJktpxDBrUoFzQaZ3pXz1q0VuAmF32rOP+UKQMrt42PM7mkZnk961J5
- BZNATQY5a+akAJPCKAVglzxy6lyJ55vJaReuXGvq/ZaSRGSa2f7HsbyBxHtHBgKk6ouC
- lvVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wPHuLyhdI9K6tKUn0jL6BmlikqNCx/CY/2TYID7RL8w=;
- b=ej/dVap05uPQ5VGWGxhC4lPtTvtL0BtTqpxMaRNTS9LaxozbBVLcc1BjZrX9yoRWE8
- Q6SWaUcEQQW0v7zbMzNmaarO+IUpmUwLLdLql6iwCguRu0fPwfXFNhGuc5KN0BXeLfCN
- GTAh/VI24mdt1lE/wdIXuwg0pmGh/3a7XHDooJBiFmf54R/zyR/mkBwc8ETqKREkozAW
- EYdzbzNZRMBVKlNn+QYMAKn1qodW+DCmKNM0Tvctwmyg/kL1Pw7vX+xwej567T+QK8c+
- DXnXvxV8LXi9/MAytvd+bcHbT/X2PHB7j7nPSFTkkR0mvWojhddb2E8PYiA4BH5n5ICZ
- w7MA==
-X-Gm-Message-State: AOAM532qk7sfeOEgWFMxtGWecfrkldfAxRss/5siKGwzUaXhXioskBua
- SrbBMNU614NG+AMJmiO1vjBQ2A==
-X-Google-Smtp-Source: ABdhPJw3wAaHI24KJWkDJrRh5zuQ1ebOSCJ56r6nBeOJaWBoWEIzG/cs7sRE0GaOU++jXmXAvvSjyg==
-X-Received: by 2002:aa7:9839:: with SMTP id q25mr5973957pfl.291.1591302413349; 
- Thu, 04 Jun 2020 13:26:53 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id x8sm1895103pje.31.2020.06.04.13.26.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Jun 2020 13:26:52 -0700 (PDT)
-Subject: Re: [PATCH v8 26/62] target/riscv: vector single-width fractional
- multiply with rounding and saturation
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20200521094413.10425-1-zhiwei_liu@c-sky.com>
- <20200521094413.10425-27-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1b8dfb1c-a8b4-0d3c-b727-0a640e400c74@linaro.org>
-Date: Thu, 4 Jun 2020 13:26:50 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <joe.slater@windriver.com>)
+ id 1jgwd8-0000vC-C5
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 16:38:26 -0400
+Received: from mail5.windriver.com ([192.103.53.11]:36634 helo=mail5.wrs.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <joe.slater@windriver.com>)
+ id 1jgwd6-0000l3-0J
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 16:38:25 -0400
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+ [147.11.189.41])
+ by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 054KboDG029605
+ (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+ Thu, 4 Jun 2020 13:38:00 -0700
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCB.corp.ad.wrs.com
+ (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0;
+ Thu, 4 Jun 2020 13:37:22 -0700
+From: Joe Slater <joe.slater@windriver.com>
+To: <qemu-devel@nongnu.org>
+Subject: [V2][PATCH 1/1] lockable:  use QLNULL for a null lockable
+Date: Thu, 4 Jun 2020 13:37:22 -0700
+Message-ID: <20200604203722.61273-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20200521094413.10425-27-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain
+Received-SPF: pass client-ip=192.103.53.11;
+ envelope-from=joe.slater@windriver.com; helo=mail5.wrs.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 16:38:20
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,22 +56,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, wenmeng_zhang@c-sky.com, alistair.francis@wdc.com,
- wxy194768@alibaba-inc.com
+Cc: joe.slater@windriver.com, randy.macleod@windriver.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/21/20 2:43 AM, LIU Zhiwei wrote:
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/helper.h                   |   9 ++
->  target/riscv/insn32.decode              |   2 +
->  target/riscv/insn_trans/trans_rvv.inc.c |   4 +
->  target/riscv/vector_helper.c            | 107 ++++++++++++++++++++++++
->  4 files changed, 122 insertions(+)
+Allows us to build with -Og and optimizations that
+do not clean up dead-code.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+If we use QLNULL for null lockables, we can always
+use referencing unknown_lock_type as a link time
+error indicator.
 
-r~
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ include/qemu/lockable.h        | 20 ++++++++------------
+ block/block-backend.c          |  4 ++--
+ block/block-copy.c             |  2 +-
+ block/mirror.c                 |  4 ++--
+ fsdev/qemu-fsdev-throttle.c    |  6 +++---
+ hw/9pfs/9p.c                   |  2 +-
+ util/qemu-co-shared-resource.c |  2 +-
+ 7 files changed, 18 insertions(+), 22 deletions(-)
+
+diff --git a/include/qemu/lockable.h b/include/qemu/lockable.h
+index b620023..b928de0 100644
+--- a/include/qemu/lockable.h
++++ b/include/qemu/lockable.h
+@@ -24,18 +24,14 @@ struct QemuLockable {
+     QemuLockUnlockFunc *unlock;
+ };
+ 
+-/* This function gives an error if an invalid, non-NULL pointer type is passed
+- * to QEMU_MAKE_LOCKABLE.  For optimized builds, we can rely on dead-code elimination
+- * from the compiler, and give the errors already at link time.
++/*
++ *  If unknown_lock_type() is referenced, it means we have tried to passed something
++ *  not recognized as lockable to the macros below.  Use QLNULL to intentionally pass
++ *  a null lockable.  Using NULL will cause (unused) references to unknown_lock_type()
++ *  which may or may not be eliminated by optimization.
+  */
+-#if defined(__OPTIMIZE__) && !defined(__SANITIZE_ADDRESS__)
++#define QLNULL ((QemuLockable *)NULL)
+ void unknown_lock_type(void *);
+-#else
+-static inline void unknown_lock_type(void *unused)
+-{
+-    abort();
+-}
+-#endif
+ 
+ static inline __attribute__((__always_inline__)) QemuLockable *
+ qemu_make_lockable(void *x, QemuLockable *lockable)
+@@ -46,7 +42,7 @@ qemu_make_lockable(void *x, QemuLockable *lockable)
+     return x ? lockable : NULL;
+ }
+ 
+-/* Auxiliary macros to simplify QEMU_MAKE_LOCABLE.  */
++/* Auxiliary macros to simplify QEMU_MAKE_LOCKABLE.  */
+ #define QEMU_LOCK_FUNC(x) ((QemuLockUnlockFunc *)    \
+     QEMU_GENERIC(x,                                  \
+                  (QemuMutex *, qemu_mutex_lock),     \
+@@ -79,7 +75,7 @@ qemu_make_lockable(void *x, QemuLockable *lockable)
+  *
+  * Returns a QemuLockable object that can be passed around
+  * to a function that can operate with locks of any kind, or
+- * NULL if @x is %NULL.
++ * NULL if @x is %QLNULL.
+  */
+ #define QEMU_MAKE_LOCKABLE(x)                        \
+     QEMU_GENERIC(x,                                  \
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 6936b25..92128e8 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1174,7 +1174,7 @@ static void coroutine_fn blk_wait_while_drained(BlockBackend *blk)
+ 
+     if (blk->quiesce_counter && !blk->disable_request_queuing) {
+         blk_dec_in_flight(blk);
+-        qemu_co_queue_wait(&blk->queued_requests, NULL);
++        qemu_co_queue_wait(&blk->queued_requests, QLNULL);
+         blk_inc_in_flight(blk);
+     }
+ }
+@@ -2367,7 +2367,7 @@ static void blk_root_drained_end(BdrvChild *child, int *drained_end_counter)
+         if (blk->dev_ops && blk->dev_ops->drained_end) {
+             blk->dev_ops->drained_end(blk->dev_opaque);
+         }
+-        while (qemu_co_enter_next(&blk->queued_requests, NULL)) {
++        while (qemu_co_enter_next(&blk->queued_requests, QLNULL)) {
+             /* Resume all queued requests */
+         }
+     }
+diff --git a/block/block-copy.c b/block/block-copy.c
+index bb8d056..8de0b54 100644
+--- a/block/block-copy.c
++++ b/block/block-copy.c
+@@ -120,7 +120,7 @@ static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t offset,
+         return false;
+     }
+ 
+-    qemu_co_queue_wait(&task->wait_queue, NULL);
++    qemu_co_queue_wait(&task->wait_queue, QLNULL);
+ 
+     return true;
+ }
+diff --git a/block/mirror.c b/block/mirror.c
+index e8e8844..db5c44e 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -157,7 +157,7 @@ static void coroutine_fn mirror_wait_on_conflicts(MirrorOp *self,
+             if (ranges_overlap(self_start_chunk, self_nb_chunks,
+                                op_start_chunk, op_nb_chunks))
+             {
+-                qemu_co_queue_wait(&op->waiting_requests, NULL);
++                qemu_co_queue_wait(&op->waiting_requests, QLNULL);
+                 break;
+             }
+         }
+@@ -297,7 +297,7 @@ mirror_wait_for_any_operation(MirrorBlockJob *s, bool active)
+         if (!op->is_pseudo_op && op->is_in_flight &&
+             op->is_active_write == active)
+         {
+-            qemu_co_queue_wait(&op->waiting_requests, NULL);
++            qemu_co_queue_wait(&op->waiting_requests, QLNULL);
+             return;
+         }
+     }
+diff --git a/fsdev/qemu-fsdev-throttle.c b/fsdev/qemu-fsdev-throttle.c
+index 5c83a1c..78d256d 100644
+--- a/fsdev/qemu-fsdev-throttle.c
++++ b/fsdev/qemu-fsdev-throttle.c
+@@ -22,13 +22,13 @@
+ static void fsdev_throttle_read_timer_cb(void *opaque)
+ {
+     FsThrottle *fst = opaque;
+-    qemu_co_enter_next(&fst->throttled_reqs[false], NULL);
++    qemu_co_enter_next(&fst->throttled_reqs[false], QLNULL);
+ }
+ 
+ static void fsdev_throttle_write_timer_cb(void *opaque)
+ {
+     FsThrottle *fst = opaque;
+-    qemu_co_enter_next(&fst->throttled_reqs[true], NULL);
++    qemu_co_enter_next(&fst->throttled_reqs[true], QLNULL);
+ }
+ 
+ int fsdev_throttle_parse_opts(QemuOpts *opts, FsThrottle *fst, Error **errp)
+@@ -100,7 +100,7 @@ void coroutine_fn fsdev_co_throttle_request(FsThrottle *fst, bool is_write,
+     if (throttle_enabled(&fst->cfg)) {
+         if (throttle_schedule_timer(&fst->ts, &fst->tt, is_write) ||
+             !qemu_co_queue_empty(&fst->throttled_reqs[is_write])) {
+-            qemu_co_queue_wait(&fst->throttled_reqs[is_write], NULL);
++            qemu_co_queue_wait(&fst->throttled_reqs[is_write], QLNULL);
+         }
+ 
+         throttle_account(&fst->ts, is_write, iov_size(iov, iovcnt));
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 45a788f..35976e2 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -2888,7 +2888,7 @@ static void coroutine_fn v9fs_flush(void *opaque)
+         /*
+          * Wait for pdu to complete.
+          */
+-        qemu_co_queue_wait(&cancel_pdu->complete, NULL);
++        qemu_co_queue_wait(&cancel_pdu->complete, QLNULL);
+         if (!qemu_co_queue_next(&cancel_pdu->complete)) {
+             cancel_pdu->cancelled = 0;
+             pdu_free(cancel_pdu);
+diff --git a/util/qemu-co-shared-resource.c b/util/qemu-co-shared-resource.c
+index 1c83cd9..7423ea4 100644
+--- a/util/qemu-co-shared-resource.c
++++ b/util/qemu-co-shared-resource.c
+@@ -64,7 +64,7 @@ void coroutine_fn co_get_from_shres(SharedResource *s, uint64_t n)
+ {
+     assert(n <= s->total);
+     while (!co_try_get_from_shres(s, n)) {
+-        qemu_co_queue_wait(&s->queue, NULL);
++        qemu_co_queue_wait(&s->queue, QLNULL);
+     }
+ }
+ 
+-- 
+2.7.4
+
 
