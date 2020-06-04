@@ -2,56 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE141EE0A3
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 11:08:44 +0200 (CEST)
-Received: from localhost ([::1]:52644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D657A1EE073
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 11:03:25 +0200 (CEST)
+Received: from localhost ([::1]:32792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jglrf-0003M0-9Z
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 05:08:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53426)
+	id 1jglmD-0003MD-Ku
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 05:03:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jglpW-00080G-Qp
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:06:30 -0400
-Received: from mga06.intel.com ([134.134.136.31]:40867)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jglpV-0005Cl-UN
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:06:30 -0400
-IronPort-SDR: J1nMRiRB9BMEaKWspbOx5lWjUyroKOwKggWACEiVpEPVYxcJP00KSJxSmHjPfb396qyCi43PuK
- jyzW+w5noc2w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2020 02:06:29 -0700
-IronPort-SDR: sTkRehHITrl0g2a3elyuho8qVI8b7JFu4xzFe382rT/RsKA20uLHGQ2njyS89DEjBDLHQLOM8U
- UC15iSNvQgWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,471,1583222400"; d="scan'208";a="416847120"
-Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga004.jf.intel.com with ESMTP; 04 Jun 2020 02:06:27 -0700
-From: Zhang Chen <chen.zhang@intel.com >
-To: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH V2 2/2] migration/colo: Update checkpoint time lately
-Date: Thu,  4 Jun 2020 16:55:33 +0800
-Message-Id: <20200604085533.7769-3-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200604085533.7769-1-chen.zhang@intel.com>
-References: <20200604085533.7769-1-chen.zhang@intel.com>
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=chen.zhang@intel.com;
- helo=mga06.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 05:06:26
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, FROM_ADDR_WS=2.999,
- FROM_WSP_TRAIL=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jglkz-00024C-Po
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:01:49 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32640
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jglky-0003ix-9l
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:01:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591261306;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YwZWWcDTlU1r+nqAXIHEiCWp5PWO4Oi8F4mh+APohlw=;
+ b=PGhSfbZx742/WgWwrCljkD0rj4rC/qW3qGQgQ+TwdekjdVBquS3ic9xoG70DGI8UJody1Y
+ 9+0nvYkE2nEO0OmlsxI3p15fhcmU+JZtw4hja7go/6ey+FV4oKtYMQNtPjfeikoPnjx3wX
+ LbQMGmrvm7N5FKwM4n9nO0Lf6ctobNA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-vVPr2YOdNUK136iEMToEJw-1; Thu, 04 Jun 2020 05:01:45 -0400
+X-MC-Unique: vVPr2YOdNUK136iEMToEJw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 399311005512;
+ Thu,  4 Jun 2020 09:01:44 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-112-65.ams2.redhat.com [10.36.112.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D874410013C0;
+ Thu,  4 Jun 2020 09:01:41 +0000 (UTC)
+Date: Thu, 4 Jun 2020 11:01:40 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH RFC v2 1/5] block: add bitmap-populate job
+Message-ID: <20200604090140.GB4512@linux.fritz.box>
+References: <20200514034922.24834-1-jsnow@redhat.com>
+ <20200514034922.24834-2-jsnow@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20200514034922.24834-2-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:08:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,47 +77,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Zhang Chen <zhangckid@gmail.com>
+Cc: pkrempa@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, vsementsov@virtuozzo.com,
+ Cleber Rosa <crosa@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhang Chen <chen.zhang@intel.com>
+Am 14.05.2020 um 05:49 hat John Snow geschrieben:
+> This job copies the allocation map into a bitmap. It's a job because
+> there's no guarantee that allocation interrogation will be quick (or
+> won't hang), so it cannot be retrofit into block-dirty-bitmap-merge.
+> 
+> It was designed with different possible population patterns in mind,
+> but only top layer allocation was implemented for now.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  qapi/block-core.json      |  48 +++++++++
+>  qapi/job.json             |   2 +-
+>  include/block/block_int.h |  21 ++++
+>  block/bitmap-alloc.c      | 207 ++++++++++++++++++++++++++++++++++++++
 
-Previous operation(like vm_start and replication_start_all) will consume
-extra time for first forced synchronization, so reduce it in this patch.
+bitmap-populate.c to be more consistent with the actual job name?
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
----
- migration/colo.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+>  blockjob.c                |   3 +-
+>  block/Makefile.objs       |   1 +
+>  6 files changed, 280 insertions(+), 2 deletions(-)
+>  create mode 100644 block/bitmap-alloc.c
 
-diff --git a/migration/colo.c b/migration/colo.c
-index 91c76789fa..2b837e1255 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -532,7 +532,6 @@ static void colo_process_checkpoint(MigrationState *s)
- {
-     QIOChannelBuffer *bioc;
-     QEMUFile *fb = NULL;
--    int64_t current_time = qemu_clock_get_ms(QEMU_CLOCK_HOST);
-     Error *local_err = NULL;
-     int ret;
- 
-@@ -581,8 +580,8 @@ static void colo_process_checkpoint(MigrationState *s)
-     qemu_mutex_unlock_iothread();
-     trace_colo_vm_state_change("stop", "run");
- 
--    timer_mod(s->colo_delay_timer,
--            current_time + s->parameters.x_checkpoint_delay);
-+    timer_mod(s->colo_delay_timer, qemu_clock_get_ms(QEMU_CLOCK_HOST) +
-+              s->parameters.x_checkpoint_delay);
- 
-     while (s->state == MIGRATION_STATUS_COLO) {
-         if (failover_get_state() != FAILOVER_STATUS_NONE) {
--- 
-2.17.1
+[...]
+
+> +BlockJob *bitpop_job_create(
+> +    const char *job_id,
+> +    BlockDriverState *bs,
+> +    BdrvDirtyBitmap *target_bitmap,
+> +    BitmapPattern pattern,
+> +    BlockdevOnError on_error,
+> +    int creation_flags,
+> +    BlockCompletionFunc *cb,
+> +    void *opaque,
+> +    JobTxn *txn,
+> +    Error **errp)
+> +{
+> +    int64_t len;
+> +    BitpopBlockJob *job = NULL;
+> +    int64_t cluster_size;
+> +    BdrvDirtyBitmap *new_bitmap = NULL;
+> +
+> +    assert(bs);
+> +    assert(target_bitmap);
+> +
+> +    if (!bdrv_is_inserted(bs)) {
+> +        error_setg(errp, "Device is not inserted: %s",
+> +                   bdrv_get_device_name(bs));
+> +        return NULL;
+> +    }
+> +
+> +    if (bdrv_op_is_blocked(bs, BLOCK_OP_TYPE_BACKUP_SOURCE, errp)) {
+> +        return NULL;
+> +    }
+
+What does this protect? And why does BACKUP_SOURCE describe acccurately
+what this job does?
+
+> +    if (bdrv_dirty_bitmap_check(target_bitmap, BDRV_BITMAP_DEFAULT, errp)) {
+> +        return NULL;
+> +    }
+> +
+> +    if (pattern != BITMAP_PATTERN_ALLOCATION_TOP) {
+> +        error_setg(errp, "Unrecognized bitmap pattern");
+> +        return NULL;
+> +    }
+> +
+> +    len = bdrv_getlength(bs);
+> +    if (len < 0) {
+> +        error_setg_errno(errp, -len, "unable to get length for '%s'",
+> +                         bdrv_get_device_name(bs));
+
+This operates on the node level, so bdrv_get_device_or_node_name() is
+necessary to avoid empty strings in the message.
+
+> +        return NULL;
+> +    }
+> +
+> +    /* NB: new bitmap is anonymous and enabled */
+> +    cluster_size = bdrv_dirty_bitmap_granularity(target_bitmap);
+> +    new_bitmap = bdrv_create_dirty_bitmap(bs, cluster_size, NULL, errp);
+> +    if (!new_bitmap) {
+> +        return NULL;
+> +    }
+> +
+> +    /* Take ownership; we reserve the right to write into this on-commit. */
+> +    bdrv_dirty_bitmap_set_busy(target_bitmap, true);
+> +
+> +    job = block_job_create(job_id, &bitpop_job_driver, txn, bs,
+> +                           BLK_PERM_CONSISTENT_READ,
+
+I don't think we actually rely on CONSISTENT_READ, but then, using the
+job on inconsistent nodes probably makes little sense and we can always
+relax the restriction later if necessary.
+
+> +                           BLK_PERM_ALL & ~BLK_PERM_RESIZE,
+> +                           0, creation_flags,
+> +                           cb, opaque, errp);
+> +    if (!job) {
+> +        bdrv_dirty_bitmap_set_busy(target_bitmap, false);
+> +        bdrv_release_dirty_bitmap(new_bitmap);
+> +        return NULL;
+> +    }
+> +
+> +    job->bs = bs;
+> +    job->on_error = on_error;
+> +    job->target_bitmap = target_bitmap;
+> +    job->new_bitmap = new_bitmap;
+> +    job->len = len;
+> +    job_progress_set_remaining(&job->common.job, job->len);
+> +
+> +    return &job->common;
+> +}
+
+Kevin
 
 
