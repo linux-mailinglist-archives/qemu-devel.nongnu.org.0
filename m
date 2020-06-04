@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7032F1EDD75
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:46:00 +0200 (CEST)
-Received: from localhost ([::1]:35718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18EAF1EDD77
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:46:03 +0200 (CEST)
+Received: from localhost ([::1]:35954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgjdX-0000rt-Fc
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:45:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39970)
+	id 1jgjda-00012b-3E
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:46:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jgjaD-0004y2-8v
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:42:33 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:52547 helo=ozlabs.org)
+ id 1jgjaG-00052E-Ob
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:42:36 -0400
+Received: from ozlabs.org ([203.11.71.1]:52741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jgjaB-0000mn-GQ
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:42:32 -0400
+ id 1jgjaF-0000nT-Fo
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:42:36 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49cx6C2j6mz9sT2; Thu,  4 Jun 2020 16:42:27 +1000 (AEST)
+ id 49cx6C4mkgz9sTP; Thu,  4 Jun 2020 16:42:27 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1591252947;
- bh=b70ol4AwRW7a/EV2Hqh72SgevUQ9Bq55LIXZW4grnkk=;
+ bh=ldWYlnk7sDyLihq8ugblJL+B/6PQKCRla6JRAZXFnAM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ieXFvT7H9I8p+r5TBGCmnbCqn9mmAjMqFdhCy7CEoWvRW398LeE9UnLiJAbfFrv/2
- mdzqBCMWSPovIHs0+rXihDnEI6Yc0rvTAcEcb5oZg7jq8h4xC3SsvNixvDMeEwfCtS
- f/OmUkAokjmrBA38pmc8Vs3AwwErptIaeJUzob9w=
+ b=C9MAia5rXWdS+vQUbrF+cVIvQ5jbCdX0ibXr3lC13Zv0JgOhXRGWM58B4kfnNJLnz
+ 4WZUm5HPAUU354lIX9+hDTCQvMZ7zIvFzK2H39f5mJMjdOlhuSFF5an24r/2/RDqQe
+ lOEc2cDK3zgk1d8grt5ophLFFugTShP76t5Isi0E=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: rth@twiddle.net, pbonzini@redhat.com, ekabkost@redhat.com,
  qemu-devel@nongnu.org
-Subject: [PATCH 2/9] target/i386: sev: Move local structure definitions into
- .c file
-Date: Thu,  4 Jun 2020 16:42:12 +1000
-Message-Id: <20200604064219.436242-3-david@gibson.dropbear.id.au>
+Subject: [PATCH 3/9] target/i386: sev: Rename QSevGuestInfo
+Date: Thu,  4 Jun 2020 16:42:13 +1000
+Message-Id: <20200604064219.436242-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200604064219.436242-1-david@gibson.dropbear.id.au>
 References: <20200604064219.436242-1-david@gibson.dropbear.id.au>
@@ -70,133 +69,239 @@ Cc: brijesh.singh@amd.com, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Neither QSevGuestInfo nor SEVState (not to be confused with SevState) is
-used anywhere outside target/i386/sev.c, so they might as well live in
-there rather than in a (somewhat) exposed header.
+At the moment this is a purely passive object which is just a container for
+information used elsewhere, hence the name.  I'm going to change that
+though, so as a preliminary rename it to SevGuestState.
+
+That name risks confusion with both SEVState and SevState, but I'll be
+working on that in following patches.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/sev.c      | 44 ++++++++++++++++++++++++++++++++++++++++++
- target/i386/sev_i386.h | 44 ------------------------------------------
- 2 files changed, 44 insertions(+), 44 deletions(-)
+ target/i386/sev.c | 87 ++++++++++++++++++++++++-----------------------
+ 1 file changed, 44 insertions(+), 43 deletions(-)
 
 diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 2312510cf2..53def5f41a 100644
+index 53def5f41a..b6ed719fb5 100644
 --- a/target/i386/sev.c
 +++ b/target/i386/sev.c
-@@ -29,6 +29,50 @@
+@@ -29,22 +29,23 @@
  #include "trace.h"
  #include "migration/blocker.h"
- 
-+#define TYPE_QSEV_GUEST_INFO "sev-guest"
-+#define QSEV_GUEST_INFO(obj)                  \
-+    OBJECT_CHECK(QSevGuestInfo, (obj), TYPE_QSEV_GUEST_INFO)
-+
-+typedef struct QSevGuestInfo QSevGuestInfo;
-+
-+/**
-+ * QSevGuestInfo:
-+ *
-+ * The QSevGuestInfo object is used for creating a SEV guest.
-+ *
-+ * # $QEMU \
-+ *         -object sev-guest,id=sev0 \
-+ *         -machine ...,memory-encryption=sev0
-+ */
-+struct QSevGuestInfo {
-+    Object parent_obj;
-+
-+    char *sev_device;
-+    uint32_t policy;
-+    uint32_t handle;
-+    char *dh_cert_file;
-+    char *session_file;
-+    uint32_t cbitpos;
-+    uint32_t reduced_phys_bits;
-+};
-+
-+struct SEVState {
-+    QSevGuestInfo *sev_info;
-+    uint8_t api_major;
-+    uint8_t api_minor;
-+    uint8_t build_id;
-+    uint32_t policy;
-+    uint64_t me_mask;
-+    uint32_t cbitpos;
-+    uint32_t reduced_phys_bits;
-+    uint32_t handle;
-+    int sev_fd;
-+    SevState state;
-+    gchar *measurement;
-+};
-+
-+typedef struct SEVState SEVState;
-+
- #define DEFAULT_GUEST_POLICY    0x1 /* disable debug */
- #define DEFAULT_SEV_DEVICE      "/dev/sev"
- 
-diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
-index 4f193642ac..8eb7de1bef 100644
---- a/target/i386/sev_i386.h
-+++ b/target/i386/sev_i386.h
-@@ -28,10 +28,6 @@
- #define SEV_POLICY_DOMAIN       0x10
- #define SEV_POLICY_SEV          0x20
  
 -#define TYPE_QSEV_GUEST_INFO "sev-guest"
 -#define QSEV_GUEST_INFO(obj)                  \
 -    OBJECT_CHECK(QSevGuestInfo, (obj), TYPE_QSEV_GUEST_INFO)
--
- extern bool sev_enabled(void);
- extern uint64_t sev_get_me_mask(void);
- extern SevInfo *sev_get_info(void);
-@@ -40,44 +36,4 @@ extern uint32_t sev_get_reduced_phys_bits(void);
- extern char *sev_get_launch_measurement(void);
- extern SevCapability *sev_get_capabilities(void);
++#define TYPE_SEV_GUEST "sev-guest"
++#define SEV_GUEST(obj)                                          \
++    OBJECT_CHECK(SevGuestState, (obj), TYPE_SEV_GUEST)
  
 -typedef struct QSevGuestInfo QSevGuestInfo;
--
--/**
++typedef struct SevGuestState SevGuestState;
+ 
+ /**
 - * QSevGuestInfo:
-- *
++ * SevGuestState:
+  *
 - * The QSevGuestInfo object is used for creating a SEV guest.
-- *
-- * # $QEMU \
-- *         -object sev-guest,id=sev0 \
-- *         -machine ...,memory-encryption=sev0
-- */
++ * The SevGuestState object is used for creating and managing a SEV
++ * guest.
+  *
+  * # $QEMU \
+  *         -object sev-guest,id=sev0 \
+  *         -machine ...,memory-encryption=sev0
+  */
 -struct QSevGuestInfo {
--    Object parent_obj;
--
--    char *sev_device;
--    uint32_t policy;
--    uint32_t handle;
--    char *dh_cert_file;
--    char *session_file;
--    uint32_t cbitpos;
--    uint32_t reduced_phys_bits;
--};
--
--struct SEVState {
++struct SevGuestState {
+     Object parent_obj;
+ 
+     char *sev_device;
+@@ -57,7 +58,7 @@ struct QSevGuestInfo {
+ };
+ 
+ struct SEVState {
 -    QSevGuestInfo *sev_info;
--    uint8_t api_major;
--    uint8_t api_minor;
--    uint8_t build_id;
--    uint32_t policy;
--    uint64_t me_mask;
--    uint32_t cbitpos;
--    uint32_t reduced_phys_bits;
--    uint32_t handle;
--    int sev_fd;
--    SevState state;
--    gchar *measurement;
--};
--
--typedef struct SEVState SEVState;
--
- #endif
++    SevGuestState *sev_info;
+     uint8_t api_major;
+     uint8_t api_minor;
+     uint8_t build_id;
+@@ -235,82 +236,82 @@ static struct RAMBlockNotifier sev_ram_notifier = {
+ };
+ 
+ static void
+-qsev_guest_finalize(Object *obj)
++sev_guest_finalize(Object *obj)
+ {
+ }
+ 
+ static char *
+-qsev_guest_get_session_file(Object *obj, Error **errp)
++sev_guest_get_session_file(Object *obj, Error **errp)
+ {
+-    QSevGuestInfo *s = QSEV_GUEST_INFO(obj);
++    SevGuestState *s = SEV_GUEST(obj);
+ 
+     return s->session_file ? g_strdup(s->session_file) : NULL;
+ }
+ 
+ static void
+-qsev_guest_set_session_file(Object *obj, const char *value, Error **errp)
++sev_guest_set_session_file(Object *obj, const char *value, Error **errp)
+ {
+-    QSevGuestInfo *s = QSEV_GUEST_INFO(obj);
++    SevGuestState *s = SEV_GUEST(obj);
+ 
+     s->session_file = g_strdup(value);
+ }
+ 
+ static char *
+-qsev_guest_get_dh_cert_file(Object *obj, Error **errp)
++sev_guest_get_dh_cert_file(Object *obj, Error **errp)
+ {
+-    QSevGuestInfo *s = QSEV_GUEST_INFO(obj);
++    SevGuestState *s = SEV_GUEST(obj);
+ 
+     return g_strdup(s->dh_cert_file);
+ }
+ 
+ static void
+-qsev_guest_set_dh_cert_file(Object *obj, const char *value, Error **errp)
++sev_guest_set_dh_cert_file(Object *obj, const char *value, Error **errp)
+ {
+-    QSevGuestInfo *s = QSEV_GUEST_INFO(obj);
++    SevGuestState *s = SEV_GUEST(obj);
+ 
+     s->dh_cert_file = g_strdup(value);
+ }
+ 
+ static char *
+-qsev_guest_get_sev_device(Object *obj, Error **errp)
++sev_guest_get_sev_device(Object *obj, Error **errp)
+ {
+-    QSevGuestInfo *sev = QSEV_GUEST_INFO(obj);
++    SevGuestState *sev = SEV_GUEST(obj);
+ 
+     return g_strdup(sev->sev_device);
+ }
+ 
+ static void
+-qsev_guest_set_sev_device(Object *obj, const char *value, Error **errp)
++sev_guest_set_sev_device(Object *obj, const char *value, Error **errp)
+ {
+-    QSevGuestInfo *sev = QSEV_GUEST_INFO(obj);
++    SevGuestState *sev = SEV_GUEST(obj);
+ 
+     sev->sev_device = g_strdup(value);
+ }
+ 
+ static void
+-qsev_guest_class_init(ObjectClass *oc, void *data)
++sev_guest_class_init(ObjectClass *oc, void *data)
+ {
+     object_class_property_add_str(oc, "sev-device",
+-                                  qsev_guest_get_sev_device,
+-                                  qsev_guest_set_sev_device);
++                                  sev_guest_get_sev_device,
++                                  sev_guest_set_sev_device);
+     object_class_property_set_description(oc, "sev-device",
+             "SEV device to use");
+     object_class_property_add_str(oc, "dh-cert-file",
+-                                  qsev_guest_get_dh_cert_file,
+-                                  qsev_guest_set_dh_cert_file);
++                                  sev_guest_get_dh_cert_file,
++                                  sev_guest_set_dh_cert_file);
+     object_class_property_set_description(oc, "dh-cert-file",
+             "guest owners DH certificate (encoded with base64)");
+     object_class_property_add_str(oc, "session-file",
+-                                  qsev_guest_get_session_file,
+-                                  qsev_guest_set_session_file);
++                                  sev_guest_get_session_file,
++                                  sev_guest_set_session_file);
+     object_class_property_set_description(oc, "session-file",
+             "guest owners session parameters (encoded with base64)");
+ }
+ 
+ static void
+-qsev_guest_init(Object *obj)
++sev_guest_instance_init(Object *obj)
+ {
+-    QSevGuestInfo *sev = QSEV_GUEST_INFO(obj);
++    SevGuestState *sev = SEV_GUEST(obj);
+ 
+     sev->sev_device = g_strdup(DEFAULT_SEV_DEVICE);
+     sev->policy = DEFAULT_GUEST_POLICY;
+@@ -326,32 +327,32 @@ qsev_guest_init(Object *obj)
+ }
+ 
+ /* sev guest info */
+-static const TypeInfo qsev_guest_info = {
++static const TypeInfo sev_guest_info = {
+     .parent = TYPE_OBJECT,
+-    .name = TYPE_QSEV_GUEST_INFO,
+-    .instance_size = sizeof(QSevGuestInfo),
+-    .instance_finalize = qsev_guest_finalize,
+-    .class_init = qsev_guest_class_init,
+-    .instance_init = qsev_guest_init,
++    .name = TYPE_SEV_GUEST,
++    .instance_size = sizeof(SevGuestState),
++    .instance_finalize = sev_guest_finalize,
++    .class_init = sev_guest_class_init,
++    .instance_init = sev_guest_instance_init,
+     .interfaces = (InterfaceInfo[]) {
+         { TYPE_USER_CREATABLE },
+         { }
+     }
+ };
+ 
+-static QSevGuestInfo *
++static SevGuestState *
+ lookup_sev_guest_info(const char *id)
+ {
+     Object *obj;
+-    QSevGuestInfo *info;
++    SevGuestState *info;
+ 
+     obj = object_resolve_path_component(object_get_objects_root(), id);
+     if (!obj) {
+         return NULL;
+     }
+ 
+-    info = (QSevGuestInfo *)
+-            object_dynamic_cast(obj, TYPE_QSEV_GUEST_INFO);
++    info = (SevGuestState *)
++            object_dynamic_cast(obj, TYPE_SEV_GUEST);
+     if (!info) {
+         return NULL;
+     }
+@@ -510,7 +511,7 @@ sev_launch_start(SEVState *s)
+     gsize sz;
+     int ret = 1;
+     int fw_error, rc;
+-    QSevGuestInfo *sev = s->sev_info;
++    SevGuestState *sev = s->sev_info;
+     struct kvm_sev_launch_start *start;
+     guchar *session = NULL, *dh_cert = NULL;
+ 
+@@ -696,7 +697,7 @@ sev_guest_init(const char *id)
+     s->sev_info = lookup_sev_guest_info(id);
+     if (!s->sev_info) {
+         error_report("%s: '%s' is not a valid '%s' object",
+-                     __func__, id, TYPE_QSEV_GUEST_INFO);
++                     __func__, id, TYPE_SEV_GUEST);
+         goto err;
+     }
+ 
+@@ -786,7 +787,7 @@ sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len)
+ static void
+ sev_register_types(void)
+ {
+-    type_register_static(&qsev_guest_info);
++    type_register_static(&sev_guest_info);
+ }
+ 
+ type_init(sev_register_types);
 -- 
 2.26.2
 
