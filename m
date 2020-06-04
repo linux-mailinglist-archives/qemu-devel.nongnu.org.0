@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5202B1EE08C
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 11:07:37 +0200 (CEST)
-Received: from localhost ([::1]:46836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE141EE0A3
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 11:08:44 +0200 (CEST)
+Received: from localhost ([::1]:52644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jglqa-00010O-BW
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 05:07:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53430)
+	id 1jglrf-0003M0-9Z
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 05:08:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jglpX-00080n-4m
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:06:31 -0400
-Received: from mga06.intel.com ([134.134.136.31]:40868)
+ id 1jglpW-00080G-Qp
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:06:30 -0400
+Received: from mga06.intel.com ([134.134.136.31]:40867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jglpW-0005Cp-3J
+ id 1jglpV-0005Cl-UN
  for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:06:30 -0400
-IronPort-SDR: 0TQCSS6pdRnAHi+DLVYjjC/HeYotgNmtDwYXvJN9wi1OkrkMBTSwkLRSWWCEjCadVKSULoHtpc
- 0Z2D475KUIvQ==
+IronPort-SDR: J1nMRiRB9BMEaKWspbOx5lWjUyroKOwKggWACEiVpEPVYxcJP00KSJxSmHjPfb396qyCi43PuK
+ jyzW+w5noc2w==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2020 02:06:27 -0700
-IronPort-SDR: GPijHCpiLEAvC0VJQ4Totl4jIfZ61qD6Yi2YsuKcIaGxk0qAnb/crfQKXV3VkZ0OqUwXbbxIg4
- FYndGz2OUjAQ==
+ 04 Jun 2020 02:06:29 -0700
+IronPort-SDR: sTkRehHITrl0g2a3elyuho8qVI8b7JFu4xzFe382rT/RsKA20uLHGQ2njyS89DEjBDLHQLOM8U
+ UC15iSNvQgWw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,471,1583222400"; d="scan'208";a="416847115"
+X-IronPort-AV: E=Sophos;i="5.73,471,1583222400"; d="scan'208";a="416847120"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga004.jf.intel.com with ESMTP; 04 Jun 2020 02:06:25 -0700
+ by orsmga004.jf.intel.com with ESMTP; 04 Jun 2020 02:06:27 -0700
 From: Zhang Chen <chen.zhang@intel.com >
 To: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH V2 1/2] migration/colo: Optimize COLO boot code path
-Date: Thu,  4 Jun 2020 16:55:32 +0800
-Message-Id: <20200604085533.7769-2-chen.zhang@intel.com>
+Subject: [PATCH V2 2/2] migration/colo: Update checkpoint time lately
+Date: Thu,  4 Jun 2020 16:55:33 +0800
+Message-Id: <20200604085533.7769-3-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200604085533.7769-1-chen.zhang@intel.com>
 References: <20200604085533.7769-1-chen.zhang@intel.com>
@@ -72,70 +72,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Chen <chen.zhang@intel.com>
 
-No need to reuse MIGRATION_STATUS_ACTIVE boot COLO.
+Previous operation(like vm_start and replication_start_all) will consume
+extra time for first forced synchronization, so reduce it in this patch.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 Reviewed-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
 ---
- migration/colo.c      |  2 --
- migration/migration.c | 17 ++++++++++-------
- 2 files changed, 10 insertions(+), 9 deletions(-)
+ migration/colo.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/migration/colo.c b/migration/colo.c
-index ea7d1e9d4e..91c76789fa 100644
+index 91c76789fa..2b837e1255 100644
 --- a/migration/colo.c
 +++ b/migration/colo.c
-@@ -670,8 +670,6 @@ void migrate_start_colo_process(MigrationState *s)
-                                 colo_checkpoint_notify, s);
+@@ -532,7 +532,6 @@ static void colo_process_checkpoint(MigrationState *s)
+ {
+     QIOChannelBuffer *bioc;
+     QEMUFile *fb = NULL;
+-    int64_t current_time = qemu_clock_get_ms(QEMU_CLOCK_HOST);
+     Error *local_err = NULL;
+     int ret;
  
-     qemu_sem_init(&s->colo_exit_sem, 0);
--    migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
--                      MIGRATION_STATUS_COLO);
-     colo_process_checkpoint(s);
-     qemu_mutex_lock_iothread();
- }
-diff --git a/migration/migration.c b/migration/migration.c
-index b63ad91d34..7f3f82a715 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2972,7 +2972,10 @@ static void migration_completion(MigrationState *s)
-         goto fail_invalidate;
-     }
+@@ -581,8 +580,8 @@ static void colo_process_checkpoint(MigrationState *s)
+     qemu_mutex_unlock_iothread();
+     trace_colo_vm_state_change("stop", "run");
  
--    if (!migrate_colo_enabled()) {
-+    if (migrate_colo_enabled()) {
-+        migrate_set_state(&s->state, current_active_state,
-+                          MIGRATION_STATUS_COLO);
-+    } else {
-         migrate_set_state(&s->state, current_active_state,
-                           MIGRATION_STATUS_COMPLETED);
-     }
-@@ -3304,12 +3307,7 @@ static void migration_iteration_finish(MigrationState *s)
-         migration_calculate_complete(s);
-         runstate_set(RUN_STATE_POSTMIGRATE);
-         break;
--
--    case MIGRATION_STATUS_ACTIVE:
--        /*
--         * We should really assert here, but since it's during
--         * migration, let's try to reduce the usage of assertions.
--         */
-+    case MIGRATION_STATUS_COLO:
-         if (!migrate_colo_enabled()) {
-             error_report("%s: critical error: calling COLO code without "
-                          "COLO enabled", __func__);
-@@ -3319,6 +3317,11 @@ static void migration_iteration_finish(MigrationState *s)
-          * Fixme: we will run VM in COLO no matter its old running state.
-          * After exited COLO, we will keep running.
-          */
-+    case MIGRATION_STATUS_ACTIVE:
-+        /*
-+         * We should really assert here, but since it's during
-+         * migration, let's try to reduce the usage of assertions.
-+         */
-         s->vm_was_running = true;
-         /* Fallthrough */
-     case MIGRATION_STATUS_FAILED:
+-    timer_mod(s->colo_delay_timer,
+-            current_time + s->parameters.x_checkpoint_delay);
++    timer_mod(s->colo_delay_timer, qemu_clock_get_ms(QEMU_CLOCK_HOST) +
++              s->parameters.x_checkpoint_delay);
+ 
+     while (s->state == MIGRATION_STATUS_COLO) {
+         if (failover_get_state() != FAILOVER_STATUS_NONE) {
 -- 
 2.17.1
 
