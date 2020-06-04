@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0B91EDB9B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 05:22:54 +0200 (CEST)
-Received: from localhost ([::1]:57634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2490F1EDBA9
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 05:33:27 +0200 (CEST)
+Received: from localhost ([::1]:39974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jggSz-0006rH-4x
-	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 23:22:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48784)
+	id 1jggdB-0003q7-Na
+	for lists+qemu-devel@lfdr.de; Wed, 03 Jun 2020 23:33:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jggSF-0006Rw-Tj
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 23:22:07 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:51937)
+ id 1jggbO-00029i-MG
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 23:31:34 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jggSE-00086e-KD
- for qemu-devel@nongnu.org; Wed, 03 Jun 2020 23:22:07 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id ga6so463473pjb.1
- for <qemu-devel@nongnu.org>; Wed, 03 Jun 2020 20:22:06 -0700 (PDT)
+ id 1jggbN-0001lU-Jo
+ for qemu-devel@nongnu.org; Wed, 03 Jun 2020 23:31:34 -0400
+Received: by mail-pg1-x541.google.com with SMTP id p30so2885851pgl.11
+ for <qemu-devel@nongnu.org>; Wed, 03 Jun 2020 20:31:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VXxSav5cOpqzEI+KwX8Pv+0PIsEcC7iEkwgJsnuVLpg=;
- b=HUs3vwLvj1s8QTdldqejJ5sPaq4JyYdSbYMtbE7LBndNgMMfArh+U6YZA6N8+RMs3Z
- /bnFwhHr/wc2I0MWEfPYs2ro9eN1v42IUXi5+VMSHPOpQKa5/vycjkFLsCqiF5YR3GGH
- X+XxyHu1/Skv2n0C1/Aq5OdLedbVZrbq7ShCQKFBdRXEUanZYyrnBZDrhsruBr7ii5JF
- ZAIAPD8UIe72GrKeDew9xbxuEnjwUgACUy/BiAYTOU46T8zlfZv+SV0sgILbhRafPItA
- LzAj6O7cFUgmorG6LTJ5LN3eAeIgOTedmrB//rP/OIbHgJKQMikIdzYKHaNO0T/ksgUn
- DzJQ==
+ bh=C0JzT8yHVfGrQdMTy4VeGO2ZN5h2IrtHRVZLo1LCzzQ=;
+ b=VeUPsdHJtfPDQ6KriduKThLC9QtNAthfXWhpnlF8u/TAPAGFoVQKiGjfBBx5sKrW3d
+ vT3hOE4gitVL4F20Uq/Dadso5ISiVsK0yP9avSiYRhP2Xleyv5fDpS48v3r48a8jfydu
+ Pstq719Qm2vmcCDOQ1POeUmbj1BsAk5bzyuhT1quAtfBnqPem2jPx1d+r0v9cE7ZaLVf
+ xVonDaXxQaAhOuCoMRycPFs+JsEqQRUOUhh6Crc0Z1lqMk4eyZ6B1MzNsrrphxJ4yCL1
+ 7p8VHv2AsxJDasyprFXwnisMtiN9dqquaMpdNd4maDAy1BJTQToDCD3bX3NmxIh9GYXD
+ XcNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=VXxSav5cOpqzEI+KwX8Pv+0PIsEcC7iEkwgJsnuVLpg=;
- b=CqSxL+vll1eiVlu8SAPJcgd+K9IbwWAeauCzRd95mXLhzHtC9wDxqvlUSb/lw3m4v+
- rmm2Wmo/tFVuzopOLfP2Pp1zs76SKS7QxJjW7qAWuNJyxex3qlyUlXGWXJ9Yf3++OnTK
- TBJuYp7UNS+egoY8hlzVzI6Zn+L3kj5IYMn7/6TURTirwKx8+nTblpq+5O+S0NIFpMpc
- e0Mq2tRuZqfkyKJNGK5sypVvFiU+ykVja4YPgMd2ui4pIDWxnYzCi0YSR5ppnwqatZAq
- 6i20a1FlhyqKwUoMaLcvGVbJG9A1Id/KtLY7m0i/aEPWQENfH++bCBb8UopxaVg2VF5K
- rbUQ==
-X-Gm-Message-State: AOAM532ev5hqJa0g4g0V5ZocvDI6LUyzlyhq5GX/nmdHHTTfUb2Hni12
- +x5l/43qvMZhK3QTGjNZz4BFag==
-X-Google-Smtp-Source: ABdhPJxVPIlMxhgyx6eNR/GyphS+z3uvGoApvnmA3Oy6aBZ+dTnFB5q7nQkjvkV6AbOVyf+yEyD+Qw==
-X-Received: by 2002:a17:902:6b49:: with SMTP id
- g9mr2813131plt.66.1591240924772; 
- Wed, 03 Jun 2020 20:22:04 -0700 (PDT)
+ bh=C0JzT8yHVfGrQdMTy4VeGO2ZN5h2IrtHRVZLo1LCzzQ=;
+ b=aFBUfRLr/lcr9+wn4YGAHd1HROwESh3lZGbBWUzM0fdGN37ht1XvGmf7mqHBJC2yXt
+ hSOvEcUWYsFbyAf6cVE+blOLtCZpThJG+j2zrmnEZC+FVWT0ejdiIDYFxSxo08PrYEpp
+ XbxOkDumVBOegu8de2aePdPw/K5M64CG17m+qszhJGd+UHSu52GRsXkVBFYvnq6jRkE+
+ 7W0sKGBcwlBinowJgm2Y5MxossWIE7064U/zy4BvQa52/n4jimk+0h2hc5eXM0PqQTWt
+ +kNnxAu3iva9Ye4ZSRSqu4f4G66Xu5XrWRxx99v8t6FZCwKNYJNARh7O/vu1hMSvPuR+
+ VEsg==
+X-Gm-Message-State: AOAM532NNRBlx01Tz/7jzC3bvRF9n+Br0ffw3ILjlCxzvraZSHRrehpg
+ yNunM5A4BLzFu1+OE0l5WjljnA==
+X-Google-Smtp-Source: ABdhPJzGVaICKEYS8tJduSXlwBdokeh9cNGdjSLnnqLUYoOKMmt4fgOFSA2Hj781GhfBmud7686vog==
+X-Received: by 2002:aa7:84cf:: with SMTP id x15mr2201718pfn.214.1591241491563; 
+ Wed, 03 Jun 2020 20:31:31 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id m15sm2594356pgv.45.2020.06.03.20.22.03
+ by smtp.gmail.com with ESMTPSA id q6sm78002pff.79.2020.06.03.20.31.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Jun 2020 20:22:03 -0700 (PDT)
-Subject: Re: [PATCH v3] migration/xbzrle: add encoding rate
-To: Wei Wang <wei.w.wang@intel.com>
-References: <1588208375-19556-1-git-send-email-wei.w.wang@intel.com>
- <CAFXwXrm4R5nxk6ruTJ2kP5dUnF7Qm3TfRRiKVAUDNA1uwYf65w@mail.gmail.com>
- <5ED86344.4020505@intel.com>
+ Wed, 03 Jun 2020 20:31:30 -0700 (PDT)
+Subject: Re: [PATCH v4] tcg: Sanitize shift constants on ppc64le so that shift
+ operations with large constants don't generate invalid instructions.
+To: agrecascino123@gmail.com, qemu-devel@nongnu.org
+References: <20200604015027.8075-1-agrecascino123@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4b9cd244-0d96-d1c8-11ec-b61a6bc2bfaa@linaro.org>
-Date: Wed, 3 Jun 2020 20:22:01 -0700
+Message-ID: <3e3791fc-ef38-b785-943a-8ee575fc0677@linaro.org>
+Date: Wed, 3 Jun 2020 20:31:28 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <5ED86344.4020505@intel.com>
+In-Reply-To: <20200604015027.8075-1-agrecascino123@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,42 +89,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevin.tian@intel.com, Juan Quintela <quintela@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- gloryxiao@tencent.com, yi.y.sun@intel.com
+Cc: "Catherine A. Frederick" <chocola@animebitch.es>, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/3/20 7:58 PM, Wei Wang wrote:
-> It is possible that encoded_size==0, but unencoded_size !=0. For example,
-> a page is written with the same data that it already has.
+On 6/3/20 6:50 PM, agrecascino123@gmail.com wrote:
+>  static inline void tcg_out_shri64(TCGContext *s, TCGReg dst, TCGReg src, int c)
+>  {
+> +    tcg_debug_assert((c < 64) && (c >= 0));
+>      tcg_out_rld(s, RLDICL, dst, src, 64 - c, c);
+>  }
+>  
+> @@ -2610,21 +2614,33 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
+>  
+>      case INDEX_op_shl_i32:
+>          if (const_args[2]) {
+> -            tcg_out_shli32(s, args[0], args[1], args[2]);
+> +            /*
+> +             * Limit shift immediate to prevent illegal instruction
+> +             * from bitmask corruption
+> +             */
+> +            tcg_out_shli32(s, args[0], args[1], args[2] & 31);
 
-That really contains 0 bytes?
-Not even the ones that say "same data"?
+Why are you duplicating these?
 
-You certainly have a magical compression algorithm there.
-Or bad accounting.
+I suggested masking, and now you are, but you're also retaining the assert.
+What's the point?  Just mask, IMO.
 
-> The encoding_rate is expected to reflect if the page is xbzrle encoding friendly.
-> The larger, the more friendly, so 0 might not be a good representation here.
-> 
-> Maybe, we could change UINT64_MAX above to "~0ULL" to avoid the issue?
+>      case INDEX_op_sar_i64:
+>          if (const_args[2]) {
+> -            int sh = SH(args[2] & 0x1f) | (((args[2] >> 5) & 1) << 1);
+> +            /*
+> +             * Same for SRADI, except there's no function
+> +             * to call into.
+> +             */
+> +            int sh = SH(((args[2] & 63) & 0x1f)
+> +                        | ((((args[2] & 63) >> 5) & 1) << 1));
 
-~0ull is no different than UINT64_MAX -- indeed, they are *exactly* the same
-value -- and is not an exactly representible floating-point value.
-
-If unencoded_size != 0, and (somehow) encoded_size == 0, then
-
-  unencoded_size / encoded_size = Inf
-
-which is indeed the limit of x -> 0, n / x.
-
-Which is *also* printable by %0.2f.
-
-I still contend that the middle if should be removed, and you should print out
-whatever's left.  Either NaN or Inf is instructive.  Certainly nothing in the
-middle cares about the actual value.
+As for this, there's zero point.  We are already masking.  You can see it right
+there.
 
 
 r~
