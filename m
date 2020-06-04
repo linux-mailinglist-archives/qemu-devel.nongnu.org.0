@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63031EE881
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 18:24:02 +0200 (CEST)
-Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F03121EE88A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 18:26:45 +0200 (CEST)
+Received: from localhost ([::1]:45264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgsev-0002G8-AN
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 12:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51602)
+	id 1jgshZ-00058E-1x
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 12:26:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1jgsdk-0001Gr-UC
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 12:22:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42142
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jgseB-00023c-Jf
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 12:23:15 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26721
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1jgsdk-0007fz-5L
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 12:22:48 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jgseA-0007hi-Hz
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 12:23:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591287767;
+ s=mimecast20190719; t=1591287793;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ig/KAw4RfoUZf3xPFk976FQcb+AA3/zexhCp+5YqAFU=;
- b=haShpZTIWXnp9uTZgGCIVhD0ch5yTzpTqoNzEqj9b0FiXv/UzpGMXyNO7QzsO7E1vv/UHg
- jZl5V6tPK9I6EkCmnRAOjo+B+xX5BNcW/FII1Wej4SR/mMMABBLW57acT4i9vg9JfBsihi
- AEXJ55vSl3VEHJjAGO71r3+QP+TtCHg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-HeEIsPu9N_-L-EXux8svcA-1; Thu, 04 Jun 2020 12:22:45 -0400
-X-MC-Unique: HeEIsPu9N_-L-EXux8svcA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C5DB18FE866;
- Thu,  4 Jun 2020 16:22:44 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A574478F1B;
- Thu,  4 Jun 2020 16:22:40 +0000 (UTC)
-Date: Thu, 4 Jun 2020 18:22:37 +0200
-From: Peter Krempa <pkrempa@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH RFC v2 1/5] block: add bitmap-populate job
-Message-ID: <20200604162237.GA22354@angien.pipo.sk>
-References: <20200514034922.24834-1-jsnow@redhat.com>
- <20200514034922.24834-2-jsnow@redhat.com>
- <e426d42a-e1f2-1e6b-f18e-92084bff61a1@redhat.com>
- <20200604091231.GC4512@linux.fritz.box>
- <20200604091651.GF2995787@angien.pipo.sk>
- <20200604113145.GE4512@linux.fritz.box>
+ bh=B9O2XRCyHbxIKDpgPXguyD8DdCt9q+W4Q9datrk8x4s=;
+ b=ItApGjCZH0NMikyQeVk5tCc3wuXuo4QXBNvsyGVc16gRrax8ByWAo3hH+x+uVm93EfH254
+ 2cwv0ZRACG8tylIwwAKlc0B04J5fz884Jh2AT8+dbOjzDna1K+IJRl1fCNGdpcrE9ww9wg
+ heTUoQoDaVFhrM700z4yiXkEypo7B1o=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-477-JD2cD8bFNEyy8FigLon6LA-1; Thu, 04 Jun 2020 12:23:11 -0400
+X-MC-Unique: JD2cD8bFNEyy8FigLon6LA-1
+Received: by mail-wr1-f70.google.com with SMTP id o1so2608079wrm.17
+ for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 09:23:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=B9O2XRCyHbxIKDpgPXguyD8DdCt9q+W4Q9datrk8x4s=;
+ b=JMmEZN79HxB4wx+ilGIbZeavYBv+uxU5SfPWu8476jeRgMzxBLXLcuEy0pMn+g3XGU
+ OSh3+kMv4skiFi1yxGPhvy3NRfjab7zzHRand/IFEdIbUJ2ThVUdddKo3oG3SgHzHHYR
+ xZNEILM1QBfjsT/4VFHM1laQh5Ugx5QuKiEclJqbc9e4jGx49Z4/5PU/koIyI3J4O9tn
+ /sYnALsNuuNVlJPyc3dmtlnpdEABiF5ZeVpRpa1TtF++FsROMzlQDANq6H6KaVY32940
+ 2rBFrb98OphXv6MTAS/Jrs8PziOIo7kCYOvUyoCSP65FLu+vG+zmaJdfkcJ3fIirOH1M
+ LYWA==
+X-Gm-Message-State: AOAM531UKNQX93uQfGs4A3Oq/8P2fRxVh6qLHLuRzMyXaA957NdMylxL
+ +bY/oXB6uHCOD557fLyftpKyxqxchk36dk6gQIt3lujes9I6FCgCqzxYnNCmWqf+65PgwPXrjEp
+ 4d+Pgeb6LaQCgrzg=
+X-Received: by 2002:a1c:a906:: with SMTP id s6mr4990768wme.171.1591287790592; 
+ Thu, 04 Jun 2020 09:23:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJycKqtmToIFUJXoVJkBh8yjxsCrh0nHVi0wwyICMooJNi/z+/a+wLrtUjUmghlHzqr7a90aQA==
+X-Received: by 2002:a1c:a906:: with SMTP id s6mr4990745wme.171.1591287790313; 
+ Thu, 04 Jun 2020 09:23:10 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:a0c0:5d2e:1d35:17bb?
+ ([2001:b07:6468:f312:a0c0:5d2e:1d35:17bb])
+ by smtp.gmail.com with ESMTPSA id p1sm8323048wrx.44.2020.06.04.09.23.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Jun 2020 09:23:09 -0700 (PDT)
+Subject: Re: [PATCH v4] xen: fix build without pci passthrough
+To: Anthony PERARD <anthony.perard@citrix.com>, qemu-devel@nongnu.org
+References: <159120627656.23398.3742621530752770397@45ef0f9c86ae>
+ <20200604133042.3380585-1-anthony.perard@citrix.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <b822be29-66ce-fb68-849b-af0a8e1e7174@redhat.com>
+Date: Thu, 4 Jun 2020 18:23:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200604113145.GE4512@linux.fritz.box>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200604133042.3380585-1-anthony.perard@citrix.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pkrempa@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 12:22:43
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:31:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,48 +100,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, xen-devel@lists.xenproject.org,
+ =?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 04, 2020 at 13:31:45 +0200, Kevin Wolf wrote:
-> Am 04.06.2020 um 11:16 hat Peter Krempa geschrieben:
-> > On Thu, Jun 04, 2020 at 11:12:31 +0200, Kevin Wolf wrote:
-> > > Am 18.05.2020 um 22:49 hat Eric Blake geschrieben:
-> > > > > +
-> > > > > +    /* NB: new bitmap is anonymous and enabled */
-> > > > > +    cluster_size = bdrv_dirty_bitmap_granularity(target_bitmap);
-> > > > > +    new_bitmap = bdrv_create_dirty_bitmap(bs, cluster_size, NULL, errp);
-> > > > > +    if (!new_bitmap) {
-> > > > > +        return NULL;
-> > > > > +    }
-> > > > 
-> > > > This means if the guest writes to the disk while the job is ongoing, the
-> > > > bitmap will be updated to mark that portion of the bitmap as set, even if it
-> > > > was not allocated at the time the job started.  But then again, the guest
-> > > > writes are causing allocation, so this seems like the right thing to do.
-> > > 
-> > > Is the target bitmap active at the same time, i.e. will it get the
-> > > correct information only from new_bitmap or are the bits already set in
-> > > it anyway?
-> > 
-> > Yes, libvirt plans to use it with an active non-persistent bitmap which
-> > will in subsequent steps be merged into others. The bitmap is added in
-> > the same transaction. The bitmap must be active, because we need to wait
-> > for the block jobs to finish before it becomes usable and thus can't
-> > sequence in other operations until later.
-> 
-> A lot of bitmap merging then, because the block job in this series
-> already creates a temporary internal bitmap that is merged into the
-> target bitmap on completion. But if the target bitmap is only libvirt's
-> temporary bitmap to be merged to yet another bitmap, I wonder if this
-> process shouldn't be simplified.
+On 04/06/20 15:30, Anthony PERARD wrote:
+>     - fix build when Xen headers aren't available.
+>       By building stubs/xen-pt.c only when CONFIG_XEN=y
+>       (The alternative would be to move the prototypes used by the stub into
+>       xen.h, which doesn't depends on xen headers.)
 
-Possibly yes, but I'll leave that for later. All of this is done when
-executin very expensive operations anyways so for our first
-implementation it IMO won't matter that much.
+Good catch.  I think we can also drop the whole hw/xen/ directory when
+CONFIG_XEN=n, and move stubs/xen-pt.c there.  I'll send a v5 myself.
+
+Paolo
+
+>     Changes in v3:
+>     - reworked to use stubs instead of #ifdef CONFIG_XEN_PCI_PASSTHROUGH
+>       CONFIG_XEN_PCI_PASSTHROUGH isn't available in xen-common.c
+>     
+>       moving CONFIG_XEN_PCI_PASSTHROUGH to be in config_host_mak isn't
+>       really possible, or at least I didn't managed to make that work.
+> 
+>  hw/i386/pc_piix.c   |  2 +-
+>  hw/xen/xen-common.c |  4 ++--
+>  hw/xen/xen_pt.c     | 12 +++++++++++-
+>  hw/xen/xen_pt.h     |  6 ++++--
+>  stubs/Makefile.objs |  1 +
+>  stubs/xen-pt.c      | 22 ++++++++++++++++++++++
+>  6 files changed, 41 insertions(+), 6 deletions(-)
+>  create mode 100644 stubs/xen-pt.c
+> 
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index f66e1d73ce0b..347fb8c6c807 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -375,7 +375,7 @@ static void pc_init_isa(MachineState *machine)
+>  #ifdef CONFIG_XEN
+>  static void pc_xen_hvm_init_pci(MachineState *machine)
+>  {
+> -    const char *pci_type = has_igd_gfx_passthru ?
+> +    const char *pci_type = xen_igd_gfx_pt_enabled() ?
+>                  TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE : TYPE_I440FX_PCI_DEVICE;
+>  
+>      pc_init1(machine,
+> diff --git a/hw/xen/xen-common.c b/hw/xen/xen-common.c
+> index 70564cc952d5..dd2c22cc4c0b 100644
+> --- a/hw/xen/xen-common.c
+> +++ b/hw/xen/xen-common.c
+> @@ -129,12 +129,12 @@ static void xen_change_state_handler(void *opaque, int running,
+>  
+>  static bool xen_get_igd_gfx_passthru(Object *obj, Error **errp)
+>  {
+> -    return has_igd_gfx_passthru;
+> +    return xen_igd_gfx_pt_enabled();
+>  }
+>  
+>  static void xen_set_igd_gfx_passthru(Object *obj, bool value, Error **errp)
+>  {
+> -    has_igd_gfx_passthru = value;
+> +    xen_igd_gfx_pt_set(value, errp);
+>  }
+>  
+>  static void xen_setup_post(MachineState *ms, AccelState *accel)
+> diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
+> index 81d5ad8da7f0..ab84443d5ec8 100644
+> --- a/hw/xen/xen_pt.c
+> +++ b/hw/xen/xen_pt.c
+> @@ -65,7 +65,17 @@
+>  #include "qemu/range.h"
+>  #include "exec/address-spaces.h"
+>  
+> -bool has_igd_gfx_passthru;
+> +static bool has_igd_gfx_passthru;
+> +
+> +bool xen_igd_gfx_pt_enabled(void)
+> +{
+> +    return has_igd_gfx_passthru;
+> +}
+> +
+> +void xen_igd_gfx_pt_set(bool value, Error **errp)
+> +{
+> +    has_igd_gfx_passthru = value;
+> +}
+>  
+>  #define XEN_PT_NR_IRQS (256)
+>  static uint8_t xen_pt_mapped_machine_irq[XEN_PT_NR_IRQS] = {0};
+> diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
+> index 179775db7b22..6e9cec95f3b7 100644
+> --- a/hw/xen/xen_pt.h
+> +++ b/hw/xen/xen_pt.h
+> @@ -5,6 +5,9 @@
+>  #include "hw/pci/pci.h"
+>  #include "xen-host-pci-device.h"
+>  
+> +bool xen_igd_gfx_pt_enabled(void);
+> +void xen_igd_gfx_pt_set(bool value, Error **errp);
+> +
+>  void xen_pt_log(const PCIDevice *d, const char *f, ...) GCC_FMT_ATTR(2, 3);
+>  
+>  #define XEN_PT_ERR(d, _f, _a...) xen_pt_log(d, "%s: Error: "_f, __func__, ##_a)
+> @@ -322,10 +325,9 @@ extern void *pci_assign_dev_load_option_rom(PCIDevice *dev,
+>                                              unsigned int domain,
+>                                              unsigned int bus, unsigned int slot,
+>                                              unsigned int function);
+> -extern bool has_igd_gfx_passthru;
+>  static inline bool is_igd_vga_passthrough(XenHostPCIDevice *dev)
+>  {
+> -    return (has_igd_gfx_passthru
+> +    return (xen_igd_gfx_pt_enabled()
+>              && ((dev->class_code >> 0x8) == PCI_CLASS_DISPLAY_VGA));
+>  }
+>  int xen_pt_register_vga_regions(XenHostPCIDevice *dev);
+> diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+> index 6a9e3135e8f9..e0427158132f 100644
+> --- a/stubs/Makefile.objs
+> +++ b/stubs/Makefile.objs
+> @@ -40,6 +40,7 @@ stub-obj-y += target-get-monitor-def.o
+>  stub-obj-y += vmgenid.o
+>  stub-obj-y += xen-common.o
+>  stub-obj-y += xen-hvm.o
+> +stub-obj-$(CONFIG_XEN) += xen-pt.o
+>  stub-obj-y += pci-host-piix.o
+>  stub-obj-y += ram-block.o
+>  stub-obj-y += ramfb.o
+> diff --git a/stubs/xen-pt.c b/stubs/xen-pt.c
+> new file mode 100644
+> index 000000000000..2d8cac8d54b9
+> --- /dev/null
+> +++ b/stubs/xen-pt.c
+> @@ -0,0 +1,22 @@
+> +/*
+> + * Copyright (C) 2020       Citrix Systems UK Ltd.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/xen/xen_pt.h"
+> +#include "qapi/error.h"
+> +
+> +bool xen_igd_gfx_pt_enabled(void)
+> +{
+> +    return false;
+> +}
+> +
+> +void xen_igd_gfx_pt_set(bool value, Error **errp)
+> +{
+> +    if (value) {
+> +        error_setg(errp, "Xen PCI passthrough support not built in");
+> +    }
+> +}
+> 
 
 
