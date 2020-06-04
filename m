@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A0A1EE734
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 17:02:19 +0200 (CEST)
-Received: from localhost ([::1]:42244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CF81EE786
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 17:17:17 +0200 (CEST)
+Received: from localhost ([::1]:54558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgrNq-0007rM-7h
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 11:02:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41914)
+	id 1jgrcJ-0006di-HQ
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 11:17:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jgrMa-0007IC-N3
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 11:01:02 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39856)
+ id 1jgraG-0005dy-9a
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 11:15:08 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jgrMY-00066J-ED
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 11:01:00 -0400
+ id 1jgraF-0001ig-Bf
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 11:15:08 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jgrMV-0000yn-V4
- for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 15:00:55 +0000
+ id 1jgraD-0003v0-CU
+ for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 15:15:05 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E6D2D2E810B
- for <qemu-devel@nongnu.org>; Thu,  4 Jun 2020 15:00:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 07E732E810A
+ for <qemu-devel@nongnu.org>; Thu,  4 Jun 2020 15:15:05 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 04 Jun 2020 14:55:00 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1777235@bugs.launchpad.net>
+Date: Thu, 04 Jun 2020 14:59:05 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <714629@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: bios
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gersner lorenz-x philmd
-X-Launchpad-Bug-Reporter: Shimi Gersner (gersner)
+X-Launchpad-Bug-Commenters: matthew-bytemark philmd
+X-Launchpad-Bug-Reporter: Matthew Bloch (matthew-bytemark)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
-References: <152914985958.7724.174010690226549747.malonedeb@wampee.canonical.com>
-Message-Id: <159128250018.32027.2591362708102690584.malone@gac.canonical.com>
-Subject: [Bug 1777235] Re: NVME is missing support for Get Log Page command
+References: <20110207145820.11575.25260.malonedeb@soybean.canonical.com>
+Message-Id: <159128274555.31406.6571417082542207594.malone@gac.canonical.com>
+Subject: [Bug 714629] Re: BIOS doesn't load when read() returns less than the
+ full ROM length
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ab8b6a4e1d758ebaf240ff3d648c1a5c9f002ecf
+X-Launchpad-Hash: e0024cbfed2d9adada497bb19d6a543cfd27e642
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 10:55:42
@@ -73,31 +76,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1777235 <1777235@bugs.launchpad.net>
+Reply-To: Bug 714629 <714629@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Lorenz,
-Can you send your patch to the mailing list adding your Signed-off-by tag?
-See:
-https://wiki.qemu.org/Contribute/SubmitAPatch#Submitting_your_Patches
+This seems to have been fixed by commit
+1f40547f5ce0c135faa7d14f066b97002fd8c204.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1777235
+https://bugs.launchpad.net/bugs/714629
 
 Title:
-  NVME is missing support for Get Log Page command
+  BIOS doesn't load when read() returns less than the full ROM length
 
 Status in QEMU:
-  New
+  Fix Released
 
 Bug description:
-  "Get Log Page" is a mandatory admin command by the specification (NVMe
-  1.2, Section 5, Figure 40) currently not implemented by device.
+  When qemu is running over a 9p filesystem (e.g. when running
+  underneath -virtfs of another qemu), and probably some other network
+  filesystems, it fails to read its BIOS image.  This is because it uses
+  a single low-level read() call on the bios.bin, asking for the full
+  file.  However read() may return less than the full length, and it's
+  the caller's responsibility to call it repeatedly if necessary.  When
+  read does come up short, qemu doesn't repeat the call, and reports an
+  error instead.  The attached patch fixes the one problem I saw, but I
+  haven't tried to cover the general case (e.g. extension ROMs).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1777235/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/714629/+subscriptions
 
