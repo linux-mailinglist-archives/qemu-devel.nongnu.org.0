@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1101EDD8A
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:51:22 +0200 (CEST)
-Received: from localhost ([::1]:60210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D14E1EDD8E
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:53:35 +0200 (CEST)
+Received: from localhost ([::1]:34174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgjij-0003Ej-R0
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:51:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40432)
+	id 1jgjks-0004KR-7g
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:53:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgjfb-0007XQ-Fi
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:48:07 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44699
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgjk2-0003qg-B9
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:52:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28939
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgjfa-0001Vu-Fv
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:48:07 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgjk0-0002Hc-Te
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:52:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591253285;
+ s=mimecast20190719; t=1591253559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Mo8vRnVpvyrzXL3ppxByau5If54VpLWTECZ2cQnoX9A=;
- b=F2STnMDuFauVuBWDfPFDOrQShtLxbtc/vXf9LAE4GYetY81AjQuD68a6f6HZz9RH836xQR
- bh+Qaen+TdzozEuixtyVxZ5WRp2OynbeOP82UF2s9sjaKzORClqRDTlO27Tpn6j8o8MQdb
- TW4zVRdYQFKnkQGZbehg6wobzDTiMWE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-FEEongpwPFqidMNELGDrxg-1; Thu, 04 Jun 2020 02:48:03 -0400
-X-MC-Unique: FEEongpwPFqidMNELGDrxg-1
-Received: by mail-wr1-f71.google.com with SMTP id f4so2006990wrp.21
- for <qemu-devel@nongnu.org>; Wed, 03 Jun 2020 23:48:03 -0700 (PDT)
+ bh=KEL0yA6tnzflu3BRb5G//Jy1AvSu0jeBn74uDKB4n08=;
+ b=Hxhy+UDqnflokd6zvlKClj5qYPRYKN3Xd2ahNN47oDKrh4jpgq8W5g09quaPI+B5x5hq8w
+ SEA/RR8gNC0hQ8B7u1z8aaO1+xKjda31VZLirh3x1LciyPTa2NlbvECojDSoT2zxkxDusD
+ k4rH0oJL9pc24/R6LREO7958w+nCRR8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-24-ZI4iwi2-MrmVZHKHbrhyxQ-1; Thu, 04 Jun 2020 02:52:37 -0400
+X-MC-Unique: ZI4iwi2-MrmVZHKHbrhyxQ-1
+Received: by mail-wm1-f72.google.com with SMTP id 11so1446251wmj.6
+ for <qemu-devel@nongnu.org>; Wed, 03 Jun 2020 23:52:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=Mo8vRnVpvyrzXL3ppxByau5If54VpLWTECZ2cQnoX9A=;
- b=bCucbBfxxY/NwjKodBLsWIt4UMeDHyszehaa+AFPnc0bTAHDtSe98oGB19x2Qqn6Sm
- o93LpHAgxWBlsjsTwAsXO5Wp8u0qfh0UeZd4uWVbgT0gHtjvPfJ7VMBr9xlwKrYtOYtH
- TtuXuKb6KzzjhxF5pi45Muy/T4cTF3AkatUxFlqxutzbP2GpYakXtjkEdSxm5JPyF7jz
- jWmkqqg3rr52WESc25GwlShTcTnRY5Qm1LyDyfDCME018npU5kA5boytuTGOv0+kJLjP
- sbt+lHvgTZ65oEdNJfPn9cI8Ar0mPXeCKXy4eH/NHTTr34ZuCWUyJSyVUEMUlLfthX+0
- PJzg==
-X-Gm-Message-State: AOAM531HK50ZvgDvxpXGWADHLOvuSLZA8NDRiuhsXDPugs29rnaBx5eD
- WPLTfHyshpR73v3yGPJ0Ybz5Rd35AZMsE0GxI0h+lJ+4NXBt3ASu6Xjd4BrNm3qNWTVXfLjSNk7
- gImnKYiOFmNdaYNg=
-X-Received: by 2002:a1c:154:: with SMTP id 81mr2477402wmb.23.1591253282548;
- Wed, 03 Jun 2020 23:48:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyWc+sKUkZu4AhYSCwSJGfLHoA0F427dpBfY3GigSmZwnSkwvPhDihoMJw/Q3AisE1u48TbHw==
-X-Received: by 2002:a1c:154:: with SMTP id 81mr2477380wmb.23.1591253282270;
- Wed, 03 Jun 2020 23:48:02 -0700 (PDT)
+ bh=KEL0yA6tnzflu3BRb5G//Jy1AvSu0jeBn74uDKB4n08=;
+ b=FDwu2SiYj1jsmt68YqhoHxOF3TeMPv3OXeMeBh0g6uGNFkhlRX3YBMPpN2gol3p/JK
+ 8nFDwM6b1X8AE4k/iGuFsDY7tDUHkaI3hrYcFJxtvBi8A0sFK/KCSJ0Fa6i8hhpUv5/C
+ QIajGGCjNiNNCAT2IfFTqRyml4O8O5z02L2MTC2yeewK5mHOxrVho9JG8sUXeBiibA2f
+ JhJmhgbY0V96lz7MyOgQ9QokR88J7HPCd+BkeGQLEeU+uoQ+t+UZop75j72wKyjOylbR
+ VcIqtrbM+ttO5Z29cp6HCpMuLoZscJRpwoiMaFf73bnYMjEpGfiPIn2lDb504IccJUG5
+ lJ3g==
+X-Gm-Message-State: AOAM531beSeUtDh7x4OAtSy4fQcjUFP245kyQqU23DUoU9GjxIo4fXo9
+ m5dOHjrx8OmydQSAf7b9VqTykrNwX6GzHER0CS+ZnNIRzKyeeYjue7A9UMvtYALaifxy0ObN5wQ
+ ZdkoeUC0YVO7tcXA=
+X-Received: by 2002:adf:e887:: with SMTP id d7mr2874008wrm.62.1591253556420;
+ Wed, 03 Jun 2020 23:52:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxSqORaGTcteDKFiAR3wMEG+9PN6mQDX9VJIvGWQdKCgZ+s3JAGp/nkUfuFt2oozneGrf2Utg==
+X-Received: by 2002:adf:e887:: with SMTP id d7mr2873986wrm.62.1591253556179;
+ Wed, 03 Jun 2020 23:52:36 -0700 (PDT)
 Received: from [192.168.1.43] (181.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id j190sm5930056wmb.33.2020.06.03.23.48.01
+ by smtp.gmail.com with ESMTPSA id z16sm6543674wrm.70.2020.06.03.23.52.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Jun 2020 23:48:01 -0700 (PDT)
-Subject: Re: [PATCH 06/13] i386: hvf: Use IP from CPUX86State
-To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
-References: <20200528193758.51454-1-r.bolshakov@yadro.com>
- <20200528193758.51454-7-r.bolshakov@yadro.com>
+ Wed, 03 Jun 2020 23:52:35 -0700 (PDT)
+Subject: Re: [PATCH 5/9] target/i386: sev: Partial cleanup to sev_state global
+To: David Gibson <david@gibson.dropbear.id.au>, rth@twiddle.net,
+ pbonzini@redhat.com, ekabkost@redhat.com, qemu-devel@nongnu.org
+References: <20200604064219.436242-1-david@gibson.dropbear.id.au>
+ <20200604064219.436242-6-david@gibson.dropbear.id.au>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -87,20 +88,20 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <a2911f10-b199-5c9b-c704-4e5457afd1bb@redhat.com>
-Date: Thu, 4 Jun 2020 08:47:59 +0200
+Message-ID: <32902884-75c1-7221-6dc7-012a9248ca21@redhat.com>
+Date: Thu, 4 Jun 2020 08:52:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200528193758.51454-7-r.bolshakov@yadro.com>
+In-Reply-To: <20200604064219.436242-6-david@gibson.dropbear.id.au>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:31:23
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:12:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -121,70 +122,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Cameron Esfahani <dirty@apple.com>, Richard Henderson <rth@twiddle.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>, brijesh.singh@amd.com,
+ dgilbert@redhat.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/28/20 9:37 PM, Roman Bolshakov wrote:
-> Drop and replace rip field from HVFX86EmulatorState in favor of eip from
-> common CPUX86State.
+On 6/4/20 8:42 AM, David Gibson wrote:
+> The SEV code uses a pretty ugly global to access its internal state.  Now
+> that SEVState is embedded in SevGuestState, we can avoid accessing it via
+> the global in some cases.  In the remaining cases use a new global
+> referencing the containing SevGuestState which will simplify some future
+> transformations.
 > 
-> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/i386/hvf/hvf.c        |  6 +--
->  target/i386/hvf/x86.h        |  3 --
->  target/i386/hvf/x86_decode.c |  6 +--
->  target/i386/hvf/x86_emu.c    | 86 ++++++++++++++++++------------------
->  target/i386/hvf/x86_task.c   |  4 +-
->  5 files changed, 51 insertions(+), 54 deletions(-)
-> 
-[...]
-> diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
-> index 56fcde13c6..e3ab7c5137 100644
-> --- a/target/i386/hvf/x86.h
-> +++ b/target/i386/hvf/x86.h
-> @@ -294,7 +294,6 @@ typedef struct lazy_flags {
->  /* Definition of hvf_x86_state is here */
->  struct HVFX86EmulatorState {
->      uint64_t fetch_rip;
-> -    uint64_t rip;
->      struct x86_register regs[16];
->      struct x86_reg_flags   rflags;
->      struct lazy_flags   lflags;
-> @@ -302,8 +301,6 @@ struct HVFX86EmulatorState {
->  };
->  
->  /* useful register access  macros */
-> -#define RIP(cpu)    (cpu->hvf_emul->rip)
-> -#define EIP(cpu)    ((uint32_t)cpu->hvf_emul->rip)
->  #define RFLAGS(cpu) (cpu->hvf_emul->rflags.rflags)
->  #define EFLAGS(cpu) (cpu->hvf_emul->rflags.eflags)
->  
-[...]
-> diff --git a/target/i386/hvf/x86_task.c b/target/i386/hvf/x86_task.c
-> index 1daac6cc2b..834baec3ea 100644
-> --- a/target/i386/hvf/x86_task.c
-> +++ b/target/i386/hvf/x86_task.c
-> @@ -38,7 +38,7 @@ static void save_state_to_tss32(CPUState *cpu, struct x86_tss_segment32 *tss)
->      CPUX86State *env = &x86_cpu->env;
->  
->      /* CR3 and ldt selector are not saved intentionally */
-> -    tss->eip = EIP(env);
-> +    tss->eip = (uint32_t)env->eip;
->      tss->eflags = EFLAGS(env);
->      tss->eax = EAX(env);
->      tss->ecx = ECX(env);
-> @@ -64,7 +64,7 @@ static void load_state_from_tss32(CPUState *cpu, struct x86_tss_segment32 *tss)
->  
->      wvmcs(cpu->hvf_fd, VMCS_GUEST_CR3, tss->cr3);
->  
-> -    RIP(env) = tss->eip;
-> +    env->eip = tss->eip;
->      EFLAGS(env) = tss->eflags | 2;
->  
->      /* General purpose registers */
-> 
+>  target/i386/sev.c | 92 ++++++++++++++++++++++++-----------------------
+>  1 file changed, 48 insertions(+), 44 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
