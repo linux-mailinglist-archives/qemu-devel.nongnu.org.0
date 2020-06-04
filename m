@@ -2,48 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875AB1EE08D
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 11:08:05 +0200 (CEST)
-Received: from localhost ([::1]:49580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 239401EE0AC
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 11:09:56 +0200 (CEST)
+Received: from localhost ([::1]:55068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jglr2-00026X-KF
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 05:08:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53478)
+	id 1jglsp-0004Sd-2v
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 05:09:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jglps-0000Ot-2J
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:06:52 -0400
-Received: from mx2.suse.de ([195.135.220.15]:60868)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jgls2-0003uh-0B
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:09:06 -0400
+Received: from 2.mo179.mail-out.ovh.net ([178.33.250.45]:34077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1jglpq-0005En-2m
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:06:51 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id D976FAC46;
- Thu,  4 Jun 2020 09:06:51 +0000 (UTC)
-Subject: Re: [PATCH 06/13] i386: hvf: Use IP from CPUX86State
-To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
-References: <20200528193758.51454-1-r.bolshakov@yadro.com>
- <20200528193758.51454-7-r.bolshakov@yadro.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <9e0f0355-73d4-33af-3a1b-a96e64006877@suse.de>
-Date: Thu, 4 Jun 2020 11:06:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jgls0-0005nR-W0
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:09:05 -0400
+Received: from player711.ha.ovh.net (unknown [10.110.103.121])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id 3876C16D247
+ for <qemu-devel@nongnu.org>; Thu,  4 Jun 2020 11:08:53 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player711.ha.ovh.net (Postfix) with ESMTPSA id 7121712DFA0B3;
+ Thu,  4 Jun 2020 09:08:31 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R0053139fd52-1911-4642-b917-db792ecb09ea,0E78B47C015AB62E5F4E4B3B4EB6DB016BBCF3B5)
+ smtp.auth=groug@kaod.org
+Date: Thu, 4 Jun 2020 11:08:21 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [RFC v2 00/18] Refactor configuration of guest memory protection
+Message-ID: <20200604105228.2cb311d3@kaod.org>
+In-Reply-To: <20200604064414.GI228651@umbus.fritz.box>
+References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
+ <87tuzr5ts5.fsf@morokweng.localdomain>
+ <20200604064414.GI228651@umbus.fritz.box>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200528193758.51454-7-r.bolshakov@yadro.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 00:26:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+Content-Type: multipart/signed; boundary="Sig_/T8M54mOA9k=ZBfZa=7RzYIy";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Ovh-Tracer-Id: 13412845592681355750
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudeguddguddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtsehgtderreertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeggfekuddvuddtgfekkeejleegjeffheduuefhledtteeftdfhffdtgfegiefhvdenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeduuddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=178.33.250.45; envelope-from=groug@kaod.org;
+ helo=2.mo179.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 05:08:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,497 +66,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Cameron Esfahani <dirty@apple.com>, Richard Henderson <rth@twiddle.net>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, "Michael
+ S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, dgilbert@redhat.com,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ mdroth@linux.vnet.ibm.com, Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Roman,
+--Sig_/T8M54mOA9k=ZBfZa=7RzYIy
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On 5/28/20 9:37 PM, Roman Bolshakov wrote:
-> Drop and replace rip field from HVFX86EmulatorState in favor of eip from
-> common CPUX86State.
-> 
-> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> ---
->  target/i386/hvf/hvf.c        |  6 +--
->  target/i386/hvf/x86.h        |  3 --
->  target/i386/hvf/x86_decode.c |  6 +--
->  target/i386/hvf/x86_emu.c    | 86 ++++++++++++++++++------------------
->  target/i386/hvf/x86_task.c   |  4 +-
->  5 files changed, 51 insertions(+), 54 deletions(-)
-> 
-> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-> index 8ff1d25521..45ae55dd27 100644
-> --- a/target/i386/hvf/hvf.c
-> +++ b/target/i386/hvf/hvf.c
-> @@ -797,7 +797,7 @@ int hvf_vcpu_exec(CPUState *cpu)
->                  } else {
->                      RAX(env) = (uint64_t)val;
->                  }
-> -                RIP(env) += ins_len;
-> +                env->eip += ins_len;
->                  store_regs(cpu);
->                  break;
->              } else if (!string && !in) {
-> @@ -871,7 +871,7 @@ int hvf_vcpu_exec(CPUState *cpu)
->              } else {
->                  simulate_wrmsr(cpu);
->              }
-> -            RIP(env) += ins_len;
-> +            env->eip += ins_len;
->              store_regs(cpu);
->              break;
->          }
-> @@ -907,7 +907,7 @@ int hvf_vcpu_exec(CPUState *cpu)
->                  error_report("Unrecognized CR %d", cr);
->                  abort();
->              }
-> -            RIP(env) += ins_len;
-> +            env->eip += ins_len;
->              store_regs(cpu);
->              break;
->          }
-> diff --git a/target/i386/hvf/x86.h b/target/i386/hvf/x86.h
-> index 56fcde13c6..e3ab7c5137 100644
-> --- a/target/i386/hvf/x86.h
-> +++ b/target/i386/hvf/x86.h
-> @@ -294,7 +294,6 @@ typedef struct lazy_flags {
->  /* Definition of hvf_x86_state is here */
->  struct HVFX86EmulatorState {
->      uint64_t fetch_rip;
-> -    uint64_t rip;
->      struct x86_register regs[16];
->      struct x86_reg_flags   rflags;
->      struct lazy_flags   lflags;
-> @@ -302,8 +301,6 @@ struct HVFX86EmulatorState {
->  };
->  
->  /* useful register access  macros */
-> -#define RIP(cpu)    (cpu->hvf_emul->rip)
-> -#define EIP(cpu)    ((uint32_t)cpu->hvf_emul->rip)
->  #define RFLAGS(cpu) (cpu->hvf_emul->rflags.rflags)
->  #define EFLAGS(cpu) (cpu->hvf_emul->rflags.eflags)
->  
-> diff --git a/target/i386/hvf/x86_decode.c b/target/i386/hvf/x86_decode.c
-> index 77c346605f..a590088f54 100644
-> --- a/target/i386/hvf/x86_decode.c
-> +++ b/target/i386/hvf/x86_decode.c
-> @@ -75,7 +75,7 @@ static inline uint64_t decode_bytes(CPUX86State *env, struct x86_decode *decode,
->          VM_PANIC_EX("%s invalid size %d\n", __func__, size);
->          break;
->      }
-> -    target_ulong va  = linear_rip(env_cpu(env), RIP(env)) + decode->len;
-> +    target_ulong va  = linear_rip(env_cpu(env), env->eip) + decode->len;
->      vmx_read_mem(env_cpu(env), &val, va, size);
->      decode->len += size;
->      
-> @@ -1771,7 +1771,7 @@ void calc_modrm_operand32(CPUX86State *env, struct x86_decode *decode,
->          ptr += get_sib_val(env, decode, &seg);
->      } else if (!decode->modrm.mod && 5 == decode->modrm.rm) {
->          if (x86_is_long_mode(env_cpu(env))) {
-> -            ptr += RIP(env) + decode->len;
-> +            ptr += env->eip + decode->len;
->          } else {
->              ptr = decode->displacement;
->          }
-> @@ -1807,7 +1807,7 @@ void calc_modrm_operand64(CPUX86State *env, struct x86_decode *decode,
->      if (4 == rm) {
->          ptr = get_sib_val(env, decode, &seg) + offset;
->      } else if (0 == mod && 5 == rm) {
-> -        ptr = RIP(env) + decode->len + (int32_t) offset;
-> +        ptr = env->eip + decode->len + (int32_t) offset;
->      } else {
->          ptr = get_reg_val(env, src, decode->rex.rex, decode->rex.b, 8) +
->                (int64_t) offset;
-> diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
-> index 92ab815f5d..0efd9f9928 100644
-> --- a/target/i386/hvf/x86_emu.c
-> +++ b/target/i386/hvf/x86_emu.c
-> @@ -267,49 +267,49 @@ static void exec_mov(struct CPUX86State *env, struct x86_decode *decode)
->      write_val_ext(env, decode->op[0].ptr, decode->op[1].val,
->                    decode->operand_size);
->  
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_add(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      EXEC_2OP_FLAGS_CMD(env, decode, +, SET_FLAGS_OSZAPC_ADD, true);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_or(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      EXEC_2OP_FLAGS_CMD(env, decode, |, SET_FLAGS_OSZAPC_LOGIC, true);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_adc(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      EXEC_2OP_FLAGS_CMD(env, decode, +get_CF(env)+, SET_FLAGS_OSZAPC_ADD, true);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_sbb(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      EXEC_2OP_FLAGS_CMD(env, decode, -get_CF(env)-, SET_FLAGS_OSZAPC_SUB, true);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_and(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      EXEC_2OP_FLAGS_CMD(env, decode, &, SET_FLAGS_OSZAPC_LOGIC, true);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_sub(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      EXEC_2OP_FLAGS_CMD(env, decode, -, SET_FLAGS_OSZAPC_SUB, true);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_xor(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      EXEC_2OP_FLAGS_CMD(env, decode, ^, SET_FLAGS_OSZAPC_LOGIC, true);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_neg(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -332,13 +332,13 @@ static void exec_neg(struct CPUX86State *env, struct x86_decode *decode)
->      }
->  
->      /*lflags_to_rflags(env);*/
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_cmp(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      EXEC_2OP_FLAGS_CMD(env, decode, -, SET_FLAGS_OSZAPC_SUB, false);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_inc(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -348,7 +348,7 @@ static void exec_inc(struct CPUX86State *env, struct x86_decode *decode)
->  
->      EXEC_2OP_FLAGS_CMD(env, decode, +1+, SET_FLAGS_OSZAP_ADD, true);
->  
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_dec(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -357,13 +357,13 @@ static void exec_dec(struct CPUX86State *env, struct x86_decode *decode)
->      decode->op[1].val = 0;
->  
->      EXEC_2OP_FLAGS_CMD(env, decode, -1-, SET_FLAGS_OSZAP_SUB, true);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_tst(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      EXEC_2OP_FLAGS_CMD(env, decode, &, SET_FLAGS_OSZAPC_LOGIC, false);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_not(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -372,7 +372,7 @@ static void exec_not(struct CPUX86State *env, struct x86_decode *decode)
->  
->      write_val_ext(env, decode->op[0].ptr, ~decode->op[0].val,
->                    decode->operand_size);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  void exec_movzx(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -392,7 +392,7 @@ void exec_movzx(struct CPUX86State *env, struct x86_decode *decode)
->      decode->op[1].val = read_val_ext(env, decode->op[1].ptr, src_op_size);
->      write_val_ext(env, decode->op[0].ptr, decode->op[1].val, op_size);
->  
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_out(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -416,7 +416,7 @@ static void exec_out(struct CPUX86State *env, struct x86_decode *decode)
->          VM_PANIC("Bad out opcode\n");
->          break;
->      }
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_in(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -452,7 +452,7 @@ static void exec_in(struct CPUX86State *env, struct x86_decode *decode)
->          break;
->      }
->  
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static inline void string_increment_reg(struct CPUX86State *env, int reg,
-> @@ -505,7 +505,7 @@ static void exec_ins(struct CPUX86State *env, struct x86_decode *decode)
->          exec_ins_single(env, decode);
->      }
->  
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_outs_single(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -528,7 +528,7 @@ static void exec_outs(struct CPUX86State *env, struct x86_decode *decode)
->          exec_outs_single(env, decode);
->      }
->  
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_movs_single(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -556,7 +556,7 @@ static void exec_movs(struct CPUX86State *env, struct x86_decode *decode)
->          exec_movs_single(env, decode);
->      }
->  
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_cmps_single(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -586,7 +586,7 @@ static void exec_cmps(struct CPUX86State *env, struct x86_decode *decode)
->      } else {
->          exec_cmps_single(env, decode);
->      }
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  
-> @@ -612,7 +612,7 @@ static void exec_stos(struct CPUX86State *env, struct x86_decode *decode)
->          exec_stos_single(env, decode);
->      }
->  
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_scas_single(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -638,7 +638,7 @@ static void exec_scas(struct CPUX86State *env, struct x86_decode *decode)
->          exec_scas_single(env, decode);
->      }
->  
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_lods_single(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -661,7 +661,7 @@ static void exec_lods(struct CPUX86State *env, struct x86_decode *decode)
->          exec_lods_single(env, decode);
->      }
->  
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  void simulate_rdmsr(struct CPUState *cpu)
-> @@ -758,7 +758,7 @@ void simulate_rdmsr(struct CPUState *cpu)
->  static void exec_rdmsr(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      simulate_rdmsr(env_cpu(env));
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  void simulate_wrmsr(struct CPUState *cpu)
-> @@ -853,7 +853,7 @@ void simulate_wrmsr(struct CPUState *cpu)
->  static void exec_wrmsr(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      simulate_wrmsr(env_cpu(env));
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  /*
-> @@ -909,25 +909,25 @@ static void do_bt(struct CPUX86State *env, struct x86_decode *decode, int flag)
->  static void exec_bt(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      do_bt(env, decode, 0);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_btc(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      do_bt(env, decode, 1);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_btr(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      do_bt(env, decode, 3);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_bts(struct CPUX86State *env, struct x86_decode *decode)
->  {
->      do_bt(env, decode, 2);
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  void exec_shl(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -991,7 +991,7 @@ void exec_shl(struct CPUX86State *env, struct x86_decode *decode)
->  
->  exit:
->      /* lflags_to_rflags(env); */
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  void exec_movsx(CPUX86State *env, struct x86_decode *decode)
-> @@ -1014,7 +1014,7 @@ void exec_movsx(CPUX86State *env, struct x86_decode *decode)
->  
->      write_val_ext(env, decode->op[0].ptr, decode->op[1].val, op_size);
->  
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  void exec_ror(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -1092,7 +1092,7 @@ void exec_ror(struct CPUX86State *env, struct x86_decode *decode)
->          break;
->          }
->      }
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  void exec_rol(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -1173,7 +1173,7 @@ void exec_rol(struct CPUX86State *env, struct x86_decode *decode)
->          break;
->          }
->      }
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  
-> @@ -1259,7 +1259,7 @@ void exec_rcl(struct CPUX86State *env, struct x86_decode *decode)
->          break;
->          }
->      }
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  void exec_rcr(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -1334,7 +1334,7 @@ void exec_rcr(struct CPUX86State *env, struct x86_decode *decode)
->          break;
->          }
->      }
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_xchg(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -1346,7 +1346,7 @@ static void exec_xchg(struct CPUX86State *env, struct x86_decode *decode)
->      write_val_ext(env, decode->op[1].ptr, decode->op[0].val,
->                    decode->operand_size);
->  
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static void exec_xadd(struct CPUX86State *env, struct x86_decode *decode)
-> @@ -1355,7 +1355,7 @@ static void exec_xadd(struct CPUX86State *env, struct x86_decode *decode)
->      write_val_ext(env, decode->op[1].ptr, decode->op[0].val,
->                    decode->operand_size);
->  
-> -    RIP(env) += decode->len;
-> +    env->eip += decode->len;
->  }
->  
->  static struct cmd_handler {
-> @@ -1434,7 +1434,7 @@ void load_regs(struct CPUState *cpu)
->  
->      RFLAGS(env) = rreg(cpu->hvf_fd, HV_X86_RFLAGS);
->      rflags_to_lflags(env);
-> -    RIP(env) = rreg(cpu->hvf_fd, HV_X86_RIP);
-> +    env->eip = rreg(cpu->hvf_fd, HV_X86_RIP);
->  }
->  
->  void store_regs(struct CPUState *cpu)
-> @@ -1457,20 +1457,20 @@ void store_regs(struct CPUState *cpu)
->  
->      lflags_to_rflags(env);
->      wreg(cpu->hvf_fd, HV_X86_RFLAGS, RFLAGS(env));
-> -    macvm_set_rip(cpu, RIP(env));
-> +    macvm_set_rip(cpu, env->eip);
->  }
->  
->  bool exec_instruction(struct CPUX86State *env, struct x86_decode *ins)
->  {
->      /*if (hvf_vcpu_id(cpu))
-> -    printf("%d, %llx: exec_instruction %s\n", hvf_vcpu_id(cpu),  RIP(cpu),
-> +    printf("%d, %llx: exec_instruction %s\n", hvf_vcpu_id(cpu),  env->eip,
->            decode_cmd_to_string(ins->cmd));*/
->  
->      if (!_cmd_handler[ins->cmd].handler) {
-> -        printf("Unimplemented handler (%llx) for %d (%x %x) \n", RIP(env),
-> +        printf("Unimplemented handler (%llx) for %d (%x %x) \n", env->eip,
+On Thu, 4 Jun 2020 16:44:14 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
+> On Thu, Jun 04, 2020 at 01:39:22AM -0300, Thiago Jung Bauermann wrote:
+> >=20
+> > Hello David,
+> >=20
+> > David Gibson <david@gibson.dropbear.id.au> writes:
+> >=20
+> > > A number of hardware platforms are implementing mechanisms whereby the
+> > > hypervisor does not have unfettered access to guest memory, in order
+> > > to mitigate the security impact of a compromised hypervisor.
+> > >
+> > > AMD's SEV implements this with in-cpu memory encryption, and Intel has
+> > > its own memory encryption mechanism.  POWER has an upcoming mechanism
+> > > to accomplish this in a different way, using a new memory protection
+> > > level plus a small trusted ultravisor.  s390 also has a protected
+> > > execution environment.
+> > >
+> > > The current code (committed or draft) for these features has each
+> > > platform's version configured entirely differently.  That doesn't seem
+> > > ideal for users, or particularly for management layers.
+> > >
+> > > AMD SEV introduces a notionally generic machine option
+> > > "machine-encryption", but it doesn't actually cover any cases other
+> > > than SEV.
+> > >
+> > > This series is a proposal to at least partially unify configuration
+> > > for these mechanisms, by renaming and generalizing AMD's
+> > > "memory-encryption" property.  It is replaced by a
+> > > "guest-memory-protection" property pointing to a platform specific
+> > > object which configures and manages the specific details.
+> > >
+> > > For now this series covers just AMD SEV and POWER PEF.  I'm hoping it
+> >=20
+> > Thank you very much for this series! Using a machine property is a nice
+> > way of configuring this.
+> >=20
+> > >From an end-user perspective, `-M pseries,guest-memory-protection` in
+> > the command line already expresses everything that QEMU needs to know,
+> > so having to add `-object pef-guest,id=3Dpef0` seems a bit redundant. Is
+> > it possible to make QEMU create the pef-guest object behind the scenes
+> > when the guest-memory-protection property is specified?
+> >=20
+> > Regardless, I was able to successfuly launch POWER PEF guests using
+> > these patches:
+> >=20
+> > Tested-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+> >=20
+> > > can be extended to cover the Intel and s390 mechanisms as well,
+> > > though.
+> > >
+> > > Note: I'm using the term "guest memory protection" throughout to refer
+> > > to mechanisms like this.  I don't particular like the term, it's both
+> > > long and not really precise.  If someone can think of a succinct way
+> > > of saying "a means of protecting guest memory from a possibly
+> > > compromised hypervisor", I'd be grateful for the suggestion.
+> >=20
+> > Is "opaque guest memory" any better? It's slightly shorter, and slightly
+> > more precise about what the main characteristic this guest property con=
+veys.
+>=20
+> That's not a bad one, but for now I'm going with "host trust
+> limitation", since this might end up covering things other than just
+> memory protection.
+>=20
 
+Any idea what these other things might be ? It seems a bit hard to
+decide of a proper name without a broader picture at this point.
 
+--Sig_/T8M54mOA9k=ZBfZa=7RzYIy
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-this space before \n is what checkpatch is complaining about.
+-----BEGIN PGP SIGNATURE-----
 
-Ciao,
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl7YugUACgkQcdTV5YIv
+c9YaHRAAsCGaQhAxkJQswzk2fB4NUMaNIjaDUka+MU/TxbgZuYyMNrvklAyPjG/a
+Rzr281IzBU907eLOuP3KM0jf3enSdU3DpfD1fll2Dzw9eSgNphvMrCf4xkD4wcad
+rSkID8GRegn4KbK7GL4xCFdvPE1egiAwVRjPMkJi9yVDdPgRkhufIlswWoN5Mhx/
+ydKcdmjbP9fbKu5d9y6aa0D9Uw/lt1PpIbU8yHJnOuRz9HBROCx5CJ8mD9IgSgd8
+IWums28UJKvVwq+zJojQButne51nVkHjn9yY2VxW3WAj7JpjHBdm4o3VdbeNFUTm
+MXaYmCBMcuwTxMrqxXvR32byRhRCHw/2q6PkEAUkxa0SHBIsqjhmU+mUU0hgqrYt
+lPynCReqrJ2M0JabdYfrpXQvCTp6L7LmHBmzR/4wfMvF1PI1oKe4cp7uvDDpfXql
+NHfckWS5V+QQYq87YmriFP56aVxRNx6lmSGk3mXS6ohn01GJ9z2O3/LQY5pIFCxb
+fnTh58xb4y05+/+cQa85CWEa+HuGNxXA7p0DecHE5gEeG8imrNH7vu4SzSwcD5qO
+WmgGCNF1qftUZDOzWUQuj1mjwaaW0mnIYseqb41mFxpg6vvKeebmhbgObUx2N1by
+AkEqzB8IaCxO7/b7yYPyhv1R1aWIxEmBTQhJvr53nzWmAWSgupQ=
+=zeHm
+-----END PGP SIGNATURE-----
 
-CLaudio
-
->                  ins->cmd, ins->opcode[0],
->                  ins->opcode_len > 1 ? ins->opcode[1] : 0);
-> -        RIP(env) += ins->len;
-> +        env->eip += ins->len;
->          return true;
->      }
->  
-> diff --git a/target/i386/hvf/x86_task.c b/target/i386/hvf/x86_task.c
-> index 1daac6cc2b..834baec3ea 100644
-> --- a/target/i386/hvf/x86_task.c
-> +++ b/target/i386/hvf/x86_task.c
-> @@ -38,7 +38,7 @@ static void save_state_to_tss32(CPUState *cpu, struct x86_tss_segment32 *tss)
->      CPUX86State *env = &x86_cpu->env;
->  
->      /* CR3 and ldt selector are not saved intentionally */
-> -    tss->eip = EIP(env);
-> +    tss->eip = (uint32_t)env->eip;
->      tss->eflags = EFLAGS(env);
->      tss->eax = EAX(env);
->      tss->ecx = ECX(env);
-> @@ -64,7 +64,7 @@ static void load_state_from_tss32(CPUState *cpu, struct x86_tss_segment32 *tss)
->  
->      wvmcs(cpu->hvf_fd, VMCS_GUEST_CR3, tss->cr3);
->  
-> -    RIP(env) = tss->eip;
-> +    env->eip = tss->eip;
->      EFLAGS(env) = tss->eflags | 2;
->  
->      /* General purpose registers */
-> 
-
+--Sig_/T8M54mOA9k=ZBfZa=7RzYIy--
 
