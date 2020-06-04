@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC231EEBD6
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 22:24:22 +0200 (CEST)
-Received: from localhost ([::1]:53000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144461EEBED
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 22:26:22 +0200 (CEST)
+Received: from localhost ([::1]:33266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgwPV-0006Gs-Pn
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 16:24:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49436)
+	id 1jgwRR-0001qJ-3k
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 16:26:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgwNz-00040m-DJ
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgwNz-00042P-SK
  for qemu-devel@nongnu.org; Thu, 04 Jun 2020 16:22:47 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51978
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56501
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgwNy-0005Un-Ml
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgwNz-0005Uz-3H
  for qemu-devel@nongnu.org; Thu, 04 Jun 2020 16:22:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591302165;
+ s=mimecast20190719; t=1591302166;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4fk+MelxzBtEUkDkwDpmLT6Ud7EYaoQG87DV6PqOep4=;
- b=gqYdZZkqNkwnM+zp5GuDug9Kxfqv6CHKog2Rb+ba6BBf+Gsy4lqL1fmO+lXM4ehvb9DGc9
- i8ny4ifXBdzNA/KaJ9FMrm9FE8pUMY1pqWDNUSkZ3HhWjDwS9IyxOef3UE0PhwD9tTUr7I
- Iu/BLPkpEv3FA7wrxYlGKaOmImSrWrA=
+ bh=550l0y6cMuVFZ9yDHqjsncXPIXXkomnBdKzUAnASITk=;
+ b=Cmns5x+ZNm5rncOKgjQajHChaR4rjzXHCdk0ry1EBQiuizIqpfmmEtbiuvx0gvr/uc9opY
+ SmSzGR80R+efhzaunmOv1Au9s8+aarIPI4Cob1tPYKMhqdovP1n+NHYRLs3PT/zYDqlBHy
+ HW+VAM/FcZxy0mdoQfb8YM5v3v68pHI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-C7KrUWulMtatFYRnzwd7CQ-1; Thu, 04 Jun 2020 16:22:43 -0400
-X-MC-Unique: C7KrUWulMtatFYRnzwd7CQ-1
+ us-mta-440-0lAQmdoJOAWEyA_irvyV4g-1; Thu, 04 Jun 2020 16:22:44 -0400
+X-MC-Unique: 0lAQmdoJOAWEyA_irvyV4g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B360519200C1;
- Thu,  4 Jun 2020 20:22:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE061464;
+ Thu,  4 Jun 2020 20:22:43 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-117-188.rdu2.redhat.com [10.10.117.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC5455D9D3;
- Thu,  4 Jun 2020 20:22:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DA0445D9D3;
+ Thu,  4 Jun 2020 20:22:42 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/16] python/qmp.py: add casts to JSON deserialization
-Date: Thu,  4 Jun 2020 16:22:25 -0400
-Message-Id: <20200604202236.25039-6-jsnow@redhat.com>
+Subject: [PATCH v3 06/16] python/qmp.py: add QMPProtocolError
+Date: Thu,  4 Jun 2020 16:22:26 -0400
+Message-Id: <20200604202236.25039-7-jsnow@redhat.com>
 In-Reply-To: <20200604202236.25039-1-jsnow@redhat.com>
 References: <20200604202236.25039-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:31:23
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 12:22:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,59 +84,43 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mypy and python type hints are not powerful enough to properly describe
-JSON messages in Python 3.6. The best we can do, generally, is describe
-them as Dict[str, Any].
-
-Add casts to coerce this type for static analysis; but do NOT enforce
-this type at runtime in any way.
-
-Note: Python 3.8 adds a TypedDict construct which allows for the
-description of more arbitrary Dictionary shapes. There is a third-party
-module, "Pydantic", which is compatible with 3.6 that can be used
-instead of the JSON library that parses JSON messages to fully-typed
-Python objects, and may be preferable in some cases.
-
-(That is well beyond the scope of this commit or series.)
+In the case that we receive a reply but are unable to understand it, use
+this exception name to indicate that case.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- python/qemu/qmp.py | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ python/qemu/qmp.py | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-index ef3c919b76c..1ae36050a42 100644
+index 1ae36050a42..7935dababbf 100644
 --- a/python/qemu/qmp.py
 +++ b/python/qemu/qmp.py
-@@ -13,6 +13,7 @@
- import logging
- from typing import (
-     Any,
-+    cast,
-     Dict,
-     Optional,
-     TextIO,
-@@ -130,7 +131,10 @@ def __json_read(self, only_event=False):
-             data = self.__sockfile.readline()
-             if not data:
-                 return None
--            resp = json.loads(data)
-+            # By definition, any JSON received from QMP is a QMPMessage,
-+            # and we are asserting only at static analysis time that it
-+            # has a particular shape.
-+            resp: QMPMessage = json.loads(data)
-             if 'event' in resp:
-                 self.logger.debug("<<< %s", resp)
-                 self.__events.append(resp)
-@@ -262,7 +266,7 @@ def command(self, cmd, **kwds):
+@@ -62,6 +62,12 @@ class QMPTimeoutError(QMPError):
+     """
+ 
+ 
++class QMPProtocolError(QMPError):
++    """
++    QMP protocol error; unexpected response
++    """
++
++
+ class QMPResponseError(QMPError):
+     """
+     Represents erroneous QMP monitor reply
+@@ -266,6 +272,10 @@ def command(self, cmd, **kwds):
          ret = self.cmd(cmd, kwds)
          if 'error' in ret:
              raise QMPResponseError(ret)
--        return ret['return']
-+        return cast(QMPReturnValue, ret['return'])
++        if 'return' not in ret:
++            raise QMPProtocolError(
++                "'return' key not found in QMP response '{}'".format(str(ret))
++            )
+         return cast(QMPReturnValue, ret['return'])
  
      def pull_event(self, wait=False):
-         """
 -- 
 2.21.3
 
