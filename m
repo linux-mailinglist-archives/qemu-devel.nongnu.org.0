@@ -2,53 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925691EDD7A
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:46:26 +0200 (CEST)
-Received: from localhost ([::1]:37392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57ED41EDD52
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:41:20 +0200 (CEST)
+Received: from localhost ([::1]:51620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgjdx-00021t-Jx
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:46:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40158)
+	id 1jgjZ1-00044G-EX
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:41:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jgjc3-0008Af-Fk; Thu, 04 Jun 2020 02:44:27 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:49337)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1jgjXN-00031G-F3
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:39:37 -0400
+Received: from mga02.intel.com ([134.134.136.20]:14037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jgjc2-000127-Gb; Thu, 04 Jun 2020 02:44:27 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49cx8R3zJ9z9sV7; Thu,  4 Jun 2020 16:44:23 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1591253063;
- bh=Mc7WOmLvkTipmSQpkZ8c85cerVEcMMCMxKm/JInS22I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pi+L8mEw94m1b47hZrrzhV01IO+Y9HKptc7fdjSGP32vaR08vYjAM784unywZb5Yh
- 897QuM226e7RaBg60WRl6vVguBmR246YCnS1sp8wRyJaEWQvhrHna3FHS5Lo0eg423
- gayPUgNuJKVb8jAp6RBUplrx2tGVbHxJN6xeVu7g=
-Date: Thu, 4 Jun 2020 16:44:14 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Subject: Re: [RFC v2 00/18] Refactor configuration of guest memory protection
-Message-ID: <20200604064414.GI228651@umbus.fritz.box>
-References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
- <87tuzr5ts5.fsf@morokweng.localdomain>
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1jgjXM-0000DX-72
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:39:36 -0400
+IronPort-SDR: 9eoIggk7s3wMJXWeiR2/ze6MdENG3VtqI/s9or0enyTzTBcNragJU6iEfE4DVU+tde/2uB/mBq
+ xA2scGM4uoxw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jun 2020 23:39:34 -0700
+IronPort-SDR: JfGoEJlwwLFzzAFv/lpKDFsT0WE2gZ6vSYkpz1mLZzQv3Zj4gHNQG95XRQbqwSAJ1DE54SXgnf
+ cEDTrmsDExmQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,471,1583222400"; d="scan'208";a="445396140"
+Received: from unknown (HELO [10.239.13.113]) ([10.239.13.113])
+ by orsmga005.jf.intel.com with ESMTP; 03 Jun 2020 23:39:31 -0700
+Message-ID: <5ED898CE.9030305@intel.com>
+Date: Thu, 04 Jun 2020 14:46:38 +0800
+From: Wei Wang <wei.w.wang@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+ rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4BlIp4fARb6QCoOq"
-Content-Disposition: inline
-In-Reply-To: <87tuzr5ts5.fsf@morokweng.localdomain>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3] migration/xbzrle: add encoding rate
+References: <1588208375-19556-1-git-send-email-wei.w.wang@intel.com>
+ <CAFXwXrm4R5nxk6ruTJ2kP5dUnF7Qm3TfRRiKVAUDNA1uwYf65w@mail.gmail.com>
+ <5ED86344.4020505@intel.com>
+ <4b9cd244-0d96-d1c8-11ec-b61a6bc2bfaa@linaro.org>
+In-Reply-To: <4b9cd244-0d96-d1c8-11ec-b61a6bc2bfaa@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.20; envelope-from=wei.w.wang@intel.com;
+ helo=mga02.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 02:39:34
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,108 +69,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
+Cc: kevin.tian@intel.com, Juan Quintela <quintela@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ gloryxiao@tencent.com, yi.y.sun@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 06/04/2020 11:22 AM, Richard Henderson wrote:
+> On 6/3/20 7:58 PM, Wei Wang wrote:
+>> It is possible that encoded_size==0, but unencoded_size !=0. For example,
+>> a page is written with the same data that it already has.
+> That really contains 0 bytes?
+> Not even the ones that say "same data"?
 
---4BlIp4fARb6QCoOq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes. It's a just delta operation, the diff (encoded_size) is 0 in that case.
 
-On Thu, Jun 04, 2020 at 01:39:22AM -0300, Thiago Jung Bauermann wrote:
->=20
-> Hello David,
->=20
-> David Gibson <david@gibson.dropbear.id.au> writes:
->=20
-> > A number of hardware platforms are implementing mechanisms whereby the
-> > hypervisor does not have unfettered access to guest memory, in order
-> > to mitigate the security impact of a compromised hypervisor.
-> >
-> > AMD's SEV implements this with in-cpu memory encryption, and Intel has
-> > its own memory encryption mechanism.  POWER has an upcoming mechanism
-> > to accomplish this in a different way, using a new memory protection
-> > level plus a small trusted ultravisor.  s390 also has a protected
-> > execution environment.
-> >
-> > The current code (committed or draft) for these features has each
-> > platform's version configured entirely differently.  That doesn't seem
-> > ideal for users, or particularly for management layers.
-> >
-> > AMD SEV introduces a notionally generic machine option
-> > "machine-encryption", but it doesn't actually cover any cases other
-> > than SEV.
-> >
-> > This series is a proposal to at least partially unify configuration
-> > for these mechanisms, by renaming and generalizing AMD's
-> > "memory-encryption" property.  It is replaced by a
-> > "guest-memory-protection" property pointing to a platform specific
-> > object which configures and manages the specific details.
-> >
-> > For now this series covers just AMD SEV and POWER PEF.  I'm hoping it
->=20
-> Thank you very much for this series! Using a machine property is a nice
-> way of configuring this.
->=20
-> >From an end-user perspective, `-M pseries,guest-memory-protection` in
-> the command line already expresses everything that QEMU needs to know,
-> so having to add `-object pef-guest,id=3Dpef0` seems a bit redundant. Is
-> it possible to make QEMU create the pef-guest object behind the scenes
-> when the guest-memory-protection property is specified?
->=20
-> Regardless, I was able to successfuly launch POWER PEF guests using
-> these patches:
->=20
-> Tested-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
->=20
-> > can be extended to cover the Intel and s390 mechanisms as well,
-> > though.
-> >
-> > Note: I'm using the term "guest memory protection" throughout to refer
-> > to mechanisms like this.  I don't particular like the term, it's both
-> > long and not really precise.  If someone can think of a succinct way
-> > of saying "a means of protecting guest memory from a possibly
-> > compromised hypervisor", I'd be grateful for the suggestion.
->=20
-> Is "opaque guest memory" any better? It's slightly shorter, and slightly
-> more precise about what the main characteristic this guest property conve=
-ys.
+>
+> You certainly have a magical compression algorithm there.
+> Or bad accounting.
+>
+>> The encoding_rate is expected to reflect if the page is xbzrle encoding friendly.
+>> The larger, the more friendly, so 0 might not be a good representation here.
+>>
+>> Maybe, we could change UINT64_MAX above to "~0ULL" to avoid the issue?
+> ~0ull is no different than UINT64_MAX -- indeed, they are *exactly* the same
+> value -- and is not an exactly representible floating-point value.
+>
+> If unencoded_size != 0, and (somehow) encoded_size == 0, then
+>
+>    unencoded_size / encoded_size = Inf
+>
+> which is indeed the limit of x -> 0, n / x.
+>
+> Which is *also* printable by %0.2f.
+>
+> I still contend that the middle if should be removed, and you should print out
+> whatever's left.  Either NaN or Inf is instructive.  Certainly nothing in the
+> middle cares about the actual value.
+>
 
-That's not a bad one, but for now I'm going with "host trust
-limitation", since this might end up covering things other than just
-memory protection.
+OK, leave it as "inf" looks good to me. Will send a patch to remove the 
+middle. Thanks!
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Best,
+Wei
 
---4BlIp4fARb6QCoOq
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7YmDwACgkQbDjKyiDZ
-s5I9XA/8Ch2ePqa6dC1C0UY+N36zI1Evzcryyl53MbEkYBAzCnNQWtbCUYy88uWI
-HWyaw6W/HcTcuHSh5bBPC+H7sKkHpUFguUCdp5uIzGdWr4Bm3uTp+lWvgxJQmnmh
-SopkxbIyASuNWLonBK6CaS/2p+60vwcIkWcrHccF1r6N11aPpUCuKQbkwOImnD1W
-JTgUWN0LPSI6qdBLA0wAL/3vtUVGSqDT8O2VxldJBQbeDOu0w8Vog4euO3RhEZEV
-85Of/utWgwKJScfNaXvOmiZ9cBMFs3Nu6pwQdVfOsFnOkGznaTDZIGd37/4CPFf8
-lKYdpaX0qaP4w2qThZLqi8asayZDmYfkarxaDlYBlGBsd9m0iwMXalvBzteoiNrz
-9FbObSoCIWbnhAoKsUuEbD/D+sGBMl1yIb5jwgiSTTYMaTM/9/Lwh2WKsG3LpS6I
-plxNdA5vzSOboff9IftBlcDfxjBZB+4/x6ULDfWBHyViCY9BLlvoBD8vKSDGok+d
-gVjXHR0Du3FcwZA3VVZuggO28zObVGx5d6i47zqwL0eo51XXrL3bCg/TytTrg4v0
-Uc0j6PeUlyeo6epdzjrXlwluaHJjm/39sKNb/YJlFEg8XywHTRd1/Va5c67SikLS
-USYa4hQqkTinT3yUsojh3p/5Nu+JqocYmpeqKyH6KJHVA1208Rg=
-=HHjA
------END PGP SIGNATURE-----
-
---4BlIp4fARb6QCoOq--
 
