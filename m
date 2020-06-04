@@ -2,69 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505671EE4A5
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 14:42:18 +0200 (CEST)
-Received: from localhost ([::1]:40320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379281EE4B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 14:43:48 +0200 (CEST)
+Received: from localhost ([::1]:47098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgpCL-0002Ra-Cf
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 08:42:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53008)
+	id 1jgpDn-0005pC-9V
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 08:43:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jgp9i-00089O-SG
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 08:39:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51946
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jgp9g-0001iH-Rv
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 08:39:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591274371;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7jvOOxTK8bCohiwVvxochZNE0up0QJofGpeLnUE403s=;
- b=O7hERcHHfBj0vszre5ryRXNlK7PxsnLx3LJvEjtcY4vB93q/3ilUaQ2YlkozXYrqcFbyF2
- uCTFvR+bgu5OcXzMimNHDmr0V0l1FFNPRmUrsqob0BCNrglFf3qsNJFJt4EtK8wvmfHMVY
- 2Xfw5ybjVSKjc9MWyEmZL3lQvr5eYFw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-pQva1r9vMXm8GPijaJh2Lw-1; Thu, 04 Jun 2020 08:39:27 -0400
-X-MC-Unique: pQva1r9vMXm8GPijaJh2Lw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D57AEC1AA
- for <qemu-devel@nongnu.org>; Thu,  4 Jun 2020 12:39:26 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-112-65.ams2.redhat.com [10.36.112.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1AE727BA00;
- Thu,  4 Jun 2020 12:39:17 +0000 (UTC)
-Date: Thu, 4 Jun 2020 14:39:16 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 1/1] python/machine.py: refactor shutdown
-Message-ID: <20200604123916.GF4512@linux.fritz.box>
-References: <20200602194844.15258-1-jsnow@redhat.com>
- <20200602194844.15258-2-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jgpA4-0000CG-Mt
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 08:39:56 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36470)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jgpA3-0001mC-7f
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 08:39:56 -0400
+Received: by mail-wm1-x344.google.com with SMTP id d128so5458260wmc.1
+ for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 05:39:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=I2wUcuGnnpxSNhMK2HDZKzcqf7rViADS4Ulwk8BlJho=;
+ b=SZO8cWG0DubpEVpdmaYhtnfwihRBEmG2NSqM5ROubn5kIfegeJpSoJHbBIdfxtYtLD
+ Iim799lU8K8j8O6+FH6KSsVBjtIX6f5KZVTmAnxnsCPJcE1hkYCLuG3sOcBXFiC89myx
+ EXMUfRt+63myc5eeM9hp1Z/zx10ubrG/QW2NdzdWB6p/KR/zw0ELH5XZK7kXAxxTLpzH
+ Cvx/REuYej7PcAsin7o9MW9WO4Jai3/27OfBCKv/Q83DQicwFjIt8rPDxOOa2C1UfVFj
+ +NbJs6BQv8sfl9hamQ++99V3SEW+yuosS/y8aocgA88MfCf4FTwfLoe67T/DRR/3z5pg
+ xmlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=I2wUcuGnnpxSNhMK2HDZKzcqf7rViADS4Ulwk8BlJho=;
+ b=CDhrjO12VImzncP9O4ceRMlUjoAJ8yWwIo4ON5pHR0P6j37bGHr5sPe+pc1TGgPS8U
+ oK3r4jYYpHnwwrAoKUz/5Tpa66BdC5dn+n7g/kNpF6a64wXm7zpZaWrio1Lvs5pAxuPr
+ cDQviqcr6f0MPGp5Vw2DWbwVYSYyuPJ2mo0qp/Yk99M/KeUjYZnQ6Fa0KFNYXhIZWfQ8
+ 7BjuCFygMS41rHUXw+SwTVrgBTAqU1RpFuwz5PfF7IiCJr56zVvVlO2/TgOWsFjmzE3L
+ XFD6Z086hQagWCHs5GbiHcBnBUb6H08tbi9qNLtXpzOOQzFNOg6OhmOoSDEkEGUdH9SU
+ 6yLg==
+X-Gm-Message-State: AOAM531TBZeSIA2ULAiCPjqJgsCTO8++XuHnUysZ0rLxHojtywSM+IAX
+ HsvMXEg5dKKM8Ps8w/SkEyIsaWFxkjg=
+X-Google-Smtp-Source: ABdhPJxXfw80HHyYpXjX5Y3Ci4BGVbaihjY1gDICoO6zU2qdQ4MkMffGezGv3MD2zU7v2BEQO2aPNA==
+X-Received: by 2002:a7b:c212:: with SMTP id x18mr3811212wmi.119.1591274392416; 
+ Thu, 04 Jun 2020 05:39:52 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 5sm10679516wrr.5.2020.06.04.05.39.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Jun 2020 05:39:50 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 38C651FF7E;
+ Thu,  4 Jun 2020 13:39:50 +0100 (BST)
+References: <20200604111323.7458-1-alex.bennee@linaro.org>
+ <20200604071504-mutt-send-email-mst@kernel.org>
+ <87ftbb59vm.fsf@linaro.org>
+ <20200604075020-mutt-send-email-mst@kernel.org>
+User-agent: mu4e 1.5.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [RFC PATCH] hw/virtio/vhost: re-factor vhost-section and allow
+ DIRTY_MEMORY_CODE
+In-reply-to: <20200604075020-mutt-send-email-mst@kernel.org>
+Date: Thu, 04 Jun 2020 13:39:50 +0100
+Message-ID: <87d06f57jd.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200602194844.15258-2-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:12:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,191 +92,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, philmd@redhat.com, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 02.06.2020 um 21:48 hat John Snow geschrieben:
-> This is done primarily to avoid the 'bare except' pattern, which
-> suppresses ALL exceptions and not just ones that we are anticipating to
-> see.
-> 
-> Replace this with a pattern that isolates the different kind of shutdown
-> paradigms and a new fallback shutdown handler that gracefully attempts
-> one before the other.
-> 
-> Move all of the post-shutdown code into _post_shutdown, and adjust the
-> main shutdown() function to ALWAYS call the post_shutdown logic no
-> matter what kind of error we encountered: An expected one (subprocess
-> wait timeout) or an unexpected one (Everything else).
-> 
-> In cases where we encounter an expected error in the graceful shutdown
-> timeout, we will not re-raise an exception above shutdown(). Otherwise,
-> after post_shutdown cleanup, we will.
-> 
-> I anticipate that this WILL lead to additional bug reports filed against
-> this module, but that is unfortunately somewhat the point: This code
-> shouldn't be hiding failures that exist elsewhere within the python
-> code.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/qemu/machine.py | 93 +++++++++++++++++++++++++++++-------------
->  1 file changed, 65 insertions(+), 28 deletions(-)
-> 
-> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-> index 041c615052e..a2abd2c35e3 100644
-> --- a/python/qemu/machine.py
-> +++ b/python/qemu/machine.py
-> @@ -283,6 +283,8 @@ def _post_launch(self):
->              self._qmp.accept()
->  
->      def _post_shutdown(self):
-> +        self._load_io_log()
-> +
->          if self._qemu_log_file is not None:
->              self._qemu_log_file.close()
->              self._qemu_log_file = None
-> @@ -296,6 +298,17 @@ def _post_shutdown(self):
->          while len(self._remove_files) > 0:
->              self._remove_if_exists(self._remove_files.pop())
->  
-> +        exitcode = self.exitcode()
-> +        if exitcode is not None and exitcode < 0:
-> +            msg = 'qemu received signal %i; command: "%s"'
-> +            if self._qemu_full_args:
-> +                command = ' '.join(self._qemu_full_args)
-> +            else:
-> +                command = ''
-> +            LOG.warning(msg, -int(exitcode), command)
-> +
-> +        self._launched = False
 
-It would have been a little easier to review if this code motion to
-_post_shutdown() were a separate patch. It looks mostly independent of
-the other changes.
+Michael S. Tsirkin <mst@redhat.com> writes:
 
-The big change here is that we now log warnings for exit due to a signal
-for QEMUMachine.wait(), too. I assume this is okay.
+> On Thu, Jun 04, 2020 at 12:49:17PM +0100, Alex Benn=C3=83=C2=A9e wrote:
+>>=20
+>> Michael S. Tsirkin <mst@redhat.com> writes:
+>>=20
+>> > On Thu, Jun 04, 2020 at 12:13:23PM +0100, Alex Benn=C3=83=C2=83=C3=82=
+=C2=A9e wrote:
+>> >> The purpose of vhost_section is to identify RAM regions that need to
+>> >> be made available to a vhost client. However when running under TCG
+>> >> all RAM sections have DIRTY_MEMORY_CODE set which leads to problems
+>> >> down the line. The original comment implies VGA regions are a problem
+>> >> but doesn't explain why vhost has a problem with it.
+>> >>=20
+>> >> Re-factor the code so:
+>> >>=20
+>> >>   - steps are clearer to follow
+>> >>   - reason for rejection is recorded in the trace point
+>> >>   - we allow DIRTY_MEMORY_CODE when TCG is enabled
+>> >>=20
+>> >> Signed-off-by: Alex Benn=C3=83=C2=83=C3=82=C2=A9e <alex.bennee@linaro=
+.org>
+>> >> Cc: Michael S. Tsirkin <mst@redhat.com>
+>> >> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> >> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+>> >> ---
+>> >>  hw/virtio/vhost.c | 46 ++++++++++++++++++++++++++++++++--------------
+>> >>  1 file changed, 32 insertions(+), 14 deletions(-)
+>> >>=20
+>> >> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>> >> index aff98a0ede5..f81fc87e74c 100644
+>> >> --- a/hw/virtio/vhost.c
+>> >> +++ b/hw/virtio/vhost.c
+>> >> @@ -27,6 +27,7 @@
+>> >>  #include "migration/blocker.h"
+>> >>  #include "migration/qemu-file-types.h"
+>> >>  #include "sysemu/dma.h"
+>> >> +#include "sysemu/tcg.h"
+>> >>  #include "trace.h"
+>> >>=20=20
+>> >>  /* enabled until disconnected backend stabilizes */
+>> >> @@ -403,26 +404,43 @@ static int vhost_verify_ring_mappings(struct vh=
+ost_dev *dev,
+>> >>      return r;
+>> >>  }
+>> >>=20=20
+>> >> +/*
+>> >> + * vhost_section: identify sections needed for vhost access
+>> >> + *
+>> >> + * We only care about RAM sections here (where virtqueue can live). =
+If
+>> >> + * we find one we still allow the backend to potentially filter it o=
+ut
+>> >> + * of our list.
+>> >> + */
+>> >>  static bool vhost_section(struct vhost_dev *dev, MemoryRegionSection=
+ *section)
+>> >>  {
+>> >> -    bool result;
+>> >> -    bool log_dirty =3D memory_region_get_dirty_log_mask(section->mr)=
+ &
+>> >> -                     ~(1 << DIRTY_MEMORY_MIGRATION);
+>> >> -    result =3D memory_region_is_ram(section->mr) &&
+>> >> -        !memory_region_is_rom(section->mr);
+>> >> -
+>> >> -    /* Vhost doesn't handle any block which is doing dirty-tracking =
+other
+>> >> -     * than migration; this typically fires on VGA areas.
+>> >> -     */
+>> >> -    result &=3D !log_dirty;
+>> >> +    enum { OK =3D 0, NOT_RAM, DIRTY, FILTERED } result =3D NOT_RAM;
+>> >
+>> > I'm not sure what does this enum buy us as compared to bool.
+>>=20
+>> The only real point of the enum is to give a little more detailed
+>> information to the trace point to expose why a section wasn't included.
+>> In a previous iteration I just had the tracepoint at the bottom before a
+>> return true where all other legs had returned false. We could switch to
+>> just having the tracepoint hit for explicit inclusions?
+>
+> I didn't notice.  Yes, ok more tracepoints IMHO.
 
->      def launch(self):
->          """
->          Launch the VM and make sure we cleanup and expose the
-> @@ -344,12 +357,53 @@ def wait(self):
->          self._popen.wait()
->          if self._qmp:
->              self._qmp.close()
-> -        self._load_io_log()
->          self._post_shutdown()
->  
-> -    def shutdown(self, has_quit=False, hard=False):
-> +    def _hard_shutdown(self) -> None:
->          """
-> -        Terminate the VM and clean up
-> +        Kill the VM if it is running.
-> +        """
-> +        if not self.is_running():
-> +            return
-> +
-> +        self._popen.kill()
-> +        self._popen.wait(timeout=60)
-> +
-> +    def _soft_shutdown(self, has_quit: bool = False, timeout: int = 3) -> None:
-> +        """
-> +        Attempt to shutdown the VM gracefully if it is running.
-> +
-> +        :param has_quit: When True, don't attempt to issue 'quit' QMP command
-> +        :param timeout: Timeout for graceful shutdown. Default 3 seconds.
-> +        """
-> +        if not self.is_running():
-> +            return
-> +
-> +        if self._qmp is not None:
-> +            if not has_quit:
-> +                self._qmp.cmd('quit')
-> +            self._qmp.close()
-> +
-> +        self._popen.wait(timeout=timeout)
-> +
-> +    def _do_shutdown(self, has_quit: bool = False, timeout: int = 3) -> None:
-> +        """
-> +        Attempt to shutdown the VM gracefully; fallback to a hard shutdown.
-> +
-> +        :param has_quit: When True, don't attempt to issue 'quit' QMP command
-> +        :param timeout: Timeout for graceful shutdown. Default 3 seconds.
-> +        """
-> +        try:
-> +            self._soft_shutdown(has_quit, timeout)
-> +        except subprocess.TimeoutExpired:
-> +            self._hard_shutdown()
-> +        except:
-> +            self._hard_shutdown()
-> +            raise
-> +
-> +    def shutdown(self, has_quit: bool = False, hard: bool = False) -> None:
-> +        """
-> +        Terminate the VM (gracefully if possible) and perform cleanup.
->          """
->          # If we keep the console socket open, we may deadlock waiting
->          # for QEMU to exit, while QEMU is waiting for the socket to
-> @@ -358,35 +412,18 @@ def shutdown(self, has_quit=False, hard=False):
->              self._console_socket.close()
->              self._console_socket = None
->  
-> -        if self.is_running():
-> +        try:
->              if hard:
-> -                self._popen.kill()
-> -            elif self._qmp:
-> -                try:
-> -                    if not has_quit:
-> -                        self._qmp.cmd('quit')
-> -                    self._qmp.close()
-> -                    self._popen.wait(timeout=3)
-> -                except:
-> -                    self._popen.kill()
-> -            self._popen.wait()
-> -
-> -        self._load_io_log()
-> -        self._post_shutdown()
-> -
-> -        exitcode = self.exitcode()
-> -        if exitcode is not None and exitcode < 0 and \
-> -                not (exitcode == -9 and hard):
+I can simplify to two:
 
-The condition in the second line went away without a replacement. This
-means that previously, intentionally killing a VM with hard=True would
-not log a warning (which makes sense to me), but now it does.
+  trace_vhost_section(mr->name)
+  trace_vhost_reject_section(mr->name, int reason)
 
-On the other hand, I couldn't find a single user of hard=True or the
-kill() method in the whole tree. So I guess it doesn't matter anyway?
+Not sure if it's worth defining a enum outside just for the purposes of
+the trace though. Do we have the concept of per-trace event enum codes?
 
-> -            msg = 'qemu received signal %i: %s'
-> -            if self._qemu_full_args:
-> -                command = ' '.join(self._qemu_full_args)
-> +                self._hard_shutdown()
->              else:
-> -                command = ''
-> -            LOG.warning(msg, -int(exitcode), command)
-> -
-> -        self._launched = False
-> +                self._do_shutdown(has_quit)
-> +        finally:
-> +            self._post_shutdown()
->  
->      def kill(self):
-> +        """
-> +        Terminate the VM forcefully and perform cleanup.
-> +        """
->          self.shutdown(hard=True)
->  
->      def set_qmp_monitor(self, enabled=True):
+>> > Also why force OK to 0?
+>>=20
+>> Personal preference where 0 indicates success and !0 indicates failure
+>> of various kinds. Again we can drop if we don't want the information in
+>> the tracepoint.
+>
+> So in that case we need to set all values so people can decode them
+> from the trace. But I think it's best to just have more trace points
+> or drop it from the trace.
+>
+>> > And I prefer an explicit "else result =3D NOT_RAM" below
+>> > instead of initializing it here.
+>>=20
+>> Ok.
+>>=20
+>> >
+>> >> +
+>> >> +    if (memory_region_is_ram(section->mr) && !memory_region_is_rom(s=
+ection->mr)) {
+>> >> +        uint8_t dirty_mask =3D memory_region_get_dirty_log_mask(sect=
+ion->mr);
+>> >> +        uint8_t handled_dirty;
+>> >>=20=20
+>> >> -    if (result && dev->vhost_ops->vhost_backend_mem_section_filter) {
+>> >> -        result &=3D
+>> >> -            dev->vhost_ops->vhost_backend_mem_section_filter(dev, se=
+ction);
+>> >> +        /*
+>> >> +         * Vhost doesn't handle any block which is doing dirty-track=
+ing other
+>> >> +         * than migration; this typically fires on VGA areas. However
+>> >> +         * for TCG we also do dirty code page tracking which shouldn=
+'t
+>> >> +         * get in the way.
+>> >> +         */
+>> >> +        handled_dirty =3D (1 << DIRTY_MEMORY_MIGRATION);
+>> >> +        if (tcg_enabled()) {
+>> >> +            handled_dirty |=3D (1 << DIRTY_MEMORY_CODE);
+>> >> +        }
+>> >
+>> > So DIRTY_MEMORY_CODE is only set by TCG right? Thus I'm guessing
+>> > we can just allow this unconditionally.
+>>=20
+>> Which actually makes the test:
+>>=20
+>>   if (dirty_mask & DIRTY_MEMORY_VGA) {
+>>      .. fail ..
+>>   }
+>>=20
+>> which is more in line with the comment although wouldn't fail if we
+>> added additional DIRTY_MEMORY flags. This leads to the question what
+>> exactly is it about DIRTY tracking that vhost doesn't like.
+>
+> vhost does not know how to track writes to specific regions. It can either
+> track all writes to memory (which slows it down quite a bit)
+> or no writes.
 
-In the end, while the new behaviour is a bit different in details, it's
-not unreasonable, and if it does cause any problems, we can still change
-it back.
+So can vhost interfere with dirty tracking itself in the kernel by
+trapping the writes? I guess there is no way this can happen with
+vhost-user?
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+(I wonder what would happen if a vhost-user daemon did an mprotect() on
+RAM from it's shared view?)
 
+> It never actually *needs* to write to VGA,
+> so we do a hack and just skip these and then if that's the
+> only thing we need to track then we don't need to enable
+> its dirty tracking.
+>
+> I don't really know what is DIRTY_MEMORY_CODE and when it's set.
+
+We use it softmmu do any pages that have code in them always force the
+slow-path into cputlb for writes to those pages. This allows us to
+detect self-modifying code. The kernel would never get involved but I
+don't think vhost and TCG is compatible anyway. I'm only really
+interested in vhost-user and it's interaction with TCG.
+
+I'll spin a v2 now.
+
+--=20
+Alex Benn=C3=A9e
 
