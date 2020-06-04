@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD111EEBFC
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 22:28:27 +0200 (CEST)
-Received: from localhost ([::1]:41776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6BAE1EEBEC
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 22:26:15 +0200 (CEST)
+Received: from localhost ([::1]:60862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgwTS-0005Md-2s
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 16:28:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49430)
+	id 1jgwRK-0001Wc-Rn
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 16:26:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgwNz-0003zj-3L
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 16:22:47 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49926
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgwNx-0005Ug-Rv
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgwNy-0003xQ-20
  for qemu-devel@nongnu.org; Thu, 04 Jun 2020 16:22:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23057
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jgwNx-0005UP-7g
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 16:22:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591302165;
+ s=mimecast20190719; t=1591302164;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sZl/vaoLFiELtwTjN3/2xmM+dnn6CVXPx8SRSXh/bks=;
- b=eU/EERKZFHz6/BGv3Mwxmeq9F72L7TzcZnpBxpOtce9BQKwRlGLwwgwcixSHmZMEJN3vmT
- k28P51HzWdSHvgq1QpoopIfh/2SRy6YYewZVi1yvjs9xLLhe/nZZn4Pn+vlkan0NfAxnVV
- PulnmV1/54iDl8HS8SjuspNnQ7D/Exc=
+ bh=V6vPM6AYq3oZLyd83BJvWKOnCz6g7DCIxzAnkyqnH8c=;
+ b=Nmx2bxa9lCwgsordRA1fiJ/0h7cg3Lh9IcpCfWtfEuarzpS7K7Ktbl93RYT0Nq3NtmIc+a
+ 4e6A9PcCzHRStExHi+J+D9hJEgjFnqx4up8QP0JBTqDkbjzyJ9J7+HupSBiO+vEv6t9RPT
+ ZrlkMgUXtgGZDMPUAQ9Ay3jWHqw0Mpc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-wYe5ZUjdMsi72rzAtx_F4Q-1; Thu, 04 Jun 2020 16:22:41 -0400
-X-MC-Unique: wYe5ZUjdMsi72rzAtx_F4Q-1
+ us-mta-378-1Efehg0oOQy6hQh09yPcGQ-1; Thu, 04 Jun 2020 16:22:42 -0400
+X-MC-Unique: 1Efehg0oOQy6hQh09yPcGQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDDDB19200C1;
- Thu,  4 Jun 2020 20:22:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6E05835B40;
+ Thu,  4 Jun 2020 20:22:41 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-117-188.rdu2.redhat.com [10.10.117.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC3855D9D3;
- Thu,  4 Jun 2020 20:22:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E1CB75D9D3;
+ Thu,  4 Jun 2020 20:22:40 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 03/16] python/qmp.py: re-absorb MonitorResponseError
-Date: Thu,  4 Jun 2020 16:22:23 -0400
-Message-Id: <20200604202236.25039-4-jsnow@redhat.com>
+Subject: [PATCH v3 04/16] python/qmp.py: Do not return None from cmd_obj
+Date: Thu,  4 Jun 2020 16:22:24 -0400
+Message-Id: <20200604202236.25039-5-jsnow@redhat.com>
 In-Reply-To: <20200604202236.25039-1-jsnow@redhat.com>
 References: <20200604202236.25039-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:08:38
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 12:22:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,112 +84,50 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When I initially split this out, I considered this more of a machine
-error than a QMP protocol error, but I think that's misguided.
+This makes typing the qmp library difficult, as it necessitates wrapping
+Optional[] around the type for every return type up the stack. At some
+point, it becomes difficult to discern or remember why it's None instead
+of the expected object.
 
-Move this back to qmp.py and name it QMPResponseError. Convert
-qmp.command() to use this exception type.
+Use the python exception system to tell us exactly why we didn't get an
+object. Remove this special-cased return.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- python/qemu/machine.py        | 15 +--------------
- python/qemu/qmp.py            | 17 +++++++++++++++--
- scripts/render_block_graph.py |  7 +++++--
- 3 files changed, 21 insertions(+), 18 deletions(-)
+ python/qemu/qmp.py | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 99bcb499878..8ea027566e4 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -49,19 +49,6 @@ class QEMUMachineAddDeviceError(QEMUMachineError):
-     """
- 
- 
--class MonitorResponseError(qmp.QMPError):
--    """
--    Represents erroneous QMP monitor reply
--    """
--    def __init__(self, reply):
--        try:
--            desc = reply["error"]["desc"]
--        except KeyError:
--            desc = reply
--        super().__init__(desc)
--        self.reply = reply
--
--
- class QEMUMachine:
-     """
-     A QEMU VM
-@@ -469,7 +456,7 @@ def command(self, cmd, conv_keys=True, **args):
-         if reply is None:
-             raise qmp.QMPError("Monitor is closed")
-         if "error" in reply:
--            raise MonitorResponseError(reply)
-+            raise qmp.QMPResponseError(reply)
-         return reply["return"]
- 
-     def get_qmp_event(self, wait=False):
 diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-index 8388c7b6030..aa8a666b8ab 100644
+index aa8a666b8ab..ef3c919b76c 100644
 --- a/python/qemu/qmp.py
 +++ b/python/qemu/qmp.py
-@@ -61,6 +61,19 @@ class QMPTimeoutError(QMPError):
-     """
+@@ -225,22 +225,18 @@ def accept(self, timeout=15.0):
+         self.__sockfile = self.__sock.makefile(mode='r')
+         return self.__negotiate_capabilities()
  
- 
-+class QMPResponseError(QMPError):
-+    """
-+    Represents erroneous QMP monitor reply
-+    """
-+    def __init__(self, reply: QMPMessage):
-+        try:
-+            desc = reply['error']['desc']
-+        except KeyError:
-+            desc = reply
-+        super().__init__(desc)
-+        self.reply = reply
-+
-+
- class QEMUMonitorProtocol:
-     """
-     Provide an API to connect to QEMU via QEMU Monitor Protocol (QMP) and then
-@@ -251,8 +264,8 @@ def command(self, cmd, **kwds):
-         Build and send a QMP command to the monitor, report errors if any
+-    def cmd_obj(self, qmp_cmd):
++    def cmd_obj(self, qmp_cmd: QMPMessage) -> QMPMessage:
          """
-         ret = self.cmd(cmd, kwds)
--        if "error" in ret:
--            raise Exception(ret['error']['desc'])
-+        if 'error' in ret:
-+            raise QMPResponseError(ret)
-         return ret['return']
+         Send a QMP command to the QMP Monitor.
  
-     def pull_event(self, wait=False):
-diff --git a/scripts/render_block_graph.py b/scripts/render_block_graph.py
-index 409b4321f2e..da6acf050d1 100755
---- a/scripts/render_block_graph.py
-+++ b/scripts/render_block_graph.py
-@@ -25,7 +25,10 @@
- from graphviz import Digraph
- 
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'python'))
--from qemu.machine import MonitorResponseError
-+from qemu.qmp import (
-+    QEMUMonitorProtocol,
-+    QMPResponseError,
-+)
- 
- 
- def perm(arr):
-@@ -102,7 +105,7 @@ def command(self, cmd):
-         reply = json.loads(subprocess.check_output(ar))
- 
-         if 'error' in reply:
--            raise MonitorResponseError(reply)
-+            raise QMPResponseError(reply)
- 
-         return reply['return']
+         @param qmp_cmd: QMP command to be sent as a Python dict
+-        @return QMP response as a Python dict or None if the connection has
+-                been closed
++        @return QMP response as a Python dict
+         """
+         self.logger.debug(">>> %s", qmp_cmd)
+-        try:
+-            self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
+-        except OSError as err:
+-            if err.errno == errno.EPIPE:
+-                return None
+-            raise err
++        self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
+         resp = self.__json_read()
++        if resp is None:
++            raise QMPConnectError("Unexpected empty reply from server")
+         self.logger.debug("<<< %s", resp)
+         return resp
  
 -- 
 2.21.3
