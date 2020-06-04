@@ -2,77 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A087C1EDCC6
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 07:56:25 +0200 (CEST)
-Received: from localhost ([::1]:57012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 140FA1EDD08
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:14:41 +0200 (CEST)
+Received: from localhost ([::1]:42088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgirO-0003JD-L4
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 01:56:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36070)
+	id 1jgj9E-0002DQ-2E
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:14:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jgiqe-0002q3-K0; Thu, 04 Jun 2020 01:55:28 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:36061)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jgiqb-0008BL-72; Thu, 04 Jun 2020 01:55:28 -0400
-Received: by mail-il1-x144.google.com with SMTP id a13so4936520ilh.3;
- Wed, 03 Jun 2020 22:55:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nQtjsjGPjwWyApFnJH5bDNHxhHOkFHccsYdGOx5Lu/E=;
- b=phMuAolXprKtdj6MkfF9qBtgoyKgtimeasHu41wVdRdy6MqeHlwbZ8I6tDWk0ldjDG
- 2JnFyh03hW8DPqyjE5ChZyVVUBgB6z+nvgXIe9PipdB6hs7qvpW2Q1DgcElKwm7sqf2t
- HGFF4XkMXc1cAAHUSMVkacmVbvu/SD5soDhfMYa9/mMy34cI3usdfVKy0CNE5tGqiM/t
- Jox5U/gmixTRJS+RGkqHq7Fg6aVevLqcR6XHnETvsVgfMaWr+omA3AaUMxxw+IRNTj+0
- HpPw+tdrTTVLwCZ2eYZbEXtFlF0Lb9O1dgofkjDE/U5MuzGioXMUGtrWrE0VGB/lGwfX
- AMeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nQtjsjGPjwWyApFnJH5bDNHxhHOkFHccsYdGOx5Lu/E=;
- b=Z0aKoNYf0x8DLppYD3VZiduPwqFjIEzmJo8d67gkfaOQAOPUy88TOqZ65C+WHqGrCp
- kSSMQFokfHIzHfrjeOWQGntWryEHPTK3xZc9fDiHAZ0d36s6EQDTOy6XAcSnCzkxLqCS
- nU4w7zNngpuV52Vy9tiqroUpRqY6ogbE88hDs51AzIbmu0AO+FU11h0089n96vcHp6dO
- 1D/ZKa76Ukc48X7779oyw3HEKqnuVXLxHMsZwseIxzBycn6Ua28+WWZONb3somPooKxP
- HyCgiRWu5GZ6BUa8mv0ky1C3xuto43FWPhjl2ILWJazH+jY+2MUF1NoWdX8QCcXQEm7A
- HSFQ==
-X-Gm-Message-State: AOAM5326nUzs1SjkXG8Rv2glkBOAX0OqHr4AhZbKeZqWLhmaupDvLKCQ
- 7YqaK9t+BLQxcrQPM1TR9eay/cNDaYbPLYpvcSw=
-X-Google-Smtp-Source: ABdhPJxIj71W3wWa2Z5glQzTcbXXv60/0IDJNERsLuSa+BVv7h0c3FmIF18Q6MA0ERam4L4vRY0OXjZFH8UxggrCduI=
-X-Received: by 2002:a92:c94b:: with SMTP id i11mr2789332ilq.177.1591250123750; 
- Wed, 03 Jun 2020 22:55:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jgj7D-0000UZ-6y; Thu, 04 Jun 2020 02:12:35 -0400
+Received: from ozlabs.org ([203.11.71.1]:39537)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jgj7B-0002nQ-3C; Thu, 04 Jun 2020 02:12:34 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49cwRc3tX0z9sSf; Thu,  4 Jun 2020 16:12:28 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1591251148;
+ bh=+2BiyWsAjxRyUm+rxFtynXbdjxfdq5CMaIjOKUxVXlc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=azJaSYNlfNmpMi+g8I443joKrfQxgO+mGtPHQ+0aL0K8CcZhYRaq3CqQQ5mlXVR3M
+ fGIr37NPIT6cmfps8E4e66HvALbbPFoc0cri+DTZ2CEQcTTIlW3uHHwoKHlx3trr9s
+ GBO4ZRIXqRdgdyIluH7GnEDTq8efFa07f8gVqFeU=
+Date: Thu, 4 Jun 2020 13:05:31 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Sean Christopherson <sean.j.christopherson@intel.com>
+Subject: Re: [RFC v2 00/18] Refactor configuration of guest memory protection
+Message-ID: <20200604030531.GA228651@umbus.fritz.box>
+References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
+ <20200529221926.GA3168@linux.intel.com>
 MIME-Version: 1.0
-References: <cover.1590704015.git.alistair.francis@wdc.com>
- <73cce2d0edd0d41ba15df403a2096bfa70bf0565.1590704015.git.alistair.francis@wdc.com>
- <cc1a1671-b926-bb31-1ed2-d2920f0faf38@c-sky.com>
- <c9f16143-4e9b-a3a8-ffd3-12d43fd2e343@c-sky.com>
- <CAKmqyKM6rigjbDoFh0bfq8gJXJ=+H+onh=DXjCzhAijMCvR16Q@mail.gmail.com>
- <ec0a7545-1793-d1a9-fccf-068496cf1f0a@c-sky.com>
- <CAKmqyKOvv2HCpXoD+8E5q2S7JqSDfT7_z3+_=cKFLi+H92itjw@mail.gmail.com>
- <aa240d2d-42bb-b9dd-90f0-1a3051c2491f@c-sky.com>
- <CAKmqyKN3QBadrqzohWe0uwiCPcjU9WFHF_4j0dsKehszsZ4AWg@mail.gmail.com>
- <a56ffc6e-037b-5120-f22c-f18d98e8a382@163.com>
-In-Reply-To: <a56ffc6e-037b-5120-f22c-f18d98e8a382@163.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 3 Jun 2020 22:46:11 -0700
-Message-ID: <CAKmqyKOTiP_UcagHnnEVsaC1ogYMJZykn2MU=Gk125+DrrXrCg@mail.gmail.com>
-Subject: Re: [PATCH v5 07/11] hw/char: Initial commit of Ibex UART
-To: LIU Zhiwei <liuzwnan@163.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sdtB3X0nJg68CQEu"
+Content-Disposition: inline
+In-Reply-To: <20200529221926.GA3168@linux.intel.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 02:12:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,127 +61,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ dgilbert@redhat.com, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ mdroth@linux.vnet.ibm.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 3, 2020 at 10:06 PM LIU Zhiwei <liuzwnan@163.com> wrote:
->
->
->
-> On 2020/6/4 12:35, Alistair Francis wrote:
-> > On Wed, Jun 3, 2020 at 6:59 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
-> >>
-> >>
-> >> On 2020/6/3 23:56, Alistair Francis wrote:
-> >>> On Wed, Jun 3, 2020 at 3:33 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
-> >>>> On 2020/6/3 1:54, Alistair Francis wrote:
-> >>>>> On Tue, Jun 2, 2020 at 5:28 AM LIU Zhiwei<zhiwei_liu@c-sky.com>  wrote:
-> >>>>>> Hi Alistair,
-> >>>>>>
-> >>>>>> There are still some questions I don't understand.
-> >>>>>>
-> >>>>>> 1. Is the baud rate  or fifo a necessary feature to simulate?
-> >>>>>> As you can see, qemu_chr_fe_write will send the byte as soon as possible.
-> >>>>>> When you want to transmit a byte through WDATA,  you can call
-> >>>>>> qemu_chr_fe_write directly.
-> >>>>> So qemu_chr_fe_write() will send the data straight away. This doesn't
-> >>>>> match what teh hardware does though. So by modelling a FIFO and a
-> >>>>> delay in sending we can better match the hardware.
-> >>>> I see many UARTs have similar features. Does the software really care about
-> >>>> these features? Usually I just want to print something to the terminal
-> >>>> through UART.
-> >>> In this case Tock (which is the OS used for OpenTitan) does car about
-> >>> these features as it relies on interrupts generated by the HW to
-> >>> complete the serial send task. It also just makes the QEMU model more
-> >>> accurate.
-> >> Fair enough. I see the "tx_watermark" interrupt, which needs the FIFO.
-> >> At least,
-> >> it can verify the ISP.
-> > Exactly :)
-> >
-> >>>> Most simulation in QEMU is for running software, not exactly the details
-> >>>> of hardware.
-> >>>> For example, we will not simulate the 16x oversamples in this UART.
-> >>> Agreed. Lots of UARTs don't bother modelling the delay from the
-> >>> hardware as generally it doesn't matter. In this case it does make a
-> >>> difference for the software and it makes the QEMU model more accurate,
-> >>> which is always a good thing.
-> >>>
-> >>>> There is no error here. Personally I  think it is necessary to simulate
-> >>>> the FIFO and baud rate,
-> >>>> maybe for supporting some backends.
-> >>> So baud rate doesn't need to be modelled as we aren't actually sending
-> >>> UART data, just pretending and then printing it.
-> >>>
-> >>>> Can someone give a reasonable answer for this question?
-> >>> Which question?
-> >> I see  the UART can work with many  different backends,  such as pty ,
-> >> file, socket and so on.
-> >> I wonder if this a backend, which has some requirements on the baud
-> > The backend should be independent so it doesn't matter what baud rate
-> > we choose here.
-> >
-> >> rate.  You can ignore it,
-> >> as it doesn't matter.
-> >>>>>> 2.  The baud rate calculation method is not strictly right.
-> >>>>>> I think when a byte write to FIFO,  char_tx_time * 8 is the correct time
-> >>>>>> to send the byte instead of
-> >>>>>> char_tx_time * 4.
-> >>>>> Do you mind explaining why 8 is correct instead of 4?
-> >>>> Usually write a byte to WDATA will trigger a uart_write_tx_fifo.
-> >>>> Translate a bit will take
-> >>>> char_tx_time. So it will take char_tx_time * 8 to transmit a byte.
-> >>> I see your point. I just used the 4 as that is what the Cadence one
-> >>> does. I don't think it matters too much as it's just the delay for a
-> >>> timer (that isn't used as an accurate timer).
-> >> Got it. Just a way to send the bytes at sometime later.
-> >>>>>> 3.  Why add a watch here?
-> >>>>> This is based on the Cadence UART implementation in QEMU (which does
-> >>>>> the same thing). This will trigger a callback when we can write more
-> >>>>> data or when the backend has hung up.
-> >>>> Many other serials do the same thing, like virtio-console and serial. So
-> >>>> it may be a common
-> >>>> interface here. I will try to understand it(Not yet).
-> >>> Yep, it's just a more complete model of that the HW does.
-> >> I try to boot a RISC-V Linux, and set a breakpoint  to a watch callback
-> >> function.
-> >> The breakpoint did't match.
-> >>
-> >> I just wonder if there is a case really need the callback function.
-> > AFAIK Linux doesn't support the Ibex UART (or Ibex at all) so it
-> > shouldn't be triggered.
-> I tried with the UART in the virt board.  It also registers the watch
-> callback on
-> G_IO_HUP and G_IO_OUT.
->
-> However I will through the question alone in another mail.
 
-Ah, sorry I misunderstood what you meant.
+--sdtB3X0nJg68CQEu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I haven't looked at it, it's possible it's not enabled by Linux.
+On Fri, May 29, 2020 at 03:19:26PM -0700, Sean Christopherson wrote:
+> On Thu, May 21, 2020 at 01:42:46PM +1000, David Gibson wrote:
+> > A number of hardware platforms are implementing mechanisms whereby the
+> > hypervisor does not have unfettered access to guest memory, in order
+> > to mitigate the security impact of a compromised hypervisor.
+> >=20
+> > AMD's SEV implements this with in-cpu memory encryption, and Intel has
+> > its own memory encryption mechanism.  POWER has an upcoming mechanism
+> > to accomplish this in a different way, using a new memory protection
+> > level plus a small trusted ultravisor.  s390 also has a protected
+> > execution environment.
+> >=20
+> > The current code (committed or draft) for these features has each
+> > platform's version configured entirely differently.  That doesn't seem
+> > ideal for users, or particularly for management layers.
+> >=20
+> > AMD SEV introduces a notionally generic machine option
+> > "machine-encryption", but it doesn't actually cover any cases other
+> > than SEV.
+> >=20
+> > This series is a proposal to at least partially unify configuration
+> > for these mechanisms, by renaming and generalizing AMD's
+> > "memory-encryption" property.  It is replaced by a
+> > "guest-memory-protection" property pointing to a platform specific
+> > object which configures and manages the specific details.
+> >=20
+> > For now this series covers just AMD SEV and POWER PEF.  I'm hoping it
+> > can be extended to cover the Intel and s390 mechanisms as well,
+> > though.
+> >=20
+> > Note: I'm using the term "guest memory protection" throughout to refer
+> > to mechanisms like this.  I don't particular like the term, it's both
+> > long and not really precise.  If someone can think of a succinct way
+> > of saying "a means of protecting guest memory from a possibly
+> > compromised hypervisor", I'd be grateful for the suggestion.
+>=20
+> Many of the features are also going far beyond just protecting memory, so
+> even the "memory" part feels wrong.  Maybe something like protected-guest
+> or secure-guest?
 
->
-> After the two points addressed,
->
-> Reviewed-by: LIU Zhiwei<zhiwei_liu@c-sky.com>
+I think those are too vague.  There are *heaps* of things related to
+protecting or securing guests, the relevance of this stuff is that
+it's protecting it from a compromised hypervisor.
 
-Thanks!
+> A little imprecision isn't necessarily a bad thing, e.g. memory-encryption
+> is quite precise, but also wrong once it encompasses anything beyond plain
+> old encryption.
 
-Alistair
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
->
-> Zhiwei
-> >
-> > Alistair
-> >
-> >> Zhiwei
-> >>> Alistair
->
->
->
+--sdtB3X0nJg68CQEu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7YZPkACgkQbDjKyiDZ
+s5I0DxAAhUQiemOH1FQiFgGP7UsHU8vGg1PD+vb3LJKDOwpxvKCjvjpxwb5bxrf7
+PKjbiZ7dGO2cZiToDwIXyl5jrH44KC6Me99oFTimg4UbLv6tlomXSbZXz9Sb9asg
+bgu8vBOVeBhWHo/ipMR5yFHvz/gPblsLVIIILJH0b7QFVJn0VlXnq4N4d66p+nuW
+SrNAfRp7JbsGb81Zn+sexCjWtNB3cQBHcpINU8jo1UocySt/T3LV8klIfZ0f0LF8
+zrpUO8nT9OCEJ4XLxAUhlvOe0GJ3//Zn24gtWgeuVt+W+sGJtUELJ5BeMzm6oBGt
+USTj661kKXoeuDUmftW6QEXA+IT5N5M3OfLMTLM+4Qh4OURAfRYbQaSpeMZBnPfb
+tKykqke0smEv9nzkkyaPjpPqrDsmc99ZR1ZxY8M5JJeTdisqySKP4w3asOvQi1LY
+Do7Ee4m67zgPpT7TRo6J6I8x/fIXXyf8eBEa+uLWYeWxHEpSrL6e6ry9u/U3VBkc
+yy9/FzSdPVJ/CP6lOAJT9txkMAN5IC8OT8ryT9QX/fWGBK7fQZuy9jbrg4S/Pw3r
+CwBfolUd9d5y4BxUZZBFffszBRmdylIgxRxgYekMvsH+YrCfbFI2OM7jCq3cuTaN
+GKGuaQ53um4ihL2kUwIlO21TplOUCugia9aO2gOglZe1oh7bs2Y=
+=yNx8
+-----END PGP SIGNATURE-----
+
+--sdtB3X0nJg68CQEu--
 
