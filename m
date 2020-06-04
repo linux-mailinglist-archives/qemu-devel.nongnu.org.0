@@ -2,59 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3265A1EDD07
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:14:28 +0200 (CEST)
-Received: from localhost ([::1]:41346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9DA1EDCF9
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:12:12 +0200 (CEST)
+Received: from localhost ([::1]:36532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgj91-0001uy-60
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:14:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37392)
+	id 1jgj6p-0008Df-5W
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:12:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jgj7C-0000Tg-L8; Thu, 04 Jun 2020 02:12:34 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55285 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jgj7A-0002nV-V9; Thu, 04 Jun 2020 02:12:34 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49cwRc6t8lz9sSy; Thu,  4 Jun 2020 16:12:28 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1591251148;
- bh=UfHpIetu+x/sdr/nACJK1BSB+jKFre6qOnaLAnl7EJs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kzqaisgWWJgjbD8dV3icCSi5cQzy6y9IW1peDkPPtTg8SKJuj5Yc5sAGfnNr9y2bs
- t8o/abqTw9cXJe1FqNd7QpJTAc3nWXahDplyl3vd5k8+OtBUU4Y0Tg/vMmJjZvWP/5
- Vjsrc2dRgbCNzW/xH+klIv2H7jj/KjtaC4gritTg=
-Date: Thu, 4 Jun 2020 15:56:38 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [RFC v2 14/18] guest memory protection: Rework the
- "memory-encryption" property
-Message-ID: <20200604055638.GF228651@umbus.fritz.box>
-References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
- <20200521034304.340040-15-david@gibson.dropbear.id.au>
- <4061fcf0-ba76-5124-74eb-401a0b91d900@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jgj5h-0007mw-Ep
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:11:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34418)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jgj5f-0002Zp-F8
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:11:01 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jgj5c-000116-HI
+ for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 06:10:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7FDC12E8079
+ for <qemu-devel@nongnu.org>; Thu,  4 Jun 2020 06:10:56 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sDKAb4OeUBrWWL6P"
-Content-Disposition: inline
-In-Reply-To: <4061fcf0-ba76-5124-74eb-401a0b91d900@linaro.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 04 Jun 2020 06:01:23 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1878627@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <158946784791.31573.15508045306154621472.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159125048426.13686.6649152369405182790.malone@soybean.canonical.com>
+Subject: [Bug 1878627] Re: audio/mixeng build failure using Clang 10
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="275d46a24253e557e4403d52832837e4bfa425b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 46cb587108b679a6898db42ce2c77c1c269fdcbf
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 02:10:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,64 +75,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- mdroth@linux.vnet.ibm.com, frankja@linux.ibm.com
+Reply-To: Bug 1878627 <1878627@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Patch posted:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg706322.html
 
---sDKAb4OeUBrWWL6P
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+** Changed in: qemu
+       Status: New =3D> In Progress
 
-On Mon, Jun 01, 2020 at 08:54:42PM -0700, Richard Henderson wrote:
-> On 5/20/20 8:43 PM, David Gibson wrote:
-> > +++ b/include/hw/boards.h
-> > @@ -12,6 +12,8 @@
-> >  #include "qom/object.h"
-> >  #include "hw/core/cpu.h"
-> > =20
-> > +typedef struct GuestMemoryProtection GuestMemoryProtection;
-> > +
->=20
-> I think this needs to be in include/qemu/typedefs.h,
-> and the other typedef in patch 10 needs to be moved there.
->=20
-> IIRC, clang warns about duplicate typedefs.
+-- =
 
-Not, apparently, with the clang version I have, but I've made the
-change anyway.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878627
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Title:
+  audio/mixeng build failure using Clang 10
 
---sDKAb4OeUBrWWL6P
-Content-Type: application/pgp-signature; name="signature.asc"
+Status in QEMU:
+  In Progress
 
------BEGIN PGP SIGNATURE-----
+Bug description:
+  When building with Clang 10 on Fedora 32, we get:
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7YjRQACgkQbDjKyiDZ
-s5IpmQ/+JtlwtOGwoMALm7UoBUn1GIlIXce9xTHg9BnZan8axwvpQc46HsCtjcK8
-CPcTRq5w6MXbxIskXMo3+hmkYRWIcH/SkSbzTVxWm4Tl8Bit7AWyaGOoFzZTqahz
-2/hyCdcRoKjQ6Ur2pWRhtdImFl1hT/tFW8pkfzhn9s5N8s/C5Re2JjugdYvKFljs
-ICcUgtqJzbsG1MPEBy1SL3S7FQpqTTwe57+KkGZ0YdY2v1zTY9tUREPp+HlFBXx+
-mdaleEekfAbqC4Eddxhjgyg74332oNYooMOAAqx1X5+kJww0MiptBABGH99iFlyJ
-lVNbJ3ZCuF+Tm0m4JqBsnTnVcElyi5vHthwgrduj7u9nJXtic8tveHDvLvdWxqbh
-mr/Mi4pMfozVqgfmce6cXiNnupqMhcLUuST5CgpOkKw0shZZUU+YmR3Jv3+koAaI
-r+d9mW3dtzdnupNafpckbBJB0NX6VUslT82mJxj8yC0xBZnec9G0n14qYyD4cn/X
-pAjGu0US6lA5U8iLZJmjmV9HY4G4xUmdoQKwgTGTJoOyZzZ0WOYtq3MSAmrDK2xk
-jpvUrzleaQLAAdsaAjUUHto0rVmtSId0UgLvDPlUpoUxSvIF2BQTjNJBz7miomWr
-NZ/Q8Vpfl+YpjSkQNTfJFjA0tAAlHzwLapJEwDsy8bqCFCvf3oM=
-=sAi+
------END PGP SIGNATURE-----
+      CC      audio/mixeng.o
+    audio/mixeng.c:274:34: error: implicit conversion from 'unsigned int' t=
+o 'float' changes value from 4294967295 to 4294967296 [-Werror,-Wimplicit-i=
+nt-float-conversion]
+    static const float float_scale =3D UINT_MAX / 2.f;
+                                     ^~~~~~~~ ~
+    /usr/lib64/clang/10.0.0/include/limits.h:56:37: note: expanded from mac=
+ro 'UINT_MAX'
+    #define UINT_MAX  (__INT_MAX__  *2U +1U)
+                       ~~~~~~~~~~~~~~~~~^~~
 
---sDKAb4OeUBrWWL6P--
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878627/+subscriptions
 
