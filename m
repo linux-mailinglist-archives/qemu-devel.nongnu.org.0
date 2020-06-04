@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7BB1EE083
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 11:06:10 +0200 (CEST)
-Received: from localhost ([::1]:41804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D191EE06D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 11:01:38 +0200 (CEST)
+Received: from localhost ([::1]:55938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jglpB-0007Hy-4w
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 05:06:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52150)
+	id 1jglkn-0001Fs-Rs
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 05:01:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jglek-0000Kw-Cw
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:55:22 -0400
-Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:42440)
+ id 1jglen-0000Sg-1n
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:55:25 -0400
+Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:42474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jglej-0002FO-Hq
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:55:22 -0400
+ id 1jglem-0002Gl-6Y
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:55:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
  :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=6AagHZt0sWYh5MkRZaX740PmFjZsMYNdNidcAD+BrNM=; b=ZZgRTGJ5pgmebHUGebvWADEhWi
- P6Fn6mD5OiCsHagl+1b9VrO26ZBR5sgYoccrSSERtd+otCt+wNh4F9QOH6BmIW2OkCH38T9QwEsvW
- V6OgqH2UKdRAkYj0sFOc6nczQLl2dNgRMzEO5t+Bu/gSSLSg4/v96NM5z2B0nOxCU0mU=;
+ bh=0STty3uym+w0LUk6UKXbl1ItmRWZndNSFozxEDd8dLg=; b=q02vGfrv6hDsQ6B5c0Zm3nGAH6
+ f9llM1QCKeHFTPXms7Iwh4mO9+Lqe27VSoKarh+H+Jc7iZ7LFPTC8GzDY24hCiGpJS/Y8eiXCGXFh
+ Xt7fbEeKr1IyyieitNc1XgQyvqofhrSRTatOS5UPRCv2cPZzxxnb6H3SeNzMVO9HAyfk=;
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/15] tests/tcg/tricore: Add fmul test
-Date: Thu,  4 Jun 2020 10:54:37 +0200
-Message-Id: <20200604085441.103087-12-kbastian@mail.uni-paderborn.de>
+Subject: [PATCH v2 13/15] tests/tcg/tricore: Add madd test
+Date: Thu,  4 Jun 2020 10:54:39 +0200
+Message-Id: <20200604085441.103087-14-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
 References: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-IMT-Spam-Score: 0.0 ()
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=6898295, da=78869976,
+ mc=184, sc=3, hc=181, sp=1, fso=6898295, re=0, sd=0, hd=0
 X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
  Antispam-Data: 2020.6.4.84518, AntiVirus-Engine: 5.74.0,
- AntiVirus-Data: 2020.6.3.5740003
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=6898292, da=78869973,
- mc=182, sc=3, hc=179, sp=1, fso=6898292, re=0, sd=0, hd=0
+ AntiVirus-Data: 2020.6.4.5740000
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
 Received-SPF: pass client-ip=2001:638:502:c003::15;
  envelope-from=kbastian@mail.uni-paderborn.de; helo=shirlock.uni-paderborn.de
@@ -73,34 +73,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 ---
- tests/tcg/tricore/Makefile.softmmu-target | 1 +
- tests/tcg/tricore/test_fmul.S             | 8 ++++++++
- 2 files changed, 9 insertions(+)
- create mode 100644 tests/tcg/tricore/test_fmul.S
+ tests/tcg/tricore/Makefile.softmmu-target |  1 +
+ tests/tcg/tricore/macros.h                | 18 ++++++++++++++++++
+ tests/tcg/tricore/test_madd.S             | 11 +++++++++++
+ 3 files changed, 30 insertions(+)
+ create mode 100644 tests/tcg/tricore/test_madd.S
 
 diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
-index 3cbb1c8668..21a7017f07 100644
+index a4eebbccb4..4d8d403e80 100644
 --- a/tests/tcg/tricore/Makefile.softmmu-target
 +++ b/tests/tcg/tricore/Makefile.softmmu-target
-@@ -12,6 +12,7 @@ TESTS += test_bmerge.tst
- TESTS += test_clz.tst
- TESTS += test_dvstep.tst
+@@ -14,6 +14,7 @@ TESTS += test_dvstep.tst
  TESTS += test_fadd.tst
-+TESTS += test_fmul.tst
+ TESTS += test_fmul.tst
+ TESTS += test_ftoi.tst
++TESTS += test_madd.tst
  
  %.pS: $(TESTS_PATH)/%.S
  	$(HOST_CC) -E -o $@ $<
-diff --git a/tests/tcg/tricore/test_fmul.S b/tests/tcg/tricore/test_fmul.S
+diff --git a/tests/tcg/tricore/macros.h b/tests/tcg/tricore/macros.h
+index e6a41cd1a2..0d76fc403a 100644
+--- a/tests/tcg/tricore/macros.h
++++ b/tests/tcg/tricore/macros.h
+@@ -9,6 +9,7 @@
+ /* Register definitions */
+ #define DREG_RS1 %d0
+ #define DREG_RS2 %d1
++#define DREG_RS3 %d4
+ #define DREG_CALC_RESULT %d1
+ #define DREG_CALC_PSW %d2
+ #define DREG_CORRECT_PSW %d3
+@@ -85,6 +86,23 @@ test_ ## num:                                                      \
+     insn DREG_CALC_RESULT, DREG_RS1, DREG_RS2;          \
+     )
+ 
++#define TEST_D_DDD_PSW(insn, num, result, psw, rs1, rs2, rs3) \
++    TEST_CASE_PSW(num, DREG_CALC_RESULT, result, psw,         \
++    LI(DREG_RS1, rs1);                                        \
++    LI(DREG_RS2, rs2);                                        \
++    LI(DREG_RS3, rs3);                                        \
++    rstv;                                                     \
++    insn DREG_CALC_RESULT, DREG_RS1, DREG_RS2, DREG_RS3;      \
++    )
++
++#define TEST_D_DDI_PSW(insn, num, result, psw, rs1, rs2, imm) \
++    TEST_CASE_PSW(num, DREG_CALC_RESULT, result, psw,         \
++    LI(DREG_RS1, rs1);                                        \
++    LI(DREG_RS2, rs2);                                        \
++    rstv;                                                     \
++    insn DREG_CALC_RESULT, DREG_RS1, DREG_RS2, imm;           \
++    )
++
+ #define TEST_E_ED(insn, num, res_hi, res_lo, rs1_hi, rs1_lo, rs2) \
+     TEST_CASE_E(num, res_lo, res_hi,                              \
+     LI(EREG_RS1_LO, rs1_lo);                                      \
+diff --git a/tests/tcg/tricore/test_madd.S b/tests/tcg/tricore/test_madd.S
 new file mode 100644
-index 0000000000..fb1f634b2d
+index 0000000000..5d839772bb
 --- /dev/null
-+++ b/tests/tcg/tricore/test_fmul.S
-@@ -0,0 +1,8 @@
++++ b/tests/tcg/tricore/test_madd.S
+@@ -0,0 +1,11 @@
 +#include "macros.h"
 +.text
 +.global _start
 +_start:
-+    TEST_D_DD_PSW(mul.f, 1, 0x974f4f0a, 0x84000b80, 0x1a0b1980, 0xbcbec42d)
++    TEST_D_DDI_PSW(madd,    1, 0x0000fffd, 0x60000b80, 0x0000ffff, 0x7fffffff,2)
++    TEST_D_DDI_PSW(madd,    2, 0xffff7fff, 0x60000b80, 0xffff8001, 0x7fffffff,2)
++    TEST_D_DDD_PSW(madds.u, 3, 0xffffffff, 0x60000b80, 0x00000000, 0x80000000, \
++                             0x80000000)
 +
 +    TEST_PASSFAIL
 +
