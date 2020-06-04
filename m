@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 417DE1EE05F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 10:59:58 +0200 (CEST)
-Received: from localhost ([::1]:50090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9A01EE044
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 10:56:38 +0200 (CEST)
+Received: from localhost ([::1]:36174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgljB-0007Bv-A2
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 04:59:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52084)
+	id 1jglfx-0001Vl-3P
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 04:56:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jgleN-00082r-RN
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:54:59 -0400
-Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:42290)
+ id 1jgleP-00085T-Hh
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:55:01 -0400
+Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:42306)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jgleN-0002De-64
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:54:59 -0400
+ id 1jgleO-0002Du-Iu
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:55:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:Content-Type
- :MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
+ :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Ouw4QyGOBTAQdoboPmGnLFQFBKzyBz7RqWla7Yxo9Mc=; b=tJf3QyI1+e0mA4HAQYRog4YtKd
- quN6iKUFeHh1NVMZ7aRP+OXQ/jBF2F9rxTinBbyfY4Zn/wgWaVq4C1aKO1gdkJ1qN+75y2PhJsGQT
- 73wZeMO/aM3lRLcZO2/mzcuNas3zi3m5cuMQiwDn4T8AzvmxDtqkkpEc1cusMgo3wABs=;
+ bh=z29k5ofXDZaXW51Qot4mmMVhd5Gd8SetC6RahsmCg7Y=; b=Nylyvi9cvxtZAosLvoNNKaFeNq
+ ETYGVrxUCv5G88LG4Ir7KzNQ70dTmE7zJwagevee9OzTuYCFHxVSXv9GEgdxlkF5Z+sgplk51K7PS
+ ZeoKyULCvWNxtzkrkzSCheynnazTSfOY07Gy+IkmG2filel6ekxw81z4b3qANfLiiXr0=;
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/15] tests/tcg: Run timeout cmds using --foreground
-Date: Thu,  4 Jun 2020 10:54:29 +0200
-Message-Id: <20200604085441.103087-4-kbastian@mail.uni-paderborn.de>
+Subject: [PATCH v2 04/15] hw/tricore: Add testdevice for tests in tests/tcg/
+Date: Thu,  4 Jun 2020 10:54:30 +0200
+Message-Id: <20200604085441.103087-5-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
 References: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-IMT-Spam-Score: 0.0 ()
 X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
  Antispam-Data: 2020.6.4.84518, AntiVirus-Engine: 5.74.0,
  AntiVirus-Data: 2020.6.4.5740000
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=6898280, da=78869961,
- mc=174, sc=3, hc=171, sp=1, fso=6898280, re=0, sd=0, hd=0
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=6898282, da=78869963,
+ mc=175, sc=3, hc=172, sp=1, fso=6898282, re=0, sd=0, hd=0
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
 Received-SPF: pass client-ip=2001:638:502:c003::15;
  envelope-from=kbastian@mail.uni-paderborn.de; helo=shirlock.uni-paderborn.de
@@ -72,37 +71,192 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-when trying to run successful short tests from the Makefile timeout would no
-terminate. Rather it would wait until the time runs out. Excerpt from the
-manpage:
-
---foreground
-    when not running timeout directly from a shell prompt,
-    allow COMMAND to read from the TTY and get TTY signals; in this mode, chil‐
-    dren of COMMAND will not be timed out
+this device is used to verify the correctness of regression tests by
+allowing guests to write their exit status to this device. This is then
+used by qemu to exit using the written status.
 
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 ---
- tests/tcg/Makefile.target | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/tricore/Makefile.objs                |  2 +-
+ hw/tricore/tricore_testboard.c          |  8 +++
+ hw/tricore/tricore_testdevice.c         | 82 +++++++++++++++++++++++++
+ include/hw/tricore/tricore_testdevice.h | 38 ++++++++++++
+ 4 files changed, 129 insertions(+), 1 deletion(-)
+ create mode 100644 hw/tricore/tricore_testdevice.c
+ create mode 100644 include/hw/tricore/tricore_testdevice.h
 
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index b3cff3cad1..423caffa56 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -40,9 +40,10 @@ quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
+diff --git a/hw/tricore/Makefile.objs b/hw/tricore/Makefile.objs
+index 5501f6c1a8..163148d04a 100644
+--- a/hw/tricore/Makefile.objs
++++ b/hw/tricore/Makefile.objs
+@@ -1 +1 @@
+-obj-$(CONFIG_TRICORE) += tricore_testboard.o
++obj-$(CONFIG_TRICORE) += tricore_testboard.o tricore_testdevice.o
+diff --git a/hw/tricore/tricore_testboard.c b/hw/tricore/tricore_testboard.c
+index 8ec2b5bddd..b826c99b5f 100644
+--- a/hw/tricore/tricore_testboard.c
++++ b/hw/tricore/tricore_testboard.c
+@@ -28,6 +28,7 @@
+ #include "exec/address-spaces.h"
+ #include "elf.h"
+ #include "hw/tricore/tricore.h"
++#include "hw/tricore/tricore_testdevice.h"
+ #include "qemu/error-report.h"
  
- # $1 = test name, $2 = cmd, $3 = desc
- ifdef CONFIG_USER_ONLY
--run-test = $(call quiet-command, timeout $(TIMEOUT) $2 > $1.out,"TEST",$3)
-+run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2 > $1.out \
-+	"TEST",$3)
- else
--run-test = $(call quiet-command, timeout $(TIMEOUT) $2,"TEST",$3)
-+run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2,"TEST",$3)
- endif
  
- # $1 = test name, $2 = reference
+@@ -57,6 +58,7 @@ static void tricore_testboard_init(MachineState *machine, int board_id)
+ {
+     TriCoreCPU *cpu;
+     CPUTriCoreState *env;
++    TriCoreTestDeviceState *test_dev;
+ 
+     MemoryRegion *sysmem = get_system_memory();
+     MemoryRegion *ext_cram = g_new(MemoryRegion, 1);
+@@ -88,6 +90,12 @@ static void tricore_testboard_init(MachineState *machine, int board_id)
+     memory_region_add_subregion(sysmem, 0xf0050000, pcp_data);
+     memory_region_add_subregion(sysmem, 0xf0060000, pcp_text);
+ 
++    /* test device */
++    test_dev = g_new(TriCoreTestDeviceState, 1);
++    object_initialize(test_dev, sizeof(TriCoreTestDeviceState),
++                      TYPE_TRICORE_TESTDEVICE);
++    memory_region_add_subregion(sysmem, 0xf0000000, &test_dev->iomem);
++
+     tricoretb_binfo.ram_size = machine->ram_size;
+     tricoretb_binfo.kernel_filename = machine->kernel_filename;
+ 
+diff --git a/hw/tricore/tricore_testdevice.c b/hw/tricore/tricore_testdevice.c
+new file mode 100644
+index 0000000000..676e00b465
+--- /dev/null
++++ b/hw/tricore/tricore_testdevice.c
+@@ -0,0 +1,82 @@
++/*
++ *  Copyright (c) 2018 Bastian Koppelmann Paderborn University
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/sysbus.h"
++#include "hw/qdev-properties.h"
++#include "hw/tricore/tricore_testdevice.h"
++
++static void tricore_testdevice_write(void *opaque, hwaddr offset,
++                                      uint64_t value, unsigned size)
++{
++    exit(value);
++}
++
++static uint64_t tricore_testdevice_read(void *opaque, hwaddr offset,
++                                         unsigned size)
++{
++    return 0xdeadbeef;
++}
++
++static void tricore_testdevice_reset(DeviceState *dev)
++{
++}
++
++static const MemoryRegionOps tricore_testdevice_ops = {
++    .read = tricore_testdevice_read,
++    .write = tricore_testdevice_write,
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    },
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++static void tricore_testdevice_init(Object *obj)
++{
++    TriCoreTestDeviceState *s = TRICORE_TESTDEVICE(obj);
++   /* map memory */
++    memory_region_init_io(&s->iomem, OBJECT(s), &tricore_testdevice_ops, s,
++                          "tricore_testdevice", 0x4);
++}
++
++static Property tricore_testdevice_properties[] = {
++    DEFINE_PROP_END_OF_LIST()
++};
++
++static void tricore_testdevice_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    device_class_set_props(dc, tricore_testdevice_properties);
++    dc->reset = tricore_testdevice_reset;
++}
++
++static const TypeInfo tricore_testdevice_info = {
++    .name          = TYPE_TRICORE_TESTDEVICE,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(TriCoreTestDeviceState),
++    .instance_init = tricore_testdevice_init,
++    .class_init    = tricore_testdevice_class_init,
++};
++
++static void tricore_testdevice_register_types(void)
++{
++    type_register_static(&tricore_testdevice_info);
++}
++
++type_init(tricore_testdevice_register_types)
+diff --git a/include/hw/tricore/tricore_testdevice.h b/include/hw/tricore/tricore_testdevice.h
+new file mode 100644
+index 0000000000..5b2df219e3
+--- /dev/null
++++ b/include/hw/tricore/tricore_testdevice.h
+@@ -0,0 +1,38 @@
++/*
++ *  Copyright (c) 2018  Bastian Koppelmann Paderborn University
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++
++#ifndef HW_TRICORE_TESTDEV_H
++#define HW_TRICORE_TESTDEV_H
++
++#include "hw/sysbus.h"
++#include "hw/hw.h"
++
++#define TYPE_TRICORE_TESTDEVICE "tricore_testdevice"
++#define TRICORE_TESTDEVICE(obj) \
++    OBJECT_CHECK(TriCoreTestDeviceState, (obj), TYPE_TRICORE_TESTDEVICE)
++
++typedef struct {
++    /* <private> */
++    SysBusDevice parent_obj;
++
++    /* <public> */
++    MemoryRegion iomem;
++
++} TriCoreTestDeviceState;
++
++#endif
 -- 
 2.26.2
 
