@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670C91EE940
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 19:17:52 +0200 (CEST)
-Received: from localhost ([::1]:45818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158F91EE94B
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 19:19:37 +0200 (CEST)
+Received: from localhost ([::1]:51232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgtV1-0008JM-Gi
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 13:17:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58236)
+	id 1jgtWi-0002G1-5T
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 13:19:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <coiby.xu@gmail.com>)
- id 1jgtTN-0006zu-9c
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 13:16:09 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:41793)
+ id 1jgtTc-0007NV-Gm
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 13:16:24 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:36188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <coiby.xu@gmail.com>)
- id 1jgtTM-0001F6-8h
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 13:16:09 -0400
-Received: by mail-pg1-x544.google.com with SMTP id r10so3749587pgv.8
- for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 10:16:07 -0700 (PDT)
+ id 1jgtTb-0001Qs-6f
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 13:16:24 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id q24so1480702pjd.1
+ for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 10:16:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eJfVkMSOd2rAt/mYEDG86M9fkbe8y+LyR/mkRJhKFjo=;
- b=GGEn/oBHDUfPnBAInVwk0VwBDc90Ro+/DXMKPj5eR67AajwHugW7Do/U0lulreuvZF
- EK9fCuTHty2VS6y637jK+S+HgcTtifSj6bbvW/iarZofYZpTuyPNu4pxpZGl3sL43Pw9
- aPsiTp6DZNg6xGr7WXgzA8sdAeQyLO+oHjkPTXLwKJtkqvh1I0aSsL1FSuoxXiqMs/xM
- GxJd4GVbxuPLLQKeSUCOzTL9Wbi+fhMODWhsMvXgOvKNzy4xcVlemOuDaXQsjJX02R1r
- 2n15DTC4csyoBlcVr+/sur9j7Pv9lRUi8tkU8Fq9Uly6QO7jhTwDmh92A5PhXcuu3Vcn
- Ar7A==
+ bh=HiT8o7yPRFJc9HDdCsWuWuJTLvASD+uleZm1Tw2F1k4=;
+ b=bpvgghA1TwmcAFVLgX+fcPEF+rmvgrLAf9h1pHTFMsJae/CoJMlBMJ7U14nhrwP9a5
+ vdDSmwNBKCmPKcbA6RZTlqQy+GI/8mRK5YX/ig5qhj5ZlptDlCR9RoOiFdjvWGUKh0CG
+ 0DJ3DQ06lC71h0iBCU1baLHAj3LO3M5QyB4nIPWzMYTh79s8eimRuAPdJ28oyNT6aGVs
+ qLXgW8/GmJEsnKwqKiW1qjPm4A8AIDkZBjVvcDbVGxnLBJTI4DlAxlwrnGz0T9GlAppd
+ 8QBJFXQZhTi1Gcsh+qc2wsMf7Tls1eeD4E6VtU+o8/jutc+pRvMcJHY2+rW/RZK2/yw1
+ rdBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eJfVkMSOd2rAt/mYEDG86M9fkbe8y+LyR/mkRJhKFjo=;
- b=r5TALvVI89hhU2IvYovKZtoowts+izPIYTE46Gwgyxb6UXQ5lS9SeuW3529oxhZUEm
- m2Sbp7ziqV9b7QU/MbCE6f+vsCJtRnw8Q8iYqcnHnqe1YMOg9Ts5XzdBGYYcdqTRgC0e
- lnB0z34QCiCwG/6TKfzBrXaeNHJd6idSvC9b1RJeVztamZMlMb395xJkKOdVCFOD5kqH
- LXX7dEpWfHpT4KLbHsx3UkOWUxFotgKEsSCdZYVo7tJnnVrRhUKOck3DgtkzX1rjTag5
- kxrFugObuvCjmf/1ugCGA6cozl8xNy9TU0Uypr8U8qMBxOiw05QxkDMbbpZk9PEWYWjw
- lliw==
-X-Gm-Message-State: AOAM53064UqOXno8ymjJzK02tVcpzFRYStA9n8KxXrpfth1O7GVLai4s
- +8tf4ftx1zziYDuYuhGv+1glKd2gRLSSgXfE
-X-Google-Smtp-Source: ABdhPJyTrOwj5cArztm73xQqOCB0jWX1EM3ivjSaMznpYNa8hGJDqeL+aIYB0PqdAzFvYGToKmTPIw==
-X-Received: by 2002:a63:4b0c:: with SMTP id y12mr5262537pga.56.1591290966404; 
- Thu, 04 Jun 2020 10:16:06 -0700 (PDT)
+ bh=HiT8o7yPRFJc9HDdCsWuWuJTLvASD+uleZm1Tw2F1k4=;
+ b=kLiPxT6saQ1skqkA6U3q5WF/fcD82VyHDQY2Paf7l7mN9YrK5PV3hkTE7657jaLv6N
+ 7cCEu7Bb3k0PAIVk2WMWYS+8dYobZkODveguEVh4kMdAPiNVm5zPCeI42n65KEkdxOyW
+ Tk8+oD38OuWM0OqkW8VDza7iOIZqLbrtTbayIsVzI7rtOW1OFPaJScz5XmIM4W+pRVyQ
+ Io0Xcne/ek38U6yy0inRd0h5Yf7IiXl/6cA2tdtY/HY/4iXF1NFKkCC9APEoskk7T3Ut
+ EK9p7XUHsArCTDcXSYyr243SSFDDwwSO4tQXYLt15S+p92zrQ/mGkNHuq3unyFiVcf6x
+ C/Jg==
+X-Gm-Message-State: AOAM532s62fS2yw6aalfcDUE6d1avUKM2RdZMooU5hel6GzlD6u6pnyv
+ M0q1kKrKpVg5awFgyrMOoBGnNbN7PhqDU4b7
+X-Google-Smtp-Source: ABdhPJzsBjUjv+TTL+FXfsg199nw4v3po+NrBbBmXumiEibdZHANscwQjgjmMgqU5zrHzuszLE5HCQ==
+X-Received: by 2002:a17:90b:4c4b:: with SMTP id
+ np11mr7262515pjb.58.1591290981327; 
+ Thu, 04 Jun 2020 10:16:21 -0700 (PDT)
 Received: from localhost (tunnel570486-pt.tunnel.tserv25.sin1.ipv6.he.net.
  [2001:470:35:3d5::2])
- by smtp.gmail.com with ESMTPSA id e12sm5055870pfj.137.2020.06.04.10.16.05
+ by smtp.gmail.com with ESMTPSA id e12sm4703116pgk.9.2020.06.04.10.16.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Jun 2020 10:16:06 -0700 (PDT)
+ Thu, 04 Jun 2020 10:16:20 -0700 (PDT)
 From: Coiby Xu <coiby.xu@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 1/4] Allow vu_message_read to be replaced
-Date: Fri,  5 Jun 2020 01:15:29 +0800
-Message-Id: <20200604171532.209048-2-coiby.xu@gmail.com>
+Subject: [PATCH v7 2/4] generic vhost user server
+Date: Fri,  5 Jun 2020 01:15:30 +0800
+Message-Id: <20200604171532.209048-3-coiby.xu@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200604171532.209048-1-coiby.xu@gmail.com>
 References: <20200604171532.209048-1-coiby.xu@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=coiby.xu@gmail.com; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=coiby.xu@gmail.com; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,188 +86,512 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kwolf@redhat.com, bharatlkmlkvm@gmail.com, Coiby Xu <coiby.xu@gmail.com>,
- stefanha@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow vu_message_read to be replaced by one which will make use of the
-QIOChannel functions. Thus reading vhost-user message won't stall the
-guest.
+Sharing QEMU devices via vhost-user protocol.
+
+Only one vhost-user client can connect to the server one time.
 
 Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
 ---
- contrib/libvhost-user/libvhost-user-glib.c |  2 +-
- contrib/libvhost-user/libvhost-user.c      | 11 ++++++-----
- contrib/libvhost-user/libvhost-user.h      | 21 +++++++++++++++++++++
- tests/vhost-user-bridge.c                  |  2 ++
- tools/virtiofsd/fuse_virtio.c              |  4 ++--
- 5 files changed, 32 insertions(+), 8 deletions(-)
+ util/Makefile.objs       |   1 +
+ util/vhost-user-server.c | 406 +++++++++++++++++++++++++++++++++++++++
+ util/vhost-user-server.h |  59 ++++++
+ 3 files changed, 466 insertions(+)
+ create mode 100644 util/vhost-user-server.c
+ create mode 100644 util/vhost-user-server.h
 
-diff --git a/contrib/libvhost-user/libvhost-user-glib.c b/contrib/libvhost-user/libvhost-user-glib.c
-index 53f1ca4cdd..0df2ec9271 100644
---- a/contrib/libvhost-user/libvhost-user-glib.c
-+++ b/contrib/libvhost-user/libvhost-user-glib.c
-@@ -147,7 +147,7 @@ vug_init(VugDev *dev, uint16_t max_queues, int socket,
-     g_assert(dev);
-     g_assert(iface);
- 
--    if (!vu_init(&dev->parent, max_queues, socket, panic, set_watch,
-+    if (!vu_init(&dev->parent, max_queues, socket, panic, NULL, set_watch,
-                  remove_watch, iface)) {
-         return false;
-     }
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index 3bca996c62..0c7368baa2 100644
---- a/contrib/libvhost-user/libvhost-user.c
-+++ b/contrib/libvhost-user/libvhost-user.c
-@@ -67,8 +67,6 @@
- /* The version of inflight buffer */
- #define INFLIGHT_VERSION 1
- 
--#define VHOST_USER_HDR_SIZE offsetof(VhostUserMsg, payload.u64)
--
- /* The version of the protocol we support */
- #define VHOST_USER_VERSION 1
- #define LIBVHOST_USER_DEBUG 0
-@@ -412,7 +410,7 @@ vu_process_message_reply(VuDev *dev, const VhostUserMsg *vmsg)
-         goto out;
-     }
- 
--    if (!vu_message_read(dev, dev->slave_fd, &msg_reply)) {
-+    if (!dev->read_msg(dev, dev->slave_fd, &msg_reply)) {
-         goto out;
-     }
- 
-@@ -647,7 +645,7 @@ vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserMsg *vmsg)
-     /* Wait for QEMU to confirm that it's registered the handler for the
-      * faults.
-      */
--    if (!vu_message_read(dev, dev->sock, vmsg) ||
-+    if (!dev->read_msg(dev, dev->sock, vmsg) ||
-         vmsg->size != sizeof(vmsg->payload.u64) ||
-         vmsg->payload.u64 != 0) {
-         vu_panic(dev, "failed to receive valid ack for postcopy set-mem-table");
-@@ -1653,7 +1651,7 @@ vu_dispatch(VuDev *dev)
-     int reply_requested;
-     bool need_reply, success = false;
- 
--    if (!vu_message_read(dev, dev->sock, &vmsg)) {
-+    if (!dev->read_msg(dev, dev->sock, &vmsg)) {
-         goto end;
-     }
- 
-@@ -1704,6 +1702,7 @@ vu_deinit(VuDev *dev)
-         }
- 
-         if (vq->kick_fd != -1) {
-+            dev->remove_watch(dev, vq->kick_fd);
-             close(vq->kick_fd);
-             vq->kick_fd = -1;
-         }
-@@ -1751,6 +1750,7 @@ vu_init(VuDev *dev,
-         uint16_t max_queues,
-         int socket,
-         vu_panic_cb panic,
-+        vu_read_msg_cb read_msg,
-         vu_set_watch_cb set_watch,
-         vu_remove_watch_cb remove_watch,
-         const VuDevIface *iface)
-@@ -1768,6 +1768,7 @@ vu_init(VuDev *dev,
- 
-     dev->sock = socket;
-     dev->panic = panic;
-+    dev->read_msg = read_msg ? read_msg : vu_message_read;
-     dev->set_watch = set_watch;
-     dev->remove_watch = remove_watch;
-     dev->iface = iface;
-diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
-index f30394fab6..d756da8548 100644
---- a/contrib/libvhost-user/libvhost-user.h
-+++ b/contrib/libvhost-user/libvhost-user.h
-@@ -30,6 +30,8 @@
- 
- #define VHOST_MEMORY_MAX_NREGIONS 8
- 
-+#define VHOST_USER_HDR_SIZE offsetof(VhostUserMsg, payload.u64)
+diff --git a/util/Makefile.objs b/util/Makefile.objs
+index fe339c2636..f54a6c80ec 100644
+--- a/util/Makefile.objs
++++ b/util/Makefile.objs
+@@ -40,6 +40,7 @@ util-obj-y += readline.o
+ util-obj-y += rcu.o
+ util-obj-$(CONFIG_MEMBARRIER) += sys_membarrier.o
+ util-obj-y += qemu-coroutine.o qemu-coroutine-lock.o qemu-coroutine-io.o
++util-obj-$(CONFIG_LINUX) += vhost-user-server.o
+ util-obj-y += qemu-coroutine-sleep.o
+ util-obj-y += qemu-co-shared-resource.o
+ util-obj-y += coroutine-$(CONFIG_COROUTINE_BACKEND).o
+diff --git a/util/vhost-user-server.c b/util/vhost-user-server.c
+new file mode 100644
+index 0000000000..8fafd97bdc
+--- /dev/null
++++ b/util/vhost-user-server.c
+@@ -0,0 +1,406 @@
++/*
++ * Sharing QEMU devices via vhost-user protocol
++ *
++ * Author: Coiby Xu <coiby.xu@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or
++ * later.  See the COPYING file in the top-level directory.
++ */
++#include "qemu/osdep.h"
++#include <sys/eventfd.h>
++#include "qemu/main-loop.h"
++#include "vhost-user-server.h"
 +
- typedef enum VhostSetConfigType {
-     VHOST_SET_CONFIG_TYPE_MASTER = 0,
-     VHOST_SET_CONFIG_TYPE_MIGRATION = 1,
-@@ -205,6 +207,7 @@ typedef uint64_t (*vu_get_features_cb) (VuDev *dev);
- typedef void (*vu_set_features_cb) (VuDev *dev, uint64_t features);
- typedef int (*vu_process_msg_cb) (VuDev *dev, VhostUserMsg *vmsg,
-                                   int *do_reply);
-+typedef bool (*vu_read_msg_cb) (VuDev *dev, int sock, VhostUserMsg *vmsg);
- typedef void (*vu_queue_set_started_cb) (VuDev *dev, int qidx, bool started);
- typedef bool (*vu_queue_is_processed_in_order_cb) (VuDev *dev, int qidx);
- typedef int (*vu_get_config_cb) (VuDev *dev, uint8_t *config, uint32_t len);
-@@ -373,6 +376,23 @@ struct VuDev {
-     bool broken;
-     uint16_t max_queues;
- 
-+    /* @read_msg: custom method to read vhost-user message
-+     *
-+     * Read data from vhost_user socket fd and fill up
-+     * the passed VhostUserMsg *vmsg struct.
-+     *
-+     * If reading fails, it should close the received set of file
-+     * descriptors as socket message's auxiliary data.
-+     *
-+     * For the details, please refer to vu_message_read in libvhost-user.c
-+     * which will be used by default if not custom method is provided when
-+     * calling vu_init
-+     *
-+     * Returns: true if vhost-user message successfully received,
-+     *          otherwise return false.
-+     *
++static void vmsg_close_fds(VhostUserMsg *vmsg)
++{
++    int i;
++    for (i = 0; i < vmsg->fd_num; i++) {
++        close(vmsg->fds[i]);
++    }
++}
++
++static void vmsg_unblock_fds(VhostUserMsg *vmsg)
++{
++    int i;
++    for (i = 0; i < vmsg->fd_num; i++) {
++        qemu_set_nonblock(vmsg->fds[i]);
++    }
++}
++
++static void vu_accept(QIONetListener *listener, QIOChannelSocket *sioc,
++                      gpointer opaque);
++
++static void close_client(VuServer *server)
++{
++    vu_deinit(&server->vu_dev);
++    server->sioc = NULL;
++    object_unref(OBJECT(server->ioc));
++
++    server->sioc_slave = NULL;
++    object_unref(OBJECT(server->ioc_slave));
++    /*
++     * Set the callback function for network listener so another
++     * vhost-user client can connect to this server
 +     */
-+    vu_read_msg_cb read_msg;
-     /* @set_watch: add or update the given fd to the watch set,
-      * call cb when condition is met */
-     vu_set_watch_cb set_watch;
-@@ -416,6 +436,7 @@ bool vu_init(VuDev *dev,
-              uint16_t max_queues,
-              int socket,
-              vu_panic_cb panic,
-+             vu_read_msg_cb read_msg,
-              vu_set_watch_cb set_watch,
-              vu_remove_watch_cb remove_watch,
-              const VuDevIface *iface);
-diff --git a/tests/vhost-user-bridge.c b/tests/vhost-user-bridge.c
-index 6c3d490611..bd43607a4d 100644
---- a/tests/vhost-user-bridge.c
-+++ b/tests/vhost-user-bridge.c
-@@ -520,6 +520,7 @@ vubr_accept_cb(int sock, void *ctx)
-                  VHOST_USER_BRIDGE_MAX_QUEUES,
-                  conn_fd,
-                  vubr_panic,
-+                 NULL,
-                  vubr_set_watch,
-                  vubr_remove_watch,
-                  &vuiface)) {
-@@ -573,6 +574,7 @@ vubr_new(const char *path, bool client)
-                      VHOST_USER_BRIDGE_MAX_QUEUES,
-                      dev->sock,
-                      vubr_panic,
-+                     NULL,
-                      vubr_set_watch,
-                      vubr_remove_watch,
-                      &vuiface)) {
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 3b6d16a041..666945c897 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -980,8 +980,8 @@ int virtio_session_mount(struct fuse_session *se)
-     se->vu_socketfd = data_sock;
-     se->virtio_dev->se = se;
-     pthread_rwlock_init(&se->virtio_dev->vu_dispatch_rwlock, NULL);
--    vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic, fv_set_watch,
--            fv_remove_watch, &fv_iface);
-+    vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic, NULL,
-+            fv_set_watch, fv_remove_watch, &fv_iface);
- 
-     return 0;
- }
++    qio_net_listener_set_client_func(server->listener,
++                                     vu_accept,
++                                     server,
++                                     NULL);
++}
++
++static void panic_cb(VuDev *vu_dev, const char *buf)
++{
++    VuServer *server = container_of(vu_dev, VuServer, vu_dev);
++
++    if (buf) {
++        error_report("vu_panic: %s", buf);
++    }
++
++    if (server->sioc) {
++        close_client(server);
++    }
++
++    if (server->device_panic_notifier) {
++        server->device_panic_notifier(server);
++    }
++}
++
++static QIOChannel *slave_io_channel(VuServer *server, int fd,
++                                    Error **local_err)
++{
++    if (server->sioc_slave) {
++        if (fd == server->sioc_slave->fd) {
++            return server->ioc_slave;
++        }
++    } else {
++        server->sioc_slave = qio_channel_socket_new_fd(fd, local_err);
++        if (!*local_err) {
++            server->ioc_slave = QIO_CHANNEL(server->sioc_slave);
++            return server->ioc_slave;
++        }
++    }
++
++    return NULL;
++}
++
++static bool coroutine_fn
++vu_message_read(VuDev *vu_dev, int conn_fd, VhostUserMsg *vmsg)
++{
++    struct iovec iov = {
++        .iov_base = (char *)vmsg,
++        .iov_len = VHOST_USER_HDR_SIZE,
++    };
++    int rc, read_bytes = 0;
++    Error *local_err = NULL;
++    /*
++     * Store fds/nfds returned from qio_channel_readv_full into
++     * temporary variables.
++     *
++     * VhostUserMsg is a packed structure, gcc will complain about passing
++     * pointer to a packed structure member if we pass &VhostUserMsg.fd_num
++     * and &VhostUserMsg.fds directly when calling qio_channel_readv_full,
++     * thus two temporary variables nfds and fds are used here.
++     */
++    size_t nfds = 0, nfds_t = 0;
++    int *fds = NULL, *fds_t = NULL;
++    VuServer *server = container_of(vu_dev, VuServer, vu_dev);
++    QIOChannel *ioc = NULL;
++
++    if (conn_fd == server->sioc->fd) {
++        ioc = server->ioc;
++    } else {
++        /* Slave communication will also use this function to read msg */
++        ioc = slave_io_channel(server, conn_fd, &local_err);
++    }
++
++    if (!ioc) {
++        error_report_err(local_err);
++        goto fail;
++    }
++
++    assert(qemu_in_coroutine());
++    do {
++        /*
++         * qio_channel_readv_full may have short reads, keeping calling it
++         * until getting VHOST_USER_HDR_SIZE or 0 bytes in total
++         */
++        rc = qio_channel_readv_full(ioc, &iov, 1, &fds_t, &nfds_t, &local_err);
++        if (rc < 0) {
++            if (rc == QIO_CHANNEL_ERR_BLOCK) {
++                qio_channel_yield(ioc, G_IO_IN);
++                continue;
++            } else {
++                error_report_err(local_err);
++                return false;
++            }
++        }
++        read_bytes += rc;
++        if (nfds_t > 0) {
++            fds = g_renew(int, fds, nfds + nfds_t);
++            memcpy(fds + nfds, fds_t, nfds_t *sizeof(int));
++            nfds += nfds_t;
++            if (nfds > VHOST_MEMORY_MAX_NREGIONS) {
++                error_report("A maximum of %d fds are allowed, "
++                             "however got %lu fds now",
++                             VHOST_MEMORY_MAX_NREGIONS, nfds);
++                goto fail;
++            }
++            g_free(fds_t);
++        }
++        if (read_bytes == VHOST_USER_HDR_SIZE || rc == 0) {
++            break;
++        }
++        iov.iov_base = (char *)vmsg + read_bytes;
++        iov.iov_len = VHOST_USER_HDR_SIZE - read_bytes;
++    } while (true);
++
++    vmsg->fd_num = nfds;
++    if (nfds > 0) {
++        memcpy(vmsg->fds, fds, nfds * sizeof(int));
++    }
++    g_free(fds);
++    /* qio_channel_readv_full will make socket fds blocking, unblock them */
++    vmsg_unblock_fds(vmsg);
++    if (vmsg->size > sizeof(vmsg->payload)) {
++        error_report("Error: too big message request: %d, "
++                     "size: vmsg->size: %u, "
++                     "while sizeof(vmsg->payload) = %zu",
++                     vmsg->request, vmsg->size, sizeof(vmsg->payload));
++        goto fail;
++    }
++
++    struct iovec iov_payload = {
++        .iov_base = (char *)&vmsg->payload,
++        .iov_len = vmsg->size,
++    };
++    if (vmsg->size) {
++        rc = qio_channel_readv_all_eof(ioc, &iov_payload, 1, &local_err);
++        if (rc == -1) {
++            error_report_err(local_err);
++            goto fail;
++        }
++    }
++
++    return true;
++
++fail:
++    vmsg_close_fds(vmsg);
++
++    return false;
++}
++
++
++static void vu_client_start(VuServer *server);
++static coroutine_fn void vu_client_trip(void *opaque)
++{
++    VuServer *server = opaque;
++
++    while (!server->aio_context_changed && server->sioc) {
++        vu_dispatch(&server->vu_dev);
++    }
++
++    if (server->aio_context_changed && server->sioc) {
++        server->aio_context_changed = false;
++        vu_client_start(server);
++    }
++}
++
++static void vu_client_start(VuServer *server)
++{
++    server->co_trip = qemu_coroutine_create(vu_client_trip, server);
++    aio_co_enter(server->ctx, server->co_trip);
++}
++
++/*
++ * a wrapper for vu_kick_cb
++ *
++ * since aio_dispatch can only pass one user data pointer to the
++ * callback function, pack VuDev and pvt into a struct. Then unpack it
++ * and pass them to vu_kick_cb
++ */
++static void kick_handler(void *opaque)
++{
++    KickInfo *kick_info = opaque;
++    kick_info->cb(kick_info->vu_dev, 0, (void *) kick_info->index);
++}
++
++
++static void
++set_watch(VuDev *vu_dev, int fd, int vu_evt,
++          vu_watch_cb cb, void *pvt)
++{
++
++    VuServer *server = container_of(vu_dev, VuServer, vu_dev);
++    g_assert(vu_dev);
++    g_assert(fd >= 0);
++    long index = (intptr_t) pvt;
++    g_assert(cb);
++    KickInfo *kick_info = &server->kick_info[index];
++    if (!kick_info->cb) {
++        kick_info->fd = fd;
++        kick_info->cb = cb;
++        qemu_set_nonblock(fd);
++        aio_set_fd_handler(server->ioc->ctx, fd, false, kick_handler,
++                           NULL, NULL, kick_info);
++        kick_info->vu_dev = vu_dev;
++    }
++}
++
++
++static void remove_watch(VuDev *vu_dev, int fd)
++{
++    VuServer *server;
++    int i;
++    int index = -1;
++    g_assert(vu_dev);
++    g_assert(fd >= 0);
++
++    server = container_of(vu_dev, VuServer, vu_dev);
++    for (i = 0; i < vu_dev->max_queues; i++) {
++        if (server->kick_info[i].fd == fd) {
++            index = i;
++            break;
++        }
++    }
++
++    if (index == -1) {
++        return;
++    }
++    server->kick_info[i].cb = NULL;
++    aio_set_fd_handler(server->ioc->ctx, fd, false, NULL, NULL, NULL, NULL);
++}
++
++
++static void vu_accept(QIONetListener *listener, QIOChannelSocket *sioc,
++                      gpointer opaque)
++{
++    VuServer *server = opaque;
++
++    if (server->sioc) {
++        warn_report("Only one vhost-user client is allowed to "
++                    "connect the server one time");
++        return;
++    }
++
++    if (!vu_init(&server->vu_dev, server->max_queues, sioc->fd, panic_cb,
++                 vu_message_read, set_watch, remove_watch, server->vu_iface)) {
++        error_report("Failed to initialized libvhost-user");
++        return;
++    }
++
++    /*
++     * Unset the callback function for network listener to make another
++     * vhost-user client keeping waiting until this client disconnects
++     */
++    qio_net_listener_set_client_func(server->listener,
++                                     NULL,
++                                     NULL,
++                                     NULL);
++    server->sioc = sioc;
++    server->kick_info = g_new0(KickInfo, server->max_queues);
++    /*
++     * Increase the object reference, so cioc will not freed by
++     * qio_net_listener_channel_func which will call object_unref(OBJECT(sioc))
++     */
++    object_ref(OBJECT(server->sioc));
++    qio_channel_set_name(QIO_CHANNEL(sioc), "vhost-user client");
++    server->ioc = QIO_CHANNEL(sioc);
++    object_ref(OBJECT(server->ioc));
++    object_ref(OBJECT(sioc));
++    qio_channel_attach_aio_context(server->ioc, server->ctx);
++    qio_channel_set_blocking(QIO_CHANNEL(server->sioc), false, NULL);
++    vu_client_start(server);
++}
++
++
++void vhost_user_server_stop(VuServer *server)
++{
++    if (!server) {
++        return;
++    }
++
++    if (server->sioc) {
++        close_client(server);
++        object_unref(OBJECT(server->sioc));
++    }
++
++    if (server->listener) {
++        qio_net_listener_disconnect(server->listener);
++        object_unref(OBJECT(server->listener));
++    }
++}
++
++static void detach_context(VuServer *server)
++{
++    int i;
++    AioContext *ctx = server->ioc->ctx;
++    qio_channel_detach_aio_context(server->ioc);
++    for (i = 0; i < server->vu_dev.max_queues; i++) {
++        if (server->kick_info[i].cb) {
++            aio_set_fd_handler(ctx, server->kick_info[i].fd, false, NULL,
++                               NULL, NULL, NULL);
++        }
++    }
++}
++
++static void attach_context(VuServer *server, AioContext *ctx)
++{
++    int i;
++    qio_channel_attach_aio_context(server->ioc, ctx);
++    server->aio_context_changed = true;
++    if (server->co_trip) {
++        aio_co_schedule(ctx, server->co_trip);
++    }
++    for (i = 0; i < server->vu_dev.max_queues; i++) {
++        if (server->kick_info[i].cb) {
++            aio_set_fd_handler(ctx, server->kick_info[i].fd, false,
++                               kick_handler, NULL, NULL,
++                               &server->kick_info[i]);
++        }
++    }
++}
++
++void vhost_user_server_set_aio_context(AioContext *ctx, VuServer *server)
++{
++    server->ctx = ctx ? ctx : qemu_get_aio_context();
++    if (!server->sioc) {
++        return;
++    }
++    if (ctx) {
++        attach_context(server, ctx);
++    } else {
++        detach_context(server);
++    }
++}
++
++
++bool vhost_user_server_start(uint16_t max_queues,
++                             SocketAddress *socket_addr,
++                             AioContext *ctx,
++                             VuServer *server,
++                             void *device_panic_notifier,
++                             const VuDevIface *vu_iface,
++                             Error **errp)
++{
++    server->listener = qio_net_listener_new();
++    if (qio_net_listener_open_sync(server->listener, socket_addr, 1,
++                                   errp) < 0) {
++        goto error;
++    }
++
++    qio_net_listener_set_name(server->listener, "vhost-user-backend-listener");
++
++    server->vu_iface = vu_iface;
++    server->max_queues = max_queues;
++    server->ctx = ctx;
++    server->device_panic_notifier = device_panic_notifier;
++    qio_net_listener_set_client_func(server->listener,
++                                     vu_accept,
++                                     server,
++                                     NULL);
++
++    return true;
++error:
++    g_free(server);
++    return false;
++}
+diff --git a/util/vhost-user-server.h b/util/vhost-user-server.h
+new file mode 100644
+index 0000000000..4315556b66
+--- /dev/null
++++ b/util/vhost-user-server.h
+@@ -0,0 +1,59 @@
++/*
++ * Sharing QEMU devices via vhost-user protocol
++ *
++ * Author: Coiby Xu <coiby.xu@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or
++ * later.  See the COPYING file in the top-level directory.
++ */
++
++#ifndef VHOST_USER_SERVER_H
++#define VHOST_USER_SERVER_H
++
++#include "contrib/libvhost-user/libvhost-user.h"
++#include "io/channel-socket.h"
++#include "io/channel-file.h"
++#include "io/net-listener.h"
++#include "qemu/error-report.h"
++#include "qapi/error.h"
++#include "standard-headers/linux/virtio_blk.h"
++
++typedef struct KickInfo {
++    VuDev *vu_dev;
++    int fd; /*kick fd*/
++    long index; /*queue index*/
++    vu_watch_cb cb;
++} KickInfo;
++
++typedef struct VuServer {
++    QIONetListener *listener;
++    AioContext *ctx;
++    void (*device_panic_notifier)(struct VuServer *server) ;
++    int max_queues;
++    const VuDevIface *vu_iface;
++    VuDev vu_dev;
++    QIOChannel *ioc; /* The I/O channel with the client */
++    QIOChannelSocket *sioc; /* The underlying data channel with the client */
++    /* IOChannel for fd provided via VHOST_USER_SET_SLAVE_REQ_FD */
++    QIOChannel *ioc_slave;
++    QIOChannelSocket *sioc_slave;
++    Coroutine *co_trip; /* coroutine for processing VhostUserMsg */
++    KickInfo *kick_info; /* an array with the length of the queue number */
++    /* restart coroutine co_trip if AIOContext is changed */
++    bool aio_context_changed;
++} VuServer;
++
++
++bool vhost_user_server_start(uint16_t max_queues,
++                             SocketAddress *unix_socket,
++                             AioContext *ctx,
++                             VuServer *server,
++                             void *device_panic_notifier,
++                             const VuDevIface *vu_iface,
++                             Error **errp);
++
++void vhost_user_server_stop(VuServer *server);
++
++void vhost_user_server_set_aio_context(AioContext *ctx, VuServer *server);
++
++#endif /* VHOST_USER_SERVER_H */
 -- 
 2.26.2
 
