@@ -2,115 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF761EDD51
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:41:15 +0200 (CEST)
-Received: from localhost ([::1]:51092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D751EDD76
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:46:01 +0200 (CEST)
+Received: from localhost ([::1]:35828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgjYw-0003jw-If
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:41:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39734)
+	id 1jgjdY-0000wa-W9
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:46:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgjXB-0002u0-Q1
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:39:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39083
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgjXA-0000DB-GK
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:39:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591252763;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UH+O1R66c0xaJU4nMuMPNWvOzz9BMhCKxBm55raWnPs=;
- b=DZEhZ4PrpHkmb9ZasN+eutwzDZhDEGvfve88xPG+z2QB9INZcqHaRA3fiwdwIj7P9zNK6p
- 796+Hj3oEO8BdQS/pPWmbm8+6pCYLMTl3RE9nyVBOqLPclmexfxY054uopOPzhXT/REpaq
- DaF6DWNhR2vhQER2S29SEWE8sT/exMs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-OwNEXEygOz2n8gfJfHUIWg-1; Thu, 04 Jun 2020 02:39:19 -0400
-X-MC-Unique: OwNEXEygOz2n8gfJfHUIWg-1
-Received: by mail-wr1-f71.google.com with SMTP id p9so2005685wrx.10
- for <qemu-devel@nongnu.org>; Wed, 03 Jun 2020 23:39:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=UH+O1R66c0xaJU4nMuMPNWvOzz9BMhCKxBm55raWnPs=;
- b=qTU/N+PcO9HFtRJwlllvYI8sN7W49bYcJ0x5pTqRRh7/06gcdU+xKTCAVWofWO+N0K
- wJKjKMLMb1kfGe5CiO04xTaWUmLejCZt3YcnwdLvyJ8QMNPVOdrBvX4lD+8KZuGOhFxW
- cdLj1cjr5EjhPNNeM5iAA+FnpMXPNcM+ODIYd921WB/jSOKGMXhGCkqUV7yNBEJId/wc
- YRDBKMRBOMdntDtpBvxTNrN3pdc7yiCw/UXcszO18f8UkQ1d7srwTKssOE9HypSiAfKY
- ge593APWtXZRXAJZl6eeLGnB9Isn0F+PooFdtNHfkjrB5E7zQGXA3OEVrsAo6Y1cvCmh
- MEAA==
-X-Gm-Message-State: AOAM533rjmwJQGqIoo0vhOXqAry3EPyWkg3mP07ASth7QZ5nQtQ1/TA8
- 3hPFWzNj75AbnmNgUEslSvqssM/vi08JFMv9NBYu8HGSsaiyKz6NHM6tTrwoh5YaI/6ZMbfmQEB
- VLW45qUlaVMgp/y4=
-X-Received: by 2002:a05:6000:100e:: with SMTP id
- a14mr2775928wrx.349.1591252758688; 
- Wed, 03 Jun 2020 23:39:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyY7XfDLhZUN1AS2qNhOFShrIVnwSr2/4EKiidmbom24oOiA3b62zHOV/rNYMQsiSJ6xsTDyg==
-X-Received: by 2002:a05:6000:100e:: with SMTP id
- a14mr2775916wrx.349.1591252758554; 
- Wed, 03 Jun 2020 23:39:18 -0700 (PDT)
-Received: from [192.168.1.43] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id y80sm6389148wmc.34.2020.06.03.23.39.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Jun 2020 23:39:18 -0700 (PDT)
-Subject: Re: [PATCH 05/13] i386: hvf: Use ins_len to advance IP
-To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
-References: <20200528193758.51454-1-r.bolshakov@yadro.com>
- <20200528193758.51454-6-r.bolshakov@yadro.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <be9d6f5b-5297-459f-3192-26835fdac230@redhat.com>
-Date: Thu, 4 Jun 2020 08:39:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jgjaD-0004yN-R2
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:42:33 -0400
+Received: from ozlabs.org ([203.11.71.1]:45271)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jgjaB-0000ms-Q6
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:42:33 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49cx6C0C7Pz9sSg; Thu,  4 Jun 2020 16:42:26 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1591252947;
+ bh=IUFMoEbkcs8o6aiX40egsNr2FfcrirDbeyetkgE7SVM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=VhGOYhHgSI2buOMRy8gV2fCllPdg0yDXqCWtWQw9boI2+v2coQZVNMVXAafg9062Z
+ z9i1ZTsX5eyy9mOBSQJBWpOPBPdeXW1240geDjpRLgSeHii7bMMrdxGryrM+XgxO9C
+ uq8KKBGeYjjzsjBEOj8LUacA5kT7sC5hcAVRPul4=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: rth@twiddle.net, pbonzini@redhat.com, ekabkost@redhat.com,
+ qemu-devel@nongnu.org
+Subject: [PATCH 0/9] AMD SEV: Cleanup state handling
+Date: Thu,  4 Jun 2020 16:42:10 +1000
+Message-Id: <20200604064219.436242-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200528193758.51454-6-r.bolshakov@yadro.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:14:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 02:12:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,36 +61,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Cameron Esfahani <dirty@apple.com>, Richard Henderson <rth@twiddle.net>
+Cc: philmd@redhat.com, David Gibson <david@gibson.dropbear.id.au>,
+ brijesh.singh@amd.com, dgilbert@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/28/20 9:37 PM, Roman Bolshakov wrote:
-> There's no need to read VMCS twice, instruction length is already
-> available in ins_len.
-> 
-> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> ---
->  target/i386/hvf/hvf.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-> index 9ccdb7e7c7..8ff1d25521 100644
-> --- a/target/i386/hvf/hvf.c
-> +++ b/target/i386/hvf/hvf.c
-> @@ -871,7 +871,7 @@ int hvf_vcpu_exec(CPUState *cpu)
->              } else {
->                  simulate_wrmsr(cpu);
->              }
-> -            RIP(env) += rvmcs(cpu->hvf_fd, VMCS_EXIT_INSTRUCTION_LENGTH);
-> +            RIP(env) += ins_len;
-
-I'd feel safer if you change ins_len to uint64_t first.
-
->              store_regs(cpu);
->              break;
->          }
-> 
-
+This series has an assortment of cleanups to the AMD SEV memory=0D
+encryption code.  Amongst other things it:=0D
+  * Removes the confusion between struct SEVState and enum SevState=0D
+  * Reduces use of global variables=0D
+  * Unifies some ad-hoc structures with an existing QOM object=0D
+=0D
+I made these changes along the way to building a framework for common=0D
+handling of mechanisms for protecting guests from compromised hosts=0D
+(such as AMD SEV, IBM's PEF and others).  However, I think the changes=0D
+make sense on their own, so I'm sending them for inclusion now, while=0D
+finishing the polish on the rest of those patches.=0D
+=0D
+Please apply.=0D
+=0D
+David Gibson (9):=0D
+  target/i386: sev: Remove unused QSevGuestInfoClass=0D
+  target/i386: sev: Move local structure definitions into .c file=0D
+  target/i386: sev: Rename QSevGuestInfo=0D
+  target/i386: sev: Embed SEVState in SevGuestState=0D
+  target/i386: sev: Partial cleanup to sev_state global=0D
+  target/i386: sev: Remove redundant cbitpos and reduced_phys_bits=0D
+    fields=0D
+  target/i386: sev: Remove redundant policy field=0D
+  target/i386: sev: Remove redundant handle field=0D
+  target/i386: sev: Unify SEVState and SevGuestState=0D
+=0D
+ target/i386/sev.c      | 257 +++++++++++++++++++++++------------------=0D
+ target/i386/sev_i386.h |  49 --------=0D
+ 2 files changed, 143 insertions(+), 163 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
