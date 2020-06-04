@@ -2,104 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204881EDFDC
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 10:35:10 +0200 (CEST)
-Received: from localhost ([::1]:42564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FDCE1EDFF4
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 10:44:39 +0200 (CEST)
+Received: from localhost ([::1]:51208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jglLA-0006dD-W2
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 04:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49766)
+	id 1jglUL-000398-T0
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 04:44:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jglK6-0005qw-Nx; Thu, 04 Jun 2020 04:34:02 -0400
-Received: from mail-eopbgr140098.outbound.protection.outlook.com
- ([40.107.14.98]:12946 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jglK4-0006iw-Fn; Thu, 04 Jun 2020 04:34:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XCf08osLK62JojPCcsPv4MKOm7CHmLrbPF4v31uV/GpdlL6ave4XYq/FMCJXlMzAlMOuHOoDft9kOLUpkvB0N3+++7CQiQRLdvwFt3wPCCJUreKs5NuLe0GfNNOBVv7zXvJs440ZpIkHKIDiBvaXFFMJKij6By4QvIm5wz4Ry54fBgcExGCOSp5Sa+SpQgPaaen5ro3tjN4I2EIcChZLWPqbP8jfzXCh2mtRjfn2nNSHVKTkYn9yKre5i6HeBBuStWr5//WINMjv8ghsI25Yb1IJek8aqAC9d8m0H30mThU92ggUAOX9uLN9d1z73atKLdyNbmc+xcHv+D/VkKrf4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vig8Yz7pr2lV1wIB65UYp5XEiSnfBFahnO/GpDNSz6A=;
- b=MyezRGcBnFI98qVzKnfYBCsvgdI8/4tARVew4CoPR16W6pXKF42iwztGTanPYrPM7enOgVG3ZUTQ7xkebUxboebrMYvtiuNX7YLz0qqoo7wKBrhGPcGJYVNpzHpi2n+GvVgXio6APfAxC7xOLEPwBcHFki30e8xYmg1AqPl2P3PMyCz3yxCfrNry3uQ+AiNpvi4fZGiUonOwZaMM0zHxj8fV0L+0YVMhLcS6QzhAWQIIqGo/CHFdIqejMh0jvmIieEV0oYPSsDVgimdiphAvYjNKlWKfaANjGq62pCcIRvxJXfSebk8WZT/eZTmrJ3eCkV29WgdJ7VxVae1/R13N2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vig8Yz7pr2lV1wIB65UYp5XEiSnfBFahnO/GpDNSz6A=;
- b=sFOxLK+apmIVW6Z+Wit8e95L4jiFIjOtvO4MaIPRvWyylHqUZzqcKX8NWXDXE37CD6ruqTRXfcDj8URCpLD01ES/7HTO5UEm3Vr9VRf+oZJSv19r/7dbjEGZSda9W9d0YM/xdsdo8bIa5zRg3nFS4NDbGBsCzTy0iKJV303baDw=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5303.eurprd08.prod.outlook.com (2603:10a6:20b:102::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Thu, 4 Jun
- 2020 08:33:55 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3066.018; Thu, 4 Jun 2020
- 08:33:55 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] iotests: 194: wait migration completion on target too
-Date: Thu,  4 Jun 2020 11:33:41 +0300
-Message-Id: <20200604083341.26978-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM0PR05CA0079.eurprd05.prod.outlook.com
- (2603:10a6:208:136::19) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jglTW-0002hw-Gn
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:43:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60026
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jglTU-0008Bl-OH
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:43:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591260223;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=nwrLxNpgtcUzKmaKLV2ZZwRVkV2T9CtIZutZAP8mSYI=;
+ b=AdHA0FZDG+nrytLX6bzmQN/ozgEKhNfN0Mhusvgf7Deqj8s0yVL/nua3/zYMhXbAGUwDyv
+ EbN+BGUMoaqd5LEcCrWUlMBbdV5hXI0RU9FP5Q0irGB9sVGB/a/l9lLcTjK2jBs3HvMydt
+ y9XZAK8EWeR7VsZupVVWvlGJkLS/7PU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-hN2BkNh9O6SGnZR9262l-w-1; Thu, 04 Jun 2020 04:43:31 -0400
+X-MC-Unique: hN2BkNh9O6SGnZR9262l-w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1B29800C78;
+ Thu,  4 Jun 2020 08:43:29 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9799C6111F;
+ Thu,  4 Jun 2020 08:43:21 +0000 (UTC)
+Date: Thu, 4 Jun 2020 09:43:18 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: P J P <ppandit@redhat.com>
+Subject: Re: [PATCH v2 1/2] ait-vga: check address before reading
+ configuration bytes
+Message-ID: <20200604084318.GA3050580@redhat.com>
+References: <20200603202251.1199170-1-ppandit@redhat.com>
+ <20200603202251.1199170-2-ppandit@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.190) by
- AM0PR05CA0079.eurprd05.prod.outlook.com (2603:10a6:208:136::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18 via Frontend
- Transport; Thu, 4 Jun 2020 08:33:54 +0000
-X-Mailer: git-send-email 2.21.0
-X-Originating-IP: [185.215.60.190]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4973fa53-272d-43ad-65af-08d808620479
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5303:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5303AF03BCDB24F9EE40A044C1890@AM7PR08MB5303.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:534;
-X-Forefront-PRVS: 04244E0DC5
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xLoJlkXd7/M1W6HVKDVHhkbJ4ZdS/FBfT6CegVOBREDqLZEeK/PhPZ9XJ87BVkETtle1vc6DdMzqTebGLH/CP+wtIXuZEYl1fOD7shYkmGuBEQCYNv7PzNTVzE2LfJzAkb2Psruokz8qlNWYNBZcBDZAMrFLzkQW5/Le1fLph1eyMo0xAsRN93pp4q16ZNsZxCFwu/mIvJpcIs6k4egRlCRTbR2Ql18iXieVnfCEUlLWwFyO4jvevjlh6Mt1qGp4HvpgJFkT0gxBOXuV2WBWahhppU3yqOYLgqGjSsWcMRveZssT+Q77q2FPJi5AdZ/KqmR2PElUr+gc+aOxF+HIBw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39840400004)(396003)(376002)(366004)(346002)(136003)(16526019)(66556008)(66946007)(83380400001)(86362001)(26005)(8676002)(956004)(2616005)(8936002)(6512007)(66476007)(478600001)(6486002)(6916009)(6506007)(7416002)(186003)(52116002)(6666004)(1076003)(5660300002)(36756003)(2906002)(316002)(4326008);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: ZHmiAxCK6nsbSBACjsxEm9VLAV7oWxLDYkM9mXmwdtrY8uHKm9WDTFWsNrkbPgqCNzNQzviFGQtFeIJ3xEe0zlVECpI7t+v5DEpDUIOVp6liztN3MevxyQqEJwKErB59pJqcyxfrMNZx2BDHbV9Pz2eIGapnVrQq1dzgWBCSJbGwmEmw0brBhzLY5ip8Meqw8aGnhjgF9ZfHw/QBzkQmAZbpNxtY2bBmwP5KaMFoWz9IsF1Tz2f4J1MzoBEnWapjWnD2+bQobzwBJsxXMengwgb3by33WxxWF5v80j593d/lmbP6dsRq9B40VFs/+fYq8jp3Db7n0zxAeUFn9D7is6j0SqRRLOMVB/B/UkcT8Z9jdYpkmi+lXzaiXjKqW3idIvBAMcIFJH/vhKAA14HQmsMYZ49+uk7J36YLKu3zVpnmQvNGBGjts+Q5LEUumUoN/DXZYoBFics1XdosqB2NnFNHBsOtgRJ49lobYcTvnWHOv+EVLcDuHrT7wxOgTNv5
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4973fa53-272d-43ad-65af-08d808620479
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2020 08:33:54.9260 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SKwHqYGyFmGllvMdlBQVaTjTf/2FtGuTP9XenG1vEIlwpkNZNWOGOAeQ6tx+W3bzkQXF0QFjG192Ot7LxaghXEEqXlhu5JqLvP8uL4Y6+Vc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5303
-Received-SPF: pass client-ip=40.107.14.98;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 04:33:56
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: 5
-X-Spam_score: 0.5
-X-Spam_bar: /
-X-Spam_report: (0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SBL_CSS=3.335,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+In-Reply-To: <20200603202251.1199170-2-ppandit@redhat.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:12:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,71 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, thuth@redhat.com,
- vsementsov@virtuozzo.com, quintela@redhat.com, alex.bennee@linaro.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org,
- jsnow@redhat.com, dgilbert@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Prasad J Pandit <pjp@fedoraproject.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Yi Ren <c4tren@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Ren Ding <rding@gatech.edu>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Hanqing Zhao <hanqing@gatech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is possible, that shutdown on target occurs earlier than migration
-finish. In this case we crash in bdrv_release_dirty_bitmap_locked()
-on assertion "assert(!bdrv_dirty_bitmap_busy(bitmap));" as we do have
-busy bitmap, as bitmap migration is ongoing.
+Typo: s/ait/ati/
 
-We'll fix bitmap migration to gracefully cancel on early shutdown soon.
-Now let's fix iotest 194 to wait migration completion before shutdown.
+On Thu, Jun 04, 2020 at 01:52:50AM +0530, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
+> 
+> While reading PCI configuration bytes, a guest may send an
+> address towards the end of the configuration space. It may lead
+> to an OOB access issue. Add check to ensure 'address + size' is
+> within PCI configuration space.
 
-Note that in this test dest_vm.shutdown() is called implicitly, as vms
-used as context-providers, see __exit__() method of QEMUMachine class.
+Please include a CVE number for this security flaw if there is
+one.
 
-Actually, not waiting migration finish is a wrong thing, but the test
-started to crash after commit ae00aa239847682
-"iotests: 194: test also migration of dirty bitmap", which added dirty
-bitmaps here. So, Fixes: tag won't hurt.
+> 
+> Reported-by: Ren Ding <rding@gatech.edu>
+> Reported-by: Hanqing Zhao <hanqing@gatech.edu>
+> Reported-by: Yi Ren <c4tren@gmail.com>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+> ---
+>  hw/display/ati.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> Update v2: add check to avoid OOB PCI configuration space access
+>   -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg00711.html
+> 
+> diff --git a/hw/display/ati.c b/hw/display/ati.c
+> index bda4a2d816..6671959e5d 100644
+> --- a/hw/display/ati.c
+> +++ b/hw/display/ati.c
+> @@ -384,7 +384,10 @@ static uint64_t ati_mm_read(void *opaque, hwaddr addr, unsigned int size)
+>          val = s->regs.crtc_pitch;
+>          break;
+>      case 0xf00 ... 0xfff:
+> -        val = pci_default_read_config(&s->dev, addr - 0xf00, size);
+> +        addr = addr - 0xf00;
+> +        if (addr + size <= 0xff) {
+> +            val = pci_default_read_config(&s->dev, addr, size);
+> +        }
+>          break;
+>      case CUR_OFFSET:
+>          val = s->regs.cur_offset;
+> -- 
+> 2.26.2
+> 
 
-Fixes: ae00aa2398476824f0eca80461da215e7cdc1c3b
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/194     | 10 ++++++++++
- tests/qemu-iotests/194.out |  5 +++++
- 2 files changed, 15 insertions(+)
-
-diff --git a/tests/qemu-iotests/194 b/tests/qemu-iotests/194
-index 3fad7c6c1a..6dc2bc94d7 100755
---- a/tests/qemu-iotests/194
-+++ b/tests/qemu-iotests/194
-@@ -87,4 +87,14 @@ with iotests.FilePath('source.img') as source_img_path, \
-             iotests.log(dest_vm.qmp('nbd-server-stop'))
-             break
- 
-+    iotests.log('Wait migration completion on target...')
-+    migr_events = (('MIGRATION', {'data': {'status': 'completed'}}),
-+                   ('MIGRATION', {'data': {'status': 'failed'}}))
-+    event = dest_vm.events_wait(migr_events)
-+    iotests.log(event, filters=[iotests.filter_qmp_event])
-+
-+    iotests.log('Check bitmaps on source:')
-     iotests.log(source_vm.qmp('query-block')['return'][0]['dirty-bitmaps'])
-+
-+    iotests.log('Check bitmaps on target:')
-+    iotests.log(dest_vm.qmp('query-block')['return'][0]['dirty-bitmaps'])
-diff --git a/tests/qemu-iotests/194.out b/tests/qemu-iotests/194.out
-index dd60dcc14f..f70cf7610e 100644
---- a/tests/qemu-iotests/194.out
-+++ b/tests/qemu-iotests/194.out
-@@ -21,4 +21,9 @@ Gracefully ending the `drive-mirror` job on source...
- {"data": {"device": "mirror-job0", "len": 1073741824, "offset": 1073741824, "speed": 0, "type": "mirror"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
- Stopping the NBD server on destination...
- {"return": {}}
-+Wait migration completion on target...
-+{"data": {"status": "completed"}, "event": "MIGRATION", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+Check bitmaps on source:
-+[{"busy": false, "count": 0, "granularity": 65536, "name": "bitmap0", "persistent": false, "recording": true, "status": "active"}]
-+Check bitmaps on target:
- [{"busy": false, "count": 0, "granularity": 65536, "name": "bitmap0", "persistent": false, "recording": true, "status": "active"}]
+Regards,
+Daniel
 -- 
-2.21.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
