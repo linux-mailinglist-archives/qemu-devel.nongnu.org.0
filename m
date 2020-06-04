@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E143F1EE50F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 15:12:25 +0200 (CEST)
-Received: from localhost ([::1]:49314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF011EE527
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 15:19:19 +0200 (CEST)
+Received: from localhost ([::1]:33060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgpfU-0005vo-Vo
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 09:12:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58088)
+	id 1jgpmA-0003Vn-4q
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 09:19:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jgpea-0005Cn-3C
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 09:11:28 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35241)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jgpeZ-00018c-3N
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 09:11:27 -0400
-Received: by mail-wm1-x344.google.com with SMTP id q25so5588604wmj.0
- for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 06:11:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kDgIwhHEpsMApYOvWesR6+idHIDmIg08yib6elr0dhI=;
- b=Uoml0Ug2P7WwrptHcuQnpVKt/s/JxubRbjczs1DuakGiz9H0suHJByQrQn03B2d5qU
- oJJvvo95NQB2vKRZpgTzDkkJL09BfQpUEQop9kiRZAXEcQ/85IdXlgHuzcp5+/vEPfFn
- 90xmCQleGFR5QEWWrMiX0nAmjroUBovDB4q7QLFKUtOBCUgNfrOblMGcXm5ZMVzZ03bG
- zm3nfm58Ln0VbYPaFBursdvE2TLYikLyAt6HKf9SEd3rA3fA26UO4oZehCPQEIY4FLvc
- vwLJLOGkkMDluprw0QGSfnyMYCRs0qxY2tFBapganqQ0+yzgr247kbKcNEklYjLp4JaV
- 58Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kDgIwhHEpsMApYOvWesR6+idHIDmIg08yib6elr0dhI=;
- b=r3Is4BaA5g/U8LTY3yT+ssD2dy7IdAcOjao1ICrVghuJKI2z6coc59xxB7pSQqyljL
- rLyHjw7+rAHI4X2VQHKpGWesDTV1Hc6lcmKJQ1IMIYf/pIlIyhm15f22UfZf/yBOdroy
- fHpbG7QBNmu/5Vp2DHr4Cyuh7g5UzJ7f8ihveVdZo52Rt2/FMTIfBipkaLHV03OVyqEP
- nRvEHiY9gRIgp7DRLBLAz/dzbnJX8DR+u5uKm0rbQzLrE2YhNNw/g6/HY/OAWyxbk/BT
- bVOA0bRQOWBg6qyf6fV47wE5wL0T410s1IjzNkHifL50iD0E90I3M1keJeNnm/DlG6oS
- nQmQ==
-X-Gm-Message-State: AOAM532PsQnsaPQ0xkpiVwtqcyDfH/I1Aycl5PQ3GiwdPJQ5zeca1cJR
- 9h/KH4jPSO1RCGOMH4wNneei5F/PRAALEAfACWU=
-X-Google-Smtp-Source: ABdhPJyLJUHbk55gETF4xoKWZhVHurKQw2EtCVa5q78w6kjOuHK6J88Puo2h1GShTXPvJR8rPEMpgCDDhbJrjeU3j8E=
-X-Received: by 2002:a1c:46c3:: with SMTP id t186mr3857454wma.36.1591276283349; 
- Thu, 04 Jun 2020 06:11:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jgpjx-0007kS-3n
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 09:17:01 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29863
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jgpjv-000232-Lw
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 09:17:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591276618;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HiiGhhFrvEAoYsjQa0ZeJinBiWXxkNw0dwSCYFd1Ksw=;
+ b=QA3eksidpRzH+59Ope9yBbBrpT6fZmIHnxqmjYS7xIfM8i0M+fJXxXXA0PyWa2sL7a5/4Z
+ uz7gaER+v5s2b8fcuLXDVmj8bYGrTZbVPi0EYJuSPacvHQOE4JdsGqWH1wqKqnMI2LJQew
+ xEcsfi2os8O4feVWt0wfJ2510XLxyDk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-4V4yNYDNO0yV8pZKmR0Tlg-1; Thu, 04 Jun 2020 09:16:55 -0400
+X-MC-Unique: 4V4yNYDNO0yV8pZKmR0Tlg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCEFC18A8225
+ for <qemu-devel@nongnu.org>; Thu,  4 Jun 2020 13:16:53 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-50.ams2.redhat.com
+ [10.36.113.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D42E990323;
+ Thu,  4 Jun 2020 13:16:44 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id C379217477; Thu,  4 Jun 2020 15:16:43 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/7] build some devices as modules.
+Date: Thu,  4 Jun 2020 15:16:36 +0200
+Message-Id: <20200604131643.1776-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20200517092357.1469-1-aleksandar.qemu.devel@gmail.com>
- <78f4e779-246a-c7c2-d295-6b97dcd6cc31@syrmia.com>
-In-Reply-To: <78f4e779-246a-c7c2-d295-6b97dcd6cc31@syrmia.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Thu, 4 Jun 2020 15:11:11 +0200
-Message-ID: <CAHiYmc4tpLoK8WOH7nS5WgG=fb3kH0w8ZmSx=u4251R23bFZeQ@mail.gmail.com>
-Subject: Re: [PATCH v4 00/19] target/mips: FPU and other cleanups and
- improvements
-To: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:31:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,102 +77,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: dinechin@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=D0=BF=D0=BE=D0=BD, 18. =D0=BC=D0=B0=D1=98 2020. =D1=83 13:01 Aleksandar Ri=
-kalo
-<aleksandar.rikalo@syrmia.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=
-=D0=B0=D0=BE/=D0=BB=D0=B0:
->
->  > This series contains mostly cosmetic FPU cleanups aimed to make
->  > source code recognition easier for tools like gdb, gcov, calgrind,
->  > and others.
->  >
->  > There is also a patch that refactors conversion from ieee to mips
->  > fp exception flags. This refactoring will improve the performance
->  > of almost all fp-related mips instructions, albait very modestly
->  > (less that one percent).
->  >
->  > There is a patch that introduces some logging in mips_malta.c.
->  >
->  > There is a patch on change of Aleksandar Rikalo's email.
->  >
->  > Finally, there is a patch on renaming some files in hw/mips folder.
->  >
->  > v3->v4:
->  >
->  >   - corrected some spelling and style mistakes in commit messages
->  >   - added a patch on renaming some files in hw/mips
->  >
->  > v2->v3:
->  >
->  >   - changed Malta patch to perform logging
->  >   - added change of Aleksandar Rikalo's email
->  >
->  > v1->v2:
->  >
->  >   - added more demacroing
->  >
->  > Aleksandar Markovic (19):
->  >   target/mips: fpu: Demacro ADD.<D|S|PS>
->  >   target/mips: fpu: Demacro SUB.<D|S|PS>
->  >   target/mips: fpu: Demacro MUL.<D|S|PS>
->  >   target/mips: fpu: Demacro DIV.<D|S|PS>
->  >   target/mips: fpu: Remove now unused macro FLOAT_BINOP
->  >   target/mips: fpu: Demacro MADD.<D|S|PS>
->  >   target/mips: fpu: Demacro MSUB.<D|S|PS>
->  >   target/mips: fpu: Demacro NMADD.<D|S|PS>
->  >   target/mips: fpu: Demacro NMSUB.<D|S|PS>
->  >   target/mips: fpu: Remove now unused UNFUSED_FMA and FLOAT_FMA macros
->  >   target/mips: fpu: Demacro CLASS.<D|S>
->  >   target/mips: fpu: Remove now unused FLOAT_CLASS macro
->  >   target/mips: fpu: Demacro RINT.<D|S>
->  >   target/mips: fpu: Remove now unused FLOAT_RINT macro
->  >   target/mips: fpu: Name better paired-single variables
->  >   target/mips: fpu: Refactor conversion from ieee to mips exception
->  >     flags
->  >   hw/mips: Add some logging for bad register offset cases
->  >   MAINTAINERS: Change Aleksandar Rikalo's email address
->  >   hw/mips: Rename malta/mipssim/r4k/jazz files in hw/mips
->  >
->  >  .mailmap                              |   3 +-
->  >  MAINTAINERS                           |  12 +-
->  >  hw/mips/Makefile.objs                 |   8 +-
->  >  hw/mips/{mips_jazz.c =3D> jazz.c}       |   0
->  >  hw/mips/{mips_malta.c =3D> malta.c}     |  14 +-
->  >  hw/mips/{mips_mipssim.c =3D> mipssim.c} |   0
->  >  hw/mips/{mips_r4k.c =3D> r4k.c}         |   0
->  >  target/mips/fpu_helper.c              | 658 ++++++++++++++++++-------=
--
->  >  target/mips/internal.h                |   1 -
->  >  target/mips/msa_helper.c              |  77 ++-
->  >  10 files changed, 523 insertions(+), 250 deletions(-)
->  >  rename hw/mips/{mips_jazz.c =3D> jazz.c} (100%)
->  >  rename hw/mips/{mips_malta.c =3D> malta.c} (99%)
->  >  rename hw/mips/{mips_mipssim.c =3D> mipssim.c} (100%)
->  >  rename hw/mips/{mips_r4k.c =3D> r4k.c} (100%)
->  >
->  > --
->  > 2.20.1
->  >
->
-> For patches 1-16 and 18:
->
-> Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
->
+Specifically devices which depend on shared libraries,
+to reduce the runtime dependencies of core qemu.
 
+v2:
+ - better commit messages.
+ - add some more devices.
+ - general tidy up.
 
-Patches 1-16 applied to MIPS queue.
+Gerd Hoffmann (7):
+  qdev: add support for device module loading
+  build: fix device module builds
+  ccid: build smartcard as module
+  usb: build usb-redir as module
+  vga: build qxl as module
+  vga: build virtio-gpu only once
+  vga: build virtio-gpu as module
 
-Patch 18 is already upstream.
-Tthanks,
-Aleksandar M.
-> Please make sure you rerun our MIPS FPU regression tests after the
-> series is applied.
->
-> Thanks,
-> Aleksandar Rikalo
->
+ Makefile.objs            |  1 +
+ Makefile.target          |  7 +++++
+ include/hw/qdev-core.h   |  3 ++
+ include/qemu/module.h    |  1 +
+ hw/core/qdev.c           | 61 ++++++++++++++++++++++++++++++++++++++++
+ qdev-monitor.c           |  5 ++++
+ qom/qom-qmp-cmds.c       |  1 +
+ stubs/hw-module.c        |  6 ++++
+ hw/Makefile.objs         |  2 ++
+ hw/display/Makefile.objs | 28 ++++++++++--------
+ hw/usb/Makefile.objs     | 13 ++++++---
+ stubs/Makefile.objs      |  1 +
+ 12 files changed, 114 insertions(+), 15 deletions(-)
+ create mode 100644 stubs/hw-module.c
+
+-- 
+2.18.4
+
 
