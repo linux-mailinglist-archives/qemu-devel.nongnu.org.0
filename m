@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A611EE376
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 13:35:03 +0200 (CEST)
-Received: from localhost ([::1]:58788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8EF1EE383
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 13:39:12 +0200 (CEST)
+Received: from localhost ([::1]:38666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgo9G-00058H-NR
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 07:35:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43486)
+	id 1jgoDH-0000VJ-AG
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 07:39:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jgo8M-0004i0-1c
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 07:34:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48974
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1jgoBr-00084a-3R
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 07:37:43 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48464
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jgo8L-0002Q9-3l
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 07:34:05 -0400
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1jgoBq-0003tU-BS
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 07:37:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591270444;
+ s=mimecast20190719; t=1591270661;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LTJD/5S6sTH1G9/f+RtdhhC30e56I1/1Ew4Nt12YgB0=;
- b=BBxA9oMsAcdDyuRndzrPGvvnhA63fal1cr7h7yxccI5JuOV13iSMbeBrVoaBEYFHzQbg10
- ugDZ6RkCXAanBldqeEX+yITIKZurmPsq4+Uyru6dY2LgiPGSqZFHJZu5jTBne0jIC1YTTb
- sYiIcJHE8a8vzm5QiZAxtHBeEDdaPwk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-o8faFYORP5OKgOoRskNruw-1; Thu, 04 Jun 2020 07:33:57 -0400
-X-MC-Unique: o8faFYORP5OKgOoRskNruw-1
-Received: by mail-wr1-f71.google.com with SMTP id m14so2308812wrj.12
- for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 04:33:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=LTJD/5S6sTH1G9/f+RtdhhC30e56I1/1Ew4Nt12YgB0=;
- b=NTzLuCKUkJzdKgcRtpVo90n/yGKD0R3H62LrnIWpCJasQ1ptY2M17ajt4PzhmkRXOA
- Bgr0xwdXEIYO3jALxZAIiarVAgzkVKhZTdQ77BZHjhZXEcAKOkRJ5Jr978t+ehM0n2zP
- frSF/PCTml6JIbR9M7MJHIuYX7bA6Ocmr95jXvPZulBZ2+IIk0ZEx+VjuTz8WiLmLtWR
- Ih17Jn1EQAWzzy/KmLt8txF2pn8xfxVAwM7vxEKDQj7rTQNk0shKuqZVfyrxYOpEe5r/
- Kgpn+KcsHsJBevv6d3hkOKndAOkNNKUd06ZUe8+vST0J4DBLvR08elk++x4tMjy3vVQX
- oKFQ==
-X-Gm-Message-State: AOAM531sr2+KR8WbNuhTodX0hl3ACct6KfvXMEDrxOzav3o5V6MX7ywm
- b+OIW1RBaz2Ug6nXAZhcOoIqbzfz88veYDs5fiJk2aPGTGhrJQ+shFqSQQINChAp6njZivqJN0p
- oStim5h+lac3AfzQ=
-X-Received: by 2002:a5d:6cce:: with SMTP id c14mr3829194wrc.377.1591270436431; 
- Thu, 04 Jun 2020 04:33:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxaeCodJ4O1azBWze1slKKT2PQ/jv0sTQZa6ahFdmQU3ENCP3ghzFJZcu1JtHdQY0SNpcc3mw==
-X-Received: by 2002:a5d:6cce:: with SMTP id c14mr3829157wrc.377.1591270436222; 
- Thu, 04 Jun 2020 04:33:56 -0700 (PDT)
-Received: from redhat.com ([2a00:a040:185:f65:9a3b:8fff:fed3:ad8d])
- by smtp.gmail.com with ESMTPSA id z2sm7307915wrs.87.2020.06.04.04.33.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Jun 2020 04:33:55 -0700 (PDT)
-Date: Thu, 4 Jun 2020 07:33:50 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Subject: Re: [RFC v3 7/8] vhost-vdpa: introduce vhost-vdpa backend
-Message-ID: <20200604073144-mutt-send-email-mst@kernel.org>
-References: <20200529140620.28759-1-lulu@redhat.com>
- <20200529140620.28759-8-lulu@redhat.com>
- <CAJaqyWcTDDzgV_sHza80ZoRe8a=59zvszvmgLSFhxPht=_N82g@mail.gmail.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GSS6k2OA8nkX1cHM024kmAM0soiqgUq2GQ6ckOLu0II=;
+ b=QTGyiXyvYBRyXawaew2h4SYXjv+uqoOh8FQfvIETtFCa+z5H3h5gO2ZEI37U9GoOFD+qKE
+ hKi6toXLlh11JX98Dpzu/yPA2BrGWCX5S6PHr11ZGWHGs4roRtAUy+F0pT8NIW13h3pXQM
+ RCiK+tf+lkY2JvTSPX3RVPgqmZzvEwo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-373-DRLbzgpzNwWxei_lLG8EEQ-1; Thu, 04 Jun 2020 07:37:37 -0400
+X-MC-Unique: DRLbzgpzNwWxei_lLG8EEQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68F1B1005510;
+ Thu,  4 Jun 2020 11:37:36 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-200.sin2.redhat.com
+ [10.67.116.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B361060C47;
+ Thu,  4 Jun 2020 11:37:27 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: "Michael S . Tsirkin" <mst@redhat.com>
+Subject: [PATCH] pci: assert configuration access is within bounds
+Date: Thu,  4 Jun 2020 17:05:25 +0530
+Message-Id: <20200604113525.58898-1-ppandit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWcTDDzgV_sHza80ZoRe8a=59zvszvmgLSFhxPht=_N82g@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:14:08
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:31:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,42 +77,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, hanand@xilinx.com, Rob Miller <rob.miller@broadcom.com>,
- saugatm@xilinx.com, Cindy Lu <lulu@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, hch@infradead.org, jgg@mellanox.com,
- mhabets@solarflare.com, shahafs@mellanox.com, kevin.tian@intel.com,
- parav@mellanox.com, Vitaly Mireyno <vmireyno@marvell.com>,
- cunming.liang@intel.com, gdawar@xilinx.com, jiri@mellanox.com,
- xiao.w.wang@intel.com, Stefan Hajnoczi <stefanha@redhat.com>,
- zhihong.wang@intel.com, Tiwei Bie <tiwei.bie@intel.com>,
- Ariel Adam <aadam@redhat.com>, rdunlap@infradead.org,
- Maxime Coquelin <maxime.coquelin@redhat.com>, lingshan.zhu@intel.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Prasad J Pandit <pjp@fedoraproject.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 04, 2020 at 12:39:34PM +0200, Eugenio Perez Martin wrote:
-> > +static int vhost_vdpa_set_config(struct vhost_dev *dev, const uint8_t *data,
-> > +                                   uint32_t offset, uint32_t size,
-> > +                                   uint32_t flags)
-> > +{
-> > +    struct vhost_vdpa_config config;
-> > +    int ret;
-> > +    if ((size > VHOST_VDPA_MAX_CONFIG_SIZE) || (data == NULL)) {
-> 
-> VHOST_VDPA_MAX_CONFIG_SIZE is currently undefined.
-> 
-> If we want to maintain this as a stack allocation (as proposed in
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg701744.html) I
-> think that the best option is to decide which is the maximum value buf
-> can hold, and set it in vhost_vdpa_config.buf declaration.
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-That depends on device features. qemu has logic to figure out
-config size based on that and set config_size accordingly.
-Why not reuse it? Sending more should be ok and extra
-data just ignored.
+While accessing PCI configuration bytes, assert that
+'address + len' is within PCI configuration space.
 
+Generally it is within bounds. This is more of a defensive
+assert, in case a buggy device was to send 'address' which
+may go out of bounds.
+
+Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+---
+ hw/pci/pci.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+Update v1: defensive assert as separate patch
+  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg00957.html
+  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg00960.html
+
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 70c66965f5..7bf2ae6d92 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1381,6 +1381,8 @@ uint32_t pci_default_read_config(PCIDevice *d,
+ {
+     uint32_t val = 0;
+ 
++    assert(address + len <= pci_config_size(d));
++
+     if (pci_is_express_downstream_port(d) &&
+         ranges_overlap(address, len, d->exp.exp_cap + PCI_EXP_LNKSTA, 2)) {
+         pcie_sync_bridge_lnk(d);
+@@ -1394,6 +1396,8 @@ void pci_default_write_config(PCIDevice *d, uint32_t addr, uint32_t val_in, int
+     int i, was_irq_disabled = pci_irq_disabled(d);
+     uint32_t val = val_in;
+ 
++    assert(addr + l <= pci_config_size(d));
++
+     for (i = 0; i < l; val >>= 8, ++i) {
+         uint8_t wmask = d->wmask[addr + i];
+         uint8_t w1cmask = d->w1cmask[addr + i];
 -- 
-MST
+2.26.2
 
 
