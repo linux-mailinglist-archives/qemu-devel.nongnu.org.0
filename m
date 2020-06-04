@@ -2,113 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5051EDD84
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:49:00 +0200 (CEST)
-Received: from localhost ([::1]:51164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925691EDD7A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:46:26 +0200 (CEST)
+Received: from localhost ([::1]:37392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgjgR-0007oP-By
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:48:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40068)
+	id 1jgjdx-00021t-Jx
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:46:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgjax-0006jq-6O
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:43:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58077
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgjaw-0000sy-FC
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:43:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591252997;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Fu5Z22JNr0arvF0Jnc15EKD2Dcyqv9eLQ+QCmobbp64=;
- b=XFCQrMJVfL7G1K/4QqfzIDDilY3IFdsa9kVIvRgXIkZ724zweP+deuEweVPC/GRnlmk401
- tjMj94j50BY975okrvK4doVoAe6/Cvh/Zk06uCJRWYhn5/WxJaEPG9msH4afrgloPXcj2l
- xNwAOZVBa7NHGXNEByemQlGetNPw8Ng=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-zXQ0jx7zPiSIooiHzOK6ng-1; Thu, 04 Jun 2020 02:43:07 -0400
-X-MC-Unique: zXQ0jx7zPiSIooiHzOK6ng-1
-Received: by mail-wr1-f70.google.com with SMTP id j16so1986239wre.22
- for <qemu-devel@nongnu.org>; Wed, 03 Jun 2020 23:43:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=Fu5Z22JNr0arvF0Jnc15EKD2Dcyqv9eLQ+QCmobbp64=;
- b=plzK8mTf8QZybJ5ag0QJu1w3+jwqopx1EQydW0xiufxxQs35Ve7FPBtzzkMOOsUWbx
- LPJISnnnRfWaso8khjIlU++7Ju2SHO0JfOBrE85Naxx4ymO+sT85cmbSGSPdPHESxGI9
- mfVek8pQIhZWkNWZeEpBiV44OprVQ/6RIy44CDI7/mJr69/TSWQ2/WgNL/3WOX7w1eoc
- R+eToSouTEDkDRNMl/YONPu2X1dCZxyddKIQ3cObYW33K5w26h7pDPXbymnBDOJ9+RGa
- 2/vsKfZeU9nV5jolcLt4ijllQmZRZdwQ3oGJDf8l5CIZ4vrEW1RvCv5M/Dy4d2/nTtcm
- EjMw==
-X-Gm-Message-State: AOAM532qwwgSfyFtl6bUE1MdfDEDHw+ngilPJLlu3N/dM2EisEKjeiBZ
- QeIJGfAPBgEQmTCqyMHZft6KBiTlLdi3FZYTTAMH+zybNqMjky7mG/3iFwSHzjXwrkyCYiry4RM
- u1Dz97XMbUq4LzyQ=
-X-Received: by 2002:adf:f8cc:: with SMTP id f12mr2794321wrq.418.1591252986767; 
- Wed, 03 Jun 2020 23:43:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztETPgqkV0S6uMArCcxfY8sKzCdVL2kTq4EQH+IpLCOgpc33PQRSkOsbNTuoeVeITBPgpffA==
-X-Received: by 2002:adf:f8cc:: with SMTP id f12mr2794300wrq.418.1591252986579; 
- Wed, 03 Jun 2020 23:43:06 -0700 (PDT)
-Received: from [192.168.1.43] (181.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id h5sm6558688wrw.85.2020.06.03.23.43.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Jun 2020 23:43:06 -0700 (PDT)
-Subject: Re: [PATCH 11/13] i386: hvf: Move lazy_flags into CPUX86State
-To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
-References: <20200528193758.51454-1-r.bolshakov@yadro.com>
- <20200528193758.51454-12-r.bolshakov@yadro.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Autocrypt: addr=philmd@redhat.com; keydata=
- mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
- bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
- GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
- z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
- XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
- CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
- bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
- qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
- MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
- qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
- KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
- 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
- JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
- piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
- 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
- gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
- 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
- 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
- RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
- apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <c935970a-35af-9921-7d03-c17c373ad238@redhat.com>
-Date: Thu, 4 Jun 2020 08:43:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jgjc3-0008Af-Fk; Thu, 04 Jun 2020 02:44:27 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:49337)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jgjc2-000127-Gb; Thu, 04 Jun 2020 02:44:27 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49cx8R3zJ9z9sV7; Thu,  4 Jun 2020 16:44:23 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1591253063;
+ bh=Mc7WOmLvkTipmSQpkZ8c85cerVEcMMCMxKm/JInS22I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pi+L8mEw94m1b47hZrrzhV01IO+Y9HKptc7fdjSGP32vaR08vYjAM784unywZb5Yh
+ 897QuM226e7RaBg60WRl6vVguBmR246YCnS1sp8wRyJaEWQvhrHna3FHS5Lo0eg423
+ gayPUgNuJKVb8jAp6RBUplrx2tGVbHxJN6xeVu7g=
+Date: Thu, 4 Jun 2020 16:44:14 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Subject: Re: [RFC v2 00/18] Refactor configuration of guest memory protection
+Message-ID: <20200604064414.GI228651@umbus.fritz.box>
+References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
+ <87tuzr5ts5.fsf@morokweng.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200528193758.51454-12-r.bolshakov@yadro.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:14:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="4BlIp4fARb6QCoOq"
+Content-Disposition: inline
+In-Reply-To: <87tuzr5ts5.fsf@morokweng.localdomain>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,22 +61,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Cameron Esfahani <dirty@apple.com>, Richard Henderson <rth@twiddle.net>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/28/20 9:37 PM, Roman Bolshakov wrote:
-> The lazy flags are still needed for instruction decoder.
-> 
-> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> ---
->  include/sysemu/hvf.h        |  7 +++++
->  target/i386/cpu.h           |  2 ++
->  target/i386/hvf/x86.h       |  6 ----
->  target/i386/hvf/x86_flags.c | 57 ++++++++++++++++++-------------------
->  4 files changed, 37 insertions(+), 35 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+--4BlIp4fARb6QCoOq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Jun 04, 2020 at 01:39:22AM -0300, Thiago Jung Bauermann wrote:
+>=20
+> Hello David,
+>=20
+> David Gibson <david@gibson.dropbear.id.au> writes:
+>=20
+> > A number of hardware platforms are implementing mechanisms whereby the
+> > hypervisor does not have unfettered access to guest memory, in order
+> > to mitigate the security impact of a compromised hypervisor.
+> >
+> > AMD's SEV implements this with in-cpu memory encryption, and Intel has
+> > its own memory encryption mechanism.  POWER has an upcoming mechanism
+> > to accomplish this in a different way, using a new memory protection
+> > level plus a small trusted ultravisor.  s390 also has a protected
+> > execution environment.
+> >
+> > The current code (committed or draft) for these features has each
+> > platform's version configured entirely differently.  That doesn't seem
+> > ideal for users, or particularly for management layers.
+> >
+> > AMD SEV introduces a notionally generic machine option
+> > "machine-encryption", but it doesn't actually cover any cases other
+> > than SEV.
+> >
+> > This series is a proposal to at least partially unify configuration
+> > for these mechanisms, by renaming and generalizing AMD's
+> > "memory-encryption" property.  It is replaced by a
+> > "guest-memory-protection" property pointing to a platform specific
+> > object which configures and manages the specific details.
+> >
+> > For now this series covers just AMD SEV and POWER PEF.  I'm hoping it
+>=20
+> Thank you very much for this series! Using a machine property is a nice
+> way of configuring this.
+>=20
+> >From an end-user perspective, `-M pseries,guest-memory-protection` in
+> the command line already expresses everything that QEMU needs to know,
+> so having to add `-object pef-guest,id=3Dpef0` seems a bit redundant. Is
+> it possible to make QEMU create the pef-guest object behind the scenes
+> when the guest-memory-protection property is specified?
+>=20
+> Regardless, I was able to successfuly launch POWER PEF guests using
+> these patches:
+>=20
+> Tested-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+>=20
+> > can be extended to cover the Intel and s390 mechanisms as well,
+> > though.
+> >
+> > Note: I'm using the term "guest memory protection" throughout to refer
+> > to mechanisms like this.  I don't particular like the term, it's both
+> > long and not really precise.  If someone can think of a succinct way
+> > of saying "a means of protecting guest memory from a possibly
+> > compromised hypervisor", I'd be grateful for the suggestion.
+>=20
+> Is "opaque guest memory" any better? It's slightly shorter, and slightly
+> more precise about what the main characteristic this guest property conve=
+ys.
+
+That's not a bad one, but for now I'm going with "host trust
+limitation", since this might end up covering things other than just
+memory protection.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--4BlIp4fARb6QCoOq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl7YmDwACgkQbDjKyiDZ
+s5I9XA/8Ch2ePqa6dC1C0UY+N36zI1Evzcryyl53MbEkYBAzCnNQWtbCUYy88uWI
+HWyaw6W/HcTcuHSh5bBPC+H7sKkHpUFguUCdp5uIzGdWr4Bm3uTp+lWvgxJQmnmh
+SopkxbIyASuNWLonBK6CaS/2p+60vwcIkWcrHccF1r6N11aPpUCuKQbkwOImnD1W
+JTgUWN0LPSI6qdBLA0wAL/3vtUVGSqDT8O2VxldJBQbeDOu0w8Vog4euO3RhEZEV
+85Of/utWgwKJScfNaXvOmiZ9cBMFs3Nu6pwQdVfOsFnOkGznaTDZIGd37/4CPFf8
+lKYdpaX0qaP4w2qThZLqi8asayZDmYfkarxaDlYBlGBsd9m0iwMXalvBzteoiNrz
+9FbObSoCIWbnhAoKsUuEbD/D+sGBMl1yIb5jwgiSTTYMaTM/9/Lwh2WKsG3LpS6I
+plxNdA5vzSOboff9IftBlcDfxjBZB+4/x6ULDfWBHyViCY9BLlvoBD8vKSDGok+d
+gVjXHR0Du3FcwZA3VVZuggO28zObVGx5d6i47zqwL0eo51XXrL3bCg/TytTrg4v0
+Uc0j6PeUlyeo6epdzjrXlwluaHJjm/39sKNb/YJlFEg8XywHTRd1/Va5c67SikLS
+USYa4hQqkTinT3yUsojh3p/5Nu+JqocYmpeqKyH6KJHVA1208Rg=
+=HHjA
+-----END PGP SIGNATURE-----
+
+--4BlIp4fARb6QCoOq--
 
