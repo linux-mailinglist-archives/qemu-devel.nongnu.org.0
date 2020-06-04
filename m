@@ -2,97 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B581EEA1D
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 20:13:03 +0200 (CEST)
-Received: from localhost ([::1]:59334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD691EEA43
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 20:26:45 +0200 (CEST)
+Received: from localhost ([::1]:44866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jguMP-0002Z5-SD
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 14:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36554)
+	id 1jguZg-0001si-QN
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 14:26:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jguLB-0001pp-Rn
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 14:11:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49900
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jguLA-0003z1-GT
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 14:11:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591294303;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Tfj/jKDQxhQHKBt/5CBGWZz+nBrrqMNlPcG++Gi61BM=;
- b=coGzbmaHrhpI8FO9uoIeXj2QTtPTMl+K78asbi9Cw/woQjf/tkA/iRz6pTTqR85p/j1frv
- syb0NxTOq+4CIQcM0plM+ZabZSd/NuWb9ODp7VNd55T8fQkg39kW/dZrkpiTHdhvWzPhp7
- YB+40KXbQJU6S27g3Vad/pdpg8NQNMw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-Ax5YnWg3PredI7nq7TKUPw-1; Thu, 04 Jun 2020 14:11:41 -0400
-X-MC-Unique: Ax5YnWg3PredI7nq7TKUPw-1
-Received: by mail-wm1-f70.google.com with SMTP id j128so2229188wmj.6
- for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 11:11:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Tfj/jKDQxhQHKBt/5CBGWZz+nBrrqMNlPcG++Gi61BM=;
- b=cM0kjJCSu0jUso9Z0U0dwgkO+gSBnVIrQY2OaZ6cUb1eYwWqo+KwYuRvtv5WwPMF31
- 7C5tLL93dQttvifUSVlDg3xFzL9YAOKEYiK7qAaQDjJv1kJz12Q1KRw52TCLp/5u2KGh
- a51o4hS+4TKtmk3hBn8l56hyqlObGAWAbhr3iajuYjg6HjJiBE2dz7PjTeuymKtNQtGX
- RhxItYNgLDa2X9oa4qYzNOqHCd0aREb4ww66yrXrTON196vJhM8dltP9QgP+018zm0f4
- wB2jPp3QsuQURSc4ibz3VKfyD1/eoyFsPWbVUEdSEhcGqf+R+W60YlijLyRu1FELjZ/A
- OW8w==
-X-Gm-Message-State: AOAM532wWPvxYVppG7Vk+aaGz3d9Y1uV1t0QwrTmYQPI6nh3TiREBCrt
- HR4K8SoenjrVRUZcET0WgwxveMriI8Cu/QG3XCI+OXWuPvMxpHHCiaZwCXw7fqgeutdEJgS3tLE
- uGdgLMjC9iEt3IBc=
-X-Received: by 2002:a7b:cb13:: with SMTP id u19mr5105736wmj.86.1591294300395; 
- Thu, 04 Jun 2020 11:11:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzwb8U9SXLf4UeK9rpLHo7Ycy1/1Ka7Gw/u4m3i07onqjBUJRZ/OGhGm+Rzl3ZhE51JV0O8jg==
-X-Received: by 2002:a7b:cb13:: with SMTP id u19mr5105725wmj.86.1591294300157; 
- Thu, 04 Jun 2020 11:11:40 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:a0c0:5d2e:1d35:17bb?
- ([2001:b07:6468:f312:a0c0:5d2e:1d35:17bb])
- by smtp.gmail.com with ESMTPSA id c16sm8971595wrx.4.2020.06.04.11.11.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Jun 2020 11:11:39 -0700 (PDT)
-Subject: Re: [PATCH v2 0/7] exec/cpu: Cleanups around "exec/hwaddr.h"
- (reserved to system-mode)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200526172427.17460-1-f4bug@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <525ebf16-1265-e403-54b6-e1168d84e4f4@redhat.com>
-Date: Thu, 4 Jun 2020 20:11:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jguYf-0000un-0u
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 14:25:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57100)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jguYd-0006eZ-4z
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 14:25:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jguYb-0005Yh-EJ
+ for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 18:25:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 62DB22E8105
+ for <qemu-devel@nongnu.org>; Thu,  4 Jun 2020 18:25:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200526172427.17460-1-f4bug@amsat.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 13:58:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 04 Jun 2020 18:12:02 -0000
+From: Hajin Jang <1882123@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm armhf debian regression
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: joveler
+X-Launchpad-Bug-Reporter: Hajin Jang (joveler)
+X-Launchpad-Bug-Modifier: Hajin Jang (joveler)
+Message-Id: <159129432300.4081.5698403082350753204.malonedeb@soybean.canonical.com>
+Subject: [Bug 1882123] [NEW] ARM cpu emulation regression on QEMU 4.2.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ebf9ede48cf62c0a6747f3a2c579754e61a6fa88
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 10:55:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -101,70 +72,470 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-s390x@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1882123 <1882123@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/05/20 19:24, Philippe Mathieu-Daudé wrote:
-> The 'hwaddr' type declared in "exec/hwaddr.h" is meant for
-> system-mode emulation only.
-> This series is a preparatory cleanup to allow later poisoning
-> it in user-mode code.
-> 
-> Missing review: patche 7
-> - target/s390x: Restrict system-mode declarations
-> 
-> Maybe PPC/S390X maintainers can take their patches and let
-> the rest to Paolo, or he can take all the series. They are
-> not dependents.
-> 
-> Since v1:
-> - Do not poison hwaddr type
-> - Addressed Cornelia & David review comments
-> - Added R-b/A-b
-> 
-> $ git backport-diff -u v1
-> Key:
-> [----] : patches are identical
-> [####] : number of functional differences between upstream/downstream patch
-> [down] : patch is downstream-only
-> The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
-> 
-> 001/7:[----] [--] 'sysemu/accel: Restrict machine methods to system-mode'
-> 002/7:[----] [--] 'sysemu/tcg: Only declare tcg_allowed when TCG is available'
-> 003/7:[----] [--] 'sysemu/hvf: Only declare hvf_allowed when HVF is available'
-> 004/7:[----] [--] 'target/ppc: Restrict PPCVirtualHypervisorClass to system-mode'
-> 005/7:[----] [--] 'target/s390x: Only compile decode_basedisp() on system-mode'
-> 006/7:[0002] [FC] 'target/s390x/helper: Clean ifdef'ry'
-> 007/7:[0005] [FC] 'target/s390x: Restrict system-mode declarations'
-> 
-> Supersedes: <20200509130910.26335-1-f4bug@amsat.org>
-> 
-> Philippe Mathieu-Daudé (7):
->   sysemu/accel: Restrict machine methods to system-mode
->   sysemu/tcg: Only declare tcg_allowed when TCG is available
->   sysemu/hvf: Only declare hvf_allowed when HVF is available
->   target/ppc: Restrict PPCVirtualHypervisorClass to system-mode
->   target/s390x: Only compile decode_basedisp() on system-mode
->   target/s390x/helper: Clean ifdef'ry
->   target/s390x: Restrict system-mode declarations
-> 
->  include/sysemu/accel.h          |  2 ++
->  include/sysemu/hvf.h            |  6 +++---
->  include/sysemu/tcg.h            |  2 +-
->  target/ppc/cpu.h                |  4 ++--
->  target/ppc/kvm_ppc.h            | 22 +++++++++++-----------
->  target/s390x/internal.h         | 16 +++++++++++-----
->  target/ppc/translate_init.inc.c |  4 ++++
->  target/s390x/helper.c           |  5 -----
->  8 files changed, 34 insertions(+), 27 deletions(-)
-> 
+Public bug reported:
 
-Queued all, thanks.
+[*] Summary
 
-Paolo
+Latest QEMU has an ARM CPU emulation regression.
+Regression is reproducible by building any C# project with .NET Core SDK 3.=
+1.300 on Debian 10 armhf guest OS.
 
+Releases affected: QEMU 4.2.0, 5.0.0
+Releases not affected: QEMU 4.1.0, QEMU 4.1.1
+
+[*] Detail
+
+.NET Core SDK 3.1 fails to run on Debian 10 emulated by qemu-system-arm.
+
+I occasionally test my C# projects on the virtual armhf/arm64 system
+emulated by QEMU. MSBuild, a build engine of the .NET Core SDK, crashes
+on QEMU 4.2.0 or later. The crash only happens when MSBuild tries to do
+any JIT compiling (dotnet build / dotnet test).
+
+I attached the MSBuild crash logs. MSBuild always crashes with
+SEHException, which means it tried to call C binary from .NET binary.
+
+I think the ARM CPU emulation regression happened between QEMU 4.1.1 ~
+4.2.0. The issue affects QEMU 4.2.0 and 5.0.0. QEMU 4.1.0, 4.1.1, and
+real Raspberry Pi 2 are not affected by this issue, and .NET Core SDK
+works completely fine.
+
+[*] Environment
+
+[Host OS]
+Distribution: Linux Mint 19.3 amd64
+CPU: AMD Ryzen 5 3600
+Kernel: Ubuntu 5.3.0-51-generic
+
+[QEMU Guest OS]
+Distribution: Debian 10 Buster armhf
+Kernel: Debian 4.19.0-9-armmp-lpae
+.NET Core SDK: 3.1.300
+
+[Raspberry Pi 2]
+Distribution: Raspberry Pi OS Buster armhf
+Kernel: 4.19.118-v7+
+
+[Tested C# Projects]
+This is a list of C# projects I have tested on QEMU and RPI2.
+- https://github.com/ied206/Joveler.DynLoader
+- https://github.com/ied206/Joveler.Compression
+- https://github.com/ied206/ManagedWimLib
+
+[QEMU Launch Arguments]
+qemu-system-arm \
+=C2=A0=C2=A0=C2=A0=C2=A0-smp 3 -M virt -m 4096 \
+=C2=A0=C2=A0=C2=A0=C2=A0-kernel vmlinuz-4.19.0-9-armmp-lpae \
+=C2=A0=C2=A0=C2=A0=C2=A0-initrd initrd.img-4.19.0-9-armmp-lpae \
+=C2=A0=C2=A0=C2=A0=C2=A0-append "root=3D/dev/vda2" \
+=C2=A0=C2=A0=C2=A0=C2=A0-drive if=3Dnone,file=3Ddebian_arm.qcow2,format=3Dq=
+cow2,id=3Dhd \
+=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-blk-device,drive=3Dhd \
+=C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dmynet,hostfwd=3Dtcp::<PORT>-:22 \
+=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-device,netdev=3Dmynet \
+=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-rng-device
+
+[QEMU Configure Arguments]
+./configure --enable-spice --enable-gtk --enable-vnc-jpeg --enable-vnc-png =
+--enable-avx2 --enable-libusb --enable-opengl --enable-virglrenderer --enab=
+le-kvm --enable-system --enable-modules --audio-drv-list=3Dpa
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: arm armhf debian regression
+
+** Attachment added: "MSBuild crash logs"
+   https://bugs.launchpad.net/bugs/1882123/+attachment/5380400/+files/QEMU-=
+4.2.0-NET-SEHException.txt
+
+** Description changed:
+
+  [*] Summary
+  =
+
+  Latest QEMU has an ARM CPU emulation regression.
+  Regression is reproducible by building any C# project with .NET Core SDK =
+3.1.300 on Debian 10 armhf.
+  =
+
+- Affected releases: QEMU 4.2.0, 5.0.0
+- Not affected releases: QEMU 4.1.0, QEMU 4.1.1
+- =
+
++ Releases affected: QEMU 4.2.0, 5.0.0
++ Releases not affected: QEMU 4.1.0, QEMU 4.1.1
+  =
+
+  [*] Detail
+  =
+
+- qemu-system-arm fails to run .NET Core SDK 3.1 on Debian 10 armhf.
++ .NET Core SDK 3.1 fails to run on Debian 10 emulated by qemu-system-arm.
+  =
+
+- I occasionally test my C# projects on the virtual armhf/arm64 system emul=
+ated by QEMU.
+- MSBuild, a build engine of the .NET Core SDK, crashes on QEMU 4.2.0 or la=
+ter.
+- The crash only happens when MSBuild tries to do any JIT compiling (dotnet=
+ build / dotnet test).
++ I occasionally test my C# projects on the virtual armhf/arm64 system
++ emulated by QEMU. MSBuild, a build engine of the .NET Core SDK, crashes
++ on QEMU 4.2.0 or later. The crash only happens when MSBuild tries to do
++ any JIT compiling (dotnet build / dotnet test).
+  =
+
+- I attached MSBuild crash logs. MSBuild always crashes with SEHException,
+- which means it tried to call C binary from .NET binary.
++ I attached the MSBuild crash logs. MSBuild always crashes with
++ SEHException, which means it tried to call C binary from .NET binary.
+  =
+
+- The issue affects QEMU 4.2.0 and 5.0.0.
+- QEMU 4.1.0, 4.1.1, and real Raspberry Pi 2 machine is not affected by thi=
+s issue, and .NET Core SDK works completely fine.
+- Thus, I think an ARM CPU regression happened between QEMU 4.1.1 ~ QEMU 4.=
+2.0.
+- =
+
++ I think an ARM CPU regression happened between QEMU 4.1.1 ~ QEMU 4.2.0.
++ The issue affects QEMU 4.2.0 and 5.0.0. QEMU 4.1.0, 4.1.1, and real
++ Raspberry Pi 2 are not affected by this issue, and .NET Core SDK works
++ completely fine.
+  =
+
+  [*] Environment
+  =
+
+  [Host OS]
+  Distribution: Linux Mint 19.3 amd64
+  CPU: AMD Ryzen 5 3600
+  Kernel: Ubuntu 5.3.0-51-generic
+  =
+
+- [QEMU Arguments]
++ [QEMU Guest OS]
++ Distribution: Debian 10 Buster armhf
++ Kernel: Debian 4.19.0-9-armmp-lpae
++ .NET Core SDK: 3.1.300
++ =
+
++ [Raspberry Pi 2]
++ Distribution: Raspberry Pi OS Buster armhf
++ Kernel: 4.19.118-v7+
++ =
+
++ [Tested C# Projects]
++ This is a list of C# projects I have tested on QEMU and RPI2.
++ - https://github.com/ied206/Joveler.DynLoader
++ - https://github.com/ied206/Joveler.Compression
++ - https://github.com/ied206/ManagedWimLib
++ =
+
++ [QEMU Launch Arguments]
+  qemu-system-arm \
+      -smp 3 -M virt -m 4096 \
+      -kernel vmlinuz-4.19.0-9-armmp-lpae \
+      -initrd initrd.img-4.19.0-9-armmp-lpae \
+      -append "root=3D/dev/vda2" \
+      -drive if=3Dnone,file=3Ddebian_arm.qcow2,format=3Dqcow2,id=3Dhd \
+      -device virtio-blk-device,drive=3Dhd \
+      -netdev user,id=3Dmynet,hostfwd=3Dtcp::<PORT>-:22 \
+      -device virtio-net-device,netdev=3Dmynet \
+-     -device virtio-rng-device\
++     -device virtio-rng-device
+  =
+
+- [QEMU Guest OS]
+- Distribution: Debian 10 Buster armhf
+- Kernel: Debian 4.19.0-9-armmp-lpae
+- .NET Core SDK: 3.1.300
+- =
+
+- [Raspberry Pi 2]
+- Distribution: Raspberry Pi OS Buster armhf (20200527)
+- =
+
+- [Tested C# Projects]
+- This is a list of C# projects I have tested on QEMU and RPI2. =
+
+- - https://github.com/ied206/Joveler.DynLoader
+- - https://github.com/ied206/Joveler.Compression
+- - https://github.com/ied206/ManagedWimLib
++ [QEMU Configure Arguments]
++ ./configure --enable-spice --enable-gtk --enable-vnc-jpeg --enable-vnc-pn=
+g --enable-avx2 --enable-libusb --enable-opengl --enable-virglrenderer --en=
+able-kvm --enable-system --enable-modules --audio-drv-list=3Dpa
+
+** Description changed:
+
+  [*] Summary
+  =
+
+  Latest QEMU has an ARM CPU emulation regression.
+- Regression is reproducible by building any C# project with .NET Core SDK =
+3.1.300 on Debian 10 armhf.
++ Regression is reproducible by building any C# project with .NET Core SDK =
+3.1.300 on Debian 10 armhf guest OS.
+  =
+
+  Releases affected: QEMU 4.2.0, 5.0.0
+  Releases not affected: QEMU 4.1.0, QEMU 4.1.1
+  =
+
+  [*] Detail
+  =
+
+  .NET Core SDK 3.1 fails to run on Debian 10 emulated by qemu-system-arm.
+  =
+
+  I occasionally test my C# projects on the virtual armhf/arm64 system
+  emulated by QEMU. MSBuild, a build engine of the .NET Core SDK, crashes
+  on QEMU 4.2.0 or later. The crash only happens when MSBuild tries to do
+  any JIT compiling (dotnet build / dotnet test).
+  =
+
+  I attached the MSBuild crash logs. MSBuild always crashes with
+  SEHException, which means it tried to call C binary from .NET binary.
+  =
+
+  I think an ARM CPU regression happened between QEMU 4.1.1 ~ QEMU 4.2.0.
+  The issue affects QEMU 4.2.0 and 5.0.0. QEMU 4.1.0, 4.1.1, and real
+  Raspberry Pi 2 are not affected by this issue, and .NET Core SDK works
+  completely fine.
+  =
+
+  [*] Environment
+  =
+
+  [Host OS]
+  Distribution: Linux Mint 19.3 amd64
+  CPU: AMD Ryzen 5 3600
+  Kernel: Ubuntu 5.3.0-51-generic
+  =
+
+  [QEMU Guest OS]
+  Distribution: Debian 10 Buster armhf
+  Kernel: Debian 4.19.0-9-armmp-lpae
+  .NET Core SDK: 3.1.300
+  =
+
+  [Raspberry Pi 2]
+  Distribution: Raspberry Pi OS Buster armhf
+  Kernel: 4.19.118-v7+
+  =
+
+  [Tested C# Projects]
+  This is a list of C# projects I have tested on QEMU and RPI2.
+  - https://github.com/ied206/Joveler.DynLoader
+  - https://github.com/ied206/Joveler.Compression
+  - https://github.com/ied206/ManagedWimLib
+  =
+
+  [QEMU Launch Arguments]
+  qemu-system-arm \
+-     -smp 3 -M virt -m 4096 \
+-     -kernel vmlinuz-4.19.0-9-armmp-lpae \
+-     -initrd initrd.img-4.19.0-9-armmp-lpae \
+-     -append "root=3D/dev/vda2" \
+-     -drive if=3Dnone,file=3Ddebian_arm.qcow2,format=3Dqcow2,id=3Dhd \
+-     -device virtio-blk-device,drive=3Dhd \
+-     -netdev user,id=3Dmynet,hostfwd=3Dtcp::<PORT>-:22 \
+-     -device virtio-net-device,netdev=3Dmynet \
+-     -device virtio-rng-device
++ =C2=A0=C2=A0=C2=A0=C2=A0-smp 3 -M virt -m 4096 \
++ =C2=A0=C2=A0=C2=A0=C2=A0-kernel vmlinuz-4.19.0-9-armmp-lpae \
++ =C2=A0=C2=A0=C2=A0=C2=A0-initrd initrd.img-4.19.0-9-armmp-lpae \
++ =C2=A0=C2=A0=C2=A0=C2=A0-append "root=3D/dev/vda2" \
++ =C2=A0=C2=A0=C2=A0=C2=A0-drive if=3Dnone,file=3Ddebian_arm.qcow2,format=
+=3Dqcow2,id=3Dhd \
++ =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-blk-device,drive=3Dhd \
++ =C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dmynet,hostfwd=3Dtcp::<PORT>-:22=
+ \
++ =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-device,netdev=3Dmynet \
++ =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-rng-device
+  =
+
+  [QEMU Configure Arguments]
+  ./configure --enable-spice --enable-gtk --enable-vnc-jpeg --enable-vnc-pn=
+g --enable-avx2 --enable-libusb --enable-opengl --enable-virglrenderer --en=
+able-kvm --enable-system --enable-modules --audio-drv-list=3Dpa
+
+** Description changed:
+
+  [*] Summary
+  =
+
+  Latest QEMU has an ARM CPU emulation regression.
+  Regression is reproducible by building any C# project with .NET Core SDK =
+3.1.300 on Debian 10 armhf guest OS.
+  =
+
+  Releases affected: QEMU 4.2.0, 5.0.0
+  Releases not affected: QEMU 4.1.0, QEMU 4.1.1
+  =
+
+  [*] Detail
+  =
+
+  .NET Core SDK 3.1 fails to run on Debian 10 emulated by qemu-system-arm.
+  =
+
+  I occasionally test my C# projects on the virtual armhf/arm64 system
+  emulated by QEMU. MSBuild, a build engine of the .NET Core SDK, crashes
+  on QEMU 4.2.0 or later. The crash only happens when MSBuild tries to do
+  any JIT compiling (dotnet build / dotnet test).
+  =
+
+  I attached the MSBuild crash logs. MSBuild always crashes with
+  SEHException, which means it tried to call C binary from .NET binary.
+  =
+
+- I think an ARM CPU regression happened between QEMU 4.1.1 ~ QEMU 4.2.0.
+- The issue affects QEMU 4.2.0 and 5.0.0. QEMU 4.1.0, 4.1.1, and real
+- Raspberry Pi 2 are not affected by this issue, and .NET Core SDK works
+- completely fine.
++ I think the ARM CPU emulation regression happened between QEMU 4.1.1 ~
++ 4.2.0. The issue affects QEMU 4.2.0 and 5.0.0. QEMU 4.1.0, 4.1.1, and
++ real Raspberry Pi 2 are not affected by this issue, and .NET Core SDK
++ works completely fine.
+  =
+
+  [*] Environment
+  =
+
+  [Host OS]
+  Distribution: Linux Mint 19.3 amd64
+  CPU: AMD Ryzen 5 3600
+  Kernel: Ubuntu 5.3.0-51-generic
+  =
+
+  [QEMU Guest OS]
+  Distribution: Debian 10 Buster armhf
+  Kernel: Debian 4.19.0-9-armmp-lpae
+  .NET Core SDK: 3.1.300
+  =
+
+  [Raspberry Pi 2]
+  Distribution: Raspberry Pi OS Buster armhf
+  Kernel: 4.19.118-v7+
+  =
+
+  [Tested C# Projects]
+  This is a list of C# projects I have tested on QEMU and RPI2.
+  - https://github.com/ied206/Joveler.DynLoader
+  - https://github.com/ied206/Joveler.Compression
+  - https://github.com/ied206/ManagedWimLib
+  =
+
+  [QEMU Launch Arguments]
+  qemu-system-arm \
+  =C2=A0=C2=A0=C2=A0=C2=A0-smp 3 -M virt -m 4096 \
+  =C2=A0=C2=A0=C2=A0=C2=A0-kernel vmlinuz-4.19.0-9-armmp-lpae \
+  =C2=A0=C2=A0=C2=A0=C2=A0-initrd initrd.img-4.19.0-9-armmp-lpae \
+  =C2=A0=C2=A0=C2=A0=C2=A0-append "root=3D/dev/vda2" \
+  =C2=A0=C2=A0=C2=A0=C2=A0-drive if=3Dnone,file=3Ddebian_arm.qcow2,format=
+=3Dqcow2,id=3Dhd \
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-blk-device,drive=3Dhd \
+  =C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dmynet,hostfwd=3Dtcp::<PORT>-:22=
+ \
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-device,netdev=3Dmynet \
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-rng-device
+  =
+
+  [QEMU Configure Arguments]
+  ./configure --enable-spice --enable-gtk --enable-vnc-jpeg --enable-vnc-pn=
+g --enable-avx2 --enable-libusb --enable-opengl --enable-virglrenderer --en=
+able-kvm --enable-system --enable-modules --audio-drv-list=3Dpa
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1882123
+
+Title:
+  ARM cpu emulation regression on QEMU 4.2.0
+
+Status in QEMU:
+  New
+
+Bug description:
+  [*] Summary
+
+  Latest QEMU has an ARM CPU emulation regression.
+  Regression is reproducible by building any C# project with .NET Core SDK =
+3.1.300 on Debian 10 armhf guest OS.
+
+  Releases affected: QEMU 4.2.0, 5.0.0
+  Releases not affected: QEMU 4.1.0, QEMU 4.1.1
+
+  [*] Detail
+
+  .NET Core SDK 3.1 fails to run on Debian 10 emulated by qemu-system-
+  arm.
+
+  I occasionally test my C# projects on the virtual armhf/arm64 system
+  emulated by QEMU. MSBuild, a build engine of the .NET Core SDK,
+  crashes on QEMU 4.2.0 or later. The crash only happens when MSBuild
+  tries to do any JIT compiling (dotnet build / dotnet test).
+
+  I attached the MSBuild crash logs. MSBuild always crashes with
+  SEHException, which means it tried to call C binary from .NET binary.
+
+  I think the ARM CPU emulation regression happened between QEMU 4.1.1 ~
+  4.2.0. The issue affects QEMU 4.2.0 and 5.0.0. QEMU 4.1.0, 4.1.1, and
+  real Raspberry Pi 2 are not affected by this issue, and .NET Core SDK
+  works completely fine.
+
+  [*] Environment
+
+  [Host OS]
+  Distribution: Linux Mint 19.3 amd64
+  CPU: AMD Ryzen 5 3600
+  Kernel: Ubuntu 5.3.0-51-generic
+
+  [QEMU Guest OS]
+  Distribution: Debian 10 Buster armhf
+  Kernel: Debian 4.19.0-9-armmp-lpae
+  .NET Core SDK: 3.1.300
+
+  [Raspberry Pi 2]
+  Distribution: Raspberry Pi OS Buster armhf
+  Kernel: 4.19.118-v7+
+
+  [Tested C# Projects]
+  This is a list of C# projects I have tested on QEMU and RPI2.
+  - https://github.com/ied206/Joveler.DynLoader
+  - https://github.com/ied206/Joveler.Compression
+  - https://github.com/ied206/ManagedWimLib
+
+  [QEMU Launch Arguments]
+  qemu-system-arm \
+  =C2=A0=C2=A0=C2=A0=C2=A0-smp 3 -M virt -m 4096 \
+  =C2=A0=C2=A0=C2=A0=C2=A0-kernel vmlinuz-4.19.0-9-armmp-lpae \
+  =C2=A0=C2=A0=C2=A0=C2=A0-initrd initrd.img-4.19.0-9-armmp-lpae \
+  =C2=A0=C2=A0=C2=A0=C2=A0-append "root=3D/dev/vda2" \
+  =C2=A0=C2=A0=C2=A0=C2=A0-drive if=3Dnone,file=3Ddebian_arm.qcow2,format=
+=3Dqcow2,id=3Dhd \
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-blk-device,drive=3Dhd \
+  =C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dmynet,hostfwd=3Dtcp::<PORT>-:22=
+ \
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-device,netdev=3Dmynet \
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-rng-device
+
+  [QEMU Configure Arguments]
+  ./configure --enable-spice --enable-gtk --enable-vnc-jpeg --enable-vnc-pn=
+g --enable-avx2 --enable-libusb --enable-opengl --enable-virglrenderer --en=
+able-kvm --enable-system --enable-modules --audio-drv-list=3Dpa
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1882123/+subscriptions
 
