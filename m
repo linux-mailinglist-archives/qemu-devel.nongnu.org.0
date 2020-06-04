@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FBA11EE04F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 10:57:50 +0200 (CEST)
-Received: from localhost ([::1]:43548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 417DE1EE05F
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 10:59:58 +0200 (CEST)
+Received: from localhost ([::1]:50090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jglh7-0004Xk-HF
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 04:57:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52078)
+	id 1jgljB-0007Bv-A2
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 04:59:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jgleN-00081u-1n
+ id 1jgleN-00082r-RN
  for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:54:59 -0400
-Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:42270)
+Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:42290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jgleL-0002DV-Nb
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:54:58 -0400
+ id 1jgleN-0002De-64
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:54:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
- :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+ d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:Content-Type
+ :MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=brvcnHsal6sJ680XabMQNi2CBWTShykr93dT+gbawPM=; b=mHxgRRr3l19Q6554eLSOIp7wKz
- 1YTk8o7HX+8JxlBMfrUm0hlxwMx2KetenGgYu0pWjSukAxfaKVHLw2YuKj9BCuxdmFA1pkAZoqIQo
- hHAeaNq4VbRjzQrARig+mMvB6utb0jxS7t3072obeEuXEFhSsUsrOC+iKUe2Y8FZYUeo=;
+ bh=Ouw4QyGOBTAQdoboPmGnLFQFBKzyBz7RqWla7Yxo9Mc=; b=tJf3QyI1+e0mA4HAQYRog4YtKd
+ quN6iKUFeHh1NVMZ7aRP+OXQ/jBF2F9rxTinBbyfY4Zn/wgWaVq4C1aKO1gdkJ1qN+75y2PhJsGQT
+ 73wZeMO/aM3lRLcZO2/mzcuNas3zi3m5cuMQiwDn4T8AzvmxDtqkkpEc1cusMgo3wABs=;
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/15] tests/tcg: Add docker_as and docker_ld cmds
-Date: Thu,  4 Jun 2020 10:54:28 +0200
-Message-Id: <20200604085441.103087-3-kbastian@mail.uni-paderborn.de>
+Subject: [PATCH v2 03/15] tests/tcg: Run timeout cmds using --foreground
+Date: Thu,  4 Jun 2020 10:54:29 +0200
+Message-Id: <20200604085441.103087-4-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
 References: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-IMT-Spam-Score: 0.0 ()
 X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
  Antispam-Data: 2020.6.4.84518, AntiVirus-Engine: 5.74.0,
  AntiVirus-Data: 2020.6.4.5740000
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=6898279, da=78869960,
- mc=173, sc=3, hc=170, sp=1, fso=6898279, re=0, sd=0, hd=0
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=6898280, da=78869961,
+ mc=174, sc=3, hc=171, sp=1, fso=6898280, re=0, sd=0, hd=0
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
 Received-SPF: pass client-ip=2001:638:502:c003::15;
  envelope-from=kbastian@mail.uni-paderborn.de; helo=shirlock.uni-paderborn.de
@@ -71,56 +72,37 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At least for the TriCore target no easily available c compiler exists.
-Thus we need to rely on "as" and "ld". This allows us to run them
-through the docker image.
+when trying to run successful short tests from the Makefile timeout would no
+terminate. Rather it would wait until the time runs out. Excerpt from the
+manpage:
+
+--foreground
+    when not running timeout directly from a shell prompt,
+    allow COMMAND to read from the TTY and get TTY signals; in this mode, chil‐
+    dren of COMMAND will not be timed out
 
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 ---
- tests/tcg/Makefile.qemu | 11 +++++++++++
- tests/tcg/configure.sh  |  2 ++
- 2 files changed, 13 insertions(+)
+ tests/tcg/Makefile.target | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
-index 9c23aeaa2a..e5b3a4bacc 100644
---- a/tests/tcg/Makefile.qemu
-+++ b/tests/tcg/Makefile.qemu
-@@ -50,11 +50,22 @@ DOCKER_COMPILE_CMD="$(DOCKER_SCRIPT) cc \
- 		-i qemu:$(DOCKER_IMAGE) \
- 		-s $(SRC_PATH) -- "
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index b3cff3cad1..423caffa56 100644
+--- a/tests/tcg/Makefile.target
++++ b/tests/tcg/Makefile.target
+@@ -40,9 +40,10 @@ quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
  
-+DOCKER_AS_CMD="$(DOCKER_SCRIPT) cc \
-+		--cc $(DOCKER_CROSS_AS_GUEST) \
-+		-i qemu:$(DOCKER_IMAGE) \
-+		-s $(SRC_PATH) -- "
-+
-+DOCKER_LD_CMD="$(DOCKER_SCRIPT) cc \
-+		--cc $(DOCKER_CROSS_LD_GUEST) \
-+		-i qemu:$(DOCKER_IMAGE) \
-+		-s $(SRC_PATH) -- "
-+
- .PHONY: docker-build-guest-tests
- docker-build-guest-tests: docker-image-$(DOCKER_IMAGE)
- 	$(call quiet-command, \
- 	  (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
- 	   $(MAKE) -f $(TCG_MAKE) TARGET="$(TARGET)" CC=$(DOCKER_COMPILE_CMD) \
-+			AS=$(DOCKER_AS_CMD) LD=$(DOCKER_LD_CMD) \
- 			SRC_PATH="$(SRC_PATH)" BUILD_STATIC=y \
- 			EXTRA_CFLAGS="$(CROSS_CC_GUEST_CFLAGS)"), \
- 	"BUILD","$(TARGET) guest-tests with docker qemu:$(DOCKER_IMAGE)")
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 2326f97856..6e8659d488 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -242,6 +242,8 @@ for target in $target_list; do
-   if test $got_cross_cc = no && test "$container" != no && test -n "$container_image"; then
-     echo "DOCKER_IMAGE=$container_image" >> $config_target_mak
-     echo "DOCKER_CROSS_CC_GUEST=$container_cross_cc" >> $config_target_mak
-+    echo "DOCKER_CROSS_AS_GUEST=$container_cross_as" >> $config_target_mak
-+    echo "DOCKER_CROSS_LD_GUEST=$container_cross_ld" >> $config_target_mak
-   fi
- done
+ # $1 = test name, $2 = cmd, $3 = desc
+ ifdef CONFIG_USER_ONLY
+-run-test = $(call quiet-command, timeout $(TIMEOUT) $2 > $1.out,"TEST",$3)
++run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2 > $1.out \
++	"TEST",$3)
+ else
+-run-test = $(call quiet-command, timeout $(TIMEOUT) $2,"TEST",$3)
++run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2,"TEST",$3)
+ endif
  
+ # $1 = test name, $2 = reference
 -- 
 2.26.2
 
