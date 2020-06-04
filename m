@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E6E61EEA85
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 20:50:25 +0200 (CEST)
-Received: from localhost ([::1]:51196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 298B61EEA99
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 20:54:34 +0200 (CEST)
+Received: from localhost ([::1]:56264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jguwZ-0002Mj-TW
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 14:50:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39984)
+	id 1jgv0a-0005Qq-NU
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 14:54:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jguvH-0001hM-UV
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 14:49:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49086
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jguzo-0004wp-2N
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 14:53:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22788
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jguvG-0002sp-8n
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 14:49:03 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jguzm-0003cx-PG
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 14:53:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591296541;
+ s=mimecast20190719; t=1591296819;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=h3b6BAZ86evZsOZuoktw6TQmhoIk8Uxa4Ax1IPTAkjE=;
- b=NEYGoiWiiWUBH3G6fgc5R2snRY9LTobRX0BETWgvofo5zfLjoVl8EjApt2qf69CdTc1xjj
- YSmVnHX6hNTVnGXgqDB57dIRtLxbXyYs8DEwkci/L0k5EtZZ+PWIg8RA9FfUX+1RHaNcmr
- GFNkdQ0MqTPYdRt5i0Z2DjX/F76GqpY=
+ bh=qXUXi1s+o6Yd7t1bznRAlv1PkHVKa1hSykodwUNCOnk=;
+ b=G5+b/eKGwU+23gTHVMfd07YNLIYCdh/RAgDndSFYuNXw3TqDQ4VpF3lLalrA5Tv//HcBS6
+ mbTPNYV1ZQHmjn10G6hLpebMMBJjs0DRUORQYDzz/itz4dOekDm0S9HRHUhStgyrXuz9nL
+ F96PP2psCTvp1/00Pi7g1pa6O0RLgB0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-2-3bkzPMOmuIekmRyCaixQ-1; Thu, 04 Jun 2020 14:48:59 -0400
-X-MC-Unique: 2-3bkzPMOmuIekmRyCaixQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-210-QXe50u7pOP6kuVns718L8g-1; Thu, 04 Jun 2020 14:53:35 -0400
+X-MC-Unique: QXe50u7pOP6kuVns718L8g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55E56107ACF5;
- Thu,  4 Jun 2020 18:48:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DF5518A8226;
+ Thu,  4 Jun 2020 18:53:34 +0000 (UTC)
 Received: from [10.10.117.188] (ovpn-117-188.rdu2.redhat.com [10.10.117.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1ECC360C80;
- Thu,  4 Jun 2020 18:48:56 +0000 (UTC)
-Subject: Re: [PATCH v2 10/16] python/machine.py: Handle None events in
- event_wait
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4AF567F4C6;
+ Thu,  4 Jun 2020 18:53:33 +0000 (UTC)
+Subject: Re: [PATCH v2 16/16] python/qemu: Add mypy type annotations
 To: Kevin Wolf <kwolf@redhat.com>
 References: <20200602214528.12107-1-jsnow@redhat.com>
- <20200602214528.12107-11-jsnow@redhat.com>
- <20200604142043.GH4512@linux.fritz.box>
+ <20200602214528.12107-17-jsnow@redhat.com>
+ <20200604145023.GI4512@linux.fritz.box>
 From: John Snow <jsnow@redhat.com>
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
@@ -122,14 +121,14 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <56d16fb9-bfb2-4d66-f8ba-1165625a4e68@redhat.com>
-Date: Thu, 4 Jun 2020 14:48:56 -0400
+Message-ID: <d5440c16-4d1a-721c-5eb6-b65409d99f30@redhat.com>
+Date: Thu, 4 Jun 2020 14:53:32 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200604142043.GH4512@linux.fritz.box>
+In-Reply-To: <20200604145023.GI4512@linux.fritz.box>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
@@ -144,7 +143,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -165,60 +164,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 6/4/20 10:20 AM, Kevin Wolf wrote:
+On 6/4/20 10:50 AM, Kevin Wolf wrote:
 > Am 02.06.2020 um 23:45 hat John Snow geschrieben:
->> If the timeout is 0, we can get None back. Handle this explicitly.
+>> These should all be purely annotations with no changes in behavior at
+>> all. You need to be in the python folder, but you should be able to
+>> confirm that these annotations are correct (or at least self-consistent)
+>> by running `mypy --strict qemu`.
 >>
 >> Signed-off-by: John Snow <jsnow@redhat.com>
 > 
-> Subject line: This is events_wait(), not event_wait(). Both functions
-> exist.
+>> diff --git a/python/qemu/qtest.py b/python/qemu/qtest.py
+>> index ae4661d4d3e..df6300cd4f7 100644
+>> --- a/python/qemu/qtest.py
+>> +++ b/python/qemu/qtest.py
+>> @@ -24,6 +24,8 @@
+>>      Optional,
+>>      Sequence,
+>>      TextIO,
+>> +    Tuple,
+>> +    Union,
+>>  )
+>>  
+>>  from .machine import QEMUMachine
+>> @@ -43,7 +45,8 @@ class QEMUQtestProtocol:
+>>         No conection is estabalished by __init__(), this is done
+>>         by the connect() or accept() methods.
+>>      """
+>> -    def __init__(self, address, server=False):
+>> +    def __init__(self, address: Union[Tuple[str, str], str],
+>> +                 server: bool = False):
 > 
->> @@ -562,6 +564,8 @@ def _match(event):
->>          # Poll for new events
->>          while True:
->>              event = self._qmp.pull_event(wait=timeout)
->> +            if event is None:
->> +                break
->>              if _match(event):
->>                  return event
->>              self._events.append(event)
-> 
-> Hm... How could this ever work? I guess we just never really tested
-> whether timeouts actually time out?
-> 
-
-It's weirder than you think.
-
-pull_event, when a timeout is supplied, will pass that timeout to
-QEMUMonitorProtocol.__get_events, which populates the received event
-queue but does not return data on the stack. If there are no events in
-the queue and we are given a timeout, we will raise QMPTimeoutError if
-no event appears in that timeframe.
-
-pull_event() will only return None in the case that you don't give it a
-timeout or tell it to wait.
-
-The typing of events_wait allows us to specify a timeout of 0 here,
-which is treated as no-wait down the stack, which may return None if
-there was no such event ready.
-
-Thus, break and also return None.
-
-(I should update the docstring here.)
-
-> (It's still somewhat unintuitive that receiving an unrelated event
-> resets the timeout, but not the problem of this series...)
+> Shouldn't this be SocketAddrT now?
 > 
 > Kevin
 > 
 
-Yes, it's weird. It's not a timeout on this one event, it's a timeout on
-event-receiving activity. In practice, it works quite well for the
-iotest suite where there are often not other event drivers present. It
-was a quick hack (that I introduced!) to ensure that iotests would halt
-in some finite amount of time.
-
---js
+Ah, yeah. I had intended it for QMP, but it obviously works here, too.
 
 
