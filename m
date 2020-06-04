@@ -2,58 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F5F1EE074
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 11:03:30 +0200 (CEST)
-Received: from localhost ([::1]:33086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 992EA1EE08B
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 11:07:34 +0200 (CEST)
+Received: from localhost ([::1]:46862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jglmI-0003TO-89
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 05:03:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52166)
+	id 1jglqX-000111-LY
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 05:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jgleo-0000WO-Eg
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:55:26 -0400
-Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:42492)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1jglpW-0007ym-2d
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:06:30 -0400
+Received: from mga06.intel.com ([134.134.136.31]:40867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jglen-0002HP-Lz
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:55:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
- :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ybFjookRmrTKVRNasIi5g20o8Bkc/i0r/FdPPbeP1To=; b=TNVjfHcmAiHz7tyPa3/8/dA62L
- nQ38DtH2qN0nPS5Da84I6iwZpNEY1PsJ93PBpH2mBEtP6FL11Ez1IaIGcAFgaRIBi6UpBFcM4OWdX
- 7CpJzyUZOhLmozDDg4gQ666nJmHtoVOp/1MkIYUHTpI6nmApMQ1hGoAv/PgqkhIP2RnM=;
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/15] tests/tcg/tricore: Add msub test
-Date: Thu,  4 Jun 2020 10:54:40 +0200
-Message-Id: <20200604085441.103087-15-kbastian@mail.uni-paderborn.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
-References: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-IMT-Spam-Score: 0.0 ()
-X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2020.6.4.84817, AntiVirus-Engine: 5.74.0,
- AntiVirus-Data: 2020.6.4.5740000
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=6898297, da=78869978,
- mc=185, sc=3, hc=182, sp=1, fso=6898297, re=0, sd=0, hd=0
-X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
-Received-SPF: pass client-ip=2001:638:502:c003::15;
- envelope-from=kbastian@mail.uni-paderborn.de; helo=shirlock.uni-paderborn.de
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1jglpU-0005Cl-II
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:06:29 -0400
+IronPort-SDR: oOVVkBoZtGMRqodQ506jC7OGOUQFhHzh9Gc0cdTogHrVtdxYLsVXqORe3NEOOQOMNtcEP4Erny
+ HW+rXBtsX+uA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2020 02:06:25 -0700
+IronPort-SDR: WgjMaxmauYqH8QGWUaTmOiPpElg7Fwh4hPec2NeV/h7fP3/I3UK6xth0B9LE1ZqOcxkXiHp5F3
+ P1LKi9jjGB+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,471,1583222400"; d="scan'208";a="416847111"
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+ by orsmga004.jf.intel.com with ESMTP; 04 Jun 2020 02:06:23 -0700
+From: Zhang Chen <chen.zhang@intel.com >
+To: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-dev <qemu-devel@nongnu.org>
+Subject: [PATCH V2 0/2] migration/colo: Optimize COLO framework code 
+Date: Thu,  4 Jun 2020 16:55:31 +0800
+Message-Id: <20200604085533.7769-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=chen.zhang@intel.com;
+ helo=mga06.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 05:06:26
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, FROM_ADDR_WS=2.999,
+ FROM_WSP_TRAIL=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,45 +62,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: Zhang Chen <chen.zhang@intel.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
----
- tests/tcg/tricore/Makefile.softmmu-target | 1 +
- tests/tcg/tricore/test_msub.S             | 9 +++++++++
- 2 files changed, 10 insertions(+)
- create mode 100644 tests/tcg/tricore/test_msub.S
+From: Zhang Chen <chen.zhang@intel.com>
 
-diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
-index 4d8d403e80..2d74aa09bb 100644
---- a/tests/tcg/tricore/Makefile.softmmu-target
-+++ b/tests/tcg/tricore/Makefile.softmmu-target
-@@ -15,6 +15,7 @@ TESTS += test_fadd.tst
- TESTS += test_fmul.tst
- TESTS += test_ftoi.tst
- TESTS += test_madd.tst
-+TESTS += test_msub.tst
- 
- %.pS: $(TESTS_PATH)/%.S
- 	$(HOST_CC) -E -o $@ $<
-diff --git a/tests/tcg/tricore/test_msub.S b/tests/tcg/tricore/test_msub.S
-new file mode 100644
-index 0000000000..6dee87d99c
---- /dev/null
-+++ b/tests/tcg/tricore/test_msub.S
-@@ -0,0 +1,9 @@
-+#include "macros.h"
-+.text
-+.global _start
-+_start:
-+    TEST_D_DDI_PSW(msub, 1, 0xd2fbe5e0, 0x00000b80,0x64003300, 0xff5420d4, -216)
-+    TEST_D_DDI_PSW(msub, 2, 0xfffffc10, 0x00000b80,0xfffffe68, 0xfffffffd, -200)
-+    TEST_D_DDD_PSW(msubs.u, 3, 0x0, 0x60000b80, 0x1, 0xffffffff, 0xffffffdb)
-+    TEST_PASSFAIL
-+
+This series optimize some code of COLO, please review.
+
+Zhang Chen (2):
+  migration/colo: Optimize COLO boot code path
+  migration/colo: Update checkpoint time lately
+
+ migration/colo.c      |  7 ++-----
+ migration/migration.c | 17 ++++++++++-------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
+
 -- 
-2.26.2
+2.17.1
 
 
