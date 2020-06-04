@@ -2,73 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B631EE851
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 18:10:34 +0200 (CEST)
-Received: from localhost ([::1]:58752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 703331EE883
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 18:25:01 +0200 (CEST)
+Received: from localhost ([::1]:42938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgsRt-0005c1-83
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 12:10:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49836)
+	id 1jgsfs-00043T-IE
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 12:25:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jgsR6-000563-CB
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 12:09:44 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:43972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jgsR4-000405-Mv
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 12:09:43 -0400
-Received: by mail-ot1-x333.google.com with SMTP id u23so5168620otq.10
- for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 09:09:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VBs6iE9+n8Kqp1wKypzu3gJAncF/teohACQrm2k8vFY=;
- b=Z7oOFFjvippx3Wxho5UoW9OupQbElYrQsGc+kzcQHHCvEbXd2DaE8lF/YQvF0XUpmB
- QWtTXIoeKRh7ciR+Fm9MzREgxylWffAJ9rHd1aA16cebqAwTU18jOQJR+jAEoLXaqY2Z
- 0lBQNgl1DegMbqFASDA0QzMsUEP/KBgb3Y8MF68HepBd8BRkIp8yK6/EvYmAj4uY0Y0U
- uFmmdGzpNYhDdYYBT+s391PeIh90tvfkydr+jrmRJCOcwSH0LRxyj/EF4V8ovG6Plo7d
- gMA8BMY0m5seMBA7H7c8n262aILYdyGxt4kHVcJxyDCakVsE0/2/hyw+vVm180BX8Dpk
- 50kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VBs6iE9+n8Kqp1wKypzu3gJAncF/teohACQrm2k8vFY=;
- b=R9DBBOVHhCzema1uSZgYs26IOAyF7Bx5kkyzqhk5gTGJL3uyc2jgwOu6DH/iaCTy62
- 9n1d9z2EDnCExPP+2pJkQDwMTECIBmSzLCN4/YpK943qote1mtZ//cMURucAH0dwLfQM
- 5fiuQKnugGbZkxppRVhY4TOwFEwNi51p63QC3nj+XrdFVZtR7LEVrU9fibPxzon8AJuU
- 7ymaChj6Bo3a83LJnovTDYJxHClHHni7LzBLeItENLPBVhU4/lX0mkGJ3nqi0TgXL0gD
- 4y03mrsFjOMpmHuq/lNDpYHNkpuacKUmrk6HTLYiTHjXPNv6MU989e7VZwt5bVud0lh6
- uKZw==
-X-Gm-Message-State: AOAM530AAAxQhWGflP9hQiNKVIk9P9/ABSkhqCddCyl1vg4da7Maenko
- 3GPZ0oRCbB5srfiecpUlMGI3DGSNd0D31YY5dTb4hQ==
-X-Google-Smtp-Source: ABdhPJyZM09oWZUP3UWjYQpBSJ8Ro5Yyneq/K6M6P0yAKoFcyRiWxB1WZcT5AN9W5h8rZMRnAL3VgCRebgzMjRIh6Ic=
-X-Received: by 2002:a05:6830:18da:: with SMTP id
- v26mr4387698ote.135.1591286981629; 
- Thu, 04 Jun 2020 09:09:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sean.j.christopherson@intel.com>)
+ id 1jgsbR-0008NK-HD; Thu, 04 Jun 2020 12:20:25 -0400
+Received: from mga06.intel.com ([134.134.136.31]:20327)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sean.j.christopherson@intel.com>)
+ id 1jgsbP-0007Ch-PP; Thu, 04 Jun 2020 12:20:24 -0400
+IronPort-SDR: qUnwrMbtB3p8IyIQjjXjJSWB0TNMdFNepNDhX11W+WGaTo7wZfsONDyurCyTNNNWpceeu0+GNU
+ xfuho98R19Lw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2020 09:20:13 -0700
+IronPort-SDR: 0STHlrEs9f5V4unbDzgHVn1raqy2xRABHf/PWcn7KiK0SmxBBhUd0TkB/ahsSvElQ21AXW5beg
+ 3r2QJS0aRH/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,472,1583222400"; d="scan'208";a="471584291"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com)
+ ([10.54.74.152])
+ by fmsmga005.fm.intel.com with ESMTP; 04 Jun 2020 09:20:12 -0700
+Date: Thu, 4 Jun 2020 09:20:12 -0700
+From: Sean Christopherson <sean.j.christopherson@intel.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [RFC v2 00/18] Refactor configuration of guest memory protection
+Message-ID: <20200604162012.GA30456@linux.intel.com>
+References: <20200521034304.340040-1-david@gibson.dropbear.id.au>
+ <20200529221926.GA3168@linux.intel.com>
+ <20200601091618.GC2743@work-vm>
+ <20200604031129.GB228651@umbus.fritz.box>
 MIME-Version: 1.0
-References: <20200604125544.GW28566@vanye>
- <20200604131802.7w4hncgq2gopbw6z@kamzik.brq.redhat.com>
- <20200604160300.GB28566@vanye>
-In-Reply-To: <20200604160300.GB28566@vanye>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 Jun 2020 17:09:30 +0100
-Message-ID: <CAFEAcA8MTB5VQQbMuSfkGc9JcGeawL_GUY8Pcs3yxT9kdncZJw@mail.gmail.com>
-Subject: Re: kvm_target, QEMU_KVM_ARM_TARGET_GENERIC_V8 questions
-To: Leif Lindholm <leif@nuviainc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x333.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200604031129.GB228651@umbus.fritz.box>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Received-SPF: pass client-ip=134.134.136.31;
+ envelope-from=sean.j.christopherson@intel.com; helo=mga06.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 12:20:13
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,40 +66,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Andrew Jones <drjones@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ mdroth@linux.vnet.ibm.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 4 Jun 2020 at 17:03, Leif Lindholm <leif@nuviainc.com> wrote:
-> But there's also things like:
-> - a57_initfn explicitly setting kvm_target, then only being called
->   from max_initfn for !kvm_enabled()
+On Thu, Jun 04, 2020 at 01:11:29PM +1000, David Gibson wrote:
+> On Mon, Jun 01, 2020 at 10:16:18AM +0100, Dr. David Alan Gilbert wrote:
+> > * Sean Christopherson (sean.j.christopherson@intel.com) wrote:
+> > > On Thu, May 21, 2020 at 01:42:46PM +1000, David Gibson wrote:
+> > > > Note: I'm using the term "guest memory protection" throughout to refer
+> > > > to mechanisms like this.  I don't particular like the term, it's both
+> > > > long and not really precise.  If someone can think of a succinct way
+> > > > of saying "a means of protecting guest memory from a possibly
+> > > > compromised hypervisor", I'd be grateful for the suggestion.
+> > > 
+> > > Many of the features are also going far beyond just protecting memory, so
+> > > even the "memory" part feels wrong.  Maybe something like protected-guest
+> > > or secure-guest?
+> > > 
+> > > A little imprecision isn't necessarily a bad thing, e.g. memory-encryption
+> > > is quite precise, but also wrong once it encompasses anything beyond plain
+> > > old encryption.
+> > 
+> > The common thread I think is 'untrusted host' - but I don't know of a
+> > better way to describe that.
+> 
+> Hrm..  UntrustedHost? CompromisedHostMitigation? HostTrustMitigation
+> (that way it has the same abbreviation as hardware transactional
+> memory for extra confusion)?  HypervisorPowerLimitation?
 
-Expected -- a KVM 'max' is nothing to do with a TCG 'max':
- * for KVM, -cpu max means "same as -cpu host"
- * for TCG, -cpu max means "start with an A57, then add in all the
-   extra architectural features that have been added since then".
+GuestWithTrustIssues?  Then we can shorten it to InsecureGuest and cause all
+kinds of confusion :-D.
 
-kvm_target being set by a57_initfn is specifically for the case
-where a KVM user is using "-cpu cortex-a57".
+> HostTrustLimitation? "HTL". That's not too bad, actually, I might go
+> with that unless someone suggests something better.
 
-> - a57_initfn setting cpu->dtb_compatible to "arm,cortex-a57"
-
-What else would it set it to?
-
-> - a57 initfn setting cpu->midr, max_initfn overwriting parts of it
-
-Also expected, TCG's -cpu max is "A57 with lots of extras".
-
-The way we create a TCG -cpu max is a bit odd, as the code was
-originally written in a situation where A57 was the most advanced
-TCG CPU we had and there were no extra architectural features
-supported by our CPU emulation. Today we have an A72 model as
-well and a lot of extra architectural features, so the "code
-borrowed" to "extras added" ratio looks a bit unbalanced.
-Cleaning it up would not be a bad idea.
-
-thanks
--- PMM
+DePrivelegedHost?  "DPH".  The "de-privelege" phrase seems to be another
+recurring theme.
 
