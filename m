@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 425001EDCF3
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:10:03 +0200 (CEST)
-Received: from localhost ([::1]:33284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E2271EDD06
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 08:14:01 +0200 (CEST)
+Received: from localhost ([::1]:40008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgj4j-0006dz-Nl
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:10:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36956)
+	id 1jgj8a-0001M1-Ed
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 02:14:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgj2q-0005ll-Dt
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:08:04 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53764
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgj6X-0008OG-1k
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:11:53 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46109
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgj2o-0001ra-De
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:08:03 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jgj6W-0002fH-0J
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 02:11:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591250880;
+ s=mimecast20190719; t=1591251110;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wojn8eITTgy1cuO3BUYuxJeW0pjtVSY/eL3hBpA0tns=;
- b=EWSYwyXXUzWl0ByWYIrBl9TAw4qUr9rmthYr/1WS6pFTBFOg/xT0YuSi8lHWQOLNfUy2Ip
- mXyLcAcMVqh188Zyt2d3ErpbHbtpuJG6N1cqx53+1IGLAAN3MRZcMMghnP/mJBU1XgL0AC
- JkTZgq97F2+6Wj4+yY18YiYVHzU+M1I=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-kBBW8EGwPUeQxIkkoWKC7A-1; Thu, 04 Jun 2020 02:07:56 -0400
-X-MC-Unique: kBBW8EGwPUeQxIkkoWKC7A-1
-Received: by mail-wr1-f70.google.com with SMTP id l18so1996080wrm.0
- for <qemu-devel@nongnu.org>; Wed, 03 Jun 2020 23:07:56 -0700 (PDT)
+ bh=dVGWfeilJLHk4ZaSUKByFXutMoVnGC7rf3UMq4xi/ec=;
+ b=IVAoAg3Ufn7Cr+JRqhxK2cJpCNB8dFR8SieFwDcoOJwtTHEhckESTtMeL958+iXlQILEgK
+ 1Uwgxtwqw2cjaDeE8XZr+jdDNNcXffpKUi+E5Yw/4CY7Hr7TGxRQBbHy8QxDQwWjUscaf7
+ bkz4hqsN74Wr3SYNl71tlysgmOjvAEo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-386-58g2x98JNdeYW_TTYwAUqg-1; Thu, 04 Jun 2020 02:11:47 -0400
+X-MC-Unique: 58g2x98JNdeYW_TTYwAUqg-1
+Received: by mail-wm1-f69.google.com with SMTP id s15so1596402wmc.8
+ for <qemu-devel@nongnu.org>; Wed, 03 Jun 2020 23:11:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=wojn8eITTgy1cuO3BUYuxJeW0pjtVSY/eL3hBpA0tns=;
- b=k8aVrqY8nm1RL2dXAVk/yXXjKJvcha3oA9GYYI/csoDXeAyAtdJOSZjRyxjo5eHAPL
- vGBz/oQnRmpV+8nqknXIx8UtsFyN8Ss47RDsQOhR8QBTr4prfu/HNEKHt1az3ghk49l1
- pwjl3ktTlVArMYXU9WsqEK6538mX4Si2Yo+gJK3l2HAFxq4nIA/Yq/UAVVYUNuo51qum
- UbutPYoaurE5JmgpsqRoof7LANYBCsVyIjLk1bCSNkv6aAWTk13o6lKmAujg6vGJyL40
- 7ABKWqZjG3lFJ2QgsAY+0XkbB81dhoK0605SkmshqIV/LmUP7/Edgfbmb+gAHJ3vFZcD
- bJjg==
-X-Gm-Message-State: AOAM5320W+HqttQxqaE0CoW5FBAIeedN9p5RX6kXxFfcP6OnXTvY8bDN
- QgMw/qJ0lv6N6/By0iJfFMTQ5uYi1AIYDnx8n8W/Yscdldlv3Ykb1DSy/OsrhOamEGsAJEsLJko
- xcicUToA81eRFP3M=
-X-Received: by 2002:adf:ed51:: with SMTP id u17mr2532737wro.285.1591250875394; 
- Wed, 03 Jun 2020 23:07:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzqj2W5+u+tCO6rsF6aicuyXSIz5maz9cNiiW0kI4sG0VMGXlzXR+2eet317oQwpHVFvkoKrw==
-X-Received: by 2002:adf:ed51:: with SMTP id u17mr2532714wro.285.1591250875083; 
- Wed, 03 Jun 2020 23:07:55 -0700 (PDT)
+ bh=dVGWfeilJLHk4ZaSUKByFXutMoVnGC7rf3UMq4xi/ec=;
+ b=tzYznd7o5TXyFh+1w2eXS/rcx/gYmzihpf3sW5Cl/K9YtxK5dmR59zvEbolnxoceFb
+ VDbmhdXTB542AchtSfYp4BuLttZJYBiRVBci3SP76jdvglys93b7PfchRQWnkTPrGbNR
+ IZ91Bh7F/bYh0YIFnEl2ssAljgC0klHnb173CSch6Qjlp+ttJwPB2iOgyPavE2MkfmQI
+ 8Rwg78Gp9WWKy88vBHGihcyAI7fmN4TqaNUn8BV4T+r5/Vd24I7bf6rOSDYdgP9qkxFC
+ oZqjgGIOYkCgAHuu1Cv7Lk5EWZGCjZOZxbbEGgDU9dFkNjevHIforqfBwmCr0cxKXdK4
+ P6SA==
+X-Gm-Message-State: AOAM532ZOpRbZAJbWOvdpy+PCF15hAPqlrICbO2qn3oI7jae6xMMWWSl
+ eX5YPOC0Jxp1uajF8GljmTe1Xiaz0sB+696ogGleqnOHNI4t2tZR06n+QbzteXt/ArrEKtlKAyZ
+ DVhxXlAbYPyz16eg=
+X-Received: by 2002:a1c:c1:: with SMTP id 184mr2396869wma.74.1591251106015;
+ Wed, 03 Jun 2020 23:11:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxZBMBp8dqt/+mAwmJ0tozLys4fHiyWg7EqL2XVsosHggP1Lum2oFGtUmheNAjQfnNOQ2nxCg==
+X-Received: by 2002:a1c:c1:: with SMTP id 184mr2396853wma.74.1591251105816;
+ Wed, 03 Jun 2020 23:11:45 -0700 (PDT)
 Received: from [192.168.1.43] (181.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id e15sm6025145wme.9.2020.06.03.23.07.53
+ by smtp.gmail.com with ESMTPSA id q5sm6439744wrm.62.2020.06.03.23.11.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Jun 2020 23:07:54 -0700 (PDT)
-Subject: Re: [PATCH v2 2/2] pci: ensure configuration access is within bounds
-To: BALATON Zoltan <balaton@eik.bme.hu>, P J P <ppandit@redhat.com>
-References: <20200603202251.1199170-1-ppandit@redhat.com>
- <20200603202251.1199170-3-ppandit@redhat.com>
- <alpine.BSF.2.22.395.2006040006520.56892@zero.eik.bme.hu>
+ Wed, 03 Jun 2020 23:11:45 -0700 (PDT)
+Subject: Re: [PATCH] configure: Disable -Wtautological-type-limit-compare
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200604034513.75103-1-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Autocrypt: addr=philmd@redhat.com; keydata=
  mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
@@ -88,12 +86,12 @@ Autocrypt: addr=philmd@redhat.com; keydata=
  9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
  RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
  apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
-Message-ID: <e1ccdf71-5069-fa95-3c90-de4f875b2706@redhat.com>
-Date: Thu, 4 Jun 2020 08:07:52 +0200
+Message-ID: <f5bc0532-e731-b56f-df7f-55da2585e955@redhat.com>
+Date: Thu, 4 Jun 2020 08:11:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.BSF.2.22.395.2006040006520.56892@zero.eik.bme.hu>
+In-Reply-To: <20200604034513.75103-1-richard.henderson@linaro.org>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -122,68 +120,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Prasad J Pandit <pjp@fedoraproject.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, Yi Ren <c4tren@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Ren Ding <rding@gatech.edu>, Hanqing Zhao <hanqing@gatech.edu>
+Cc: thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/4/20 12:13 AM, BALATON Zoltan wrote:
-> On Thu, 4 Jun 2020, P J P wrote:
->> From: Prasad J Pandit <pjp@fedoraproject.org>
->>
->> While reading PCI configuration bytes, a guest may send an
->> address towards the end of the configuration space. It may lead
->> to an OOB access issue. Assert that 'address + len' is within
->> PCI configuration space.
->>
->> Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
->> ---
->> hw/pci/pci.c | 2 ++
->> 1 file changed, 2 insertions(+)
->>
->> Update v2: assert PCI configuration access is within bounds
->>  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg00711.html
->>
->> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
->> index 70c66965f5..173bec4fd5 100644
->> --- a/hw/pci/pci.c
->> +++ b/hw/pci/pci.c
->> @@ -1381,6 +1381,8 @@ uint32_t pci_default_read_config(PCIDevice *d,
->> {
->>     uint32_t val = 0;
->>
->> +    assert(address + len <= pci_config_size(d));
+On 6/4/20 5:45 AM, Richard Henderson wrote:
+> Clang 10 enables this by default with -Wtype-limit.
 > 
-> Does this allow guest now to crash QEMU? I think it was suggested that
-> assert should only be used for cases that can only arise from a
-> programming error and not from values set by the guest. If this is
-> considered to be an error now to call this function with wrong
-> parameters did you check other callers? I've found a few such as:
+> All of the instances flagged by this Werror so far have been
+> cases in which we really do want the compiler to optimize away
+> the test completely.  Disabling the warning will avoid having
+> to add ifdefs to work around this.
 > 
-> hw/scsi/esp-pci.c
-> hw/watchdog/wdt_i6300esb.c
-> hw/ide/cmd646.c
-> hw/vfio/pci.c
-> 
-> and maybe others. Would it be better to not crash just log invalid
-> access and either fix up parameters or return some garbage like 0?
 
-Yes, maybe I was not clear while reviewing v1, we need to audit the
-callers and fix them first, then we can safely add the assert here.
+Fixes: https://bugs.launchpad.net/qemu/+bug/1878628
 
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+I dare to add:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  configure | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> Regards,
-> BALATON Zoltan
+> diff --git a/configure b/configure
+> index f087d2bcd1..693f01327f 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2009,6 +2009,8 @@ gcc_flags="-Wno-missing-include-dirs -Wempty-body -Wnested-externs $gcc_flags"
+>  gcc_flags="-Wendif-labels -Wno-shift-negative-value $gcc_flags"
+>  gcc_flags="-Wno-initializer-overrides -Wexpansion-to-defined $gcc_flags"
+>  gcc_flags="-Wno-string-plus-int -Wno-typedef-redefinition $gcc_flags"
+> +gcc_flags="$gcc_flags -Wno-tautological-type-limit-compare"
+> +
+>  # Note that we do not add -Werror to gcc_flags here, because that would
+>  # enable it for all configure tests. If a configure test failed due
+>  # to -Werror this would just silently disable some features,
 > 
->> +
->>     if (pci_is_express_downstream_port(d) &&
->>         ranges_overlap(address, len, d->exp.exp_cap + PCI_EXP_LNKSTA,
->> 2)) {
->>         pcie_sync_bridge_lnk(d);
->>
 
 
