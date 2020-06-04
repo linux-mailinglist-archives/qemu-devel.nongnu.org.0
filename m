@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BBC31EE6FC
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 16:52:22 +0200 (CEST)
-Received: from localhost ([::1]:36030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A0A1EE734
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 17:02:19 +0200 (CEST)
+Received: from localhost ([::1]:42244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgrED-0003a2-Ga
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 10:52:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40980)
+	id 1jgrNq-0007rM-7h
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 11:02:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jgrD7-0002bt-6p
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 10:51:13 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25502
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jgrD6-0003uP-Gz
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 10:51:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591282271;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yDj5BhPMYPyMTwU4oGZdDPK4LPRcSN7wxQzRy3RcjRo=;
- b=ZAsatQVD4FPZEkoo2SFjyfwyJEaTx/f9JasPJM6EG2Rt2dBWzUp38y0miRndvecDeCH1BV
- F4acgd5NTNXP/ef2U3QYKrij49gKHygMqG/CfYnzf+RmHe3dpzMSDLP8/QChf5Cdqz5TgI
- ZgYXbZLrUj7cyVBslLZIhmUupSxzqGI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-cQuUgxBHM_irdhj-YoVsCw-1; Thu, 04 Jun 2020 10:51:09 -0400
-X-MC-Unique: cQuUgxBHM_irdhj-YoVsCw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C80871800D42;
- Thu,  4 Jun 2020 14:51:08 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-112-65.ams2.redhat.com [10.36.112.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B39F5C1B0;
- Thu,  4 Jun 2020 14:51:07 +0000 (UTC)
-Date: Thu, 4 Jun 2020 16:51:05 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 00/16] python: add mypy support to python/qemu
-Message-ID: <20200604145105.GJ4512@linux.fritz.box>
-References: <20200602214528.12107-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jgrMa-0007IC-N3
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 11:01:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39856)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jgrMY-00066J-ED
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 11:01:00 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jgrMV-0000yn-V4
+ for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 15:00:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E6D2D2E810B
+ for <qemu-devel@nongnu.org>; Thu,  4 Jun 2020 15:00:55 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200602214528.12107-1-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:08:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 04 Jun 2020 14:55:00 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1777235@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gersner lorenz-x philmd
+X-Launchpad-Bug-Reporter: Shimi Gersner (gersner)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <152914985958.7724.174010690226549747.malonedeb@wampee.canonical.com>
+Message-Id: <159128250018.32027.2591362708102690584.malone@gac.canonical.com>
+Subject: [Bug 1777235] Re: NVME is missing support for Get Log Page command
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ab8b6a4e1d758ebaf240ff3d648c1a5c9f002ecf
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 10:55:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,23 +73,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, philmd@redhat.com
+Reply-To: Bug 1777235 <1777235@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 02.06.2020 um 23:45 hat John Snow geschrieben:
-> Requires: 20200602194844.15258-1-jsnow@redhat.com
-> 
-> This series is extracted from my larger series that attempted to bundle
-> our python module as an installable module. These fixes don't require that,
-> so they are being sent first as I think there's less up for debate in here.
-> 
-> This requires my "refactor shutdown" patch as a pre-requisite.
+Hi Lorenz,
+Can you send your patch to the mailing list adding your Signed-off-by tag?
+See:
+https://wiki.qemu.org/Contribute/SubmitAPatch#Submitting_your_Patches
 
-I had only minor comments, so with or without the suggested changes:
+-- =
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1777235
 
+Title:
+  NVME is missing support for Get Log Page command
+
+Status in QEMU:
+  New
+
+Bug description:
+  "Get Log Page" is a mandatory admin command by the specification (NVMe
+  1.2, Section 5, Figure 40) currently not implemented by device.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1777235/+subscriptions
 
