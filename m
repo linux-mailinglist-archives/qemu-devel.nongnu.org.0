@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8285D1EE2DD
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 12:59:16 +0200 (CEST)
-Received: from localhost ([::1]:57944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B1D81EE2E5
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 13:03:10 +0200 (CEST)
+Received: from localhost ([::1]:33360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgnad-0006Os-KB
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 06:59:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39574)
+	id 1jgneP-0008Nl-Lu
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 07:03:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jgnZb-0005rp-IH
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 06:58:11 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52738
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1jgnZB-0005f3-9C
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 06:57:45 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30391
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jgnZa-0003Kc-OG
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 06:58:11 -0400
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1jgnZ9-00039N-Fe
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 06:57:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591268290;
+ s=mimecast20190719; t=1591268261;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x61v8BL2rn2n2NvMG5XCrSCx80JZbq2ZYsYCyAZBfTY=;
- b=YvEtvVhp6N6ILydm6aQaBSOHm9Te6qc9/4p4+s9lEw08UtFEZtygb8I3wBKf2eba1xWnw3
- HWkVTvPvRN0252R5GET1Jsb3o8b/2sTeo5ES6o45Syn3roX+WVjchFORxcf+DA7/MveI4R
- icSbo0viVlZenSCXI0aYxPt7RTuooZU=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1zPM2PKgSEf9ui2KnXlcervnxLv540QvKlbqjUv8V3Q=;
+ b=MceMJLPbu19dGKqDNvWbgz8dKzEuyIfN5PzwhsWnX4lNbUFE5dFD7CY/2aR6+xs3B2M/pi
+ /o1R5QpJnM1v1SDunkv0Smlyel7NQCgE+8wb1C+nkN4br7hKPxwHFTln0yk/Kz3tS2Ik5j
+ Xp/ysgShVg7GwdtbUAQU6rz5dIAbn2U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-Zt5yf4k6P1CegT4HMYCyNA-1; Thu, 04 Jun 2020 06:58:08 -0400
-X-MC-Unique: Zt5yf4k6P1CegT4HMYCyNA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-430-uiLsLrFMNdqlvAfQfiMuWg-1; Thu, 04 Jun 2020 06:57:37 -0400
+X-MC-Unique: uiLsLrFMNdqlvAfQfiMuWg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E8B91800D42
- for <qemu-devel@nongnu.org>; Thu,  4 Jun 2020 10:58:07 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 037AF5C48E;
- Thu,  4 Jun 2020 10:57:59 +0000 (UTC)
-Date: Thu, 4 Jun 2020 12:57:55 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Subject: Re: [PATCH] hw/pci/pcie: Move hot plug capability check to pre_plug
- callback
-Message-ID: <20200604125755.12944ac4@redhat.com>
-In-Reply-To: <20200601162934.842648-1-jusual@redhat.com>
-References: <20200601162934.842648-1-jusual@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A6F7100726F;
+ Thu,  4 Jun 2020 10:57:36 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-200.sin2.redhat.com
+ [10.67.116.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1420610F2;
+ Thu,  4 Jun 2020 10:57:26 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v3] ati-vga: check address before reading configuration bytes
+ (CVE-2020-13791)
+Date: Thu,  4 Jun 2020 16:25:24 +0530
+Message-Id: <20200604105524.46158-1-ppandit@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=ppandit@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:08:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -66,8 +64,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,82 +78,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Prasad J Pandit <pjp@fedoraproject.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Yi Ren <c4tren@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Ren Ding <rding@gatech.edu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Hanqing Zhao <hanqing@gatech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  1 Jun 2020 18:29:34 +0200
-Julia Suvorova <jusual@redhat.com> wrote:
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-> Check for hot plug capability earlier to avoid removing devices attached
-> during the initialization process.
-> 
-> Run qemu with an unattached drive:
->   -drive file=$FILE,if=none,id=drive0 \
->   -device pcie-root-port,id=rp0,slot=3,bus=pcie.0,hotplug=off
-> Hotplug a block device:
->   device_add virtio-blk-pci,id=blk0,drive=drive0,bus=rp0
-> If hotplug fails on plug_cb, drive0 will be deleted.
-> 
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> ---
-> Hard to say if it's a bug or generally acceptable behaviour, but seems like
-> hotplug_handler_plug should never fail.
+While reading PCI configuration bytes, a guest may send an
+address towards the end of the configuration space. It may lead
+to an OOB access issue. Add check to ensure 'address + size' is
+within PCI configuration space.
 
-_unplug shouldn't fail the rest are allowed to, but it's hard to unwind
-intialization cleanly to _plug stage so if it's possible to do checks
-at _pre_plug time (i.e. before device's realize() is called) we should do so.
+Reported-by: Ren Ding <rding@gatech.edu>
+Reported-by: Hanqing Zhao <hanqing@gatech.edu>
+Reported-by: Yi Ren <c4tren@gmail.com>
+Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+---
+ hw/display/ati.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
+Update v3: avoid modifying 'addr' variable
+  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg00834.html
 
-> 
->  hw/pci/pcie.c | 19 +++++++++++--------
->  1 file changed, 11 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index f50e10b8fb..5b9c022d91 100644
-> --- a/hw/pci/pcie.c
-> +++ b/hw/pci/pcie.c
-> @@ -407,6 +407,17 @@ static void pcie_cap_slot_plug_common(PCIDevice *hotplug_dev, DeviceState *dev,
->  void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
->                                 Error **errp)
->  {
-> +    PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
-> +    uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
-> +    uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
-> +
-> +    /* Check if hot-plug is disabled on the slot */
-> +    if (dev->hotplugged && (sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
-> +        error_setg(errp, "Hot-plug failed: unsupported by the port device '%s'",
-> +                         DEVICE(hotplug_pdev)->id);
-> +        return;
-> +    }
-> +
->      pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, errp);
->  }
->  
-> @@ -415,7 +426,6 @@ void pcie_cap_slot_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
->  {
->      PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
->      uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
-> -    uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
->      PCIDevice *pci_dev = PCI_DEVICE(dev);
->  
->      /* Don't send event when device is enabled during qemu machine creation:
-> @@ -431,13 +441,6 @@ void pcie_cap_slot_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
->          return;
->      }
->  
-> -    /* Check if hot-plug is disabled on the slot */
-> -    if ((sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
-> -        error_setg(errp, "Hot-plug failed: unsupported by the port device '%s'",
-> -                         DEVICE(hotplug_pdev)->id);
-> -        return;
-> -    }
-> -
->      /* To enable multifunction hot-plug, we just ensure the function
->       * 0 added last. When function 0 is added, we set the sltsta and
->       * inform OS via event notification.
+diff --git a/hw/display/ati.c b/hw/display/ati.c
+index 67604e68de..b4d0fd88b7 100644
+--- a/hw/display/ati.c
++++ b/hw/display/ati.c
+@@ -387,7 +387,9 @@ static uint64_t ati_mm_read(void *opaque, hwaddr addr, unsigned int size)
+         val = s->regs.crtc_pitch;
+         break;
+     case 0xf00 ... 0xfff:
+-        val = pci_default_read_config(&s->dev, addr - 0xf00, size);
++        if ((addr - 0xf00) + size <= pci_config_size(&s->dev)) {
++            val = pci_default_read_config(&s->dev, addr - 0xf00, size);
++        }
+         break;
+     case CUR_OFFSET:
+         val = s->regs.cur_offset;
+-- 
+2.26.2
 
 
