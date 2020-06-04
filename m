@@ -2,68 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F9CD1EDDFC
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 09:26:00 +0200 (CEST)
-Received: from localhost ([::1]:47810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 842C31EDDE4
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 09:18:58 +0200 (CEST)
+Received: from localhost ([::1]:41836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgkGF-00050W-4g
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 03:25:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43886)
+	id 1jgk9R-0001go-7Q
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 03:18:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jgkFD-00045E-1S
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 03:24:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47550)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jgkFB-0000uu-Rj
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 03:24:54 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jgkF9-0001P6-SY
- for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 07:24:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CA8DA2E8109
- for <qemu-devel@nongnu.org>; Thu,  4 Jun 2020 07:24:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
+ id 1jgk7c-00017Q-IE; Thu, 04 Jun 2020 03:17:08 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:37960 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
+ id 1jgk7Y-00087h-WA; Thu, 04 Jun 2020 03:17:04 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id BC146BB46B7E2D1EB7C8;
+ Thu,  4 Jun 2020 15:16:47 +0800 (CST)
+Received: from [127.0.0.1] (10.173.222.233) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0;
+ Thu, 4 Jun 2020 15:16:37 +0800
+Subject: Re: [PATCH v2] target/arm/cpu: adjust virtual time for arm cpu
+To: Andrew Jones <drjones@redhat.com>
+References: <20200603020208.2089-1-fangying1@huawei.com>
+ <20200603082600.efes4srlft3xv2tq@kamzik.brq.redhat.com>
+From: Ying Fang <fangying1@huawei.com>
+Message-ID: <df1422fc-968c-bf38-48f2-8eb87d236b80@huawei.com>
+Date: Thu, 4 Jun 2020 15:16:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 04 Jun 2020 07:15:10 -0000
-From: kjonca <1618301@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 3u-mail kjonca
-X-Launchpad-Bug-Reporter: nivekuil (3u-mail)
-X-Launchpad-Bug-Modifier: kjonca (kjonca)
-References: <20160830031518.12252.40741.malonedeb@chaenomeles.canonical.com>
-Message-Id: <159125491033.13773.15199329152668864583.malone@gac.canonical.com>
-Subject: [Bug 1618301] Re: qemu-input: Mouse stops working in Windows guest
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="275d46a24253e557e4403d52832837e4bfa425b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: f234007ec99cd361ec275371977e29f2df92bbac
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 02:10:56
+In-Reply-To: <20200603082600.efes4srlft3xv2tq@kamzik.brq.redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.173.222.233]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=fangying1@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 03:16:48
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,65 +61,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1618301 <1618301@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ wu.wubin@huawei.com, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Still exists in  QEMU emulator version 5.0.0 (Debian 1:5.0-5)  running
-on Linux  5.6.0-1-amd64 #1 SMP Debian 5.6.7-1 (2020-04-29) x86_64
-GNU/Linux
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1618301
+On 6/3/2020 4:26 PM, Andrew Jones wrote:
+> On Wed, Jun 03, 2020 at 10:02:08AM +0800, Ying Fang wrote:
+>> Virtual time adjustment was implemented for virt-5.0 machine type,
+>> but the cpu property was enabled only for host-passthrough and
+>> max cpu model. Let's add it for arm cpu which has the gernic
+>> timer feature enabled.
+>>
+>>
+>> Signed-off-by: Ying Fang <fangying1@huawei.com>
+>>
+>> ---
+>> v2:
+>> - move kvm_arm_add_vcpu_properties into arm_cpu_post_init
+>>
+>> v1:
+>> - initial commit
+>> - https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg08518.html
+>>
+>> ---
+>>   target/arm/cpu.c   | 3 +--
+>>   target/arm/cpu64.c | 1 -
+>>   2 files changed, 1 insertion(+), 3 deletions(-)
+>>
+>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>> index 32bec156f2..1e9b7a51f2 100644
+>> --- a/target/arm/cpu.c
+>> +++ b/target/arm/cpu.c
+>> @@ -1244,6 +1244,7 @@ void arm_cpu_post_init(Object *obj)
+>>   
+>>       if (arm_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER)) {
+>>           qdev_property_add_static(DEVICE(cpu), &arm_cpu_gt_cntfrq_property);
+>> +        kvm_arm_add_vcpu_properties(obj);
+> 
+> The name 'kvm_arm_add_vcpu_properties' says nothing about being specific
+> to the timer. So this is either the wrong place for this function, or the
+> function is named wrong. I'd say it's the wrong place, because, as the
+> comment above kvm_arm_add_vcpu_properties() implies, the function is
+> for all 'kvm-*' prefixed properties, not just timer related ones. It's
+> true we don't have any others yet, but we will. I have plans to post
+can't agree more.
 
-Title:
-  qemu-input: Mouse stops working in Windows guest
+> kvm-steal-time soon, and despite it also having 'time' in its name, it
+> shouldn't depend on ARM_FEATURE_GENERIC_TIMER.
+yes, that would be nice.
 
-Status in QEMU:
-  New
+> 
+> How about the below [untested] patch instead?
+this patch is much more reasonable for me, thanks for your help.
+I've tested it and it works fine.
 
-Bug description:
-  ROCCAT Kone XTD mouse will randomly stop working in the guest until
-  it's restarted.  Windows Event Viewer shows an error in i8042prt, with
-  the message "Could not set the mouse resolution". The XML log:
+> 
+> Thanks,
+> drew
+> 
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 32bec156f2d4..e9084f98ef10 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -1245,6 +1245,10 @@ void arm_cpu_post_init(Object *obj)
+>       if (arm_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER)) {
+>           qdev_property_add_static(DEVICE(cpu), &arm_cpu_gt_cntfrq_property);
+>       }
+> +
+> +    if (kvm_enabled()) {
+> +        kvm_arm_add_vcpu_properties()
 
-  - <Event xmlns=3D"http://schemas.microsoft.com/win/2004/08/events/event">
-  - <System>
-    <Provider Name=3D"i8042prt" /> =
+should be kvm_arm_add_vcpu_properties(obj);
 
-    <EventID Qualifiers=3D"49157">23</EventID> =
+> +    }
+>   }
+>   
+>   static void arm_cpu_finalizefn(Object *obj)
+> @@ -2029,7 +2033,6 @@ static void arm_max_initfn(Object *obj)
+>   
+>       if (kvm_enabled()) {
+>           kvm_arm_set_cpu_features_from_host(cpu);
+> -        kvm_arm_add_vcpu_properties(obj);
+>       } else {
+>           cortex_a15_initfn(obj);
+>   
+> @@ -2183,7 +2186,6 @@ static void arm_host_initfn(Object *obj)
+>       if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+>           aarch64_add_sve_properties(obj);
+>       }
+> -    kvm_arm_add_vcpu_properties(obj);
+>       arm_cpu_post_init(obj);
+>   }
+>   
+> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> index cbc5c3868fce..778cecc2e6ca 100644
+> --- a/target/arm/cpu64.c
+> +++ b/target/arm/cpu64.c
+> @@ -592,7 +592,6 @@ static void aarch64_max_initfn(Object *obj)
+>   
+>       if (kvm_enabled()) {
+>           kvm_arm_set_cpu_features_from_host(cpu);
+> -        kvm_arm_add_vcpu_properties(obj);
+>       } else {
+>           uint64_t t;
+>           uint32_t u;
+> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+> index 4bdbe6dcac07..eef3bbd1cc2c 100644
+> --- a/target/arm/kvm.c
+> +++ b/target/arm/kvm.c
+> @@ -194,17 +194,18 @@ static void kvm_no_adjvtime_set(Object *obj, bool value, Error **errp)
+>   /* KVM VCPU properties should be prefixed with "kvm-". */
+>   void kvm_arm_add_vcpu_properties(Object *obj)
+>   {
+> -    if (!kvm_enabled()) {
+> -        return;
+> -    }
+> +    ARMCPU *cpu = ARM_CPU(obj);
+> +    CPUARMState *env = &cpu->env;
+>   
+> -    ARM_CPU(obj)->kvm_adjvtime = true;
+> -    object_property_add_bool(obj, "kvm-no-adjvtime", kvm_no_adjvtime_get,
+> -                             kvm_no_adjvtime_set);
+> -    object_property_set_description(obj, "kvm-no-adjvtime",
+> -                                    "Set on to disable the adjustment of "
+> -                                    "the virtual counter. VM stopped time "
+> -                                    "will be counted.");
+> +    if (arm_feature(env, ARM_FEATURE_GENERIC_TIMER)) {
+> +        cpu->kvm_adjvtime = true;
+> +        object_property_add_bool(obj, "kvm-no-adjvtime", kvm_no_adjvtime_get,
+> +                                 kvm_no_adjvtime_set);
+> +        object_property_set_description(obj, "kvm-no-adjvtime",
+> +                                        "Set on to disable the adjustment of "
+> +                                        "the virtual counter. VM stopped time "
+> +                                        "will be counted.");
+> +    }
+>   }
+>   
+>   bool kvm_arm_pmu_supported(CPUState *cpu)
+> 
+> 
+>>       }
+>>   }
+>>   
+>> @@ -2029,7 +2030,6 @@ static void arm_max_initfn(Object *obj)
+>>   
+>>       if (kvm_enabled()) {
+>>           kvm_arm_set_cpu_features_from_host(cpu);
+>> -        kvm_arm_add_vcpu_properties(obj);
+>>       } else {
+>>           cortex_a15_initfn(obj);
+>>   
+>> @@ -2183,7 +2183,6 @@ static void arm_host_initfn(Object *obj)
+>>       if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+>>           aarch64_add_sve_properties(obj);
+>>       }
+>> -    kvm_arm_add_vcpu_properties(obj);
+>>       arm_cpu_post_init(obj);
+>>   }
+>>   
+>> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+>> index cbc5c3868f..778cecc2e6 100644
+>> --- a/target/arm/cpu64.c
+>> +++ b/target/arm/cpu64.c
+>> @@ -592,7 +592,6 @@ static void aarch64_max_initfn(Object *obj)
+>>   
+>>       if (kvm_enabled()) {
+>>           kvm_arm_set_cpu_features_from_host(cpu);
+>> -        kvm_arm_add_vcpu_properties(obj);
+>>       } else {
+>>           uint64_t t;
+>>           uint32_t u;
+>> -- 
+>> 2.23.0
+>>
+>>
+>>
+> 
+> 
+> .
+> 
 
-    <Level>2</Level> =
-
-    <Task>0</Task> =
-
-    <Keywords>0x80000000000000</Keywords> =
-
-    <TimeCreated SystemTime=3D"2016-08-30T02:52:00.354536300Z" /> =
-
-    <EventRecordID>5708</EventRecordID> =
-
-    <Channel>System</Channel> =
-
-    <Computer>cronus</Computer> =
-
-    <Security /> =
-
-    </System>
-  - <EventData>
-    <Data /> =
-
-    <Binary>000008000100000000000000170005C03205000000000000000000000000000=
-000000000000000000000000000000000</Binary> =
-
-    </EventData>
-    </Event>
-
-  Host is running Linux 4.7.2 with QEMU 2.6.1.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1618301/+subscriptions
 
