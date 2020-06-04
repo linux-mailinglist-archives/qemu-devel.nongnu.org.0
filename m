@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEBE71EE07B
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 11:05:09 +0200 (CEST)
-Received: from localhost ([::1]:39640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A7BB1EE083
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 11:06:10 +0200 (CEST)
+Received: from localhost ([::1]:41804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgloC-0006CG-UZ
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 05:05:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52136)
+	id 1jglpB-0007Hy-4w
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 05:06:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jgleY-0008SO-Vc
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:55:10 -0400
-Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:42400)
+ id 1jglek-0000Kw-Cw
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:55:22 -0400
+Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:42440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jgleY-0002F6-3o
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:55:10 -0400
+ id 1jglej-0002FO-Hq
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:55:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
  :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=j2ukeuYA7iCuxtom1vX5ewUizZEtWINzIDKjd4nG5KI=; b=qh1rbLC8TWntD09BzKTxdK29xy
- TyNJjoJ0rf1F0LU1rGEYkXPLC08YBXzth8NEkFudFZOE4KOtyEo2mA+N/5tmMJk8pxlARb2TcIve3
- +6mucCxH+SFIjQh8Ih6QoUAUHg9PHOYtrVX6uaiBVD3NG2GWeDxn5IITelMYCxp+O5rg=;
+ bh=6AagHZt0sWYh5MkRZaX740PmFjZsMYNdNidcAD+BrNM=; b=ZZgRTGJ5pgmebHUGebvWADEhWi
+ P6Fn6mD5OiCsHagl+1b9VrO26ZBR5sgYoccrSSERtd+otCt+wNh4F9QOH6BmIW2OkCH38T9QwEsvW
+ V6OgqH2UKdRAkYj0sFOc6nczQLl2dNgRMzEO5t+Bu/gSSLSg4/v96NM5z2B0nOxCU0mU=;
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/15] tests/tcg/tricore: Add fadd test
-Date: Thu,  4 Jun 2020 10:54:36 +0200
-Message-Id: <20200604085441.103087-11-kbastian@mail.uni-paderborn.de>
+Subject: [PATCH v2 11/15] tests/tcg/tricore: Add fmul test
+Date: Thu,  4 Jun 2020 10:54:37 +0200
+Message-Id: <20200604085441.103087-12-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
 References: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-IMT-Spam-Score: 0.0 ()
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=6898291, da=78869972,
- mc=181, sc=3, hc=178, sp=1, fso=6898291, re=0, sd=0, hd=0
 X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2020.6.4.84817, AntiVirus-Engine: 5.74.0,
- AntiVirus-Data: 2020.6.4.5740000
+ Antispam-Data: 2020.6.4.84518, AntiVirus-Engine: 5.74.0,
+ AntiVirus-Data: 2020.6.3.5740003
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=6898292, da=78869973,
+ mc=182, sc=3, hc=179, sp=1, fso=6898292, re=0, sd=0, hd=0
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
 Received-SPF: pass client-ip=2001:638:502:c003::15;
  envelope-from=kbastian@mail.uni-paderborn.de; helo=shirlock.uni-paderborn.de
@@ -73,42 +73,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 ---
- tests/tcg/tricore/Makefile.softmmu-target |  1 +
- tests/tcg/tricore/test_fadd.S             | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+)
- create mode 100644 tests/tcg/tricore/test_fadd.S
+ tests/tcg/tricore/Makefile.softmmu-target | 1 +
+ tests/tcg/tricore/test_fmul.S             | 8 ++++++++
+ 2 files changed, 9 insertions(+)
+ create mode 100644 tests/tcg/tricore/test_fmul.S
 
 diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
-index a70fa9643d..3cbb1c8668 100644
+index 3cbb1c8668..21a7017f07 100644
 --- a/tests/tcg/tricore/Makefile.softmmu-target
 +++ b/tests/tcg/tricore/Makefile.softmmu-target
-@@ -11,6 +11,7 @@ TESTS += test_abs.tst
- TESTS += test_bmerge.tst
+@@ -12,6 +12,7 @@ TESTS += test_bmerge.tst
  TESTS += test_clz.tst
  TESTS += test_dvstep.tst
-+TESTS += test_fadd.tst
+ TESTS += test_fadd.tst
++TESTS += test_fmul.tst
  
  %.pS: $(TESTS_PATH)/%.S
  	$(HOST_CC) -E -o $@ $<
-diff --git a/tests/tcg/tricore/test_fadd.S b/tests/tcg/tricore/test_fadd.S
+diff --git a/tests/tcg/tricore/test_fmul.S b/tests/tcg/tricore/test_fmul.S
 new file mode 100644
-index 0000000000..1a65054803
+index 0000000000..fb1f634b2d
 --- /dev/null
-+++ b/tests/tcg/tricore/test_fadd.S
-@@ -0,0 +1,16 @@
++++ b/tests/tcg/tricore/test_fmul.S
+@@ -0,0 +1,8 @@
 +#include "macros.h"
 +.text
 +.global _start
 +_start:
-+    TEST_D_DD_PSW(add.f, 1, 0x7fc00000, 0x00000b80, 0xffffff85, 0x00001234)
-+    TEST_D_DD_PSW(add.f, 2, 0xf9c00000, 0x00000b80, 0xf9400000, 0xf9400000)
-+    TEST_D_DD_PSW(add.f, 3, 0x8bb858ca, 0x00000b80, 0x8b3858ca, 0x8b3858ca)
-+    TEST_D_DD_PSW(add.f, 4, 0x00000000, 0x00000b80, 0x000000ff, 0x00000000)
-+    TEST_D_DD_PSW(add.f, 5, 0x7fc00000, 0x00000b80, 0xfffffe52, 0x0a4cf70c)
-+    TEST_D_DD_PSW(add.f, 6, 0x9e6d5076, 0x84000b80, 0x9ded50ec, 0x9ded4fff)
-+    TEST_D_DD_PSW(add.f, 7, 0x00000000, 0x04000b80, 0x0000e8bd, 0x00000000)
-+    TEST_D_DD_PSW(add.f, 8, 0x7fc00000, 0xc4000b80, 0xffad546e, 0xffad546e)
-+    TEST_D_DD_PSW(add.f, 9, 0x7fc00000, 0x04000b80, 0xfffe0000, 0x08130000)
++    TEST_D_DD_PSW(mul.f, 1, 0x974f4f0a, 0x84000b80, 0x1a0b1980, 0xbcbec42d)
 +
 +    TEST_PASSFAIL
 +
