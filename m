@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 275231EE9C8
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 19:50:17 +0200 (CEST)
-Received: from localhost ([::1]:39422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 575C01EE9B2
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 19:48:15 +0200 (CEST)
+Received: from localhost ([::1]:60146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgu0O-0007SD-6C
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 13:50:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32842)
+	id 1jgtyQ-00041l-Ci
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 13:48:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jgtsP-0003Bm-Fm; Thu, 04 Jun 2020 13:42:01 -0400
-Received: from mail-eopbgr80102.outbound.protection.outlook.com
- ([40.107.8.102]:37664 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ id 1jgtsO-0003AI-5H; Thu, 04 Jun 2020 13:42:00 -0400
+Received: from mail-eopbgr00103.outbound.protection.outlook.com
+ ([40.107.0.103]:11696 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jgtsO-0005oz-4V; Thu, 04 Jun 2020 13:42:01 -0400
+ id 1jgtsN-0005oK-Gu; Thu, 04 Jun 2020 13:41:59 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h4J1WmWuAd9G3A4+blesiqRPppIJlgP1/kOsEGcap4aW8TXTv/aKsTGLSbeOYXwFAcy8xGC5dETRfRpMhgXP0NzlDf7IWGxnOIGJfTkX9XEpF9k+o0NfAP+TL/jNsVoxLxuuddTjpRF/3YdkeEuquc5cPneEbpZMesWraKiRg5L6/NboB35bKNG9jL8oTg91KNLHw5teuOo3AAaLN2R6zTxYBkx3SGm3Aw6dQGGCB+5494eWE5x1SzUs5wjHIaqY0HKiVHYjNX8AObGCDbPhDfShg6XW8oVe1SBqcrxRrw5+sMfnMhr5fM2MZGbmm8iGuWEIM73ih4EIlq0b899XEQ==
+ b=REQyw6cf4RelmptDU5ugZqfeOYOQq5G1pV0rB81BDtnp4yuUGggrgotSNaOnLKrNOgXDnvdB2R8XQVQTUUgIm96yZEHN2Xi3fuDsc//NMmrrhAoILqL+6XHRA2LrfHjI2x2Q6zvV117bQouM919pM/6+3TKO7yQTDsX89KUJdMiK11GWIT1H9teIthFtYUV098DbPIUBCVm3eIl8vBRyZb+QrDkWeVmWNTDvHwXxnA5PLX/VoBH3jRZZmAG9CmDDNlGtReMtCa1YwGGbOLvHYMbhsHdda6BtC2xviW8MuLtlRbZebPvLVz1hD6pjxekYblVFyhVVnTNFCvq8SR9TWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h72cIOwFcAvXsyXvShlntJjqindbpzVhggb0XZUMrFA=;
- b=A3MOOCwEWXSm0cDQNd1O5ZTfKQMOZR4TEv4luaHwZEBVeUyI3f/Vq/BQDvluuNwhU82AgtlPF45x5dz8g0ywWDAVyvD9v4Z7lV7Ep+gBIjJsuFJhDaj6Lm6TiKj07h5m7Ea9AZHEyJrXYTBkOOLTryNP6uxWHWPH8mvRvtwNHqFVWaz9mD70R+aYNIt20iRTSKoq4EQcToEvnX8Gl4JtS8AnwMmARzoAP+NVtt6720rMmR/25zU9BT9ee+hytfpR1N7UfFXSXXWqRlocR9M1iryuFzh9H4HbcYifqnB1cnw27n/950zicxbiF0G/ZTN50nKyEeOft0nfMivJhSOIuw==
+ bh=YRY4YW8JNkMvjfJ2rapnWPP4AdsS3y9ldVH+VQ8hmEs=;
+ b=YdZeR2KSbcFtKNy9el7GDLH6e9Lh676v0SsG4LhHcIdNhcd/L5KSH4pZs7xspp1obCWlKoSK14ZZFKuoRblQRMZ34YGq4lsm+pcp97ixPpcuUWckUBMU32058y5b+AP3i22FdM2OSPc3Xis2iCLizHj1I3BhzwxeIvA0N2igcLORQtetWnwPLigtJCRkeAN313bfY+eepzFy1Q6ziiqDrSPxu5Q6L3iaxVNZ23jMlJEPYInDWxwx9zX65IJWKdAlcFRB+68cHPtTZZnhz+kgfXhHE3gEaU5DG1xAvbIg/05chCgYzE24Ajz5f79k3nqUcPZrG1WFSF8PZV8uHoTddw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h72cIOwFcAvXsyXvShlntJjqindbpzVhggb0XZUMrFA=;
- b=GLVViEPqaqt2WBmBEGPC8J+Az3y+xvnx2imEeYtSP0BMKfbUANWmWVN/a6/YPGCv2oxfYukJtvwHJfU+RYmcugb0qJ6YPNS/5ggSRjDQHHG68a2e7VAVwxeFuWLZzUn4uYGbeZAzGvxoy/Sf5sJh4hPGKy9mv6NQmBf5RN/Jjjk=
+ bh=YRY4YW8JNkMvjfJ2rapnWPP4AdsS3y9ldVH+VQ8hmEs=;
+ b=KOcdXE1XJP2Z2NOsz8WQ3k3pWqo5hbKa+U0AmhTGP5sJNkz6mweR11WYpDRD5EuJ0SQyV9+h0oX9LcJklqjIhtmRbAMvD3EpjfhrjdhQoho9uFm+TKVEuKZm3Y7civu/BU0MDurfKwyg04Appw/HFqlZFwowXXa8MCOtcMvpXiM=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5381.eurprd08.prod.outlook.com (2603:10a6:20b:105::23)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.19; Thu, 4 Jun
- 2020 17:41:51 +0000
+ 2020 17:41:53 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::a408:2f0f:bc6c:d312%3]) with mapi id 15.20.3066.018; Thu, 4 Jun 2020
- 17:41:51 +0000
+ 17:41:53 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 03/12] qcow2_format.py: drop new line printing at end of
- dump()
-Date: Thu,  4 Jun 2020 20:41:26 +0300
-Message-Id: <20200604174135.11042-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 04/12] qcow2_format.py: use tuples instead of lists for
+ fields
+Date: Thu,  4 Jun 2020 20:41:27 +0300
+Message-Id: <20200604174135.11042-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200604174135.11042-1-vsementsov@virtuozzo.com>
 References: <20200604174135.11042-1-vsementsov@virtuozzo.com>
@@ -64,37 +64,37 @@ Received: from kvm.sw.ru (185.215.60.190) by
  AM4PR0101CA0049.eurprd01.prod.exchangelabs.com (2603:10a6:200:41::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.19 via Frontend
- Transport; Thu, 4 Jun 2020 17:41:50 +0000
+ Transport; Thu, 4 Jun 2020 17:41:51 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.190]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 08808089-2afe-49b6-7c15-08d808ae9075
+X-MS-Office365-Filtering-Correlation-Id: bad0ecb3-6fa1-42b5-aa3e-08d808ae90e6
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5381:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5381D1D54AC329FDC8F92187C1890@AM7PR08MB5381.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2043;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5381C8EC132115AF7B15F0E7C1890@AM7PR08MB5381.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1360;
 X-Forefront-PRVS: 04244E0DC5
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zMfktcIqnneejpoS2C29EsxNGI5Y9METyGjApZaXEQXK1edEtNtH5axOYUPqPevVEKy3vokMDH6KpbsqxgTwVt8+bxe0oByRAifquMQAuxgjLoOHWqBNpQdBTA8WJSXYmE8lwOSvdPM/t0op9IdEuGuQ0JpGrBNnycz9ZdziAHGzhVOIZ9T0v4ay2GTeH/EYlhxRRFx4UmFSM5OwAhMJUUlZhARjwRZeu/mg5MI2zzOeCwLR3ehhORC9ARa4NQxXQqwyvEEJ5f4kAlRQtH5FW4p6ojMm5oqCe/IhDonrzwvBbaMLpm22SZt+RvnQgXYqrQ++nPG1kjXVhFWpqoPyjg==
+X-Microsoft-Antispam-Message-Info: eCjfnvQOsdrki/ug7C3U8aemU96jxWIjXA0cYJybO/B7AbRJsFg54vqYCQvhfz0sRHTtq1d/aCZ/d0plsWtBJi1MwmEfnap8/G0Ae9GvoTuwqhYB09SXgXp6i67tWg39L86VtYjIwei0/pcHqzqCGL3foYobTWBS31HgWHJTMrxIFa4lMxbroSVuvFQaKqob5fRqtNjFd+d1vMMKpIjmnRDedwNihzVfYBOBBdt4BQBxVs9WjyrHDCKronhhBPlZWfuJ8Vl/B2GOuQdlL/vUJQ+1ICy32VRcdKiHpUEXcy1Xr6Mxu3cjn5+4fhmPWnlaNjws58Yycm9T8FLjRbdCBw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(39840400004)(376002)(346002)(366004)(396003)(136003)(5660300002)(66556008)(26005)(66476007)(478600001)(2906002)(6916009)(107886003)(16526019)(4326008)(66946007)(4744005)(1076003)(186003)(6666004)(36756003)(86362001)(2616005)(6506007)(83380400001)(316002)(956004)(8936002)(8676002)(52116002)(6512007)(6486002);
+ SFS:(4636009)(39840400004)(376002)(346002)(366004)(396003)(136003)(5660300002)(66556008)(26005)(66476007)(478600001)(2906002)(6916009)(107886003)(16526019)(4326008)(66946007)(1076003)(186003)(6666004)(36756003)(86362001)(2616005)(6506007)(83380400001)(316002)(956004)(8936002)(8676002)(52116002)(6512007)(6486002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: m0hkva1gWC7XvzPfizZr/43bTB1+2jD47xwtC4op2n3GOMkhwK6Nn0e7pBirJ+0MW/xS0B9k5QHI+ejSQnr46PmCAOT43u+gpe3wWE/v1ZnTBy9+LRBwe0EIH4snJ+cnw90t0hYFPwMryHKyOuk/GwGROrdmUU8AYgpD81Yvzl0JaVlYvaFoBGc2MMmuyVyeaYA9RvO6JMSmEqcAxXvUq757hxkFrME8r8wkB9LwqyZp6qMmmKxyBgsvlyF/Vj0jTSeYmEN85BH9Wlf4hgkTDyOt94JzA0U7h5jjIZwqyB6Wc1ZldJ6gKz3MEMBnUBfJL5+W5tYYRj8qntCgdp1rzl2rZPi7RQmg/CHu1lHtwKH8DrA+0k5V1MVY2kheoyU1kxETSgzJ7Ii8bKYkyb8ZBfTO1FjPt3LGaVzyCiyy+vbElw1KekPvHXFEMSJSfVfGWjYhV0Os7/SUZrbVH3taJJFujJnDCXFHOwxsoP6XVuZ8FKCT4mGf92fi/CQ+dqyn
+X-MS-Exchange-AntiSpam-MessageData: 8JwYUe2TfG5AO5+W94RC0SQTEbcO1Mu6iNdvFk6rWVhwfDJD/RxJFQSoT8ZobWj9z24NZuD8e8Z8QVIh8lWJr46Mp3J4HiSwYaUEaODjGFnri2mi9VwgFTFsLragANwY9YGdfUPKmQp3PAEJC3wLeDgMjLp5k58StzvZaGkHQb88VyGVInrjz2nydJSOVY0aGD646jrjnkJrMVkZSwSUigZOwmzEzCwA+TikX9Q1ddjVGZup1o0fW3K/Ai40iGAeucZ4mgX1kzygPVLims9EQxHtV8/H28i3dJlyfuSwAbYbl+ZWLxmLBXWQpyJl+yNaFe17/uwpI/77/044NNeIc9afvS9/ua06XbkNKXbrgCn69KHM/UM9Wh5w3WbzDkiU6hUTVvD+JDidWGAEVv6JcBxfpLPeWKoIBN7uAnt7fCJLWztzrk1Epx+tX+lNCMVg+lN6B3FLxowTQBwSqZQ1CKe3dtXsr9vkHiTgnApA8DkuouiZIw++Al8lUPBxwg4R
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08808089-2afe-49b6-7c15-08d808ae9075
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2020 17:41:51.5478 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bad0ecb3-6fa1-42b5-aa3e-08d808ae90e6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2020 17:41:52.2965 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2j7GcZ27g6I+1ax9FH4FKd0FUxWIEHQJsHrzBuyLjwDLc+kPzyievjaUmDUxajRAtp8ZDT6xauUDTXZsTQo5wyWrOA/0qWX9ehkgVrP38ZM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Xn4wwH9pOs3fapQClZWrYx9oHzwmqa82XfV0l+INYGou0d46GQQoImU5Le1sOnPQECULp9niwI59opD3nP68tBZX+3prN7LPU52mGyUy61g=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5381
-Received-SPF: pass client-ip=40.107.8.102;
+Received-SPF: pass client-ip=40.107.0.103;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 13:41:57
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 13:41:50
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: 5
 X-Spam_score: 0.5
@@ -121,39 +121,67 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will simplify further conversion. To compensate, print this empty
-line directly in cmd_dump_header().
+No need in lists: it's a constant variable.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/qcow2.py        | 1 +
- tests/qemu-iotests/qcow2_format.py | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ tests/qemu-iotests/qcow2_format.py | 40 +++++++++++++++---------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/tests/qemu-iotests/qcow2.py b/tests/qemu-iotests/qcow2.py
-index d9c41668fd..79db81b040 100755
---- a/tests/qemu-iotests/qcow2.py
-+++ b/tests/qemu-iotests/qcow2.py
-@@ -10,6 +10,7 @@ from qcow2_format import (
- def cmd_dump_header(fd):
-     h = QcowHeader(fd)
-     h.dump()
-+    print()
-     h.dump_extensions()
- 
- 
 diff --git a/tests/qemu-iotests/qcow2_format.py b/tests/qemu-iotests/qcow2_format.py
-index c7270a0a6e..99e5248e73 100644
+index 99e5248e73..5d242c4aa4 100644
 --- a/tests/qemu-iotests/qcow2_format.py
 +++ b/tests/qemu-iotests/qcow2_format.py
-@@ -139,7 +139,6 @@ class QcowHeader:
-                 value_str = f[1] % value
+@@ -23,29 +23,29 @@ class QcowHeader:
+     uint32_t = 'I'
+     uint64_t = 'Q'
  
-             print("%-25s" % f[2], value_str)
--        print("")
+-    fields = [
++    fields = (
+         # Version 2 header fields
+-        [uint32_t, '%#x',  'magic'],
+-        [uint32_t, '%d',   'version'],
+-        [uint64_t, '%#x',  'backing_file_offset'],
+-        [uint32_t, '%#x',  'backing_file_size'],
+-        [uint32_t, '%d',   'cluster_bits'],
+-        [uint64_t, '%d',   'size'],
+-        [uint32_t, '%d',   'crypt_method'],
+-        [uint32_t, '%d',   'l1_size'],
+-        [uint64_t, '%#x',  'l1_table_offset'],
+-        [uint64_t, '%#x',  'refcount_table_offset'],
+-        [uint32_t, '%d',   'refcount_table_clusters'],
+-        [uint32_t, '%d',   'nb_snapshots'],
+-        [uint64_t, '%#x',  'snapshot_offset'],
++        (uint32_t, '%#x',  'magic'),
++        (uint32_t, '%d',   'version'),
++        (uint64_t, '%#x',  'backing_file_offset'),
++        (uint32_t, '%#x',  'backing_file_size'),
++        (uint32_t, '%d',   'cluster_bits'),
++        (uint64_t, '%d',   'size'),
++        (uint32_t, '%d',   'crypt_method'),
++        (uint32_t, '%d',   'l1_size'),
++        (uint64_t, '%#x',  'l1_table_offset'),
++        (uint64_t, '%#x',  'refcount_table_offset'),
++        (uint32_t, '%d',   'refcount_table_clusters'),
++        (uint32_t, '%d',   'nb_snapshots'),
++        (uint64_t, '%#x',  'snapshot_offset'),
  
-     def dump_extensions(self):
-         for ex in self.extensions:
+         # Version 3 header fields
+-        [uint64_t, 'mask', 'incompatible_features'],
+-        [uint64_t, 'mask', 'compatible_features'],
+-        [uint64_t, 'mask', 'autoclear_features'],
+-        [uint32_t, '%d',   'refcount_order'],
+-        [uint32_t, '%d',   'header_length'],
+-    ]
++        (uint64_t, 'mask', 'incompatible_features'),
++        (uint64_t, 'mask', 'compatible_features'),
++        (uint64_t, 'mask', 'autoclear_features'),
++        (uint32_t, '%d',   'refcount_order'),
++        (uint32_t, '%d',   'header_length'),
++    )
+ 
+     fmt = '>' + ''.join(field[0] for field in fields)
+ 
 -- 
 2.21.0
 
