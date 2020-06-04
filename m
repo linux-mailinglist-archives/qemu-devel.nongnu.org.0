@@ -2,71 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F0E1EE0E8
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 11:11:24 +0200 (CEST)
-Received: from localhost ([::1]:59790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF70A1EE0F0
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 11:12:37 +0200 (CEST)
+Received: from localhost ([::1]:35456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgluF-0006cZ-3b
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 05:11:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53864)
+	id 1jglvQ-0008GV-VW
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 05:12:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jgltE-0005h3-Fg
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:10:20 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:36275)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jgltD-0005x2-Ar
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:10:20 -0400
-Received: by mail-oi1-x242.google.com with SMTP id a137so4469332oii.3
- for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 02:10:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cwnRKZH1DnxZRlyWrqvLHghevGQqxa72rg4Vyhzz2JA=;
- b=wTVTzUbHB08O8DI+tfmArh+LpTZs/tXUp2GblqOIeo34ywaQkcs5IJ5UWzRoKddDrV
- n5guqES8Ku6dmM/wcjSptNX9Y/8ZAyXVtpoD27iwZfaefPxRdKsrcN3ua1RH41IV0Yuw
- gpwlr+O7TLKRMxFxgXgMeeBKZddqjbKzoBwk9dhoQY0oekeAay/1ICID7bvXQnOopKm6
- eveLIJ58Yj5dEn79a3u5GVU+Si0qqaZE0HqHmhMgsd5UjrG6785LKfBhXz5EebY8jZpA
- M6V+151tcyhtJPYjK2MkMH6au0+A4hr1czSW7helluzRl4wdQ5WFfIzO2AHz/wMT6GO+
- C6zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cwnRKZH1DnxZRlyWrqvLHghevGQqxa72rg4Vyhzz2JA=;
- b=lO1i/Q/db/zcTd/JIuF3wa5vjWy+D9oDR0c+7SnCt/rTGVcTogGgDWFaQOAZrtzavi
- bJjegDlV/FjZSON1BpjtQ+ENdsVqq7JN5uJUNmmHGdleJP8g1E46sP03VFMHC7TkfhHo
- I5NIE1bEwon12AHfMtSWXrATrU/3ixjrFYXFC/8i1ShJwOT8u8VtNTJOGgk3dvA7IjR2
- itBDyUzzxE8l/Imq82Olu0ZyC+3sA7S3VO+msa5lmcjJK/fknA+XzAX17ddxEONg6xdt
- rdVMwxCIAqEzFH2OLSXN4TLi8DoEEM26rMKLothpqByzeaeODUx2CALoX7JqLOBF8tDX
- Bytw==
-X-Gm-Message-State: AOAM531ePMilS7goVoWKhTomrWdSsG4HrS9qgdoc9Aiy/Kex7ym8Czaq
- 9g/r7X3BhrWhtPe6QqHGBn/Yt19c/5kE+UMNgzZn7w==
-X-Google-Smtp-Source: ABdhPJyqox0+kZUy5Y3LkR+exaluXI+xTqSYUWz95fuz5Deff+1pMMlX5oVA4KDc3clCze9qTlbDUf98H7+IDtgs6Ys=
-X-Received: by 2002:a54:469a:: with SMTP id k26mr2424796oic.163.1591261818065; 
- Thu, 04 Jun 2020 02:10:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jgltQ-00061r-1N
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:10:32 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:40169)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jgltO-00062k-DQ
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 05:10:31 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MAfMc-1jnKOA2L3g-00B0GU; Thu, 04 Jun 2020 11:10:18 +0200
+To: chengang@emindsoft.com.cn, riku.voipio@iki.fi
+References: <20200604014527.7795-1-chengang@emindsoft.com.cn>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Subject: Re: [PATCH] [PATCH v6] linux-user: syscall: ioctls: support
+ DRM_IOCTL_VERSION
+Message-ID: <30eeb463-42d8-5aaa-1741-1cc3bb885fdc@vivier.eu>
+Date: Thu, 4 Jun 2020 11:10:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200603202251.1199170-1-ppandit@redhat.com>
- <20200603202251.1199170-3-ppandit@redhat.com>
-In-Reply-To: <20200603202251.1199170-3-ppandit@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 Jun 2020 10:10:07 +0100
-Message-ID: <CAFEAcA-hApgPBn0o44sJW7=WGiLnL0PBhz+1i8MAcxwuxJ=Y=w@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] pci: ensure configuration access is within bounds
-To: P J P <ppandit@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200604014527.7795-1-chengang@emindsoft.com.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:rem3equuguEm8+Cc9sYbNsPllUwU2lgZZ3qx+0R+pHidsQaEAN0
+ MGZeYp0FtdW7g7hWW2bfgd4wVulo8QMveRHyhXKf7E54AZCz+Khz270hEXsZ0/sACP0No5m
+ qsOkNwoULWlfs2ipfap3n/rEXyOGMJYAV4fLVIdd5F8K2EjtCGuWvgeHdcd/CKTobS7sNah
+ 2ur/wZyJ88MM5HQpecYEQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IVqTkDo2nUQ=:b0oFP4TEcGT/YLjJCaiOfN
+ tAJzKWVvSiPSdn741BHi4tLrXo7f2Cwj5anNuTWe12tiU3E8S+3mrstxYRGBjmG6dW9eDtqPL
+ tn/cWxmkpjBnDXg7dRxJ2fVrIaItOkAS2nN8hPwz/7ssj0c40ivt2V3xj4H5WcS561u9IgpJ9
+ sDR41JOR25MMMRL49UVtlqxMR+ZqDRvgAlakcH+PyI0M3PUxA7DEkap86vdOg+46djz8LVIca
+ TrPtJga8iYoSKJiN2CGxN9dk5wAQYpZlPu0qOMowbluEV40orRLM/CmLFWB3BoMRl8mpATQSf
+ eOnto51IQOBPtBbF2wuwfTB/CHEsm2foknDQRqc1XRAq4UNxtD5UDPwQ98mYjarC0sGNg9fgd
+ nk8tgbj0fBuzr/6N3898mlKLnz9KZFtq54A6aS/7B14DxSSKzi9OLioKDxFbrCXOXs+0TC1K4
+ X7LY4t2KZgs4bSb5cmvGZIJ01V4ceHqHDBWBkqwKv8mg3/z4F5PRuq/o26elP1l9KcMCmjmU0
+ VnwNVAtIjTlTVYgm2wA5lBmgvAAv7+gt4IePkMQQxSk0dh5eDbUKo8Tey3S27QvzFvphI4GtS
+ cUvZKIwPyX4ZhnFsIhQksKiSiBPu6QApu4urH4oxCGkDaizveNj+Co6/cDPkE6uIy+fSUN4xR
+ qU5vy0SxhcTQAHj1sRi5XcYQBcrHbD5KGL0LOZQ7sj+F5dWltTRyHFlhsGgAQu2SWcdAvXlSq
+ hTUkQPIb0utYPcIYO75CP6MpRF56Dq2DMOa7PRsGPDAD+CjsbhIcytIOlrdWwgDc3+P6UiuZs
+ kjkbxtDySV5B5IPcuy7Wc2nFkfSJ5mSGp85+uAqqqSJG4j3UXCDadsPjbSRrZG71mRFC/uQ
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 05:10:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,28 +114,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Prasad J Pandit <pjp@fedoraproject.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, Yi Ren <c4tren@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Ren Ding <rding@gatech.edu>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Hanqing Zhao <hanqing@gatech.edu>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Jun 2020 at 21:26, P J P <ppandit@redhat.com> wrote:
->
-> From: Prasad J Pandit <pjp@fedoraproject.org>
->
-> While reading PCI configuration bytes, a guest may send an
-> address towards the end of the configuration space. It may lead
-> to an OOB access issue. Assert that 'address + len' is within
-> PCI configuration space.
+Le 04/06/2020 à 03:45, chengang@emindsoft.com.cn a écrit :
+> From: Chen Gang <chengang@emindsoft.com.cn>
+> 
+> Another DRM_IOCTL_* commands will be done later.
+> 
+> Signed-off-by: Chen Gang <chengang@emindsoft.com.cn>
+> ---
+>  configure                  | 10 ++++
+>  linux-user/ioctls.h        |  5 ++
+>  linux-user/syscall.c       | 95 ++++++++++++++++++++++++++++++++++++++
+>  linux-user/syscall_defs.h  | 15 ++++++
+>  linux-user/syscall_types.h | 11 +++++
+>  5 files changed, 136 insertions(+)
+> 
+> diff --git a/configure b/configure
+> index f087d2bcd1..389dbb1d09 100755
+> --- a/configure
+> +++ b/configure
+> @@ -3136,6 +3136,13 @@ if ! check_include "ifaddrs.h" ; then
+>    have_ifaddrs_h=no
+>  fi
+>  
+> +#########################################
+> +# libdrm check
+> +have_drm_h=no
+> +if check_include "libdrm/drm.h" ; then
+> +    have_drm_h=yes
+> +fi
+> +
+>  ##########################################
+>  # VTE probe
+>  
+> @@ -7127,6 +7134,9 @@ fi
+>  if test "$have_ifaddrs_h" = "yes" ; then
+>      echo "HAVE_IFADDRS_H=y" >> $config_host_mak
+>  fi
+> +if test "$have_drm_h" = "yes" ; then
+> +  echo "HAVE_DRM_H=y" >> $config_host_mak
+> +fi
+>  if test "$have_broken_size_max" = "yes" ; then
+>      echo "HAVE_BROKEN_SIZE_MAX=y" >> $config_host_mak
+>  fi
+> diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+> index 0defa1d8c1..f2e2fa9c87 100644
+> --- a/linux-user/ioctls.h
+> +++ b/linux-user/ioctls.h
+> @@ -574,6 +574,11 @@
+>    IOCTL_SPECIAL(SIOCDELRT, IOC_W, do_ioctl_rt,
+>                  MK_PTR(MK_STRUCT(STRUCT_rtentry)))
+>  
+> +#ifdef HAVE_DRM_H
+> +  IOCTL_SPECIAL(DRM_IOCTL_VERSION, IOC_RW, do_ioctl_drm,
+> +                MK_PTR(MK_STRUCT(STRUCT_drm_version)))
+> +#endif
+> +
+>  #ifdef TARGET_TIOCSTART
+>    IOCTL_IGNORE(TIOCSTART)
+>    IOCTL_IGNORE(TIOCSTOP)
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 7f6700c54e..1744e7acc7 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -112,6 +112,9 @@
+>  #include <linux/if_alg.h>
+>  #include <linux/rtc.h>
+>  #include <sound/asound.h>
+> +#ifdef HAVE_DRM_H
+> +#include <libdrm/drm.h>
+> +#endif
+>  #include "linux_loop.h"
+>  #include "uname.h"
+>  
+> @@ -5276,6 +5279,98 @@ static abi_long do_ioctl_tiocgptpeer(const IOCTLEntry *ie, uint8_t *buf_temp,
+>  }
+>  #endif
+>  
+> +#ifdef HAVE_DRM_H
+> +
+> +static void unlock_drm_version(struct drm_version *host_ver)
+> +{
+> +    unlock_user(host_ver->name, 0UL, 0);
+> +    unlock_user(host_ver->date, 0UL, 0);
+> +    unlock_user(host_ver->desc, 0UL, 0);
+> +}
 
-What does the spec say should happen when the guest does this?
-Does it depend on the pci controller implementation?
+This is correct but I would prefer to not have this kind of function
+with 0UL parameter.
 
-thanks
--- PMM
+You can use target_ver for the guest pointer and host_ver for the len,
+guest pointer will be ignored if host pointer is NULL.
+
+You can have a generic function that not copies data in case of error:
+
+static void unlock_drm_strings(struct drm_version *host_ver,
+                               struct target_drm_version *target_ver,
+                               int copy)
+{
+    unlock_user(host_ver->name, target_ver->name,
+                copy ? host_ver->name_len : 0);
+...
+
+> +
+> +static inline abi_long target_to_host_drmversion(struct drm_version *host_ver,
+> +                                          struct target_drm_version *target_ver)
+> +{
+> +    memset(host_ver, 0, sizeof(*host_ver));
+> +
+> +    __get_user(host_ver->name_len, &target_ver->name_len);
+> +    if (host_ver->name_len) {
+> +        host_ver->name = lock_user(VERIFY_WRITE, target_ver->name,
+> +                                   target_ver->name_len, 0);
+> +        if (!host_ver->name) {
+> +            goto err;
+> +        }
+> +    }
+> +
+> +    __get_user(host_ver->date_len, &target_ver->date_len);
+> +    if (host_ver->date_len) {
+> +        host_ver->date = lock_user(VERIFY_WRITE, target_ver->date,
+> +                                   target_ver->date_len, 0);
+> +        if (!host_ver->date) {
+> +            goto err;
+> +        }
+> +    }
+> +
+> +    __get_user(host_ver->desc_len, &target_ver->desc_len);
+> +    if (host_ver->desc_len) {
+> +        host_ver->desc = lock_user(VERIFY_WRITE, target_ver->desc,
+> +                                   target_ver->desc_len, 0);
+> +        if (!host_ver->desc) {
+> +            goto err;
+> +        }
+> +    }
+> +
+> +    return 0;
+> +err:
+> +    unlock_drm_version(host_ver);
+
+unlock_drm_strings(host_ver, target_ver, 0);
+
+> +    return -EFAULT;
+> +}
+> +
+> +static inline abi_long host_to_target_drmversion(
+> +                                          struct target_drm_version *target_ver,
+> +                                          struct drm_version *host_ver)
+> +{
+> +    __put_user(host_ver->version_major, &target_ver->version_major);
+> +    __put_user(host_ver->version_minor, &target_ver->version_minor);
+> +    __put_user(host_ver->version_patchlevel, &target_ver->version_patchlevel);
+> +    __put_user(host_ver->name_len, &target_ver->name_len);
+> +    __put_user(host_ver->date_len, &target_ver->date_len);
+> +    __put_user(host_ver->desc_len, &target_ver->desc_len);
+> +    unlock_user(host_ver->name, target_ver->name, host_ver->name_len);
+> +    unlock_user(host_ver->date, target_ver->date, host_ver->date_len);
+> +    unlock_user(host_ver->desc, target_ver->desc, host_ver->desc_len);
+
+unlock_drm_strings(host_ver, target_ver, 1);
+
+> +    return 0;
+> +}
+> +
+> +static abi_long do_ioctl_drm(const IOCTLEntry *ie, uint8_t *buf_temp,
+> +                             int fd, int cmd, abi_long arg)
+> +{
+> +    struct drm_version *ver;
+> +    struct target_drm_version *target_ver;
+> +    abi_long ret;
+> +
+> +    switch (ie->host_cmd) {
+> +    case DRM_IOCTL_VERSION:
+> +        if (!lock_user_struct(VERIFY_WRITE, target_ver, arg, 0)) {
+> +            return -TARGET_EFAULT;
+> +        }
+> +        ver = (struct drm_version *)buf_temp;
+> +        ret = target_to_host_drmversion(ver, target_ver);
+> +        if (!is_error(ret)) {
+> +            ret = get_errno(safe_ioctl(fd, ie->host_cmd, ver));
+> +            if (!is_error(ret)) {
+> +                ret = host_to_target_drmversion(target_ver, ver);
+> +            }
+> +            unlock_drm_version(ver);
+
+} else {
+    unlock_drm_strings(host_ver, target_ver, 0);
+}
+
+Thanks,
+Laurent
 
