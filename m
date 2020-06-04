@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 914061EE043
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 10:56:34 +0200 (CEST)
-Received: from localhost ([::1]:35808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBA11EE04F
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 10:57:50 +0200 (CEST)
+Received: from localhost ([::1]:43548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jglft-0001Mp-IR
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 04:56:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52076)
+	id 1jglh7-0004Xk-HF
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 04:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jgleM-00081I-Py
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:54:58 -0400
-Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:42250)
+ id 1jgleN-00081u-1n
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:54:59 -0400
+Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15]:42270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1jgleL-0002DH-DW
+ id 1jgleL-0002DV-Nb
  for qemu-devel@nongnu.org; Thu, 04 Jun 2020 04:54:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:Content-Type
- :MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
+ :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=nUSbl6/B4wKxrG9q03+aLAyJuI8ugX83LZNVy9GhyP8=; b=m+3CCjSffJ99fswlVw1g5Cy4Op
- 5ImNfJj1A1dNk1C/MmfhF/y7cVUpY9lSyCCZV/0PfyAa+OG0RHF+cxI8ffHpiir0dRrEtBOot19pC
- tTrl7UhpzWQqq2W9iNcTFkhkv+NqkH0LcuEGVQmFo90DGHIJN1U/gZOoJEHktgKvUCSA=;
+ bh=brvcnHsal6sJ680XabMQNi2CBWTShykr93dT+gbawPM=; b=mHxgRRr3l19Q6554eLSOIp7wKz
+ 1YTk8o7HX+8JxlBMfrUm0hlxwMx2KetenGgYu0pWjSukAxfaKVHLw2YuKj9BCuxdmFA1pkAZoqIQo
+ hHAeaNq4VbRjzQrARig+mMvB6utb0jxS7t3072obeEuXEFhSsUsrOC+iKUe2Y8FZYUeo=;
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/15] docker/tricore: Use stretch-slim as a base image
-Date: Thu,  4 Jun 2020 10:54:27 +0200
-Message-Id: <20200604085441.103087-2-kbastian@mail.uni-paderborn.de>
+Subject: [PATCH v2 02/15] tests/tcg: Add docker_as and docker_ld cmds
+Date: Thu,  4 Jun 2020 10:54:28 +0200
+Message-Id: <20200604085441.103087-3-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
 References: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-IMT-Spam-Score: 0.0 ()
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=6898277, da=78869958,
- mc=172, sc=3, hc=169, sp=1, fso=6898277, re=0, sd=0, hd=0
 X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
  Antispam-Data: 2020.6.4.84518, AntiVirus-Engine: 5.74.0,
- AntiVirus-Data: 2020.6.3.5740001
+ AntiVirus-Data: 2020.6.4.5740000
+X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=6898279, da=78869960,
+ mc=173, sc=3, hc=170, sp=1, fso=6898279, re=0, sd=0, hd=0
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
 Received-SPF: pass client-ip=2001:638:502:c003::15;
  envelope-from=kbastian@mail.uni-paderborn.de; helo=shirlock.uni-paderborn.de
@@ -72,43 +71,56 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-we get an authentication errror when trying to pull qemu:debian9. Thus
-just start from a plain debian image.
+At least for the TriCore target no easily available c compiler exists.
+Thus we need to rely on "as" and "ld". This allows us to run them
+through the docker image.
 
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 ---
- .../dockerfiles/debian-tricore-cross.docker      | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ tests/tcg/Makefile.qemu | 11 +++++++++++
+ tests/tcg/configure.sh  |  2 ++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
-index 4a0f7706a3..544d7814f8 100644
---- a/tests/docker/dockerfiles/debian-tricore-cross.docker
-+++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
-@@ -7,10 +7,22 @@
- #
- # SPDX-License-Identifier: GPL-2.0-or-later
- #
--FROM qemu:debian9
--
-+FROM debian:stretch-slim
- MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
+index 9c23aeaa2a..e5b3a4bacc 100644
+--- a/tests/tcg/Makefile.qemu
++++ b/tests/tcg/Makefile.qemu
+@@ -50,11 +50,22 @@ DOCKER_COMPILE_CMD="$(DOCKER_SCRIPT) cc \
+ 		-i qemu:$(DOCKER_IMAGE) \
+ 		-s $(SRC_PATH) -- "
  
-+RUN apt-get update && \
-+    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
-+    DEBIAN_FRONTEND=noninteractive eatmydata \
-+    apt-get install -y --no-install-recommends \
-+        bison \
-+        build-essential \
-+        ca-certificates \
-+        curl \
-+        flex \
-+        gettext \
-+        git \
-+        python3-minimal
++DOCKER_AS_CMD="$(DOCKER_SCRIPT) cc \
++		--cc $(DOCKER_CROSS_AS_GUEST) \
++		-i qemu:$(DOCKER_IMAGE) \
++		-s $(SRC_PATH) -- "
 +
- RUN git clone --single-branch \
-         https://github.com/bkoppelmann/tricore-binutils.git \
-         /usr/src/binutils && \
++DOCKER_LD_CMD="$(DOCKER_SCRIPT) cc \
++		--cc $(DOCKER_CROSS_LD_GUEST) \
++		-i qemu:$(DOCKER_IMAGE) \
++		-s $(SRC_PATH) -- "
++
+ .PHONY: docker-build-guest-tests
+ docker-build-guest-tests: docker-image-$(DOCKER_IMAGE)
+ 	$(call quiet-command, \
+ 	  (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
+ 	   $(MAKE) -f $(TCG_MAKE) TARGET="$(TARGET)" CC=$(DOCKER_COMPILE_CMD) \
++			AS=$(DOCKER_AS_CMD) LD=$(DOCKER_LD_CMD) \
+ 			SRC_PATH="$(SRC_PATH)" BUILD_STATIC=y \
+ 			EXTRA_CFLAGS="$(CROSS_CC_GUEST_CFLAGS)"), \
+ 	"BUILD","$(TARGET) guest-tests with docker qemu:$(DOCKER_IMAGE)")
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 2326f97856..6e8659d488 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -242,6 +242,8 @@ for target in $target_list; do
+   if test $got_cross_cc = no && test "$container" != no && test -n "$container_image"; then
+     echo "DOCKER_IMAGE=$container_image" >> $config_target_mak
+     echo "DOCKER_CROSS_CC_GUEST=$container_cross_cc" >> $config_target_mak
++    echo "DOCKER_CROSS_AS_GUEST=$container_cross_as" >> $config_target_mak
++    echo "DOCKER_CROSS_LD_GUEST=$container_cross_ld" >> $config_target_mak
+   fi
+ done
+ 
 -- 
 2.26.2
 
