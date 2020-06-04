@@ -2,69 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8EF1EE383
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 13:39:12 +0200 (CEST)
-Received: from localhost ([::1]:38666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98CE71EE37E
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Jun 2020 13:36:51 +0200 (CEST)
+Received: from localhost ([::1]:34186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jgoDH-0000VJ-AG
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 07:39:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43878)
+	id 1jgoB0-0006uU-N6
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 07:36:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jgoBr-00084a-3R
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 07:37:43 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48464
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jgoA4-0006Q7-AQ
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 07:35:52 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21400
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jgoBq-0003tU-BS
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 07:37:42 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jgoA3-0003BO-9K
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 07:35:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591270661;
+ s=mimecast20190719; t=1591270549;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=GSS6k2OA8nkX1cHM024kmAM0soiqgUq2GQ6ckOLu0II=;
- b=QTGyiXyvYBRyXawaew2h4SYXjv+uqoOh8FQfvIETtFCa+z5H3h5gO2ZEI37U9GoOFD+qKE
- hKi6toXLlh11JX98Dpzu/yPA2BrGWCX5S6PHr11ZGWHGs4roRtAUy+F0pT8NIW13h3pXQM
- RCiK+tf+lkY2JvTSPX3RVPgqmZzvEwo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-DRLbzgpzNwWxei_lLG8EEQ-1; Thu, 04 Jun 2020 07:37:37 -0400
-X-MC-Unique: DRLbzgpzNwWxei_lLG8EEQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68F1B1005510;
- Thu,  4 Jun 2020 11:37:36 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-200.sin2.redhat.com
- [10.67.116.200])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B361060C47;
- Thu,  4 Jun 2020 11:37:27 +0000 (UTC)
-From: P J P <ppandit@redhat.com>
-To: "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PATCH] pci: assert configuration access is within bounds
-Date: Thu,  4 Jun 2020 17:05:25 +0530
-Message-Id: <20200604113525.58898-1-ppandit@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5V0MJpayVz7nFshwMDXO+/fwvP6IDCKKSqlXC5O3+/s=;
+ b=BgLk1tHDfP9v3XdAAAoNgiM3o2/rmb24+LpxsjEwvE8sH+UZh7LFH0g3jlor9LjFL5M3De
+ XCQyZ3ntyUf1dYRLEZok8CQ07ojaZtIEGxn0r/6B5ka3H0N6kOuOyaYDuUrx4g6aZQ87Qg
+ EnhhlQUCIGHJzmf9LlW+yjuYBhzlsmw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-330-YdHff6xMMoyWjcJyrVeoPg-1; Thu, 04 Jun 2020 07:35:45 -0400
+X-MC-Unique: YdHff6xMMoyWjcJyrVeoPg-1
+Received: by mail-wr1-f70.google.com with SMTP id w16so2307740wru.18
+ for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 04:35:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=gHY6TqO7QhSV2HYkz6VbuWTeVKfnIK1JQB0sbICEoHw=;
+ b=escTuxMCdzyqlF0Nyb7nJiZvx8TOPlMyAkexZMvfWwYMGGEXckZjidDJ8sDgbAbgkf
+ 9who8kpRbdZ5yo1mrJO35nTzmQYvVewVTLZ1Yjf0pNxY64SNH4TjtehAYgf/zt7yW52c
+ fYvYL0rnkQ7PJGWwCEp+T/xq04N7bu2uDCPhPvbpgRqMvkojCyRUECdqPgcJvv21m+hy
+ CVe/TWgbD50pTrFF2a6rE996J2eGr95rfPx/HC4gZAuS9gOkCnC0Sbg26TM+y+8eue1x
+ OFMmlJHhqCq2n+y3IUav+eCT7R6zhckI9nzNY/pu7UkRtuuGFCuUFwp362p4qLHs4hBd
+ zKfQ==
+X-Gm-Message-State: AOAM5333YM18t9PVnHgT3/lnjqeRo8+JGshOO04XsDi//2sA2SPcPc6r
+ hbuYL3m2f/J43Sm7YARtq5ap28gflB9txDp+H/RM0CadOebz30VUW0UngZgjDTJKCzUIHcUtQzq
+ UWzGyNajadK7ieYQ=
+X-Received: by 2002:a5d:6444:: with SMTP id d4mr4155231wrw.239.1591270544060; 
+ Thu, 04 Jun 2020 04:35:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxH2n8NZTeOlZb9EsLKerxOePVnFMw+j2IvFmh5DXCaY/rDRneS9xkRXjshwXDdeeY6blov7Q==
+X-Received: by 2002:a5d:6444:: with SMTP id d4mr4155205wrw.239.1591270543854; 
+ Thu, 04 Jun 2020 04:35:43 -0700 (PDT)
+Received: from redhat.com ([2a00:a040:185:f65:9a3b:8fff:fed3:ad8d])
+ by smtp.gmail.com with ESMTPSA id n19sm6736677wmi.33.2020.06.04.04.35.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Jun 2020 04:35:43 -0700 (PDT)
+Date: Thu, 4 Jun 2020 07:35:40 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v1 6/9] hw/virtio/pci: include vdev name in registered
+ PCI sections
+Message-ID: <20200604073423-mutt-send-email-mst@kernel.org>
+References: <20200602154624.4460-1-alex.bennee@linaro.org>
+ <20200602154624.4460-7-alex.bennee@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200602154624.4460-7-alex.bennee@linaro.org>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ppandit@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:31:23
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 01:08:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,56 +96,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Prasad J Pandit <pjp@fedoraproject.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: robert.foley@linaro.org, qemu-devel@nongnu.org, robhenry@microsoft.com,
+ aaron@os.amperecomputing.com, cota@braap.org, peter.puhov@linaro.org,
+ kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Prasad J Pandit <pjp@fedoraproject.org>
+On Tue, Jun 02, 2020 at 04:46:21PM +0100, Alex Bennée wrote:
+> When viewing/debugging memory regions it is sometimes hard to figure
+> out which PCI device something belongs to. Make the names unique by
+> including the vdev name in the name string.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-While accessing PCI configuration bytes, assert that
-'address + len' is within PCI configuration space.
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-Generally it is within bounds. This is more of a defensive
-assert, in case a buggy device was to send 'address' which
-may go out of bounds.
+Feel free to merge with the rest of it.
 
-Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
----
- hw/pci/pci.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-Update v1: defensive assert as separate patch
-  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg00957.html
-  -> https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg00960.html
-
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 70c66965f5..7bf2ae6d92 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1381,6 +1381,8 @@ uint32_t pci_default_read_config(PCIDevice *d,
- {
-     uint32_t val = 0;
- 
-+    assert(address + len <= pci_config_size(d));
-+
-     if (pci_is_express_downstream_port(d) &&
-         ranges_overlap(address, len, d->exp.exp_cap + PCI_EXP_LNKSTA, 2)) {
-         pcie_sync_bridge_lnk(d);
-@@ -1394,6 +1396,8 @@ void pci_default_write_config(PCIDevice *d, uint32_t addr, uint32_t val_in, int
-     int i, was_irq_disabled = pci_irq_disabled(d);
-     uint32_t val = val_in;
- 
-+    assert(addr + l <= pci_config_size(d));
-+
-     for (i = 0; i < l; val >>= 8, ++i) {
-         uint8_t wmask = d->wmask[addr + i];
-         uint8_t w1cmask = d->w1cmask[addr + i];
--- 
-2.26.2
+> ---
+>  hw/virtio/virtio-pci.c | 21 +++++++++++++--------
+>  1 file changed, 13 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index d028c17c240..9ee4ab26cfe 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -1390,7 +1390,7 @@ static void virtio_pci_device_write(void *opaque, hwaddr addr,
+>      }
+>  }
+>  
+> -static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy)
+> +static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy, const char *vdev_name)
+>  {
+>      static const MemoryRegionOps common_ops = {
+>          .read = virtio_pci_common_read,
+> @@ -1437,36 +1437,41 @@ static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy)
+>          },
+>          .endianness = DEVICE_LITTLE_ENDIAN,
+>      };
+> +    g_autoptr(GString) name = g_string_new(NULL);
+>  
+> -
+> +    g_string_printf(name, "virtio-pci-common(%s)", vdev_name);
+>      memory_region_init_io(&proxy->common.mr, OBJECT(proxy),
+>                            &common_ops,
+>                            proxy,
+> -                          "virtio-pci-common",
+> +                          name->str,
+>                            proxy->common.size);
+>  
+> +    g_string_printf(name, "virtio-pci-isr(%s)", vdev_name);
+>      memory_region_init_io(&proxy->isr.mr, OBJECT(proxy),
+>                            &isr_ops,
+>                            proxy,
+> -                          "virtio-pci-isr",
+> +                          name->str,
+>                            proxy->isr.size);
+>  
+> +    g_string_printf(name, "virtio-pci-device(%s)", vdev_name);
+>      memory_region_init_io(&proxy->device.mr, OBJECT(proxy),
+>                            &device_ops,
+>                            virtio_bus_get_device(&proxy->bus),
+> -                          "virtio-pci-device",
+> +                          name->str,
+>                            proxy->device.size);
+>  
+> +    g_string_printf(name, "virtio-pci-notify(%s)", vdev_name);
+>      memory_region_init_io(&proxy->notify.mr, OBJECT(proxy),
+>                            &notify_ops,
+>                            virtio_bus_get_device(&proxy->bus),
+> -                          "virtio-pci-notify",
+> +                          name->str,
+>                            proxy->notify.size);
+>  
+> +    g_string_printf(name, "virtio-pci-notify-pio(%s)", vdev_name);
+>      memory_region_init_io(&proxy->notify_pio.mr, OBJECT(proxy),
+>                            &notify_pio_ops,
+>                            virtio_bus_get_device(&proxy->bus),
+> -                          "virtio-pci-notify-pio",
+> +                          name->str,
+>                            proxy->notify_pio.size);
+>  }
+>  
+> @@ -1607,7 +1612,7 @@ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
+>  
+>          struct virtio_pci_cfg_cap *cfg_mask;
+>  
+> -        virtio_pci_modern_regions_init(proxy);
+> +        virtio_pci_modern_regions_init(proxy, vdev->name);
+>  
+>          virtio_pci_modern_mem_region_map(proxy, &proxy->common, &cap);
+>          virtio_pci_modern_mem_region_map(proxy, &proxy->isr, &cap);
+> -- 
+> 2.20.1
+> 
+> 
 
 
