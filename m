@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6247A1EFE0E
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:32:21 +0200 (CEST)
-Received: from localhost ([::1]:50648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 356551EFE1D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:39:03 +0200 (CEST)
+Received: from localhost ([::1]:59280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhFGW-0005Ni-DS
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:32:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37344)
+	id 1jhFN0-00028v-9T
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:39:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jhFFD-00046J-Pn
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:30:59 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:57954 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jhFFC-0005Zn-Cq
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:30:59 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id EB1E74C850;
- Fri,  5 Jun 2020 16:30:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1591374653;
- x=1593189054; bh=n3npRRUeJ1x3c6ByVCMB1wDwjOm/gKXZ32yrcAA1xzY=; b=
- fgHKtL2Fz0uxQlHfSxh4II04HISZPKeGcVwQb+4gPLwoE9MlnyL4OmpRCdHwE4TL
- nG+mkI8tOwDPmGyE6qxQiqAtizS9qjLMHqCzoBBbAIIErHmqqg6rCUhYRUiysA6P
- UDmt7Z2uN2wSw+v8e51AlY3nfDxjp6B1/ep2HA5n5rw=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0n05wujaP8am; Fri,  5 Jun 2020 19:30:53 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 303404C84B;
- Fri,  5 Jun 2020 19:30:53 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 5 Jun
- 2020 19:30:53 +0300
-Date: Fri, 5 Jun 2020 19:30:52 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH 02/13] i386: hvf: Drop useless declarations in sysemu
-Message-ID: <20200605163052.GA27616@SPB-NB-133.local>
-References: <20200528193758.51454-1-r.bolshakov@yadro.com>
- <20200528193758.51454-3-r.bolshakov@yadro.com>
- <04c723c8-9d7d-ef93-f45c-4a7dd99b5a8d@suse.de>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jhFLw-000124-HN
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:37:56 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38019
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jhFLv-0007Rq-2K
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:37:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591375073;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=98qgKBh5fH8KCi85m1CSGYKJMMXRY6XnMEUwXUwkDZ0=;
+ b=WEF2buCRaP8cEp0GLSzjkly7lgwaQxIzUUonLvqsQWeJ9PjPpNAgVYHiecFyV5TFMMja+X
+ VFkwPlFvPC1cOb42f30iyQtVuUNiar7YHX93tgwbeN6i3aYpjiXf03MnoQlWvcaLfulfT/
+ Ep+FH1Y+j73M6iFahy1sDRU215dycVE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-93-mKYrs3EfNXCUlIVcr0H2IA-1; Fri, 05 Jun 2020 12:37:52 -0400
+X-MC-Unique: mKYrs3EfNXCUlIVcr0H2IA-1
+Received: by mail-wr1-f70.google.com with SMTP id d6so3984429wrn.1
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 09:37:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=98qgKBh5fH8KCi85m1CSGYKJMMXRY6XnMEUwXUwkDZ0=;
+ b=C+UTJGlzFdYzN0MND6Pm+Ypy3tggasbgnwVdRMxERB8jMPxVFPjfqrPai0sPFncs8b
+ tSBgBi7KGpccrWks64FgOikbDO10pJgn0Ey7MEeY0lO9zW/B1lkItxH12hOlE7scM7+8
+ doHWhixG6V7N1TAuOO9bCFHgOQ67suOnY+FKqX766ayMuTdY38yBZUflUfUZ3jTIepiG
+ v62cwzLthdCrbUgvK6xq++akiguqIF3dHyuk4v6H1r/mxw+6t5kXewOKtcMxVjZpJ5hW
+ QrwwjQ6YVwIZsI/lsgAKLLY4mlLspVjpQ3ui7D55e2ixvQ5rcK+SsBnijuZyyOP1QSVt
+ Op1g==
+X-Gm-Message-State: AOAM533R3wStUEnvzTMWTXB8VaKvbi3IVNOxZ4nefia3MaTkmwvH3a0e
+ noLLu7ldq+1F+s2pOTcP/Q6jwb7/KyC92OZUYFiySuTBgqPYEvAoZbNxkE/mqbrW8Ztr+VZUt9M
+ zlyEGTojpzx6JJ88=
+X-Received: by 2002:adf:dccc:: with SMTP id x12mr10235515wrm.72.1591375070781; 
+ Fri, 05 Jun 2020 09:37:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzVt/qITuRNR0feGAJAg9/RgrY4AX3krhPw+YgNYv8ISRguIx4xpEJDEuK+i0Gv009+AUWqZw==
+X-Received: by 2002:adf:dccc:: with SMTP id x12mr10235496wrm.72.1591375070604; 
+ Fri, 05 Jun 2020 09:37:50 -0700 (PDT)
+Received: from localhost.localdomain
+ (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id s132sm12444779wmf.12.2020.06.05.09.37.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Jun 2020 09:37:50 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] MAINTAINERS: Cover pip requirements.txt
+Date: Fri,  5 Jun 2020 18:37:48 +0200
+Message-Id: <20200605163748.15345-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <04c723c8-9d7d-ef93-f45c-4a7dd99b5a8d@suse.de>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 12:30:55
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:40:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,111 +92,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 04, 2020 at 11:53:53AM +0200, Claudio Fontana wrote:
-> On 5/28/20 9:37 PM, Roman Bolshakov wrote:
-> > They're either declared elsewhere or have no use.
-> > 
-> > While at it, rename _hvf_cpu_synchronize_post_init() to
-> > do_hvf_cpu_synchronize_post_init().
-> > 
-> > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> > ---
-> >  include/sysemu/hvf.h  | 22 ----------------------
-> >  target/i386/hvf/hvf.c |  7 ++++---
-> >  2 files changed, 4 insertions(+), 25 deletions(-)
-> > 
-> > diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-> > index 30a565ab73..03f3cd7db3 100644
-> > --- a/include/sysemu/hvf.h
-> > +++ b/include/sysemu/hvf.h
-> > @@ -30,35 +30,13 @@ uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
-> >  #define hvf_get_supported_cpuid(func, idx, reg) 0
-> >  #endif
-> >  
-> > -/* Disable HVF if |disable| is 1, otherwise, enable it iff it is supported by
-> > - * the host CPU. Use hvf_enabled() after this to get the result. */
-> > -void hvf_disable(int disable);
-> > -
-> > -/* Returns non-0 if the host CPU supports the VMX "unrestricted guest" feature
-> > - * which allows the virtual CPU to directly run in "real mode". If true, this
-> > - * allows QEMU to run several vCPU threads in parallel (see cpus.c). Otherwise,
-> > - * only a a single TCG thread can run, and it will call HVF to run the current
-> > - * instructions, except in case of "real mode" (paging disabled, typically at
-> > - * boot time), or MMIO operations. */
-> > -
-> > -int hvf_sync_vcpus(void);
-> > -
-> >  int hvf_init_vcpu(CPUState *);
-> >  int hvf_vcpu_exec(CPUState *);
-> > -int hvf_smp_cpu_exec(CPUState *);
-> >  void hvf_cpu_synchronize_state(CPUState *);
-> >  void hvf_cpu_synchronize_post_reset(CPUState *);
-> >  void hvf_cpu_synchronize_post_init(CPUState *);
-> > -void _hvf_cpu_synchronize_post_init(CPUState *, run_on_cpu_data);
-> > -
-> >  void hvf_vcpu_destroy(CPUState *);
-> > -void hvf_raise_event(CPUState *);
-> > -/* void hvf_reset_vcpu_state(void *opaque); */
-> >  void hvf_reset_vcpu(CPUState *);
-> > -void vmx_update_tpr(CPUState *);
-> > -void update_apic_tpr(CPUState *);
-> > -int hvf_put_registers(CPUState *);
-> > -void vmx_clear_int_window_exiting(CPUState *cpu);
-> >  
-> >  #define TYPE_HVF_ACCEL ACCEL_CLASS_NAME("hvf")
-> >  
-> > diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-> > index d72543dc31..9ccdb7e7c7 100644
-> > --- a/target/i386/hvf/hvf.c
-> > +++ b/target/i386/hvf/hvf.c
-> > @@ -251,7 +251,7 @@ void vmx_update_tpr(CPUState *cpu)
-> >      }
-> >  }
-> >  
-> > -void update_apic_tpr(CPUState *cpu)
-> > +static void update_apic_tpr(CPUState *cpu)
-> >  {
-> >      X86CPU *x86_cpu = X86_CPU(cpu);
-> >      int tpr = rreg(cpu->hvf_fd, HV_X86_TPR) >> 4;
-> > @@ -312,7 +312,8 @@ void hvf_cpu_synchronize_post_reset(CPUState *cpu_state)
-> >      run_on_cpu(cpu_state, do_hvf_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
-> >  }
-> >  
-> > -void _hvf_cpu_synchronize_post_init(CPUState *cpu, run_on_cpu_data arg)
-> > +static void do_hvf_cpu_synchronize_post_init(CPUState *cpu,
-> > +                                             run_on_cpu_data arg)
-> >  {
-> >      CPUState *cpu_state = cpu;
-> >      hvf_put_registers(cpu_state);
-> > @@ -321,7 +322,7 @@ void _hvf_cpu_synchronize_post_init(CPUState *cpu, run_on_cpu_data arg)
-> >  
-> >  void hvf_cpu_synchronize_post_init(CPUState *cpu_state)
-> >  {
-> > -    run_on_cpu(cpu_state, _hvf_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
-> > +    run_on_cpu(cpu_state, do_hvf_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
-> >  }
-> >  
-> >  static bool ept_emulation_fault(hvf_slot *slot, uint64_t gpa, uint64_t ept_qual)
-> > 
-> 
-> in this file (hvf.c) there is a comment:
-> 
-> /* TODO: synchronize vcpu state */
-> 
-> is the TODO still valid after this change? Or should the TODO be eliminated?
-> 
+Add an entry in 'Python scripts' to cover the requirements.txt
+file added in commit 213137217a6 (this file contains a list of
+Python packages used by our test suite).
 
-Hi Claudio,
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Yeah, it's still valid. There will be another series to have only one
-function where emulator state is synchronized.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3e7d9cb0a5..fc4148fba3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2219,6 +2219,7 @@ S: Odd fixes
+ F: python/qemu/*py
+ F: scripts/*.py
+ F: tests/*.py
++F: tests/requirements.txt
+ 
+ Benchmark util
+ M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+-- 
+2.21.3
 
-Thanks,
-Roman
 
