@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39011EF54F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 12:26:07 +0200 (CEST)
-Received: from localhost ([::1]:39468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE7A71EF555
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 12:28:45 +0200 (CEST)
+Received: from localhost ([::1]:51010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh9Y6-0000Ar-Ls
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 06:26:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44954)
+	id 1jh9ae-0005De-Tw
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 06:28:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9VQ-0004F0-Ld
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:23:20 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46132
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9WX-0007HX-BI
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:24:29 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37680
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9VP-0006YK-RG
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:23:20 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9WW-0006ia-K2
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:24:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591352599;
+ s=mimecast20190719; t=1591352667;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5fRA1bjw8PFajFz66cmd9KYwjFOeduTwYTWjhF6GRIY=;
- b=K+pPUVQ3gYslBeMpdw9S+cvH+SyzHkv6hQuTT+/5rLISdTgcYfNNcqp/LF9bb32ktU3Bgf
- WwJSPwoTGD2oiq6uWs/nims9HvrO11M+hEC4VJBbJVkPjf676FbevX3BBA8/D80gN6THrw
- iACMT5BF7GazFDe9JrJNkSLldU9h9SU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-bTR4r4r8MUS1S4zGLBxWaQ-1; Fri, 05 Jun 2020 06:23:17 -0400
-X-MC-Unique: bTR4r4r8MUS1S4zGLBxWaQ-1
-Received: by mail-wm1-f71.google.com with SMTP id h6so2588386wmb.7
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 03:23:16 -0700 (PDT)
+ bh=/743Z1QyCRowFD2sBc8yC4KQi0Lmbj/XYRlJsfWAxhE=;
+ b=IayJJ0n/luS5Sq2w1vWMSBHF9FI3IeunXnyRkCWbZIcQXWDdgWTy8cwokhrwG4a8bsFhqy
+ zv/nB+XlgAItPLolyDxfolNYbGcAtZyKpfLfdtNQRD0+d7jFgDdNGpCcgDM78a5fHm72eb
+ H/ovLTsYtGlnHQbfpbPie2EVToqGQOE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-212-3gbEtARkP0-fNPjxZYTYdA-1; Fri, 05 Jun 2020 06:24:26 -0400
+X-MC-Unique: 3gbEtARkP0-fNPjxZYTYdA-1
+Received: by mail-wm1-f70.google.com with SMTP id u11so2843583wmc.7
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 03:24:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5fRA1bjw8PFajFz66cmd9KYwjFOeduTwYTWjhF6GRIY=;
- b=fQvgQcp6N/JwGNArH6J/XU3Jh16dP3KinKvuB/MXdwpxqLWMN8hXsRtDUNubCQG+8N
- 0/26cizrbhkvSxJAE1MEoxLPlw0SAksWB093QlS3TnybvFW8y/e+V9/6/PclGp2zMXKI
- 45ALet8ls7KP7I/ZUSjjY45o/DOylLJRaZFLie1z8WdBkLqA5PMRI25tKN6bG2gltfDE
- serpb2zldxdd9OszFkl74K4yG6pvWIuf6iyXs8v13xyf4h9X0C8i69LecuTzjd58x3KH
- FRyKYDUIiqsp7tJJMTAOfiwJB3jLYzqxLP5oQbKJINsYzoMyozWIAzkZ8/0IlM1NMCde
- x6sA==
-X-Gm-Message-State: AOAM5312aoFYc9x+LgJCSFvjVl+7RVgqyv6dzIJhjfB1c+gsPrcySePY
- 5l/z0eZZ7r0fXENSwefxFXEz/w3YA/H4GnZsqfF3JKSRrE24+clbeKH1FdslUptljVoHQbyDVpR
- 0bgiDrtnqdvo2SrM=
-X-Received: by 2002:a05:600c:1146:: with SMTP id
- z6mr1952046wmz.179.1591352595600; 
- Fri, 05 Jun 2020 03:23:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzTvOX7zZ5aOQm+r3CsNFj/JftKxFSEgZXZuaWbz4IsMxvnaRSlKKK/5s1lygd1+oa56bENWg==
-X-Received: by 2002:a05:600c:1146:: with SMTP id
- z6mr1952023wmz.179.1591352595316; 
- Fri, 05 Jun 2020 03:23:15 -0700 (PDT)
+ bh=/743Z1QyCRowFD2sBc8yC4KQi0Lmbj/XYRlJsfWAxhE=;
+ b=tYokkK6ZF8OinUdpN062vJi3Gi2LIU9o6YMJzbXwEe3f/XaLMYtHHGiQnfCdDF9nJ0
+ EvSeVH2/LBKbN8S/dCOF+oEjY7iCMXfnBwCTna+FjqMyNYDf/Scs6vLa67q13QkNtV+x
+ Vs+nF4+iXb0JE/WMxmGL6tmSuG1IrL0zEKYMKzXuUoh+gU8aL01N2HPW8e5JjLLvIfSY
+ WXuefyRqX6P8PUy/8846VHCRfpn6Ug8B3i8A58Kwv1BqS93cRo62Gusumo42EonhRbmX
+ i2MCQtu6VCm9Pea8/ozKH8qpSrU+doWxeOiGvoPJN2eJ1QmL8XOn6Zy1+71TORjPerxR
+ 1cng==
+X-Gm-Message-State: AOAM530TXt9z73AYoY/eg4VI5ulaIvEx1B1e9jUHKPQP2LBMkVRjwafu
+ eQeE5m9Nz8Lz7IUEmpDQuYS1h+B64a2CNC1yM8gvVgK4RvQFYlyN1nX1cNEXMZmoLXza8QahK9z
+ MtCbQVrC9E1VdpeI=
+X-Received: by 2002:a7b:c1ce:: with SMTP id a14mr372867wmj.144.1591352605071; 
+ Fri, 05 Jun 2020 03:23:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxAovcUB3nYBZFOQy3cP29FUa8Tar7jITLsTOdjGHAtir/ecZFqj56zF0bezkJyYqEZGsQ0GQ==
+X-Received: by 2002:a7b:c1ce:: with SMTP id a14mr372848wmj.144.1591352604869; 
+ Fri, 05 Jun 2020 03:23:24 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id u13sm10448725wmm.6.2020.06.05.03.23.14
+ by smtp.gmail.com with ESMTPSA id y17sm11833422wrn.12.2020.06.05.03.23.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 03:23:14 -0700 (PDT)
+ Fri, 05 Jun 2020 03:23:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/11] hw/sd/sdcard: Correctly display the command name in
- trace events
-Date: Fri,  5 Jun 2020 12:22:28 +0200
-Message-Id: <20200605102230.21493-10-philmd@redhat.com>
+Subject: [PATCH v3 11/11] hw/sd/sdcard: Simplify realize() a bit
+Date: Fri,  5 Jun 2020 12:22:30 +0200
+Message-Id: <20200605102230.21493-12-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200605102230.21493-1-philmd@redhat.com>
 References: <20200605102230.21493-1-philmd@redhat.com>
@@ -106,79 +103,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Some ACMD were incorrectly displayed. Fix by remembering if we
-are processing a ACMD (with current_cmd_is_acmd) and add the
-sd_current_cmd_name() helper, which display to correct name
-regardless it is a CMD or ACMD.
+We don't need to check if sd->blk is set twice.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ hw/sd/sd.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 952be36399..fad34ab184 100644
+index a1b25ed36f..060ca9d993 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -114,6 +114,7 @@ struct SDState {
-     uint8_t pwd[16];
-     uint32_t pwd_len;
-     uint8_t function_group[6];
-+    bool current_cmd_is_acmd;
-     uint8_t current_cmd;
-     /* True if we will handle the next command as an ACMD. Note that this does
-      * *not* track the APP_CMD status bit!
-@@ -1687,6 +1688,8 @@ int sd_do_command(SDState *sd, SDRequest *req,
-                       req->cmd);
-         req->cmd &= 0x3f;
-     }
-+    sd->current_cmd = req->cmd;
-+    sd->current_cmd_is_acmd = sd->expecting_acmd;
- 
-     if (sd->card_status & CARD_IS_LOCKED) {
-         if (!cmd_valid_while_locked(sd, req->cmd)) {
-@@ -1714,7 +1717,6 @@ int sd_do_command(SDState *sd, SDRequest *req,
-         /* Valid command, we can update the 'state before command' bits.
-          * (Do this now so they appear in r1 responses.)
-          */
--        sd->current_cmd = req->cmd;
-         sd->card_status &= ~CURRENT_STATE;
-         sd->card_status |= (last_state << 9);
-     }
-@@ -1775,6 +1777,15 @@ send_response:
-     return rsplen;
- }
- 
-+static const char *sd_current_cmd_name(SDState *sd)
-+{
-+    if (sd->current_cmd_is_acmd) {
-+        return sd_acmd_name(sd->current_cmd);
-+    } else {
-+        return sd_cmd_name(sd->current_cmd);
-+    }
-+}
-+
- static void sd_blk_read(SDState *sd, uint64_t addr, uint32_t len)
- {
-     trace_sdcard_read_block(addr, len);
-@@ -1813,7 +1824,7 @@ void sd_write_data(SDState *sd, uint8_t value)
+@@ -2123,12 +2123,12 @@ static void sd_realize(DeviceState *dev, Error **errp)
          return;
+     }
  
-     trace_sdcard_write_data(sd->proto_name,
--                            sd_acmd_name(sd->current_cmd),
-+                            sd_current_cmd_name(sd),
-                             sd->current_cmd, value);
-     switch (sd->current_cmd) {
-     case 24:	/* CMD24:  WRITE_SINGLE_BLOCK */
-@@ -1967,7 +1978,7 @@ uint8_t sd_read_data(SDState *sd)
-     io_len = (sd->ocr & (1 << 30)) ? 512 : sd->blk_len;
- 
-     trace_sdcard_read_data(sd->proto_name,
--                           sd_acmd_name(sd->current_cmd),
-+                           sd_current_cmd_name(sd),
-                            sd->current_cmd, io_len);
-     switch (sd->current_cmd) {
-     case 6:	/* CMD6:   SWITCH_FUNCTION */
+-    if (sd->blk && blk_is_read_only(sd->blk)) {
+-        error_setg(errp, "Cannot use read-only drive as SD card");
+-        return;
+-    }
+-
+     if (sd->blk) {
++        if (blk_is_read_only(sd->blk)) {
++            error_setg(errp, "Cannot use read-only drive as SD card");
++            return;
++        }
++
+         ret = blk_set_perm(sd->blk, BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE,
+                            BLK_PERM_ALL, errp);
+         if (ret < 0) {
 -- 
 2.21.3
 
