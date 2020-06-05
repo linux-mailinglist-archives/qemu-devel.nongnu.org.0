@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6AC1EEEE1
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 02:55:24 +0200 (CEST)
-Received: from localhost ([::1]:60052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0552A1EEF10
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 03:31:07 +0200 (CEST)
+Received: from localhost ([::1]:40196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh0dn-0002wr-BN
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 20:55:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53832)
+	id 1jh1CL-0002Zc-PT
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 21:31:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vishal.l.verma@intel.com>)
- id 1jh0d6-0002XR-Mf
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 20:54:40 -0400
-Received: from mga01.intel.com ([192.55.52.88]:32236)
+ (Exim 4.90_1)
+ (envelope-from <prvs=4185f83b6=alistair.francis@wdc.com>)
+ id 1jh1Av-0000sD-3e; Thu, 04 Jun 2020 21:29:37 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:56239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vishal.l.verma@intel.com>)
- id 1jh0d3-0002jI-9g
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 20:54:39 -0400
-IronPort-SDR: dQ66m7EK7OZ2NZ220YmpFvcHNTa/4LCLIt4/ekht1sYlNGP4dUKmlUJa0U5Bjs+yph+RczjBzi
- QE3yOhnWYFvA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2020 17:54:30 -0700
-IronPort-SDR: IoR/cGaszVE4QTgGAgbwOmHH1hu1MWcgmVAIG1jkVxW7q4xaOGTDbgktXoctq3BXFiwAa3E23G
- 3GDbxnsXFCZg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,474,1583222400"; d="scan'208";a="259043032"
-Received: from orsmsx101.amr.corp.intel.com ([10.22.225.128])
- by fmsmga008.fm.intel.com with ESMTP; 04 Jun 2020 17:54:30 -0700
-Received: from orsmsx160.amr.corp.intel.com (10.22.226.43) by
- ORSMSX101.amr.corp.intel.com (10.22.225.128) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 4 Jun 2020 17:54:29 -0700
-Received: from orsmsx121.amr.corp.intel.com ([169.254.10.222]) by
- ORSMSX160.amr.corp.intel.com ([169.254.13.206]) with mapi id 14.03.0439.000;
- Thu, 4 Jun 2020 17:54:29 -0700
-From: "Verma, Vishal L" <vishal.l.verma@intel.com>
-To: "imammedo@redhat.com" <imammedo@redhat.com>
-Subject: Re: [PATCH v4 2/3] hw/acpi/nvdimm: add a helper to augment SRAT
- generation
-Thread-Topic: [PATCH v4 2/3] hw/acpi/nvdimm: add a helper to augment SRAT
- generation
-Thread-Index: AQHWNUA2VG31lbrZsEq/gWF/hD043ajIwgEAgADwkIA=
-Date: Fri, 5 Jun 2020 00:54:28 +0000
-Message-ID: <73b11cd452acffc18f7083f1ea7e5ca22cade31f.camel@intel.com>
-References: <20200528223437.12568-1-vishal.l.verma@intel.com>
- <20200528223437.12568-3-vishal.l.verma@intel.com>
- <20200604123326.38f7a368@redhat.com>
-In-Reply-To: <20200604123326.38f7a368@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.32.5 (3.32.5-1.fc30) 
-x-originating-ip: [10.18.116.7]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4100350B810D5142833A645EEEFA7D66@intel.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1)
+ (envelope-from <prvs=4185f83b6=alistair.francis@wdc.com>)
+ id 1jh1At-0008Vi-3H; Thu, 04 Jun 2020 21:29:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1591320576; x=1622856576;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=IgtHnvrWU4YfhDphmhZfm1yvpcoHDs5Gh7DArAKK17g=;
+ b=M6y1tygOVQRpJ6MqW86lVlv29bgi10ihNlELze5W9TmtFpUJg+VbBoSD
+ NLSPegy8NrA2yZiJyLskALj9SeXIuY0RVNgZfniuu+vg1QtCjVzuNGua/
+ V2lEcUlG4RaEFFT700L3dKjyX0UglgR3Zm36qhWV47wyJ3mbj34CK2s/n
+ CGfttJVqp6VtM5JN0jn0od7DvbcDVEDMfBZnwvDATQ7fbxc+YVWioROBw
+ +cjm2hQ5Y8a2mDSTvG3bECuOJxeR6Ean66+ImvdbdiQtLUrI5F1ytu0zM
+ 9NrMGrsW+oNFE8jblzd6F07Ffm7JDRlbjkY19DVZE5tzsDioST5NzPko5 w==;
+IronPort-SDR: 7vas3P+FuPuDL6espBYyI+1e1tBfQsrHIOy8ri+KEuqHo9HXiIRMigEwLBMEL/xCVACk21R87z
+ xsk8dZAqeSWYvV7Qc+LdCyXvbHlQWqmCfBL1FkADWRaRon8Es7G1ElhR3Rf92L7b8dy46Mi1ao
+ 6a42uaEQEAf1pw2A6E5canKAwF7ONN1+2FZeTMmB5bsH4Q1w2QZNfwDM6pIn+BLXlpAAg74UZG
+ AnH4Z+waXK3xNhWO8L7RhF88t9wjRKibkbSw9Z2ZNj5cCG1HDog+dND7qhNqAfsApGBxgF2lJJ
+ rEM=
+X-IronPort-AV: E=Sophos;i="5.73,474,1583164800"; d="scan'208";a="139561706"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 05 Jun 2020 09:29:31 +0800
+IronPort-SDR: HWI1x0nrR963ruZWia//Sslqsc8jOI8xIZiKl+8LPERnQu5sRwahWPVN+xUERnTq7WhKvLv9iP
+ pg2EpvT/aRzOMChCOQ9d1IhW7aKe1NnjA=
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2020 18:19:06 -0700
+IronPort-SDR: tWb75yk9iw0OSWwvGHklT3AsPGuwXhPkry1SXi3u/0AlIaFg3Y2p/CUOipQ/9roOQT2wM59nNK
+ vHWKn4rn7ssQ==
+WDCIronportException: Internal
+Received: from cnf006056.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.57.233])
+ by uls-op-cesaip01.wdc.com with ESMTP; 04 Jun 2020 18:29:30 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2 00/17]  RISC-V: Update the Hypervisor spec to v0.6.1
+Date: Thu,  4 Jun 2020 18:20:42 -0700
+Message-Id: <cover.1591319882.git.alistair@alistair23.me>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Received-SPF: pass client-ip=192.55.52.88;
- envelope-from=vishal.l.verma@intel.com; helo=mga01.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 20:54:30
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=4185f83b6=alistair.francis@wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 21:29:30
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,85 +84,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
- "thuth@redhat.com" <thuth@redhat.com>,
- "xiaoguangrong.eric@gmail.com" <xiaoguangrong.eric@gmail.com>,
- "mst@redhat.com" <mst@redhat.com>, "Liu, Jingqi" <jingqi.liu@intel.com>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Williams,
- Dan J" <dan.j.williams@intel.com>, "rth@twiddle.net" <rth@twiddle.net>
+Cc: alistair.francis@wdc.com, anup.pate@wdc.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gVGh1LCAyMDIwLTA2LTA0IGF0IDEyOjMzICswMjAwLCBJZ29yIE1hbW1lZG92IHdyb3RlOg0K
-PiBPbiBUaHUsIDI4IE1heSAyMDIwIDE2OjM0OjM2IC0wNjAwDQo+IFZpc2hhbCBWZXJtYSA8dmlz
-aGFsLmwudmVybWFAaW50ZWwuY29tPiB3cm90ZToNCj4gDQo+ID4gTlZESU1NcyBjYW4gYmVsb25n
-IHRvIHRoZWlyIG93biBwcm94aW1pdHkgZG9tYWlucywgYXMgZGVzY3JpYmVkIGJ5IHRoZQ0KPiA+
-IE5GSVQuIEluIHN1Y2ggY2FzZXMsIHRoZSBTUkFUIG5lZWRzIHRvIGhhdmUgTWVtb3J5IEFmZmlu
-aXR5IHN0cnVjdHVyZXMNCj4gPiBpbiB0aGUgU1JBVCBmb3IgdGhlc2UgTlZESU1Ncywgb3RoZXJ3
-aXNlIExpbnV4IGRvZXNuJ3QgcG9wdWxhdGUgbm9kZQ0KPiA+IGRhdGEgc3RydWN0dXJlcyBwcm9w
-ZXJseSBkdXJpbmcgTlVNQSBpbml0aWFsaXphdGlvbi4gU2VlIHRoZSBmb2xsb3dpbmcNCj4gPiBm
-b3IgYW4gZXhhbXBsZSBmYWlsdXJlIGNhc2UuDQo+ID4gDQo+ID4gaHR0cHM6Ly9sb3JlLmtlcm5l
-bC5vcmcvbGludXgtbnZkaW1tLzIwMjAwNDE2MjI1NDM4LjE1MjA4LTEtdmlzaGFsLmwudmVybWFA
-aW50ZWwuY29tLw0KPiA+IA0KPiA+IEludHJvZHVjZSBhIG5ldyBoZWxwZXIsIG52ZGltbV9idWls
-ZF9zcmF0KCksIGFuZCBjYWxsIGl0IGZvciBib3RoIHRoZQ0KPiA+IGkzODYgYW5kIGFybSB2ZXJz
-aW9ucyBvZiAnYnVpbGRfc3JhdCgpJyB0byBhdWdtZW50IHRoZSBTUkFUIHdpdGgNCj4gPiBtZW1v
-cnkgYWZmaW5pdHkgaW5mb3JtYXRpb24gZm9yIE5WRElNTXMuDQo+ID4gDQo+ID4gVGhlIHJlbGV2
-YW50IGNvbW1hbmQgbGluZSBvcHRpb25zIHRvIGV4ZXJjaXNlIHRoaXMgYXJlIGJlbG93LiBOb2Rl
-cyAwLTENCj4gPiBjb250YWluIENQVXMgYW5kIHJlZ3VsYXIgbWVtb3J5LCBhbmQgbm9kZXMgMi0z
-IGFyZSB0aGUgTlZESU1NIGFkZHJlc3MNCj4gPiBzcGFjZS4NCj4gPiANCj4gPiAgIC1udW1hIG5v
-ZGUsbm9kZWlkPTAsbWVtPTIwNDhNLA0KPiA+ICAgLW51bWEgbm9kZSxub2RlaWQ9MSxtZW09MjA0
-OE0sDQo+IA0KPiBwbHMgbm90ZSB0aGF0ICdtZW0nIGlzIGFib3V0IHRvIGJlIGRpc2FibGVkIGZv
-ciBuZXcgbWFjaGluZSB0eXBlcyBpbiBmYXZvciBvZiBtZW1kZXYNCj4gc28gdGhpcyBDTEkgd29u
-J3Qgd29yay4NCj4gSXQgd291bGQgYmUgbmljZSB0byB1cGRhdGUgY29tbWl0IG1lc3NhZ2Ugd2l0
-aCBtZW1kZXYgdmFyaWFudCBvZiBDTEkNCg0KSSBzYXcgdGhlIHdhcm5pbmdzIHByaW50ZWQgLSBJ
-IGRpZCB0cnkgdG8gdXNlIG1lbWRldnMsIGJ1dCBpdCBkaWRuJ3QNCnF1aXRlIHdvcmsgd2l0aCBt
-eSB1c2UgY2FzZS4gSSdtIHN1cHBseWluZyBtZW09MCBmb3IgdGhlIHBtZW0vbnZkaW1tDQpkZXZp
-Y2VzIHRoYXQgSSB3YW50IHRvIGdpdmUgYSBzcGVjaWZpYyBudW1hIG5vZGUsIGJ1dCBub3QgZ2l2
-ZSB0aGVtIGFueQ0KbW9yZSByZWd1bGFyIG1lbW9yeSBhc2lkZSBmcm9tIHRoZSBudmRpbW0gaXRz
-ZWxmIChzZWUgbm9kZXMgNCBhbmQgNQ0KYmVsb3cpLiBBbmQgZm9yIHNvbWUgcmVhc29uIEkgY291
-bGRuJ3QgZG8gdGhhdCB3aXRoIG1lbWRldnMuDQoNCkhlcmUgaXMgdGhlIGZ1bGwgY29tbWFuZCBs
-aW5lIEknbSB1c2luZyBmb3IgZXhhbXBsZS4gSSdkIGFwcHJlY2lhdGUgYW55DQpwb2ludGVycyBv
-biBjb252ZXJ0aW5nIG92ZXIgdG8gbWVtZGV2cyBmdWxseS4NCg0KICAgcWVtdS1zeXN0ZW0teDg2
-XzY0IA0KICAgLW1hY2hpbmUgcGMsYWNjZWw9a3ZtLG52ZGltbSwgDQogICAtbSA4MTkyTSxzbG90
-cz00LG1heG1lbT00MDk2ME0gDQogICAtc21wIDgsc29ja2V0cz0yLGNvcmVzPTIsdGhyZWFkcz0y
-IA0KICAgLWVuYWJsZS1rdm0gDQogICAtZGlzcGxheSBub25lIA0KICAgLW5vZ3JhcGhpYyANCiAg
-IC1kcml2ZSBmaWxlPXJvb3QuaW1nLGZvcm1hdD1yYXcsbWVkaWE9ZGlzayANCiAgIC1rZXJuZWwg
-Li9ta29zaS5leHRyYS9ib290L3ZtbGludXotNS43LjAtMDAwMDEtZzg3YWQ5NjNiYWMyMyANCiAg
-IC1pbml0cmQgbWtvc2kuZXh0cmEvYm9vdC9pbml0cmFtZnMtNS43LjAtMDAwMDEtZzg3YWQ5NjNi
-YWMyMy5pbWcgDQogICAtYXBwZW5kIHNlbGludXg9MCBhdWRpdD0wIGNvbnNvbGU9dHR5MCBjb25z
-b2xlPXR0eVMwIHJvb3Q9L2Rldi9zZGEyIGlnbm9yZV9sb2dsZXZlbCBydyANCiAgIC1kZXZpY2Ug
-ZTEwMDAsbmV0ZGV2PW5ldDAgDQogICAtbmV0ZGV2IHVzZXIsaWQ9bmV0MCxob3N0ZndkPXRjcDo6
-MTAwMjItOjIyIA0KICAgLXNuYXBzaG90IA0KICAgLW51bWEgbm9kZSxub2RlaWQ9MCxtZW09MjA0
-OE0sIA0KICAgLW51bWEgY3B1LG5vZGUtaWQ9MCxzb2NrZXQtaWQ9MCANCiAgIC1udW1hIG5vZGUs
-bm9kZWlkPTEsbWVtPTIwNDhNLCANCiAgIC1udW1hIGNwdSxub2RlLWlkPTEsc29ja2V0LWlkPTEg
-DQogICAtbnVtYSBub2RlLG5vZGVpZD0yLG1lbT0yMDQ4TSwgDQogICAtbnVtYSBub2RlLG5vZGVp
-ZD0zLG1lbT0yMDQ4TSwgDQogICAtbnVtYSBub2RlLG5vZGVpZD00LG1lbT0wLCANCiAgIC1vYmpl
-Y3QgbWVtb3J5LWJhY2tlbmQtZmlsZSxpZD1udm1lbTAsc2hhcmUsbWVtLXBhdGg9bnZkaW1tLTAs
-c2l6ZT0xNjM4NE0sYWxpZ249MUcgDQogICAtZGV2aWNlIG52ZGltbSxtZW1kZXY9bnZtZW0wLGlk
-PW52MCxsYWJlbC1zaXplPTJNLG5vZGU9NCANCiAgIC1udW1hIG5vZGUsbm9kZWlkPTUsbWVtPTAs
-IA0KICAgLW9iamVjdCBtZW1vcnktYmFja2VuZC1maWxlLGlkPW52bWVtMSxzaGFyZSxtZW0tcGF0
-aD1udmRpbW0tMSxzaXplPTE2Mzg0TSxhbGlnbj0xRyANCiAgIC1kZXZpY2UgbnZkaW1tLG1lbWRl
-dj1udm1lbTEsaWQ9bnYxLGxhYmVsLXNpemU9Mk0sbm9kZT01IA0KDQo+IA0KPiA+ICAgLW51bWEg
-bm9kZSxub2RlaWQ9MixtZW09MCwNCj4gPiAgIC1vYmplY3QgbWVtb3J5LWJhY2tlbmQtZmlsZSxp
-ZD1udm1lbTAsc2hhcmUsbWVtLXBhdGg9bnZkaW1tLTAsc2l6ZT0xNjM4NE0sYWxpZ249MTI4TQ0K
-PiA+ICAgLWRldmljZSBudmRpbW0sbWVtZGV2PW52bWVtMCxpZD1udjAsbGFiZWwtc2l6ZT0yTSxu
-b2RlPTINCj4gPiAgIC1udW1hIG5vZGUsbm9kZWlkPTMsbWVtPTAsDQo+ID4gICAtb2JqZWN0IG1l
-bW9yeS1iYWNrZW5kLWZpbGUsaWQ9bnZtZW0xLHNoYXJlLG1lbS1wYXRoPW52ZGltbS0xLHNpemU9
-MTYzODRNLGFsaWduPTEyOE0NCj4gPiAgIC1kZXZpY2UgbnZkaW1tLG1lbWRldj1udm1lbTEsaWQ9
-bnYxLGxhYmVsLXNpemU9Mk0sbm9kZT0zDQo+ID4gDQo+ID4gQ2M6IEppbmdxaSBMaXUgPGppbmdx
-aS5saXVAaW50ZWwuY29tPg0KPiA+IENjOiBNaWNoYWVsIFMuIFRzaXJraW4gPG1zdEByZWRoYXQu
-Y29tPg0KPiA+IFJldmlld2VkLWJ5OiBKaW5ncWkgTGl1IDxqaW5ncWkubGl1QGludGVsLmNvbT4N
-Cj4gPiBTaWduZWQtb2ZmLWJ5OiBWaXNoYWwgVmVybWEgPHZpc2hhbC5sLnZlcm1hQGludGVsLmNv
-bT4NCj4gDQo+IFJldmlld2VkLWJ5OiBJZ29yIE1hbW1lZG92IDxpbWFtbWVkb0ByZWRoYXQuY29t
-Pg0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXcgSWdvciAtIEknbSBwcmV0dHkgdW5mYW1pbGlhciB3
-aXRoIHFlbXUgZGV2ZWxvcG1lbnQNCi0gd2hhdCBhcmUgdGhlIG5leHQgc3RlcHM/IElzIHRoZXJl
-IGEgY2VydGFpbiBtYWludGFpbmVyL3RyZWUgSSBjb3VsZA0Kd2F0Y2ggZm9yIHRoZSBpbmNsdXNp
-b24gb2YgdGhpcz8NCg0KPiANCj4gPiAtLS0NCj4gPiAgaHcvYWNwaS9udmRpbW0uYyAgICAgICAg
-IHwgMjMgKysrKysrKysrKysrKysrKysrKysrKysNCj4gPiAgaHcvYXJtL3ZpcnQtYWNwaS1idWls
-ZC5jIHwgIDQgKysrKw0KPiA+ICBody9pMzg2L2FjcGktYnVpbGQuYyAgICAgfCAgNSArKysrKw0K
-PiA+ICBpbmNsdWRlL2h3L21lbS9udmRpbW0uaCAgfCAgMSArDQo+ID4gIDQgZmlsZXMgY2hhbmdl
-ZCwgMzMgaW5zZXJ0aW9ucygrKQ0KPiA+IA0KPiA+IA0K
+From: Alistair Francis <alistair@alistair23.me>
+
+This series updates the experimental QEMU RISC-V Hypervisor spec to the
+v0.6.1 draft implementation.
+
+THis includes support for the new 2-stage lookup instructions and the new
+CSRs.
+
+It also includes the new 0.6.1 support for the virtual instruction
+fault.
+
+This was tested by running 32-bit and 64-bit Xvisor on QEMU and starting
+Linux guests.
+
+v2:
+ - Update to v0.6.1
+
+
+
+Alistair Francis (17):
+  target/riscv: Set access as data_load when validating stage-2 PTEs
+  target/riscv: Report errors validating 2nd-stage PTEs
+  target/riscv: Move the hfence instructions to the rvh decode
+  target/riscv: Implement checks for hfence
+  target/riscv: Allow setting a two-stage lookup in the virt status
+  target/riscv: Allow generating hlv/hlvx/hsv instructions
+  target/riscv: Do two-stage lookups on hlv/hlvx/hsv instructions
+  target/riscv: Don't allow guest to write to htinst
+  target/riscv: Convert MSTATUS MTL to GVA
+  target/riscv: Fix the interrupt cause code
+  target/riscv: Update the Hypervisor trap return/entry
+  target/riscv: Update the CSRs to the v0.6 Hyp extension
+  target/riscv: Only support a single VSXL length
+  target/riscv: Only support little endian guests
+  target/riscv: Support the v0.6 Hypervisor extension CRSs
+  target/riscv: Return the exception from invalid CSR accesses
+  target/riscv: Support the Virtual Instruction fault
+
+ target/riscv/cpu.h                            |   2 +
+ target/riscv/cpu_bits.h                       |  25 +-
+ target/riscv/helper.h                         |   9 +
+ target/riscv/insn32-64.decode                 |   5 +
+ target/riscv/insn32.decode                    |  19 +-
+ target/riscv/cpu_helper.c                     | 114 +++---
+ target/riscv/csr.c                            | 171 ++++++--
+ .../riscv/insn_trans/trans_privileged.inc.c   |  38 --
+ target/riscv/insn_trans/trans_rvh.inc.c       | 377 ++++++++++++++++++
+ target/riscv/op_helper.c                      | 189 ++++++++-
+ target/riscv/translate.c                      |  11 +-
+ 11 files changed, 815 insertions(+), 145 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvh.inc.c
+
+-- 
+2.26.2
+
 
