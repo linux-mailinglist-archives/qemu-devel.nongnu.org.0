@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6A71EF53C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 12:23:54 +0200 (CEST)
-Received: from localhost ([::1]:57446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D3691EF54B
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 12:25:25 +0200 (CEST)
+Received: from localhost ([::1]:37158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh9Vx-0004Sv-JT
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 06:23:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44806)
+	id 1jh9XQ-0007fK-CA
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 06:25:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9Uo-0002om-KO
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:22:42 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33422
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9Ut-0002z0-73
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:22:47 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49005
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9Un-0006KI-Rw
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:22:42 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh9Us-0006Kw-BD
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:22:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591352560;
+ s=mimecast20190719; t=1591352565;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=styZe25JXYPNj6ZLjRZ2KyeoWgaRA9nMMleh8tvZmSE=;
- b=gLMCZfyrbnIppyQMddLMXkWVItZoC+InrTyssjUBtLMQO0wdkioDogzPDINPNRd/hyHc8c
- Ppi+YV3b3GykzEvSwshl7Nt0OEj2MyzqWiQhpjWPlbBNbeI83ylHCvH0AZZZkiP30uPOj1
- YwCXmJaemgGo2A/GriohKKy0hLCD21U=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-vy1kAYY0NoWbrkdpZ8OUHw-1; Fri, 05 Jun 2020 06:22:39 -0400
-X-MC-Unique: vy1kAYY0NoWbrkdpZ8OUHw-1
-Received: by mail-wr1-f72.google.com with SMTP id a4so3594911wrp.5
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 03:22:39 -0700 (PDT)
+ bh=nkwDt+W9ESNwveTOK/yAiRKQET7DW0sm3/z0Mc8iCTQ=;
+ b=Ni1QFrYbS+5m4W5XoyOC1i9kxRLyQBom4FdOIRAOzmz+tGf4RKvYgWD+Eo559nxdYOiBIm
+ QahqRq+6NT7+Fw5tKlDRksMiFFhYOTVRWNCAqqVf4FZw9WwIm5y3ph9Kkp5V44/AMxdvEv
+ PKiUtyaF9fH+CnERpq89q0CQfoiH/yI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-314-hjhjUNQrNHCAKDLdy4znxA-1; Fri, 05 Jun 2020 06:22:44 -0400
+X-MC-Unique: hjhjUNQrNHCAKDLdy4znxA-1
+Received: by mail-wm1-f70.google.com with SMTP id s15so2842908wmc.8
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 03:22:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=styZe25JXYPNj6ZLjRZ2KyeoWgaRA9nMMleh8tvZmSE=;
- b=nRWC0eH3dD+5gLqryFFWp1SX9mx4KzDnb0QapGPnelZQQfmvSUMDkzA4ZPcM/3463B
- TGqUxjErfEf1Nxv+5dLS5CIMy6ghlr9cVDjAqg7LuBBZuOn+IWnUenJBavfg9NONSqTk
- NZmNvf3zYR8PoLgdGFaRxPbfzMtEVsowR74+igwD5Ve9Win5cFTcZp0zm9fQpy1uNiRk
- Ap27s9JvmzJmVhpFxtEo5vmuTKH8+ze1L6/liKV03gBl9yrwXF0M3gnyU2b04Hdd/vhe
- rhdpuQwAGcIljmVZQPpHUsGpFZiiblw+Hp66YHXg5hxCV2sd6UT2QUufFQsa6YHp/CpX
- owZw==
-X-Gm-Message-State: AOAM5331t05/sUNM/p4QymGcNYk4WSLsVaKXX92n7fgghemxJ+WX6b7r
- r2N/StwQw3KChpF8QEyREADVgXpWVuqY0Ugi0QxTZiV0aKee3XamIrLkN5GNdoztRbqjjals57a
- K33akRTMyKr7Oix8=
-X-Received: by 2002:adf:dfcf:: with SMTP id q15mr8667453wrn.373.1591352558069; 
- Fri, 05 Jun 2020 03:22:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzc8rs/qgwznm0TyPhroBDC3DMBk+GG1qZ2hOwJ/pyEZe4xEBBHEO05tWIq9al5FddkYmtBRg==
-X-Received: by 2002:adf:dfcf:: with SMTP id q15mr8667434wrn.373.1591352557843; 
- Fri, 05 Jun 2020 03:22:37 -0700 (PDT)
+ bh=nkwDt+W9ESNwveTOK/yAiRKQET7DW0sm3/z0Mc8iCTQ=;
+ b=Umxg9TuXPXwtyfCFNtHeTuP3uHCu/wQ+BrUFQlO1mw4norA+thkv7gA8JLatzg8ICZ
+ mJl5qANe/b4y7HnoCC4iLz8ySqj5TeVshP4m1WFFxBgHvTMStR66y1ge0YrN4apNteDJ
+ x2k0T+Y8nrbdbP+EzWDsERSxHfzA82oqOZhvIb1eML2KRv7gxjRAZmWPEy0MUMp/x4dB
+ 3pZbrhO1NHWB3v0J1w3/8CCkSiPlqi6PI6j3D8ZwnxDqyGkFm3OSinuTZCVDYotQ9i2O
+ Qap1d7+VCajN8irmqwWGRUkXabA8hfkXxAvVH4Jp6ly8ReyoDlNxxXEoPZxBBG2jmGFR
+ 7Nqw==
+X-Gm-Message-State: AOAM531vTZu4/5DYHKrFxfytdcqx1VdEE46sNMGc1fho36IMF4GV30+G
+ QnUWRTlGwDSB6vr1ET82stQhR2su/vVGfy9p2ShtT2tpPZ6mXWlSSREXv03SCQJ5TfMTe8kTxxF
+ sweQhFsk1PDCe/OQ=
+X-Received: by 2002:a7b:c393:: with SMTP id s19mr1981672wmj.92.1591352562570; 
+ Fri, 05 Jun 2020 03:22:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxBf7Go/dbLXjGX+96h3/hmrHkVp9arWSr0CaxX1xQCTQ1b6imj9M/DZ8dDixF87Ac7Dhb0SQ==
+X-Received: by 2002:a7b:c393:: with SMTP id s19mr1981658wmj.92.1591352562405; 
+ Fri, 05 Jun 2020 03:22:42 -0700 (PDT)
 Received: from localhost.localdomain
  (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
- by smtp.gmail.com with ESMTPSA id k13sm10220723wmj.40.2020.06.05.03.22.36
+ by smtp.gmail.com with ESMTPSA id y19sm10506015wmi.6.2020.06.05.03.22.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 03:22:36 -0700 (PDT)
+ Fri, 05 Jun 2020 03:22:41 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/11] MAINTAINERS: Cc qemu-block mailing list
-Date: Fri,  5 Jun 2020 12:22:20 +0200
-Message-Id: <20200605102230.21493-2-philmd@redhat.com>
+Subject: [PATCH v3 02/11] hw/sd/sdcard: Update coding style to make
+ checkpatch.pl happy
+Date: Fri,  5 Jun 2020 12:22:21 +0200
+Message-Id: <20200605102230.21493-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200605102230.21493-1-philmd@redhat.com>
 References: <20200605102230.21493-1-philmd@redhat.com>
@@ -95,33 +96,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We forgot to include the qemu-block mailing list while adding
-this section in commit 076a0fc32a7. Fix this.
+To make the next commit easier to review, clean this code first.
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ hw/sd/sd.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3e7d9cb0a5..20b3a68d00 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1599,6 +1599,7 @@ F: hw/ssi/xilinx_*
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index 3c06a0ac6d..f1b12b49db 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -1154,8 +1154,9 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+             sd->data_start = addr;
+             sd->data_offset = 0;
  
- SD (Secure Card)
- M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+L: qemu-block@nongnu.org
- S: Odd Fixes
- F: include/hw/sd/sd*
- F: hw/sd/core.c
+-            if (sd->data_start + sd->blk_len > sd->size)
++            if (sd->data_start + sd->blk_len > sd->size) {
+                 sd->card_status |= ADDRESS_ERROR;
++            }
+             return sd_r1;
+ 
+         default:
+@@ -1170,8 +1171,9 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+             sd->data_start = addr;
+             sd->data_offset = 0;
+ 
+-            if (sd->data_start + sd->blk_len > sd->size)
++            if (sd->data_start + sd->blk_len > sd->size) {
+                 sd->card_status |= ADDRESS_ERROR;
++            }
+             return sd_r1;
+ 
+         default:
+@@ -1216,12 +1218,15 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+             sd->data_offset = 0;
+             sd->blk_written = 0;
+ 
+-            if (sd->data_start + sd->blk_len > sd->size)
++            if (sd->data_start + sd->blk_len > sd->size) {
+                 sd->card_status |= ADDRESS_ERROR;
+-            if (sd_wp_addr(sd, sd->data_start))
++            }
++            if (sd_wp_addr(sd, sd->data_start)) {
+                 sd->card_status |= WP_VIOLATION;
+-            if (sd->csd[14] & 0x30)
++            }
++            if (sd->csd[14] & 0x30) {
+                 sd->card_status |= WP_VIOLATION;
++            }
+             return sd_r1;
+ 
+         default:
+@@ -1240,12 +1245,15 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+             sd->data_offset = 0;
+             sd->blk_written = 0;
+ 
+-            if (sd->data_start + sd->blk_len > sd->size)
++            if (sd->data_start + sd->blk_len > sd->size) {
+                 sd->card_status |= ADDRESS_ERROR;
+-            if (sd_wp_addr(sd, sd->data_start))
++            }
++            if (sd_wp_addr(sd, sd->data_start)) {
+                 sd->card_status |= WP_VIOLATION;
+-            if (sd->csd[14] & 0x30)
++            }
++            if (sd->csd[14] & 0x30) {
+                 sd->card_status |= WP_VIOLATION;
++            }
+             return sd_r1;
+ 
+         default:
 -- 
 2.21.3
 
