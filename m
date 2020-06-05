@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CDA21EFD0C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:53:41 +0200 (CEST)
-Received: from localhost ([::1]:60738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 870051EFD1E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 17:59:47 +0200 (CEST)
+Received: from localhost ([::1]:55128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhEf6-00010P-HB
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58358)
+	id 1jhEl0-0003rn-GY
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 11:59:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jhEbJ-0003kW-Du
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:49:45 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46957)
+ id 1jhEbM-0003td-Fl
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:49:48 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jhEbI-0004LO-Df
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:49:45 -0400
-Received: by mail-wr1-x435.google.com with SMTP id x6so10204210wrm.13
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 08:49:44 -0700 (PDT)
+ id 1jhEbL-0004Lv-IL
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 11:49:48 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id l11so10279163wru.0
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 08:49:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RbfN3UAKOxV1a7MN3ugZcRLG3PinsC5XFsde1PoDV3g=;
- b=OKDNOhyObI6MafLc/Ew6BWrO3gWnH1n555mwTa9BmMyx2C9GIIBQmQ9ot/DdbU82Up
- I6zqfMje3jKHE3GTxRGm/DMqRX3Jyfkky0EE8MInWbn9U7I86rCmjAOLYwq3+ePtsZoh
- ER3QKetQscL79R7DtiJzlYnJ2JupyLbawZPdopNkA4XUdM0vaiVwstYkTlsc7++VItbI
- DwkaNBOV8cQjYyaPrj5s1YXJmfIJfXWOTIPxNMc+NsT2jlX0sQo5qdmF3sUSfsUHRtQX
- ZjjEg6Qogz+zg7n+E4M9FIdMPl4IhckI6UriNj9y6ILfhLlQpGWrh3AgadqzWYJ2vmEw
- j/kA==
+ bh=GtPq8cQhyMMwLxaXu6V+chzcq9rrr5zHEfE0zhJ53RM=;
+ b=s6SV0l2KdZ/w9FHB7X1rf0kNJ/VJS2q8uEUC723M1EVqHGNXNxR1xZ7ISBqJ2SzlA1
+ aVAFutRHrK7fx6rabLPofhaHlH1JzisiTvxLiFwaw4r9UDfEMOCEEiJxL9N37EK6mkAw
+ 0kaf3xsJZywhZlVdKoNJXP5wDWhIF0B2ZztjISsqEg9V/Ojnr1tq4u8nOdBCli7HDP5a
+ iaYEEi7Nr9H2ZbFle6KLl09KrsSZ6y14bLK4C7+3KyqcQdMfqiu3EZiH6jUCBtwmZ95N
+ LWVk9ymKCw2z2vIPgLPiGA847HoX4VbdtOoIOCYMBRXHOyDEnYAhVhAs3iRW40SuHCxL
+ 3hvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RbfN3UAKOxV1a7MN3ugZcRLG3PinsC5XFsde1PoDV3g=;
- b=Gsb/zH7bSiyg0mQf4P6D5w2ufUodT/m4X/SWO4wiu1omyp7a5G6FkczhaawDAjXIcZ
- Qozm4GxE25GKQLO1ZvgvqXKtTL2GzZJ4TpJcFlJHHaPwN87/r16/4FeHLkpO9wrzFr1R
- 5f6jDO/f0UTa/59Hw6mE3sgw9NahsTv7fcMjNpZxSxz1MbuQYVxPDam3WDAu9AqazSHe
- SwerLDmEb7BDuq1BEaeK3fMkgqu28uy3tjjLChJdS7ScKJCrWsxyn72nG7SU7L73clkc
- ijhCT/w/y7W7x1sh/fPz1UJSsxLUKdah8ofpvZDZyfeIlCE8z9j5W0CeD1BFOgraDn8o
- PsPA==
-X-Gm-Message-State: AOAM532Ti5eTe7l0K6uXa/jhXsPzcsH+xGj2OD031qSDq1o3BMPNr7sX
- sezVlUUyBAFup/x22ipEBCK03w==
-X-Google-Smtp-Source: ABdhPJz3k8tDQcfQUzbhIZa+UXu+A/k/5nzbIOtPCy9L2uMKyuS138ftq4N0cnava1FOdRTWNcbOdg==
-X-Received: by 2002:adf:fd4b:: with SMTP id h11mr9932711wrs.209.1591372183004; 
- Fri, 05 Jun 2020 08:49:43 -0700 (PDT)
+ bh=GtPq8cQhyMMwLxaXu6V+chzcq9rrr5zHEfE0zhJ53RM=;
+ b=EnCcptItLP5g4V5CfLd4/dEnGckSZo9oyZNgipcm+pJe37XrAGtZ8J7+3CcV1sBD5C
+ 0HUgqFaIUgRgQJm1OIRkNaqXgQEuM2wu7aWqUgQHGeZYn+TxKJkpgjoltsCOTsnjuqSW
+ VXXYtEZKCgnCOPtdeigauS/3dMj/T1zFd9TQLN687RUIiimUe9vpUGrSGn6wwiMCJkwV
+ O+Z9BG/HcgdZ6ppSWWts34+ipsA3DJlNv1mJ9rKsWSIgGMYf1vdQkBShiMx0zwTCMDBC
+ 1cVl1eW2BsYiK8PSMrlvHDfK1SLRR9EPcb3nJQBEKD8565uMHmUm3cvST2cr0FQeIHFc
+ 6jnA==
+X-Gm-Message-State: AOAM5319Zk1Gmcvi0YSr/b+IZoCTrOZcNOKS+mKyX5iDWXJN4bFxK5sC
+ xbUUG5fgN8GJZ7r9StUYALNNaQ==
+X-Google-Smtp-Source: ABdhPJzJMSnvM51NTQr8CSjTib4DM3bSWFfh3cm0pLnZqXwrwSHiOF/02iNOQjGR2b1B4WgFoXTUaQ==
+X-Received: by 2002:adf:e590:: with SMTP id l16mr9823406wrm.383.1591372186163; 
+ Fri, 05 Jun 2020 08:49:46 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n1sm12446584wrp.10.2020.06.05.08.49.38
+ by smtp.gmail.com with ESMTPSA id t189sm11816646wma.4.2020.06.05.08.49.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 08:49:40 -0700 (PDT)
+ Fri, 05 Jun 2020 08:49:44 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CB0DB1FF96;
+ by zen.linaroharston (Postfix) with ESMTP id E0BF11FF98;
  Fri,  5 Jun 2020 16:49:29 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 08/14] tests/docker: fix pre-requisite for
- debian-tricore-cross
-Date: Fri,  5 Jun 2020 16:49:23 +0100
-Message-Id: <20200605154929.26910-9-alex.bennee@linaro.org>
+Subject: [PATCH  v1 09/14] docker: update Ubuntu to 20.04
+Date: Fri,  5 Jun 2020 16:49:24 +0100
+Message-Id: <20200605154929.26910-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200605154929.26910-1-alex.bennee@linaro.org>
 References: <20200605154929.26910-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,32 +88,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reported-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200604231716.11354-1-pbonzini@redhat.com>
 ---
- tests/docker/Makefile.include | 2 +-
+ tests/docker/dockerfiles/ubuntu.docker | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index ed46bd98eb5..981b7fcf2a5 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -130,7 +130,7 @@ docker-image-debian-sparc64-cross: docker-image-debian10
- docker-image-travis: NOUSER=1
+diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
+index eeb3b22bf20..43872417dec 100644
+--- a/tests/docker/dockerfiles/ubuntu.docker
++++ b/tests/docker/dockerfiles/ubuntu.docker
+@@ -9,7 +9,7 @@
+ # system won't pick up that it has changed.
+ #
  
- # Specialist build images, sometimes very limited tools
--docker-image-tricore-cross: docker-image-debian9
-+docker-image-debian-tricore-cross: docker-image-debian9
- docker-image-debian-arm64-test-cross: docker-image-debian11
- 
- # These images may be good enough for building tests but not for test builds
+-FROM ubuntu:19.04
++FROM ubuntu:20.04
+ ENV PACKAGES flex bison \
+     ccache \
+     clang \
 -- 
 2.20.1
 
