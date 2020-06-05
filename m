@@ -2,80 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 167451EF255
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 09:45:07 +0200 (CEST)
-Received: from localhost ([::1]:42158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978781EF26F
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 09:49:11 +0200 (CEST)
+Received: from localhost ([::1]:57566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh72H-0002W9-UQ
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 03:45:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54904)
+	id 1jh76E-0000iQ-MU
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 03:49:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jh6yx-0004RK-1M
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 03:41:39 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34771)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jh6yt-0005y8-4e
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 03:41:38 -0400
-Received: by mail-wr1-x441.google.com with SMTP id r7so8685469wro.1
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 00:41:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=lBzdeQV27AZslQPSHqs9qNu78G53MiLjUuBc/kQjs2o=;
- b=St6CGtnW3WOv3aFhCHG7p7UM74g1mItJhFafnxOy70LCbjdMay8Karw/rFiYN/UyUO
- 9oSA9Tb8tsaShBx3qe+YM36wfLPqLJPTyRnYHTG3D2+Y/2dyQDbG6XKDyDfQBiG+1ZG+
- +qqhn4Z6T1KyrxcUZt5VPmByVcM/a38XOzQ1FprLK6YrSuag8x7eX1G+sE+oE8bPmmx7
- B6mE9IlngEeqi5/LWOV+Vf42qvRIEWx4kl2xvT5cLDFLxKEBVzgTMQdqW/pf1GWnxTLQ
- Hqm4YOoHYALYjigDgVto04f3i5G51y3VUEgx0aaba9wWgvq1Vrlicgl5t2YnU7x/OJqY
- u/uQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh6za-0005qk-7D
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 03:42:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33769
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh6zV-00060A-8H
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 03:42:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591342932;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=BjxyQplq0cq5ZVoWHTlMCaFVq2Lgyv4uaqDCPg0/OHQ=;
+ b=gOkuYbjSbreV6GbNfweygtpXIoWN7FLe4Q9ojCEQYanJKrq0st1eACb2jjDXNedPuu9a8x
+ XmtTsk14CnxY6nUkwVuLd4dQ8WcvarzMQR2TorTleC3mTViUsroWYPy+myAX0c4ONBKDHJ
+ ZyOSXSjCRRhx1+GBWPaGuH6m7kmoCLM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-8M9GWfvXOvmv6KsY9ckijg-1; Fri, 05 Jun 2020 03:42:11 -0400
+X-MC-Unique: 8M9GWfvXOvmv6KsY9ckijg-1
+Received: by mail-wm1-f70.google.com with SMTP id l26so2697161wmh.3
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 00:42:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=lBzdeQV27AZslQPSHqs9qNu78G53MiLjUuBc/kQjs2o=;
- b=bkqOO+TFyPdAdaH7sFe/YLzo44uDXD4PObInKzK/4EkSLEXVCTysnKvq+oBI6a35b8
- T5PUuy5Yb15Quo9qqEAkFS7DyXxaxh9ay0ljAaQvLSJP7obNT5Lx5xZ/d6dVbT91qRQy
- Z2YRKMWpZ/ifY9gE280NPNsRX8w0ptrKsB//X4hMBfOipkaBT/10pO8akKOyFzKMt///
- 9ibTtcxbfz8MdeNY1Kuv5CunA1APFTl2puuPvqLoDURsZiDae3+ij+pDNd7NwCzonaKv
- VCeRRP25/32GSXTFNWHPmXBR61NZx/6y2BqsZO4VsoLUzcnD++6qiWtYD/Db7ZhzE2iZ
- KigQ==
-X-Gm-Message-State: AOAM5322491lAboKavcnz5+UuZH9YwCihyRIzzg+PfRTWcGdH66UX3wO
- Gv3wGgxfvKniO1BaQ61rjlsgFG5SY3A=
-X-Google-Smtp-Source: ABdhPJw6vP40VgWRhaBTLDhB5DIcxpzSRFuFir6yvDfiHz7F1eC3xHJ1BjYen+ZROw3xDmo5F4kqrA==
-X-Received: by 2002:a5d:6a89:: with SMTP id s9mr8076938wru.15.1591342892813;
- Fri, 05 Jun 2020 00:41:32 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r11sm11497297wre.25.2020.06.05.00.41.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 00:41:31 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A74CB1FF7E;
- Fri,  5 Jun 2020 08:41:30 +0100 (BST)
-References: <20200604231716.11354-1-pbonzini@redhat.com>
-User-agent: mu4e 1.5.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] docker: update Ubuntu to 20.04
-In-reply-to: <20200604231716.11354-1-pbonzini@redhat.com>
-Date: Fri, 05 Jun 2020 08:41:30 +0100
-Message-ID: <87wo4m3qol.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=BjxyQplq0cq5ZVoWHTlMCaFVq2Lgyv4uaqDCPg0/OHQ=;
+ b=MrLJYUL6lgtl1AqtKbqhT+Fqkbxs1WjzRf0FHjQN+0djQS/hwc0MAVhFmoZ6EUordu
+ 4UQMGC3sjdlQPWtKAQKsQ+FD62m+YGITY0zOvgSVPhKowpDRmpcoX2oWhQztRmI5STpU
+ ofCC8MXUByYOZlyU8rMWJ2dqDINVA9Ph+cLu3DX/46CZjuQlCaCKiEIjIfUA/Euor144
+ XaM/u4BtDoVWPucxP4+gwqO2YUCLJiexO0m4BhR7sa96HKeIzXVAehINBNGyX2O42r2g
+ Sj5COnlAFxmnXVgfC1uPbSqrZe5kq6MiYnEcFWPgvcLF7qUXKHBfyVJ3LnA/u0cVmoxf
+ 7XOw==
+X-Gm-Message-State: AOAM530ZS5iIanBO6LEL67BbB0gdbr6XWusratAJzmOD65+iydU4XoKl
+ SZPOWVxHe2uOkHJ3L9lgDy/Qz0229cBl42KQnkeROzp6pE/WabTccm+AcIBvNdTbCuuLgmMbNBW
+ G3qU56M162syWtu4=
+X-Received: by 2002:adf:e84c:: with SMTP id d12mr8066898wrn.284.1591342929753; 
+ Fri, 05 Jun 2020 00:42:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwMX+PnPHQQMHa8340EmjTn2Qkob+ESxZV4k5MFhvbI6p419tkE2wsvGl9Zuao8ppiMcrrSog==
+X-Received: by 2002:adf:e84c:: with SMTP id d12mr8066886wrn.284.1591342929530; 
+ Fri, 05 Jun 2020 00:42:09 -0700 (PDT)
+Received: from [192.168.1.43] (181.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id u7sm11203799wrm.23.2020.06.05.00.42.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Jun 2020 00:42:09 -0700 (PDT)
+Subject: Re: [PATCH v5 04/11] rules.mak: Add strequal() and startwith() and
+ rules
+To: qemu-devel@nongnu.org
+References: <20200605073953.19268-1-philmd@redhat.com>
+ <20200605073953.19268-5-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Autocrypt: addr=philmd@redhat.com; keydata=
+ mQINBDXML8YBEADXCtUkDBKQvNsQA7sDpw6YLE/1tKHwm24A1au9Hfy/OFmkpzo+MD+dYc+7
+ bvnqWAeGweq2SDq8zbzFZ1gJBd6+e5v1a/UrTxvwBk51yEkadrpRbi+r2bDpTJwXc/uEtYAB
+ GvsTZMtiQVA4kRID1KCdgLa3zztPLCj5H1VZhqZsiGvXa/nMIlhvacRXdbgllPPJ72cLUkXf
+ z1Zu4AkEKpccZaJspmLWGSzGu6UTZ7UfVeR2Hcc2KI9oZB1qthmZ1+PZyGZ/Dy+z+zklC0xl
+ XIpQPmnfy9+/1hj1LzJ+pe3HzEodtlVA+rdttSvA6nmHKIt8Ul6b/h1DFTmUT1lN1WbAGxmg
+ CH1O26cz5nTrzdjoqC/b8PpZiT0kO5MKKgiu5S4PRIxW2+RA4H9nq7nztNZ1Y39bDpzwE5Sp
+ bDHzd5owmLxMLZAINtCtQuRbSOcMjZlg4zohA9TQP9krGIk+qTR+H4CV22sWldSkVtsoTaA2
+ qNeSJhfHQY0TyQvFbqRsSNIe2gTDzzEQ8itsmdHHE/yzhcCVvlUzXhAT6pIN0OT+cdsTTfif
+ MIcDboys92auTuJ7U+4jWF1+WUaJ8gDL69ThAsu7mGDBbm80P3vvUZ4fQM14NkxOnuGRrJxO
+ qjWNJ2ZUxgyHAh5TCxMLKWZoL5hpnvx3dF3Ti9HW2dsUUWICSQARAQABtDJQaGlsaXBwZSBN
+ YXRoaWV1LURhdWTDqSAoUGhpbCkgPHBoaWxtZEByZWRoYXQuY29tPokCVQQTAQgAPwIbDwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4AWIQSJweePYB7obIZ0lcuio/1u3q3A3gUCXsfWwAUJ
+ KtymWgAKCRCio/1u3q3A3ircD/9Vjh3aFNJ3uF3hddeoFg1H038wZr/xi8/rX27M1Vj2j9VH
+ 0B8Olp4KUQw/hyO6kUxqkoojmzRpmzvlpZ0cUiZJo2bQIWnvScyHxFCv33kHe+YEIqoJlaQc
+ JfKYlbCoubz+02E2A6bFD9+BvCY0LBbEj5POwyKGiDMjHKCGuzSuDRbCn0Mz4kCa7nFMF5Jv
+ piC+JemRdiBd6102ThqgIsyGEBXuf1sy0QIVyXgaqr9O2b/0VoXpQId7yY7OJuYYxs7kQoXI
+ 6WzSMpmuXGkmfxOgbc/L6YbzB0JOriX0iRClxu4dEUg8Bs2pNnr6huY2Ft+qb41RzCJvvMyu
+ gS32LfN0bTZ6Qm2A8ayMtUQgnwZDSO23OKgQWZVglGliY3ezHZ6lVwC24Vjkmq/2yBSLakZE
+ 6DZUjZzCW1nvtRK05ebyK6tofRsx8xB8pL/kcBb9nCuh70aLR+5cmE41X4O+MVJbwfP5s/RW
+ 9BFSL3qgXuXso/3XuWTQjJJGgKhB6xXjMmb1J4q/h5IuVV4juv1Fem9sfmyrh+Wi5V1IzKI7
+ RPJ3KVb937eBgSENk53P0gUorwzUcO+ASEo3Z1cBKkJSPigDbeEjVfXQMzNt0oDRzpQqH2vp
+ apo2jHnidWt8BsckuWZpxcZ9+/9obQ55DyVQHGiTN39hkETy3Emdnz1JVHTU0Q==
+Message-ID: <c9d8b7dd-9c3f-a21a-aa82-c2346efb3474@redhat.com>
+Date: Fri, 5 Jun 2020 09:42:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200605073953.19268-5-philmd@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:07:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,35 +122,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Err extra 'and' in patch subject, should be:
+"rules.mak: Add strequal() and startwith() rules"
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+I can respin the whole if it is easier for the maintainer.
 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On 6/5/20 9:39 AM, Philippe Mathieu-Daudé wrote:
+> Add a rule to test if two strings are equal,
+> and another to test if a string starts with a substring,
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  tests/docker/dockerfiles/ubuntu.docker | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/docker=
-files/ubuntu.docker
-> index eeb3b22bf2..43872417de 100644
-> --- a/tests/docker/dockerfiles/ubuntu.docker
-> +++ b/tests/docker/dockerfiles/ubuntu.docker
-> @@ -9,7 +9,7 @@
->  # system won't pick up that it has changed.
->  #
->=20=20
-> -FROM ubuntu:19.04
-> +FROM ubuntu:20.04
->  ENV PACKAGES flex bison \
->      ccache \
->      clang \
+>  rules.mak | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/rules.mak b/rules.mak
+> index 694865b63e..ccc1c49604 100644
+> --- a/rules.mak
+> +++ b/rules.mak
+> @@ -191,6 +191,20 @@ ne = $(if $(subst $2,,$1)$(subst $1,,$2),y,n)
+>  isempty = $(if $1,n,y)
+>  notempty = $(if $1,y,n)
+>  
+> +# strequal
+> +# Usage: $(call strequal, str1, str2)
+> +#
+> +# This macro returns a string (TRUE) when @str1 and @str2
+> +# are equal, else returns the empty string (FALSE)
+> +strequal = $(if $(subst $2,,$1)$(subst $1,,$2),,$1)
+> +
+> +# startwith
+> +# Usage: $(call startwith, startstr, fullstr)
+> +#
+> +# This macro returns a string (TRUE) when @fullstr starts with
+> +# @startstr, else returns the empty string (FALSE)
+> +startwith = $(findstring :$1,:$2)
+> +
+>  # Generate files with tracetool
+>  TRACETOOL=$(PYTHON) $(SRC_PATH)/scripts/tracetool.py
+>  
+> 
 
-Queued to next/various-fixes, thanks.
-
---=20
-Alex Benn=C3=A9e
 
