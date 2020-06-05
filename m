@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5F11F002C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 21:04:12 +0200 (CEST)
-Received: from localhost ([::1]:52498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3C61F0046
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 21:07:34 +0200 (CEST)
+Received: from localhost ([::1]:33210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhHdT-0003RT-OR
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 15:04:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58494)
+	id 1jhHgi-0007Vu-NG
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 15:07:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jhHbg-0001m8-A9
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 15:02:20 -0400
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:34075)
+ id 1jhHcU-0002yg-EF
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 15:03:14 -0400
+Received: from esa4.mentor.iphmx.com ([68.232.137.252]:34118)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jhHbf-00079E-8L
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 15:02:19 -0400
-IronPort-SDR: lBm2zgaXa52gU9BgZFS7yOl7g/uy0ivLid77BkBYvU88+5elh4WW/6m7m7ALhTS/Bhr87ogz7w
- NYOaOMNHSVTxCVYVH56Qs0onVwGWBFL8mx0wgjXHDwaIXK46mvWeAsY5Z+yyK7A8q+rRWLeL1d
- CUnkkgf1w+/sifzxxh94b0xsfV2X1ApbWkUmx1LPF4fBg5bNH70tflZSPH6gxxxb64n3AbCEsO
- UwltTmJb/8hFLbXu2xZQgqtzPD03+Q2OSmifSjyb1qE74Bzlm8uHO4LKcVnUkliKSKZwzozUna
- xUI=
-X-IronPort-AV: E=Sophos;i="5.73,477,1583222400"; d="scan'208";a="49633101"
+ id 1jhHcT-0007JN-Hp
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 15:03:10 -0400
+IronPort-SDR: OG6madOroSKM5PvwCaOwRNpHrvYOKnsLs4/jgPOBMgYVa7UUnlcOJKbYwFRBeIS2RM0+ulRTwj
+ Y+ORKGXmgnFcQYMBhQR3hRgi/FrZvz2MC0ZkkbSXHqC4SJYjOP7omAoXxr6cEwYURyZeVa/6sx
+ 4HdJQj+VN1zup06HRQ/rkJzfSdTVrx1wL6GetuGiYhfpJ0DEYnegnSw5zhg6FH49Hz02LkIq1u
+ u6Q3UUvhm6gtNNnDPKuARx59UJf+MDKbqZYWqw9TzKSY3OTV91Q/OyQx/LC2wrE80FGN+93wNd
+ SkY=
+X-IronPort-AV: E=Sophos;i="5.73,477,1583222400"; d="scan'208";a="49633118"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
- by esa4.mentor.iphmx.com with ESMTP; 05 Jun 2020 11:02:17 -0800
-IronPort-SDR: 0raJVmDGsvqfEhq/MUoYe1P/HVwTIRmNY+sOSXA3ZtN7xAuhX0OlR6i3QyZL2N7sGGgV/bz7i2
- jtnyDj5jHUOsFHVSzA9ofsYtrsHPqyX0d3GA9dJ/VMVnLfEC2QvJMzuGyK7Je9h0U460pGxqxG
- TxMAGFcfsceo8EzdPio7c98rM7s9bb8+6ZaFQG1nsz2992NzaNPZctzdD51VJNYAkE/TDegFqH
- R6jGror8uPGWcxGPge33M284X3Fp0A3YK/TkBp+2X0TnjBvlGZroK9yQndn4Kp6jtKdd1pjz/u
- eF0=
-Date: Fri, 5 Jun 2020 19:02:11 +0000
+ by esa4.mentor.iphmx.com with ESMTP; 05 Jun 2020 11:02:47 -0800
+IronPort-SDR: Dw0EzBKvMvk+mvfMqTcnCAOJIL/V/CQDQs3FoAcsEKE33C1FgWja2FdOwwmDr+YdPWa7rEUsXI
+ EMnebsgTS9eAZeEMaFrq5i+1yGJo8yM3Z7R+6nGwexL+Xijd9ZixsS8+UMiBkYXoS0Pmkkkudv
+ S0OGLHW9cOLKBc+2rs3wHE0TDk22MN68FX6s+CcW359WSgRHqq/7ar9+i1292KJ5PR7AUuVB8k
+ 5A/n1M+SyVqo2dCEm/d6NwkgWOoZc/CizGZ/zoPDrJIyh6izwH+HQXwtTlQxy0jyWsyKaQv8xR
+ cbg=
+Date: Fri, 5 Jun 2020 19:02:41 +0000
 From: Joseph Myers <joseph@codesourcery.com>
 X-X-Sender: jsm28@digraph.polyomino.org.uk
 To: <qemu-devel@nongnu.org>, <aurelien@aurel32.net>,
  <peter.maydell@linaro.org>, <alex.bennee@linaro.org>, <laurent@vivier.eu>,
  <pbonzini@redhat.com>, <rth@twiddle.net>, <ehabkost@redhat.com>
-Subject: [PATCH 6/7] target/i386: reimplement fprem1 using floatx80 operations
+Subject: [PATCH 7/7] target/i386: reimplement fprem using floatx80 operations
 In-Reply-To: <alpine.DEB.2.21.2006051857110.13777@digraph.polyomino.org.uk>
-Message-ID: <alpine.DEB.2.21.2006051901480.13777@digraph.polyomino.org.uk>
+Message-ID: <alpine.DEB.2.21.2006051902140.13777@digraph.polyomino.org.uk>
 References: <alpine.DEB.2.21.2006051857110.13777@digraph.polyomino.org.uk>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="US-ASCII"
 X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) To
+X-ClientProxiedBy: SVR-IES-MBX-08.mgc.mentorg.com (139.181.222.8) To
  svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
 Received-SPF: pass client-ip=68.232.137.252;
  envelope-from=joseph_myers@mentor.com; helo=esa4.mentor.iphmx.com
@@ -74,26 +74,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The x87 fprem1 emulation is currently based around conversion to
+The x87 fprem emulation is currently based around conversion to
 double, which is inherently unsuitable for a good emulation of any
 floatx80 operation.  Reimplement using the soft-float floatx80
 remainder operations.
 
 Signed-off-by: Joseph Myers <joseph@codesourcery.com>
 ---
- target/i386/fpu_helper.c | 96 +++++++++++++++++++---------------------
- 1 file changed, 45 insertions(+), 51 deletions(-)
+ target/i386/fpu_helper.c | 58 +---------------------------------------
+ 1 file changed, 1 insertion(+), 57 deletions(-)
 
 diff --git a/target/i386/fpu_helper.c b/target/i386/fpu_helper.c
-index 8ef5b463ea..bab35e00a0 100644
+index bab35e00a0..d2fc2c1dde 100644
 --- a/target/i386/fpu_helper.c
 +++ b/target/i386/fpu_helper.c
-@@ -934,63 +934,57 @@ void helper_fxtract(CPUX86State *env)
-     merge_exception_flags(env, old_flags);
- }
+@@ -989,63 +989,7 @@ void helper_fprem1(CPUX86State *env)
  
--void helper_fprem1(CPUX86State *env)
-+static void helper_fprem_common(CPUX86State *env, bool mod)
+ void helper_fprem(CPUX86State *env)
  {
 -    double st0, st1, dblq, fpsrcop, fptemp;
 -    CPU_LDoubleU fpsrcop1, fptemp1;
@@ -121,57 +118,19 @@ index 8ef5b463ea..bab35e00a0 100644
 -        /* ST0 is unchanged */
 -        return;
 -    }
-+    uint8_t old_flags = save_exception_flags(env);
-+    uint64_t quotient;
-+    CPU_LDoubleU temp0, temp1;
-+    int exp0, exp1, expdiff;
- 
+-
 -    if (expdif < 53) {
--        dblq = fpsrcop / fptemp;
--        /* round dblq towards nearest integer */
--        dblq = rint(dblq);
--        st0 = fpsrcop - fptemp * dblq;
-+    temp0.d = ST0;
-+    temp1.d = ST1;
-+    exp0 = EXPD(temp0);
-+    exp1 = EXPD(temp1);
- 
+-        dblq = fpsrcop / fptemp; /* ST0 / ST1 */
+-        /* round dblq towards zero */
+-        dblq = (dblq < 0.0) ? ceil(dblq) : floor(dblq);
+-        st0 = fpsrcop - fptemp * dblq; /* fpsrcop is ST0 */
+-
 -        /* convert dblq to q by truncating towards zero */
 -        if (dblq < 0.0) {
 -            q = (signed long long int)(-dblq);
-+    env->fpus &= ~0x4700; /* (C3,C2,C1,C0) <-- 0000 */
-+    if (floatx80_is_zero(ST0) || floatx80_is_zero(ST1) ||
-+        exp0 == 0x7fff || exp1 == 0x7fff ||
-+        floatx80_invalid_encoding(ST0) || floatx80_invalid_encoding(ST1)) {
-+        ST0 = floatx80_modrem(ST0, ST1, mod, &quotient, &env->fp_status);
-+    } else {
-+        if (exp0 == 0) {
-+            exp0 = 1 - clz64(temp0.l.lower);
-+        }
-+        if (exp1 == 0) {
-+            exp1 = 1 - clz64(temp1.l.lower);
-+        }
-+        expdiff = exp0 - exp1;
-+        if (expdiff < 64) {
-+            ST0 = floatx80_modrem(ST0, ST1, mod, &quotient, &env->fp_status);
-+            env->fpus |= (quotient & 0x4) << (8 - 2);  /* (C0) <-- q2 */
-+            env->fpus |= (quotient & 0x2) << (14 - 1); /* (C3) <-- q1 */
-+            env->fpus |= (quotient & 0x1) << (9 - 0);  /* (C1) <-- q0 */
-         } else {
+-        } else {
 -            q = (signed long long int)dblq;
-+            /* Partial remainder.  This choice of how many bits to
-+             * process at once is specified in AMD instruction set
-+             * manuals, and empirically is followed by Intel
-+             * processors as well; it ensures that the final remainder
-+             * operation in a loop does produce the correct low three
-+             * bits of the quotient.  AMD manuals specify that the
-+             * flags other than C2 are cleared, and empirically Intel
-+             * processors clear them as well.  */
-+            int n = 32 + (expdiff % 32);
-+            temp1.d = floatx80_scalbn(temp1.d, expdiff - n, &env->fp_status);
-+            ST0 = floatx80_mod(ST0, temp1.d, &env->fp_status);
-+            env->fpus |= 0x400;  /* C2 <-- 1 */
-         }
+-        }
 -
 -        env->fpus &= ~0x4700; /* (C3,C2,C1,C0) <-- 0000 */
 -        /* (C0,C3,C1) <-- (q2,q1,q0) */
@@ -179,24 +138,21 @@ index 8ef5b463ea..bab35e00a0 100644
 -        env->fpus |= (q & 0x2) << (14 - 1); /* (C3) <-- q1 */
 -        env->fpus |= (q & 0x1) << (9 - 0);  /* (C1) <-- q0 */
 -    } else {
+-        int N = 32 + (expdif % 32); /* as per AMD docs */
+-
 -        env->fpus |= 0x400;  /* C2 <-- 1 */
--        fptemp = pow(2.0, expdif - 50);
+-        fptemp = pow(2.0, (double)(expdif - N));
 -        fpsrcop = (st0 / st1) / fptemp;
 -        /* fpsrcop = integer obtained by chopping */
 -        fpsrcop = (fpsrcop < 0.0) ?
 -                  -(floor(fabs(fpsrcop))) : floor(fpsrcop);
 -        st0 -= (st1 * fpsrcop * fptemp);
-     }
+-    }
 -    ST0 = double_to_floatx80(env, st0);
-+    merge_exception_flags(env, old_flags);
-+}
-+
-+void helper_fprem1(CPUX86State *env)
-+{
-+    helper_fprem_common(env, false);
++    helper_fprem_common(env, true);
  }
  
- void helper_fprem(CPUX86State *env)
+ void helper_fyl2xp1(CPUX86State *env)
 -- 
 2.17.1
 
