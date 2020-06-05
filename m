@@ -2,99 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF6E1EF6B0
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:47:09 +0200 (CEST)
-Received: from localhost ([::1]:56004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317611EF6B5
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:49:09 +0200 (CEST)
+Received: from localhost ([::1]:32944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhAoW-0007n2-MH
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:47:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54586)
+	id 1jhAqS-0001os-7o
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAng-0007N0-Lk
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:46:16 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:46581)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAod-0008Bj-N4
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:16 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:48323)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAnf-0006TB-2n
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:46:16 -0400
-Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MHWzP-1jlnUF0Dzt-00DX3a; Fri, 05 Jun 2020 13:46:06 +0200
-Subject: Re: [PULL 00/19] Linux user for 5.1 patches
-To: qemu-devel@nongnu.org
-References: <20200605114120.1051236-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoZ-0006hT-AH
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:14 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1Mjjzx-1jEPlO2aTb-00lC9s; Fri, 05 Jun 2020 13:47:01 +0200
 From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <bf7a3eac-d682-5c97-36ff-12bb36d0c8c5@vivier.eu>
-Date: Fri, 5 Jun 2020 13:46:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/19] Linux user for 5.1 patches
+Date: Fri,  5 Jun 2020 13:46:41 +0200
+Message-Id: <20200605114700.1052050-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200605114120.1051236-1-laurent@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:505x2ijcuOFyK7JW9OzzyLHVhlll/lqgomD3Rkw5fe10IJC29oe
- tA4Odth0emSRadq00By13Rd1qCUesnA0tPxWH1kwyHSFeP3iWUwOKnEgPCYyWAuBxptGXHu
- WT9eeFS1kVWJIk+T4cLsuF93ML3c+WQvzYcxeLwSCThVbsx1uKAeXCvkY91Ua+kcjkJ8j4L
- S4MISXHK7GLiMbHkACV+A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EvXDjBMXkmg=:D5uGedVLaJo5UpcmJ4JDp3
- 0iGS7NDh9Cv9BGunjHDE9KxzdQOIRUVna/X0VLNPJzzjn9rGryoYiNN6zLTY6JLLSz3u9yVJv
- KMjKiL+i3YG1Tyq/cTNYGpCwybQr34wOV6X34CA6kTAQMA0h8xRiyjl1+HdhfaRMcLONE45lR
- j2JgPAEAQZEBjJomGqwqntZWBF+/4rSGmDNMzHEYXZzi4t3QpVta2Nd0Nikk3MiH9rSsDY47f
- 4FgcvzjrDNOt5CVGZAVUWAiMyaAVBULfNC/E7MLKMIaGUOLwSC6cNmm3NegUf5fcnU2h8mCgN
- KbcSq6K3CE5sGk/mJyds2gMTOek19HKuYErw4PwlZ5mJpETDklVw9QiNyneOLiJvDVfHvlWdg
- HLS5Vv+ABx3DT7UaiOhPAXCMJHcfTPUFoi8w8nbUzVz823bFSiG1ubaYaCfZvTAToVo31aLSJ
- OiVCabrcrHRAXGxHOGvYAxm9lXSo3B4Gc1ofTu3bJRsnZtuPafq9fPjGqWCPCRxFDhILDLbBA
- eIcYT3snzWuOFy0UrZb1Eb8VLEysjcG27T6l/OAFOrbArAiPfSCsgtEdGO+MC97MWlihKWUHM
- dNwHYiWoLcz+IgGbFNhyOiPjRm+6MOEk5OXI2fGURoqLWRWJvHFS/1LQEwUWQ5cjAQY3IWbtR
- q3gMDt0nChefu1j3xYbAA4LliqZJtVIrwVP/TbRKKEWu809cY9c5m6Wfrj743pJGWPILjd5QQ
- y6uVC/VtDml92VdrCHbznyQlj+sqF//mzOlXYX//+P3Ce3eRSb6OYBBY/IQQWfonzrYFYM0NL
- /5QdWrYRLd7iHwjwIvwicLYhwXu4iF9WRfGceRY749IYuXOxHgedSTfO0dUtz+LW4fW4BaB
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:t4uBhTMPbQWu+VVRMJs+Bw2KA+M7RwQc15IT/rcVxHiCCfiqTQ/
+ N4DkKQR4k5tsHYLqMDVIzASHfEqVrVMMa/P+pvGuemnj7eZMr76gvjuFGE17BZ3ZtOg5dyY
+ OkyZlsOdGY/CZGt4ggObadok2XtRADfQMdDgNwUB7pf5gqV1r+fheeRFZ+FjCAvSD+mL+8S
+ RgTgQrrHzO+oLQfNK69hg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gXaHuPO1Iuk=:TiBB9FT/be6KnhSMcVkwdq
+ PliEblokvLfK/zasFUIDgfZYYbDRNmn/tL2BLDrkgwbphcy3mAqodWQHsjIIcAKQ4Y7EMoYWp
+ /oCv8XFoFUi/w//Spg7iRXcu7BRUeeIfFbzWAW0wgkPNs4FKhDKXWlzQ1l8XgahlERotd8v+I
+ SlZl3k366bWYmVPKlL9a0Eipp9NvetG0yPyUXoR1nW7vcck9f3gs+h/Mr2mFT+YK5Hj4GNPn3
+ fHF9J1JEdKCyJG/Q9uzvfN8UXUTq4f73F+lAlU5PpizOxtKe4Jtw8IbDHU3AhAEF95xG4doKs
+ myUIj3uIZaueAIcLp2k6KapalYVqttOubdsA1tL+chvx2CTD3rjA77ukOXBYLM6+DyMISn9GA
+ qIC5ObJQ1kphJJq/sSFGZyQg+a6ynZhWjotdVvDIFkP0juoBjPP+tFEqH5GzOXOVOLm8fTX3d
+ AGLI0g09UjihWegOoezy4CpqxS6b9vufw+/BDVxWiNnp07YS0yAUlvudpdNfPmHIQQ3epiCkZ
+ Df0hmIOt8+iuzT/qE19qbjzSrY7FBAnyzbOK9MOuJJTcogJ6dyQyQazkBaXrVVTX8sqfraFBI
+ VriFs1P/y07MzjGvBtqoBBj0gf/e6EzO/9CCtmjwxQjqo0HlJgkLLKdoCL91oWGQS8h43Dviw
+ ZnVawDMtqy87eEf3LOOOmT/3Rmd/ep+P1dDwA+TPVTq8e4hic+OPU77b5g3Ar7gE2HFOf6zPP
+ Cy7a5TEDLdWMvQwEsyoSkNuZ80nnGbm/bhjp/mknvEoGCN+p7pF8U/WIfUppNEytJFFe0Yejn
+ mMDG1kMzglopVuWBg6dEnuiNncjE92F4vw9AJjb/ppXEjfyLvh1/U/TvgJJbzQDxvA9p7nH
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:46:13
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:47:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -113,92 +67,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 05/06/2020 à 13:41, Laurent Vivier a écrit :
-> The following changes since commit ddc760832fa8cf5e93b9d9e6e854a5114ac63510:
-> 
->   Merge remote-tracking branch 'remotes/gkurz/tags/9p-next-2020-05-26' into s=
-> taging (2020-05-26 14:05:53 +0100)
-> 
-> are available in the Git repository at:
-> 
->   git://github.com/vivier/qemu.git tags/linux-user-for-5.1-pull-request
-> 
-> for you to fetch changes up to aa3d2045d4ca760bd8c22935a2d73ee4f3480bd5:
-> 
->   stubs: Restrict ui/win32-kbd-hook to system-mode (2020-06-05 11:36:00 +0200)
-> 
-> ----------------------------------------------------------------
-> linux-user pull request 20200605
-> 
-> Implement F_OFD_ fcntl() command, /proc/cpuinfo for hppa
-> Fix socket(), prnctl() error codes, underflow in target_mremap,
->     epoll_create() strace, oldumount for alpha
-> User-mode build dependencies improvement
-> 
-> ----------------------------------------------------------------
-> 
-> Andreas Schwab (1):
->   linux-user: implement OFD locks
-> 
-> Helge Deller (2):
->   linux-user: return target error codes for socket() and prctl()
->   linux-user: Add support for /proc/cpuinfo on hppa platform
-> 
-> Jonathan Marler (1):
->   linux-user/mmap.c: fix integer underflow in target_mremap
-> 
-> Laurent Vivier (1):
->   linux-user, alpha: fix oldumount syscall
-> 
-> Philippe Mathieu-Daud=C3=A9 (13):
->   Makefile: Only build virtiofsd if system-mode is enabled
->   configure: Avoid building TCG when not needed
->   tests/Makefile: Only display TCG-related tests when TCG is available
->   tests/Makefile: Restrict some softmmu-only tests
->   util/Makefile: Reduce the user-mode object list
->   stubs/Makefile: Reduce the user-mode object list
->   target/riscv/cpu: Restrict CPU migration to system-mode
->   exec: Assert CPU migration is not used on user-only build
->   arch_init: Remove unused 'qapi-commands-misc.h' include
->   target/i386: Restrict CpuClass::get_crash_info() to system-mode
->   target/s390x: Restrict CpuClass::get_crash_info() to system-mode
->   hw/core: Restrict CpuClass::get_crash_info() to system-mode
->   stubs: Restrict ui/win32-kbd-hook to system-mode
-> 
-> Sergei Trofimovich (1):
->   linux-user/strace.list: fix epoll_create{,1} -strace output
-> 
->  Makefile                   |  2 +-
->  arch_init.c                |  1 -
->  configure                  |  4 +++
->  exec.c                     |  4 ++-
->  hw/core/cpu.c              |  2 ++
->  include/hw/core/cpu.h      |  7 ++++-
->  linux-user/generic/fcntl.h |  4 +++
->  linux-user/mmap.c          |  2 +-
->  linux-user/strace.list     |  4 +--
->  linux-user/syscall.c       | 31 +++++++++++++++++---
->  stubs/Makefile.objs        | 52 +++++++++++++++++++--------------
->  target/i386/cpu.c          |  6 +++-
->  target/riscv/cpu.c         |  6 ++--
->  target/s390x/cpu.c         | 12 ++++----
->  tests/Makefile.include     | 18 ++++++------
->  util/Makefile.objs         | 59 ++++++++++++++++++++++++--------------
->  16 files changed, 142 insertions(+), 72 deletions(-)
-> 
-> --=20
-> 2.26.2
-> 
-
-My pull request has failed after the third patch:
-Requested action aborted: local error in processing
-
-I'm going to try again.
-Sorry for the noise.
-
-Laurent
+The following changes since commit ddc760832fa8cf5e93b9d9e6e854a5114ac63510=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/gkurz/tags/9p-next-2020-05-26' into=
+ s=3D=0D
+taging (2020-05-26 14:05:53 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu.git tags/linux-user-for-5.1-pull-request=0D
+=0D
+for you to fetch changes up to aa3d2045d4ca760bd8c22935a2d73ee4f3480bd5:=0D
+=0D
+  stubs: Restrict ui/win32-kbd-hook to system-mode (2020-06-05 11:36:00 +02=
+00)=0D
+=0D
+----------------------------------------------------------------=0D
+linux-user pull request 20200605=0D
+=0D
+Implement F_OFD_ fcntl() command, /proc/cpuinfo for hppa=0D
+Fix socket(), prnctl() error codes, underflow in target_mremap,=0D
+    epoll_create() strace, oldumount for alpha=0D
+User-mode build dependencies improvement=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Andreas Schwab (1):=0D
+  linux-user: implement OFD locks=0D
+=0D
+Helge Deller (2):=0D
+  linux-user: return target error codes for socket() and prctl()=0D
+  linux-user: Add support for /proc/cpuinfo on hppa platform=0D
+=0D
+Jonathan Marler (1):=0D
+  linux-user/mmap.c: fix integer underflow in target_mremap=0D
+=0D
+Laurent Vivier (1):=0D
+  linux-user, alpha: fix oldumount syscall=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (13):=0D
+  Makefile: Only build virtiofsd if system-mode is enabled=0D
+  configure: Avoid building TCG when not needed=0D
+  tests/Makefile: Only display TCG-related tests when TCG is available=0D
+  tests/Makefile: Restrict some softmmu-only tests=0D
+  util/Makefile: Reduce the user-mode object list=0D
+  stubs/Makefile: Reduce the user-mode object list=0D
+  target/riscv/cpu: Restrict CPU migration to system-mode=0D
+  exec: Assert CPU migration is not used on user-only build=0D
+  arch_init: Remove unused 'qapi-commands-misc.h' include=0D
+  target/i386: Restrict CpuClass::get_crash_info() to system-mode=0D
+  target/s390x: Restrict CpuClass::get_crash_info() to system-mode=0D
+  hw/core: Restrict CpuClass::get_crash_info() to system-mode=0D
+  stubs: Restrict ui/win32-kbd-hook to system-mode=0D
+=0D
+Sergei Trofimovich (1):=0D
+  linux-user/strace.list: fix epoll_create{,1} -strace output=0D
+=0D
+ Makefile                   |  2 +-=0D
+ arch_init.c                |  1 -=0D
+ configure                  |  4 +++=0D
+ exec.c                     |  4 ++-=0D
+ hw/core/cpu.c              |  2 ++=0D
+ include/hw/core/cpu.h      |  7 ++++-=0D
+ linux-user/generic/fcntl.h |  4 +++=0D
+ linux-user/mmap.c          |  2 +-=0D
+ linux-user/strace.list     |  4 +--=0D
+ linux-user/syscall.c       | 31 +++++++++++++++++---=0D
+ stubs/Makefile.objs        | 52 +++++++++++++++++++--------------=0D
+ target/i386/cpu.c          |  6 +++-=0D
+ target/riscv/cpu.c         |  6 ++--=0D
+ target/s390x/cpu.c         | 12 ++++----=0D
+ tests/Makefile.include     | 18 ++++++------=0D
+ util/Makefile.objs         | 59 ++++++++++++++++++++++++--------------=0D
+ 16 files changed, 142 insertions(+), 72 deletions(-)=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
