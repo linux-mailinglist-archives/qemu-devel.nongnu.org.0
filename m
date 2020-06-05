@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D601EF6D0
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:52:21 +0200 (CEST)
-Received: from localhost ([::1]:49280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369901EF6DE
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:56:14 +0200 (CEST)
+Received: from localhost ([::1]:40112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhAtY-00009B-Rf
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:52:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54834)
+	id 1jhAxJ-0008Lj-9o
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:56:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoi-0008G9-6V
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:20 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:44295)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoo-0008PT-RJ
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:26 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:58701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAoh-0006kl-0J
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:19 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jhAon-0006mt-Rp
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:47:26 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MyKU6-1il4vM2d1I-00yiyJ; Fri, 05 Jun 2020 13:47:12 +0200
+ id 1MadC8-1j5NE316hG-00c5UL; Fri, 05 Jun 2020 13:47:13 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/19] target/riscv/cpu: Restrict CPU migration to system-mode
-Date: Fri,  5 Jun 2020 13:46:54 +0200
-Message-Id: <20200605114700.1052050-14-laurent@vivier.eu>
+Subject: [PULL 14/19] exec: Assert CPU migration is not used on user-only build
+Date: Fri,  5 Jun 2020 13:46:55 +0200
+Message-Id: <20200605114700.1052050-15-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605114700.1052050-1-laurent@vivier.eu>
 References: <20200605114700.1052050-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+yuIL3rhe4m+tkgeYdCUZrkxqjcEDHc1NgD4xZtPGgte7ja/V/8
- 1+4Ahe1ZfL8kPv98x+UxWrGoTbykYqzIa5DUFTalRCU10KUGg2BzTSgBqclfxOKM/eNmyiY
- QMplvPYTK76LwosG9FHv+isrUS23NcdIyrSCX8JZ5L7gdZFMCj7hTSSA0HP+rMMOZmgwRA1
- 7tju7/asfefgDNv7zv+ww==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5Hl/0fjJGIA=:9e9bUGouSWDBnaoCqRgATh
- SADTfpTp6FFUYDlFcR034zbmK/VfYCr+FItCiChnmAnjSAgaXxGVKBv62p4dfBaLEwPgLSpCe
- qf15Ucnpm4tw8LpOsTqbT+dSmdJjDFKaEryolS17h/d5biV9gbD6eyUMy4w4rTrK8lneExT2I
- cjleKb1WFuMLB0e2I6XBzXYBM3arxa+pY3AVWluejo76UQpLv4I7CXTbc0HkrIiQsXh7GQxw9
- es7+1PYh/S+ZZ2fJn2fjzqHAZcyLb4JLlSlDASUY8PghiTa4dPxvgTJjeBQWH0eIbgzquChin
- 7yqg5DKNVzw4O+8KGMtyAJCoAdp/FnUwwfdyms39c33Ng98NUjJD7d06elh71jCOF58bfDxaQ
- yBiZ3rVxmecMoRli0b7mhWzvEgKcDBNtXyqYJ8npjmiZ1RTtBigYqGzNkaeIHxbL0HAGXqBYp
- iWeUlvaDtGIOtKDcEo/BKw1FLbbEaGzgux/2oFosybVbZsr3A0cU0c6hlp7f/u3b07E44IRCt
- abDjVKlar+pib5rbwQtI9txqWhcPwNKzwpuz3P2P9QFUb3sqpFFZS7ZZr2dyi5FyAHontIVdV
- e14dShxCFmC5FL3QYYbfKC40CKN27LSu51UqJucVG66FQRxkTCVNb+Ej1Crz/jx3f9dvWWRnE
- kriot8F0sDR0rGb6DpL7zzKSoT9aPJ5TrE+T3VVenMRdZ8dXnwz0sEq5Y8A48q+5NuW9RPJY3
- 71LGwRLFNwzGjs1hJIGluY6uX0ozVnmjWq/XPF5NMar7zcnww0s3TaF+h02xlJ9BiC5YUqXTw
- upSUF3f3TZ678GkUvxg10KX+wWQMEFIkVIrLDaXfbnlUVfQccQFU29E06KRKFIdACyRJ1ul
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:VrTqMWubQsnZzaCalmzqi/8tWUxzEeChJ88aV28Bmryu8UD1IEt
+ 6NLRMZP0XifqQboRqdz58fOUPJ/SEfSaW7FlPsTfaawp38sKvneqDCv6y1Q9JzjWrGuvOja
+ CMyS/692yoFBrxyGn9wjHNKxb6lyOXWlsP5ek2fCvTcvVlffYp+S335bzBkz26GuFevlKpR
+ oK6nZrGuNSPDQxSSgvQcw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6zSDkmd6TR0=:hCwsosLIEsNMDOPlPmrNj9
+ t0QrJ3W3UONvuau15X5GsokmbxExyzoDVJ/K1fzLJcRJIst6OCxSJh66IGAWeuz9crYymCUdt
+ iRSsrExSs9JpxSGFGo/WxvFGaLxQPYVWFAqdu4o5OCwLiRkXwufE9oh3VoaCiKNuPRJaNKRvJ
+ uoUO5/7dE6g2UzcqGwl8iBpfyomdgUNP2VljulYF0NF/r36lhnfrIN+CqGv8JXLl6eNtwpSha
+ 0lugtZ+GwGtKWwFgdyR+gGlrrxIl/ZUUgDkEkeJK4aRZ07+CgkWLGmw6IFFTX8iA1fVTi5Jsc
+ j0G10J1/6kvhtga5ROEaFOOdPLcfE0DJny+hSTcub05IUIjUx+a+t0qmox6k/6Oyzc9dsVuFv
+ MZy42UIpIh0nmrTnOQ+5heegA9Z7GMhYs0NEaRKRzE/grS5PMvZOeYG+JfXvW255krYcDoLcs
+ hLFyMjqLpUEklcn+bMp17t+m7Vk8+X5PWMsRV7Ds49G+bwPunR2Qqm8QrebY+7yQlaQAqnkk8
+ BbrumSN0twP9xMFfFRvnJ+cxIs/TCrzwwhRvj+U4nkNdI1Tp2F25duAtI1l+KRaBxH0UunC4u
+ P3YNPc7KeBpoq0ZH99+7vsTVtWVLVzwmCPx6SCOmcWHu6kb3kx8ZveiMHy6kzHiv2GN34RtIh
+ q9JxpG8NAXl6NTRkXXVavGSqOe/7SLuun5z+5oYVxWTjlVOQJIp0WwvPr15GAW0Vf3H+rheP5
+ JmCG709HYUP7WSAtNKnOfI9i8bTillubtdiooIKJbgAeWAErAl5iUsL8tXkVvb6HbDQ1B+7q5
+ yp4GxQ1vDyl3cJ2XRVnY4pVhTUGlt7/JO9PQJZ3ButJFq/YZqkX+TER8hEDvyIVDy9ZGfeR
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:46:13
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 07:47:15
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,9 +69,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Riku Voipio <riku.voipio@iki.fi>,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Riku Voipio <riku.voipio@iki.fi>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -79,50 +78,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Tested-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200522172510.25784-8-philmd@redhat.com>
+Message-Id: <20200522172510.25784-9-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/riscv/cpu.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ exec.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 059d71f2c715..6c78337858ad 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -485,10 +485,12 @@ static void riscv_cpu_init(Object *obj)
-     cpu_set_cpustate_pointers(cpu);
- }
+diff --git a/exec.c b/exec.c
+index 5162f0d12f99..6dfd314469de 100644
+--- a/exec.c
++++ b/exec.c
+@@ -946,7 +946,9 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
  
-+#ifndef CONFIG_USER_ONLY
- static const VMStateDescription vmstate_riscv_cpu = {
-     .name = "cpu",
-     .unmigratable = 1,
- };
-+#endif
+     qemu_plugin_vcpu_init_hook(cpu);
  
- static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("i", RISCVCPU, cfg.ext_i, true),
-@@ -544,13 +546,13 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     cc->do_transaction_failed = riscv_cpu_do_transaction_failed;
-     cc->do_unaligned_access = riscv_cpu_do_unaligned_access;
-     cc->get_phys_page_debug = riscv_cpu_get_phys_page_debug;
-+    /* For now, mark unmigratable: */
-+    cc->vmsd = &vmstate_riscv_cpu;
- #endif
- #ifdef CONFIG_TCG
-     cc->tcg_initialize = riscv_translate_init;
-     cc->tlb_fill = riscv_cpu_tlb_fill;
- #endif
--    /* For now, mark unmigratable: */
--    cc->vmsd = &vmstate_riscv_cpu;
-     device_class_set_props(dc, riscv_cpu_properties);
- }
- 
+-#ifndef CONFIG_USER_ONLY
++#ifdef CONFIG_USER_ONLY
++    assert(cc->vmsd == NULL);
++#else /* !CONFIG_USER_ONLY */
+     if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
+         vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
+     }
 -- 
 2.26.2
 
