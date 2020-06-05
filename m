@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A18F1EFFB8
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:11:46 +0200 (CEST)
-Received: from localhost ([::1]:36592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A5FA1EFFBA
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:14:29 +0200 (CEST)
+Received: from localhost ([::1]:42714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhGoj-0003yO-KF
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:11:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52110)
+	id 1jhGrM-0006jN-6U
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:14:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jhGn5-0002cV-Oq; Fri, 05 Jun 2020 14:10:03 -0400
-Received: from mga17.intel.com ([192.55.52.151]:32522)
+ id 1jhGn7-0002ed-EZ; Fri, 05 Jun 2020 14:10:05 -0400
+Received: from mga02.intel.com ([134.134.136.20]:40115)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrzej.jakowski@linux.intel.com>)
- id 1jhGn3-0002DI-8K; Fri, 05 Jun 2020 14:10:02 -0400
-IronPort-SDR: JyMbHvWgVFckDQLrmR9KmHdQqN4x/ShuH/zszDQzBPVdE/hycSGjzGbi26JBXubTbXqFfIoDFt
- 6eOSjVwIv80Q==
+ id 1jhGn5-0002Ds-UJ; Fri, 05 Jun 2020 14:10:05 -0400
+IronPort-SDR: 0atdZyu1aQ0PKqIpXA5zd1wcD+s3vt6h2H3HdTX/HgebYHnxL1MOTKNnJypEvu5DVR7eUuz2SC
+ TOFsJ/SA7/QQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jun 2020 11:09:54 -0700
-IronPort-SDR: IK3IbXIgJMbH9jgWOyGY4yY4n2HxKLjia50YLGG5MBaFJ7ds4HIVLcO83mUxDhBq0Z+hZW/tqo
- 1kaAu6UKuYcA==
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2020 11:10:01 -0700
+IronPort-SDR: lw+ikJBO/g/a6aGKh+JLlpTJ6PYzKwMT0BSBeFHElPCz08RF8DpsRyG0+DpdOwlN6rzMcOR6B+
+ qiVbHgO5u2sg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,477,1583222400"; d="scan'208";a="258094491"
+X-IronPort-AV: E=Sophos;i="5.73,477,1583222400"; d="scan'208";a="258094540"
 Received: from unknown (HELO localhost.ch.intel.com) ([10.2.28.117])
- by fmsmga007.fm.intel.com with ESMTP; 05 Jun 2020 11:09:54 -0700
+ by fmsmga007.fm.intel.com with ESMTP; 05 Jun 2020 11:10:00 -0700
 From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
 To: kbusch@kernel.org,
 	kwolf@redhat.com,
 	mreitz@redhat.com
-Subject: [PATCH v1 1/2] nvme: indicate CMB support through controller
- capabilities register
-Date: Fri,  5 Jun 2020 11:10:42 -0700
-Message-Id: <20200605181043.28782-2-andrzej.jakowski@linux.intel.com>
+Subject: [PATCH v1 2/2] nvme: allow cmb and pmr to be enabled on same device
+Date: Fri,  5 Jun 2020 11:10:43 -0700
+Message-Id: <20200605181043.28782-3-andrzej.jakowski@linux.intel.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200605181043.28782-1-andrzej.jakowski@linux.intel.com>
 References: <20200605181043.28782-1-andrzej.jakowski@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=192.55.52.151;
- envelope-from=andrzej.jakowski@linux.intel.com; helo=mga17.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 14:09:54
+Received-SPF: none client-ip=134.134.136.20;
+ envelope-from=andrzej.jakowski@linux.intel.com; helo=mga02.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 14:10:01
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,68 +64,266 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Klaus Jensen <k.jensen@samsung.com>,
- Andrzej Jakowski <andrzej.jakowski@linux.intel.com>, qemu-devel@nongnu.org,
+Cc: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>, qemu-devel@nongnu.org,
  qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch sets CMBS bit in controller capabilities register when user
-configures NVMe driver with CMB support, so capabilites are correctly
-reported to guest OS.
+So far it was not possible to have CMB and PMR emulated on the same
+device, because BAR2 was used exclusively either of PMR or CMB. This
+patch places CMB at BAR4 offset so it not conflicts with MSI-X vectors.
 
 Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c      | 2 ++
- include/block/nvme.h | 6 +++++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ hw/block/nvme.c      | 127 +++++++++++++++++++++++++++++--------------
+ hw/block/nvme.h      |   3 +-
+ include/block/nvme.h |   4 +-
+ 3 files changed, 91 insertions(+), 43 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index a21eeca2fb..f0b45704be 100644
+index f0b45704be..353cf20e0a 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1449,6 +1449,8 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-     n->bar.intmc = n->bar.intms = 0;
+@@ -22,12 +22,12 @@
+  *              [pmrdev=<mem_backend_file_id>,] \
+  *              num_queues=<N[optional]>
+  *
+- * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
+- * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
++ * Note cmb_size_mb denotes size of CMB in MB. CMB when configured is assumed
++ * to be resident in BAR4 at certain offset - this is because BAR4 is also
++ * used for storing MSI-X table that is available at offset 0 in BAR4.
+  *
+- * cmb_size_mb= and pmrdev= options are mutually exclusive due to limitation
+- * in available BAR's. cmb_size_mb= will take precedence over pmrdev= when
+- * both provided.
++ * pmrdev is assumed to be resident in BAR2. When configured it consumes whole
++ * BAR2 exclusively.
+  * Enabling pmr emulation can be achieved by pointing to memory-backend-file.
+  * For example:
+  * -object memory-backend-file,id=<mem_id>,share=on,mem-path=<file_path>, \
+@@ -64,9 +64,10 @@ static void nvme_process_sq(void *opaque);
  
-     if (n->cmb_size_mb) {
+ static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
+ {
+-    if (n->cmbsz && addr >= n->ctrl_mem.addr &&
+-                addr < (n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size))) {
+-        memcpy(buf, (void *)&n->cmbuf[addr - n->ctrl_mem.addr], size);
++    hwaddr cmb_addr = n->bar4.addr + n->cmb_offset;
++    if (n->cmbsz && addr >= cmb_addr &&
++        (addr + size) <= (cmb_addr + NVME_CMBSZ_GETSIZE(n->bar.cmbsz))) {
++        memcpy(buf, (void *)&n->cmbuf[addr - cmb_addr], size);
+     } else {
+         pci_dma_read(&n->parent_obj, addr, buf, size);
+     }
+@@ -152,17 +153,18 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
+                              uint64_t prp2, uint32_t len, NvmeCtrl *n)
+ {
+     hwaddr trans_len = n->page_size - (prp1 % n->page_size);
++    hwaddr cmb_addr = n->bar4.addr + n->cmb_offset;
+     trans_len = MIN(len, trans_len);
+     int num_prps = (len >> n->page_bits) + 1;
+ 
+     if (unlikely(!prp1)) {
+         trace_nvme_err_invalid_prp();
+         return NVME_INVALID_FIELD | NVME_DNR;
+-    } else if (n->cmbsz && prp1 >= n->ctrl_mem.addr &&
+-               prp1 < n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size)) {
++    } else if (n->cmbsz && prp1 >= cmb_addr &&
++               prp1 < cmb_addr + int128_get64(n->bar4.size)) {
+         qsg->nsg = 0;
+         qemu_iovec_init(iov, num_prps);
+-        qemu_iovec_add(iov, (void *)&n->cmbuf[prp1 - n->ctrl_mem.addr], trans_len);
++        qemu_iovec_add(iov, (void *)&n->cmbuf[prp1 - cmb_addr], trans_len);
+     } else {
+         pci_dma_sglist_init(qsg, &n->parent_obj, num_prps);
+         qemu_sglist_add(qsg, prp1, trans_len);
+@@ -207,7 +209,8 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
+                 if (qsg->nsg){
+                     qemu_sglist_add(qsg, prp_ent, trans_len);
+                 } else {
+-                    qemu_iovec_add(iov, (void *)&n->cmbuf[prp_ent - n->ctrl_mem.addr], trans_len);
++                    qemu_iovec_add(iov, (void *)&n->cmbuf[prp_ent - cmb_addr],
++                                   trans_len);
+                 }
+                 len -= trans_len;
+                 i++;
+@@ -220,7 +223,8 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
+             if (qsg->nsg) {
+                 qemu_sglist_add(qsg, prp2, len);
+             } else {
+-                qemu_iovec_add(iov, (void *)&n->cmbuf[prp2 - n->ctrl_mem.addr], trans_len);
++                qemu_iovec_add(iov, (void *)&n->cmbuf[prp2 - cmb_addr],
++                               trans_len);
+             }
+         }
+     }
+@@ -1342,6 +1346,71 @@ static const MemoryRegionOps nvme_cmb_ops = {
+     },
+ };
+ 
++#define NVME_MSIX_BIR (4)
++static void nvme_bar4_init(PCIDevice *pci_dev)
++{
++    NvmeCtrl *n = NVME(pci_dev);
++    int status;
++    uint64_t bar_size = 4096;
++    uint32_t nvme_pba_offset = bar_size / 2;
++    uint32_t nvme_pba_size = QEMU_ALIGN_UP(n->num_queues, 64) / 8;
++    uint32_t cmb_size_units;
++
++    if (n->num_queues * PCI_MSIX_ENTRY_SIZE > nvme_pba_offset) {
++        nvme_pba_offset = n->num_queues * PCI_MSIX_ENTRY_SIZE;
++    }
++
++    if (nvme_pba_offset + nvme_pba_size > 4096) {
++        bar_size = nvme_pba_offset + nvme_pba_size;
++    }
++
++    if (n->cmb_size_mb) {
 +        /* Contoller capabilities */
 +        NVME_CAP_SET_CMBS(n->bar.cap, 1);
++
++        NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
++        NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
++        NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
++        NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
++        NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
++        NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
++        NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->cmb_size_mb);
++
++        cmb_size_units = NVME_CMBSZ_GETSIZEUNITS(n->bar.cmbsz);
++        n->cmb_offset = QEMU_ALIGN_UP(bar_size, cmb_size_units);
++
++        NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_MSIX_BIR);
++        NVME_CMBLOC_SET_OFST(n->bar.cmbloc, n->cmb_offset / cmb_size_units);
++
++        n->cmbloc = n->bar.cmbloc;
++        n->cmbsz = n->bar.cmbsz;
++
++        n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
++
++        bar_size += n->cmb_offset;
++        bar_size += NVME_CMBSZ_GETSIZE(n->bar.cmbsz);
++    }
++
++    bar_size = pow2ceil(bar_size);
++
++    memory_region_init_io(&n->bar4, OBJECT(n), &nvme_cmb_ops, n,
++                          "nvme-bar4", bar_size);
++
++    status = msix_init(pci_dev, n->num_queues,
++              &n->bar4, NVME_MSIX_BIR, 0,
++              &n->bar4, NVME_MSIX_BIR, nvme_pba_offset,
++              0, NULL);
++
++    if (status) {
++        return;
++    }
++
++    pci_register_bar(pci_dev, NVME_MSIX_BIR,
++             PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64 |
++             PCI_BASE_ADDRESS_MEM_PREFETCH, &n->bar4);
++
++}
++
+ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+ {
+     NvmeCtrl *n = NVME(pci_dev);
+@@ -1372,7 +1441,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+         return;
+     }
  
-         NVME_CMBLOC_SET_BIR(n->bar.cmbloc, 2);
-         NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
+-    if (!n->cmb_size_mb && n->pmrdev) {
++    if (n->pmrdev) {
+         if (host_memory_backend_is_mapped(n->pmrdev)) {
+             char *path = object_get_canonical_path_component(OBJECT(n->pmrdev));
+             error_setg(errp, "can't use already busy memdev: %s", path);
+@@ -1413,7 +1482,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+     pci_register_bar(pci_dev, 0,
+         PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64,
+         &n->iomem);
+-    msix_init_exclusive_bar(pci_dev, n->num_queues, 4, NULL);
+ 
+     id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
+     id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
+@@ -1445,35 +1513,12 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+     NVME_CAP_SET_CSS(n->bar.cap, 1);
+     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
+ 
++    nvme_bar4_init(pci_dev);
++
+     n->bar.vs = 0x00010200;
+     n->bar.intmc = n->bar.intms = 0;
+ 
+-    if (n->cmb_size_mb) {
+-        /* Contoller capabilities */
+-        NVME_CAP_SET_CMBS(n->bar.cap, 1);
+-
+-        NVME_CMBLOC_SET_BIR(n->bar.cmbloc, 2);
+-        NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
+-
+-        NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
+-        NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
+-        NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 0);
+-        NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
+-        NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
+-        NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
+-        NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->cmb_size_mb);
+-
+-        n->cmbloc = n->bar.cmbloc;
+-        n->cmbsz = n->bar.cmbsz;
+-
+-        n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
+-        memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n,
+-                              "nvme-cmb", NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
+-        pci_register_bar(pci_dev, NVME_CMBLOC_BIR(n->bar.cmbloc),
+-            PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64 |
+-            PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
+-
+-    } else if (n->pmrdev) {
++    if (n->pmrdev) {
+         /* Controller Capabilities register */
+         NVME_CAP_SET_PMRS(n->bar.cap, 1);
+ 
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 6520a9f0be..b983fc0005 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -60,7 +60,7 @@ typedef struct NvmeNamespace {
+ typedef struct NvmeCtrl {
+     PCIDevice    parent_obj;
+     MemoryRegion iomem;
+-    MemoryRegion ctrl_mem;
++    MemoryRegion bar4;
+     NvmeBar      bar;
+     BlockConf    conf;
+ 
+@@ -77,6 +77,7 @@ typedef struct NvmeCtrl {
+     uint32_t    cmb_size_mb;
+     uint32_t    cmbsz;
+     uint32_t    cmbloc;
++    uint32_t    cmb_offset;
+     uint8_t     *cmbuf;
+     uint64_t    irq_status;
+     uint64_t    host_timestamp;                 /* Timestamp sent by the host */
 diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 5525c8e343..b48349dbd0 100644
+index b48349dbd0..47379e1a27 100644
 --- a/include/block/nvme.h
 +++ b/include/block/nvme.h
-@@ -35,6 +35,7 @@ enum NvmeCapShift {
-     CAP_MPSMIN_SHIFT   = 48,
-     CAP_MPSMAX_SHIFT   = 52,
-     CAP_PMR_SHIFT      = 56,
-+    CAP_CMB_SHIFT      = 57,
- };
+@@ -216,9 +216,11 @@ enum NvmeCmbszMask {
+     (cmbsz |= (uint64_t)(val & CMBSZ_SZU_MASK) << CMBSZ_SZU_SHIFT)
+ #define NVME_CMBSZ_SET_SZ(cmbsz, val)    \
+     (cmbsz |= (uint64_t)(val & CMBSZ_SZ_MASK) << CMBSZ_SZ_SHIFT)
++#define NVME_CMBSZ_GETSIZEUNITS(cmbsz) \
++    (1 << (12 + 4 * NVME_CMBSZ_SZU(cmbsz)))
  
- enum NvmeCapMask {
-@@ -48,6 +49,7 @@ enum NvmeCapMask {
-     CAP_MPSMIN_MASK    = 0xf,
-     CAP_MPSMAX_MASK    = 0xf,
-     CAP_PMR_MASK       = 0x1,
-+    CAP_CMB_MASK       = 0x1,
- };
+ #define NVME_CMBSZ_GETSIZE(cmbsz) \
+-    (NVME_CMBSZ_SZ(cmbsz) * (1 << (12 + 4 * NVME_CMBSZ_SZU(cmbsz))))
++    (NVME_CMBSZ_SZ(cmbsz) * NVME_CMBSZ_GETSIZEUNITS(cmbsz))
  
- #define NVME_CAP_MQES(cap)  (((cap) >> CAP_MQES_SHIFT)   & CAP_MQES_MASK)
-@@ -78,8 +80,10 @@ enum NvmeCapMask {
-                                                            << CAP_MPSMIN_SHIFT)
- #define NVME_CAP_SET_MPSMAX(cap, val) (cap |= (uint64_t)(val & CAP_MPSMAX_MASK)\
-                                                             << CAP_MPSMAX_SHIFT)
--#define NVME_CAP_SET_PMRS(cap, val) (cap |= (uint64_t)(val & CAP_PMR_MASK)\
-+#define NVME_CAP_SET_PMRS(cap, val)   (cap |= (uint64_t)(val & CAP_PMR_MASK)   \
-                                                             << CAP_PMR_SHIFT)
-+#define NVME_CAP_SET_CMBS(cap, val)   (cap |= (uint64_t)(val & CAP_CMB_MASK)   \
-+                                                           << CAP_CMB_SHIFT)
- 
- enum NvmeCcShift {
-     CC_EN_SHIFT     = 0,
+ enum NvmePmrcapShift {
+     PMRCAP_RDS_SHIFT      = 3,
 -- 
 2.21.1
 
