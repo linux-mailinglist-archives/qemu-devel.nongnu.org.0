@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B9F1EFF39
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 19:40:18 +0200 (CEST)
-Received: from localhost ([::1]:38852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE901EFF4A
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 19:42:57 +0200 (CEST)
+Received: from localhost ([::1]:47338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhGKH-0000Zx-T3
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 13:40:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48200)
+	id 1jhGMq-00047D-H4
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 13:42:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jhGI0-00046j-He
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:37:56 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44918)
+ id 1jhGI2-0004Bk-6h
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:37:58 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:54198)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jhGHz-00041E-Gn
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:37:56 -0400
-Received: by mail-pf1-x444.google.com with SMTP id f3so5263606pfd.11
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 10:37:54 -0700 (PDT)
+ id 1jhGI1-00041L-At
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:37:57 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id i12so2952457pju.3
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 10:37:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=AOzUAJyFNQB4L+phqsSsfzj9Z8OtZxOrajLi9NoXesk=;
- b=FW7YwxTbepxVhFcuU9CLDUQXHRQgNNhdh8JqqkQIeqt8MwWClu34MgBwJ4+2PjfIY5
- Slxua9esPHR2CdKte+EkY7Y8+JVr3WstzJ2fv+Ths7xFB+aIumtnRJjIFnP9Y4FK7o8D
- 4TzTOMP0C1sOWR0W39VYJ0NsJiI5vQVdRID/ZXrKlDEfBRSrosHqWzqPj7Ya8w416WFR
- rpp9MPXK7YRxFKLZvZeU32myI2Jnw2MYtF9MbyTjrsFkKk9FAR0tdfCx3ss10D1cvYQa
- IGPaG05pC9diurhxuoyamTYWF3VeSihWekNYxAdwZdhGPZJYO4MKtz7c4yMnIvV4bwRW
- Q6yQ==
+ bh=bZmmE8g6bACENWl1LtFwmXs+x0B5ALCEi1t1qd6zEd8=;
+ b=Pb7YG1V/Bc6/e68fO44j042QeV5pS685k3SzEN9JMM8i5rIjB47b4i0OyCCLtjp+KQ
+ 6stzaFiwg+D7f0syW+O5RT/6ph5E6kxe5oQ6YZ6B+pwjiloLjto0rPT1L/tokSUIFc0f
+ Egy1oplXvb+OyFUm8BeXEVY6zOVyu7lisfzTbqsM62tOsfpChEKcVpWlx5s8bmEDzjIK
+ v2KBBuiGkwKCD7iStGTynAP0gNEHKNYppjTtEwZZmXuoj8VV3VDHJmVRCjc4OHiyvF0h
+ YStOIO2lIXx/KD+KC2xByHvbzaU/v9BAdMeiZJlONus4vXqUCMincrxX9bFd3u4cnozN
+ qzfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=AOzUAJyFNQB4L+phqsSsfzj9Z8OtZxOrajLi9NoXesk=;
- b=TQAxa6uESLq+LP4ktYNCInb6tN3wUcwKaLGvY7p3W0bjGQ5cLBn+Wdv8xHsHbjr8Ib
- 878GK53yOgjWnSBak5XXABir/ElgYNNQu9aIJbRBTwiPE3N9QYVVLKXDhRGAlQhF3vTh
- gagyoI/9ZXnp75bB4/zeazZSvdJXwfNvqLvnDF633rf94arocE7f42aV0J6FHfaMtVdt
- OfN6Kk/nkXqz1KILxEeEs5nTc8egk5GSU/LEI/QRSVLjewHatThOj0ZZdFkWBrj6VEm3
- BzsDRF5XNkSnJY50DWozweBcPut5oLEZo4fX4SYaJZTt6R/AcQwMZ84vZrx2GDTGy+Pe
- 0KbQ==
-X-Gm-Message-State: AOAM531699BHk1Uysz2KIbe3CZT9EXqVpSkSYm2ylrhGAJBK3TuJr9O3
- l4MKDU6T/2RYJ0YSGhwIv62SgAx+Tz72dw==
-X-Google-Smtp-Source: ABdhPJy5T/ARc5bVKkXU2KWFcWu4tQW877DdB0Q/siz4xIdOCz9KIrJW38ZyX5+X7C6hOw80U6KK7g==
-X-Received: by 2002:a63:1d02:: with SMTP id d2mr10615845pgd.206.1591378673552; 
- Fri, 05 Jun 2020 10:37:53 -0700 (PDT)
+ bh=bZmmE8g6bACENWl1LtFwmXs+x0B5ALCEi1t1qd6zEd8=;
+ b=M4ceFjfHudfbRR0smxknOxwgDzjbB7gb14ZX0Uiwxyn21sgDEpBRktS3ncdu58Sl8k
+ tLSHL07WAqe0hUNPPUS4Jo6Ji0EnmUTYKBhb3FglI2k7qQiaAIeby1gFqqxxQv7aoVYZ
+ kgk7wvWsTQT+MUqfU5D37RDvNt5TOd8LYNea7AEtMxwy3+7kU19d+lmYhZJ0OpZRpjPb
+ ChQJN/RkGBp+Z9ve/8LkZVHTEBOQgyVxcNFwG7VCv7Wjv61w1Xb8lralncGlh5UZIM+r
+ 7L6GYh1KzcCPtopMj8/GSHJGMhe6d08MTUltAW6QmGsSVGrSoHkMwLAJg9wRkOER3P03
+ ifpw==
+X-Gm-Message-State: AOAM5325dC5MZ7Bot228yOzjSRcIAS39twM63u6w+8updpIWst85cxzm
+ GAMA8GZ1WcD8F6M+F6MpJ25kdqWj1vpsgQ==
+X-Google-Smtp-Source: ABdhPJx+Y/7CJ4ddPxc2IR6/oSwFA7XEzN/7/4gUy3R5JBcAHa/psL3INyDWZd64Xr1hoqe2/jGIwg==
+X-Received: by 2002:a17:90a:8594:: with SMTP id
+ m20mr4199964pjn.38.1591378675749; 
+ Fri, 05 Jun 2020 10:37:55 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  (c-73-47-162-176.hsd1.ma.comcast.net. [73.47.162.176])
- by smtp.gmail.com with ESMTPSA id a19sm188307pfd.165.2020.06.05.10.37.51
+ by smtp.gmail.com with ESMTPSA id a19sm188307pfd.165.2020.06.05.10.37.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 10:37:52 -0700 (PDT)
+ Fri, 05 Jun 2020 10:37:55 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/13] include/qemu: Added tsan.h for annotations.
-Date: Fri,  5 Jun 2020 13:34:19 -0400
-Message-Id: <20200605173422.1490-11-robert.foley@linaro.org>
+Subject: [PATCH v2 11/13] util: Added tsan annotate for thread name.
+Date: Fri,  5 Jun 2020 13:34:20 -0400
+Message-Id: <20200605173422.1490-12-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200605173422.1490-1-robert.foley@linaro.org>
 References: <20200605173422.1490-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=robert.foley@linaro.org; helo=mail-pf1-x444.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=robert.foley@linaro.org; helo=mail-pj1-x1042.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,101 +84,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.puhov@linaro.org, cota@braap.org, alex.bennee@linaro.org,
- robert.foley@linaro.org
+ robert.foley@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These annotations will allow us to give tsan
-additional hints.  For example, we can inform
-tsan about reads/writes to ignore to silence certain
-classes of warnings.
-We can also annotate threads so that the proper thread
-naming shows up in tsan warning results.
+This allows us to see the name of the thread in tsan
+warning reports such as this:
+
+  Thread T7 'CPU 1/TCG' (tid=24317, running) created by main thread at:
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 Reviewed-by: Emilio G. Cota <cota@braap.org>
 ---
- include/qemu/tsan.h | 71 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
- create mode 100644 include/qemu/tsan.h
+ util/qemu-thread-posix.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/qemu/tsan.h b/include/qemu/tsan.h
-new file mode 100644
-index 0000000000..09cc665f91
---- /dev/null
-+++ b/include/qemu/tsan.h
-@@ -0,0 +1,71 @@
-+#ifndef QEMU_TSAN_H
-+#define QEMU_TSAN_H
-+/*
-+ * tsan.h
-+ *
-+ * This file defines macros used to give ThreadSanitizer
-+ * additional information to help suppress warnings.
-+ * This is necessary since TSan does not provide a header file
-+ * for these annotations.  The standard way to include these
-+ * is via the below macros.
-+ *
-+ * Annotation examples can be found here:
-+ *  https://github.com/llvm/llvm-project/tree/master/compiler-rt/test/tsan
-+ * annotate_happens_before.cpp or ignore_race.cpp are good places to start.
-+ *
-+ * The full set of annotations can be found here in tsan_interface_ann.cpp.
-+ *  https://github.com/llvm/llvm-project/blob/master/compiler-rt/lib/tsan/rtl/
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifdef CONFIG_TSAN
-+/*
-+ * Informs TSan of a happens before/after relationship.
-+ */
-+#define QEMU_TSAN_ANNOTATE_HAPPENS_BEFORE(addr) \
-+    AnnotateHappensBefore(__FILE__, __LINE__, (void *)(addr))
-+#define QEMU_TSAN_ANNOTATE_HAPPENS_AFTER(addr) \
-+    AnnotateHappensAfter(__FILE__, __LINE__, (void *)(addr))
-+/*
-+ * Gives TSan more information about thread names it can report the
-+ * name of the thread in the warning report.
-+ */
-+#define QEMU_TSAN_ANNOTATE_THREAD_NAME(name) \
-+    AnnotateThreadName(__FILE__, __LINE__, (void *)(name))
-+/*
-+ * Allows defining a region of code on which TSan will not record memory READS.
-+ * This has the effect of disabling race detection for this section of code.
-+ */
-+#define QEMU_TSAN_ANNOTATE_IGNORE_READS_BEGIN() \
-+    AnnotateIgnoreReadsBegin(__FILE__, __LINE__)
-+#define QEMU_TSAN_ANNOTATE_IGNORE_READS_END() \
-+    AnnotateIgnoreReadsEnd(__FILE__, __LINE__)
-+/*
-+ * Allows defining a region of code on which TSan will not record memory
-+ * WRITES.  This has the effect of disabling race detection for this
-+ * section of code.
-+ */
-+#define QEMU_TSAN_ANNOTATE_IGNORE_WRITES_BEGIN() \
-+    AnnotateIgnoreWritesBegin(__FILE__, __LINE__)
-+#define QEMU_TSAN_ANNOTATE_IGNORE_WRITES_END() \
-+    AnnotateIgnoreWritesEnd(__FILE__, __LINE__)
-+#else
-+#define QEMU_TSAN_ANNOTATE_HAPPENS_BEFORE(addr)
-+#define QEMU_TSAN_ANNOTATE_HAPPENS_AFTER(addr)
-+#define QEMU_TSAN_ANNOTATE_THREAD_NAME(name)
-+#define QEMU_TSAN_ANNOTATE_IGNORE_READS_BEGIN()
-+#define QEMU_TSAN_ANNOTATE_IGNORE_READS_END()
-+#define QEMU_TSAN_ANNOTATE_IGNORE_WRITES_BEGIN()
-+#define QEMU_TSAN_ANNOTATE_IGNORE_WRITES_END()
-+#endif
-+
-+void AnnotateHappensBefore(const char *f, int l, void *addr);
-+void AnnotateHappensAfter(const char *f, int l, void *addr);
-+void AnnotateThreadName(const char *f, int l, char *name);
-+void AnnotateIgnoreReadsBegin(const char *f, int l);
-+void AnnotateIgnoreReadsEnd(const char *f, int l);
-+void AnnotateIgnoreWritesBegin(const char *f, int l);
-+void AnnotateIgnoreWritesEnd(const char *f, int l);
-+#endif
+diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
+index 838980aaa5..b4c2359272 100644
+--- a/util/qemu-thread-posix.c
++++ b/util/qemu-thread-posix.c
+@@ -15,6 +15,7 @@
+ #include "qemu/atomic.h"
+ #include "qemu/notify.h"
+ #include "qemu-thread-common.h"
++#include "qemu/tsan.h"
+ 
+ static bool name_threads;
+ 
+@@ -513,6 +514,7 @@ static void *qemu_thread_start(void *args)
+ # endif
+     }
+ #endif
++    QEMU_TSAN_ANNOTATE_THREAD_NAME(qemu_thread_args->name);
+     g_free(qemu_thread_args->name);
+     g_free(qemu_thread_args);
+     pthread_cleanup_push(qemu_thread_atexit_notify, NULL);
 -- 
 2.17.1
 
