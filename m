@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52611EF254
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 09:45:04 +0200 (CEST)
-Received: from localhost ([::1]:41942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1201EF244
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 09:41:13 +0200 (CEST)
+Received: from localhost ([::1]:50750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh72F-0002Pj-Nk
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 03:45:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54742)
+	id 1jh6yW-0002ke-PE
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 03:41:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1jh6xg-00021q-Rh; Fri, 05 Jun 2020 03:40:20 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:36035)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1jh6xf-00051k-Us; Fri, 05 Jun 2020 03:40:20 -0400
-Received: by mail-pf1-x443.google.com with SMTP id x22so4540797pfn.3;
- Fri, 05 Jun 2020 00:40:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=vcP7RRzMN1n+TntOOlFnQ40+IETKMI/NwMkd44061Kg=;
- b=ViXZYsLnz3vv1YdBqkIPspHiLwlFIMzUDYIERzWz5+yT5jiSpGCzRaVvdM/VUIHYlt
- UsZ7KIERJkuiOV6uTsfPlNQpJCZC56S6XwW22HKw4dMC9BO5BPwPWDvrDe+hUaKpT0fY
- 7h6SOIzmDoVc3mUDxaiIxipkS/VHO3lx184gBCXyj0KOtDAVULAd9l2eZOdw52AOsq14
- zkmFwmVzqGgadXExMZxS/zHmbMVcDe1xy5arGkUUC0Zt6RVR95z0SDhDRCq08vLUvpak
- v8pMscoN7+s8nvSTZzq9jYlQIJDKx2TWJeVb0A9421d23jCJ/HWXgno98mrpSzFQ1NEZ
- Wq+g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh6xP-0001aX-0A
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 03:40:03 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35238
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jh6xN-0004uE-W6
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 03:40:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1591342801;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kzQ2XLsOyf4iMsxSVCnnDwKiGVUnP3zEcfX0ALZZdkA=;
+ b=ULJYZlGphXLfsnkQZbuzvIXVHmm5KNv1IbaumMN2k2UQTajnrgDPmGznYbLDcoeQOfWMO0
+ 1nRqLR+9ggD2hCB57G8AN0hFfHGXB35b3v+jFGCKIHjmSHQIkp4YmLT7v0R4HmSyHLR0fb
+ 61PpNatBmLgP6OG0nSp6aN85v0EXlCg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-298-GFcuZLRzOeKjmRIZ-aWu0Q-1; Fri, 05 Jun 2020 03:39:57 -0400
+X-MC-Unique: GFcuZLRzOeKjmRIZ-aWu0Q-1
+Received: by mail-wm1-f69.google.com with SMTP id p24so2697566wmc.1
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 00:39:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=vcP7RRzMN1n+TntOOlFnQ40+IETKMI/NwMkd44061Kg=;
- b=j76EDBVdLMiDx1so8PyZh8OjIw0keQUD1YgURAFARIQAguFkC+s/dBNBcDvzpLoIX8
- sYg6QHeiYF/agi3Rkm0on8aMH6Nk6WUO1Hsg0DprpUmOmW9vyg36Clka2IrGP3RB670W
- QEJJfqmB19OAi8X3hRU/ElmV/MLetKtmI2lU7lYwoB0a/ws3coHlThVSb9bYWFOQKEtC
- OMZCghcUij3lM5LlzyMQNb18vtfwYJT+gVpBTAPSAlm5jXQk4zb/Y0A+IcJKgdD46fWr
- c4C/2mHMIJW8b0tyvATzxLtz2la3MXXGJhR4GW5y/ozQ2dxgUm0NJwg8u4boYLLT4mjx
- 6M5g==
-X-Gm-Message-State: AOAM533g2BAZKqkN42dJbFpe5McOiFYwFcdks0GGKRyGtRCUVa47GZKq
- wHJXX8fEsiWKDS7BMoXDZto=
-X-Google-Smtp-Source: ABdhPJz/FfJpk1E2vUlSosZ9t5mAOgxTheO9f4JM/7wugRBE0WAbrOYZbs7dWIS6+8AvWsBma98Cwg==
-X-Received: by 2002:a63:7052:: with SMTP id a18mr8223415pgn.39.1591342818312; 
- Fri, 05 Jun 2020 00:40:18 -0700 (PDT)
-Received: from localhost.localdomain (unknown-224-80.windriver.com.
- [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id y23sm7446619pje.3.2020.06.05.00.40.17
- (version=TLS1 cipher=AES128-SHA bits=128/128);
- Fri, 05 Jun 2020 00:40:17 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH 4/4] riscv: Keep the CPU init routine names consistent
-Date: Fri,  5 Jun 2020 00:38:27 -0700
-Message-Id: <1591342707-9729-4-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <1591342707-9729-1-git-send-email-bmeng.cn@gmail.com>
-References: <1591342707-9729-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kzQ2XLsOyf4iMsxSVCnnDwKiGVUnP3zEcfX0ALZZdkA=;
+ b=MYX+7J1ZAoUIG58YzjUaS+0YcZpwzgI9TU3UTuhKAizffG+JlQlM/2NKgleGlu9fS/
+ BGWl2B2x4kAhso57G/u7uC8nBGpFfydTM0GExP5Al/8iOCSsAbLWN56PFo8+P6nhYD/r
+ Hs3Lm9aIK03xwxN5MUZseQVHMT+1SsamuZHQ/dzpy6yuxfKlsUz5UAitbeG+UJgMMwug
+ sGetj7A2AcHU658GX+5DtLU+/XCsRv3fI9MAS3Zowq1UJpq72/UPNZZ/7QSCE3v1N8y+
+ /cJB2oUk7F9kZHWa3EeliXefVNJzGvy4smUkAlaFxkmht19juts+4XdSJhXS5FacT0p6
+ /Nzg==
+X-Gm-Message-State: AOAM533zpF+cs7xBOekqNLc0njRKgicN5LYFWd6WiF/k2m0jfWaCJVwN
+ ACHL5ooqh8Pei5i9WutT2jnKTyA0a3Ka2lYKCiFYEPl0pj5p0T2dizVmiBGz9OKrAfvdk4kxXrs
+ jZYn44TNxPsnpIpE=
+X-Received: by 2002:a5d:6cc1:: with SMTP id c1mr8561593wrc.144.1591342796063; 
+ Fri, 05 Jun 2020 00:39:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGjWxNcaK2hn+IikrKebUYVEzflltIdgOdzBeF+BgTfVZv1mjf+Et+h25VD/8r2HzUD3+7pQ==
+X-Received: by 2002:a5d:6cc1:: with SMTP id c1mr8561577wrc.144.1591342795828; 
+ Fri, 05 Jun 2020 00:39:55 -0700 (PDT)
+Received: from localhost.localdomain
+ (181.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.181])
+ by smtp.gmail.com with ESMTPSA id o20sm11512822wra.29.2020.06.05.00.39.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Jun 2020 00:39:55 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/11] accel: Allow targets to use Kconfig
+Date: Fri,  5 Jun 2020 09:39:42 +0200
+Message-Id: <20200605073953.19268-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:35:49
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,55 +92,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+Missing review:
+- 4/11 rules.mak: Add strequal() and startwith() and rules
+- 5/11 rules.mak: Add base-arch() rule
 
-Adding a _ to keep some consistency among the CPU init routines.
+This series include generic patches I took of the KVM/ARM
+specific series which will follow.
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
----
+- List orphan accelerators in MAINTAINERS
+- Add accel/Kconfig
+- Allow targets to use their how Kconfig
 
- target/riscv/cpu.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Since v4:
+- Addressed rth review comments in rules.mak
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index c5c2abc..5060534 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -153,7 +153,7 @@ static void rvnn_imacu_nommu_cpu_init(Object *obj)
- 
- #if defined(TARGET_RISCV32)
- 
--static void rv32imcu_nommu_cpu_init(Object *obj)
-+static void rv32_imcu_nommu_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-     set_misa(env, RV32 | RVI | RVM | RVC | RVU);
-@@ -162,7 +162,7 @@ static void rv32imcu_nommu_cpu_init(Object *obj)
-     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
- }
- 
--static void rv32imafcu_nommu_cpu_init(Object *obj)
-+static void rv32_imafcu_nommu_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-     set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVC | RVU);
-@@ -575,9 +575,9 @@ static const TypeInfo riscv_cpu_type_infos[] = {
-     DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
- #if defined(TARGET_RISCV32)
-     DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           riscv_base_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32imcu_nommu_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_imcu_nommu_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rvnn_imacu_nommu_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32imafcu_nommu_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rvnn_gcsu_priv1_10_0_cpu_init),
- #elif defined(TARGET_RISCV64)
-     DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base_cpu_init),
+Since v3:
+- Fixed base-arch() rule (rth)
+- Dropped 'semihosting: Make the feature depend of TCG'
+
+Since v2:
+- Addressed Thomas review comments
+- Fixed problem when including TARGET instead of BASE_TARGET
+
+Since v1:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg689024.html
+- Drop HVF MAINTAINERS patch (merged elsewhere)
+- Kconfig-select SEMIHOSTING (bonzini)
+- Drop user-mode selection patches
+- consider m68k/nios2/xtensa/riscv (pm215)
+- reword Kconfig SEMIHOSTING description (pm215)
+- reset some of rth R-b tags
+
+Previous RFC for semihosting posted earlier:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg631218.html
+
+Philippe Mathieu-Daudé (11):
+  MAINTAINERS: Fix KVM path expansion glob
+  MAINTAINERS: Add an 'overall' entry for accelerators
+  MAINTAINERS: Add an entry for the HAX accelerator
+  rules.mak: Add strequal() and startwith() and rules
+  rules.mak: Add base-arch() rule
+  Makefile: Remove dangerous EOL trailing backslash
+  Makefile: Write MINIKCONF variables as one entry per line
+  accel/Kconfig: Extract accel selectors into their own config
+  accel/Kconfig: Add the TCG selector
+  Makefile: Allow target-specific optional Kconfig
+  accel/tcg: Add stub for probe_access()
+
+ Makefile               | 15 +++++++++----
+ rules.mak              | 49 ++++++++++++++++++++++++++++++++++++++++++
+ accel/stubs/tcg-stub.c |  7 ++++++
+ Kconfig.host           |  7 ------
+ MAINTAINERS            | 19 +++++++++++++++-
+ accel/Kconfig          |  9 ++++++++
+ 6 files changed, 94 insertions(+), 12 deletions(-)
+ create mode 100644 accel/Kconfig
+
 -- 
-2.7.4
+2.21.3
 
 
