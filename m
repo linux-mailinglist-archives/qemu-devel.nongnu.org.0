@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C4F1EF623
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:07:49 +0200 (CEST)
-Received: from localhost ([::1]:39464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D951EF65D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 13:22:21 +0200 (CEST)
+Received: from localhost ([::1]:49678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhACR-00021A-UB
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:07:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49750)
+	id 1jhAQW-00081Y-I3
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 07:22:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jhABf-0001af-Db
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:06:59 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25018
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jhABd-0006QY-3q
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:06:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1591355215;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+HLwGjWqXmCLKNRFlPca9CAtZJUhEXkPLhyOM7u6h80=;
- b=MH20xbtKRKuBZcQVA/ha304uNGNipww2EZ0fR27yL3OYo733w0+RjIQx+SOwh4QiMgBTrC
- 0tWWDJGH8IQf+X9kKzJ38Q2aN41gGGD8/iF8Lwyc74umIOFrTV2wSJ5taVh3ZF4cKc0AL3
- ezVCFP0m9PzjBssm2dPx+DCkb0mPFbc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-100kFChUPuOMJfiIvyCR3Q-1; Fri, 05 Jun 2020 07:06:47 -0400
-X-MC-Unique: 100kFChUPuOMJfiIvyCR3Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 558D91883600;
- Fri,  5 Jun 2020 11:06:46 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 16BA875294;
- Fri,  5 Jun 2020 11:06:44 +0000 (UTC)
-Date: Fri, 5 Jun 2020 12:06:41 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PULL 3/5] crypto/linux_keyring: add 'secret_keyring' secret
- object.
-Message-ID: <20200605110641.GC3289519@redhat.com>
-References: <20200529103555.2759928-1-berrange@redhat.com>
- <20200529103555.2759928-4-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jhAP2-0006jT-Mz
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:20:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38346)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jhAP1-0000o2-LP
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 07:20:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jhAOz-0004eY-QL
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 11:20:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C627D2E80AD
+ for <qemu-devel@nongnu.org>; Fri,  5 Jun 2020 11:20:45 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200529103555.2759928-4-berrange@redhat.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 03:27:26
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 05 Jun 2020 11:12:20 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1880822@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=philmd@redhat.com; 
+X-Launchpad-Bug-Tags: cve qemu security
+X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: philmd pjps
+X-Launchpad-Bug-Reporter: P J P (pjps)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <159056340380.1780.3709038768569765525.malonedeb@chaenomeles.canonical.com>
+Message-Id: <159135554053.31735.8715161407829388738.malone@gac.canonical.com>
+Subject: [Bug 1880822] Re: CVE-2020-13253 QEMU: sd: OOB access could crash the
+ guest resulting in DoS
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 4cb366a69ed11f550c20f25a1731d859466d0cb7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 04:10:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,136 +76,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Alexey Krasikov <alex-krasikov@yandex-team.ru>
+Reply-To: Bug 1880822 <1880822@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 29, 2020 at 11:35:53AM +0100, Daniel P. Berrangé wrote:
-> From: Alexey Krasikov <alex-krasikov@yandex-team.ru>
-> 
-> Add the ability for the secret object to obtain secret data from the
-> Linux in-kernel key managment and retention facility, as an extra option
-> to the existing ones: reading from a file or passing directly as a
-> string.
-> 
-> The secret is identified by the key serial number. The upper layers
-> need to instantiate the key and make sure the QEMU process has access
-> permissions to read it.
-> 
-> Signed-off-by: Alexey Krasikov <alex-krasikov@yandex-team.ru>
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  configure                       |  38 ++++++++
->  crypto/Makefile.objs            |   1 +
->  crypto/secret_keyring.c         | 148 ++++++++++++++++++++++++++++++++
->  include/crypto/secret_keyring.h |  52 +++++++++++
->  4 files changed, 239 insertions(+)
->  create mode 100644 crypto/secret_keyring.c
->  create mode 100644 include/crypto/secret_keyring.h
-> 
-> diff --git a/configure b/configure
-> index 2ffe365e2c..d95ff4e0b3 100755
-> --- a/configure
-> +++ b/configure
-> @@ -510,6 +510,7 @@ default_devices="yes"
->  plugins="no"
->  fuzzing="no"
->  rng_none="no"
-> +secret_keyring="yes"
->  
->  supported_cpu="no"
->  supported_os="no"
-> @@ -1606,6 +1607,10 @@ for opt do
->    ;;
->    --disable-rng-none) rng_none=no
->    ;;
-> +  --enable-keyring) secret_keyring="yes"
-> +  ;;
-> +  --disable-keyring) secret_keyring="no"
-> +  ;;
->    *)
->        echo "ERROR: unknown option $opt"
->        echo "Try '$0 --help' for more information"
-> @@ -6272,6 +6277,34 @@ case "$slirp" in
->      ;;
->  esac
->  
-> +##########################################
-> +# check for usable __NR_keyctl syscall
-> +
-> +if test "$linux" = "yes" ; then
-> +
-> +    have_keyring=no
-> +    cat > $TMPC << EOF
-> +#include <errno.h>
-> +#include <asm/unistd.h>
-> +#include <linux/keyctl.h>
-> +#include <unistd.h>
-> +int main(void) {
-> +    return syscall(__NR_keyctl, KEYCTL_READ, 0, NULL, NULL, 0);
-> +}
-> +EOF
-> +    if compile_prog "" "" ; then
-> +        have_keyring=yes
-> +    fi
-> +fi
-> +if test "$secret_keyring" = "yes"
-> +then
-> +    if test "$have_keyring" != "yes"
-> +    then
-> +    error_exit "syscall __NR_keyctl requested, \
-> +but not implemented on your system"
-> +    fi
-> +fi
+v3:
+https://lists.gnu.org/archive/html/qemu-devel/2020-06/msg01316.html
 
-This logic doesn't correctly disable keyring on Non-Linux native
-builds by default. eg mingw as reported by patchew
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Philippe Mathieu-Daud=C3=A9 (philmd)
 
-I'm going to repost with the following squashed in
+** Changed in: qemu
+       Status: Confirmed =3D> In Progress
 
-diff --git a/configure b/configure
-index f2ff722f7e..f17c2fd72e 100755
---- a/configure
-+++ b/configure
-@@ -510,7 +510,7 @@ default_devices="yes"
- plugins="no"
- fuzzing="no"
- rng_none="no"
--secret_keyring="yes"
-+secret_keyring=""
- 
- supported_cpu="no"
- supported_os="no"
-@@ -6296,12 +6296,19 @@ EOF
-         have_keyring=yes
-     fi
- fi
--if test "$secret_keyring" = "yes"
-+if test "$secret_keyring" != "no"
- then
--    if test "$have_keyring" != "yes"
-+    if test "$have_keyring" == "yes"
-     then
--    error_exit "syscall __NR_keyctl requested, \
-+       secret_keyring=yes
-+    else
-+       if test "$secret_keyring" = "yes"
-+       then
-+           error_exit "syscall __NR_keyctl requested, \
- but not implemented on your system"
-+       else
-+           secret_keyring=no
-+       fi
-     fi
- fi
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1880822
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Title:
+  CVE-2020-13253 QEMU: sd: OOB access could crash the guest resulting in
+  DoS
 
+Status in QEMU:
+  In Progress
+
+Bug description:
+  An out-of-bounds read access issue was found in the SD Memory Card
+  emulator of the QEMU. It occurs while performing block write commands
+  via sdhci_write(), if a guest user has sent 'address' which is OOB of
+  's->wp_groups'. A guest user/process may use this flaw to crash the
+  QEMU process resulting in DoS.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1880822/+subscriptions
 
