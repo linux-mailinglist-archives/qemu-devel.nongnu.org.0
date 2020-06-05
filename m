@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FCB41EF06A
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 06:25:03 +0200 (CEST)
-Received: from localhost ([::1]:39814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 849421EF088
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 06:26:11 +0200 (CEST)
+Received: from localhost ([::1]:45406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh3ug-00010Z-Gj
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 00:25:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39586)
+	id 1jh3vl-0003Rl-7S
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 00:26:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jh3nn-0004lI-Gz
+ id 1jh3no-0004m7-JY
  for qemu-devel@nongnu.org; Fri, 05 Jun 2020 00:17:56 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:46563)
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:40559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jh3nm-0000mJ-P1
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 00:17:55 -0400
-Received: by mail-pf1-x443.google.com with SMTP id b16so4295086pfi.13
- for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 21:17:54 -0700 (PDT)
+ id 1jh3nn-0000mc-Ug
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 00:17:56 -0400
+Received: by mail-pf1-x444.google.com with SMTP id s23so2989729pfh.7
+ for <qemu-devel@nongnu.org>; Thu, 04 Jun 2020 21:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=025+D4aoylrwlotsdqqyp7BRSM6nAeDFcADkgg9A3QU=;
- b=yrmPfvKuRo6BzO7M2VRSldilbgVlDVJW2mbTb2+GXbbfhfFQoAOzCcnnmzH0n7yAOW
- Zz+cnubYo3iDBzL23iRDah3EXvsFir0VrQ5lx1TFTsmDxW2ASaGYvUWmBpRc7gqqFQST
- zApQDW2GbFDJRQmT3I+vWP3ANWVKxQh1ChLkVHAwPvGr9jC4JTbYoaIJl1hrZ3cjCA+R
- MbZh7mGPvwM260Yvyoujzp0IsyZ26FxVHyx26R7RyVmdyamE7zqVilLa71KGphCdBzZT
- C+/+80CxBindWcfGxebbTINgLZ8dqdz/wy+0k3aRnkkHiPEu4/PY31vA93YAOJGl/1XS
- meRg==
+ bh=CDahIOixg8N2JHR7Ek8lGA826Cs5BmS4mXRyzAL5jqQ=;
+ b=Qzvmb+yr6V0rS9fXM7NM1NdR+u0oIf5AZbDsKcxKqGQtlvVdnkS9tfGiwMCoyvdY99
+ taQ9wK2VfVc1+0Rk8wy0eTrK/oS6pizdvQbgLvTwL0WVP80PL8OlRNKC0aKpUnhaQIEy
+ l1cTfvDQNbYGDLvEJfZcF1QdS7F0TwfffRpcBgHyAsY0PNLL5BP+pTJ2riG+3ygitnFq
+ 0NdYGj5hMpO+ktUHAu4R+on5nL5fxaqlHHSQuI0CNMEHG3kRuPYldQwhpI6HOPFh8jYM
+ 4fDyq3sD9eLNW/zmHR4pjAbw1ut+j5vVYgDaynY3J12HBNOAM7U2jZGvUq+eQuHgGNkJ
+ IdYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=025+D4aoylrwlotsdqqyp7BRSM6nAeDFcADkgg9A3QU=;
- b=MMZnuruYwPBKF9uzbgjXd9vmHW9S8QTq1u4mPwaCh3xiIWX1Yqo/RmE99NE5Xx5Jrj
- d7PXC2Qk4AOvqGTysYfxOBY8ELygUus7K7FREaS674GAhhudOaJzkAEDmUShon8vuROO
- ZOD2O65e5FeapyX4R3qyzoVngL1YSnBRw4MngHwsp9ftGTfcZTU280lCwZeEJ399ivOm
- zxjVPR/37murvl0Lsr59LCHKjqQP76uHtYEXhF3BjQKQ+Z8ULeIlxvkxSTolCvFyOab6
- 0KCE1a0qNjZVOblFQ2eHrOqQRqMvctjeynX1JdJGN5DWBZTuZRanniGMmUKFJqoBj1A+
- 9nig==
-X-Gm-Message-State: AOAM531EYNWIIrRGEktyPb+Ca6LRmq66ojw25mEQmjbnRLKFO7rWPeie
- cH0eSPTFWUDgoP7ZTUs9KXL2EoK+C5s=
-X-Google-Smtp-Source: ABdhPJzQFJX5FVFVnGJvPLAH7/XunNJ0vh/wHsOHkegTGR9wLp/FbFRsilSZwIbC6OF49ASvns47Ww==
-X-Received: by 2002:a62:c185:: with SMTP id i127mr8023028pfg.132.1591330673199; 
- Thu, 04 Jun 2020 21:17:53 -0700 (PDT)
+ bh=CDahIOixg8N2JHR7Ek8lGA826Cs5BmS4mXRyzAL5jqQ=;
+ b=ZbiTMrnhJTryCbkIdd6udFJwRD1KPi/hIU34/Y8r5Em0IGYm37eJ9dOUBdZJ22R5Ie
+ 9+smtdjudBQqiJhd5Gu5shgvJ1XnQBcMIjRqjdk6tgtzgbM1bezddauCwXbGf1AuXCPS
+ CN/lXhZ2PrPRC2e2lAeDlL/i0PZB8mzX8OpvYXoOAcCegPmgRRyFkhOVFgIZ6rVK8zKM
+ iofRQyTrc7km2AeQxvuuxgSWMZuy56HZnDKLW9x+vXc1ZQymEd5H4AUX2cClq/Gx0GFu
+ kVx2pxYZSZ82NaW2sKQNxVWzygJQQjAVX2SNYORwrrGuGTUUVYavFOQJi7fjfAhNQvuv
+ 7giA==
+X-Gm-Message-State: AOAM533CmVbplumLdFXSPVGF8IFfpm7Byr3cSvJkNJiAhy8gDq3u9tN4
+ Yt6OUXBdo46sjxXy/SmRV4l3m9h3n5E=
+X-Google-Smtp-Source: ABdhPJx6IdCj2qX9lo7rozUN//LYEpX56q5biPL0Wjk/budDyzjIV/0Oop+UeQ4N6RSEWJQYlWpHPQ==
+X-Received: by 2002:aa7:84cc:: with SMTP id x12mr7437645pfn.235.1591330674397; 
+ Thu, 04 Jun 2020 21:17:54 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id h15sm5440902pgl.12.2020.06.04.21.17.51
+ by smtp.gmail.com with ESMTPSA id h15sm5440902pgl.12.2020.06.04.21.17.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Jun 2020 21:17:52 -0700 (PDT)
+ Thu, 04 Jun 2020 21:17:53 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/17] linux-user/aarch64: Signal SEGV_MTEAERR for async
- tag check error
-Date: Thu,  4 Jun 2020 21:17:30 -0700
-Message-Id: <20200605041733.415188-15-richard.henderson@linaro.org>
+Subject: [PATCH v2 15/17] target/arm: Add allocation tag storage for user mode
+Date: Thu,  4 Jun 2020 21:17:31 -0700
+Message-Id: <20200605041733.415188-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200605041733.415188-1-richard.henderson@linaro.org>
 References: <20200605041733.415188-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,105 +89,54 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Use the now-saved PAGE_ANON and PAGE_TARGET_2 bits,
+and the per-page saved data.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/aarch64/target_signal.h |  1 +
- linux-user/aarch64/cpu_loop.c      | 34 +++++++++++++++++++++---------
- target/arm/mte_helper.c            | 10 +++++++++
- 3 files changed, 35 insertions(+), 10 deletions(-)
+ target/arm/mte_helper.c | 29 +++++++++++++++++++++++++++--
+ 1 file changed, 27 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/aarch64/target_signal.h b/linux-user/aarch64/target_signal.h
-index 777fb667fe..18013e1b23 100644
---- a/linux-user/aarch64/target_signal.h
-+++ b/linux-user/aarch64/target_signal.h
-@@ -21,6 +21,7 @@ typedef struct target_sigaltstack {
- 
- #include "../generic/signal.h"
- 
-+#define TARGET_SEGV_MTEAERR  8  /* Asynchronous ARM MTE error */
- #define TARGET_SEGV_MTESERR  9  /* Synchronous ARM MTE exception */
- 
- #define TARGET_ARCH_HAS_SETUP_FRAME
-diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
-index 41a68a57bc..1b2f2b4239 100644
---- a/linux-user/aarch64/cpu_loop.c
-+++ b/linux-user/aarch64/cpu_loop.c
-@@ -71,6 +71,21 @@
-         put_user_u16(__x, (gaddr));                     \
-     })
- 
-+static bool check_mte_async_fault(CPUARMState *env, target_siginfo_t *info)
-+{
-+    if (likely(env->cp15.tfsr_el[0] == 0)) {
-+        return false;
-+    }
-+
-+    env->cp15.tfsr_el[0] = 0;
-+    info->si_signo = TARGET_SIGSEGV;
-+    info->si_errno = 0;
-+    info->_sifields._sigfault._addr = 0;
-+    info->si_code = TARGET_SEGV_MTEAERR;
-+    queue_signal(env, info->si_signo, QEMU_SI_FAULT, info);
-+    return true;
-+}
-+
- /* AArch64 main loop */
- void cpu_loop(CPUARMState *env)
- {
-@@ -87,15 +102,13 @@ void cpu_loop(CPUARMState *env)
- 
-         switch (trapnr) {
-         case EXCP_SWI:
--            ret = do_syscall(env,
--                             env->xregs[8],
--                             env->xregs[0],
--                             env->xregs[1],
--                             env->xregs[2],
--                             env->xregs[3],
--                             env->xregs[4],
--                             env->xregs[5],
--                             0, 0);
-+            if (check_mte_async_fault(env, &info)) {
-+                ret = -TARGET_ERESTARTSYS;
-+            } else {
-+                ret = do_syscall(env, env->xregs[8], env->xregs[0],
-+                                 env->xregs[1], env->xregs[2], env->xregs[3],
-+                                 env->xregs[4], env->xregs[5], 0, 0);
-+            }
-             if (ret == -TARGET_ERESTARTSYS) {
-                 env->pc -= 4;
-             } else if (ret != -TARGET_QEMU_ESIGRETURN) {
-@@ -103,7 +116,8 @@ void cpu_loop(CPUARMState *env)
-             }
-             break;
-         case EXCP_INTERRUPT:
--            /* just indicate that signals should be handled asap */
-+            /* Just indicate that signals should be handled asap. */
-+            check_mte_async_fault(env, &info);
-             break;
-         case EXCP_UDEF:
-             info.si_signo = TARGET_SIGILL;
 diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index b15fa665df..835b6d1ded 100644
+index 835b6d1ded..0911cebd36 100644
 --- a/target/arm/mte_helper.c
 +++ b/target/arm/mte_helper.c
-@@ -542,6 +542,16 @@ static void mte_check_fail(CPUARMState *env, int mmu_idx,
-             select = 0;
-         }
-         env->cp15.tfsr_el[el] |= 1 << select;
-+#ifdef CONFIG_USER_ONLY
-+        /*
-+         * Stand in for a timer irq, setting _TIF_MTE_ASYNC_FAULT,
-+         * which then sends a SIGSEGV when the thread is next scheduled.
-+         * This cpu will return to the main loop at the end of the TB,
-+         * which is rather sooner than "normal".  But the alternative
-+         * is waiting until the next syscall.
-+         */
-+        qemu_cpu_kick(env_cpu(env));
-+#endif
-         break;
- 
-     default:
+@@ -76,8 +76,33 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
+                                    int tag_size, uintptr_t ra)
+ {
+ #ifdef CONFIG_USER_ONLY
+-    /* Tag storage not implemented.  */
+-    return NULL;
++    uint64_t clean_ptr = useronly_clean_ptr(ptr);
++    int flags = page_get_flags(clean_ptr);
++    uint8_t *tags;
++    uintptr_t index;
++
++    if (!(flags & (ptr_access == MMU_DATA_STORE ? PAGE_WRITE : PAGE_READ))) {
++        /* SIGSEGV */
++        arm_cpu_tlb_fill(env_cpu(env), ptr, ptr_size, ptr_access,
++                         ptr_mmu_idx, false, ra);
++        g_assert_not_reached();
++    }
++
++    /* Require both MAP_ANON and PROT_MTE for the page. */
++    if (!(flags & PAGE_ANON) || !(flags & PAGE_TARGET_2)) {
++        return NULL;
++    }
++
++    tags = page_get_target_data(clean_ptr);
++    if (tags == NULL) {
++        size_t alloc_size = TARGET_PAGE_SIZE >> (LOG2_TAG_GRANULE + 1);
++        tags = page_alloc_target_data(clean_ptr, alloc_size);
++        assert(tags != NULL);
++    }
++
++    index = extract32(ptr, LOG2_TAG_GRANULE + 1,
++                      TARGET_PAGE_BITS - LOG2_TAG_GRANULE - 1);
++    return tags + index;
+ #else
+     uintptr_t index;
+     CPUIOTLBEntry *iotlbentry;
 -- 
 2.25.1
 
