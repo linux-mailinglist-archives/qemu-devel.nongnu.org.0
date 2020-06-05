@@ -2,108 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A04F1EF55C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 12:30:45 +0200 (CEST)
-Received: from localhost ([::1]:57614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 497D61EF573
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 12:34:05 +0200 (CEST)
+Received: from localhost ([::1]:34244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh9cZ-0007zX-Tm
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 06:30:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44976)
+	id 1jh9fo-0001tm-B0
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 06:34:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jh9VV-0004ND-5E; Fri, 05 Jun 2020 06:23:25 -0400
-Received: from mail-eopbgr50107.outbound.protection.outlook.com
- ([40.107.5.107]:2162 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jh9VR-0006Y5-W4; Fri, 05 Jun 2020 06:23:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nHAXoiCX+je+EBJr3udTvwrME7B42pCsWgD5oGBf1TiIrxq8dzKPmrm7a30dHESkEGc80nWTjtFqGDI4Q9El2doUw3eNMNIZCwQXa91UaliHMVFHQwqo8VeGIM0lyb+yHZzTVmhzDaXEZ0qInr2fjnLlw4789cbevH+ZzvKPrZ0CwnEa171IZ4FYQ/lvmnAbKqPMHKUgT3Ta1lltLTSSKOF3KCdyXD+umaH4jwrTpk9jk0BES3XaA13DqqycQbIU10yNP/QqPdxlWU3nD1HEluyYAMkiXJU0eyXMlAMvoHHkaa0A+bCy25K826cRD1HOO9jBo4syZJagYNPGzdpgug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZDaXT4ODm2eOiH6dnni6GLRV8w7NOH0CNTm4n9yj04s=;
- b=UwhEXgyOGLIhiHweRDXy9ydRCmE14G4OgPJdNGRND0jLJ5SoElQGv2l9oSfx/MnucRpMr/SGBvUZJnmQS6uCrsI+QO04/XilhAYEHtAjLFHuV+P7Ct5ijNEG1UfpKuOwD1FhZAjjhE4NbclI0Q+t8kgPosWVaq5MTRp/5S/Ycgr38i197XY/7M+knUS3w6IRxle3d71k7mOl8hwbLnym3r8lVdGgsc8U403Qg6/ppudMHtG2Mi+v+jIVKpo4DuRstEPaYhMCYyPlx9YDTCvoLbgRpHnAvf88Zt5P4QT1J9CRKLkXUZc+fNOHB8mEoT5T91LfCfuxpbAzBoHhY+KxRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZDaXT4ODm2eOiH6dnni6GLRV8w7NOH0CNTm4n9yj04s=;
- b=nqFRuoKtkxDhUh4jnNcPkKGf90bLbE8ACWtv6S303DbOA6ICbFoddCy4S0hs1uACiynp9dPYuQEW6K74fYxWHyEveS4TfG/F6M7nhUvgzke5PKFJJKSxHJE85S4VfUqnuEcsoxsPWPPSsY2Atb2tEXkUOjA2sadKIBHHn89Wn1I=
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com (2603:10a6:20b:a3::25)
- by AM6PR08MB4898.eurprd08.prod.outlook.com (2603:10a6:20b:cd::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Fri, 5 Jun
- 2020 10:23:17 +0000
-Received: from AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::2122:8358:546a:adae]) by AM6PR08MB4070.eurprd08.prod.outlook.com
- ([fe80::2122:8358:546a:adae%3]) with mapi id 15.20.3066.022; Fri, 5 Jun 2020
- 10:23:17 +0000
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Subject: Re: [PATCH v4 01/12] qcow2.py: python style fixes
-Thread-Topic: [PATCH v4 01/12] qcow2.py: python style fixes
-Thread-Index: AQHWOpdtGVePcrUOpU6Bf+AJz84ie6jJ0Tam
-Date: Fri, 5 Jun 2020 10:23:17 +0000
-Message-ID: <AM6PR08MB4070E4169E7B3F27C24FF6EDF4860@AM6PR08MB4070.eurprd08.prod.outlook.com>
-References: <20200604174135.11042-1-vsementsov@virtuozzo.com>,
- <20200604174135.11042-2-vsementsov@virtuozzo.com>
-In-Reply-To: <20200604174135.11042-2-vsementsov@virtuozzo.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-x-originating-ip: [109.252.114.191]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ebccbf50-cf34-47c1-270c-08d8093a769d
-x-ms-traffictypediagnostic: AM6PR08MB4898:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM6PR08MB48985ED35D0ECB71FC77A2AAF4860@AM6PR08MB4898.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3276;
-x-forefront-prvs: 0425A67DEF
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 1OhYQgs38jpc0al0OQ8uMFKywyAJ1M5W7/rn+dn1zS+ZDYi2OVJ8j9mAKNq43IsGl2GOKBjUqdw7rbTGwfQzJPXiy+1rLkFDYkzrcP/Tuyy+a7RToTo9H0ynyTfgQFRX4PglZfUFBlKMp84q61H9DZHu/feQUJ82rMInk7Yo7A5x4ExamTybPTbiLoIY1Y7KYF/07Sz0nxQUuftQTbcLL1VC3RItomGFQv+apcoSUm8FLe8k7xShgtG0OtyEQaBoAByQR1vSy2klOxjGZgknOIcUsYKbrZ3hVRAONkneHLjuXGusystm2uEa5XfZ2eKSlzqs6B1KgIUSgQ8VXc17lw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4070.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(39840400004)(366004)(396003)(346002)(136003)(66556008)(9686003)(7696005)(107886003)(6506007)(4326008)(5660300002)(26005)(186003)(53546011)(71200400001)(55016002)(316002)(33656002)(66446008)(44832011)(76116006)(54906003)(91956017)(66946007)(52536014)(64756008)(8936002)(478600001)(86362001)(83380400001)(2906002)(66476007)(8676002)(110136005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: wUyi80N0/OFg5HkF/K+dU+jjhQSk6ESAltFG8y1HZC++snwdW5CLeOnqS6VlZcJmivnahujmlAifJy1aG++t8HNQCunk8THEb/lhjTGXeOfvatZkaJB4diGktJI3Ie/N07SmRx1s3ollxchOB0Ct5zCRiEutk7UZCfX5Vp2h/AomHd20wjBhvAXBdJMsEjfrql5fCTA2+SAO105dHfRSIr/plzOXItJ3nmOBi2Y1xtYPYe2SRXVE79dWm6hf1QYsEdlvyKd8LRQacQxyoo8z8J95m0bUvOMLLaVzQNJrFgFykhu+IPxY7YyTVowpW+tlcx+S1E3uyIFbO9g9Utez5t7wgk3LreaTw2rrTPXBYOrp7JYXhqUp9+xH4UUFPucgNn3FllC9VrRjnodsBNM8nYx3DrRlkpMBcF5FIOTx4pFkjqq2dhgJOdgSlJYVStqP6OCpBhwXVc8JocVl+TLs+8Ga8I3s/d1aFIfrW3oFE7sCRSMWi3my5JXtB4QFz9dQ
-Content-Type: multipart/alternative;
- boundary="_000_AM6PR08MB4070E4169E7B3F27C24FF6EDF4860AM6PR08MB4070eurp_"
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jh9cf-0008VZ-H8
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:30:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59006)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jh9cd-00087K-T5
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 06:30:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jh9cc-0007Eq-0V
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 10:30:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 01FDD2E80E7
+ for <qemu-devel@nongnu.org>; Fri,  5 Jun 2020 10:30:46 +0000 (UTC)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ebccbf50-cf34-47c1-270c-08d8093a769d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2020 10:23:17.4839 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CBdc+QpEVJ23Pef3Q9deDJzfKJh92AoxVUpkZZTEtcPgHQKYShvfYTgQIwgQMp9zcn8DD0JTRxd1qAMaqdVf0DCk3wpDaPJMNivkW+V/fjo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4898
-Received-SPF: pass client-ip=40.107.5.107;
- envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 06:23:18
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 05 Jun 2020 10:24:59 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <1880225@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: arm testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee aleksandar-markovic
+X-Launchpad-Bug-Reporter: Aleksandar Markovic (aleksandar-markovic)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <159017301531.7966.9120113243897778171.malonedeb@gac.canonical.com>
+ <87tuzp4zhx.fsf@linaro.org>
+Message-Id: <87k10l4xok.fsf@linaro.org>
+Subject: [Bug 1880225] Re: [PATCH v1 2/3] linux-user: deal with address wrap
+ for ARM_COMMPAGE on 32 bit
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: bed74dea52b3f87d6acfe9e57561dacb841c7296
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 04:10:55
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -112,90 +76,246 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Reply-To: Bug 1880225 <1880225@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_AM6PR08MB4070E4169E7B3F27C24FF6EDF4860AM6PR08MB4070eurp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> Richard Henderson <richard.henderson@linaro.org> writes:
+>
+>> On 5/27/20 3:05 AM, Alex Benn=C3=A9e wrote:
+>>> @@ -2145,7 +2145,7 @@ static uintptr_t pgd_find_hole_fallback(uintptr_t=
+ guest_size, uintptr_t brk, lon
+>>>  =
 
-________________________________
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Sent: Thursday, June 4, 2020 8:41 PM
-To: qemu-block@nongnu.org <qemu-block@nongnu.org>
-Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>; mreitz@redhat.com <mreit=
-z@redhat.com>; kwolf@redhat.com <kwolf@redhat.com>; eblake@redhat.com <ebla=
-ke@redhat.com>; Denis Lunev <den@virtuozzo.com>; Vladimir Sementsov-Ogievsk=
-iy <vsementsov@virtuozzo.com>; Andrey Shinkevich <andrey.shinkevich@virtuoz=
-zo.com>
-Subject: [PATCH v4 01/12] qcow2.py: python style fixes
+>>>  /* Return value for guest_base, or -1 if no hole found. */
+>>>  static uintptr_t pgb_find_hole(uintptr_t guest_loaddr, uintptr_t guest=
+_size,
+>>> -                               long align)
+>>> +                               long align, uintptr_t offset)
+>>>  {
+>>>      GSList *maps, *iter;
+>>>      uintptr_t this_start, this_end, next_start, brk;
+>>> @@ -2171,7 +2171,7 @@ static uintptr_t pgb_find_hole(uintptr_t guest_lo=
+addr, uintptr_t guest_size,
+>>>  =
 
-Fix flake8 complains. Leave the only chunk of lines over 79 characters:
-initialization of cmds variable. Leave it for another day, when it
-should be refactored to utilize argparse instead of hand-written
-parsing.
+>>>          this_end =3D ((MapInfo *)iter->data)->start;
+>>>          next_start =3D ((MapInfo *)iter->data)->end;
+>>> -        align_start =3D ROUND_UP(this_start, align);
+>>> +        align_start =3D ROUND_UP(this_start + offset, align);
+>>>  =
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/qcow2.py | 92 +++++++++++++++++++++----------------
- 1 file changed, 53 insertions(+), 39 deletions(-)
+>>>          /* Skip holes that are too small. */
+>>
+>> I suppose offset is supposed to mean we start from -offset?
+>
+> Well guest_base will start higher meaning we have space for the
+> commpage beneath it.
+>
+>> You didn't update
+>> pgb_find_hole_fallback.
+>
+> Fixed.
+>
+>>
+>>> -            loaddr =3D ARM_COMMPAGE & -align;
+>>> +            offset =3D (128 * KiB);
+>>
+>> Why 128K?  Surely this should be an expression against ARM_COMMPAGE.
+>
+> In theory:
+>
+>             offset =3D -(ARM_COMMPAGE & -align);
+>
+> should do the trick but I found it failed every now and again.
+> Frustratingly putting printfs in made it go away so in frustration I
+> just upped the offset until it stopped happening.
+>
+> I do kinda wish rr worked on i386 :-/
 
---_000_AM6PR08MB4070E4169E7B3F27C24FF6EDF4860AM6PR08MB4070eurp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Ahh all I needed was a MAP_FIXED for init_commpage
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-</head>
-<body>
-<div><span style=3D"color: rgb(33, 33, 33); font-family: &quot;Segoe UI Wes=
-tEuropean&quot;, &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; font-s=
-ize: 14.6667px; font-style: normal; font-variant-ligatures: normal; font-va=
-riant-caps: normal; font-weight: 400;">Reviewed-by: Andrey
- Shinkevich &lt;andrey.shinkevich@virtuozzo.com&gt;</span><br>
-</div>
-<div><br>
-</div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Vladimir Sementsov-Og=
-ievskiy &lt;vsementsov@virtuozzo.com&gt;<br>
-<b>Sent:</b> Thursday, June 4, 2020 8:41 PM<br>
-<b>To:</b> qemu-block@nongnu.org &lt;qemu-block@nongnu.org&gt;<br>
-<b>Cc:</b> qemu-devel@nongnu.org &lt;qemu-devel@nongnu.org&gt;; mreitz@redh=
-at.com &lt;mreitz@redhat.com&gt;; kwolf@redhat.com &lt;kwolf@redhat.com&gt;=
-; eblake@redhat.com &lt;eblake@redhat.com&gt;; Denis Lunev &lt;den@virtuozz=
-o.com&gt;; Vladimir Sementsov-Ogievskiy &lt;vsementsov@virtuozzo.com&gt;;
- Andrey Shinkevich &lt;andrey.shinkevich@virtuozzo.com&gt;<br>
-<b>Subject:</b> [PATCH v4 01/12] qcow2.py: python style fixes</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">Fix flake8 complains. Leave the only chunk of line=
-s over 79 characters:<br>
-initialization of cmds variable. Leave it for another day, when it<br>
-should be refactored to utilize argparse instead of hand-written<br>
-parsing.<br>
-<br>
-Signed-off-by: Vladimir Sementsov-Ogievskiy &lt;vsementsov@virtuozzo.com&gt=
-;<br>
----<br>
-&nbsp;tests/qemu-iotests/qcow2.py | 92 &#43;&#43;&#43;&#43;&#43;&#43;&#43;&=
-#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;------=
-----------<br>
-&nbsp;1 file changed, 53 insertions(&#43;), 39 deletions(-)<br>
-</div>
-</span></font></div>
-</body>
-</html>
+-- =
 
---_000_AM6PR08MB4070E4169E7B3F27C24FF6EDF4860AM6PR08MB4070eurp_--
+Alex Benn=C3=A9e
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1880225
+
+Title:
+  Emulation of some arm programs fail with "Assertion `have_guest_base'
+  failed."
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  This issue is observer with QEMU ToT, checked out around May 15th (but
+  I believe it is present in current master too), and wasn't present in
+  QEMU v5.0.0.
+
+  I am using 32-bit Intel(R) Pentium(R) M processor 1.73GHz host.
+
+  Arm cross-compiler is a standard cross-compiler that comes with
+  Debian-based distributions, and gcc version is:
+
+  $ arm-linux-gnueabi-gcc --version
+  arm-linux-gnueabi-gcc (Debian 8.3.0-2) 8.3.0
+
+  Compile this program with cross compiler:
+
+  $ arm-linux-gnueabi-gcc -O2 -static toupper_string.c -o
+  toupper_string-arm
+
+  Emulation with QEMU v5.0.0 is correct, and gives expected output:
+
+  $ ~/Build/qemu-5.0.0/build-gcc/arm-linux-user/qemu-arm ./toupper_string-a=
+rm
+  CONTROL RESULT: (toupper_string)
+   nwlrbbmqbhcdarz owkkyhiddqscdxr jmowfrxsjybldbe fsarcbynecdyggx xpklorel=
+lnmpapq
+   NWLRBBMQBHCDARZ OWKKYHIDDQSCDXR JMOWFRXSJYBLDBE FSARCBYNECDYGGX XPKLOREL=
+LNMPAPQ
+
+  While, in case of QEMU master it fails:
+
+  $ ~/Build/qemu-master/build-gcc/arm-linux-user/qemu-arm ./toupper_string-=
+arm
+  qemu-arm: /home/rtrk/Build/qemu-master/linux-user/elfload.c:2294: probe_g=
+uest_base: Assertion `have_guest_base' failed.
+  Aborted
+
+  There are many other programs that exibit the same behavior. The
+  failure is arm-sprecific.
+
+  =
+
+  -----------------------------------------------------
+
+  source code: (let's call this file toupper_string.c) (similar file is
+  also in attachment)
+
+  =
+
+  #include <stdlib.h>
+  #include <string.h>
+  #include <stdio.h>
+  #include <unistd.h>
+
+  =
+
+  #define MAX_STRING_LENGHT              15
+  #define NUMBER_OF_RANDOM_STRINGS       100
+  #define DEFAULT_NUMBER_OF_REPETITIONS  30000
+  #define MAX_NUMBER_OF_REPETITIONS      1000000000
+  #define NUMBER_OF_CONTROL_PRINT_ITEMS  5
+
+  /* Structure for keeping an array of strings */
+  struct StringStruct {
+      char chars[MAX_STRING_LENGHT + 1];
+  };
+
+  /**
+   * Sets characters of the given string to random small letters a-z.
+   * @param s String to get random characters.
+   * @len Length of the input string.
+   */
+  static void gen_random_string(char *chars, const int len)
+  {
+      static const char letters[] =3D "abcdefghijklmnopqrstuvwxyz";
+
+      for (size_t i =3D 0; i < len; i++) {
+          chars[i] =3D letters[rand() % (sizeof(letters) - 1)];
+      }
+      chars[len] =3D 0;
+  }
+
+  void main (int argc, char* argv[])
+  {
+      struct StringStruct random_strings[NUMBER_OF_RANDOM_STRINGS];
+      struct StringStruct strings_to_be_uppercased[NUMBER_OF_RANDOM_STRINGS=
+];
+      int32_t number_of_repetitions =3D DEFAULT_NUMBER_OF_REPETITIONS;
+      int32_t option;
+
+      /* Parse command line options */
+      while ((option =3D getopt(argc, argv, "n:")) !=3D -1) {
+          if (option =3D=3D 'n') {
+              int32_t user_number_of_repetitions =3D atoi(optarg);
+              /* Check if the value is a negative number */
+              if (user_number_of_repetitions < 1) {
+                  fprintf(stderr, "Error ... Value for option '-n' cannot b=
+e a "
+                                  "negative number.\n");
+                  exit(EXIT_FAILURE);
+              }
+              /* Check if the value is a string or zero */
+              if (user_number_of_repetitions =3D=3D 0) {
+                  fprintf(stderr, "Error ... Invalid value for option '-n'.=
+\n");
+                  exit(EXIT_FAILURE);
+              }
+              /* Check if the value is too large */
+              if (user_number_of_repetitions > MAX_NUMBER_OF_REPETITIONS) {
+                  fprintf(stderr, "Error ... Value for option '-n' cannot b=
+e "
+                                  "more than %d.\n", MAX_NUMBER_OF_REPETITI=
+ONS);
+                  exit(EXIT_FAILURE);
+              }
+              number_of_repetitions =3D user_number_of_repetitions;
+          } else {
+              exit(EXIT_FAILURE);
+          }
+      }
+
+      /* Create an array of strings with random content */
+      srand(1);
+      for (size_t i =3D 0; i < NUMBER_OF_RANDOM_STRINGS; i++) {
+          gen_random_string(random_strings[i].chars, MAX_STRING_LENGHT);
+      }
+
+      /* Perform uppercasing of a set of random strings multiple times */
+      for (size_t j =3D 0; j < number_of_repetitions; j++) {
+          /* Copy initial set of random strings to the set to be uppercased=
+ */
+          memcpy(strings_to_be_uppercased, random_strings,
+                 NUMBER_OF_RANDOM_STRINGS * (MAX_STRING_LENGHT + 1));
+          /* Do actual changing case to uppercase */
+          for (size_t i =3D 0; i < NUMBER_OF_RANDOM_STRINGS; i++) {
+              int k =3D 0;
+    =
+
+              while (strings_to_be_uppercased[i].chars[k]) { =
+
+                  char ch =3D strings_to_be_uppercased[i].chars[k] - 32; =
+
+                  memcpy((void *)strings_to_be_uppercased[i].chars + k,
+                         &ch, 1);
+                  k++; =
+
+              } =
+
+          }
+      }
+
+      /* Control printing */
+      printf("CONTROL RESULT: (toupper_string)\n");
+      for (size_t i =3D 0; i < NUMBER_OF_CONTROL_PRINT_ITEMS; i++) {
+          printf(" %s", random_strings[i].chars);
+      }
+      printf("\n");
+      for (size_t i =3D 0; i < NUMBER_OF_CONTROL_PRINT_ITEMS; i++) {
+          printf(" %s", strings_to_be_uppercased[i].chars);
+      }
+      printf("\n");
+  }
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1880225/+subscriptions
 
