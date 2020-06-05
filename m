@@ -2,58 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31C31EEF6D
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 04:20:36 +0200 (CEST)
-Received: from localhost ([::1]:60766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C550E1EEFA1
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 04:51:30 +0200 (CEST)
+Received: from localhost ([::1]:39942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh1yF-0002UJ-Bj
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 22:20:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58420)
+	id 1jh2S9-0000Hx-Sp
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 22:51:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jh1xX-0001yS-4Z
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 22:19:51 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:54044)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jh1xU-0001EN-Il
- for qemu-devel@nongnu.org; Thu, 04 Jun 2020 22:19:50 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0443779|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.00255807-7.71053e-05-0.997365;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03302; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=7; RT=7; SR=0; TI=SMTPD_---.HiLAaKj_1591323578; 
-Received: from 30.225.208.46(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.HiLAaKj_1591323578)
- by smtp.aliyun-inc.com(10.147.42.198);
- Fri, 05 Jun 2020 10:19:38 +0800
-Subject: Re: hw/char: a question about watch callback function in serial
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <81607772-7cbc-1d61-2687-313f6389e1eb@c-sky.com>
- <CAFEAcA84BwfhEEk6_mG9Fzp8HizRUEm5cRQo-QhOory0Gz7Duw@mail.gmail.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <7eb57b4e-8d74-38c2-b8fd-00b6e2e99975@c-sky.com>
-Date: Fri, 5 Jun 2020 10:19:37 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jh2RM-00089d-My
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 22:50:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jh2RL-0000mD-4G
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 22:50:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jh2RJ-0008QN-7y
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 02:50:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 200F42E810A
+ for <qemu-devel@nongnu.org>; Fri,  5 Jun 2020 02:50:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA84BwfhEEk6_mG9Fzp8HizRUEm5cRQo-QhOory0Gz7Duw@mail.gmail.com>
-Content-Type: multipart/alternative;
- boundary="------------861BB7524518A6AA11F059D2"
-Content-Language: en-US
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 22:19:39
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- UNPARSEABLE_RELAY=0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 05 Jun 2020 02:42:02 -0000
+From: Hajin Jang <1882123@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm armhf debian regression
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: joveler
+X-Launchpad-Bug-Reporter: Hajin Jang (joveler)
+X-Launchpad-Bug-Modifier: Hajin Jang (joveler)
+References: <159129432300.4081.5698403082350753204.malonedeb@soybean.canonical.com>
+Message-Id: <159132492227.32129.479510864500615671.malone@gac.canonical.com>
+Subject: [Bug 1882123] Re: ARM cpu emulation regression on QEMU 4.2.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ef9fc486e875d54078fa61cf91e898b895125d89";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b321d22c878adc6b904aeb8a3ef06a40c19b69c7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 22:50:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,245 +73,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Alistair Francis <alistair23@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Reply-To: Bug 1882123 <1882123@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------861BB7524518A6AA11F059D2
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+I have tested 4.2.0 release candidate versions to pinpoint which commit
+caused the regression.
 
+- 4.2.0-rc2: Same with 4.2.0, dotnet command crashes with SEHException.
+- 4.2.0-rc0, 4.2.0-rc1: Launching dotnet command with any argument crashes =
+with illegal hardware instruction message.
 
+$ dotnet build
+[1]    658 illegal hardware instruction  dotnet build
+$ dotnet --version
+[1]    689 illegal hardware instruction  dotnet --version
 
-On 2020/6/4 21:32, Peter Maydell wrote:
-> On Thu, 4 Jun 2020 at 13:15, LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
->> I see many UART implementations have a G_IO_OUT | G_IO_HUP  callback function.
->>
->> In hw/serial.c, it is serial_watch_cb, setting by the following code,
->>
->>    s->watch_tag = qemu_chr_fe_add_watch(&s->chr, G_IO_OUT | G_IO_HUP,
->>
->>                        serial_watch_cb, s);
->>
->> In hw/candence_uart.c, it is cadence_uart_xmit, setting by the following code,
->>
->>          guint r = qemu_chr_fe_add_watch(&s->chr, G_IO_OUT | G_IO_HUP,
->>
->>                                          cadence_uart_xmit, s);
->>
->>
->>
->> I tried to call it with booting a Linux, but the interface will never be called.
->>
->> Can someone give a reasonable answer why needs this interface, or a way to call it.
-> This code is here to handle the case where the UART wants to pass
-> data to the chardev which is acting as the backend to the UART
-> (which might be host stdio, a TCP port, etc), but the backend
-> cannot accept data.
->
-> Older UART code (eg hw/char/pl011.c) calls qemu_chr_fe_write_all()
-> to write data, but this is a blocking call and these calls are
-> usually marked with an XXX/TODO comment, because if the chardev
-> backend can't currently accept the data then execution of the
-> guest will be blocked until the backend does start to accept
-> data again.
->
-> The solution to this bug was the introduction of the non-blocking
-> qemu_chr_fe_write() call. But to use the non-blocking call, the
-> UART emulation code now needs to handle the case where
-> qemu_chr_fe_write() says "I couldn't write all the data you asked
-> me to". In that case, it must use qemu_chr_fe_add_watch() to
-> request a callback when the chardev is able to accept new data,
-> so that it can try again. (It also needs to emulate telling the
-> guest that the transmit FIFO is not yet empty via whatever status
-> registers the UART has for that, because in the meantime guest
-> execution will continue with some of the data still not sent to
-> the chardev, but sitting in the emulated FIFO; and it needs to
-> correctly emulate "guest tried to write more data to a full FIFO".
-> Older UART emulations that use the blocking write_all function
-> don't need to bother with these details because there the tx
-> FIFO is always empty -- from the guest's perspective data written
-> to the tx FIFO drains instantaneously.)
->
-> The common case execution path is "the chardev can accept the data
-> faster than the guest can feed it to the UART", in which case
-> qemu_chr_fe_write() will return 'wrote all the data' and the
-> UART never needs to call qemu_chr_fe_add_watch(). To exercise the
-> add-watch codepath you need to connect the UART to a chardev
-> that can be made to stop accepting data (for instance a pipe
-> or a unix domain socket where there's nothing on the other end
-> reading data.)
-Hi Peter,
+So the issue is affected by some commits pushed between 4.1.0 ~
+4.2.0-rc0 and 4.2.0-rc1 ~ 4.2.0-rc2 period.
 
-Thanks, it's really a reasonable answer. However I still have one question.
+-- =
 
-When I tried to verify the code-path, the callback is not triggered.
-The serial I used is hw/serial.c, back ended with a named pipe.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1882123
 
-The first step is make named pipe by
+Title:
+  ARM cpu emulation regression on QEMU 4.2.0
 
-mkfifo xpipe
+Status in QEMU:
+  New
 
-Then run a RISC-V Linux by the command
+Bug description:
+  [*] Summary
 
-gdb --args qemu-system-riscv64 -M virt -kernel fw_jump.elf -device loader,file=Image,addr=0x80200000 \
--append "rootwait root=/dev/vda ro" -drive file=rootfs.ext2,format=raw,id=hd0 \
--device virtio-blk-device,drive=hd0 -serial pipe:xpipe -smp 1
+  Latest QEMU has an ARM CPU emulation regression.
+  Regression is reproducible by building any C# project with .NET Core SDK =
+3.1.300 on Debian 10 armhf guest OS.
 
-Set a breakpoint on serial_watch_cb before run the Linux
+  Releases affected: QEMU 4.2.0, 5.0.0
+  Releases not affected: QEMU 4.1.0, QEMU 4.1.1
 
-b serial_watch_cb
+  [*] Detail
 
-Then run the Linux. The breakpoint will never matched.  I think "there 
-is nothing on the other end reading data".
+  .NET Core SDK 3.1 fails to run on Debian 10 emulated by qemu-system-
+  arm.
 
-Then I tried another way to verify. Read the pipe a little later after 
-booting(There are some data in the FIFO already) by
+  I occasionally test my C# projects on the virtual armhf/arm64 system
+  emulated by QEMU. MSBuild, a build engine of the .NET Core SDK,
+  crashes on QEMU 4.2.0 or later. The crash only happens when MSBuild
+  tries to do any JIT compiling (dotnet build / dotnet test).
 
-cat xpipe
+  I attached the MSBuild crash logs. MSBuild always crashes with
+  SEHException, which means it tried to call C binary from .NET binary.
 
-Now I can read some data out from the pipe. But it still can't match the 
-breakpoint. I think the reading  will set the G_IO_OUT condition,
-but it doesn't.
+  I think the ARM CPU emulation regression happened between QEMU 4.1.1 ~
+  4.2.0. The issue affects QEMU 4.2.0 and 5.0.0. QEMU 4.1.0, 4.1.1, and
+  real Raspberry Pi 2 are not affected by this issue, and .NET Core SDK
+  works completely fine.
 
-Is there something wrong? Or could you show me a case./
+  [*] Environment
 
-/Best Regards,
-Zhiwei/
-/
->
-> thanks
-> -- PMM
+  [Host OS]
+  Distribution: Linux Mint 19.3 amd64
+  CPU: AMD Ryzen 5 3600
+  Kernel: Ubuntu 5.3.0-51-generic
 
+  [QEMU Guest OS]
+  Distribution: Debian 10 Buster armhf
+  Kernel: Debian 4.19.0-9-armmp-lpae
+  .NET Core SDK: 3.1.300
 
---------------861BB7524518A6AA11F059D2
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+  [Raspberry Pi 2]
+  Distribution: Raspberry Pi OS Buster armhf
+  Kernel: 4.19.118-v7+
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 2020/6/4 21:32, Peter Maydell wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAFEAcA84BwfhEEk6_mG9Fzp8HizRUEm5cRQo-QhOory0Gz7Duw@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">On Thu, 4 Jun 2020 at 13:15, LIU Zhiwei <a class="moz-txt-link-rfc2396E" href="mailto:zhiwei_liu@c-sky.com">&lt;zhiwei_liu@c-sky.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">I see many UART implementations have a G_IO_OUT | G_IO_HUP  callback function.
+  [Tested C# Projects]
+  This is a list of C# projects I have tested on QEMU and RPI2.
+  - https://github.com/ied206/Joveler.DynLoader
+  - https://github.com/ied206/Joveler.Compression
+  - https://github.com/ied206/ManagedWimLib
 
-In hw/serial.c, it is serial_watch_cb, setting by the following code,
+  [QEMU Launch Arguments]
+  qemu-system-arm \
+  =C2=A0=C2=A0=C2=A0=C2=A0-smp 3 -M virt -m 4096 \
+  =C2=A0=C2=A0=C2=A0=C2=A0-kernel vmlinuz-4.19.0-9-armmp-lpae \
+  =C2=A0=C2=A0=C2=A0=C2=A0-initrd initrd.img-4.19.0-9-armmp-lpae \
+  =C2=A0=C2=A0=C2=A0=C2=A0-append "root=3D/dev/vda2" \
+  =C2=A0=C2=A0=C2=A0=C2=A0-drive if=3Dnone,file=3Ddebian_arm.qcow2,format=
+=3Dqcow2,id=3Dhd \
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-blk-device,drive=3Dhd \
+  =C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dmynet,hostfwd=3Dtcp::<PORT>-:22=
+ \
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-device,netdev=3Dmynet \
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-rng-device
 
-  s-&gt;watch_tag = qemu_chr_fe_add_watch(&amp;s-&gt;chr, G_IO_OUT | G_IO_HUP,
+  [QEMU Configure Arguments]
+  ./configure --enable-spice --enable-gtk --enable-vnc-jpeg --enable-vnc-pn=
+g --enable-avx2 --enable-libusb --enable-opengl --enable-virglrenderer --en=
+able-kvm --enable-system --enable-modules --audio-drv-list=3Dpa
 
-                      serial_watch_cb, s);
-
-In hw/candence_uart.c, it is cadence_uart_xmit, setting by the following code,
-
-        guint r = qemu_chr_fe_add_watch(&amp;s-&gt;chr, G_IO_OUT | G_IO_HUP,
-
-                                        cadence_uart_xmit, s);
-
-
-
-I tried to call it with booting a Linux, but the interface will never be called.
-
-Can someone give a reasonable answer why needs this interface, or a way to call it.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-This code is here to handle the case where the UART wants to pass
-data to the chardev which is acting as the backend to the UART
-(which might be host stdio, a TCP port, etc), but the backend
-cannot accept data.
-
-Older UART code (eg hw/char/pl011.c) calls qemu_chr_fe_write_all()
-to write data, but this is a blocking call and these calls are
-usually marked with an XXX/TODO comment, because if the chardev
-backend can't currently accept the data then execution of the
-guest will be blocked until the backend does start to accept
-data again.
-
-The solution to this bug was the introduction of the non-blocking
-qemu_chr_fe_write() call. But to use the non-blocking call, the
-UART emulation code now needs to handle the case where
-qemu_chr_fe_write() says "I couldn't write all the data you asked
-me to". In that case, it must use qemu_chr_fe_add_watch() to
-request a callback when the chardev is able to accept new data,
-so that it can try again. (It also needs to emulate telling the
-guest that the transmit FIFO is not yet empty via whatever status
-registers the UART has for that, because in the meantime guest
-execution will continue with some of the data still not sent to
-the chardev, but sitting in the emulated FIFO; and it needs to
-correctly emulate "guest tried to write more data to a full FIFO".
-Older UART emulations that use the blocking write_all function
-don't need to bother with these details because there the tx
-FIFO is always empty -- from the guest's perspective data written
-to the tx FIFO drains instantaneously.)
-
-The common case execution path is "the chardev can accept the data
-faster than the guest can feed it to the UART", in which case
-qemu_chr_fe_write() will return 'wrote all the data' and the
-UART never needs to call qemu_chr_fe_add_watch(). To exercise the
-add-watch codepath you need to connect the UART to a chardev
-that can be made to stop accepting data (for instance a pipe
-or a unix domain socket where there's nothing on the other end
-reading data.)</pre>
-    </blockquote>
-    Hi Peter,<br>
-    <br>
-    Thanks, it's really a reasonable answer. However I still have one
-    question.<br>
-    <br>
-    When I tried to verify the code-path, the callback is not triggered.<br>
-    The serial I used is hw/serial.c, back ended with a named pipe.<br>
-    <br>
-    The first step is make named pipe by<br>
-    <pre>mkfifo xpipe</pre>
-    Then run a RISC-V Linux by the command<br>
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial; overflow-wrap: break-word; white-space: pre-wrap;">gdb --args qemu-system-riscv64 -M virt -kernel fw_jump.elf -device loader,file=Image,addr=0x80200000 \
--append "rootwait root=/dev/vda ro" -drive file=rootfs.ext2,format=raw,id=hd0 \
--device virtio-blk-device,drive=hd0 -serial pipe:xpipe -smp 1
-</pre>
-    Set a breakpoint on serial_watch_cb before run the Linux<br>
-    <pre>b serial_watch_cb
-</pre>
-    Then run the Linux. The breakpoint will never matched.  I think
-    "there is nothing on the other end reading data".<br>
-    <br>
-    Then I tried another way to verify. Read the pipe a little later
-    after booting(There are some data in the FIFO already) by<br>
-    <pre>cat xpipe</pre>
-    Now I can read some data out from the pipe. But it still can't match
-    the breakpoint. I think the reading  will set the G_IO_OUT
-    condition,<br>
-    but it doesn't.<br>
-    <br>
-    Is there something wrong? Or could you show me a case.<i><br>
-      <br>
-    </i>Best Regards,<br>
-    Zhiwei<i><br>
-    </i><br>
-    <blockquote type="cite"
-cite="mid:CAFEAcA84BwfhEEk6_mG9Fzp8HizRUEm5cRQo-QhOory0Gz7Duw@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-
-thanks
--- PMM
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------861BB7524518A6AA11F059D2--
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1882123/+subscriptions
 
