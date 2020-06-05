@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6931EFE4B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:54:50 +0200 (CEST)
-Received: from localhost ([::1]:38260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9386E1EFE52
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:56:17 +0200 (CEST)
+Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhFcH-0001Ur-7g
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:54:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40530)
+	id 1jhFdg-00051z-HZ
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:56:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jhFY1-0001Wb-1c
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:25 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52495)
+ id 1jhFY2-0001ar-V2
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:27 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:56203)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jhFXz-0001fi-FB
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:24 -0400
-Received: by mail-wm1-x341.google.com with SMTP id r9so9048251wmh.2
+ id 1jhFY0-0001fq-Eh
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:50:26 -0400
+Received: by mail-wm1-x334.google.com with SMTP id c71so9036371wmd.5
  for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 09:50:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=cM/nenshJFdr/xOFmEA2BlgzqbESOdnacOqE/yTx7cc=;
- b=HMIWoObQKqDqwtD4kVek/6HJj3mlAFwFTqg0umhwfKwz5KPwbVgK7HVDK4CCSUqPPI
- zvn4T57IW98INGNa17b2AREnP10oPB4BNBFJXvX8CYvMCrePBK0i+QMFM0VHUBFsWg0e
- G41F2A+Fkn7dVOogFXAP7TXgzQxEi23BpO26QiyvdT9xZBe5X5Q8QpEltJUlDd8KB1AL
- 7Sigc1uICwjGivSmG6haQyYitvwZPghdL0MzhhUG2v36zrq/Ol/PTnoiNLEgd0Va2LEw
- NEbthbQKxK5sxNMTjgoclyh2KwKQqfGpAIyhfiiR5mJFZjlUCjfHiAD6AKdbYdC+E6CT
- UnDQ==
+ bh=2yUBQIbu54pdqWo2t660udQ3QOPVJ1+0t/Js/DFf5WY=;
+ b=Mfm1DtyJP9bL42gpn1BC/vmnFWfQMarR1tubE2Af3D/iDs9IdgFPifOyn2lvNaOYGZ
+ 6sTmRVram6tEc4Zrf5HXDYQmo0TRMIZF8LIgxWYX3aNTFAdDcgDE4p0Lo4BvDC5q5tYT
+ 9QmpFh6bNBkHaY+4wc+lP60QSaeB13UVEjnkVzchj1Yg3WgZyRsOSDfrbnyD1/rfzAe1
+ bmC4uMOIhCQcNcU8c6GINNPDYKwKQKv3PmrEtxKrjrZeQwMR8E1Shj41bJY9Gnmi5RNg
+ 5oic9wR53pc7nWY9FauAbiRgs1vNiKuSD718RxY1AMA8RgyPhndhN067RpJCSOAs6knP
+ lbGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cM/nenshJFdr/xOFmEA2BlgzqbESOdnacOqE/yTx7cc=;
- b=n99oAKAuEX0K9nVPu2aMOhTc6VleNE6GO3Th3N1Nue2G684KlDLLL69tfRETjFsbF9
- ML7B5GR6i+LMlzu4Yx6uaMNxS5HH1LeEoSvt/RBNHXiS5hAgU98DxKx97hC1JdQmm6ht
- kUyZVJLpxQdRmMylFFzCXWV0MFRP1bgtcCt0UkG+urj8j8hSY4wcNwCmnfP3dzGDHqcX
- SHyHvCiDaTXWGhXno6VpNJEai9bu4NFMiVz8F3xlKeVADoON+kBKPQOncP53+ru9hBMI
- dy+YhfGOuPL4Id9V3B1XGk1rWIb00hxmwt55KVJLAKdyEkKV3LJlVKiLMHpZBG05sE4H
- fysQ==
-X-Gm-Message-State: AOAM532FOAs7wt5+lFOHLswtVqt9aK+7qqyeTPI0C5ay98Bmv+TFUjQs
- dHwXbvIknz96QdMY9zzlkn+4kfFpgy5PJw==
-X-Google-Smtp-Source: ABdhPJykdUIU2pmojqyggMkI55Zbh9nPuR3lUwtKN4Sg70vpskB04kWwuaeUdUVTjsHKUQcUu54lNw==
-X-Received: by 2002:a7b:c852:: with SMTP id c18mr3691831wml.77.1591375821845; 
- Fri, 05 Jun 2020 09:50:21 -0700 (PDT)
+ bh=2yUBQIbu54pdqWo2t660udQ3QOPVJ1+0t/Js/DFf5WY=;
+ b=Fpzksox3RxH6lbB3rYwAzWWNH/F4aeHC/BwhgpVfRBDXPYmyJPzfOqpthotyXAhwh4
+ Kpv0xs7/291DQLq/RTZzyuciF3pQ1088ED6kYMkVZU1e5gpjFAMZAOikbiSzNSaRPNqP
+ 80BHYYZbIWlbyDSZTpCgiGwQdzM6s5PGLRZBgqk3tOl1iL1Z46Zrjm0xU7BO/9YcaTkJ
+ 1l+Tk1w2PxAWLoDjzoAn9biJuwd6nW2iLawyxJ9sMhCcSVu4wgouFduu3tJKB5s3uL0l
+ M75ll5bB9NGJJOazlk78RVRcZ53Wa/T0LKbIw+nHM3cOHHf/BNWEZgVaxHQo2ZV+ecdv
+ wLog==
+X-Gm-Message-State: AOAM533IQl7IWOmZckI/KbjwFaCEUg4g0NuA3rQmnMS4apc0eZsQ8D6N
+ 16Qpjk8Qwm3y6259d+g/tyc7Ryoqz7kXAQ==
+X-Google-Smtp-Source: ABdhPJynlFiHTl4y8f4T3SRN1BMp6l5TAQRUGwwwmdV6ShPXkSWs1dbLooKJCigfcDoDJ9CaVlPFRQ==
+X-Received: by 2002:a05:600c:1146:: with SMTP id
+ z6mr3531259wmz.179.1591375822819; 
+ Fri, 05 Jun 2020 09:50:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c140sm12272724wmd.18.2020.06.05.09.50.20
+ by smtp.gmail.com with ESMTPSA id c140sm12272724wmd.18.2020.06.05.09.50.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 09:50:21 -0700 (PDT)
+ Fri, 05 Jun 2020 09:50:22 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/29] hw/adc/stm32f2xx_adc: Correct memory region size and
- access size
-Date: Fri,  5 Jun 2020 17:49:49 +0100
-Message-Id: <20200605165007.12095-12-peter.maydell@linaro.org>
+Subject: [PULL 12/29] tests/acceptance: Add a boot test for the
+ xlnx-versal-virt machine
+Date: Fri,  5 Jun 2020 17:49:50 +0100
+Message-Id: <20200605165007.12095-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200605165007.12095-1-peter.maydell@linaro.org>
 References: <20200605165007.12095-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,53 +91,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
 
-The ADC region size is 256B, split as:
- - [0x00 - 0x4f] defined
- - [0x50 - 0xff] reserved
+As described by Edgar here:
 
-All registers are 32-bit (thus when the datasheet mentions the
-last defined register is 0x4c, it means its address range is
-0x4c .. 0x4f.
+ https://www.mail-archive.com/qemu-devel@nongnu.org/msg605124.html
 
-This model implementation is also 32-bit. Set MemoryRegionOps
-'impl' fields.
+we can use the Ubuntu kernel for testing the xlnx-versal-virt machine.
+So let's add a boot test for this now.
 
-See:
-  'RM0033 Reference manual Rev 8', Table 10.13.18 "ADC register map".
-
-Reported-by: Seth Kintigh <skintigh@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200603055915.17678-1-f4bug@amsat.org
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Message-id: 20200525141237.15243-1-thuth@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/adc/stm32f2xx_adc.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/acceptance/boot_linux_console.py | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/hw/adc/stm32f2xx_adc.c b/hw/adc/stm32f2xx_adc.c
-index 4f9d485ecf2..01a0b14e69d 100644
---- a/hw/adc/stm32f2xx_adc.c
-+++ b/hw/adc/stm32f2xx_adc.c
-@@ -246,6 +246,8 @@ static const MemoryRegionOps stm32f2xx_adc_ops = {
-     .read = stm32f2xx_adc_read,
-     .write = stm32f2xx_adc_write,
-     .endianness = DEVICE_NATIVE_ENDIAN,
-+    .impl.min_access_size = 4,
-+    .impl.max_access_size = 4,
- };
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 12725d45290..bbbbd30e48d 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -308,6 +308,32 @@ class BootLinuxConsole(LinuxKernelTest):
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+         self.wait_for_console_pattern(console_pattern)
  
- static const VMStateDescription vmstate_stm32f2xx_adc = {
-@@ -278,7 +280,7 @@ static void stm32f2xx_adc_init(Object *obj)
-     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq);
- 
-     memory_region_init_io(&s->mmio, obj, &stm32f2xx_adc_ops, s,
--                          TYPE_STM32F2XX_ADC, 0xFF);
-+                          TYPE_STM32F2XX_ADC, 0x100);
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
- }
- 
++    def test_aarch64_xlnx_versal_virt(self):
++        """
++        :avocado: tags=arch:aarch64
++        :avocado: tags=machine:xlnx-versal-virt
++        :avocado: tags=device:pl011
++        :avocado: tags=device:arm_gicv3
++        """
++        kernel_url = ('http://ports.ubuntu.com/ubuntu-ports/dists/'
++                      'bionic-updates/main/installer-arm64/current/images/'
++                      'netboot/ubuntu-installer/arm64/linux')
++        kernel_hash = '5bfc54cf7ed8157d93f6e5b0241e727b6dc22c50'
++        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++
++        initrd_url = ('http://ports.ubuntu.com/ubuntu-ports/dists/'
++                      'bionic-updates/main/installer-arm64/current/images/'
++                      'netboot/ubuntu-installer/arm64/initrd.gz')
++        initrd_hash = 'd385d3e88d53e2004c5d43cbe668b458a094f772'
++        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
++
++        self.vm.set_console()
++        self.vm.add_args('-m', '2G',
++                         '-kernel', kernel_path,
++                         '-initrd', initrd_path)
++        self.vm.launch()
++        self.wait_for_console_pattern('Checked W+X mappings: passed')
++
+     def test_arm_virt(self):
+         """
+         :avocado: tags=arch:arm
 -- 
 2.20.1
 
