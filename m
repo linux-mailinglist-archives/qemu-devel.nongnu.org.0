@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE0A1EFFA0
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:07:13 +0200 (CEST)
-Received: from localhost ([::1]:55494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213AD1EFFAD
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 20:10:48 +0200 (CEST)
+Received: from localhost ([::1]:33710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhGkK-0008Fq-Td
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:07:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50718)
+	id 1jhGnn-0002f5-6O
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 14:10:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1jhGca-0005t0-Cc
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:59:15 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:55196)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1jhGcX-0000at-DK
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 13:59:11 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 055Hgggt114315;
- Fri, 5 Jun 2020 17:59:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : mime-version :
- content-type; s=corp-2020-01-29;
- bh=uDfAcGYVhUuoqLje7qv74ZmkRbFeU9jdHfSBibKlp+E=;
- b=y4VFNSbwE2HeaciCmfWRpysJ54yff1LZ3l7Vtem3YrubSL57mjgruSa7HO177E0OR0cP
- GTg5sIy07hR6hT9fK/8cKCzjowXVex432kCx326gPUu+q11hqNffoOpXwbAesNn9lj0A
- +lp0O3AwJuait2S8S4Jh1RR81Axjzgo5l02LqgYTN5nUleHAbXos4tnUeeXIOOn1gpi8
- d0ZwffUCMWbh7ATB1Rs9uthdB1Fv4HJiZFq+HONr+oZbh/Ep4JhoIqbVxAn4SaeSTVJA
- g7VhEpgQ+I+VWNv+XrvbDNKbqlwFExVD8RCnk4jNWKVqsxI6aHloR8dgInJz55C+EVOx OQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 31f91dv3w5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 05 Jun 2020 17:59:02 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 055HhTuh046709;
- Fri, 5 Jun 2020 17:59:02 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 31f92t3n1c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 05 Jun 2020 17:59:02 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 055Hx0HI023421;
- Fri, 5 Jun 2020 17:59:00 GMT
-Received: from starbug-mbp.localdomain (/79.97.215.145)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 05 Jun 2020 10:59:00 -0700
-Received: by starbug-mbp.localdomain (Postfix, from userid 501)
- id 6C9A959AB4C; Fri,  5 Jun 2020 18:58:56 +0100 (IST)
-From: Darren Kenny <darren.kenny@oracle.com>
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] fuzz: add oss-fuzz build.sh script
-In-Reply-To: <20200605175028.5626-1-alxndr@bu.edu>
-References: <20200605175028.5626-1-alxndr@bu.edu>
-Date: Fri, 05 Jun 2020 18:58:56 +0100
-Message-ID: <m2a71hv1gf.fsf@oracle.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jhGmh-0002Ey-Pi
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 14:09:39 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:39626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jhGmg-0002BJ-Of
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 14:09:39 -0400
+Received: by mail-oi1-x242.google.com with SMTP id d67so8986363oig.6
+ for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 11:09:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=q4YC3wO915Po7XSyhexS+l59tp9txAcIDr7ZQ+wB1J4=;
+ b=t5gWNuagxzXIfr6kPjDIY36QcowFBI3asGTC2g0FEkv6QH5joWnigxxPyrN4QgMVjS
+ ti4EBYRs1EF25Azlp+jnzzVuUY49SgjBvcIFqqOB5VudzsEGHQgcxQfo7nexwA7GwoH6
+ towAOyP8kUIiTtia6x1I8aLzu87d6ZnJNk0mbFtUKbWxeV6ZaaWqbzLWtw6UQzktOUfM
+ 5LEQZgfnoW11DQDfmR5cGTqU/ncIKcIqG0fkqyOpglGOgqh6RsCkpmABSvBDPTA12+sK
+ k0QHzzOHU5jAPF7CX4qkxttq1Dm3Hd87EY/dlkRAlss7JLq16IyEvRMqLYUA8+mpjnFk
+ EKEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=q4YC3wO915Po7XSyhexS+l59tp9txAcIDr7ZQ+wB1J4=;
+ b=doyvlXNqQOyffur2dIP06fAc6fgdif7jyx4iDu+W78jWPOQFYNI0TZ+6Vt/mYXYHh8
+ jc9OTuiZPZjQ+MbSY57y/zMvP8BcTgKfnyH+q8fCGNpSRsZtCb2UeAp3OICls4Vl3IN5
+ Eb8zzRaKY7995sxgeweaAvOMW9QggYm42xKRBmlsm3Z7jcTIZ44Zx0Gmk01aOPL4PleX
+ JFm+tC2SiRxEwOkkzCqEAyg46quTXM/BWLJ1UP3gyS+J9VzKTKwbZaaGqAE233AiEKHo
+ TvVbs7ACh8TodGTsld6bNAQD3uly4ufd1FSZXYMHNemTeZ+6/uK78BfDMGCbzMLF9hmb
+ qLQQ==
+X-Gm-Message-State: AOAM533odmSV8hu1wDjvpBx3czcWOEuCAsf5624rnfcwplcA/f8sRiTz
+ /NVmIlLH/DxQgNMsk//jPQC5zvDu3fDBOAQJ8jIrTw==
+X-Google-Smtp-Source: ABdhPJyb0HTrsQ7s4TUcgZtKpbOtTxSl4YUcHI2IQDcBD9akwHSwgcrDn5kje0BAFviCnKhsx70gw4m+kPehUVfeilo=
+X-Received: by 2002:aca:5152:: with SMTP id f79mr2587465oib.146.1591380577050; 
+ Fri, 05 Jun 2020 11:09:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9643
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- bulkscore=0 mlxscore=0
- malwarescore=0 spamscore=0 suspectscore=0 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006050132
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9643
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 bulkscore=0
- clxscore=1015 cotscore=-2147483648 malwarescore=0 adultscore=0
- priorityscore=1501 suspectscore=0 phishscore=0 spamscore=0 mlxscore=0
- impostorscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006050132
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=darren.kenny@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 13:59:05
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+References: <20200604034513.75103-1-richard.henderson@linaro.org>
+ <87bllx4igz.fsf@linaro.org> <535cf85f-96d7-0e98-c69e-c09b976bc251@linaro.org>
+In-Reply-To: <535cf85f-96d7-0e98-c69e-c09b976bc251@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 5 Jun 2020 19:09:26 +0100
+Message-ID: <CAFEAcA88+W6PR2K5rmov7fM9+vyCuWW9u3mxg=61B1r9kYQT2g@mail.gmail.com>
+Subject: Re: [PATCH] configure: Disable -Wtautological-type-limit-compare
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,107 +81,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, bsd@redhat.com, f4bug@amsat.org,
- stefanha@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
-
-From looking at another OSS Fuzz project recently (a coincidence) I
-wonder if we could make this script work so that it can be run outside
-of the OSS-Fuzz environment?
-
-Specifically, for example, if $OUT is not set, then creating a subdir in
-the build directory, and setting it to be that.
-
-Similarly for some other things like $LIB_FUZZING_ENGINE?
-
-I'm just thinking that it might help someone that is not familiar with
-OSS-Fuzz to validate that the script still works without having to go
-through setting up the containers, etc that would be required to
-validate it.
-
-Also, I would definitely recommend running ShellCheck against any script
-to ensure that you're catching any mistakes that can so easily be put in
-to shell scripts - speaking from experience here ;)
-
-Thanks,
-
-Darren.
-
-
-On Friday, 2020-06-05 at 13:50:28 -04, Alexander Bulekov wrote:
-> It is neater to keep this in the QEMU repo, since any change that
-> requires an update to the oss-fuzz build configuration, can make the
-> necessary changes in the same series.
+On Fri, 5 Jun 2020 at 18:47, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Suggested-by: Philippe Mathieu-Daude <f4bug@amsat.org>
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
+> On 6/5/20 8:53 AM, Alex Benn=C3=A9e wrote:
+> >> --- a/configure
+> >> +++ b/configure
+> >> @@ -2009,6 +2009,8 @@ gcc_flags=3D"-Wno-missing-include-dirs -Wempty-b=
+ody -Wnested-externs $gcc_flags"
+> >>  gcc_flags=3D"-Wendif-labels -Wno-shift-negative-value $gcc_flags"
+> >>  gcc_flags=3D"-Wno-initializer-overrides -Wexpansion-to-defined $gcc_f=
+lags"
+> >>  gcc_flags=3D"-Wno-string-plus-int -Wno-typedef-redefinition $gcc_flag=
+s"
+> >> +gcc_flags=3D"$gcc_flags -Wno-tautological-type-limit-compare"
+> >> +
+> >
+> > nit: the pattern is reversed compared to the previous lines (foo $gcc_f=
+lags)
 >
-> v2 updates the script header comment.
->
->  scripts/oss-fuzz/build.sh | 50 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
->  create mode 100755 scripts/oss-fuzz/build.sh
->
-> diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-> new file mode 100755
-> index 0000000000..e93d6f2e03
-> --- /dev/null
-> +++ b/scripts/oss-fuzz/build.sh
-> @@ -0,0 +1,50 @@
-> +#!/bin/sh
-> +#
-> +# OSS-Fuzz build script. See:
-> +# https://google.github.io/oss-fuzz/getting-started/new-project-guide/#buildsh
-> +#
-> +# This code is licensed under the GPL version 2 or later.  See
-> +# the COPYING file in the top-level directory.
-> +#
-> +
-> +# build project
-> +# e.g.
-> +# ./autogen.sh
-> +# ./configure
-> +# make -j$(nproc) all
-> +
-> +# build fuzzers
-> +# e.g.
-> +# $CXX $CXXFLAGS -std=c++11 -Iinclude \
-> +#     /path/to/name_of_fuzzer.cc -o $OUT/name_of_fuzzer \
-> +#     $LIB_FUZZING_ENGINE /path/to/library.a
-> +
-> +mkdir -p $OUT/lib/              # Shared libraries
-> +
-> +# Build once to get the list of dynamic lib paths, and copy them over
-> +./configure --datadir="./data/" --disable-werror --cc="$CC" --cxx="$CXX" \
-> +    --extra-cflags="$CFLAGS -U __OPTIMIZE__ "
-> +make CONFIG_FUZZ=y CFLAGS="$LIB_FUZZING_ENGINE" -j$(nproc) i386-softmmu/fuzz
-> +
-> +for i in $(ldd ./i386-softmmu/qemu-fuzz-i386  | cut -f3 -d' '); do 
-> +    cp $i $OUT/lib/
-> +done
-> +rm ./i386-softmmu/qemu-fuzz-i386
-> +
-> +# Build a second time to build the final binary with correct rpath
-> +./configure --datadir="./data/" --disable-werror --cc="$CC" --cxx="$CXX" \
-> +    --extra-cflags="$CFLAGS -U __OPTIMIZE__" \
-> +    --extra-ldflags="-Wl,-rpath,'\$\$ORIGIN/lib'"
-> +make CONFIG_FUZZ=y CFLAGS="$LIB_FUZZING_ENGINE" -j$(nproc) i386-softmmu/fuzz
-> +
-> +# Copy over the datadir
-> +cp  -r ./pc-bios/ $OUT/pc-bios
-> +
-> +# Run the fuzzer with no arguments, to print the help-string and get the list
-> +# of available fuzz-targets. Copy over the qemu-fuzz-i386, naming it according
-> +# to each available fuzz target (See 05509c8e6d fuzz: select fuzz target using
-> +# executable name)
-> +for target in $(./i386-softmmu/qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}');
-> +do
-> +    cp ./i386-softmmu/qemu-fuzz-i386 $OUT/qemu-fuzz-i386-target-$target
-> +done
-> -- 
-> 2.26.2
+> Not a nit.  The -Wno- must follow -Wtype-limit, or -Wtype-limit will turn=
+ it
+> back on.
+
+If there's an ordering requirement here we should make it clearer,
+or somebody is going to do the obvious "tidying up" at some point
+in the future.
+
+Perhaps this whole set of lines should be rearranged, something like:
+
+# Enable these warnings if the compiler supports them:
+warn_flags=3D"-Wold-style-declaration -Wold-style-definition -Wtype-limits"
+warn_flags=3D"-Wformat-security -Wformat-y2k -Winit-self
+-Wignored-qualifiers $warn_flags"
+warn_flags=3D"-Wno-missing-include-dirs -Wempty-body -Wnested-externs $warn=
+_flags"
+warn_flags=3D"-Wendif-labels -Wexpansion-to-defined $warn_flags"
+# Now disable sub-types of warning we don't want but which are
+# enabled by some of the warning flags we do want; these must come
+# later in the compiler command line than the enabling warning options.
+nowarn_flags=3D"-Wno-missing-include-dirs -Wno-shift-negative-value"
+nowarn_flags=3D"-Wno-initializer-overrides $nowarn_flags"
+nowarn_flags=3D"-Wno-string-plus-int -Wno-typedef-redefinition $nowarn_flag=
+s"
+warn_flags=3D"$warn_flags $nowarn_flags"
+
+(is there a nicer shell idiom for creating a variable that's
+a long string of stuff without having over-long lines?)
+
+It's also tempting to pull the handful of warning related
+options currently set directly in QEMU_CFLAGS (-Wall, etc) into
+this same set of variables.
+
+thanks
+-- PMM
 
