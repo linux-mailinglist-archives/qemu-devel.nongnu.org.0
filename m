@@ -2,78 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB0A1EEF31
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 03:41:39 +0200 (CEST)
-Received: from localhost ([::1]:50352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C64D51EEF2B
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 03:37:43 +0200 (CEST)
+Received: from localhost ([::1]:38558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jh1MY-0002Zo-Tp
-	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 21:41:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55698)
+	id 1jh1Ik-0005aD-OC
+	for lists+qemu-devel@lfdr.de; Thu, 04 Jun 2020 21:37:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=4185f83b6=alistair.francis@wdc.com>)
- id 1jh1Bc-0002eJ-GF; Thu, 04 Jun 2020 21:30:20 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:22008)
+ (Exim 4.90_1) (envelope-from <chengang@emindsoft.com.cn>)
+ id 1jh1Gs-0003AQ-6U
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 21:35:47 -0400
+Received: from lucky1.263xmail.com ([211.157.147.135]:42522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=4185f83b6=alistair.francis@wdc.com>)
- id 1jh1Ba-00009e-Sw; Thu, 04 Jun 2020 21:30:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1591320620; x=1622856620;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=XtFXVwCUFAT+vA4t+gi7sUhQmPPR6tChBZbYsaiL+2s=;
- b=XGJjMF/ATjCidfJn0DRPQ/F4fqdmpx3th38iXXTNC7+4AAJZ9Y2hvEvh
- a0FA2gqshWviD6lrGm708Gh3TI/Oz6isna0kxYeJwqcvs/zTs7Zqte9uM
- zKXId5TBIvKwXI8sJsU6ja3HlIuDZnqFPOXSK0LddOukugRR7WRcT9qGH
- EuW9D9UyUQsnuyMWUa9rWkgW4OzdEmc1fzxDwUSUmx1GtRmj9azdBXkJO
- u6LFkAZjMEOUW6JGgc1buDxfvbgSAkEuI2OMGfx0RUsDkgC+Ug7NU6ggo
- lbhvzQIAXMrn/NVj/oJ1pTmMemDb0u6CSIauDYyWDLewrwhQsN5IIEKu+ g==;
-IronPort-SDR: OKfpnROFraPGghyvTwRQh2NJtdkJRh8E7S2BTVyE6M6DOgTOqKcWpHnXzAxZ0PxGM5GNs2CYvo
- 1xaNjYLTY+fteVn5TsBLieuSsRBbs4M/8Wc7wKLfOBZ+NLTzKFoU8QM8Pz10YoPKrNjhCu1eAa
- 49gdhxxI2wLtq/WoC3GQL1NeVhAEOpZwnJYEjQNGMgZPaKpZBT4zHORu/okMXKM/VG1NzbVQ29
- zDWmgU8pOUGS89Pjd6/rKhktOJVxnAbjWxmFgbizfM3lAUQOXCpqwK+jG6qmZilPboIJ3rDNZ6
- ++4=
-X-IronPort-AV: E=Sophos;i="5.73,474,1583164800"; d="scan'208";a="242127074"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 05 Jun 2020 09:30:20 +0800
-IronPort-SDR: xaN3f4KkLXVuUwQ4AdZpIQJdbCONtPaUayN461UsL7RrA5zChhmypZKTpqGO0k4vUoIJe1ANJ5
- PYQOAxnf/9wzlGpRF0VaWYMhnDIuNpYtk=
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2020 18:19:53 -0700
-IronPort-SDR: nW3FLPfTD5ZoXt9O4yRPaRVX+6W18ka6PcMRLSWbmisOQTJIrRsc0i92pv/U1ARVpbaQa6r9Fx
- b8KQuRKn2HYA==
-WDCIronportException: Internal
-Received: from cnf006056.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.57.233])
- by uls-op-cesaip01.wdc.com with ESMTP; 04 Jun 2020 18:30:18 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2 17/17] target/riscv: Support the Virtual Instruction fault
-Date: Thu,  4 Jun 2020 18:21:29 -0700
-Message-Id: <399681975d78747509166baccabc870a7646048a.1591319882.git.alistair@alistair23.me>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1591319882.git.alistair@alistair23.me>
-References: <cover.1591319882.git.alistair@alistair23.me>
+ (Exim 4.90_1) (envelope-from <chengang@emindsoft.com.cn>)
+ id 1jh1Go-0001dd-1s
+ for qemu-devel@nongnu.org; Thu, 04 Jun 2020 21:35:45 -0400
+Received: from localhost (unknown [192.168.167.235])
+ by lucky1.263xmail.com (Postfix) with ESMTP id 08255982F4;
+ Fri,  5 Jun 2020 09:32:29 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ADDR-CHECKED4: 1
+X-ANTISPAM-LEVEL: 2
+X-ABS-CHECKED: 0
+Received: from localhost.localdomain (unknown [223.72.76.36])
+ by smtp.263.net (postfix) whith ESMTP id
+ P31252T139913132439296S1591320743394459_; 
+ Fri, 05 Jun 2020 09:32:29 +0800 (CST)
+X-UNIQUE-TAG: <e6f4e6b67e5501a060b678245bee726c>
+X-RL-SENDER: chengang@emindsoft.com.cn
+X-SENDER: chengang@emindsoft.com.cn
+X-LOGIN-NAME: chengang@emindsoft.com.cn
+X-FST-TO: laurent@vivier.eu
+X-SENDER-IP: 223.72.76.36
+X-ATTACHMENT-NUM: 0
+X-DNS-TYPE: 0
+X-System-Flag: 0
+From: chengang@emindsoft.com.cn
+To: laurent@vivier.eu,
+	riku.voipio@iki.fi
+Subject: [PATCH v7] linux-user: syscall: ioctls: support DRM_IOCTL_VERSION
+Date: Fri,  5 Jun 2020 09:32:21 +0800
+Message-Id: <20200605013221.22828-1-chengang@emindsoft.com.cn>
+X-Mailer: git-send-email 2.24.0.308.g228f53135a
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.143.124;
- envelope-from=prvs=4185f83b6=alistair.francis@wdc.com;
- helo=esa2.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 21:30:00
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: none client-ip=211.157.147.135;
+ envelope-from=chengang@emindsoft.com.cn; helo=lucky1.263xmail.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/04 21:35:32
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,270 +70,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, anup.pate@wdc.com, palmer@dabbelt.com,
- alistair23@gmail.com
+Cc: chengang@emindsoft.com.cn, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu_bits.h                 |  6 +++
- target/riscv/helper.h                   |  1 +
- target/riscv/csr.c                      | 64 ++++++++++++++++++++++++-
- target/riscv/insn_trans/trans_rvh.inc.c |  2 +-
- target/riscv/op_helper.c                | 42 ++++++++++++++--
- 5 files changed, 109 insertions(+), 6 deletions(-)
+From: Chen Gang <chengang@emindsoft.com.cn>
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 690f327828..30fa746d10 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -446,6 +446,11 @@
- #define HSTATUS_WPRI HSTATUS64_WPRI
- #endif
+Another DRM_IOCTL_* commands will be done later.
+
+Signed-off-by: Chen Gang <chengang@emindsoft.com.cn>
+---
+ configure                  | 10 ++++
+ linux-user/ioctls.h        |  5 ++
+ linux-user/syscall.c       | 98 ++++++++++++++++++++++++++++++++++++++
+ linux-user/syscall_defs.h  | 15 ++++++
+ linux-user/syscall_types.h | 11 +++++
+ 5 files changed, 139 insertions(+)
+
+diff --git a/configure b/configure
+index f087d2bcd1..389dbb1d09 100755
+--- a/configure
++++ b/configure
+@@ -3136,6 +3136,13 @@ if ! check_include "ifaddrs.h" ; then
+   have_ifaddrs_h=no
+ fi
  
-+#define HCOUNTEREN_CY        (1 << 0)
-+#define HCOUNTEREN_TM        (1 << 1)
-+#define HCOUNTEREN_IR        (1 << 2)
-+#define HCOUNTEREN_HPM3      (1 << 3)
++#########################################
++# libdrm check
++have_drm_h=no
++if check_include "libdrm/drm.h" ; then
++    have_drm_h=yes
++fi
 +
- /* Privilege modes */
- #define PRV_U 0
- #define PRV_S 1
-@@ -538,6 +543,7 @@
- #define RISCV_EXCP_STORE_PAGE_FAULT              0xf /* since: priv-1.10.0 */
- #define RISCV_EXCP_INST_GUEST_PAGE_FAULT         0x14
- #define RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT       0x15
-+#define RISCV_EXCP_VIRT_INSTRUCTION_FAULT        0x16
- #define RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT  0x17
+ ##########################################
+ # VTE probe
  
- #define RISCV_EXCP_INT_FLAG                0x80000000
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index d020d1459c..2df7e09766 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -80,6 +80,7 @@ DEF_HELPER_1(tlb_flush, void, env)
- /* Hypervisor functions */
- #ifndef CONFIG_USER_ONLY
- DEF_HELPER_1(hyp_tlb_flush, void, env)
-+DEF_HELPER_1(hyp_gvma_tlb_flush, void, env)
- DEF_HELPER_4(hyp_load, tl, env, tl, tl, tl)
- DEF_HELPER_5(hyp_store, void, env, tl, tl, tl, tl)
- DEF_HELPER_4(hyp_x_load, tl, env, tl, tl, tl)
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 0c53438605..4909059baf 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -63,6 +63,61 @@ static int ctr(CPURISCVState *env, int csrno)
-         /* The Counters extensions is not enabled */
-         return -RISCV_EXCP_ILLEGAL_INST;
-     }
-+
-+    if (riscv_cpu_virt_enabled(env)) {
-+        switch (csrno) {
-+        case CSR_CYCLE:
-+            if (!get_field(env->hcounteren, HCOUNTEREN_CY) &&
-+                get_field(env->mcounteren, HCOUNTEREN_CY)) {
-+                return -RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+            }
-+            break;
-+        case CSR_TIME:
-+            if (!get_field(env->hcounteren, HCOUNTEREN_TM) &&
-+                get_field(env->mcounteren, HCOUNTEREN_TM)) {
-+                return -RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+            }
-+            break;
-+        case CSR_INSTRET:
-+            if (!get_field(env->hcounteren, HCOUNTEREN_IR) &&
-+                get_field(env->mcounteren, HCOUNTEREN_IR)) {
-+                return -RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+            }
-+            break;
-+        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
-+            if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOUNTER3)) &&
-+                get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUNTER3))) {
-+                return -RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+            }
-+            break;
-+#if defined(TARGET_RISCV32)
-+        case CSR_CYCLEH:
-+            if (!get_field(env->hcounteren, HCOUNTEREN_CY) &&
-+                get_field(env->mcounteren, HCOUNTEREN_CY)) {
-+                return -RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+            }
-+            break;
-+        case CSR_TIMEH:
-+            if (!get_field(env->hcounteren, HCOUNTEREN_TM) &&
-+                get_field(env->mcounteren, HCOUNTEREN_TM)) {
-+                return -RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+            }
-+            break;
-+        case CSR_INSTRETH:
-+            if (!get_field(env->hcounteren, HCOUNTEREN_IR) &&
-+                get_field(env->mcounteren, HCOUNTEREN_IR)) {
-+                return -RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+            }
-+            break;
-+        case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
-+            if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOUNTER3H)) &&
-+                get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUNTER3H))) {
-+                return -RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+            }
-+            break;
+@@ -7127,6 +7134,9 @@ fi
+ if test "$have_ifaddrs_h" = "yes" ; then
+     echo "HAVE_IFADDRS_H=y" >> $config_host_mak
+ fi
++if test "$have_drm_h" = "yes" ; then
++  echo "HAVE_DRM_H=y" >> $config_host_mak
++fi
+ if test "$have_broken_size_max" = "yes" ; then
+     echo "HAVE_BROKEN_SIZE_MAX=y" >> $config_host_mak
+ fi
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index 0defa1d8c1..f2e2fa9c87 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -574,6 +574,11 @@
+   IOCTL_SPECIAL(SIOCDELRT, IOC_W, do_ioctl_rt,
+                 MK_PTR(MK_STRUCT(STRUCT_rtentry)))
+ 
++#ifdef HAVE_DRM_H
++  IOCTL_SPECIAL(DRM_IOCTL_VERSION, IOC_RW, do_ioctl_drm,
++                MK_PTR(MK_STRUCT(STRUCT_drm_version)))
 +#endif
-+        }
-+    }
- #endif
-     return 0;
- }
-@@ -86,6 +141,8 @@ static int hmode(CPURISCVState *env, int csrno)
-         if ((env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
-             env->priv == PRV_M) {
-             return 0;
-+        } else {
-+            return -RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-         }
-     }
- 
-@@ -272,6 +329,7 @@ static const target_ulong delegable_excps =
-     (1ULL << (RISCV_EXCP_STORE_PAGE_FAULT)) |
-     (1ULL << (RISCV_EXCP_INST_GUEST_PAGE_FAULT)) |
-     (1ULL << (RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT)) |
-+    (1ULL << (RISCV_EXCP_VIRT_INSTRUCTION_FAULT)) |
-     (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT));
- static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
-     SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
-@@ -1170,9 +1228,13 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
-     }
- 
-     /* check predicate */
--    if (!csr_ops[csrno].predicate || csr_ops[csrno].predicate(env, csrno) < 0) {
-+    if (!csr_ops[csrno].predicate) {
-         return -RISCV_EXCP_ILLEGAL_INST;
-     }
-+    ret = csr_ops[csrno].predicate(env, csrno);
-+    if (ret < 0) {
-+        return ret;
-+    }
- 
-     /* execute combined read/write operation if it exists */
-     if (csr_ops[csrno].op) {
-diff --git a/target/riscv/insn_trans/trans_rvh.inc.c b/target/riscv/insn_trans/trans_rvh.inc.c
-index db650ae62a..881c9ef4d2 100644
---- a/target/riscv/insn_trans/trans_rvh.inc.c
-+++ b/target/riscv/insn_trans/trans_rvh.inc.c
-@@ -360,7 +360,7 @@ static bool trans_hfence_gvma(DisasContext *ctx, arg_sfence_vma *a)
- {
-     REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
--    gen_helper_hyp_tlb_flush(cpu_env);
-+    gen_helper_hyp_gvma_tlb_flush(cpu_env);
-     return true;
- #endif
-     return false;
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 80d632777b..d1f1a46335 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -94,6 +94,11 @@ target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
-         riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-     }
- 
-+    if (riscv_has_ext(env, RVH) && riscv_cpu_virt_enabled(env) &&
-+        get_field(env->hstatus, HSTATUS_VTSR)) {
-+        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
-+    }
 +
-     mstatus = env->mstatus;
+ #ifdef TARGET_TIOCSTART
+   IOCTL_IGNORE(TIOCSTART)
+   IOCTL_IGNORE(TIOCSTOP)
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 7f6700c54e..c0515c4378 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -112,6 +112,9 @@
+ #include <linux/if_alg.h>
+ #include <linux/rtc.h>
+ #include <sound/asound.h>
++#ifdef HAVE_DRM_H
++#include <libdrm/drm.h>
++#endif
+ #include "linux_loop.h"
+ #include "uname.h"
  
-     if (riscv_has_ext(env, RVH) && !riscv_cpu_virt_enabled(env)) {
-@@ -176,7 +181,7 @@ void helper_wfi(CPURISCVState *env)
-     if ((env->priv == PRV_S &&
-         get_field(env->mstatus, MSTATUS_TW)) ||
-         riscv_cpu_virt_enabled(env)) {
--        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
-     } else {
-         cs->halted = 1;
-         cs->exception_index = EXCP_HLT;
-@@ -191,6 +196,9 @@ void helper_tlb_flush(CPURISCVState *env)
-         (env->priv == PRV_S &&
-          get_field(env->mstatus, MSTATUS_TVM))) {
-         riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+    } else if (riscv_has_ext(env, RVH) && riscv_cpu_virt_enabled(env) &&
-+               get_field(env->hstatus, HSTATUS_VTVM)) {
-+        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
-     } else {
-         tlb_flush(cs);
-     }
-@@ -200,6 +208,10 @@ void helper_hyp_tlb_flush(CPURISCVState *env)
- {
-     CPUState *cs = env_cpu(env);
- 
-+    if (env->priv == PRV_S && riscv_cpu_virt_enabled(env)) {
-+        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
-+    }
-+
-     if (env->priv == PRV_M ||
-         (env->priv == PRV_S && !riscv_cpu_virt_enabled(env))) {
-         tlb_flush(cs);
-@@ -209,6 +221,16 @@ void helper_hyp_tlb_flush(CPURISCVState *env)
-     riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+@@ -5276,6 +5279,101 @@ static abi_long do_ioctl_tiocgptpeer(const IOCTLEntry *ie, uint8_t *buf_temp,
  }
+ #endif
  
-+void helper_hyp_gvma_tlb_flush(CPURISCVState *env)
++#ifdef HAVE_DRM_H
++
++static void unlock_drm_version(struct drm_version *host_ver,
++                               struct target_drm_version *target_ver,
++                               bool copy)
 +{
-+    if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env) &&
-+        get_field(env->mstatus, MSTATUS_TVM)) {
-+        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+    }
-+
-+    helper_hyp_tlb_flush(env);
++    unlock_user(host_ver->name, target_ver->name,
++                                copy ? host_ver->name_len : 0);
++    unlock_user(host_ver->date, target_ver->date,
++                                copy ? host_ver->date_len : 0);
++    unlock_user(host_ver->desc, target_ver->desc,
++                                copy ? host_ver->desc_len : 0);
 +}
 +
- target_ulong helper_hyp_load(CPURISCVState *env, target_ulong address,
-                              target_ulong attrs, target_ulong memop)
- {
-@@ -251,7 +273,11 @@ target_ulong helper_hyp_load(CPURISCVState *env, target_ulong address,
-         return pte;
-     }
- 
--    riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+    if (riscv_cpu_virt_enabled(env)) {
-+        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
-+    } else {
-+        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
++static inline abi_long target_to_host_drmversion(struct drm_version *host_ver,
++                                          struct target_drm_version *target_ver)
++{
++    memset(host_ver, 0, sizeof(*host_ver));
++
++    __get_user(host_ver->name_len, &target_ver->name_len);
++    if (host_ver->name_len) {
++        host_ver->name = lock_user(VERIFY_WRITE, target_ver->name,
++                                   target_ver->name_len, 0);
++        if (!host_ver->name) {
++            return -EFAULT;
++        }
 +    }
-     return 0;
- }
- 
-@@ -289,7 +315,11 @@ void helper_hyp_store(CPURISCVState *env, target_ulong address,
-         return;
-     }
- 
--    riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+    if (riscv_cpu_virt_enabled(env)) {
-+        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
-+    } else {
-+        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
++
++    __get_user(host_ver->date_len, &target_ver->date_len);
++    if (host_ver->date_len) {
++        host_ver->date = lock_user(VERIFY_WRITE, target_ver->date,
++                                   target_ver->date_len, 0);
++        if (!host_ver->date) {
++            goto err;
++        }
 +    }
- }
- 
- target_ulong helper_hyp_x_load(CPURISCVState *env, target_ulong address,
-@@ -319,7 +349,11 @@ target_ulong helper_hyp_x_load(CPURISCVState *env, target_ulong address,
-         return pte;
-     }
- 
--    riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+    if (riscv_cpu_virt_enabled(env)) {
-+        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
-+    } else {
-+        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
++
++    __get_user(host_ver->desc_len, &target_ver->desc_len);
++    if (host_ver->desc_len) {
++        host_ver->desc = lock_user(VERIFY_WRITE, target_ver->desc,
++                                   target_ver->desc_len, 0);
++        if (!host_ver->desc) {
++            goto err;
++        }
 +    }
-     return 0;
- }
++
++    return 0;
++err:
++    unlock_drm_version(host_ver, target_ver, false);
++    return -EFAULT;
++}
++
++static inline void host_to_target_drmversion(
++                                          struct target_drm_version *target_ver,
++                                          struct drm_version *host_ver)
++{
++    __put_user(host_ver->version_major, &target_ver->version_major);
++    __put_user(host_ver->version_minor, &target_ver->version_minor);
++    __put_user(host_ver->version_patchlevel, &target_ver->version_patchlevel);
++    __put_user(host_ver->name_len, &target_ver->name_len);
++    __put_user(host_ver->date_len, &target_ver->date_len);
++    __put_user(host_ver->desc_len, &target_ver->desc_len);
++    unlock_drm_version(host_ver, target_ver, true);
++}
++
++static abi_long do_ioctl_drm(const IOCTLEntry *ie, uint8_t *buf_temp,
++                             int fd, int cmd, abi_long arg)
++{
++    struct drm_version *ver;
++    struct target_drm_version *target_ver;
++    abi_long ret;
++
++    switch (ie->host_cmd) {
++    case DRM_IOCTL_VERSION:
++        if (!lock_user_struct(VERIFY_WRITE, target_ver, arg, 0)) {
++            return -TARGET_EFAULT;
++        }
++        ver = (struct drm_version *)buf_temp;
++        ret = target_to_host_drmversion(ver, target_ver);
++        if (!is_error(ret)) {
++            ret = get_errno(safe_ioctl(fd, ie->host_cmd, ver));
++            if (is_error(ret)) {
++                unlock_drm_version(ver, target_ver, false);
++            } else {
++                host_to_target_drmversion(target_ver, ver);
++            }
++        }
++        unlock_user_struct(target_ver, arg, 0);
++        return ret;
++    }
++    return -TARGET_ENOSYS;
++}
++
++#endif
++
+ static IOCTLEntry ioctl_entries[] = {
+ #define IOCTL(cmd, access, ...) \
+     { TARGET_ ## cmd, cmd, #cmd, access, 0, {  __VA_ARGS__ } },
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 152ec637cb..3c261cff0e 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -1167,6 +1167,9 @@ struct target_rtc_pll_info {
+ #define TARGET_DM_TARGET_MSG          TARGET_IOWRU(0xfd, 0x0e)
+ #define TARGET_DM_DEV_SET_GEOMETRY    TARGET_IOWRU(0xfd, 0x0f)
  
++/* drm ioctls */
++#define TARGET_DRM_IOCTL_VERSION      TARGET_IOWRU('d', 0x00)
++
+ /* from asm/termbits.h */
+ 
+ #define TARGET_NCC 8
+@@ -2598,6 +2601,18 @@ struct target_mq_attr {
+     abi_long mq_curmsgs;
+ };
+ 
++struct target_drm_version {
++    int version_major;
++    int version_minor;
++    int version_patchlevel;
++    abi_ulong name_len;
++    abi_ulong name;
++    abi_ulong date_len;
++    abi_ulong date;
++    abi_ulong desc_len;
++    abi_ulong desc;
++};
++
+ #include "socket.h"
+ 
+ #include "errno_defs.h"
+diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+index 4e12c1661e..e2b0484f50 100644
+--- a/linux-user/syscall_types.h
++++ b/linux-user/syscall_types.h
+@@ -292,6 +292,17 @@ STRUCT(dm_target_versions,
+ STRUCT(dm_target_msg,
+        TYPE_ULONGLONG) /* sector */
+ 
++STRUCT(drm_version,
++       TYPE_INT, /* version_major */
++       TYPE_INT, /* version_minor */
++       TYPE_INT, /* version_patchlevel */
++       TYPE_ULONG, /* name_len */
++       TYPE_PTRVOID, /* name */
++       TYPE_ULONG, /* date_len */
++       TYPE_PTRVOID, /* date */
++       TYPE_ULONG, /* desc_len */
++       TYPE_PTRVOID) /* desc */
++
+ STRUCT(file_clone_range,
+        TYPE_LONGLONG, /* src_fd */
+        TYPE_ULONGLONG, /* src_offset */
 -- 
-2.26.2
+2.24.0.308.g228f53135a
+
+
 
 
