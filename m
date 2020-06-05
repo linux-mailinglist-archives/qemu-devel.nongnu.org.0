@@ -2,82 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402A71EFDF1
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:29:27 +0200 (CEST)
-Received: from localhost ([::1]:45270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C181EFE18
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 Jun 2020 18:37:28 +0200 (CEST)
+Received: from localhost ([::1]:55372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jhFDi-0002jn-CO
-	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:29:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36754)
+	id 1jhFLT-0007xF-7K
+	for lists+qemu-devel@lfdr.de; Fri, 05 Jun 2020 12:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jhFC7-0001j3-Lp
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:27:47 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33727)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jhFC6-0004lz-CN
- for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:27:47 -0400
-Received: by mail-wm1-x341.google.com with SMTP id j198so9457796wmj.0
- for <qemu-devel@nongnu.org>; Fri, 05 Jun 2020 09:27:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=rbhj6tHjtgkzm/ewWrQUKlLpj2gOa4/9bvvmhdFxcOY=;
- b=dixsWuh1/nT3M2J454c9ObqhBWPk5yuIaYGTg5oHUSX+Eci5pHa8XLwfZRglK6r9E3
- gqcdtD/NANl6MLJNvxFBpb1zZfMU3mYpYx3tPTQUqhbL4+0RZnt7aJi1LZL5wkvY0TDn
- gEsO2Ed/MYyudQS1j/RA8Ui69+1qgVrMIS6XXLUznIyHem5f1KdI9ejuwrIY6a1/PDrx
- GIbujLPsVqLiNEkZbTlAJA841xEFriYf1ZtbT8BZFd7eF0oUTc4tNrBv+pxaL2QmtNUr
- ifmsONmS2Ht/1Jg+qN3yxmQRA0Mwi8FnQ0OCs8p5jGZafUu2XxDzDKNZcytKnwGiEBQn
- Ui4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=rbhj6tHjtgkzm/ewWrQUKlLpj2gOa4/9bvvmhdFxcOY=;
- b=PfxKJlqslOi/4MjFQcg9wP/8YEjNQV2AraREjCcKiko5eIQNE34sP4z9da7+/LAZN3
- daYujnytyNU90qHqUxRZ7R40jj/x1T586GRnFXKYCspIdLM+JSzFdmp6I4djtEmC/2yo
- lDswIqi/Sx7ypaHSKma23B1d2q6J7BIbv3j07CJJ0pFu02vP4ss8dRYAY7dpPnKiAKyM
- UhKpq6155d1oelEWbSpOHEP82Az+tiGQaUDSIvxDPEruZLDPeXDnayrrgi77XKXfYnCh
- A/MD8oE23YMvOOlHC0tRUSJY6RDJ7ofEsjIJVUJB6VYFsXCDgbyngAuqf3LF4PrEdcGx
- yjKw==
-X-Gm-Message-State: AOAM530o+0XhW3uT0D7dc/vujRHKqOvJLptAlk2V8MlImHWgohWjVGnp
- 65D67j9HhvzGxIFOVIX5FFSeKA==
-X-Google-Smtp-Source: ABdhPJyV/p+3HXW89qm9QHCfG/fqhwobwClRit3+j/Y9qFeivAJ3r5faGVbosy3K9A85CFnlV9U91A==
-X-Received: by 2002:a7b:cb91:: with SMTP id m17mr3697240wmi.126.1591374463688; 
- Fri, 05 Jun 2020 09:27:43 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m129sm12703228wmf.2.2020.06.05.09.27.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Jun 2020 09:27:42 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EEC211FF7E;
- Fri,  5 Jun 2020 17:27:39 +0100 (BST)
-References: <20200603112442.22833-1-alex.bennee@linaro.org>
- <dc06ca1f-4327-7511-eadf-cc5ad905c94c@redhat.com>
- <1bf57207-43c7-cfce-7c38-b0b6bea7b74b@redhat.com>
-User-agent: mu4e 1.5.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2] exec: flush the whole TLB if a watchpoint crosses a
- page boundary
-In-reply-to: <1bf57207-43c7-cfce-7c38-b0b6bea7b74b@redhat.com>
-Date: Fri, 05 Jun 2020 17:27:39 +0100
-Message-ID: <875zc54gw4.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1jhFKR-0007Rt-TU
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:36:23 -0400
+Received: from mail-eopbgr770053.outbound.protection.outlook.com
+ ([40.107.77.53]:40352 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1jhFKP-0007FP-WA
+ for qemu-devel@nongnu.org; Fri, 05 Jun 2020 12:36:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FRkuGALrkLcwenzDQXN55Eq9WJj8jJCObogVSB5jAOv+zD2oA6Q817V7YUNPMj/zQPx1jxhNTdEPwA6OlEcOcDjtt2ZLOO3fAuk5L6eiiiQKIMH1jIef2wS2oh8IUOjVTk3cRN32+3EKHrqaz3De7ST9rjAHY4O/Yr2vvZbH8nn9oFHwn6uoQcz6akahNEs5xtyFOaMWLPcDC5TXWYkVOg4HMVp1mA8n9/sgComwFhF9alOcZi+3s5vCoLwkqYYo2Mf06bTTwAR8lO2DSPVj4FN12jGA51zdIfTEtCOGCBVYiBGEi87vSyFBk7xOHKLZZ6vAbCflJ+sWsp3blAwBgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ARFUTZWyiCTEJr7Q4VrJi1zJFH/5bPou8dDcLbg5z1Y=;
+ b=VX7937h4UqbWMPbz6zQg6W2Uh+loM3x7T5/1n1Nuil7sliCy67zbI8tF5QZBm/zRz+zlvNhn3taiquJZl1/3wMGBvEb0FRJDfbjJ1LVDkoC9j1D4yWJICWsWAgMqSlBX+UeHlSIc+5NVVQgcM2E/2KDreQ+4UaHNnUC1qYJX63tNRIAWodJlvtVqnfiO+wuQm74u7AErCCQymMdq7rKMDhyPXecUJ8GV5hiu7P5JaT6Mp7RY1HlSdSV3OAmyZhwujfNBlyDBix24P3N0WGZoFlMiFh0mockq/En6CZWVg5i9Q6mfDt1cg4aO0+q1Cxsm1bNOVN9XF5yhNKE0gt5ePQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ARFUTZWyiCTEJr7Q4VrJi1zJFH/5bPou8dDcLbg5z1Y=;
+ b=VTeUIwQ1jpZSCfhr1g0q635lrCOVJG3yk+7rlGC4he9LIenHMe3L1x301UBtMLTNDpG0GfL0uNHiA4iXgUOej4boyDmnhdnC8fBVm+wXSIT4G51+vWblhmZEgPgIrI3dR5prpvE0V2qY691xkmvdrCuwoITyuSgpzvDdqWaBesc=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from MW2PR12MB2556.namprd12.prod.outlook.com (2603:10b6:907:a::11)
+ by MW2PR12MB2362.namprd12.prod.outlook.com (2603:10b6:907:e::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.20; Fri, 5 Jun
+ 2020 16:21:16 +0000
+Received: from MW2PR12MB2556.namprd12.prod.outlook.com
+ ([fe80::9c8e:f3d8:eb8a:255c]) by MW2PR12MB2556.namprd12.prod.outlook.com
+ ([fe80::9c8e:f3d8:eb8a:255c%6]) with mapi id 15.20.3066.019; Fri, 5 Jun 2020
+ 16:21:16 +0000
+Subject: RE: [PATCH v13 1/5] i386: Add support for CPUID_8000_001E for AMD
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <1528498581-131037-1-git-send-email-babu.moger@amd.com>
+ <1528498581-131037-2-git-send-email-babu.moger@amd.com>
+ <20200602175212.GH577771@habkost.net>
+ <b6e22360-5fa0-9ade-624d-9de1f76b360b@amd.com>
+ <20200604205400.GE2366737@habkost.net>
+From: Babu Moger <babu.moger@amd.com>
+Message-ID: <fcef7498-eea5-616e-6b92-f764884e8b2c@amd.com>
+Date: Fri, 5 Jun 2020 11:21:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <20200604205400.GE2366737@habkost.net>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN4PR0801CA0024.namprd08.prod.outlook.com
+ (2603:10b6:803:29::34) To MW2PR12MB2556.namprd12.prod.outlook.com
+ (2603:10b6:907:a::11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.236.31.79] (165.204.77.1) by
+ SN4PR0801CA0024.namprd08.prod.outlook.com (2603:10b6:803:29::34) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18 via Frontend
+ Transport; Fri, 5 Jun 2020 16:21:15 +0000
+X-Originating-IP: [165.204.77.1]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: ab2a8eaa-6363-48f0-1820-08d8096c78e4
+X-MS-TrafficTypeDiagnostic: MW2PR12MB2362:
+X-Microsoft-Antispam-PRVS: <MW2PR12MB23622966ACC0A9028D572F0295860@MW2PR12MB2362.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 0425A67DEF
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6UEVGKZaYQTJAe5XcZ4+RS5ItOsUJS3ZQX5K0zH2Ajo9PYXAHPs5S70NXUsKPJB9T1XkeCPpxcIqGyTDU6VBQCKKm7c/2aToU1jRnglfYk3MZZ19IGesaedQq0IBTRg8XwaU8zF/8AX3NbsCjhnVfDxjesA6ROqBP7JYNOVddKaCDipchiHrolexGMVnSHcvtTXy4jKRafEEkA5erbPnXQ8tYfViclc/+py2+9Pf3gZNmCzKC40dcXwgq2USWuseOnw22rUyarDEI9vN1/JnyHdejcudtve/xlzSfL+RLywSf6ZUbo5deD/Fpd8ras1YeswsUY9IgK23kqIFvpUY/O9JOjHEh6+QnKqNM+GdrMUbyyya7ILsU/Ceg7nu1UpHNr8VmOs2eiUuUonD4X7q5PQZhSsO5zrovyg4UrALtA2A0ts4j9T8CWcUVtuoV/3eFEWV7nR33IFRsRyRrfSeDg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR12MB2556.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39860400002)(376002)(136003)(396003)(346002)(366004)(44832011)(52116002)(5660300002)(31686004)(31696002)(6916009)(86362001)(4326008)(36756003)(6486002)(53546011)(7416002)(83380400001)(16526019)(186003)(956004)(2616005)(26005)(66556008)(66476007)(66946007)(2906002)(54906003)(316002)(478600001)(16576012)(45080400002)(8936002)(83080400001)(8676002)(966005)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 4l9hD1fxxYiRRo6TjdCw1zJyaGm22ZiWhzA7QPcjAFVhDgLz/djaoaZY2uuFpQbFuc5CpXKABYBpAHaVKCFw3dIJ1sefmSaWOdM9HGLEkgOk/gt5BqOKBbLxZxlbpml/cc511Mwbf1N2EdLLhNby6VEncjPQ1HXxJmfiwtdkfWZqJsBcaZr4mbB+MyI9j/PZmHev2lLDtgRM0k6buQMRkSA4ppYLblA9cTuxRLetqkB3WF8qEUt183zG2Ef1Wr2DK+kdu8KldXLEgr2Y7Mhze7Wap1/8DFgvymKfb05Y/g3R8GfWaql3jktlp2oQtnFjHv6rNK7boUEhDXoCTF73BJy1W+IR5uZhYqtN52LoOlVp9g/Hv8k350dOwJ3VWSWZH5oQ9StGVNcgjn0yrVckyQxkyXkAxrS7hTyblZ6Tozjuu6Z/mSZcbjrlhovWGOGGSIIUS02kM4tEa2mjO18Er1DIT2bNE/7Lzp9QC6qgCIk=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab2a8eaa-6363-48f0-1820-08d8096c78e4
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2020 16:21:16.5105 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Rf3hClJYeVavGs/cij1YiypkqUXc/Q4TnR7dSCvps4GbIdG+SsXoU/9S5FWlxmJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2362
+Received-SPF: none client-ip=40.107.77.53; envelope-from=Babu.Moger@amd.com;
+ helo=NAM02-SN1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/06/05 12:36:19
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,46 +120,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: "geoff@hostfission.com" <geoff@hostfission.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
+ "kash@tripleback.net" <kash@tripleback.net>,
+ "mtosatti@redhat.com" <mtosatti@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> On 6/3/20 2:46 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 6/3/20 1:24 PM, Alex Benn=C3=A9e wrote:
->>> There is no particular reason why you can't have a watchpoint in TCG
->>> that covers a large chunk of the address space. We could be clever
->>> about it but these cases are pretty rare and we can assume the user
->>> will expect a little performance degradation.
->>>
->>> NB: In my testing gdb will silently squash a watchpoint like:
->>>
->>>   watch (char[0x7fffffffff]) *0x0
->>>
->>> to a 4 byte watchpoint. Practically it will limit the maximum size
->>> based on max-value-size. However given enough of a tweak the sky is
->>> the limit.
->>>
->>> Reported-by: Alexander Bulekov <alxndr@bu.edu>
->>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>>
->>> ---
->>> v2
->>>   - use cleaner in_page =3D -(addr | TARGET_PAGE_MASK) logic per rth
->>=20
->> Can we have a macro for this?
->> Maybe QEMU_IN_PAGE_OFFSET(addr, TARGET_PAGE_MASK)?
->> or QEMU_OFFSET_IN_PAGE()...
->
-> As this is queued, I suppose the implicit answer is "no."
+> -----Original Message-----
+> From: Eduardo Habkost <ehabkost@redhat.com>
+> Sent: Thursday, June 4, 2020 3:54 PM
+> To: Moger, Babu <Babu.Moger@amd.com>
+> Cc: mst@redhat.com; marcel.apfelbaum@gmail.com; pbonzini@redhat.com;
+> rth@twiddle.net; mtosatti@redhat.com; qemu-devel@nongnu.org;
+> kvm@vger.kernel.org; kash@tripleback.net; geoff@hostfission.com; Dr. David
+> Alan Gilbert <dgilbert@redhat.com>
+> Subject: Re: [PATCH v13 1/5] i386: Add support for CPUID_8000_001E for AMD
+> 
+> On Thu, Jun 04, 2020 at 09:06:27AM -0500, Babu Moger wrote:
+> >
+> >
+> > > -----Original Message-----
+> > > From: Eduardo Habkost <ehabkost@redhat.com>
+> > > Sent: Tuesday, June 2, 2020 12:52 PM
+> > > To: Moger, Babu <Babu.Moger@amd.com>
+> > > Cc: mst@redhat.com; marcel.apfelbaum@gmail.com;
+> pbonzini@redhat.com;
+> > > rth@twiddle.net; mtosatti@redhat.com; qemu-devel@nongnu.org;
+> > > kvm@vger.kernel.org; kash@tripleback.net; geoff@hostfission.com; Dr.
+> David
+> > > Alan Gilbert <dgilbert@redhat.com>
+> > > Subject: Re: [PATCH v13 1/5] i386: Add support for CPUID_8000_001E for
+> AMD
+> > >
+> > > On Fri, Jun 08, 2018 at 06:56:17PM -0400, Babu Moger wrote:
+> > > > Add support for cpuid leaf CPUID_8000_001E. Build the config that closely
+> > > > match the underlying hardware. Please refer to the Processor
+> Programming
+> > > > Reference (PPR) for AMD Family 17h Model for more details.
+> > > >
+> > > > Signed-off-by: Babu Moger <babu.moger@amd.com>
+> > > [...]
+> > > > +    case 0x8000001E:
+> > > > +        assert(cpu->core_id <= 255);
+> > >
+> > > It is possible to trigger this assert using:
+> > >
+> > > $ qemu-system-x86_64 -machine q35,accel=kvm,kernel-irqchip=split -device
+> > > intel-iommu,intremap=on,eim=on -smp
+> > > 1,maxcpus=258,cores=258,threads=1,sockets=1 -cpu
+> > > qemu64,xlevel=0x8000001e -device qemu64-x86_64-cpu,apic-id=257
+> > > qemu-system-x86_64: warning: Number of hotpluggable cpus requested
+> (258)
+> > > exceeds the recommended cpus supported by KVM (240)
+> > > qemu-system-x86_64:
+> > > /home/ehabkost/rh/proj/virt/qemu/target/i386/cpu.c:5888: cpu_x86_cpuid:
+> > > Assertion `cpu->core_id <= 255' failed.
+> > > Aborted (core dumped)
+> > >
+> > > See bug report and discussion at
+> > >
+> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.
+> > >
+> redhat.com%2Fshow_bug.cgi%3Fid%3D1834200&amp;data=02%7C01%7Cbabu.
+> > >
+> moger%40amd.com%7C8a2724729b914bc9b53d08d8071db392%7C3dd8961fe4
+> > >
+> 884e608e11a82d994e183d%7C0%7C0%7C637267171438806408&amp;sdata=ib
+> > > iGlF%2FF%2FVtYQLf7fe988kxFsLhj4GrRiTOq4LUuOT8%3D&amp;reserved=0
+> > >
+> > > Also, it looks like encode_topo_cpuid8000001e() assumes core_id
+> > > has only 3 bits, so the existing assert() is not even sufficient.
+> > > We need to decide what to do if the user requests nr_cores > 8.
+> > >
+> > > Probably omitting CPUID[0x8000001E] if the VCPU topology is
+> > > incompatible with encode_topo_cpuid8000001e() (and printing a
+> > > warning) is the safest thing to do right now.
+> >
+> > Eduardo,  We need to generalize the encode_topo_cpuid8000001e decoding.
+> > We will have to remove 3 bit limitation there. It will not scale with
+> > latest configurations. I will take a look that.
+> >
+> > For now, best option I think is to(like you mentioned in bug 1834200),
+> > declaring nr_cores > 256 as never supported (or deprecated); and throw
+> > warning.
+> >
+> > What do you think?
+> 
+> I believe we can declare nr_cores > 256 as never supported to
+> address the assert failure.  Other CPUID functions also look
+> broken when nr_cores is too large: encode_cache_cpuid4() seems to
+> assume nr_cores is 128 or less.
 
-Richard took it into tcg/next as is. I think having a macro may well be
-nice clean-up but I struggled to pick a good include location so left it
-for a future clean-up series ;-)
+Let me know where to add this check. Or if you want to take care of that
+that is fine as well.
 
---=20
-Alex Benn=C3=A9e
+> But we still need to make nr_cores > 8 safe while
+> encode_topo_cpuid8000001e() is not generalized yet.
+
+I am working on a patch to address this now. Will send it soon with other
+patches(addressing uninitialized node_id).
+
+> 
+> > >
+> > >
+> > >
+> > > > +        encode_topo_cpuid8000001e(cs, cpu,
+> > > > +                                  eax, ebx, ecx, edx);
+> > > > +        break;
+> > > >      case 0xC0000000:
+> > > >          *eax = env->cpuid_xlevel2;
+> > > >          *ebx = 0;
+> > > > --
+> > > > 1.8.3.1
+> > > >
+> > >
+> > > --
+> > > Eduardo
+> >
+> 
+> --
+> Eduardo
+
 
